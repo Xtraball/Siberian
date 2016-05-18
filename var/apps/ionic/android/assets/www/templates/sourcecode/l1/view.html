@@ -1,0 +1,7 @@
+<ion-view>
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-content class="sourcecode-view" sb-background-image overflow-scroll="true">
+        <iframe ng-src="{{ sourcecode.htmlFilePath }}" ng-if="sourcecode.htmlFilePath" width="100%" height="100%"></iframe>
+    </ion-content>
+
+</ion-view>

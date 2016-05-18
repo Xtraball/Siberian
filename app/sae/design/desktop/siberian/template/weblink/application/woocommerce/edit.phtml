@@ -1,0 +1,67 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $application = $this->getApplication(); ?>
+<?php $woocommerce = $option_value->getObject(); ?>
+<div class="form_content">
+    <div id="list" class="edit_page">
+        <div class="section form_content">
+            <form id="woocommerceForm" name="woocommerceForm" method="post" action="<?php echo $this->getUrl('weblink/application_woocommerce/editpost') ?>" class="form-horizontal">
+                <h4 class="subtitle">
+                    <span class="left area"><?php echo $this->_('WooCommerce') ?></span>
+                    <hr />
+                    <div class="clear"></div>
+                </h4>
+                <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
+                <div class="form_content">
+                    <div class="infos">
+                        <div id="woocommerce_content">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <input type="text" id="woocommerce" name="link" class="form-control url" placeholder="<?php echo $this->_('Enter your WooCommerce URL') ?>" value="<?php echo $woocommerce->getLink()->getUrl() ?>"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <div class="save right">
+                                <button class="default_button btn-block" type="submit">
+                                    <?php echo $this->_('Save'); ?>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    page.setCallback('didappear', function() {
+
+        $('#woocommerce').change(function() {
+            if(!$(this).val().isEmpty() && !$(this).val().startsWith('http://') && !$(this).val().startsWith('https://')) {
+                $(this).val('http://'+$(this).val());
+            }
+        });
+        $('#woocommerceForm').submit(function() {
+            if(!$(this).valid()) return false;
+            reload(this, this.action, true, function(datas) {
+                if(datas.success) {
+                    if(iframe.f.isHomepage()) {
+                        iframe.f.reload();
+                    }
+                }
+            });
+            return false;
+        });
+
+    });
+
+    page.setCallback('willdisappear', function() {
+        $('#woocommerce').unbind('change');
+        $('#woocommerceForm').unbind('submit');
+    });
+
+</script>

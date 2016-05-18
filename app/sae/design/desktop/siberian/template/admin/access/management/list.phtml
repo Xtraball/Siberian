@@ -1,0 +1,80 @@
+<?php 
+$admin = new Admin_Model_Admin();
+$admins = $admin->findAll(array('parent_id' => $this->getAdmin()->getId())); 
+?>
+
+<div class="application">
+    <div class="application_header app_name">
+        <?php echo $this->getPartialHtml('customization_header'); ?>
+    </div>
+    <div class="application_content inner_content">
+        <div class="title">
+            <i class="left icon-user"></i>
+            <h2 class="left f-rounded"><?php echo $this->_('Accounts'); ?></h2>
+            <div class="clear"></div>
+            <hr />
+        </div>
+        <div class="area">
+            <h3 class="title">
+                <span class="left area"><?php echo $this->_('List of my accounts'); ?></span>
+                <span class="area right">
+                    <button class="default_button add right" onclick="window.location = '<?php echo $this->getUrl('admin/access_management/new'); ?>'" type="button">
+                        <i class="icon-plus"></i>
+                    </button>
+                </span>
+                <div class="clear"></div>
+            </h3>
+            <br />
+            <div>
+                <table class="regular_infos list list-input" width="100%">
+                    <col width="30%" />
+                    <col width="30%" />
+                    <col width="30%" />
+                    <col width="10%" />
+                    <tr class="a-left">
+                        <th><?php echo $this->_('Email'); ?></th>
+                        <th><?php echo $this->_('Created at'); ?></th>
+                        <th><?php echo $this->_('Updated at'); ?></th>
+                        <th></th>
+                    </tr>
+                    <?php foreach($admins as $admin) : ?>
+                    <tr id="row_account_<?php echo $admin->getId(); ?>">
+                        <td><?php echo $admin->getEmail(); ?></td>
+                        <td><?php echo $admin->getFormattedCreatedAt(); ?></td>
+                        <td><?php echo $admin->getFormattedUpdatedAt(); ?></td>
+                        <td>
+                            <div class="icons right">
+                                <a id="admin_edit_<?php echo $admin->getId(); ?>" class="icon edit" href="<?php echo $this->getUrl('admin/access_management/edit', array('admin_id' => $admin->getId())); ?>">
+                                    <i class="icon-edit"></i>
+                                </a>
+                                <?php if($admin->getParentId()) : ?>
+                                <a id="admin_delete_<?php echo $admin->getId(); ?>" class="icon delete_account" href="<?php echo $this->getUrl('admin/access_management/delete', array('admin_id' => $admin->getId())); ?>" rel="<?php echo $admin->getId(); ?>">
+                                    <i class="icon-remove"></i>
+                                </a>
+                                <?php endif; ?>
+                                <div class="clear"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        $('.delete_account').click(function() {
+            if(confirm('<?php echo addslashes($this->_('Are you sure you want to remove this account?')); ?>')) {
+                reload($(this), this.href, true, function(data) {
+                    if(data.success) {
+                        $('#row_account_'+data.admin_id).remove();
+                    }
+                });
+            }
+            return false;
+        });
+    });
+
+</script>

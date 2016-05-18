@@ -1,0 +1,44 @@
+<?php $category = $this->getCategory(); ?>
+<?php $class = array(); ?>
+<?php if($category->getIsLastLevel()) $class[] = 'last_level' ?>
+<?php if($category->getIsFirst()) $class[] = 'first' ?>
+<?php if($category->getIsLast()) $class[] = 'last' ?>
+<li id="category_<?php echo $category->getId(); ?>" class="list-group-item">
+    <div>
+        <?php if($this->getType() == 'listing') : ?>
+        <label for="select_category_<?php echo $category->getId(); ?>" id="label_select_category_<?php echo $category->getId(); ?>" class="label_select_category checkbox left" data-parent="label_select_category_<?php echo $category->getId(); ?>">
+            <input type="checkbox" class="select_category" value="<?php echo $category->getId(); ?>" name="category_ids[]" id="select_category_<?php echo $category->getId(); ?>"<?php if($category->getIsSelected()) : ?> checked="checked"<?php endif; ?>>
+        </label>
+        <?php else : ?>
+        <!--<i class="icon-move"></i>-->
+        <?php endif; ?>
+<!--        <button type="button" id="toggle_subcategories_<?php echo $category->getId(); ?>" class="default_button icon_button left toggle_subcategories toggle_children" rel="<?php echo $category->getId(); ?>"<?php if(!$category->getChildren()->count()) : ?> style="display:none;"<?php endif; ?>>
+            <i class="icon-plus"></i>
+        </button>-->
+        <a href="#"<?php if($category->getIsRootCategory()) : ?> id="root_category_title"<?php endif; ?> class="black0 category_title" rel="<?php echo $category->getId(); ?>">
+            <?php if(!$category->getIsRootCategory()) : ?>
+            <i class="icon-move"></i>
+            <?php endif; ?>
+            <span id="category_title_<?php echo $category->getId(); ?>"><?php echo $category->getTitle() ?></span>
+            <span class="category_actions" style="display:none;">
+                <?php if(!$category->getIsRootCategory()) : ?>
+                <i class="icon-remove remove_category right" rel="<?php echo $category->getCategoryId() ?>"></i>
+                <?php endif; ?>
+                <i class="icon-edit right" id="edit_category_<?php echo $category->getCategoryId(); ?>" rel="<?php echo $category->getCategoryId() ?>" onclick="categories.edit('<?php echo $category->getCategoryId() ?>');"></i>
+            </span>
+        </a>
+
+    </div>
+    <ul id="children_of_<?php echo $category->getId(); ?>" class="clear tree">
+        <?php foreach($category->getChildren() as $child) : ?>
+            <?php
+                echo $this->getLayout()->addPartial('child_'.$child->getId(), get_class($this), $this->getTemplate())
+                    ->setCategory($child)
+                    ->toHtml()
+                ;
+            ?>
+
+        <?php endforeach ?>
+    </ul>
+
+</li>

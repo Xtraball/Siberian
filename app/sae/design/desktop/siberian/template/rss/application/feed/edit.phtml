@@ -1,0 +1,139 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $rss_feed = $option_value->getObject(); ?>
+<div class="clear"></div>
+<div class="edit_page rss_feed">
+    <div class="section">
+        <h4 class="subtitle">
+            <span class="left area"><?php echo $this->_('Manage'); ?></span>
+            <hr />
+            <div class="clear"></div>
+        </h4>
+        <div class="rss_feed">
+
+            <form id="form_rss_feed" class="form_rss_feed">
+
+                <div class="form-group">
+                    <label data-tip="12" data-tip-left="60" for="title"><?php echo $this->_('Enter the URL of this RSS feed'); ?> : <span class="input-required">*</span></label>
+                    <input type="text" id="link_<?php echo $rss_feed->getId(); ?>" name="link" class="form-control required url" value="<?php echo $rss_feed->getLink() ?>" />
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox" for="picture_<?php echo $rss_feed->getId(); ?>">
+                        <input type="checkbox" value="1" id="picture_<?php echo $rss_feed->getId(); ?>" name="picture" <?php if($rss_feed->getPicture()) echo 'checked="checked"'; ?>>
+                        <?php echo $this->_('Display feed pictures whenever possible'); ?>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn default_button save_feed"><?php echo $this->_('Save'); ?></button>
+                </div>
+
+                <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>"/>
+                <input type="hidden" name="feed_id" value="<?php echo $rss_feed->getId(); ?>"/>
+            </form>
+        </div>
+    </div>
+
+    <div class="section">
+        <?php
+            echo $this->getLayout()
+                ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
+                ->setValueId($option_value->getId())
+                ->toHtml()
+            ;
+        ?>
+    </div>
+
+    <div class="section">
+        <?php echo $this->getLayout()
+            ->addPartial('layout', 'Core_View_Default', 'application/customization/features/edit/layout.phtml')
+            ->setOptionValue($option_value)
+            ->toHtml()
+        ;
+        ?>
+    </div>
+
+    <div id="links_found" style="display: none;">
+        <h4 class="subtitle">
+            <span class="left area"><?php echo $this->_('Found feeds'); ?> : </span>
+            <hr />
+            <div class="clear"></div>
+        </h4>
+    </div>
+
+    <style>
+        .rss_feed div.rss_feed h3 { font-size: 1em; margin: 10px 0px; }
+        .rss_feed ul li .form_rss_feed { margin: 0; }
+        .rss_feed ul li.inner_content { height: 91px; border-radius: 5px; }
+        .form_rss_feed table tr { vertical-align: top; }
+        .form_rss_feed table tr td button { margin: 6px auto; }
+        a.link_found { font-size: 0.9em; margin: 0px; padding: 10px; }
+        div#links_found, div#links_found_new { margin-top: 20px; }
+        .form_content { width:auto !important; }
+    </style>
+    <script type="text/javascript">
+
+        page.setCallback('didappear', function() {
+            bindAll();
+        });
+
+        page.setCallback('willdisappear', function() {
+            $('#form_rss_feed').unbind('submit');
+            $('.link_found').unbind('click');
+        });
+
+        function bindAll() {
+
+            $('#form_rss_feed').submit(function() {
+                $('#links_found').slideUp();
+                var url_field = $(this).find('.url');
+                if(!url_field.val().isEmpty() && !url_field.val().startsWith('http://') && !url_field.val().startsWith('https://')) url_field.val('http://'+url_field.val());
+                if(!$(this).valid()) {
+                    return false;
+                }
+                $(this).data('validator').resetForm();
+//                $(this).removeData('validator');
+                reload(this, '<?php echo $this->getUrl('rss/application_feed/search') ?>', true, function(datas) {
+                    if(datas.links) {
+                        $('#links_found').append('<ul id="links_found_list"></ul>');
+                        for(var id in datas.links) {
+                            $('<a />').addClass('link_found block').attr('href', datas.links[id]).attr('rel', datas.id).html(datas.links[id]).appendTo($('#links_found_list'));
+                        }
+                        $('#links_found').prettyPhoto({
+                            default_width: 500,
+                            default_height: 400,
+                            show_title: false,
+                            deeplinking: false,
+                            social_tools: '',
+                            gallery_markup: '',
+                            keyboard_shortcuts: false,
+                            changepicturecallback: function() {
+                                $('#links_found_list .link_found').click(function() {
+                                    $('#link_'+$(this).attr('rel')).val($(this).attr('href'));
+                                    $.prettyPhoto.close();
+                                    return false;
+                                }).hover(function() {
+                                    $(this).addClass('reverse');
+                                }, function() {
+                                    $(this).removeClass('reverse');
+                                });
+                            },
+                            callback: function() {
+                                $('#links_found_list').remove();
+                            },
+                            theme: 'pp_none'
+                        });
+                        $.prettyPhoto.open('#links_found','<?php echo $this->_('Found feeds'); ?>');
+                    } else {
+                        page.reload();
+                    }
+                });
+                return false;
+            });
+
+            createCustomUI();
+        }
+
+    </script>
+</div>

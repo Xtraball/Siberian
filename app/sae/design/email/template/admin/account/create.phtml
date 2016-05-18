@@ -1,0 +1,38 @@
+<table>
+    <tr style="margin:auto; padding: 0 15px; color:#888888; font-size: 17px; line-height: 150%; width:600px">
+        <td>
+            <p style="font-family: Verdana; font-weight: bold;color: #404040;font-size:18px; line-height:150%;"><?php echo $this->_("Thanks for choosing us!"); ?></p>
+            <p align="justify">
+                <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;">
+            <?php echo $this->_("You are going to love it! Thanks to our effective features, you will be able to create great mobile apps in your name, within minutes."); ?><br />
+            <?php if($email = System_Model_Config::getValueFor("support_email")) : ?>
+            <?php echo $this->_("Do not hesitate to give us your feedback by sharing your needs:"); ?><br />
+                </span>
+            </p>
+            <p style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;">
+                <?php echo $this->_("Email:"); ?> <a href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a><br/>
+            </p>
+            <?php endif; ?>
+            <p align="justify" style="font-family: Verdana; font-weight: bold;color: #404040;font-size:18px; line-height:150%;"><?php echo $this->_("Your credentials"); ?><br>
+                  <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $this->_("Here are your credentials, keep them preciously:"); ?><br />
+                  <?php echo $this->_("Your login:"); ?> <?php echo $this->getAdmin()->getEmail() ?><br />
+                  <?php echo $this->_("Your password:"); ?> <strong><?php echo $this->getPassword() ?></strong>
+                  </span>
+            </p>
+            <p style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $this->_("Ready to create your own apps?"); ?> <a href="<?php echo $this->getUrl('admin/application/list'); ?>" target="_blank"><strong><?php echo $this->_("Log in"); ?></strong></a></p>
+            <?php if($support_url = System_Model_Config::getValueFor("support_link")) : ?>
+            <p style="font-family: Verdana; font-weight: bold;color: #404040;font-size:18px; line-height:150%;"><?php echo $this->_("Need some help?"); ?></p><br />
+            <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;">
+                <?php echo $this->_("Find some advices here:"); ?><a href="<?php echo $support_url; ?>" target="_blank"><?php echo $this->_("Our support"); ?></a>
+            </span>
+            <br />
+            <?php endif; ?>
+            <p style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;">
+                <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><br/>
+                    <?php echo $this->_("Enjoy!"); ?><br/>
+                    <?php echo $this->_("The Support Team"); ?>
+                </span><br/>
+            </p>
+        </td>
+    </tr>
+</table>

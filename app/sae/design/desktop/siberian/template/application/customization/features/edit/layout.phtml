@@ -1,0 +1,94 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $layouts = $option_value->getLayouts(); ?>
+<?php if($layouts->count() > 1) : ?>
+<div>
+    <h4 class="subtitle">
+        <span class="left area"><?php echo $this->_('Design'); ?></span>
+        <hr />
+        <span class="area right">
+            <button type="button" id="toggle_layout" class="toggle_layout default_button add right">
+                <i class="icon-chevron-down"></i>
+            </button>
+        </span>
+        <div class="clear"></div>
+    </h4>
+    <div id="change_layout" class="design" style="display:none;">
+        <div class="layouts">
+            <?php foreach($layouts as $layout) : ?>
+            <a href="<?php echo $this->getUrl('application/customization_features/setlayout'); ?>" class="layout<?php if($option_value->getLayoutId() == $layout->getCode()):  ?> selected<?php endif; ?>" rel="<?php echo $layout->getCode(); ?>">
+                <img src="<?php echo $this->getImage($layout->getPreview()); ?>" title="<?php echo $layout->getName(); ?>" alt="<?php echo $layout->getName(); ?>" width="100" />
+                <input type="hidden" name="layout_id" value="<?php echo $layout->getCode(); ?>" />
+                <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
+            </a>
+            <?php endforeach; ?>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    var option_layout = {
+        callbacks: new Array(),
+        is_initialized: false,
+        init: function() {
+            this.processEvents();
+            this.is_initialized = true;
+        },
+        processEvents: function() {
+
+            $('#toggle_layout').click(function() {
+                $('#change_layout').stop().slideToggle(300, function() {
+                    if($('#change_layout').is(':visible')) $('#toggle_layout').children('i').removeClass('icon-chevron-down').addClass('icon-chevron-up');
+                    else $('#toggle_layout').children('i').removeClass('icon-chevron-up').addClass('icon-chevron-down');
+                });
+            });
+
+            $('#change_layout').find(".layout").click(function() {
+
+                if($(this).hasClass("selected")) return false;
+
+                var _that = $(this);
+                reload(this, this.href, true, function(data) {
+                    if(data.success) {
+                        iframe.f.setLayoutId(<?php echo $option_value->getId(); ?>, _that.attr("rel"));
+                        iframe.f.setPath("<?php echo $option_value->getPath(null, array('value_id' => $option_value->getId()), "mobile"); ?>", true);
+                        $("#change_layout").find(".layout").removeClass("selected");
+                        _that.addClass("selected");
+                    }
+                });
+
+                return false;
+            });
+
+        },
+        destroy: function() {
+            if(this.is_initialized) {
+                $('#toggle_layout').unbind('click');
+                $('#change_layout').find(".layout").unbind("click");
+                this.is_initialized = false;
+            }
+        }
+    }
+
+</script>
+<style>
+    .design .layouts a.layout {
+        display: block;
+        float: left;
+        margin-right: 10px;
+        border-radius: 5px;
+        padding: 4px;
+        transition: none;
+    }
+
+    .design .layouts a.layout.selected {
+        padding: 2px;
+        border: 2px solid;
+    }
+
+    .design .layouts a.layout img {
+        border-radius: 3px;
+    }
+
+</style>
+<?php endif; ?>

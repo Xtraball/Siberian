@@ -1,0 +1,12 @@
+<ion-view cache-view="false" view-title="{{ 'Add a comment' | translate }}">
+    <ion-content sb-background-image>
+
+        <div class="list">
+            <label class="item item-input item-custom">
+                <textarea rows="5" placeholder="{{ 'Add a comment' | translate }}" ng-model="comment.text"></textarea>
+            </label>
+            <button type="button" class="button button-full button-custom" ng-click="post()">{{ "Send" | translate }}</button>
+        </div>
+
+    </ion-content>
+</ion-view>

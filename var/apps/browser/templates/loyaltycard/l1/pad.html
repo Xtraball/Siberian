@@ -1,0 +1,39 @@
+<ion-modal-view>
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear button-dark" ng-click="closePad()">{{ "Cancel" | translate }}</button>
+        </div>
+        <h1 class="title">{{ "Enter password" | translate }}</h1>
+    </ion-header-bar>
+
+    <ion-content sb-background-image>
+
+        <div class="list">
+
+            <div class="item item-select item-custom" ng-if="pad.card.max_number_of_points > 0">
+                <p class="title" ng-hide="pad.number_of_points > 1">{{ pad.number_of_points }} {{ "point to validate" | translate }}</p>
+                <p class="title" ng-hide="pad.number_of_points <= 1">{{ pad.number_of_points }} {{ "points to validate" | translate }}</p>
+                <select ng-model="pad.number_of_points" ng-options="point for point in pad.points"></select>
+            </div>
+
+            <div class="item item-divider item-divider-custom text-center">
+                <h2>{{ "Please enter the password" | translate }}</h2>
+            </div>
+            <div class="item dots item-custom text-center">
+                <div class="dot" ng-repeat="dot in [0, 1, 2, 3]" ng-class="{'item-custom-bg': $index < pad.password.length}"></div>
+            </div>
+
+            <div class="pad">
+                <div class="buttons">
+                    <button ng-repeat="button in pad.buttons" class="button button-custom" ng-click="pad.add(button)">{{ button }}</button>
+                    <button class="button button-custom"></button>
+                    <button class="button button-custom" ng-click="pad.remove()"><i class="icon ion-backspace-outline"></i></button>
+                </div>
+            </div>
+
+        </div>
+
+    </ion-content>
+
+</ion-modal-view>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <loyaltycard_mobile_view_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="loyaltycard/l1/view.phtml" />
+        </views>
+    </loyaltycard_mobile_view_template_l1>
+
+</layout>

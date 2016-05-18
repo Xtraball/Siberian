@@ -1,0 +1,19 @@
+<div class="scrollable_content" sb-load-more factory="factory" collection="collection">
+
+    <div class="list l4 for_ads_banner">
+        <ul ng-if="collection.length">
+            <li ng-repeat="item in collection" class="slide-left" ng-click="showItem(item)">
+                <div>
+                    <div class="image-container" ng-if="item.picture">
+                        <div class="block bg-image" image-src="item.picture" sb-image></div>                            
+                    </div>
+                    <p class="text title" ng-if="item.title">{{ item.title }}</p>
+                    <p class="text subtitle" ng-if="item.subtitle">{{ item.subtitle }}</p>
+                    <div class="clear"></div>
+                </div>
+            </li>
+            <li ng-show="show_posts_loader"><sb-loader is-loading="show_posts_loader" size="'48'" block="'background'"></sb-loader></li>
+        </ul>
+        <p class="no-results" ng-if="!is_loading && !collection.length"><?php echo $this->_("No Results"); ?></p>
+    </div>
+</div>

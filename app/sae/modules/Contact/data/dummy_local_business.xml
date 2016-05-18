@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<designs>
+    <pizza>
+        <content>
+            <name>Pizza</name>
+            <phone>09999999</phone>
+            <street>2345 Market Street</street>
+            <postcode>95240</postcode>
+            <city>San Francisco</city>
+            <country>United States</country>
+            <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</description>
+            <email>test@ipsum.co</email>
+            <website>http://www.google.com</website>
+            <facebook>http://www.google.com</facebook>
+            <twitter>http://www.google.com</twitter>
+        </content>
+    </pizza>
+    <rush_cafe>
+        <content>
+            <name>Rush Cafe</name>
+            <phone>09999999</phone>
+            <street>2345 Market Street</street>
+            <postcode>95240</postcode>
+            <city>San Francisco</city>
+            <country>United States</country>
+            <description></description>
+            <email>test@ipsum.co</email>
+            <website>http://www.google.com</website>
+            <facebook>http://www.google.com</facebook>
+            <twitter>http://www.google.com</twitter>
+        </content>
+    </rush_cafe>
+</designs>

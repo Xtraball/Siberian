@@ -1,0 +1,38 @@
+<?php $application = $this->getApplication(); ?>
+<?php $target = $this->isOverview() ? "_blank" : "_self"; ?>
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="feed.title" message="message" right-button="header_right_button"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="scrollable_content content">
+        <ul ng-class="{news: !style_background_image}" class="content_news for_ads_banner" ng-show="feed.id">
+            <li class="title padding" ng-class="{subheader: !style_background_image}">
+                <p class="text">
+                    <span class="name bold">{{ feed.title }}</span>
+                </p>
+                <div class="clear"></div>
+                <div class="details">
+                    <div class="metas">
+                        <span class="comments_date right">
+                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/pencil.png', true), $application->getBlock('subheader')->getColor()); ?>" alt="" style="vertical-align:bottom" width="13" height="10px"/>
+                            {{ feed.updated_at }}
+                        </span>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </li>
+            <li class="details padding">
+                <div class="image" ng-if="feed.image_url">
+                    <img ng-src="{{ feed.image_url }}" alt="" title="" width="100%" />
+                </div>
+                <div class="feed_content text" ng-bind-html="feed.content | trusted_html">
+                </div>
+                <div ng-if="feed.url">
+                    <a ng-href="{{ feed.url }}" target="<?php echo $target ?>" class="button icon_left arrow_right"><?php echo $this->_("Show article"); ?></a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

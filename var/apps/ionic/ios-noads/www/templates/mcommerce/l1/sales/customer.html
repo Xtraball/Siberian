@@ -1,0 +1,63 @@
+<ion-view cache-view="false" >
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <button ng-click="right_button.action()" class="button button-clear header-item" ng-if="right_button">
+            <span class="back-text"><span class="default-title">{{ right_button.label }}</span></span>
+            <i class="icon" ng-class="right_button.icon"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content sb-background-image>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="list">
+            <form>
+            <label class="item item-custom">
+                <p>
+                    <i class="ion-ios-information-outline"></i> {{ "All fields with a * are required." | translate }}
+                </p>
+            </label>
+            <div class="item item-divider item-divider-custom"></div>
+            <label class="item item-input item-custom">
+                <span class="input-label">{{ "First Name" | translate }} *</span>
+                <input type="text" ng-model="cart.customer.firstname">
+            </label>
+            <label class="item item-input item-custom">
+                <span class="input-label">{{ "Last Name" | translate }} *</span>
+                <input type="text" ng-model="cart.customer.lastname">
+            </label>
+            <label class="item item-input item-custom">
+                <span class="input-label">{{ "Email" | translate }} *</span>
+                <input type="email" ng-model="cart.customer.email">
+            </label>
+            <label class="item item-input item-custom">
+                <span class="input-label">{{ "Phone" | translate }} *</span>
+                <input type="text" ng-model="cart.customer.phone">
+            </label>
+            <label class="item item-input item-custom">
+                <span class="input-label">{{ "Date of birth" | translate }}</span>
+                <input type="date" ng-model="cart.customer.birthday">
+            </label>
+            <label class="item item-input item-custom">
+                <span class="input-label">{{ "Street" | translate }}</span>
+                <input type="text" ng-model="cart.customer.street">
+            </label>
+            <label class="item item-input item-custom">
+                <span class="input-label">{{ "Postcode" | translate }}</span>
+                <input type="text" ng-model="cart.customer.postcode">
+            </label>
+            <label class="item item-input item-custom">
+                <span class="input-label">{{ "City" | translate }}</span>
+                <input type="text" ng-model="cart.customer.city">
+            </label>
+            </form>
+        </div>
+
+    </ion-content>
+</ion-view>
+
+
+

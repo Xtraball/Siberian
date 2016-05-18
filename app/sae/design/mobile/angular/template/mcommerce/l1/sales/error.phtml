@@ -1,0 +1,20 @@
+<?php $messages = $this->getMessages(); ?>
+<?php $messages = $messages->getError(); ?>
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <div class="mcommerce cart">
+        <div id="mcommerce_purchase_success_content" class="relative" rel="mcommerce_purchase_confirm">
+            <div class="scroll" class="relative">
+                <div class="padding">
+                    <?php if(count($messages) > 0) : ?>
+                        <ul class="message error">
+                            <?php foreach($messages as $error) : ?>
+                                <li><?php echo $error; ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endif ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

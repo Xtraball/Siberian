@@ -1,0 +1,36 @@
+<?php $application = $this->getApplication(); ?>
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="'<?php echo $this->_("Contact us"); ?>'" message="message"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="scrollable_content">
+        <div class="contact_form padding content for_ads_banner">
+            <form name="contactForm" ng-submit="postForm()" novalidate>
+                <ul>
+                    <li>
+                        <p>
+                            <input class="full_width" type="text" placeholder="<?php echo $this->_("Your name") ?>" name="name" ng-model="form.name" ng-class="{error: contactForm.name.$invalid && contactForm.submitted}" required />
+                            <label class="error block full_width" ng-show="contactForm.name.$invalid && contactForm.submitted"><?php echo $this->_("This field is required"); ?></label>
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <input class="full_width" type="email" placeholder="<?php echo $this->_("Your email address") ?>" name="email" ng-model="form.email" ng-class="{error: contactForm.email.$invalid && contactForm.submitted}" required />
+                            <label class="error block full_width" ng-show="contactForm.email.$invalid && contactForm.submitted"><?php echo $this->_("Please enter a valid email address"); ?></label>
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <textarea class="full_width" placeholder="<?php echo $this->_("Your request") ?>" name="info" rows="4" ng-model="form.info" ng-class="{error: contactForm.info.$invalid && contactForm.submitted}" required ></textarea>
+                            <label class="error block full_width" ng-show="contactForm.info.$invalid && contactForm.submitted"><?php echo $this->_("This field is required"); ?></label>
+                        </p>
+                    </li>
+                </ul>
+                <button type="submit" class="button right"><?php echo $this->_("SEND") ?></button>
+                <div class="clear"></div>
+            </form>
+        </div>
+    </div>
+</div>

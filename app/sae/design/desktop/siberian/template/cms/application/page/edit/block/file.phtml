@@ -1,0 +1,99 @@
+<?php $application = $this->getApplication(); ?>
+<?php $block = $this->getCurrentBlock(); ?>
+<?php $option = $this->getCurrentOptionValue(); ?>
+<?php $name = $block->getName(); ?>
+<?php $tab_name = explode("/", $name); ?>
+<?php $display_name = $tab_name[count($tab_name)-1]; ?>
+<div id="cms_block_<?php echo $this->getPosition(); ?>" class="category inner_content cms_block file" rel="<?php echo $this->getPosition(); ?>">
+    <div class="control left">
+        <a class="handle" href="javascript:void(0);"><i class="icon-move"></i></a>
+    </div>
+    <div class="left" style="width:540px">
+
+        <div class="form-group">
+            <div class="col-sm-5">
+                <!--[if gte IE 10]><!-->
+                <button type="button" class="left upload_file upload editor_menu active image_left block" rel="<?php echo $this->getPosition(); ?>" <?php if($block->getName()) echo 'style="display:none"'; ?>>
+                    <i class="icon-paper-clip"></i>
+                    <?php echo $this->_('Add<br /><span class="bold">Attachment</span>'); ?>
+                </button>
+                <!--<![endif]-->
+                <input style="display:none" enctype="multipart/form-data" rel="<?php echo $this->getPosition(); ?>" class="left fileupload fileupload_file" type="file" name="file" data-url="<?php echo $this->getUrl('cms/application_page_block_file/upload'); ?>">
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="form-group file_display_block" <?php if(!$block->getName()) echo 'style="display:none"'; ?> rel="<?php echo $this->getPosition(); ?>">
+            <div class="col-md-12">
+                <div><strong><?php echo $this->_("Attachment:") ?></strong></div>
+                <span><a class="file_display" rel="<?php echo $this->getPosition(); ?>" href="<?php echo $this->getApplication()->getImagePath().$block->getName(); ?>" target="_blank"><?php echo $display_name; ?></a></span>
+                <span><i class="icon-remove file_remove" rel="<?php echo $this->getPosition(); ?>"></i></span>
+            </div>
+        </div>
+        <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][block_id]" value="<?php echo $block->getBlockId(); ?>" />
+        <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][value_id]" value="<?php echo $block->getValueId(); ?>" />
+        <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][type]" value="<?php echo $block->getType(); ?>" />
+        <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][position]" value="<?php echo $this->getPosition(); ?>" class="hidden_pos" rel="<?php echo $this->getPosition(); ?>"  />
+        <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][name]" value="<?php echo $block->getName(); ?>" />
+<!--        <input type="hidden" name="block[--><?php //echo $this->getPosition(); ?><!--][file_id]" value="--><?php //echo $block->getFileId(); ?><!--" />-->
+    </div>
+    <div class="control right">
+        <a class="remove" href="javascript:void(0);"><i class="icon-remove"></i></a>
+    </div>
+    <div class="clear"></div>
+    <script type="text/javascript">
+
+        $('.upload_file[rel="<?php echo $this->getPosition() ?>"]').click(function() {
+            $('.fileupload[rel="<?php echo $this->getPosition() ?>"]').trigger('click');
+        });
+
+        $('.file_remove[rel="<?php echo $this->getPosition() ?>"]').click(function() {
+            $('.upload_file[rel="<?php echo $this->getPosition() ?>"]').show();
+            $('.file_display_block[rel="<?php echo $this->getPosition() ?>"]').hide();
+            $('input[name="block[<?php echo $this->getPosition(); ?>][name]"]').val("");
+        });
+
+        var uploader = new Uploader();
+        $('.fileupload[rel="<?php echo $this->getPosition() ?>"]').fileupload({
+            dataType: 'json',
+            add: function (e, data) {
+                data.submit();
+                uploader.showProgressbar();
+            },
+            progressall: function (e, data) {
+                uploader.moveProgressbar(data);
+            },
+            done: function (e, data) {
+                if(data.result.error) {
+                    uploader.showError(data.result.message);
+                    uploader.hide();
+                } else {
+                    uploader.hide();
+                    $('.file_display[rel="<?php echo $this->getPosition() ?>"]').html(data.result.file);
+                    $('.file_display[rel="<?php echo $this->getPosition() ?>"]').attr("href", data.result.path_to_tmp_file);
+                    $('input[name="block[<?php echo $this->getPosition(); ?>][name]"]').val(data.result.file);
+                    $('.file_display_block[rel="<?php echo $this->getPosition() ?>"]').show();
+                    $('.upload_file[rel="<?php echo $this->getPosition() ?>"]').hide();
+                }
+            }
+        });
+
+        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .remove').click(function(){
+            removeElem(<?php echo $this->getPosition(); ?>);
+        });
+
+        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .handle').mousedown(function(){
+            dragTransformMouseDown($(this));
+        }).mouseup(function(){
+            dragTransformMouseUp($(this));
+        });
+
+        //Fix IE
+        if($('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .upload_picture').length < 1) {
+            $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .fileupload_picture').show();
+        }
+
+    </script>
+    <style>
+        .cms_block.file .file_remove {cursor:pointer;}
+    </style>
+</div>

@@ -1,0 +1,42 @@
+<ion-view >
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <button ng-click="right_button.action()" class="button button-clear header-item" ng-if="right_button">
+            <span class="back-text"><span class="default-title">{{ right_button.label }}</span></span>
+            <i class="icon" ng-class="right_button.icon"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content sb-background-image>
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="list mcommerce-stripe" ng-show="!is_loading">
+
+            <label class="item item-custom item-text-wrap">
+                <p>
+                    <i class="ion-ios-information-outline"></i> {{ "Please fill in your card information to process Credit card payment:" | translate }}
+                </p>
+            </label>
+            <form>
+                <div class="item item-divider item-divider-custom"></div>
+                <label class="item item-input item-custom">
+                    <input type="text" ng-model="card.number" placeholder="{{ 'Card Number' | translate }} *">
+                </label>
+
+                <div class="row">
+                    <label class="item item-input item-custom">
+                        <input type="text" ng-model="card.cvc" placeholder="{{ 'CVC' | translate }} *">
+                    </label>
+                    <label class="item item-input item-custom col-25">
+                        <input type="text" ng-model="card.exp_month" placeholder="{{ 'MM' | translate }} *">
+                    </label>
+                    <label class="item item-input item-custom col-25">
+                        <input type="text" ng-model="card.exp_year" placeholder="{{ 'YYYY' | translate }} *">
+                    </label>
+                </div>
+            </form>
+
+    </ion-content>
+</ion-view>

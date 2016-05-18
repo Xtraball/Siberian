@@ -1,0 +1,30 @@
+<div class="header_content">
+    <div class="left">
+        <a href="<?php echo $this->getUrl(''); ?>">
+            <?php $platform_name = System_Model_Config::getValueFor("platform_name"); ?>
+            <img src="<?php echo $this->getLogo(); ?>" id="logo" alt="<?php echo $platform_name; ?>" title="<?php echo $platform_name; ?>" width="150" />
+        </a>
+    </div>
+    <div class="right">
+        <select id="change_language" tabindex="1">
+            <?php foreach (Core_Model_Language::getLanguages() as $language) : ?>
+            <option value="<?php echo $this->getCurrentUrl(true, $language->getCode()); ?>"<?php if(Core_Model_Language::getCurrentLanguage() == $language->getCode()) : ?> selected="selected"<?php endif; ?>><?php echo $language->getName(); ?></option>
+            <?php endforeach ?>
+        </select>
+    </div>
+    <div class="clear"></div>
+    <style>
+        .menu.l1 {}
+        .menu.l1 li { float: left; /*width: 140px;*/ padding: 0; text-align: center; }
+        .menu.l1 li a { display: block; padding: 20px 26px 20px 21px; color: white; font-size: 19px; }
+        .menu.l1 li a i { margin-right: 10px; }
+        .menu.l1 li a:hover { background-color: #888888; }
+        .menu.l1 li ul.l2 { position: absolute; z-index: 20; background: #5C5C5C; top: 0; opacity: 0; visibility: hidden; transition: all .4s ease 0s; border-radius: 0 0 7px 7px; }
+        .menu.l1 li.has_submenu:hover ul.l2 { top: 60px; opacity: 1; visibility: visible; }
+        .menu.l1 li ul.l2 li { float: none; /*width: 170px;*/ }
+        .menu.l1 li ul.l2 li a { text-align: left; }
+        .menu.l1 li ul.l2 li a.last { border-radius: 0 0 7px 7px; }
+        .wrapper.is_backoffice { padding-top: 60px; }
+        .wrapper.is_backoffice .top {background-color: #5C5C5C;position: fixed; top: 0; width: 100%; z-index: 30;}
+    </style>
+</div>

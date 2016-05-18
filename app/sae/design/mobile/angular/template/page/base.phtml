@@ -1,0 +1,32 @@
+<?php $application = $this->getApplication(); ?>
+<?php $time = time(); ?>
+<?php echo $this->doctype() ?>
+<html>
+    <head>
+        <title><?php echo $application->getName() ?></title>
+        <?php foreach($this->getMetas() as $meta) : ?>
+        <meta <?php echo $meta->getTag() ?>="<?php echo $meta->getKey(); ?>" content="<?php echo $this->_($meta->getContent()); ?>" />
+        <?php endforeach ?>
+
+        <meta http-equiv="X-UA-Compatible" content="IE=8" />
+        <link href="<?php echo $application->getStartupImageUrl(); ?>?<?php echo $time; ?>" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 1)" rel="apple-touch-startup-image">
+        <link href="<?php echo $application->getStartupImageUrl(); ?>?<?php echo $time; ?>" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+        <link href="<?php echo $application->getStartupImageUrl('retina4'); ?>?<?php echo $time; ?>" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+
+        <link rel="icon" type="image/png" href="<?php echo $application->getIcon(32); ?>" />
+        <link rel="shortcut icon" id="favicon" type="image/x-icon" href="<?php echo $application->getIcon(32); ?>" />
+
+        <link rel="apple-touch-icon" sizes="114x114" href="<?php echo $application->getIcon(114) ?>" />
+        <link rel="apple-touch-icon" href="<?php echo $application->getIcon(57) ?>" />
+
+        <?php echo $this->getPartialHtml('style'); ?>
+        <?php echo $this->headLink() ?>
+<!--        <base href="--><?php //echo $this->getBasePath(true); ?><!--" />-->
+        <base href="<?php echo $this->getBasePath(true); ?>" />
+    </head>
+    <body>
+        <?php echo $this->getPartialHtml("body"); ?>
+        <?php echo $this->headScript() ?>
+        <?php echo $this->getPartialHtml("js"); ?>
+    </body>
+</html>

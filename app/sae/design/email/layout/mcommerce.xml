@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <send_order_to_customer>
+        <views>
+            <content_email class="core_view_email_default" template="mcommerce/purchase/order/customer/confirm.phtml" />
+        </views>
+    </send_order_to_customer>
+
+    <send_order_cancelled_to_customer>
+        <views>
+            <content_email class="core_view_email_default" template="mcommerce/purchase/order/customer/cancelled.phtml" />
+        </views>
+    </send_order_cancelled_to_customer>
+
+    <send_order_to_store>
+        <views>
+            <content_email class="core_view_email_default" template="mcommerce/purchase/order/store/confirm.phtml" />
+        </views>
+    </send_order_to_store>
+
+</layout>

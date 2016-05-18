@@ -1,0 +1,32 @@
+<?php $application = $this->getApplication(); ?>
+<?php $previewer = Previewer_Model_Previewer::getInstance(); ?>
+<div class="previewer">
+    <div class="first">
+        <p class="blue10 f-bold"><?php echo $previewer->getModalText1(); ?></p>
+        <div class="left">
+            <?php if($qrcode_url = $previewer->getQrcodeUrl()) : ?>
+            <p><?php echo $this->_('Scan this QR Code:'); ?></p>
+            <p>
+                <img src="<?php echo $qrcode_url; ?>" title="<?php echo $this->_('Scan this QR Code'); ?>" alt="<?php echo $this->_("The QR Code is not available at this moment"); ?>" />
+            </p>
+            <?php endif; ?>
+        </div>
+        <?php if($modal_image = $previewer->getModalImageUrl()) : ?>
+        <div class="right">
+            <img id="modal_image" src="<?php echo $modal_image ?>" title="<?php echo $this->_('Download our app previewer'); ?>" alt="<?php echo $this->_('Download our app previewer'); ?>" />
+        </div>
+        <?php endif; ?>
+       <div class="clear"></div>
+    </div>
+    <div class="second">
+        <p class="blue10 f-bold"><?php echo $previewer->getModalText2(); ?></p>
+    </div>
+    <style>
+        #modal_content_app_previewer p { font-size: 19px; }
+        #modal_content_app_previewer p strong span { font-weight: bold; }
+        #modal_content_app_previewer a { text-decoration: underline; }
+        #modal_content_app_previewer .first div.left { padding-top:25px }
+        #modal_image{ max-width:432px; }
+        .previewer{overflow:auto;height:500px}
+    </style>
+</div>

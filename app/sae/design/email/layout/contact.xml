@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <send_email>
+        <addLayout name="base_email" />
+        <views>
+            <content_email class="core_view_email_default" template="contact/index/send.phtml" />
+        </views>
+    </send_email>
+</layout>

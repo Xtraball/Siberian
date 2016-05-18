@@ -1,0 +1,21 @@
+<ion-view hide-nav-bar="true">
+    <ion-content class="homepage" scroll="false" sb-background-image>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <ion-slide-box id="homepage_slider" ng-if="showSlider()"
+                       auto-play="true" does-continue="{{ homepage_slider.loop_at_beginning }}"
+                       slide-interval="{{ homepage_slider.duration }}" show-pager="false">
+
+            <ion-slide ng-repeat="image in homepage_slider.images">
+                <img src="{{ image }}" style="width:100%;" />
+            </ion-slide>
+        </ion-slide-box>
+
+        <ng-include src="'homepage-menu.html'" ng-if="showBottom()" class="{{ layout_id }}"></ng-include>
+
+    </ion-content>
+
+</ion-view>

@@ -1,0 +1,76 @@
+<div class="content">
+    <div class="logo left">
+        <a href="<?php echo $this->getUrl(''); ?>" ng-click="$event.stopPropagation()">
+            <img src="<?php echo $this->getImage("header/logo.png"); ?>" id="logo" alt="Mobile Company" title="Mobile Company" width="151" />
+        </a>
+    </div>
+    <div id="backoffice_menu" class="menu backoffice_menu slide-down" ng-if="isLoggedIn" ng-class="{none: !isLoggedIn}">
+        <ul class="l1">
+            <li><a href="<?php echo $this->getUrl('backoffice'); ?>"><i class="fa fa-tachometer"></i><?php echo $this->_('Dashboard'); ?></a></li>
+            <?php if($this->isPe()) : ?>
+            <li><a href="<?php echo $this->getUrl("sales/backoffice_invoice_list"); ?>"><i class="fa fa-ticket"></i><?php echo $this->_('Invoices'); ?></a></li>
+            <?php endif; ?>
+            <li class="has_submenu">
+                <a href="#"><i class="fa fa-users"></i><?php echo $this->_('Manage'); ?></a>
+                <ul class="l2">
+                    <li class="has_submenu">
+                        <a href="#"><i class="fa fa-users"></i><?php echo $this->_('Users'); ?></a>
+                        <ul class="l3">
+                            <li><a href="<?php echo $this->getUrl('admin/backoffice_list'); ?>"><i class="fa fa-users"></i><?php echo $this->_('Users'); ?></a></li>
+                            <li><a href="<?php echo $this->getUrl('acl/backoffice_role_list'); ?>"><i class="fa fa-lock"></i><?php echo $this->_('Roles'); ?></a></li>
+                            <li><a href="<?php echo $this->getUrl('api/backoffice_user_list'); ?>"><i class="fa fa-arrows-h"></i><?php echo $this->_('API'); ?></a></li>
+                        </ul>
+                    </li>
+                    <?php if($this->_canAccessPreviewer()) : ?>
+                    <li class="has_submenu">
+                        <a href="#"><i class="fa fa-cog"></i><?php echo $this->_('Previewer'); ?></a>
+                        <ul class="l3">
+                            <li class="first"><a href="<?php echo $this->getUrl('previewer/backoffice_edit'); ?>"><i class="fa fa-mobile-phone"></i><?php echo $this->_('Application'); ?></a></li>
+                            <li class="last"><a href="<?php echo $this->getUrl('previewer/backoffice_modal'); ?>"><i class="fa fa-picture-o"></i><?php echo $this->_('Modal'); ?></a></li>
+                        </ul>
+                    </li>
+                    <?php endif; ?>
+                    <?php if($this->isSae()) : ?>
+                    <li><a class="last" href="<?php echo $this->getUrl('application/backoffice_view'); ?>"><i class="fa fa-mobile-phone"></i><?php echo $this->_('Application'); ?></a></li>
+                    <?php else : ?>
+                    <li><a href="<?php echo $this->getUrl('application/backoffice_list'); ?>"><i class="fa fa-mobile-phone"></i><?php echo $this->_('Applications'); ?></a></li>
+                    <?php endif; ?>
+                    <li><a href="<?php echo $this->getUrl('preview/backoffice_list'); ?>"><i class="fa fa-desktop"></i><?php echo $this->_('Previews'); ?></a></li>
+                    <?php if($this->isPe()) : ?>
+                    <li><a href="<?php echo $this->getUrl('subscription/backoffice_application_list'); ?>"><i class="fa fa-list-ul"></i><?php echo $this->_('Subscriptions'); ?></a></li>
+                    <?php endif; ?>
+                    <li class="has_submenu"><a href="<?php echo $this->getUrl('template/backoffice_category_list'); ?>"><i class="fa fa-picture-o"></i><?php echo $this->_('Templates'); ?></a></li>
+                </ul>
+            </li>
+            <li><a href="<?php echo $this->getUrl('system/backoffice_config_design'); ?>"><i class="fa fa-pencil"></i><?php echo $this->_('Appearance'); ?></a></li>
+            <li class="has_submenu">
+                <a href="#"><i class="fa fa-wrench"></i><?php echo $this->_('Settings'); ?></a>
+                <ul class="l2">
+                    <li><a href="<?php echo $this->getUrl('system/backoffice_config_general'); ?>"><i class="fa fa-home"></i><?php echo $this->_('General'); ?></a></li>
+                    <li><a href="<?php echo $this->getUrl('backoffice/account_list'); ?>"><i class="fa fa-users"></i><?php echo $this->_('Accounts'); ?></a></li>
+                    <li><a href="<?php echo $this->getUrl('installer/backoffice_module'); ?>"><i class="fa fa-cloud-download"></i><?php echo $this->_('Modules'); ?></a></li>
+                    <li><a href="<?php echo $this->getUrl('api/backoffice_key_list'); ?>"><i class="fa fa-key"></i><?php echo $this->_('APIs'); ?></a></li>
+                    <li><a href="<?php echo $this->getUrl('push/backoffice_certificate'); ?>"><i class="fa fa-comment-o"></i><?php echo $this->_('Push'); ?></a></li>
+                    <?php if($this->isPe()) : ?>
+                    <li class="has_submenu">
+                        <a href="javascript:void(0);"><i class="fa fa-money"></i><?php echo $this->_("Sales"); ?></a>
+                        <ul class="l3">
+                            <li><a href="<?php echo $this->getUrl('tax/backoffice_list'); ?>"><i class="fa fa-money"></i><?php echo $this->_('Taxes'); ?></a></li>
+                            <li><a href="<?php echo $this->getUrl('subscription/backoffice_list'); ?>"><i class="fa fa-credit-card"></i><?php echo $this->_('Plans'); ?></a></li>
+                            <?php if($this->_canAccessDiscounts()) : ?>
+                            <li><a href="<?php echo $this->getUrl('subscription/backoffice_discount_list'); ?>"><i class="fa fa-ticket"></i><?php echo $this->_('Discounts'); ?></a></li>
+                            <?php endif; ?>
+                            <li><a href="<?php echo $this->getUrl('system/backoffice_config_tc'); ?>"><i class="fa fa-file-text"></i><?php echo $this->_("T&C's"); ?></a></li>
+                        </ul>
+                    </li>
+                    <?php endif; ?>
+                    <li><a href="<?php echo $this->getUrl('system/backoffice_config_email'); ?>"><i class="fa fa-exchange"></i><?php echo $this->_('Communication'); ?></a></li>
+                    <li><a href="<?php echo $this->getUrl('translation/backoffice_list'); ?>"><i class="fa fa-language"></i><?php echo $this->_('Translations'); ?></a></li>
+                    <li><a href="javascript:void(0);" ng-click="logout()" ng-show="isLoggedIn"><i class="fa fa-power-off"></i><?php echo $this->_('Log-out'); ?></a></li>
+                </ul>
+            </li>
+            <li><a href="<?php echo $this->getUrl("backoffice/notif_list"); ?>" class="block"><i class="fa fa-envelope"></i><?php echo $this->_("Messages"); ?></a></li>
+        </ul>
+    </div>
+    <div class="clear"></div>
+</div>

@@ -1,0 +1,310 @@
+<?php $gallery = new Media_Model_Gallery_Music(); ?>
+<?php $gallery->find($this->getGalleryId()); ?>
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $soundcloud_api_key = Api_Model_Key::findKeysFor('soundcloud'); ?>
+<?php $soundcloud_is_available = $soundcloud_api_key->getClientId() AND $soundcloud_api_key->getSecretId(); ?>
+<div class="section">
+    <div class="buttons">
+        <button type="button" onclick="page.reload();" class="delete left"><i class="icon-arrow-left"></i></button>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div id="new_musics_galery">
+        <?php
+            echo $this->getLayout()
+                ->addPartial('edit_form', 'Core_View_Default', 'media/application/gallery/music/edit/form.phtml')
+                ->setValueId($option_value->getId())
+                ->setGalleryId($this->getGalleryId())
+                ->toHtml()
+            ;
+        ?>
+    </div>
+    <div id="playlist_types">
+        <p>
+            <?php echo $this->_('Add albums and tracks to the playlist:'); ?>
+            <b><?php echo $gallery->getName() ?></b>
+        </p>
+        <ul>
+            <li class="left a-center">
+                <a class="edit_playlist_type" href="<?php echo $this->getUrl('media/application_gallery_music/form', array('gallery_id' => $gallery->getId(), 'type' => 'itunes', 'option_value_id' => $option_value->getId())); ?>?ajax=true" >
+                    <img width="50px" height="50px" src="<?php echo $this->getImage('pictos/itunes_blue.png'); ?>" class="inner_content playlist_type_select" rel="itunes" />
+                    <p>iTunes</p>
+                </a>
+            </li>
+            <?php if($soundcloud_is_available) : ?>
+            <li class="left a-center">
+                <?php $url = $this->getUrl('media/application_gallery_music/form', array('gallery_id' => $gallery->getId(), 'type' => 'soundcloud', 'option_value_id' => $option_value->getId()))."?ajax=true"; ?>
+                <a href="<?php echo $url; ?>" class="edit_playlist_type">
+                    <img width="50px" height="50px" src="<?php echo $this->getImage('pictos/soundcloud_blue.png'); ?>" class="inner_content playlist_type_select" rel="soundcloud" />
+                    <p>SoundCloud</p>
+                </a>
+            </li>
+            <?php endif; ?>
+            <li class="left a-center">
+                <a class="edit_playlist_type" href="<?php echo $this->getUrl('media/application_gallery_music/form', array('gallery_id' => $gallery->getId(), 'type' => 'podcast', 'option_value_id' => $option_value->getId())); ?>?ajax=true" >
+                    <img width="50px" height="50px" src="<?php echo $this->getImage('pictos/podcast_blue.png'); ?>" class="inner_content playlist_type_select" rel="podcast" />
+                    <p>Podcast</p>
+                </a>
+            </li>
+            <li class="left a-center">
+                <a class="edit_playlist_type" href="<?php echo $this->getUrl('media/application_gallery_music/form', array('gallery_id' => $gallery->getId(), 'type' => 'custom', 'option_value_id' => $option_value->getId())); ?>?ajax=true" >
+                    <i class="icon-th-list editor_menu reverse"></i>
+                    <p><?php echo $this->_('Custom') ?></p>
+                </a>
+            </li>
+            <li class="clear"></li>
+        </ul>
+    </div>
+    <ul id="album_edit" class="table_row_galleries sortable">
+        <?php
+            $elements = new Media_Model_Gallery_Music_Elements();
+            $elements = $elements->findAll(array('gallery_id' => $gallery->getId()), 'position ASC');
+        ?>
+        <?php foreach($elements as $element) : ?>
+            <?php if($element->getAlbumId()) : ?>
+                <?php $type = 'album'; ?>
+            <?php elseif($element->getTrackId()) : ?>
+                <?php $type = 'track'; ?>
+            <?php endif ?>
+            <?php
+                echo $this->getLayout()
+                    ->addPartial('list_element', 'Core_View_Default', 'media/application/gallery/music/edit/list/li.phtml')
+                    ->setOptionValue($option_value)
+                    ->setGalleryId($this->getGalleryId())
+                    ->setElement($element)
+                    ->setType($type)
+                    ->toHtml()
+                    ;
+            ?>
+        <?php endforeach; ?>
+    </ul>
+    <script src="https://connect.soundcloud.com/sdk.js"></script>
+    <script type="text/javascript">
+
+        $('.edit_playlist_type').prettyPhoto({
+            default_width: 900,
+            show_title: false,
+            deeplinking: false,
+            social_tools: '',
+            gallery_markup: '',
+            keyboard_shortcuts: false,
+            changepicturecallback: function() {
+                createCustomUI();
+                eval($('.pp_inline script').html());
+            },
+            theme: 'pp_none'
+        });
+
+
+        function reloadPP() {
+            $('.edit_album').prettyPhoto({
+                default_width: 900,
+                show_title: false,
+                deeplinking: false,
+                social_tools: '',
+                gallery_markup: '',
+                keyboard_shortcuts: false,
+                changepicturecallback: function() {
+                    eval($('.pp_inline script').html());
+                },
+                theme: 'pp_none'
+            });
+        }
+        reloadPP();
+
+        $('#album_edit').sortable({
+            handle : '.handle',
+            placeholder: "album_edit-placeholder",
+            axis: "y",
+            update : function (e, ui) {
+                var order = $(e.target).sortable('serialize');
+                $(e.target).sortable("refresh");
+                reload($("#album_edit"), "<?php echo $this->getUrl('media/application_gallery_music/sortelements', array('option_value_id' => $option_value->getId())); ?>?"+order, true, function() {
+                    iframe.f.reload();
+                });
+            }
+        });
+
+        $('#album_edit').off('click', '.deleteElement');
+        $('#album_edit').on('click', '.deleteElement', function(){
+            var $li = $(this).parent().parent();
+            var message = '';
+            if($(this).parent().find('input[name="type"]').val() == 'album') {
+                message = '<?php echo addslashes($this->_('Are you sure you want to delete this album?')) ?>';
+            } else {
+                message = '<?php echo addslashes($this->_('Are you sure you want to delete this track?')) ?>';
+            }
+            if(confirm(message)) {
+                reload($(this.parentNode), '<?php echo $this->getUrl('media/application_gallery_music/deleteelement'); ?>', true, function(datas) {
+                    if(datas.success) {
+                        $li.slideUp(function(){
+                            $li.remove();
+                        });
+                        iframe.reload();
+                    }
+                });
+            }
+            return false;
+        });
+
+        /**
+         * LIGHTBOX
+         */
+
+        //Switch select all
+        $('body').off('change', 'input#select_all');
+        $('body').on('change', 'input#select_all', function() {
+            if($(this).is(':checked')) {
+                $('#results .icon-check-empty').removeClass('icon-check-empty').addClass('icon-check-sign');
+                $('#results li').attr('rel', 'selected');
+            } else {
+                $('#results .icon-check-sign').removeClass('icon-check-sign').addClass('icon-check-empty');
+                $('#results li').attr('rel', '');
+            }
+        });
+
+        //Coche
+        $('body').off('click', '.icon-check-empty');
+        $('body').on('click', '.icon-check-empty', function() {
+            $(this).removeClass('icon-check-empty').addClass('icon-check-sign');
+            $(this).parent().attr('rel', 'selected');
+        });
+
+        //Décoche
+        $('body').off('click', '.icon-check-sign');
+        $('body').on('click', '.icon-check-sign', function() {
+            $(this).removeClass('icon-check-sign').addClass('icon-check-empty');
+            $(this).parent().attr('rel', '');
+        });
+
+
+    </script>
+</div>
+<style type="text/css">
+    #album_cont {
+        padding: 0 10px;
+    }
+    #album_cont img.album_illus {
+        border: solid 1px;
+        margin-right: 20px;
+    }
+    #album_edit {
+        margin-top: 20px;
+    }
+    #album_edit li {
+        transition: none;
+        display: block;
+    }
+    #album_edit li i, #track_edit li span {
+
+    }
+    #album_edit li .logos.inner_content {
+        width: 40px;
+        margin-right: 0px;
+        text-align: center;
+    }
+    #album_edit li .logos.inner_content i {
+        font-size: 17px;
+    }
+    #album_edit li .inner_content {
+        border-radius: 7px 7px 7px 7px;
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 10px;
+        width: 73%;
+    }
+    #album_edit li .inner_content i {
+        font-size: 12px;
+    }
+    #album_edit li .actions {
+        display: inline-block;
+        vertical-align: middle;
+    }
+    #album_edit .icon-move {
+        cursor: move;
+    }
+    .album_edit-placeholder {
+        height: 20px;
+        border: dotted 1px;
+    }
+
+    /*Lighbox*/
+    .search_results {
+        overflow : hidden;
+    }
+    .search_results #results {
+        height: 210px;
+        overflow: hidden;
+        position: relative;
+    }
+    .search_results #select {
+        margin-bottom: 0 !important;
+        margin-top: 10px !important;
+    }
+    .search_results li i.icon-check-empty, li i.icon-check-sign {
+        background: none repeat scroll 0 0 rgba(255, 255, 255, 0.6);
+        border-radius: 5px;
+        color: #000000;
+        cursor: pointer;
+        font-size: 23px;
+        padding: 10px 0;
+        position: absolute;
+        top: 5px;
+        width: 100px;
+        height: 100px;
+        line-height: 80px;
+        text-align: center;
+    }
+    .search_results #results li {
+        display: inline-block;
+        width: 130px;
+        vertical-align: top;
+        margin: 10px;
+        position: relative;
+        margin: 0 10px 10px;
+        height: 200px;
+        overflow: hidden;
+    }
+    .search_results p.album_infos {
+        font-size: 12px;
+        margin-bottom: 0;
+    }
+    .search_results li.album img, .search_results li.song img {
+        border: solid 1px;
+    }
+    .search_results li.album .album_title, .artist .artist_name, .song .song_title {
+        font-weight: bold;
+        font-size: 14px;
+        display: block;
+        margin: 5px 0;
+    }
+    .artist .artist_name a {
+        font-weight: bold;
+        font-size: 14px;
+    }
+    .artist .artist_genre {
+        font-style: italic;
+        font-size: 13px;
+    }
+    #pagination button {
+        display: inline-block;
+    }
+/*    .search_itunes, .search_soundcloud, .search_podcast, .search_custom {
+        display: inline-block;
+        width: auto;
+        padding: 10px;
+        margin-right: 10px;
+    }*/
+    .lightbox_button {
+        padding: 10px !important;
+        height: auto !important;
+        width: auto !important;
+    }
+    .save_selection {
+        width: auto;
+        padding: 10px;
+    }
+
+</style>

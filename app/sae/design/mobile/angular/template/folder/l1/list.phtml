@@ -1,0 +1,30 @@
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="scrollable_content">
+
+        <?php echo $this->getPartialHtml("cover"); ?>
+
+        <div class="list l3">
+            <ul>
+                <li ng-repeat="item in collection" ng-class="{first: $index == 0, has_picture: item.picture }" ng-hide="item.is_hidden">
+                    <a tabbar-items option="item" go-to-url="goToUrl(item)" class="block" target="_parent" ng-class="{ arrow_right: item.url }">
+                        <div class="left picture" image-src="item.picture" ng-if="item.picture" sb-image></div>
+                        <div class="details padding" ng-class="{has_picture: item.picture}">
+                            <h3 class="title">{{ item.title }}</h3>
+                            <div class="subtitle" ng-bind-html="item.subtitle"></div>
+                            <div class="clear"></div>
+                        </div>
+                    </a>
+                </li>
+                <li class="empty" ng-if="collection_is_empty">
+                    <p class="a-center"><?php echo $this->_("Nothing to display"); ?></p>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>

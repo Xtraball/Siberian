@@ -1,0 +1,55 @@
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="scrollable_content">
+        <div class="for_ads_banner" sb-load-more factory="factory" collection="collection">
+            <ul>
+                <li class="header header"><span>{{ game.period }}</span></li>
+                <li class="separator"></li>
+                <li class="header header"><span><?php echo $this->_('Team Leader'); ?></span></li>
+                <li class="separator"></li>
+                <li class="team_leader" ng-if="team_leader.id">
+                    <div>
+                        <div class="left">
+                            <img class="logo" ng-src="{{ team_leader.image_url}}" width="35" />
+                        </div>
+                        <p class="challenger_name left">{{ team_leader.name }}</p>
+                        <p class="number_of_points right">
+                            <span class="left">{{ team_leader.number_of_points }}</span>
+                            <img src="{{ icon_url }}" class="right" width="24" />
+                        </p>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="clear border"></div>
+                </li>
+                <li class="separator"></li>
+
+                <li class="header header"><div class="shadow"><?php echo $this->_('Challengers'); ?></div><div class="border"></div></li>
+                <li class="separator"></li>
+
+                <li class="challenger" ng-repeat="customer in collection" ng-class="{'overlay_20': $index%2 === 1}">
+                    <div class="shadow">
+                        <div class="left">
+                            <img class="logo" src="{{ customer.image_url }}" width="35" />
+                        </div>
+                        <p class="challenger_name left">{{ customer.name }}</p>
+                        <p class="number_of_points right">{{ customer.number_of_points }}</p>
+                    </div>
+                    <div class="clear"></div>
+                </li>
+                <li ng-hide="collection.length">
+                    <p><?php echo $this->_("Currently no challengers"); ?></p>
+                </li>
+                <li class="separator"></li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+
+
+

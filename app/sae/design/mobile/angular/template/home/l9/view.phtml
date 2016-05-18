@@ -1,0 +1,18 @@
+<div>
+    <div class="tabbar background-tabbar"></div>
+    <ul class="tabbar">
+        <li ng-repeat="option in features.options" ng-if="option.is_active" class="border-color">
+            <a tabbar-items option="option" go-to-url="goToUrl(option)" ng-hide="layout.properties.options.current === option" class="item relative" target="_parent" title="{{ option.name }}">
+                <div class="fullscreen"></div>
+                <img ng-src="{{ option.icon_url }}" ng-class="{ colorable: option.icon_is_colorable }" width="30" height="30" title="{{ option.name }}" alt="{{ option.name }}" />
+                <span class="block">{{ option.name }}</span>
+                <div ng-if="option.code == 'push_notification' && pushs" class="badge">{{ pushs }}</div>
+            </a>
+            <span ng-show="layout.properties.options.current === option" class="current item">
+                <img ng-src="{{ option.icon_url }}" ng-class="{ colorable: option.icon_is_colorable }" width="30" height="30" title="{{ option.name }}" alt="{{ option.name }}" />
+                <span class="block">{{ option.name }}</span>
+                <div ng-if="option.code == 'push_notification' && pushs" class="badge">{{ pushs }}</div>
+            </span>
+        </li>
+    </ul>
+</div>

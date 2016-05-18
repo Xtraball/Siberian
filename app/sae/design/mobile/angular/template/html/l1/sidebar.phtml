@@ -1,0 +1,45 @@
+<div class="sidebar l1" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message"></sb-header>
+
+    <div class="subheader content">
+        <div>
+            <sb-loader is-loading="sidebar.is_loading" size="'32'" block="'subheader'"></sb-loader>
+            <h3 class="title" ng-hide="sidebar.is_loading" ng-class="{left: sidebar.collection.length > 1 || sidebar.object_id == 'catalog'}">{{ sidebar.current_item.name }}</h3>
+            <button type="button" class="btn_open btn_right right subheader reverse" ng-if="sidebar.collection.length > 1 || sidebar.object_id == 'catalog'" ng-click="sidebar.toggle()">
+                <?php echo $this->_("All items"); ?>
+                <img src="<?php echo $this->getColorizedImage($this->getImage("pictos/browse.png", true), $this->getApplication()->getBlock("subheader")->getBackgroundColor()); ?>" width="10" />
+            </button>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+    <div class="subheader sidebar right scrollable_content" ng-class="{ 'slide-right': sidebar.show }" sb-scroll ng-if="sidebar.show">
+        <div class="content">
+            <ul>
+                <li ng-repeat="item in sidebar.collection" ng-include="'sidebar_l1.html'"></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="scrollable_content" sb-load-more factory="factory" collection="collection" load-more="loadMore(offset)">
+        <div class="for_ads_banner">
+            <div ng-include="template_view"></div>
+        </div>
+    </div>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+</div>
+
+<script type="text/ng-template" id="sidebar_l1.html">
+
+    <a class="item reverse" ng-click="sidebar.showItem(item);" ng-class="{subheader: sidebar.current_item == item}">
+        {{ item.name }}
+    </a>
+
+    <ul ng-if="item.children" ng-show="item.show_children">
+        <li ng-repeat="item in item.children" ng-include="'sidebar_l1.html'"></li>
+    </ul>
+
+</script>

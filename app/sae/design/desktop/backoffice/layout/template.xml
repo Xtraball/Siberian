@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <template_backoffice_category_list_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="template/category/list.phtml" />
+        </views>
+    </template_backoffice_category_list_template>
+
+</layout>

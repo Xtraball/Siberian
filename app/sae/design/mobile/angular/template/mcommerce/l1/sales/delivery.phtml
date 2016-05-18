@@ -1,0 +1,64 @@
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="'<?php echo $this->_("Delivery"); ?>'" message="message" right-button="header_right_button"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="mcommerce sales shipping" ng-if="cart && selectedStore">
+        <div id="shipping_infos_content" class="relative" rel="mcommerce_sales_shipping">
+            <div class="scroll" class="relative">
+                <div class="padding cart_lines">
+                    <form name="deliveryForm" ng-submit="updateDeliveryInfos()">
+                        <div ng-init="setForm(deliveryForm);"></div>
+                        <div class="padding" ng-show="selectedStore.deliveryMethods.length > 0">
+                            <label>
+                                <?php echo $this->_('Choose a delivery method:'); ?>
+                            </label>
+                            <div class="padding">
+                                <ul class="delivery-method-options">
+                                    <li class="delivery-method-option" ng-repeat="deliveryMethod in selectedStore.deliveryMethods">
+                                        <input type="radio" name="selectedDeliveryMethodId" ng-model="cart.deliveryMethodId" ng-click="selectDeliveryMethod(cart, deliveryMethod)" ng-value="deliveryMethod.id" required />
+                                        <label class="inline" ng-click="selectDeliveryMethod(cart, deliveryMethod)">
+                                            {{ deliveryMethod.name }}
+                                            <span ng-show="deliveryMethod.price > 0">{{ deliveryMethod.formattedPrice }}</span>
+                                        </label>
+                                    </li>
+
+                                    <li class="delivery-method-option" ng-if="clients_calculate_change_form_is_visible">
+                                        <table class="no-collapse" cellspacing="10" width="100%">
+                                            <tr>
+                                                <td><?php echo $this->_('Total'); ?>:</td>
+                                                <td>{{ cart.total }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><?php echo $this->_('Amount you will pay'); ?>:</td>
+                                                <td><input type="text" ng-change="calculateAmountDue()" ng-model="cart.delivery_method_extra_client_amount" required /></td>
+                                            </tr>
+                                            <tr ng-show="!cart.delivery_method_extra_amount_due && deliveryForm.submitted">
+                                                <td></td>
+                                                <td><label class="error"><?php echo $this->_('This field is required.'); ?></label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><?php echo $this->_('Remaining due'); ?>:</td>
+                                                <td>{{ cart.delivery_method_extra_amount_due }}</td>
+                                            </tr>
+                                        </table>
+                                    </li>
+                                    <li ng-show="!cart.deliveryMethodId && deliveryForm.submitted">
+                                        <label class="error">
+                                            <?php echo $this->_('This field is required.'); ?>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+

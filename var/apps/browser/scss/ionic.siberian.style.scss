@@ -1,0 +1,260 @@
+/* GENERAL */
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, div, p, span, a, * {
+  font-family: $font-family;
+}
+ion-content {
+  background-color: $general-custom-bg;
+}
+
+/* HEADER / FOOTER */
+.bar {
+  &.bar-custom {
+    @include bar-style($bar-custom-bg, $bar-custom-border, $bar-custom-text);
+    &.bar-footer {
+      background-image: linear-gradient(180deg, $bar-custom-border, $bar-custom-border 50%, transparent 50%);
+    }
+  }
+}
+.bar-custom {
+  .button {
+    @include button-style($bar-custom-bg, $bar-custom-border, $bar-custom-active-bg, $bar-custom-active-border, $bar-custom-text);
+    @include button-clear($bar-custom-text, $bar-title-font-size);
+  }
+}
+
+/* HOMEPAGE */
+.homepage-custom {
+  background: $homepage-custom-bg;
+  h2, p, span, i {
+    color: $homepage-custom-text;
+  }
+  &.translucent {
+    background: $homepage-custom-bg-translucent;
+  }
+  .translucent {
+    background: $homepage-custom-bg-translucent;
+  }
+  &.transparent {
+    background: transparent;
+  }
+  .transparent {
+    background: transparent;
+  }
+  &.border-custom {
+    border-color: $homepage-custom-border;
+  }
+  .border-custom {
+    border-color: $homepage-custom-border;
+  }
+}
+
+/* LIST */
+.list {
+  padding-top: 0;
+  .item-divider {
+    &.item-divider-custom {
+      background-color: $list-item-divider-custom-bg;
+      color: $list-item-divider-custom-text;
+      border: none;
+      h2, p, span {
+        color: $list-item-divider-custom-text;
+      }
+    }
+  }
+
+  &.transparent {
+    background-color: transparent;
+    box-shadow: none;
+    .item {
+      &.item-custom {
+        background-color: transparent;
+        &.active, &:active {
+          @include item-active-style(transparent, transparent);
+        }
+      }
+    }
+  }
+  .item {
+    &.item-custom {
+      @include item-style($list-item-custom-bg, $list-item-custom-border, $list-item-custom-text);
+      & h1, h2, h3, h4, h5, h6, p, .input-label, input, textarea, &.item-select select {
+        color: $list-item-custom-text;
+        background-color: transparent;
+      }
+      & input, textarea {
+        @include placeholder($list-item-custom-text-translucent)
+      }
+      &.translucent {
+        background-color: $list-item-custom-text-translucent;
+      }
+    }
+    .item-custom-bg {
+      background-color: $list-item-custom-text;
+    }
+  }
+}
+
+.item.active,
+.item.activated,
+.item-complex.active .item-content,
+.item-complex.activated .item-content,
+.item .item-content.active,
+.item .item-content.activated {
+  &.item-custom {
+    @include item-active-style($list-item-custom-bg-active, $list-item-custom-border-active);
+  }
+}
+.item-complex {
+  &.item-custom > .item-content {
+    @include item-style($list-item-custom-bg, $list-item-custom-border, $list-item-custom-text);
+    &.active, &:active {
+      @include item-active-style($list-item-custom-bg-active, $list-item-custom-border-active);
+    }
+  }
+}
+
+/* CARD */
+.card {
+
+  .item-divider {
+    &.item-divider-custom {
+      background-color: $card-item-divider-custom-bg;
+      color: $card-item-divider-custom-text;
+      border: none;
+      h2, p, span {
+        color: $card-item-divider-custom-text;
+      }
+    }
+  }
+
+  &.transparent {
+    background-color: transparent;
+    box-shadow: none;
+    .item {
+      &.item-custom {
+        background-color: transparent;
+        &.active, &:active {
+          @include item-active-style(transparent, transparent);
+        }
+      }
+    }
+  }
+
+  .item {
+    &.item-custom {
+      @include item-style($card-item-custom-bg, $card-item-custom-border, $card-item-custom-text);
+      & h1, h2, h3, h4, h5, h6, p, .input-label, input, textarea, &.item-select select {
+        color: $card-item-custom-text;
+        background-color: transparent;
+      }
+      & input, textarea {
+        @include placeholder($card-item-custom-bg-translucent)
+      }
+      &.active, &:active {
+        @include item-active-style($card-item-custom-bg-active, $card-item-custom-active-border);
+      }
+      &.translucent {
+        background-color: $card-item-custom-text-translucent;
+      }
+    }
+    .item-custom-bg {
+      background-color: $card-item-custom-bg;
+    }
+  }
+}
+
+/* BUTTONS */
+.button {
+  &.button-custom {
+    @include button-style($button-custom-bg, $button-custom-border, $button-custom-active-bg, $button-custom-active-border, $button-custom-text);
+    @include button-clear($button-custom-border);
+    @include button-outline($button-custom-border);
+  }
+}
+
+/* CHECKBOX */
+.checkbox-custom {
+  background-color: $checkbox-general-custom-bg;
+  & h1, h2, h3, h4, h5, h6, span, p, a, textarea {
+    color: $checkbox-general-custom-text;
+  }
+}
+.checkbox-custom .checkbox {
+  @include checkbox-style($checkbox-off-custom-border, $checkbox-on-custom-bg, $checkbox-on-custom-border);
+}
+.checkbox-custom .checkbox input,
+.checkbox-custom .checkbox-icon {
+  &:before {
+    background: $checkbox-off-custom-bg;
+  }
+}
+.checkbox-custom .checkbox input:disabled:before,
+.checkbox-custom .checkbox input:disabled + .checkbox-icon:before {
+  border-color: $checkbox-off-custom-border;
+}
+
+.checkbox-custom .checkbox input:checked:after,
+input:checked + .checkbox-icon:after {
+  border-color: $checkbox-on-custom-text;
+}
+.checkbox-custom .checkbox input:disabled:checked:before,
+.checkbox-custom .checkbox input:disabled:checked + .checkbox-icon:before {
+  background: $checkbox-on-custom-border;
+}
+
+/* RADIO */
+.item-radio.radio-custom {
+  color: $radio-custom-text;
+  &.item-complex .item-content, &.item-radio .item-content {
+    background-color: $radio-custom-bg;
+  }
+  & input:checked ~ .item-content {
+    background-color: $radio-custom-bg-active;
+  }
+}
+
+/* TOGGLE */
+.toggle-custom.item-toggle {
+  background-color: $toggle-general-custom-bg;
+  & h1, h2, h3, h4, h5, h6, span, p, a, textarea {
+    color: $toggle-general-custom-text;
+  }
+  .toggle {
+    @include toggle-style($toggle-on-custom-border, $toggle-on-custom-bg);
+    & input:checked + .track .handle {
+      background-color: $toggle-handle-on-custom-bg;
+    }
+    .track {
+      border-color: $toggle-off-custom-border;
+      background-color: $toggle-off-custom-bg;
+    }
+    .handle {
+      background-color: $toggle-handle-off-custom-bg;
+    }
+  }
+}
+
+/* TOOLTIP */
+.tooltip {
+  &.tooltip-custom {
+    color: $tooltip-custom-text;
+    background-color: $tooltip-custom-bg;
+    & i {
+      color: $tooltip-custom-bg;
+    }
+  }
+}
+
+/* SPINNER */
+.spinner-ios.spinner-custom,
+.spinner-ios-small.spinner-custom,
+.spinner-custom .spinner-ios,
+.spinner-custom .spinner-ios-small{
+  stroke: $spinner-custom-ios-bg;
+}
+.spinner-android.spinner-custom,
+.spinner-android-small.spinner-custom,
+.spinner-custom .spinner-android,
+.spinner-custom .spinner-android-small {
+  stroke: $spinner-custom-android-bg;
+}

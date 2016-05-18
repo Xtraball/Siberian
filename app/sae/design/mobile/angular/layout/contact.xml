@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <contact_mobile_view_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="contact/l1/view.phtml" />
+        </views>
+    </contact_mobile_view_template_l1>
+
+    <contact_mobile_form_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="contact/l1/form.phtml" />
+        </views>
+    </contact_mobile_form_template_l1>
+
+</layout>

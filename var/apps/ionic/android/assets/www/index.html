@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <meta http-equiv="Content-Security-Policy" content="default-src *; script-src * 'unsafe-inline' 'unsafe-eval'; object-src *; style-src * 'unsafe-inline'; img-src * data:; media-src *; frame-src *; font-src *; connect-src *">
+        <title></title>
+
+        <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+        <link href="css/ionRadioFix.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+        <link href="css/ionic.app.css" rel="stylesheet">
+        <!--<link href="css/animate.css" rel="stylesheet">-->
+        <link href="css/ng-animation.css" rel="stylesheet">
+        <link href="css/ion-gallery.css" rel="stylesheet">
+        <link href="css/angular-carousel.min.css" rel="stylesheet">
+
+        <script src="lib/ionic/js/ionic.bundle.js"></script>
+        <script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
+        <script src="cordova.js"></script>
+
+        <script src="js/libraries/ionRadio.js"></script>
+        <script src="js/libraries/ion-gallery.min.js"></script>
+        <script src="js/libraries/angular-ios9-uiwebview.js"></script>
+        <script src="js/libraries/angular-carousel.js"></script>
+        <script src="js/libraries/angular-touch.min.js"></script>
+
+        <script src="js/utils/languages.js"></script>
+        <script src="js/utils/url.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/services/url.js"></script>
+        <script src="js/directives/sb-background-image.js"></script>
+        <script src="js/directives/datetime.js"></script>
+        <script src="js/directives/sb-side-menu.js"></script>
+        <script src="js/directives/sb-pad.js"></script>
+        <script src="js/directives/sb-tabbar.js"></script>
+        <script src="js/directives/sb-maps.js"></script>
+        <script src="js/directives/sb-google-autocomplete.js"></script>
+        <script src="js/directives/sb-album-boxes.js"></script>
+        <script src="js/directives/sb-media-player-controls.js"></script>
+        <script src="js/directives/sb-nav-view.js"></script>
+        <script src="js/directives/sb-video.js"></script>
+        <script src="js/directives/sb-image.js"></script>
+        <script src="js/directives/sb-tooltip.js"></script>
+        <script src="js/directives/sb-cms.js"></script>
+        <script src="js/directives/sb-input-number.js"></script>
+        <script src="js/directives/sb-padlock.js"></script>
+        <script src="js/directives/sb-a-click.js"></script>
+
+        <script src="js/services/application.js"></script>
+        <script src="js/services/http-cache.js"></script>
+        <script src="js/services/country.js"></script>
+        <script src="js/services/google-maps.js"></script>
+        <script src="js/services/media-player.js"></script>
+        <script src="js/services/music-tracks-loader.js"></script>
+        <script src="js/services/translate.js"></script>
+        <script src="js/services/facebook-connect.js"></script>
+        <script src="js/services/connection.js"></script>
+        <script src="js/services/dialog.js"></script>
+
+        <script src="js/providers/homepage-layout.js"></script>
+
+        <script src="js/controllers/homepage.js"></script>
+        <script src="js/controllers/newswall.js"></script>
+        <script src="js/controllers/wordpress.js"></script>
+        <script src="js/controllers/contact.js"></script>
+        <script src="js/controllers/image.js"></script>
+        <script src="js/controllers/rss.js"></script>
+        <script src="js/controllers/event.js"></script>
+        <script src="js/controllers/sourcecode.js"></script>
+        <script src="js/controllers/form.js"></script>
+        <script src="js/controllers/booking.js"></script>
+        <script src="js/controllers/set-meal.js"></script>
+        <script src="js/controllers/catalog.js"></script>
+        <script src="js/controllers/loyaltycard.js"></script>
+        <script src="js/controllers/customer.js"></script>
+        <script src="js/controllers/links.js"></script>
+        <script src="js/controllers/folder.js"></script>
+        <script src="js/controllers/cms.js"></script>
+        <script src="js/controllers/places.js"></script>
+        <script src="js/controllers/discount.js"></script>
+        <script src="js/controllers/weather.js"></script>
+        <script src="js/controllers/facebook.js"></script>
+        <script src="js/controllers/tip.js"></script>
+        <script src="js/controllers/topic.js"></script>
+        <script src="js/controllers/application.js"></script>
+        <script src="js/controllers/socialgaming.js"></script>
+        <script src="js/controllers/maps.js"></script>
+        <script src="js/controllers/media-player.js"></script>
+        <script src="js/controllers/music.js"></script>
+        <script src="js/controllers/radio.js"></script>
+        <script src="js/controllers/video.js"></script>
+        <script src="js/controllers/codescan.js"></script>
+        <script src="js/controllers/mcommerce/category.js"></script>
+        <script src="js/controllers/mcommerce/product.js"></script>
+        <script src="js/controllers/mcommerce/cart.js"></script>
+        <script src="js/controllers/mcommerce/sales/store.js"></script>
+        <script src="js/controllers/mcommerce/sales/customer.js"></script>
+        <script src="js/controllers/mcommerce/sales/delivery.js"></script>
+        <script src="js/controllers/mcommerce/sales/payment.js"></script>
+        <script src="js/controllers/mcommerce/sales/confirmation.js"></script>
+        <script src="js/controllers/mcommerce/sales/success.js"></script>
+        <script src="js/controllers/padlock.js"></script>
+        <script src="js/controllers/push.js"></script>
+        <script src="js/controllers/inbox.js"></script>
+        <script src="js/controllers/mcommerce/sales/stripe.js"></script>
+
+        <script src="js/factory/newswall.js"></script>
+        <script src="js/factory/contact.js"></script>
+        <script src="js/factory/wordpress.js"></script>
+        <script src="js/factory/image.js"></script>
+        <script src="js/factory/event.js"></script>
+        <script src="js/factory/rss.js"></script>
+        <script src="js/factory/sourcecode.js"></script>
+        <script src="js/factory/form.js"></script>
+        <script src="js/factory/booking.js"></script>
+        <script src="js/factory/set-meal.js"></script>
+        <script src="js/factory/catalog.js"></script>
+        <script src="js/factory/loyaltycard.js"></script>
+        <script src="js/factory/customer.js"></script>
+        <script src="js/factory/links.js"></script>
+        <script src="js/factory/folder.js"></script>
+        <script src="js/factory/cms.js"></script>
+        <script src="js/factory/places.js"></script>
+        <script src="js/factory/discount.js"></script>
+        <script src="js/factory/weather.js"></script>
+        <script src="js/factory/pages.js"></script>
+        <script src="js/factory/facebook.js"></script>
+        <script src="js/factory/tip.js"></script>
+        <script src="js/factory/topic.js"></script>
+        <script src="js/factory/tc.js"></script>
+        <script src="js/factory/socialgaming.js"></script>
+        <script src="js/factory/maps.js"></script>
+        <script src="js/factory/music.js"></script>
+        <script src="js/factory/radio.js"></script>
+        <script src="js/factory/video.js"></script>
+        <script src="js/factory/youtube.js"></script>
+        <script src="js/factory/mcommerce/category.js"></script>
+        <script src="js/factory/mcommerce/product.js"></script>
+        <script src="js/factory/mcommerce/cart.js"></script>
+        <script src="js/factory/mcommerce/sales/store.js"></script>
+        <script src="js/factory/mcommerce/sales/customer.js"></script>
+        <script src="js/factory/mcommerce/sales/delivery.js"></script>
+        <script src="js/factory/mcommerce/sales/payment.js"></script>
+        <script src="js/factory/padlock.js"></script>
+        <script src="js/factory/push.js"></script>
+        <script src="js/factory/inbox.js"></script>
+        <script src="js/factory/mcommerce/sales/stripe.js"></script>
+
+        <script src="js/filters/trusted-html.js"></script>
+        <script src="js/filters/number-fixed-len.js"></script>
+        <script src="js/filters/seconds-to-date-time.js"></script>
+        <script src="js/filters/translate.js"></script>
+
+        <script src="js/constants/auth-events.js"></script>
+        <script src="js/constants/cache-events.js"></script>
+        <script src="js/constants/push-events.js"></script>
+        <script src="js/constants/padlock-events.js"></script>
+    </head>
+    <body ng-app="starter" class="platform-browser platform-cordova platform-webview platform-android platform-cordova platform-webview">
+
+        <!-- Global layout handler -->
+        <sb-side-menu ng-if="app_is_loaded"></sb-side-menu>
+
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+
+    </body>
+</html>

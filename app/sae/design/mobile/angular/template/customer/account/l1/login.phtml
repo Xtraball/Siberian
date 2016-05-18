@@ -1,0 +1,54 @@
+<div class="has_header" sb-background-image>
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="'<?php echo $this->_('Log-in'); ?>'" message="message" right-button="header_right_button"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="login" id="login" >
+        <?php if($this->isMobileDevice()) : ?>
+        <div id="account_login">
+            <div class="login_content padding">
+                <form method="post" name="loginForm" ng-submit="post()">
+
+                    <ul class="form">
+                        <li>
+                            <div ng-if="can_connect_with_facebook">
+                                <div id="fbButton" class="align-center">
+                                    <a class="fb_login block a-center" id="facebook" href="javascript:void(0);" ng-click="loginWithFacebook()">
+                                        <img src="<?php echo $this->getImage('buttons/facebook.png'); ?>" height="49" width="200" />
+                                    </a>
+                                </div>
+                                <br />
+                                <p class="bold align-left"><?php echo $this->_("Or with your account") ?> :</p>
+                                <br />
+                            </div>
+                            <label for="login_email"><?php echo $this->_("Email") ?></label>
+                            <input type="email" id="login_email" name="email" title="<?php echo $this->_("Email") ?>" value="" class="full_width" placeholder="<?php echo $this->_("Email") ?>" ng-model="customer.email" ng-class="{error: loginForm.email.$invalid && contactForm.submitted}" required />
+                            <label class="error block full_width" ng-show="loginForm.email.$invalid && loginForm.submitted"><?php echo $this->_("Please enter a valid email address"); ?></label>
+                        </li>
+                        <li>
+                            <label for="login_password"><?php echo $this->_('Password'); ?></label>
+                            <input type="password" id="login_password" title="<?php echo $this->_("Password") ?>" name="password" value="" class="full_width" placeholder="<?php echo $this->_("Password") ?>" ng-model="customer.password" ng-class="{error: loginForm.password.$invalid && loginForm.submitted}" required />
+                            <label class="error block full_width" ng-show="loginForm.password.$invalid && loginForm.submitted"><?php echo $this->_("This field is required"); ?></label>
+                        </li>
+                    </ul>
+                    <br />
+                    <p><a href="<?php echo $this->getUrl("customer/mobile_account_forgottenpassword/index"); ?>" id="btn_forgot_password" class="button icon_left arrow_right"><?php echo $this->_("Forgot your password?") ?></a></p>
+
+                    <p><a href="<?php echo $this->getUrl("customer/mobile_account_register/index"); ?>" id="btn_create_account" class="button icon_left arrow_right"><?php echo $this->_("Create an account") ?></a></p>
+
+                    <p><a href="<?php echo $this->getUrl("cms/mobile_privacypolicy"); ?>" id="btn_create_account" class="button icon_left arrow_right"><?php echo $this->_("Privacy Policy") ?></a></p>
+
+                    <div class="clear"></div>
+                    <button type="submit" class="ng-hide"></button>
+                </form>
+
+            </div>
+        </div>
+        <?php else : ?>
+        <p><?php echo $this->_("Please log in with your mobile phone") ?></p>
+        <?php endif ?>
+    </div>
+
+</div>
+

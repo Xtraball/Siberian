@@ -1,0 +1,201 @@
+<?php
+$value_id = $this->getValue();
+if ($this->getMenu()->getId() != null) {
+    $menu = $this->getMenu();
+} else {
+    $menu = new Catalog_Model_Product();
+    $menu->setPosIds(array());
+}
+$menu_description_id = 'menu_description';
+$application = $this->getApplication();
+?>
+<h4 class="subtitle">
+    <span class="left area"><?php echo $this->_('Editing'); ?></span>
+    <hr />
+    <div class="clear"></div>
+</h4>
+<form id="formCreateMenu" method="post" action="<?php echo $this->getUrl('catalog/application_menu/editpost', array('id' => $menu->getId())); ?>">
+    <div class="buttons">
+        <button type="button" onclick="page.reload();" class="delete left"><i class="icon-arrow-left"></i></button>
+        <button type="submit" class="default_button right">OK</button>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <input type="hidden" name="value_id" value="<?php echo $value_id ?>" />
+
+    <div class="form-horizontal">
+
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label data-tip="31" data-tip-left="80" for="name"><?php echo $this->_('Title'); ?> <span class="input-required">*</span> : </label>
+            </div>
+            <div class="col-sm-5">
+                <input type="text" id="name" name="menus[new][name]" class="form-control required" value="<?php echo $menu->getName(); ?>" maxlength="85" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label for="price"><?php echo $this->_('Price'); ?> : </label>
+            </div>
+            <div class="col-sm-5">
+                <input type="text" id="price" name="menus[new][price]" class="form-control" value="<?php echo $menu->getPrice(); ?>" />
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-sm-12">
+                <label data-tip="32" data-tip-left="80" for="description"><?php echo $this->_('Description') ?>&nbsp;:&nbsp;</label>
+            </div>
+            <div class="clear"></div>
+            <div class="padding">
+                <textarea rows="5" id="<?php echo $menu_description_id ?>" class="col-sm-5 input" name="menus[new][description]" style="width: 415px;"><?php echo $menu->getDescription(); ?></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label data-tip="33" data-tip-left="80" for="condition"><?php echo $this->_('Rules'); ?> : </label>
+            </div>
+            <div class="col-sm-5">
+                <input type="text" id="conditions" name="menus[new][conditions]" class="form-control" value="<?php echo $menu->getConditions(); ?>" maxlength="75" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label><?php echo $this->_('Picture'); ?> :</label>
+            </div>
+            <!--[if gte IE 10]><!-->
+            <div class="col-sm-5">
+                <button id="picture_uploader" class="upload_picture default_button btn-block" type="button" rel="<?php echo $menu->getId() ? $menu->getId() : 'new' ?>">
+                    <?php echo $menu->getPicture() ? $this->_("Edit the") : $this->_('Add a'); ?>
+                    <?php echo $this->_('picture'); ?>
+                </button>
+                <!--<![endif]-->
+                <input style="display:none" class="uploader_picture" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+            </div>
+        </div>
+
+        <div id="delete_picture" class="form-group"<?php if(!$menu->getPicture()) : ?> style="display:none;"<?php endif; ?>>
+            <div class="col-sm-3">
+                <button type="button" onclick="removepicture();" id="delete_picture" class="delete delete_red"><i class="icon-remove"></i></button>
+            </div>
+            <div class="col-sm-4">
+                <img src="<?php echo Application_Model_Application::getImagePath().$menu->getPicture() ?>" width="150" height="150" />
+            </div>
+        </div>
+
+    </div>
+
+    <input type="hidden" name="menus[new][picture]" id="picture" value="<?php echo $menu->getPicture(); ?>" />
+    <?php if($menu->getId()) : ?>
+    <input type="hidden" name="id" id="menu_id" value="<?php echo $menu->getId(); ?>" />
+    <?php endif; ?>
+
+</form>
+<table class="list list-input">
+
+</table>
+<style>
+    #formCreateMenu > div.form-horizontal > div > div.padding {
+        padding: 0 10px;
+    }
+</style>
+<script type="text/javascript">
+    page.setCallback('willdisappear', function() {
+        $('#<?php echo $menu_description_id ?>').ckeditor(
+            function(){
+                this.destroy(true)
+            }
+        );
+        $('#formCreateMenu').unbind('submit');
+//        menu.removeDummy();
+    });
+
+    page.setCallback('didappear', function() {
+        if(!$('button#picture_uploader').is(':visible')) {
+            $('input.uploader_picture').show();
+        }
+    });
+    $('button#picture_uploader').click(function() {
+        $('input.uploader_picture').trigger('click');
+    });
+
+    $('#formCreateMenu').submit(function() {
+        if($('input.uploader_picture').val().isEmpty()) $('input.uploader_picture').hide();
+        if(!$(this).valid()) return false;
+        $('<input />').attr('type', 'hidden').attr('name', 'customization').val(1).appendTo($(this));
+        reload(this, this.action, true, function(datas) {
+            if(datas.success) {
+                page.reload();
+            }
+        });
+        return false;
+    });
+
+    function removepicture() {
+        $('#crop').val('');
+        $('#picture').val('');
+//        $('#menu_picture').fadeOut(300, function() {
+//            $('#menu_picture').html('');
+//        });
+        $('#delete_picture').fadeOut(300);
+/*
+        iframe.content.find('#picture_<?php echo $value_id; ?>_'+$('#picture_uploader').attr('rel')).parent('div.picture').fadeOut(300, function() {
+            iframe.f.page.getSubpage('<?php echo $value_id; ?>').calcRowWidth('#menu_<?php echo $value_id; ?>_'+$('#picture_uploader').attr('rel'));
+        });
+*/
+        return false;
+    }
+
+    var menu_uploader = new Uploader();
+    $('.uploader_picture').fileupload({
+        dataType: 'json',
+        add: function (e, data) {
+            $('.pp_content').attr('style', 'height: auto; width: 500px;');
+            data.submit();
+            menu_uploader.showProgressbar();
+        },
+        progressall: function (e, data) {
+            menu_uploader.moveProgressbar(data);
+        },
+        done: function (e, data) {
+            var id = $(this).attr('rel');
+            if(data.result.error)
+            {
+                menu_uploader.showError(data.result.message);
+            }
+            if(data.result.success)
+            {
+                menu_uploader.hide();
+                var params = new Array();
+                params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+                params["file"] = data.result.files;
+                params["output_w"] = 300;
+                params["output_h"] = 300;
+                params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('catalog/application_menu/validatecrop')) ?>';
+                params["uploader"] = 'menu_uploader';
+                menu_uploader.crop(params);
+                menu_uploader.callback = function(file) {
+                    /*
+                    if($('#menu_id').attr("id") == undefined) {
+                        menu.prepareDummy();
+                    }
+                    */
+                    $('#delete_picture').find("img").attr("src", "<?php echo Core_Model_Directory::getTmpDirectory() ?>/"+file).fadeIn(300);
+                    $('#delete_picture').show();
+//                    $('#cont_delete_picture').html('<button type="button" onclick="removepicture();" id="delete_picture" class="delete delete_red left"><i class="icon-remove"></i></button>');
+                    $('#picture').val(file);
+                    /*
+                    iframe.content.find('#menu_<?php echo $value_id; ?>_'+$('#picture_uploader').attr('rel')).addClass('picture');
+                    iframe.content.find('#picture_<?php echo $value_id; ?>_'+$('#picture_uploader').attr('rel')).attr('src', '<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+file).parent('div.picture').fadeIn(300, function() {
+                        iframe.f.page.getSubpage('<?php echo $value_id; ?>').calcRowWidth('#menu_<?php echo $value_id; ?>_'+$('#picture_uploader').attr('rel'));
+                    });
+                    */
+                }
+            }
+        }
+    });
+</script>

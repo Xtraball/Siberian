@@ -1,0 +1,25 @@
+<ion-view view-title="{{ 'Email' | translate }}">
+
+    <ion-content sb-background-image>
+
+        <div>
+            <form name="contactForm" ng-submit="postForm()" novalidate>
+                <div class="list">
+                    <label class="item item-input item-custom">
+                        <input type="text" ng-model="form.name" placeholder="{{ 'Your name' | translate }}" required />
+                    </label>
+                    <label class="item item-input item-custom">
+                        <input type="email" ng-model="form.email" placeholder="{{ 'Your email address' | translate }}" required />
+                    </label>
+                    <label class="item item-input item-custom">
+                        <textarea placeholder="{{ 'Your request' | translate }}" rows="4" ng-model="form.info" required></textarea>
+                    </label>
+                    <button class="button button-block button-custom activated">{{ "Send" | translate }}</button>
+                </div>
+
+            </form>
+        </div>
+
+    </ion-content>
+
+</ion-view>

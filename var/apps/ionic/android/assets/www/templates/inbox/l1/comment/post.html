@@ -1,0 +1,17 @@
+<ion-view view-title="{{ 'Leave a reply' | translate }}">
+
+    <ion-content sb-background-image>
+        <div>
+            <form name="inboxForm" ng-submit="postComment()" novalidate>
+                <div class="list">
+                    <label class="item item-input item-custom">
+                        <textarea placeholder="{{ 'Your comment' | translate }}" rows="4" ng-model="reply.message" required></textarea>
+                    </label>
+                    <button class="button button-block button-custom activated">{{ "Send" | translate }}</button>
+                </div>
+
+            </form>
+        </div>
+    </ion-content>
+
+</ion-view>

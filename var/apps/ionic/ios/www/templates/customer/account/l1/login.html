@@ -1,0 +1,177 @@
+<ion-modal-view ng-controller="CustomerController">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear" ng-click="closeLoginModal()">{{ "Close" | translate }}</button>
+        </div>
+        <h1 class="title">{{ page_title | translate }}</h1>
+        <div class="buttons" ng-show="is_logged_in">
+            <button class="button button-clear ion-power" ng-click="logout()">
+            </button>
+        </div>
+    </ion-header-bar>
+
+    <ion-content>
+
+        <form method="post" name="loginForm" ng-submit="login()" class="slide-down" ng-show="display_login_form">
+
+            <div class="list">
+
+                <div class="item item-text-wrap item-icon-left item-custom" ng-click="loginWithFacebook()" ng-if="!is_logged_in">
+                    <i class="icon ion-social-facebook-outline"></i>
+                    {{ "Log-in with Facebook" | translate }}
+                </div>
+
+                <div class="item item-divider item-divider-custom">
+                    <p>{{ "Or with your account" | translate }} :</p>
+                </div>
+
+                <label class="item item-input item-custom">
+                    <i class="icon ion-ios-person"></i>
+                    <input type="email" placeholder="{{ 'Email' | translate }}" ng-model="customer.email" />
+                </label>
+
+                <label class="item item-input item-custom">
+                    <i class="icon ion-locked"></i>
+                    <input type="password" placeholder="{{ 'Password' | translate }}" ng-model="customer.password" />
+                </label>
+
+                <button type="submit" class="button button-block button-custom activated" ng-show="!is_loading">{{ "Log-in" | translate }}</button>
+
+                <div class="loader" ng-show="is_loading">
+                    <ion-spinner class="spinner-custom"></ion-spinner>
+                </div>
+
+                <div class="item item-custom item-icon-left" ng-click="displayForgotPasswordForm()">
+                    <i class="icon ion-ios-help-empty"></i>
+                    {{ "Forgot your password?" | translate }}
+                </div>
+                <div class="item item-custom item-icon-left" ng-click="displayAccountForm()">
+                    <i class="icon ion-ios-plus-empty"></i>
+                    {{ "Create an account" | translate }}
+                </div>
+                <div class="item item-custom item-icon-left" ng-click="displayPrivacyPolicy('login')">
+                    <i class="icon ion-navicon"></i>
+                    {{ "Privacy Policy" | translate }}
+                </div>
+            </div>
+
+        </form>
+
+        <form method="post" name="forgotPasswordForm" ng-submit="forgotPassword()" class="slide-top" ng-show="display_forgot_password_form">
+
+            <div class="list">
+
+                <div class="item item-text-wrap item-custom">
+                    <p>{{ "Please enter your email address. We'll send you your password right now." | translate }} :</p>
+                </div>
+
+                <label class="item item-input item-custom">
+                    <i class="icon ion-ios-person"></i>
+                    <input type="email" placeholder="{{ 'Email' | translate }}" ng-model="customer.email" />
+                </label>
+
+                <button type="submit" class="button button-block button-custom activated" ng-show="!is_loading">{{ "Send" | translate }}</button>
+
+                <div class="loader" ng-show="is_loading">
+                    <ion-spinner class="spinner-custom"></ion-spinner>
+                </div>
+
+                <div class="item item-custom item-icon-left" ng-click="displayLoginForm()">
+                    <i class="icon ion-ios-person"></i>
+                    {{ "Click here to log-in" | translate }}
+                </div>
+
+            </div>
+
+
+        </form>
+
+        <form method="post" name="accountForm" ng-submit="save()" class="slide-top" ng-show="display_account_form">
+
+            <div class="list">
+
+                <label class="item item-input item-select item-custom">
+                    <div class="input-label">
+                        {{ "Civility" | translate }}
+                    </div>
+                    <select ng-model="customer.civility">
+                        <option value=""></option>
+                        <option value="mlle">{{ "Miss" | translate }}</option>
+                        <option value="mme">{{ "Mrs" | translate }}</option>
+                        <option value="m">{{ "Mr" | translate }}</option>
+                    </select>
+                </label>
+
+                <label class="item item-input item-custom">
+                    <input type="text" placeholder="{{ 'Firstname' | translate }}" ng-model="customer.firstname" />
+                </label>
+
+                <label class="item item-input item-custom">
+                    <input type="text" placeholder="{{ 'Lastname' | translate }}" ng-model="customer.lastname" />
+                </label>
+
+                <label class="item item-input item-custom">
+                    <input type="email" placeholder="{{ 'Email' | translate }}" ng-model="customer.email" />
+                </label>
+
+                <label class="item item-input item-custom">
+                    <input type="password" placeholder="{{ 'Password' | translate }}" ng-model="customer.password" />
+                </label>
+
+                <ion-checkbox class="checkbox-custom" ng-model="customer.show_in_social_gaming">
+                    {{ "Show me in ranking" | translate }}
+                </ion-checkbox>
+
+                <div class="item item-custom item-icon-left" ng-click="displayPrivacyPolicy('account')" ng-if="!is_logged_in">
+                    <i class="icon ion-navicon"></i>
+                    {{ "Privacy Policy" | translate }}
+                </div>
+
+                <ion-checkbox class="checkbox-custom" ng-model="customer.privacy_policy" ng-if="!is_logged_in">
+                    {{ "I accept the privacy policy" | translate }}
+                </ion-checkbox>
+
+                <button type="submit" class="button button-block button-custom activated" ng-show="!is_loading">{{ "Send" | translate }}</button>
+
+                <div class="loader" ng-show="is_loading">
+                    <ion-spinner class="spinner-custom"></ion-spinner>
+                </div>
+
+                <div class="item item-custom item-icon-left" ng-click="displayLoginForm()" ng-if="!is_logged_in">
+                    <i class="icon ion-ios-person"></i>
+                    {{ "Click here to log-in" | translate }}
+                </div>
+
+            </div>
+
+        </form>
+
+        <div class="list" ng-show="display_privacy_policy">
+
+            <div class="item item-custom item-icon-left" ng-click="displayLoginForm()" ng-if="displayed_from == 'login'">
+                <i class="icon ion-ios-person"></i>
+                {{ "Click here to log-in" | translate }}
+            </div>
+
+            <div class="item item-custom item-icon-left" ng-click="displayAccountForm()" ng-if="displayed_from == 'account'">
+                <i class="icon ion-ios-plus-empty"></i>
+                {{ "Create an account" | translate }}
+            </div>
+
+            <div ng-include="'templates/cms/privacypolicy/l1/view.html'"></div>
+
+            <div class="item item-custom item-icon-left" ng-click="scrollTop();displayLoginForm()" ng-if="displayed_from == 'login'">
+                <i class="icon ion-ios-person"></i>
+                {{ "Click here to log-in" | translate }}
+            </div>
+
+            <div class="item item-custom item-icon-left" ng-click="scrollTop();displayAccountForm()" ng-if="displayed_from == 'account'">
+                <i class="icon ion-ios-plus-empty"></i>
+                {{ "Create an account" | translate }}
+            </div>
+
+        </div>
+
+    </ion-content>
+</ion-modal-view>

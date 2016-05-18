@@ -1,0 +1,120 @@
+<?php $order = $this->getCurrentOrder(); ?>
+
+<table width="100%" style="max-width:600px">
+    <tr style="padding: 0 15px; color:#888888; font-size: 17px; line-height: 150%; width:600px">
+        <td>
+            <p style="font-family: Verdana; font-weight: bold;color: #12a7ff;font-size:18px; line-height:150%;"><?php echo $this->_('Hello,'); ?></p>
+            <p align="justify">
+                <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;">
+                    <?php echo $this->_('Here is the detail of your order'); ?>
+                </span>
+            </p>
+
+            <h4 style="margin:10px 0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo $this->_('Client'); ?></h4>
+            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname(); ?></p>
+            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $order->getCustomerStreet(); ?></p>
+            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $order->getCustomerPostcode(); ?> <?php echo $order->getCustomerCity(); ?></p>
+            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $order->getCustomerPhone(); ?></p>
+            <br />
+
+            <h4 style="margin:10px 0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo $this->_('Order details'); ?></h4>
+            <table width="400px">
+                <col width="50%"/>
+                <col width="50%"/>
+                <tr>
+                    <th align="left"><?php echo $this->_('Delivery Method'); ?></th>
+                    <th align="left"><?php echo $this->_('Payment Method'); ?></th>
+                </tr>
+                <tr>
+                    <td><?php echo $order->getDeliveryMethod(); ?></td>
+                    <td><?php echo $order->getPaymentMethod(); ?></td>
+                </tr>
+            </table>
+            <br />
+            <table width="100%">
+                <col width="70%" />
+                <col width="10%" />
+                <col width="10%" />
+                <col width="10%" />
+                <tr>
+                    <th align="left"><?php echo $this->_('Product'); ?></th>
+                    <th><?php echo $this->_('Unit Price'); ?></th>
+                    <th><?php echo $this->_('Qty'); ?></th>
+                    <th><?php echo $this->_('Total'); ?></th>
+                </tr>
+                <tr><td colspan="4"><div style="width:100%;margin-top:5px;margin-bottom:5px;border-bottom:2px solid black;"></div></td></tr>
+            <?php foreach($order->getLines() as $line) : ?>
+            <?php
+                $displayPrice = Mcommerce_Model_Utility::displayPrice($line->getPrice(), 0, $line->getQty());
+                $displayPriceInclTax = Mcommerce_Model_Utility::displayPrice($line->getPrice(), $line->getTaxRate(), $line->getQty());
+                $displayBasePrice = Mcommerce_Model_Utility::displayPrice($line->getPrice(), 0);
+                $displayBasePriceInclTax = Mcommerce_Model_Utility::displayPrice($line->getPrice(), $line->getTaxRate());
+            ?>
+                <?php $format = unserialize($line->getFormat()); ?>
+                <?php $text_format = isset($format['title']) ? "<br />" . $this->_("Format:") . " " . $format['title'] : ""; ?>
+                <tr>
+                    <td><?php echo $line->getName() . $text_format; ?></td>
+                    <td align="right"><?php echo $displayBasePriceInclTax; ?></td>
+                    <td align="center"><?php echo $line->getQty(); ?></td>
+                    <td align="right"><?php echo $displayPriceInclTax; ?></td>
+                </tr>
+                <?php foreach($line->getOptions() as $option) : ?>
+                <?php
+                    $displayPrice = Mcommerce_Model_Utility::displayPrice($option->getPrice(), 0, $option->getQty());
+                    $displayPriceInclTax = Mcommerce_Model_Utility::displayPrice($option->getPrice(), $line->getTaxRate(), $line->getQty());
+                    $displayBasePrice = Mcommerce_Model_Utility::displayPrice($option->getPrice(), 0);
+                    $displayBasePriceInclTax = Mcommerce_Model_Utility::displayPrice($option->getPrice(), $line->getTaxRate());
+                ?>
+                <tr>
+                    <td style="font-size:13px;">+ <?php echo $option->getQty(); ?>x <?php echo $option->getName(); ?></td>
+                    <td style="font-size:13px;" align="right"><?php echo $displayBasePriceInclTax; ?></td>
+                    <td style="font-size:13px;" align="center"><?php echo $option->getQty() * $line->getQty(); ?></td>
+                    <td style="font-size:13px;" align="right"><?php echo $displayPriceInclTax; ?></td>
+                </tr>
+                <?php endforeach; ?>
+                <tr><td colspan="4"><div style="width:100%;margin-top:5px;margin-bottom:5px;border-bottom:1px solid black;"></div></td></tr>
+            <?php endforeach; ?>
+            </table>
+            <br />
+            <h4 style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo $this->_('Total'); ?></h4>
+            <table width="100%">
+                <col width="80%" />
+                <col width="20%" />
+                <tr><td colspan="2"><div style="width:100%;margin-top:0px;margin-bottom:5px;border-bottom:2px solid black;"></div></td></tr>
+                <tr>
+                    <th align="left"><?php echo $this->_('Subtotal'); ?></th>
+                    <td align="right"><?php echo $order->getFormattedSubtotalExclTax(); ?></td>
+                </tr>
+                <?php if($order->getDeliveryCost() > 0) : ?>
+                <tr class="cart_totals">
+                    <th align="left"><?php echo $this->_('Delivery Fees'); ?></th>
+                    <td align="right"><?php echo $order->getFormattedDeliveryCost(); ?></td>
+                </tr>
+                <tr class="cart_totals">
+                    <th align="left"><?php echo $this->_('Total Excl. Tax'); ?></th>
+                    <td align="right"><?php echo $order->getFormattedTotalExclTax(); ?></td>
+                </tr>
+                <?php endif; ?>
+                <tr class="cart_totals">
+                    <th align="left"><?php echo $this->_('Total Tax'); ?></th>
+                    <td align="right"><?php echo $order->getFormattedTotalTax(); ?></td>
+                </tr>
+                <tr class="cart_totals">
+                    <th align="left"><?php echo $this->_('Total'); ?></th>
+                    <td align="right"><?php echo $order->getFormattedTotal(); ?></td>
+                </tr>
+                <?php if($order->getPaidAmount() && !$order->getHidePaidAmount()) : ?>
+                <tr><td colspan="2"><div style="width:100%;margin-top:0px;margin-bottom:5px;border-bottom:2px solid black;"></div></td></tr>
+                <tr>
+                    <th align="left"><?php echo $this->_("I will pay"); ?></th>
+                    <td align="right"><?php echo $order->getFormattedPaidAmount(); ?></td>
+                </tr>
+                <tr>
+                    <th align="left"><?php echo $this->_("Remaining due"); ?></th>
+                    <td align="right"><?php echo $order->formatPrice($order->getPaidAmount() - $order->getTotal()); ?></td>
+                </tr>
+                <?php endif; ?>
+            </table>
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,240 @@
+<?php $option = $this->getOptionValue(); ?>
+<?php $mcommerce = $option->getObject(); ?>
+<?php $stores = $mcommerce->getStores(); ?>
+
+<div class="relative stores">
+    <div id="stores_list" pos="1">
+        <div id="stores_manager">
+            <div class="section">
+                <h4 class="subtitle">
+                    <span class="left area"><?php echo $this->_('My stores'); ?></span>
+                    <hr />
+                    <span class="area right">
+                        <button type="button" class="default_button edit_store add right" id="add_store">
+                            <i class="icon-plus"></i>
+                        </button>
+                    </span>
+                    <div class="clear"></div>
+                </h4>
+                <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+            </div>
+            <?php if(Installer_Model_Installer::hasModule("import") AND $this->_canAccess("feature_import")) : ?>
+            <div class="section">
+                <h4 class="subtitle">
+                    <span class="left area"><?php echo $this->_('Import'); ?></span>
+                    <hr />
+                    <span class="area right">
+                        <button type="button" class="default_button toggle_details" id="toggle_import">
+                            <i class="icon-chevron-down"></i>
+                            <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
+                        </button>
+                    </span>
+                    <div class="clear"></div>
+                </h4>
+                <?php echo $this->getLayout()->addPartial('import', 'Admin_View_Default', "import/application/edit/import.phtml")
+                    ->setOptionValue($option)
+                    ->toHtml()
+                ;
+                ?>
+            </div>
+            <?php endif; ?>
+            <div id="section_existing_stores" class="section"<?php if(!$stores->count()) : ?> style="display:none"<?php endif; ?>>
+                <h4 class="subtitle">
+                    <span class="left area"><?php echo $this->_('Manage'); ?></span>
+                    <hr />
+                    <span class="area right">
+                        <button type="button" class="default_button toggle_details" id="toggle_existing_stores">
+                            <i class="icon-chevron-down"></i>
+                            <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
+                        </button>
+                    </span>
+                    <div class="clear"></div>
+                </h4>
+                <div id="existing_stores" style="display:none;">
+
+                    <?php //if($stores->count()) : ?>
+                    <ul class="list stores_list">
+                        <?php foreach ($stores as $store) : ?>
+                        <?php echo $this->getLayout()->addPartial('row_store_'.$store->getId(), 'admin_view_default', 'mcommerce/application/edit/store/li.phtml')
+                                ->setCurrentOptionValue($option)
+                                ->setCurrentStore($store)
+                                ->toHtml()
+                            ;
+                        ?>
+                        <?php endforeach ?>
+                    </ul>
+                    <?php //endif; ?>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="store_edit" pos="2">
+
+    </div>
+
+    <script type="text/javascript">
+        var store = {
+            is_loaded: false,
+            processEvents: function() {
+
+                $('#toggle_existing_stores').click(function() {
+                    $('#existing_stores').stop().slideToggle(300, function() {
+                        if($(this).is(':visible')) $('#toggle_existing_stores').children('i').removeClass('icon-chevron-down').addClass('icon-chevron-up');
+                        else $('#toggle_existing_stores').children('i').removeClass('icon-chevron-up').addClass('icon-chevron-down')
+                    });
+                });
+
+                $('#toggle_import').click(function() {
+                    $('#import_area').stop().slideToggle(300, function() {
+                        if($(this).is(':visible')) $('#toggle_import').children('i').removeClass('icon-chevron-down').addClass('icon-chevron-up');
+                        else $('#toggle_import').children('i').removeClass('icon-chevron-up').addClass('icon-chevron-down')
+                    });
+                });
+
+                $('.edit_store').each(function(i, element) {
+                    this.bindEditStore($(element));
+                }.bind(this));
+                $('.remove_store').each(function(i, element) {
+                    this.bindRemoveStore($(element));
+                }.bind(this));
+
+                this.is_loaded = true;
+
+            },
+
+            bindStoreElements: function(id) {
+                if($('#edit_store_'+id).length) this.bindEditStore($('#edit_store_'+id));
+                if($('#remove_store_'+id).length) this.bindRemoveStore($('#remove_store_'+id));
+                return this;
+            },
+            bindEditStore: function(element) {
+
+                element.click(function(e) {
+                    if(!element.children('input').length) {
+                        $('<input />').attr('type', 'hidden').attr('name', 'option_value_id').addClass('option_value_id').val('<?php echo $option->getId(); ?>').appendTo(element);
+                        if(element.attr('rel')) $('<input />').attr('type', 'hidden').attr('name', 'store_id').val(element.attr('rel')).appendTo(element);
+                    }
+
+                    this.load(element);
+                }.bind(this));
+            },
+            bindRemoveStore: function(element) {
+
+                element.click(function(e) {
+
+                    if(!confirm('<?php echo addslashes($this->_('Are you sure you want to delete this store?'))?>')) return false;
+
+                    if(!element.children('input').length) {
+                        $('<input />').attr('type', 'hidden').attr('name', 'option_value_id').addClass('option_value_id').val('<?php echo $option->getId(); ?>').appendTo(element);
+                        if(element.attr('rel')) $('<input />').attr('type', 'hidden').attr('name', 'store_id').val(element.attr('rel')).appendTo(element);
+                    }
+
+                    this.remove(element);
+                }.bind(this));
+            },
+            load: function(a) {
+
+                reload(a, '<?php echo $this->getUrl('mcommerce/application_store/edit'); ?>', true, function(datas) {
+                    if(datas.form_html) {
+                        $('#store_edit').html(datas.form_html);
+                        $('#storeEditForm').submit(function() {
+
+                            if($('#new_tax_rate').length) {
+                                var val = parseFloat($('#new_tax_rate').val().replace(',', '.'));
+                                if(!isNaN(val)) {
+                                    $('#new_tax_rate').val(val);
+                                }
+                            }
+
+                            if(!$(this).valid()) return false;
+
+                            reload(this, this.action, true, function(datas) {
+                                if(datas.success) {
+                                    $('#mcomerce_tabs_header').show();
+
+                                    if(datas.row_html) {
+                                        $('#existing_stores').children('ul.stores_list').append(datas.row_html);
+                                        this.bindStoreElements(datas.store_id);
+                                        if(!$('#section_existing_stores').is(':visible')) $('#section_existing_stores').show();
+                                    }
+                                    else if(datas.store_name) {
+                                        $('#store_name_'+datas.store_id).html(datas.store_name);
+                                    }
+                                    this.close();
+                                }
+                            }.bind(store));
+                            return false;
+                        });
+                        $('label.delivery_method').click(function() {
+                            setupLabel($(this));
+                            if($(this).hasClass('toggle_shippging_cost')) {
+                                if($(this).children('input').is(':checked')) {
+                                    $('.shipping_cost').stop().fadeIn();
+                                }
+                                else {
+                                    $('.shipping_cost').stop().fadeOut();
+                                }
+                            }
+                        });
+//                        $('#store_tax_id').dropkick();
+                        $('label.payment_method').click(function() {
+                            setupLabel($(this));
+                            if($(this).hasClass('toggle_payment_data')) {
+                                if($(this).children('input').is(':checked')) {
+                                    $('.' + $(this).attr("tag") + '_data').stop().fadeIn();
+                                }
+                                else {
+                                    $('.' + $(this).attr("tag") + '_data').stop().fadeOut();
+                                }
+                            }
+                        });
+                        $('label.clients_calculate_change').click(function() {
+                            setupLabel($(this));
+                        });
+
+                        feature.slide($('#stores_list'), $('#store_edit'), 'right');
+                    }
+                });
+            },
+            remove: function(a) {
+
+                reload(a, '<?php echo $this->getUrl('mcommerce/application_store/remove'); ?>', true, function(datas) {
+                    if(datas.success) {
+                        $('#edit_store_'+datas.store_id).unbind('click');
+                        $('#remove_store_'+datas.store_id).unbind('click');
+                        $('#store_row_'+datas.store_id).remove();
+                        $('#separator_store_row_'+datas.store_id).remove();
+                        if(!$('#existing_stores').find('li').length) $('#section_existing_stores').fadeOut();
+                    }
+                });
+            },
+            close: function() {
+                $('#storeEditForm').unbind('submit');
+                $('input.delivery_method').unbind('click');
+                $('input.payment_method').unbind('click');
+                feature.slide($('#store_edit'), $('#stores_list'), 'left', function() {$('#store_edit').html('')});
+            },
+            destroy: function() {
+                if(this.is_loaded) {
+                    $('#storeEditForm').unbind('submit');
+                    $('label.delivery_method').unbind('click');
+                    $('label.payment_method').unbind('click');
+                    $('.edit_store').unbind('click');
+                    $('.remove_store').unbind('click');
+                }
+            }
+        }
+
+        tabs.addObject('store', store);
+    </script>
+    <style>
+        .mcommerce .stores .edit_store_delivery .dk_container.dk_shown {
+            margin-bottom: 0;
+        }
+        .mcommerce .stores .edit_store_delivery input.price {
+            width: 150px;
+        }
+    </style>
+</div>

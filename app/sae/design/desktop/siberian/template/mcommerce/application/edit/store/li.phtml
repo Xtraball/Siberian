@@ -1,0 +1,18 @@
+<?php $option = $this->getCurrentOptionValue(); ?>
+<?php $store = $this->getCurrentStore(); ?>
+
+<li id="store_row_<?php echo $store->getId(); ?>" class="store" rel="<?php echo $store->getId(); ?>">
+    <p id="store_name_<?php echo $store->getId() ?>" class="left title"><?php echo $store->getName(); ?> - <?php echo $store->getFullAddress(', '); ?></p>
+    <div class="right icons" id="store_icons_<?php echo $store->getId(); ?>">
+        <a href="javascript:void(0)" id="edit_store_<?php echo $store->getId(); ?>" class="icon more edit_store" rel="<?php echo $store->getId() ?>">
+            <i class="icon-edit"></i>
+        </a>
+        <a href="javascript:void(0)" id="remove_store_<?php echo $store->getId(); ?>" class="icon more remove_store" rel="<?php echo $store->getId() ?>">
+            <i class="icon-trash"></i>
+        </a>
+        <div class="clear"></div>
+        <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
+    </div>
+    <div class="clear"></div>
+</li>
+<li id="separator_store_row_<?php echo $store->getId(); ?>" class="separator area reverse"></li>

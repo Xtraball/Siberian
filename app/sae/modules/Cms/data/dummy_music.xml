@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<designs>
+    <dj>
+        <blocks>
+            <block>
+                <type>image</type>
+                <position>1</position>
+                <description></description>
+                <library_id></library_id>
+                <image_url>/../../images/templates/dj/content/dj9.png</image_url>
+                <image_url>/../../images/templates/dj/content/dj10.png</image_url>
+                <image_url>/../../images/templates/dj/content/dj11.png</image_url>
+                <image_url>/../../images/templates/dj/content/dj12.png</image_url>
+                <image_fullsize_url>/../../images/templates/dj/content/dj9.png</image_fullsize_url>
+                <image_fullsize_url>/../../images/templates/dj/content/dj10.png</image_fullsize_url>
+                <image_fullsize_url>/../../images/templates/dj/content/dj11.png</image_fullsize_url>
+                <image_fullsize_url>/../../images/templates/dj/content/dj12.png</image_fullsize_url>
+            </block>
+            <block>
+                <type>text</type>
+                <position>2</position>
+                <content>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                    nisi ut aliquip ex ea commodo consequat.
+                </content>
+            </block>
+            <block>
+                <type>button</type>
+                <position>3</position>
+                <type_id>phone</type_id>
+                <content>099999999</content>
+            </block>
+            <block>
+                <type>button</type>
+                <position>4</position>
+                <type_id>link</type_id>
+                <content>http://www.google.com</content>
+            </block>
+            <block>
+                <type>text</type>
+                <position>5</position>
+                <content>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                    nisi ut aliquip ex ea commodo consequat.
+                </content>
+            </block>
+        </blocks>
+    </dj>
+</designs>

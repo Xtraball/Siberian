@@ -1,0 +1,166 @@
+<?php $target = $this->isOverview() ? "_blank" : "_self"; ?>
+<div class="player">
+    <div class="player-header">
+        <h2 class="title"><?php echo $this->_('PLAYER') ?></h2>
+        <div class="actions">
+            <a class="action-link" ng-click="hide()">
+                <img src="<?php echo Media_Model_Library_Image::getImagePathTo('/player/hide.png'); ?>" alt="" />
+                <span class="action-label"><?php echo $this->_('hide') ?></span>
+            </a>
+            <a class="action-link" ng-click="close()">
+                <img src="<?php echo Media_Model_Library_Image::getImagePathTo('/player/close.png'); ?>" alt="" />
+                <span class="action-label"><?php echo $this->_('close') ?></span>
+            </a>
+        </div>
+        <div class="clearfix">
+        </div>
+        <div class="actions-bar">
+            <a class="action-link" ng-click="player.control.toggleRepeat()">
+                <img ng-show="player.status().repeat" class="repeat-img" src="<?php echo $this->getColorizedImage($this->getImage('/player/repeat.png', true), " #04bdfe "); ?>" 
+                    alt="<?php echo $this->_('loop') ?>"/>
+                <img ng-hide="player.status().repeat" class="repeat-img" src="<?php echo Media_Model_Library_Image::getImagePathTo('/player/repeat.png'); ?>" 
+                    alt="<?php echo $this->_('loop') ?>"/>
+            </a>
+            <a class="action-link" ng-click="player.control.toggleRandom()">
+                <img ng-show="player.status().random" class="random-img" src="<?php echo $this->getColorizedImage($this->getImage('/player/random.png', true), " #04bdfe "); ?>" 
+                    alt="<?php echo $this->_('shuffle') ?>"/>
+                <img ng-hide="player.status().random" class="random-img" src="<?php echo Media_Model_Library_Image::getImagePathTo('/player/random.png'); ?>" 
+                    alt="<?php echo $this->_('shuffle') ?>" />
+            </a>
+            <a class="action-link" ng-click="clearPlaylist()">
+                <img class="trash-img" src="<?php echo Media_Model_Library_Image::getImagePathTo('/player/trash.png'); ?>" 
+                    alt="<?php echo $this->_('empty') ?>" />
+            </a>
+        </div>
+    </div>
+    <div class="tracks-list" sb-load-more enable-load-onscroll="enable_load_onscroll">
+        <table class="truncated-table">
+            <tr class="track-details" ng-class="{ current: track === player.getCurrentTrack() }" ng-repeat="track in player.getTracks()" ng-click="playTrack($index)">
+                <td class="track-number">{{ $index + 1 | numberFixedLen:2 }}</td>
+                <td class="play-button">
+                    <div ng-show="track === player.getCurrentTrack()" class="play-button-image-container">
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('/player/arrow.png', true), " #04bdfe "); ?>" alt="play" />
+                    </div>
+                    <div ng-hide="track === player.getCurrentTrack()" class="play-button-image-container">
+                        <img src="<?php echo Media_Model_Library_Image::getImagePathTo('/player/arrow.png'); ?>" alt="play" />
+                    </div>
+                </td>
+                <td class="track-description">
+                    <div class="track-name truncated-content">{{ track.name }}</div>
+                </td>
+                <td class="track-duration">{{ track.formatedDuration }}</td>
+            </tr>
+            <tr><td colspan="4"><sb-loader is-loading="is_loading_more_tracks" size="'32'" block="'background'"></sb-loader></td></tr>
+        </table>
+    </div>
+
+    <div class="player-footer">
+        <div class="currently-played truncated-content">
+            <span ng-if="player.getCurrentTrack()">
+                <span class="play-button">
+                    <img class="play-button-img" src="<?php echo Media_Model_Library_Image::getImagePathTo('/player/arrow.png'); ?>" alt="play" />
+                </span>
+            <span class="track-number">{{ player.getCurrentTrack().number | numberFixedLen:2 }}</span> / <span class="track-title">{{ player.getCurrentTrack().name }}</span>
+            </span>
+        </div>
+
+        <div class="progress-area">
+            <table>
+                <tr>
+                    <td class="played-time">
+                        <span ng-if="ellapsedTime">{{ ellapsedTime | duration }}
+                        </span>
+                        <span ng-if="!player.getCurrentTrack()">00:00</span>
+                    </td>
+                    <td class="progress-bar" slider data-value="{{progress}}" value-updated="updateTrackPosition(newValue, oldValue)">
+                    </td>
+                    <td class="duration">
+                        <span ng-if="player.getCurrentTrack()">{{ 1000 * duration | duration }}</span>
+                        <span ng-if="!player.getCurrentTrack()">00:00</span>
+                    </td>
+            </table>
+        </div>
+        <div class="player-controls">
+
+            <div class="left-group control-group">
+                <div class="control">
+                    <a class="action-link" ng-click="player.control.toggleRepeatTrack()" ng-disabled="! player.getCurrentTrack()">
+                        <img ng-show="player.status().repeatTrack" class="repeat-img" src="<?php echo $this->getColorizedImage($this->getImage('/player/repeat.png', true), " #04bdfe "); ?>" 
+                            alt="<?php echo $this->_('loop') ?>"/>
+                        <img ng-hide="player.status().repeatTrack" class="repeat-img" src="<?php echo Media_Model_Library_Image::getImagePathTo('/player/repeat.png'); ?>" 
+                            alt="<?php echo $this->_('loop') ?>"/>
+                   </a>
+                </div>
+                <div class="control">
+<!--                empty element to have the same number of items in left and right groups-->
+                </div>
+            </div>
+            <div class="right-group control-group">
+                <div class="control">
+                    <a class="action-link right" ng-if="player.getCurrentTrack().purchaseUrl" target="_blank" ng-href="{{ player.getCurrentTrack().purchaseUrl }}">
+                        <img ng-hide="player.status().random" class="cart-img" src="<?php echo Media_Model_Library_Image::getImagePathTo('/player/cart.png'); ?>" 
+                            alt="<?php echo $this->_('buy') ?>" />
+                    </a>
+                </div>
+                <div class="control">
+                    <a class="action-link right" ng-click="share = true" >
+                        <img class="share-img" src="<?php echo Media_Model_Library_Image::getImagePathTo('/player/share.png'); ?>" 
+                            alt="<?php echo $this->_('share') ?>" />
+                    </a>
+                </div>
+            </div>
+            <div class="centered-group control-group">
+                <div class="previous control">
+                    <a ng-click="player.control.previous()">
+                    <img width="24px" height="17px" src="<?php echo Media_Model_Library_Image::getImagePathTo('/player/back.png'); ?>" alt="<?php echo $this->_('previous') ?>" />
+                </a>
+                </div>
+                <div class="play control" ng-show="player.status().pausing">
+                    <a ng-click="player.control.play()">
+                    <img width="17px" height="17px" src="<?php echo Media_Model_Library_Image::getImagePathTo('/player/play.png'); ?>" alt="<?php echo $this->_('play') ?>" />
+                </a>
+                </div>
+                <div class="pause control" ng-show="player.status().playing">
+                    <a ng-click="player.control.pause()">
+                    <img width="17px" height="17px" src="<?php echo Media_Model_Library_Image::getImagePathTo('/player/pause.png'); ?>" alt="<?php echo $this->_('pause') ?>" />
+                </a>
+                </div>
+                <div class="loading control" ng-show="player.status().loading">
+                    <img width="17px" height="17px" src="<?php echo Media_Model_Library_Image::getImagePathTo('/player/loader.gif'); ?>" alt="<?php echo $this->_('loading') ?>" />
+                </div>
+                <div class="next control">
+                    <a ng-click="player.control.next()">
+                    <img width="24px" height="17px" src="<?php echo Media_Model_Library_Image::getImagePathTo('/player/forward.png'); ?>" alt="<?php echo $this->_('next') ?>" />
+                </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="share-area slide-top" ng-show="share">
+        <div>
+            <a class="close-button" ng-click="share = false">
+                <?php echo $this->_('Close') ?>
+            </a>
+         </div>
+         <div>
+            <a class="share-link" target="<?php echo $target ?>" ng-href="https://www.facebook.com/sharer/sharer.php?u={{ currentLocation }}">
+                <img width="70px" height="70px" src="<?php echo Media_Model_Library_Image::getImagePathTo('/player/FB-f-Logo__blue_144.png'); ?>"/>
+                Facebook
+            </a>
+            <input type=hidden id="twitterMessagePart1" value="<?php echo $this->_("I'm listening to") ?>" >
+            <input type=hidden id="twitterMessagePart2" value="<?php echo $this->_("music") ?>" >
+            <input type=hidden id="twitterMessagePart3" value="<?php echo $this->_("from") ?>" >
+            <input type=hidden id="twitterMessagePart4" value="<?php echo $this->_("on") ?>" >
+            
+            <a class="share-link" target="<?php echo $target ?>" ng-href="https://twitter.com/intent/tweet?text={{ twitterMessage() }}&url={{ currentLocation }}">
+                <img width="70px" height="70px" src="<?php echo Media_Model_Library_Image::getImagePathTo('/player/Twitter_logo_blue.png'); ?>"/>
+                Twitter
+            </a>
+            <a class="share-link" target="<?php echo $target ?>" ng-href="mailto:?body={{ twitterMessage() }} {{ currentLocation }}">
+                <img width="70px" height="70px" src="<?php echo Media_Model_Library_Image::getImagePathTo('/player/email.jpg'); ?>"/>
+                Email
+            </a>
+        </div>
+    </div>
+</div>

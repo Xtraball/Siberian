@@ -1,0 +1,282 @@
+<ion-view>
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <div sb-tooltip collection="tooltip.collection" current-item="tooltip.current_item" on-item-clicked="tooltip.selectTooltipItem(object)" show-tooltip="tooltip.is_visible" ng-show="displayed_element == 'tooltip'"></div>
+    </ion-nav-buttons>
+
+    <ion-content ng-controller="HomeController" class="homepage" overflow-scroll="true" sb-background-image ng-if="homepage_is_initialized" ng-show="displayed_element == 'homepage'" data-bg="$general-custom-bg">
+
+        <div class="homepage">
+            <ion-slide-box id="homepage_slider" ng-if="showSlider()"
+                           auto-play="true" does-continue="{{ homepage_slider.loop_at_beginning }}"
+                           slide-interval="{{ homepage_slider.duration }}" show-pager="false">
+
+                <ion-slide ng-repeat="image in homepage_slider.images">
+                    <img src="{{ image }}" style="width:100%;" />
+                </ion-slide>
+            </ion-slide-box>
+
+            <ng-include src="'homepage-menu.html'" ng-if="showBottom()" class="{{ layout_id }}"></ng-include>
+            <script type="text/ng-template" id="homepage-menu.html">
+                <div id="homepage" sb-tabbar is-disabled="1"></div>
+            </script>
+        </div>
+
+    </ion-content>
+
+    <ion-content ng-show="displayed_element != 'homepage'" data-bg="$general-custom-bg">
+
+        <div ng-show="displayed_element == 'general'">
+
+        </div>
+
+        <div ng-show="displayed_element == 'list'">
+
+            <div class="list">
+                <div class="item item-divider item-divider-custom" data-bg="$list-item-divider-custom-bg">
+                    <h2 data-text="$list-item-divider-custom-text">Actor List</h2>
+                </div>
+                <div class="item item-avatar item-custom" data-bg="$list-item-custom-bg">
+                    <img ng-src="{{ images.mark_hamill }}" />
+                    <h2 data-text="$list-item-custom-text">Mark Hamill</h2>
+                    <p data-text="$list-item-custom-text">September 25, 1951</p>
+                </div>
+                <div class="item item-avatar item-custom" data-bg="$list-item-custom-bg">
+                    <img ng-src="{{ images.harrison_ford }}" />
+                    <h2 data-text="$list-item-custom-text">Harrison Ford</h2>
+                    <p data-text="$list-item-custom-text">July 13, 1942</p>
+                </div>
+                <div class="item item-avatar item-custom" data-bg="$list-item-custom-bg">
+                    <img ng-src="{{ images.carrie_fisher }}" />
+                    <h2 data-text="$list-item-custom-text">Carrie Fisher</h2>
+                    <p data-text="$list-item-custom-text">October 21, 1956</p>
+                </div>
+
+            </div>
+
+            <div class="list">
+                <div class="item item-divider item-divider-custom" data-bg="$list-item-divider-custom-bg">
+                    <h2 data-text="$list-item-divider-custom-text">Actor List</h2>
+                </div>
+                <div class="item item-thumbnail-left item-custom" data-bg="$list-item-custom-bg">
+                    <img ng-src="{{ images.mark_hamill }}" />
+                    <h2 data-text="$list-item-custom-text">Mark Hamill</h2>
+                    <p data-text="$list-item-custom-text">September 25, 1951</p>
+                </div>
+                <div class="item item-thumbnail-left item-custom" data-bg="$list-item-custom-bg">
+                    <img ng-src="{{ images.harrison_ford }}" />
+                    <h2 data-text="$list-item-custom-text">Harrison Ford</h2>
+                    <p data-text="$list-item-custom-text">July 13, 1942</p>
+                </div>
+                <div class="item item-thumbnail-left item-custom" data-bg="$list-item-custom-bg">
+                    <img ng-src="{{ images.carrie_fisher }}" />
+                    <h2 data-text="$list-item-custom-text">Carrie Fisher</h2>
+                    <p data-text="$list-item-custom-text">October 21, 1956</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div ng-show="displayed_element == 'card'">
+            <div class="card">
+                <div class="item item-divider item-divider-custom" data-bg="$card-item-divider-custom-bg">
+                    <h2 data-text="$card-item-divider-custom-text">Luke Skywalker</h2>
+                </div>
+                <div class="item item-avatar item-custom" data-bg="$card-item-custom-bg">
+                    <img ng-src="{{ images.mark_hamill }}" />
+                    <h2 data-text="$card-item-custom-text">Mark Hamill</h2>
+                    <p data-text="$card-item-custom-text">September 25, 1951</p>
+                </div>
+                <div class="item item-image item-custom" data-bg="$card-item-custom-bg">
+                    <img class="full-image" ng-src="{{ images.skywalker_spaceship }}" />
+                </div>
+                <div class="item item-text-wrap item-custom" data-bg="$card-item-custom-bg">
+                    <p data-text="$card-item-custom-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</p>
+                </div>
+                <div class="item item-text-wrap item-icon-left">
+                    <i class="icon ion-android-textsms"></i>
+                    {{ "Comment" | translate }}
+                </div>
+            </div>
+        </div>
+
+        <div class="padding" ng-show="displayed_element == 'buttons'">
+            <button class="button button-block button-custom item-icon-left" ng-repeat="button in buttons" data-bg="$button-custom-bg" data-text="$button-custom-text" data-border="$button-custom-border">
+                <i class="icon" ng-class="button.icon"></i>
+                {{ button.label | translate }}
+            </button>
+        </div>
+
+        <div class="list" ng-show="displayed_element == 'checkbox'">
+
+            <label class="checkbox-custom item item-checkbox" ng-model="checkbox.is_checked" ng-repeat="checkbox in checkboxes" data-bg="$checkbox-general-custom-bg">
+                <div class="checkbox checkbox-input-hidden disable-pointer-events checkbox-circle">
+                    <input type="checkbox" ng-model="checkbox.is_checked" />
+                    <i class="checkbox-icon" data-bg=""></i>
+                </div>
+                <div class="item-content disable-pointer-events">
+                    <span data-text="$checkbox-general-custom-text">Lorem Ipsum is simply dummy text</span>
+                </div>
+            </label>
+        </div>
+
+        <div class="list" ng-show="displayed_element == 'radio'">
+            <label class="radio-custom item item-radio" ng-model="radio_value" ng-value="1" ng-repeat="radio in radios" data-text="$radio-custom-text" value="1">
+                <input type="radio" name="radio-group" ng-value="{{ $index }}" ng-model="radio_value" />
+                <div class="item-content disable-pointer-events" data-bg="$radio-custom-bg">
+                    <span>Lorem Ipsum is simply dummy text</span>
+                </div>
+                <i class="radio-icon disable-pointer-events icon ion-checkmark"></i>
+            </label>
+            <!--<ion-radio class="radio-custom" ng-model="radio_value" ng-value="{{ $index }}" ng-repeat="radio in radios" data-bg="$radio-custom-bg" data-text="$radio-custom-text">Lorem Ipsum is simply dummy text</ion-radio>-->
+        </div>
+
+        <div class="list" ng-show="displayed_element == 'toggle'">
+            <!-- Can't use "toggle" as variable name since Ionic already uses it -->
+            <div class="item item-toggle toggle-large toggle-custom" ng-model="tgl.is_selected" ng-repeat="tgl in toggles" data-bg="$toggle-general-custom-bg">
+                <div>
+                    <span data-text="$toggle-general-custom-text">{{ "Toggle" | translate }} {{ $index + 1 }}</span>
+                </div>
+                <label class="toggle disable-user-behavior">
+                    <input type="checkbox" ng-model="tgl.is_selected" />
+                    <div class="track" data-bg="">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </div>
+            <!--<ion-toggle toggle-class="toggle-custom" ng-model="tgl.is_selected" ng-repeat="tgl in toggles">Toggle {{ $index + 1 }}</ion-toggle>-->
+        </div>
+
+        <div class="list" ng-show="displayed_element == 'spinner'">
+
+            <div class="item item-divider item-divider-custom text-center">
+                <h2>iOS</h2>
+            </div>
+            <div class="loader">
+                <ion-spinner class="spinner-custom"></ion-spinner>
+            </div>
+            <div class="item item-divider item-divider-custom text-center">
+                <h2>Android</h2>
+            </div>
+            <div class="loader">
+                <ion-spinner icon="android" class="spinner-custom"></ion-spinner>
+            </div>
+        </div>
+
+        <div class="hide">
+
+            <!-- HOMEPAGE -->
+            <script type="style/template" data-text="$homepage-custom-text">
+                .homepage-custom h2, .homepage-custom p, .homepage-custom span, .homepage-custom i {
+                    color: $homepage-custom-text !important;
+                }
+            </script>
+            <script type="style/template" data-bg="$homepage-custom-bg" class="translucent">
+                .homepage-custom {
+                    background-color: $homepage-custom-bg;
+                }
+                .homepage-custom.translucent {
+                    background-color: $homepage-custom-bg-translucent;
+                }
+            </script>
+            <script type="style/template" data-border="$homepage-custom-border">
+                .homepage-custom.border-custom, .homepage-custom .border-custom {
+                    border-color: $homepage-custom-border !important;
+                }
+            </script>
+
+            <!-- HEADER -->
+            <script type="style/template" data-bg="$bar-custom-bg">
+                .bar.bar-custom {
+                    background: $bar-custom-bg !important;
+                }
+            </script>
+            <script type="style/template" data-text="$bar-custom-text">
+                .bar.bar-custom .title {
+                    color: $bar-custom-text !important;
+                }
+                .bar.bar-custom .button.button-clear {
+                    color: $bar-custom-text !important;
+                }
+            </script>
+            <script type="style/template" data-border="$bar-custom-border">
+                .bar.bar-custom {
+                    border-color: $bar-custom-border !important;
+                }
+            </script>
+
+            <!-- CHECKBOX -->
+            <script type="style/template" data-bg="$checkbox-on-custom-bg">
+                .checkbox-custom .checkbox input:checked:before, .checkbox-custom .checkbox input:checked + .checkbox-icon:before {
+                    background: $checkbox-on-custom-bg !important;
+                    border-color: $checkbox-on-custom-bg !important;
+                }
+            </script>
+            <script type="style/template" data-bg="$checkbox-off-custom-bg">
+                .checkbox-custom .checkbox input:before, .checkbox-custom .checkbox .checkbox-icon:before {
+                    background: $checkbox-off-custom-bg !important;
+                }
+            </script>
+            <script type="style/template" data-text="$checkbox-on-custom-text">
+                .checkbox-custom .checkbox input:checked:after, input:checked + .checkbox-icon:after {
+                    border-color: $checkbox-on-custom-text;
+                }
+            </script>
+
+            <!-- TOGGLE -->
+            <script type="style/template" data-bg="$toggle-on-custom-bg">
+                .toggle-custom.item-toggle .toggle input:checked + .track {
+                    background-color: $toggle-on-custom-bg !important;
+                    border-color: $toggle-on-custom-bg !important;
+                }
+            </script>
+            <script type="style/template" data-bg="$toggle-off-custom-bg">
+                .toggle-custom.item-toggle .toggle .track {
+                    background-color: $toggle-off-custom-bg !important;
+                }
+            </script>
+            <script type="style/template" data-border="$toggle-off-custom-border">
+                .toggle-custom.item-toggle .toggle .track {
+                    border-color: $toggle-off-custom-border !important;
+                }
+            </script>
+
+            <script type="style/template" data-bg="$toggle-handle-on-custom-bg">
+                .toggle-custom.item-toggle .toggle input:checked + .track .handle {
+                    background-color: $toggle-handle-on-custom-bg !important;
+                }
+            </script>
+            <script type="style/template" data-bg="$toggle-handle-off-custom-bg">
+                .toggle-custom.item-toggle .toggle .handle {
+                    background-color: $toggle-handle-off-custom-bg !important;
+                }
+            </script>
+
+            <!-- TOOLTIP -->
+            <script type="style/template" data-bg="$tooltip-custom-bg">
+                .tooltip.tooltip-custom {
+                    background-color: $tooltip-custom-bg !important;
+                }
+            </script>
+            <script type="style/template" data-text="$tooltip-custom-text">
+                .tooltip.tooltip-custom {
+                    color: $tooltip-custom-text !important;
+                }
+            </script>
+
+            <!-- SPINNER -->
+            <script type="style/template" data-bg="$spinner-custom-ios-bg">
+                .spinner-ios.spinner-custom, .spinner-ios-small.spinner-custom {
+                    stroke: $spinner-custom-ios-bg !important;
+                }
+            </script>
+            <script type="style/template" data-bg="$spinner-custom-android-bg">
+                .spinner-android.spinner-custom, .spinner-android-small.spinner-custom {
+                    stroke: $spinner-custom-android-bg !important;
+                }
+            </script>
+
+        </div>
+
+    </ion-content>
+</ion-view>

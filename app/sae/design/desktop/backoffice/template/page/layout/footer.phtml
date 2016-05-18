@@ -1,0 +1,11 @@
+<div class="wrapper footer_content">
+    <div class="content copyright a-right wl_panel">
+        <p>
+            <?php echo $this->_("Version %s", Siberian_Version::VERSION); ?>
+            <?php if(APPLICATION_ENV == "development"): ?>
+                - <?php echo $this->_("Development"); ?>
+            <?php endif; ?>
+        </p>
+
+    </div>
+</div>

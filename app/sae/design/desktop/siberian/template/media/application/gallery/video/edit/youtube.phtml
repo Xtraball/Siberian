@@ -1,0 +1,44 @@
+<?php $video = $this->getCurrentVideo(); ?>
+<?php $option_value = $this->getCurrentOptionValue(); ?>
+<?php $key = $this->getCurrentKey(); ?>
+
+<div id="new_gallery_<?php echo $video->getTypeId(); ?>" class="new_gallery youtube container-fluid" style="display:none;">
+    <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-3">
+            <label><?php echo $this->_('Gallery Name') ?> <span class="required-entry"> *</span> :</label>
+        </div>
+        <div class="col-sm-3">
+            <label><?php echo $this->_('Search') ?> <span data-tip="35" data-tip-left="55" class="required-entry"> *</span> :</label>
+        </div>
+        <div class="col-sm-3">
+            <label><?php echo $this->_('Type') ?> <span data-tip="36" data-tip-right="0" class="required-entry"> *</span> :</label>
+        </div>
+    </div>
+    <div id="row_<?php echo $video->getId(); ?>_<?php echo $video->getTypeId(); ?>" class="row_video row">
+        <div class="col-sm-1"><img src="<?php echo $this->getImage('pictos/youtube.png'); ?>" title="<?php echo $this->_('Youtube'); ?>" alt="<?php echo $this->_('Youtube'); ?>" width="33" height="33" /></div>
+        <div class="col-sm-3"><input type="text" name="name" value="<?php echo $video->getName(); ?>" placeholder="<?php echo $this->_('Gallery Name') ?>" class="form-control required" /></div>
+        <div class="col-sm-3"><input type="text" name="param" value="<?php echo $video->getParam(); ?>" placeholder="<?php echo $this->_('Parameter') ?>" class="form-control required" /></div>
+        <div class="col-sm-3">
+            <select name="type" class="form-control no-dk youtube_type required form-control" id="video_type_<?php echo $video->getId() ?>_<?php echo $video->getTypeId(); ?>" tabindex="<?php echo $key; ?>">
+                <option value=""><?php echo $this->_('Type') ?></option>
+                <?php foreach($video->getAllTypes() as $type) : ?>
+                    <option value="<?php echo $type ?>"<?php if($video->getType() == $type) :?> selected="selected"<?php endif; ?>><?php echo $this->_(ucfirst($type)); ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="col-sm-1">
+            <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
+            <input type="hidden" name="type_id" value="<?php echo $video->getTypeId(); ?>" />
+            <?php if($video->getId() != 'new') : ?>
+                <input type="hidden" name="id" value="<?php echo $video->getId(); ?>" />
+            <?php endif; ?>
+            <button type="button" class="bt-margin default_button save_video left"><?php echo $this->_('OK'); ?></button>
+        </div>
+        <div class="col-sm-1">
+            <button type="button" class="bt-margin delete delete_video" rel="<?php echo $video->getId(); ?>"><i class="icon-remove"></i></button>
+        </div>
+    </div>
+</div>
+
+

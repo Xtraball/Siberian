@@ -1,0 +1,76 @@
+<ion-view cache-view="false" >
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <button ng-click="right_button.action()" class="button button-clear header-item" ng-if="right_button">
+            <span class="back-text"><span class="default-title">{{ right_button.label }}</span></span>
+            <i class="icon" ng-class="right_button.icon"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content sb-background-image>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="card" ng-if="cart.lines.length" ng-repeat="line in cart.lines">
+            <div class="item item-divider item-divider-custom">
+                <p><strong><i class="icon ion-clipboard"></i> {{ line.name }} - {{ line.formattedBasePriceInclTax }}</strong></p>
+            </div>
+            <div class="item item-thumbnail-left item-icon-right item-custom">
+                <img ng-if="line.product.picture.url" ng-src="{{ line.product.picture.url }}" />
+                <p ng-show="line.format[0].title && line.format[0].title != ''">{{ "Format:" | translate }} {{ line.format[0].title }}</p>
+                <p ng-repeat="option in line.options">
+                    {{ option.qty }} x {{ option.name }} : {{ option.formattedPriceInclTax }}
+                </p>
+                <p class="text-right"><strong>{{ "Total:" | translate }}</strong> {{ line.formattedTotalInclTax }}</p>
+            </div>
+            <div class="item item-custom">
+                {{ "Qty" | translate }} : {{ line.qty }}
+            </div>
+        </div>
+        <div class="card" ng-if="cart.lines.length">
+            <div class="item item-divider item-divider-custom">
+                <p><strong><i class="icon ion-calculator"></i> {{ "Total" | translate }}</strong></p>
+            </div>
+            <div class="item item-custom">
+                {{ "Subtotal" | translate }}
+                <span class="item-note">{{ cart.formattedSubtotalExclTax }}</span>
+            </div>
+            <div class="item item-custom" ng-if="cart.deliveryCost > 0">
+                {{ "Delivery fees" | translate }}
+                <span class="item-note">{{ cart.formattedDeliveryCost }}</span>
+            </div>
+            <div class="item item-custom" ng-if="cart.deliveryCost > 0">
+                {{ "Total Excl. Tax" | translate }}
+                <span class="item-note">{{ cart.formattedTotalExclTax }}</span>
+            </div>
+            <div class="item item-custom">
+                {{ "Tax" | translate }}
+                <span class="item-note">{{ cart.formattedTotalTax }}</span>
+            </div>
+            <div class="item item-custom">
+                {{ "Total" | translate }}
+                <span class="item-note">{{ cart.formattedTotal }}</span>
+            </div>
+
+            <div class="item item-divider item-divider-custom" ng-if="!cart.hide_paid_amount && cart.formatted_paid_amount && cart.formatted_delivery_amount_due"></div>
+            <div class="row item-custom" ng-if="!cart.hide_paid_amount && cart.formatted_paid_amount && cart.formatted_delivery_amount_due">
+                <div class="col-75 text-right">{{ "I will pay" | translate }}</div>
+                <div class="col-25 text-right">{{ cart.formatted_paid_amount }}</div>
+            </div>
+            <div class="row item-custom" ng-if="!cart.hide_paid_amount && cart.formatted_paid_amount && cart.formatted_delivery_amount_due">
+                <div class="col-75 text-right">{{ "Remaining due" | translate }}</div>
+                <div class="col-25 text-right">{{ cart.formatted_delivery_amount_due }}</div>
+            </div>
+        </div>
+        <div class="card" ng-if="confirmation_message">
+            <div class="item item-custom">
+                {{ confirmation_message }}
+            </div>
+        </div>
+    </ion-content>
+</ion-view>
+
+
+

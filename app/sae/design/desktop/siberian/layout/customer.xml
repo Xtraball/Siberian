@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <customization_default>
+        <base>
+            <scripts>
+                <js>
+                    <jquery link="js/jquery.js" />
+                    <jquery_ui link="js/jquery-ui.js" />
+                    <jquery_datepicker link="js/jquery.ui.datepicker.js" />
+                    <jquery_datepicker_languages link="js/jquery.ui.datepicker-languages.js" />
+                    <jquery_timepicker link="js/jquery.ui.timepicker.addon.js" />
+                    <object link="js/object.js" />
+                    <carousel link="js/carousel.js" />
+                    <colorpicker link="js/colorpicker.js" />
+                    <colorization link="js/colorization.js" />
+                    <jquery_ui_widget link="js/fileupload/jquery.ui.widget.js" />
+                    <jquery_format_currency link="js/jquery.formatCurrency.min.js" />
+                    <fileupload_iframe link="js/fileupload/jquery.iframe-transport.js" />
+                    <fileupload_transport link="js/fileupload/jquery.xdr-transport.js" />
+                    <fileupload link="js/fileupload/jquery.fileupload.js" />
+                    <ckeditor link="js/ckeditor/ckeditor.js"/>
+                    <ckeditor_jquery link="js/ckeditor/adapters/jquery.js"/>
+                    <catalog link="js/catalog.js"/>
+                    <prettyPhoto link="js/jquery.prettyPhoto.js" />
+                    <jcrop link="js/jquery.Jcrop.min.js"/>
+                    <facebook link="js/facebook.js" />
+                    <nested_sortable link="js/jquery.mjs.nestedSortable.js" />
+                    <datas_table link="js/jquery.dataTables.min.js" />
+                </js>
+                <css>
+                    <jquery_ui link="css/jquery-ui.css" />
+                    <colorpicker link="css/colorpicker.css" />
+                    <prettyPhoto link="css/prettyPhoto.css" />
+                    <jcrop link="css/jquery.Jcrop.min.css" />
+                </css>
+            </scripts>
+        </base>
+        <views>
+            <content class="admin_view_default" template="application/customization/index.phtml" />
+            <customization_header class="admin_view_default" template="application/customization/index/header.phtml" />
+            <customization_menu class="admin_view_default" template="application/customization/index/menu.phtml" />
+            <overview class="admin_view_default" template="application/customization/index/overview/iframe.phtml" />
+        </views>
+    </customization_default>
+
+    <customer_application_list>
+        <addLayout name="admin_menu" />
+        <addLayout name="customization_default" />
+        <base>
+            <title>My Users List</title>
+        </base>
+        <views>
+            <content class="admin_view_default" template="customer/application/list.phtml" />
+        </views>
+        <actions>
+            <customization_header name="setCurrentLink"><code>customer</code></customization_header>
+        </actions>
+    </customer_application_list>
+
+    <customer_application_edit>
+        <addLayout name="customization_default" />
+        <addLayout name="sign_menu" />
+        <base>
+            <title>Create / Edit a User</title>
+        </base>
+        <views>
+            <content class="admin_view_default" template="customer/application/edit.phtml" />
+        </views>
+        <actions>
+            <customization_header name="setCurrentLink"><code>customer</code></customization_header>
+        </actions>
+    </customer_application_edit>
+</layout>

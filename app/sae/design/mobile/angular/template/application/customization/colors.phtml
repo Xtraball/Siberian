@@ -1,0 +1,175 @@
+<?php $application = $this->getApplication(); ?>
+<?php $block_subheader = $application->getBlock("subheader"); ?>
+<?php $block_news = $application->getBlock("news"); ?>
+<?php $block_button = $application->getBlock("button"); ?>
+<div class="has_header">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="'<?php echo $this->_("News"); ?>'" ng-class="{override_mask: elements['header']}"></sb-header>
+
+    <div class="loyalty">
+        <div class="content">
+            <div class="subheader" ng-class="{override_mask: elements['subheader']}">
+                <div class="card_details">
+                    <img class="gift" src="<?php echo $this->getColorizedImage($this->getImage('pictos/gift.png', true), $application->getBlock('subheader')->getColor()); ?>" alt="" title="" width="30" />
+                    <h3 class="short_advantage"><?php echo $this->_("One free coffee"); ?></h3>
+                    <button type="button" ng-click="show_details = !show_details" class="more">
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/more.png', true), $this->getApplication()->getBlock('subheader')->getColor()); ?>" alt="<?php echo $this->_("More") ?>" title="<?php echo $this->_("More") ?>" width="30" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="background" ng-class="{override_mask: elements['background']}">
+
+        <div class="padding">
+            <div class="connect">
+                <button type="button" class="connect_button icon_left arrow_right first" ng-class="{override_mask: elements['connect_button']}">
+                    <?php echo $this->_('Please log in.') ?>
+                </button>
+            </div>
+
+            <div class="promotions">
+                <div class="content discount" ng-class="{override_mask: elements['discount']}">
+
+                    <ul rn-carousel rn-carousel-indicator="true">
+                        <li>
+                            <div class="promotion padding">
+                                <div class="title">
+                                    <h4><?php echo $this->_("Buy one, get one!"); ?></h4>
+                                </div>
+                                <p><?php echo $this->_("Discount zone description. Here your clients will be able to see the details of each discount"); ?></p>
+                                <p><?php echo $this->_("Can only be used once"); ?></p>
+                                <div class="use_discount">
+                                    <div class="toggle">
+                                        <button type="button" class="discount reverse">
+                                            <?php echo $this->_("Use this coupon") ?>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="promotion padding">
+                                <div class="title">
+                                    <h4><?php echo $this->_("Buy one, get one!"); ?></h4>
+                                </div>
+                                <p><?php echo $this->_("Discount zone description. Here your clients will be able to see the details of each discount"); ?></p>
+                                <div class="use_discount">
+                                    <div class="toggle" ng-show="!promotion.confirm">
+                                        <button type="button" class="discount reverse">
+                                            <?php echo $this->_("Use this coupon") ?>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="socialgaming">
+            <ul id="players_list">
+                <li class="challenger">
+                    <div class="shadow">
+                        <div class="left">
+                            <img class="logo" src="<?php echo $this->getImage('customization/customer_image.png') ?>" width="35" />
+                        </div>
+                        <p class="challenger_name left"><?php echo $this->_('Fred W.') ?></p>
+                        <p class="number_of_points right">12 pts</p>
+                    </div>
+                    <div class="clear"></div>
+                </li>
+                <li class="separator"></li>
+                <li class="challenger overlay_20">
+                    <div class="shadow">
+                        <div class="left">
+                            <img class="logo" src="<?php echo $this->getImage('customization/customer_image.png') ?>" width="35" />
+                        </div>
+                        <p class="challenger_name left"><?php echo $this->_('Fred W.') ?></p>
+                        <p class="number_of_points right">12 pts</p>
+                    </div>
+                    <div class="clear"></div>
+                </li>
+                <li class="separator"></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="newswall">
+
+        <div class="content">
+            <ul class="content_news news" ng-class="{override_mask: elements['news']}">
+                <li class="title padding">
+                    <div class="logo left">
+                        <img width="37" height="37" class="logo_src" src="<?php echo $application->getLogo() ?>" alt="<?php echo $application->getName(); ?>" title="<?php echo $application->getName(); ?>" />
+                    </div>
+                    <p class="text">
+                        <span class="name bold"><?php echo $application->getName(); ?></span>
+                    </p>
+                    <div class="clear"></div>
+                    <div class="metas">
+                    <span class="comments_date left">
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/pencil.png', true), $block_news->getColor()); ?>" alt="" height="11"/>
+                        <?php echo Zend_Date::now()->toString($this->_('MM/dd/y')) ?>
+                    </span>
+                    <span class="likes_count right">
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/heart.png', true), $block_news->getColor()); ?>" alt="<?php echo $this->_('Likes') ?>" height="11" />
+                        12
+                    </span>
+                    <span class="comments_count right">
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/comment.png', true), $block_news->getColor()); ?>" alt="<?php echo $this->_('Coms') ?>" height="11" />
+                        2
+                    </span>
+                        <div class="clear"></div>
+                    </div>
+                </li>
+                <li class="details padding news" ng-class="{override_mask: elements['news']}">
+                    <div class="image">
+                        <img src="<?php echo $this->getImage('customization/news_image.jpg'); ?>" alt="<?php echo $application->getName(); ?>" title="<?php echo $application->getName(); ?>" width="100%" />
+                    </div>
+                    <p class="text">
+                        <?php echo $this->_("Here is our latest creation. What do you think?") ?>
+                    </p>
+                    <div class="a-center add_comment">
+                        <button type="button" class="button half icon_left" ng-click="showForm();" ng-class="{override_mask: elements['button']}">
+                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/comment.png', true), $block_button->getColor()); ?>" width="25" height="20" />
+                            <?php echo $this->_('Comment'); ?>
+                        </button>
+                        <button type="button" class="button half icon_left" ng-click="addLike();" ng-class="{override_mask: elements['button']}">
+                            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/heart.png', true), $block_button->getColor()); ?>" width="25" height="20" />
+                            <?php echo $this->_('Like'); ?>
+                        </button>
+                    </div>
+                </li>
+
+                <li class="padding comments answer" ng-class="{override_mask: elements['comments']}">
+                    <div>
+                        <img width="35" height="35" class="logo left" src="<?php echo $this->getImage('customization/customer_image.png'); ?>" title="Jeanne M." alt="Jeanne M." />
+                        <p class="text">
+                            <span class="customer_name bold">Jeanne M.</span>
+                        </p>
+                        <p class="comment"><?php echo $this->_("Love it <3") ?></p>
+                        <div class="clear"></div>
+                    </div>
+                </li>
+                <li class="padding comments answer" ng-class="{override_mask: elements['comments']}">
+                    <div>
+                        <img width="35" height="35" class="logo left" src="<?php echo $this->getImage('customization/customer_image.png'); ?>" title="Jeanne M." alt="Jeanne M." />
+                        <p class="text">
+                            <span class="customer_name bold">Jeanne M.</span>
+                        </p>
+                        <p class="comment"><?php echo $this->_("Love it <3") ?></p>
+                        <div class="clear"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+</div>
+<div class="mask scale-fade" ng-show="show_mask"></div>

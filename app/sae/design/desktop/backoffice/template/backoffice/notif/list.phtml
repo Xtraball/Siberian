@@ -1,0 +1,36 @@
+<sb-section title="'<?php echo addslashes($this->_("List of the messages")); ?>'" button="button">
+    <br />
+    <div class="form-group">
+        <label for="filter"><?php echo $this->_("Search"); ?></label>
+        <input type="text" id="filter" class="form-control" ng-model="filter" placeholder="<?php echo $this->_("Search"); ?>" />
+    </div>
+    <br />
+    <table class="table">
+        <col width="5%" />
+        <col width="35%" />
+        <col width="43%" />
+        <col width="45px" />
+        <col width="30px" />
+        <thead>
+            <tr>
+                <th class="pointer" ng-click="order = 'is_high_priority'; by = !by"><?php echo $this->_(""); ?></th>
+                <th class="pointer" ng-click="order = 'title'; by = !by"><?php echo $this->_("Title"); ?></th>
+                <th><?php echo $this->_("Description"); ?></th>
+                <th colspan="2"><?php echo $this->_("Actions"); ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="slide-left pointer" ng-repeat="notif in notifs | filter:filter | orderBy:order:by" ng-click="notif.show_more = !notif.show_more;">
+                <td><i ng-if="notif.is_high_priority" class="fa fa-warning"></i></td>
+                <td ng-class="{ bold: !notif.is_read }">{{ notif.title }}</td>
+                <td ng-bind-html="notif.description" ng-class="{wrap: notif.show_more}"></td>
+                <td>
+                    <a href="#" ng-show="notif.is_read" ng-click="markAs(notif)" title="<?php echo $this->_("Click to mark as not read"); ?>"><i class="fa fa-check-square-o"></i></a>
+                    <a href="#" ng-show="!notif.is_read" ng-click="markAs(notif)" title="<?php echo $this->_("Click to mark as read"); ?>"><i class="fa fa-square-o"></i></a>
+                    <a href="{{ notif.link }}" ng-if="notif.link" target="_blank" title="<?php echo $this->_("View Details"); ?>"><i class="fa fa-eye"></i></a>
+                </td>
+                <td><sb-loader is_visible="notif.loader_is_visible" type="'inner_content'" size="'tiny'" animation="'no'"></sb-loader></td>
+            </tr>
+        </tbody>
+    </table>
+</sb-section>

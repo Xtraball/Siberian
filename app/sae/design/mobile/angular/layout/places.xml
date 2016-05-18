@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <places_mobile_list_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="places/l1/places.list.phtml" />
+            <list class="core_view_mobile_default" template="html/l3/list.phtml" />
+            <cover class="core_view_mobile_default" template="html/l1/cover.phtml" />
+        </views>
+    </places_mobile_list_template_l1>
+    
+    <places_mobile_map_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="places/l1/places.map.phtml" />
+        </views>
+    </places_mobile_map_template_l1>
+    
+    <places_mobile_details_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="places/l1/places.details.phtml" />
+        </views>
+    </places_mobile_details_template_l1>
+    
+    <places_mobile_detailsmap_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="places/l1/places.details.map.phtml" />
+        </views>
+    </places_mobile_detailsmap_template_l1>
+</layout>

@@ -1,0 +1,39 @@
+<div class="has_header media-gallery-music-common" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_('Back' ) ?>'"  title="playlist.name" message="message" right-button="header_right_button"></sb-header>
+
+    <div class="media-music-tabs">
+        <ul>
+            <li>
+                <a ng-click="showPlaylistAlbums()">
+                    <?php echo $this->_('Albums') ?></a>
+            </li>
+            <li>
+                <a class="active">
+                    <?php echo $this->_('Tracks') ?></a>
+            </li>
+        </ul>
+    </div>
+
+    <a class="read-all-button" ng-click="play(0)"><?php echo $this->_('Read all') ?></a>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="tracks-list scrollable_content" sb-load-more enable-load-onscroll="enable_load_onscroll">
+        <div class="for_ads_banner">
+            <table class="truncated-table">
+                <tr class="track-details" ng-repeat="track in tracks" ng-click="play($index)">
+                    <td class="track-number">{{ $index + 1 | numberFixedLen:2 }}</td>
+                    <td class="track-description">
+                        <div class="track-name truncated-content">{{ track.name }}</div>
+                        <div class="artist-name truncated-content">{{ track.artistName }}</div>
+                    </td>
+                    <td class="track-duration">{{ track.formatedDuration }}</td>
+                </tr>
+                <tr><td colspan="3"><sb-loader is-loading="is_loading_more_tracks" size="'48'" block="'background'"></sb-loader></td></tr>
+            </table>
+        </div>
+    </div>
+
+</div>
+

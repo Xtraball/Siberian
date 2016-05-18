@@ -1,0 +1,25 @@
+<div class="animated part part1">
+    <h3 class="title blue10">Hold on please, we are installing your plugins</h3>
+    <p>Please don't refresh the page, the process may take minutes.</p>
+</div>
+<div class="animated part part2">
+    <div style="width:750px;height:40px;border:1px solid #121212; border-radius:5px;overflow:hidden;">
+        <div id="progressbar" class="animated" style="width:0;height:40px;background:url(<?php echo $this->getImage('loader/animated_overlay.gif'); ?>) #4DBDFF;"></div>
+    </div>
+    <div>
+        <p id="installation_progress"><span id="label_install">Installing</span> : <span id="label_module" class="blue5"></span></p>
+        <p id="installation_ending" class="none">Ending Installation...</p>
+        <p id="installation_successful" class="blue5 none"><i class="icon-ok"></i> Your plugins are successfully installed!</p>
+    </div>
+</div>
+<form id="installationForm">
+    <input type="hidden" id="module_name" name="name" value="" />
+</form>
+
+<script type="text/javascript">
+    var step = new Step(4);
+    installer.addStep(step);
+    step.isVisible = function() {
+        installer.startInstallation();
+    };
+</script>

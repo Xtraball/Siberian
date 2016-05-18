@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<designs>
+    <fairground>
+        <events>
+            <!--<event>-->
+            <!--<content>-->
+            <!--<name>iCal</name>-->
+            <!--<event_type>ical</event_type>-->
+            <!--<url>http://test.com</url>-->
+            <!--</content>-->
+            <!--</event>-->
+            <event>
+                <content>
+                    <name>Lorem Ipsum</name>
+                    <event_type>cstm</event_type>
+                </content>
+                <custom_contents>
+                    <custom_content>
+                        <name>Lorem ipsum dolor sit amet</name>
+                        <start_at>2015-03-03 00:00:00</start_at>
+                        <end_at>2024-01-01 00:00:00</end_at>
+                        <description>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        </description>
+                        <location>2345 Market Street, San Francisco, CA, United States</location>
+                        <rsvp>http://www.google.com</rsvp>
+                        <picture>/../../images/templates/fairground/content/fair2.png</picture>
+                    </custom_content>
+                    <custom_content>
+                        <name>Lorem Ipsum</name>
+                        <start_at>2015-09-30 00:00:00</start_at>
+                        <end_at>2025-10-03 00:00:00</end_at>
+                        <description>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        </description>
+                        <location>234 Park South, New York, State of New York, United States</location>
+                        <rsvp>http://www.google.com</rsvp>
+                        <picture>/../../images/templates/fairground/content/fair3.png</picture>
+                    </custom_content>
+                </custom_contents>
+            </event>
+        </events>
+    </fairground>
+</designs>

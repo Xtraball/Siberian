@@ -1,0 +1,47 @@
+<?php $android_key = Push_Model_Certificate::getAndroidKey(); ?>
+<?php $android_sender_id = Push_Model_Certificate::getAndroidSenderId(); ?>
+<div class="application_settings application">
+    <div class="application_content inner_content">
+        <div class="title">
+            <i class="left icon-comment"></i>
+            <h2 class="left f-rounded"><?php echo $this->_('Push Notifications Settings'); ?></h2>
+            <div class="clear"></div>
+            <hr />
+        </div>
+
+        <div class="area">
+            <h3 class="title">
+                <span class="left area"><?php echo $this->_('Android'); ?></span>
+                <div class="clear"></div>
+            </h3>
+            <div class="area_content">
+                <br />
+                <table class="no-collapse" cellspacing="10" width="100%">
+                    <col width="30%"/>
+                    <col width="70%"/>
+                    <tr>
+                        <td><label for="android_key"><?php echo $this->_('GCM Key'); ?></label></td>
+                        <td>
+                            <input type="text" id="android_key" name="path" class="save_data input" value="<?php echo $android_key ?>" />
+                            <input type="hidden" name="type" value="android_key" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="android_sender_id"><?php echo $this->_('Sender ID'); ?></label></td>
+                        <td>
+                            <input type="text" id="android_sender_id" name="path" class="save_data input" value="<?php echo $android_sender_id ?>" />
+                            <input type="hidden" name="type" value="android_sender_id" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.save_data').change(function() {
+            reload(this.parentNode, '<?php echo $this->getUrl('push/certificate/save'); ?>', true);
+        });
+    });
+</script>

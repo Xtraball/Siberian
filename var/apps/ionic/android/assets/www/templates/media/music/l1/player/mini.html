@@ -1,0 +1,43 @@
+<div class="audio-player mini" sb-media-player-controls>
+
+    <div class="remote-control" ng-if="player.is_minimized">
+
+        <ion-footer-bar class="subfooter bar-subfooter bar-dark" ng-click="openPlayer()">
+            <div class="title">
+                {{ player.current_track.name }} <span ng-show="!player.is_radio">- {{ player.current_track.artistName }}</span>
+            </div>
+        </ion-footer-bar>
+
+        <div class="footer tabs tabs-icon-only tabs-dark">
+            <div class="tab-item">
+                <button class="button button-clear button-light"
+                        ng-click="prev()"
+                        ng-disabled="(player.current_index == 0 || player.is_radio) && !player.repeat_type">
+                    <i class="icon ion-ios-skipbackward"></i>
+                </button>
+            </div>
+
+            <div class="tab-item">
+                <button class="button button-clear button-light" ng-click="playPause()">
+                    <i class="icon" ng-class="{ 'ion-play': !player.is_playing, 'ion-ios-pause': player.is_playing }"></i>
+                </button>
+            </div>
+
+            <div class="tab-item">
+                <button class="button button-clear button-light"
+                        ng-click="next()"
+                        ng-disabled="(player.current_index == (player.tracks.length - 1) || player.is_radio) && !player.repeat_type">
+                    <i class="icon ion-ios-skipforward"></i>
+                </button>
+            </div>
+
+            <div ng-show="!player.is_radio">
+                <div class=" range range-positive">
+                    <input type="range" name="seekbar" min="0" max="{{ player.duration }}" value="{{ player.elapsed_time }}" on-touch="willSeek()" on-release="seekTo(player.elapsed_time)" ng-model="player.elapsed_time">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,43 @@
+<ion-view sb-padlock>
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-content sb-background-image>
+
+        <div class="card padlock">
+
+            <div class="item item-text-wrap item-custom">
+                <h2>{{ "Access restricted to authorized members only" | translate }}</h2>
+            </div>
+
+            <div class="item item-body item-custom text-center">
+                <i class="icon ion-locked"></i>
+            </div>
+
+            <div class="item item-text-wrap item-custom" ng-show="!is_loading" ng-if="is_logged_in && unlock_by_account_type">
+                <p ng-if="!app_is_locked">{{ "We are sorry but your account does not have enough permissions to access this page" | translate }}</p>
+                <p ng-if="app_is_locked">{{ "We are sorry but your account does not have enough permissions to access this application" | translate }}</p>
+            </div>
+            <div class="item item-icon-left item-custom" ng-click="logout()" ng-show="!is_loading" ng-if="is_logged_in && unlock_by_account_type">
+                <i class="icon ion-power"></i>
+                {{ "Log-out" | translate }}
+            </div>
+
+            <div class="item item-icon-left item-custom" ng-click="login()" ng-show="!is_loading" ng-if="!is_logged_in && unlock_by_account_type">
+            <!--<div class="item item-icon-left item-custom" ng-click="login()">-->
+                <i class="icon ion-ios-person-outline"></i>
+                {{ "Log-in" | translate }}
+            </div>
+            <div class="item item-icon-left item-custom" ng-click="openScanCamera()" ng-show="!is_loading" ng-if="!is_webview && unlock_by_qrcode_type">
+            <!--<div class="item item-icon-left item-custom" ng-click="openScanCamera()">-->
+                <i class="icon ion-qr-scanner"></i>
+                {{ "Scan now to unlock" | translate }}
+            </div>
+
+        </div>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+    </ion-content>
+
+</ion-view>

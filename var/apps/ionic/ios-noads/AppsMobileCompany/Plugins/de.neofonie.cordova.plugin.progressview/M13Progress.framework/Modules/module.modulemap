@@ -1,0 +1,6 @@
+framework module M13Progress {
+  umbrella header "M13Progress.h"
+
+  export *
+  module * { export * }
+}

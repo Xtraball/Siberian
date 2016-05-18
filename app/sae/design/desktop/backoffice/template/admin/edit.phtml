@@ -1,0 +1,162 @@
+<sb-section title="section_title">
+
+    <form ng-submit="saveAdmin();">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="email"><?php echo $this->_("Email address"); ?></label>
+                <input type="email" id="email" ng-model="admin.email" class="form-control" placeholder="<?php echo $this->_("Email address"); ?>" />
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="company"><?php echo $this->_("Company"); ?></label>
+                <input type="text" id="company" ng-model="admin.company" class="form-control" placeholder="<?php echo $this->_("Company"); ?>" />
+            </div>
+        </div>
+
+        <div class="clear col-md-6">
+            <div class="form-group">
+                <label for="firstname"><?php echo $this->_("Firstname"); ?></label>
+                <input type="text" id="firstname" ng-model="admin.firstname" class="form-control" placeholder="<?php echo $this->_("Firstname"); ?>" />
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="lastname"><?php echo $this->_("Lastname"); ?></label>
+                <input type="text" id="lastname" ng-model="admin.lastname" class="form-control" placeholder="<?php echo $this->_("Lastname"); ?>" />
+            </div>
+        </div>
+
+        <div class="clear col-md-6">
+            <div class="form-group">
+                <label for="lastname"><?php echo $this->_("Address"); ?></label>
+                <textarea rows="5" id="address" ng-model="admin.address" class="form-control" placeholder="<?php echo $this->_("Address"); ?>"></textarea>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="country_code"><?php echo $this->_("Country"); ?></label>
+                <select id="country_code" class="form-control" ng-model="admin.country_code" ng-options="k as v for (k, v) in country_codes">
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="phone"><?php echo $this->_("Phone"); ?></label>
+                <input type="text" id="phone" ng-model="admin.phone" class="form-control" placeholder="<?php echo $this->_("Phone"); ?>" />
+            </div>
+        </div>
+
+        <div class="clear col-md-6">
+            <div class="form-group">
+                <label for="{{ admin.publication_access_type }}"><?php echo $this->_("Publication access type"); ?></label>
+                <select class="form-control" ng-model="admin.publication_access_type">
+                    <option value="sources"><?php echo $this->_("Sources code"); ?></option>
+                    <option value="info"><?php echo $this->_("Info"); ?></option>
+                </select>
+                <p class="help-block" ng-show="admin.publication_access_type == 'sources'"><?php echo $this->_("This admin can download application sources code."); ?></p>
+                <p class="help-block" ng-show="admin.publication_access_type == 'info'"><?php echo $this->_("This admin gives you the required information to publish applications"); ?></p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-6">
+                <label for="role_id">Account Role</label>
+                <select class="form-control" ng-model="admin.role_id" ng-options="role.role_id as role.label for role in roles" required="true">
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="clear form-group" ng-if="admin.id">
+            <div class="col-md-12">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="admin.change_password" />
+                        <?php echo $this->_("Change password"); ?>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+
+        <div class="slide-left" ng-if="!admin.id || admin.change_password">
+
+            <div class="clear form-group">
+                <div class="col-md-6">
+                    <label for="password"><?php echo $this->_("Password"); ?></label>
+                    <input type="password" id="password" ng-model="admin.password" class="form-control"  />
+                </div>
+                <div class="col-md-6">
+                    <label for="confirm_password"><?php echo $this->_("Confirm Password"); ?></label>
+                    <input type="password" id="confirm_password" ng-model="admin.confirm_password" class="form-control" placeholder="<?php echo $this->_("Confirm Password"); ?>" />
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary left"><?php echo $this->_("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </form>
+
+</sb-section>
+
+<sb-section title="applications_section_title" ng-if="admin.id">
+    <?php if(!Siberian_Version::is("sae")): ?>
+    <br />
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="filter"><?php echo $this->_("Search"); ?></label>
+            <input type="text" id="filter" class="form-control" ng-model="filter" placeholder="<?php echo $this->_("Search"); ?>" />
+        </div>
+    </div>
+    <div class="clear"></div>
+    <?php endif; ?>
+    <br />
+    <div sb-pager items="applications | filter:filter | showAdminAppsOnly:!show_all_applications:admin.id" ng-if="applications">
+        <table class="table">
+            <col width="3%" />
+            <col width="7%" />
+            <col width="5%" />
+            <col width="40%" />
+            <col width="30%" />
+            <col width="15%" />
+            <thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th class="pointer" ng-click="order = 'id'; by = !by"><?php echo $this->_("Id"); ?></th>
+                <th class="pointer" ng-click="order = 'name'; by = !by"><?php echo $this->_("Name"); ?></th>
+                <th class="pointer" ng-click="order = 'bundle_id'; by = !by"><?php echo $this->_("Bundle Id"); ?></th>
+                <th class="text-center"><?php echo $this->_("Access"); ?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="application in pageItems() | orderBy:order:by">
+                <td class="valign-middle"><input type="checkbox" ng-model="application.is_selected" ng-checked="application.is_selected" ng-change="setAppToAdmin(application)" /></td>
+                <td class="text-center">
+                    <img ng-src="{{ application.icon }}" width="35" ng-show="!application.loader_is_visible" />
+                    <sb-loader is_visible="application.loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                </td>
+                <td class="valign-middle">{{ application.id }}</td>
+                <td class="valign-middle">{{ application.name }}</td>
+                <td class="valign-middle">{{ application.bundle_id }}</td>
+                <td class="valign-middle text-center"><a href="<?php echo $this->getUrl("application/backoffice_view_acl"); ?>/app_id/{{ application.id }}/admin_id/{{ admin.id }}" title="<?php echo $this->_("Edit"); ?>"><i class="fa fa-edit"></i></a></td>
+            </tr>
+            <tr ng-show="!applications.length">
+                <td colspan="5" class="a-center"><?php echo $this->_("You don't have any applications yet"); ?></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</sb-section>

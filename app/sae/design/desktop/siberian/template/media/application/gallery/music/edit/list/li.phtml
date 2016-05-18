@@ -1,0 +1,78 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $type = $this->getType(); ?>
+<?php $element = $this->getElement(); ?>
+<?php $gallery_id = $this->getGalleryId(); ?>
+<?php if($type == 'album') : ?>
+    <?php $album = new Media_Model_Gallery_Music_Album(); ?>
+    <?php $album->find($element->getAlbumId()); ?>
+    <?php $tracks = new Media_Model_Gallery_Music_Track(); ?>
+    <?php $tracks = $tracks->findAll(array('album_id' => $album->getId())); ?>
+    <li rel="<?php echo $album->getId() ?>">
+        <i class="handle icon-move"></i>
+        <span class="logos inner_content">
+            <?php if($album->getType() == 'podcast') : ?>
+                <img width="20px" height="20px" src="<?php echo $this->getImage('pictos/podcast_blue.png'); ?>" />
+            <?php elseif($album->getType() == 'custom') : ?>
+                <i class="icon-th-list editor_menu reverse"></i>
+            <?php elseif($album->getType() == 'itunes') : ?>
+                <img width="20px" height="20px" src="<?php echo $this->getImage('pictos/itunes_blue.png') ?>" />
+            <?php elseif($album->getType() == 'soundcloud') : ?>
+                <img width="20px" height="20px" src="<?php echo $this->getImage('pictos/soundcloud_blue.png'); ?>" />
+            <?php endif; ?>
+        </span>
+        <span class="inner_content">
+            <?php if($album->getType() == 'podcast') : ?>
+                <?php echo $album->getName() ?> de <?php echo $album->getArtistName() ?>
+            <?php elseif($album->getType() == 'custom') : ?>
+                <a class="edit_album" href="<?php echo $this->getUrl('media/application_gallery_music/form', array('type' => 'custom', 'gallery_id' => $gallery_id, 'album_id' => $album->getId(), 'option_value_id' => $option_value->getId())); ?>?ajax=true" >
+                    <?php echo $album->getName() ?> de <?php echo $album->getArtistName() ?> <i>(<?php echo $tracks->count(); ?> <?php echo $tracks->count() == 1 ? $this->_('title') : $this->_('titles') ?>)</i>
+                </a>
+            <?php else : ?>
+                <a class="edit_album" href="<?php echo $this->getUrl('media/application_gallery_music/editalbum', array('album_id' => $album->getId(), 'option_value_id' => $option_value->getId())); ?>?ajax=true" >
+                    <?php echo $album->getName() ?> de <?php echo $album->getArtistName() ?> <i>(<?php echo $tracks->count(); ?> <?php echo $tracks->count() == 1 ? $this->_('title') : $this->_('titles') ?>)</i>
+                </a>
+            <?php endif; ?>
+        </span>
+        <span class="actions">
+            <button class="deleteElement delete left" type="button"><i class="icon-remove"></i></button>
+            <input type="hidden" name="element_id[]" value="<?php echo $album->getId() ?>" />
+            <input type="hidden" name="element_type[<?php echo $album->getId() ?>]" value="album" />
+            <input type="hidden" name="type" value="album" />
+            <input type="hidden" name="value_id" value="<?php echo $option_value->getValueId() ?>" />
+        </span>
+    </li>
+<?php elseif($type == 'track') : ?>
+    <?php $track = new Media_Model_Gallery_Music_Track(); ?>
+    <?php $track->find($element->getTrackId()); ?>
+    <li rel="<?php echo $track->getId() ?>">
+        <i class="handle icon-move"></i>
+        <span class="logos inner_content">
+            <?php if($track->getType() == 'podcast') : ?>
+                <img width="20px" height="20px" src="<?php echo $this->getImage('pictos/podcast_blue.png'); ?>" />
+            <?php elseif($track->getType() == 'custom') : ?>
+                <i class="icon-th-list editor_menu reverse"></i>
+            <?php elseif($track->getType() == 'itunes') : ?>
+                <img width="20px" height="20px" src="<?php echo $this->getImage('pictos/itunes_blue.png'); ?>"/>
+            <?php elseif($track->getType() == 'soundcloud') : ?>
+                <img width="20px" height="20px" src="<?php echo $this->getImage('pictos/soundcloud_blue.png'); ?>" />
+            <?php endif; ?>
+        </span>
+        <span class="inner_content">
+            <?php
+                $track_name = $track->getName();
+                if(strlen($track->getName()) + strlen($track->getArtistName()) > 50) {
+                    $track_name = substr($track->getName(), 0, 25);
+                    $track_name .= '...';
+                }
+            ?>
+            <?php echo $track_name ?> de <?php echo $track->getArtistName() ?><span class="right"><?php echo $track->getFormatedDuration() ?></span>
+        </span>
+        <span class="actions">
+            <button class="deleteElement delete left" type="button"><i class="icon-remove"></i></button>
+            <input type="hidden" name="element_id[]" value="<?php echo $track->getId() ?>" />
+            <input type="hidden" name="element_type[<?php echo $track->getId() ?>]" value="track" />
+            <input type="hidden" name="type" value="track" />
+            <input type="hidden" name="value_id" value="<?php echo $option_value->getId() ?>" />
+        </span>
+    </li>
+<?php endif; ?>

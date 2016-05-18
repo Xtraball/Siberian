@@ -1,0 +1,41 @@
+<?php $application = $this->getApplication(); ?>
+
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="product.name" message="message" right-button="header_right_button"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="scrollable_content content">
+        <ul ng-class="{news: !style_background_image}" class="content_news" ng-show="product">
+            <li class="padding" ng-class="{subheader: !style_background_image}">
+                <div class="left">
+                    <div class="image" ng-if="product.picture">
+                        <img ng-src="{{ product.picture }}" alt="" title="" width="100%" />
+                    </div>
+                </div>
+                <div class="left details">
+                    <p class="name bold">{{ product.name }}</p>
+                    <p class="price bold" ng-if="product.price">{{ product.price }}</p>
+                </div>
+                <div class="clear"></div>
+                <p class="conditions">{{ product.conditions }}</p>
+            </li>
+            <li class="padding">
+                <p class="section_title"><?php echo $this->_("Description"); ?></p>
+                <div class="padding description" ng-bind-html="product.description | trusted_html">
+                </div>
+            </li>
+            <li class="padding" ng-if="product.formats.length">
+                <p class="section_title"><?php echo $this->_("Prices"); ?></p>
+                <ul class="formats">
+                    <li class="format" ng-repeat="format in product.formats" ng-class="{first: $index == 0}">
+                        <p class="left">{{ format.title }}</p>
+                        <p class="right">{{ format.price }}</p>
+                        <div class="clear"></div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>

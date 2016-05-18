@@ -1,0 +1,50 @@
+<div class="animated part part1">
+    <h3 class="title blue10">A user will be required to login to the admin panel</h3>
+    <p>Just enter a username and a password</p>
+</div>
+<div class="animated part part2">
+    <form id="adminForm">
+        <table class="no-collapse" cellspacing="10" width="100%">
+            <tr>
+                <th align="left"><label for="email">Email: </label></th>
+                <th align="left"></th>
+            </tr>
+            <tr>
+                <td><input type="text" id="email" name="email" class="required email" placeholder="Email" /></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th align="left"><label for="password">Password: </label></th>
+                <th align="left"><label for="confirm_password">Confirm Password: </label></th>
+            </tr>
+            <tr>
+                <td><input type="password" id="password" name="password" class="required" placeholder="Password" /></td>
+                <td><input type="password" id="confirm_password" name="confirm_password" class="required" placeholder="Confirm Password" /></td>
+            </tr>
+        </table>
+        <button type="submit" style="display:none;"></button>
+    </form>
+    <div>
+        <p id="creating_admin" class="admin_creation_status loading" style="display:none;">Creating administrator</p>
+        <p id="admin_is_created" class="admin_creation_status blue5" style="display:none;"><i class="icon-ok"></i> The admin has been successfully created!</p>
+        <p id="admin_creation_has_failed" class="admin_creation_status red5" style="display:none;"></p>
+    </div>
+</div>
+<script type="text/javascript">
+    var step = new Step(5);
+    $('#adminForm').validate({submitHandler:function(){}});
+    $('#confirm_password').rules('add', {
+        equalTo: '#password'
+    });
+    $('#adminForm').submit(function() {
+        installer.nextStep();
+        return false;
+    });
+    step.canGoForward = function() {
+        if($('#adminForm').valid()) {
+            return installer.createAdmin();
+        }
+        return false;
+    };
+    installer.addStep(step);
+</script>

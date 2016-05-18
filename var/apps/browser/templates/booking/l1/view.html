@@ -1,0 +1,65 @@
+<ion-view>
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-content sb-background-image>
+
+        <form name="bookingForm" ng-submit="postForm()" novalidate ng-show="stores">
+            <div class="list">
+
+                <label class="item item-input item-custom">
+                    <input type="text" placeholder="{{ 'First name / Last name' | translate }}" ng-model="formData.name" ng-class="{error: bookingForm.name.$invalid && bookingForm.submitted}" required />
+                    <label class="error" ng-show="bookingForm.name.$invalid">{{ "This field is required" | translate }}</label>
+                </label>
+
+                <label class="item item-input item-custom">
+                    <input type="tel" placeholder="{{ 'Phone' | translate }}" ng-model="formData.phone" ng-class="{error: bookingForm.phone.$invalid && bookingForm.submitted}" required />
+                    <label class="error" ng-show="bookingForm.phone.$invalid && bookingForm.submitted">{{ "This field is required" | translate }}</label>
+                </label>
+
+                <label class="item item-input item-custom">
+                    <input type="email" placeholder="{{ 'Email' | translate }}" ng-model="formData.email" ng-class="{error: bookingForm.email.$invalid && bookingForm.submitted}" required />
+                    <label class="error" ng-show="bookingForm.email.$invalid && bookingForm.submitted">{{ "Please enter a valid email address" | translate }}</label>
+                </label>
+
+                <label class="item item-input item-select item-custom">
+                    <div class="input-label">
+                        {{ "People number:" | translate }}
+                    </div>
+                    <select ng-model="formData.people" ng-options="value for value in people track by value" ng-class="{error: bookingForm.people.$invalid && bookingForm.submitted}" required></select>
+                    <label class="error" ng-show="bookingForm.people.$invalid && bookingForm.submitted">{{ "This field is required" | translate }}</label>
+                </label>
+
+                <label class="item item-input item-select item-custom">
+                    <div class="input-label">
+                        {{ "Location" | translate }}
+                    </div>
+                    <select ng-model="formData.store" ng-options="store.id as store.name for store in stores track by store.id" ng-class="{error: bookingForm.store.$invalid && bookingForm.submitted}" required></select>
+                    <label class="error" ng-show="bookingForm.store.$invalid && bookingForm.submitted">{{ "This field is required" | translate }}</label>
+                </label>
+
+                <label class="item item-input item-custom">
+                    <div class="input-label">
+                        {{ "Date and time" | translate }}
+                    </div>
+                    <input id="booking_date" type="datetime-local" placeholder="{{ 'Date and time' | translate }}" date="formData.date" ng-model="formData.date" datetime />
+                </label>
+
+                <label class="item item-input item-custom">
+                    <textarea placeholder="{{ 'Booking details' | translate }}" rows="4" ng-model="formData.prestation" ng-class="{error: bookingForm.prestation.$invalid && bookingForm.submitted}" required></textarea>
+                    <label class="error" ng-show="bookingForm.prestation.$invalid && bookingForm.submitted">{{ "This field is required" | translate }}</label>
+                </label>
+
+                <label class="item item-input item-custom">
+                    <textarea placeholder="{{ 'Comment' | translate }}" name="comment" rows="4" ng-model="formData.comment"></textarea>
+                </label>
+
+                <button type="submit" class="button button-full button-custom" ng-show="!is_loading">{{ "Send" | translate }}</button>
+
+            </div>
+        </form>
+
+        <div class="loader" ng-show="is_loading || !stores">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+    </ion-content>
+</ion-view>

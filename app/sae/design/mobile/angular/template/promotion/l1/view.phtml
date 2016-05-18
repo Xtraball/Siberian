@@ -1,0 +1,70 @@
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message" right-button="header_right_button"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="padding">
+
+        <div class="connect" ng-if="!is_logged_in" ng-click="login()">
+            <button type="button" class="connect_button icon_left arrow_right">
+                <?php echo $this->_("Please log in.") ?>
+            </button>
+        </div>
+
+        <div class="content discount">
+            <ul sb-scroll rn-carousel rn-carousel-indicator="true" rn-carousel-index="carousel_index">
+                <li ng-repeat="promotion in collection" ng-if="!promotion.is_locked">
+
+                    <div ng-if="!promotion.unlock_code || promotion.is_used == '0'" class="promotion scrollable_content" ng-class="{ 'has-picture': promotion.picture }">
+
+                        <div class="picture" sb-image ng-if="promotion.picture" image-src="promotion.picture"></div>
+
+                        <div class="details padding">
+                            <div class="title" ng-show="promotion.title"><h4>{{ promotion.title }}</h4></div>
+
+                            <p ng-show="promotion.description" ng-bind-html="promotion.description"></p>
+
+                            <p ng-show="promotion.conditions">{{ promotion.conditions }}</p>
+
+                            <p ng-show="promotion.is_unique"><?php echo $this->_("Can only be used once") ?></p>
+
+                            <p ng-show="promotion.end_at"><?php echo $this->_("Valid until") ?> {{ promotion.end_at }}</p>
+
+                            <div class="use_discount" ng-if="promotion.is_unique">
+                                <div class="toggle" ng-show="!promotion.confirm">
+                                    <button type="button" class="discount reverse" ng-click="promotion.confirm = true;">
+                                        <?php echo $this->_("Use this coupon") ?>
+                                    </button>
+                                </div>
+                                <div class="slide-top" ng-show="promotion.confirm">
+                                    <h3><?php echo $this->_("Are you sure you want to use this discount?"); ?></h3>
+                                    <button type="button" class="half discount reverse" ng-click="use(promotion.id)">
+                                        <?php echo $this->_("Yes") ?>
+                                    </button>
+                                    <button type="button" class="half discount reverse" ng-click="promotion.confirm = false;">
+                                        <?php echo $this->_("No") ?>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                            <button type="button" class="discount reverse" ng-click="showTc()" ng-if="tc_id">
+                                <?php echo $this->_("Terms & Conditions") ?>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="a-center" ng-if="handle_code_scan && promotion.unlock_code && !promotion.is_used">
+                        <a href="javascript:void(0);" ng-click="openScanCamera()">
+                            <?php echo $this->_("Scan it"); ?>
+                            <br />
+                            <img src="/images/library/code_scan/scan1.png" alt="qrcode" title="qrcode" height="64" />
+                        </a>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+

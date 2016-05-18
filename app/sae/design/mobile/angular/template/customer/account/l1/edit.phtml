@@ -1,0 +1,84 @@
+
+<div class="has_header" sb-background-image>
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="'<?php echo $this->_('Log-in'); ?>'" message="message" right-button="header_right_button"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <?php if($this->isMobileDevice()) : ?>
+
+        <div class="scrollable_content customer_register">
+            <form method="post" name="editForm" ng-submit="post()" class="for_ads_banner">
+                <div class="padding">
+                    <ul class="form">
+
+                        <li>
+                            <div class="left">
+                                <label for="customer_civility"><?php echo $this->_("Title") ?></label>
+                            </div>
+                            <div class="right">
+                                <select ng-model="customer.civility" name="civility" />
+                                    <option value=""></option>
+                                    <option value="mlle" selected="selected"><?php echo $this->_("Miss") ?></option>
+                                    <option value="mme"><?php echo $this->_("Mrs") ?></option>
+                                    <option value="m"><?php echo $this->_("Mr") ?></option>
+                                </select>
+                            </div>
+                            <div class="clear"></div>
+                        </li>
+
+                        <li>
+                            <label for="customer_firstname"><?php echo $this->_("First name") ?></label>
+                            <input type="text" id="customer_firstname" name="firstname" class="full_width" placeholder="<?php echo $this->_('First name'); ?>" ng-model="customer.firstname" ng-class="{error: editForm.firstname.$invalid && editForm.submitted}" required />
+                            <label class="error block full_width" ng-show="editForm.firstname.$invalid && editForm.submitted"><?php echo $this->_("This field is required"); ?></label>
+                        </li>
+
+                        <li>
+                            <label for="customer_lastname"><?php echo $this->_("Last name") ?></label>
+                            <input type="text" id="customer_lastname" name="lastname" class="full_width" placeholder="<?php echo $this->_('Last Name'); ?>" ng-model="customer.lastname" ng-class="{error: editForm.lastname.$invalid && editForm.submitted}" required />
+                            <label class="error block full_width" ng-show="editForm.lastname.$invalid && editForm.submitted"><?php echo $this->_("This field is required"); ?></label>
+                        </li>
+
+                        <li>
+                            <label for="customer_email"><?php echo $this->_("Email") ?></label>
+                            <input type="email" id="customer_email" name="email" class="full_width" placeholder="<?php echo $this->_('Email'); ?>" ng-model="customer.email" ng-class="{error: editForm.email.$invalid && editForm.submitted}" required />
+                            <label class="error block full_width" ng-show="editForm.email.$invalid && editForm.submitted"><?php echo $this->_("Please enter a valid email address"); ?></label>
+                        </li>
+
+                        <?php $canViewRanking = false; ?>
+                        <?php if($this->getApplication()->getPage('social_gaming')->getId()) $canViewRanking = true; ?>
+                        <?php if($canViewRanking) : ?>
+                        <li>
+                            <input type="checkbox" id="show_in_social_gaming" name="show_in_social_gaming" class="left" value="1" ng-checked="customer.show_in_social_gaming" ng-model="customer.show_in_social_gaming" />
+                            <label for="show_in_social_gaming" class="inline"><?php echo $this->_("Show me in ranking") ?></label>
+                        </li>
+                        <?php endif; ?>
+
+                        <li>
+                            <button type="button" class="button" ng-click="customer.change_password = !customer.change_password">
+                                <?php echo $this->_("Change Password") ?>
+                            </button>
+                        </li>
+                        <li class="scale-fade" ng-show="customer.change_password">
+                            <label for="old_password"><?php echo $this->_("Old Password") ?></label>
+                            <input type="password" id="old_password" title="<?php echo $this->_("Old Password") ?>" placeholder="<?php echo $this->_("Old Password") ?>" class="full_width" name="old_password" ng-disabled="!customer.change_password" ng-model="customer.old_password" />
+                        </li>
+                        <li class="scale-fade" ng-show="customer.change_password">
+                            <label for="password"><?php echo $this->_("Password") ?></label>
+                            <input type="password" id="password" title="<?php echo $this->_("Password") ?>" placeholder="<?php echo $this->_("Password") ?>" class="full_width" name="password" ng-model="customer.password" ng-disabled="!customer.change_password" />
+                        </li>
+                        <li>
+                            <button type="button" class="button" ng-click="logout()">
+                                <?php echo $this->_("Disconnect") ?>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <button type="submit" class="ng-hide"></button>
+            </form>
+        </div>
+
+    <?php else : ?>
+        <p><?php echo $this->_("Please log in with your mobile phone") ?></p>
+    <?php endif ?>
+</div>

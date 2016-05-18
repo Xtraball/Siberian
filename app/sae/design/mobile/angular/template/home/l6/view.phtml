@@ -1,0 +1,17 @@
+<div class="tabbar_items l6" ng-class="{'toggle': animate_tabbar}" ng-show="tabbar_is_visible">
+
+    <div id="tabbar_background" class="tabbar background"></div>
+
+    <div class="tabbar no-background">
+        <ul class="tabbar_l6 {{ classOffline }}">
+            <li ng-repeat="option in features.overview.options" class="border-color">
+                <a tabbar-items option="option" go-to-url="goToUrl(option)" class="item relative" ng-class="{ is_link: option.is_link }" target="_parent" title="{{ option.name }}">
+                    <div class="fullscreen"></div>
+                    <img ng-src="{{ option.icon_url }}" ng-class="{ colorable: option.icon_is_colorable }" width="30" height="30" title="{{ option.name }}" alt="{{ option.name }}" />
+                    <span class="block">{{ option.name }}</span>
+                    <div ng-if="option.code == 'push_notification' && pushs" class="badge">{{ pushs }}</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

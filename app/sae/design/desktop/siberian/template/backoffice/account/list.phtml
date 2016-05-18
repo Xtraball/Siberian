@@ -1,0 +1,77 @@
+<?php $user = new Backoffice_Model_User(); ?>
+<?php $users = $user->findAll(); ?>
+<div class="application">
+    <div class="application_content inner_content">
+        <div class="title">
+            <i class="left icon-user"></i>
+            <h2 class="left f-rounded"><?php echo $this->_('Accounts'); ?></h2>
+            <div class="clear"></div>
+            <hr />
+        </div>
+        <div class="area">
+            <h3 class="title">
+                <span class="left area"><?php echo $this->_('List of backoffice accounts'); ?></span>
+                <span class="area right">
+                    <button class="default_button add right" onclick="window.location = '<?php echo $this->getUrl('backoffice/account/new'); ?>'" type="button">
+                        <i class="icon-plus"></i>
+                    </button>
+                </span>
+                <div class="clear"></div>
+            </h3>
+            <br />
+            <div>
+                <table class="regular_infos list list-input" width="100%">
+                    <col width="30%" />
+                    <col width="30%" />
+                    <col width="30%" />
+                    <col width="10%" />
+                    <tr class="a-left">
+                        <th><?php echo $this->_('Email'); ?></th>
+                        <th><?php echo $this->_('Created at'); ?></th>
+                        <th><?php echo $this->_('Updated at'); ?></th>
+                        <th></th>
+                    </tr>
+                    <?php foreach($users as $user) : ?>
+                    <tr id="row_account_<?php echo $user->getId(); ?>" class="row_account">
+                        <td><?php echo $user->getEmail(); ?></td>
+                        <td><?php echo $user->getFormattedCreatedAt(); ?></td>
+                        <td><?php echo $user->getFormattedUpdatedAt(); ?></td>
+                        <td>
+                            <div class="icons right">
+                                <a id="user_edit_<?php echo $user->getId(); ?>" class="icon edit" href="<?php echo $this->getUrl('backoffice/account/edit', array('user_id' => $user->getId())); ?>">
+                                    <i class="icon-edit"></i>
+                                </a>
+                                <?php if($users->count() > 1) : ?>
+                                <a id="user_delete_<?php echo $user->getId(); ?>" class="icon delete_account" href="<?php echo $this->getUrl('backoffice/account/delete', array('user_id' => $user->getId())); ?>" rel="<?php echo $user->getId(); ?>">
+                                    <i class="icon-remove"></i>
+                                </a>
+                                <?php endif; ?>
+                                <div class="clear"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        $('.delete_account').click(function() {
+            if(confirm('<?php echo addslashes($this->_('Are you sure you want to remove this account?')); ?>')) {
+                reload($(this), this.href, true, function(data) {
+                    if(data.success) {
+                        $('#row_account_'+data.user_id).remove();
+                        if($('.row_account').length == 1) {
+                            $('.delete_account').remove();
+                        }
+                    }
+                });
+            }
+            return false;
+        });
+    });
+
+</script>

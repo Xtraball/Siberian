@@ -1,0 +1,37 @@
+<div class="animated part part1">
+    <h3 class="title blue10">Let's start creating your App</h3>
+    <p>First, give it a name</p>
+</div>
+<div class="animated part part2">
+    <form id="appForm">
+        <table class="no-collapse" cellspacing="10" width="100%">
+            <tr>
+                <th align="left"><label for="email">App Name:</label></th>
+            </tr>
+            <tr>
+                <td><input type="text" id="app_name" name="name" class="required" placeholder="App Name" /></td>
+            </tr>
+        </table>
+        <button type="submit" style="display:none;"></button>
+    </form>
+    <div>
+        <p id="creating_application" class="application_creation_status loading" style="display:none;">Creating application</p>
+        <p id="application_is_created" class="application_creation_status blue5" style="display:none;"><i class="icon-ok"></i> The App has been successfully created!</p>
+        <p id="application_creation_has_failed" class="application_creation_status red5" style="display:none;"></p>
+    </div>
+</div>
+<script type="text/javascript">
+    var step = new Step(6);
+
+    $('#appForm').submit(function() {
+        installer.nextStep();
+        return false;
+    });
+    step.canGoForward = function() {
+        if($('#appForm').valid()) {
+            return installer.createApplication();
+        }
+        return false;
+    };
+    installer.addStep(step);
+</script>

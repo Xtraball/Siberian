@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<designs>
+    <rush_cafe>
+        <catalog>
+            <category>
+                <name>Coffee</name>
+                <products>
+                    <product>
+                        <content>
+                            <name>Classic</name>
+                            <description>Expresso arabica</description>
+                            <price>2</price>
+                            <picture>/../../images/templates/rush_cafe/content/coffee3.png</picture>
+                        </content>
+                    </product>
+                    <product>
+                        <content>
+                            <name>American coffee</name>
+                            <description>Grand Arabica</description>
+                            <price>3</price>
+                            <picture>/../../images/templates/rush_cafe/content/coffee4.png</picture>
+                        </content>
+                    </product>
+                    <product>
+                        <content>
+                            <type>format</type>
+                            <name>Liégeois</name>
+                            <description>Ice cream, Coffe, Whipped Cream</description>
+                            <picture>/../../images/templates/rush_cafe/content/coffee5.png</picture>
+                        </content>
+                        <formats>
+                            <new_0>
+                                <title>Classic</title>
+                                <price>5</price>
+                            </new_0>
+                            <new_1>
+                                <title>Large</title>
+                                <price>7</price>
+                            </new_1>
+                        </formats>
+                    </product>
+                    <!--<product subcategory="subone">-->
+                        <!--<content>-->
+                            <!--<type>simple</type>-->
+                            <!--<name>Praesent</name>-->
+                            <!--<description>Sed neque non 2.</description>-->
+                            <!--<price>35</price>-->
+                        <!--</content>-->
+                    <!--</product>-->
+                </products>
+            </category>
+            <category>
+                <name>Chocolate</name>
+                <products>
+                    <product>
+                        <content>
+                            <type>format</type>
+                            <name>Classic</name>
+                            <description>Chocolate, milk</description>
+                            <picture>/../../images/templates/rush_cafe/content/coffee6.png</picture>
+                        </content>
+                        <formats>
+                            <new_0>
+                                <title>Classic</title>
+                                <price>3</price>
+                            </new_0>
+                            <new_1>
+                                <title>Large</title>
+                                <price>5</price>
+                            </new_1>
+                        </formats>
+                    </product>
+                    <product>
+                        <content>
+                            <type>format</type>
+                            <name>Big Cream</name>
+                            <description>Chocolate, Milk and Whipped Cream</description>
+                            <picture>/../../images/templates/rush_cafe/content/coffee7.png</picture>
+                        </content>
+                        <formats>
+                            <new_0>
+                                <title>Classic</title>
+                                <price>4</price>
+                            </new_0>
+                            <new_1>
+                                <title>Large</title>
+                                <price>6</price>
+                            </new_1>
+                        </formats>
+                    </product>
+                </products>
+            </category>
+        </catalog>
+        <set_meal>
+            <content>
+                <type>menu</type>
+                <name>1st Menu</name>
+                <description><![CDATA[<h1>Lorem ipsum</h1>
+                    Lorem ipsum dolor sit amet
+                    <br/><br/>
+                    Lorem ipsum dolor
+                    <br/><br/>
+                    Lorem ipsum dolor sit amet]]></description>
+                <price>10</price>
+                <picture>/../../images/templates/rush_cafe/content/coffee8.png</picture>
+            </content>
+            <content>
+                <type>menu</type>
+                <name>2nd Menu</name>
+                <description><![CDATA[<h1>Lorem ipsum dolor sit amet</h1>
+                    consectetur adipiscing elit,
+                    <br/><br/>
+                    consectetur adipiscing elit,
+                    <br/><br/>
+                    consectetur adipiscing elit,]]></description>
+                <price>12</price>
+                <picture>/../../images/templates/rush_cafe/content/coffee9.png</picture>
+            </content>
+        </set_meal>
+    </rush_cafe>
+</designs>

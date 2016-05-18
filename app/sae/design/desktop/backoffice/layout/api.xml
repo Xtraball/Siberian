@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <api_backoffice_key_list_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="api/key/list.phtml" />
+        </views>
+    </api_backoffice_key_list_template>
+
+    <api_backoffice_user_list_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="api/user/list.phtml" />
+        </views>
+    </api_backoffice_user_list_template>
+
+    <api_backoffice_user_edit_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="api/user/edit.phtml" />
+        </views>
+    </api_backoffice_user_edit_template>
+
+</layout>

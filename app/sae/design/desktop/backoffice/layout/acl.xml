@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <acl_backoffice_role_list_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="acl/role/list.phtml" />
+        </views>
+    </acl_backoffice_role_list_template>
+
+    <acl_backoffice_role_edit_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="acl/role/edit.phtml" />
+        </views>
+    </acl_backoffice_role_edit_template>
+
+</layout>

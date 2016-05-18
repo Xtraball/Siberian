@@ -1,0 +1,27 @@
+<?php if($this->canView()) : ?>
+<div class="messages">
+    <?php if($this->hasSuccess()) : ?>
+    <ul class="message success">
+        <?php foreach($this->getSuccess() as $success) : ?>
+        <li><?php echo $success; ?></li>
+        <?php endforeach; ?>
+    </ul>
+    <?php endif ?>
+
+    <?php if($this->hasWarning()) : ?>
+    <ul class="message warning">
+        <?php foreach($this->getWarning() as $warning) : ?>
+        <li><?php echo $warning; ?></li>
+        <?php endforeach; ?>
+    </ul>
+    <?php endif ?>
+
+    <?php if($this->hasError()) : ?>
+    <ul class="message error">
+        <?php foreach($this->getError() as $error) : ?>
+        <li><?php echo $error; ?></li>
+        <?php endforeach; ?>
+    </ul>
+    <?php endif ?>
+</div>
+<?php endif ?>

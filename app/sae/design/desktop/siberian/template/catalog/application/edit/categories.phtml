@@ -1,0 +1,85 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $category = new Catalog_Model_Category(); ?>
+<?php $categories = $category->findByValueId($option_value->getId(), null, true, true); ?>
+<div id="categories">
+    <script type="text/javascript">
+        var categories = new Categories('<?php echo $this->getUrl('catalog/application_category/editpost'); ?>');
+    </script>
+    <div>
+        <p><?php echo $this->_('Click on a category to display sub-categories'); ?></p>
+        <div>
+            <ul id="list_of_categories" class="list_of_categories list_edit">
+                <?php if($categories->count() > 0) : ?>
+                <?php foreach($categories as $category) : ?>
+                <?php
+                    echo $this->getLayout()
+                        ->addPartial('row_'.$category->getId(), 'admin_view_default', 'catalog/application/edit/categories/row.phtml')
+                        ->setCategory($category)
+                        ->toHtml()
+                    ;
+                ?>
+                <?php endforeach; ?>
+                <?php endif; ?>
+            </ul>
+        </div>
+        <form action="<?php echo $this->getUrl('catalog/application_category/editpost') ?>" method="post" id="createCategoryForm">
+            <table class="list-label">
+                <tr>
+                    <td class="label"><label for="category_name"><?php echo $this->_('Add a category'); ?>: </label></td>
+                    <td>
+                        <input type="text" name="name" id="category_name" class="name required" value="" />
+                        <button type="submit" class="classic">OK</button>
+                        <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            $('#createCategoryForm').validate({
+                submitHandler: function(form) {
+                    reload(form, form.action, true, function(response) {
+                        $('#list_of_categories').append(response.row_html);
+                        $(form).find('input').val('');
+                        iframe.f.reload();
+                    });
+                    return false;
+                }
+            });
+
+            $(".list_edit").sortable({
+                handle : '.handle',
+                placeholder: "list_edit-placeholder",
+                update : function (e, ui) {
+                    var order = $j(e.target).sortable('serialize');
+                    $j(e.target).sortable("refresh");
+                    var id = ui.item.attr('id').replace('row_', '');
+                    categories.updateEvents(id);
+                    reload($j("#list_of_categories"), "<?php echo $this->getUrl('catalog/application_category/sortcategories', array('option_value_id' => $option_value->getId())); ?>?"+order, true, function() {
+                        iframe.f.reload();
+                    });
+                }
+            });
+
+            $(".sublist_edit").sortable({
+                handle : '.handle',
+                placeholder: "list_edit-placeholder",
+                update : function (e, ui) {
+                    var order = $j(e.target).sortable('serialize');
+                    $j(e.target).sortable("refresh");
+                    var id = ui.item.attr('id').replace('row_', '');
+                    categories.updateEvents(id);
+                    reload($j("#list_of_categories"), "<?php echo $this->getUrl('catalog/application_category/sortcategories', array('option_value_id' => $option_value->getId())); ?>?"+order, true, function() {
+                        iframe.f.reload();
+                    });
+                }
+            });
+
+        });
+
+    </script>
+</div>

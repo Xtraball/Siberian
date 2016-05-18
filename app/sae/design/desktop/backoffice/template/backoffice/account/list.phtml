@@ -1,0 +1,34 @@
+<sb-section title="'<?php echo addslashes($this->_("People who are allowed to access the backoffice")); ?>'" button="button">
+    <br />
+    <div class="form-group">
+        <label for="filter"><?php echo $this->_("Search"); ?></label>
+        <input type="text" id="filter" class="form-control" ng-model="filter" placeholder="<?php echo $this->_("Search"); ?>" />
+    </div>
+    <br />
+    <table class="table">
+        <col width="5%" />
+        <col width="70%" />
+        <col width="20%" />
+        <col width="5%" />
+        <thead>
+            <tr>
+                <th class="pointer" ng-click="order = 'id'; by = !by"><?php echo $this->_("Id"); ?></th>
+                <th class="pointer" ng-click="order = 'email'; by = !by"><?php echo $this->_("Email"); ?></th>
+                <th class="pointer" ng-click="order = 'created_at'; by = !by"><?php echo $this->_("Created at"); ?></th>
+                <th><?php echo $this->_("Actions"); ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="slide-left" ng-repeat="user in users | filter:filter | orderBy:order:by">
+                <td>{{ user.id }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.created_at }}</td>
+                <td>
+                    <a href="<?php echo $this->getUrl("backoffice/account_view/index"); ?>/user_id/{{ user.id }}" ng-show="!user.loader_is_visible" title="<?php echo $this->_("Edit"); ?>"><i class="fa fa-edit"></i></a>
+                    <a href="#" ng-show="!user.loader_is_visible" ng-click="delete(user)" title="<?php echo $this->_("Delete"); ?>"><i class="fa fa-remove"></i></a>
+                    <sb-loader is_visible="user.loader_is_visible" type="'inner_content'" size="'tiny'"></sb-loader>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</sb-section>

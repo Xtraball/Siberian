@@ -1,0 +1,43 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $event = $this->getCurrentEvent(); ?>
+<div class="section">
+    <form id="eventForm" action="<?php echo $this->getUrl('event/application/editpost'); ?>" class="form-horizontal">
+        <div class="buttons">
+            <button type="button" onclick="ical.unbindAll(); feature.list();" class="delete left"><i class="icon-arrow-left"></i></button>
+            <button type="submit" class="validate default_button save_event right">OK</button>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+        <fieldset>
+            <div class="form-group">
+                <div class="col-sm-7 col-sm-offset-5">
+                    <?php echo $this->_('Calendar\'s URL') ?> <span class="required-entry"> *</span> :
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-5">
+                    <input type="text" name="name" value="<?php echo $event->getName()?>" placeholder="<?php echo $this->_('Calendar\'s title') ?>" class="form-control required" />
+                </div>
+                <div class="col-sm-5">
+                    <input type="text" name="url" value="<?php echo $event->getData('url')?>" placeholder="<?php echo $this->_('Calendar\'s URL') ?>" class="form-control required url" />
+                </div>
+                <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>" />
+                <input type="hidden" name="id" value="<?php echo $event->getId(); ?>" />
+                <input type="hidden" name="event_type" value="<?php echo $this->getEventType(); ?>" />
+            </div>
+        </fieldset>
+    </form>
+    <script type="text/javascript">
+
+       var ical = {
+            processEvents: function() {
+                return this;
+            },
+            unbindAll: function() {
+                $('#eventForm').unbind('submit');
+                return this;
+            }
+       }
+
+    </script>
+</div>

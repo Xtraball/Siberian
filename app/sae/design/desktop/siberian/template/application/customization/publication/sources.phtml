@@ -1,0 +1,255 @@
+<?php $application = $this->getApplication() ?>
+<div class="application">
+    <div class="infos">
+        <div class="area first">
+            <h3 class="title">
+                <span class="left area"><?php echo $this->_('General information'); ?></span>
+                <hr />
+                <div class="clear"></div>
+            </h3>
+            <div class="area_content form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <label data-tip="44" data-tip-left="80" for="name"><?php echo $this->_('Application name'); ?> : </label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="name" name="name" class="autosave form-control" value="<?php echo $application->getName() ? $application->getName() : ucfirst(mb_strtolower($this->getSession()->getAdmin()->getName())); ?>" maxlength="30" />
+                    </div>
+                    <div class="col-sm-3">
+                        <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_name" alt="Loading" title="Loading" width="24" style="display:none;" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <label for="bundle_id"><?php echo $this->_('Bundle Id'); ?> : </label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="bundle_id" name="bundle_id" class="autosave form-control" value="<?php echo $application->getBundleId(); ?>" />
+                    </div>
+                    <div class="col-sm-3">
+                        <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_bundle_id" alt="Loading" title="Loading" width="24" style="display:none;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="area">
+            <h3 class="title">
+                <span class="left area"><?php echo $this->_('Monetize your app'); ?></span>
+                <hr />
+                <div class="clear"></div>
+            </h3>
+            <div class="area_content monetize_area form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <label data-tip="15" for="use_ads" class="checkbox <?php if ($application->getUseAds() == 1) echo 'checked' ?>">
+                            <input id="use_ads" type="checkbox" class="autosave" value="1" name="use_ads" <?php if ($application->getUseAds() == 1) echo 'checked="checked"' ?> />
+                            <input id="flag_use_ads" type="hidden" value="1" name="flag_use_ads" />
+                            <?php echo $this->_('Monetize my app using AdMob?'); ?>
+                        </label>
+                    </div>
+                </div>
+                <div id="monetize_fields" class="<?php if(!$application->getUseAds()) : ?>none<?php endif; ?>">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <p><?php echo $this->_("Enter your AdMob ID for each platform."); ?> <?php echo $this->_('<a href="%s" target="_blank">Click here for more information about AdMob</a>', "https://www.google.com/admob/"); ?></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label for="ios_admob_id"><?php echo $this->_('iOS'); ?> : </label>
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="text" id="ios_admob_id" name="admob_id" class="autosave input form-control" placeholder="AdMob ID" value="<?php echo $application->getDevice(1)->getAdmobId(); ?>" maxlength="50" />
+                            <input type="hidden" name="device_id" value="1" />
+                        </div>
+                        <div class="col-sm-5">
+                            <select id="select_admob_type_ios" name="admob_type" class="autosave no-dk form-control" tabindex="2">
+                                <option value="banner" <?php if($application->getDevice(1)->getAdmobType() == "banner") : ?> selected="selected"<?php endif; ?>>Banner</option>
+                                <option value="interstitial" <?php if($application->getDevice(1)->getAdmobType() == "interstitial") : ?> selected="selected"<?php endif; ?>>Interstitial</option>
+                            </select>
+                            <input type="hidden" name="device_id" value="1" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label for="android_admob_id"><?php echo $this->_('Android'); ?> : </label>    
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="text" id="android_admob_id" name="admob_id" class="autosave input form-control" placeholder="AdMob ID" value="<?php echo $application->getDevice(2)->getAdmobId(); ?>" maxlength="50" />
+                            <input type="hidden" name="device_id" value="2" />
+                        </div>
+                        <div class="col-sm-5">
+                            <select id="select_admob_type_android" name="admob_type" class="autosave no-dk form-control" tabindex="2">
+                                <option value="banner" <?php if($application->getDevice(2)->getAdmobType() == "banner") : ?> selected="selected"<?php endif; ?>>Banner</option>
+                                <option value="interstitial" <?php if($application->getDevice(2)->getAdmobType() == "interstitial") : ?> selected="selected"<?php endif; ?>>Interstitial</option>
+                            </select>
+                            <input type="hidden" name="device_id" value="2" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="area">
+            <h3 class="title">
+                <span class="left area"><?php echo $this->_('Mobile source codes'); ?></span>
+                <hr />
+                <div class="clear"></div>
+            </h3>
+            <div class="area_content">
+                <?php $admin_can_publish = $this->getSession()->getAdmin()->canPublishThemself(); ?>
+                <?php $errors = $this->getApplication()->isAvailableForPublishing($admin_can_publish); ?>
+                <?php if(count($errors) > 0) : ?>
+                    <p><?php echo $this->_('To be able to download source codes, please provide the following information:<br />'); ?></p>
+                    <p>- <?php echo join('<br />- ', $errors); ?></p>
+                <?php elseif(!$this->getApplication()->subscriptionIsActive()) : ?>
+                    <p><?php echo $this->_("Your application is ready to be published."); ?></p>
+                    <p><?php echo $this->_("Proceed to checkout before downloading the source code."); ?></p>
+                <?php else : ?>
+                    <div>
+                        <p><?php echo $this->_('Click here to download the source code:'); ?></p>
+                        <div class="form-horizontal">
+                            <?php if($application->getDesignCode() != "ionic") : ?>
+                            <div class="form-group">
+                                <div class="col-sm-5">
+                                    <?php echo $this->_('Source type'); ?>
+                                </div>
+                                <div class="col-sm-5">
+                                    <select id="design_switcher">
+                                        <?php foreach(Application_Model_Application::getDesignCodes() as $design_code => $design_name) : ?>
+                                        <option value="<?php echo $design_code; ?>"<?php if($application->getDesignCode() == $design_code) : ?> selected="selected"<?php endif; ?>><?php echo $design_name; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <?php endif; ?>
+                            <div class="form-group">
+                                <div class="col-sm-5">
+                                    <?php echo $this->_('iPhone Version'); ?>
+                                </div>
+                                <div class="col-sm-5">
+                                    <a class="download_source" base-href="<?php echo $this->getUrl("application/customization_publication_infos/downloadsource", array("device_id" => 1)); ?>"><i class="icon-download-alt"></i></a>
+                                    <a class="download_source" base-href="<?php echo $this->getUrl("application/customization_publication_infos/downloadsource", array("device_id" => 1)); ?>"><?php echo $this->_('Download'); ?></a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-5">
+                                    <?php echo $this->_('iPhone Version (No Ads)'); ?>
+                                </div>
+                                <div class="col-sm-5">
+                                    <a class="download_source" base-href="<?php echo $this->getUrl("application/customization_publication_infos/downloadsource", array("device_id" => 1, "no_ads" => 1)); ?>"><i class="icon-download-alt"></i></a>
+                                    <a class="download_source" base-href="<?php echo $this->getUrl("application/customization_publication_infos/downloadsource", array("device_id" => 1, "no_ads" => 1)); ?>"><?php echo $this->_('Download'); ?></a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-5">
+                                    <?php echo $this->_('Android Version'); ?>
+                                </div>
+                                <div class="col-sm-5">
+                                    <a class="download_source" base-href="<?php echo $this->getUrl("application/customization_publication_infos/downloadsource", array("device_id" => 2)); ?>"><i class="icon-download-alt"></i></a>
+                                    <a class="download_source" base-href="<?php echo $this->getUrl("application/customization_publication_infos/downloadsource", array("device_id" => 2)); ?>"><?php echo $this->_('Download'); ?></a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                <?php endif; ?>
+
+            </div>
+        </div>
+        <?php if($application->getDesignCode() != "ionic") : ?>
+        <div class="area">
+            <h3 class="title">
+                <span class="left area"><?php echo $this->_('App design'); ?></span>
+                <hr />
+                <div class="clear"></div>
+            </h3>
+            <div class="area_content">
+                <button type="button" id="switch_to_ionic" class="btn default_button button-block">
+                    <?php echo $this->_("Switch to Ionic design"); ?>
+                    <input type="hidden" name="switch_to_ionic" value="1" />
+                </button>
+            </div>
+        </div>
+        <?php endif; ?>
+    </div>
+</div>
+<script type="text/javascript">
+
+    setAppName($('#name').val());
+    //changement de nom appli
+    $('#name').keyup(function() {
+        setAppName($('#name').val());
+    });
+
+    $('#use_ads').click(function() {
+        if($(this).is(':checked')) {
+            $(this).removeClass("checked");
+            $("#monetize_fields").removeClass("none");
+        } else {
+            $(this).addClass("checked");
+            $("#monetize_fields").addClass("none");
+        }
+    });
+
+    function setAppName(name) {
+        if(!name) name = '';
+        name = name.trim();
+        var newName = name;
+        if(name.length > 11) newName = name.substring(0, 10).trim()+'...';
+
+        $('#app_name').html(newName);
+        $('#header_app_name').html(newName);
+    }
+
+    $('.autosave').change(function() {
+        var input_loader = $('#loader_'+$(this).attr('id'));
+        input_loader.show();
+        reload(this.parentNode, '<?php echo $this->getUrl('application/customization_publication_infos/save'); ?>', false, function(datas) {
+            input_loader.hide();
+        }, function() {
+            input_loader.hide();
+        });
+    });
+
+    <?php if($application->getDesignCode() != "ionic") : ?>
+    $("#design_switcher").change(function() {
+        var design_code = this.value;
+        $(".download_source").each(function() {
+            var base_href = $(this).attr("base-href");
+            base_href += "/design_code/"+design_code;
+            $(this).attr("href", base_href);
+        });
+    });
+
+    $("#design_switcher").change();
+
+    $("#switch_to_ionic").click(function() {
+        if(confirm("<?php echo $this->_("If your app is already published on the stores, be sure you have sent an update with the Ionic version, and that this update has already been accepted, otherwise your app may be broken."); ?>")) {
+            reload($(this), "<?php echo $this->getUrl("application/customization_publication_infos/switchtoionic"); ?>", true, function(data) {
+                if(data.success) {
+                    window.location = window.location.href;
+                }
+            });
+        }
+    });
+
+    <?php else: ?>
+    $(".download_source").each(function() {
+        $(this).attr("href", $(this).attr("base-href"));
+        $(this).removeAttr("base-href");
+    });
+    <?php endif; ?>
+
+</script>
+
+<style type="text/css">
+    .application .infos .ask_if_has_account { padding: 5px; }
+    .application .infos input.has_account { min-width: 20px; width: 20px; }
+
+    /*homescreen*/
+    #mobile_homescreen {  }
+    /*#mobile_homescreen .touch_icon { position: absolute; top: 249px; left: 128px; height: 71px; }*/
+    #name:disabled { opacity:0.4 }
+    input#name.error { border: 1px dotted red !important }
+</style>

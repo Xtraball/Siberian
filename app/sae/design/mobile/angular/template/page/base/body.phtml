@@ -1,0 +1,39 @@
+<div ng-app="Siberian">
+    <div id="fb-root"></div>
+
+    <script type="text/ng-template" id="locked_page.html">
+        <?php echo $this->getPartialHtml("padlock"); ?>
+    </script>
+    <script type="text/ng-template" id="locked_app.html">
+        <?php echo $this->getPartialHtml("application_is_locked"); ?>
+    </script>
+
+    <div player-link></div>
+    <div sb-modal></div>
+    <div sb-progress-bar ng-if="showProgressBar" percent="progressBarPercent"></div>
+    <div sb-check-connection id="wrapper" class="background" ng-class="direction">
+
+        <?php if($this->getApplication()->getLayoutVisibility() != Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE) : ?>
+        <div layout-sidebar ng-if="!application_is_locked && !current_page_is_locked"></div>
+        <?php endif; ?>
+
+        <div ng-view view-layout-adapter class="at-view-slide background" ng-class="code" ng-if="!current_page_is_locked && !application_is_locked"></div>
+
+        <locked-page class="scale-fade background fullscreen" ng-if="current_page_is_locked && !application_is_locked"></locked-page>
+        <locked-app class="background fullscreen" ng-if="application_is_locked"></locked-app>
+        
+        <sb-loader class="global_loader background" is-loading="app_loader_is_visible" size="'48'" block="'background'" animation="'no'"></sb-loader>
+        
+        <sb-connection></sb-connection>
+
+    </div>
+    <script type="text/javascript">
+        var APP_URL = "<?php echo $this->getApplication()->getUrl(); ?>";
+        var BASE_URL = "<?php echo $this->getBasePath(); ?>";
+        var ORIG_URL = "<?php echo $this->getRequest()->getRequestUri(); ?>";
+        if(ORIG_URL.indexOf('/') !== 0) ORIG_URL = '/'+ORIG_URL;
+    </script>
+
+    <?php echo $this->getPartialHtml("templates"); ?>
+
+</div>

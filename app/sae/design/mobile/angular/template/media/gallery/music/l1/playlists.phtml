@@ -1,0 +1,50 @@
+<div class="has_header media-gallery-music-common" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_('Back' ) ?>'" title="page_title" message="message" right-button="header_right_button"></sb-header>
+
+    <div class="media-music-tabs">
+        <ul>
+            <li>
+                <a class="active"><?php echo $this->_('Playlists') ?></a>
+            </li>
+            <li>
+                <a ng-click="showAlbums()"><?php echo $this->_('Albums') ?></a>
+            </li>
+        </ul>
+    </div>
+
+    <a class="read-all-button" ng-click="playAll()"><?php echo $this->_('Read all') ?></a>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="scrollable_content">
+        <ul class="boxes-area for_ads_banner">
+            <li class="media-box" ng-repeat="playlist in playlists" ng-click="showPlaylistAlbums(playlist)">
+                <ul class="cover-area">
+                    <li class="cover" ng-if="!playlist.images.length">
+                        <img ng-src="{{ playlist.artworkUrl }}">
+                    </li>
+                    <li class="small-cover" ng-repeat="image in playlist.images" ng-if="playlist.images.length">
+                        <img ng-src="{{ image.artworkUrl }}">
+                    </li>
+                </ul>
+                <div class="description-area">
+                    <div class="playlist-name">{{ playlist.name }}</div>
+                    <div ng-switch="album.type" class="metrics">
+                        <p ng-switch-when="podcast">
+                            <?php echo $this->_('Podcast') ?>
+                        </p>
+                        <p ng-switch-default>
+                            {{ playlist.totalTracks }}
+                            <span ng-switch="playlist.totalTracks">
+                                <span ng-switch-when="1"><?php echo $this->_('track') ?></span>
+                                <span ng-switch-default><?php echo $this->_('tracks') ?></span>
+                            </span>
+                            <span ng-if="playlist.totalTracks !== 0"> - {{ playlist.totalDuration }}</span>
+                        </p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <wordpress_mobile_list_template_l1>
+        <views>
+            <content class="wordpress_view_mobile_l1_wordpress" template="wordpress/l1/list.phtml" />
+            <list class="wordpress_view_mobile_l1_wordpress" template="html/l3/list.phtml" />
+            <cover class="core_view_mobile_default" template="html/l1/cover.phtml" />
+        </views>
+    </wordpress_mobile_list_template_l1>
+
+    <wordpress_mobile_view_template_l1>
+        <views>
+            <content class="wordpress_view_mobile_l1_wordpress" template="wordpress/l1/view.phtml" />
+        </views>
+    </wordpress_mobile_view_template_l1>
+
+    <wordpress_mobile_list_template_l2>
+        <views>
+            <content class="wordpress_view_mobile_l1_wordpress" template="wordpress/l1/list.phtml" />
+            <list class="wordpress_view_mobile_l1_wordpress" template="html/l5/list.phtml" />
+        </views>
+    </wordpress_mobile_list_template_l2>
+
+    <wordpress_mobile_view_template_l2>
+        <views>
+            <content class="wordpress_view_mobile_l1_wordpress" template="wordpress/l2/view.phtml" />
+        </views>
+    </wordpress_mobile_view_template_l2>
+
+    <wordpress_mobile_list_template_l3>
+        <views>
+            <content class="wordpress_view_mobile_l1_wordpress" template="wordpress/l1/list.phtml" />
+            <list class="wordpress_view_mobile_l1_wordpress" template="html/l6/list.phtml" />
+        </views>
+    </wordpress_mobile_list_template_l3>
+
+    <wordpress_mobile_view_template_l3>
+        <views>
+            <content class="wordpress_view_mobile_l1_wordpress" template="wordpress/l2/view.phtml" />
+        </views>
+    </wordpress_mobile_view_template_l3>
+
+</layout>

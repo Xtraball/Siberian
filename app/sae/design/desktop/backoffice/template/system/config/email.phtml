@@ -1,0 +1,43 @@
+
+<form ng-submit="save()" class="form-horizontal">
+    <sb-section title="'<?php echo $this->_("Support"); ?>'">
+
+        <div class="form-group">
+            <div class="col-md-6">
+                <label for="{{ configs.support_name.code }}"><?php echo $this->_("Name"); ?></label>
+                <input type="text" id="{{ configs.support_name.code }}" ng-model="configs.support_name.value" class="form-control" placeholder="{{ configs.support_name.label }}" />
+                <p class="help-block"><?php echo $this->_("Sender's name of the emails sent by the site to your clients"); ?></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-6">
+                <label for="{{ configs.support_email.code }}"><?php echo $this->_("Email"); ?></label>
+                <input type="email" id="{{ configs.support_email.code }}" ng-model="configs.support_email.value" class="form-control" placeholder="{{ configs.support_email.label }}" />
+                <p class="help-block"><?php echo $this->_("Sender's email address of the emails sent by the site to your clients"); ?></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-6">
+                <label for="{{ configs.support_link.code }}">{{ configs.support_link.label }}</label>
+                <input type="url" id="{{ configs.support_link.code }}" ng-model="configs.support_link.value" class="form-control" placeholder="{{ configs.support_link.label }}" />
+                <p class="help-block"><?php echo $this->_("Display a link to your clients to your support platform"); ?></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <label for="support_chat_code">{{ configs.support_chat_code.label }}</label>
+                <textarea id="{{ configs.support_chat_code.code }}" ng-model="configs.support_chat_code.value" class="form-control" placeholder="{{ configs.support_chat_code.label }}" rows="5"></textarea>
+                <p class="help-block"><?php echo $this->_("Enter the javascript code provided by your Chat provider in order to display a Chat from the editor."); ?></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary left"><?php echo $this->_("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+    </sb-section>
+
+</form>

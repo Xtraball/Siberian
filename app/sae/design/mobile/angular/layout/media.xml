@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <media_mobile_gallery_image_list_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="html/l1/sidebar.phtml" />
+        </views>
+    </media_mobile_gallery_image_list_template_l1>
+
+    <media_mobile_gallery_image_view_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="media/gallery/image/l1/view.phtml" />
+        </views>
+    </media_mobile_gallery_image_view_template_l1>
+
+
+    <media_mobile_gallery_video_list_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="html/l1/sidebar.phtml" />
+        </views>
+    </media_mobile_gallery_video_list_template_l1>
+
+    <media_mobile_gallery_video_view_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="media/gallery/video/l1/view.phtml" />
+        </views>
+    </media_mobile_gallery_video_view_template_l1>
+    
+    <media_mobile_gallery_music_playlists_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="media/gallery/music/l1/playlists.phtml" />
+        </views>
+    </media_mobile_gallery_music_playlists_template_l1>
+    
+    <media_mobile_gallery_music_playlistalbums_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="media/gallery/music/l1/playlist_albums.phtml" />
+        </views>
+    </media_mobile_gallery_music_playlistalbums_template_l1>
+    
+    <media_mobile_gallery_music_album_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="media/gallery/music/l1/album.phtml" />
+        </views>
+    </media_mobile_gallery_music_album_template_l1>
+    
+    <media_mobile_gallery_music_player_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="media/gallery/music/l1/player.phtml" />
+        </views>
+    </media_mobile_gallery_music_player_template_l1>
+    
+    <media_mobile_gallery_music_playerlink_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="media/gallery/music/l1/player_link.phtml" />
+        </views>
+    </media_mobile_gallery_music_playerlink_template_l1>
+    
+    <media_mobile_gallery_music_slider_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="media/gallery/music/l1/slider.phtml" />
+        </views>
+    </media_mobile_gallery_music_slider_template_l1>
+    
+    <media_mobile_gallery_music_albums_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="media/gallery/music/l1/albums.phtml" />
+        </views>
+    </media_mobile_gallery_music_albums_template_l1>
+    
+    <media_mobile_gallery_music_albumsboxes_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="media/gallery/music/l1/albums_boxes.phtml" />
+        </views>
+    </media_mobile_gallery_music_albumsboxes_template_l1>
+    
+    <media_mobile_gallery_music_playlisttracks_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="media/gallery/music/l1/playlist_tracks.phtml" />
+        </views>
+    </media_mobile_gallery_music_playlisttracks_template_l1>
+
+</layout>

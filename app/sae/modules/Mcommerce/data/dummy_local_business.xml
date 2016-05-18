@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<designs>
+    <pizza>
+        <content>
+            <stores>
+                <category>
+                    <title>Products</title>
+                    <subtitle>Lorem ipsum dolor sit amet</subtitle>
+                    <type_id>folder</type_id>
+                    <subcategory>
+                        <title>Pizzas</title>
+                        <subtitle>Lorem ipsum dolor sit amet</subtitle>
+                        <picture>/../../images/templates/pizza/content/pizza.png</picture>
+                        <type_id>folder</type_id>
+                    </subcategory>
+                    <subcategory>
+                        <title>Beverages</title>
+                        <subtitle>Lorem ipsum dolor sit amet</subtitle>
+                        <picture>/../../images/templates/pizza/content/pizza2.png</picture>
+                        <type_id>folder</type_id>
+                    </subcategory>
+                    <subcategory>
+                        <title>Desserts</title>
+                        <subtitle>Lorem ipsum dolor sit amet</subtitle>
+                        <picture>/../../images/templates/pizza/content/pizza3.png</picture>
+                        <type_id>folder</type_id>
+                    </subcategory>
+                    <subcategory>
+                        <title>Salades</title>
+                        <subtitle>Lorem ipsum dolor sit amet</subtitle>
+                        <picture>/../../images/templates/pizza/content/pizza4.png</picture>
+                        <type_id>folder</type_id>
+                    </subcategory>
+                    <subcategory>
+                        <title>Menus</title>
+                        <subtitle>Lorem ipsum dolor sit amet</subtitle>
+                        <type_id>folder</type_id>
+                    </subcategory>
+                </category>
+                <store>
+                    <name>Big Pizza</name>
+                    <email>bigpizza@bigpizza.piz</email>
+                    <street>2345 pizza street</street>
+                    <postcode>2345</postcode>
+                    <city>San Pizzisco</city>
+                    <country>United States</country>
+                    <latitude></latitude>
+                    <longitude></longitude>
+                    <phone></phone>
+                    <delivery_area></delivery_area>
+                    <delivery_time></delivery_time>
+                    <opening_hours></opening_hours>
+                    <new_tax_rate>20</new_tax_rate>
+                </store>
+                <store_delivery_methods>
+                    <method_code>in_store</method_code>
+                </store_delivery_methods>
+                <store_payment_methods>
+                    <method_code>cash</method_code>
+                    <method_code>cc_upon_delivery</method_code>
+                </store_payment_methods>
+                <!--<store_printer>-->
+                <!--<email>demo@demospecimen.com</email>-->
+                <!--</store_printer>-->
+            </stores>
+        </content>
+    </pizza>
+</designs>

@@ -1,0 +1,34 @@
+<?php $application = $this->getApplication(); ?>
+<?php $block_subheader = $application->getBlock('subheader'); ?>
+<?php $block_button = $application->getBlock('button'); ?>
+
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message" right-button="header_right_button"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="post l2 content scrollable_content">
+        <ul class="content_news for_ads_banner" ng-show="post.id">
+            <li class="details">
+                <div ng-if="post.picture">
+                    <img ng-src="{{ post.picture }}" alt="{{ post.author }}" title="{{ post.author }}" width="100%" />
+                </div>
+            </li>
+            <li class="titles">
+                <div>
+                    <p class="text title left">{{ post.title }}</p>
+                    <p class="text title right">{{ post.created_at }}</p>
+                    <div class="clear"></div>
+                </div>
+                <p class="text subtitle">{{ post.subtitle }}</p>                
+            </li>
+
+            <li class="description padding">
+                <div ng-bind-html="post.message | trusted_html"></div>
+            </li>
+
+        </ul>
+    </div>
+
+</div>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <backoffice_index_index>
+
+    </backoffice_index_index>
+
+    <backoffice_index_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="backoffice/index/index.phtml" />
+        </views>
+    </backoffice_index_template>
+
+    <backoffice_account_list_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="backoffice/account/list.phtml" />
+        </views>
+    </backoffice_account_list_template>
+
+    <backoffice_account_view_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="backoffice/account/view.phtml" />
+        </views>
+    </backoffice_account_view_template>
+
+    <backoffice_notif_list_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="backoffice/notif/list.phtml" />
+        </views>
+    </backoffice_notif_list_template>
+
+</layout>

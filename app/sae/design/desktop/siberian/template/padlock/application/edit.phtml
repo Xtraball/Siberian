@@ -1,0 +1,168 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $application = $this->getApplication(); ?>
+<?php $features = $application->getOptions(); ?>
+<?php $padlock = new Padlock_Model_Padlock(); ?>
+<?php $padlock->find($option_value->getId(), 'value_id') ?>
+
+<div class="form_content">
+    <div id="list" class="edit_page padlock">
+        <div class="section form_content">
+            <form id="padlockForm" name="padlockForm" method="post" action="<?php echo $this->getUrl('padlock/application/editpost') ?>">
+                <h4 class="subtitle">
+                    <span class="left area"><?php echo $this->_('Restrict Access') ?></span>
+                    <hr />
+                    <div class="clear"></div>
+                </h4>
+                <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
+                <div class="form-horizontal">
+                    <div class="infos">
+                        <div id="padlock_content">
+                            <div class="form-group">
+                                <div class="col-sm-9" id="select_unlock_by">
+                                    <div><p><?php echo $this->_('Unlock by:'); ?></p></div>
+                                    <ul class="clear tree">
+                                        <li>
+                                            <label for="select_unlock_type_qrcode" id="label_select_unlock_type_qrcode" class="label_select_unlock_type checkbox">
+                                                <input <?php if(preg_match('/qrcode/', $this->getApplication()->getUnlockBy())) echo 'checked="checked"'; ?> type="checkbox" class="select_unlock_type" value="qrcode" name="type_ids[]" id="select_unlock_type_qrcode">
+                                                <?php echo $this->_("QRCode") ?>
+                                            </label>
+                                            <div id="qrcode_info"><?php if(preg_match('/qrcode/', $this->getApplication()->getUnlockBy())) { ?><input type="hidden" name="qrcode_unlock_code" value="<?php echo $this->getApplication()->getUnlockCode(); ?>"><img src="<?php echo Core_Model_Directory::getPathTo('/images/application/'.$this->getApplication()->getId().'/application/padlock/padlock_qrcode.png?t='.time()); ?>" alt="qrcode" /><?php } ?></div>
+                                        </li>
+                                        <li>
+                                            <label for="select_unlock_type_account" id="label_select_unlock_type_account" class="label_select_unlock_type checkbox">
+                                                <input <?php if(preg_match('/account/', $this->getApplication()->getUnlockBy())) echo 'checked="checked"'; ?> type="checkbox" class="select_unlock_type" value="account" name="type_ids[]" id="select_unlock_type_account">
+                                                <?php echo $this->_("Account") ?>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="form-group" id="allow_all_the_users">
+                                <div class="col-sm-5">
+                                    <label for="allow_all_customers_to_access_locked_features"><?php echo $this->_("Allow all the users by default:") ?></label>
+                                </div>
+                                <div class="col-sm-5">
+                                    <select id="allow_all_customers_to_access_locked_features" name="allow_all_customers_to_access_locked_features" class="no-dk form-control">
+                                        <option value="1"<?php if($application->getAllowAllCustomersToAccessLockedFeatures()) : ?> selected="selected"<?php endif; ?>><?php echo $this->_("Yes"); ?></option>
+                                        <option value="0"<?php if(!$application->getAllowAllCustomersToAccessLockedFeatures()) : ?> selected="selected"<?php endif; ?>><?php echo $this->_("No"); ?></option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-5">
+                                    <label for="lock_the_entire_app"><?php echo $this->_("Lock the entire application?") ?></label>
+                                </div>
+                                <div class="col-sm-5">
+                                    <select id="lock_the_entire_app" name="app_is_locked" class="no-dk form-control">
+                                        <option value="1"<?php if($application->requireToBeLoggedIn()) : ?> selected="selected"<?php endif; ?>><?php echo $this->_("Yes"); ?></option>
+                                        <option value="0"<?php if(!$application->requireToBeLoggedIn()) : ?> selected="selected"<?php endif; ?>><?php echo $this->_("No"); ?></option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div id="select_features_to_lock"<?php if($application->requireToBeLoggedIn()) : ?> style="display:none"<?php endif; ?>>
+                                <hr />
+                                <div><p><?php echo $this->_('Choose the features to lock:'); ?></p></div>
+                                <ul class="clear tree">
+                                    <?php foreach($features as $feature) : ?>
+                                        <?php if($feature->getCode() == 'padlock' OR !$feature->getIsVisible()) continue; ?>
+                                        <li class="level_1">
+                                            <label for="select_option_value_<?php echo $feature->getId(); ?>" id="label_select_option_value_<?php echo $feature->getId(); ?>" class="label_select_option_value checkbox left no-padding">
+                                                <input type="checkbox" class="select_option_value" value="<?php echo $feature->getId(); ?>" name="value_ids[]" id="select_option_value_<?php echo $feature->getId(); ?>"<?php if($feature->isLocked()) : ?> checked="checked"<?php endif; ?>>
+                                                <?php echo $feature->getTabbarName() ?>
+                                            </label>
+                                            <div class="clear"></div>
+                                        </li>
+                                    <?php endforeach ?>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="save right">
+                        <button class="default_button btn" type="submit">
+                            <?php echo $this->_('Save'); ?>
+                        </button>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </form>
+        </div>
+        <div class="section">
+            <?php
+                echo $this->getLayout()
+                    ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
+                    ->setValueId($option_value->getId())
+                    ->toHtml()
+                ;
+            ?>
+        </div>
+    </div>
+    <style>
+        .edit_page.padlock .dk_container.dk_shown {margin-bottom: 0;}
+    </style>
+    <script type="text/javascript">
+
+        page.setCallback('didappear', function() {
+
+            createCustomUI();
+            $('#lock_the_entire_app').change(function() {
+                if($(this).val() == 1) {
+                    $('#select_features_to_lock').stop().slideUp();
+                } else {
+                    $('#select_features_to_lock').stop().slideDown();
+                }
+            });
+//            $('#lock_the_entire_app').dropkick({
+//                change: function() {
+//                    if(this.val() == 1) {
+//                        $('#select_features_to_lock').stop().slideUp();
+//                    } else {
+//                        $('#select_features_to_lock').stop().slideDown();
+//                    }
+//                }
+//            });
+//            $('#allow_all_customers_to_access_locked_features').dropkick({});
+
+            $("#select_unlock_type_account").click(function() {
+                if($(this).is(":checked")) {
+                    $("#allow_all_the_users").removeClass("hide");
+                }else{
+                    $("#allow_all_the_users").addClass("hide");
+                }
+            });
+
+            $("#select_unlock_type_qrcode").click(function() {
+                if($(this).is(":checked")) {
+
+                    $(this).parent().append('<img width="24" src="/app/sae/design/desktop/siberian/images/customization/ajax/spinner.gif" id="loader_tabbar_name" alt="Loading" title="Loading" class="loader">');
+                    var length = 9,
+                        charset = "abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+                        retVal = "";
+                    for (var i = 0, n = charset.length; i < length; ++i) {
+                        retVal += charset.charAt(Math.floor(Math.random() * n));
+                    }
+                    $(this).parent().find("img").remove();
+
+                    $(this).parent().parent().find("#qrcode_info").empty().append('<div id="qrcode_info"><input type="hidden" name="qrcode_unlock_code" value="'+retVal+'"><img src="http://api.qrserver.com/v1/create-qr-code/?color=000000&bgcolor=FFFFFF&data=sendback%3A' + retVal + '&qzone=1&margin=0&size=200x200&ecc=L" alt="qr code" /></div>');
+                } else {
+                    $(this).parent().parent().find("#qrcode_info").empty();
+                }
+            });
+
+            $('#padlockForm').submit(function() {
+                reload(this, this.action, true, function(datas) {
+
+                });
+                return false;
+            });
+
+        });
+
+        page.setCallback('willdisappear', function() {
+            $('#padlock').unbind('change');
+            $('#padlockForm').unbind('submit');
+        });
+
+    </script>
+</div>

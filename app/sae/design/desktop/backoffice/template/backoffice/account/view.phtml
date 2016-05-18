@@ -1,0 +1,52 @@
+<sb-section title="section_title">
+
+    <form ng-submit="saveUser();">
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="email"><?php echo $this->_("Email address"); ?></label>
+                <input type="email" id="email" ng-model="user.email" class="form-control" placeholder="<?php echo $this->_("Email address"); ?>">
+            </div>
+        </div>
+
+        <div class="clear"></div>
+
+        <div class="form-group" ng-if="user.id">
+            <div class="col-md-12">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="user.change_password" />
+                        <?php echo $this->_("Change password"); ?>
+                    </label>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="slide-left" ng-if="!user.id || user.change_password">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="password"><?php echo $this->_("Password"); ?></label>
+                    <input type="password" id="password" ng-model="user.password" class="form-control" placeholder="<?php echo $this->_("Password"); ?>" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="confirm_password"><?php echo $this->_("Confirm Password"); ?></label>
+                    <input type="password" id="confirm_password" ng-model="user.confirm_password" class="form-control" placeholder="<?php echo $this->_("Confirm Password"); ?>" />
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary left"><?php echo $this->_("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'toggle'" class="form_loader"></sb-loader>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+    </form>
+
+</sb-section>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <api_settings_key_list>
+        <base>
+            <title>Your APIs list</title>
+        </base>
+        <views>
+            <content class="core_view_default" template="api/settings/key/list.phtml" />
+        </views>
+    </api_settings_key_list>
+</layout>

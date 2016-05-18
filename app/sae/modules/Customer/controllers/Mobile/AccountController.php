@@ -1,0 +1,387 @@
+<?php
+
+class Customer_Mobile_AccountController extends Application_Controller_Mobile_Default
+{
+
+    public function viewAction() {
+
+        $this->loadPartials($this->getFullActionName('_').'_l'.$this->_layout_id, false);
+        $html = array(
+            'html' => $this->getLayout()->render(),
+            'title' => $this->_('Log-in'),
+            'next_button_title' => $this->_('Validate'),
+            'next_button_arrow_is_visible' => 1
+        );
+
+        $this->getLayout()->setHtml(Zend_Json::encode($html));
+
+    }
+
+    public function editAction() {
+
+        $title = $this->_("Create");
+        if($this->getSession()->isLoggedIn('customer')) {
+            $title = $this->_("My Account");
+        }
+
+        $this->loadPartials($this->getFullActionName('_').'_l'.$this->_layout_id, false);
+        $html = array(
+            'html' => $this->getLayout()->render(),
+            'title' => $title,
+            'next_button_title' => $this->_('Validate'),
+            'next_button_arrow_is_visible' => 1
+        );
+        $this->getLayout()->setHtml(Zend_Json::encode($html));
+    }
+
+    public function forgotpasswordAction() {
+
+        $this->loadPartials($this->getFullActionName('_').'_l'.$this->_layout_id, false);
+        $html = array(
+            'html' => $this->getLayout()->render(),
+            'title' => $this->_("Password"),
+            'next_button_title' => $this->_('Validate'),
+            'next_button_arrow_is_visible' => 1
+        );
+        $this->getLayout()->setHtml(Zend_Json::encode($html));
+    }
+
+    public function loginpostAction() {
+
+        if($datas = $this->getRequest()->getPost()) {
+
+            try {
+
+                if((empty($datas['email']) OR empty($datas['password']))) {
+                    throw new Exception($this->_('Authentication failed. Please check your email and/or your password'));
+                }
+
+                $customer = new Customer_Model_Customer();
+                $customer->find($datas['email'], 'email');
+                $password = $datas['password'];
+
+                if(!$customer->authenticate($password)) {
+                    throw new Exception($this->_('Authentication failed. Please check your email and/or your password'));
+                }
+
+                $this->getSession()
+                    ->resetInstance()
+                    ->setCustomer($customer)
+                ;
+
+                $html = array('success' => 1, 'customer_id' => $customer->getId());
+
+            }
+            catch(Exception $e) {
+                $html = array('error' => 1, 'message' => $e->getMessage());
+            }
+
+            $this->_sendHtml($html);
+        }
+
+    }
+
+    public function loginwithfacebookAction() {
+
+        if($access_token = $this->getRequest()->getParam('token')) {
+
+            try {
+
+                // Réinitialise la connexion
+                $this->getSession()->resetInstance();
+
+                // Récupération des données du compte Facebook
+                $graph_url = "https://graph.facebook.com/v2.0/me?access_token=".$access_token;
+                $user = json_decode(file_get_contents($graph_url));
+
+                if(!$user instanceof stdClass OR !$user->id) {
+                    throw new Exception($this->_('An error occurred while connecting to your Facebook account. Please try again later'));
+                }
+                // Récupère le user_id
+                $user_id = $user->id;
+
+                // Charge le client à partir du user_id
+                $customer = new Customer_Model_Customer();
+                $customer->findBySocialId($user_id, 'facebook');
+
+                // Si le client n'a pas de compte
+                if(!$customer->getId()) {
+
+                    // Charge le client à partir de l'adresse email afin d'associer les 2 comptes ensemble
+                    if($user->email) {
+                        $customer->find(array('email' => $user->email));
+                    }
+
+                    // Si l'email n'existe pas en base, on crée le client
+                    if(!$customer->getId()) {
+                        // Préparation des données du client
+                        $customer->setData(array(
+                            'civility' => $user->gender == 'male' ? 'm' : 'mme',
+                            'firstname' => $user->first_name,
+                            'lastname' => $user->last_name,
+                            'email' => $user->email
+                        ));
+
+                        // Ajoute un mot de passe par défaut
+                        $customer->setPassword(uniqid());
+
+                        // Récupèration de l'image de Facebook
+                        $social_image = file_get_contents("http://graph.facebook.com/v2.0/$user_id/picture?type=large");
+                        if($social_image) {
+
+                            $formated_name = Core_Model_Lib_String::format($customer->getName(), true);
+                            $image_path = $customer->getBaseImagePath().'/'.$formated_name;
+
+                            // Créer le dossier du client s'il n'existe pas
+                            if(!is_dir($customer->getBaseImagePath())) { mkdir($image_path, 0777); }
+
+                            // Créer l'image sur le serveur
+
+                            $image_name = uniqid().'.jpg';
+                            $image = fopen($image_path.'/'.$image_name, 'w');
+
+                            fputs($image, $social_image);
+                            fclose($image);
+
+                            // Redimensionne l'image
+                            Thumbnailer_CreateThumb::createThumbnail($image_path.'/'.$image_name, $image_path.'/'.$image_name, 150, 150, 'jpg', true);
+
+                            // Affecte l'image au client
+                            $customer->setImage('/'.$formated_name.'/'.$image_name);
+                        }
+                    }
+                }
+
+                // Affecte les données du réseau social au client
+                $customer->setSocialData('facebook', array('id' => $user_id, 'datas' => $access_token));
+
+                // Sauvegarde du nouveau client
+                $customer->save();
+
+                // Connexion du client
+                $this->getSession()->setCustomer($customer);
+
+                $html = array('success' => 1, 'customer_id' => $customer->getId());
+
+            }
+            catch(Exception $e) {
+                $html = array('error' => 1, 'message' => $e->getMessage());
+            }
+
+            $this->_sendHtml($html);
+
+        }
+
+    }
+
+    public function forgotpasswordpostAction() {
+
+        if($datas = $this->getRequest()->getPost() AND !$this->getSession()->isLoggedIn('customer')) {
+
+            try {
+
+                if(empty($datas['email'])) throw new Exception($this->_('Please enter your email address'));
+                if(!Zend_Validate::is($datas['email'], 'EmailAddress')) throw new Exception($this->_('Please enter a valid email address'));
+
+                $customer = new Customer_Model_Customer();
+                $customer->find($datas['email'], 'email');
+
+                if(!$customer->getId()) {
+                    throw new Exception("Your email address does not exist");
+                }
+
+                $admin_email = null;
+                $password = Core_Model_Lib_String::generate(8);
+                $contact = new Contact_Model_Contact();
+                $contact_page = $this->getApplication()->getPage('contact');
+                if($contact_page->getId()) {
+                    $contact->find($contact_page->getId(), 'value_id');
+                    $admin_email = $contact->getEmail();
+                }
+
+                $customer->setPassword($password)->save();
+
+                $sender = 'no-reply@'.Core_Model_Lib_String::format($this->getApplication()->getName(), true).'.com';
+                $layout = $this->getLayout()->loadEmail('customer', 'forgot_password');
+                $layout->getPartial('content_email')->setCustomer($customer)->setPassword($password)->setAdminEmail($admin_email)->setApp($this->getApplication()->getName());
+                $content = $layout->render();
+
+                $mail = new Zend_Mail('UTF-8');
+                $mail->setBodyHtml($content);
+                $mail->setFrom($sender, $this->getApplication()->getName());
+                $mail->addTo($customer->getEmail(), $customer->getName());
+                $mail->setSubject($this->_('%s – Your new password', $this->getApplication()->getName()));
+                $mail->send();
+
+                $html = array('success' => 1);
+
+                $html['message_success'] = $this->_("Your new password has been sent to the entered email address");
+
+            }
+            catch(Exception $e) {
+                $html = array(
+                    'error' => 1,
+                    'message' => $e->getMessage()
+                );
+            }
+
+            $this->_sendHtml($html);
+
+        }
+
+        return $this;
+
+    }
+
+    public function savepostAction() {
+
+        if($datas = $this->getRequest()->getPost()) {
+
+            if(!$customer = $this->getSession()->getCustomer()) {
+                $customer = new Customer_Model_Customer();
+            }
+            $isNew = !$customer->getId();
+            $isMobile = APPLICATION_TYPE == 'mobile';
+
+            try {
+
+                if(!Zend_Validate::is($datas['email'], 'EmailAddress')) throw new Exception($this->_('Please enter a valid email address'));
+                $dummy = new Customer_Model_Customer();
+                $dummy->find($datas['email'], 'email');
+
+                if($isNew AND $dummy->getId()) throw new Exception($this->_('We are sorry but this address is already used.'));
+
+                if(!empty($datas['social_datas'])) {
+
+                    $social_ids = array();
+                    foreach($datas['social_datas'] as $type => $data) {
+                        if($customer->findBySocialId($data['id'], $type)->getId()) {
+                            throw new Exception($this->_('We are sorry but the %s account is already linked to one of our customers', ucfirst($type)));
+                        }
+                        $social_ids[$type] = array('id' => $data['id']);
+                    }
+                }
+                $password = $customer->getPassword();
+                if(empty($datas['show_in_social_gaming'])) $datas['show_in_social_gaming'] = 0;
+
+                $customer->setData($datas);
+                $customer->setData('password', $password);
+
+                if(isset($datas['id']) AND $datas['id'] != $this->getSession()->getCustomer()->getId()) {
+                    throw new Exception($this->_('An error occurred while saving. Please try again later.'));
+                }
+
+                $formated_name = Core_Model_Lib_String::format($customer->getName(), true);
+                $base_logo_path = $customer->getBaseImagePath().'/'.$formated_name;
+
+                if($customer->getSocialPicture()) {
+                    $social_image = file_get_contents($customer->getSocialPicture());
+                    if($social_image) {
+                        if(!is_dir($customer->getBaseImagePath())) { mkdir($customer->getBaseImagePath(), 0777); }
+
+                        $image_name = uniqid().'.jpg';
+                        $image = fopen($customer->getBaseImagePath().'/'.$image_name, 'w');
+                        fputs($image, $social_image);
+                        fclose($image);
+
+                        $customer->setImage('/'.$formated_name.'/'.$image_name);
+                    }
+                    else {
+                        $this->getSession()->addError($this->_('An error occurred while saving your picture. Please try againg later.'));
+                    }
+                }
+
+                if(empty($datas['password']) AND $isNew) {
+                    throw new Exception($this->_('Please enter a password'));
+                }
+
+                if(!$isMobile AND $datas['password'] != $datas['confirm_password']) {
+                    throw new Exception($this->_('Your password does not match the entered password.'));
+                }
+
+                if($isNew AND !$isMobile AND $datas['email'] != $datas['confirm_email']) {
+                    throw new Exception($this->_("The old email address does not match the entered email address."));
+                }
+
+                if(!$isNew AND !empty($datas['old_password']) AND !$customer->isSamePassword($datas['old_password'])) {
+                    throw new Exception($this->_("The old password does not match the entered password."));
+                }
+
+                if(!empty($datas['password'])) $customer->setPassword($datas['password']);
+
+                if(!empty($social_ids)) $customer->setSocialDatas($social_ids);
+
+                $customer->save();
+
+                $this->getSession()->setCustomer($customer);
+
+                if($isNew) {
+                    $this->_sendNewAccountEmail($customer, $datas['password']);
+                }
+
+                if(!$isMobile) {
+
+                    $this->getSession()->addSuccess($this->_('Your account has been successfully saved'));
+
+                    // Retour des données (redirection vers la page en cours)
+                    $referer = !empty($datas['referer']) ? $datas['referer'] : $this->getRequest()->getHeader('referer');
+                    $this->_redirect($referer);
+                    return $this;
+                }
+
+                foreach($this->getRequest()->getParam('add_to_session', array()) as $key => $value) {
+                    $this->getSession()->$key = $value;
+                }
+
+                $html = array('success' => 1, 'customer_id' => $customer->getId());
+
+            }
+            catch(Exception $e) {
+                $html = array('error' => 1, 'message' => $e->getMessage());
+            }
+
+            $this->_sendHtml($html);
+
+        }
+
+    }
+
+    public function logoutAction() {
+
+        $this->getSession()->resetInstance();
+
+        $redirect = urldecode($this->getRequest()->getParam('redirect_url', $this->getRequest()->getHeader('referer')));
+        $html = array('success' => 1, 'redirect' => $redirect);
+
+        $this->getLayout()->setHtml(Zend_Json::encode($html));
+
+    }
+
+    protected function _sendNewAccountEmail($customer, $password) {
+
+        $admin_email = null;
+        $contact = new Contact_Model_Contact();
+        $contact_page = $this->getApplication()->getPage('contact');
+        $sender = 'no-reply@'.Core_Model_Lib_String::format($this->getApplication()->getName(), true).'.com';
+
+        if($contact_page->getId()) {
+            $contact->find($contact_page->getId(), 'value_id');
+            $admin_email = $contact->getEmail();
+        }
+
+        $layout = $this->getLayout()->loadEmail('customer', 'create_account');
+        $layout->getPartial('content_email')->setCustomer($customer)->setPassword($password)->setAdminEmail($admin_email)->setApp($this->getApplication()->getName());
+        $content = $layout->render();
+
+        $mail = new Zend_Mail('UTF-8');
+        $mail->setBodyHtml($content);
+        $mail->setFrom($sender, $this->getApplication()->getName());
+        $mail->addTo($customer->getEmail(), $customer->getName());
+        $mail->setSubject($this->_('%s - Account creation', $this->getApplication()->getName()));
+        $mail->send();
+
+        return $this;
+
+    }
+
+}

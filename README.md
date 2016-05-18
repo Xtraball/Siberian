@@ -1,25 +1,31 @@
-SiberianCMS: SAE Single App Edition
-===================================
+# SiberianCMS: SAE Single App Edition
 
-Work In Progress
-----------------
+![welcome](docs/siberiancms.png)
 
-We are moving our latest release in this repository, thank's for your upcoming support.
+## Documentation
 
+* [User documentation](http://doc.siberiancms.com)
+* [Developer documentation](http://developer.siberiancms.com)
 
----
 ## Installation
 
-    1. Checkout xtraball/siberiancms `git clone https://github.com/Xtraball/SiberianCMS`
-    2. Configure your environment `apache` or `nginx`
+### Configuration
 
-## Web server
+1. First you will need to either checkout the project `git clone https://github.com/Xtraball/SiberianCMS.git`
 
-* Apache
+    or download the [zip archive](https://github.com/Xtraball/SiberianCMS/archive/master.zip) then extract it on your webserver.
+
+2. Setup your empty database and user
+
+3. Configure your environment with [apache](#apache) or [nginx](#nginx)
+
+#### Apache
+
+If you are running under Apache, be sure that the directive `AllowOverride all` is working, unless the `.htaccess` configuration will fail.
 
 ```
 <VirtualHost [IP]:80>
-        ServerName [domain.com]
+        ServerName [yourdomain.tld]
 
 		CustomLog [/path/to/siberiancms]/var/log/httpd.access_log combined
 		ErrorLog [/path/to/siberiancms]/var/log/httpd.error_log
@@ -36,7 +42,11 @@ We are moving our latest release in this repository, thank's for your upcoming s
 </VirtualHost>
 ```
 
-* Nginx
+
+#### Nginx
+
+If you are running under Nginx, all you need is in the current configuration, 
+please check the `fastcgi` options as they may vary depending on your installation
 
 ```
 server {
@@ -47,9 +57,9 @@ server {
 	access_log [/path/to/siberiancms]/var/log/nginx.access_log;
 	error_log [/path/to/siberiancms]/var/log/nginx.error_log;
 
-	index index.php index.html index.htm index.nginx-debian.html;
+	index index.php index.html index.htm;
 
-	server_name [domain.com];
+	server_name [yourdomain.tld];
 
 	location / {
 		try_files $uri /index.php?$query_string;
@@ -59,7 +69,7 @@ server {
 		fastcgi_index index.php;
 		fastcgi_pass 127.0.0.1:9000;
 		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-		include /usr/local/etc/nginx/fastcgi_params;
+		include fastcgi_params;
 		fastcgi_buffers 256 128k;
 		fastcgi_connect_timeout 300s;
 		fastcgi_send_timeout 300s;
@@ -89,9 +99,10 @@ server {
 }
 ```
 
-## Development
+When you're done with the previous steps, reload your web server.
 
-### Best-practices
 
-### Guidelines
+### Web installer
 
+* Go to `http://yourdomain.tld` then follow the instructions
+![welcome](docs/install-sae.gif)

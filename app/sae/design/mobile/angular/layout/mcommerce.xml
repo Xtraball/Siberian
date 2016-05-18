@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <mcommerce_mobile_category_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="mcommerce/l1/categorylist.phtml" />
+            <list class="core_view_mobile_default" template="html/l3/list.phtml" />
+            <cover class="core_view_mobile_default" template="html/l1/cover.phtml" />
+        </views>
+    </mcommerce_mobile_category_template_l1>
+
+    <mcommerce_mobile_product_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="mcommerce/l1/product.phtml" />
+        </views>
+    </mcommerce_mobile_product_template_l1>
+
+    <mcommerce_mobile_cart_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="mcommerce/l1/cart.phtml" />
+        </views>
+    </mcommerce_mobile_cart_template_l1>
+
+    <mcommerce_mobile_sales_customer_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="mcommerce/l1/sales/customer.phtml" />
+        </views>
+    </mcommerce_mobile_sales_customer_template_l1>
+
+    <mcommerce_mobile_sales_storechoice_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="mcommerce/l1/sales/store.phtml" />
+        </views>
+    </mcommerce_mobile_sales_storechoice_template_l1>
+
+    <mcommerce_mobile_sales_delivery_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="mcommerce/l1/sales/delivery.phtml" />
+        </views>
+    </mcommerce_mobile_sales_delivery_template_l1>
+
+    <mcommerce_mobile_sales_payment_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="mcommerce/l1/sales/payment.phtml" />
+        </views>
+    </mcommerce_mobile_sales_payment_template_l1>
+
+    <mcommerce_mobile_sales_confirmation_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="mcommerce/l1/sales/confirmation.phtml" />
+        </views>
+    </mcommerce_mobile_sales_confirmation_template_l1>
+
+    <mcommerce_mobile_sales_success_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="mcommerce/l1/sales/success.phtml" />
+        </views>
+    </mcommerce_mobile_sales_success_template_l1>
+
+    <mcommerce_mobile_sales_error_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="mcommerce/l1/sales/error.phtml" />
+        </views>
+    </mcommerce_mobile_sales_error_template_l1>
+
+    <mcommerce_mobile_sales_stripe_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="mcommerce/l1/sales/stripe.phtml" />
+        </views>
+    </mcommerce_mobile_sales_stripe_template_l1>
+</layout>

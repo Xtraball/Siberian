@@ -1,0 +1,21 @@
+<form ng-submit="saveKeys()">
+
+    <sb-section title="push.title">
+        <div class="form-group">
+            <div class="col-md-6" ng-repeat="key in push.keys">
+                <label for="{{ key.name }}">{{ key.title }}</label>
+                <input type="text" id="{{ key.name }}" ng-model="key.value" class="form-control" placeholder="{{ key.title }}" />
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary left"><?php echo $this->_("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+            </div>
+        </div>
+
+    </sb-section>
+
+</form>

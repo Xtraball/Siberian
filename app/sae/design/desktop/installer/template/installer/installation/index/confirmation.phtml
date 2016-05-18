@@ -1,0 +1,18 @@
+<div class="animated part part1">
+    <h3 class="title blue10">Congratulation !</h3>
+    <p>Your Siberian CMS is set up now.</p>
+</div>
+<div class="animated part part2">
+
+</div>
+<script type="text/javascript">
+    var step = new Step(7);
+    step.canGoForward = function() {
+        window.location = "http://www.google.com";
+    };
+    step.isVisible = function() {
+        for(var i=1;i<installer.current_step_id;i++) delete installer.steps[i];
+        installer.checkButtons();
+    };
+    installer.addStep(step);
+</script>

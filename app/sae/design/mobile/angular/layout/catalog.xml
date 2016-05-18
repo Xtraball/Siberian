@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <catalog_mobile_category_list_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="html/l1/sidebar.phtml" />
+        </views>
+    </catalog_mobile_category_list_template_l1>
+
+    <catalog_mobile_category_product_list_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="html/l3/list.phtml" />
+        </views>
+    </catalog_mobile_category_product_list_template_l1>
+
+    <catalog_mobile_category_product_view_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="catalog/category/product/l1/view.phtml" />
+        </views>
+    </catalog_mobile_category_product_view_template_l1>
+
+    <catalog_mobile_category_list_template_l2>
+        <views>
+            <content class="core_view_mobile_default" template="html/l1/sidebar.phtml" />
+        </views>
+    </catalog_mobile_category_list_template_l2>
+
+    <catalog_mobile_category_product_list_template_l2>
+        <views>
+            <content class="core_view_mobile_default" template="html/l5/list.phtml" />
+        </views>
+    </catalog_mobile_category_product_list_template_l2>
+
+    <catalog_mobile_category_product_view_template_l2>
+        <views>
+            <content class="core_view_mobile_default" template="catalog/category/product/l1/view.phtml" />
+        </views>
+    </catalog_mobile_category_product_view_template_l2>
+
+    <catalog_mobile_category_list_template_l3>
+        <views>
+            <content class="core_view_mobile_default" template="html/l1/sidebar.phtml" />
+        </views>
+    </catalog_mobile_category_list_template_l3>
+
+    <catalog_mobile_category_product_list_template_l3>
+        <views>
+            <content class="core_view_mobile_default" template="html/l6/list.phtml" />
+        </views>
+    </catalog_mobile_category_product_list_template_l3>
+
+    <catalog_mobile_category_product_view_template_l3>
+        <views>
+            <content class="core_view_mobile_default" template="catalog/category/product/l1/view.phtml" />
+        </views>
+    </catalog_mobile_category_product_view_template_l3>
+
+    <catalog_mobile_setmeal_list_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="catalog/setmeal/l1/list.phtml" />
+            <list class="core_view_mobile_default" template="html/l3/list.phtml" />
+        </views>
+    </catalog_mobile_setmeal_list_template_l1>
+
+    <catalog_mobile_setmeal_view_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="catalog/setmeal/l1/view.phtml" />
+        </views>
+    </catalog_mobile_setmeal_view_template_l1>
+
+    <catalog_mobile_setmeal_list_template_l2>
+        <views>
+            <content class="core_view_mobile_default" template="catalog/setmeal/l1/list.phtml" />
+            <list class="core_view_mobile_default" template="html/l5/list.phtml" />
+        </views>
+    </catalog_mobile_setmeal_list_template_l2>
+
+    <catalog_mobile_setmeal_view_template_l2>
+        <views>
+            <content class="core_view_mobile_default" template="catalog/setmeal/l1/view.phtml" />
+        </views>
+    </catalog_mobile_setmeal_view_template_l2>
+
+    <catalog_mobile_setmeal_list_template_l3>
+        <views>
+            <content class="core_view_mobile_default" template="catalog/setmeal/l1/list.phtml" />
+            <list class="core_view_mobile_default" template="html/l6/list.phtml" />
+        </views>
+    </catalog_mobile_setmeal_list_template_l3>
+
+    <catalog_mobile_setmeal_view_template_l3>
+        <views>
+            <content class="core_view_mobile_default" template="catalog/setmeal/l1/view.phtml" />
+        </views>
+    </catalog_mobile_setmeal_view_template_l3>
+
+</layout>

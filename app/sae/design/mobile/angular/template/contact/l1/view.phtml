@@ -1,0 +1,59 @@
+<?php $application = $this->getApplication(); ?>
+<?php $target = $this->isOverview() ? "_blank" : "_self"; ?>
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="scrollable_content">
+        <div class="padding for_ads_banner">
+            <div class="contact_name">
+                <p class="name">{{ contact.name }}</p>
+            </div>
+            <div ng-if="contact.cover_url" class="contact_cover">
+                <img class="border" ng-src="{{ contact.cover_url }}" width="100%" />
+            </div>
+            <div class="contact_address">
+                <p class="address">
+                    <span class="block">{{ contact.street }}</span>
+                    <span>{{ contact.postcode }}</span>
+                    <span>{{ contact.city }}</span>
+                </p>
+            </div>
+            <div class="contact_description">
+                <p>{{ contact.description }}</p>
+            </div>
+            <div class="buttons">
+                <a href="tel:{{ contact.phone }}" class="button icon_left arrow_right" ng-if="contact.phone">
+                    <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/phone.png', true), $application->getBlock('button')->getColor()); ?>" width="21" height="21" />
+                    <?php echo $this->_('Phone'); ?>
+                </a>
+                <button class="button icon_left arrow_right" ng-if="!contact.handle_geo_protocol && (contact.coordinates || contact.street && contact.postcode && contact.city)" ng-click="showMap();">
+                    <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/marker.png', true), $application->getBlock('button')->getColor()); ?>" width="21" height="21" />
+                    <?php echo $this->_('Locate'); ?>
+                </button>
+                <a href="geo:{{ getGeoData() }}" class="button icon_left arrow_right" ng-if="contact.handle_geo_protocol && (contact.coordinates || contact.street && contact.postcode && contact.city)">
+                    <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/marker.png', true), $application->getBlock('button')->getColor()); ?>" width="21" height="21" />
+                    <?php echo $this->_('Locate'); ?>
+                </a>
+                <a href="{{ contact.form_url }}" class="button icon_left arrow_right" ng-if="contact.email">
+                    <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/envelope.png', true), $application->getBlock('button')->getColor()); ?>" width="21" height="21" />
+                    <?php echo $this->_('Email'); ?>
+                </a>
+                <a href="{{ contact.website_url }}" target="<?php echo $target; ?>" class="button icon_left arrow_right" ng-if="contact.website_url">
+                    <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/world.png', true), $application->getBlock('button')->getColor()); ?>" width="21" height="21" />
+                    <?php echo $this->_('Website'); ?>
+                </a>
+                <a href="{{ contact.facebook_url }}" target="<?php echo $target; ?>" class="button icon_left arrow_right" ng-if="contact.facebook_url">
+                    <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/facebook_alt.png', true), $application->getBlock('button')->getColor()); ?>" width="21" height="21" />
+                    <?php echo $this->_('Facebook'); ?>
+                </a>
+                <a href="{{ contact.twitter_url }}" target="<?php echo $target; ?>" class="button icon_left arrow_right" ng-if="contact.twitter_url">
+                    <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/twitter.png', true), $application->getBlock('button')->getColor()); ?>" width="21" height="21" />
+                    <?php echo $this->_('Twitter'); ?>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

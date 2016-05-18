@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <comment_mobile_list_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="comment/l1/list.phtml" />
+            <list class="core_view_mobile_default" template="html/l1/list.phtml" />
+        </views>
+    </comment_mobile_list_template_l1>
+
+    <comment_mobile_view_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="html/l1/post/view.phtml" />
+        </views>
+    </comment_mobile_view_template_l1>
+
+    <comment_mobile_edit_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="comment/l1/edit.phtml" />
+        </views>
+    </comment_mobile_edit_template_l1>
+
+    <comment_mobile_gallery_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="comment/l1/gallery.phtml" />
+        </views>
+    </comment_mobile_gallery_template_l1>
+
+    <comment_mobile_map_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="comment/l1/map.phtml" />
+        </views>
+    </comment_mobile_map_template_l1>
+
+    <comment_mobile_list_template_l2>
+        <views>
+            <content class="core_view_mobile_default" template="comment/l1/list.phtml" />
+            <list class="core_view_mobile_default" template="html/l4/list.phtml" />
+        </views>
+    </comment_mobile_list_template_l2>
+
+    <comment_mobile_view_template_l2>
+        <views>
+            <content class="core_view_mobile_default" template="html/l2/post/view.phtml" />
+        </views>
+    </comment_mobile_view_template_l2>
+
+    <comment_mobile_list_template_l3>
+        <views>
+            <content class="core_view_mobile_default" template="comment/l1/list.phtml" />
+            <list class="core_view_mobile_default" template="html/l5/list.phtml" />
+        </views>
+    </comment_mobile_list_template_l3>
+
+    <comment_mobile_view_template_l3>
+        <views>
+            <content class="core_view_mobile_default" template="html/l2/post/view.phtml" />
+        </views>
+    </comment_mobile_view_template_l3>
+
+    <comment_mobile_list_template_l4>
+        <views>
+            <content class="core_view_mobile_default" template="comment/l1/list.phtml" />
+            <list class="core_view_mobile_default" template="html/l6/list.phtml" />
+        </views>
+    </comment_mobile_list_template_l4>
+
+    <comment_mobile_view_template_l4>
+        <views>
+            <content class="core_view_mobile_default" template="html/l2/post/view.phtml" />
+        </views>
+    </comment_mobile_view_template_l4>
+
+</layout>

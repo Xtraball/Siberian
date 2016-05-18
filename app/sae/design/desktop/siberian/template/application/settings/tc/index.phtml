@@ -1,0 +1,67 @@
+<?php $application = $this->getApplication(); ?>
+<div class="application_settings application">
+    <div class="application_header app_name">
+        <?php echo $this->getPartialHtml('customization_header'); ?>
+    </div>
+    <div class="application_content inner_content">
+        <div class="title">
+            <i class="left icon-info"></i>
+            <h2 class="left inner_content f-rounded"><?php echo $this->_('Terms & Conditions'); ?></h2>
+            <div class="clear"></div>
+            <hr />
+        </div>
+        <?php foreach(Application_Model_Tc::getTypes() as $type => $label) : ?>
+        <?php $tc = new Application_Model_Tc(); ?>
+        <?php $tc->findByType($application->getId(), $type); ?>
+        <div class="area">
+            <h3 class="title">
+                <span class="left area"><?php echo $this->_($label); ?></span>
+                <hr />
+                <div class="clear"></div>
+            </h3>
+            <div class="area_content">
+                <form class="tcForm" action="<?php echo $this->getUrl('application/settings_tc/save'); ?>" onsubmit="return false">
+                    <div class="container-fluid">
+                        <div class="form-group">
+                            <textarea type="text" id="text_<?php echo $type ?>" class="replace-with-ckeditor" name="text"><?php echo $tc->getText() ?></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn default_button"><?php echo $this->_("Save"); ?></button>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="type" value="<?php echo $type ?>" />
+
+                </form>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+    <script type="text/javascript">
+
+        $('.tcForm').submit(function() {
+            reload($(this), this.action, true);
+            return false;
+        });
+
+        $('.replace-with-ckeditor').ckeditor();
+
+    </script>
+<style>
+    #create_application table tr th { padding: 10px; border-bottom: 1px solid; font-weight:bold; font-size: 20px; text-transform: uppercase; }
+    #create_application table tr td { padding: 10px; }
+    #urlForm .row_config_cname {padding-top: 5px;}
+    /*#urlForm .row_config_cname span.delete {
+        width: 540px;
+        padding: 10px;
+        border-radius: 7px;
+        font-size: 16px;
+        transition: none;
+        display: none;
+    }*/
+    #urlForm .row_config_cname span i {margin-right: 10px;font-size: 18px;}
+    #urlForm a#configure_cname:focus {outline: 0;}
+    #urlForm .row_config_cname span i.icon-info-sign {margin-left: 10px;}
+</style>
