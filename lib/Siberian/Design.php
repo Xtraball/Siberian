@@ -113,7 +113,11 @@ class Siberian_Design
         $design_code = is_null($design_code) ? DESIGN_CODE : $design_code;
 
         /** Key contain only single slashes, removing duplicates helps to find the right ones. */
-        $base_file = preg_replace("#/+#", "/", sprintf("%s/%s", $design_code, $base_file));
+        if($type == 'email') {
+            $base_file = preg_replace("#/+#", "/", sprintf("%s", $base_file));
+        } else {
+            $base_file = preg_replace("#/+#", "/", sprintf("%s/%s", $design_code, $base_file));
+        }
 
         if(isset(self::$design_cache[$type]) && isset(self::$design_cache[$type][$base_file])) {
             return "/".self::$design_cache[$type][$base_file];

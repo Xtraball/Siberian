@@ -9,6 +9,7 @@ class Siberian_Layout_Email extends Siberian_Layout
         $this->_filename = $filename;
         $this->_action = $action;
         Siberian_View::setLayout($this);
+        Siberian_View::setType("email");
 
         return $this;
     }
@@ -24,7 +25,9 @@ class Siberian_Layout_Email extends Siberian_Layout
                 if(empty($partial->attributes()->no_ajax)) {
                     $class = (string) $partial->attributes()->class;
                     $template = (string) $partial->attributes()->template;
-                    if(!empty($class) AND !empty($template)) $this->addPartial($key, $class, $template);
+                    if(!empty($class) AND !empty($template)) {
+                        $this->addPartial($key, $class, $template);
+                    }
                 }
             }
         }
@@ -32,7 +35,6 @@ class Siberian_Layout_Email extends Siberian_Layout
         // Actions
         if(isset($this->_xml->actions)) {
             foreach($this->_xml->actions->children() as $partial => $values) {
-
                 if($partial = $this->getPartial($partial)) {
                     $method = (string) $values->attributes()->name;
                     if(is_callable(array($partial, $method))) {
@@ -55,8 +57,12 @@ class Siberian_Layout_Email extends Siberian_Layout
             $baseView->default_class_name = implode(' ', $classes);
         }
 
-        if(isset($this->_partials['base'])) $this->setBaseRender($this->_partials['base']);
-        else $this->setBaseRender($this->getFirstPartial());
+
+        if(isset($this->_partials['base'])) {
+            $this->setBaseRender($this->_partials['base']);
+        } else {
+            $this->setBaseRender($this->getFirstPartial());
+        }
 
         return $this;
 
@@ -74,14 +80,16 @@ class Siberian_Layout_Email extends Siberian_Layout
         $action = $this->_action;
         $this->_otherLayout = array();
         $keys = array();
-        $this->_baseDefaultLayout = simplexml_load_file(APPLICATION_PATH . '/design/email/layout/default.xml', null, LIBXML_COMPACT);
+        $email_path = Siberian_Design::getBasePath("layout/default.xml", "email");
+        $this->_baseDefaultLayout = simplexml_load_file($email_path, null, LIBXML_COMPACT);
         $this->_defaultLayout = $this->_baseDefaultLayout->default;
 
         if(isset($this->_baseDefaultLayout->$action)) {
             $this->_actionLayout = $this->_baseDefaultLayout->$action;
         }
-        elseif(file_exists(APPLICATION_PATH . '/design/email/layout/'.$filename)) {
-            $this->_baseActionLayout = simplexml_load_file(APPLICATION_PATH . '/design/email/layout/'.$filename);
+        elseif(file_exists(Siberian_Design::getBasePath("layout/{$filename}", "email"))) {
+            $email_path = Siberian_Design::getBasePath("layout/{$filename}", "email");
+            $this->_baseActionLayout = simplexml_load_file($email_path);
             $this->_actionLayout = $this->_baseActionLayout->$action;
         }
         else {

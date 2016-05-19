@@ -12,6 +12,7 @@ class Siberian_View extends Zend_View
 
     protected static $_request;
     protected static $_layout;
+    protected static $_type = null;
 
     protected $_template;
     protected $_metas = array();
@@ -23,6 +24,14 @@ class Siberian_View extends Zend_View
 
     public function getLayout() {
         return self::$_layout;
+    }
+
+    public static function setType($type) {
+        self::$_type = $type;
+    }
+
+    public static function getType() {
+        return self::$_type;
     }
 
     public static function setRequest($request) {
@@ -195,9 +204,8 @@ class Siberian_View extends Zend_View
      */
     protected function _script($name)
     {
-
         /** Siberian local inheritance test */
-        $base_path = Siberian_Design::getBasePath("template/{$name}");
+        $base_path = Siberian_Design::getBasePath("template/{$name}", self::getType());
         if(is_readable($base_path)) {
             return $base_path;
         }

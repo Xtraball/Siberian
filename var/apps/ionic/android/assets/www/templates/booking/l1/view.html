@@ -22,7 +22,7 @@
 
                 <label class="item item-input item-select item-custom">
                     <div class="input-label">
-                        {{ "People number:" | translate }}
+                        {{ "Number of people" | translate }}:
                     </div>
                     <select ng-model="formData.people" ng-options="value for value in people track by value" ng-class="{error: bookingForm.people.$invalid && bookingForm.submitted}" required></select>
                     <label class="error" ng-show="bookingForm.people.$invalid && bookingForm.submitted">{{ "This field is required" | translate }}</label>

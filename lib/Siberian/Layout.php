@@ -399,7 +399,7 @@ class Siberian_Layout extends Zend_Layout
     }
 
     public function addPartial($key, $view, $template) {
-        $this->_partials[$key] = $this->_getView($view)->setTemplate($template);// array('view' => $view, 'template' => $template);
+        $this->_partials[$key] = $this->_getView($view)->setTemplate($template);
         return $this->_partials[$key];
     }
 
