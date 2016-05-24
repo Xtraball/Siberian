@@ -19,7 +19,7 @@
                         <label class="error" ng-show="bookingForm.email.$invalid && bookingForm.submitted"><?php echo $this->_("Please enter a valid email address"); ?></label>
                     </li>
                     <li>
-                        <label for="booking_people"><?php echo $this->_('Number of People') ?>:</label>
+                        <label for="booking_people"><?php echo $this->_('Number of people') ?>:</label>
                         <select id="booking_people" name="people" ng-model="form.people" ng-options="value for value in people" ng-class="{error: bookingForm.people.$invalid && bookingForm.submitted}" required ></select>
                         <label class="error" ng-show="bookingForm.people.$invalid && bookingForm.submitted"><?php echo $this->_("This field is required"); ?></label>
                     </li>
