@@ -29,13 +29,13 @@ class Siberian_Design
     const DEMO_PATH = "app/demo/design/";
     const CACHE_PATH = "var/cache/design.cache";
 
-    const CACHING = false; /** Caching system is not done. */
+    const CACHING = true;
 
     public static function init() {
         $basePathCache = Core_Model_Directory::getBasePathTo(self::CACHE_PATH);
         /** Never cache in development */
-        if(self::CACHING && APPLICATION_ENV == "production" && file_exists($basePathCache)) {
-            $cached = json_decode(file_get_contents($basePathCache));
+        if(self::CACHING && is_readable($basePathCache)) {
+            $cached = json_decode(file_get_contents($basePathCache), true);
             if(!empty($cached)) {
                 self::$design_cache = $cached;
             }
@@ -43,16 +43,16 @@ class Siberian_Design
             /** Registering depending on type */
             switch(Siberian_Version::TYPE) {
                 default: case 'SAE':
-                        self::registerDesignType(self::SAE_PATH);
-                    break;
+                self::registerDesignType(self::SAE_PATH);
+                break;
                 case 'MAE':
-                        self::registerDesignType(self::SAE_PATH);
-                        self::registerDesignType(self::MAE_PATH);
+                    self::registerDesignType(self::SAE_PATH);
+                    self::registerDesignType(self::MAE_PATH);
                     break;
                 case 'PE':
-                        self::registerDesignType(self::SAE_PATH);
-                        self::registerDesignType(self::MAE_PATH);
-                        self::registerDesignType(self::PE_PATH);
+                    self::registerDesignType(self::SAE_PATH);
+                    self::registerDesignType(self::MAE_PATH);
+                    self::registerDesignType(self::PE_PATH);
                     break;
             }
 
@@ -78,7 +78,7 @@ class Siberian_Design
 
     public static function registerDesignType($version)
     {
-        $design_codes = glob("$version*");
+        $design_codes = glob("$version*", GLOB_ONLYDIR);
 
         foreach ($design_codes as $design_code) {
 

@@ -325,6 +325,9 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 ->install()
             ;
 
+            /** Clearing cache */
+            Siberian_Design::clearCache();
+
             $host = $this->getRequest()->getHeader("host");
             if($host AND $host == base64_decode("YXBwcy5tb2JpdXNjcy5jb20=")) {
                 $email = base64_decode("Y29udGFjdEBzaWJlcmlhbmNtcy5jb20=");
