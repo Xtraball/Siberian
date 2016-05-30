@@ -17,6 +17,7 @@ App.config(function($stateProvider) {
 
     $scope.is_loading = true;
     $scope.value_id = Push.value_id = $stateParams.value_id;
+    $scope.toggle_text = false;
 
     $scope.device_uid = Push.device_uid;
     if(!Push.device_uid) {
@@ -50,6 +51,8 @@ App.config(function($stateProvider) {
             $window.open(item.url, $rootScope.getTargetForLink(), "location=no");
         }else if(item.action_value) {
             $location.path(item.action_value);
+        }else{
+            $scope.toggle_text = !$scope.toggle_text;
         }
     };
 

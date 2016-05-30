@@ -18,6 +18,7 @@ class Siberian_Error
 {
     public static $errors = array();
     public static $sql_queries = array();
+    public static $logger;
 
     public static function init() {
         set_error_handler(array('Siberian_Error', 'handleError'));
@@ -53,40 +54,41 @@ class Siberian_Error
 
     public static function end()
     {
-        $path = Core_Model_Directory::getBasePathTo("/var/log/debug_report.log");
+        self::clear();
+        self::$logger = Zend_Registry::get("logger");
 
-        //if ((APPLICATION_ENV == 'development') && (count(self::$errors) > 0)) {
-        if (count(self::$errors) > 0) {
-            $report = "";
-            $count = 0;
-            foreach (self::$errors as $error) {
-                $report .= "#{$count} {$error} \n";
-                $count++;
+        if(APPLICATION_ENV == "development") {
+
+            if (self::count() > 0) {
+                $report = "\n";
+                $count = 0;
+                foreach (self::$errors as $error) {
+                    $report .= "#{$count}: {$error} \n";
+                    $count++;
+
+
+                }
+                self::$logger->info($report);
             }
-            file_put_contents($path, $report, FILE_APPEND);
-        }
 
-        /** Limiting the debug_report log to 16MB */
-        self::truncate($path, 128000000);
+        }
     }
 
-    private static function truncate($filename, $maxfilesize){
-        $size=filesize($filename);
-        if ($size < $maxfilesize * 1.0) {
-            return;
+    /**
+     * Search for old info_* files and clean
+     */
+    public static function clear() {
+        $log_path = Core_Model_Directory::getBasePathTo("var/log/");
+        $files = glob("{$log_path}info_*.log");
+        $files[] = "{$log_path}debug_report.log"; # Ensure the old file is removed.
+        foreach($files as $file) {
+            if(is_readable($file)) {
+                $filemtime = filemtime($file) + 600;
+                $time = time();
+                if($time > $filemtime) {
+                    unlink($file);
+                }
+            }
         }
-        $fh = fopen($filename,"r+");
-        $start = ftell($fh);
-        fseek($fh,-$maxfilesize, SEEK_END);
-        $drop = fgets($fh);
-        $offset = ftell($fh);
-        for ($x = 0; $x < $maxfilesize; $x++) {
-            fseek($fh, $x+$offset);
-            $c=fgetc($fh);
-            fseek($fh, $x);
-            fwrite($fh, $c);
-        }
-        ftruncate($fh, $maxfilesize - strlen($drop));
-        fclose($fh);
     }
 }

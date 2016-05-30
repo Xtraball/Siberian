@@ -60,6 +60,10 @@ server {
 	index index.php index.html index.htm;
 
 	server_name [yourdomain.tld];
+	
+	location ~ ^/app/configs {
+        deny all;
+    }
 
 	location / {
 		try_files $uri /index.php?$query_string;
