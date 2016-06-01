@@ -48,6 +48,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         }
     }
 
+    protected function _initSecurityPatches() {
+        # TG-171 app.ini.bck
+        $path = Core_Model_Directory::getBasePathTo("var/tmp/app.ini.bck");
+        if(file_exists($path)) {
+            unlink($path);
+        }
+    }
+
     protected function _initHtaccess() {
 
         $old_htaccess = Core_Model_Directory::getBasePathTo('htaccess.txt');

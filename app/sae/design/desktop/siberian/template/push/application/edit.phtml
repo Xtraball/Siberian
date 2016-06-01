@@ -353,7 +353,7 @@
                                             <?php if(empty($customer["registration_id"]) AND empty($customer["device_uid"])): ?>
                                                 <span title="<?php echo $this->_("No device found for this user"); ?>">X</span>
                                             <?php else: ?>
-                                                <label for="<?php echo $customer["customer_id"]; ?>" class="checkbox" >
+                                                <label for="<?php echo $customer["customer_id"]; ?>">
                                                     <input type="checkbox" class="checkbox chk_customers" id="<?php echo $customer["customer_id"]; ?>" value="<?php echo $customer["customer_id"]; ?>" />
                                                 </label>
                                             <?php endif; ?>

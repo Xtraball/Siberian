@@ -19,12 +19,23 @@ class Core_Model_Lib_Facebook extends Core_Model_Default {
         return $this;
     }
 
-    public static function getAppId() {
-        return Api_Model_Key::findKeysFor('facebook')->getAppId();
+     public static function getAppId() {
+        //first check app id, else use global app id
+        $app_related_app_id = self::getApplication()->getFacebookId();
+
+        $app_id = !empty($app_related_app_id) ?
+            $app_related_app_id :
+            Api_Model_Key::findKeysFor('facebook')->getAppId() ;
+        return $app_id;
     }
 
     public static function getSecretKey() {
-        return Api_Model_Key::findKeysFor('facebook')->getSecretKey();
+        //first check app key, else use global key
+        $app_related_secret_key = self::getApplication()->getFacebookKey();
+        $secret_key = !empty($app_related_secret_key) ?
+            $app_related_secret_key :
+            Api_Model_Key::findKeysFor('facebook')->getSecretKey() ;
+        return $secret_key;
     }
 
     public static function getOrRefreshToken($access_token) {

@@ -37,6 +37,8 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
     };
 
     factory.login = function(data) {
+        data.device_uid = device.uuid;
+
         return $http({
             method: 'POST',
             url: Url.get("customer/mobile_account_login/post"),
