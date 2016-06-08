@@ -49,7 +49,12 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
                             $device->find($data["device_uid"], 'device_uid');
                         } else {
                             $device = new Push_Model_Android_Device();
-                            $device->find($data["device_uid"], 'registration_id');
+
+                            if($this->getApplication()->useIonicDesign()) {
+                                $device->find($data["device_uid"], 'device_uid');
+                            } else {
+                                $device->find($data["device_uid"], 'registration_id');
+                            }
                         }
 
                         if ($device->getId()) {

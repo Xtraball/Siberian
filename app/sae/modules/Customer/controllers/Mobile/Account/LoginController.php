@@ -12,7 +12,6 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
     }
 
     public function postAction() {
-
         if($datas = Zend_Json::decode($this->getRequest()->getRawBody())) {
 
             try {
@@ -38,7 +37,12 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
                             $device->find($datas["device_uid"], 'device_uid');
                         } else {
                             $device = new Push_Model_Android_Device();
-                            $device->find($datas["device_uid"], 'registration_id');
+
+                            if($this->getApplication()->useIonicDesign()) {
+                                $device->find($datas["device_uid"], 'device_uid');
+                            } else {
+                                $device->find($datas["device_uid"], 'registration_id');
+                            }
                         }
 
                         if ($device->getId() && !$device->getCustomerId()) {
@@ -164,14 +168,20 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
 
                 //PUSH TO USER ONLY
                 if(Push_Model_Message::hasTargetedNotificationsModule()) {
-                    $device_id = $this->getRequest()->getParam('device_id');
+                    $device_id = $datas["device_id"];
+
                     if (!empty($device_id)) {
                         if (strlen($device_id) == 36) {
                             $device = new Push_Model_Iphone_Device();
                             $device->find($device_id, 'device_uid');
                         } else {
                             $device = new Push_Model_Android_Device();
-                            $device->find($device_id, 'registration_id');
+
+                            if($this->getApplication()->useIonicDesign()) {
+                                $device->find($device_id, 'device_uid');
+                            } else {
+                                $device->find($device_id, 'registration_id');
+                            }
                         }
 
                         if ($device->getId() && !$device->getCustomerId()) {

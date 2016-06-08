@@ -100,7 +100,8 @@ App.factory('Push', function($cordovaPush, $http, $rootScope, $translate, $windo
             var params = {
                 app_id: Application.app_id,
                 app_name: Application.app_name,
-                registration_id: __self.device_token
+                device_uid: factory.device_uid,
+                registration_id: btoa(__self.device_token)
             };
 
             $http({
@@ -108,9 +109,6 @@ App.factory('Push', function($cordovaPush, $http, $rootScope, $translate, $windo
                 url: Url.get(url, params),
                 cache: false,
                 responseType: 'json'
-            }).success(function() {
-                localStorage.setItem("sb-android-device-uid", __self.device_token);
-                factory.device_uid = __self.device_token;
             });
         },
         _onNotificationReceived: function() {
@@ -152,7 +150,7 @@ App.factory('Push', function($cordovaPush, $http, $rootScope, $translate, $windo
             responseType:'json'
         }).success(function(data) {
 
-            httpCache.remove(Url.get("push/mobile/count", {device_uid: this.device_uid}));
+            httpCache.remove(Url.get("push/mobile/count", {device_uid: factory.device_uid}));
 
             if(data.displayed_per_page) {
                 factory.displayed_per_page = data.displayed_per_page;

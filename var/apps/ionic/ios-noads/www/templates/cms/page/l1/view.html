@@ -6,7 +6,7 @@
         </button>
     </ion-nav-buttons>
 
-    <ion-content sb-background-image ng-class="{ 'has-tabs' : template_tabs && footer_is_tabs}">
+    <ion-content sb-background-image ng-class="{ 'has-tabs' : template_tabs && footer_is_tabs, 'inbox-content' : (module_code == 'inbox') }">
 
         <div class="loader" ng-show="is_loading">
             <ion-spinner class="spinner-custom"></ion-spinner>

@@ -15,6 +15,7 @@ class Push_AndroidController extends Core_Controller_Default
                 $fields = array(
                     'app_id',
                     'app_name',
+                    'device_uid',
                     'registration_id',
                 );
 
@@ -26,8 +27,18 @@ class Push_AndroidController extends Core_Controller_Default
                 $params['status'] = 'active';
 
                 $device = new Push_Model_Android_Device();
-                $device->find(array('registration_id' => $params['registration_id']));
-                $device->addData($params)->save();
+
+                if($this->getApplication()->useIonicDesign()) {
+                    $params['registration_id'] = base64_decode($params['registration_id']);
+                }
+
+                $device->find(array('registration_id' => $params['registration_id'], 'app_id' => $params['app_id']));
+                if(!$device->getId()) {
+                    $device->find(array('device_uid' => $params['device_uid'], 'app_id' => $params['app_id']));
+                }
+                $device->addData($params)
+                    ->save()
+                ;
 
                 die('success');
             }
@@ -44,10 +55,18 @@ class Push_AndroidController extends Core_Controller_Default
 
         if($params = $this->getRequest()->getParams()) {
 
-            if(empty($params['registration_id']) OR empty($params['message_id'])) return;
-
             $device = new Push_Model_Android_Device();
-            $device->findByRegistrationId($params['registration_id']);
+
+            if($this->getApplication()->useIonicDesign()) {
+                if(empty($params['device_uid']) OR empty($params['message_id'])) return;
+
+                $device->findByDeviceUid($params['device_uid']);
+            } else {
+                if(empty($params['registration_id']) or empty($params['message_id'])) return;
+
+                $device->findByRegistrationId($params['registration_id']);
+            }
+
             $message = new Push_Model_Message();
             $message->markAsDisplayed($device->getId(), $params['message_id']);
 

@@ -28,6 +28,8 @@ App.config(function($stateProvider) {
     $scope.can_load_older_posts = true;
     $scope.is_logged_in = Customer.isLoggedIn();
 
+    $scope.module_code = "inbox";
+
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
             $scope.loadContent();
@@ -78,6 +80,8 @@ App.config(function($stateProvider) {
     $scope.loadContent();
 
 }).controller('InboxViewController', function($ionicHistory, $ionicPopup, $scope, $state, $stateParams, Inbox) {
+
+    $scope.module_code = "inbox";
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -134,6 +138,8 @@ App.config(function($stateProvider) {
     $scope.loadContent();
 }).controller('InboxCommentViewController', function($scope, $state, $stateParams, Application, Customer, Inbox) {
 
+    $scope.module_code = "inbox";
+
     $scope.show_bottom_bar = true;
     $scope.can_load_older_posts = true;
 
@@ -171,6 +177,8 @@ App.config(function($stateProvider) {
     $scope.loadContent();
 
 }).controller('InboxCommentPostController', function($ionicHistory, $scope, $state, $stateParams, Customer, Inbox) {
+
+    $scope.module_code = "inbox";
 
     $scope.reply = {};
 

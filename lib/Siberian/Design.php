@@ -36,6 +36,9 @@ class Siberian_Design
         /** Never cache in development */
         if(self::CACHING && is_readable($basePathCache)) {
             $cached = json_decode(file_get_contents($basePathCache), true);
+            if(is_null($cached)) {
+                throw new Exception("Cannot deserialize cache file ".$basePathCache);
+            }
             if(!empty($cached)) {
                 self::$design_cache = $cached;
             }
@@ -65,7 +68,11 @@ class Siberian_Design
             self::registerDesignType(self::LOCAL_PATH);
 
             if(self::CACHING) {
-                file_put_contents($basePathCache, json_encode(self::$design_cache));
+                $jsonDesignCache = json_encode(self::$design_cache);
+                if($jsonDesignCache === false) {
+                    throw new Exception("Cannot serialize cache file ".$basePathCache);
+                }
+                file_put_contents($basePathCache, $jsonDesignCache);
             }
 
         }

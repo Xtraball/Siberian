@@ -109,12 +109,14 @@
     <input type="hidden" id="album_artist" name="album[artist_name]" value="<?php echo $album->getArtistName() ?>" />
     <input type="hidden" name="value_id" value="<?php echo $option_value->getId() ?>" />
     <?php foreach($tracks as $track) : ?>
-        <input type="hidden" name="track[<?php echo $track->getId(); ?>][id]" value="<?php echo $track->getId(); ?>" />
-        <input type="hidden" name="track[<?php echo $track->getId(); ?>][url]" value="<?php echo $track->getStreamUrl(); ?>" />
-        <input type="hidden" name="track[<?php echo $track->getId(); ?>][title]" value="<?php echo $track->getName(); ?>" />
-        <input type="hidden" name="track[<?php echo $track->getId(); ?>][artist]" value="<?php echo $track->getArtistName(); ?>" />
-        <input type="hidden" name="track[<?php echo $track->getId(); ?>][duration]" value="<?php echo $track->getDuration(); ?>" />
-        <input type="hidden" name="track[<?php echo $track->getId(); ?>][position]" value="<?php echo $track->getPosition(); ?>" />
+        <div id="form_track_<?php echo $track->getId(); ?>">
+            <input type="hidden" name="track[<?php echo $track->getId(); ?>][id]" value="<?php echo $track->getId(); ?>" />
+            <input type="hidden" name="track[<?php echo $track->getId(); ?>][url]" value="<?php echo $track->getStreamUrl(); ?>" />
+            <input type="hidden" name="track[<?php echo $track->getId(); ?>][title]" value="<?php echo $track->getName(); ?>" />
+            <input type="hidden" name="track[<?php echo $track->getId(); ?>][artist]" value="<?php echo $track->getArtistName(); ?>" />
+            <input type="hidden" name="track[<?php echo $track->getId(); ?>][duration]" value="<?php echo $track->getDuration(); ?>" />
+            <input type="hidden" name="track[<?php echo $track->getId(); ?>][position]" value="<?php echo $track->getPosition(); ?>" />
+        </div>
     <?php endforeach; ?>
 </form>
 
@@ -189,12 +191,17 @@
                 track += '</span>';
 
                 //track form
-                $('#save_custom').append('<input type="hidden" name="track[new_'+new_track_index+'][url]" value="'+$('#custom_track_url').val()+'" />');
-                $('#save_custom').append('<input type="hidden" name="track[new_'+new_track_index+'][title]" value="'+$('#custom_track_title').val()+'" />');
-                $('#save_custom').append('<input type="hidden" name="track[new_'+new_track_index+'][artist]" value="'+$('#custom_track_artist').val()+'" />');
-                $('#save_custom').append('<input type="hidden" name="track[new_'+new_track_index+'][duration]" value="'+Math.floor(player.duration*1000)+'" />');
-                $('#save_custom').append('<input type="hidden" name="track[new_'+new_track_index+'][position]" value="'+($(".track_item").length)+'" />');
-                new_track_index++;
+                $('#save_custom').append(
+                    '<div id="form_track_new_'+new_track_index+'">'+"\n"
+                    +'<input type="hidden" name="track[new_'+new_track_index+'][url]" value="'+$('#custom_track_url').val()+'" />'+"\n"
+                    +'<input type="hidden" name="track[new_'+new_track_index+'][title]" value="'+$('#custom_track_title').val()+'" />'+"\n"
+                    +'<input type="hidden" name="track[new_'+new_track_index+'][artist]" value="'+$('#custom_track_artist').val()+'" />'+"\n"
+                    +'<input type="hidden" name="track[new_'+new_track_index+'][duration]" value="'+Math.floor(player.duration*1000)+'" />'+"\n"
+                    +'<input type="hidden" name="track[new_'+new_track_index+'][position]" value="'+($(".track_item").length)+'" />'+"\n"
+                    +'</div>'+"\n"
+                );
+
+                 new_track_index++;
 
                 $('#custom_track_title').val('');
                 $('#custom_track_artist').val('');
@@ -231,15 +238,14 @@
     $('#tracks_list').on('click', '.deleteTrack', function(){
         var $li = $(this).parent().parent();
         var is_new = false;
-        if($li.hasClass('new')) is_new = true;
+        if($li.hasClass('new')) {
+            is_new = true;
+        }
         var album_id = '<?php echo $this->getAlbumId() ?>';
+        var rel = $li.attr('rel');
         if(confirm('<?php echo addslashes($this->_("Are you sure you want to delete this track?")); ?>')) {
+            $("#form_track_"+rel).remove();
             if(is_new == true) {
-                var rel = $li.attr('rel');
-                $('input[name="track['+rel+'][url]"]').remove();
-                $('input[name="track['+rel+'][title]"]').remove();
-                $('input[name="track['+rel+'][artist]"]').remove();
-                $('input[name="track['+rel+'][duration]"]').remove();
                 $li.slideUp(function(){
                     $li.remove();
                 });
@@ -260,6 +266,7 @@
                     }
                 });
             }
+            updateTrackCount();
         }
         return false;
     });

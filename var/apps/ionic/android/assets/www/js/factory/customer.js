@@ -55,6 +55,8 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
     };
 
     factory.loginWithFacebook = function(token) {
+        data.device_id = device.uuid;
+
         return $http({
             method: 'POST',
             url: Url.get("customer/mobile_account_login/loginwithfacebook"),
@@ -71,6 +73,7 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
     };
 
     factory.register = function(data) {
+        data.device_uid = device.uuid;
 
         return $http({
             method: 'POST',

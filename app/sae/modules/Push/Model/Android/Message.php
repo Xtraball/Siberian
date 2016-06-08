@@ -97,7 +97,13 @@ class Push_Model_Android_Message extends Core_Model_Default {
 
                     if ($sent) {
                         foreach ($devices as $device) {
-                            $this->getMessage()->createLog($device, 1, $device->getRegistrationId());
+                            if($this->getApplication()->useIonicDesign()) {
+                                $registration_id = $device->getDeviceUid() ? $device->getDeviceUid() : $device->getRegistrationId();
+                            } else {
+                                $registration_id = $device->getRegistrationId();
+
+                            }
+                            $this->getMessage()->createLog($device, 1, $registration_id);
                         }
                     }
                 }
