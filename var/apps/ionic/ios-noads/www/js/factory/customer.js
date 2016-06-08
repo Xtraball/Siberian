@@ -55,12 +55,15 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
     };
 
     factory.loginWithFacebook = function(token) {
-        data.device_id = device.uuid;
+        var data = {
+            device_id: device.uuid,
+            token: token
+        };
 
         return $http({
             method: 'POST',
             url: Url.get("customer/mobile_account_login/loginwithfacebook"),
-            data: { token: token },
+            data: data,
             responseType:'json'
         }).success(function(data) {
             factory.saveCredentials(data.token);
