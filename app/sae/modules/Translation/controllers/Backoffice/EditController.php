@@ -247,6 +247,10 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
 
                 $translation_files[$file_name] = $file_name;
 
+                if(!file_exists($default_file)) { # Skip missing Angular files TG-185
+                    continue;
+                }
+
                 $file_xml_data = simplexml_load_file($default_file);
                 $user_file_xml_data = null;
                 if (is_file($user_file)) {

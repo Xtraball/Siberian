@@ -54,6 +54,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         if(file_exists($path)) {
             unlink($path);
         }
+
+        # Backup removal
+        $path = Core_Model_Directory::getBasePathTo("");
+        $files = glob("{$path}/backup-*.zip");
+        foreach($files as $file) {
+            unlink($file);
+        }
     }
 
     protected function _initHtaccess() {

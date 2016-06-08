@@ -34,6 +34,11 @@ $schemas['push_gcm_devices'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'device_uid' => array(
+        'type' => 'varchar(50)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'registration_id' => array(
         'type' => 'text',
         'is_null' => true,

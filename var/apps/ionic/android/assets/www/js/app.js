@@ -54,11 +54,11 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
             Dialog.is_webview = Application.is_webview = (ionic.Platform.device().platform == "browser");
 
             if($window.device) {
-                if(ionic.Platform.isAndroid()) {
-                    Push.device_uid = localStorage.getItem("sb-android-device-uid") ? localStorage.getItem("sb-android-device-uid") : device.uuid;
-                } else {
+                //if(ionic.Platform.isAndroid()) {
+                //    Push.device_uid = localStorage.getItem("sb-android-device-uid") ? localStorage.getItem("sb-android-device-uid") : device.uuid;
+                //} else {
                     Push.device_uid = device.uuid;
-                }
+                //}
             }
 
             $rootScope.app_is_loaded = true;

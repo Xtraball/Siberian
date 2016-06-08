@@ -14,6 +14,11 @@ class Push_Model_Android_Device extends Core_Model_Default {
         return $this;
     }
 
+    public function findByDeviceUid($device_uid) {
+        $this->find($device_uid, 'device_uid');
+        return $this;
+    }
+
     public function findByAppId($app_id, $topic=null, $customers = null) {
         return $this->getTable()->findByAppId($app_id, $topic, $customers);
     }
