@@ -1,5 +1,5 @@
 <?php $option = new Application_Model_Option(); ?>
-<?php $options = $option->findAll(array(), 'position ASC'); ?>
+<?php $options = $option->findAll(array()); ?>
 <?php $category = new Application_Model_Option_Category(); ?>
 <?php $categories = $category->findAll(); ?>
 <?php $option_ids = $this->getApplication()->getOptionIds(); ?>
@@ -9,6 +9,19 @@
 
 <?php $option_value_folder = new Application_Model_Option_Value(); ?>
 <?php $option_values_folders = $option_value_folder->findFolderValues($this->getApplication()->getId(), $option_folder->getOptionId()); ?>
+
+<?php
+# Sorting features by alpha (with translations)
+$opts = array();
+foreach($options as $option) {
+    $opts[] = $option;
+}
+function alphasort($a, $b) {
+    return strcasecmp($a->getName(), $b->getName());
+}
+usort($opts, "alphasort");
+$options = $opts;
+?>
 
 <div id="pages" class="pages">
     <script type="text/javascript">

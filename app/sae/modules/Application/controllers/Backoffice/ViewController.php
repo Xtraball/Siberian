@@ -61,7 +61,8 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             'google_play_icon' => $application->getGooglePlayIcon(),
             'devices' => $devices,
             'url' => $application->getUrl(),
-            'has_ios_certificate' => Push_Model_Certificate::getiOSCertificat() !== null
+            'has_ios_certificate' => Push_Model_Certificate::getiOSCertificat(),
+            'pem_infos' => Push_Model_Certificate::getInfos(),
         );
 
         foreach($store_categories as $name => $store_category) {

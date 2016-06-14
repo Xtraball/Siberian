@@ -140,6 +140,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         }
 
         Siberian_Design::init();
+        Siberian_Utils::load();
     }
 
     protected function _initLogger() {

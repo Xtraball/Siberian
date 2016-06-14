@@ -54,7 +54,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $this;
 
     }
-
+    
     public function findAllByAdmin($admin_id) {
         return $this->getTable()->findAllByAdmin($admin_id);
     }
@@ -984,4 +984,13 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
+    public static $singleton = null;
+
+    public static function setSingleton($application) {
+        self::$singleton = $application;
+    }
+
+    public static function getSingleton() {
+        return self::$singleton;
+    }
 }

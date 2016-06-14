@@ -16,7 +16,7 @@ class Push_Model_Db_Table_Android_Device extends Core_Model_Db_Table {
         ;
 
         if($topics) {
-            $select->joinLeft(array("ps" => "topic_subscription"),"ps.device_uid = pgd.registration_id",array())
+            $select->joinLeft(array("ps" => "topic_subscription"),"(ps.device_uid = pgd.registration_id OR ps.device_uid = pgd.device_uid)",array())
                     ->where("ps.category_id IN (?)",implode(",",$topics));
         }
 

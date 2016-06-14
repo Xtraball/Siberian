@@ -103,7 +103,6 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract {
             return true;
         }
         catch(Exception $e) {
-            Zend_Debug::dump($e);
             /** Try to create the table if it doesn't exist yet for installation purpose. */
             if($try_create AND !$this->createTable()) {
                 throw new Exception("Unable to create table '{$this->tableName}', aborting.");

@@ -26,7 +26,12 @@ class Siberian_Error
 
     public static function handleError($errno, $errstr, $errfile, $errline) {
         /** Saving errors */
-        self::$errors[] = sprintf("%s - %s line %s", $errstr, $errfile, $errline);
+        $error = sprintf("%s - %s line %s", $errstr, $errfile, $errline);
+        self::$errors[] = $error;
+        self::$logger = Zend_Registry::get("logger");
+        if(APPLICATION_ENV == "development") {
+            self::$logger->info($error);
+        }
     }
 
     /** @unused Artifact from the past???? */
@@ -54,7 +59,7 @@ class Siberian_Error
 
     public static function end()
     {
-        self::clear();
+        /**self::clear();
         self::$logger = Zend_Registry::get("logger");
 
         if(APPLICATION_ENV == "development") {
@@ -71,7 +76,7 @@ class Siberian_Error
                 self::$logger->info($report);
             }
 
-        }
+        }*/
     }
 
     /**

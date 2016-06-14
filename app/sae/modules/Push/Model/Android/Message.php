@@ -88,6 +88,9 @@ class Push_Model_Android_Message extends Core_Model_Default {
                 $registration_ids[] = $device->getRegistrationId();
             }
 
+            $app = new Application_Model_Application();
+            $app->find($app_id);
+
             if(!empty($registration_ids)) {
 
                 $chunked_registration_ids = array_chunk($registration_ids, 999);
@@ -97,12 +100,13 @@ class Push_Model_Android_Message extends Core_Model_Default {
 
                     if ($sent) {
                         foreach ($devices as $device) {
-                            if($this->getApplication()->useIonicDesign()) {
+
+                            if($app->useIonicDesign()) {
                                 $registration_id = $device->getDeviceUid() ? $device->getDeviceUid() : $device->getRegistrationId();
                             } else {
                                 $registration_id = $device->getRegistrationId();
-
                             }
+
                             $this->getMessage()->createLog($device, 1, $registration_id);
                         }
                     }

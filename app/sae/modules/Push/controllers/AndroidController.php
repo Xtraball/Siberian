@@ -28,7 +28,10 @@ class Push_AndroidController extends Core_Controller_Default
 
                 $device = new Push_Model_Android_Device();
 
-                if($this->getApplication()->useIonicDesign()) {
+                $app = new Application_Model_Application();
+                $app->find($params['app_id']);
+
+                if($app->useIonicDesign()) {
                     $params['registration_id'] = base64_decode($params['registration_id']);
                 }
 
@@ -57,7 +60,8 @@ class Push_AndroidController extends Core_Controller_Default
 
             $device = new Push_Model_Android_Device();
 
-            if($this->getApplication()->useIonicDesign()) {
+            $app = Application_Model_Application::getInstance();
+            if($app->useIonicDesign()) {
                 if(empty($params['device_uid']) OR empty($params['message_id'])) return;
 
                 $device->findByDeviceUid($params['device_uid']);
