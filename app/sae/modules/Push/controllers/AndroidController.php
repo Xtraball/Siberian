@@ -31,7 +31,8 @@ class Push_AndroidController extends Core_Controller_Default
                 $app = new Application_Model_Application();
                 $app->find($params['app_id']);
 
-                if($app->useIonicDesign()) {
+                //if ionic and base64 we decode
+                if($app->useIonicDesign() AND preg_match("~^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$~",trim($params['registration_id']))) {
                     $params['registration_id'] = base64_decode($params['registration_id']);
                 }
 
