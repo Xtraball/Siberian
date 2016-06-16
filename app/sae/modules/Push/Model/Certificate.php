@@ -40,7 +40,9 @@ class Push_Model_Certificate extends Core_Model_Default {
                     "package_name" => $pem_info["subject"]["UID"],
                     "valid_from" => time_to_date($pem_info["validFrom_time_t"]),
                     "valid_until" => time_to_date($pem_info["validTo_time_t"]),
-                    "original" => $pem_info,
+                    //On some certificates, oeiginal infos contains unvalid char.
+                    //It results that controller->_sendHtml() return null instead of json config
+                    //"original" => $pem_info,
                     "is_valid" => ($pem_info["validTo_time_t"] > time()),
                 );
             } else {
