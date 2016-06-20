@@ -37,6 +37,8 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
     };
 
     factory.login = function(data) {
+        data.device_uid = device.uuid;
+
         return $http({
             method: 'POST',
             url: Url.get("customer/mobile_account_login/post"),
@@ -53,10 +55,15 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
     };
 
     factory.loginWithFacebook = function(token) {
+        var data = {
+            device_id: device.uuid,
+            token: token
+        };
+
         return $http({
             method: 'POST',
             url: Url.get("customer/mobile_account_login/loginwithfacebook"),
-            data: { token: token },
+            data: data,
             responseType:'json'
         }).success(function(data) {
             factory.saveCredentials(data.token);
@@ -69,6 +76,7 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
     };
 
     factory.register = function(data) {
+        data.device_uid = device.uuid;
 
         return $http({
             method: 'POST',

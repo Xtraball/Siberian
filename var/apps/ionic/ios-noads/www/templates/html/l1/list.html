@@ -28,7 +28,7 @@
                     <img ng-src="{{ item.icon }}" ng-if="item.icon" />
                     <h2>{{ item.title ? item.title : item.author }}</h2>
                     <p ng-if="item.subtitle">{{ item.subtitle }}</p>
-                    <p ng-if="item.message">{{ item.message }}</p>
+                    <p ng-if="item.message" ng-class="{ 'text-no-wrap':toggle_text }">{{ item.message }}</p>
                 </div>
                 <div class="item item-image item-custom">
                     <div class="col col-75 col-offset-25">

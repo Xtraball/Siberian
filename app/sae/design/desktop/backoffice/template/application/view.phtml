@@ -423,6 +423,19 @@
     <p class="help-block"><?php echo $this->_("Send here your iOS certificate to enable the push notifications for this application."); ?></p>
     <p class="help-block"><?php echo $this->_("<b>File type:</b> %s", "pem"); ?></p>
 
+    <div class="col-md-12" ng-if="application.has_ios_certificate">
+        <span ng-if="application.pem_infos.is_valid">
+            <b><?php echo __("Your certificate is valid until:") ?></b> <span class="{{ application.pem_infos.is_valid ? 'pem-valid' : 'pem-invalid' }}">{{ application.pem_infos.valid_until }}</span>,
+            <b><?php echo __("for the bundle id:") ?></b> <span class="{{ (application.pem_infos.package_name == tmp_application.bundle_id) ? 'pem-valid' : 'pem-invalid' }}">{{ application.pem_infos.package_name }}</span>
+        </span>
+
+        <span ng-if="!application.pem_infos.is_valid" class="pem-invalid">
+            <b><?php echo __("Your certificate is invalid") ?>
+        </span>
+
+        <br /><br />
+    </div>
+
     <br />
     <div class="col-md-3">
         <div class="upload_a_file">

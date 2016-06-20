@@ -54,7 +54,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $this;
 
     }
-
+    
     public function findAllByAdmin($admin_id) {
         return $this->getTable()->findAllByAdmin($admin_id);
     }
@@ -940,8 +940,57 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         $this->setAdminIds($admin_ids);
         $this->save();
 
+        //copy slideshow if needed
+        if($this->getHomepageSliderIsVisible()) {
+            $app_id = $this->getId();
+            //create new lib
+            $library = new Media_Model_Library();
+            $library->setName("homepage_slider_".$app_id)
+                ->save();
+            $library_id = $library->getId();
+
+            //duplicate current images
+            $library_image = new Media_Model_Library_Image();
+            $images = $library_image->findAll(
+                array("library_id" => $this->getHomepageSliderLibraryId())
+            );
+            foreach($images as $image) {
+                $oldLink = $image->getLink();
+                $explodedLink = explode("/", $oldLink);
+                $explodedLink[3] = $app_id;
+
+                $newLink = implode("/",$explodedLink);
+
+                //copy file
+                mkdir(dirname(getcwd().$newLink), 0777, true);
+                copy(getcwd().$oldLink, getcwd().$newLink);
+
+                //duplicate db entry
+                $newModelImage = new Media_Model_Library_Image();
+                $newModelImage
+                    ->setLibraryId($library_id)
+                    ->setLink($newLink)
+                    ->setAppId($app_id)
+                    ->setPosition($image->getPosition())
+                    ->save();
+            }
+
+            //change library slideshow image
+            $this->setHomepageSliderLibraryId($library_id)
+                ->save();
+        }
+
         return $this;
 
     }
 
+    public static $singleton = null;
+
+    public static function setSingleton($application) {
+        self::$singleton = $application;
+    }
+
+    public static function getSingleton() {
+        return self::$singleton;
+    }
 }

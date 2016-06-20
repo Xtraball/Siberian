@@ -2,6 +2,7 @@
 .bold {font-weight: bold;}
 ion-content.has-background-image {background-position:center center;background-size:cover;background-repeat:no-repeat;}
 .loader {width:100%;text-align:center;margin-top:10px;margin-bottom:10px;}
+.text-no-wrap { white-space: normal!important; }
 .wordpress-view .item-description img {max-width:100%}
 .imageView.modal .bar-header { border-bottom: none; }
 .item-center h2 {position:absolute;top:50%;transform:translateY(-50%);}
@@ -324,6 +325,8 @@ ion-nav-view.has-mini-player-controls > ion-view > ion-content {bottom: 88px;}
 .has-footer-fixed .audio-player ion-content {  bottom: 105px;  height: auto; }
 .has-footer-fixed .audio-player ion-footer-bar { bottom: 56px; }
 .has-footer-fixed .audio-player ion-subfooter-bar { bottom: 104px; }
+.has-footer-fixed .inbox-footer { bottom: 54px; }
+.has-footer-fixed .inbox-content { bottom: 104px; }
 
 .has-footer-fixed .audio-player.mini .tabs { bottom: 56px; top: initial; }
 .has-footer-fixed .audio-player.mini ion-footer-bar { bottom: 104px; }

@@ -48,6 +48,21 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         }
     }
 
+    protected function _initSecurityPatches() {
+        # TG-171 app.ini.bck
+        $path = Core_Model_Directory::getBasePathTo("var/tmp/app.ini.bck");
+        if(file_exists($path)) {
+            unlink($path);
+        }
+
+        # Backup removal
+        $path = Core_Model_Directory::getBasePathTo("");
+        $files = glob("{$path}/backup-*.zip");
+        foreach($files as $file) {
+            unlink($file);
+        }
+    }
+
     protected function _initHtaccess() {
 
         $old_htaccess = Core_Model_Directory::getBasePathTo('htaccess.txt');
@@ -125,6 +140,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         }
 
         Siberian_Design::init();
+        Siberian_Utils::load();
     }
 
     protected function _initLogger() {

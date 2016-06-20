@@ -40,7 +40,7 @@ class Application_Mobile_DataController extends Application_Controller_Mobile_De
             }
 
         } catch(Exception $e) {
-            die();
+            trigger_error($e->getMessage());
         }
 
         $this->_sendHtml($paths);

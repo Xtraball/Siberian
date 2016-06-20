@@ -138,6 +138,12 @@ class Siberian_Controller_Dispatcher_Standard extends Zend_Controller_Dispatcher
             return $return_path ? $path : true;
         }
 
+        # Try local
+        $tmp_path = preg_replace("#app/\w+/modules#i", "app/local/modules", $path);
+        if(Zend_Loader::isReadable($tmp_path)) {
+            return $return_path ? $tmp_path : true;
+        }
+
         switch(Siberian_Version::TYPE) {
             default:
                 $tmp_path = preg_replace("#app/\w+/modules#i", "app/pe/modules", $path);

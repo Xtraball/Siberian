@@ -288,3 +288,5 @@ table.table td.wrap { white-space: normal; }
 
 /* TAX */
 .region_list{margin:15px 0 0 25px;border-left: 3px solid;}
+span.pem-valid { color: #83da3d; font-weight: bold; }
+span.pem-invalid { color: #ef3831; font-weight: bold; }

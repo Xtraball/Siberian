@@ -198,6 +198,7 @@ class Push_Model_Db_Table_Message extends Core_Model_Db_Table {
             $select = $this->_db->select()
                 ->from(array("pgd" => "push_gcm_devices"), array("device_id"))
                 ->where("registration_id = ?", $device_uid)
+                ->orWhere("device_uid = ?", $device_uid)
             ;
             $device_id = $this->_db->fetchOne($select);
         }

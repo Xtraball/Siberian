@@ -1,45 +1,20 @@
-node_modules/
-.DS_Store
-npm-debug.log
-ionic.project
-.idea
-/tmp
-/nbproject
-*.sublime-*
-build/
-__*
-developer.json
-nginx.default
-apache.default
+# IDE/OS
+*.DS_Store*
+*.idea*
 
-# Siberian
-siberian/lib/Siberian/Version.php
-siberian/index.php
-
-siberian/images/application/*
-!siberian/images/application/placeholder
-!siberian/images/application/tabbar
-
-# Templates
-siberian/images/templates/accessories
-siberian/images/templates/b_b
-siberian/images/templates/band
-siberian/images/templates/beauty_center
-siberian/images/templates/big_company
-siberian/images/templates/club
-siberian/images/templates/corporate
-siberian/images/templates/fitness
-siberian/images/templates/florist
-siberian/images/templates/football_team
-siberian/images/templates/grande_palace
-siberian/images/templates/jewellery
-siberian/images/templates/lawyer
-siberian/images/templates/nyc
-siberian/images/templates/paris
-siberian/images/templates/publisher
-siberian/images/templates/real_estate_one
-siberian/images/templates/rush_cafe
-siberian/images/templates/surgery
-
-# Backups
-siberian/backup*
+# Siberian ignores.
+languages/*
+!languages/default
+.htaccess
+app/configs/app.ini
+images/customer/
+images/site/
+images/application/homepage_image/
+images/application/*
+!images/application/placeholder
+!images/application/tabbar
+system.php
+var/apps/android
+var/log/*
+var/**/app.css
+var/**/app.js

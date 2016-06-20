@@ -9,7 +9,7 @@ class Siberian_Layout_Email extends Siberian_Layout
         $this->_filename = $filename;
         $this->_action = $action;
         Siberian_View::setLayout($this);
-        Siberian_View::setType("email");
+        Siberian_View::setDesignType("email");
 
         return $this;
     }
