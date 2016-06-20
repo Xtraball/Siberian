@@ -1,0 +1,188 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $mcommerce = $option_value->getObject(); ?>
+<?php $application = $this->getApplication(); ?>
+<?php $order = $this->getCurrentOrder(); ?>
+<div>
+
+    <form id="orderEditForm" method="post" action="<?php echo $this->getUrl('mcommerce/application_order/editpost'); ?>" class="form-horizontal">
+       <div class="buttons">
+            <button type="button" onclick="orders.close();" class="delete left"><i class="icon-arrow-left"></i></button>
+            <button type="submit" class="default_button right btn">OK</button>
+        <?php if($order->getStatusId() == Mcommerce_Model_Order::DEFAULT_STATUS): ?>
+            <button type="button" onclick="orders.cancel();" class="default_button right btn"><?php echo $this->_("Cancel order"); ?></button>
+        <?php endif; ?>
+           <div class="clear"></div>
+        </div>
+       <div class="clear"></div>
+        <fieldset class="edit_order_informations">
+            <h4 class="subtitle">
+                <span class="left area"><?php echo $this->_('Customer'); ?></span>
+                <hr />
+               <div class="clear"></div>
+            </h4>
+           <div class="form-group">
+               <div class="col-md-2">
+                    <label for="customer_firstname"><?php echo $this->_('Firstname:'); ?></label>
+                </div>
+               <div class="col-md-6">
+                    <input type="text" id="customer_firstname" name="customer_firstname" class="required form-control" value="<?php echo $order->getCustomerFirstname(); ?>" />
+                </div>
+            </div>
+           <div class="form-group">
+               <div class="col-md-2">
+                    <label for="customer_lastname"><?php echo $this->_('Lastname:'); ?></label>
+                </div>
+               <div class="col-md-6">
+                    <input type="text" id="customer_lastname" name="customer_lastname" class="required form-control" value="<?php echo $order->getCustomerLastname(); ?>" />
+                </div>
+            </div>
+           <div class="form-group">
+               <div class="col-md-2">
+                    <label for="customer_email"><?php echo $this->_('Email:'); ?></label>
+                </div>
+               <div class="col-md-6">
+                    <input type="text" id="customer_email" name="customer_email" class="required form-control" value="<?php echo $order->getCustomerEmail(); ?>" />
+                </div>
+            </div>
+           <div class="form-group">
+               <div class="col-md-2">
+                    <label for="customer_phone"><?php echo $this->_('Phone:'); ?></label>
+                </div>
+               <div class="col-md-6">
+                    <input type="text" id="customer_phone" name="customer_phone" class="form-control" value="<?php echo $order->getCustomerPhone(); ?>" />
+                </div>
+            </div>
+           <div class="form-group">
+               <div class="col-md-2">
+                    <label for="customer_street"><?php echo $this->_('Street:'); ?></label>
+                </div>
+               <div class="col-md-6">
+                    <input type="text" id="customer_street" name="customer_street" class="form-control" value="<?php echo $order->getCustomerStreet(); ?>" />
+					<input type="text" id="customer_streetc" name="customer_streetc" class="form-control" value="<?php echo $order->getCustomerStreetc(); ?>" />
+                </div>
+            </div>
+           <div class="form-group">
+               <div class="col-md-2">
+                    <label for="customer_postcode"><?php echo $this->_('Postcode:'); ?></label>
+                </div>
+               <div class="col-md-6">
+                    <input type="text" id="customer_postcode" name="customer_postcode" class="form-control" value="<?php echo $order->getCustomerPostcode(); ?>" />
+                </div>
+            </div>
+           <div class="form-group">
+               <div class="col-md-2">
+                    <label for="customer_city"><?php echo $this->_('City:'); ?></label>
+                </div>
+               <div class="col-md-6">
+                    <input type="text" id="customer_city" name="customer_city" class="form-control" value="<?php echo $order->getCustomerCity(); ?>" />
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <h4 class="subtitle">
+                <span class="left area"><?php echo $this->_('Details'); ?></span>
+                <hr />
+               <div class="clear"></div>
+            </h4>
+            <table class="no-collapse" width="100%" cellspacing="10">
+                <tr>
+                    <th><?php echo $this->_('Status'); ?></th>
+                    <td>
+                        <select id="order_status_id" class="form-control no-dk" name="status_id">
+                            <?php foreach(Mcommerce_Model_Order::getStatuses() as $status) : ?>
+                            <option value="<?php echo $status->getId(); ?>"<?php if($status->getId() == $order->getStatusId()) : ?> selected="selected"<?php endif; ?>><?php echo $status->getLabel(); ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </td>
+                </tr>
+				
+
+			
+			<?php if($mcommerce->getData("require_datedelivery")) { ?>
+                <tr>
+                    <th><?php echo $this->_('Delivery date time'); ?></th>
+                    <td>
+					<input type="text" id="push_datepicker_send_at" class="required form-control" name="delivery_datetime" value="<?php echo $order->getDeliveryDatetime(); ?>"  />
+
+                    </td>
+                </tr>				
+			<?php } 
+			if($mcommerce->getData("show_customercomment")) { ?>
+                <tr>
+                    <th><?php echo $this->_('Delivery comment'); ?></th>
+                    <td>
+					<textarea rows="4" style="width:100%" class="form-control" name="delivery_comment"><?php echo $order->getDeliveryComment(); ?> </textarea>
+                    </td>
+                </tr>				
+			<?php } ?>				
+				
+            </table>
+            <table width="100%" class="order_details">
+                <col width="70%" />
+                <col width="10%" />
+                <col width="10%" />
+                <col width="10%" />
+                <tr>
+                    <th align="left"><?php echo $this->_('Product'); ?></th>
+                    <th><?php echo $this->_('Unit price'); ?></th>
+                    <th><?php echo $this->_('Qty'); ?></th>
+                    <th><?php echo $this->_('Total'); ?></th>
+                </tr>
+                <tr class="row_separator head_separator"><td colspan="4"><div style=""></div></td></tr>
+            <?php foreach($order->getLines() as $line) : ?>
+                <tr class="product">
+                    <td><?php echo $line->getName(); ?></td>
+                    <td align="right"><?php echo $line->getFormattedBasePriceInclTax(); ?></td>
+                    <td align="center"><?php echo $line->getQty(); ?></td>
+                    <td align="right"><?php echo (count($line->getOptions()) ? $line->formatPrice($line->getBasePriceInclTax() * $line->getQty()): $line->formatPrice($line->getTotalInclTax())); ?></td>
+                </tr>
+                <?php foreach($line->getOptions() as $option) : ?>
+                <tr class="option">
+                    <td>+ <?php echo $option->getQty(); ?>x <?php echo $option->getName(); ?></td>
+                    <td align="right"><?php echo $option->getFormattedBasePrice(); ?></td>
+                    <td align="center"><?php echo $option->getQty() * $line->getQty(); ?></td>
+                    <td align="right"><?php echo $line->formatPrice($option->getPriceInclTax() * $line->getQty()); ?></td>
+                </tr>
+                <?php endforeach; ?>
+                <tr class="row_separator"><td colspan="4"><div></div></td></tr>
+            <?php endforeach; ?>
+            </table>
+            <table class="no-collapse" width="100%" cellspacing="10">
+                <tr class="cart_totals">
+                   <th class="a-left f-bold"><?php echo $this->_('Subtotal'); ?></th>
+                   <td class="a-right"><?php echo $order->getFormattedTotalExclTax(); ?></td>
+               </tr>
+               <tr class="cart_totals">
+                   <th class="a-left f-bold"><?php echo $this->_('Tax'); ?></th>
+                   <td class="a-right"><?php echo $order->getFormattedTotalTax(); ?></td>
+               </tr>
+               <tr>
+                    <th class="a-left f-bold"><?php echo $order->getDeliveryMethod(); ?></th>
+                    <td class="a-right"><?php echo $order->getFormattedDeliveryCost(); ?></td>
+                </tr>
+               <tr class="cart_totals">
+                   <th class="a-left f-bold"><?php echo $this->_('Total'); ?></th>
+                   <td class="a-right"><?php echo $order->getFormattedTotal(); ?></td>
+               </tr>
+           </table>
+           <?php if($order->getPaidAmount() > 0) : ?>
+            <table class="no-collapse" width="100%" cellspacing="10">
+                <tr class="cart_totals">
+                   <th class="a-left f-bold"><?php echo $this->_("Paid by the client:"); ?></th>
+                   <td class="a-right"><?php echo $order->getFormattedPaidAmount(); ?></td>
+                </tr>
+                <tr class="cart_totals">
+                   <th class="a-left f-bold"><?php echo $this->_("Amount remaining:"); ?></th>
+                   <td class="a-right"><?php echo $order->formatPrice($order->getPaidAmount() - $order->getTotal()); ?></td>
+                </tr>
+            </table>
+            <?php endif; ?>
+        </fieldset>
+
+        <?php if($order->getId()) : ?>
+            <input type="hidden" name="order_id" id="order_id" value="<?php echo $order->getId() ?>" />
+        <?php endif; ?>
+        <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId() ?>" />
+
+    </form>
+</div>
