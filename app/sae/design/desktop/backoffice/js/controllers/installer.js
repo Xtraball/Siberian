@@ -11,9 +11,12 @@ App.config(function($routeProvider) {
     $scope.header.button.left.is_visible = false;
     $scope.header.loader_is_visible = false;
     $scope.content_loader_is_visible = true;
+    $scope.show_release_note = false;
+    $scope.show_only = false;
 
     $scope.checking_module = false;
     $scope.installation_progress = 0;
+    $scope.package_full = null;
     $scope.package_details = {
         is_visible: false,
         name: null,
@@ -124,6 +127,8 @@ App.config(function($routeProvider) {
 
         Installer.downloadUpdate().success(function(data) {
 
+            $scope.package_full = data;
+
             if(data.filename) {
                 $scope.package_details = data.package_details;
                 $scope.showPackageDetails();
@@ -164,6 +169,7 @@ App.config(function($routeProvider) {
         if(angular.isObject(response) && response.success) {
 
             $scope.package_details = response.package_details;
+            $scope.package_full = response;
             $scope.showPackageDetails();
             Installer.filename = response.filename;
 
@@ -181,6 +187,34 @@ App.config(function($routeProvider) {
             .isError(true)
             .show()
         ;
+    };
+
+    $scope.showReleasenote = function(show_only) {
+        if(typeof show_only != "undefined") {
+            $scope.show_release_note = true;
+            $scope.show_only = true;
+            document.getElementById("informations").src = $scope.package_full.release_note.url;
+        } else if ($scope.package_full.release_note.show) {
+            $scope.show_only = false;
+            $scope.show_release_note = true;
+            document.getElementById("informations").src = $scope.package_full.release_note.url;
+        } else {
+            $scope.checkPermissions();
+        }
+    };
+
+    $scope.close = function() {
+        $scope.show_only = false;
+        $scope.show_release_note = false;
+    };
+
+    $scope.dismissInstall = function() {
+        $scope.show_release_note = false;
+    };
+
+    $scope.confirmInstall = function() {
+        $scope.show_release_note = false;
+        $scope.checkPermissions();
     };
 
     /*/******** PACKAGE DETAILS **********/

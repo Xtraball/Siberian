@@ -120,10 +120,11 @@
                 {{ package_details.version }}
             </td>
             <td>
-                <div ng-bind-html="package_details.description | trusted_html"></div>
+                <a ng-show="package_full.release_note.url" ng-click="showReleasenote(true);"><?php echo __("Click here to see the release notes"); ?></a>
+                <div ng-show="!package_full.release_note.url" ng-bind-html="package_details.description | trusted_html"></div>
             </td>
             <td>
-                <button class="btn btn-primary btn-xs right" ng-click="checkPermissions();" ng-disabled="permissions.is_visible"><?php echo $this->_("Install"); ?></button>
+                <button class="btn btn-primary btn-xs right" ng-click="showReleasenote();" ng-disabled="permissions.is_visible"><?php echo $this->_("Install"); ?></button>
             </td>
         </tr>
         </tbody>
@@ -273,3 +274,33 @@
     </table>
 
 </sb-section>
+
+<div id="informations-modal" ng-show="show_release_note">
+    <div class="modal-content">
+        <div class="modal-body">
+            <iframe id="informations"></iframe>
+        </div>
+        <div class="modal-footer">
+            <button ng-show="show_only" type="button" class="btn btn-default dismiss-update" data-dismiss="modal" ng-click="close();"><?php echo __("Close"); ?></button>
+            <button ng-show="!show_only" type="button" class="btn btn-default dismiss-update" data-dismiss="modal" ng-click="dismissInstall();"><?php echo __("Dismiss & install later"); ?></button>
+            <button ng-show="!show_only" type="button" class="btn btn-primary install-update" ng-click="confirmInstall();"><?php echo __("Yes, install the update."); ?></button>
+        </div>
+    </div>
+</div>
+
+
+<style type="text/css">
+    #informations-modal {
+        position: fixed;
+        top: 100px;
+        width: 1000px;
+        left: 50%;
+        margin-left: -500px;
+        z-index: 25000;
+    }
+
+    #informations-modal iframe {
+        width: 100%;
+        height: 400px;
+    }
+</style>

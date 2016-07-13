@@ -406,7 +406,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         $path = pathinfo($file);
         $filename = $path["filename"].".".$path["extension"];
 
-        return array(
+        $data = array(
             "success" => 1,
             "filename" => base64_encode($filename),
             "package_details" => array(
@@ -415,6 +415,17 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 "description" => $package->getDescription()
             )
         );
+
+        $data["release_note"] = array(
+            "url" => false,
+            "show" => false,
+        );
+
+        if(($release_note = $package->getReleaseNote())) {
+            $data["release_note"] = $package->getReleaseNote();
+        }
+
+        return $data;
 
     }
 
