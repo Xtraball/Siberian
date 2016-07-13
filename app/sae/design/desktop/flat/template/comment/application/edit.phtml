@@ -1,0 +1,408 @@
+<?php $application = $this->getApplication(); ?>
+<?php $value = $this->getOptionValue(); ?>
+<?php $comment = new Comment_Model_Comment(); ?>
+<?php $comments = $comment->findAll(array('value_id' => $value->getId()), 'comment_id DESC'); ?>
+<div class="edit_page comment">
+    <div id="list">
+        <?php if ($this->getOptionValue()->getCode() == 'fanwall'): ?>
+        <?php $radius = new Comment_Model_Radius(); ?>
+        <?php $radius->find($value->getId(), 'value_id'); ?>
+        <div>
+            <h3 class="title-editor no-border-radius">
+                <?php echo $this->_('Near me settings'); ?>
+            </h3>
+            <div class="container-fluid">
+                <form id="near_radius" action="<?php echo $this->getUrl('comment/application/saveradius'); ?>" class="form-horizontal">
+                    <div class="form-group first-row-feature">
+                        <div class="col-sm-4">
+                            <label for="near_me_radius"><?php echo $this->_('\'Near me\' radius (in km):'); ?></label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="text" class="required input-flat" name="radius" id="near_me_radius" placeholder="<?php echo $this->_('Radius'); ?>" value="<?php echo $radius->getRadius(); ?>"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2 col-sm-offset-10">
+                            <button type="submit" class="btn color-blue pull-right" id="save_radius">
+                                <?php echo $this->_('Save'); ?>
+                            </button>
+                        </div>
+                    </div>
+                    <input type="hidden" name="value_id" value="<?php echo $value->getId(); ?>" />
+                </form>
+            </div>
+        </div>
+        <?php endif; ?>
+
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo $this->_('Add'); ?>
+            <button class="new_menu color-blue pull-right bt-header-right btn" onclick="feature.edit();" id="add_item" type="button">
+                <i class="fa fa-plus"></i>
+            </button>
+        </h3>
+        <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+
+        <?php if ($comments->count()) : ?>
+            <div class="margin-top">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo $this->_('Manage'); ?>
+                    <button type="button" id="toggle_existing_items" class="color-blue pull-right bt-header-right btn">
+                        <i class="fa fa-chevron-down"></i>
+                    </button>
+                </h3>
+                <div id="existing_items" style="display:none;" class="container-fluid first-row-feature">
+                    <ul class="list-group">
+                        <?php foreach ($comments as $comment) : ?>
+                            <?php $text = trim(strip_tags($comment->getText())); ?>
+                            <?php $text = mb_strlen($comment->getText(), 'UTF-8') > 255 ? mb_substr($text, 0, 255, "UTF-8") . '...' : $text; ?>
+                            <?php $title =  $comment->getTitle(); ?>
+                            <?php if(empty($title)) continue; ?>
+                            <li class="news_actions list-group-item content-white-bkg" rel="<?php echo $comment->getId(); ?>">
+                                <div class="form-group">
+                                    <div class="col-md-10 text-justify">
+                                        <?php echo $title ?>
+                                    </div>
+                                    <div class="col-md-2 text-center" id="news_icons_<?php echo $comment->getId(); ?>">
+                                        <a class="<?php if ($comment->getFlag() == 0) echo 'hidden'; ?> show_details" title="<?php echo $this->_('Was flagged as inappropriate') ?>">
+                                            <i class="fa fa-flag"></i>
+                                        </a>
+                                        <a href="javascript:void(0)" class="show_details" rel="<?php echo $comment->getId() ?>">
+                                            <i class="fa fa-search"></i>
+                                        </a>
+                                        <a href="javascript:void(0)" class="show_answers" rel="<?php echo $comment->getId(); ?>">
+                                            <i class="fa fa-comment"></i>
+                                        </a>
+                                        <?php if($comment->getisVisible() == '1') : ?>
+                                            <a href="javascript:void(0)" title="<?php echo $this->_('Hide this info') ?>" class="hide_comment" rel="<?php echo $comment->getId() ?>">
+                                                <i class="fa fa-eye-close"></i>
+                                            </a>
+                                        <?php else : ?>
+                                            <a href="javascript:void(0)" title="<?php echo $this->_('Show this info') ?>" class="show_comment" rel="<?php echo $comment->getId() ?>">
+                                                <i class="fa fa-eye-open"></i>
+                                            </a>
+                                        <?php endif; ?>
+                                        <a href="javascript:void(0)" class="delete_comment" rel="<?php echo $comment->getId() ?>">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div id="details_news_<?php echo $comment->getId(); ?>" class="news_details" style="display: none;">
+                                    <div class="row">
+                                        <div class="col-md-3"><label><?php echo $this->_('Publishing date'); ?> :</label></div>
+                                        <div class="col-md-9"><?php echo $comment->getFormattedCreatedAt('dd MMMM y') ?></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12"><?php echo $text; ?></div>
+                                    </div>
+                                </div>
+                            </li>
+                        <?php endforeach ?>
+                    </ul>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <?php echo $this->getLayout()
+            ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
+            ->setValueId($value->getId())
+            ->toHtml()
+        ;
+        ?>
+
+        <?php echo $this->getLayout()
+            ->addPartial('layout', 'Core_View_Default', 'application/customization/features/edit/layout.phtml')
+            ->setOptionValue($value)
+            ->toHtml()
+        ;
+        ?>
+        </div>
+        <div id="edit" style="display: none;">
+            <h3 class="title-editor no-border-radius">
+                <?php echo $this->_('Create a news'); ?>
+            </h3>
+            <div class="container-fluid">
+                <form id="newsCreateForm" action="<?php echo $this->getUrl('comment/application/editpost') ?>" method="post" class="form-horizontal">
+                    <div class="form-group buttons first-row-feature">
+                        <div class="col-md-12">
+                            <button type="button" onclick="page.reload()" class="btn color-blue pull-left"><i class="fa fa-arrow-left"></i></button>
+                            <button type="submit" class="btn color-blue pull-right">OK</button>
+                        </div>
+                    </div>
+                    <input type="hidden" name="value_id" value="<?php echo $value->getId(); ?>" />
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <label for="news_title"><?php echo $this->_("Title"); ?></label>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="news_subtitle"><?php echo $this->_("Date"); ?></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <input type="text" id="news_title" class="input-flat" name="title" placeholder="<?php echo $this->_("Title"); ?>" />
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" id="news_date" class="input-flat" name="date" placeholder="<?php echo $this->_("Date"); ?>" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label for="news_subtitle"><?php echo $this->_("Subtitle"); ?></label>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="text" id="news_subtitle" class="input-flat" name="subtitle" placeholder="<?php echo $this->_("Subtitle"); ?>" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <textarea style="width:98%;height: 100px;" id="title" name="text" class="input-flat" rows="3" cols="95" maxlength="255"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <!--[if gte IE 10]><!-->
+                            <button  type="button" class="upload_comment_picture btn color-blue image_left">
+                                <i class="fa fa-camera-retro"></i>
+                                <?php echo $this->_('Insert a'); ?><br>
+                                <span class="bold"><?php echo $this->_('picture'); ?></span>
+                            </button>
+                            <!--<![endif]-->
+                            <input class="uploader_comment" style="display:none" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div id="uploaded_content"></div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="option_value_id" value="<?php echo $value->getId(); ?>" />
+                    <input type="hidden" id="image_actus" name="image" value="" />
+                </form>
+            </div>
+        </div>
+        <div id="answers" style="display:none;">
+        </div>
+        <div id="logo_edit">
+            <button type="button" id="cancel_crop" class="delete pull-left"><i class="fa fa-arrow-left"></i></button>
+            <button type="button" id="validate_crop" class="btn pull-right">OK</button>
+            <p><?php echo $this->_('Resize your picture:'); ?></p>
+            <div id="logo_cont"></div>
+        </div>
+        <script type="text/javascript">
+
+            CKEDITOR.config.language = '<?php echo $this->_('en') ?>';
+            CKEDITOR.config.toolbar = [
+                { name: 'source', items: [ 'Source' ] },
+                { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ] },
+                { name: 'paragraph', groups: [ 'indent', 'align' ], items: [ 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
+                { name: 'links', items: [ 'Link', 'Unlink' ] },
+                { name: 'insert', items: [ 'Cms', 'Image' ] },
+                { name: 'styles', items: [ 'TextColor', 'Format', 'FontSize' ] }
+            ];
+
+            page.setCallback('didremove', function() {
+                $('#newsCreateForm').submit(function() {
+                    if($('input.uploader').val().isEmpty()) $('input.uploader').hide();
+                    if (!$(this).valid())
+                        return false;
+                    $('<input />').attr('type', 'hidden').attr('name', 'customization').val(1).appendTo($(this));
+
+                    reload(this, this.action, true, function(datas) {
+                        if (datas.success) {
+                            page.reload();
+                        }
+                    });
+
+                    return false;
+                });
+
+            }.bind(page));
+/*
+            function prepareDummy() {
+                if (iframe.f.page.current_page.id != 'news_details_<?php echo $value->getId(); ?>_new') {
+                    iframe.f.page.showSubpage({id:'news_details_<?php echo $value->getId(); ?>_new'});
+                }
+            }
+            */
+
+            page.setCallback('didappear', function() {
+
+                $('#title').ckeditor();
+
+                $('#news_date').datepicker({
+                    showAnim: 'clip',
+                    dateFormat: 'yy-mm-dd'
+                });
+
+                $('#toggle_existing_items').click(function() {
+                    $('#existing_items').stop().slideToggle(300, function() {
+                        if($(this).is(':visible')) $('#toggle_existing_items').children('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                        else $('#toggle_existing_items').children('i').removeClass('fa-chevron-up').addClass('fa-chevron-down')
+                    });
+                });
+
+                $('.upload_comment_picture').click(function() {
+                    $('.uploader_comment').trigger('click');
+                    return false;
+                });
+
+                $('.show_details').click(function() {
+                    var id = $(this).attr('rel');
+                    var div = $('#details_news_'+id);
+                    if (div.is(':visible')) {
+                        div.slideUp(300, function() {
+                            $(this).parent('div.news_actions').removeClass('selected')
+                        });
+                    } else {
+                        div.slideDown(300, function() {
+                            $(this).parent('div.news_actions').addClass('selected')
+                        });
+                    }
+                });
+
+                $('#near_radius').submit(function() {
+                    if ($(this).valid()) {
+                        reload($(this), this.action, true);
+                    }
+                    return false;
+                });
+
+                $('.show_answers').click(function() {
+                    $('<input />').attr('type', 'hidden').attr('name', 'option_value_id').attr('value', '<?php echo $value->getId() ?>').appendTo($('#answers'));
+                    $('<input />').attr('type', 'hidden').attr('name', 'comment_id').attr('value', $(this).attr('rel')).appendTo($('#answers'));
+                    reload($('#answers'), '<?php echo $this->getUrl('comment/application_answers/edit'); ?>', true, function(datas) {
+                        if(datas.answers_html) {
+                            $('#answers').html(datas.answers_html);
+                            feature.slide($('#list'), $('#answers'), 'right');
+                            $('.delete_answer').click(function() {
+                                var id = $(this).attr('rel');
+                                $('<input />').attr('type', 'hidden').attr('name', 'option_value_id').attr('value', '<?php echo $value->getId() ?>').appendTo($(this));
+                                $('<input />').attr('type', 'hidden').attr('name', 'answer_id').attr('value', $(this).attr('rel')).appendTo($(this));
+                                reload($(this), '<?php echo $this->getUrl('comment/application_answers/delete'); ?>', true, function(datas) {
+                                    if(datas.success) {
+                                        $('.row_'+id).fadeOut(300, function() {$(this).remove();});
+                                        iframe.f.reload();
+                                    }
+                                });
+                            });
+                            $('#hide_answers').click(function() {
+                                feature.slide($('#answers'), $('#list'), 'left');
+                                $('.approve_answer').unbind('click');
+                                $('.delete_answer').unbind('click');
+                                $(this).unbind('click');
+                            });
+                        }
+                    });
+                });
+
+                $('.delete_comment').click(function() {
+                    var id = $(this).attr('rel');
+                    reload($(this), '<?php echo $this->getUrl('comment/application/delete'); ?>/id/'+id, true, function(datas) {
+                        if(datas.success) {
+                            page.reload();
+                        }
+                    });
+                });
+
+                $('.hide_comment').click(function() {
+                    var id = $(this).attr('rel');
+                    reload($(this), '<?php echo $this->getUrl('comment/application/hide'); ?>/id/'+id, true, function(datas) {
+                        if(datas.success) {
+                            page.reload();
+                        }
+                    });
+                });
+
+                $('.show_comment').click(function() {
+                    var id = $(this).attr('rel');
+                    reload($(this), '<?php echo $this->getUrl('comment/application/show'); ?>/id/'+id, true, function(datas) {
+                        if(datas.success) {
+                            page.reload();
+                        }
+                    });
+                });
+
+            });
+
+            page.setCallback('willdisappear', function() {
+                for(name in CKEDITOR.instances) {
+                    CKEDITOR.instances[name].destroy()
+                }
+                $('#toggle_existing_items').unbind('click');
+                $('#newsCreateForm').unbind('submit');
+                $('#title').unbind('keyup change');
+                $('.news_actions').unbind('mouseenter mouseout');
+                $('.show_answers').unbind('click');
+                $('.show_details').unbind('click');
+                $('.delete_comment').unbind('click');
+                $('#news_date').datepicker("destroy");
+            });
+
+            function removepicture() {
+                $('#image_actus').val('');
+                $('#comment_picture').fadeOut(300, function() {
+                    $('#comment_picture').html('');
+                });
+                $('#delete_picture').fadeOut(300, function() {
+                    $('#delete_picture').remove();
+                });
+                iframe.content.find('#comment_details_image_<?php echo $value->getId(); ?>_new').hide();
+                return false;
+            }
+
+            var comment_uploader = new Uploader();
+            $('.uploader_comment').fileupload({
+                dataType: 'json',
+                add: function(e, data) {
+                    data.submit();
+                    comment_uploader.showProgressbar();
+                },
+                progressall: function(e, data) {
+                    comment_uploader.moveProgressbar(data);
+                },
+                done: function(e, data) {
+                    if (data.result.error)
+                    {
+                        comment_uploader.showError(data.result.message);
+                    }
+                    if (data.result.success)
+                    {
+                        comment_uploader.hide();
+                        var params = new Array();
+                        params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+                        params["file"] = data.result.files;
+                        params["output_w"] = 530;
+                        params["output_h"] = 272;
+                        params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('comment/application/validatecrop')) ?>';
+                        params["uploader"] = 'comment_uploader';
+                        comment_uploader.crop(params);
+                        comment_uploader.callback = function(file) {
+                            var filepath = "<?php echo Core_Model_Directory::getTmpDirectory(); ?>/"+file;
+                            // iframe.content.find('#comment_details_image_<?php echo $value->getId(); ?>_new').attr('src', filepath).fadeIn(200);
+                            var button = '<button type="button" style="vertical-align:top;margin-left:5px" onclick="removepicture();" id="delete_picture" class="btn color-blue"><i class="fa fa-times"></i></button>';
+                            var img = '<img id="comment_picture" width="183" src="'+filepath+'"/>'+button;
+                            $('#uploaded_content').html(img);
+                            $('#image_actus').val(file);
+                        }
+                    }
+                }
+            });
+
+            background_image.setCallback('cropDidFinish', function() {
+//                    iframe.content.find('.news').addClass('no-background');
+//                    iframe.content.find('.comments').addClass('no-background');
+            }).setCallback('imageDidRemove', function(datas) {
+//                    if(!datas.background_image_url) {
+//                        iframe.content.find('.news').removeClass('no-background');
+//                        iframe.content.find('.comments').removeClass('no-background');
+//                    }
+            });
+
+    </script>
+    <style>
+        .cke_button__image_icon { display:none; }
+        .comment .news_details{padding-left:55px}
+        #logo_edit {display: none;}
+    </style>
+    
+</div>

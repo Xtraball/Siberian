@@ -34,13 +34,9 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
         $ionicConfigProvider.views.maxCache(0);
     }
 })
-.run(function($http, $ionicConfig, $ionicHistory, $ionicPlatform, $ionicPopup, $ionicSlideBoxDelegate, $location, $rootScope, $state, $templateCache, $timeout, $translate, $window, Application, Connection, Customer, Dialog, FacebookConnect, Facebook, HomepageLayout, Push, Url, AUTH_EVENTS, PUSH_EVENTS) {
+.run(function($http, $ionicConfig, $ionicHistory, $ionicPlatform, $ionicPopup, $ionicSlideBoxDelegate, $location, $rootScope, $state, $templateCache, $timeout, $translate, $window, Analytics, Application, Connection, Customer, Dialog, FacebookConnect, Facebook, HomepageLayout, Push, Url, AUTH_EVENTS, PUSH_EVENTS) {
     //Load translation is mandatory to any process
-    $translate.findTranslations().success(function () {
-        if ($ionicConfig.backButton.text()) {
-            $ionicConfig.backButton.text($translate.instant("Back"));
-        }
-    }).finally(function(){
+    $translate.findTranslations().success(function () {}).finally(function(){
         $ionicPlatform.ready(function () {
             $window.Connection = Connection;
 
@@ -54,19 +50,30 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
             Dialog.is_webview = Application.is_webview = (ionic.Platform.device().platform == "browser");
 
             if($window.device) {
-                //if(ionic.Platform.isAndroid()) {
-                //    Push.device_uid = localStorage.getItem("sb-android-device-uid") ? localStorage.getItem("sb-android-device-uid") : device.uuid;
-                //} else {
-                    Push.device_uid = device.uuid;
-                //}
+                Push.device_uid = device.uuid;
             }
+
+            Push.startBackgroundGeolocation();
 
             $rootScope.app_is_loaded = true;
             $rootScope.has_popup = false;
 
-            if(ionic.Platform.isAndroid()) navigator.sbsplashscreen.hide();
+            if(!Application.is_webview) {
+                Connection.check();
+            }
 
-            if(!Application.is_webview) Connection.check();
+            $ionicPlatform.on('resume', function(result) {
+                sbLog("## App is resumed ##");
+                Analytics.storeOpening().then(function(result) {
+                    Analytics.data.storeClosingId = result.id;
+                });
+            });
+            
+            $ionicPlatform.on('pause', function(result) {
+                sbLog("## App is on pause ##");
+                Analytics.storeClosing();
+            });
+
         });
 
         $rootScope._getLastId = function (collection) {
@@ -134,6 +141,8 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
         $rootScope.$on('$ionicView.beforeEnter', function() {
             if($location.path() == ("/" + APP_KEY)) {
                 $ionicSlideBoxDelegate.update();
+            } else {
+                Analytics.storeClosing();
             }
         });
 
@@ -216,9 +225,16 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
             Application.is_locked = data.application.is_locked == 1;
 
             if(!Application.is_webview && !$window.localStorage.getItem("first_running")) {
-                Application.showCacheDownloadModal();
+                Application.showCacheDownloadModal(); /** @TODO Make this popup optional */
                 $window.localStorage.setItem("first_running", "true");
+                Analytics.storeInstallation();
             }
+
+            Analytics.storeOpening().then(function(result) {
+                if(result && result.id) {
+                    Analytics.data.storeClosingId = result.id;
+                }
+            });
 
             $rootScope.app_is_locked = Application.is_locked && !Customer.can_access_locked_features;
 
@@ -249,8 +265,12 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                 }
             }
 
-            if (Customer.isLoggedIn()) $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-            else $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
+            if (Customer.isLoggedIn()) {
+                $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+            }
+            else {
+                $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
+            }
 
             Push.register();
             Push.getLastMessages().success(function (data) {

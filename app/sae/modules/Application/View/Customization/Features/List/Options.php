@@ -7,6 +7,7 @@ class Application_View_Customization_Features_List_Options extends Core_View_Def
     protected function getIconUrl($option) {
 
         $icon_url = $option->getIconUrl();
+
         if(!$option->getImage()->getId() OR $option->getImage()->getCanBeColorized()) {
 
             if(!$this->_icon_color) {

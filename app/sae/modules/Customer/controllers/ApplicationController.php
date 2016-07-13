@@ -58,6 +58,15 @@ class Customer_ApplicationController extends Application_Controller_Default {
 
                 if(!empty($data['email']) AND !Zend_Validate::is($data['email'], 'emailAddress')) throw new Exception($this->_("Please enter a valid email address"));
 
+                //Test if the email is already used
+                if(empty($data['customer_id'])) {
+                    $customers = $customer->findAll(array("email = ?" => $data["email"], "app_id = ?" => $this->getApplication()->getId()));
+                    if ($customers->count()) {
+                        $message = $this->_("We are sorry but the %s account is already linked to one of our customers", $data["email"]);
+                        throw new Exception($message);
+                    }
+                }
+
                 $data['show_in_social_gaming'] = (int) !empty($data['show_in_social_gaming']);
                 $data['can_access_locked_features'] = (int) !empty($data['can_access_locked_features']);
 

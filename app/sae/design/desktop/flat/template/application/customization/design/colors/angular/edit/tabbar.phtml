@@ -1,0 +1,181 @@
+<?php $block = $this->getApplication()->getBlock('tabbar'); ?>
+<div class="colors">
+    <form id="colorsForm" action="<?php echo $this->getUrl('application/customization_design_colors/save'); ?>" method="post">
+        <div id="colors">
+            <h3 class="title">
+                <span><?php echo $this->_('Choose your colors'); ?></span>
+                <hr />
+                
+            </h3>
+            <div>
+                <table class="no-collapse" cellspacing="10" width="500px">
+                    <col width="150px" />
+                    <col width="50px" />
+                    <col width="150px" />
+                    <col width="50px" />
+                    <?php if($block->getUseBackgroundColor() OR $block->getUseColor()) : ?>
+
+                    <tr id="row_<?php echo $block->getId(); ?>">
+                        <td>
+                            <?php echo $block->getName(); ?>
+                            <input type="hidden" name="block_id" value="<?php echo $block->getId(); ?>" />
+                        </td>
+                    <?php if($block->getUseBackgroundColor()) : ?>
+                        <td>
+                            <div class="square_color"><button type="button" id="<?php echo $block->getCode(); ?>_background_color" class="<?php echo $block->getCode(); ?>_background_color" style="background-color: <?php echo $block->getBackgroundColor(); ?>"></button></div>
+                            <input type="hidden" id="<?php echo $block->getCode(); ?>_background_color_receiver" name="background_color" value="<?php echo $block->getBackgroundColor() ?>" />
+                        </td>
+                    <?php else : ?>
+                        <td></td>
+                    <?php endif; ?>
+
+                    <?php if($block->getUseColor()) : ?>
+                        <td><?php echo $block->getName(); ?> <?php echo $this->_('Text'); ?></td>
+                        <td>
+                            <div class="square_color"><button type="button" id="<?php echo $block->getCode(); ?>_color" class="<?php echo $block->getCode(); ?>_color" style="background-color: <?php echo $block->getColor(); ?>"></button></div>
+                            <input type="hidden" id="<?php echo $block->getCode(); ?>_color_receiver" name="color" value="<?php echo $block->getColor() ?>" />
+                        </td>
+                    <?php else : ?>
+                        <td></td>
+                        <td></td>
+                    <?php endif; ?>
+                        <td><?php echo $this->_('Icons'); ?></td>
+                        <td>
+                            <div>
+                                <div class="square_color right"><button type="button" id="<?php echo $block->getCode(); ?>_icon_color" class="<?php echo $block->getCode(); ?>_icon_color" style="background-color: <?php echo $block->getImageColor(); ?>"></button></div>
+                                <input type="hidden" id="<?php echo $block->getCode(); ?>_icon_color_receiver" name="tabbar_color" value="<?php echo $block->getImageColor() ?>" />
+                                <input type="hidden" id="<?php echo $block->getCode(); ?>_has_changed" name="tabbar_color_has_changed" value="0" />
+                                
+                            </div>
+                        </td>
+                    </tr>
+                    <?php endif; ?>
+                </table>
+            </div>
+        </div>
+    </form>
+    
+
+    <script type="text/javascript">
+        var scroller;
+        $(document).ready(function() {
+            scroller = $('#colors').scroller({
+                parent: $('#customization_content_left'),
+                leader: $('#overview'),
+                margin: 50
+            });
+        });
+        <?php $target = $block->getCode(); ?>
+        <?php if($block->getUseColor()) : ?>
+        $('#<?php echo $target ?>_color').ColorPicker({
+            color: '<?php echo $block->getColor() ?>',
+            onShow: function (colpkr) {
+                $(colpkr).slideDown(500);
+                scroller.deactive();
+                overview.showMask('<?php echo $block->getCode(); ?>');
+//                    overview.pulsate('<?php echo $block->getCode(); ?>');
+                return false;
+            },
+            onHide: function (colpkr) {
+                $(colpkr).slideUp(500);
+                scroller.active();
+                overview.hideMask('<?php echo $block->getCode(); ?>');
+//                    overview.setImageColor('.<?php echo $block->getCode(); ?>');
+                reload($('#row_<?php echo $block->getId(); ?>'), $('#colorsForm').attr('action'), false, function() {$('#<?php echo $block->getCode() ?>_has_changed').val(0);});
+                return false;
+            },
+            onSubmit: function(hsb, hex, rgb, el) {
+                $('.colorpicker').slideUp(500);
+                overview.hideMask('<?php echo $block->getCode(); ?>');
+                scroller.active();
+                return false;
+            },
+            onChange: function (hsb, hex, rgb) {
+                hex = '#'+hex;
+                $('#<?php echo $target ?>_color_receiver').val(hex);
+                overview.setColor('<?php echo $block->getCode(); ?>', hex);
+                <?php foreach($block->getLinkedIcons() as $icon) : ?>
+                    <?php if($icon->getType() != 'img') : ?>
+                    overview.setImageColor('#<?php echo $icon->getElement(); ?>', hex, '<?php echo $icon->getType() ?>');
+                    <?php else : ?>
+                    overview.setImageColor('#<?php echo $icon->getElement(); ?>', rgb, '<?php echo $icon->getType() ?>');
+                    <?php endif; ?>
+                <?php endforeach; ?>
+//                    customizator.setAskConfirmation(true);
+            },
+            setDefaultColors: function(hex) {
+                hex = '#'+hex;
+                $('.<?php echo $block->getCode() ?>_color').css('background-color', hex);
+//                    colors.getPredefined(1)['<?php echo $block->getCode() ?>'].color = hex;
+
+            }
+        });
+        <?php endif;?>
+
+        <?php if($block->getUseBackgroundColor()) : ?>
+        $('#<?php echo $target ?>_background_color').ColorPicker({
+            color: '<?php echo $block->getBackgroundColor() ?>',
+            onShow: function (colpkr) {
+                scroller.deactive();
+                overview.showMask('<?php echo $block->getCode(); ?>');
+//                    overview.pulsate('<?php echo $block->getCode(); ?>');
+                $(colpkr).slideDown(500);
+                return false;
+            },
+            onHide: function (colpkr) {
+                $(colpkr).slideUp(500);
+                overview.hideMask('<?php echo $block->getCode(); ?>');
+                scroller.active();
+                reload($('#row_<?php echo $block->getId(); ?>'), $('#colorsForm').attr('action'), false, function() {$('#<?php echo $block->getCode() ?>_has_changed').val(0);});
+                return false;
+            },
+            onSubmit: function(hsb, hex, rgb, el) {
+                $('.colorpicker').slideUp(500);
+                overview.hideMask('<?php echo $block->getCode(); ?>');
+                scroller.active();
+                return false;
+            },
+            onChange: function (hsb, hex, rgb) {
+                hex = '#'+hex;
+                $('#<?php echo $target ?>_background_color_receiver').val(hex);
+                overview.setBackgroundColor('<?php echo $block->getCode(); ?>', hex);
+//                    customizator.setAskConfirmation(true);
+            },
+            setDefaultColors: function(hex) {
+                hex = '#'+hex;
+//                    colors.getPredefined(1)['<?php echo $block->getCode() ?>'].backgroundColor = hex;
+                $('.<?php echo $block->getCode() ?>_background_color').css('background-color', hex);
+            }
+        });
+        <?php endif; ?>
+
+        $('#<?php echo $block->getCode() ?>_icon_color').ColorPicker({
+            color: '<?php echo $block->getImageColor() ?>',
+            onShow: function (colpkr) {
+                $(colpkr).slideDown(500);
+                return false;
+            },
+            onHide: function (colpkr) {
+                $(colpkr).slideUp(500);
+                reload($('#row_<?php echo $block->getId(); ?>'), $('#colorsForm').attr('action'), false, function() {$('#<?php echo $block->getCode() ?>_has_changed').val(0);});
+                return false;
+            },
+            onSubmit: function(hsb, hex, rgb, el) {
+                $('.colorpicker').slideUp(500);
+                return false;
+            },
+            onChange: function (hsb, hex, rgb) {
+                overview.setTabbarColor(rgb);
+                $('#<?php echo $block->getCode() ?>_icon_color_receiver').val("#"+hex);
+                $('#<?php echo $block->getCode() ?>_has_changed').val(1);
+//                    customizator.setAskConfirmation(true);
+            },
+            setDefaultColors: function(hex) {
+                hex = '#'+hex;
+//                    colors.getPredefined(1)['<?php echo $block->getCode() ?>'].tabbarColor = hex;
+                $('.<?php echo $block->getCode() ?>_icon_color').css('background-color', hex);
+            }
+        });
+
+    </script>
+</div>

@@ -47,12 +47,32 @@ class Core_Model_Directory
             $design_path = str_replace("/".APPLICATION_TYPE."/", "/".$application_type."/", $design_path);
             $design_path = str_replace("/".DESIGN_CODE, "/".$design_codes[$application_type], $design_path);
         }
-
         if($path AND substr($path, 0, 1) != "/") $path = "/$path";
-
         $design_path = $base ? self::getBasePathTo($design_path.$path) : self::getPathTo($design_path.$path);
 
         return $design_path;
+    }
+
+    public static function getDesignsFor($application_type = "desktop") {
+
+        $designs = array();
+        $excluded_designs = array();
+        $base_path = APPLICATION_PATH."/sae/design/".$application_type;
+        if(!is_dir($base_path)) return $designs;
+
+        switch($application_type) {
+            case "desktop": $excluded_designs = array("backoffice", "installer", "debug"); break;
+            default: break;
+        }
+
+        $directories = new DirectoryIterator($base_path);
+        foreach($directories as $directory) {
+            if($directory->isDir() AND !$directory->isDot() AND !in_array($directories->getFilename(), $excluded_designs)) {
+                $designs[$directory->getFilename()] = ucfirst($directory->getFilename());
+            }
+        }
+
+        return $designs;
     }
 
     public static function getSessionDirectory($base = false) {
@@ -85,7 +105,8 @@ class Core_Model_Directory
     }
 
     public static function delete($src) {
-        exec("rm -Rf $src", $output);
+        # TG-196, protect eventual path with spaces
+        exec("rm -Rf '{$src}'", $output);
     }
 
     public static function move($src, $dst) {

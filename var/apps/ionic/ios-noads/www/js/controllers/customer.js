@@ -37,7 +37,7 @@ App.controller('CustomerController', function($cordovaOauth, $ionicScrollDelegat
     };
 
     $scope.loginWithFacebook = function() {
-        if(typeof IS_PREVIEWER !== 'undefined' && angular.isDefined(IS_PREVIEWER)) {
+        if((typeof IS_PREVIEWER !== 'undefined' && angular.isDefined(IS_PREVIEWER)) || $rootScope.isOverview || Application.is_webview) {
             $rootScope.showMobileFeatureOnlyError();
             return;
         }

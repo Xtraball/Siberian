@@ -45,6 +45,15 @@ $schemas['mcommerce_cart_line'] = array(
             'is_unique' => false,
         ),
     ),
+    'category_id' => array(
+        'type' => 'int(11)',
+        'index' => array(
+            'key_name' => 'KEY_CATEGORY_ID',
+            'index_type' => 'BTREE',
+            'is_null' => false,
+            'is_unique' => false,
+        ),
+    ),
     'ref' => array(
         'type' => 'varchar(100)',
         'is_null' => true,

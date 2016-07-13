@@ -180,9 +180,12 @@
         <string>{768, 1024}</string>
       </dict>
     </array>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Location is required to get specific push notes and other great items</string>
     <key>UIBackgroundModes</key>
     <array>
       <string>audio</string>
+      <string>fetch</string>
       <string>remote-notification</string>
     </array>
     <key>NSLocationWhenInUseUsageDescription</key>

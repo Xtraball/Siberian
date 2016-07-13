@@ -446,7 +446,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
 
     $scope.loadContent();
 
-}).controller('NewswallEditController', function($cordovaCamera, $cordovaGeolocation, $http, $rootScope, $scope, $state, $stateParams, $timeout, $translate, Application, Dialog, News) {
+}).controller('NewswallEditController', function($cordovaCamera, $cordovaGeolocation, $http, $ionicActionSheet, $rootScope, $scope, $state, $stateParams, $timeout, $translate, Application, Dialog, News) {
 
     $scope.new_post = {"text": null};
     $scope.preview_src = null;
@@ -481,23 +481,47 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
             return;
         }
 
-        var options = {
-            quality : 75,
-            destinationType : Camera.DestinationType.DATA_URL,
-            sourceType : Camera.PictureSourceType.CAMERA,
-            allowEdit : false,
-            encodingType: Camera.EncodingType.JPEG,
-            targetWidth: 300,
-            targetHeight: 300,
-            correctOrientation: true,
-            popoverOptions: CameraPopoverOptions,
-            saveToPhotoAlbum: false
-        };
+        var source_type = Camera.PictureSourceType.CAMERA;
 
-        $cordovaCamera.getPicture(options).then(function(imageData) {
-            $scope.preview_src = "data:image/jpeg;base64," + imageData;
-        }, function(err) {
-            // An error occured. Show a message to the user
+        // Show the action sheet
+        var hideSheet = $ionicActionSheet.show({
+            buttons: [
+                { text: $translate.instant("Take a picture") },
+                { text: $translate.instant("Import from Library") }
+            ],
+            cancelText: $translate.instant("Cancel"),
+            cancel: function() {
+                hideSheet();
+            },
+            buttonClicked: function(index) {
+                if(index == 0) {
+                    source_type = Camera.PictureSourceType.CAMERA;
+                }
+                if(index == 1) {
+                    source_type = Camera.PictureSourceType.PHOTOLIBRARY;
+                }
+
+                var options = {
+                    quality : 90,
+                    destinationType : Camera.DestinationType.DATA_URL,
+                    sourceType : source_type,
+                    allowEdit : false,
+                    encodingType: Camera.EncodingType.JPEG,
+                    targetWidth: 1200,
+                    targetHeight: 1200,
+                    correctOrientation: true,
+                    popoverOptions: CameraPopoverOptions,
+                    saveToPhotoAlbum: false
+                };
+
+                $cordovaCamera.getPicture(options).then(function(imageData) {
+                    $scope.preview_src = "data:image/jpeg;base64," + imageData;
+                }, function(err) {
+                    // An error occured. Show a message to the user
+                });
+
+                return true;
+            }
         });
 
     };

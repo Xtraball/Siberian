@@ -14,26 +14,42 @@
     <feature name="LocalStorage">
         <param name="ios-package" value="CDVLocalStorage" />
     </feature>
-    <feature name="Stream">
-        <param name="ios-package" value="CDVStream" />
-    </feature>
-    <feature name="RemoteControls">
-        <param name="ios-package" value="RemoteControls" />
-    </feature>
-    <feature name="Clipboard">
-        <param name="ios-package" value="CDVClipboard" />
-    </feature>
     <feature name="AdMob">
         <param name="ios-package" value="CDVAdMobPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="BackgroundGeolocation">
+        <param name="ios-package" value="CDVBackgroundGeolocation" />
+    </feature>
+    <preference name="loadUrlTimeoutValue" value="60000" />
+    <feature name="HotCodePush">
+        <param name="ios-package" value="HCPPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="SplashScreen">
+        <param name="ios-package" value="CDVSplashScreen" />
         <param name="onload" value="true" />
     </feature>
     <feature name="AppVersion">
         <param name="ios-package" value="AppVersion" />
     </feature>
+    <feature name="Stream">
+        <param name="ios-package" value="CDVStream" />
+    </feature>
+    <feature name="BackgroundFetch">
+        <param name="ios-package" value="CDVBackgroundFetch" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="BarcodeScanner">
+        <param name="ios-package" value="CDVBarcodeScanner" />
+    </feature>
     <feature name="Camera">
         <param name="ios-package" value="CDVCamera" />
     </feature>
     <preference name="CameraUsesGeolocation" value="false" />
+    <feature name="Clipboard">
+        <param name="ios-package" value="CDVClipboard" />
+    </feature>
     <feature name="Console">
         <param name="ios-package" value="CDVLogger" />
     </feature>
@@ -53,11 +69,24 @@
     <feature name="InAppBrowser">
         <param name="ios-package" value="CDVInAppBrowser" />
     </feature>
+    <feature name="Keyboard">
+        <param name="ios-package" onload="true" value="IonicKeyboard" />
+    </feature>
     <feature name="Media">
         <param name="ios-package" value="CDVSound" />
     </feature>
-    <feature name="OfflineMode">
-        <param name="ios-package" value="CDVOfflineMode" />
+    <feature name="ProgressView">
+        <param name="ios-package" value="ProgressView" />
+    </feature>
+    <feature name="PushNotification">
+        <param name="ios-package" value="PushPlugin" />
+    </feature>
+    <feature name="RemoteControls">
+        <param name="ios-package" value="RemoteControls" />
+    </feature>
+    <feature name="SocialSharing">
+        <param name="ios-package" value="SocialSharing" />
+        <param name="onload" value="true" />
     </feature>
     <feature name="StatusBar">
         <param name="ios-package" value="CDVStatusBar" />
@@ -65,21 +94,12 @@
     </feature>
     <preference name="StatusBarOverlaysWebView" value="true" />
     <preference name="StatusBarStyle" value="lightcontent" />
-    <feature name="SocialSharing">
-        <param name="ios-package" value="SocialSharing" />
+    <feature name="LocalNotification">
+        <param name="ios-package" onload="true" value="APPLocalNotification" />
         <param name="onload" value="true" />
     </feature>
-    <feature name="ProgressView">
-        <param name="ios-package" value="ProgressView" />
-    </feature>
-    <feature name="Keyboard">
-        <param name="ios-package" onload="true" value="IonicKeyboard" />
-    </feature>
-    <feature name="BarcodeScanner">
-        <param name="ios-package" value="CDVBarcodeScanner" />
-    </feature>
-    <feature name="PushNotification">
-        <param name="ios-package" value="PushPlugin" />
+    <feature name="OfflineMode">
+        <param name="ios-package" value="CDVOfflineMode" />
     </feature>
     <icon height="57" src="resources/ios/icon/icon.png" width="57" />
     <icon height="114" src="resources/ios/icon/icon@2x.png" width="114" />
@@ -122,7 +142,14 @@
     <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="16" />
     <preference name="BackupWebStorage" value="none" />
-    <preference name="SplashScreenDelay" value="10000" />
-    <preference name="ShowSplashScreenSpinner" value="true" />
-    <preference name="FadeSplashScreen" value="false" />
+    <preference name="SplashShowOnlyFirstTime" value="false" />
+    <preference name="AutoHideSplashScreen" value="false" />
+    <preference name="FadeSplashScreen" value="true" />
+    <preference name="FadeSplashScreenDuration" value="500" />
+    <chcp>
+        <config-file url="PLATFORM_URL" />
+        <native-interface version="1" />
+        <auto-download enabled="true" />
+        <auto-install enabled="true" />
+    </chcp>
 </widget>

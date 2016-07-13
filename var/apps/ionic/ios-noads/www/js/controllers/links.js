@@ -46,7 +46,7 @@ App.config(function($stateProvider) {
         if(ionic.Platform.isAndroid() && url.indexOf("pdf") >= 0) {
             $window.open(url, "_system", "location=no");
         } else {
-        $window.open(url, $rootScope.getTargetForLink(), "location=no");
+            $window.open(url, $rootScope.getTargetForLink(), "location=no");
         }
     };
 

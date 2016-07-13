@@ -5,6 +5,8 @@ class Backoffice_Controller_Default extends Core_Controller_Default {
     public function init() {
         parent::init();
 
+        Siberian_Cache_Translation::init();
+
         $allowed = array(
             "backoffice_index_index",
             "backoffice_account_login_index",

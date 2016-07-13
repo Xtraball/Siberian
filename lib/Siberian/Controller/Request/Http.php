@@ -18,7 +18,7 @@ class Siberian_Controller_Request_Http extends Zend_Controller_Request_Http
     protected $_is_native;
     protected $_use_application_key = false;
     protected $_white_label_editor;
-    protected $_application;
+    public $_application;
     protected $_application_key = false;
     protected $_ionic_path = false;
     protected $_is_installing = false;

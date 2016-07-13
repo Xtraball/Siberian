@@ -17,11 +17,11 @@ class Admin_Model_Db_Table_Admin extends Core_Model_Db_Table {
         //select MONTH(`created_at`), count(*) as count from admin group by MONTH(`created_at`)
 
         $select = $this->select()
-            ->from($this->_name, array("count" => new Zend_Db_Expr("COUNT(*)"), "day"=> new Zend_Db_Expr("DATE(created_at)")))
+            ->from($this->_name, array("count" => new Zend_Db_Expr("COUNT(admin_id)"), "day"=> new Zend_Db_Expr("DATE(created_at)")))
             ->where("created_at <= ?", $endDate)
             ->where("created_at > ?", $startDate)
             ->order("created_at")
-            ->group("created_at")
+            ->group("DATE(created_at)")
         ;
 
 

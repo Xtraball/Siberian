@@ -12,6 +12,10 @@ class Push_Model_Certificate extends Core_Model_Default {
     }
 
     public static function getiOSCertificat($app_id = null) {
+        if(Siberian_Version::is("sae")) {
+            $app_id = null;
+        }
+
         if(is_null(self::$_ios_certificat)) {
             $certificat = new self();
             if(is_null($app_id)) {
@@ -45,14 +49,59 @@ class Push_Model_Certificate extends Core_Model_Default {
                     //"original" => $pem_info,
                     "is_valid" => ($pem_info["validTo_time_t"] > time()),
                 );
+
+                $pem_info["apns_feedback"] = self::testApnsPort(2196);
+                if($pem_info["apns_feedback"]) {
+                    $pem_info["apns_feedback"] = self::testPem($certificate);
+                }
+
             } else {
                 $pem_info = array(
                     "is_valid" => false,
                 );
             }
+
+            $pem_info["port_open"] = self::testApnsPort(2195);
         }
 
         return $pem_info;
+    }
+
+    /**
+     * @return bool
+     */
+    public static function testApnsPort($port = 2195) {
+        $host = 'gateway.push.apple.com';
+
+        $connection = @fsockopen($host, $port, $errno, $errstr, 2);
+        if (is_resource($connection)) {
+            fclose($connection);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function testPem($certificate) {
+        require_once Core_Model_Directory::getBasePathTo('lib/ApnsPHP/Autoload.php');
+
+        $nEnvironment = (APPLICATION_ENV == "production") ? ApnsPHP_Push::ENVIRONMENT_PRODUCTION : ApnsPHP_Push::ENVIRONMENT_SANDBOX;
+
+        try {
+            $feedback = new ApnsPHP_Feedback(
+                $nEnvironment,
+                Core_Model_Directory::getBasePathTo($certificate)
+            );
+            $feedback->setConnectTimeout(2);
+            $feedback->setConnectRetryTimes(1);
+            $feedback->connect();
+            $feedback->receive();
+            $feedback->disconnect();
+
+            return true;
+        } catch(ApnsPHP_Exception $e) {
+            return false;
+        }
     }
 
     public static function getAndroidKey() {

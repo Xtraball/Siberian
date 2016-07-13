@@ -13,6 +13,8 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
@@ -34,8 +36,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
 
+
 @SuppressLint("NewApi")
-public class GCMIntentService extends GcmListenerService implements PushConstants {
+public class GCMIntentService
+        extends GcmListenerService
+        implements PushConstants {
 
     private static final String LOG_TAG = "PushPlugin_GCMIntentService";
     private static HashMap<Integer, ArrayList<String>> messageMap = new HashMap<Integer, ArrayList<String>>();
@@ -56,7 +61,7 @@ public class GCMIntentService extends GcmListenerService implements PushConstant
 
     @Override
     public void onMessageReceived(String from, Bundle extras) {
-        Log.d(LOG_TAG, "onMessage - from: " + from);
+        _log("onMessage - from: " + from);
 
         if (extras != null) {
 
@@ -67,20 +72,20 @@ public class GCMIntentService extends GcmListenerService implements PushConstant
 
             // if we are in the foreground and forceShow is `false` only send data
             if (!forceShow && PushPlugin.isInForeground()) {
-                Log.d(LOG_TAG, "foreground");
+                _log("foreground");
                 extras.putBoolean(FOREGROUND, true);
                 PushPlugin.sendExtras(extras);
             }
             // if we are in the foreground and forceShow is `true`, force show the notification if the data has at least a message or title
             else if (forceShow && PushPlugin.isInForeground()) {
-                Log.d(LOG_TAG, "foreground force");
+                _log("foreground force");
                 extras.putBoolean(FOREGROUND, true);
 
                 showNotificationIfPossible(getApplicationContext(), extras);
             }
             // if we are not in the foreground always send notification if the data has at least a message or title
             else {
-                Log.d(LOG_TAG, "background");
+                _log("background");
                 extras.putBoolean(FOREGROUND, false);
 
                 showNotificationIfPossible(getApplicationContext(), extras);
@@ -132,14 +137,14 @@ public class GCMIntentService extends GcmListenerService implements PushConstant
      * Parse bundle into normalized keys.
      */
     private Bundle normalizeExtras(Bundle extras) {
-        Log.d(LOG_TAG, "normalize extras");
+        _log("normalize extras");
         Iterator<String> it = extras.keySet().iterator();
         Bundle newExtras = new Bundle();
 
         while (it.hasNext()) {
             String key = it.next();
 
-            Log.d(LOG_TAG, "key = " + key);
+            _log("key = " + key);
 
             // If normalizeKeythe key is "data" or "message" and the value is a json object extract
             // This is to support parse.com and other services. Issue #147 and pull #218
@@ -147,7 +152,7 @@ public class GCMIntentService extends GcmListenerService implements PushConstant
                 Object json = extras.get(key);
                 // Make sure data is json object stringified
                 if ( json instanceof String && ((String) json).startsWith("{") ) {
-                    Log.d(LOG_TAG, "extracting nested message data from key = " + key);
+                    _log("extracting nested message data from key = " + key);
                     try {
                         // If object contains message keys promote each value to the root of the bundle
                         JSONObject data = new JSONObject((String) json);
@@ -156,7 +161,7 @@ public class GCMIntentService extends GcmListenerService implements PushConstant
                             while (jsonIter.hasNext()) {
                                 String jsonKey = jsonIter.next();
 
-                                Log.d(LOG_TAG, "key = data/" + jsonKey);
+                                _log("key = data/" + jsonKey);
 
                                 String value = data.getString(jsonKey);
                                 jsonKey = normalizeKey(jsonKey);
@@ -164,7 +169,7 @@ public class GCMIntentService extends GcmListenerService implements PushConstant
                             }
                         }
                     } catch( JSONException e) {
-                        Log.e(LOG_TAG, "normalizeExtras: JSON exception");
+                        _log("normalizeExtras: JSON exception");
                     }
                 }
             } else if (key.equals(("notification"))) {
@@ -173,9 +178,9 @@ public class GCMIntentService extends GcmListenerService implements PushConstant
                 while (iterator.hasNext()) {
                     String notifkey = iterator.next();
 
-                    Log.d(LOG_TAG, "notifkey = " + notifkey);
+                    _log("notifkey = " + notifkey);
                     String newKey = normalizeKey(notifkey);
-                    Log.d(LOG_TAG, "replace key " + notifkey + " with " + newKey);
+                    _log("replace key " + notifkey + " with " + newKey);
 
                     newExtras.putString(newKey, value.getString(notifkey));
                 }
@@ -183,7 +188,7 @@ public class GCMIntentService extends GcmListenerService implements PushConstant
             }
 
             String newKey = normalizeKey(key);
-            Log.d(LOG_TAG, "replace key " + key + " with " + newKey);
+            _log("replace key " + key + " with " + newKey);
             replaceKey(key, newKey, extras, newExtras);
 
         } // while
@@ -192,28 +197,91 @@ public class GCMIntentService extends GcmListenerService implements PushConstant
     }
 
     private void showNotificationIfPossible (Context context, Bundle extras) {
-
         // Send a notification if there is a message or title, otherwise just send data
         String message = extras.getString(MESSAGE);
         String title = extras.getString(TITLE);
         String contentAvailable = extras.getString(CONTENT_AVAILABLE);
 
-        Log.d(LOG_TAG, "message =[" + message + "]");
-        Log.d(LOG_TAG, "title =[" + title + "]");
-        Log.d(LOG_TAG, "contentAvailable =[" + contentAvailable + "]");
+        Double  message_lat = 0.0,
+                message_long = 0.0,
+                message_radius = 0.0;
 
-        if ((message != null && message.length() != 0) ||
+        Boolean is_geolocated = false;
+        if((extras.getString("latitude") != null) && (extras.getString("longitude") != null) && (extras.getString("radius") != null)) {
+            message_lat  = Double.parseDouble(extras.getString("latitude"));
+            message_long = Double.parseDouble(extras.getString("longitude"));
+            message_radius = Double.parseDouble(extras.getString("radius"));
+
+            is_geolocated = true;
+        }
+
+        _log("message =[" + message + "]");
+        _log("title =[" + title + "]");
+        _log("contentAvailable =[" + contentAvailable + "]");
+
+        if(is_geolocated) {
+            _log("message_lat =[" + extras.getString("latitude") + "]");
+            _log("message_long =[" + extras.getString("longitude") + "]");
+            _log("message_radius =[" + extras.getString("radius") + "]");
+        }
+
+
+        if ("true".equals(contentAvailable)){
+            _log("send notification event");
+
+            if(is_geolocated) {
+                JSONObject jsonResult = this.getCurrentPosition(this.getBaseContext());
+
+                try {
+                    Double latitude = (Double) jsonResult.get("latitude");
+                    Double longitude = (Double) jsonResult.get("longitude");
+
+                    Double distance = this._calculateDistance(latitude, longitude, message_lat, message_long, "K");
+
+                    _log("Distance =: "+String.valueOf(distance));
+                    _log("Radius =: "+String.valueOf(message_radius));
+
+                    if(distance <= message_radius) {
+                        _log("create instant notification, we are in the place");
+
+                        createNotification(context, extras);
+                    } else {
+                        _log("@TODO: storing notification for later");
+
+                        PushPlugin.sendExtras(extras);
+
+                        /**
+                         @TODO: GEOFENCING
+
+                         if(extras != null) {
+                         PushPlugin.sendExtras(extras);
+
+                         addGeofence(extras);
+                         buildGoogleApiClient();
+
+                         try {
+                         mGoogleApiClient.connect();
+                         } catch (Exception e) {
+                         e.printStackTrace();
+                         }
+                         }*/
+                    }
+
+                } catch (JSONException e) {
+                    _log("do nothing on error");
+                }
+            } else { /** Push with extras, but not geolocated */
+                PushPlugin.sendExtras(extras);
+            }
+
+        } else if ((message != null && message.length() != 0) ||
                 (title != null && title.length() != 0)) {
 
-            Log.d(LOG_TAG, "create notification");
-
+            _log("create instant notification");
             createNotification(context, extras);
         }
 
-        if ("1".equals(contentAvailable)) {
-            Log.d(LOG_TAG, "send notification event");
-            PushPlugin.sendExtras(extras);
-        }
+
     }
 
     public void createNotification(Context context, Bundle extras) {
@@ -244,10 +312,10 @@ public class GCMIntentService extends GcmListenerService implements PushConstant
         String localIconColor = prefs.getString(ICON_COLOR, null);
         boolean soundOption = prefs.getBoolean(SOUND, true);
         boolean vibrateOption = prefs.getBoolean(VIBRATE, true);
-        Log.d(LOG_TAG, "stored icon=" + localIcon);
-        Log.d(LOG_TAG, "stored iconColor=" + localIconColor);
-        Log.d(LOG_TAG, "stored sound=" + soundOption);
-        Log.d(LOG_TAG, "stored vibrate=" + vibrateOption);
+        _log("stored icon=" + localIcon);
+        _log("stored iconColor=" + localIconColor);
+        _log("stored sound=" + soundOption);
+        _log("stored vibrate=" + vibrateOption);
 
         /*
          * Notification Vibration
@@ -328,15 +396,15 @@ public class GCMIntentService extends GcmListenerService implements PushConstant
     }
 
     private void createActions(Bundle extras, NotificationCompat.Builder mBuilder, Resources resources, String packageName) {
-        Log.d(LOG_TAG, "create actions");
+        _log("create actions");
         String actions = extras.getString(ACTIONS);
         if (actions != null) {
             try {
                 JSONArray actionsArray = new JSONArray(actions);
                 for (int i=0; i < actionsArray.length(); i++) {
-                    Log.d(LOG_TAG, "adding action");
+                    _log("adding action");
                     JSONObject action = actionsArray.getJSONObject(i);
-                    Log.d(LOG_TAG, "adding callback = " + action.getString(CALLBACK));
+                    _log("adding callback = " + action.getString(CALLBACK));
                     Intent intent = new Intent(this, PushHandlerActivity.class);
                     intent.putExtra(CALLBACK, action.getString(CALLBACK));
                     intent.putExtra(PUSH_BUNDLE, extras);
@@ -462,7 +530,7 @@ public class GCMIntentService extends GcmListenerService implements PushConstant
         } else if (soundname != null && !soundname.contentEquals(SOUND_DEFAULT)) {
             Uri sound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
                     + "://" + context.getPackageName() + "/raw/" + soundname);
-            Log.d(LOG_TAG, sound.toString());
+            _log(sound.toString());
             mBuilder.setSound(sound);
         } else {
             mBuilder.setSound(android.provider.Settings.System.DEFAULT_NOTIFICATION_URI);
@@ -483,7 +551,7 @@ public class GCMIntentService extends GcmListenerService implements PushConstant
             if (results.length == 4) {
                 mBuilder.setLights(Color.argb(results[0], results[1], results[2], results[3]), 500, 500);
             } else {
-                Log.e(LOG_TAG, "ledColor parameter must be an array of length == 4 (ARGB)");
+                _log("ledColor parameter must be an array of length == 4 (ARGB)");
             }
         }
     }
@@ -496,7 +564,7 @@ public class GCMIntentService extends GcmListenerService implements PushConstant
                 if (priority >= NotificationCompat.PRIORITY_MIN && priority <= NotificationCompat.PRIORITY_MAX) {
                     mBuilder.setPriority(priority);
                 } else {
-                    Log.e(LOG_TAG, "Priority parameter must be between -2 and 2");
+                    _log("Priority parameter must be between -2 and 2");
                 }
             } catch (NumberFormatException e) {
                 e.printStackTrace();
@@ -509,7 +577,7 @@ public class GCMIntentService extends GcmListenerService implements PushConstant
         if (gcmLargeIcon != null) {
             if (gcmLargeIcon.startsWith("http://") || gcmLargeIcon.startsWith("https://")) {
                 mBuilder.setLargeIcon(getBitmapFromURL(gcmLargeIcon));
-                Log.d(LOG_TAG, "using remote large-icon from gcm");
+                _log("using remote large-icon from gcm");
             } else {
                 AssetManager assetManager = getAssets();
                 InputStream istr;
@@ -517,16 +585,16 @@ public class GCMIntentService extends GcmListenerService implements PushConstant
                     istr = assetManager.open(gcmLargeIcon);
                     Bitmap bitmap = BitmapFactory.decodeStream(istr);
                     mBuilder.setLargeIcon(bitmap);
-                    Log.d(LOG_TAG, "using assets large-icon from gcm");
+                    _log("using assets large-icon from gcm");
                 } catch (IOException e) {
                     int largeIconId = 0;
                     largeIconId = resources.getIdentifier(gcmLargeIcon, DRAWABLE, packageName);
                     if (largeIconId != 0) {
                         Bitmap largeIconBitmap = BitmapFactory.decodeResource(resources, largeIconId);
                         mBuilder.setLargeIcon(largeIconBitmap);
-                        Log.d(LOG_TAG, "using resources large-icon from gcm");
+                        _log("using resources large-icon from gcm");
                     } else {
-                        Log.d(LOG_TAG, "Not setting large icon");
+                        _log("Not setting large icon");
                     }
                 }
             }
@@ -538,14 +606,14 @@ public class GCMIntentService extends GcmListenerService implements PushConstant
         String icon = extras.getString(ICON);
         if (icon != null) {
             iconId = resources.getIdentifier(icon, DRAWABLE, packageName);
-            Log.d(LOG_TAG, "using icon from plugin options");
+            _log("using icon from plugin options");
         }
         else if (localIcon != null) {
             iconId = resources.getIdentifier(localIcon, DRAWABLE, packageName);
-            Log.d(LOG_TAG, "using icon from plugin options");
+            _log("using icon from plugin options");
         }
         if (iconId == 0) {
-            Log.d(LOG_TAG, "no icon resource found - using application icon");
+            _log("no icon resource found - using application icon");
             iconId = context.getApplicationInfo().icon;
         }
         mBuilder.setSmallIcon(iconId);
@@ -557,14 +625,14 @@ public class GCMIntentService extends GcmListenerService implements PushConstant
             try {
                 iconColor = Color.parseColor(color);
             } catch (IllegalArgumentException e) {
-                Log.e(LOG_TAG, "couldn't parse color from android options");
+                _log("couldn't parse color from android options");
             }
         }
         else if (localIconColor != null) {
             try {
                 iconColor = Color.parseColor(localIconColor);
             } catch (IllegalArgumentException e) {
-                Log.e(LOG_TAG, "couldn't parse color from android options");
+                _log("couldn't parse color from android options");
             }
         }
         if (iconColor != 0) {
@@ -598,12 +666,72 @@ public class GCMIntentService extends GcmListenerService implements PushConstant
             retval = Integer.parseInt(extras.getString(value));
         }
         catch(NumberFormatException e) {
-            Log.e(LOG_TAG, "Number format exception - Error parsing " + value + ": " + e.getMessage());
+            _log("Number format exception - Error parsing " + value + ": " + e.getMessage());
         }
         catch(Exception e) {
-            Log.e(LOG_TAG, "Number format exception - Error parsing " + value + ": " + e.getMessage());
+            _log("Number format exception - Error parsing " + value + ": " + e.getMessage());
         }
 
         return retval;
+    }
+
+    private JSONObject getCurrentPosition(Context pContext) {
+        LocationManager locationManager = (LocationManager) pContext.getSystemService(Context.LOCATION_SERVICE);
+        Location locationGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location locationNet = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        Location current_location;
+
+        JSONObject jsonResult = new JSONObject();
+
+        long GPSLocationTime = 0;
+        if (null != locationGPS) {
+            GPSLocationTime = locationGPS.getTime();
+        }
+
+        long NetLocationTime = 0;
+        if (null != locationNet) {
+            NetLocationTime = locationNet.getTime();
+        }
+
+        if (0 < GPSLocationTime - NetLocationTime) {
+            _log("Located by GPS");
+            current_location = locationGPS;
+        } else {
+            _log("Located by network");
+            current_location = locationNet;
+        }
+
+        try {
+            jsonResult.put("latitude", current_location.getLatitude());
+            jsonResult.put("longitude", current_location.getLongitude());
+            jsonResult.put("provider", current_location.getProvider());
+
+            return jsonResult;
+        } catch (JSONException e) {
+            return null;
+        }
+    }
+
+    private Double _calculateDistance(Double lat1, Double lon1, Double lat2, Double lon2, String unit) {
+        Double radlat1 = Math.PI * lat1/180;
+        Double radlat2 = Math.PI * lat2/180;
+        Double theta = lon1-lon2;
+        Double radtheta = Math.PI * theta/180;
+        Double dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+        dist = Math.acos(dist);
+        dist = dist * 180/Math.PI;
+        dist = dist * 60 * 1.1515;
+        if ("K".equals(unit)) {
+            dist = dist * 1.609344 ;
+        }
+        if ("N".equals(unit)) {
+            dist = dist * 0.8684;
+        }
+
+        return dist;
+    }
+
+    private void _log(String message) {
+        Log.d(LOG_TAG, message);
     }
 }

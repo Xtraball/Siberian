@@ -3,7 +3,7 @@ var goto = window.location.hash.match(/\?__goto__=(.*)/);
 var REDIRECT_URI = false;
 if(goto) {
     goto = goto[1];
-    REDIRECT_URI = goto;
+    var REDIRECT_URI = goto;
     /** Replace the path */
     window.location.hash = window.location.hash.replace(/\?__goto__=(.*)/, "");
 }
@@ -18,7 +18,7 @@ if(document.URL.indexOf('http') === 0) {
     var DOMAIN = window.location.protocol + "//" + window.location.host;
 
     if (window.location.port == 8100) {
-        DOMAIN = "http://www.siberian.dev";
+        DOMAIN = "http://www.siberiancms.dev";
     }
 
     var path = window.location.hash.replace("#", "").split("/").filter(Boolean);
@@ -44,7 +44,6 @@ if(document.URL.indexOf('http') === 0) {
     BASE_PATH += APP_KEY;
 
     localStorage.setItem("sb-current-language", CURRENT_LANGUAGE);
-
 }
 
 var BASE_URL = DOMAIN + BASE_PATH;

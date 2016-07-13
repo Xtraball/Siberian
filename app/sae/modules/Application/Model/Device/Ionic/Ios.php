@@ -86,6 +86,39 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
         return "Apple";
     }
 
+
+    public function configureAutoupdater($host) {
+
+        $suffixes = array("","-noads");
+
+        foreach ($suffixes as $suffix) {
+            $orig_source = Core_Model_Directory::getBasePathTo(self::SOURCE_FOLDER.$suffix);
+
+            //Set correct url to config.xml
+            $configXMLPath = "{$orig_source}/AppsMobileCompany/config.xml";
+            $this->__replace(
+                array(
+                    '~(<config-file url=").*(" />)~i' => '$1'.$host.self::SOURCE_FOLDER.$suffix.'/www/chcp.json$2',
+                ),
+                $configXMLPath,
+                true
+            );
+
+            //Update configuration file
+            $chcpConfigPath = "{$orig_source}/www/chcp.json";
+            $chcpConfig = array(
+                "content_url" => $host.self::SOURCE_FOLDER.$suffix.'/www',
+                "min_native_interface" => Siberian_Version::NATIVE_VERSION,
+                "release" => Siberian_Version::VERSION
+            );
+
+            if(!file_put_contents($chcpConfigPath,Zend_Json::encode($chcpConfig))) {
+                throw new Exception("Cannot write to file " . $chcpConfigPath);
+            }
+        }
+    }
+
+
     public function prepareResources() {
 
         $this->_application = $this->getApplication();
@@ -199,7 +232,7 @@ if(navigator.language) {
     private function __getUrlValue($key) {
 
         $value = null;
-        
+
         switch($key) {
             case "url_scheme": $value = $this->_request->getScheme(); break;
             case "url_domain": $value = $this->_request->getHttpHost(); break;

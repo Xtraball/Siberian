@@ -26,11 +26,14 @@ class Installer_Model_Db_Table_Installer_Module extends Core_Model_Db_Table
 
         try {
             $this->start();
+            $this->query("SET foreign_key_checks = 0;");
             require_once $file;
+            $this->query("SET foreign_key_checks = 1;");
             $this->end();
         }
         catch(Exception $e) {
             $this->_db->rollback();
+            $this->query("SET foreign_key_checks = 1;");
             if(APPLICATION_ENV != "production") {
                 Zend_Debug::dump($e);
                 die;

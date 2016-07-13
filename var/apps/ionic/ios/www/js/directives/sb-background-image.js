@@ -42,7 +42,12 @@ App.directive('sbBackgroundImage', function($http, Url) {
             }
 
             scope.setBackgroundImageStyle = function(src) {
-                angular.element(element).addClass("has-background-image").css({"background-image": "url('" + src + "')"});;
+                angular.element(element).addClass("has-background-image").css({"background-image": "url('" + src + "')"});
+                setTimeout(function(){
+                    if(typeof navigator.splashscreen != "undefined") {
+                        navigator.splashscreen.hide();
+                    }
+                },500);
             };
 
         }

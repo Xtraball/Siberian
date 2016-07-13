@@ -96,6 +96,7 @@ ext {
 }
 
 // PLUGIN GRADLE EXTENSIONS START
+apply from: "cordova-hot-code-push-plugin/base-chcp.gradle"
 apply from: "phonegap-plugin-push/base-push.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
@@ -159,6 +160,11 @@ task cdvPrintProps << {
 }
 
 android {
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -249,6 +255,7 @@ dependencies {
     compile "com.google.android.gms:play-services-ads:+"
     compile "com.android.support:support-v13:23+"
     compile "com.google.android.gms:play-services-gcm:+"
+    compile "com.android.support:support-v4:+"
     // SUB-PROJECT DEPENDENCIES END
 }
 

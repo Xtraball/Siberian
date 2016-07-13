@@ -86,7 +86,7 @@
             });
 
             function featureNotAvailable() {
-                new AlertMessage('<?php echo addslashes($this->_('We are sorry but this feature is not available yet')); ?>', true)
+                new AlertMessage('<?php echo addslashes($this->_('Please create the API keys to enable this feature.')); ?>', true)
                     .isError(true)
                     .show()
                 ;
@@ -95,5 +95,7 @@
         <?php if(!$this->getRequest()->isWhiteLabelEditor()) : ?>
         <?php echo System_Model_Config::getValueFor("support_chat_code") ?>
         <?php endif; ?>
+
+        <script type="text/javascript" src="/app/sae/design/desktop/siberian/js/preloader.js"></script>
     </body>
 </html>

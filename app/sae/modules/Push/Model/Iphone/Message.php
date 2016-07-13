@@ -15,8 +15,8 @@ class Push_Model_Iphone_Message extends Core_Model_Default {
      * @var string
      * @access private
      */
-    private $__feedback_url = 'ssl://feedback.push.apple.com:2196';
-    private $__feedback_development_url = 'ssl://feedback.sandbox.push.apple.com:2196';
+    //private $__feedback_url = 'ssl://feedback.push.apple.com:2196';
+    //private $__feedback_development_url = 'ssl://feedback.sandbox.push.apple.com:2196';
 
     /**
      * Production Certificate Path
@@ -24,7 +24,7 @@ class Push_Model_Iphone_Message extends Core_Model_Default {
      * @var string
      * @access private
      */
-    private $__certificate = '';
+    //private $__certificate = '';
 
     /**
      * Apples APNS Gateway
@@ -32,12 +32,12 @@ class Push_Model_Iphone_Message extends Core_Model_Default {
      * @var string
      * @access private
      */
-    private $__ssl_url = 'ssl://gateway.push.apple.com:2195';
-    private $__ssl_development_url = 'ssl://gateway.sandbox.push.apple.com:2195';
+    //private $__ssl_url = 'ssl://gateway.push.apple.com:2195';
+    //private $__ssl_development_url = 'ssl://gateway.sandbox.push.apple.com:2195';
 
-    public function __construct($datas = array()) {
-        parent::__construct($datas);
-    }
+    //public function __construct($datas = array()) {
+    //    parent::__construct($datas);
+   // }
 
     /**
      * Message to push to user
@@ -45,7 +45,7 @@ class Push_Model_Iphone_Message extends Core_Model_Default {
      * @var Push_Model_Message
      * @access protected
      */
-    protected $_message;
+    //protected $_message;
 
     /**
      * Stream client to send message
@@ -53,10 +53,10 @@ class Push_Model_Iphone_Message extends Core_Model_Default {
      * @var
      * @access protected
      */
-    protected $_stream_client;
+    //protected $_stream_client;
 
 
-    public function setMessage($message) {
+    /*public function setMessage($message) {
         $this->_message = $message;
         if($certificate = Push_Model_Certificate::getiOSCertificat($message->getAppId())) {
             $this->__certificate = Core_Model_Directory::getBasePathTo($certificate);
@@ -66,9 +66,9 @@ class Push_Model_Iphone_Message extends Core_Model_Default {
 
     public function getMessage() {
         return $this->_message;
-    }
+    }*/
 
-    public function createConnection() {
+    /*public function createConnection() {
         $error = false;
         $ctx = stream_context_create();
         stream_context_set_option($ctx, "ssl", "local_cert", $this->__certificate);
@@ -82,21 +82,11 @@ class Push_Model_Iphone_Message extends Core_Model_Default {
             }
             throw new Exception($message);
         }
-    }
+    }*/
 
     public function push() {
-
-        if($this->getErrors()) return $this;
-
-        if(!$this->__certificate) {
-            $this->setErrors(array(
-                $this->_("Please provide a certificate.")
-            ));
-            return $this;
-        }
-
-        $this->createConnection();
-
+        
+        
         $device = new Push_Model_Iphone_Device();
         $app_id = $this->getMessage()->getAppId();
 
@@ -109,7 +99,7 @@ class Push_Model_Iphone_Message extends Core_Model_Default {
 
         //PUSH TO USER ONLY
         $allowed_customers = null;
-        if(Push_Model_Message::hasTargetedNotificationsModule()) {
+        if(Push_Model_Message::hasIndividualPush()) {
             if ($this->getMessage()->getSendToSpecificCustomer() == 1) {
                 $customer_message = new Push_Model_Customer_Message();
                 $allowed_customers = $customer_message->findCustomersByMessageId($this->getMessage()->getId());
@@ -148,7 +138,7 @@ class Push_Model_Iphone_Message extends Core_Model_Default {
 
     }
 
-    public function sendMessage($device) {
+    /**public function sendMessage($device) {
 
         $message = $this->_formatMessage($device, $this->getMessage());
         $token = $device->getDeviceToken();
@@ -162,9 +152,9 @@ class Push_Model_Iphone_Message extends Core_Model_Default {
         $this->getMessage()->createLog($device, 1);
 
         return $this;
-    }
+    }*/
 
-    public function isInsideRadius($lat_a, $lon_a) {
+   /** public function isInsideRadius($lat_a, $lon_a) {
 
         $radius = $this->getMessage()->getRadius() * 1000;
         $rad = pi() / 180;
@@ -177,7 +167,7 @@ class Push_Model_Iphone_Message extends Core_Model_Default {
 
         return $distance <= $radius;
 
-    }
+    }*/
 
     /**
      * Fetch APNS Messages
@@ -187,7 +177,7 @@ class Push_Model_Iphone_Message extends Core_Model_Default {
      * @param sting $development Which SSL to connect to, Sandbox or Production
      * @access private
      */
-    private function _checkFeedback() {
+    /*private function _checkFeedback() {
 
         $ctx = stream_context_create();
         stream_context_set_option($ctx, 'ssl', 'local_cert', $this->__certificate);
@@ -215,9 +205,9 @@ class Push_Model_Iphone_Message extends Core_Model_Default {
 
         }
         fclose($fp);
-    }
+    }*/
 
-    protected function _formatMessage($device, $message) {
+    public function _formatMessage($device, $message) {
 
         $aps = array('aps' => array());
 

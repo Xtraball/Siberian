@@ -29,10 +29,10 @@ class Utils extends Siberian_Utils {}
 /**
  * Current Application Singleton
  *
- * @return Application_Model_Application
+ * @return Application_Model_Application|null
  */
 function app() {
-    return Application_Model_Application::getInstance();
+    return Application_Model_Application::getSingleton();
 }
 
 /**
@@ -46,6 +46,28 @@ function app() {
  */
 function design_code() {
 	return System_Model_Config::getValueFor("editor_design");
+}
+
+/**
+ * Cut a string to the desired maximum length
+ *
+ * @param $string
+ * @param $length
+ * @param string $suffix
+ * @return string
+ */
+function cut($string, $length, $suffix = "...") {
+	$string = trim($string);
+	$str_length = mb_strlen($string, 'utf8');
+	$suffix_length = mb_strlen($suffix, 'utf8');
+
+	if($str_length > $length) {
+		$part1 = mb_substr($string, 0, $length-$suffix_length, 'utf8');
+
+		$string = "{$part1}{$suffix}";
+	}
+
+	return $string;
 }
 
 /**

@@ -36,10 +36,14 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
                 }
 
                 if (!empty($datas['param_instagram'])) {
-                    $instagram = new Media_Model_Gallery_Image_Instagram();
-                    $userId = $instagram->getUserId($datas['param_instagram']);
-                    if(!$userId) throw new Exception($this->_("The entered name is not a valid Instagram user."));
-                    $datas['type_id'] = 'instagram';
+                    if($this->getApplication()->getInstagramClientId() AND $this->getApplication()->getInstagramToken()) {
+                        $instagram = new Media_Model_Gallery_Image_Instagram();
+                        $userId = $instagram->getUserId();
+                        if (!$userId) throw new Exception($this->_("The entered name is not a valid Instagram user."));
+                        $datas['type_id'] = 'instagram';
+                    } else {
+                        throw new Exception($this->_("Instagram API settings can't be found."));
+                    }
                 } elseif (!empty($datas['param'])) {
                     $datas['type_id'] = 'picasa';
                 } else {

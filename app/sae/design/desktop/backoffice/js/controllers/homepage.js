@@ -41,48 +41,60 @@ App.config(function($routeProvider) {
 
         $scope.cssStyle = "height:400px; width:1140px;";
 
-        $scope.chartObject = {
-            "type": "AreaChart",
-            "displayed": true,
-            "data": {
-                "cols": [
-                    {"id": "date","label": "Date","type": "string","p": {}},
-                    {"id": "user-id","label": "New Users","type": "number","p": {}}
-                ],
-                "rows": []
+        var labels = stats.map(function(stat){return stat[0];});
+        var newUser  = stats.map(function(stat){return stat[1];});
+
+        $scope.graphSeries  = data.stats_labels;
+        $scope.graphLabels  = labels;
+        $scope.graphData = [newUser];
+        var color = [
+            '204,37,41'
+        ]
+
+        $scope.graphDatasetOverride = [
+            {
+                borderColor:'rgba('+color[0]+',1)',
+                backgroundColor:'rgba('+color[0]+',0.4)',
+                pointBorderColor:'rgba('+color[0]+',0.4)',
+                pointBackgroundColor:'rgba('+color[0]+',1)',
+                pointHoverBackgroundColor:'rgba('+color[0]+',1)',
+                pointHoverBorderColor:'rgba('+color[0]+',0.4)',
+                type:'line',
+                fill:false,
+                yAxisID: 'new'
+            }
+        ];
+
+        $scope.graphOptions = {
+            legend: {
+                display: true,
             },
-            "options": {
-                "title": "New users this month",
-                "isStacked": "false",
-                "fill": 20,
-                "displayExactValues": true,
-                "vAxis": {
-                    //"title": "Unit",
-                    "gridlines": {
-                        "count": 10
+            scales: {
+                yAxes: [
+                    {
+                      afterBuildTicks: function(chartElem) {
+                        var ticks = [];
+                        for (var i = 0 ; i < chartElem.ticks.length; i++) {
+                            //if integer
+                            if(chartElem.ticks[i] % 1 === 0) {
+                                ticks.push(chartElem.ticks[i]);
+                            }
+                        }
+                        chartElem.ticks = ticks;
+                        if(chartElem.start < 0) {
+                            chartElem.start = 0;
+                        }
+                      },
+                      max:100,
+                      id: 'new',
+                      type: 'linear',
+                      display: true,
+                      position: 'left',
+                      beginAtZero:true
                     }
-                },
-                "hAxis": {
-                    //"title": "Date"
-                }
-            },
-            "formatters": {},
-            "view": {}
-        };
-
-
-        var dataLength = stats.length;
-        for (var i = 0; i < dataLength; i++) {
-
-            var row = {
-                "c": [
-                    {"v": stats[i][0],"p": {}},
-                    {"v": stats[i][1], "p": {}}
                 ]
-            };
-            $scope.chartObject.data.rows.push(row);
-
-        }
+            }
+        };
 
 
 

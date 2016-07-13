@@ -29,8 +29,9 @@ class Siberian_Error
         $error = sprintf("%s - %s line %s", $errstr, $errfile, $errline);
         self::$errors[] = $error;
         self::$logger = Zend_Registry::get("logger");
+        self::clear();
         if(APPLICATION_ENV == "development") {
-            self::$logger->info($error);
+            //self::$logger->info($error);
         }
     }
 
@@ -88,7 +89,7 @@ class Siberian_Error
         $files[] = "{$log_path}debug_report.log"; # Ensure the old file is removed.
         foreach($files as $file) {
             if(is_readable($file)) {
-                $filemtime = filemtime($file) + 600;
+                $filemtime = filemtime($file) - 10;
                 $time = time();
                 if($time > $filemtime) {
                     unlink($file);

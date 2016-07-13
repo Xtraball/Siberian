@@ -1,0 +1,104 @@
+<?php $application = $this->getApplication(); ?>
+<?php $icon_relative_path = Application_Model_Application::getImagePath().'/icon/'; ?>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <!--[if gte IE 10]><!-->
+            <button class="upload_icon upload btn-grey" type="button" style="margin-top: 0">
+                <i class="icon-camera-retro"></i>
+                <?php echo $application->getData('icon') ? $this->_('Change your') : $this->_('Choose an'); ?>
+                <br/>
+                <span class="bold"><?php echo $this->_('icon'); ?></span>
+            </button>
+            <!--<![endif]-->
+            <input style="display:none" class="uploader_icon" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+        </div>
+    </div>
+    <div id="icon_cont" class="row">
+        <?php if($application->getData('icon')) : ?>
+            <div class="col-md-2 col-sm-2 col-xs-2">
+                <img src="<?php echo $application->getIcon(); ?>" width="100%" />
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4" id="cont_delete_picture">
+<!--                <button type="button" onclick="removepicture();" id="delete_picture" class=" no-border">-->
+<!--                    <i class="fa fa-times"></i>-->
+<!--                </button>-->
+            </div>
+        <?php else : ?>
+            <div class="col-md-4 col-sm-4 col-xs-4">
+                <img src="<?php echo $this->getApplication()->getIcon(); ?>" width="100%" />
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+<script type="text/javascript">
+
+    var is_being_cropped = false;
+    function removepicture() {
+        $('#file').val('');
+        $('#preview_icon').attr('src', '');
+        $('#icon_cont img').slideUp('fast', function() {
+            $('#icon_cont > *').remove();
+        });
+        $('#delete_picture').slideUp('fast', function() {
+            $('#delete_picture').remove();
+        });
+        $('#file').val('');
+        $('#saveIcon').submit();
+        return false;
+    }
+
+    var icon_uploader = new Uploader();
+    $(document).ready(function() {
+
+        if(!$('button.upload_icon').is(':visible')) {
+            $('input.uploader_icon').show();
+        }
+
+        $('.upload_icon').click(function() {
+            $('.uploader_icon').trigger('click');
+        });
+
+        $('.uploader_icon').fileupload({
+            dataType: 'json',
+            add: function (e, data) {
+                data.formData = {
+                    uniq_prefix: 'icon_',
+                    minwidth: '70',
+                    minheight: '70',
+                    maxwidth: '2000',
+                    maxheight: '2000'
+                },
+                data.submit();
+                icon_uploader.showProgressbar();
+            },
+            progressall: function (e, data) {
+                icon_uploader.moveProgressbar(data);
+            },
+            done: function (e, data) {
+                if(data.result.error)
+                {
+                    icon_uploader.showError(data.result.message);
+                }
+                if(data.result.success)
+                {
+                    icon_uploader.hide();
+                    var params = new Array();
+                    params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+                    params["file"] = data.result.files;
+                    params["output_w"] = 256;
+                    params["output_h"] = 256;
+                    params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('application/customization_publication_app/saveicon')); ?>';
+                    params["uploader"] = 'icon_uploader';
+                    icon_uploader.crop(params);
+                    icon_uploader.callback = function(file) {
+                        $('#icon_cont img').attr('src', file);
+                        $('#preview_icon').attr('src', file).removeAttr('style');
+                        $('#header_app_icon').attr('src', file);
+                    }
+                }
+            }
+        });
+
+    });
+</script>

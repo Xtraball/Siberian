@@ -3,8 +3,10 @@
     <p>Please don't refresh the page, the process may take minutes.</p>
 </div>
 <div class="animated part part2">
-    <div style="width:750px;height:40px;border:1px solid #121212; border-radius:5px;overflow:hidden;">
-        <div id="progressbar" class="animated" style="width:0;height:40px;background:url(<?php echo $this->getImage('loader/animated_overlay.gif'); ?>) #4DBDFF;"></div>
+    <div class="progress animated part part2">
+        <div id="progressbar" class="progress-bar progress-bar-striped active animated" role="progressbar"
+        aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+        </div>
     </div>
     <div>
         <p id="installation_progress"><span id="label_install">Installing</span> : <span id="label_module" class="blue5"></span></p>
@@ -23,3 +25,8 @@
         installer.startInstallation();
     };
 </script>
+<style type="text/css">
+.progress-bar.progress-bar-striped.active.animated {
+    background-color: #0099c7;
+}
+</style>

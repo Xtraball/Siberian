@@ -118,4 +118,11 @@ class Customer_Model_Db_Table_Customer extends Core_Model_Db_Table
         return $this->_db->fetchAll($select);
     }
 
+
+    public function getAppIdByCustomerId() {
+        $select = $this->select()
+            ->from($this->_name, array('customer_id','app_id'));
+        return $this->_db->fetchAssoc($select);
+    }
+
 }

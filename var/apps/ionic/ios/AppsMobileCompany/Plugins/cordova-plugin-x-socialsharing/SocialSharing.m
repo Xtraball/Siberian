@@ -1,4 +1,5 @@
 #import "SocialSharing.h"
+#import "NSString+URLEncoding.h"
 #import <Cordova/CDV.h>
 #import <Social/Social.h>
 #import <Foundation/NSException.h>
@@ -81,7 +82,7 @@
     }
 
     if (urlString != (id)[NSNull null]) {
-      [activityItems addObject:[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]]];
+        [activityItems addObject:[NSURL URLWithString:[urlString URLEncodedString]]];
     }
 
     UIActivity *activity = [[UIActivity alloc] init];
@@ -91,13 +92,24 @@
       [activityVC setValue:subject forKey:@"subject"];
     }
 
-    // TODO deprecated in iOS 8.0, change this some day
-    [activityVC setCompletionHandler:^(NSString *activityType, BOOL completed) {
-      [self cleanupStoredFiles];
-      NSLog(@"SocialSharing app selected: %@", activityType);
-      CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:completed];
-      [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    }];
+    if ([activityVC respondsToSelector:(@selector(setCompletionWithItemsHandler:))]) {
+        [activityVC setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray * __nullable returnedItems, NSError * __nullable activityError) {
+            [self cleanupStoredFiles];
+            NSLog(@"SocialSharing app selected: %@", activityType);
+            CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:completed];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }];
+      }else{
+      // let's suppress this warning otherwise folks will start opening issues while it's not relevant
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+          [activityVC setCompletionHandler:^(NSString *activityType, BOOL completed) {
+              [self cleanupStoredFiles];
+              NSLog(@"SocialSharing app selected: %@", activityType);
+              CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:completed];
+              [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+          }];
+#pragma GCC diagnostic warning "-Wdeprecated-declarations"
+      }
 
     NSArray * socialSharingExcludeActivities = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"SocialSharingExcludeActivities"];
     if (socialSharingExcludeActivities!=nil && [socialSharingExcludeActivities count] > 0) {
@@ -250,7 +262,7 @@
   }
 
   if (urlString != (id)[NSNull null]) {
-    [composeViewController addURL:[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]]];
+    [composeViewController addURL:[NSURL URLWithString:[urlString URLEncodedString]]];
   }
 
   [composeViewController setCompletionHandler:^(SLComposeViewControllerResult result) {
@@ -513,7 +525,11 @@
 
   // remember the command for the delegate method
   _command = command;
-  [_documentInteractionController presentOpenInMenuFromRect:CGRectZero inView:self.webView animated:YES];
+
+  // test for #513
+  dispatch_async(dispatch_get_main_queue(), ^(void){
+    [_documentInteractionController presentOpenInMenuFromRect:CGRectZero inView:self.webView animated:YES];
+  });
 }
 
 - (void)shareViaWhatsApp:(CDVInvokedUrlCommand*)command {
@@ -562,7 +578,7 @@
       if ([shareString isEqual: @""]) {
         shareString = urlString;
       } else {
-        shareString = [NSString stringWithFormat:@"%@ %@", shareString, [urlString stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]];
+        shareString = [NSString stringWithFormat:@"%@ %@", shareString, [urlString URLEncodedString]];
       }
     }
     NSString * encodedShareString = [shareString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];

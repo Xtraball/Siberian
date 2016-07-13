@@ -24,9 +24,9 @@
                 </a>
             </li>
             <?php endif; ?>
-            <?php if($this->_canAccess("analytics")):?>
+            <?php if($this->_canAccess("analytics_application")):?>
             <li>
-                <a href="<?php echo $this->getUrl('application/analytics'); ?>" class="block analytics header no-background<?php if($current_link == 'analytics'): ?> active<?php endif; ?>">
+                <a href="<?php echo $this->getUrl('application/analytics_application'); ?>" class="block analytics header no-background<?php if($current_link == 'analytics'): ?> active<?php endif; ?>">
                     <i class="icon-bar-chart"></i>
                     <span class="block f-bold toupper"><?php echo $this->_('Analytics'); ?></span>
                 </a>

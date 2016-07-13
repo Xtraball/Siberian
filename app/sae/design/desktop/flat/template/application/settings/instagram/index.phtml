@@ -1,0 +1,49 @@
+<?php $application = $this->getApplication(); ?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-content-wrapper">
+            <div id="instagram_content" class="content solo-page">
+                <h3 class="title-editor border-blue">
+                    <?php echo $this->_('Instagram API Keys'); ?>
+                </h3>
+                <div class="subcontent content-color">
+                    <form id="instagramForm" action="<?php echo $this->getUrl('application/settings_instagram/save'); ?>" onsubmit="return false" class="form-horizontal">
+                        <div class="container-fluid">
+                            <div class="form-group">
+                               <div class="col-sm-2">
+                                   <label for="instagram_client_id"><?php echo $this->_('Client ID'); ?> : </label>
+                               </div>
+                                <div class="col-sm-4">
+                                    <input type="text" id="instagram_client_id" name="instagram_client_id" class="input-flat" value="<?php echo $application->getData("instagram_client_id") ?>" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                               <div class="col-sm-2">
+                                   <label for="instagram_token"><?php echo $this->_('Access Token'); ?> : </label>
+                               </div>
+                                <div class="col-sm-4">
+                                    <input type="text" id="instagram_token" name="instagram_token" class="input-flat" value="<?php echo $application->getData("instagram_token") ?>" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <button type="submit" class="btn color-blue"><?php echo $this->_("Save"); ?></button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        $('#instagramForm').submit(function() {
+            reload(this, this.action, true);
+            return false;
+        });
+    });
+
+</script>

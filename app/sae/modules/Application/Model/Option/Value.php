@@ -1,22 +1,68 @@
 <?php
 
+/**
+ * Class Application_Model_Option_Value
+ *
+ * This object is a copy of Application_Model_Option
+ * used to save per-app options/features
+ *
+ */
+
 class Application_Model_Option_Value extends Application_Model_Option
 {
 
-    protected static $_editor_icon_color = "#FFFFFF";
+    protected $_design_colors = array(
+        "flat" => "#0099C7",
+        "siberian" => "#FFFFFF"
+    );
+    protected static $_editor_icon_color = null;
+    protected static $_editor_icon_reverse_color = null;
 
     protected $_background_image_url;
+
+    /**
+     * @param bool $base
+     * @return string
+     */
+    public function getIconUrl($base = false) {
+        if(empty($this->_icon_url) AND $this->getIconId()) {
+            if($this->getIcon() AND !$base) {
+                $this->_icon_url = Media_Model_Library_Image::getImagePathTo($this->getIcon(), $this->getAppId());
+            }
+            else {
+                $icon = new Media_Model_Library_Image();
+                $icon->find($this->getIconId());
+                $this->_icon_url = $icon->getUrl();
+            }
+        }
+
+        return $this->_icon_url;
+    }
 
     public function __construct($datas = array()) {
         parent::__construct($datas);
         $this->_db_table = 'Application_Model_Db_Table_Option_Value';
+
+        if(!self::$_editor_icon_color) {
+            self::$_editor_icon_color = $this->_design_colors[DESIGN_CODE];
+        }
+
+        if(!self::$_editor_icon_reverse_color) {
+            self::$_editor_icon_reverse_color = "#ffffff";
+        }
     }
 
     public function find($id, $field = null) {
         parent::find($id, $field);
+
         $this->addOptionDatas();
         $this->prepareUri();
+
         return $this;
+    }
+
+    public function getFeaturesByApplication() {
+        return $this->getTable()->getFeaturesByApplication();
     }
 
     public function findFolderValues($app_id, $option_id) {
@@ -52,14 +98,17 @@ class Application_Model_Option_Value extends Application_Model_Option
     }
 
     public function delete() {
-//        if($this->getObject()->getId()) {
         $this->getObject()->deleteFeature($this->getOptionId());
-//        }
+
         parent::delete();
     }
 
     public function getIconColor() {
         return self::$_editor_icon_color;
+    }
+
+    public function getIconReverseColor() {
+        return self::$_editor_icon_reverse_color;
     }
 
     public function isActive() {
@@ -73,21 +122,7 @@ class Application_Model_Option_Value extends Application_Model_Option
         }
         return $path;
     }
-
-    public function getLibrary() {
-        if(!$this->getLibraryId()) {
-            $this->_findLibraryId();
-        }
-        return parent::getLibrary();
-    }
-
-    public function getLibraryId() {
-        if(!$this->getData('library_id')) {
-            $this->_findLibraryId();
-        }
-        return $this->getData('library_id');
-    }
-
+    
     public function getBackgroundImageUrl() {
 
         if(!$this->_background_image_url) {
@@ -117,13 +152,10 @@ class Application_Model_Option_Value extends Application_Model_Option
         self::$_editor_icon_color = $icon_color;
     }
 
-    protected function _findLibraryId() {
-
-        $library_id = $this->getTable()->findLibraryId($this->getOptionId());
-        $this->setLibraryId($library_id);
-
-        return $this;
+    public static function setEditorIconReverseColor($icon_color) {
+        self::$_editor_icon_reverse_color = $icon_color;
     }
+
 
     public function copyTo($application) {
 
@@ -132,7 +164,6 @@ class Application_Model_Option_Value extends Application_Model_Option
         $object = $this->getObject();
 
         $this->setId(null)
-//            ->setApplication($application)
             ->setAppId($application->getId())
             ->save()
         ;

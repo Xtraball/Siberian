@@ -4,10 +4,18 @@ class Push_Model_Message extends Core_Model_Default {
 
     const DISPLAYED_PER_PAGE = 10;
 
+    const TYPE_PUSH = 1;
+    const TYPE_INAPP = 2;
+
     protected $_is_cachable = false;
 
+    /**
+     * @var Siberian_Log
+     */
+    public $logger;
+
     protected $_types = array(
-        'iphone' => 'Push_Model_Iphone_Message',
+        'ios' => 'Push_Model_Ios_Message',
         'android' => 'Push_Model_Android_Message'
     );
 
@@ -19,7 +27,7 @@ class Push_Model_Message extends Core_Model_Default {
         parent::__construct($datas);
         $this->_db_table = 'Push_Model_Db_Table_Message';
 
-        $this->_initInstances();
+        $this->logger = Zend_Registry::get("logger");
 
         $this->_initMessageType();
     }
@@ -28,6 +36,7 @@ class Push_Model_Message extends Core_Model_Default {
         $message_id = $this->getId();
 
         parent::delete();
+
         $this->getTable()->deleteLog($message_id);
     }
 
@@ -75,7 +84,7 @@ class Push_Model_Message extends Core_Model_Default {
 
     public function findByDeviceId($device_id, $app_id, $offset = 0) {
         $allowed_categories = null;
-        if($this->_messageType==2) {
+        if($this->_messageType == self::TYPE_INAPP) {
 
             $subscription = new Topic_Model_Subscription();
             $allowed_categories = $subscription->findAllowedCategories($device_id);
@@ -108,39 +117,70 @@ class Push_Model_Message extends Core_Model_Default {
         return $this->getTable()->markInAppAsRead($app_id, $device_id, $device_type);
     }
 
+
     public function push() {
-        $errors = array();
-        $this->updateStatus('sending');
-        foreach($this->_instances as $type => $instance) {
-            $instance->setMessage($this)
-                ->push()
-            ;
-            if($instance->getErrors()) {
-                $errors[$instance->getId()] = $instance->getErrors();
+        $success_ios = true;
+        $success_android = true;
+
+        foreach($this->_types as $type => $class_name) {
+            if($type == 'ios') {
+                try {
+                    $ios_certificate = Core_Model_Directory::getBasePathTo(Push_Model_Certificate::getiOSCertificat($this->getAppId()));
+                    $instance = new Push_Model_Ios_Message(new Siberian_Service_Push_Apns(null, $ios_certificate));
+                    $instance->setMessage($this);
+                    $instance->push();
+                } catch (Exception $e) {
+                    $this->logger->info(sprintf("[CRON: %s]: ".$e->getMessage(), date("Y-m-d H:i:s")), "cron_push");
+                    $this->_log("Siberian_Service_Push_Apns", $e->getMessage());
+
+                    $success_ios = false;
+                }
+
+            }
+
+            if($type == 'android') {
+                try {
+                    $instance = new Push_Model_Android_Message(new Siberian_Service_Push_Gcm(Push_Model_Certificate::getAndroidKey()));
+                    $instance->setMessage($this);
+                    $instance->push();
+                } catch (Exception $e) {
+                    $this->logger->info(sprintf("[CRON: %s]: ".$e->getMessage(), date("Y-m-d H:i:s")), "cron_push");
+                    $this->_log("Siberian_Service_Push_Gcm", $e->getMessage());
+
+                    $success_android = false;
+                }
             }
         }
-        $this->updateStatus('delivered');
 
-        if(!empty($errors)) {
-            Zend_Registry::get("logger")->sendException(print_r($errors, true), "push_", false);
+        # If both iOS & Android failed
+        if(!$success_ios && !$success_android) {
+            $this->updateStatus('failed');
+        } else {
+            $this->updateStatus('delivered');
         }
-
-        $this->setErrors($errors);
 
     }
 
+    /**
+     * Create the log to fetch push inside app
+     *
+     * @param $device
+     * @param $status
+     * @param null $id
+     * @return $this
+     */
     public function createLog($device, $status, $id = null) {
 
         if(!$id) $id = $device->getDeviceUid();
         $is_displayed = !$this->getLatitude() && !$this->getLongitude();
         $datas = array(
-            'device_id' => $device->getId(),
-            'device_uid' => $id,
-            'device_type' => $device->getTypeId(),
-            'is_displayed' => $is_displayed,
-            'message_id' => $this->getId(),
-            'status' => $status,
-            'delivered_at' => $this->formatDate(null, 'y-MM-dd HH:mm:ss')
+            'device_id'     => $device->getId(),
+            'device_uid'    => $id,
+            'device_type'   => $device->getTypeId(),
+            'is_displayed'  => $is_displayed,
+            'message_id'    => $this->getId(),
+            'status'        => $status,
+            'delivered_at'  => $this->formatDate(null, 'y-MM-dd HH:mm:ss')
         );
 
         $this->getTable()->createLog($datas);
@@ -148,6 +188,9 @@ class Push_Model_Message extends Core_Model_Default {
         return $this;
     }
 
+    /**
+     * @param $status
+     */
     public function updateStatus($status) {
 
         $this->setStatus($status);
@@ -159,6 +202,10 @@ class Push_Model_Message extends Core_Model_Default {
 
     }
 
+    /**
+     * @param $message_type
+     * @return $this
+     */
     public function setMessageType($message_type) {
         $this->_messageType = $message_type;
         return $this;
@@ -168,10 +215,10 @@ class Push_Model_Message extends Core_Model_Default {
         $inapp_option_id = $this->getTable()->getInAppCode();
         switch($optionValue) {
             case $inapp_option_id:
-                $this->_messageType = 2;
+                $this->_messageType = self::TYPE_INAPP;
                 break;
             default:
-                $this->_messageType = 1;
+                $this->_messageType = self::TYPE_PUSH;
         }
     }
 
@@ -194,20 +241,56 @@ class Push_Model_Message extends Core_Model_Default {
 
             $this->_instances = array();
             foreach($this->_types as $device => $type) {
-                $this->_instances[$device] = new $type();
+                if($device == 'iphone') {
+                    $this->_instances[$device] = new $type(new Siberian_Service_Push_Apns(ApnsPHP_Push::ENVIRONMENT_SANDBOX));
+                } else {
+                    $this->_instances[$device] = new $type();
+                }
+
             }
         }
 
         return $this->_instances;
     }
 
+    /**
+     * log for cron
+     *
+     * @param $service
+     * @param $message
+     */
+    public function _log($service, $message) {
+        printf("%s %s[%d]: %s\n",
+            date('r'), $service, getmypid(), trim($message)
+        );
+    }
+
     public function _initMessageType() {
         if (is_null($this->_messageType)) {
-            $this->_messageType = 1;
+            $this->_messageType = self::TYPE_PUSH;
         }
     }
-    /** @migration path sae */
+
+    /**
+     * @return bool
+     */
+    public static function hasIndividualPush() {
+        $module = new Installer_Model_Installer_Module();
+        $module->prepare("IndividualPush", false);
+
+        return (
+            $module->isInstalled() ||
+            file_exists(Core_Model_Directory::getBasePathTo("app/local/modules/Push/Model/Customer/Message.php")) /** @remove after 4.2.x Backward compatibility if module not updated */
+        );
+    }
+
+    /**
+     * @wtf this name is really to long
+     * @deprecated alias for hasIndividualPush()
+     *
+     * @return bool
+     */
     public static function hasTargetedNotificationsModule() {
-        return file_exists(Core_Model_Directory::getBasePathTo("app/modules/Push/Model/Customer/Message.php"));
+        return self::hasIndividualPush();
     }
 }

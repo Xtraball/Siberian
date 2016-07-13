@@ -166,8 +166,8 @@ p.recommended_size{font-size:10pt; margin: 10px 0;}
 }
 
 
-a.default_button, button.default_button { background-color: #DDF2FF; color: #4DBDFF; }
-.bg-blue20 a.default_button, .bg-blue20 button.default_button { border: 1px solid #4DBDFF; }
+a.default_button, button.default_button { background-color: #DDF2FF; color: #0099c7; }
+.bg-blue20 a.default_button, .bg-blue20 button.default_button { border: 1px solid #0099c7; }
 button.back, button.cancel { background-color: #FB5384; color: #DDF2FF; }
 
 .default_button.auto, button.delete.auto {
@@ -217,7 +217,7 @@ a.link, button.as-link {
 .loader.tiny {height: 26px; padding: 0; background-size: 16px 17px;}
 .loader.content_loader { position: fixed; left: 0; height: 100%; min-height: 150px; background-position: center 20px; background-color: rgba(255, 255, 255, 0.5); z-index: 10; }
 .table .loader.tiny {height: 22px;}
-.loader.form_loader { float: left; width: 50px; height: 35px; margin-left: 5px; }
+.loader.form_loader { float: left; width: 50px; height: 34px; margin-left: 5px; }
 /** /LOADER **/
 
 /** DEFAULT TEMPLATE **/

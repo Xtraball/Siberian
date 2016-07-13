@@ -45,20 +45,55 @@ class Application_Model_Option extends Core_Model_Default
     }
 
     public function findTabbarAccount() {
-        $datas = array('option_id' => 'customer_account', 'value_id' => 'customer_account', 'code' => 'tabbar_account', 'name' => $this->getApplication()->getTabbarAccountName(), 'tabbar_name' => $this->getApplication()->getTabbarAccountName(), 'is_ajax' => 0, 'price' => 0.00, 'is_active' => 1);
-        $datas['desktop_uri'] = 'application/customization_features_tabbar_account/';
-        $this->setData($datas)->setId('customer_account');
-        $this->setIconUrl(Media_Model_Library_Image::getImagePathTo('/tabbar/user_account.png'));
-        $this->setBaseIconUrl(Media_Model_Library_Image::getBaseImagePathTo('/tabbar/user_account.png'));
+        $user_account = (design_code() == "flat") ? '/tabbar/user_account-flat.png' : '/tabbar/user_account.png';
+
+        $datas = array(
+            'option_id' => 'customer_account',
+            'design_code' => design_code(),
+            'value_id' => 'customer_account',
+            'code' => 'tabbar_account',
+            'name' => $this->getApplication()->getTabbarAccountName(),
+            'tabbar_name' => $this->getApplication()->getTabbarAccountName(),
+            'is_ajax' => 0,
+            'price' => 0.00,
+            'is_active' => 1,
+            'desktop_uri' => 'application/customization_features_tabbar_account/',
+        );
+
+        $this
+            ->setData($datas)
+            ->setId('customer_account');
+
+        $this->setIconUrl(Media_Model_Library_Image::getImagePathTo($user_account));
+        $this->setBaseIconUrl(Media_Model_Library_Image::getBaseImagePathTo($user_account));
+
         return $this;
     }
 
     public function findTabbarMore() {
-        $datas = array('option_id' => 'more_items', 'value_id' => 'more_items', 'code' => 'tabbar_more', 'name' => $this->getApplication()->getTabbarMoreName(), 'tabbar_name' => $this->getApplication()->getTabbarMoreName(), 'is_ajax' => 0, 'price' => 0.00, 'is_active' => 1);
-        $datas['desktop_uri'] = 'application/customization_features_tabbar_more/';
-        $this->setData($datas)->setId('more_items');
-        $this->setIconUrl(Media_Model_Library_Image::getImagePathTo('/tabbar/more_items.png'));
-        $this->setBaseIconUrl(Media_Model_Library_Image::getBaseImagePathTo('/tabbar/more_items.png'));
+        $more_items = (design_code() == "flat") ? '/tabbar/more_items-flat.png' : '/tabbar/more_items.png';
+
+        $datas = array(
+            'option_id' => 'more_items',
+            'design_code' => design_code(),
+            'value_id' => 'more_items',
+            'code' => 'tabbar_more',
+            'name' => $this->getApplication()->getTabbarMoreName(),
+            'tabbar_name' => $this->getApplication()->getTabbarMoreName(),
+            'is_ajax' => 0,
+            'price' => 0.00,
+            'is_active' => 1,
+            'desktop_uri' => 'application/customization_features_tabbar_more/',
+        );
+
+        $this
+            ->setData($datas)
+            ->setId('more_items');
+
+
+        $this->setIconUrl(Media_Model_Library_Image::getImagePathTo($more_items));
+        $this->setBaseIconUrl(Media_Model_Library_Image::getBaseImagePathTo($more_items));
+
         return $this;
     }
 
@@ -101,7 +136,6 @@ class Application_Model_Option extends Core_Model_Default
     }
 
     public function getTabbarName() {
-//        return $this->getData('tabbar_name') ? $this->_($this->getData('tabbar_name')) : null; // May have troubles translating certain languages
         return $this->getData('tabbar_name') ? $this->_(mb_convert_encoding($this->getData('tabbar_name'), 'UTF-8', 'UTF-8')) : null;
     }
 
@@ -121,19 +155,14 @@ class Application_Model_Option extends Core_Model_Default
 
     }
 
-    public function getLibrary() {
-
-        if(empty($this->_library)) {
-            $this->_library = new Media_Model_Library();
-            if($this->getLibraryId()) {
-                $this->_library->find($this->getLibraryId());
-            }
-        }
-
-        return $this->_library;
-
-    }
-
+    /**
+     * Overrides with design taken into account
+     *
+     * Flat 4.2.0
+     *
+     * @param bool $base
+     * @return string
+     */
     public function getIconUrl($base = false) {
 
         if(empty($this->_icon_url) AND $this->getIconId()) {
@@ -142,12 +171,20 @@ class Application_Model_Option extends Core_Model_Default
             }
             else {
                 $icon = new Media_Model_Library_Image();
-                $icon->find($this->getIconId());
+                $icon->find($this->getDefaultIconId());
                 $this->_icon_url = $icon->getUrl();
             }
         }
 
         return $this->_icon_url;
+    }
+
+    public function getDefaultIconId() {
+        $library = $this->getLibrary();
+
+        $icon = $library->getFirstIcon();
+        
+        return $icon->getId();
     }
 
     public function setIconUrl($url) {
@@ -269,6 +306,19 @@ class Application_Model_Option extends Core_Model_Default
                 "aop.option_id" => $this->getId(),"aopl.language_code" => $language));
         }
         return $this->_preview;
+    }
+
+
+    /**
+     * Fetch the Library associated with this option, regarding the Design (siberian, flat, ...)
+     */
+    public function getLibrary() {
+        if(empty($this->_library)) {
+            $library = new Media_Model_Library();
+            $this->_library = $library->getLibraryForDesign($this->getLibraryId());
+        }
+
+        return $this->_library;
     }
 
 }

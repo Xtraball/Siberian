@@ -2,7 +2,7 @@
 
 class System_Backoffice_Config_GeneralController extends System_Controller_Backoffice_Default {
 
-    protected $_codes = array("platform_name", "company_name", "company_phone", "company_address", "company_country", "company_vat_number", "system_timezone", "system_currency", "system_default_language", "system_publication_access_type", "application_ios_owner_admob_id", "application_ios_owner_admob_type", "application_android_owner_admob_id", "application_android_owner_admob_type", "application_owner_use_ads");
+    protected $_codes = array("platform_name", "company_name", "company_phone", "company_address", "company_country", "company_vat_number", "system_timezone", "system_currency", "system_default_language", "system_publication_access_type", "application_ios_owner_admob_id", "application_ios_owner_admob_type", "application_android_owner_admob_id", "application_android_owner_admob_type", "application_owner_use_ads", "editor_design");
 
     public function loadAction() {
 
@@ -18,7 +18,7 @@ class System_Backoffice_Config_GeneralController extends System_Controller_Backo
     public function findallAction() {
 
         $data = $this->_findconfig();
-
+        
         $timezones = DateTimeZone::listIdentifiers();
         if(empty($timezones)) {
             $locale = Zend_Registry::get("Zend_Locale");
@@ -74,6 +74,27 @@ class System_Backoffice_Config_GeneralController extends System_Controller_Backo
             $this->_sendHtml($data);
 
         }
+
+    }
+
+    public function generateanalyticsAction() {
+
+        try {
+
+            Analytics_Model_Aggregate::getInstance()->run(time());
+
+            $data = array(
+                "success" => 1,
+                "message" => $this->_("Your analytics will be computed and available soon")
+            );
+        } catch(Exception $e) {
+            $data = array(
+                "error" => 1,
+                "message" => $e->getMessage()
+            );
+        }
+
+        $this->_sendHtml($data);
 
     }
 

@@ -1,0 +1,26 @@
+<?php $message = $this->getCurrentMessage(); ?>
+<?php $message_is_mine = $this->getApplication()->getAdminId() == $message->getAuthorId() ?>
+<div class="form-group">
+    <div class="col-sm-12">
+        <div class="panel">
+            <div class="panel-heading border-blue">
+                <h3 class="panel-title <?php if($message_is_mine) echo "text-right"; ?>">
+                    <i class="fa fa-calendar"></i> <?php echo $message->getFormattedCreatedAt(); ?> - <i class="icon-user"></i> <?php echo $message_is_mine?$this->_("Me"):$message->getFirstname()." ".$message->getLastname(); ?></h3>
+            </div>
+            <div class="panel-body text-justify">
+                <?php echo $message->getMessage(); ?>
+            </div>
+            <div class="panel-footer color-blue" <?php if(count($message->getMessageFiles())<=0) echo "style='display:none'"; ?>>
+<!--                <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.1)"></div>-->
+                <div style="z-index:1">
+                    <i class="fa fa-paperclip"></i> <?php echo $this->_("Attached files :"); ?>
+                    <ul>
+                    <?php foreach($message->getMessageFiles() as $file): ?>
+                        <li><a href="<?php echo Core_Model_Directory::getPathTo("images/application/".$this->getApplication()->getId()."/messages/").$file; ?>" target="_blank"><?php echo $file; ?></a></li>
+                    <?php endforeach; ?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <installer_module_index>
+        <views>
+            <content class="admin_view_default" template="installer/module/index.phtml" />
+        </views>
+    </installer_module_index>
+
+    <installer_module_install>
+        <views>
+            <content class="admin_view_default" template="installer/module/install.phtml" />
+        </views>
+    </installer_module_install>
+
+</layout>

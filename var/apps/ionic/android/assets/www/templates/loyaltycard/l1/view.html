@@ -48,33 +48,33 @@
                         </div>
                     </div>
 
-                <div class="item item-text-wrap item-icon-left item-custom" ng-click="showTc()" ng-if="tc_id">
-                    <i class="icon ion-document-text"></i>
-                    {{ "Terms & Conditions" | translate }}
-                </div>
-            </div>
-
-            <div ng-if="promotions.length">
-
-                <div class="card" ng-repeat="promotion in promotions">
-
-                    <div class="item item-divider item-divider-custom" ng-if="$index == 0">
-                        {{ "Rewards" | translate }}
-                    </div>
-                    <div class="item item-icon-left item-text-wrap item-custom">
-                        <i class="icon ion-ios-star"></i>
-                        <h2>{{ promotion.advantage }} {{ "is now yours!" | translate }}</h2>
-                    </div>
-                    <div class="item item-custom" ng-click="openPad(promotion)">
-                        {{ "Use this coupon" | translate }}
+                    <div class="item item-text-wrap item-icon-left item-custom" ng-click="showTc()" ng-if="tc_id">
+                        <i class="icon ion-document-text"></i>
+                        {{ "Terms & Conditions" | translate }}
                     </div>
                 </div>
 
+                <div ng-if="promotions.length">
+
+                    <div class="card" ng-repeat="promotion in promotions">
+
+                        <div class="item item-divider item-divider-custom" ng-if="$index == 0">
+                            {{ "Rewards" | translate }}
+                        </div>
+                        <div class="item item-icon-left item-text-wrap item-custom">
+                            <i class="icon ion-ios-star"></i>
+                            <h2>{{ promotion.advantage }} {{ "is now yours!" | translate }}</h2>
+                        </div>
+                        <div class="item item-custom" ng-click="openPad(promotion)">
+                            {{ "Use this coupon" | translate }}
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
 
-        </div>
-
-        <sb-pad ng-if="show_pad" card="card"></sb-pad>
+            <sb-pad ng-if="show_pad" card="card"></sb-pad>
 
     </ion-content>
 </ion-view>

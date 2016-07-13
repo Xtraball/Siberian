@@ -39,7 +39,18 @@ App.factory('Settings', function($http, Url) {
             responseType:'json'
         });
 
-    }
+    };
+
+    factory.computeAnalytics = function() {
+        var url = "system/backoffice_config_"+this.type;
+
+        return $http({
+            method: 'GET',
+            url: Url.get(url+"/generateanalytics"),
+            cache: false,
+            responseType:'json'
+        });
+    };
 
     return factory;
 });

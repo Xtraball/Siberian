@@ -80,15 +80,15 @@ class Siberian_Layout_Email extends Siberian_Layout
         $action = $this->_action;
         $this->_otherLayout = array();
         $keys = array();
-        $email_path = Siberian_Design::getBasePath("layout/default.xml", "email");
+        $email_path = Siberian_Cache_Design::getBasePath("layout/default.xml", "email");
         $this->_baseDefaultLayout = simplexml_load_file($email_path, null, LIBXML_COMPACT);
         $this->_defaultLayout = $this->_baseDefaultLayout->default;
 
         if(isset($this->_baseDefaultLayout->$action)) {
             $this->_actionLayout = $this->_baseDefaultLayout->$action;
         }
-        elseif(file_exists(Siberian_Design::getBasePath("layout/{$filename}", "email"))) {
-            $email_path = Siberian_Design::getBasePath("layout/{$filename}", "email");
+        elseif(file_exists(Siberian_Cache_Design::getBasePath("layout/{$filename}", "email"))) {
+            $email_path = Siberian_Cache_Design::getBasePath("layout/{$filename}", "email");
             $this->_baseActionLayout = simplexml_load_file($email_path);
             $this->_actionLayout = $this->_baseActionLayout->$action;
         }

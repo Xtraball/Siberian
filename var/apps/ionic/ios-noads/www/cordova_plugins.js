@@ -1,11 +1,35 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
-        "file": "plugins/com.dawsonloudon.videoplayer/www/VideoPlayer.js",
-        "id": "com.dawsonloudon.videoplayer.VideoPlayer",
-        "pluginId": "com.dawsonloudon.videoplayer",
+        "file": "plugins/com.transistorsoft.cordova.background-geolocation/www/BackgroundGeolocation.js",
+        "id": "com.transistorsoft.cordova.background-geolocation.BackgroundGeolocation",
+        "pluginId": "com.transistorsoft.cordova.background-geolocation",
         "clobbers": [
-            "VideoPlayer"
+            "window.BackgroundGeolocation"
+        ]
+    },
+    {
+        "file": "plugins/cordova-hot-code-push-plugin/www/chcp.js",
+        "id": "cordova-hot-code-push-plugin.chcp",
+        "pluginId": "cordova-hot-code-push-plugin",
+        "clobbers": [
+            "chcp"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+        "id": "cordova-plugin-splashscreen.SplashScreen",
+        "pluginId": "cordova-plugin-splashscreen",
+        "clobbers": [
+            "navigator.splashscreen"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-app-version/www/AppVersionPlugin.js",
+        "id": "cordova-plugin-app-version.AppVersionPlugin",
+        "pluginId": "cordova-plugin-app-version",
+        "clobbers": [
+            "cordova.getAppVersion"
         ]
     },
     {
@@ -17,27 +41,19 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/com.rd11.remote-controls/www/RemoteControls.js",
-        "id": "com.rd11.remote-controls.RemoteControls",
-        "pluginId": "com.rd11.remote-controls",
+        "file": "plugins/cordova-plugin-background-fetch/www/BackgroundFetch.js",
+        "id": "cordova-plugin-background-fetch.BackgroundFetch",
+        "pluginId": "cordova-plugin-background-fetch",
         "clobbers": [
-            "window.remoteControls"
+            "window.BackgroundFetch"
         ]
     },
     {
-        "file": "plugins/com.verso.cordova.clipboard/www/clipboard.js",
-        "id": "com.verso.cordova.clipboard.Clipboard",
-        "pluginId": "com.verso.cordova.clipboard",
+        "file": "plugins/phonegap-plugin-barcodescanner/www/barcodescanner.js",
+        "id": "phonegap-plugin-barcodescanner.BarcodeScanner",
+        "pluginId": "phonegap-plugin-barcodescanner",
         "clobbers": [
-            "cordova.plugins.clipboard"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-app-version/www/AppVersionPlugin.js",
-        "id": "cordova-plugin-app-version.AppVersionPlugin",
-        "pluginId": "cordova-plugin-app-version",
-        "clobbers": [
-            "cordova.getAppVersion"
+            "cordova.plugins.barcodeScanner"
         ]
     },
     {
@@ -70,6 +86,14 @@ module.exports = [
         "pluginId": "cordova-plugin-camera",
         "clobbers": [
             "CameraPopoverHandle"
+        ]
+    },
+    {
+        "file": "plugins/com.verso.cordova.clipboard/www/clipboard.js",
+        "id": "com.verso.cordova.clipboard.Clipboard",
+        "pluginId": "com.verso.cordova.clipboard",
+        "clobbers": [
+            "cordova.plugins.clipboard"
         ]
     },
     {
@@ -319,6 +343,15 @@ module.exports = [
         ]
     },
     {
+        "file": "plugins/ionic-plugin-keyboard/www/ios/keyboard.js",
+        "id": "ionic-plugin-keyboard.keyboard",
+        "pluginId": "ionic-plugin-keyboard",
+        "clobbers": [
+            "cordova.plugins.Keyboard"
+        ],
+        "runs": true
+    },
+    {
         "file": "plugins/cordova-plugin-media/www/MediaError.js",
         "id": "cordova-plugin-media.MediaError",
         "pluginId": "cordova-plugin-media",
@@ -335,27 +368,27 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/cordova-plugin-offline-mode/www/OfflineMode.js",
-        "id": "cordova-plugin-offline-mode.OfflineMode",
-        "pluginId": "cordova-plugin-offline-mode",
+        "file": "plugins/de.neofonie.cordova.plugin.progressview/www/ProgressView.js",
+        "id": "de.neofonie.cordova.plugin.progressview.ProgressView",
+        "pluginId": "de.neofonie.cordova.plugin.progressview",
         "clobbers": [
-            "window.OfflineMode"
+            "window.plugins.ProgressView"
         ]
     },
     {
-        "file": "plugins/cordova-plugin-sb-splashscreen/www/sb-splashscreen.js",
-        "id": "cordova-plugin-sb-splashscreen.SBSplashScreen",
-        "pluginId": "cordova-plugin-sb-splashscreen",
+        "file": "plugins/phonegap-plugin-push/www/push.js",
+        "id": "phonegap-plugin-push.PushNotification",
+        "pluginId": "phonegap-plugin-push",
         "clobbers": [
-            "navigator.sbsplashscreen"
+            "PushNotification"
         ]
     },
     {
-        "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
-        "id": "cordova-plugin-statusbar.statusbar",
-        "pluginId": "cordova-plugin-statusbar",
+        "file": "plugins/com.rd11.remote-controls/www/RemoteControls.js",
+        "id": "com.rd11.remote-controls.RemoteControls",
+        "pluginId": "com.rd11.remote-controls",
         "clobbers": [
-            "window.StatusBar"
+            "window.remoteControls"
         ]
     },
     {
@@ -367,65 +400,78 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/de.neofonie.cordova.plugin.progressview/www/progressview.js",
-        "id": "de.neofonie.cordova.plugin.progressview.progressview",
-        "pluginId": "de.neofonie.cordova.plugin.progressview",
+        "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
+        "id": "cordova-plugin-statusbar.statusbar",
+        "pluginId": "cordova-plugin-statusbar",
         "clobbers": [
-            "window.plugins.ProgressView"
+            "window.StatusBar"
         ]
     },
     {
-        "file": "plugins/ionic-plugin-keyboard/www/ios/keyboard.js",
-        "id": "ionic-plugin-keyboard.keyboard",
-        "pluginId": "ionic-plugin-keyboard",
+        "file": "plugins/de.appplant.cordova.plugin.local-notification/www/local-notification.js",
+        "id": "de.appplant.cordova.plugin.local-notification.LocalNotification",
+        "pluginId": "de.appplant.cordova.plugin.local-notification",
         "clobbers": [
-            "cordova.plugins.Keyboard"
-        ],
-        "runs": true
-    },
-    {
-        "file": "plugins/phonegap-plugin-barcodescanner/www/barcodescanner.js",
-        "id": "phonegap-plugin-barcodescanner.BarcodeScanner",
-        "pluginId": "phonegap-plugin-barcodescanner",
-        "clobbers": [
-            "cordova.plugins.barcodeScanner"
+            "cordova.plugins.notification.local",
+            "plugin.notification.local"
         ]
     },
     {
-        "file": "plugins/phonegap-plugin-push/www/push.js",
-        "id": "phonegap-plugin-push.PushNotification",
-        "pluginId": "phonegap-plugin-push",
+        "file": "plugins/de.appplant.cordova.plugin.local-notification/www/local-notification-core.js",
+        "id": "de.appplant.cordova.plugin.local-notification.LocalNotification.Core",
+        "pluginId": "de.appplant.cordova.plugin.local-notification",
         "clobbers": [
-            "PushNotification"
+            "cordova.plugins.notification.local.core",
+            "plugin.notification.local.core"
+        ]
+    },
+    {
+        "file": "plugins/de.appplant.cordova.plugin.local-notification/www/local-notification-util.js",
+        "id": "de.appplant.cordova.plugin.local-notification.LocalNotification.Util",
+        "pluginId": "de.appplant.cordova.plugin.local-notification",
+        "merges": [
+            "cordova.plugins.notification.local.core",
+            "plugin.notification.local.core"
+        ]
+    },
+    {
+        "file": "plugins/siberian-plugin-offlinemode/www/OfflineMode.js",
+        "id": "siberian-plugin-offlinemode.OfflineMode",
+        "pluginId": "siberian-plugin-offlinemode",
+        "clobbers": [
+            "window.OfflineMode"
         ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "com.dawsonloudon.videoplayer": "1.0.0",
-    "com.keosu.cordova.stream": "0.1",
-    "com.rd11.remote-controls": "1.0.0",
-    "com.verso.cordova.clipboard": "0.1.0",
+    "com.transistorsoft.cordova.background-geolocation": "1.6.2",
+    "cordova-hot-code-push-plugin": "1.3.2",
+    "cordova-plugin-splashscreen": "3.2.2-dev",
     "cordova-plugin-app-version": "0.1.8",
-    "cordova-plugin-camera": "2.1.0",
+    "cordova-plugin-app-event": "1.2.0",
+    "com.keosu.cordova.stream": "0.1",
+    "cordova-plugin-background-fetch": "3.0.4",
+    "phonegap-plugin-barcodescanner": "4.1.0",
+    "cordova-plugin-camera": "2.1.1",
+    "com.verso.cordova.clipboard": "0.1.0",
     "cordova-plugin-console": "1.0.2",
     "cordova-plugin-device": "1.1.1",
-    "cordova-plugin-dialogs": "1.2.0",
-    "cordova-plugin-extension": "1.2.9",
-    "cordova-plugin-file": "4.1.1",
+    "cordova-plugin-dialogs": "1.2.1-dev",
+    "cordova-plugin-extension": "1.3.0",
+    "cordova-plugin-file": "4.1.2-dev",
     "cordova-plugin-geolocation": "2.1.0",
     "cordova-plugin-inappbrowser": "1.2.1",
+    "ionic-plugin-keyboard": "2.0.1",
     "cordova-plugin-media": "2.2.1-dev",
-    "cordova-plugin-offline-mode": "1.0.0",
-    "cordova-plugin-sb-splashscreen": "1.0",
-    "cordova-plugin-statusbar": "2.1.1",
-    "cordova-plugin-whitelist": "1.2.1",
-    "cordova-plugin-x-socialsharing": "5.0.10",
     "de.neofonie.cordova.plugin.progressview": "3.0.1",
-    "ionic-plugin-keyboard": "1.0.8",
-    "phonegap-plugin-barcodescanner": "4.1.0",
-    "phonegap-plugin-push": "1.5.3"
+    "phonegap-plugin-push": "1.5.3",
+    "com.rd11.remote-controls": "1.0.0",
+    "cordova-plugin-x-socialsharing": "5.0.12-dev",
+    "cordova-plugin-statusbar": "2.1.2",
+    "de.appplant.cordova.plugin.local-notification": "0.8.4",
+    "siberian-plugin-offlinemode": "1.0.0"
 }
 // BOTTOM OF METADATA
 });

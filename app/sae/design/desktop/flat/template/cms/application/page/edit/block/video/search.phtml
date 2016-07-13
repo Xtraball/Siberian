@@ -1,0 +1,28 @@
+<?php $videos = $this->getVideos(); ?>
+<?php $cpt = 0; ?>
+<?php if (!empty($videos)) : ?>
+<div class="search_carousel">
+    <div class="search">
+        <ul class="search_videos_list">
+            <?php foreach ($videos as $video) : ?>
+            <li class="pull-left text-center">
+                <a href="javascript:void(0);" title="<?php echo $video->getTitle() ?>" class="selectVideo" rel="<?php echo $video->getId() ?>" data-type="<?php echo $this->getTypeId(); ?>" data-image="<?php echo $video->getImage(); ?>">
+                    <img src="<?php echo $video->getImage() ?>" title="<?php echo $video->getTitle() ?>" width="150" height="100" />
+                    <p><?php echo ucwords(Core_Model_Lib_String::truncate($video->getTitle(), 20)) ?></p>
+                </a>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    <?php if(count($videos) > 1) : ?>
+    <button type="button" class="pull-left previous btn"><i class="fa fa-chevron-left"></i></button>
+    <button type="button" class="pull-left next btn"><i class="fa fa-chevron-right"></i></button>
+    <?php endif; ?>
+</div>
+<?php else : ?>
+    <div class="form-group">
+        <div class="col-md-12 first-row-feature">
+            <?php echo $this->_('No videos matching your selection'); ?>
+        </div>
+    </div>
+<?php endif; ?>

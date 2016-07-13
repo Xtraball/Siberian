@@ -146,4 +146,12 @@ class Catalog_Model_Db_Table_Product extends Core_Model_Db_Table
         return $this;
     }
 
+    public function getAppIdByProduct() {
+        $select = $this->select()
+            ->from($this->_name, array('product_id'))
+            ->joinLeft('application_option_value',$this->_name.'.value_id = application_option_value.value_id','app_id')
+            ->setIntegrityCheck(false)
+        ;
+        return $this->_db->fetchAssoc($select);
+    }
 }

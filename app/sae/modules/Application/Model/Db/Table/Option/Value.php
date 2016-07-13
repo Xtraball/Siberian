@@ -131,4 +131,14 @@ class Application_Model_Db_Table_Option_Value extends Core_Model_Db_Table
         return $this->_db->fetchRow($select);
     }
 
+    public function getFeaturesByApplication() {
+        $field = array('value_id', 'app_id');
+        $select = $this->select()
+            ->from($this->_name, $field);
+        $result = array();
+        foreach($this->_db->fetchAll($select) as $row) {
+            $result[$row['value_id']] = $row['app_id'];
+        }
+        return $result;
+    }
 }

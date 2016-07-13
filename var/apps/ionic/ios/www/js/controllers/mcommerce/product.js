@@ -6,7 +6,7 @@ App.config(function ($stateProvider) {
         templateUrl: "templates/mcommerce/l1/product.html"
     })
 
-}).controller('MCommerceProductViewController', function ($cordovaSocialSharing, $ionicPopup, $state, $stateParams, $scope, $translate, Application, Dialog, McommerceProduct, McommerceCart) {
+}).controller('MCommerceProductViewController', function ($cordovaSocialSharing, $ionicPopup, $state, $stateParams, $scope, $translate, Analytics, Application, Dialog, McommerceCategory, McommerceCart, McommerceProduct) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -31,8 +31,9 @@ App.config(function ($stateProvider) {
         $scope.is_loading = true;
 
         McommerceProduct.find($scope.product_id).success(function (data) {
-
             $scope.product = data.product;
+
+            Analytics.storeProductOpening($scope.product);
 
             $scope.social_sharing_active = !!($scope.product.social_sharing_active == 1 && !Application.is_webview);
 
@@ -78,6 +79,7 @@ App.config(function ($stateProvider) {
         var errors = new Array();
         var postParameters = {
             'product_id': $scope.product_id,
+            'category_id': McommerceCategory.category_id,
             'qty': $scope.product_quantity,
             'options': $scope.product.optionsGroups.reduce(function (options, optionsGroup) {
                 if(optionsGroup.required &&  !optionsGroup.selectedOptionId) {

@@ -1,0 +1,33 @@
+<?php $application = $this->getApplication(); ?>
+<div class="installer application">
+    <div class="application_content inner_content">
+        <div class="title">
+            <i class="left icon-download-alt"></i>
+            <h2 class="left inner_content f-rounded"><?php echo $this->_('Modules'); ?></h2>
+            
+            <hr />
+        </div>
+        <div>
+            <h3 class="title">
+                <span><?php echo $this->_('Upload a module'); ?></span>
+                
+            </h3>
+            <div>
+                <form id="uploadModule" method="post" name="uploadModule" action="<?php echo $this->getUrl('installer/module/upload'); ?>" enctype="multipart/form-data">
+                    <br />
+                    <div><p><?php echo $this->_('Select a module to upload'); ?></p></div>
+                    <br />
+                    <div><input type="file" name="module" value="" /></div>
+                    <br />
+                    <div><button class="btn"><?php echo $this->_('Send'); ?></button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <style>
+        .installer .inner_content .btn {
+            width: auto;
+            padding: 0 10px;
+        }
+    </style>
+</div>

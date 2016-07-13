@@ -17,7 +17,7 @@ class Backoffice_Notif_ListController extends Backoffice_Controller_Default {
 
         $notif = new Backoffice_Model_Notification();
         $notif->update();
-        $notifs = $notif->findAll();
+        $notifs = $notif->findAll(array(), array("notification_id DESC"));
         $data = array("notifs" => array());
 
         foreach($notifs as $notif) {

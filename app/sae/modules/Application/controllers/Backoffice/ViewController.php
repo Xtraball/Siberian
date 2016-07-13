@@ -471,8 +471,8 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                     throw new Exception("No file has been sent");
                 }
 
-                $application = new Application_Model_Application();
-                $application->find($app_id);
+                $application = Application_Model_Application::getInstance();
+                $app_id = $application->getId();
 
                 $base_path = Core_Model_Directory::getBasePathTo("var/apps/iphone/");
                 if(!is_dir($base_path)) mkdir($base_path, 0775, true);
@@ -504,6 +504,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
 
                     $data = array(
                         "success" => 1,
+                        "pem_infos" => Push_Model_Certificate::getInfos($app_id),
                         "message" => $this->_("The file has been successfully uploaded")
                     );
 

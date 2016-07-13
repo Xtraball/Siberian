@@ -255,6 +255,7 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
         $line = new Mcommerce_Model_Cart_Line();
         $line->setCartId($this->getId())
             ->setProductId($product->getId())
+            ->setCategoryId($product->getCategoryId())
             ->setRef($product->getRef())
             ->setName($product->getName())
             ->setBasePrice($price)

@@ -103,21 +103,45 @@
                     </select>
                 </label>
 
+                <div class="item item-input item-custom">
+                    <div class="input-label">
+                        {{ "Firstname" | translate }}
+                    </div>
+                    <input class="text-right" type="text" placeholder="{{ 'Firstname' | translate }}" ng-model="customer.firstname" />
+                </div>
+
                 <label class="item item-input item-custom">
-                    <input type="text" placeholder="{{ 'Firstname' | translate }}" ng-model="customer.firstname" />
+                    <div class="input-label">
+                        {{ "Lastname" | translate }}
+                    </div>
+                    <input class="text-right" type="text" placeholder="{{ 'Lastname' | translate }}" ng-model="customer.lastname" />
                 </label>
 
                 <label class="item item-input item-custom">
-                    <input type="text" placeholder="{{ 'Lastname' | translate }}" ng-model="customer.lastname" />
+                    <div class="input-label">
+                        {{ "Email" | translate }}
+                    </div>
+                    <input class="text-right" type="email" placeholder="{{ 'Email' | translate }}" ng-model="customer.email" />
                 </label>
 
-                <label class="item item-input item-custom">
-                    <input type="email" placeholder="{{ 'Email' | translate }}" ng-model="customer.email" />
+                <label class="item item-custom" ng-click="customer.change_password = !customer.change_password">
+                    {{ 'Change Password' | translate }}
                 </label>
 
-                <label class="item item-input item-custom">
-                    <input type="password" placeholder="{{ 'Password' | translate }}" ng-model="customer.password" />
-                </label>
+                <div ng-show="customer.change_password">
+                    <label class="item item-input item-custom">
+                        <div class="input-label">
+                            {{ "Old Password" | translate }}
+                        </div>
+                        <input class="text-right" type="password" placeholder="{{ 'Old Password' | translate }}" ng-disabled="!customer.change_password" ng-model="customer.old_password" />
+                    </label>
+                    <label class="item item-input item-custom">
+                        <div class="input-label">
+                            {{ "Password" | translate }}
+                        </div>
+                        <input class="text-right" type="password" placeholder="{{ 'Password' | translate }}" ng-model="customer.password" ng-disabled="!customer.change_password" />
+                    </label>
+                </div>
 
                 <ion-checkbox class="checkbox-custom" ng-model="customer.show_in_social_gaming">
                     {{ "Show me in ranking" | translate }}

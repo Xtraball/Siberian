@@ -187,31 +187,49 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
 
         $data = $translation_files_data = $translation_files = array();
 
-        $user_translation_dir = Core_Model_Directory::getBasePathTo("languages/".$lang_id.DS);
-        $default_base_path = Core_Model_Directory::getBasePathTo("languages/default");
+        $user_translation_dir = Core_Model_Directory::getBasePathTo("languages/{$lang_id}/");
 
-        $files = new DirectoryIterator($default_base_path);
-        foreach($files as $file) {
+        $files = Siberian_Cache_Translation::getCache();
 
-            if($file->isDot()) continue;
+        foreach($files["default"] as $filename => $file) {
+
+            if(!is_file($file)) {
+                continue;
+            }
+
             $pathinfo = pathinfo($file);
-            if(empty($pathinfo["extension"]) OR $pathinfo["extension"] != "csv") continue;
+            if(empty($pathinfo["extension"]) || ($pathinfo["extension"] != "csv")) {
+                continue;
+            }
 
-            $translation_files[$file->getFilename()] = $file->getFilename();
+            $translation_files[$filename] = $filename;
 
-            $resource = fopen($file->getRealPath(), "r");
-            $translation_files_data[$file->getFilename()] = array();
+            $resource = fopen($file, "r");
+            $translation_files_data[$filename] = array();
             while($content = fgetcsv($resource, 1024, ";", '"')) {
-                $translation_files_data[$file->getFilename()][$content[0]] = null;
+                $translation_files_data[$filename][$content[0]] = null;
             }
             fclose($resource);
 
-            if(!is_file($user_translation_dir.$file->getFilename())) continue;
+            $default_language = $files[$lang_id][$filename];
+            $user_language = $user_translation_dir.$filename;
 
-            $resource = fopen($user_translation_dir.$file->getFilename(), "r");
+            if(!is_file($default_language) && !is_file($user_language)) {
+                continue;
+            }
+
+            /** First for "default" values */
+            $resource = fopen($default_language, "r");
             while($content = fgetcsv($resource, 1024, ";", '"')) {
-                $translation_files_data[$file->getFilename()][$content[0]] = $content[1];
-                asort($translation_files_data[$file->getFilename()]);
+                $translation_files_data[$filename][$content[0]] = $content[1];
+                asort($translation_files_data[$filename]);
+            }
+
+            /** Second for "user" values */
+            $resource = fopen($user_language, "r");
+            while($content = fgetcsv($resource, 1024, ";", '"')) {
+                $translation_files_data[$filename][$content[0]] = $content[1];
+                asort($translation_files_data[$filename]);
             }
 
             fclose($resource);
@@ -231,7 +249,6 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
         $lang_id = Core_Model_Lib_String::formatLanguageCodeForAndroid($lang_id);
 
         foreach($this->_xml_files as $file) {
-
 
             if($file["is_translatable"]) {
 

@@ -42,14 +42,12 @@ class Siberian_Controller_Dispatcher_Standard extends Zend_Controller_Dispatcher
         $dirs = $this->_moduleDirectories;
         sort($dirs);
         unset($dirs[array_search('Core', $dirs)]);
-        //unset($dirs[array_search('Base', $dirs)]);
         unset($dirs[array_search('Application', $dirs)]);
         unset($dirs[array_search('Media', $dirs)]);
         unset($dirs[array_search('Acl', $dirs)]);
         $dirs = array_reverse($dirs);
         $dirs[] = "Media";
         $dirs[] = "Application";
-        //$dirs[] = "Base";
         $dirs[] = "Core";
         $dirs = array_reverse($dirs);
         $dirs[] = "Acl";
@@ -138,30 +136,17 @@ class Siberian_Controller_Dispatcher_Standard extends Zend_Controller_Dispatcher
             return $return_path ? $path : true;
         }
 
-        # Try local
-        $tmp_path = preg_replace("#app/\w+/modules#i", "app/local/modules", $path);
-        if(Zend_Loader::isReadable($tmp_path)) {
-            return $return_path ? $tmp_path : true;
-        }
-
-        switch(Siberian_Version::TYPE) {
-            default:
-                $tmp_path = preg_replace("#app/\w+/modules#i", "app/pe/modules", $path);
-                if(Zend_Loader::isReadable($tmp_path)) {
-                    return $return_path ? $tmp_path : true;
-                }
-            case "PE":
-                $tmp_path = preg_replace("#app/\w+/modules#i", "app/mae/modules", $path);
-                if(Zend_Loader::isReadable($tmp_path)) {
-                    return $return_path ? $tmp_path : true;
-                }
-            case "MAE": case "SAE":
-            $tmp_path = preg_replace("#app/\w+/modules#i", "app/sae/modules", $path);
+        $type = strtolower(Siberian_Version::TYPE);
+        $editions = array_reverse(Siberian_Cache::$editions[$type]);
+        foreach($editions as $edition) {
+            # Try local
+            $tmp_path = preg_replace("#app/\w+/modules#i", "app/{$edition}/modules", $path);
             if(Zend_Loader::isReadable($tmp_path)) {
                 return $return_path ? $tmp_path : true;
             }
         }
 
-        return Zend_Loader::isReadable($tmp_path);
+        # Otherwise return boolean
+        return Zend_Loader::isReadable($path);
     }
 }

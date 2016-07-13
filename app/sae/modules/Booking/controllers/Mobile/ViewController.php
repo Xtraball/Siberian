@@ -57,6 +57,7 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     $store = new Booking_Model_Store();
                     $store->find($data['store'], 'store_id');
                     if(!$store->getId()) throw new Exception($this->_('An error occurred during process. Please try again later.'));
+                    $data["location"] = $store->getStoreName();
 
                     //vérif value
                     $booking = new Booking_Model_Booking();
@@ -69,12 +70,11 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     $layout = $this->getLayout()->loadEmail('booking', 'send_email');
                     $layout->getPartial('content_email')->setData($data);
                     $content = $layout->render();
-
                     $mail = new Zend_Mail('UTF-8');
                     $mail->setBodyHtml($content);
                     $mail->setFrom($data['email'], $data['name']);
                     $mail->addTo($dest_email, $app_name);
-                    $mail->setSubject($this->_("Message from your app %s", $app_name));
+                    $mail->setSubject($app_name." - ".$booking->getName()." - ".$store->getStoreName());
                     $mail->send();
 
                     $html = array(

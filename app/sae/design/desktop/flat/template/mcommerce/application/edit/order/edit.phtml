@@ -1,0 +1,160 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $mcommerce = $option_value->getObject(); ?>
+<?php $application = $this->getApplication(); ?>
+<?php $order = $this->getCurrentOrder(); ?>
+<form id="orderEditForm" method="post" action="<?php echo $this->getUrl('mcommerce/application_order/editpost'); ?>" class="form-horizontal">
+    <fieldset class="edit_order_informations">
+        <h3 class="title-editor">
+            <?php echo $this->_('Customer'); ?>
+        </h3>
+        <div class="container-fluid first-row-feature">
+            <div class="form-group">
+                <div class="col-md-12">
+                    <button type="button" onclick="orders.close();" class="btn color-blue pull-left"><i class="fa fa-arrow-left"></i></button>
+                    <button type="submit" class="btn color-blue pull-right">OK</button>
+                    <?php if($order->getStatusId() == Mcommerce_Model_Order::DEFAULT_STATUS): ?>
+                        <button type="button" onclick="orders.cancel();" class="btn color-blue pull-right" style="margin-right:5px"><?php echo $this->_("Cancel order"); ?></button>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <label for="customer_firstname"><?php echo $this->_('Firstname:'); ?></label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" id="customer_firstname" name="customer_firstname" class="input-flat required" value="<?php echo $order->getCustomerFirstname(); ?>" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <label for="customer_lastname"><?php echo $this->_('Lastname:'); ?></label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" id="customer_lastname" name="customer_lastname" class="input-flat required" value="<?php echo $order->getCustomerLastname(); ?>" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <label for="customer_email"><?php echo $this->_('Email:'); ?></label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" id="customer_email" name="customer_email" class="input-flat required" value="<?php echo $order->getCustomerEmail(); ?>" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <label for="customer_phone"><?php echo $this->_('Phone:'); ?></label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" id="customer_phone" name="customer_phone" class="input-flat" value="<?php echo $order->getCustomerPhone(); ?>" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <label for="customer_street"><?php echo $this->_('Street:'); ?></label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" id="customer_street" name="customer_street" class="input-flat" value="<?php echo $order->getCustomerStreet(); ?>" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <label for="customer_postcode"><?php echo $this->_('Postcode:'); ?></label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" id="customer_postcode" name="customer_postcode" class="input-flat" value="<?php echo $order->getCustomerPostcode(); ?>" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <label for="customer_city"><?php echo $this->_('City:'); ?></label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" id="customer_city" name="customer_city" class="input-flat" value="<?php echo $order->getCustomerCity(); ?>" />
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <h3 class="title-editor">
+            <?php echo $this->_('Details'); ?>
+        </h3>
+        <div class="container-fluid">
+            <table class="table">
+                <tr>
+                    <td><?php echo $this->_('Status'); ?></td>
+                    <td>
+                        <select id="order_status_id" class="styled-select color-blue" name="status_id" style="max-width:250px">
+                            <?php foreach(Mcommerce_Model_Order::getStatuses() as $status) : ?>
+                                <option value="<?php echo $status->getId(); ?>"<?php if($status->getId() == $order->getStatusId()) : ?> selected="selected"<?php endif; ?>><?php echo $status->getLabel(); ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <table class="table">
+                <col width="70%" />
+                <col width="10%" />
+                <col width="10%" />
+                <col width="10%" />
+                <tr>
+                    <th align="left"><?php echo $this->_('Product'); ?></th>
+                    <th><?php echo $this->_('Unit price'); ?></th>
+                    <th><?php echo $this->_('Qty'); ?></th>
+                    <th><?php echo $this->_('Total'); ?></th>
+                </tr>
+            <?php foreach($order->getLines() as $line) : ?>
+                <tr class="product">
+                    <td><?php echo $line->getName(); ?></td>
+                    <td align="right"><?php echo $line->getFormattedBasePriceInclTax(); ?></td>
+                    <td align="center"><?php echo $line->getQty(); ?></td>
+                    <td align="right"><?php echo count($line->getOptions()) ? $line->formatPrice($line->getBasePriceInclTax() * $line->getQty()): $line->formatPrice($line->getTotalInclTax() * $line->getQty()); ?></td>
+                </tr>
+                <?php foreach($line->getOptions() as $option) : ?>
+                <tr class="option">
+                    <td>+ <?php echo $option->getQty(); ?>x <?php echo $option->getName(); ?></td>
+                    <td align="right"><?php echo $option->getFormattedBasePrice(); ?></td>
+                    <td align="center"><?php echo $option->getQty() * $line->getQty(); ?></td>
+                    <td align="right"><?php echo $line->formatPrice($option->getPriceInclTax() * $line->getQty()); ?></td>
+                </tr>
+                <?php endforeach; ?>
+            <?php endforeach; ?>
+            </table>
+            <table class="table">
+                <tr class="cart_totals">
+                   <th class="text-left f-bold"><?php echo $this->_('Subtotal'); ?></th>
+                   <td class="text-right"><?php echo $order->getFormattedTotalExclTax(); ?></td>
+               </tr>
+               <tr class="cart_totals">
+                   <th class="text-left f-bold"><?php echo $this->_('Tax'); ?></th>
+                   <td class="text-right"><?php echo $order->getFormattedTotalTax(); ?></td>
+               </tr>
+               <tr>
+                    <th class="text-left f-bold"><?php echo $order->getDeliveryMethod(); ?></th>
+                    <td class="text-right"><?php echo $order->getFormattedDeliveryCost(); ?></td>
+                </tr>
+               <tr class="cart_totals">
+                   <th class="text-left f-bold"><?php echo $this->_('Total'); ?></th>
+                   <td class="text-right"><?php echo $order->getFormattedTotal(); ?></td>
+               </tr>
+           </table>
+           <?php if($order->getPaidAmount() > 0) : ?>
+            <table class="table">
+                <tr class="cart_totals">
+                   <th class="text-left f-bold"><?php echo $this->_("Paid by the client:"); ?></th>
+                   <td class="text-right"><?php echo $order->getFormattedPaidAmount(); ?></td>
+                </tr>
+                <tr class="cart_totals">
+                   <th class="text-left f-bold"><?php echo $this->_("Amount remaining:"); ?></th>
+                   <td class="text-right"><?php echo $order->formatPrice($order->getPaidAmount() - $order->getTotal()); ?></td>
+                </tr>
+            </table>
+            <?php endif; ?>
+        </div>
+    </fieldset>
+
+    <?php if($order->getId()) : ?>
+        <input type="hidden" name="order_id" id="order_id" value="<?php echo $order->getId() ?>" />
+    <?php endif; ?>
+    <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId() ?>" />
+</form>

@@ -21,6 +21,7 @@
                     <li><?php echo $this->_('Date and time:'); ?> <?php echo $this->getData('date'); ?></li>
                     <li><?php echo $this->_('Number of people'); ?>: <?php echo $this->getData('people'); ?></li>
                     <li><?php echo $this->_('Booking subject:'); ?> <?php echo $this->getData('prestation'); ?></li>
+                    <li><?php echo $this->_('Booking location:'); ?> <?php echo $this->getData('location'); ?></li>
                     <?php if($this->getData('comment')) : ?><li><?php echo $this->_('Comment:'); ?> <?php echo $this->getData('comment'); ?></li><?php endif; ?>
                 </ul>
             </p>

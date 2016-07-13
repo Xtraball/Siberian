@@ -20,11 +20,15 @@ App.config(function($routeProvider) {
     $scope.header.button.left.is_visible = false;
     $scope.content_loader_is_visible = true;
     $scope.form_loader_is_visible = false;
+    $scope.design_message = "";
+    $scope.is_flat_design = false;
+
     Settings.type = $scope.code;
 
     Settings.loadData().success(function(data) {
         $scope.header.title = data.title;
         $scope.header.icon = data.icon;
+        $scope.translated_messages = data.message;
     });
 
     Settings.findAll().success(function(configs) {
@@ -35,8 +39,13 @@ App.config(function($routeProvider) {
         }
 
         $scope.configs = configs;
+
+        $scope.is_flat_design = $scope.configs.editor_design.value == "flat" ? true : false;
+
         if($scope.code == "design") {
+            $scope.designs = configs.designs;
             $scope.prepareDesignUploaders();
+            $scope.Change_Design();
         }
 
     }).finally(function() {
@@ -145,6 +154,32 @@ App.config(function($routeProvider) {
             };
 
         }
+    }
+
+    $scope.Change_Design = function() {
+        $scope.design_message = $scope.translated_messages[$scope.configs.editor_design.value];
+    };
+
+    $scope.Compute_Analytics = function() {
+        $scope.form_loader_is_visible = true;
+        Settings.computeAnalytics().success(function(data) {
+
+            $scope.message.isError(false);
+            $scope.message.setText(data.message)
+                .show()
+            ;
+
+        }).error(function(data) {
+            if(angular.isObject(data) && angular.isDefined(data.message)) {
+                message = data.message;
+                $scope.message.isError(true);
+                $scope.message.setText(data.message)
+                    .show()
+                ;
+            }
+        }).finally(function() {
+            $scope.form_loader_is_visible = false;
+        });
     }
 
 });

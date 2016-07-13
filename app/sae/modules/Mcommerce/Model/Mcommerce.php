@@ -650,4 +650,8 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default {
         return $paths;
     }
 
+    public function getAppIdByMcommerceId() {
+        return $this->getTable()->getAppIdByMcommerceId();
+    }
+
 }

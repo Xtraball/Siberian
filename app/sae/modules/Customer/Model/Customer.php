@@ -180,4 +180,8 @@ class Customer_Model_Customer extends Core_Model_Default
         return sha1($password);
     }
 
+    public function getAppIdByCustomerId() {
+        return $this->getTable()->getAppIdByCustomerId();
+    }
+
 }

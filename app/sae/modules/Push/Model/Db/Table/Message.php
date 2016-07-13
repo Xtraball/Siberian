@@ -146,12 +146,12 @@ class Push_Model_Db_Table_Message extends Core_Model_Db_Table {
             ->joinLeft(array('pdm' => 'push_delivered_message'), "pm.message_id = pdm.message_id AND pdm.device_uid = '".$device_uid."'", array())
             ->where('pdm.deliver_id IS NULL')
             ->where('pm.type_id = ?', 2)
-            ->where('pm.send_at <= ?',Zend_Date::now()->toString("yyyy-MM-dd HH:mm:ss"))
+            ->where('pm.send_at IS NULL OR pm.send_at <= ?',Zend_Date::now()->toString("yyyy-MM-dd HH:mm:ss"))
             ->where('pm.send_until >= ? OR pm.send_until is null',Zend_Date::now()->toString("yyyy-MM-dd HH:mm:ss"))
             ->where('pm.app_id = ?', $app_id);
 
         //PUSH TO USER ONLY
-        if(Push_Model_Message::hasTargetedNotificationsModule()) {
+        if(Push_Model_Message::hasIndividualPush()) {
             $select->joinLeft(array("pgd" => "push_gcm_devices"), $this->_db->quoteInto("pgd.registration_id = ?", $device_uid), array())
                 ->joinLeft(array("pad" => "push_apns_devices"), $this->_db->quoteInto("pad.device_uid = ?", $device_uid), array())
                 ->joinLeft(array("pum" => "push_customer_message"), "pum.message_id = pm.message_id", array())

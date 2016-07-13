@@ -35,7 +35,7 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
     }
 
     protected function _findconfig() {
-
+        
         $config = new System_Model_Config();
         $values = $config->findAll(array("code IN (?)" => $this->_codes));
 

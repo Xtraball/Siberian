@@ -30,8 +30,7 @@ class Push_ApplicationController extends Application_Controller_Default
                 }
 
                 if(empty($data['send_at'])) {
-                    $sendNow = true;
-                    $data['send_at'] = Zend_Date::now()->toString('y-MM-dd HH:mm:ss');
+                    $data['send_at'] = null;
                 }
 
                 if(!empty($data['send_until']) AND $data['send_at'] > $data['send_until']) {
@@ -98,7 +97,7 @@ class Push_ApplicationController extends Application_Controller_Default
                 }
 
                 //PUSH TO USER ONLY
-                if(Push_Model_Message::hasTargetedNotificationsModule()) {
+                if(Push_Model_Message::hasIndividualPush()) {
                     if ($data["customers_receiver"]) {
                         $customers_data = explode(";", $data["customers_receiver"]);
 
@@ -116,23 +115,7 @@ class Push_ApplicationController extends Application_Controller_Default
                     }
                 }
 
-                if($message->getMessageType()==1) {
-                    if ($sendNow) {
-                        $c = curl_init();
-                        curl_setopt($c, CURLOPT_URL, $this->getUrl('push/message/send', array('message_id' => $message->getId())));
-                        curl_setopt($c, CURLOPT_FOLLOWLOCATION, true);  // Follow the redirects (needed for mod_rewrite)
-                        curl_setopt($c, CURLOPT_HEADER, false);         // Don't retrieve headers
-                        curl_setopt($c, CURLOPT_NOBODY, true);          // Don't retrieve the body
-                        curl_setopt($c, CURLOPT_RETURNTRANSFER, true);  // Return from curl_exec rather than echoing
-                        curl_setopt($c, CURLOPT_FRESH_CONNECT, true);   // Always ensure the connection is fresh
-
-                        // Timeout super fast once connected, so it goes into async.
-                        curl_setopt($c, CURLOPT_TIMEOUT, 10);
-                        curl_exec($c);
-                        curl_close($c);
-
-                    }
-                } else {
+                if($message->getMessageType() != Push_Model_Message::TYPE_PUSH) {
                     $message->updateStatus('delivered');
                 }
 

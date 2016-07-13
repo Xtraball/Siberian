@@ -9,7 +9,14 @@ class Push_AndroidController extends Core_Controller_Default
      */
     public function registerdeviceAction() {
 
-        if($params = $this->getRequest()->getParams()) {
+        $request = $this->getRequest();
+        if($request->isPost()) {
+            $params = Zend_Json::decode($request->getRawBody());
+        } else {
+            $params = $request->getParams();
+        }
+
+        if($params) {
 
             if(!empty($params['registration_id'])) {
                 $fields = array(
@@ -31,18 +38,19 @@ class Push_AndroidController extends Core_Controller_Default
                 $app = new Application_Model_Application();
                 $app->find($params['app_id']);
 
-                //if ionic and base64 we decode
-                if($app->useIonicDesign() AND preg_match("~^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$~",trim($params['registration_id']))) {
+                # if ionic and base64 we decode
+                if($app->useIonicDesign() AND preg_match("~^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$~", trim($params['registration_id']))) {
                     $params['registration_id'] = base64_decode($params['registration_id']);
                 }
 
-                $device->find(array('registration_id' => $params['registration_id'], 'app_id' => $params['app_id']));
-                if(!$device->getId()) {
-                    $device->find(array('device_uid' => $params['device_uid'], 'app_id' => $params['app_id']));
-                }
-                $device->addData($params)
-                    ->save()
-                ;
+                # One couple per app 4.2 (not searching the token, in case we need to update it)
+                $device->find(array(
+                    'app_id' => $params['app_id'],
+                    'device_uid' => $params['device_uid'],
+                    //'registration_id' => $params['registration_id'],
+                ));
+
+                $device->addData($params)->save();
 
                 die('success');
             }

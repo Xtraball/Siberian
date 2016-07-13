@@ -53,7 +53,6 @@ class Installer_Installation_DatabaseController extends Installer_Controller_Ins
             }
 
         } catch(Exception $e) {
-            Zend_Debug::dump($e);die;
             $html = array(
                 'message' => $e->getMessage()
             );
@@ -79,7 +78,6 @@ class Installer_Installation_DatabaseController extends Installer_Controller_Ins
             }
 
         } catch(Exception $e) {
-            Zend_Debug::dump($e);die;
             $html = array(
                 'message' => $e->getMessage()
             );

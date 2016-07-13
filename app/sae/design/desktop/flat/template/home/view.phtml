@@ -1,0 +1,368 @@
+<?php /*$item = new Cms_Model_Item(); ?>
+<?php $items = $item->findAll(); ?>
+<?php $current_item = $this->getCurrentItem();*/ ?>
+
+<div id="homepage" class="homepage">
+<div class="first">
+    <div class="presentation bg-grey20">
+        <div class="menu_home">
+            <ul class="blue10 f-bold">
+                <li class="first" rel="1">
+                    <a id="menu_item_1" class="menu_item home<?php // zoom ?>" href="#" rel="home">
+                        <span class="picto bg-blue5"><img src="<?php echo $this->getImage("home/menu/home.png"); ?>" title="<?php echo $this->_("Home"); ?>" alt="<?php echo $this->_("Home"); ?>" /></span>
+                        <span><?php echo $this->_("Home"); ?></span>
+                    </a>
+                </li>
+                <li class="first" rel="1">
+                    <a id="menu_item_1" class="menu_item home<?php // zoom ?>" href="#" rel="home">
+                        <span class="picto bg-blue5"><img src="<?php echo $this->getImage("home/menu/home.png"); ?>" title="<?php echo $this->_("Home"); ?>" alt="<?php echo $this->_("Home"); ?>" /></span>
+                        <span><?php echo $this->_("Home"); ?></span>
+                    </a>
+                </li>
+                <li class="first" rel="1">
+                    <a id="menu_item_1" class="menu_item home<?php // zoom ?>" href="#" rel="home">
+                        <span class="picto bg-blue5"><img src="<?php echo $this->getImage("home/menu/home.png"); ?>" title="<?php echo $this->_("Home"); ?>" alt="<?php echo $this->_("Home"); ?>" /></span>
+                        <span><?php echo $this->_("Home"); ?></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="content">
+            <div id="mobile_content" class="mobile_content <?php // echo $this->getCurrentItem()->getCode() ?>"></div>
+            <div class="details">
+                <div>
+                    <h1 class="title f-rounded"><?php echo $this->_('Revendeurs, créez des<br />apps mobiles<br />pour vos clients'); ?></h1>
+                    <p class="text"><?php echo $this->_('Créez sans connaissances techniques des applications mobiles performantes en marque blanche.'); ?></p>
+                </div>
+                <div>
+                    <a href="<?php echo $this->getUrl('admin/application/list'); ?>" class="login create_app">
+                            <span>
+                                <?php echo $this->_('Créez une app<br /><span class="f-bold">en 5 minutes</span>'); ?>
+                            </span><br />
+                        <img src="<?php echo $this->getImage('home/presentation/clock.png'); ?>" alt="<?php echo $this->_('Créez une application en moins de 5 minutes'); ?>" title="<?php echo $this->_('Créez une application en moins de 5 minutes'); ?>" />
+                    </a>
+                </div>
+                <div class="get_started">
+                    <a href="<?php echo $this->getUrl('admin/application/list'); ?>" class="bg-redpurple login rounded"><?php echo $this->_('Essayez gratuitement !'); ?></a>
+                    <span><a href="http://www.siberiancms.com" class="blue5"><?php echo $this->_('Ou téléchargez notre <u class="f-rounded">App-Builder Open-Source</u>'); ?></a></span>
+                </div>
+                <div class="platforms">
+                    <img src="<?php echo $this->getImage('home/presentation/platforms.png'); ?>" alt="<?php echo $this->_('Nos plateformes'); ?>" title="<?php echo $this->_('Nos plateformes'); ?>" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="functionnalities bg-blue5">
+        <div class="content">
+            <div class="title f-rounded relative">
+                <h2><?php echo $this->_('Nous vous fournissons de nombreuses fonctionnalités<br />à intégrer dans vos applications'); ?></h2>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-4">
+                    <div class="img">
+                        <img src="<?php echo $this->getImage('home/punch_card.png'); ?>" alt="<?php echo $this->_('Créez une carte de fidelite mobile'); ?>" title="<?php echo $this->_('Créez une carte de fidelite mobile'); ?>" />
+                    </div>
+                    <div class="details">
+                        <h3 class="title f-rounded"><?php echo $this->_('Carte de fidélité'); ?></h3>
+                        <p class="text"><?php echo $this->_("Mettez en place en quelques clics une ou des cartes de fidélité, et récupérez de l'info sur vos clients."); ?></p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="img">
+                        <img src="<?php echo $this->getImage('home/push_notifications.png'); ?>" alt="<?php echo $this->_('Notifications Push en marque blanche'); ?>" title="<?php echo $this->_('Notifications Push en marque blanche'); ?>" />
+                    </div>
+                    <div class="details">
+                        <h3 class="title f-rounded"><?php echo $this->_('Notifications Push'); ?></h3>
+                        <p class="text"><?php echo $this->_("Envoyez des messages directement sur le mobile de vos clients. Vous pouvez segmenter vos client, c'est simple et illimité."); ?></p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="img">
+                        <img src="<?php echo $this->getImage('home/social_gaming.png'); ?>" alt="<?php echo $this->_('Build Mobile Social Gaming'); ?>" title="<?php echo $this->_('Build Mobile Social Gaming'); ?>" />
+                    </div>
+                    <div class="details">
+                        <h3 class="title f-rounded"><?php echo $this->_('Social Gaming'); ?></h3>
+                        <p class="text"><?php echo $this->_("Challengez vos clients entre eux de façon ludique et faites augmenter leur fréquence d'achat."); ?></p>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-4">
+                    <div class="img">
+                        <img src="<?php echo $this->getImage('home/mobile_coupon.png'); ?>" alt="<?php echo $this->_('Réductions sur mobile'); ?>" title="<?php echo $this->_('Réductions sur mobile'); ?>" />
+                    </div>
+                    <div class="details">
+                        <h3 class="title f-rounded"><?php echo $this->_('Réductions'); ?></h3>
+                        <p class="text"><?php echo $this->_('Dynamisez vos ventes avec des réductions simples et totalement configurables.'); ?></p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="img">
+                        <img src="<?php echo $this->getImage('home/social_wall.png'); ?>" alt="<?php echo $this->_('Mur de news mobile'); ?>" title="<?php echo $this->_('Mur de news mobile'); ?>" />
+                    </div>
+                    <div class="details">
+                        <h3 class="title f-rounded"><?php echo $this->_('Mur de news'); ?></h3>
+                        <p class="text"><?php echo $this->_('Échangez toute votre actualité avec vos clients, et récupérez leurs commentaires et leurs suggestions.'); ?></p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="img">
+                        <img src="<?php echo $this->getImage('home/mobile_rss.png'); ?>" alt="<?php echo $this->_('RSS application mobile'); ?>" title="<?php echo $this->_('RSS application mobile'); ?>" />
+                    </div>
+                    <div class="details">
+                        <h3 class="title f-rounded"><?php echo $this->_('RSS/Atom'); ?></h3>
+                        <p class="text"><?php echo $this->_('Intégrez du contenu de votre blog ou en provenance de sites que vous aimez directement dans votre application.'); ?></p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="others bg-blue10">
+        <div class="content">
+            <div class="col-md-6">
+                <div class="img">
+                    <img src="<?php echo $this->getImage('home/plus.png'); ?>" alt="<?php echo $this->_("Plus d'infos"); ?>" title="<?php echo $this->_("Plus d'infos"); ?>" />
+                </div>
+                <div class="details">
+                    <h3 class="title f-rounded"><?php echo $this->_('Mais encore ?'); ?></h3>
+                    <p class="intro"><?php echo $this->_('Les modules au-dessus sont les plus populaires. Nous vous fournissons également :'); ?>
+                    <ul>
+                        <li><?php echo $this->_('<span>une interface d\'admin</span> <span class="yellow">en marque blanche</span>'); ?></li>
+                        <li><span><?php echo $this->_('des statistiques détaillées'); ?></span></li>
+                        <li><span><?php echo $this->_('les bases de données des utilisateurs'); ?></span></li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="img">
+                    <img src="<?php echo $this->getImage('home/question.png'); ?>" alt="<?php echo $this->_('Question'); ?>" title="<?php echo $this->_('Question'); ?>" />
+                </div>
+                <div class="details">
+                    <h3 class="title f-rounded"><?php echo $this->_('Sur quelles plateformes ?'); ?></h3>
+                    <p class="intro"><?php echo $this->_('Vos applications sont développées en version Iphone, Android et HTML5 (Webapp) pour tous les autres systèmes.'); ?></p>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<div class="second">
+    <div class="bg-blue15">
+        <div class="title content f-rounded">
+            <h2><?php echo $this->_('Fonctionnalités'); ?></h2>
+        </div>
+    </div>
+    <div class="bg-white black5">
+        <div class="details content image-right">
+            <div class="col-md-7 text">
+                <h3 class="title f-bold"><?php echo $this->_('Galeries photos et vidéos'); ?></h3>
+                <p><?php echo $this->_("Rien de mieux que des photos ou des vidéos pour mettre en valeur les soirées ou l'ambiance d'un commerce."); ?></p>
+            </div>
+            <div class="col-md-5 img text-center">
+                <img src="<?php echo $this->getImage('home/features/galerie_photos.png'); ?>" alt="<?php echo $this->_('Galerie photos'); ?>" title="<?php echo $this->_('Galerie photos'); ?>" />
+            </div>
+            
+        </div>
+    </div>
+    <div class="bg-grey20">
+        <div class="details content image-left">
+            <div class="col-md-5 image text-center">
+                <img src="<?php echo $this->getImage($this->_("home/features/listing_produits.png")); ?>" alt="<?php echo $this->_('Listing produits'); ?>" title="<?php echo $this->_('Listing produits'); ?>" />
+            </div>
+            <div class="col-md-7 text">
+                <h3 class="title f-bold"><?php echo $this->_('Listing produits / tarifs'); ?></h3>
+                <p><?php echo $this->_('Mettez en avant les produits et tarifs de vos clients commerçants, sur le mobile de leurs clients'); ?></p>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="bg-white black5">
+        <div class="details content image-right">
+            <div class="col-md-7 text">
+                <h3 class="title f-bold"><?php echo $this->_('Interface en Marque Blanche'); ?></h3>
+                <p>
+                    <?php echo $this->_('Vous créez des applications mobiles pour vos clients. Vous souhaitez leur permettre de gérer leur application eux-mêmes ? Oui ? Pas de souci, nous vous fournissons une interface à vos couleurs, à votre nom, sur votre site.'); ?>
+                </p>
+            </div>
+            <div class="col-md-5 img text-center">
+                <img src="<?php echo $this->getImage($this->_("home/features/admin_marque_blanche.png")); ?>" alt="<?php echo $this->_('Interface en Marque Blanche'); ?>" title="<?php echo $this->_('Interface en Marque Blanche'); ?>" />
+            </div>
+            
+        </div>
+    </div>
+    <div class="bg-grey20">
+        <div class="details content image-left">
+            <div class="col-md-5 img text-center">
+                <img src="<?php echo $this->getImage($this->_("home/features/appel_en_un_clique.png")); ?>" alt="<?php echo $this->_('Touch To Call'); ?>" title="<?php echo $this->_('Touch To Call'); ?>" />
+            </div>
+            <div class="col-md-7 text">
+                <h3 class="title f-bold"><?php echo $this->_('Touch To Call'); ?></h3>
+                <p>
+                    <?php echo $this->_("Quoi de mieux qu'un appel en une touche pour joindre un commerce ? En un clic, intégrez un bouton d'appel sur vos applications mobiles."); ?>
+                    <?php echo $this->_('Fini les longues recherches de numéros de téléphone.'); ?>
+                </p>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="bg-white black5">
+        <div class="details content image-right">
+            <div class="col-md-7 text">
+                <h3 class="title f-bold"><?php echo $this->_('Géo-localisation'); ?></h3>
+                <p>
+                    <?php echo $this->_("Intégrez très simplement l'adresse d'un commerce et permettez aux clients de le situer directement depuis l'application mobile."); ?>
+                </p>
+            </div>
+            <div class="col-md-5 img text-center">
+                <img src="<?php echo $this->getImage($this->_("home/features/geolocalisation.png")); ?>" alt="<?php echo $this->_('Géo-localisation'); ?>" title="<?php echo $this->_('Géo-localisation'); ?>" />
+            </div>
+            
+        </div>
+    </div>
+    <div class="content a-center">
+        <a href="<?php // echo Cms_Model_Page::getUrlByCode('features'); ?>" class="bg-redpurple rounded centera"><?php echo $this->_('Voir toutes les fonctionnalités'); ?></a>
+    </div>
+    <div class="content">
+        <div class="separator bg-blue15"></div>
+    </div>
+
+</div>
+
+<div class="third">
+    <div class="bg-white black5">
+        <div class="content">
+            <div class="details top">
+                <div class="col-md-5 text">
+                    <p>
+                        <?php echo $this->_("Créez en quelques minutes des applications mobiles pour les commerçants. Aucune connaissance technique n'est requise et nous publions votre application dès qu'elle est prête."); ?>
+                    </p>
+                </div>
+                <div class="col-md-7 img">
+                    <ul class="pictos">
+                        <li class="left">
+                            <img src="<?php echo $this->getImage('home/features/fashion.png'); ?>" alt="<?php echo $this->_('Mode / Vêtements'); ?>" title="<?php echo $this->_('Mode / Vêtements'); ?>" class="block" />
+                            <p class="blue5 a-center"><?php echo $this->_('Mode'); ?></p>
+                        </li>
+                        <li class="left">
+                            <img src="<?php echo $this->getImage('home/features/restaurant.png'); ?>" alt="<?php echo $this->_('Snacking / Restaurants'); ?>" title="<?php echo $this->_('Snacking / Restaurants'); ?>" class="block" />
+                            <p class="blue5 a-center"><?php echo $this->_('Snacking<br />Restaurants'); ?></p>
+                        </li>
+                        <li class="left">
+                            <img src="<?php echo $this->getImage('home/features/hotels.png'); ?>" alt="<?php echo $this->_('Hôtels / Gîtes'); ?>" title="<?php echo $this->_('Hôtels / Gîtes'); ?>" class="block" />
+                            <p class="blue5 a-center"><?php echo $this->_('Hôtels<br />Gîtes'); ?></p>
+                        </li>
+                        <li class="left">
+                            <img src="<?php echo $this->getImage('home/features/realestate.png'); ?>" alt="<?php echo $this->_('Immobilier'); ?>" title="<?php echo $this->_('Immobilier'); ?>" class="block" />
+                            <p class="blue5 a-center"><?php echo $this->_('Immobilier'); ?></p>
+                        </li>
+                        <li class="left">
+                            <img src="<?php echo $this->getImage('home/features/hairbeauty.png'); ?>" alt="<?php echo $this->_('Coiffeurs / beauté'); ?>" title="<?php echo $this->_('Coiffeurs / beauté'); ?>" class="block" />
+                            <p class="blue5 a-center"><?php echo $this->_('Coiffeurs'); ?></p>
+                        </li>
+                        <li class="left">
+                            <img src="<?php echo $this->getImage('home/features/drink.png'); ?>" alt="<?php echo $this->_('Bars / Cafés'); ?>" title="<?php echo $this->_('Bars / Cafés'); ?>" class="block" />
+                            <p class="blue5 a-center"><?php echo $this->_('Bars<br />Cafés'); ?></p>
+                        </li>
+                    </ul>
+                    
+                </div>
+                
+            </div>
+            <div class="content">
+                <div class="separator bg-grey20"></div>
+            </div>
+            <div class="details bottom">
+                <div class="col-md-6 img">
+                    <ul class="pictos">
+                        <li class="left"><img src="<?php echo $this->getImage('home/supported_technologies/apple.png'); ?>" alt="Apple" title="Apple" /></li>
+                        <li class="left"><img src="<?php echo $this->getImage('home/supported_technologies/android.png'); ?>" alt="Android" title="Android" /></li>
+                        <li class="left"><img src="<?php echo $this->getImage('home/supported_technologies/html5.png'); ?>" alt="HTML 5" title="HTML 5" /></li>
+                        <li class="left"><img src="<?php echo $this->getImage('home/supported_technologies/blackberry.png'); ?>" alt="Blackberry" title="Blackberry" /></li>
+                        <li class="left"><img src="<?php echo $this->getImage('home/supported_technologies/windows_8.png'); ?>" alt="Windows 8" title="Windows 8" /></li>
+                    </ul>
+                </div>
+                <div class="col-md-6 text">
+                    <h3 class="title f-bold"><?php echo $this->_('Nous supportons toutes les plateformes'); ?></h3>
+                    <p>
+                        <?php echo $this->_("Iphones, Android, et HTML5 pour toucher les utilisateurs de Windows 8 et BlackBerry.<br />Ne vous souciez de rien, Tiger s'occupe de créer du joli code pour vous."); ?>
+                    </p>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="fifth">
+    <div class="bg-blue10">
+        <div class="title content f-rounded">
+            <h2><?php echo $this->_('Apps efficaces + Prix minime = Des clients heureux'); ?></h2>
+        </div>
+    </div>
+    <div class="bg-blue10">
+        <div class="comments content">
+            <div class="comment left">
+                <div class="bg-blue5">
+                    <p><?php echo $this->_("Au début j'étais sceptique, mais maintenant j'avoue vous êtes au top. J'aime voir la tête ravie de mes clients."); ?></p>
+                </div>
+                <div class="username">
+                    <p>David Rothal - <?php echo $this->_('Développeur freelance'); ?></p>
+                </div>
+            </div>
+            <div class="comment center">
+                <div class="bg-blue5">
+                    <p><?php echo $this->_("Merci encore, j'ai pu développer mon portefeuille de produits avec votre solution et ça se vend très bien !"); ?></p>
+                </div>
+                <div class="username">
+                    <p>Pierre Sierra - <?php echo $this->_('Distributeur logiciel'); ?></p>
+                </div>
+            </div>
+            <div class="comment right">
+                <div class="bg-blue5">
+                    <p><?php echo $this->_("J'aimerai qu'une seule chose c'est que nos concurrents n'utilisent pas votre solution (...) on en rêvait."); ?></p>
+                </div>
+                <div class="username">
+                    <p>Sophie Malaterre - <?php echo $this->_('Chef de projet'); ?></p>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('.menu_item').click(function() {
+        if($(this).children('.picto.bg-blue5').length) return false;
+        $('#mobile_content').hide();
+        $('#mobile_content').removeAttr('class').addClass('mobile_content '+$(this).attr('rel'));
+        var old_a = $('.picto.bg-blue5').parent();
+        var new_a = $(this);
+        $('.picto.bg-blue5').removeClass('bg-blue5').addClass('bg-blue15');
+
+        old_a.removeClass('zoom rotate').addClass('half_zoom');
+        new_a.removeClass('zoom half_zoom').addClass('rotate');
+        new_a.children('span.picto').removeClass('bg-blue15').addClass('bg-blue5');
+        setTimeout(function() {
+            old_a.removeClass('half_zoom');
+            new_a.removeClass('rotate').addClass('zoom');
+        }, 300);
+        $('#mobile_content').fadeIn(400);
+
+        return false;
+    });
+</script>
+</div>

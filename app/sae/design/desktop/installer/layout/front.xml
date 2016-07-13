@@ -15,11 +15,12 @@
                     <dropkick link="js/jquery.dropkick.js" />
                     <custom_checkbox_and_radio link="js/custom_checkbox_and_radio.js" />
                     <js link="js/js.js" />
+                    <bootstrap_min link="js/bootstrap.min.js" />
                 </js>
                 <css>
                     <style link="css/style.css" />
                     <bootstrap link="css/bootstrap.css" />
-                    <flat_ui link="css/flat-ui.css" />
+                    <!--<flat_ui link="css/flat-ui.css" />-->
                     <font_awesome link="css/font-awesome.min.css" />
                 </css>
             </scripts>

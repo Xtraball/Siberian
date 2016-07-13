@@ -76,8 +76,35 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
         if($apk = $this->_generateApk()) {
             return $apk;
         }
-
+ 
     }
+
+    public function configureAutoupdater($host) {
+        $orig_source = Core_Model_Directory::getBasePathTo(self::SOURCE_FOLDER);
+
+        //Set correct url to config.xml
+        $configXMLPath = "{$orig_source}/res/xml/config.xml";
+        $this->__replace(
+            array(
+                '~(<config-file url=").*(" />)~i' => '$1'.$host.self:: SOURCE_FOLDER.'/assets/www/chcp.json$2'
+            ),
+            $configXMLPath,
+            true
+        );
+
+        //Update configuration file
+        $chcpConfigPath = "{$orig_source}/assets/www/chcp.json";
+        $chcpConfig = array(
+            "content_url" => $host.self::SOURCE_FOLDER.'/assets/www',
+            "min_native_interface" => Siberian_Version::NATIVE_VERSION,
+            "release" => Siberian_Version::VERSION
+        );
+
+        if(!file_put_contents($chcpConfigPath,Zend_Json::encode($chcpConfig))) {
+            throw new Exception("Cannot write to file " . $chcpConfigPath);
+        }
+    }
+
 
     protected function _preparePathsVars() {
         $this->_folder_name = $this->getDevice()->getTmpFolderName();
@@ -133,6 +160,11 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
         }
 
         if($save) {
+            $path_android = Core_Model_Directory::getBasePathTo("var/apps/android");
+            if(!file_exists("{$path_android}/pwd")) {
+                mkdir("{$path_android}/pwd", 0775);
+            }
+            file_put_contents("{$path_android}/pwd/app_{$device->getAppId()}.txt", print_r($passwords, true));
             $this->_logger->sendException(print_r($passwords, true), "android_pwd_{$device->getAppId()}_", false);
             $device->save();
         }
@@ -173,10 +205,15 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
 
         /** Static push.js senderID (Only for apps) */
         $senderID = Push_Model_Certificate::getAndroidSenderId();
-        $senderIdReplacements = array(
-            'senderID: "01234567890"' => 'senderID: "' . $senderID . '"',
-        );
-        $this->__replace($senderIdReplacements, $this->_dest_source."/assets/www/js/factory/push.js");
+
+        # Empty senderID cause malformed JSON in Android
+        $senderID = trim($senderID);
+        if(!empty($senderID)) {
+            $senderIdReplacements = array(
+                'senderID: "01234567890"' => 'senderID: "' . $senderID . '"',
+            );
+            $this->__replace($senderIdReplacements, $this->_dest_source."/assets/www/js/factory/push.js");
+        }
 
         return $this;
 
@@ -238,22 +275,21 @@ if(navigator.language) {
 
         $googlekey = Push_Model_Certificate::getAndroidKey();
 
-        $googleappid = "    <string name=\"google_app_id\">{$googlekey}</string>
-</resources>";
+        $googleappid = "<string name=\"google_app_id\">{$googlekey}</string>";
 
-        $replacements = array("</resources>" => $googleappid);
+        $replacements = array("<string name=\"google_app_id\">01234567890</string>" => $googleappid);
 
         $this->__replace($replacements, $this->_dest_source_res."/values/strings.xml");
 
     }
 
     /** @TODO alot to refresh here
-     * 
+     *
      * CALL ME BAD OLD COMPILER
-     *  . 
+     *  .
      */
     protected function _generateApk() {
-    	
+
     	/** Fetching vars. */
     	$output = array();
 
@@ -287,7 +323,7 @@ if(navigator.language) {
 
     	$alias = $this->getDevice()->getAlias();
     	$app_id = $this->_application->getId();
-    	
+
     	$store_password = $this->getDevice()->getStorePass();
     	$key_password = $this->getDevice()->getKeyPass();
 
@@ -300,12 +336,12 @@ if(navigator.language) {
     		if (!$organization) {
     			$organization = "Default";
     		}
-    		
+
     		exec("keytool -genkeypair -keyalg RSA -noprompt -alias {$alias} -dname \"CN={$organization}, O={$organization}\" -keystore {$keystore_path} -storepass {$store_password} -keypass {$key_password} -validity 36135", $output);
     	}
         /** Copy the keystore locally */
         copy($keystore_path, "{$this->_dest_source}/{$keystore_filename}");
-    	
+
     	/** Gradle configuration */
     	$gradlew_path = Core_Model_Directory::getBasePathTo("{$this->_dest_source}/gradlew");
 
@@ -326,12 +362,12 @@ php {$tools_path}/sdk-updater.php
 ";
 
         $this->__replace(array($search => $replace), $gradlew_path);
-		
+
 		$android_sdk = "sdk.dir={$android_sdk_path}";
 
 		$local_properties_path = Core_Model_Directory::getBasePathTo("{$this->_dest_source}/local.properties");
 		file_put_contents($local_properties_path, $android_sdk);
-		
+
     	/** Signing informations */
         $release_signing_gradle_path = Core_Model_Directory::getBasePathTo("{$this->_dest_source}/release-signing.properties");
     	$signing = "keyAlias={$alias}
@@ -341,11 +377,11 @@ storePassword={$store_password}";
 
         /** Controlling release signing. */
         file_put_contents($release_signing_gradle_path, $signing);
-    	
+
     	/** Change current directory */
 		$project_source_path = Core_Model_Directory::getBasePathTo("{$this->_dest_source}");
     	chdir($project_source_path);
-    	
+
     	/** Creating ENV PATH */
 		$gradle_path = Core_Model_Directory::getBasePathTo(self::IONIC_FOLDER."/tools/gradle");
     	putenv("GRADLE_USER_HOME={$gradle_path}");

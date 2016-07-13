@@ -5,16 +5,12 @@ class Installer_Installation_ModuleController extends Installer_Controller_Insta
     public function installAction() {
 
         if($module = $this->getRequest()->getParam('name')) {
-
-            foreach($dirs as $module) {
-                $installer = new Installer_Model_Installer();
-                $installer->setModuleName($module)
-                    ->install()
-                ;
-            }
-            die('done');
+            $installer = new Installer_Model_Installer();
+            $installer->setModuleName($module)
+                ->install()
+                ->insertData()
+            ;
         }
-        die('pas ok');
 
     }
 

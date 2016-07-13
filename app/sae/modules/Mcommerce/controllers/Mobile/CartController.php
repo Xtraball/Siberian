@@ -87,7 +87,9 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
 
             $lineJson = array(
                 "id" => $line->getId(),
+                "category_id" => $line->getCategoryId(),
                 "product" => array(
+                    "id" => $product->getId(),
                     "picture" => $product->getLibraryPictures(false, $this->getRequest()->getBaseUrl()) ? $product->getLibraryPictures(false, $this->getRequest()->getBaseUrl()) : array("url" => $this->getRequest()->getBaseUrl().$this->_getColorizedImage($this->_getImage("pictos/shopping_cart.png"), $application->getBlock('background')->getColor()))
                 ),
                 "name" => $line->getName(),
@@ -176,6 +178,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                     $cart = $this->getCart();
                     $product->setTaxRate($current_store->getTax($product->getTaxId())->getRate())
                         ->setQty(!empty($form['qty']) ? $form['qty'] : 1)
+                        ->setCategoryId(isset($form['category_id']) ? $form['category_id'] : 0)
                     ;
 
                     if(!empty($form["selected_format"])) {

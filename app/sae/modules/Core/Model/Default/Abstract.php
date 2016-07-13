@@ -108,6 +108,93 @@ abstract class Core_Model_Default_Abstract
         return $this;
     }
 
+    /**
+     * Utility method for objects
+     *
+     * @param array $key_values
+     * @return mixed
+     */
+    public function fetchElement($key_values = array()) {
+        $db = $this->getTable();
+        
+        if(empty($key_values)) {
+            $key_values = array();
+            foreach($this->getData() as $key => $value) {
+                $key_values[$key] = $value;
+            }
+        }
+        
+        $select = $db->select();
+        foreach($key_values as $key => $value) {
+            $select->where("`{$key}` = ?", $value); # key are protected with ``
+        }
+
+        $result = $db->fetchRow($select);
+
+        return $result;
+    }
+
+    /**
+     * @param array $key_values
+     * @return bool
+     */
+    public function elementExists($key_values = array()) {
+        return (boolean) $this->fetchElement($key_values);
+    }
+
+    /**
+     * Utility saver for module data
+     *
+     * @param array $keys
+     * @return bool
+     */
+    public function insertOrUpdate($keys = array(), $insert_once = false) {
+        # Save element/data
+        $saved_data = $this->getData();
+        $saved_element = $this;
+
+        $search_keys = array();
+
+        if(empty($keys)) { # When empty, compare every data
+            $search_keys = $saved_data;
+
+            $exists = $this->elementExists($search_keys);
+        } else {
+            foreach($keys as $key) {
+                $search_keys[$key] = $this->getData($key);
+            }
+
+            $exists = $this->elementExists($search_keys);
+        }
+
+        # Insert Only case
+        if($insert_once && $exists) {
+            $fetched_element = $saved_element->fetchElement($search_keys);
+
+            return $this->find($fetched_element->getPrimaryKey());
+        }
+
+        if($exists) { # So fetch the element
+            $fetched_element = $saved_element->fetchElement($search_keys);
+
+            $this->find($fetched_element->getPrimaryKey());
+        }
+        
+        # Re-apply data
+        $this->setData($saved_data);
+        $this->save();
+
+        return $this;
+    }
+
+    /**
+     * @param array $keys
+     * @return $this
+     */
+    public function insertOnce($keys = array()) {
+        return $this->insertOrUpdate($keys, true);
+    }
+
     public function findLast($params = array()) {
         if(!$this->hasTable()) return null;
 
@@ -321,6 +408,12 @@ abstract class Core_Model_Default_Abstract
         return $this;
     }
 
+    /**
+     * @param array $values
+     * @param null $order
+     * @param array $params
+     * @return Push_Model_Message[]
+     */
     public function findAll($values = array(), $order = null, $params = array()) {
         return $this->getTable()->findAll($values, $order, $params);
     }

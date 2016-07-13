@@ -6,7 +6,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     const PATH_TEMPLATES = '/images/templates';
     const OVERVIEW_PATH = 'overview';
     const BO_DISPLAYED_PER_PAGE = 1000;
-    const PATH_TO_SOURCE_CODE = "/var/apps/browser/index.html#/";
+    const PATH_TO_SOURCE_CODE = "/var/apps/browser/index-prod.html#/";
     const DESIGN_CODE_ANGULAR = "angular";
     const DESIGN_CODE_IONIC = "ionic";
 
@@ -231,7 +231,6 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         $design_contents = $design_content->findAll(array('design_id' => $design->getDesignId()));
 
         foreach($design_contents as $content) {
-
             $option_value = new Application_Model_Option_Value();
             $option = new Application_Model_Option();
             $option->find($content->getOptionId());

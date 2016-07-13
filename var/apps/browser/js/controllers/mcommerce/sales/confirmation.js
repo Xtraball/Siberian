@@ -19,7 +19,7 @@ App.config(function ($stateProvider) {
     });
 
 
-}).controller('MCommerceSalesConfirmationViewController', function ($ionicPopup, $location, $rootScope, $scope, $state, $stateParams, $timeout, $translate, $window, Application, Dialog, McommerceCart, McommerceSalesPayment) {
+}).controller('MCommerceSalesConfirmationViewController', function ($ionicPopup, $location, $rootScope, $scope, $state, $stateParams, $timeout, $translate, $window, Analytics, Application, Dialog, McommerceCart, McommerceSalesPayment) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -98,6 +98,16 @@ App.config(function ($stateProvider) {
             $scope.is_loading = true;
 
             McommerceSalesPayment.validatePayment().success(function(data) {
+                var products = [];
+                angular.forEach($scope.cart.lines, function(value, key) {
+                    var product = value.product;
+                    product.category_id = value.category_id;
+                    product.quantity = value.qty;
+
+                    products.push(product);
+                });
+                Analytics.storeProductSold(products);
+
                 $state.go("mcommerce-sales-success", {value_id: $stateParams.value_id});
             }).error(function(data) {
                 Dialog.alert("", data.message, $translate.instant("OK"));

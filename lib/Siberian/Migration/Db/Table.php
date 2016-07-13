@@ -96,6 +96,7 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract {
 
         try {
             $this->getAdapter()->describeTable($this->tableName);
+
             if($update) {
                 $this->updateTable();
             }
@@ -337,7 +338,7 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract {
         /** Walks against the latest schema adding columns */
         foreach($this->schemaFields as $column_name => $options) {
             if(!isset($this->localFields[$column_name])) {
-                $this->logger->info("Updating table: '{$this->tableName}' column: '{$column_name}'", $migration_log, true);
+                //$this->logger->info("Updating table: '{$this->tableName}' column: '{$column_name}'", $migration_log, true);
                 $request = $this->parseAlter($column_name);
                 $this->execSafe($request);
             }
@@ -358,7 +359,7 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract {
 
         foreach($this->schemaFields as $column_name => $options) {
             if(isset($options['foreign_key']) && !isset($this->localFields[$column_name]['foreign_key'])) {
-                $this->logger->info("Updating table: '{$this->tableName}' column: '{$column_name}' foreign key", $migration_log, true);
+                //$this->logger->info("Updating table: '{$this->tableName}' column: '{$column_name}' foreign key", $migration_log, true);
                 $request = $this->parseFk($column_name);
                 $this->execSafe($request);
             }
@@ -559,7 +560,7 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract {
         $create .= implode(",\n", array_filter($lines));
 
         $create .= "\n) ENGINE={$this->tableEngine} DEFAULT CHARSET={$this->tableCharset} COLLATE={$this->tableCollate};";
-
+        
         try {
             $this->execSafe($create);
         } catch(Exception $e) {
@@ -591,12 +592,17 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract {
 
         try {
             $this->start();
+            $this->query("SET foreign_key_checks = 0;");
             $this->query($query);
+            $this->query("SET foreign_key_checks = 1;");
             $this->commit();
-        } catch(Exception $e) {
-            $this->revert();
 
-            $message_error = "execSafe error on: '{$this->tableName}' request: '{$query}' execSafe error on: '{$this->tableName}' request: '{$query}'";
+        } catch(Exception $e) {
+
+            $this->revert();
+            $this->query("SET foreign_key_checks = 1;");
+
+            $message_error = "#99009: execSafe error on: '{$this->tableName}' request: '{$query}' execSafe error on: '{$this->tableName}' request: '{$query}'";
 
             $migration_log = sprintf($this->log_error, Siberian_Version::VERSION);
             $this->logger->info($message_error, $migration_log, false);

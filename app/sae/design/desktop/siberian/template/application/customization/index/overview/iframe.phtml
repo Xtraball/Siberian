@@ -14,8 +14,7 @@
             <p id="iphone6_header" class="status_bar iphone6_header toolbar_overview a-center<?php echo $hide_status_bar; ?>" style="display:none;"><?php echo date('H:m'); ?></p>
             <p id="android_header" class="android_header toolbar_overview a-right" style="display:none"><?php echo date('H:m'); ?></p>
 
-<!--            <iframe id="mobile_overview" src="--><?php //echo $this->getApplication()->getUrl("front/mobile_home/iframe", array(), Core_Model_Language::getCurrentLanguage(), true); ?><!--" width="320" height="568" style="overflow: hidden;"></iframe>-->
-            <iframe id="mobile_overview" src="<?php echo $this->getApplication()->getUrl("", array(), Core_Model_Language::getCurrentLanguage(), true); ?>" width="320" height="568" style="overflow: hidden;"></iframe>
+            <iframe id="mobile_overview" width="320" height="568" style="overflow: hidden;"></iframe>
         </div>
     </div>
 </div>
@@ -66,6 +65,7 @@
     });
 
     $(document).ready(function() {
+        $("#mobile_overview").attr("src", "<?php echo $this->getApplication()->getUrl("", array(), Core_Model_Language::getCurrentLanguage(), true); ?>");
         iframe.iframeIsLoaded = function() {
             iframe.content.find("body").removeClass("platform-browser").addClass("platform-ios");
         };

@@ -11,6 +11,7 @@
 
             <h4 style="margin:10px 0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo $this->_('Client'); ?></h4>
             <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname(); ?></p>
+            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $order->getCustomerEmail(); ?></p>
             <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $order->getCustomerStreet(); ?></p>
             <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $order->getCustomerPostcode(); ?> <?php echo $order->getCustomerCity(); ?></p>
             <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $order->getCustomerPhone(); ?></p>

@@ -52,7 +52,7 @@
 #endif
     [NSURLCache setSharedURLCache:sharedCache];
 
-    // Prepare the cache
+    // Prepare the cache AppsMobileCompany
     [NSURLProtocol registerClass:[RNCachingURLProtocol class]];
 
     self = [super init];

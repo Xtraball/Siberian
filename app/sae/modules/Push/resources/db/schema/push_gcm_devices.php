@@ -57,6 +57,9 @@ $schemas['push_gcm_devices'] = array(
         'collation' => 'utf8_unicode_ci',
         'default' => 'active',
     ),
+    'error_count' => array(
+        'type' => 'tinyint(1) unsigned',
+    ),
     'created_at' => array(
         'type' => 'datetime',
     ),

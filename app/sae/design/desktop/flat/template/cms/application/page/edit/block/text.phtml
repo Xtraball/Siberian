@@ -1,0 +1,151 @@
+<?php $block = $this->getCurrentBlock(); ?>
+<?php $option = $this->getCurrentOptionValue(); ?>
+<div id="cms_block_<?php echo $this->getPosition(); ?>" class="category content-white-bkg cms_block text" rel="<?php echo $this->getPosition(); ?>">
+    <div class="control left">
+        <a class="handle" href="javascript:void(0);"><i class="fa fa-arrows"></i></a>
+    </div>
+    <div class="left ckcontainer image_edit container-fluid">
+        <textarea class="ckeditor" rel="<?php echo $this->getPosition(); ?>" name="block[<?php echo $this->getPosition(); ?>][content]"><?php echo $block->getContent(); ?></textarea>
+        <div class="display_image" rel="<?php echo $this->getPosition(); ?>" style="display:none">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--[if gte IE 10]><!-->
+                    <button style="display:block;margin-top:20px" class="btn upload_picture color-blue add" rel="<?php echo $this->getPosition(); ?>" type="button">
+                        <i class="icon-camera-retro"></i>
+                        <?php echo $this->_('Add a'); ?><br /><span class="bold"><?php echo $this->_('picture'); ?></span>
+                    </button>
+                    <!--<![endif]-->
+                    <input style="margin-top:20px;display:none" enctype="multipart/form-data" rel="<?php echo $this->getPosition(); ?>" class="left fileupload fileupload_picture" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center image_cont first-row-feature">
+                    <?php if($block->getImage()) : ?>
+                        <img width="50%" height="50%" src="<?php echo $block->getImageUrl(); ?>"/>
+                        <a style="vertical-align:top; margin-left:5px;display:inline-block;" class="removeimg" onclick="deleteTextImage(<?php echo $this->getPosition(); ?>);" href="javascript:void(0);"><i class="fa fa-times"></i></a>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div style="display:none;" class="param_cont alignment_cont" rel="<?php echo $this->getPosition() ?>">
+                        <div class="cont_title"><?php echo $this->_('Alignment:'); ?></div>
+                        <p>
+                            <a class="btn color-blue alignment <?php if($block->getAlignment() == 'left') : ?>active<?php endif; ?>" href="javascript:void(0);" rel="left"><i class="fa fa-align-left"></i></a>
+                            <a class="btn color-blue alignment <?php if($block->getAlignment() == 'right') : ?>active<?php endif; ?>" href="javascript:void(0);" rel="right"><i class="fa fa-align-right"></i></a>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div style="display:none;" class="param_cont size_cont" rel="<?php echo $this->getPosition() ?>">
+                        <div class="cont_title"><?php echo $this->_('Size:'); ?></div>
+                        <p>
+                            <a class="btn color-blue size <?php if($block->getSize() == 25) : ?>active<?php endif; ?>" href="javascript:void(0);" rel="25"><?php echo $this->_('Small'); ?></a>
+                            <a class="btn color-blue size <?php if($block->getSize() == 35) : ?>active<?php endif; ?>" href="javascript:void(0);" rel="35"><?php echo $this->_('Medium'); ?></a>
+                            <a class="btn color-blue size <?php if($block->getSize() == 45) : ?>active<?php endif; ?>" href="javascript:void(0);" rel="45"><?php echo $this->_('Large'); ?></a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][block_id]" value="<?php echo $block->getBlockId(); ?>" />
+            <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][value_id]" value="<?php echo $block->getValueId(); ?>" />
+            <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][type]" value="<?php echo $block->getType(); ?>" />
+            <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][position]" value="<?php echo $this->getPosition(); ?>" class="hidden_pos" rel="<?php echo $this->getPosition(); ?>" />
+            <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][image]" value="<?php echo $block->getImage(); ?>" class="picture"/>
+            <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][alignment]" value="<?php echo $block->getAlignment(); ?>"/>
+            <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][size]" value="<?php echo $block->getSize(); ?>"/>
+        </div>
+    </div>
+    <div class="control right">
+        <a class="remove" href="javascript:void(0);"><i class="fa fa-times"></i></a>
+    </div>
+    
+    <script type="text/javascript">
+
+        //click boutons options
+        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .param_cont a').click(function() {
+            $(this).parent().find('a').removeClass('active');
+            $(this).addClass('active');
+            updateImage(<?php echo $this->getPosition(); ?>);
+            updateFormText(<?php echo $this->getPosition(); ?>);
+            return false;
+        });
+
+        $('.upload_picture[rel="<?php echo $this->getPosition() ?>"]').click(function() {
+            $('.fileupload[rel="<?php echo $this->getPosition() ?>"]').trigger('click');
+        });
+
+        var uploader = new Uploader();
+        $('.fileupload[rel="<?php echo $this->getPosition() ?>"]').fileupload({
+            dataType: 'json',
+            add: function (e, data) {
+                data.submit();
+                uploader.showProgressbar();
+            },
+            progressall: function (e, data) {
+                uploader.moveProgressbar(data);
+            },
+            done: function (e, data) {
+                if(data.result.error) {
+                    uploader.showError(data.result.message);
+                } else {
+                    uploader.hide();
+                    $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .picture').val(data.result.files);
+                    updateFormText(<?php echo $this->getPosition(); ?>);
+                    //partie edit
+                    $('.cms_block[rel="<?php echo $this->getPosition(); ?>"]').find('.image_cont').html('<img style="width:50%" width="50%" src="<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+data.result.files+'"/><a style="vertical-align:top; margin-left:5px;display:inline-block;" class="removeimg" onclick="deleteTextImage(<?php echo $this->getPosition(); ?>);" href="javascript:void(0);"><i class="fa fa-times"></i></a>');
+                    //partie iframe
+                    var img = $('<img />').attr('src', '<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+data.result.files).addClass('textillus');
+                    var clear = $('<div></div>').addClass('clear');
+                    /*
+                    //block iframe déjà créé
+                    if(iframe.content.find('.cms_block[rel="<?php echo $this->getPosition() ?>"]').length > 0) {
+                        var container = iframe.content.find('.cms_block[rel="<?php echo $this->getPosition() ?>"]');
+                        //Supprime si une image déjà existante
+                        if(container.find('img.textillus').length > 0) {
+                           container.find('img.textillus').remove();
+                        }
+                    //Sinon créé
+                    } else {
+                        var container = $('<div />').addClass('cms_block').addClass('text').attr('rel', <?php echo $this->getPosition() ?>);
+                        iframe.content.find('#cms_page_content_<?php echo $block->getValueId(); ?>').append(container);
+                    }
+                    */
+//                    img.prependTo(container);
+//                    clear.appendTo(container);
+                    updateImage(<?php echo $this->getPosition() ?>);
+                    $('.cms_block[rel="<?php echo $this->getPosition(); ?>"]').find('.param_cont').show();
+
+                }
+            }
+        });
+
+        //ckeditor
+        $('textarea[rel="<?php echo $this->getPosition(); ?>"]').ckeditor(function() {
+
+                /*
+                if(!iframe.content.find('.cms_block[rel="<?php echo $this->getPosition(); ?>"]').length) {
+                    iframe.content.find('#cms_page_content_<?php echo $option->getId(); ?>').append('<div class="cms_block text padding" rel="<?php echo $this->getPosition(); ?>"></div>');
+                }
+                */
+                this.on('change', function (c) {
+                    $('textarea[rel="<?php echo $this->getPosition(); ?>"]').html(this.getData());
+                    updateFormText(<?php echo $this->getPosition(); ?>);
+                    updateContentIframe(this.getData(), <?php echo $this->getPosition(); ?>);
+                }.bind(this));
+                hackCkeditor(<?php echo $this->getPosition(); ?>);
+            },
+            {extraPlugins : 'onchange,cms'}
+        );
+
+        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .remove').click(function(){
+            removeElem(<?php echo $this->getPosition(); ?>);
+        });
+
+        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .handle').mousedown(function(){
+            dragTransformMouseDown($(this));
+        }).mouseup(function(){
+            dragTransformMouseUp($(this));
+        });
+    </script>
+</div>

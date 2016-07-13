@@ -205,7 +205,7 @@ class Siberian_View extends Zend_View
     protected function _script($name)
     {
         /** Siberian local inheritance test */
-        $base_path = Siberian_Design::getBasePath("template/{$name}", self::getDesignType());
+        $base_path = Siberian_Cache_Design::getBasePath("template/{$name}", self::getDesignType());
         if(is_readable($base_path)) {
             return $base_path;
         }

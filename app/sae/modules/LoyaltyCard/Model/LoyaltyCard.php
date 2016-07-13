@@ -22,4 +22,8 @@ class LoyaltyCard_Model_LoyaltyCard extends Core_Model_Default
         $this->setId(null)->setValueId($option->getId())->save();
         return $this;
     }
+
+    public function getAppIdByLoyaltycardId() {
+        return $this->getTable()->getAppIdByLoyaltycardId();
+    }
 }

@@ -8,7 +8,7 @@
 <?php $pntopic = new Topic_Model_Topic(); ?>
 <?php $pntopic->find(array("app_id" => $option->getAppId())); ?>
 <?php $customers = array(); ?>
-<?php if(Push_Model_Message::hasTargetedNotificationsModule()): ?>
+<?php if(Push_Model_Message::hasIndividualPush()): ?>
 <?php $customer = new Customer_Model_Customer(); ?>
 <?php $customers = $customer->findAllWithDeviceUid($option->getAppId()); ?>
 <?php endif; ?>
@@ -289,7 +289,7 @@
                                     <?php echo $this->_("Send to all my users"); ?>
                                 </label>
                             </div>
-                            <?php if(Push_Model_Message::hasTargetedNotificationsModule()): ?>
+                            <?php if(Push_Model_Message::hasIndividualPush()): ?>
                             <div>
                                 <label for="all_user_2" class="radio" onclick="customers.show();">
                                     <input type="radio" id="all_user_2" name="topic_user" class="use_gmaps" value="1" />
@@ -331,7 +331,7 @@
                                 <?php endif; ?>
                             </ul>
                         </div>
-                        <?php if(Push_Model_Message::hasTargetedNotificationsModule()): ?>
+                        <?php if(Push_Model_Message::hasIndividualPush()): ?>
                         <div id="customers_list" style="display:none">
                             <table id="table_customers_list" width="615px">
                                 <col width="35px" />
@@ -420,7 +420,8 @@
                                 <div class="clear"><br /></div>
                             </div>
 
-                            <div class="relative is_geolocated">
+                            <!-- @TODO fix geolocated push ios/android -->
+                            <!--div class="relative is_geolocated">
                                 <span class="block left"><?php echo $this->_("and users entering the area"); ?></span>
                                 <ul class="clear left">
                                     <li class="no-padding">
@@ -440,7 +441,7 @@
                                     <input type="text" id="push_datepicker_send_until" class="push_datetimepicker required form-control" name="send_until" value="" style="display:none;" />
                                 </div>
                                 <div class="clear"></div>
-                            </div>
+                            </div-->
 
 <!--                            <select id="sent_until" class="is_geolocated push_select left" tabindex="2">
                                 <option>sans limite</option>

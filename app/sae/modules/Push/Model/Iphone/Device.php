@@ -31,6 +31,12 @@ class Push_Model_Iphone_Device extends Core_Model_Default {
         return $this;
     }
 
+    /**
+     * @param $app_id
+     * @param null $topics
+     * @param null $customers
+     * @return Push_Model_Iphone_Device[]
+     */
     public function findByAppId($app_id, $topics = null, $customers = null) {
         return $this->getTable()->findByAppId($app_id, $topics, $customers);
     }

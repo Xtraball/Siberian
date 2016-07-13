@@ -230,4 +230,21 @@ abstract class Core_View_Default_Abstract extends Siberian_View
         return $nav->menu();
     }
 
+
+    /**
+     * Custom background for features
+     *
+     * @param $option
+     * @return mixed
+     */
+    public function importBackground($option_value) {
+
+        $background_section = $this->getLayout()
+            ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image-2.phtml')
+            ->setValueId($option_value->getId())
+            ->toHtml();
+
+        return $background_section;
+    }
+
 }

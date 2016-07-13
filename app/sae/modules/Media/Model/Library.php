@@ -24,6 +24,25 @@ class Media_Model_Library extends Core_Model_Default {
 
     }
 
+    public function getFirstIcon() {
+        if(!$this->getId()) {
+            return $this;
+        }
+
+        $image = new Media_Model_Library_Image();
+
+        $db = $image->getTable();
+        $select = $db->select()->where("library_id = ?", $this->getId())->order("image_id ASC");
+
+        $result = $db->fetchRow($select);
+
+        if($result){
+            return $image->find($result->getId());
+        }
+
+        return $this;
+    }
+
     /**
      * @alias $this->getImages();
      */
@@ -58,6 +77,22 @@ class Media_Model_Library extends Core_Model_Default {
                 ->save();
         }
 
+    }
+
+    /**
+     * Fetch the Library associated with this option, regarding the Design (siberian, flat, ...)
+     *
+     * @param $library_id
+     * @return $this
+     */
+    public function getLibraryForDesign($library_id) {
+        $this->find($library_id);
+
+        $library_name = (design_code() == "flat") ? "{$this->getName()}-flat" : $this->getName();
+
+        $this->find($library_name, "name");
+
+        return $this;
     }
 
 }

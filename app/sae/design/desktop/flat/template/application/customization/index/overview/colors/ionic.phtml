@@ -1,0 +1,16 @@
+<div id="iphone">
+    <div class="iphone_content">
+        <p id="iphone_header" class="status_bar iphone_header toolbar_overview a-center"><?php echo date('H:m'); ?></p>
+        <iframe id="mobile_overview" src="<?php echo $this->getApplication()->getIonicUrl("application/mobile_customization_colors", array(), null, true); ?>" width="323" height="580" style="overflow: hidden;"></iframe>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        iframe.iframeIsLoaded = function() {
+            iframe.content.find("body").removeClass("platform-browser").addClass("platform-ios");
+        };
+    });
+
+</script>

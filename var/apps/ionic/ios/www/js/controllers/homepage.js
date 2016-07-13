@@ -19,7 +19,7 @@ App.config(function ($stateProvider, $urlRouterProvider) {
         if($window.localStorage.getItem('sb-uc')) {
             Padlock.unlock_by_qrcode = true;
         }
-        
+
         HomepageLayout.getFeatures().then(function (features) {
 
             $scope.layout_id = HomepageLayout.properties.layoutId;

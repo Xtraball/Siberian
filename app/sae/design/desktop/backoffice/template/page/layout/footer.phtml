@@ -1,9 +1,10 @@
 <div class="wrapper footer_content">
     <div class="content copyright a-right wl_panel">
         <p>
-            <?php echo $this->_("Version %s", Siberian_Version::VERSION); ?>
-            <?php if(APPLICATION_ENV == "development"): ?>
-                - <?php echo $this->_("Development"); ?>
+
+            <?php echo $this->_("%s - v%s", Siberian_Version::TYPE, Siberian_Version::VERSION); ?>
+            <?php if(APPLICATION_ENV != "production"): ?>
+                - <?php echo ucfirst($this->_(APPLICATION_ENV)); ?>
             <?php endif; ?>
         </p>
 

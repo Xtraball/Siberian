@@ -10,6 +10,16 @@ class Application_Customization_FeaturesController extends Application_Controlle
         }
     }
 
+    public function preloadAction() {
+        $view = new Application_View_Customization_Features_List_Options();
+        $option = new Application_Model_Option();
+        $options = $option->findAll(array());
+        foreach($options as $option) {
+            $view->getIconUrl($option);
+        }
+        $this->_sendHtml(array("succes" => 1));
+    }
+
     public function editAction() {
 
         if($type = $this->getRequest()->getParam('type')) {
@@ -56,6 +66,8 @@ class Application_Customization_FeaturesController extends Application_Controlle
                     'position' => $option_value->getPosition() ? $option_value->getPosition() : 0,
                     'is_visible' => 1
                 ))->addData($datas);
+
+                $option_value->setIconId($option->getDefaultIconId());
 
                 // Sauvegarde
                 $option_value->save();
@@ -233,12 +245,18 @@ class Application_Customization_FeaturesController extends Application_Controlle
                         $icon_url = $this->_getColorizedImage($icon->getImageId(), $option_value->getIconColor());
                     }
 
+                    $icon_url_reverse_color = null;
+                    if($icon_reverse_color = $option_value->getIconReverseColor()) {
+                        $icon_url_reverse_color = $this->_getColorizedImage($icon->getImageId(), $icon_reverse_color);
+                    }
+
                     $html = array(
                         'success' => 1,
                         'icon_id' => $icon->getId(),
                         'icon_url' => $icon_url,
                         'colored_icon_url' => $this->getUrl('template/block/colorize', array('id' => $option_value->getIconId(), 'color' => str_replace('#', '', $icon_color))),
-                        'colored_header_icon_url' => $icon_saved['colored_header_icon_url']
+                        'colored_header_icon_url' => $icon_saved['colored_header_icon_url'],
+                        'colored_reverse_color_icon_url' => $icon_url_reverse_color
                     );
 
                 } else {
@@ -275,7 +293,8 @@ class Application_Customization_FeaturesController extends Application_Controlle
             $icon = new Media_Model_Library_Image();
             $icon->find($icon_id);
 
-            if(!$icon->getId() OR $icon->getLibraryId() != $option_value->getLibraryId() && $option_value->getCode() != 'folder') {
+
+            if(!$icon->getId() OR $icon->getLibraryId() != $option_value->getLibrary()->getId() && $option_value->getCode() != 'folder') {
                 throw new Exception($this->_('An error occurred while saving. The selected icon is not valid.'));
             }
 
@@ -300,9 +319,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
             return $return;
 
         } catch(Exception $e) {
-
             return false;
-
         }
 
     }
@@ -467,7 +484,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                     } else {
 
                         $icon_lib = new Media_Model_Library_Image();
-                        $icon_lib->setLibraryId($option_value->getLibraryId())
+                        $icon_lib->setLibraryId($option_value->getLibrary()->getId())
                             ->setLink('/'.$formated_library_name.'/'.$file)
                             ->setOptionId($option_value->getOptionId())
                             ->setAppId($app_id)

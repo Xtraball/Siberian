@@ -27,7 +27,7 @@ class Mcommerce_Model_Utility {
     }
 
     static public function truncatePrice($price, $decimals = 2) {
-        return number_format(floor(($price * pow(10, $decimals))) / pow(10, $decimals), $decimals);
+        return number_format(floor(($price * pow(10, $decimals))) / pow(10, $decimals), $decimals, '.', '');
     }
 
     static public function roundPrice($price, $decimals = 2) {

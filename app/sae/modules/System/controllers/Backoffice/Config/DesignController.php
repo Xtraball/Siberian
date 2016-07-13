@@ -2,13 +2,17 @@
 
 class System_Backoffice_Config_DesignController extends System_Controller_Backoffice_Default {
 
-    protected $_codes = array("favicon", "logo");
+    protected $_codes = array("editor_design", "favicon", "logo");
 
     public function loadAction() {
 
         $html = array(
             "title" => $this->_("Appearance"),
             "icon" => "fa-pencil",
+            "message" => array(
+                "flat" => $this->_("<b>File types:</b> %s<br /><b>Recommended size:</b> %s", "png, jpg, jpeg, gif", "345x85px"),
+                "siberian" => $this->_("<b>File types:</b> %s<br /><b>Recommended size:</b> %s", "png, jpg, jpeg, gif", "150x50px")
+            )
         );
 
         $this->_sendHtml($html);
@@ -69,6 +73,12 @@ class System_Backoffice_Config_DesignController extends System_Controller_Backof
 
         }
 
+    }
+
+    protected function _findconfig() {
+        $data = parent::_findconfig();
+        $data["designs"] = Core_Model_Directory::getDesignsFor("desktop");
+        return $data;
     }
 
 }

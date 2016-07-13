@@ -232,6 +232,11 @@
                 </div>
                 <?php $method = $store->getPaymentMethod("stripe")->getInstance(); ?>
                 <div class="form-group stripe_data"<?php if(!$method->getId()) : ?>style="display:none;"<?php endif; ?>>
+                    <div class="col-sm-12">
+                        <label><h4><?php echo $this->_("Stripe settings"); ?></h4></label>
+                    </div>
+                </div>
+                <div class="form-group stripe_data"<?php if(!$method->getId()) : ?>style="display:none;"<?php endif; ?>>
                     <div class="col-sm-4">
                         <label for="stripe_secret_key"><?php echo $this->_("Secret Key:"); ?> <span class="input-required">*</span></label>
                     </div>

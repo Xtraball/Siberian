@@ -41,9 +41,15 @@ class LoyaltyCard_Model_Db_Table_LoyaltyCard extends Core_Model_Db_Table
             require_once 'Zend/Loader.php';
             Zend_Loader::loadClass($rowsetClass);
         }
-
         return new $rowsetClass($data);
+    }
 
+    public function getAppIdByLoyaltycardId() {
+        $select = $this->select()
+            ->from($this->_name, array('card_id'))
+            ->joinLeft('application_option_value',$this->_name.'.value_id = application_option_value.value_id','app_id')
+            ->setIntegrityCheck(false);
+        return $this->_db->fetchAssoc($select);
     }
 
 }

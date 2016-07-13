@@ -1,6 +1,6 @@
 "use strict";
 
-App.directive('sbTabbar', function ($ionicHistory, $ionicModal, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $location, $rootScope, $timeout, $translate, $window, Application, Customer, Dialog, HomepageLayout, Pages, Url, AUTH_EVENTS, PADLOCK_EVENTS, PUSH_EVENTS) {
+App.directive('sbTabbar', function ($ionicHistory, $ionicModal, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $location, $rootScope, $timeout, $translate, $window, Analytics, Application, Customer, Dialog, HomepageLayout, Pages, Url, AUTH_EVENTS, PADLOCK_EVENTS, PUSH_EVENTS) {
     return {
         restrict: 'A',
         templateUrl: function() {
@@ -116,6 +116,8 @@ App.directive('sbTabbar', function ($ionicHistory, $ionicModal, $ionicSlideBoxDe
                 if(attrs.isDisabled) return false;
 
                 if(feature.code == "tabbar_account") {
+                    var account_feature = { id: 0 };
+                    Analytics.storePageOpening(account_feature);
                     $scope.login();
                 } else if(feature.code == "tabbar_more") {
                     $scope.tabbar_is_visible = false;
@@ -132,7 +134,10 @@ App.directive('sbTabbar', function ($ionicHistory, $ionicModal, $ionicSlideBoxDe
                     } else {
                         $window.open(feature.url, $rootScope.getTargetForLink(), "location=no");
                     }
+
+                    Analytics.storePageOpening(feature);
                 } else {
+                    Analytics.storePageOpening(feature);
                     $location.path(feature.path);
                 }
 

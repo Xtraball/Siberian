@@ -91,6 +91,9 @@ class Application_Model_Device extends Core_Model_Default {
         if($alias != $app_id) {
             $alias .= "-$app_id";
         }
+
+        # TG-196, remove blank characters
+        $alias = preg_replace('/\s+/', '-', trim($alias));
         
         return $alias;
     }

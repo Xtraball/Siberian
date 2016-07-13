@@ -1,0 +1,18 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $application = $this->getApplication(); ?>
+<div class="container-fluid">
+    <div id="list" class="row">
+        <div class="col-md-12 text-center">
+            <h4 class="well"><?php echo $this->_("This feature allows your users to calculate tips with their app."); ?></h4>
+        </div>
+    </div>
+</div>
+<div>
+    <?php
+    echo $this->getLayout()
+        ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
+        ->setValueId($option_value->getId())
+        ->toHtml()
+    ;
+    ?>
+</div>

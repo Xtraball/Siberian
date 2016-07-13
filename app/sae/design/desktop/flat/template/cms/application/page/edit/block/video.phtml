@@ -1,0 +1,464 @@
+<?php $block = $this->getCurrentBlock(); ?>
+<?php $video = $block->getObject(); ?>
+<?php $youtube_is_available = (bool) Api_Model_Key::findKeysFor('youtube')->getApiKey(); ?>
+<div id="cms_block_<?php echo $this->getPosition(); ?>" class="category content-white-bkg cms_block video" rel="<?php echo $this->getPosition(); ?>">
+    <input type="hidden" class="typeChoose" value="<?php echo $video->getTypeId(); ?>" position="<?php echo $this->getPosition(); ?>" />
+    <div class="control left">
+        <a class="handle" href="javascript:void(0);"><i class="fa fa-arrows"></i></a>
+    </div>
+    <?php if(!$video->getId()) : ?>
+        <div class="row">
+            <div class="col-md-12 subcontent">
+                <?php echo $this->_('Select a video type:'); ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="row">
+                    <div class="col-md-4 video_type">
+                        <a href="#" class="color-blue btn link_video capitalize <?php if($youtube_is_available) : ?> link_video_<?php echo $this->getPosition(); ?><?php else : ?>" onclick="featureNotAvailable(); return false;<?php endif; ?>" rel="cms_block_youtube_<?php echo $this->getPosition(); ?>" data-type="youtube">
+                            <img src="<?php echo $this->getImage('pictos/youtube.png'); ?>" title="<?php echo $this->_('Youtube'); ?>" alt="<?php echo $this->_('Youtube'); ?>" width="64" height="64" />
+                            <br/><span><?php echo $this->_('Youtube') ?></span>
+                        </a>
+                    </div>
+                    <div class="col-md-4 video_type">
+                        <a href="#" class="color-blue btn link_video capitalize link_video_<?php echo $this->getPosition(); ?>" rel="cms_block_podcast_<?php echo $this->getPosition(); ?>" data-type="podcast">
+                            <img src="<?php echo $this->getImage('pictos/podcast.png'); ?>" title="<?php echo $this->_('Podcast'); ?>" alt="<?php echo $this->_('Podcast'); ?>" width="64" height="64" />
+                            <br/><span><?php echo $this->_('Podcast') ?></span>
+                        </a>
+                    </div>
+                    <div class="col-md-4 video_type">
+                        <a href="#" class="color-blue btn link_video capitalize link_video_<?php echo $this->getPosition(); ?>" rel="cms_block_video_<?php echo $this->getPosition(); ?>" data-type="link">
+                            <img src="<?php echo $this->getImage('pictos/my_video.png'); ?>" title="<?php echo $this->_('My video'); ?>" alt="<?php echo $this->_('My video'); ?>" width="64" height="64" />
+                            <br/><span><?php echo $this->_('My video') ?></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+    <div class="control right">
+        <a class="remove" href="javascript:void(0);"><i class="fa fa-times"></i></a>
+    </div>
+    
+    <?php if(!$video->getId() OR $video->getTypeId() == 'youtube') : ?>
+    <div id="cms_block_youtube_<?php echo $this->getPosition(); ?>" style="<?php if(!$video OR $video AND $video->getTypeId() != 'youtube') : ?> display: none;<?php endif; ?>" class="block_video" rel="<?php echo $this->getPosition(); ?>" data-type="youtube">
+        <div class="display_image">
+            <div class="description_cont" rel="<?php echo $this->getPosition() ?>">
+                <?php if(!$video->getId()) : ?>
+                <form name="youtubeForm" class="form-horizontal" action="<?php echo $this->getUrl('cms/application_page_block_video/search'); ?>" onsubmit="searchVideos($(this)); return false;" data-type="youtube">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="youtube_search_<?php echo $block->getId(); ?>" class="cont_title" style="line-height: 40px; padding-right: 10px"><?php echo $this->_('Make a search or enter the Youtube Url:'); ?></label><br />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <input type="text" id="youtube_search_<?php echo $block->getId(); ?>" name="block[<?php echo $this->getPosition(); ?>][search]" value="<?php if($video->getTypeId() == 'youtube') echo $video->getSearch(); ?>" class="required youtube_search input-flat input_search_<?php echo $this->getPosition(); ?> left input-flat" />
+                            <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][type_id]" value="youtube" />
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn color-blue get_youtube find_videos_<?php echo $this->getPosition(); ?>" rel="<?php echo $this->getPosition(); ?>"><?php echo $this->_('OK'); ?></button>
+                        </div>
+                    </div>
+                </form>
+                <?php endif; ?>
+
+                <div class="bottom_row param_cont">
+                    <?php if($video->getId()) : ?>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php echo $this->_('My Youtube video:'); ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <img width="192" title="<?php echo $video->getDescription(); ?>" src="<?php echo $video->getImageUrl(); ?>" />
+                                <p><?php echo $video->getSearch(); ?></p>
+                                <p><?php echo $video->getDescription(); ?></p>
+                                <input type="hidden" id="youtube_search_<?php echo $block->getId(); ?>" name="block[<?php echo $this->getPosition(); ?>][search]" value="<?php if($video->getTypeId() == 'youtube') echo $video->getSearch(); ?>" class="youtube_search input input_search_<?php echo $this->getPosition(); ?> left input-flat" />
+                                <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][type_id]" value="youtube" />
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+                <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][block_id]" value="<?php echo $block->getBlockId(); ?>" />
+                <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][value_id]" value="<?php echo $block->getValueId(); ?>" />
+                <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][type]" value="video" />
+                <input type="hidden" class="youtube video_link" id="youtube_<?php echo $this->getPosition(); ?>" rel="<?php echo $this->getPosition(); ?>" name="block[<?php echo $this->getPosition(); ?>][youtube]" value="<?php echo $video->getYoutube(); ?>"/>
+                <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][position]" value="<?php echo $this->getPosition(); ?>" class="hidden_pos" rel="<?php echo $this->getPosition(); ?>" />
+                <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][description]" value="<?php echo $video->getDescription(); ?>" class="video_description" rel="<?php echo $this->getPosition(); ?>" />
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <?php if(!$video->getId() OR $video->getTypeId() == 'podcast') : ?>
+    <div id="cms_block_podcast_<?php echo $this->getPosition(); ?>" style=";<?php if(!$video OR $video AND $video->getTypeId() != 'podcast') : ?> display: none;<?php endif; ?>" class="block_video" rel="<?php echo $this->getPosition(); ?>" data-type="podcast">
+        <div class="display_image">
+            <div class="description_cont" rel="<?php echo $this->getPosition() ?>">
+                <?php if(!$video->getId()) : ?>
+                <form name="podcastForm" action="<?php echo $this->getUrl('cms/application_page_block_video/search'); ?>" onsubmit="searchVideos($(this)); return false;" data-type="podcast">
+                    <div class="top_row row">
+                        <div class="col-md-12">
+                            <label for="podcast_<?php echo $block->getId(); ?>" class="cont_title" style="line-height: 40px; padding-right: 10px"><?php echo $this->_('Podcast URL:'); ?> </label>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <input type="text" id="podcast_search_<?php echo $block->getId(); ?>" name="block[<?php echo $this->getPosition(); ?>][search]" value="<?php if($video->getTypeId() == 'podcast') echo $video->getSearch(); ?>" class="podcast_search url input-flat required"/>
+                                    <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][type_id]" value="podcast" />
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="submit" class="btn color-blue get_podcast find_videos_<?php echo $this->getPosition(); ?>" rel="<?php echo $this->getPosition(); ?>"><?php echo $this->_('OK'); ?></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <?php endif; ?>
+
+                <div class="bottom_row param_cont">
+                    <?php if($video->getId()) : ?>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php echo $this->_('Your Podcast:'); ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <img width="192" title="<?php echo $video->getDescription(); ?>" src="<?php echo $video->getImageUrl(); ?>" />
+                                <p class="block"><?php echo $video->getDescription(); ?></p>
+                                <input type="hidden" id="podcast_search_<?php echo $block->getId(); ?>" name="block[<?php echo $this->getPosition(); ?>][search]" value="<?php if($video->getTypeId() == 'podcast') echo $video->getSearch(); ?>" class="podcast_search input left url input-flat"/>
+                                <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][type_id]" value="podcast" />
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+                <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][image]" value="<?php echo $video->getImage(); ?>" class="image video_image" rel="<?php echo $this->getPosition(); ?>" />
+                <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][block_id]" value="<?php echo $block->getBlockId(); ?>" />
+                <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][value_id]" value="<?php echo $block->getValueId(); ?>" />
+                <input type="hidden" class="podcast video_link" id="podcast_<?php echo $this->getPosition(); ?>" rel="<?php echo $this->getPosition(); ?>" name="block[<?php echo $this->getPosition(); ?>][link]" value="<?php echo $video->getLink(); ?>"/>
+                <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][type]" value="video" />
+                <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][position]" value="<?php echo $this->getPosition(); ?>" class="hidden_pos" rel="<?php echo $this->getPosition(); ?>" />
+                <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][description]" value="<?php echo $video->getDescription(); ?>" class="video_description" rel="<?php echo $this->getPosition(); ?>" />
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <?php if(!$video->getId() OR $video->getTypeId() == 'link') : ?>
+    <div id="cms_block_video_<?php echo $this->getPosition(); ?>" style=";<?php if(!$video OR $video AND $video->getTypeId() != 'link') : ?> display: none;<?php endif; ?>" class="block_video" rel="<?php echo $this->getPosition(); ?>" data-type="link">
+        <div class="display_image">
+            <div class="description_cont" rel="<?php echo $this->getPosition() ?>">
+                <div class="top_row row">
+                    <div class="col-md-6">
+                        <label for="video_<?php echo $block->getId(); ?>" class="cont_title block"><?php echo $this->_('Video URL:'); ?></label>
+                        <input type="text" id="video_<?php echo $block->getId(); ?>" placeholder="<?php echo $this->_('.mp4 or .3gp format'); ?>" name="block[<?php echo $this->getPosition(); ?>][link]" value="<?php echo $video->getLink() ?>" class="video required url input-flat" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="cont_title block"><?php echo $this->_('Loading picture:'); ?></label>
+                        <!--[if gte IE 10]><!-->
+                        <button type="button" class="upload_picture image_left color-blue btn add" rel="<?php echo $this->getPosition(); ?>">
+                            <i class="fa fa-camera-retro"></i>
+                            <?php echo $this->_('Add a'); ?><br /><span class="bold"><?php echo $this->_('Picture'); ?></span>
+                        </button>
+                        <!--<![endif]-->
+                        <input style="display:none" enctype="multipart/form-data" rel="<?php echo $this->getPosition(); ?>" class="left fileupload fileupload_picture" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+                    </div>
+                </div>
+                <div class="bottom_row param_cont row">
+                    <div class="col-md-6">
+                        <label for="description_<?php echo $block->getId(); ?>" class="cont_title block"><?php echo $this->_('Description:'); ?></label>
+                        <input type="text" id="description_<?php echo $block->getId(); ?>" name="block[<?php echo $this->getPosition(); ?>][description]" value="<?php echo $video->getDescription() ?>" class="input-flat description"/>
+                    </div>
+                    <div class="col-md-6 first-row-feature">
+                        <div rel="<?php echo $this->getPosition(); ?>" class="cont_poster">
+                            <img width="200px" src="<?php if($video->getTypeId() == 'link') echo $video->getImageUrl(); ?>" class="poster pull-left" style="<?php if(!$video->getImage()) echo "display:none"; ?>" />
+                                <?php if ($video->getImage()) : ?>
+                                <a class="removeimg" onclick="deleteImageVideo(this);" href="javascript:void(0);"><i class="fa fa-times"></i></a>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][image]" value="<?php echo $block->getImage(); ?>" class="image" />
+                <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][block_id]" value="<?php echo $block->getBlockId(); ?>" />
+                <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][value_id]" value="<?php echo $block->getValueId(); ?>" />
+                <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][type]" value="video" />
+                <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][type_id]" value="link" />
+                <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][position]" value="<?php echo $this->getPosition(); ?>" class="hidden_pos" rel="<?php echo $this->getPosition(); ?>"  />
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+    
+    <script type="text/javascript">
+
+        $('.link_video_<?php echo $this->getPosition(); ?>').click(function() {
+            var type = $(this).attr('data-type');
+            $('.block_video[rel="<?php echo $this->getPosition(); ?>"]').each(function() {
+                if($(this).attr('data-type') == type) $(this).show().find('input').removeAttr('disabled');
+                else $(this).hide().find('input').attr('disabled', 'disabled');
+            });
+
+            var myparent = $(this.parentNode.parentNode.parentNode);
+
+            $('.typeChoose', myparent).val(type);
+            return false;
+        });
+
+        $('.upload_picture[rel="<?php echo $this->getPosition() ?>"]').click(function() {
+            $('.fileupload[rel="<?php echo $this->getPosition() ?>"]').trigger('click');
+        });
+
+        //Fix IE
+        if ($('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .upload_picture').length < 1) {
+            $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .fileupload_picture').show();
+        }
+
+        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] input.url.required').blur(function() {
+            var input = $(this);
+            if(!input.val().isEmpty()) {
+                if(!input.val().startsWith('http://') && !input.val().startsWith('https://')) {
+                    !input.val('http://'+input.val());
+                }
+            }
+        });
+
+        var poster_uploader = new Uploader();
+        $('.fileupload[rel="<?php echo $this->getPosition() ?>"]').fileupload({
+            dataType: 'json',
+            add: function(e, data) {
+                data.submit();
+                poster_uploader.showProgressbar();
+            },
+            progressall: function(e, data) {
+                poster_uploader.moveProgressbar(data);
+            },
+            done: function(e, data) {
+                if (data.result.error) {
+                    poster_uploader.showError(data.result.message);
+                } else {
+                    poster_uploader.hide();
+                    var params = new Array();
+                    params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+                    params["file"] = data.result.files;
+                    var width = 500;
+                    var height = 300;
+                    /*
+                    if (iframe.content.find('.cms_block[rel="<?php echo $this->getPosition(); ?>"]').find('video').length > 0) {
+                        width = iframe.content.find('.cms_block[rel="<?php echo $this->getPosition(); ?>"]').find('video').width();
+                        height = iframe.content.find('.cms_block[rel="<?php echo $this->getPosition(); ?>"]').find('video').height();
+                    }
+                    */
+                    params["output_w"] = width;
+                    params["output_h"] = height;
+                    params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('cms/application_page/cropvideo')) ?>';
+                    params["uploader"] = 'poster_uploader';
+                    poster_uploader.crop(params);
+                    poster_uploader.callback = function(file) {
+                        var filepath = '<?php echo Core_Model_Directory::getTmpDirectory() ?>/' + file;
+                        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .poster').attr('src', filepath).show();
+                        var btn_remove = '<a class="right removeimg" onclick="deleteImageVideo(this);" href="javascript:void(0);"><i class="fa fa-times"></i></a>';
+                        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .cont_poster .removeimg').remove();
+                        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .cont_poster').append(btn_remove);
+                        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] input[name="block[<?php echo $this->getPosition(); ?>][image]"]').val(file);
+                        /*
+                        iframe.content.find('.cms_block[rel="<?php echo $this->getPosition(); ?>"] video').attr('poster', filepath);
+                        */
+                    }
+                }
+            }
+        });
+
+        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] input.video').change(function() {
+            updateVideo(<?php echo $this->getPosition(); ?>);
+        });
+
+        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] input.description').keyup(function() {
+            updateDescVideo(<?php echo $this->getPosition(); ?>);
+        });
+
+        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .remove').click(function() {
+            removeElem(<?php echo $this->getPosition(); ?>);
+        });
+
+        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .handle').mousedown(function() {
+            dragTransformMouseDown($(this));
+        }).mouseup(function() {
+            dragTransformMouseUp($(this));
+        });
+
+        function searchVideos(form) {
+
+            var input = form.find('input.url.required');
+            if(input.length && !input.val().isEmpty()) {
+                if(!input.val().startsWith('http://') && !input.val().startsWith('https://')) {
+                    !input.val('http://'+input.val());
+                }
+            }
+
+            if(!form.valid()) return false;
+            var type = form.attr('data-type');
+            var container = form.next('.bottom_row');
+            reload(form, '<?php echo $this->getUrl('cms/application_page_block_video/search'); ?>', true, function(datas) {
+
+                container.find('.selectVideo').unbind('click');
+                container.html(datas.layout);
+
+                var carousel_videos = container.find('.search_carousel');
+                var ul = carousel_videos.find('ul.search_videos_list');
+                if(ul.length) {
+                    var collection = container.find('.selectVideo');
+                    var description = container.find('.video_description');
+                    var link = container.parent().find('.video_link');
+                    var image = container.parent().find('.video_image');
+
+                    if(collection.length == 1) {
+                        var video = container.find('.selectVideo:first-child');
+                        description.val(video.attr('title'));
+                        link.val(video.attr('rel'));
+                        image.val(video.attr('data-image'));
+                    }
+                    else {
+                        ul.sbCarousel({items_per_page:3, next_button:carousel_videos.find('button.next'), prev_button: carousel_videos.find('button.previous')});
+                        ul.data('carousel').update();
+
+                        collection.click(function() {
+                            collection.css('opacity', '1');
+                            $(this).css('opacity', '0.4');
+                            description.val($(this).attr('title'));
+                            link.val($(this).attr('rel'));
+                            image.val($(this).attr('data-image'));
+                            return false;
+                        });
+
+                        if (!link.val().isEmpty()) {
+                            collection.css('opacity', '1');
+                            collection.each(function() {
+                                if($(this).attr('rel') == link.val()) {
+                                    $(this).css('opacity', '0.4');
+                                    ul.data('carousel').slideToItem($(this).parent('li'));
+                                }
+                            });
+                        }
+                    }
+
+                }
+
+                return false;
+            });
+
+        }
+//        $('.find_videos_<?php echo $this->getPosition(); ?>').click(function() {
+////        $('.get_youtube[rel="<?php echo $this->getPosition(); ?>"]').click(function() {
+//            var myparent = $(this.parentNode.parentNode.parentNode);
+//            var type = $(this).attr('data-type');
+//            console.log(type);
+////            var error = false;
+////            if ($('.youtube_search', myparent).val().isEmpty()) {
+////                $('.youtube_search', myparent).addClass('error');
+////                error = true;
+////            }
+////            else {
+////                $('.youtube_search', myparent).removeClass('error');
+////                error = false;
+////            }
+////            if (error == true) {
+////                return false;
+////            }
+//
+//            reload(myparent, '<?php echo $this->getUrl('cms/application_page_block_video/search'); ?>', true, function(datas) {
+//
+//                myparent.find('.selectVideo').unbind('click');
+//                $('.param_cont', myparent).html(datas.layout);
+//
+//                var youtubeCollection = myparent.find('.selectVideo');
+//                var carousel_videos = myparent.find('.search_carousel');
+//                var ul = carousel_videos.find('ul.search_videos_list');
+//                ul.carousel({items_per_page:3, next_button:carousel_videos.find('button.next'), prev_button: carousel_videos.find('button.previous')});
+//                ul.data('carousel').update();
+//
+//                youtubeCollection.click(function() {
+//                    youtubeCollection.each(function() {
+//                        $(this).css('opacity', '1');
+//                    });
+//
+//                    $(this).css('opacity', '0.4');
+//
+//                    $('.video_description[rel="<?php echo $this->getPosition(); ?>"]').val($(this).attr('title'));
+//
+//                    $('#youtube_<?php echo $this->getPosition(); ?>').val($(this).attr('rel'));
+//
+//                    return false;
+//                });
+//
+//                if (!$('#youtube_<?php echo $this->getPosition(); ?>').val().isEmpty()) {
+//                    youtubeCollection.css('opacity', '1');
+//                    $('.selectVideo[rel="' + $('#youtube_<?php echo $this->getPosition(); ?>').val() + '"]').css('opacity', '0.4');
+//                }
+//                return false;
+//            });
+//
+//            return false;
+//        });
+
+//        $('.get_podcast[rel="<?php echo $this->getPosition(); ?>"]').click(function() {
+//
+//            var myparent = $(this.parentNode.parentNode.parentNode);
+//            if ($('.podcast_search', myparent).val().isEmpty()) {
+//                $('.podcast_search', myparent).addClass('error');
+//                error = true;
+//            }
+//            else {
+//                $('.podcast_search', myparent).removeClass('error');
+//                error = false;
+//            }
+//            if (error == true) {
+//                return false;
+//            }
+//
+//            reload(myparent, '<?php echo $this->getUrl('cms/application_page_block_video/search'); ?>', true, function(datas) {
+//
+//                myparent.find('.selectVideo').unbind('click');
+//                $('.param_cont', myparent).html(datas.layout);
+//                var podcastCollection = myparent.find('.selectVideo');
+//                podcastCollection.click(function() {
+//                    $('.podcastImage', myparent.parentNode).attr('src', $(this).attr('image'));
+//
+//                    podcastCollection.css('color', '');
+//                    $('.video_description[rel="<?php echo $this->getPosition(); ?>"]').val($(this).attr('title'));
+//                    $('.video_image[rel="<?php echo $this->getPosition(); ?>"]').val($(this).attr('image'));
+//                    $(this).css('color', 'red');
+//
+//                    $('.podcast', myparent.parentNode).val($(this).attr('rel'));
+//                    return false;
+//                });
+//
+//                if (!$('#podcast_<?php echo $this->getPosition(); ?>').val().isEmpty()) {
+//                    $('.podcastImage', myparent.parentNode).attr('src', $('.selectVideo[rel="' + $('#podcast_<?php echo $this->getPosition(); ?>').val() + '"]').attr('image'));
+//                    podcastCollection.css('color', '');
+//                    $('.selectVideo[rel="' + $('#podcast_<?php echo $this->getPosition(); ?>').val() + '"]', myparent.parentNode).css('color', 'red');
+//                }
+//
+//
+//                return false;
+//            });
+//
+//            return false;
+//        });
+
+    <?php /*if ($youtubeSearch != NULL) : ?>
+        $(".get_youtube_<?php echo $this->getPosition(); ?>").trigger("click");
+    <?php endif; ?>
+    <?php if ($podcastSearch != NULL) : ?>
+        $(".get_podcast_<?php echo $this->getPosition(); ?>").trigger("click");
+    <?php endif;*/ ?>
+    </script>
+    <style>
+        .link_video{
+            width:100%;
+            height:100px;
+        }
+    </style>
+</div>

@@ -3,19 +3,18 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-        <meta http-equiv="Content-Security-Policy" content="default-src *; script-src * 'unsafe-inline' 'unsafe-eval'; object-src *; style-src * 'unsafe-inline'; img-src * data:; media-src *; frame-src *; font-src *; connect-src *">
+        <meta http-equiv="Content-Security-Policy" content="default-src *; script-src * 'unsafe-inline' 'unsafe-eval'; object-src *; style-src * 'unsafe-inline'; img-src * data:; media-src *; frame-src *; font-src * data:; connect-src *">
         <title></title>
 
-        <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+        <link href="lib/ionic/css/ionic.min.css" rel="stylesheet">
         <link href="css/ionRadioFix.css" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet">
-        <link href="css/ionic.app.css" rel="stylesheet">
-        <!--<link href="css/animate.css" rel="stylesheet">-->
+        <link href="css/ionic.app.min.css" rel="stylesheet">
         <link href="css/ng-animation.css" rel="stylesheet">
         <link href="css/ion-gallery.css" rel="stylesheet">
         <link href="css/angular-carousel.min.css" rel="stylesheet">
 
-        <script src="lib/ionic/js/ionic.bundle.js"></script>
+        <script src="lib/ionic/js/ionic.bundle.min.js"></script>
         <script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
         <script src="cordova.js"></script>
 
@@ -57,6 +56,7 @@
         <script src="js/services/facebook-connect.js"></script>
         <script src="js/services/connection.js"></script>
         <script src="js/services/dialog.js"></script>
+        <script src="js/services/analytics.js"></script>
 
         <script src="js/providers/homepage-layout.js"></script>
 
@@ -157,7 +157,7 @@
         <script src="js/constants/push-events.js"></script>
         <script src="js/constants/padlock-events.js"></script>
     </head>
-    <body ng-app="starter" class="platform-browser platform-cordova platform-webview platform-ios platform-cordova platform-webview">
+    <body ng-app="starter" class="platform-browser platform-cordova platform-webview platform-ios-noads platform-ios platform-cordova platform-webview">
 
         <!-- Global layout handler -->
         <sb-side-menu ng-if="app_is_loaded"></sb-side-menu>

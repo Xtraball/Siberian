@@ -563,6 +563,7 @@ static NSString* toBase64(NSData* data) {
         } else {
             result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"has no access to assets"];
         }
+
         
         [weakSelf.commandDelegate sendPluginResult:result callbackId:cameraPicker.callbackId];
         

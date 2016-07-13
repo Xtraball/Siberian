@@ -5,9 +5,15 @@
  * @version 4.1.0
  * @author Xtraball SAS <dev@xtraball.com>
  *
+ * @development fast-env switch
+ *
  */
 
-$env = "production";
+if(!file_exists("./config.php")) {
+    copy("./config.sample.php", "./config.php");
+}
+
+require_once "./config.php";
 
 set_time_limit(120);
 ini_set('max_execution_time', 120);
@@ -24,7 +30,7 @@ defined('APPLICATION_PATH')
 
 /** Defining ENV globally */
 defined('APPLICATION_ENV')
-    || define('APPLICATION_ENV', $env);
+    || define('APPLICATION_ENV', $_config["environment"]);
 
 /** Sourcing default libs */
 set_include_path(implode(PATH_SEPARATOR, array(

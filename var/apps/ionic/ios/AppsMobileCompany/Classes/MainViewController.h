@@ -28,6 +28,7 @@
 #import <Cordova/CDVViewController.h>
 #import <Cordova/CDVCommandDelegateImpl.h>
 #import <Cordova/CDVCommandQueue.h>
+// AppsMobileCompany
 #import "CDVOfflineMode.h"
 
 @interface MainViewController : CDVViewController

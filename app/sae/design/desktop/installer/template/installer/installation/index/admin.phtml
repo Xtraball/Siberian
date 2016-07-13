@@ -2,24 +2,16 @@
     <h3 class="title blue10">A user will be required to login to the admin panel</h3>
     <p>Just enter a username and a password</p>
 </div>
-<div class="animated part part2">
+<div class="animated part part1">
     <form id="adminForm">
         <table class="no-collapse" cellspacing="10" width="100%">
             <tr>
-                <th align="left"><label for="email">Email: </label></th>
-                <th align="left"></th>
-            </tr>
-            <tr>
-                <td><input type="text" id="email" name="email" class="required email" placeholder="Email" /></td>
+                <td><input type="text" id="email" name="email" class="required email input-flat" placeholder="Email" /></td>
                 <td></td>
             </tr>
             <tr>
-                <th align="left"><label for="password">Password: </label></th>
-                <th align="left"><label for="confirm_password">Confirm Password: </label></th>
-            </tr>
-            <tr>
-                <td><input type="password" id="password" name="password" class="required" placeholder="Password" /></td>
-                <td><input type="password" id="confirm_password" name="confirm_password" class="required" placeholder="Confirm Password" /></td>
+                <td><input type="password" id="password" name="password" class="required input-flat" placeholder="Password" /></td>
+                <td><input type="password" id="confirm_password" name="confirm_password" class="required input-flat" placeholder="Confirm Password" /></td>
             </tr>
         </table>
         <button type="submit" style="display:none;"></button>
@@ -48,3 +40,8 @@
     };
     installer.addStep(step);
 </script>
+<style type="text/css">
+.step5 label.error {
+    margin-top: 1.5em;
+}
+</style>

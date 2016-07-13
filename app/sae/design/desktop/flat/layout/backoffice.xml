@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <backoffice_account_login>
+        <base>
+            <title>Login to your backoffice interface</title>
+        </base>
+        <views>
+            <content class="core_view_default" template="backoffice/account/login.phtml" />
+        </views>
+    </backoffice_account_login>
+
+    <backoffice_index_index>
+        <base>
+            <title>My Backoffice</title>
+        </base>
+        <views>
+            <content class="core_view_default" template="backoffice/index/index.phtml" />
+        </views>
+    </backoffice_index_index>
+
+    <backoffice_account_list>
+        <addLayout name="backoffice_menu" />
+        <base>
+            <title>Accounts</title>
+        </base>
+        <views>
+            <content class="core_view_default" template="backoffice/account/list.phtml" />
+        </views>
+    </backoffice_account_list>
+
+    <backoffice_account_edit>
+        <addLayout name="backoffice_menu" />
+        <base>
+            <title>Backoffice Account</title>
+        </base>
+        <views>
+            <content class="core_view_default" template="backoffice/account/edit.phtml" />
+        </views>
+    </backoffice_account_edit>
+
+</layout>

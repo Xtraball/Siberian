@@ -1,7 +1,7 @@
 <?php
 class Folder_Model_Category extends Core_Model_Default {
 
-    const DISPLAYED_PER_PAGE = 15;
+    const DISPLAYED_PER_PAGE = 50;
 
     protected $_root_category_id;
     protected $_children;

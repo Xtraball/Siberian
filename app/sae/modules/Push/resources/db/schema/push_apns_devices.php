@@ -130,6 +130,9 @@ $schemas['push_apns_devices'] = array(
             'is_unique' => false,
         ),
     ),
+    'error_count' => array(
+        'type' => 'tinyint(1) unsigned',
+    ),
     'created_at' => array(
         'type' => 'datetime',
     ),

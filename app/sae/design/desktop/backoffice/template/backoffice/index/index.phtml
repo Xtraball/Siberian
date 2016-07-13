@@ -2,6 +2,10 @@
     <a class="btn btn-primary" href="<?php echo $this->getUrl("backoffice/notif_list"); ?>">{{ unread_messages }}</a>
 </div>
 
-<!--<sb-section title="'Welcome to your dashboard'">-->
-    <div google-chart chart="chartObject" style="{{cssStyle}}"/>
-<!--</sb-section>-->
+    <canvas id="line" class="chart chart-bar"
+    	chart-data="graphData"
+		chart-labels="graphLabels"
+		chart-options="graphOptions"
+		chart-series="graphSeries"
+		chart-dataset-override="graphDatasetOverride"
+	</canvas> 

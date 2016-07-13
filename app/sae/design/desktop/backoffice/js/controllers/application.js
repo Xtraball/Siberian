@@ -250,6 +250,8 @@ App.config(function($routeProvider) {
             ;
 
             $scope.application.just_sent_the_certificate = true;
+            $scope.application.pem_infos = response.pem_infos;
+
         } else {
             $scope.message.setText(Label.uploader.error.general)
                 .isError(true)

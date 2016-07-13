@@ -19,7 +19,7 @@ class Installer_Model_Installer_Module extends Core_Model_Default
         parent::__construct($config);
     }
 
-    public function prepare($name) {
+    public function prepare($name, $fetch = true) {
 
         $this->_name = $name;
         $this->findByName($name);
@@ -34,8 +34,10 @@ class Installer_Model_Installer_Module extends Core_Model_Default
             $this->_isInstalled = true;
         }
 
-        $this->fetchModule($name);
-
+        if($fetch) {
+            $this->fetchModule($name);
+        }
+        
         return $this;
     }
 
@@ -60,6 +62,11 @@ class Installer_Model_Installer_Module extends Core_Model_Default
         return $this->_name;
     }
 
+    /**
+     * Whether the module is installed or not
+     *
+     * @return bool
+     */
     public function isInstalled() {
         return $this->_isInstalled;
     }
@@ -72,17 +79,19 @@ class Installer_Model_Installer_Module extends Core_Model_Default
 
         if($this->canUpdate()) {
 
-            /** Syncing DB only if needed */
+            # Syncing DB only if needed
             $migration_tables = array();
             foreach ($this->_schemaFiles as $table_name => $filename) {
                 $migration_table = new Siberian_Migration_Db_Table($table_name);
                 $migration_table->setSchemaPath($filename);
+
+                # Test if table exist, if yes try to update, otherwise, try to create.
                 $migration_table->tableExists();
-                /** Test if table exist, if yes try to update, otherwise, try to create. */
+
                 $migration_tables[] = $migration_table;
             }
 
-            /** Dependencies injector (mainly for installation purpose) */
+            # Dependencies injector (mainly for installation purpose)
             if(isset($this->_packageInfo["dependencies"]["modules"])) {
                 foreach($this->_packageInfo["dependencies"]["modules"] as $module => $version) {
                     $depModule = new Installer_Model_Installer_Module();
@@ -98,7 +107,7 @@ class Installer_Model_Installer_Module extends Core_Model_Default
                 }
             }
 
-            /** Now update the foreign keys. */
+            # Now update the foreign keys.
             foreach ($migration_tables as $table) {
                 $table->updateForeignKeys();
             }
@@ -114,17 +123,26 @@ class Installer_Model_Installer_Module extends Core_Model_Default
     }
 
     public function insertData() {
-        /**
-         * Processing data files (install or update)
-         */
+
+        # Processing data files
         foreach($this->_dbFiles as $version => $file) {
-            if(version_compare($version, $this->getVersion(), '>')) {
+
+            if(preg_match("/.*install\.php$/", $file)) {
+                /** Backward compatibiliy (mainly for our modules) */
+                if(!$this->isInstalled()) {
+                    $this->_run($file, $version);
+                }
+
+            } else if(preg_match("/.*([0-9\.]+)\.php$/", $file)) {
+                # Never call again old format files (thus they must never pop as the path changed)
+            } else {
                 $this->_run($file, $version);
-                $this->save();
             }
+
+            $this->save();
         }
 
-        /** Set the version to the last in package.json */
+        # Set the version to the last in package.json
         if(version_compare($this->_lastVersion, $this->getVersion(), '>')) {
             $this->setVersion($this->_lastVersion)->save();
         }
@@ -143,18 +161,26 @@ class Installer_Model_Installer_Module extends Core_Model_Default
     /** Fetching from sae to local */
     protected function fetchModule($module_name) {
         $basePath = Core_Model_Directory::getBasePathTo("app/sae/modules/{$module_name}");
-        $editions = Siberian_Design::$editions[strtolower(Siberian_Version::TYPE)];
-
-        $versions = array();
-        $installer = array("version" => "0.0.0");
+        $editions = Siberian_Cache_Design::$editions[strtolower(Siberian_Version::TYPE)];
 
         /** fetching package.json */
         $package_info = false;
+        $package_files = array();
         foreach($editions as $edition) {
             $folder = str_replace("/sae/", "/$edition/", $basePath);
             if(is_readable($folder."/package.json")) {
-                $package_info = $this->readPackage($folder."/package.json");
+                $package_files[] = $folder."/package.json";
                 # Don't break in case another package.json exists
+            }
+        }
+
+        //we get higher package version
+        $highest_package_version = "0.0.0";
+        foreach ($package_files as $package_file) {
+            $current_package_info = $this->readPackage($package_file);
+            if(version_compare($current_package_info["version"], $highest_package_version, '>')) {
+                $package_info = $current_package_info;
+                $highest_package_version = $current_package_info["version"];
             }
         }
 
@@ -173,39 +199,12 @@ class Installer_Model_Installer_Module extends Core_Model_Default
                 foreach($files as $file) {
                     if(!$file->isDot()) {
                         $table_name = str_replace(".php", "", basename($file->getFilename()));
-                        //if(!isset($this->_schemaFiles[$table_name])) {
-                            # Higher schema should override.
-                            $this->_schemaFiles[$table_name] = $folder."/resources/db/schema/".$file->getFilename();
-                        //}
+                        # Higher schema should override.
+                        $this->_schemaFiles[$table_name] = $folder."/resources/db/schema/".$file->getFilename();
                     }
                 }
             }
         }
-
-        /** First round for the installer */
-        foreach($editions as $edition) {
-            $folder = str_replace("/sae/", "/$edition/", $basePath);
-            if(is_readable($folder."/resources/db/data")) {
-                $files = new DirectoryIterator($folder."/resources/db/data");
-                foreach($files as $file) {
-                    /** Installer if needed */
-                    if(!$this->isInstalled() && preg_match("/^install\.php$/", $file->getFilename())) {
-
-                        $version = $package_info["version"];
-                        if(version_compare($version, $installer["version"]) > 0) {
-                            $installer = array(
-                                "version" => $version,
-                                "path" => $file->getPathName()
-                            );
-                        }
-                    }
-                }
-            }
-
-        }
-
-        /** Second round for the updates */
-        $version_updates = ($this->isInstalled()) ? $this->getVersion() : $installer["version"];
 
         foreach($editions as $edition) {
             $folder = str_replace("/sae/", "/$edition/", $basePath);
@@ -214,33 +213,15 @@ class Installer_Model_Installer_Module extends Core_Model_Default
                 foreach($files as $file) {
 
                     /** Database & Template updates */
-                    if(preg_match("/^([0-9\.]*)\.php$/", $file->getFilename())) {
-
-                        $version = str_replace(".php", "", $file->getFilename());
-                        if(version_compare($version, $version_updates, ">") > 0) {
-
-                            $this->_dbFiles[$version] = $file->getPathName();
-                            if(!isset($versions[$version])) {
-                                $versions[] = $version;
-                            }
-                        }
+                    if(preg_match("/^(.*)\.php$/", $file->getFilename())) {
+                        $this->_dbFiles[] = $file->getPathName();
                     }
                 }
-
-                if(!empty($installer["path"])) {
-                    $this->_dbFiles[$installer["version"]] = $installer["path"];
-                    $versions[] = $installer["version"];
-                }
-
-                uksort($this->_dbFiles, "version_compare");
-                usort($versions, "version_compare");
             }
 
         }
-
+        
         $this->_lastVersion = $package_info["version"];
-
-
     }
 
     protected function _run($file, $version) {

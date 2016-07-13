@@ -51,4 +51,12 @@ class Promotion_Model_Promotion extends Core_Model_Default
         return $this;
     }
 
+    public function getAppIdByPromotionId() {
+        return $this->getTable()->getAppIdByPromotionId();
+    }
+
+    public function findAllPromotionsByAppId($app_id) {
+        return $this->getTable()->findAllPromotionsByAppId($app_id);
+    }
+
 }

@@ -53,11 +53,11 @@
             <div class="top">
                 <?php echo $this->getPartialHtml('header') ?>
             </div>
-            <div id="content" class="center">
-                <div id="sidebar" class="sidebar">
+            <div id="content" class="container">
+                <div id="sidebar" class="sidebar col-md-3">
                     <?php echo $this->getPartialHtml('sidebar') ?>
                 </div>
-                <div class="content">
+                <div class="content col-md-9">
                     <div id="mask" class="mask" style="display:none;">
                         <button id="hide_mask" class="default_button reverse" style="display:none;"><i class="icon-remove"></i></button>
                         <div class="loader"></div>
@@ -65,7 +65,6 @@
                     <?php echo $this->getPartialHtml('title') ?>
                     <?php echo $this->getPartial('content')->setErrors($errors)->toHtml() ?>
                 </div>
-                <div class="clear"></div>
             </div>
             <div class="footer">
                 <?php echo $this->getPartialHtml('footer') ?>

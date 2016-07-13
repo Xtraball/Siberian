@@ -9,7 +9,14 @@ class Push_IphoneController extends Core_Controller_Default
      */
     public function registerdeviceAction() {
 
-        if($params = $this->getRequest()->getParams()) {
+        $request = $this->getRequest();
+        if($request->isPost()) {
+            $params = Zend_Json::decode($request->getRawBody());
+        } else {
+            $params = $request->getParams();
+        }
+
+        if($params) {
 
             $fields = array(
                 'app_id',
@@ -32,7 +39,13 @@ class Push_IphoneController extends Core_Controller_Default
             $params['status'] = 'active';
 
             $device = new Push_Model_Iphone_Device();
-            $device->find($params['device_token'], 'device_token');
+
+            # One couple per app 4.2 (not searching the token, in case we need to update it)
+            $device->find(array(
+                'app_id' => $params['app_id'],
+                'device_uid' => $params['device_uid'],
+                //'device_token' => $params['device_token'],
+            ));
 
             $device->addData($params)->save();
 

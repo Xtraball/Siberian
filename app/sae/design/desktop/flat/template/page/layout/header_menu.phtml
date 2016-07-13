@@ -1,0 +1,88 @@
+<?php $current_link = $this->getCurrentLink(); ?>
+<?php $editor = $this->getAdmin()->getWhiteLabelEditor(); ?>
+<nav class="navbar navbar-default content-white-bkg">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header color-blue">
+        <?php $platform_name = System_Model_Config::getValueFor("platform_name"); ?>
+        <a href="<?php echo $this->getUrl('application/customization_design_style/edit'); ?>" class="pull-left logo-position">
+            <img src="<?php echo $this->getLogo(); ?>" id="logo" alt="<?php echo $platform_name; ?>" title="<?php echo $platform_name; ?>" width="100%" />
+        </a>
+        <div class="logo-block"></div>
+        <?php if($current_link == 'edit') : ?>
+        <a id="left-menu-toggle" href="#left-menu-toggle">
+            <button type="button" class="btn-close-sidebarleft color-blue">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </a>
+        <?php endif; ?>
+    </div>
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span> 
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="bs-navbar">
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="<?php echo $this->getUrl('application/customization_design_style/edit'); ?>" class="<?php if($current_link == 'edit'): ?> active<?php endif; ?>">
+                    <i class="fa fa-tachometer"></i>
+                    <div class="section-responsive">
+                        <?php echo $this->_('Editor') ?>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo $this->getUrl('admin/account/edit'); ?>" class="<?php if($current_link == 'my_account') : ?> active<?php endif; ?>">
+                    <i class="fa fa-user"></i>
+                    <div class="section-responsive">
+                        <?php echo $this->_('My account'); ?>
+                    </div>
+                </a>
+            </li>
+
+            <?php if(!$this->getRequest()->isWhiteLabelEditor()) : ?>
+
+                <?php if($this->_canAccess("admin_access_management")) : ?>
+                <li>
+                    <a href="<?php echo $this->getUrl('admin/access_management/list'); ?>" class="<?php if($current_link == 'access_management') : ?> active<?php endif; ?>">
+                        <i class="fa fa-road"></i>
+                        <div class="section-responsive">
+                            <?php echo $this->_('Access Management'); ?>
+                        </div>
+                    </a>
+                </li>
+                <?php endif; ?>
+
+                <?php if($this->_canAccess("support") AND $url = System_Model_Config::getValueFor("support_link")) : ?>
+                    <li class="right">
+                        <a href="<?php echo $url; ?>" target="_blank">
+                            <i class="fa fa-medkit"></i>
+                            <div class="section-responsive">
+                                <?php echo $this->_('Support'); ?>
+                            </div>
+                        </a>
+                    </li>
+                <?php endif; ?>
+            <?php endif; ?>
+
+            <li>
+                <a href="<?php echo $this->getUrl('admin/account/logout'); ?>" title="<?php echo $this->_('Log-out') ?>">
+                    <i class="fa fa-power-off"></i>
+                    <div class="section-responsive">
+                        <?php echo $this->_('Log-out') ?>
+                    </div>
+                </a>
+            </li>
+            <?php echo $this->getPartialHtml('languages'); ?>
+        </ul>
+    </div>
+</nav>
+
+<style>
+    #toggle_customization_sidebar{height: 50px;margin: 0;}
+    #toggle_customization_sidebar.visible{display:block}
+</style>

@@ -423,8 +423,15 @@
     <p class="help-block"><?php echo $this->_("Send here your iOS certificate to enable the push notifications for this application."); ?></p>
     <p class="help-block"><?php echo $this->_("<b>File type:</b> %s", "pem"); ?></p>
 
-    <div class="col-md-12" ng-if="application.has_ios_certificate">
+    <div class="col-md-12" ng-if="application.has_ios_certificate || application.pem_infos">
         <span ng-if="application.pem_infos.is_valid">
+            <b><?php echo __("APNS Port 2195 is:") ?></b>
+                <span ng-show="application.pem_infos.port_open" class="pem-valid"><?php echo __("Open"); ?>,</span>
+                <span ng-show="!application.pem_infos.port_open" class="pem-invalid"><?php echo __("Closed"); ?>,</span>
+            <b><?php echo __("APNS Feedback:") ?></b>
+                <span ng-show="application.pem_infos.port_open && application.pem_infos.apns_feedback" class="pem-valid"><?php echo __("Success"); ?></span>
+                <span ng-show="application.pem_infos.port_open && !application.pem_infos.apns_feedback" class="pem-invalid"><?php echo __("Error"); ?></span>
+            <br />
             <b><?php echo __("Your certificate is valid until:") ?></b> <span class="{{ application.pem_infos.is_valid ? 'pem-valid' : 'pem-invalid' }}">{{ application.pem_infos.valid_until }}</span>,
             <b><?php echo __("for the bundle id:") ?></b> <span class="{{ (application.pem_infos.package_name == tmp_application.bundle_id) ? 'pem-valid' : 'pem-invalid' }}">{{ application.pem_infos.package_name }}</span>
         </span>

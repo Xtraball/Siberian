@@ -59,6 +59,11 @@ class Backoffice_IndexController extends Backoffice_Controller_Default
                 "unread_number" => $unread_number,
                 "message" => $unread_message
             ),
+            "stats_labels" => array(
+                $this->_("New users"),
+                $this->_("Total sales"),
+                $this->_("Payment received")
+            )
         );
 
         $this->_sendHtml($data);

@@ -205,10 +205,8 @@
                     var css = iframe.content.find('[data-' + type + '="' + to + '"]').html();
                     if(translucent_color) {
                         css = css.split(to+"-translucent").join(translucent_color);
-                        console.log(css);
                     }
                     css = css.split(to).join(color);
-                    console.log(css);
 
                     if(iframe.f.document.getElementById(to)) {
                         iframe.f.document.getElementById(to).innerHTML = css;

@@ -1,15 +1,15 @@
 {
   "name": "Application",
   "decription": "",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "dependencies": {
     "system": {
       "type": "SAE",
-      "version": "4.1.0"
+      "version": "4.2.0"
     },
     "modules": {
-      "Admin": "4.1.0",
-      "Media": "4.1.0"
+      "Admin": "4.2.0",
+      "Media": "4.2.0"
     }
   }
 }

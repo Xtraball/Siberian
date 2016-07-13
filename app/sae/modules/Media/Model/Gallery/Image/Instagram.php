@@ -2,10 +2,8 @@
 
 class Media_Model_Gallery_Image_Instagram extends Media_Model_Gallery_Image_Abstract {
 
-    protected $_endpointUrls = array(
-        'userSearch' => 'https://api.instagram.com/v1/users/search?q=%s&client_id=%client_id%&access_token=%token%',
-        'mediaSearch' => 'https://api.instagram.com/v1/users/%s/media/recent?client_id=%client_id%&access_token=%token%'
-    );
+    protected $_endpointUrl = "https://api.instagram.com/v1/users/self/media/recent?client_id=%client_id%&access_token=%token%";
+
     protected $_userId;
 
     public function __construct($params = array()) {
@@ -20,17 +18,13 @@ class Media_Model_Gallery_Image_Instagram extends Media_Model_Gallery_Image_Abst
     public function getUserId($username) {
 
         // Requête
-        if (!empty($username)) {
-            $request = file_get_contents(str_replace('%s', $username, $this->_endpointUrls['userSearch']));
-            $userInfos = json_decode($request);
+        $request = file_get_contents($this->_endpointUrl);
+        $userInfos = json_decode($request);
 
-            // Retour l'user id s'il existe
-            if (isset($userInfos->data[0]->id)) {
-                $this->_setUserId($userInfos->data[0]->id);
-                return $userInfos->data[0]->id;
-            } else {
-                return false;
-            }
+        // Retour l'user id s'il existe
+        if (isset($userInfos->data[0]->user->id)) {
+            $this->_setUserId($userInfos->data[0]->user->id);
+            return $userInfos->data[0]->user->id;
         } else {
             return false;
         }
@@ -44,13 +38,13 @@ class Media_Model_Gallery_Image_Instagram extends Media_Model_Gallery_Image_Abst
 
             $this->_images = array();
 
-            $this->_userId = $this->getUserId($this->getParamInstagram());
-            $url = str_replace('%s', $this->_userId, $this->_endpointUrls['mediaSearch']);
+            $url = $this->_endpointUrl;
+
             if ($offset) {
                 $url .= '&max_id=' . $offset;
             }
 
-            $requestMedia = file_get_contents($url);
+            $requestMedia = @file_get_contents($url);
             if(!$requestMedia) return array();
             $userMedias = json_decode($requestMedia);
 
@@ -79,13 +73,11 @@ class Media_Model_Gallery_Image_Instagram extends Media_Model_Gallery_Image_Abst
 
     public function constructUrl() {
 
-        $client_id = Api_Model_Key::findKeysFor('instagram')->getClientId();
-        $token = Api_Model_Key::findKeysFor('instagram')->getToken();
+        $client_id = $this->getApplication()->getInstagramClientId();
+        $token = $this->getApplication()->getInstagramToken();
 
-        $this->_endpointUrls = array(
-            'userSearch' => str_replace('%client_id%', $client_id, str_replace('%token%', $token, $this->_endpointUrls['userSearch'])),
-            'mediaSearch' => str_replace('%client_id%', $client_id, str_replace('%token%', $token, $this->_endpointUrls['mediaSearch']))
-        );
+        $this->_endpointUrl = str_replace('%token%', $token, $this->_endpointUrl);
+        $this->_endpointUrl = str_replace('%client_id%', $client_id, $this->_endpointUrl);
 
         return $this;
     }

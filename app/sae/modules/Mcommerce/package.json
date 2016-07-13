@@ -1,14 +1,15 @@
 {
   "name": "Mcommerce",
   "decription": "",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "dependencies": {
     "system": {
       "type": "SAE",
-      "version": "4.1.0"
+      "version": "4.2.0"
     },
     "modules": {
-      "Application": "4.1.0"
+      "Application": "4.2.0",
+      "Catalog": "4.2.0"
     }
   }
 }

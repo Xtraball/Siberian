@@ -10,6 +10,8 @@ class Installer_InstallationController extends Installer_Controller_Installation
 
         try {
             if(Installer_Model_Installer::setIsInstalled()) {
+                $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
+                Siberian_Autoupdater::configure($protocol.$this->getRequest()->getHttpHost());
                 $html = array('success' => 1);
             } else {
                 throw new Exception("An error occured while finalizing the installation.");

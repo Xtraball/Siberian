@@ -1,5 +1,5 @@
 
-App.factory('Push', function($cordovaPush, $http, $rootScope, $translate, $window, Application, httpCache, Url, PUSH_EVENTS) {
+App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $cordovaPush, $http, $rootScope, $translate, $window, Application, httpCache, Url, PUSH_EVENTS) {
 
     /*
      * PRIVATE
@@ -7,12 +7,24 @@ App.factory('Push', function($cordovaPush, $http, $rootScope, $translate, $windo
     var __self = {
         push: null,
         device_token: null,
+        init_data: {
+            android: {
+                senderID: "01234567890"
+            },
+            ios: {
+                clearBadge: "true",
+                alert: "true",
+                badge: "true",
+                sound: "true"
+            },
+            windows: {}
+        },
         register: function() {
             __self._init();
 
             if (__self.push) {
                 __self.push.on('registration', function(data) {
-                    console.log("device_token: " + data.registrationId);
+                    sbLog("device_token: " + data.registrationId);
                     __self.device_token = data.registrationId;
                     __self._registerDevice();
                 });
@@ -20,26 +32,170 @@ App.factory('Push', function($cordovaPush, $http, $rootScope, $translate, $windo
                 __self._onNotificationReceived();
 
                 __self.push.on('error', function(e) {
-                    console.log(e.message);
+                    sbLog(e.message);
                 });
             }
         },
+        startBackgroundGeolocation: function() {
+            //if plugin not available do not geolocate
+            if(!window.BackgroundGeolocation) {
+                return;
+            }
+            if(ionic.Platform.isIOS()) {
+                sbLog("-- iOS StartBackgroundLocation --");
+
+                __self._startIosBackgroundGeolocation();
+            } else if(ionic.Platform.isAndroid()) {
+                sbLog("-- ANDROID StartBackgroundLocation --");
+
+                BackgroundGeoloc.startBackgroundLocation(function(result) {
+                    // Android only
+                    var proximity_alerts = JSON.parse(localStorage.getItem("proximity_alerts"));
+                    if(proximity_alerts != null) {
+                        angular.forEach(proximity_alerts, function(value, index) {
+                            var alert = value;
+
+                            var distance_in_km = __self._calculateDistance(result.latitude, result.longitude, alert.additionalData.latitude, alert.additionalData.longitude, "K");
+                            if(distance_in_km <= alert.additionalData.radius) {
+                                var current_date = new Date().getTime();
+                                var push_date = new Date(alert.additionalData.send_until).getTime();
+
+                                if(push_date == 0 || push_date >= current_date) {
+                                    __self._sendLocalNotification(alert.additionalData.message_id, alert.title, alert.message);
+
+                                    $rootScope.$broadcast(PUSH_EVENTS.notificationReceived, alert);
+                                }
+
+                                proximity_alerts.splice(index, 1);
+                            }
+                        });
+
+                        localStorage.setItem("proximity_alerts", JSON.stringify(proximity_alerts));
+                    } else {
+                        BackgroundGeoloc.stopBackgroundLocation();
+                    }
+                }, function(err) {
+                    sbLog("error to startLocation: " + err);
+                });
+            }
+        },
+        _startIosBackgroundGeolocation: function() {
+            //This callback will be executed every time a geolocation is recorded in the background.
+            var callbackFn = function(location, taskId) {
+                var coords = location.coords;
+                var lat    = coords.latitude;
+                var lng    = coords.longitude;
+                console.log('- Location: ', JSON.stringify(location));
+
+                // Must signal completion of your callbackFn.
+                window.BackgroundGeolocation.finish(taskId);
+            };
+
+            // This callback will be executed if a location-error occurs.  Eg: this will be called if user disables location-services.
+            var failureFn = function(errorCode) {
+                console.warn('- BackgroundGeoLocation error: ', errorCode);
+            };
+
+            // Listen to location events & errors.
+            //window.BackgroundGeolocation.on('location', callbackFn, failureFn);
+
+            // Fired whenever state changes from moving->stationary or vice-versa.
+            //window.BackgroundGeolocation.on('motionchange', function(isMoving) {
+            //    console.log('- onMotionChange: ', isMoving);
+            //});
+
+            window.BackgroundGeolocation.onGeofence(function(params, taskId) {
+                try {
+                    var location = params.location;
+                    var identifier = params.identifier;
+                    var message_id = identifier.replace("push","");
+                    var action = params.action;
+
+                    sbLog('A geofence has been crossed: ', identifier);
+                    sbLog('ENTER or EXIT?: ', action);
+                    //sbLog('location: ', JSON.stringify(location));
+
+                    // remove the geofence
+                    window.BackgroundGeolocation.removeGeofence(identifier);
+
+                    // remove the stored proximity alert
+                    var proximity_alerts = JSON.parse(localStorage.getItem("proximity_alerts"));
+                    if(proximity_alerts != null) {
+                        angular.forEach(proximity_alerts, function(value, index) {
+                            var alert = value;
+
+                            if(message_id == alert.additionalData.message_id) {
+                                var current_date = new Date().getTime();
+                                var push_date = new Date(alert.additionalData.send_until).getTime();
+
+                                if(push_date == 0 || push_date >= current_date) {
+                                    alert.title = alert.additionalData.user_info.alert.body;
+                                    alert.message = alert.title;
+
+                                    __self._sendLocalNotification(alert.additionalData.message_id, alert.title, alert.message);
+
+                                    $rootScope.$broadcast(PUSH_EVENTS.notificationReceived, alert);
+                                }
+
+                                proximity_alerts.splice(index, 1);
+                            }
+                        });
+
+                        localStorage.setItem("proximity_alerts", JSON.stringify(proximity_alerts));
+                    }
+                } catch(e) {
+                    sbLog('An error occurred in my application code', e);
+                }
+
+                // The plugin runs your callback in a background-thread:
+                // you MUST signal to the native plugin when your callback is finished so it can halt the thread.
+                // IF YOU DON'T, iOS WILL KILL YOUR APP
+                window.BackgroundGeolocation.finish(taskId);
+            });
+
+            // BackgroundGeoLocation is highly configurable.
+            window.BackgroundGeolocation.configure({
+                // Geolocation config
+                desiredAccuracy: 0,
+                distanceFilter: 10,
+                stationaryRadius: 50,
+                locationUpdateInterval: 1000,
+                fastestLocationUpdateInterval: 5000,
+
+                // Activity Recognition config
+                activityType: 'AutomotiveNavigation',
+                activityRecognitionInterval: 5000,
+                stopTimeout: 5,
+
+                // Disable aggressive GPS
+                disableMotionActivityUpdates: true,
+
+                // Block mode
+                useSignificantChangesOnly: true,
+
+                // Application config
+                debug: false,
+                stopOnTerminate: true,
+                startOnBoot: true
+            }, function(state) {
+                sbLog('BackgroundGeolocation ready: ', state);
+                if (!state.enabled) {
+                    window.BackgroundGeolocation.start();
+                }
+            });
+        },
         _init: function() {
 
-            if(!$window.PushNotification) return;
+            if(!$window.PushNotification) {
+                return;
+            }
 
-            __self.push = PushNotification.init({
-                android: {
-                    senderID: "01234567890"
-                },
-                ios: {
-                    clearBadge: "true",
-                    alert: "true",
-                    badge: "true",
-                    sound: "true"
-                },
-                windows: {}
-            });
+            /** senderID not set. */
+            if(ionic.Platform.isAndroid() && (__self.init_data.android.senderID == "01234567890" || __self.init_data.android.senderID == "")) {
+                __self.init_data.android.senderID = null;
+            }
+
+            __self.push = PushNotification.init(__self.init_data);
         },
         _registerDevice: function() {
             if(ionic.Platform.isIOS()) {
@@ -56,21 +212,21 @@ App.factory('Push', function($cordovaPush, $http, $rootScope, $translate, $windo
                 try {
                     device_name = device.platform;
                 } catch(e) {
-                    console.log(e.message);
+                    sbLog(e.message);
                 }
 
                 var device_model = null;
                 try {
                     device_model = device.model;
                 } catch(e) {
-                    console.log(e.message);
+                    sbLog(e.message);
                 }
 
                 var device_version = null;
                 try {
                     device_version = device.version;
                 } catch(e) {
-                    console.log(e.message);
+                    sbLog(e.message);
                 }
 
                 var params = {
@@ -88,8 +244,9 @@ App.factory('Push', function($cordovaPush, $http, $rootScope, $translate, $windo
                 };
 
                 $http({
-                    method: 'GET',
-                    url: Url.get(url, params),
+                    method: 'POST',
+                    url: Url.get(url),
+                    data: params,
                     cache: false,
                     responseType: 'json'
                 });
@@ -105,22 +262,131 @@ App.factory('Push', function($cordovaPush, $http, $rootScope, $translate, $windo
             };
 
             $http({
-                method: 'GET',
-                url: Url.get(url, params),
+                method: 'POST',
+                url: Url.get(url),
+                data: params,
                 cache: false,
                 responseType: 'json'
             });
         },
         _onNotificationReceived: function() {
             __self.push.on('notification', function(data) {
-                $rootScope.$broadcast(PUSH_EVENTS.notificationReceived, data);
+                if(data.additionalData.longitude && data.additionalData.latitude) {
+
+                    var callbackCurrentPosition = function(result) {
+                        var distance_in_km = __self._calculateDistance(result.latitude, result.longitude, data.additionalData.latitude, data.additionalData.longitude, "K");
+
+                        if(distance_in_km <= data.additionalData.radius) {
+                            if(ionic.Platform.isIOS()) {
+                                data.title = data.additionalData.user_info.alert.body;
+                                data.message = data.title;
+                            }
+
+                            __self._sendLocalNotification(data.additionalData.message_id, data.title, data.message);
+
+                            $rootScope.$broadcast(PUSH_EVENTS.notificationReceived, data);
+                        } else {
+                            __self._addProximityAlert(data);
+                        }
+                    };
+
+                    var callbackErrCurrentPosition = function(err) {
+                        sbLog(err.message);
+
+                        __self._addProximityAlert(data);
+                    };
+
+                    if(ionic.Platform.isIOS()) {
+                        window.BackgroundGeolocation.getCurrentPosition(function(location, taskId) {
+                            location.latitude = location.coords.latitude;
+                            location.longitude = location.coords.longitude;
+
+                            callbackCurrentPosition(location);
+                            window.BackgroundGeolocation.finish(taskId);
+                        }, callbackErrCurrentPosition);
+                    } else {
+                        // Get the user current position when app on foreground
+                        BackgroundGeoloc.getCurrentPosition(callbackCurrentPosition, callbackErrCurrentPosition);
+                    }
+                } else {
+                    $rootScope.$broadcast(PUSH_EVENTS.notificationReceived, data);
+                }
 
                 __self.push.finish(function() {
-                    console.log('success');
+                    // success
                 }, function() {
-                    console.log('error');
+                    // error
                 });
             });
+        },
+        _sendLocalNotification: function(p_message_id, p_title, p_message) {
+            sbLog("-- Sending a Local Notification --");
+
+            if(ionic.Platform.isIOS()) p_message = "";
+
+            var params = {
+                id: p_message_id,
+                title: p_title,
+                text: p_message
+            };
+
+            if(ionic.Platform.isAndroid()) params.icon = "res://icon.png";
+
+            // Send Local Notification
+            $cordovaLocalNotification.schedule(params);
+
+            factory.markAsDisplayed(p_message_id);
+        },
+        _addProximityAlert: function(data) {
+            sbLog("-- Adding a proximity alert --");
+
+            var proximity_alerts = localStorage.getItem("proximity_alerts");
+            var json_proximity_alerts = JSON.parse(proximity_alerts);
+
+            if(json_proximity_alerts == null) {
+                json_proximity_alerts = [];
+                json_proximity_alerts.push(data);
+                localStorage.setItem("proximity_alerts", JSON.stringify(json_proximity_alerts));
+            } else {
+                var index = proximity_alerts.indexOf(JSON.stringify(data));
+                if(index == -1) {
+                    json_proximity_alerts.push(data);
+                    localStorage.setItem("proximity_alerts", JSON.stringify(json_proximity_alerts));
+                }
+            }
+
+            if(ionic.Platform.isIOS()) {
+                sbLog("-- iOS --");
+
+                window.BackgroundGeolocation.addGeofence({
+                    identifier: "push" + data.additionalData.message_id,
+                    radius: parseInt(data.additionalData.radius * 1000),
+                    latitude: data.additionalData.latitude,
+                    longitude: data.additionalData.longitude,
+                    notifyOnEntry: true
+                }, function() {
+                    sbLog("Successfully added geofence");
+                }, function(error) {
+                    sbLog("Failed to add geofence", error);
+                });
+            } else {
+                sbLog("-- ANDROID --");
+
+                __self.startBackgroundGeolocation();
+            }
+        },
+        _calculateDistance: function(lat1, lon1, lat2, lon2, unit) {
+            var radlat1 = Math.PI * lat1/180;
+            var radlat2 = Math.PI * lat2/180;
+            var theta = lon1-lon2;
+            var radtheta = Math.PI * theta/180;
+            var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+            dist = Math.acos(dist);
+            dist = dist * 180/Math.PI;
+            dist = dist * 60 * 1.1515;
+            if (unit=="K") { dist = dist * 1.609344 }
+            if (unit=="N") { dist = dist * 0.8684 }
+            return dist
         }
 
     };
@@ -137,6 +403,10 @@ App.factory('Push', function($cordovaPush, $http, $rootScope, $translate, $windo
 
     factory.register = function() {
         __self.register();
+    };
+
+    factory.startBackgroundGeolocation = function() {
+        __self.startBackgroundGeolocation();
     };
 
     factory.findAll = function(offset) {
@@ -205,6 +475,17 @@ App.factory('Push', function($cordovaPush, $http, $rootScope, $translate, $windo
         return $http({
             method: 'GET',
             url: Url.get("push/mobile/readinapp", {device_uid: factory.device_uid, device_type: device_type}),
+            cache: false,
+            responseType: 'json'
+        });
+    };
+
+    factory.markAsDisplayed = function(message_id) {
+        var device_type = ionic.Platform.isIOS() ? "iphone" : "android";
+
+        return $http({
+            method: 'GET',
+            url: Url.get("push/" + device_type + "/markdisplayed", {device_uid: factory.device_uid, message_id: message_id}),
             cache: false,
             responseType: 'json'
         });

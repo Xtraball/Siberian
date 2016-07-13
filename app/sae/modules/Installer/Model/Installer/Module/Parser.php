@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Class Installer_Model_Installer_Module_Parser
+ *
+ * Module #19
+ *
+ */
 class Installer_Model_Installer_Module_Parser extends Core_Model_Default
 {
 
@@ -30,22 +35,22 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
         $tmp_dir = Core_Model_Directory::getTmpDirectory(true).'/';
 
         if(!is_writable($tmp_dir)) {
-            throw new Exception($this->_("The folder %s is not writable. Please fix this issue and try again.", $tmp_dir));
+            throw new Exception($this->_("#19-001 The folder %s is not writable. Please fix this issue and try again.", $tmp_dir));
         } else {
 
             if(is_dir($this->_tmp_directory)) {
                 Core_Model_Directory::delete($this->_tmp_directory);
             }
+
             mkdir($this->_tmp_directory, 0777);
-            
-            exec('unzip "'.$this->_tmp_file.'" -d "'.$this->_tmp_directory.'" 2>&1', $output);
+
+            # Extract to TMP Directory
+            exec("unzip '{$this->_tmp_file}' -d '{$this->_tmp_directory}' 2>&1", $output);
+
 
             if(!count(glob($this->_tmp_directory))) {
-                throw new Exception($this->_("Unable to extract the archive. Please make sure that the 'zip' extension is installed."));
+                throw new Exception($this->_("#19-002 Unable to extract the archive. Please make sure that the 'zip' extension is installed."));
             }
-
-            /** @note why unzipping twice ? */
-            exec('unzip "'.$this->_tmp_file.'" -d "'.$this->_tmp_directory.'" 2>&1', $output);
 
             $base_path = $this->_tmp_directory."/template.install.php";
             if(is_readable($base_path)) {
@@ -58,9 +63,90 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
 
     }
 
+    /**
+     * Handler for various package.json
+     *
+     * @throws Exception
+     */
     public function checkDependencies() {
-
         $package = $this->getPackageDetails();
+
+        switch($package->getType()) {
+            case "module":
+                    $this->_checkDependenciesModule($package);
+                break;
+            default:
+                    $this->_checkDependenciesFallback($package);
+                break;
+        }
+    }
+
+    /**
+     * Dependencies for Modules
+     *
+     * @param $package
+     * @throws Exception
+     */
+    private function _checkDependenciesModule($package) {
+        $version    = $package->getVersion();
+        $name       = $package->getName();
+        $deps       = $package->getDependencies();
+
+        foreach($deps as $type => $values) {
+            switch($type) {
+                case "system":
+                        if(!empty($values["type"])) {
+                            $_type = constant(strtoupper($values["type"]));
+                            $_version = $values["version"];
+
+                            if($_type > constant(Siberian_Version::TYPE) || version_compare($_version, Siberian_Version::VERSION, ">")) {
+                                throw new Exception(__("#19-014: Your system doesn't meet the requirements for this module."));
+                            }
+                        }
+                    break;
+                case "modules":
+                        $missing_deps = array();
+                        foreach($values as $module_name => $module_version) {
+                            $_module_deps = new Installer_Model_Installer_Module();
+                            $_module_deps->prepare($module_name);
+
+                            if(!$_module_deps->isInstalled() || version_compare($module_version, $_module_deps->getVersion(), ">")) {
+                                $missing_deps[$module_name] = $module_version;
+                            }
+                        }
+                        if(!empty($missing_deps)) {
+                            $message = "#19-015: The module your are about to install requires the following ones, %s.";
+                            $modules = array();
+                            foreach($missing_deps as $name => $version) {
+                                $modules[] = "{$name}@{$version}";
+                            }
+                            $modules = join(", ", $modules);
+                            throw new Exception(__($message, $modules));
+                        }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        # Then check the module deps itself
+        $_module= new Installer_Model_Installer_Module();
+        $_module->prepare($name);
+
+        if($_module->isInstalled() && version_compare($version, $_module->getVersion(), "<=")) {
+            throw new Exception(__("#19-016: You already have installed this module or a newer version."));
+        }
+    }
+
+    /**
+     *
+     * Fallback for the old package manager.
+     *
+     * Deprecating regular updates also.
+     *
+     * @throws Exception
+     */
+    private function _checkDependenciesFallback($package) {
         $dependencies = $package->getDependencies();
         if(!empty($dependencies) AND is_array($dependencies)) {
             $php_error = Installer_Model_Installer::checkRequiredPhpVersion();
@@ -75,20 +161,20 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
                         case "system":
 
                             if (strtolower($dependency["type"]) != strtolower(Siberian_Version::TYPE)) {
-                                throw new Exception($this->_("#10050: This update is designed for the %s, you can't install it in your %s.", $package->getName(), Siberian_Version::NAME));
+                                throw new Exception($this->_("#19-003: This update is designed for the %s, you can't install it in your %s.", $package->getName(), Siberian_Version::NAME));
                             }
 
                             # If the current version of Siberian equals the package's version
                             if (version_compare(Siberian_Version::VERSION, $package->getVersion()) >= 0) {
-                                throw new Exception($this->_("#10100: You already have installed this update."));
+                                throw new Exception($this->_("#19-004: You already have installed this update."));
                                 # If the current version is too old
                             } else {
 
                                 $compare = version_compare(Siberian_Version::VERSION, $dependency["version"]);
                                 if ($compare == -1) {
-                                    throw new Exception($this->_("#10001: Please update your system to the %s version before installing this update.", $dependency["version"]));
+                                    throw new Exception($this->_("#19-005: Please update your system to the %s version before installing this update.", $dependency["version"]));
                                 } elseif ($compare == 1) {
-                                    throw new Exception($this->_("#10101: You already have installed this update."));
+                                    throw new Exception($this->_("#19-006: You already have installed this update."));
                                 }
 
                             }
@@ -99,7 +185,7 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
 
                             $compare = version_compare(Siberian_Version::VERSION, $dependency["version"]);
                             if ($compare == -1) {
-                                throw new Exception($this->_("#10002: Please update your system to the %s version before installing this update.", $dependency["version"]));
+                                throw new Exception($this->_("#19-007: Please update your system to the %s version before installing this update.", $dependency["version"]));
                             }
 
                             break;
@@ -110,12 +196,12 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
                             $template_design->find($package->getCode(), "code");
 
                             if ($template_design->getId()) {
-                                throw new Exception($this->_("#10200: You already have installed this template."));
+                                throw new Exception($this->_("#19-008: You already have installed this template."));
                             }
 
                             $compare = version_compare(Siberian_Version::VERSION, $dependency["version"]);
                             if ($compare == -1) {
-                                throw new Exception($this->_("#10003: Please update your system to the %s version before installing this update.", $dependency["version"]));
+                                throw new Exception($this->_("#19-009: Please update your system to the %s version before installing this update.", $dependency["version"]));
                             }
 
                             break;
@@ -124,7 +210,6 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
             }
 
         }
-
     }
 
     public function getPackageDetails() {
@@ -132,16 +217,16 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
         if(!$this->_package_details) {
 
             $this->_package_details = new Core_Model_Default();
-            $package_file = $this->_tmp_directory."/package.json";
+            $package_file = "{$this->_tmp_directory}/package.json";
             if(!file_exists($package_file)) {
-                throw new Exception($this->_("The package you have uploaded is invalid."));
+                throw new Exception($this->_("#19-010: The package you have uploaded is invalid."));
             }
 
             try {
                 $content = Zend_Json::decode(file_get_contents($package_file));
             } catch(Zend_Json_Exception $e) {
                 Zend_Registry::get("logger")->sendException(print_r($e, true), "siberian_update_", false);
-                throw new Exception($this->_("The package you have uploaded is invalid."));
+                throw new Exception($this->_("#19-011: The package you have uploaded is invalid."));
             }
 
             $this->_package_details->setData($content);
@@ -156,7 +241,7 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
         $this->_parse();
         $this->_prepareFilesToDelete();
 
-        $this->_backup();
+        //$this->_backup();
 
         if(!$this->_delete()) {
             return false;
@@ -221,23 +306,35 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
 
     protected function _parse($dirIterator = null) {
 
-        if(is_null($dirIterator)) $dirIterator = new DirectoryIterator($this->_tmp_directory);
+        if(is_null($dirIterator)) {
+            $dirIterator = new DirectoryIterator($this->_tmp_directory);
+        }
+
+        $is_module = ($this->getPackageDetails()->getData("type") == "module");
+        $module_name = $this->getPackageDetails()->getData("name");
 
         foreach($dirIterator as $element) {
             if($element->isDot()) {
                 continue;
             }
 
-            if($element->isFile() OR $element->isLink()) {
-                if($element->getRealPath() == $this->_tmp_directory."/package.json") {
+            if($element->isFile() || $element->isLink()) {
+                if(!$is_module && ($element->getRealPath() == "{$this->_tmp_directory}/package.json")) {
                     continue;
                 }
 
                 $file_path = $element->isLink() ? $element->getPathname() : $element->getRealPath();
 
+                # Source file
+                $source = $file_path;
+
+                # Destination
+                $base = ($is_module) ? Core_Model_Directory::getBasePathTo("/app/local/modules/{$module_name}/") : Core_Model_Directory::getBasePathTo();
+                $destination = str_replace("{$this->_tmp_directory}/", $base, $file_path);
+
                 $this->_files[] = array(
-                    'source' => $file_path,
-                    'destination' => str_replace($this->_tmp_directory."/", Core_Model_Directory::getBasePathTo(), $file_path)
+                    'source'        => $source,
+                    'destination'   => $destination,
                 );
 
             } else if($element->isDir()) {
@@ -279,7 +376,7 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
             exec("zip backup-{$version}.zip -@ < backup.txt");
             unlink("./backup.txt");
         } else {
-            $this->_errors[] = "Unable to make the pre-update backup.";
+            $this->_errors[] = "#19-012: Unable to make the pre-update backup.";
         }
     }
 
@@ -317,7 +414,7 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
                 $message = $this->_("The following folders are not writable: <br /> - %s", $errors);
             } else {
                 $error = current($errors);
-                $message = $this->_("The folder %s is not writable.", $error);
+                $message = $this->_("#19-013: The folder %s is not writable.", $error);
             }
 
             $this->_addError($message);

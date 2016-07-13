@@ -281,6 +281,10 @@ class Catalog_Model_Product extends Core_Model_Default
         }
     }
 
+    public function getAppIdByProduct() {
+        return $this->getTable()->getAppIdByProduct();
+    }
+
     public function createDummyContents($option_value, $design, $category) {
 
         $option = new Application_Model_Option();

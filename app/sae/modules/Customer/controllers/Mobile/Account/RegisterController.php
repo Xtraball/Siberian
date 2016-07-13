@@ -42,7 +42,7 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
                 ;
 
                 //PUSH TO USER ONLY
-                if(Push_Model_Message::hasTargetedNotificationsModule()) {
+                if(Push_Model_Message::hasIndividualPush()) {
                     if (!empty($data["device_uid"])) {
                         if (strlen($data["device_uid"]) == 36) {
                             $device = new Push_Model_Iphone_Device();

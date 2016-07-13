@@ -23,7 +23,7 @@ class Promotion_Model_Db_Table_Promotion extends Core_Model_Db_Table
         $select = $this->select()->setIntegrityCheck(false)
             ->from(array('main' => $this->_name))
             ->join(array('pc' => 'promotion_customer'), 'pc.promotion_id = main.promotion_id', array('pos_id', 'used_at' => 'created_at'))
-            ->join(array('c' => 'customer'), 'c.customer_id = pc.customer_id', array('customer_name' => new Zend_Db_Expr('CONCAT(c.firstname, " ", c.lastname)')))
+            ->join(array('c' => 'customer'), 'c.customer_id = pc.customer_id', array('customer_name' => new Zend_Db_Expr('CONCAT(c.firstname, " ", c.lastname)'), 'customer_mail' => "c.email"))
             ->where('pc.created_at >= ?', $start_at)
             ->where('pc.created_at <= ?', $end_at)
             ->group('pc.customer_id')
@@ -45,6 +45,24 @@ class Promotion_Model_Db_Table_Promotion extends Core_Model_Db_Table
             ->where('pc.promotion_id IS NULL')
         ;
         return $select;
+    }
+
+
+    public function getAppIdByPromotionId() {
+        $select = $this->select()
+            ->from($this->_name, array('promotion_id'))
+            ->joinLeft('application_option_value',$this->_name.'.value_id = application_option_value.value_id','app_id')
+            ->setIntegrityCheck(false);
+        return $this->_db->fetchAssoc($select);
+    }
+
+    public function findAllPromotionsByAppId($app_id) {
+        $select = $this->select()
+            ->from(array('p' => $this->_name), array('promotion_id', 'title'))
+            ->joinLeft(array('aov' => 'application_option_value'),'p.value_id = aov.value_id','app_id')
+            ->where("aov.app_id = ?", $app_id)
+            ->setIntegrityCheck(false);
+        return $this->_db->fetchAssoc($select);
     }
 
 }

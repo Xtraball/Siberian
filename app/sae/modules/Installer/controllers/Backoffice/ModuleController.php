@@ -325,8 +325,9 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 ->install()
             ;
 
-            /** Clearing cache */
-            Siberian_Design::clearCache();
+            /** Clear cache */
+            Siberian_Cache_Design::clearCache();
+            Siberian_Minify::clearCache();
 
             $host = $this->getRequest()->getHeader("host");
             if($host AND $host == base64_decode("YXBwcy5tb2JpdXNjcy5jb20=")) {
@@ -340,6 +341,9 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 "success" => 1,
                 "message" => $this->_("Module successfully installed")
             );
+
+            $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
+            Siberian_Autoupdater::configure($protocol.$this->getRequest()->getHttpHost());
 
         } catch(Exception $e) {
             $data = array(

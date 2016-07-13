@@ -17,12 +17,15 @@
                     <directives folder="js/directives" />
                     <constants folder="js/constants" />
                     <ckeditor link="js/libraries/ckeditor/ckeditor.js" />
+                    <chartjs link="js/libraries/angular-chart/chart.js" />
+                    <angularchart link="js/libraries/angular-chart/angular-chart.js" />
                 </js>
                 <css>
                     <style link="css/style.css" />
                     <font_awesome link="css/font-awesome.min.css" />
                     <angular folder="css/angular" />
                     <bootstrap link="css/bootstrap.css" />
+                    <user_style link="css/user-style.css" />
                 </css>
             </scripts>
             <metas>

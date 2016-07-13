@@ -10,7 +10,7 @@ App.config(function($stateProvider) {
         templateUrl: "templates/folder/l1/list.html"
     })
 
-}).controller('FolderListController', function($http, $ionicPopup, $location, $rootScope, $scope, $stateParams, $window, Customer, Folder, Url/*, Application, Padlock*/) {
+}).controller('FolderListController', function($http, $ionicPopup, $location, $rootScope, $scope, $stateParams, $window, Analytics, Customer, Folder, Url/*, Application, Padlock*/) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -76,6 +76,7 @@ App.config(function($stateProvider) {
             $location.path(feature.url);
         }
 
+        Analytics.storePageOpening(feature);
     };
 
     $scope.loadContent();

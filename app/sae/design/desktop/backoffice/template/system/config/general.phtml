@@ -99,7 +99,15 @@
             </div>
         <?php endif; ?>
         </div>
+    </sb-section>
 
+    <sb-section title="'<?php echo $this->_("Analytics"); ?>'" ng-show="is_flat_design">
+        <div class="form-group">
+            <div class="col-md-6">
+                <button type="button" class="btn btn-primary" ng-click="Compute_Analytics()"><?php echo $this->_("Generate analytics"); ?></button>
+                <p class="help-block"><?php echo $this->_("Click here to force analytics computing"); ?></p>
+            </div>
+        </div>
     </sb-section>
 
     <div class="clear"></div>

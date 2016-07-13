@@ -99,7 +99,7 @@ class Siberian_Layout extends Zend_Layout
 
                         if($file->attributes()->link) {
                             $link = (String) $file->attributes()->link;
-                            $link = Siberian_Design::getPath($link);
+                            $link = Siberian_Cache_Design::getPath($link);
 
                             $jsToMerge["local"][] = $link;
                         } else if($file->attributes()->href) {
@@ -110,7 +110,7 @@ class Siberian_Layout extends Zend_Layout
 
                         if($file->attributes()->folder) {
                             $folder = (String) $file->attributes()->folder;
-                            $files = Siberian_Design::searchForFolder($folder);
+                            $files = Siberian_Cache_Design::searchForFolder($folder);
 
                             foreach($files as $basename => $fullpath) {
                                 $pathinfo = pathinfo($fullpath);
@@ -186,7 +186,7 @@ class Siberian_Layout extends Zend_Layout
                     foreach($files as $file) {
                         if($file->attributes()->link) {
                             $link = (String) $file->attributes()->link;
-                            $link = Siberian_Design::getPath($link);
+                            $link = Siberian_Cache_Design::getPath($link);
 
                             $cssToMerge["local"][] = $link;
                         }
@@ -199,7 +199,7 @@ class Siberian_Layout extends Zend_Layout
                         if($file->attributes()->folder) {
 
                             $folder = (String) $file->attributes()->folder;
-                            $files = Siberian_Design::searchForFolder($folder);
+                            $files = Siberian_Cache_Design::searchForFolder($folder);
 
                             foreach($files as $basename => $fullpath) {
                                 $pathinfo = pathinfo($fullpath);
@@ -286,7 +286,9 @@ class Siberian_Layout extends Zend_Layout
                     foreach ($partials as $key => $partial) {
                         $class = (string)$partial->attributes()->class;
                         $template = (string)$partial->attributes()->template;
-                        if (!empty($class) AND !empty($template)) $this->addPartial($key, $class, $template);
+                        if (!empty($class) AND !empty($template)) {
+                            $this->addPartial($key, $class, $template);
+                        }
                     }
                 }
             }
@@ -298,7 +300,9 @@ class Siberian_Layout extends Zend_Layout
                 if($use_base OR (!$use_base AND empty($partial->attributes()->no_ajax))) {
                     $class = (string) $partial->attributes()->class;
                     $template = (string) $partial->attributes()->template;
-                    if(!empty($class) AND !empty($template)) $this->addPartial($key, $class, $template);
+                    if(!empty($class) AND !empty($template)) {
+                        $this->addPartial($key, $class, $template);
+                    }
                 }
             }
         }
@@ -507,7 +511,7 @@ class Siberian_Layout extends Zend_Layout
 
         $keys = array();
         if($use_base) {
-            $front_xml = Siberian_Design::getBasePath("/layout/front.xml");
+            $front_xml = Siberian_Cache_Design::getBasePath("/layout/front.xml");
             $this->_baseDefaultLayout = new SimpleXMLElement(file_get_contents($front_xml));
             $this->_defaultLayout = $this->_baseDefaultLayout->default;
         }
@@ -515,8 +519,8 @@ class Siberian_Layout extends Zend_Layout
         if($use_base AND isset($this->_baseDefaultLayout->$action)) {
             $this->_actionLayout = $this->_baseDefaultLayout->$action;
         }
-        elseif(file_exists(Siberian_Design::getBasePath("/layout/{$filename}"))) {
-            $layout_xml = Siberian_Design::getBasePath("/layout/{$filename}");
+        elseif(file_exists(Siberian_Cache_Design::getBasePath("/layout/{$filename}"))) {
+            $layout_xml = Siberian_Cache_Design::getBasePath("/layout/{$filename}");
             $this->_baseActionLayout = new SimpleXMLElement(file_get_contents($layout_xml));
             $this->_actionLayout = $this->_baseActionLayout->$action;
         }

@@ -38,8 +38,8 @@ var installer = {
 
         this.steps[++this.current_step_id].show();
 
-        $('#sidebar li').removeClass('blue5 f-bold');
-        $('#sidebar li.step'+this.current_step_id).addClass('blue5 f-bold');
+        $('#sidebar li').removeClass('sidebar_hover f-bold');
+        $('#sidebar li.step'+this.current_step_id).addClass('sidebar_hover f-bold');
 
         this.checkButtons();
     },
@@ -50,8 +50,8 @@ var installer = {
         this.steps[this.current_step_id].hide('prev');
         this.steps[--this.current_step_id].show();
 
-        $('#sidebar li').removeClass('blue5 f-bold');
-        $('#sidebar li.step'+this.current_step_id).addClass('blue5 f-bold');
+        $('#sidebar li').removeClass('sidebar_hover f-bold');
+        $('#sidebar li.step'+this.current_step_id).addClass('sidebar_hover f-bold');
 
         this.checkButtons();
     },

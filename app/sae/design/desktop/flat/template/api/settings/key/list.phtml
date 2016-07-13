@@ -1,0 +1,51 @@
+<?php $api_provider = new Api_Model_Provider(); ?>
+<?php $api_providers = $api_provider->findAll(); ?>
+<div class="application_settings application">
+    <div class="application_header app_name">
+        <?php echo $this->getPartialHtml('customization_header'); ?>
+    </div>
+    <div class="application_content inner_content">
+        <div class="title">
+            <i class="left icon-key"></i>
+            <h2 class="left f-rounded"><?php echo $this->_('API Keys'); ?></h2>
+            
+            <hr />
+        </div>
+        <?php foreach($api_providers as $api_provider) : ?>
+        <div>
+            <h3 class="title">
+                <span><?php echo $api_provider->getName(); ?></span>
+                <hr />
+                
+            </h3>
+            <div class="area_content">
+                <table class="no-collapse" cellspacing="10" width="100%">
+                    <col width="33%"/>
+                    <col width="33%"/>
+                    <col width="33%"/>
+                    <?php foreach($api_provider->getKeys() as $key) : ?>
+                    <tr>
+                       <td><label for="<?php echo $api_provider->getCode() ?>_<?php echo $key->getKey() ?>"><?php echo $key->getKey(); ?></label></td>
+                       <td>
+                           <input type="text" id="<?php echo $key->getKey() ?>" name="value" class="save_data input" value="<?php echo $key->getValue() ?>" />
+                           <input type="hidden" name="key_id" value="<?php echo $key->getId() ?>" />
+                       </td>
+<!--                       <td>
+                           <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_<?php echo $api_provider->getCode() ?>_<?php echo $key->getKey() ?>" class="loader_url" alt="Loading" title="Loading" width="24" style="display:none;" />
+                       </td>-->
+                    </tr>
+                    <?php endforeach; ?>
+                </table>
+                <input type="hidden" name="provider_id" value="<?php echo $api_provider->getId(); ?>" />
+            </div>
+        </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.save_data').change(function() {
+            reload(this.parentNode, '<?php echo $this->getUrl('api/settings_key/save'); ?>', true);
+        });
+    });
+</script>

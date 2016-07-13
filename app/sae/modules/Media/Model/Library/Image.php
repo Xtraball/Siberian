@@ -13,10 +13,14 @@ class Media_Model_Library_Image extends Core_Model_Default {
 
     public static function getImagePathTo($path = '', $app_id = null) {
 
-        if(!empty($path) AND substr($path,0,1) != '/') $path = '/'.$path;
+        if(!empty($path) AND substr($path, 0, 1) != '/') {
+            $path = '/'.$path;
+        }
 
         if(!is_null($app_id)) {
             $path = sprintf(self::APPLICATION_PATH.$path, $app_id);
+        } else if(strpos($path, "/app") === 0) {
+            # Do nothing for /app/* from modules
         } else {
             $path = self::PATH.$path;
         }
@@ -30,6 +34,8 @@ class Media_Model_Library_Image extends Core_Model_Default {
 
         if(!is_null($app_id)) {
             $path = sprintf(self::APPLICATION_PATH.$path, $app_id);
+        } else if(strpos($path, "/app") === 0) {
+            # Do nothing for /app/* from modules
         } else {
             $path = self::PATH.$path;
         }
@@ -52,7 +58,10 @@ class Media_Model_Library_Image extends Core_Model_Default {
         $url = '';
         if($this->getLink()) {
             $url = self::getImagePathTo($this->getLink(), $this->getAppId());
-            if(!file_exists(self::getBaseImagePathTo($this->getLink(), $this->getAppId()))) $url = '';
+            $base_url = self::getBaseImagePathTo($this->getLink(), $this->getAppId());
+            if(!file_exists($base_url) ) {
+                $url = '';
+            }
         }
 
         if(empty($url)) {

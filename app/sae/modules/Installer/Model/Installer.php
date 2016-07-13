@@ -93,7 +93,7 @@ class Installer_Model_Installer extends Core_Model_Default {
             $body = false;
             if(function_exists("curl_init")) {
                 $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, "{$_SERVER["HTTP_HOST"]}/check_connection.php");
+                curl_setopt($ch, CURLOPT_URL, "http://www.google.com");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
                 $body = curl_exec($ch);
                 curl_close($ch);
@@ -124,6 +124,7 @@ class Installer_Model_Installer extends Core_Model_Default {
             }
         }
 
+        //check directories
         $paths = array('var', 'var/cache', 'var/session', 'var/tmp');
         foreach($paths as $path) {
             if(!is_dir($base_path.$path)) {
@@ -134,8 +135,47 @@ class Installer_Model_Installer extends Core_Model_Default {
             }
         }
 
+         //check files
+        $androidConfigXMLPath = implode(DIRECTORY_SEPARATOR, array(
+            Application_Model_Device_Ionic_Android::SOURCE_FOLDER,
+            "res",
+            "xml",
+            "config.xml"
+        ));
+        $androidCHCPPath = implode(DIRECTORY_SEPARATOR, array(
+            Application_Model_Device_Ionic_Android::SOURCE_FOLDER,
+            "assets",
+            "www",
+            "chcp.json"
+        ));
+        $iosConfigXMLPath = implode(DIRECTORY_SEPARATOR, array(
+                Application_Model_Device_Ionic_Ios::SOURCE_FOLDER,
+                "AppsMobileCompany",
+                "config.xml"
+        ));
+        $iosCHCPPath = implode(DIRECTORY_SEPARATOR, array(
+                Application_Model_Device_Ionic_Ios::SOURCE_FOLDER,
+                "www",
+                "chcp.json"
+        ));
+        $iosNoAdsConfigXMLPath = implode(DIRECTORY_SEPARATOR, array(
+                Application_Model_Device_Ionic_Ios::SOURCE_FOLDER."-noads",
+                "AppsMobileCompany",
+                "config.xml"
+        ));
+        $iosNoAdsCHCPPath = implode(DIRECTORY_SEPARATOR, array(
+                Application_Model_Device_Ionic_Ios::SOURCE_FOLDER."-noads",
+                "www",
+                "chcp.json"
+        ));
+
         $paths = array(
             "app/configs",
+            $androidConfigXMLPath,
+            $androidCHCPPath,
+            $iosConfigXMLPath,
+            $iosCHCPPath,
+            $iosNoAdsConfigXMLPath
         );
 
         foreach($paths as $path) {

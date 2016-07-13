@@ -30,7 +30,7 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
                 }
 
                 //PUSH TO USER ONLY
-                if(Push_Model_Message::hasTargetedNotificationsModule()) {
+                if(Push_Model_Message::hasIndividualPush()) {
                     if (!empty($datas["device_uid"])) {
                         if (strlen($datas["device_uid"]) == 36) {
                             $device = new Push_Model_Iphone_Device();
@@ -167,7 +167,7 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
                 $customer->save();
 
                 //PUSH TO USER ONLY
-                if(Push_Model_Message::hasTargetedNotificationsModule()) {
+                if(Push_Model_Message::hasIndividualPush()) {
                     $device_id = $datas["device_id"];
 
                     if (!empty($device_id)) {

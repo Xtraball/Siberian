@@ -1,0 +1,73 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $application = $this->getSession()->getApplication(); ?>
+<?php $radio = $option_value->getObject(); ?>
+<?php $detect = new Mobile_Detect(); ?>
+<div id="list" class="radios">
+    <h3 class="title-editor no-border-radius">
+        <?php echo $this->_('Information'); ?>
+    </h3>
+    <div class="container-fluid">
+        <form id="radioForm" name="radioForm" method="post" action="<?php echo $this->getUrl('radio/application/editpost') ?>" class="form-horizontal">
+            <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
+            <div class="form-group first-row-feature">
+                <div class="col-md-12">
+                    <?php if(stripos($detect->userAgent, "Firefox") !== false) : ?>
+                        <div class="alert alert-danger text-center">
+                            <?php echo $this->_("Please note that AAC+ streams aren't managed yet on Firefox browser, but it will work well in the app."); ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <label for="title_radio"><?php echo $this->_('Title:') ?> <span class="input-required">*</span></label>
+                </div>
+                <div class="col-md-5">
+                    <input type="text" id="title_radio" name="title" class="input-flat required" value="<?php echo $radio->getTitle() ?>"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2">
+                    <label for="link_radio"><?php echo $this->_('Link:') ?> <span class="input-required">*</span></label>
+                </div>
+                <div class="col-sm-5">
+                    <input type="text" id="link_radio" name="link" class="input-flat required url" value="<?php echo $radio->getLink() ?>"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <button class="btn btn color-blue" type="submit">
+                            <?php echo $this->_('Save'); ?>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+
+    page.setCallback('didappear', function() {
+
+        $('#link_radio').change(function() {
+            if(!$(this).val().isEmpty() && !$(this).val().startsWith('http://') && !$(this).val().startsWith('https://')) {
+                $(this).val('http://'+$(this).val());
+            }
+        });
+        $('#radioForm').submit(function() {
+            if(!$(this).valid()) return false;
+            reload(this, this.action, true, function(datas) {
+                if(datas.success) {
+
+                }
+            });
+            return false;
+        });
+
+    });
+
+    page.setCallback('willdisappear', function() {
+        $('#radio').unbind('change');
+        $('#radioForm').unbind('submit');
+    });
+
+</script>

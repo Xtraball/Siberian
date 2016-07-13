@@ -3,8 +3,19 @@
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
 
+    /**
+     * @var Siberian_Controller_Request_Http
+     */
     public $_request = null;
+
+    /**
+     * @var Application_Model_Application
+     */
     public $_application = null;
+
+    /**
+     * @var Zend_Controller_Front
+     */
     public $_front_controller = false;
 
     protected function _initPaths() {
@@ -45,21 +56,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             error_reporting(0);
         } else {
             error_reporting(32767);
-        }
-    }
-
-    protected function _initSecurityPatches() {
-        # TG-171 app.ini.bck
-        $path = Core_Model_Directory::getBasePathTo("var/tmp/app.ini.bck");
-        if(file_exists($path)) {
-            unlink($path);
-        }
-
-        # Backup removal
-        $path = Core_Model_Directory::getBasePathTo("");
-        $files = glob("{$path}/backup-*.zip");
-        foreach($files as $file) {
-            unlink($file);
         }
     }
 
@@ -122,7 +118,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         /** Priorities are inverted for controllers */
         switch(Siberian_Version::TYPE) {
             default: case 'SAE':
-            $this->_front_controller->addModuleDirectory("$base/sae/modules");
+                $this->_front_controller->addModuleDirectory("$base/sae/modules");
             break;
             case 'MAE':
                 $this->_front_controller->addModuleDirectory("$base/sae/modules");
@@ -138,8 +134,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         if(is_readable("$base/local/modules")) {
             $this->_front_controller->addModuleDirectory("$base/local/modules");
         }
-
-        Siberian_Design::init();
+        
+        Siberian_Cache_Design::init();
         Siberian_Utils::load();
     }
 
@@ -164,7 +160,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Core_Model_Language::prepare();
         $frontController = $this->_front_controller;
         $this->_request = new Siberian_Controller_Request_Http();
-//        $this->_request->setBackofficeUrl($this->getOption('backofficeUrl'));
+        # $this->_request->setBackofficeUrl($this->getOption('backofficeUrl'));
         $this->_request->isInstalling(!Installer_Model_Installer::isInstalled());
         $this->_request->setPathInfo();
         $baseUrl = $this->_request->getScheme().'://'.$this->_request->getHttpHost().$this->_request->getBaseUrl();
@@ -176,12 +172,33 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
     /**  Loading individual bootstrappers */
     protected function _initModuleBoostrap() {
-        /** This is a part of a transition update @remove >4.1.0 */
-        if(version_compare(Siberian_Version::VERSION, "4.1.0", ">=")) {
-            $edition_path = strtolower(Siberian_Version::TYPE);
-            require_once Core_Model_Directory::getBasePathTo("app/{$edition_path}/bootstrap.php");
+        $edition_path = strtolower(Siberian_Version::TYPE);
+        require_once Core_Model_Directory::getBasePathTo("app/{$edition_path}/bootstrap.php");
 
-            Module_Bootstrap::init($this);
+        Module_Bootstrap::init($this);
+
+        /** Bootstrap locally installed modules. */
+        $local_path = Core_Model_Directory::getBasePathTo("app/local/modules/*/bootstrap.php");
+        $files = glob($local_path);
+        foreach($files as $bootstrap) {
+            preg_match("#modules/([a-z0-9]+)/bootstrap.php#i", $bootstrap, $matches);
+            $module_name = $matches[1];
+            if(!empty($module_name) && is_readable($bootstrap)) {
+                try {
+                    require_once $bootstrap;
+                    $classname = "{$module_name}_Bootstrap";
+                    if(class_exists($classname)) {
+                        $bs = new $classname();
+                        if(method_exists($bs, "init")) {
+                            $bs::init($this);
+                        }
+                    }
+                } catch(Exception $e) {
+                    # Silently catch malformed bootstrap module
+                    trigger_error($e->getMessage());
+                }
+
+            }
         }
     }
 
@@ -210,6 +227,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             Zend_Locale::setCache($cache);
             Zend_Registry::set('cache', $cache);
         }
+
+        /** Minify Cache */
+        $minifier = new Siberian_Minify();
+        $minifier->build();
     }
 
     protected function _initModules() {

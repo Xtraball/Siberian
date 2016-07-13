@@ -1,7 +1,6 @@
 var layout_id = "l3";
 
 App.config(function($stateProvider, HomepageLayoutProvider) {
-
     $stateProvider.state('rss-list', {
         url: BASE_PATH+"/rss/mobile_feed_list/index/value_id/:value_id",
         templateUrl: function(param) {
@@ -12,6 +11,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
                 case "1":
                 default: layout_id = "l3";
             }
+
             return 'templates/html/'+layout_id+'/list.html';
         },
         controller: 'RssListController'
@@ -30,8 +30,8 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         $scope.collection = data.collection;
 
         if(layout_id == "l3") {
-        $scope.cover = data.cover;
-        $scope.page_title = data.page_title;
+            $scope.cover = data.cover;
+            $scope.page_title = data.page_title;
         } else {
             $scope.collection.unshift(data.cover);
         }

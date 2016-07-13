@@ -4,7 +4,7 @@ class Translation_Backoffice_ListController extends Backoffice_Controller_Defaul
 {
 
     public function loadAction() {
-
+        
         $html = array(
             "title" => $this->_("Translations"),
             "icon" => "fa-language",

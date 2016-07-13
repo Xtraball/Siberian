@@ -17,7 +17,7 @@
         </actions>
     </application_promote_index>
 
-    <application_analytics_index>
+    <application_analytics_application_index>
         <addLayout name="admin_menu" />
         <addLayout name="customization_default" />
         <base>
@@ -30,7 +30,7 @@
         <actions>
             <customization_header name="setCurrentLink"><code>analytics</code></customization_header>
         </actions>
-    </application_analytics_index>
+    </application_analytics_application_index>
 
     <application_settings_domain_index>
         <addLayout name="admin_menu" />

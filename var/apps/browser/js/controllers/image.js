@@ -6,7 +6,9 @@ App.config(function($stateProvider) {
         controller: 'ImageListController'
     });
 
-}).controller('ImageListController', function($scope, $stateParams, $timeout, Url, Image) {
+}).controller('ImageListController', function($scope, $stateParams, $timeout, $translate, Url, Image, ionGalleryConfig) {
+
+    ionGalleryConfig.action_label = $translate.instant("Done");
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {

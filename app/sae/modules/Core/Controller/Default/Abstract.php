@@ -275,12 +275,31 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action
 
         $detect = new Mobile_Detect();
 
+        if(!$this->getRequest()->isInstalling()) {
+            $design_code =  System_Model_Config::getValueFor("editor_design");
+        } else {
+            $design_code = "installer";
+        }
+
         $design_codes = array(
-            "desktop" => "siberian",
+            "desktop" => $design_code,
             "mobile" => "angular"
         );
+
+        $white_label_blocks = array(
+            "flat" => array(
+                "block" => "color-blue",
+                "color" => "background_color",
+                "color_reverse" => "color"
+            ),
+            "siberian" => array(
+                "block" => "area",
+                "color" => "color"
+            )
+        );
+
         Zend_Registry::set("design_codes", $design_codes);
-        Siberian_Design::$design_codes = $design_codes;
+        Siberian_Cache_Design::$design_codes = $design_codes;
 
         if(!$this->getRequest()->isInstalling()) {
             if($this->getRequest()->isApplication()) $apptype = 'mobile';
@@ -336,9 +355,13 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action
             } else if(!$this->_isInstanceOfBackoffice()) {
                 $blocks = $this->getRequest()->getWhiteLabelEditor()->getBlocks();
 
-                if($block = $this->getRequest()->getWhiteLabelEditor()->getBlock("area")) {
-                    $icon_color = $block->getColor();
+                if($block = $this->getRequest()->getWhiteLabelEditor()->getBlock($white_label_blocks[DESIGN_CODE]["block"])) {
+                    $icon_color = $block->getData($white_label_blocks[DESIGN_CODE]["color"]);
                     Application_Model_Option_Value::setEditorIconColor($icon_color);
+
+                    if($reverse_color = $white_label_blocks[DESIGN_CODE]["color_reverse"]) {
+                        Application_Model_Option_Value::setEditorIconReverseColor($block->getData($reverse_color));
+                    }
                 }
 
             }
