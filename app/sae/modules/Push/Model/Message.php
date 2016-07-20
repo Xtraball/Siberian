@@ -126,9 +126,13 @@ class Push_Model_Message extends Core_Model_Default {
             if($type == 'ios') {
                 try {
                     $ios_certificate = Core_Model_Directory::getBasePathTo(Push_Model_Certificate::getiOSCertificat($this->getAppId()));
-                    $instance = new Push_Model_Ios_Message(new Siberian_Service_Push_Apns(null, $ios_certificate));
-                    $instance->setMessage($this);
-                    $instance->push();
+                    if(is_readable($ios_certificate) && is_file($ios_certificate)) {
+                        $instance = new Push_Model_Ios_Message(new Siberian_Service_Push_Apns(null, $ios_certificate));
+                        $instance->setMessage($this);
+                        $instance->push();
+                    } else {
+                        throw new Exception("You must provide an APNS Certificate for the App ID: {$this->getAppId()}");
+                    }
                 } catch (Exception $e) {
                     $this->logger->info(sprintf("[CRON: %s]: ".$e->getMessage(), date("Y-m-d H:i:s")), "cron_push");
                     $this->_log("Siberian_Service_Push_Apns", $e->getMessage());

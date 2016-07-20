@@ -57,4 +57,18 @@ class Cron_Model_Cron extends Core_Model_Default {
 	public function fail() {
 		$this->setLastFail(date("Y-m-d H:i:s"))->save();
 	}
+
+	/**
+	 * Enable the task
+	 */
+	public function enable() {
+		$this->setIsActive(true)->save();
+	}
+
+	/**
+	 * Disable the task
+	 */
+	public function disable() {
+		$this->setIsActive(false)->save();
+	}
 }

@@ -356,9 +356,6 @@ if(navigator.language) {
 export _JAVA_OPTIONS=\"-Xmx384m -Xms384m -XX:MaxPermSize=384m\"
 
 DEFAULT_JVM_OPTS=\"\"
-
-# Checking the Android SDK
-php {$tools_path}/sdk-updater.php
 ";
 
         $this->__replace(array($search => $replace), $gradlew_path);

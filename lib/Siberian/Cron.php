@@ -86,21 +86,20 @@ class Siberian_Cron {
 	}
 
 	/**
-	 * @param Zend_Db_Table_Row_Abstract $task
+	 * @param Cron_Model_Cron $task
 	 */
 	protected function execute($task){
 		/** Avoid duplicates when a task takes too long */
 		$task->trigger();
 		$success = true;
 
-		$this->log("Executing task: ".$task->getName());
-
 		if(!$this->isLocked($task->getId())) {
+			$this->log("Executing task: ".$task->getName());
 			/** Non blocking tasks */
 			try {
 				$command = $task->getCommand();
 				if (method_exists($this, $command)) {
-					$this->$command($task->getId());
+					$this->$command($task);
 				}
 			} catch (Exception $e) {
 				$this->log($e->getMessage());
@@ -110,6 +109,8 @@ class Siberian_Cron {
 
 				$success = false;
 			}
+		} else {
+			$this->log("Locked task: {$task->getName()}, skipping...");
 		}
 
 		if($success) {
@@ -155,9 +156,9 @@ class Siberian_Cron {
 	/**
 	 * Push instant queued messages, Apns, Gcm (Every minute)
 	 *
-	 * @param $task_id
+	 * @param Cron_Model_Cron $task
 	 */
-	public function pushinstant($task_id) {
+	public function pushinstant($task) {
 		# Init
 		$now = Zend_Date::now()->toString('y-MM-dd HH:mm:ss');
 
@@ -199,9 +200,9 @@ class Siberian_Cron {
 	/**
 	 * Cleaning-up/rotate old/unused logs (Every day at 00:05 AM)
 	 *
-	 * @param $task_id
+	 * @param Cron_Model_Cron $task
 	 */
-	public function logrotate($task_id) {
+	public function logrotate($task) {
 		$log_files = new DirectoryIterator("{$this->root_path}/var/log/");
 		foreach($log_files as $file) {
 			$filename = $file->getFilename();
@@ -234,27 +235,50 @@ class Siberian_Cron {
 	/**
 	 * APK Generator queue
 	 *
-	 * @param $task_id
+	 * @param Cron_Model_Cron $task
 	 */
-	public function apkgenerator($task_id) {
+	public function apkgenerator($task) {
 		# We do really need to lock this thing !
-		$this->lock($task_id);
+		$this->lock($task->getId());
 
 		# Generate the APK
 		/** @todo in 4.2.x */
 
 		# Releasing
-		$this->unlock($task_id);
+		$this->unlock($task->getId());
 	}
 
 
 	/**
 	 * Analytics aggregation
 	 *
-	 * @param $task_id
+	 * @param Cron_Model_Cron $task
 	 */
-	public function agregateanalytics($task_id) {
+	public function agregateanalytics($task) {
 		Analytics_Model_Aggregate::getInstance()->run(time());
+	}
+
+	/**
+	 * Install the Android tools (once)
+	 *
+	 * @param Cron_Model_Cron $task
+	 */
+	public function androidtools($task) {
+		# We do really need to lock this thing !
+		$this->lock($task->getId());
+
+		try {
+			$script = "{$this->root_path}/var/apps/ionic/tools/sdk-updater.php";
+
+			require_once $script;
+		} catch(Exception $e){
+			$this->log($e->getMessage());
+		}
+
+		# Disable when done.
+		$task->disable();
+		# Releasing
+		$this->unlock($task->getId());
 	}
 
 

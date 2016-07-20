@@ -97,6 +97,11 @@ class Push_Model_Android_Message {
             $registration_tokens[] = $device->getRegistrationId();
         }
 
+        if(empty($registration_tokens)) {
+            $this->service_gcm->logger->log("No Android devices registered, done.");
+            return;
+        }
+
         # Send message.
         try {
             $aggregate_result = $this->service_gcm->send($gcm_message, $registration_tokens);

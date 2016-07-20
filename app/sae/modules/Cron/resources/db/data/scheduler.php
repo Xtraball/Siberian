@@ -8,6 +8,38 @@ $cron_path = preg_replace("#(\/){2,}#", "/", "$root_path/cron.php");
 $cron_log_path = preg_replace("#(\/){2,}#", "/", "$root_path/var/log/cron.log");
 
 if(is_writable(dirname($crontab_path))) {
+
+    # Guessing for php binary
+    $possible_paths = array(
+        "/usr/bin/php",
+        "/usr/bin/php-cli",
+        "/usr/local/bin/php",
+        "/usr/local/bin/php-cli",
+    );
+
+    $guessed_path = "php";
+
+    foreach($possible_paths as $possible_path) {
+        $output = array();
+        exec("{$possible_path} -f {$cron_path} test", $output);
+        if(isset($output[0]) && ($output[0] == "OK")) {
+            $guessed_path = $possible_path;
+            break;
+        }
+    }
+
+    # Trying with which at last
+    if($guessed_path == "php") {
+        $output = array();
+        exec("which php", $output);
+        if(isset($output[0]) && (strpos($output[0], "/php") !== false)) {
+            exec("$output[0] -f {$cron_path} test", $output2);
+            if(isset($output2[0]) && ($output2[0] == "OK")) {
+                $guessed_path = $possible_path;
+            }
+        }
+    }
+
     exec("crontab -l > $crontab_path");
     $crontab = file_get_contents($crontab_path);
 
@@ -23,7 +55,7 @@ if(is_writable(dirname($crontab_path))) {
     # Install crontab if not
     $crontab = implode("\n", $new_lines);
     if(strpos($crontab, $cron_path) === false) {
-        $new_lines[] = "* * * * * php -f $cron_path >> $cron_log_path 2>&1\n";
+        $new_lines[] = "* * * * * $guessed_path -f $cron_path >> $cron_log_path 2>&1\n";
     }
 
     # Append new line at the end
@@ -39,7 +71,7 @@ crontab -u <web_user> -e
 
 Then paste this line
 
-* * * * * php -f $cron_path >> $cron_log_path 2>&1
+* * * * * $guessed_path -f $cron_path >> $cron_log_path 2>&1
 
 ";
 }

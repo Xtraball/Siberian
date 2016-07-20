@@ -150,6 +150,7 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
 
         for($i = 0; $i<count($roles); $i++) {
             $roles[$i]["label"] = $this->_($roles[$i]["label"]);
+            $roles[$i]["code"] = $this->_($roles[$i]["code"]);
         }
         return $roles;
     }

@@ -52,7 +52,7 @@ class Admin_Access_ManagementController extends Admin_Controller_Default
         }
 
         $this->loadPartials();
-        $this->getLayout()->getPartial('content')->setAdmin($admin)
+        $this->getLayout()->getPartial('content')->setEditAdmin($admin)
             ->setApplications($applications)
             ->setMode("management");
         ;

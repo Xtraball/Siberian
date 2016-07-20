@@ -39,4 +39,4 @@ if(shouldupdate($android_sdk_path)) {
     exec("wget {$download_url} && tar xzf android-sdk.tgz && rm android-sdk.tgz");
 }
 
-exit();
+exec("chmod -R 777 $android_sdk_path");

@@ -44,7 +44,7 @@ class Admin_Model_Db_Table_Admin extends Core_Model_Db_Table {
 
     public function getAvailableRole() {
         $select = $this->_db->select()
-            ->from("acl_role", array("role_id","label"))
+            ->from("acl_role", array("role_id","code","label"))
         ;
 
         return $this->_db->fetchAll($select);

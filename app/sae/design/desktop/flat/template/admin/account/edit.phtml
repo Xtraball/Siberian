@@ -1,4 +1,9 @@
-<?php $admin = $this->getAdmin(); ?>
+<?php $admin = $this->getEditAdmin(); ?>
+<?php $current_admin = $this->getAdmin(); ?>
+<?php $admin_role = $current_admin->getRoleId(); ?>
+<?php $role = new Acl_Model_Role(); ?>
+<?php $role->find($admin_role); ?>
+<?php $admin_role_code = $role->getCode(); ?>
 <?php $applications = $this->getApplications(); ?>
 <?php $countries = Zend_Registry::get('Zend_Locale')->getTranslationList('Territory', null, 2); ?>
 <?php asort($countries, SORT_LOCALE_STRING); ?>
@@ -138,6 +143,7 @@
                                 <select class="styled-select color-blue required" id="role_id" name="role_id">
                                     <option></option>
                                     <?php foreach($admin->getAvailableRole() as $role): ?>
+                                        <?php if($admin_role_code != "Admin" AND $role["code"] == "Admin") continue; ?>
                                         <option value="<?php echo $role["role_id"];?>" <?php if($role["role_id"]==$admin->getRoleId()) echo "selected"; ?>><?php echo $role["label"];?></option>
                                     <?php endforeach;?>
                                 </select>

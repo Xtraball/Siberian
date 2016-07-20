@@ -8,13 +8,16 @@
  * @note preparation for the incoming cron scheduler.
  *
  */
-error_reporting(0);
-
 if(version_compare(PHP_VERSION, '5.3.0') < 0) {
     die("PHP >=5.3 is required.\n");
 }
 
 require_once dirname(__FILE__)."/config.php";
+
+# Test purpose only
+if(isset($argv) && isset($argv[1]) && ($argv[1] == "test")) {
+    die("OK");
+}
 
 if(
     (isset($_ENV["SHELL"]) && !empty($_ENV["SHELL"])) ||
