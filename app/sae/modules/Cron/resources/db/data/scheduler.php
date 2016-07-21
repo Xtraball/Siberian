@@ -11,10 +11,10 @@ if(is_writable(dirname($crontab_path))) {
 
     # Guessing for php binary
     $possible_paths = array(
-        "/usr/bin/php",
-        "/usr/bin/php-cli",
         "/usr/local/bin/php",
         "/usr/local/bin/php-cli",
+        "/usr/bin/php",
+        "/usr/bin/php-cli",
     );
 
     $guessed_path = "php";

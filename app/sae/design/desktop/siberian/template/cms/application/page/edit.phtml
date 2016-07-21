@@ -17,7 +17,9 @@
             <div id="customPageForm">
                 <br />
                 <div class="buttons">
-                    <button type="button" onclick="page.reload()" class="delete left"><i class="icon-arrow-left"></i></button>
+                    <?php if($is_inbox OR $is_places): ?>
+                        <button type="button" onclick="page.reload()" class="delete left"><i class="icon-arrow-left"></i></button>
+                    <?php endif; ?>
                     <div class="save right">
                         <?php if($is_inbox): ?>
                             <div class="buttons">
