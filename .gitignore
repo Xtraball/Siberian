@@ -1,0 +1,37 @@
+# IDE/OS
+*.DS_Store*
+*.idea*
+
+# Siberian ignores.
+languages/*
+!languages/default
+.htaccess
+app/configs/app.ini
+images/customer/
+images/site/
+images/application/*
+images/previewer
+!images/application/placeholder
+!images/application/tabbar
+errors/*no-store.html
+system.php
+!app/sae/modules/System/resources/db/data/system.php
+var/apps/android
+var/apps/ionic/previewer
+var/log/*
+var/**/prod.css
+var/**/prod.js
+var/**/index-prod.html
+config.php
+var/apps/ionic/ios-noads/www/chcp.json
+var/apps/ionic/ios/www/chcp.json
+var/apps/ionic/android/assets/www/chcp.json
+
+# Allow node_modules for var/apps
+!var/apps/ionic/**/node_modules
+var/apps/ionic/tools/android-sdk
+var/apps/ionic/tools/gradle
+
+var/apps/iphone/cert_*
+var/apps/certificates/*
+!var/apps/certificates/root_ca.pem
