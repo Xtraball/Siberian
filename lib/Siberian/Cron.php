@@ -53,7 +53,6 @@ class Siberian_Cron {
 	 */
 	public function log($text) {
 		echo sprintf("[CRON: %s]: %s\n", date("Y-m-d H:i:s"), $text);
-		$this->logger->info(sprintf("[CRON: %s]: %s", date("Y-m-d H:i:s"), $text));
 	}
 
 	public function triggerAll(){
@@ -225,6 +224,16 @@ class Siberian_Cron {
 
 			# Clean up output_* logs
 			if(strpos($filename, "output.log") !== false) {
+				unlink($pathname);
+			}
+
+			# Clean up output_* logs
+			if(strpos($filename, "cron-output.log") !== false) {
+				unlink($pathname);
+			}
+
+			# Clean up output_* logs
+			if(strpos($filename, "cron.log") !== false) {
 				unlink($pathname);
 			}
 

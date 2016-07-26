@@ -266,7 +266,7 @@ class Siberian_Minify extends \Minify\Minify {
     public static function clearCache() {
         foreach(self::$PLATFORMS as $platform => $path) {
             $css = self::$PLATFORMS[$platform]['output_css'];
-            $js = self::$PLATFORMS[$platform]['output_css'];
+            $js = self::$PLATFORMS[$platform]['output_js'];
             $index = str_replace("index", "index-prod", self::$PLATFORMS[$platform]['index']);
 
             unlink(self::$basepath.$css);

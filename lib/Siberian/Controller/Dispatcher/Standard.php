@@ -40,6 +40,7 @@ class Siberian_Controller_Dispatcher_Standard extends Zend_Controller_Dispatcher
 
     public function getSortedModuleDirectories() {
         $dirs = $this->_moduleDirectories;
+        $dirs = array_unique($dirs);
         sort($dirs);
         unset($dirs[array_search('Core', $dirs)]);
         unset($dirs[array_search('Application', $dirs)]);
@@ -52,7 +53,7 @@ class Siberian_Controller_Dispatcher_Standard extends Zend_Controller_Dispatcher
         $dirs = array_reverse($dirs);
         $dirs[] = "Acl";
 
-        return array_values(array_unique($dirs));
+        return array_values($dirs);
     }
 
 

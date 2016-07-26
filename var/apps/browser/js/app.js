@@ -420,6 +420,29 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                 HomepageLayout.setLayoutId(value_id, layout_id);
             };
 
+        } else {
+            if(Application.is_webview) {
+                //Here, we are in webapp mode
+                //So we can generate all webapp meta and manifest for android
+                Application.generateWebappConfig().success(function(data) {
+                    var head = angular.element(document.querySelector('head'));
+                    var last_meta = $window.document.getElementById('last_meta');
+                    var url_root = DOMAIN;
+
+                    if(data.icon_url) {
+                        head.append('<link rel="apple-touch-icon" href="' + url_root + data.icon_url + '" />');
+                        head.append('<link rel="icon" sizes="192x192" href="' + url_root + data.icon_url + '" />');
+                    }
+
+                    if(data.manifest_url) {
+                        head.append('<link rel="manifest" href="' + url_root + data.manifest_url + '">');
+                    }
+
+                    if(data.startup_image_url) {
+                        head.append('<link rel="apple-touch-startup-image" href="' + url_root + data.startup_image_url + '" />');
+                    }
+                });
+            }
         }
     });
 

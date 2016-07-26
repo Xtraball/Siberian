@@ -73,6 +73,9 @@ class Core_Model_Lib_String extends Core_Model_Default {
             if(is_numeric(substr($part, 0, 1))) {
                 $part = "a".$part;
             }
+            if($part === "new") {
+                $part = "new_";
+            }
             $parts_bundle_id[$k] = $part;
         }
 
