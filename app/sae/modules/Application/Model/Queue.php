@@ -5,7 +5,7 @@
  */
 class Application_Model_Queue extends Core_Model_Default {
 
-    const TYPES = array(
+    public static $TYPES = array(
         "ios",
         "iosnoads",
         "android",
@@ -60,7 +60,7 @@ class Application_Model_Queue extends Core_Model_Default {
         $total = sizeof($results);
 
         $positions = array();
-        foreach(self::TYPES as $type) {
+        foreach(self::$TYPES as $type) {
             $positions[$type] = 0;
             $found = false;
 
