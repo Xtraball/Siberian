@@ -7,9 +7,11 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
     abstract public function prepareResources();
 
     protected function _prepareRequest() {
-        $request = new Siberian_Controller_Request_Http($this->_application->getUrl());
-        $request->setPathInfo();
-        $this->_request = $request;
+        if(!defined("CRON")) {
+            $request = new Siberian_Controller_Request_Http($this->_application->getUrl());
+            $request->setPathInfo();
+            $this->_request = $request;
+        }
     }
 
     protected function _cpFolder() {
@@ -135,12 +137,18 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
                         $newStartupImage = imagecreatetruecolor($image["width"], $image["height"]);
                         $startupSrc = imagecreatefromstring(file_get_contents($startup_src));
                         imagecopyresized($newStartupImage, $startupSrc, 0, 0, 0, 0, $image["width"], $image["height"], $width, $height);
+
+                        $extension = pathinfo($image["dst"], PATHINFO_EXTENSION);
+                        $image["dst"] = str_replace($extension, "png", $image["dst"]);
+
                         imagepng($newStartupImage, $image["dst"]);
                     } else {
                         if(!copy($startup_src, $image["dst"])) {
                             throw new Exception('An error occurred while generating the startup image. Please check the image, try to send it again and try again.', "{$image["width"]}x{$image["height"]}");
                         }
                     }
+
+                    Siberian_Media::optimize($image["dst"]);
                 }
             }
         }
@@ -218,16 +226,28 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
 
     private function __getUrlValue($key) {
 
+        if(!defined("CRON")) {
+            $scheme = "http";
+            $http_host = $this->getDevice()->getHost();
+            $base_url = "/";
+
+        } else {
+
+            $scheme = $this->_request->getScheme();
+            $http_host = $this->_request->getHttpHost();
+            $base_url = ltrim($this->_request->getBaseUrl(), "/");
+        }
+
         $value = null;
 
         switch($key) {
-            case "url_scheme": $value = $this->_request->getScheme(); break;
-            case "url_domain": $value = $this->_request->getHttpHost(); break;
-            case "url_path": $value = ltrim($this->_request->getBaseUrl(), "/"); break;
+            case "url_scheme": $value = $scheme; break;
+            case "url_domain": $value = $http_host; break;
+            case "url_path": $value = $base_url; break;
             case "url_key":
-                if($this->_request->useApplicationKey()) {
-                    $value = $this->_application->getKey();
-                }
+                //if($this->_request->useApplicationKey()) {
+                    $value = $this->getApplication()->getKey();
+                //}
                 break;
             default: $value = "";
         }

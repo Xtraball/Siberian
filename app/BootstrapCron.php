@@ -51,6 +51,15 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap
 
         $this->bootstrap('db');
         $resource = $this->getResource('db');
+
+        //Disabling strict mode
+        try {
+            $resource->query("SET sql_mode = '';");
+        } catch(Exception $e) {
+            $logger = Zend_Registry::get("logger");
+            $logger->sendException("Fatal Error when trying to disable SQL strict mode: \n".print_r($e, true));
+        }
+
         Zend_Registry::set('db', $resource);
         if(Installer_Model_Installer::isInstalled()) {
             try {

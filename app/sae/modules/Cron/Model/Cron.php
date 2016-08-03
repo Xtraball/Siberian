@@ -71,4 +71,63 @@ class Cron_Model_Cron extends Core_Model_Default {
 	public function disable() {
 		$this->setIsActive(false)->save();
 	}
+
+	/**
+	 * @param $message
+	 * @return mixed
+	 */
+	public function saveLastError($message) {
+		return $this->setLastError($message)->save();
+	}
+
+	/**
+	 * Test if the Cron scheduler is running
+	 *
+	 * @return bool
+	 */
+	public static function isRunning() {
+		$db = Zend_Db_Table::getDefaultAdapter();
+		$select = $db
+			->select()
+			->from("cron", array("UNIX_TIMESTAMP(last_success) AS time"))
+			->where("command = ?", "pushinstant")
+			->order("last_success DESC")
+			->limit(1)
+		;
+
+		$result = $db->fetchRow($select);
+		if(isset($result) && isset($result["time"])) {
+			$diff = time() - $result["time"];
+			if($diff <= 65) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * @return bool|string
+	 */
+	public static function getLastError() {
+		$db = Zend_Db_Table::getDefaultAdapter();
+		$select = $db
+			->select()
+			->from("cron", array("last_error"))
+			->where("last_error != ''")
+			->order("updated_at DESC")
+			->limit(1)
+		;
+
+		$result = $db->fetchRow($select);
+		if(isset($result) && isset($result["last_error"])) {
+			$error = $result["last_error"];
+			return array(
+				"short" => cut($error, 50),
+				"full" => str_replace("\n", "<br />", $error),
+			);
+		}
+
+		return false;
+	}
 }

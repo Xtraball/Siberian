@@ -155,10 +155,17 @@ class Application_Model_Device_Angular_Android extends Application_Model_Device_
 
                 if(in_array($extension, $allowed_extensions)) {
                     if (strpos($link, 'CommonUtilities.java') !== false) {
+
+                        if(defined("CRON")) {
+                            $url = "http://".$this->getDevice()->getHost()."/";
+                        } else {
+                            $url = $this->getUrl();
+                        }
+
                         $this->__replace(array(
                             'String SENDER_ID = ""' => 'String SENDER_ID = "' . Push_Model_Certificate::getAndroidSenderId() . '"',
                             'String APP_ID = ""' => 'String APP_ID = "' . $this->getApplication()->getId() . '"',
-                            'SERVEUR_URL = "http://base.appsmobilecompany.com/";' => 'SERVEUR_URL = "' . $this->getUrl() . '";'
+                            'SERVEUR_URL = "http://base.appsmobilecompany.com/";' => 'SERVEUR_URL = "' . $url . '";'
                         ), $link);
                     }
                 }
@@ -201,8 +208,14 @@ class Application_Model_Device_Angular_Android extends Application_Model_Device_
             }
         }
 
+        if(defined("CRON")) {
+            $url_app = "http://".$this->getDevice()->getHost()."/en/".$this->getApplication()->getKey();
+        } else {
+            $url_app = $this->getApplication()->getUrl(null, array(), 'en', false);
+        }
+
         $replacements = array(
-            'http://localhost/overview' => $this->getApplication()->getUrl(null, array(), 'en', false),
+            'http://localhost/overview' => $url_app,
             '<string name="app_name">Apps Mobile Company</string>' => '<string name="app_name"><![CDATA['.$name.']]></string>',
         );
 
@@ -241,8 +254,14 @@ class Application_Model_Device_Angular_Android extends Application_Model_Device_
                 $android_lang = $lang;
             }
 
+            if(defined("CRON")) {
+                $url_app = "http://".$this->getDevice()->getHost()."/".$lang."/".$this->getApplication()->getKey();
+            } else {
+                $url_app = $this->getApplication()->getUrl(null, array(), $lang, false);
+            }
+
             $replacements = array(
-                'http://localhost/overview' => $this->getApplication()->getUrl(null, array(), $lang, false),
+                'http://localhost/overview' => $url_app,
                 '<string name="app_name">SiberianCMS</string>' => '<string name="app_name"><![CDATA['.$name.']]></string>',
                 '<string name="app_name">Apps Mobile Company</string>' => '<string name="app_name"><![CDATA['.$name.']]></string>',
             );

@@ -7,6 +7,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
 	const IONIC_FOLDER = "/var/apps/ionic";
     const SOURCE_FOLDER = "/var/apps/ionic/android";
     const DEST_FOLDER = "/var/tmp/applications/ionic/android/%s";
+    const ARCHIVE_FOLDER = "/var/tmp/applications/ionic";
 
     protected $_current_version = '1.0';
     protected $_folder_name = '';
@@ -21,6 +22,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
     protected $_dest_source;
     protected $_dest_source_src;
     protected $_dest_source_res;
+    protected $_dest_archive;
 
     public function __construct($data = array()) {
         parent::__construct($data);
@@ -41,6 +43,11 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
         return "Google";
     }
 
+    /**
+     * @param bool $cron
+     * @return bool|string
+     * @throws Exception
+     */
     public function prepareResources() {
 
         $this->_application = $this->getApplication();
@@ -76,7 +83,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
         if($apk = $this->_generateApk()) {
             return $apk;
         }
- 
+
     }
 
     public function configureAutoupdater($host) {
@@ -121,6 +128,8 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
         $this->_dest_source_res = $this->_dest_source."/res";
         $this->_dest_source_package_default = $this->_dest_source_src."/".$this->_default_bundle_path;
         $this->_dest_source_package = $this->_dest_source_src.'/'.str_replace(".", "/", $this->_package_name);
+
+        $this->_dest_archive = Core_Model_Directory::getBasePathTo(self::ARCHIVE_FOLDER);
 
         /** Vars */
         $this->_zipname = $this->getDevice()->getAlias().'_android_source';
@@ -174,9 +183,11 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
     }
 
     protected function _prepareRequest() {
-        $request = new Siberian_Controller_Request_Http($this->_application->getUrl());
-        $request->setPathInfo();
-        $this->_request = $request;
+        if(!defined("CRON")) {
+            $request = new Siberian_Controller_Request_Http($this->_application->getUrl());
+            $request->setPathInfo();
+            $this->_request = $request;
+        }
     }
 
     protected function _cpFolder() {
@@ -222,8 +233,13 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
     /** @TODO remove default langage */
     protected function _prepareUrl() {
 
-        $domain = $this->_request->getHttpHost();
-        $app_key = $this->_application->getKey();
+        if(defined("CRON")) {
+            $domain = $this->getDevice()->getHost();
+        } else {
+            $domain = $this->_request->getHttpHost();
+        }
+
+        $app_key = $this->getApplication()->getKey();
 
         $url_js_content = "
 /** Auto-generated url.js */
@@ -288,7 +304,7 @@ if(navigator.language) {
      * CALL ME BAD OLD COMPILER
      *  .
      */
-    protected function _generateApk() {
+    protected function _generateApk($cron = false) {
 
     	/** Fetching vars. */
     	$output = array();
@@ -346,8 +362,10 @@ if(navigator.language) {
     	$gradlew_path = Core_Model_Directory::getBasePathTo("{$this->_dest_source}/gradlew");
 
     	/** Calling the url to notify the APK is ready  */
-    	$callback_url = Core_Model_Url::create("application/device/apkisgenerated", array("app_name" => $this->_folder_name));;
-    	file_put_contents($gradlew_path, "\n\nwget $callback_url", FILE_APPEND);
+        if(!defined("CRON")) {
+    	    $callback_url = Core_Model_Url::create("application/device/apkisgenerated", array("app_name" => $this->_folder_name));
+    	    file_put_contents($gradlew_path, "\n\nwget $callback_url", FILE_APPEND);
+        }
 
         /** Adding a call to the sdk-updater.php at the gradlew top */
         /** @TODO */
@@ -396,13 +414,33 @@ storePassword={$store_password}";
     	/** Executing gradlew */
         $var_log = $var_log."/apk-build.log";
         unlink($var_log);
-    	exec("bash gradlew cdvBuildRelease 2>&1 | tee {$var_log}", $output);
+    	exec("bash gradlew cdvBuildRelease 2>&1", $output);
 
-        if (!in_array('BUILD SUCCESSFUL', $output)) {
-            $this->_logger->sendException(print_r($output, true), "apk_generation_", false);
-            return false;
+        if(!defined("CRON")) {
+            if (!in_array('BUILD SUCCESSFUL', $output)) {
+                $this->_logger->sendException(print_r($output, true), "apk_generation_", false);
+                return false;
+            }
+            exit('Done ...');
+        } else {
+            $success = in_array("BUILD SUCCESSFUL", $output);
+            $apk_base_path = "{$this->_dest_source}/build/outputs/apk/{$this->_folder_name}-release.apk";
+
+            if(is_readable($apk_base_path)) {
+                $target_path = Core_Model_Directory::getBasePathTo("var/tmp/applications/ionic/")."{$this->_folder_name}-release.apk";
+                rename($apk_base_path, $target_path);
+            }
+
+            # Clean-up dest files.
+            Core_Model_Directory::delete($this->_dest_source);
+
+            return array(
+                "success" => $success,
+                "log" => $output,
+                "path" => is_readable($target_path) ? $target_path : false,
+            );
         }
-        exit('Done ...');
+
     }
 
 

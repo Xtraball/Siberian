@@ -15,4 +15,4 @@ $data = array(
 $androidtools = new Cron_Model_Cron();
 $androidtools
     ->setData($data)
-    ->insertOrUpdate(array("command"));
+    ->insertOnce(array("command"));

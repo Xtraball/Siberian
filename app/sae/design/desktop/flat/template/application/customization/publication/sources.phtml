@@ -1,4 +1,11 @@
-<?php $application = $this->getApplication() ?>
+<?php
+    $application = $this->getApplication();
+
+    $zip = Application_Model_SourceQueue::getPackages($application->getId());
+    $queued = Application_Model_Queue::getPosition($application->getId());
+    $positions = $queued["positions"];
+    $total = $queued["total"];
+?>
 <div class="application container-fluid">
     <div class="content">
         <h3 class="title-editor border-green">
@@ -106,27 +113,75 @@
                             <div class="col-sm-5">
                                 <?php echo $this->_('iPhone Version'); ?>
                             </div>
-                            <div class="col-sm-5">
-                                <a href="<?php echo $this->getUrl("application/customization_publication_infos/downloadsource", array("device_id" => 1)); ?>"><i class="fa fa-download"></i></a>
-                                <a href="<?php echo $this->getUrl("application/customization_publication_infos/downloadsource", array("device_id" => 1)); ?>"><?php echo $this->_('Download'); ?></a>
+                            <div class="col-sm-4">
+                                <?php  if(!empty($zip["ios"]["path"]) && $positions["ios"] == 0): ?>
+                                <a href="<?php echo $this->getUrl("").$zip["ios"]["path"] ?>">
+                                    <i class="fa fa-download"></i> <?php echo __('Download latest source'); ?>
+                                </a>
+                                <?php endif; ?>
+                            </div>
+                            <div class="col-sm-3">
+                                <?php  if($positions["ios"] == 0): ?>
+                                <a class="generate-source" onclick="generateSource(1, 0);" href="javascript:void(0)" >
+                                    <i class="fa fa-gears"></i> <?php echo __('Generate source'); ?>
+                                </a>
+                                <?php endif; ?>
+                                <?php  if($positions["ios"] == 1): ?>
+                                    <i class="fa fa-gear"></i> <?php echo __('Generating'); ?>
+                                <?php endif; ?>
+                                <?php  if($positions["ios"] > 1): ?>
+                                    <i class="fa fa-gears"></i> <?php echo __('Queued %s/%s', $positions["ios"], $total); ?>
+                                <?php endif; ?>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-5">
                                 <?php echo $this->_('iPhone Version (No Ads)'); ?>
                             </div>
-                            <div class="col-sm-5">
-                                <a href="<?php echo $this->getUrl("application/customization_publication_infos/downloadsource", array("device_id" => 1, "no_ads" => 1)); ?>"><i class="fa fa-download"></i></a>
-                                <a href="<?php echo $this->getUrl("application/customization_publication_infos/downloadsource", array("device_id" => 1, "no_ads" => 1)); ?>"><?php echo $this->_('Download'); ?></a>
+                            <div class="col-sm-4">
+                                <?php  if(!empty($zip["iosnoads"]["path"]) && $positions["iosnoads"] == 0): ?>
+                                    <a href="<?php echo $this->getUrl("").$zip["iosnoads"]["path"] ?>">
+                                    <i class="fa fa-download"></i> <?php echo __('Download latest source'); ?>
+                                </a>
+                                <?php endif; ?>
+                            </div>
+                            <div class="col-sm-3">
+                                <?php  if($positions["iosnoads"] == 0): ?>
+                                <a class="generate-source" onclick="generateSource(1, 1);" href="javascript:void(0)" >
+                                    <i class="fa fa-gears"></i> <?php echo __('Generate source'); ?>
+                                </a>
+                                <?php endif; ?>
+                                <?php  if($positions["iosnoads"] == 1): ?>
+                                    <i class="fa fa-gear"></i> <?php echo __('Generating'); ?>
+                                <?php endif; ?>
+                                <?php  if($positions["iosnoads"] > 1): ?>
+                                    <i class="fa fa-gears"></i> <?php echo __('Queued %s/%s', $positions["iosnoads"], $total); ?>
+                                <?php endif; ?>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-5">
                                 <?php echo $this->_('Android Version'); ?>
                             </div>
-                            <div class="col-sm-5">
-                                <a href="<?php echo $this->getUrl("application/customization_publication_infos/downloadsource", array("device_id" => 2)); ?>"><i class="fa fa-download"></i></a>
-                                <a href="<?php echo $this->getUrl("application/customization_publication_infos/downloadsource", array("device_id" => 2)); ?>"><?php echo $this->_('Download'); ?></a>
+                            <div class="col-sm-4">
+                                <?php  if(!empty($zip["android"]["path"]) && $positions["android"] == 0): ?>
+                                    <a href="<?php echo $this->getUrl("").$zip["android"]["path"]; ?>">
+                                    <i class="fa fa-download"></i> <?php echo __('Download latest source'); ?>
+                                </a>
+                                <?php endif; ?>
+                            </div>
+                            <div class="col-sm-3">
+                                <?php  if($positions["android"] == 0): ?>
+                                <a class="generate-source" onclick="generateSource(2, 0);" href="javascript:void(0)" >
+                                    <i class="fa fa-gears"></i> <?php echo __('Generate source'); ?>
+                                </a>
+                                <?php endif; ?>
+                                <?php  if($positions["android"] == 1): ?>
+                                    <i class="fa fa-gear"></i> <?php echo __('Generating'); ?>
+                                <?php endif; ?>
+                                <?php  if($positions["android"] > 1): ?>
+                                    <i class="fa fa-gears"></i> <?php echo __('Queued %s/%s', $positions["android"], $total); ?>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -173,6 +228,26 @@
             input_loader.hide();
         });
     });
+
+    var disable = false;
+    function generateSource(device_id, no_ads) {
+        var url = "<?php echo $this->getUrl("application/customization_publication_infos/downloadsource"); ?>";
+
+        if(disable) {
+            return;
+        }
+        disable = true;
+
+        $.ajax({
+            url: url,
+            data: {device_id: device_id, no_ads: no_ads},
+            success: function(data) {
+                // reload
+                location.reload();
+            },
+            dataType: 'json'
+        });
+    }
 
 </script>
 

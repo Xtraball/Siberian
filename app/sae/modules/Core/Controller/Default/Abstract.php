@@ -556,13 +556,23 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action
             $this->getResponse()->setHttpResponseCode(400);
         }
 
-        /** Adding debug errors to the returning json */
-        if(APPLICATION_ENV == 'development') {
-            /** @note disabled until done */
-            //$html['debug'] = Siberian_Error::$errors;
+        /** Trying to convert data to utf8 if array is buggy */
+        try {
+            $json = Zend_Json::encode($html);
+            if($json === false) {
+                // try converting to utf-8
+                $html = data_to_utf8($html);
+                $json = Zend_Json::encode($html);
+            }
+        } catch(Exception $e) {
+            /** Catching any exception, the request should always ends ! */
+            $json = array(
+                "error" => 1,
+                "message" => $e->getMessage(),
+            );
         }
 
-        $this->getLayout()->setHtml(Zend_Json::encode($html));
+        $this->getLayout()->setHtml($json);
     }
 
     /**

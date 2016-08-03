@@ -1,4 +1,11 @@
-<?php $application = $this->getApplication() ?>
+<?php
+    $application = $this->getApplication();
+
+    $zip = Application_Model_SourceQueue::getPackages($application->getId());
+    $queued = Application_Model_Queue::getPosition($application->getId());
+    $positions = $queued["positions"];
+    $total = $queued["total"];
+?>
 <div class="application">
     <div class="infos">
         <div class="area first">
@@ -110,44 +117,92 @@
                         <p><?php echo $this->_('Click here to download the source code:'); ?></p>
                         <div class="form-horizontal">
                             <?php if($application->getDesignCode() != "ionic") : ?>
-                            <div class="form-group">
-                                <div class="col-sm-5">
-                                    <?php echo $this->_('Source type'); ?>
+                                <div class="form-group">
+                                    <div class="col-sm-5">
+                                        <?php echo __('Source type'); ?>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <select id="design_switcher">
+                                            <?php foreach(Application_Model_Application::getDesignCodes() as $design_code => $design_name) : ?>
+                                                <option value="<?php echo $design_code; ?>"<?php if($application->getDesignCode() == $design_code) : ?> selected="selected"<?php endif; ?>><?php echo $design_name; ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="col-sm-5">
-                                    <select id="design_switcher">
-                                        <?php foreach(Application_Model_Application::getDesignCodes() as $design_code => $design_name) : ?>
-                                        <option value="<?php echo $design_code; ?>"<?php if($application->getDesignCode() == $design_code) : ?> selected="selected"<?php endif; ?>><?php echo $design_name; ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                            </div>
                             <?php endif; ?>
                             <div class="form-group">
                                 <div class="col-sm-5">
                                     <?php echo $this->_('iPhone Version'); ?>
                                 </div>
-                                <div class="col-sm-5">
-                                    <a class="download_source" base-href="<?php echo $this->getUrl("application/customization_publication_infos/downloadsource", array("device_id" => 1)); ?>"><i class="icon-download-alt"></i></a>
-                                    <a class="download_source" base-href="<?php echo $this->getUrl("application/customization_publication_infos/downloadsource", array("device_id" => 1)); ?>"><?php echo $this->_('Download'); ?></a>
+                                <div class="col-sm-4">
+                                    <?php  if(!empty($zip["ios"]["path"]) && $positions["ios"] == 0): ?>
+                                        <a href="<?php echo $this->getUrl("").$zip["ios"]["path"] ?>">
+                                            <i class="icon-download-alt"></i> <?php echo __('Download latest source'); ?>
+                                        </a>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="col-sm-3">
+                                    <?php  if($positions["ios"] == 0): ?>
+                                        <a class="generate-source" onclick="generateSource(1, 0);" href="javascript:void(0)" >
+                                            <i class="icon-gears"></i> <?php echo __('Generate source'); ?>
+                                        </a>
+                                    <?php endif; ?>
+                                    <?php  if($positions["ios"] == 1): ?>
+                                        <i class="icon-gear"></i> <?php echo __('Generating'); ?>
+                                    <?php endif; ?>
+                                    <?php  if($positions["ios"] > 1): ?>
+                                        <i class="icon-gears"></i> <?php echo __('Queued %s/%s', $positions["ios"], $total); ?>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-5">
                                     <?php echo $this->_('iPhone Version (No Ads)'); ?>
                                 </div>
-                                <div class="col-sm-5">
-                                    <a class="download_source" base-href="<?php echo $this->getUrl("application/customization_publication_infos/downloadsource", array("device_id" => 1, "no_ads" => 1)); ?>"><i class="icon-download-alt"></i></a>
-                                    <a class="download_source" base-href="<?php echo $this->getUrl("application/customization_publication_infos/downloadsource", array("device_id" => 1, "no_ads" => 1)); ?>"><?php echo $this->_('Download'); ?></a>
+                                <div class="col-sm-4">
+                                    <?php  if(!empty($zip["iosnoads"]["path"]) && $positions["iosnoads"] == 0): ?>
+                                        <a href="<?php echo $this->getUrl("").$zip["iosnoads"]["path"] ?>">
+                                            <i class="icon-download-alt"></i> <?php echo __('Download latest source'); ?>
+                                        </a>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="col-sm-3">
+                                    <?php  if($positions["iosnoads"] == 0): ?>
+                                        <a class="generate-source" onclick="generateSource(1, 1);" href="javascript:void(0)" >
+                                            <i class="icon-gears"></i> <?php echo __('Generate source'); ?>
+                                        </a>
+                                    <?php endif; ?>
+                                    <?php  if($positions["iosnoads"] == 1): ?>
+                                        <i class="icon-gear"></i> <?php echo __('Generating'); ?>
+                                    <?php endif; ?>
+                                    <?php  if($positions["iosnoads"] > 1): ?>
+                                        <i class="icon-gears"></i> <?php echo __('Queued %s/%s', $positions["iosnoads"], $total); ?>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-5">
                                     <?php echo $this->_('Android Version'); ?>
                                 </div>
-                                <div class="col-sm-5">
-                                    <a class="download_source" base-href="<?php echo $this->getUrl("application/customization_publication_infos/downloadsource", array("device_id" => 2)); ?>"><i class="icon-download-alt"></i></a>
-                                    <a class="download_source" base-href="<?php echo $this->getUrl("application/customization_publication_infos/downloadsource", array("device_id" => 2)); ?>"><?php echo $this->_('Download'); ?></a>
+                                <div class="col-sm-4">
+                                    <?php  if(!empty($zip["android"]["path"]) && $positions["android"] == 0): ?>
+                                        <a href="<?php echo $this->getUrl("").$zip["android"]["path"]; ?>">
+                                            <i class="icon-download-alt"></i> <?php echo __('Download latest source'); ?>
+                                        </a>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="col-sm-3">
+                                    <?php  if($positions["android"] == 0): ?>
+                                        <a class="generate-source" onclick="generateSource(2, 0);" href="javascript:void(0)" >
+                                            <i class="icon-gears"></i> <?php echo __('Generate source'); ?>
+                                        </a>
+                                    <?php endif; ?>
+                                    <?php  if($positions["android"] == 1): ?>
+                                        <i class="icon-gear"></i> <?php echo __('Generating'); ?>
+                                    <?php endif; ?>
+                                    <?php  if($positions["android"] > 1): ?>
+                                        <i class="icon-gears"></i> <?php echo __('Queued %s/%s', $positions["android"], $total); ?>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -213,13 +268,9 @@
     });
 
     <?php if($application->getDesignCode() != "ionic") : ?>
+    var design_code = "angular";
     $("#design_switcher").change(function() {
         var design_code = this.value;
-        $(".download_source").each(function() {
-            var base_href = $(this).attr("base-href");
-            base_href += "/design_code/"+design_code;
-            $(this).attr("href", base_href);
-        });
     });
 
     $("#design_switcher").change();
@@ -235,11 +286,28 @@
     });
 
     <?php else: ?>
-    $(".download_source").each(function() {
-        $(this).attr("href", $(this).attr("base-href"));
-        $(this).removeAttr("base-href");
-    });
+    var design_code = "ionic";
     <?php endif; ?>
+
+    var disable = false;
+    function generateSource(device_id, no_ads) {
+        var url = "<?php echo $this->getUrl("application/customization_publication_infos/downloadsource"); ?>";
+
+        if(disable) {
+            return;
+        }
+        disable = true;
+
+        $.ajax({
+            url: url,
+            data: {device_id: device_id, no_ads: no_ads, design_code: design_code},
+            success: function(data) {
+                // reload
+                location.reload();
+            },
+            dataType: 'json'
+        });
+    }
 
 </script>
 

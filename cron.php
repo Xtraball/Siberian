@@ -33,7 +33,7 @@ if(
     }
 }
 
-
+define('CRON', true);
 define('APPLICATION_PATH', realpath(dirname(__FILE__)."/app"));
 define('APPLICATION_ENV', $_config["environment"]);
 

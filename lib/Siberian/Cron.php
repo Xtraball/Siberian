@@ -30,6 +30,11 @@ class Siberian_Cron {
 	protected $root_path;
 
 	/**
+	 * @var array
+	 */
+	protected $locked_tasks = array();
+
+	/**
 	 * @var integer
 	 */
 	protected $start;
@@ -106,6 +111,8 @@ class Siberian_Cron {
 				# Unlock task in case of Exception
 				$this->unlock($task->getId());
 
+				$task->saveLastError($e->getMessage());
+
 				$success = false;
 			}
 		} else {
@@ -133,6 +140,7 @@ class Siberian_Cron {
 	 * @param $task_id
 	 */
 	private function lock($task_id) {
+		$this->locked_tasks[] = $task_id;
 		file_put_contents("{$this->lock_base}/{$task_id}.lock", 1);
 	}
 
@@ -143,6 +151,7 @@ class Siberian_Cron {
 		$file = "{$this->lock_base}/{$task_id}.lock";
 		if(file_exists($file)) {
 			unlink($file);
+			unset($this->locked_tasks[$task_id]);
 		}
 	}
 
@@ -240,6 +249,7 @@ class Siberian_Cron {
 		}
 	}
 
+	/** NOTE: APK & Sources queues shares the same lock, as one may break the other */
 
 	/**
 	 * APK Generator queue
@@ -248,13 +258,61 @@ class Siberian_Cron {
 	 */
 	public function apkgenerator($task) {
 		# We do really need to lock this thing !
-		$this->lock($task->getId());
+		if(!$this->isLocked("generator")) {
+			$this->lock("generator");
 
-		# Generate the APK
-		/** @todo in 4.2.x */
+			# Generate the APK
+			$queue = Application_Model_ApkQueue::getQueue();
+			foreach($queue as $apk) {
+				try {
+					$this->log(sprintf("Generating App: ID[%s], Name[%s], Target[APK]", $apk->getAppId(), $apk->getName()));
+					$apk->changeStatus("building");
+					$apk->generate();
+				} catch(Exception $e) {
+					$this->log($e->getMessage());
+					$apk->changeStatus("failed");
+					$task->saveLastError($e->getMessage());
+				}
 
-		# Releasing
-		$this->unlock($task->getId());
+			}
+
+			# Releasing
+			$this->unlock("generator");
+		} else {
+			$this->log("Locked task: {$task->getName()} / generator, skipping...");
+		}
+	}
+
+	/**
+	 * Sources Generator queue
+	 *
+	 * @param Cron_Model_Cron $task
+	 */
+	public function sources($task) {
+		# We do really need to lock this thing !
+		if(!$this->isLocked("generator")) {
+			$this->lock("generator");
+
+			# Generate the Source ZIP
+			$queue = Application_Model_SourceQueue::getQueue();
+			foreach($queue as $source) {
+				try {
+					$this->log(sprintf("Generating App sources: ID[%s], Name[%s], Target[%s]", $source->getAppId(), $source->getName(), $source->getType()));
+					$source->changeStatus("building");
+					$source->generate();
+				} catch(Exception $e) {
+					$this->log($e->getMessage());
+					$source->changeStatus("failed");
+					$task->saveLastError($e->getMessage());
+				}
+
+			}
+
+			# Releasing
+			$this->unlock("generator");
+		} else {
+			$this->log("Locked task: {$task->getName()} / generator, skipping...");
+		}
 	}
 
 
@@ -282,6 +340,7 @@ class Siberian_Cron {
 			require_once $script;
 		} catch(Exception $e){
 			$this->log($e->getMessage());
+			$task->saveLastError($e->getMessage());
 		}
 
 		# Disable when done.

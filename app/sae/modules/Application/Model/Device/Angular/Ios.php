@@ -105,9 +105,11 @@ class Application_Model_Device_Angular_Ios extends Application_Model_Device_Abst
     }
 
     protected function _prepareRequest() {
-        $request = new Siberian_Controller_Request_Http($this->getApplication()->getUrl());
-        $request->setPathInfo();
-        $this->_request = $request;
+        if(!defined("CRON")) {
+            $request = new Siberian_Controller_Request_Http($this->getApplication()->getUrl());
+            $request->setPathInfo();
+            $this->_request = $request;
+        }
     }
 
     protected function _cpFolder() {
@@ -335,14 +337,26 @@ class Application_Model_Device_Angular_Ios extends Application_Model_Device_Abst
 
     private function __getUrlValue($key) {
 
+        if(!defined("CRON")) {
+            $scheme = $this->_request->getScheme();
+            $http_host = $this->_request->getHttpHost();
+            $base_url = $this->_request->getBaseUrl();
+            $use_key = $this->_request->useApplicationKey();
+        } else {
+            $scheme = "http";
+            $http_host = $this->getDevice()->getHost();
+            $base_url = "/";
+            $use_key = true;
+        }
+
         $value = null;
         
         switch($key) {
-            case "url_scheme": $value = $this->_request->getScheme(); break;
-            case "url_domain": $value = $this->_request->getHttpHost(); break;
-            case "url_path": $value = ltrim($this->_request->getBaseUrl(), "/"); break;
+            case "url_scheme": $value = $scheme; break;
+            case "url_domain": $value = $http_host; break;
+            case "url_path": $value = ltrim($base_url, "/"); break;
             case "url_key":
-                if($this->_request->useApplicationKey()) {
+                if($use_key) {
                     $value = $this->getApplication()->getKey();
                 }
                 break;

@@ -399,8 +399,18 @@
 
                         <div class="details">
                             <div class="relative">
-                                <span class="block left"><?php echo $this->_("I want to send it"); ?></span>
                                 <ul class="clear left">
+                                    <?php if($messageobj->getMessageType() == 2): ?>
+                                        <li class="no-padding">
+                                            <label for="send_until_inapp_message" >
+                                                <?php echo $this->_("Please enter an expiration date for your message:"); ?>
+                                                <input type="text" id="inapp_datepicker_send_until" class="form-control push_datetimepicker required " name="inapp_datepicker_send_until" value="" />
+                                            </label>
+                                        </li>
+                                    <?php endif; ?>
+                                    <li class="no-padding">
+                                        <span class="block"><?php echo $this->_("I want to send it"); ?></span>
+                                    </li>
                                     <li class="no-padding">
                                         <label for="send_now" class="radio" onclick="$('#push_datepicker_send_at').fadeOut(150).attr('disabled', 'disabled');">
                                             <input type="radio" id="send_now" name="send_at_a_specific_datetime" value="0" checked="checked" />
@@ -684,6 +694,10 @@
                 $('.push_datetimepicker').datetimepicker({
                     dateFormat: 'yy-mm-dd'
                 });
+
+                var today = new Date();
+                var tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+                $("#inapp_datepicker_send_until").datepicker( "setDate", tomorrow);
 
                 $('.push_select').each(function() {
                     $(this).dropkick();

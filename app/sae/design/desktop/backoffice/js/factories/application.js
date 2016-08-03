@@ -89,6 +89,24 @@ App.factory('Application', function($http, Url, DataLoader) {
         });
     };
 
+    factory.generateSource = function(device_id, no_ads, app_id, design_code) {
+
+        var link = Url.get(
+            "application/backoffice_view/downloadsource", {
+                device_id: device_id,
+                app_id: app_id,
+                design_code: design_code,
+                no_ads : no_ads,
+                type: "zip"
+            });
+
+        return $http({
+            method: 'GET',
+            url: link,
+            responseType:'json'
+        });
+    };
+
     factory.saveDeviceInfo = function(application) {
 
         return $http({

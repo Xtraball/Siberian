@@ -9,6 +9,10 @@ abstract class Application_Model_Device_Abstract extends Core_Model_Default {
         return $this->_os_name;
     }
 
+    /**
+     * @param bool $cron
+     * @return mixed
+     */
     public function getResources() {
         $umask = umask(0);
         $resource = $this->prepareResources();
@@ -19,22 +23,22 @@ abstract class Application_Model_Device_Abstract extends Core_Model_Default {
 
     protected function __replace($replacements, $file, $regex = false) {
 
-        $contents = file_get_contents($file);
-        if(!$contents) {
-            throw new Exception($this->_('An error occurred while editing file (%s).', $file));
-        }
+    $contents = file_get_contents($file);
+    if(!$contents) {
+        throw new Exception($this->_('An error occurred while editing file (%s).', $file));
+    }
 
-        foreach($replacements as $search => $replace) {
-            if($regex) {
-                $contents = preg_replace($search, $replace, $contents);
-            } else {
-                $contents = str_replace($search, $replace, $contents);
-            }
-
+    foreach($replacements as $search => $replace) {
+        if($regex) {
+            $contents = preg_replace($search, $replace, $contents);
+        } else {
+            $contents = str_replace($search, $replace, $contents);
         }
-        file_put_contents($file, $contents);
 
     }
+    file_put_contents($file, $contents);
+
+}
 
     /**
      * Archive the generated project.
@@ -45,7 +49,7 @@ abstract class Application_Model_Device_Abstract extends Core_Model_Default {
     protected function zipFolder() {
 
         $folder = $this->_dest_source;
-        $dest = "{$this->_dest_source}/{$this->_zipname}.zip";
+        $dest = "{$this->_dest_archive}/{$this->_zipname}.zip";
 
         Core_Model_Directory::zip($folder, $dest);
 

@@ -290,3 +290,20 @@ table.table td.wrap { white-space: normal; }
 .region_list{margin:15px 0 0 25px;border-left: 3px solid;}
 span.pem-valid { color: #83da3d; font-weight: bold; }
 span.pem-invalid { color: #ef3831; font-weight: bold; }
+
+img.gear-loader { margin-right: 4px; }
+table.queue i.fa { font-size: 12px; }
+table.queue p { margin-bottom: 0; }
+
+.service-green { color: #60d122; font-weight: bold; }
+.service-orange { color: #ffd200; font-weight: bold; }
+.service-red { color: #ef3831; font-weight: bold; }
+table.dashboard tr:first-of-type td { border-top: 0; }
+table.sub-table { width: 100%; }
+table.sub-table td { border-bottom: 1px solid #ddd; padding-top: 3px; padding-bottom: 3px; }
+table.sub-table tr:last-of-type td { border-bottom: 0; }
+table.sub-table i.fa { font-size: 12px; margin-right: 4px; }
+table.sub-table td.indent { padding-left: 20px; }
+table.sub-table tr.no-border-bottom td { border-bottom: 0; }
+#cron-help { position: fixed;  top: 100px;  width: 900px;  left: 50%;  margin-left: -450px;  z-index: 25000;  }
+#cron-help .modal-title { font-size: 18px; font-weight: bold; }

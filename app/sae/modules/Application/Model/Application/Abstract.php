@@ -140,6 +140,10 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
+    /**
+     * @param $device_id
+     * @return Application_Model_Device_Ionic_Android|Application_Model_Device_Ionic_Ios
+     */
     public function getDevice($device_id) {
 
         if(empty($this->_devices[$device_id])) {

@@ -151,11 +151,23 @@ class Core_Model_Directory
 
     }
 
+    /**
+     * @param $source
+     * @param $destination
+     * @return null
+     */
     public static function zip($source, $destination) {
 
-        if(!is_dir($source)) return null;
+        if(!is_dir($source)) {
+            return null;
+        }
 
-        exec("cd \"$source\"; zip --symlinks -r \"$destination\" ./", $output);
+        /** Clean-up */
+        if(file_exists($destination)) {
+            unlink($destination);
+        }
+
+        exec("cd \"$source\"; zip --symlinks -r -9 \"$destination\" ./", $output);
 
         // Backward compatibility for Zip < 3.0
         if(empty($output) AND !is_file($destination)) {

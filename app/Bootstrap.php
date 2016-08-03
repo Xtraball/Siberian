@@ -73,10 +73,29 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
     }
 
+    protected function _initLogger() {
+        if (!is_dir(Core_Model_Directory::getBasePathTo('var/log'))) {
+            mkdir(Core_Model_Directory::getBasePathTo('var/log'), 0777, true);
+        }
+
+        $writer = new Zend_Log_Writer_Stream(Core_Model_Directory::getBasePathTo('var/log/output.log'));
+        $logger = new Siberian_Log($writer);
+        Zend_Registry::set('logger', $logger);
+    }
+
     protected function _initConnection() {
 
         $this->bootstrap('db');
         $resource = $this->getResource('db');
+
+        //Disabling strict mode
+        try {
+            $resource->query("SET sql_mode = '';");
+        } catch(Exception $e) {
+            $logger = Zend_Registry::get("logger");
+            $logger->sendException("Fatal Error when trying to disable SQL strict mode: \n".print_r($e, true));
+        }
+
         Zend_Registry::set('db', $resource);
         if(Installer_Model_Installer::isInstalled()) {
 
@@ -137,16 +156,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         
         Siberian_Cache_Design::init();
         Siberian_Utils::load();
-    }
-
-    protected function _initLogger() {
-        if (!is_dir(Core_Model_Directory::getBasePathTo('var/log'))) {
-            mkdir(Core_Model_Directory::getBasePathTo('var/log'), 0777, true);
-        }
-
-        $writer = new Zend_Log_Writer_Stream(Core_Model_Directory::getBasePathTo('var/log/output.log'));
-        $logger = new Siberian_Log($writer);
-        Zend_Registry::set('logger', $logger);
     }
 
     protected function _initInstaller() {

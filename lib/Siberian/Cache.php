@@ -121,4 +121,100 @@ class Siberian_Cache
         unlink(Core_Model_Directory::getBasePathTo(static::CACHE_PATH));
     }
 
+    /**
+     * Clear a folder cache
+     *
+     * @param $folder
+     */
+    public static function __clearFolder($folder) {
+        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($folder, 4096), RecursiveIteratorIterator::SELF_FIRST);
+        foreach($files as $file) {
+            $filename = $file->getFileName();
+            if(!preg_match("/android_pwd/", $filename)) {
+                unlink($file->getPathName());
+            }
+        }
+    }
+
+    /**
+     * Alias to clear cache
+     */
+    public static function __clearCache() {
+        $folder = Core_Model_Directory::getBasePathTo("var/cache/");
+
+        return self::__clearFolder($folder);
+    }
+
+    /**
+     * Alias to clear cache
+     */
+    public static function __clearLog() {
+        $folder = Core_Model_Directory::getBasePathTo("var/log/");
+
+        /** Backup android_pwd files */
+        $android_pwd_backup = Core_Model_Directory::getBasePathTo("var/apps/android/pwd");
+        $logs = new DirectoryIterator($folder);
+        foreach ($logs as $log) {
+            if(!$log->isDir() && !$log->isDot()) {
+                $filename = $log->getFilename();
+                if(preg_match("/android_pwd/", $filename)) {
+                    copy($log->getPathname(), "{$android_pwd_backup}/{$filename}");
+                }
+            }
+        }
+
+        return self::__clearFolder($folder);
+    }
+
+    /**
+     * Alias to clear cache
+     */
+    public static function __clearTmp() {
+        $folder = Core_Model_Directory::getBasePathTo("var/tmp/");
+
+        return self::__clearFolder($folder);
+    }
+
+    /**
+     * Fetch disk usage
+     *
+     * @return array
+     */
+    public static function getDiskUsage() {
+        try {
+            $total = Core_Model_Directory::getBasePathTo("");
+            exec("du -cksh {$total}", $output);
+            $parts = explode("\t", end($output));
+            $total_size = $parts[0];
+
+            $var_log = Core_Model_Directory::getBasePathTo("var/log");
+            exec("du -cksh {$var_log}", $output);
+            $parts = explode("\t", end($output));
+            $var_log_size = $parts[0];
+
+            $var_cache = Core_Model_Directory::getBasePathTo("var/cache");
+            exec("du -cksh {$var_cache}", $output);
+            $parts = explode("\t", end($output));
+            $var_cache_size = $parts[0];
+
+            $var_tmp = Core_Model_Directory::getBasePathTo("var/tmp");
+            exec("du -cksh {$var_tmp}", $output);
+            $parts = explode("\t", end($output));
+            $var_tmp_size = $parts[0];
+
+        } catch (Exception $e) {
+            $total_size = 0;
+            $var_log_size = 0;
+            $var_cache_size = 0;
+            $var_tmp_size = 0;
+        }
+        
+        return array(
+            "total" => $total_size,
+            "log_size" => $var_log_size,
+            "cache_size" => $var_cache_size,
+            "tmp_size" => $var_tmp_size,
+        );
+    }
+
 }

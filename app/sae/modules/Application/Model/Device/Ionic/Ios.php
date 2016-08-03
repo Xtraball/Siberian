@@ -4,6 +4,7 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
 
     const SOURCE_FOLDER = "/var/apps/ionic/ios";
     const DEST_FOLDER = "/var/tmp/applications/ionic/ios/%s/AppsMobileCompany";
+    const ARCHIVE_FOLDER = "/var/tmp/applications/ionic";
 
     protected $_current_version = '1.0';
     protected $_zipname;
@@ -16,6 +17,7 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
     protected $_dest_source;
     protected $_dest_source_amc;
     protected $_dest_source_res;
+    protected $_dest_archive;
 
     public function __construct($data = array()) {
         parent::__construct($data);
@@ -119,7 +121,7 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
     }
 
 
-    public function prepareResources() {
+    public function prepareResources($cron = false) {
 
         $this->_application = $this->getApplication();
 
@@ -167,6 +169,8 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
         $this->_dest_source_amc = $this->_dest_source."/AppsMobileCompany";
         $this->_dest_source_res = $this->_dest_source_amc."/Resources";
 
+        $this->_dest_archive = Core_Model_Directory::getBasePathTo(self::ARCHIVE_FOLDER);
+
         /** Vars */
         $this->_zipname = $this->_app_name_formatted.'_ios_source'.$_package_ads_suffix;
 
@@ -180,7 +184,12 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
     /** App only */
     protected function _prepareUrl() {
 
-        $domain = $this->_request->getHttpHost();
+        if(defined("CRON")) {
+            $domain = $this->getDevice()->getHost();
+        } else {
+            $domain = $this->_request->getHttpHost();
+        }
+
         $app_key = $this->_application->getKey();
 
         $url_js_content = "

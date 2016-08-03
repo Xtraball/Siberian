@@ -6,7 +6,7 @@ if($has_previewer && method_exists(new Previewer_Model_Previewer(), "getInstance
 }
 ?>
 <?php if($has_previewer AND $previewer AND $previewer->getShowModalButton()==1 AND $this->_canAccess("previewer")): ?>
-    <button id="previewer" class="btn color-blue" style="position: absolute;right: 302px;top: -45px;"><?php echo $this->_('Preview on your phone'); ?></button>
+    <button id="previewer" class="btn color-blue" style="position: absolute;right: 302px;top: -150px;"><?php echo $this->_('Preview on your phone'); ?></button>
 <?php endif; ?>
 <div id="iphone">
     <div class="iphone_content">
@@ -18,6 +18,7 @@ if($has_previewer && method_exists(new Previewer_Model_Previewer(), "getInstance
         <iframe id="mobile_overview" width="323" height="580" style="overflow: hidden;"></iframe>
     </div>
     <div class="btn-group-vertical">
+        <button type="button" class="overview_size mobile-advice active no-background" rel="mini"></button>
         <button type="button" class="overview_size mobile-advice active no-background" rel="iphone5"></button>
         <button type="button" class="overview_size mobile-advice" rel="iphone6"></button>
         <button class="overview_size mobile-advice" rel="android"><i class="fa fa-android"></i></button>
@@ -31,6 +32,7 @@ if($has_previewer && method_exists(new Previewer_Model_Previewer(), "getInstance
     overview['iphone6'] = { background: '<?php echo $this->getImage('customization/overview/iphone6.svg'); ?>', width: 414, height: 736, container_width: 455, container_height: 971, marginTop: 102, marginLeft: 25, toolbar: 'iphone6_header' };
     overview['android'] = { background: '<?php echo $this->getImage('customization/overview/android.svg'); ?>', width: 367, height: 603, container_width: 400, container_height: 785, marginTop: 84, marginLeft: 17, toolbar: 'android_header' };
     overview['html5'] = { background: '<?php echo $this->getImage('customization/overview/html5.svg'); ?>', width: 302, height: 535, container_width: 400, container_height: 730, marginTop: 70, marginLeft: 48, toolbar: '' };
+    overview['mini'] = { background: '<?php echo $this->getImage('customization/overview/responsive_overview/iphone5.svg'); ?>', width: 324, height: 578, container_width: 381, container_height: 805, marginTop: 58, marginLeft: 32, toolbar: 'iphone_header' };
     $('button.overview_size').click(function() {
         var sizes = overview[$(this).attr('rel')];
         if(sizes && !$(this).hasClass('active')) {

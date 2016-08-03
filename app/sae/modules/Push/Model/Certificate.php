@@ -51,9 +51,7 @@ class Push_Model_Certificate extends Core_Model_Default {
                 );
 
                 $pem_info["apns_feedback"] = self::testApnsPort(2196);
-                if($pem_info["apns_feedback"]) {
-                    $pem_info["apns_feedback"] = self::testPem($certificate);
-                }
+                $pem_info["test_pem"] = self::testPem($certificate);
 
             } else {
                 $pem_info = array(
@@ -82,21 +80,26 @@ class Push_Model_Certificate extends Core_Model_Default {
         }
     }
 
+    /**
+     * Connection test
+     *
+     * @param $certificate
+     * @return bool
+     */
     public static function testPem($certificate) {
         require_once Core_Model_Directory::getBasePathTo('lib/ApnsPHP/Autoload.php');
 
         $nEnvironment = (APPLICATION_ENV == "production") ? ApnsPHP_Push::ENVIRONMENT_PRODUCTION : ApnsPHP_Push::ENVIRONMENT_SANDBOX;
 
         try {
-            $feedback = new ApnsPHP_Feedback(
+            $push_service = new ApnsPHP_Push(
                 $nEnvironment,
                 Core_Model_Directory::getBasePathTo($certificate)
             );
-            $feedback->setConnectTimeout(2);
-            $feedback->setConnectRetryTimes(1);
-            $feedback->connect();
-            $feedback->receive();
-            $feedback->disconnect();
+            $push_service->setConnectTimeout(2);
+            $push_service->setConnectRetryTimes(1);
+            $push_service->connect();
+            $push_service->disconnect();
 
             return true;
         } catch(ApnsPHP_Exception $e) {

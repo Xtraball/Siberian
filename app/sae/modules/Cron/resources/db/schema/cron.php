@@ -48,6 +48,9 @@ $schemas['cron'] = array(
         'type' => 'tinyint(4)',
         'default' => 5,
     ),
+    'last_error' => array(
+        'type' => 'longtext',
+    ),
     'last_trigger' => array(
         'type' => 'datetime',
     ),

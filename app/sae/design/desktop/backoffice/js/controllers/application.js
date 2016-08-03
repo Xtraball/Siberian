@@ -82,6 +82,24 @@ App.config(function($routeProvider) {
         });
     };
 
+    $scope.generateSource = function(device_id, no_ads) {
+        Application.generateSource(device_id, no_ads, $scope.application.id, $scope.mobile_source.design_code)
+            .success(function(data) {
+                $scope.message.setText(data.message)
+                    .isError(false)
+                    .show()
+                ;
+                $scope.application.zip = data.more.zip;
+                $scope.application.queued = data.more.queued;
+            })
+            .error(function(data) {
+                $scope.message.setText(data.message)
+                    .isError(true)
+                    .show()
+                ;
+            });
+    }
+
     $scope.downloadAndroidApk = function() {
 
         $scope.message.setText(Label.android.generating_apk)
@@ -89,7 +107,16 @@ App.config(function($routeProvider) {
             .show()
         ;
 
-        Application.downloadAndroidApk($scope.application.id, $scope.mobile_source.design_code).error(function(data) {
+        Application.downloadAndroidApk($scope.application.id, $scope.mobile_source.design_code)
+            .success(function(data) {
+                $scope.message.setText(data.message)
+                    .isError(false)
+                    .show()
+                ;
+                $scope.application.zip = data.more.zip;
+                $scope.application.queued = data.more.queued;
+            })
+            .error(function(data) {
             $scope.message.setText(data.message)
                 .isError(true)
                 .show()

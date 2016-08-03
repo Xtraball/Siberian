@@ -87,8 +87,6 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
                 $extension = pathinfo($_file, PATHINFO_EXTENSION);
                 $icons[$this->_dest_source_res."/drawable-{$orientation}-{$resolution}/screen.$extension"] = $_file;
                 $icons[$this->_dest_source_res."/drawable-{$orientation}-{$resolution}/startup_image.$extension"] = $_file;
-
-                Siberian_Media::optimize($_file);
             }
         }
 
@@ -98,6 +96,10 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
                 $newStartupImage = imagecreatetruecolor($width, $height);
                 $startupSrc = imagecreatefromstring(file_get_contents($icon_src));
                 imagecopyresized($newStartupImage, $startupSrc, 0, 0, 0, 0, $width, $height, $width, $height);
+
+                $extension = pathinfo($icon_dst, PATHINFO_EXTENSION);
+                $icon_dst = str_replace($extension, "png", $icon_dst);
+
                 imagepng($newStartupImage, $icon_dst);
             } else {
                 if(is_readable($icon_src) && is_writable(dirname($icon_dst))) {
@@ -106,6 +108,8 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
                     }
                 }
             }
+
+            Siberian_Media::optimize($icon_dst);
         }
 
     }

@@ -6,12 +6,16 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
     public function loadAction() {
 
+        $config = new System_Model_Config();
+        $configs = $config->findAll(array(new Zend_Db_Expr('code LIKE "ftp_%"')));
+
         $html = array(
             "title" => $this->_("Modules"),
             "icon" => "fa-cloud-download"
         );
 
         $this->_sendHtml($html);
+
     }
 
     public function downloadupdateAction() {
@@ -29,7 +33,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
             }
 
             if(!empty($data["url"]) AND !empty($data["filename"])) {
-            
+
                 $tmp_path = Core_Model_Directory::getTmpDirectory(true)."/".$data["filename"];
 
                 $client = new Zend_Http_Client($data["url"], array(
@@ -279,8 +283,6 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
         try {
 
-            echo "<pre>";
-
             $cache = Zend_Registry::isRegistered('cache') ? Zend_Registry::get('cache') : null;
             if($cache) {
                 $cache->clean("all");
@@ -358,15 +360,20 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
     protected function _fetchUpdates() {
 
+        /** Default updates url in case of missing configuration */
+        $updates_url = "http://updates.siberiancms.com";
+
+        if(Zend_Registry::isRegistered('config')) {
+            $config = Zend_Registry::get('config');
+            if(!empty($config->siberian->updates->url)) {
+                $updates_url = $config->siberian->updates->url;
+            }
+        }
+
         $current_version = Siberian_Version::VERSION;
         $platform_type = strtolower(Siberian_Version::TYPE);
-        $url = "http://updates.siberiancms.com/check.php?";
+        $url = "{$updates_url}/check.php?";
         $url .= "type={$platform_type}&version={$current_version}";
-
-        if(APPLICATION_ENV == "development") {
-            /** Fetch updates on local development server */
-            $url = str_replace(".com", ".dev", $url);
-        }
 
         $client = new Zend_Http_Client($url, array(
             'adapter'   => 'Zend_Http_Client_Adapter_Curl',
@@ -380,7 +387,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         $content = $response->getBody();
 
         if(empty($content)) {
-            throw new Exception($this->_("An error occurred while loading. Please, try again later."));            
+            throw new Exception($this->_("An error occurred while loading. Please, try again later."));
         }
 
         $content = Zend_Json::decode($content);
@@ -395,7 +402,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         } else if(empty($content["url"])) {
             $content["message"] = $this->_("Your system is up to date.");
         }
-        
+
         return $content;
 
     }

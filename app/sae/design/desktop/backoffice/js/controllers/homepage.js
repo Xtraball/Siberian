@@ -17,10 +17,38 @@ App.config(function($routeProvider) {
     $scope.header.button.left.is_visible = false;
     $scope.content_loader_is_visible = true;
     $scope.show_notif = false;
+    $scope.show_more_size = false;
+    $scope.show_more_push = false;
+    $scope.show_cron_modal = false;
+    $scope.cron_error_show = false;
+
+    $scope.clear = function(type, message) {
+        if(typeof message != "undefined") {
+            if(!window.confirm(message)) {
+                return false;
+            }
+        }
+
+        Backoffice.clearCache(type).success(function (data) {
+            $scope.message.setText(data.message)
+                .isError(false)
+                .show()
+            ;
+            $scope.server_usage = data.server_usage;
+        });
+    };
+
+    $scope.showCronModal = function() {
+        $scope.show_cron_modal = true;
+    };
 
     Backoffice.loadData().success(function (data) {
         $scope.header.title = data.title;
         $scope.header.icon = data.icon;
+        $scope.services = data.services;
+        $scope.libraries = data.libraries;
+        $scope.server_usage = data.server_usage;
+        $scope.extensions = data.extensions;
     });
 
     Backoffice.find().success(function(data) {
@@ -61,6 +89,7 @@ App.config(function($routeProvider) {
                 pointHoverBorderColor:'rgba('+color[0]+',0.4)',
                 type:'line',
                 fill:false,
+                lineTension: 0,
                 yAxisID: 'new'
             }
         ];

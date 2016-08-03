@@ -19,8 +19,14 @@ $schemas['apk_queue'] = array(
     'url' => array(
         'type' => 'text',
     ),
+    'path' => array(
+        'type' => 'text',
+    ),
     'app_id' => array(
         'type' => 'int(11) unsigned',
+    ),
+    'host' => array(
+        'type' => 'varchar(128)',
     ),
     'user_id' => array(
         'type' => 'int(11) unsigned',
@@ -30,6 +36,9 @@ $schemas['apk_queue'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
         'default' => 'queued',
+    ),
+    'build_time' => array(
+        'type' => 'int(11) unsigned',
     ),
     'log' => array(
         'type' => 'longtext',

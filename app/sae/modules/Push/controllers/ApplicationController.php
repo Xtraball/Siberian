@@ -24,8 +24,19 @@ class Push_ApplicationController extends Application_Controller_Default
                         throw new Exception($this->_('Please, enter a valid date'));
                     }
                     else {
-                        $date = new Zend_Date($data[$input]);
+                        $date = new Zend_Date($data[$input], 'y-MM-dd HH:mm:ss');
                         $data[$input] = $date->toString('y-MM-dd HH:mm:ss');
+                    }
+                }
+
+                //Inapp message expiration date
+                if(!empty($data["inapp_datepicker_send_until"])) {
+                    $date = new Zend_Date($data["inapp_datepicker_send_until"], 'y-MM-dd HH:mm:ss');
+                    $date_now = new Zend_Date();
+                    $date_now = $date_now->toString('y-MM-dd HH:mm:ss');
+                    $data["send_until"] = $date->toString('y-MM-dd HH:mm:ss');
+                    if($data["send_until"] < $date_now) {
+                        throw new Exception($this->_("The duration limit must be higher than the sent date"));
                     }
                 }
 

@@ -654,7 +654,7 @@ function bindScrollOverview() {
         }
         else {
             $('#iphone').removeClass('phone-fixed');
-            $('#previewer').css({position:"absolute", right: "302px", top: "-45px"});
+            $('#previewer').css({position:"absolute", right: "302px", top: "-150px"});
         }
 
         if ($(window).scrollTop() > navHeightLeft) {

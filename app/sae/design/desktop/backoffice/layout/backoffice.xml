@@ -4,6 +4,10 @@
 
     </backoffice_index_index>
 
+    <backoffice_index_clearcache>
+
+    </backoffice_index_clearcache>
+
     <backoffice_index_template>
         <views>
             <content class="core_view_default" template="html/default.phtml" />

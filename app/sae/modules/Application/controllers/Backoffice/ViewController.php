@@ -70,21 +70,6 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             else if($store_category->getId() == $application->getSecondaryCategoryId()) $data['secondary_category_name'] = $name;
         }
 
-        $folder_name = $application->getDevice(2)->getTmpFolderName();
-        $apk_path = null;
-        $date_mod = null;        
-
-        /** Ionic path */
-        if($folder_name != "") {
-            $apk_base_path = Core_Model_Directory::getBasePathTo("var/tmp/applications/ionic/android/{$folder_name}/build/outputs/apk/{$folder_name}-release.apk");
-        }
-
-        if(file_exists($apk_base_path)) {
-            $apk_path = Core_Model_Directory::getPathTo("var/tmp/applications/ionic/android/{$folder_name}/build/outputs/apk/{$folder_name}-release.apk");
-            $date = new Zend_Date(filemtime($apk_base_path),Zend_Date::TIMESTAMP);
-            $date_mod = $date->toString($this->_("MM/dd/y 'at' hh:mm a"));
-        }
-
         $data["bundle_id"] = $application->getBundleId();
         $data["is_active"] = $application->isActive();
         $data["is_locked"] = $application->isLocked();
@@ -95,18 +80,18 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             $date = new Zend_Date($application->getFreeUntil(), Zend_Date::ISO_8601);
             $data["free_until"] = $date->toString("MM/dd/yyyy");
         }
+        $data["android_sdk"] = Application_Model_Tools::isAndroidSDKInstalled();
+        $data["apk"] = Application_Model_ApkQueue::getPackages($application->getId());
+        $data["zip"] = Application_Model_SourceQueue::getPackages($application->getId());
+        $data["queued"] = Application_Model_Queue::getPosition($application->getId());
 
-        $data["apk"] = array(
-            "link" => $apk_path,
-            'date' => $date_mod
-        );
         $application->addData($data);
+
         $data = array(
             "application" => $application->getData(),
             'statuses' => Application_Model_Device::getStatuses(),
             'design_codes' => Application_Model_Application::getDesignCodes()
         );
-
 
         $this->_sendHtml($data);
 
@@ -415,49 +400,64 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
 
         if($data = $this->getRequest()->getParams()) {
 
-            try {
+            $application = new Application_Model_Application();
 
-                $application = new Application_Model_Application();
-
-                if(empty($data['app_id']) OR empty($data['device_id'])) {
-                    throw new Exception($this->_('This application does not exist'));
-                }
-
-                $application->find($data['app_id']);
-                if(!$application->getId()) {
-                    throw new Exception($this->_('This application does not exist'));
-                }
-
-                if($design_code = $this->getRequest()->getParam("design_code")) {
-                    $application->setDesignCode($design_code);
-                }
-
-                $device = $application->getDevice($data["device_id"]);
-                $device->setApplication($application);
-                $device->setDownloadType($this->getRequest()->getParam("type"))
-                    ->setExcludeAds($this->getRequest()->getParam("no_ads"))
-                ;
-                $zip = $device->getResources();
-
-                if($this->getRequest()->getParam("type") != "apk") {
-                    $path = explode('/', $zip);
-                    end($path);
-                    $this->_download($zip, current($path), 'application/octet-stream');
-                } else {
-                    die;
-                }
-
-            }
-            catch(Exception $e) {
-                Zend_Registry::get("logger")->sendException(print_r($e, true), "source_generator_", false);
-                if($application->getId()) {
-                    $this->_redirect('application/backoffice_view', array("app_id" => $application->getId()));
-                } else {
-                    $this->_redirect('application/backoffice_list');
-                }
+            if(empty($data['app_id']) OR empty($data['device_id'])) {
+                throw new Exception($this->_('This application does not exist'));
             }
 
+            $application->find($data['app_id']);
+            if(!$application->getId()) {
+                throw new Exception($this->_('This application does not exist'));
+            }
+
+            if($design_code = $this->getRequest()->getParam("design_code")) {
+                $application->setDesignCode($design_code);
+            }
+
+            $application_id = $data['app_id'];
+            $type = ($this->getRequest()->getParam("type") == "apk") ? "apk" : "zip";
+            $device = ($this->getRequest()->getParam("device_id") == 1) ? "ios" : "android";
+            $noads = ($this->getRequest()->getParam("no_ads") == 1) ? "noads" : "";
+            $design_code = $this->getRequest()->getParam("design_code");
+
+            if($type == "apk") {
+                $queue = new Application_Model_ApkQueue();
+
+                $queue->setAppId($application_id);
+                $queue->setName($application->getName());
+            } else {
+                $queue = new Application_Model_SourceQueue();
+
+                $queue->setAppId($application_id);
+                $queue->setName($application->getName());
+                $queue->setType($device.$noads);
+                $queue->setDesignCode($design_code);
+            }
+
+            $queue->setHost($this->getRequest()->getHttpHost());
+            $queue->setUserId($this->getSession()->getBackofficeUserId());
+            $queue->save();
+
+            $more["zip"] = Application_Model_SourceQueue::getPackages($application_id);
+            $more["queued"] = Application_Model_Queue::getPosition($application_id);
+
+            $data = array(
+                "success" => 1,
+                "message" => __("Application successfully queued for generation."),
+                "more" => $more,
+            );
+
+
+
+        } else {
+            $data = array(
+                "error" => 1,
+                "message" => __("Missing parameters for generation."),
+            );
         }
+
+        $this->_sendHtml($data);
 
     }
 
@@ -530,5 +530,5 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
         }
 
     }
-
+    
 }

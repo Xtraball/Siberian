@@ -94,6 +94,21 @@ function ellipsis($string, $length, $ellipsis = "...") {
 }
 
 /**
+ * @param $bytes
+ * @param int $precision
+ * @return string
+ */
+function formatBytes($bytes, $precision = 2) {
+	$units = array('B', 'KB', 'MB', 'GB', 'TB');
+
+	$bytes = max($bytes, 0);
+	$pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+	$pow = min($pow, count($units) - 1);
+
+	return round($bytes, $precision) . ' ' . $units[$pow];
+}
+
+/**
  * Classic hook for translations
  *
  * @param $text
@@ -108,4 +123,20 @@ function __($string) {
 function time_to_date($time, $format = 'y-MM-dd') {
 	$date = new Zend_Date($time);
 	return $date->toString($format);
+}
+
+/**
+ * Last try when a big php array with lot of data gets corrupted
+ *
+ * @param $array
+ * @return mixed
+ */
+function data_to_utf8($array) {
+	array_walk_recursive($array, function(&$item, $key){
+		if(is_string($item) && !mb_detect_encoding($item, 'utf-8', true)){
+			$item = mb_convert_encoding($item, 'UTF-8');
+		}
+	});
+
+	return $array;
 }

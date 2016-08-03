@@ -271,7 +271,7 @@ class Siberian_Minify extends \Minify\Minify {
 
             unlink(self::$basepath.$css);
             unlink(self::$basepath.$js);
-            unlink(self::$basepath.$index);
+            unlink($index);
         }
     }
 }

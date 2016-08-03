@@ -114,35 +114,57 @@ class Application_Customization_Publication_InfosController extends Application_
 
         if($data = $this->getRequest()->getParams()) {
 
-            try {
+            $application = $this->getApplication();
 
-                $application = $this->getApplication();
-
-                if(!$application->subscriptionIsActive()) {
-                    throw new Exception("You have to purchase the application before downloading the mobile source code.");
-                }
-
-                if($design_code = $this->getRequest()->getParam("design_code")) {
-                    $application->setDesignCode($design_code);
-                }
-
-                $device = $application->getDevice($data["device_id"]);
-                $device->setApplication($application);
-                $device->setExcludeAds($this->getRequest()->getParam("no_ads"));
-                $zip = $device->getResources();
-
-                $path = explode('/', $zip);
-                end($path);
-
-                $this->_download($zip, current($path), 'application/octet-stream');
-
-            }
-            catch(Exception $e) {
-                $this->getSession()->addError($e->getMessage());
-                $this->_redirect('application/customization_publication_infos');
+            if(!$application->subscriptionIsActive()) {
+                throw new Exception("You have to purchase the application before downloading the mobile source code.");
             }
 
+
+            if($design_code = $this->getRequest()->getParam("design_code")) {
+                $application->setDesignCode($design_code);
+            }
+
+            $type = "zip";
+            $device = ($this->getRequest()->getParam("device_id") == 1) ? "ios" : "android";
+            $noads = ($this->getRequest()->getParam("no_ads") == 1) ? "noads" : "";
+            $design_code = (!empty($this->getRequest()->getParam("design_code"))) ? $this->getRequest()->getParam("design_code") : "ionic";
+
+            if($type == "apk") {
+                $queue = new Application_Model_ApkQueue();
+
+                $queue->setAppId($application->getId());
+                $queue->setName($application->getName());
+            } else {
+                $queue = new Application_Model_SourceQueue();
+
+                $queue->setAppId($application->getId());
+                $queue->setName($application->getName());
+                $queue->setType($device.$noads);
+                $queue->setDesignCode($design_code);
+            }
+
+            $queue->setHost($this->getRequest()->getHttpHost());
+            $queue->setUserId($this->getSession()->getAdminId());
+            $queue->save();
+
+            $more["zip"] = Application_Model_SourceQueue::getPackages($application->getId());
+            $more["queued"] = Application_Model_Queue::getPosition($application->getId());
+
+            $data = array(
+                "success" => 1,
+                "message" => __("Application successfully queued for generation."),
+                "more" => $more,
+            );
+
+        } else {
+            $data = array(
+                "error" => 1,
+                "message" => __("Missing parameters for generation."),
+            );
         }
+
+        $this->_sendHtml($data);
 
     }
 

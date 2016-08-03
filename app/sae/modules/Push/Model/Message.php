@@ -297,4 +297,41 @@ class Push_Model_Message extends Core_Model_Default {
     public static function hasTargetedNotificationsModule() {
         return self::hasIndividualPush();
     }
+
+    public static function getStatistics() {
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $total = $db
+            ->select()
+            ->from("push_messages", array("total" => new Zend_Db_Expr("COUNT(*)")))
+        ;
+        $success = $db
+            ->select()
+            ->from("push_messages", array("total" => new Zend_Db_Expr("COUNT(*)")))
+            ->where("status = ?", "delivered")
+        ;
+        $queued = $db
+            ->select()
+            ->from("push_messages", array("total" => new Zend_Db_Expr("COUNT(*)")))
+            ->where("status IN (?)", array("queued", "sending"))
+        ;
+        $failed = $db
+            ->select()
+            ->from("push_messages", array("total" => new Zend_Db_Expr("COUNT(*)")))
+            ->where("status = ?", "failed")
+        ;
+
+        $total = $db->fetchRow($total);
+        $success = $db->fetchRow($success);
+        $queued = $db->fetchRow($queued);
+        $failed = $db->fetchRow($failed);
+
+        $result = array(
+            "total" => ($total["total"]) ? $total["total"] : 0,
+            "success" => ($success["total"]) ? $success["total"] : 0,
+            "queued" => ($queued["total"]) ? $queued["total"] : 0,
+            "failed" => ($failed["total"]) ? $failed["total"] : 0,
+        );
+
+        return $result;
+    }
 }
