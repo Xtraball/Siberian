@@ -49,8 +49,12 @@ abstract class Application_Model_Device_Abstract extends Core_Model_Default {
     protected function zipFolder() {
 
         $folder = $this->_dest_source;
-        $dest = "{$this->_dest_archive}/{$this->_zipname}.zip";
-
+        if(!isset($this->_dest_archive)) {
+            $dest = "{$this->_dest_source}/{$this->_zipname}.zip";
+        } else {
+            $dest = "{$this->_dest_archive}/{$this->_zipname}.zip";
+        }
+        
         Core_Model_Directory::zip($folder, $dest);
 
         if(!file_exists($dest)) {

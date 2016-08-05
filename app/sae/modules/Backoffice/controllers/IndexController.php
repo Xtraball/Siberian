@@ -97,6 +97,9 @@ class Backoffice_IndexController extends Backoffice_Controller_Default
                     case "overview":
                         Siberian_Minify::clearCache();
                         break;
+                    case "locks":
+                        Siberian_Cache::__clearLocks();
+                        break;
                 }
 
                 $html = array(

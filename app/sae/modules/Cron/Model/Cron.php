@@ -89,7 +89,7 @@ class Cron_Model_Cron extends Core_Model_Default {
 		$db = Zend_Db_Table::getDefaultAdapter();
 		$select = $db
 			->select()
-			->from("cron", array("UNIX_TIMESTAMP(last_success) AS time"))
+			->from("cron", array("last_success AS time"))
 			->where("command = ?", "pushinstant")
 			->order("last_success DESC")
 			->limit(1)
@@ -97,8 +97,12 @@ class Cron_Model_Cron extends Core_Model_Default {
 
 		$result = $db->fetchRow($select);
 		if(isset($result) && isset($result["time"])) {
-			$diff = time() - $result["time"];
-			if($diff <= 65) {
+            $r = new Zend_Date();
+            $r->set($result["time"], 'YYYY-MM-dd HH:mm:ss'); 
+            $n = Zend_Date::now();
+      
+			$diff = $n->getTimestamp() - $r->getTimestamp();
+			if(abs($diff) <= 65) {
 				return true;
 			}
 		}

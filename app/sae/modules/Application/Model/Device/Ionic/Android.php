@@ -414,7 +414,13 @@ storePassword={$store_password}";
     	/** Executing gradlew */
         $var_log = $var_log."/apk-build.log";
         unlink($var_log);
+
+        //we restart connection to not have a "MYSQL GONE AWWAAYYYYY!!!! error"
+        $db = Zend_Registry::get('db');
+        $db->closeConnection(); 
     	exec("bash gradlew cdvBuildRelease 2>&1", $output);
+        $db->getConnection(); 
+
 
         if(!defined("CRON")) {
             if (!in_array('BUILD SUCCESSFUL', $output)) {
@@ -432,7 +438,11 @@ storePassword={$store_password}";
             }
 
             # Clean-up dest files.
-            Core_Model_Directory::delete($this->_dest_source);
+            //Core_Model_Directory::delete($this->_dest_source);
+            $log_failed = Core_Model_Directory::getBasePathTo("var/log/apk_fail_{$this->_folder_name}.log");
+            if(!$success) {
+                file_put_contents($log_failed, implode("\n", $output));
+            }
 
             return array(
                 "success" => $success,

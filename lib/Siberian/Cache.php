@@ -169,6 +169,23 @@ class Siberian_Cache
     /**
      * Alias to clear cache
      */
+    public static function __clearLocks() {
+        $folder = Core_Model_Directory::getBasePathTo("var/tmp/");
+
+        $locks = new DirectoryIterator($folder);
+        foreach ($locks as $lock) {
+            if(!$lock->isDir() && !$lock->isDot()) {
+                $filename = $lock->getFilename();
+                if(preg_match("/\.lock/", $filename)) {
+                    unlink($lock->getPathname());
+                }
+            }
+        }
+    }
+
+    /**
+     * Alias to clear cache
+     */
     public static function __clearTmp() {
         $folder = Core_Model_Directory::getBasePathTo("var/tmp/");
 

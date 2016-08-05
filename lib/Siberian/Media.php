@@ -25,26 +25,66 @@ class Siberian_Media {
         ),
     );
 
-    public static function optimize($path) {
-        if(!is_writable($path)) {
+    public static function optimize($image_path) {
+        if(!is_writable($image_path)) {
             return;
         }
 
-        $filetype = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+        $filetype = strtolower(pathinfo($image_path, PATHINFO_EXTENSION));
         if(array_key_exists($filetype, self::$tools)) {
             $tools = self::$tools[$filetype];
 
             foreach($tools as $toolbin => $options) {
-                if(file_exists($options["bin"])) {
-                    exec("{$options["bin"]} -h", $output);
+                $path = self::isInstalled($options["bin"]);
+                if($path !== false) {
+                    exec("{$path} -h", $output);
                     if(isset($output) && isset($output[0]) && !empty($output[0])) {
-                        $bin = sprintf($options["cli"], $path);
+                        if(strpos($path, "/local") !== false) {
+                            $cli = $options["cli"];
+                        } else {
+                            $cli = str_replace("/local", "", $options["cli"]);
+                        }
+
+                        $bin = sprintf($cli, $image_path);
                         exec($bin, $result);
                         break;
                     }
                 }
             }
         }
+    }
+
+    /**
+     * @param $binary_path
+     * @return bool|mixed
+     */
+    public static function isInstalled($binary_path) {
+        if(self::exists_path($binary_path)) {
+            return $binary_path;
+        } elseif(self::exists_path(str_replace("/local", "", $binary_path))) {
+            return str_replace("/local", "", $binary_path);
+        }
+        return false;
+    }
+
+    /**
+     * @param $binary_path
+     * @return bool
+     */
+    public static function exists_path($binary_path) {
+        $result = file_exists($binary_path);
+        if(!$result) {
+            try {
+                exec("if [ -f {$binary_path} ];then echo 1; else echo 0; fi 2>&1", $output);
+                if(!empty($output) && isset($output[0])) {
+                    $result = ($output[0] == 1);
+                }
+            } catch (Exception $e) {
+                $result = false;
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -56,8 +96,7 @@ class Siberian_Media {
         $libraries = array();
         foreach(self::$tools as $tools) {
             foreach($tools as $short_name => $options) {
-                $binary_path = $options["bin"];
-                $libraries[$short_name] = (file_exists($binary_path));
+                $libraries[$short_name] = (self::isInstalled($options["bin"]) !== false);
             }
         }
 

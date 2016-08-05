@@ -411,7 +411,11 @@ class Application_Model_Device_Angular_Android extends Application_Model_Device_
         putenv('GRADLE_USER_HOME=' . Core_Model_Directory::getBasePathTo("var/tmp/applications/android/gradle"));
 
         // Executes gradlew
+        $db = Zend_Registry::get('db');
+        $db->closeConnection(); 
         exec('bash gradlew build 2>&1', $output);
+        $db->getConnection(); 
+
 
         if (in_array('BUILD SUCCESSFUL', $output)) {
             return Core_Model_Directory::getBasePathTo("$src/app/build/outputs/apk/app-release.apk");
