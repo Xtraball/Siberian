@@ -128,7 +128,8 @@ class Application_Customization_Publication_InfosController extends Application_
             $type = "zip";
             $device = ($this->getRequest()->getParam("device_id") == 1) ? "ios" : "android";
             $noads = ($this->getRequest()->getParam("no_ads") == 1) ? "noads" : "";
-            $design_code = (!empty($this->getRequest()->getParam("design_code"))) ? $this->getRequest()->getParam("design_code") : "ionic";
+            $pDesign = $this->getRequest()->getParam("design_code");
+            $design_code = (!empty($pDesign)) ? $pDesign : "ionic";
 
             if($type == "apk") {
                 $queue = new Application_Model_ApkQueue();

@@ -413,7 +413,7 @@ class Application_Model_Device_Angular_Android extends Application_Model_Device_
         // Executes gradlew
         $db = Zend_Registry::get('db');
         $db->closeConnection(); 
-        exec('bash gradlew build 2>&1', $output);
+        exec('bash -l gradlew build 2>&1', $output);
         $db->getConnection(); 
 
 

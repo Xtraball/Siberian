@@ -111,6 +111,12 @@ if(is_writable(APPLICATION_PATH . '/configs/app.ini')) {
         $write = true;
     }
 
+    /** Fix Mysql gone away */
+    if($config->production->resources->db->params->adapterNamespace != "Siberian_Db_Adapter") {
+        $config->production->resources->db->params->adapterNamespace = "Siberian_Db_Adapter";
+        $write = true;
+    }
+
     if($write) { /**Write only if different */
         $writer->setConfig($config)
             ->setFilename(APPLICATION_PATH . '/configs/app.ini')

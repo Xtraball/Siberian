@@ -117,6 +117,10 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap
         Siberian_Utils::load();
     }
 
+    protected function _initLanguages() {
+        Core_Model_Language::prepare();
+    }
+
     protected function _initCache() {
         $cache_dir = Core_Model_Directory::getCacheDirectory(true);
         if(is_writable($cache_dir)) {

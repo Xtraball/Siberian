@@ -418,7 +418,7 @@ storePassword={$store_password}";
         //we restart connection to not have a "MYSQL GONE AWWAAYYYYY!!!! error"
         $db = Zend_Registry::get('db');
         $db->closeConnection(); 
-    	exec("bash gradlew cdvBuildRelease 2>&1", $output);
+    	exec("bash -l gradlew cdvBuildRelease 2>&1", $output);
         $db->getConnection(); 
 
 
