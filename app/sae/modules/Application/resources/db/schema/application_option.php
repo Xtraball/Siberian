@@ -3,7 +3,7 @@
  *
  * Schema definition for 'application_option'
  *
- * Last update: 2016-04-28
+ * Last update: 2016-07-22
  *
  */
 $schemas = (!isset($schemas)) ? array() : $schemas;
@@ -101,4 +101,22 @@ $schemas['application_option'] = array(
         'type' => 'tinyint(1)',
         'default' => '0',
     ),
+    'use_my_account' => array(
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ),
+    'use_nickname' => array(
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ),
+    'use_ranking' => array(
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ),
+    'custom_fields' => array(
+        'type' => 'text',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    )
 );

@@ -117,5 +117,14 @@ App.service('Application', function($http, $interval, $ionicPopup, $rootScope, $
 
     };
 
+    service.generateWebappConfig = function() {
+        return $http({
+            method: 'GET',
+            url: Url.get("application/mobile/generatewebappconfig"),
+            cache: false,
+            responseType:'json'
+        });
+    };
+
     return service;
 });

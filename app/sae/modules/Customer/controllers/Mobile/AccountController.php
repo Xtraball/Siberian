@@ -17,8 +17,39 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
 
     }
 
-    public function editAction() {
+    public function avatarAction() {
+        $customer_id = $this->getRequest()->getParam("customer");
+        $ignore_stored = $this->getRequest()->getParam("ignore_stored") == "true";
+        if($customer_id) {
+            if($customer_id == "default") {
+                $this->_helper->redirector->gotoUrlAndExit("https://www.gravatar.com/avatar/0?s=256&d=mm&r=g&f=y&random=".uniqid(), array("code" => 303));
+                exit();
+            } else {
+                $customer = new Customer_Model_Customer();
+                $customer->find($customer_id);
+                if($customer->getId()) {
+                    $image = $customer->getImage();
+                    $path = $customer->getBaseImagePath().$image;
+                    if(!($ignore_stored && $customer->getIsCustomImage()) &&
+                      (!empty($image) && file_exists($path))) {
+                        header("Content-Type: image/jpeg", true, 200);
+                        header("Content-Length: ".filesize($path));
+                        readfile($path);
+                        flush();
+                        exit();
+                    } else {
+                        $email = $customer->getEmail();
+                        $this->_helper->redirector->gotoUrlAndExit("https://www.gravatar.com/avatar/".md5($email)."?s=150&d=mm&r=g&random=".uniqid(), array("code" => 303));
+                        exit();
+                    }
+                }
+            }
+        }
+        header("Content-Length: 0", true, 404);
+        exit();
+    }
 
+    public function editAction() {
         $title = $this->_("Create");
         if($this->getSession()->isLoggedIn('customer')) {
             $title = $this->_("My Account");
@@ -81,8 +112,8 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
 
     }
 
+    // Not sure if used anywhere
     public function loginwithfacebookAction() {
-
         if($access_token = $this->getRequest()->getParam('token')) {
 
             try {
@@ -124,30 +155,49 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
 
                         // Ajoute un mot de passe par défaut
                         $customer->setPassword(uniqid());
+                    }
+                }
 
-                        // Récupèration de l'image de Facebook
-                        $social_image = file_get_contents("http://graph.facebook.com/v2.0/$user_id/picture?type=large");
-                        if($social_image) {
+                $fbimage = $customer->getImage();
+                // Si l'image n'est pas custom (donc est FB) ou si il n'y a pas d'image, on met l'image FB.
+                if(!$customer->getIsCustomImage() || empty($fbimage)) {
+                    // Récupèration de l'image de Facebook
+                    $social_image_json = json_decode(file_get_contents("https://graph.facebook.com/me/picture?redirect=false&type=large&access_token=".$access_token));
+                    file_put_contents("/Users/pof/data.txt", var_export($social_image_json, true));
+                    if($social_image_json) {
+                        if($social_image_json->is_silhouette === false) {
+                            $social_image = file_get_contents($social_image_json->url);
+                            if($social_image) {
 
-                            $formated_name = Core_Model_Lib_String::format($customer->getName(), true);
-                            $image_path = $customer->getBaseImagePath().'/'.$formated_name;
+                                $formated_name = Core_Model_Lib_String::format($customer->getName(), true);
+                                $image_path = $customer->getBaseImagePath().'/'.$formated_name;
 
-                            // Créer le dossier du client s'il n'existe pas
-                            if(!is_dir($customer->getBaseImagePath())) { mkdir($image_path, 0777); }
+                                // Créer le dossier du client s'il n'existe pas
+                                if(!is_dir($customer->getBaseImagePath())) { mkdir($image_path, 0777); }
 
-                            // Créer l'image sur le serveur
+                                // Créer l'image sur le serveur
 
-                            $image_name = uniqid().'.jpg';
-                            $image = fopen($image_path.'/'.$image_name, 'w');
+                                $image_name = uniqid().'.jpg';
+                                $image = fopen($image_path.'/'.$image_name, 'w');
 
-                            fputs($image, $social_image);
-                            fclose($image);
+                                fputs($image, $social_image);
+                                fclose($image);
 
-                            // Redimensionne l'image
-                            Thumbnailer_CreateThumb::createThumbnail($image_path.'/'.$image_name, $image_path.'/'.$image_name, 150, 150, 'jpg', true);
+                                // Redimensionne l'image
+                                Thumbnailer_CreateThumb::createThumbnail($image_path.'/'.$image_name, $image_path.'/'.$image_name, 256, 256, 'jpg', true);
 
-                            // Affecte l'image au client
-                            $customer->setImage('/'.$formated_name.'/'.$image_name);
+                                // Affecte l'image au client
+                                $customer->setImage('/'.$formated_name.'/'.$image_name)->setIsCustomImage(0);
+
+                                // delete old picture
+                                if(!empty($fbimage) && file_exists($fbimage))
+                                    unlink($fbimage);
+                            }
+                        } else {
+                            if(!empty($customer->getImage()) && file_exists($customer->getImage())) {
+                                unlink($customer->getImage());
+                            }
+                            $customer->setImage(NULL)->setIsCustomImage(0);
                         }
                     }
                 }

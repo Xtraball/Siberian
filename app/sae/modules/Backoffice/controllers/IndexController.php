@@ -9,6 +9,7 @@ class Backoffice_IndexController extends Backoffice_Controller_Default
     public function loadAction() {
 
         $services = Siberian_Service::getServices();
+        $external_services = Siberian_Service::fetchRegisteredServices();
         $extensions = Siberian_Service::getExtensions();
         $server_usage = Siberian_Cache::getDiskUsage();
         $libraries = Siberian_Media::getLibraries();
@@ -17,6 +18,7 @@ class Backoffice_IndexController extends Backoffice_Controller_Default
             "title" => "Dashboard",
             "icon" => "fa-dashboard",
             "services" => $services,
+            "external_services" => $external_services,
             "libraries" => $libraries,
             "extensions" => $extensions,
             "server_usage" => $server_usage,

@@ -131,6 +131,47 @@ class Application_Model_Db_Table_Option_Value extends Core_Model_Db_Table
         return $this->_db->fetchRow($select);
     }
 
+    public function findAllWithOptionsInfos($values = array(), $order = null, $params = array()) {
+        $where = array();
+        $limit = null;
+        $offset = null;
+
+        if(!empty($values)) {
+            foreach($values as $quote => $value) {
+                if($value instanceof Zend_Db_Expr) $where[] = $value;
+                else if(stripos($quote, '?') !== false) $where[] = $this->_db->quoteInto($quote, $value);
+                else $where[] = $this->_db->quoteInto($quote . ' = ?', $value);
+            }
+        }
+        if(empty($where)) $where = null;
+
+        if(!empty($params)) {
+            $limit = !empty($params['limit']) ? $params['limit'] : null;
+            $offset = !empty($params['offset']) ? $params['offset'] : null;
+        }
+
+        $select = $this->select()
+        ->setIntegrityCheck(false)
+        ->from(array('a' => 'application_option_value'))
+        ->join(array('ao' => 'application_option'), 'a.option_id = ao.option_id');
+
+        if($where) {
+            foreach ($where as $where_cond) {
+                $select = $select->where($where_cond);
+            }
+        }
+
+        if($order) {
+            $select = $select->order($order);
+        }
+
+        if($limit) {
+            $select = $select->limit($limit, $offset);
+        }
+
+        return $this->fetchAll($select);
+    }
+
     public function getFeaturesByApplication() {
         $field = array('value_id', 'app_id');
         $select = $this->select()

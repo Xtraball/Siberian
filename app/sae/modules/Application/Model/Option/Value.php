@@ -61,6 +61,10 @@ class Application_Model_Option_Value extends Application_Model_Option
         return $this;
     }
 
+    public function findAllWithOptionsInfos($values = array(), $order = null, $params = array()) {
+        return $this->getTable()->findAllWithOptionsInfos($values, $order, $params);
+    }
+
     public function getFeaturesByApplication() {
         return $this->getTable()->getFeaturesByApplication();
     }
@@ -122,7 +126,7 @@ class Application_Model_Option_Value extends Application_Model_Option
         }
         return $path;
     }
-    
+
     public function getBackgroundImageUrl() {
 
         if(!$this->_background_image_url) {
@@ -201,5 +205,5 @@ class Application_Model_Option_Value extends Application_Model_Option
     public function isLocked() {
         return $this->getData('is_locked');
     }
-    
+
 }

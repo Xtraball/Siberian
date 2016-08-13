@@ -125,4 +125,54 @@ class Customer_Model_Db_Table_Customer extends Core_Model_Db_Table
         return $this->_db->fetchAssoc($select);
     }
 
+
+    public function findMetadatas($customer_id, $module_code = null) {
+        $metadatas = array();
+
+        $select = $this->_db->select()
+            ->from("customer_metadata", array("code", "datas"))
+            ->where("customer_id = ?", $customer_id)
+        ;
+
+        if(!is_null($module_code)) {
+            $select = $select->where("code = ?", $module_code);
+            return $this->_db->fetchRow($select);
+        }
+
+        $datas = $this->_db->fetchAll($select);
+        foreach($datas as $data) {
+            $metadatas[$data["code"]] = unserialize($data["datas"]);
+        }
+
+        return $metadatas;
+    }
+
+    public function insertMetadatas($customer_id, $datas) {
+
+        $this->_db->beginTransaction();
+        $table = 'customer_metadata';
+        try {
+//            $this->_db->delete($table, array('customer_id = ?' => $customer_id));
+            foreach($datas as $data) {
+                $data['customer_id'] = $customer_id;
+
+                if($this->findMetadatas($customer_id, $data['code'])) {
+                    $this->_db->update($table, array('datas' => $data['datas']), array('code = ?' => $data['code'], 'customer_id = ? ' => $data['customer_id']));
+                }
+                else {
+                    $r = $this->_db->insert($table, $data);
+                }
+            }
+            $this->_db->commit();
+        }
+        catch(Exception $e) {
+            die(var_dump($e, $customer_id, $datas));
+            exit();
+            $this->_db->rollBack();
+        }
+
+        return $this;
+
+    }
+
 }

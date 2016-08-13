@@ -127,12 +127,17 @@ abstract class Core_View_Default_Abstract extends Siberian_View
 
     public function getImage($name, $base = false) {
 
-        if(file_exists($this->getBaseImagePath() . "/" . $name)) {
+        $path = Siberian_Cache_Design::getBasePath("/images/".$name);
+        if(file_exists($path)) {
+            return Siberian_Cache_Design::getPath("/images/".$name);
+
+        } else if(file_exists($this->getBaseImagePath() . "/" . $name)) {
             $path = $base ? $this->getBaseImagePath() : $this->getImagePath();
             return $path."/".$name;
-        }
-        else if(file_exists(Media_Model_Library_Image::getBaseImagePathTo($name))) {
+
+        } else if(file_exists(Media_Model_Library_Image::getBaseImagePathTo($name))) {
             return $base ? Media_Model_Library_Image::getBaseImagePathTo($name) : Media_Model_Library_Image::getImagePathTo($name);
+
         }
 
         return "";

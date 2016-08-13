@@ -15,7 +15,7 @@
                     ],
                     "NSLocationAlwaysUsageDescription": [
                         {
-                            "xml": "<string>Location is required to get specific push notes and other great items</string>",
+                            "xml": "<string>TSLocationManager requires background location tracking</string>",
                             "count": 1
                         }
                     ],

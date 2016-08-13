@@ -8,14 +8,14 @@ App.config(function ($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.otherwise(BASE_PATH);
 
-}).controller('HomeController', function($ionicHistory, $location, $scope, $state, $window, Application, HomepageLayout, Padlock) {
+}).controller('HomeController', function($ionicHistory, $location, $rootScope, $scope, $state, $window, Application, HomepageLayout, Padlock) {
 
     $ionicHistory.clearHistory();
 
     $scope.loadContent = function() {
-        
+
         $scope.is_loading = true;
-        
+
         if($window.localStorage.getItem('sb-uc')) {
             Padlock.unlock_by_qrcode = true;
         }
@@ -24,13 +24,15 @@ App.config(function ($stateProvider, $urlRouterProvider) {
 
             $scope.layout_id = HomepageLayout.properties.layoutId;
 
+            $scope.app_is_bo_locked = $rootScope.app_is_bo_locked;
+
             /** Homepage Slider */
             var homepage_slider =  {
                 is_active_for_layout: (HomepageLayout.properties.menu.visibility == 'homepage'),
                 is_visible: features.data.homepage_slider_is_visible,
                 duration: features.data.homepage_slider_duration * 1000,
                 loop_at_beginning: features.data.homepage_slider_loop_at_beginning,
-                images: new Array()
+                images: []
             };
 
             var tmp_images = features.data.homepage_slider_images;

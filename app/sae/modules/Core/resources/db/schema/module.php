@@ -23,6 +23,10 @@ $schemas['module'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'can_uninstall' => array(
+        'type' => 'tinyint(1) unsigned',
+        'default' => '0',
+    ),
     'created_at' => array(
         'type' => 'datetime',
     ),

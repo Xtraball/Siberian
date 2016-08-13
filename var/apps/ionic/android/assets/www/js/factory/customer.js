@@ -84,11 +84,19 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
             data: data,
             responseType:'json'
         }).success(function(data) {
+            factory.saveCredentials(data.token);
+
             factory.id = data.customer_id;
             factory.can_access_locked_features = data.can_access_locked_features;
             factory.flushData();
             $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
         });
+    };
+
+    factory.getAvatarUrl = function(customer_id, options) {
+        options = angular.isObject(options) ? options : {};
+        var url = Url.get("/customer/mobile_account/avatar", angular.extend({}, options, {customer: customer_id})) + "?" +(+new Date());
+        return url;
     };
 
     factory.save = function(data) {
@@ -148,7 +156,7 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
     };
 
     factory.saveCredentials = function (token) {
-        $window.localStorage.setItem("sb-auth-token", token)
+        $window.localStorage.setItem("sb-auth-token", token);
     };
 
     factory.clearCredentials = function () {

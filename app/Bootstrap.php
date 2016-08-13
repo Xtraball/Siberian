@@ -153,7 +153,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         if(is_readable("$base/local/modules")) {
             $this->_front_controller->addModuleDirectory("$base/local/modules");
         }
-        
+
         Siberian_Cache_Design::init();
         Siberian_Utils::load();
     }
@@ -262,6 +262,16 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 }
 
             }
+
+            $fix_modules = new System_Model_Config();
+            $fix_modules->find("fix_modules", "code");
+
+            if($fix_modules->getValue() !== "true") {
+                $module_fixer = new Installer_Model_Fix();
+                $module_fixer->fix_modules();
+                $fix_modules->setData(array("code" => "fix_modules", "label" => "Modules versioning has been fixed", "value" => "true"))->save();
+            }
+
         }
     }
 

@@ -132,31 +132,45 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
 
                         // Add a default password
                         $customer->setPassword(uniqid());
+                    }
+                }
 
-                        // Retrieve its picture from Facebook
-                        $social_image = file_get_contents("http://graph.facebook.com/$user_id/picture?type=large");
-                        if($social_image) {
+                $fbimage = $customer->getImage();
+                // Si l'image n'est pas custom (donc est FB) ou si il n'y a pas d'image, on met l'image FB.
+                if(!$customer->getIsCustomImage() || empty($fbimage)) {
+                    // Récupèration de l'image de Facebook
+                    $social_image_json = json_decode(file_get_contents("https://graph.facebook.com/v2.0/me/picture?redirect=false&type=large&access_token=".$access_token));
+                    if($social_image_json && $social_image_json->data) {
+                        if($social_image_json->data->is_silhouette === false) {
+                            $social_image = file_get_contents($social_image_json->data->url);
+                            if($social_image) {
+                                $formated_name = md5($customer->getId());
+                                $image_path = $customer->getBaseImagePath().'/'.$formated_name;
 
-                            $formated_name = Core_Model_Lib_String::format($customer->getName(), true);
-                            $image_path = $customer->getBaseImagePath().'/'.$formated_name;
+                                // Create customer's folder
+                                if(!is_dir($image_path)) { mkdir($image_path, 0777, true); }
 
-                            // Create customer's folder
-                            if(!is_dir($customer->getBaseImagePath())) { mkdir($image_path, 0777); }
+                                // Store the picture on the server
 
-                            // Store the picture on the server
+                                $image_name = uniqid().'.jpg';
+                                $image = fopen($image_path.'/'.$image_name, 'w');
 
-                            $image_name = uniqid().'.jpg';
-                            $image = fopen($image_path.'/'.$image_name, 'w');
+                                fputs($image, $social_image);
+                                fclose($image);
 
-                            fputs($image, $social_image);
-                            fclose($image);
+                                // Resize the image
+                                Thumbnailer_CreateThumb::createThumbnail($image_path.'/'.$image_name, $image_path.'/'.$image_name, 256, 256, 'jpg', true);
 
-                            // Resize the image
-                            Thumbnailer_CreateThumb::createThumbnail($image_path.'/'.$image_name, $image_path.'/'.$image_name, 150, 150, 'jpg', true);
-
-                            // Set the image to the customer
-                            $customer->setImage('/'.$formated_name.'/'.$image_name);
+                                // Set the image to the customer
+                                $customer->setImage('/'.$formated_name.'/'.$image_name)->setIsCustomImage(0);
+                            }
+                        } else {
+                            $customer->setImage(NULL)->setIsCustomImage(0);
                         }
+
+                        // delete old picture
+                        if(!empty($fbimage) && $fbimage != $customer->getImage() && file_exists($customer->getBaseImagePath().$fbimage))
+                            unlink($customer->getBaseImagePath().$fbimage);
                     }
                 }
 

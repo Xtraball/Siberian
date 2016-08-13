@@ -1,4 +1,9 @@
 <?php $option = $this->getOptionValue(); ?>
+
+<script type="text/javascript">
+    var tmp_directory = "<?php echo Core_Model_Directory::getTmpDirectory() ?>";
+</script>
+
 <div class="content_editor">
     <h3 class="title-editor border-blue">
         <?php echo $this->_("Feature settings"); ?>
@@ -40,7 +45,7 @@
                             <div id="modal_mask_icon_library_manager" class="modal_mask close_modal close_modal_icon_library_manager"></div>
                             <div>
                                 <div id="icon_library" class="modal_content inner_content">
-                                    <span class="pull-right">
+                                    <span class="pull-right" style="margin-right: 8px;">
                                         <button class="bt_close_modal_icons close_modal_icon_library_manager" type="button">
                                             <i class="fa fa-times"></i>
                                         </button>
@@ -101,7 +106,7 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-12">
+                                                <div class="col-md-12" style="margin-bottom: 14px;">
                                                     <ul>
                                                         <li class="pull-left">
                                                             <!--[if gte IE 10]><!-->

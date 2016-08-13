@@ -29,7 +29,7 @@
   },
   {
     "file": "css/style.css",
-    "hash": "d45eda44a1ac3eb550f2a2b0925add94"
+    "hash": "bd8057b113abc9a16e117d1a229f21c6"
   },
   {
     "file": "img/ionic.png",
@@ -53,11 +53,11 @@
   },
   {
     "file": "index.html",
-    "hash": "e27d42f315957e674aebc1f22eca79e6"
+    "hash": "1abf9cd1fa062c8797955c6f72dc2283"
   },
   {
     "file": "js/app.js",
-    "hash": "f64f189af75b38a1089c00116be5a372"
+    "hash": "e5c5f199a2cdb98a223928143a295b33"
   },
   {
     "file": "js/constants/auth-events.js",
@@ -101,7 +101,7 @@
   },
   {
     "file": "js/controllers/customer.js",
-    "hash": "c971cb9a42f3ffcf5a951efca18ebbbd"
+    "hash": "95ada64573684a38929c72fcecd33850"
   },
   {
     "file": "js/controllers/discount.js",
@@ -125,7 +125,7 @@
   },
   {
     "file": "js/controllers/homepage.js",
-    "hash": "86b86fbbd327cf46d7f6fa2c76182eb7"
+    "hash": "7706a4a3cbc2c7098cc6c886425eb7a8"
   },
   {
     "file": "js/controllers/image.js",
@@ -261,11 +261,15 @@
   },
   {
     "file": "js/directives/sb-a-click.js",
-    "hash": "cacb5b24ec2d3b735d999dcc7ed2866a"
+    "hash": "160daea357079101aa2a60e3cfb7bc4f"
   },
   {
     "file": "js/directives/sb-album-boxes.js",
     "hash": "5b889bf47001aa7d7266957204039972"
+  },
+  {
+    "file": "js/directives/sb-app-locked.js",
+    "hash": "0dd2078b878f889541c1c6e58afb4dc9"
   },
   {
     "file": "js/directives/sb-background-image.js",
@@ -274,6 +278,10 @@
   {
     "file": "js/directives/sb-cms.js",
     "hash": "cca86d23bb0bc70bd9dead0ef739584a"
+  },
+  {
+    "file": "js/directives/sb-events.js",
+    "hash": "ded5ce4e746491458c56156ceb94f853"
   },
   {
     "file": "js/directives/sb-google-autocomplete.js",
@@ -309,7 +317,7 @@
   },
   {
     "file": "js/directives/sb-side-menu.js",
-    "hash": "7e712dc67eedd34fefa914fa07800a46"
+    "hash": "924415c77580ec46a412ab12e60d2709"
   },
   {
     "file": "js/directives/sb-tabbar.js",
@@ -341,7 +349,7 @@
   },
   {
     "file": "js/factory/customer.js",
-    "hash": "7c37b0f9b69368aea8ee1a47f338f034"
+    "hash": "279234587047802e787d09d39e41336e"
   },
   {
     "file": "js/factory/discount.js",
@@ -436,10 +444,6 @@
     "hash": "9c747f2b967aa8ce15b56ec3f2e7b934"
   },
   {
-    "file": "js/factory/push.js",
-    "hash": "6ea7b4b88751ea8834335944a3187c50"
-  },
-  {
     "file": "js/factory/radio.js",
     "hash": "f90fbc694d9d38eaea84e69244d75b04"
   },
@@ -520,12 +524,24 @@
     "hash": "f9f37b2ad378aa49ecaf8bee961d38b8"
   },
   {
+    "file": "js/libraries/ionic-zoom-view.js",
+    "hash": "2def4c5543d8276584224aa9a83c656c"
+  },
+  {
     "file": "js/libraries/ionRadio.js",
     "hash": "76c9f7ad500c155ab16384c761ab2d10"
   },
   {
+    "file": "js/libraries/lodash.min.js",
+    "hash": "0bc29e09d0c0fb674dd655323ede0ed2"
+  },
+  {
+    "file": "js/libraries/ng-img-crop.js",
+    "hash": "f3399273756e7824eb142ad25b16e917"
+  },
+  {
     "file": "js/providers/homepage-layout.js",
-    "hash": "0072b59ae609508113b4101602aa1e62"
+    "hash": "b8d33f86a4fb467cf54a4ddf36e4854d"
   },
   {
     "file": "js/services/analytics.js",
@@ -538,6 +554,10 @@
   {
     "file": "js/services/connection.js",
     "hash": "d8a66fb3698930237e0a8ba8413ae66c"
+  },
+  {
+    "file": "js/services/contextual-menu.js",
+    "hash": "fa15bc00fb5456aebad115f3dc23f3a1"
   },
   {
     "file": "js/services/country.js",
@@ -574,6 +594,14 @@
   {
     "file": "js/services/url.js",
     "hash": "b1cc9d1431f3ee9f76338f40799c9377"
+  },
+  {
+    "file": "js/utils/form-post.js",
+    "hash": "9e3a314b7ad7de69213aff85b65a9a7f"
+  },
+  {
+    "file": "js/utils/lodash.js",
+    "hash": "2b7472908ef8c1de9e7ab3cc0a5bd03c"
   },
   {
     "file": "lib/ionic/css/ionic.css",
@@ -869,7 +897,7 @@
   },
   {
     "file": "templates/customer/account/l1/login.html",
-    "hash": "525ae18cd6bbc354b1376362aad11e85"
+    "hash": "bed01719afa10db7dea448312bf83554"
   },
   {
     "file": "templates/discount/l1/view.html",
@@ -969,7 +997,11 @@
   },
   {
     "file": "templates/home/view.html",
-    "hash": "107161233a12ca172312cfc00064e812"
+    "hash": "50e95d2ee5f1b631d7a2f42496c0bd2a"
+  },
+  {
+    "file": "templates/html/l1/app_locked.html",
+    "hash": "31970e186d42d5107a6439e9c44d06b8"
   },
   {
     "file": "templates/html/l1/comment.html",
@@ -1137,7 +1169,7 @@
   },
   {
     "file": "templates/page/side-menu.html",
-    "hash": "688867425a80ac65d8df66b33d7a932f"
+    "hash": "9c5f687362ef07f208ddf98912cecd42"
   },
   {
     "file": "templates/rss/l1/view.html",

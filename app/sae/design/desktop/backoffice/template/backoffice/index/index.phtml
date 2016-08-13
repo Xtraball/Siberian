@@ -117,6 +117,21 @@
 					</span>
 				</td>
 			</tr>
+			<tr ng-show="external_services.length !== 0">
+				<td>
+					<img src="/app/sae/design/desktop/backoffice/images/service/busy-16.png" />
+				</td>
+				<td>
+					<?php echo __("External extensions") ?>
+				</td>
+				<td>
+					<span ng-repeat="(name, values) in external_services">
+						{{ name }}:
+						<span ng-show="values.status"><span class="service-green"> {{ values.text }}</span> </span>
+						<span ng-show="!values.status"><span class="service-red"> {{ values.text }}</span> </span>
+					</span>
+				</td>
+			</tr>
 			<tr>
 				<td>
 					<img src="/app/sae/design/desktop/backoffice/images/service/busy-16.png" />

@@ -99,12 +99,29 @@ class Siberian_Cron {
 
 		if(!$this->isLocked($task->getId())) {
 			$this->log("Executing task: ".$task->getName());
+
 			/** Non blocking tasks */
 			try {
+				
 				$command = $task->getCommand();
-				if (method_exists($this, $command)) {
-					$this->$command($task);
+				if(strpos($command, "::") !== false) {
+					# Split Class::method
+					$parts = explode("::", $command);
+					$class = $parts[0];
+					$method = $parts[1];
+
+					# Tests.
+					if(class_exists($class) && method_exists($class, $method)) {
+						call_user_func($command, $this, $task);
+					}
+
+				} else {
+					# Local method
+					if (method_exists($this, $command)) {
+						$this->$command($task);
+					}
 				}
+
 			} catch (Exception $e) {
 				$this->log($e->getMessage());
 
@@ -130,7 +147,7 @@ class Siberian_Cron {
 	 * @param $task_id
 	 * @return bool
 	 */
-	private function isLocked($task_id) {
+	public function isLocked($task_id) {
 		return (file_exists("{$this->lock_base}/{$task_id}.lock"));
 	}
 
@@ -139,7 +156,7 @@ class Siberian_Cron {
 	 *
 	 * @param $task_id
 	 */
-	private function lock($task_id) {
+	public function lock($task_id) {
 		$this->locked_tasks[] = $task_id;
 		file_put_contents("{$this->lock_base}/{$task_id}.lock", 1);
 	}
@@ -147,7 +164,7 @@ class Siberian_Cron {
 	/**
 	 * @param $task_id
 	 */
-	private function unlock($task_id) {
+	public function unlock($task_id) {
 		$file = "{$this->lock_base}/{$task_id}.lock";
 		if(file_exists($file)) {
 			unlink($file);
@@ -358,8 +375,7 @@ class Siberian_Cron {
 	###############################################################################
 
 
-	public function __destruct()
-	{
+	public function __destruct() {
 		/** Detect too long processes to alert admin */
 		$exec_time = microtime(true) - $this->start;
 		$this->log("Execution time {$exec_time}");

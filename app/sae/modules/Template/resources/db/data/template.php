@@ -431,6 +431,14 @@ $blocks = array(
         "background_color_variable_name" => '$tooltip-custom-bg',
         "position" => "120"
     ),
+    /* ICON */
+    array(
+        "code" => "icon",
+        "name" => "Icon",
+        "color" => "#fff",
+        "color_variable_name" => '$icon-custom',
+        "position" => "125"
+    ),
     /* SPINNER */
     array(
         "code" => "spinner",
@@ -459,7 +467,7 @@ foreach($blocks as $data) {
     $block = new Template_Model_Block();
     $block
         ->setData($data)
-        ->insertOrUpdate(array("code", "type_id"));
+        ->insertOnce(array("code", "type_id"));
 
     if(!empty($data["children"])) {
 
@@ -473,7 +481,7 @@ foreach($blocks as $data) {
             $child = new Template_Model_Block();
             $child
                 ->setData($child_data)
-                ->insertOrUpdate(array("code", "type_id", "parent_id"));
+                ->insertOnce(array("code", "type_id", "parent_id"));
 
         }
     }

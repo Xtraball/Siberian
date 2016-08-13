@@ -8,6 +8,10 @@
         <ng-include src="'homepage-menu.html'" class="{{ layout_id }}"></ng-include>
     </ion-side-menu>
 
+    <ion-side-menu side="left" width="contextualMenuSideWidth()" ng-if="contextualMenuExists() && showRight()">
+        <ng-include src="contextualMenu()"></ng-include>
+    </ion-side-menu>
+
     <ion-side-menu-content ng-class="(showAlways()) ? 'has-footer-fixed' : ''" >
 
         <ion-nav-bar class="bar-custom">
@@ -39,6 +43,10 @@
 
     <ion-side-menu side="right" width="layout.menu.sidebarRightWidth" ng-if="showRight()">
         <ng-include src="'homepage-menu.html'" class="{{ layout_id }}"></ng-include>
+    </ion-side-menu>
+
+    <ion-side-menu side="right" width="contextualMenuSideWidth()" ng-if="contextualMenuExists() && !showRight()" is-enabled="contextualMenuIsEnabled()">
+        <ng-include src="contextualMenu()"></ng-include>
     </ion-side-menu>
 
 </ion-side-menus>

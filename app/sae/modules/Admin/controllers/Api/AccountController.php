@@ -3,7 +3,7 @@
 class Admin_Api_AccountController extends Api_Controller_Default {
 
     public function existAction() {
-
+        
         if($data = $this->getRequest()->getPost()) {
 
             try {

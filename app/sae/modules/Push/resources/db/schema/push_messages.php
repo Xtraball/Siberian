@@ -82,11 +82,31 @@ $schemas['push_messages'] = array(
         'type' => 'datetime',
         'is_null' => true,
     ),
+    'value_id' => array(
+        'type' => 'int(11) unsigned',
+        'is_null' => true,
+        'foreign_key' => array(
+            'table' => 'application_option_value',
+            'column' => 'value_id',
+            'name' => 'FK_PUSH_MESSAGES_VALUE_ID',
+            'on_update' => 'CASCADE',
+            'on_delete' => 'CASCADE',
+        ),
+        'index' => array(
+            'key_name' => 'value_id',
+            'index_type' => 'BTREE',
+            'is_null' => false,
+            'is_unique' => false,
+        ),
+    ),
     'status' => array(
         'type' => 'enum(\'queued\',\'delivered\',\'sending\',\'failed\')',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
         'default' => 'queued',
+    ),
+    'error_text' => array(
+        'type' => 'text',
     ),
     'created_at' => array(
         'type' => 'datetime',

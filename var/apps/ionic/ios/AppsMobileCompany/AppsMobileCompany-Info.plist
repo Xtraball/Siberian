@@ -181,7 +181,7 @@
       </dict>
     </array>
     <key>NSLocationAlwaysUsageDescription</key>
-    <string>Location is required to get specific push notes and other great items</string>
+    <string>TSLocationManager requires background location tracking</string>
     <key>UIBackgroundModes</key>
     <array>
       <string>audio</string>

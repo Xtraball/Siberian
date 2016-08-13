@@ -371,6 +371,9 @@ App.provider('HomepageLayout', function () {
             getOptions: function () {
                 return HomepageLayout.getOptions();
             },
+            getActiveOptions: function() {
+                return HomepageLayout.getActiveOptions()
+            },
             getFeatures: function () {
                 return HomepageLayout.getFeatures();
             },

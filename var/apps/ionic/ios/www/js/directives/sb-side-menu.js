@@ -1,4 +1,4 @@
-App.directive('sbSideMenu', function ($rootScope, $ionicSideMenuDelegate, $ionicHistory, HomepageLayout) {
+App.directive('sbSideMenu', function ($rootScope, $ionicSideMenuDelegate, $ionicHistory, HomepageLayout, ContextualMenu) {
     return {
         restrict: 'E',
         replace: true,
@@ -31,6 +31,22 @@ App.directive('sbSideMenu', function ($rootScope, $ionicSideMenuDelegate, $ionic
 
             scope.showAlways = function() {
                 return (scope.layout_id && scope.layout.menu.position == 'bottom' && scope.layout.menu.visibility == 'always');
+            };
+
+            scope.contextualMenuSideWidth = function() {
+                return ContextualMenu.width;
+            };
+
+            scope.contextualMenuIsEnabled = function() {
+                return ContextualMenu.isEnabled;
+            };
+
+            scope.contextualMenuExists = function() {
+                return ContextualMenu.exists;
+            };
+
+            scope.contextualMenu = function() {
+                return ContextualMenu.templateURL;
             };
         }
     };

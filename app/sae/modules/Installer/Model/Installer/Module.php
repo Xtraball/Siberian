@@ -37,7 +37,7 @@ class Installer_Model_Installer_Module extends Core_Model_Default
         if($fetch) {
             $this->fetchModule($name);
         }
-        
+
         return $this;
     }
 
@@ -125,18 +125,18 @@ class Installer_Model_Installer_Module extends Core_Model_Default
     public function insertData() {
 
         # Processing data files
-        foreach($this->_dbFiles as $version => $file) {
+        foreach($this->_dbFiles as $index => $file) {
 
             if(preg_match("/.*install\.php$/", $file)) {
                 /** Backward compatibiliy (mainly for our modules) */
                 if(!$this->isInstalled()) {
-                    $this->_run($file, $version);
+                    $this->_run($file);
                 }
 
             } else if(preg_match("/.*([0-9\.]+)\.php$/", $file)) {
                 # Never call again old format files (thus they must never pop as the path changed)
             } else {
-                $this->_run($file, $version);
+                $this->_run($file);
             }
 
             $this->save();
@@ -220,15 +220,14 @@ class Installer_Model_Installer_Module extends Core_Model_Default
             }
 
         }
-        
+
         $this->_lastVersion = $package_info["version"];
     }
 
-    protected function _run($file, $version) {
+    protected function _run($file) {
 
         try {
-            $this->getTable()->install($this->getName(), $file, $version);
-            $this->setVersion($version);
+            $this->getTable()->install($this->getName(), $file);
         }
         catch(Exception $e) {
             $logger = Zend_Registry::get("logger");

@@ -49,6 +49,7 @@ App.config(function($routeProvider) {
         $scope.libraries = data.libraries;
         $scope.server_usage = data.server_usage;
         $scope.extensions = data.extensions;
+        $scope.external_services = data.external_services;
     });
 
     Backoffice.find().success(function(data) {

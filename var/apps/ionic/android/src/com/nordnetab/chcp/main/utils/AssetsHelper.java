@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -62,7 +63,7 @@ public class AssetsHelper {
                     isWorking = false;
                 }
             }
-        }, 10, TimeUnit.SECONDS);
+        }, 6, TimeUnit.SECONDS);
 
     }
 

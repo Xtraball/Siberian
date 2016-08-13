@@ -129,14 +129,11 @@ class Application_Controller_Mobile_Default extends Core_Controller_Default {
     }
 
     protected function _sendHtml($html) {
-
         $this->getResponse()->setHeader('Content-type', 'application/json');
 
-        $encodedHtml = Zend_Json::encode($html);
+        $json = Zend_Json::encode($html);
 
-        if(!$encodedHtml) {
-
-            $errorMessage = "";
+        if(!$json) {
 
             switch (json_last_error()) {
                 case JSON_ERROR_NONE: $errorMessage = ' - No errors'; break;
@@ -148,22 +145,27 @@ class Application_Controller_Mobile_Default extends Core_Controller_Default {
                 default: $errorMessage = ' - Unknown error'; break;
             }
 
+            /** Trying to convert data to utf8 if array is buggy */
+            try {
+                $html = data_to_utf8($html);
+                $json = Zend_Json::encode($html);
+            } catch(Exception $e) {
+                /** Catching any exception, the request should always ends ! */
+                $json = array(
+                    "error" => 1,
+                    "message" => $e->getMessage(),
+                );
+            }
+
             $logger = Zend_Registry::get("logger");
             $logger->sendException($errorMessage."\n\n".Siberian_Error::backtrace(false), "json_exception_", false);
-
-            $html = array(
-                "error" => 1,
-                "message" => $this->_("An error occurred while loading. Please try again later.")
-            );
-            $encodedHtml = Zend_Json::encode($html);
-
         }
 
         if(is_array($html) AND !empty($html['error'])) {
             $this->getResponse()->setHttpResponseCode(400);
         }
 
-        $this->getLayout()->setHtml($encodedHtml);
+        $this->getLayout()->setHtml($json);
 
     }
 

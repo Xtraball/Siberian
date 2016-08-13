@@ -51,6 +51,9 @@ class Siberian_Service_Push_Apns extends ApnsPHP_Push {
         # Cover
         $message->setCover($push_message->getCoverUrl());
 
+        # Cover
+        $message->setValueId($push_message->getValueId());
+
         # Action
         if(is_numeric($push_message->getActionValue())) {
             $option_value = new Application_Model_Option_Value();
@@ -105,7 +108,7 @@ class Siberian_Service_Push_Apns extends ApnsPHP_Push {
         $this->send();
         $this->disconnect();
     }
-    
+
     /**
      * @param $sMessage
      */

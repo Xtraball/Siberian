@@ -22,7 +22,7 @@
                     {{ "Log-in with Facebook" | translate }}
                 </div>
 
-                <div class="item item-divider item-divider-custom">
+                <div class="item item-divider item-divider-custom" ng-if="!is_logged_in">
                     <p>{{ "Or with your account" | translate }} :</p>
                 </div>
 
@@ -88,6 +88,11 @@
         </form>
 
         <form method="post" name="accountForm" ng-submit="save()" class="slide-top" ng-show="display_account_form">
+            <section class="avatar text-center padding" ng-if="show_avatar" ng-show="avatar_loaded">
+                <div>
+                    <img width="150" height="150" ng-src="{{avatar_url}}" class="padding stable-bg stable-border" ng-click="editAvatar()" sb-load="avatarLoaded()" sb-error="hideAvatar()" />
+                </div>
+            </section>
 
             <div class="list">
 
@@ -117,6 +122,13 @@
                     <input class="text-right" type="text" placeholder="{{ 'Lastname' | translate }}" ng-model="customer.lastname" />
                 </label>
 
+                <label class="item item-input item-custom" ng-if="optional_fields.nickname">
+                    <div class="input-label">
+                        {{ "Nickname" | translate }}
+                    </div>
+                    <input class="text-right" type="text" placeholder="{{ 'Nickname' | translate }}" ng-model="customer.nickname" />
+                </label>
+
                 <label class="item item-input item-custom">
                     <div class="input-label">
                         {{ "Email" | translate }}
@@ -124,12 +136,12 @@
                     <input class="text-right" type="email" placeholder="{{ 'Email' | translate }}" ng-model="customer.email" />
                 </label>
 
-                <label class="item item-custom" ng-click="customer.change_password = !customer.change_password">
+                <label class="item item-custom" ng-click="customer.change_password = !customer.change_password" ng-if="is_logged_in">
                     {{ 'Change Password' | translate }}
                 </label>
 
-                <div ng-show="customer.change_password">
-                    <label class="item item-input item-custom">
+                <div ng-show="customer.change_password || !is_logged_in">
+                    <label class="item item-input item-custom" ng-if="is_logged_in">
                         <div class="input-label">
                             {{ "Old Password" | translate }}
                         </div>
@@ -139,11 +151,11 @@
                         <div class="input-label">
                             {{ "Password" | translate }}
                         </div>
-                        <input class="text-right" type="password" placeholder="{{ 'Password' | translate }}" ng-model="customer.password" ng-disabled="!customer.change_password" />
+                        <input class="text-right" type="password" placeholder="{{ 'Password' | translate }}" ng-model="customer.password" ng-disabled="!customer.change_password && is_logged_in" />
                     </label>
                 </div>
 
-                <ion-checkbox class="checkbox-custom" ng-model="customer.show_in_social_gaming">
+                <ion-checkbox class="checkbox-custom" ng-model="customer.show_in_social_gaming" ng-if="optional_fields.ranking">
                     {{ "Show me in ranking" | translate }}
                 </ion-checkbox>
 
@@ -155,6 +167,19 @@
                 <ion-checkbox class="checkbox-custom" ng-model="customer.privacy_policy" ng-if="!is_logged_in">
                     {{ "I accept the privacy policy" | translate }}
                 </ion-checkbox>
+
+                <section ng-repeat="cfo in custom_fields track by cf.code">
+                    <div class="item item-divider">
+                        <p>{{ cfo.name }}:</p>
+                    </div>
+
+                    <label ng-repeat="cf in cfo.custom_fields" class="item item-input item-custom">
+                        <div class="input-label">
+                            {{ cf.label | translate }}
+                        </div>
+                        <input class="text-right" type="{{cf.type}}" placeholder="{{ cf.label | translate }}" ng-model="customer.metadatas[cfo.code][cf.key]" />
+                    </label>
+                </section>
 
                 <button type="submit" class="button button-block button-custom activated" ng-show="!is_loading">{{ "Send" | translate }}</button>
 

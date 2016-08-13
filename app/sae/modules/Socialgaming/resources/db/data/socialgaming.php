@@ -16,16 +16,18 @@ $result = Siberian_Feature::installIcons($name, $icons);
 
 # Install the Feature
 $data = array(
-    'library_id'    => $result["library_id"],
-    'icon_id'       => $result["icon_id"],
-    'code'          => "social_gaming",
-    'name'          => $name,
-    'model'         => "Socialgaming_Model_Game",
-    'desktop_uri'   => "socialgaming/application/",
-    'mobile_uri'    => "socialgaming/mobile_view/",
-    'only_once'     => 1,
-    'is_ajax'       => 1,
-    'position'      => 60,
+    'library_id'     => $result["library_id"],
+    'icon_id'        => $result["icon_id"],
+    'code'           => "social_gaming",
+    'name'           => $name,
+    'model'          => "Socialgaming_Model_Game",
+    'desktop_uri'    => "socialgaming/application/",
+    'mobile_uri'     => "socialgaming/mobile_view/",
+    'only_once'      => 1,
+    'is_ajax'        => 1,
+    'position'       => 60,
+    'use_my_account' => 1,
+    'use_ranking'    => 1
 );
 
 Siberian_Feature::install($category, $data, array('code'));

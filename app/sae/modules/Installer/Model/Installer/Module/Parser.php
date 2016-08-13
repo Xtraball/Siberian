@@ -130,11 +130,17 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
         }
 
         # Then check the module deps itself
-        $_module= new Installer_Model_Installer_Module();
+        $_module = new Installer_Model_Installer_Module();
         $_module->prepare($name);
 
         if($_module->isInstalled() && version_compare($version, $_module->getVersion(), "<=")) {
             throw new Exception(__("#19-016: You already have installed this module or a newer version."));
+        } else {
+            # Set the module as in Local, which could be uninstalled.
+            $_module
+                ->setCanUninstall(true)
+                ->save()
+            ;
         }
     }
 

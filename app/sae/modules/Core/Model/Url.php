@@ -3,6 +3,12 @@
 class Core_Model_Url extends Core_Model_Default
 {
 
+    /**
+     * @param string $url
+     * @param array $params
+     * @param null $locale
+     * @return array|mixed|string
+     */
     public static function create($url = '', array $params = array(), $locale = null) {
 
         $request = Zend_Controller_Front::getInstance()->getRequest();

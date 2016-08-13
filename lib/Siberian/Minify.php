@@ -21,7 +21,7 @@ class Siberian_Minify extends \Minify\Minify {
     public static $PLATFORMS = array(
         "browser" => array(
             "css" => true,
-            "js" => true,
+            "js" => false,
             "base" => "var/apps/browser",
             "index" => "var/apps/browser/index.html",
             "output_css" => "var/apps/browser/prod.css",

@@ -31,7 +31,7 @@ class Cron_Model_Cron extends Core_Model_Default {
 			->where("month_day IN (?)", array(-1, $month_day))
 			->where("month IN (?)", array(-1, $month))
 			->where("week_day IN (?)", array(-1, $week_day))
-			->order("priority DESC")
+			->order(array("standalone ASC", "priority DESC"))
 		;
 
 		return $db->fetchAll($select);

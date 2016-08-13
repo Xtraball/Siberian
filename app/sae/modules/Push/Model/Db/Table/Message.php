@@ -112,6 +112,7 @@ class Push_Model_Db_Table_Message extends Core_Model_Db_Table {
             ->where('pdm.device_uid = ?', $device_uid)
             ->where('pdm.status = 1')
             ->where('pdm.is_displayed = ?', '1')
+            ->where('pm.value_id = NULL')
             ->where('pdm.is_read = 0')
             ->where('pm.type_id = ?', $message_type)
         ;

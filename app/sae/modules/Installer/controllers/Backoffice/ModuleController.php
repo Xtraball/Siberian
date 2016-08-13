@@ -329,6 +329,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
             /** Clear cache */
             Siberian_Cache_Design::clearCache();
+            Siberian_Cache_Translation::clearCache();
             Siberian_Minify::clearCache();
 
             $host = $this->getRequest()->getHeader("host");

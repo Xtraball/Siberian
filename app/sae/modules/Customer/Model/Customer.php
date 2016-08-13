@@ -156,6 +156,12 @@ class Customer_Model_Customer extends Core_Model_Default
         if($this->getData('image') AND is_file($this->getBaseImagePath() . '/' . $this->getImage())) return $this->getImagePath() . '/' . $this->getImage();
         else return $this->getNoImage();
     }
+
+    public function getFullImagePath() {
+        if($this->getData('image') AND is_file($this->getBaseImagePath() . '/' . $this->getImage())) return $this->getBaseImagePath() . '/' . $this->getImage();
+        return null;
+    }
+
     //
     public function getNoImage() {
         return $this->getImagePath().'/placeholder/no-image.png';
@@ -170,6 +176,13 @@ class Customer_Model_Customer extends Core_Model_Default
             }
             $this->getTable()->insertSocialDatas($this->getId(), $datas, $this->getApplication()->getId());
         }
+        if(is_array($this->_metadatas) && !empty($this->_metadatas)) {
+            $datas = array();
+            foreach($this->_metadatas as $module_code => $data) {
+                $datas[] = array('code' => $module_code, 'datas' => serialize(!empty($data) ? $data : null));
+            }
+            $this->getTable()->insertMetadatas($this->getId(), $datas);
+        }
     }
 
     private function _checkPassword($password, $hash) {
@@ -182,6 +195,34 @@ class Customer_Model_Customer extends Core_Model_Default
 
     public function getAppIdByCustomerId() {
         return $this->getTable()->getAppIdByCustomerId();
+    }
+
+    public function getMetadatas($module_code) {
+        if(empty($this->_metadatas) || (!empty($module_code) && empty($this->_metadatas[$module_code]))) {
+            $this->_metadatas = $this->getTable()->findMetadatas($this->getId());
+        }
+        if(!$this->getId()) return null;
+        if(is_null($module_code)) return $this->_metadatas;
+        return is_array($this->_metadatas[$module_code]) ? $this->_metadatas[$module_code] : null;
+    }
+
+    public function getMetadata($module_code, $key) {
+        return $this->getMetadatas($module_code)[$key];
+    }
+
+    public function setMetadatas(mixed $module_code_or_datas, array $datas_for_module_code) {
+        if(is_array($module_code_or_datas)) {
+            $this->_metadatas = $module_code_or_datas;
+        } else {
+            $this->_metadatas[$module_code_or_datas] = $datas_for_module_code;
+        }
+        return $this;
+    }
+
+    public function setMetadata($module_code, $key, $value) {
+        $datas = $this->getMetadatas($module_code);
+        $datas[$key] = $value;
+        return $this->setMetdatas($module_code, $datas);
     }
 
 }

@@ -76,13 +76,14 @@ class Siberian_Cache_Design extends Siberian_Cache implements Siberian_Cache_Int
     protected static function recursiveSearch($folder, $base_code, $replace = true) {
         $cache = static::getCache();
 
+        # 4608 > 4096:Skip_dots, 512:Follow_symlinks
         $links = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($folder, 4096),
+            new RecursiveDirectoryIterator($folder, 4608),
             RecursiveIteratorIterator::SELF_FIRST
         );
 
         foreach($links as $link) {
-            if(!$link->isDir()) {
+            if(!$link->isDir() && $link->isFile()) {
                 $path = $link->getPathname();
                 $named_path = str_replace("$folder/", "", $path);
 

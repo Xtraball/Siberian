@@ -9,6 +9,8 @@
 
 class Siberian_Service {
 
+	public static $REGISTERED_SERVICES = array();
+
 	/**
 	 * @return array
 	 */
@@ -93,6 +95,59 @@ class Siberian_Service {
 
 		# Android SDK
 		$services["android_sdk"] = Application_Model_Tools::isAndroidSDKInstalled();
+
+		return $services;
+	}
+
+	/**
+	 * Register a service a command, for backoffice informations
+	 *
+	 * @param $name
+	 * @param $options
+	 */
+	public static function registerService($name, $options) {
+		if(!array_key_exists($name, self::$REGISTERED_SERVICES)) {
+			self::$REGISTERED_SERVICES[$name] = $options;
+		}
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function fetchRegisteredServices() {
+
+		$services = array();
+
+		foreach(self::$REGISTERED_SERVICES as $name => $options) {
+			$services[$name] = array(
+				"status" => false,
+				"text" => __("Offline"),
+			);
+
+			try {
+				$parts = explode("::", $options["command"]);
+				$class = $parts[0];
+				$method = $parts[1];
+
+				# Tests.
+				if(class_exists($class) && method_exists($class, $method)) {
+					$text = isset($options["text"]) ? __($options["text"]) : __("Running");
+					$result = call_user_func($options["command"]);
+
+					if(!empty($result)) {
+						$services[$name] = array(
+							"status" => $result,
+							"text" => $text,
+						);
+					}
+				}
+			} catch (Exception $e) {
+				$services[$name] = array(
+					"status" => false,
+					"text" => __("Offline"),
+				);
+			}
+		}
 
 		return $services;
 	}

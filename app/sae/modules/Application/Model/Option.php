@@ -183,7 +183,7 @@ class Application_Model_Option extends Core_Model_Default
         $library = $this->getLibrary();
 
         $icon = $library->getFirstIcon();
-        
+
         return $icon->getId();
     }
 
@@ -321,4 +321,8 @@ class Application_Model_Option extends Core_Model_Default
         return $this->_library;
     }
 
+    public function getCustomFields() {
+        $custom_fields = json_decode($this->getData('custom_fields'), true);
+        return is_array($custom_fields) ? $custom_fields : array();
+    }
 }

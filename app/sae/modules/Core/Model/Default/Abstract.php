@@ -116,14 +116,14 @@ abstract class Core_Model_Default_Abstract
      */
     public function fetchElement($key_values = array()) {
         $db = $this->getTable();
-        
+
         if(empty($key_values)) {
             $key_values = array();
             foreach($this->getData() as $key => $value) {
                 $key_values[$key] = $value;
             }
         }
-        
+
         $select = $db->select();
         foreach($key_values as $key => $value) {
             $select->where("`{$key}` = ?", $value); # key are protected with ``
@@ -179,7 +179,7 @@ abstract class Core_Model_Default_Abstract
 
             $this->find($fetched_element->getPrimaryKey());
         }
-        
+
         # Re-apply data
         $this->setData($saved_data);
         $this->save();
@@ -206,6 +206,13 @@ abstract class Core_Model_Default_Abstract
     }
 
 
+    /**
+     * If $key is a string, replace corresponding data[$key] with $value.
+     * If $key is an array, merge data with content of $key.
+     * @param array|string $key
+     * @param mixed $value
+     * @return $this
+     */
     public function addData($key, $value=null)
     {
         if(is_array($key)) {
@@ -220,6 +227,14 @@ abstract class Core_Model_Default_Abstract
         return $this;
     }
 
+
+    /**
+     * If $key is a string, replace corresponding data[$key] with $value
+     * If $key is an array, replace ALL data EXCEPT "id" with $key.
+     * @param array|string $key
+     * @param mixed $value
+     * @return $this
+     */
     public function setData($key, $value=null) {
         if(is_array($key)) {
             if(isset($this->_data['id'])) {

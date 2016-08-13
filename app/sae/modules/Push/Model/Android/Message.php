@@ -134,9 +134,9 @@ class Push_Model_Android_Message {
                     $error_count = $device->getErrorCount();
                     if($error_count >= 3) {
                         # Remove device from list
-                        $device->setStatus("uninstalled")->save();
+                        $device->delete();
 
-                        $msg = sprintf("#810-01: Android Device with ID: %s, Token: %s, set as uninstalled after 3 failed push.", $device->getId(), $registration_id);
+                        $msg = sprintf("#810-01: Android Device with ID: %s, Token: %s, removed after 3 failed push.", $device->getId(), $registration_id);
                         $this->logger->info($msg, "push_android", false);
                     } else {
                         $device->setErrorCount(++$error_count)->save();
@@ -157,7 +157,6 @@ class Push_Model_Android_Message {
         }
 
         if(!empty($error)) {
-            $this->logger->info($error, "push_android_error", false);
             $this->service_gcm->logger->log($error);
 
             # Throw exception up to notify the push failed

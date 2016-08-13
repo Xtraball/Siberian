@@ -54,7 +54,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $this;
 
     }
-    
+
     public function findAllByAdmin($admin_id) {
         return $this->getTable()->findAllByAdmin($admin_id);
     }
@@ -372,6 +372,11 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
+    public function getUsedOptions() {
+        $option = new Application_Model_Option_Value();
+        return $option->findAllWithOptionsInfos(array("a.app_id" => $this->getId(), "a.is_visible" => 1));
+    }
+
     public function getOptionIds() {
 
         $option_ids = array();
@@ -397,6 +402,10 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
+    /**
+     * @param int $samples
+     * @return Application_Model_Option_Value[]
+     */
     public function getPages($samples = 0) {
 
         if(empty($this->_pages)) {
@@ -455,12 +464,14 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     public function usesUserAccount() {
 
+        // TODO: check use_my_account
+
         if(is_null($this->_uses_user_account)) {
             $this->_uses_user_account = false;
-            $codes = array('newswall', 'fanwall', 'padlock', 'discount', 'loyalty');
-            foreach($codes as $code) {
-                $option = $this->getOption($code);
-                if($option->getId() AND $option->isActive()) $this->_uses_user_account = true;
+            $options = $this->getUsedOptions();
+            foreach($options as $option) {
+                if($option->getUseMyAccount())
+                    $this->_uses_user_account = true;
             }
         }
 

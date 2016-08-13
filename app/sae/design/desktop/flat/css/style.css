@@ -916,6 +916,11 @@ div.loader {
 #slider_images .item-left-design {
     float: left;
 }
+#change_layout {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
 .change_layout .checked {
     background-color: #777;
     height: 100%;
@@ -950,7 +955,7 @@ div.loader {
 .styled-select {
     border: medium none;
     border-radius: 4px;
-    line-height: 2.5em;
+    line-height: 2.3em;
     background-image: url("../images/customization/pictos/arrow_bottom.png");
     background-position: 95% center;
     background-repeat: no-repeat;
@@ -1577,3 +1582,60 @@ table.dataTable thead th.sorting_desc {
     background-position: right center;
 }
 
+/** Form elements */
+.sb-nav {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+form.sb-form label {
+    padding-top: 8px;
+}
+
+.sb-checkbox-label,
+.sb-radio-label {
+    margin-left: 6px;
+    margin-right: 20px;
+}
+
+div.feature-upload-placeholder {
+    margin-top: 6px;
+}
+
+div.feature-upload-placeholder img {
+    border-radius: 5px;
+    width: auto;
+    max-width: 100%;
+    max-height: 200px;
+}
+
+div.feature-upload-placeholder button {
+    position: absolute;
+    top: 36px;
+    left: 15px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+.feature-block-create {
+    display: none;
+}
+
+.feature-block-list {
+
+}
+
+.feature-block-background {
+
+}
+
+.feature-block-layout {
+
+}
+
+.sb-mini-delete button {
+    border: 0;
+    background: inherit;
+    font-size: inherit;
+    color: inherit;
+}

@@ -29,7 +29,7 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
     public function sliderAction() {
         $this->loadPartials('home_mobile_slider_view_l'.$this->getApplication()->getLayoutId(), false);
     }
-    
+
     public function listAction() {
         $html = $this->getLayout()->addPartial("homepage_scrollbar", "core_view_mobile_default", "home/l1/list.phtml")->toHtml();
         $this->getLayout()->setHtml($html);
@@ -69,6 +69,10 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
                 'icon_is_colorable' => $option_value->getImage()->getCanBeColorized(),
                 'is_locked'         => $option_value->isLocked(),
                 'is_link'           => !$option_value->getIsAjax(),
+                'use_my_account'    => $option_value->getUseMyAccount(),
+                'use_nickname'      => $option_value->getUseNickname(),
+                'use_ranking'       => $option_value->getUseRanking(),
+                'custom_fields'     => $option_value->getCustomFields(),
                 'position'          => $option_value->getPosition()
             );
         }
@@ -102,7 +106,7 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
             'icon_is_colorable'     => 1,
             'is_visible'            => $this->getApplication()->usesUserAccount()
         );
-        
+
         $layout = new Application_Model_Layout_Homepage();
         $layout->find($this->getApplication()->getLayoutId());
 

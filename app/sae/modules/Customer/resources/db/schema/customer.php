@@ -32,6 +32,11 @@ $schemas['customer'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'nickname' => array(
+        'type' => 'varchar(16)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci'
+    ),
     'email' => array(
         'type' => 'varchar(255)',
         'charset' => 'utf8',
@@ -47,6 +52,10 @@ $schemas['customer'] = array(
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
+    ),
+    'is_custom_image' => array(
+        'type' => 'tinyint(1)',
+        'default' => '0',
     ),
     'show_in_social_gaming' => array(
         'type' => 'tinyint(1)',

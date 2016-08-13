@@ -142,39 +142,23 @@ class Installer_Model_Installer extends Core_Model_Default {
             "xml",
             "config.xml"
         ));
-        $androidCHCPPath = implode(DIRECTORY_SEPARATOR, array(
-            Application_Model_Device_Ionic_Android::SOURCE_FOLDER,
-            "assets",
-            "www",
-            "chcp.json"
-        ));
+
         $iosConfigXMLPath = implode(DIRECTORY_SEPARATOR, array(
                 Application_Model_Device_Ionic_Ios::SOURCE_FOLDER,
                 "AppsMobileCompany",
                 "config.xml"
         ));
-        $iosCHCPPath = implode(DIRECTORY_SEPARATOR, array(
-                Application_Model_Device_Ionic_Ios::SOURCE_FOLDER,
-                "www",
-                "chcp.json"
-        ));
+
         $iosNoAdsConfigXMLPath = implode(DIRECTORY_SEPARATOR, array(
                 Application_Model_Device_Ionic_Ios::SOURCE_FOLDER."-noads",
                 "AppsMobileCompany",
                 "config.xml"
         ));
-        $iosNoAdsCHCPPath = implode(DIRECTORY_SEPARATOR, array(
-                Application_Model_Device_Ionic_Ios::SOURCE_FOLDER."-noads",
-                "www",
-                "chcp.json"
-        ));
 
         $paths = array(
             "app/configs",
             $androidConfigXMLPath,
-            $androidCHCPPath,
             $iosConfigXMLPath,
-            $iosCHCPPath,
             $iosNoAdsConfigXMLPath
         );
 

@@ -40,6 +40,16 @@ class Siberian_Service_Push_Gcm_Message extends Message {
     }
 
     /**
+     * @param $iValueID
+     * @return Siberian_Service_Push_Gcm_Message
+     */
+    public function setValueId($iValueID) {
+        $this->addData("value_id", $iValueID);
+
+        return $this;
+    }
+
+    /**
      * @param $iTimeToLive
      * @return Siberian_Service_Push_Gcm_Message
      */

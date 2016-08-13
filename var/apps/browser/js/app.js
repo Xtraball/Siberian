@@ -1,4 +1,4 @@
-var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS9UIWebViewPatch', 'angular-carousel'])
+var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS9UIWebViewPatch', 'angular-carousel', 'lodash', 'ngImgCrop', 'ionic-zoom-view'])
 //Add spinner template
 .constant("$ionicLoadingConfig", {
     template: "<ion-spinner></ion-spinner>"
@@ -38,6 +38,9 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
     //Load translation is mandatory to any process
     $translate.findTranslations().success(function () {}).finally(function(){
         $ionicPlatform.ready(function () {
+            $window.cordova = $window.cordova || {};
+            $window.device = $window.device || {};
+
             $window.Connection = Connection;
 
             if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -57,6 +60,7 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
 
             $rootScope.app_is_loaded = true;
             $rootScope.has_popup = false;
+            $rootScope.app_is_bo_locked = false;
 
             if(!Application.is_webview) {
                 Connection.check();
@@ -68,7 +72,7 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                     Analytics.data.storeClosingId = result.id;
                 });
             });
-            
+
             $ionicPlatform.on('pause', function(result) {
                 sbLog("## App is on pause ##");
                 Analytics.storeClosing();
@@ -209,6 +213,10 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
         //get & process app data
         $http.get(Url.get("front/mobile/load", { add_language: true, sid: sid })).success(function (data) {
 
+            if(data.application.is_bo_locked == 1) {
+                $rootScope.app_is_bo_locked = true;
+            }
+
             if (data.css) {
                 var link = document.createElement("link");
                 link.rel = "stylesheet";
@@ -219,6 +227,7 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
             Customer.id = data.customer.id;
             Customer.can_access_locked_features = data.customer.can_access_locked_features;
             Customer.can_connect_with_facebook = data.customer.can_connect_with_facebook;
+            Customer.saveCredentials(data.customer.token);
 
             Application.app_id = data.application.id;
             Application.app_name = data.application.name;

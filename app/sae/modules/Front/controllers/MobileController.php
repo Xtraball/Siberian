@@ -14,12 +14,14 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
             "customer" => array(
                 "id" => $customer_id,
                 "can_connect_with_facebook" => !!$application->getFacebookId(),
-                "can_access_locked_features" => $customer_id && $this->getSession()->getCustomer()->canAccessLockedFeatures()
+                "can_access_locked_features" => $customer_id && $this->getSession()->getCustomer()->canAccessLockedFeatures(),
+                "token" => Zend_Session::getId()
             ),
             "application" => array(
                 "id" => $application->getId(),
                 "name" => $application->getName(),
                 "is_locked" => $application->requireToBeLoggedIn(),
+                "is_bo_locked" => $application->getIsLocked(),
                 "colors" => array(
                     "header" => array(
                         "backgroundColor" => $application->getBlock("header")->getBackgroundColorRGB(),

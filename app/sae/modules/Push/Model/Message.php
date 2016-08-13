@@ -121,8 +121,10 @@ class Push_Model_Message extends Core_Model_Default {
     public function push() {
         $success_ios = true;
         $success_android = true;
+        $errors = array();
 
         foreach($this->_types as $type => $class_name) {
+
             if($type == 'ios') {
                 try {
                     $ios_certificate = Core_Model_Directory::getBasePathTo(Push_Model_Certificate::getiOSCertificat($this->getAppId()));
@@ -136,6 +138,7 @@ class Push_Model_Message extends Core_Model_Default {
                 } catch (Exception $e) {
                     $this->logger->info(sprintf("[CRON: %s]: ".$e->getMessage(), date("Y-m-d H:i:s")), "cron_push");
                     $this->_log("Siberian_Service_Push_Apns", $e->getMessage());
+                    $errors[] = $e->getMessage();
 
                     $success_ios = false;
                 }
@@ -144,16 +147,29 @@ class Push_Model_Message extends Core_Model_Default {
 
             if($type == 'android') {
                 try {
-                    $instance = new Push_Model_Android_Message(new Siberian_Service_Push_Gcm(Push_Model_Certificate::getAndroidKey()));
-                    $instance->setMessage($this);
-                    $instance->push();
+                    $gcm_key = Push_Model_Certificate::getAndroidKey();
+                    if(!empty($gcm_key)) {
+                        $instance = new Push_Model_Android_Message(new Siberian_Service_Push_Gcm(Push_Model_Certificate::getAndroidKey()));
+                        $instance->setMessage($this);
+                        $instance->push();
+                    } else {
+                        throw new Exception("You must provide GCM Credentials");
+                    }
                 } catch (Exception $e) {
                     $this->logger->info(sprintf("[CRON: %s]: ".$e->getMessage(), date("Y-m-d H:i:s")), "cron_push");
                     $this->_log("Siberian_Service_Push_Gcm", $e->getMessage());
+                    $errors[] = $e->getMessage();
 
                     $success_android = false;
                 }
             }
+        }
+
+        # Log errors in message
+        if(!empty($errors)) {
+            $errors[] = $this->getErrorText();
+            $errors = array_filter($errors);
+            $this->setErrorText(implode(",\n", $errors));
         }
 
         # If both iOS & Android failed
@@ -273,6 +289,24 @@ class Push_Model_Message extends Core_Model_Default {
         if (is_null($this->_messageType)) {
             $this->_messageType = self::TYPE_PUSH;
         }
+    }
+
+    /**
+     * Check individual push version
+     * @param string $version minimum version required
+     * @return bool Individual Push version is superior to $version or NULL if module is not installed
+     */
+    public static function isIndividualPushVersionCompliant($version) {
+        if(self::hasIndividualPush()) {
+            $module = new Installer_Model_Installer_Module();
+            $module->prepare("IndividualPush", false);
+            $id = $module->getId();
+            if($module->isInstalled() && !empty($id)) {
+                return version_compare($module->getVersion(), $version, ">=");
+            }
+        }
+
+        return null;
     }
 
     /**

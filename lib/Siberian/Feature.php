@@ -27,7 +27,7 @@ class Siberian_Feature
                 "name" => $name,
             ))
             ->insertOnce(array("name"));
-        
+
         $icon_id = 0;
         foreach($icons as $key => $icon_path) {
             $data = array(
@@ -50,6 +50,15 @@ class Siberian_Feature
             "icon_id" => $icon_id,
             "library_id" => $library->getId(),
         );
+    }
+
+    /**
+     * @param $name
+     */
+    public static function removeIcons($name) {
+        $library = new Media_Model_Library();
+        $library = $library->find($name, "name");
+        $library->delete();
     }
 
     /**
@@ -131,12 +140,163 @@ class Siberian_Feature
             }
         }
 
+        if(isset($data["custom_fields"]) && is_array($data["custom_fields"])) {
+            $data["custom_fields"] = json_encode($data["custom_fields"]);
+        }
+
         $option = new Application_Model_Option();
         $option
             ->setData($data)
             ->insertOrUpdate($keys);
 
         return $option;
+    }
+
+    /**
+     * Create ACL for a given option, or manually with an array
+     * @param Application_Model_Option|array $option
+     */
+    public static function installAcl($option) {
+
+        $features_resources = array(
+            "code" => "feature",
+            "label" => "Features",
+        );
+
+        if(!is_array($option)) {
+            $child_resource = array(
+                "code"  => "feature_".$option->getCode(),
+                "label" => $option->getName(),
+                "url"   => $option->getDesktopUri()."*"
+            );
+        } else {
+            $child_resource = $option;
+        }
+
+        // Create feature resource in case it doesn't exists
+        $resource = new Acl_Model_Resource();
+        $resource->setData($features_resources)
+            ->insertOrUpdate(array("code"));
+
+        $parent_id = $child_resource["parent_id"];
+
+        if(empty($parent_id)) {
+            $child_resource["parent_id"] = $resource->getId();
+        } elseif(!is_numeric($parent_id)) { // If parent_id is not numeric, search existing ACL using code
+            $tmp_res = new Acl_Model_Resource();
+            $tmp_res->find($parent_id, "code");
+            $tmp_res_id = $tmp_res->getId();
+            if(empty($tmp_res_id)) {
+                $tmp_res->find("feature_".$parent_id, "code");
+                if(empty($tmp_res_id))
+                    throw new ErrorException("Cannot find Acl Resource with code: ".$parent_id." or feature_".$parent_id);
+            }
+            $child_resource["parent_id"] = $tmp_res->getId();
+        } elseif (is_numeric($parent_id)) {
+            $child_resource["parent_id"] = intval($parent_id, 10);
+        }
+
+        $child = new Acl_Model_Resource();
+        $child->setData($child_resource)
+            ->insertOrUpdate(array("code"));
+
+        if(!empty($child_resource["children"])) {
+            foreach($child_resource["children"] as $child_child_resource) {
+                $child_child_resource["parent_id"] = $child->getId();
+                self::installAcl($child_child_resource);
+            }
+        }
+    }
+
+    /**
+     * @param $code
+     */
+    public static function uninstallFeature($code) {
+        $option = new Application_Model_Option();
+        $option->find($code, "code");
+        $option->delete();
+    }
+
+    /**
+     * @param $code
+     */
+    public static function uninstallModule($name) {
+        $module = new Installer_Model_Installer_Module();
+        $module->find($name, "name");
+        $module->delete();
+    }
+
+    /**
+     * @param array $tables
+     */
+    public static function dropTables($tables = array()) {
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $db->query("SET FOREIGN_KEY_CHECKS = 0;");
+        foreach($tables as $table) {
+            $statement = $db->prepare("DROP TABLE ?;");
+            $statement->execute(array($table));
+        }
+        $db->query("SET FOREIGN_KEY_CHECKS = 1;");
+    }
+
+    /**
+     * @param Application_Model_Option_Value $option_value
+     * @param $tmp_path
+     * @return null|string
+     * @throws exception
+     */
+    public static function moveUploadedFile(Application_Model_Option_Value $option_value, $tmp_path) {
+        $path = null;
+
+        $filename = pathinfo($tmp_path, PATHINFO_BASENAME);
+        $relative_path = $option_value->getImagePathTo();
+        $folder = Application_Model_Application::getBaseImagePath().$relative_path;
+        $img_dst = $folder.'/'.$filename;
+        $img_src = Core_Model_Directory::getTmpDirectory(true).'/'.$filename;
+
+        if(!is_dir($folder)) {
+            mkdir($folder, 0777, true);
+        }
+
+        if(!copy($img_src, $img_dst)) {
+            throw new exception(__("An error occurred while saving your picture. Please try again later."));
+        } else {
+            $path = $relative_path.'/'.$filename;
+        }
+
+        return $path;
+    }
+
+    /**
+     * Installing a cronjob, defaults to every 5 minutes, active, low priority.
+     *
+     * @param $name
+     * @param $command
+     * @param int $minute
+     * @param int $hour
+     * @param int $month_day
+     * @param int $month
+     * @param int $week_day
+     * @param bool $is_active
+     * @param int $priority
+     * @param bool $standalone
+     */
+    public static function installCronjob($name, $command, $minute = 5, $hour = -1, $month_day = -1, $month = -1, $week_day = -1, $is_active = true, $priority = 5, $standalone = false) {
+        $job = new Cron_Model_Cron();
+        $job->setData(array(
+            "name"          => $name,
+            "command"       => $command,
+            "minute"        => $minute,
+            "hour"          => $hour,
+            "month_day"     => $month_day,
+            "month"         => $month,
+            "week_day"      => $week_day,
+            "is_active"     => $is_active,
+            "priority"      => $priority,
+            "standalone"    => $standalone,
+        ));
+
+        $job->insertOrUpdate(array("command"));
     }
 
 }

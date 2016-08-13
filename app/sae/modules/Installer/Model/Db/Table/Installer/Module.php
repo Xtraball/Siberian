@@ -22,7 +22,7 @@ class Installer_Model_Db_Table_Installer_Module extends Core_Model_Db_Table
         return $this->_is_installed;
     }
 
-    public function install($module, $file, $version) {
+    public function install($module, $file) {
 
         try {
             $this->start();

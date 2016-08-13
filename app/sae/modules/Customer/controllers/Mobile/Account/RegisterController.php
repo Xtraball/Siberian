@@ -70,7 +70,8 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
                 $html = array(
                     'success' => 1,
                     'customer_id' => $customer->getId(),
-                    'can_access_locked_features' => $customer->canAccessLockedFeatures()
+                    'can_access_locked_features' => $customer->canAccessLockedFeatures(),
+                    'token' => Zend_Session::getId()
                 );
 
             }

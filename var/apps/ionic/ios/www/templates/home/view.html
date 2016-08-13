@@ -5,7 +5,7 @@
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
-        <ion-slide-box id="homepage_slider" ng-if="showSlider()"
+        <ion-slide-box id="homepage_slider" ng-if="showSlider() && !app_is_bo_locked"
                        auto-play="true" does-continue="{{ homepage_slider.loop_at_beginning }}"
                        slide-interval="{{ homepage_slider.duration }}" show-pager="false">
 
@@ -14,7 +14,9 @@
             </ion-slide>
         </ion-slide-box>
 
-        <ng-include src="'homepage-menu.html'" ng-if="showBottom()" class="{{ layout_id }}"></ng-include>
+        <ng-include src="'homepage-menu.html'" ng-if="showBottom() && !app_is_bo_locked" class="{{ layout_id }}"></ng-include>
+
+        <sb-app-locked ng-if="app_is_bo_locked"></sb-app-locked>
 
     </ion-content>
 

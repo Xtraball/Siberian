@@ -120,6 +120,26 @@ function __($string) {
 	return Core_Model_Translator::translate($string, $args);
 }
 
+/**
+ * @param string $url
+ * @param array $params
+ * @param null $locale
+ * @return array|mixed|string
+ */
+function __url($url = "", array $params = array(), $locale = null) {
+	return Core_Model_Url::create($url, $params, $locale);
+}
+
+/**
+ * @param string $url
+ * @param array $params
+ * @param null $locale
+ * @return array|mixed|string
+ */
+function __path($url = "", array $params = array(), $locale = null) {
+	return Core_Model_Url::createPath($url, $params, $locale);
+}
+
 function time_to_date($time, $format = 'y-MM-dd') {
 	$date = new Zend_Date($time);
 	return $date->toString($format);
