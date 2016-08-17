@@ -57,6 +57,8 @@ App.config(function ($stateProvider) {
     };
 
     $scope.validate = function () {
+        // TG-459
+        McommerceSalesPayment.notes = $scope.notes;
 
         if ($scope.onlinePaymentUrl) {
 

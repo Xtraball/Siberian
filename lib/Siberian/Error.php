@@ -3,9 +3,10 @@
 /**
  * Class Siberian_Error
  *
- * @version 4.1.0
+ * @version 4.3.1
  *
  * @todo
+ *  so much things
  *  handle errors,
  *  verbose logging,
  *  interfacing with Siberian_Log
@@ -21,21 +22,18 @@ class Siberian_Error
     public static $logger;
 
     public static function init() {
-        set_error_handler(array('Siberian_Error', 'handleError'));
+        # Disabling for now
+        # set_error_handler(array('Siberian_Error', 'handleError'));
     }
 
     public static function handleError($errno, $errstr, $errfile, $errline) {
-        /** Saving errors */
-        $error = sprintf("%s - %s line %s", $errstr, $errfile, $errline);
-        self::$errors[] = $error;
-        self::$logger = Zend_Registry::get("logger");
-        self::clear();
-        if(APPLICATION_ENV == "development") {
-            //self::$logger->info($error);
-        }
+        # Do nothing.
     }
 
-    /** @unused Artifact from the past???? */
+    /**
+     * @deprecated
+     * Artifact from the past
+     */
     public static function backtrace($dumpError = false) {
         $errors = debug_backtrace();
         $dump = '';
@@ -58,43 +56,14 @@ class Siberian_Error
         return count(self::$errors);
     }
 
-    public static function end()
-    {
-        /**self::clear();
-        self::$logger = Zend_Registry::get("logger");
-
-        if(APPLICATION_ENV == "development") {
-
-            if (self::count() > 0) {
-                $report = "\n";
-                $count = 0;
-                foreach (self::$errors as $error) {
-                    $report .= "#{$count}: {$error} \n";
-                    $count++;
-
-
-                }
-                self::$logger->info($report);
-            }
-
-        }*/
+    public static function end() {
+        # Do nothing.
     }
 
     /**
      * Search for old info_* files and clean
      */
     public static function clear() {
-        $log_path = Core_Model_Directory::getBasePathTo("var/log/");
-        $files = glob("{$log_path}info_*.log");
-        $files[] = "{$log_path}debug_report.log"; # Ensure the old file is removed.
-        foreach($files as $file) {
-            if(is_readable($file)) {
-                $filemtime = filemtime($file) - 10;
-                $time = time();
-                if($time > $filemtime) {
-                    unlink($file);
-                }
-            }
-        }
+        # Do nothing.
     }
 }

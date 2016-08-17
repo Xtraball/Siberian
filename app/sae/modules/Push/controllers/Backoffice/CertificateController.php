@@ -24,7 +24,7 @@ class Push_Backoffice_CertificateController extends Backoffice_Controller_Defaul
                     "name" => "android_key",
                     "value" => Push_Model_Certificate::getAndroidKey()
                 ), array(
-                    "title" => "Sender ID",
+                    "title" => "Project Number",
                     "name" => "android_sender_id",
                     "value" => Push_Model_Certificate::getAndroidSenderId()
                 )

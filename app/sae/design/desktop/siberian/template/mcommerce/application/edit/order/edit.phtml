@@ -157,6 +157,15 @@
             <?php endif; ?>
         </fieldset>
 
+        <fieldset>
+            <h3 class="title-editor">
+                <?php echo $this->_('Notes'); ?>
+            </h3>
+            <div class="container-fluid">
+                <div class="margin-top: 1em;"><?php echo $order->getNotes(); ?></div>
+            </div>
+        </fieldset>
+
         <?php if($order->getId()) : ?>
             <input type="hidden" name="order_id" id="order_id" value="<?php echo $order->getId() ?>" />
         <?php endif; ?>

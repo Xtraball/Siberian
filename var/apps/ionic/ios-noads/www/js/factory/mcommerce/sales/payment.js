@@ -3,6 +3,7 @@ App.factory('McommerceSalesPayment', function ($rootScope, $http, Url) {
     var factory = {};
 
     factory.value_id = null;
+    factory.notes = "";
 
     factory.findPaymentMethods = function () {
 
@@ -55,7 +56,10 @@ App.factory('McommerceSalesPayment', function ($rootScope, $http, Url) {
             value_id: this.value_id
         });
 
-        return $http.post(url, {validate_payment:1});
+        return $http.post(url, {
+            validate_payment: 1,
+            notes: factory.notes // TG-459
+        });
 
     };
 

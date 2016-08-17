@@ -8,9 +8,7 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap
     public $_front_controller = false;
 
     protected function _initPaths() {
-
-        Siberian_Error::init();
-
+        
         Zend_Loader_Autoloader::getInstance()->registerNamespace('Core');
 
         $include_paths = array(get_include_path());

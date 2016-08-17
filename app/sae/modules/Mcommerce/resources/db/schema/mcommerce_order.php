@@ -148,6 +148,11 @@ $schemas['mcommerce_order'] = array(
         'type' => 'decimal(12,2)',
         'is_null' => true,
     ),
+    // TG-459
+    'notes' => array(
+        'type' => 'text',
+        'is_null' => true,
+    ),
     'created_at' => array(
         'type' => 'datetime',
     ),

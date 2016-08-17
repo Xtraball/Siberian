@@ -109,7 +109,6 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
     }
 
     public function validatepaymentAction() {
-
         if($data = $this->getRequest()->getPost()) {
             $data = $this->getRequest()->getPost();
         } else if($data = $this->getRequest()->getRawBody()) {
@@ -136,6 +135,9 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
 
                     $order = new Mcommerce_Model_Order();
                     $order->fromCart($this->getCart())->setStatusId($status_id);
+
+                    // TG-459
+                    $order->setNotes($data['notes']);
                     $order->save();
 
                     if(in_array($this->getCart()->getPaymentMethod()->getCode(), array("check", "cc_upon_delivery", "paypal"))) {

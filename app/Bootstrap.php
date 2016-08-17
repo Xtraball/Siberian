@@ -20,8 +20,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
     protected function _initPaths() {
 
-        Siberian_Error::init();
-
         Zend_Loader_Autoloader::getInstance()->registerNamespace('Core');
 
         $include_paths = array(get_include_path());
@@ -55,7 +53,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         if(APPLICATION_ENV == "production") {
             error_reporting(0);
         } else {
-            error_reporting(32767);
+            # error_reporting(32767);
+            # This reports TOO Much errors, corrupting json, response & headers
+            # Limiting to critical for general purpose only
+            error_reporting(501);
         }
     }
 
@@ -89,11 +90,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $resource = $this->getResource('db');
 
         //Disabling strict mode
-        try {
+        try{
             $resource->query("SET sql_mode = '';");
         } catch(Exception $e) {
             $logger = Zend_Registry::get("logger");
-            $logger->sendException("Fatal Error when trying to disable SQL strict mode: \n".print_r($e, true));
+            $logger->err("Fatal Error when trying to disable SQL strict mode: \n".print_r($e, true));
         }
 
         Zend_Registry::set('db', $resource);
@@ -293,8 +294,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         if ($front->returnResponse()) {
             return $response;
         }
-
-        Siberian_Error::end();
     }
 
 }
