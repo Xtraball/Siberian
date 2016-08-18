@@ -1,5 +1,5 @@
 
-<sb-section title="'<?php echo $this->_("Upload your modules"); ?>'" class="upload_area">
+<sb-section title="'<?php echo addcslashes(__("Upload your modules"), "'"); ?>'" class="upload_area">
     <br />
     <div class="relative">
         <div class="col-md-3">
@@ -53,7 +53,7 @@
     </div>
 </sb-section>
 
-<sb-section title="'<?php echo $this->_("Module to upload"); ?>'">
+<sb-section title="'<?php echo addcslashes(__("Module to upload"), "'"); ?>'">
     <table class="table">
         <thead>
             <tr>
@@ -100,7 +100,7 @@
 
 </sb-section>
 
-<sb-section title="'<?php echo $this->_("Package Details"); ?>'" class="slide-top" ng-show="package_details.is_visible">
+<sb-section title="'<?php echo addcslashes(__("Package Details"), "'"); ?>'" class="slide-top" ng-show="package_details.is_visible">
 
     <table class="table">
         <thead>
@@ -132,7 +132,7 @@
 
 </sb-section>
 
-<sb-section title="'<?php echo $this->_("Permissions"); ?>'" class="slide-top" ng-show="permissions.is_visible">
+<sb-section title="'<?php echo addcslashes(__("Permissions"), "'"); ?>'" class="slide-top" ng-show="permissions.is_visible">
 
     <table class="table">
         <thead>
@@ -231,7 +231,7 @@
 
 </sb-section>
 
-<sb-section title="'<?php echo $this->_("Installing your module"); ?>'" class="slide-top" ng-show="installation.copy.is_visible">
+<sb-section title="'<?php echo addcslashes(__("Installing your module"), "'"); ?>'" class="slide-top" ng-show="installation.copy.is_visible">
 
     <table class="table">
         <thead>

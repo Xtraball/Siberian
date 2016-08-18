@@ -93,9 +93,9 @@ class Application_Backoffice_View_AclController extends Backoffice_Controller_De
                     throw new Exception($this->_("An error occurred while saving. Please try again later."));
                 }
 
-                $admin->setIsAllowedToAddPages(!empty($data["can_add_page"]))
-                    ->save()
-                ;
+                $admin->setIsAllowedToAddPages(!empty($data["can_add_page"]));
+                $application->addAdmin($admin);
+                $admin->save();
 
                 $data = array(
                     "success" => 1,

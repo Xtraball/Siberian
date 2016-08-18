@@ -76,11 +76,11 @@
 
                         </div>
 
-                        <?php if($child->getName() == "Homepage"): ?>
+                        <?php if($child->getData("name") == "Homepage"): ?>
                             <div class="col-md-12 col-xs-12">
                                 <label for="<?php echo $child->getCode(); ?>_transparent_background_color_receiver">
                                     <input type="checkbox" id="<?php echo $child->getCode(); ?>_transparent_background_color_receiver" name="background_color" value="transparent"<?php if($tabbar_block->getBackgroundColor() == "transparent") : ?> checked="checked"<?php endif; ?> />
-                                    <?php echo $this->_("Transparent"); ?>
+                                    <?php echo __("Transparent"); ?>
                                 </label>
                             </div>
                         <?php endif; ?>

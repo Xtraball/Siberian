@@ -121,6 +121,22 @@ function __($string) {
 }
 
 /**
+ * Classic hook for translations
+ *
+ * @param $text
+ * @return mixed|string
+ */
+function __js($string, $escape = '"') {
+	$args = func_get_args();
+
+	# Remove default args
+	unset($args[0]);
+	unset($args[1]);
+
+	return addcslashes(Core_Model_Translator::translate($string, $args), $escape);
+}
+
+/**
  * @param string $url
  * @param array $params
  * @param null $locale

@@ -8,13 +8,13 @@
         <?php echo $this->_('My orders'); ?>
     </h3>
     <div class="container-fluid first-row-feature">
-        <table id="table_orders_list" class="table inner_content table-hover">
+        <table id="table_orders_list" class="table content-white-bkg">
             <col width="20px" />
             <col width="40%" />
             <col width="40%" />
             <col width="50px" />
             <thead>
-                <tr>
+                <tr class="border-blue">
                     <td><?php echo $this->_('Number'); ?></td>
                     <td><?php echo $this->_('Status'); ?></td>
                     <td><?php echo $this->_('Customer'); ?></td>
@@ -31,14 +31,6 @@
                 </tr>
                 <?php endforeach ?>
             </tbody>
-            <tfoot>
-                <tr>
-                    <td><?php echo $this->_('Number'); ?></td>
-                    <td><?php echo $this->_('Status'); ?></td>
-                    <td><?php echo $this->_('Customer'); ?></td>
-                    <td><?php echo $this->_('Total'); ?></td>
-                </tr>
-            </tfoot>
         </table>
     </div>
 </div>
@@ -47,10 +39,36 @@
 </div>
 
 <script type="text/javascript">
+    var dataTableLanguage = {
+        "decimal":        "",
+        "emptyTable":     "<?php echo __js("No data available in table") ?>",
+        "info":           "<?php echo __js("Showing _START_ to _END_ of _TOTAL_ entries") ?>",
+        "infoEmpty":      "<?php echo __js("Showing 0 to 0 of 0 entries") ?>",
+        "infoFiltered":   "<?php echo __js("(filtered from _MAX_ total entries)") ?>",
+        "infoPostFix":    "",
+        "thousands":      ",",
+        "lengthMenu":     "<?php echo __js("Show _MENU_ entries") ?>",
+        "loadingRecords": "<?php echo __js("Loading...") ?>",
+        "processing":     "<?php echo __js("Processing...") ?>",
+        "search":         "<?php echo __js("Search:") ?>",
+        "zeroRecords":    "<?php echo __js("No matching records found") ?>",
+        "paginate": {
+            "first":      "<?php echo __js("First") ?>",
+            "last":       "<?php echo __js("Last") ?>",
+            "next":       "<?php echo __js("Next") ?>",
+            "previous":   "<?php echo __js("Previous") ?>"
+        },
+        "aria": {
+            "sortAscending":  "<?php echo __js(": activate to sort column ascending") ?>",
+            "sortDescending": "<?php echo __js(": activate to sort column descending") ?>"
+        }
+    };
+
     var orders = {
         is_loaded: false,
         processEvents: function() {
             $('#table_orders_list').dataTable({
+                language: dataTableLanguage,
                 bLengthChange: false,
                 bFilter: false,
                 sPaginationType: "full_numbers",
@@ -154,12 +172,6 @@
     table.dataTable th, table.dataTable td {
         padding: 10px;
     }
-    table.dataTable thead tr {
-        border-bottom: 3px solid;
-    }
-    table.dataTable tfoot tr {
-        border-top: 3px solid;
-    }
 
     table.dataTable tbody tr.edit_order {
         cursor: pointer;
@@ -179,6 +191,9 @@
     }
     .dataTables_paginate a.paginate_button_disabled {
         opacity: 0.3
+    }
+    table.dataTable tbody tr:last-of-type {
+        border-bottom: 0;
     }
 
     #order_edit .order_details .option {

@@ -12,14 +12,14 @@
             </button>
         </h3>
         <div class="container-fluid first-row-feature">
-            <table id="table_products_list" class="table inner_content table-hover">
+            <table id="table_products_list" class="table content-white-bkg">
                 <col width="20px" />
                 <col width="35%" />
                 <col width="40%" />
                 <col width="50px" />
                 <col width="100px" />
                 <thead>
-                    <tr>
+                    <tr class="border-blue">
                         <th><?php echo $this->_('Id'); ?></th>
                         <th><?php echo $this->_('Product'); ?></th>
                         <th><?php echo $this->_('Description'); ?></th>
@@ -38,15 +38,6 @@
                     </tr>
                     <?php endforeach ?>
                 </tbody>
-                <tfoot>
-                    <tr>
-                        <td><?php echo $this->_('Id'); ?></td>
-                        <td><?php echo $this->_('Product'); ?></td>
-                        <td><?php echo $this->_('Description'); ?></td>
-                        <td><?php echo $this->_('Price'); ?></td>
-                        <td></td>
-                    </tr>
-                </tfoot>
             </table>
 
         </div>
@@ -66,11 +57,37 @@
             { name: 'styles', items: [ 'TextColor', 'Format' ] }
         ];
 
+        var dataTableLanguage = {
+            "decimal":        "",
+            "emptyTable":     "<?php echo __js("No data available in table") ?>",
+            "info":           "<?php echo __js("Showing _START_ to _END_ of _TOTAL_ entries") ?>",
+            "infoEmpty":      "<?php echo __js("Showing 0 to 0 of 0 entries") ?>",
+            "infoFiltered":   "<?php echo __js("(filtered from _MAX_ total entries)") ?>",
+            "infoPostFix":    "",
+            "thousands":      ",",
+            "lengthMenu":     "<?php echo __js("Show _MENU_ entries") ?>",
+            "loadingRecords": "<?php echo __js("Loading...") ?>",
+            "processing":     "<?php echo __js("Processing...") ?>",
+            "search":         "<?php echo __js("Search:") ?>",
+            "zeroRecords":    "<?php echo __js("No matching records found") ?>",
+            "paginate": {
+                "first":      "<?php echo __js("First") ?>",
+                "last":       "<?php echo __js("Last") ?>",
+                "next":       "<?php echo __js("Next") ?>",
+                "previous":   "<?php echo __js("Previous") ?>"
+            },
+            "aria": {
+                "sortAscending":  "<?php echo __js(": activate to sort column ascending") ?>",
+                "sortDescending": "<?php echo __js(": activate to sort column descending") ?>"
+            }
+        };
+
         var product_picture_uploader = new Uploader();
         var products = {
             is_loaded: false,
             processEvents: function() {
                 $('#table_products_list').dataTable({
+                    language: dataTableLanguage,
                     bLengthChange: false,
                     bFilter: true,
                     sPaginationType: "full_numbers",
@@ -545,13 +562,7 @@
         text-align: left;
     }
     .products .products_list table.dataTable th, .products table.dataTable td {
-        padding: 10px;
-    }
-    .products .products_list table.dataTable thead tr {
-        border-bottom: 3px solid;
-    }
-    .products .products_list table.dataTable tfoot tr {
-        border-top: 3px solid;
+        /**padding: 10px;*/
     }
 
     .products .products_list table.dataTable tbody tr.edit_product {
@@ -572,6 +583,9 @@
     }
     .products .products_list .dataTables_paginate a.paginate_button_disabled {
         opacity: 0.3
+    }
+    .products .products_list .dataTable tbody tr:last-of-type {
+        border-bottom: 0;
     }
 
     #cke_product_description .cke_button__image { display:none; }

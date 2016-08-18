@@ -6,9 +6,7 @@
             <!--[if gte IE 10]><!-->
             <button class="upload_icon upload btn-grey" type="button" style="margin-top: 0">
                 <i class="icon-camera-retro"></i>
-                <?php echo $application->getData('icon') ? $this->_('Change your') : $this->_('Choose an'); ?>
-                <br/>
-                <span class="bold"><?php echo $this->_('icon'); ?></span>
+                <?php echo $application->getData('icon') ? __('Change your icon') : __('Choose an icon'); ?>
             </button>
             <!--<![endif]-->
             <input style="display:none" class="uploader_icon" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">

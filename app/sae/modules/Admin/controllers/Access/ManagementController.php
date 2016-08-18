@@ -65,7 +65,7 @@ class Admin_Access_ManagementController extends Admin_Controller_Default
             try {
 
                 if(empty($data["admin_id"]) OR empty($data["app_id"])) {
-                    throw new Exception($this->_("1An error occurred while saving. Please try again later."));
+                    throw new Exception($this->_("1 An error occurred while saving. Please try again later."));
                 }
 
                 $admin = new Admin_Model_Admin();
@@ -82,11 +82,11 @@ class Admin_Access_ManagementController extends Admin_Controller_Default
                 $application->find($data["app_id"]);
 
                 if(!$application->getId()) {
-                    throw new Exception($this->_("2An error occurred while saving. Please try again later."));
+                    throw new Exception($this->_("2 An error occurred while saving. Please try again later."));
                 }        
                 
                 if(!$application->hasAsAdmin($this->getAdmin()->getId())) {
-                    throw new Exception($this->_("3An error occurred while saving. Please try again later."));
+                    throw new Exception($this->_("3 An error occurred while saving. Please try again later."));
                 }
 
                 $is_selected = !empty($data["is_selected"]);
