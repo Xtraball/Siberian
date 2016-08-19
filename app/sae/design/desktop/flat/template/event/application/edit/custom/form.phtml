@@ -108,7 +108,7 @@
         custom = {
             website_template: "",
             processEvents: function() {
-                $.datepicker.setDefaults( $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguage() ?>']);
+                $.datepicker.setDefaults( $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>']);
                 $('.edit_event').prettyPhoto({
                     default_width: 500,
                     show_title: false,

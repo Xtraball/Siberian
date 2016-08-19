@@ -2,7 +2,7 @@
     <ion-content class="padding">
         <div class="list">
             <div class="item item-avatar item-center item-avatar-square item-custom" ng-repeat="feature in features.options" ng-click="goTo(feature);">
-                <img src="{{ feature.icon_url }}" /> <h2>{{ feature.name }}</h2>
+                <img ng-src="{{ feature.icon_url }}" /> <h2>{{ feature.name }}</h2>
                 <div ng-if="feature.code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
             </div>
             <div class="item item-center item-avatar item-icon-left item-custom" ng-click="closeMore();">

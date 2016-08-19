@@ -329,8 +329,8 @@
 
         initTooltips();
 
-        if($.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguage(); ?>']) {
-            $.datepicker.setDefaults($.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguage(); ?>']);
+        if($.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker(); ?>']) {
+            $.datepicker.setDefaults($.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker(); ?>']);
         } else {
             $.datepicker.setDefaults($.datepicker.regional['en']);
         }

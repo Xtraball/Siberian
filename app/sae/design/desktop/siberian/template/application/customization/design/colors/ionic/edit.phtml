@@ -196,10 +196,7 @@
                         translucent_color = "transparent";
                     }
                 }
-
-                console.log("Setting color " + color + " to " + to + " for " + property);
-                console.log("Element type: ", element.attr("type"));
-
+                
                 if(element.attr("type") == "style/template") {
 
                     var css = iframe.content.find('[data-' + type + '="' + to + '"]').html();

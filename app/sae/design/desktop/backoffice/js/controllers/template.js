@@ -18,8 +18,6 @@ App.config(function($routeProvider) {
 
     TemplateCategory.findAll().success(function(data) {
         $scope.template = data;
-        console.log($scope.template);
-        console.log($scope.template);
     }).finally(function() {
         $scope.content_loader_is_visible = false;
     });

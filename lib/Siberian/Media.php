@@ -20,7 +20,7 @@ class Siberian_Media {
             ),
             "optipng" => array(
                 "bin" => "/usr/local/bin/optipng",
-                "cli" => "/usr/local/bin/optipng -o5 %s"
+                "cli" => "/usr/local/bin/optipng -o3 %s"
             ),
         ),
     );

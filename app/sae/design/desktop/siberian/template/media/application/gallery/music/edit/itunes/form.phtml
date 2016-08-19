@@ -138,7 +138,6 @@
                 $('#itunes_search_artistId').val('');
                 $('.select_itunes_type').removeClass('active');
                 $('.select_itunes_type[rel="'+datas.entity+'"]').addClass('active');
-                console.log(datas.entity);
                 if(datas.entity == 'musicArtist') {
                     if(datas.results.length > 0) {
                         displayArtists(datas.results);

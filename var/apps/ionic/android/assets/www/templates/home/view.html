@@ -10,7 +10,7 @@
                        slide-interval="{{ homepage_slider.duration }}" show-pager="false">
 
             <ion-slide ng-repeat="image in homepage_slider.images">
-                <img src="{{ image }}" style="width:100%;" />
+                <img ng-src="{{ image }}" style="width:100%;" />
             </ion-slide>
         </ion-slide-box>
 

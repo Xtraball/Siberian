@@ -206,9 +206,7 @@
             $('#add_track').after(player);
             var player = $('#dummy_player')[0];
             var duration;
-            console.log('trying to load');
             player.addEventListener("loadedmetadata", function(event) {
-                console.log('loadedmetadata');
                 duration = player.duration;
                 var minutes = Math.floor(duration / 60);
                 var seconds = duration - minutes * 60;

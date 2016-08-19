@@ -115,6 +115,17 @@
                 </tr>
                 <?php endif; ?>
             </table>
+            <br />
+            <h4 style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo $this->_('Notes'); ?></h4>
+            <table width="100%">
+                <col width="80%" />
+                <col width="20%" />
+                <tr><td colspan="2"><div style="width:100%;margin-top:0px;margin-bottom:5px;border-bottom:2px solid black;"></div></td></tr>
+                <tr>
+                    <td align="right"><?php echo $order->getNotes(); ?></td>
+                </tr>
+
+            </table>
         </td>
     </tr>
 </table>

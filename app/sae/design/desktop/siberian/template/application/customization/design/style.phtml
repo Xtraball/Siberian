@@ -216,7 +216,6 @@
                 callbacks: {
                     didload: function() {
                         $('.change_design').click(function() {
-                            console.log(this);
                             <?php if($application->getDesignId()) : ?>
                             if(!confirm('<?php echo addslashes($this->_('If you validate, your app\'s colors and background image will be replaced')); ?>')) return false;
                             <?php endif ?>

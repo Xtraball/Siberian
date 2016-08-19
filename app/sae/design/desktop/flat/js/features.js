@@ -67,7 +67,6 @@ var button_picture_html = '<div class="feature-upload-placeholder" data-uid="%UI
     '</div>';
 
 var bindForms = function(parent) {
-    console.log("bindForms");
 
     var default_parent = (typeof parent == "undefined") ? "#page" : parent;
 
@@ -99,10 +98,6 @@ var bindForms = function(parent) {
         element.click(function() {
             /** Delegate the click */
             var html = button_picture_html.replace(/%UID%/g, uid);
-
-            console.log("UID");
-            console.log(uid);
-            console.log(default_parent+" input.feature-upload-input[data-uid='"+uid+"']");
 
             $(default_parent+" input.feature-upload-input[data-uid='"+uid+"']").trigger("click");
             if($(default_parent+" div.feature-upload-placeholder[data-uid='"+uid+"']").length == 0) {

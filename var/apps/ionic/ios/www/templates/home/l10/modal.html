@@ -6,7 +6,7 @@
             <ul class="row">
                 <li class="col col-33 text-center homepage-custom transparent" ng-repeat="feature in features.options" tabbar-items option="feature" go-to-url="goTo(feature)">
                     <div class="items homepage-custom border-custom">
-                        <img src="{{ feature.icon_url }}" />
+                        <img ng-src="{{ feature.icon_url }}" />
                         <p>{{ feature.name }}</p>
                     </div>
                     <div ng-if="feature.code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>

@@ -157,7 +157,6 @@
             toggleHandler($('#toggle_feature_is_activated'));
             toggleHandler($('#toggle_social_sharing_is_activated'));
             $('.feature_is_activated').change(function() {
-                console.log($(this).parent().attr("id"));
                 reload($("#" + $(this).parent().attr("id")), '<?php echo $this->getUrl('application/customization_features/setisactive'); ?>', true, function(datas) {
                     if(datas.success) {
                         iframe.f.reloadTabbar();

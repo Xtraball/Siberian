@@ -82,6 +82,15 @@ class Core_Model_Language {
         return $current_language;
     }
 
+    /**
+     * @return mixed
+     */
+    public static function getCurrentLanguageDatepicker() {
+        $parts = explode("_", self::getCurrentLanguage());
+
+        return $parts[0];
+    }
+
     public static function getCurrentLocale() {
         return Zend_Registry::isRegistered("Zend_Locale") ? Zend_Registry::get('Zend_Locale') : self::getDefaultLocale();
         $language = self::getLanguage(self::getCurrentLanguage());

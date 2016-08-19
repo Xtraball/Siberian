@@ -41,7 +41,6 @@ App.config(function($routeProvider) {
 
     Invoice.find($routeParams.invoice_id).success(function(data) {
         $scope.invoice = data.invoice;
-        console.log($scope.invoice);
         $scope.section_title = data.section_title;
         $scope.my_info = data.my_info;
     }).finally(function() {

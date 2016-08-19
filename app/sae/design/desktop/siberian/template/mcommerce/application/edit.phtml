@@ -100,7 +100,6 @@
                         var div = $('<div />').attr('id', 'tab_'+id).addClass('tab_content').attr('rel', id).css('display', 'none');
                         div.append(datas.tab_html);
                         $('#mcomerce_tabs_content').append(div);
-                        console.log(id);
                         this.getObject(id).processEvents();
                         this.show(id);
                     }

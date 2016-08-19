@@ -4,7 +4,7 @@
             <li class="text-center homepage-custom transparent" ng-repeat="feature in features.options"
                 tabbar-items option="feature" go-to-url="goTo(feature)">
                 <div class="items homepage-custom border-custom" ng-class="{ 'no-border': tabbar_is_transparent }">
-                    <img src="{{ feature.icon_url }}" />
+                    <img ng-src="{{ feature.icon_url }}" />
                     <div ng-if="feature.code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
                 </div>
                 <p>{{ feature.name }}</p>

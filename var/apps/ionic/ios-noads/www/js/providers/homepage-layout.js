@@ -225,16 +225,30 @@ App.provider('HomepageLayout', function () {
                     features = HomepageLayout.initLayout8(features);
                 }
 
+                // Chunks for Layout 17
+                if (HomepageLayout.data.layout_id == "l17") {
+                    var more_options = features.options.slice(12);
+                    var chunks = new Array();
+                    var i, j, temparray, chunk = 2;
+                    for (i = 0, j = more_options.length; i < j; i += chunk) {
+                        temparray = more_options.slice(i, i + chunk);
+                        chunks.push(temparray);
+                    }
+                    features.chunks = chunks;
+
+                    window.addEventListener("orientationchange", function(){
+                        $rootScope.resizeLayout17();
+                    });
+
+
+                }
+
+
+
                 features.first_option = false;
                 if (HomepageLayout.properties.options.autoSelectFirst && features.options.length !== 0) {
                     features.first_option = features.options[0];
                 }
-
-                //if(!Application.is_loaded && Application.device_uid) {
-                //    Application.setDeviceUid(Application.device_uid);
-                //}
-
-                //Application.call("appIsLoaded");
 
                 deferred.resolve(features);
             });

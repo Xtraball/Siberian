@@ -2,7 +2,7 @@
     <ion-scroll direction="y" scrollbar-y="false" class="scroll-view ionic-scroll">
         <div ng-repeat="feature in features.options">
             <a tabbar-items class="item item-avatar item-avatar-square homepage-custom border-custom translucent" option="feature" go-to-url="goTo(feature)" ng-class="{ 'no-border': tabbar_is_transparent }">
-                <img src="{{ feature.icon_url }}" />
+                <img ng-src="{{ feature.icon_url }}" />
                 <h2>{{ feature.name }}</h2>
                 <span ng-if="feature.code == 'push_notification' && push_badge" class="badge badge-assertive">{{ push_badge }}</span>
             </a>

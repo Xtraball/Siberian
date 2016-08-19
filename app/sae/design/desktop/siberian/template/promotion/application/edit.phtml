@@ -197,7 +197,7 @@
 
                 $('#end_at').unbind('keypress');
                 $('#end_at').keypress(function() {return false;});
-                $.datepicker.setDefaults( $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguage() ?>']);
+                $.datepicker.setDefaults( $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>']);
                 $('#end_at').datepicker({
                     showAnim: 'clip',
                     dateFormat: 'yy-mm-dd',
@@ -323,9 +323,9 @@
                     var d = text.split("-");
                     var date = new Date(d[0],(d[1]-1),d[2]);
                     text = $.datepicker.formatDate('<?php echo $this->_('MM,d yy'); ?>', date, {
-                        dayNames: $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguage() ?>'].dayNames,
-                        monthNamesShort: $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguage() ?>'].monthNamesShort,
-                        monthNames: $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguage() ?>'].monthNames
+                        dayNames: $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>'].dayNames,
+                        monthNamesShort: $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>'].monthNamesShort,
+                        monthNames: $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>'].monthNames
                     });
                 }
 

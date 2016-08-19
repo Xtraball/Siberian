@@ -468,7 +468,6 @@ var page = {
                                 options.loadNewSlider('default');
                             }
                         }
-                        console.log("iframe.isHomepage: ", iframe.isHomepage());
                     }
 
                     if(datas.page) {
@@ -1423,7 +1422,6 @@ function bindGmapsSearchBox(input) {
         var position = input.attr("rel");
         var places = input.data("search_box").getPlaces();
         if (places) {
-            console.log(places);
             var place = places[0];
             $('#cms_latitude_'+position).val(place.geometry.location.lat());
             $('#cms_longitude_'+position).val(place.geometry.location.lng());

@@ -301,8 +301,6 @@
         reload($("#toggleAccessForm"), $("#toggleAccessForm").attr("action"), true, function(data) {
 
             if(data.success) {
-                console.log(data.is_allowed_to_add_pages);
-                console.log($("#row_"+app_id).length);
                 if(data.is_allowed_to_add_pages) {
                     $("#row_"+app_id).find(".is-allowed-to-add-pages").prop("checked", true).show();
                 } else {
