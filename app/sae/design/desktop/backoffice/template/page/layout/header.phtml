@@ -66,6 +66,14 @@
                     <?php endif; ?>
                     <li><a href="<?php echo $this->getUrl('system/backoffice_config_email'); ?>"><i class="fa fa-exchange"></i><?php echo $this->_('Communication'); ?></a></li>
                     <li><a href="<?php echo $this->getUrl('translation/backoffice_list'); ?>"><i class="fa fa-language"></i><?php echo $this->_('Translations'); ?></a></li>
+                    <!-- Advanced -->
+                    <li class="has_submenu">
+                        <a href="javascript:void(0);"><i class="fa fa-cogs"></i><?php echo __("Advanced"); ?></a>
+                        <ul class="l3">
+                            <li><a href="<?php echo $this->getUrl('backoffice/advanced_module'); ?>"><i class="fa fa-sliders"></i><?php echo __('Modules'); ?></a></li>
+                        </ul>
+                    </li>
+                    <!-- /Advanced -->
                     <li><a href="javascript:void(0);" ng-click="logout()" ng-show="isLoggedIn"><i class="fa fa-power-off"></i><?php echo $this->_('Log-out'); ?></a></li>
                 </ul>
             </li>

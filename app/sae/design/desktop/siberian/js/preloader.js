@@ -113,7 +113,7 @@ $(document).ready(function() {
     };
 
     preload.forEach(function(element, index, obj) {
-        request(element);
+        request(element+"?version="+version);
     });
 
 });

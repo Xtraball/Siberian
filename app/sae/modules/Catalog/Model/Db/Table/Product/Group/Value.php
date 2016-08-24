@@ -35,7 +35,7 @@ class Catalog_Model_Db_Table_Product_Group_Value extends Core_Model_Db_Table
         return $this->fetchAll($select);
     }
 
-    public function findAllGroups($product_id = null, $app_id = null) {
+    public function findAllGroups($product_id = null, $app_id = null, $as_checkbox = false) {
 
         $join = implode(' AND ', array(
             'cpgv.group_id = cpg.group_id',
@@ -56,6 +56,7 @@ class Catalog_Model_Db_Table_Product_Group_Value extends Core_Model_Db_Table
         if($app_id) {
             $select->where("cpg.app_id = ?", $app_id);
         }
+        $select->where("cpg.as_checkbox = ?", $as_checkbox);
 
         return $this->fetchAll($select);
 

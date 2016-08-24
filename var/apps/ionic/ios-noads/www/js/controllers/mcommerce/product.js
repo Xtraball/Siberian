@@ -77,6 +77,7 @@ App.config(function ($stateProvider) {
         $scope.is_loading = true;
 
         var errors = new Array();
+
         var postParameters = {
             'product_id': $scope.product_id,
             'category_id': McommerceCategory.category_id,
@@ -94,6 +95,18 @@ App.config(function ($stateProvider) {
                     'qty': optionsGroup.selectedQuantity
                 };
                 return options;
+            }, {}),
+            'choices': $scope.product.choicesGroups.reduce(function (choices, choicesGroup) {
+                var selected = [];
+                choicesGroup.options.forEach(function(e, i){
+                    if(e.selected){
+                        selected.push(e.id)
+                    }
+                });
+                choices[choicesGroup.id] = {
+                    'selected_options': selected
+                };
+                return choices;
             }, {}),
             'selected_format': $scope.selected_format.id
         };

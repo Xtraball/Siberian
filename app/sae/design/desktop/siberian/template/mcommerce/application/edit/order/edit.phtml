@@ -119,8 +119,27 @@
                     <td>+ <?php echo $option->getQty(); ?>x <?php echo $option->getName(); ?></td>
                     <td align="right"><?php echo $option->getFormattedBasePrice(); ?></td>
                     <td align="center"><?php echo $option->getQty() * $line->getQty(); ?></td>
-                    <td align="right"><?php echo $line->formatPrice($option->getPriceInclTax() * $line->getQty()); ?></td>
+                    <td align="right"><?php echo $line->formatPrice($option->getPriceInclTax()); ?></td>
                 </tr>
+                <?php endforeach; ?>
+                <?php foreach($line->getChoices() as $id => $choice) :
+                    $group = new Catalog_Model_Product_Group();
+                    $group->find($id);
+                    $group->choices = [];
+                    foreach ($choice['selected_options'] as $sop){
+                        $option = new Catalog_Model_Product_Group_Option();
+                        $option->find($sop);
+                        $group->choices[] = $option->getName();
+                    }
+                    ?>
+                    <tr class="option">
+                        <td>
+                            <?php echo implode(", ", $group->choices); ?>
+                        </td>
+                        <td align="right"></td>
+                        <td align="center"></td>
+                        <td align="right"></td>
+                    </tr>
                 <?php endforeach; ?>
                 <tr class="row_separator"><td colspan="4"><div></div></td></tr>
             <?php endforeach; ?>

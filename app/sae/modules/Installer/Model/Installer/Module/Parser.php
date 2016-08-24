@@ -100,7 +100,7 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
                             $_version = $values["version"];
 
                             if($_type > constant(Siberian_Version::TYPE) || version_compare($_version, Siberian_Version::VERSION, ">")) {
-                                throw new Exception(__("#19-014: Your system doesn't meet the requirements for this module."));
+                                throw new Exception(__("#19-014: Your system doesn't meet the requirements for this module, version >=%s is required.", $_version));
                             }
                         }
                     break;

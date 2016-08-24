@@ -1,0 +1,48 @@
+
+<sb-section title="'<?php echo addcslashes(__("Installed modules"), "'"); ?>'">
+    <table class="table">
+        <thead>
+            <tr>
+                <th style="width:50%;"><?php echo __("Name") ?></th>
+                <th style="width:30%;"><?php echo __("Version") ?></th>
+                <th style="width:20%;text-align:right;"><?php echo __("Actions") ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="module in modules" ng-show="modules.length">
+                <td>{{ module.name }}</td>
+                <td>{{ module.version }}</td>
+                <td style="text-align:right;">-
+                    <!--button class="btn btn-xs btn-danger"><?php echo __("Uninstall") ?></button-->
+                </td>
+            </tr>
+            <tr ng-show="!modules.length">
+                <td colspan="3"><?php echo __("No modules") ?></td>
+            </tr>
+        </tbody>
+    </table>
+
+</sb-section>
+
+<sb-section title="'<?php echo addcslashes(__("Core modules"), "'"); ?>'">
+    <table class="table">
+        <thead>
+        <tr>
+            <th style="width:50%;"><?php echo __("Name") ?></th>
+            <th style="width:50%;text-align:right;"><?php echo __("Version") ?></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="module in core_modules" ng-show="core_modules.length">
+            <td>{{ module.name }}</td>
+            <td style="width:50%;text-align:right;">{{ module.version }}</td>
+        </tr>
+        <tr ng-show="!core_modules.length">
+            <td colspan="2"><?php echo __("No modules") ?></td>
+        </tr>
+        </tbody>
+    </table>
+
+</sb-section>
+
+

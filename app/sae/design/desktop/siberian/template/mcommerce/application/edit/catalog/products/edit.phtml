@@ -3,6 +3,7 @@
 <?php $product = $this->getCurrentProduct(); ?>
 <?php $group = new Catalog_Model_Product_Group_Value(); ?>
 <?php $groups = $group->findAllGroups($product->getId(), $this->getApplication()->getId()); ?>
+<?php $choices = $group->findAllGroups($product->getId(), $this->getApplication()->getId(), true); ?>
 <div>
     <form id="productEditForm" method="post" action="<?php echo $this->getUrl('mcommerce/application_catalog_product/editpost'); ?>" class="form-horizontal">
         <div class="buttons">
@@ -182,7 +183,7 @@
             </h4>
             <div>
 
-                <ul id="groups_list" class="tree clear">
+                <ul id="groups_list" class="tree clear list-group-slot">
                 <?php if($groups->count() > 0) : ?>
 
                 <!--<ul id="groups_list" class="tree clear">-->
@@ -203,6 +204,38 @@
                 </ul>
                 <?php if(!$groups->count()) : ?>
                 <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+                <?php endif; ?>
+
+            </div>
+        </fieldset>
+
+        <fieldset id="product_group_choices">
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo $this->_("My product's list choice options"); ?>
+                <button type="button" id="add_item" class="edit_option_group color-blue pull-right bt-header-right btn require-choice-editor">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </h3>
+            <div>
+                <ul id="choices_list" class="tree list-group first-row-feature list-group-slot">
+                    <?php if($choices->count() > 0) : ?>
+
+                    <?php foreach($choices as $choice) : ?>
+                        <?php $choice_options = $choice->getAllOptions($product->getId());?>
+
+                        <?php if($choice_options->count()) : ?>
+                            <?php echo $this->getLayout()->addPartial('choices_row_'.$choice->getGroupId(), 'admin_view_default', 'mcommerce/application/edit/catalog/products/edit/group.phtml')
+                                ->setCurrentGroup($choice)
+                                ->setCurrentGroupOptions($choice_options)
+                                ->toHtml()
+                            ;
+                            ?>
+                        <?php endif ?>
+                    <?php endforeach ?>
+                </ul>
+                <?php else: ?>
+                    </ul>
+                    <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
                 <?php endif; ?>
 
             </div>

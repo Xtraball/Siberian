@@ -54,3 +54,4 @@ session_cache_limiter(false);
 
 /** Running */
 $application->bootstrap()->run();
+

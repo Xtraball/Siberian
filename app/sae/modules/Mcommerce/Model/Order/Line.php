@@ -22,6 +22,15 @@ class Mcommerce_Model_Order_Line extends Core_Model_Default {
         return $qty;
     }
 
+    public function getChoices() {
+
+        if(!$this->_choices) {
+            $this->_choices = @unserialize($this->getData('choices'));
+        }
+
+        return $this->_choices;
+    }
+
     public function getOptions() {
 
         if(!$this->_options) {

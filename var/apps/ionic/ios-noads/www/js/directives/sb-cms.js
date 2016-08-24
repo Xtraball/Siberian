@@ -8,6 +8,7 @@ App.directive("sbCmsText", function() {
         '<div class="item item-text-wrap item-custom sb-cms-text">' +
         '   <img width="{{block.size}}%" ng-src="{{ block.image_url }}" ng-if="block.image_url" class="{{ block.alignment }}" />' +
         '   <div class="content" ng-bind-html="block.content | trusted_html" sb-a-click></div>' +
+        '   <div class="cb"></div>' +
         '</div>'
     };
 }).directive("sbCmsImage", function() {

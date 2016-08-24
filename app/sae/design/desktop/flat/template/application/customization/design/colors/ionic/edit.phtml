@@ -83,6 +83,7 @@
                                     <?php echo __("Transparent"); ?>
                                 </label>
                             </div>
+
                         <?php endif; ?>
 
                         <?php endforeach; ?>
@@ -154,7 +155,7 @@
                 }
             });
 
-            <?php if($child->getName() == "Homepage" AND $property == "background_color"): ?>
+            <?php if($child->getData("name") == "Homepage" AND $property == "background_color"): ?>
                 $('#<?php echo $child->getCode(); ?>_transparent_background_color_receiver').click(function() {
                     var color = $(this).is(":checked") ? "transparent" : "#000000";
                     $('#homepage_bg').ColorPickerSetColor(color);

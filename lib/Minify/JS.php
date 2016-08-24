@@ -108,11 +108,25 @@ class JS extends Minify
 
         $dataDir = __DIR__.'/../data/js/';
         $options = FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES;
-        $this->keywordsReserved = file($dataDir.'keywords_reserved.txt', $options);
-        $this->keywordsBefore = file($dataDir.'keywords_before.txt', $options);
-        $this->keywordsAfter = file($dataDir.'keywords_after.txt', $options);
-        $this->operatorsBefore = file($dataDir.'operators_before.txt', $options);
-        $this->operatorsAfter = file($dataDir.'operators_after.txt', $options);
+        if(file_exists($dataDir.'keywords_reserved.txt')){
+            $this->keywordsReserved = file($dataDir.'keywords_reserved.txt', $options);
+        }
+
+        if(file_exists($dataDir.'keywords_reserved.txt')){
+            $this->keywordsBefore = file($dataDir.'keywords_before.txt', $options);
+        }
+
+        if(file_exists($dataDir.'keywords_reserved.txt')){
+            $this->keywordsAfter = file($dataDir.'keywords_after.txt', $options);
+        }
+
+        if(file_exists($dataDir.'keywords_reserved.txt')){
+            $this->operatorsBefore = file($dataDir.'operators_before.txt', $options);
+        }
+
+        if(file_exists($dataDir.'keywords_reserved.txt')){
+            $this->operatorsAfter = file($dataDir.'operators_after.txt', $options);
+        }
     }
 
     /**

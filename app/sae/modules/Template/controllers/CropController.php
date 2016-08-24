@@ -12,7 +12,7 @@ class Template_CropController extends Admin_Controller_Default
                 $params = array();
                 $params['validators'] = array(
                     'Extension' => array('jpg', 'png', 'jpeg', 'gif', 'case' => false),
-                    'Size' => array('min' => 100, 'max' => 8000000),
+                    'Size' => array('min' => 100, 'max' => 20000000),
                     'ImageSize' => array(
                         'minwidth' => 20,
                         'minheight' => 20,

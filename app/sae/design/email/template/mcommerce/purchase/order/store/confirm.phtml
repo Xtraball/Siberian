@@ -58,6 +58,29 @@
                     <td align="center"><?php echo $line->getQty(); ?></td>
                     <td align="right"><?php echo $displayPriceInclTax; ?></td>
                 </tr>
+
+                <?php foreach($line->getChoices() as $id => $choice) :
+                    $group = new Catalog_Model_Product_Group();
+                    $group->find($id);
+                    $group->choices = [];
+                    foreach ($choice['selected_options'] as $sop){
+                        $option = new Catalog_Model_Product_Group_Option();
+                        $option->find($sop);
+                        $group->choices[] = $option->getName();
+                    }
+                    ?>
+                    <tr>
+                        <td style="font-size:13px;">
+                            <?php echo $this->_('From'); ?> <b><?php echo $group->getTitle(); ?></b>, <?php echo $this->_('you chose'); ?>:
+                            <?php echo implode(" & ", $group->choices); ?>
+                        </td>
+                        <td style="font-size:13px;" align="right"></td>
+                        <td style="font-size:13px;"
+                            align="center"></td>
+                        <td style="font-size:13px;" align="right"></td>
+                    </tr>
+                <?php endforeach; ?>
+
                 <?php foreach($line->getOptions() as $option) : ?>
                 <?php
                     $displayPrice = Mcommerce_Model_Utility::displayPrice($option->getPrice(), 0, $option->getQty());

@@ -46,8 +46,8 @@ class Catalog_Model_Product_Group_Value extends Catalog_Model_Product_Group {
 //        return $this;
 //    }
 
-    public function findAllGroups($product_id = null, $app_id = null) {
-        return $this->getTable()->findAllGroups($product_id, $app_id);
+    public function findAllGroups($product_id = null, $app_id = null, $as_checkbox = false) {
+        return $this->getTable()->findAllGroups($product_id, $app_id, $as_checkbox);
     }
 
     public function getAllOptions($product_id) {

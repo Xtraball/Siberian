@@ -118,7 +118,11 @@ class Siberian_Cache
     }
 
     public static function clearCache() {
-        unlink(Core_Model_Directory::getBasePathTo(static::CACHE_PATH));
+        $path = Core_Model_Directory::getBasePathTo(static::CACHE_PATH);
+        if(file_exists($path)) {
+            unlink($path);
+        }
+
     }
 
     /**
@@ -198,32 +202,49 @@ class Siberian_Cache
      * @return array
      */
     public static function getDiskUsage() {
+        function timeout($start) {
+            if((time() - $start) > 7) {
+                throw new Exception("timelimit hit");
+            }
+        }
+
+        $total_size = "-";
+        $var_log_size = "-";
+        $var_cache_size = "-";
+        $var_tmp_size = "-";
+
         try {
-            $total = Core_Model_Directory::getBasePathTo("");
-            exec("du -cksh {$total}", $output);
-            $parts = explode("\t", end($output));
-            $total_size = $parts[0];
+            $start = time();
 
             $var_log = Core_Model_Directory::getBasePathTo("var/log");
             exec("du -cksh {$var_log}", $output);
             $parts = explode("\t", end($output));
             $var_log_size = $parts[0];
 
+            timeout($start);
+
             $var_cache = Core_Model_Directory::getBasePathTo("var/cache");
             exec("du -cksh {$var_cache}", $output);
             $parts = explode("\t", end($output));
             $var_cache_size = $parts[0];
+
+            timeout($start);
 
             $var_tmp = Core_Model_Directory::getBasePathTo("var/tmp");
             exec("du -cksh {$var_tmp}", $output);
             $parts = explode("\t", end($output));
             $var_tmp_size = $parts[0];
 
+            timeout($start);
+
+            $total = Core_Model_Directory::getBasePathTo("");
+            exec("du -cksh {$total}", $output);
+            $parts = explode("\t", end($output));
+            $total_size = $parts[0];
+
         } catch (Exception $e) {
-            $total_size = 0;
-            $var_log_size = 0;
-            $var_cache_size = 0;
-            $var_tmp_size = 0;
+            $logger = Zend_Registry::get("logger");
+            $logger->info("Siberian_Cache::getDiskUsage() timeout ".$e->getMessage());
         }
         
         return array(

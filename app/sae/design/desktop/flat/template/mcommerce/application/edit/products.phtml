@@ -138,7 +138,6 @@
                         $('<input />').attr('type', 'hidden').attr('name', 'option_value_id').addClass('option_value_id').val('<?php echo $catalog_option->getId(); ?>').appendTo(element);
                         if(element.attr('rel')) $('<input />').attr('type', 'hidden').attr('name', 'product_id').val(element.attr('rel')).appendTo(element);
                     }
-
                     this.load(element);
                 }.bind(this));
             },
@@ -355,7 +354,6 @@
                         $('<input />').attr('type', 'hidden').attr('name', 'option_value_id').addClass('option_value_id').val('<?php echo $catalog_option->getId(); ?>').appendTo(element);
                         if(element.attr('rel')) $('<input />').attr('type', 'hidden').attr('name', 'group_id').val(element.attr('rel')).appendTo(element);
                     }
-
                     this.load(element);
                 }.bind(this));
             },
@@ -381,20 +379,27 @@
                     var checkbox = $(this);
                     var group_id = checkbox.attr('rel');
                     var ul = $('#group_option_'+checkbox.val());
-
                     if(ul.length) {
-                        if(checkbox.is(':checked')) {
-                            $('#group_option_'+option_id+':visible').removeAttr('readonly');
-                            $('#input_group_option_is_deleted_'+option_id).attr('disabled', 'disabled');
-                            $('#group_option_is_deleted_'+group_id).attr('disabled', 'disabled');
-                            $('#group_option_'+option_id).focus();
+                        if (checkbox.is(':checked')) {
+                            $('#group_option_' + option_id + ':visible').removeAttr('readonly');
+                            $('#input_group_option_is_deleted_' + option_id).attr('disabled', 'disabled');
+                            $('#group_option_is_deleted_' + group_id).attr('disabled', 'disabled');
+                            $('#group_option_' + option_id).focus();
                         }
                         else {
-                            $('#group_option_'+option_id+':visible').attr('readonly', 'readonly');
-                            $('#input_group_option_is_deleted_'+option_id).removeAttr('disabled');
-                            if($('.select_group_option_'+group_id+':checked').length == 0) {
-                                $('#group_option_is_deleted_'+group_id).removeAttr('disabled');
+                            $('#group_option_' + option_id + ':visible').attr('readonly', 'readonly');
+                            $('#input_group_option_is_deleted_' + option_id).removeAttr('disabled');
+                            if ($('.select_group_option_' + group_id + ':checked').length == 0) {
+                                $('#group_option_is_deleted_' + group_id).removeAttr('disabled');
                             }
+                        }
+                    }
+                    else if (checkbox.hasClass('as_checkbox')){
+                        if (checkbox.is(':checked')) {
+                            $('#input_group_option_is_deleted_' + option_id).attr('disabled', 'disabled');
+                        }
+                        else {
+                            $('#input_group_option_is_deleted_' + option_id).removeAttr('disabled');
                         }
                     }
                 });
@@ -414,8 +419,10 @@
             },
 
             load: function(a) {
-
-                reload(a, '<?php echo $this->getUrl('mcommerce/application_catalog_product_group/edit'); ?>', true, function(datas) {
+                var editor_url = a.hasClass('require-choice-editor') ?
+                    '<?php echo $this->getUrl('mcommerce/application_catalog_product_group/edit'); ?>?require-choice-editor=true' :
+                    '<?php echo $this->getUrl('mcommerce/application_catalog_product_group/edit'); ?>';
+                reload(a, editor_url, true, function(datas) {
                     if(datas.form_html) {
                         $('#group_edit').html(datas.form_html);
                         this.group.setOptionDummy();
@@ -425,7 +432,7 @@
                             reload(this, this.action, true, function(datas) {
                                 if(datas.success) {
                                     if(datas.row_html) {
-                                        $('#groups_list').append(datas.row_html);
+                                        a.parents('fieldset').find('.list-group-slot').append(datas.row_html);
                                         $('input.select_group_option_'+datas.group_id).each(function(i, element) {
                                             this.bindSelectGroupOption($(element));
                                         }.bind(this));

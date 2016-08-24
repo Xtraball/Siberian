@@ -23,22 +23,22 @@ abstract class Application_Model_Device_Abstract extends Core_Model_Default {
 
     protected function __replace($replacements, $file, $regex = false) {
 
-    $contents = file_get_contents($file);
-    if(!$contents) {
-        throw new Exception($this->_('An error occurred while editing file (%s).', $file));
-    }
-
-    foreach($replacements as $search => $replace) {
-        if($regex) {
-            $contents = preg_replace($search, $replace, $contents);
-        } else {
-            $contents = str_replace($search, $replace, $contents);
+        $contents = file_get_contents($file);
+        if(!$contents) {
+            throw new Exception($this->_('An error occurred while editing file (%s).', $file));
         }
 
-    }
-    file_put_contents($file, $contents);
+        foreach($replacements as $search => $replace) {
+            if($regex) {
+                $contents = preg_replace($search, $replace, $contents);
+            } else {
+                $contents = str_replace($search, $replace, $contents);
+            }
 
-}
+        }
+        file_put_contents($file, $contents);
+
+    }
 
     /**
      * Archive the generated project.

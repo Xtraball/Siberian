@@ -29,12 +29,14 @@ App.config(function($routeProvider) {
             }
         }
 
+        $scope.content_loader_is_visible = true;
         Backoffice.clearCache(type).success(function (data) {
             $scope.message.setText(data.message)
                 .isError(false)
                 .show()
             ;
             $scope.server_usage = data.server_usage;
+            $scope.content_loader_is_visible = false;
         });
     };
 

@@ -42,8 +42,11 @@ class Mcommerce_Mobile_ProductController extends Mcommerce_Controller_Mobile_Def
                 }
 
                 $optionsGroups = array();
+                $choicesGroups = array();
+                $product_groups = $product->getGroups();
+                $product_choices = $product->getChoices();
 
-                foreach($product->getGroups() as $group){
+                foreach($product_groups as $group){
                     $optionsGroup = array(
                         "id" => $group->getId(),
                         "title" => $group->getTitle(),
@@ -73,6 +76,23 @@ class Mcommerce_Mobile_ProductController extends Mcommerce_Controller_Mobile_Def
                     }
                     $optionsGroups[] = $optionsGroup;
                 }
+                foreach($product_choices as $choice){
+                    $choicesGroup = array(
+                        "id" => $choice->getGroupId(),
+                        "title" => $choice->getTitle(),
+                        "required" => $choice->isRequired() === '1',
+                        "options" => array()
+                    );
+                    foreach($choice->getOptions($product_id) as $option){
+                        $choicesGroup["options"][] = array(
+                            "id" => $option->getOptionId(),
+                            "optionId" => $option->getOptionId(),
+                            "name" => $option->getName(),
+                            "selected" => false
+                        );
+                    }
+                    $choicesGroups[] = $choicesGroup;
+                }
 
                 $priceInclTax = $minPrice * (1 + $taxRate / 100);
 
@@ -97,6 +117,7 @@ class Mcommerce_Mobile_ProductController extends Mcommerce_Controller_Mobile_Def
                         "formattedMinPrice" => $minPrice > 0 ? $product->formatPrice($minPrice) : null,
                         "picture" => $product->getLibraryPictures(true, $this->getRequest()->getBaseUrl()),
                         "optionsGroups" => $optionsGroups,
+                        "choicesGroups" => $choicesGroups,
                         "formatGroups" => $formatGroup,
                         "social_sharing_active" => $option_value->getSocialSharingIsActive()
                     ),

@@ -53,16 +53,19 @@ App.service("Connection", function($cordovaDialogs, $http, $rootScope, $timeout,
         }
 
         var url = DOMAIN + "/check_connection.php?t=" + Date.now();
+        var result = false;
 
         $http({ method: 'HEAD', url: url })
             .success(function(response) {
                 service.setIsOnline();
-            }).error(function() {
-                service.setIsOffline();
-                $timeout(service.check, 3000);
-            });
+                result = true;
 
-        return;
+            }).error(function() {
+            service.setIsOffline();
+            $timeout(service.check, 3000);
+        });
+
+        return result;
     };
 
     return service;

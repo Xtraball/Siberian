@@ -94,6 +94,12 @@ $schemas['mcommerce_cart_line'] = array(
         'type' => 'decimal(12,2)',
         'is_null' => true,
     ),
+    'choices' => array(
+        'type' => 'text',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'options' => array(
         'type' => 'text',
         'is_null' => true,

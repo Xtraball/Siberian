@@ -23,6 +23,10 @@
                 <p ng-repeat="option in line.options">
                     {{ option.qty }} x {{ option.name }} : {{ option.formattedPriceInclTax }}
                 </p>
+                <p ng-repeat="choice in line.choices">
+                    {{ choice.title }}:
+                    <span ng-repeat="elem in choice.options"><br> &nbsp;&nbsp; {{elem}}</span>
+                </p>
                 <p class="text-right"><strong>{{ "Total:" | translate }}</strong> {{ line.formattedTotalInclTax }}</p>
                 <i class="icon ion-trash-a" ng-click="removeLine(line)"></i>
             </div>

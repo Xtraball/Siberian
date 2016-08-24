@@ -200,6 +200,8 @@
                 { name: 'styles', items: [ 'TextColor', 'Format', 'FontSize' ] }
             ];
 
+            $.datepicker.setDefaults( $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>']);
+
             page.setCallback('didremove', function() {
                 $('#newsCreateForm').submit(function() {
                     if($('input.uploader').val().isEmpty()) $('input.uploader').hide();

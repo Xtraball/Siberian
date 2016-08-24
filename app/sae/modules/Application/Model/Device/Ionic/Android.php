@@ -85,34 +85,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
         }
 
     }
-
-    public function configureAutoupdater($host) {
-        $orig_source = Core_Model_Directory::getBasePathTo(self::SOURCE_FOLDER);
-
-        //Set correct url to config.xml
-        $configXMLPath = "{$orig_source}/res/xml/config.xml";
-        $this->__replace(
-            array(
-                '~(<config-file url=").*(" />)~i' => '$1'.$host.self:: SOURCE_FOLDER.'/assets/www/chcp.json$2'
-            ),
-            $configXMLPath,
-            true
-        );
-
-        //Update configuration file
-        $chcpConfigPath = "{$orig_source}/assets/www/chcp.json";
-        $chcpConfig = array(
-            "content_url" => $host.self::SOURCE_FOLDER.'/assets/www',
-            "min_native_interface" => Siberian_Version::NATIVE_VERSION,
-            "release" => Siberian_Version::VERSION
-        );
-
-        if(!file_put_contents($chcpConfigPath,Zend_Json::encode($chcpConfig))) {
-            throw new Exception("Cannot write to file " . $chcpConfigPath);
-        }
-    }
-
-
+    
     protected function _preparePathsVars() {
         $this->_folder_name = $this->getDevice()->getTmpFolderName();
 

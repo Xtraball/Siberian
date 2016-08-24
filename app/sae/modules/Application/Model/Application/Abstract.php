@@ -529,6 +529,13 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         );
     }
 
+    public static function hasModuleInstalled($code) {
+        $module = new Installer_Model_Installer_Module();
+        $module->prepare($code, false);
+
+        return $module->isInstalled();
+    }
+
     public function getLogo() {
         $logo = self::getImagePath().$this->getData('logo');
         $base_logo = self::getBaseImagePath().$this->getData('logo');

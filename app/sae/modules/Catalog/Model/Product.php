@@ -87,10 +87,21 @@ class Catalog_Model_Product extends Core_Model_Default
 
         if(!$this->_groups) {
             $group = new Catalog_Model_Product_Group_Value();
-            $this->_groups = $group->findAll(array('product_id' => $this->getId()));
+            $this->_groups = $group->findAll(array('product_id' => $this->getId(), 'as_checkbox' => false));
         }
 
         return $this->_groups;
+
+    }
+
+    public function getChoices() {
+
+        if(!$this->_choices) {
+            $group = new Catalog_Model_Product_Group_Value();
+            $this->_choices = $group->findAll(array('product_id' => $this->getId(), 'as_checkbox' => true));
+        }
+
+        return $this->_choices;
 
     }
 

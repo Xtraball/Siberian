@@ -2,7 +2,7 @@
 
 class Application_Model_Tc extends Core_Model_Default {
 
-    protected static $_types = array(
+    public static $_types = array(
         "discount" => "Discount",
         "loyaltycard" => "Loyalty Card"
     );
@@ -14,6 +14,14 @@ class Application_Model_Tc extends Core_Model_Default {
 
     public static function getTypes() {
         return self::$_types;
+    }
+
+    /**
+     * @param $key
+     * @param $name
+     */
+    public static function addType($key, $name) {
+        self::$_types[$key] = $name;
     }
 
     public static function findValueByType($app_id, $type) {

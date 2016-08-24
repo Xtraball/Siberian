@@ -496,3 +496,12 @@ ion-nav-view.has-mini-player-controls > ion-view > ion-content {bottom: 88px;}
 
 
 .layout.modal.l10 .badge-custom { top: 24px; right: 50%; margin-right: -30px; padding: 2px 5px; font-size: 12px; z-index: 10;  }
+
+/* Utility */
+div[sb-cms-text] {  display: inline-flex;  }
+.cb {  clear: both;  }
+.push-popup .popup {  border-radius: 2px;  }
+.push-popup .list.card {  margin: 0;  background-color: transparent;  box-shadow: none;  }
+.push-popup .popup-body .item.item-custom {  border: 0;  background-color: transparent;  padding: 10px 0 10px 0;  overflow: visible;  white-space: normal;  }
+.no-left-pad {padding-left: 0 !important;}.no-top-pad {padding-top: 0 !important;}.no-right-pad {padding-right: 0 !important;}.no-bottom-pad {padding-bottom: 0 !important;}
+.no-left-border {border-left: none !important;}.no-top-border {border-top: none !important;} .no-right-border {border-right: none !important;} .no-bottom-border {border-bottom: none !important;}

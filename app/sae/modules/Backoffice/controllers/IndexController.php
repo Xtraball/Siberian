@@ -80,14 +80,18 @@ class Backoffice_IndexController extends Backoffice_Controller_Default
     }
 
     /**
-     *
+     * Clearing caches
      */
     public function clearcacheAction() {
+        $message = __("Cache cleared");
+
         if($type = $this->getRequest()->getParam("type")) {
             try {
 
                 switch($type) {
                     case "log":
+                        $message = __("Logs cleared.");
+
                         Siberian_Cache::__clearLog();
                         break;
                     case "cache":
@@ -97,16 +101,26 @@ class Backoffice_IndexController extends Backoffice_Controller_Default
                         Siberian_Cache::__clearTmp();
                         break;
                     case "overview":
+                        $message = __("Overview cache cleared.");
+
                         Siberian_Minify::clearCache();
                         break;
                     case "locks":
+                        $message = __("Removing CRON Scheduler lock files.");
+
                         Siberian_Cache::__clearLocks();
+                        break;
+                    case "app_manifest":
+                        $message = __("Rebuilding application manifest files.");
+
+                        $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
+                        Siberian_Autoupdater::configure($protocol.$this->getRequest()->getHttpHost());
                         break;
                 }
 
                 $html = array(
                     "success" => 1,
-                    "message" => __("Cache cleared"),
+                    "message" => $message,
                     "server_usage" => Siberian_Cache::getDiskUsage(),
                 );
 

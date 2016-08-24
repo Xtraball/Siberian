@@ -59,8 +59,47 @@
 			</tr>
 			<tr>
 				<td>
-					<img ng-if="libraries.optipng || libraries.jpegoptim || libraries.pngquant" src="/app/sae/design/desktop/backoffice/images/service/running-16.png" />
-					<img ng-if="!libraries.optipng && !libraries.jpegoptim && !libraries.pngquant"  src="/app/sae/design/desktop/backoffice/images/service/offline-16.png" />
+					<img ng-if="extensions.php_sqlite3 || extensions.bin_sqlite3" src="/app/sae/design/desktop/backoffice/images/service/running-16.png" />
+					<img ng-if="!extensions.php_sqlite3 && !extensions.bin_sqlite3" src="/app/sae/design/desktop/backoffice/images/service/offline-16.png" />
+				</td>
+				<td>
+					<?php echo __("Required extensions") ?>
+				</td>
+				<td>
+					<?php echo __("PHP version %s:", phpversion()) ?>
+					<?php if(version_compare(phpversion(), '5.4', '<')){ ?>
+						<span class="service-red"><?php echo __("Doesn't meet the requirements") ?></span>,
+					<?php } elseif(version_compare(phpversion(), '5.6', '<')) { ?>
+						<span class="service-orange"><?php echo __("Ok, you may upgrade to php 5.6") ?></span>,
+					<?php } else { ?>
+						<span class="service-green"><?php echo __("Ok") ?></span>,
+					<?php } ?>
+
+					</span>
+
+					<?php echo __("JAVA:") ?>
+					<span ng-show="extensions.java"><?php echo __("Installed, version") ?><span class="service-green"> {{ extensions.java }}</span>,</span>
+					<span ng-show="!extensions.java"><span class="service-red"><?php echo __("Not found") ?></span>,</span>
+
+					<?php echo __("Android SDK:") ?>
+					<span ng-show="extensions.android_sdk"><span class="service-green"><?php echo __("Installed") ?></span>,</span>
+					<span ng-show="!extensions.android_sdk"><span class="service-red"><?php echo __("Not found") ?></span>,</span>
+
+					<span ng-show="extensions.php_sqlite3">
+						<?php echo __("PHP SQLite3:") ?>
+						<span ng-show="extensions.php_sqlite3" ><span class="service-green"><?php echo __("Loaded") ?></span></span>
+							<span ng-show="!extensions.php_sqlite3"><span class="service-red"><?php echo __("Not found") ?></span></span>
+						</span>
+						<span ng-show="!extensions.php_sqlite3">
+							<?php echo __("Bin SQLite3:") ?>
+							<span ng-show="extensions.bin_sqlite3" ><span class="service-green"><?php echo __("Installed") ?></span></span>
+								<span ng-show="!extensions.bin_sqlite3"><span class="service-red"><?php echo __("Not found") ?></span></span>
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<img src="/app/sae/design/desktop/backoffice/images/service/info-16.png" />
 				</td>
 				<td>
 					<?php echo __("Optional libraries") ?>
@@ -77,49 +116,9 @@
 						<span ng-show="!libraries.pngquant"><span class="service-red"><?php echo __("Not found") ?></span></span>
 				</td>
 			</tr>
-			<tr>
-				<td>
-					<img ng-if="extensions.php_sqlite3 || extensions.bin_sqlite3" src="/app/sae/design/desktop/backoffice/images/service/running-16.png" />
-					<img ng-if="!extensions.php_sqlite3 && !extensions.bin_sqlite3" src="/app/sae/design/desktop/backoffice/images/service/offline-16.png" />
-				</td>
-				<td>
-					<?php echo __("Required extensions") ?>
-				</td>
-				<td>
-					<?php echo __("PHP version %s:", phpversion()) ?>
-						<?php if(version_compare(phpversion(), '5.3.8', '<')){ ?>
-							<span class="service-orange"><?php echo __("Ok, you may consider upgrade to >=5.4") ?></span>,
-						<?php } elseif(version_compare(phpversion(), '5.3', '<')) { ?>
-							<span class="service-red"><?php echo __("Doesn't meet the requirements") ?></span>,
-						<?php } else { ?>
-							<span class="service-green"><?php echo __("Ok") ?></span>,
-						<?php } ?>
-
-					</span>
-
-					<?php echo __("JAVA:") ?>
-						<span ng-show="extensions.java"><?php echo __("Installed, version") ?><span class="service-green"> {{ extensions.java }}</span>,</span>
-						<span ng-show="!extensions.java"><span class="service-red"><?php echo __("Not found") ?></span>,</span>
-
-					<?php echo __("Android SDK:") ?>
-						<span ng-show="extensions.android_sdk"><span class="service-green"><?php echo __("Installed") ?></span>,</span>
-						<span ng-show="!extensions.android_sdk"><span class="service-red"><?php echo __("Not found") ?></span>,</span>
-
-					<span ng-show="extensions.php_sqlite3">
-						<?php echo __("PHP SQLite3:") ?>
-							<span ng-show="extensions.php_sqlite3" ><span class="service-green"><?php echo __("Loaded") ?></span></span>
-							<span ng-show="!extensions.php_sqlite3"><span class="service-red"><?php echo __("Not found") ?></span></span>
-						</span>
-						<span ng-show="!extensions.php_sqlite3">
-							<?php echo __("Bin SQLite3:") ?>
-								<span ng-show="extensions.bin_sqlite3" ><span class="service-green"><?php echo __("Installed") ?></span></span>
-								<span ng-show="!extensions.bin_sqlite3"><span class="service-red"><?php echo __("Not found") ?></span></span>
-					</span>
-				</td>
-			</tr>
 			<tr ng-show="external_services.length !== 0">
 				<td>
-					<img src="/app/sae/design/desktop/backoffice/images/service/busy-16.png" />
+					<img src="/app/sae/design/desktop/backoffice/images/service/info-16.png" />
 				</td>
 				<td>
 					<?php echo __("External extensions") ?>
@@ -134,7 +133,7 @@
 			</tr>
 			<tr>
 				<td>
-					<img src="/app/sae/design/desktop/backoffice/images/service/busy-16.png" />
+					<img src="/app/sae/design/desktop/backoffice/images/service/info-16.png" />
 				</td>
 				<td>
 					<?php echo __("Web space") ?>
@@ -175,6 +174,13 @@
 							<td>-</td>
 							<td class="text-right">
 								<button class="btn btn-xs btn-primary" ng-click="clear('overview', '<?php echo addcslashes(__("Are you sure ?"), "'"); ?>');"><?php echo __("Clear") ?></button>
+							</td>
+						</tr>
+						<tr ng-hide="!show_more_size">
+							<td class="indent"><?php echo __("Applications/Previewer manifest for automatic updates.") ?></td>
+							<td>-</td>
+							<td class="text-right">
+								<button class="btn btn-xs btn-primary" ng-click="clear('app_manifest', '<?php echo addcslashes(__("Are you sure ?"), "'"); ?>');"><?php echo __("Rebuild") ?></button>
 							</td>
 						</tr>
 					</table>

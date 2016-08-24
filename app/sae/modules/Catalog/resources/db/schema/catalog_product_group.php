@@ -26,6 +26,10 @@ $schemas['catalog_product_group'] = array(
         'type' => 'tinyint(1)',
         'default' => '0',
     ),
+    'as_checkbox' => array(
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ),
     'created_at' => array(
         'type' => 'datetime',
     ),

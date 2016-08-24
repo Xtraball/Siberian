@@ -156,6 +156,40 @@ function __path($url = "", array $params = array(), $locale = null) {
 	return Core_Model_Url::createPath($url, $params, $locale);
 }
 
+/**
+ * @param $replacements
+ * @param $file
+ * @param bool $regex
+ * @throws Exception
+ */
+function __replace($replacements, $file, $regex = false) {
+
+	$contents = file_get_contents($file);
+	if(!$contents) {
+		throw new Exception(__("An error occurred while editing file (%s).", $file));
+	}
+
+	foreach($replacements as $search => $replace) {
+		if($regex) {
+			$contents = preg_replace($search, $replace, $contents);
+		} else {
+			$contents = str_replace($search, $replace, $contents);
+		}
+
+	}
+
+	file_put_contents($file, $contents);
+}
+
+/**
+ * Strip multiple slashes into one.
+ *
+ * @param $string
+ */
+function __ss($string) {
+	return preg_replace('~/+~', '/', $string);
+}
+
 function time_to_date($time, $format = 'y-MM-dd') {
 	$date = new Zend_Date($time);
 	return $date->toString($format);

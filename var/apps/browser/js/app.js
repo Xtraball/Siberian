@@ -18,8 +18,8 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                     return config;
                 },
                 responseError: function(response) {
-                    if(response.status == 0 && typeof OfflineMode == "object") {
-                        $injector.get('Connection').setIsOffline();
+                    if((response.status == 0) && (typeof OfflineMode == "object") && !$injector.get('Connection').check()) {
+                        $injector.get('Connection').check();
                     }
                     return $q.reject(response);
                 }
@@ -191,6 +191,9 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                     if (data.additionalData.cover || data.additionalData.action_value) {
 
                         var dialog_data = {
+                            okText: $translate.instant("View"),
+                            cancelText: $translate.instant("Cancel"),
+                            cssClass: "push-popup",
                             title: data.title,
                             template:
                             '<div class="list card">' +
@@ -198,17 +201,15 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                             '       <img src="' + (DOMAIN + data.additionalData.cover) + '">' +
                             '   </div>' +
                             '   <div class="item item-custom">' +
-                            '       <h2>' + data.message + '</h2>' +
+                            '       <span>' + data.message + '</span>' +
                             '   </div>' +
                             '</div>'
                         };
 
                         if(data.additionalData.action_value) {
-                            dialog_data.okText = $translate.instant("View");
-
                             $ionicPopup.confirm(dialog_data).then(function (res) {
                                 if (res) {
-                                    if (data.additionalData.open_webview == true) {
+                                    if (data.additionalData.open_webview == true || data.additionalData.open_webview == "true") {
                                         window.open(data.additionalData.action_value, "_blank", "location=yes");
                                     } else {
                                         $location.path(data.additionalData.action_value);

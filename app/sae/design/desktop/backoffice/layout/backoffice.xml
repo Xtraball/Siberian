@@ -36,4 +36,11 @@
         </views>
     </backoffice_notif_list_template>
 
+    <backoffice_advanced_module_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="backoffice/advanced/module.phtml" />
+        </views>
+    </backoffice_advanced_module_template>
+
 </layout>

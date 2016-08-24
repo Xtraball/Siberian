@@ -8,7 +8,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
         $config = new System_Model_Config();
         $configs = $config->findAll(array(new Zend_Db_Expr('code LIKE "ftp_%"')));
-
+        
         $html = array(
             "title" => $this->_("Modules"),
             "icon" => "fa-cloud-download"

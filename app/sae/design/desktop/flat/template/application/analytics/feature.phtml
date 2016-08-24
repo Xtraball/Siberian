@@ -1,5 +1,6 @@
 <?php $application = $this->getApplication(); ?>
 <?php $demo_mode = !$application->isPublished(); ?>
+<?php $demo_mode = false; ?>
 <?php $demo_label = $demo_mode ? " ".$this->_("(DEMO)") : ""; ?>
 
 <div class="application_analytics application content solo-page">
@@ -302,6 +303,61 @@
                 </div>
             </div>
         </div>
+        <?php if(Application_Model_Application::hasModuleInstalled("scratchcard")): ?>
+            <div class="row">
+                <div class="col-md-12 first-row-feature">
+                    <h4><i class="fa fa-pie-chart"></i> <?php echo $this->_("Scratchcard"); ?></h4>
+                </div>
+            </div>
+            <div class="row first-row-feature">
+                <div class="col-md-12" style="max-height:350px">
+                    <div id="scratchcard_loader" class="loader_metrics"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br/><?php echo $this->_("Loading..."); ?></div>
+                    <div class="table-responsive tab_container">
+                        <table id="scratchcard_metric" class="table table-striped content-white-bkg">
+                            <thead>
+                            <tr>
+                                <th colspan="6" class="border-purple text-center" style="font-size:12px"><?php echo $this->_("Scratchcard Users"); ?><?php echo $demo_label; ?></th>
+                            </tr>
+                            </thead>
+                            <tbody id="body_scratchcard">
+                            <tr style="height:40px">
+                                <td><strong><?php echo $this->_("Name"); ?></strong></td>
+                                <td class="text-center"><strong><?php echo $this->_("All user list"); ?></strong></td>
+                                <td class="text-center"><strong><?php echo $this->_("Winners list"); ?></strong></td>
+                            </tr>
+                            <?php if($demo_mode): ?>
+                                <tr>
+                                    <td>Scratch card 1</td>
+                                    <td  class="text-center pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download list of user who used this scratch card"); ?>" onclick="showDemoMessage()"></i></td>
+                                    <td  class="text-center pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download only winner list for this scratch card"); ?>" onclick="showDemoMessage()"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>Scratch card 2</td>
+                                    <td  class="text-center pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download list of user who used this scratch card"); ?>" onclick="showDemoMessage()"></i></td>
+                                    <td  class="text-center pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download only winner list for this scratch card"); ?>" onclick="showDemoMessage()"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>Scratch card 3</td>
+                                    <td  class="text-center pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download list of user who used this scratch card"); ?>" onclick="showDemoMessage()"></i></td>
+                                    <td  class="text-center pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download only winner list for this scratch card"); ?>" onclick="showDemoMessage()"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>Scratch card 4</td>
+                                    <td  class="text-center pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download list of user who used this scratch card"); ?>" onclick="showDemoMessage()"></i></td>
+                                    <td  class="text-center pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download only winner list for this scratch card"); ?>" onclick="showDemoMessage()"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>Scratch card 5</td>
+                                    <td  class="text-center pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download list of user who used this scratch card"); ?>" onclick="showDemoMessage()"></i></td>
+                                    <td  class="text-center pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download only winner list for this scratch card"); ?>" onclick="showDemoMessage()"></i></td>
+                                </tr>
+                            <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
     </div>
 </div>
 <style>
@@ -324,6 +380,12 @@
     var categorySaleGraph;
     var paymentSaleGraph;
     var storeSaleGraph;
+
+    <?php if(Application_Model_Application::hasModuleInstalled("scratchcard")): ?>
+        var hasScratchCard = true;
+    <?php else: ?>
+        var hasScratchCard = false;
+    <?php endif; ?>
 
     $(document).ready(function() {
 
@@ -480,6 +542,11 @@
             updateTotalVisitsMetric(params);
             //Update average cart for mcommerce metric
             updateAverageCartMetric(params);
+
+            //Update scratchcard metrics
+            if(hasScratchCard) {
+                updateScratchMetric(params);
+            }
         }
 
     });
@@ -521,6 +588,10 @@
                 updateLoyaltyMetric(params);
                 //Update total visits for mcommerce metric
                 updateTotalVisitsMetric(params);
+                //Update scratchcard metrics
+                if(hasScratchCard) {
+                    updateScratchMetric(params);
+                }
             } else {
                 var page_message = new AlertMessage("<?php echo $this->_("Start date must be lower than end date."); ?>");
                 page_message.addButton(true);
@@ -768,6 +839,36 @@
         });
     }
 
+    function updateScratchMetric(params) {
+
+        var date_range = params ? params : null;
+
+        $.ajax({
+            method: "POST",
+            dataType: 'json',
+            url: "/scratchcard/analytics/getscratchmetric",
+            data: { app_ids: app_id }
+        }).done(function( data ) {
+            if(data.success) {
+                var new_html = "<tr style='height:40px'><td><strong><?php echo $this->_("Name"); ?></strong></td><td class='text-center'><strong><?php echo $this->_("All user list"); ?></strong></td><td class='text-center'><strong><?php echo $this->_("Winners list"); ?></strong></td><td></td></tr>";
+                if(data.cards.length) {
+                    $.each(data.cards, function(ind, elem) {
+                        new_html += "<tr><td>" + elem.name + "</td><td  class='text-center pointer' ><i data-placement='left' data-toggle='tooltip' class='fa fa-download display_tooltip icon_list_dl' title='<?php echo $this->_("Download list of user who used this scratch card"); ?>' onclick='dlAllUsersScratch(" + elem.card_id + ", true)'></i></td><td  class='text-center pointer' ><i data-placement='left' data-toggle='tooltip' class='fa fa-download display_tooltip icon_list_dl' title='<?php echo $this->_("Download only winner list for this scratch card"); ?>' onclick='dlAllUsersScratch(" + elem.card_id + ", false)'></i></td>";
+                    });
+                } else {
+                    new_html = "<tr><td colspan='3'>" + no_data_mess + "</td></tr>";
+                }
+                $("#body_scratchcard").html(new_html);
+                initTooltips();
+                $("#scratchcard_loader").hide();
+            } else {
+                $("#scratchcard_loader").hide();
+            }
+        }).error(function() {
+            $("#scratchcard_loader").hide();
+        });
+    }
+
     function dlAllSalesByCategories() {
         var params = Compute_Date_Range();
 
@@ -808,6 +909,14 @@
         }
     }
 
+    function dlAllUsersScratch(scratch_id, all_users) {
+        var params = Compute_Date_Range();
+        var full_mode = all_users ? "/full/1" : "";
+        if(params.start && params.end && scratch_id) {
+            window.open("<?php echo $this->getUrl("scratchcard/analytics"); ?>" + "/getusersscratch/card_id/" + scratch_id + "/start/" + params.start + "/end/" + params.end + full_mode);
+        }
+    }
+
     function showDemoMessage() {
         var page_message = new AlertMessage("<?php echo $this->_("Download file is not available in DEMO mode."); ?>");
         page_message.addButton(true);
@@ -824,6 +933,10 @@
         $("#sale_by_product_loader").hide();
         $("#visit_by_product_loader").hide();
         $("#loyalty_loader").hide();
+
+        if(hasScratchCard) {
+            $("#scratchcard_loader").hide();
+        }
     }
 
     function showAllMetricsLoader() {
@@ -834,6 +947,10 @@
         $("#sale_by_product_loader").show();
         $("#visit_by_product_loader").show();
         $("#loyalty_loader").show();
+
+        if(hasScratchCard) {
+            $("#scratchcard_loader").show();
+        }
     }
 
     function initTooltips() {

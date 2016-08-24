@@ -29,6 +29,7 @@ class Mcommerce_Application_Catalog_ProductController extends Application_Contro
     public function editpostAction() {
 
         if($datas = $this->getRequest()->getPost()) {
+//            var_dump($datas);exit;
 
             try {
                 $isNew = false;
@@ -129,7 +130,14 @@ class Mcommerce_Application_Catalog_ProductController extends Application_Contro
 
                         $group->addData($group_datas)->save();
                     }
+
+                    foreach($product->getChoices() as $choice){
+                        if(!in_array($choice->getGroupId(), $group_ids)){
+                            $choice->delete();
+                        }
+                    }
                 }
+
 
                 $html = array(
                     'picture' => $datas['picture'],

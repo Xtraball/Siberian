@@ -113,6 +113,15 @@ class Mcommerce_Model_Cart_Line extends Core_Model_Default {
         return $this->_options;
     }
 
+    public function getChoices() {
+
+        if(!$this->_choices) {
+            $this->_choices = @unserialize($this->getData('choices'));
+        }
+
+        return $this->_choices;
+    }
+
     /** @note should avoid usage of @ to suppress warning/notice */
     public function getFormat() {
 

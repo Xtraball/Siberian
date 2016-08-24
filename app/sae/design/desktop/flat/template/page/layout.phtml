@@ -103,13 +103,10 @@
         <?php echo System_Model_Config::getValueFor("support_chat_code") ?>
         <?php endif; ?>
 
-        <script type="text/javascript" src="/app/sae/design/desktop/siberian/js/preloader.js"></script>
         <script type="text/javascript">
-            $(document).ready(function() {
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', "/application/customization_features/preload");
-                xhr.send(null);
-            });
+            var version = "<?php echo Siberian_Version::VERSION ?>";
         </script>
+        <script type="text/javascript" src="/app/sae/design/desktop/siberian/js/preloader.js"></script>
+
     </body>
 </html>

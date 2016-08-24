@@ -3,7 +3,6 @@
 class Mcommerce_Application_Catalog_Product_GroupController extends Application_Controller_Default_Ajax {
 
     public function editAction() {
-
         $group = new Catalog_Model_Product_Group();
         if($id = $this->getRequest()->getParam('group_id')) {
             $group->find($id);
@@ -12,6 +11,7 @@ class Mcommerce_Application_Catalog_Product_GroupController extends Application_
         $html = $this->getLayout()->addPartial('store_form', 'admin_view_default', 'mcommerce/application/edit/catalog/products/group/edit.phtml')
             ->setOptionValue($this->getCurrentOptionValue())
             ->setCurrentGroup($group)
+            ->setRequireChoiceEditor($this->getRequest()->getParam('require-choice-editor') || $group->getAsCheckbox())
             ->toHtml();
 
         $html = array('form_html' => $html);

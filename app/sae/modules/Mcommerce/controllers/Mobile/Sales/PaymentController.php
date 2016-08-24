@@ -1,8 +1,10 @@
 <?php
 
-class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobile_Default {
+class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobile_Default
+{
 
-    public function findonlinepaymenturlAction(){
+    public function findonlinepaymenturlAction()
+    {
 
         $method = $this->getCart()->getPaymentMethod();
 
@@ -11,8 +13,8 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
 
         $value_id = $this->getCurrentOptionValue()->getId();
 
-        if ($method->isOnline()){
-            if($method->getCode() == "stripe") {
+        if ($method->isOnline()) {
+            if ($method->getCode() == "stripe") {
                 $form_url = $method->getFormUrl($value_id);
             } else {
                 $url = $method->getUrl($value_id);
@@ -27,7 +29,8 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
         $this->_sendHtml($html);
     }
 
-    public function findpaymentmethodsAction() {
+    public function findpaymentmethodsAction()
+    {
 
         $option = $this->getCurrentOptionValue();
 
@@ -35,16 +38,16 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
 
         $paymentMethods = $cart->getStore()->getPaymentMethods();
 
-        $html= array("paymentMethods" => array());
+        $html = array("paymentMethods" => array());
 
-        foreach ($paymentMethods as $paymentMethod){
+        foreach ($paymentMethods as $paymentMethod) {
 
             $paymentMethodJson = array(
                 "id" => $paymentMethod->getId(),
-                "name" =>$paymentMethod->getName()
+                "name" => $paymentMethod->getName()
             );
 
-            if($paymentMethod->isOnline()) {
+            if ($paymentMethod->isOnline()) {
                 if ($paymentMethod->isCurrencySupported()) {
                     $html["paymentMethods"][] = $paymentMethodJson;
                 }
@@ -57,7 +60,8 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
     }
 
 
-    public function updateAction() {
+    public function updateAction()
+    {
 
         if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
 
@@ -67,25 +71,23 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
 
             try {
 
-                if(empty($datas['payment_method_id'])) throw new Exception($this->_('Please choose a payment method'));
+                if (empty($datas['payment_method_id'])) throw new Exception($this->_('Please choose a payment method'));
 
                 $this->getCart()
                     ->setPaymentMethodId($datas['payment_method_id'])
-                    ->save()
-                ;
+                    ->save();
 
                 $url = $this->getCart()->getPaymentMethod()->getUrl();
 
-                if(!Zend_Uri::check($url)) {
+                if (!Zend_Uri::check($url)) {
                     $payment_method_name = $this->getCart()->getPaymentMethod()->getName();
                     $this->getCart()
                         ->setPaymentMethodId(null)
-                        ->save()
-                    ;
+                        ->save();
 
                     $logger = Zend_Registry::get("logger");
 
-                    $logger->log("We apologize but the payment method ".$payment_method_name." is currently not available at URL: ".$url, Zend_Log::ERR);
+                    $logger->log("We apologize but the payment method " . $payment_method_name . " is currently not available at URL: " . $url, Zend_Log::ERR);
 
                     throw new Exception($this->_("We apologize but the payment method %s is currently not available", $payment_method_name));
                 }
@@ -94,8 +96,7 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
                     'payment_method_id' => $this->getCart()->getPaymentMethodId()
                 );
 
-            }
-            catch(Exception $e ) {
+            } catch (Exception $e) {
                 $html = array(
                     'error' => 1,
                     'message' => $e->getMessage()
@@ -108,10 +109,11 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
 
     }
 
-    public function validatepaymentAction() {
-        if($data = $this->getRequest()->getPost()) {
+    public function validatepaymentAction()
+    {
+        if ($data = $this->getRequest()->getPost()) {
             $data = $this->getRequest()->getPost();
-        } else if($data = $this->getRequest()->getRawBody()) {
+        } else if ($data = $this->getRequest()->getRawBody()) {
             $data = Zend_Json::decode($data);
         } else {
             $data = $this->getRequest()->getFilteredParams();
@@ -122,16 +124,16 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
                 $errors = $this->getCart()->check();
                 $status_id = Mcommerce_Model_Order::DEFAULT_STATUS;
 
-                if(empty($errors) AND $this->getCart()->getPaymentMethod()->isOnline()) {
+                if (empty($errors) AND $this->getCart()->getPaymentMethod()->isOnline()) {
                     $payment_is_valid = $this->getCart()->getPaymentMethod()->addData($data)->pay();
-                    if(!$payment_is_valid) {
+                    if (!$payment_is_valid) {
                         throw new Exception($this->_('An error occurred while proceeding the payment. Please, try again later.'));
                     } else {
                         $status_id = Mcommerce_Model_Order::PAID_STATUS;
                     }
                 }
 
-                if(empty($errors)) {
+                if (empty($errors)) {
 
                     $order = new Mcommerce_Model_Order();
                     $order->fromCart($this->getCart())->setStatusId($status_id);
@@ -140,7 +142,7 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
                     $order->setNotes($data['notes']);
                     $order->save();
 
-                    if(in_array($this->getCart()->getPaymentMethod()->getCode(), array("check", "cc_upon_delivery", "paypal"))) {
+                    if (in_array($this->getCart()->getPaymentMethod()->getCode(), array("check", "cc_upon_delivery", "paypal"))) {
                         $order->setHidePaidAmount(true);
                     }
 
@@ -157,14 +159,13 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
                     $this->getSession()->unsetCart();
                 } else {
                     $message = $this->_('An error occurred while proceeding your order. Please, check the following information:');
-                    foreach($errors as $error) {
+                    foreach ($errors as $error) {
                         $message .= "<br /> - $error";
                     }
                     throw new Exception($message);
                 }
 
-            }
-            catch(Exception $e) {
+            } catch (Exception $e) {
                 $message = $e->getMessage();
                 $this->getSession()->addError($message);
                 $html = array(
@@ -174,28 +175,29 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
             }
 
             /** Mode browser/webapp */
-            if($this->getApplication()->useIonicDesign() && empty($data["is_ajax"])) {
-                if(isset($html["success"])) {
-                    $this->_redirect('mcommerce/mobile_sales_success/index',array("value_id" => $this->getCurrentOptionValue()->getValueId()));
+            if ($this->getApplication()->useIonicDesign() && empty($data["is_ajax"])) {
+                if (isset($html["success"])) {
+                    $this->_redirect('mcommerce/mobile_sales_success/index', array("value_id" => $this->getCurrentOptionValue()->getValueId()));
                 }
 
-                if(isset($html["error"])) {
-                    $this->_redirect('mcommerce/mobile_sales_error/index',array("value_id" => $this->getCurrentOptionValue()->getValueId()));
+                if (isset($html["error"])) {
+                    $this->_redirect('mcommerce/mobile_sales_error/index', array("value_id" => $this->getCurrentOptionValue()->getValueId()));
                 }
             }
 
-            if(!empty($data["is_ajax"])) {
+            if (!empty($data["is_ajax"])) {
                 $this->_sendHtml($html);
-            } elseif(isset($html["error"])) {
-                $this->_redirect('mcommerce/mobile_sales_error/index',array("value_id" => $this->getCurrentOptionValue()->getValueId()));
-            } elseif(isset($html["success"])) {
+            } elseif (isset($html["error"])) {
+                $this->_redirect('mcommerce/mobile_sales_error/index', array("value_id" => $this->getCurrentOptionValue()->getValueId()));
+            } elseif (isset($html["success"])) {
                 $this->_sendHtml($html);
             }
 
         }
     }
 
-    public function printToGCPAction() {
+    public function printToGCPAction()
+    {
         $url = "https://accounts.google.com/o/oauth2/auth";
 
         $params = array(

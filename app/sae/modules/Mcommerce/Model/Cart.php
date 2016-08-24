@@ -50,7 +50,6 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
      * @return Mcommerce_Model_Cart
      */
     public function addProduct($product) {
-
         $line_id = null;
 
         foreach($this->getLines() as $line) {
@@ -59,8 +58,6 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
             $products_ids = array();
 
             if ($line->getProductId() == $product->getId()) {
-
-                $same_options = true;
 
                 if (count($line->getOptions()) == count($product->getOptions())) {
 
@@ -72,35 +69,8 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
                         $products_ids[$product_option->getValueId()] = $product_option->getQty();
                     }
 
-                    $product_option_absent = false;
-                    foreach ($lines_ids as $id => $qty) {
-                        if (!in_array($id, array_keys($products_ids))) {
-                            $product_option_absent = true;
-                        } else {
-                            if($qty != $products_ids[$id]) {
-                                $product_option_absent = true;
-                            }
-                        }
-                    }
-
-                    if ($product_option_absent) {
-                        $same_options = false;
-                    }
-
-                } else {
-                    $same_options = false;
                 }
 
-                $same_format = true;
-                if ($product->getFormat() AND $line->getFormat()) {
-                    if ($product->getFormat()->getId() != $line->getFormat()->getId()) {
-                        $same_format = false;
-                    }
-                }
-
-                if ($same_options AND $same_format) {
-                    $line_id = $line->getId();
-                }
             }
 
         }
@@ -215,7 +185,6 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
      * @return Mcommerce_Model_Cart_Line
      */
     protected function _createLine($product) {
-
         $options_datas = array();
 
         if($product->getOptions()) {
@@ -262,10 +231,12 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
             ->setBasePriceInclTax($priceInclTax)
             ->setQty($product->getQty() ? $product->getQty() : 1)
             ->setOptions(serialize($options_datas))
+            ->setChoices(serialize($product->choices))
             ->setFormat(serialize($product_format))
             ->setTaxId($product->getTaxId())
             ->setTaxRate($product->getTaxRate())
         ;
+
 
         $line->calcTotal();
 

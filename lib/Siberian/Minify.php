@@ -58,19 +58,22 @@ class Siberian_Minify extends \Minify\Minify {
 
     public static $basepath;
 
+    public static $instance = null;
+
 
     public function __construct() {
-        self::$basepath = Core_Model_Directory::getBasePathTo("");
+        if(is_null(self::$instance)) {
+            self::$basepath = Core_Model_Directory::getBasePathTo("");
 
-        foreach(self::$PLATFORMS as $platform => $path) {
-            $basepath = self::$basepath;
-            self::$PLATFORMS[$platform]["index"] = "{$basepath}{$path['index']}";
+            foreach(self::$PLATFORMS as $platform => $path) {
+                $basepath = self::$basepath;
+                self::$PLATFORMS[$platform]["index"] = "{$basepath}{$path['index']}";
+            }
+
+            self::$instance = $this;
         }
 
-        $baseAssets = Core_Model_Directory::getBasePathTo(self::$ASSETS_CACHE);
-        if(!file_exists($baseAssets)) {
-            $this->buildAssets();
-        }
+        return self::$instance;
     }
 
     /** Hook for platforms */
@@ -116,8 +119,6 @@ class Siberian_Minify extends \Minify\Minify {
         $regex = '/<link href="([a-z0-9\.\/\-_]+\.css)" rel="stylesheet">/mi';
 
         $this->_minify("css", $regex, $index_path, $output_css);
-
-        $this->appendAssets($platform);
     }
 
     /**
@@ -176,47 +177,6 @@ class Siberian_Minify extends \Minify\Minify {
         }
     }
 
-    public function appendAssets($platform) {
-        /**switch(Siberian_Version::TYPE) {
-            default: case 'SAE':
-            self::registerDesignType(self::SAE_PATH);
-            break;
-            case 'MAE':
-                self::registerDesignType(self::SAE_PATH);
-                self::registerDesignType(self::MAE_PATH);
-                break;
-            case 'PE':
-                self::registerDesignType(self::SAE_PATH);
-                self::registerDesignType(self::MAE_PATH);
-                self::registerDesignType(self::PE_PATH);
-                break;
-        }*/
-    }
-
-    public function buildAssets() {
-        switch(Siberian_Version::TYPE) {
-            default: case 'SAE':
-                    $this->registerAssets(Siberian_Cache::SAE_PATH);
-                break;
-            case 'MAE':
-                    $this->registerAssets(Siberian_Cache::SAE_PATH);
-                    $this->registerAssets(Siberian_Cache::MAE_PATH);
-                break;
-            case 'PE':
-                    $this->registerAssets(Siberian_Cache::SAE_PATH);
-                    $this->registerAssets(Siberian_Cache::MAE_PATH);
-                    $this->registerAssets(Siberian_Cache::PE_PATH);
-                break;
-        }
-        $this->registerAssets(Siberian_Cache::LOCAL_PATH);
-    }
-
-    public function registerAssets($path) {
-        $path = Core_Model_Directory::getBasePathTo($path);
-        //echo $path."<br />";
-        //$files = glob("{$path}modules/*/var/apps/*");
-    }
-
     /**
      * @param $index_path
      */
@@ -257,21 +217,32 @@ class Siberian_Minify extends \Minify\Minify {
         $content = preg_replace('/<\/title>/mi', $app_files."\n\t", $content);
 
         file_put_contents($dest, $content);
-        chmod($dest, 0777);
+        if(file_exists($dest)) {
+            chmod($dest, 0777);
+        }
+
     }
 
     /**
      * Hook to clear cache
      */
     public static function clearCache() {
+        $files_to_unlink = array();
+
         foreach(self::$PLATFORMS as $platform => $path) {
             $css = self::$PLATFORMS[$platform]['output_css'];
             $js = self::$PLATFORMS[$platform]['output_js'];
             $index = str_replace("index", "index-prod", self::$PLATFORMS[$platform]['index']);
 
-            unlink(self::$basepath.$css);
-            unlink(self::$basepath.$js);
-            unlink($index);
+            $files_to_unlink[] = self::$basepath.$css;
+            $files_to_unlink[] = self::$basepath.$js;
+            $files_to_unlink[] = $index;
+        }
+
+        foreach($files_to_unlink as $file) {
+            if(file_exists($file)) {
+                unlink($file);
+            }
         }
     }
 }
