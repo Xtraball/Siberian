@@ -36,6 +36,7 @@ App.config(function($routeProvider) {
                 .show()
             ;
             $scope.server_usage = data.server_usage;
+            $scope.services = data.services;
             $scope.content_loader_is_visible = false;
         });
     };

@@ -2,7 +2,25 @@
 
 class System_Backoffice_Config_GeneralController extends System_Controller_Backoffice_Default {
 
-    protected $_codes = array("platform_name", "company_name", "company_phone", "company_address", "company_country", "company_vat_number", "system_timezone", "system_currency", "system_default_language", "system_publication_access_type", "application_ios_owner_admob_id", "application_ios_owner_admob_type", "application_android_owner_admob_id", "application_android_owner_admob_type", "application_owner_use_ads", "editor_design");
+    protected $_codes = array(
+        "platform_name",
+        "company_name",
+        "company_phone",
+        "company_address",
+        "company_country",
+        "company_vat_number",
+        "system_timezone",
+        "system_currency",
+        "system_default_language",
+        "system_publication_access_type",
+        "system_generate_apk",
+        "application_ios_owner_admob_id",
+        "application_ios_owner_admob_type",
+        "application_android_owner_admob_id",
+        "application_android_owner_admob_type",
+        "application_owner_use_ads",
+        "editor_design"
+    );
 
     public function loadAction() {
 

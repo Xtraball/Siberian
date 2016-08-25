@@ -53,6 +53,12 @@ $schemas['admin'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'generate_apk' => array(
+        'type' => 'enum(\'no\',\'yes\')',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'company' => array(
         'type' => 'varchar(100)',
         'is_null' => true,

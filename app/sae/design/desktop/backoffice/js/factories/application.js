@@ -107,6 +107,23 @@ App.factory('Application', function($http, Url, DataLoader) {
         });
     };
 
+    factory.cancelQueue = function(application_id, device_id, no_ads, type) {
+
+        var link = Url.get(
+            "application/backoffice_view/cancelqueue", {
+                device_id: device_id,
+                app_id: application_id,
+                no_ads : no_ads,
+                type: type
+            });
+
+        return $http({
+            method: 'GET',
+            url: link,
+            responseType:'json'
+        });
+    }
+
     factory.saveDeviceInfo = function(application) {
 
         return $http({

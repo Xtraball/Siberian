@@ -13,6 +13,39 @@ class Application_Model_Queue extends Core_Model_Default {
     );
 
     /**
+     * Cancelling queue
+     *
+     * @param $application_id
+     * @param $type
+     * @param $device
+     */
+    public static function cancel($application_id, $type, $device) {
+        switch($type) {
+            case "apk":
+                    $queue = new Application_Model_ApkQueue();
+                    $queues = $queue->findAll(array(
+                        "app_id = ?" => $application_id,
+                        "status != ?" => "success",
+                    ));
+                    foreach($queues as $queue) {
+                        $queue->delete();
+                    }
+                break;
+            case "zip":
+                    $queue = new Application_Model_SourceQueue();
+                    $queues = $queue->findAll(array(
+                        "app_id = ?" => $application_id,
+                        "type = ?" => $device,
+                        "status != ?" => "success",
+                    ));
+                    foreach($queues as $queue) {
+                        $queue->delete();
+                    }
+                break;
+        }
+    }
+
+    /**
      * Global queue (may add IPA & Other Android/iOS Versions)
      *
      * @param $application_id

@@ -46,6 +46,11 @@ $configs = array(
         "value" => "sources"
     ),
     array(
+        "code" => "system_generate_apk",
+        "label" => "Users can generate APK",
+        "value" => "no"
+    ),
+    array(
         "code" => "support_email",
         "label" => "Support Email Address"
     ),

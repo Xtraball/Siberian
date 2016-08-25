@@ -116,12 +116,18 @@ class Backoffice_IndexController extends Backoffice_Controller_Default
                         $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
                         Siberian_Autoupdater::configure($protocol.$this->getRequest()->getHttpHost());
                         break;
+                    case "cron_error":
+                        $message = __("Cleared cron errors.");
+
+                        Cron_Model_Cron::clearErrors();
+                        break;
                 }
 
                 $html = array(
                     "success" => 1,
                     "message" => $message,
                     "server_usage" => Siberian_Cache::getDiskUsage(),
+                    "services" => Siberian_Service::getServices(),
                 );
 
             }

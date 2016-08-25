@@ -380,86 +380,95 @@
             <col width="30%">
         </colgroup>
         <thead>
-            <tr>
-                <th>
-                    <?php echo __("Sources"); ?>
-                </th>
-                <th></th>
-                <th></th>
-            </tr>
+        <tr>
+            <th>
+                <?php echo __("Sources"); ?>
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
         </thead>
 
         <tbody>
-            <tr>
-                <td>
+        <tr>
+            <td>
                 <label class="control-label"><?php echo $this->_("iPhone Version"); ?></label>
-                </td>
-                <td>
-                    <a ng-if="application.zip.ios" href="<?php echo $this->getUrl("") ?>{{ application.zip.ios.path }}" class="help-block" target="_self" >
-                        <i class="fa fa-cloud-download" ></i> <?php echo __("Download latest sources"); ?> {{ application.zip.ios.date }}
-                    </a>
+            </td>
+            <td>
+                <a ng-if="application.zip.ios" href="<?php echo $this->getUrl("") ?>{{ application.zip.ios.path }}" class="help-block" target="_self" >
+                    <i class="fa fa-cloud-download" ></i> <?php echo __("Download latest sources"); ?> {{ application.zip.ios.date }}
+                </a>
 
-                    <span ng-if="!application.zip.ios"><?php echo __("Not yet generated.") ?></span>
-                </td>
-                <td class="text-right">
-                    <a ng-if="application.queued.positions.ios == 0" ng-click="generateSource(1, 0)" href="javascript:void(0)" class="block" target="_self"><i class="fa fa-gears"></i> <?php echo $this->_("Generate sources"); ?></a>
-                    <p ng-show="application.queued.positions.ios == 1">
-                        <img class="gear-loader" src="/app/sae/design/desktop/backoffice/images/loader/gears.gif" /><?php echo __("Generating") ?>
-                    </p>
-                    <p ng-show="application.queued.positions.ios > 1">
-                        <i class="fa fa-random"></i> <?php echo __("Queued") ?>: {{ application.queued.positions.ios }}/{{ application.queued.total }}
-                    </p>
-                </td>
-            </tr>
+                <span ng-if="!application.zip.ios"><?php echo __("Not yet generated.") ?></span>
+            </td>
+            <td class="text-right">
+                <a ng-if="application.queued.positions.ios == 0" ng-click="generateSource(1, 0)" href="javascript:void(0)" class="block" target="_self"><i class="fa fa-gears"></i> <?php echo $this->_("Generate sources"); ?></a>
+                <p ng-show="application.queued.positions.ios == 1">
+                    <img class="gear-loader" src="/app/sae/design/desktop/backoffice/images/loader/gears.gif" /><?php echo __("Generating") ?>
+                </p>
+                <p ng-show="application.queued.positions.ios > 1">
+                    <i class="fa fa-random"></i> <?php echo __("Queued") ?>: {{ application.queued.positions.ios }}/{{ application.queued.total }}
+                </p>
+                <a ng-show="application.queued.positions.ios >= 1" ng-click="cancelQueue(1, 0)" href="javascript:void(0)">
+                    <i class="fa fa-times"></i> <?php echo __("Cancel") ?>
+                </a>
+            </td>
+        </tr>
 
-            <tr>
-                <td>
+        <tr>
+            <td>
                 <label class="control-label"><?php echo $this->_("iPhone Version (No Ads)"); ?> <i class="fa fa-question-circle" ng-click="show_ads_tip = !show_ads_tip"></i></label>
-                </td>
-                <td>
-                    <a ng-if="application.zip.iosnoads" href="<?php echo $this->getUrl("") ?>{{ application.zip.iosnoads.path }}" class="help-block" target="_self" >
-                        <i class="fa fa-cloud-download" ></i> <?php echo __("Download latest sources"); ?> {{ application.zip.iosnoads.date }}
-                    </a>
+            </td>
+            <td>
+                <a ng-if="application.zip.iosnoads" href="<?php echo $this->getUrl("") ?>{{ application.zip.iosnoads.path }}" class="help-block" target="_self" >
+                    <i class="fa fa-cloud-download" ></i> <?php echo __("Download latest sources"); ?> {{ application.zip.iosnoads.date }}
+                </a>
 
-                    <span ng-if="!application.zip.iosnoads"><?php echo __("Not yet generated.") ?></span>
+                <span ng-if="!application.zip.iosnoads"><?php echo __("Not yet generated.") ?></span>
 
                 <div ng-show="show_ads_tip">
                     <p class="help-block"><?php echo $this->_("Apple rejects apps that includes Ad Support but doesn't use it.<br />Generate your iOS app out of this source code if you don't include Ads."); ?></p>
                     <p class="help-block"><?php echo $this->_("Note that if you want to add ads later, you will have to publish the app again."); ?></p>
                 </div>
-                </td>
-                <td class="text-right">
-                    <a ng-if="application.queued.positions.iosnoads == 0" ng-click="generateSource(1, 1)" href="javascript:void(0)" class="block" target="_self"><i class="fa fa-gears"></i> <?php echo $this->_("Generate sources"); ?></a>
-                    <p ng-show="application.queued.positions.iosnoads == 1">
-                        <img class="gear-loader" src="/app/sae/design/desktop/backoffice/images/loader/gears.gif" /><?php echo __("Generating") ?>
-                    </p>
-                    <p ng-show="application.queued.positions.iosnoads > 1">
-                        <i class="fa fa-random"></i> <?php echo __("Queued") ?>: {{ application.queued.positions.iosnoads }}/{{ application.queued.total }}
-                    </p>
-                </td>
-            </tr>
+            </td>
+            <td class="text-right">
+                <a ng-if="application.queued.positions.iosnoads == 0" ng-click="generateSource(1, 1)" href="javascript:void(0)" class="block" target="_self"><i class="fa fa-gears"></i> <?php echo $this->_("Generate sources"); ?></a>
+                <p ng-show="application.queued.positions.iosnoads == 1">
+                    <img class="gear-loader" src="/app/sae/design/desktop/backoffice/images/loader/gears.gif" /><?php echo __("Generating") ?>
+                </p>
+                <p ng-show="application.queued.positions.iosnoads > 1">
+                    <i class="fa fa-random"></i> <?php echo __("Queued") ?>: {{ application.queued.positions.iosnoads }}/{{ application.queued.total }}
+                </p>
+                <a ng-show="application.queued.positions.iosnoads >= 1" ng-click="cancelQueue(1, 1)" href="javascript:void(0)">
+                    <i class="fa fa-times"></i> <?php echo __("Cancel") ?>
+                </a>
+            </td>
+        </tr>
 
-            <tr>
-                <td>
-                    <label class="control-label"><?php echo $this->_("Android Version"); ?></label>
-                </td>
-                <td>
-                    <a ng-if="application.zip.android" href="<?php echo $this->getUrl("") ?>{{ application.zip.android.path }}" class="help-block" target="_self" >
-                        <i class="fa fa-cloud-download" ></i> <?php echo __("Download latest sources"); ?> {{ application.zip.android.date }}
-                    </a>
+        <tr>
+            <td>
+                <label class="control-label"><?php echo $this->_("Android Version"); ?></label>
+            </td>
+            <td>
+                <a ng-if="application.zip.android" href="<?php echo $this->getUrl("") ?>{{ application.zip.android.path }}" class="help-block" target="_self" >
+                    <i class="fa fa-cloud-download" ></i> <?php echo __("Download latest sources"); ?> {{ application.zip.android.date }}
+                </a>
 
-                    <span ng-if="!application.zip.android"><?php echo __("Not yet generated.") ?></span>
-                </td>
-                <td class="text-right">
-                    <a ng-if="application.queued.positions.android == 0" ng-click="generateSource(2, 0)" href="javascript:void(0)" class="block" target="_self"><i class="fa fa-gears" ></i> <?php echo $this->_("Generate sources"); ?></a>
-                    <p ng-show="application.queued.positions.android == 1">
-                        <img class="gear-loader" src="/app/sae/design/desktop/backoffice/images/loader/gears.gif" /><?php echo __("Generating") ?>
-                    </p>
-                    <p ng-show="application.queued.positions.android > 1">
-                        <i class="fa fa-random"></i> <?php echo __("Queued") ?>: {{ application.queued.positions.android }}/{{ application.queued.total }}
-                    </p>
-                </td>
-            </tr>
+                <span ng-if="!application.zip.android"><?php echo __("Not yet generated.") ?></span>
+            </td>
+            <td class="text-right">
+                <a ng-if="application.queued.positions.android == 0" ng-click="generateSource(2, 0)" href="javascript:void(0)" class="block" target="_self"><i class="fa fa-gears" ></i> <?php echo $this->_("Generate sources"); ?></a>
+                <p ng-show="application.queued.positions.android == 1">
+                    <img class="gear-loader" src="/app/sae/design/desktop/backoffice/images/loader/gears.gif" /><?php echo __("Generating") ?>
+                </p>
+                <p ng-show="application.queued.positions.android > 1">
+                    <i class="fa fa-random"></i> <?php echo __("Queued") ?>: {{ application.queued.positions.android }}/{{ application.queued.total }}
+                </p>
+                <a ng-show="application.queued.positions.android >= 1" ng-click="cancelQueue(2, 0)" href="javascript:void(0)">
+                    <i class="fa fa-times"></i> <?php echo __("Cancel") ?>
+                </a>
+            </td>
+        </tr>
 
         </tbody>
 

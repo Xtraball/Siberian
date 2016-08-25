@@ -46,6 +46,7 @@
 							<td class="text-right">
 								<button class="btn btn-xs btn-primary" ng-hide="cron_error_show" ng-click="cron_error_show = !cron_error_show;"><?php echo __("Show more") ?></button>
 								<button class="btn btn-xs btn-primary" ng-hide="!cron_error_show" ng-click="cron_error_show = !cron_error_show;"><?php echo __("Hide") ?></button>
+								<button class="btn btn-xs btn-primary" ng-hide="!services.cron_error.full" ng-click="clear('cron_error');"><?php echo __("Clear") ?></button>
 							</td>
 						</tr>
 						<tr ng-hide="!cron_error_show">

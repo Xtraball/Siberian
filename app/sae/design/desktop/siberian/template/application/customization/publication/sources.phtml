@@ -1,6 +1,7 @@
 <?php
     $application = $this->getApplication();
 
+    $apk = Application_Model_ApkQueue::getPackages($application->getId());
     $zip = Application_Model_SourceQueue::getPackages($application->getId());
     $queued = Application_Model_Queue::getPosition($application->getId());
     $positions = $queued["positions"];
@@ -114,7 +115,7 @@
                     <p><?php echo $this->_("Proceed to checkout before downloading the source code."); ?></p>
                 <?php else : ?>
                     <div>
-                        <p><?php echo $this->_('Click here to download the source code:'); ?></p>
+                        <h4 class="subtitle"><?php echo __("Generate the source code") ?></h4>
                         <div class="form-horizontal">
                             <?php if($application->getDesignCode() != "ionic") : ?>
                                 <div class="form-group">
@@ -131,7 +132,7 @@
                                 </div>
                             <?php endif; ?>
                             <div class="form-group">
-                                <div class="col-sm-5">
+                                <div class="col-sm-4">
                                     <?php echo $this->_('iPhone Version'); ?>
                                 </div>
                                 <div class="col-sm-4">
@@ -141,7 +142,7 @@
                                         </a>
                                     <?php endif; ?>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-4 text-right">
                                     <?php  if($positions["ios"] == 0): ?>
                                         <a class="generate-source" onclick="generateSource(1, 0);" href="javascript:void(0)" >
                                             <i class="icon-gears"></i> <?php echo __('Generate source'); ?>
@@ -153,10 +154,15 @@
                                     <?php  if($positions["ios"] > 1): ?>
                                         <i class="icon-gears"></i> <?php echo __('Queued %s/%s', $positions["ios"], $total); ?>
                                     <?php endif; ?>
+                                    <?php  if($positions["ios"] >= 1): ?>
+                                        <a class="cancel-queue" onclick="cancelQueue(1, 0);" href="javascript:void(0)" >
+                                            <i class="icon-remove"></i> <?php echo __('Cancel'); ?>
+                                        </a>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-5">
+                                <div class="col-sm-4">
                                     <?php echo $this->_('iPhone Version (No Ads)'); ?>
                                 </div>
                                 <div class="col-sm-4">
@@ -166,7 +172,7 @@
                                         </a>
                                     <?php endif; ?>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-4 text-right">
                                     <?php  if($positions["iosnoads"] == 0): ?>
                                         <a class="generate-source" onclick="generateSource(1, 1);" href="javascript:void(0)" >
                                             <i class="icon-gears"></i> <?php echo __('Generate source'); ?>
@@ -178,10 +184,15 @@
                                     <?php  if($positions["iosnoads"] > 1): ?>
                                         <i class="icon-gears"></i> <?php echo __('Queued %s/%s', $positions["iosnoads"], $total); ?>
                                     <?php endif; ?>
+                                    <?php  if($positions["iosnoads"] >= 1): ?>
+                                        <a class="cancel-queue" onclick="cancelQueue(1, 1);" href="javascript:void(0)" >
+                                            <i class="icon-remove"></i> <?php echo __('Cancel'); ?>
+                                        </a>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-5">
+                                <div class="col-sm-4">
                                     <?php echo $this->_('Android Version'); ?>
                                 </div>
                                 <div class="col-sm-4">
@@ -191,7 +202,7 @@
                                         </a>
                                     <?php endif; ?>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-4 text-right">
                                     <?php  if($positions["android"] == 0): ?>
                                         <a class="generate-source" onclick="generateSource(2, 0);" href="javascript:void(0)" >
                                             <i class="icon-gears"></i> <?php echo __('Generate source'); ?>
@@ -203,8 +214,49 @@
                                     <?php  if($positions["android"] > 1): ?>
                                         <i class="icon-gears"></i> <?php echo __('Queued %s/%s', $positions["android"], $total); ?>
                                     <?php endif; ?>
+                                    <?php  if($positions["android"] >= 1): ?>
+                                        <a class="cancel-queue" onclick="cancelQueue(2, 0);" href="javascript:void(0)" >
+                                            <i class="icon-remove"></i> <?php echo __('Cancel'); ?>
+                                        </a>
+                                    <?php endif; ?>
                                 </div>
                             </div>
+
+                            <?php if($this->getAdmin()->canGenerateApk()): ?>
+                                <hr />
+                                <h4 class="subtitle"><?php echo __("Generate builds") ?></h4>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <?php echo __('Generate Android APK'); ?>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <?php  if(!empty($apk["path"]) && $positions["apk"] == 0): ?>
+                                            <a href="<?php echo $this->getUrl("").$apk["path"]; ?>">
+                                                <i class="icon-download-alt"></i> <?php echo __('Download latest'); ?>
+                                            </a>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="col-sm-4 text-right">
+                                        <?php  if($positions["apk"] == 0): ?>
+                                            <a class="generate-source" onclick="generateSource(2, 0, 'apk');" href="javascript:void(0)" >
+                                                <i class="icon-gears"></i> <?php echo __('Generate APK'); ?>
+                                            </a>
+                                        <?php endif; ?>
+                                        <?php  if($positions["apk"] == 1): ?>
+                                            <i class="icon-gear"></i> <?php echo __('Generating'); ?>
+                                        <?php endif; ?>
+                                        <?php  if($positions["apk"] > 1): ?>
+                                            <i class="icon-gears"></i> <?php echo __('Queued %s/%s', $positions["apk"], $total); ?>
+                                        <?php endif; ?>
+                                        <?php  if($positions["apk"] >= 1): ?>
+                                            <a class="cancel-queue" onclick="cancelQueue(2, 0, 'apk');" href="javascript:void(0)" >
+                                                <i class="icon-remove"></i> <?php echo __('Cancel'); ?>
+                                            </a>
+                                        <?php endif; ?>
+
+                                    </div>
+                                </div>
+                            <?php endif; ?>
                         </div>
 
                     </div>
@@ -290,8 +342,12 @@
     <?php endif; ?>
 
     var disable = false;
-    function generateSource(device_id, no_ads) {
+    function generateSource(device_id, no_ads, type) {
         var url = "<?php echo $this->getUrl("application/customization_publication_infos/downloadsource"); ?>";
+
+        if(typeof type == "undefined") {
+            type = "zip";
+        }
 
         if(disable) {
             return;
@@ -300,7 +356,7 @@
 
         $.ajax({
             url: url,
-            data: {device_id: device_id, no_ads: no_ads, design_code: design_code},
+            data: {device_id: device_id, no_ads: no_ads, type: type},
             success: function(data) {
                 // reload
                 location.reload();
@@ -308,6 +364,30 @@
             dataType: 'json'
         });
     }
+
+    function cancelQueue(device_id, no_ads, type) {
+        var url = "<?php echo $this->getUrl("application/customization_publication_infos/cancelqueue"); ?>";
+
+        if(typeof type == "undefined") {
+            type = "zip";
+        }
+
+        if(disable) {
+            return;
+        }
+        disable = true;
+
+        $.ajax({
+            url: url,
+            data: {device_id: device_id, no_ads: no_ads, type: type},
+            success: function(data) {
+                // reload
+                location.reload();
+            },
+            dataType: 'json'
+        });
+    }
+
 
 </script>
 
@@ -320,4 +400,7 @@
     /*#mobile_homescreen .touch_icon { position: absolute; top: 249px; left: 128px; height: 71px; }*/
     #name:disabled { opacity:0.4 }
     input#name.error { border: 1px dotted red !important }
+    div.area .subtitle { padding-bottom: 8px; margin-bottom: 10px; font-weight: bold; }
+    .cancel-queue .icon-remove {  font-size: 16px;  margin-top: -4px;  }
+    .cancel-queue { margin-left: 10px; }
 </style>

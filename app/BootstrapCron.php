@@ -27,7 +27,13 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap
         set_include_path(implode(PATH_SEPARATOR, $include_paths));
 
         $base_path = '';
-        if(isset($_SERVER['SCRIPT_FILENAME'])) $base_path = realpath(dirname($_SERVER['SCRIPT_FILENAME']));
+        if(isset($_SERVER['SCRIPT_FILENAME'])) {
+            $base_path = realpath(dirname($_SERVER['SCRIPT_FILENAME']));
+        } elseif (isset($_SERVER['argv']) && isset($_SERVER['argv'][0])) {
+            $base_path = dirname($_SERVER['argv']['0']);
+        } else {
+            $base_path = substr(dirname(__FILE__),0,-3);
+        }
         Core_Model_Directory::setBasePath($base_path);
 
         //for cron we are always at root directory

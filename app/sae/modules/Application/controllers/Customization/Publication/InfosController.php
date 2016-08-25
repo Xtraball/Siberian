@@ -125,11 +125,16 @@ class Application_Customization_Publication_InfosController extends Application_
                 $application->setDesignCode($design_code);
             }
 
-            $type = "zip";
+            $type = $this->getRequest()->getParam("type");
             $device = ($this->getRequest()->getParam("device_id") == 1) ? "ios" : "android";
             $noads = ($this->getRequest()->getParam("no_ads") == 1) ? "noads" : "";
             $pDesign = $this->getRequest()->getParam("design_code");
             $design_code = (!empty($pDesign)) ? $pDesign : "ionic";
+
+            # ACL Apk user
+            if($type == "apk" && !$this->getAdmin()->canGenerateApk()) {
+                throw new Exception("You are not allowed to generate APK.");
+            }
 
             if($type == "apk") {
                 $queue = new Application_Model_ApkQueue();
@@ -149,6 +154,7 @@ class Application_Customization_Publication_InfosController extends Application_
             $queue->setUserId($this->getSession()->getAdminId());
             $queue->save();
 
+            $more["apk"] = Application_Model_ApkQueue::getPackages($application->getId());
             $more["zip"] = Application_Model_SourceQueue::getPackages($application->getId());
             $more["queued"] = Application_Model_Queue::getPosition($application->getId());
 
@@ -167,6 +173,36 @@ class Application_Customization_Publication_InfosController extends Application_
 
         $this->_sendHtml($data);
 
+    }
+
+    public function cancelqueueAction() {
+        if($data = $this->getRequest()->getParams()) {
+
+            $application = $this->getApplication();
+            $type = $this->getRequest()->getParam("type");
+            $device = ($this->getRequest()->getParam("device_id") == 1) ? "ios" : "android";
+            $noads = ($this->getRequest()->getParam("no_ads") == 1) ? "noads" : "";
+
+            Application_Model_Queue::cancel($application->getId(), $type, $device.$noads);
+
+            $more["apk"] = Application_Model_ApkQueue::getPackages($application->getId());
+            $more["zip"] = Application_Model_SourceQueue::getPackages($application->getId());
+            $more["queued"] = Application_Model_Queue::getPosition($application->getId());
+
+            $data = array(
+                "success" => 1,
+                "message" => __("Generation cancelled."),
+                "more" => $more,
+            );
+
+        } else {
+            $data = array(
+                "error" => 1,
+                "message" => __("Missing parameters for cancellation."),
+            );
+        }
+
+        $this->_sendHtml($data);
     }
 
     public function switchtoionicAction() {

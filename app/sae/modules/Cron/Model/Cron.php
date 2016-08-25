@@ -134,4 +134,12 @@ class Cron_Model_Cron extends Core_Model_Default {
 
 		return false;
 	}
+
+	/**
+	 * Cleaning errors
+	 */
+	public function clearErrors() {
+		$db = Zend_Db_Table::getDefaultAdapter();
+		$db->query("UPDATE cron SET last_error = '';");
+	}
 }

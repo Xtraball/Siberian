@@ -11,7 +11,17 @@
 
 class Siberian_Cache_Design extends Siberian_Cache implements Siberian_Cache_Interface
 {
+    /**
+     * @var
+     */
     public static $design_codes;
+
+    /**
+     * Listing what modules are overriding core design
+     *
+     * @var array
+     */
+    public static $module_override = array();
 
     const CODE = "design";
     const CACHE_PATH = "var/cache/design.cache";
@@ -47,6 +57,8 @@ class Siberian_Cache_Design extends Siberian_Cache implements Siberian_Cache_Int
             if($module_folder->isDir() && !$module_folder->isDot() && is_readable("{$module_folder->getPathname()}/resources/design/")) {
                 $modules_design_codes = new DirectoryIterator("{$module_folder->getPathname()}/resources/design/");
 
+                $module_name = strtolower(basename($module_folder->getPathname()));
+
                 foreach ($modules_design_codes as $design_code) {
                     $cache = static::getCache();
 
@@ -57,12 +69,35 @@ class Siberian_Cache_Design extends Siberian_Cache implements Siberian_Cache_Int
                     }
 
                     /** Looping trough files */
-                    self::recursiveSearch($design_code->getPathname(), $base_code, false);
+                    self::recursiveSearch($design_code->getPathname(), $base_code, self::isAllowedOverride($module_name));
                 }
             }
         }
+    }
 
+    /**
+     * Explicitly declaring a module is overriding core design files, allowing then the cache to replace files.
+     *
+     * @param $module
+     */
+    public static function overrideCoreDesign($module) {
+        $module = strtolower($module);
+        if(!in_array($module, self::$module_override)) {
+            self::$module_override[] = $module;
+        }
+    }
 
+    /**
+     * Check if a module can override design
+     *
+     * @param $module
+     * @return bool
+     */
+    public static function isAllowedOverride($module) {
+        $module = strtolower($module);
+        $is_allowed = in_array($module, self::$module_override);
+
+        return $is_allowed;
     }
 
     public static function preWalk() {

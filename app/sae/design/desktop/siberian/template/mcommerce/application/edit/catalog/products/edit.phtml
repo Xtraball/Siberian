@@ -210,12 +210,16 @@
         </fieldset>
 
         <fieldset id="product_group_choices">
-            <h3 class="title-editor no-border-radius title-feature-indent">
-                <?php echo $this->_("My product's list choice options"); ?>
-                <button type="button" id="add_item" class="edit_option_group color-blue pull-right bt-header-right btn require-choice-editor">
-                    <i class="fa fa-plus"></i>
-                </button>
-            </h3>
+            <h4 class="subtitle">
+                <span class="left area"><?php echo $this->_("My product's list choice options"); ?></span>
+                <hr />
+                <span class="area right">
+                    <button type="button" class="default_button edit_option_group add right require-choice-editor">
+                        <i class="icon-plus"></i>
+                    </button>
+                </span>
+                <div class="clear"></div>
+            </h4>
             <div>
                 <ul id="choices_list" class="tree list-group first-row-feature list-group-slot">
                     <?php if($choices->count() > 0) : ?>

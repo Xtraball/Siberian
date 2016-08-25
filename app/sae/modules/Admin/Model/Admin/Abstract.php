@@ -100,6 +100,24 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
 
     }
 
+    /**
+     * Check if admin can generate apk, fallback with global param if not set.
+     *
+     * @return bool
+     */
+    public function canGenerateApk() {
+
+        $global_generate_apk = System_Model_Config::getValueFor("system_generate_apk");
+
+        $admin = new Admin_Model_Admin();
+        $admin->find($this->getApplication()->getAdminId());
+
+        $admin_generate_apk = $admin->getGenerateApk() ? $admin->getGenerateApk() : $global_generate_apk;
+
+        return ($admin_generate_apk == 'yes');
+
+    }
+
     public function setPassword($password) {
         if(strlen($password) < 6) throw new Exception($this->_('The password must be at least 6 characters'));
         $this->setData('password', $this->_encrypt($password));

@@ -98,7 +98,30 @@ App.config(function($routeProvider) {
                     .show()
                 ;
             });
-    }
+    };
+
+    $scope.cancelQueue = function(device_id, no_ads, type) {
+
+        if(typeof type == "undefined") {
+            type = "zip";
+        }
+
+        Application.cancelQueue($scope.application.id, device_id, no_ads, type)
+            .success(function(data) {
+                $scope.message.setText(data.message)
+                    .isError(false)
+                    .show()
+                ;
+                $scope.application.zip = data.more.zip;
+                $scope.application.queued = data.more.queued;
+            })
+            .error(function(data) {
+                $scope.message.setText(data.message)
+                    .isError(true)
+                    .show()
+                ;
+            });
+    };
 
     $scope.downloadAndroidApk = function() {
 

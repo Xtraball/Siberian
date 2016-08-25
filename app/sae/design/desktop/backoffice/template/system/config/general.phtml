@@ -81,6 +81,7 @@
 
     <sb-section title="'<?php echo $this->_("Your Applications"); ?>'">
 
+
         <div class="form-group" ng-if="configs.system_publication_access_type">
             <div class="col-md-6" >
                 <label for="{{ configs.system_publication_access_type.code }}">{{ configs.system_publication_access_type.label }}</label>
@@ -99,6 +100,7 @@
             </div>
         <?php endif; ?>
         </div>
+
     </sb-section>
 
     <sb-section title="'<?php echo $this->_("Analytics"); ?>'" ng-show="is_flat_design">
