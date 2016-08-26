@@ -38,6 +38,7 @@ class Siberian_Service_Push_Apns extends ApnsPHP_Push {
 
         # Message
         if($device->getPushAlert() == 'enabled') {
+            $message->setTitle($push_message->getTitle());
             $message->setText($push_message->getText());
             $message->setActionLocKey(__("See"));
         }
@@ -99,7 +100,7 @@ class Siberian_Service_Push_Apns extends ApnsPHP_Push {
 
             $message = $geolocated_message;
         }
-
+        
         # Add message to the message queue
         $this->add($message);
     }

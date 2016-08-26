@@ -205,6 +205,17 @@
                         <h4 class="subtitle"><?php echo __("Generate builds") ?></h4>
                         <div class="form-group">
                             <div class="col-sm-4">
+                                <label for="name"><?php echo __("Android APK version"); ?> : </label>
+                            </div>
+                            <div class="col-sm-5">
+                                <input type="text" id="android_version" name="android_version" class="autosave input-flat" value="<?php echo $application->getDevice(2)->getVersion(); ?>" maxlength="30" />
+                            </div>
+                            <div class="col-sm-3">
+                                <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_android_version" alt="Loading" title="Loading" width="24" style="display:none;" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4">
                                 <?php echo __('Generate Android APK'); ?>
                             </div>
                             <div class="col-sm-4">

@@ -17,6 +17,7 @@ class Application_Customization_Publication_InfosController extends Application_
 
             try {
 
+
                 if(!empty($data["name"])) {
                     if(is_numeric(substr($data["name"], 0, 1))) {
                         throw new Exception("The application's name cannot start with a number");
@@ -25,6 +26,12 @@ class Application_Customization_Publication_InfosController extends Application_
                 } else if(!empty($data['description'])) {
                     if(strlen($data['description']) < 200) throw new Exception($this->_('The description must be at least 200 characters'));
                     $this->getApplication()->setDescription($data['description'])->save();
+                } else if(!empty($data['android_version'])) {
+                    if(!preg_match("#^([0-9\.]+)$#", $data['android_version'])) {
+                        throw new Exception($this->_('Invalid version'));
+                    } else {
+                        $this->getApplication()->getDevice(2)->setVersion($data['android_version'])->save();
+                    }
                 } else if(!empty($data['keywords'])) {
                     $this->getApplication()->setKeywords($data['keywords'])->save();
                 } else if(!empty($data['bundle_id'])) {
@@ -141,6 +148,7 @@ class Application_Customization_Publication_InfosController extends Application_
 
                 $queue->setAppId($application->getId());
                 $queue->setName($application->getName());
+                $application->getDevice(2)->setStatusId(3)->save();
             } else {
                 $queue = new Application_Model_SourceQueue();
 
@@ -152,6 +160,7 @@ class Application_Customization_Publication_InfosController extends Application_
 
             $queue->setHost($this->getRequest()->getHttpHost());
             $queue->setUserId($this->getSession()->getAdminId());
+            $queue->setUserType("admin");
             $queue->save();
 
             $more["apk"] = Application_Model_ApkQueue::getPackages($application->getId());

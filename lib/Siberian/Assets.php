@@ -23,7 +23,6 @@ class Siberian_Assets
         "chcp.manifest",
         "js/utils/url.js",
         "js/utils/languages.js",
-        "js/factory/push.js",
     );
 
     public static $assets = array();

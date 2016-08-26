@@ -403,12 +403,12 @@
             </td>
             <td class="text-right">
                 <a ng-if="application.queued.positions.ios == 0" ng-click="generateSource(1, 0)" href="javascript:void(0)" class="block" target="_self"><i class="fa fa-gears"></i> <?php echo $this->_("Generate sources"); ?></a>
-                <p ng-show="application.queued.positions.ios == 1">
+                <span ng-show="application.queued.positions.ios == 1">
                     <img class="gear-loader" src="/app/sae/design/desktop/backoffice/images/loader/gears.gif" /><?php echo __("Generating") ?>
-                </p>
-                <p ng-show="application.queued.positions.ios > 1">
+                </span>
+                <span ng-show="application.queued.positions.ios > 1">
                     <i class="fa fa-random"></i> <?php echo __("Queued") ?>: {{ application.queued.positions.ios }}/{{ application.queued.total }}
-                </p>
+                </span>
                 <a ng-show="application.queued.positions.ios >= 1" ng-click="cancelQueue(1, 0)" href="javascript:void(0)">
                     <i class="fa fa-times"></i> <?php echo __("Cancel") ?>
                 </a>
@@ -433,12 +433,12 @@
             </td>
             <td class="text-right">
                 <a ng-if="application.queued.positions.iosnoads == 0" ng-click="generateSource(1, 1)" href="javascript:void(0)" class="block" target="_self"><i class="fa fa-gears"></i> <?php echo $this->_("Generate sources"); ?></a>
-                <p ng-show="application.queued.positions.iosnoads == 1">
+                <span ng-show="application.queued.positions.iosnoads == 1">
                     <img class="gear-loader" src="/app/sae/design/desktop/backoffice/images/loader/gears.gif" /><?php echo __("Generating") ?>
-                </p>
-                <p ng-show="application.queued.positions.iosnoads > 1">
+                </span>
+                <span ng-show="application.queued.positions.iosnoads > 1">
                     <i class="fa fa-random"></i> <?php echo __("Queued") ?>: {{ application.queued.positions.iosnoads }}/{{ application.queued.total }}
-                </p>
+                </span>
                 <a ng-show="application.queued.positions.iosnoads >= 1" ng-click="cancelQueue(1, 1)" href="javascript:void(0)">
                     <i class="fa fa-times"></i> <?php echo __("Cancel") ?>
                 </a>
@@ -458,12 +458,12 @@
             </td>
             <td class="text-right">
                 <a ng-if="application.queued.positions.android == 0" ng-click="generateSource(2, 0)" href="javascript:void(0)" class="block" target="_self"><i class="fa fa-gears" ></i> <?php echo $this->_("Generate sources"); ?></a>
-                <p ng-show="application.queued.positions.android == 1">
+                <span ng-show="application.queued.positions.android == 1">
                     <img class="gear-loader" src="/app/sae/design/desktop/backoffice/images/loader/gears.gif" /><?php echo __("Generating") ?>
-                </p>
-                <p ng-show="application.queued.positions.android > 1">
+                </span>
+                <span ng-show="application.queued.positions.android > 1">
                     <i class="fa fa-random"></i> <?php echo __("Queued") ?>: {{ application.queued.positions.android }}/{{ application.queued.total }}
-                </p>
+                </span>
                 <a ng-show="application.queued.positions.android >= 1" ng-click="cancelQueue(2, 0)" href="javascript:void(0)">
                     <i class="fa fa-times"></i> <?php echo __("Cancel") ?>
                 </a>

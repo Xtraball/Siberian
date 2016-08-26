@@ -37,6 +37,9 @@ $schemas['source_queue'] = array(
     'user_id' => array(
         'type' => 'int(11) unsigned',
     ),
+    'user_type' => array(
+        'type' => 'varchar(16)',
+    ),
     'status' => array(
         'type' => 'enum(\'queued\',\'building\',\'success\',\'failed\')',
         'charset' => 'utf8',

@@ -154,7 +154,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             $this->_front_controller->addModuleDirectory("$base/local/modules");
         }
 
-        Siberian_Cache_Design::init();
         Siberian_Utils::load();
     }
 
@@ -212,6 +211,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     }
 
     protected function _initDesign() {
+
+        Siberian_Cache_Design::init();
 
         $this->getPluginLoader()->addPrefixPath('Siberian_Application_Resource', 'Siberian/Application/Resource');
 

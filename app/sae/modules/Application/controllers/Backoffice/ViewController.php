@@ -437,6 +437,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
 
             $queue->setHost($this->getRequest()->getHttpHost());
             $queue->setUserId($this->getSession()->getBackofficeUserId());
+            $queue->setUserType("backoffice");
             $queue->save();
 
             $more["zip"] = Application_Model_SourceQueue::getPackages($application_id);

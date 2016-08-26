@@ -67,11 +67,14 @@
 					<?php echo __("Required extensions") ?>
 				</td>
 				<td>
-					<?php echo __("PHP version %s:", phpversion()) ?>
-					<?php if(version_compare(phpversion(), '5.4', '<')){ ?>
+					<?php $php_version = phpversion(); ?>
+					<?php echo __("PHP version %s:", $php_version) ?>
+					<?php if(version_compare($php_version, '5.4', '<')){ ?>
 						<span class="service-red"><?php echo __("Doesn't meet the requirements") ?></span>,
-					<?php } elseif(version_compare(phpversion(), '5.6', '<')) { ?>
+					<?php } elseif(version_compare($php_version, '5.6', '<')) { ?>
 						<span class="service-orange"><?php echo __("Ok, you may upgrade to php 5.6") ?></span>,
+					<?php } elseif(version_compare($php_version, '7', '>=')) { ?>
+						<span class="service-red"><?php echo __("PHP 7.0 is not yet supported") ?></span>,
 					<?php } else { ?>
 						<span class="service-green"><?php echo __("Ok") ?></span>,
 					<?php } ?>
@@ -108,13 +111,13 @@
 				<td>
 					<?php echo __("OptiPNG:") ?>
 						<span ng-show="libraries.optipng" ><span class="service-green"><?php echo __("Installed") ?></span>,</span>
-						<span ng-show="!libraries.optipng"><span class="service-red"><?php echo __("Not found") ?></span>,</span>
+						<span ng-show="!libraries.optipng"><span class="service-blue"><?php echo __("Not found") ?></span>,</span>
 					<?php echo __("JpegOptim:") ?>
 						<span ng-show="libraries.jpegoptim" ><span class="service-green"><?php echo __("Installed") ?></span>,</span>
-						<span ng-show="!libraries.jpegoptim"><span class="service-red"><?php echo __("Not found") ?></span>,</span>
+						<span ng-show="!libraries.jpegoptim"><span class="service-blue"><?php echo __("Not found") ?></span>,</span>
 					<?php echo __("PNGQuant:") ?>
 					    <span ng-show="libraries.pngquant"><span class="service-green"><?php echo __("Installed") ?></span></span>
-						<span ng-show="!libraries.pngquant"><span class="service-red"><?php echo __("Not found") ?></span></span>
+						<span ng-show="!libraries.pngquant"><span class="service-blue"><?php echo __("Not found") ?></span></span>
 				</td>
 			</tr>
 			<tr ng-show="external_services.length !== 0">

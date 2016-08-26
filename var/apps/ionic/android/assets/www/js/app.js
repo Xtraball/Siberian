@@ -314,6 +314,8 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                     $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
                 }
 
+                // Set push senderID
+                Push.setSenderID(data.application.gcm_senderid);
                 Push.register();
                 Push.getLastMessages().success(function (data) {
                     if (data && !$rootScope.has_popup) {

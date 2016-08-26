@@ -401,6 +401,10 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
         displayed_per_page: null
     };
 
+    factory.setSenderID = function(senderID) {
+        __self.init_data.android.senderID = senderID;
+    },
+
     factory.register = function() {
         __self.register();
     };
