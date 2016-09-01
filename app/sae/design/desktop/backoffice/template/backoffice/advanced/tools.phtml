@@ -1,0 +1,34 @@
+
+<form ng-submit="test_integrity()" class="form-horizontal">
+    <sb-section title="'<?php echo addcslashes(__("Integrity check"), "'"); ?>'">
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary left"><i class="fa fa-play"></i> <?php echo __("Run test"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-12" ng-show="integrity_result.hash.length">
+                <h4><?php echo __("File hash is different from manifest.") ?></h4>
+                <div ng-repeat="file in integrity_result.hash">
+                    <span>{{ file }}</span>
+                </div>
+
+            </div>
+            <div class="col-md-12" ng-show="integrity_result.missing.length">
+                <h4><?php echo __("File is missing.") ?></h4>
+                <div ng-repeat="file in integrity_result.missing">
+                    <span>{{ file }}</span>
+                </div>
+
+            </div>
+        </div>
+
+
+    </sb-section>
+</form>
+
+

@@ -6,7 +6,7 @@ App.config(function($stateProvider) {
         templateUrl: "templates/loyaltycard/l1/view.html"
     });
 
-}).controller('LoyaltyViewController', function($ionicModal, $rootScope, $scope, $state, $stateParams, $timeout, $translate, $window, httpCache, Customer, Dialog, Loyalty, Url, AUTH_EVENTS, CACHE_EVENTS) {
+}).controller('LoyaltyViewController', function($cordovaBarcodeScanner, $ionicModal, $rootScope, $scope, $state, $stateParams, $timeout, $translate, $window, Application, httpCache, Customer, Dialog, Loyalty, Url, AUTH_EVENTS, CACHE_EVENTS) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -33,6 +33,9 @@ App.config(function($stateProvider) {
     $scope.is_logged_in = Customer.isLoggedIn();
     $scope.is_loading = false;
     $scope.value_id = Loyalty.value_id = $stateParams.value_id;
+    //This var is here to show the unlock by qrcode section in pad template
+    //Because this template could be used in other feature without qrcode validation
+    $scope.unlock_by_qrcode = true;
 
     $scope.pad = {
         password: "",
@@ -91,6 +94,7 @@ App.config(function($stateProvider) {
         $scope.pad.password = "";
         $scope.pad.points = new Array();
         $scope.pad.buttons = new Array();
+        $scope.pad.mode_qrcode = false;
         for(var i = 0; i < 10; i++) $scope.pad.buttons.push(i);
         $scope.pad.card = card;
         $scope.pad.number_of_points = 1;
@@ -114,8 +118,6 @@ App.config(function($stateProvider) {
 
     };
     $scope.closePad = function() {
-        console.log("$scope.card: ", $scope.card);
-        console.log("$scope.pad.card: ", $scope.pad.card);
         $scope.pad.modal.hide();
     };
 
@@ -126,7 +128,6 @@ App.config(function($stateProvider) {
     });
 
     $scope.validate = function() {
-
         Loyalty.validate($scope.pad).success(function(data) {
 
             if(data) {
@@ -189,6 +190,8 @@ App.config(function($stateProvider) {
                 $scope.card.id = data.customer_card_id;
             }
 
+        }).finally(function() {
+            $scope.is_loading = false;
         });
     };
 
@@ -209,6 +212,66 @@ App.config(function($stateProvider) {
 
     };
 
+    $scope.openScanCamera = function() {
+
+        if(!Application.is_webview) {
+            $scope.scan_protocols = ["sendback:"];
+
+            if (!$scope.is_logged_in) {
+                $ionicModal.fromTemplateUrl('templates/customer/account/l1/login.html', {
+                    scope: $scope,
+                    animation: 'slide-in-up'
+                }).then(function (modal) {
+                    Customer.modal = modal;
+                    Customer.modal.show();
+                });
+
+                $scope.$on('modal.hidden', function () {
+                    $scope.is_logged_in = Customer.isLoggedIn();
+                    $scope.showScanCamera();
+                });
+            } else {
+                $scope.showScanCamera();
+            }
+        } else {
+            Dialog.alert($translate.instant("Info"), $translate.instant("This will open the code scan camera on your device."), $translate.instant("OK"));
+        }
+
+    };
+
+    $scope.showScanCamera = function() {
+        $cordovaBarcodeScanner.scan().then(function(barcodeData) {
+
+            if(!barcodeData.cancelled && barcodeData.text != "") {
+
+                $timeout(function () {
+                    $scope.good_qr_code = false;
+                    for (var i = 0; i < $scope.scan_protocols.length; i++) {
+                        if (barcodeData.text.toLowerCase().indexOf($scope.scan_protocols[i]) == 0) {
+                            $scope.good_qr_code = true;
+                            $scope.is_loading = true;
+
+                            var qrcode = barcodeData.text.replace($scope.scan_protocols[i], "");
+                            $scope.pad.password = qrcode;
+                            $scope.pad.mode_qrcode = true;
+                            $scope.validate();
+                            break;
+                        }
+                    }
+
+                    if(!$scope.good_qr_code) {
+                        Dialog.alert($translate.instant("Info"), $translate.instant("Unreadable QRCode, sorry."), $translate.instant("OK"));
+                    }
+
+                });
+
+            }
+
+        }, function(error) {
+            Dialog.alert($translate.instant("Error"), $translate.instant('An error occurred while reading the code.'), $translate.instant("OK"));
+        });
+    };
+
     if($scope.isOverview) {
 
         $window.prepareDummy = function() {
@@ -220,10 +283,7 @@ App.config(function($stateProvider) {
 
         $window.setAttributeToDummy = function(attribute, value) {
             $timeout(function() {
-                console.log(attribute);
-                console.log($scope.card[attribute]);
                 $scope.card[attribute] = value;
-                console.log($scope.card);
             });
         };
 

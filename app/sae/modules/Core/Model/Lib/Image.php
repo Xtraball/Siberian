@@ -35,28 +35,32 @@ class Core_Model_Lib_Image {
 
         $cache = $this->_cache_dir;
 
-        if((!file_exists($cache.$image_name) OR !$this->getResources())) {
+        if((!file_exists($cache.$image_name) OR !$this->getResources()) && file_exists($this->_path)) {
             try {
                 list($width, $height) = getimagesize($this->_path);
 
                 $img = imagecreatefromstring(file_get_contents($this->_path));
-                if($this->_color) {
-                    $rgb = $this->_toRgb($this->_color);
+                /** Testing if this is a resource. */
+                if(is_resource($img) && ($img !== false)) {
+                    if($this->_color) {
+                        $rgb = $this->_toRgb($this->_color);
 
-                    for($x=0; $x<$width; $x++) {
-                        for($y=0; $y<$height; $y++) {
-                            $colors = imagecolorat($img, $x, $y);
-                            $current_rgb = imagecolorsforindex($img, $colors);
-                            $color = imagecolorallocatealpha($img, $rgb['red'], $rgb['green'], $rgb['blue'], $current_rgb['alpha']);
-                            imagesetpixel($img, $x, $y, $color);
+                        for($x=0; $x<$width; $x++) {
+                            for($y=0; $y<$height; $y++) {
+                                $colors = imagecolorat($img, $x, $y);
+                                $current_rgb = imagecolorsforindex($img, $colors);
+                                $color = imagecolorallocatealpha($img, $rgb['red'], $rgb['green'], $rgb['blue'], $current_rgb['alpha']);
+                                imagesetpixel($img, $x, $y, $color);
+                            }
                         }
                     }
+
+                    imagesavealpha($img, true);
+                    imagepng($img, $cache.$image_name);
+
+                    $this->_resources = $img;
                 }
 
-                imagesavealpha($img, true);
-                imagepng($img, $cache.$image_name);
-
-                $this->_resources = $img;
             } catch(Exception $e) {
                 throw new $e;
             }

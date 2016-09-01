@@ -21,7 +21,10 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
                 }
 
                 $customer = new Customer_Model_Customer();
-                $customer->find(array('email' => $datas['email'], 'app_id' => $this->getApplication()->getId()));
+                $customer->find(array(
+                    "email" => $datas['email'],
+                    "app_id" => $this->getApplication()->getId()
+                ));
 
                 $password = $datas['password'];
 
@@ -34,14 +37,23 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
                     if (!empty($datas["device_uid"])) {
                         if (strlen($datas["device_uid"]) == 36) {
                             $device = new Push_Model_Iphone_Device();
-                            $device->find($datas["device_uid"], 'device_uid');
+                            $device->find(array(
+                                "device_uid" => $datas["device_uid"],
+                                "app_id" => $this->getApplication()->getId(),
+                            ));
                         } else {
                             $device = new Push_Model_Android_Device();
 
                             if($this->getApplication()->useIonicDesign()) {
-                                $device->find($datas["device_uid"], 'device_uid');
+                                $device->find(array(
+                                    "device_uid" => $datas["device_uid"],
+                                    "app_id" => $this->getApplication()->getId(),
+                                ));
                             } else {
-                                $device->find($datas["device_uid"], 'registration_id');
+                                $device->find(array(
+                                    "registration_id" => $datas["device_uid"],
+                                    "app_id" => $this->getApplication()->getId(),
+                                ));
                             }
                         }
 
@@ -187,14 +199,23 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
                     if (!empty($device_id)) {
                         if (strlen($device_id) == 36) {
                             $device = new Push_Model_Iphone_Device();
-                            $device->find($device_id, 'device_uid');
+                            $device->find(array(
+                                "device_uid" => $device_id,
+                                "app_id" => $this->getApplication()->getId(),
+                            ));
                         } else {
                             $device = new Push_Model_Android_Device();
 
                             if($this->getApplication()->useIonicDesign()) {
-                                $device->find($device_id, 'device_uid');
+                                $device->find(array(
+                                    "device_uid" => $device_id,
+                                    "app_id" => $this->getApplication()->getId(),
+                                ));
                             } else {
-                                $device->find($device_id, 'registration_id');
+                                $device->find(array(
+                                    "registration_id" => $device_id,
+                                    "app_id" => $this->getApplication()->getId(),
+                                ));
                             }
                         }
 
@@ -226,6 +247,32 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
     }
 
     public function logoutAction() {
+
+        /** Unlink from individual push */
+        if(Push_Model_Message::hasIndividualPush()) {
+            $customer_id = $this->getSession()->getCustomerId();
+
+            $model_ios = new Push_Model_Iphone_Device();
+            $device_ios = $model_ios->findAll(array(
+                "customer_id = ?" => $customer_id,
+                "app_id = ?" => $this->getApplication()->getId(),
+            ));
+
+            foreach($device_ios as $ios) {
+                $ios->setCustomerId(null)->save();
+            }
+
+            $model_android = new Push_Model_Android_Device();
+            $device_android = $model_android->findAll(array(
+                "customer_id = ?" => $customer_id,
+                "app_id = ?" => $this->getApplication()->getId(),
+            ));
+
+            foreach($device_android as $android) {
+                $android->setCustomerId(null)->save();
+            }
+
+        }
 
         $this->getSession()->resetInstance();
 

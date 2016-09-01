@@ -1639,3 +1639,13 @@ div.feature-upload-placeholder button {
     font-size: inherit;
     color: inherit;
 }
+
+.development-warning div.alert {  margin-right: 20px; margin-bottom: 0;  }
+
+/** OSX Webkit outline */
+:focus {
+    outline-color: transparent;
+    outline-style: none;
+}
+
+.development-responsive {  border: none !important;  padding: 6px !important;  text-align: center !important;  margin: 0 !important; border-radius: 0 !important; border-bottom: 1px solid #8a6d3b !important; }

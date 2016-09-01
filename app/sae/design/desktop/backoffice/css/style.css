@@ -92,18 +92,23 @@ label.error { display: block; margin-top: 5px; color: #C41313; text-shadow: 1px 
 .backoffice_menu ul.l1 li a { position: relative; display: block; padding: 17px 26px 16px 21px; color: white; font-size: 19px; z-index: 2; }
 .backoffice_menu ul.l1 li a i { margin-right: 10px; }
 .backoffice_menu ul.l1 li a:hover { background-color: #888888; }
-.backoffice_menu ul.l1 li ul.l2 { position: absolute; background: #404040; top: 0; opacity: 0; visibility: hidden; transition: all .4s ease 0s; border-radius: 0 0 7px 7px; z-index: 1; }
+.backoffice_menu ul.l1 li ul.l2 { position: absolute; background: #404040; top: 0; opacity: 0; visibility: hidden; transition: all .4s ease 0s; border-radius: 0 0 3px 3px; z-index: 1; }
 .backoffice_menu ul.l1 li.has_submenu:hover ul.l2 { top: 60px; opacity: 1; visibility: visible; }
 .backoffice_menu ul.l1 li ul.l2 li { float: none; }
 .backoffice_menu ul.l1 li ul.l2 li.has_submenu { position: relative; }
 .backoffice_menu ul.l1 li ul.l2 li a { text-align: left; border-top: 1px solid #343434; border-bottom: 1px solid #858585; }
-.backoffice_menu ul.l1 li ul.l2 li:first-child a { padding-top: 18px; border-top: none; }
-.backoffice_menu ul.l1 li ul.l2 li:last-child a { border-radius: 0 0 7px 7px; border-bottom: none; }
+.backoffice_menu ul.l1 li ul.l2 li:first-child a { border-top: none; }
+.backoffice_menu ul.l1 li ul.l2 li:last-child a { border-radius: 0 0 3px 3px; border-bottom: none; }
 
-.backoffice_menu ul.l1 li ul.l2 li ul.l3 { position: absolute; width: 100%; background: #404040; top: 0; left: 0; opacity: 0; visibility: hidden; transition: all .4s ease 0s; border-radius: 7px 0 0 7px; z-index: 1; }
+.backoffice_menu ul.l1 li ul.l2 li ul.l3 { position: absolute; width: 100%; background: #404040; top: 0; left: 0; opacity: 0; visibility: hidden; transition: all .4s ease 0s; border-radius: 3px 0 0 3px; z-index: 1; }
 .backoffice_menu ul.l1 li ul.l2 li.has_submenu:hover ul.l3 { left:-100%; opacity: 1; visibility: visible; }
-.backoffice_menu ul.l1 li ul.l2 li.has_submenu:hover ul.l3 li:first-child a { border-radius: 7px 0 0 0; }
-.backoffice_menu ul.l1 li ul.l2 li.has_submenu:hover ul.l3 li:last-child a { border-radius: 0 0 0 7px; }
+.backoffice_menu ul.l1 li ul.l2 li.has_submenu:hover ul.l3 li:first-child a { border-radius: 3px 0 0 0; }
+.backoffice_menu ul.l1 li ul.l2 li.has_submenu:hover ul.l3 li:last-child a { border-radius: 0 0 0 3px; }
+
+.backoffice_menu ul.l2 li a { padding-top: 15px; padding-bottom: 14px; }
+.backoffice_menu ul.l3 li a { padding-top: 15px; padding-bottom: 14px; }
+
+
 /** /MENU **/
 
 
@@ -308,3 +313,6 @@ table.sub-table td.indent { padding-left: 20px; }
 table.sub-table tr.no-border-bottom td { border-bottom: 0; }
 #cron-help { position: fixed;  top: 100px;  width: 900px;  left: 50%;  margin-left: -450px;  z-index: 25000;  }
 #cron-help .modal-title { font-size: 18px; font-weight: bold; }
+
+.development-responsive { z-index: 999; position: fixed; width: 100%; top: 0; left: 0; border: none !important;  padding: 3px !important;  text-align: center !important;  margin: 0 !important; border-radius: 0 !important;  }
+.development-responsive + .top { top: 26px; }

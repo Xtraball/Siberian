@@ -53,9 +53,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         if(APPLICATION_ENV == "production") {
             error_reporting(0);
         } else {
-            # This reports TOO Much errors, corrupting json, response & headers
-            # Limiting to critical for general purpose only
-            error_reporting(501);
+            # Reports all errors, handled by Siberian_Error
+            error_reporting(E_ALL);
+            Siberian_Error::init();
         }
     }
 

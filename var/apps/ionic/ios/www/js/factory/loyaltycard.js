@@ -25,7 +25,8 @@ App.factory('Loyalty', function($rootScope, $http, Url) {
         var data = {
             customer_card_id: pad.card.id,
             number_of_points: pad.number_of_points,
-            password: pad.password
+            password: pad.password,
+            mode_qrcode: pad.mode_qrcode
         };
 
         return $http.post(url, data);

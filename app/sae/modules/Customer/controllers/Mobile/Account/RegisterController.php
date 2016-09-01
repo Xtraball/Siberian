@@ -21,10 +21,13 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
                 }
 
                 $dummy = new Customer_Model_Customer();
-                $dummy->find(array('email' => $data['email'], "app_id" => $this->getApplication()->getId()));
+                $dummy->find(array(
+                    "email" => $data['email'],
+                    "app_id" => $this->getApplication()->getId(),
+                ));
 
                 if($dummy->getId()) {
-                    throw new Exception($this->_('We are sorry but this address is already used.'));
+                    throw new Exception(__("We are sorry but this address is already used."));
                 }
 
                 if(empty($data['show_in_social_gaming'])) {
@@ -46,14 +49,23 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
                     if (!empty($data["device_uid"])) {
                         if (strlen($data["device_uid"]) == 36) {
                             $device = new Push_Model_Iphone_Device();
-                            $device->find($data["device_uid"], 'device_uid');
+                            $device->find(array(
+                                "device_uid" => $data["device_uid"],
+                                "app_id" => $this->getApplication()->getId(),
+                            ));
                         } else {
                             $device = new Push_Model_Android_Device();
 
                             if($this->getApplication()->useIonicDesign()) {
-                                $device->find($data["device_uid"], 'device_uid');
+                                $device->find(array(
+                                    "device_uid" => $data["device_uid"],
+                                    "app_id" => $this->getApplication()->getId(),
+                                ));
                             } else {
-                                $device->find($data["device_uid"], 'registration_id');
+                                $device->find(array(
+                                    "registration_id" => $data["device_uid"],
+                                    "app_id" => $this->getApplication()->getId(),
+                                ));
                             }
                         }
 

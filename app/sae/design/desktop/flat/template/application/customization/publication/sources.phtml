@@ -293,6 +293,17 @@
 
     var disable = false;
     function generateSource(device_id, no_ads, type) {
+        <?php if(Cron_Model_Cron::is_active()): ?>
+        loader.show('reload');
+        <?php else: ?>
+        message.reset()
+        message.setMessage("<?php echo __js("Please wait while we generate application source.") ?>");
+        message.isError(false);
+        message.addLoader(true);
+        message.show();
+        setTimeout(function() {$("#alert").css("top", "60px");}, 500);
+        loader.show('reload');
+        <?php endif; ?>
         var url = "<?php echo $this->getUrl("application/customization_publication_infos/downloadsource"); ?>";
 
         if(typeof type == "undefined") {
@@ -309,13 +320,21 @@
             data: {device_id: device_id, no_ads: no_ads, type: type},
             success: function(data) {
                 // reload
+                <?php if(Cron_Model_Cron::is_active()): ?>
                 location.reload();
+                <?php else: ?>
+                location.href = getUrl(data.more, device_id, no_ads, type);
+                <?php endif; ?>
+                loader.hide('reload');
+                $("#alert").css("top", "0");
+                message.hide();
             },
             dataType: 'json'
         });
     }
 
     function cancelQueue(device_id, no_ads, type) {
+        loader.show('reload');
         var url = "<?php echo $this->getUrl("application/customization_publication_infos/cancelqueue"); ?>";
 
         if(typeof type == "undefined") {
@@ -333,9 +352,26 @@
             success: function(data) {
                 // reload
                 location.reload();
+                loader.hide('reload');
             },
             dataType: 'json'
         });
+    }
+
+    /** Only for direct download */
+    function getUrl(more, device_id, no_ads, type) {
+        var device = (device_id == 1) ? "ios" : "android";
+        device = (no_ads == 1) ? device+"noads" : device;
+        var base = "";
+        switch(type) {
+            case "apk":
+                base = more["apk"]["path"];
+            case "zip":
+                base = more["zip"][device]["path"];
+        }
+        var domain = "<?php echo $this->getUrl(""); ?>";
+
+        return domain+"/"+base;
     }
 
 </script>

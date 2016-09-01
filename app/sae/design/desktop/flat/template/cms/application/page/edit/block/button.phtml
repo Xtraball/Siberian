@@ -1,6 +1,6 @@
 <?php
-  $block = $this->getCurrentBlock();
-  $button = $block->getObject();
+$block = $this->getCurrentBlock();
+$button = $block->getObject();
 ?>
 <div id="cms_block_<?php echo $this->getPosition(); ?>" class="category content-white-bkg cms_block button" rel="<?php echo $this->getPosition(); ?>">
     <div class="control left">
@@ -9,7 +9,7 @@
     <div class="container-fluid">
 
         <div class="description_cont form-horizontal" rel="<?php echo $this->getPosition() ?>">
-            <?php if(!$button->getId()) : ?>
+            <?php if (!$button->getId()) : ?>
                 <div class="form-group">
                     <div class="col-md-12">
                         <?php echo $this->_('Select a button type:'); ?>
@@ -28,12 +28,18 @@
                             <span><?php echo $this->_('Link') ?></span>
                         </a>
                     </div>
+                    <div class="col-md-3 button_type">
+                        <a href="#" type="button" class="color-blue btn capitalize bt_link" id="button_email_<?php echo $this->getPosition() ?>">
+                            <i class="fa fa-envelope"></i><br/>
+                            <span><?php echo $this->_('Email') ?></span>
+                        </a>
+                    </div>
                 </div>
             <?php endif; ?>
             <div class="form-group">
                 <div class="col-sm-2">
                     <div id="field_label_<?php echo $this->getPosition(); ?>" for="content_<?php echo $this->getPosition(); ?>">
-                        <?php echo $block->getTypeId() == 'link' ? $this->_('Link:') : $this->_('Phone:'); ?>
+                        <?php echo $block->getTypeId() == 'email' ? $this->_('Email:') : ($block->getTypeId() == 'link' ? $this->_('Link:') : $this->_('Phone:')); ?>
                     </div>
                 </div>
                 <div class="col-sm-8">
@@ -51,49 +57,36 @@
     <div class="control right">
         <a class="remove" href="javascript:void(0);"><i class="fa fa-times"></i></a>
     </div>
-    
+
     <script type="text/javascript">
-        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .remove').click(function(){
+        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .remove').click(function () {
             removeElem(<?php echo $this->getPosition(); ?>);
         });
 
-        $('#button_link_<?php echo $this->getPosition() ?>').click(function() {
+        $('#button_link_<?php echo $this->getPosition() ?>').click(function () {
             $('#field_label_<?php echo $this->getPosition() ?>').html('<?php echo addslashes($this->_('Link:')) ?>');
             $('#type_id_<?php echo $this->getPosition() ?>').val('link');
             return false;
         });
 
-        $('#button_phone_<?php echo $this->getPosition() ?>').click(function() {
+        $('#button_phone_<?php echo $this->getPosition() ?>').click(function () {
             $('#field_label_<?php echo $this->getPosition() ?>').html('<?php echo addslashes($this->_('Phone:')) ?>');
             $('#type_id_<?php echo $this->getPosition() ?>').val('phone');
             return false;
         });
+        $('#button_email_<?php echo $this->getPosition() ?>').click(function () {
+            $('#field_label_<?php echo $this->getPosition() ?>').html('<?php echo addslashes($this->_('Email:')) ?>');
+            $('#type_id_<?php echo $this->getPosition() ?>').val('email');
+            return false;
+        });
 
-        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .handle').mousedown(function(){
+        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .handle').mousedown(function () {
             dragTransformMouseDown($(this));
-        }).mouseup(function(){
+        }).mouseup(function () {
             dragTransformMouseUp($(this));
         });
     </script>
     <style>
-        /*.button_block {*/
-                /*margin-top: 5px;*/
-                /*padding: 5px 0px 5px;*/
-                /*font-size: 12pt;*/
-                /*width: 65px;*/
-                /*display: inline;*/
-        /*}*/
-        /*.content_input{*/
-            /*width: 450px;*/
-        /*}*/
-
-        /*.cms_block .button_type {*/
-            /*float: left;*/
-            /*margin: 0 15px;*/
-            /*text-align: center;*/
-            /*cursor: pointer;*/
-        /*}*/
-
         .cms_block .button_type i {
             font-size: 50px;
         }

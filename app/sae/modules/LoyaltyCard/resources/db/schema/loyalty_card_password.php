@@ -23,6 +23,11 @@ $schemas['loyalty_card_password'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'unlock_code' => array(
+        'type' => 'varchar(100)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'app_id' => array(
         'type' => 'int(11) unsigned',
         'foreign_key' => array(

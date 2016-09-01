@@ -61,6 +61,11 @@ class Siberian_Cron {
 	}
 
 	public function triggerAll(){
+		if(!Cron_Model_Cron::is_active()) {
+			$this->log("Cron is disabled in your system, see: Backoffice > Settings > Advanced > Configuration > Cron");
+			return;
+		}
+
 		try {
 			$minute     = (int)date("i");
 			$hour       = (int)date("G");
@@ -92,7 +97,7 @@ class Siberian_Cron {
 	/**
 	 * @param Cron_Model_Cron $task
 	 */
-	protected function execute($task){
+	public function execute($task){
 		/** Avoid duplicates when a task takes too long */
 		$task->trigger();
 		$success = true;
@@ -195,6 +200,8 @@ class Siberian_Cron {
             require_once "{$base}/Model/Customer/Message.php";
             require_once "{$base}/Model/Db/Table/Customer/Message.php";
         }
+
+
 
 		# Fetch instant message in queue.
 		$message = new Push_Model_Message();

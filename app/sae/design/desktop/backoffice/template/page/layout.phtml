@@ -23,6 +23,15 @@
     <body class="<?php echo $this->default_class_name ?> general">
 
         <div ng-app="Siberian-Backoffice">
+            <?php if(APPLICATION_ENV != "production"): ?>
+                <div class="alert alert-warning development-responsive">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    <span>
+                        <?php echo __("Be careful you are working in"); ?>
+                    </span>
+                    <b><?php echo __("Development") ?></b>
+                </div>
+            <?php endif; ?>
             <div class="top">
                 <?php echo $this->getPartialHtml('header') ?>
                 <div class="message slide-down" ng-show="message.is_visible" ng-class="{error: message.is_error}">

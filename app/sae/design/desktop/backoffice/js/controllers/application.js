@@ -11,7 +11,7 @@ App.config(function($routeProvider) {
         templateUrl: BASE_URL+"/application/backoffice_view_acl/template"
     });
 
-}).controller("ApplicationViewController", function($scope, $location, $routeParams, Header, Application, Url, FileUploader, Label) {
+}).controller("ApplicationViewController", function($scope, $location, $routeParams, Header, Application, Url, FileUploader, Label, Settings, License) {
 
     $scope.header = new Header();
     $scope.header.button.left.is_visible = false;
@@ -24,6 +24,8 @@ App.config(function($routeProvider) {
     $scope.mobile_source = {design_code: null};
     $scope.application_banner = {};
     $scope.application_admob = {};
+    $scope.iosBuildLicenceError = '';
+    $scope.iosBuildActivationRemain = false;
 
     $scope.datepicker_visible = false;
 
@@ -37,12 +39,59 @@ App.config(function($routeProvider) {
         $scope.statuses = data.statuses;
         $scope.design_codes = data.design_codes;
         $scope.section_title = data.section_title;
+        $scope.ios_publish_informations = data.ios_publish_informations;
         angular.extend($scope.tmp_application, data.application);
         angular.extend($scope.application_banner, data.application);
         angular.extend($scope.application_admob, data.application);
         $scope.mobile_source.design_code = $scope.application.design_code;
     }).finally(function() {
         $scope.content_loader_is_visible = false;
+    });
+
+    Settings.type = "general";
+    Settings.findAll().success(function(configs) {
+
+        //we check license info on config sucees
+        if(configs.ios_autobuild_key && configs.ios_autobuild_key.value !== "") {
+            License.getIosBuildLicenseInfo(configs.ios_autobuild_key.value).success(function(infos) {
+                if(infos && infos.success) {
+                    $scope.iosBuildActivationRemain = '';
+                    switch (true) {
+                        case infos.license === "invalid" :
+                            $scope.iosBuildLicenceError = 'Invalid license key';
+                            break;
+                        case infos.license === "expired" :
+                            $scope.iosBuildLicenceError = 'License key expired';
+                            break;
+                        case infos.license === "item_name_mismatch" :
+                            $scope.iosBuildLicenceError = 'This license is not for iOS autopublication';
+                            break;
+                        case infos.activations_left === 0 :
+                            $scope.iosBuildLicenceError = 'No more remaining build';
+                            break;
+                        case infos.license === "inactive":
+                        case infos.license === "valid":
+                            if(isFinite(infos.activations_left)) {
+                                $scope.iosBuildActivationRemain = infos.activations_left + " / " + infos.license_limit;
+                            } else {
+                                $scope.iosBuildActivationRemain = infos.activations_left;
+                            }
+                            $scope.iosBuildLicenceError = '';
+                            break;
+                        default :
+                            $scope.iosBuildLicenceError = 'Your license is invalid: ' + infos.license;
+                            break;
+                    }
+                } else {
+                    $scope.iosBuildActivationRemain = '';
+                    $scope.iosBuildLicenceError = 'Cannot valid license key';
+                }
+            });
+        } else {
+            $scope.iosBuildActivationRemain = 'n/a';
+            $scope.iosBuildLicenceError = '';
+        }
+
     });
 
     $scope.switchToIonic = function(message) {
@@ -83,25 +132,38 @@ App.config(function($routeProvider) {
     };
 
     $scope.generateSource = function(device_id, no_ads) {
+        $scope.content_loader_is_visible = true;
         Application.generateSource(device_id, no_ads, $scope.application.id, $scope.mobile_source.design_code)
             .success(function(data) {
-                $scope.message.setText(data.message)
-                    .isError(false)
-                    .show()
-                ;
+                if(data.reload) {
+                    /** Only for direct download */
+                    var device = (device_id == 1) ? "ios" : "android";
+                    device = (no_ads == 1) ? device+"noads" : device;
+                    var base = data.more["zip"][device]["path"];
+                    window.location.href = BASE_URL+"/"+base;
+                } else {
+                    $scope.message.setText(data.message)
+                        .isError(false)
+                        .show()
+                    ;
+                }
+                $scope.application.apk = data.more.apk;
                 $scope.application.zip = data.more.zip;
                 $scope.application.queued = data.more.queued;
+                $scope.content_loader_is_visible = false;
             })
             .error(function(data) {
                 $scope.message.setText(data.message)
                     .isError(true)
                     .show()
                 ;
+                $scope.content_loader_is_visible = false;
             });
     };
 
     $scope.cancelQueue = function(device_id, no_ads, type) {
 
+        $scope.content_loader_is_visible = true;
         if(typeof type == "undefined") {
             type = "zip";
         }
@@ -114,17 +176,19 @@ App.config(function($routeProvider) {
                 ;
                 $scope.application.zip = data.more.zip;
                 $scope.application.queued = data.more.queued;
+                $scope.content_loader_is_visible = false;
             })
             .error(function(data) {
                 $scope.message.setText(data.message)
                     .isError(true)
                     .show()
                 ;
+                $scope.content_loader_is_visible = false;
             });
     };
 
     $scope.downloadAndroidApk = function() {
-
+        $scope.content_loader_is_visible = true;
         $scope.message.setText(Label.android.generating_apk)
             .isError(false)
             .show()
@@ -132,18 +196,77 @@ App.config(function($routeProvider) {
 
         Application.downloadAndroidApk($scope.application.id, $scope.mobile_source.design_code)
             .success(function(data) {
-                $scope.message.setText(data.message)
-                    .isError(false)
-                    .show()
-                ;
+                if(data.reload) {
+                    /** Only for direct download */
+                    var base = data.more["apk"]["path"];
+                    window.location.href = BASE_URL+"/"+base;
+                } else {
+                    $scope.message.setText(data.message)
+                        .isError(false)
+                        .show()
+                    ;
+                }
+                $scope.application.apk = data.more.apk;
                 $scope.application.zip = data.more.zip;
                 $scope.application.queued = data.more.queued;
+                $scope.content_loader_is_visible = false;
+
             })
             .error(function(data) {
             $scope.message.setText(data.message)
                 .isError(true)
                 .show()
             ;
+                $scope.content_loader_is_visible = false;
+        });
+    };
+
+    $scope.saveInfoIosAutopublish = function(cb) {
+
+        $scope.application_form_loader_is_visible = true;
+
+        Application.saveInfoIosAutopublish($scope.application.id,$scope.ios_publish_informations).success(function(data) {
+
+            if(angular.isObject(data)) {
+                if(!!cb) {
+                    cb();
+                }
+            } else {
+                $scope.message.setText(Label.save.error)
+                    .isError(true)
+                    .show()
+                ;
+            }
+
+        }).error(function(data) {
+
+            $scope.message.setText(data.message)
+                .isError(true)
+                .show()
+            ;
+
+        }).finally(function() {
+            $scope.application_form_loader_is_visible = false;
+        });
+
+    };
+
+    $scope.saveInfoIosAutopublishAndGenerate = function() {
+
+        $scope.saveInfoIosAutopublish(function(){
+            Application.generateIosAutopublish($scope.application.id)
+                .success(function(data) {
+                    $scope.message.setText(data.message)
+                        .isError(false)
+                        .show()
+                    window.location.reload();
+                })
+                .error(function(data, code) {
+                    $scope.message.setText(data.message)
+                        .isError(true)
+                        .show()
+                    ;
+                });
         });
     };
 

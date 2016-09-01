@@ -131,7 +131,15 @@ class Push_Model_Certificate extends Core_Model_Default {
 
     }
 
-    public function getPath() {
+    /**
+     * Unused params, only for compat with abstract class
+     *
+     * @param string $uri
+     * @param array $params
+     * @param null $locale
+     * @return array|mixed|null|string
+     */
+    public function getPath($uri = '', array $params = array(), $locale = null) {
         return $this->getData("path");
     }
 

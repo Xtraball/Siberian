@@ -48,6 +48,8 @@ class Push_ApplicationController extends Application_Controller_Default
                     throw new Exception($this->_("The duration limit must be higher than the sent date"));
                 }
 
+
+
                 // Récupère l'option_value en cours
                 $option_value = $this->getCurrentOptionValue();
 
@@ -128,6 +130,15 @@ class Push_ApplicationController extends Application_Controller_Default
 
                 if($message->getMessageType() != Push_Model_Message::TYPE_PUSH) {
                     $message->updateStatus('delivered');
+                }
+
+                /** Fallback for SAE, or disabled cron */
+                if(!Cron_Model_Cron::is_active()) {
+                    $cron = new Cron_Model_Cron();
+                    $task = $cron->find("pushinstant", "command");
+                    Siberian_Cache::__clearLocks();
+                    $siberian_cron = new Siberian_Cron();
+                    $siberian_cron->execute($task);
                 }
 
                 $html = array(

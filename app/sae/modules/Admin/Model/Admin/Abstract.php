@@ -182,12 +182,25 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
 
         $sender = System_Model_Config::getValueFor("support_email");
         $support_name = System_Model_Config::getValueFor("support_name");
-        $mail = new Zend_Mail('UTF-8');
-        $mail->setBodyHtml($content);
-        $mail->setFrom($sender, $support_name);
-        $mail->addTo($this->getEmail());
-        $mail->setSubject($this->_("Welcome!"));
-        $mail->send();
+
+        if($sender AND $support_name) {
+            //Mail to new client
+            $mail = new Zend_Mail('UTF-8');
+            $mail->setBodyHtml($content);
+            $mail->setFrom($sender, $support_name);
+            $mail->addTo($this->getEmail());
+            $mail->setSubject($this->_("Welcome!"));
+            $mail->send();
+
+            //mail to admin
+            $end_message = System_Model_Config::getValueFor("signup_mode") == "validation" ? " ".$this->_("Connect to your backoffice to validate this account.") : "";
+            $mail = new Zend_Mail('UTF-8');
+            $mail->setBodyHtml($this->_("Hello, a new user has registered on your platform : %s.", $this->getEmail()).$end_message);
+            $mail->setFrom($sender, $support_name);
+            $mail->addTo($sender);
+            $mail->setSubject($this->_("New user registration on your platform"));
+            $mail->send();
+        }
 
         return $this;
 

@@ -17,6 +17,13 @@
                 <select ng-model="pad.number_of_points" ng-options="point for point in pad.points"></select>
             </div>
 
+            <div class="item item-divider item-divider-custom text-center" ng-if="unlock_by_qrcode">
+                <h2>{{ "Unlock by QRCode" | translate }}</h2>
+            </div>
+            <div class="item item-custom" ng-if="unlock_by_qrcode">
+                <button ng-click="openScanCamera()" class="button button-custom">{{ "Scan QRCode" | translate }}</button>
+            </div>
+
             <div class="item item-divider item-divider-custom text-center">
                 <h2>{{ "Please enter the password" | translate }}</h2>
             </div>

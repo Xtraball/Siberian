@@ -1,4 +1,12 @@
 <?php
+$module = new Installer_Model_Installer_Module();
+$module->prepare("System", false);
+
+$editor_design = ($module->isInstalled()) ? "siberian" : "flat";
+/** Disable cron for Fresh sae install */
+$disable_cron = (!$module->isInstalled() && Siberian_Version::is("SAE")) ? "1" : "0";
+$environment = (APPLICATION_ENV == "production") ? "production" : "development";
+
 $configs = array(
     array(
         "code" => "platform_name",
@@ -102,6 +110,26 @@ $configs = array(
         "code" => "application_owner_use_ads",
         "label" => "Use ads for platform owner",
         "value" => "0"
+    ),
+    array(
+        "code" => "disable_cron",
+        "label" => "Disable cron jobs",
+        "value" => $disable_cron
+    ),
+    array(
+        "code" => "environment",
+        "label" => "Environment",
+        "value" => $environment
+    ),
+    array(
+        "code" => "update_channel",
+        "label" => "Update channel",
+        "value" => "stable"
+    ),
+    array(
+        "code" => "ios_autobuild_key",
+        "label" => "Your iOS autobuild License Key",
+        "value" => ""
     )
 );
 
@@ -114,16 +142,11 @@ foreach($configs as $data) {
 
 }
 
-$module = new Installer_Model_Installer_Module();
-$module->prepare("System", false);
-
-$value = ($module->isInstalled()) ? "siberian" : "flat";
-
 # Installing design
 $data = array(
     "code" => "editor_design",
     "label" => "Editor's Design",
-    "value" => $value,
+    "value" => $editor_design,
 );
 
 $config = new System_Model_Config();

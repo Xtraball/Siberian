@@ -163,6 +163,18 @@ class Application_Customization_Publication_InfosController extends Application_
             $queue->setUserType("admin");
             $queue->save();
 
+            /** Fallback for SAE, or disabled cron */
+            $reload = false;
+            if(!Cron_Model_Cron::is_active()) {
+                $cron = new Cron_Model_Cron();
+                $value = ($type == "apk") ? "apkgenerator" : "sources";
+                $task = $cron->find($value, "command");
+                Siberian_Cache::__clearLocks();
+                $siberian_cron = new Siberian_Cron();
+                $siberian_cron->execute($task);
+                $reload = true;
+            }
+
             $more["apk"] = Application_Model_ApkQueue::getPackages($application->getId());
             $more["zip"] = Application_Model_SourceQueue::getPackages($application->getId());
             $more["queued"] = Application_Model_Queue::getPosition($application->getId());
@@ -171,6 +183,7 @@ class Application_Customization_Publication_InfosController extends Application_
                 "success" => 1,
                 "message" => __("Application successfully queued for generation."),
                 "more" => $more,
+                "reload" => $reload,
             );
 
         } else {

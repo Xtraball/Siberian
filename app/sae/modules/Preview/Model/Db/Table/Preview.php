@@ -37,7 +37,7 @@ class Preview_Model_Db_Table_Preview extends Core_Model_Db_Table
         return $this->_db->fetchOne($select);
     }
 
-    public function findAll($values, $params) {
+    public function findAll($values, $params, $order = null) {
 
         $where = array();
         $limit = null;

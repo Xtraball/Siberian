@@ -26,6 +26,9 @@ class Radio_ApplicationController extends Application_Controller_Default
                     throw new Exception($this->_('Please enter a valid url'));
                 }
 
+                // Test if url is not literal IPv4
+                $warning_message = Siberian_Network::testipv4($data['link']);
+
                 $radio = new Radio_Model_Radio();
                 $radio->find($option_value->getId(), 'value_id');
                 if(!$radio->getId()) {
@@ -38,7 +41,8 @@ class Radio_ApplicationController extends Application_Controller_Default
 
                 $html = array(
                     'success' => '1',
-                    'success_message' => $this->_('Info successfully saved'),
+                    'success_message' => __('Info successfully saved'),
+                    'warning_message' => $warning_message,
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0

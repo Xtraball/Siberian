@@ -102,19 +102,18 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                 $nbr = !empty($datas['number_of_points']) ? $datas['number_of_points'] : 1;
 
                 // Ou si le mot de passe est vide ou non numérique
-//                Zend_Debug::dump($card);
-//                Zend_Debug::dump($option_value->getId());
-//                Zend_Debug::dump(empty($password_entered));
-//                Zend_Debug::dump($nbr);
-//                Zend_Debug::dump(!preg_match('/[0-9]/', $nbr));
-//                die;
                 if($card->getValueId() != $option_value->getId() OR empty($password_entered) OR !preg_match('/[0-9]/', $nbr)) {
                     throw new Exception($this->_('An error occurred while validating point. Please try again later.'));
                 }
 
                 // Récupération du mot de passe
                 $password = new LoyaltyCard_Model_Password();
-                $password->findByPassword($password_entered, $application_id);
+
+                if($datas["mode_qrcode"]) {
+                    $password->findByUnlockCode($password_entered, $application_id);
+                } else {
+                    $password->findByPassword($password_entered, $application_id);
+                }
 
                 // Test si le mot de passe a été trouvé
                 if(!$password->getId()) {
@@ -175,11 +174,6 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                             'close_pad' => true
                         );
                     }
-
-//                    if($this->getSession()->getCustomer()->canPostSocialMessage()) {
-//                        $html['canPostMessage'] = true;
-//                    }
-
                 }
             }
 
@@ -193,6 +187,103 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
 
     }
 
+    public function unlockbyqrcodeAction() {
+
+        try {
+
+            $html = array();
+            if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+
+                $application_id = $this->getApplication()->getAppId();
+
+                // Récupération de l'option_value en cours
+                $option_value = $this->getCurrentOptionValue();
+
+                // Récupération du client en cours
+                $customer_id = $this->getSession()->getCustomerId();
+                // Si le client n'est pas connecté
+                if(empty($customer_id)) throw new Exception($this->_('You must be logged in to validate points'));
+
+                $customer_card_id = $data['customer_card_id'];
+
+                // Récupération de la carte de fidélité de l'utilisateur en cours
+                $card = new LoyaltyCard_Model_Customer();
+                // Récupère la carte du client ou, à défaut, en créé une nouvelle
+                $cards = $card->findAllByOptionValue($option_value->getId(), $customer_id);
+
+                foreach($cards as $tmp_card) {
+                    // Si la carte n'existe pas, customer_card_id == 0
+                    if($tmp_card->getCustomerCardId() == $customer_card_id) $card = $tmp_card;
+                }
+
+                // Déclaration des variables annexes
+                $password_entered = $data['password'];
+                $nbr = !empty($data['number_of_points']) ? $data['number_of_points'] : 1;
+
+                // Récupération du mot de passe
+                $password = new LoyaltyCard_Model_Password();
+
+                $password->findByUnlockCode($password_entered, $application_id);
+
+                // Test si le mot de passe a été trouvé
+                if(!$password->getId()) {
+                    throw new Exception($this->_('An error occurred with your QRCode.'));
+                }
+                // Sinon on valide (le point ou la carte)
+                else {
+
+                    // S'il reste des points à valider
+                    if($card->getNumberOfPoints() < $card->getMaxNumberOfPoints()) {
+                        // On met à jour la carte de fidélité du client
+                        $card->setNumberOfPoints($card->getNumberOfPoints()+$nbr)
+                            ->setCustomerId($this->getSession()->getCustomerId())
+                            ->setNumberOfError(0)
+                            ->setLastError(null)
+                            ->save()
+                        ;
+                        // On log l'employé ayant validé le ou les points
+                        $card->createLog($password->getId(), $nbr);
+
+                        // On renvoie un message de validation
+                        $s = $nbr>1?'s':'';
+                        $msg = $this->_('Point%s successfully validated', $s, $s);
+                        $html = array(
+                            'success' => true,
+                            'message' => $msg,
+                            'close_pad' => true,
+                            'customer_card_id' => $card->getCustomerCardId(),
+                            'number_of_points' => $card->getNumberOfPoints()
+                        );
+
+                    }
+                    // Sinon, on cloture la carte
+                    else {
+                        $card->setIsUsed(1)
+                            ->setUsedAt($card->formatDate(null, 'y-MM-dd HH:mm:ss'))
+                            ->setValidateBy($password->getId())
+                            ->save()
+                        ;
+                        $html = array(
+                            'success' => true,
+                            'message' => $this->_('You just finished your card'),
+                            'promotion_id_to_remove' => $card->getId(),
+                            'close_pad' => true
+                        );
+                    }
+
+                }
+            }
+
+        }
+        catch(Exception $e) {
+            $html['error'] = 1;
+            $html['message'] = $e->getMessage();
+        }
+
+        $this->_sendHtml($html);
+
+    }
+    
     protected function _getPoints($current_card) {
 
         $regular_image_url = $this->_getImage('pictos/point.png');

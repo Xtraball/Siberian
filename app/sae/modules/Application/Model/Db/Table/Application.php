@@ -93,7 +93,7 @@ class Application_Model_Db_Table_Application extends Core_Model_Db_Table
             ->where("session_id != ?", $session_id)
             ->where("`modified` + 300 > ?", new Zend_Db_Expr("UNIX_TIMESTAMP()"))
         ;
-        
+
         return count($this->_db->fetchCol($select)) > 0;
 
     }

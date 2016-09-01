@@ -1,6 +1,6 @@
 <?php
-  $block = $this->getCurrentBlock();
-  $button = $block->getObject();
+$block = $this->getCurrentBlock();
+$button = $block->getObject();
 ?>
 <div id="cms_block_<?php echo $this->getPosition(); ?>" class="category inner_content cms_block button" rel="<?php echo $this->getPosition(); ?>">
     <div class="control left">
@@ -9,27 +9,32 @@
     <div class="left" style="width:540px">
 
         <div class="description_cont" rel="<?php echo $this->getPosition() ?>">
-            <?php if(!$button->getId()) : ?>
-            <p><?php echo $this->_('Select a button type:'); ?></p>
-            <div class="button_type">
-                <a href="#" type="button" class="picto" id="button_phone_<?php echo $this->getPosition() ?>" data="<?php echo $this->getPosition(); ?>" >
-                    <i class="icon-phone"></i>
-                    <span><?php echo $this->_('Phone') ?></span>
-                </a>
-            </div>
-            <div class="button_type">
-                <a href="#" type="button" class="picto" id="button_link_<?php echo $this->getPosition() ?>">
-                    <i class="icon-link"></i>
-                    <span><?php echo $this->_('Link') ?></span>
-                </a>
-            </div>
-            <div class="clear"></div>
+            <?php if (!$button->getId()) : ?>
+                <p><?php echo $this->_('Select a button type:'); ?></p>
+                <div class="button_type">
+                    <a href="#" type="button" class="picto" id="button_phone_<?php echo $this->getPosition() ?>" data="<?php echo $this->getPosition(); ?>" >
+                        <i class="icon-phone"></i>
+                        <span><?php echo $this->_('Phone') ?></span>
+                    </a>
+                </div>
+                <div class="button_type">
+                    <a href="#" type="button" class="picto" id="button_link_<?php echo $this->getPosition() ?>">
+                        <i class="icon-link"></i>
+                        <span><?php echo $this->_('Link') ?></span>
+                    </a>
+                </div>
+                <div class="button_type">
+                    <a href="#" type="button" class="picto" id="button_email_<?php echo $this->getPosition() ?>">
+                        <i class="icon-envelope-alt"></i>
+                        <span><?php echo $this->_('Email') ?></span>
+                    </a>
+                </div>
+                <div class="clear"></div>
             <?php endif; ?>
             <div class="row">
-                <br/><br/>
                 <div class="col-sm-2">
-                    <div id="field_label_<?php echo $this->getPosition(); ?>" for="content_<?php echo $this->getPosition(); ?>">
-                        <?php echo $block->getTypeId() == 'link' ? $this->_('Link:') : $this->_('Phone:'); ?>
+                    <div id="field_label_<?php echo $this->getPosition(); ?>" for="content_<?php echo $this->getPosition(); ?>" >
+                        <?php echo $block->getTypeId() == 'email' ? $this->_('Email:') : ($block->getTypeId() == 'link' ? $this->_('Link:') : $this->_('Phone:')); ?>
                     </div>
                 </div>
                 <div class="col-sm-8">
@@ -49,35 +54,39 @@
     </div>
     <div class="clear"></div>
     <script type="text/javascript">
-        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .remove').click(function(){
+        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .remove').click(function () {
             removeElem(<?php echo $this->getPosition(); ?>);
         });
 
-        $('#button_link_<?php echo $this->getPosition() ?>').click(function() {
+        $('#button_link_<?php echo $this->getPosition() ?>').click(function () {
             $('#field_label_<?php echo $this->getPosition() ?>').html('<?php echo addslashes($this->_('Link:')) ?>');
             $('#type_id_<?php echo $this->getPosition() ?>').val('link');
             return false;
         });
 
-        $('#button_phone_<?php echo $this->getPosition() ?>').click(function() {
+        $('#button_phone_<?php echo $this->getPosition() ?>').click(function () {
             $('#field_label_<?php echo $this->getPosition() ?>').html('<?php echo addslashes($this->_('Phone:')) ?>');
             $('#type_id_<?php echo $this->getPosition() ?>').val('phone');
             return false;
         });
-
-        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .handle').mousedown(function(){
+        $('#button_email_<?php echo $this->getPosition() ?>').click(function () {
+            $('#field_label_<?php echo $this->getPosition() ?>').html('<?php echo addslashes($this->_('Email:')) ?>');
+            $('#type_id_<?php echo $this->getPosition() ?>').val('email');
+            return false;
+        });
+        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .handle').mousedown(function () {
             dragTransformMouseDown($(this));
-        }).mouseup(function(){
+        }).mouseup(function () {
             dragTransformMouseUp($(this));
         });
     </script>
     <style>
         .button_block {
-                margin-top: 5px;
-                padding: 5px 0px 5px;
-                font-size: 12pt;
-                width: 65px;
-                display: inline;
+            margin-top: 5px;
+            padding: 5px 0px 5px;
+            font-size: 12pt;
+            width: 65px;
+            display: inline;
         }
         .content_input{
             width: 450px;

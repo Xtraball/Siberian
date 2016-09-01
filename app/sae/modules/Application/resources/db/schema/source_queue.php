@@ -49,6 +49,9 @@ $schemas['source_queue'] = array(
     'build_time' => array(
         'type' => 'int(11) unsigned',
     ),
+    'is_autopublish' => array(
+        'type' => 'int(1) unsigned',
+    ),
     'log' => array(
         'type' => 'longtext',
     ),

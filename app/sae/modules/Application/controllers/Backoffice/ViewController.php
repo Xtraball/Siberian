@@ -93,6 +93,46 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             'design_codes' => Application_Model_Application::getDesignCodes()
         );
 
+        //Set ios Autopublish informations
+
+        $appIosAutopublish = new Application_Model_IosAutopublish();
+        $appIosAutopublish->find($this->getRequest()->getParam("app_id"),"app_id");
+
+        //get list of languages supported for app
+        $languageSupportedCode = array_keys(Application_Model_Languages::getSupportedLanguages());
+        //get all falue set to false
+        $languagesValueTemplate = array_combine($languageSupportedCode, array_fill(0,count($languageSupportedCode),false));
+        //get current app languages
+        $currentLanguagesSelected  = array();
+        if($lang = Zend_Json::decode($appIosAutopublish->getLanguages())) {
+            $currentLanguagesSelected = $lang;
+        }
+
+        //caclule final languages array options to pass to front
+        $languages = array_merge($languagesValueTemplate, $currentLanguagesSelected);
+
+        //sanetize vars
+        if(is_null($data['infos']["want_to_autopublish"])) $data['infos']["want_to_autopublish"] = false;
+        if(is_null($data['infos']["itunes_login"])) $data['infos']["itunes_login"] = "";
+        if(is_null($data['infos']["itunes_password"])) $data['infos']["itunes_password"] = "";
+
+        $data["ios_publish_informations"] = array(
+            "want_to_autopublish" => $appIosAutopublish->getWantToAutopublish(),
+            "itunes_login" => $appIosAutopublish->getItunesLogin(),
+            "itunes_password" => $appIosAutopublish->getItunesPassword(),
+            "has_ads" => (bool)$appIosAutopublish->getHasAds() ,
+            "has_bg_locate" => (bool)$appIosAutopublish->getHasBgLocate(),
+            "has_audio" => (bool)$appIosAutopublish->getHasAudio(),
+            "languages" => $languages,
+            "last_start" => $appIosAutopublish->getLastStart(),
+            "last_success" => $appIosAutopublish->getLastSuccess(),
+            "last_finish" => $appIosAutopublish->getLastFinish(),
+            "last_build_status" => $appIosAutopublish->getLastBuildStatus(),
+            "last_builded_version" => $appIosAutopublish->getLastBuildedVersion(),
+            "last_builded_ipa_link" => $appIosAutopublish->getLastBuildedIpaLink(),
+            "error_message" => $appIosAutopublish->getErrorMessage(),
+        );
+
         $this->_sendHtml($data);
 
     }
@@ -440,6 +480,19 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             $queue->setUserType("backoffice");
             $queue->save();
 
+            /** Fallback for SAE, or disabled cron */
+            $reload = false;
+            if(!Cron_Model_Cron::is_active()) {
+                $cron = new Cron_Model_Cron();
+                $value = ($type == "apk") ? "apkgenerator" : "sources";
+                $task = $cron->find($value, "command");
+                Siberian_Cache::__clearLocks();
+                $siberian_cron = new Siberian_Cron();
+                $siberian_cron->execute($task);
+                $reload = true;
+            }
+
+            $more["apk"] = Application_Model_ApkQueue::getPackages($application->getId());
             $more["zip"] = Application_Model_SourceQueue::getPackages($application_id);
             $more["queued"] = Application_Model_Queue::getPosition($application_id);
 
@@ -447,6 +500,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                 "success" => 1,
                 "message" => __("Application successfully queued for generation."),
                 "more" => $more,
+                "reload" => $reload,
             );
 
 

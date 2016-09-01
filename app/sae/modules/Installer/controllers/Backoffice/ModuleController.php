@@ -364,10 +364,15 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         /** Default updates url in case of missing configuration */
         $updates_url = "http://updates.siberiancms.com";
 
-        if(Zend_Registry::isRegistered('config')) {
-            $config = Zend_Registry::get('config');
-            if(!empty($config->siberian->updates->url)) {
-                $updates_url = $config->siberian->updates->url;
+        $update_channel = System_Model_Config::getValueFor("update_channel");
+        if(in_array($update_channel, array("stable", "beta"))) {
+            switch($update_channel) {
+                case "stable":
+                    $updates_url = "http://updates.siberiancms.com";
+                    break;
+                case "beta":
+                    $updates_url = "http://beta-updates.siberiancms.com";
+                    break;
             }
         }
 

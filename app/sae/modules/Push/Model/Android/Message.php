@@ -40,6 +40,15 @@ class Push_Model_Android_Message {
     }
 
     /**
+     * Binder for CA 
+     * 
+     * @param $path
+     */
+    public function certificatePath($path) {
+        $this->service_gcm->certificatePath($path);
+    }
+
+    /**
      * @param Push_Model_Message $message
      */
     public function setMessage(Push_Model_Message $message) {

@@ -21,8 +21,9 @@ class Push_Mobile_ListController extends Application_Controller_Mobile_Default {
 
             foreach($messages as $message) {
 
-                if(!empty($message->getValueId())) // If the message is specific to a feature
-                    continue; // We skip it
+                if(!empty($message->getValueId())) {
+                    continue; # We skip it
+                }
 
                 $meta = array(
                     "date" => array(

@@ -14,6 +14,10 @@ class Cron_Model_Cron extends Core_Model_Default {
 		return $this;
 	}
 
+	public static function is_active(){
+		return (System_Model_Config::getValueFor("disable_cron") == "0");
+	}
+
 	/**
 	 * @param $minute
 	 * @param $hour
@@ -103,6 +107,11 @@ class Cron_Model_Cron extends Core_Model_Default {
       
 			$diff = $n->getTimestamp() - $r->getTimestamp();
 			if(abs($diff) <= 65) {
+				return true;
+			}
+
+			/** Second test for SAE Fallback */
+			if(Siberian_Version::is("SAE") && isset($_config["cron_secret"]) && (abs($diff) <= 610)) {
 				return true;
 			}
 		}

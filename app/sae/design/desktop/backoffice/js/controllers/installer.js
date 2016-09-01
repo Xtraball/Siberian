@@ -391,6 +391,11 @@ App.config(function($routeProvider) {
                 ;
 
                 $scope.installation.install.success = true;
+
+                $timeout(function() {
+                    location.reload();
+                }, 2500);
+
             } else {
                 $scope.message.setText(Label.uploader.error.general)
                     .isError(true)

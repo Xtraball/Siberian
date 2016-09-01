@@ -43,4 +43,18 @@
         </views>
     </backoffice_advanced_module_template>
 
+    <backoffice_advanced_configuration_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="backoffice/advanced/configuration.phtml" />
+        </views>
+    </backoffice_advanced_configuration_template>
+
+    <backoffice_advanced_tools_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="backoffice/advanced/tools.phtml" />
+        </views>
+    </backoffice_advanced_tools_template>
+
 </layout>

@@ -12,6 +12,7 @@ class Application_Model_Option_Value extends Application_Model_Option
 {
 
     protected $_design_colors = array(
+        "angular" => "#FFFFFF", // Fallback value
         "flat" => "#0099C7",
         "siberian" => "#FFFFFF"
     );

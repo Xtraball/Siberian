@@ -25,36 +25,89 @@ class Template_Model_Design extends Core_Model_Default {
 
     }
 
-    public static function generateCss($application) {
+    public static function generateCss($application, $javascript = false) {
 
         $variables = array();
         $blocks = $application->getBlocks();
 
-        foreach($blocks as $block) {
+        if(!$javascript) {
+            foreach ($blocks as $block) {
 
-            if($block->getColorVariableName() AND $block->getColor()) {
-                $variables[$block->getColorVariableName()] = $block->getColor();
-            }
-            if($block->getBackgroundColorVariableName() AND $block->getBackgroundColor()) {
-                $variables[$block->getBackgroundColorVariableName()] = $block->getBackgroundColor();
-            }
-            if($block->getBorderColorVariableName() AND $block->getBorderColor()) {
-                $variables[$block->getBorderColorVariableName()] = $block->getBorderColor();
-            }
+                if ($block->getColorVariableName() AND $block->getColor()) {
+                    $variables[$block->getColorVariableName()] = $block->getColor();
+                }
+                if ($block->getBackgroundColorVariableName() AND $block->getBackgroundColor()) {
+                    $variables[$block->getBackgroundColorVariableName()] = $block->getBackgroundColor();
+                }
+                if ($block->getBorderColorVariableName() AND $block->getBorderColor()) {
+                    $variables[$block->getBorderColorVariableName()] = $block->getBorderColor();
+                }
 
-            foreach($block->getChildren() as $child) {
-                if($child->getColorVariableName() AND $child->getColor()) {
-                    $variables[$child->getColorVariableName()] = $child->getColor();
+                foreach ($block->getChildren() as $child) {
+                    if ($child->getColorVariableName() AND $child->getColor()) {
+                        $variables[$child->getColorVariableName()] = $child->getColor();
+                    }
+                    if ($child->getBackgroundColorVariableName() AND $child->getBackgroundColor()) {
+                        $variables[$child->getBackgroundColorVariableName()] = $child->getBackgroundColor();
+                    }
+                    if ($child->getBorderColorVariableName() AND $child->getBorderColor()) {
+                        $variables[$child->getBorderColorVariableName()] = $child->getBorderColor();
+                    }
                 }
-                if($child->getBackgroundColorVariableName() AND $child->getBackgroundColor()) {
-                    $variables[$child->getBackgroundColorVariableName()] = $child->getBackgroundColor();
+
+            }
+        } else {
+            foreach ($blocks as $block) {
+
+                $block_id = (strlen(dechex($block->getId()))==2) ? dechex($block->getId()) : "0".dechex($block->getId());
+
+
+                if ($block->getColorVariableName() AND $block->getColor()) {
+                    $block_pos = "01";
+                    $hex = "#".$block_id."00".$block_pos;
+
+                    $variables[$block->getColorVariableName()] = $hex;
                 }
-                if($child->getBorderColorVariableName() AND $child->getBorderColor()) {
-                    $variables[$child->getBorderColorVariableName()] = $child->getBorderColor();
+                if ($block->getBackgroundColorVariableName() AND $block->getBackgroundColor()) {
+                    $block_pos = "02";
+                    $hex = "#".$block_id."00".$block_pos;
+
+                    $variables[$block->getBackgroundColorVariableName()] = $hex;
                 }
+                if ($block->getBorderColorVariableName() AND $block->getBorderColor()) {
+                    $block_pos = "03";
+                    $hex = "#".$block_id."00".$block_pos;
+
+                    $variables[$block->getBorderColorVariableName()] = $hex;
+                }
+
+                foreach ($block->getChildren() as $child) {
+                    $child_id = (strlen(dechex($child->getId()))==2) ? dechex($child->getId()) : "0".dechex($child->getId());
+
+                    if ($child->getColorVariableName() AND $child->getColor()) {
+                        $child_pos = "01";
+                        $hex = "#".$block_id.$child_id.$child_pos;
+
+                        $variables[$child->getColorVariableName()] = $hex;
+                    }
+                    if ($child->getBackgroundColorVariableName() AND $child->getBackgroundColor()) {
+                        $child_pos = "02";
+                        $hex = "#".$block_id.$child_id.$child_pos;
+
+                        $variables[$child->getBackgroundColorVariableName()] = $hex;
+                    }
+                    if ($child->getBorderColorVariableName() AND $child->getBorderColor()) {
+                        $child_pos = "03";
+                        $hex = "#".$block_id.$child_id.$child_pos;
+
+                        $variables[$child->getBorderColorVariableName()] = $hex;
+                    }
+                }
+
             }
 
         }
+
 
         $font_family = '"Helvetica Neue", "Roboto", "Segoe UI", sans-serif';
         if($application->getFontFamily()) {
@@ -88,11 +141,14 @@ class Template_Model_Design extends Core_Model_Default {
             ' . $scss
         );
 
-        $folder = Core_Model_Directory::getBasePathTo("var/cache/css");
-        $file = $application->getId().".css";
-        if(!is_dir($folder)) mkdir($folder, 0777, true);
-        file_put_contents("{$folder}/{$file}", $css);
-
+        if($javascript) {
+            return $css;
+        } else {
+            $folder = Core_Model_Directory::getBasePathTo("var/cache/css");
+            $file = $application->getId().".css";
+            if(!is_dir($folder)) mkdir($folder, 0777, true);
+            file_put_contents("{$folder}/{$file}", $css);
+        }
     }
 
     public function findAllWithCategory() {

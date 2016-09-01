@@ -10,7 +10,7 @@ App.config(function($stateProvider) {
         templateUrl: "templates/folder/l1/list.html"
     })
 
-}).controller('FolderListController', function($http, $ionicPopup, $location, $rootScope, $scope, $stateParams, $window, Analytics, Customer, Folder, Url/*, Application, Padlock*/) {
+}).controller('FolderListController', function($http, $ionicModal, $ionicPopup, $location, $rootScope, $scope, $stateParams, $window, Analytics, Customer, Folder, Url/*, Application, Padlock*/) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -20,6 +20,9 @@ App.config(function($stateProvider) {
 
     $scope.is_loading = true;
     $scope.value_id = Folder.value_id = $stateParams.value_id;
+    $scope.search_modal = {};
+    $scope.search = {};
+
     Folder.category_id = $stateParams.category_id;
 
     Customer.onStatusChange("folder", [
@@ -44,6 +47,8 @@ App.config(function($stateProvider) {
 
             $scope.cover = data.cover;
             $scope.page_title = data.page_title;
+
+            $scope.search_list = data.search_list;
 
         }).error(function() {
 
@@ -78,6 +83,29 @@ App.config(function($stateProvider) {
 
         Analytics.storePageOpening(feature);
     };
+
+    $scope.startSearch = function() {
+        if($scope.search.search_value) {
+            $ionicModal.fromTemplateUrl('templates/folder/l1/search.html', {
+                scope: $scope,
+                animation: 'slide-in-up'
+            }).then(function(modal) {
+                $scope.search_modal = modal;
+                $scope.search_modal.show();
+            });
+        }
+    };
+
+    $scope.closeSearch = function() {
+        $scope.search.search_value = "";
+        $scope.search_modal.hide();
+    };
+
+    $scope.$on('$destroy', function() {
+        if($scope.search_modal) {
+            $scope.search_modal.remove();
+        }
+    });
 
     $scope.loadContent();
 

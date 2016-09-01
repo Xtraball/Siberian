@@ -137,26 +137,41 @@ class Application_Model_Queue extends Core_Model_Default {
             ->where("status IN (?)", array("success"))
         ;
 
-        $select = $db
-            ->select()
-            ->union(array(
-                $select_source,
-                $select_apk,
-            ))
-        ;
+        $source = $db->fetchAll($select_source);
+        $apk = $db->fetchAll($select_apk);
 
-        $results = $db->fetchAll($select);
-        $total = sizeof($results);
+        $total = sizeof($source) + sizeof($apk);
         $build_time = 0;
+        $build_source = 0;
+        $build_apk = 0;
 
-        foreach($results as $result) {
+        $build_times = array(
+            "source" => 0,
+            "apk" => 0,
+            "global" => 0,
+        );
+
+        foreach($source as $result) {
+            $build_source += $result["build_time"];
+            $build_time += $result["build_time"];
+        }
+        foreach($apk as $result) {
+            $build_apk += $result["build_time"];
             $build_time += $result["build_time"];
         }
 
-        if(($total > 0) && ($build_time > 0)) {
-            return round($build_time / $total);
+        if((sizeof($source) > 0) && ($build_source > 0)) {
+            $build_times["source"] = round($build_source / sizeof($source));
         }
 
-        return 0;
+        if((sizeof($build_apk) > 0) && ($build_apk > 0)) {
+            $build_times["apk"] = round($build_apk / sizeof($apk));
+        }
+
+        if(($total > 0) && ($build_time > 0)) {
+            $build_times["global"] = round($build_time / $total);
+        }
+
+        return $build_times;
     }
 }

@@ -228,7 +228,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
-    public function createDummyContents($category, $design = null, $category = null) {
+    public function createDummyContents($category, $design = null, $_category = null) {
 
         $design = is_null($design) ? $this->getDesign() : $design;
         $design_content = new Template_Model_Design_Content();
@@ -250,6 +250,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             ;
 
             if($option->getModel() && $option->getCode() != "push_notification") {
+                $category = ($_category != null) ? $_category : $category;
                 $option->getObject()->createDummyContents($option_value, $design, $category);
             }
         }

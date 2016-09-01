@@ -134,7 +134,7 @@ class Siberian_Cache
         $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($folder, 4096), RecursiveIteratorIterator::SELF_FIRST);
         foreach($files as $file) {
             $filename = $file->getFileName();
-            if(!preg_match("/android_pwd/", $filename)) {
+            if(!preg_match("/android_pwd/", $filename) && file_exists($file->getPathName())) {
                 unlink($file->getPathName());
             }
         }

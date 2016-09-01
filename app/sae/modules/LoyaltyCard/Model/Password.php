@@ -13,6 +13,11 @@ class LoyaltyCard_Model_Password extends Core_Model_Default
         return $this;
     }
 
+    public function findByUnlockCode($password, $app_id) {
+        $this->find(array('unlock_code' => $password, 'app_id' => $app_id));
+        return $this;
+    }
+
     protected function _encrypt($password) {
         return sha1($password);
     }

@@ -34,7 +34,7 @@
 							<td class="text-right">{{ services.push.failed }}</td>
 						</tr>
 						<tr ng-class="{ 'no-border-bottom': !services.cron_error.full }">
-							<td><i class="fa fa-gears"></i><?php echo __("Average sources/apk build time:") ?> {{ services.average_build_time }} <?php echo __("seconds"); ?></td>
+							<td><i class="fa fa-gears"></i><?php echo __("Average build time in seconds:") ?> <?php echo __("[Sources]")?> {{ services.average_build_time.source }} - <?php echo __("[APK]")?> {{ services.average_build_time.apk }} - <?php echo __("[Global]")?> {{ services.average_build_time.global }}</td>
 							<td></td>
 							<td class="text-right">
 								<button class="btn btn-xs btn-primary" ng-click="clear('locks', '<?php echo addcslashes(__("You are about to clean all the cron lock files !\nAre you sure ?"), "'"); ?>');"><?php echo __("Remove locks") ?></button>
@@ -53,9 +53,15 @@
 							<td colspan="3" style="white-space: initial;">{{ services.cron_error.full }}</td>
 						</tr>
 					</table>
+					<?php if(Cron_Model_Cron::is_active()): ?>
 					<span ng-show="!services.cron">
 						<?php echo __("Not running") ?> <a class="btn btn-xs btn-primary" ng-click="showCronModal();"><?php echo __("How to install the cron scheduler ?") ?></a>
 					</span>
+					<?php else: ?>
+					<span>
+						<?php echo __("Disabled") ?>, <a href="<?php echo $this->getUrl("backoffice/advanced_configuration") ?>"><?php echo __("see Settings > Advanced > Configuration > Cron to edit options.") ?></a>
+					</span>
+					<?php endif; ?>
 				</td>
 			</tr>
 			<tr>

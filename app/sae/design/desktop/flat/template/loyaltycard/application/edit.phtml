@@ -260,6 +260,9 @@
                                 </div>
                                 <div class="col-sm-5">
                                     <div id="edit_password_<?php echo $password->getId()?>" class="icons">
+                                        <a href="<?php echo $this->getUrl("/loyaltycard/application/dlqrcode/", array("password_id" => $password->getId(), "unlock_code" => $password->getUnlockCode())); ?>" target="_blank" class="download_qrcode" id="download_qrcode_<?php echo $password->getId(); ?>">
+                                            <i class="fa fa-qrcode" title="<?php echo $this->_("Download QRCode for employee"); ?>"></i>
+                                        </a>
                                         <a href="javascript:void(0);" id="edit_password_<?php echo $password->getId(); ?>" onclick="$('#edit_password_<?php echo $password->getId(); ?>').hide(); $('.edit_password_<?php echo $password->getId(); ?>').fadeIn();">
                                             <i class="fa fa-edit"></i>
                                         </a>
@@ -388,6 +391,9 @@
                         </div>\n\
                         <div class="col-sm-5">\n\
                             <div id="edit_password_#{password_id}" class="icons">\n\
+                                <a href="<?php echo $this->getUrl("/loyaltycard/application/dlqrcode/"); ?>/password_id/#{password_id}" target="_blank" class="download_qrcode" id="download_qrcode_<?php echo $password->getId(); ?>">\n\
+                                    <i class="fa fa-qrcode" title="<?php echo $this->_("Download QRCode for employee"); ?>"></i>\n\
+                                </a>\n\
                                 <a href="javascript:void(0);" onclick="$(\'#edit_password_#{password_id}\').hide(); $(\'.edit_password_#{password_id}\').fadeIn();">\n\
                                     <i class="fa fa-edit"></i>\n\
                                 </a>\n\
@@ -446,5 +452,9 @@
     }
     .list-group-item .form-horizontal{
         padding-left:45px;
+    }
+    .download_qrcode{
+        margin-right: 20px;
+        font-size: 23px;
     }
 </style>

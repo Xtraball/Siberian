@@ -6,6 +6,18 @@
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
+        <div class="list" ng-show="collection.length">
+            <div class="item item-custom item-input-inset">
+                <label class="item-input-wrapper">
+                    <i class="icon ion-search placeholder-icon"></i>
+                    <input type="text" placeholder="{{ 'Search' | translate }}" ng-model="search.search_value">
+                </label>
+                <button class="button button-custom button-small" ng-click="startSearch()">
+                    {{ "OK" | translate }}
+                </button>
+            </div>
+        </div>
+
         <div class="list" ng-show="!is_loading && cover">
             <div class="item item-image item-custom" ng-if="cover.picture">
                 <img ng-src="{{ cover.picture }}" />

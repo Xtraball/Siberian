@@ -19,7 +19,8 @@ class System_Backoffice_Config_GeneralController extends System_Controller_Backo
         "application_android_owner_admob_id",
         "application_android_owner_admob_type",
         "application_owner_use_ads",
-        "editor_design"
+        "editor_design",
+        "ios_autobuild_key"
     );
 
     public function loadAction() {

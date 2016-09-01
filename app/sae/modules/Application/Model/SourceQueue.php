@@ -2,6 +2,8 @@
 
 class Application_Model_SourceQueue extends Core_Model_Default {
 
+    const ARCHIVE_FOLDER = "/var/tmp/jobs/";
+
     public $_devices = array(
         "ios" => 1,
         "iosnoads" => 1,
@@ -61,12 +63,95 @@ class Application_Model_SourceQueue extends Core_Model_Default {
 
         } else {
             $this->changeStatus("failed");
-
         }
 
         $this->save();
 
+        if($this->getIsAutopublish()) {
+            $this->sendJobToAutoPublishServer($application, $result);
+        }
+
         return $result;
+    }
+
+    protected function sendJobToAutoPublishServer($application, $sourcePath) {
+        $app_id = $application->getId();
+
+        //ios license key
+        $config = new System_Model_Config();
+        $config->find("ios_autobuild_key","code");
+        $license_key = $config->getValue();
+
+        //application infos
+        $app = new Application_Model_Application();
+        $app->find($app_id);
+
+        //backoffice user
+        $user = new Backoffice_Model_User();
+        $user->find($this->getUserId());
+        $usermail = $user->getEmail();
+
+        //ios setting info
+        $appIosAutopublish = new Application_Model_IosAutopublish();
+        $appIosAutopublish->find($app_id, "app_id");
+
+        if($languages = Zend_Json::decode($appIosAutopublish->getLanguages())) {
+            if(count($languages) === 0) {
+                throw new Exception("There is no language selected");
+            }
+        } else {
+            throw new Exception("Cannot unserialize language data");
+        }
+
+        $data = array(
+            "name" => $app->getName(),
+            "bundle_id" => $app->getBundleId(),
+            "want_to_autopublish" => $appIosAutopublish->getWantToAutopublish(),
+            "itunes_login" => $appIosAutopublish->getItunesLogin(),
+            "itunes_password" => $appIosAutopublish->getItunesPassword(),
+            "has_bg_locate" => $appIosAutopublish->getHasBgLocate(),
+            "has_audio" => $appIosAutopublish->getHasAudio(),
+            "languages" => $languages,
+            "host" => $this->getHost(),
+            "license_key" => $license_key,
+            "token" => $appIosAutopublish->getToken(),
+            "email" => $usermail,
+        );
+
+        $jobCode = time().'-'.$appIosAutopublish->getToken();
+        $jobFolder = Core_Model_Directory::getBasePathTo(self::ARCHIVE_FOLDER.$jobCode);
+
+        if(!mkdir($jobFolder,0777,true)) {
+            throw new Exception("Cannot create folder $jobFolder");
+        }
+
+        if(!copy($sourcePath, $jobFolder."/sources.zip")) {
+            throw new Exception("Cannot copy sources to job folder");
+        }
+
+        $configJobFilePath = $jobFolder."/config.json";
+
+        if($json = Zend_Json::encode($data)) {
+            file_put_contents($configJobFilePath, $json);
+        } else {
+            throw new Exception("Cannot create json config job file");
+        }
+
+        $tgzJobFilePath = $jobFolder . '.tgz';
+
+        exec("tar zcf $tgzJobFilePath -C $jobFolder sources.zip config.json", $output, $return_val);
+
+        if($return_val !== 0) {
+            throw new Exception("Cannot create zip job file");
+        }
+
+        $jobUrlEncoded = base64_encode('http://'.$this->getHost().'/var/tmp/jobs/'.$jobCode.'.tgz');
+
+        exec("curl -u ios-builder:ced2eb561db43afb09c633b8f68c1f17 http://jenkins.xtraball.com/job/ios-autopublish/buildWithParameters?token=2a66b48d4a926a23ee92195d73251c22\&SIBERIAN_JOB_URL=$jobUrlEncoded 2>&1",$output,$return_val);
+
+        if($return_val !== 0) {
+            throw new Exception("Cannot start job process");
+        }
     }
 
     /**

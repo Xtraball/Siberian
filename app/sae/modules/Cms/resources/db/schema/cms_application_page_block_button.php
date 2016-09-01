@@ -23,7 +23,7 @@ $schemas['cms_application_page_block_button'] = array(
         ),
     ),
     'type_id' => array(
-        'type' => 'enum(\'link\',\'phone\')',
+        'type' => 'enum(\'link\',\'phone\',\'email\')',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
         'default' => 'phone',

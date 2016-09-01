@@ -478,6 +478,163 @@
 
 </sb-section>
 
+<sb-section title="'<?php echo addslashes($this->_("Generate / Autopublish iOS Application")); ?>'">
+
+
+    <div class="clear"></div>
+
+</sb-section>
+
+<sb-section title="'<?php echo addslashes($this->_("Generate and publish iOS Application")); ?>'">
+    <form ng-submit="saveInfoIosAutopublish()">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="control-label" for="iTunesConnectIdentifier"><?php echo $this->_("Remaining build");?></label>
+                    <div ng-if="iosBuildLicenceError !== ''" class="alert alert-danger" role="alert">{{ iosBuildLicenceError }}</div>
+                    <div>
+                        <div ng-if="iosBuildActivationRemain === false" style="display">
+                            <div class="cssloader-small"></div>
+                        </div>
+                        <div ng-if="iosBuildActivationRemain !== false">
+                            <strong>{{ iosBuildActivationRemain }}</strong>
+                        </div>
+                        <?php echo $this->_("You can add or change license in (<strong>Settings / General</strong>).<br/><em>note: build are only consume if success.</em>");?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Not yet implemented
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="control-label" for="iTunesConnectIdentifier"><?php echo $this->_("Publish automatically to iTunes Connect");?></label>
+                </div>
+            </div>
+            <div class="col-md-12 form-group">
+                <div class="form-group">
+                    <div class="col-md-1">
+                        <label for="ios-autobuild-want-to-autopublish">
+                            <input type="radio" id="ios-autobuild-want-to-autopublish" name="ios-autobuild-want-to-autopublish" value="1" ng-value="1" ng-model="ios_publish_informations.want_to_autopublish"> <?php echo $this->_('Yes'); ?>
+                        </label>
+                    </div>
+                    <div class="col-md-1">
+                        <label for="ios-autobuild-dont-want-to-autopublish">
+                            <input type="radio" id="ios-autobuild-dont-want-to-autopublish" name="ios-autobuild-want-to-autopublish" value="0" ng-value="0" ng-model="ios_publish_informations.want_to_autopublish"> <?php echo $this->_('No'); ?>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label" for="iTunesConnectIdentifier"><?php echo $this->_("iTunes Connect Identifier");?></label>
+                    <input type="text" value="{{ios_publish_informations.itunes_login }}" ng-model="ios_publish_informations.itunes_login" class="form-control" name="iTunesConnectIdentifier" id="iTunesConnectIdentifier">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label" for="iTunesConnectPassword"><?php echo $this->_("iTunes Connect Password");?></label>
+                    <input type="password" value="ios_publish_informations.itunes_password" ng-model="ios_publish_informations.itunes_password" class="form-control" name="iTunesConnectPassword" id="iTunesConnectPassword">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                    <label for="{{ device.id }}_status"><?php echo $this->_('Languages'); ?></label>
+                    <div class="form-group" ng-if="ios_publish_informations.languages">
+                    <?php 
+                    foreach(Application_Model_Languages::getSupportedLanguages() as $code => $language) :?>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label for="languages-<?php echo $code;?>">
+                                        <input type="checkbox" id="languages-<?php echo $code;?>" ng-checked="ios_publish_informations.languages['<?php echo $code;?>']" ng-model="ios_publish_informations.languages['<?php echo $code;?>']"/> 
+                                        <?php echo $this->_($language); ?>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    <?php  endforeach; ?>
+                    </div>
+                    <div class="form-group">
+                        <em><?php echo "<strong>".__('note').'</strong>: '.__("Currently only one language can be selected"); ?></em>
+                    </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <label for="ios-code-version-noads"> <?php echo $this->_('Options'); ?> </label>
+                <div class="row checkbox">
+                    <div class="col-md-3">
+                        <label for="ios-autobuild-has-ads">
+                            <input type="checkbox" id="ios-autobuild-has-ads" name="ios-autobuild-has-ads" ng-checked="ios_publish_informations.has_ads" ng-model="ios_publish_informations.has_ads"> <?php echo $this->_('With ads functionality'); ?>
+                        </label>
+                    </div>
+                    <div class="col-md-9">
+                        <?php echo $this->_("* If apple doesn't detect any ads configurate, your application will be refused"); ?>
+                    </div>
+                </div>
+                <div class="row checkbox">
+                    <div class="col-md-3">
+                        <label for="ios-autobuild-has-audio">
+                            <input type="checkbox" id="ios-autobuild-has-audio" name="ios-autobuild-has-audio" ng-checked="ios_publish_informations.has_audio" ng-model="ios_publish_informations.has_audio"> <?php echo $this->_('With background audio playing'); ?>
+                        </label>
+                    </div>
+                    <div class="col-md-9">
+                        <?php echo $this->_('* You have to justify why you need this background audio playing to Apple.'); ?>
+                    </div>
+                </div>
+                <!-- not yet implemented
+                <div class="row checkbox">
+                    <div class="col-md-3">
+                        <label for="ios-autobuild-has-location">
+                            <input type="checkbox" id="ios-autobuild-has-location" name="ios-autobuild-has-location" ng-checked="ios_publish_informations.has_bg_locate" ng-model="ios_publish_informations.has_bg_locate"> <?php echo $this->_('With background geolocation'); ?>
+                        </label>
+                    </div>
+                    <div class="col-md-9">
+                        <?php echo $this->_('* You have to justify why you need this background geolocation to Apple.'); ?>
+                    </div>
+                </div>-->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <button type="submit" class="btn btn-primary left"><?php echo $this->_('Save publication settings'); ?></button><sb-loader is_visible="application_form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="control-label" for="iTunesConnectIdentifier"><?php echo $this->_('Build information'); ?></label>
+                    <div class="row">
+                        <div ng-if="ios_publish_informations.last_build_status === 'failed'" class="alert alert-danger bs-alert-old-docs">
+                            <strong><?php echo $this->_('Error!'); ?></strong> {{ios_publish_informations.error_message}}</a>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <em><?php echo $this->_('Status'); ?></em> : <strong>{{ios_publish_informations.last_build_status}}</strong>
+                        </div>
+                        <div ng-if="ios_publish_informations.last_builded_ipa_link.length > 0" class="col-md-12 form-group">
+                            <button class="btn btn-success text-left">
+                                <i class="fa fa-download"></i> <?php echo $this->_('Download last build'); ?><br/>
+                                <?php echo $this->_('Version'); ?>: <strong>{{ios_publish_informations.last_builded_version}}</strong><br/>
+                                <?php echo $this->_('Build date'); ?>: <strong>{{ios_publish_informations.last_success}}</strong>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <button ng-click="saveInfoIosAutopublishAndGenerate()" type="button" ng-click="calculateQuantity()" class="btn btn-primary left"><i class="fa fa-send"></i> <?php echo $this->_('Generate and Publish'); ?></button>
+            </div>
+        </div>
+    </form>
+</sb-section>
+
 <sb-section title="'<?php echo addslashes($this->_("Certificate")); ?>'" class="upload_area">
 
     <p class="help-block"><?php echo $this->_("Send here your iOS certificate to enable the push notifications for this application."); ?></p>

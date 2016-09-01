@@ -3,7 +3,7 @@
 /**
  * Class Siberian_Assets
  *
- * @version 4.4.0
+ * @version 4.4.2
  *
  */
 

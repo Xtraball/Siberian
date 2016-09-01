@@ -116,4 +116,61 @@ class LoyaltyCard_ApplicationController extends Application_Controller_Default
         }
     }
 
+    public function dlqrcodeAction()
+    {
+
+        if ($data = $this->getRequest()->getParams()) {
+
+            $html = '';
+
+            try {
+
+                $password = new LoyaltyCard_Model_Password();
+                $application = $this->getApplication();
+                $password_id = $data['password_id'];
+
+                $password->find($data['password_id']);
+                if ($password->getAppId() != $application->getId()) {
+                    throw new Exception($this->_("An error occurred while retrieving QRCode. Please try again later"));
+                }
+
+                if(!$password->getUnlockCode()) {
+                    $unlock_code = uniqid();
+                    $data["unlock_code"] = $unlock_code;
+                    $password->addData($data)
+                        ->save();
+                } else {
+                    $unlock_code = $password->getUnlockCode();
+                }
+
+                $dir_image = Core_Model_Directory::getBasePathTo("/images/application/".$this->getApplication()->getId());
+
+                if(!is_dir($dir_image)) mkdir($dir_image, 0775, true);
+                if(!is_dir($dir_image."/application")) mkdir($dir_image."/application", 0775, true);
+                if(!is_dir($dir_image."/application/qrloyalty")) mkdir($dir_image."/application/qrloyalty", 0775, true);
+
+                $dir_image .= "/application/qrloyalty/";
+                $image_name = $password->getId()."-qrloyalty.png";
+
+                if(!is_file($dir_image.$image_name)) {
+                    copy('http://api.qrserver.com/v1/create-qr-code/?color=000000&bgcolor=FFFFFF&data=sendback%3A'.$unlock_code.'&qzone=1&margin=0&size=200x200&ecc=L', $dir_image.$image_name);
+                }
+
+                $img = imagecreatefrompng($dir_image.$image_name);
+                $readable_name = $password->getName();
+                header('Content-Type: image/png');
+                header('Content-Disposition: attachment; filename="'.$readable_name.'"');
+                imagepng($img);
+                imagedestroy($img);
+                die();
+
+            } catch (Exception $e) {
+                $html = $e->getMessage();
+            }
+
+            echo $html;
+
+        }
+    }
+
 }

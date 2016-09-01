@@ -26,6 +26,11 @@ class Siberian_Media {
     );
 
     public static function optimize($image_path) {
+        /** Disable if not cron && sae */
+        if(!Cron_Model_Cron::is_active()) {
+            return;
+        }
+
         if(!is_writable($image_path)) {
             return;
         }

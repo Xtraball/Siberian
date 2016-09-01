@@ -225,9 +225,8 @@ App.directive("sbCmsText", function() {
                 $window.open($scope.block.content, $rootScope.getTargetForLink(), "location=no");
             };
         },
-        link: function(scope, element) {
-
-            if(scope.block.type_id == "phone") {
+        link: function (scope, element) {
+            if (scope.block.type_id == "phone") {
 
                 scope.icon = "ion-ios-telephone-outline";
                 scope.label = "Phone";
@@ -237,21 +236,33 @@ App.directive("sbCmsText", function() {
                 }
 
                 scope.url = scope.block.content;
-
                 scope.target = "_self";
 
-            } else {
+            } else if (scope.block.type_id == "link") {
 
                 scope.icon = "ion-ios-world-outline";
                 scope.label = "Website";
 
                 var a = angular.element(element).find("a");
-                a.on("click", function() {
+                a.on("click", function (e) {
+                    e.preventDefault();
                     scope.openLink();
                     return false;
                 });
 
-                scope.$on("$destroy", function() {
+                scope.$on("$destroy", function () {
+                    a.off("click");
+                });
+            } else {
+                if (!scope.block.content.startsWith('mailto:')) {
+                    scope.block.content = "mailto:" + scope.block.content;
+                }
+                scope.icon = "ion-ios-email";
+                scope.label = "Email";
+                scope.url = scope.block.content;
+                scope.target = "_self";
+
+                scope.$on("$destroy", function () {
                     a.off("click");
                 });
             }

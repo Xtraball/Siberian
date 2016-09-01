@@ -382,6 +382,7 @@
                                             <?php echo $this->_("now"); ?>
                                         </label>
                                     </li>
+                                    <?php if(Cron_Model_Cron::is_active()): ?>
                                     <li class="list-group-item content-white-bkg">
                                         <label for="send_at_a_specific_datetime" onclick="$('#push_datepicker_send_at').removeAttr('disabled').fadeIn(150, function() {$('#push_datepicker_send_at').focus();});">
                                             <input type="radio" id="send_at_a_specific_datetime" name="send_at_a_specific_datetime" value="1" />
@@ -393,6 +394,7 @@
                                             </div>
                                         </div>
                                     </li>
+                                    <?php endif; ?>
                                 </ul>
                             </div>
                         </div>

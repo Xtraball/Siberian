@@ -17,17 +17,55 @@
 
 class Siberian_Error
 {
-    public static $errors = array();
+    /**
+     * PHP CONSTANTS ERRORS
+     *
+     * @var array
+     */
+    public static $errors = array(
+        1 => 'E_ERROR',
+        2 => 'E_WARNING',
+        4 => 'E_PARSE',
+        8 => 'E_NOTICE',
+        16 => 'E_CORE_ERROR',
+        32 => 'E_CORE_WARNING',
+        64 => 'E_COMPILE_ERROR',
+        128 => 'E_COMPILE_WARNING',
+        256 => 'E_USER_ERROR',
+        512 => 'E_USER_WARNING',
+        1024 => 'E_USER_NOTICE',
+        2048 => 'E_STRICT',
+        4096 => 'E_RECOVERABLE_ERROR',
+        8192 => 'E_DEPRECATED',
+        16384 => 'E_USER_DEPRECATED',
+        32767 => 'E_ALL',
+    );
     public static $sql_queries = array();
-    public static $logger;
+    /**
+     * @var Siberian_Log
+     */
+    public static $logger = null;
 
     public static function init() {
-        # Disabling for now
-        # set_error_handler(array('Siberian_Error', 'handleError'));
+        set_error_handler(array('Siberian_Error', 'handleError'));
+        register_shutdown_function(array('Siberian_Error', 'handleFatalError'));
     }
 
     public static function handleError($errno, $errstr, $errfile, $errline) {
-        # Do nothing.
+        if(Zend_Registry::isRegistered("logger") && (self::$logger == null)) {
+            self::$logger = Zend_Registry::get("logger");
+        }
+
+        if(self::$logger != null) {
+            $err_text = (isset(self::$errors[$errno])) ? self::$errors[$errno] : $errno;
+            self::$logger->err(sprintf("[%s]: %s in %s line %s", $err_text, $errstr, $errfile, $errline));
+        }
+    }
+
+    public static function handleFatalError() {
+        $last_error = error_get_last();
+        $fatal_log = Core_Model_Directory::getBasePathTo("var/log/fatal-error.log");
+        file_put_contents($fatal_log, print_r($last_error, true)."\n", FILE_APPEND);
     }
 
     /**

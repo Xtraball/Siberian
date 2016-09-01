@@ -128,6 +128,13 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                 return Application.is_webview ? "_system" : "_blank";
             };
 
+            /** Handler for overview */
+            $rootScope.$on('$stateChangeSuccess', function (event, toState, toStateParams, fromState, fromStateParams) {
+                if(parent) {
+                    parent.postMessage("state.go", DOMAIN);
+                }
+            });
+
             $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams, fromState, fromStateParams) {
 
                 if($rootScope.app_is_locked && toState.name != "padlock-view") {

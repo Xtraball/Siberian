@@ -63,6 +63,31 @@ App.factory('Application', function($http, Url, DataLoader) {
         });
     };
 
+    factory.saveInfoIosAutopublish = function(app_id, ios_infos) {
+
+        return $http({
+            method: 'POST',
+            data: {
+                'app_id':app_id,
+                'infos':ios_infos,
+            },
+            url: Url.get("application/backoffice_iosautopublish/saveinfoiosautopublish"),
+            responseType:'json'
+        });
+    };
+
+    factory.generateIosAutopublish = function(app_id) {
+
+        return $http({
+            method: 'POST',
+            data: {
+                'app_id':app_id,
+            },
+            url: Url.get("application/backoffice_iosautopublish/generateiosautopublish"),
+            responseType:'json'
+        });
+    };
+
     factory.switchToIonic = function(app_id) {
 
         var params = {
