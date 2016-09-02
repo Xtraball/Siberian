@@ -32,6 +32,9 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                 $folder = new Folder_Model_Folder();
                 $category = new Folder_Model_Category();
                 $folder->find($current_option->getId(), 'value_id');
+
+                $show_search = $folder->getShowSearch();
+
                 $category->find($folder->getRootCategoryId(), 'category_id') ;
 
                 $result = array();
@@ -69,6 +72,7 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                 }
 
                 $data = array("folders" => array());
+                $data["show_search"] = $show_search;
 
                 $subcategories = $current_category->getChildren();
 

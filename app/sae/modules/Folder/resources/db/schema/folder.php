@@ -45,4 +45,8 @@ $schemas['folder'] = array(
             'is_unique' => false,
         ),
     ),
+    'show_search' => array(
+        'type' => 'tinyint(1) unsigned',
+        'default' => '0',
+    )
 );

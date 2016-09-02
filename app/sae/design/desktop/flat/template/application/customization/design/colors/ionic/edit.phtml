@@ -306,7 +306,7 @@
             }
         };
 
-        function hexToRgba(hex, opacity, colorize = false) {
+        function hexToRgba(hex, opacity, colorize) {
 
             var result = hex;
             if(!isNaN(opacity) && opacity < 1) {
@@ -318,7 +318,7 @@
 
                 result = 'rgba('+r+','+g+','+b+','+opacity+')';
 
-                if(colorize) {
+                if(typeof colorize != "undefined") {
                     var rgb = {'r': r, 'g': g, 'b': b};
                     return rgb;
                 }

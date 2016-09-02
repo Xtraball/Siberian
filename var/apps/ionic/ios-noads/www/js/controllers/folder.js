@@ -49,6 +49,7 @@ App.config(function($stateProvider) {
             $scope.page_title = data.page_title;
 
             $scope.search_list = data.search_list;
+            $scope.show_search = data.show_search == "1" ? true : false;
 
         }).error(function() {
 

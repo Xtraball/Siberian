@@ -9,6 +9,21 @@
 <div class="manage_categories content-color" style="display:none">
     <div class="container-fluid first-row-feature">
         <div class="content content-white-bkg">
+            <div class="form-group">
+                <div class="col-md-12" id="manage_search">
+                    <label>
+                        <input type="checkbox" id="show_search" name="show_search" onclick="category.changeShowSearch()" <?php if($folder->getShowSearch()) echo "checked"; ?>/>
+                        <?php echo $this->_("Show search field"); ?>
+                    </label>
+                    <input type="hidden" id="value_id" name="value_id" value="<?php echo $current_option->getId(); ?>" />
+                </div>
+                <div class="col-md-12">
+                    <i><?php echo $this->_("By checking this, a search field will appear in your folder feature"); ?></i>
+                </div>
+                <div class="col-md-12">
+                    <br/>
+                </div>
+            </div>
             <div id="left_category" class="content-no-padding col-md-4 left_category">
                 <div id="add_category">
                     <h4><?php echo $this->_('Folders'); ?>
@@ -553,6 +568,15 @@
 //            var subpage = iframe.f.page.getSubpage('subcategory_'+cat_id);
 //            subpage.setBackButtonAction(callback);
 //            subpage.unsCallback('didcreate');
+        },
+        changeShowSearch: function() {
+            reload($('#manage_search'), '<?php echo $this->getUrl('folder/application/setshowsearch'); ?>', true, function(data) {
+                if($("#show_search").is(":checked")) {
+                    iframe.content.find('#search_section').show();
+                } else {
+                    iframe.content.find('#search_section').hide();
+                }
+            });
         }
     });
 
@@ -740,5 +764,9 @@
     }
     .manage_categories .categories_list .dummy_text {
         color: white;
+    }
+
+    #manage_search {
+        margin-top: 10px;
     }
 </style>

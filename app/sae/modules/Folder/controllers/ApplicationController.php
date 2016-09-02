@@ -334,4 +334,23 @@ class Folder_ApplicationController extends Application_Controller_Default
 
     }
 
+    public function setshowsearchAction() {
+        if($data = $this->getRequest()->getParams()) {
+            $folder = new Folder_Model_Folder();
+            $folder = $folder->find(array("value_id" => $data["value_id"]));
+            if($data["show_search"]) {
+                $folder->setShowSearch(1);
+            } else {
+                $folder->setShowSearch(0);
+            }
+            $folder->save();
+
+            $html = array(
+                'success' => 1
+            );
+
+            $this->getLayout()->setHtml(Zend_Json::encode($html));
+        }
+    }
+
 }

@@ -167,7 +167,16 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                 case 'success':
                     $appIosAutopublish->setData("last_success",time());
                     $appIosAutopublish->setData("last_finish",time());
-                    break; //keep this break for semantic purpose
+
+                    $application = new Application_Model_Application();
+                    $application->find($appIosAutopublish->getId());
+                    if(!$application->getId()) {
+                        throw new Exception("Cannot get application from token.");
+                    }
+                    //1 is iOS
+                    $device = $application->getDevice(1);
+                    $device->setData("status_id",3)->save();
+                    break;
                 case 'failed':
                     $appIosAutopublish->setData("last_finish",time());
                     break;

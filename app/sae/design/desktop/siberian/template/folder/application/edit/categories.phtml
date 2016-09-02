@@ -14,6 +14,14 @@
             <div class="clear"></div>
         </div>
         <div class="cat_list_cont">
+            <div id="manage_search" style="margin-left:5px">
+                <label class="checkbox">
+                    <input type="checkbox" class="checkbox" id="show_search" name="show_search" onclick="category.changeShowSearch()" <?php if($folder->getShowSearch()) echo "checked"; ?>/>
+                    <?php echo $this->_("Show search field"); ?>
+                </label>
+                <input type="hidden" id="value_id" name="value_id" value="<?php echo $current_option->getId(); ?>" />
+            </div>
+            <div class="clear"></div>
             <ul class="categories_list sortable">
                 <li id="category_<?php echo $category->getCategoryId() ?>">
                     <?php if($category->getCategoryId()) : ?>
@@ -82,6 +90,7 @@
     <div class="clear"></div>
 </div>
 <script type="text/javascript">
+    createCustomUI();
     var Category = Class.extend({
         init: function() {
             this.root = '<?php echo $folder->getRootCategoryId() ?>';
@@ -565,6 +574,15 @@
 //            var subpage = iframe.f.page.getSubpage('subcategory_'+cat_id);
 //            subpage.setBackButtonAction(callback);
 //            subpage.unsCallback('didcreate');
+        },
+        changeShowSearch: function() {
+            reload($('#manage_search'), '<?php echo $this->getUrl('folder/application/setshowsearch'); ?>', true, function(data) {
+                if($("#show_search").is(":checked")) {
+                    iframe.content.find('#search_section').show();
+                } else {
+                    iframe.content.find('#search_section').hide();
+                }
+            });
         }
     });
 
