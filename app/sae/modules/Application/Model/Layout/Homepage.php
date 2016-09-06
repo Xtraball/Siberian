@@ -5,6 +5,7 @@ class Application_Model_Layout_Homepage extends Application_Model_Layout_Abstrac
     const VISIBILITY_HOMEPAGE = "homepage";
     const VISIBILITY_ALWAYS = "always";
     const VISIBILITY_TOGGLE = "toggle";
+    const VISIBILITY_FULLSCREEN = "fullscreen";
 
     public function __construct($params = array()) {
         parent::__construct($params);

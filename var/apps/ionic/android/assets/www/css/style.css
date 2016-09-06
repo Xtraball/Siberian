@@ -371,6 +371,22 @@ ion-nav-view.has-mini-player-controls > ion-view > ion-content {bottom: 88px;}
 .layout.l7 .sidebar ul.items li p { font-size: 13px; margin-top: 4px; }
 .layout.l7 .no-border{border:none !important}
 
+/** LAYOUT 8 */
+.iOS7 .layout.l8 ul {height:calc(100% - 21px);padding-top:21px;}
+.layout.l8 {position:absolute;width:99%;height:100%;margin:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+.layout.l8 a {background-repeat:no-repeat;-webkit-background-size:cover;-moz-background-size:cover;-o-background-size:cover;background-size:cover;background-position:center center;}
+.layout.l8 ul li.info-bar {height:48px;margin:0;padding:0;text-align:right;}
+.layout.l8 ul li.info-bar a {width:24px;height:24px;display:block;margin:12px 0;overflow:hidden;}
+.layout.l8 ul li.info-bar a.close_previewer {float:left;width:22px;height:20px;margin-left:2%;}
+.layout.l8 ul li.info-bar a.info {float:right;}
+.layout.l8 ul li.info-bar a img {width:24px;height:24px;}
+.layout.l8 ul li.items {float:left;width:100%;height:auto;margin:0;padding:0;}
+.layout.l8 ul li.items a {display:block;float:left;height:103px;width:32.33333%;margin:0 0 1% 1%;padding:0;}
+.layout.l8 ul li.items a:first-child,
+.layout.l8 ul li.items a:nth-child(7),
+.layout.l8 ul li.items a:nth-child(13n+1),
+.layout.l8 ul li.items a:nth-child(13n+7) {width:65.66666%;}
+
 /* LAYOUT 9 */
 .layout.l9 li img {width: 30px; height: 30px; margin: 0 auto; max-height: 100%;}
 .layout.l9 li p {font-size: 10px; line-height: 20px; height: 20px; overflow: hidden; }
@@ -393,6 +409,7 @@ ion-nav-view.has-mini-player-controls > ion-view > ion-content {bottom: 88px;}
 
 /* Horizontal Layouts */
 .layout .slider { position: absolute; width: 100%; bottom: 0; z-index: 5; }
+.layout .slider .slider-slide { width: 100vw; }
 .layout .slider-pager { height: 20px; bottom: 0; background-color: lightgrey; }
 .layout .slider p { font-size: 12px; }
 
@@ -427,6 +444,7 @@ ion-nav-view.has-mini-player-controls > ion-view > ion-content {bottom: 88px;}
 .layout.l14 li .item {  height: 100%;  }
 .layout.l14 li p {  bottom: 0;  font-size: 12px;  height: 15px;  line-height: 20px;  overflow: hidden;  position: absolute;  text-transform: uppercase;  width: 100%;  z-index: 999;  }
 .layout.l14 a .items {height: 85px; padding: 15px; margin: 0; border-width: 1px; border-style: solid;}
+.layout.l14 .no-border{border:none !important}
 
 /* LAYOUT 15 */
 .layout.l15 .scroll-view {  position: absolute;  width: 100%;  height: 100%;  }
@@ -435,6 +453,7 @@ ion-nav-view.has-mini-player-controls > ion-view > ion-content {bottom: 88px;}
 .layout.l15 li img {  height: 70px;  width: 70px;  }
 .layout.l15 li p {  bottom: 0;  height: 30px;  line-height: 36px;  overflow: hidden;  position: absolute;  text-transform: uppercase;  width: 100%;  z-index: 999;  }
 .layout.l15 li .item {  height: 100%;  }
+.layout.l15 .no-border{border:none !important}
 
 /* LAYOUT 16 */
 .layout.l16 .scroll-view {  position: absolute;  width: 100%;  height: 100%;  }
@@ -443,30 +462,32 @@ ion-nav-view.has-mini-player-controls > ion-view > ion-content {bottom: 88px;}
 .layout.l16 li p {  bottom: 0;  font-size: 12px;  height: 22%;  line-height: 20px;  overflow: hidden;  position: absolute;  text-align: center;  text-transform: uppercase;  width: 100%;  z-index: 999;  }
 .layout.l16 li .item {  height: 100%;  }
 .layout.l16 .item { padding: 30%;  }
+.layout.l16 .no-border{border:none !important}
 
 /* LAYOUT 17 */
-.layout.l17 .scroll-view {  position: absolute;  width: 100%;  height: 100%; display: none;  }
+.layout.l17 .scroll-view {  position: absolute;  width: 100%;  height: 100%;}
 .layout.l17 ul {  padding-left: 8px;  padding-top: 5%;  }
-.layout.l17 .metro-line {  width: 100%;  margin-bottom: 1%;  }
+.layout.l17 .metro-line {  width: 100%; }
 .layout.l17 .metro {  display: block;  float: left;  }
 .layout.l17 .metro-right {  float: right;  }
 .layout.l17 .metro-50 {  width: 50%;  }
 .layout.l17 .metro-50-50 {  height: 100%; }
-.layout.l17 .metro-50-50 .item {  height: 95%; }
+.layout.l17 .metro-50-50 .item {  height: 100%; }
 .layout.l17 .metro-50 .item {  margin-right: 5%;  }
 .layout.l17 .metro-line-50 {  float: left;  }
 .layout.l17 .metro-25 {  width: 48%;  }
 .layout.l17 .metro-25 img {  padding: 15% }
 .layout.l17 .metro img {  width: 100%;  max-height: 100%;  float: left;  }
-.layout.l17 .metro p {  bottom: 0;  font-size: 0.7em;  height: 22px;  margin-top: -22px;  overflow: hidden;  padding-left: 10px;  position: relative;  text-align: left;  text-transform: uppercase;  width: 100%;  z-index: 999;  }
+.layout.l17 .metro p {  bottom: 0;  font-size: 0.7em;  height: 21px;  margin-top: -20px;  overflow: hidden;  padding-left: 17px;  position: relative;  text-align: left;  text-transform: uppercase;  width: 100%;  z-index: 999;  margin-bottom: 0;  }
 .layout.l17 .metro-line-first {  margin-bottom: 4%;  }
 .layout.l17 .metro-line-second {  margin-bottom: 4.5%;  }
 .layout.l17 .metro-line-second-2 { width: 100%  }
 .layout.l17 #metro-line-2 img { padding: 0 32%; }
-.layout.l17 #metro-line-2 {  margin-bottom: 2%;  }
+.layout.l17 #metro-line-2 { }
 .layout.l17 .metro.metro-25.metro-right {  margin-right: 2%;  }
 .layout.l17 .metro.metro-25.metro-right.metro-right-2 {  margin-right: 3%;  }
 .layout.l17 .cb {  clear: both;  }
+.layout.l17 .no-border{border:none !important}
 
 /* LAYOUT 1 Fixed */
 .always .layout.l1 .tabs {box-shadow: 0px 0px 10px #000000; /** fix css footer */ margin-left: -5px;}
@@ -505,3 +526,4 @@ div[sb-cms-text] {  display: inline-flex;  }
 .push-popup .popup-body .item.item-custom {  border: 0;  background-color: transparent;  padding: 10px 0 10px 0;  overflow: visible;  white-space: normal;  }
 .no-left-pad {padding-left: 0 !important;}.no-top-pad {padding-top: 0 !important;}.no-right-pad {padding-right: 0 !important;}.no-bottom-pad {padding-bottom: 0 !important;}
 .no-left-border {border-left: none !important;}.no-top-border {border-top: none !important;} .no-right-border {border-right: none !important;} .no-bottom-border {border-bottom: none !important;}
+.cotard{ box-shadow: none !important; background: none !important; }

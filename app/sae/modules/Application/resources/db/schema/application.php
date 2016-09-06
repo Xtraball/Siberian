@@ -197,6 +197,11 @@ $schemas['application'] = array(
         'type' => 'int(11)',
         'is_null' => true,
     ),
+    'custom_scss' => array(
+        'type' => 'MEDIUMTEXT',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'domain' => array(
         'type' => 'varchar(100)',
         'is_null' => true,

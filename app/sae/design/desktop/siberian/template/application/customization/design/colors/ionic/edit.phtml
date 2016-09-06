@@ -7,109 +7,149 @@
             <div id="app_colors" class="area">
 
                 <?php foreach($blocks as $block) : ?>
-                <?php $block_id = (strlen(dechex($block->getId()))==2) ? dechex($block->getId()) : "0".dechex($block->getId()); ?>
-                <div class="change-overview-content new-section" data-rel="<?php echo $block->getCode(); ?>" data-name="<?php echo $block->getName(); ?>">
-                    <div class="row">
-                        <h3 class="title">
-                            <span class="left area"><?php echo $block->getName(); ?></span>
-                            <hr />
-                            <div class="clear"></div>
-                        </h3>
-                    </div>
+                    <?php $block_id = (strlen(dechex($block->getId()))==2) ? dechex($block->getId()) : "0".dechex($block->getId()); ?>
+                    <div class="change-overview-content new-section" data-rel="<?php echo $block->getCode(); ?>" data-name="<?php echo $block->getName(); ?>">
+                        <div class="row">
+                            <h3 class="title">
+                                <span class="left area"><?php echo $block->getName(); ?></span>
+                                <hr />
+                                <div class="clear"></div>
+                            </h3>
+                        </div>
 
-                    <?php
+                        <?php
                         $has_childrens = false;
                         if($block->getChildren()) {
                             $has_childrens = true;
                         }
                         $children = $block->getChildren() ? $block->getChildren() : array($block);
-                    ?>
+                        ?>
 
 
-                    <?php foreach($children as $child) : ?>
-                        <?php $child_id = (strlen(dechex($child->getId()))==2) ? dechex($child->getId()) : "0".dechex($child->getId()); ?>
-                        <?php $child_id = $has_childrens ? $child_id : "00"; ?>
-                        <?php if($child->getParentId()) : ?>
+                        <?php foreach($children as $child) : ?>
+                            <?php $child_id = (strlen(dechex($child->getId()))==2) ? dechex($child->getId()) : "0".dechex($child->getId()); ?>
+                            <?php $child_id = $has_childrens ? $child_id : "00"; ?>
+                            <?php if($child->getParentId()) : ?>
 
-                        <div class="row">
-                            <div>
-                                <h5 class="subtitle"><?php echo $child->getName(); ?></h5>
-                            </div>
-                        </div>
-
-                        <?php endif; ?>
-
-                        <div class="row">
-                            <?php if($child->getColorVariableName()) : ?>
-                            <div class="<?php echo $this->getClassFor($child, "color"); ?>"><h4><?php echo $this->_("Text"); ?></h4></div>
-                            <?php endif; ?>
-                            <?php if($child->getBackgroundColorVariableName()) : ?>
-                            <div class="<?php echo $this->getClassFor($child, "background_color"); ?>"><h4><?php echo $this->_("Background"); ?></h4></div>
-                            <?php endif; ?>
-                            <?php if($child->getBorderColorVariableName()) : ?>
-                            <div class="<?php echo $this->getClassFor($child, "border_color"); ?>"><h4><?php echo $this->_("Border"); ?></h4></div>
-                            <?php endif; ?>
-                            <?php if($child->getImageColorVariableName()) : ?>
-                            <div class="<?php echo $this->getClassFor($child, "image_color"); ?>"><h4><?php echo $this->_("Image"); ?></h4></div>
-                            <?php endif; ?>
-                        </div>
-
-
-                        <div id="row_<?php echo $child->getId(); ?>" class="row">
-
-                            <?php if($child->getColorVariableName()) : ?>
-                                <?php $hex = "#".$block_id.$child_id."01"; ?>
-                            <div class="<?php echo $this->getClassFor($child, "color"); ?>">
-                                <input type="hidden" name="block_id" value="<?php echo $child->getId(); ?>" />
-                                <div class="square_color"><button type="button" id="<?php echo $child->getCode(); ?>_text" class="<?php echo $child->getCode(); ?>_text" style="background-color: <?php echo $child->getColor(); ?>"></button></div>
-                                <input data-index="<?php echo $hex; ?>" type="hidden" id="<?php echo $child->getCode(); ?>_text_receiver" name="color" value="<?php echo $child->getColor() ?>" />
-                            </div>
-                            <?php endif; ?>
-
-                            <?php if($child->getBackgroundColorVariableName()) : ?>
-                                <?php $hex = "#".$block_id.$child_id."02"; ?>
-                            <div class="<?php echo $this->getClassFor($child, "background_color"); ?>">
-                                <input type="hidden" name="block_id" value="<?php echo $child->getId(); ?>" />
-                                <div class="square_color"><button type="button" id="<?php echo $child->getCode(); ?>_bg" class="<?php echo $child->getCode(); ?>_bg" style="background-color: <?php echo $child->getBackgroundColor(); ?>"></button></div>
-                                <input data-index="<?php echo $hex; ?>" type="hidden" id="<?php echo $child->getCode(); ?>_bg_receiver" name="background_color" value="<?php echo $child->getBackgroundColor() ?>" />
-                            </div>
-                            <?php endif; ?>
-
-                            <?php if($child->getBorderColorVariableName()) : ?>
-                                <?php $hex = "#".$block_id.$child_id."03"; ?>
-                            <div class="<?php echo $this->getClassFor($child, "border_color"); ?>">
-                                <input type="hidden" name="block_id" value="<?php echo $child->getId(); ?>" />
-                                <div class="square_color"><button type="button" id="<?php echo $child->getCode(); ?>_border" class="<?php echo $child->getCode(); ?>_border" style="background-color: <?php echo $child->getBorderColor(); ?>"></button></div>
-                                <input data-index="<?php echo $hex; ?>" type="hidden" id="<?php echo $child->getCode(); ?>_border_receiver" name="border_color" value="<?php echo $child->getBorderColor() ?>" />
-                            </div>
-                            <?php endif; ?>
-
-                            <?php if($child->getImageColorVariableName()) : ?>
-                                <?php $hex = "#".$block_id.$child_id."04"; ?>
-                            <div class="<?php echo $this->getClassFor($child, "image_color"); ?>">
-                                <input type="hidden" name="block_id" value="<?php echo $child->getId(); ?>" />
-                                <div class="square_color"><button type="button" id="<?php echo $child->getCode(); ?>_image" class="<?php echo $child->getCode(); ?>_image" style="background-color: <?php echo $child->getImageColor(); ?>"></button></div>
-                                <input data-index="<?php echo $hex; ?>" type="hidden" id="<?php echo $child->getCode(); ?>_image_receiver" name="image_color" value="<?php echo $child->getImageColor() ?>" />
-                            </div>
-                            <?php endif; ?>
-
-                        </div>
-
-                        <?php if($child->getData("name") == "Homepage"): ?>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label for="<?php echo $child->getCode(); ?>_transparent_background_color_receiver" class="checkbox">
-                                        <input data-index="homepage_opacity" type="checkbox" id="<?php echo $child->getCode(); ?>_transparent_background_color_receiver" name="background_color" value="transparent"<?php if($tabbar_block->getBackgroundColor() == "transparent") : ?> checked="checked"<?php endif; ?> />
-                                        <?php echo $this->_("Transparent"); ?>
-                                    </label>
+                                <div class="row">
+                                    <div>
+                                        <h5 class="subtitle"><?php echo $child->getName(); ?></h5>
+                                    </div>
                                 </div>
+
+                            <?php endif; ?>
+
+                            <div class="row">
+                                <?php if($child->getColorVariableName()) : ?>
+                                    <div class="<?php echo $this->getClassFor($child, "color"); ?>"><h4><?php echo $this->_("Text"); ?></h4></div>
+                                <?php endif; ?>
+                                <?php if($child->getBackgroundColorVariableName()) : ?>
+                                    <div class="<?php echo $this->getClassFor($child, "background_color"); ?>"><h4><?php echo $this->_("Background"); ?></h4></div>
+                                <?php endif; ?>
+                                <?php if($child->getBorderColorVariableName()) : ?>
+                                    <div class="<?php echo $this->getClassFor($child, "border_color"); ?>"><h4><?php echo $this->_("Border"); ?></h4></div>
+                                <?php endif; ?>
+                                <?php if($child->getImageColorVariableName()) : ?>
+                                    <div class="<?php echo $this->getClassFor($child, "image_color"); ?>"><h4><?php echo $this->_("Image"); ?></h4></div>
+                                <?php endif; ?>
                             </div>
-                        <?php endif; ?>
+
+
+                            <div id="row_<?php echo $child->getId(); ?>" class="row">
+
+                                <?php if($child->getColorVariableName()) : ?>
+                                    <?php $hex = "#".$block_id.$child_id."01"; ?>
+                                    <div class="<?php echo $this->getClassFor($child, "color"); ?>">
+                                        <input type="hidden" name="block_id" value="<?php echo $child->getId(); ?>" />
+                                        <div class="square_color"><button type="button" id="<?php echo $child->getCode(); ?>_text" class="<?php echo $child->getCode(); ?>_text" style="background-color: <?php echo $child->getColor(); ?>"></button></div>
+                                        <input data-index="<?php echo $hex; ?>" type="hidden" id="<?php echo $child->getCode(); ?>_text_receiver" name="color" value="<?php echo $child->getColor() ?>" />
+                                    </div>
+                                <?php endif; ?>
+
+                                <?php if($child->getBackgroundColorVariableName()) : ?>
+                                    <?php $hex = "#".$block_id.$child_id."02"; ?>
+                                    <div class="<?php echo $this->getClassFor($child, "background_color"); ?>">
+                                        <input type="hidden" name="block_id" value="<?php echo $child->getId(); ?>" />
+                                        <div class="square_color"><button type="button" id="<?php echo $child->getCode(); ?>_bg" class="<?php echo $child->getCode(); ?>_bg" style="background-color: <?php echo $child->getBackgroundColor(); ?>"></button></div>
+                                        <input data-index="<?php echo $hex; ?>" type="hidden" id="<?php echo $child->getCode(); ?>_bg_receiver" name="background_color" value="<?php echo $child->getBackgroundColor() ?>" />
+                                    </div>
+                                <?php endif; ?>
+
+                                <?php if($child->getBorderColorVariableName()) : ?>
+                                    <?php $hex = "#".$block_id.$child_id."03"; ?>
+                                    <div class="<?php echo $this->getClassFor($child, "border_color"); ?>">
+                                        <input type="hidden" name="block_id" value="<?php echo $child->getId(); ?>" />
+                                        <div class="square_color"><button type="button" id="<?php echo $child->getCode(); ?>_border" class="<?php echo $child->getCode(); ?>_border" style="background-color: <?php echo $child->getBorderColor(); ?>"></button></div>
+                                        <input data-index="<?php echo $hex; ?>" type="hidden" id="<?php echo $child->getCode(); ?>_border_receiver" name="border_color" value="<?php echo $child->getBorderColor() ?>" />
+                                    </div>
+                                <?php endif; ?>
+
+                                <?php if($child->getImageColorVariableName()) : ?>
+                                    <?php $hex = "#".$block_id.$child_id."04"; ?>
+                                    <div class="<?php echo $this->getClassFor($child, "image_color"); ?>">
+                                        <input type="hidden" name="block_id" value="<?php echo $child->getId(); ?>" />
+                                        <div class="square_color"><button type="button" id="<?php echo $child->getCode(); ?>_image" class="<?php echo $child->getCode(); ?>_image" style="background-color: <?php echo $child->getImageColor(); ?>"></button></div>
+                                        <input data-index="<?php echo $hex; ?>" type="hidden" id="<?php echo $child->getCode(); ?>_image_receiver" name="image_color" value="<?php echo $child->getImageColor() ?>" />
+                                    </div>
+                                <?php endif; ?>
+
+                            </div>
+
+                            <?php if($child->getData("name") == "Homepage"): ?>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="<?php echo $child->getCode(); ?>_transparent_background_color_receiver" class="checkbox">
+                                            <input data-index="homepage_opacity" type="checkbox" id="<?php echo $child->getCode(); ?>_transparent_background_color_receiver" name="background_color" value="transparent"<?php if($tabbar_block->getBackgroundColor() == "transparent") : ?> checked="checked"<?php endif; ?> />
+                                            <?php echo $this->_("Transparent"); ?>
+                                        </label>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
 
                         <?php endforeach; ?>
                     </div>
                 <?php endforeach; ?>
 
+                    <div class="change-overview-content new-section" style="display: none;">
+                        <div class="row">
+                            <h3 class="title">
+                                <span class="left area"><?php echo __("Advanced Customization CSS / SCSS"); ?></span>
+                                <hr />
+                                <div class="clear"></div>
+                            </h3>
+                        </div>
+
+                        <div class="row">
+                            <?php $custom_scss = $this->getApplication()->getCustomScss(); ?>
+                            <div id="row_scss" class="col-md-12 col-xs-12">
+                                <div class="form-group">
+                                    <h4>
+                                        <?php echo __("Available SCSS Variables corresponding to previously set colors"); ?>
+                                    </h4>
+                                    <br />
+                                    <div>
+                                        <?php $variables = Template_Model_Design::getVariables($this->getApplication()); ?>
+                                        <?php foreach($variables as $name => $value): ?>
+                                            <span class="mini-color col-md-6 col-xs-12">
+                                                <div class="mini-box" id="<?php echo $name ?>" style="background-color: <?php echo $value; ?>"></div><?php echo $name ?>
+                                            </span>
+                                        <?php endforeach; ?>
+                                    </div>
+                                </div>
+                                <div class="form-group sb-form-line">
+                                    <div class="col-sm-12">
+                                        <label style="margin-top: 24px;"><?php echo __("Input your SCSS here, save to validate & preview") ?></label>
+                                        <textarea name="custom_scss" id="custom_scss" maxlength="16777215" cols="" rows="20" style="width:100%; color: #333;"><?php echo $this->getApplication()->getCustomScss() ?></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-2 col-sm-offset-10">
+                                        <button class="btn color-blue pull-right" id="save_scss"><?php echo __("Save") ?></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
 
         </div>
@@ -134,9 +174,9 @@
 
         $(".change-overview-content").hover(function() {
             if(fake_content) {
-            var rel = $(this).attr("data-rel");
-            var name = $(this).attr("data-name");
-            iframe.f.displayElement(rel, name);
+                var rel = $(this).attr("data-rel");
+                var name = $(this).attr("data-name");
+                iframe.f.displayElement(rel, name);
 
                 $(".change-overview-content").addClass("inactive-section");
                 $(this).removeClass("inactive-section");
@@ -186,56 +226,60 @@
         <?php $children = $block->getChildren() ? $block->getChildren() : array($block); ?>
         <?php foreach($children as $child) : ?>
 
-            <?php if(!$child->getData("{$property}_variable_name")) continue; ?>
+        <?php if(!$child->getData("{$property}_variable_name")) continue; ?>
 
-            <?php $target = $child->getCode()."_".$type; ?>
-            $('#<?php echo $target ?>').ColorPicker({
-                color: '<?php echo $child->getData($property) ?>',
-                onShow: function (colpkr) {
-                    overview_colors.showMask();
-                    $(colpkr).slideDown(500);
-                    return false;
-                },
-                onHide: function (colpkr) {
-                    $(colpkr).slideUp(500);
-                    reload($('#row_<?php echo $child->getId(); ?>'), $('#colorsForm').attr('action'), false, function() {});
-                    $('#<?php echo $target ?>_receiver').trigger("change");
-                    overview_colors.hideMask();
-                    return false;
-                },
-                onSubmit: function(hsb, hex, rgb, el) {
-                    $('.colorpicker').slideUp(500);
-                    return false;
-                },
-                onChange: function (hsb, hex, rgb) {
-                    hex = '#'+hex;
-                    var property = "<?php echo $property ?>";
-                    var to = '<?php echo $child->getData("{$property}_variable_name"); ?>';
-                    $('#<?php echo $target ?>_receiver').val(hex);
-                    $('#<?php echo $target ?>').css("background-color", hex);
+        <?php $target = $child->getCode()."_".$type; ?>
+        $('#<?php echo $target ?>').ColorPicker({
+            color: '<?php echo $child->getData($property) ?>',
+            onShow: function (colpkr) {
+                overview_colors.showMask();
+                $(colpkr).slideDown(500);
+                return false;
+            },
+            onHide: function (colpkr) {
+                $(colpkr).slideUp(500);
+                reload($('#row_<?php echo $child->getId(); ?>'), $('#colorsForm').attr('action'), false, function() {});
+                $('#<?php echo $target ?>_receiver').trigger("change");
+                overview_colors.hideMask();
+                return false;
+            },
+            onSubmit: function(hsb, hex, rgb, el) {
+                $('.colorpicker').slideUp(500);
+                return false;
+            },
+            onChange: function (hsb, hex, rgb) {
+                hex = '#'+hex;
+                var property = "<?php echo $property ?>";
+                var to = '<?php echo $child->getData("{$property}_variable_name"); ?>';
+                $('#<?php echo $target ?>_receiver').val(hex);
+                $('#<?php echo $target ?>').css("background-color", hex);
 
-                    if(property == "image_color") {
-                        overview_colors.setImageColor(rgb, "<?php echo $child->getCode(); ?>");
-                    } else {
-                        /** Live colors for css, not image */
-                        $('#<?php echo $target ?>_receiver').trigger("change");
-                        overview_colors.setColor(hex, to, '<?php echo $type ?>', property);
+                    if(document.getElementById(to)) {
+                        document.getElementById(to).style.backgroundColor = hex;
                     }
-                }
-            });
 
-            <?php if($child->getData("name") == "Homepage" AND $property == "background_color"): ?>
-                $('#<?php echo $child->getCode(); ?>_transparent_background_color_receiver').click(function() {
-                    var color = $(this).is(":checked") ? "transparent" : "#000000";
-                    $('#homepage_bg').ColorPickerSetColor(color);
-                    $('#<?php echo $target ?>_receiver').val(color);
-                    var to = '<?php echo $child->getData("{$property}_variable_name"); ?>';
-                    overview_colors.setColor(color, to, "<?php echo $type ?>", "<?php echo $property ?>");
-                    iframe.f.toggleTabbarIsTransparent($(this).is(":checked"));
-                    $('.<?php echo $child->getCode() ?>_bg').css('background-color', color);
-                    reload($('#row_<?php echo $child->getId(); ?>'), $('#colorsForm').attr('action'), false, function(data) {});
-                });
-            <?php endif; ?>
+                if(property == "image_color") {
+                    overview_colors.setImageColor(rgb, "<?php echo $child->getCode(); ?>");
+                } else {
+                    /** Live colors for css, not image */
+                    $('#<?php echo $target ?>_receiver').trigger("change");
+                    overview_colors.setColor(hex, to, '<?php echo $type ?>', property);
+                }
+            }
+        });
+
+        <?php if($child->getData("name") == "Homepage" AND $property == "background_color"): ?>
+        $('#<?php echo $child->getCode(); ?>_transparent_background_color_receiver').click(function() {
+            var color = $(this).is(":checked") ? "transparent" : "#000000";
+            $('#homepage_bg').ColorPickerSetColor(color);
+            $('#<?php echo $target ?>_receiver').val(color);
+            var to = '<?php echo $child->getData("{$property}_variable_name"); ?>';
+            overview_colors.setColor(color, to, "<?php echo $type ?>", "<?php echo $property ?>");
+            iframe.f.toggleTabbarIsTransparent($(this).is(":checked"));
+            $('.<?php echo $child->getCode() ?>_bg').css('background-color', color);
+            reload($('#row_<?php echo $child->getId(); ?>'), $('#colorsForm').attr('action'), false, function(data) {});
+        });
+        <?php endif; ?>
         <?php endforeach; ?>
         <?php endforeach; ?>
         <?php endforeach; ?>
@@ -254,7 +298,7 @@
                         translucent_color = "transparent";
                     }
                 }
-                
+
                 if(element.attr("type") == "style/template") {
 
                     var css = iframe.content.find('[data-' + type + '="' + to + '"]').html();
@@ -269,7 +313,7 @@
                         var style = $('<style></style>')
                             .attr("id", to)
                             .html(css)
-                        ;
+                            ;
                         iframe.content.find("head").append(style);
                     }
 
@@ -369,9 +413,9 @@
         eventer(messageEvent, function(e) {
             switch(e.data) {
                 case "state.go":
-                        setTimeout(function() {processImages();}, 100);
-                        setTimeout(function() {processImages();}, 500);
-                        setTimeout(function() {processImages();}, 2000);
+                    setTimeout(function() {processImages();}, 100);
+                    setTimeout(function() {processImages();}, 500);
+                    setTimeout(function() {processImages();}, 2000);
                     break;
             }
         },false);
@@ -404,7 +448,7 @@
                 if (!processed) {
                     /** Replace X */
                     var link = $("#mobile_overview").contents().find("head link[href*='var/cache']");
-                    link.replaceWith("<style id=\"scss_live\" type=\"text/css\">" + template + "</style>");
+                    link.after("<style id=\"scss_live\" type=\"text/css\">" + template + "</style>");
 
                     processed = true;
                 }
@@ -415,6 +459,19 @@
                     processImages();
                 }
             }
+        });
+
+        function refreshCss() {
+            setTimeout(function() {
+                var link = $("#mobile_overview").contents().find("head link[href*='var/cache']");
+                link.attr("href", link.attr("href")+"09");
+            }, 500);
+        }
+
+        $("#save_scss").on("click", function(e) {
+            e.preventDefault();
+            reload($('#row_scss'), $('#colorsForm').attr('action'), true, function() { refreshCss(); setTimeout(function() { message.hide(); }, 2000); }, function() { refreshCss(); });
+            return false;
         });
 
 
@@ -430,6 +487,8 @@
         .inactive-section .square_color button { background-color: grey !important; }
         .change-overview-content.content-color.content { padding-bottom: 16px; }
         .button-inactive { opacity: 0.6; }
+        .mini-color { margin-bottom: 6px;}
+        div.mini-box { width: 22px; height: 22px; border: 1px solid #ffffff; float: left; margin-right: 10px;}
     </style>
 
     <div id="mask_colors" class="mask"></div>

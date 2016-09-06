@@ -186,6 +186,7 @@
 								<button class="btn btn-xs btn-primary" ng-click="clear('overview', '<?php echo addcslashes(__("Are you sure ?"), "'"); ?>');"><?php echo __("Clear") ?></button>
 							</td>
 						</tr>
+						<?php if(APPLICATION_ENV == "development"): ?>
 						<tr ng-hide="!show_more_size">
 							<td class="indent"><?php echo __("Applications/Previewer manifest for automatic updates.") ?></td>
 							<td>-</td>
@@ -193,6 +194,7 @@
 								<button class="btn btn-xs btn-primary" ng-click="clear('app_manifest', '<?php echo addcslashes(__("Are you sure ?"), "'"); ?>');"><?php echo __("Rebuild") ?></button>
 							</td>
 						</tr>
+						<?php endif; ?>
 					</table>
 				</td>
 			</tr>

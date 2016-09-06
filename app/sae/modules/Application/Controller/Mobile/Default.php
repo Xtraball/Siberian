@@ -131,7 +131,7 @@ class Application_Controller_Mobile_Default extends Core_Controller_Default {
     protected function _sendHtml($html) {
         $this->getResponse()->setHeader('Content-type', 'application/json');
 
-        $json = Zend_Json::encode($html);
+        $json = json_encode($html, JSON_PRETTY_PRINT);
 
         if(!$json) {
 

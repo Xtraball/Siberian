@@ -1,24 +1,24 @@
 var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS9UIWebViewPatch', 'angular-carousel', 'lodash', 'ngImgCrop', 'ionic-zoom-view'])
-    //Add spinner template
+//Add spinner template
     .constant("$ionicLoadingConfig", {
         template: "<ion-spinner></ion-spinner>"
     })
     .config(function ($compileProvider, $httpProvider, $ionicConfigProvider) {
         //Add hook on HTTP transactions
-        $httpProvider.interceptors.push(function($q, $injector) {
+        $httpProvider.interceptors.push(function ($q, $injector) {
             return {
-                request: function(config) {
+                request: function (config) {
                     var sid = localStorage.getItem("sb-auth-token");
-                    if(sid && config.url.indexOf(".html") == -1 && $injector.get('Connection').isOnline) {
+                    if (sid && config.url.indexOf(".html") == -1 && $injector.get('Connection').isOnline) {
                         //Force cookie
-                        if(config.url.indexOf(DOMAIN) > -1) {
+                        if (config.url.indexOf(DOMAIN) > -1) {
                             config.url = config.url + "?sb-token=" + sid;
                         }
                     }
                     return config;
                 },
-                responseError: function(response) {
-                    if((response.status == 0) && (typeof OfflineMode == "object") && !$injector.get('Connection').check()) {
+                responseError: function (response) {
+                    if ((response.status == 0) && (typeof OfflineMode == "object") && !$injector.get('Connection').check()) {
                         $injector.get('Connection').check();
                     }
                     return $q.reject(response);
@@ -30,13 +30,14 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
 
         $httpProvider.defaults.withCredentials = true;
 
-        if(isOverview) {
+        if (isOverview) {
             $ionicConfigProvider.views.maxCache(0);
         }
     })
-    .run(function($http, $ionicConfig, $ionicHistory, $ionicPlatform, $ionicPopup, $ionicSlideBoxDelegate, $ionicScrollDelegate, $location, $rootScope, $state, $templateCache, $timeout, $translate, $window, Analytics, Application, Connection, Customer, Dialog, FacebookConnect, Facebook, HomepageLayout, Push, Url, AUTH_EVENTS, PUSH_EVENTS) {
+    .run(function ($http, $ionicConfig, $ionicHistory, $ionicPlatform, $ionicPopup, $ionicSlideBoxDelegate, $ionicScrollDelegate, $location, $rootScope, $state, $templateCache, $timeout, $translate, $window, Analytics, Application, Connection, Customer, Dialog, FacebookConnect, Facebook, HomepageLayout, Push, Url, AUTH_EVENTS, PUSH_EVENTS) {
         //Load translation is mandatory to any process
-        $translate.findTranslations().success(function () {}).finally(function(){
+        $translate.findTranslations().success(function () {
+        }).finally(function () {
             $ionicPlatform.ready(function () {
                 $window.cordova = $window.cordova || {};
                 $window.device = $window.device || {};
@@ -52,7 +53,7 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
 
                 Dialog.is_webview = Application.is_webview = (ionic.Platform.device().platform == "browser");
 
-                if($window.device) {
+                if ($window.device) {
                     Push.device_uid = device.uuid;
                 }
 
@@ -62,51 +63,25 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                 $rootScope.has_popup = false;
                 $rootScope.app_is_bo_locked = false;
 
-                if(!Application.is_webview) {
+                if (!Application.is_webview) {
                     Connection.check();
                 }
 
-                $ionicPlatform.on('resume', function(result) {
+                $ionicPlatform.on('resume', function (result) {
                     sbLog("## App is resumed ##");
-                    Analytics.storeOpening().then(function(result) {
+                    Analytics.storeOpening().then(function (result) {
                         Analytics.data.storeClosingId = result.id;
                     });
                 });
 
                 // hello
 
-                $ionicPlatform.on('pause', function(result) {
+                $ionicPlatform.on('pause', function (result) {
                     sbLog("## App is on pause ##");
                     Analytics.storeClosing();
                 });
 
             });
-
-            // Utility for layout 17.
-            $rootScope.resizeLayout17 = function() {
-
-                $timeout(function() {
-                    var scrollview = document.getElementById('metro-scroll');
-                    if(scrollview) {
-                        scrollview.style.display = "block";
-                    }
-                    var element = document.getElementById('metro-line-2');
-                    if(element) {
-                        var positionInfo = element.getBoundingClientRect();
-                        element.style.height = positionInfo.width/4+"px";
-                    }
-                    /// In case 100 ms was too short.
-                    $timeout(function() {
-                        var scrollview = document.getElementById('metro-scroll');
-                        if(scrollview) {
-                            scrollview.style.display = "block";
-                        }
-                    }, 1000);
-                }, 1500);
-
-            };
-
-            window.l17 = $rootScope.resizeLayout17;
 
             $rootScope._getLastId = function (collection) {
                 var last_id = null;
@@ -124,51 +99,51 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                 return first_id;
             };
 
-            $rootScope.getTargetForLink = function() {
+            $rootScope.getTargetForLink = function () {
                 return Application.is_webview ? "_system" : "_blank";
             };
 
             /** Handler for overview */
             $rootScope.$on('$stateChangeSuccess', function (event, toState, toStateParams, fromState, fromStateParams) {
-                if(parent) {
+                if (parent) {
                     parent.postMessage("state.go", DOMAIN);
                 }
             });
 
             $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams, fromState, fromStateParams) {
 
-                if($rootScope.app_is_locked && toState.name != "padlock-view") {
+                if ($rootScope.app_is_locked && toState.name != "padlock-view") {
                     event.preventDefault();
                     $state.go("padlock-view");
-                } else if(Customer.can_access_locked_features && toState.name == "padlock-view") {
+                } else if (Customer.can_access_locked_features && toState.name == "padlock-view") {
                     event.preventDefault();
-                } else if(Application.is_webview && toState.name == "codescan") {
+                } else if (Application.is_webview && toState.name == "codescan") {
                     event.preventDefault();
                 }
             });
 
-            $window.addEventListener("online", function() {
+            $window.addEventListener("online", function () {
                 sbLog('online');
                 Connection.check();
             });
 
-            $window.addEventListener("offline", function() {
+            $window.addEventListener("offline", function () {
                 sbLog('offline');
                 Connection.check();
             });
 
-            $rootScope.$on(AUTH_EVENTS.loginSuccess, function() {
+            $rootScope.$on(AUTH_EVENTS.loginSuccess, function () {
                 $rootScope.app_is_locked = Application.is_locked && !Customer.can_access_locked_features;
-                if(!$rootScope.app_is_locked && Application.is_locked) {
+                if (!$rootScope.app_is_locked && Application.is_locked) {
                     $state.go("home");
                 }
             });
 
-            $rootScope.$on(AUTH_EVENTS.logoutSuccess, function() {
+            $rootScope.$on(AUTH_EVENTS.logoutSuccess, function () {
 
                 $rootScope.app_is_locked = Application.is_locked;
 
-                if($rootScope.app_is_locked) {
+                if ($rootScope.app_is_locked) {
                     $ionicHistory.nextViewOptions({
                         disableBack: true
                     });
@@ -177,23 +152,13 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
 
             });
 
-            $rootScope.$on('$ionicView.beforeEnter', function() {
-                if($location.path() == ("/" + APP_KEY)) {
-                    $ionicSlideBoxDelegate.update();
-                } else {
-                    Analytics.storeClosing();
-                }
+            $rootScope.$on('$ionicView.beforeEnter', function () {
+                Analytics.storeClosing();
             });
 
-            $rootScope.$on('$ionicView.afterEnter', function() {
-                if($location.path() == ("/" + APP_KEY)) {
-                    $rootScope.resizeLayout17();
-                }
-            });
+            $rootScope.$on(PUSH_EVENTS.notificationReceived, function (event, data) {
 
-            $rootScope.$on(PUSH_EVENTS.notificationReceived, function(event, data) {
-
-                if(!$rootScope.has_popup) {
+                if (!$rootScope.has_popup) {
 
                     if (data.additionalData.cover || data.additionalData.action_value) {
 
@@ -202,8 +167,7 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                             cancelText: $translate.instant("Cancel"),
                             cssClass: "push-popup",
                             title: data.title,
-                            template:
-                            '<div class="list card">' +
+                            template: '<div class="list card">' +
                             '   <div class="item item-image' + (data.additionalData.cover ? '' : ' ng-hide') + '">' +
                             '       <img src="' + (DOMAIN + data.additionalData.cover) + '">' +
                             '   </div>' +
@@ -213,7 +177,7 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                             '</div>'
                         };
 
-                        if(data.additionalData.action_value) {
+                        if (data.additionalData.action_value) {
                             $ionicPopup.confirm(dialog_data).then(function (res) {
                                 if (res) {
                                     if (data.additionalData.open_webview == true || data.additionalData.open_webview == "true") {
@@ -239,12 +203,12 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                 }
             });
 
-            $rootScope.showMobileFeatureOnlyError = function() {
+            $rootScope.showMobileFeatureOnlyError = function () {
                 var popup = $ionicPopup.show({
                     title: $translate.instant("Error"),
                     subTitle: $translate.instant("This feature is available from the application only")
                 });
-                $timeout(function() {
+                $timeout(function () {
                     popup.close();
                 }, 4000);
                 return;
@@ -253,9 +217,9 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
             var sid = localStorage.getItem("sb-auth-token");
 
             //get & process app data
-            $http.get(Url.get("front/mobile/load", { add_language: true, sid: sid })).success(function (data) {
+            $http.get(Url.get("front/mobile/load", {add_language: true, sid: sid})).success(function (data) {
 
-                if(data.application.is_bo_locked == 1) {
+                if (data.application.is_bo_locked == 1) {
                     $rootScope.app_is_bo_locked = true;
                 }
 
@@ -275,14 +239,15 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                 Application.app_name = data.application.name;
                 Application.is_locked = data.application.is_locked == 1;
 
-                if(!Application.is_webview && !$window.localStorage.getItem("first_running")) {
-                    Application.showCacheDownloadModal(); /** @TODO Make this popup optional */
+                if (!Application.is_webview && !$window.localStorage.getItem("first_running")) {
+                    Application.showCacheDownloadModal();
+                    /** @TODO Make this popup optional */
                     $window.localStorage.setItem("first_running", "true");
                     Analytics.storeInstallation();
                 }
 
-                Analytics.storeOpening().then(function(result) {
-                    if(result && result.id) {
+                Analytics.storeOpening().then(function (result) {
+                    if (result && result.id) {
                         Analytics.data.storeClosingId = result.id;
                     }
                 });
@@ -298,9 +263,9 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
 
                 var admob = data.application.admob;
 
-                if(!Application.is_webview && admob.id && $window.AdMob) {
+                if (!Application.is_webview && admob.id && $window.AdMob) {
                     sbLog("admob, ", admob);
-                    if(admob.type == "banner") {
+                    if (admob.type == "banner") {
                         $window.AdMob.createBanner({
                             adId: admob.id,
                             position: $window.AdMob.AD_POSITION.BOTTOM_CENTER,
@@ -334,23 +299,23 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
 
                                 var dialog_data = {
                                     title: data.push_message.title,
-                                    template:
-                                    '<div class="list card">' +
+                                    cssClass: "push-popup",
+                                    template: '<div class="list card">' +
                                     '   <div class="item item-image' + (data.push_message.cover ? '' : ' ng-hide') + '">' +
                                     '       <img src="' + data.push_message.cover + '">' +
                                     '   </div>' +
                                     '   <div class="item item-custom">' +
-                                    '       <h2>' + data.push_message.text + '</h2>' +
+                                    '       <span>' + data.push_message.text + '</span>' +
                                     '   </div>' +
                                     '</div>'
                                 };
 
-                                if(data.push_message.action_value) {
+                                if (data.push_message.action_value) {
                                     dialog_data.okText = $translate.instant("View");
 
                                     $ionicPopup.confirm(dialog_data).then(function (res) {
                                         if (res) {
-                                            if (data.push_message.open_webview == true) {
+                                            if (data.push_message.open_webview == true || data.push_message.open_webview == "true") {
                                                 window.open(data.push_message.action_value, "_blank", "location=yes");
                                             } else {
                                                 $location.path(data.push_message.action_value);
@@ -373,21 +338,22 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                         if (data.inapp_message) {
                             $ionicPopup.show({
                                 title: data.inapp_message.title,
-                                template:
-                                '<div class="list card">' +
-                                '<div class="item item-image' + (data.inapp_message.cover ? '' : ' ng-hide') + '">' +
-                                '<img src="' + data.inapp_message.cover + '">' +
-                                '</div>' +
-                                '<div class="item item-custom">' +
-                                '<h2>' + data.inapp_message.text + '</h2>' +
-                                '</div>' +
+                                cssClass: "push-popup",
+                                template: '<div class="list card">' +
+                                '   <div class="item item-image' + (data.inapp_message.cover ? '' : ' ng-hide') + '">' +
+                                '       <img src="' + data.inapp_message.cover + '">' +
+                                '   </div>' +
+                                '   <div class="item item-custom">' +
+                                '       <span>' + data.inapp_message.text + '</span>' +
+                                '   </div>' +
                                 '</div>'
                                 ,
+                                
                                 buttons: [
                                     {
                                         text: $translate.instant("OK"),
                                         type: "button-custom",
-                                        onTap: function() {
+                                        onTap: function () {
                                             Push.markInAppAsRead();
                                         }
                                     }
@@ -396,15 +362,10 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                         }
                     }
                 });
-
-                // Avoid horizontal layout bad sizing
-                $ionicSlideBoxDelegate.update();
-
             });
 
-
+            /** OVERVIEW */
             $rootScope.isOverview = isOverview;
-
             if ($rootScope.isOverview) {
 
                 $window.isHomepage = function () {
@@ -418,7 +379,7 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                 $window.reload = function (path) {
 
                     if (!path || path == $location.path()) {
-                        $ionicHistory.clearCache()
+                        $ionicHistory.clearCache();
                         $state.reload();
                     }
                 };
@@ -468,30 +429,32 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                     HomepageLayout.setLayoutId(value_id, layout_id);
                 };
 
-            } else {
-                if(Application.is_webview) {
-                    //Here, we are in webapp mode
-                    //So we can generate all webapp meta and manifest for android
-                    Application.generateWebappConfig().success(function(data) {
-                        var head = angular.element(document.querySelector('head'));
-                        var last_meta = $window.document.getElementById('last_meta');
-                        var url_root = DOMAIN;
-
-                        if(data.icon_url) {
-                            head.append('<link rel="apple-touch-icon" href="' + url_root + data.icon_url + '" />');
-                            head.append('<link rel="icon" sizes="192x192" href="' + url_root + data.icon_url + '" />');
-                        }
-
-                        if(data.manifest_url) {
-                            head.append('<link rel="manifest" href="' + url_root + data.manifest_url + '">');
-                        }
-
-                        if(data.startup_image_url) {
-                            head.append('<link rel="apple-touch-startup-image" href="' + url_root + data.startup_image_url + '" />');
-                        }
-                    });
-                }
             }
+
+            /** Web apps manifest */
+            if (!$rootScope.isOverview && Application.is_webview) {
+                //Here, we are in webapp mode
+                //So we can generate all webapp meta and manifest for android
+                Application.generateWebappConfig().success(function (data) {
+                    var head = angular.element(document.querySelector('head'));
+                    var last_meta = $window.document.getElementById('last_meta');
+                    var url_root = DOMAIN;
+
+                    if (data.icon_url) {
+                        head.append('<link rel="apple-touch-icon" href="' + url_root + data.icon_url + '" />');
+                        head.append('<link rel="icon" sizes="192x192" href="' + url_root + data.icon_url + '" />');
+                    }
+
+                    if (data.manifest_url) {
+                        head.append('<link rel="manifest" href="' + url_root + data.manifest_url + '">');
+                    }
+
+                    if (data.startup_image_url) {
+                        head.append('<link rel="apple-touch-startup-image" href="' + url_root + data.startup_image_url + '" />');
+                    }
+                });
+            }
+
         });
 
 
@@ -508,9 +471,12 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
 
 var isOverview = window.parent.location.href != window.location.href;
 
-sbLog = function(/** [...] */) {
-    var debug = true; /** set to false in prod */
-    if(!debug) { return; }
+sbLog = function (/** [...] */) {
+    var debug = true;
+    /** set to false in prod */
+    if (!debug) {
+        return;
+    }
 
     var args = arguments;
     var levels = new Array('info', 'debug', 'warning', 'error', 'exception', 'throw');
@@ -518,16 +484,21 @@ sbLog = function(/** [...] */) {
 
     /** Assuming the last parameter could be the log level */
     var level = 'info';
-    if(levels.indexOf(args[args.length-1]) != -1) {
-        var level = args[args.length-1];
+    if (levels.indexOf(args[args.length - 1]) != -1) {
+        var level = args[args.length - 1];
     }
 
     switch (level) {
-        case 'exception': case 'throw':
-        throw level+" >> "+args;
-        break;
-        case 'error': case 'warning': case 'debug': case 'info': default:
-        log.apply(console, args);
-        break;
+        case 'exception':
+        case 'throw':
+            throw level + " >> " + args;
+            break;
+        case 'error':
+        case 'warning':
+        case 'debug':
+        case 'info':
+        default:
+            log.apply(console, args);
+            break;
     }
 };

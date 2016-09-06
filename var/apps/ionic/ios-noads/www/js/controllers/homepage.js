@@ -61,10 +61,10 @@ App.config(function ($stateProvider, $urlRouterProvider) {
                 $location.path(features.options[0].path);
             }
 
-            /** Redirect where neede if required (paypal/stripe/etc...) ! */
+            /** Redirect where needed if required (paypal/stripe/etc...) ! */
             if(REDIRECT_URI) {
                 var redirect_path = "/"+APP_KEY+REDIRECT_URI;
-                REDIRECT_URI = false
+                REDIRECT_URI = false;
                 redirect_path = redirect_path.replace(/(\/)+/, "/");
                 $location.path(redirect_path);
             }
@@ -72,6 +72,9 @@ App.config(function ($stateProvider, $urlRouterProvider) {
             $scope.menu_is_visible = true;
 
             $scope.is_loading = false;
+
+            /** When done, call layout hooks */
+            HomepageLayout.callHooks();
 
         });
 

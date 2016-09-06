@@ -20,7 +20,7 @@ $schemas['application_layout_homepage'] = array(
         'default' => 'homepage',
     ),
     'code' => array(
-        'type' => 'varchar(10)',
+        'type' => 'varchar(50)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
@@ -42,6 +42,10 @@ $schemas['application_layout_homepage'] = array(
         'type' => 'tinyint(1)',
         'default' => '0',
     ),
+    'use_homepage_slider' => array(
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ),
     'number_of_displayed_icons' => array(
         'type' => 'tinyint(2)',
         'is_null' => true,
@@ -51,6 +55,11 @@ $schemas['application_layout_homepage'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
         'default' => 'bottom',
+    ),
+    'options' => array(
+        'type' => 'longtext',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
     ),
     'order' => array(
         'type' => 'tinyint(1) unsigned',

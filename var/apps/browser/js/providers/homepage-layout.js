@@ -3,7 +3,9 @@
 App.provider('HomepageLayout', function () {
 
     var self = this;
+
     self.layout_ids = new Array();
+
     self.getLayoutIdForValueId = function(value_id) {
 
         var layout_id = 1;
@@ -21,9 +23,53 @@ App.provider('HomepageLayout', function () {
 
     };
 
-    self.$get = function ($location, $q, $rootScope, $stateParams, $timeout, Customer, Padlock, Pages) {
+    self.$get = function ($injector, $ionicSlideBoxDelegate, $location, $q, $rootScope, $stateParams, $timeout, Customer, Padlock, Pages) {
 
         var HomepageLayout = {};
+
+        /** Hooks */
+        HomepageLayout.load_hooks = [];
+
+        /** Register hooks to be called when homepage is done. */
+        HomepageLayout.registerHook = function(hook) {
+            if(typeof hook == "function") {
+                HomepageLayout.load_hooks.push(hook);
+            }
+        };
+
+        /** Call all registered hooks. */
+        HomepageLayout.callHooks = function() {
+            /** Call registered hooks */
+            for (var i = 0; i < HomepageLayout.load_hooks.length; i++) {
+                HomepageLayout.load_hooks[i]();
+            }
+
+            /** Slidebox update for resize/orientation */
+            $timeout(function() {
+                $ionicSlideBoxDelegate.update();
+            }, 800);
+        };
+
+        HomepageLayout.getTemplate = function() {
+            var layout_code = HomepageLayout.properties.layoutCode;
+            var layout_id = HomepageLayout.properties.layoutId;
+            if($injector.has(layout_code)) {
+                return $injector.get(layout_code).getTemplate();
+            } else {
+                return "templates/home/"+layout_id+"/view.html";
+            }
+        };
+
+        HomepageLayout.getModalTemplate = function() {
+            var layout_code = HomepageLayout.properties.layoutCode;
+            if($injector.has(layout_code)) {
+                return $injector.get(layout_code).getModalTemplate();
+            } else {
+                /** Default modal */
+                return "templates/home/modal/view.html";
+            }
+        };
+
         HomepageLayout._initData = function () {
 
             HomepageLayout.data = null;
@@ -89,6 +135,7 @@ App.provider('HomepageLayout', function () {
                         self.pages = data.pages;
 
                         HomepageLayout.properties.layoutId = data.layout_id;
+                        HomepageLayout.properties.layoutCode = data.layout_code;
                         HomepageLayout.properties.tabbar_is_transparent = data.tabbar_is_transparent;
 
                         HomepageLayout._init();
@@ -177,6 +224,7 @@ App.provider('HomepageLayout', function () {
                  */
                 var features = {
                     layoutId: HomepageLayout.data.layout_id,
+                    layoutCode: HomepageLayout.data.layout_code,
                     options: options,
                     overview: {
                         hasMore: false,
@@ -221,29 +269,34 @@ App.provider('HomepageLayout', function () {
                     features.overview.options = features.options;
                 }
 
-                if (HomepageLayout.data.layout_id == "l8") {
-                    features = HomepageLayout.initLayout8(features);
-                }
+                /** MORE ... */
+                var more_button = {
+                    name: features.data.more_items.name,
+                    icon_url: features.data.more_items.icon_url,
+                    icon_is_colorable: features.data.more_items.icon_is_colorable,
+                    code: features.data.more_items.code,
+                    url: "tabbar_more"
+                };
 
-                // Chunks for Layout 17
-                if (HomepageLayout.data.layout_id == "l17") {
-                    var more_options = features.options.slice(12);
-                    var chunks = new Array();
-                    var i, j, temparray, chunk = 2;
-                    for (i = 0, j = more_options.length; i < j; i += chunk) {
-                        temparray = more_options.slice(i, i + chunk);
-                        chunks.push(temparray);
-                    }
-                    features.chunks = chunks;
+                /** Inject custom layout feature hooks. */
+                var layout_code = HomepageLayout.data.layout_code;
+                if($injector.has(layout_code)) {
+                    features = $injector.get(layout_code).features(features, more_button);
 
-                    window.addEventListener("orientationchange", function(){
-                        $rootScope.resizeLayout17();
+                    /** Hook orientationchange/viewenter home */
+                    HomepageLayout.registerHook(function() {
+                        $injector.get(layout_code).onResize();
                     });
 
-
+                    window.addEventListener("orientationchange", function(){
+                        $injector.get(layout_code).onResize();
+                    });
+                } else {
+                    /** Default behavior to push more button */
+                    if (features.overview.hasMore) {
+                        features.overview.options.push(more_button);
+                    }
                 }
-
-
 
                 features.first_option = false;
                 if (HomepageLayout.properties.options.autoSelectFirst && features.options.length !== 0) {
@@ -291,9 +344,6 @@ App.provider('HomepageLayout', function () {
                     HomepageLayout.properties.options.current = currentOption;
                 }
 
-                //var currentOptionName = HomepageLayout.properties.options.current ? HomepageLayout.properties.options.current.name : '-';
-                //console.debug('Current option: %s (root = %b)', currentOptionName, HomepageLayout.properties.options.isRootPage);
-
                 return currentOption;
             } else {
 
@@ -324,22 +374,6 @@ App.provider('HomepageLayout', function () {
             HomepageLayout._updateFromUrl($location.absUrl());
 
             HomepageLayout.is_initialized = true;
-        };
-
-        HomepageLayout.initLayout8 = function (features) {
-
-            var first_option = null;
-            var options = [];
-
-            if (features.options.length !== 0) {
-                first_option = features.options[0];
-                options = features.options.slice(1);
-            }
-
-            features.first_option = first_option;
-            features.options = options;
-
-            return features;
         };
 
         HomepageLayout.setLayoutId = function(value_id, layout_id) {
@@ -375,6 +409,18 @@ App.provider('HomepageLayout', function () {
 
         return {
             leftAreaSize: 150,
+            registerHook: function (hook) {
+                return HomepageLayout.registerHook(hook);
+            },
+            callHooks: function () {
+                return HomepageLayout.callHooks();
+            },
+            getTemplate: function () {
+                return HomepageLayout.getTemplate();
+            },
+            getModalTemplate: function () {
+                return HomepageLayout.getModalTemplate();
+            },
             getData: function () {
                 return HomepageLayout.getData();
             },

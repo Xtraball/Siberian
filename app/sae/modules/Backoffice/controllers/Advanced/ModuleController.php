@@ -22,6 +22,7 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
         $data = array(
             "core_modules" => array(),
             "modules" => array(),
+            "layouts" => array(),
         );
 
         foreach($core_modules as $core_module) {
@@ -35,7 +36,16 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
         }
 
         foreach($installed_modules as $installed_module) {
-            $data["modules"][] = array(
+            switch($installed_module->getData("type")) {
+                case "layout":
+                    $type = "layouts";
+                    break;
+                default: case "module":
+                    $type = "modules";
+                    break;
+
+            }
+            $data[$type][] = array(
                 "id" => $installed_module->getId(),
                 "name" => __($installed_module->getData("name")),
                 "version" => $installed_module->getData("version"),

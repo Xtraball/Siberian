@@ -30,6 +30,7 @@ App.config(function($routeProvider) {
     Advanced.findAll().success(function(data) {
         $scope.modules = data.modules;
         $scope.core_modules = data.core_modules;
+        $scope.layouts = data.layouts;
     }).finally(function() {
         $scope.content_loader_is_visible = false;
     });

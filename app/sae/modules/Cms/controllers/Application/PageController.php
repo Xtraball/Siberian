@@ -135,7 +135,7 @@ class Cms_Application_PageController extends Application_Controller_Default {
 
                 $datas['block'] = $blocks;
 
-                // Sauvegarde
+                $page->setMetadata($datas['metadata']);
                 $page->setData($datas)->save();
 
                 $html = array(

@@ -112,6 +112,7 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
 
         $data['layout'] = array(
             "layout_id" => "l{$this->getApplication()->getLayoutId()}",
+            "layout_code" => $this->getApplication()->getLayout()->getCode(),
             "visibility" => $this->getApplication()->getLayoutVisibility(),
             "use_horizontal_scroll" => (int) $layout->getUseHorizontalScroll(),
             "position" => $layout->getPosition()
@@ -119,6 +120,7 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
 
         $data['limit_to'] = $this->getApplication()->getLayout()->getNumberOfDisplayedIcons();
         $data['layout_id'] = 'l'.$this->getApplication()->getLayoutId();
+        $data['layout_code'] = $this->getApplication()->getLayout()->getCode();
         $data['tabbar_is_transparent'] = $background_color == "transparent";
 
         $data['homepage_slider_is_visible'] = (bool) $this->getApplication()->getHomepageSliderIsVisible();

@@ -24,6 +24,31 @@
 
 </sb-section>
 
+<sb-section title="'<?php echo addcslashes(__("Installed layouts"), "'"); ?>'">
+    <table class="table">
+        <thead>
+        <tr>
+            <th style="width:50%;"><?php echo __("Name") ?></th>
+            <th style="width:30%;"><?php echo __("Version") ?></th>
+            <th style="width:20%;text-align:right;"><?php echo __("Actions") ?></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="layout in layouts" ng-show="layouts.length">
+            <td>{{ layout.name }}</td>
+            <td>{{ layout.version }}</td>
+            <td style="text-align:right;">-
+                <!--button class="btn btn-xs btn-danger"><?php echo __("Uninstall") ?></button-->
+            </td>
+        </tr>
+        <tr ng-show="!layouts.length">
+            <td colspan="3"><?php echo __("No layouts") ?></td>
+        </tr>
+        </tbody>
+    </table>
+
+</sb-section>
+
 <sb-section title="'<?php echo addcslashes(__("Core modules"), "'"); ?>'">
     <table class="table">
         <thead>

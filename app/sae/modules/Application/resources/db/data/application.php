@@ -128,3 +128,6 @@ if(is_writable(APPLICATION_PATH . '/configs/app.ini')) {
     }
 
 }
+
+# Extends layout_code
+$this->query("ALTER TABLE application_layout_homepage MODIFY code VARCHAR(50) NOT NULL;");

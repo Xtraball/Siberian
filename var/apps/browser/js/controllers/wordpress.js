@@ -14,7 +14,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         },
         controller: 'WordpressListController'
     }).state("wordpress-view", {
-        url: BASE_PATH+'/wordpress/mobile_view/index/value_id/:value_id/post_id/:post_id',
+        url: BASE_PATH+'/wordpress/mobile_view/index/value_id/:value_id/post_id/:post_id/offset/:offset',
         templateUrl: 'templates/wordpress/l1/view.html',
         controller: 'WordpressViewController'
     });
@@ -32,16 +32,16 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
     $scope.is_loading = true;
     $scope.can_load_older_posts = true;
     $scope.value_id = Wordpress.value_id = $stateParams.value_id;
+    $scope.offset = null;
 
     $scope.loadContent = function() {
 
-        var offset = $scope.collection.length;
+        var offset = $scope.offset = $scope.collection.length;
 
         Wordpress.findAll(offset).success(function(data) {
 
             $scope.collection = $scope.collection.concat(data.collection);
 
-            console.log($scope.cover);
             if(!data.cover && !$scope.cover.id) {
                 if ($scope.collection.length) {
                     for (var i in $scope.collection) {
@@ -73,7 +73,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
     };
 
     $scope.showItem = function(item) {
-        $state.go("wordpress-view", {value_id: $scope.value_id, post_id: item.id});
+        $state.go("wordpress-view", {value_id: $scope.value_id, post_id: item.id, offset: $scope.offset});
     };
 
     $scope.loadMore = function() {
@@ -95,7 +95,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
 
     $scope.loadContent = function() {
 
-        Wordpress.find($stateParams.post_id).then(function(post) {
+        Wordpress.find($stateParams.post_id, $stateParams.offset).then(function(post) {
 
             $scope.item = post;
 

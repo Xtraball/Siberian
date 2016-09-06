@@ -131,6 +131,8 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
                         "title" => $page->getTitle(),
                         "subtitle" => $page->getContent(),
                         "picture" => $page->getPictureUrl() ? $this->getRequest()->getBaseUrl().$page->getPictureUrl() : null,
+                        "show_image" => $page->getMetadataValue('show_image'),
+                        "show_titles" => $page->getMetadataValue('show_titles')
                     );
                 }
 

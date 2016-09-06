@@ -50,7 +50,7 @@
                             <div class="item item-divider item-divider-custom">
                                 <p class="label">{{ field.name }}</p>
                             </div>
-                            <ion-radio class="radio-custom" ng-repeat="option in field.options" ng-model="formData[field.id]" ng-value="option.id">{{ option.name }}</ion-radio>
+                            <ion-radio name="radio_{{ field.id }}" class="radio-custom" ng-repeat="option in field.options" ng-model="formData[field.id]" ng-value="option.id">{{ option.name }}</ion-radio>
                         </div>
 
                         <label class="item item-input item-select item-custom" ng-switch-when="select">

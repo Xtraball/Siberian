@@ -355,19 +355,26 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         });
 
     };
+    
+    $scope.confirmBeforeUse = function () {
 
-    $scope.confirmBeforeUse = function() {
-
-        if($rootScope.isOverview) {
+        if ($rootScope.isOverview) {
             $rootScope.showMobileFeatureOnlyError();
             return;
         }
 
         var buttons = [$translate.instant("Cancel"), $translate.instant("OK")];
 
-        Dialog.confirm("", $scope.modal_title, buttons, "text-center").then(function(res) {
-            if(res) {
-                $scope.use();
+        Dialog.confirm("", $scope.modal_title, buttons, "text-center").then(function (res) {
+
+            if (Application.is_webview) {
+                if (res) {
+                    $scope.use();
+                }
+            } else {
+                if (res == 2) {
+                    $scope.use();
+                }
             }
         });
 

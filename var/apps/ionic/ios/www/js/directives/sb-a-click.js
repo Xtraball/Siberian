@@ -14,7 +14,8 @@ App.directive("sbAClick", function($rootScope, $timeout, $window) {
                             $rootScope.showMobileFeatureOnlyError();
                             return false;
                         }
-                        $window.open(old_href, $rootScope.getTargetForLink(), "location=no"); return false;
+                        $window.open(old_href, $rootScope.getTargetForLink(), "location=no");
+                        return false;
                     });
                 });
             });

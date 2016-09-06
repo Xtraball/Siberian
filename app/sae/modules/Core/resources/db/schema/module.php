@@ -27,6 +27,10 @@ $schemas['module'] = array(
         'type' => 'tinyint(1) unsigned',
         'default' => '0',
     ),
+    'type' => array(
+        'type' => 'varchar(512)',
+        'default' => 'module',
+    ),
     'created_at' => array(
         'type' => 'datetime',
     ),

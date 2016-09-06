@@ -4,8 +4,7 @@ App.directive('sbTabbar', function ($ionicHistory, $ionicModal, $ionicSlideBoxDe
     return {
         restrict: 'A',
         templateUrl: function() {
-            return "templates/home/" + HomepageLayout.properties.layoutId + "/view.html";
-            // Url.get('/front/mobile_home/menu')
+            return HomepageLayout.getTemplate();
         },
         scope: {},
         link: function ($scope, element, attrs) {
@@ -15,8 +14,6 @@ App.directive('sbTabbar', function ($ionicHistory, $ionicModal, $ionicSlideBoxDe
             $scope.animate_tabbar = !$scope.tabbar_is_visible;
             $scope.pages_list_is_visible = false;
             $scope.active_page = 0;
-            $scope.modalDefault = "templates/home/modal/view.html";
-            $scope.modalLayout10 = "templates/home/l10/modal.html";
 
             $scope.layout = HomepageLayout;
 
@@ -35,28 +32,6 @@ App.directive('sbTabbar', function ($ionicHistory, $ionicModal, $ionicSlideBoxDe
 
                     // filtered active options
                     $scope.features = features;
-
-                    if ($scope.features.overview.hasMore) {
-                        // add the "more" icon
-                        $scope.features.overview.options.push({
-                            name: features.data.more_items.name,
-                            icon_url: features.data.more_items.icon_url,
-                            icon_is_colorable: features.data.more_items.icon_is_colorable,
-                            code: features.data.more_items.code,
-                            url: "tabbar_more"
-                        });
-
-                        //If layout 10, we need to reorder icons in order to have the more button at middle
-                        if ($scope.features.layoutId == "l10") {
-                            var third_option = features.overview.options[2];
-                            var fourth_option = features.overview.options[3];
-                            features.overview.options[2] = features.overview.options[4];
-                            features.overview.options[3] = third_option;
-                            features.overview.options[4] = fourth_option;
-                            features.options = features.options.slice(4, features.options.length);
-                        }
-
-                    }
 
                     $timeout(function () {
                         if(!Pages.is_loaded) {
@@ -79,7 +54,6 @@ App.directive('sbTabbar', function ($ionicHistory, $ionicModal, $ionicSlideBoxDe
                     }
 
                 });
-                //$scope.close_previewer_button_is_visible = Application.is_previewer && ionic.Platform.isIos();
             };
 
             $scope.closeList = function () {
@@ -170,8 +144,7 @@ App.directive('sbTabbar', function ($ionicHistory, $ionicModal, $ionicSlideBoxDe
             });
             $rootScope.$on(PUSH_EVENTS.readPushs, function() { $scope.push_badge = 0; });
 
-            /** Layout 1, Layout 2, Layout 10 more modal, and maybe more */
-            $scope.modalUrl = (HomepageLayout.properties.layoutId != 'l10') ? $scope.modalDefault : $scope.modalLayout10;
+            $scope.modalUrl = HomepageLayout.getModalTemplate();
 
             $scope.more = function() {
                 $ionicModal.fromTemplateUrl($scope.modalUrl, {

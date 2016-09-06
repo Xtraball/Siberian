@@ -70,6 +70,21 @@ class Siberian_Minify extends \Minify\Minify {
                 self::$PLATFORMS[$platform]["index"] = "{$basepath}{$path['index']}";
             }
 
+            if(Zend_Registry::isRegistered('config')) {
+                $config = Zend_Registry::get('config');
+                if(!empty($config->siberian->minify)) {
+                    foreach($config->siberian->minify as $platform => $properties) {
+                        if(isset(self::$PLATFORMS[$platform])) {
+                            foreach($properties as $key => $property) {
+                                if(isset(self::$PLATFORMS[$platform][$key])) {
+                                    self::$PLATFORMS[$platform][$key] = ($property == 1);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             self::$instance = $this;
         }
 
@@ -181,10 +196,6 @@ class Siberian_Minify extends \Minify\Minify {
      * @param $index_path
      */
     public function replaceIndex($index_path, $css = true, $js = true) {
-        if(!$css && !$js) {
-            return;
-        }
-
         $source = $index_path;
         $dest = str_replace("index", "index-prod", $index_path);
 

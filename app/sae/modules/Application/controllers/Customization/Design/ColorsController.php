@@ -20,8 +20,12 @@ class Application_Customization_Design_ColorsController extends Application_Cont
 
             try {
 
+                $html = array();
+
                 // S'il y a embrouille
-                if(empty($datas['block_id'])) throw new Exception($this->_('An error occurred while saving your colors.'));
+                if(empty($datas['block_id']) && !isset($datas["custom_scss"])) {
+                    throw new Exception(__("#354-01: An error occurred while saving your colors."));
+                }
 
                 // Récupère l'application en cours
                 $application = $this->getApplication();
@@ -30,8 +34,12 @@ class Application_Customization_Design_ColorsController extends Application_Cont
                 $block = new Template_Model_Block();
                 $block->find($datas['block_id']);
                 // S'il y a re-embrouille
-                if(!$block->getId()) throw new Exception($this->_('An error occurred while saving your colors.'));
-                else $block->unsData();
+                if(!$block->getId() && !isset($datas["custom_scss"])) {
+                    throw new Exception(__("#354-02: An error occurred while saving your colors."));
+                }
+                else {
+                    $block->unsData();
+                }
 
                 if(!empty($datas['color'])) {
                     $block->setData('color', $datas['color']);
@@ -48,6 +56,12 @@ class Application_Customization_Design_ColorsController extends Application_Cont
                 if(!empty($datas['image_color'])) {
                     $block->setData('image_color', $datas['image_color']);
                 }
+                if(isset($datas['custom_scss'])) {
+                    $html["success_message"] = __("SCSS successfully saved");
+
+                    $application->setData('custom_scss', $datas['custom_scss']);
+                    $application->save();
+                }
 
                 $block->setBlockId($datas['block_id'])
                     ->setAppId($application->getId())
@@ -55,14 +69,15 @@ class Application_Customization_Design_ColorsController extends Application_Cont
                 ;
 
                 if($application->useIonicDesign()) {
-                    Template_Model_Design::generateCss($application);
+                    $result = Template_Model_Design::generateCss($application);
                 }
 
-                $html = array(
-                    'success' => '1',
-                    "tabbar_is_transparent" => $block->getBackgroundColor() == "transparent"
-                );
+                if(!$result) {
+                    throw new Exception(__("#354-03: SCSS Compilation error, you must input valid SCSS."));
+                }
 
+                $html["success"] = 1;
+                $html["tabbar_is_transparent"] = ($block->getBackgroundColor() == "transparent");
             }
             catch(Exception $e) {
                 $html = array(

@@ -58,7 +58,12 @@ class Siberian_Error
 
         if(self::$logger != null) {
             $err_text = (isset(self::$errors[$errno])) ? self::$errors[$errno] : $errno;
-            self::$logger->err(sprintf("[%s]: %s in %s line %s", $err_text, $errstr, $errfile, $errline));
+            try {
+                self::$logger->err(sprintf("[%s]: %s in %s line %s", $err_text, $errstr, $errfile, $errline));
+            } catch(Exception $e) {
+                # Hum.
+            }
+
         }
     }
 

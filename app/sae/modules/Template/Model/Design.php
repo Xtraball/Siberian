@@ -4,12 +4,26 @@ class Template_Model_Design extends Core_Model_Default {
 
     const PATH_IMAGE = '/images/templates';
 
+    public static $variables = array();
+
     protected $_blocks;
 
     public function __construct($params = array()) {
         parent::__construct($params);
         $this->_db_table = 'Template_Model_Db_Table_Design';
         return $this;
+    }
+
+    /**
+     * @param $variables
+     */
+    public static function registerVariables($variables) {
+        if(!is_array($variables)) {
+            $variables = array($variables);
+        }
+        foreach($variables as $variable) {
+            self::$variables[] = $variable;
+        }
     }
 
     public static function getCssPath($application) {
@@ -25,7 +39,15 @@ class Template_Model_Design extends Core_Model_Default {
 
     }
 
-    public static function generateCss($application, $javascript = false) {
+    /**
+     * @param $application
+     * @return array
+     */
+    public static function getVariables($application) {
+        return self::generateCss($application, false, true);
+    }
+
+    public static function generateCss($application, $javascript = false, $return_variables = false) {
 
         $variables = array();
         $blocks = $application->getBlocks();
@@ -129,17 +151,36 @@ class Template_Model_Design extends Core_Model_Default {
             }
         }
 
+        /** Return only vars */
+        if($return_variables) {
+            return $variables;
+        }
+
         $scss = implode("\n", $content);
+
+        /** With custom from app */
+        $custom_app = $scss."\n".$application->getCustomScss();
 
         $compiler = Siberian_Scss::getCompiler();
         $compiler->addImportPath(Core_Model_Directory::getBasePathTo("var/apps/browser/lib/ionic/scss"));
         $compiler->addImportPath(Core_Model_Directory::getBasePathTo("var/apps/browser/scss"));
 
-        $css = $compiler->compile('
-            @import "_variables.scss";
-            @import "_mixins.scss";
-            ' . $scss
-        );
+        $result = true;
+        try {
+            $css = $compiler->compile('
+                @import "_variables.scss";
+                @import "_mixins.scss";
+                ' . $custom_app
+            );
+        } catch(Exception $e) {
+            /** Meanwhile, fallback without custom scss */
+            $css = $compiler->compile('
+                @import "_variables.scss";
+                @import "_mixins.scss";
+                ' . $scss
+            );
+            $result = false;
+        }
 
         if($javascript) {
             return $css;
@@ -149,6 +190,8 @@ class Template_Model_Design extends Core_Model_Default {
             if(!is_dir($folder)) mkdir($folder, 0777, true);
             file_put_contents("{$folder}/{$file}", $css);
         }
+
+        return $result;
     }
 
     public function findAllWithCategory() {

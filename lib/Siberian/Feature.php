@@ -257,7 +257,7 @@ class Siberian_Feature
         if(!is_dir($folder)) {
             mkdir($folder, 0777, true);
         }
-
+        
         if(!copy($img_src, $img_dst)) {
             throw new exception(__("An error occurred while saving your picture. Please try again later."));
         } else {

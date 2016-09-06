@@ -73,7 +73,8 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
 
         switch($package->getType()) {
             case "module":
-                    $this->_checkDependenciesModule($package);
+            case "layout":
+                    $this->_checkDependenciesModule($package, $package->getType());
                 break;
             default:
                     $this->_checkDependenciesFallback($package);
@@ -87,7 +88,7 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
      * @param $package
      * @throws Exception
      */
-    private function _checkDependenciesModule($package) {
+    private function _checkDependenciesModule($package, $package_type = "module") {
         $version    = $package->getVersion();
         $name       = $package->getName();
         $deps       = $package->getDependencies();
@@ -133,8 +134,16 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
         $_module = new Installer_Model_Installer_Module();
         $_module->prepare($name);
 
+        switch($package_type) {
+            case "layout":
+                $_module->setType("layout");
+                break;
+            case "module":
+                break;
+        }
+
         if($_module->isInstalled() && version_compare($version, $_module->getVersion(), "<=")) {
-            throw new Exception(__("#19-016: You already have installed this module or a newer version."));
+            throw new Exception(__("#19-016: You already have installed this %s or a newer version.", $package_type));
         } else {
             # Set the module as in Local, which could be uninstalled.
             $_module
@@ -316,7 +325,7 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
             $dirIterator = new DirectoryIterator($this->_tmp_directory);
         }
 
-        $is_module = ($this->getPackageDetails()->getData("type") == "module");
+        $is_module = (in_array($this->getPackageDetails()->getData("type"), array("module", "layout")));
         $module_name = $this->getPackageDetails()->getData("name");
 
         foreach($dirIterator as $element) {

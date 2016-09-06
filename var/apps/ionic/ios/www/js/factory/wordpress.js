@@ -23,22 +23,19 @@ App.factory('Wordpress', function($rootScope, $q, $http, Url) {
         });
     };
 
-    factory.find = function(post_id) {
+    factory.find = function(post_id, offset) {
 
         var deferred = $q.defer();
         if(!this.value_id) return;
 
-        this.findAll().success(function(data) {
+        this.findAll(offset).success(function(data) {
             var posts = data.collection;
             var cover = data.cover;
             var post = {};
 
-            console.log("avant");
             if(cover && cover.id  == post_id) {
-                console.log("if cover");
                 post = cover;
             } else {
-                console.log("else cover");
                 for(var i in posts) {
                     if(posts[i].id == post_id) {
                         post = posts[i];
@@ -46,8 +43,6 @@ App.factory('Wordpress', function($rootScope, $q, $http, Url) {
                     }
                 }
             }
-
-            console.log("post: ", post);
 
             deferred.resolve(post);
         }).error(function(data) {
