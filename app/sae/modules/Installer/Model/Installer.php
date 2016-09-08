@@ -10,7 +10,7 @@ class Installer_Model_Installer extends Core_Model_Default {
     }
 
     public static function hasRequiredPhpVersion() {
-        return version_compare(PHP_VERSION, '5.4.0') >= 0;
+        return version_compare(PHP_VERSION, '5.6.0') >= 0;
     }
 
     public static function isInstalled() {
@@ -34,7 +34,7 @@ class Installer_Model_Installer extends Core_Model_Default {
         $error = array();
 
         if(!self::hasRequiredPhpVersion()) {
-            $error[] = Core_Model_Translator::translate("Your PHP version is too old, please upgrade to PHP 5.4+.");
+            $error[] = Core_Model_Translator::translate("Your PHP version is too old, please upgrade to PHP 5.6+.");
         }
 
         return $error;

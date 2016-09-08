@@ -62,6 +62,30 @@ $schemas['mcommerce'] = array(
         'type' => 'tinyint(1)',
         'default' => '0',
     ),
+    'phone' => array(
+        'type' => 'enum(\'hidden\',\'optional\',\'mandatory\')',
+        'default' => 'mandatory',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
+    'birthday' => array(
+        'type' => 'enum(\'hidden\',\'optional\',\'mandatory\')',
+        'default' => 'mandatory',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
+    'invoicing_address' => array(
+        'type' => 'enum(\'hidden\',\'optional\',\'mandatory\')',
+        'default' => 'mandatory',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
+    'delivery_address' => array(
+        'type' => 'enum(\'hidden\',\'optional\',\'mandatory\')',
+        'default' => 'mandatory',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'created_at' => array(
         'type' => 'datetime',
     ),

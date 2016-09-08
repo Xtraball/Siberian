@@ -1,6 +1,6 @@
 
 <form ng-submit="save()" class="form-horizontal">
-    <sb-section title="'<?php echo $this->_("Your Platform"); ?>'">
+    <sb-section title="'<?php echo __js("Your Platform","'"); ?>'">
 
         <div class="form-group">
             <div class="col-md-6">
@@ -11,7 +11,7 @@
 
     </sb-section>
 
-    <sb-section title="'<?php echo $this->_("Your iOS autobuild License Key"); ?>'">
+    <sb-section title="'<?php echo __js("Your iOS autobuild License Key","'"); ?>'">
         <div ng-if="iosBuildLicenceError !== ''" class="alert alert-danger" role="alert">{{ iosBuildLicenceError }}</div>
         <div class="form-group">
             <div class="col-md-6">
@@ -30,7 +30,7 @@
         </div>
     </sb-section>
 
-    <sb-section class="clear" title="'<?php echo $this->_("Your company"); ?>'">
+    <sb-section class="clear" title="'<?php echo __js("Your company","'"); ?>'">
 
         <div class="form-group">
             <div class="col-md-6">
@@ -69,7 +69,7 @@
 
     <div class="clear"></div>
 
-    <sb-section title="'<?php echo $this->_("Your Location"); ?>'">
+    <sb-section title="'<?php echo __js("Your Location","'"); ?>'">
         <div class="form-group">
             <div class="col-md-6">
                 <label for="{{ configs.system_timezone.code }}">{{ configs.system_timezone.label }}</label>
@@ -97,7 +97,7 @@
 
     <div class="clear"></div>
 
-    <sb-section title="'<?php echo $this->_("Your Applications"); ?>'">
+    <sb-section title="'<?php echo __js("Your Applications","'"); ?>'">
 
 
         <div class="form-group" ng-if="configs.system_publication_access_type">
@@ -121,7 +121,7 @@
 
     </sb-section>
 
-    <sb-section title="'<?php echo $this->_("Analytics"); ?>'" ng-show="is_flat_design">
+    <sb-section title="'<?php echo __js("Analytics","'"); ?>'" ng-show="is_flat_design">
         <div class="form-group">
             <div class="col-md-6">
                 <button type="button" class="btn btn-primary" ng-click="Compute_Analytics()"><?php echo $this->_("Generate analytics"); ?></button>
@@ -132,7 +132,7 @@
 
     <div class="clear"></div>
 
-    <sb-section title="'<?php echo $this->_("Advertising"); ?>'">
+    <sb-section title="'<?php echo __js("Advertising","'"); ?>'">
         <div class="form-group">
             <div class="col-md-6">
                 <label for="{{ configs.application_owner_use_ads.code }}"><?php echo $this->_("Force all app to use Owner AdMob"); ?></label>

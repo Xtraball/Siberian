@@ -1,7 +1,11 @@
-<?php $option_value = $this->getOptionValue(); ?>
-<?php $mcommerce = $option_value->getObject(); ?>
-<?php $application = $this->getApplication(); ?>
-<?php $order = $this->getCurrentOrder(); ?>
+<?php
+$option_value = $this->getOptionValue();
+$mcommerce = $option_value->getObject();
+$application = $this->getApplication();
+$order = $this->getCurrentOrder();
+$customer = $order->getCustomer();
+$metadatas = $customer->getMetadatas();
+?>
 <div>
 
     <form id="orderEditForm" method="post" action="<?php echo $this->getUrl('mcommerce/application_order/editpost'); ?>" class="form-horizontal">
@@ -25,7 +29,8 @@
                     <label for="customer_firstname"><?php echo $this->_('Firstname:'); ?></label>
                 </div>
                 <div class="col-md-6">
-                    <input type="text" id="customer_firstname" name="customer_firstname" class="required form-control" value="<?php echo $order->getCustomerFirstname(); ?>" />
+                    <input type="text" id="customer_firstname" name="customer[firstname]" class="input-flat required"
+                           value="<?php echo $customer->getFirstname(); ?>"/>
                 </div>
             </div>
             <div class="form-group">
@@ -33,7 +38,8 @@
                     <label for="customer_lastname"><?php echo $this->_('Lastname:'); ?></label>
                 </div>
                 <div class="col-md-6">
-                    <input type="text" id="customer_lastname" name="customer_lastname" class="required form-control" value="<?php echo $order->getCustomerLastname(); ?>" />
+                    <input type="text" id="customer_lastname" name="customer[lastname]" class="input-flat required"
+                           value="<?php echo $customer->getLastname(); ?>"/>
                 </div>
             </div>
             <div class="form-group">
@@ -41,7 +47,8 @@
                     <label for="customer_email"><?php echo $this->_('Email:'); ?></label>
                 </div>
                 <div class="col-md-6">
-                    <input type="text" id="customer_email" name="customer_email" class="required form-control" value="<?php echo $order->getCustomerEmail(); ?>" />
+                    <input type="text" id="customer_email" name="customer[email]" class="input-flat required"
+                           value="<?php echo $customer->getEmail(); ?>"/>
                 </div>
             </div>
             <div class="form-group">
@@ -49,31 +56,73 @@
                     <label for="customer_phone"><?php echo $this->_('Phone:'); ?></label>
                 </div>
                 <div class="col-md-6">
-                    <input type="text" id="customer_phone" name="customer_phone" class="form-control" value="<?php echo $order->getCustomerPhone(); ?>" />
+                    <input type="text" id="customer_phone" name="customer[metadatas][phone]" class="input-flat"
+                           value="<?php echo $metadatas['phone']; ?>"/>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-md-2">
-                    <label for="customer_street"><?php echo $this->_('Street:'); ?></label>
+                    <label for="customer_birthday"><?php echo $this->_('Birthday:'); ?></label>
                 </div>
                 <div class="col-md-6">
-                    <input type="text" id="customer_street" name="customer_street" class="form-control" value="<?php echo $order->getCustomerStreet(); ?>" />
+                    <input type="text" id="customer_birthday" name="custome[metadatas][birthday]" class="input-flat"
+                           value="<?php echo date("m/d/Y", strtotime($metadatas['birthday'])); ?>"/>
+                </div>
+            </div>
+            <h3><?php echo $this->_('Delivery address:'); ?></h3>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <label for="delivery_address_street"><?php echo $this->_('Street:'); ?></label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" id="delivery_address_street" name="customer[metadatas][delivery_address][street]" class="input-flat"
+                           value="<?php echo $metadatas['delivery_address']['street']; ?>"/>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-md-2">
-                    <label for="customer_postcode"><?php echo $this->_('Postcode:'); ?></label>
+                    <label for="delivery_address_postcode"><?php echo $this->_('Postcode:'); ?></label>
                 </div>
                 <div class="col-md-6">
-                    <input type="text" id="customer_postcode" name="customer_postcode" class="form-control" value="<?php echo $order->getCustomerPostcode(); ?>" />
+                    <input type="text" id="delivery_address_postcode" name="customer[metadatas][delivery_address][postcode]" class="input-flat"
+                           value="<?php echo $metadatas['delivery_address']['postcode']; ?>"/>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-md-2">
-                    <label for="customer_city"><?php echo $this->_('City:'); ?></label>
+                    <label for="delivery_address_city"><?php echo $this->_('City:'); ?></label>
                 </div>
                 <div class="col-md-6">
-                    <input type="text" id="customer_city" name="customer_city" class="form-control" value="<?php echo $order->getCustomerCity(); ?>" />
+                    <input type="text" id="delivery_address_city" name="customer[metadatas][delivery_address][city]" class="input-flat"
+                           value="<?php echo $metadatas['delivery_address']['city']; ?>"/>
+                </div>
+            </div>
+            <h3><?php echo $this->_('Invoicing address:'); ?></h3>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <label for="invoicing_address_street"><?php echo $this->_('Street:'); ?></label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" id="invoicing_address_street" name="customer[metadatas][invoicing_address][street]" class="input-flat"
+                           value="<?php echo $metadatas['invoicing_address']['street']; ?>"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <label for="invoicing_address_postcode"><?php echo $this->_('Postcode:'); ?></label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" id="invoicing_address_postcode" name="customer[metadatas][invoicing_address][postcode]" class="input-flat"
+                           value="<?php echo $metadatas['invoicing_address']['postcode']; ?>"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <label for="invoicing_address_city"><?php echo $this->_('City:'); ?></label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" id="invoicing_address_city" name="customer[metadatas][invoicing_address][city]" class="input-flat"
+                           value="<?php echo $metadatas['invoicing_address']['city']; ?>"/>
                 </div>
             </div>
         </fieldset>

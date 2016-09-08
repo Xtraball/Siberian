@@ -14,7 +14,7 @@ App.service('Dialog', function($cordovaDialogs, $ionicPopup, $translate) {
 
         if(!service.is_webview) {
             return $cordovaDialogs.alert(
-                alert_message,
+                alert_message.replace("<br \/>", "\n\r"),
                 alert_title,
                 alert_button
             );
@@ -38,7 +38,7 @@ App.service('Dialog', function($cordovaDialogs, $ionicPopup, $translate) {
     service.confirm = function(alert_title, alert_message, alert_buttons_array, alert_css_class) {
         if(!service.is_webview) {
             return $cordovaDialogs.confirm(
-                alert_message,
+                alert_message.replace("<br \/>", "\n\r"),
                 alert_title,
                 alert_buttons_array
             );

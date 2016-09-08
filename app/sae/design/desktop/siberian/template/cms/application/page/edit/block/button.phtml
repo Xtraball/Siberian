@@ -36,9 +36,15 @@ $button = $block->getObject();
                     <div id="field_label_<?php echo $this->getPosition(); ?>" for="content_<?php echo $this->getPosition(); ?>" >
                         <?php echo $block->getTypeId() == 'email' ? $this->_('Email:') : ($block->getTypeId() == 'link' ? $this->_('Link:') : $this->_('Phone:')); ?>
                     </div>
+                    <div id="field_label_label_<?php echo $this->getPosition(); ?>" for="content_<?php echo $this->getPosition(); ?>">
+                        <?php echo $block->getTypeId() == 'link' ? $this->_('Label:') : ''; ?>
+                    </div>
                 </div>
                 <div class="col-sm-8">
                     <input type="text" id="content_<?php echo $this->getPosition(); ?>" class="input form-control content_input" name="block[<?php echo $this->getPosition(); ?>][content]" value="<?php echo $block->getContent(); ?>" placeholder="" />
+                    <?php if ($block->getTypeId() == 'link') : ?>
+                        <input id="label_<?php echo $this->getPosition(); ?>" type="text" class="input form-control content_input" placeholder="label" name="block[<?php echo $this->getPosition(); ?>][label]" value="<?php echo $block->getLabel(); ?>"/>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -60,13 +66,21 @@ $button = $block->getObject();
 
         $('#button_link_<?php echo $this->getPosition() ?>').click(function () {
             $('#field_label_<?php echo $this->getPosition() ?>').html('<?php echo addslashes($this->_('Link:')) ?>');
+            $('#field_label_label_<?php echo $this->getPosition(); ?>').append('<?php echo addslashes($this->_('Label:')) ?>');
             $('#type_id_<?php echo $this->getPosition() ?>').val('link');
+            var container = $('#content_<?php echo $this->getPosition(); ?>').parent();
+            container.append('<input id="label_<?php echo $this->getPosition(); ?>" type="text" class="input form-control content_input" placeholder="label" name="block[<?php echo $this->getPosition(); ?>][label]" value="<?php echo $block->getLabel(); ?>"/>');
+
             return false;
         });
 
         $('#button_phone_<?php echo $this->getPosition() ?>').click(function () {
             $('#field_label_<?php echo $this->getPosition() ?>').html('<?php echo addslashes($this->_('Phone:')) ?>');
             $('#type_id_<?php echo $this->getPosition() ?>').val('phone');
+
+            $('#label_<?php echo $this->getPosition(); ?>').remove();
+            $('#field_label_label_<?php echo $this->getPosition(); ?>').html('');
+
             return false;
         });
         $('#button_email_<?php echo $this->getPosition() ?>').click(function () {
@@ -74,6 +88,7 @@ $button = $block->getObject();
             $('#type_id_<?php echo $this->getPosition() ?>').val('email');
             return false;
         });
+
         $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .handle').mousedown(function () {
             dragTransformMouseDown($(this));
         }).mouseup(function () {

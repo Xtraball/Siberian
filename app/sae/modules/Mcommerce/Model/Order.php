@@ -429,4 +429,11 @@ class Mcommerce_Model_Order extends Core_Model_Default {
 
     }
 
+    public function getCustomer()
+    {
+        $customer = new Mcommerce_Model_Customer();
+        $customer->find($this->getCustomerId());
+        return $customer;
+    }
+
 }

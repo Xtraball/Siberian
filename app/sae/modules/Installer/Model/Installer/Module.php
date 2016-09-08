@@ -241,8 +241,14 @@ class Installer_Model_Installer_Module extends Core_Model_Default
             $this->getTable()->install("", $file, "");
         }
         catch(Exception $e) {
+            unlink($file);
+            $message = "
+                Fatal Error When installing the Template (".$file.")
+                File removed.
+                ".print_r($e, true)."";
+
             $logger = Zend_Registry::get("logger");
-            $logger->sendException("Fatal Error When Connecting to The Database: \n".print_r($e, true));
+            $logger->sendException($message);
         }
         return $this;
     }

@@ -75,12 +75,8 @@
 				<td>
 					<?php $php_version = phpversion(); ?>
 					<?php echo __("PHP version %s:", $php_version) ?>
-					<?php if(version_compare($php_version, '5.4', '<')){ ?>
+					<?php if(version_compare($php_version, '5.6', '<')){ ?>
 						<span class="service-red"><?php echo __("Doesn't meet the requirements") ?></span>,
-					<?php } elseif(version_compare($php_version, '5.6', '<')) { ?>
-						<span class="service-orange"><?php echo __("Ok, you may upgrade to php 5.6") ?></span>,
-					<?php } elseif(version_compare($php_version, '7', '>=')) { ?>
-						<span class="service-red"><?php echo __("PHP 7.0 is not yet supported") ?></span>,
 					<?php } else { ?>
 						<span class="service-green"><?php echo __("Ok") ?></span>,
 					<?php } ?>

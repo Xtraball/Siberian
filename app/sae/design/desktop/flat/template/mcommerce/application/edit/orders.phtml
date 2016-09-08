@@ -23,12 +23,13 @@
             </thead>
             <tbody>
                 <?php foreach ($orders as $order) : ?>
-                <tr class="edit_order" rel="<?php echo $order->getId() ?>" data-store-id="<?php echo $order->getStoreId(); ?>" data-status="<?php echo $order->getStatusId(); ?>">
-                    <td><?php echo $order->getNumber(); ?></td>
-                    <td><?php echo $order->getStatus(); ?></td>
-                    <td><?php echo $order->getCustomerFirstname(); ?> <?php echo $order->getCustomerLastname(); ?></td>
-                    <td><?php echo $order->getFormattedTotal(); ?></td>
-                </tr>
+                    <?php $customer = $order->getCustomer(); ?>
+                    <tr class="edit_order" rel="<?php echo $order->getId() ?>" data-store-id="<?php echo $order->getStoreId(); ?>" data-status="<?php echo $order->getStatusId(); ?>">
+                        <td><?php echo $order->getNumber(); ?></td>
+                        <td><?php echo $order->getStatus(); ?></td>
+                        <td><?php echo $customer->getFirstname(); ?><?php echo $customer->getLastname(); ?></td>
+                        <td><?php echo $order->getFormattedTotal(); ?></td>
+                    </tr>
                 <?php endforeach ?>
             </tbody>
         </table>

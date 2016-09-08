@@ -6,6 +6,7 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
     factory.can_access_locked_features = false;
     factory.events = [];
     factory.modal = null;
+    factory.display_account_form = false;
 
     factory.onStatusChange = function(id, urls) {
         factory.events[id] = urls;
@@ -18,7 +19,9 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
             if(angular.isArray(factory.events[i])) {
                 var data = factory.events[i];
                 for(var j = 0; j < data.length; j++) {
-                    httpCache.remove(data[j]);
+                    if (typeof data[j] != "undefined") {
+                        httpCache.remove(data[j]);
+                    }
                 }
             }
 

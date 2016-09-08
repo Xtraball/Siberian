@@ -110,10 +110,16 @@
                     </div>
                 <?php endforeach; ?>
 
-                    <div class="change-overview-content new-section" style="display: none;">
+                    <div class="change-overview-content new-section">
                         <div class="row">
                             <h3 class="title">
-                                <span class="left area"><?php echo __("Advanced Customization CSS / SCSS"); ?></span>
+                                <span class="left area" style="width: 100%;">
+                                    <?php echo __("Advanced Customization CSS / SCSS"); ?>
+                                    <div class="css-toggle" id="toggle-scss">
+                                        <input class="sb-tgl sb-tgl-flip toggle" id="cb_on_off" type="checkbox" value="0" style="display:none;" />
+                                        <label class="sb-tgl-btn" for="cb_on_off" data-tg-off="Off" data-tg-on="On!"></label>
+                                    </div>
+                                </span>
                                 <hr />
                                 <div class="clear"></div>
                             </h3>
@@ -121,7 +127,7 @@
 
                         <div class="row">
                             <?php $custom_scss = $this->getApplication()->getCustomScss(); ?>
-                            <div id="row_scss" class="col-md-12 col-xs-12">
+                            <div id="row_scss" class="col-md-12 col-xs-12" style="display: none;">
                                 <div class="form-group">
                                     <h4>
                                         <?php echo __("Available SCSS Variables corresponding to previously set colors"); ?>
@@ -450,7 +456,9 @@
                     var link = $("#mobile_overview").contents().find("head link[href*='var/cache']");
                     link.after("<style id=\"scss_live\" type=\"text/css\">" + template + "</style>");
 
-                    processed = true;
+                    if($("#mobile_overview").contents().find("#scss_live").length > 0) {
+                        processed = true;
+                    }
                 }
 
                 $("#mobile_overview").contents().find("#scss_live").text(template);
@@ -474,6 +482,41 @@
             return false;
         });
 
+        /** Defaults to zero if no localStorage */
+        var toggle = 0;
+        if(typeof localStorage!="undefined") {
+            toggle = localStorage.getItem("show-scss");
+            if(toggle == null) {
+                toggle = 0;
+            }
+        } else if(typeof sessionStorage!="undefined") {
+            toggle = sessionStorage.getItem("show-scss");
+            if(toggle == null) {
+                toggle = 0;
+            }
+        }
+
+        $("#cb_on_off").on("click", function() {
+            var el = $("#cb_on_off");
+            var new_val = el.is(":checked") ? 1 : 0;
+            if(typeof localStorage!="undefined") {
+                toggle = localStorage.setItem("show-scss", new_val);
+            } else if(typeof sessionStorage!="undefined") {
+                toggle = sessionStorage.setItem("show-scss", new_val);
+            } else {
+                toggle = new_val;
+            }
+            if(new_val == 1) {
+                $("#row_scss").show();
+            } else {
+                $("#row_scss").hide();
+            }
+        });
+
+        if(toggle == 1) {
+            $("#cb_on_off").click();
+        }
+
 
     </script>
     <style>
@@ -489,6 +532,9 @@
         .button-inactive { opacity: 0.6; }
         .mini-color { margin-bottom: 6px;}
         div.mini-box { width: 22px; height: 22px; border: 1px solid #ffffff; float: left; margin-right: 10px;}
+        .css-toggle {  float: right;  }
+        .css-toggle label {  font-size: 14px !important;  }
+
     </style>
 
     <div id="mask_colors" class="mask"></div>

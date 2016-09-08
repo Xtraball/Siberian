@@ -143,8 +143,10 @@ class Sender {
 
       $result = new MulticastResult($success, $failure, $canonicalIds, $multicastIds[0], $multicastIds);
       foreach ($registrationIds as $registrationId) {
-        $results[$registrationId]->setRegistrationId($registrationId);
-        $result->addResult($results[$registrationId]);
+        if(array_key_exists($registrationId, $results) && method_exists($results[$registrationId], "setRegistrationId")) {
+          $results[$registrationId]->setRegistrationId($registrationId);
+          $result->addResult($results[$registrationId]);
+        }
       }
 
       $multicastResults[] = $result;

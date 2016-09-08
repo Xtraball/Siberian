@@ -7,8 +7,8 @@ App.controller('CustomerController', function(_, $cordovaCamera, $cordovaOauth, 
     $scope.is_logged_in = Customer.isLoggedIn();
     $scope.app_name = Application.app_name;
 
-    $scope.display_login_form = !$scope.is_logged_in;
-    $scope.display_account_form = $scope.is_logged_in;
+    $scope.display_login_form = (!$scope.is_logged_in) && (!Customer.display_account_form );
+    $scope.display_account_form = $scope.is_logged_in || Customer.display_account_form;
 
     HomepageLayout.getData().then(function(data) {
         if(data.customer_account.name) {

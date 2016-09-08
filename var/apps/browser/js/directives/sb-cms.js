@@ -126,7 +126,7 @@ App.directive("sbCmsText", function() {
         },
         template:
         '<div class="cms_block">'
-            + '<div sb-video video="block"></div>'
+        + '<div sb-video video="block"></div>'
         + '</div>'
     };
 }).directive("sbCmsAddress", function() {
@@ -158,51 +158,51 @@ App.directive("sbCmsText", function() {
         '</div>',
         controller: function ($cordovaGeolocation, $ionicLoading, $rootScope, $scope, $state, $stateParams, $window /*$location, $q, Url/*, Application, GoogleMapService*/) {
 
-            $scope.handle_address_book = false; // Application.handle_address_book;
+$scope.handle_address_book = false; // Application.handle_address_book;
 
-            $scope.showMap = function () {
-                if($rootScope.isOverview) {
-                    $rootScope.showMobileFeatureOnlyError();
-                    return;
-                }
+$scope.showMap = function () {
+    if($rootScope.isOverview) {
+        $rootScope.showMobileFeatureOnlyError();
+        return;
+    }
 
-                $ionicLoading.show();
+    $ionicLoading.show();
 
-                $cordovaGeolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }).then(function(position) {
-                    $scope.getItineraryLink(position.coords, $scope.block);
+    $cordovaGeolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }).then(function(position) {
+        $scope.getItineraryLink(position.coords, $scope.block);
 
-                    $ionicLoading.hide();
-                }, function() {
-                    var null_point = {"latitude":null,"longitude":null};
-                    $scope.getItineraryLink(null_point, $scope.block);
+        $ionicLoading.hide();
+    }, function() {
+        var null_point = {"latitude":null,"longitude":null};
+        $scope.getItineraryLink(null_point, $scope.block);
 
-                    $ionicLoading.hide();
-                });
-            };
+        $ionicLoading.hide();
+    });
+};
 
-            $scope.addToContact = function () {
+$scope.addToContact = function () {
 
-                if ($scope.onAddToContact && angular.isFunction($scope.onAddToContact)) {
-                    $scope.onAddToContact($scope.block);
-                }
-            };
+    if ($scope.onAddToContact && angular.isFunction($scope.onAddToContact)) {
+        $scope.onAddToContact($scope.block);
+    }
+};
 
-            $scope.getItineraryLink = function(point1,point2) {
-                var link = "https://www.google.com/maps/dir/";
+$scope.getItineraryLink = function(point1,point2) {
+    var link = "https://www.google.com/maps/dir/";
 
-                if(point1.latitude) {
-                    link += point1.latitude + "," + point1.longitude;
-                }
+    if(point1.latitude) {
+        link += point1.latitude + "," + point1.longitude;
+    }
 
-                if(point2.latitude) {
-                    link += "/" + point2.latitude + "," + point2.longitude;
-                }
+    if(point2.latitude) {
+        link += "/" + point2.latitude + "," + point2.longitude;
+    }
 
-                $window.open(link, $rootScope.getTargetForLink(), "location=no");
-            };
+    $window.open(link, $rootScope.getTargetForLink(), "location=no");
+};
 
-        }
-    };
+}
+};
 }).directive("sbCmsButton", function() {
     return {
         restrict: 'A',
@@ -231,7 +231,7 @@ App.directive("sbCmsText", function() {
                 scope.icon = "ion-ios-telephone-outline";
                 scope.label = "Phone";
 
-                if(!scope.block.content.startsWith('tel:')) {
+                if (!scope.block.content.startsWith('tel:')) {
                     scope.block.content = "tel:" + scope.block.content;
                 }
 
@@ -241,8 +241,7 @@ App.directive("sbCmsText", function() {
             } else if (scope.block.type_id == "link") {
 
                 scope.icon = "ion-ios-world-outline";
-                scope.label = "Website";
-
+                scope.label = (scope.block.label != null && scope.block.label.length > 0) ? scope.block.label : "Website";
                 var a = angular.element(element).find("a");
                 a.on("click", function (e) {
                     e.preventDefault();
@@ -289,9 +288,9 @@ App.directive("sbCmsText", function() {
                 }
 
                 if(ionic.Platform.isAndroid()) {
-                	window.open($scope.block.file_url, "_system", "location=no");
+                    window.open($scope.block.file_url, "_system", "location=no");
                 } else {
-                	window.open($scope.block.file_url, $rootScope.getTargetForLink(), "EnableViewPortScale=yes");
+                    window.open($scope.block.file_url, $rootScope.getTargetForLink(), "EnableViewPortScale=yes");
                 }
 
             };

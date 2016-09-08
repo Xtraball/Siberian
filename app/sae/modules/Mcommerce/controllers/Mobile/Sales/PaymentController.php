@@ -134,18 +134,15 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
                 }
 
                 if (empty($errors)) {
-
                     $order = new Mcommerce_Model_Order();
                     $order->fromCart($this->getCart())->setStatusId($status_id);
-
                     // TG-459
-                    $order->setNotes($data['notes']);
+                    array_key_exists("notes", $data) ? $order->setNotes($data['notes']):$order->setNotes("");
                     $order->save();
 
                     if (in_array($this->getCart()->getPaymentMethod()->getCode(), array("check", "cc_upon_delivery", "paypal"))) {
                         $order->setHidePaidAmount(true);
                     }
-
                     $order->sendToCustomer();
                     $order->sendToStore();
 
@@ -158,7 +155,7 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
 
                     $this->getSession()->unsetCart();
                 } else {
-                    $message = $this->_('An error occurred while proceeding your order. Please, check the following information:');
+                    $message = $this->_('An error occurred while proceeding your order:');
                     foreach ($errors as $error) {
                         $message .= "<br /> - $error";
                     }

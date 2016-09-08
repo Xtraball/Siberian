@@ -43,14 +43,17 @@ class Mcommerce_Application_OrderController extends Application_Controller_Defau
                     }
                 }
 
-                $allowed_fields = array('customer_firstname', 'customer_lastname', 'customer_email', 'customer_phone', 'customer_street', 'customer_postcode', 'customer_city', 'status_id');
-                foreach($datas as $key => $data) {
-                    if(!in_array($key, $allowed_fields)) {
-                        unset($datas[$key]);
+                $errors = $mcommerce->validateCustomer($this, $datas['customer']);
+                if (!empty($errors)) {
+                    $message = $this->_('Please fill in the following fields:');
+                    foreach ($errors as $field) {
+                        $message .= '<br />- ' . $field;
                     }
+                    throw new Exception($this->_($message));
                 }
 
-                $order->addData($datas)->save();
+                $order->getCustomer()->populate($mcommerce, $datas['customer'])->save();
+                $order->addData(array("status_id" => $datas["status_id"]))->save();
 
                 if($order->getStatusId() == Mcommerce_Model_Order::CANCEL_STATUS) {
                     $layout = $this->getLayout()->loadEmail('mcommerce', 'send_order_cancelled_to_customer');

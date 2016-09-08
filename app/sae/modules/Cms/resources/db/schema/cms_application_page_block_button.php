@@ -34,4 +34,10 @@ $schemas['cms_application_page_block_button'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'label' => array(
+        'type' => 'varchar(256)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
 );

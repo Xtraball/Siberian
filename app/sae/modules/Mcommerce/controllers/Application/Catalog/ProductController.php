@@ -29,7 +29,6 @@ class Mcommerce_Application_Catalog_ProductController extends Application_Contro
     public function editpostAction() {
 
         if($datas = $this->getRequest()->getPost()) {
-//            var_dump($datas);exit;
 
             try {
                 $isNew = false;

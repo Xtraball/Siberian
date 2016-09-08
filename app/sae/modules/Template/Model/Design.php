@@ -159,7 +159,10 @@ class Template_Model_Design extends Core_Model_Default {
         $scss = implode("\n", $content);
 
         /** With custom from app */
-        $custom_app = $scss."\n".$application->getCustomScss();
+        $custom_app = $scss;
+        if(!$javascript) {
+            $custom_app = $scss."\n".$application->getCustomScss();
+        }
 
         $compiler = Siberian_Scss::getCompiler();
         $compiler->addImportPath(Core_Model_Directory::getBasePathTo("var/apps/browser/lib/ionic/scss"));

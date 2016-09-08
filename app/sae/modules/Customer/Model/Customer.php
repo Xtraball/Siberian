@@ -210,7 +210,7 @@ class Customer_Model_Customer extends Core_Model_Default
         return $this->getMetadatas($module_code)[$key];
     }
 
-    public function setMetadatas(mixed $module_code_or_datas, array $datas_for_module_code) {
+    public function setMetadatas($module_code_or_datas, $datas_for_module_code) {
         if(is_array($module_code_or_datas)) {
             $this->_metadatas = $module_code_or_datas;
         } else {

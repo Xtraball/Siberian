@@ -842,8 +842,8 @@ input[type="search"],
 input[type="tel"],
 input[type="color"],
 .uneditable-input {
-    /*border: 2px solid white;*/
-    /*color: #4DBDFF;*/
+    border: 2px solid white;
+    color: #4DBDFF;
     font-size: 14px;
     font-weight: bold;
     padding: 4px 0 4px 10px;

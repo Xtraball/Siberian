@@ -5,6 +5,69 @@
 <div class="settings">
     <div id="settings">
         <h3 class="title-editor">
+            <?php echo $this->_('Manage user fields'); ?>
+        </h3>
+        <div class="container-fluid first-row-feature">
+            <form id="mcommerceFieldsForm" action="<?php echo $this->getUrl('mcommerce/application_settings_fields/save'); ?>" class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label for="show_search"><?php echo $this->_("Phone number"); ?></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <select name="phone" id="" class="form-control">
+                            <option value="hidden" <?php if($mcommerce->getPhone() == 'hidden') echo 'selected' ?>><?php echo $this->_("Hidden"); ?></option>
+                            <option value="optional" <?php if($mcommerce->getPhone() == 'optional') echo 'selected' ?>><?php echo $this->_("Optional"); ?></option>
+                            <option value="mandatory" <?php if($mcommerce->getPhone() == 'mandatory') echo 'selected' ?>><?php echo $this->_("Mandatory"); ?></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label for="show_search"><?php echo $this->_("Birthday"); ?></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <select name="birthday" id="" class="form-control">
+                            <option value="hidden" <?php if($mcommerce->getBirthday() == 'hidden') echo 'selected' ?>><?php echo $this->_("Hidden"); ?></option>
+                            <option value="optional" <?php if($mcommerce->getBirthday() == 'optional') echo 'selected' ?>><?php echo $this->_("Optional"); ?></option>
+                            <option value="mandatory" <?php if($mcommerce->getBirthday() == 'mandatory') echo 'selected' ?>><?php echo $this->_("Mandatory"); ?></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label for="show_search"><?php echo $this->_("Invoicing address"); ?></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <select name="invoicing_address" id="" class="form-control">
+                            <option value="hidden" <?php if($mcommerce->getInvoicingAddress() == 'hidden') echo 'selected' ?>><?php echo $this->_("Hidden"); ?></option>
+                            <option value="optional" <?php if($mcommerce->getInvoicingAddress() == 'optional') echo 'selected' ?>><?php echo $this->_("Optional"); ?></option>
+                            <option value="mandatory" <?php if($mcommerce->getInvoicingAddress() == 'mandatory') echo 'selected' ?>><?php echo $this->_("Mandatory"); ?></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label for="show_search"><?php echo $this->_("Delivery address"); ?></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <select name="delivery_address" id="" class="form-control">
+                            <option value="hidden" <?php if($mcommerce->getDeliveryAddress() == 'hidden') echo 'selected' ?>><?php echo $this->_("Hidden"); ?></option>
+                            <option value="optional" <?php if($mcommerce->getDeliveryAddress() == 'optional') echo 'selected' ?>><?php echo $this->_("Optional"); ?></option>
+                            <option value="mandatory" <?php if($mcommerce->getDeliveryAddress() == 'mandatory') echo 'selected' ?>><?php echo $this->_("Mandatory"); ?></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <button class="btn color-blue pull-right" type="submit">
+                            <?php echo $this->_('Save'); ?>
+                        </button>
+                    </div>
+                </div>
+                <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
+            </form>
+        </div>
+        <h3 class="title-editor">
             <?php echo $this->_('Connected Printers'); ?>
         </h3>
         <div class="container-fluid first-row-feature">
@@ -106,6 +169,12 @@
             is_loaded: false,
             tax: null,
             processEvents: function() {
+
+                $('#mcommerceFieldsForm').submit(function() {
+                    if(!$(this).valid()) return false;
+                    reload(this, this.action, true);
+                    return false;
+                });
 
                 $('#mcommercePrintersForm').submit(function() {
                     if(!$(this).valid()) return false;

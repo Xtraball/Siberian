@@ -281,20 +281,13 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
     }
 
     /**
-     * Vérifie que le panier soit complet
+     * Vérifie que l'utilisateur à bien été authentifié avant/pendant l'achat
      *
      * @return array
      */
     public function check() {
-
         $errors = array();
-        if(!$this->getCustomerFirstname()) $errors[] = $this->_('Your firstname');
-        if(!$this->getCustomerLastname()) $errors[] = $this->_('Your lastname');
-        if(!$this->getCustomerEmail()) $errors[] = $this->_('Your email address');
-        if(!$this->getCustomerPhone()) $errors[] = $this->_('Your phone number');
-        if($this->getDeliveryMethod()->customerAddressIsRequired() AND (!$this->getCustomerStreet() OR !$this->getCustomerPostcode() OR !$this->getCustomerCity())) $errors[] = $this->_('Your address');
-        if(!$this->getDeliveryMethodId()) $errors[] = $this->_('The delivery method');
-        if(!$this->getPaymentMethodId()) $errors[] = $this->_('The payment method');
+        if(!$this->getCustomerId()) $errors[] = $this->_('You did not login.');
         return $errors;
     }
 

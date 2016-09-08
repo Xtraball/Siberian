@@ -18,5 +18,17 @@ App.factory('McommerceSalesCustomer', function($rootScope, $http, Url) {
         return $http.post(url, data);
     };
 
+    factory.find = function() {
+
+        if(!this.value_id) return;
+
+        return $http({
+            method: 'GET',
+            url: Url.get("mcommerce/mobile_sales_customer/find", {value_id: this.value_id}),
+            cache: false,
+            responseType:'json'
+        });
+    };
+
     return factory;
 });
