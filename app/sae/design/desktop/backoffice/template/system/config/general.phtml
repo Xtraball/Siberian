@@ -132,22 +132,22 @@
             <div class="col-md-12">
                 <button type="button" class="btn btn-primary" ng-click="Compute_Analytics_For_Period()"><?php echo $this->_("Generate analytics for given period"); ?></button>
                 <input type="text" class="form-control"
-                       ng-model="generateAnalyticsPeriod.from"
+                       ng-model="generateAnalyticsPeriod.from_displayed_date"
                        ng-focus="datepicker_visible_from = true"
                        ng-change="datepicker_visible_from = false" placeholder="<?php echo __('from');?>" style="width:auto;display:inline" size="10"/>
                 <input type="text" class="form-control"
-                       ng-model="generateAnalyticsPeriod.to"
+                       ng-model="generateAnalyticsPeriod.to_displayed_date"
                        ng-focus="datepicker_visible_to = true"
                        ng-change="datepicker_visible_to = false" placeholder="<?php echo __('to');?>" style="width:auto;display:inline" size="10"/>
                 <sb-loader is_visible="form_loader_is_visible_for_analytics" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
                 <div style="margin-left:25%">
                     <datetimepicker data-ng-model="generateAnalyticsPeriod.from"
-                        data-displayed-date="generateAnalyticsPeriod.from"
-                        data-datetimepicker-config="{ startView:'day', minView:'day', format:'<?php echo strtoupper($this->_("MM/dd/yyyy")); ?>' }"
+                        data-displayed-date="generateAnalyticsPeriod.from_displayed_date"
+                        data-datetimepicker-config="{ startView:'day', minView:'day', format:'<?php echo strtoupper(__("MM/dd/yyyy")); ?>' }"
                         data-is-visible="datepicker_visible_from"></datetimepicker>
                     <datetimepicker data-ng-model="generateAnalyticsPeriod.to"
-                        data-displayed-date="generateAnalyticsPeriod.to"
-                        data-datetimepicker-config="{ startView:'day', minView:'day', format:'<?php echo strtoupper($this->_("MM/dd/yyyy")); ?>' }"
+                        data-displayed-date="generateAnalyticsPeriod.to_displayed_date"
+                        data-datetimepicker-config="{ startView:'day', minView:'day', format:'<?php echo strtoupper(__("MM/dd/yyyy")); ?>' }"
                         data-is-visible="datepicker_visible_to"></datetimepicker>
                 </div>
             </div>

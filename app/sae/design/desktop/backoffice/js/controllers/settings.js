@@ -25,7 +25,7 @@ App.config(function($routeProvider) {
     $scope.iosBuildActivationRemain = false;
     $scope.iosBuildLicenceError = '';
     $scope.iosBuildLicenceInfo = '';
-    $scope.generateAnalyticsPeriod = {'from':'','to':''};
+    $scope.generateAnalyticsPeriod = {'from':'','to':'','from_displayed_date':'','to_displayed_date':''};
 
     Settings.type = $scope.code;
 

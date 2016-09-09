@@ -60,6 +60,10 @@
         "hash": "bd6989847b4025c7e709f6559c6e0380"
     },
     {
+        "file": "app/sae/design/desktop/backoffice/css/datetimepicker.css",
+        "hash": "5da73b44a1260e02fa4b964382b9ce4d"
+    },
+    {
         "file": "app/sae/design/desktop/backoffice/images/header/logo.png",
         "hash": "17b91509d550c9742ce70421c515aacc"
     },
@@ -148,6 +152,10 @@
         "hash": "954826682395087397c45b470cf6c022"
     },
     {
+        "file": "app/sae/design/desktop/backoffice/js/angular/datetimepicker.js",
+        "hash": "d9458fc25736d787265ccdede81b159b"
+    },
+    {
         "file": "app/sae/design/desktop/backoffice/js/app.js",
         "hash": "023baa91bdf8d50c6d593f04b58fe44d"
     },
@@ -220,8 +228,12 @@
         "hash": "9b45178aa6860b5d7c9515cf31ce8fb8"
     },
     {
+        "file": "app/sae/design/desktop/backoffice/js/controllers/sae.js",
+        "hash": "f853a984d1e80ec9fb653c72153bc1f1"
+    },
+    {
         "file": "app/sae/design/desktop/backoffice/js/controllers/settings.js",
-        "hash": "04cbf4907f3d52e48c48a792ce9f9feb"
+        "hash": "dc1b4a876a75b6e09e253552a9ae6b9f"
     },
     {
         "file": "app/sae/design/desktop/backoffice/js/directives/ng-thumb.js",
@@ -1736,6 +1748,14 @@
         "hash": "2d1f0b870bf61edb51a86a34a9f4bff0"
     },
     {
+        "file": "app/sae/design/desktop/backoffice/js/libraries/moment-including-locales.js",
+        "hash": "c5b0f13d4aca7a58a36a841c379ae678"
+    },
+    {
+        "file": "app/sae/design/desktop/backoffice/js/libraries/moment-timezone-with-data.js",
+        "hash": "66479eb0da754454e609a4c825e51da1"
+    },
+    {
         "file": "app/sae/design/desktop/backoffice/js/services/header.js",
         "hash": "2d4783c79cfb7f50a6c325e1d4036c8f"
     },
@@ -1917,7 +1937,7 @@
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/system/config/general.phtml",
-        "hash": "d14cd5d88c046b7f0b070b769cff6288"
+        "hash": "a1334cb72efb57dae7be7d40b0900167"
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/template/category/list.phtml",
