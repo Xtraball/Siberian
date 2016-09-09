@@ -52,5 +52,17 @@ App.factory('Settings', function($http, Url) {
         });
     };
 
+    factory.computeAnalyticsForPeriod = function(period) {
+        var url = "system/backoffice_config_"+this.type;
+
+        return $http({
+            method: 'POST',
+            url: Url.get(url+"/generateanalyticsforperiod"),
+            cache: false,
+            responseType:'json',
+            data:period,
+        });
+    };
+
     return factory;
 });

@@ -93,11 +93,13 @@ $schemas['mcommerce_order'] = array(
     'customer_firstname' => array(
         'type' => 'varchar(100)',
         'charset' => 'utf8',
+        'is_null' => true,
         'collation' => 'utf8_unicode_ci',
     ),
     'customer_lastname' => array(
         'type' => 'varchar(100)',
         'charset' => 'utf8',
+        'is_null' => true,
         'collation' => 'utf8_unicode_ci',
     ),
     'customer_email' => array(
@@ -126,6 +128,7 @@ $schemas['mcommerce_order'] = array(
     ),
     'customer_phone' => array(
         'type' => 'varchar(15)',
+        'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),

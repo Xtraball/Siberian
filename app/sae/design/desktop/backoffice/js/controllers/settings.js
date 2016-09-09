@@ -25,6 +25,7 @@ App.config(function($routeProvider) {
     $scope.iosBuildActivationRemain = false;
     $scope.iosBuildLicenceError = '';
     $scope.iosBuildLicenceInfo = '';
+    $scope.generateAnalyticsPeriod = {'from':'','to':''};
 
     Settings.type = $scope.code;
 
@@ -224,6 +225,30 @@ App.config(function($routeProvider) {
             }
         }).finally(function() {
             $scope.form_loader_is_visible = false;
+        });
+    }
+
+    $scope.Compute_Analytics_For_Period = function() {
+        $scope.form_loader_is_visible_for_analytics = true;
+        var period = {
+            'from': $scope.generateAnalyticsPeriod.from,
+            'to': $scope.generateAnalyticsPeriod.to
+        }
+        Settings.computeAnalyticsForPeriod(period).success(function(data) {
+            $scope.message.isError(false);
+            $scope.message.setText(data.message)
+                .show()
+            ;
+        }).error(function(data) {
+            if(angular.isObject(data) && angular.isDefined(data.message)) {
+                message = data.message;
+                $scope.message.isError(true);
+                $scope.message.setText(data.message)
+                    .show()
+                ;
+            }
+        }).finally(function() {
+            $scope.form_loader_is_visible_for_analytics = false;
         });
     }
 

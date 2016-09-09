@@ -71,6 +71,7 @@ App.config(function($routeProvider) {
                             break;
                         case infos.license === "inactive":
                         case infos.license === "valid":
+                        case infos.license === "site_inactive":
                             if(isFinite(infos.activations_left)) {
                                 $scope.iosBuildActivationRemain = infos.activations_left + " / " + infos.license_limit;
                             } else {

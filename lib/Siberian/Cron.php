@@ -346,7 +346,10 @@ class Siberian_Cron {
 	 * @param Cron_Model_Cron $task
 	 */
 	public function agregateanalytics($task) {
+		//caluling on day after and before to be sure for results
+		Analytics_Model_Aggregate::getInstance()->run(time() - 60 * 60 * 24);
 		Analytics_Model_Aggregate::getInstance()->run(time());
+		Analytics_Model_Aggregate::getInstance()->run(time() + 60 * 60 * 24);
 	}
 
 	/**

@@ -96,25 +96,4 @@ class System_Backoffice_Config_GeneralController extends System_Controller_Backo
 
     }
 
-    public function generateanalyticsAction() {
-
-        try {
-
-            Analytics_Model_Aggregate::getInstance()->run(time());
-
-            $data = array(
-                "success" => 1,
-                "message" => $this->_("Your analytics will be computed and available soon")
-            );
-        } catch(Exception $e) {
-            $data = array(
-                "error" => 1,
-                "message" => $e->getMessage()
-            );
-        }
-
-        $this->_sendHtml($data);
-
-    }
-
 }

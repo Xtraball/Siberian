@@ -90,7 +90,6 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
     }
 
     public function loginwithfacebookAction() {
-
         $datas = Zend_Json::decode($this->getRequest()->getRawBody());
         if(isset($datas["token"])) {
 
