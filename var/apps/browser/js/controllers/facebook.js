@@ -18,7 +18,8 @@ App.config(function($stateProvider) {
     $scope.show_posts_loader = false;
     $scope.user = {
         talking_about_count: 0,
-        likes: 0
+        likes: 0,
+        fan_count: 0
     };
 
     $scope.collection = new Array();

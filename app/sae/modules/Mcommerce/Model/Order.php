@@ -372,10 +372,26 @@ class Mcommerce_Model_Order extends Core_Model_Default {
         $layout->getPartial('content_email')->setCurrentOrder($this);
         $content = $layout->render();
 
+        if($customerId = $this->getCustomerId()) {
+            $customer = new Customer_Model_Customer();
+            $customer->find($customerId);
+            $mailto = $customer->getEmail();
+            $nameto = $customer->getFirstname() . ' ' . $customer->getLastname();
+        } elseif (
+            !is_null($this->getCustomerEmail()) && 
+            !is_null($this->getCustomerFirstname()) &&
+            !is_null($this->getCustomerLastname()))
+        {
+            $mailto = $this->getCustomerEmail();
+            $nameto = $this->getCustomerFirstname() . ' ' . $this->getCustomerLastname();
+        } else {
+            throw new Exception("Cannot find order customer.");
+        }
+
         $mail = new Zend_Mail('UTF-8');
         $mail->setBodyHtml($content);
         $mail->setFrom($this->getStore()->getEmail(), $this->_('%s - Customer Service', $this->getStore()->getName()));
-        $mail->addTo($this->getCustomerEmail(), $this->getCustomerFirstname() . ' ' . $this->getCustomerLastname());
+        $mail->addTo($mailto,$nameto);
         $mail->setSubject($this->_('Order confirmation'));
         $mail->send();
 

@@ -97,6 +97,15 @@ $metadatas = $customer->getMetadatas();
                            value="<?php echo $metadatas['delivery_address']['city']; ?>"/>
                 </div>
             </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <label for="delivery_address_country"><?php echo $this->_('Country:'); ?></label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" id="delivery_address_country" name="customer[metadatas][delivery_address][country]" class="input-flat"
+                           value="<?php echo $metadatas['delivery_address']['country']; ?>"/>
+                </div>
+            </div>
             <h3><?php echo $this->_('Invoicing address:'); ?></h3>
             <div class="form-group">
                 <div class="col-md-2">
@@ -123,6 +132,15 @@ $metadatas = $customer->getMetadatas();
                 <div class="col-md-6">
                     <input type="text" id="invoicing_address_city" name="customer[metadatas][invoicing_address][city]" class="input-flat"
                            value="<?php echo $metadatas['invoicing_address']['city']; ?>"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <label for="country"><?php echo $this->_('Postcode:'); ?></label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" id="country" name="customer[metadatas][invoicing_address][country]" class="input-flat"
+                           value="<?php echo $metadatas['invoicing_address']['country']; ?>"/>
                 </div>
             </div>
         </fieldset>

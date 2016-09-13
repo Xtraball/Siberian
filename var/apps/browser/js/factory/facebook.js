@@ -13,7 +13,7 @@ App.factory('Facebook', function($http, $q, $rootScope, Url) {
     self.username = null;
     self.page_urls = new Array();
     self.displayed_per_page = 22;
-    self.host = "https://graph.facebook.com/";
+    self.host = "https://graph.facebook.com/v2.7/";
 
     /**
      * Fetch data for Facebook Page
@@ -42,7 +42,7 @@ App.factory('Facebook', function($http, $q, $rootScope, Url) {
     };
 
     self.findUser = function() {
-        var params = "id,about,name,genre,cover,likes,talking_about_count";
+        var params = "id,about,name,genre,cover,fan_count,likes,talking_about_count";
         var url = Url.build(self.host+self.username, { fields: params, access_token: self.token });
 
         return self.get(url);

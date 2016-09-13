@@ -42,6 +42,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                 "birthday" => $cart->getCustomerBirthday(),
                 "street" => $cart->getCustomerStreet(),
                 "postcode" => $cart->getCustomerPostcode(),
+                "country" => $cart->getCustomerCountry(),
                 "city" => $cart->getCustomerCity(),
                 "latitude" => $cart->getCustomerLatitude(),
                 "longitude" => $cart->getCustomerLongitude()

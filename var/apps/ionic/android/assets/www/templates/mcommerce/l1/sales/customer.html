@@ -68,8 +68,8 @@
                     <div ng-if="settings.delivery_address.rule!='hidden'">
                         <label class="item item-custom">
                             <p>
-                                <i class="ion-ios-location"></i> {{ "Delivery address" | translate }} <span
-                                    ng-if="settings.delivery_address.rule=='mandatory'">*</span>
+                                <i class="ion-ios-location"></i><strong style="font-size:1.5em;font-variant:small-caps"> {{ "Delivery address" | translate }} </strong><span
+                                    ng-if="settings.delivery_address.rule=='mandatory'">*</span> :
                             </p>
                         </label>
                         <label class="item item-input item-custom">
@@ -87,12 +87,17 @@
                             <input type="text" ng-model="customer.metadatas.delivery_address.city"
                                    ng-required="settings.delivery_address.rule=='mandatory'">
                         </label>
+                        <label class="item item-input item-custom">
+                            <span class="input-label">{{ "Country" | translate }}</span>
+                            <input type="text" ng-model="customer.metadatas.delivery_address.country"
+                                   ng-required="settings.delivery_address.rule=='mandatory'">
+                        </label>
                     </div>
                     <div ng-if="settings.invoicing_address.rule!='hidden'">
                         <label class="item item-custom">
                             <p>
-                                <i class="ion-cash"></i> {{ "Invoicing address" | translate }} <span
-                                    ng-if="settings.invoicing_address.rule=='mandatory'">*</span>
+                                <i class="ion-cash"></i><strong style="font-size:1.5em;font-variant:small-caps"> {{ "Invoicing address" | translate }} </strong><span
+                                    ng-if="settings.invoicing_address.rule=='mandatory'">*</span> :
                             </p>
                         </label>
                         <label class="item item-input item-custom">
@@ -108,6 +113,11 @@
                         <label class="item item-input item-custom">
                             <span class="input-label">{{ "City" | translate }}</span>
                             <input type="text" ng-model="customer.metadatas.invoicing_address.city"
+                                   ng-required="settings.invoicing_address.rule=='mandatory'">
+                        </label>
+                        <label class="item item-input item-custom">
+                            <span class="input-label">{{ "Country" | translate }}</span>
+                            <input type="text" ng-model="customer.metadatas.invoicing_address.country"
                                    ng-required="settings.invoicing_address.rule=='mandatory'">
                         </label>
                     </div>

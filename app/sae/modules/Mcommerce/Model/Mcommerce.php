@@ -173,7 +173,8 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
         return
             $this->_addressComponentIsValid($data['street'], $isMandatory) &&
             $this->_addressComponentIsValid($data['postcode'], $isMandatory) &&
-            $this->_addressComponentIsValid($data['city'], $isMandatory);
+            $this->_addressComponentIsValid($data['city'], $isMandatory) &&
+            $this->_addressComponentIsValid($data['country'], $isMandatory);
     }
 
     protected function _addressComponentIsValid($data, $isMandatory)

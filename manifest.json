@@ -5461,7 +5461,7 @@
     },
     {
         "file": "app/sae/design/desktop/flat/template/mcommerce/application/edit/order/edit.phtml",
-        "hash": "393f65e4eae9ba3eef0e51af8e105794"
+        "hash": "c323c7982c38b192f0dcd6a4a43daeb7"
     },
     {
         "file": "app/sae/design/desktop/flat/template/mcommerce/application/edit/settings/tax.phtml",
@@ -9565,7 +9565,7 @@
     },
     {
         "file": "app/sae/design/desktop/siberian/template/mcommerce/application/edit/order/edit.phtml",
-        "hash": "50cb3ff61e3681c13ede3d0f5d976fe9"
+        "hash": "7ee39040e4fe6706e93b4d1e474b4fb6"
     },
     {
         "file": "app/sae/design/desktop/siberian/template/mcommerce/application/edit/settings/tax.phtml",
@@ -9905,11 +9905,11 @@
     },
     {
         "file": "app/sae/design/email/template/mcommerce/purchase/order/customer/confirm.phtml",
-        "hash": "c0537e07225694c196519f6d4cee7574"
+        "hash": "2982dc595646a7ad6ea3824bdb62ecc2"
     },
     {
         "file": "app/sae/design/email/template/mcommerce/purchase/order/store/confirm.phtml",
-        "hash": "9f7a555c3a6228e32632e3639dcc8590"
+        "hash": "4d23d4f10a9efaf572e3fe934318a445"
     },
     {
         "file": "app/sae/design/mobile/angular/css/angular/angular-carousel.css",
@@ -11288,10 +11288,6 @@
         "hash": "81b65a8eee66a96756079d40e09d5cbf"
     },
     {
-        "file": "app/sae/design/mobile/angular/template/mcommerce/l1/sales/customer.phtml",
-        "hash": "9b5ab6d1ae369aadd123b72285b8944a"
-    },
-    {
         "file": "app/sae/design/mobile/angular/template/mcommerce/l1/sales/delivery.phtml",
         "hash": "0c0829ab9dbf3ac7d5e16127e8afb949"
     },
@@ -11310,6 +11306,10 @@
     {
         "file": "app/sae/design/mobile/angular/template/mcommerce/l1/sales/success.phtml",
         "hash": "ac9d469119532eee3c529cd49707846c"
+    },
+    {
+        "file": "app/sae/design/mobile/angular/template/mcommerce/l1/sales/customer.phtml",
+        "hash": "d9c90892336712d0fecbfd077dfe7a82"
     },
     {
         "file": "app/sae/design/mobile/angular/template/media/gallery/image/l1/view.phtml",
@@ -13613,11 +13613,11 @@
     },
     {
         "file": "app/sae/modules/Mcommerce/Model/Mcommerce.php",
-        "hash": "2c06b1a6e2b175dc9090134dc8fae2b0"
+        "hash": "61261c1ca09ba81f21a035335b01ed16"
     },
     {
         "file": "app/sae/modules/Mcommerce/Model/Order.php",
-        "hash": "80c994b7bde61a26a381c640d6d74ce1"
+        "hash": "0450773b47ef7be8c1baf31e3371dabb"
     },
     {
         "file": "app/sae/modules/Mcommerce/controllers/Application/Catalog/CategoryController.php",
@@ -13652,12 +13652,12 @@
         "hash": "1b3a4e543248ff6b8d9488f3f317a949"
     },
     {
-        "file": "app/sae/modules/Mcommerce/controllers/Application/StoreController.php",
-        "hash": "4f4cf7605e82a633d398bf322c7f5560"
-    },
-    {
         "file": "app/sae/modules/Mcommerce/controllers/Application/OrderController.php",
         "hash": "2e2595012385ebf9678ed470a883b09d"
+    },
+    {
+        "file": "app/sae/modules/Mcommerce/controllers/Application/StoreController.php",
+        "hash": "19afd0710c64f92344cbe8b0d0007745"
     },
     {
         "file": "app/sae/modules/Mcommerce/controllers/ApplicationController.php",
@@ -13696,12 +13696,12 @@
         "hash": "eb5f08ad4f296670bd7fdf9e65cb9df6"
     },
     {
-        "file": "app/sae/modules/Mcommerce/controllers/Mobile/CartController.php",
-        "hash": "2d13e2b8ee3d19045f14c8c03cd31477"
-    },
-    {
         "file": "app/sae/modules/Mcommerce/controllers/Mobile/ProductController.php",
         "hash": "157d25faa745ba8952fc6be80d9228c5"
+    },
+    {
+        "file": "app/sae/modules/Mcommerce/controllers/Mobile/CartController.php",
+        "hash": "433bd33cde9bbe015f3acbe6c5081c77"
     },
     {
         "file": "app/sae/modules/Mcommerce/controllers/MobileController.php",
@@ -13773,7 +13773,7 @@
     },
     {
         "file": "app/sae/modules/Mcommerce/package.json",
-        "hash": "93f0544a5ee559eda4c28e201cd27994"
+        "hash": "f6d765192bf3f52e372534c720d6f1be"
     },
     {
         "file": "app/sae/modules/Media/Model/Db/Table/Gallery/Image.php",
@@ -27768,10 +27768,6 @@
         "hash": "5f2cf82458594240b8ea8e7c42f483eb"
     },
     {
-        "file": "var/apps/browser/js/controllers/facebook.js",
-        "hash": "1ac6378d635b30c3045b929ec482aa85"
-    },
-    {
         "file": "var/apps/browser/js/controllers/form.js",
         "hash": "390ce03a6e88d021d9ce379cb3186643"
     },
@@ -27920,6 +27916,10 @@
         "hash": "fe5adbd61ceeaa561a3c692e75605ac7"
     },
     {
+        "file": "var/apps/browser/js/controllers/facebook.js",
+        "hash": "1baad7ae9c385a00a614449c7d992eed"
+    },
+    {
         "file": "var/apps/browser/js/directives/datetime.js",
         "hash": "c7c3ef856113a3fffc538b67d5658dbf"
     },
@@ -28018,10 +28018,6 @@
     {
         "file": "var/apps/browser/js/factory/event.js",
         "hash": "40460a4407333f0b4babffc5171a0959"
-    },
-    {
-        "file": "var/apps/browser/js/factory/facebook.js",
-        "hash": "b9187a874a7087aa172bbdcad217d4b9"
     },
     {
         "file": "var/apps/browser/js/factory/folder.js",
@@ -28160,6 +28156,10 @@
         "hash": "d090fe551733d73b46b9baab4fe445bd"
     },
     {
+        "file": "var/apps/browser/js/factory/facebook.js",
+        "hash": "3fac1b7cbaa69f2d0a7a2d8e23f8f46c"
+    },
+    {
         "file": "var/apps/browser/js/filters/number-fixed-len.js",
         "hash": "008a50c0c8b58d95e35c68d8d61081c0"
     },
@@ -28220,10 +28220,6 @@
         "hash": "1ffd9f38eebb9b842a1e10e42d886ba9"
     },
     {
-        "file": "var/apps/browser/js/services/facebook-connect.js",
-        "hash": "c8acbc103fcecff86bbb0b7775f80b4e"
-    },
-    {
         "file": "var/apps/browser/js/services/google-maps.js",
         "hash": "14736172899ee9b21293e7c6279644ae"
     },
@@ -28274,6 +28270,10 @@
     {
         "file": "var/apps/browser/js/services/dialog.js",
         "hash": "b619e028caff43af04ef84020cbfda29"
+    },
+    {
+        "file": "var/apps/browser/js/services/facebook-connect.js",
+        "hash": "5a5feb1e0c64af98be31e8f51c61b129"
     },
     {
         "file": "var/apps/browser/js/utils/languages.js",
@@ -28664,12 +28664,12 @@
         "hash": "39b72dcf63efdf66a610fb84e1ee8e32"
     },
     {
-        "file": "var/apps/browser/templates/facebook/l1/header.html",
-        "hash": "a2e6ea7e2699ff13a7c48c563e2d978b"
-    },
-    {
         "file": "var/apps/browser/templates/facebook/l1/view.html",
         "hash": "e4b173de4e5c6fd24280e8b435ae94ec"
+    },
+    {
+        "file": "var/apps/browser/templates/facebook/l1/header.html",
+        "hash": "cecdf5e55ac0380e2ea7438e3dd79349"
     },
     {
         "file": "var/apps/browser/templates/fanwall/l1/edit.html",
@@ -28885,7 +28885,7 @@
     },
     {
         "file": "var/apps/browser/templates/mcommerce/l1/sales/customer.html",
-        "hash": "514d8f95e5a1d29a19f979f3eec0eae4"
+        "hash": "f9b4b755be03556a6dc0a69ca384f52c"
     },
     {
         "file": "var/apps/browser/templates/mcommerce/l1/cart.html",
@@ -30357,7 +30357,7 @@
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/mcommerce/l1/sales/customer.html",
-        "hash": "514d8f95e5a1d29a19f979f3eec0eae4"
+        "hash": "f9b4b755be03556a6dc0a69ca384f52c"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/mcommerce/l1/cart.html",
@@ -34625,7 +34625,7 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/mcommerce/l1/sales/customer.html",
-        "hash": "514d8f95e5a1d29a19f979f3eec0eae4"
+        "hash": "f9b4b755be03556a6dc0a69ca384f52c"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/mcommerce/l1/cart.html",
@@ -37893,7 +37893,7 @@
     },
     {
         "file": "var/apps/ionic/ios/www/templates/mcommerce/l1/sales/customer.html",
-        "hash": "514d8f95e5a1d29a19f979f3eec0eae4"
+        "hash": "f9b4b755be03556a6dc0a69ca384f52c"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/mcommerce/l1/cart.html",

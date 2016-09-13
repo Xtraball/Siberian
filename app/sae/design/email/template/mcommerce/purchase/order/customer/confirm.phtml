@@ -10,12 +10,29 @@
                 </span>
             </p>
 
-            <h4 style="margin:10px 0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo $this->_('Client'); ?></h4>
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname(); ?></p>
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $order->getCustomerStreet(); ?></p>
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $order->getCustomerPostcode(); ?><?php echo $order->getCustomerCity(); ?></p>
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $order->getCustomerPhone(); ?></p>
-            <br/>
+            <h4 style="margin:10px 0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo $this->_('Delivery address'); ?></h4>
+            <?php
+                $customer = new Customer_Model_Customer();
+                $customer->find($order->getCustomerId());
+                $metadatas = $customer->getMetadatas();
+            ?>
+            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $customer->getFirstname() . ' ' . $customer->getLastname(); ?></p>
+            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $customer->getEmail(); ?></p>
+            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['delivery_address']['street']; ?></p>
+            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['delivery_address']['postcode']; ?> <?php echo $metadatas['delivery_address']['city']; ?></p>
+            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['delivery_address']['country']; ?></p>
+            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['phone']; ?></p>
+            <br />
+
+            <h4 style="margin:10px 0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo $this->_('Invoicing address'); ?></h4>
+
+            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $customer->getFirstname() . ' ' . $customer->getLastname(); ?></p>
+            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $customer->getEmail(); ?></p>
+            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['invoicing_address']['street']; ?></p>
+            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['invoicing_address']['postcode']; ?> <?php echo $metadatas['invoicing_address']['city']; ?></p>
+            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['invoicing_address']['country']; ?></p>
+            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['phone']; ?></p>
+            <br />
 
             <h4 style="margin:10px 0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo $this->_('Order details'); ?></h4>
             <table width="400px">
@@ -91,7 +108,7 @@
                         ?>
                         <tr>
                             <td style="font-size:13px;">
-                                <?php echo $this->_('From'); ?> <b><?php echo $group->getTitle(); ?></b>, <?php echo $this->_('you chose'); ?>:
+                                <?php echo $this->_('From'); ?> <b><?php echo $group->getTitle(); ?></b>, <?php echo $this->_('your choice'); ?>:
                                 <?php echo implode(" & ", $group->choices); ?>
                             </td>
                             <td style="font-size:13px;" align="right"></td>
@@ -181,9 +198,8 @@
                 <col width="20%" />
                 <tr><td colspan="2"><div style="width:100%;margin-top:0px;margin-bottom:5px;border-bottom:2px solid black;"></div></td></tr>
                 <tr>
-                    <td align="right"><?php echo $order->getNotes(); ?></td>
+                    <td align="left"><?php echo $order->getNotes(); ?></td>
                 </tr>
-
             </table>
         </td>
     </tr>

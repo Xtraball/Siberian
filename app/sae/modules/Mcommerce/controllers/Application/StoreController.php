@@ -69,7 +69,7 @@ class Mcommerce_Application_StoreController extends Application_Controller_Defau
 
                 $latitude = null;
                 $longitude = null;
-                if(!empty($datas['street']) AND !empty($datas['postcode']) AND !empty($datas['city'])) {
+                if(!empty($datas['street']) AND !empty($datas['postcode']) AND !empty($datas['city']) AND !empty($datas['country'])) {
                     $address = array_intersect_key($datas, array('street'=>'street', 'postcode'=>'postcode', 'city'=>'city', 'country'=>'country'));
                     list($latitude, $longitude) = Siberian_Google_Geocoding::getLatLng($address);
                 }
