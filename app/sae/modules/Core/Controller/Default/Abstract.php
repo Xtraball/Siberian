@@ -552,25 +552,11 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action
     }
 
     protected function _sendHtml($html) {
-        if(!empty($html['error'])) {
+        if(isset($html['error']) && !empty($html['error'])) {
             $this->getResponse()->setHttpResponseCode(400);
         }
 
-        /** Trying to convert data to utf8 if array is buggy */
-        try {
-            $json = Zend_Json::encode($html);
-            if($json === false) {
-                // try converting to utf-8
-                $html = data_to_utf8($html);
-                $json = Zend_Json::encode($html);
-            }
-        } catch(Exception $e) {
-            /** Catching any exception, the request should always ends ! */
-            $json = array(
-                "error" => 1,
-                "message" => $e->getMessage(),
-            );
-        }
+        $json = Siberian_Json::encode($html);
 
         $this->getLayout()->setHtml($json);
     }

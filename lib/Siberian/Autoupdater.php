@@ -76,10 +76,7 @@ class Siberian_Autoupdater {
 
                 }
 
-                $manifest = json_encode($hash, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-                if(!$manifest) {
-                    $manifest = json_encode(data_to_utf8($hash), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-                }
+                $manifest = Siberian_Json::encode($hash, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
                 file_put_contents($manifest_path, $manifest);
 
@@ -89,10 +86,8 @@ class Siberian_Autoupdater {
                     "min_native_interface" => "1",
                     "release" => "".Siberian_Version::VERSION.".".time(),
                 );
-                $release = json_encode($release, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-                if(!$release) {
-                    $release = json_encode(data_to_utf8($release), JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-                }
+
+                $release = Siberian_Json::encode($release, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
                 file_put_contents($json_path, $release);
 

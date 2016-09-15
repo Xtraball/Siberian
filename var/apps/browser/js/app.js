@@ -1,5 +1,5 @@
 var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS9UIWebViewPatch', 'angular-carousel', 'lodash', 'ngImgCrop', 'ionic-zoom-view'])
-//Add spinner template
+    //Add spinner template
     .constant("$ionicLoadingConfig", {
         template: "<ion-spinner></ion-spinner>"
     })
@@ -75,7 +75,6 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                 });
 
                 // hello
-
                 $ionicPlatform.on('pause', function (result) {
                     sbLog("## App is on pause ##");
                     Analytics.storeClosing();
@@ -238,10 +237,14 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                 Application.app_id = data.application.id;
                 Application.app_name = data.application.name;
                 Application.is_locked = data.application.is_locked == 1;
+                Application.offline_content = (data.application.offline_content);
 
                 if (!Application.is_webview && !$window.localStorage.getItem("first_running")) {
-                    Application.showCacheDownloadModal();
-                    /** @TODO Make this popup optional */
+
+                    if(Application.offline_content) {
+                        Application.showCacheDownloadModal();
+                    }
+
                     $window.localStorage.setItem("first_running", "true");
                     Analytics.storeInstallation();
                 }
@@ -348,7 +351,7 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                                 '   </div>' +
                                 '</div>'
                                 ,
-                                
+
                                 buttons: [
                                     {
                                         text: $translate.instant("OK"),

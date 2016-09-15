@@ -15,7 +15,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                 });
 
                 if(strlen($data['infos']["itunes_login"]) == 0 || strlen($data['infos']["itunes_password"]) == 0) {
-                    throw new Exception($this->_("Please fill iTunes Connect Identifier."));
+                    throw new Exception($this->_("Please fill iTunes Connect Credentials."));
                 }
 
                 if(count($selectedLanguages) === 0) {

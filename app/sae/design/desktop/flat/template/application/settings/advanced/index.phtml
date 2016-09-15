@@ -1,0 +1,26 @@
+<?php
+    $application = $this->getApplication();
+
+    $form = new Application_Form_Advanced();
+    $form->populate($application->getData());
+?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-content-wrapper">
+            <div id="domain_content" class="content solo-page">
+                <h3 class="title-editor border-blue">
+                    <?php echo __("Advanced Application Options"); ?>
+                </h3>
+                <div id="advanced" class="subcontent content-color">
+                    <div class="col-md-12">
+                        <?php echo $form; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    bindForms("#advanced");
+</script>

@@ -11,7 +11,12 @@ class Push_AndroidController extends Core_Controller_Default
 
         $request = $this->getRequest();
         if($request->isPost()) {
-            $params = Zend_Json::decode($request->getRawBody());
+            try {
+                $params = Zend_Json::decode($request->getRawBody());
+            } catch(Exception $e) {
+                /** Catch for old angular apps in POST */
+                $params = $request->getParams();
+            }
         } else {
             $params = $request->getParams();
         }
@@ -44,11 +49,19 @@ class Push_AndroidController extends Core_Controller_Default
                 }
 
                 # One couple per app 4.2 (not searching the token, in case we need to update it)
-                $device->find(array(
-                    'app_id' => $params['app_id'],
-                    'device_uid' => $params['device_uid'],
-                    //'registration_id' => $params['registration_id'],
-                ));
+                if(!isset($params['device_uid'])) {
+                    /** Case for Angular without device_uid */
+                    $device->find(array(
+                        'app_id' => $params['app_id'],
+                        'registration_id' => $params['registration_id'],
+                    ));
+                } else {
+                    /** Case for Ionic apps */
+                    $device->find(array(
+                        'app_id' => $params['app_id'],
+                        'device_uid' => $params['device_uid'],
+                    ));
+                }
 
                 $device->addData($params)->save();
 

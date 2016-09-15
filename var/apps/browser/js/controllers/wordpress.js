@@ -42,6 +42,8 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
 
             $scope.collection = $scope.collection.concat(data.collection);
 
+            Wordpress.collection = $scope.collection;
+
             if(!data.cover && !$scope.cover.id) {
                 if ($scope.collection.length) {
                     for (var i in $scope.collection) {
@@ -82,7 +84,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
 
     $scope.loadContent();
 
-}).controller('WordpressViewController', function($scope, $stateParams, $window, Wordpress /*Application*/) {
+}).controller('WordpressViewController', function($filter, $scope, $stateParams, $window, Wordpress) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -95,35 +97,23 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
 
     $scope.loadContent = function() {
 
-        Wordpress.find($stateParams.post_id, $stateParams.offset).then(function(post) {
-
-            $scope.item = post;
-
-            /*
-            if($scope.post.social_sharing_active == 1 && Application.handle_social_sharing) {
-                $scope.header_right_button = {
-                    picto_url: Pictos.get("share", "header"),
-                    hide_arrow: true,
-                    action: function () {
-                        $scope.sharing_data = {
-                            "page_name": $scope.post.title,
-                            "picture": $scope.post.picture ? $scope.post.picture : null,
-                            "content_url": null
-                        }
-                        Application.socialShareData($scope.sharing_data);
-                    },
-                    height: 25
-                };
-            }
-            */
-            $scope.page_title = post.title;
-            $scope.is_loading = false;
-        }, function() {
-            $scope.is_loading = false;
-        });
-
+        $scope.item = $filter('getById')(Wordpress.collection, $stateParams.post_id);
+        $scope.page_title = $scope.item.title;
+        $scope.is_loading = false;
     };
 
     $scope.loadContent();
 
+});
+
+App.filter('getById', function() {
+    return function(input, id) {
+        var i = 0, len = input.length;
+        for (; i < len; i++) {
+            if (+input[i].id == +id) {
+                return input[i];
+            }
+        }
+        return null;
+    }
 });

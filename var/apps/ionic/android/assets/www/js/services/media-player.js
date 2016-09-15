@@ -25,8 +25,16 @@ App.service('MediaPlayer', function ($interval, $ionicLoading, $location, $rootS
     var service = this;
 
     service.loading = function() {
+        var message = $translate.instant("Loading");
+        if(service.is_radio) {
+            message = $translate.instant("Buffering");
+        }
+
+        var template = "<div class=\"loader\"><ion-spinner class=\"spinner-custom\"></ion-spinner><br />"+message+"</div>";
+
         $ionicLoading.show({
-            content: 'Loading',
+            content: message,
+            template: template,
             animation: 'fade-in',
             maxWidth: 200
         });
@@ -103,7 +111,7 @@ App.service('MediaPlayer', function ($interval, $ionicLoading, $location, $rootS
             service.current_track.albumCover = service.current_track.albumCover.replace("100x100bb", $window.innerWidth + "x" + $window.innerWidth + "bb")
         }
 
-        if(service.is_radio && !Application.is_webview) {
+        if(service.is_radio && ionic.Platform.isIOS()) {
             service.is_stream = true;
             service.media = new Stream(service.current_track.streamUrl, null, function (err) {
                 $ionicLoading.hide();

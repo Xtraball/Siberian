@@ -1143,7 +1143,7 @@ a.publish_my_app:hover {
 }
 
 /** OVERVIEW **/
-#overview #iphone { position: absolute; top:0; width: 381px; height: 805px; background: url("/app/sae/design/desktop/flat/images/customization/overview/iphone5.svg") no-repeat right top transparent; }
+#overview #iphone { position: absolute; top: -116px; width: 381px; height: 805px; background: url("/app/sae/design/desktop/flat/images/customization/overview/iphone5.svg") no-repeat right top transparent; }
 #overview #iphone .iphone_content { margin-left: 32px; margin-top: 113px; }
 #overview #iphone .iphone_content .toolbar_overview { text-align: right; width:320px; height:21px; line-height:22px; margin:0; padding:0 5px 0 0; font-family:Helvetica; font-size:11px; font-weight: bold; color:black; background-repeat: no-repeat; background-position: left center;;}
 #overview #iphone .iphone_content .status_bar { position:absolute; }
@@ -1426,14 +1426,15 @@ div.pp_pic_holder {
     #toggle_customization_sidebar {
         float: none!important;
     }
-    #left-sidebar-wrapper {
-        display: none;
-    }
-    .btn-close-sidebarleft {
-        display: none;
-    }
-    .navbar-header.unleft-toggled {
+    .navbar-header,
+    .navbar-header.unleft-toggled,
+    .navbar-header.color-blue {
         left: 0px;
+        background-color: transparent !important;
+    }
+    #left-menu-toggle {
+        left: 16px;
+        right: inherit;
     }
     #add-pages .icons-list li span  {
         display: none;
@@ -1443,6 +1444,25 @@ div.pp_pic_holder {
     }
     .logo-block {
         display: none;
+    }
+    .navbar-header .logo-position {
+        margin-left: calc((100vw - 250px) / 2) !important;
+    }
+    .sidebar-nav li a {
+        padding: 2px 7px;
+    }
+    #logo {
+        display: block !important;
+        -ms-transform: scale(0.65);
+        -moz-transform: scale(0.65);
+        -o-transform: scale(0.65);
+        -webkit-transform: scale(0.65);
+        transform: scale(0.65);
+        -ms-transform-origin: 50% 50%;
+        -moz-transform-origin: 50% 50%;
+        -o-transform-origin: 50% 50%;
+        -webkit-transform-origin: 50% 50%;
+        transform-origin: 50% 50%;
     }
 }
 
@@ -1649,3 +1669,60 @@ div.feature-upload-placeholder button {
 }
 
 .development-responsive {  border: none !important;  padding: 6px !important;  text-align: center !important;  margin: 0 !important; border-radius: 0 !important; border-bottom: 1px solid #8a6d3b !important; }
+
+
+div#iphone {
+    -ms-transform: scale(1);
+    -moz-transform: scale(1);
+    -o-transform: scale(1);
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -ms-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+    -o-transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+}
+
+@media (max-width: 1700px) {
+    div#iphone {
+        -ms-transform: scale(0.85);
+        -moz-transform: scale(0.85);
+        -o-transform: scale(0.85);
+        -webkit-transform: scale(0.85);
+        transform: scale(0.85);
+        -ms-transform-origin: 100% 0;
+        -moz-transform-origin: 100% 0;
+        -o-transform-origin: 100% 0;
+        -webkit-transform-origin: 100% 0;
+        transform-origin: 100% 0;
+    }
+
+    #previewer {
+        right: 248px !important;
+    }
+}
+
+@media (max-width: 1450px) {
+    div#iphone {
+        -ms-transform: scale(0.70);
+        -moz-transform: scale(0.70);
+        -o-transform: scale(0.70);
+        -webkit-transform: scale(0.70);
+        transform: scale(0.70);
+        -ms-transform-origin: 100% 0;
+        -moz-transform-origin: 100% 0;
+        -o-transform-origin: 100% 0;
+        -webkit-transform-origin: 100% 0;
+        transform-origin: 100% 0;
+    }
+
+    #previewer {
+        right: 192px !important;
+    }
+}
+
+.form-field-error {
+    color: #a94442;
+    font-weight: bold;
+}

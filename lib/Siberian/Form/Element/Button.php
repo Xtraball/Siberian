@@ -85,6 +85,23 @@ class Siberian_Form_Element_Button extends Zend_Form_Element_Button {
 	}
 
 	/**
+	 * Set required flag
+	 *
+	 * @param  bool $flag Default value is true
+	 * @return Zend_Form_Element
+	 */
+	public function setRequired($flag = true)
+	{
+		$this->_required = (bool) $flag;
+
+		if($this->_required) {
+			$this->addClass("is-required");
+		}
+
+		return $this;
+	}
+
+	/**
 	 * @param $new
 	 * @return Siberian_Form_Element_Button
 	 */

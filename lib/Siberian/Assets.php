@@ -3,6 +3,8 @@
 /**
  * Class Siberian_Assets
  *
+ * @id 1000
+ *
  * @version 4.4.2
  *
  */

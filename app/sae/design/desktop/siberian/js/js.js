@@ -87,18 +87,15 @@ var loader = {
     show: function(log) {
 //        return this;
         if(typeof log == 'undefined') log = 'inconnu';
-        console.log('show ' + log);
         if(this.timeout_id) clearTimeout(this.timeout_id);
         this.timeout_id = setTimeout(this.timeout.bind(this), 10000);
         $('#hide_mask').hide();
         this.cpt++;
         $('#mask').show();
-        console.log(this.cpt)
     },
     hide: function(log) {
 //        return this;
         if(typeof log == 'undefined') log = 'inconnu';
-        console.log('hide ' + log);
         if(--this.cpt <= 0) {
             this.cpt = 0;
             $('#mask').hide();
@@ -107,7 +104,6 @@ var loader = {
                 this.timeout_id = null;
             }
         }
-        console.log(this.cpt)
     },
     timeout: function() {
         $('#hide_mask').fadeIn();
@@ -184,7 +180,7 @@ var AlertMessage = Class.extend({
         this.timeoutId = null;
 
         this.showLoader = true;
-
+        this.noBackground = false;
 
         if(addButton) $('#close_alert_message').show();
         else $('#close_alert_message').hide();
@@ -243,6 +239,7 @@ var AlertMessage = Class.extend({
     didHide: function() {
 
         $('#alert').hide();
+        this.setNoBackground(false);
         this.is_visible = false;
 
         if(typeof(this.afterHide) === "function") {
@@ -270,8 +267,18 @@ var AlertMessage = Class.extend({
     },
 
     isError: function(isError) {
-        if(isError) $('#alert').removeClass('header').css('background-color', '#C41313');
-        else $('#alert').removeAttr('style').addClass('header');
+        if(!this.noBackground) {
+            if (isError) {
+                $('#alert').removeClass('header').css('background-color', '#a94442');
+                $("#error_icon").removeClass("fa-check").addClass("fa-exclamation-triangle");
+            } else {
+                $('#alert').removeClass('header').css('background-color', '#3c763d');
+                $("#error_icon").removeClass("fa-exclamation-triangle").addClass("fa-check");
+            }
+        } else {
+            $('#alert').removeClass('header').css('background-color', 'transparent');
+            $("#error_icon").removeClass("fa-check fa-exclamation-triangle");
+        }
         return this;
     },
 
@@ -281,6 +288,10 @@ var AlertMessage = Class.extend({
 
     isVisible: function() {
         return this.is_visible;
+    },
+
+    setNoBackground: function(has_background) {
+        this.noBackground = has_background;
     },
 
     reset: function() {

@@ -59,7 +59,7 @@ class Siberian_Form_Element_Hidden extends Zend_Form_Element_Hidden {
 	public function addClass($new) {
 		return Siberian_Form_Abstract::addClass($new, $this);
 	}
-
+	
 	/**
 	 * @param bool $withError
 	 * @return Zend_Form_Element

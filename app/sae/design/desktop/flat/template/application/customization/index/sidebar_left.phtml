@@ -104,7 +104,7 @@
                 <a href="#shortcuts-sub-2" data-toggle="collapse" class="collapsed down">
                     <i class="fa fa-cogs"></i>
                     <?php echo $this->_('Settings'); ?>
-                    <i class="fa <?php if (in_array($current_link, array('settings_tc','settings_facebook','settings_domain','settings_message','settings_import'))) echo "fa-angle-down"; else echo "fa-angle-right"; ?>"></i>
+                    <i class="fa <?php if (in_array($current_link, array('settings_advanced', 'settings_tc','settings_facebook','settings_domain','settings_message','settings_import'))) echo "fa-angle-down"; else echo "fa-angle-right"; ?>"></i>
                 </a>
                 <div id="shortcuts-sub-2" class="collapse sub-bar<?php if (in_array($current_link, array('settings_tc','settings_facebook','settings_domain','settings_message','settings_import'))) echo " in"; ?>">
                     <?php if($this->_canAccess("editor_settings_tc")) : ?>
@@ -117,37 +117,38 @@
                     <?php if($this->_canAccess("editor_settings_facebook")) : ?>
                         <a href="<?php echo $this->getUrl('application/settings_facebook'); ?>" class="block header no-background<?php if($current_link == 'settings_facebook'): ?> active<?php endif; ?>">
                             <i class="fa fa-facebook-official"></i>
-                            <?php echo $this->_('Facebook'); ?>
+                            <?php echo __('Facebook'); ?>
                         </a>
                     <?php endif; ?>
 
                     <?php if($this->_canAccess("editor_settings_instagram")) : ?>
                         <a href="<?php echo $this->getUrl('application/settings_instagram'); ?>" class="block header no-background<?php if($current_link == 'settings_instagram'): ?> active<?php endif; ?>">
                             <i class="fa fa-instagram"></i>
-                            <?php echo $this->_('Instagram'); ?>
+                            <?php echo __('Instagram'); ?>
                         </a>
                     <?php endif; ?>
 
                     <?php if($this->_canAccess("editor_settings_domain")) : ?>
                         <a href="<?php echo $this->getUrl('application/settings_domain'); ?>" class="block header no-background<?php if($current_link == 'settings_domain'): ?> active<?php endif; ?>">
                             <i class="fa fa-link"></i>
-                            <?php echo $this->_('Domain'); ?>
+                            <?php echo __('Domain'); ?>
+                        </a>
+                    <?php endif; ?>
+
+                    <?php if($this->_canAccess("editor_settings_advanced")) : ?>
+                        <a href="<?php echo $this->getUrl('application/settings_advanced'); ?>" class="block header no-background<?php if($current_link == 'settings_advanced'): ?> active<?php endif; ?>">
+                            <i class="fa fa-cogs"></i>
+                            <?php echo __('Advanced'); ?>
                         </a>
                     <?php endif; ?>
 
                     <?php if($this->_canAccess("editor_settings_messages")) : ?>
                         <a href="<?php echo $this->getUrl('message/application'); ?>" class="block header no-background<?php if($current_link == 'settings_message'): ?> active<?php endif; ?>">
                             <i class="fa fa-envelope"></i>
-                            <?php echo $this->_('Messages'); ?>
+                            <?php echo __('Messages'); ?>
                         </a>
                     <?php endif; ?>
 
-<!--                    --><?php //if($this->_canAccess("editor_settings_import")) : ?>
-<!--                        <a href="--><?php //echo $this->getUrl('import/application_settings'); ?><!--" class="block header no-background--><?php //if($current_link == 'settings_import'): ?><!-- active--><?php //endif; ?><!--">-->
-<!--                            <i class="fa fa-download"></i>-->
-<!--                            --><?php //echo $this->_('Import'); ?>
-<!--                        </a>-->
-<!--                    --><?php //endif; ?>
                 </div>
             </div>
         </li>

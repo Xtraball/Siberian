@@ -38,6 +38,15 @@ class Core_Model_Translator
             ));
         }
 
+        $form_translator = new Zend_Translate(array(
+            'adapter' => 'array',
+            'content' => Core_Model_Directory::getBasePathTo("lib/Zend/resources/languages"),
+            'locale'  => $current_language,
+            'scan' => Zend_Translate::LOCALE_DIRECTORY
+        ));
+
+        Zend_Validate_Abstract::setDefaultTranslator($form_translator);
+
         if($module_name != 'application') {
             self::addModule('application');
         }

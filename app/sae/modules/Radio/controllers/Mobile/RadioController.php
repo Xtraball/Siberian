@@ -4,8 +4,9 @@ class Radio_Mobile_RadioController extends Application_Controller_Mobile_Default
 
     public function _toJson($radio){
         $json = array(
-            "url" => $url = addslashes($radio->getLink()),
-            'title' => $radio->getTitle()
+            "url"           => $url = addslashes($radio->getLink()),
+            "title"         => $radio->getTitle(),
+            "background"    => $this->getRequest()->getBaseUrl()."/images/application".$radio->getBackground(),
         );
 
         return $json;
@@ -22,13 +23,10 @@ class Radio_Mobile_RadioController extends Application_Controller_Mobile_Default
 
                 if(substr($radio->getLink(), -1) == "/") {
                     $stream_tag = ";";
-//                    $stream_tag = ";stream.nsv&type=mp3";
                 } else {
                     if(mb_stripos($radio->getLink(), "/", 8) > 0) {
                         $stream_tag = "";
-//                        $stream_tag = "?stream.nsv&type=mp3";
                     } else {
-//                        $stream_tag = "/;stream.nsv&type=mp3";
                         $stream_tag = "/;";
                     }
                 }

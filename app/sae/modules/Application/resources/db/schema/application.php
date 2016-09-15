@@ -312,6 +312,10 @@ $schemas['application'] = array(
         'type' => 'tinyint(1) unsigned',
         'default' => '0',
     ),
+    'offline_content' => array(
+        'type' => 'tinyint(1) unsigned',
+        'default' => '1',
+    ),
     'is_locked' => array(
         'type' => 'tinyint(1) unsigned',
         'default' => '0',

@@ -28,6 +28,12 @@ $schemas['radio'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'background' => array(
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'created_at' => array(
         'type' => 'datetime',
     ),

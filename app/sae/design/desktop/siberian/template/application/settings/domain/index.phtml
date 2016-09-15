@@ -53,7 +53,7 @@
     <script type="text/javascript">
 
         $('#urlForm').submit(function() {
-            
+
             reload($('#urlForm'), $('#urlForm').attr('action'), true, function(data) {
                 if(data.success) {
                     $('#domain').val(data.application_url);

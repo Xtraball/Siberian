@@ -634,6 +634,8 @@ tr#choose_bg_lowres {
 .application .application_header ul.settings_menu { right: 140px; opacity: 0; }
 .application .application_header .links ul li { float: left; margin-left: 30px; }
 .application .application_header .links.submenu ul li { width: 140px; margin: 0; }
+ul#apps_settings li:first-of-type { width: 70px; margin: 0; }
+ul#apps_settings li { width: 120px; margin: 0; }
 .application .application_header .links.submenu ul li:last-child { margin-right: 0}
 .application .application_header .links ul li * { font-size: 18px; }
 .application .application_header .links ul li a { font-weight: bold; }
@@ -1194,4 +1196,77 @@ div#cont_add_section { margin-top: 15px; }
 .sb-tgl-flip:checked + .sb-tgl-btn:active:after {
     -webkit-transform: rotateY(20deg);
     transform: rotateY(20deg);
+}
+
+/** Form elements */
+.sb-nav {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+form.sb-form label {
+    padding-top: 8px;
+}
+
+.sb-checkbox-label,
+.sb-radio-label {
+    margin-left: 6px;
+    margin-right: 20px;
+}
+
+div.feature-upload-placeholder {
+    margin-top: 6px;
+}
+
+div.feature-upload-placeholder img {
+    border-radius: 5px;
+    width: auto;
+    max-width: 100%;
+    max-height: 200px;
+}
+
+div.feature-upload-placeholder button {
+    position: absolute;
+    top: 40px;
+    left: 15px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    font-size: 14px;
+    padding: 4px 8px;
+}
+
+.feature-block-create {
+    display: none;
+}
+
+.feature-block-list {
+
+}
+
+.feature-block-background {
+
+}
+
+.feature-block-layout {
+
+}
+
+.sb-mini-delete button {
+    border: 0;
+    background: inherit;
+    font-size: inherit;
+    color: inherit;
+}
+
+.submit_button {
+    width: 76px !important;
+}
+
+.form_button {
+    font-size: 14px !important;
+}
+
+.form-field-error {
+    color: #a94442;
+    font-weight: bold;
 }

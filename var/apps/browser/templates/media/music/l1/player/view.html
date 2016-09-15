@@ -27,7 +27,10 @@
     </ion-header-bar>
 
     <!-- Album cover -->
-    <ion-content class="cover" style="background: url('{{ player.current_track.albumCover }}') no-repeat center center #000000;"></ion-content>
+    <ion-content
+            class="cover"
+            style="background: url('{{ player.current_track.albumCover }}') no-repeat center fixed #000000; -webkit-background-size: cover; background-size: cover;">
+    </ion-content>
 
     <!-- Seekbar & Elapsed time -->
     <ion-subfooter-bar class="subfooter bar bar-subfooter bar-dark ng-hide" ng-show="player.duration && !player.is_radio">

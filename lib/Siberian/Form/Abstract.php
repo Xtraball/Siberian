@@ -4,7 +4,16 @@
  */
 abstract class Siberian_Form_Abstract extends Zend_Form {
 
+    /**
+     * @var bool
+     * @deprecated
+     */
     public $bind_js = false;
+
+    /**
+     * @var string
+     */
+    public $confirm_text = "";
 
     public function init() {
         parent::init();
@@ -18,8 +27,15 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
     }
 
     /**
+     * @param $delete_text
+     */
+    public function setConfirmText($confirm_text) {
+        $this->confirm_text = __($confirm_text);
+    }
+
+    /**
      * @param $value
-     * @return $this
+     * @return Siberian_Form_Abstract
      */
     public function setBindJs($value) {
         $this->bind_js = $value;
@@ -29,12 +45,15 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
 
     /**
      * @param $value_id
+     * @return $this
      */
     public function setValueId($value_id) {
         if(!is_null($this->getElement("value_id"))) {
             $el_value_id = $this->getElement("value_id");
             $el_value_id->setValue($value_id);
         }
+
+        return $this;
     }
 
     /**
@@ -42,7 +61,9 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @return null|Zend_Form_DisplayGroup
      * @throws Zend_Form_Exception
      */
-    public function addNav($name) {
+    public function addNav($name, $save_text = "OK", $display_back_button = true) {
+
+        $elements = array();
 
         $back_button = new Siberian_Form_Element_Button("sb-back");
         $back_button->setAttrib("escape", false);
@@ -50,17 +71,34 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         $back_button->addClass("pull-left feature-back-button");
         $back_button->setBackDesign();
 
-        $submit_button = new Siberian_Form_Element_Submit(__("OK"));
+        if($display_back_button) {
+            $elements[] = $back_button;
+        }
+
+        $submit_button = new Siberian_Form_Element_Submit(__($save_text));
         $submit_button->addClass("pull-right");
         $submit_button->setNewDesign();
 
-        $this->addDisplayGroup(array($back_button, $submit_button), $name);
+        $elements[] = $submit_button;
+
+        $this->addDisplayGroup($elements, $name);
 
         $nav_group = $this->getDisplayGroup($name);
         $nav_group->removeDecorator('DtDdWrapper');
         $nav_group->setAttrib("class", "sb-nav");
 
         return $nav_group;
+    }
+
+    /**
+     * @param $name
+     */
+    public function removeNav($name) {
+        $display_group = $this->getDisplayGroup($name);
+        foreach($display_group->getElements() as $element) {
+            $this->removeElement($element->getName());
+        }
+        $this->removeDisplayGroup($name);
     }
 
     /**
@@ -169,7 +207,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @return Siberian_Form_Element_Select
      * @throws Zend_Form_Exception
      */
-    public function addSimpleSelect($name, $label = "", $options) {
+    public function addSimpleSelect($name, $label = "", $options = array()) {
         $el = new Siberian_Form_Element_Select($name);
         $this->addElement($el);
         $el
@@ -266,6 +304,12 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
 
         $button_text = !empty($button_text) ? $button_text : __("Add a picture");
 
+        if(is_array($options) && isset($options["width"]) && isset($options["height"])) {
+            $button_text .= " (".$options["width"]."x".$options["height"].")";
+        } else {
+            $button_text .= " (320x150)";
+        }
+
         /** Visual image button */
         $image_button = new Siberian_Form_Element_Button($button_text);
         $this->addElement($image_button);
@@ -311,6 +355,35 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         return $image_button;
     }
 
+    public function addSimpleNumber($name, $label, $min = null, $max = null, $inclusive = true, $step = "any") {
+        $el = new Siberian_Form_Element_Number($name);
+        $this->addElement($el);
+        $el->setDecorators(array('ViewHelper', 'Label'))
+            ->setLabel($label)
+            ->setNewDesign()
+            ;
+
+        if(is_numeric($min)) {
+            if(!$inclusive)
+                $min++;
+
+            $el->setAttrib("min", $min);
+            $el->addValidator(new Zend_Validate_GreaterThan($min));
+        }
+
+        if(is_numeric($max)) {
+            if(!$inclusive)
+                $max++;
+
+            $el->setAttrib("max", $max);
+            $el->addValidator(new Zend_Validate_LessThan($max));
+        }
+
+        $el->setAttrib("step", $step);
+
+        return $el;
+    }
+
     /**
      * @param $name
      * @return Siberian_Form_Element_Hidden
@@ -330,19 +403,11 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      */
     public function render(Zend_View_Interface $view = null)
     {
-        $content = parent::render($view);
-
-        /** Append JS Binder to the end */
-        if($this->bind_js) {
-            $js_binder = "
-<script type=\"text/javascript\">
-    if(typeof bindForms == \"function\") {
-        bindForms();
-    }
-</script>";
+        if(!empty($this->confirm_text)) {
+            $this->setAttrib("data-confirm", __js($this->confirm_text, "'"));
         }
 
-        $content .= $js_binder;
+        $content = parent::render($view);
 
         return $content;
     }
@@ -368,22 +433,29 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
     /**
      * @return array|string
      */
-    public function getTextErrors() {
-        $errors = array_filter($this->getErrors());
+    public function  getTextErrors($for_javascript = false) {
+        $errors = array_filter($this->getMessages());
 
         $text_error = array();
+        $javascript_error = array();
         foreach($errors as $name => $error) {
             /** Translating errors */
             $errs = array();
             foreach($error as $err) {
                 $errs[] = __($err);
             }
-            $text_error[] = __("Field '%s': %s", __($name), implode(", ", $errs));
+            $text_error[] = sprintf("%s: %s", ucfirst(__($name)), implode(", ", $errs));
+            $javascript_error[$name] = implode("<br />", $errs);
         }
+
+        if($for_javascript) {
+            return $javascript_error;
+        }
+
         if(!empty($text_error)) {
-            $text_error = "<div>".__("Form has errors")."<br />".implode("<br />", $text_error)."</div>";
+            $text_error = "<div>".__("Form has the following errors")."<br />".implode("<br />", $text_error)."</div>";
         } else {
-            $text_error = "<div>".__("Form has errors")."</div>";
+            $text_error = "<div>".__("Form has the following errors")."</div>";
         }
 
         return $text_error;

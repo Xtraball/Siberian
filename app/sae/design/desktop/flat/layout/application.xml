@@ -66,6 +66,22 @@
         </actions>
     </application_settings_domain_index>
 
+    <application_settings_advanced_index>
+        <addLayout name="admin_menu" />
+        <addLayout name="customization_default" />
+        <base>
+            <title>Advanced options</title>
+        </base>
+        <views>
+            <content class="admin_view_default" template="application/settings/advanced/index.phtml" />
+            <customization_sidebar_left class="admin_view_default" template="application/customization/index/sidebar_left.phtml" />
+        </views>
+        <actions>
+            <customization_sidebar_left name="setCurrentLink"><code>settings_advanced</code></customization_sidebar_left>
+            <header_menu name="setCurrentLink"><code>edit</code></header_menu>
+        </actions>
+    </application_settings_advanced_index>
+
     <application_settings_facebook_index>
         <addLayout name="admin_menu" />
         <addLayout name="customization_default" />

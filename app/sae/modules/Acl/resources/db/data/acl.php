@@ -82,6 +82,10 @@ $resource_data = array(
                         "code" => "editor_settings_instagram",
                         "label" => "Access the Instagram tab",
                         "url" => "application/settings_instagram/*"
+                    ), array(
+                        "code" => "editor_settings_advanced",
+                        "label" => "Access the Advanced tab",
+                        "url" => "application/settings_advanced/*"
                     )
                 )
             )

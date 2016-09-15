@@ -44,7 +44,6 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
         );
 
         $this->_sendHtml($urls);
-//        $this->_sendHtml(array('url' => $url));
 
     }
 

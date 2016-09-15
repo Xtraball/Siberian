@@ -17,7 +17,7 @@ App.config(function ($stateProvider) {
                 name: data.radio.title,
                 artistName: "",
                 streamUrl: data.radio.url,
-                albumCover: "",
+                albumCover: data.radio.background,
                 albumName: ""
             });
 

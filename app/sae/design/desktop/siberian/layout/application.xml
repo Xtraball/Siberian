@@ -92,6 +92,21 @@
         </actions>
     </application_settings_tc_index>
 
+    <application_settings_advanced_index>
+        <addLayout name="admin_menu" />
+        <addLayout name="customization_default" />
+        <base>
+            <title>Advanced options</title>
+        </base>
+        <views>
+            <content class="admin_view_default" template="application/settings/advanced/index.phtml" />
+            <customization_header class="admin_view_default" template="application/customization/index/header.phtml" />
+        </views>
+        <actions>
+            <customization_header name="setCurrentLink"><code>url</code></customization_header>
+        </actions>
+    </application_settings_advanced_index>
+
     <application_customization_design_style_edit>
         <addLayout name="admin_menu" />
         <addLayout name="customization_default" />

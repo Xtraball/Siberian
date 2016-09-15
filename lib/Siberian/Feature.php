@@ -85,7 +85,7 @@ class Siberian_Feature
             $application_option_layout = new Application_Model_Option_Layout();
             $application_option_layout
                 ->setData($data)
-                ->insertOnce(array("preview"));
+                ->insertOnce(array("preview", "option_id"));
         }
     }
 

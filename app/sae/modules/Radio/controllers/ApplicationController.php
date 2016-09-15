@@ -1,73 +1,47 @@
 <?php
 
-class Radio_ApplicationController extends Application_Controller_Default
-{
-
+class Radio_ApplicationController extends Application_Controller_Default {
+    /**
+     * Simple edit post, validator
+     */
     public function editpostAction() {
+        $values = $this->getRequest()->getPost();
 
-        if($data = $this->getRequest()->getPost()) {
+        $form = new Radio_Form_Radio();
+        if($form->isValid($values)) {
+            /** Do whatever you need when form is valid */
+            $radio = new Radio_Model_Radio();
+            $radio->find($values["radio_id"]);
+            $radio->setData($values);
 
-            try {
-
-                // Test s'il y a un value_id
-                if(empty($data['value_id'])) throw new Exception($this->_('An error occurred while saving. Please try again later.'));
-
-                // Récupère l'option_value en cours
-                $option_value = new Application_Model_Option_Value();
-                $option_value->find($data['value_id']);
-
-                // Test s'il y a embrouille entre la value_id en cours de modification et l'application en session
-                if(!$option_value->getId() OR $option_value->getAppId() != $this->getApplication()->getId()) {
-                    throw new Exception($this->_('An error occurred while saving. Please try again later.'));
-                }
-
-                // Test s'il y a embrouille entre la value_id en cours de modification et l'application en session
-                if(empty($data['link']) OR !Zend_Uri::check($data['link'])) {
-                    throw new Exception($this->_('Please enter a valid url'));
-                }
-
-                // Test if url is not literal IPv4
-                $warning_message = Siberian_Network::testipv4($data['link']);
-
-                $radio = new Radio_Model_Radio();
-                $radio->find($option_value->getId(), 'value_id');
-                if(!$radio->getId()) {
-                    $radio->setValueId($data['value_id']);
-                }
-
-                $radio->addData($data)
-                    ->save()
-                ;
-
-                $html = array(
-                    'success' => '1',
-                    'success_message' => __('Info successfully saved'),
-                    'warning_message' => $warning_message,
-                    'message_timeout' => 2,
-                    'message_button' => 0,
-                    'message_loader' => 0
-                );
-                if(!$radio->getIsDeleted()) {
-                    $html['link'] = $radio->getLink();
-                }
-
-            }
-            catch(Exception $e) {
-                $html = array(
-                    'message' => $e->getMessage(),
-                    'message_button' => 1,
-                    'message_loader' => 1
-                );
+            if($values["background"] == "_delete_") {
+                $radio->setData("background", "");
+            } else if(file_exists(Core_Model_Directory::getBasePathTo("images/application".$values["background"]))) {
+                # Nothing changed, skip
+            } else {
+                $background = Siberian_Feature::moveUploadedFile($this->getCurrentOptionValue(), Core_Model_Directory::getTmpDirectory()."/".$values["background"]);
+                $radio->setData("background", $background);
             }
 
-            $this->getResponse()
-                ->setBody(Zend_Json::encode($html))
-                ->sendResponse()
-            ;
-            die;
+            /** Alert ipv4 */
+            $warning_message = Siberian_Network::testipv4($values['link']);
 
+            $radio->save();
+
+            $html = array(
+                "success" => 1,
+                "message" => __("Success."),
+            );
+        } else {
+            /** Do whatever you need when form is not valid */
+            $html = array(
+                "error" => 1,
+                "message" => $form->getTextErrors(),
+                "errors" => $form->getTextErrors(true)
+            ); 
         }
 
+        $this->getLayout()->setHtml(Zend_Json::encode($html));
     }
 
 }

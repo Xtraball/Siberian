@@ -95,6 +95,15 @@
             </li>
             <?php endif; ?>
 
+            <?php if($this->_canAccess("editor_settings_advanced")) : ?>
+                <li>
+                    <a href="<?php echo $this->getUrl('application/settings_advanced'); ?>" class="block url header no-background<?php if($current_link == 'advanced'): ?> active<?php endif; ?>">
+                        <i class="icon-gears"></i>
+                        <span class="block f-bold toupper"><?php echo __('Advanced'); ?></span>
+                    </a>
+                </li>
+            <?php endif; ?>
+
             <?php if($this->_canAccess("editor_settings_messages")) : ?>
                 <li>
                     <a href="<?php echo $this->getUrl('message/application'); ?>" class="block url header no-background<?php if($current_link == 'url'): ?> active<?php endif; ?>">

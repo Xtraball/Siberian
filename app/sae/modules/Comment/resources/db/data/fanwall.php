@@ -33,12 +33,10 @@ $data = array(
 $option = Siberian_Feature::install($category, $data, array('code'));
 
 # Layouts
-$remove_layout_data = array(3, 4);
 $layout_data = array(1);
 $slug = "newswall";
 
 Siberian_Feature::installLayouts($option->getId(), $slug, $layout_data);
-Siberian_Feature::removeLayouts($option->getId(), $slug, $remove_layout_data);
 
 # Icons Flat
 $icons = array(

@@ -41,6 +41,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                     "scope" => Customer_Model_Customer_Type_Facebook::getScope()
                 ),
                 "gcm_senderid" => Push_Model_Certificate::getAndroidSenderId(),
+                "offline_content" => ($application->getOfflineContent() == 1),
             )
         );
 

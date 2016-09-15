@@ -129,41 +129,14 @@ class Application_Controller_Mobile_Default extends Core_Controller_Default {
     }
 
     protected function _sendHtml($html) {
-        $this->getResponse()->setHeader('Content-type', 'application/json');
 
-        $json = json_encode($html, JSON_PRETTY_PRINT);
-
-        if(!$json) {
-
-            switch (json_last_error()) {
-                case JSON_ERROR_NONE: $errorMessage = ' - No errors'; break;
-                case JSON_ERROR_DEPTH: $errorMessage = ' - Maximum stack depth exceeded'; break;
-                case JSON_ERROR_STATE_MISMATCH: $errorMessage = ' - Underflow or the modes mismatch'; break;
-                case JSON_ERROR_CTRL_CHAR: $errorMessage = ' - Unexpected control character found'; break;
-                case JSON_ERROR_SYNTAX: $errorMessage = ' - Syntax error, malformed JSON'; break;
-                case JSON_ERROR_UTF8: $errorMessage = ' - Malformed UTF-8 characters, possibly incorrectly encoded'; break;
-                default: $errorMessage = ' - Unknown error'; break;
-            }
-
-            /** Trying to convert data to utf8 if array is buggy */
-            try {
-                $html = data_to_utf8($html);
-                $json = Zend_Json::encode($html);
-            } catch(Exception $e) {
-                /** Catching any exception, the request should always ends ! */
-                $json = array(
-                    "error" => 1,
-                    "message" => $e->getMessage(),
-                );
-            }
-
-            $logger = Zend_Registry::get("logger");
-            $logger->sendException($errorMessage."\n\n".Siberian_Error::backtrace(false), "json_exception_", false);
-        }
-
-        if(is_array($html) AND !empty($html['error'])) {
+        if(isset($html['error']) && !empty($html['error'])) {
             $this->getResponse()->setHttpResponseCode(400);
         }
+
+        $this->getResponse()->setHeader('Content-type', 'application/json');
+
+        $json = Siberian_Json::encode($html);
 
         $this->getLayout()->setHtml($json);
 
