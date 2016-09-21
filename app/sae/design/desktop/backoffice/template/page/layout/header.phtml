@@ -21,7 +21,7 @@
                             <li><a href="<?php echo $this->getUrl('api/backoffice_user_list'); ?>"><i class="fa fa-arrows-h"></i><?php echo $this->_('API'); ?></a></li>
                         </ul>
                     </li>
-                    <?php if(!$this->isSae() && $this->_canAccessPreviewer()) : ?>
+                    <?php if($this->_canAccessPreviewer()) : ?>
                     <li class="has_submenu">
                         <a href="#"><i class="fa fa-cog"></i><?php echo $this->_('Previewer'); ?></a>
                         <ul class="l3">

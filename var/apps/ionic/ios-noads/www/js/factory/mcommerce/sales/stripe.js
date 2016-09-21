@@ -24,7 +24,11 @@ App.factory('McommerceStripe', function($rootScope, $http, Url) {
         return $http({
             method: 'POST',
             url: Url.get("mcommerce/mobile_sales_stripe/process"),
-            data: {value_id: this.value_id, token: token},
+            data: {
+                value_id: this.value_id,
+                token: token,
+                notes: sessionStorage.getItem('mcommerce-notes')
+            },
             cache: false,
             responseType:'json'
         });

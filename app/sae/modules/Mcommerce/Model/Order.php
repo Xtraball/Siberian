@@ -205,7 +205,7 @@ class Mcommerce_Model_Order extends Core_Model_Default {
         $page->drawText($this->_("Client"), 50, $y); $y -= 30;
 
         $page->setFont($font_regular, 12);
-        $page->drawText($this->getCustomerFirstname() . " " . $this->getCustomerLastname(), 50, $y);$y-=15;
+        $page->drawText($this->fetchCustomerName(), 50, $y);$y-=15;
         if($this->getCustomerStreet() AND $this->getCustomerCity()) {
             $page->drawText($this->getCustomerStreet(), 50, $y);$y-=15;
             $page->drawText($this->getCustomerPostcode() . ", " . $this->getCustomerCity(), 50, $y);$y-=15;
@@ -235,6 +235,7 @@ class Mcommerce_Model_Order extends Core_Model_Default {
         $page->drawText($this->_("Total"), 500, $y);$y-=10;
         $page->drawLine(50, $y, 550, $y);$y-=1;
         $page->drawLine(50, $y, 550, $y);$y-=15;
+
 
         foreach ($this->getLines() as $line) {
 
@@ -378,7 +379,7 @@ class Mcommerce_Model_Order extends Core_Model_Default {
             $mailto = $customer->getEmail();
             $nameto = $customer->getFirstname() . ' ' . $customer->getLastname();
         } elseif (
-            !is_null($this->getCustomerEmail()) && 
+            !is_null($this->getCustomerEmail()) &&
             !is_null($this->getCustomerFirstname()) &&
             !is_null($this->getCustomerLastname()))
         {
@@ -445,11 +446,32 @@ class Mcommerce_Model_Order extends Core_Model_Default {
 
     }
 
-    public function getCustomer()
-    {
-        $customer = new Mcommerce_Model_Customer();
-        $customer->find($this->getCustomerId());
-        return $customer;
+    public function getCustomer() {
+        if ($this->getCustomerId()) {
+            $customer = new Mcommerce_Model_Customer();
+
+            $customer->find($this->getCustomerId());
+            return $customer;
+        }
+        return null;
+    }
+
+    public function fetchCustomerName() {
+        if ($this->getCustomerId()) {
+            $customer = $this->getCustomer();
+            return $customer->getFirstname() . ' ' . $customer->getLastname();
+        } else {
+            return $this->getCustomerFirstname() . ' ' . $this->getCustomerLastname();
+        }
+    }
+
+    public function fetchEmail() {
+        if ($this->getCustomerId()) {
+            $customer = $this->getCustomer();
+            return $customer->getEmail();
+        } else {
+            return $this->getCustomerEmail();
+        }
     }
 
 }

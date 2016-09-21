@@ -477,16 +477,11 @@
     <div class="clear"></div>
 
 </sb-section>
-
-<sb-section title="'<?php echo addslashes($this->_("Generate / Autopublish iOS Application")); ?>'">
-
-
-    <div class="clear"></div>
-
-</sb-section>
-
 <sb-section title="'<?php echo addslashes($this->_("Generate and publish iOS Application")); ?>'">
-    <form ng-submit="saveInfoIosAutopublish()">
+    <form ng-submit="saveInfoIosAutopublish()" autocomplete="off">
+        <!-- to remove autocomplete -->
+        <input style="display:none">
+        <input type="password" style="display:none">
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
@@ -531,13 +526,15 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label class="control-label" for="iTunesConnectIdentifier"><?php echo $this->_("iTunes Connect Login");?></label>
-                    <input type="text" value="{{ios_publish_informations.itunes_login }}" ng-model="ios_publish_informations.itunes_login" class="form-control" name="iTunesConnectIdentifier" id="iTunesConnectIdentifier">
+                    <input type="text" value="{{ios_publish_informations.itunes_login }}" ng-model="ios_publish_informations.itunes_login" class="form-control" name="iTunesConnectIdentifier" id="iTunesConnectIdentifier" autocomplete="<?echo uniqid();?>">
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
+                    <!-- remove autocomplete -->
+                    <input type="password" style="display:none">
                     <label class="control-label" for="iTunesConnectPassword"><?php echo $this->_("iTunes Connect Password");?></label>
-                    <input type="password" value="ios_publish_informations.itunes_password" ng-model="ios_publish_informations.itunes_password" class="form-control" name="iTunesConnectPassword" id="iTunesConnectPassword">
+                    <input type="password" value="ios_publish_informations.itunes_password" ng-model="ios_publish_informations.itunes_password" class="form-control" name="iTunesConnectPassword" id="iTunesConnectPassword" autocomplete="<?echo uniqid();?>">
                 </div>
             </div>
         </div>

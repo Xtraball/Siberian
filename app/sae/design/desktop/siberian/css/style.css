@@ -1235,38 +1235,41 @@ div.feature-upload-placeholder button {
     padding: 4px 8px;
 }
 
-.feature-block-create {
-    display: none;
-}
+.feature-block-create {  display: none;  }
 
-.feature-block-list {
+.feature-block-list {  }
+.feature-block-background {  }
+.feature-block-layout {  }
 
-}
-
-.feature-block-background {
-
-}
-
-.feature-block-layout {
-
-}
-
-.sb-mini-delete button {
-    border: 0;
-    background: inherit;
-    font-size: inherit;
-    color: inherit;
-}
-
-.submit_button {
-    width: 76px !important;
-}
-
-.form_button {
-    font-size: 14px !important;
-}
-
-.form-field-error {
-    color: #a94442;
-    font-weight: bold;
-}
+.sb-mini-delete button {  border: 0;  background: inherit;  font-size: inherit;  color: inherit;  }
+.submit_button {  width: 76px !important;  }
+.form_button {  font-size: 14px !important;  }
+.form-field-error {  color: #a94442;  font-weight: bold;  }
+form.delete {  margin-left: 6px;  }
+form.toggle,
+form.toggle:hover,
+form.delete,
+form.delete:hover {  border: 0 !important;  background-color: transparent !important;  color: white !important;  }
+form.toggle input,
+form.toggle button,
+form.delete input,
+form.delete button {  border: 0;  background-color: transparent !important;  color: white !important;  }
+.nav-tabs li.active a { font-weight: bold; }
+.nav-tabs {  border-bottom: 0 !important;  }
+.nav-tabs > li > a:hover,
+.nav-tabs > li > a,
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {  border: 0 !important;  border-radius: 3px !important;  }
+.btn.default_button {  padding: 6px !important;  }
+.sb-save-info-button button {  }
+button.feature-upload-button {  font-size: 14px !important;  }
+p.close-edit {  text-align: right;  margin-bottom: 20px;  }
+form.sb-form input,
+form.sb-form select,
+form.sb-form button {  width: 100% !important;  }
+form.sb-form input[type="submit"] {  width: 120px !important;  }
+div.sb-pager-pages {  border: 0 !important;  }
+.sb-pagination {  float: right;  margin-bottom: 20px;  }
+div.sb-back-button,
+div.sb-save-info-button {  width: 40px;  }
+div.sb-save-info-button { float: right; }
+h3.title-editor { border-bottom: 1px solid white; padding-bottom: 8px; }

@@ -1,4 +1,7 @@
-<?php $order = $this->getCurrentOrder(); ?>
+<?php
+$order = $this->getCurrentOrder();
+$customer = $order->getCustomer();
+?>
 <table width="100%" style="max-width:600px">
     <tr style="padding: 0 15px; color:#888888; font-size: 17px; line-height: 150%; width:600px">
         <td>
@@ -10,29 +13,33 @@
             </p>
 
             <h4 style="margin:10px 0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo $this->_('Delivery address'); ?></h4>
-            <?php
-                $customer = new Customer_Model_Customer();
-                $customer->find($order->getCustomerId());
-                $metadatas = $customer->getMetadatas();
-            ?>
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $customer->getFirstname() . ' ' . $customer->getLastname(); ?></p>
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $customer->getEmail(); ?></p>
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['delivery_address']['street']; ?></p>
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['delivery_address']['postcode']; ?> <?php echo $metadatas['delivery_address']['city']; ?></p>
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['delivery_address']['country']; ?></p>
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['phone']; ?></p>
-            <br />
+            <?php if ($customer) { ?>
+                <?php $metadatas = $customer->getMetadatas(); ?>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $customer->getFirstname() . ' ' . $customer->getLastname(); ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $customer->getEmail(); ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['delivery_address']['street']; ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['delivery_address']['postcode']; ?><?php echo $metadatas['delivery_address']['city']; ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['delivery_address']['country']; ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['phone']; ?></p>
+                <br/>
 
-            <h4 style="margin:10px 0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo $this->_('Invoicing address'); ?></h4>
+                <h4 style="margin:10px 0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo $this->_('Invoicing address'); ?></h4>
 
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $customer->getFirstname() . ' ' . $customer->getLastname(); ?></p>
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $customer->getEmail(); ?></p>
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['invoicing_address']['street']; ?></p>
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['invoicing_address']['postcode']; ?> <?php echo $metadatas['invoicing_address']['city']; ?></p>
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['invoicing_address']['country']; ?></p>
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['phone']; ?></p>
-            <br />
-
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $customer->getFirstname() . ' ' . $customer->getLastname(); ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $customer->getEmail(); ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['invoicing_address']['street']; ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['invoicing_address']['postcode']; ?><?php echo $metadatas['invoicing_address']['city']; ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['invoicing_address']['country']; ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['birthday']; ?></p>
+                <br/>
+            <?php } else { ?>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname(); ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $order->getCustomerEmail(); ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $order->getCustomerStreet(); ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $order->getCustomerPostcode(); ?><?php echo $order->getCustomerStreet(); ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $order->getCustomerPhone(); ?></p>
+                <br/>
+            <?php } ?>
             <h4 style="margin:10px 0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo $this->_('Order details'); ?></h4>
             <table width="400px">
                 <col width="50%"/>
@@ -58,63 +65,75 @@
                     <th><?php echo $this->_('Qty'); ?></th>
                     <th><?php echo $this->_('Total'); ?></th>
                 </tr>
-                <tr><td colspan="4"><div style="width:100%;margin-top:5px;margin-bottom:5px;border-bottom:2px solid black;"></div></td></tr>
-            <?php foreach($order->getLines() as $line) : ?>
-            <?php
-                $displayPrice = Mcommerce_Model_Utility::displayPrice($line->getPrice(), 0, $line->getQty());
-                $displayPriceInclTax = Mcommerce_Model_Utility::displayPrice($line->getPrice(), $line->getTaxRate(), $line->getQty());
-                $displayBasePrice = Mcommerce_Model_Utility::displayPrice($line->getPrice(), 0);
-                $displayBasePriceInclTax = Mcommerce_Model_Utility::displayPrice($line->getPrice(), $line->getTaxRate());
-            ?>
-                <?php $format = unserialize($line->getFormat()); ?>
-                <?php $text_format = isset($format['title']) ? "<br />" . $this->_("Format:") . " " . $format['title'] : ""; ?>
                 <tr>
-                    <td><?php echo $line->getName() . $text_format; ?></td>
-                    <td align="right"><?php echo $displayBasePriceInclTax; ?></td>
-                    <td align="center"><?php echo $line->getQty(); ?></td>
-                    <td align="right"><?php echo $displayPriceInclTax; ?></td>
+                    <td colspan="4">
+                        <div style="width:100%;margin-top:5px;margin-bottom:5px;border-bottom:2px solid black;"></div>
+                    </td>
                 </tr>
-
-                <?php foreach($line->getChoices() as $id => $choice) :
-                    $group = new Catalog_Model_Product_Group();
-                    $group->find($id);
-                    $group->choices = [];
-                    foreach ($choice['selected_options'] as $sop){
-                        $option = new Catalog_Model_Product_Group_Option();
-                        $option->find($sop);
-                        $group->choices[] = $option->getName();
-                    }
+                <?php foreach ($order->getLines() as $line) : ?>
+                    <?php
+                    $displayPrice = Mcommerce_Model_Utility::displayPrice($line->getPrice(), 0, $line->getQty());
+                    $displayPriceInclTax = Mcommerce_Model_Utility::displayPrice($line->getPrice(), $line->getTaxRate(), $line->getQty());
+                    $displayBasePrice = Mcommerce_Model_Utility::displayPrice($line->getPrice(), 0);
+                    $displayBasePriceInclTax = Mcommerce_Model_Utility::displayPrice($line->getPrice(), $line->getTaxRate());
                     ?>
+                    <?php $format = unserialize($line->getFormat()); ?>
+                    <?php $text_format = isset($format['title']) ? "<br />" . $this->_("Format:") . " " . $format['title'] : ""; ?>
                     <tr>
-                        <td style="font-size:13px;">
-                            <?php echo $this->_('From'); ?> <b><?php echo $group->getTitle(); ?></b>, <?php echo $this->_('your choice'); ?>:
-                            <?php echo implode(" & ", $group->choices); ?>
+                        <td><?php echo $line->getName() . $text_format; ?></td>
+                        <td align="right"><?php echo $displayBasePriceInclTax; ?></td>
+                        <td align="center"><?php echo $line->getQty(); ?></td>
+                        <td align="right"><?php echo $displayPriceInclTax; ?></td>
+                    </tr>
+
+                    <?php foreach ($line->getChoices() as $id => $choice) :
+                        $group = new Catalog_Model_Product_Group();
+                        $group->find($id);
+                        $group->choices = [];
+                        foreach ($choice['selected_options'] as $sop) {
+                            $option = new Catalog_Model_Product_Group_Option();
+                            $option->find($sop);
+                            $group->choices[] = $option->getName();
+                        }
+                        ?>
+                        <tr>
+                            <td style="font-size:13px;">
+                                <?php echo $this->_('From'); ?>
+                                <b><?php echo $group->getTitle(); ?></b>, <?php echo $this->_('your choice'); ?>:
+                                <?php echo implode(" & ", $group->choices); ?>
+                            </td>
+                            <td style="font-size:13px;" align="right"></td>
+                            <td style="font-size:13px;"
+                                align="center"></td>
+                            <td style="font-size:13px;" align="right"></td>
+                        </tr>
+                    <?php endforeach; ?>
+
+                    <?php foreach ($line->getOptions() as $option) : ?>
+                        <?php
+                        $displayPrice = Mcommerce_Model_Utility::displayPrice($option->getPrice(), 0, $option->getQty());
+                        $displayPriceInclTax = Mcommerce_Model_Utility::displayPrice($option->getPrice(), $line->getTaxRate(), $line->getQty());
+                        $displayBasePrice = Mcommerce_Model_Utility::displayPrice($option->getPrice(), 0);
+                        $displayBasePriceInclTax = Mcommerce_Model_Utility::displayPrice($option->getPrice(), $line->getTaxRate());
+                        ?>
+                        <tr>
+                            <td style="font-size:13px;">+ <?php echo $option->getQty(); ?>
+                                x <?php echo $option->getName(); ?></td>
+                            <td style="font-size:13px;" align="right"><?php echo $displayBasePriceInclTax; ?></td>
+                            <td style="font-size:13px;"
+                                align="center"><?php echo $option->getQty() * $line->getQty(); ?></td>
+                            <td style="font-size:13px;" align="right"><?php echo $displayPriceInclTax; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    <tr>
+                        <td colspan="4">
+                            <div
+                                style="width:100%;margin-top:5px;margin-bottom:5px;border-bottom:1px solid black;"></div>
                         </td>
-                        <td style="font-size:13px;" align="right"></td>
-                        <td style="font-size:13px;"
-                            align="center"></td>
-                        <td style="font-size:13px;" align="right"></td>
                     </tr>
                 <?php endforeach; ?>
-
-                <?php foreach($line->getOptions() as $option) : ?>
-                <?php
-                    $displayPrice = Mcommerce_Model_Utility::displayPrice($option->getPrice(), 0, $option->getQty());
-                    $displayPriceInclTax = Mcommerce_Model_Utility::displayPrice($option->getPrice(), $line->getTaxRate(), $line->getQty());
-                    $displayBasePrice = Mcommerce_Model_Utility::displayPrice($option->getPrice(), 0);
-                    $displayBasePriceInclTax = Mcommerce_Model_Utility::displayPrice($option->getPrice(), $line->getTaxRate());
-                ?>
-                <tr>
-                    <td style="font-size:13px;">+ <?php echo $option->getQty(); ?>x <?php echo $option->getName(); ?></td>
-                    <td style="font-size:13px;" align="right"><?php echo $displayBasePriceInclTax; ?></td>
-                    <td style="font-size:13px;" align="center"><?php echo $option->getQty() * $line->getQty(); ?></td>
-                    <td style="font-size:13px;" align="right"><?php echo $displayPriceInclTax; ?></td>
-                </tr>
-                <?php endforeach; ?>
-                <tr><td colspan="4"><div style="width:100%;margin-top:5px;margin-bottom:5px;border-bottom:1px solid black;"></div></td></tr>
-            <?php endforeach; ?>
             </table>
-            <br />
+            <br/>
             <h4 style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo $this->_('Total'); ?></h4>
             <table width="100%">
                 <col width="80%" />

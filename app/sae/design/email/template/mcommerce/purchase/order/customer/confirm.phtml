@@ -1,4 +1,7 @@
-<?php $order = $this->getCurrentOrder(); ?>
+<?php
+$order = $this->getCurrentOrder();
+$customer = $order->getCustomer();
+?>
 
 <table width="100%" style="max-width:600px">
     <tr style="padding: 0 15px; color:#888888; font-size: 17px; line-height: 150%; width:600px">
@@ -11,29 +14,33 @@
             </p>
 
             <h4 style="margin:10px 0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo $this->_('Delivery address'); ?></h4>
-            <?php
-                $customer = new Customer_Model_Customer();
-                $customer->find($order->getCustomerId());
-                $metadatas = $customer->getMetadatas();
-            ?>
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $customer->getFirstname() . ' ' . $customer->getLastname(); ?></p>
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $customer->getEmail(); ?></p>
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['delivery_address']['street']; ?></p>
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['delivery_address']['postcode']; ?> <?php echo $metadatas['delivery_address']['city']; ?></p>
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['delivery_address']['country']; ?></p>
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['phone']; ?></p>
-            <br />
+            <?php if ($customer) { ?>
+                <?php $metadatas = $customer->getMetadatas(); ?>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $customer->getFirstname() . ' ' . $customer->getLastname(); ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $customer->getEmail(); ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['delivery_address']['street']; ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['delivery_address']['postcode']; ?><?php echo $metadatas['delivery_address']['city']; ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['delivery_address']['country']; ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['phone']; ?></p>
+                <br/>
 
-            <h4 style="margin:10px 0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo $this->_('Invoicing address'); ?></h4>
+                <h4 style="margin:10px 0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo $this->_('Invoicing address'); ?></h4>
 
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $customer->getFirstname() . ' ' . $customer->getLastname(); ?></p>
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $customer->getEmail(); ?></p>
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['invoicing_address']['street']; ?></p>
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['invoicing_address']['postcode']; ?> <?php echo $metadatas['invoicing_address']['city']; ?></p>
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['invoicing_address']['country']; ?></p>
-            <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['phone']; ?></p>
-            <br />
-
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $customer->getFirstname() . ' ' . $customer->getLastname(); ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $customer->getEmail(); ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['invoicing_address']['street']; ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['invoicing_address']['postcode']; ?><?php echo $metadatas['invoicing_address']['city']; ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['invoicing_address']['country']; ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['phone']; ?></p>
+                <br/>
+            <?php } else { ?>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname(); ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $order->getCustomerEmail(); ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $order->getCustomerStreet(); ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $order->getCustomerPostcode(); ?><?php echo $order->getCustomerStreet(); ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $order->getCustomerPhone(); ?></p>
+                <br/>
+            <?php } ?>
             <h4 style="margin:10px 0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo $this->_('Order details'); ?></h4>
             <table width="400px">
                 <col width="50%"/>
@@ -156,15 +163,15 @@
                     <th align="left"><?php echo $this->_('Subtotal'); ?></th>
                     <td align="right"><?php echo $order->getFormattedSubtotalExclTax(); ?></td>
                 </tr>
-                <?php if ($order->getDeliveryCost() > 0) : ?>
-                    <tr class="cart_totals">
-                        <th align="left"><?php echo $this->_('Delivery Fees'); ?></th>
-                        <td align="right"><?php echo $order->getFormattedDeliveryCost(); ?></td>
-                    </tr>
-                    <tr class="cart_totals">
-                        <th align="left"><?php echo $this->_('Total Excl. Tax'); ?></th>
-                        <td align="right"><?php echo $order->getFormattedTotalExclTax(); ?></td>
-                    </tr>
+                <?php if($order->getDeliveryCost() > 0) : ?>
+                <tr class="cart_totals">
+                    <th align="left"><?php echo $this->_('Delivery Fees'); ?></th>
+                    <td align="right"><?php echo $order->getFormattedDeliveryCost(); ?></td>
+                </tr>
+                <tr class="cart_totals">
+                    <th align="left"><?php echo $this->_('Total Excl. Tax'); ?></th>
+                    <td align="right"><?php echo $order->getFormattedTotalExclTax(); ?></td>
+                </tr>
                 <?php endif; ?>
                 <tr class="cart_totals">
                     <th align="left"><?php echo $this->_('Total Tax'); ?></th>
@@ -174,13 +181,8 @@
                     <th align="left"><?php echo $this->_('Total'); ?></th>
                     <td align="right"><?php echo $order->getFormattedTotal(); ?></td>
                 </tr>
-                <?php if ($order->getPaidAmount() && !$order->getHidePaidAmount()) : ?>
-                    <tr>
-                        <td colspan="2">
-                            <div
-                                style="width:100%;margin-top:0px;margin-bottom:5px;border-bottom:2px solid black;"></div>
-                        </td>
-                    </tr>
+                <?php if($order->getPaidAmount() && !$order->getHidePaidAmount()) : ?>
+                    <tr><td colspan="2"><div style="width:100%;margin-top:0px;margin-bottom:5px;border-bottom:2px solid black;"></div></td></tr>
                     <tr>
                         <th align="left"><?php echo $this->_("I will pay"); ?></th>
                         <td align="right"><?php echo $order->getFormattedPaidAmount(); ?></td>

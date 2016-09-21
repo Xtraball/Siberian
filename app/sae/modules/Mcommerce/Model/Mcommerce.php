@@ -112,6 +112,26 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
 
     }
 
+    /**
+     * Validates customer data in case of legacy application
+     *
+     * @param array $data
+     * @return array
+     */
+    public function validateLegacyCustomer($controller, $customer) {
+        $required_fields = array(
+            $controller->_('Firstname') => 'firstname',
+            $controller->_('Lastname') => 'lastname',
+            $controller->_('Email') => 'email',
+            $controller->_('Phone') => 'phone'
+        );
+        $errors = array();
+        foreach ($required_fields as $label => $field) {
+            if (empty($customer[$field])) $errors[] = $label;
+        }
+        return $errors;
+    }
+
     public function validateCustomer($controller, $data)
     {
         $errors = array_merge(

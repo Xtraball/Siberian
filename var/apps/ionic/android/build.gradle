@@ -97,6 +97,7 @@ ext {
 
 // PLUGIN GRADLE EXTENSIONS START
 apply from: "cordova-hot-code-push-plugin/base-chcp.gradle"
+apply from: "phonegap-plugin-barcodescanner/base-barcodescanner.gradle"
 apply from: "phonegap-plugin-push/base-push.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 

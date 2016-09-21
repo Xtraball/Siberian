@@ -19,7 +19,7 @@ class Siberian_Form_Element_File extends Zend_Form_Element_File {
 	  		'ViewHelper',
             array('Description', array(
                 'placement' => Zend_Form_Decorator_Abstract::APPEND,
-                'class' => 'sb-form-line-complement',
+                'class' => 'sb-form-line-complement col-sm-7 col-sm-offset-3 sb-form-description',
             	'escape' => false
             )),
             array('Label', array(

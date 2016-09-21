@@ -1,6 +1,6 @@
 "use strict";
 
-App.directive("sbVideo", function($timeout) {
+App.directive("sbVideo", function($timeout, $window) {
     return {
         restrict: "A",
         replace:true,
@@ -39,11 +39,15 @@ App.directive("sbVideo", function($timeout) {
             scope.play = function() {
 
                 if(ionic.Platform.isAndroid()) {
-                    VideoPlayer.play(scope.video.url);
+                    if (/(vimeo)/.test(scope.video.url)) {
+                      $window.open(scope.video.url, '_system');
+                    } else {
+                      VideoPlayer.play(scope.video.url);
+                    }
                 } else {
                     $timeout(function() {
                         if (/(youtube)|(vimeo)/.test(scope.video.url_embed)) {
-                            element.find('iframe').attr('src', scope.video.url_embed + "?autoplay=1");
+                            element.find('iframe').attr('src', scope.video.url_embed + "?autoplay=1&autopause=1");
                         } else {
                             element.find('video').attr('src', scope.video.url_embed);
                         }

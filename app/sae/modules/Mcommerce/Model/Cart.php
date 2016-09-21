@@ -247,6 +247,7 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
      * Ajoute le mode de livraison au panier
      *
      * @param int $delivery_method_id
+     * @return $this
      */
     public function setDeliveryMethodId($delivery_method_id) {
 
@@ -282,12 +283,13 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
 
     /**
      * Vérifie que l'utilisateur à bien été authentifié avant/pendant l'achat
+     * Used to verify if the customer_id has been set, but was disabled in order to continue supporting legacy applications
      *
      * @return array
      */
     public function check() {
         $errors = array();
-        if(!$this->getCustomerId()) $errors[] = $this->_('You did not login.');
+        // if (!$this->getCustomerId()) $errors[] = $this->_('You did not login.');
         return $errors;
     }
 
@@ -420,6 +422,35 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
 
     }
 
+    /**
+     * Given a customer address, find the customer coordinates (used to set the `longitude` and `latitude` properties of the cart).
+     * These coordinates are impportant as they are needed in the delivery.
+     * The address consists of an array like: array('street' => ..., 'postcode' => ..., 'city' => ...)
+     *
+     * @param $address_parts
+     * @return $this
+     */
+    public function setLocation($address_components) {
+        if (!empty($address_components['street']) AND !empty($address_components['postcode']) AND !empty($address_components['city'])) {
+            $address = join(', ', array(
+                $address_components['street'],
+                $address_components['postcode'],
+                $address_components['city']
+            ));
 
+            $address = str_replace(' ', '+', $address);
+            $url = "http://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=$address";
+            if ($results = @file_get_contents($url) AND $results = @json_decode($results)) {
+                if (!empty($results->results[0]->geometry->location)) {
+                    $cordinates = $results->results[0]->geometry->location;
+                    if (!empty($cordinates->lat) && !empty($cordinates->lng)) {
+                        $this->setCustomerLatitude($cordinates->lat);
+                        $this->setCustomerLongitude($cordinates->lng);
+                    }
+                }
+            }
+        }
+        return $this;
+    }
 
 }

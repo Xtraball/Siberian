@@ -43,7 +43,12 @@ class Mcommerce_Application_OrderController extends Application_Controller_Defau
                     }
                 }
 
-                $errors = $mcommerce->validateCustomer($this, $datas['customer']);
+                if ($order->getCustomerId()) {
+                    $errors = $mcommerce->validateCustomer($this, $datas['customer']);
+                } else {
+                    $errors = $mcommerce->validateLegacyCustomer($this, $datas['customer']);
+                }
+
                 if (!empty($errors)) {
                     $message = $this->_('Please fill in the following fields:');
                     foreach ($errors as $field) {
@@ -52,8 +57,21 @@ class Mcommerce_Application_OrderController extends Application_Controller_Defau
                     throw new Exception($this->_($message));
                 }
 
-                $order->getCustomer()->populate($mcommerce, $datas['customer'])->save();
-                $order->addData(array("status_id" => $datas["status_id"]))->save();
+                if ($order->getCustomerId()) {
+                    $order->getCustomer()->populate($mcommerce, $datas['customer'])->save();
+                    $order->addData(array("status_id" => $datas["status_id"]))->save();
+                } else {
+                    $order->addData(array(
+                        "status_id" => $datas["status_id"],
+                        "customer_firstname" => $datas["customer"]['firstname'],
+                        "customer_lastname" => $datas["customer"]['lastname'],
+                        "customer_email" => $datas["customer"]['email'],
+                        "customer_phone" => $datas["customer"]['phone'],
+                        "customer_street" => $datas["customer"]['street'],
+                        "customer_postcode" => $datas["customer"]['postcode'],
+                        "customer_city" => $datas["customer"]['city']
+                    ))->save();
+                }
 
                 if($order->getStatusId() == Mcommerce_Model_Order::CANCEL_STATUS) {
                     $layout = $this->getLayout()->loadEmail('mcommerce', 'send_order_cancelled_to_customer');
@@ -62,7 +80,7 @@ class Mcommerce_Application_OrderController extends Application_Controller_Defau
                     $mail = new Zend_Mail('UTF-8');
                     $mail->setBodyHtml($content);
                     $mail->setFrom($order->getStore()->getEmail(), $this->_('%s - Customer Service', $order->getStore()->getName()));
-                    $mail->addTo($order->getCustomerEmail(), $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname());
+                    $mail->addTo($order->fetchCustomerName(), $order->fetchCustomerName());
                     $mail->setSubject($this->_('Order %s cancelled', $order->getNumber()));
                     $mail->send();
                 }
@@ -78,7 +96,7 @@ class Mcommerce_Application_OrderController extends Application_Controller_Defau
 
 
                 $html['status'] = $order->getStatus();
-                $html['customer_name'] = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
+                $html['customer_name'] = $order->fetchCustomerName();
 
             }
             catch(Exception $e) {

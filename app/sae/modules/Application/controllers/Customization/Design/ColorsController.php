@@ -70,10 +70,10 @@ class Application_Customization_Design_ColorsController extends Application_Cont
 
                 if($application->useIonicDesign()) {
                     $result = Template_Model_Design::generateCss($application);
-                }
 
-                if(!$result) {
-                    throw new Exception(__("#354-03: SCSS Compilation error, you must input valid SCSS."));
+                    if(!$result) {
+                        throw new Exception(__("#354-03: SCSS Compilation error, you must input valid SCSS."));
+                    }
                 }
 
                 $html["success"] = 1;

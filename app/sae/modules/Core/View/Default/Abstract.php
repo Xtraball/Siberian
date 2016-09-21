@@ -251,5 +251,4 @@ abstract class Core_View_Default_Abstract extends Siberian_View
 
         return $background_section;
     }
-
 }

@@ -21,7 +21,7 @@
 
 /* Interaction Cues
 ----------------------------------*/
-.ui-state-disabled { cursor: default !important; }
+.ui-state-disabled { cursor: defafult !important; }
 
 
 /* Icons
@@ -574,3 +574,12 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
  */
 .ui-progressbar { height:2em; text-align: left; overflow: hidden; }
 .ui-progressbar .ui-progressbar-value {margin: -1px; height:100%; }
+
+.ui-tooltip {
+	padding: 4px 7px;
+	position: absolute;
+	z-index: 9999;
+	max-width: 300px;
+	border-radius: 3px;
+	font-size: 14px;
+}

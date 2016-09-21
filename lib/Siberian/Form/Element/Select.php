@@ -34,7 +34,7 @@ class Siberian_Form_Element_Select extends Zend_Form_Element_Select {
 	 * @return Siberian_Form_Element_Select
 	 */
 	public function setNewDesign(){
-	  	$this->addClass('sb-select styled-select color-blue');
+	  	$this->addClass('sb-select styled-select color-blue form-control no-dk');
 		return $this->setDecorators(array(
 	  		'ViewHelper',
 			array(array('wrapper'=>'HtmlTag'),array(
@@ -42,7 +42,7 @@ class Siberian_Form_Element_Select extends Zend_Form_Element_Select {
 			)),
             array('Description', array(
                 'placement' => Zend_Form_Decorator_Abstract::APPEND,
-                'class' => 'sb-form-line-complement'
+                'class' => 'sb-form-line-complement col-sm-7 col-sm-offset-3 sb-form-description'
             )),
             array('Label', array(
                 'class' => 'sb-form-line-title col-sm-3',

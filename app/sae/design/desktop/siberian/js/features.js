@@ -63,12 +63,20 @@ var remove_row = function(rowid) {
 /** Button picture uploader */
 var button_picture_html = '<div class="feature-upload-placeholder" data-uid="%UID%">' +
     '   <img src="" data-uid="%UID%" />' +
-    '   <button type="button" class="feature-upload-delete default_button btn color-blue" style="display: none;" data-uid="%UID%">' +
-    '       <i class="icon-remove"></i>' +
+    '   <button type="button" class="feature-upload-delete btn color-blue" style="display: none;" data-uid="%UID%">' +
+    '       <i class="fa fa-times icon icon-remove"></i>' +
     '   </button>' +
     '</div>';
 
 var bindForms = function(default_parent) {
+
+    if($(default_parent).data("binded") == "yes") {
+        console.info(default_parent+" is already bound.");
+        return;
+    } else {
+        $(default_parent).data("binded", "yes");
+    }
+
 
     /** Clean-up form */
     var toggle_add_success = function() {
@@ -80,11 +88,40 @@ var bindForms = function(default_parent) {
         $(default_parent+" form.feature-form").find(".feature-upload-placeholder").remove();
     };
 
-    /** Bind ckeditors */
-    $(default_parent+' .richtext').ckeditor(
-        function(){},
-        default_ckeditor_config
-    );
+
+
+    var handleRichtext = function() {
+        /** Bind ckeditors (only visible ones) */
+        $(default_parent+' .richtext:visible').ckeditor(
+            function(){},
+            default_ckeditor_config
+        );
+    };
+
+    var handleError = function(form, data) {
+        feature_form_error(data.message);
+        if(data.errors) {
+            form.find("p.form-field-error").remove();
+            Object.keys(data.errors).forEach(function(key) {
+                var input = form.find("#"+key);
+                if(input.length > 0) {
+                    switch(input.attr("type")) {
+                        case "hidden":
+                            /** Search for button data-input */
+                            var alt_input = form.find("[data-input='"+key+"']");
+                            if(alt_input.length > 0) {
+                                input = alt_input;
+                            }
+                        default:
+                            input.after("<p class=\"form-field-error\">"+data.errors[key]+"</p>");
+                            break;
+                    }
+                }
+            });
+        }
+    };
+
+    handleRichtext();
 
     /** Handle file uploads */
     $(default_parent+" button.feature-upload-button[data-uid]").each(function() {
@@ -191,22 +228,36 @@ var bindForms = function(default_parent) {
             success: function(data) {
                 if(data.success) {
                     feature_form_success(data.message || data.success_message);
-                    feature_reload();
+                    if(form.hasClass("toggle")) {
+                        var button = form.find("button[type='submit']");
+                        button.find("i").remove();
+                        button.append((data.state == 1) ? button.data("toggle-off") : button.data("toggle-on"));
+                        button.attr("title", (data.state == 1) ? button.data("title-off") : button.data("title-on"));
+                        button.tooltip("destroy");
+                        setTimeout(function() {
+                            button.tooltip();
+                        }, 500);
+                    } else if(form.hasClass("onchange")) {
+                        /** Do nothing */
+                    } else if(form.hasClass("delete")) {
+                        remove_row(form.data("rowid"));
+                        $("tr.edit-form[data-id]").hide();
+                    } else {
+                        feature_reload();
+                    }
+
 
                 } else if(data.error) {
-                    feature_form_error(data.message);
-                    if(data.errors) {
-                        form.find("p.form-field-error").remove();
-                        Object.keys(data.errors).forEach(function(key) {
-                            if(form.find("#"+key).length > 0) {
-                                form.find("#"+key).after("<p class=\"form-field-error\">"+data.errors[key]+"</p>");
-                            }
-                        });
-                    }
+                    handleError(form, data);
                 }
             },
-            error: function() {
-                feature_form_error("An error occured, please try again.");
+            error: function(data) {
+                var response = $.parseJSON(data.responseText);
+                if(response.message != "") {
+                    handleError(form, response);
+                } else {
+                    feature_form_error("An error occured, please try again.");
+                }
 
             }
         });
@@ -217,40 +268,11 @@ var bindForms = function(default_parent) {
     /** Bind forms */
     $(default_parent+" .feature-form.create, "+default_parent+" .feature-form.edit").on("submit", function(event) { event.preventDefault(); handleForm(this); });
 
+    $(default_parent+" .feature-form.toggle").on("submit", function(event) { event.preventDefault(); handleForm(this); });
+
     $(default_parent+" .feature-form.onchange").on("change", function(event) { event.preventDefault(); handleForm(this); });
 
-    $(default_parent+" .feature-form.delete").on("submit", function(event) {
-        event.preventDefault();
-        var form = $(this);
-
-        /** Confirm modal */
-        if(typeof form.data("confirm") === "string" && !window.confirm(form.data("confirm"))) {
-            return;
-        }
-
-        $.ajax({
-            type: "POST",
-            url: form.attr("action"),
-            data: form.serialize(),
-            dataType: "json",
-            success: function(data) {
-                if(data.success) {
-                    feature_form_success(data.message || data.success_message);
-                    remove_row(form.data("rowid"));
-
-                } else if(data.error) {
-                    feature_form_error(data.message);
-
-                }
-            },
-            error: function() {
-                feature_form_error("An error occured, please try again.");
-
-            }
-        });
-
-        return false;
-    });
+    $(default_parent+" .feature-form.delete").on("submit", function(event) { event.preventDefault(); handleForm(this); });
 
 
     /** Bind default buttons */
@@ -259,6 +281,8 @@ var bindForms = function(default_parent) {
 
         el.closest(".feature-block-add").next(".feature-block-create").toggle();
         el.closest(".feature-block-add").toggle();
+
+        handleRichtext();
     });
 
     $.each(["create", "edit"], function(i, klass) {
@@ -276,23 +300,64 @@ var bindForms = function(default_parent) {
         el.closest("h3").next(".feature-manage-items").stop().slideToggle(300, function() {
             if($(this).is(':visible')) {
                 el.children('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                el.children('i').removeClass('icon-chevron-down').addClass('icon-chevron-up');
             }
             else {
                 el.children('i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                el.children('i').removeClass('icon-chevron-up').addClass('icon-chevron-down');
             }
         });
     });
 
     /** Table toggle edit */
-    $(default_parent+' table .toggle-edit').on("click", function() {
+    $(default_parent+' table .open-edit').on("click", function() {
         var el = $(this);
         var object_id = el.data("id");
 
+        $("tr.edit-form[data-id!="+object_id+"]").hide();
         $("tr.edit-form[data-id="+object_id+"]").toggle();
+
+        /** Load form if not present */
+        if($("tr.edit-form[data-id="+object_id+"] form").length == 0) {
+            $.ajax({
+                type: "GET",
+                url: el.data("form-url"),
+                dataType: "json",
+                success: function(data) {
+                    if(data.success) {
+                        $("tr.edit-form[data-id="+object_id+"] p.close-edit").after(data.form);
+
+                        setTimeout(function() {
+                            bindForms("tr.edit-form[data-id="+object_id+"]");
+                            handleRichtext();
+                        }, 100);
+
+                    } else if(data.error) {
+                        feature_form_error(data.message);
+                    }
+                },
+                error: function() {
+                    feature_form_error("An error occured, please try again.");
+                }
+            });
+        } else {
+            setTimeout(function() {
+                bindForms("tr.edit-form[data-id="+object_id+"]");
+                handleRichtext();
+            }, 100);
+        }
+
     });
 
+    /** Table toggle edit */
+    $(default_parent+' table .close-edit').on("click", function() {
+        var el = $(this);
+        var object_id = el.data("id");
+
+        $("tr.edit-form[data-id]").hide();
+    });
+
+    /** Tooltip */
+    $(default_parent+' .display_tooltip').tooltip();
+
 };
-
-
-
-

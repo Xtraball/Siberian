@@ -11,6 +11,11 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
     public $bind_js = false;
 
     /**
+     * @var Siberian_Form_Element_Button
+     */
+    public $mini_submit;
+
+    /**
      * @var string
      */
     public $confirm_text = "";
@@ -67,8 +72,8 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
 
         $back_button = new Siberian_Form_Element_Button("sb-back");
         $back_button->setAttrib("escape", false);
-        $back_button->setLabel("<i class=\"fa fa-chevron-left\"></i>");
-        $back_button->addClass("pull-left feature-back-button");
+        $back_button->setLabel("<i class=\"fa fa-chevron-left icon icon-chevron-left\"></i>");
+        $back_button->addClass("pull-left feature-back-button default_button");
         $back_button->setBackDesign();
 
         if($display_back_button) {
@@ -76,7 +81,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         }
 
         $submit_button = new Siberian_Form_Element_Submit(__($save_text));
-        $submit_button->addClass("pull-right");
+        $submit_button->addClass("pull-right default_button");
         $submit_button->setNewDesign();
 
         $elements[] = $submit_button;
@@ -112,7 +117,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         $this->addElement($submit);
         $submit
             ->setLabel($label)
-            ->setAttrib('class', 'btn')
+            ->setAttrib('class', 'btn default_button')
             ->setDecorators(array(
                 'ViewHelper'
             ))
@@ -126,16 +131,47 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @return Siberian_Form_Element_Submit
      * @throws Zend_Form_Exception
      */
-    public function addMiniSubmit($label = null) {
+    public function addMiniSubmit($label = null, $label_off = null, $label_on = null) {
         if ($label == null) {
-            $label = "<i class='fa fa-times company-manage-delete'></i>";
+            $label = "<i class='fa fa-times icon icon-remove company-manage-delete'></i>";
         }
         $submit = new Siberian_Form_Element_Button($label);
         $this->addElement($submit);
         $submit->setLabel($label);
         $submit->setMiniDeleteDesign();
+        $submit->setAttrib("data-toggle-on", $label_on);
+        $submit->setAttrib("data-toggle-off", $label_off);
+
+        $this->mini_submit = $submit;
 
         return $submit;
+    }
+
+    /**
+     * Default generic toggle state
+     *
+     * @param $element
+     * @return mixed
+     */
+    public function defaultToggle($element, $on_text = "Enable", $off_text = "Disable") {
+        $element->setAttrib("data-toggle", "tooltip");
+        $element->setAttrib("data-title-on", __($on_text));
+        $element->setAttrib("data-title-off", __($off_text));
+
+        self::addClass("display_tooltip", $element);
+
+        return $element;
+    }
+
+    /**
+     * Default generic toggler
+     *
+     * @param $state
+     * @throws Zend_Form_Exception
+     */
+    public function setToggleState($state) {
+        $this->mini_submit->setLabel($state ? $this->mini_submit->getAttrib("data-toggle-off") : $this->mini_submit->getAttrib("data-toggle-on"));
+        $this->mini_submit->setAttrib("title", $state ? $this->mini_submit->getAttrib("data-title-off") : $this->mini_submit->getAttrib("data-title-on"));
     }
 
     /**
@@ -315,7 +351,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         $this->addElement($image_button);
         $image_button->setLabel($label);
         $image_button->setNewDesign();
-        $image_button->addClass("feature-upload-button");
+        $image_button->addClass("feature-upload-button default_button");
         $image_button->addClass("add");
         $image_button->addClass("color-blue");
         $image_button->setAttrib("data-uid", $uid);

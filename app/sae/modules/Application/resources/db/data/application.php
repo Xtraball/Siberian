@@ -96,26 +96,35 @@ if(is_writable(APPLICATION_PATH . '/configs/app.ini')) {
 
     $write = false;
 
-    /** Configuring updates url. */
-    if($config->production->siberian->updates->url != "http://updates.siberiancms.com") {
-        $config->production->siberian = array(
-            "updates" => array(
-                "url" => "http://updates.siberiancms.com"
-            )
-        );
-        $write = true;
-    }
-
-    if($config->development->siberian->updates->url != "http://updates.siberiancms.com") {
-        $config->development->siberian = array(
-            "updates" => array(
-                "url" => "http://beta-updates.siberiancms.com"
-            )
-        );
-        $write = true;
-    }
-
     /** Fix Mysql gone away */
+    if($config->production->resources->db->params->adapterNamespace != "Siberian_Db_Adapter") {
+        $config->production->resources->db->params->adapterNamespace = "Siberian_Db_Adapter";
+        $write = true;
+    }
+
+    /** JS/CSS Minifier */
+    if(!isset($config->production->siberian->minify)) {
+
+        $config->production->siberian->minify = array(
+            "browser" => array("css" => "1", "js" => "1"),
+            "android" => array("css" => "0", "js" => "0"),
+            "ios" => array("css" => "0", "js" => "0"),
+            "iosnoads" => array("css" => "0", "js" => "0"),
+        );
+
+        $write = true;
+    }
+
+    /** JS/CSS Minifier */
+    if(!isset($config->development->siberian->minify)) {
+
+        $config->development->siberian->minify = array(
+            "browser" => array("css" => "0", "js" => "0"),
+        );
+
+        $write = true;
+    }
+
     if($config->production->resources->db->params->adapterNamespace != "Siberian_Db_Adapter") {
         $config->production->resources->db->params->adapterNamespace = "Siberian_Db_Adapter";
         $write = true;
@@ -128,6 +137,3 @@ if(is_writable(APPLICATION_PATH . '/configs/app.ini')) {
     }
 
 }
-
-# Extends layout_code
-$this->query("ALTER TABLE application_layout_homepage MODIFY code VARCHAR(50) NOT NULL;");
