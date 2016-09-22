@@ -26,7 +26,7 @@
                 </div>
             </form>
         </div>
-        
+
     </div>
     <div id="categories" class="categories container-fluid first-row-feature">
         <?php if($categories->count() > 0) : ?>
@@ -144,7 +144,6 @@
                     this.save(category_id);
                 }
                 else {
-        //                        input.val(a.html());
                     var color = input.attr('data-color');
                     input.stop().animate({'background-color': 'transparent', color: color});
                 }
@@ -230,7 +229,7 @@
                     .unbind('keyup')
                 ;
                 $('.label_subcategory_name').unbind('click');
-                $('.subcategory_actions').unbind('mouseenter mouseout')
+                $('.subcategory_actions').unbind('mouseenter mouseout');
                 $('.edit_subcategory').unbind('click');
                 $('.delete_subcategory').unbind('click');
 
@@ -254,7 +253,6 @@
                 var a_container = $('#subcategory_actions_'+category_id);
                 var input = $('#subcategory_name_'+category_id);
 
-        //                    var label = $('#label_subcategory_name_'+category_id);
                 input.css('width', a_container.outerWidth(true)).css('height', a_container.outerHeight(true));
                 a_container.addClass('selected').hide();
                 input.fadeIn(300, function() {$(this).focus();});
@@ -326,7 +324,7 @@
                     <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />\n\
                 ';
             }
-        }
+        };
 
         product = {
             processEvents: function() {
@@ -339,7 +337,6 @@
                     keyboard_shortcuts: false,
                     gallery_markup: '',
                     changepicturecallback: function() {
-//                        $('#subcategory_id').dropkick();
                         toggleHandler($('#toggle_formats'));
                         uploadPicture();
                         $('#productForm').submit(this.save.bind(this));
@@ -370,7 +367,6 @@
                     gallery_markup: '',
                     keyboard_shortcuts: false,
                     changepicturecallback: function() {
-//                        $('#subcategory_id').dropkick();
                         toggleHandler($('#toggle_formats'));
                         uploadPicture();
                         $('#productForm').submit(this.save.bind(this));
@@ -567,8 +563,6 @@
                         $('#file').val(data.result.files);
                         $('#source_width').val(data.result.source_width);
                         $('#source_height').val(data.result.source_height);
-                        var output_width = '80';
-                        var output_height = '80';
                         $('#product_picture').html('<img id="crop_illus" src="<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+data.result.files+'"/>');
 
                         function calculateAspectRatioFit(srcWidth, srcHeight, maxWidth, maxHeight) {
@@ -577,7 +571,7 @@
                             return { width:srcWidth*ratio, height:srcHeight*ratio };
                         }
 
-                        var a = calculateAspectRatioFit(data.result.source_width, data.result.source_height, 290, 300);
+                        var a = calculateAspectRatioFit(data.result.source_width, data.result.source_height, 300, 300);
                         var width = a.width;
                         var height = a.height;
                         $('#crop_width').val(width);
@@ -592,7 +586,7 @@
                             onChange: showPreview,
                             onSelect: showPreview,
                             minSize: [5, 5],
-                            aspectRatio: output_width/output_height,
+                            aspectRatio: 1,
                             keySupport: false,
                             bgColor: 'transparent',
                             bgOpacity: '.6'
@@ -623,7 +617,7 @@
                 reload(this, this.action, true, function(datas) {
                     if(datas.success) {
                         $('#picture').val(datas.file);
-                        $('#product_picture').html('<img src="<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+datas.file+'" />');
+                        $('#product_picture').html('<img src="<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+datas.file+'" width="150"/>');
                         $('#btn_validate_crop').unbind('click').remove();
                     }
                 });

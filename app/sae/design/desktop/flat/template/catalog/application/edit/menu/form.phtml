@@ -131,15 +131,8 @@ $application = $this->getApplication();
     function removepicture() {
         $('#crop').val('');
         $('#picture').val('');
-//        $('#menu_picture').fadeOut(300, function() {
-//            $('#menu_picture').html('');
-//        });
         $('#delete_picture').fadeOut(300);
-/*
-        iframe.content.find('#picture_<?php echo $value_id; ?>_'+$('#picture_uploader').attr('rel')).parent('div.picture').fadeOut(300, function() {
-            iframe.f.page.getSubpage('<?php echo $value_id; ?>').calcRowWidth('#menu_<?php echo $value_id; ?>_'+$('#picture_uploader').attr('rel'));
-        });
-*/
+
         return false;
     }
 
@@ -172,21 +165,9 @@ $application = $this->getApplication();
                 params["uploader"] = 'menu_uploader';
                 menu_uploader.crop(params);
                 menu_uploader.callback = function(file) {
-                    /*
-                    if($('#menu_id').attr("id") == undefined) {
-                        menu.prepareDummy();
-                    }
-                    */
                     $('#delete_picture').find("img").attr("src", "<?php echo Core_Model_Directory::getTmpDirectory() ?>/"+file).fadeIn(300);
                     $('#delete_picture').show();
-//                    $('#cont_delete_picture').html('<button type="button" onclick="removepicture();" id="delete_picture" class="delete delete_red left"><i class="fa fa-times"></i></button>');
                     $('#picture').val(file);
-                    /*
-                    iframe.content.find('#menu_<?php echo $value_id; ?>_'+$('#picture_uploader').attr('rel')).addClass('picture');
-                    iframe.content.find('#picture_<?php echo $value_id; ?>_'+$('#picture_uploader').attr('rel')).attr('src', '<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+file).parent('div.picture').fadeIn(300, function() {
-                        iframe.f.page.getSubpage('<?php echo $value_id; ?>').calcRowWidth('#menu_<?php echo $value_id; ?>_'+$('#picture_uploader').attr('rel'));
-                    });
-                    */
                 }
             }
         }

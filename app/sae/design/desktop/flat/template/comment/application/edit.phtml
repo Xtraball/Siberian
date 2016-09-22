@@ -306,6 +306,12 @@
         }.bind(page));
         page.setCallback('didappear', function () {
 
+            if($.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker(); ?>']) {
+                $.datepicker.setDefaults($.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker(); ?>']);
+            } else {
+                $.datepicker.setDefaults($.datepicker.regional['en']);
+            }
+
             $('#title').ckeditor();
             $('.update_title').ckeditor();
 
@@ -505,16 +511,6 @@
                     }
                 }
             }
-        });
-
-        background_image.setCallback('cropDidFinish', function () {
-//                    iframe.content.find('.news').addClass('no-background');
-//                    iframe.content.find('.comments').addClass('no-background');
-        }).setCallback('imageDidRemove', function (datas) {
-//                    if(!datas.background_image_url) {
-//                        iframe.content.find('.news').removeClass('no-background');
-//                        iframe.content.find('.comments').removeClass('no-background');
-//                    }
         });
 
     </script>

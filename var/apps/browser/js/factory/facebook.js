@@ -14,6 +14,7 @@ App.factory('Facebook', function($http, $q, $rootScope, Url) {
     self.page_urls = new Array();
     self.displayed_per_page = 22;
     self.host = "https://graph.facebook.com/v2.7/";
+    self.host_img = "https://graph.facebook.com/";
 
     /**
      * Fetch data for Facebook Page

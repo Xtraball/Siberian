@@ -38,7 +38,7 @@ App.config(function($stateProvider) {
 
         Facebook.findUser().success(function(user) {
 
-            user.picture = Facebook.host+user.id+"/picture?width=200";
+            user.picture = Facebook.host_img+user.id+"/picture?width=400";
 
             $scope.cover_image_style = {};
             if(user.cover) {
@@ -96,7 +96,7 @@ App.config(function($stateProvider) {
                     /** Better picture */
                     var picture = post.full_picture;
                     if(post.type ==  "photo") {
-                        picture = Facebook.host+post.object_id+"/picture?width=320";
+                        picture = Facebook.host_img+post.object_id+"/picture?width=480";
                     }
 
                     post.picture = picture;
@@ -206,7 +206,7 @@ App.config(function($stateProvider) {
                 for(var i in post.comments.data) {
                     var comment = post.comments.data[i];
                     comment.name = comment.from.name;
-                    comment.picture = Facebook.host+comment.from.id+"/picture";
+                    comment.picture = Facebook.host_img+comment.from.id+"/picture?width=150";
                     comment.created_at = comment.created_time;
                     delete comment.created_time;
                     delete comment.from;
@@ -226,13 +226,13 @@ App.config(function($stateProvider) {
 
             var picture = post.full_picture;
             if(post.type ==  "photo") {
-                picture = Facebook.host+post.object_id+"/picture?width=320";
+                picture = Facebook.host_img+post.object_id+"/picture?width=480";
             }
             post.picture = picture;
             post.created_at = post.created_time;
             post.title = post.name;
             post.author = post.from.name;
-            post.icon = Facebook.host+post.from.id+"/picture?width=74";
+            post.icon = Facebook.host_img+post.from.id+"/picture?width=150";
             delete post.full_picture;
             delete post.created_time;
             delete post.name;

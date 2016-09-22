@@ -23,6 +23,7 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
             "core_modules" => array(),
             "modules" => array(),
             "layouts" => array(),
+            "icons" => array(),
         );
 
         foreach($core_modules as $core_module) {
@@ -39,6 +40,9 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
             switch($installed_module->getData("type")) {
                 case "layout":
                     $type = "layouts";
+                    break;
+                case "icons":
+                    $type = "icons";
                     break;
                 default: case "module":
                     $type = "modules";

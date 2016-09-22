@@ -519,7 +519,8 @@ ion-nav-view.has-mini-player-controls > ion-view > ion-content {bottom: 88px;}
 .layout.modal.l10 .badge-custom { top: 24px; right: 50%; margin-right: -30px; padding: 2px 5px; font-size: 12px; z-index: 10;  }
 
 /* Utility */
-div[sb-cms-text] {  display: inline-flex;  }
+div[sb-cms-text] {  display: inline-flex; width: 100%;  }
+div.sb-cms-text { width: 100%; }
 .cb {  clear: both;  }
 .push-popup .popup {  border-radius: 2px;  }
 .push-popup .list.card {  margin: 0;  background-color: transparent;  box-shadow: none;  }

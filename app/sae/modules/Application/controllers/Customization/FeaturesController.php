@@ -294,7 +294,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
             $icon->find($icon_id);
 
 
-            if(!$icon->getId() OR $icon->getLibraryId() != $option_value->getLibrary()->getId() && $option_value->getCode() != 'folder') {
+            if(!$icon->getId()) {
                 throw new Exception($this->_('An error occurred while saving. The selected icon is not valid.'));
             }
 

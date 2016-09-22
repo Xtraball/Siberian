@@ -21,7 +21,6 @@
 
             <a href="javascript:void(0);" id="edit_category_<?php echo $category->getId(); ?>"><?php echo $category->getName() ?></a>
             <input type="text" name="name" style="display:none; color: <?php echo $category->getIsActive() ? 'green' : 'red' ?>; border: 1px solid #888888;" class="category_name" id="category_name_<?php echo $category->getId() ?>" value="<?php echo $category->getName() ?>"/>
-            <?php /*<input type="hidden" name="is_active" id="<?php echo $category->getId() ?>_is_active" value="<?php echo $category->getIsActive() ?>"/> */ ?>
             <input type="hidden" name="is_deleted" id="<?php echo $category->getId() ?>_is_deleted" value="0" />
             <input type="hidden" name="category_id" id="<?php echo $category->getId() ?>_id" value="<?php echo $category->getId(); ?>"/>
             <input type="hidden" name="value_id" value="<?php echo $category->getValueId() ?>" />
@@ -54,11 +53,6 @@
                 </form>
             </div>
             <?php endif; ?>
-
-            <?php /*<div class="edit_category">
-                <input id="activate_<?php echo $category->getId() ?>" class="active" type="image" src="<?php echo $this->getImage('actions/publish.png'); ?>" alt="Activer"/>
-                <input id="deactivate_<?php echo $category->getId() ?>" class="deactive" type="image" src="<?php echo $this->getImage('actions/unpublish.png'); ?>" alt="Désactiver"/>
-            </div> */ ?>
             
         </div>
 

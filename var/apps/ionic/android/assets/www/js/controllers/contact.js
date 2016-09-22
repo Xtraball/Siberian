@@ -79,7 +79,7 @@ App.config(function($stateProvider) {
         });
     }
 
-}).controller('ContactFormController', function($translate, $scope, $stateParams, $window, Contact, Dialog) {
+}).controller('ContactFormController', function($translate, $scope, $state, $stateParams, $timeout, $window, Contact, Dialog) {
 
     $scope.form = {};
     $scope.is_loading = false;
@@ -87,20 +87,23 @@ App.config(function($stateProvider) {
     $scope.form = {};
 
     $scope.postForm = function() {
-        //$scope.contactForm.submitted = true;
-        //if ($scope.contactForm.$valid) {
-            Contact.post($scope.form).success(function(data) {
+        Contact.post($scope.form).success(function(data) {
 
-                Dialog.alert("", data.message, $translate.instant("OK"));
+            $scope.form = {};
 
-            }).error(function(data) {
+            Dialog.alert("", data.message, $translate.instant("OK"));
 
-                if(data && angular.isDefined(data.message)) {
-                    Dialog.alert($translate.instant("Error"), data.message, $translate.instant("OK"));
-                }
+            $timeout(function() {
+                $state.go("contact-view", {value_id: $stateParams.value_id});
+            }, 2000);
 
-            }).finally();
-        //}
+        }).error(function(data) {
+
+            if(data && angular.isDefined(data.message)) {
+                Dialog.alert($translate.instant("Error"), data.message, $translate.instant("OK"));
+            }
+
+        }).finally();
     }
 
 }).controller('ContactMapController', function($scope, $stateParams, Contact, GoogleMaps) {

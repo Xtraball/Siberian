@@ -101,9 +101,7 @@
 
                 $('#menu_description').ckeditor(
                     function () {
-                        this.document.on('keyup', function() {
-//                            menu.setDescription(this.getData());
-                        }.bind(this));
+                        this.document.on('keyup', function() {}.bind(this));
 
                         if(menu.is_new) {
                             var height = $('#icon_and_name').outerHeight(true) + $('#edit').outerHeight(true);
@@ -114,89 +112,8 @@
                     }
                 );
 
-//                $('#name').keyup(function() {
-//                    menu.setName($(this).val());
-//                });
-//                $('#price').keyup(function() {
-//                    menu.setPrice($(this));
-//                });
-//                $('#conditions').keyup(function() {
-//                    menu.setCondition($(this).val());
-//                });
-
-            },
-/*
-            setName: function(text) {
-                if(this.is_new) this.prepareDummy();
-                iframe.content.find('#menu_name_'+this.id).html(text);
-            },
-            setPrice: function(input) {
-                if(this.is_new) this.prepareDummy();
-                if(input.val().length > 0) input.formatCurrency(iframe.content.find('#menu_price_'+this.id), {region: '<?php echo Core_Model_Language::getCurrentLanguage() ?>'});
-                else iframe.content.find('#menu_price_'+this.id).html('');
-                iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').calcRowWidth('#menu_details_'+this.id);
-
-            },
-            setDescription: function(text) {
-                if(this.is_new) this.prepareDummy();
-                iframe.content.find('li#menu_description_'+this.id).html(text);
-            },
-            setCondition: function(text) {
-                if(this.is_new) this.prepareDummy();
-                iframe.content.find('#menu_conditions_'+this.id).html(text);
-            },
-            prepareDummy: function() {
-                if(!iframe.content.find('#menu_details_'+this.id).attr('id')) {
-                    var list = iframe.content.find('#menus_list_<?php echo $option_value->getId(); ?>');
-                    list.append(this.getDummy());
-//                    var totalHeight = 0;
-//                    list.each(function() {
-//                        totalHeight += $(this).outerHeight();
-//                    });
-//                    list.css('height', totalHeight);
-                    iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').calcRowWidth('#menu_details_'+this.id);
-                    iframe.f.toggleMenuDescription(this.id, '<?php echo $option_value->getId(); ?>');
-                }
-            },
-            removeDummy: function() {
-                var menu_new = iframe.content.find('#menu_details_'+this.id);
-                var list = iframe.content.find('#menus_list_<?php echo $option_value->getId(); ?>');
-                if(menu_new.attr('id')) {
-                    menu_new.remove();
-                    iframe.content.find('#menu_description_'+this.id).remove();
-                }
-//                var totalHeight = 0;
-//                list.each(function() {
-//                    totalHeight += $(this).outerHeight();
-//                });
-//                list.css('height', totalHeight);
-                iframe.content.find('.menu_details_<?php echo $option_value->getId(); ?>').show();
-                iframe.content.find('.menu_description').hide();
-//                iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').refreshScrollview();
-            },
-            getDummy: function() {
-                return '<li id="menu_details_<?php echo $option_value->getId(); ?>_new" rel="<?php echo $option_value->getId(); ?>_new" class="border menu_details menu_details_<?php echo $option_value->getId(); ?> relative">\n\
-                    <div class="item parent">\n\
-                        <div class="align-left">\n\
-                            <a id="menu_<?php echo $option_value->getId(); ?>_new" href="javascript:void(0);" onclick="javascript:toggleMenuDescription(\'<?php echo $option_value->getId(); ?>_new\', \'<?php echo $option_value->getId(); ?>\')" class="name toggle_description" rel="<?php echo $option_value->getId(); ?>_new">\n\
-                                <div class="picture logo left" style="display:none;">\n\
-                                    <img width="38px" height="38px" src="" id="picture_<?php echo $option_value->getId(); ?>_new" />\n\
-                                </div>\n\
-                                <span id="menu_name_<?php echo $option_value->getId(); ?>_new" class="menu_name left block"><span class="menu_name"></span></span>\n\
-                                <span id="menu_price_<?php echo $option_value->getId(); ?>_new" class="right price block"></span>\n\
-                                <span id="menu_conditions_<?php echo $option_value->getId(); ?>_new" class="menu_conditions block" style="bottom:0;"></span>\n\
-                            </a>\n\
-                        </div>\n\
-                    </div>\n\
-                </li>\n\
-                <li style="display: none;" class="menu_description border" id="menu_description_<?php echo $option_value->getId(); ?>_new">\n\
-                    <div class="separator"></div>\n\
-                    <p id="description_<?php echo $option_value->getId(); ?>_new" class="description align-left"></p>\n\
-                </li>\n\
-                <li rel="<?php echo $option_value->getId(); ?>_new" class="separator"></li>';
             }
-*/
-        }
+        };
 
         page.setCallback('didappear', function() {
 
@@ -241,12 +158,7 @@
             $('.edit_menu').unbind('click');
             $('.del_menu').unbind('click');
             $('#formCreateMenu').unbind('submit');
-//            $('#menu_description').unbind('keyup');
-//            $('#name').unbind('keyup');
-//            $('#conditions').unbind('keyup');
-//            $('#price').unbind('change');
             $('.menu_actions').unbind('mouseenter mouseout');
-//            menu.removeDummy();
         });
     </script>
 </div>

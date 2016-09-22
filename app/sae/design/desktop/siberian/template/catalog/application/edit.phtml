@@ -564,8 +564,6 @@
                         $('#file').val(data.result.files);
                         $('#source_width').val(data.result.source_width);
                         $('#source_height').val(data.result.source_height);
-                        var output_width = 600;
-                        var output_height = 600;
                         $('#product_picture').html('<img id="crop_illus" src="<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+data.result.files+'" />');
 
                         function calculateAspectRatioFit(srcWidth, srcHeight, maxWidth, maxHeight) {
@@ -574,7 +572,7 @@
                             return { width:srcWidth*ratio, height:srcHeight*ratio };
                         }
 
-                        var a = calculateAspectRatioFit(data.result.source_width, data.result.source_height, 290, 300);
+                        var a = calculateAspectRatioFit(data.result.source_width, data.result.source_height, 300, 300);
                         var width = a.width;
                         var height = a.height;
                         $('#crop_width').val(width);
@@ -589,7 +587,7 @@
                             onChange: showPreview,
                             onSelect: showPreview,
                             minSize: [5, 5],
-                            aspectRatio: output_width/output_height,
+                            aspectRatio: 1,
                             keySupport: false,
                             bgColor: 'transparent',
                             bgOpacity: '.6'
@@ -620,7 +618,7 @@
                 reload(this, this.action, true, function(datas) {
                     if(datas.success) {
                         $('#picture').val(datas.file);
-                        $('#product_picture').html('<img src="<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+datas.file+'" width="80" />');
+                        $('#product_picture').html('<img src="<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+datas.file+'" width="150" />');
                         $('#btn_validate_crop').unbind('click').remove();
                     }
                 });

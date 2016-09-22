@@ -96,7 +96,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
         //Set ios Autopublish informations
 
         $appIosAutopublish = new Application_Model_IosAutopublish();
-        $appIosAutopublish->find($this->getRequest()->getParam("app_id"),"app_id");
+        $appIosAutopublish->find(1);
 
         //get list of languages supported for app
         $languageSupportedCode = array_keys(Application_Model_Languages::getSupportedLanguages());
@@ -104,7 +104,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
         $languagesValueTemplate = array_combine($languageSupportedCode, array_fill(0,count($languageSupportedCode),false));
         //get current app languages
         $currentLanguagesSelected  = array();
-        if($lang = Zend_Json::decode($appIosAutopublish->getLanguages())) {
+        if($lang = Siberian_Json::decode($appIosAutopublish->getLanguages())) {
             $currentLanguagesSelected = $lang;
         }
 

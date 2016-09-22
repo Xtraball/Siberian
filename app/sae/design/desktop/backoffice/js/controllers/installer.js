@@ -5,7 +5,7 @@ App.config(function($routeProvider) {
         templateUrl: BASE_URL+"/installer/backoffice_module/template"
     });
 
-}).controller("ModuleController", function($scope, $interval, Header, Installer, Url, Label, FileUploader) {
+}).controller("ModuleController", function($scope, $interval, $timeout, Header, Installer, Url, Label, FileUploader) {
 
     $scope.header = new Header();
     $scope.header.button.left.is_visible = false;
@@ -28,7 +28,7 @@ App.config(function($routeProvider) {
         download: false,
         next_version: null,
         loader_is_visible: false
-    }
+    };
     $scope.permissions = {
         is_visible: false,
         progress: 0,
@@ -36,7 +36,7 @@ App.config(function($routeProvider) {
         running: false,
         success: false,
         error: false,
-        error_message: null,
+        error_message: null
     };
     $scope.ftp = {
         credentials: {
@@ -44,14 +44,14 @@ App.config(function($routeProvider) {
             username: null,
             password: null,
             path: null,
-            port: null,
+            port: null
         },
         error: false,
         error_message: "",
         error_from_info: false,
         error_from_path: false,
         loader_is_visible: false
-    }
+    };
     $scope.installation = {
 
         copy: {
@@ -119,7 +119,7 @@ App.config(function($routeProvider) {
         }).finally(function() {
             $scope.check_for_updates.loader_is_visible = false;
         });
-    }
+    };
 
     $scope.downloadUpdate = function() {
 
@@ -156,7 +156,7 @@ App.config(function($routeProvider) {
             $scope.check_for_updates.loader_is_visible = false;
         });
 
-    }
+    };
 
     /*/******** UPLOADER **********/
     $scope.uploader.onWhenAddingFileFailed = function(item, filter, options) {
@@ -220,7 +220,7 @@ App.config(function($routeProvider) {
     /*/******** PACKAGE DETAILS **********/
     $scope.showPackageDetails = function() {
         $scope.package_details.is_visible = true;
-    }
+    };
 
     /*/******** PERMISSIONS **********/
     $scope.checkPermissions = function() {
@@ -264,7 +264,7 @@ App.config(function($routeProvider) {
             $scope.permissions.progress = 100;
         });
 
-    }
+    };
 
     $scope.saveFtp = function() {
 
@@ -305,7 +305,7 @@ App.config(function($routeProvider) {
             $scope.ftp.loader_is_visible = false;
         });
 
-    }
+    };
 
     /*/******** INSTALLATION **********/
     $scope.increaseProgressBar = function(state, step) {

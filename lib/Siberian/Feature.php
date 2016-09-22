@@ -17,9 +17,10 @@ class Siberian_Feature
      *
      * @param $name
      * @param $icons
+     * @param $can_be_colorized
      * @return array()
      */
-    public static function installIcons($name, $icons = array()) {
+    public static function installIcons($name, $icons = array(), $can_be_colorized = true) {
 
         $library = new Media_Model_Library();
         $library
@@ -33,13 +34,13 @@ class Siberian_Feature
             $data = array(
                 'library_id'        => $library->getId(),
                 'link'              => $icon_path,
-                'can_be_colorized'  => 1
+                'can_be_colorized'  => $can_be_colorized
             );
 
             $image = new Media_Model_Library_Image();
             $image
                 ->setData($data)
-                ->insertOnce(array("library_id", "link"));
+                ->insertOrUpdate(array("library_id", "link"));
 
             if($key == 0) {
                 $icon_id = $image->getId();

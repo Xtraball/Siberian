@@ -31,6 +31,7 @@ App.config(function($routeProvider) {
         $scope.modules = data.modules;
         $scope.core_modules = data.core_modules;
         $scope.layouts = data.layouts;
+        $scope.icons = data.icons;
     }).finally(function() {
         $scope.content_loader_is_visible = false;
     });

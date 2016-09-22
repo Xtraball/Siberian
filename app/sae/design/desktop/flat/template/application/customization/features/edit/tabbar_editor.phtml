@@ -1,4 +1,24 @@
-<?php $option = $this->getOptionValue(); ?>
+<?php
+$option = $this->getOptionValue();
+
+$available_icons = array($option->getLibrary()->getIcons());
+
+if($option->getCode() == 'folder') {
+    $a_option = new Application_Model_Option();
+    $options = $a_option->findAll();
+    foreach($options as $other_option) {
+        if($other_option->getCode() == 'folder') {
+            continue;
+        }
+        $new_icons = $other_option->getLibrary()->getIcons();
+        $available_icons[] = $new_icons;
+    }
+}
+
+$library = new Media_Model_Library();
+$all_icons = $library->getAllFeatureIcons();
+
+?>
 
 <script type="text/javascript">
     var tmp_directory = "<?php echo Core_Model_Directory::getTmpDirectory() ?>";
@@ -58,25 +78,26 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <h3 class="subtitle">
-                                                        <span><?php echo $this->_('Library icons') ?></span>
+                                                        <span>
+                                                            <?php echo $this->_('Feature icons') ?>
+                                                            <!--[if gte IE 10]><!-->
+                                                            <div id="new_icon">
+                                                                <a href="javascript:void(0)" class="upload_icon icon" rel="<?php echo $option->getId(); ?>" >
+                                                                    <button class="add color-blue" type="button">
+                                                                        <?php echo $this->_('Add a new icon') ?>
+                                                                    </button>
+                                                                </a>
+                                                                <!--<![endif]-->
+                                                                <span id="input_upload_custom_icon_message" style="display:none"><?php echo $this->_('Add a new icon') ?></span>
+                                                                <input id="input_upload_custom_icon" class="uploader" style="display:none" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+                                                            </div>
+                                                        </span>
                                                     </h3>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <ul class="icons_list">
-                                                        <?php $available_icons = array($option->getLibrary()->getIcons()); ?>
-                                                        <?php
-                                                        if($option->getCode() == 'folder') {
-                                                            $a_option = new Application_Model_Option();
-                                                            $options = $a_option->findAll();
-                                                            foreach($options as $other_option) {
-                                                                if($other_option->getCode() == 'folder') continue;
-                                                                $new_icons = $other_option->getLibrary()->getIcons();
-                                                                $available_icons[] = $new_icons;
-                                                            }
-                                                        }
-                                                        ?>
                                                         <?php $icon_ids = array(); ?>
                                                         <?php foreach($available_icons as $lib_icon) : ?>
                                                             <?php foreach($lib_icon as $icon) : ?>
@@ -106,20 +127,38 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-12" style="margin-bottom: 14px;">
-                                                    <ul>
-                                                        <li class="pull-left">
-                                                            <!--[if gte IE 10]><!-->
-                                                            <a href="javascript:void(0)" class="upload_icon icon" rel="<?php echo $option->getId(); ?>" >
-                                                                <button class="add color-blue" type="button">
-                                                                    <?php echo $this->_('Add a new icon') ?>
-                                                                </button>
-                                                            </a>
-                                                            <!--<![endif]-->
-                                                            <p id="input_upload_custom_icon_message" style="display:none"><?php echo $this->_('Add a new icon') ?></span></p>
-                                                            <input id="input_upload_custom_icon" class="uploader" style="display:none" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+                                                <div class="col-md-12">
+                                                    <h3 class="subtitle">
+                                                        <span><?php echo $this->_('Library icons') ?></span>
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <ul class="icons_list">
+                                                        <?php $all_icon_ids = array(); ?>
+                                                        <?php foreach($all_icons as $icon) : ?>
+                                                            <?php if($icon->getUrl() AND !in_array($icon->getId(), $all_icon_ids)) : ?>
+                                                                <li rel="<?php echo $option->getId(); ?>" class="color-blue">
+                                                                    <a href="<?php echo $this->getUrl('application/customization_features/seticon'); ?>" class="left icon" rel="<?php echo $option->getId(); ?>" >
+                                                                        <button class="select_icon" type="button">
+                                                                            <img src="<?php echo $icon->getUrl(); ?>" width="auto" height="65" class="colorize" />
+                                                                        </button>
+                                                                        <input type="hidden" name="option_value_id" value="<?php echo $option->getValueId(); ?>" />
+                                                                        <input type="hidden" name="icon_id" value="<?php echo $icon->getId(); ?>" />
+                                                                    </a>
+                                                                    <?php if($icon->getAppId()) : ?>
+                                                                        <a href="<?php echo $this->getUrl('application/customization_features/deleteicon'); ?>" class="delete_icon">
+                                                                            <i class="fa fa-times"></i>
+                                                                            <input type="hidden" name="option_value_id" value="<?php echo $option->getValueId(); ?>" />
+                                                                            <input type="hidden" name="icon_id" value="<?php echo $icon->getId(); ?>" />
+                                                                        </a>
+                                                                    <?php endif; ?>
 
-                                                        </li>
+                                                                </li>
+                                                                <?php $all_icon_ids[] = $icon->getId() ?>
+                                                            <?php endif; ?>
+                                                        <?php endforeach; ?>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -152,9 +191,6 @@
                 </div>
                 <?php endif; ?>
             </div>
-            <?php /*if(in_array($option->getOptionId(), array(1))) : ?>
-            <?php echo $this->getLayout()->addPartial('logo', 'core_view_default', 'application/customization/features/edit/tabbar_editor/logo.phtml')->setOptionValue($option)->toHtml(); ?>
-            <?php endif;*/ ?>
             
         </div>
     </div>
@@ -237,7 +273,6 @@
                     if(!all) selector += ":visible";
                     $('#icon_library').css('height', $(window).outerHeight() - 75);
                     $('#icon_library_manager').find(selector).css('height', $(window).outerHeight() - this.tolerance);
-                    $('.icons_list').css('height', $(window).outerHeight() - (this.tolerance+125));
                 }
             }
 
@@ -333,10 +368,6 @@
 
                 iframe.f.changeIcon(page.current.attr("rel"), datas.colored_icon_url);
 
-                //icon tabbar iframe
-                //iframe.content.find('img#icon_<?php echo $option->getId(); ?>').attr('src', datas.colored_icon_url);
-                //icon topbar feature
-                //iframe.content.find('img.icon_<?php echo $option->getId(); ?>').attr('src', datas.colored_header_icon_url);
             }
             <?php endif ?>
 
@@ -391,11 +422,15 @@
 
     </script>
     <style>
-        .custom_modal .modal_content li { margin: 5px; background: #0099C7; color: white; border-radius: 10px;float:left;list-style:none; }
+        .custom_modal .modal_content li { margin: 5px; background: #0099C7; color: white; border-radius: 0px; float:left; list-style:none; }
+        .custom_modal .modal_content img { padding: 8px; }
         .custom_modal .modal_content .icons_list li { /*padding: 15px;*/ }
         .custom_modal .modal_content li .select_icon { background: none; color: white;border:none; }
         .custom_modal .modal_content li .delete_icon { position:absolute; top:0; right:0; }
+        .custom_modal .modal_content .container-fluid { padding-bottom: 20px; }
         .custom_modal .bt_close_modal_icons{border: none;background: transparent;font-size: 25px;}
         #icon_and_name .col-icon-button{padding-top: 8px}
+        #icon_library { overflow: scroll; }
+        #new_icon {  float: right;  font-size: 16px;  }
     </style>
 </div>

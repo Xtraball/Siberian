@@ -475,12 +475,6 @@
             </div>
         </div>
 
-<!--        <form id="messageCreateForm" action="<?php echo $this->getUrl('push/application/editpost') ?>" method="post">
-            <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
-            <input type="hidden" id="push_latitude_receiver" name="latitude" class="gmaps_field" value="" disabled="disabled" />
-            <input type="hidden" id="push_longitude_receiver" name="longitude" class="gmaps_field" value="" disabled="disabled" />
-            <input type="hidden" id="push_radius_receiver" name="radius" class="gmaps_field" value="" disabled="disabled" />
-        </form>-->
     </div>
     <script type="text/javascript">
 
@@ -671,24 +665,22 @@
                 });
             },
             show: function() {
-//                if(!$("#no_topics").is(":visible")) {
-                    $("#customers_list").show();
-                    topic.hide();
-//                }
+                $("#customers_list").show();
+                topic.hide();
             },
             hide: function() {
-//                $(".chk_topic").each(function(index,elem) {
-//                    $(elem).removeAttr('checked');
-//                    $(elem).parent().removeClass('checked');
-//                });
-
-//                $("#topic_receiver").val("");
                 $("#customers_list").hide();
             }
         };
 
         var push = {
             init: function() {
+
+                if($.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker(); ?>']) {
+                    $.datepicker.setDefaults($.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker(); ?>']);
+                } else {
+                    $.datepicker.setDefaults($.datepicker.regional['en']);
+                }
 
                 createCustomUI();
                 $('.push_datetimepicker').datetimepicker({

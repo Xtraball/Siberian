@@ -147,9 +147,19 @@ class Application_Model_SourceQueue extends Core_Model_Default {
 
         $jobUrlEncoded = base64_encode('http://'.$this->getHost().'/var/tmp/jobs/'.$jobCode.'.tgz');
 
-        exec("curl -u ios-builder:ced2eb561db43afb09c633b8f68c1f17 http://jenkins.xtraball.com/job/ios-autopublish/buildWithParameters?token=2a66b48d4a926a23ee92195d73251c22\&SIBERIAN_JOB_URL=$jobUrlEncoded 2>&1",$output,$return_val);
+        $request = curl_init();
+        # Setting options
+        curl_setopt($request, CURLOPT_URL, "http://jenkins.xtraball.com/job/ios-autopublish/buildWithParameters?token=2a66b48d4a926a23ee92195d73251c22&SIBERIAN_JOB_URL=$jobUrlEncoded");
+        curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($request, CURLOPT_TIMEOUT, 3);
+        curl_setopt($request, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($request, CURLOPT_USERPWD, "ios-builder:ced2eb561db43afb09c633b8f68c1f17");
+        # Call
+        $result = curl_exec($request);
+        # Closing connection
+        curl_close($request);
 
-        if($return_val !== 0) {
+        if(!$result) {
             throw new Exception("Cannot start job process");
         }
     }

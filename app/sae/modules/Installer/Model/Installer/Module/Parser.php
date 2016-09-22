@@ -74,6 +74,7 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
         switch($package->getType()) {
             case "module":
             case "layout":
+            case "icons":
                     $this->_checkDependenciesModule($package, $package->getType());
                 break;
             default:
@@ -137,6 +138,9 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
         switch($package_type) {
             case "layout":
                 $_module->setType("layout");
+                break;
+            case "icons":
+                $_module->setType("icons");
                 break;
             case "module":
                 break;
@@ -325,7 +329,7 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
             $dirIterator = new DirectoryIterator($this->_tmp_directory);
         }
 
-        $is_module = (in_array($this->getPackageDetails()->getData("type"), array("module", "layout")));
+        $is_module = (in_array($this->getPackageDetails()->getData("type"), array("module", "layout", "icons")));
         $module_name = $this->getPackageDetails()->getData("name");
 
         foreach($dirIterator as $element) {

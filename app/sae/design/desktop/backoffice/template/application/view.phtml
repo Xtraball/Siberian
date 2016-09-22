@@ -479,9 +479,6 @@
 </sb-section>
 <sb-section title="'<?php echo addslashes($this->_("Generate and publish iOS Application")); ?>'">
     <form ng-submit="saveInfoIosAutopublish()" autocomplete="off">
-        <!-- to remove autocomplete -->
-        <input style="display:none">
-        <input type="password" style="display:none">
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
@@ -532,8 +529,9 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <!-- remove autocomplete -->
-                    <input type="password" style="display:none">
                     <label class="control-label" for="iTunesConnectPassword"><?php echo $this->_("iTunes Connect Password");?></label>
+                    <input type="text" name="_fakelogin_" style="visibility: hidden; height: 0px; float: right;" />
+                    <input type="password" name="_fakepassword_" style="visibility: hidden; height: 0px; float: right;" />
                     <input type="password" value="ios_publish_informations.itunes_password" ng-model="ios_publish_informations.itunes_password" class="form-control" name="iTunesConnectPassword" id="iTunesConnectPassword" autocomplete="<?echo uniqid();?>">
                 </div>
             </div>

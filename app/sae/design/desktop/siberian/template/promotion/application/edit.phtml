@@ -202,28 +202,6 @@
                     showAnim: 'clip',
                     dateFormat: 'yy-mm-dd',
                     onClose: function(date, obj) {
-                            //fuck ie
-//                            var dates = newdate.split(' ');
-//                            days = dates[1];
-//                            if(days.length > 1) {
-//                                doubledigit = days.substr(1,1);
-//                            } else {
-//                                doubledigit = days;
-//                            }
-//                            if(doubledigit == 1) {
-//                                doubledigit = doubledigit+'st';
-//                            } else if(days == 2) {
-//                                doubledigit = doubledigit+'nd';
-//                            } else if(days == 3) {
-//                                doubledigit = doubledigit+'rd';
-//                            } else {
-//                                doubledigit = doubledigit+'th';
-//                            }
-//                            if(days.length > 1) {
-//                                newdate = dates[0]+' '+days.substr(0,1)+doubledigit+' '+dates[2];
-//                            } else {
-//                                newdate = dates[0]+' '+doubledigit+' '+dates[2];
-//                            }
                         promotion.setEndAt(date);
                     }
                 });

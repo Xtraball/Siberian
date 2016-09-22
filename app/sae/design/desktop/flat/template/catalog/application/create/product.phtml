@@ -143,7 +143,7 @@
             </div>
             <div id="product_picture" class="col-sm-4">
                 <?php if($product->getPicture()) : ?>
-                    <img src="<?php echo Application_Model_Application::getImagePath().$product->getPicture(); ?>" />
+                    <img src="<?php echo Application_Model_Application::getImagePath().$product->getPicture(); ?>" width="150" />
                 <?php endif; ?>
             </div>
             <input type="hidden" id="file" name="file"/>
@@ -155,8 +155,8 @@
             <input type="hidden" id="h" name="h" />
             <input type="hidden" id="source_width" name="source_width" value="" />
             <input type="hidden" id="source_height" name="source_height" value="" />
-            <input type="hidden" id="output_width" name="output_width" value="80" />
-            <input type="hidden" id="output_height" name="output_height" value="80" />
+            <input type="hidden" id="output_width" name="output_width" value="300" />
+            <input type="hidden" id="output_height" name="output_height" value="300" />
             <input type="hidden" id="crop_width" name="crop_width" value="" />
             <input type="hidden" id="crop_height" name="crop_height" value="" />
         </div>

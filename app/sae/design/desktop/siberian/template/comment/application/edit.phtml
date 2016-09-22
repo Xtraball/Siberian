@@ -320,6 +320,12 @@
                 $('#title').ckeditor();
                 $('.update_title').ckeditor();
 
+                if($.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker(); ?>']) {
+                    $.datepicker.setDefaults($.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker(); ?>']);
+                } else {
+                    $.datepicker.setDefaults($.datepicker.regional['en']);
+                }
+
                 $('#news_date').datepicker({
                     showAnim: 'clip',
                     dateFormat: 'yy-mm-dd'

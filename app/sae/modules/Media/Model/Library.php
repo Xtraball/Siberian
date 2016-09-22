@@ -95,4 +95,54 @@ class Media_Model_Library extends Core_Model_Default {
         return $this;
     }
 
+    /**
+     * Fetch the Library associated with this option, regarding the Design (siberian, flat, ...)
+     *
+     * @param $library_id
+     * @return $this
+     */
+    public function getAllFeatureIcons($option_id = null) {
+        $options = new Application_Model_Option();
+        $options = $options->findAll();
+
+        $names = array();
+        foreach($options as $option) {
+            $names[] = $option->getName();
+            $names[] = $option->getName()."-flat";
+        }
+
+        /** Icon packs */
+        $module = new Installer_Model_Installer_Module();
+        $icon_packs = $module->findAll(array(
+            "type = ?" => "icons",
+        ));
+
+        foreach($icon_packs as $icon_pack) {
+            $names[] = $icon_pack->getData("name");
+        }
+
+        $libraries = $this->findAll(array(
+            "name IN (?)" => $names
+        ));
+
+        $library_ids = array();
+        foreach($libraries as $library) {
+            $library_ids[] = $library->getId();
+        }
+
+        $app_id = array();
+        if($this->getApplication()->getId()) {
+            $app_id[] = $this->getApplication()->getId();
+        }
+
+        $image = new Media_Model_Library_Image();
+        $all_icons = $image->findAll(array(
+            'library_id IN (?)' => $library_ids,
+            '(app_id IN (?) OR app_id IS NULL)' => $app_id,
+            '(option_id = ? OR option_id IS NULL)' => $option_id,
+        ), array('position ASC', 'image_id ASC', 'can_be_colorized DESC'));
+
+        return $all_icons;
+    }
+
 }
