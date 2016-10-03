@@ -53,6 +53,15 @@
                     ?>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <?php echo $this->getLayout()
+                        ->addPartial('places_search_setup', 'Core_View_Default', 'places/application/search.phtml')
+                        ->setOptionValue($value)
+                        ->setPages($pages)
+                        ->toHtml(); ?>
+                </div>
+            </div>
         </div>
 
         <div id="edit" class="first-row-feature" style="display: none;">
@@ -60,62 +69,62 @@
 
         <script type="text/javascript">
 
-                page.setCallback('willappear', function() {
+            page.setCallback('willappear', function() {
 
+            });
+
+            page.setCallback('didappear', function() {
+
+                $('#add_item').click(function() {
+                    reload(this, "<?php echo $this->getUrl("places/application/form", array("option_value_id" => $value->getId())); ?>", true, function(data) {
+                        $('#edit').append(data.form);
+                        feature.edit();
+                        cms_didappear();
+                        $('#address').click().remove();
+                    });
                 });
 
-                page.setCallback('didappear', function() {
-
-                    $('#add_item').click(function() {
-                        reload(this, "<?php echo $this->getUrl("places/application/form", array("option_value_id" => $value->getId())); ?>", true, function(data) {
-                            $('#edit').append(data.form);
-                            feature.edit();
-                            cms_didappear();
-                            $('#address').click().remove();
-                        });
+                $('#toggle_existing_items').click(function() {
+                    $('#existing_items').stop().slideToggle(300, function() {
+                        if($(this).is(':visible')) $('#toggle_existing_items').children('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                        else $('#toggle_existing_items').children('i').removeClass('fa-chevron-up').addClass('fa-chevron-down')
                     });
-
-                    $('#toggle_existing_items').click(function() {
-                        $('#existing_items').stop().slideToggle(300, function() {
-                            if($(this).is(':visible')) $('#toggle_existing_items').children('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
-                            else $('#toggle_existing_items').children('i').removeClass('fa-chevron-up').addClass('fa-chevron-down')
-                        });
-                    });
-
-                    $('.edit_place').click(function() {
-                        var id = $(this).attr('rel');
-                        reload(this, "<?php echo $this->getUrl("places/application/form", array("option_value_id" => $value->getId())); ?>/id/"+id, true, function(data) {
-                            $('#edit').append(data.form);
-                            feature.edit();
-                            cms_didappear();
-                            $('#address').remove();
-                        });
-                    });
-
-                    $('.delete_place').click(function() {
-
-                        if(!confirm("<?php echo addslashes($this->_("Are you sure you want to delete this page?")); ?>")) return false;
-
-                        var id = $(this).attr('rel');
-                        reload(this.parentNode, '<?php echo $this->getUrl('cms/application_page/delete'); ?>', true, function(data) {
-                            if(data.success) {
-                                page.reload();
-                            }
-                        });
-                    });
-
                 });
 
-                page.setCallback('willdisappear', function() {
-                    $('#toggle_existing_items').unbind('click');
-                    $('#newsCreateForm').unbind('submit');
-                    $('#title').unbind('keyup change');
-                    $('.news_actions').unbind('mouseenter mouseout');
-                    $('.show_answers').unbind('click');
-                    $('.show_details').unbind('click');
-                    $('.edit_place').unbind('click');
-                    $('.delete_place').unbind('click');
+                $('.edit_place').click(function() {
+                    var id = $(this).attr('rel');
+                    reload(this, "<?php echo $this->getUrl("places/application/form", array("option_value_id" => $value->getId())); ?>/id/"+id, true, function(data) {
+                        $('#edit').append(data.form);
+                        feature.edit();
+                        cms_didappear();
+                        $('#address').remove();
+                    });
                 });
+
+                $('.delete_place').click(function() {
+
+                    if(!confirm("<?php echo addslashes($this->_("Are you sure you want to delete this page?")); ?>")) return false;
+
+                    var id = $(this).attr('rel');
+                    reload(this.parentNode, '<?php echo $this->getUrl('cms/application_page/delete'); ?>', true, function(data) {
+                        if(data.success) {
+                            page.reload();
+                        }
+                    });
+                });
+
+            });
+
+            page.setCallback('willdisappear', function() {
+                $('#toggle_existing_items').unbind('click');
+                $('#newsCreateForm').unbind('submit');
+                $('#title').unbind('keyup change');
+                $('.news_actions').unbind('mouseenter mouseout');
+                $('.show_answers').unbind('click');
+                $('.show_details').unbind('click');
+                $('.edit_place').unbind('click');
+                $('.delete_place').unbind('click');
+            });
 
         </script>
         <style>
@@ -123,5 +132,5 @@
             .edit_place, .delete_place {cursor: pointer;}
         </style>
     </div>
-    
+
 </div>

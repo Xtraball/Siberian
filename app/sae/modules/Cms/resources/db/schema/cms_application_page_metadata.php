@@ -34,6 +34,12 @@ $schemas['cms_application_page_metadata'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'type' => array(
+        'type' => 'varchar(255)',
+        'charset' => 'utf8',
+        'is_null' => true,
+        'collation' => 'utf8_unicode_ci',
+    ),
     'payload' => array(
         'type' => 'text',
         'is_null' => true,

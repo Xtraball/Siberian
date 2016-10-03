@@ -5,6 +5,8 @@ class Application_Model_Db_Table_Option_Value extends Core_Model_Db_Table
 
     protected $_name = "application_option_value";
     protected $_primary = "value_id";
+    protected $_dependentTables = array('Application_Model_Db_Table_TagOption');
+    protected $_modelClass = "Application_Model_Option_Value";
 
     public function findAll($values, $order, $params) {
 

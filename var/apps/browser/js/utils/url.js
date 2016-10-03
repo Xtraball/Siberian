@@ -9,6 +9,8 @@ if(goto) {
 }
 
 /** Set default variables */
+var is_https = document.URL.indexOf('https') === 0;
+
 if(document.URL.indexOf('http') === 0) {
 
     var BASE_PATH = "/";
@@ -18,7 +20,7 @@ if(document.URL.indexOf('http') === 0) {
     var DOMAIN = window.location.protocol + "//" + window.location.host;
 
     if (window.location.port == 8100) {
-        DOMAIN = "http://www.siberiancms.dev";
+        DOMAIN = window.location.protocol + "//www.siberiancms.dev";
     }
 
     var path = window.location.hash.replace("#", "").split("/").filter(Boolean);

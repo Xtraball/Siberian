@@ -156,6 +156,8 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
         } else {
             $domain = $this->_request->getHttpHost();
         }
+        
+        /**  @todo HTTPS */
 
         $app_key = $this->_application->getKey();
 

@@ -521,6 +521,7 @@ ion-nav-view.has-mini-player-controls > ion-view > ion-content {bottom: 88px;}
 /* Utility */
 div[sb-cms-text] {  display: inline-flex; width: 100%;  }
 div.sb-cms-text { width: 100%; }
+div[sb-cms-text] * {  text-align: left;  }
 .cb {  clear: both;  }
 .push-popup .popup {  border-radius: 2px;  }
 .push-popup .list.card {  margin: 0;  background-color: transparent;  box-shadow: none;  }
@@ -528,3 +529,76 @@ div.sb-cms-text { width: 100%; }
 .no-left-pad {padding-left: 0 !important;}.no-top-pad {padding-top: 0 !important;}.no-right-pad {padding-right: 0 !important;}.no-bottom-pad {padding-bottom: 0 !important;}
 .no-left-border {border-left: none !important;}.no-top-border {border-top: none !important;} .no-right-border {border-right: none !important;} .no-bottom-border {border-bottom: none !important;}
 .cotard{ box-shadow: none !important; background: none !important; }
+.bigger-subheader .tabs-icon-left.tabs .tab-item,
+.bigger-subheader .tabs-icon-left > .tabs .tab-item,
+.bigger-subheader .tabs-icon-right.tabs .tab-item,
+.bigger-subheader .tabs-icon-right > .tabs .tab-item {
+    font-size: 15px;
+}
+
+.has-bigger-subheader {
+    top: 93px;
+}
+
+.bigger-subheader {
+    height: 49px;
+}
+
+.on-top {
+    z-index: 999 !important;
+}
+
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}
+
+.item-input.search-text-input {
+    height: 35px;
+    right: 44px;
+    position: absolute;
+    left: 44px;
+}
+
+.tabs {
+    left: 44px;
+}
+
+#tag-scroll .tab-item, #search-scroll .tab-item {
+    min-width: 54px !important;
+}
+
+#tag-scroll .tabs, #search-scroll .tabs {
+    background: none;
+    top: 0;
+    position: absolute;
+    left: 0;
+}
+
+#tag-scroll, #search-scroll {
+    position: absolute;
+    left: 0px;
+    right: 0;
+    height: 44px;
+    top: -2px;
+}
+
+.bar .button.button-clear.button-padded {
+    padding-top: 6px;
+}
+
+#search-scroll .tab-item.selected-tab{
+    border-bottom: 2px solid grey;
+    line-height: 45px;
+    padding: 0;
+    height: 41px;
+}
+#tag-scroll .tab-item.selected-tag{
+    border-bottom: 2px solid grey;
+    line-height: 45px;
+    padding: 0;
+    height: 41px;
+}

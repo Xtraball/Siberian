@@ -14,9 +14,6 @@ App.factory('Event', function($rootScope, $http, Url) {
             offset: offset
         };
 
-        //if(Boolean(last_id)) params.last_id = last_id;
-        //if(Boolean(load_newer_posts)) params.load_newer_posts = load_newer_posts;
-
         return $http({
             method: 'GET',
             url: Url.get("event/mobile_list/findall", params),

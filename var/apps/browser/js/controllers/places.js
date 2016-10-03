@@ -14,7 +14,13 @@ App.config(function($stateProvider) {
         templateUrl: "templates/cms/page/l1/view.html"
     });
 
-}).controller('PlacesListController', function ($cordovaGeolocation, $q, $scope, $state, $stateParams, $translate, Places) {
+}).controller('PlacesListController', function ($cordovaGeolocation, $q, $scope, $rootScope, $state, $stateParams, $translate, Places, Search) {
+    /* Necessary to assure that  */
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        if (toState.name == "places-list" && fromState.name == "home") {
+            $scope.loadContent();
+        }
+    });
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -22,8 +28,81 @@ App.config(function($stateProvider) {
         }
     });
 
+
+    $scope.setSearchPartName = function (part_name) {
+        /* SEARCH, SEARCH_TEXT, SEARCH_TYPE, SEARCH_ADDRESS, SEARCH_AROUND_YOU */
+        $scope.search_part_name = part_name;
+    }
+
+    $scope.findByAroundyou = function () {
+        if (!$scope.search.aroundyou) {
+            $scope.search.aroundyou = {
+                latitude: $scope.position.latitude,
+                longitude: $scope.position.longitude
+            };
+        } else {
+            $scope.search.aroundyou = false;
+        }
+        $scope.loadPlaces();
+    }
+
+    $scope.findByTag = function (tag) {
+        /* If the actual tag is selected then deselect tag, otherwise select the tag */
+        $scope.search.type = ($scope.search.type == tag) ? '' : tag;
+        $scope.loadPlaces();
+    };
+
+    $scope.getState = function () {
+        if ($scope.is_loading) {
+            return "LOADING";
+        } else if (Array.isArray($scope.collection) && $scope.collection.length > 0) {
+            return "RESULTS";
+        } else {
+            return "NO_RESULTS";
+        }
+    };
+
+    /* Store search params */
+    $scope.initSearch = function () {
+        $scope.search = {
+            'text': "",
+            'type': "",
+            'address': "",
+            'aroundyou': false
+        };
+    };
+
+    /*
+     * Returns true if there are no search terms specified by the user
+     * If true then load all places, otherwise search for terms
+     */
+    $scope.searchIsEmpty = function () {
+        return $scope.search.text == "" && $scope.search.type == "" && $scope.search.address == "" && (!$scope.search.aroundyou);
+    };
+
+    $scope.clear = function () {
+        //$scope.initSearch();
+        $scope.loadPlaces();
+        $scope.setSearchPartName('SEARCH');
+    };
+
     $scope.is_loading = true;
+    $scope.position = null;
+    $scope.value_id = $stateParams.value_id;
+    $scope.settings = null;
+
+    /* Configuring the Search service */
+    Search.setAgent(Places, $scope.value_id);
+    Search.url = 'places/mobile_list/search';
+    $scope.parameters = {
+        'value_id': $stateParams.value_id
+    };
+    $scope.show_search_bar = false;
+
     $scope.value_id = Places.value_id = $stateParams.value_id;
+    $scope.search_part_name = 'SEARCH';
+    $scope.tag = null;
+
     $scope.right_button = {
         icon: "ion-ios-location-outline",
         action: function() {
@@ -32,19 +111,48 @@ App.config(function($stateProvider) {
     };
 
     $scope.loadContent = function () {
+        /* Initialize search terms */
+        $scope.initSearch();
 
         $cordovaGeolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }).then(function(position) {
-            $scope.position = position.coords;
+            $scope.position = {latitude: position.coords.latitude, longitude: position.coords.longitude};
+            $scope.parameters.latitude = position.coords.latitude;
+            $scope.parameters.longitude = position.coords.longitude;
+            // Loading the settings for the search parameters is independent of places loading
+
+            $scope.loadSettings(true);
             $scope.loadPlaces();
+
         }, function() {
+            $scope.position = {latitude: 0, longitude: 0};
+            $scope.parameters.latitude = 0;
+            $scope.parameters.longitude = 0;
+
+            $scope.loadSettings(false);
             $scope.loadPlaces();
+
         });
 
     };
 
-    $scope.loadPlaces = function() {
+    $scope.loadSettings = function (search_ayou) {
+        Places.settings().success(function (settings) {
+            $scope.settings = settings;
+            /* If the coordinates are not defined, then don't show the search by vicinity */
+            if (!($scope.position.longitude && $scope.position.latitude)) {
+                $scope.settings.search_aroundyou_show = false;
+            } else {
+                $scope.settings.search_aroundyou_show = search_ayou && $scope.settings.search_aroundyou_show;
+            }
+            /* Only show search when at least one search method is activated */
+            $scope.settings.showSearch = $scope.settings.search_address_show || $scope.settings.search_text_show ||
+                $scope.settings.search_type_show || $scope.settings.search_aroundyou_show;
+        }).error(function (error) {});
+    };
 
-        Places.findAll($scope.position).success(function (data) {
+    $scope.loadPlaces = function() {
+        $scope.parameters.search = $scope.search;
+        ($scope.searchIsEmpty() ? Places.findAll($scope.position) : Search.findAll($scope.parameters)).success(function (data) {
             $scope.page_title = data.page_title;
             $scope.collection = data.places.reduce(function (collection, place) {
                 var item = {

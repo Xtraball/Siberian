@@ -212,6 +212,8 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
             $domain = $this->_request->getHttpHost();
         }
 
+        /**  @todo HTTPS */
+
         $app_key = $this->getApplication()->getKey();
 
         $url_js_content = "

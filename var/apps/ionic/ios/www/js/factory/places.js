@@ -16,6 +16,22 @@ App.factory('Places', function ($rootScope, $http, Url) {
         });
     };
 
+    /* Returns search settings */
+    factory.settings = function () {
+
+        /* The url and agent must be non-null */
+        if (!(this.value_id)) return;
+
+        return $http({
+            method: 'GET',
+            url: Url.get('places/mobile_list/settings', {
+                value_id: factory.value_id
+            }),
+            cache: !$rootScope.isOverview,
+            responseType: 'json'
+        });
+    };
+
     factory.findAll = function (position) {
 
         if (!this.value_id) return;

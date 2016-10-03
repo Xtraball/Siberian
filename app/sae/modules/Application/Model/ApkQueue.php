@@ -50,12 +50,52 @@ class Application_Model_ApkQueue extends Core_Model_Default {
         /** Saving log */
         $this->setLog(implode("\n", $result["log"]));
 
+        /** Prepare email */
+        $mail = new Siberian_Mail();
+
+        $recipients = array();
+        switch($this->getUserType()) {
+            case "backoffice":
+                $backoffice = new Backoffice_Model_User();
+                $backoffice_user = $backoffice->find($this->getUserId());
+                if($backoffice_user->getId()) {
+                    $recipients[] = $backoffice_user;
+                }
+                break;
+            case "admin":
+                $admin = new Admin_Model_Admin();
+                $admin_user = $admin->find($this->getUserId());
+                if($admin_user->getId()) {
+                    $recipients[] = $admin_user;
+                }
+                break;
+        }
+
         if($result && ($result["success"] == true)) {
             $this->changeStatus("success");
             $this->setPath($result["path"]);
 
+            /** Success email */
+            $url = $this->getHost()."/".str_replace(Core_Model_Directory::getBasePathTo(""), "", $result["path"]);
+
+            $values = array(
+                "application_name" => $this->getName(),
+                "link" => $url,
+            );
+
+            //$mail->simpleEmail("queue", "apk_queue", __("APK generation for App: %s", $application->getName()), $recipients, $values);
+            //$mail->send();
+
         } else {
             $this->changeStatus("failed");
+
+            /** Failed email */
+            $values = array(
+                "application_name" => $this->getName(),
+            );
+
+            //$mail->simpleEmail("queue", "failed", __("The requested APK generation failed: %s", $application->getName()), $recipients, $values);
+            //$mail->send();
 
         }
 

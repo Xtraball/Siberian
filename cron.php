@@ -61,5 +61,22 @@ Zend_Registry::set('config', $config);
 $application->bootstrap();
 
 /** Run cron */
+$start = time();
+$interval = System_Model_Config::getValueFor("cron_interval");
+$interval = (($interval >= 10) && ($interval < 51)) ? $interval : false;
+
 $cron = new Siberian_Cron();
 $cron->triggerAll();
+
+/** Highly experimental, may increase server load. */
+if($interval !== false) {
+    $new_time = time() - $start;
+    $loop = 0;
+    while($new_time < 55) {
+        sleep($interval);
+        $cron->log("Interval repeat ".++$loop);
+        $cron->triggerAll();
+        $new_time = time() - $start;
+    }
+}
+

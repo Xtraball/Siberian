@@ -1075,6 +1075,48 @@ div#cont_add_section { margin-top: 15px; }
 .inbox #inbox_edit_comment .bt{font-size:20px;cursor:pointer}
 .inbox #existing_items .warning{color:#ff0000;font-weight:bold}
 
+/* Places search settings*/
+#search_editor {
+    line-height: 30px;
+}
+
+#search_editor .row {
+    margin: 12px;
+}
+/* End of Places search settings*/
+
+/* Css-only accordion*/
+.transition {
+    transition: all .5s ease-in-out;
+}
+
+.subcontent input[type=checkbox].toggle_panel {
+    position: absolute;
+    cursor: pointer;
+    width: 100%;
+    height: 40px;
+    z-index: 999;
+    opacity: 0;
+}
+
+.subcontent input[type=checkbox].toggle_panel:checked ~ h4 i:before {
+    content: "\f078";
+}
+
+.subcontent input[type=checkbox].toggle_panel:not(:checked) ~ h4 i:before {
+    content: "\f077";
+}
+
+.subcontent input[type=checkbox].toggle_panel:checked ~ .transition {
+    margin-top: 0;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    height: 0;
+    transform: translate(0, 50%);
+}
+/* End of Css-only accordion*/
+
 
 /* toggle perso */
 .sb-tgl {

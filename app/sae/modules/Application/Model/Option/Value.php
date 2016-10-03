@@ -16,6 +16,7 @@ class Application_Model_Option_Value extends Application_Model_Option
         "flat" => "#0099C7",
         "siberian" => "#FFFFFF"
     );
+    protected $_metadata;
     protected static $_editor_icon_color = null;
     protected static $_editor_icon_reverse_color = null;
 
@@ -45,7 +46,9 @@ class Application_Model_Option_Value extends Application_Model_Option
         $this->_db_table = 'Application_Model_Db_Table_Option_Value';
 
         if(!self::$_editor_icon_color) {
-            self::$_editor_icon_color = $this->_design_colors[DESIGN_CODE];
+            if (array_key_exists(DESIGN_CODE, $this->_design_colors)) {
+                self::$_editor_icon_color = $this->_design_colors[DESIGN_CODE];
+            }
         }
 
         if(!self::$_editor_icon_reverse_color) {
@@ -207,4 +210,244 @@ class Application_Model_Option_Value extends Application_Model_Option
         return $this->getData('is_locked');
     }
 
+    /**
+     * Get a string array of tags names associated with the given domain object (e.g. Pages).
+     * Tags Can be associated to any domain object, domain objects are always associated with features.
+     *
+     * Usage example:
+     * $option_value = new Application_Model_Option_Value();
+     * $option_value->find($value_id);
+     * $page = new Cms_Model_Application_Page();
+     * $page->find($page_id);
+     * $tag_names = $option_value->getTagNames($page);
+     *
+     * @param  Object $object
+     * @return array An array of strings
+     */
+    public function getTagNames($object)
+    {
+        $tag_names = array();
+        foreach ($this->getOwnTags($object) as $tag) {
+            $tag_names[] = trim($tag->getName());
+        }
+        $tag_names = array_unique($tag_names);
+
+        return $tag_names;
+    }
+
+    /**
+     * Get the tags associated with the given domain object (e.g. Pages).
+     * Tags Can be associated to any domain object, domain objects are always associated with features.
+     *
+     * Usage example:
+     * $option_value = new Application_Model_Option_Value();
+     * $option_value->find($value_id);
+     * $page = new Cms_Model_Application_Page();
+     * $page->find($page_id);
+     * $tags = $option_value->getOwnTags($page);
+     *
+     * @param  Object $object
+     * @return array An array of Application_Model_Db_Table_Tag
+     */
+    public function getOwnTags($object)
+    {
+        return self::getTags($this->getValueId(), $object);
+    }
+
+    /**
+     * Get the tags associated with the given domain object belonging to a feature.
+     * Tags Can be associated to any domain object, domain objects are always associated with features.
+     *
+     * Usage example:
+     * $page = new Cms_Model_Application_Page();
+     * $page->find($page_id);
+     * $tags = Application_Model_Option_Value::getTags($value_id, $page);
+     *
+     * @param  int $value_id
+     * @param  Object $object
+     * @return array             An array of Application_Model_Db_Table_Tag
+     */
+    public static function getTags($value_id, $object)
+    {
+        $model_name = method_exists($object, "getModelClass") ? $object->getModelClass() : get_class($object);
+
+        $table = new Application_Model_Db_Table_Tag();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART);
+        $select
+            ->setIntegrityCheck(false)
+            ->join('application_tagoption', 'application_tagoption.tag_id = application_tag.tag_id')
+            ->where('application_tagoption.value_id = ?', $value_id)
+            ->where('application_tagoption.model = ?', $model_name);
+
+        // If the object has no id then retrieve all the tags associated with Objects of the same type belonging to the feature
+        if ((new Zend_Validate_Int())->isValid($object->getId())) {
+            $select->where('application_tagoption.object_id = ?', $object->getId());
+        }
+
+        $rows = $table->fetchAll($select);
+        return $rows;
+    }
+
+    /**
+     * Associates an array of tags to a domain object.
+     * Removes the old tags associations and replaces them with the new ones.
+     *
+     * Usage example:
+     * $option_value = new Application_Model_Option_Value();
+     * $option_value->find($value_id);
+     * $page = new Cms_Model_Application_Page();
+     * $page->find($page_id);
+     * $tags = Application_Model_Tag::upsert($tag_names);
+     * $option_value->attachTags($tags, $page);
+     *
+     * @param  array $tags An array of Application_Model_Db_Table_Tag
+     * @param  Object $object
+     * @return $this
+     */
+    public function attachTags($tags, $object)
+    {
+        return $this->flushTags($object)->_addTags($tags, $object);
+    }
+
+    /**
+     * Associates an array of tags to a domain object.
+     * May duplicate already made tag associations. Best used with flushTags.
+     *
+     * @param  array $tags An array of Application_Model_Db_Table_Tag
+     * @param  Object $object
+     * @return $this
+     */
+    protected function _addTags($tags, $object)
+    {
+        foreach ($tags as $tag) {
+            (new Application_Model_TagOption())
+                ->setTagId($tag->getTagId())
+                ->setObject($object)
+                ->save();
+        }
+        return $this;
+    }
+
+    /**
+     * Removes all tag associations of an object.
+     *
+     * Usage example:
+     * $option_value = new Application_Model_Option_Value();
+     * $option_value->find($value_id);
+     * $page = new Cms_Model_Application_Page();
+     * $page->find($page_id);
+     * $option_value->flushTags($page);
+     *
+     * @param  Object $object
+     * @return $this
+     */
+    public function flushTags($object)
+    {
+        $table = new Application_Model_Db_Table_TagOption();
+        $model_name = method_exists($object, "getModelClass") ? $object->getModelClass() : get_class($object);
+        $where = array(
+            $table->getAdapter()->quoteInto('value_id = ?', $this->getValueId()),
+            $table->getAdapter()->quoteInto('object_id = ?', $object->getId()),
+            $table->getAdapter()->quoteInto('model = ?', $model_name)
+        );
+        $table->delete($where);
+        return $this;
+    }
+
+    /**
+     * Returns all the metadata associated with the current Feature
+     *
+     * @return collection           A collection of Application_Model_Db_Table_Option_Value_Metadata
+     */
+    public function getMetadatas()
+    {
+        $matadata = new Application_Model_Option_Value_Metadata();
+        $results = $matadata->findAll(array('value_id' => $this->getValueId()));
+        $this->_metadata = array();
+        foreach ($results as $result) {
+            $this->_metadata[$result->getCode()] = $result;
+        }
+        return $this->_metadata;
+    }
+
+    /**
+     * Returns the metadatum which has the code specified.
+     *
+     * @param string                e.g. 'search_by_text'
+     * @return collection           A collection of Cms_Model_Db_Table_Application_Page_Metadata
+     */
+    public function getMetadata($code)
+    {
+        $metadata = new Application_Model_Option_Value_Metadata();
+        $metadata->find(array('value_id' => $this->getValueId(), 'code' => $code));
+        return $metadata;
+    }
+
+    /**
+     * Sets the feature metadata to the data provided.
+     * Assumes all the keys absent to be removed.
+     *
+     * @param array                 An array of key, value tuples
+     * @return $this
+     */
+    public function setMetadata($data)
+    {
+        foreach ($this->getMetadatas() as $metadatum) {
+            // If there already are metadata with the given name update them
+            if (array_key_exists($metadatum->getCode(), $data)) {
+                $metadatum->setPayload($data[$metadatum->getCode()]);
+                unset($data[$metadatum->getCode()]);
+            } else {
+                $metadatum->setPayload(null);
+            }
+        }
+        // Otherwize create a new metadata and add it to the current metadata
+        foreach ($data as $code => $payload) {
+            array_push($this->_metadata, $this->_createMetadata($code, $payload));
+        }
+        return $this;
+    }
+
+    /**
+     * Gets the string value of the metadatum specified by the $code
+     *
+     * @param string                 Metadatum name
+     * @return string
+     */
+    public function getMetadataValue($code)
+    {
+        $meta = $this->getMetadata($code);
+        if ($meta) {
+            return $meta->getPayload();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Save the metadata defined on the current page
+     *
+     * @return $this
+     */
+    public function saveMetadata()
+    {
+        foreach ($this->_metadata as $metadatum) {
+            $metadatum->save();
+        }
+        return $this;
+    }
+
+    /**
+     * Creates an instance of Cms_Model_Application_Page_Metadata and configures it with the current feature
+     *
+     * @return $metadata     An instance of Cms_Model_Application_Page_Metadata
+     */
+    protected function _createMetadata($code, $payload)
+    {
+        $meta = new Application_Model_Option_Value_Metadata();
+        $meta->setValueId($this->getValueId());
+        $meta->setCode($code);
+        $meta->setPayload($payload);
+        return $meta;
+    }
 }

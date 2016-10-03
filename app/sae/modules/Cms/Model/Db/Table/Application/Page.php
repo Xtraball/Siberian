@@ -4,6 +4,7 @@ class Cms_Model_Db_Table_Application_Page extends Core_Model_Db_Table {
 
     protected $_name = "cms_application_page";
     protected $_primary = "page_id";
+    protected $_modelClass = "Cms_Model_Application_Page";
 
     public function saveBlock($page_id, $blocks) {
 

@@ -29,7 +29,7 @@ class Siberian_Google_Geocoding
             );
         }
 
-        $url = "http://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=$address";
+        $url = "https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=$address";
         $raw_response = @file_get_contents($url);
         if($raw_response AND $coordinates_datas = @json_decode($raw_response)) {
             if(!empty($coordinates_datas->results[0]->geometry->location)) {
@@ -47,8 +47,6 @@ class Siberian_Google_Geocoding
                 $geocoding->setPrecision($precision);
                 $geocoding->save();
             }
-
-
         }
 
         return $data;
@@ -61,7 +59,7 @@ class Siberian_Google_Geocoding
      * @return array
      */
     public static function geoReverse($latitude, $longitude) {
-        $url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=".$latitude.",".$longitude."&sensor=true";
+        $url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=".$latitude.",".$longitude."&sensor=true";
         $decode = Siberian_Json::decode(file_get_contents($url));
 
         $locality = "";

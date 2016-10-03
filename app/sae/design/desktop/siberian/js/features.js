@@ -36,7 +36,7 @@ var feature_form_success = function(html) {
     message.isError(false);
     message.setMessage(html);
     message.show();
-    message.addButton(true);
+    message.addButton(false);
     message.setTimer(2);
 };
 

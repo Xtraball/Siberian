@@ -65,6 +65,14 @@
                 ?>
             </div>
 
+            <div class="section">
+                <?php echo $this->getLayout()
+                    ->addPartial('places_search_setup', 'Core_View_Default', 'places/application/search.phtml')
+                    ->setOptionValue($value)
+                    ->setPages($pages)
+                    ->toHtml(); ?>
+            </div>
+
         </div>
 
         <div id="edit" class="" style="display: none;">

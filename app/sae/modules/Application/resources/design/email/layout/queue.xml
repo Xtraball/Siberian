@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <apk_queue>
+        <addLayout name="base_email" />
+        <views>
+            <content_email class="core_view_email_default" template="queue/apk.phtml" />
+        </views>
+    </apk_queue>
+
+    <source_queue>
+        <addLayout name="base_email" />
+        <views>
+            <content_email class="core_view_email_default" template="queue/source.phtml" />
+        </views>
+    </source_queue>
+</layout>

@@ -56,8 +56,8 @@ function design_code() {
  * @param string $suffix
  * @return string
  */
-function cut($string, $length, $suffix = "...") {
-	$string = trim($string);
+function cut($string, $length, $suffix = "...", $strip_tags = true) {
+	$string = strip_tags(trim($string));
 	$str_length = mb_strlen($string, 'utf8');
 	$suffix_length = mb_strlen($suffix, 'utf8');
 

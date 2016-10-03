@@ -15,7 +15,7 @@ if($has_previewer && method_exists(new Previewer_Model_Previewer(), "getInstance
         <p id="iphone6_header" class="status_bar iphone6_header toolbar_overview a-center<?php echo $hide_status_bar; ?>" style="display:none;"><?php echo date('H:m'); ?></p>
         <p id="android_header" class="android_header toolbar_overview a-right" style="display:none"><?php echo date('H:m'); ?></p>
 
-        <iframe id="mobile_overview" width="323" height="580" style="overflow: hidden;"></iframe>
+        <iframe id="mobile_overview" sandbox="allow-same-origin allow-scripts" width="323" height="580" style="overflow: hidden;"></iframe>
     </div>
     <div class="btn-group-vertical">
         <button type="button" class="overview_size mobile-advice active no-background" rel="mini"></button>

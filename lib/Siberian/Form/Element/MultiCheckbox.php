@@ -41,7 +41,7 @@ class Siberian_Form_Element_MultiCheckbox extends Zend_Form_Element_MultiCheckbo
 	 * @throws Zend_Form_Exception
 	 */
 	public function setNewDesign(){
-	  	$this->addClass('sb-form-radio');
+	  	$this->addClass('sb-form-checkbox');
 		$this->setSeparator("<br />");
 		$this->setAttrib("escape", false);
 

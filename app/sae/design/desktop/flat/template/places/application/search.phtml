@@ -1,0 +1,105 @@
+<?php $application = $this->getApplication(); ?>
+<?php $value = $this->getOptionValue(); ?>
+
+<div class="subcontent color-content" id="search_editor">
+    <input type="checkbox" class="toggle_panel" checked>
+    <h3 class="title-editor no-border-radius title-feature-indent">
+        <?php echo $this->_('Search'); ?>
+        <button type="button" id="places_search_panel_toggle_design"
+                class="toggle_design color-blue pull-right bt-header-right btn">
+            <i class="fa fa-chevron-down"></i>
+        </button>
+    </h3>
+
+    <div class="no-border-radius content-color content container-fluid subcontent transition">
+        <form method="post" id="search-settings-form" class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-12">
+                    <h3><?php echo $this->_('Enable search filters: '); ?></h3>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <label for="search_text" id="label_search_text">
+                        <?php echo $this->_("Text") ?>
+                    </label>
+                </div>
+                <div class="col-md-1">
+                    <input type="checkbox" name="search[text][show]"
+                        <?php if ($value->getMetadata('search_text_show')->getPayload()) echo 'checked' ?> />
+                </div>
+                <div class="col-md-6">
+                    <input type="text" name="search[text][label]" class="input-flat" placeholder="Label"
+                           value="<?php echo $value->getMetadata('search_text_label')->getPayload() ?>"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <label for="search_type" id="label_search_text">
+                        <?php echo $this->_("Type") ?>
+                    </label>
+                </div>
+                <div class="col-md-1">
+                    <input type="checkbox" name="search[type][show]"
+                        <?php if ($value->getMetadata('search_type_show')->getPayload()) echo 'checked' ?> />
+                </div>
+                <div class="col-md-6">
+                    <input type="text" name="search[type][label]" class="input-flat" placeholder="Label"
+                           value="<?php echo $value->getMetadata('search_type_label')->getPayload() ?>"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <label for="search_address" id="label_search_address">
+                        <?php echo $this->_("Address") ?>
+                    </label>
+                </div>
+                <div class="col-md-1">
+                    <input type="checkbox" name="search[address][show]"
+                        <?php if ($value->getMetadata('search_address_show')->getPayload()) echo 'checked' ?> />
+                </div>
+                <div class="col-md-6">
+                    <input type="text" name="search[address][label]" class="input-flat" placeholder="Label"
+                           value="<?php echo $value->getMetadata('search_address_label')->getPayload() ?>"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <label for="search_aroundyou" id="label_search_aroundyou">
+                        <?php echo $this->_("Around you") ?>
+                    </label>
+                </div>
+                <div class="col-md-1">
+                    <input type="checkbox" name="search[aroundyou][show]"
+                        <?php if ($value->getMetadata('search_aroundyou_show')->getPayload()) echo 'checked' ?> />
+                </div>
+                <div class="col-md-3">
+                    <input type="text" name="search[aroundyou][label]" class="input-flat" placeholder="Label"
+                           value="<?php echo $value->getMetadata('search_aroundyou_label')->getPayload() ?>"/>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" name="search[aroundyou][radius]" class="input-flat" placeholder="Search radius"
+                           value="<?php echo $value->getMetadata('search_aroundyou_radius')->getPayload() ?>"/>
+                </div>
+            </div>
+            <div class="buttons">
+                <div class="pull-right">
+                    <button class="btn color-blue" type="button" onclick="submitSearchSettingsForm();">
+                        <?php echo $this->_('Save'); ?>
+                    </button>
+                </div>
+            </div>
+            <input type="hidden" name="option_value_id" value="<?php echo $value->getId(); ?>"/>
+        </form>
+    </div>
+</div>
+
+<script>
+    var submitSearchSettingsForm = function () {
+        reload($("#search-settings-form"), '<?php echo $this->getUrl('places/application/search-settings') ?>', true, function (datas) {
+            if (datas.success) {
+                page.reload();
+            }
+        });
+    }
+</script>

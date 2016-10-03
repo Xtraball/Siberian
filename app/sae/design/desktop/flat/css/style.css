@@ -1066,6 +1066,13 @@ a.details.add_page {
     list-style: none;
     padding-right: 0;
 }
+
+#add_page_list .add_option_value span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 #icon_library ul {
     padding-left: 0;
 }
@@ -1614,8 +1621,9 @@ form.sb-form label {
 
 .sb-checkbox-label,
 .sb-radio-label {
-    margin-left: 6px;
-    margin-right: 20px;
+    position: relative;
+    top: -3px;
+    left: -13px;
 }
 
 div.feature-upload-placeholder {
@@ -1659,6 +1667,47 @@ div.feature-upload-placeholder button {
     font-size: inherit;
     color: inherit;
 }
+
+/* Places search settings*/
+#search_editor {
+    line-height: 30px;
+}
+
+#search_editor fieldset {
+    margin: 12px;
+}
+/* End of Places search settings*/
+
+/* Css-only accordion*/
+.transition {
+    transition: all 0.25s ease-in-out;
+}
+
+.subcontent input[type=checkbox].toggle_panel {
+    position: absolute;
+    cursor: pointer;
+    width: 100%;
+    height: 22%;
+    z-index: 999;
+    opacity: 0;
+}
+
+.subcontent input[type=checkbox].toggle_panel:checked ~ h3 i:before {
+    content: "\f078";
+}
+
+.subcontent input[type=checkbox].toggle_panel:not(:checked) ~ h3 i:before {
+    content: "\f077";
+}
+
+.subcontent input[type=checkbox].toggle_panel:checked ~ .transition {
+    margin-top: 0;
+    max-height: 0;
+    opacity: 0;
+    transform: translate(0, 50%);
+}
+/* End of Css-only accordion*/
+
 
 .development-warning div.alert {  margin-right: 20px; margin-bottom: 0;  }
 
@@ -1746,23 +1795,23 @@ tr.edit-form {
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
 }
 
-.nav-tabs {
+#page .nav-tabs {
     border: 0 !important;
     margin-left: 15px;
 }
 
-.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+#page .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
     border: 0 !important;
     border-bottom: 1px solid transparent !important;
     font-weight: bold;
 }
 
-.nav-tabs > li > a:hover {
+#page .nav-tabs > li > a:hover {
     border: 0 !important;
     border-bottom: 1px solid transparent !important;
 }
 
-.nav > li > a:hover {
+#page .nav > li > a:hover {
     background-color: white;
 }
 
@@ -1788,5 +1837,106 @@ tr.edit-form {
 }
 
 select.form-control.no-dk {
-    padding: 0 0 0 10px !important;
+    padding: 0 34px 0 10px !important;
+}
+
+select.sb-select[multiple] {
+    padding: 0;
+}
+
+select.sb-select[multiple] option {
+    padding: 4px 12px;
+}
+
+
+/** Custom checkbox/radio */
+div.control {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    font-size: 18px;
+    margin: 6px 0 0 15px;
+    padding: 0;
+    height: 24px;
+}
+label.control {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+    height: 24px;
+}
+.control input {
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    left: 3px;
+    top: 4px;
+    width: 50px;
+    height: 20px;
+    padding: 0;
+    margin: 0;
+}
+.control__indicator {
+    position: relative;
+    top: -23px;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    border: 2px solid inherit;
+    border-radius: 3px;
+    margin-left: 2px;
+}
+.control--radio .control__indicator {
+    border-radius: 50%;
+}
+.control:hover input ~ .control__indicator,
+.control input:focus ~ .control__indicator {
+    background: #ccc;
+}
+.control input:checked ~ .control__indicator {
+    background: inherit;
+}
+.control:hover input:not([disabled]):checked ~ .control__indicator,
+.control input:checked:focus ~ .control__indicator {
+    background: #0e647d;
+}
+.control input:disabled ~ .control__indicator {
+    background: inherit;
+    opacity: 0.6;
+    pointer-events: none;
+}
+.control__indicator:after {
+    content: '';
+    position: absolute;
+    display: none;
+}
+.control input:checked ~ .control__indicator:after {
+    display: block;
+}
+.control--checkbox .control__indicator:after {
+    left: 6px;
+    top: 2px;
+    width: 8px;
+    height: 14px;
+    border: solid #fff;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+.control--checkbox input:disabled ~ .control__indicator:after {
+    border-color: #7b7b7b;
+}
+.control--radio .control__indicator:after {
+    left: 3px;
+    top: 3px;
+    height: 14px;
+    width: 14px;
+    border-radius: 50%;
+    background: #fff;
+}
+.control--radio input:disabled ~ .control__indicator:after {
+    background: #7b7b7b;
 }

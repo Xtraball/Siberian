@@ -37,6 +37,8 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action
 
         }
 
+        file_put_contents("/tmp/session.log", "[".date('H:i:s')."]\n".var_export($this->getSession(), true), FILE_APPEND);
+
     }
 
     public function _($text) {

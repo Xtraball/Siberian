@@ -31,7 +31,7 @@ App.config(function ($stateProvider) {
                                 content_url = url.replace(/(smsto|SMSTO):/, "sms:").replace(/([0-9]):(.*)/, "$1");
                             // GEO:
                             } else if ($scope.scan_protocols[i] == "geo:" && ionic.Platform.isIOS()) {
-                                content_url = url.replace(/(geo|GEO):/, "http://maps.apple.com/?q=");
+                                content_url = url.replace(/(geo|GEO):/, "https://maps.apple.com/?q=");
                             }
 
                             $window.open(content_url, "_blank", "location=no");

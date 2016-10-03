@@ -115,6 +115,10 @@ $type_icons = array(
                         <div class="col-sm-4"></div>
                         <div class="col-sm-4"></div>
                     </div>
+                    <?php echo $this->getLayout()
+                        ->addPartial('places_search_setup', 'Core_View_Default', 'cms/application/page/taginput.phtml')
+                        ->setPage($page)
+                        ->toHtml();?>
                 </form>
             <?php endif; ?>
 

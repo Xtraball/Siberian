@@ -103,7 +103,7 @@ App.factory('Weather', function($rootScope, $q, $http, $cordovaGeolocation, Url,
     factory.getWoeid = function(param) {
         return $http({
             method: 'GET',
-            url: "http://query.yahooapis.com/v1/public/yql?q=select woeid from geo.places where text='" + param + "'&format=json",
+            url: "https://query.yahooapis.com/v1/public/yql?q=select woeid from geo.places where text='" + param + "'&format=json",
             cache: false,
             withCredentials: false,
             responseType:'json'

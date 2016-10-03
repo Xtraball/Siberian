@@ -57,12 +57,54 @@ class Application_Model_SourceQueue extends Core_Model_Default {
 
         $result = $device->getResources();
 
+        /** Preparing email */
+        $mail = new Siberian_Mail();
+
+        $recipients = array();
+        switch($this->getUserType()) {
+            case "backoffice":
+                $backoffice = new Backoffice_Model_User();
+                $backoffice_user = $backoffice->find($this->getUserId());
+                if($backoffice_user->getId()) {
+                    $recipients[] = $backoffice_user;
+                }
+                break;
+            case "admin":
+                $admin = new Admin_Model_Admin();
+                $admin_user = $admin->find($this->getUserId());
+                if($admin_user->getId()) {
+                    $recipients[] = $admin_user;
+                }
+                break;
+        }
+
+
         if(file_exists($result)) {
             $this->changeStatus("success");
             $this->setPath($result);
 
+
+            /** Success email */
+            $url = $this->getHost()."/".str_replace(Core_Model_Directory::getBasePathTo(""), "", $result["path"]);
+
+            $values = array(
+                "application_name" => $this->getName(),
+                "link" => $url,
+            );
+
+            //$mail->simpleEmail("queue", "apk_queue", __("Source generation for App: %s", $application->getName()), $recipients, $values);
+            //$mail->send();
+
         } else {
             $this->changeStatus("failed");
+
+            /** Failed email */
+            $values = array(
+                "application_name" => $this->getName(),
+            );
+
+            //$mail->simpleEmail("queue", "failed", __("The requested source generation failed: %s", $application->getName()), $recipients, $values);
+            //$mail->send();
         }
 
         $this->save();
@@ -150,18 +192,19 @@ class Application_Model_SourceQueue extends Core_Model_Default {
         $request = curl_init();
         # Setting options
         curl_setopt($request, CURLOPT_URL, "http://jenkins.xtraball.com/job/ios-autopublish/buildWithParameters?token=2a66b48d4a926a23ee92195d73251c22&SIBERIAN_JOB_URL=$jobUrlEncoded");
-        curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($request, CURLOPT_TIMEOUT, 3);
         curl_setopt($request, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($request, CURLOPT_USERPWD, "ios-builder:ced2eb561db43afb09c633b8f68c1f17");
         # Call
-        $result = curl_exec($request);
+        curl_exec($request);
         # Closing connection
+
+        if(curl_errno($request) > 0) {
+            throw new Exception("Cannot start autopublish job process");
+        }
+
         curl_close($request);
 
-        if(!$result) {
-            throw new Exception("Cannot start job process");
-        }
     }
 
     /**

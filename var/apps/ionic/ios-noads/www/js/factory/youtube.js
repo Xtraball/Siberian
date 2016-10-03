@@ -33,8 +33,8 @@ App.factory('Youtube', function($q, $http) {
                     cover_url: item.snippet.thumbnails.medium.url,
                     title: item.snippet.title,
                     description: item.snippet.description,
-                    url: "http://www.youtube.com/watch?v=" + item.id.videoId,
-                    url_embed: "http://www.youtube.com/embed/" + item.id.videoId
+                    url: "https://www.youtube.com/watch?v=" + item.id.videoId,
+                    url_embed: "https://www.youtube.com/embed/" + item.id.videoId
                 };
 
                 data.collection.push(video);
@@ -93,8 +93,8 @@ App.factory('Youtube', function($q, $http) {
                         cover_url: item.snippet.thumbnails.medium.url,
                         title: item.snippet.title,
                         description: item.snippet.description,
-                        url: "http://www.youtube.com/watch?v=" + item.id.videoId,
-                        url_embed: "http://www.youtube.com/embed/" + item.id.videoId
+                        url: "https://www.youtube.com/watch?v=" + item.id.videoId,
+                        url_embed: "https://www.youtube.com/embed/" + item.id.videoId
                     };
 
                     data.collection.push(video);
@@ -151,8 +151,8 @@ App.factory('Youtube', function($q, $http) {
                             cover_url: item.snippet.thumbnails.medium.url,
                             title: item.snippet.title,
                             description: item.snippet.description,
-                            url: "http://www.youtube.com/watch?v=" + item.snippet.resourceId.videoId,
-                            url_embed: "http://www.youtube.com/embed/" + item.snippet.resourceId.videoId
+                            url: "https://www.youtube.com/watch?v=" + item.snippet.resourceId.videoId,
+                            url_embed: "https://www.youtube.com/embed/" + item.snippet.resourceId.videoId
                         };
 
                         data.collection.push(video);

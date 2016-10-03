@@ -126,17 +126,25 @@ class Cms_Application_PageController extends Application_Controller_Default {
                         }
                     }
                     if($block["type"] == "file") {
-                        if (!empty($block['name']) AND file_exists(Core_Model_Directory::getTmpDirectory(true).'/'.$block['name'])) {
-                            rename(Core_Model_Directory::getTmpDirectory(true).'/'.$block['name'], $base_image_path . $block['name']);
-                            $blocks[$k]['name'] = $image_path.$block['name'];
+                        if (!empty($block['name']) AND file_exists(Core_Model_Directory::getTmpDirectory(true) . '/' . $block['name'])) {
+                            rename(Core_Model_Directory::getTmpDirectory(true) . '/' . $block['name'], $base_image_path . $block['name']);
+                            $blocks[$k]['name'] = $image_path . $block['name'];
                         }
                     }
                 }
 
                 $datas['block'] = $blocks;
 
-                $page->setMetadata($datas['metadata']);
+                // Sauvegarde
                 $page->setData($datas)->save();
+
+                // Adding metadata to the page
+                $page->setMetadata($datas['metadata'])->saveMetadata();
+
+                // Create or update tags, then attach them to the option_value
+                $tag_names = explode(",", $datas['tags']);
+                $tags = Application_Model_Tag::upsert($tag_names);
+                $option_value->attachTags($tags, $page);
 
                 $html = array(
                     'success' => 1,
@@ -184,6 +192,19 @@ class Cms_Application_PageController extends Application_Controller_Default {
 
                 if(!$page->getId() OR $page->getValueId() != $option_value->getId() OR $option_value->getAppId() != $this->getApplication()->getId()) {
                     throw new Exception($this->_('An error occurred while saving your page.'));
+                }
+
+                /** Clean up tags */
+                if(get_class($page) == 'Cms_Model_Application_Page') {
+                    $app_tags = new Application_Model_TagOption();
+                    $tags = $app_tags->findAll(array(
+                        "object_id = ?" => $page->getId(),
+                        "model = ?" => "Cms_Model_Application_Page",
+                    ));
+
+                    foreach($tags as $tag) {
+                        $tag->delete();
+                    }
                 }
 
                 $page->delete();

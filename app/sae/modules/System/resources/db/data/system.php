@@ -130,6 +130,16 @@ $configs = array(
         "code" => "ios_autobuild_key",
         "label" => "Your iOS autobuild License Key",
         "value" => ""
+    ),
+    array(
+        "code" => "cron_interval",
+        "label" => "CRON Scheduler interval",
+        "value" => "60"
+    ),
+    array(
+        "code" => "use_https",
+        "label" => "Use HTTPS",
+        "value" => "0"
     )
 );
 

@@ -178,23 +178,21 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Core_Model_Default::setBaseUrl($this->_request->getBaseUrl());
     }
 
-    /**  Loading individual bootstrappers */
+    /** Loading individual bootstrappers */
     protected function _initModuleBoostrap() {
         $edition_path = strtolower(Siberian_Version::TYPE);
         require_once Core_Model_Directory::getBasePathTo("app/{$edition_path}/bootstrap.php");
 
         Module_Bootstrap::init($this);
 
-        /** Bootstrap locally installed modules. */
-        $local_path = Core_Model_Directory::getBasePathTo("app/local/modules/*/bootstrap.php");
-        $files = glob($local_path);
-        foreach($files as $bootstrap) {
-            preg_match("#modules/([a-z0-9]+)/bootstrap.php#i", $bootstrap, $matches);
-            $module_name = $matches[1];
-            if(!empty($module_name) && is_readable($bootstrap)) {
+        $module_names = $this->_front_controller->getDispatcher()->getModuleDirectories();
+
+        foreach($module_names as $module) {
+            $path = $this->_front_controller->getModuleDirectory($module)."/bootstrap.php";
+            if(is_readable($path)) {
                 try {
-                    require_once $bootstrap;
-                    $classname = "{$module_name}_Bootstrap";
+                    require_once $path;
+                    $classname = "{$module}_Bootstrap";
                     if(class_exists($classname)) {
                         $bs = new $classname();
                         if(method_exists($bs, "init")) {
@@ -202,10 +200,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                         }
                     }
                 } catch(Exception $e) {
-                    # Silently catch malformed bootstrap module
+                    # Silently catch & log malformed bootstrap module
                     trigger_error($e->getMessage());
                 }
-
             }
         }
     }

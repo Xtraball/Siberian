@@ -25,6 +25,9 @@ $schemas['source_queue'] = array(
     'app_id' => array(
         'type' => 'int(11) unsigned',
     ),
+    'protocol' => array(
+        'type' => 'varchar(16)',
+    ),
     'host' => array(
         'type' => 'varchar(128)',
     ),

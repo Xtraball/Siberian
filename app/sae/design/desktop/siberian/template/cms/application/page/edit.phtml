@@ -9,6 +9,7 @@
 <?php $default_block = new Cms_Model_Application_Block(); ?>
 <?php $default_blocks = $default_block->findAll(array(), "position ASC") ?>
 <?php $blocks = $page->getBlocks() ?>
+
 <div class="edit_page custom_page">
 
     <div>
@@ -126,6 +127,11 @@
                                 <div class="col-sm-4"></div>
                             </div>
                         </fieldset>
+                        <br>
+                        <?php echo $this->getLayout()
+                            ->addPartial('places_search_setup', 'Core_View_Default', 'cms/application/page/taginput.phtml')
+                            ->setPage($page)
+                            ->toHtml();?>
                     </form>
                 <?php endif; ?>
 
@@ -190,10 +196,10 @@
     </div>
     <script type="text/javascript">
         var fields = ['cms_application_page_metadata_show_image', 'cms_application_page_metadata_show_titles'];
-        for(var i in fields) {
+        for (var i in fields) {
             var field = fields[i];
-            bindLabel($('#label_'+field));
-            setupLabel($('#label_'+field));
+            bindLabel($('#label_' + field));
+            setupLabel($('#label_' + field));
         }
 
         if (!$('#gmaps_libraries').length) {

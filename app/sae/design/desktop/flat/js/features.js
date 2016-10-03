@@ -36,7 +36,7 @@ var feature_form_success = function(html) {
     message.isError(false);
     message.setMessage(html);
     message.show();
-    message.addButton(true);
+    message.addButton(false);
     message.setTimer(2);
 };
 
@@ -360,5 +360,23 @@ var bindForms = function(default_parent) {
 
     /** Tooltip */
     $(default_parent+' .display_tooltip').tooltip();
+
+    $(default_parent+' .sb-form-checkbox').each(function() {
+        var el = $(this);
+        if(!el.hasClass('flatbox')) {
+            el.parent().addClass("control control--checkbox");
+            el.parent().append('<div class="color-blue control__indicator"></div>');
+            el.addClass('flatbox');
+        }
+    });
+
+    $(default_parent+' .sb-form-radio').each(function() {
+        var el = $(this);
+        if(!el.hasClass('flatbox')) {
+            el.parent().addClass("control control--radio");
+            el.parent().append('<div class="color-blue control__indicator"></div>');
+            el.addClass('flatbox');
+        }
+    });
 
 };

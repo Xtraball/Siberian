@@ -51,9 +51,14 @@ class Siberian_Form_Element_Checkbox extends Zend_Form_Element_Checkbox {
 	 * @return Zend_Form_Element
 	 */
 	public function setNewDesign() {
-		$this->addClass('sb-form-radio');
+		$this->addClass('sb-form-checkbox');
 		return $this->setDecorators(array(
 	  		'ViewHelper',
+			array(array('style' => 'HtmlTag'), array(
+				'placement' => Zend_Form_Decorator_Abstract::APPEND,
+				'tag'   => 'div',
+				'class' => 'color-blue'
+			)),
 			array(array('wrapper' => 'HtmlTag'),array(
 				'class' => 'col-sm-7'
 			)),
@@ -112,12 +117,17 @@ class Siberian_Form_Element_Checkbox extends Zend_Form_Element_Checkbox {
 				'placement' => Zend_Form_Decorator_Abstract::APPEND,
 				'class' => 'help-inline'
 			)),
+			array(array('style' => 'HtmlTag'), array(
+				'placement' => Zend_Form_Decorator_Abstract::APPEND,
+				'tag'   => 'div',
+				'class' => 'control__indicator'
+			)),
 			array(array('controls' => 'HtmlTag'), array(
 				'tag'   => 'div',
 				'class' => 'controls',
 			)),
 			array('Label', array(
-				'class' => 'control-label',
+				'class' => 'control-label control control--checkbox',
 				'requiredSuffix' => ' *',
 				'placement' => Zend_Form_Decorator_Abstract::PREPEND
 			)),
