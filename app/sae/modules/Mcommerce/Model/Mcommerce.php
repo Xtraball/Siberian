@@ -144,8 +144,9 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
 
     protected function _validatePhone($controller, $data)
     {
+        $not_empty = new Zend_Validate_NotEmpty();
         if ($data['phone'] && $this->getPhone() != "hidden") {
-            if (!(new Zend_Validate_Int())->isValid($data['phone'])) {
+            if (!$not_empty->isValid($data['phone'])) {
                 return array($controller->_('Phone'));
             };
         } else if ($this->getPhone() == "mandatory") {
@@ -156,8 +157,10 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
 
     protected function _validateBirthday($controller, $data)
     {
+        $data_validator = new Zend_Validate_Date();
         if ($data['birthday'] && $this->getBirthday() != "hidden") {
-            if (!(new Zend_Validate_Date())->isValid(new Zend_Date($data['birthday']))) {
+            $date = new Zend_Date($data['birthday']);
+            if (!$data_validator->isValid($date)) {
                 return array($controller->_('Birthday'));
             };
         } else if ($this->getBirthday() == "mandatory") {
@@ -177,8 +180,7 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
         return array();
     }
 
-    protected function _validateInvoicingAddress($controller, $data)
-    {
+    protected function _validateInvoicingAddress($controller, $data) {
         $mandatory = $this->getInvoicingAddress() == "mandatory";
         if (($mandatory && !$data['invoicing_address']) ||
             !$this->_addressComponentsAreValid($data['invoicing_address'], $mandatory)
@@ -188,8 +190,7 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
         return array();
     }
 
-    protected function _addressComponentsAreValid($data, $isMandatory = true)
-    {
+    protected function _addressComponentsAreValid($data, $isMandatory = true) {
         return
             $this->_addressComponentIsValid($data['street'], $isMandatory) &&
             $this->_addressComponentIsValid($data['postcode'], $isMandatory) &&
@@ -197,15 +198,10 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
             $this->_addressComponentIsValid($data['country'], $isMandatory);
     }
 
-    protected function _addressComponentIsValid($data, $isMandatory)
-    {
-        $alnum = new Zend_Validate_Alnum(array('allowWhiteSpace' => true));
+    protected function _addressComponentIsValid($data, $isMandatory) {
         $notempty = new Zend_Validate_NotEmpty();
-        if ($isMandatory) {
-            return $alnum->isValid($data);
-        } else {
-            return !$notempty->isValid($data) || $alnum->isValid($data);
-        }
+
+        return ($isMandatory) ? $notempty->isValid($data) : true;
     }
 
     public function getStores()

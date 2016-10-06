@@ -280,7 +280,8 @@ class Application_Model_Option_Value extends Application_Model_Option
             ->where('application_tagoption.model = ?', $model_name);
 
         // If the object has no id then retrieve all the tags associated with Objects of the same type belonging to the feature
-        if ((new Zend_Validate_Int())->isValid($object->getId())) {
+        $zend_validate_int = new Zend_Validate_Int();
+        if ($zend_validate_int->isValid($object->getId())) {
             $select->where('application_tagoption.object_id = ?', $object->getId());
         }
 
@@ -320,8 +321,8 @@ class Application_Model_Option_Value extends Application_Model_Option
     protected function _addTags($tags, $object)
     {
         foreach ($tags as $tag) {
-            (new Application_Model_TagOption())
-                ->setTagId($tag->getTagId())
+            $new_tag = new Application_Model_TagOption();
+            $new_tag->setTagId($tag->getTagId())
                 ->setObject($object)
                 ->save();
         }

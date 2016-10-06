@@ -16,4 +16,24 @@ class Job_Model_Category extends Core_Model_Default {
 
         return $this->getIsActive();
     }
+
+    /**
+     * @param bool $relative
+     * @return string
+     */
+    public function _getIcon() {
+        return $this->__getBase64Image($this->getIcon());
+    }
+
+    /**
+     * @param $base64
+     * @param $option
+     * @return $this
+     */
+    public function _setIcon($base64, $option) {
+        $icon_path = $this->__setImageFromBase64($base64, $option);
+        $this->setIcon($icon_path);
+
+        return $this;
+    }
 }

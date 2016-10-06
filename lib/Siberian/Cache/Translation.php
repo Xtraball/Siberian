@@ -15,8 +15,7 @@ class Siberian_Cache_Translation extends Siberian_Cache implements Siberian_Cach
     const CACHE_PATH = "var/cache/translation.cache";
     const CACHING = true;
 
-    public static function fetch($version)
-    {
+    public static function fetch($version) {
         $version = Core_Model_Directory::getBasePathTo("{$version}modules/");
 
         $module_folders = new DirectoryIterator("$version");
@@ -45,6 +44,10 @@ class Siberian_Cache_Translation extends Siberian_Cache implements Siberian_Cach
                                 if(!isset($cache[$language][$basename])) {
                                     $cache[$language][$basename] = $file->getPathname();
                                 }
+                            }
+
+                            if($file->getExtension() == "list") {
+                                $cache["mobile_list"][] = $file->getPathname();
                             }
                         }
                     }
@@ -78,6 +81,10 @@ class Siberian_Cache_Translation extends Siberian_Cache implements Siberian_Cach
                         if(!isset($cache[$language][$basename])) {
                             $cache[$language][$basename] = $file->getPathname();
                         }
+                    }
+
+                    if($file->getExtension() == "list") {
+                        $cache["mobile_list"][] = $file->getPathname();
                     }
                 }
             }

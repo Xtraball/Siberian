@@ -50,7 +50,43 @@
 
         <script type="text/javascript">
 
-//            $.validator.messages = validatorMessages['<?php //echo Core_Model_Language::getCurrentLanguage(); ?>//'];
+            (function() {
+                // Creates an app_id ajax param. Yields something like 'app_id=2'
+                var app_id_param = $.param({app_id: <?php echo $this->getApplication()->getAppId(); ?> });
+
+                // Send the app_id along with every ajax editor request
+                $.ajaxPrefilter(function (options, _, jqXHR) {
+                    if (options.data) {
+                        options.url += "?" + app_id_param;
+                    } else {
+                        options.data = app_id_param;
+                    }
+                });
+
+                /* If there is a 400 error and the refresh flag is set then refresh the page.  */
+                $.ajaxSetup({
+                    statusCode: {
+                        400: function (err) {
+                            var refresh = JSON.parse(err.responseText).refresh;
+                            // If the refresh flag is set, ie response is like {"refresh": true}
+                            if (refresh) {
+                                // alert the user and refresh the page
+                                alert("<?php echo __js("You cannot have multiple sessions to manage apps, so the session for this app is closed. This page is about to be reloaded.") ?>");
+                                window.location.reload();
+                            }
+                        }
+                    }
+                });
+
+                /*  Send an empty ajax request at a 12seconds interval in order to verify application session consitency,
+                 *  i.e. verify the user did not open another application in a new tab.
+                 *  If they did then alert the user and refresh the page.
+                 */
+                setInterval(function () {
+                    $.ajax({})
+                }, 12000);
+
+            }());
 
             $(document).ready(function() {
 

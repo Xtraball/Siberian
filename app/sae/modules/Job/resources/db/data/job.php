@@ -47,3 +47,6 @@ Siberian_Feature::installIcons("{$name}-flat", $icons);
 
 # Copy assets at install time
 Siberian_Assets::copyAssets("/app/sae/modules/Job/resources/var/apps/");
+
+# Fix for 4.6.4 contact customer_id
+$this->query("ALTER TABLE `job_place_contact` CHANGE `customer_id` `customer_id` INT(11) UNSIGNED NULL;");

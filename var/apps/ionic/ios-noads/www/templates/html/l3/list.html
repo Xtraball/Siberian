@@ -9,7 +9,7 @@
     </ion-nav-buttons>
 
     <!-- Search filters -->
-    <div class="bar bar-subheader bigger-subheader" ng-if="settings.showSearch">
+    <div class="bar bar-subheader bigger-subheader" ng-if="settings && settings.showSearch">
         <ion-scroll zooming="false" direction="x" id="search-scroll" ng-if="search_part_name == 'SEARCH'">
             <div class="tabs tabs-icon-left tabs-default">
                 <a class="tab-item" ng-click="setSearchPartName('SEARCH_ADDRESS')" ng-if="settings.search_address_show"
@@ -98,7 +98,7 @@
 
         </div>
 
-        <div class="list" ng-show="getState() == 'RESULTS'">
+        <div class="list" ng-show="getState() == 'RESULTS' || collection.length">
 
             <div ng-show="show_search && collection.length > 0">
                 <label class="item item-input">

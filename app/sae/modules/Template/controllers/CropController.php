@@ -4,6 +4,7 @@ class Template_CropController extends Admin_Controller_Default
 {
 
     public function uploadAction() {
+
         if ($datas = $this->getRequest()->getParams() AND !empty($_FILES)) {
             try {
 
@@ -12,12 +13,12 @@ class Template_CropController extends Admin_Controller_Default
                 $params = array();
                 $params['validators'] = array(
                     'Extension' => array('jpg', 'png', 'jpeg', 'gif', 'case' => false),
-                    'Size' => array('min' => 100, 'max' => 20000000),
+                    'Size' => array('min' => 100, 'max' => 200000000),
                     'ImageSize' => array(
                         'minwidth' => 20,
                         'minheight' => 20,
-                        'maxwidth' => 2000,
-                        'maxheight' => 2000,
+                        'maxwidth' => 5000,
+                        'maxheight' => 5000,
                     )
                 );
 

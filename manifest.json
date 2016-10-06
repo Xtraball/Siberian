@@ -2077,7 +2077,7 @@
     },
     {
         "file": "app/sae/design/desktop/flat/css/style.css",
-        "hash": "9a78725e7d5b4410e5d20eabf83a2e98"
+        "hash": "edc54abcdd28373fb3ba1d3da0843e9e"
     },
     {
         "file": "app/sae/design/desktop/flat/images/buttons/point.png",
@@ -2094,6 +2094,10 @@
     {
         "file": "app/sae/design/desktop/flat/images/customization/ajax/spinner_mobile.gif",
         "hash": "58ada19d5a03ed3c88e6f06140d12df5"
+    },
+    {
+        "file": "app/sae/design/desktop/flat/images/customization/ajax/ajax-loader-black.gif",
+        "hash": "20295fd727fbc02635f3d8c947e54556"
     },
     {
         "file": "app/sae/design/desktop/flat/images/customization/colorpicker/blank.gif",
@@ -4889,7 +4893,7 @@
     },
     {
         "file": "app/sae/design/desktop/flat/js/features.js",
-        "hash": "bc4a41d1dd3f5dd17669bd5cc34df4c8"
+        "hash": "6a5aa0bd28c016a40bf66e001357e124"
     },
     {
         "file": "app/sae/design/desktop/flat/layout/admin.xml",
@@ -5609,7 +5613,7 @@
     },
     {
         "file": "app/sae/design/desktop/flat/template/page/layout.phtml",
-        "hash": "7daf9fd31b45f22881710463edce2c9a"
+        "hash": "ef0841246fc5e56756e3e2a7a91589ad"
     },
     {
         "file": "app/sae/design/desktop/flat/template/places/application/edit.phtml",
@@ -5617,7 +5621,7 @@
     },
     {
         "file": "app/sae/design/desktop/flat/template/places/application/search.phtml",
-        "hash": "5f6eaf662052985bcf745ddc16f68491"
+        "hash": "40f5421832f951dec152424ab315dea6"
     },
     {
         "file": "app/sae/design/desktop/flat/template/promotion/application/edit/form.phtml",
@@ -8989,7 +8993,7 @@
     },
     {
         "file": "app/sae/design/desktop/siberian/js/features.js",
-        "hash": "67a003fe7701cce14fa8f34fdf01a686"
+        "hash": "da5c7adc376bd82a78460dc6901c2e04"
     },
     {
         "file": "app/sae/design/desktop/siberian/layout/admin.xml",
@@ -9733,7 +9737,7 @@
     },
     {
         "file": "app/sae/design/desktop/siberian/template/page/layout.phtml",
-        "hash": "0bf832c41e23275378ec89b615839daf"
+        "hash": "2d4ac426f6fe38dfd89f1ce18ef75c1c"
     },
     {
         "file": "app/sae/design/desktop/siberian/template/places/application/edit.phtml",
@@ -9741,7 +9745,7 @@
     },
     {
         "file": "app/sae/design/desktop/siberian/template/places/application/search.phtml",
-        "hash": "4b795ab0099b0a4224c86bfebbc2124b"
+        "hash": "761ddbbdb07c1616baa56300fed667aa"
     },
     {
         "file": "app/sae/design/desktop/siberian/template/promotion/application/edit/form.phtml",
@@ -11772,12 +11776,12 @@
         "hash": "71365ac24963a9adbd49e2059970b783"
     },
     {
-        "file": "app/sae/modules/Application/Model/Db/Table/Option/Value.php",
-        "hash": "80718a222895030c55c5212b38347523"
-    },
-    {
         "file": "app/sae/modules/Application/Model/Db/Table/Option/Value/Metadata.php",
         "hash": "0998b5dff5bc233ed6af87c28e5de8b3"
+    },
+    {
+        "file": "app/sae/modules/Application/Model/Db/Table/Option/Value.php",
+        "hash": "27f9eac1978f54fe637ea4d7eb7295c8"
     },
     {
         "file": "app/sae/modules/Application/Model/Db/Table/Tc.php",
@@ -11804,12 +11808,12 @@
         "hash": "e74c51398974b99679fcc9fe9f6f2580"
     },
     {
-        "file": "app/sae/modules/Application/Model/Db/Table/Tag.php",
-        "hash": "027d42a6142841ef679123d0f61ea6e3"
-    },
-    {
         "file": "app/sae/modules/Application/Model/Db/Table/TagOption.php",
         "hash": "2ec63784258b0bfdddf921049d46a0eb"
+    },
+    {
+        "file": "app/sae/modules/Application/Model/Db/Table/Tag.php",
+        "hash": "b31978252c4e053c6f1a8223b554f235"
     },
     {
         "file": "app/sae/modules/Application/Model/Device.php",
@@ -11864,12 +11868,12 @@
         "hash": "797b638fbc4648de8a8503fd8305e9f9"
     },
     {
-        "file": "app/sae/modules/Application/Model/Option/Value.php",
-        "hash": "9e8572a91b5c16703c728afb554732d2"
-    },
-    {
         "file": "app/sae/modules/Application/Model/Option/Value/Metadata.php",
         "hash": "612da66de01c5dbc07c22337a14182e4"
+    },
+    {
+        "file": "app/sae/modules/Application/Model/Option/Value.php",
+        "hash": "5c67458c54e2f8c9fb382c153d358634"
     },
     {
         "file": "app/sae/modules/Application/Model/Tools.php",
@@ -12049,7 +12053,7 @@
     },
     {
         "file": "app/sae/modules/Application/controllers/Mobile/TranslationController.php",
-        "hash": "e0fa1c9a68b51ce6767c70e767676a6e"
+        "hash": "f5bf8120f41bee14a47789115ad56ad7"
     },
     {
         "file": "app/sae/modules/Application/controllers/PreviewerController.php",
@@ -12177,7 +12181,7 @@
     },
     {
         "file": "app/sae/modules/Application/package.json",
-        "hash": "6f0fbd5804ad59ff4627a948c7e079b3"
+        "hash": "b48730c65f8447e0c5117100ee0ecf73"
     },
     {
         "file": "app/sae/modules/Backoffice/Controller/Default.php",
@@ -12909,7 +12913,7 @@
     },
     {
         "file": "app/sae/modules/Core/Controller/Default/Abstract.php",
-        "hash": "d58c0ee4723b5b637a53b099f6c8c0f7"
+        "hash": "0d4180a7e9ec4e50463360f10037f938"
     },
     {
         "file": "app/sae/modules/Core/Controller/Default.php",
@@ -12929,7 +12933,7 @@
     },
     {
         "file": "app/sae/modules/Core/Model/Default/Abstract.php",
-        "hash": "a8ca86823b0a91c7927a4825a9442ccc"
+        "hash": "30a4a826759442eb1e83effa3d13a2f7"
     },
     {
         "file": "app/sae/modules/Core/Model/Lib/Facebook.php",
@@ -12988,12 +12992,16 @@
         "hash": "d57405ca783f7838b6f2bd8749a705c4"
     },
     {
-        "file": "app/sae/modules/Core/Model/Translator.php",
-        "hash": "b1a881a7b6d9e416ca7318667611102d"
+        "file": "app/sae/modules/Core/Model/Default.php",
+        "hash": "370abb01e7771c2913de23cec26b72b8"
     },
     {
-        "file": "app/sae/modules/Core/Model/Default.php",
-        "hash": "c097fdd91b6d43f0e5b405f6e7116c2d"
+        "file": "app/sae/modules/Core/Model/Exporter.php",
+        "hash": "f2beb239f6c9750ca04779455a8af80f"
+    },
+    {
+        "file": "app/sae/modules/Core/Model/Translator.php",
+        "hash": "e3cf85452babf3647d6657ea046aa035"
     },
     {
         "file": "app/sae/modules/Core/View/Default.php",
@@ -13029,7 +13037,7 @@
     },
     {
         "file": "app/sae/modules/Core/package.json",
-        "hash": "abc2a60ed27f61607f5ae79f2899ac09"
+        "hash": "780ac762de03010f13f4260dd478f0dd"
     },
     {
         "file": "app/sae/modules/Cron/Model/Db/Table/Cron.php",
@@ -13708,12 +13716,12 @@
         "hash": "6531f2d9ef7b5a0f8765af90d205b151"
     },
     {
-        "file": "app/sae/modules/Mcommerce/Model/Mcommerce.php",
-        "hash": "02e420969662fdc71f02f27d1723afab"
-    },
-    {
         "file": "app/sae/modules/Mcommerce/Model/Order.php",
         "hash": "e2f00c44bdfadd0c056547a3109bf91d"
+    },
+    {
+        "file": "app/sae/modules/Mcommerce/Model/Mcommerce.php",
+        "hash": "3c040d70a495c3ad1839fa1b720ce38d"
     },
     {
         "file": "app/sae/modules/Mcommerce/controllers/Application/Catalog/CategoryController.php",
@@ -13869,7 +13877,7 @@
     },
     {
         "file": "app/sae/modules/Mcommerce/package.json",
-        "hash": "e9cd51351d772833effac30ec718efef"
+        "hash": "1e78a28bfa7832a08b810a69652dbfe4"
     },
     {
         "file": "app/sae/modules/Media/Model/Db/Table/Gallery/Image.php",
@@ -14261,7 +14269,7 @@
     },
     {
         "file": "app/sae/modules/Places/Model/Place.php",
-        "hash": "18044226bea8458d590dfdbf47beb565"
+        "hash": "818dcc424c60c52fdc1dc2e4d4fe8830"
     },
     {
         "file": "app/sae/modules/Places/controllers/Mobile/Api/PlacesController.php",
@@ -14285,11 +14293,11 @@
     },
     {
         "file": "app/sae/modules/Places/controllers/Mobile/ListController.php",
-        "hash": "6cfa7d1fd8e0093a288bdd3beffdf3ab"
+        "hash": "1c53b0b1d81dfa5ac0f4112b49999281"
     },
     {
         "file": "app/sae/modules/Places/controllers/ApplicationController.php",
-        "hash": "381f8bb10ae8c0b3ba52176aae5bf678"
+        "hash": "762db75e8e28b08dd9535b98b021d56f"
     },
     {
         "file": "app/sae/modules/Places/resources/db/data/places.php",
@@ -14297,7 +14305,7 @@
     },
     {
         "file": "app/sae/modules/Places/package.json",
-        "hash": "5f8b2b2cfeb85237c560482b394a7da5"
+        "hash": "a54abf00ebb352e1b3da338d3a7db37d"
     },
     {
         "file": "app/sae/modules/Preview/Model/Db/Table/Preview.php",
@@ -14853,7 +14861,7 @@
     },
     {
         "file": "app/sae/modules/Template/controllers/CropController.php",
-        "hash": "4ee59ca65238f36f5e7438d50d9175aa"
+        "hash": "a41bc7bc9050407b88ea72b0a4d13066"
     },
     {
         "file": "app/sae/modules/Template/resources/db/data/template.php",
@@ -15224,14 +15232,6 @@
         "hash": "bc689c1c802c152b6ca214d741048466"
     },
     {
-        "file": "app/sae/modules/Job/Model/Category.php",
-        "hash": "35da2a35bcc84be30a44bf6089234a6b"
-    },
-    {
-        "file": "app/sae/modules/Job/Model/Company.php",
-        "hash": "e8ebe54e2661067f5bfde6007298a65a"
-    },
-    {
         "file": "app/sae/modules/Job/Model/Db/Table/Category.php",
         "hash": "65f2b28c68f7c0ad57928170513ba262"
     },
@@ -15256,12 +15256,20 @@
         "hash": "a799ebe2c86e2c65214cbebeb41bdf70"
     },
     {
-        "file": "app/sae/modules/Job/Model/Place.php",
-        "hash": "502399fd2faab7b5412f01bc2b7a4c54"
-    },
-    {
         "file": "app/sae/modules/Job/Model/PlaceContact.php",
         "hash": "509a828e876db70e511c32ed85712998"
+    },
+    {
+        "file": "app/sae/modules/Job/Model/Category.php",
+        "hash": "524acb95913a96f5450ac560c2f9fcbc"
+    },
+    {
+        "file": "app/sae/modules/Job/Model/Company.php",
+        "hash": "9585571a754a0b0242561f97438443db"
+    },
+    {
+        "file": "app/sae/modules/Job/Model/Place.php",
+        "hash": "3cb4470d21dcdfba0acb5517ddf727ac"
     },
     {
         "file": "app/sae/modules/Job/bootstrap.php",
@@ -15274,10 +15282,6 @@
     {
         "file": "app/sae/modules/Job/controllers/Api/PlaceController.php",
         "hash": "c4969f26bbe2fa68448af6b9a8d6f159"
-    },
-    {
-        "file": "app/sae/modules/Job/controllers/ApplicationController.php",
-        "hash": "20187026d863690bef04b5c3dc04575a"
     },
     {
         "file": "app/sae/modules/Job/controllers/CategoryController.php",
@@ -15296,12 +15300,12 @@
         "hash": "07e877c216e69c327d10924c54931f92"
     },
     {
-        "file": "app/sae/modules/Job/package.json",
-        "hash": "f2a6929c6f9b9618cda7733b58af0fa4"
+        "file": "app/sae/modules/Job/controllers/ApplicationController.php",
+        "hash": "621d2a09934925c2b733d1db704c195c"
     },
     {
         "file": "app/sae/modules/Job/resources/db/data/job.php",
-        "hash": "0891f0a6c0fb6407786c7ad014db0eab"
+        "hash": "7e4972daa6a6f8acf854ed41d016f6c3"
     },
     {
         "file": "app/sae/modules/Job/resources/db/schema/job.php",
@@ -15321,7 +15325,7 @@
     },
     {
         "file": "app/sae/modules/Job/resources/db/schema/job_place_contact.php",
-        "hash": "27add2b0c225d4844425061e8deb0a3d"
+        "hash": "d0cb25a9cb527d0b4b55a2462e767255"
     },
     {
         "file": "app/sae/modules/Job/resources/design/desktop/flat/images/customization/layout/job/layout-1.png",
@@ -15409,15 +15413,15 @@
     },
     {
         "file": "app/sae/modules/Job/resources/translations/default/job.csv",
-        "hash": "68f5b2edd7c0326186fba24db24c137c"
+        "hash": "cecb4899d96bc4abbda5f15101acade9"
     },
     {
         "file": "app/sae/modules/Job/resources/translations/default/mobile.csv.list",
-        "hash": "202e061de90f78d5a7ba9ba6cfc244f0"
+        "hash": "ebb96b93dd61403e25b7355c37312348"
     },
     {
         "file": "app/sae/modules/Job/resources/translations/fr/job.csv",
-        "hash": "4de518d1e2ef8531077246a7882af4f3"
+        "hash": "9c9d560c326c1c2ece861952088965ff"
     },
     {
         "file": "app/sae/modules/Job/resources/var/apps/modules/job/controllers/job.js",
@@ -15440,10 +15444,6 @@
         "hash": "0808efd9878402a46842bf5067f0fc6a"
     },
     {
-        "file": "app/sae/modules/Job/resources/var/apps/modules/job/templates/l1/create-place.html",
-        "hash": "55f15a53095d85d68c1fa1c4bb14551d"
-    },
-    {
         "file": "app/sae/modules/Job/resources/var/apps/modules/job/templates/l1/list.html",
         "hash": "bfc6ac9a332eb1bc1337b0e72bad84d8"
     },
@@ -15456,10 +15456,6 @@
         "hash": "fda511921a495f98b02b49daf82969d7"
     },
     {
-        "file": "app/sae/modules/Job/resources/var/apps/modules/job/templates/l1/more.html",
-        "hash": "7fb7fee3c47072f529ab1996c912fc29"
-    },
-    {
         "file": "app/sae/modules/Job/resources/var/apps/modules/job/templates/l1/view-company.html",
         "hash": "429082847fb55fa2d95c1caf6f1d0487"
     },
@@ -15468,12 +15464,24 @@
         "hash": "7355765f9d8d69358862a987e4029436"
     },
     {
+        "file": "app/sae/modules/Job/resources/var/apps/modules/job/templates/l1/create-place.html",
+        "hash": "a99f9341f9ccebf5ec4e275fe0f99bd8"
+    },
+    {
+        "file": "app/sae/modules/Job/resources/var/apps/modules/job/templates/l1/more.html",
+        "hash": "12526a38c8edd492f6367002c8566bb2"
+    },
+    {
+        "file": "app/sae/modules/Job/package.json",
+        "hash": "7770ba07729281129e0ac28d8961ec71"
+    },
+    {
         "file": "app/BootstrapCron.php",
         "hash": "e9b22438fc6c2799d1978974ada83f1b"
     },
     {
         "file": "app/Bootstrap.php",
-        "hash": "a410adc9ccd5e507b5ed29b3374f0c16"
+        "hash": "cadfbcad6638339b70429512a71f1310"
     },
     {
         "file": "check_connection.php",
@@ -15752,12 +15760,12 @@
         "hash": "4471b0a6acd0e38f73e6d6406134c575"
     },
     {
-        "file": "lib/Siberian/Cache/Translation.php",
-        "hash": "068ae72b132536329a2f7b17637f297e"
-    },
-    {
         "file": "lib/Siberian/Cache/Design.php",
         "hash": "6e9f15c2a2f3b81952fa2a5364036e90"
+    },
+    {
+        "file": "lib/Siberian/Cache/Translation.php",
+        "hash": "ee843c39fcc0edf72bbe7450708b80cd"
     },
     {
         "file": "lib/Siberian/Controller/Dispatcher/Standard.php",
@@ -15992,28 +16000,32 @@
         "hash": "8f2b6dc193b3e1a9bb275926e7b2febe"
     },
     {
-        "file": "lib/Siberian/Json.php",
-        "hash": "e60443c8631372f1a875bfb44d1d9b93"
-    },
-    {
-        "file": "lib/Siberian/Feature.php",
-        "hash": "089aac49d28ce5140933829d7c8952bc"
-    },
-    {
-        "file": "lib/Siberian/Autoupdater.php",
-        "hash": "3d1e463ffefc675cc14922b6698cfb0c"
-    },
-    {
         "file": "lib/Siberian/Mail.php",
         "hash": "a9acbbb7c72e42041c911213a8701de8"
     },
     {
-        "file": "lib/Siberian/Utils.php",
-        "hash": "81e1ce54a1d17a9897c91e164cd0ed33"
-    },
-    {
         "file": "lib/Siberian/View/Helper/FormNumber.php",
         "hash": "bd24554f5741be7613c65a373e1fd793"
+    },
+    {
+        "file": "lib/Siberian/Autoupdater.php",
+        "hash": "54e9fc032d9526d87d96d4d6ca75fe93"
+    },
+    {
+        "file": "lib/Siberian/Feature.php",
+        "hash": "4284a22cf4956725cab4296f3453526f"
+    },
+    {
+        "file": "lib/Siberian/Json.php",
+        "hash": "203b93bd4f71afdfcf88595a141e024d"
+    },
+    {
+        "file": "lib/Siberian/Utils.php",
+        "hash": "3cc59d07479e969e324d130fb43afc65"
+    },
+    {
+        "file": "lib/Siberian/Yaml.php",
+        "hash": "37c941f62d0dc681efa8bab2df01ee8b"
     },
     {
         "file": "lib/Thumbnailer/CreateThumb.php",
@@ -28132,6 +28144,50 @@
         "hash": "bf295b7ed28a07ab6f891bccb72f8e71"
     },
     {
+        "file": "lib/Symfony/Component/Yaml/Command/LintCommand.php",
+        "hash": "522c2d382465f7a65b54e1e86baf556a"
+    },
+    {
+        "file": "lib/Symfony/Component/Yaml/Dumper.php",
+        "hash": "2d35c3daacc5acb8845af761f0dcc4cc"
+    },
+    {
+        "file": "lib/Symfony/Component/Yaml/Escaper.php",
+        "hash": "9c0df286acdbff7b0d7965e684c7e4c6"
+    },
+    {
+        "file": "lib/Symfony/Component/Yaml/Exception/DumpException.php",
+        "hash": "dc67a59a9101373a0a0aab4d1a37406b"
+    },
+    {
+        "file": "lib/Symfony/Component/Yaml/Exception/ExceptionInterface.php",
+        "hash": "55d4a87d030efc9426685250882fdf25"
+    },
+    {
+        "file": "lib/Symfony/Component/Yaml/Exception/ParseException.php",
+        "hash": "50daf187d037034a0f2bd6897fe1aeba"
+    },
+    {
+        "file": "lib/Symfony/Component/Yaml/Exception/RuntimeException.php",
+        "hash": "14010c4f6f5c12606dd5e00ef5855fdc"
+    },
+    {
+        "file": "lib/Symfony/Component/Yaml/Inline.php",
+        "hash": "fc53251992ac8b4ffbcf8cdde7dc4281"
+    },
+    {
+        "file": "lib/Symfony/Component/Yaml/Parser.php",
+        "hash": "4d9bea3fa8cc5c0cc7c8df42eda40307"
+    },
+    {
+        "file": "lib/Symfony/Component/Yaml/Unescaper.php",
+        "hash": "ca574df1a7b3e12fcedd91cfb288d0f8"
+    },
+    {
+        "file": "lib/Symfony/Component/Yaml/Yaml.php",
+        "hash": "b1df70c824c318fbcbada785bc2b0454"
+    },
+    {
         "file": "robots.txt",
         "hash": "20f5d3d68f4c1e68240b015a9f098d94"
     },
@@ -28181,7 +28237,7 @@
     },
     {
         "file": "var/apps/browser/css/style.css",
-        "hash": "c078cc6558e3b0376bbf895e7f5db6f1"
+        "hash": "2ae2fc4923c54e70abe7ff834632c181"
     },
     {
         "file": "var/apps/browser/img/ionic.png",
@@ -29297,7 +29353,7 @@
     },
     {
         "file": "var/apps/browser/templates/html/l3/list.html",
-        "hash": "60b21c3c398e66b9887f48e0b32d55fa"
+        "hash": "625b49dd3257779bb71cf10e007828da"
     },
     {
         "file": "var/apps/browser/templates/html/l5/list.html",
@@ -29693,7 +29749,7 @@
     },
     {
         "file": "var/apps/ionic/android/assets/www/css/style.css",
-        "hash": "c078cc6558e3b0376bbf895e7f5db6f1"
+        "hash": "2ae2fc4923c54e70abe7ff834632c181"
     },
     {
         "file": "var/apps/ionic/android/assets/www/img/loyaltycard/point-validated.png",
@@ -30765,7 +30821,7 @@
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/html/l3/list.html",
-        "hash": "60b21c3c398e66b9887f48e0b32d55fa"
+        "hash": "625b49dd3257779bb71cf10e007828da"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/html/l5/list.html",
@@ -33741,7 +33797,7 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/www/css/style.css",
-        "hash": "c078cc6558e3b0376bbf895e7f5db6f1"
+        "hash": "2ae2fc4923c54e70abe7ff834632c181"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/img/loyaltycard/point-validated.png",
@@ -34821,7 +34877,7 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/html/l3/list.html",
-        "hash": "60b21c3c398e66b9887f48e0b32d55fa"
+        "hash": "625b49dd3257779bb71cf10e007828da"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/html/l5/list.html",
@@ -37013,7 +37069,7 @@
     },
     {
         "file": "var/apps/ionic/ios/www/css/style.css",
-        "hash": "c078cc6558e3b0376bbf895e7f5db6f1"
+        "hash": "2ae2fc4923c54e70abe7ff834632c181"
     },
     {
         "file": "var/apps/ionic/ios/www/img/loyaltycard/point-validated.png",
@@ -38097,7 +38153,7 @@
     },
     {
         "file": "var/apps/ionic/ios/www/templates/html/l3/list.html",
-        "hash": "60b21c3c398e66b9887f48e0b32d55fa"
+        "hash": "625b49dd3257779bb71cf10e007828da"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/html/l5/list.html",
@@ -38321,7 +38377,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/css/style.css",
-        "hash": "c078cc6558e3b0376bbf895e7f5db6f1"
+        "hash": "2ae2fc4923c54e70abe7ff834632c181"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/img/loyaltycard/point-validated.png",
@@ -39381,7 +39437,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/html/l3/list.html",
-        "hash": "60b21c3c398e66b9887f48e0b32d55fa"
+        "hash": "625b49dd3257779bb71cf10e007828da"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/html/l5/list.html",
@@ -39589,7 +39645,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/css/style.css",
-        "hash": "c078cc6558e3b0376bbf895e7f5db6f1"
+        "hash": "2ae2fc4923c54e70abe7ff834632c181"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/img/loyaltycard/point-validated.png",
@@ -40665,7 +40721,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/html/l3/list.html",
-        "hash": "60b21c3c398e66b9887f48e0b32d55fa"
+        "hash": "625b49dd3257779bb71cf10e007828da"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/html/l5/list.html",
@@ -40834,6 +40890,10 @@
     {
         "file": "var/apps/ionic/previewer/ios/www/cordova_plugins.js",
         "hash": "54d253ebdd58aa82c039e0903642b5a2"
+    },
+    {
+        "file": "var/placeholder.png",
+        "hash": "7595e4868ebeb2201435975d3f16f492"
     },
     {
         "file": "index.php",

@@ -269,8 +269,10 @@ class Places_Model_Place extends Core_Model_Default {
      * Based on a list of parameters (i.e. text, tag, address, or around you) find the corresponding pages
      *
      * @param $terms
+     * @param $value_id
+     * @return mixed
      */
-    public function search($terms)
+    public function search($terms, $value_id)
     {
         $this->setupQuery();
         // Foreach term find the appropriate method to filter pages and apply it
@@ -280,6 +282,9 @@ class Places_Model_Place extends Core_Model_Default {
                 $this->$method($term);
             }
         }
+
+        /** Search only in places belonging to the current application */
+        $this->select->where("cms_application_page.value_id = ?", $value_id);
 
         return $this->table->fetchAll($this->select);
     }
@@ -373,10 +378,8 @@ class Places_Model_Place extends Core_Model_Default {
      * @param $position
      * @return array
      */
-    public function asJson($controller, $position)
-    {
+    public function asJson($controller, $position) {
         $address = $this->getAddressBlock();
-        var_dump($address);
 
         $url = $this->getApplication()->useIonicDesign() ?
             $controller->getUrl("places/mobile_details/index", array("value_id" => $this->getValueId(), "place_id" => $this->getId())) :
@@ -406,8 +409,6 @@ class Places_Model_Place extends Core_Model_Default {
         // only one address per place
         $representation['show_image'] = $this->getPage()->getMetadataValue('show_image');
         $representation['show_titles'] = $this->getPage()->getMetadataValue('show_titles');
-        var_dump("address");
-
         $representation["distance"] = $this->distance($position);
 
         return $representation;

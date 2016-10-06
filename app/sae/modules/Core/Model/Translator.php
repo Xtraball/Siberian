@@ -166,15 +166,21 @@ class Core_Model_Translator
 
     protected static function _getIonicTranslations() {
 
-        $default_file = Core_Model_Directory::getBasePathTo("languages/default/mobile.csv.list");
+        $translation_cache = Siberian_Cache_Translation::getCache();
+        $mobile_files = $translation_cache["mobile_list"];
+
         $keys = array();
         $translations = array();
-        $resource = fopen($default_file, "r");
-        while($data = fgetcsv($resource, 1024, ";", "\"")) {
-            if(!empty($data[0]) AND stripos($data[0], "%s") === false) {
-                $keys[] = $data[0];
+
+        foreach($mobile_files as $mobile_file) {
+            $resource = fopen($mobile_file, "r");
+            while($data = fgetcsv($resource, 1024, ";", "\"")) {
+                if(!empty($data[0]) AND stripos($data[0], "%s") === false) {
+                    $keys[] = $data[0];
+                }
             }
         }
+
 
         $current_language = Core_Model_Language::getCurrentLanguage();
         $translation_files_path = Core_Model_Directory::getBasePathTo("languages/{$current_language}");

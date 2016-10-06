@@ -48,13 +48,15 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
     {
         if ($search_criteria = json_decode($this->getRequest()->getParam("search"))) {
             try {
+                $value_id = $this->getRequest()->getParam("value_id");
+
                 $position = array(
                     'latitude' => $this->getRequest()->getParam('latitude'),
                     'longitude' => $this->getRequest()->getParam('longitude')
                 );
 
                 $repository = new Places_Model_Place();
-                $pages = $repository->search($search_criteria);
+                $pages = $repository->search($search_criteria, $value_id);
                 $place_list = array();
 
                 foreach ($pages as $page) {

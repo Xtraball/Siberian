@@ -300,4 +300,20 @@ class Siberian_Feature
         $job->insertOrUpdate(array("command"));
     }
 
+    /**
+     * @param $array
+     * @return mixed
+     */
+    public static function export_filter($array) {
+        array_walk_recursive($array, function(&$item, $key){
+            if($key == 'id') {
+                $item = false;
+            }
+        });
+
+        $array = array_map('array_filter', $array);
+
+        return $array;
+    }
+
 }

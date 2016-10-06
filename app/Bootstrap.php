@@ -20,7 +20,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
     protected function _initPaths() {
 
-        Zend_Loader_Autoloader::getInstance()->registerNamespace('Core');
+        $loader = Zend_Loader_Autoloader::getInstance();
+
+        $loader->registerNamespace('Core');
+        $loader->registerNamespace('Symfony');
 
         $include_paths = array(get_include_path());
         $include_paths[] = realpath(APPLICATION_PATH."/local/modules");

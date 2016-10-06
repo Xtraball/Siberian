@@ -14,6 +14,8 @@ abstract class Core_Model_Default_Abstract
     protected $_specific_import_data = array();
     protected $_mandatory_columns = array();
 
+    public $_default_application_image_path = "images/application";
+
     public function __construct($data = array()) {
         foreach($data as $key => $value) {
             if(!is_numeric($key)) {
@@ -596,6 +598,14 @@ abstract class Core_Model_Default_Abstract
         return array();
     }
 
+    /**
+     * @deprecated
+     *
+     * @param $design
+     * @param $category
+     * @return SimpleXMLElement[]
+     * @throws Exception
+     */
     protected function _getDummyXml($design, $category) {
 
         $option_model_name = current(explode("_", get_class($this)));
@@ -611,6 +621,69 @@ abstract class Core_Model_Default_Abstract
             throw new Exception($this->_('#114: An error occurred while saving'));
 
         return $dummy_content_xml->{$design->getCode()};
+    }
+
+    /**
+     * @param $path relative images/application path
+     * @param bool $base64
+     * @return string
+     */
+    public function __getBase64Image($path) {
+        $path = $this->_default_application_image_path.$path;
+
+        return img_to_base64(Core_Model_Directory::getBasePathTo($path));
+    }
+
+    /**
+     * @param $content
+     * @param $option
+     * @return string
+     */
+    public function __setImageFromBase64($content, $option, $width = false, $height = false) {
+        $application_option = new Application_Model_Option();
+        $application_option->find($option->getOptionId());
+        $new_path = "/".$this->getApplication()->getId()."/features/".$application_option->getCode()."/".$option->getValueId()."/".uniqid();
+
+        /** Ensure directory exists */
+        $dirname = Core_Model_Directory::getBasePathTo(dirname($this->_default_application_image_path.$new_path));
+        if(!is_dir($dirname)) {
+            mkdir($dirname, 0777, true);
+        }
+
+        $realpath = Core_Model_Directory::getBasePathTo($this->_default_application_image_path.$new_path);
+
+        if (preg_match('/data:([^;]*);base64,(.*)/', $content, $matches)) {
+            $type = $matches[1];
+            $extension = explode("/", $type);
+            $content = base64_decode($matches[2]);
+
+            if(($width != false) && ($height != false)) {
+                $resource = imagecreatefromstring($content);
+                $resource = imagescale($resource, $width, $height);
+                imagepng($resource, Core_Model_Directory::getBasePathTo($realpath.".".$extension[1]));
+            } else {
+                file_put_contents(Core_Model_Directory::getBasePathTo($realpath.".".$extension[1]), $content);
+            }
+
+            $new_path .= ".".$extension[1];
+
+        } else {
+
+            $placeholder = "/placeholder/no-image.png";
+            $placeholder_path = Core_Model_Directory::getBasePathTo($this->_default_application_image_path.$placeholder);
+
+            if(($width != false) && ($height != false)) {
+                $resource = imagecreatefromstring(file_get_contents($placeholder_path));
+                $resource = imagescale($resource, $width, $height);
+                imagepng($resource, Core_Model_Directory::getBasePathTo($realpath.".png"));
+
+                $new_path .= ".png";
+            } else {
+                $new_path = $placeholder;
+            }
+        }
+
+        return $new_path;
     }
 
 }

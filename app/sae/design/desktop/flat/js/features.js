@@ -68,7 +68,6 @@ var button_picture_html = '<div class="feature-upload-placeholder" data-uid="%UI
     '   </button>' +
     '</div>';
 
-
 var bindForms = function(default_parent) {
 
     if($(default_parent).data("binded") == "yes") {
@@ -134,10 +133,13 @@ var bindForms = function(default_parent) {
         var height = element.data("height");
 
         /** Delegate the click */
-        function handleInput() {
+        function handleInput(prepare) {
             var html = button_picture_html.replace(/%UID%/g, uid);
 
-            $(default_parent+" input.feature-upload-input[data-uid='"+uid+"']").trigger("click");
+            if(!prepare) {
+                $(default_parent+" input.feature-upload-input[data-uid='"+uid+"']").trigger("click");
+            }
+
             if($(default_parent+" div.feature-upload-placeholder[data-uid='"+uid+"']").length == 0) {
                 $(default_parent+" button.feature-upload-button[data-uid='"+uid+"']").after(html);
 
@@ -164,10 +166,10 @@ var bindForms = function(default_parent) {
         }
 
         /** Existing files ! */
-        handleInput();
+        handleInput(true);
 
-        element.click(function() {
-            handleInput();
+        element.on("click", function() {
+            handleInput(false);
         });
 
         $(default_parent+" input.feature-upload-input[data-uid='"+uid+"']").fileupload({
@@ -320,6 +322,9 @@ var bindForms = function(default_parent) {
 
         /** Load form if not present */
         if($("tr.edit-form[data-id="+object_id+"] form").length == 0) {
+
+            $("tr.edit-form[data-id="+object_id+"] p.close-edit").after("<div class=\"feature-loader loader-"+object_id+"\"><img src=\"/app/sae/design/desktop/flat/images/customization/ajax/ajax-loader-black.gif\"></div>");
+
             $.ajax({
                 type: "GET",
                 url: el.data("form-url"),
@@ -327,6 +332,7 @@ var bindForms = function(default_parent) {
                 success: function(data) {
                     if(data.success) {
                         $("tr.edit-form[data-id="+object_id+"] p.close-edit").after(data.form);
+                        $("tr.edit-form[data-id="+object_id+"] .loader-"+object_id).remove();
 
                         setTimeout(function() {
                             bindForms("tr.edit-form[data-id="+object_id+"]");

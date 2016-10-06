@@ -19,6 +19,7 @@ class Places_ApplicationController extends Application_Controller_Default {
 
             if(!$page->getId()) {
                 $page->setId("new");
+                $page->tag_names = array();
             }
 
             $this->getLayout()->setBaseRender('form', 'cms/application/page/edit.phtml', 'admin_view_default')

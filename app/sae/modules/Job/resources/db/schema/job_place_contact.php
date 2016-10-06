@@ -30,6 +30,7 @@ $schemas['job_place_contact'] = array(
             'is_null' => true,
             'is_unique' => false,
         ),
+        'is_null' => true,
     ),
     'fullname' => array(
         'type' => 'varchar(255)',

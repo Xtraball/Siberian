@@ -13,8 +13,12 @@ class Siberian_Json extends Zend_Json {
      * @return array|bool|string
      * @throws Zend_Exception
      */
-    public static function encode($data, $options = JSON_PRETTY_PRINT) {
+    public static function encode($data, $options = JSON_PRETTY_PRINT, $with_control = false) {
         $logger = Zend_Registry::get("logger");
+
+        if($with_control) {
+            $data = data_to_jsonsafe($data);
+        }
 
         $json = json_encode($data, $options);
 

@@ -1,6 +1,6 @@
 <?php
 
-abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action
+abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action implements Core_Model_Exporter
 {
 
     protected $_layout;
@@ -606,6 +606,14 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action
 
     protected function _isInstanceOfBackoffice() {
         return is_subclass_of($this, 'Backoffice_Controller_Default');
+    }
+
+    public function exportAction() {
+
+    }
+
+    public function importAction() {
+        
     }
 
 }

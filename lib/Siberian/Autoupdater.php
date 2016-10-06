@@ -31,6 +31,10 @@ class Siberian_Autoupdater {
         Siberian_Assets::copyAllAssets();
         Siberian_Assets::buildIndex();
 
+        # Siberian Translations
+        Siberian_Cache_Translation::clearCache();
+        Siberian_Cache_Translation::init();
+
         # Rebuild minified
         $minifier = new Siberian_Minify();
         Siberian_Minify::clearCache();
