@@ -65,10 +65,10 @@
                                     <div class="opacity_container">
                                         <input type="range" step="1" min="0" max="100" class="sb-slider"
                                                name="text_opacity"
-                                               value="<?php echo $child->getTextOpacity() ? $child->getTextOpacity() : 100; ?>"
+                                               value="<?php echo $child->getTextOpacity(); ?>"
                                                data-variable="<?php echo $child->getColorVariableName() ?>"
                                                data-index="<?php echo $hex; ?>" />
-                                        <span data-index="<?php echo $hex; ?>"><?php echo $child->getTextOpacity() ? $child->getTextOpacity() : 100; ?> </span>
+                                        <span data-index="<?php echo $hex; ?>"><?php echo $child->getTextOpacity(); ?> </span>
                                     </div>
                                     <input data-index="<?php echo $hex; ?>" data-variable="<?php echo $child->getColorVariableName() ?>" type="hidden" id="<?php echo $child->getCode(); ?>_text_receiver" name="color" value="<?php echo $child->getColor() ?>" />
                                     </div>
@@ -82,10 +82,10 @@
                                     <div class="opacity_container">
                                         <input type="range" step="1" min="0" max="100" class="sb-slider"
                                                name="background_opacity"
-                                               value="<?php echo $child->getBackgroundOpacity() ? $child->getBackgroundOpacity() : 100; ?>"
+                                           value="<?php echo $child->getBackgroundOpacity(); ?>"
                                            data-variable="<?php echo $child->getBackgroundColorVariableName() ?>"
                                                data-index="<?php echo $hex; ?>" />
-                                        <span data-index="<?php echo $hex; ?>"><?php echo $child->getBackgroundOpacity() ? $child->getBackgroundOpacity() : 100; ?> </span>
+                                        <span data-index="<?php echo $hex; ?>"><?php echo $child->getBackgroundOpacity(); ?> </span>
                                     </div>
                                     <input data-index="<?php echo $hex; ?>" data-variable="<?php echo $child->getBackgroundColorVariableName() ?>" type="hidden" id="<?php echo $child->getCode(); ?>_bg_receiver" name="background_color" value="<?php echo $child->getBackgroundColor() ?>" />
                                     </div>
@@ -99,10 +99,10 @@
                                     <div class="opacity_container">
                                         <input type="range" step="1" min="0" max="100" class="sb-slider"
                                                name="border_opacity"
-                                               value="<?php echo $child->getBorderOpacity() ? $child->getBorderOpacity() : 100; ?>"
+                                               value="<?php echo $child->getBorderOpacity(); ?>"
                                                data-variable="<?php echo $child->getBorderColorVariableName() ?>"
                                                data-index="<?php echo $hex; ?>" />
-                                        <span data-index="<?php echo $hex; ?>"><?php echo $child->getBorderOpacity() ? $child->getBorderOpacity() : 100; ?> </span>
+                                        <span data-index="<?php echo $hex; ?>"><?php echo $child->getBorderOpacity(); ?> </span>
                                     </div>
                                     <input data-index="<?php echo $hex; ?>" data-variable="<?php echo $child->getBorderColorVariableName() ?>" type="hidden" id="<?php echo $child->getCode(); ?>_border_receiver" name="border_color" value="<?php echo $child->getBorderColor() ?>" />
                                     </div>
@@ -113,6 +113,7 @@
                                     <div class="<?php echo $this->getClassFor($child, "image_color"); ?>">
                                         <input type="hidden" name="block_id" value="<?php echo $child->getId(); ?>" />
                                         <div class="square_color"><button type="button" id="<?php echo $child->getCode(); ?>_image" class="<?php echo $child->getCode(); ?>_image" style="background-color: <?php echo $child->getImageColor(); ?>"></button></div>
+                                        <input data-index="<?php echo $hex; ?>" data-variable="<?php echo $child->getImageColorVariableName() ?>" type="hidden" id="<?php echo $child->getCode(); ?>_image_receiver" name="image_color" value="<?php echo $child->getImageColor() ?>" />
                                     </div>
                                 <?php endif; ?>
 

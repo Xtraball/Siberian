@@ -259,7 +259,7 @@ class Template_Model_Block extends Core_Model_Default {
         // has the form array('red' => ..., 'green' => ..., 'blue' => ...)
         $background_color = $this->getBackgroundColorRGB();
         // If the value is null then 1 by default
-        $opacity = $this->getData('background_opacity') ? $this->getData('background_opacity') / 100 : 1;
+        $opacity = $this->getData('background_opacity') / 100;
         // Yields a string 'rgba(red,green,blue,opacity)'
         $rgba = 'rgba(' . $background_color['red'] . ',' . $background_color['green'] . ',' . $background_color['blue'] . ',' . $opacity . ')';
         return $rgba;
@@ -274,7 +274,7 @@ class Template_Model_Block extends Core_Model_Default {
         // has the form array('red' => ..., 'green' => ..., 'blue' => ...)
         $text_color = $this->getColorRGB();
         // If the value is null then 1 by default
-        $opacity = $this->getData('text_opacity') ? $this->getData('text_opacity') / 100 : 1;
+        $opacity = $this->getData('text_opacity') / 100;
         // Yields a string 'rgba(red,green,blue,opacity)'
         $rgba = 'rgba(' . $text_color['red'] . ',' . $text_color['green'] . ',' . $text_color['blue'] . ',' . $opacity . ')';
         return $rgba;
@@ -289,7 +289,7 @@ class Template_Model_Block extends Core_Model_Default {
         // has the form array('red' => ..., 'green' => ..., 'blue' => ...)
         $image_color = $this->getImageColorRGB();
         // If the value is null then 1 by default
-        $opacity = $this->getData('image_opacity') ? $this->getData('image_opacity') / 100 : 1;
+        $opacity = $this->getData('image_opacity') / 100;
         // Yields a string 'rgba(red,green,blue,opacity)'
         $rgba = 'rgba(' . $image_color['red'] . ',' . $image_color['green'] . ',' . $image_color['blue'] . ',' . $opacity . ')';
         return $rgba;
@@ -304,7 +304,7 @@ class Template_Model_Block extends Core_Model_Default {
         // has the form array('red' => ..., 'green' => ..., 'blue' => ...)
         $border_color = $this->getBorderColorRGB();
         // If the value is null then 1 by default
-        $opacity = $this->getData('border_opacity') ? $this->getData('border_opacity') / 100 : 1;
+        $opacity = $this->getData('border_opacity') / 100;
         // Yields a string 'rgba(red,green,blue,opacity)'
         $rgba = 'rgba(' . $border_color['red'] . ',' . $border_color['green'] . ',' . $border_color['blue'] . ',' . $opacity . ')';
         return $rgba;
