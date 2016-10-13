@@ -178,7 +178,7 @@ class Siberian_Minify extends \Minify\Minify {
         /** Match all css */
         if(preg_match_all($regex, $index_content, $matches)) {
             foreach($matches[1] as $match) {
-                if(!in_array($match, $exclude)) {
+                if(!in_array($match, $exclude) && file_exists("{$basepath}/{$match}")) {
                     $minifier->add("{$basepath}/{$match}");
                 }
             }

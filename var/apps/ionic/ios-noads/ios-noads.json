@@ -167,6 +167,14 @@
                         {
                             "xml": "<feature name=\"OfflineMode\"><param name=\"ios-package\" value=\"CDVOfflineMode\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"iosrtcPlugin\"><param name=\"ios-package\" value=\"iosrtcPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Insomnia\"><param name=\"ios-package\" value=\"Insomnia\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -256,6 +264,12 @@
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
         "siberian-plugin-offlinemode": {
+            "PACKAGE_NAME": "com.appsmobilecompany.base"
+        },
+        "cordova-plugin-iosrtc": {
+            "PACKAGE_NAME": "com.appsmobilecompany.base"
+        },
+        "cordova-plugin-insomnia": {
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         }
     },
@@ -702,6 +716,22 @@
             "clobbers": [
                 "window.OfflineMode"
             ]
+        },
+        {
+            "file": "plugins/cordova-plugin-iosrtc/dist/cordova-plugin-iosrtc.js",
+            "id": "cordova-plugin-iosrtc.Plugin",
+            "pluginId": "cordova-plugin-iosrtc",
+            "clobbers": [
+                "cordova.plugins.iosrtc"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-insomnia/www/Insomnia.js",
+            "id": "cordova-plugin-insomnia.Insomnia",
+            "pluginId": "cordova-plugin-insomnia",
+            "clobbers": [
+                "window.plugins.insomnia"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -731,6 +761,8 @@
         "cordova-plugin-x-socialsharing": "5.0.12-dev",
         "cordova-plugin-statusbar": "2.1.2",
         "de.appplant.cordova.plugin.local-notification": "0.8.4",
-        "siberian-plugin-offlinemode": "1.0.0"
+        "siberian-plugin-offlinemode": "1.0.0",
+        "cordova-plugin-iosrtc": "3.1.0",
+        "cordova-plugin-insomnia": "4.2.0"
     }
 }

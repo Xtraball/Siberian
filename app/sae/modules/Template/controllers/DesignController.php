@@ -44,7 +44,7 @@ class Template_DesignController extends Application_Controller_Default {
                 ;
 
                 if($this->getApplication()->useIonicDesign()) {
-                    Template_Model_Design::generateCss($this->getApplication());
+                    Template_Model_Design::generateCss($this->getApplication(), false, false, true);
                 }
 
                 $html = array(

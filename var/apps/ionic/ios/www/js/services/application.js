@@ -1,9 +1,30 @@
-App.service('Application', function($http, $interval, $ionicPopup, $rootScope, $timeout, $translate, $window, Dialog, Url) {
+App.service('Application', function($http, $interval, $ionicPopup, $q, $rootScope, $timeout, $translate, $window, Dialog, Url) {
 
     var service = {};
 
+    var _loaded = false;
+    var _loaded_resolver = $q.defer();
+
+    Object.defineProperty(service, "loaded", {
+        get: function() {
+            if(_loaded) {
+                console.log("Application loaded, resolving promise");
+                return $q.resolve();
+            }
+            return _loaded_resolver.promise;
+        },
+        set: function(value) {
+            _loaded = !!value;
+            if(_loaded === true) {
+                console.log("Application loaded, resolving promise");
+                _loaded_resolver.resolve();
+            }
+        }
+    });
+
     service.app_id = null;
     service.app_name = null;
+    service.googlemaps_key = null;
 
     service.is_customizing_colors = $window.location.href.indexOf("application/mobile_customization_colors/") >= 0;
 

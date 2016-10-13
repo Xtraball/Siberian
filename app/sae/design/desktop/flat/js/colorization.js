@@ -7,6 +7,10 @@ $.fn.colorize = function(rgb, flat) {
             canvas.width = img.width;
             canvas.height = img.height;
 
+            if((canvas.width + canvas.height) <= 0) {
+                return null;
+            }
+
             var context = canvas.getContext('2d');
             context.drawImage(img, 0, 0, img.width, img.height);
 

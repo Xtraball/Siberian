@@ -18,6 +18,10 @@ if($option->getCode() == 'folder') {
 $library = new Media_Model_Library();
 $all_icons = $library->getAllFeatureIcons();
 
+# Exporter
+$can_export = Siberian_Exporter::isRegistered($option->getCode()) && (APPLICATION_ENV != "production");
+
+
 ?>
 
 <script type="text/javascript">
@@ -27,6 +31,13 @@ $all_icons = $library->getAllFeatureIcons();
 <div class="content_editor">
     <h3 class="title-editor border-blue">
         <?php echo $this->_("Feature settings"); ?>
+        <?php if($can_export): ?>
+            <button class="color-blue pull-right bt-header-right btn">
+                <a href="<?php echo $this->getUrl("{$option->getDesktopUri()}export", array("value_id" => $option->getId())); ?>">
+                    <?php echo __("Export") ?>
+                </a>
+            </button>
+        <?php endif; ?>
     </h3>
     <div id="icon_and_name" class="row icon_and_name container-fluid feature-section-bottom first-row-feature">
         <div class="col-md-3 col-xs-3 col-icon-button">
@@ -131,15 +142,19 @@ $all_icons = $library->getAllFeatureIcons();
                                                     <h3 class="subtitle">
                                                         <span><?php echo $this->_('Library icons') ?></span>
                                                     </h3>
+                                                    <div class="form-group filter-icons">
+                                                        <input type="text" class="input-flat" style="width: 200px;" placeholder="<?php echo __("Search by keywords ...") ?>" />
+                                                        <button type="reset" class="btn color-blue"><?php echo __("Reset") ?></button>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <ul class="icons_list">
+                                                    <ul class="icons_list filter_list">
                                                         <?php $all_icon_ids = array(); ?>
                                                         <?php foreach($all_icons as $icon) : ?>
                                                             <?php if($icon->getUrl() AND !in_array($icon->getId(), $all_icon_ids)) : ?>
-                                                                <li rel="<?php echo $option->getId(); ?>" class="color-blue">
+                                                                <li data-filter="<?php echo $icon->getLink() ?>" rel="<?php echo $option->getId(); ?>" class="<?php echo ($icon->getCanBeColorized()==0) ? "colorizable" : "color-blue"; ?>">
                                                                     <a href="<?php echo $this->getUrl('application/customization_features/seticon'); ?>" class="left icon" rel="<?php echo $option->getId(); ?>" >
                                                                         <button class="select_icon" type="button">
                                                                             <img src="<?php echo $icon->getUrl(); ?>" width="auto" height="65" class="colorize" />
@@ -418,6 +433,27 @@ $all_icons = $library->getAllFeatureIcons();
             $('#change_icon').unbind('keyup').unbind('blur');
             <?php endif; ?>
             $('#tabbar_name').unbind('keyup').unbind('blur');
+        });
+
+        /** Icon filtering */
+        $(".filter-icons input[type=text]").on("keyup", function() {
+            var search = $(this);
+            var value = search.val();
+
+            $(".filter_list li[data-filter]").hide();
+            $(".filter_list li[data-filter]").each(function() {
+                var el = $(this);
+                var filter = el.data("filter");
+
+                if(filter.indexOf(value) > -1) {
+                    el.show();
+                }
+            });
+        });
+
+        $(".filter-icons button").on("click", function() {
+            $(".filter-icons input[type=text]").val("");
+            $(".filter_list li[data-filter]").show();
         });
 
     </script>

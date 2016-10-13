@@ -44,4 +44,18 @@ class Radio_ApplicationController extends Application_Controller_Default {
         $this->getLayout()->setHtml(Zend_Json::encode($html));
     }
 
+    /**
+     * @param $option
+     * @return string
+     * @throws Exception
+     */
+    public function exportAction() {
+        if($this->getCurrentOptionValue()) {
+            $radio = new Radio_Model_Radio();
+            $result = $radio->exportAction($this->getCurrentOptionValue());
+
+            $this->_download($result, "radio-".date("Y-m-d_h-i-s").".yml", "text/x-yaml");
+        }
+    }
+
 }

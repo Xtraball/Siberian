@@ -52,6 +52,28 @@
             </div>
         </div>
 
+        <?php if(APPLICATION_ENV != "production"): ?>
+        <div class="form-group">
+
+            <div class="col-md-12">
+                <br /><br />
+                <?php echo __("HTTPS support is in test, you should only try it on your development server prior to prepare for further migration.") ?>
+                <br /><br />
+            </div>
+
+            <div class="col-md-6">
+                <label for="{{ configs.use_https.code }}">{{ configs.use_https.label }}</label>
+                <select id="configs.use_https.code" class="form-control" ng-model="configs.use_https.value">
+                    <option value="0"><?php echo __("No"); ?></option>
+                    <option value="1"><?php echo __("Yes"); ?></option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+            </div>
+        </div>
+        <?php endif; ?>
+
         <div class="form-group">
             <div class="col-md-12">
                 <button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>

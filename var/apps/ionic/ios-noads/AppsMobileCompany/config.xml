@@ -97,6 +97,13 @@
     <feature name="OfflineMode">
         <param name="ios-package" value="CDVOfflineMode" />
     </feature>
+    <feature name="iosrtcPlugin">
+        <param name="ios-package" value="iosrtcPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Insomnia">
+        <param name="ios-package" value="Insomnia" />
+    </feature>
     <name>AppsMobileCompany</name>
     <description>Apps Mobile Company app source code</description>
     <author>Apps Mobile Company Dev Team</author>
@@ -113,6 +120,7 @@
     <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="16" />
+    <preference name="android-targetSdkVersion" value="23" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="AutoHideSplashScreen" value="false" />
@@ -120,7 +128,7 @@
     <preference name="FadeSplashScreenDuration" value="500" />
     <chcp>
         <config-file url="PLATFORM_URL" />
-        <native-interface version="1" />
+        <native-interface version="2" />
         <auto-download enabled="true" />
         <auto-install enabled="true" />
     </chcp>

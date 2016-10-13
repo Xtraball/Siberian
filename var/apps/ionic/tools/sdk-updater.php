@@ -18,6 +18,7 @@ function shouldupdate($android_sdk_path)
     $required_folders = array(
     $android_sdk_path . "/build-tools/23.0.2",
     $android_sdk_path . "/platforms/android-22",
+    $android_sdk_path . "/platforms/android-23",
     $android_sdk_path . "/extras/android/support",
     $android_sdk_path . "/extras/android/m2repository",
     $android_sdk_path . "/extras/google/m2repository",
@@ -31,12 +32,21 @@ function shouldupdate($android_sdk_path)
     return false;
 }
 
-$download_url = "http://91.121.77.120/tools/android-sdk.tgz";
+$download_urls = array(
+    "http://91.121.77.120/tools/android-sdk.tgz",
+    "http://siberiancms.slic.it/android-sdk.tgz",
+    "http://git-develop.siberiancms.com/android-sdk.tgz",
+);
+
+$size = sizeof($download_urls) - 1;
+$rand = rand(0, $size);
+$download_url = $download_urls[$rand];
 
 if(shouldupdate($android_sdk_path)) {
     rmdir($android_sdk_path);
     chdir($tools_path);
-    exec("wget {$download_url} && tar xzf android-sdk.tgz && rm android-sdk.tgz");
+    exec("rm -rf ./android-sdk.tgz*"); /** Clean-up  */
+    exec("wget {$download_url} && tar --overwrite -xf android-sdk.tgz && rm android-sdk.tgz");
 }
 
 exec("chmod -R 777 $android_sdk_path");

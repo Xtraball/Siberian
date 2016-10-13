@@ -63,13 +63,20 @@ class Application_Customization_Design_ColorsController extends Application_Cont
                     $application->save();
                 }
 
+
+                $block
+                    ->setTextOpacity($datas) // Includes verification of the existence of `text_opacity`, `border_opacity` and its validation
+                    ->setBorderOpacity($datas) // Includes verification of the existence of `border_opacity` and its validation
+                    ->setBackgroundOpacity($datas) // Includes verification of the existence of `background_opacity` and its validation
+                    ->setImageOpacity($datas); // Includes verification of the existence of `image_opacity` and its validation
+
                 $block->setBlockId($datas['block_id'])
                     ->setAppId($application->getId())
                     ->save()
                 ;
 
                 if($application->useIonicDesign()) {
-                    $result = Template_Model_Design::generateCss($application);
+                    $result = Template_Model_Design::generateCss($application, false, false, true);
 
                     if(!$result) {
                         throw new Exception(__("#354-03: SCSS Compilation error, you must input valid SCSS."));

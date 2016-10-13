@@ -69,7 +69,7 @@
 
             (function() {
                 // Creates an app_id ajax param. Yields something like 'app_id=2'
-                var app_id_param = $.param({app_id: <?php echo $this->getApplication()->getAppId(); ?> });
+                var app_id_param = $.param({app_id: <?php echo $this->getApplication() ? $this->getApplication()->getAppId() : null; ?> });
 
                 // Send the app_id along with every ajax editor request
                 $.ajaxPrefilter(function (options, _, jqXHR) {

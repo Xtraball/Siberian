@@ -60,4 +60,20 @@ $schemas['template_block_app'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'image_opacity' => array(
+        'type' => 'tinyint(4)',
+        'default' => 100
+    ),
+    'background_opacity' => array(
+        'type' => 'tinyint(4)',
+        'default' => 100
+    ),
+    'text_opacity' => array(
+        'type' => 'tinyint(4)',
+        'default' => 100
+    ),
+    'border_opacity' => array(
+        'type' => 'tinyint(4)',
+        'default' => 100
+    )
 );

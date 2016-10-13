@@ -1315,3 +1315,92 @@ div.sb-back-button,
 div.sb-save-info-button {  width: 40px;  }
 div.sb-save-info-button { float: right; }
 h3.title-editor { border-bottom: 1px solid white; padding-bottom: 8px; }
+
+/* Start input range style */
+input[type=range].sb-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    margin: 4px 0;
+}
+input[type=range].sb-slider:focus {
+    outline: none;
+}
+input[type=range].sb-slider::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 4px;
+    cursor: pointer;
+    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+    background: #000000;
+    border-radius: 1px;
+    border: 1px solid #ffffff;
+}
+input[type=range].sb-slider::-webkit-slider-thumb {
+    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+    border: 1px solid #000000;
+    height: 12px;
+    width: 12px;
+    border-radius: 2px;
+    background: #ffffff;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -5px;
+}
+input[type=range].sb-slider:focus::-webkit-slider-runnable-track {
+    background: #0d0d0d;
+}
+input[type=range].sb-slider::-moz-range-track {
+    width: 100%;
+    height: 4px;
+    cursor: pointer;
+    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+    background: #000000;
+    border-radius: 1px;
+    border: 1px solid #ffffff;
+}
+input[type=range].sb-slider::-moz-range-thumb {
+    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+    border: 1px solid #000000;
+    height: 12px;
+    width: 12px;
+    border-radius: 2px;
+    background: #ffffff;
+    cursor: pointer;
+}
+input[type=range].sb-slider::-ms-track {
+    width: 100%;
+    height: 4px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+}
+input[type=range].sb-slider::-ms-fill-lower {
+    background: #000000;
+    border: 1px solid #ffffff;
+    border-radius: 2px;
+    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+}
+input[type=range].sb-slider::-ms-fill-upper {
+    background: #000000;
+    border: 1px solid #ffffff;
+    border-radius: 2px;
+    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+}
+input[type=range].sb-slider::-ms-thumb {
+    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+    border: 1px solid #000000;
+    height: 12px;
+    width: 12px;
+    border-radius: 2px;
+    background: #ffffff;
+    cursor: pointer;
+    height: 4px;
+}
+input[type=range].sb-slider:focus::-ms-fill-lower {
+    background: #000000;
+}
+input[type=range].sb-slider:focus::-ms-fill-upper {
+    background: #0d0d0d;
+}
+
+/* End input range style */

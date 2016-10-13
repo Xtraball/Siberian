@@ -16,5 +16,7 @@ class Application_Form_Advanced extends Siberian_Form_Abstract {
         self::addClass("onchange", $this);
 
         $offline_content = $this->addSimpleCheckbox("offline_content", __("Enable Offline content ?"));
+
+        $google_maps_key = $this->addSimpleText("googlemaps_key", __("Google Maps JavaScript API Key"));
     }
 }

@@ -30,6 +30,7 @@ $data = array(
 );
 
 $option = Siberian_Feature::install($category, $data, array("code"));
+Siberian_Feature::installAcl($option);
 
 # Layouts
 $layout_data = array(1);
@@ -47,6 +48,3 @@ Siberian_Feature::installIcons("{$name}-flat", $icons);
 
 # Copy assets at install time
 Siberian_Assets::copyAssets("/app/sae/modules/Job/resources/var/apps/");
-
-# Fix for 4.6.4 contact customer_id
-$this->query("ALTER TABLE `job_place_contact` CHANGE `customer_id` `customer_id` INT(11) UNSIGNED NULL;");

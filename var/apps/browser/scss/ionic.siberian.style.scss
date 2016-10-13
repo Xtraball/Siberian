@@ -258,3 +258,8 @@ input:checked + .checkbox-icon:after {
 .spinner-custom .spinner-android-small {
   stroke: $spinner-custom-android-bg;
 }
+
+/* ICON */
+.icon-custom, .homepage-custom *.icon-custom {
+    color: $icon-custom;
+}

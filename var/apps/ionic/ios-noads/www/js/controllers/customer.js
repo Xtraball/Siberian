@@ -23,7 +23,7 @@ App.controller('CustomerController', function(_, $cordovaCamera, $cordovaOauth, 
 
         $scope.is_loading = true;
         Customer.login($scope.customer).success(function(data) {
-            if(data.success) {
+            if(data && data.success) {
                 $scope.closeLoginModal();
             }
         }).error(function(data) {

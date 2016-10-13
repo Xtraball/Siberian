@@ -12,8 +12,16 @@ class Application_Settings_AdvancedController extends Application_Controller_Def
 
             try {
 
+                $application = $this->getApplication();
+
                 $value = ($data["offline_content"] == 0) ? 0 : 1;
-                $this->getApplication()->setOfflineContent($value)->save();
+
+                $application
+                    ->setOfflineContent($value)
+                    ->setGooglemapsKey($data["googlemaps_key"])
+                ;
+
+                $application->save();
 
                 $html = array(
                     'success' => '1',

@@ -441,6 +441,22 @@ module.exports = [
         "clobbers": [
             "window.OfflineMode"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-iosrtc/dist/cordova-plugin-iosrtc.js",
+        "id": "cordova-plugin-iosrtc.Plugin",
+        "pluginId": "cordova-plugin-iosrtc",
+        "clobbers": [
+            "cordova.plugins.iosrtc"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-insomnia/www/Insomnia.js",
+        "id": "cordova-plugin-insomnia.Insomnia",
+        "pluginId": "cordova-plugin-insomnia",
+        "clobbers": [
+            "window.plugins.insomnia"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -472,7 +488,9 @@ module.exports.metadata =
     "cordova-plugin-x-socialsharing": "5.0.12-dev",
     "cordova-plugin-statusbar": "2.1.2",
     "de.appplant.cordova.plugin.local-notification": "0.8.4",
-    "siberian-plugin-offlinemode": "1.0.0"
+    "siberian-plugin-offlinemode": "1.0.0",
+    "cordova-plugin-iosrtc": "3.1.0",
+    "cordova-plugin-insomnia": "4.2.0"
 }
 // BOTTOM OF METADATA
 });

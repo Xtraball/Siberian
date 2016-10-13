@@ -87,7 +87,7 @@ class Siberian_Autoupdater {
                 # Release version change
                 $release = array(
                     "content_url" => $host.__ss($platform.$www_folder),
-                    "min_native_interface" => "1",
+                    "min_native_interface" => Siberian_Version::NATIVE_VERSION,
                     "release" => "".Siberian_Version::VERSION.".".time(),
                 );
 
@@ -100,7 +100,7 @@ class Siberian_Autoupdater {
                 # Editing config.xml path
                 if(isset(Siberian_Assets::$config_xml[$type])) {
                     $confix_xml_path = $path.Siberian_Assets::$config_xml[$type];
-                    $path = $host.__ss($platform.$www_folder.'chcp.json');
+                    $path = $host.__ss($platform.$www_folder.self::$manifest_json);
                     __replace(
                         array(
                             '~(<config-file url=").*(" />)~i' => '$1'.$path.'$2',

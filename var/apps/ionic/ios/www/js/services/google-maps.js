@@ -1,6 +1,6 @@
-"use strict";
-
-App.service('GoogleMaps', function ($location, $q, $cordovaGeolocation) {
+/* global google, App, angular */
+App.service('GoogleMaps', function (_, $cordovaGeolocation, $location, $q, $rootScope, $translate, $window, Application) {
+    "use strict";
 
     var __self = {
         is_loaded: false,
@@ -19,37 +19,45 @@ App.service('GoogleMaps', function ($location, $q, $cordovaGeolocation) {
             service.map = null;
             service.panel_id = null;
             service.directionsRenderer = null;
-            service.markers = new Array();
+            service.markers = [];
             __self.is_loaded = false;
         },
-        _calculateRoute: function(origin, destination, params) {
+        _calculateRoute: function(origin, destination, params, rejectWithResponseAndStatus) {
 
             var deferred = $q.defer();
 
-            if(!angular.isDefined(params)) {
+            if(!_.isObject(params))
                 params = {
                     mode: google.maps.DirectionsTravelMode.WALKING,
                     unitSystem: google.maps.UnitSystem.METRIC
                 };
-            }
+
+            if(!_.isObject(params.request))
+                params.request = {};
+
 
             if (!this.directionsService) {
                 this.directionsService = new google.maps.DirectionsService();
             }
-            var request = {
+
+            var request = _.merge({
                 origin: new google.maps.LatLng(origin.latitude, origin.longitude),
                 destination: new google.maps.LatLng(destination.latitude, destination.longitude),
                 travelMode: params.mode,
                 unitSystem: params.unitSystem
-            };
+            }, params.request);
 
             this.directionsService.route(request, function (response, status) {
                 if (status == google.maps.DirectionsStatus.OK) {
                     deferred.resolve(response);
                 } else {
-                    var errorMessage = "An unexpected error occurred while calculating the route.";
+                    var errorMessage = $translate.instant("An unexpected error occurred while calculating the route.");
                     console.error(errorMessage, status);
-                    deferred.reject(errorMessage);
+                    if(rejectWithResponseAndStatus === true) {
+                        deferred.reject([response, status]);
+                    } else {
+                        deferred.reject(errorMessage);
+                    }
                 }
 
             });
@@ -92,28 +100,72 @@ App.service('GoogleMaps', function ($location, $q, $cordovaGeolocation) {
                     longitudeMargin = 0.01;
                 }
                 bounds[0][1] -= longitudeMargin;
-                bounds[1][1] += longitudeMargin
+                bounds[1][1] += longitudeMargin;
             }
 
             return bounds;
         }
     };
 
+    var gmap_callbacks = [];
+    var gmap_script_appended = false;
+    var gmap_loaded = false;
+    var _init_called = false;
+
+    $window.initGMapCallback = function() {
+        if(gmap_script_appended) {
+            gmap_loaded = true;
+            console.log("Gmap loaded, calling callbacks");
+            while(gmap_callbacks.length > 0)  {
+                var func = gmap_callbacks.shift();
+                if(_.isFunction(func)) {
+                    func.apply($window, arguments);
+                }
+            }
+        }
+    };
+
     var service = {
+        USER_INTERACTED_EVENT: "GoogleMaps.UserInteracted",
         map: null,
         directionsRenderer: null,
         panel_id: null,
-        markers: new Array(),
-        createMap: function (element) {
+        markers: [],
+        init: function() {
+            if(typeof GoogleMaps == "undefined" && !gmap_script_appended) {
+                if(_init_called)
+                    return;
+
+                _init_called = true;
+                Application.loaded.then(function() {
+                    var google_maps = document.createElement('script');
+                    google_maps.type = "text/javascript";
+                    google_maps.src = "https://maps.googleapis.com/maps/api/js?libraries=places&key="+Application.googlemaps_key+"&callback=initGMapCallback";
+                    document.body.appendChild(google_maps);
+                    gmap_script_appended = true;
+                });
+            }
+
+            if(gmap_loaded) {
+                $window.initGMapCallback();
+            }
+        },
+        addCallback: function(func) {
+            gmap_callbacks.push(func);
+            service.init();
+        },
+        createMap: function (element, options) {
+            if(!angular.isObject(options))
+                options = {};
 
             if(__self.is_loaded) {
                 __self.reset();
             }
 
-            var options = {
+            options = _.merge({
                 zoom: 12,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
+            }, options);
 
             service.map = new google.maps.Map(document.getElementById(element), options);
 
@@ -122,12 +174,29 @@ App.service('GoogleMaps', function ($location, $q, $cordovaGeolocation) {
                 __self.is_loaded = true;
             });
 
+            var userInteracted = function(event_name) {
+                return function() {
+                    $rootScope.$broadcast(service.USER_INTERACTED_EVENT, event_name);
+                };
+            };
+
+            google.maps.event.addListener(service.map, 'dblclick', userInteracted("dblclick"));
+            google.maps.event.addListener(service.map, 'dragend', userInteracted("dragend"));
+            google.maps.event.addDomListener(service.map.getDiv(),'mousewheel', userInteracted("wheel"), true);
+            google.maps.event.addDomListener(service.map.getDiv(),'DOMMouseScroll', userInteracted("wheel"), true);
+
             return service.map;
 
         },
         setCenter: function(coordinates) {
-            var center = new google.maps.LatLng(coordinates.latitude, coordinates.longitude)
-            service.map.setCenter(center);
+            if(coordinates) {
+                var center = new google.maps.LatLng(coordinates.latitude, coordinates.longitude);
+                return service.map.setCenter(center);
+            } else {
+                return $cordovaGeolocation.getCurrentPosition().then(function (position) {
+                    service.setCenter(position.coords);
+                });
+            }
         },
         setPanelId: function(panel_id) {
             service.panel_id = panel_id;
@@ -135,7 +204,7 @@ App.service('GoogleMaps', function ($location, $q, $cordovaGeolocation) {
         isLoaded: function() {
             return __self.is_loaded;
         },
-        addMarker: function (/*map, */marker) {
+        addMarker: function (/*map, */marker, index) {
 
             var latlng = new google.maps.LatLng(marker.latitude, marker.longitude);
 
@@ -150,11 +219,13 @@ App.service('GoogleMaps', function ($location, $q, $cordovaGeolocation) {
                 };
             }
 
-            var mapMarker = new google.maps.Marker({
+            var options = _.merge({
                 position: latlng,
                 map: service.map,
                 icon: icon
-            });
+            }, marker.markerOptions);
+
+            var mapMarker = new google.maps.Marker(options);
 
             if (marker.title) {
 
@@ -184,18 +255,49 @@ App.service('GoogleMaps', function ($location, $q, $cordovaGeolocation) {
                 service.setCenter(marker);
             }
 
-            service.markers.push(mapMarker);
+            if(+index < 0) {
+                service.markers.push(mapMarker);
+            } else {
+                service.markers.splice(index, 0, mapMarker);
+            }
 
             return mapMarker;
         },
-        addRoute: function (route) {
-            if(!service.directionsRenderer) {
-                service.directionsRenderer = new google.maps.DirectionsRenderer();
+        removeMarker: function(mapMarker) {
+            var index = service.markers.indexOf(mapMarker);
+
+            if(index >= 0) {
+                service.markers[index].setMap(null);
+                service.markers.splice(index, 1);
+                return true;
             }
-            service.directionsRenderer.setMap(service.map);
-            service.directionsRenderer.setDirections(route);
-            if(service.panel_id) {
-                service.directionsRenderer.setPanel(document.getElementById(service.panel_id));
+
+            return false;
+        },
+        replaceMarker: function(mapMarker, marker) {
+            if(service.removeMarker(mapMarker)) {
+                return service.addMarker(marker);
+            }
+
+            return false;
+        },
+        addRoute: function (route, custom_directions_renderer, custom_panel_div_id) {
+            var renderer = null;
+
+            if(_.isObject(custom_directions_renderer) && _.isFunction(custom_directions_renderer.setDirections)) {
+                renderer = custom_directions_renderer;
+            } else {
+                if(!service.directionsRenderer) {
+                    service.directionsRenderer = new google.maps.DirectionsRenderer();
+                }
+                renderer = service.directionsRenderer;
+            }
+
+            renderer.setMap(service.map);
+            renderer.setDirections(route);
+            var panelDiv = document.getElementById(custom_panel_div_id || service.panel_id);
+            if(panelDiv) {
+                renderer.setPanel(panelDiv);
             }
         },
         fitToBounds: function (bounds) {
@@ -229,7 +331,7 @@ App.service('GoogleMaps', function ($location, $q, $cordovaGeolocation) {
                         longitude: longitude
                     });
                 } else {
-                    var errorMessage = "The address you're looking for does not exist.";
+                    var errorMessage = $translate.instant("The address you're looking for does not exist.");
                     console.error(errorMessage);
                     deferred.reject(errorMessage);
                 }
@@ -254,20 +356,20 @@ App.service('GoogleMaps', function ($location, $q, $cordovaGeolocation) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     deferred.resolve(results);
                 } else {
-                    var errorMessage = "The address you're looking for does not exists.";
+                    var errorMessage = $translate.instant("The address you're looking for does not exists.");
                     deferred.reject(errorMessage);
                 }
             });
 
             return deferred.promise;
         },
-        calculateRoute: function(origin, destination, params) {
+        calculateRoute: function(origin, destination, params, rejectWithResponseAndStatus) {
 
             var deferred = $q.defer();
 
             if (origin) {
 
-                __self._calculateRoute(origin, destination, params).then(function (route) {
+                __self._calculateRoute(origin, destination, params, rejectWithResponseAndStatus).then(function (route) {
                     deferred.resolve(route);
                 }, function (err) {
                     deferred.reject(err);
@@ -277,7 +379,7 @@ App.service('GoogleMaps', function ($location, $q, $cordovaGeolocation) {
 
                 $cordovaGeolocation.getCurrentPosition().then(function (position) {
 
-                    __self._calculateRoute(position.coords, destination, params).then(function (route) {
+                    __self._calculateRoute(position.coords, destination, params, rejectWithResponseAndStatus).then(function (route) {
                         deferred.resolve(route);
                     }, function (err) {
                         deferred.reject(err);
@@ -324,7 +426,7 @@ App.service('GoogleMaps', function ($location, $q, $cordovaGeolocation) {
         }
     };
 
-
+    service.init();
 
     return service;
 

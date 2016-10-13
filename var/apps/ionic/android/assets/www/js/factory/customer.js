@@ -2,7 +2,25 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
 
     var factory = {};
 
-    factory.id = null;
+    var _id = null;
+
+    Object.defineProperty(factory, "id", {
+        get: function() {
+            return _id;
+        },
+        set: function(value) {
+            var _broadcast_events = (value != _id);
+            _id = value;
+            if(_broadcast_events) {
+                var loggedIn = factory.isLoggedIn();
+                $rootScope.$broadcast(AUTH_EVENTS.loginStatusChanged, loggedIn);
+                $rootScope.$broadcast(AUTH_EVENTS[loggedIn ? "loginSuccess" : "logoutSuccess"]);
+            }
+            return _id;
+        }
+    });
+
+
     factory.can_access_locked_features = false;
     factory.events = [];
     factory.modal = null;
@@ -50,10 +68,9 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
         }).success(function(data) {
             factory.saveCredentials(data.token);
 
-            factory.id = data.customer_id;
             factory.can_access_locked_features = data.can_access_locked_features;
+            factory.id = data.customer_id;
             factory.flushData();
-            $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
         });
     };
 
@@ -71,10 +88,9 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
         }).success(function(data) {
             factory.saveCredentials(data.token);
 
-            factory.id = data.customer_id;
             factory.can_access_locked_features = data.can_access_locked_features;
+            factory.id = data.customer_id;
             factory.flushData();
-            $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
         });
     };
 
@@ -89,10 +105,9 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
         }).success(function(data) {
             factory.saveCredentials(data.token);
 
-            factory.id = data.customer_id;
             factory.can_access_locked_features = data.can_access_locked_features;
+            factory.id = data.customer_id;
             factory.flushData();
-            $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
         });
     };
 
@@ -139,10 +154,9 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
         }).success(function() {
             factory.clearCredentials();
 
-            factory.id = null;
             factory.can_access_locked_features = false;
+            factory.id = null;
             factory.flushData();
-            $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
         });
     };
 

@@ -4,16 +4,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
         <meta http-equiv="Content-Security-Policy" content="
-            default-src * ws: wss: ;
+            default-src * ws://* wss://* ;
             script-src * 'unsafe-inline' 'unsafe-eval';
             object-src *;
             style-src * 'unsafe-inline';
             img-src * data:;
             media-src *;
-            frame-src * gap://ready ws: wss: ;
-            child-src * gap://ready ws: wss: ;
+            frame-src * gap://ready ws://* wss://* ;
+            child-src * gap://ready ws://* wss://* ;
             font-src * data:;
-            connect-src *">
+            connect-src * ws://* wss://* ;">
         <meta id="last_meta" name="apple-mobile-web-app-capable" content="yes">
         <meta name="mobile-web-app-capable" content="yes">
 
@@ -44,7 +44,6 @@
         <script src="js/libraries/lodash.min.js"></script>
         <script src="js/libraries/ng-img-crop.js"></script>
         <script src="js/libraries/ionic-zoom-view.js"></script>
-
         <script src="js/utils/lodash.js"></script>
         <script src="js/utils/languages.js"></script>
         <script src="js/utils/url.js"></script>
@@ -176,6 +175,7 @@
         <script src="js/factory/push.js"></script>
         <script src="js/factory/inbox.js"></script>
         <script src="js/factory/mcommerce/sales/stripe.js"></script>
+        <script src="js/factory/safe_popups.js"></script>
 
         <script src="js/filters/trusted-html.js"></script>
         <script src="js/filters/number-fixed-len.js"></script>
@@ -186,12 +186,11 @@
         <script src="js/constants/cache-events.js"></script>
         <script src="js/constants/push-events.js"></script>
         <script src="js/constants/padlock-events.js"></script>
+
     </head>
     <body ng-app="starter" class="platform-browser platform-cordova platform-webview">
 
         <!-- Global layout handler -->
         <sb-side-menu ng-if="app_is_loaded"></sb-side-menu>
-
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
     </body>
 </html>

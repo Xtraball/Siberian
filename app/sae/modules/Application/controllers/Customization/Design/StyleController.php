@@ -426,14 +426,13 @@ class Application_Customization_Design_StyleController extends Application_Contr
 
             try {
                 if(!empty($datas['font_family'])) $this->getApplication()->setFontFamily($datas['font_family']);
-//                if(!empty($datas['font_size'])) $this->getApplication()->setFontSize($datas['font_size']);
 
                 $application = $this->getApplication();
 
                 $application->save();
 
                 if($application->useIonicDesign()) {
-                    Template_Model_Design::generateCss($application);
+                    Template_Model_Design::generateCss($application, false, false, true);
                 }
 
                 $html = array('success' => '1');

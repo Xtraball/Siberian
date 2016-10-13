@@ -67,6 +67,11 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                     Connection.check();
                 }
 
+                /** WebRTC for iOS */
+                if (window.device.platform === 'iOS') {
+                    cordova.plugins.iosrtc.registerGlobals();
+                }
+
                 $ionicPlatform.on('resume', function (result) {
                     sbLog("## App is resumed ##");
                     Analytics.storeOpening().then(function (result) {
@@ -104,7 +109,7 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
 
             /** Handler for overview */
             $rootScope.$on('$stateChangeSuccess', function (event, toState, toStateParams, fromState, fromStateParams) {
-                if(parent) {
+                if(parent && parent.postMessage) {
                     parent.postMessage("state.go", DOMAIN);
                 }
             });
@@ -236,6 +241,7 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
 
                 Application.app_id = data.application.id;
                 Application.app_name = data.application.name;
+                Application.googlemaps_key = data.application.googlemaps_key;
                 Application.is_locked = data.application.is_locked == 1;
                 Application.offline_content = (data.application.offline_content);
 
@@ -364,6 +370,8 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                             });
                         }
                     }
+                }).finally(function() {
+                    Application.loaded = true;
                 });
             });
 

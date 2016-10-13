@@ -8,10 +8,14 @@ class Template_Model_Block extends Core_Model_Default {
     const TYPE_IONIC_APP = 3;
 
     protected $_children = array();
+    protected $int_validator;
+    protected $between_validator;
 
     public function __construct($params = array()) {
         parent::__construct($params);
         $this->_db_table = 'Template_Model_Db_Table_Block';
+        $this->int_validator = new Zend_Validate_Int();
+        $this->between_validator = new Zend_Validate_Between(array('min' => 0, 'max' => 100));
         return $this;
     }
 
@@ -138,6 +142,14 @@ class Template_Model_Block extends Core_Model_Default {
         return $this->toRgb($this->getData("color"));
     }
 
+    public function getBorderColorRGB(){
+        return $this->toRgb($this->getData("border_color"));
+    }
+
+    public function getImageColorRGB(){
+        return $this->toRgb($this->getData("image_color"));
+    }
+
     public function getBackgroundColorRGB() {
         return $this->toRgb($this->getData("background_color"));
     }
@@ -163,6 +175,139 @@ class Template_Model_Block extends Core_Model_Default {
         }
 
         return $returnAsString ? implode($seperator, $rgbArray) : $rgbArray;
+    }
+
+    /**
+     * Verifies the presence of the text_opacity parameter and validates it. If all is well it sets the text_opacity property.
+     * Must be a float between 0 and 1
+     * PS: A possible source of confusion is where these values are saved: They are saved in the table template_block_app.
+     *
+     * @param $colors
+     * @return $this
+     */
+    public function setTextOpacity($colors) {
+        if (isset($colors['text_opacity'])) {
+            $opacity = $colors['text_opacity'];
+            if ($this->int_validator->isValid($opacity) && $this->between_validator->isValid($opacity)) {
+                $this->setData('text_opacity', intval($opacity));
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Verifies the presence of the background_opacity parameter and validates it. If all is well it sets the background_opacity property.
+     * Must be a float between 0 and 1
+     * PS: A possible source of confusion is where these values are saved: They are saved in the table template_block_app.
+     *
+     * @param $colors
+     * @return $this
+     */
+    public function setBackgroundOpacity($colors) {
+        if (isset($colors['background_opacity'])) {
+            $opacity = $colors['background_opacity'];
+            var_dump($this->int_validator->isValid($opacity));
+            if ($this->int_validator->isValid($opacity) && $this->between_validator->isValid($opacity)) {
+                $this->setData('background_opacity', intval($opacity));
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Verifies the presence of the border_opacity parameter and validates it. If all is well it sets the border_opacity property.
+     * Must be a float between 0 and 1
+     * PS: A possible source of confusion is where these values are saved: They are saved in the table template_block_app.
+     *
+     * @param $colors
+     * @return $this
+     */
+    public function setBorderOpacity($colors) {
+        if (isset($colors['border_opacity'])) {
+            $opacity = $colors['border_opacity'];
+            if ($this->int_validator->isValid($opacity) && $this->between_validator->isValid($opacity)) {
+                $this->setData('border_opacity', intval($opacity));
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Verifies the presence of the image_opacity parameter and validates it. If all is well it sets the image_opacity property.
+     * Must be a float between 0 and 1
+     * PS: A possible source of confusion is where these values are saved: They are saved in the table template_block_app.
+     *
+     * @param $colors
+     * @return $this
+     */
+    public function setImageOpacity($colors) {
+        if (isset($colors['image_opacity'])) {
+            $opacity = $colors['image_opacity'];
+            if ($this->int_validator->isValid($opacity) && $this->between_validator->isValid($opacity)) {
+                $this->setData('image_opacity', intval($opacity));
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Returns and rgba(red, green, blue, opacity) from the background_color and background_opacity
+     *
+     * @return string
+     */
+    public function getBackgroundColorRGBA() {
+        // has the form array('red' => ..., 'green' => ..., 'blue' => ...)
+        $background_color = $this->getBackgroundColorRGB();
+        // If the value is null then 1 by default
+        $opacity = $this->getData('background_opacity') ? $this->getData('background_opacity') / 100 : 1;
+        // Yields a string 'rgba(red,green,blue,opacity)'
+        $rgba = 'rgba(' . $background_color['red'] . ',' . $background_color['green'] . ',' . $background_color['blue'] . ',' . $opacity . ')';
+        return $rgba;
+    }
+
+    /**
+     * Returns and rgba(red, green, blue, opacity) from the color and text_opacity
+     *
+     * @return string
+     */
+    public function getColorRGBA() {
+        // has the form array('red' => ..., 'green' => ..., 'blue' => ...)
+        $text_color = $this->getColorRGB();
+        // If the value is null then 1 by default
+        $opacity = $this->getData('text_opacity') ? $this->getData('text_opacity') / 100 : 1;
+        // Yields a string 'rgba(red,green,blue,opacity)'
+        $rgba = 'rgba(' . $text_color['red'] . ',' . $text_color['green'] . ',' . $text_color['blue'] . ',' . $opacity . ')';
+        return $rgba;
+    }
+
+    /**
+     * Returns and rgba(red, green, blue, opacity) from the image_color and image_opacity
+     *
+     * @return string
+     */
+    public function getImageColorRGBA() {
+        // has the form array('red' => ..., 'green' => ..., 'blue' => ...)
+        $image_color = $this->getImageColorRGB();
+        // If the value is null then 1 by default
+        $opacity = $this->getData('image_opacity') ? $this->getData('image_opacity') / 100 : 1;
+        // Yields a string 'rgba(red,green,blue,opacity)'
+        $rgba = 'rgba(' . $image_color['red'] . ',' . $image_color['green'] . ',' . $image_color['blue'] . ',' . $opacity . ')';
+        return $rgba;
+    }
+
+    /**
+     * Returns and rgba(red, green, blue, opacity) from the border_color and border_opacity
+     *
+     * @return string
+     */
+    public function getBorderColorRGBA() {
+        // has the form array('red' => ..., 'green' => ..., 'blue' => ...)
+        $border_color = $this->getBorderColorRGB();
+        // If the value is null then 1 by default
+        $opacity = $this->getData('border_opacity') ? $this->getData('border_opacity') / 100 : 1;
+        // Yields a string 'rgba(red,green,blue,opacity)'
+        $rgba = 'rgba(' . $border_color['red'] . ',' . $border_color['green'] . ',' . $border_color['blue'] . ',' . $opacity . ')';
+        return $rgba;
     }
 
 }

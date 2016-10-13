@@ -1,0 +1,57 @@
+<?php
+$option_value = $this->getOptionValue();
+$application = $this->getSession()->getApplication();
+$radio = $option_value->getObject();
+$detect = new Mobile_Detect();
+
+$form_radio = new Radio_Form_Radio();
+$form_radio->setValueId($option_value->getId());
+$form_radio->populate($radio->getData());
+if($radio->getId()) {
+    $form_radio->setRadioId($radio->getId());
+}
+?>
+
+<div id="list" class="radios">
+    <h3 class="title-editor no-border-radius">
+        <?php echo __("Information"); ?>
+    </h3>
+    <div class="container-fluid">
+        <?php
+        echo $form_radio;
+        ?>
+        <div class="sb-cb"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var alert_ipv4 = "<?php echo __("This stream is a literal IPv4, you may encounter problems with iOS publication."); ?>";
+    $("#form-radio #link").on("change", function() {
+        var el = $(this);
+        if(el.val().match(/(?:[0-9]{1,3}\.){3}[0-9]{1,3}/)) {
+            if(el.siblings("label").length == 0) {
+                el.after("<label>"+alert_ipv4+"</label>");
+            }
+            el.siblings("label").show();
+        } else {
+            el.siblings("label").hide();
+        }
+    });
+
+    bindForms("#list");
+
+</script>
+
+<style type="text/css">
+    #form-radio {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    #form-radio #go {
+        float: right;
+        margin-bottom: 20px;
+        width: 140px !important;
+    }
+</style>

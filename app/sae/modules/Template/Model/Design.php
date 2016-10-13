@@ -32,7 +32,9 @@ class Template_Model_Design extends Core_Model_Default {
         $base_path = Core_Model_Directory::getBasePathTo("var/cache/css");
         $file = $application->getId().".css";
         if(!is_file("{$base_path}/{$file}")) {
-            self::generateCss($application);
+            # Do not use new variables when retrieving SCSS yet.
+            # @todo change to self::generateCss($application, false, false, true); after 4.7.0 update
+            self::generateCss($application, false, false, false);
         }
 
         return "{$path}/{$file}";
@@ -44,10 +46,10 @@ class Template_Model_Design extends Core_Model_Default {
      * @return array
      */
     public static function getVariables($application) {
-        return self::generateCss($application, false, true);
+        return self::generateCss($application, false, true, true);
     }
 
-    public static function generateCss($application, $javascript = false, $return_variables = false) {
+    public static function generateCss($application, $javascript = false, $return_variables = false, $new_scss = false) {
 
         $variables = array();
         $blocks = $application->getBlocks();
@@ -55,25 +57,25 @@ class Template_Model_Design extends Core_Model_Default {
         if(!$javascript) {
             foreach ($blocks as $block) {
 
-                if ($block->getColorVariableName() AND $block->getColor()) {
-                    $variables[$block->getColorVariableName()] = $block->getColor();
+                if ($block->getColorVariableName() AND $block->getColorRGBA()) {
+                    $variables[$block->getColorVariableName()] = $block->getColorRGBA();
                 }
-                if ($block->getBackgroundColorVariableName() AND $block->getBackgroundColor()) {
-                    $variables[$block->getBackgroundColorVariableName()] = $block->getBackgroundColor();
+                if ($block->getBackgroundColorVariableName() AND $block->getBackgroundColorRGBA()) {
+                    $variables[$block->getBackgroundColorVariableName()] = $block->getBackgroundColorRGBA();
                 }
-                if ($block->getBorderColorVariableName() AND $block->getBorderColor()) {
-                    $variables[$block->getBorderColorVariableName()] = $block->getBorderColor();
+                if ($block->getBorderColorVariableName() AND $block->getBorderColorRGBA()) {
+                    $variables[$block->getBorderColorVariableName()] = $block->getBorderColorRGBA();
                 }
 
                 foreach ($block->getChildren() as $child) {
-                    if ($child->getColorVariableName() AND $child->getColor()) {
-                        $variables[$child->getColorVariableName()] = $child->getColor();
+                    if ($child->getColorVariableName() AND $child->getColorRGBA()) {
+                        $variables[$child->getColorVariableName()] = $child->getColorRGBA();
                     }
-                    if ($child->getBackgroundColorVariableName() AND $child->getBackgroundColor()) {
-                        $variables[$child->getBackgroundColorVariableName()] = $child->getBackgroundColor();
+                    if ($child->getBackgroundColorVariableName() AND $child->getBackgroundColorRGBA()) {
+                        $variables[$child->getBackgroundColorVariableName()] = $child->getBackgroundColorRGBA();
                     }
-                    if ($child->getBorderColorVariableName() AND $child->getBorderColor()) {
-                        $variables[$child->getBorderColorVariableName()] = $child->getBorderColor();
+                    if ($child->getBorderColorVariableName() AND $child->getBorderColorRGBA()) {
+                        $variables[$child->getBorderColorVariableName()] = $child->getBorderColorRGBA();
                     }
                 }
 
@@ -138,7 +140,21 @@ class Template_Model_Design extends Core_Model_Default {
         $variables['$font-family'] = $font_family;
 
         $content = Array();
-        foreach(array("ionic.siberian.variables.scss", "ionic.siberian.style.scss") as $file) {
+
+        $scss_files = array(
+            "ionic.siberian.variables.scss",
+            "ionic.siberian.style.scss"
+        );
+
+        # Do not break old apps css rebuild.
+        if($new_scss) {
+            $scss_files = array(
+                "ionic.siberian.variables-opacity.scss",
+                "ionic.siberian.style.scss"
+            );
+        }
+
+        foreach($scss_files as $file) {
             $f = fopen(Core_Model_Directory::getBasePathTo("var/apps/browser/scss/{$file}"), "r");
             if ($f) {
                 while (($line = fgets($f)) !== false) {

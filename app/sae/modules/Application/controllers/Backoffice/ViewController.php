@@ -263,7 +263,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
 
                     if($design->getId()) {
                         $application->setDesign($design);
-                        Template_Model_Design::generateCss($application);
+                        Template_Model_Design::generateCss($application, false, false, true);
                     }
 
                 }

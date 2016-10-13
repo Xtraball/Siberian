@@ -5,6 +5,8 @@
  *
  * Id: 
  */
+ini_set('pcre.backtrack_limit', 1000000000);
+
 class Siberian_Yaml {
 
     /**

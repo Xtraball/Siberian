@@ -61,8 +61,16 @@
                                     <?php $hex = "#".$block_id.$child_id."01"; ?>
                                     <div class="<?php echo $this->getClassFor($child, "color"); ?>">
                                         <input type="hidden" name="block_id" value="<?php echo $child->getId(); ?>" />
-                                        <div class="square_color"><button type="button" id="<?php echo $child->getCode(); ?>_text" class="<?php echo $child->getCode(); ?>_text" style="background-color: <?php echo $child->getColor(); ?>"></button></div>
-                                        <input data-index="<?php echo $hex; ?>" type="hidden" id="<?php echo $child->getCode(); ?>_text_receiver" name="color" value="<?php echo $child->getColor() ?>" />
+                                    <div class="square_color"><button type="button" id="<?php echo $child->getCode(); ?>_text" class="bordered <?php echo $child->getCode(); ?>_text" style="background-color: <?php echo $child->getColor(); ?>"></button></div>
+                                    <div class="opacity_container">
+                                        <input type="range" step="1" min="0" max="100" class="sb-slider"
+                                               name="text_opacity"
+                                               value="<?php echo $child->getTextOpacity() ? $child->getTextOpacity() : 100; ?>"
+                                               data-variable="<?php echo $child->getColorVariableName() ?>"
+                                               data-index="<?php echo $hex; ?>" />
+                                        <span data-index="<?php echo $hex; ?>"><?php echo $child->getTextOpacity() ? $child->getTextOpacity() : 100; ?> </span>
+                                    </div>
+                                    <input data-index="<?php echo $hex; ?>" data-variable="<?php echo $child->getColorVariableName() ?>" type="hidden" id="<?php echo $child->getCode(); ?>_text_receiver" name="color" value="<?php echo $child->getColor() ?>" />
                                     </div>
                                 <?php endif; ?>
 
@@ -70,8 +78,16 @@
                                     <?php $hex = "#".$block_id.$child_id."02"; ?>
                                     <div class="<?php echo $this->getClassFor($child, "background_color"); ?>">
                                         <input type="hidden" name="block_id" value="<?php echo $child->getId(); ?>" />
-                                        <div class="square_color"><button type="button" id="<?php echo $child->getCode(); ?>_bg" class="<?php echo $child->getCode(); ?>_bg" style="background-color: <?php echo $child->getBackgroundColor(); ?>"></button></div>
-                                        <input data-index="<?php echo $hex; ?>" type="hidden" id="<?php echo $child->getCode(); ?>_bg_receiver" name="background_color" value="<?php echo $child->getBackgroundColor() ?>" />
+                                    <div class="square_color"><button type="button" id="<?php echo $child->getCode(); ?>_bg" class="bordered <?php echo $child->getCode(); ?>_bg" style="background-color: <?php echo $child->getBackgroundColor(); ?>"></button></div>
+                                    <div class="opacity_container">
+                                        <input type="range" step="1" min="0" max="100" class="sb-slider"
+                                               name="background_opacity"
+                                               value="<?php echo $child->getBackgroundOpacity() ? $child->getBackgroundOpacity() : 100; ?>"
+                                           data-variable="<?php echo $child->getBackgroundColorVariableName() ?>"
+                                               data-index="<?php echo $hex; ?>" />
+                                        <span data-index="<?php echo $hex; ?>"><?php echo $child->getBackgroundOpacity() ? $child->getBackgroundOpacity() : 100; ?> </span>
+                                    </div>
+                                    <input data-index="<?php echo $hex; ?>" data-variable="<?php echo $child->getBackgroundColorVariableName() ?>" type="hidden" id="<?php echo $child->getCode(); ?>_bg_receiver" name="background_color" value="<?php echo $child->getBackgroundColor() ?>" />
                                     </div>
                                 <?php endif; ?>
 
@@ -79,8 +95,16 @@
                                     <?php $hex = "#".$block_id.$child_id."03"; ?>
                                     <div class="<?php echo $this->getClassFor($child, "border_color"); ?>">
                                         <input type="hidden" name="block_id" value="<?php echo $child->getId(); ?>" />
-                                        <div class="square_color"><button type="button" id="<?php echo $child->getCode(); ?>_border" class="<?php echo $child->getCode(); ?>_border" style="background-color: <?php echo $child->getBorderColor(); ?>"></button></div>
-                                        <input data-index="<?php echo $hex; ?>" type="hidden" id="<?php echo $child->getCode(); ?>_border_receiver" name="border_color" value="<?php echo $child->getBorderColor() ?>" />
+                                    <div class="square_color"><button type="button" id="<?php echo $child->getCode(); ?>_border" class="bordered <?php echo $child->getCode(); ?>_border" style="background-color: <?php echo $child->getBorderColor(); ?>"></button></div>
+                                    <div class="opacity_container">
+                                        <input type="range" step="1" min="0" max="100" class="sb-slider"
+                                               name="border_opacity"
+                                               value="<?php echo $child->getBorderOpacity() ? $child->getBorderOpacity() : 100; ?>"
+                                               data-variable="<?php echo $child->getBorderColorVariableName() ?>"
+                                               data-index="<?php echo $hex; ?>" />
+                                        <span data-index="<?php echo $hex; ?>"><?php echo $child->getBorderOpacity() ? $child->getBorderOpacity() : 100; ?> </span>
+                                    </div>
+                                    <input data-index="<?php echo $hex; ?>" data-variable="<?php echo $child->getBorderColorVariableName() ?>" type="hidden" id="<?php echo $child->getCode(); ?>_border_receiver" name="border_color" value="<?php echo $child->getBorderColor() ?>" />
                                     </div>
                                 <?php endif; ?>
 
@@ -89,22 +113,10 @@
                                     <div class="<?php echo $this->getClassFor($child, "image_color"); ?>">
                                         <input type="hidden" name="block_id" value="<?php echo $child->getId(); ?>" />
                                         <div class="square_color"><button type="button" id="<?php echo $child->getCode(); ?>_image" class="<?php echo $child->getCode(); ?>_image" style="background-color: <?php echo $child->getImageColor(); ?>"></button></div>
-                                        <input data-index="<?php echo $hex; ?>" type="hidden" id="<?php echo $child->getCode(); ?>_image_receiver" name="image_color" value="<?php echo $child->getImageColor() ?>" />
                                     </div>
                                 <?php endif; ?>
 
                             </div>
-
-                            <?php if($child->getData("name") == "Homepage"): ?>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label for="<?php echo $child->getCode(); ?>_transparent_background_color_receiver" class="checkbox">
-                                            <input data-index="homepage_opacity" type="checkbox" id="<?php echo $child->getCode(); ?>_transparent_background_color_receiver" name="background_color" value="transparent"<?php if($tabbar_block->getBackgroundColor() == "transparent") : ?> checked="checked"<?php endif; ?> />
-                                            <?php echo $this->_("Transparent"); ?>
-                                        </label>
-                                    </div>
-                                </div>
-                            <?php endif; ?>
 
                         <?php endforeach; ?>
                     </div>
@@ -169,13 +181,24 @@
         var fake_content = false;
 
         /** First replace link with scss */
-        var template_css = "<?php echo addslashes(str_replace("\n", "", Template_Model_Design::generateCss($this->getApplication(), true))); ?>";
+        var template_css = "<?php echo addslashes(str_replace("\n", "", Template_Model_Design::generateCss($this->getApplication(), true, false, true))); ?>";
         var template = template_css;
-        $("input[data-index]").each(function() {
-            var el = $(this);
-            var index = el.data("index");
-            var value = el.val();
-            template = template.replace(new RegExp(index, "g"), value);
+        $("input[type=hidden][data-index]").each(function () {
+            var el = $(this),
+                index = el.data("index"),
+                value = el.val(),
+                opacity = $("input[type=range][data-index='"+index+"']").val(),
+                rgba = hexToRgba(value, opacity / 100);
+
+            template = template.replace(new RegExp(index, "g"), rgba);
+
+            /** Transparent color */
+            var rgba_to_replace = /rgba\(12, 0, 2, 0\.2\)/gmi
+
+            /** Specific case for homepage layouts */
+            if(el.attr("id") == "homepage_bg_receiver") {
+                template = template.replace(rgba_to_replace, rgba);
+            }
         });
 
         $(".change-overview-content").hover(function() {
@@ -259,33 +282,14 @@
                 var to = '<?php echo $child->getData("{$property}_variable_name"); ?>';
                 $('#<?php echo $target ?>_receiver').val(hex);
                 $('#<?php echo $target ?>').css("background-color", hex);
-
-                    if(document.getElementById(to)) {
-                        document.getElementById(to).style.backgroundColor = hex;
-                    }
+                    $('#<?php echo $target ?>_receiver').trigger("change");
 
                 if(property == "image_color") {
-                    overview_colors.setImageColor(rgb, "<?php echo $child->getCode(); ?>");
-                } else {
-                    /** Live colors for css, not image */
-                    $('#<?php echo $target ?>_receiver').trigger("change");
-                    overview_colors.setColor(hex, to, '<?php echo $type ?>', property);
+                        processImages();
                 }
             }
         });
 
-        <?php if($child->getData("name") == "Homepage" AND $property == "background_color"): ?>
-        $('#<?php echo $child->getCode(); ?>_transparent_background_color_receiver').click(function() {
-            var color = $(this).is(":checked") ? "transparent" : "#000000";
-            $('#homepage_bg').ColorPickerSetColor(color);
-            $('#<?php echo $target ?>_receiver').val(color);
-            var to = '<?php echo $child->getData("{$property}_variable_name"); ?>';
-            overview_colors.setColor(color, to, "<?php echo $type ?>", "<?php echo $property ?>");
-            iframe.f.toggleTabbarIsTransparent($(this).is(":checked"));
-            $('.<?php echo $child->getCode() ?>_bg').css('background-color', color);
-            reload($('#row_<?php echo $child->getId(); ?>'), $('#colorsForm').attr('action'), false, function(data) {});
-        });
-        <?php endif; ?>
         <?php endforeach; ?>
         <?php endforeach; ?>
         <?php endforeach; ?>
@@ -293,69 +297,9 @@
         var overview_colors = {
             homepage_images: null,
             element: $('#overview'),
-            setColor: function(color, to, type, property) {
-
-                var element = iframe.content.find('[data-'+type+'="'+to+'"]');
-                var translucent_color = null;
-                if(element.hasClass("translucent")) {
-                    if(color != "transparent") {
-                        translucent_color = hexToRgba(color, .8);
-                    } else {
-                        translucent_color = "transparent";
-                    }
-                }
-
-                if(element.attr("type") == "style/template") {
-
-                    var css = iframe.content.find('[data-' + type + '="' + to + '"]').html();
-                    if(translucent_color) {
-                        css = css.split(to+"-translucent").join(translucent_color);
-                    }
-                    css = css.split(to).join(color);
-
-                    if(iframe.f.document.getElementById(to)) {
-                        iframe.f.document.getElementById(to).innerHTML = css;
-                    } else {
-                        var style = $('<style></style>')
-                            .attr("id", to)
-                            .html(css)
-                            ;
-                        iframe.content.find("head").append(style);
-                    }
-
-                } else {
-                    iframe.content.find('[data-' + type + '="' + to + '"]').css(property.replace("_", "-"), color);
-                }
-
-            },
-            setImageColor: function(color, to) {
-
-                if(!this.homepage_images) {
-                    this.homepage_images = iframe.content.find("#"+to).find("img");
-                    this.homepage_images.each(function(idx, image) {
-                        var new_image = $(image).clone();
-                        new_image.hide()
-                            .insertAfter(image)
-                        ;
-                    });
-                }
-
-                var images = iframe.content.find("#"+to).find("img").not(":visible");
-
-                images.each(function(idx, image) {
-
-                    image = $(image);
-                    var canvas = image.colorize(color, true);
-                    if(canvas) {
-                        image.prev("img").attr("src", canvas.toDataURL());
-                    }
-
-                });
-
-            },
-            pulsate: function(code) {
-                iframe.content.find('.'+code).effect('pulsate', {times: 2});
-            },
+            setColor: function(color, to, type, property) {},
+            setImageColor: function(color, to) {},
+            pulsate: function(code) {},
             showMask: function() {
                 $("#mask_colors").show();
             },
@@ -386,11 +330,14 @@
             return result;
         }
 
+        var can_process_image = true;
+
         function processImages() {
-            if(!fake_content) {
+            if(can_process_image) {
+                can_process_image = false;
+
                 $("#mobile_overview").contents().find("[option] img:visible").each(function (index, image) {
                     var el = $(image);
-                    console.log(el.next("img").length);
                     if (!el.next("img").length) {
                         var new_image = el.clone();
                         new_image.hide().insertAfter(image);
@@ -407,6 +354,8 @@
                         image.prev("img").attr("src", canvas.toDataURL());
                     }
                 });
+
+                setTimeout(function() { can_process_image = true; }, 200);
             }
         };
 
@@ -429,45 +378,46 @@
         /** Then bind for onChange */
         var processed = false;
         $("#colorsForm input").change(function() {
-            if(!fake_content) {
-                var el = $(this);
-                var template = template_css;
-                $("input[data-index]").each(function () {
-                    var el = $(this);
-                    var index = el.data("index");
-                    var value = el.val();
+            var el = $(this);
 
-                    template = template.replace(new RegExp(index, "g"), value);
-                });
+
+            trigger_change(el);
+        });
+
+        var trigger_change = function(el) {
+                var template = template_css;
+                /** Ici on récupère toutes les couleurs et on les appliques immédiatement */
+                $("input[type=hidden][data-index]").each(function () {
+                    var el = $(this),
+                        index = el.data("index"),
+                        value = el.val(),
+                        opacity = $("input[type=range][data-index='"+index+"']").val(),
+                        rgba = hexToRgba(value, opacity / 100);
+
+                    template = template.replace(new RegExp(index, "g"), rgba);
+
+                /** Colorize mini-color */
+                var mini_id = "#"+el.data("variable").replace("$", "");
+                $(mini_id).css("background-color", rgba);
 
                 /** Transparent color */
                 var rgba_to_replace = /rgba\(12, 0, 2, 0\.2\)/gmi
-                if ($("#homepage_transparent_background_color_receiver").is(":checked") !== false) {
-                    template = template.replace(rgba_to_replace, "transparent");
-                } else {
-                    var color = $("#homepage_bg_receiver").val();
-                    color = hexToRgba(color, 0.2);
-                    template = template.replace(rgba_to_replace, color);
+
+                /** Specific case for homepage layouts */
+                if(el.attr("id") == "homepage_bg_receiver") {
+                    template = template.replace(rgba_to_replace, rgba);
                 }
+                });
 
                 /** First processing image */
-                if (!processed) {
+            if ($("#mobile_overview").contents().find("#scss_live").length == 0) {
                     /** Replace X */
                     var link = $("#mobile_overview").contents().find("head link[href*='var/cache']");
                     link.after("<style id=\"scss_live\" type=\"text/css\">" + template + "</style>");
-
-                    if($("#mobile_overview").contents().find("#scss_live").length > 0) {
-                        processed = true;
-                    }
                 }
 
                 $("#mobile_overview").contents().find("#scss_live").text(template);
-
-                if (el.attr("id") == "homepage_image_receiver") {
-                    processImages();
-                }
-            }
-        });
+        };
 
         function refreshCss() {
             setTimeout(function() {
@@ -518,6 +468,19 @@
         }
 
 
+        // Submits the color row when an opacity value is change
+        $("input[type=range]").on("input", function() {
+            var el = $(this);
+            el.next("span").text(el.val());
+
+            var row = '#' + $(this).parent('div').parent('div').parent('div').attr('id');
+            reload($(row), $('#colorsForm').attr('action'), false, function() {});
+            var index = el.data("index"); // testons
+            var input = $("input[type=hidden][data-index='"+index+"']");
+
+            $('#<?php echo $target ?>_receiver').trigger("change");
+            trigger_change(input); // pour refresh en live
+        });
     </script>
     <style>
         #mask_colors {background-color: transparent;z-index:999; display: none; }
@@ -534,6 +497,9 @@
         div.mini-box { width: 22px; height: 22px; border: 1px solid #ffffff; float: left; margin-right: 10px;}
         .css-toggle {  float: right;  }
         .css-toggle label {  font-size: 14px !important;  }
+        .opacity_container { margin: auto;  max-width: 100px;  min-width: 50px;  width: 100%; margin-top: 18px; }
+        .opacity_container input[type=range] { float: left; width: 70%; }
+        .opacity_container span { float: right; font-size: 11px; margin-top: -1px }
 
     </style>
 

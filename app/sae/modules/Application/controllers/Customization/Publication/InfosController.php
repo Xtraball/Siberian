@@ -244,7 +244,7 @@ class Application_Customization_Publication_InfosController extends Application_
 
                     if($design->getId()) {
                         $application->setDesign($design);
-                        Template_Model_Design::generateCss($application);
+                        Template_Model_Design::generateCss($application, false, false, true);
                     }
 
                 }

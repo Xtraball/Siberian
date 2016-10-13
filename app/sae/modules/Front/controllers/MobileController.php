@@ -9,6 +9,13 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
 
         $this->__refreshFBToken($this->getSession()->getCustomer());
 
+        if(!empty($application->getGooglemapsKey())) {
+            $googlemaps_key = $application->getGooglemapsKey();
+        } else {
+            $api = Api_Model_Key::findKeysFor("googlemaps");
+            $googlemaps_key = $api->getSecretKey();
+        }
+
         $data = array(
             "css" => $this->getRequest()->getBaseUrl().Template_Model_Design::getCssPath($application)."?t=".time(),
             "customer" => array(
@@ -41,6 +48,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                     "scope" => Customer_Model_Customer_Type_Facebook::getScope()
                 ),
                 "gcm_senderid" => Push_Model_Certificate::getAndroidSenderId(),
+                "googlemaps_key" => $googlemaps_key,
                 "offline_content" => ($application->getOfflineContent() == 1),
             )
         );

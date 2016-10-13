@@ -6,6 +6,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
         "disable_cron",
         "environment",
         "update_channel",
+        "use_https",
     );
 
     public function loadAction() {

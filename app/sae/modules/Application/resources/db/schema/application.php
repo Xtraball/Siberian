@@ -248,6 +248,12 @@ $schemas['application'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'googlemaps_key' => array(
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'instagram_client_id' => array(
         'type' => 'varchar(100)',
         'is_null' => true,

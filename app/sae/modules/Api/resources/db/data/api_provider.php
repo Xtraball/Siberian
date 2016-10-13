@@ -30,6 +30,13 @@ $api_providers = array(
             "client_id",
             "secret_id"
         )
+    ),
+    array(
+        "code" => "googlemaps",
+        "icon" => "fa-map-marker",
+        "keys" => array(
+            "secret_key",
+        )
     )
 );
 
@@ -52,8 +59,8 @@ foreach($api_providers as $api_provider) {
             'key' => $key,
         );
 
-        $key = new Api_Model_Key();
-        $key
+        $apiModelKey = new Api_Model_Key();
+        $apiModelKey
             ->setData($data)
             ->insertOnce(array("provider_id", "key"));
 

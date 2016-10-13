@@ -638,4 +638,52 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
     }
 
+    public function importAction() {
+        try {
+
+            if (empty($_FILES) || empty($_FILES['filename']['name'])) {
+                throw new Exception("#486-01: No file sent.");
+            } else {
+
+                $tmp = Core_Model_Directory::getTmpDirectory(true);
+                $tmp_path = $tmp."/".$_FILES['filename']['name'];
+                if(!rename($_FILES['filename']['tmp_name'], $tmp_path)) {
+                    throw new Exception("#486-02: Unable to write file.");
+                } else {
+                    $option_value_model = new Application_Model_Option_Value();
+                    $option_value = $option_value_model->readOption($tmp_path);
+
+                    if ($option_value->getCode()) {
+                        $option_model = new Application_Model_Option();
+                        $option = $option_model->find($option_value->getCode(), "code");
+                        if (!$option->getId()) {
+                            throw new Exception("#486-03: This feature is not available for you.");
+                        } else {
+                            if (Siberian_Exporter::isRegistered($option->getCode())) {
+                                $classname = Siberian_Exporter::getClass($option->getCode());
+                                $importer = new $classname();
+                                $importer->importAction($tmp_path);
+                            } else {
+                                throw new Exception("#486-04: Sorry this feature doesn't expose its import interface.");
+                            }
+                        }
+                    }
+                }
+            }
+
+            $data = array(
+                "success" => 1,
+                "message" => __("Feature successfuly imported."),
+            );
+
+        } catch(Exception $e) {
+            $data = array(
+                "error" => 1,
+                "message" => $e->getMessage()
+            );
+        }
+
+        $this->_sendHtml($data);
+    }
+
 }

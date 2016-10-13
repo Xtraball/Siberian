@@ -30,3 +30,6 @@ CODE_SIGN_IDENTITY[sdk=iphoneos*] = iPhone Distribution
 
 // (CB-9721) Set ENABLE_BITCODE to NO in build.xcconfig
 ENABLE_BITCODE = NO
+
+LD_RUNPATH_SEARCH_PATHS = @executable_path/Frameworks
+SWIFT_OBJC_BRIDGING_HEADER = AppsMobileCompany/Plugins/cordova-plugin-iosrtc/cordova-plugin-iosrtc-Bridging-Header.h

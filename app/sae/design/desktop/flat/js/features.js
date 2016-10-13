@@ -273,7 +273,7 @@ var bindForms = function(default_parent) {
 
     $(default_parent+" .feature-form.toggle").on("submit", function(event) { event.preventDefault(); handleForm(this); });
 
-    $(default_parent+" .feature-form.onchange").on("change", function(event) { event.preventDefault(); handleForm(this); });
+    $(default_parent+" .feature-form.onchange").on("change submit", function(event) { event.preventDefault(); handleForm(this); });
 
     $(default_parent+" .feature-form.delete").on("submit", function(event) { event.preventDefault(); handleForm(this); });
 

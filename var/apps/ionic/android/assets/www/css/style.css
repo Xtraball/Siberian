@@ -268,6 +268,9 @@ ion-nav-view.has-mini-player-controls > ion-view > ion-content {bottom: 88px;}
 }
 @media (min-width: 430px) { .chatrooms.popup-container .popup{width: 400px;} }
 
+/* TAXIRIDE */
+.taxiride.popup-container .popup{width: 90%;}
+
 /* CUSTOM PAGE / PLACES / INBOX */
 .sb-cms-text { text-align: justify; }
 .sb-cms-text .left { float: left; margin-right: 10px; }
@@ -529,6 +532,7 @@ div[sb-cms-text] * {  text-align: left;  }
 .no-left-pad {padding-left: 0 !important;}.no-top-pad {padding-top: 0 !important;}.no-right-pad {padding-right: 0 !important;}.no-bottom-pad {padding-bottom: 0 !important;}
 .no-left-border {border-left: none !important;}.no-top-border {border-top: none !important;} .no-right-border {border-right: none !important;} .no-bottom-border {border-bottom: none !important;}
 .cotard{ box-shadow: none !important; background: none !important; }
+.ucfirst{text-transform: capitalize;}
 .bigger-subheader .tabs-icon-left.tabs .tab-item,
 .bigger-subheader .tabs-icon-left > .tabs .tab-item,
 .bigger-subheader .tabs-icon-right.tabs .tab-item,
@@ -602,3 +606,4 @@ div[sb-cms-text] * {  text-align: left;  }
     padding: 0;
     height: 41px;
 }
+

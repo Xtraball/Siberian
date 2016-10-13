@@ -23,6 +23,25 @@
     $options = $opts;
 ?>
 
+<?php if(APPLICATION_ENV != "production"): ?>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('input#import-feature').fileupload({
+            dataType: 'json',
+            add: function (el, data) {
+                console.log("add");
+                data.submit();
+            },
+            done: function (e, data) {
+                console.log("done");
+                console.log(data);
+            }
+        });
+    });
+
+</script>
+<?php endif; ?>
+
 <div class="page-content-wrapper">
     <div id="pages_content" class="content position-path">
         <script type="text/javascript">
@@ -30,6 +49,12 @@
         </script>
         <h3 class="title-editor border-blue">
             <?php echo $this->_('Your pages'); ?>
+            <?php if(APPLICATION_ENV != "production"): ?>
+            <button class="color-blue bt-header-right btn import-feature pull-right">
+                <i class="fa fa-upload"></i>
+                <input type="file" id="import-feature" name="filename" data-url="<?php echo $this->getUrl("application/customization_features/import"); ?>" style="position: absolute; top: 10px; opacity: 0; z-index: 1000; width: 40px; height: 30px;" />
+            </button>
+            <?php endif; ?>
         </h3>
         <div id="pages_list" class="subcontent content-color">
             <div class="option_path">

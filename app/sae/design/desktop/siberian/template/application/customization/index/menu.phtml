@@ -7,7 +7,7 @@ $publish_type = $this->getAdmin()->getPublicationAccessType() ? $this->getAdmin(
 <?php
 $has_previewer = Installer_Model_Installer::hasModule("previewer");
 $previewer = null;
-if($has_previewer && method_exists(new Previewer_Model_Previewer(), "getInstance")) {
+if($has_previewer && method_exists("Previewer_Model_Previewer", "getInstance")) {
     $previewer = Previewer_Model_Previewer::getInstance();
 }
 ?>

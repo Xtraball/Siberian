@@ -222,7 +222,7 @@ class Customer_Model_Customer extends Core_Model_Default
     public function setMetadata($module_code, $key, $value) {
         $datas = $this->getMetadatas($module_code);
         $datas[$key] = $value;
-        return $this->setMetdatas($module_code, $datas);
+        return $this->setMetadatas($module_code, $datas);
     }
 
 }

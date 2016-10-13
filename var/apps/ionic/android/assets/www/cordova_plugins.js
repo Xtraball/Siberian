@@ -421,6 +421,14 @@ module.exports = [
         "clobbers": [
             "window.OfflineMode"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-insomnia/www/Insomnia.js",
+        "id": "cordova-plugin-insomnia.Insomnia",
+        "pluginId": "cordova-plugin-insomnia",
+        "clobbers": [
+            "window.plugins.insomnia"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -451,7 +459,8 @@ module.exports.metadata =
     "com.dawsonloudon.videoplayer": "1.0.0",
     "cordova-plugin-whitelist": "1.2.1",
     "de.appplant.cordova.plugin.local-notification": "0.8.4",
-    "siberian-plugin-offlinemode": "1.0.0"
+    "siberian-plugin-offlinemode": "1.0.0",
+    "cordova-plugin-insomnia": "4.2.0"
 }
 // BOTTOM OF METADATA
 });

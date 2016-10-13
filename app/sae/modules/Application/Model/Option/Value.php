@@ -438,6 +438,27 @@ class Application_Model_Option_Value extends Application_Model_Option
         return $this;
     }
 
+
+    /**
+     * @param bool $base64
+     * @return string
+     */
+    public function _getBackground() {
+        return $this->__getBase64Image($this->getBackground());
+    }
+
+    /**
+     * @param $base64
+     * @param $option
+     * @return $this
+     */
+    public function _setBackground($base64, $option) {
+        $background_path = $this->__setImageFromBase64($base64, $option, 1080, 1920);
+        $this->setBackground($background_path);
+
+        return $this;
+    }
+
     /**
      * Creates an instance of Cms_Model_Application_Page_Metadata and configures it with the current feature
      *
@@ -450,5 +471,38 @@ class Application_Model_Option_Value extends Application_Model_Option
         $meta->setCode($code);
         $meta->setPayload($payload);
         return $meta;
+    }
+
+    /**
+     * @param $path
+     * @throws Exception
+     */
+    public function readOption($path) {
+        $content = file_get_contents($path);
+
+        try {
+            $dataset = Siberian_Yaml::decode($content);
+        } catch(Exception $e) {
+            throw new Exception("#043-01: An error occured while importing YAML dataset '$path'.");
+        }
+
+        if(isset($dataset["option"])) {
+            return $this->setData($dataset["option"]);
+        } else {
+            throw new Exception("#087-02: Missing option, unable to import data.");
+        }
+    }
+
+    /**
+     * Prepare the export for YAML (with base64 background)
+     *
+     * @return array|mixed|null|string
+     */
+    public function forYaml() {
+        $data = $this->getData();
+
+        $data["background"] = $this->_getBackground();
+
+        return $data;
     }
 }
