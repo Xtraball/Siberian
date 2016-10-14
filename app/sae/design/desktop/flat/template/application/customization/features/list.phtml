@@ -50,8 +50,8 @@
         <h3 class="title-editor border-blue">
             <?php echo $this->_('Your pages'); ?>
             <?php if(APPLICATION_ENV != "production"): ?>
-            <button class="color-blue bt-header-right btn import-feature pull-right">
-                <i class="fa fa-upload"></i>
+            <button class="color-blue bt-header-right btn import-feature pull-right export-button">
+                <?php echo __("Import / Export") ?>
                 <input type="file" id="import-feature" name="filename" data-url="<?php echo $this->getUrl("application/customization_features/import"); ?>" style="position: absolute; top: 10px; opacity: 0; z-index: 1000; width: 40px; height: 30px;" />
             </button>
             <?php endif; ?>

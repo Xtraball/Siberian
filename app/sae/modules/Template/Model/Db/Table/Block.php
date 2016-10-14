@@ -18,6 +18,10 @@ class Template_Model_Db_Table_Block extends Core_Model_Db_Table {
             $fields['background_color'] = new Zend_Db_Expr('IFNULL(tba.background_color, tb.background_color)');
             $fields['border_color'] = new Zend_Db_Expr('IFNULL(tba.border_color, tb.border_color)');
             $fields['image_color'] = new Zend_Db_Expr('IFNULL(tba.image_color, tb.image_color)');
+            $fields['text_opacity'] = new Zend_Db_Expr('IFNULL(tba.text_opacity, tb.text_opacity)');
+            $fields['background_opacity'] = new Zend_Db_Expr('IFNULL(tba.background_opacity, tb.background_opacity)');
+            $fields['border_opacity'] = new Zend_Db_Expr('IFNULL(tba.border_opacity, tb.border_opacity)');
+            $fields['image_opacity'] = new Zend_Db_Expr('IFNULL(tba.image_opacity, tb.image_opacity)');
 
             $join = join(' AND ', array(
                 'tba.block_id = tb.block_id',
@@ -62,8 +66,6 @@ class Template_Model_Db_Table_Block extends Core_Model_Db_Table {
         }
 
         return $sorted_collection;
-
-//        return $this->fetchAll($select);
     }
 
     public function saveAppBlock($block) {
@@ -77,6 +79,7 @@ class Template_Model_Db_Table_Block extends Core_Model_Db_Table {
             $this->_db->insert('template_block_app', $data);
         } catch (Exception $e) {
             if($e->getCode() == 23000) {
+                $data["updated_at"] = new Zend_Db_Expr("NOW()");
                 $this->_db->update('template_block_app', $data, array('block_id = ?' => $data['block_id'], 'app_id = ?' => $data['app_id']));
             }
         }
@@ -88,10 +91,9 @@ class Template_Model_Db_Table_Block extends Core_Model_Db_Table {
 
         $select = $this->select()
             ->from(array('td' => 'template_design'), array())
-            ->join(array('tdb' => 'template_design_block'), 'tdb.design_id = td.design_id', array('block_id', 'color', 'background_color', 'border_color', 'image_color'))
+            ->join(array('tdb' => 'template_design_block'), 'tdb.design_id = td.design_id', array('block_id', 'color', 'background_color', 'border_color', 'image_color', 'text_opacity', 'background_opacity', 'border_opacity', 'image_opacity'))
             ->join(array('tb' => $this->_name), 'tb.block_id = tdb.block_id', array('name', 'code', 'position', 'created_at', 'updated_at'))
             ->where('td.design_id = ?', $design_id)
-//            ->order('tdb.position ASC')
             ->setIntegrityCheck(false)
         ;
 

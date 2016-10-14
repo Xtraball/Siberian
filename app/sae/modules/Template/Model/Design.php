@@ -28,13 +28,18 @@ class Template_Model_Design extends Core_Model_Default {
 
     public static function getCssPath($application) {
 
+        /** Determines if the App has been updated or not. */
+        $block_app = new Template_Model_Block_App();
+
         $path = Core_Model_Directory::getPathTo("var/cache/css");
         $base_path = Core_Model_Directory::getBasePathTo("var/cache/css");
         $file = $application->getId().".css";
         if(!is_file("{$base_path}/{$file}")) {
-            # Do not use new variables when retrieving SCSS yet.
-            # @todo change to self::generateCss($application, false, false, true); after 4.7.0 update
-            self::generateCss($application, false, false, false);
+            /** Determines if the App has been updated or not. */
+            $block_app = new Template_Model_Block_App();
+            $new_scss = $block_app->isNewScss($application->getId());
+
+            self::generateCss($application, false, false, $new_scss);
         }
 
         return "{$path}/{$file}";

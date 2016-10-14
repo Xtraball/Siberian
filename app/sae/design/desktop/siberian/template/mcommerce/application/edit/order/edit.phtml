@@ -65,14 +65,14 @@ if(isset($customer) && !empty($customer)) {
                 </div>
                 <div class="form-group">
                     <div class="col-md-2">
-                        <label for="customer_birthday"><?php echo $this->_('Birthday:'); ?></label>
+                        <label for="customer_birthday"><?php echo $this->_('Birthday'); ?>:</label>
                     </div>
                     <div class="col-md-6">
                         <input type="text" id="customer_birthday" name="customer[metadatas][birthday]" class="input-flat"
                                value="<?php echo date("m/d/Y", strtotime($metadatas['birthday'])); ?>"/>
                     </div>
                 </div>
-                <h3><?php echo $this->_('Delivery address:'); ?></h3>
+                <h3><?php echo $this->_('Delivery address'); ?>:</h3>
                 <div class="form-group">
                     <div class="col-md-2">
                         <label for="delivery_address_street"><?php echo $this->_('Street:'); ?></label>
@@ -109,7 +109,7 @@ if(isset($customer) && !empty($customer)) {
                                value="<?php echo $metadatas['delivery_address']['country']; ?>"/>
                     </div>
                 </div>
-                <h3><?php echo $this->_('Invoicing address:'); ?></h3>
+                <h3><?php echo $this->_('Invoicing address'); ?>:</h3>
                 <div class="form-group">
                     <div class="col-md-2">
                         <label for="invoicing_address_street"><?php echo $this->_('Street:'); ?></label>

@@ -526,7 +526,9 @@ $designs = array(
             "homepage" => array(
                 "color" => "#ffffff",
                 "background_color" => "#ffffff",
+                "background_opacity" => 20,
                 "border_color" => "#ffffff",
+                "border_opacity" => 100,
                 "image_color" => "#ffffff"
             ),
             "background" => array(
@@ -563,7 +565,7 @@ $designs = array(
             "header" => array(
                 "color" => "#ffffff",
                 "background_color" => "#1374CE",
-                "border_color" => "#ffffff"
+                "border_color" => "#ffffff",
             ),
             "subheader" => array(
                 "color" => "#ffffff",
@@ -573,7 +575,9 @@ $designs = array(
             "homepage" => array(
                 "color" => "#ffffff",
                 "background_color" => "#1374CE",
+                "background_opacity" => 20,
                 "border_color" => "#ffffff",
+                "border_opacity" => 0,
                 "image_color" => "#ffffff"
             ),
             "background" => array(

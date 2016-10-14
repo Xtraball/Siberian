@@ -457,9 +457,20 @@
             $("#cb_on_off").click();
         }
 
-
         // Submits the color row when an opacity value is change
         $("input[type=range]").on("input", function() {
+            var el = $(this);
+            el.next("span").text(el.val());
+
+            var row = '#' + $(this).parent('div').parent('div').parent('div').attr('id');
+            var index = el.data("index"); // testons
+            var input = $("input[type=hidden][data-index='"+index+"']");
+
+            $('#<?php echo $target ?>_receiver').trigger("change");
+            trigger_change(input); // pour refresh en live
+        });
+
+        $("input[type=range]").on("change", function() {
             var el = $(this);
             el.next("span").text(el.val());
 

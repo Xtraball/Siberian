@@ -179,6 +179,3 @@ $config->find($data["code"], "code");
 if(!$config->getId()) {
     $config->setData($data)->save();
 }
-
-/** @todo remove after 4.7.0 Android Tools update with android-23 */
-$this->query("UPDATE cron SET is_active = 1 WHERE command = 'androidtools';");

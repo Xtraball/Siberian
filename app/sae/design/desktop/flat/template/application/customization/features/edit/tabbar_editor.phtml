@@ -30,13 +30,13 @@ $can_export = Siberian_Exporter::isRegistered($option->getCode()) && (APPLICATIO
 
 <div class="content_editor">
     <h3 class="title-editor border-blue">
-        <?php echo $this->_("Feature settings"); ?>
+        <?php echo __("Feature settings"); ?>
         <?php if($can_export): ?>
-            <button class="color-blue pull-right bt-header-right btn">
-                <a href="<?php echo $this->getUrl("{$option->getDesktopUri()}export", array("value_id" => $option->getId())); ?>">
-                    <?php echo __("Export") ?>
-                </a>
-            </button>
+        <button class="color-blue bt-header-right btn import-feature pull-right export-button export-button-fix">
+            <a href="<?php echo $this->getUrl("{$option->getDesktopUri()}export", array("value_id" => $option->getId())); ?>">
+                <?php echo __("Export") ?>
+            </a>
+        </button>
         <?php endif; ?>
     </h3>
     <div id="icon_and_name" class="row icon_and_name container-fluid feature-section-bottom first-row-feature">

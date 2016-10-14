@@ -137,7 +137,7 @@
                                 </tr>
                             <?php endforeach; $i++; ?>
                         <?php endif; ?>
-                        <?php while($i < 4) : ?>
+                        <?php while($i < 20) : ?>
                             <tr id="row_format_new_<?php echo $i ?>" class="format new_format"<?php if($i > 1) : ?> style="display:none;"<?php endif; ?> rel="new_<?php echo $i ?>">
                                 <td><?php echo $i + 1 ?><?php echo $i == 0 ? $this->_('st') : $this->_('nd') ?></td>
                                 <td><input id="product_format_title_new_<?php echo $i ?>" class="format input-flat" type="text" value="" placeholder="<?php echo $this->_('Format'); ?>" name="option[new_<?php echo $i ?>][title]" rel="new_<?php echo $i ?>" /></td>

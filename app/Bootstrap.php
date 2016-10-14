@@ -190,6 +190,17 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         $module_names = $this->_front_controller->getDispatcher()->getModuleDirectories();
 
+        /**
+         * @todo remove me later (4.8.0+) Fix PRE 4.7.2, Previewer
+         *
+         * Done BEFORE modules individual bootstraps, to prevent Previewer module to erase latest update.
+         */
+        $previewer_local_instal = Core_Model_Directory::getBasePathTo("/app/local/modules/Previewer/resources/var/apps");
+        if(file_exists($previewer_local_instal)) {
+            exec("rm -Rf {$previewer_local_instal}");
+        }
+        /** @todo remove me later (4.8.0+) Fix PRE 4.7.2, Previewer */
+
         foreach($module_names as $module) {
             $path = $this->_front_controller->getModuleDirectory($module)."/bootstrap.php";
             if(is_readable($path)) {

@@ -75,5 +75,13 @@ $schemas['template_block_app'] = array(
     'border_opacity' => array(
         'type' => 'tinyint(4)',
         'default' => 100
-    )
+    ),
+    'created_at' => array(
+        'type' => 'datetime',
+        'default' => '2016-10-14 00:00:01',
+    ),
+    'updated_at' => array(
+        'type' => 'datetime',
+        'default' => '2016-10-14 00:00:01',
+    ),
 );
