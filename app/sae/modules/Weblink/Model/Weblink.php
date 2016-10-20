@@ -62,15 +62,28 @@ class Weblink_Model_Weblink extends Core_Model_Default {
             $current_option = $option;
             $value_id = $current_option->getId();
 
-            $weblink_model = new Weblink_Model_Weblink();
+            $class = get_class($this);
+
+            $weblink_model = new $class();
             $weblink = $weblink_model->find($value_id, "value_id");
 
             $weblink_data = $weblink->getData();
             $weblink_data["cover"] = $weblink->_getCover();
 
+            $weblink_link_model = new Weblink_Model_Weblink_Link();
+            $weblink_links = $weblink_link_model->findAll(array(
+                "weblink_id = ?" => $weblink->getId(),
+            ));
+
+            $weblink_links_data = array();
+            foreach($weblink_links as $weblink_link) {
+                $weblink_links_data[] = $weblink_link->getData();
+            }
+
             $dataset = array(
                 "option" => $current_option->forYaml(),
                 "weblink" => $weblink_data,
+                "weblink_links" => $weblink_links_data,
             );
 
             try {
@@ -110,6 +123,34 @@ class Weblink_Model_Weblink extends Core_Model_Default {
                 ->setData('app_id', $application->getId())
                 ->save()
             ;
+
+            $new_value_id = $application_option->getId();
+
+            if(isset($dataset["weblink"])) {
+                $new_weblink = new Weblink_Model_Weblink();
+                $new_weblink
+                    ->setData($dataset["weblink"])
+                    ->setData("value_id", $new_value_id)
+                    ->unsData("id")
+                    ->unsData("weblink_id")
+                    ->save();
+
+                $new_weblink_id = $new_weblink->getId();
+
+                if(isset($dataset["weblink_links"])) {
+                    foreach($dataset["weblink_links"] as $weblink) {
+                        $new_weblink_link = new Weblink_Model_Weblink_Link();
+                        $new_weblink_link
+                            ->setData($weblink)
+                            ->setData("weblink_id", $new_weblink_id)
+                            ->unsData("id")
+                            ->unsData("link_id")
+                            ->save()
+                        ;
+                    }
+
+                }
+            }
 
         } else {
             throw new Exception("#089-02: Missing option, unable to import data.");

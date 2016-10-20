@@ -105,6 +105,8 @@ App.directive('sbTabbar', function ($ionicHistory, $ionicModal, $ionicSlideBoxDe
 
                     if(ionic.Platform.isAndroid() && feature.url.indexOf("pdf") >= 0) {
                         $window.open(feature.url, "_system", "location=no");
+                    } else if(ionic.Platform.isIOS() && feature.url.indexOf("pdf") >= 0) {
+                        $window.open(feature.url, $rootScope.getTargetForLink(), "EnableViewPortScale=yes");
                     } else {
                         $window.open(feature.url, $rootScope.getTargetForLink(), "location=no");
                     }

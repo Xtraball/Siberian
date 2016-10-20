@@ -467,7 +467,7 @@ foreach($blocks as $data) {
     $block = new Template_Model_Block();
     $block
         ->setData($data)
-        ->insertOnce(array("code", "type_id"));
+        ->insertOrUpdate(array("code", "type_id"));
 
     if(!empty($data["children"])) {
 
@@ -481,7 +481,7 @@ foreach($blocks as $data) {
             $child = new Template_Model_Block();
             $child
                 ->setData($child_data)
-                ->insertOnce(array("code", "type_id", "parent_id"));
+                ->insertOrUpdate(array("code", "type_id", "parent_id"));
 
         }
     }

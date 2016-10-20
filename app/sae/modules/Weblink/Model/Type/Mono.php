@@ -27,12 +27,6 @@ class Weblink_Model_Type_Mono extends Weblink_Model_Weblink {
         return $this;
     }
 
-//    public function getLinkDatas() {
-//        return array(
-//            'link' => $this->getLink()
-//        );
-//    }
-
     public function createDummyContents($option_value, $design, $category) {
 
         $dummy_content_xml = $this->_getDummyXml($design, $category);

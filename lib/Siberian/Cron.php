@@ -197,8 +197,10 @@ class Siberian_Cron {
             $base = Core_Model_Directory::getBasePathTo("/app/local/modules/IndividualPush/");
 
             # Models
-            require_once "{$base}/Model/Customer/Message.php";
-            require_once "{$base}/Model/Db/Table/Customer/Message.php";
+			if(is_readable("{$base}/Model/Customer/Message.php") && is_readable("{$base}/Model/Db/Table/Customer/Message.php")) {
+				require_once "{$base}/Model/Customer/Message.php";
+				require_once "{$base}/Model/Db/Table/Customer/Message.php";
+			}
         }
 
 

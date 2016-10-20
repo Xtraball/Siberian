@@ -66,7 +66,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @return null|Zend_Form_DisplayGroup
      * @throws Zend_Form_Exception
      */
-    public function addNav($name, $save_text = "OK", $display_back_button = true) {
+    public function addNav($name, $save_text = "OK", $display_back_button = true, $with_label = false) {
 
         $elements = array();
 
@@ -83,6 +83,11 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         $submit_button = new Siberian_Form_Element_Submit(__($save_text));
         $submit_button->addClass("pull-right default_button");
         $submit_button->setNewDesign();
+
+        if($with_label) {
+            $submit_button->setLabel(__($save_text));
+            $submit_button->setValue($name);
+        }
 
         $elements[] = $submit_button;
 
@@ -389,6 +394,40 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         }
 
         return $image_button;
+    }
+
+    /**
+     * @param $name
+     * @param string $label
+     * @param array $options
+     * @return Siberian_Form_Element_Button
+     */
+    public function addSimpleFile($name, $label = "", $options = array()) {
+        /** UID to link elements together */
+        $uid = uniqid();
+
+        /** Visual image button */
+        $button = new Siberian_Form_Element_Button($name);
+        $this->addElement($button);
+        $button->setLabel($label);
+        $button->setNewDesign();
+        $button->addClass("feature-upload-file default_button");
+        $button->addClass("add");
+        $button->addClass("color-blue");
+        $button->setAttrib("data-uid", $uid);
+        $button->setAttrib("data-input", $name);
+        $button->removeDecorator('DtDdWrapper');
+
+        /** Fake uploader */
+        $input_file = new Siberian_Form_Element_File("{$name}_hidden", __("uploader"));
+        $this->addElement($input_file);
+        $input_file->setAttrib("style", "display: none;");
+        $input_file->setAttrib("name", "files[]");
+        $input_file->addClass("feature-upload-file");
+        $input_file->setAttrib("data-uid", $uid);
+        $input_file->setAttrib("data-url", $this->getAction());
+
+        return $button;
     }
 
     public function addSimpleNumber($name, $label, $min = null, $max = null, $inclusive = true, $step = "any") {

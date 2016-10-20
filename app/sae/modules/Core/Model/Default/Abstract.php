@@ -94,6 +94,11 @@ abstract class Core_Model_Default_Abstract
         return !is_null($this->_db_table);
     }
 
+    /**
+     * @param $id
+     * @param null $field
+     * @return $this|null
+     */
     public function find($id, $field = null) {
         if(!$this->hasTable()) return null;
 

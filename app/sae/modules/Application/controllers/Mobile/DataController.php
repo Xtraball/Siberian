@@ -7,15 +7,19 @@ class Application_Mobile_DataController extends Application_Controller_Mobile_De
         $pages = $this->getApplication()->getOptions();
         $paths = array();
 
-        try {
-            foreach ($pages as $page) {
+        foreach ($pages as $page) {
 
-                if (!$page->isActive() OR (!$page->getIsAjax() AND $page->getObject()->getLink())) continue;
-
+            try{
                 $model = $page->getModel();
                 $object = new $model();
 
-                if(!$object->isCachable()) continue;
+                if (!$page->isActive() OR (!$page->getIsAjax() AND $page->getObject()->getLink())) {
+                    continue;
+                }
+
+                if(!$object->isCachable()) {
+                    continue;
+                }
 
                 if(!$object->getTable()) {
                     $feature = $page->getObject();
@@ -27,20 +31,19 @@ class Application_Mobile_DataController extends Application_Controller_Mobile_De
                         $paths = array_merge($paths, $feature->getFeaturePaths($page));
                     }
                 }
-
+            } catch(Exception $e) {
+                # Silent not working modules
             }
 
-            $paths = array_merge($paths, $this->getApplication()->getAllPictos());
-            $paths = array_unique($paths);
+        }
 
-            foreach($paths as $key => $path) {
-                if(stripos($path, "http") === false) {
-                    $paths[$key] = $this->getRequest()->getBaseUrl() . $path;
-                }
+        $paths = array_merge($paths, $this->getApplication()->getAllPictos());
+        $paths = array_unique($paths);
+
+        foreach($paths as $key => $path) {
+            if(stripos($path, "http") === false) {
+                $paths[$key] = $this->getRequest()->getBaseUrl() . $path;
             }
-
-        } catch(Exception $e) {
-            trigger_error($e->getMessage());
         }
 
         $this->_sendHtml($paths);

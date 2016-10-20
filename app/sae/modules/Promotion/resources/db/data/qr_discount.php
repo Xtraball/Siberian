@@ -25,7 +25,8 @@ $data = array(
     "mobile_view_uri"               => "promotion/mobile_view/",
     "mobile_view_uri_parameter"     => "promotion_id",
     "social_sharing_is_available"   => 1,
-    "position"                      => 25
+    "position"                      => 25,
+    "use_my_account"                => 1
 );
 
 $option = Siberian_Feature::install($category, $data, array('code'));

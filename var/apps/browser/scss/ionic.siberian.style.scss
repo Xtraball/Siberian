@@ -116,6 +116,8 @@ ion-content {
 /* CARD */
 .card {
 
+  background-color: transparent;
+
   .item-divider {
     &.item-divider-custom {
       background-color: $card-item-divider-custom-bg;

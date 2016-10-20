@@ -55,7 +55,7 @@ if(is_writable(dirname($crontab_path))) {
     # Install crontab if not
     $crontab = implode("\n", $new_lines);
     if(strpos($crontab, $cron_path) === false) {
-        $new_lines[] = "* * * * * $guessed_path -f $cron_path >> $cron_log_path 2>&1\n";
+        $new_lines[] = "* * * * * $guessed_path -d memory_limit=256M -f $cron_path >> $cron_log_path 2>&1\n";
     }
 
     # Append new line at the end

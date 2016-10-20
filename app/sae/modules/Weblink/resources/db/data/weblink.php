@@ -47,8 +47,12 @@ $links_option = Siberian_Feature::install($category, $data, array('code'));
 
 $features = array(
     'Magento' => array(
+        'deprecated' => false,
         'icon_path' => '/magento/magento1.png',
         'icons_flat' => array(
+            '/link/linkmagento-1-flat.png',
+            '/link/linkmagento-2-flat.png',
+            '/link/linkmagento-3-flat.png',
             '/magento/magento1-flat.png',
             '/magento/magento2-flat.png',
         ),
@@ -60,23 +64,31 @@ $features = array(
             'mobile_uri' => 'weblink/mobile_mono/'
         )
     ),
-    'WooCommerce' => array(
+    'WooCommerce Link' => array(
+        'deprecated' => true,
         'icon_path' => '/woocommerce/woocommerce1.png',
         'icons_flat' => array(
+            '/link/linkwoocommerce-1-flat.png',
+            '/link/linkwoocommerce-2-flat.png',
+            '/link/linkwoocommerce-3-flat.png',
             '/woocommerce/woocommerce1-flat.png',
             '/woocommerce/woocommerce2-flat.png',
         ),
         'datas' => array(
             'code' => 'woocommerce',
-            'name' => 'WooCommerce',
+            'name' => 'WooCommerce Link',
             'model' => 'Weblink_Model_Type_Mono',
             'desktop_uri' => 'weblink/application_woocommerce/',
             'mobile_uri' => 'weblink/mobile_mono/'
         )
     ),
     'Prestashop' => array(
+        'deprecated' => false,
         'icon_path' => '/prestashop/prestashop1.png',
         'icons_flat' => array(
+            '/link/linkprestashop-1-flat.png',
+            '/link/linkprestashop-2-flat.png',
+            '/link/linkprestashop-3-flat.png',
             '/prestashop/prestashop1-flat.png',
             '/prestashop/prestashop2-flat.png',
             '/prestashop/prestashop3-flat.png',
@@ -90,8 +102,12 @@ $features = array(
         )
     ),
     'Volusion' => array(
+        'deprecated' => false,
         'icon_path' => '/volusion/volusion1.png',
         'icons_flat' => array(
+            '/link/linkvolusion-1-flat.png',
+            '/link/linkvolusion-2-flat.png',
+            '/link/linkvolusion-3-flat.png',
             '/volusion/volusion1-flat.png',
             '/volusion/volusion2-flat.png',
         ),
@@ -104,8 +120,12 @@ $features = array(
         )
     ),
     'Shopify' => array(
+        'deprecated' => false,
         'icon_path' => '/shopify/shopify1.png',
         'icons_flat' => array(
+            '/link/linkshopify-1-flat.png',
+            '/link/linkshopify-2-flat.png',
+            '/link/linkshopify-3-flat.png',
             '/shopify/shopify1-flat.png',
             '/shopify/shopify2-flat.png',
             '/shopify/shopify3-flat.png',
@@ -119,6 +139,10 @@ $features = array(
         )
     )
 );
+
+if(!Installer_Model_Installer::isInstalled()) {
+    unset($features['WooCommerce Link']);
+}
 
 foreach($features as $feature_name => $feature) {
 
@@ -142,8 +166,8 @@ foreach($features as $feature_name => $feature) {
     $link_option = Siberian_Feature::install($category, $data, array('code'));
 
     # Icons Flat
+    Siberian_Feature::removeIcons("{$feature_name}-flat");
     Siberian_Feature::installIcons("{$feature_name}-flat", $feature['icons_flat']);
-    
 }
 
 

@@ -30,7 +30,7 @@ class Job_Model_Job extends Core_Model_Default {
      * @return string
      * @throws Exception
      */
-    public function exportAction($option) {
+    public function exportAction($option, $export_type = null) {
         if($option && $option->getId()) {
 
             $current_option = $option;
@@ -72,29 +72,33 @@ class Job_Model_Job extends Core_Model_Default {
                 $data_companies[] = $company_data;
             }
 
-            $places = $place_model->findAll(array(
-                "company_id IN (?)" => array_values($companies_id),
-            ));
-
-            $places_id = array();
             $data_places = array();
-            foreach($places as $place) {
-                $places_id[] = $place->getId();
+            if(!empty($companies_id)) {
+                $places = $place_model->findAll(array(
+                    "company_id IN (?)" => array_values($companies_id),
+                ));
 
-                $place_data = $place->getData();
-                $place_data["icon"] = $place->_getIcon();
-                $place_data["banner"] = $place->_getBanner();
+                $places_id = array();
+                foreach($places as $place) {
+                    $places_id[] = $place->getId();
 
-                $data_places[] = $place_data;
+                    $place_data = $place->getData();
+                    $place_data["icon"] = $place->_getIcon();
+                    $place_data["banner"] = $place->_getBanner();
+
+                    $data_places[] = $place_data;
+                }
             }
 
-            $place_contacts = $place_contact_model->findAll(array(
-                "place_id IN (?)" => array_values($places_id),
-            ));
-
             $data_place_contacts = array();
-            foreach($place_contacts as $place_contact) {
-                $data_place_contacts[] = $place_contact->getData();
+            if(!empty($places_id)) {
+                $place_contacts = $place_contact_model->findAll(array(
+                    "place_id IN (?)" => array_values($places_id),
+                ));
+
+                foreach($place_contacts as $place_contact) {
+                    $data_place_contacts[] = $place_contact->getData();
+                }
             }
 
             $dataset = array(

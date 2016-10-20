@@ -154,4 +154,18 @@ class Wordpress_ApplicationController extends Application_Controller_Default
 
     }
 
+    /**
+     * @param $option
+     * @return string
+     * @throws Exception
+     */
+    public function exportAction() {
+        if($this->getCurrentOptionValue()) {
+            $wordpress = new Wordpress_Model_Wordpress();
+            $result = $wordpress->exportAction($this->getCurrentOptionValue());
+
+            $this->_download($result, "wordpress-".date("Y-m-d_h-i-s").".yml", "text/x-yaml");
+        }
+    }
+
 }

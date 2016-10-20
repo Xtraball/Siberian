@@ -59,4 +59,94 @@ class Promotion_Model_Promotion extends Core_Model_Default
         return $this->getTable()->findAllPromotionsByAppId($app_id);
     }
 
+    /**
+     * @param $option Application_Model_Option_Value
+     * @return string
+     * @throws Exception
+     */
+    public function exportAction($option, $export_type = null) {
+        if($option && $option->getId()) {
+
+            $current_option = $option;
+            $value_id = $current_option->getId();
+
+            $promotion_model = new Promotion_Model_Promotion();
+
+            $promotions = $promotion_model->findAll(array(
+                "value_id = ?" => $value_id,
+            ));
+
+            $promotions_data = array();
+            foreach($promotions as $promotion) {
+                $promotions_data[] = $promotion->getData();
+            }
+
+            /** Find all wordpress_category */
+            $dataset = array(
+                "option" => $current_option->forYaml(),
+                "promotions" => $promotions_data,
+            );
+
+            try {
+                $result = Siberian_Yaml::encode($dataset);
+            } catch(Exception $e) {
+                throw new Exception("#088-03: An error occured while exporting dataset to YAML.");
+            }
+
+            return $result;
+
+        } else {
+            throw new Exception("#088-01: Unable to export the feature, non-existing id.");
+        }
+    }
+
+    /**
+     * @param $path
+     * @throws Exception
+     */
+    public function importAction($path) {
+        $content = file_get_contents($path);
+
+        try {
+            $dataset = Siberian_Yaml::decode($content);
+        } catch(Exception $e) {
+            throw new Exception("#088-04: An error occured while importing YAML dataset '$path'.");
+        }
+
+        $application = $this->getApplication();
+        $application_option = new Application_Model_Option_Value();
+
+        if(isset($dataset["option"])) {
+            $new_application_option = $application_option
+                ->setData($dataset["option"])
+                ->unsData("value_id")
+                ->unsData("id")
+                ->setData('app_id', $application->getId())
+                ->save()
+            ;
+
+            $new_value_id = $new_application_option->getId();
+
+            /** Create Job/Options */
+            if(isset($dataset["promotions"]) && $new_value_id) {
+
+                foreach($dataset["promotions"] as $promotion) {
+
+                    $new_promotion = new Promotion_Model_Promotion();
+                    $new_promotion
+                        ->setData($promotion)
+                        ->unsData("category_id")
+                        ->unsData("id")
+                        ->setData("value_id", $new_value_id)
+                        ->save()
+                    ;
+                }
+
+            }
+
+        } else {
+            throw new Exception("#088-02: Missing option, unable to import data.");
+        }
+    }
+
 }

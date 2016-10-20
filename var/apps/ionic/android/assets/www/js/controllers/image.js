@@ -50,15 +50,13 @@ App.config(function($stateProvider) {
         $scope.can_load_more = true;
         $scope.collection = new Array();
         $scope.current_gallery = gallery;
-        $timeout(function() {
-            $scope.is_loading = true;
-        });
 
         $scope.loadGallery();
 
     };
 
     $scope.loadGallery = function() {
+        $scope.is_loading = true;
 
         var offset = 0;
 
@@ -68,19 +66,18 @@ App.config(function($stateProvider) {
         }
 
         Image.find($scope.current_gallery, offset).success(function(data) {
-
             for(var i = 0; i < data.collection.length; i++) {
                 $scope.collection.push(data.collection[i]);
             }
+            
+            $scope.can_load_more = data.collection.length > 0 && data.show_load_more;
 
-            if(data.collection.length == 0) $scope.can_load_more = false;
-
-        }).error(function() {
-
+        }).error(function(err) {
         }).finally(function() {
             $scope.is_loading = false;
             $scope.$broadcast('scroll.infiniteScrollComplete');
         });
+
 
     };
 

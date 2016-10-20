@@ -196,4 +196,18 @@ class Rss_Application_FeedController extends Application_Controller_Default
         $this->getLayout()->setHtml(Zend_Json::encode($html));
     }
 
+    /**
+     * @param $option
+     * @return string
+     * @throws Exception
+     */
+    public function exportAction() {
+        if($this->getCurrentOptionValue()) {
+            $rss = new Rss_Model_Feed();
+            $result = $rss->exportAction($this->getCurrentOptionValue());
+
+            $this->_download($result, "rss-".date("Y-m-d_h-i-s").".yml", "text/x-yaml");
+        }
+    }
+
 }

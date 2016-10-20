@@ -105,6 +105,12 @@ $schemas['template_block'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'image_color_variable_name' => array(
+        'type' => 'varchar(50)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'image_opacity' => array(
         'type' => 'tinyint(4)',
         'default' => 100
@@ -120,6 +126,10 @@ $schemas['template_block'] = array(
     'border_opacity' => array(
         'type' => 'tinyint(4)',
         'default' => 100
+    ),
+    'position' => array(
+        'type' => 'smallint(5)',
+        'default' => '0',
     ),
     'created_at' => array(
         'type' => 'datetime',

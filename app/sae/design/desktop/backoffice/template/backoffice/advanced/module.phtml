@@ -12,8 +12,8 @@
             <tr ng-repeat="module in modules" ng-show="modules.length">
                 <td>{{ module.name }}</td>
                 <td>{{ module.version }}</td>
-                <td style="text-align:right;">-
-                    <!--button class="btn btn-xs btn-danger"><?php echo __("Uninstall") ?></button-->
+                <td style="text-align:right;">
+                    <button class="btn btn-xs btn-info" ng-repeat="(k, action) in module.actions" ng-click="moduleAction(k);">{{ action.label }}</button>
                 </td>
             </tr>
             <tr ng-show="!modules.length">
@@ -37,9 +37,7 @@
         <tr ng-repeat="layout in layouts" ng-show="layouts.length">
             <td>{{ layout.name }}</td>
             <td>{{ layout.version }}</td>
-            <td style="text-align:right;">-
-                <!--button class="btn btn-xs btn-danger"><?php echo __("Uninstall") ?></button-->
-            </td>
+            <td style="text-align:right;">-</td>
         </tr>
         <tr ng-show="!layouts.length">
             <td colspan="3"><?php echo __("No layouts") ?></td>
@@ -62,9 +60,7 @@
         <tr ng-repeat="icon in icons" ng-show="icons.length">
             <td>{{ icon.name }}</td>
             <td>{{ icon.version }}</td>
-            <td style="text-align:right;">-
-                <!--button class="btn btn-xs btn-danger"><?php echo __("Uninstall") ?></button-->
-            </td>
+            <td style="text-align:right;">-</td>
         </tr>
         <tr ng-show="!icons.length">
             <td colspan="3"><?php echo __("No icon packs") ?></td>

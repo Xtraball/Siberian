@@ -167,6 +167,9 @@ class Core_Model_Directory
             unlink($destination);
         }
 
+        /**
+         * @todo try multiple with local zip libraries, then exec ... etc
+         */
         exec("cd \"$source\"; zip --symlinks -r -9 \"$destination\" ./", $output);
 
         // Backward compatibility for Zip < 3.0
@@ -176,6 +179,33 @@ class Core_Model_Directory
 
         return is_file($destination) ? $destination : null;
 
+    }
+
+    /**
+     * @param $archive
+     * @param null $destination
+     * @return null|string
+     * @throws Exception
+     */
+    public static function unzip($archive, $destination = null) {
+        if($destination === null) {
+            $destination = Core_Model_Directory::getTmpDirectory(true)."/template/".uniqid();
+        }
+
+        if(!is_writable($destination) && !mkdir($destination, 0777, true)) {
+            throw new Exception("#946-01: Unable to write to the given destination '{$destination}'.");
+        }
+
+        if(!file_exists($archive)) {
+            throw new Exception("#946-02: The given path '{$archive}' is not readable.");
+        }
+
+        /**
+         * @todo try multiple with local zip libraries, then exec ... etc
+         */
+        exec("unzip '$archive' -d '$destination'");
+
+        return is_readable($destination) ? $destination : null;
     }
 
 }

@@ -57,4 +57,18 @@ class Socialgaming_ApplicationController extends Application_Controller_Default
 
     }
 
+    /**
+     * @param $option
+     * @return string
+     * @throws Exception
+     */
+    public function exportAction() {
+        if($this->getCurrentOptionValue()) {
+            $socialgaming = new Socialgaming_Model_Game();
+            $result = $socialgaming->exportAction($this->getCurrentOptionValue());
+
+            $this->_download($result, "socialgaming-".date("Y-m-d_h-i-s").".yml", "text/x-yaml");
+        }
+    }
+
 }

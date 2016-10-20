@@ -138,7 +138,7 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
     @Override
     public WebSettings getSettings() { return webView.getSettings(); }
 
-    @SuppressLint("SetJavaScriptEnabled")
+    @SuppressLint({"NewApi", "SetJavaScriptEnabled"})
     @SuppressWarnings("deprecation")
     private void initWebViewSettings() {
         webView.setInitialScale(0);

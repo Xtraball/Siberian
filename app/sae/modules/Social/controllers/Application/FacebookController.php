@@ -56,4 +56,19 @@ class Social_Application_FacebookController extends Application_Controller_Defau
 
     }
 
+    /**
+     * @param $option
+     * @return string
+     * @throws Exception
+     */
+    public function exportAction() {
+        if($this->getCurrentOptionValue()) {
+            $facebook = new Social_Model_Facebook();
+            $result = $facebook->exportAction($this->getCurrentOptionValue());
+
+            $this->_download($result, "facebook-".date("Y-m-d_h-i-s").".yml", "text/x-yaml");
+        }
+    }
+
+
 }

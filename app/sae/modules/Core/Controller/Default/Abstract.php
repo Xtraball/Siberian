@@ -608,8 +608,22 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         return is_subclass_of($this, 'Backoffice_Controller_Default');
     }
 
+    /**
+     * @param $option
+     * @return string
+     * @throws Exception
+     */
     public function exportAction() {
+        if($this->getCurrentOptionValue()) {
+            $option = $this->getCurrentOptionValue();
+            if(Siberian_Exporter::isRegistered($option->getCode())) {
+                $class = Siberian_Exporter::getClass($option->getCode());
+                $exporter = new $class();
+                $result = $exporter->exportAction($option);
 
+                $this->_download($result, $option->getCode()."-".date("Y-m-d_h-i-s").".yml", "text/x-yaml");
+            }
+        }
     }
 
     public function importAction() {

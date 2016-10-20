@@ -1,4 +1,5 @@
-cordova.define("cordova-hot-code-push-plugin.chcp", function(require, exports, module) { 
+cordova.define("cordova-hot-code-push-plugin.chcp", function(require, exports, module) {
+
 
 var exec = require('cordova/exec'),
   channel = require('cordova/channel'),

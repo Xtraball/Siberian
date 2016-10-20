@@ -19,7 +19,7 @@ $schemas['module'] = array(
         'collation' => 'utf8_unicode_ci',
     ),
     'version' => array(
-        'type' => 'varchar(10)',
+        'type' => 'varchar(30)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),

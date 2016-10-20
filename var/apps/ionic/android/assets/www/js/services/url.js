@@ -11,10 +11,6 @@ App.service("Url", function($location) {
 
     var _that = this;
 
-    //this.__base_url = BASE_URL;
-    //this.__base_url_parts = this.__base_url.length <= 1 ? new Array() : this.__base_url.split("/");
-    //this.__base_url = this.__sanitize(this.__base_url);
-
     return {
 
         get: function(uri, params) {
@@ -50,8 +46,6 @@ App.service("Url", function($location) {
             }
 
             url = url.join('/');
-
-            //if(!url.startsWith("/")) url = "/"+url;
 
             return url;
         },

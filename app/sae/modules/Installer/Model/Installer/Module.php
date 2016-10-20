@@ -96,7 +96,7 @@ class Installer_Model_Installer_Module extends Core_Model_Default
                 foreach($this->_packageInfo["dependencies"]["modules"] as $module => $version) {
                     $depModule = new Installer_Model_Installer_Module();
                     $depModule->prepare($module);
-
+                    
                     if(!$depModule->isInstalled()) {
                         $depModule->install();
                     }

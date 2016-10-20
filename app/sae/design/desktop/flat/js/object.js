@@ -63,72 +63,6 @@
     };
 })();
 
-/*(function($){
-
-    var Scroller = {
-        isActive: true,
-        element: null,
-        options: {},
-        pos: {},
-        init: function(options) {
-
-            var defaults = {
-                top: 0,
-                height: 0,
-                margin: 10
-            };
-
-            var _that = this.element;
-            this.options = $.extend(defaults, options);
-            if(!this.options.parent) this.options.parent = this.element.parent();
-            this.element.css({width: this.element.width(), height: this.element.height()});
-            if(this.options.parent) {
-                this.options.parent.css('position', 'relative');
-            }
-
-            this.element.css({position: 'absolute', top: this.options.top});
-
-            this.pos.originY = this.element.offset().top;
-            this.pos.originY = Math.max(this.pos.originY, 0);
-            this.pos.minY = 0;
-
-            $(document).scroll(this.move.bind(this));
-
-        },
-        move: function() {
-
-            if(this.isActive) {
-                var top = null;
-                var maxY = this.options.leader.height() - this.element.outerHeight(true);
-                top = $(document).scrollTop() - this.pos.originY + this.options.margin;
-                if(top > maxY) top = maxY;
-                else if(top < this.pos.minY) top = this.pos.minY;
-
-                if(top != null) this.element.stop().animate({top: top});
-            }
-        },
-
-        refresh: function() {
-
-        },
-        scrollToTop: function() {
-            this.element.stop().animate({top: 0});
-        },
-        deactive: function() {
-            this.isActive = false;
-        },
-        active: function() {
-            this.isActive = true;
-            this.move();
-        }
-    }
-
-    $.fn.scroller = function(options) {
-        Scroller.element = this;
-        Scroller.init(options);
-        return Scroller;
-    }
-})(jQuery);*/
 
 var Modal = Class.extend({
     callbacks: null,
@@ -262,16 +196,3 @@ var Modal = Class.extend({
     }
 
 });
-//(function($){
-//    $.fn.carousel = function(options) {
-//
-//        var defaults = {
-//		height: 150,
-//		duration: 100,
-//		hidearrows: true
-//	};
-//	var options = $.extend(defaults, options);
-//
-//
-//    }
-//})(jQuery)

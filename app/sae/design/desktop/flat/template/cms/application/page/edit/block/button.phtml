@@ -69,12 +69,16 @@ $button = $block->getObject();
             removeElem(<?php echo $this->getPosition(); ?>);
         });
 
+        var action_count = 0;
         $('#button_link_<?php echo $this->getPosition() ?>').click(function () {
             $('#field_label_<?php echo $this->getPosition() ?>').html('<?php echo addslashes($this->_('Link:')) ?>');
-            $('#field_label_label_<?php echo $this->getPosition(); ?>').append('<?php echo addslashes($this->_('Label:')) ?>');
             $('#type_id_<?php echo $this->getPosition() ?>').val('link');
-            var container = $('#content_<?php echo $this->getPosition(); ?>').parent();
-            container.append('<input id="label_<?php echo $this->getPosition(); ?>" type="text" class="input-flat required" placeholder="label" name="block[<?php echo $this->getPosition(); ?>][label]" value="<?php echo $block->getLabel(); ?>"/>');
+            if(action_count == 0) {
+                $('#field_label_label_<?php echo $this->getPosition(); ?>').append('<?php echo addslashes($this->_('Label:')) ?>');
+                var container = $('#content_<?php echo $this->getPosition(); ?>').parent();
+                container.append('<input id="label_<?php echo $this->getPosition(); ?>" type="text" class="input-flat required" placeholder="label" name="block[<?php echo $this->getPosition(); ?>][label]" value="<?php echo $block->getLabel(); ?>"/>');
+            }
+            action_count++;
 
             return false;
         });
@@ -85,12 +89,17 @@ $button = $block->getObject();
 
             $('#label_<?php echo $this->getPosition(); ?>').remove();
             $('#field_label_label_<?php echo $this->getPosition(); ?>').html('');
+            action_count = 0;
 
             return false;
         });
         $('#button_email_<?php echo $this->getPosition() ?>').click(function () {
             $('#field_label_<?php echo $this->getPosition() ?>').html('<?php echo addslashes($this->_('Email:')) ?>');
             $('#type_id_<?php echo $this->getPosition() ?>').val('email');
+            $('#label_<?php echo $this->getPosition(); ?>').remove();
+            $('#field_label_label_<?php echo $this->getPosition(); ?>').html('');
+            action_count = 0;
+
             return false;
         });
 

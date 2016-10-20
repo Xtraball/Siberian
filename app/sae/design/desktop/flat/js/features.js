@@ -245,6 +245,16 @@ var bindForms = function(default_parent) {
                     } else if(form.hasClass("delete")) {
                         remove_row(form.data("rowid"));
                         $("tr.edit-form[data-id]").hide();
+                    } else if(data.type) {
+                        switch(data.type) {
+                            case "download":
+                                if(data.url) {
+                                    location.href = data.url;
+                                }
+                                break;
+                            default:
+
+                        }
                     } else {
                         feature_reload();
                     }

@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.appsmobilecompany.base" version="1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <preference name="loglevel" value="DEBUG" />
     <feature name="AdMob">
         <param name="android-package" value="com.rjfun.cordova.admob.AdMobPlugin" />
         <param name="onload" value="true" />
@@ -83,7 +82,24 @@
     <feature name="Insomnia">
         <param name="android-package" value="nl.xservices.plugins.Insomnia" />
     </feature>
-    <preference name="loadUrlTimeoutValue" value="60000" />
+    <name>AppsMobileCompany</name>
+    <description>Apps Mobile Company app source code</description>
+    <author>Apps Mobile Company Dev Team</author>
+    <content src="index.html" />
+    <access origin="*" />
+    <access launch-external="yes" origin="tel:*" />
+    <access launch-external="yes" origin="geo:*" />
+    <access launch-external="yes" origin="mailto:*" />
+    <allow-navigation href="*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="geo:*" />
+    <allow-intent href="mailto:*" />
+    <chcp>
+        <config-file url="PLATFORM_URL" />
+        <native-interface version="2" />
+        <auto-download enabled="true" />
+        <auto-install enabled="true" />
+    </chcp>
     <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
     <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
     <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />
@@ -102,18 +118,8 @@
     <splash density="port-xhdpi" src="resources/android/splash/drawable-port-xhdpi-screen.png" />
     <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.png" />
     <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
-    <name>AppsMobileCompany</name>
-    <description>Apps Mobile Company app source code</description>
-    <author>Apps Mobile Company Dev Team</author>
-    <content src="index.html" />
-    <access origin="*" />
-    <access launch-external="yes" origin="tel:*" />
-    <access launch-external="yes" origin="geo:*" />
-    <access launch-external="yes" origin="mailto:*" />
-    <allow-navigation href="*" />
-    <allow-intent href="tel:*" />
-    <allow-intent href="geo:*" />
-    <allow-intent href="mailto:*" />
+    <preference name="loglevel" value="DEBUG" />
+    <preference name="loadUrlTimeoutValue" value="60000" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
@@ -124,10 +130,4 @@
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="FadeSplashScreen" value="true" />
     <preference name="FadeSplashScreenDuration" value="500" />
-    <chcp>
-        <config-file url="PLATFORM_URL" />
-        <native-interface version="2" />
-        <auto-download enabled="true" />
-        <auto-install enabled="true" />
-    </chcp>
 </widget>

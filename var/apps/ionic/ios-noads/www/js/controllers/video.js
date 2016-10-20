@@ -51,7 +51,10 @@ App.config(function($stateProvider) {
         $scope.show_galleries = false;
 
         if($scope.current_gallery && $scope.current_gallery.id == gallery.id || $scope.is_loading) return;
-
+        /**
+        * Reintialize the offset if the gallery has changed
+        */
+        $scope.offset = null;
         $scope.can_load_more = true;
         $scope.collection = new Array();
         $scope.current_gallery = gallery;
@@ -74,6 +77,10 @@ App.config(function($stateProvider) {
         $scope.current_gallery.current_offset = ++offset;
 
         if($scope.current_gallery.type == "youtube") {
+            /*
+            * you can also  Reintialze the $scope.offset here
+            *
+            */
 
             Video.findInYouTube($scope.current_gallery.search_by, $scope.current_gallery.search_keyword, $scope.offset).then(function(response) {
 

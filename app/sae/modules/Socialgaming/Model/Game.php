@@ -70,8 +70,8 @@ class Socialgaming_Model_Game extends Core_Model_Default {
         $name = '';
 
         switch($this->getPeriodId()) {
-            case self::PERIOD_WEEKLY : $name = $this->_('A week'); break;
-            case self::PERIOD_MONTHLY : $name = $this->_('A month'); break;
+            case self::PERIOD_WEEKLY : $name = __('A week'); break;
+            case self::PERIOD_MONTHLY : $name = __('A month'); break;
         }
 
         return $name;
@@ -81,8 +81,8 @@ class Socialgaming_Model_Game extends Core_Model_Default {
         $name = '';
 
         switch($this->getPeriodId()) {
-            case self::PERIOD_WEEKLY : $name = $this->_('Rank of the week'); break;
-            case self::PERIOD_MONTHLY : $name = $this->_('Rank of the month'); break;
+            case self::PERIOD_WEEKLY : $name = __('Rank of the week'); break;
+            case self::PERIOD_MONTHLY : $name = __('Rank of the month'); break;
         }
 
         return $name;
@@ -90,13 +90,99 @@ class Socialgaming_Model_Game extends Core_Model_Default {
 
     public function getPeriods() {
         return array(
-            self::PERIOD_WEEKLY => $this->_('A week'),
-            self::PERIOD_MONTHLY => $this->_('A month')
+            self::PERIOD_WEEKLY => __('A week'),
+            self::PERIOD_MONTHLY => __('A month')
         );
     }
 
     public function copyTo($option) {
         $this->setId(null)->setValueId($option->getId())->save();
         return $this;
+    }
+
+    /**
+     * @param $option Application_Model_Option_Value
+     * @return string
+     * @throws Exception
+     */
+    public function exportAction($option, $export_type = null) {
+        if($option && $option->getId()) {
+
+            $current_option = $option;
+            $value_id = $current_option->getId();
+
+            $socialgaming_model = new Socialgaming_Model_Game();
+            $socialgamings = $socialgaming_model->findAll(array(
+                "value_id = ?" => $value_id,
+            ));
+
+            $socialgaming_data = array();
+            foreach($socialgamings as $socialgaming) {
+                $socialgaming_data[] = $socialgaming->getData();
+            }
+
+            $dataset = array(
+                "option" => $current_option->forYaml(),
+                "socialgaming" => $socialgaming_data,
+            );
+
+            try {
+                $result = Siberian_Yaml::encode($dataset);
+            } catch(Exception $e) {
+                throw new Exception("#089-03: An error occured while exporting dataset to YAML.");
+            }
+
+            return $result;
+
+        } else {
+            throw new Exception("#089-01: Unable to export the feature, non-existing id.");
+        }
+    }
+
+    /**
+     * @param $path
+     * @throws Exception
+     */
+    public function importAction($path) {
+        $content = file_get_contents($path);
+
+        try {
+            $dataset = Siberian_Yaml::decode($content);
+        } catch(Exception $e) {
+            throw new Exception("#089-04: An error occured while importing YAML dataset '$path'.");
+        }
+
+        $application = $this->getApplication();
+        $application_option = new Application_Model_Option_Value();
+
+        if(isset($dataset["option"])) {
+            $application_option
+                ->setData($dataset["option"])
+                ->unsData("value_id")
+                ->unsData("id")
+                ->setData('app_id', $application->getId())
+                ->save()
+            ;
+
+            if(isset($dataset["socialgaming"])) {
+                foreach($dataset["socialgaming"] as $socialgaming) {
+                    $new_socialgaming = new Socialgaming_Model_Game();
+                    $new_socialgaming
+                        ->setData($socialgaming)
+                        ->setPeriodId($socialgaming["period_id"])
+                        ->setData("value_id", $application_option->getId())
+                        ->unsData("id")
+                        ->unsData("game_id")
+                        ->save()
+                    ;
+                    /** Use sleep to shift the created_at time */
+                    sleep(1);
+                }
+
+            }
+
+        } else {
+            throw new Exception("#089-02: Missing option, unable to import data.");
+        }
     }
 }

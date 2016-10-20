@@ -291,4 +291,18 @@ class Topic_ApplicationController extends Application_Controller_Default
 
     }
 
+    /**
+     * @param $option
+     * @return string
+     * @throws Exception
+     */
+    public function exportAction() {
+        if($this->getCurrentOptionValue()) {
+            $topic = new Topic_Model_Topic();
+            $result = $topic->exportAction($this->getCurrentOptionValue());
+
+            $this->_download($result, "topic-".date("Y-m-d_h-i-s").".yml", "text/x-yaml");
+        }
+    }
+
 }

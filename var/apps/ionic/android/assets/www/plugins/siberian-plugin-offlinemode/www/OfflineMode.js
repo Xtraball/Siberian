@@ -1,4 +1,5 @@
-cordova.define("siberian-plugin-offlinemode.OfflineMode", function(require, exports, module) { var exec = require('cordova/exec');
+cordova.define("siberian-plugin-offlinemode.OfflineMode", function(require, exports, module) {
+var exec = require('cordova/exec');
 
 var OfflineMode = {};
 

@@ -190,4 +190,18 @@ class Push_ApplicationController extends Application_Controller_Default
 
     }
 
+    /**
+     * @param $option
+     * @return string
+     * @throws Exception
+     */
+    public function exportAction() {
+        if($this->getCurrentOptionValue()) {
+            $push = new Push_Model_Message();
+            $result = $push->exportAction($this->getCurrentOptionValue());
+
+            $this->_download($result, "push-".date("Y-m-d_h-i-s").".yml", "text/x-yaml");
+        }
+    }
+
 }

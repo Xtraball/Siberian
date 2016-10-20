@@ -1,4 +1,5 @@
-cordova.define("siberian-plugin-backgroundgeoloc.BackgroundGeoloc", function(require, exports, module) { var exec = require('cordova/exec');
+cordova.define("siberian-plugin-backgroundgeoloc.BackgroundGeoloc", function(require, exports, module) {
+var exec = require('cordova/exec');
 
 var BackgroundGeoloc = {
     getCurrentPosition: function(success_callback, error_callback) {

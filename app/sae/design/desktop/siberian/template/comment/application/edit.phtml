@@ -66,14 +66,11 @@
                         <ul class="list">
                             <?php foreach ($comments as $comment) : ?>
                                 <?php $text = trim(strip_tags($comment->getText())); ?>
-                                <?php $text = mb_strlen($comment->getText(), 'UTF-8') > 255 ? mb_substr($text, 0, 255, "UTF-8") . '...' : $text; ?>
+                                <?php $text = mb_strlen($comment->getText(), 'UTF-8') > 120 ? mb_substr($text, 0, 120, "UTF-8") . '...' : $text; ?>
                                 <?php if (empty($text)) continue; ?>
                                 <li class="news_actions" rel="<?php echo $comment->getId(); ?>">
                                     <p class="left" style="text-align:justify;"><?php echo $text ?></p>
                                     <div class="right icons" id="news_icons_<?php echo $comment->getId(); ?>">
-                                        <a class="<?php if ($comment->getFlag() == 0) echo 'hidden'; ?> show_details icon more" title="<?php echo $this->_('Was flagged as inappropriate') ?>">
-                                            <i class="icon-flag"></i>
-                                        </a>
                                         <a href="javascript:void(0)" class="show_details icon more" rel="<?php echo $comment->getId() ?>">
                                             <i class="icon-search"></i>
                                         </a>
@@ -85,15 +82,18 @@
                                         </a>
                                         <?php if ($comment->getisVisible() == '1') : ?>
                                             <a href="javascript:void(0)" title="<?php echo $this->_('Hide this info') ?>" class="icon more hide_comment" rel="<?php echo $comment->getId() ?>">
-                                                <i class="icon-eye-close"></i>
+                                                <i class="icon-eye-open"></i>
                                             </a>
                                         <?php else : ?>
                                             <a href="javascript:void(0)" title="<?php echo $this->_('Show this info') ?>" class="icon more show_comment" rel="<?php echo $comment->getId() ?>">
-                                                <i class="icon-eye-open"></i>
+                                                <i class="icon-eye-close"></i>
                                             </a>
                                         <?php endif; ?>
                                         <a href="javascript:void(0)" class="icon more delete_comment" rel="<?php echo $comment->getId() ?>">
                                             <i class="icon-trash"></i>
+                                        </a>
+                                        <a class="<?php if ($comment->getFlag() == 0) echo 'hidden'; ?> show_details icon more" title="<?php echo $this->_('Was flagged as inappropriate') ?>">
+                                            <i class="icon-flag"></i>
                                         </a>
                                         <div class="clear"></div>
                                     </div>
@@ -110,14 +110,13 @@
                                             <div class="block col-sm-12">
                                                 <form class="newsUpdateForm" action="<?php echo $this->getUrl('comment/application/updatepost'); ?>" method="post">
                                                     <div class="form-group buttons">
-                                                        <button type="button" onclick="page.reload()" class="delete left"><i class="icon-arrow-left"></i></button>
+                                                        <button type="button" rel="<?php echo $comment->getId()?>" class="delete left"><i class="icon-arrow-left"></i></button>
                                                         <button type="submit" class="default_button right">OK</button>
                                                         <div class="clear"></div>
                                                     </div>
                                                     <input type="hidden" name="value_id" value="<?php echo $comment->getValueId(); ?>" />
                                                     <input type="hidden" name="id" value="<?php echo $comment->getId(); ?>" />
-
-                                                    <div class="form-group">
+                                                     <div class="form-group">
                                                         <div class="col-md-6">
                                                             <label for="news_update_title"><?php echo $this->_("Title"); ?></label>
                                                         </div>
@@ -163,6 +162,7 @@
                                                     <br />
                                                     <input type="hidden" name="option_value_id" value="<?php echo $comment->getValueId(); ?>" />
                                                     <input type="hidden" id="image_update_actus_<?php echo $comment->getId(); ?>" name="image" value="<?php echo $comment->getImage(); ?>" />
+                                                    <input type="hidden" id="comment_visibility_<?php echo $comment->getId();?>" name="is_visible" value="<?php echo $comment->getIsVisible()?>"/>
                                                 </form>
                                             </div>
                                         </div>
@@ -312,6 +312,22 @@
                     });
 
                     return false;
+                });
+                // does not reload the page any more just hide the updated section
+                $('.delete').click(function(){
+                    var id = $(this).attr('rel');
+                    var div = $('#update_news_' + id);
+                    if (div.is(':visible')) {
+                        div.slideUp(300, function () {
+                            $(this).parent('div.news_actions').removeClass('selected')
+                        });
+                    } else {
+                        div.slideDown(300, function () {
+                            $(this).parent('div.news_actions').addClass('selected')
+                        });
+                    }
+                    return false;
+
                 });
 
             }.bind(page));

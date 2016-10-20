@@ -32,7 +32,7 @@ import android.webkit.WebSettings;
  * are not expected to implement it.
  */
 public interface CordovaWebView {
-    public static final String CORDOVA_VERSION = "4.1.1";
+    public static final String CORDOVA_VERSION = "5.3.0-dev";
 
     void init(CordovaInterface cordova, List<PluginEntry> pluginEntries, CordovaPreferences preferences);
 

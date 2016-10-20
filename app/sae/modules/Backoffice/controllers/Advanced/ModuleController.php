@@ -31,6 +31,7 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
                 "id" => $core_module->getId(),
                 "name" => __($core_module->getData("name")),
                 "version" => $core_module->getData("version"),
+                "actions" => Siberian_Module::getActions($core_module->getData("name")),
                 "created_at" => $core_module->getFormattedCreatedAt(),
                 "updated_at" => $core_module->getFormattedUpdatedAt(),
             );
@@ -53,12 +54,17 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
                 "id" => $installed_module->getId(),
                 "name" => __($installed_module->getData("name")),
                 "version" => $installed_module->getData("version"),
+                "actions" => Siberian_Module::getActions($installed_module->getData("name")),
                 "created_at" => $installed_module->getFormattedCreatedAt(),
                 "updated_at" => $installed_module->getFormattedUpdatedAt(),
             );
         }
 
         $this->_sendHtml($data);
+
+    }
+
+    public function executeAction($module, $action) {
 
     }
 

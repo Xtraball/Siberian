@@ -39,7 +39,7 @@ class Radio_Model_Radio extends Core_Model_Default {
      * @return string
      * @throws Exception
      */
-    public function exportAction($option) {
+    public function exportAction($option, $export_type = null) {
         if($option && $option->getId()) {
 
             $current_option = $option;

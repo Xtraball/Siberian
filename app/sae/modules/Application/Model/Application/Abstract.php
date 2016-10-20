@@ -1015,4 +1015,75 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     public static function getSingleton() {
         return self::$singleton;
     }
+
+
+    /**
+     * @param bool $base64
+     * @return string
+     */
+    public function _getImage($name) {
+        return $this->__getBase64Image($this->getData($name));
+    }
+
+    /**
+     * @param $base64
+     * @param $option
+     * @return $this
+     */
+    public function _setImage($name, $base64, $option, $width = 512, $height = 512) {
+        $path = $this->__setImageFromBase64($base64, $option, $width, $height);
+        $this->setData($name, $path);
+
+        return $this;
+    }
+
+    /**
+     * Convert application into YAML with base64 images
+     *
+     * @return string
+     */
+    public function toYml() {
+        $data = $this->getData();
+
+        $data["background_image"]               = $this->_getImage("background_image");
+        $data["background_image_hd"]            = $this->_getImage("background_image_hd");
+        $data["background_image_tablet"]        = $this->_getImage("background_image_tablet");
+        $data["icon"]                           = $this->_getImage("icon");
+        $data["startup_image"]                  = $this->_getImage("startup_image");
+        $data["startup_image_retina"]           = $this->_getImage("startup_image_retina");
+        $data["startup_image_iphone_6"]         = $this->_getImage("startup_image_iphone_6");
+        $data["startup_image_iphone_6_plus"]    = $this->_getImage("startup_image_iphone_6_plus");
+        $data["startup_image_ipad_retina"]      = $this->_getImage("startup_image_ipad_retina");
+
+        $data["created_at"] = null;
+        $data["updated_at"] = null;
+
+        $data["name"] = null;
+        $data["bundle_id"] = null;
+        $data["key"] = null;
+
+        /** Colors */
+        $template_block_app_model = new Template_Model_Block_App();
+        $tbas = $template_block_app_model->findAll(array(
+            "app_id = ?" => $this->getId(),
+        ));
+
+        $dataset_tbas = array();
+        foreach($tbas as $tba) {
+            $tba_data = $tba->getData();
+            $tba_data["created_at"] = null;
+            $tba_data["updated_at"] = null;
+
+            $dataset_tbas[] = $tba_data;
+        }
+
+        $dataset = array(
+            "application" => $data,
+            "colors" => $dataset_tbas,
+        );
+
+        $dataset = Siberian_Yaml::encode($dataset);
+
+        return $dataset;
+    }
 }

@@ -45,6 +45,8 @@ App.config(function($stateProvider) {
 
         if(ionic.Platform.isAndroid() && url.indexOf("pdf") >= 0) {
             $window.open(url, "_system", "location=no");
+        } else if(ionic.Platform.isIOS() && url.indexOf("pdf") >= 0) {
+            $window.open(url, $rootScope.getTargetForLink(), "EnableViewPortScale=yes");
         } else {
             $window.open(url, $rootScope.getTargetForLink(), "location=no");
         }
@@ -76,11 +78,6 @@ App.config(function($stateProvider) {
             });
         };
 
-        //$scope.$on("$destroy", function() {
-        //    $window.prepareDummy = null;
-        //    $window.setAttributeTo = null;
-        //    $window.setCoverUrl = null;
-        //});
     }
 
     $scope.loadContent();

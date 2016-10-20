@@ -1,4 +1,5 @@
-cordova.define("com.dawsonloudon.videoplayer.VideoPlayer", function(require, exports, module) { /*-
+cordova.define("com.dawsonloudon.videoplayer.VideoPlayer", function(require, exports, module) {
+/*-
  * cordova VideoPlayer Plugin for Android
  *
  * Created by Simon MacDonald (2008) MIT Licensed

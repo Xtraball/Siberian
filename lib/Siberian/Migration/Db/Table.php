@@ -152,7 +152,7 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract {
      * @throws Exception
      */
     public function exportDatabase($save = true) {
-
+        
         /** Fetching columns */
         $request = "SELECT
                   `COLUMN_NAME`,

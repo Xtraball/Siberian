@@ -638,48 +638,209 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
     }
 
+    /**
+     *
+     */
     public function importAction() {
         try {
 
-            if (empty($_FILES) || empty($_FILES['filename']['name'])) {
+            $data = array(
+                "success" => 1,
+                "message" => __("Import success."),
+            );
+
+            if (empty($_FILES) || empty($_FILES['files']['name'])) {
                 throw new Exception("#486-01: No file sent.");
             } else {
 
                 $tmp = Core_Model_Directory::getTmpDirectory(true);
-                $tmp_path = $tmp."/".$_FILES['filename']['name'];
-                if(!rename($_FILES['filename']['tmp_name'], $tmp_path)) {
+                $tmp_path = $tmp."/".$_FILES['files']['name'][0];
+                if(!rename($_FILES['files']['tmp_name'][0], $tmp_path)) {
                     throw new Exception("#486-02: Unable to write file.");
                 } else {
-                    $option_value_model = new Application_Model_Option_Value();
-                    $option_value = $option_value_model->readOption($tmp_path);
+                    /** Detect if it's a simple feature or a complete template Application */
+                    $filetype = pathinfo($tmp_path, PATHINFO_EXTENSION);
+                    switch($filetype) {
+                        case "yml":
+                                $this->importFeature($tmp_path);
 
-                    if ($option_value->getCode()) {
-                        $option_model = new Application_Model_Option();
-                        $option = $option_model->find($option_value->getCode(), "code");
-                        if (!$option->getId()) {
-                            throw new Exception("#486-03: This feature is not available for you.");
-                        } else {
-                            if (Siberian_Exporter::isRegistered($option->getCode())) {
-                                $classname = Siberian_Exporter::getClass($option->getCode());
-                                $importer = new $classname();
-                                $importer->importAction($tmp_path);
-                            } else {
-                                throw new Exception("#486-04: Sorry this feature doesn't expose its import interface.");
-                            }
-                        }
+                                $data["message"] = __("Feature successfuly imported.");
+                            break;
+                        case"zip":
+                                if(!$this->getRequest()->getParam("confirm", false)) {
+                                    $data = array(
+                                        "confirm" => 1,
+                                        "message" => __("Your are about to replace the current application template, colors & features.\nAre you sure ?"),
+                                    );
+                                } else {
+                                    $this->importApplication($tmp_path);
+
+                                    $data["message"] = __("Application template successfully imported.");
+                                }
+                            break;
                     }
                 }
             }
-
-            $data = array(
-                "success" => 1,
-                "message" => __("Feature successfuly imported."),
-            );
 
         } catch(Exception $e) {
             $data = array(
                 "error" => 1,
                 "message" => $e->getMessage()
+            );
+        }
+
+        $this->_sendHtml($data);
+    }
+
+    private function importApplication($path) {
+        /** Unzip the archive */
+        $folder = Core_Model_Directory::unzip($path);
+
+        /** Clean-up after upload. */
+        Core_Model_Directory::delete($folder);
+        Core_Model_Directory::delete($path);
+    }
+
+    /**
+     * Import a single feature.
+     *
+     * @param $path
+     * @throws Exception
+     */
+    private function importFeature($path) {
+        $option_value_model = new Application_Model_Option_Value();
+        $option_value = $option_value_model->readOption($path);
+
+        $application = $this->getApplication();
+        $existing_options = $application->getOptions();
+
+        if ($option_value->getCode()) {
+            $option_model = new Application_Model_Option();
+            $option = $option_model->find($option_value->getCode(), "code");
+
+            foreach($existing_options as $existing_option) {
+                if(($existing_option->getCode() == $option->getCode()) && $existing_option->getOnlyOnce()) {
+                    throw new Exception("#486-05: You can have only one feature '{$option->getName()}'.");
+                }
+            }
+
+            if (!$option->getId()) {
+                throw new Exception("#486-03: This feature is not available for you.");
+            } else {
+                if (Siberian_Exporter::isRegistered($option->getCode())) {
+                    $classname = Siberian_Exporter::getClass($option->getCode());
+                    $importer = new $classname();
+                    $importer->importAction($path);
+                } else {
+                    throw new Exception("#486-04: Sorry this feature doesn't expose its import interface.");
+                }
+            }
+        }
+    }
+
+    /**
+     * Modal dialog for import/export
+     */
+    public function exportmodalAction() {
+        $layout = $this->getLayout();
+        $layout->setBaseRender('modal', 'html/modal.phtml', 'core_view_default')
+            ->setTitle(__('Import / Export'))
+            ->setBorderColor("border-blue")
+        ;
+        $layout->addPartial('modal_content', 'admin_view_default', 'application/customization/features/export.phtml');
+        $html = array('modal_html' => $layout->render());
+
+        $this->_sendHtml($html);
+    }
+
+    /**
+     * Export the application to YAML
+     */
+    public function exportAction() {
+        $application = $this->getApplication();
+        $options = $application->getOptions();
+        $request = $this->getRequest();
+
+        $application_form_export = new Application_Form_Export();
+        $application_form_export->addOptions($application);
+        $application_form_export->addTemplate();
+
+        # Export as Template
+        $is_template = $request->getParam("is_template");
+        if($is_template) {
+            $application_form_export->isTemplate();
+        }
+        $template_name = $request->getParam("template_name", __("MyTemplate"));
+        $template_version = $request->getParam("template_version", "1.0");
+        $template_description = $request->getParam("template_description", __("My custom template"));
+
+        if($application_form_export->isValid($request->getParams())) {
+            # Folder
+            $folder_name = "export-app-".$application->getId()."-".date("Y-m-d_h-i-s")."-".uniqid();
+            $tmp = Core_Model_Directory::getBasePathTo("var/tmp/");
+            $tmp_directory = $tmp."/".$folder_name;
+            $options_directory = $tmp_directory."/options";
+            mkdir($options_directory, 0777, true);
+
+            $selected_options = $request->getParam("options");
+            foreach($options as $option) {
+                if(isset($selected_options[$option->getId()]) && $selected_options[$option->getId()]) {
+                    if(Siberian_Exporter::isRegistered($option->getCode())) {
+                        $exporter_class = Siberian_Exporter::getClass($option->getCode());
+                        if(class_exists($exporter_class) && method_exists($exporter_class, "exportAction")) {
+                            $tmp_class = new $exporter_class();
+                            $export_type = $selected_options[$option->getId()];
+                            $dataset = $tmp_class->exportAction($option, $export_type);
+                            file_put_contents("{$options_directory}/{$option->getPosition()}-{$option->getCode()}.yml", $dataset);
+                        }
+                    }
+                }
+            }
+
+            /** Application */
+            $application_dataset = $application->toYml();
+            file_put_contents("{$tmp_directory}/application.yml", $application_dataset);
+
+            /** package.json */
+            $package = array(
+                "name" => ($is_template) ? $template_name : $folder_name,
+                "decription" => ($is_template) ? $template_description : "User exported application template.",
+                "version" => ($is_template) ? $template_version : "1.0",
+                "flavor" => Siberian_Exporter::FLAVOR,
+                "type" => "template",
+                "dependencies" => array(
+                    "system" => array(
+                        "type" => "SAE",
+                        "version" => Siberian_Exporter::MIN_VERSION,
+                    ),
+                ),
+            );
+
+            file_put_contents("{$tmp_directory}/package.json", Siberian_Json::encode($package));
+
+            $zip = Core_Model_Directory::zip($tmp_directory, $tmp."/".$folder_name.".zip");
+            $base = Core_Model_Directory::getBasePathTo("");
+            $url = $this->getUrl().str_replace($base, "",  $zip);
+
+            if(file_exists($zip)) {
+                $data = array(
+                    "success" => 1,
+                    "message" => __("Downloading your package."),
+                    "type" => "download",
+                    "url" => $url
+                );
+            } else {
+                $data = array(
+                    "error" => 1,
+                    "message" => __("#498-01: An error occured while exporting your application.")
+                );
+            }
+
+        } else {
+            $data = array(
+                "error" => 1,
+                "message" => $application_form_export->getTextErrors(),
+                "errors" => $application_form_export->getTextErrors(true)
             );
         }
 

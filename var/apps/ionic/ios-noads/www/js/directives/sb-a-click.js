@@ -14,7 +14,14 @@ App.directive("sbAClick", function($rootScope, $timeout, $window) {
                             $rootScope.showMobileFeatureOnlyError();
                             return false;
                         }
-                        $window.open(old_href, $rootScope.getTargetForLink(), "location=no");
+
+                        if (/^(tel:).*/.test(old_href) && ionic.Platform.isAndroid()) {
+                            $window.open(old_href, '_self', "location=no");
+                        } else if(ionic.Platform.isIOS() && old_href.indexOf("pdf") >= 0) {
+                            $window.open(old_href, $rootScope.getTargetForLink(), "EnableViewPortScale=yes");
+                        } else {
+                            $window.open(old_href, $rootScope.getTargetForLink(), "location=no");
+                        }
                         return false;
                     });
                 });

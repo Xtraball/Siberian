@@ -222,7 +222,12 @@ $scope.getItineraryLink = function(point1,point2) {
                     return;
                 }
 
-                $window.open($scope.block.content, $rootScope.getTargetForLink(), "location=no");
+                if(ionic.Platform.isIOS() && $scope.block.content.indexOf("pdf") >= 0) {
+                    $window.open($scope.block.content, $rootScope.getTargetForLink(), "EnableViewPortScale=yes");
+                } else {
+                    $window.open($scope.block.content, $rootScope.getTargetForLink(), "location=no");
+                }
+
             };
         },
         link: function (scope, element) {

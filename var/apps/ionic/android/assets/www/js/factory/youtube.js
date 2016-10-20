@@ -33,6 +33,7 @@ App.factory('Youtube', function($q, $http) {
                     cover_url: item.snippet.thumbnails.medium.url,
                     title: item.snippet.title,
                     description: item.snippet.description,
+                    date: item.snippet.publishedAt,
                     url: "https://www.youtube.com/watch?v=" + item.id.videoId,
                     url_embed: "https://www.youtube.com/embed/" + item.id.videoId
                 };
@@ -63,7 +64,7 @@ App.factory('Youtube', function($q, $http) {
 
         $http({
             method: 'GET',
-            url: "https://www.googleapis.com/youtube/v3/channels/?part=snippet&key=" + factory.key + "&forUsername="+keyword,
+            url: "https://www.googleapis.com/youtube/v3/channels/?part=snippet&key=" + factory.key + "&forUsername="+keyword + "&order=date",
             cache: true,
             responseType:'json'
         }).success(function(data) {
@@ -77,7 +78,7 @@ App.factory('Youtube', function($q, $http) {
 
             $http({
                 method: 'GET',
-                url: "https://www.googleapis.com/youtube/v3/search/?&part=snippet&key=" + factory.key + "&maxResults=5&channelId=" + id + param_offset,
+                url: "https://www.googleapis.com/youtube/v3/search/?&part=snippet&key=" + factory.key + "&maxResults=5&type=video&channelId=" + id + param_offset,
                 cache: true,
                 responseType: 'json'
             }).success(function (response) {
@@ -93,6 +94,7 @@ App.factory('Youtube', function($q, $http) {
                         cover_url: item.snippet.thumbnails.medium.url,
                         title: item.snippet.title,
                         description: item.snippet.description,
+                        date: item.snippet.publishedAt,
                         url: "https://www.youtube.com/watch?v=" + item.id.videoId,
                         url_embed: "https://www.youtube.com/embed/" + item.id.videoId
                     };
@@ -126,7 +128,7 @@ App.factory('Youtube', function($q, $http) {
 
         $http({
             method: 'GET',
-            url: "https://www.googleapis.com/youtube/v3/channels?part=contentDetails&key=" + factory.key + "&forUsername="+keyword,
+            url: "https://www.googleapis.com/youtube/v3/channels?part=contentDetails&key=" + factory.key + "&forUsername="+keyword + "&order=date",
             cache: true,
             responseType:'json'
         }).success(function(data) {
@@ -151,6 +153,7 @@ App.factory('Youtube', function($q, $http) {
                             cover_url: item.snippet.thumbnails.medium.url,
                             title: item.snippet.title,
                             description: item.snippet.description,
+                            date: item.snippet.publishedAt,
                             url: "https://www.youtube.com/watch?v=" + item.snippet.resourceId.videoId,
                             url_embed: "https://www.youtube.com/embed/" + item.snippet.resourceId.videoId
                         };

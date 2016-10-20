@@ -2413,3 +2413,20 @@ input[type=range].sb-slider:focus::-ms-fill-upper {
 .export-button-fix {
     right: 15px;
 }
+
+div#modal_details_modal_import_export {
+    margin: 0;
+    padding: 0;
+}
+
+form dt {
+    height: 0;
+}
+
+#modal_modal_import_export {
+    position: absolute;
+    height: 300%;
+    transform: scale(1);
+    -moz-transform: scale(1);
+    -webkit-transform: scale(1);
+}

@@ -184,18 +184,10 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
                             }
 
                             # If the current version of Siberian equals the package's version
-                            if (version_compare(Siberian_Version::VERSION, $package->getVersion()) >= 0) {
+                            if (version_compare(Siberian_Version::VERSION, $package->getVersion(), "=")) {
                                 throw new Exception($this->_("#19-004: You already have installed this update."));
-                                # If the current version is too old
-                            } else {
-
-                                $compare = version_compare(Siberian_Version::VERSION, $dependency["version"]);
-                                if ($compare == -1) {
-                                    throw new Exception($this->_("#19-005: Please update your system to the %s version before installing this update.", $dependency["version"]));
-                                } elseif ($compare == 1) {
-                                    throw new Exception($this->_("#19-006: You already have installed this update."));
-                                }
-
+                            } elseif (version_compare(Siberian_Version::VERSION, $dependency["version"], "<")) {
+                                throw new Exception($this->_("#19-005: Please update your system to the %s version before installing this update.", $dependency["version"]));
                             }
 
                             break;

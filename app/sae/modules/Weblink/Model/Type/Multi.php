@@ -97,4 +97,5 @@ class Weblink_Model_Type_Multi extends Weblink_Model_Weblink {
 
         return $this;
     }
+    
 }

@@ -50,9 +50,14 @@
 
         <script type="text/javascript">
 
+            <?php
+                $application = $this->getApplication();
+                $app_id = $this->getApplication()->getAppId();
+                if(!empty($app_id)):
+            ?>
             (function() {
                 // Creates an app_id ajax param. Yields something like 'app_id=2'
-                var app_id_param = $.param({app_id: <?php echo $this->getApplication()->getAppId(); ?> });
+                var app_id_param = $.param({app_id: '<?php echo $app_id; ?>' });
 
                 // Send the app_id along with every ajax editor request
                 $.ajaxPrefilter(function (options, _, jqXHR) {
@@ -87,6 +92,7 @@
                 }, 12000);
 
             }());
+            <?php endif; ?>
 
             $(document).ready(function() {
 

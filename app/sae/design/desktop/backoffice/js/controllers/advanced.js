@@ -36,6 +36,10 @@ App.config(function($routeProvider) {
         $scope.content_loader_is_visible = false;
     });
 
+    $scope.moduleAction = function(module, action) {
+
+    };
+
 
 
 }).controller("BackofficeAdvancedConfigurationController", function($scope, $timeout, $interval, Label, Header, AdvancedConfiguration) {

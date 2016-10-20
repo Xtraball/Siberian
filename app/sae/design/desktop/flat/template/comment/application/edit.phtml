@@ -54,18 +54,21 @@
                     <ul class="list-group">
                         <?php foreach ($comments as $comment) : ?>
                             <?php $text = trim(strip_tags($comment->getText())); ?>
-                            <?php $text = mb_strlen($comment->getText(), 'UTF-8') > 255 ? mb_substr($text, 0, 255, "UTF-8") . '...' : $text; ?>
+                            <?php $text = mb_strlen($comment->getText(), 'UTF-8') > 120 ? mb_substr($text, 0, 120, "UTF-8") . '...' : $text; ?>
                             <?php $title = $comment->getTitle(); ?>
-                            <?php if (empty($title)) continue; ?>
+                            <?php if (empty($text)) continue; ?>
                             <li class="news_actions list-group-item content-white-bkg" rel="<?php echo $comment->getId(); ?>">
                                 <div class="form-group">
-                                    <div class="col-md-10 text-justify">
-                                        <?php echo $title ?>
+                                    <div class="col-md-9" text-justify">
+                                        <?php 
+                                            if(!empty($title)) {
+                                                echo $title;
+                                            } else {
+                                                echo $text;
+                                            }
+                                        ?>
                                     </div>
-                                    <div class="col-md-2 text-center" id="news_icons_<?php echo $comment->getId(); ?>">
-                                        <a class="<?php if ($comment->getFlag() == 0) echo 'hidden'; ?> show_details" title="<?php echo $this->_('Was flagged as inappropriate') ?>">
-                                            <i class="fa fa-flag"></i>
-                                        </a>
+                                    <div class="col-md-3 text-justify" id="news_icons_<?php echo $comment->getId(); ?>">
                                         <a href="javascript:void(0)" class="show_details" rel="<?php echo $comment->getId() ?>">
                                             <i class="fa fa-search"></i>
                                         </a>
@@ -77,22 +80,25 @@
                                         </a>
                                         <?php if ($comment->getisVisible() == '1') : ?>
                                             <a href="javascript:void(0)" title="<?php echo $this->_('Hide this info') ?>" class="hide_comment" rel="<?php echo $comment->getId() ?>">
-                                                <i class="fa fa-eye-close"></i>
+                                                <i class="fa fa-eye"></i>
                                             </a>
                                         <?php else : ?>
                                             <a href="javascript:void(0)" title="<?php echo $this->_('Show this info') ?>" class="show_comment" rel="<?php echo $comment->getId() ?>">
-                                                <i class="fa fa-eye-open"></i>
+                                                <i class="fa fa-eye"></i>
                                             </a>
                                         <?php endif; ?>
-                                        <a href="javascript:void(0)" class="delete_comment" rel="<?php echo $comment->getId() ?>">
+                                        <a href="javascript:void(0)" title="<?php echo $this->_('Delete this info') ?>" class="delete_comment" rel="<?php echo $comment->getId() ?>">
                                             <i class="fa fa-trash"></i>
+                                        </a>
+                                        <a href="javascript:void(0)" class="<?php if ($comment->getFlag() == 0) echo 'hidden'; ?> show_details" title="<?php echo $this->_('Was flagged as inappropriate') ?>">
+                                            <i class="fa fa-flag"></i>
                                         </a>
                                     </div>
                                 </div>
                                 <div id="details_news_<?php echo $comment->getId(); ?>" class="news_details" style="display: none;">
                                     <div class="row">
-                                        <div class="col-md-3"><label><?php echo $this->_('Publishing date'); ?> :</label></div>
-                                        <div class="col-md-9"><?php echo $comment->getFormattedCreatedAt('dd MMMM y') ?></div>
+                                        <div class="col-md-4"><label><?php echo $this->_('Publishing date'); ?> :</label></div>
+                                        <div class="col-md-8"><?php echo $comment->getFormattedCreatedAt('dd MMMM y') ?></div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12"><?php echo $text; ?></div>
@@ -104,7 +110,7 @@
                                             <form action="<?php echo $this->getUrl('comment/application/updatepost') ?>" method="post" class="form-horizontal newsUpdateForm">
                                                 <div class="form-group buttons first-row-feature">
                                                     <div class="col-md-12">
-                                                        <button type="button" onclick="page.reload()" class="btn color-blue pull-left"><i class="fa fa-arrow-left"></i></button>
+                                                        <button type="button" class="btn color-blue pull-left hide_update_section" rel="<?php echo $comment->getId();?>"><i class="fa fa-arrow-left"></i></button>
                                                         <button type="submit" class="btn color-blue pull-right">OK</button>
                                                     </div>
                                                 </div>
@@ -160,6 +166,8 @@
                                                 </div>
                                                 <input type="hidden" name="option_value_id" value="<?php echo $value->getId(); ?>" />
                                                 <input type="hidden" id="image_update_actus_<?php echo $comment->getId();?>" name="image" value="<?php echo $comment->getImage();?>" />
+
+                                                <input type="hidden" id="comment_visibility_<?php echo $comment->getId();?>" name="is_visible" value="<?php echo $comment->getIsVisible()?>"/>
                                             </form>
                                         </div>
                                     </div>
@@ -301,6 +309,23 @@
                 });
 
                 return false;
+            });
+            // does not reload the page just hide the update form section
+            $('.hide_update_section').click(function() {
+
+                var id = $(this).attr('rel');
+                var div = $('#update_news_' + id);
+                if (div.is(':visible')) {
+                    div.slideUp(300, function () {
+                        $(this).parent('div.news_actions').removeClass('selected')
+                    });
+                } else {
+                    div.slideDown(300, function () {
+                        $(this).parent('div.news_actions').addClass('selected')
+                    });
+                }
+                return false;
+
             });
 
         }.bind(page));

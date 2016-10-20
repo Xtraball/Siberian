@@ -23,24 +23,6 @@
     $options = $opts;
 ?>
 
-<?php if(APPLICATION_ENV != "production"): ?>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('input#import-feature').fileupload({
-            dataType: 'json',
-            add: function (el, data) {
-                console.log("add");
-                data.submit();
-            },
-            done: function (e, data) {
-                console.log("done");
-                console.log(data);
-            }
-        });
-    });
-
-</script>
-<?php endif; ?>
 
 <div class="page-content-wrapper">
     <div id="pages_content" class="content position-path">
@@ -48,11 +30,10 @@
             tabbar_names = new Array();
         </script>
         <h3 class="title-editor border-blue">
-            <?php echo $this->_('Your pages'); ?>
+            <?php echo __('Your pages'); ?>
             <?php if(APPLICATION_ENV != "production"): ?>
-            <button class="color-blue bt-header-right btn import-feature pull-right export-button">
+            <button id="feature_import_export" class="color-blue bt-header-right btn import-feature pull-right export-button">
                 <?php echo __("Import / Export") ?>
-                <input type="file" id="import-feature" name="filename" data-url="<?php echo $this->getUrl("application/customization_features/import"); ?>" style="position: absolute; top: 10px; opacity: 0; z-index: 1000; width: 40px; height: 30px;" />
             </button>
             <?php endif; ?>
         </h3>
@@ -84,6 +65,17 @@
             <div id="push_map_canvas"></div>
         </div>
     </div>
+
+    <?php if(APPLICATION_ENV != "production"): ?>
+        <script type="text/javascript">
+
+            var modal_import_export = new Modal({id: 'modal_import_export', url: '<?php echo $this->getUrl('application/customization_features/exportmodal'); ?>', is_retain: false, width: 850, height: 'auto'});
+            $('#feature_import_export').click(function() {
+                modal_import_export.show();
+            });
+
+        </script>
+    <?php endif; ?>
 
 <?php if($this->getSession()->getAdmin()->isAllowedToAddPages($this->getApplication()->getId())) : ?>
     <div id="previews" style="display:none;">
@@ -194,8 +186,6 @@
     </div>
 <?php endif; ?>
 </div>
-
-
 
 <script type="text/javascript">
 
@@ -388,7 +378,6 @@ var page = {
             mouseleave: function () {
                 var a = $(this).children('a.details');
                 if (!$(this).hasClass('selected')) {
-//                    a.removeClass('active');
                     $(this).children('div.actions').stop().fadeOut();
                 }
             }
@@ -426,11 +415,6 @@ var page = {
                         var feature_count = $('#option_values').find('li:visible').length;
                         $('.button_handler[rel="'+datas.category.id+'"]').find('.features_number').html('('+feature_count+')');
 
-//                            // Supprime de l'élément dans l'iframe
-//                            iframe.content.find('#tabbar_item_'+datas.value_id+'.belongs_to_folder').fadeOut(300, function() {
-//                                $(this).parent().remove();
-//                            });
-
                         // Cas aucune feature n'est ouverte -> Le folder est ouvert
                         if(!folder.current_option_id) {
                             //Réaffiche l'élément dans le formulaire
@@ -462,7 +446,6 @@ var page = {
                                         return false;
                                     }
                                 });
-//                                select.dropkick('reload');
                             }
                         }
 
@@ -474,7 +457,6 @@ var page = {
                         if(!datas.use_admin_account) $('#option_value_customer_account').hide();
                         carousel.update();
                         
-//                            iframe.f.page.destroySubpage(datas.value_id, true);
 
                         if(datas.was_folder) {
                             $('#option_values > .option_value').each(function() {
@@ -482,13 +464,7 @@ var page = {
                                     options.resetElement($(this).attr('data-value-id'));
                                 }
                             });
-//                                // Rajoute toutes les fonctionnalités du folder dans le slider
-//                                $.each(datas.categories_options, function(category_id, option_values) {
-//                                    $.each(option_values, function(index, option) {
-//                                        // Met à jour le slider
-//                                        options.resetElement(option);
-//                                    });
-//                                });
+
                             if(!folder.id) {
                                 options.loadNewSlider('default');
                             }
@@ -530,20 +506,11 @@ var page = {
                     $('#option_value_customer_account').before(li);
                     this.close();
                     preview.close(true);
-//                        iframe.f.page.homepage.setCallback('didcreate', function() {
-//                            page.load(a);
-//                            this.unsCallback('didcreate');
-//                        });
-//                        iframe.f.page.loadHomePage();
 
                     page.load(a);
 
                     iframe.f.reloadTabbar();
 
-//                    if(iframe.f.isHomepage()) {
-//                        iframe.f.reload();
-//                    }
-//                        iframe.f.setPath(datas.path);
                     carousel.update().slideToItem(li);
 
                     //Scroll to top after adding a feature
@@ -855,29 +822,6 @@ var animation = {
         });
 
     },
-//
-//        stack: function(div, disappearCallback, appearCallback) {
-//
-//            if(typeof disappearCallback == 'undefined') disappearCallback = function() {}
-//            if(typeof appearCallback == 'undefined') appearCallback = function() {}
-//
-//            c.css('width', div.width());
-//            div.css('position', 'absolute');
-//            div.show();
-//            var left = 0;
-//
-//            var newAppearCallback = function() {
-//                appearCallback();
-//            }
-//
-//            if(div.is(':visible')) left = div.width();
-//            div.animate({left: left, opacity: 0}, 500, null, function() { disappearCallback(); newAppearCallback();});
-//
-//        },
-//
-//        unstack: function(div, disappearCallback, appearCallback) {
-//            this.stack(div, disappearCallback, appearCallback);
-//        },
 
     fold: function (oldDiv, newDiv, disappearCallback, appearCallback) {
 
@@ -990,12 +934,6 @@ var feature = {
         }
         if (typeof appearCallback == 'undefined') appearCallback = function () {
         }
-
-//        oldDiv.css('width', '100%');
-//        oldDiv.css('position', 'relative');
-//        oldDiv.parent().addClass('relative');
-//        newDiv.css('width', '100%');
-//        newDiv.css('position', 'relative');
 
         var oldLeft = oldDiv.width();
         var newLeft = oldDiv.width() * -1;

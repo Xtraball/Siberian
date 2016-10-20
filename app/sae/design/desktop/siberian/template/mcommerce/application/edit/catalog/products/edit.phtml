@@ -143,7 +143,7 @@
                                             <input id="product_format_is_deleted_<?php echo $option->getId() ?>" type="hidden" name="option[<?php echo $option->getId() ?>][is_deleted]" rel="<?php echo $option->getId() ?>"/>
                                         </td>
                                         <td>
-                                            <?php if($i>2):?>
+                                            <?php if($i>=2):?>
                                                 <button type="button" id="delete_format_<?php echo $option->getId() ?>" rel="<?php echo $i; ?>" class="delete delete_format" title="Supprimer" onclick="products.groups.group.deleteFormat('<?php echo $option->getId() ?>')"><i class="icon-remove"></i></button>
                                             <?php endif; ?>
                                         </td>
