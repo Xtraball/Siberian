@@ -130,7 +130,7 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         /** App Only */
         if($this->getDevice()) {
             $version_name = $this->getDevice()->getVersion();
-            $version_code = str_pad(str_replace('.', '', $version_name), 5, "0");
+            $version_code = str_pad(str_replace('.', '', $version_name), 6, "0");
 
             if(($version_code != 1 && $version_code != 10000) || $version_name != "1.0") {
                 $replacements = array_merge($replacements, array(
