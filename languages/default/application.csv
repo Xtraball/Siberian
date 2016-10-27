@@ -133,6 +133,8 @@
 "Google Play Icon"
 "Google's Information"
 "Go to first images on loop"
+"Slider height"
+"If you decide to change the slider size, all images will be dropped. Are you sure ?"
 "Health & Fitness"
 "Header"
 "Here is our latest creation. What do you think?"
@@ -390,3 +392,4 @@
 "Google Maps JavaScript API Key"
 "Search by keywords ..."
 "Reset"
+"<b>Note</b>: the cron scheduler minimum interval is 10 seconds, reducing the cron interval can increase your server load, be careful."

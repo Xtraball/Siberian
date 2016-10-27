@@ -348,6 +348,17 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
             $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
             Siberian_Autoupdater::configure($protocol.$this->getRequest()->getHttpHost());
 
+            $cron_model = new Cron_Model_Cron();
+            $cachebuilder = $cron_model->find("cachebuilder", "command");
+
+            if($cachebuilder->getId()) {
+                $options = array(
+                    "host" => $protocol.$this->getRequest()->getHttpHost(),
+                );
+                $cachebuilder->setOptions(Siberian_Json::encode($options))->save();
+                //$cachebuilder->enable();
+            }
+
         } catch(Exception $e) {
             $data = array(
                 "error" => 1,

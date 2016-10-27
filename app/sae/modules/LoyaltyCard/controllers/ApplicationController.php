@@ -3,51 +3,49 @@
 class LoyaltyCard_ApplicationController extends Application_Controller_Default
 {
 
-    public function editpostAction()
-    {
+    public function editpostAction() {
 
-        if ($datas = $this->getRequest()->getPost()) {
+        $values = $this->getRequest()->getPost();
 
-            try {
+        $form = new LoyaltyCard_Form_Create();
+        if($form->isValid($values)) {
+            $loyalty_card = new LoyaltyCard_Model_LoyaltyCard();
+            $loyalty_card->setData($form->getValues());
 
-                $html = '';
-
-                // Test s'il y a une erreur dans la saisie
-                if (empty($datas['name']) OR empty($datas['number_of_points']) OR empty($datas['advantage']) OR empty($datas['conditions'])) {
-                    throw new Exception($this->_('An error occurred while saving your loyalty card. Please fill all fields in.'));
-                }
-
-                // Test s'il y a un value_id
-                if (empty($datas['value_id'])) throw new Exception($this->_('An error occurred while saving your loyalty card.'));
-
-                // Récupère l'option_value en cours
-                $option_value = new Application_Model_Option_Value();
-                $option_value->find($datas['value_id']);
-                $application = $this->getApplication();
-                $card = new LoyaltyCard_Model_LoyaltyCard();
-
-                $card->setData($datas)
-                    ->setValueId($option_value->getId())
-                    ->save();
-
-                $html = array(
-                    'success' => '1',
-                    'success_message' => $this->_('Your loyalty card has been saved successfully'),
-                    'message_timeout' => 2,
-                    'message_button' => 0,
-                    'message_loader' => 0
-                );
-
-            } catch (Exception $e) {
-                $html = array(
-                    'message' => $e->getMessage(),
-                    'message_button' => 1,
-                    'message_loader' => 1
-                );
+            if($values["image_active"] == "_delete_") {
+                $loyalty_card->setData("image_active", "");
+            } else if(file_exists(Core_Model_Directory::getBasePathTo("images/application".$values["image_active"]))) {
+                # Nothing changed, skip
+            } else {
+                $path_image_active = Siberian_Feature::moveUploadedFile($this->getCurrentOptionValue(), Core_Model_Directory::getTmpDirectory()."/".$values['image_active'], $values['image_active']);
+                $loyalty_card->setData("image_active", $path_image_active);
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+            if($values["image_inactive"] == "_delete_") {
+                $loyalty_card->setData("image_inactive", "");
+            } else if(file_exists(Core_Model_Directory::getBasePathTo("images/application".$values["image_inactive"]))) {
+                # Nothing changed, skip
+            } else {
+                $path_image_inactive = Siberian_Feature::moveUploadedFile($this->getCurrentOptionValue(), Core_Model_Directory::getTmpDirectory()."/".$values['image_inactive'], $values['image_inactive']);
+                $loyalty_card->setData("image_inactive", $path_image_inactive);
+            }
+
+            $loyalty_card->save();
+
+            $html = array(
+                "success" => 1,
+                "message" => __("Your loyalty card has been saved successfully"),
+            );
+
+        } else {
+            $html = array(
+                "error" => 1,
+                "message" => $form->getTextErrors(),
+                "errors" => $form->getTextErrors(true)
+            );
         }
+
+        $this->_sendHtml($html);
 
     }
 
@@ -102,11 +100,7 @@ class LoyaltyCard_ApplicationController extends Application_Controller_Default
                     $html['is_new'] = 1;
                     $html['name'] = $password->getName();
                 }
-//                }
-//                else {
-//                    $employee->delete();
-//                    $html = array();
-//                }
+
             } catch (Exception $e) {
                 $html = array('message' => $e->getMessage());
             }

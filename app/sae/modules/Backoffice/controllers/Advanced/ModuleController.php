@@ -64,8 +64,46 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
 
     }
 
-    public function executeAction($module, $action) {
+    /**
+     * Execute a related module action
+     */
+    public function executeAction() {
 
+        $params = Siberian_Json::decode($this->getRequest()->getRawBody());
+        $module = $params["module"];
+        $action = $params["action"];
+
+        try {
+
+            if($actions = Siberian_Module::getActions($module)) {
+                if(isset($actions[$action])) {
+                    $module_action = $actions[$action];
+
+                    if(strpos($module_action["action"], "::") !== false) {
+                        $parts = explode("::", $module_action["action"]);
+                        $class = $parts[0];
+                        $method = $parts[1];
+                        if(class_exists($class) && method_exists($class, $method) && call_user_func($parts)) {
+                            $data = array(
+                                "success" => 1,
+                                "message" => __("Action '{$action}' executed for module '{$module}'."),
+                            );
+                        }
+                    }
+
+                } else {
+                    throw new Exception(__("Unknown action for this module."));
+                }
+            }
+
+        } catch(Exception $e) {
+            $data = array(
+                "error" => 1,
+                "message" => $e->getMessage(),
+            );
+        }
+
+        $this->_sendHtml($data);
     }
 
 }

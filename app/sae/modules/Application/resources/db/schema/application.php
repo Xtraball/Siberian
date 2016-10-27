@@ -136,6 +136,11 @@ $schemas['application'] = array(
         'is_null' => true,
         'default' => '0',
     ),
+    'android_status_bar_is_hidden' => array(
+        'type' => 'tinyint(1)',
+        'is_null' => true,
+        'default' => '0',
+    ),
     'logo' => array(
         'type' => 'varchar(255)',
         'is_null' => true,
@@ -182,6 +187,10 @@ $schemas['application'] = array(
         'type' => 'tinyint(1)',
         'is_null' => true,
         'default' => '0',
+    ),
+    'homepage_slider_size' => array(
+        'type' => 'tinyint(4)',
+        'is_null' => true,
     ),
     'homepage_slider_duration' => array(
         'type' => 'int(11)',

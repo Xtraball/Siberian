@@ -1,36 +1,5 @@
 
 <form ng-submit="save()" class="form-horizontal">
-    <sb-section title="'<?php echo addcslashes(__("Cron"), "'"); ?>'">
-
-        <div class="form-group">
-
-            <div class="col-md-12">
-                <?php echo __("If you are unable to install or run the cronjob on your hosting/server you can disable it.") ?>
-                <br />
-                <?php echo __("<b>Note</b>: sources & push will be sent immediately after their creation, scheduled push will not work & media optimization is disabled.") ?>
-                <br /><br />
-            </div>
-            <div class="col-md-6">
-                <label for="{{ configs.disable_cron.code }}">{{ configs.disable_cron.label }}</label>
-                <select id="configs.disable_cron.code" class="form-control" ng-model="configs.disable_cron.value">
-                    <option value="1"><?php echo __("Yes"); ?></option>
-                    <option value="0"><?php echo __("No"); ?></option>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-12">
-                <button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
-                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
-                <div class="clear"></div>
-            </div>
-        </div>
-
-    </sb-section>
-</form>
-
-<form ng-submit="save()" class="form-horizontal">
     <sb-section title="'<?php echo addcslashes(__("Application settings"), "'"); ?>'">
 
         <div class="form-group">

@@ -49,9 +49,10 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
 
             }
 
+            $_pictos = $this->_getPictos($current_card);
             $data["picto_urls"] = array(
-                "normal_url" => $this->getRequest()->getBaseUrl().$this->_getImage('pictos/point.png'),
-                "validated_url" => $this->getRequest()->getBaseUrl().$this->_getColorizedImage($this->_getImage('pictos/point_validated.png', true), $this->getApplication()->getBlock('connect_button')->getBackgroundColor())
+                "normal_url" => $_pictos["inactive"],
+                "validated_url" => $_pictos["active"],
             );
 
             $data["page_title"] = $this->getCurrentOptionValue()->getTabbarName();
@@ -288,6 +289,11 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
 
         $regular_image_url = $this->_getImage('pictos/point.png');
         $validated_image_url = $this->_getColorizedImage($this->_getImage('pictos/point_validated.png', true), $this->getApplication()->getBlock('connect_button')->getBackgroundColor());
+
+        /** If images */
+        $image_active = ($current_card->getImageActive()) ? $this->getRequest()->getBaseUrl()."/images/application".$current_card->getImageActive() : $validated_image_url;
+        $image_inactive = ($current_card->getImageInactive()) ? $this->getRequest()->getBaseUrl()."/images/application".$current_card->getImageInactive() : $regular_image_url;
+
         $points = array();
 
         for($i = 0; $i < $current_card->getMaxNumberOfPoints(); $i++) {
@@ -300,12 +306,27 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
 
             $points[] = array(
                 "is_validated" => $is_validated,
-                "image_url" => $regular_image_url,
-                "validated_image_url" => $validated_image_url,
+                "image_url" => $image_inactive,
+                "validated_image_url" => $image_active,
             );
         }
 
         return $points;
+    }
+
+    protected function _getPictos($current_card) {
+
+        $regular_image_url = $this->_getImage('pictos/point.png');
+        $validated_image_url = $this->_getColorizedImage($this->_getImage('pictos/point_validated.png', true), $this->getApplication()->getBlock('connect_button')->getBackgroundColor());
+
+        /** If images */
+        $image_active = ($current_card->getImageActive()) ? $this->getRequest()->getBaseUrl()."/images/application".$current_card->getImageActive() : $validated_image_url;
+        $image_inactive = ($current_card->getImageInactive()) ? $this->getRequest()->getBaseUrl()."/images/application".$current_card->getImageInactive() : $regular_image_url;
+
+        return array(
+            "active" => $image_active,
+            "inactive" => $image_inactive,
+        );
     }
 
 }

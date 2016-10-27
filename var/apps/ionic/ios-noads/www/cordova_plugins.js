@@ -464,7 +464,7 @@ module.exports.metadata =
 {
     "com.transistorsoft.cordova.background-geolocation": "1.6.2",
     "cordova-hot-code-push-plugin": "1.3.2",
-    "cordova-plugin-splashscreen": "3.2.2-dev",
+    "cordova-plugin-splashscreen": "4.0.0",
     "cordova-plugin-app-version": "0.1.8",
     "cordova-plugin-app-event": "1.2.0",
     "com.keosu.cordova.stream": "0.1",
@@ -479,7 +479,7 @@ module.exports.metadata =
     "cordova-plugin-extension": "1.3.0",
     "cordova-plugin-file": "4.1.2-dev",
     "cordova-plugin-geolocation": "2.1.0",
-    "cordova-plugin-inappbrowser": "1.2.1",
+    "cordova-plugin-inappbrowser": "1.5.0",
     "ionic-plugin-keyboard": "2.0.1",
     "cordova-plugin-media": "2.2.1-dev",
     "de.neofonie.cordova.plugin.progressview": "3.0.1",

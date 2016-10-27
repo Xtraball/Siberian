@@ -3,14 +3,16 @@ App.config(function($routeProvider) {
     $routeProvider.when(BASE_URL+"/backoffice/advanced_module", {
         controller: 'BackofficeAdvancedController',
         templateUrl: BASE_URL+"/backoffice/advanced_module/template"
-    })
-        .when(BASE_URL+"/backoffice/advanced_configuration", {
+    }).when(BASE_URL+"/backoffice/advanced_configuration", {
         controller: 'BackofficeAdvancedConfigurationController',
         templateUrl: BASE_URL+"/backoffice/advanced_configuration/template"
     }).when(BASE_URL+"/backoffice/advanced_tools", {
         controller: 'BackofficeAdvancedToolsController',
         templateUrl: BASE_URL+"/backoffice/advanced_tools/template"
-    });;
+    }).when(BASE_URL+"/backoffice/advanced_cron", {
+        controller: 'BackofficeAdvancedCronController',
+        templateUrl: BASE_URL+"/backoffice/advanced_cron/template"
+    });
 
 }).controller("BackofficeAdvancedController", function($scope, $interval, Header, Advanced) {
 
@@ -37,7 +39,30 @@ App.config(function($routeProvider) {
     });
 
     $scope.moduleAction = function(module, action) {
+        $scope.form_loader_is_visible = true;
 
+        Advanced.moduleAction(module, action).success(function(data) {
+
+            if(angular.isObject(data) && angular.isDefined(data.message)) {
+                message = data.message;
+                $scope.message.isError(false);
+            }
+
+            $scope.message.setText(message)
+                .show()
+            ;
+        }).error(function(data) {
+            if(angular.isObject(data) && angular.isDefined(data.message)) {
+                message = data.message;
+            }
+
+            $scope.message.setText(message)
+                .isError(true)
+                .show()
+            ;
+        }).finally(function() {
+            $scope.form_loader_is_visible = false;
+        });
     };
 
 
@@ -127,7 +152,68 @@ App.config(function($routeProvider) {
         });
     };
 
+}).controller("BackofficeAdvancedCronController", function($scope, $interval, Header, AdvancedConfiguration, AdvancedCron) {
 
+    $scope.header = new Header();
+    $scope.header.button.left.is_visible = false;
+    $scope.header.loader_is_visible = false;
+    $scope.content_loader_is_visible = true;
 
+    AdvancedCron.loadData().success(function(data) {
+        $scope.header.title = data.title;
+        $scope.header.icon = data.icon;
+    }).finally(function() {
+        $scope.content_loader_is_visible = false;
+    });
+
+    $scope.content_loader_is_visible = true;
+
+    AdvancedConfiguration.findAll().success(function(data) {
+        $scope.configs = data;
+    }).finally(function() {});
+
+    AdvancedCron.findAll().success(function(data) {
+        $scope.system_tasks = data.system_tasks;
+        $scope.tasks = data.tasks;
+        $scope.apk_queue = data.apk_queue;
+        $scope.source_queue = data.source_queue;
+    }).finally(function() {
+        $scope.content_loader_is_visible = false;
+    });
+
+    $scope.save = function() {
+
+        $scope.form_loader_is_visible = true;
+
+        AdvancedConfiguration.save($scope.configs).success(function(data) {
+
+            var message = Label.save.error;
+            if(angular.isObject(data) && angular.isDefined(data.message)) {
+                message = data.message;
+                $scope.message.isError(false);
+            } else {
+                $scope.message.isError(true);
+            }
+            $scope.message.setText(message)
+                .show()
+            ;
+        }).error(function(data) {
+            var message = Label.save.error;
+            if(angular.isObject(data) && angular.isDefined(data.message)) {
+                message = data.message;
+            }
+
+            $scope.message.setText(message)
+                .isError(true)
+                .show()
+            ;
+        }).finally(function() {
+            $scope.form_loader_is_visible = false;
+
+            $timeout(function() {
+                location.reload();
+            }, 500);
+        });
+    };
 
 });

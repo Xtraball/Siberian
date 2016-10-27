@@ -87,6 +87,16 @@
                                         <input type="hidden" id="slider_loop_at_beginning" name="slider_loop_at_beginning" />
                                     </label>
                                 </div>
+                                <div class="slider_size">
+                                    <label for="set_the_slider_size" class="">
+                                        <?php echo __("Slider height"); ?>
+                                        <div class="opacity_container">
+                                            <input id="set_the_slider_size" class="sb-slider" type="range" min="0" max="100" step="1" value="<?php echo $application->getHomepageSliderSize(); ?>" rel="init" />
+                                            <span class="set_the_slider_size"><?php echo $application->getHomepageSliderSize(); ?>%</span>
+                                            <input type="hidden" id="slider_size" name="slider_size" value="<?php echo $application->getHomepageSliderSize(); ?>" />
+                                        </div>
+                                    </label>
+                                </div>
                             </div>
                             <div class="slider_images">
                                 <div id="uploaded_slider_images" class="listing">
@@ -352,6 +362,12 @@
     });
 
     /** Homepage Image Slider **/
+    
+    var  currentHeight = function(intialHeight) {
+        var current_scale = $('#slider_size').val();
+        var target_height = intialHeight * current_scale;
+        return Math.ceil(parseFloat(target_height));
+    };
 
     var initCarousel = function() {
         // Images slider carousel
@@ -396,6 +412,48 @@
             }
         });
     });
+
+    $("#set_the_slider_size").on("input", function() {
+        $("span.set_the_slider_size").text($(this).val()+"%");
+    });
+    
+    $("#set_the_slider_size").on("change", function() {
+        $("span.set_the_slider_size").text($(this).val()+"%");
+
+        var image_counts = 0 ;
+        try {
+            image_counts = $('#slider_images>li').length;
+        } catch(err) {
+           console.log(err);
+        }
+        if(image_counts != 0) {
+            var confirm_client = window.confirm("<?php echo __js('If you decide to change the slider size, all images will be dropped. Are you sure ?');?>");
+            if (confirm_client) {
+                $("#slider_size").attr("value", $(this).val());
+                $(this).attr("title", $(this).val());
+                $('#slider_images>li>.actions>.delete_page').each(
+                function (idx, elm) {
+                    $(elm).click();
+                });
+            } else {
+                return;
+            }
+            
+        } else {
+            $("#slider_size").attr("value", $(this).val());
+            $(this).attr("title", $(this).val());
+        }
+
+        if(image_counts > 0) {
+            reload(this.parentNode, "<?php echo $this->getUrl("application/customization_design_style/changehomepageslidersize"); ?>", false, function() {
+                iframe.reload();
+            });
+        } else {
+            reload(this.parentNode, "<?php echo $this->getUrl("application/customization_design_style/changehomepageslidersize"); ?>", false);
+        }
+
+    });
+
     $("#homepage_slider_options .upload_images").click(function() {
         $('.fileupload[rel="slider_images"]').trigger('click');
     });
@@ -429,12 +487,14 @@
             } else {
                 slider_images_uploader.hide();
 
+                
+
                 var params = new Array();
                 params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
                 params["file"] = data.result.files;
                 params["uploader"] = 'slider_images_uploader';
-                params["output_w"] = 1536;
-                params["output_h"] = 768;
+                params["output_w"] = 1080;
+                params["output_h"] = 1920*$("#slider_size").val()/100;
                 params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('application/customization_design_style/savesliderimages')) ?>';
 
                 slider_images_uploader.crop(params);
@@ -517,6 +577,13 @@
 
 </script>
 <style>
+    .slider_size {
+        width: 100%;
+        display: block;
+    }
+    .slider_size > label {
+        width:100%;
+    }
     /** IMAGE SLIDER CAROUSEL **/
     #homepage_slider .slider_images {
         margin-top: 20px;
@@ -529,15 +596,16 @@
     #uploaded_slider_images {
         overflow: hidden;
         width: 100%;
-        height: 92px;
+        height: 100%;
         margin-left: 0px;
+        min-height: 50px;
     }
     #uploaded_slider_images > div {
         margin: auto;
         overflow: hidden;
     }
     #uploaded_slider_images.listing ul {
-        height: 80px;
+        height: 100%;
         -webkit-transition: all 0.4s ease 0s;
         -moz-transition: all 0.4s ease 0s;
         -ms-transition: all 0.4s ease 0s;
@@ -549,7 +617,7 @@
     #uploaded_slider_images.listing ul li {
         float: left;
         width: 195px;
-        height: 92px;
+        height: 100%;
         padding: 0 5px;
         transition: none;
         border-right: 1px solid rgba(255, 255, 255, 0.3);
@@ -560,11 +628,12 @@
     }
     #uploaded_slider_images.listing ul li span.details {
         display: block;
-        height: 92px;
+        height: 100%;
         text-align: center;
     }
     #uploaded_slider_images.listing ul li span.details img {
         width: 100%;
+        height: 100%;
     }
     #uploaded_slider_images.listing ul li.slider_image div.actions {
         position: absolute;
@@ -587,10 +656,15 @@
         top: 0;
         width: 16px;
         height: 92px;
-        padding: 36px 0 0;
+        padding: 0;
         cursor: pointer;
         z-index: 2;
         font-size:25px;
     }
+
+
+    .opacity_container { width: 100%; }
+    .opacity_container input[type=range] { float: left; width: 90%; }
+    .opacity_container span { float: right; font-size: 11px; margin-top: -1px }
     /** /IMAGE SLIDER CAROUSEL **/
 </style>

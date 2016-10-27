@@ -2,10 +2,12 @@
 
     <form ng-submit="save();">
 
+
+
         <div class="col-md-6" ng-show="!is_edit">
             <div class="form-group">
                 <label for="country_code"><?php echo $this->_("Select a language"); ?></label>
-                <select id="country_code" class="form-control" ng-model="translation.country_code" ng-options="k as v for (k, v) in countries">
+                <select id="country_code" class="form-control" ng-model="translation.country_code" ng-options="k as v for (k, v) in countries" ng-change="changeCountry();">
                     <option value=""></option>
                 </select>
             </div>
@@ -17,6 +19,20 @@
                 <select id="files_list" class="form-control" ng-model="translation.file" ng-options="k as v for (k, v) in translation_files" ng-change="selectFile();">
                     <option value=""></option>
                 </select>
+            </div>
+        </div>
+
+        <div class="col-md-12" ng-show="translation.file && can_translate">
+            <div class="form-group" style="margin-top: 24px;">
+                <a class="btn btn-primary left pull-right" ng-click="translateAll();"><?php echo __("Translate all"); ?></a>
+                <a class="btn btn-primary left pull-right" ng-click="translateMissing();"><?php echo __("Translate missing entries"); ?></a>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+        <div class="col-md-12" ng-show="translation.file && !can_translate">
+            <div class="form-group" style="margin-top: 24px;">
+                <div><?php echo __("Translation API is not available for the current language.") ?></div>
             </div>
         </div>
 
@@ -37,7 +53,7 @@
                         <tr class="slide-left" ng-repeat="key in notSorted(translation.collection)" ng-init="file_data = translation.collection[key]">
                             <td class="valign-middle wrap">{{ key }}</td>
                             <td class="valign-middle text-center">
-                                <input type="text" ng-model="translation.collection[key]" class="form-control" placeholder="{{ file_data }}" value="{{ file_data }}" />
+                                <input type="text" ng-model="translation.collection[key]" class="form-control" placeholder="{{ file_data }}" value="{{ file_data }}" ng-class="currentClass[key]" ng-change="updateClass(key)" />
                             </td>
                         </tr>
                     </tbody>

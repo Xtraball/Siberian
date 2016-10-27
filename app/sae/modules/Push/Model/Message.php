@@ -98,8 +98,8 @@ class Push_Model_Message extends Core_Model_Default {
         return $this->getTable()->countByDeviceId($device_id, $this->_messageType);
     }
 
-    public function findLastPushMessage($device_id) {
-        $row = $this->getTable()->findLastPushMessage($device_id);
+    public function findLastPushMessage($device_id, $app_id) {
+        $row = $this->getTable()->findLastPushMessage($device_id, $app_id);
         $this->_prepareDatas($row);
         return $this;
     }

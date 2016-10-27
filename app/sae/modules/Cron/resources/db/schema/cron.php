@@ -52,6 +52,10 @@ $schemas['cron'] = array(
         'type' => 'tinyint(1)',
         'default' => 0,
     ),
+    'options' => array(
+        'type' => 'text',
+        'is_null' => true,
+    ),
     'last_error' => array(
         'type' => 'longtext',
     ),

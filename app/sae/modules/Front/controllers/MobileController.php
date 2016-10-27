@@ -50,6 +50,8 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                 "gcm_senderid" => Push_Model_Certificate::getAndroidSenderId(),
                 "googlemaps_key" => $googlemaps_key,
                 "offline_content" => ($application->getOfflineContent() == 1),
+                "ios_status_bar_is_hidden" => ($application->getIosStatusBarIsHidden() == 1),
+                "android_status_bar_is_hidden" => ($application->getAndroidStatusBarIsHidden() == 1),
             )
         );
 

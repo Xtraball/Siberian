@@ -146,6 +146,33 @@ class Application_Customization_Design_StyleController extends Application_Contr
 
     }
 
+    public function changeandroidstatusbarvisibilityAction() {
+
+        try {
+            $html = array();
+
+            $is_hidden = $this->getRequest()->getPost('android_status_bar_is_hidden') ? 1 : 0;
+
+            $this->getApplication()
+                ->setAndroidStatusBarIsHidden($is_hidden)
+                ->save()
+            ;
+
+            $html["success"] = 1;
+            $html['reload'] = 1;
+
+        } catch(Exception $e) {
+            $html = array(
+                'message' => $this->_('An error occurred while hidding the Android Status Bar.'),
+                'message_button' => 1,
+                'message_loader' => 1,
+            );
+        }
+
+        $this->getLayout()->setHtml(Zend_Json::encode($html));
+
+    }
+
     public function mutualizebackgroundimagesAction() {
 
         try {
@@ -255,6 +282,29 @@ class Application_Customization_Design_StyleController extends Application_Contr
             $this->getLayout()->setHtml(Zend_Json::encode($html));
         }
     }
+
+    public function changehomepageslidersizeAction() {
+
+            if($datas = $this->getRequest()->getPost()) {
+                try {
+                    $this->getApplication()
+                        ->setHomepageSliderSize($datas['slider_size'])
+                        ->save()
+                    ;
+
+                    $html = array(
+                        "success" => 1,
+                        "reload" => 1
+                    );
+                }catch(Exception $e) {
+                    $html = array(
+                        'message' => $e->getMessage(),
+                    );
+                }
+
+                $this->getLayout()->setHtml(Zend_Json::encode($html));
+            }
+        }
 
     public function changehomepagesliderloopsystemAction() {
 

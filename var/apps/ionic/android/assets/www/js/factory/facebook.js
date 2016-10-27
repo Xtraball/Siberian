@@ -3,7 +3,7 @@
 /**
  * Facebook feature
  */
-App.factory('Facebook', function($http, $q, $rootScope, Url) {
+App.factory('Facebook', function($cacheFactory, $http, $q, $rootScope, Url) {
 
     var self = this;
 
@@ -15,6 +15,7 @@ App.factory('Facebook', function($http, $q, $rootScope, Url) {
     self.displayed_per_page = 22;
     self.host = "https://graph.facebook.com/v2.7/";
     self.host_img = "https://graph.facebook.com/";
+    self.cache = $cacheFactory("facebook");
 
     /**
      * Fetch data for Facebook Page
@@ -50,7 +51,7 @@ App.factory('Facebook', function($http, $q, $rootScope, Url) {
     };
 
     self.findPosts = function() {
-        var params = "posts.fields(from,message,full_picture,picture,created_time,likes,comments,type,object_id)";
+        var params = "posts.fields(from,message,full_picture,picture,created_time,likes,comments,type,object_id,name,link)";
         var url = Url.build(self.host+self.username, { fields: params, access_token: self.token });
 
         if(angular.isDefined(self.page_urls['posts'])) {
@@ -63,7 +64,7 @@ App.factory('Facebook', function($http, $q, $rootScope, Url) {
     self.findPost = function(post_id) {
         var deferred = $q.defer();
 
-        var params = "from,name,message,description,full_picture,created_time,likes,comments,object_id,type";
+        var params = "from,message,description,full_picture,created_time,likes,comments,object_id,type,name,link";
         var url = Url.build(self.host+post_id, { fields: params, access_token: self.token });
 
         return self.get(url);
@@ -77,7 +78,7 @@ App.factory('Facebook', function($http, $q, $rootScope, Url) {
         return $http({
             method: 'GET',
             url: url,
-            cache: !$rootScope.isOverview,
+            cache: false,
             withCredentials: false,
             responseType:'json'
         });

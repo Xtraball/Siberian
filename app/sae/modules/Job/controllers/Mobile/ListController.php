@@ -121,13 +121,6 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default {
 
                 $job = new Job_Model_Job();
                 $job->find($value_id, "value_id");
-                $options = array(
-                    "display_search" => filter_var($job->getDisplaySearch(), FILTER_VALIDATE_BOOLEAN),
-                    "display_place_icon" => filter_var($job->getDisplayPlaceIcon(), FILTER_VALIDATE_BOOLEAN),
-                    "display_income" => filter_var($job->getDisplayIncome(), FILTER_VALIDATE_BOOLEAN),
-                    "title_company" => __($job->getTitleCompany()),
-                    "title_place" => __($job->getTitlePlace()),
-                );
 
                 $category = new Job_Model_Category();
                 $categories = $category->findAll(array(
@@ -172,6 +165,9 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default {
                 $options = array(
                     "display_search" => filter_var($job->getDisplaySearch(), FILTER_VALIDATE_BOOLEAN),
                     "display_place_icon" => filter_var($job->getDisplayPlaceIcon(), FILTER_VALIDATE_BOOLEAN),
+                    "display_income" => filter_var($job->getDisplayIncome(), FILTER_VALIDATE_BOOLEAN),
+                    "title_company" => __($job->getTitleCompany()),
+                    "title_place" => __($job->getTitlePlace()),
                 );
 
                 $html = array(
@@ -366,6 +362,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default {
                             "email" => $company->getEmail(),
                             "views" => $company->getViews(),
                             "places" => $_places,
+                            "is_active" => filter_var($company->getIsActive(), FILTER_VALIDATE_BOOLEAN),
                         );
 
                         $html = array(

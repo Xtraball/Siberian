@@ -76,7 +76,7 @@ $button = $block->getObject();
             if(action_count == 0) {
                 $('#field_label_label_<?php echo $this->getPosition(); ?>').append('<?php echo addslashes($this->_('Label:')) ?>');
                 var container = $('#content_<?php echo $this->getPosition(); ?>').parent();
-                container.append('<input id="label_<?php echo $this->getPosition(); ?>" type="text" class="input-flat required" placeholder="label" name="block[<?php echo $this->getPosition(); ?>][label]" value="<?php echo $block->getLabel(); ?>"/>');
+                container.append('<input id="label_<?php echo $this->getPosition(); ?>" type="text" class="input-flat required" placeholder="label" name="block[<?php echo $this->getPosition(); ?>][label]" value="<?php echo __js($block->getLabel(),"'"); ?>"/>');
             }
             action_count++;
 

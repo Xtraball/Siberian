@@ -125,6 +125,8 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
         $data['homepage_slider_is_visible'] = (bool) $this->getApplication()->getHomepageSliderIsVisible();
         $data['homepage_slider_duration'] = $this->getApplication()->getHomepageSliderDuration();
         $data['homepage_slider_loop_at_beginning'] = (bool) $this->getApplication()->getHomepageSliderLoopAtBeginning();
+        $data['homepage_slider_size'] = $this->getApplication()->getHomepageSliderSize();
+        $data['homepage_slider_is_new'] = ($data['homepage_slider_size'] != null);
 
         $push_number = 0;
         if($device_uid = $this->getRequest()->getParam("device_uid")) {

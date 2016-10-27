@@ -39,6 +39,7 @@ class Siberian_Form_Element_Multiselect extends Zend_Form_Element_Multiselect {
 	public function setNewDesign(){
 	  	$this->addClass('sb-select');
 	  	$this->addClass('input-flat');
+	  	$this->addClass('form-control no-dk');
 		return $this->setDecorators(array(
 	  		'ViewHelper',
 			array(array('wrapper'=>'HtmlTag'),array(

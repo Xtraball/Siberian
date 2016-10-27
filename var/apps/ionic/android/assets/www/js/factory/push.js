@@ -446,15 +446,6 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
         });
     };
 
-    factory.getLastPush = function(device_uid) {
-        return $http({
-            method: 'GET',
-            url: Url.get("push/mobile/findlastpush", {device_uid: device_uid}),
-            cache: false,
-            responseType: 'json'
-        });
-    };
-
     factory.getInAppMessages = function(device_uid) {
         return $http({
             method: 'GET',

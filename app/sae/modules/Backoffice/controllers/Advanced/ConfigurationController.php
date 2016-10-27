@@ -4,6 +4,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
 
     public $_codes  = array(
         "disable_cron",
+        "cron_interval",
         "environment",
         "update_channel",
         "use_https",

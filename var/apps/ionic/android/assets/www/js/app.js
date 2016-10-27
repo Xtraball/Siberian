@@ -1,4 +1,4 @@
-var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS9UIWebViewPatch', 'angular-carousel', 'lodash', 'ngImgCrop', 'ionic-zoom-view'])
+var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS9UIWebViewPatch', 'angular-carousel', 'lodash', 'ngImgCrop', 'ionic-zoom-view', 'ngSanitize'])
     //Add spinner template
     .constant("$ionicLoadingConfig", {
         template: "<ion-spinner></ion-spinner>"
@@ -225,6 +225,15 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
 
                 if (data.application.is_bo_locked == 1) {
                     $rootScope.app_is_bo_locked = true;
+
+                    $ionicHistory.nextViewOptions({
+                        disableBack: true
+                    });
+                    $state.go("locked");
+                }
+
+                if((data.application.ios_status_bar_is_hidden && ionic.Platform.isIOS()) || (data.application.android_status_bar_is_hidden && ionic.Platform.isAndroid())) {
+                    window.StatusBar.hide();
                 }
 
                 if (data.css) {
@@ -273,7 +282,6 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                 var admob = data.application.admob;
 
                 if (!Application.is_webview && admob.id && $window.AdMob) {
-                    sbLog("admob, ", admob);
                     if (admob.type == "banner") {
                         $window.AdMob.createBanner({
                             adId: admob.id,

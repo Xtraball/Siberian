@@ -164,6 +164,11 @@ ion-nav-view.has-mini-player-controls > ion-view > ion-content {bottom: 88px;}
 .facebook.header .info .metas {float: left;margin-top: 60px;left: 50px;}
 .facebook.header .about {margin-top: 60px;padding:5px}
 .facebook.header li.relative{position:relative}
+.fb-link, .fb-link a {
+    color: inherit !important;
+    text-decoration: none;
+    font-size: 14px;
+}
 
 /* FANWALL */
 .fanwall.header{margin:10px 0}
@@ -607,3 +612,23 @@ div[sb-cms-text] * {  text-align: left;  }
     height: 41px;
 }
 
+.item.item-custom a {
+    color: inherit !important;
+}
+
+.layout.l14,
+.layout.l15,
+.layout.l16,
+.layout.l17 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+}
+
+/** Ionic icon **/
+.big-ionic-icon {
+    font-size:4em;
+}

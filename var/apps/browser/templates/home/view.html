@@ -7,10 +7,15 @@
 
         <ion-slide-box id="homepage_slider" ng-if="showSlider() && !app_is_bo_locked"
                        auto-play="true" does-continue="{{ homepage_slider.loop_at_beginning }}"
-                       slide-interval="{{ homepage_slider.duration }}" show-pager="false">
+                       slide-interval="{{ homepage_slider.duration }}" show-pager="false"
+                       style="height: 100%;" >
 
-            <ion-slide ng-repeat="image in homepage_slider.images">
+            <ion-slide ng-repeat="image in homepage_slider.images" ng-if="!homepage_slider.new_slider">
                 <img ng-src="{{ image }}" style="width:100%;" />
+            </ion-slide>
+
+            <ion-slide ng-repeat="image in homepage_slider.images" ng-if="homepage_slider.new_slider">
+                <div class="new_slider" ng-style="{'background-image': 'url({{ image }})', 'height': '{{ homepage_slider.height }}%'}"></div>
             </ion-slide>
         </ion-slide-box>
 
@@ -21,3 +26,11 @@
     </ion-content>
 
 </ion-view>
+
+<style type="text/css">
+    div.new_slider {
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+    }
+</style>

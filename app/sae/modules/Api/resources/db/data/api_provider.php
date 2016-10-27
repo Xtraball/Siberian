@@ -37,6 +37,13 @@ $api_providers = array(
         "keys" => array(
             "secret_key",
         )
+    ),
+    array(
+        "code" => "yandex",
+        "icon" => "fa-flag",
+        "keys" => array(
+            "api_key",
+        )
     )
 );
 

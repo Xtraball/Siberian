@@ -63,7 +63,7 @@ var remove_row = function(rowid) {
 /** Button picture uploader */
 var button_picture_html = '<div class="feature-upload-placeholder" data-uid="%UID%">' +
     '   <img src="" data-uid="%UID%" />' +
-    '   <button type="button" class="feature-upload-delete btn color-blue" style="display: none;" data-uid="%UID%">' +
+    '   <button type="button" class="feature-upload-delete btn default_button color-blue" style="display: none; width: 36px !important;" data-uid="%UID%">' +
     '       <i class="fa fa-times icon icon-remove"></i>' +
     '   </button>' +
     '</div>';

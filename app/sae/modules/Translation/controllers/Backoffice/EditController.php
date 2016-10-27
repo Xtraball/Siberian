@@ -332,4 +332,38 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
 
     }
 
+    public function translateAction() {
+        $api = Api_Model_Key::findKeysFor("yandex");
+        $yandex_key = $api->getApiKey();
+
+        if(empty($yandex_key)) {
+            $html = array(
+                "error" => 1,
+                "message" => __("#734-01: Missing yandex API key"),
+            );
+        } else {
+            $url = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=".$yandex_key."&text=%TEXT%&lang=en-%TARGET%";
+            $data = Siberian_Json::decode($this->getRequest()->getRawBody());
+            $url = str_replace("%TEXT%", urlencode($data["text"]), $url);
+            $url = str_replace("%TARGET%", urlencode($data["target"]), $url);
+
+            $response = Siberian_Json::decode(file_get_contents($url));
+
+            if(isset($response["code"]) && $response["code"] == "200") {
+                $html = array(
+                    "succes" => 1,
+                    "result" => $response,
+                );
+            } else {
+                $html = array(
+                    "error" => 1,
+                    "message" => (isset($response["message"])) ? "#734-02: ".__($response["message"]) : __("#734-03: Invalid yandex API key OR Free limit request exceeded."),
+                );
+            }
+
+        }
+
+        $this->_sendHtml($html);
+    }
+
 }

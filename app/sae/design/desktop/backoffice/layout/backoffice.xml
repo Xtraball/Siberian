@@ -43,6 +43,13 @@
         </views>
     </backoffice_advanced_module_template>
 
+    <backoffice_advanced_cron_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="backoffice/advanced/cron.phtml" />
+        </views>
+    </backoffice_advanced_cron_template>
+
     <backoffice_advanced_configuration_template>
         <views>
             <content class="core_view_default" template="html/default.phtml" />

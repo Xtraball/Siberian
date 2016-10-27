@@ -71,6 +71,7 @@
                             <?php if(APPLICATION_ENV != "production"): ?>
                                 <li><a href="<?php echo $this->getUrl('backoffice/advanced_tools'); ?>"><i class="fa fa-file-code-o"></i><?php echo __('Tools'); ?></a></li>
                             <?php endif; ?>
+                            <li><a href="<?php echo $this->getUrl('backoffice/advanced_cron'); ?>"><i class="fa fa-clock-o"></i><?php echo __('Cron'); ?></a></li>
                             <li><a href="<?php echo $this->getUrl('backoffice/advanced_module'); ?>"><i class="fa fa-sliders"></i><?php echo __('Modules'); ?></a></li>
                             <li><a href="<?php echo $this->getUrl('backoffice/advanced_configuration'); ?>"><i class="fa fa-toggle-on"></i><?php echo __('Configuration'); ?></a></li>
                         </ul>

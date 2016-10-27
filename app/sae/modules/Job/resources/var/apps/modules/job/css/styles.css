@@ -224,6 +224,7 @@
     position: absolute;
     bottom: -10px;
     right: -42px;
+    z-index: 100;
 }
 
 button.create-job {

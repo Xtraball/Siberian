@@ -189,10 +189,10 @@
       <string>remote-notification</string>
     </array>
     <key>NSCameraUsageDescription</key>
-    <string/>
+    <string>Scan QRCode and share pictures</string>
     <key>NSPhotoLibraryUsageDescription</key>
-    <string/>
+    <string>Import pictures from your library</string>
     <key>NSLocationWhenInUseUsageDescription</key>
-    <string/>
+    <string>Use the GPS for live navigation</string>
   </dict>
 </plist>

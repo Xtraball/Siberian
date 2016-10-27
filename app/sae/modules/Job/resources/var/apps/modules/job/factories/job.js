@@ -5,6 +5,11 @@ App.factory('Job', function($rootScope, $http, httpCache, Url, CACHE_EVENTS, Cus
 
     factory.value_id = null;
     factory.admin_companies = null;
+    factory.options =  {
+        display_place_icon: false,
+        display_search: true,
+        display_income: true
+    };
 
     factory.findAll = function(options) {
 

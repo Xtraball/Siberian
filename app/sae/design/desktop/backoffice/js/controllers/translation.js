@@ -37,14 +37,21 @@ App.config(function($routeProvider) {
         $scope.content_loader_is_visible = false;
     });
 
-}).controller("TranslationEditController", function($scope, $location, $routeParams, Header, Label, SectionButton, Translations) {
+}).controller("TranslationEditController", function($http, $scope, $location, $routeParams, Header, Label, SectionButton, Translations, Url) {
 
     $scope.header = new Header();
     $scope.header.button.left.is_visible = false;
     $scope.content_loader_is_visible = true;
     $scope.form_loader_is_visible = false;
     $scope.translation = {};
+    $scope.can_translate = false;
     Translations.type = $scope.code;
+
+    $scope.currentClass = new Array();
+
+    $scope.updateClass = function(key) {
+        $scope.currentClass[key] = "highlight";
+    };
 
     Translations.loadData().success(function(data) {
         $scope.header.title = data.title;
@@ -60,22 +67,25 @@ App.config(function($routeProvider) {
         $scope.translation_files_data = data.translation_files_data;
         $scope.info = data.info;
         $scope.is_edit = data.is_edit;
+        $scope.can_translate = ($scope.available_target.indexOf($scope.translation.country_code.split("_")[0]) != -1);
     }).finally(function() {
         $scope.content_loader_is_visible = false;
     });
 
+    $scope.changeCountry = function() {
+        $scope.can_translate = ($scope.available_target.indexOf($scope.translation.country_code.split("_")[0]) != -1);
+    };
+
     $scope.selectFile = function() {
-        //if($scope.is_edit && $routeParams.lang_id)
-        //    $scope.translation.country_code = $routeParams.lang_id;
         $scope.translation.collection = $scope.translation_files_data[$scope.translation.file];
-    }
+    };
 
     $scope.notSorted = function(obj){
         if (!obj) {
             return [];
         }
         return Object.keys(obj);
-    }
+    };
     
     $scope.save = function() {
 
@@ -108,6 +118,60 @@ App.config(function($routeProvider) {
             ;
         }).finally(function() {
             $scope.form_loader_is_visible = false;
+        });
+    };
+
+    $scope.available_target = new Array("be", "ca", "cs", "da", "de", "el", "es", "et", "fi", "fr", "hu", "it", "lt", "lv", "mk", "nl", "no", "pt", "ru", "sk", "sl", "sq", "sv", "tr", "uk");
+
+    $scope.translate = function(key, target) {
+        $http({
+            method: 'POST',
+            url: Url.get("translation/backoffice_edit/translate"),
+            data: {"text": key, "target": target},
+            cache: false,
+            responseType:'json'
+        }).then(function(response) {
+            if(response.data && response.data.result && response.data.result.text) {
+                $scope.translation.collection[key] = response.data.result.text[0];
+            }
+        }, function (response) {
+            if(response.data && response.data.message) {
+                $scope.message.setText(response.data.message)
+                    .isError(true)
+                    .show()
+                ;
+
+                return false;
+            }
+        });
+
+        return true;
+    };
+
+    $scope.translateAll = function() {
+        var breakOnError = false;
+
+        angular.forEach($scope.translation.collection, function(value, key) {
+
+            if(!breakOnError && !$scope.translate(key, $scope.translation.country_code.split("_")[0])) {
+                breakOnError = true;
+            }
+
+            $scope.updateClass(key);
+        });
+    };
+
+    $scope.translateMissing = function() {
+        var breakOnError = false;
+
+        angular.forEach($scope.translation.collection, function(value, key) {
+            if(!breakOnError && value === null || value.trim() == "") {
+                if(!$scope.translate(key, $scope.translation.country_code.split("_")[0])) {
+                    breakOnError = true;
+                }
+
+                $scope.updateClass(key);
+            }
         });
     };
 

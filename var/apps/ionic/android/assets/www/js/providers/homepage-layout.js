@@ -298,6 +298,11 @@ App.provider('HomepageLayout', function () {
                     }
                 }
 
+                /** Slidebox update for resize/orientation */
+                $timeout(function() {
+                    $ionicSlideBoxDelegate.update();
+                }, 200);
+
                 features.first_option = false;
                 if (HomepageLayout.properties.options.autoSelectFirst && features.options.length !== 0) {
                     features.first_option = features.options[0];
@@ -392,9 +397,7 @@ App.provider('HomepageLayout', function () {
 
                     if ((!Customer.isLoggedIn() && !Padlock.unlock_by_qrcode) || option.code != "padlock") {
                         // use is logged or not padlock feature
-                        //if((Application.handle_code_scan && option.code == "code_scan") || option.code != "code_scan") {
                         options.push(option);
-                        //}
                     }
                 }
                 return options;

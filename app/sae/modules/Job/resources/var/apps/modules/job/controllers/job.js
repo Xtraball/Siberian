@@ -22,12 +22,6 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         }
     });
 
-    $scope.options = {
-        display_place_icon: false,
-        display_search: true,
-        display_income: true
-    };
-
     $scope.collection = new Array();
     $scope.categories = new Array();
 
@@ -139,7 +133,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
 
         Job.findAll($scope.filters).success(function(data) {
 
-            $scope.options = data.options;
+            $scope.options = Job.options = data.options;
             $scope.collection = $scope.collection.concat(data.collection);
             if($scope.filters.categories == null) {
                 $scope.filters.categories = data.categories;
@@ -252,6 +246,8 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
     $scope.modal = null;
     $scope.manage_modal = null;
     $scope.is_admin = false;
+
+    $scope.options = Job.options;
 
     $scope.form = {
         fullname: "",

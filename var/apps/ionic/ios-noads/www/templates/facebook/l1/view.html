@@ -21,12 +21,14 @@
             </div>
             <div class="item item-body item-custom">
                 <img class="full-image" ng-src="{{ post.picture }}" alt="{{ post.author }}" title="{{ post.author }}" ng-if="post.picture" />
-                <p ng-if="post.description">
-                    {{ post.description }}
+                <p ng-if="post.link" class="fb-link" sb-a-click>
+                    <i class="ion-ios-redo-outline"></i>
+                    <a href="{{ post.link }}">{{ "Open link" | translate }}</a>
                 </p>
+                <p ng-if="post.description" ng-bind-html="post.description" sb-a-click></p>
             </div>
             <div class="item item-body item-custom">
-                <p ng-bind-html="post.message | trusted_html"></p>
+                <p ng-if="post.message" ng-bind-html="post.message" sb-a-click></p>
                 <p>
                     <i class="ion-ios-heart-outline" title="{{ 'Likes' | translate }}" ></i>
                     {{ post.number_of_likes }}

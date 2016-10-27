@@ -32,6 +32,8 @@ App.config(function ($stateProvider, $urlRouterProvider) {
                 is_visible: features.data.homepage_slider_is_visible,
                 duration: features.data.homepage_slider_duration * 1000,
                 loop_at_beginning: features.data.homepage_slider_loop_at_beginning,
+                new_slider: features.data.homepage_slider_is_new,
+                height: features.data.homepage_slider_size,
                 images: []
             };
 

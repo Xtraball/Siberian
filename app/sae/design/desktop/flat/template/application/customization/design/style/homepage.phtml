@@ -58,6 +58,11 @@
         <input type="checkbox" <?php if($application->getIosStatusBarIsHidden()) : ?>checked="checked"<?php endif; ?> id="ios_status_bar_is_visible" name="ios_status_bar_is_hidden" value="1" />
         <?php echo $this->_("Hide iOS status bar"); ?>
     </label>
+    <br />
+    <label for="android_status_bar_is_visible">
+        <input type="checkbox" <?php if($application->getAndroidStatusBarIsHidden()) : ?>checked="checked"<?php endif; ?> id="android_status_bar_is_visible" name="android_status_bar_is_hidden" value="1" />
+        <?php echo $this->_("Hide Android status bar"); ?>
+    </label>
     <img width="24" style="display:none;" title="Loading" alt="Loading" id="loader_homepage_options" src="<?php echo $this->getImage('customization/ajax/spinner.gif') ?>">
 </div>
 
@@ -161,6 +166,23 @@
 
             var bg_loader = $('#loader_homepage_options').show();
             reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/changeiosstatusbarvisibility'); ?>', true, function(datas) {
+                bg_loader.hide();
+            }, function() {
+                bg_loader.hide();
+            });
+        });
+        $('#android_status_bar_is_visible').change(function() {
+
+            $(this).val($(this).is(':checked') ? 1 : 0);
+
+            if($(this).is(':checked')) {
+                $(".status_bar").addClass('hide');
+            } else {
+                $(".status_bar").removeClass('hide');
+            }
+
+            var bg_loader = $('#loader_homepage_options').show();
+            reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/changeandroidstatusbarvisibility'); ?>', true, function(datas) {
                 bg_loader.hide();
             }, function() {
                 bg_loader.hide();

@@ -165,7 +165,7 @@ App.config(function($stateProvider) {
         angular.element($window).unbind('scroll');
     };
 
-}).controller('FacebookViewController', function($scope, $stateParams, $translate, Dialog, Facebook) {
+}).controller('FacebookViewController', function($filter, $rootScope, $scope, $stateParams, $translate, Dialog, Facebook) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -183,6 +183,8 @@ App.config(function($stateProvider) {
         number_of_likes: 0
     };
 
+    var cache = Facebook.cache;
+
     $scope.showError = function(data) {
 
         if(data && angular.isDefined(data.message)) {
@@ -196,53 +198,63 @@ App.config(function($stateProvider) {
 
         $scope.is_loading = true;
 
-        Facebook.findPost($stateParams.post_id).success(function(post) {
+        if(cache.get("facebook-"+$stateParams.post_id) && !$rootScope.isOverview) {
+            $scope.is_loading = false;
+            $scope.post = cache.get("facebook-"+$stateParams.post_id);
+        } else {
+            Facebook.findPost($stateParams.post_id).success(function(_post) {
 
-            if(angular.isDefined(post.comments)) {
+                if(angular.isDefined(_post.comments)) {
 
-                post.number_of_comments = post.comments.data.length >= 25 ? "> 25" : post.comments.data.length;
-                Facebook.page_urls['comments'] = post.comments.paging.next;
+                    _post.number_of_comments = _post.comments.data.length >= 25 ? "> 25" : _post.comments.data.length;
+                    Facebook.page_urls['comments'] = _post.comments.paging.next;
 
-                for(var i in post.comments.data) {
-                    var comment = post.comments.data[i];
-                    comment.name = comment.from.name;
-                    comment.picture = Facebook.host_img+comment.from.id+"/picture?width=150";
-                    comment.created_at = comment.created_time;
-                    delete comment.created_time;
-                    delete comment.from;
-                    $scope.comments.push(comment);
+                    for(var i in _post.comments.data) {
+                        var comment = _post.comments.data[i];
+                        comment.name = comment.from.name;
+                        comment.picture = Facebook.host_img+comment.from.id+"/picture?width=150";
+                        comment.created_at = comment.created_time;
+                        delete comment.created_time;
+                        delete comment.from;
+                        $scope.comments.push(comment);
+                    }
+
+                    delete _post.comments;
+                } else {
+                    _post.number_of_comments = 0;
+                }
+                if(angular.isDefined(_post.likes)) {
+                    _post.number_of_likes = _post.likes.data.length >= 25 ? "> 25" : _post.likes.data.length;
+                    delete _post.likes;
+                } else {
+                    _post.number_of_likes = 0;
                 }
 
-                delete post.comments;
-            } else {
-                post.number_of_comments = 0;
-            }
-            if(angular.isDefined(post.likes)) {
-                post.number_of_likes = post.likes.data.length >= 25 ? "> 25" : post.likes.data.length;
-                delete post.likes;
-            } else {
-                post.number_of_likes = 0;
-            }
+                var picture = _post.full_picture;
+                if(_post.type ==  "photo") {
+                    picture = Facebook.host_img+_post.object_id+"/picture?width=480";
+                }
+                _post.picture = picture;
+                _post.created_at = _post.created_time;
+                _post.title = _post.name;
+                _post.author = _post.from.name;
+                _post.icon = Facebook.host_img+_post.from.id+"/picture?width=150";
+                delete _post.full_picture;
+                delete _post.created_time;
+                delete _post.name;
+                delete _post.from;
+                
+                _post.message = $filter("linky")(_post.message);
+                _post.description = $filter("linky")(_post.description);
 
-            var picture = post.full_picture;
-            if(post.type ==  "photo") {
-                picture = Facebook.host_img+post.object_id+"/picture?width=480";
-            }
-            post.picture = picture;
-            post.created_at = post.created_time;
-            post.title = post.name;
-            post.author = post.from.name;
-            post.icon = Facebook.host_img+post.from.id+"/picture?width=150";
-            delete post.full_picture;
-            delete post.created_time;
-            delete post.name;
-            delete post.from;
+                $scope.is_loading = false;
+                $scope.page_title = _post.title;
+                $scope.post = _post;
 
-            $scope.is_loading = false;
-            $scope.page_title = post.title;
-            $scope.post = post;
+                cache.put("facebook-"+$stateParams.post_id, _post);
 
-        }, $scope.showError);
+            }, $scope.showError);
+        }
 
     };
 

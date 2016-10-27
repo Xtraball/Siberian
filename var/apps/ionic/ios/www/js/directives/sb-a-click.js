@@ -1,23 +1,23 @@
-App.directive("sbAClick", function($rootScope, $timeout, $window) {
+App.directive("sbAClick", function($filter, $rootScope, $timeout, $window) {
     return {
         restrict: 'A',
         scope: {
         },
         link: function (scope, element) {
-            $timeout(function() {
+            $timeout(function () {
                 var collection = angular.element(element).find("a");
-                angular.forEach(collection, function(elem) {
+                angular.forEach(collection, function (elem) {
                     var old_href = elem.href;
                     elem.href = "javascript:void(0)";
-                    angular.element(elem).bind("click", function() {
-                        if($rootScope.isOverview) {
+                    angular.element(elem).bind("click", function () {
+                        if ($rootScope.isOverview) {
                             $rootScope.showMobileFeatureOnlyError();
                             return false;
                         }
 
                         if (/^(tel:).*/.test(old_href) && ionic.Platform.isAndroid()) {
                             $window.open(old_href, '_self', "location=no");
-                        } else if(ionic.Platform.isIOS() && old_href.indexOf("pdf") >= 0) {
+                        } else if (ionic.Platform.isIOS() && old_href.indexOf("pdf") >= 0) {
                             $window.open(old_href, $rootScope.getTargetForLink(), "EnableViewPortScale=yes");
                         } else {
                             $window.open(old_href, $rootScope.getTargetForLink(), "location=no");

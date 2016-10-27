@@ -2238,12 +2238,12 @@ label.control {
 }
 
 .control input:checked ~ .control__indicator {
-    background: inherit;
+    /**background: inherit;*/
 }
 
 .control:hover input:not([disabled]):checked ~ .control__indicator,
 .control input:checked:focus ~ .control__indicator {
-    background: #0e647d;
+    /**background: #0e647d;*/
 }
 
 .control input:disabled ~ .control__indicator {

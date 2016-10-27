@@ -136,7 +136,7 @@ $options = $opts;
         <div class="area relative">
             <div class="col-md-3 col-left">
                 <ul>
-                    <li><a href="javascript:void(0)" class="filter_category reverse" rel="all"><?php echo strtoupper($this->_("All")); ?></a></li>
+                    <li><a href="javascript:void(0)" class="filter_category reverse" rel="all"><?php echo strtoupper(__("All")); ?></a></li>
                     <?php foreach($categories as $category) : ?>
                     <li><a href="javascript:void(0)" class="filter_category" rel="<?php echo $category->getId() ?>"><?php echo strtoupper($this->_($category->getName())); ?></a></li>
                     <?php endforeach; ?>
@@ -145,7 +145,7 @@ $options = $opts;
             <div class="vertical-separator"></div>
             <div class="col-md-9 col-right">
                 <div>
-                    <h2 id="category_title" class="title">All</h2>
+                    <h2 id="category_title" class="title"><?php echo __("All") ?></h2>
                 </div>
                 <div class="listing">
                     <ul id="add_page_list" class="pages_list">

@@ -121,7 +121,7 @@ class Push_Model_Db_Table_Message extends Core_Model_Db_Table {
 
     }
 
-    public function findLastPushMessage($device_uid) {
+    public function findLastPushMessage($device_uid, $app_id) {
 
         $select = $this->select()
             ->from(array('pdm' => 'push_delivered_message'))
@@ -131,6 +131,7 @@ class Push_Model_Db_Table_Message extends Core_Model_Db_Table {
             ->where('pdm.is_displayed = ?', '1')
             ->where('pdm.is_read = 0')
             ->where('pm.type_id = ?', '1')
+            ->where('pm.app_id = ?', $app_id)
             ->order('pm.message_id DESC')
             ->limit(1)
             ->setIntegrityCheck(false)

@@ -41,8 +41,10 @@ class Push_MobileController extends Application_Controller_Mobile_Default {
     public function lastmessagesAction() {
         $data = array();
         if($device_uid = $this->getRequest()->getParam('device_uid')) {
+            $application = $this->getApplication();
+
             $message = new Push_Model_Message();
-            $message->findLastPushMessage($device_uid);
+            $message->findLastPushMessage($device_uid, $application->getId());
 
             if($message->getId()) {
                 //We read this push

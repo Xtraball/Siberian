@@ -66,7 +66,7 @@
 
         <div class="form-group">
             <div class="col-md-6">
-                <label for="role_id">Account Role</label>
+                <label for="role_id"><?php echo __("Account Role") ?></label>
                 <select class="form-control" ng-model="admin.role_id" ng-options="role.role_id as role.label for role in roles" required="true">
                     <option value=""></option>
                 </select>
