@@ -388,21 +388,14 @@ class Siberian_Cron {
 		$this->lock($task->getId());
 
 		try {
-			/** Rebuild the app manifest & all caches */
-			$options = Siberian_Json::decode($task->getOptions());
-			if(isset($options["host"])) {
-				Siberian_Autoupdater::configure($options["host"]);
-				# Disable when success.
-				$task->disable();
-			} else {
-				throw new Exception("Unable to rebuild cache & manifest, missing host.");
-			}
-
+			Siberian_Cache_Design::clearCache();
+			# Disable when success.
+			$task->disable();
 		} catch(Exception $e){
 			$this->log($e->getMessage());
 			$task->saveLastError($e->getMessage());
 		}
-		
+
 		# Releasing
 		$this->unlock($task->getId());
 	}

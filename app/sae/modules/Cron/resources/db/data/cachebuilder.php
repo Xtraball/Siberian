@@ -9,10 +9,10 @@ $data = array(
     "month"     => "-1",
     "week_day"  => "-1",
     "priority"  => 10,
-    "is_active" => false,
+    "is_active" => true,
 );
 
 $androidtools = new Cron_Model_Cron();
 $androidtools
     ->setData($data)
-    ->insertOnce(array("command"));
+    ->insertOrUpdate(array("command"));
