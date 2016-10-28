@@ -33,13 +33,7 @@
 
         <div class="col-md-2">
             <label><?php echo $this->_("Check for updates"); ?></label>
-            <!-- <div ng-show="check_for_updates.check">
-                <button class="btn btn-primary" ng-click="checkForUpdates()"><i class="fa fa-download"></i></button>
-                <sb-loader is_visible="check_for_updates.loader_is_visible" type="'inner_content'" size="'tiny'" animation="'no'"></sb-loader>
-            </div> -->
             <div ng-show="check_for_updates.check">
-                <!-- <label class="text-success">{{ check_for_updates.next_version }} <?php echo $this->_("available"); ?></label>
-                <br /> -->
                 <button class="btn btn-primary" ng-click="downloadUpdate()" ng-show="!check_for_updates.loader_is_visible"><i class="fa fa-download"></i></button>
             </div>
         </div>
@@ -57,11 +51,11 @@
     <table class="table">
         <thead>
             <tr>
-                <th width="50%">Name</th>
-                <th ng-show="uploader.isHTML5">Size</th>
-                <th ng-show="uploader.isHTML5">Progress</th>
-                <th>Status</th>
-                <th>Actions</th>
+                <th width="50%"><?php echo __("Name") ?></th>
+                <th ng-show="uploader.isHTML5"><?php echo __("Size") ?></th>
+                <th ng-show="uploader.isHTML5"><?php echo __("Progress") ?></th>
+                <th><?php echo __("Status") ?></th>
+                <th><?php echo __("Actions") ?></th>
             </tr>
         </thead>
         <tbody>
@@ -82,9 +76,6 @@
                 <button type="button" class="btn btn-primary btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
                     <span class="fa fa-upload"></span>
                 </button>
-<!--                <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">-->
-<!--                    <span class="fa fa-ban"></span>-->
-<!--                </button>-->
                 <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
                     <span class="fa fa-remove"></span>
                 </button>
@@ -105,10 +96,10 @@
     <table class="table">
         <thead>
         <tr>
-            <th width="19%">Package</th>
-            <th width="6%">Version</th>
-            <th width="70%">Details</th>
-            <th width="5%">Action</th>
+            <th width="19%"><?php echo __("Package") ?></th>
+            <th width="6%"><?php echo __("Version") ?></th>
+            <th width="70%"><?php echo __("Details") ?></th>
+            <th width="5%"><?php echo __("Action") ?></th>
         </tr>
         </thead>
         <tbody>
@@ -137,9 +128,9 @@
     <table class="table">
         <thead>
         <tr>
-            <th width="15%">Action</th>
-            <th width="78%">Progress</th>
-            <th width="7%">Status</th>
+            <th width="15%"><?php echo __("Action") ?></th>
+            <th width="78%"><?php echo __("Progress") ?></th>
+            <th width="7%"><?php echo __("Status") ?></th>
         </tr>
         </thead>
         <tbody>
@@ -236,9 +227,9 @@
     <table class="table">
         <thead>
             <tr>
-                <th width="15%">Action</th>
-                <th width="78%">Progress</th>
-                <th width="7%">Status</th>
+                <th width="15%"><?php echo __("Action") ?></th>
+                <th width="78%"><?php echo __("Progress") ?></th>
+                <th width="7%"><?php echo __("Status") ?></th>
             </tr>
         </thead>
         <tbody>

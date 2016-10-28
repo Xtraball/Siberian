@@ -15,7 +15,7 @@ class Backoffice_IndexController extends Backoffice_Controller_Default
         $libraries = Siberian_Media::getLibraries();
 
         $html = array(
-            "title" => "Dashboard",
+            "title" => __("Dashboard"),
             "icon" => "fa-dashboard",
             "services" => $services,
             "external_services" => $external_services,

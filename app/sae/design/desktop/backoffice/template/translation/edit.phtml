@@ -32,7 +32,9 @@
 
         <div class="col-md-12" ng-show="translation.file && !can_translate">
             <div class="form-group" style="margin-top: 24px;">
-                <div><?php echo __("Translation API is not available for the current language.") ?></div>
+                <div><?php echo __("<b>Warning:</b> translation API is experimental for the current language and may fail.") ?></div>
+                <a class="btn btn-primary left pull-right" ng-click="translateAll();"><?php echo __("Translate all"); ?></a>
+                <a class="btn btn-primary left pull-right" ng-click="translateMissing();"><?php echo __("Translate missing entries"); ?></a>
             </div>
         </div>
 

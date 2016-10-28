@@ -21,7 +21,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         controller: 'RssViewController'
     });
 
-}).controller('RssListController', function($rootScope, $scope, $state, $stateParams, Application, Rss) {
+}).controller('RssListController', function($filter, $rootScope, $scope, $state, $stateParams, Application, Rss) {
 
     $scope.is_loading = true;
     $scope.value_id = Rss.value_id = $stateParams.value_id;
@@ -33,6 +33,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
             $scope.cover = data.cover;
             $scope.page_title = data.page_title;
         } else {
+            $scope.collection_chunks = $filter("chunk")($scope.collection, 2);
             $scope.collection.unshift(data.cover);
         }
     }).error(function() {
@@ -47,12 +48,6 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
 
 }).controller('RssViewController', function($rootScope, $scope, $stateParams, $window, Rss, Application) {
 
-    //$scope.$on("connectionStateChange", function(event, args) {
-    //    if(args.isOnline == true) {
-    //        $scope.loadContent();
-    //    }
-    //});
-
     $scope.is_loading = false;
     $scope.value_id = Rss.value_id = $stateParams.value_id;
     Rss.feed_id = $stateParams.feed_id;
@@ -63,23 +58,6 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
 
         Rss.find($stateParams.feed_id).success(function(feed) {
             $scope.item = feed;
-/*
-            if($scope.feed.social_sharing_active==1 && Application.handle_social_sharing) {
-                $scope.header_right_button = {
-                    picto_url: Pictos.get("share", "header"),
-                    hide_arrow: true,
-                    action: function () {
-                        $scope.sharing_data = {
-                            "page_name": $scope.feed.title,
-                            "picture": $scope.feed.image_url ? $scope.feed.image_url : null,
-                            "content_url": $scope.feed.url
-                        }
-                        Application.socialShareData($scope.sharing_data);
-                    },
-                    height: 25
-                };
-            }
-*/
         }).finally(function() {
             $scope.is_loading = false;
         });

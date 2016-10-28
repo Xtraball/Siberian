@@ -6,7 +6,7 @@ class Template_Backoffice_Category_ListController extends Backoffice_Controller_
     public function loadAction() {
 
         $html = array(
-            "title" => $this->_("Templates"),
+            "title" => __("Templates"),
             "icon" => "fa-picture-o",
         );
 
@@ -23,7 +23,7 @@ class Template_Backoffice_Category_ListController extends Backoffice_Controller_
         foreach($categories as $category) {
             $tmp[] = array(
                 "category_id" => $category->getId(),
-                "name" => $category->getName()
+                "name" => __($category->getName())
             );
             if(count($tmp) == 2) {
                 $data["columns"][] = $tmp;

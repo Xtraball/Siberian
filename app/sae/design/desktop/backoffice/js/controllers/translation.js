@@ -67,7 +67,11 @@ App.config(function($routeProvider) {
         $scope.translation_files_data = data.translation_files_data;
         $scope.info = data.info;
         $scope.is_edit = data.is_edit;
-        $scope.can_translate = ($scope.available_target.indexOf($scope.translation.country_code.split("_")[0]) != -1);
+        if($scope.translation.country_code) {
+            $scope.can_translate = ($scope.available_target.indexOf($scope.translation.country_code.split("_")[0]) != -1);
+        } else {
+            $scope.can_translate = false;
+        }
     }).finally(function() {
         $scope.content_loader_is_visible = false;
     });

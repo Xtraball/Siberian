@@ -79,7 +79,7 @@ class Api_Backoffice_Key_ListController extends Backoffice_Controller_Default
             } catch (Exception $e) {
                 $data = array(
                     "error" => 1,
-                    "message" => $this->_("An error occurred while saving. Please, try again later.")
+                    "message" => $this->_("An error occurred while saving. Please, try again later.<br/>".$e->getMessage())
                 );
 
             }

@@ -29,6 +29,7 @@ App.config(function($routeProvider) {
 
         ApiKey.save($scope.apis).success(function(data) {
             $scope.message.setText(data.message)
+                .isError(false)
                 .show()
             ;
         }).error(function(data) {

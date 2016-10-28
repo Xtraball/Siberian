@@ -37,7 +37,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         controller: 'NewswallEditController'
     });
 
-}).controller('NewswallListController', function($cordovaGeolocation, $http, $ionicModal, $ionicScrollDelegate, $rootScope, $state, $stateParams, $scope, $translate, Customer, News, AUTH_EVENTS) {
+}).controller('NewswallListController', function($cordovaGeolocation, $filter, $http, $ionicModal, $ionicScrollDelegate, $rootScope, $state, $stateParams, $scope, $translate, Customer, News, AUTH_EVENTS) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -89,6 +89,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
             $scope.can_load_older_posts = !!data.collection.length;
 
             $scope.collection = $scope.collection.concat(data.collection);
+            $scope.collection_chunks = $filter("chunk")($scope.collection, 2);
             $scope.recentCollection = $scope.collection;
 
             $rootScope.$broadcast("refreshPageSize");

@@ -375,7 +375,7 @@ storePassword={$store_password}";
     	/** Creating ENV PATH */
 		$gradle_path = Core_Model_Directory::getBasePathTo(self::IONIC_FOLDER."/tools/gradle");
     	putenv("GRADLE_USER_HOME={$gradle_path}");
-
+    	putenv("GRADLE_HOME={$gradle_path}");
 
         /** DEBUG OSX: it doesn't find "which java" with php, also the given path is generic and symlink to the latest version.  */
         $is_darwin = exec("uname");

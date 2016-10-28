@@ -19,7 +19,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         templateUrl: "templates/catalog/category/l1/product/view.html"
     });
 
-}).controller('CategoryListController', function($window, $scope, $state, $stateParams, $timeout, Url, Catalog) {
+}).controller('CategoryListController', function($filter, $window, $scope, $state, $stateParams, $timeout, Url, Catalog) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -63,6 +63,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
             category.show_children = !category.show_children;
         } else {
             $scope.collection = category.collection;
+            $scope.collection_chunks = $filter("chunk")($scope.collection, 2);
             $scope.current_category = category;
             $scope.tooltip.current_item = $scope.current_category;
             $scope.tooltip.button_label = $scope.current_category.name;
@@ -97,22 +98,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         Catalog.find($stateParams.product_id).success(function(product) {
             $scope.product = product;
             $scope.page_title = product.name;
-
-            //if($scope.product.social_sharing_active==1 && Application.handle_social_sharing) {
-            //    $scope.header_right_button = {
-            //        picto_url: Pictos.get("share", "header"),
-            //        hide_arrow: true,
-            //        action: function () {
-            //            $scope.sharing_data = {
-            //                "page_name": $scope.product.name,
-            //                "picture": $scope.product.picture ? $scope.product.picture : null,
-            //                "content_url": null
-            //            }
-            //            Application.socialShareData($scope.sharing_data);
-            //        },
-            //        height: 25
-            //    };
-            //}
+            
 
         }).finally(function() {
             $scope.is_loading = false;

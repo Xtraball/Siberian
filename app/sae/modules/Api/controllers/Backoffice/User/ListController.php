@@ -6,7 +6,7 @@ class Api_Backoffice_User_ListController extends Backoffice_Controller_Default
     public function loadAction() {
 
         $html = array(
-            "title" => $this->_("Api Users"),
+            "title" => __("Api Users"),
             "icon" => "fa-users",
         );
 

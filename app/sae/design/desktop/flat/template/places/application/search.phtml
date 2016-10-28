@@ -29,7 +29,7 @@
                         <?php if ($value->getMetadata('search_text_show')->getPayload()) echo 'checked' ?> />
                 </div>
                 <div class="col-md-6">
-                    <input type="text" name="search[text][label]" class="input-flat" placeholder="Label"
+                    <input type="text" name="search[text][label]" class="input-flat" placeholder="<?php echo __js("Label") ?>"
                            value="<?php echo $value->getMetadata('search_text_label')->getPayload() ?>"/>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                         <?php if ($value->getMetadata('search_type_show')->getPayload()) echo 'checked' ?> />
                 </div>
                 <div class="col-md-6">
-                    <input type="text" name="search[type][label]" class="input-flat" placeholder="Label"
+                    <input type="text" name="search[type][label]" class="input-flat" placeholder="<?php echo __js("Label") ?>"
                            value="<?php echo $value->getMetadata('search_type_label')->getPayload() ?>"/>
                 </div>
             </div>
@@ -59,7 +59,7 @@
                         <?php if ($value->getMetadata('search_address_show')->getPayload()) echo 'checked' ?> />
                 </div>
                 <div class="col-md-6">
-                    <input type="text" name="search[address][label]" class="input-flat" placeholder="Label"
+                    <input type="text" name="search[address][label]" class="input-flat" placeholder="<?php echo __js("Label") ?>"
                            value="<?php echo $value->getMetadata('search_address_label')->getPayload() ?>"/>
                 </div>
             </div>
@@ -74,11 +74,11 @@
                         <?php if ($value->getMetadata('search_aroundyou_show')->getPayload()) echo 'checked' ?> />
                 </div>
                 <div class="col-md-3">
-                    <input type="text" name="search[aroundyou][label]" class="input-flat" placeholder="Label"
+                    <input type="text" name="search[aroundyou][label]" class="input-flat" placeholder="<?php echo __js("Label") ?>"
                            value="<?php echo $value->getMetadata('search_aroundyou_label')->getPayload() ?>"/>
                 </div>
                 <div class="col-md-3">
-                    <input type="text" name="search[aroundyou][radius]" class="input-flat" placeholder="Search radius"
+                    <input type="text" name="search[aroundyou][radius]" class="input-flat" placeholder="<?php echo __js("Search radius") ?>"
                            value="<?php echo $value->getMetadata('search_aroundyou_radius')->getPayload() ?>"/>
                 </div>
             </div>

@@ -88,12 +88,17 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
                                 "success" => 1,
                                 "message" => __("Action '{$action}' executed for module '{$module}'."),
                             );
+                        } else {
+                            throw new Exception(__("Unknown action for this module."));
                         }
+                    } else {
+                        throw new Exception(__("Unknown action for this module."));
                     }
-
                 } else {
                     throw new Exception(__("Unknown action for this module."));
                 }
+            } else {
+                throw new Exception(__("Unknown action for this module."));
             }
 
         } catch(Exception $e) {

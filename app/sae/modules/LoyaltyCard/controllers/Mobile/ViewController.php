@@ -291,8 +291,8 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
         $validated_image_url = $this->_getColorizedImage($this->_getImage('pictos/point_validated.png', true), $this->getApplication()->getBlock('connect_button')->getBackgroundColor());
 
         /** If images */
-        $image_active = ($current_card->getImageActive()) ? $this->getRequest()->getBaseUrl()."/images/application".$current_card->getImageActive() : $validated_image_url;
-        $image_inactive = ($current_card->getImageInactive()) ? $this->getRequest()->getBaseUrl()."/images/application".$current_card->getImageInactive() : $regular_image_url;
+        $image_active = ($current_card->getImageActive()) ? $this->getRequest()->getBaseUrl()."/images/application".$current_card->getImageActive() :  $this->getRequest()->getBaseUrl().$validated_image_url;
+        $image_inactive = ($current_card->getImageInactive()) ? $this->getRequest()->getBaseUrl()."/images/application".$current_card->getImageInactive() :  $this->getRequest()->getBaseUrl().$regular_image_url;
 
         $points = array();
 
@@ -320,8 +320,8 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
         $validated_image_url = $this->_getColorizedImage($this->_getImage('pictos/point_validated.png', true), $this->getApplication()->getBlock('connect_button')->getBackgroundColor());
 
         /** If images */
-        $image_active = ($current_card->getImageActive()) ? $this->getRequest()->getBaseUrl()."/images/application".$current_card->getImageActive() : $validated_image_url;
-        $image_inactive = ($current_card->getImageInactive()) ? $this->getRequest()->getBaseUrl()."/images/application".$current_card->getImageInactive() : $regular_image_url;
+        $image_active = ($current_card->getImageActive()) ? $this->getRequest()->getBaseUrl()."/images/application".$current_card->getImageActive() :  $this->getRequest()->getBaseUrl().$validated_image_url;
+        $image_inactive = ($current_card->getImageInactive()) ? $this->getRequest()->getBaseUrl()."/images/application".$current_card->getImageInactive() :  $this->getRequest()->getBaseUrl().$regular_image_url;
 
         return array(
             "active" => $image_active,

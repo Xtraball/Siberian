@@ -38,10 +38,10 @@ App.config(function($routeProvider) {
         $scope.content_loader_is_visible = false;
     });
 
-    $scope.moduleAction = function(module, action) {
+    $scope.moduleAction = function(action) {
         $scope.form_loader_is_visible = true;
 
-        Advanced.moduleAction(module, action).success(function(data) {
+        Advanced.moduleAction(action).success(function(data) {
 
             if(angular.isObject(data) && angular.isDefined(data.message)) {
                 message = data.message;

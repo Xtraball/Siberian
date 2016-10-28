@@ -356,7 +356,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                     "host" => $protocol.$this->getRequest()->getHttpHost(),
                 );
                 $cachebuilder->setOptions(Siberian_Json::encode($options))->save();
-                //$cachebuilder->enable();
+                $cachebuilder->enable();
             }
 
         } catch(Exception $e) {

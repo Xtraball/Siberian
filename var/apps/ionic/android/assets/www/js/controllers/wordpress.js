@@ -19,7 +19,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         controller: 'WordpressViewController'
     });
 
-}).controller('WordpressListController', function($window, $scope, $state, $stateParams, Wordpress) {
+}).controller('WordpressListController', function($filter, $window, $scope, $state, $stateParams, Wordpress) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -62,6 +62,8 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
             } else if(data.cover && data.cover.id) {
                 $scope.cover = data.cover;
             }
+
+            $scope.collection_chunks = $filter("chunk")($scope.collection, 2);
 
             $scope.can_load_older_posts = !!data.collection.length;
 

@@ -19,7 +19,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         templateUrl: "templates/catalog/setmeal/l1/view.html"
     });
 
-}).controller('SetMealListController', function($scope, $state, $stateParams, SetMeal) {
+}).controller('SetMealListController', function($filter, $scope, $state, $stateParams, SetMeal) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -36,6 +36,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
 
         SetMeal.findAll($scope.collection.length).success(function(data) {
             $scope.collection = $scope.collection.concat(data.collection);
+            $scope.collection_chunks = $filter("chunk")($scope.collection, 2);
             $scope.page_title = data.page_title;
             $scope.can_load_older_posts = data.collection.length > 0;
         }).finally(function() {

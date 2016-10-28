@@ -20,7 +20,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         templateUrl: "templates/discount/l1/view.html"
     });
 
-}).controller('DiscountListController', function($cordovaBarcodeScanner, $cordovaSocialSharing, $ionicModal, $rootScope, $scope, $state, $stateParams, $timeout, $translate, $window, Application, Customer, Dialog, Discount, Url, AUTH_EVENTS, CACHE_EVENTS) {
+}).controller('DiscountListController', function($cordovaBarcodeScanner, $cordovaSocialSharing, $filter, $ionicModal, $rootScope, $scope, $state, $stateParams, $timeout, $translate, $window, Application, Customer, Dialog, Discount, Url, AUTH_EVENTS, CACHE_EVENTS) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -51,6 +51,9 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         Discount.findAll().success(function(data) {
 
             $scope.collection = data.promotions;
+            /** Chunks for L5 */
+            $scope.collection_chunks = $filter("chunk")($scope.collection, 2);
+
             $scope.tc_id = data.tc_id;
 
             $scope.social_sharing_active = !!(data.social_sharing_is_active == 1 && $scope.collection.length > 0 && !Application.is_webview);
