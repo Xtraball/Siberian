@@ -624,7 +624,8 @@ abstract class Core_Model_Default_Abstract
 
         if(!$dummy_content_xml->{$design->getCode()})
             //if we cannot find our template dummy, we take first one
-            return $dummy_content_xml->children()[0];
+            $dummy_children = $dummy_content_xml->children();
+            return $dummy_children[0];
             //throw new Exception($this->_('#114: An error occurred while saving'));
 
         return $dummy_content_xml->{$design->getCode()};

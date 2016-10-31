@@ -1,7 +1,7 @@
 <div class="content">
     <div class="logo left">
         <a href="<?php echo $this->getUrl(''); ?>" ng-click="$event.stopPropagation()">
-            <img src="<?php echo $this->getImage("header/logo.png"); ?>" id="logo" alt="Mobile Company" title="Mobile Company" width="151" />
+            <img src="<?php echo $this->getLogo();/*$this->getImage("header/logo.png");*/ ?>" id="logo" alt="Mobile Company" title="Mobile Company" style="max-width:151px;max-height:50px"/>
         </a>
     </div>
     <div id="backoffice_menu" class="menu backoffice_menu slide-down" ng-if="isLoggedIn" ng-class="{none: !isLoggedIn}">

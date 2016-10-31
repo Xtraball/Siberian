@@ -207,7 +207,8 @@ class Customer_Model_Customer extends Core_Model_Default
     }
 
     public function getMetadata($module_code, $key) {
-        return $this->getMetadatas($module_code)[$key];
+        $metadatas = $this->getMetadatas($module_code);
+	return $metadatas[$key];
     }
 
     public function setMetadatas($module_code_or_datas, $datas_for_module_code) {

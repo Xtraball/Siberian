@@ -38,9 +38,9 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
             }
             catch(Exception $e) {
                 $data = array('error' => 1, 'message' => 'An error occurred during process. Please try again later.');
-            } finally {
-                $this->_sendHtml($data);
             }
+	
+	    $this->_sendHtml($data);
         }
     }
 
@@ -79,9 +79,9 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
 
             } catch (Exception $e) {
                 $data = array('error' => 1, 'message' => 'An error occurred during process. Please try again later.');
-            } finally {
-                $this->_sendHtml($data);
-            }
+	    }
+
+	    $this->_sendHtml($data);
         }
     }
 

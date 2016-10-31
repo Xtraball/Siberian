@@ -21,7 +21,8 @@ class Push_Mobile_ListController extends Application_Controller_Mobile_Default {
 
             foreach($messages as $message) {
 
-                if(!empty($message->getValueId())) {
+                $message_value_id = $message->getValueId();
+	        if(!empty($message_value_id)) {
                     continue; # We skip it
                 }
 

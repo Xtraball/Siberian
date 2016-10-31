@@ -194,7 +194,8 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
                                     unlink($fbimage);
                             }
                         } else {
-                            if(!empty($customer->getImage()) && file_exists($customer->getImage())) {
+			    $customer_image = $customer->getImage();
+                            if(!empty($customer_image) && file_exists($customer->getImage())) {
                                 unlink($customer->getImage());
                             }
                             $customer->setImage(NULL)->setIsCustomImage(0);

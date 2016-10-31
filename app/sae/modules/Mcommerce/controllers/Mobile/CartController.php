@@ -133,7 +133,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                 );
 
             }
-            $choices = [];
+            $choices = array();
             foreach ($line->getChoices() as $id => $choice) {
                 $group = new Catalog_Model_Product_Group();
                 $group->find($id);
@@ -245,7 +245,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                     if (!empty($form['choices'])) {
                         $choices = array();
                         foreach ($product->getChoices() as $group) {
-                            $choices["" . $group->getId()] = [];
+                            $choices["" . $group->getId()] = array();
                             foreach ($group->getOptions() as $choice) {
                                 if (in_array("" . $choice->getId(), $form['choices']["" . $group->getId()]['selected_options']))
                                     $choices["" . $group->getId()] = $choice;

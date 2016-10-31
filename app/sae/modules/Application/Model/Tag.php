@@ -61,7 +61,8 @@ class Application_Model_Tag extends Core_Model_Default
     {
         $tags = array();
         foreach ($tags_names as $tags_name) {
-            $tag = (new Application_Model_Tag())->setName(trim($tags_name))->insertOrUpdate(array('name'));
+            $model_tag = new Application_Model_Tag();
+	    $tag = $model_tag->setName(trim($tags_name))->insertOrUpdate(array('name'));
             array_push($tags, $tag);
         }
         return $tags;
@@ -124,7 +125,8 @@ class Application_Model_Tag extends Core_Model_Default
      */
     public static function getOptions($tagname)
     {
-        $tag = (new Application_Model_Db_Table_Tag())->fetchRow(array('name = ?' => $tagname));
+        $model_tag = new Application_Model_Db_Table_Tag();
+	$tag = $model_tag->fetchRow(array('name = ?' => $tagname));
 
         if ($tag) {
             return $tag->findManyToManyRowset('Application_Model_Db_Table_Option_Value', 'Application_Model_Db_Table_TagOption');

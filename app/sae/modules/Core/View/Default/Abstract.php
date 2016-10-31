@@ -251,4 +251,29 @@ abstract class Core_View_Default_Abstract extends Siberian_View
 
         return $background_section;
     }
+
+    public function getLogo() {
+
+        try {
+
+            $logo = "";
+            if($this->getCurrentWhiteLabelEditor()) {
+                $logo = $this->getCurrentWhiteLabelEditor()->getLogoUrl();
+            }
+
+            if(!$logo) {
+                $logo = System_Model_Config::getValueFor("logo");
+            }
+
+            if(!$logo) {
+                $logo = $this->getImage("header/logo.png");
+            }
+
+        } catch(Exception $e) {
+            $logo = $this->getImage("header/logo.png");
+        }
+
+        return $logo;
+
+    }
 }

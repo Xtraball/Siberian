@@ -25,7 +25,7 @@ class Front_View_Index_Index extends Front_View_Default {
 
         return $favicon;
     }
-    
+
     public function getLogo() {
 
         try {

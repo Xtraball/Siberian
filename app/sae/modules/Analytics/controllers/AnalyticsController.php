@@ -308,8 +308,8 @@ class Analytics_AnalyticsController extends Application_Controller_Default {
                 $sqlite_request = Analytics_Model_Analytics::getInstance();
                 $sales_categories = $sqlite_request->getSalesByCategoriesApp($where);
                 $result = array(
-                    "metrics" => [],
-                    "labels" => []
+                    "metrics" => array(),
+                    "labels" => array()
                 );
 
                 $csv_string = "Name;Value\n";
@@ -359,8 +359,8 @@ class Analytics_AnalyticsController extends Application_Controller_Default {
                 $sqlite_request = Analytics_Model_Analytics::getInstance();
                 $sales_payments = $sqlite_request->getSalesByPaymentMethodsApp($where);
                 $result = array(
-                    "metrics" => [],
-                    "labels" => []
+                    "metrics" => array(),
+                    "labels" => array()
                 );
 
                 $payments = new Mcommerce_Model_Payment_Method();
@@ -405,8 +405,8 @@ class Analytics_AnalyticsController extends Application_Controller_Default {
                 $sqlite_request = Analytics_Model_Analytics::getInstance();
                 $sales_stores = $sqlite_request->getSalesByStoreApp($where);
                 $result = array(
-                    "metrics" => [],
-                    "labels" => []
+                    "metrics" => array(),
+                    "labels" => array()
                 );
 
                 $stores = new Mcommerce_Model_Store();

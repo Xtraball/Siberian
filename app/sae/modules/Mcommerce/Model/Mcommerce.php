@@ -106,8 +106,8 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
         return array(
             "phone" => array("rule" => $this->getPhone(), "label" => "Phone"),
             "birthday" => array("rule" => $this->getBirthday(), "label" => "Date of birth"),
-            "delivery_address" => array("rule" => $this->getDeliveryAddress(), "label" => "Delivery address"),
-            "invoicing_address" => array("rule" => $this->getInvoicingAddress(), "label" => "Invoicing address")
+            "delivery_address" => array("rule" => $this->getDeliveryAddress(), "label" => __("Delivery address")),
+            "invoicing_address" => array("rule" => $this->getInvoicingAddress(), "label" => __("Invoicing address"))
         );
 
     }
