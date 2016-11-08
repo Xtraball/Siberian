@@ -617,16 +617,18 @@ abstract class Core_Model_Default_Abstract
 
         $dummy_xml = Core_Model_Directory::getBasePathToModule($option_model_name, "data/dummy_" . $category->getCode() . ".xml");
 
-        if(!is_file($dummy_xml))
+        if(!is_file($dummy_xml)) {
             throw new Exception($this->_('#113: An error occurred while saving'));
+        }
 
         $dummy_content_xml = simplexml_load_file($dummy_xml);
 
-        if(!$dummy_content_xml->{$design->getCode()})
+        if(!$dummy_content_xml->{$design->getCode()}) {
             //if we cannot find our template dummy, we take first one
             $dummy_children = $dummy_content_xml->children();
             return $dummy_children[0];
             //throw new Exception($this->_('#114: An error occurred while saving'));
+        }
 
         return $dummy_content_xml->{$design->getCode()};
     }

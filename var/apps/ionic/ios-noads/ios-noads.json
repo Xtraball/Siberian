@@ -50,6 +50,24 @@
                             "xml": "<dict><key>NSAllowsArbitraryLoads</key><true /></dict>",
                             "count": 1
                         }
+                    ],
+                    "NSCalendarsUsageDescription": [
+                        {
+                            "xml": "<string>Be notified of the App events.</string>",
+                            "count": 1
+                        }
+                    ],
+                    "NSContactsUsageDescription": [
+                        {
+                            "xml": "<string>Share content with your contacts</string>",
+                            "count": 1
+                        }
+                    ],
+                    "NSMotionUsageDescription": [
+                        {
+                            "xml": "<string>Smart navigation with TaxiRide and other nice features</string>",
+                            "count": 1
+                        }
                     ]
                 }
             },
@@ -741,7 +759,7 @@
         "com.keosu.cordova.stream": "0.1",
         "cordova-plugin-background-fetch": "3.0.4",
         "phonegap-plugin-barcodescanner": "6.0.2",
-        "cordova-plugin-compat": "1.0.0",
+        "cordova-plugin-compat": "1.1.0",
         "cordova-plugin-camera": "2.3.1-dev",
         "com.verso.cordova.clipboard": "0.1.0",
         "cordova-plugin-console": "1.0.2",
@@ -757,7 +775,7 @@
         "phonegap-plugin-push": "1.5.3",
         "com.rd11.remote-controls": "1.0.0",
         "cordova-plugin-x-socialsharing": "5.0.12-dev",
-        "cordova-plugin-statusbar": "2.1.2",
+        "cordova-plugin-statusbar": "2.2.0",
         "de.appplant.cordova.plugin.local-notification": "0.8.4",
         "siberian-plugin-offlinemode": "1.0.0",
         "cordova-plugin-iosrtc": "3.1.0",

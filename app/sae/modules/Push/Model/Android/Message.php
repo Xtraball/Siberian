@@ -141,11 +141,11 @@ class Push_Model_Android_Message {
 
                     # Handle error
                     $error_count = $device->getErrorCount();
-                    if($error_count >= 3) {
+                    if($error_count >= 2) {
                         # Remove device from list
                         $device->delete();
 
-                        $msg = sprintf("#810-01: Android Device with ID: %s, Token: %s, removed after 3 failed push.", $device->getId(), $registration_id);
+                        $msg = sprintf("#810-01: Android Device with ID: %s, Token: %s, removed after 2 failed push.", $device->getId(), $registration_id);
                         $this->logger->info($msg, "push_android", false);
                     } else {
                         $device->setErrorCount(++$error_count)->save();

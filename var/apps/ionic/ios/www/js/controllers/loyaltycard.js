@@ -2,6 +2,7 @@ App.config(function($stateProvider) {
 
     $stateProvider.state('loyaltycard-view', {
         url: BASE_PATH+"/loyaltycard/mobile_view/index/value_id/:value_id",
+        cache: false,
         controller: 'LoyaltyViewController',
         templateUrl: "templates/loyaltycard/l1/view.html"
     });

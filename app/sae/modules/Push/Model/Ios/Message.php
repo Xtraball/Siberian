@@ -95,11 +95,11 @@ class Push_Model_Ios_Message {
             } else {
                 # Handle error
                 $error_count = $device->getErrorCount();
-                if($error_count >= 3) {
+                if($error_count >= 2) {
                     # Remove device from list
-                    $device->delete();
-
                     $msg = sprintf("#800-01: iOS Device with ID: %s, Token: %s, removed after 3 failed push.", $device->getId(), $device->getDeviceToken());
+
+                    $device->delete();
                     $this->logger->info($msg, "push_ios", false);
                 } else {
                     $device->setErrorCount(++$error_count)->save();

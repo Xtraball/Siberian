@@ -23,12 +23,12 @@ App.factory('Advanced', function($http, Url) {
 
     };
 
-    factory.moduleAction = function(action) {
+    factory.moduleAction = function(module, action) {
 
         return $http({
             method: 'POST',
             url: Url.get("backoffice/advanced_module/execute"),
-            data: {action: action},
+            data: {module: module, action: action},
             cache: false,
             responseType:'json'
         });

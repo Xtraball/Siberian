@@ -31,8 +31,11 @@ buildscript {
     // and https://issues.apache.org/jira/browse/CB-8143
     dependencies {
         classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath "io.realm:realm-gradle-plugin:2.1.0"
     }
 }
+
+apply plugin: 'realm-android'
 
 // Allow plugins to declare Maven dependencies via build-extras.gradle.
 allprojects {
@@ -88,6 +91,7 @@ ext {
 }
 
 // PLUGIN GRADLE EXTENSIONS START
+apply from: "cordova-plugin-admobpro/base-build.gradle"
 apply from: "cordova-hot-code-push-plugin/base-chcp.gradle"
 apply from: "phonegap-plugin-barcodescanner/base-barcodescanner.gradle"
 apply from: "phonegap-plugin-push/base-push.gradle"
@@ -158,6 +162,10 @@ android {
         abortOnError false
     }
 
+    dexOptions {
+        javaMaxHeapSize "2048m"
+    }
+
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -178,10 +186,6 @@ android {
         if (cdvMinSdkVersion != null) {
             minSdkVersion cdvMinSdkVersion
         }
-    }
-
-    lintOptions {
-      abortOnError false;
     }
 
     compileSdkVersion cdvCompileSdkVersion
@@ -226,8 +230,8 @@ android {
     */
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_6
-        targetCompatibility JavaVersion.VERSION_1_6
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
     }
 
     if (cdvReleaseSigningPropertiesFile) {
@@ -253,7 +257,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
+    // compile fileTree(dir: 'libs', include: '*.jar')
     // SUB-PROJECT DEPENDENCIES START
     debugCompile project(path: "CordovaLib", configuration: "debug")
     releaseCompile project(path: "CordovaLib", configuration: "release")

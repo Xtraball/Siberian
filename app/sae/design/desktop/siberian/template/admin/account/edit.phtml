@@ -1,4 +1,4 @@
-<?php $admin = $this->getAdmin(); ?>
+<?php $admin = $this->getEditAdmin(); ?>
 <?php $applications = $this->getApplications(); ?>
 <?php $countries = Zend_Registry::get('Zend_Locale')->getTranslationList('Territory', null, 2); ?>
 <?php asort($countries, SORT_LOCALE_STRING); ?>

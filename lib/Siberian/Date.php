@@ -27,4 +27,9 @@ class Siberian_Date extends Zend_Date
         return $this;
     }
 
+    public static function format($date = null, $format = 'y-MM-dd') {
+        $date = new Zend_Date($date, 'y-MM-dd HH:mm:ss');
+        return $date->toString($format);
+    }
+
 }

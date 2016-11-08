@@ -8,10 +8,7 @@ class Push_Model_Db_Table_Android_Device extends Core_Model_Db_Table {
     public function findByAppId($app_id,$topics, $customers) {
         $select = $this->select()
             ->from(array('pgd' => $this->_name))
-//            ->joinLeft(array('_table_is_read' => 'push_delivered_message'), '_table_is_read.device_id = pgd.device_id AND _table_is_read.status = 1 AND _table_is_read.is_read = 0', array('not_read' => new Zend_Db_Expr('COUNT(_table_is_read.deliver_id)')))
-//            ->joinLeft(array('pdm' => 'push_delivered_message'), 'pdm.device_id = pgd.device_id', array())
             ->where('pgd.app_id = ?', $app_id)
-            ->where('pgd.status = ?', 'active')
             ->group('pgd.device_id')
         ;
 
@@ -42,7 +39,6 @@ class Push_Model_Db_Table_Android_Device extends Core_Model_Db_Table {
             ->from(array('pm' => 'push_messages'), array('pm.message_id'))
             ->joinLeft(array('pdm' => 'push_delivered_message'), $join, array())
             ->where('pm.created_at >= ?', $created_at)
-//            ->where('pdm.message_id IS NULL')
             ->where('pdm.is_displayed = ?', '0')
             ->where('pm.status = ?', 'delivered')
         ;

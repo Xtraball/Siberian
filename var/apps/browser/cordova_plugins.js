@@ -103,7 +103,7 @@ module.exports.metadata =
 // TOP OF METADATA
 {
     "phonegap-plugin-barcodescanner": "6.0.2",
-    "cordova-plugin-compat": "1.0.0",
+    "cordova-plugin-compat": "1.1.0",
     "cordova-plugin-camera": "2.3.1-dev",
     "cordova-plugin-device": "1.1.1",
     "cordova-plugin-dialogs": "1.2.1-dev",

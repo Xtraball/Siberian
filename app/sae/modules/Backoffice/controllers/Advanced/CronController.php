@@ -45,9 +45,9 @@ class Backoffice_Advanced_CronController extends Backoffice_Controller_Default {
             $name = $cron_task->getCommand();
             $_data = $cron_task->getData();
             $_data["show_info"] = false;
-            $_data["last_success"] = ("0000-00-00 00:00:00" != $_data["last_success"]) ? $cron_task->getFormattedLastSuccess() : __("never");
-            $_data["last_trigger"] = ("0000-00-00 00:00:00" != $_data["last_trigger"]) ? $cron_task->getFormattedLastTrigger() : __("never");
-            $_data["last_fail"] = ("0000-00-00 00:00:00" != $_data["last_fail"]) ? $cron_task->getFormattedLastFail() : __("never");
+            $_data["last_success"] = ("0000-00-00 00:00:00" != $_data["last_success"]) ? Siberian_Date::format($_data["last_success"], Zend_Date::DATETIME_MEDIUM) : __("never");
+            $_data["last_trigger"] = ("0000-00-00 00:00:00" != $_data["last_trigger"]) ? Siberian_Date::format($_data["last_trigger"], Zend_Date::DATETIME_MEDIUM) : __("never");
+            $_data["last_fail"] = ("0000-00-00 00:00:00" != $_data["last_fail"]) ? Siberian_Date::format($_data["last_fail"], Zend_Date::DATETIME_MEDIUM) : __("never");
 
             if(in_array($name, array_keys(self::$system_tasks))) {
                 $_data["more_info"] = __(self::$system_tasks[$name]);
@@ -61,8 +61,8 @@ class Backoffice_Advanced_CronController extends Backoffice_Controller_Default {
         foreach($apk_queue as $apk) {
             $_data = $apk->getData();
 
-            $_data["created_at"] = ("0000-00-00 00:00:00" != $_data["created_at"]) ? $cron_task->getFormattedCreatedAt() : __("never");
-            $_data["updated_at"] = ("0000-00-00 00:00:00" != $_data["updated_at"]) ? $cron_task->getFormattedUpdatedAt() : __("never");
+            $_data["created_at"] = ("0000-00-00 00:00:00" != $_data["created_at"]) ? Siberian_Date::format($_data["created_at"], Zend_Date::DATETIME_MEDIUM) : __("never");
+            $_data["updated_at"] = ("0000-00-00 00:00:00" != $_data["updated_at"]) ? Siberian_Date::format($_data["updated_at"], Zend_Date::DATETIME_MEDIUM) : __("never");
             $_data["status"] = __($_data["status"]);
             $_data["show_info"] = false;
 
@@ -72,8 +72,8 @@ class Backoffice_Advanced_CronController extends Backoffice_Controller_Default {
         foreach($source_queue as $source) {
             $_data = $source->getData();
 
-            $_data["created_at"] = ("0000-00-00 00:00:00" != $_data["created_at"]) ? $cron_task->getFormattedCreatedAt() : __("never");
-            $_data["updated_at"] = ("0000-00-00 00:00:00" != $_data["updated_at"]) ? $cron_task->getFormattedUpdatedAt() : __("never");
+            $_data["created_at"] = ("0000-00-00 00:00:00" != $_data["created_at"]) ? Siberian_Date::format($_data["created_at"], Zend_Date::DATETIME_MEDIUM) : __("never");
+            $_data["updated_at"] = ("0000-00-00 00:00:00" != $_data["updated_at"]) ? Siberian_Date::format($_data["updated_at"], Zend_Date::DATETIME_MEDIUM) : __("never");
             $_data["status"] = __($_data["status"]);
             $_data["show_info"] = false;
 

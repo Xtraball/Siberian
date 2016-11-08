@@ -445,17 +445,38 @@ static const void *kStatusBarStyle = &kStatusBarStyle;
 
         if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
             self.viewController.view.frame = bounds;
+        } else if (self.viewController.presentedViewController != nil) {
+            // https://issues.apache.org/jira/browse/CB-11018
+            BOOL isIOS8 = (IsAtLeastiOSVersion(@"8.0"));
+            BOOL isIOS9 = (IsAtLeastiOSVersion(@"9.0"));
+            if (isIOS8 && !isIOS9) {
+                // iOS 8
+                bounds = CGRectMake(0, 0, bounds.size.width, bounds.size.height);
+            } else {
+                // iOS7, iOS9+
+                if ([self.viewController.presentedViewController.presentationController isKindOfClass:[UIPopoverPresentationController class]] || UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) {
+                    bounds = CGRectMake(0, 0, bounds.size.width, bounds.size.height);
+                } else {
+                    bounds = CGRectMake(0, 0, bounds.size.height, bounds.size.width);
+                }
+            }
         }
         self.webView.frame = bounds;
-        
+
+        CGRect statusBarFrame = [UIApplication sharedApplication].statusBarFrame;
+        statusBarFrame = [self invertFrameIfNeeded:statusBarFrame];
+        CGRect frame = self.webView.frame;
+
         if (!self.statusBarOverlaysWebView) {
-            CGRect statusBarFrame = [UIApplication sharedApplication].statusBarFrame;
-            statusBarFrame = [self invertFrameIfNeeded:statusBarFrame];
-            CGRect frame = self.webView.frame;
             frame.origin.y = statusBarFrame.size.height;
             frame.size.height -= statusBarFrame.size.height;
-            self.webView.frame = frame;
+        } else {
+            // even if overlay is used, we want to handle in-call/recording/hotspot larger status bar
+            CGFloat height = statusBarFrame.size.height;
+            frame.origin.y = height >= 20 ? height - 20 : 0;
+            frame.size.height -= frame.origin.y;
         }
+        self.webView.frame = frame;
     } else {
         CGRect bounds = [[UIScreen mainScreen] applicationFrame];
         self.viewController.view.frame = bounds;
