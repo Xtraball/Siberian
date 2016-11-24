@@ -13,7 +13,7 @@
                 <td>{{ module.name }}</td>
                 <td>{{ module.version }}</td>
                 <td style="text-align:right;">
-                    <button class="btn btn-xs btn-info" ng-repeat="(k, action) in module.actions" ng-click="moduleAction(module.name, k);">{{ action.label }}</button>
+                    <button class="btn btn-xs btn-info" ng-repeat="(k, action) in module.actions" ng-click="moduleAction(module.original_name, k);">{{ action.label }}</button>
                 </td>
             </tr>
             <tr ng-show="!modules.length">

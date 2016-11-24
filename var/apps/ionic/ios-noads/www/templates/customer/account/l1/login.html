@@ -1,4 +1,4 @@
-<ion-modal-view ng-controller="CustomerController">
+<ion-modal-view ng-controller="CustomerController" class="customer-view">
 
     <ion-header-bar class="bar-custom">
         <div class="buttons">
@@ -38,10 +38,6 @@
 
                 <button type="submit" class="button button-block button-custom activated" ng-show="!is_loading">{{ "Log-in" | translate }}</button>
 
-                <div class="loader" ng-show="is_loading">
-                    <ion-spinner class="spinner-custom"></ion-spinner>
-                </div>
-
                 <div class="item item-custom item-icon-left" ng-click="displayForgotPasswordForm()">
                     <i class="icon ion-ios-help-empty"></i>
                     {{ "Forgot your password?" | translate }}
@@ -72,10 +68,6 @@
                 </label>
 
                 <button type="submit" class="button button-block button-custom activated" ng-show="!is_loading">{{ "Send" | translate }}</button>
-
-                <div class="loader" ng-show="is_loading">
-                    <ion-spinner class="spinner-custom"></ion-spinner>
-                </div>
 
                 <div class="item item-custom item-icon-left" ng-click="displayLoginForm()">
                     <i class="icon ion-ios-person"></i>
@@ -183,16 +175,31 @@
 
                 <button type="submit" class="button button-block button-custom activated" ng-show="!is_loading">{{ "Send" | translate }}</button>
 
-                <div class="loader" ng-show="is_loading">
-                    <ion-spinner class="spinner-custom"></ion-spinner>
-                </div>
-
                 <div class="item item-custom item-icon-left" ng-click="displayLoginForm()" ng-if="!is_logged_in">
                     <i class="icon ion-ios-person"></i>
                     {{ "Click here to log-in" | translate }}
                 </div>
 
             </div>
+
+            <section class="avatar text-center" ng-if="show_avatar" ng-show="customer.stripe">
+                <label class="item item-custom">
+                    <i class="ion-ios-information-outline"></i><strong> {{ "Stored card information." | translate }}</strong>
+                </label>
+
+                <!-- SHOW CARD -->
+                <div ng-show="customer.stripe.brand" class="item item-custom">
+                    {{ "XXXX XXXX XXXX" }} {{ customer.stripe.last4 }}
+                    <br />
+                    {{ "CVC ***" }} - {{ "EXP" }} {{ customer.stripe.exp_month }}/{{ customer.stripe.exp_year }}
+                </div>
+                <button ng-show="customer.stripe.brand" type="button" class="button button-block button-custom activated" ng-click="unloadcard()">{{ "Remove card" | translate }}</button>
+
+                <!-- ADD CARD -->
+                <label ng-show="!customer.stripe.brand" class="item item-text-wrap item-custom">
+                    {{ "You have no card stored. To add a card make an order." | translate }}
+                </label>
+            </section>
 
         </form>
 

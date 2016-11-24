@@ -46,7 +46,10 @@ require_once "Zend/Application.php";
 $application = new Zend_Application(
     $_config["environment"],
     array(
-        "config" => APPLICATION_PATH."/configs/app.ini",
+        "config" => array(
+            APPLICATION_PATH."/configs/app.ini",
+            APPLICATION_PATH."/configs/resources.cachemanager.ini",
+        ),
         "bootstrap" => array(
             "path" => APPLICATION_PATH."/BootstrapCron.php",
             "class" => "BootstrapCron",

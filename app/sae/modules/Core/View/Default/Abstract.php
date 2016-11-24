@@ -153,11 +153,31 @@ abstract class Core_View_Default_Abstract extends Siberian_View
         $image = new Media_Model_Library_Image();
         if(is_numeric($image_id)) {
             $image->find($image_id);
-            if(!$image->getId()) return $url;
-            if(!$image->getCanBeColorized()) $color = null;
+            if(!$image->getId()) {
+                return $url;
+            }
+            if(!$image->getCanBeColorized()) {
+                $color = null;
+            }
             $path = $image->getLink();
             $path = Media_Model_Library_Image::getBaseImagePathTo($path, $image->getAppId());
         } else if(!Zend_Uri::check($image_id) AND stripos($image_id, Core_Model_Directory::getBasePathTo()) === false) {
+            if(preg_match("#/customer_account/#", $image_id)) {
+                $icon_id = $this->getApplication()->getAccountIconId();
+                $library = new Media_Model_Library_Image();
+                $icon = $library->find($icon_id);
+                if(!$icon->getCanBeColorized()) {
+                    $color = null;
+                }
+            }
+            if(preg_match("#/more_items/#", $image_id)) {
+                $icon_id = $this->getApplication()->getMoreIconId();
+                $library = new Media_Model_Library_Image();
+                $icon = $library->find($icon_id);
+                if(!$icon->getCanBeColorized()) {
+                    $color = null;
+                }
+            }
             $path = Core_Model_Directory::getBasePathTo($image_id);
         } else {
             $path = $image_id;

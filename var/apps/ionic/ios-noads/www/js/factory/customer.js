@@ -160,6 +160,16 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
         });
     };
 
+    factory.removeCard = function() {
+
+        return $http({
+            method: 'POST',
+            url: Url.get("mcommerce/mobile_sales_stripe/removecard"),
+            data: {customer_id: factory.id},
+            responseType:'json'
+        });
+    };
+
     factory.find = function() {
         return $http({
             method: 'GET',

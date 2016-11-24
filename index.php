@@ -43,8 +43,13 @@ require_once "Zend/Application.php";
 /** Initializing the application */
 $ini = is_readable(APPLICATION_PATH."/configs/app.ini") ? APPLICATION_PATH."/configs/app.ini" : APPLICATION_PATH."/configs/app.sample.ini";
 $application = new Zend_Application(
-    APPLICATION_ENV,
-    $ini
+    $_config["environment"],
+    array(
+        "config" => array(
+            $ini,
+            APPLICATION_PATH."/configs/resources.cachemanager.ini",
+        ),
+    )
 );
 
 $config = new Zend_Config($application->getOptions(), true);

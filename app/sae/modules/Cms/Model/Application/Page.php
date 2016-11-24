@@ -13,6 +13,33 @@ class Cms_Model_Application_Page extends Core_Model_Default
         return $this;
     }
 
+    /**
+     * Executed when the feature is created
+     *
+     * @param $option_value
+     */
+    public function prepareFeature($option_value) {
+        self::setPlaceOrder($option_value->getValueId(), 'true');
+    }
+
+    /**
+     * Handles the saving of the places_order metadatum
+     *
+     * @param $value_id
+     * @param $order
+     */
+    public static function setPlaceOrder($value_id, $order) {
+        // Delete old metadata value
+        Application_Model_Option_Value_Metadata::deleteByCode($value_id, 'places_order');
+        // Replace it with the current one
+        $metadatum = new Application_Model_Option_Value_Metadata();
+        $metadatum->setPayload($order ? 'true' : 'false');
+        $metadatum->setCode('places_order');
+        $metadatum->setValueId($value_id);
+        $metadatum->setType('boolean');
+        $metadatum->save();
+    }
+
     public function findByUrl($url) {
         $this->find($url, 'url');
         return $this;

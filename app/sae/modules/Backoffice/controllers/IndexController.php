@@ -98,7 +98,11 @@ class Backoffice_IndexController extends Backoffice_Controller_Default
                         Siberian_Cache::__clearCache();
                         break;
                     case "tmp":
+                        /** When clearing TPM out we need to clear APK/Source queue links, file doesn't exists anymore */
                         Siberian_Cache::__clearTmp();
+                        Application_Model_SourceQueue::clearPaths();
+                        Application_Model_ApkQueue::clearPaths();
+
                         break;
                     case "overview":
                         $message = __("Overview cache cleared.");

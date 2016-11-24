@@ -3,10 +3,11 @@ App.config(function ($stateProvider) {
     $stateProvider.state('mcommerce-sales-store', {
         url: BASE_PATH+"/mcommerce/mobile_sales_storechoice/index/value_id/:value_id",
         controller: 'MCommerceSalesStoreChoiceController',
-        templateUrl: "templates/mcommerce/l1/sales/store.html"
+        templateUrl: "templates/mcommerce/l1/sales/store.html",
+        cache:false
     });
 
-}).controller('MCommerceSalesStoreChoiceController', function ($location, $scope, $state, $stateParams, $translate, Dialog, McommerceSalesStorechoice) {
+}).controller('MCommerceSalesStoreChoiceController', function ($ionicLoading, $location, $scope, $state, $stateParams, $translate, Dialog, McommerceSalesStorechoice) {
 
     $scope.value_id = McommerceSalesStorechoice.value_id = $stateParams.value_id;
     $scope.selected_store = {id:null};
@@ -19,6 +20,9 @@ App.config(function ($stateProvider) {
 
     $scope.loadContent = function () {
         $scope.is_loading = true;
+        $ionicLoading.show({
+            template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
+        });
         McommerceSalesStorechoice.find().success(function (data) {
             $scope.stores = data.stores;
             $scope.cart_amount = data.cart_amount;
@@ -28,6 +32,7 @@ App.config(function ($stateProvider) {
             }
         }).finally(function () {
             $scope.is_loading = false;
+            $ionicLoading.hide();
         });
     };
 
@@ -43,12 +48,16 @@ App.config(function ($stateProvider) {
 
             if($scope.min_amount <= $scope.cart_amount) {
                 $scope.is_loading = true;
+                $ionicLoading.show({
+                    template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
+                });
                 McommerceSalesStorechoice.update($scope.selected_store.id).success(function (data) {
                     if (data.store_id) {
                         $scope.showNextButton();
                     }
                 }).finally(function () {
                     $scope.is_loading = false;
+                    $ionicLoading.hide();
                 });
             } else {
                 Dialog.alert("", $scope.error_message, $translate.instant("OK"));

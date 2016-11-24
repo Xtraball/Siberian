@@ -1,0 +1,61 @@
+<ion-view>
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-content sb-background-image>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div id="search_section" class="list" ng-show="show_search">
+            <div class="item item-custom item-input-inset">
+                <label class="item-input-wrapper">
+                    <i class="icon ion-search placeholder-icon"></i>
+                    <input type="text" placeholder="{{ 'Search' | translate }}" ng-model="search.search_value">
+                </label>
+                <button class="button button-custom button-small" ng-click="startSearch()">
+                    {{ "OK" | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="list" ng-show="!is_loading && cover">
+            <div class="item item-image item-custom" ng-if="cover.picture">
+                <img ng-src="{{ cover.picture }}" />
+            </div>
+            <div class="item item-custom">
+                <h2>{{ cover.title }}</h2>
+                <p>{{ cover.subtitle }}</p>
+            </div>
+        </div>
+
+        <div class="layout Sl16">
+            <div class="list" ng-show="collection.length">
+                <a tabbar-items class="item item-custom item-avatar-square text-center" option="item" go-to-url="goTo(item)" ng-repeat="item in collection" ng-class="{'item-avatar': item.picture, 'item-center': (!item.subtitle && !item.message), 'no-border': tabbar_is_transparent}">
+                    <div class="items">
+                        <img ng-src="{{ item.picture }}" ng-if="item.picture" />
+                    </div>
+                    <p>{{ item.title }}</p>
+                    <p ng-if="item.subtitle">{{ item.subtitle }}</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="list" ng-if="!is_loading && !collection.length && !cover">
+            <div class="item text-center item-custom">
+                {{ "No items found" | translate }}
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>
+
+<style>
+.layout.Sl16 .scroll-view {  position: absolute;  width: 100%;  height: 100%;  }
+.layout.Sl16 a {  border: 1px solid white;  float: left;  height: 100%;  position: relative;  width: 50%; padding: 0;  margin:0;}
+.layout.Sl16 a img {  width: 55px; height: 55px; }
+.layout.Sl16 a p {  bottom: 0;  font-size: 12px;  height: 22%;  line-height: 20px;  overflow: hidden;  position: absolute;  text-align: center;  text-transform: uppercase;  width: 100%;  z-index: 999;  }
+.layout.Sl16 a .items {  height: 100%;  }
+.layout.Sl16 .items { padding: 30%;  }
+.layout.Sl16 .no-border{border:none !important}
+.layout.Sl16{margin-top: -20px;}
+</style>

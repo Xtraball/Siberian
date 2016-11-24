@@ -1,38 +1,38 @@
-<sb-section title="'<?php echo $this->_("General Information"); ?>'">
+<sb-section title="'<?php echo __("General Information"); ?>'">
     <form ng-submit="saveInfo()">
         <div class="col-md-4">
             <div class="form-group">
-                <label class="control-label" for="name"><?php echo $this->_("Name"); ?></label>
+                <label class="control-label" for="name"><?php echo __("Name"); ?></label>
                 <input type="text" value="{{ tmp_application.name }}" ng-model="tmp_application.name" class="form-control" name="name" id="name" />
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label class="control-label" for="bundle_id"><?php echo $this->_("Bundle Id"); ?></label>
+                <label class="control-label" for="bundle_id"><?php echo __("Bundle Id"); ?></label>
                 <input type="text" value="{{ tmp_application.bundle_id }}" ng-model="tmp_application.bundle_id" class="form-control" name="bundle_id" id="bundle_id" />
             </div>
         </div>
 
         <div class="col-md-4">
             <div class="form-group">
-                <label class="control-label" for="domain"><?php echo $this->_("Domain"); ?></label>
+                <label class="control-label" for="domain"><?php echo __("Domain"); ?></label>
                 <input type="text" value="{{ tmp_application.domain }}" ng-model="tmp_application.domain" class="form-control" name="domain" id="domain">
             </div>
         </div>
 
         <div class="col-md-4">
             <div class="form-group">
-                <label class="control-label"><?php echo $this->_("URL"); ?></label>
+                <label class="control-label"><?php echo __("URL"); ?></label>
                 <a href="{{ tmp_application.url }}" class="block" target="_blank">{{ tmp_application.url }}</a>
             </div>
         </div>
 
         <div class="col-md-4">
             <div class="form-group">
-                <label class="control-label"><?php echo $this->_("Design"); ?>: <i>{{ tmp_application.design_code }}</i></label>
+                <label class="control-label"><?php echo __("Design"); ?>: <i>{{ tmp_application.design_code }}</i></label>
                 <div>
-                    <button type="button" ng-click="switchToIonic('<?php echo $this->_("If your app is already published on the stores, be sure you have sent an update with the Ionic version, and that this update has already been accepted, otherwise your app may be broken."); ?>')" ng-if="tmp_application.design_code != 'ionic'" class="btn btn-success" style="border-color: white;">
-                        <?php echo $this->_("Switch to Ionic design"); ?>
+                    <button type="button" ng-click="switchToIonic('<?php echo __("If your app is already published on the stores, be sure you have sent an update with the Ionic version, and that this update has already been accepted, otherwise your app may be broken."); ?>')" ng-if="tmp_application.design_code != 'ionic'" class="btn btn-success" style="border-color: white;">
+                        <?php echo __("Switch to Ionic design"); ?>
                     </button>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                 <div class="checkbox">
                     <label for="application_is_locked">
                         <input type="checkbox" id="application_is_locked" ng-model="tmp_application.is_locked" ng-checked="tmp_application.is_locked" />
-                        <?php echo $this->_("Lock the entire application"); ?>
+                        <?php echo __("Lock the entire application"); ?>
                     </label>
                 </div>
             </div>
@@ -54,7 +54,7 @@
                 <div class="checkbox">
                     <label for="application_can_be_published">
                         <input type="checkbox" id="application_can_be_published" ng-model="tmp_application.can_be_published" ng-checked="tmp_application.can_be_published" />
-                        <?php echo $this->_("Allow user to request app publication"); ?>
+                        <?php echo __("Allow user to request app publication"); ?>
                     </label>
                 </div>
             </div>
@@ -62,7 +62,7 @@
 
         <div class="col-md-12">
             <div class="form-group">
-                <button type="submit" class="btn btn-primary left"><?php echo $this->_("Save"); ?></button>
+                <button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
                 <sb-loader is_visible="application_form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
                 <div class="clear"></div>
             </div>
@@ -73,7 +73,7 @@
 
 <div class="clear"></div>
 
-<sb-section title="'<?php echo addslashes($this->_("Device Information")); ?>'">
+<sb-section title="'<?php echo addslashes(__("Device Information")); ?>'">
 
 
     <form ng-submit="saveDeviceInfo()">
@@ -88,32 +88,32 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="{{ device.id }}_status"><?php echo $this->_('Status'); ?></label>
+                    <label for="{{ device.id }}_status"><?php echo __('Status'); ?></label>
                     <select id="{{ device.id }}_status" class="form-control" ng-model="device.status_id" ng-options="k as v for (k, v) in statuses"></select>
                 </div>
 
                 <div class="form-group">
-                    <label for="{{ device.id }}_version"><?php echo $this->_('Version'); ?></label>
+                    <label for="{{ device.id }}_version"><?php echo __('Version'); ?></label>
                     <input type="text" ng-model="device.version" class="form-control" name="version" id="{{ device.id }}_version" />
                 </div>
 
                 <div class="form-group">
-                    <label for="{{ device.id }}_store_url"><?php echo $this->_('Store URL'); ?></label>
+                    <label for="{{ device.id }}_store_url"><?php echo __('Store URL'); ?></label>
                     <input type="url" ng-model="device.store_url" class="form-control" name="store_url" id="{{ device.id }}_store_url" />
                 </div>
 
                 <div class="form-group" ng-if="device.store_pass">
-                    <label for="{{ device.id }}_store_pass"><?php echo $this->_('Store Password'); ?></label>
+                    <label for="{{ device.id }}_store_pass"><?php echo __('Store Password'); ?></label>
                     <p>{{ device.store_pass }}</p>
                 </div>
 
                 <div class="form-group" ng-if="device.key_pass">
-                    <label for="{{ device.id }}_key_pass"><?php echo $this->_('Key Password'); ?></label>
+                    <label for="{{ device.id }}_key_pass"><?php echo __('Key Password'); ?></label>
                     <p>{{ device.key_pass }}</p>
                 </div>
 
                 <div class="form-group" ng-if="device.type_id=='1'">
-                    <label for="app_id"><?php echo $this->_("Store App ID"); ?></label>
+                    <label for="app_id"><?php echo __("Store App ID"); ?></label>
                     <input type="text" ng-model="device.store_app_id" class="form-control" name="app_id" id="app_id" />
                 </div>
 
@@ -123,7 +123,7 @@
 
         <div class="col-md-12">
             <div class="form-group">
-                <button type="submit" class="btn btn-primary left"><?php echo $this->_("Save"); ?></button>
+                <button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
                 <sb-loader is_visible="device_form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
                 <div class="clear"></div>
             </div>
@@ -134,35 +134,35 @@
 
 <div class="clear"></div>
 
-<sb-section title="'<?php echo addslashes($this->_("Stores Info")); ?>'">
+<sb-section title="'<?php echo addslashes(__("Stores Info")); ?>'">
 
     <div class="col-md-12">
         <div class="form-group">
-            <label class="control-label"><?php echo $this->_("Application Name"); ?></label>
+            <label class="control-label"><?php echo __("Application Name"); ?></label>
             <p>{{ application.name }}</p>
         </div>
     </div>
     <div class="col-md-12">
         <div class="form-group">
-            <label class="control-label"><?php echo $this->_("Description"); ?></label>
+            <label class="control-label"><?php echo __("Description"); ?></label>
             <p>{{ application.description }}</p>
         </div>
     </div>
     <div class="col-md-12">
         <div class="form-group">
-            <label class="control-label"><?php echo $this->_("Keywords"); ?></label>
+            <label class="control-label"><?php echo __("Keywords"); ?></label>
             <p>{{ application.keywords }}</p>
         </div>
     </div>
     <div class="col-md-12">
         <div class="form-group">
-            <label class="control-label"><?php echo $this->_("Main category"); ?></label>
+            <label class="control-label"><?php echo __("Main category"); ?></label>
             <p>{{ application.main_category_name }}</p>
         </div>
     </div>
     <div class="col-md-12">
         <div class="form-group">
-            <label class="control-label"><?php echo $this->_("Secondary category"); ?></label>
+            <label class="control-label"><?php echo __("Secondary category"); ?></label>
             <p>{{ application.secondary_category_name }}</p>
         </div>
     </div>
@@ -171,13 +171,13 @@
 
 <div class="clear"></div>
 
-<sb-section title="'<?php echo addslashes($this->_("Advertising")); ?>'">
+<sb-section title="'<?php echo addslashes(__("Advertising")); ?>'">
     <form ng-submit="saveAdvertisingInfo()">
         <div class="form-group">
             <div class="col-md-12">
                 <label for="owner_use_ads" class="control-label">
                     <input type="checkbox" id="owner_use_ads" ng-model="application_admob.owner_use_ads" ng-checked="application_admob.owner_use_ads"/>
-                    <?php echo $this->_("Use Owner AdMob"); ?>
+                    <?php echo __("Use Owner AdMob"); ?>
                 </label>
             </div>
         </div>
@@ -191,11 +191,11 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="admob-id-{{ device.name }}" class="control-label"><?php echo $this->_("AdMob ID"); ?></label>
+                    <label for="admob-id-{{ device.name }}" class="control-label"><?php echo __("AdMob ID"); ?></label>
                     <input type="text" id="admob-id-{{ device.name }}" class="form-control" ng-model="device.owner_admob_id" />
                 </div>
                 <div class="form-group">
-                    <label for="admob-type-{{ device.name }}" class="control-label"><?php echo $this->_("AdMob Type"); ?></label>
+                    <label for="admob-type-{{ device.name }}" class="control-label"><?php echo __("AdMob Type"); ?></label>
                     <select id="admob-type-{{ device.name }}" class="form-control" ng-model="device.owner_admob_type">
                         <option value="banner">Banner</option>
                         <option value="interstitial">Interstitial</option>
@@ -206,7 +206,7 @@
         </div>
         <div class="form-group">
             <div class="col-md-12">
-                <button type="submit" class="btn btn-primary left"><?php echo $this->_("Save"); ?></button>
+                <button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
                 <sb-loader is_visible="device_form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
                 <div class="clear"></div>
             </div>
@@ -216,19 +216,19 @@
 
 <div class="clear"></div>
 
-<sb-section title="'<?php echo addslashes($this->_("Banner settings")); ?>'">
+<sb-section title="'<?php echo addslashes(__("Banner settings")); ?>'">
     <form ng-submit="saveBannerInfo()">
         <div class="form-group">
             <div class="col-md-4">
-                <label for="banner-title" class="control-label"><?php echo $this->_("Banner title"); ?></label>
+                <label for="banner-title" class="control-label"><?php echo __("Banner title"); ?></label>
                 <input type="text" id="banner-title" class="form-control" ng-model="application_banner.banner_title" />
             </div>
             <div class="col-md-4">
-                <label for="banner-author" class="control-label"><?php echo $this->_("Banner author"); ?></label>
+                <label for="banner-author" class="control-label"><?php echo __("Banner author"); ?></label>
                 <input type="text" id="banner-author" class="form-control" ng-model="application_banner.banner_author" />
             </div>
             <div class="col-md-4">
-                <label for="banner-button-label" class="control-label"><?php echo $this->_("Banner button label"); ?></label>
+                <label for="banner-button-label" class="control-label"><?php echo __("Banner button label"); ?></label>
                 <input type="text" id="banner-button-label" class="form-control" ng-model="application_banner.banner_button_label" />
             </div>
         </div>
@@ -248,11 +248,11 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="banner-label-ios" class="control-label"><?php echo $this->_("Banner %s store label","{{ device.name }}"); ?></label>
-                    <input type="text" placeholder="<?php echo $this->_("e.g: On %s", "{{ device.store_name }}"); ?>" id="banner-label-ios" class="form-control" ng-model="device.banner_store_label" />
+                    <label for="banner-label-ios" class="control-label"><?php echo __("Banner %s store label","{{ device.name }}"); ?></label>
+                    <input type="text" placeholder="<?php echo __("e.g: On %s", "{{ device.store_name }}"); ?>" id="banner-label-ios" class="form-control" ng-model="device.banner_store_label" />
                 </div>
                 <div class="form-group">
-                    <label for="banner-price-ios" class="control-label"><?php echo $this->_("Banner %s price","{{ device.name }}"); ?></label>
+                    <label for="banner-price-ios" class="control-label"><?php echo __("Banner %s price","{{ device.name }}"); ?></label>
                     <input type="text" id="banner-price-ios" class="form-control" ng-model="device.banner_store_price" />
                 </div>
 
@@ -260,7 +260,7 @@
         </div>
         <div class="col-md-12">
             <div class="form-group">
-                <button type="submit" class="btn btn-primary left"><?php echo $this->_("Save"); ?></button>
+                <button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
                 <sb-loader is_visible="device_form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
                 <div class="clear"></div>
             </div>
@@ -272,29 +272,29 @@
 <?php if(!Siberian_Version::is("sae")): ?>
 <div class="clear"></div>
 
-<sb-section title="'<?php echo addslashes($this->_("User Information")); ?>'">
+<sb-section title="'<?php echo addslashes(__("User Information")); ?>'">
 
     <div class="col-md-12">
         <div class="form-group">
-            <label class="control-label"><?php echo $this->_("Name"); ?></label>
+            <label class="control-label"><?php echo __("Name"); ?></label>
             <p>{{ application.admin.name }}</p>
         </div>
     </div>
     <div class="col-md-12">
         <div class="form-group">
-            <label class="control-label"><?php echo $this->_("Email"); ?></label>
+            <label class="control-label"><?php echo __("Email"); ?></label>
             <p>{{ application.admin.email }}</p>
         </div>
     </div>
     <div class="col-md-12">
         <div class="form-group">
-            <label class="control-label"><?php echo $this->_("Company"); ?></label>
+            <label class="control-label"><?php echo __("Company"); ?></label>
             <p>{{ application.admin.company }}</p>
         </div>
     </div>
     <div class="col-md-12">
         <div class="form-group">
-            <label class="control-label"><?php echo $this->_("Phone"); ?></label>
+            <label class="control-label"><?php echo __("Phone"); ?></label>
             <p>{{ application.admin.phone }}</p>
         </div>
     </div>
@@ -304,7 +304,7 @@
 
 <div class="clear"></div>
 
-<sb-section title="'<?php echo addslashes($this->_("Developer Accounts")); ?>'">
+<sb-section title="'<?php echo addslashes(__("Developer Accounts")); ?>'">
 
     <div class="form-group" ng-repeat="device in application.devices">
 
@@ -313,20 +313,20 @@
         </div>
 
         <div class="col-md-4" ng-if="!device.has_missing_information && device.use_our_developer_account == 0">
-            <label class="control-label"><?php echo $this->_("Username"); ?></label>
+            <label class="control-label"><?php echo __("Username"); ?></label>
             <p>{{ device.developer_account_username }}</p>
         </div>
         <div class="col-md-4" ng-if="!device.has_missing_information && device.use_our_developer_account == 0">
-            <label class="control-label"><?php echo $this->_("Password"); ?></label>
+            <label class="control-label"><?php echo __("Password"); ?></label>
             <p>{{ device.developer_account_password }}</p>
         </div>
 
         <div class="col-md-8" ng-if="!device.has_missing_information && device.use_our_developer_account == 1">
-            <h4><?php echo $this->_("Publish under our account"); ?></h4>
+            <h4><?php echo __("Publish under our account"); ?></h4>
         </div>
 
         <div class="col-md-4" ng-if="device.has_missing_information">
-            <h4 class="text-danger"><?php echo $this->_("Missing Information"); ?></h4>
+            <h4 class="text-danger"><?php echo __("Missing Information"); ?></h4>
         </div>
 
         <div class="clear"></div>
@@ -336,11 +336,11 @@
 
 <div class="clear"></div>
 
-<sb-section title="'<?php echo addslashes($this->_("Media")); ?>'">
+<sb-section title="'<?php echo addslashes(__("Media")); ?>'">
 
     <div class="form-group">
         <div class="col-md-2">
-            <label class="control-label"><?php echo $this->_("App Store Icon"); ?></label>
+            <label class="control-label"><?php echo __("App Store Icon"); ?></label>
         </div>
         <div class="col-md-2 text-right">
             <img ng-src="{{ application.app_store_icon }}" width="100" />
@@ -351,7 +351,7 @@
 
     <div class="form-group">
         <div class="col-md-2">
-            <label class="control-label"><?php echo $this->_("Google Play Icon"); ?></label>
+            <label class="control-label"><?php echo __("Google Play Icon"); ?></label>
         </div>
         <div class="col-md-2 text-right">
             <img ng-src="{{ application.google_play_icon }}" width="100" />
@@ -362,12 +362,12 @@
 
 <div class="clear"></div>
 
-<sb-section title="'<?php echo addslashes($this->_("Mobile Source Codes")); ?>'">
+<sb-section title="'<?php echo addslashes(__("Mobile Source Codes")); ?>'">
 
     <div class="row" ng-if="tmp_application.design_code != 'ionic'">
         <div class="col-md-6">
             <div class="form-group">
-                <label class="control-label"><?php echo $this->_("Source type:"); ?></label>
+                <label class="control-label"><?php echo __("Source type:"); ?></label>
                 <select class="form-control" ng-model="mobile_source.design_code" ng-options="k as v for (k, v) in design_codes"></select>
             </div>
         </div>
@@ -392,7 +392,7 @@
         <tbody>
         <tr>
             <td>
-                <label class="control-label"><?php echo $this->_("iPhone Version"); ?></label>
+                <label class="control-label"><?php echo __("iPhone Version"); ?></label>
             </td>
             <td>
                 <a ng-if="application.zip.ios" href="<?php echo $this->getUrl("") ?>{{ application.zip.ios.path }}" class="help-block" target="_self" >
@@ -402,7 +402,7 @@
                 <span ng-if="!application.zip.ios"><?php echo __("Not yet generated.") ?></span>
             </td>
             <td class="text-right">
-                <a ng-if="application.queued.positions.ios == 0" ng-click="generateSource(1, 0)" href="javascript:void(0)" class="block" target="_self"><i class="fa fa-gears"></i> <?php echo $this->_("Generate sources"); ?></a>
+                <a ng-if="application.queued.positions.ios == 0" ng-click="generateSource(1, 0)" href="javascript:void(0)" class="block" target="_self"><i class="fa fa-gears"></i> <?php echo __("Generate sources"); ?></a>
                 <span ng-show="application.queued.positions.ios == 1">
                     <img class="gear-loader" src="/app/sae/design/desktop/backoffice/images/loader/gears.gif" /><?php echo __("Generating") ?>
                 </span>
@@ -417,7 +417,7 @@
 
         <tr>
             <td>
-                <label class="control-label"><?php echo $this->_("iPhone Version (No Ads)"); ?> <i class="fa fa-question-circle" ng-click="show_ads_tip = !show_ads_tip"></i></label>
+                <label class="control-label"><?php echo __("iPhone Version (No Ads)"); ?> <i class="fa fa-question-circle" ng-click="show_ads_tip = !show_ads_tip"></i></label>
             </td>
             <td>
                 <a ng-if="application.zip.iosnoads" href="<?php echo $this->getUrl("") ?>{{ application.zip.iosnoads.path }}" class="help-block" target="_self" >
@@ -427,12 +427,12 @@
                 <span ng-if="!application.zip.iosnoads"><?php echo __("Not yet generated.") ?></span>
 
                 <div ng-show="show_ads_tip">
-                    <p class="help-block"><?php echo $this->_("Apple rejects apps that includes Ad Support but doesn't use it.<br />Generate your iOS app out of this source code if you don't include Ads."); ?></p>
-                    <p class="help-block"><?php echo $this->_("Note that if you want to add ads later, you will have to publish the app again."); ?></p>
+                    <p class="help-block"><?php echo __("Apple rejects apps that includes Ad Support but doesn't use it.<br />Generate your iOS app out of this source code if you don't include Ads."); ?></p>
+                    <p class="help-block"><?php echo __("Note that if you want to add ads later, you will have to publish the app again."); ?></p>
                 </div>
             </td>
             <td class="text-right">
-                <a ng-if="application.queued.positions.iosnoads == 0" ng-click="generateSource(1, 1)" href="javascript:void(0)" class="block" target="_self"><i class="fa fa-gears"></i> <?php echo $this->_("Generate sources"); ?></a>
+                <a ng-if="application.queued.positions.iosnoads == 0" ng-click="generateSource(1, 1)" href="javascript:void(0)" class="block" target="_self"><i class="fa fa-gears"></i> <?php echo __("Generate sources"); ?></a>
                 <span ng-show="application.queued.positions.iosnoads == 1">
                     <img class="gear-loader" src="/app/sae/design/desktop/backoffice/images/loader/gears.gif" /><?php echo __("Generating") ?>
                 </span>
@@ -447,7 +447,7 @@
 
         <tr>
             <td>
-                <label class="control-label"><?php echo $this->_("Android Version"); ?></label>
+                <label class="control-label"><?php echo __("Android Version"); ?></label>
             </td>
             <td>
                 <a ng-if="application.zip.android" href="<?php echo $this->getUrl("") ?>{{ application.zip.android.path }}" class="help-block" target="_self" >
@@ -457,7 +457,7 @@
                 <span ng-if="!application.zip.android"><?php echo __("Not yet generated.") ?></span>
             </td>
             <td class="text-right">
-                <a ng-if="application.queued.positions.android == 0" ng-click="generateSource(2, 0)" href="javascript:void(0)" class="block" target="_self"><i class="fa fa-gears" ></i> <?php echo $this->_("Generate sources"); ?></a>
+                <a ng-if="application.queued.positions.android == 0" ng-click="generateSource(2, 0)" href="javascript:void(0)" class="block" target="_self"><i class="fa fa-gears" ></i> <?php echo __("Generate sources"); ?></a>
                 <span ng-show="application.queued.positions.android == 1">
                     <img class="gear-loader" src="/app/sae/design/desktop/backoffice/images/loader/gears.gif" /><?php echo __("Generating") ?>
                 </span>
@@ -477,12 +477,12 @@
     <div class="clear"></div>
 
 </sb-section>
-<sb-section title="'<?php echo addslashes($this->_("Generate and publish iOS Application")); ?>'">
+<sb-section title="'<?php echo addslashes(__("Generate and publish iOS Application")); ?>'">
     <form ng-submit="saveInfoIosAutopublish()" autocomplete="off">
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <label class="control-label" for="iTunesConnectIdentifier"><?php echo $this->_("Remaining build");?></label>
+                    <label class="control-label" for="iTunesConnectIdentifier"><?php echo __("Remaining build");?></label>
                     <div ng-if="iosBuildLicenceError !== ''" class="alert alert-danger" role="alert">{{ iosBuildLicenceError }}</div>
                     <div>
                         <div ng-if="iosBuildActivationRemain === false" style="display">
@@ -491,7 +491,7 @@
                         <div ng-if="iosBuildActivationRemain !== false">
                             <strong>{{ iosBuildActivationRemain }}</strong>
                         </div>
-                        <?php echo $this->_("You can add or change license in (<strong>Settings / General</strong>).<br/><em>note: build are only consume if success.</em>");?>
+                        <?php echo __("You can add or change license in (<strong>Settings / General</strong>).<br/><em>note: build are only consume if success.</em>");?>
                     </div>
                 </div>
             </div>
@@ -500,19 +500,19 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <label class="control-label" for="iTunesConnectIdentifier"><?php echo $this->_("Publish automatically to iTunes Connect");?></label>
+                    <label class="control-label" for="iTunesConnectIdentifier"><?php echo __("Publish automatically to iTunes Connect");?></label>
                 </div>
             </div>
             <div class="col-md-12 form-group">
                 <div class="form-group">
                     <div class="col-md-1">
                         <label for="ios-autobuild-want-to-autopublish">
-                            <input type="radio" id="ios-autobuild-want-to-autopublish" name="ios-autobuild-want-to-autopublish" value="1" ng-value="1" ng-model="ios_publish_informations.want_to_autopublish"> <?php echo $this->_('Yes'); ?>
+                            <input type="radio" id="ios-autobuild-want-to-autopublish" name="ios-autobuild-want-to-autopublish" value="1" ng-value="1" ng-model="ios_publish_informations.want_to_autopublish"> <?php echo __('Yes'); ?>
                         </label>
                     </div>
                     <div class="col-md-1">
                         <label for="ios-autobuild-dont-want-to-autopublish">
-                            <input type="radio" id="ios-autobuild-dont-want-to-autopublish" name="ios-autobuild-want-to-autopublish" value="0" ng-value="0" ng-model="ios_publish_informations.want_to_autopublish"> <?php echo $this->_('No'); ?>
+                            <input type="radio" id="ios-autobuild-dont-want-to-autopublish" name="ios-autobuild-want-to-autopublish" value="0" ng-value="0" ng-model="ios_publish_informations.want_to_autopublish"> <?php echo __('No'); ?>
                         </label>
                     </div>
                 </div>
@@ -522,14 +522,14 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
-                    <label class="control-label" for="iTunesConnectIdentifier"><?php echo $this->_("iTunes Connect Login");?></label>
+                    <label class="control-label" for="iTunesConnectIdentifier"><?php echo __("iTunes Connect Login");?></label>
                     <input type="text" value="{{ios_publish_informations.itunes_login }}" ng-model="ios_publish_informations.itunes_login" class="form-control" name="iTunesConnectIdentifier" id="iTunesConnectIdentifier" autocomplete="<?echo uniqid();?>">
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     <!-- remove autocomplete -->
-                    <label class="control-label" for="iTunesConnectPassword"><?php echo $this->_("iTunes Connect Password");?></label>
+                    <label class="control-label" for="iTunesConnectPassword"><?php echo __("iTunes Connect Password");?></label>
                     <input type="text" name="_fakelogin_" style="visibility: hidden; height: 0px; float: right;" />
                     <input type="password" name="_fakepassword_" style="visibility: hidden; height: 0px; float: right;" />
                     <input type="password" value="ios_publish_informations.itunes_password" ng-model="ios_publish_informations.itunes_password" class="form-control" name="iTunesConnectPassword" id="iTunesConnectPassword" autocomplete="<?echo uniqid();?>">
@@ -538,84 +538,73 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                    <label for="{{ device.id }}_status"><?php echo $this->_('Languages'); ?></label>
-                    <div class="form-group" ng-if="ios_publish_informations.languages">
-                    <?php 
-                    foreach(Application_Model_Languages::getSupportedLanguages() as $code => $language) :?>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <div class="checkbox">
-                                    <label for="languages-<?php echo $code;?>">
-                                        <input type="checkbox" id="languages-<?php echo $code;?>" ng-checked="ios_publish_informations.languages['<?php echo $code;?>']" ng-model="ios_publish_informations.languages['<?php echo $code;?>']"/> 
-                                        <?php echo $this->_($language); ?>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    <?php  endforeach; ?>
-                    </div>
-                    <div class="form-group">
-                        <em><?php echo "<strong>".__('note').'</strong>: '.__("Currently only one language can be selected"); ?></em>
-                    </div>
+                <label for="{{ device.id }}_status"><?php echo __('Languages'); ?></label>
+                <div class="form-group">
+                    <select name="languages" ng-model="ios_publish_informations.languages">
+                        <?php foreach(Application_Model_Languages::getSupportedLanguages() as $code => $language) :?>
+                        <option value="<?php echo $code;?>"><?php echo __($language); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12 form-group">
-                <label for="ios-code-version-noads"> <?php echo $this->_('Options'); ?> </label>
+                <label for="ios-code-version-noads"> <?php echo __('Options'); ?> </label>
                 <div class="row checkbox">
                     <div class="col-md-3">
                         <label for="ios-autobuild-has-ads">
-                            <input type="checkbox" id="ios-autobuild-has-ads" name="ios-autobuild-has-ads" ng-checked="ios_publish_informations.has_ads" ng-model="ios_publish_informations.has_ads"> <?php echo $this->_('With ads functionality'); ?>
+                            <input type="checkbox" id="ios-autobuild-has-ads" name="ios-autobuild-has-ads" ng-checked="ios_publish_informations.has_ads" ng-model="ios_publish_informations.has_ads"> <?php echo __('With ads functionality'); ?>
                         </label>
                     </div>
                     <div class="col-md-9">
-                        <?php echo $this->_("* If apple doesn't detect any ads configurate, your application will be refused"); ?>
+                        <?php echo __("* If apple doesn't detect any ads configurate, your application will be refused"); ?>
                     </div>
                 </div>
                 <div class="row checkbox">
                     <div class="col-md-3">
                         <label for="ios-autobuild-has-audio">
-                            <input type="checkbox" id="ios-autobuild-has-audio" name="ios-autobuild-has-audio" ng-checked="ios_publish_informations.has_audio" ng-model="ios_publish_informations.has_audio"> <?php echo $this->_('With background audio playing'); ?>
+                            <input type="checkbox" id="ios-autobuild-has-audio" name="ios-autobuild-has-audio" ng-checked="ios_publish_informations.has_audio" ng-model="ios_publish_informations.has_audio"> <?php echo __('With background audio playing'); ?>
                         </label>
                     </div>
                     <div class="col-md-9">
-                        <?php echo $this->_('* You have to justify why you need this background audio playing to Apple.'); ?>
+                        <?php echo __('* You have to justify why you need this background audio playing to Apple.'); ?>
                     </div>
                 </div>
                 <!-- not yet implemented
                 <div class="row checkbox">
                     <div class="col-md-3">
                         <label for="ios-autobuild-has-location">
-                            <input type="checkbox" id="ios-autobuild-has-location" name="ios-autobuild-has-location" ng-checked="ios_publish_informations.has_bg_locate" ng-model="ios_publish_informations.has_bg_locate"> <?php echo $this->_('With background geolocation'); ?>
+                            <input type="checkbox" id="ios-autobuild-has-location" name="ios-autobuild-has-location" ng-checked="ios_publish_informations.has_bg_locate" ng-model="ios_publish_informations.has_bg_locate"> <?php echo __('With background geolocation'); ?>
                         </label>
                     </div>
                     <div class="col-md-9">
-                        <?php echo $this->_('* You have to justify why you need this background geolocation to Apple.'); ?>
+                        <?php echo __('* You have to justify why you need this background geolocation to Apple.'); ?>
                     </div>
                 </div>-->
             </div>
         </div>
         <div class="row">
             <div class="col-md-12 form-group">
-                <button type="submit" class="btn btn-primary left"><?php echo $this->_('Save publication settings'); ?></button><sb-loader is_visible="application_form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                <button type="submit" class="btn btn-primary left"><?php echo __('Save publication settings'); ?></button><sb-loader is_visible="application_form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <label class="control-label" for="iTunesConnectIdentifier"><?php echo $this->_('Build information'); ?></label>
+                    <label class="control-label" for="iTunesConnectIdentifier"><?php echo __('Build information'); ?></label>
                     <div class="row">
                         <div ng-if="ios_publish_informations.last_build_status === 'failed'" class="alert alert-danger bs-alert-old-docs">
-                            <strong><?php echo $this->_('Error!'); ?></strong> {{ios_publish_informations.error_message}}</a>
+                            <strong><?php echo __('Error!'); ?></strong> {{ios_publish_informations.error_message}}</a>
                         </div>
                         <div class="col-md-12 form-group">
-                            <em><?php echo $this->_('Status'); ?></em> : <strong>{{ios_publish_informations.last_build_status}}</strong>
+                            <em><?php echo __('Status'); ?></em> : <strong>{{ios_publish_informations.last_build_status}}</strong>
                         </div>
                         <div ng-if="ios_publish_informations.last_builded_ipa_link.length > 0" class="col-md-12 form-group">
                             <button class="btn btn-success text-left">
-                                <i class="fa fa-download"></i> <?php echo $this->_('Download last build'); ?><br/>
-                                <?php echo $this->_('Version'); ?>: <strong>{{ios_publish_informations.last_builded_version}}</strong><br/>
-                                <?php echo $this->_('Build date'); ?>: <strong>{{ios_publish_informations.last_success}}</strong>
+                                <i class="fa fa-download"></i> <?php echo __('Download last build'); ?><br/>
+                                <?php echo __('Version'); ?>: <strong>{{ios_publish_informations.last_builded_version}}</strong><br/>
+                                <?php echo __('Build date'); ?>: <strong>{{ios_publish_informations.last_success}}</strong>
                             </button>
                         </div>
                     </div>
@@ -624,16 +613,16 @@
         </div>
         <div class="row">
             <div class="col-md-12 form-group">
-                <button ng-click="saveInfoIosAutopublishAndGenerate()" type="button" ng-click="calculateQuantity()" class="btn btn-primary left"><i class="fa fa-send"></i> <?php echo $this->_('Generate and Publish'); ?></button>
+                <button ng-click="saveInfoIosAutopublishAndGenerate()" type="button" ng-click="calculateQuantity()" class="btn btn-primary left"><i class="fa fa-send"></i> <?php echo __('Generate and Publish'); ?></button>
             </div>
         </div>
     </form>
 </sb-section>
 
-<sb-section title="'<?php echo addslashes($this->_("Certificate")); ?>'" class="upload_area">
+<sb-section title="'<?php echo addslashes(__("Certificate")); ?>'" class="upload_area">
 
-    <p class="help-block"><?php echo $this->_("Send here your iOS certificate to enable the push notifications for this application."); ?></p>
-    <p class="help-block"><?php echo $this->_("<b>File type:</b> %s", "pem"); ?></p>
+    <p class="help-block"><?php echo __("Send here your iOS certificate to enable the push notifications for this application."); ?></p>
+    <p class="help-block"><?php echo __("<b>File type:</b> %s", "pem"); ?></p>
 
     <div class="col-md-12" ng-if="application.has_ios_certificate || application.pem_infos">
         <span ng-if="application.pem_infos.is_valid">
@@ -661,20 +650,20 @@
     <br />
     <div class="col-md-3">
         <div class="upload_a_file">
-            <label for="certificate_uploader"><?php echo $this->_("Click here to send your certificate"); ?></label>
+            <label for="certificate_uploader"><?php echo __("Click here to send your certificate"); ?></label>
             <input id="certificate_uploader" type="file" nv-file-select="" uploader="certificate_uploader" />
         </div>
     </div>
 
     <div class="col-md-1">
         <div class="drop_a_file">
-            <label><?php echo $this->_("OR"); ?></label>
+            <label><?php echo __("OR"); ?></label>
         </div>
     </div>
 
     <div class="col-md-5">
         <div class="drop_a_file">
-            <label><?php echo $this->_("Drop your certificate here"); ?></label>
+            <label><?php echo __("Drop your certificate here"); ?></label>
             <div ng-show="certificate_uploader.isHTML5">
                 <div class="well drop-zone" nv-file-drop="" nv-file-over="" uploader="certificate_uploader">
                 </div>
@@ -683,8 +672,8 @@
     </div>
 
     <div class="toggle col-md-3" ng-if="application.has_ios_certificate || application.just_sent_the_certificate">
-        <label ng-show="application.has_ios_certificate"><?php echo $this->_("You already have sent a certificate."); ?></label>
-        <label ng-show="application.just_sent_the_certificate"><?php echo $this->_("You have sent a certificate."); ?></label>
+        <label ng-show="application.has_ios_certificate"><?php echo __("You already have sent a certificate."); ?></label>
+        <label ng-show="application.just_sent_the_certificate"><?php echo __("You have sent a certificate."); ?></label>
         <div class="text-center">
             <img src="<?php echo $this->getImage("push/certificate.png"); ?>" width="100" />
         </div>
@@ -730,9 +719,9 @@
 
 </sb-section>
 
-<sb-section title="'<?php echo addslashes($this->_("Manage Access")); ?>'">
+<sb-section title="'<?php echo addslashes(__("Manage Access")); ?>'">
 
-    <p class="help-block"><?php echo $this->_("Manage Admins access feature by feature."); ?></p>
+    <p class="help-block"><?php echo __("Manage Admins access feature by feature."); ?></p>
 
     <br />
 
@@ -756,7 +745,7 @@
             <td>{{ admin.admin_id }}</td>
             <td>{{ admin.firstname }} {{ admin.lastname }}</td>
             <td>{{ admin.email }}</td>
-            <td><a href="<?php echo $this->getUrl("application/backoffice_view_acl"); ?>/app_id/{{ application.app_id }}/admin_id/{{ admin.admin_id }}" title="<?php echo $this->_("Edit"); ?>"><i class="fa fa-edit"></i></a></td>
+            <td><a href="<?php echo $this->getUrl("application/backoffice_view_acl"); ?>/app_id/{{ application.app_id }}/admin_id/{{ admin.admin_id }}" title="<?php echo __("Edit"); ?>"><i class="fa fa-edit"></i></a></td>
         </tr>
         </tbody>
     </table>

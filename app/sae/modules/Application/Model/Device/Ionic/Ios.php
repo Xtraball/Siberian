@@ -139,11 +139,10 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
         $this->_dest_archive = Core_Model_Directory::getBasePathTo(self::ARCHIVE_FOLDER);
 
         /** Vars */
-        $this->_zipname = $this->_app_name_formatted.'_ios_source'.$_package_ads_suffix;
+        $this->_zipname = sprintf("%s_%s_%s%s", $this->_app_name_formatted, $this->_application->getId(), "ios_source", $_package_ads_suffix);
 
         if(!$this->_app_name_formatted) {
-            $this->_app_name_formatted = $this->_application->getId();
-            $this->_zipname = $this->getDevice()->getAlias().'_ios_source'.$_package_ads_suffix;
+            $this->_zipname = sprintf("%s_%s_%s%s", $this->getDevice()->getAlias(), $this->_application->getId(), "ios_source", $_package_ads_suffix);
         }
     }
 

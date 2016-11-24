@@ -9,6 +9,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
         $option = $this->getCurrentOptionValue();
 
         $mcommerce = $option->getObject();
+
         $stores = $mcommerce->getStores();
 
         $html = array("nb_stores" => count($stores));
@@ -27,6 +28,8 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
         $isValidCart = $lines && (!$this->getStore()->getMinAmount() || $this->getCart()->getSubtotalInclTax() >= $this->getStore()->getMinAmount());
 
         $html["cart"] = array(
+            "discount_enabled" => true,
+            "discount_code" => $cart->getDiscountCode(),
             "id" => $cart->getId(),
             "valid" => $isValidCart,
             "valid_message" => $this->_("Unable to proceed to checkout the minimum order amount is %s", $this->getStore()->getFormattedMinAmount()),
@@ -47,10 +50,12 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                 "latitude" => $cart->getCustomerLatitude(),
                 "longitude" => $cart->getCustomerLongitude()
             ),
+            "add_tip" => $mcommerce->getAddTip(),
             "storeId" => $cart->getStoreId(),
             "subtotalExclTax" => (float)$cart->getSubtotalExclTax(),
             "subtotalInclTax" => (float)$cart->getSubtotalInclTax(),
             "formattedSubtotalExclTax" => $cart->getSubtotalExclTax() > 0 ? $cart->getFormattedSubtotalExclTax() : null,
+            "formattedSubtotalInclTax" => $cart->getSubtotalInclTax() > 0 ? $cart->getFormattedSubtotalInclTax() : null,
             "deliveryCost" => (float)$cart->getDeliveryCost(),
             "formattedDeliveryCost" => $cart->getDeliveryCost() > 0 ? $cart->getFormattedDeliveryCost() : null,
             "deliveryTaxRate" => (float)$cart->getDeliveryTaxRate(),
@@ -63,8 +68,14 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
             "formattedTotalExclTax" => $cart->getTotalExclTax() > 0 ? $cart->getFormattedTotalExclTax() : null,
             "totalTax" => (float)$cart->getTotalTax(),
             "formattedTotalTax" => $cart->getTotalTax() > 0 ? $cart->getFormattedTotalTax() : null,
+            "formattedDeductedTotalHT" => $cart->getDeductedTotalHT() > 0 ? $cart->getFormattedDeductedTotalHT() : null,
+            "formattedDeliveryTTC" => $cart->getDeliveryTTC() > 0 ? $cart->getFormattedDeliveryTTC() : null,
+            "formattedDeductedTva" => $cart->getDeductedTva() > 0 ? $cart->getFormattedDeductedTva() : null,
             "total" => (float)$cart->getTotal(),
+            "tip" => (float)$cart->getTip(),
+            "formattedTip" => $cart->getFormattedTip(),
             "formattedTotal" => $cart->getTotal() > 0 ? $cart->getFormattedTotal() : null,
+            "formattedSubtotal" => $cart->getFormattedSubtotal(),
             "lines" => array(),
             "pictos" => array(
                 "trash" => $trashImageUrl,
@@ -161,6 +172,8 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
             $html["cart"]["lines"][] = $lineJson;
             $html["cart"]["base_total_without_fees"] = (float)$base_total_without_fees;
         }
+
+
 
         $this->_sendHtml($html);
     }
@@ -349,7 +362,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                         "formattedTotal" => $line->getTotal() > 0 ? $line->getFormattedTotal() : null,
                         "totalInclTax" => (float)$line->getTotalInclTax(),
                         //"formattedTotalInclTax" => $line->getTotalInclTax() > 0 ? $line->getFormattedTotalInclTax() : null,
-                        "formattedTotalInclTax" => $line->getTotalInclTax() > 0 ? $displayPriceInclTax : null,
+                        "formattedTotalInclTax" => $line->getTotalInclTax() > 0 ? $displayPriceInclTax : 0,
                         "options" => array(),
                         "format" => $data["format"]
                     );
@@ -382,6 +395,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                         'line' => $lineJson,
                         'cart' => array(
                             "formattedSubtotalExclTax" => $cart->getSubtotalExclTax() > 0 ? $cart->getFormattedSubtotalExclTax() : null,
+                            "formattedSubtotalInclTax" => $cart->getSubtotalInclTax() > 0 ? $cart->getFormattedSubtotalInclTax() : null,
                             "deliveryCost" => $cart->getDeliveryCost(),
                             "formattedDeliveryCost" => $cart->getDeliveryCost() > 0 ? $cart->getFormattedDeliveryCost() : null,
                             "formattedTotalExclTax" => $cart->getTotalExclTax() > 0 ? $cart->getFormattedTotalExclTax() : null,
@@ -405,5 +419,103 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
 
             $this->_sendHtml($html);
         }
+    }
+
+    public function addtipAction() {
+        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+            $tip = $data["tip"];
+            $value_id = $this->getRequest()->getParam("value_id");
+
+            try {
+                $cart = $this->getCart();
+                if (!$this->validateFloat($tip) || !$this->validateInt($value_id) || !$this->validateInt($cart->getCartId())) {
+                    throw new Exception("Missing parameters.");
+                }
+                $cart->setTip($tip)->_compute()->save();
+                $html = array(
+                    'cart_id' => $cart->getCartId(),
+                    'success' => true
+                );
+            } catch (Exception $e) {
+                $html = array(
+                    'error' => 1,
+                    'message' => $this->_('An error occurred during the process. Please try again later.')
+                );
+            }
+
+            $this->_sendHtml($html);
+        }
+    }
+
+    public function computeAction() {
+        try {
+            $html = $this->computeDiscount();
+            $html['cart_id'] = $this->getCart()->getCartId();
+        } catch (Exception $e) {
+            $html = array(
+                'error' => 1,
+                'message' => $this->_('An error occurred during the process. Please try again later.')
+            );
+        }
+
+        $this->_sendHtml($html);
+    }
+
+    public function adddiscountAction() {
+        $html = array();
+        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+            try {
+                $promo = new Mcommerce_Model_Promo();
+                $mcommerce = $this->getCurrentOptionValue()->getObject();
+                $discount_code = $data["discount_code"];
+                $promo->find(array('code' => $discount_code, 'mcommerce_id' => $mcommerce->getId()));
+
+                if($promo->getId()){
+                    $cart = $this->getCart();
+                    $valid = $promo->validate($cart);
+                    switch($valid) {
+                        case -1:
+                            $html['error'] = true;
+                            $html['success'] = false;
+                            $html['message'] = $this->_("Discount only for carts with total more than: ") . $promo->getMinimumAmount();
+                            break;
+                        case -2:
+                            $html['error'] = true;
+                            $result['success'] = false;
+                            $html['message'] = $this->_("Discount no longer available");
+                            break;
+                        case -3:
+                            $html['error'] = true;
+                            $html['success'] = false;
+                            $html['message'] = $this->_("You used the code before") . '(' . $cart->getDiscountCode() . ')';
+                            break;
+                        default:
+                            $cart->setDiscountCode($discount_code)->save();
+                            $html['success'] = true;
+                            $html['message'] = $promo->getLabel();
+                            break;
+                    }
+                } else {
+                    $html['error'] = true;
+                    $html['success'] = false;
+                    $html['message'] = $this->_("Invalid code") . '(' . $discount_code . ')';
+                }
+            } catch (Exception $e) {
+                $html = array(
+                    'error' => 1,
+                    'message' => $e->getMessage(),
+                    'message_button' => 1,
+                    'message_loader' => 1
+                );
+            }
+        } else {
+            $html = array(
+                'error' => 1,
+                'message' => $this->_('An error occurred during the process. Please try again later.'),
+                'message_button' => 1,
+                'message_loader' => 1
+            );
+        }
+        $this->_sendHtml($html);
     }
 }

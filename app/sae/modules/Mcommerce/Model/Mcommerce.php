@@ -204,6 +204,86 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
         return ($isMandatory) ? $notempty->isValid($data) : true;
     }
 
+    public function getOptionValue() {
+        $value = new Application_Model_Option_Value();
+        $value->find($this->getValueId());
+        return $value;
+    }
+
+    protected function _resetMetada($data) {
+        $metadata = new Application_Model_Option_Value_Metadata();
+        $metadata->find($data);
+        $metadata->delete();
+        return $this;
+    }
+
+    protected function _setMetada($data) {
+        $metadata = new Application_Model_Option_Value_Metadata($data);
+        $metadata->save();
+        return $this;
+    }
+
+    /**
+     * Saves the add_tip metadata
+     *
+     * @param $add_tip
+     * @return $this
+     */
+    public function setAddTip($add_tip) {
+
+        $data = array(
+            "value_id" => $this->getValueId(),
+            "code" => "add_tip",
+            "type" => "boolean"
+        );
+
+        $this->_resetMetada($data);
+
+        $data['payload'] = $add_tip;
+        $this->_setMetada($data);
+
+        return $this;
+    }
+
+    /**
+     * Retrieves the add_tip metadatum associated with the corresponding feature
+     *
+     * @return bool
+     */
+    public function getAddTip(){
+        $metadata = new Application_Model_Option_Value_Metadata();
+        $metadata->find(array(
+            "value_id" => $this->getValueId(),
+            "code" => "add_tip"
+        ));
+        return $metadata->getPayload();
+    }
+
+    public function setGuestMode($guestmode) {
+
+        $data = array(
+            "value_id" => $this->getValueId(),
+            "code" => "guest_mode",
+            "type" => "boolean"
+        );
+
+        $this->_resetMetada($data);
+
+        $data['payload'] = $guestmode;
+        $this->_setMetada($data);
+
+        return $this;
+    }
+
+    public function getGuestMode(){
+        $metadata = new Application_Model_Option_Value_Metadata();
+        $metadata->find(array(
+            "value_id" => $this->getValueId(),
+            "code" => "guest_mode"
+        ));
+        return $metadata->getPayload();
+    }
+
     public function getStores()
     {
 
@@ -759,4 +839,70 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
         return $this->getTable()->getAppIdByMcommerceId();
     }
 
+    /**
+     * Create or update the metadatum having $name and $type
+     *
+     * @param $name
+     * @param $payload
+     * @return $this
+     */
+    public function setMetadatum($name, $type, $payload) {
+        $data = array(
+            "value_id" => $this->getValueId(),
+            "code" => $name,
+            "type" => $type
+        );
+
+        $this->_resetMetadata($data);
+
+        $data['payload'] = $payload;
+        $this->_setMetadata($data);
+
+        return $this;
+    }
+
+    /**
+     * Clear the old metadatum defined by $data
+     *
+     * @param $data
+     * @return $this
+     */
+    protected function _resetMetadata($data) {
+        $metadata = new Application_Model_Option_Value_Metadata();
+        $metadata->find($data);
+        $metadata->delete();
+        return $this;
+    }
+
+    /**
+     * Save the new metadatum
+     *
+     * @param $data
+     * @return $this
+     */
+    protected function _setMetadata($data) {
+        $metadata = new Application_Model_Option_Value_Metadata($data);
+        $metadata->save();
+        return $this;
+    }
+
+    /**
+     * Retrieves the metadatum having $name
+     *
+     * @return mixed
+     */
+    public function getMetadatum($name){
+        $metadata = new Application_Model_Option_Value_Metadata();
+        $metadata->find(array(
+            "value_id" => $this->getValueId(),
+            "code" => $name
+        ));
+        return $metadata->getPayload();
+    }
+
+    public function getPromos(){
+        $promo = new Mcommerce_Model_Promo();
+        $promos = $promo->findAll(array('mcommerce_id' => $this->getId()));
+        return $promos;
+    }
 }

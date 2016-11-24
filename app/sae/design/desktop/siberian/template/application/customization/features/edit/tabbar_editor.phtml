@@ -1,7 +1,19 @@
 <?php
 $option = $this->getOptionValue();
 
-$available_icons = array($option->getLibrary()->getIcons());
+if($option->getValueId() == "customer_account") {
+    $library = new Media_Model_Library();
+    $library->find("customer_account", "name");
+
+} elseif($option->getValueId() == "more_items") {
+    $library = new Media_Model_Library();
+    $library->find("more_items", "name");
+
+} else {
+    $library = $option->getLibrary();
+}
+
+$available_icons = array($library->getIcons());
 
 if($option->getCode() == 'folder') {
     $a_option = new Application_Model_Option();
@@ -18,20 +30,29 @@ if($option->getCode() == 'folder') {
 $library = new Media_Model_Library();
 $all_icons = $library->getAllFeatureIcons();
 
+$layout_id = $this->getApplication()->getLayoutId();
+$layout_model = new Application_Model_Layout_Homepage();
+$layout = $layout_model->find($layout_id);
+$use_subtitle = ($layout->getUseSubtitle());
+
+# Exporter
+$can_export = Siberian_Exporter::isRegistered($option->getCode()) && (APPLICATION_ENV != "production");
+$can_clearcache = Siberian_Cache::isRegistered($option->getCode()) && (APPLICATION_ENV != "production");
+
+
 ?>
 
 <script type="text/javascript">
     var tmp_directory = "<?php echo Core_Model_Directory::getTmpDirectory() ?>";
+    var datepicker_regional = "<?php Core_Model_Language::getCurrentLanguageDatepicker() ?>";
 </script>
 
 <div class="content_editor">
     <div id="icon_and_name" class="row icon_and_name">
         <div class="col-md-3">
-            <button type="button" id="change_icon" class="area<?php if(!$option->getLibrary()->getId()) : ?> no_library<?php endif; ?>" data-image="330" data-style="area" data-color="color">
+            <button type="button" id="change_icon" class="area" data-image="330" data-style="area" data-color="color">
                 <img id="current_icon" src="<?php echo $this->getIconUrl($option); ?>" width="40" height="40" data-image="<?php echo $option->getIconId(); ?>" data-style="area" data-color="color" />
-                <?php if($option->getLibrary()->getId()) : ?>
                 <i class="icon-angle-down"></i>
-                <?php endif; ?>
             </button>
         </div>
         <div class="tabbar_name col-md-9">
@@ -56,9 +77,7 @@ $all_icons = $library->getAllFeatureIcons();
                     <img width="24" src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_tabbar_name" alt="Loading" title="Loading" class="loader">
                     <input type="hidden" id="tabbar_name_id" name="option_value_id" value="<?php echo $option->getId() ?>" />
                 </div>
-                <?php if(is_numeric($option->getId())) : ?>
                 <div class="col-md-3 padding-top-5">
-                    <?php if($option->getLibrary()->getId()) : ?>
                         <div id="icon_library_manager" class="custom_modal icon_library_manager" style="display:none;">
                             <div id="modal_mask_icon_library_manager" class="modal_mask close_modal close_modal_icon_library_manager"></div>
 
@@ -163,7 +182,6 @@ $all_icons = $library->getAllFeatureIcons();
                                 </div>
                             </div>
                         </div>
-                    <?php endif; ?>
 
                     <div id="toggle_feature_is_activated" class="toggle">
                         <label class="toggle-radio" for="feature_is_deactivated" data-image="338" data-style="area" data-color="color_on_active"><?php echo $this->_('Yes'); ?></label>
@@ -184,7 +202,6 @@ $all_icons = $library->getAllFeatureIcons();
                     </div>
                     <?php endif; ?>
                 </div>
-                <?php endif; ?>
             </div>
             <?php /*if(in_array($option->getOptionId(), array(1))) : ?>
             <?php echo $this->getLayout()->addPartial('logo', 'core_view_default', 'application/customization/features/edit/tabbar_editor/logo.phtml')->setOptionValue($option)->toHtml(); ?>
@@ -212,7 +229,6 @@ $all_icons = $library->getAllFeatureIcons();
                 });
             });
 
-            <?php if($option->getLibrary()->getId()) : ?>
             var icon_library = {
                 tolerance: 180,
                 mask: null,
@@ -356,12 +372,7 @@ $all_icons = $library->getAllFeatureIcons();
 
                 iframe.f.changeIcon(page.current.attr("rel"), datas.colored_icon_url);
 
-                //icon tabbar iframe
-                //iframe.content.find('img#icon_<?php echo $option->getId(); ?>').attr('src', datas.colored_icon_url);
-                //icon topbar feature
-                //iframe.content.find('img.icon_<?php echo $option->getId(); ?>').attr('src', datas.colored_header_icon_url);
             }
-            <?php endif ?>
 
             $('#tabbar_name').keyup(function(e) {
                 if(e.keyCode == 13) {
@@ -398,6 +409,30 @@ $all_icons = $library->getAllFeatureIcons();
                     $('#tabbar_name_<?php echo $option->getId(); ?>').html(tabbar_names['<?php echo $option->getId(); ?>']);
                     $(this).val(tabbar_names['<?php echo $option->getId(); ?>']);
                     tabbar_name_loader.hide();
+                }.bind(this));
+            });
+
+            $('#tabbar_subtitle').keyup(function(e) {
+                if(e.keyCode == 13) {
+                    this.blur();
+                }
+                else {
+                    var val = $(this).val().trim();
+                    var subval = val;
+                    if(subval.length > 8) subval = subval.substring(0, 3).trim()+'...'+subval.substring(subval.length-4, subval.length).trim();
+                    $('#tabbar_subtitle_<?php echo $option->getId(); ?>').html(subval);
+                }
+            }).change(function() {
+                var val = $(this).val();
+                var tabbar_subtitle_loader = $('#loader_'+$(this).attr('id'));
+                var subval = val;
+                if(subval.length > 8) subval = subval.substring(0, 3).trim()+'...'+subval.substring(subval.length-4, subval.length).trim();
+                $('#tabbar_subtitle_<?php echo $option->getId(); ?>').html(subval);
+                tabbar_subtitle_loader.show();
+                reload(this.parentNode, '<?php echo $this->getUrl('application/customization_features/settabbarsubtitle'); ?>', false, function(datas) {
+                    tabbar_subtitle_loader.hide();
+                }, function(datas) {
+                    tabbar_subtitle_loader.hide();
                 }.bind(this));
             });
         });

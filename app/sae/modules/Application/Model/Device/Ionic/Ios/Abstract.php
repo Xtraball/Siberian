@@ -90,6 +90,8 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
                 ), array(
                     "dst" => $this->_dest_source_res .'/splash/Default-Portrait@2x~ipad.png'
                 ), array(
+                    "width" => 640,
+                    "height" => 1136,
                     "dst" => $this->_dest_source_res .'/splash/Default-568h@2x~iphone.png'
                 )
             ),

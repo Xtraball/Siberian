@@ -612,6 +612,13 @@ div[sb-cms-text] * {  text-align: left;  }
     height: 41px;
 }
 
+.card .item.item-custom input.cart-tip {
+    width: 64px;
+    text-align: center;
+    margin: 0;
+    height: 22px
+}
+
 .item.item-custom a {
     color: inherit !important;
 }
@@ -631,4 +638,13 @@ div[sb-cms-text] * {  text-align: left;  }
 /** Ionic icon **/
 .big-ionic-icon {
     font-size:4em;
+}
+.card .item.item-custom input.discount {
+    border: 0;
+    height: 23px;
+    line-height: 20px;
+}
+
+.push-popup .popup-body .item.item-custom {
+    color: black;
 }

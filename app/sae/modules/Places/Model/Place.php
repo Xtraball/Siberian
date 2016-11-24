@@ -106,7 +106,8 @@ class Places_Model_Place extends Core_Model_Default {
 
         $distanceA = $a["distance"];
         $distanceB = $b["distance"];
-        if ($distanceA && $distanceB) {
+        $validator = new Zend_Validate_Float();
+        if ($validator->isValid($distanceA) && $validator->isValid($distanceB)) {
             if ($distanceA == $distanceB) {
                 // distance are equals, keep order
                 return -1;
@@ -114,7 +115,7 @@ class Places_Model_Place extends Core_Model_Default {
             // sort by distance ASC
             return ($distanceA > $distanceB) ? 1 : -1;
         } else {
-            if ($distanceB) {
+            if ($validator->isValid($distanceB)) {
                 return 1;
             }
             return -1;
@@ -218,15 +219,14 @@ class Places_Model_Place extends Core_Model_Default {
      * @param $position
      * @return float
      */
-    public function distance($position)
-    {
+    public function distance($position) {
         $latitude = $position['latitude'];
         $longitude = $position['longitude'];
         $block = $this->getAddressBlock();
-        if ($this->float_validator->isValid($latitude) &&
-            $this->float_validator->isValid($longitude) &&
-            $this->float_validator->isValid($block->getLatitude()) &&
-            $this->float_validator->isValid($block->getLongitude())
+        if ($latitude &&
+            $longitude &&
+            $block->getLatitude() &&
+            $block->getLongitude()
         ) {
             return $this->distanceBetween($latitude, $longitude, $block->getLatitude(), $block->getLongitude());
         }

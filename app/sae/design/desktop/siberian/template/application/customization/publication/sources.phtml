@@ -11,14 +11,14 @@
     <div class="infos">
         <div class="area first">
             <h3 class="title">
-                <span class="left area"><?php echo $this->_('General information'); ?></span>
+                <span class="left area"><?php echo __('General information'); ?></span>
                 <hr />
                 <div class="clear"></div>
             </h3>
             <div class="area_content form-horizontal">
                 <div class="form-group">
                     <div class="col-sm-4">
-                        <label data-tip="44" data-tip-left="80" for="name"><?php echo $this->_('Application name'); ?> : </label>
+                        <label data-tip="44" data-tip-left="80" for="name"><?php echo __('Application name'); ?> : </label>
                     </div>
                     <div class="col-sm-5">
                         <input type="text" id="name" name="name" class="autosave form-control" value="<?php echo $application->getName() ? $application->getName() : ucfirst(mb_strtolower($this->getSession()->getAdmin()->getName())); ?>" maxlength="30" />
@@ -29,7 +29,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-4">
-                        <label for="bundle_id"><?php echo $this->_('Bundle Id'); ?> : </label>
+                        <label for="bundle_id"><?php echo __('Bundle Id'); ?> : </label>
                     </div>
                     <div class="col-sm-5">
                         <input type="text" id="bundle_id" name="bundle_id" class="autosave form-control" value="<?php echo $application->getBundleId(); ?>" />
@@ -38,11 +38,22 @@
                         <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_bundle_id" alt="Loading" title="Loading" width="24" style="display:none;" />
                     </div>
                 </div>
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <label for="package_name"><?php echo __('Package Name'); ?> : </label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="package_name" name="package_name" class="autosave form-control" value="<?php echo $application->getPackageName(); ?>" />
+                    </div>
+                    <div class="col-sm-3">
+                        <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_package_name" alt="Loading" title="Loading" width="24" style="display:none;" />
+                    </div>
+                </div>
             </div>
         </div>
         <div class="area">
             <h3 class="title">
-                <span class="left area"><?php echo $this->_('Monetize your app'); ?></span>
+                <span class="left area"><?php echo __('Monetize your app'); ?></span>
                 <hr />
                 <div class="clear"></div>
             </h3>
@@ -52,19 +63,19 @@
                         <label data-tip="15" for="use_ads" class="checkbox <?php if ($application->getUseAds() == 1) echo 'checked' ?>">
                             <input id="use_ads" type="checkbox" class="autosave" value="1" name="use_ads" <?php if ($application->getUseAds() == 1) echo 'checked="checked"' ?> />
                             <input id="flag_use_ads" type="hidden" value="1" name="flag_use_ads" />
-                            <?php echo $this->_('Monetize my app using AdMob?'); ?>
+                            <?php echo __('Monetize my app using AdMob?'); ?>
                         </label>
                     </div>
                 </div>
                 <div id="monetize_fields" class="<?php if(!$application->getUseAds()) : ?>none<?php endif; ?>">
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <p><?php echo $this->_("Enter your AdMob ID for each platform."); ?> <?php echo $this->_('<a href="%s" target="_blank">Click here for more information about AdMob</a>', "https://www.google.com/admob/"); ?></p>
+                            <p><?php echo __("Enter your AdMob ID for each platform."); ?> <?php echo __('<a href="%s" target="_blank">Click here for more information about AdMob</a>', "https://www.google.com/admob/"); ?></p>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-2">
-                            <label for="ios_admob_id"><?php echo $this->_('iOS'); ?> : </label>
+                            <label for="ios_admob_id"><?php echo __('iOS'); ?> : </label>
                         </div>
                         <div class="col-sm-5">
                             <input type="text" id="ios_admob_id" name="admob_id" class="autosave input form-control" placeholder="AdMob ID" value="<?php echo $application->getDevice(1)->getAdmobId(); ?>" maxlength="50" />
@@ -81,7 +92,7 @@
 
                     <div class="form-group">
                         <div class="col-sm-2">
-                            <label for="android_admob_id"><?php echo $this->_('Android'); ?> : </label>    
+                            <label for="android_admob_id"><?php echo __('Android'); ?> : </label>    
                         </div>
                         <div class="col-sm-5">
                             <input type="text" id="android_admob_id" name="admob_id" class="autosave input form-control" placeholder="AdMob ID" value="<?php echo $application->getDevice(2)->getAdmobId(); ?>" maxlength="50" />
@@ -100,7 +111,7 @@
         </div>
         <div class="area">
             <h3 class="title">
-                <span class="left area"><?php echo $this->_('Mobile source codes'); ?></span>
+                <span class="left area"><?php echo __('Mobile source codes'); ?></span>
                 <hr />
                 <div class="clear"></div>
             </h3>
@@ -108,11 +119,11 @@
                 <?php $admin_can_publish = $this->getSession()->getAdmin()->canPublishThemself(); ?>
                 <?php $errors = $this->getApplication()->isAvailableForPublishing($admin_can_publish); ?>
                 <?php if(count($errors) > 0) : ?>
-                    <p><?php echo $this->_('To be able to download source codes, please provide the following information:<br />'); ?></p>
+                    <p><?php echo __('To be able to download source codes, please provide the following information:<br />'); ?></p>
                     <p>- <?php echo join('<br />- ', $errors); ?></p>
                 <?php elseif(!$this->getApplication()->subscriptionIsActive()) : ?>
-                    <p><?php echo $this->_("Your application is ready to be published."); ?></p>
-                    <p><?php echo $this->_("Proceed to checkout before downloading the source code."); ?></p>
+                    <p><?php echo __("Your application is ready to be published."); ?></p>
+                    <p><?php echo __("Proceed to checkout before downloading the source code."); ?></p>
                 <?php else : ?>
                     <div>
                         <h4 class="subtitle"><?php echo __("Generate the source code") ?></h4>
@@ -133,7 +144,7 @@
                             <?php endif; ?>
                             <div class="form-group">
                                 <div class="col-sm-4">
-                                    <?php echo $this->_('iPhone Version'); ?>
+                                    <?php echo __('iPhone Version'); ?>
                                 </div>
                                 <div class="col-sm-4">
                                     <?php  if(!empty($zip["ios"]["path"]) && $positions["ios"] == 0): ?>
@@ -163,7 +174,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-4">
-                                    <?php echo $this->_('iPhone Version (No Ads)'); ?>
+                                    <?php echo __('iPhone Version (No Ads)'); ?>
                                 </div>
                                 <div class="col-sm-4">
                                     <?php  if(!empty($zip["iosnoads"]["path"]) && $positions["iosnoads"] == 0): ?>
@@ -193,7 +204,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-4">
-                                    <?php echo $this->_('Android Version'); ?>
+                                    <?php echo __('Android Version'); ?>
                                 </div>
                                 <div class="col-sm-4">
                                     <?php  if(!empty($zip["android"]["path"]) && $positions["android"] == 0): ?>
@@ -278,13 +289,13 @@
         <?php if($application->getDesignCode() != "ionic") : ?>
         <div class="area">
             <h3 class="title">
-                <span class="left area"><?php echo $this->_('App design'); ?></span>
+                <span class="left area"><?php echo __('App design'); ?></span>
                 <hr />
                 <div class="clear"></div>
             </h3>
             <div class="area_content">
                 <button type="button" id="switch_to_ionic" class="btn default_button button-block">
-                    <?php echo $this->_("Switch to Ionic design"); ?>
+                    <?php echo __("Switch to Ionic design"); ?>
                     <input type="hidden" name="switch_to_ionic" value="1" />
                 </button>
             </div>
@@ -339,7 +350,7 @@
     $("#design_switcher").change();
 
     $("#switch_to_ionic").click(function() {
-        if(confirm("<?php echo $this->_("If your app is already published on the stores, be sure you have sent an update with the Ionic version, and that this update has already been accepted, otherwise your app may be broken."); ?>")) {
+        if(confirm("<?php echo __("If your app is already published on the stores, be sure you have sent an update with the Ionic version, and that this update has already been accepted, otherwise your app may be broken."); ?>")) {
             reload($(this), "<?php echo $this->getUrl("application/customization_publication_infos/switchtoionic"); ?>", true, function(data) {
                 if(data.success) {
                     window.location = window.location.href;

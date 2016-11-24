@@ -61,6 +61,7 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
                 'layout_id'         => $option_value->getLayoutId(),
                 'code'              => $option_value->getCode(),
                 'name'              => $option_value->getTabbarName(),
+                'subtitle'              => $option_value->getTabbarSubtitle(),
                 'is_active'         => $option_value->isActive(),
                 'url'               => $option_value->getUrl(null, array('value_id' => $option_value->getId()), false),
                 'path'              => $option_value->getPath(null, array('value_id' => $option_value->getId()), false),
@@ -79,21 +80,49 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
         $option = new Application_Model_Option();
         $option->findTabbarMore();
 
+        $more_colorizable = true;
+        if($this->getApplication()->getMoreIconId()) {
+            $library = new Media_Model_Library();
+            $icon = $library->find($this->getApplication()->getMoreIconId());
+            if(!$icon->getCanBeColorized()) {
+                $more_color = null;
+            } else {
+                $more_color = $color;
+            }
+
+            $more_colorizable = $icon->getCanBeColorized();
+        }
+
         $data['more_items'] = array(
             'code' => $option->getCode(),
             'name' => $option->getTabbarName(),
+            'subtitle' => $this->getApplication()->getMoreSubtitle(),
             'is_active' => $option->isActive(),
             'url' => "",
-            'icon_url' => $this->getRequest()->getBaseUrl().$this->_getColorizedImage($option->getIconUrl(), $color),
-            'icon_is_colorable' => 1,
+            'icon_url' => $this->getRequest()->getBaseUrl().$this->_getColorizedImage($option->getIconUrl(), $more_color),
+            'icon_is_colorable' => $more_colorizable,
         );
 
         $option = new Application_Model_Option();
         $option->findTabbarAccount();
 
+        $account_colorizable = true;
+        if($this->getApplication()->getAccountIconId()) {
+            $library = new Media_Model_Library();
+            $icon = $library->find($this->getApplication()->getAccountIconId());
+            if(!$icon->getCanBeColorized()) {
+                $account_color = null;
+            } else {
+                $account_color = $color;
+            }
+
+            $account_colorizable = $icon->getCanBeColorized();
+        }
+
         $data['customer_account'] = array(
             'code'                  => $option->getCode(),
             'name'                  => $option->getTabbarName(),
+            'subtitle'              => $this->getApplication()->getAccountSubtitle(),
             'is_active'             => $option->isActive(),
             'url'                   => $this->getUrl("customer/mobile_account_login"),
             'path'                  => $this->getPath("customer/mobile_account_login"),
@@ -101,8 +130,8 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
             'login_path'            => $this->getPath("customer/mobile_account_login"),
             'edit_url'              => $this->getUrl("customer/mobile_account_edit"),
             'edit_path'             => $this->getPath("customer/mobile_account_edit"),
-            'icon_url'              => $this->getRequest()->getBaseUrl().$this->_getColorizedImage($option->getIconUrl(), $color),
-            'icon_is_colorable'     => 1,
+            'icon_url'              => $this->getRequest()->getBaseUrl().$this->_getColorizedImage($option->getIconUrl(), $account_color),
+            'icon_is_colorable'     => $account_colorizable,
             'is_visible'            => $this->getApplication()->usesUserAccount()
         );
 

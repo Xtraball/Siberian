@@ -3,17 +3,20 @@ App.config(function($stateProvider) {
     $stateProvider.state('mcommerce-category-list', {
         url: BASE_PATH+"/mcommerce/mobile_category/index/value_id/:value_id",
         controller: 'MCommerceListController',
-        templateUrl: "templates/html/l3/list.html"
+        templateUrl: "templates/html/l3/list.html",
+        cache:false
     }).state('mcommerce-subcategory-list', {
         url: BASE_PATH+"/mcommerce/mobile_category/index/value_id/:value_id/category_id/:category_id",
         controller: 'MCommerceListController',
-        templateUrl: "templates/html/l3/list.html"
+        templateUrl: "templates/html/l3/list.html",
+        cache:false
     }).state('mcommerce-redirect', {
         url: BASE_PATH+"/mcommerce/redirect/index/value_id/:value_id",
-        controller: 'MCommerceRedirectController'
+        controller: 'MCommerceRedirectController',
+        cache:false
     });
 
-}).controller('MCommerceListController', function($location, $scope, $state, $stateParams, McommerceCategory) {
+}).controller('MCommerceListController', function($ionicLoading, $location, $scope, $state, $stateParams, McommerceCategory) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -22,6 +25,9 @@ App.config(function($stateProvider) {
     });
 
     $scope.is_loading = true;
+    $ionicLoading.show({
+        template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
+    });
 
     $scope.factory = McommerceCategory;
     $scope.collection = new Array();
@@ -44,6 +50,7 @@ App.config(function($stateProvider) {
 
         }).finally(function() {
             $scope.is_loading = false;
+            $ionicLoading.hide();
         });
     };
 

@@ -8,8 +8,14 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
         $data = array();
         if($customer->getId()) {
             $metadatas = $customer->getMetadatas();
-            if(empty($metadatas))
+            if(empty($metadatas)) {
                 $metadatas = json_decode("{}"); // we really need a javascript object here
+            }
+
+            //hide stripe customer id for secure purpose
+            if($metadatas["stripe"] && $metadatas["stripe"]["customerId"]) {
+                unset($metadatas["stripe"]["customerId"]);
+            }
 
             $data = array(
                 "id" => $customer->getId(),
@@ -22,6 +28,15 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
                 "is_custom_image" => (bool) $customer->getIsCustomImage(),
                 "metadatas" => $metadatas
             );
+
+            if(Siberian_CustomerInformation::isRegistered("stripe")) {
+                $exporter_class = Siberian_CustomerInformation::getClass("stripe");
+                if(class_exists($exporter_class) && method_exists($exporter_class, "getInformation")) {
+                    $tmp_class = new $exporter_class();
+                    $info = $tmp_class->getInformation($customer->getId());
+                    $data["stripe"] = $info ? $info : array();
+                }
+            }
 
         }
 

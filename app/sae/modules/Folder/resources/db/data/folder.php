@@ -29,6 +29,12 @@ $data = array(
 
 $option = Siberian_Feature::install($category, $data, array('code'));
 
+# Layouts
+$layout_data = array(1, 2, 3, 4);
+$slug = "folder";
+
+Siberian_Feature::installLayouts($option->getId(), $slug, $layout_data);
+
 # Icons Flat
 $icons = array(
     '/folders/folder1-flat.png',

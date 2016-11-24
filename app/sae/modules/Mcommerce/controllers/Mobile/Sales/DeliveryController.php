@@ -63,7 +63,8 @@ class Mcommerce_Mobile_Sales_DeliveryController extends Mcommerce_Controller_Mob
                     "store_id" => $datas['store_id'],
                     "paid_amount" => $datas['paid_amount'] ? $datas['paid_amount'] : null,
                     "delivery_cost" => $method->getPrice(),
-                    "delivery_tax_rate" => $delivery_tax_rate
+                    "delivery_tax_rate" => $delivery_tax_rate,
+                    "tip" => $this->getCart()->getTip() // To avoid loss of tip
                 );
 
                 $this->getCart()

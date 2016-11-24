@@ -1,6 +1,8 @@
 var installer = {
     contain_errors: false,
     installation_url: "",
+    cron_url: "",
+    cron_timeout: "",
     installation_url_data: "",
     database_connection_is_set: false,
     admin_is_created: false,
@@ -134,14 +136,32 @@ var installer = {
         }
 
         if(this.insert_data && key >= Object.getSize(this.plugins)) {
-            this.endInstallation();
-            return this;
+            /** Async cron installation */
+            $('#label_install').html("Installing cronjob");
+            $('#module_name').val("Scheduler");
+
+            var count = 0;
+            this.cron_timeout = setInterval(function() {
+                count++;
+                if(count >= 20) {
+                    $('#progressbar').css('width', '100%');
+                    $(".binding-progress").text("100%");
+                    clearInterval(installer.cron_timeout);
+                    installer.endInstallation();
+                    return installer;
+                }
+                var width = 95 + (0.25*count);
+                $('#progressbar').css('width', width+'%');
+                $(".binding-progress").text(Math.round(width)+"%");
+            }, 500);
+            this.installCron();
         }
 
         $('#label_module').html(this.plugins[key]);
         $('#module_name').val(this.plugins[key]);
         if(!this.insert_data && key==0) {
             $('#progressbar').css('width', '1%'); /** Start at 1% for convenience */
+            $(".binding-progress").text("1%");
         }
 
         var url_step = (this.insert_data) ? this.installation_url_data : this.installation_url;
@@ -154,8 +174,9 @@ var installer = {
             success: function(datas) {
                 if(datas.success) {
                     var fake_key = (this.insert_data) ? (Object.getSize(this.plugins)+key) : key;
-                    var width = (fake_key+1) * (100 / Object.getSize(this.plugins)) / 2;
+                    var width = (fake_key+1) * (95 / Object.getSize(this.plugins)) / 2;
                     $('#progressbar').css('width', width+'%');
+                    $(".binding-progress").text(Math.round(width)+"%");
                     this.installPlugin(key+1);
                 }
             }.bind(this),
@@ -169,6 +190,30 @@ var installer = {
             }.bind(this),
             complete: function() {
 
+            }
+        });
+    },
+    installCron: function() {
+        $.ajax({
+            url: this.cron_url,
+            type: 'GET',
+            dataType: 'json',
+            async: true,
+            success: function(datas) {
+                console.log("[CRON] scheduler succes");
+                if(datas.success) {
+                    $('#progressbar').css('width', '100%');
+                    $(".binding-progress").text("100%");
+                    clearInterval(installer.cron_timeout);
+                    installer.endInstallation();
+                    return installer;
+                }
+            }.bind(this),
+            error: function(datas) {
+                console.log("[CRON] scheduler error");
+            }.bind(this),
+            complete: function() {
+                console.log("[CRON] request done ....");
             }
         });
     },

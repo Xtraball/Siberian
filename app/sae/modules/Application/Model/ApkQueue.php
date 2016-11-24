@@ -160,5 +160,13 @@ class Application_Model_ApkQueue extends Core_Model_Default {
 
         return $results;
     }
+
+    /**
+     * Clear old pathts when clearing tmp cache in backoffice
+     */
+    public static function clearPaths() {
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $db->query("UPDATE apk_queue SET path = '' WHERE status != 'building';");
+    }
     
 }

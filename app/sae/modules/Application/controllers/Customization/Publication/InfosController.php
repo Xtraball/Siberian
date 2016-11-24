@@ -39,6 +39,11 @@ class Application_Customization_Publication_InfosController extends Application_
                         throw new Exception($this->_('The entered bundle id is incorrect, it should be like: com.siberiancms.app'));
                     }
                     $this->getApplication()->setBundleId($data['bundle_id'])->save();
+                }  else if(!empty($data['package_name'])) {
+                    if(count(explode('.', $data['package_name'])) < 2) {
+                        throw new Exception($this->_('The entered package name is incorrect, it should be like: com.siberiancms.app'));
+                    }
+                    $this->getApplication()->setPackageName($data['package_name'])->save();
                 } else if(isset($data['main_category_id'])) {
                     if(empty($data['main_category_id'])) throw new Exception($this->_('The field is required'));
                     else $this->getApplication()->setMainCategoryId($data['main_category_id'])->save();

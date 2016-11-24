@@ -36,10 +36,6 @@ class Mcommerce_Controller_Mobile_Default extends Application_Controller_Mobile_
 
         if(!$store->getId()) {
             $store = $this->getCurrentOptionValue()->getObject()->getDefaultStore();
-//            if(!$store->getId()) {
-//                $this->_forward('noroute');
-//                return $this;
-//            }
             $this->getSession()->setStore($store);
         }
         $this->_store = $store;
@@ -55,11 +51,36 @@ class Mcommerce_Controller_Mobile_Default extends Application_Controller_Mobile_
             ;
             $this->getSession()->setCart($cart);
         }else{
-            $logger->debug("Cart already exists: " . print_r($cart, true));
+            // Adding a condition for when the cart has already been validated.
+            // We have to check if an order which corresponds to the cart has been saved.
+            // In the latter case we create a new cart, to avoid carrying cart lines from old purshases.
+            if ($this->cartAlreadyValidated()) {
+                $logger->debug("Create new cart in session upon cart validation.");
+                $cart = new Mcommerce_Model_Cart();
+                $cart->setMcommerceId($this->getCurrentOptionValue()->getObject()->getId())
+                    ->setStoreId($store->getId())
+                    ->save();
+                $this->getSession()->setCart($cart);
+            } else {
+                $logger->debug("Cart already exists: " . print_r($cart, true));
+            }
         }
         $this->_cart = $cart;
 
         return $this;
+    }
+
+    /**
+     * Verifies if the current cart has been validated and saved into an order.
+     *
+     * @return bool
+     */
+    protected function cartAlreadyValidated() {
+        $cart = $this->getSession()->getCart();
+        $order = new Mcommerce_Model_Order();
+        $order->find(array('cart_id' => $cart->getCartId()));
+        $validator = new Zend_Validate_Int();
+        return $validator->isValid($order->getId());
     }
 
     /**
@@ -80,4 +101,39 @@ class Mcommerce_Controller_Mobile_Default extends Application_Controller_Mobile_
         return $this->_store;
     }
 
+    protected function computeDiscount() {
+        $cart = $this->getCart();
+        $promo = Mcommerce_Model_Promo::getApplicablePromo($cart);
+        $result = array('success' => false);
+        if ($promo) {
+            $valid = $promo->validate($cart);
+            if ($valid == -1) {
+                $result['message'] = $this->_("Discount only for carts with total more than: ") . $promo->getMinimumAmount();
+            } else if ($valid == -2) {
+                $result['message'] = $this->_("Discount no longer available");
+            } else if ($valid == -3) {
+                $result['message'] = $this->_("You used the code before") . '(' . $cart->getDiscountCode() . ')';
+            } else {
+                $promo->applyOn($cart);
+                $result['success'] = true;
+                $result['discount'] = $promo->formatPrice($promo->getDeduction($cart));
+                $result['message'] = $promo->getLabel();
+            }
+        } else {
+            $result['message'] = $this->_("Invalid code") . '(' . $cart->getDiscountCode() . ')';
+        }
+        return $result;
+    }
+
+    protected function getPromo() {
+        $cart = $this->getCart();
+        $promo = Mcommerce_Model_Promo::getApplicablePromo($cart);
+        if($promo){
+            $valid = $promo->validate($cart);
+            if ($valid > 0) {
+                return $promo;
+            }
+        }
+        return null;
+    }
 }

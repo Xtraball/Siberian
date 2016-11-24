@@ -1,15 +1,15 @@
     <div class="row">
-        <div class="responsive-part col-md-6">
+        <div class="responsive-part col-md-8">
             <?php echo $this->getPartialHtml('customization_menu'); ?>
         </div>
     </div>
     <div class="row">
-        <div class="responsive-part col-md-6">
+        <div class="responsive-part col-md-8 feature">
             <?php if($html = $this->getPartialHtml('content_editor')) : ?>
             <?php echo $html; ?>
             <?php endif; ?>
         </div>
-        <div id="overview" class="col-md-6">
+        <div id="overview" class="col-md-4">
             <div class="row">
                 <div>
                     <?php echo $this->getPartialHtml('overview'); ?>
@@ -73,8 +73,10 @@
         },
 
         load: function() {
-            var mask_overview = $('<div />').attr('id', 'mask_overview').addClass('mask');
+            var mask_overview = $('<div />').attr('id', 'mask').addClass('mask');
+            var mask_loader = $('<div />').addClass('loader');
             mask_overview.appendTo($('body'));
+            mask_overview.append(mask_loader);
             $('#mobile_overview').load(function() {
 
                 iframe.object = $('#mobile_overview');

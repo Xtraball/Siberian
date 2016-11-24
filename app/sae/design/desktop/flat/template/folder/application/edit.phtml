@@ -21,6 +21,13 @@
                         ->toHtml()
                     ;
                 ?>
+
+                <?php echo $this->getLayout()
+                    ->addPartial('layout', 'Core_View_Default', 'application/customization/features/edit/layout.phtml')
+                    ->setOptionValue($option_value)
+                    ->toHtml()
+                ;
+                ?>
             </div>
         </div>
     </div>

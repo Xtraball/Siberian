@@ -71,6 +71,12 @@ $schemas['application_option_value'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'tabbar_subtitle' => array(
+        'type' => 'varchar(512)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'icon' => array(
         'type' => 'varchar(255)',
         'is_null' => true,

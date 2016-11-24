@@ -30,6 +30,7 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
             $data["core_modules"][] = array(
                 "id" => $core_module->getId(),
                 "name" => __($core_module->getData("name")),
+                "original_name" => $core_module->getData("name"),
                 "version" => $core_module->getData("version"),
                 "actions" => Siberian_Module::getActions($core_module->getData("name")),
                 "created_at" => $core_module->getFormattedCreatedAt(),
@@ -53,6 +54,7 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
             $data[$type][] = array(
                 "id" => $installed_module->getId(),
                 "name" => __($installed_module->getData("name")),
+                "original_name" => $installed_module->getData("name"),
                 "version" => $installed_module->getData("version"),
                 "actions" => Siberian_Module::getActions($installed_module->getData("name")),
                 "created_at" => $installed_module->getFormattedCreatedAt(),

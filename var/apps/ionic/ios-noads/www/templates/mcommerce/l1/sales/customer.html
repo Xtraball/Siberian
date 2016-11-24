@@ -10,10 +10,6 @@
 
     <ion-content sb-background-image>
 
-        <div class="loader" ng-show="is_loading">
-            <ion-spinner class="spinner-custom"></ion-spinner>
-        </div>
-
         <div ng-if="(!is_loading) && (!is_logged_in)">
             <label class="item item-custom">
                 <p>
@@ -26,8 +22,12 @@
                 {{ "Login" | translate }}
             </div>
             <div class="item item-custom item-icon-left" ng-click="signup()">
-                <i class="icon ion-person"></i>
+                <i class="icon ion-person-add"></i>
                 {{ "Signup" | translate }}
+            </div>
+            <div class="item item-custom item-icon-left" ng-if="hasguestmode" ng-click="guestmode()">
+                <i class="icon ion-ios-cart"></i>
+                {{ "Guest Order" | translate }}
             </div>
         </div>
 

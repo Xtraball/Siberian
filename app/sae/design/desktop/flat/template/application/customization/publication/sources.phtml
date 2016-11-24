@@ -17,10 +17,10 @@
                 <div class="col-sm-4">
                     <label for="name"><?php echo $this->_('Application name'); ?> : </label>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-7">
                     <input type="text" id="name" name="name" class="autosave input-flat" value="<?php echo $application->getName() ? $application->getName() : ucfirst(mb_strtolower($this->getSession()->getAdmin()->getName())); ?>" maxlength="30" />
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-1">
                     <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_name" alt="Loading" title="Loading" width="24" style="display:none;" />
                 </div>
             </div>
@@ -28,11 +28,22 @@
                 <div class="col-sm-4">
                     <label for="bundle_id"><?php echo $this->_('Bundle Id'); ?> : </label>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-7">
                     <input type="text" id="bundle_id" name="bundle_id" class="autosave input-flat" value="<?php echo $application->getBundleId(); ?>" />
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-1">
                     <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_bundle_id" alt="Loading" title="Loading" width="24" style="display:none;" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <label for="package_name"><?php echo $this->_('Package Name'); ?> : </label>
+                </div>
+                <div class="col-sm-7">
+                    <input type="text" id="package_name" name="package_name" class="autosave input-flat" value="<?php echo $application->getPackageName(); ?>" />
+                </div>
+                <div class="col-sm-1">
+                    <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_package_name" alt="Loading" title="Loading" width="24" style="display:none;" />
                 </div>
             </div>
         </div>

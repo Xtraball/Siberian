@@ -109,6 +109,7 @@
                 installer.check_database_connection_url = '<?php echo $this->getUrl('installer/installation_database/check'); ?>';
                 installer.create_admin_url = '<?php echo $this->getUrl('installer/installation_user/create'); ?>';
                 installer.create_application_url = '<?php echo $this->getUrl('installer/installation_application/create'); ?>';
+                installer.cron_url = '<?php echo $this->getUrl('installer/installation_database/cronscheduler'); ?>';
                 $('#previous_step').click(installer.previousStep.bind(installer));
                 $('#next_step').click(installer.nextStep.bind(installer));
                 <?php else : ?>

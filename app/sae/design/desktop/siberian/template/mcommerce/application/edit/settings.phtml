@@ -70,6 +70,10 @@
                 </form>
             </div>
         </div>
+        <?php echo $this->getLayout()->addPartial('discount_form', 'admin_view_default', 'mcommerce/application/edit/settings/discount.phtml')
+            ->setCurrentOptionValue($option)
+            ->toHtml();
+        ?>
         <div class="section">
             <h4 class="subtitle">
                 <span class="left area"><?php echo $this->_('Connected Printers'); ?></span>
@@ -133,6 +137,55 @@
                 <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
             </form>
         </div>
+        <div class="section">
+            <h4 class="subtitle">
+                <span class="left area"><?php echo $this->_('Tip'); ?></span>
+                <hr />
+                <div class="clear"></div>
+            </h4>
+            <form id="mcommerceTipForm" action="<?php echo $this->getUrl('mcommerce/application_settings_tip/save'); ?>" class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label for="add_tip"><?php echo $this->_("Add tip?"); ?></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="checkbox" id="add_tip" name="add_tip" class="checkbox" <?php if($mcommerce->getAddTip()) echo "checked" ?>/>
+                    </div>
+                </div>
+                <div class="save right">
+                    <button class="default_button btn-block" type="submit">
+                        <?php echo $this->_('Save'); ?>
+                    </button>
+                </div>
+                <div class="clear"></div>
+                <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
+            </form>
+        </div>
+        <div class="section">
+            <h4 class="subtitle">
+                <span class="left area"><?php echo $this->_('Guest Order'); ?></span>
+                <hr />
+                <div class="clear"></div>
+            </h4>
+            <form id="mcommerceGuestModeForm" action="<?php echo $this->getUrl('mcommerce/application_settings_guestmode/save'); ?>" class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label for="guest_mode"><?php echo $this->_("Permit unregistered user to make order?"); ?></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="checkbox" id="guest_mode" name="guest_mode" class="checkbox" <?php if($mcommerce->getGuestMode()) echo "checked" ?>/>
+                    </div>
+                </div>
+                <div class="save right">
+                    <button class="default_button btn-block" type="submit">
+                        <?php echo $this->_('Save'); ?>
+                    </button>
+                </div>
+                <div class="clear"></div>
+                <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
+            </form>
+        </div>
+
         <div id="settings_list" pos="1">
             <div id="tax_manager">
                 <div class="section">
@@ -180,12 +233,18 @@
     <div id="tax_edit" pos="2">
 
     </div>
+    <div id="promo_edit" pos="2">
+
+    </div>
 
     <script type="text/javascript">
         var mcommerce_settings = {
             is_loaded: false,
             tax: null,
             processEvents: function() {
+                $('#discount_validity').datepicker({
+                    dateFormat: 'yy-mm-dd'
+                });
 
                 $('#mcommercePrintersForm').submit(function() {
                     if(!$(this).valid()) return false;
@@ -198,7 +257,22 @@
                     return false;
                 });
 
+                $('#mcommerceDiscountForm').submit(function() {
+                    reload(this, this.action, true);
+                    return false;
+                });
+
+                $('#mcommerceTipForm').submit(function() {
+                    reload(this, this.action, true);
+                    return false;
+                });
+
                 $('#mcommerceFieldsForm').submit(function() {
+                    reload(this, this.action, true);
+                    return false;
+                });
+
+                $('#mcommerceGuestModeForm').submit(function() {
                     reload(this, this.action, true);
                     return false;
                 });

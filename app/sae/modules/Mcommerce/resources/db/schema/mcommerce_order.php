@@ -156,11 +156,22 @@ $schemas['mcommerce_order'] = array(
         'type' => 'text',
         'is_null' => true,
     ),
+    'discount_code' => array(
+        'type' => 'varchar(50)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'created_at' => array(
         'type' => 'datetime',
     ),
     'paid_at' => array(
         'type' => 'datetime',
         'is_null' => true,
+    ),
+    // pourboire
+    'tip' => array(
+        'type' => 'decimal(12,2)',
+        'is_null' => true,
+        'default' => 0
     ),
 );

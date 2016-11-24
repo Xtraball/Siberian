@@ -1,0 +1,38 @@
+<ion-modal-view>
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear button-dark" ng-click="closeSearch()">{{ "Cancel" | translate }}</button>
+        </div>
+        <h1 class="title">{{ "Search results" | translate }}</h1>
+    </ion-header-bar>
+
+    <ion-content sb-background-image>
+
+        <div class="list">
+            <div class="item item-custom item-input-inset">
+                <label class="item-input-wrapper">
+                    <i class="icon ion-search placeholder-icon"></i>
+                    <input type="text" placeholder="{{ 'Search' | translate }}" ng-model="search.search_value">
+                </label>
+                <button class="button button-custom button-small" ng-click="startSearch()">
+                    {{ "OK" | translate }}
+                </button>
+            </div>
+        </div>
+        <div class="list">
+
+            <a tabbar-items class="item item-custom item-avatar-square" option="item" go-to-url="closeSearch();goTo(item)" ng-repeat="item in search_list | filter:search.search_value as results" ng-class="{'item-avatar': item.picture, 'item-center': (!item.subtitle && !item.message)}">
+                <img ng-src="{{ item.picture }}" ng-if="item.picture" />
+                <h2><span ng-if="item.father_name">{{ item.father_name }} > </span><strong>{{ item.name }}</strong></h2>
+            </a>
+
+            <div class="item item-custom" ng-if="results.length === 0">
+                {{ "No results for your request." | translate }}
+            </div>
+
+        </div>
+
+    </ion-content>
+
+</ion-modal-view>

@@ -3,10 +3,11 @@ App.config(function ($stateProvider) {
     $stateProvider.state('mcommerce-sales-customer', {
         url: BASE_PATH + "/mcommerce/mobile_sales_customer/index/value_id/:value_id",
         controller: 'MCommerceSalesCustomerViewController',
-        templateUrl: "templates/mcommerce/l1/sales/customer.html"
+        templateUrl: "templates/mcommerce/l1/sales/customer.html",
+        cache:false
     })
 
-}).controller('MCommerceSalesCustomerViewController', function ($state, $stateParams, $scope, $translate, Dialog, McommerceCart, McommerceSalesCustomer, Customer, AUTH_EVENTS) {
+}).controller('MCommerceSalesCustomerViewController', function ($ionicLoading, $state, $stateParams, $scope, $translate, Dialog, McommerceCart, McommerceSalesCustomer, Customer, SafePopups, AUTH_EVENTS) {
 
     $scope.$on("connectionStateChange", function (event, args) {
         if (args.isOnline == true) {
@@ -16,6 +17,8 @@ App.config(function ($stateProvider) {
 
     Customer.onStatusChange("category", []);
 
+    $scope.hasguestmode = false;
+
     $scope.login = function () {
         Customer.display_account_form = false;
         Customer.loginModal($scope);
@@ -24,6 +27,29 @@ App.config(function ($stateProvider) {
     $scope.signup = function () {
         Customer.display_account_form = true;
         Customer.loginModal($scope);
+    };
+
+    $scope.guestmode = function () {
+        $ionicLoading.show({
+            template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
+        });
+        var currentTs = new Date().getTime();
+        var guestmail = "guest"+currentTs+(parseInt(Math.random()*1000))+"@guest.com";
+        Customer.register({
+            "civility":"m",
+            "firstname":"Guest",
+            "lastname":"Guest",
+            "email":guestmail,
+            "password":parseInt(Math.random()*10000000000),
+            "privacy_policy":true
+        }).success(function(){
+            $scope.is_logged_in = true;
+            Customer.guest_mode = true;
+            $scope.loadContent();
+        }).finally(function () {
+            $scope.is_loading = false;
+            $ionicLoading.hide();
+        });
     };
 
     $scope.$on(AUTH_EVENTS.loginSuccess, function () {
@@ -36,6 +62,9 @@ App.config(function ($stateProvider) {
     });
 
     $scope.is_loading = true;
+    $ionicLoading.show({
+        template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
+    });
     $scope.is_logged_in = Customer.isLoggedIn();
 
     McommerceCart.value_id = $stateParams.value_id;
@@ -45,14 +74,36 @@ App.config(function ($stateProvider) {
     $scope.page_title = $translate.instant("My information");
 
     $scope.loadContent = function () {
-        McommerceSalesCustomer.find().success(function (data) {
-            $scope.customer = data.customer;
-            if ($scope.customer && $scope.customer.hasOwnProperty("metadatas") && $scope.customer.metadatas.birthday) {
-                $scope.customer.metadatas.birthday = new Date($scope.customer.metadatas.birthday);
+        McommerceSalesCustomer.hasGuestMode().success(function (dataGuestMode) {
+            //check if had guest mode
+            if(dataGuestMode.success && dataGuestMode.activated) {
+                $scope.hasguestmode = true;
             }
-            $scope.settings = data.settings;
+            //getting user
+            McommerceSalesCustomer.find().success(function (data) {
+                $scope.customer = data.customer;
+                //fix birthday ?
+                if ($scope.customer && $scope.customer.hasOwnProperty("metadatas") && $scope.customer.metadatas.birthday) {
+                    $scope.customer.metadatas.birthday = new Date($scope.customer.metadatas.birthday);
+                }
+                $scope.settings = data.settings;
+            }).finally(function () {
+                $scope.is_loading = false;
+                $ionicLoading.hide();
+            });
+        }).error(function (data) {
+            if (data && angular.isDefined(data.message)) {
+                SafePopups.show("alert",{
+                    title: $translate.instant('Error'),
+                    template: data.message,
+                    buttons: [{
+                        text: $translate.instant("OK")
+                    }]
+                });
+            }
         }).finally(function () {
             $scope.is_loading = false;
+            $ionicLoading.hide();
         });
     };
 
@@ -62,6 +113,9 @@ App.config(function ($stateProvider) {
 
     $scope.updateCustomerInfos = function () {
         $scope.is_loading = true;
+        $ionicLoading.show({
+            template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
+        });
 
         // Associate the customer to the cart and validate the extra fields
         McommerceSalesCustomer.updateCustomerInfos({'customer': $scope.customer}).success(function (data) {
@@ -70,23 +124,35 @@ App.config(function ($stateProvider) {
             // Save Customer info
             Customer.save($scope.customer).success(function (data) {
                 if (angular.isDefined(data.message)) {
-                    Dialog.alert("", data.message, $translate.instant("OK"));
                 }
                 $scope.goToDeliveryPage();
             }).error(function (data) {
                 if (data && angular.isDefined(data.message)) {
-                    Dialog.alert($translate.instant("Error"), data.message, $translate.instant("OK"));
+                    SafePopups.show("alert",{
+                        title: $translate.instant('Error'),
+                        template: data.message,
+                        buttons: [{
+                            text: $translate.instant("OK")
+                        }]
+                    });
                 }
             }).finally(function () {
                 $scope.is_loading = false;
+                $ionicLoading.hide();
             });
 
         }).error(function (data) {
-            if (data && angular.isDefined(data.message)) {
-                Dialog.alert($translate.instant("Error"), data.message, $translate.instant("OK"));
-            }
-        }).finally(function () {
             $scope.is_loading = false;
+            $ionicLoading.hide();
+            if (data && angular.isDefined(data.message)) {
+                SafePopups.show("alert",{
+                    title: $translate.instant('Error'),
+                    template: data.message,
+                    buttons: [{
+                        text: $translate.instant("OK")
+                    }]
+                });
+            }
         });
 
     };

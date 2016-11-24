@@ -30,5 +30,17 @@ App.factory('McommerceSalesCustomer', function($rootScope, $http, Url) {
         });
     };
 
+    factory.hasGuestMode = function() {
+
+        if(!this.value_id) return;
+
+        return $http({
+            method: 'GET',
+            url: Url.get("mcommerce/mobile_sales_customer/hasguestmode", {value_id: this.value_id}),
+            cache: false,
+            responseType:'json'
+        });
+    };
+
     return factory;
 });

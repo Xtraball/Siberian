@@ -71,6 +71,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
         }
 
         $data["bundle_id"] = $application->getBundleId();
+        $data["package_name"] = $application->getPackageName();
         $data["is_active"] = $application->isActive();
         $data["is_locked"] = $application->isLocked();
         $data["can_be_published"] = $application->canBePublished();
@@ -98,18 +99,15 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
         $appIosAutopublish = new Application_Model_IosAutopublish();
         $appIosAutopublish->find(1);
 
-        //get list of languages supported for app
-        $languageSupportedCode = array_keys(Application_Model_Languages::getSupportedLanguages());
-        //get all falue set to false
-        $languagesValueTemplate = array_combine($languageSupportedCode, array_fill(0,count($languageSupportedCode),false));
-        //get current app languages
-        $currentLanguagesSelected  = array();
+        $languages = 'en';
         if($lang = Siberian_Json::decode($appIosAutopublish->getLanguages())) {
-            $currentLanguagesSelected = $lang;
+            foreach($lang as $code => $value) {
+                if($value) {
+                    $languages = $code;
+                    break;
+                }
+            }
         }
-
-        //caclule final languages array options to pass to front
-        $languages = array_merge($languagesValueTemplate, $currentLanguagesSelected);
 
         //sanetize vars
         if(is_null($data['infos']["want_to_autopublish"])) $data['infos']["want_to_autopublish"] = false;
@@ -223,6 +221,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                     "success"   => 1,
                     "message"   => $this->_("Info successfully saved"),
                     "bundle_id" => $application->getBundleId(),
+                    "package_name" => $application->getPackageName(),
                     "url"       => $application->getUrl(),
                 );
 

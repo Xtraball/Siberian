@@ -29,7 +29,9 @@ class Core_Model_Lib_String extends Core_Model_Default {
         $str = preg_replace('/&([A-za-z])(?:acute|cedil|circ|grave|orn|ring|slash|th|tilde|uml|&amp;);/', '\1', $str);
         $str = preg_replace('/&([A-za-z]{2})(?:lig);/', '\1', $str); // pour les ligatures e.g. '&oelig;'
         $str = preg_replace('/\W/', '', $str);
-        if($tolower) $str = strtolower($str);
+        if($tolower) {
+            $str = strtolower($str);
+        }
 
         return $str;
     }

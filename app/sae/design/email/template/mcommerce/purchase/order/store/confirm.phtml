@@ -141,21 +141,35 @@ $customer = $order->getCustomer();
                 <tr><td colspan="2"><div style="width:100%;margin-top:0px;margin-bottom:5px;border-bottom:2px solid black;"></div></td></tr>
                 <tr>
                     <th align="left"><?php echo $this->_('Subtotal'); ?></th>
-                    <td align="right"><?php echo $order->getFormattedSubtotalExclTax(); ?></td>
+                    <td align="right"><?php echo $order->getFormattedSubtotal(); ?></td>
                 </tr>
                 <?php if($order->getDeliveryCost() > 0) : ?>
                 <tr class="cart_totals">
-                    <th align="left"><?php echo $this->_('Delivery Fees'); ?></th>
-                    <td align="right"><?php echo $order->getFormattedDeliveryCost(); ?></td>
-                </tr>
-                <tr class="cart_totals">
-                    <th align="left"><?php echo $this->_('Total Excl. Tax'); ?></th>
-                    <td align="right"><?php echo $order->getFormattedTotalExclTax(); ?></td>
+                    <th align="left"><?php echo $this->_('Incl.'); ?> <?php echo $this->_('Delivery Fees'); ?></th>
+                    <td align="right">-<?php echo $order->getFormattedDeliveryTTC(); ?></td>
                 </tr>
                 <?php endif; ?>
+                <?php if($order->getDiscountCode()) { ?>
+                    <tr>
+                        <th align="left"><?php echo $this->_('Code Used'); ?></th>
+                        <td align="right"><?php echo $order->getDiscountCode(); ?></td>
+                    </tr>
+                    <tr>
+                        <th align="left"><?php echo $this->_('Deduction'); ?></th>
+                        <td align="right"><?php echo $order->getFormattedDeduction(); ?></td>
+                    </tr>
+                <?php } ?>
                 <tr class="cart_totals">
-                    <th align="left"><?php echo $this->_('Total Tax'); ?></th>
-                    <td align="right"><?php echo $order->getFormattedTotalTax(); ?></td>
+                    <th align="left"><?php echo $this->_('Subtotal Excl. Tax'); ?></th>
+                    <td align="right"><?php echo $order->getFormattedDeductedTotalHT(); ?></td>
+                </tr>
+                <tr class="cart_totals">
+                    <th align="left"><?php echo $this->_('Tax'); ?></th>
+                    <td align="right"><?php echo $order->getFormattedDeductedTva(); ?></td>
+                </tr>
+                <tr class="cart_totals">
+                    <th align="left"><?php echo $this->_('Gratuity'); ?></th>
+                    <td align="right"><?php echo $order->getFormattedTip(); ?></td>
                 </tr>
                 <tr class="cart_totals">
                     <th align="left"><?php echo $this->_('Total'); ?></th>

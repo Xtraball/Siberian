@@ -107,4 +107,18 @@ class Siberian_Media {
 
         return $libraries;
     }
+
+    /**
+     * @param $path
+     * @return string
+     */
+    public static function toBase64($path) {
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
+        $base64 = sprintf("data:image/%s;base64,%s", $type, base64_encode($data));
+
+        return $base64;
+    }
+
+
 }

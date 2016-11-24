@@ -3,10 +3,11 @@ App.config(function ($stateProvider) {
     $stateProvider.state('mcommerce-sales-delivery', {
         url: BASE_PATH+"/mcommerce/mobile_sales_delivery/index/value_id/:value_id",
         controller: 'MCommerceSalesDeliveryViewController',
-        templateUrl: "templates/mcommerce/l1/sales/delivery.html"
+        templateUrl: "templates/mcommerce/l1/sales/delivery.html",
+        cache:false
     });
 
-}).controller('MCommerceSalesDeliveryViewController', function ($scope, $stateParams, $state, $translate, Dialog, McommerceCart, McommerceSalesDelivery) {
+}).controller('MCommerceSalesDeliveryViewController', function ($ionicLoading, $scope, $stateParams, $state, $translate, Dialog, McommerceCart, McommerceSalesDelivery, SafePopups) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -24,6 +25,9 @@ App.config(function ($stateProvider) {
 
     $scope.loadContent = function () {
         $scope.is_loading = true;
+        $ionicLoading.show({
+            template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
+        });
         McommerceCart.find().success(function (data) {
             $scope.cart = data.cart;
             $scope.cart.delivery_method_extra_client_amount = $scope.cart.paid_amount ? parseFloat($scope.cart.paid_amount) : $scope.cart.total;
@@ -38,10 +42,12 @@ App.config(function ($stateProvider) {
 
             }).finally(function () {
                 $scope.is_loading = false;
+                $ionicLoading.hide();
             });
 
         }).error(function () {
             $scope.is_loading = false;
+            $ionicLoading.hide();
         });
     };
 
@@ -75,17 +81,32 @@ App.config(function ($stateProvider) {
     $scope.updateDeliveryInfos = function () {
 
         if($scope.cart.delivery_method_extra_amount_due == null) {
-            Dialog.alert("", $translate.instant("Remaining due is incorrect."), $translate.instant("OK"));
+            SafePopups.show("alert",{
+                title: $translate.instant(''),
+                template: $translate.instant("Remaining due is incorrect."),
+                buttons: [{
+                    text: $translate.instant("OK")
+                }]
+            });
             return;
         }
 
         if(!$scope.cart.deliveryMethodId) {
-            Dialog.alert("", $translate.instant("You have to choose a delivery method."), $translate.instant("OK"));
+            SafePopups.show("alert",{
+                title: $translate.instant(''),
+                template: $translate.instant("You have to choose a delivery method."),
+                buttons: [{
+                    text: $translate.instant("OK")
+                }]
+            });
             return;
         }
 
         if(!$scope.is_loading) {
             $scope.is_loading = true;
+            $ionicLoading.show({
+                template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
+            });
 
             var postParameters = {
                 'delivery_method_id': $scope.cart.deliveryMethodId,
@@ -97,10 +118,17 @@ App.config(function ($stateProvider) {
                 $scope.goToPaymentPage();
             }).error(function (data) {
                 if (data && angular.isDefined(data.message)) {
-                    Dialog.alert("", data.message, $translate.instant("OK"));
+                    SafePopups.show("alert",{
+                        title: $translate.instant(''),
+                        template: $translate.instant(data.message),
+                        buttons: [{
+                            text: $translate.instant("OK")
+                        }]
+                    });
                 }
             }).finally(function() {
                 $scope.is_loading = false;
+                $ionicLoading.hide();
             });
         }
     };

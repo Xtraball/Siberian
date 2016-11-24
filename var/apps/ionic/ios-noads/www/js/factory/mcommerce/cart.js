@@ -29,7 +29,48 @@ App.factory('McommerceCart', function($rootScope, $http, httpCache, Url) {
             httpCache.remove(Url.get("mcommerce/mobile_cart/find", {value_id: this.value_id}));
         });
     };
-    
+
+
+    factory.adddiscount = function (discount_code) {
+
+        if (!this.value_id) return;
+
+        //if no discount added, it's valid
+        if(discount_code.length === 0) return true;
+
+        var url = Url.get("mcommerce/mobile_cart/adddiscount", {value_id: this.value_id});
+
+        var data = {discount_code: discount_code};
+
+        return $http.post(url, data);
+    };
+
+    factory.addTip = function (cart) {
+
+        if (!this.value_id) return;
+
+        var url = Url.get("mcommerce/mobile_cart/addtip", {value_id: this.value_id});
+
+        var data = {tip: cart.tip ? cart.tip : 0};
+
+        return $http.post(url, data).success(function() {
+            httpCache.remove(Url.get("mcommerce/mobile_cart/find", {value_id: this.value_id}));
+        });
+    };
+
+    factory.compute = function () {
+
+        if (!this.value_id) return;
+
+        var url = Url.get("mcommerce/mobile_cart/compute", {value_id: this.value_id});
+
+        var data = {};
+
+        return $http.post(url, data).success(function(results) {
+            httpCache.remove(Url.get("mcommerce/mobile_cart/find", {value_id: this.value_id}));
+        });
+    };
+
     factory.deleteLine = function (line_id) {
 
         if (!this.value_id) return;

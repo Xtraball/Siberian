@@ -39,7 +39,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
             $scope.tooltip = {
                 collection: $scope.categories,
                 current_item: $scope.categories[0],
-                button_label: $scope.categories[0].name,
+                button_label: $scope.categories[0] ? $scope.categories[0].name : null,
                 onItemClicked: function(item) {
                     $scope.showTooltip(item);
                 }

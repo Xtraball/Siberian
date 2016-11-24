@@ -4,6 +4,10 @@
  */
 abstract class Siberian_Form_Abstract extends Zend_Form {
 
+    const DATEPICKER = "datepicker";
+    const TIMEPICKER = "timepicker";
+    const DATETIMEPICKER = "datetimepicker";
+
     /**
      * @var bool
      * @deprecated
@@ -196,6 +200,32 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
             $el->setLabel($label);
             $el->setDecorators(array('ViewHelper', 'Label'));
         }
+        $el->setNewDesign();
+        return $el;
+    }
+
+    /**
+     * @param $name
+     * @param string $label
+     * @param bool $placeholder
+     * @return Siberian_Form_Element_Text
+     * @throws Zend_Form_Exception
+     */
+    public function addSimpleDatetimepicker($name, $label = "", $placeholder = false, $type = self::DATEPICKER, $format = false) {
+        $el = new Siberian_Form_Element_Text($name);
+        $this->addElement($el);
+        if ($placeholder) {
+            $el->setAttrib('placeholder', $label);
+            $el->setDecorators(array('ViewHelper'));
+        } else {
+            $el->setLabel($label);
+            $el->setDecorators(array('ViewHelper', 'Label'));
+        }
+        $el->setAttrib('data-datetimepicker', $type);
+        if($format) {
+            $el->setAttrib('data-format', $format);
+        }
+
         $el->setNewDesign();
         return $el;
     }
@@ -481,7 +511,9 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      */
     public function groupElements($name, $elements, $label) {
         $display_group = $this->addDisplayGroup($elements, $name);
-        $display_group->getDecorator("Fieldset")->setLegent($label);
+        $this->getDisplayGroup($name)->getDecorator("Fieldset")
+            ->setLegend($label)
+        ;
 
         return $display_group;
     }
@@ -490,8 +522,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @param Zend_View_Interface|null $view
      * @return string
      */
-    public function render(Zend_View_Interface $view = null)
-    {
+    public function render(Zend_View_Interface $view = null) {
         if(!empty($this->confirm_text)) {
             $this->setAttrib("data-confirm", __js($this->confirm_text, "'"));
         }
@@ -506,8 +537,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @return bool
      * @throws Zend_Form_Exception
      */
-    public function isValid($data)
-    {
+    public function isValid($data) {
         /** Removing all fake_files elements before validating. */
         $elements = $this->getElements();
         foreach($elements as $element) {

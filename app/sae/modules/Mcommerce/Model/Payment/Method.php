@@ -70,4 +70,12 @@ class Mcommerce_Model_Payment_Method extends Core_Model_Default {
         return $this->getInstance()->pay();
     }
 
+    public function saveCardAndPay($data) {
+        return $this->getInstance()->saveCardAndPay($data);
+    }
+
+    public function payByCustomerToken($charge_data) {
+        return $this->getInstance()->payByCustomerToken($charge_data);
+    }
+
 }

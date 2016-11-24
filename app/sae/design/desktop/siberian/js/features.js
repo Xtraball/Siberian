@@ -43,8 +43,18 @@ var feature_form_success = function(html) {
 var feature_reload = function() {
     if(typeof page != "undefined") {
         page.reload();
+
+        if(last_tab != -1) {
+            $(".nav-tabs a[href='"+last_tab+"']").tab("show");
+        }
     }
 };
+
+var last_tab = -1;
+
+$(".nav-tabs a[role='tab']").on("click", function() {
+    last_tab = $(this).attr("href");
+});
 
 var remove_row = function(rowid) {
     var row = $("#"+rowid);
@@ -60,6 +70,33 @@ var remove_row = function(rowid) {
 
 };
 
+var simpleget = function(uri) {
+    loader.show("sb-simpleget");
+
+    $.ajax({
+        type: "GET",
+        url: uri,
+        dataType: "json",
+        success: function(data) {
+            if(data.success) {
+                feature_form_success(data.message || data.success_message);
+            } else if(data.error) {
+                feature_form_error(data.message);
+            } else {
+                feature_form_error("An error occured, please try again.");
+            }
+
+            loader.hide("sb-simpleget");
+        },
+        error: function(data) {
+            feature_form_error("An error occured, please try again.");
+
+            loader.hide("sb-simpleget");
+        }
+    });
+
+};
+
 /** Button picture uploader */
 var button_picture_html = '<div class="feature-upload-placeholder" data-uid="%UID%">' +
     '   <img src="" data-uid="%UID%" />' +
@@ -69,6 +106,8 @@ var button_picture_html = '<div class="feature-upload-placeholder" data-uid="%UI
     '</div>';
 
 var bindForms = function(default_parent) {
+
+    $.datepicker.setDefaults($.datepicker.regional[datepicker_regional]);
 
     if($(default_parent).data("binded") == "yes") {
         console.info(default_parent+" is already bound.");
@@ -98,6 +137,34 @@ var bindForms = function(default_parent) {
         );
     };
 
+    var handleDatetimePicker = function() {
+        $(default_parent+' input[data-datetimepicker]').each(function() {
+            var el = $(this);
+            console.log(el);
+            var type = el.data("datetimepicker");
+            var format = el.data("format");
+            var options = {};
+            if(format) {
+                options = {
+                    "altFormat": format
+                };
+            }
+            switch(type) {
+                default:
+                case "datepicker":
+                        el.datepicker(options);
+                    break;
+                case "timepicker":
+                        el.timepicker(options);
+                    break;
+                case "datetimepicker":
+                        el.datetimepicker(options);
+                    break;
+            }
+
+        });
+    };
+
     var handleError = function(form, data) {
         feature_form_error(data.message);
         if(data.errors) {
@@ -122,6 +189,7 @@ var bindForms = function(default_parent) {
     };
 
     handleRichtext();
+    handleDatetimePicker();
 
     /** Handle file uploads */
     $(default_parent+" button.feature-upload-button[data-uid]").each(function() {
@@ -216,10 +284,13 @@ var bindForms = function(default_parent) {
 
     /** Handle form */
     var handleForm = function(form) {
+        loader.show("sb-features");
+
         form = $(form);
 
         /** Confirm modal */
         if(typeof form.data("confirm") === "string" && !window.confirm(form.data("confirm"))) {
+            loader.hide("sb-features");
             return;
         }
 
@@ -245,6 +316,16 @@ var bindForms = function(default_parent) {
                     } else if(form.hasClass("delete")) {
                         remove_row(form.data("rowid"));
                         $("tr.edit-form[data-id]").hide();
+                    } else if(data.type) {
+                        switch(data.type) {
+                            case "download":
+                                if(data.url) {
+                                    location.href = data.url;
+                                }
+                                break;
+                            default:
+
+                        }
                     } else {
                         feature_reload();
                     }
@@ -253,6 +334,8 @@ var bindForms = function(default_parent) {
                 } else if(data.error) {
                     handleError(form, data);
                 }
+
+                loader.hide("sb-features");
             },
             error: function(data) {
                 var response = $.parseJSON(data.responseText);
@@ -262,6 +345,7 @@ var bindForms = function(default_parent) {
                     feature_form_error("An error occured, please try again.");
                 }
 
+                loader.hide("sb-features");
             }
         });
 

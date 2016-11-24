@@ -26,9 +26,9 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                     $place_list[] = $representation;
                 }
 
-                // Order places by distance to user
-                if ($position['latitude'] && $position['longitude']) {
-                    usort ( $json , array('Places_Model_Place','sortPlacesByDistance'));
+                // Order places by distance to user, if and the position is set the places_order option is activated
+                if ($position['latitude'] && $position['longitude'] && $this->getCurrentOptionValue()->getMetadataValue('places_order')) {
+                    usort ( $place_list , array('Places_Model_Place','sortPlacesByDistance'));
                 }
 
                 $option = $this->getCurrentOptionValue();
@@ -68,9 +68,9 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                     $place_list[] = $representation;
                 }
 
-                // Order places by distance to user
-                if ($position['latitude'] && $position['longitude']) {
-                    usort($json, array('Places_Model_Place', 'sortPlacesByDistance'));
+                // Order places by distance to user, if and the position is set the places_order option is activated
+                if ($position['latitude'] && $position['longitude'] && $this->getCurrentOptionValue()->getMetadataValue('places_order')) {
+                    usort($place_list, array('Places_Model_Place', 'sortPlacesByDistance'));
                 }
 
                 $option = $this->getCurrentOptionValue();

@@ -311,28 +311,96 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
-    public function getBundleId() {
+    /**
+     * @param $bundle_id
+     * @throws Exception
+     */
+    public function setBundleId($bundle_id) {
+        $regex_ios = "/^([a-z]){2,10}\.([a-z-]{1}[a-z0-9-]*){1,30}((\.([a-z-]{1}[a-z0-9-]*){1,61})*)?$/i";
 
-        $bundle_id = $this->getData("bundle_id");
-
-        $bundle_id_parts = explode(".", $bundle_id);
-
-        if(count($bundle_id_parts) != count(array_filter($bundle_id_parts))) {
-
-            $url = Zend_Uri::factory(parent::getUrl(""))->getHost();
-            $url = array_reverse(explode(".", $url));
-            $url[] = "app".$this->getKey();
-
-            $bundle_id = Core_Model_Lib_String::formatBundleId($url);
+        if(preg_match($regex_ios, $bundle_id)) {
+            $this->setData("bundle_id", $bundle_id)->save();
         } else {
-            $bundle_id = Core_Model_Lib_String::formatBundleId($bundle_id_parts);
+            throw new Exception(__("Your bundle id is invalid, format should looks like com.mydomain.iosid"));
         }
 
-        if($bundle_id != $this->getData("bundle_id")) {
-            $this->setBundleId($bundle_id)->save();
+        return $this;
+    }
+
+    /**
+     * @param $package_name
+     * @throws Exception
+     */
+    public function setPackageName($package_name) {
+        $regex_android = "/^([a-z]{1}[a-z_]*){2,10}\.([a-z]{1}[a-z0-9_]*){1,30}((\.([a-z]{1}[a-z0-9_]*){1,61})*)?$/i";
+
+        if(preg_match($regex_android, $package_name)) {
+            $this->setData("package_name", $this->validatePackageName($package_name))->save();
+        } else {
+            throw new Exception(__("Your package name is invalid, format should looks like com.mydomain.androidid"));
+        }
+
+        return $this;
+    }
+
+    /**
+     * get bundle_id, create default if empty
+     *
+     * @return array|mixed|null|string
+     */
+    public function getBundleId() {
+        $bundle_id = $this->getData("bundle_id");
+        if(empty($bundle_id)) {
+            $bundle_id = $this->buildId("ios");
+            $this->setData("bundle_id", $bundle_id)->save();
         }
 
         return $bundle_id;
+    }
+
+    /**
+     * get package_name, create default if empty
+     *
+     * @return array|mixed|null|string
+     */
+    public function getPackageName() {
+        $package_name = $this->getData("package_name");
+        if(empty($package_name)) {
+            $package_name = $this->buildId("android");
+            $this->setData("package_name", $package_name)->save();
+        }
+
+        return $package_name;
+    }
+
+    /**
+     * Build default id
+     *
+     * @param string $type
+     * @return string
+     * @throws Zend_Uri_Exception
+     */
+    public function buildId($type = "app") {
+        $url = Zend_Uri::factory(parent::getUrl(""))->getHost();
+        $url = array_reverse(explode(".", $url));
+        $url[] = $type.$this->getKey();
+
+        return implode(".", $url);
+    }
+
+    /**
+     * @param $package_name
+     * @return string
+     */
+    public function validatePackageName($package_name) {
+        $parts = explode(".", $package_name);
+        foreach($parts as $i => $part) {
+            if($part == "new") {
+                $parts[$i] = "new_";
+            }
+        }
+
+        return implode(".", $parts);
     }
 
     public function isActive() {

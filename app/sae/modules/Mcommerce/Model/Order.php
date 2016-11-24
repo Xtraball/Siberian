@@ -474,4 +474,97 @@ class Mcommerce_Model_Order extends Core_Model_Default {
         }
     }
 
+    /**
+     * Return total TTC
+     *
+     * @return int
+     */
+    public function getTTC(){
+        return round($this->getTotalExclTax() + $this->getTotalTax() + $this->getDeliveryCost(),2);
+    }
+
+    /**
+     * returns the formatted total before deduction
+     *
+     * @return string
+     */
+    public function getFormattedTotalBeforeDeduction(){
+        return $this->formatPrice($this->getTTC());
+    }
+
+    /**
+     * Returns the the formatted deducted amount
+     *
+     * @return string
+     */
+    public function getFormattedDeduction(){
+        return $this->formatPrice($this->getDeductable());
+    }
+
+    /**
+     * Calculates the deduced amount
+     *
+     * @return float|mixed
+     */
+    public function getDeductable(){
+        return round($this->getTTC() + $this->getTip() - $this->getTotal(),2);
+    }
+
+    public function getDeductedTva() {
+        $cart = new Mcommerce_Model_Cart();
+        $cart->find($this->getCartId());
+
+        return $cart->getDeductedTva();
+    }
+
+    public function getFormattedDeductedTva() {
+        $cart = new Mcommerce_Model_Cart();
+        $cart->find($this->getCartId());
+
+        return $cart->getFormattedDeductedTva();
+    }
+
+    public function getFormattedDiscount() {
+        $cart = new Mcommerce_Model_Cart();
+        $cart->find($this->getCartId());
+        $promo = Mcommerce_Model_Promo::getApplicablePromo($cart);
+
+        return $promo->formatPrice($promo->getDeduction($cart));
+    }
+
+    public function getDeductedTotalHT() {
+        $cart = new Mcommerce_Model_Cart();
+        $cart->find($this->getCartId());
+
+        return $cart->getDeductedTotalHT();
+    }
+
+    public function getFormattedDeductedTotalHT() {
+        $cart = new Mcommerce_Model_Cart();
+        $cart->find($this->getCartId());
+
+        return $cart->getFormattedDeductedTotalHT();
+    }
+
+    public function getFormattedSubtotal() {
+        $cart = new Mcommerce_Model_Cart();
+        $cart->find($this->getCartId());
+
+        return $cart->getFormattedSubtotal();
+    }
+
+    public function getDeliveryTTC() {
+        $cart = new Mcommerce_Model_Cart();
+        $cart->find($this->getCartId());
+
+        return $cart->getDeliveryTTC();
+    }
+
+    public function getFormattedDeliveryTTC() {
+        $cart = new Mcommerce_Model_Cart();
+        $cart->find($this->getCartId());
+
+        return $cart->getFormattedDeliveryTTC();
+    }
+
 }

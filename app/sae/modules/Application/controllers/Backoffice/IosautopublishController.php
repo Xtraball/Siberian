@@ -7,30 +7,22 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
         if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
             try {
                 if(empty($data["app_id"])) {
-                    throw new Exception($this->_("An error occurred while saving. Please try again later."));
+                    throw new Exception(__("An error occurred while saving. Please try again later."));
                 }
-
-                $selectedLanguages = array_filter($data['infos']["languages"],function($val){
-                    return $val == 1;
-                });
 
                 if(strlen($data['infos']["itunes_login"]) == 0 || strlen($data['infos']["itunes_password"]) == 0) {
-                    throw new Exception($this->_("Please fill iTunes Connect Credentials."));
+                    throw new Exception(__("Please fill iTunes Connect Credentials."));
                 }
 
-                if(count($selectedLanguages) === 0) {
-                    throw new Exception($this->_("Please select at least one language."));
-                }
-
-                if(count($selectedLanguages) > 1) {
-                    throw new Exception($this->_("Currently only one language can be selected."));
+                if(empty($data['infos']["languages"])) {
+                    throw new Exception(__("Please select at least one language."));
                 }
 
                 $application = new Application_Model_Application();
                 $application->find($data["app_id"]);
 
                 if(!$application->getId()) {
-                    throw new Exception($this->_("An error occurred while saving. Please try again later."));
+                    throw new Exception(__("An error occurred while saving. Please try again later."));
                 }
 
                 $appIosAutopublish = new Application_Model_IosAutopublish();
@@ -45,7 +37,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                     ->setHasAds($data['infos']["has_ads"])
                     ->setHasBgLocate($data['infos']["has_bg_locate"])
                     ->setHasAudio($data['infos']["has_audio"])
-                    ->setLanguages(Zend_Json::encode($data['infos']["languages"]));
+                    ->setLanguages(Zend_Json::encode(array($data['infos']["languages"] => true)));
 
                 if(!$appIosAutopublish->getToken()) {
                     $appIosAutopublish->setToken(md5(
@@ -61,7 +53,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
 
                 $data = array(
                     "success"   => 1,
-                    "message"   => $this->_("Info successfully saved")
+                    "message"   => __("Info successfully saved")
                 );
 
             } catch(Exception $e) {
@@ -80,14 +72,14 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
         if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
             try {
                 if(empty($data["app_id"]) ) {
-                    throw new Exception($this->_("An error occurred while generating. Please try again later."));
+                    throw new Exception(__("An error occurred while generating. Please try again later."));
                 }
 
                 $application = new Application_Model_Application();
                 $application->find($data["app_id"]);
 
                 if(!$application->getId()) {
-                    throw new Exception($this->_("An error occurred while generating. Please try again later."));
+                    throw new Exception(__("An error occurred while generating. Please try again later."));
                 }
 
                 $appIosAutopublish = new Application_Model_IosAutopublish();
@@ -114,7 +106,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
 
                 $data = array(
                     "success"   => 1,
-                    "message"   => $this->_("Generation successfully queued."),
+                    "message"   => __("Generation successfully queued."),
                     "more" => $more,
                 );
 
@@ -262,7 +254,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
             $data = array(
                 "success" => 1,
                 "pem_infos" => Push_Model_Certificate::getInfos($appId),
-                "message" => $this->_("The file has been successfully uploaded")
+                "message" => __("The file has been successfully uploaded")
             );
 
         } else {

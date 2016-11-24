@@ -266,6 +266,9 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
             $total += $line->getPriceInclTax() * $line->getQty();
         }
 
+        //setting it to use getFormatted magic call
+        $this->setSubtotalInclTax($total);
+
         return $total;
     }
 
@@ -375,8 +378,69 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
      * @return Mcommerce_Model_Cart
      */
     public function _compute() {
+        //note : subtotal_ is with delivery // $toal is with delivery
+        list($subtotal_excl_tax, $delivery_cost_excl_tax, $total_tax) = $this->getTotalsFromLines();
+        $tip = floatval($this->getTip());
+        $total_excl_tax = $subtotal_excl_tax + $delivery_cost_excl_tax;
+        $total = $total_excl_tax + $total_tax + $tip;
 
-        $total_excl_tax = 0;
+        $this->setSubtotalExclTax($subtotal_excl_tax)
+            ->setTotalExclTax($total_excl_tax)
+            ->setTotalTax($total_tax)
+            ->setTotal($total);
+
+        return $this;
+    }
+
+    /**
+     * Returns the corresponding mcommerce object
+     *
+     * @return Mcommerce_Model_Mcommerce
+     */
+    public function getMcommerce() {
+        $mcommerce = new Mcommerce_Model_Mcommerce();
+        $mcommerce->find(array("mcommerce_id" => $this->getMcommerceId()));
+        return $mcommerce;
+    }
+
+    /**
+     * Given a customer address, find the customer coordinates (used to set the `longitude` and `latitude` properties of the cart).
+     * These coordinates are impportant as they are needed in the delivery.
+     * The address consists of an array like: array('street' => ..., 'postcode' => ..., 'city' => ...)
+     *
+     * @param $address_parts
+     * @return $this
+     */
+    public function setLocation($address_components) {
+        if (!empty($address_components['street']) AND !empty($address_components['postcode']) AND !empty($address_components['city'])) {
+            $address = join(', ', array(
+                $address_components['street'],
+                $address_components['postcode'],
+                $address_components['city']
+            ));
+
+            $address = str_replace(' ', '+', $address);
+            $url = "https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=$address";
+            if ($results = @file_get_contents($url) AND $results = @json_decode($results)) {
+                if (!empty($results->results[0]->geometry->location)) {
+                    $cordinates = $results->results[0]->geometry->location;
+                    if (!empty($cordinates->lat) && !empty($cordinates->lng)) {
+                        $this->setCustomerLatitude($cordinates->lat);
+                        $this->setCustomerLongitude($cordinates->lng);
+                    }
+                }
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Calcule le total hors tax, cout de livraison, et le total des taxes
+     *
+     * @return array
+     */
+    public function getTotalsFromLines(){
+        $subtotal_excl_tax = 0;
         $total_tax = 0;
         $delivery_cost = 0;
         $delivery_cost_excl_tax = 0;
@@ -385,11 +449,11 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
 
         foreach($this->getLines() as $line) {
             /** @wip #1688 */
-            $total_excl_tax += $line->getTotal();
+            $subtotal_excl_tax += $line->getTotal();
             $total_tax += $line->getTotalInclTax() - $line->getTotal();
         }
 
-        $total_incl_tax = $total_excl_tax + $total_tax;
+        $total_incl_tax = $subtotal_excl_tax + $total_tax;
 
         if($this->getDeliveryMethodId()) {
             $delivery_method = $this->getStore()->getDeliveryMethod($this->getDeliveryMethodId());
@@ -411,46 +475,45 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
 
             $total_tax += $delivery_tax;
         }
-
-        $this->setSubtotalExclTax($total_excl_tax)
-            ->setTotalExclTax($total_excl_tax + $delivery_cost_excl_tax)
-            ->setTotalTax($total_tax)
-            ->setTotal($total_excl_tax + $delivery_cost_excl_tax + $total_tax)
-        ;
-
-        return $this;
-
+        return array($subtotal_excl_tax, $delivery_cost_excl_tax, $total_tax);
     }
 
-    /**
-     * Given a customer address, find the customer coordinates (used to set the `longitude` and `latitude` properties of the cart).
-     * These coordinates are impportant as they are needed in the delivery.
-     * The address consists of an array like: array('street' => ..., 'postcode' => ..., 'city' => ...)
-     *
-     * @param $address_parts
-     * @return $this
-     */
-    public function setLocation($address_components) {
-        if (!empty($address_components['street']) AND !empty($address_components['postcode']) AND !empty($address_components['city'])) {
-            $address = join(', ', array(
-                $address_components['street'],
-                $address_components['postcode'],
-                $address_components['city']
-            ));
+    public function getDeductedTva() {
+        if($this->getDiscountCode()) {
+            $promo = new Mcommerce_Model_Promo();
+            $promo->find($this->getDiscountCode(),"code");
 
-            $address = str_replace(' ', '+', $address);
-            $url = "http://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=$address";
-            if ($results = @file_get_contents($url) AND $results = @json_decode($results)) {
-                if (!empty($results->results[0]->geometry->location)) {
-                    $cordinates = $results->results[0]->geometry->location;
-                    if (!empty($cordinates->lat) && !empty($cordinates->lng)) {
-                        $this->setCustomerLatitude($cordinates->lat);
-                        $this->setCustomerLongitude($cordinates->lng);
-                    }
-                }
-            }
+            $ttc = array_sum($this->getTotalsFromLines());
+            $reductedttc = round($ttc - $promo->getDeduction($this),2);
+            $ratio = round(1 - ($reductedttc/$ttc),2);
+            return round($this->getTotalTax() - $this->getTotalTax() * $ratio,2);
+        } else {
+            return $this->getTotalTax();
         }
-        return $this;
+    }
+
+    public function getFormattedDeductedTva() {
+        return $this->formatPrice($this->getDeductedTva());
+    }
+
+    public function getDeductedTotalHT() {
+        return $this->getTotal() - $this->getTip() -$this->getDeductedTva();
+    }
+
+    public function getFormattedDeductedTotalHT() {
+        return $this->formatPrice($this->getDeductedTotalHT());
+    }
+
+    public function getFormattedSubtotal() {
+        return $this->formatPrice($this->getSubtotalInclTax() + $this->getDeliveryTTC());
+    }
+
+    public function getDeliveryTTC() {
+        return $this->getDeliveryCost() * (1 + $this->getDeliveryTaxRate()/100);
+    }
+
+    public function getFormattedDeliveryTTC() {
+        return $this->formatPrice($this->getDeliveryTTC());
     }
 
 }

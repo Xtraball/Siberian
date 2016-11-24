@@ -256,16 +256,38 @@ if(isset($customer) && !empty($customer)) {
             <table class="no-collapse" width="100%" cellspacing="10">
                 <tr class="cart_totals">
                    <th class="a-left f-bold"><?php echo $this->_('Subtotal'); ?></th>
-                   <td class="a-right"><?php echo $order->getFormattedTotalExclTax(); ?></td>
+                   <td class="a-right"><?php echo $order->getFormattedSubtotal(); ?></td>
                </tr>
+                <?php if($order->getDeliveryCost() > 0) { ?>
+               <tr>
+                    <th class="a-left f-bold"><?php echo $this->_('Incl.'); ?> <?php echo $this->_('Delivery Fees'); ?></th>
+                    <td class="a-right"><?php echo $order->getFormattedDeliveryTTC(); ?></td>
+                </tr>
+                <?php } ?>
+                <?php if($order->getDiscountCode()) { ?>
+                    <tr class="cart_totals">
+                        <th class="a-left f-bold"><?php echo $this->_('Code Used'); ?></th>
+                        <td class="a-right"><?php echo $order->getDiscountCode(); ?></td>
+                    </tr>
+                    <tr class="cart_totals">
+                        <th class="a-left f-bold"><?php echo $this->_('Deduction'); ?></th>
+                        <td class="a-right"><?php echo $order->getFormattedDiscount(); ?></td>
+                    </tr>
+                <?php } ?>
+                <tr class="cart_totals">
+                    <th class="a-left f-bold"><?php echo $this->_('Subtotal Excl. Tax'); ?></th>
+                    <td class="a-right"><?php echo $order->getFormattedDeductedTotalHT(); ?></td>
+                </tr>
                <tr class="cart_totals">
                    <th class="a-left f-bold"><?php echo $this->_('Tax'); ?></th>
-                   <td class="a-right"><?php echo $order->getFormattedTotalTax(); ?></td>
+                   <td class="a-right"><?php echo $order->getFormattedDeductedTva(); ?></td>
                </tr>
-               <tr>
-                    <th class="a-left f-bold"><?php echo $order->getDeliveryMethod(); ?></th>
-                    <td class="a-right"><?php echo $order->getFormattedDeliveryCost(); ?></td>
-                </tr>
+                <?php if ($mcommerce->getAddTip() || $order->getTip()) { ?>
+                    <tr class="cart_totals">
+                        <th class="a-left f-bold"><?php echo $this->_('Gratuity'); ?></th>
+                        <td class="a-right"><?php echo $order->getFormattedTip(); ?></td>
+                    </tr>
+                <?php } ?>
                <tr class="cart_totals">
                    <th class="a-left f-bold"><?php echo $this->_('Total'); ?></th>
                    <td class="a-right"><?php echo $order->getFormattedTotal(); ?></td>

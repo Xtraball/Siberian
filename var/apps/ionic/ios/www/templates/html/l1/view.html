@@ -28,7 +28,7 @@
             <div class="item item-image item-custom" ng-if="item.picture">
                 <img ng-src="{{ item.picture }}" width="100%" />
             </div>
-            <div class="item item-text-wrap item-custom" ng-bind-html="item.message" ng-if="item.message" sb-a-click></div>
+            <div class="item item-text-wrap item-custom" ng-bind-html="item.message | trusted_html" ng-if="item.message" sb-a-click></div>
 
             <div class="item item-text-wrap item-icon-left item-custom" ng-click="comment()" ng-if="is_logged_in">
                 <i class="icon ion-android-textsms"></i>

@@ -370,6 +370,11 @@ div#progressbar { display:block; background: #12A7FF; border-color: #12A7FF; box
     -moz-border-radius: 0;
     border-radius: 0;
 }
+
+div#layout_conteneur #layouts img:not(.checked) {
+    height: 100px;
+    width: 66px;
+}
 /** /LAYOUTS **/
 
 /** CUSTOMIZATION SIDEBAR **/

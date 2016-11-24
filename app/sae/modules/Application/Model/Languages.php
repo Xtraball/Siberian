@@ -3,21 +3,40 @@
 class Application_Model_Languages {
 
     private static $_supportedLanguages = array(
-        "da" => "Danish", 
-        "de" => "German", 
-        "en-UK" => "English (UK)", 
-        "en-US" => "English (US)", 
-        "es-ES" => "Spainish",
-        "fi" => "Finnish", 
-        "fr-FR" => "French", 
-        "it" => "Italian", 
-        "pt-BR" => "Portugese (BR)", 
-        "pt-PT" => "Portugese (PT)", 
-        "sv" => "Swedish", 
-        "zh" => "Chinese", 
+        "pt-PT" => "Brazilian Portugese",
+        "da" => "Danish",
+        "nl" => "Dutch",
+        "en-US" => "English",
+        "en-AU" => "English_Australian",
+        "en-CA" => "English_CA",
+        "en-UK" => "English_UK",
+        "de" => "German",
+        "el" => "Greek",
+        "fi" => "Finnish",
+        "fr-FR" => "French",
+        "fr-CA" => "French_CA",
+        "id" => "Indonesian",
+        "it" => "Italian",
+        "ja" => "Japanese",
+        "ko" => "Korean",
+        "ma" => "Malay",
+        "es-ES" => "Spanish",
+        "es-MX" => "Spanish_MX",
+        "pt-BR" => "Portugese",
+        "ru" => "Russian",
+        "sv" => "Swedish",
+        "th" => "Thai",
+        "tr" => "Turkish",
+        "vi" => "Vietnamese",
+        "zh-Hans" => "Simplified Chinese",
+        "zh-Hant" => "Traditional Chinese",
     );
 
     public static function getSupportedLanguages() {
         return self::$_supportedLanguages;
+    }
+
+    public static function getLabelFromCodeIso($iso) {
+        return self::$_supportedLanguages[$iso];
     }
 }

@@ -58,12 +58,15 @@ class Backoffice_Advanced_CronController extends Backoffice_Controller_Default {
             }
         }
 
+        $base = Core_Model_Directory::getBasePathTo("");
+
         foreach($apk_queue as $apk) {
             $_data = $apk->getData();
 
             $_data["created_at"] = ("0000-00-00 00:00:00" != $_data["created_at"]) ? Siberian_Date::format($_data["created_at"], Zend_Date::DATETIME_MEDIUM) : __("never");
             $_data["updated_at"] = ("0000-00-00 00:00:00" != $_data["updated_at"]) ? Siberian_Date::format($_data["updated_at"], Zend_Date::DATETIME_MEDIUM) : __("never");
             $_data["status"] = __($_data["status"]);
+            $_data["path"] = (!empty($_data["path"])) ? "/".str_replace($base, "", $_data["path"]) : false;
             $_data["show_info"] = false;
 
             $data["apk_queue"][] = $_data;
@@ -75,6 +78,7 @@ class Backoffice_Advanced_CronController extends Backoffice_Controller_Default {
             $_data["created_at"] = ("0000-00-00 00:00:00" != $_data["created_at"]) ? Siberian_Date::format($_data["created_at"], Zend_Date::DATETIME_MEDIUM) : __("never");
             $_data["updated_at"] = ("0000-00-00 00:00:00" != $_data["updated_at"]) ? Siberian_Date::format($_data["updated_at"], Zend_Date::DATETIME_MEDIUM) : __("never");
             $_data["status"] = __($_data["status"]);
+            $_data["path"] = (!empty($_data["path"])) ? "/".str_replace($base, "", $_data["path"]) : false;
             $_data["show_info"] = false;
 
             $data["source_queue"][] = $_data;

@@ -27,8 +27,8 @@ class Application_View_Customization_Features_Edit_Tabbareditor extends Applicat
 
     protected function _calcIconSize() {
 
-        $width = 150;
-        $height = 150;
+        $width = 512;
+        $height = 512;
         $application = $this->getApplication();
         $current_option = $this->getOptionValue();
 
@@ -56,6 +56,32 @@ class Application_View_Customization_Features_Edit_Tabbareditor extends Applicat
                 $height = 206;
             }
 
+        }
+
+        $layout_model = new Application_Model_Layout_Homepage();
+        $layout = $layout_model->find($application->getLayoutId());
+        if(!$current_option->getFolderCategoryId() && Siberian_Feature::getRatioCallback($layout->getCode())) {
+            $callback = Siberian_Feature::getRatioCallback($layout->getCode());
+
+            $actual_position = 0;
+            $options = $application->getPages();
+
+            foreach($options as $option) {
+                if(!$option->isActive()) continue;
+                if($option->getValueId() == $current_option->getValueId()) {
+                    break;
+                }
+                $actual_position++;
+            }
+
+            $sizes = call_user_func_array($callback, array($actual_position));
+
+            if(isset($sizes["width"])) {
+                $width = $sizes["width"];
+            }
+            if(isset($sizes["height"])) {
+                $height = $sizes["height"];
+            }
         }
 
         $this->_icon_width = $width;

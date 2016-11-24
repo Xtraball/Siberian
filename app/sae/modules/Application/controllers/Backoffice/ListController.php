@@ -37,6 +37,7 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
                 "can_be_published" => in_array($application->getId(), $app_ids),
                 "name" => mb_convert_encoding($application->getName(), 'UTF-8', 'UTF-8'),
                 "bundle_id" => $application->getBundleId(),
+                "package_name" => $application->getPackageName(),
                 "icon" => $application->getIcon(128)
             );
         }

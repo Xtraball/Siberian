@@ -46,6 +46,10 @@ $schemas['application_layout_homepage'] = array(
         'type' => 'tinyint(1)',
         'default' => '0',
     ),
+    'use_subtitle' => array(
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ),
     'number_of_displayed_icons' => array(
         'type' => 'tinyint(2)',
         'is_null' => true,

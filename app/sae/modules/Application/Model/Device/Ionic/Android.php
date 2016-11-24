@@ -52,7 +52,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
 
         $this->_application = $this->getApplication();
 
-        $this->_package_name = $this->_application->getBundleId();
+        $this->_package_name = $this->_application->getPackageName();
         $this->_application_id = Core_Model_Lib_String::format($this->_application->getName()."_".$this->_application->getId(), true);
         $this->_application_name = $this->_application->getName();
 
@@ -105,7 +105,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
         $this->_dest_archive = Core_Model_Directory::getBasePathTo(self::ARCHIVE_FOLDER);
 
         /** Vars */
-        $this->_zipname = $this->getDevice()->getAlias().'_android_source';
+        $this->_zipname = sprintf("%s_%s_%s", $this->getDevice()->getAlias(), $this->_application->getId(), "android_source");
     }
 
     /** @STEP ok */

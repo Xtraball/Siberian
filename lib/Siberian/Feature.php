@@ -9,8 +9,9 @@
  *
  */
 
-class Siberian_Feature
-{
+class Siberian_Feature {
+
+    public static $custom_ratios = array();
 
     /**
      * Utility method to install icons
@@ -314,6 +315,28 @@ class Siberian_Feature
         $array = array_map('array_filter', $array);
 
         return $array;
+    }
+
+    /**
+     * @param $layout_code
+     * @param $callback
+     */
+    public static function registerRatioCallback($layout_code, $callback) {
+        if(!isset(self::$custom_ratios[$layout_code])) {
+            self::$custom_ratios[$layout_code] = $callback;
+        }
+    }
+
+    /**
+     * @param $layout_code
+     * @return bool|mixed
+     */
+    public static function getRatioCallback($layout_code) {
+        if(isset(self::$custom_ratios[$layout_code])) {
+            return self::$custom_ratios[$layout_code];
+        }
+
+        return false;
     }
 
 }

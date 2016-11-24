@@ -9,10 +9,6 @@
 
     <ion-content sb-background-image>
 
-        <div class="loader" ng-show="is_loading">
-            <ion-spinner class="spinner-custom"></ion-spinner>
-        </div>
-
         <div class="card">
             <div class="item item-text-wrap text-center item-custom">
                 <h2>
@@ -104,7 +100,7 @@
             <div class="item item-divider item-divider-custom">
                 <h2><i class="ion-information-circled"></i> {{ "Description" | translate }}</h2>
             </div>
-            <div class="item item-body item-custom" ng-bind-html="product.description" sb-a-click></div>
+            <div class="item item-body item-custom" ng-bind-html="product.description | trusted_html" sb-a-click></div>
         </div>
     </ion-content>
 </ion-view>

@@ -224,7 +224,7 @@ class Installer_Model_Installer_Module extends Core_Model_Default
         $this->_lastVersion = $package_info["version"];
     }
 
-    protected function _run($file) {
+    public function _run($file) {
 
         try {
             $this->getTable()->install($this->getName(), $file);

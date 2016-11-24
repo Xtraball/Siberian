@@ -52,6 +52,7 @@ class Places_ApplicationController extends Application_Controller_Default {
 
                 $settings->setup($data['search']);
                 $settings->save();
+                Cms_Model_Application_Page::setPlaceOrder($data['option_value_id'], $data['places_order']);
 
                 $html = array(
                     'success' => 1,

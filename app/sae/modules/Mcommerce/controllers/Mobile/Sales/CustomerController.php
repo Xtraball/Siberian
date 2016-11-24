@@ -94,6 +94,31 @@ class Mcommerce_Mobile_Sales_CustomerController extends Mcommerce_Controller_Mob
 
     }
 
+    public function hasguestmodeAction()
+    {
+
+        $html = array();
+
+        try {
+            $option = $this->getCurrentOptionValue();
+            $mcommerce = $option->getObject();
+
+            $html = array(
+                'success' => 1,
+                'activated' =>$mcommerce->getGuestMode()
+            );
+
+        } catch (Exception $e) {
+            $html = array(
+                'error' => 1,
+                'message' => $e->getMessage()
+            );
+        }
+
+        $this->_sendHtml($html);
+
+    }
+
     /**
      * If the request is made from legacy application return "legacy"
      * If the request is made from current application return "current"

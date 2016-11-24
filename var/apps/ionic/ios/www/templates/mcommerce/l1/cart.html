@@ -9,10 +9,6 @@
 
     <ion-content sb-background-image>
 
-        <div class="loader" ng-show="is_loading">
-            <ion-spinner class="spinner-custom"></ion-spinner>
-        </div>
-
         <div class="card" ng-if="cart.lines.length" ng-repeat="line in cart.lines">
             <div class="item item-divider item-divider-custom">
                 <p><strong><i class="icon ion-clipboard"></i> {{ line.name }} - {{ line.formattedBasePriceInclTax }}</strong></p>
@@ -36,25 +32,44 @@
             <div class="item item-divider item-divider-custom">
                 <p><strong><i class="icon ion-calculator"></i> {{ "Total" | translate }}</strong></p>
             </div>
+
+            <div class="item item-custom" ng-if="cart.discount_enabled">
+                {{ "Discount code" | translate }}
+                <span class="item-note">
+                     <input type="text" name="discount_code" ng-model="cart.discount_code" class="discount">
+                 </span>
+            </div>
+
             <div class="item item-custom">
                 {{ "Subtotal" | translate }}
-                <span class="item-note">{{ cart.formattedSubtotalExclTax }}</span>
+                <span class="item-note" ng-if="!is_loading">{{ cart.formattedSubtotalExclTax }}</span>
+                <span class="item-note" ng-if="is_loading"><ion-spinner class="spinner-custom"></ion-spinner></span>
             </div>
             <div class="item item-custom" ng-if="cart.deliveryCost > 0">
                 {{ "Delivery fees" | translate }}
-                <span class="item-note">{{ cart.formattedDeliveryCost }}</span>
+                <span class="item-note" ng-if="!is_loading">{{ cart.formattedDeliveryTTC }}</span>
+                <span class="item-note" ng-if="is_loading"><ion-spinner class="spinner-custom"></ion-spinner></span>
             </div>
             <div class="item item-custom" ng-if="cart.deliveryCost > 0">
                 {{ "Total Excl. Tax" | translate }}
-                <span class="item-note">{{ cart.formattedTotalExclTax }}</span>
+                <span class="item-note" ng-if="!is_loading">{{ cart.formattedTotalExclTax }}</span>
+                <span class="item-note" ng-if="is_loading"><ion-spinner class="spinner-custom"></ion-spinner></span>
             </div>
             <div class="item item-custom">
                 {{ "Tax" | translate }}
-                <span class="item-note">{{ cart.formattedTotalTax }}</span>
+                <span class="item-note" ng-if="!is_loading">{{ cart.formattedTotalTax }}</span>
+                <span class="item-note" ng-if="is_loading"><ion-spinner class="spinner-custom"></ion-spinner></span>
+            </div>
+            <div class="item item-custom" ng-if="cart.add_tip">
+                {{ "Add gratuity (Optional)" | translate }}
+                <span class="item-note">
+                    <input type="number" name="tip" ng-model="cart.tip" class="cart-tip" ng-change="updateTip()">
+                </span>
             </div>
             <div class="item item-custom">
                 {{ "Total" | translate }}
-                <span class="item-note">{{ cart.formattedTotal }}</span>
+                <span class="item-note" ng-if="!is_loading">{{ cart.formattedTotal }}</span>
+                <span class="item-note" ng-if="is_loading"><ion-spinner class="spinner-custom"></ion-spinner></span>
             </div>
         </div>
         <div class="card" ng-if="!cart.lines.length">

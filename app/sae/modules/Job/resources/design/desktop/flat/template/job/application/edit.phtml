@@ -96,18 +96,30 @@ $delete_category_form = new Job_Form_Category_Delete();
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
-            <a href="#configuration" aria-controls="configuration" role="tab" data-toggle="tab"><?php echo __("General") ?></a>
+            <a href="#configuration" aria-controls="configuration" role="tab" data-toggle="tab">
+                <i class="fa fa-sliders"></i>
+                <?php echo __("General") ?>
+            </a>
         </li>
         <li role="presentation">
-            <a href="#companies" aria-controls="companies" role="tab" data-toggle="tab"><?php echo __("Companies") ?></a>
+            <a href="#companies" aria-controls="companies" role="tab" data-toggle="tab">
+                <i class="fa fa-building-o"></i>
+                <?php echo __("Companies") ?>
+            </a>
         </li>
         <?php if($companies->count() > 0): ?>
         <li role="presentation">
-            <a href="#places" aria-controls="places" role="tab" data-toggle="tab"><?php echo __("Positions") ?></a>
+            <a href="#places" aria-controls="places" role="tab" data-toggle="tab">
+                <i class="fa fa-suitcase"></i>
+                <?php echo __("Positions") ?>
+            </a>
         </li>
         <?php endif; ?>
         <li role="presentation">
-            <a href="#categories" aria-controls="categories" role="tab" data-toggle="tab"><?php echo __("Categories") ?></a>
+            <a href="#categories" aria-controls="categories" role="tab" data-toggle="tab">
+                <i class="fa fa-tag"></i>
+                <?php echo __("Categories") ?>
+            </a>
         </li>
     </ul>
 

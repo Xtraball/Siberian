@@ -35,6 +35,12 @@ $schemas['application'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'package_name' => array(
+        'type' => 'varchar(100)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'key' => array(
         'type' => 'varchar(20)',
         'charset' => 'utf8',
@@ -67,6 +73,26 @@ $schemas['application'] = array(
     ),
     'tabbar_more_name' => array(
         'type' => 'varchar(30)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
+    'account_icon_id' => array(
+        'type' => 'int(11)',
+        'is_null' => true,
+    ),
+    'account_subtitle' => array(
+        'type' => 'varchar(512)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
+    'more_icon_id' => array(
+        'type' => 'int(11)',
+        'is_null' => true,
+    ),
+    'more_subtitle' => array(
+        'type' => 'varchar(512)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',

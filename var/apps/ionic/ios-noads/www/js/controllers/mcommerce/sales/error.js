@@ -3,7 +3,8 @@ App.config(function ($stateProvider) {
     $stateProvider.state('mcommerce-sales-error', {
         url: BASE_PATH+"/mcommerce/mobile_sales_error/index/value_id/:value_id",
         controller: 'MCommerceSalesErrorViewController',
-        templateUrl: "templates/mcommerce/l1/sales/error.html"
+        templateUrl: "templates/mcommerce/l1/sales/error.html",
+        cache:false
     });
 
 }).controller('MCommerceSalesErrorViewController', function ($scope, $state, $stateParams, $timeout) {

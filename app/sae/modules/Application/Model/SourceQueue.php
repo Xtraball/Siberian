@@ -145,6 +145,13 @@ class Application_Model_SourceQueue extends Core_Model_Default {
             throw new Exception("Cannot unserialize language data");
         }
 
+        //we keep using ISO-639 for siberian storage but we have to translate ISO code to faslane languages name
+        $fastlane_languages = [];
+        foreach ($languages as $codeIos => $activated) {
+            $fast_label = Application_Model_Languages::getLabelFromCodeIso($codeIos);
+            $fastlane_languages[$fast_label] = $activated;
+        }
+
         $data = array(
             "name" => $app->getName(),
             "bundle_id" => $app->getBundleId(),
@@ -153,7 +160,7 @@ class Application_Model_SourceQueue extends Core_Model_Default {
             "itunes_password" => $appIosAutopublish->getItunesPassword(),
             "has_bg_locate" => $appIosAutopublish->getHasBgLocate(),
             "has_audio" => $appIosAutopublish->getHasAudio(),
-            "languages" => $languages,
+            "languages" => $fastlane_languages,
             "host" => $this->getHost(),
             "license_key" => $license_key,
             "token" => $appIosAutopublish->getToken(),
@@ -278,6 +285,14 @@ class Application_Model_SourceQueue extends Core_Model_Default {
         );
 
         return $results;
+    }
+
+    /**
+     * Clear old pathts when clearing tmp cache in backoffice
+     */
+    public static function clearPaths() {
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $db->query("UPDATE source_queue SET path = '' WHERE status != 'building';");
     }
     
 }

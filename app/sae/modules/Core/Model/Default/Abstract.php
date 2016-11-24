@@ -696,4 +696,8 @@ abstract class Core_Model_Default_Abstract
         return $new_path;
     }
 
+    public function copyTo($option, $parent_id = null) {
+        return $this;
+    }
+
 }

@@ -1,7 +1,19 @@
 <?php
 $option = $this->getOptionValue();
 
-$available_icons = array($option->getLibrary()->getIcons());
+if($option->getValueId() == "customer_account") {
+    $library = new Media_Model_Library();
+    $library->find("customer_account", "name");
+
+} elseif($option->getValueId() == "more_items") {
+    $library = new Media_Model_Library();
+    $library->find("more_items", "name");
+
+} else {
+    $library = $option->getLibrary();
+}
+
+$available_icons = array($library->getIcons());
 
 if($option->getCode() == 'folder') {
     $a_option = new Application_Model_Option();
@@ -18,171 +30,73 @@ if($option->getCode() == 'folder') {
 $library = new Media_Model_Library();
 $all_icons = $library->getAllFeatureIcons();
 
+$layout_id = $this->getApplication()->getLayoutId();
+$layout_model = new Application_Model_Layout_Homepage();
+$layout = $layout_model->find($layout_id);
+$use_subtitle = ($layout->getUseSubtitle());
+
 # Exporter
 $can_export = Siberian_Exporter::isRegistered($option->getCode()) && (APPLICATION_ENV != "production");
+$can_clearcache = Siberian_Cache::isRegistered($option->getCode()) && (APPLICATION_ENV != "production");
 
 
 ?>
 
 <script type="text/javascript">
     var tmp_directory = "<?php echo Core_Model_Directory::getTmpDirectory() ?>";
+    var datepicker_regional = "<?php Core_Model_Language::getCurrentLanguageDatepicker() ?>";
 </script>
 
 <div class="content_editor">
     <h3 class="title-editor border-blue">
         <?php echo __("Feature settings"); ?>
-        <?php if($can_export): ?>
-        <button class="color-blue bt-header-right btn import-feature pull-right export-button export-button-fix">
-            <a href="<?php echo $this->getUrl("{$option->getDesktopUri()}export", array("value_id" => $option->getId())); ?>">
-                <?php echo __("Export") ?>
-            </a>
-        </button>
-        <?php endif; ?>
-    </h3>
-    <div id="icon_and_name" class="row icon_and_name container-fluid feature-section-bottom first-row-feature">
-        <div class="col-md-3 col-xs-3 col-icon-button">
-            <button type="button" id="change_icon" class="add color-blue btn<?php if(!$option->getLibrary()->getId()) : ?> no_library<?php endif; ?>" data-image="330" data-style="area" data-color="color">
-                <img id="current_icon" src="<?php echo $this->getIconUrl($option); ?>" width="auto" height="40" data-image="<?php echo $option->getIconId(); ?>" data-style="color-blue" data-color="color" />
-                <?php if($option->getLibrary()->getId()) : ?>
+
+            <div class="action-buttons">
+                <?php if($can_export): ?>
+                    <button class="color-blue bt-header-right btn import-feature pull-right action-button">
+                        <a href="<?php echo $this->getUrl("{$option->getDesktopUri()}export", array("value_id" => $option->getId())); ?>">
+                            <?php echo __("Export") ?>
+                        </a>
+                    </button>
                 <?php endif; ?>
-            </button>
-        </div>
-        <div class="tabbar_name col-md-9 col-xs-9">
-            <div class="form-group">
-                <div class="col-md-5 col-xs-5">
-                    <label for="tabbar_name"><?php echo $this->_('Page name:'); ?></label>
-                </div>
-                <?php if(is_numeric($option->getId())) : ?>
-                <div class="col-md-3 col-xs-3 text-center">
-                    <label><?php echo $this->_("Activated"); ?></label>
-                </div>
-                <div class="col-md-4 col-xs-4 text-center">
-                    <?php if($option->getSocialSharingIsAvailable() == 1) : ?>
-                    <label><?php echo $this->_("Social Sharing"); ?></label>
-                    <?php endif; ?>
-                </div>
+                <?php if($can_clearcache): ?>
+                    <button class="color-blue bt-header-right btn import-feature pull-right action-button">
+                        <a class="clearcache" href="<?php echo $this->getUrl("{$option->getDesktopUri()}clearcache", array("value_id" => $option->getId())); ?>">
+                            <?php echo __("Clear cache") ?>
+                        </a>
+                    </button>
                 <?php endif; ?>
             </div>
-            <div class="form-group">
-                <div class="col-md-5 col-xs-5">
+
+    </h3>
+    <div id="icon_and_name" class="row icon_and_name container-fluid feature-section-bottom first-row-feature">
+        <div>
+            <div class="col-md-3 col-xs-3 col-icon-button">
+                <button type="button" id="change_icon" class="add color-blue btn" data-image="330" data-style="area" data-color="color">
+                    <img id="current_icon" src="<?php echo $this->getIconUrl($option); ?>" width="auto" height="40" data-image="<?php echo $option->getIconId(); ?>" data-style="color-blue" data-color="color" />
+                </button>
+            </div>
+
+            <div class="col-md-9 col-xs-9 col-icon-button">
+                <div class="form-group <?php echo ($use_subtitle) ? "col-md-3 col-xs-3" : "col-md-6 col-xs-6" ?>">
+                    <label for="tabbar_name"><?php echo __('Page name:'); ?></label>
+                    <br />
                     <input type="text" id="tabbar_name" class="input-flat" name="tabbar_name" value="<?php echo $option->getTabbarName(); ?>" />
-<!--                    <img width="24" src="--><?php //echo $this->getImage('customization/ajax/spinner.gif'); ?><!--" id="loader_tabbar_name" alt="Loading" title="Loading" class="loader">-->
                     <input type="hidden" id="tabbar_name_id" name="option_value_id" value="<?php echo $option->getId() ?>" />
                 </div>
+
+                <?php if($use_subtitle): ?>
+                <div class="form-group col-md-3 col-xs-3">
+                    <label for="tabbar_subtitle"><?php echo __('Subtitle:'); ?></label>
+                    <br />
+                    <input type="text" id="tabbar_subtitle" class="input-flat" name="tabbar_subtitle" value="<?php echo $option->getTabbarSubtitle(); ?>" />
+                    <input type="hidden" id="tabbar_subtitle_id" name="option_value_id" value="<?php echo $option->getId() ?>" />
+                </div>
+                <?php endif; ?>
+
                 <?php if(is_numeric($option->getId())) : ?>
-                <div class="col-md-3 col-xs-3">
-                    <?php if($option->getLibrary()->getId()) : ?>
-                        <div id="icon_library_manager" class="custom_modal icon_library_manager" style="display:none;">
-                            <div id="modal_mask_icon_library_manager" class="modal_mask close_modal close_modal_icon_library_manager"></div>
-                            <div>
-                                <div id="icon_library" class="modal_content inner_content">
-                                    <span class="pull-right" style="margin-right: 8px;">
-                                        <button class="bt_close_modal_icons close_modal_icon_library_manager" type="button">
-                                            <i class="fa fa-times"></i>
-                                        </button>
-                                    </span>
-                                    <h3 class="title-editor border-blue no-border-radius">
-                                        <?php echo $this->_('Manage icons'); ?>
-                                    </h3>
-                                    <div class="details">
-                                        <div class="container-fluid content-white-bkg">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <h3 class="subtitle">
-                                                        <span>
-                                                            <?php echo $this->_('Feature icons') ?>
-                                                            <!--[if gte IE 10]><!-->
-                                                            <div id="new_icon">
-                                                                <a href="javascript:void(0)" class="upload_icon icon" rel="<?php echo $option->getId(); ?>" >
-                                                                    <button class="add color-blue" type="button">
-                                                                        <?php echo $this->_('Add a new icon') ?>
-                                                                    </button>
-                                                                </a>
-                                                                <!--<![endif]-->
-                                                                <span id="input_upload_custom_icon_message" style="display:none"><?php echo $this->_('Add a new icon') ?></span>
-                                                                <input id="input_upload_custom_icon" class="uploader" style="display:none" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
-                                                            </div>
-                                                        </span>
-                                                    </h3>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <ul class="icons_list">
-                                                        <?php $icon_ids = array(); ?>
-                                                        <?php foreach($available_icons as $lib_icon) : ?>
-                                                            <?php foreach($lib_icon as $icon) : ?>
-                                                                <?php if($icon->getUrl() AND (!$icon->getAppId() OR $icon->getAppId() == $this->getApplication()->getId()) AND !in_array($icon->getId(), $icon_ids)) : ?>
-                                                                    <li rel="<?php echo $option->getId(); ?>" class="color-blue">
-                                                                        <a href="<?php echo $this->getUrl('application/customization_features/seticon'); ?>" class="left icon" rel="<?php echo $option->getId(); ?>" >
-                                                                            <button class="select_icon" type="button">
-                                                                                <img src="<?php echo $icon->getUrl(); ?>" width="auto" height="65" class="colorize" />
-                                                                            </button>
-                                                                            <input type="hidden" name="option_value_id" value="<?php echo $option->getValueId(); ?>" />
-                                                                            <input type="hidden" name="icon_id" value="<?php echo $icon->getId(); ?>" />
-                                                                        </a>
-                                                                        <?php if($icon->getAppId()) : ?>
-                                                                            <a href="<?php echo $this->getUrl('application/customization_features/deleteicon'); ?>" class="delete_icon">
-                                                                                <i class="fa fa-times"></i>
-                                                                                <input type="hidden" name="option_value_id" value="<?php echo $option->getValueId(); ?>" />
-                                                                                <input type="hidden" name="icon_id" value="<?php echo $icon->getId(); ?>" />
-                                                                            </a>
-                                                                        <?php endif; ?>
-
-                                                                    </li>
-                                                                    <?php $icon_ids[] = $icon->getId() ?>
-                                                                <?php endif; ?>
-                                                            <?php endforeach; ?>
-                                                        <?php endforeach; ?>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <h3 class="subtitle">
-                                                        <span><?php echo $this->_('Library icons') ?></span>
-                                                    </h3>
-                                                    <div class="form-group filter-icons">
-                                                        <input type="text" class="input-flat" style="width: 200px;" placeholder="<?php echo __("Search by keywords ...") ?>" />
-                                                        <button type="reset" class="btn color-blue"><?php echo __("Reset") ?></button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <ul class="icons_list filter_list">
-                                                        <?php $all_icon_ids = array(); ?>
-                                                        <?php foreach($all_icons as $icon) : ?>
-                                                            <?php if($icon->getUrl() AND !in_array($icon->getId(), $all_icon_ids)) : ?>
-                                                                <li data-filter="<?php echo $icon->getLink() ?>" rel="<?php echo $option->getId(); ?>" class="<?php echo ($icon->getCanBeColorized()==0) ? "colorizable" : "color-blue"; ?>">
-                                                                    <a href="<?php echo $this->getUrl('application/customization_features/seticon'); ?>" class="left icon" rel="<?php echo $option->getId(); ?>" >
-                                                                        <button class="select_icon" type="button">
-                                                                            <img src="<?php echo $icon->getUrl(); ?>" width="auto" height="65" class="colorize" />
-                                                                        </button>
-                                                                        <input type="hidden" name="option_value_id" value="<?php echo $option->getValueId(); ?>" />
-                                                                        <input type="hidden" name="icon_id" value="<?php echo $icon->getId(); ?>" />
-                                                                    </a>
-                                                                    <?php if($icon->getAppId()) : ?>
-                                                                        <a href="<?php echo $this->getUrl('application/customization_features/deleteicon'); ?>" class="delete_icon">
-                                                                            <i class="fa fa-times"></i>
-                                                                            <input type="hidden" name="option_value_id" value="<?php echo $option->getValueId(); ?>" />
-                                                                            <input type="hidden" name="icon_id" value="<?php echo $icon->getId(); ?>" />
-                                                                        </a>
-                                                                    <?php endif; ?>
-
-                                                                </li>
-                                                                <?php $all_icon_ids[] = $icon->getId() ?>
-                                                            <?php endif; ?>
-                                                        <?php endforeach; ?>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endif; ?>
+                <div class="col-md-3 col-xs-3 text-center">
+                    <label><?php echo __("Activated"); ?></label>
                     <div id="toggle_feature_is_activated">
                         <div style="width:100%;padding-top:4px">
                             <input class='sb-tgl sb-tgl-flat feature_is_activated' id='chk_activate' type='checkbox' <?php if($option->isActive()) echo 'checked="checked"'; ?>>
@@ -192,23 +106,140 @@ $can_export = Siberian_Exporter::isRegistered($option->getCode()) && (APPLICATIO
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-xs-4 text-center">
+                <div class="col-md-3 col-xs-3 text-center">
                     <?php if($option->getSocialSharingIsAvailable() == 1) : ?>
-                    <div id="toggle_social_sharing_is_activated">
-                        <div style="width:100%;padding-top:4px">
-                            <input class='sb-tgl sb-tgl-flat social_sharing_is_activated' id='chk_activate_social_sharing' type='checkbox' <?php if($option->getSocialSharingIsActive()) echo 'checked="checked"'; ?>>
-                            <label class='sb-tgl-btn color-blue' for='chk_activate_social_sharing' ></label>
-                            <input type="hidden" id="is_social_sharing_active" name="is_social_sharing_active" value="" />
-                            <input type="hidden" name="value_id" value="<?php echo $option->getId(); ?>" />
+                        <label><?php echo __("Social Sharing"); ?></label>
+                        <div id="toggle_social_sharing_is_activated">
+                            <div style="width:100%;padding-top:4px">
+                                <input class='sb-tgl sb-tgl-flat social_sharing_is_activated' id='chk_activate_social_sharing' type='checkbox' <?php if($option->getSocialSharingIsActive()) echo 'checked="checked"'; ?>>
+                                <label class='sb-tgl-btn color-blue' for='chk_activate_social_sharing' ></label>
+                                <input type="hidden" id="is_social_sharing_active" name="is_social_sharing_active" value="" />
+                                <input type="hidden" name="value_id" value="<?php echo $option->getId(); ?>" />
+                            </div>
                         </div>
-                    </div>
                     <?php endif; ?>
                 </div>
                 <?php endif; ?>
+
             </div>
-            
+
         </div>
     </div>
+
+
+    <!-- Icons modal -->
+    <div id="icon_library_manager" class="custom_modal icon_library_manager" style="display:none;">
+        <div id="modal_mask_icon_library_manager" class="modal_mask close_modal close_modal_icon_library_manager"></div>
+        <div>
+            <div id="icon_library" class="modal_content inner_content">
+                <span class="pull-right" style="margin-right: 8px;">
+                    <button class="bt_close_modal_icons close_modal_icon_library_manager" type="button">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </span>
+                <h3 class="title-editor border-blue no-border-radius">
+                    <?php echo __('Manage icons'); ?>
+                </h3>
+                <div class="details">
+                    <div class="container-fluid content-white-bkg">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3 class="subtitle">
+                                    <span>
+                                        <?php echo __('Feature icons') ?>
+                                        <!--[if gte IE 10]><!-->
+                                        <div id="new_icon">
+                                            <a href="javascript:void(0)" class="upload_icon icon" rel="<?php echo $option->getId(); ?>" >
+                                                <button class="add color-blue" type="button">
+                                                    <?php echo __('Add a new icon') ?>
+                                                </button>
+                                            </a>
+                                            <!--<![endif]-->
+                                            <span id="input_upload_custom_icon_message" style="display:none"><?php echo __('Add a new icon') ?></span>
+                                            <input id="input_upload_custom_icon" class="uploader" style="display:none" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+                                        </div>
+                                    </span>
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ul class="icons_list">
+                                    <?php $icon_ids = array(); ?>
+                                    <?php foreach($available_icons as $lib_icon) : ?>
+                                        <?php foreach($lib_icon as $icon) : ?>
+                                            <?php if($icon->getUrl() AND (!$icon->getAppId() OR $icon->getAppId() == $this->getApplication()->getId()) AND !in_array($icon->getId(), $icon_ids)) : ?>
+                                                <li rel="<?php echo $option->getId(); ?>" class="color-blue">
+                                                    <a href="<?php echo $this->getUrl('application/customization_features/seticon'); ?>" class="left icon" rel="<?php echo $option->getId(); ?>" >
+                                                        <button class="select_icon" type="button">
+                                                            <img src="<?php echo $icon->getUrl(); ?>" width="auto" height="65" class="colorize" />
+                                                        </button>
+                                                        <input type="hidden" name="option_value_id" value="<?php echo $option->getValueId(); ?>" />
+                                                        <input type="hidden" name="icon_id" value="<?php echo $icon->getId(); ?>" />
+                                                    </a>
+                                                    <?php if($icon->getAppId()) : ?>
+                                                        <a href="<?php echo $this->getUrl('application/customization_features/deleteicon'); ?>" class="delete_icon">
+                                                            <i class="fa fa-times"></i>
+                                                            <input type="hidden" name="option_value_id" value="<?php echo $option->getValueId(); ?>" />
+                                                            <input type="hidden" name="icon_id" value="<?php echo $icon->getId(); ?>" />
+                                                        </a>
+                                                    <?php endif; ?>
+
+                                                </li>
+                                                <?php $icon_ids[] = $icon->getId() ?>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3 class="subtitle">
+                                    <span><?php echo __('Library icons') ?></span>
+                                </h3>
+                                <div class="form-group filter-icons">
+                                    <input type="text" class="input-flat" style="width: 200px;" placeholder="<?php echo __("Search by keywords ...") ?>" />
+                                    <button type="reset" class="btn color-blue"><?php echo __("Reset") ?></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ul class="icons_list filter_list">
+                                    <?php $all_icon_ids = array(); ?>
+                                    <?php foreach($all_icons as $icon) : ?>
+                                        <?php if($icon->getUrl() AND !in_array($icon->getId(), $all_icon_ids)) : ?>
+                                            <li data-filter="<?php echo $icon->getLink() ?>" rel="<?php echo $option->getId(); ?>" class="<?php echo ($icon->getCanBeColorized()==0) ? "colorizable" : "color-blue"; ?>">
+                                                <a href="<?php echo $this->getUrl('application/customization_features/seticon'); ?>" class="left icon" rel="<?php echo $option->getId(); ?>" >
+                                                    <button class="select_icon" type="button">
+                                                        <img src="<?php echo $icon->getUrl(); ?>" width="auto" height="65" class="colorize" />
+                                                    </button>
+                                                    <input type="hidden" name="option_value_id" value="<?php echo $option->getValueId(); ?>" />
+                                                    <input type="hidden" name="icon_id" value="<?php echo $icon->getId(); ?>" />
+                                                </a>
+                                                <?php if($icon->getAppId()) : ?>
+                                                    <a href="<?php echo $this->getUrl('application/customization_features/deleteicon'); ?>" class="delete_icon">
+                                                        <i class="fa fa-times"></i>
+                                                        <input type="hidden" name="option_value_id" value="<?php echo $option->getValueId(); ?>" />
+                                                        <input type="hidden" name="icon_id" value="<?php echo $icon->getId(); ?>" />
+                                                    </a>
+                                                <?php endif; ?>
+
+                                            </li>
+                                            <?php $all_icon_ids[] = $icon->getId() ?>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Icons modal -->
+
     
     <div class="edit_page">
         <?php echo $this->getPartialHtml('content_editor'); ?>
@@ -238,7 +269,6 @@ $can_export = Siberian_Exporter::isRegistered($option->getCode()) && (APPLICATIO
                 });
             });
 
-            <?php if($option->getLibrary()->getId()) : ?>
             var icon_library = {
                 tolerance: 180,
                 mask: null,
@@ -384,7 +414,6 @@ $can_export = Siberian_Exporter::isRegistered($option->getCode()) && (APPLICATIO
                 iframe.f.changeIcon(page.current.attr("rel"), datas.colored_icon_url);
 
             }
-            <?php endif ?>
 
             $('#tabbar_name').keyup(function(e) {
                 if(e.keyCode == 13) {
@@ -424,6 +453,30 @@ $can_export = Siberian_Exporter::isRegistered($option->getCode()) && (APPLICATIO
                     tabbar_name_loader.hide();
                 }.bind(this));
             });
+
+            $('#tabbar_subtitle').keyup(function(e) {
+                if(e.keyCode == 13) {
+                    this.blur();
+                }
+                else {
+                    var val = $(this).val().trim();
+                    var subval = val;
+                    if(subval.length > 8) subval = subval.substring(0, 3).trim()+'...'+subval.substring(subval.length-4, subval.length).trim();
+                    $('#tabbar_subtitle_<?php echo $option->getId(); ?>').html(subval);
+                }
+            }).change(function() {
+                var val = $(this).val();
+                var tabbar_subtitle_loader = $('#loader_'+$(this).attr('id'));
+                var subval = val;
+                if(subval.length > 8) subval = subval.substring(0, 3).trim()+'...'+subval.substring(subval.length-4, subval.length).trim();
+                $('#tabbar_subtitle_<?php echo $option->getId(); ?>').html(subval);
+                tabbar_subtitle_loader.show();
+                reload(this.parentNode, '<?php echo $this->getUrl('application/customization_features/settabbarsubtitle'); ?>', false, function(datas) {
+                    tabbar_subtitle_loader.hide();
+                }, function(datas) {
+                    tabbar_subtitle_loader.hide();
+                }.bind(this));
+            });
         });
 
         page.setCallback('unbind_icons_events', function() {
@@ -454,6 +507,17 @@ $can_export = Siberian_Exporter::isRegistered($option->getCode()) && (APPLICATIO
         $(".filter-icons button").on("click", function() {
             $(".filter-icons input[type=text]").val("");
             $(".filter_list li[data-filter]").show();
+        });
+
+        /** Clearcache action */
+        $(".clearcache").on("click", function(e) {
+            e.preventDefault();
+
+            var el = $(this);
+
+            simpleget(el.attr("href"));
+
+            return false;
         });
 
     </script>

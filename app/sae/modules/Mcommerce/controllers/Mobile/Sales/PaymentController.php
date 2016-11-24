@@ -134,6 +134,14 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
                 }
 
                 if (empty($errors)) {
+                    // Keep a log of the promo and code if used
+                    $promo = $this->getPromo();
+
+                    if($promo){
+                        $log = Mcommerce_Model_Promo_Log::createInstance($promo, $this->getCart());
+                        $log->save();
+                    }
+
                     $order = new Mcommerce_Model_Order();
                     $order->fromCart($this->getCart())->setStatusId($status_id);
                     // TG-459

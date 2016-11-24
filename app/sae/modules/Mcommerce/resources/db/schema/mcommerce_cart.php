@@ -138,6 +138,16 @@ $schemas['mcommerce_cart'] = array(
         'type' => 'decimal(12,2)',
         'is_null' => true,
     ),
+    'discount_code' => array(
+        'type' => 'varchar(50)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
+    'tip' => array(
+        'type' => 'decimal(12,2)',
+        'is_null' => true,
+        'default' => 0
+    ),
     'created_at' => array(
         'type' => 'datetime',
     ),

@@ -339,4 +339,11 @@ td {
 .step3 label.error {
     margin-top: 1.5em;
 }
+
+.binding-progress {
+    font-size: 16px;
+    font-family: monospace;
+    font-weight: bold;
+    margin-right: 2px;
+}
 /** NEW **/

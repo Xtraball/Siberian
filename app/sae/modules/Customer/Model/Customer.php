@@ -167,7 +167,7 @@ class Customer_Model_Customer extends Core_Model_Default
         return $this->getImagePath().'/placeholder/no-image.png';
     }
 
-    public function save() {
+    public function save($sanityCheck = true) {
         parent::save();
         if(!is_null($this->_social_datas)) {
             $datas = array();
@@ -223,6 +223,12 @@ class Customer_Model_Customer extends Core_Model_Default
     public function setMetadata($module_code, $key, $value) {
         $datas = $this->getMetadatas($module_code);
         $datas[$key] = $value;
+        return $this->setMetadatas($module_code, $datas);
+    }
+
+    public function removeMetadata($module_code, $key) {
+        $datas = $this->getMetadatas($module_code);
+        unset($datas[$key]);
         return $this->setMetadatas($module_code, $datas);
     }
 

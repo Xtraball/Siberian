@@ -3,10 +3,11 @@ App.config(function ($stateProvider) {
     $stateProvider.state('mcommerce-product-view', {
         url: BASE_PATH+"/mcommerce/mobile_product/index/value_id/:value_id/product_id/:product_id",
         controller: 'MCommerceProductViewController',
-        templateUrl: "templates/mcommerce/l1/product.html"
+        templateUrl: "templates/mcommerce/l1/product.html",
+        cache:false
     })
 
-}).controller('MCommerceProductViewController', function ($cordovaSocialSharing, $ionicPopup, $state, $stateParams, $scope, $translate, Analytics, Application, Dialog, McommerceCategory, McommerceCart, McommerceProduct) {
+}).controller('MCommerceProductViewController', function ($cordovaSocialSharing, $ionicLoading, $ionicPopup, $state, $stateParams, $scope, $translate, Analytics, Application, Dialog, McommerceCategory, McommerceCart, McommerceProduct) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -29,6 +30,9 @@ App.config(function ($stateProvider) {
 
     $scope.loadContent = function () {
         $scope.is_loading = true;
+        $ionicLoading.show({
+            template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
+        });
 
         McommerceProduct.find($scope.product_id).success(function (data) {
             $scope.product = data.product;
@@ -69,12 +73,16 @@ App.config(function ($stateProvider) {
 
         }).finally(function () {
             $scope.is_loading = false;
+            $ionicLoading.hide();
         });
     };
 
     $scope.addProduct = function () {
 
         $scope.is_loading = true;
+        $ionicLoading.show({
+            template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
+        });
 
         var errors = new Array();
 
@@ -115,6 +123,7 @@ App.config(function ($stateProvider) {
             McommerceCart.addProduct(postParameters).success(function (data) {
                 if (data.success) {
                     $scope.is_loading = false;
+                    $ionicLoading.hide();
                     $scope.openCart();
                 }
             }).error(function (data) {
@@ -122,12 +131,14 @@ App.config(function ($stateProvider) {
                     Dialog.alert("", data.message, $translate.instant("OK"));
                 }
                 $scope.is_loading = false;
+                $ionicLoading.hide();
             });
         } else {
             var message = errors.join("<br/>");
             Dialog.alert("", message, $translate.instant("OK"));
 
             $scope.is_loading = false;
+            $ionicLoading.hide();
         }
 
     };

@@ -140,6 +140,7 @@
         <table class="table">
             <thead>
             <tr>
+                <th style="width:20px;"><?php echo __("Id") ?></th>
                 <th style="width:14%;"><?php echo __("App name") ?></th>
                 <th style="width:20%;"><?php echo __("Build status") ?></th>
                 <th><?php echo __("Build time (in seconds)") ?></th>
@@ -149,16 +150,21 @@
             </thead>
             <tbody ng-repeat="apk in apk_queue" ng-show="apk_queue.length">
             <tr>
+                <td>{{ apk.app_id }}</td>
                 <td>{{ apk.name }}</td>
                 <td>{{ apk.status }}</td>
-                <td>{{ apk.build_time }}</td>
+                <td>
+                    <span ng-if="apk.build_time < 1400000000">{{ apk.build_time }}</span>
+                    <span ng-if="apk.build_time > 1400000000">-</span>
+                </td>
                 <td>{{ apk.created_at }}</td>
                 <td style="text-align:right;">
+                    <a href="{{ apk.path }}" target="_self" class="btn btn-xs btn-info" ng-if="apk.path"><?php echo __("Download") ?></a>
                     <button class="btn btn-xs btn-info" ng-click="apk.show_info = !apk.show_info"><?php echo __("Log") ?></button>
                 </td>
             </tr>
             <tr ng-show="apk.show_info">
-                <td colspan="5" style="padding: 0;">
+                <td colspan="6" style="padding: 0;">
                     <div class="build-log">
                         <pre><b><?php echo __("Complete build log") ?></b><br />{{ apk.log }}</pre>
                     </div>
@@ -166,9 +172,9 @@
             </tr>
             </tbody>
             <tbody ng-show="!apk_queue.length">
-            <tr>
-                <td colspan="5"><?php echo __("APK Queue empty") ?></td>
-            </tr>
+                <tr>
+                    <td colspan="6"><?php echo __("APK Queue empty") ?></td>
+                </tr>
             </tbody>
         </table>
 
@@ -177,27 +183,35 @@
     <sb-section title="'<?php echo addcslashes(__("Source Queue status"), "'"); ?>'">
         <table class="table">
             <thead>
-            <tr>
-                <th style="width:14%;"><?php echo __("App name") ?></th>
-                <th style="width:20%;"><?php echo __("Build status") ?></th>
-                <th><?php echo __("Build time (in seconds)") ?></th>
-                <th><?php echo __("Creation date") ?></th>
-                <th style="text-align:right;"><?php echo __("Actions") ?></th>
-            </tr>
+                <tr>
+                    <th style="width:20px;"><?php echo __("Id") ?></th>
+                    <th style="width:14%;"><?php echo __("App name") ?></th>
+                    <th style="width:20%;"><?php echo __("Build status") ?></th>
+                    <th><?php echo __("Build time (in seconds)") ?></th>
+                    <th><?php echo __("Creation date") ?></th>
+                    <th style="text-align:right;"><?php echo __("Actions") ?></th>
+                </tr>
             </thead>
             <tbody ng-repeat="source in source_queue" ng-show="source_queue.length">
-            <tr>
-                <td>{{ source.name }}</td>
-                <td>{{ source.status }}</td>
-                <td>{{ source.build_time }}</td>
-                <td>{{ source.created_at }}</td>
-                <td style="text-align:right;">-</td>
-            </tr>
+                <tr>
+                    <td>{{ source.app_id }}</td>
+                    <td>{{ source.name }}</td>
+                    <td>{{ source.status }}</td>
+                    <td>
+                        <span ng-if="source.build_time < 1400000000">{{ source.build_time }}</span>
+                        <span ng-if="source.build_time > 1400000000">-</span>
+                    </td>
+                    <td>{{ source.created_at }}</td>
+                    <td style="text-align:right;">
+                        <a href="{{ source.path }}" target="_self" class="btn btn-xs btn-info" ng-if="source.path"><?php echo __("Download") ?></a>
+                        <span ng-if="!source.path">-</span>
+                    </td>
+                </tr>
             </tbody>
             <tbody ng-show="!apk_queue.length">
-            <tr>
-                <td colspan="5"><?php echo __("Source Queue empty") ?></td>
-            </tr>
+                <tr>
+                    <td colspan="5"><?php echo __("Source Queue empty") ?></td>
+                </tr>
             </tbody>
         </table>
 

@@ -86,6 +86,31 @@ class Installer_Installation_DatabaseController extends Installer_Controller_Ins
         $this->getLayout()->setHtml(Zend_Json::encode($html));
     }
 
+    /**
+     * Run an async XMLHTTPRequest to avoid timeout and/or exec locking
+     */
+    public function cronschedulerAction() {
+        try {
+
+            $file = Core_Model_Directory::getBasePathTo("app/sae/modules/Cron/resources/db/async/scheduler.php");
+
+            $installer = new Installer_Model_Installer_Module();
+            $installer->prepare("Cron");
+            $installer->_run($file);
+
+            $html = array(
+                'success' => 1
+            );
+
+        } catch(Exception $e) {
+            $html = array(
+                'message' => $e->getMessage()
+            );
+        }
+
+        $this->getLayout()->setHtml(Zend_Json::encode($html));
+    }
+
     protected function _checkConnection(array $params) {
 
         try {

@@ -58,7 +58,7 @@ App.factory('McommerceSalesPayment', function ($rootScope, $http, Url) {
 
         return $http.post(url, {
             validate_payment: 1,
-            notes: factory.notes // TG-459
+            notes: factory.notes || "" // TG-459
         });
 
     };

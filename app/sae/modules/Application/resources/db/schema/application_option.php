@@ -58,6 +58,12 @@ $schemas['application_option'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'subtitle' => array(
+        'type' => 'varchar(512)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'is_null' => true,
+    ),
     'model' => array(
         'type' => 'varchar(100)',
         'charset' => 'utf8',

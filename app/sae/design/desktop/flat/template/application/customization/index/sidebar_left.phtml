@@ -193,10 +193,10 @@ function WidthChange(mq) {
 
 function WidthChangeV2(mql) {
   if (mql.matches) {
-    $('.right-toggled .row .responsive-part.col-md-6:nth-child(1)').addClass('col-md-12').removeClass('col-md-6');
+    $('.right-toggled .row .responsive-part.col-md-8:nth-child(1)').addClass('col-md-12').removeClass('col-md-8');
     $('#iphone').hasClass('phone-fixed');
   } else {
-    $('.right-toggled .row .responsive-part.col-md-12:nth-child(1)').addClass('col-md-6').removeClass('col-md-12');
+    $('.right-toggled .row .responsive-part.col-md-12:nth-child(1)').addClass('col-md-8').removeClass('col-md-12');
     $('#iphone').removeClass('phone-fixed');
   }
 }

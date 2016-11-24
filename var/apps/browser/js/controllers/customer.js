@@ -1,8 +1,9 @@
-App.controller('CustomerController', function(_, $cordovaCamera, $cordovaOauth, $ionicActionSheet, $ionicPopup, $ionicScrollDelegate, $q, $rootScope, $scope, $timeout, $translate, $window, Application, Customer, Dialog, FacebookConnect, HomepageLayout) {
+App.controller('CustomerController', function(_, $cordovaCamera, $cordovaOauth, $ionicActionSheet, $ionicLoading, $ionicPopup, $ionicScrollDelegate, $q, $rootScope, $scope, $timeout, $translate, $window, Application, Customer, Dialog, FacebookConnect, SafePopups, HomepageLayout) {
 
     $scope.can_connect_with_facebook = !!Customer.can_connect_with_facebook;
 
     $scope.customer = {};
+    $scope.card = {};
 
     $scope.is_logged_in = Customer.isLoggedIn();
     $scope.app_name = Application.app_name;
@@ -22,6 +23,9 @@ App.controller('CustomerController', function(_, $cordovaCamera, $cordovaOauth, 
     $scope.login = function() {
 
         $scope.is_loading = true;
+        $ionicLoading.show({
+            template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
+        });
         Customer.login($scope.customer).success(function(data) {
             if(data && data.success) {
                 $scope.closeLoginModal();
@@ -33,6 +37,7 @@ App.controller('CustomerController', function(_, $cordovaCamera, $cordovaOauth, 
 
         }).finally(function() {
             $scope.is_loading = false;
+            $ionicLoading.hide();
         });
     };
 
@@ -47,6 +52,9 @@ App.controller('CustomerController', function(_, $cordovaCamera, $cordovaOauth, 
     $scope.forgotPassword = function() {
 
         $scope.is_loading = true;
+        $ionicLoading.show({
+            template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
+        });
 
         Customer.forgottenpassword($scope.customer.email).success(function(data) {
             if(data && angular.isDefined(data.message)) {
@@ -63,6 +71,7 @@ App.controller('CustomerController', function(_, $cordovaCamera, $cordovaOauth, 
 
         }).finally(function() {
             $scope.is_loading = false;
+            $ionicLoading.hide();
         });
 
     };
@@ -228,6 +237,9 @@ App.controller('CustomerController', function(_, $cordovaCamera, $cordovaOauth, 
         if(!$scope.is_logged_in) return;
 
         $scope.is_loading = true;
+        $ionicLoading.show({
+            template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
+        });
         Customer.find().success(function(customer) {
             $scope.customer = customer;
             $scope.customer.metadatas = _.isObject($scope.customer.metadatas) ? $scope.customer.metadatas : {};
@@ -259,12 +271,16 @@ App.controller('CustomerController', function(_, $cordovaCamera, $cordovaOauth, 
             });
         }).finally(function() {
             $scope.is_loading = false;
+            $ionicLoading.hide();
         });
     };
 
     $scope.save = function() {
 
         $scope.is_loading = true;
+        $ionicLoading.show({
+            template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
+        });
 
         Customer.save($scope.customer).success(function(data) {
             if(angular.isDefined(data.message)) {
@@ -279,9 +295,9 @@ App.controller('CustomerController', function(_, $cordovaCamera, $cordovaOauth, 
             if(data && angular.isDefined(data.message)) {
                 Dialog.alert($translate.instant("Error"), data.message, $translate.instant("OK"));
             }
-
         }).finally(function() {
             $scope.is_loading = false;
+            $ionicLoading.hide();
         });
     };
 
@@ -325,6 +341,36 @@ App.controller('CustomerController', function(_, $cordovaCamera, $cordovaOauth, 
 
     $scope.scrollTop = function() {
         $ionicScrollDelegate.scrollTop(false);
+    };
+
+    $scope.unloadcard = function() {
+        SafePopups.show("confirm",{
+            title: $translate.instant('Confirmation'),
+            template: $translate.instant("Do you confirm you want to remove your card?")
+        }).then(function(res){
+            if(res) {
+                $scope.is_loading = true;
+                $ionicLoading.show({
+                    template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
+                });
+                //we cannot be there without customer
+                Customer.removeCard().success(function (data) {
+                    $scope.card = {};
+                    $scope.customer.stripe = {};
+                }).error(function(data) {
+                    if(data && angular.isDefined(data.message)) {
+                        SafePopups.show("alert", {
+                            title: $translate.instant("Error"),
+                            template: data.message,
+                            okText: $translate.instant("OK")
+                        });
+                    }
+                }).finally(function () {
+                    $scope.is_loading = false;
+                    $ionicLoading.hide();
+                });
+            }
+        });
     };
 
     $scope.loadContent();

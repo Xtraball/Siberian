@@ -715,18 +715,17 @@ div.messages ul.message li {
 
 /** LOADER **/
 div.mask {
-    background-color: #000000;
-    height: 100%;
+    background-color: rgba(0,0,0,0.4);
     left: 0;
-    opacity: 0.4;
     position: fixed;
     top: 0;
     width: 100%;
+    height: 100%;
     z-index: 10002;
     filter: alpha(opacity=40);
 }
 
-div.mask .loader {
+/*div.mask .loader {
     position: fixed;
     top: 20px;
     left: 50%;
@@ -736,6 +735,12 @@ div.mask .loader {
     margin-left: -24px;
     padding: 0;
     background: url("/app/sae/design/desktop/siberian/images/customization/ajax/spinner_mobile.gif") no-repeat scroll center top transparent;
+}*/
+
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 div.mask button {
@@ -749,14 +754,15 @@ div.mask#mask_overview {
 }
 
 div.loader {
-    background: transparent url("/app/sae/design/desktop/siberian/images/customization/ajax/spinner_mobile.gif") no-repeat scroll center top;
+    border: 5px solid #fff; /* Light grey */
+    border-top: 5px solid #2c2c35; /* Blue */
+    border-radius: 100%;
+    width: 44px;
+    height: 44px;
+    animation: spin 0.7s linear infinite;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    height: 48px;
-    width: 48px;
-    margin-left: -16px;
-    margin-top: -16px;
+    top: 45%;
+    left: 48%;
 }
 
 #background_image_loader > img {
@@ -1163,6 +1169,12 @@ div.loader {
     list-style: none;
     border-radius: 4px;
     position: relative;
+    border: 2px solid white;
+}
+
+.option_value a {
+    display: block;
+    overflow: hidden;
 }
 
 .option_value.selected {
@@ -1179,12 +1191,16 @@ div.loader {
 
 .option_value .img_icon {
     display: block;
-    margin: 1em auto 0.5em;
+    margin: 1.5em auto 0.5em;
     width: auto;
 }
 
 .option_value span {
     width: 100%;
+    display: block;
+    margin-bottom:0.2em;
+    text-overflow: ellipsis;
+    font-size: 12px;
 }
 
 .option_value a:hover, .option_value a:focus {
@@ -1892,6 +1908,20 @@ div.pp_pic_holder {
     }
 }
 
+@media (min-width: 1280px) {
+    #step li {
+        width: 130px;
+        padding: 10px;
+    }
+}
+
+@media (min-width: 1440px) {
+    #step li {
+        width: 140px;
+        padding: 10px;
+    }
+}
+
 /** fix-crop **/
 .pp_content.content.content-color {
     height: 100% !important;
@@ -2013,7 +2043,7 @@ div.feature-upload-placeholder button {
     position: absolute;
     cursor: pointer;
     width: 100%;
-    height: 22%;
+    height: 41px;
     z-index: 999;
     opacity: 0;
 }
@@ -2080,6 +2110,7 @@ div#iphone {
         -o-transform-origin: 100% 0;
         -webkit-transform-origin: 100% 0;
         transform-origin: 100% 0;
+        margin-right: -20px;
     }
 
     #previewer {
@@ -2099,6 +2130,7 @@ div#iphone {
         -o-transform-origin: 100% 0;
         -webkit-transform-origin: 100% 0;
         transform-origin: 100% 0;
+        margin-right: -40px;
     }
 
     #previewer {
@@ -2176,11 +2208,17 @@ select.form-control.no-dk {
 }
 
 select.sb-select[multiple] {
-    padding: 0;
+    padding: 0 !important;
+    border-radius: 0;
 }
 
 select.sb-select[multiple] option {
     padding: 4px 12px;
+}
+
+fieldset legend {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: inherit;
 }
 
 /** Custom checkbox/radio */
@@ -2429,4 +2467,16 @@ form dt {
     transform: scale(1);
     -moz-transform: scale(1);
     -webkit-transform: scale(1);
+}
+
+.action-buttons {
+    position: absolute;
+    right: 15px;
+    margin-top: -27px;
+}
+
+.action-button {
+    width: auto;
+    text-transform: uppercase;
+    padding: 0 10px;
 }

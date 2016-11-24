@@ -91,6 +91,10 @@ App.config(function($stateProvider) {
     $scope.value_id = $stateParams.value_id;
     $scope.settings = null;
 
+    //IMPORTANT! MCommerce and Places use same list template
+    //This settings is here to make search in mcommerce available
+    $scope.filter_search = "";
+
     /* Configuring the Search service */
     Search.setAgent(Places, $scope.value_id);
     Search.url = 'places/mobile_list/search';

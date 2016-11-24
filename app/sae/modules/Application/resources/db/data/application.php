@@ -1,5 +1,18 @@
 <?php
 
+$icons = array(
+    '/tabbar/user_account.png',
+    '/tabbar/user_account-flat.png',
+    '/tabbar/user_account1-flat.png',
+    '/tabbar/user_account2-flat.png',
+);
+Siberian_Feature::installIcons("customer_account", $icons);
+
+$icons = array(
+    '/tabbar/more_items.png',
+    '/tabbar/more_items-flat.png',
+);
+Siberian_Feature::installIcons("more_items", $icons);
 
 $datas = array(
     array('name' => 'Layout 1',              'visibility' => Application_Model_Layout_Homepage::VISIBILITY_ALWAYS,   'code' => 'layout_1',   'preview' => '/customization/layout/homepage/layout_1.png',   'use_more_button' => 1, 'use_horizontal_scroll' => 0, 'number_of_displayed_icons' => 5,     'position' => "bottom", "order" => 10, "is_active" => 1),
@@ -137,3 +150,8 @@ if(is_writable(APPLICATION_PATH . '/configs/app.ini')) {
     }
 
 }
+
+
+
+/** Application different bundle/package */
+$this->query("UPDATE `application` SET package_name = bundle_id WHERE package_name IS NULL OR package_name = \"\";");

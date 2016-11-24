@@ -64,8 +64,19 @@ class Application_Model_Option extends Core_Model_Default
             ->setData($datas)
             ->setId('customer_account');
 
-        $this->setIconUrl(Media_Model_Library_Image::getImagePathTo($user_account));
-        $this->setBaseIconUrl(Media_Model_Library_Image::getBaseImagePathTo($user_account));
+        if($this->getApplication()->getAccountIconId()) {
+            $icon_id = $this->getApplication()->getAccountIconId();
+            $icon = new Media_Model_Library_Image();
+            $icon->find($icon_id);
+            $icon_url = $icon->getUrl();
+
+            $this->setIconUrl($icon_url);
+            $this->setBaseIconUrl($icon_url);
+
+        } else {
+            $this->setIconUrl(Media_Model_Library_Image::getImagePathTo($user_account));
+            $this->setBaseIconUrl(Media_Model_Library_Image::getBaseImagePathTo($user_account));
+        }
 
         return $this;
     }
@@ -90,9 +101,19 @@ class Application_Model_Option extends Core_Model_Default
             ->setData($datas)
             ->setId('more_items');
 
+        if($this->getApplication()->getMoreIconId()) {
+            $icon_id = $this->getApplication()->getMoreIconId();
+            $icon = new Media_Model_Library_Image();
+            $icon->find($icon_id);
+            $icon_url = $icon->getUrl();
 
-        $this->setIconUrl(Media_Model_Library_Image::getImagePathTo($more_items));
-        $this->setBaseIconUrl(Media_Model_Library_Image::getBaseImagePathTo($more_items));
+            $this->setIconUrl($icon_url);
+            $this->setBaseIconUrl($icon_url);
+
+        } else {
+            $this->setIconUrl(Media_Model_Library_Image::getImagePathTo($more_items));
+            $this->setBaseIconUrl(Media_Model_Library_Image::getBaseImagePathTo($more_items));
+        }
 
         return $this;
     }

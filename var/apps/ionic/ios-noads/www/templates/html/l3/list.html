@@ -102,11 +102,11 @@
 
             <div ng-show="show_search && collection.length > 0">
                 <label class="item item-input">
-                    <input type="text" id="search" name="search" ng-model="search" placeholder="{{ 'Search' | translate }}"/>
+                    <input type="text" id="search" name="search" ng-model="filter_search" placeholder="{{ 'Search' | translate }}"/>
                 </label>
             </div>
 
-            <div class="item item-custom" ng-click="showItem(item)" ng-repeat="item in collection" ng-class="{'item-thumbnail-left': item.picture, 'item-center': (!item.subtitle && !item.message)}">
+            <div class="item item-custom" ng-click="showItem(item)" ng-repeat="item in collection | filter:filter_search" ng-class="{'item-thumbnail-left': item.picture, 'item-center': (!item.subtitle && !item.message)}">
                 <img ng-src="{{ item.picture }}" ng-if="item.picture" />
                 <h2>{{ item.title ? item.title : item.author }}</h2>
                 <p ng-if="item.subtitle">{{ item.subtitle }}</p>

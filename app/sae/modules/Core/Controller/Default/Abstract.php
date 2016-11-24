@@ -6,6 +6,16 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     protected $_layout;
     protected static $_application;
     protected static $_session = array();
+    protected $float_validator;
+    protected $int_validator;
+
+    public function validateFloat($val){
+        return $this->float_validator->isValid($val);
+    }
+
+    public function validateInt($val){
+        return $this->int_validator->isValid($val);
+    }
 
     public function init() {
 
@@ -15,6 +25,9 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
         $this->_initLanguage();
         $this->_initLocale();
+
+        $this->float_validator = new Zend_Validate_Float();
+        $this->int_validator = new Zend_Validate_Int();
 
         if($url = $this->_needToBeRedirected()) {
             $this->_redirect($url, $this->getRequest()->getParams());
@@ -36,9 +49,6 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
             $this->getSession()->addWarning($message, 'old_browser');
 
         }
-
-        file_put_contents("/tmp/session.log", "[".date('H:i:s')."]\n".var_export($this->getSession(), true), FILE_APPEND);
-
     }
 
     public function _($text) {
@@ -626,8 +636,15 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         }
     }
 
-    public function importAction() {
-        
-    }
+    /**
+     * Nothing to do
+     */
+    public function importAction() {}
+
+
+    /**
+     * Nothing to do
+     */
+    public function clearcacheAction() {}
 
 }

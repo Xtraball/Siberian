@@ -229,8 +229,12 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 $icon->find($datas['icon_id']);
 
                 // Test si l'option_value_id est passé en paramètre
-                if(empty($datas['option_value_id'])) throw new Exception($this->_('#110: An error occurred while saving'));
-                if(empty($datas['icon_id'])) throw new Exception($this->_('An error occurred while saving. The selected icon is not valid.'));
+                if(empty($datas['option_value_id'])) {
+                    throw new Exception($this->_('#110: An error occurred while saving'));
+                }
+                if(empty($datas['icon_id'])) {
+                    throw new Exception($this->_('An error occurred while saving. The selected icon is not valid.'));
+                }
 
                 $icon_saved = $this->setIcon($datas['icon_id'], $datas['option_value_id']);
                 if(!empty($icon_saved)) {
@@ -254,7 +258,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                         'success' => 1,
                         'icon_id' => $icon->getId(),
                         'icon_url' => $icon_url,
-                        'colored_icon_url' => $this->getUrl('template/block/colorize', array('id' => $option_value->getIconId(), 'color' => str_replace('#', '', $icon_color))),
+                        'colored_icon_url' => $this->getUrl('template/block/colorize', array('id' => $datas['icon_id'], 'color' => str_replace('#', '', $icon_color))),
                         'colored_header_icon_url' => $icon_saved['colored_header_icon_url'],
                         'colored_reverse_color_icon_url' => $icon_url_reverse_color
                     );
@@ -282,33 +286,58 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
         try {
 
+            $custom = false;
+            if(in_array($option_value_id, array("customer_account", "more_items"))) {
+                $custom = true;
+            }
+
             // Récupère l'application
             $application = $this->getApplication();
-
-            // Charge l'option_value
-            $option_value = new Application_Model_Option_Value();
-            $option_value->find($option_value_id);
 
             // Charge l'icône
             $icon = new Media_Model_Library_Image();
             $icon->find($icon_id);
 
-
             if(!$icon->getId()) {
                 throw new Exception($this->_('An error occurred while saving. The selected icon is not valid.'));
             }
 
-            // Tout va bien, on met à jour l'icône pour cette option_value
-            $option_value->setIconId($icon->getId())
-                ->setIcon(null)
-                ->save()
-            ;
+            // Charge l'option_value
+            if(!$custom) {
+                $option_value = new Application_Model_Option_Value();
+                $option_value->find($option_value_id);
+                // Tout va bien, on met à jour l'icône pour cette option_value
+                $option_value->setIconId($icon->getId())
+                    ->setIcon(null)
+                    ->save()
+                ;
+                $icon_url = $option_value->resetIconUrl()->getIconUrl(true);
+                $colorizable = $option_value->getImage()->getCanBeColorized();
 
-            $icon_url = $option_value->resetIconUrl()->getIconUrl(true);
+            } else {
+                $app = $this->getApplication();
+
+                switch($option_value_id) {
+                    case "customer_account":
+                        $app->setAccountIconId($icon->getId())->save();
+                        break;
+                    case "more_items":
+                        $app->setMoreIconId($icon->getId())->save();
+                        break;
+                }
+
+                $icon = new Media_Model_Library_Image();
+                $icon->find($icon->getId());
+                $icon_url = $icon->getUrl();
+
+                $colorizable = $icon->getCanBeColorized();
+            }
+
+
             $colored_header_icon_url = $icon_url;
-            if($option_value->getImage()->getCanBeColorized()) {
+            if($colorizable) {
                 $header_color = $application->getBlock('header')->getColor();
-                $colored_header_icon_url = $this->getUrl('template/block/colorize', array('id' => $option_value->getIconId(), 'color' => str_replace('#', '', $header_color)));
+                $colored_header_icon_url = $this->getUrl('template/block/colorize', array('id' => $icon->getId(), 'color' => str_replace('#', '', $header_color)));
             }
 
             $return = array(
@@ -362,7 +391,9 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
                 // Récupère les positions
                 $positions = $this->getRequest()->getParam('option_value');
-                if(empty($positions)) throw new Exception($this->_('An error occurred while sorting your pages. Please try again later.'));
+                if(empty($positions)) {
+                    throw new Exception($this->_('An error occurred while sorting your pages. Please try again later.'));
+                }
 
                 // Supprime les positions en trop, au cas où...
                 $option_values = $this->getApplication()->getPages();
@@ -458,6 +489,58 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
     }
 
+    public function settabbarsubtitleAction() {
+
+        if($datas = $this->getRequest()->getPost()) {
+
+            try {
+
+                // Test les données
+                if(empty($datas['option_value_id']) OR empty($datas['tabbar_subtitle'])) {
+                    throw new Exception($this->_('An error occurred while saving your page subtitle.'));
+                }
+
+                switch($datas['option_value_id']) {
+                    case "customer_account":
+                            $this->getApplication()->setAccountSubtitle($datas['tabbar_subtitle'])->save();
+                        break;
+                    case "more_items":
+                        $this->getApplication()->setMoreSubtitle($datas['tabbar_subtitle'])->save();
+                        break;
+                    default:
+                        // Charge l'option_value
+                        $option_value = new Application_Model_Option_Value();
+                        $option_value->setApplication($this->getApplication());
+                        $option_value->find($datas['option_value_id']);
+
+                        // Test s'il n'y a pas embrouille entre l'id de l'application dans l'option_value et l'id de l'application en session
+                        if(!$option_value->getId()) {
+                            throw new Exception($this->_('An error occurred while saving your page subtitle.'));
+                        }
+
+                        $option_value->setTabbarSubtitle($datas['tabbar_subtitle'])
+                            ->save()
+                        ;
+                }
+                
+                // Renvoie OK
+                $html = array('success' => 1);
+
+            }
+            catch(Exception $e) {
+                $html = array(
+                    'message' => $e->getMessage(),
+                    'message_button' => 1,
+                    'message_loader' => 1
+                );
+            }
+
+            $this->_sendHtml($html);
+
+        }
+
+    }
+
     public function uploadiconAction() {
         if($datas = $this->getRequest()->getPost()) {
 
@@ -467,10 +550,23 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 $app_id = $this->getApplication()->getId();
                 if(!empty($file)) {
 
-                    $option_value = new Application_Model_Option_Value();
-                    $option_value->find($datas['option_id']);
+                    if(in_array($datas['option_id'], array("customer_account", "more_items"))) {
+                        $library_name = $datas['option_id'];
+                        $library = new Media_Model_Library();
+                        $library->find($library_name, "name");
 
-                    $library_name = $option_value->getLibrary()->getName();
+                        $library_id = $library->getId();
+                        $option_id = null;
+                    } else{
+                        $option_value = new Application_Model_Option_Value();
+                        $option_value->find($datas['option_id']);
+
+                        $library_name = $option_value->getLibrary()->getName();
+
+                        $library_id = $option_value->getLibrary()->getId();
+                        $option_id = $option_value->getOptionId();
+                    }
+
                     $formated_library_name = Core_Model_Lib_String::format($library_name, true);
                     $base_lib_path = Media_Model_Library_Image::getBaseImagePathTo($formated_library_name, $app_id);
 
@@ -478,40 +574,48 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
                     $CanBeColorized = $datas['is_colorized'] == 'true' ? 1 : 0;
 
-                    if(!is_dir($base_lib_path)) mkdir($base_lib_path, 0777, true);
+                    if(!is_dir($base_lib_path)) {
+                        mkdir($base_lib_path, 0777, true);
+                    }
                     if(!copy($files, $base_lib_path.'/'.$file)) {
                         throw new exception($this->_('An error occurred while saving your picture. Please try againg later.'));
                     } else {
 
                         $icon_lib = new Media_Model_Library_Image();
-                        $icon_lib->setLibraryId($option_value->getLibrary()->getId())
+                        $icon_lib->setLibraryId($library_id)
                             ->setLink('/'.$formated_library_name.'/'.$file)
-                            ->setOptionId($option_value->getOptionId())
+                            ->setOptionId($option_id)
                             ->setAppId($app_id)
                             ->setCanBeColorized($CanBeColorized)
                             ->setPosition(0)
                             ->save();
 
-                        $option_value
-                            ->setIcon('/'.$formated_library_name.'/'.$file)
-                            ->setIconId($icon_lib->getImageId())
-                            ->save();
+                        if(in_array($datas['option_id'], array("customer_account", "more_items"))) {
+                        } else {
+                            $option_value
+                                ->setIcon('/'.$formated_library_name.'/'.$file)
+                                ->setIconId($icon_lib->getImageId())
+                                ->save();
+                        }
 
                         $icon_saved = $this->setIcon($icon_lib->getImageId(), $datas['option_id']);
 
                         // Charge l'option_value
-                        $option_value = new Application_Model_Option_Value();
-                        $option_value->find($datas['option_id']);
-                        $icon_color = $this->getApplication()->getBlock('tabbar')->getImageColor();
-                        $icon_url = $this->_getColorizedImage($icon_lib->getImageId(), $icon_color);
+                        //$option_value = new Application_Model_Option_Value();
+                        //$option_value->find($datas['option_id']);
+                        $icon_url = $icon_lib->getUrl();
+                        if($CanBeColorized) {
+                            $header_color = $this->getApplication()->getBlock('header')->getColor();
+                            $icon_url = $this->getUrl('template/block/colorize', array('id' => $icon_lib->getImageId(), 'color' => str_replace('#', '', $header_color)));
+                        }
 
                         $html = array (
                             'success' => 1,
                             'file' => '/'.$formated_library_name.'/'.$file,
                             'icon_id' => $icon_lib->getImageId(),
-                            'colorizable' => $CanBeColorized,
+                            'colorizable' => a,
                             'icon_url' => $icon_url,
-                            'colored_icon_url' => $this->getUrl('template/block/colorize', array('id' => $option_value->getIconId(), 'color' => str_replace('#', '', $icon_color))),
+                            'colored_icon_url' => $this->getUrl('template/block/colorize', array('id' => $icon_lib->getImageId(), 'color' => str_replace('#', '', $icon_color))),
                             'colored_header_icon_url' => $icon_saved['colored_header_icon_url'],
                             'message' => '',
                             'message_button' => 1,

@@ -1865,7 +1865,7 @@
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/application/view.phtml",
-        "hash": "571dd12cde8afbb6f869940f353046f6"
+        "hash": "cd8131ad5873bc9f59f0a0249a07c55a"
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/backoffice/account/list.phtml",
@@ -1897,11 +1897,11 @@
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/backoffice/advanced/cron.phtml",
-        "hash": "186255172c39a8ea562fbf2e7421c3af"
+        "hash": "dba70bc1fa3682c31c1eaabef4a3109a"
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/backoffice/advanced/module.phtml",
-        "hash": "bfa53523483483904d84abc110bfb6d8"
+        "hash": "9e5b885d1412d66eb3deeced014b4893"
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/html/default.phtml",
@@ -2085,7 +2085,7 @@
     },
     {
         "file": "app/sae/design/desktop/flat/css/style.css",
-        "hash": "972d13ac8f13a4197863f557bd571d9b"
+        "hash": "438105eea370790a723ef60dd2365cdf"
     },
     {
         "file": "app/sae/design/desktop/flat/images/buttons/point.png",
@@ -2404,6 +2404,22 @@
         "hash": "2c0d08cc69d85d830ec7518e45e225d3"
     },
     {
+        "file": "app/sae/design/desktop/flat/images/customization/layout/folder/layout-1.png",
+        "hash": "a5e8522c6a7e5057b21a76d5b244f751"
+    },
+    {
+        "file": "app/sae/design/desktop/flat/images/customization/layout/folder/layout-2.png",
+        "hash": "8ddb70d6682410b8d82e8f55ad3f1ecd"
+    },
+    {
+        "file": "app/sae/design/desktop/flat/images/customization/layout/folder/layout-3.png",
+        "hash": "c3b28a27d76c059f4687dd2f8e343560"
+    },
+    {
+        "file": "app/sae/design/desktop/flat/images/customization/layout/folder/layout-4.png",
+        "hash": "b1a05ffce40fbef381c1497fdced9125"
+    },
+    {
         "file": "app/sae/design/desktop/flat/images/customization/overlays/black_20.png",
         "hash": "6581c16d2beb8d7f0bd13a047bc6f586"
     },
@@ -2614,6 +2630,10 @@
     {
         "file": "app/sae/design/desktop/flat/images/customization/pictos/youtube.png",
         "hash": "9a04df6b8b22efee1616e05aded20ace"
+    },
+    {
+        "file": "app/sae/design/desktop/flat/images/customization/pictos/check-mark.png",
+        "hash": "9e6fbdec6ac7dbe1790285a22ec2cd8d"
     },
     {
         "file": "app/sae/design/desktop/flat/images/flat/checkbox-2x.png",
@@ -4896,12 +4916,12 @@
         "hash": "ff32b214cee38e39837ddc35a26fdfb2"
     },
     {
-        "file": "app/sae/design/desktop/flat/js/features.js",
-        "hash": "4e5c99c04fec09233a7dad6d5038da84"
-    },
-    {
         "file": "app/sae/design/desktop/flat/js/object.js",
         "hash": "2c872d6526dfcc686d1e8b7907362a20"
+    },
+    {
+        "file": "app/sae/design/desktop/flat/js/features.js",
+        "hash": "6f23700a0a1bb4600650cc872839106d"
     },
     {
         "file": "app/sae/design/desktop/flat/layout/admin.xml",
@@ -5064,12 +5084,12 @@
         "hash": "0fb34fd91751bd45852a5fba0351716b"
     },
     {
-        "file": "app/sae/design/desktop/flat/template/application/analytics/application.phtml",
-        "hash": "526d7106fbb4c1dde0d4314948c50ad1"
-    },
-    {
         "file": "app/sae/design/desktop/flat/template/application/analytics/feature.phtml",
         "hash": "9997eeca9302b3fcb42d6689f229d0c0"
+    },
+    {
+        "file": "app/sae/design/desktop/flat/template/application/analytics/application.phtml",
+        "hash": "0ca43f28f36ae4c239e0476e78d7b816"
     },
     {
         "file": "app/sae/design/desktop/flat/template/application/customization/design/colors/angular/edit/tabbar.phtml",
@@ -5121,35 +5141,31 @@
     },
     {
         "file": "app/sae/design/desktop/flat/template/application/customization/features/edit/tabbar_editor.phtml",
-        "hash": "38cd2245a16b90ddd30f5a295f58fcfa"
-    },
-    {
-        "file": "app/sae/design/desktop/flat/template/application/customization/features/list/options.phtml",
-        "hash": "3eebfc4d986fa291b98c1adfcd56a4a1"
+        "hash": "da10798c39de91107619a09ce27b3d93"
     },
     {
         "file": "app/sae/design/desktop/flat/template/application/customization/features/list/options/li.phtml",
-        "hash": "7750dda2bc4f9b3c7357d0a6821c7130"
+        "hash": "8926b55ee51a70d16d1a18a366de80e2"
     },
     {
         "file": "app/sae/design/desktop/flat/template/application/customization/features/list/soundcloudcallback.phtml",
         "hash": "e5a742f79bde592cb7bdbf00b2265ed0"
     },
     {
-        "file": "app/sae/design/desktop/flat/template/application/customization/features/tabbar/account/edit.phtml",
-        "hash": "abbb2324d865632d44b21abb240eecb3"
+        "file": "app/sae/design/desktop/flat/template/application/customization/features/list/options.phtml",
+        "hash": "3c91f4430bd3a2f1ae70f2bd4ec478d6"
     },
     {
-        "file": "app/sae/design/desktop/flat/template/application/customization/features/export.phtml",
-        "hash": "fc728d15db31f768eaca6dc7d48137d9"
+        "file": "app/sae/design/desktop/flat/template/application/customization/features/tabbar/account/edit.phtml",
+        "hash": "abbb2324d865632d44b21abb240eecb3"
     },
     {
         "file": "app/sae/design/desktop/flat/template/application/customization/features/list.phtml",
         "hash": "a37311a1655a747ed075aee742a45bd9"
     },
     {
-        "file": "app/sae/design/desktop/flat/template/application/customization/index.phtml",
-        "hash": "390ea4ed9046f36e222eee59cb46ee37"
+        "file": "app/sae/design/desktop/flat/template/application/customization/features/export.phtml",
+        "hash": "7bb1e3018e86a6acf661fd302a8deb9b"
     },
     {
         "file": "app/sae/design/desktop/flat/template/application/customization/index/overview/colors/angular.phtml",
@@ -5169,15 +5185,15 @@
     },
     {
         "file": "app/sae/design/desktop/flat/template/application/customization/index/overview/iframe.phtml",
-        "hash": "bc0103dc0d2098e06ddfa9e0f657e4ba"
-    },
-    {
-        "file": "app/sae/design/desktop/flat/template/application/customization/index/sidebar_left.phtml",
-        "hash": "eef48794f27a22a709c0ed33f62147b5"
+        "hash": "b6dbd6dcb808b46e518e7036ca96a7fc"
     },
     {
         "file": "app/sae/design/desktop/flat/template/application/customization/index/menu.phtml",
         "hash": "380a7abe535b40be3c8263809a22d8be"
+    },
+    {
+        "file": "app/sae/design/desktop/flat/template/application/customization/index/sidebar_left.phtml",
+        "hash": "ffab1c2048cfe0baa3b2ca704a11e96d"
     },
     {
         "file": "app/sae/design/desktop/flat/template/application/customization/publication/app.phtml",
@@ -5197,7 +5213,11 @@
     },
     {
         "file": "app/sae/design/desktop/flat/template/application/customization/publication/sources.phtml",
-        "hash": "97b03a7fcec34c51a3f69567de350d93"
+        "hash": "d126b1590d4378d2b9550d6a693a86c4"
+    },
+    {
+        "file": "app/sae/design/desktop/flat/template/application/customization/index.phtml",
+        "hash": "5470a1b055a5c22d8dc42959ec375a5f"
     },
     {
         "file": "app/sae/design/desktop/flat/template/application/previewer/modal.phtml",
@@ -5312,12 +5332,12 @@
         "hash": "b5a19fc0e4841285a999ddbbbb6d0c1d"
     },
     {
-        "file": "app/sae/design/desktop/flat/template/cms/application/page/edit.phtml",
-        "hash": "3e49cd048736d9cfec6324fe0be66b36"
-    },
-    {
         "file": "app/sae/design/desktop/flat/template/cms/application/page/taginput.phtml",
         "hash": "e32cd8db479ec6d9022038b3b74c16a3"
+    },
+    {
+        "file": "app/sae/design/desktop/flat/template/cms/application/page/edit.phtml",
+        "hash": "c7fb8339470b49a8acdc77cba12640e6"
     },
     {
         "file": "app/sae/design/desktop/flat/template/codescan/application/edit.phtml",
@@ -5372,10 +5392,6 @@
         "hash": "2419e3a95d6561686bb9adf8246c034f"
     },
     {
-        "file": "app/sae/design/desktop/flat/template/folder/application/edit.phtml",
-        "hash": "4f3552d2d1a26b1c87b9d3de8334e1b5"
-    },
-    {
         "file": "app/sae/design/desktop/flat/template/folder/application/edit/form.phtml",
         "hash": "a95b0fa8477f760de64a2a7df9797360"
     },
@@ -5390,6 +5406,10 @@
     {
         "file": "app/sae/design/desktop/flat/template/folder/application/edit/categories.phtml",
         "hash": "ec7138228f38698fdf60c647c6b6d6e5"
+    },
+    {
+        "file": "app/sae/design/desktop/flat/template/folder/application/edit.phtml",
+        "hash": "0795ca95ef3cbc46bc250eecbc1abc9a"
     },
     {
         "file": "app/sae/design/desktop/flat/template/form/application/edit.phtml",
@@ -5433,7 +5453,7 @@
     },
     {
         "file": "app/sae/design/desktop/flat/template/maps/application/edit.phtml",
-        "hash": "88693b322055b775e75f66bbfabf8bf0"
+        "hash": "957378ff0af61f692ca1072c1679d65a"
     },
     {
         "file": "app/sae/design/desktop/flat/template/mcommerce/application/edit.phtml",
@@ -5477,7 +5497,7 @@
     },
     {
         "file": "app/sae/design/desktop/flat/template/mcommerce/application/edit/order/edit.phtml",
-        "hash": "8b476d69f81e4555700d459c6cb6819f"
+        "hash": "73069a905759d32efc652405f656b976"
     },
     {
         "file": "app/sae/design/desktop/flat/template/mcommerce/application/edit/settings/tax.phtml",
@@ -5492,6 +5512,18 @@
         "hash": "c9135169a97ecf5c55af73e941e7dff0"
     },
     {
+        "file": "app/sae/design/desktop/flat/template/mcommerce/application/edit/settings/discount.phtml",
+        "hash": "9ebbc8bffb9db2e4ab02662d808cad19"
+    },
+    {
+        "file": "app/sae/design/desktop/flat/template/mcommerce/application/edit/settings/discount/edit.phtml",
+        "hash": "05cd1eb6b47cb51950be26e0f070b786"
+    },
+    {
+        "file": "app/sae/design/desktop/flat/template/mcommerce/application/edit/settings/discount/li.phtml",
+        "hash": "a2a6050f807f2c89ed87a37c83fb7a4e"
+    },
+    {
         "file": "app/sae/design/desktop/flat/template/mcommerce/application/edit/store.phtml",
         "hash": "3ff6defdece462790598cb05d2ba42fc"
     },
@@ -5504,16 +5536,16 @@
         "hash": "61c19d4c801819661a6004c6feeff715"
     },
     {
-        "file": "app/sae/design/desktop/flat/template/mcommerce/application/edit/settings.phtml",
-        "hash": "c41633de1326cd8d8e0f3991dad37c63"
-    },
-    {
         "file": "app/sae/design/desktop/flat/template/mcommerce/application/edit/orders.phtml",
         "hash": "f3949ac9e64ee814698332a25e8d59ca"
     },
     {
         "file": "app/sae/design/desktop/flat/template/mcommerce/application/edit/products.phtml",
         "hash": "1e7c4627290a3cbabc56fb2ae3749140"
+    },
+    {
+        "file": "app/sae/design/desktop/flat/template/mcommerce/application/edit/settings.phtml",
+        "hash": "5030fbdd56cc51bd213bf1b165ce718b"
     },
     {
         "file": "app/sae/design/desktop/flat/template/media/application/gallery/image/edit.phtml",
@@ -5617,11 +5649,11 @@
     },
     {
         "file": "app/sae/design/desktop/flat/template/places/application/edit.phtml",
-        "hash": "e51517bfde5f7732ea1d75b1237c5e8b"
+        "hash": "21fa8cd2d360f8f27cd579edd7bc4bbe"
     },
     {
         "file": "app/sae/design/desktop/flat/template/places/application/search.phtml",
-        "hash": "4efb181857802b93cd13c76541dd0cfd"
+        "hash": "4acc86fdb7216783c8fd06b520c17bf4"
     },
     {
         "file": "app/sae/design/desktop/flat/template/promotion/application/edit/form.phtml",
@@ -5637,7 +5669,7 @@
     },
     {
         "file": "app/sae/design/desktop/flat/template/push/application/edit.phtml",
-        "hash": "b4b6ac412077743a2926660634da3243"
+        "hash": "18592240901cb0aaebe7fbe2b9213aaf"
     },
     {
         "file": "app/sae/design/desktop/flat/template/push/certificat/list.phtml",
@@ -5744,10 +5776,6 @@
         "hash": "6d5ecb9c2c543b205e89bd7b67388d7a"
     },
     {
-        "file": "app/sae/design/desktop/installer/css/style.css",
-        "hash": "3d36c9ce370096113d046183b5870484"
-    },
-    {
         "file": "app/sae/design/desktop/installer/css/webfonts/25E28B_0_0.eot",
         "hash": "42cf93fe8d38d8222051eabd522f9b56"
     },
@@ -5826,6 +5854,10 @@
     {
         "file": "app/sae/design/desktop/installer/css/webfonts/fontawesome-webfont.woff",
         "hash": "b683029bafe0305ac2234038a03e1541"
+    },
+    {
+        "file": "app/sae/design/desktop/installer/css/style.css",
+        "hash": "f113bcc759acb9a5b25f1e94035d0c34"
     },
     {
         "file": "app/sae/design/desktop/installer/images/flat/checkbox-2x.png",
@@ -5992,10 +6024,6 @@
         "hash": "97034365a79681311b160f0c87b81e24"
     },
     {
-        "file": "app/sae/design/desktop/installer/js/installer.js",
-        "hash": "5e350f7286a279a436551f90ef648a97"
-    },
-    {
         "file": "app/sae/design/desktop/installer/js/jquery-ui.js",
         "hash": "2a427ac8ad358ad793f18deb3f53d49f"
     },
@@ -6022,6 +6050,10 @@
     {
         "file": "app/sae/design/desktop/installer/js/tooltip.js",
         "hash": "d3eab41cfc86b885e40bd6f1d2d416bc"
+    },
+    {
+        "file": "app/sae/design/desktop/installer/js/installer.js",
+        "hash": "d0bbdee7f464a62c612cd29b003d9a7d"
     },
     {
         "file": "app/sae/design/desktop/installer/layout/front.xml",
@@ -6052,10 +6084,6 @@
         "hash": "f720545c23ad9d32fb749aba3effcc27"
     },
     {
-        "file": "app/sae/design/desktop/installer/template/installer/installation/index/installation.phtml",
-        "hash": "382a2595bc26a6a5a75cf2e9eadbd450"
-    },
-    {
         "file": "app/sae/design/desktop/installer/template/installer/installation/index/license.phtml",
         "hash": "fc99777eaba56a27cd04fd15ac4bc623"
     },
@@ -6064,16 +6092,12 @@
         "hash": "8a051d16fa8daef1674fb79428a77dd0"
     },
     {
-        "file": "app/sae/design/desktop/installer/template/page/layout.phtml",
-        "hash": "37dbef29a15c463e2d7dbf6bdb2431d7"
+        "file": "app/sae/design/desktop/installer/template/installer/installation/index/installation.phtml",
+        "hash": "6289311038b4b0da4e99203012bf47c3"
     },
     {
         "file": "app/sae/design/desktop/installer/template/page/layout/footer.phtml",
         "hash": "8ed0a8fa766e08b0c9d891949dbd2429"
-    },
-    {
-        "file": "app/sae/design/desktop/installer/template/page/layout/header.phtml",
-        "hash": "694d97b10db3e204fbff0c0cf8a0405d"
     },
     {
         "file": "app/sae/design/desktop/installer/template/page/layout/sidebar.phtml",
@@ -6082,6 +6106,14 @@
     {
         "file": "app/sae/design/desktop/installer/template/page/layout/title.phtml",
         "hash": "abbacc573ea669bbef53d65105fec494"
+    },
+    {
+        "file": "app/sae/design/desktop/installer/template/page/layout/header.phtml",
+        "hash": "53c051a78f05afd95d24d73d72587380"
+    },
+    {
+        "file": "app/sae/design/desktop/installer/template/page/layout.phtml",
+        "hash": "55311cf332aa2f73a2d7c31dcc2ab2f3"
     },
     {
         "file": "app/sae/design/desktop/siberian/css/bootstrap.css",
@@ -6181,7 +6213,7 @@
     },
     {
         "file": "app/sae/design/desktop/siberian/css/style.css",
-        "hash": "021949862351ed2e55810a072bbcaf9b"
+        "hash": "c49b20e4e0bf1fd5d5fc6b09e275d521"
     },
     {
         "file": "app/sae/design/desktop/siberian/images/buttons/point.png",
@@ -8989,7 +9021,7 @@
     },
     {
         "file": "app/sae/design/desktop/siberian/js/features.js",
-        "hash": "7b23025d3ac91036b7080ae44cefb823"
+        "hash": "b9c7d8400ef30586bbbe5f8cf85daacd"
     },
     {
         "file": "app/sae/design/desktop/siberian/layout/admin.xml",
@@ -9217,7 +9249,7 @@
     },
     {
         "file": "app/sae/design/desktop/siberian/template/application/customization/features/edit/tabbar_editor.phtml",
-        "hash": "12d642947eca520f0f190d1093fea5bb"
+        "hash": "cfbd49b4e55c15839469c4db0d217c85"
     },
     {
         "file": "app/sae/design/desktop/siberian/template/application/customization/features/list/options.phtml",
@@ -9249,19 +9281,19 @@
     },
     {
         "file": "app/sae/design/desktop/siberian/template/application/customization/index/overview/colors/ionic.phtml",
-        "hash": "887e2bdd2e9f8ce4f48cefd31f124762"
+        "hash": "60b99b9732c730105eb33fec80c4f4d1"
     },
     {
         "file": "app/sae/design/desktop/siberian/template/application/customization/index/overview/homepage.phtml",
         "hash": "3ab5b9cafbb793baba476a048a663610"
     },
     {
-        "file": "app/sae/design/desktop/siberian/template/application/customization/index/overview/iframe.phtml",
-        "hash": "5b8c3967540307334d5e71ad05f12262"
-    },
-    {
         "file": "app/sae/design/desktop/siberian/template/application/customization/index/overview/publication.phtml",
         "hash": "2cfd5356d38878e3e9ef1a4ecbfa6f3e"
+    },
+    {
+        "file": "app/sae/design/desktop/siberian/template/application/customization/index/overview/iframe.phtml",
+        "hash": "fc17bd766483497515761c042d55da62"
     },
     {
         "file": "app/sae/design/desktop/siberian/template/application/customization/index/header.phtml",
@@ -9289,7 +9321,7 @@
     },
     {
         "file": "app/sae/design/desktop/siberian/template/application/customization/publication/sources.phtml",
-        "hash": "a305b1e794797c5a42796c1c59666ed7"
+        "hash": "cea6c813c79a10134677f7be4556e567"
     },
     {
         "file": "app/sae/design/desktop/siberian/template/application/previewer/modal.phtml",
@@ -9420,12 +9452,12 @@
         "hash": "e3656789b9fc039dbcd635251c26bd6b"
     },
     {
-        "file": "app/sae/design/desktop/siberian/template/cms/application/page/edit.phtml",
-        "hash": "79b2b05204f9eca0bc5822f2bcdd0cd0"
-    },
-    {
         "file": "app/sae/design/desktop/siberian/template/cms/application/page/tagsinput.phtml",
         "hash": "5755ca0847329599d19b0988878f5b1a"
+    },
+    {
+        "file": "app/sae/design/desktop/siberian/template/cms/application/page/edit.phtml",
+        "hash": "a35c6094a6fc20a663ad0de3accbfeeb"
     },
     {
         "file": "app/sae/design/desktop/siberian/template/codescan/application/edit.phtml",
@@ -9545,7 +9577,7 @@
     },
     {
         "file": "app/sae/design/desktop/siberian/template/maps/application/edit.phtml",
-        "hash": "ac2150e3e651dd8e30629509195b414b"
+        "hash": "8cece30eb36ea0ad4f181f9f611dde27"
     },
     {
         "file": "app/sae/design/desktop/siberian/template/mcommerce/application/edit/catalog/categories/list.phtml",
@@ -9585,7 +9617,7 @@
     },
     {
         "file": "app/sae/design/desktop/siberian/template/mcommerce/application/edit/order/edit.phtml",
-        "hash": "19f6d1ba0ee1df8d0085c3a33dc9198c"
+        "hash": "4eb12a714865392563df446b91e3d502"
     },
     {
         "file": "app/sae/design/desktop/siberian/template/mcommerce/application/edit/settings/tax.phtml",
@@ -9600,6 +9632,18 @@
         "hash": "a58696837605567960e6ccf9967c2ba0"
     },
     {
+        "file": "app/sae/design/desktop/siberian/template/mcommerce/application/edit/settings/discount.phtml",
+        "hash": "7291d5bb7e2cf822bf8243b5161f673d"
+    },
+    {
+        "file": "app/sae/design/desktop/siberian/template/mcommerce/application/edit/settings/discount/edit.phtml",
+        "hash": "376d88d3a71e63bc7562e1d1dc94d273"
+    },
+    {
+        "file": "app/sae/design/desktop/siberian/template/mcommerce/application/edit/settings/discount/li.phtml",
+        "hash": "2997c8bed0aedffd203ecab0a79c2d4f"
+    },
+    {
         "file": "app/sae/design/desktop/siberian/template/mcommerce/application/edit/store.phtml",
         "hash": "de07416c21ff4d848507cd070cf296ca"
     },
@@ -9612,16 +9656,16 @@
         "hash": "8f3402f6daf24143ccac805ac2eb75dc"
     },
     {
-        "file": "app/sae/design/desktop/siberian/template/mcommerce/application/edit/settings.phtml",
-        "hash": "7752e71945eb6d78e8695615b6deee29"
-    },
-    {
         "file": "app/sae/design/desktop/siberian/template/mcommerce/application/edit/orders.phtml",
         "hash": "3b8e6d87c4286ee3d983350a5eebe8b3"
     },
     {
         "file": "app/sae/design/desktop/siberian/template/mcommerce/application/edit/products.phtml",
         "hash": "8cb7d81acc66e74e585d6bac9f704975"
+    },
+    {
+        "file": "app/sae/design/desktop/siberian/template/mcommerce/application/edit/settings.phtml",
+        "hash": "0cf75ce081cea4fe5a8970a2414a4fc2"
     },
     {
         "file": "app/sae/design/desktop/siberian/template/mcommerce/application/edit.phtml",
@@ -9729,7 +9773,7 @@
     },
     {
         "file": "app/sae/design/desktop/siberian/template/places/application/search.phtml",
-        "hash": "761ddbbdb07c1616baa56300fed667aa"
+        "hash": "f01cc2dc78d783c21a3bd82c2ba4b478"
     },
     {
         "file": "app/sae/design/desktop/siberian/template/promotion/application/edit/form.phtml",
@@ -9741,7 +9785,7 @@
     },
     {
         "file": "app/sae/design/desktop/siberian/template/push/application/edit.phtml",
-        "hash": "2fe73e0a155092a96bcc4f0e952d14f8"
+        "hash": "fbcac49d9eac8caa5bf00395cb2f56e6"
     },
     {
         "file": "app/sae/design/desktop/siberian/template/push/certificat/list.phtml",
@@ -9925,11 +9969,11 @@
     },
     {
         "file": "app/sae/design/email/template/mcommerce/purchase/order/customer/confirm.phtml",
-        "hash": "6d730b05d566d9c53f06fa4a7abe055b"
+        "hash": "e950b9d88a01fc27921092274439b118"
     },
     {
         "file": "app/sae/design/email/template/mcommerce/purchase/order/store/confirm.phtml",
-        "hash": "1a647e81aea1eaf72c0462b3eb88c046"
+        "hash": "d7dc526f37943f624a4802b10442f011"
     },
     {
         "file": "app/sae/design/mobile/angular/css/angular/angular-carousel.css",
@@ -11729,7 +11773,7 @@
     },
     {
         "file": "app/sae/modules/Application/Model/Application/Abstract.php",
-        "hash": "0e2f1b52923154bef8922de149e33b4a"
+        "hash": "ad9ce52284c4b020f2d65551eb2f18c3"
     },
     {
         "file": "app/sae/modules/Application/Model/Db/Table/Acl/Option.php",
@@ -11813,15 +11857,15 @@
     },
     {
         "file": "app/sae/modules/Application/Model/Device/Ionic/Ios/Abstract.php",
-        "hash": "3ad06cc00adc39ed698ad2b735f68c4c"
-    },
-    {
-        "file": "app/sae/modules/Application/Model/Device/Ionic/Ios.php",
-        "hash": "30ed94918cd98ea769c485ce49dc00f6"
+        "hash": "ffb192f8197a13d42d1230077304d7d7"
     },
     {
         "file": "app/sae/modules/Application/Model/Device/Ionic/Android.php",
-        "hash": "9cdf0a11ecdcfd07d13960200615382b"
+        "hash": "fdcb5ada18a0f1aa30aaf117d0ce185e"
+    },
+    {
+        "file": "app/sae/modules/Application/Model/Device/Ionic/Ios.php",
+        "hash": "3e2724b966c36c2c5ef9e87f2beb2e70"
     },
     {
         "file": "app/sae/modules/Application/Model/Device/Abstract.php",
@@ -11849,19 +11893,15 @@
     },
     {
         "file": "app/sae/modules/Application/Model/Option/Value/Metadata.php",
-        "hash": "612da66de01c5dbc07c22337a14182e4"
+        "hash": "4b9e303d5f55932bf4f1d7fc2abc1691"
     },
     {
         "file": "app/sae/modules/Application/Model/Option/Value.php",
-        "hash": "67e79497d5ca58a5d4998d8b32cd5dfc"
+        "hash": "cbc7528a1eaebe29076772988e3b1e62"
     },
     {
         "file": "app/sae/modules/Application/Model/Tools.php",
         "hash": "8ad33f04e53c722fe17baa770d87bb4a"
-    },
-    {
-        "file": "app/sae/modules/Application/Model/Option.php",
-        "hash": "9032c87c04c3f17788576db141b00782"
     },
     {
         "file": "app/sae/modules/Application/Model/Tc.php",
@@ -11872,20 +11912,8 @@
         "hash": "793a46fc9dc3116c7a6513a4a5e80a07"
     },
     {
-        "file": "app/sae/modules/Application/Model/Languages.php",
-        "hash": "0d08bf30a7ed179ec1c297bf45200a0a"
-    },
-    {
         "file": "app/sae/modules/Application/Model/Queue.php",
         "hash": "25966370bdc8f1cf0a26099f305658e6"
-    },
-    {
-        "file": "app/sae/modules/Application/Model/ApkQueue.php",
-        "hash": "980133b6af19b2e6368b02793c2974a9"
-    },
-    {
-        "file": "app/sae/modules/Application/Model/SourceQueue.php",
-        "hash": "a227bbd750972f2ca6e6d6e148048e62"
     },
     {
         "file": "app/sae/modules/Application/Model/TagOption.php",
@@ -11896,16 +11924,32 @@
         "hash": "1b8bee4ccdf2409a71f410dab491a2e3"
     },
     {
+        "file": "app/sae/modules/Application/Model/ApkQueue.php",
+        "hash": "e03be434e55e5e651f6b155117078c3b"
+    },
+    {
+        "file": "app/sae/modules/Application/Model/Languages.php",
+        "hash": "fba3b02140b2471e0ffcd75a22bcd548"
+    },
+    {
+        "file": "app/sae/modules/Application/Model/Option.php",
+        "hash": "1a0c94b5cb0ff8bd6cff948b3de98bf3"
+    },
+    {
+        "file": "app/sae/modules/Application/Model/SourceQueue.php",
+        "hash": "7542480f420856d02cb9afc7999f4410"
+    },
+    {
         "file": "app/sae/modules/Application/View/Customization/Design/Colors.php",
         "hash": "dfcc1b171512d067cfc512350604dd84"
     },
     {
         "file": "app/sae/modules/Application/View/Customization/Features/Edit/Tabbareditor.php",
-        "hash": "3905347498969a8b4871aab1b4fff614"
+        "hash": "3f418b7dea8f9b7f76557fb783557bab"
     },
     {
         "file": "app/sae/modules/Application/View/Customization/Features/List/Options.php",
-        "hash": "5a347d0b88771aadbe793247c458c16d"
+        "hash": "b05a1dfadb0c9df158db04f7cc6645c0"
     },
     {
         "file": "app/sae/modules/Application/View/Customization/Publication/Info.php",
@@ -11940,20 +11984,20 @@
         "hash": "ff94c8f265236aa7be482670fac56014"
     },
     {
-        "file": "app/sae/modules/Application/controllers/Backoffice/ListController.php",
-        "hash": "67b91276a70b924aafe9508546014875"
-    },
-    {
         "file": "app/sae/modules/Application/controllers/Backoffice/View/AclController.php",
         "hash": "d3fe796ff5f5290353c8b800c7b12a23"
     },
     {
         "file": "app/sae/modules/Application/controllers/Backoffice/IosautopublishController.php",
-        "hash": "b36a3549393321239e3834e80303386b"
+        "hash": "5f6b0bfab0908d098a74db8605e1e210"
+    },
+    {
+        "file": "app/sae/modules/Application/controllers/Backoffice/ListController.php",
+        "hash": "fd68fc3a3d38fd86986316efc2ca928b"
     },
     {
         "file": "app/sae/modules/Application/controllers/Backoffice/ViewController.php",
-        "hash": "a8a547bbf8a6eeae94a84a7e87035329"
+        "hash": "276546048c7c3b5393798cd821d750e8"
     },
     {
         "file": "app/sae/modules/Application/controllers/BackofficeController.php",
@@ -11993,11 +12037,11 @@
     },
     {
         "file": "app/sae/modules/Application/controllers/Customization/Publication/InfosController.php",
-        "hash": "7d178e8d494a6f9bb08ffa3a64f2c6cc"
+        "hash": "cc2cbd0a28a4dc60d217a1e9e47dc03a"
     },
     {
         "file": "app/sae/modules/Application/controllers/Customization/FeaturesController.php",
-        "hash": "5e3dc12dd3d192fac2b82846dff64f45"
+        "hash": "7d5269940666bf76e1eecdac18d96cca"
     },
     {
         "file": "app/sae/modules/Application/controllers/CustomizationController.php",
@@ -12073,7 +12117,7 @@
     },
     {
         "file": "app/sae/modules/Application/resources/db/data/application.php",
-        "hash": "ad5e72ba4edeea5e43cb02433ab42c46"
+        "hash": "c415cc5fbcf7797c89c6233595b51334"
     },
     {
         "file": "app/sae/modules/Application/resources/db/schema/application_acl_option.php",
@@ -12096,24 +12140,12 @@
         "hash": "f2a2f7db95107f25fb4829f2eb26ecc3"
     },
     {
-        "file": "app/sae/modules/Application/resources/db/schema/application_option_value.php",
-        "hash": "e31e6ac943e78b7816f6166226d7779c"
-    },
-    {
         "file": "app/sae/modules/Application/resources/db/schema/application_tc.php",
         "hash": "ba013f7068d11678a54fb2210578d913"
     },
     {
-        "file": "app/sae/modules/Application/resources/db/schema/application_option.php",
-        "hash": "5ca035e5ff514d1aa5a086ffcfcf9304"
-    },
-    {
         "file": "app/sae/modules/Application/resources/db/schema/application_ios_autobuild_information.php",
         "hash": "29ea4e899e11356f96e5a5163e6ec9af"
-    },
-    {
-        "file": "app/sae/modules/Application/resources/db/schema/application_layout_homepage.php",
-        "hash": "ce3ee6557e94edbacf0d8bd67eee141b"
     },
     {
         "file": "app/sae/modules/Application/resources/db/schema/apk_queue.php",
@@ -12137,7 +12169,19 @@
     },
     {
         "file": "app/sae/modules/Application/resources/db/schema/application.php",
-        "hash": "6bfc7901724c9ad203bf1739ca082513"
+        "hash": "21bdf5c4f5d9b6c6f21ce5de9668433a"
+    },
+    {
+        "file": "app/sae/modules/Application/resources/db/schema/application_layout_homepage.php",
+        "hash": "ea8d07e62db08ba4a8c0fc198113226c"
+    },
+    {
+        "file": "app/sae/modules/Application/resources/db/schema/application_option.php",
+        "hash": "c1afa457e262b33614e87fd1bdb773c1"
+    },
+    {
+        "file": "app/sae/modules/Application/resources/db/schema/application_option_value.php",
+        "hash": "18b6ca81bf45c8c3db0be4745d05ac82"
     },
     {
         "file": "app/sae/modules/Application/resources/design/email/layout/queue.xml",
@@ -12173,7 +12217,7 @@
     },
     {
         "file": "app/sae/modules/Application/package.json",
-        "hash": "2902cc1f920d470cb56a1d0bc8b2b11f"
+        "hash": "e63795227e027229045262782b64d075"
     },
     {
         "file": "app/sae/modules/Backoffice/Controller/Default.php",
@@ -12232,16 +12276,16 @@
         "hash": "ca3d47c5a7f2339af52419b4edfcd693"
     },
     {
-        "file": "app/sae/modules/Backoffice/controllers/Advanced/ModuleController.php",
-        "hash": "6a1642a2a928cf9e8d73576ce28c3120"
+        "file": "app/sae/modules/Backoffice/controllers/Advanced/CronController.php",
+        "hash": "e69e7af03c02940cdf079a24867eac64"
     },
     {
-        "file": "app/sae/modules/Backoffice/controllers/Advanced/CronController.php",
-        "hash": "f941d51a972b5a4a7992fa0362c22e5c"
+        "file": "app/sae/modules/Backoffice/controllers/Advanced/ModuleController.php",
+        "hash": "f4d3b3d4d7759da763bef9e1cc7ebaf3"
     },
     {
         "file": "app/sae/modules/Backoffice/controllers/IndexController.php",
-        "hash": "91e39ef296a641ca5ade22b6ad32edb3"
+        "hash": "d5afe38a52f0fa4df01b9d800484a9a0"
     },
     {
         "file": "app/sae/modules/Backoffice/resources/db/data/backoffice.php",
@@ -12257,7 +12301,7 @@
     },
     {
         "file": "app/sae/modules/Backoffice/package.json",
-        "hash": "d2b5b2d014154370310465a1480b47ed"
+        "hash": "225d435de7fee180b22af59f79487223"
     },
     {
         "file": "app/sae/modules/Booking/Model/Booking.php",
@@ -12561,7 +12605,7 @@
     },
     {
         "file": "app/sae/modules/Cms/Model/Application/Page.php",
-        "hash": "a5d220650b3747a44682c42531543a3b"
+        "hash": "62827f3861cb8aa702225c2d3de9c261"
     },
     {
         "file": "app/sae/modules/Cms/Model/Db/Table/Application/Block.php",
@@ -12721,7 +12765,7 @@
     },
     {
         "file": "app/sae/modules/Cms/package.json",
-        "hash": "eae82f0ff54b23614726950e6993c466"
+        "hash": "e366a818860169fd0d4a57d90fbd1441"
     },
     {
         "file": "app/sae/modules/Codescan/Model/Codescan.php",
@@ -12913,7 +12957,7 @@
     },
     {
         "file": "app/sae/modules/Core/Controller/Default/Abstract.php",
-        "hash": "117a168b8ac8b895ba5e09502be117c0"
+        "hash": "10a8b79d67c34a7ed0c098d36be4b0a5"
     },
     {
         "file": "app/sae/modules/Core/Controller/Default.php",
@@ -12933,7 +12977,7 @@
     },
     {
         "file": "app/sae/modules/Core/Model/Default/Abstract.php",
-        "hash": "c63fd234904e5f2286f581d0aa888beb"
+        "hash": "a2dd9a1045c723cb3696fbe376d9be0d"
     },
     {
         "file": "app/sae/modules/Core/Model/Lib/Facebook.php",
@@ -12952,12 +12996,12 @@
         "hash": "6996c24b3419fa9fcc5da58a5f776617"
     },
     {
-        "file": "app/sae/modules/Core/Model/Lib/String.php",
-        "hash": "9217060e00fd2f2608115a987a744364"
-    },
-    {
         "file": "app/sae/modules/Core/Model/Lib/Image.php",
         "hash": "a10b91c3dbb74c2ae16b4ddaabbe6896"
+    },
+    {
+        "file": "app/sae/modules/Core/Model/Lib/String.php",
+        "hash": "0f28d474bc4bbf495df17dabcfd41818"
     },
     {
         "file": "app/sae/modules/Core/Model/Log.php",
@@ -13009,7 +13053,7 @@
     },
     {
         "file": "app/sae/modules/Core/View/Default/Abstract.php",
-        "hash": "66c63df77b8ef8d9188980410b1c0c16"
+        "hash": "effb497fc6b5c48239c92d0151adec48"
     },
     {
         "file": "app/sae/modules/Core/View/Email/Default.php",
@@ -13041,7 +13085,7 @@
     },
     {
         "file": "app/sae/modules/Core/package.json",
-        "hash": "d35a6a9aa23d8ed95af2ed438e143fb9"
+        "hash": "07630dd289d7f0aa21f8397c38986f39"
     },
     {
         "file": "app/sae/modules/Cron/Model/Db/Table/Cron.php",
@@ -13076,10 +13120,6 @@
         "hash": "467ca440fc085a38890abc46c2032a87"
     },
     {
-        "file": "app/sae/modules/Cron/resources/db/data/scheduler.php",
-        "hash": "2901de88b0639aa43b565b087053f1b4"
-    },
-    {
         "file": "app/sae/modules/Cron/resources/db/data/cachebuilder.php",
         "hash": "12550333c64f78762f24809de211055a"
     },
@@ -13088,8 +13128,12 @@
         "hash": "1ad231fbdedddbc4a426b834217eca29"
     },
     {
+        "file": "app/sae/modules/Cron/resources/db/async/scheduler.php",
+        "hash": "570368a558a9f2cf7c80b6dd2d8288cf"
+    },
+    {
         "file": "app/sae/modules/Cron/package.json",
-        "hash": "65210fce4fb55dd186fa1c05595c9d0a"
+        "hash": "8f0fa68fee564b05bea7ce40299c1760"
     },
     {
         "file": "app/sae/modules/Customer/Model/Address.php",
@@ -13125,7 +13169,11 @@
     },
     {
         "file": "app/sae/modules/Customer/Model/Customer.php",
-        "hash": "03d2ad804a1130ff3baa239b984b97e7"
+        "hash": "6bccab731e8220abaffc24fffbba213f"
+    },
+    {
+        "file": "app/sae/modules/Customer/Model/Information/Interface.php",
+        "hash": "b05b949fae3205761bd03f726235b51d"
     },
     {
         "file": "app/sae/modules/Customer/View/Account_del/Forgotpassword.php",
@@ -13156,16 +13204,16 @@
         "hash": "c59a3c8de351924a4218b065b66026a8"
     },
     {
-        "file": "app/sae/modules/Customer/controllers/Mobile/Account/EditController.php",
-        "hash": "7c5ba48711fd0dec58fbb1b78ea9e040"
-    },
-    {
         "file": "app/sae/modules/Customer/controllers/Mobile/Account/RegisterController.php",
         "hash": "b23e597a56f6c4892008327d143abfb0"
     },
     {
         "file": "app/sae/modules/Customer/controllers/Mobile/Account/LoginController.php",
         "hash": "5f9f789fe7c84b9c2010dd646baafd11"
+    },
+    {
+        "file": "app/sae/modules/Customer/controllers/Mobile/Account/EditController.php",
+        "hash": "9c5e238dff2231aeae0d65b933cc3e2d"
     },
     {
         "file": "app/sae/modules/Customer/controllers/Mobile/AccountController.php",
@@ -13193,7 +13241,7 @@
     },
     {
         "file": "app/sae/modules/Customer/package.json",
-        "hash": "16c855962c57134f3b6435d832bcad76"
+        "hash": "24d1168f1df1406ad4afe525a6034e36"
     },
     {
         "file": "app/sae/modules/Event/Model/Db/Table/Event.php",
@@ -13297,7 +13345,7 @@
     },
     {
         "file": "app/sae/modules/Folder/resources/db/data/folder.php",
-        "hash": "1a9aa40a9d57a3df880b13407cf21590"
+        "hash": "82ac03fcfe7e76c34fc0f1ebbca3e9ca"
     },
     {
         "file": "app/sae/modules/Folder/resources/db/schema/folder_category.php",
@@ -13308,8 +13356,12 @@
         "hash": "db3cf9fe4ac576b13957f60ceb65b92e"
     },
     {
+        "file": "app/sae/modules/Folder/data/dummy_city.xml",
+        "hash": "055beacbb7301d3a53df0fa147a4d26a"
+    },
+    {
         "file": "app/sae/modules/Folder/package.json",
-        "hash": "923d00f40e30ddcda88a534cddaed6f6"
+        "hash": "7bb78e8a6d783076d232b8831887556a"
     },
     {
         "file": "app/sae/modules/Form/Model/Db/Table/Field.php",
@@ -13425,7 +13477,7 @@
     },
     {
         "file": "app/sae/modules/Front/controllers/Mobile/HomeController.php",
-        "hash": "296fd563986576282ac535e64cfedf1e"
+        "hash": "a5418156e110ed8a9083fcd41ed511f2"
     },
     {
         "file": "app/sae/modules/Front/controllers/MobileController.php",
@@ -13433,7 +13485,7 @@
     },
     {
         "file": "app/sae/modules/Front/package.json",
-        "hash": "64c1b8b04be29c0516197781a1aa967c"
+        "hash": "38f7cc7359758a0460bccdfc089f012f"
     },
     {
         "file": "app/sae/modules/Installer/Controller/Installation/Default.php",
@@ -13449,7 +13501,7 @@
     },
     {
         "file": "app/sae/modules/Installer/Model/Installer/Module.php",
-        "hash": "6caea6ef6dac84a289ecb93e295c97a3"
+        "hash": "c73e5d8bb44fec73223dd01de567884f"
     },
     {
         "file": "app/sae/modules/Installer/Model/Fix.php",
@@ -13468,16 +13520,16 @@
         "hash": "656863d8e84498c858964599d2099394"
     },
     {
-        "file": "app/sae/modules/Installer/controllers/Installation/DatabaseController.php",
-        "hash": "debdf2ac6457d69747bec82b2aca93c1"
-    },
-    {
         "file": "app/sae/modules/Installer/controllers/Installation/ModuleController.php",
         "hash": "70b29e836c238ced9aef889620b9cd5e"
     },
     {
         "file": "app/sae/modules/Installer/controllers/Installation/UserController.php",
         "hash": "77cb12fa6b52eaccc94fe339680f44f9"
+    },
+    {
+        "file": "app/sae/modules/Installer/controllers/Installation/DatabaseController.php",
+        "hash": "0be11904c5a6d888c5f0ccc261a98c0c"
     },
     {
         "file": "app/sae/modules/Installer/controllers/InstallationController.php",
@@ -13489,7 +13541,7 @@
     },
     {
         "file": "app/sae/modules/Installer/package.json",
-        "hash": "71e1400688b5929ce747c4542a20f028"
+        "hash": "b418734042635d4b36675140bc39112f"
     },
     {
         "file": "app/sae/modules/LoyaltyCard/Model/Customer.php",
@@ -13637,7 +13689,7 @@
     },
     {
         "file": "app/sae/modules/Mcommerce/Controller/Mobile/Default.php",
-        "hash": "7bb7b5b4a539e169f980d7f531c2173b"
+        "hash": "34c0e325df384f5024c0e0b9a6e0d8bd"
     },
     {
         "file": "app/sae/modules/Mcommerce/Model/Cart/Line.php",
@@ -13688,6 +13740,14 @@
         "hash": "40d1138fb14c530454d9c906109450be"
     },
     {
+        "file": "app/sae/modules/Mcommerce/Model/Db/Table/Promo.php",
+        "hash": "edcb631c0ead6e9342c0910dca9d43df"
+    },
+    {
+        "file": "app/sae/modules/Mcommerce/Model/Db/Table/Promo/Log.php",
+        "hash": "e5d0c5adebb636ad35951a11a7915947"
+    },
+    {
         "file": "app/sae/modules/Mcommerce/Model/Delivery/Method.php",
         "hash": "75d933b390a0c01275809790d7f58dda"
     },
@@ -13708,10 +13768,6 @@
         "hash": "30d9563001e684fd91d089c428b98d49"
     },
     {
-        "file": "app/sae/modules/Mcommerce/Model/Payment/Method.php",
-        "hash": "85505b203be80dfc601c484e0791258d"
-    },
-    {
         "file": "app/sae/modules/Mcommerce/Model/Payment/Method/Abstract.php",
         "hash": "bb3b95363426a2a6757415ed3925f21c"
     },
@@ -13722,6 +13778,10 @@
     {
         "file": "app/sae/modules/Mcommerce/Model/Payment/Method/Paypal.php",
         "hash": "54e4126e7605c9aacefc27aa8c946aa3"
+    },
+    {
+        "file": "app/sae/modules/Mcommerce/Model/Payment/Method.php",
+        "hash": "883614c7497af1fea39c7343d9f2450e"
     },
     {
         "file": "app/sae/modules/Mcommerce/Model/Store.php",
@@ -13745,15 +13805,23 @@
     },
     {
         "file": "app/sae/modules/Mcommerce/Model/Cart.php",
-        "hash": "6531f2d9ef7b5a0f8765af90d205b151"
-    },
-    {
-        "file": "app/sae/modules/Mcommerce/Model/Order.php",
-        "hash": "e2f00c44bdfadd0c056547a3109bf91d"
+        "hash": "dc07ba910604b7c12a897f30901e5d07"
     },
     {
         "file": "app/sae/modules/Mcommerce/Model/Mcommerce.php",
-        "hash": "ebc007974cb1c4d0c65b17efb59b761e"
+        "hash": "c85c867c2d152e846fef5625c50729cf"
+    },
+    {
+        "file": "app/sae/modules/Mcommerce/Model/Order.php",
+        "hash": "cd39723a1670f3032631c782fdc64eb7"
+    },
+    {
+        "file": "app/sae/modules/Mcommerce/Model/Promo.php",
+        "hash": "480f3df8de6103c9544750ce7b737411"
+    },
+    {
+        "file": "app/sae/modules/Mcommerce/Model/Promo/Log.php",
+        "hash": "b92e0d9c475b0f6d1a6c0f0d15b6b021"
     },
     {
         "file": "app/sae/modules/Mcommerce/controllers/Application/Catalog/CategoryController.php",
@@ -13784,6 +13852,18 @@
         "hash": "98ba4e6ef9c55507fdc608823bac4c2f"
     },
     {
+        "file": "app/sae/modules/Mcommerce/controllers/Application/Settings/DiscountController.php",
+        "hash": "fba44471c4482c4b8cdd7e51db7cc019"
+    },
+    {
+        "file": "app/sae/modules/Mcommerce/controllers/Application/Settings/GuestmodeController.php",
+        "hash": "90ce2bd5217bada0b3b6a814e6b5d0d2"
+    },
+    {
+        "file": "app/sae/modules/Mcommerce/controllers/Application/Settings/TipController.php",
+        "hash": "8e8cfe03e311cd90aa3eb3b7c7654df1"
+    },
+    {
         "file": "app/sae/modules/Mcommerce/controllers/Application/SettingsController.php",
         "hash": "1b3a4e543248ff6b8d9488f3f317a949"
     },
@@ -13808,10 +13888,6 @@
         "hash": "e94eb6f2557840581ec8ff3b52430935"
     },
     {
-        "file": "app/sae/modules/Mcommerce/controllers/Mobile/Sales/DeliveryController.php",
-        "hash": "53f2a81368ab04f41c62d1ca14cf86ef"
-    },
-    {
         "file": "app/sae/modules/Mcommerce/controllers/Mobile/Sales/ErrorController.php",
         "hash": "1f3edec7142e8ca4cb4f422bb5010267"
     },
@@ -13824,12 +13900,16 @@
         "hash": "e193236736578f678f33f3c2d68eafe8"
     },
     {
-        "file": "app/sae/modules/Mcommerce/controllers/Mobile/Sales/PaymentController.php",
-        "hash": "eb5f08ad4f296670bd7fdf9e65cb9df6"
+        "file": "app/sae/modules/Mcommerce/controllers/Mobile/Sales/CustomerController.php",
+        "hash": "1cb5199629f28a9d479d041ecc83b014"
     },
     {
-        "file": "app/sae/modules/Mcommerce/controllers/Mobile/Sales/CustomerController.php",
-        "hash": "6d61661e303fc066971f1db738476da9"
+        "file": "app/sae/modules/Mcommerce/controllers/Mobile/Sales/DeliveryController.php",
+        "hash": "ef7093d92587d8457dc9ee982c3846cd"
+    },
+    {
+        "file": "app/sae/modules/Mcommerce/controllers/Mobile/Sales/PaymentController.php",
+        "hash": "fc7b50acc89d1472dff47510524cfecd"
     },
     {
         "file": "app/sae/modules/Mcommerce/controllers/Mobile/ProductController.php",
@@ -13837,7 +13917,7 @@
     },
     {
         "file": "app/sae/modules/Mcommerce/controllers/Mobile/CartController.php",
-        "hash": "d0b1d8a38c18e64737702de95567515f"
+        "hash": "8ea60e02a03477a2feff1dfca3a8fcb8"
     },
     {
         "file": "app/sae/modules/Mcommerce/controllers/MobileController.php",
@@ -13850,10 +13930,6 @@
     {
         "file": "app/sae/modules/Mcommerce/resources/db/data/fix_customer_fields.php",
         "hash": "00900ae2133af6e9764a2e64ea11b326"
-    },
-    {
-        "file": "app/sae/modules/Mcommerce/resources/db/schema/mcommerce_cart.php",
-        "hash": "c68256cd9796be88fb526ab376500ee2"
     },
     {
         "file": "app/sae/modules/Mcommerce/resources/db/schema/mcommerce_delivery_method.php",
@@ -13904,12 +13980,24 @@
         "hash": "450c6448c7c85b6b04013e4063940545"
     },
     {
+        "file": "app/sae/modules/Mcommerce/resources/db/schema/mcommerce_cart.php",
+        "hash": "5e4145ef74e670dd53ea9a135d882788"
+    },
+    {
         "file": "app/sae/modules/Mcommerce/resources/db/schema/mcommerce_order.php",
-        "hash": "08fb80b240ca7b4a07877329ffd98a14"
+        "hash": "3de0ec55d79c042e2617d413c93cbc1d"
+    },
+    {
+        "file": "app/sae/modules/Mcommerce/resources/db/schema/mcommerce_promo.php",
+        "hash": "12a242c017239f63eaedcdcd049fcaa3"
+    },
+    {
+        "file": "app/sae/modules/Mcommerce/resources/db/schema/mcommerce_promo_log.php",
+        "hash": "878249ce40724b97cfce7ff3d9136762"
     },
     {
         "file": "app/sae/modules/Mcommerce/package.json",
-        "hash": "653a2e2b00d49f80ccbe9ca66fdb15a1"
+        "hash": "c01aec05cecce71ab67568c270b2b3bf"
     },
     {
         "file": "app/sae/modules/Media/Model/Db/Table/Gallery/Image.php",
@@ -14301,7 +14389,7 @@
     },
     {
         "file": "app/sae/modules/Places/Model/Place.php",
-        "hash": "818dcc424c60c52fdc1dc2e4d4fe8830"
+        "hash": "67b7466cb9b20f4e796dc9bc5812717d"
     },
     {
         "file": "app/sae/modules/Places/controllers/Mobile/Api/PlacesController.php",
@@ -14325,11 +14413,11 @@
     },
     {
         "file": "app/sae/modules/Places/controllers/Mobile/ListController.php",
-        "hash": "9fc3d948812964ce663bc40743830f5e"
+        "hash": "6894e696009f15895df04dd9ecf3d2fb"
     },
     {
         "file": "app/sae/modules/Places/controllers/ApplicationController.php",
-        "hash": "762db75e8e28b08dd9535b98b021d56f"
+        "hash": "ffd60e0ac0981f161af11676b14abb13"
     },
     {
         "file": "app/sae/modules/Places/resources/db/data/places.php",
@@ -14337,7 +14425,7 @@
     },
     {
         "file": "app/sae/modules/Places/package.json",
-        "hash": "882df9fb1895303de6db5a59b28ef2b8"
+        "hash": "315224b0dc81242cf2d55da0eb631559"
     },
     {
         "file": "app/sae/modules/Preview/Model/Db/Table/Preview.php",
@@ -15457,7 +15545,7 @@
     },
     {
         "file": "app/sae/modules/Job/resources/design/desktop/flat/template/job/application/edit.phtml",
-        "hash": "c583c94c73a068a7cc0c7aeb9968d945"
+        "hash": "0f735fe4b743955b1293f59a1ca943ce"
     },
     {
         "file": "app/sae/modules/Job/resources/design/desktop/siberian/images/customization/layout/job/layout-1.png",
@@ -15589,7 +15677,7 @@
     },
     {
         "file": "app/sae/modules/Job/package.json",
-        "hash": "a0c201cab0deeadfa0da5e61ab0f8cc6"
+        "hash": "70f70d4c3a4fafbb122b7975ebafc348"
     },
     {
         "file": "app/BootstrapCron.php",
@@ -15597,7 +15685,7 @@
     },
     {
         "file": "app/Bootstrap.php",
-        "hash": "0ff3c6dc5fc3864b1b6f81cad0a71be4"
+        "hash": "e3a3e6edfd29a4d0e9b64435c5c7fed9"
     },
     {
         "file": "check_connection.php",
@@ -15896,6 +15984,10 @@
         "hash": "c28ce157fe82a9875c52b7f04939946e"
     },
     {
+        "file": "lib/Siberian/Controller/Cache.php",
+        "hash": "63a859e6f575a2d6920c4750bed80b5c"
+    },
+    {
         "file": "lib/Siberian/Currency.php",
         "hash": "cb4c7e798481aee2e96779a66b0832e8"
     },
@@ -16073,19 +16165,11 @@
     },
     {
         "file": "lib/Siberian/Form/Abstract.php",
-        "hash": "68584bc081cc486c1ba5c0f1e515ac9f"
+        "hash": "794a31955cd03902db759185107c35b7"
     },
     {
         "file": "lib/Siberian/Service.php",
         "hash": "144540bb139c48160b4b8a0aca65775c"
-    },
-    {
-        "file": "lib/Siberian/Cache.php",
-        "hash": "1240b8ae4639033e0291b1deb49c0b89"
-    },
-    {
-        "file": "lib/Siberian/Media.php",
-        "hash": "011799b24944172e232a0aeaecb9aa8f"
     },
     {
         "file": "lib/Siberian/Network.php",
@@ -16112,8 +16196,8 @@
         "hash": "bd24554f5741be7613c65a373e1fd793"
     },
     {
-        "file": "lib/Siberian/Feature.php",
-        "hash": "4284a22cf4956725cab4296f3453526f"
+        "file": "lib/Siberian/View/Helper/Cache.php",
+        "hash": "771121ec806e2466bd860d6b915d1863"
     },
     {
         "file": "lib/Siberian/Json.php",
@@ -16150,6 +16234,22 @@
     {
         "file": "lib/Siberian/Date.php",
         "hash": "829182a173f68deb2233a506e49cc5b9"
+    },
+    {
+        "file": "lib/Siberian/Cache.php",
+        "hash": "2733e0e375fc8b16c623f0a86efc476b"
+    },
+    {
+        "file": "lib/Siberian/CustomerInformation.php",
+        "hash": "d23b47d87a30a7f6e7398177fbc47b80"
+    },
+    {
+        "file": "lib/Siberian/Feature.php",
+        "hash": "fad7caed80d480fec80c6cdda2888382"
+    },
+    {
+        "file": "lib/Siberian/Media.php",
+        "hash": "b9c4884c1327055364f5ea14cf7e94ed"
     },
     {
         "file": "lib/Thumbnailer/CreateThumb.php",
@@ -28361,7 +28461,7 @@
     },
     {
         "file": "var/apps/browser/css/style.css",
-        "hash": "a5fd5502e8a9c09407a6b698c8029e4f"
+        "hash": "f08b682cbcd93763c070f64c6bacec3e"
     },
     {
         "file": "var/apps/browser/img/ionic.png",
@@ -28428,48 +28528,48 @@
         "hash": "440dc0de1b647f5f92dbcf775a1ae042"
     },
     {
-        "file": "var/apps/browser/js/controllers/mcommerce/cart.js",
-        "hash": "fe9a30f401997de0d1d867f1888ae0b7"
-    },
-    {
-        "file": "var/apps/browser/js/controllers/mcommerce/category.js",
-        "hash": "dac01140ae43c96e7e18ca340d252c98"
-    },
-    {
-        "file": "var/apps/browser/js/controllers/mcommerce/sales/delivery.js",
-        "hash": "4722a6bcc8a8bb68bec768c9df85952c"
-    },
-    {
-        "file": "var/apps/browser/js/controllers/mcommerce/sales/error.js",
-        "hash": "10f6b25c97be042dc23870206e025161"
-    },
-    {
-        "file": "var/apps/browser/js/controllers/mcommerce/sales/payment.js",
-        "hash": "13339365e35f65f94fbee13c503af691"
-    },
-    {
-        "file": "var/apps/browser/js/controllers/mcommerce/sales/store.js",
-        "hash": "2bb08149df5cec958f512ca37d019676"
-    },
-    {
-        "file": "var/apps/browser/js/controllers/mcommerce/sales/stripe.js",
-        "hash": "6b8264c77a69ae974c459b37ab8bcde5"
-    },
-    {
-        "file": "var/apps/browser/js/controllers/mcommerce/sales/success.js",
-        "hash": "01e71e49a248d28a5f0a50c4b27082e5"
+        "file": "var/apps/browser/js/controllers/mcommerce/sales/confirmation.js",
+        "hash": "ad0d1a0da7c82dc173a70c0ce3777b91"
     },
     {
         "file": "var/apps/browser/js/controllers/mcommerce/sales/customer.js",
-        "hash": "b94ea980d9bcdf90926602c99c98375e"
+        "hash": "2ecaf84866831f5b3acb9242a1fa0491"
     },
     {
-        "file": "var/apps/browser/js/controllers/mcommerce/sales/confirmation.js",
-        "hash": "687255f90c110a11635a7a1ea2d0719d"
+        "file": "var/apps/browser/js/controllers/mcommerce/sales/delivery.js",
+        "hash": "ff075d5aa1d42e6832ddb242e66e3d9e"
+    },
+    {
+        "file": "var/apps/browser/js/controllers/mcommerce/sales/error.js",
+        "hash": "812abacafc465c96943a1f7db9a7ed4e"
+    },
+    {
+        "file": "var/apps/browser/js/controllers/mcommerce/sales/payment.js",
+        "hash": "943ff994f6a5073de42a8fd1082b8706"
+    },
+    {
+        "file": "var/apps/browser/js/controllers/mcommerce/sales/store.js",
+        "hash": "f666b11a98627bd4d9a14a6998c9decc"
+    },
+    {
+        "file": "var/apps/browser/js/controllers/mcommerce/sales/stripe.js",
+        "hash": "8575ad3a3cddd36806c1332a3d8af16c"
+    },
+    {
+        "file": "var/apps/browser/js/controllers/mcommerce/sales/success.js",
+        "hash": "02c2bb34b2a1e4687d9e4d7aa8754b16"
+    },
+    {
+        "file": "var/apps/browser/js/controllers/mcommerce/cart.js",
+        "hash": "0373b591f9568ecff07774e4faa5e8f8"
+    },
+    {
+        "file": "var/apps/browser/js/controllers/mcommerce/category.js",
+        "hash": "90bf6a4933914c98e0982b9d0c95f8fb"
     },
     {
         "file": "var/apps/browser/js/controllers/mcommerce/product.js",
-        "hash": "2d79689d9644bf72d805abd66e308ab9"
+        "hash": "f5767f739b72c99690e957eeb5914310"
     },
     {
         "file": "var/apps/browser/js/controllers/media-player.js",
@@ -28504,10 +28604,6 @@
         "hash": "ea59ecb5d22961f6a005d0c4fa82c4df"
     },
     {
-        "file": "var/apps/browser/js/controllers/folder.js",
-        "hash": "10a18a7738485affa338edabff15690f"
-    },
-    {
         "file": "var/apps/browser/js/controllers/padlock.js",
         "hash": "89723dd4e779390e96eaed56ea00e438"
     },
@@ -28522,14 +28618,6 @@
     {
         "file": "var/apps/browser/js/controllers/codescan.js",
         "hash": "3f9f1472a7bab28fdeb525fc9b608c02"
-    },
-    {
-        "file": "var/apps/browser/js/controllers/places.js",
-        "hash": "f9ff7affa4e4fba4a2e550e603e94497"
-    },
-    {
-        "file": "var/apps/browser/js/controllers/customer.js",
-        "hash": "e5e3fd39ae294ce9eac13b2b8b02aab5"
     },
     {
         "file": "var/apps/browser/js/controllers/image.js",
@@ -28556,10 +28644,6 @@
         "hash": "0cd1d5ccebc2cc993eed48e36fef2b2e"
     },
     {
-        "file": "var/apps/browser/js/controllers/catalog.js",
-        "hash": "eaa301a65ca47ca9c4b93d5aac0cc2c7"
-    },
-    {
         "file": "var/apps/browser/js/controllers/discount.js",
         "hash": "f0e455269a372bf9179b4c92e9abb6b2"
     },
@@ -28582,6 +28666,22 @@
     {
         "file": "var/apps/browser/js/controllers/loyaltycard.js",
         "hash": "0490bd8ac55aa3f6d5d15cbf486c87ea"
+    },
+    {
+        "file": "var/apps/browser/js/controllers/catalog.js",
+        "hash": "dc42083821f08b98fcc863960206fa31"
+    },
+    {
+        "file": "var/apps/browser/js/controllers/customer.js",
+        "hash": "8b27981c11fa74c394d48554ade14bff"
+    },
+    {
+        "file": "var/apps/browser/js/controllers/folder.js",
+        "hash": "9c92041ea891c3c6d1945f3016d2d097"
+    },
+    {
+        "file": "var/apps/browser/js/controllers/places.js",
+        "hash": "891d4c6502b7b86ae578f94d42450564"
     },
     {
         "file": "var/apps/browser/js/directives/datetime.js",
@@ -28704,10 +28804,6 @@
         "hash": "114e962afbdd06aa0ffccaeee51c8d36"
     },
     {
-        "file": "var/apps/browser/js/factory/mcommerce/cart.js",
-        "hash": "e1c890964f3f9608ab92cd424ce65766"
-    },
-    {
         "file": "var/apps/browser/js/factory/mcommerce/category.js",
         "hash": "b84dd3b7135c43e02c2a53721392f5b8"
     },
@@ -28724,16 +28820,20 @@
         "hash": "d18c9024afdc128d67acba36b7b0f2c4"
     },
     {
-        "file": "var/apps/browser/js/factory/mcommerce/sales/payment.js",
-        "hash": "b36d1838fc130c446043f2a2e31b4c7e"
+        "file": "var/apps/browser/js/factory/mcommerce/sales/customer.js",
+        "hash": "c69b81ac1126b608367f44581ba8eb57"
     },
     {
-        "file": "var/apps/browser/js/factory/mcommerce/sales/customer.js",
-        "hash": "e267f77c7b2fbfd9d4e3e5071fd36085"
+        "file": "var/apps/browser/js/factory/mcommerce/sales/payment.js",
+        "hash": "0e03d9f88b177aea9dbe145fd1eff1f0"
     },
     {
         "file": "var/apps/browser/js/factory/mcommerce/sales/stripe.js",
-        "hash": "8d042199081b1d3f6673a0ae0b43b9b4"
+        "hash": "99b0b2c30038e3509c9a51ae001fc530"
+    },
+    {
+        "file": "var/apps/browser/js/factory/mcommerce/cart.js",
+        "hash": "75f401c5c1fdcb4afd2b556e9eb43995"
     },
     {
         "file": "var/apps/browser/js/factory/music.js",
@@ -28812,10 +28912,6 @@
         "hash": "add46e2ab47f5c7735b78abc0ec1b06e"
     },
     {
-        "file": "var/apps/browser/js/factory/customer.js",
-        "hash": "7851fb919fad4667c0dc23befcb88f03"
-    },
-    {
         "file": "var/apps/browser/js/factory/safe_popups.js",
         "hash": "ce4ab6da5a771581191d9732ce225aea"
     },
@@ -28830,6 +28926,10 @@
     {
         "file": "var/apps/browser/js/factory/push.js",
         "hash": "60b3c00f57662d022328ecb719b66114"
+    },
+    {
+        "file": "var/apps/browser/js/factory/customer.js",
+        "hash": "c630c85bb1a395698d4f3110cc661511"
     },
     {
         "file": "var/apps/browser/js/filters/number-fixed-len.js",
@@ -29048,20 +29148,20 @@
         "hash": "76f3b1885f29d48a04f04234740a9b82"
     },
     {
-        "file": "var/apps/browser/lib/ionic/js/ionic.bundle.js",
-        "hash": "8beca6ecdf2ed2f5b9e1dffc219edb4a"
-    },
-    {
-        "file": "var/apps/browser/lib/ionic/js/ionic.bundle.min.js",
-        "hash": "30df30f361c192c1c4ad8172eac68c9e"
-    },
-    {
         "file": "var/apps/browser/lib/ionic/js/ionic.js",
         "hash": "2ad42c1a5633e939856c9d0a4065ec6e"
     },
     {
         "file": "var/apps/browser/lib/ionic/js/ionic.min.js",
         "hash": "261888750cabfb8f088531c1e9967cc0"
+    },
+    {
+        "file": "var/apps/browser/lib/ionic/js/ionic.bundle.js",
+        "hash": "b271597550b018a4011de033a1006bbf"
+    },
+    {
+        "file": "var/apps/browser/lib/ionic/js/ionic.bundle.min.js",
+        "hash": "82b4395621e2d3ae5471a48dd50e5e05"
     },
     {
         "file": "var/apps/browser/lib/ionic/scss/_action-sheet.scss",
@@ -29297,11 +29397,11 @@
     },
     {
         "file": "var/apps/browser/templates/application/l1/tc/view.html",
-        "hash": "f445c771db9ff62a919d3b5b691f1a28"
+        "hash": "34a73031bf5f83b266e81f7717f3c38f"
     },
     {
         "file": "var/apps/browser/templates/booking/l1/view.html",
-        "hash": "63ef015ea8eb189ea70769cdfdf2af7f"
+        "hash": "f7ea07f7da140213d68b399299a0859e"
     },
     {
         "file": "var/apps/browser/templates/catalog/category/l1/product/view.html",
@@ -29325,19 +29425,19 @@
     },
     {
         "file": "var/apps/browser/templates/contact/l1/form.html",
-        "hash": "9ea91bc4e3d3984c38827301838cc048"
+        "hash": "138a97571baa62250b9b84db056f7532"
     },
     {
         "file": "var/apps/browser/templates/contact/l1/view.html",
-        "hash": "41de25a8c7d1ec03666797c9df8c3473"
+        "hash": "5fb94a8bad3f74ad0e1da8f59a4afcc0"
     },
     {
         "file": "var/apps/browser/templates/customer/account/l1/login.html",
-        "hash": "d699d66d3dcc4f141ce7821a424ef48b"
+        "hash": "5d75b52b3819bc82d0189afc44b84e08"
     },
     {
         "file": "var/apps/browser/templates/discount/l1/view.html",
-        "hash": "1f40dd7d5689e6abed9731f7b64eee0a"
+        "hash": "887b5a161ea0c27643323e1ed6d0c4c1"
     },
     {
         "file": "var/apps/browser/templates/event/l1/list.html",
@@ -29349,11 +29449,11 @@
     },
     {
         "file": "var/apps/browser/templates/facebook/l1/header.html",
-        "hash": "cecdf5e55ac0380e2ea7438e3dd79349"
+        "hash": "b8f9a7a9be3161b6baeb522fd24c08a2"
     },
     {
         "file": "var/apps/browser/templates/facebook/l1/view.html",
-        "hash": "5d0f92f6a40fb3654ef1f14985173c6e"
+        "hash": "74867dfab18cfb373e8e84b21b635c79"
     },
     {
         "file": "var/apps/browser/templates/fanwall/l1/header.html",
@@ -29376,8 +29476,32 @@
         "hash": "e545f84e1a003fdf5b794c466c382c53"
     },
     {
+        "file": "var/apps/browser/templates/folder/l2/list.html",
+        "hash": "f40eac419e3e197b2b123f633e94fd51"
+    },
+    {
+        "file": "var/apps/browser/templates/folder/l2/search.html",
+        "hash": "e75a0b3d3282b61f66a59b84fb6208a4"
+    },
+    {
+        "file": "var/apps/browser/templates/folder/l3/list.html",
+        "hash": "e545f84e1a003fdf5b794c466c382c53"
+    },
+    {
+        "file": "var/apps/browser/templates/folder/l3/search.html",
+        "hash": "e75a0b3d3282b61f66a59b84fb6208a4"
+    },
+    {
+        "file": "var/apps/browser/templates/folder/l4/list.html",
+        "hash": "d081a5cce0d09675429d70ecb2ecf905"
+    },
+    {
+        "file": "var/apps/browser/templates/folder/l4/search.html",
+        "hash": "e75a0b3d3282b61f66a59b84fb6208a4"
+    },
+    {
         "file": "var/apps/browser/templates/form/l1/view.html",
-        "hash": "21e158fb814a7749ed7e0dfd2faf710c"
+        "hash": "3273354b2933a29210261d1ecd06ab41"
     },
     {
         "file": "var/apps/browser/templates/home/l1/view.html",
@@ -29480,12 +29604,12 @@
         "hash": "e8e46528b93d5b38522fbb757c2a2f5d"
     },
     {
-        "file": "var/apps/browser/templates/html/l1/view.html",
-        "hash": "9bfef4d674d91d929775d88a35638335"
-    },
-    {
         "file": "var/apps/browser/templates/html/l1/app_locked.html",
         "hash": "31970e186d42d5107a6439e9c44d06b8"
+    },
+    {
+        "file": "var/apps/browser/templates/html/l1/view.html",
+        "hash": "e085034653edf72f182db09c7d471fdd"
     },
     {
         "file": "var/apps/browser/templates/html/l2/list.html",
@@ -29493,7 +29617,7 @@
     },
     {
         "file": "var/apps/browser/templates/html/l3/list.html",
-        "hash": "625b49dd3257779bb71cf10e007828da"
+        "hash": "f85872ba02d19861b577a361d267b337"
     },
     {
         "file": "var/apps/browser/templates/html/l5/list.html",
@@ -29525,39 +29649,23 @@
     },
     {
         "file": "var/apps/browser/templates/links/l1/view.html",
-        "hash": "b292684989709967d44f15d458f20a2e"
-    },
-    {
-        "file": "var/apps/browser/templates/loyaltycard/l1/view.html",
-        "hash": "da74d1307dbf974597e2086d69e59e8e"
+        "hash": "e89eb8600345c496f412aae62a1ce36e"
     },
     {
         "file": "var/apps/browser/templates/loyaltycard/l1/pad.html",
-        "hash": "decfeb77031d79fd98f8d38905eef209"
+        "hash": "d41aeab992df4439f9410c42c5f5a0b8"
+    },
+    {
+        "file": "var/apps/browser/templates/loyaltycard/l1/view.html",
+        "hash": "d29062975832c9c9f56d8aa879624e28"
     },
     {
         "file": "var/apps/browser/templates/maps/l1/view.html",
-        "hash": "b1800778361ea3d5788f1b2b083e6de9"
-    },
-    {
-        "file": "var/apps/browser/templates/mcommerce/l1/sales/delivery.html",
-        "hash": "e8a639d28804e15658a2734c408c5f8a"
+        "hash": "f822c459d69c0a35142698c8d3108adb"
     },
     {
         "file": "var/apps/browser/templates/mcommerce/l1/sales/error.html",
         "hash": "226c1e03fb583a82c6e831888d8c6e14"
-    },
-    {
-        "file": "var/apps/browser/templates/mcommerce/l1/sales/payment.html",
-        "hash": "ac507b4b16fc30d57f366e021f20edaf"
-    },
-    {
-        "file": "var/apps/browser/templates/mcommerce/l1/sales/store.html",
-        "hash": "ace6ea593c5336ab69bc8d7790e12d3d"
-    },
-    {
-        "file": "var/apps/browser/templates/mcommerce/l1/sales/stripe.html",
-        "hash": "6694d86816e88aa9a425e34cb11942c8"
     },
     {
         "file": "var/apps/browser/templates/mcommerce/l1/sales/success.html",
@@ -29565,23 +29673,39 @@
     },
     {
         "file": "var/apps/browser/templates/mcommerce/l1/sales/confirmation.html",
-        "hash": "40543095a3b58947b442c9d6eb575279"
+        "hash": "fdd683c19c9ce3059218c1491fe955f2"
     },
     {
         "file": "var/apps/browser/templates/mcommerce/l1/sales/customer.html",
-        "hash": "f9b4b755be03556a6dc0a69ca384f52c"
+        "hash": "b779e5bdbea9b00b2ad9f84e2533363b"
+    },
+    {
+        "file": "var/apps/browser/templates/mcommerce/l1/sales/delivery.html",
+        "hash": "1c607dc1e3543db65ed22de5a8f6fd7a"
+    },
+    {
+        "file": "var/apps/browser/templates/mcommerce/l1/sales/payment.html",
+        "hash": "6885ea688bea6cc73705fa77965505cd"
+    },
+    {
+        "file": "var/apps/browser/templates/mcommerce/l1/sales/store.html",
+        "hash": "71e028679148b7f73cfc9df21d30a228"
+    },
+    {
+        "file": "var/apps/browser/templates/mcommerce/l1/sales/stripe.html",
+        "hash": "d53d40153b909f4ef833493a3df17a6a"
     },
     {
         "file": "var/apps/browser/templates/mcommerce/l1/cart.html",
-        "hash": "4a1d085a9ccd3b17f8c49203d335b02c"
+        "hash": "28f01dfae7190bab166f32235d7e38a2"
     },
     {
         "file": "var/apps/browser/templates/mcommerce/l1/product.html",
-        "hash": "e1ce71bb03c70f36ad9783b46bd34299"
+        "hash": "21bb82c3ca3d0f0e465b461f1061fe21"
     },
     {
         "file": "var/apps/browser/templates/media/image/l1/list.html",
-        "hash": "949032709773d97e8c21ebcbfd193069"
+        "hash": "7d6c6eccb55fb84fd952c4d4ef6ca28c"
     },
     {
         "file": "var/apps/browser/templates/media/music/l1/album/boxes.html",
@@ -29621,11 +29745,11 @@
     },
     {
         "file": "var/apps/browser/templates/media/video/l1/list.html",
-        "hash": "92fb9be74b0721b6c1de92bee7c5f369"
+        "hash": "65c1819bd35446726241ff1a66632162"
     },
     {
         "file": "var/apps/browser/templates/padlock/l1/view.html",
-        "hash": "cc2ceeb9ce864ee1289a1aa2fa14857b"
+        "hash": "ff6dd3ea9c348aad1636f12c38c9e419"
     },
     {
         "file": "var/apps/browser/templates/page/side-menu.html",
@@ -29633,35 +29757,35 @@
     },
     {
         "file": "var/apps/browser/templates/rss/l1/view.html",
-        "hash": "58f38ea69efb1da658215b5a62e94d9f"
+        "hash": "59cd28efb49e875d7c076fe49d030a83"
     },
     {
         "file": "var/apps/browser/templates/socialgaming/l1/view.html",
-        "hash": "13c622212a96e1e2b902c20e30967197"
+        "hash": "302bf7750ce11fe34b301a02e771f52a"
     },
     {
         "file": "var/apps/browser/templates/sourcecode/l1/view.html",
-        "hash": "1b910b9e4c43aa87e59d7a22eefcfc32"
+        "hash": "9556e959a556e28225e884a514646c10"
     },
     {
         "file": "var/apps/browser/templates/tip/l1/view.html",
-        "hash": "c5b6ba20a5d5047e651675ad09fb35ef"
+        "hash": "c8fb7721f6782ada38b01360e866c811"
     },
     {
         "file": "var/apps/browser/templates/topic/l1/list.html",
-        "hash": "391cdacf73bd122ee169d4c7bf8cba2d"
+        "hash": "91e70d2193e07bdd7f03aaa21f2796f0"
     },
     {
         "file": "var/apps/browser/templates/weather/l1/view.html",
-        "hash": "b917d1c026b1fc348a7b13308cf3c9be"
+        "hash": "b4a7945341c460a15c5cf6887d6d61ee"
     },
     {
         "file": "var/apps/browser/templates/wordpress/l1/view.html",
-        "hash": "fe88529b3caa1ba159594f8f677a67c5"
+        "hash": "594dab8a558b4f7ff556fc573a16e525"
     },
     {
         "file": "var/apps/browser/templates/locked/l1/view.html",
-        "hash": "94a92ce964007211f0641f3e3a829700"
+        "hash": "f0e52cc628cf5b856c4fcf3ffae32ea3"
     },
     {
         "file": "var/apps/browser/fonts/ionicons.eot",
@@ -29909,7 +30033,7 @@
     },
     {
         "file": "var/apps/ionic/android/assets/www/css/style.css",
-        "hash": "a5fd5502e8a9c09407a6b698c8029e4f"
+        "hash": "f08b682cbcd93763c070f64c6bacec3e"
     },
     {
         "file": "var/apps/ionic/android/assets/www/img/loyaltycard/point-validated.png",
@@ -29972,48 +30096,48 @@
         "hash": "440dc0de1b647f5f92dbcf775a1ae042"
     },
     {
-        "file": "var/apps/ionic/android/assets/www/js/controllers/mcommerce/cart.js",
-        "hash": "fe9a30f401997de0d1d867f1888ae0b7"
-    },
-    {
-        "file": "var/apps/ionic/android/assets/www/js/controllers/mcommerce/category.js",
-        "hash": "dac01140ae43c96e7e18ca340d252c98"
-    },
-    {
-        "file": "var/apps/ionic/android/assets/www/js/controllers/mcommerce/sales/delivery.js",
-        "hash": "4722a6bcc8a8bb68bec768c9df85952c"
-    },
-    {
-        "file": "var/apps/ionic/android/assets/www/js/controllers/mcommerce/sales/error.js",
-        "hash": "10f6b25c97be042dc23870206e025161"
-    },
-    {
-        "file": "var/apps/ionic/android/assets/www/js/controllers/mcommerce/sales/payment.js",
-        "hash": "13339365e35f65f94fbee13c503af691"
-    },
-    {
-        "file": "var/apps/ionic/android/assets/www/js/controllers/mcommerce/sales/store.js",
-        "hash": "2bb08149df5cec958f512ca37d019676"
-    },
-    {
-        "file": "var/apps/ionic/android/assets/www/js/controllers/mcommerce/sales/stripe.js",
-        "hash": "6b8264c77a69ae974c459b37ab8bcde5"
-    },
-    {
-        "file": "var/apps/ionic/android/assets/www/js/controllers/mcommerce/sales/success.js",
-        "hash": "01e71e49a248d28a5f0a50c4b27082e5"
+        "file": "var/apps/ionic/android/assets/www/js/controllers/mcommerce/sales/confirmation.js",
+        "hash": "ad0d1a0da7c82dc173a70c0ce3777b91"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/controllers/mcommerce/sales/customer.js",
-        "hash": "b94ea980d9bcdf90926602c99c98375e"
+        "hash": "2ecaf84866831f5b3acb9242a1fa0491"
     },
     {
-        "file": "var/apps/ionic/android/assets/www/js/controllers/mcommerce/sales/confirmation.js",
-        "hash": "687255f90c110a11635a7a1ea2d0719d"
+        "file": "var/apps/ionic/android/assets/www/js/controllers/mcommerce/sales/delivery.js",
+        "hash": "ff075d5aa1d42e6832ddb242e66e3d9e"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/js/controllers/mcommerce/sales/error.js",
+        "hash": "812abacafc465c96943a1f7db9a7ed4e"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/js/controllers/mcommerce/sales/payment.js",
+        "hash": "943ff994f6a5073de42a8fd1082b8706"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/js/controllers/mcommerce/sales/store.js",
+        "hash": "f666b11a98627bd4d9a14a6998c9decc"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/js/controllers/mcommerce/sales/stripe.js",
+        "hash": "8575ad3a3cddd36806c1332a3d8af16c"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/js/controllers/mcommerce/sales/success.js",
+        "hash": "02c2bb34b2a1e4687d9e4d7aa8754b16"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/js/controllers/mcommerce/cart.js",
+        "hash": "0373b591f9568ecff07774e4faa5e8f8"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/js/controllers/mcommerce/category.js",
+        "hash": "90bf6a4933914c98e0982b9d0c95f8fb"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/controllers/mcommerce/product.js",
-        "hash": "2d79689d9644bf72d805abd66e308ab9"
+        "hash": "f5767f739b72c99690e957eeb5914310"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/controllers/media-player.js",
@@ -30048,10 +30172,6 @@
         "hash": "ea59ecb5d22961f6a005d0c4fa82c4df"
     },
     {
-        "file": "var/apps/ionic/android/assets/www/js/controllers/folder.js",
-        "hash": "10a18a7738485affa338edabff15690f"
-    },
-    {
         "file": "var/apps/ionic/android/assets/www/js/controllers/padlock.js",
         "hash": "89723dd4e779390e96eaed56ea00e438"
     },
@@ -30066,14 +30186,6 @@
     {
         "file": "var/apps/ionic/android/assets/www/js/controllers/codescan.js",
         "hash": "3f9f1472a7bab28fdeb525fc9b608c02"
-    },
-    {
-        "file": "var/apps/ionic/android/assets/www/js/controllers/places.js",
-        "hash": "f9ff7affa4e4fba4a2e550e603e94497"
-    },
-    {
-        "file": "var/apps/ionic/android/assets/www/js/controllers/customer.js",
-        "hash": "e5e3fd39ae294ce9eac13b2b8b02aab5"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/controllers/image.js",
@@ -30100,10 +30212,6 @@
         "hash": "0cd1d5ccebc2cc993eed48e36fef2b2e"
     },
     {
-        "file": "var/apps/ionic/android/assets/www/js/controllers/catalog.js",
-        "hash": "eaa301a65ca47ca9c4b93d5aac0cc2c7"
-    },
-    {
         "file": "var/apps/ionic/android/assets/www/js/controllers/discount.js",
         "hash": "f0e455269a372bf9179b4c92e9abb6b2"
     },
@@ -30126,6 +30234,22 @@
     {
         "file": "var/apps/ionic/android/assets/www/js/controllers/loyaltycard.js",
         "hash": "0490bd8ac55aa3f6d5d15cbf486c87ea"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/js/controllers/catalog.js",
+        "hash": "dc42083821f08b98fcc863960206fa31"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/js/controllers/customer.js",
+        "hash": "8b27981c11fa74c394d48554ade14bff"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/js/controllers/folder.js",
+        "hash": "9c92041ea891c3c6d1945f3016d2d097"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/js/controllers/places.js",
+        "hash": "891d4c6502b7b86ae578f94d42450564"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/directives/datetime.js",
@@ -30248,10 +30372,6 @@
         "hash": "114e962afbdd06aa0ffccaeee51c8d36"
     },
     {
-        "file": "var/apps/ionic/android/assets/www/js/factory/mcommerce/cart.js",
-        "hash": "e1c890964f3f9608ab92cd424ce65766"
-    },
-    {
         "file": "var/apps/ionic/android/assets/www/js/factory/mcommerce/category.js",
         "hash": "b84dd3b7135c43e02c2a53721392f5b8"
     },
@@ -30268,16 +30388,20 @@
         "hash": "d18c9024afdc128d67acba36b7b0f2c4"
     },
     {
-        "file": "var/apps/ionic/android/assets/www/js/factory/mcommerce/sales/payment.js",
-        "hash": "b36d1838fc130c446043f2a2e31b4c7e"
+        "file": "var/apps/ionic/android/assets/www/js/factory/mcommerce/sales/customer.js",
+        "hash": "c69b81ac1126b608367f44581ba8eb57"
     },
     {
-        "file": "var/apps/ionic/android/assets/www/js/factory/mcommerce/sales/customer.js",
-        "hash": "e267f77c7b2fbfd9d4e3e5071fd36085"
+        "file": "var/apps/ionic/android/assets/www/js/factory/mcommerce/sales/payment.js",
+        "hash": "0e03d9f88b177aea9dbe145fd1eff1f0"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/factory/mcommerce/sales/stripe.js",
-        "hash": "8d042199081b1d3f6673a0ae0b43b9b4"
+        "hash": "99b0b2c30038e3509c9a51ae001fc530"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/js/factory/mcommerce/cart.js",
+        "hash": "75f401c5c1fdcb4afd2b556e9eb43995"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/factory/music.js",
@@ -30356,10 +30480,6 @@
         "hash": "add46e2ab47f5c7735b78abc0ec1b06e"
     },
     {
-        "file": "var/apps/ionic/android/assets/www/js/factory/customer.js",
-        "hash": "7851fb919fad4667c0dc23befcb88f03"
-    },
-    {
         "file": "var/apps/ionic/android/assets/www/js/factory/safe_popups.js",
         "hash": "ce4ab6da5a771581191d9732ce225aea"
     },
@@ -30374,6 +30494,10 @@
     {
         "file": "var/apps/ionic/android/assets/www/js/factory/push.js",
         "hash": "60b3c00f57662d022328ecb719b66114"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/js/factory/customer.js",
+        "hash": "c630c85bb1a395698d4f3110cc661511"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/filters/number-fixed-len.js",
@@ -30564,12 +30688,12 @@
         "hash": "76f3b1885f29d48a04f04234740a9b82"
     },
     {
-        "file": "var/apps/ionic/android/assets/www/lib/ionic/js/ionic.bundle.min.js",
-        "hash": "30df30f361c192c1c4ad8172eac68c9e"
-    },
-    {
         "file": "var/apps/ionic/android/assets/www/lib/ionic/js/ionic.min.js",
         "hash": "261888750cabfb8f088531c1e9967cc0"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/lib/ionic/js/ionic.bundle.min.js",
+        "hash": "82b4395621e2d3ae5471a48dd50e5e05"
     },
     {
         "file": "var/apps/ionic/android/assets/www/lib/ionic/version.json",
@@ -30801,11 +30925,11 @@
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/application/l1/tc/view.html",
-        "hash": "f445c771db9ff62a919d3b5b691f1a28"
+        "hash": "34a73031bf5f83b266e81f7717f3c38f"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/booking/l1/view.html",
-        "hash": "63ef015ea8eb189ea70769cdfdf2af7f"
+        "hash": "f7ea07f7da140213d68b399299a0859e"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/catalog/category/l1/product/view.html",
@@ -30829,19 +30953,19 @@
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/contact/l1/form.html",
-        "hash": "9ea91bc4e3d3984c38827301838cc048"
+        "hash": "138a97571baa62250b9b84db056f7532"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/contact/l1/view.html",
-        "hash": "41de25a8c7d1ec03666797c9df8c3473"
+        "hash": "5fb94a8bad3f74ad0e1da8f59a4afcc0"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/customer/account/l1/login.html",
-        "hash": "d699d66d3dcc4f141ce7821a424ef48b"
+        "hash": "5d75b52b3819bc82d0189afc44b84e08"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/discount/l1/view.html",
-        "hash": "1f40dd7d5689e6abed9731f7b64eee0a"
+        "hash": "887b5a161ea0c27643323e1ed6d0c4c1"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/event/l1/list.html",
@@ -30853,11 +30977,11 @@
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/facebook/l1/header.html",
-        "hash": "cecdf5e55ac0380e2ea7438e3dd79349"
+        "hash": "b8f9a7a9be3161b6baeb522fd24c08a2"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/facebook/l1/view.html",
-        "hash": "5d0f92f6a40fb3654ef1f14985173c6e"
+        "hash": "74867dfab18cfb373e8e84b21b635c79"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/fanwall/l1/header.html",
@@ -30880,8 +31004,32 @@
         "hash": "e545f84e1a003fdf5b794c466c382c53"
     },
     {
+        "file": "var/apps/ionic/android/assets/www/templates/folder/l2/list.html",
+        "hash": "f40eac419e3e197b2b123f633e94fd51"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/templates/folder/l2/search.html",
+        "hash": "e75a0b3d3282b61f66a59b84fb6208a4"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/templates/folder/l3/list.html",
+        "hash": "e545f84e1a003fdf5b794c466c382c53"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/templates/folder/l3/search.html",
+        "hash": "e75a0b3d3282b61f66a59b84fb6208a4"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/templates/folder/l4/list.html",
+        "hash": "d081a5cce0d09675429d70ecb2ecf905"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/templates/folder/l4/search.html",
+        "hash": "e75a0b3d3282b61f66a59b84fb6208a4"
+    },
+    {
         "file": "var/apps/ionic/android/assets/www/templates/form/l1/view.html",
-        "hash": "21e158fb814a7749ed7e0dfd2faf710c"
+        "hash": "3273354b2933a29210261d1ecd06ab41"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/home/l1/view.html",
@@ -30984,12 +31132,12 @@
         "hash": "e8e46528b93d5b38522fbb757c2a2f5d"
     },
     {
-        "file": "var/apps/ionic/android/assets/www/templates/html/l1/view.html",
-        "hash": "9bfef4d674d91d929775d88a35638335"
-    },
-    {
         "file": "var/apps/ionic/android/assets/www/templates/html/l1/app_locked.html",
         "hash": "31970e186d42d5107a6439e9c44d06b8"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/templates/html/l1/view.html",
+        "hash": "e085034653edf72f182db09c7d471fdd"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/html/l2/list.html",
@@ -30997,7 +31145,7 @@
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/html/l3/list.html",
-        "hash": "625b49dd3257779bb71cf10e007828da"
+        "hash": "f85872ba02d19861b577a361d267b337"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/html/l5/list.html",
@@ -31029,39 +31177,23 @@
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/links/l1/view.html",
-        "hash": "b292684989709967d44f15d458f20a2e"
-    },
-    {
-        "file": "var/apps/ionic/android/assets/www/templates/loyaltycard/l1/view.html",
-        "hash": "da74d1307dbf974597e2086d69e59e8e"
+        "hash": "e89eb8600345c496f412aae62a1ce36e"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/loyaltycard/l1/pad.html",
-        "hash": "decfeb77031d79fd98f8d38905eef209"
+        "hash": "d41aeab992df4439f9410c42c5f5a0b8"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/templates/loyaltycard/l1/view.html",
+        "hash": "d29062975832c9c9f56d8aa879624e28"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/maps/l1/view.html",
-        "hash": "b1800778361ea3d5788f1b2b083e6de9"
-    },
-    {
-        "file": "var/apps/ionic/android/assets/www/templates/mcommerce/l1/sales/delivery.html",
-        "hash": "e8a639d28804e15658a2734c408c5f8a"
+        "hash": "f822c459d69c0a35142698c8d3108adb"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/mcommerce/l1/sales/error.html",
         "hash": "226c1e03fb583a82c6e831888d8c6e14"
-    },
-    {
-        "file": "var/apps/ionic/android/assets/www/templates/mcommerce/l1/sales/payment.html",
-        "hash": "ac507b4b16fc30d57f366e021f20edaf"
-    },
-    {
-        "file": "var/apps/ionic/android/assets/www/templates/mcommerce/l1/sales/store.html",
-        "hash": "ace6ea593c5336ab69bc8d7790e12d3d"
-    },
-    {
-        "file": "var/apps/ionic/android/assets/www/templates/mcommerce/l1/sales/stripe.html",
-        "hash": "6694d86816e88aa9a425e34cb11942c8"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/mcommerce/l1/sales/success.html",
@@ -31069,23 +31201,39 @@
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/mcommerce/l1/sales/confirmation.html",
-        "hash": "40543095a3b58947b442c9d6eb575279"
+        "hash": "fdd683c19c9ce3059218c1491fe955f2"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/mcommerce/l1/sales/customer.html",
-        "hash": "f9b4b755be03556a6dc0a69ca384f52c"
+        "hash": "b779e5bdbea9b00b2ad9f84e2533363b"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/templates/mcommerce/l1/sales/delivery.html",
+        "hash": "1c607dc1e3543db65ed22de5a8f6fd7a"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/templates/mcommerce/l1/sales/payment.html",
+        "hash": "6885ea688bea6cc73705fa77965505cd"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/templates/mcommerce/l1/sales/store.html",
+        "hash": "71e028679148b7f73cfc9df21d30a228"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/templates/mcommerce/l1/sales/stripe.html",
+        "hash": "d53d40153b909f4ef833493a3df17a6a"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/mcommerce/l1/cart.html",
-        "hash": "4a1d085a9ccd3b17f8c49203d335b02c"
+        "hash": "28f01dfae7190bab166f32235d7e38a2"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/mcommerce/l1/product.html",
-        "hash": "e1ce71bb03c70f36ad9783b46bd34299"
+        "hash": "21bb82c3ca3d0f0e465b461f1061fe21"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/media/image/l1/list.html",
-        "hash": "949032709773d97e8c21ebcbfd193069"
+        "hash": "7d6c6eccb55fb84fd952c4d4ef6ca28c"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/media/music/l1/album/boxes.html",
@@ -31125,11 +31273,11 @@
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/media/video/l1/list.html",
-        "hash": "92fb9be74b0721b6c1de92bee7c5f369"
+        "hash": "65c1819bd35446726241ff1a66632162"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/padlock/l1/view.html",
-        "hash": "cc2ceeb9ce864ee1289a1aa2fa14857b"
+        "hash": "ff6dd3ea9c348aad1636f12c38c9e419"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/page/side-menu.html",
@@ -31137,35 +31285,35 @@
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/rss/l1/view.html",
-        "hash": "58f38ea69efb1da658215b5a62e94d9f"
+        "hash": "59cd28efb49e875d7c076fe49d030a83"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/socialgaming/l1/view.html",
-        "hash": "13c622212a96e1e2b902c20e30967197"
+        "hash": "302bf7750ce11fe34b301a02e771f52a"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/sourcecode/l1/view.html",
-        "hash": "1b910b9e4c43aa87e59d7a22eefcfc32"
+        "hash": "9556e959a556e28225e884a514646c10"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/tip/l1/view.html",
-        "hash": "c5b6ba20a5d5047e651675ad09fb35ef"
+        "hash": "c8fb7721f6782ada38b01360e866c811"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/topic/l1/list.html",
-        "hash": "391cdacf73bd122ee169d4c7bf8cba2d"
+        "hash": "91e70d2193e07bdd7f03aaa21f2796f0"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/weather/l1/view.html",
-        "hash": "b917d1c026b1fc348a7b13308cf3c9be"
+        "hash": "b4a7945341c460a15c5cf6887d6d61ee"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/wordpress/l1/view.html",
-        "hash": "fe88529b3caa1ba159594f8f677a67c5"
+        "hash": "594dab8a558b4f7ff556fc573a16e525"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/locked/l1/view.html",
-        "hash": "94a92ce964007211f0641f3e3a829700"
+        "hash": "f0e52cc628cf5b856c4fcf3ffae32ea3"
     },
     {
         "file": "var/apps/ionic/android/assets/www/cordova.js",
@@ -31764,10 +31912,6 @@
         "hash": "885fb47085df8b125f3d88f1cb63f7ca"
     },
     {
-        "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/ConfigChanges/ConfigChanges.js",
-        "hash": "ee0d7f69a091a997b1c64bc85da38b48"
-    },
-    {
         "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/ConfigChanges/ConfigFile.js",
         "hash": "f65e24897f7079dff96f3b54c8f7bd23"
     },
@@ -31778,6 +31922,10 @@
     {
         "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/ConfigChanges/munge-util.js",
         "hash": "2ffcaba7d4aa8959a681d31a9dae844c"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/ConfigChanges/ConfigChanges.js",
+        "hash": "cb11afb3cfdcdf6c7d863863f0e55caf"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/ConfigParser/ConfigParser.js",
@@ -34925,7 +35073,7 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/AppsMobileCompany.xcodeproj/project.pbxproj",
-        "hash": "a6800ad8d675804ca2d7867285dba44b"
+        "hash": "b1893f7b0011467d0a11b5e13f3864e4"
     },
     {
         "file": "var/apps/ionic/ios-noads/AppsMobileCompany/AppsMobileCompany-Prefix.pch",
@@ -36881,7 +37029,7 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/www/css/style.css",
-        "hash": "a5fd5502e8a9c09407a6b698c8029e4f"
+        "hash": "f08b682cbcd93763c070f64c6bacec3e"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/img/loyaltycard/point-validated.png",
@@ -36944,48 +37092,48 @@
         "hash": "440dc0de1b647f5f92dbcf775a1ae042"
     },
     {
-        "file": "var/apps/ionic/ios-noads/www/js/controllers/mcommerce/cart.js",
-        "hash": "fe9a30f401997de0d1d867f1888ae0b7"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/www/js/controllers/mcommerce/category.js",
-        "hash": "dac01140ae43c96e7e18ca340d252c98"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/www/js/controllers/mcommerce/sales/delivery.js",
-        "hash": "4722a6bcc8a8bb68bec768c9df85952c"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/www/js/controllers/mcommerce/sales/error.js",
-        "hash": "10f6b25c97be042dc23870206e025161"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/www/js/controllers/mcommerce/sales/payment.js",
-        "hash": "13339365e35f65f94fbee13c503af691"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/www/js/controllers/mcommerce/sales/store.js",
-        "hash": "2bb08149df5cec958f512ca37d019676"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/www/js/controllers/mcommerce/sales/stripe.js",
-        "hash": "6b8264c77a69ae974c459b37ab8bcde5"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/www/js/controllers/mcommerce/sales/success.js",
-        "hash": "01e71e49a248d28a5f0a50c4b27082e5"
+        "file": "var/apps/ionic/ios-noads/www/js/controllers/mcommerce/sales/confirmation.js",
+        "hash": "ad0d1a0da7c82dc173a70c0ce3777b91"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/controllers/mcommerce/sales/customer.js",
-        "hash": "b94ea980d9bcdf90926602c99c98375e"
+        "hash": "2ecaf84866831f5b3acb9242a1fa0491"
     },
     {
-        "file": "var/apps/ionic/ios-noads/www/js/controllers/mcommerce/sales/confirmation.js",
-        "hash": "687255f90c110a11635a7a1ea2d0719d"
+        "file": "var/apps/ionic/ios-noads/www/js/controllers/mcommerce/sales/delivery.js",
+        "hash": "ff075d5aa1d42e6832ddb242e66e3d9e"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/js/controllers/mcommerce/sales/error.js",
+        "hash": "812abacafc465c96943a1f7db9a7ed4e"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/js/controllers/mcommerce/sales/payment.js",
+        "hash": "943ff994f6a5073de42a8fd1082b8706"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/js/controllers/mcommerce/sales/store.js",
+        "hash": "f666b11a98627bd4d9a14a6998c9decc"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/js/controllers/mcommerce/sales/stripe.js",
+        "hash": "8575ad3a3cddd36806c1332a3d8af16c"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/js/controllers/mcommerce/sales/success.js",
+        "hash": "02c2bb34b2a1e4687d9e4d7aa8754b16"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/js/controllers/mcommerce/cart.js",
+        "hash": "0373b591f9568ecff07774e4faa5e8f8"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/js/controllers/mcommerce/category.js",
+        "hash": "90bf6a4933914c98e0982b9d0c95f8fb"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/controllers/mcommerce/product.js",
-        "hash": "2d79689d9644bf72d805abd66e308ab9"
+        "hash": "f5767f739b72c99690e957eeb5914310"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/controllers/media-player.js",
@@ -37020,10 +37168,6 @@
         "hash": "ea59ecb5d22961f6a005d0c4fa82c4df"
     },
     {
-        "file": "var/apps/ionic/ios-noads/www/js/controllers/folder.js",
-        "hash": "10a18a7738485affa338edabff15690f"
-    },
-    {
         "file": "var/apps/ionic/ios-noads/www/js/controllers/padlock.js",
         "hash": "89723dd4e779390e96eaed56ea00e438"
     },
@@ -37038,14 +37182,6 @@
     {
         "file": "var/apps/ionic/ios-noads/www/js/controllers/codescan.js",
         "hash": "3f9f1472a7bab28fdeb525fc9b608c02"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/www/js/controllers/places.js",
-        "hash": "f9ff7affa4e4fba4a2e550e603e94497"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/www/js/controllers/customer.js",
-        "hash": "e5e3fd39ae294ce9eac13b2b8b02aab5"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/controllers/image.js",
@@ -37072,10 +37208,6 @@
         "hash": "0cd1d5ccebc2cc993eed48e36fef2b2e"
     },
     {
-        "file": "var/apps/ionic/ios-noads/www/js/controllers/catalog.js",
-        "hash": "eaa301a65ca47ca9c4b93d5aac0cc2c7"
-    },
-    {
         "file": "var/apps/ionic/ios-noads/www/js/controllers/discount.js",
         "hash": "f0e455269a372bf9179b4c92e9abb6b2"
     },
@@ -37098,6 +37230,22 @@
     {
         "file": "var/apps/ionic/ios-noads/www/js/controllers/loyaltycard.js",
         "hash": "0490bd8ac55aa3f6d5d15cbf486c87ea"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/js/controllers/catalog.js",
+        "hash": "dc42083821f08b98fcc863960206fa31"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/js/controllers/customer.js",
+        "hash": "8b27981c11fa74c394d48554ade14bff"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/js/controllers/folder.js",
+        "hash": "9c92041ea891c3c6d1945f3016d2d097"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/js/controllers/places.js",
+        "hash": "891d4c6502b7b86ae578f94d42450564"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/directives/datetime.js",
@@ -37220,10 +37368,6 @@
         "hash": "114e962afbdd06aa0ffccaeee51c8d36"
     },
     {
-        "file": "var/apps/ionic/ios-noads/www/js/factory/mcommerce/cart.js",
-        "hash": "e1c890964f3f9608ab92cd424ce65766"
-    },
-    {
         "file": "var/apps/ionic/ios-noads/www/js/factory/mcommerce/category.js",
         "hash": "b84dd3b7135c43e02c2a53721392f5b8"
     },
@@ -37240,16 +37384,20 @@
         "hash": "d18c9024afdc128d67acba36b7b0f2c4"
     },
     {
-        "file": "var/apps/ionic/ios-noads/www/js/factory/mcommerce/sales/payment.js",
-        "hash": "b36d1838fc130c446043f2a2e31b4c7e"
+        "file": "var/apps/ionic/ios-noads/www/js/factory/mcommerce/sales/customer.js",
+        "hash": "c69b81ac1126b608367f44581ba8eb57"
     },
     {
-        "file": "var/apps/ionic/ios-noads/www/js/factory/mcommerce/sales/customer.js",
-        "hash": "e267f77c7b2fbfd9d4e3e5071fd36085"
+        "file": "var/apps/ionic/ios-noads/www/js/factory/mcommerce/sales/payment.js",
+        "hash": "0e03d9f88b177aea9dbe145fd1eff1f0"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/factory/mcommerce/sales/stripe.js",
-        "hash": "8d042199081b1d3f6673a0ae0b43b9b4"
+        "hash": "99b0b2c30038e3509c9a51ae001fc530"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/js/factory/mcommerce/cart.js",
+        "hash": "75f401c5c1fdcb4afd2b556e9eb43995"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/factory/music.js",
@@ -37328,10 +37476,6 @@
         "hash": "add46e2ab47f5c7735b78abc0ec1b06e"
     },
     {
-        "file": "var/apps/ionic/ios-noads/www/js/factory/customer.js",
-        "hash": "7851fb919fad4667c0dc23befcb88f03"
-    },
-    {
         "file": "var/apps/ionic/ios-noads/www/js/factory/safe_popups.js",
         "hash": "ce4ab6da5a771581191d9732ce225aea"
     },
@@ -37346,6 +37490,10 @@
     {
         "file": "var/apps/ionic/ios-noads/www/js/factory/push.js",
         "hash": "60b3c00f57662d022328ecb719b66114"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/js/factory/customer.js",
+        "hash": "c630c85bb1a395698d4f3110cc661511"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/filters/number-fixed-len.js",
@@ -37536,12 +37684,12 @@
         "hash": "76f3b1885f29d48a04f04234740a9b82"
     },
     {
-        "file": "var/apps/ionic/ios-noads/www/lib/ionic/js/ionic.bundle.min.js",
-        "hash": "30df30f361c192c1c4ad8172eac68c9e"
-    },
-    {
         "file": "var/apps/ionic/ios-noads/www/lib/ionic/js/ionic.min.js",
         "hash": "261888750cabfb8f088531c1e9967cc0"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/lib/ionic/js/ionic.bundle.min.js",
+        "hash": "82b4395621e2d3ae5471a48dd50e5e05"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/lib/ionic/version.json",
@@ -37785,11 +37933,11 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/application/l1/tc/view.html",
-        "hash": "f445c771db9ff62a919d3b5b691f1a28"
+        "hash": "34a73031bf5f83b266e81f7717f3c38f"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/booking/l1/view.html",
-        "hash": "63ef015ea8eb189ea70769cdfdf2af7f"
+        "hash": "f7ea07f7da140213d68b399299a0859e"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/catalog/category/l1/product/view.html",
@@ -37813,19 +37961,19 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/contact/l1/form.html",
-        "hash": "9ea91bc4e3d3984c38827301838cc048"
+        "hash": "138a97571baa62250b9b84db056f7532"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/contact/l1/view.html",
-        "hash": "41de25a8c7d1ec03666797c9df8c3473"
+        "hash": "5fb94a8bad3f74ad0e1da8f59a4afcc0"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/customer/account/l1/login.html",
-        "hash": "d699d66d3dcc4f141ce7821a424ef48b"
+        "hash": "5d75b52b3819bc82d0189afc44b84e08"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/discount/l1/view.html",
-        "hash": "1f40dd7d5689e6abed9731f7b64eee0a"
+        "hash": "887b5a161ea0c27643323e1ed6d0c4c1"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/event/l1/list.html",
@@ -37837,11 +37985,11 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/facebook/l1/header.html",
-        "hash": "cecdf5e55ac0380e2ea7438e3dd79349"
+        "hash": "b8f9a7a9be3161b6baeb522fd24c08a2"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/facebook/l1/view.html",
-        "hash": "5d0f92f6a40fb3654ef1f14985173c6e"
+        "hash": "74867dfab18cfb373e8e84b21b635c79"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/fanwall/l1/header.html",
@@ -37864,8 +38012,32 @@
         "hash": "e545f84e1a003fdf5b794c466c382c53"
     },
     {
+        "file": "var/apps/ionic/ios-noads/www/templates/folder/l2/list.html",
+        "hash": "f40eac419e3e197b2b123f633e94fd51"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/templates/folder/l2/search.html",
+        "hash": "e75a0b3d3282b61f66a59b84fb6208a4"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/templates/folder/l3/list.html",
+        "hash": "e545f84e1a003fdf5b794c466c382c53"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/templates/folder/l3/search.html",
+        "hash": "e75a0b3d3282b61f66a59b84fb6208a4"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/templates/folder/l4/list.html",
+        "hash": "d081a5cce0d09675429d70ecb2ecf905"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/templates/folder/l4/search.html",
+        "hash": "e75a0b3d3282b61f66a59b84fb6208a4"
+    },
+    {
         "file": "var/apps/ionic/ios-noads/www/templates/form/l1/view.html",
-        "hash": "21e158fb814a7749ed7e0dfd2faf710c"
+        "hash": "3273354b2933a29210261d1ecd06ab41"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/home/l1/view.html",
@@ -37968,12 +38140,12 @@
         "hash": "e8e46528b93d5b38522fbb757c2a2f5d"
     },
     {
-        "file": "var/apps/ionic/ios-noads/www/templates/html/l1/view.html",
-        "hash": "9bfef4d674d91d929775d88a35638335"
-    },
-    {
         "file": "var/apps/ionic/ios-noads/www/templates/html/l1/app_locked.html",
         "hash": "31970e186d42d5107a6439e9c44d06b8"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/templates/html/l1/view.html",
+        "hash": "e085034653edf72f182db09c7d471fdd"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/html/l2/list.html",
@@ -37981,7 +38153,7 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/html/l3/list.html",
-        "hash": "625b49dd3257779bb71cf10e007828da"
+        "hash": "f85872ba02d19861b577a361d267b337"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/html/l5/list.html",
@@ -38013,39 +38185,23 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/links/l1/view.html",
-        "hash": "b292684989709967d44f15d458f20a2e"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/www/templates/loyaltycard/l1/view.html",
-        "hash": "da74d1307dbf974597e2086d69e59e8e"
+        "hash": "e89eb8600345c496f412aae62a1ce36e"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/loyaltycard/l1/pad.html",
-        "hash": "decfeb77031d79fd98f8d38905eef209"
+        "hash": "d41aeab992df4439f9410c42c5f5a0b8"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/templates/loyaltycard/l1/view.html",
+        "hash": "d29062975832c9c9f56d8aa879624e28"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/maps/l1/view.html",
-        "hash": "b1800778361ea3d5788f1b2b083e6de9"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/www/templates/mcommerce/l1/sales/delivery.html",
-        "hash": "e8a639d28804e15658a2734c408c5f8a"
+        "hash": "f822c459d69c0a35142698c8d3108adb"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/mcommerce/l1/sales/error.html",
         "hash": "226c1e03fb583a82c6e831888d8c6e14"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/www/templates/mcommerce/l1/sales/payment.html",
-        "hash": "ac507b4b16fc30d57f366e021f20edaf"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/www/templates/mcommerce/l1/sales/store.html",
-        "hash": "ace6ea593c5336ab69bc8d7790e12d3d"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/www/templates/mcommerce/l1/sales/stripe.html",
-        "hash": "6694d86816e88aa9a425e34cb11942c8"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/mcommerce/l1/sales/success.html",
@@ -38053,23 +38209,39 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/mcommerce/l1/sales/confirmation.html",
-        "hash": "40543095a3b58947b442c9d6eb575279"
+        "hash": "fdd683c19c9ce3059218c1491fe955f2"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/mcommerce/l1/sales/customer.html",
-        "hash": "f9b4b755be03556a6dc0a69ca384f52c"
+        "hash": "b779e5bdbea9b00b2ad9f84e2533363b"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/templates/mcommerce/l1/sales/delivery.html",
+        "hash": "1c607dc1e3543db65ed22de5a8f6fd7a"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/templates/mcommerce/l1/sales/payment.html",
+        "hash": "6885ea688bea6cc73705fa77965505cd"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/templates/mcommerce/l1/sales/store.html",
+        "hash": "71e028679148b7f73cfc9df21d30a228"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/templates/mcommerce/l1/sales/stripe.html",
+        "hash": "d53d40153b909f4ef833493a3df17a6a"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/mcommerce/l1/cart.html",
-        "hash": "4a1d085a9ccd3b17f8c49203d335b02c"
+        "hash": "28f01dfae7190bab166f32235d7e38a2"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/mcommerce/l1/product.html",
-        "hash": "e1ce71bb03c70f36ad9783b46bd34299"
+        "hash": "21bb82c3ca3d0f0e465b461f1061fe21"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/media/image/l1/list.html",
-        "hash": "949032709773d97e8c21ebcbfd193069"
+        "hash": "7d6c6eccb55fb84fd952c4d4ef6ca28c"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/media/music/l1/album/boxes.html",
@@ -38109,11 +38281,11 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/media/video/l1/list.html",
-        "hash": "92fb9be74b0721b6c1de92bee7c5f369"
+        "hash": "65c1819bd35446726241ff1a66632162"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/padlock/l1/view.html",
-        "hash": "cc2ceeb9ce864ee1289a1aa2fa14857b"
+        "hash": "ff6dd3ea9c348aad1636f12c38c9e419"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/page/side-menu.html",
@@ -38121,35 +38293,35 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/rss/l1/view.html",
-        "hash": "58f38ea69efb1da658215b5a62e94d9f"
+        "hash": "59cd28efb49e875d7c076fe49d030a83"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/socialgaming/l1/view.html",
-        "hash": "13c622212a96e1e2b902c20e30967197"
+        "hash": "302bf7750ce11fe34b301a02e771f52a"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/sourcecode/l1/view.html",
-        "hash": "1b910b9e4c43aa87e59d7a22eefcfc32"
+        "hash": "9556e959a556e28225e884a514646c10"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/tip/l1/view.html",
-        "hash": "c5b6ba20a5d5047e651675ad09fb35ef"
+        "hash": "c8fb7721f6782ada38b01360e866c811"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/topic/l1/list.html",
-        "hash": "391cdacf73bd122ee169d4c7bf8cba2d"
+        "hash": "91e70d2193e07bdd7f03aaa21f2796f0"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/weather/l1/view.html",
-        "hash": "b917d1c026b1fc348a7b13308cf3c9be"
+        "hash": "b4a7945341c460a15c5cf6887d6d61ee"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/wordpress/l1/view.html",
-        "hash": "fe88529b3caa1ba159594f8f677a67c5"
+        "hash": "594dab8a558b4f7ff556fc573a16e525"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/locked/l1/view.html",
-        "hash": "94a92ce964007211f0641f3e3a829700"
+        "hash": "f0e52cc628cf5b856c4fcf3ffae32ea3"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/cordova_plugins.js",
@@ -38165,7 +38337,7 @@
     },
     {
         "file": "var/apps/ionic/ios/AppsMobileCompany.xcodeproj/project.pbxproj",
-        "hash": "695fb787fb0e9a2a0d606cfe5aea9da8"
+        "hash": "e14177a4d5fc9543fb0e65b6eaa9ec0b"
     },
     {
         "file": "var/apps/ionic/ios/AppsMobileCompany/AppsMobileCompany-Prefix.pch",
@@ -40373,7 +40545,7 @@
     },
     {
         "file": "var/apps/ionic/ios/www/css/style.css",
-        "hash": "a5fd5502e8a9c09407a6b698c8029e4f"
+        "hash": "f08b682cbcd93763c070f64c6bacec3e"
     },
     {
         "file": "var/apps/ionic/ios/www/img/loyaltycard/point-validated.png",
@@ -40436,48 +40608,48 @@
         "hash": "440dc0de1b647f5f92dbcf775a1ae042"
     },
     {
-        "file": "var/apps/ionic/ios/www/js/controllers/mcommerce/cart.js",
-        "hash": "fe9a30f401997de0d1d867f1888ae0b7"
-    },
-    {
-        "file": "var/apps/ionic/ios/www/js/controllers/mcommerce/category.js",
-        "hash": "dac01140ae43c96e7e18ca340d252c98"
-    },
-    {
-        "file": "var/apps/ionic/ios/www/js/controllers/mcommerce/sales/delivery.js",
-        "hash": "4722a6bcc8a8bb68bec768c9df85952c"
-    },
-    {
-        "file": "var/apps/ionic/ios/www/js/controllers/mcommerce/sales/error.js",
-        "hash": "10f6b25c97be042dc23870206e025161"
-    },
-    {
-        "file": "var/apps/ionic/ios/www/js/controllers/mcommerce/sales/payment.js",
-        "hash": "13339365e35f65f94fbee13c503af691"
-    },
-    {
-        "file": "var/apps/ionic/ios/www/js/controllers/mcommerce/sales/store.js",
-        "hash": "2bb08149df5cec958f512ca37d019676"
-    },
-    {
-        "file": "var/apps/ionic/ios/www/js/controllers/mcommerce/sales/stripe.js",
-        "hash": "6b8264c77a69ae974c459b37ab8bcde5"
-    },
-    {
-        "file": "var/apps/ionic/ios/www/js/controllers/mcommerce/sales/success.js",
-        "hash": "01e71e49a248d28a5f0a50c4b27082e5"
+        "file": "var/apps/ionic/ios/www/js/controllers/mcommerce/sales/confirmation.js",
+        "hash": "ad0d1a0da7c82dc173a70c0ce3777b91"
     },
     {
         "file": "var/apps/ionic/ios/www/js/controllers/mcommerce/sales/customer.js",
-        "hash": "b94ea980d9bcdf90926602c99c98375e"
+        "hash": "2ecaf84866831f5b3acb9242a1fa0491"
     },
     {
-        "file": "var/apps/ionic/ios/www/js/controllers/mcommerce/sales/confirmation.js",
-        "hash": "687255f90c110a11635a7a1ea2d0719d"
+        "file": "var/apps/ionic/ios/www/js/controllers/mcommerce/sales/delivery.js",
+        "hash": "ff075d5aa1d42e6832ddb242e66e3d9e"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/js/controllers/mcommerce/sales/error.js",
+        "hash": "812abacafc465c96943a1f7db9a7ed4e"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/js/controllers/mcommerce/sales/payment.js",
+        "hash": "943ff994f6a5073de42a8fd1082b8706"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/js/controllers/mcommerce/sales/store.js",
+        "hash": "f666b11a98627bd4d9a14a6998c9decc"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/js/controllers/mcommerce/sales/stripe.js",
+        "hash": "8575ad3a3cddd36806c1332a3d8af16c"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/js/controllers/mcommerce/sales/success.js",
+        "hash": "02c2bb34b2a1e4687d9e4d7aa8754b16"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/js/controllers/mcommerce/cart.js",
+        "hash": "0373b591f9568ecff07774e4faa5e8f8"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/js/controllers/mcommerce/category.js",
+        "hash": "90bf6a4933914c98e0982b9d0c95f8fb"
     },
     {
         "file": "var/apps/ionic/ios/www/js/controllers/mcommerce/product.js",
-        "hash": "2d79689d9644bf72d805abd66e308ab9"
+        "hash": "f5767f739b72c99690e957eeb5914310"
     },
     {
         "file": "var/apps/ionic/ios/www/js/controllers/media-player.js",
@@ -40512,10 +40684,6 @@
         "hash": "ea59ecb5d22961f6a005d0c4fa82c4df"
     },
     {
-        "file": "var/apps/ionic/ios/www/js/controllers/folder.js",
-        "hash": "10a18a7738485affa338edabff15690f"
-    },
-    {
         "file": "var/apps/ionic/ios/www/js/controllers/padlock.js",
         "hash": "89723dd4e779390e96eaed56ea00e438"
     },
@@ -40530,14 +40698,6 @@
     {
         "file": "var/apps/ionic/ios/www/js/controllers/codescan.js",
         "hash": "3f9f1472a7bab28fdeb525fc9b608c02"
-    },
-    {
-        "file": "var/apps/ionic/ios/www/js/controllers/places.js",
-        "hash": "f9ff7affa4e4fba4a2e550e603e94497"
-    },
-    {
-        "file": "var/apps/ionic/ios/www/js/controllers/customer.js",
-        "hash": "e5e3fd39ae294ce9eac13b2b8b02aab5"
     },
     {
         "file": "var/apps/ionic/ios/www/js/controllers/image.js",
@@ -40564,10 +40724,6 @@
         "hash": "0cd1d5ccebc2cc993eed48e36fef2b2e"
     },
     {
-        "file": "var/apps/ionic/ios/www/js/controllers/catalog.js",
-        "hash": "eaa301a65ca47ca9c4b93d5aac0cc2c7"
-    },
-    {
         "file": "var/apps/ionic/ios/www/js/controllers/discount.js",
         "hash": "f0e455269a372bf9179b4c92e9abb6b2"
     },
@@ -40590,6 +40746,22 @@
     {
         "file": "var/apps/ionic/ios/www/js/controllers/loyaltycard.js",
         "hash": "0490bd8ac55aa3f6d5d15cbf486c87ea"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/js/controllers/catalog.js",
+        "hash": "dc42083821f08b98fcc863960206fa31"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/js/controllers/customer.js",
+        "hash": "8b27981c11fa74c394d48554ade14bff"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/js/controllers/folder.js",
+        "hash": "9c92041ea891c3c6d1945f3016d2d097"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/js/controllers/places.js",
+        "hash": "891d4c6502b7b86ae578f94d42450564"
     },
     {
         "file": "var/apps/ionic/ios/www/js/directives/datetime.js",
@@ -40712,10 +40884,6 @@
         "hash": "114e962afbdd06aa0ffccaeee51c8d36"
     },
     {
-        "file": "var/apps/ionic/ios/www/js/factory/mcommerce/cart.js",
-        "hash": "e1c890964f3f9608ab92cd424ce65766"
-    },
-    {
         "file": "var/apps/ionic/ios/www/js/factory/mcommerce/category.js",
         "hash": "b84dd3b7135c43e02c2a53721392f5b8"
     },
@@ -40732,16 +40900,20 @@
         "hash": "d18c9024afdc128d67acba36b7b0f2c4"
     },
     {
-        "file": "var/apps/ionic/ios/www/js/factory/mcommerce/sales/payment.js",
-        "hash": "b36d1838fc130c446043f2a2e31b4c7e"
+        "file": "var/apps/ionic/ios/www/js/factory/mcommerce/sales/customer.js",
+        "hash": "c69b81ac1126b608367f44581ba8eb57"
     },
     {
-        "file": "var/apps/ionic/ios/www/js/factory/mcommerce/sales/customer.js",
-        "hash": "e267f77c7b2fbfd9d4e3e5071fd36085"
+        "file": "var/apps/ionic/ios/www/js/factory/mcommerce/sales/payment.js",
+        "hash": "0e03d9f88b177aea9dbe145fd1eff1f0"
     },
     {
         "file": "var/apps/ionic/ios/www/js/factory/mcommerce/sales/stripe.js",
-        "hash": "8d042199081b1d3f6673a0ae0b43b9b4"
+        "hash": "99b0b2c30038e3509c9a51ae001fc530"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/js/factory/mcommerce/cart.js",
+        "hash": "75f401c5c1fdcb4afd2b556e9eb43995"
     },
     {
         "file": "var/apps/ionic/ios/www/js/factory/music.js",
@@ -40820,10 +40992,6 @@
         "hash": "add46e2ab47f5c7735b78abc0ec1b06e"
     },
     {
-        "file": "var/apps/ionic/ios/www/js/factory/customer.js",
-        "hash": "7851fb919fad4667c0dc23befcb88f03"
-    },
-    {
         "file": "var/apps/ionic/ios/www/js/factory/safe_popups.js",
         "hash": "ce4ab6da5a771581191d9732ce225aea"
     },
@@ -40838,6 +41006,10 @@
     {
         "file": "var/apps/ionic/ios/www/js/factory/push.js",
         "hash": "60b3c00f57662d022328ecb719b66114"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/js/factory/customer.js",
+        "hash": "c630c85bb1a395698d4f3110cc661511"
     },
     {
         "file": "var/apps/ionic/ios/www/js/filters/number-fixed-len.js",
@@ -41028,12 +41200,12 @@
         "hash": "76f3b1885f29d48a04f04234740a9b82"
     },
     {
-        "file": "var/apps/ionic/ios/www/lib/ionic/js/ionic.bundle.min.js",
-        "hash": "30df30f361c192c1c4ad8172eac68c9e"
-    },
-    {
         "file": "var/apps/ionic/ios/www/lib/ionic/js/ionic.min.js",
         "hash": "261888750cabfb8f088531c1e9967cc0"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/lib/ionic/js/ionic.bundle.min.js",
+        "hash": "82b4395621e2d3ae5471a48dd50e5e05"
     },
     {
         "file": "var/apps/ionic/ios/www/lib/ionic/version.json",
@@ -41281,11 +41453,11 @@
     },
     {
         "file": "var/apps/ionic/ios/www/templates/application/l1/tc/view.html",
-        "hash": "f445c771db9ff62a919d3b5b691f1a28"
+        "hash": "34a73031bf5f83b266e81f7717f3c38f"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/booking/l1/view.html",
-        "hash": "63ef015ea8eb189ea70769cdfdf2af7f"
+        "hash": "f7ea07f7da140213d68b399299a0859e"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/catalog/category/l1/product/view.html",
@@ -41309,19 +41481,19 @@
     },
     {
         "file": "var/apps/ionic/ios/www/templates/contact/l1/form.html",
-        "hash": "9ea91bc4e3d3984c38827301838cc048"
+        "hash": "138a97571baa62250b9b84db056f7532"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/contact/l1/view.html",
-        "hash": "41de25a8c7d1ec03666797c9df8c3473"
+        "hash": "5fb94a8bad3f74ad0e1da8f59a4afcc0"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/customer/account/l1/login.html",
-        "hash": "d699d66d3dcc4f141ce7821a424ef48b"
+        "hash": "5d75b52b3819bc82d0189afc44b84e08"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/discount/l1/view.html",
-        "hash": "1f40dd7d5689e6abed9731f7b64eee0a"
+        "hash": "887b5a161ea0c27643323e1ed6d0c4c1"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/event/l1/list.html",
@@ -41333,11 +41505,11 @@
     },
     {
         "file": "var/apps/ionic/ios/www/templates/facebook/l1/header.html",
-        "hash": "cecdf5e55ac0380e2ea7438e3dd79349"
+        "hash": "b8f9a7a9be3161b6baeb522fd24c08a2"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/facebook/l1/view.html",
-        "hash": "5d0f92f6a40fb3654ef1f14985173c6e"
+        "hash": "74867dfab18cfb373e8e84b21b635c79"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/fanwall/l1/header.html",
@@ -41360,8 +41532,32 @@
         "hash": "e545f84e1a003fdf5b794c466c382c53"
     },
     {
+        "file": "var/apps/ionic/ios/www/templates/folder/l2/list.html",
+        "hash": "f40eac419e3e197b2b123f633e94fd51"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/templates/folder/l2/search.html",
+        "hash": "e75a0b3d3282b61f66a59b84fb6208a4"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/templates/folder/l3/list.html",
+        "hash": "e545f84e1a003fdf5b794c466c382c53"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/templates/folder/l3/search.html",
+        "hash": "e75a0b3d3282b61f66a59b84fb6208a4"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/templates/folder/l4/list.html",
+        "hash": "d081a5cce0d09675429d70ecb2ecf905"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/templates/folder/l4/search.html",
+        "hash": "e75a0b3d3282b61f66a59b84fb6208a4"
+    },
+    {
         "file": "var/apps/ionic/ios/www/templates/form/l1/view.html",
-        "hash": "21e158fb814a7749ed7e0dfd2faf710c"
+        "hash": "3273354b2933a29210261d1ecd06ab41"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/home/l1/view.html",
@@ -41464,12 +41660,12 @@
         "hash": "e8e46528b93d5b38522fbb757c2a2f5d"
     },
     {
-        "file": "var/apps/ionic/ios/www/templates/html/l1/view.html",
-        "hash": "9bfef4d674d91d929775d88a35638335"
-    },
-    {
         "file": "var/apps/ionic/ios/www/templates/html/l1/app_locked.html",
         "hash": "31970e186d42d5107a6439e9c44d06b8"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/templates/html/l1/view.html",
+        "hash": "e085034653edf72f182db09c7d471fdd"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/html/l2/list.html",
@@ -41477,7 +41673,7 @@
     },
     {
         "file": "var/apps/ionic/ios/www/templates/html/l3/list.html",
-        "hash": "625b49dd3257779bb71cf10e007828da"
+        "hash": "f85872ba02d19861b577a361d267b337"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/html/l5/list.html",
@@ -41509,39 +41705,23 @@
     },
     {
         "file": "var/apps/ionic/ios/www/templates/links/l1/view.html",
-        "hash": "b292684989709967d44f15d458f20a2e"
-    },
-    {
-        "file": "var/apps/ionic/ios/www/templates/loyaltycard/l1/view.html",
-        "hash": "da74d1307dbf974597e2086d69e59e8e"
+        "hash": "e89eb8600345c496f412aae62a1ce36e"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/loyaltycard/l1/pad.html",
-        "hash": "decfeb77031d79fd98f8d38905eef209"
+        "hash": "d41aeab992df4439f9410c42c5f5a0b8"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/templates/loyaltycard/l1/view.html",
+        "hash": "d29062975832c9c9f56d8aa879624e28"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/maps/l1/view.html",
-        "hash": "b1800778361ea3d5788f1b2b083e6de9"
-    },
-    {
-        "file": "var/apps/ionic/ios/www/templates/mcommerce/l1/sales/delivery.html",
-        "hash": "e8a639d28804e15658a2734c408c5f8a"
+        "hash": "f822c459d69c0a35142698c8d3108adb"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/mcommerce/l1/sales/error.html",
         "hash": "226c1e03fb583a82c6e831888d8c6e14"
-    },
-    {
-        "file": "var/apps/ionic/ios/www/templates/mcommerce/l1/sales/payment.html",
-        "hash": "ac507b4b16fc30d57f366e021f20edaf"
-    },
-    {
-        "file": "var/apps/ionic/ios/www/templates/mcommerce/l1/sales/store.html",
-        "hash": "ace6ea593c5336ab69bc8d7790e12d3d"
-    },
-    {
-        "file": "var/apps/ionic/ios/www/templates/mcommerce/l1/sales/stripe.html",
-        "hash": "6694d86816e88aa9a425e34cb11942c8"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/mcommerce/l1/sales/success.html",
@@ -41549,23 +41729,39 @@
     },
     {
         "file": "var/apps/ionic/ios/www/templates/mcommerce/l1/sales/confirmation.html",
-        "hash": "40543095a3b58947b442c9d6eb575279"
+        "hash": "fdd683c19c9ce3059218c1491fe955f2"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/mcommerce/l1/sales/customer.html",
-        "hash": "f9b4b755be03556a6dc0a69ca384f52c"
+        "hash": "b779e5bdbea9b00b2ad9f84e2533363b"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/templates/mcommerce/l1/sales/delivery.html",
+        "hash": "1c607dc1e3543db65ed22de5a8f6fd7a"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/templates/mcommerce/l1/sales/payment.html",
+        "hash": "6885ea688bea6cc73705fa77965505cd"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/templates/mcommerce/l1/sales/store.html",
+        "hash": "71e028679148b7f73cfc9df21d30a228"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/templates/mcommerce/l1/sales/stripe.html",
+        "hash": "d53d40153b909f4ef833493a3df17a6a"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/mcommerce/l1/cart.html",
-        "hash": "4a1d085a9ccd3b17f8c49203d335b02c"
+        "hash": "28f01dfae7190bab166f32235d7e38a2"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/mcommerce/l1/product.html",
-        "hash": "e1ce71bb03c70f36ad9783b46bd34299"
+        "hash": "21bb82c3ca3d0f0e465b461f1061fe21"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/media/image/l1/list.html",
-        "hash": "949032709773d97e8c21ebcbfd193069"
+        "hash": "7d6c6eccb55fb84fd952c4d4ef6ca28c"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/media/music/l1/album/boxes.html",
@@ -41605,11 +41801,11 @@
     },
     {
         "file": "var/apps/ionic/ios/www/templates/media/video/l1/list.html",
-        "hash": "92fb9be74b0721b6c1de92bee7c5f369"
+        "hash": "65c1819bd35446726241ff1a66632162"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/padlock/l1/view.html",
-        "hash": "cc2ceeb9ce864ee1289a1aa2fa14857b"
+        "hash": "ff6dd3ea9c348aad1636f12c38c9e419"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/page/side-menu.html",
@@ -41617,35 +41813,35 @@
     },
     {
         "file": "var/apps/ionic/ios/www/templates/rss/l1/view.html",
-        "hash": "58f38ea69efb1da658215b5a62e94d9f"
+        "hash": "59cd28efb49e875d7c076fe49d030a83"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/socialgaming/l1/view.html",
-        "hash": "13c622212a96e1e2b902c20e30967197"
+        "hash": "302bf7750ce11fe34b301a02e771f52a"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/sourcecode/l1/view.html",
-        "hash": "1b910b9e4c43aa87e59d7a22eefcfc32"
+        "hash": "9556e959a556e28225e884a514646c10"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/tip/l1/view.html",
-        "hash": "c5b6ba20a5d5047e651675ad09fb35ef"
+        "hash": "c8fb7721f6782ada38b01360e866c811"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/topic/l1/list.html",
-        "hash": "391cdacf73bd122ee169d4c7bf8cba2d"
+        "hash": "91e70d2193e07bdd7f03aaa21f2796f0"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/weather/l1/view.html",
-        "hash": "b917d1c026b1fc348a7b13308cf3c9be"
+        "hash": "b4a7945341c460a15c5cf6887d6d61ee"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/wordpress/l1/view.html",
-        "hash": "fe88529b3caa1ba159594f8f677a67c5"
+        "hash": "594dab8a558b4f7ff556fc573a16e525"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/locked/l1/view.html",
-        "hash": "94a92ce964007211f0641f3e3a829700"
+        "hash": "f0e52cc628cf5b856c4fcf3ffae32ea3"
     },
     {
         "file": "var/apps/ionic/ios/www/cordova_plugins.js",
@@ -41705,7 +41901,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/css/style.css",
-        "hash": "a5fd5502e8a9c09407a6b698c8029e4f"
+        "hash": "f08b682cbcd93763c070f64c6bacec3e"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/img/loyaltycard/point-validated.png",
@@ -41756,10 +41952,6 @@
         "hash": "5f2cf82458594240b8ea8e7c42f483eb"
     },
     {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/folder.js",
-        "hash": "10a18a7738485affa338edabff15690f"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/form.js",
         "hash": "390ce03a6e88d021d9ce379cb3186643"
     },
@@ -41772,48 +41964,48 @@
         "hash": "440dc0de1b647f5f92dbcf775a1ae042"
     },
     {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/mcommerce/cart.js",
-        "hash": "fe9a30f401997de0d1d867f1888ae0b7"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/mcommerce/category.js",
-        "hash": "dac01140ae43c96e7e18ca340d252c98"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/mcommerce/product.js",
-        "hash": "2d79689d9644bf72d805abd66e308ab9"
+        "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/mcommerce/sales/confirmation.js",
+        "hash": "ad0d1a0da7c82dc173a70c0ce3777b91"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/mcommerce/sales/customer.js",
-        "hash": "b94ea980d9bcdf90926602c99c98375e"
+        "hash": "2ecaf84866831f5b3acb9242a1fa0491"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/mcommerce/sales/delivery.js",
-        "hash": "4722a6bcc8a8bb68bec768c9df85952c"
+        "hash": "ff075d5aa1d42e6832ddb242e66e3d9e"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/mcommerce/sales/error.js",
-        "hash": "10f6b25c97be042dc23870206e025161"
+        "hash": "812abacafc465c96943a1f7db9a7ed4e"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/mcommerce/sales/payment.js",
-        "hash": "13339365e35f65f94fbee13c503af691"
+        "hash": "943ff994f6a5073de42a8fd1082b8706"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/mcommerce/sales/store.js",
-        "hash": "2bb08149df5cec958f512ca37d019676"
+        "hash": "f666b11a98627bd4d9a14a6998c9decc"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/mcommerce/sales/stripe.js",
-        "hash": "6b8264c77a69ae974c459b37ab8bcde5"
+        "hash": "8575ad3a3cddd36806c1332a3d8af16c"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/mcommerce/sales/success.js",
-        "hash": "01e71e49a248d28a5f0a50c4b27082e5"
+        "hash": "02c2bb34b2a1e4687d9e4d7aa8754b16"
     },
     {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/mcommerce/sales/confirmation.js",
-        "hash": "687255f90c110a11635a7a1ea2d0719d"
+        "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/mcommerce/cart.js",
+        "hash": "0373b591f9568ecff07774e4faa5e8f8"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/mcommerce/category.js",
+        "hash": "90bf6a4933914c98e0982b9d0c95f8fb"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/mcommerce/product.js",
+        "hash": "f5767f739b72c99690e957eeb5914310"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/media-player.js",
@@ -41864,14 +42056,6 @@
         "hash": "3f9f1472a7bab28fdeb525fc9b608c02"
     },
     {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/places.js",
-        "hash": "f9ff7affa4e4fba4a2e550e603e94497"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/customer.js",
-        "hash": "e5e3fd39ae294ce9eac13b2b8b02aab5"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/image.js",
         "hash": "17abbce1344b04727cdcb714879cb066"
     },
@@ -41896,10 +42080,6 @@
         "hash": "0cd1d5ccebc2cc993eed48e36fef2b2e"
     },
     {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/catalog.js",
-        "hash": "eaa301a65ca47ca9c4b93d5aac0cc2c7"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/discount.js",
         "hash": "f0e455269a372bf9179b4c92e9abb6b2"
     },
@@ -41922,6 +42102,22 @@
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/loyaltycard.js",
         "hash": "0490bd8ac55aa3f6d5d15cbf486c87ea"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/catalog.js",
+        "hash": "dc42083821f08b98fcc863960206fa31"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/customer.js",
+        "hash": "8b27981c11fa74c394d48554ade14bff"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/folder.js",
+        "hash": "9c92041ea891c3c6d1945f3016d2d097"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/places.js",
+        "hash": "891d4c6502b7b86ae578f94d42450564"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/directives/datetime.js",
@@ -42048,10 +42244,6 @@
         "hash": "114e962afbdd06aa0ffccaeee51c8d36"
     },
     {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/factory/mcommerce/cart.js",
-        "hash": "e1c890964f3f9608ab92cd424ce65766"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/assets/www/js/factory/mcommerce/category.js",
         "hash": "b84dd3b7135c43e02c2a53721392f5b8"
     },
@@ -42060,24 +42252,28 @@
         "hash": "85d22a91ffb8841aa646a56a1e4df6c9"
     },
     {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/factory/mcommerce/sales/customer.js",
-        "hash": "e267f77c7b2fbfd9d4e3e5071fd36085"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/assets/www/js/factory/mcommerce/sales/delivery.js",
         "hash": "c40ce8c45ef3a25ef371793acb5132de"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/factory/mcommerce/sales/payment.js",
-        "hash": "b36d1838fc130c446043f2a2e31b4c7e"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/factory/mcommerce/sales/store.js",
         "hash": "d18c9024afdc128d67acba36b7b0f2c4"
     },
     {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/factory/mcommerce/sales/customer.js",
+        "hash": "c69b81ac1126b608367f44581ba8eb57"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/factory/mcommerce/sales/payment.js",
+        "hash": "0e03d9f88b177aea9dbe145fd1eff1f0"
+    },
+    {
         "file": "var/apps/ionic/previewer/android/assets/www/js/factory/mcommerce/sales/stripe.js",
-        "hash": "8d042199081b1d3f6673a0ae0b43b9b4"
+        "hash": "99b0b2c30038e3509c9a51ae001fc530"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/factory/mcommerce/cart.js",
+        "hash": "75f401c5c1fdcb4afd2b556e9eb43995"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/factory/music.js",
@@ -42152,10 +42348,6 @@
         "hash": "add46e2ab47f5c7735b78abc0ec1b06e"
     },
     {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/factory/customer.js",
-        "hash": "7851fb919fad4667c0dc23befcb88f03"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/assets/www/js/factory/safe_popups.js",
         "hash": "ce4ab6da5a771581191d9732ce225aea"
     },
@@ -42170,6 +42362,10 @@
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/factory/push.js",
         "hash": "60b3c00f57662d022328ecb719b66114"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/factory/customer.js",
+        "hash": "c630c85bb1a395698d4f3110cc661511"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/filters/number-fixed-len.js",
@@ -42360,12 +42556,12 @@
         "hash": "76f3b1885f29d48a04f04234740a9b82"
     },
     {
-        "file": "var/apps/ionic/previewer/android/assets/www/lib/ionic/js/ionic.bundle.min.js",
-        "hash": "30df30f361c192c1c4ad8172eac68c9e"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/assets/www/lib/ionic/js/ionic.min.js",
         "hash": "261888750cabfb8f088531c1e9967cc0"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/lib/ionic/js/ionic.bundle.min.js",
+        "hash": "82b4395621e2d3ae5471a48dd50e5e05"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/lib/ionic/version.json",
@@ -42593,11 +42789,11 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/application/l1/tc/view.html",
-        "hash": "f445c771db9ff62a919d3b5b691f1a28"
+        "hash": "34a73031bf5f83b266e81f7717f3c38f"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/booking/l1/view.html",
-        "hash": "63ef015ea8eb189ea70769cdfdf2af7f"
+        "hash": "f7ea07f7da140213d68b399299a0859e"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/catalog/category/l1/product/view.html",
@@ -42621,19 +42817,19 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/contact/l1/form.html",
-        "hash": "9ea91bc4e3d3984c38827301838cc048"
+        "hash": "138a97571baa62250b9b84db056f7532"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/contact/l1/view.html",
-        "hash": "41de25a8c7d1ec03666797c9df8c3473"
+        "hash": "5fb94a8bad3f74ad0e1da8f59a4afcc0"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/customer/account/l1/login.html",
-        "hash": "d699d66d3dcc4f141ce7821a424ef48b"
+        "hash": "5d75b52b3819bc82d0189afc44b84e08"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/discount/l1/view.html",
-        "hash": "1f40dd7d5689e6abed9731f7b64eee0a"
+        "hash": "887b5a161ea0c27643323e1ed6d0c4c1"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/event/l1/list.html",
@@ -42645,11 +42841,11 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/facebook/l1/header.html",
-        "hash": "cecdf5e55ac0380e2ea7438e3dd79349"
+        "hash": "b8f9a7a9be3161b6baeb522fd24c08a2"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/facebook/l1/view.html",
-        "hash": "5d0f92f6a40fb3654ef1f14985173c6e"
+        "hash": "74867dfab18cfb373e8e84b21b635c79"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/fanwall/l1/edit.html",
@@ -42672,8 +42868,32 @@
         "hash": "e75a0b3d3282b61f66a59b84fb6208a4"
     },
     {
+        "file": "var/apps/ionic/previewer/android/assets/www/templates/folder/l2/list.html",
+        "hash": "f40eac419e3e197b2b123f633e94fd51"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/templates/folder/l2/search.html",
+        "hash": "e75a0b3d3282b61f66a59b84fb6208a4"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/templates/folder/l3/list.html",
+        "hash": "e545f84e1a003fdf5b794c466c382c53"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/templates/folder/l3/search.html",
+        "hash": "e75a0b3d3282b61f66a59b84fb6208a4"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/templates/folder/l4/list.html",
+        "hash": "d081a5cce0d09675429d70ecb2ecf905"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/templates/folder/l4/search.html",
+        "hash": "e75a0b3d3282b61f66a59b84fb6208a4"
+    },
+    {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/form/l1/view.html",
-        "hash": "21e158fb814a7749ed7e0dfd2faf710c"
+        "hash": "3273354b2933a29210261d1ecd06ab41"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/home/l1/view.html",
@@ -42781,7 +43001,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/html/l1/view.html",
-        "hash": "9bfef4d674d91d929775d88a35638335"
+        "hash": "e085034653edf72f182db09c7d471fdd"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/html/l2/list.html",
@@ -42789,7 +43009,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/html/l3/list.html",
-        "hash": "625b49dd3257779bb71cf10e007828da"
+        "hash": "f85872ba02d19861b577a361d267b337"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/html/l5/list.html",
@@ -42821,63 +43041,63 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/links/l1/view.html",
-        "hash": "b292684989709967d44f15d458f20a2e"
+        "hash": "e89eb8600345c496f412aae62a1ce36e"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/loyaltycard/l1/pad.html",
-        "hash": "decfeb77031d79fd98f8d38905eef209"
+        "hash": "d41aeab992df4439f9410c42c5f5a0b8"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/loyaltycard/l1/view.html",
-        "hash": "da74d1307dbf974597e2086d69e59e8e"
+        "hash": "d29062975832c9c9f56d8aa879624e28"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/maps/l1/view.html",
-        "hash": "b1800778361ea3d5788f1b2b083e6de9"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/assets/www/templates/mcommerce/l1/cart.html",
-        "hash": "4a1d085a9ccd3b17f8c49203d335b02c"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/assets/www/templates/mcommerce/l1/product.html",
-        "hash": "e1ce71bb03c70f36ad9783b46bd34299"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/assets/www/templates/mcommerce/l1/sales/confirmation.html",
-        "hash": "40543095a3b58947b442c9d6eb575279"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/assets/www/templates/mcommerce/l1/sales/customer.html",
-        "hash": "f9b4b755be03556a6dc0a69ca384f52c"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/assets/www/templates/mcommerce/l1/sales/delivery.html",
-        "hash": "e8a639d28804e15658a2734c408c5f8a"
+        "hash": "f822c459d69c0a35142698c8d3108adb"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/mcommerce/l1/sales/error.html",
         "hash": "226c1e03fb583a82c6e831888d8c6e14"
     },
     {
-        "file": "var/apps/ionic/previewer/android/assets/www/templates/mcommerce/l1/sales/payment.html",
-        "hash": "ac507b4b16fc30d57f366e021f20edaf"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/assets/www/templates/mcommerce/l1/sales/store.html",
-        "hash": "ace6ea593c5336ab69bc8d7790e12d3d"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/assets/www/templates/mcommerce/l1/sales/stripe.html",
-        "hash": "6694d86816e88aa9a425e34cb11942c8"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/mcommerce/l1/sales/success.html",
         "hash": "2ede89365c5eb9e5853c573bf7c1decc"
     },
     {
+        "file": "var/apps/ionic/previewer/android/assets/www/templates/mcommerce/l1/sales/confirmation.html",
+        "hash": "fdd683c19c9ce3059218c1491fe955f2"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/templates/mcommerce/l1/sales/customer.html",
+        "hash": "b779e5bdbea9b00b2ad9f84e2533363b"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/templates/mcommerce/l1/sales/delivery.html",
+        "hash": "1c607dc1e3543db65ed22de5a8f6fd7a"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/templates/mcommerce/l1/sales/payment.html",
+        "hash": "6885ea688bea6cc73705fa77965505cd"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/templates/mcommerce/l1/sales/store.html",
+        "hash": "71e028679148b7f73cfc9df21d30a228"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/templates/mcommerce/l1/sales/stripe.html",
+        "hash": "d53d40153b909f4ef833493a3df17a6a"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/templates/mcommerce/l1/cart.html",
+        "hash": "28f01dfae7190bab166f32235d7e38a2"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/templates/mcommerce/l1/product.html",
+        "hash": "21bb82c3ca3d0f0e465b461f1061fe21"
+    },
+    {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/media/image/l1/list.html",
-        "hash": "949032709773d97e8c21ebcbfd193069"
+        "hash": "7d6c6eccb55fb84fd952c4d4ef6ca28c"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/media/music/l1/album/boxes.html",
@@ -42917,11 +43137,11 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/media/video/l1/list.html",
-        "hash": "92fb9be74b0721b6c1de92bee7c5f369"
+        "hash": "65c1819bd35446726241ff1a66632162"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/padlock/l1/view.html",
-        "hash": "cc2ceeb9ce864ee1289a1aa2fa14857b"
+        "hash": "ff6dd3ea9c348aad1636f12c38c9e419"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/page/side-menu.html",
@@ -42929,35 +43149,35 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/rss/l1/view.html",
-        "hash": "58f38ea69efb1da658215b5a62e94d9f"
+        "hash": "59cd28efb49e875d7c076fe49d030a83"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/socialgaming/l1/view.html",
-        "hash": "13c622212a96e1e2b902c20e30967197"
+        "hash": "302bf7750ce11fe34b301a02e771f52a"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/sourcecode/l1/view.html",
-        "hash": "1b910b9e4c43aa87e59d7a22eefcfc32"
+        "hash": "9556e959a556e28225e884a514646c10"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/tip/l1/view.html",
-        "hash": "c5b6ba20a5d5047e651675ad09fb35ef"
+        "hash": "c8fb7721f6782ada38b01360e866c811"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/topic/l1/list.html",
-        "hash": "391cdacf73bd122ee169d4c7bf8cba2d"
+        "hash": "91e70d2193e07bdd7f03aaa21f2796f0"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/weather/l1/view.html",
-        "hash": "b917d1c026b1fc348a7b13308cf3c9be"
+        "hash": "b4a7945341c460a15c5cf6887d6d61ee"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/wordpress/l1/view.html",
-        "hash": "fe88529b3caa1ba159594f8f677a67c5"
+        "hash": "594dab8a558b4f7ff556fc573a16e525"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/locked/l1/view.html",
-        "hash": "94a92ce964007211f0641f3e3a829700"
+        "hash": "f0e52cc628cf5b856c4fcf3ffae32ea3"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/cordova.js",
@@ -43720,10 +43940,6 @@
         "hash": "885fb47085df8b125f3d88f1cb63f7ca"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/ConfigChanges/ConfigChanges.js",
-        "hash": "ee0d7f69a091a997b1c64bc85da38b48"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/ConfigChanges/ConfigFile.js",
         "hash": "f65e24897f7079dff96f3b54c8f7bd23"
     },
@@ -43734,6 +43950,10 @@
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/ConfigChanges/munge-util.js",
         "hash": "2ffcaba7d4aa8959a681d31a9dae844c"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/ConfigChanges/ConfigChanges.js",
+        "hash": "cb11afb3cfdcdf6c7d863863f0e55caf"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/ConfigParser/ConfigParser.js",
@@ -46948,16 +47168,16 @@
         "hash": "936e228d7010243f31cadcb331992525"
     },
     {
-        "file": "var/apps/ionic/previewer/android/build.gradle",
-        "hash": "1ce68a3e016bf810549d6f2c9d55afe7"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/cordova-plugin-admobpro/base-build.gradle",
         "hash": "1f5e354392f85565f407dc9446b1c9a9"
     },
     {
         "file": "var/apps/ionic/previewer/android/project.properties",
         "hash": "a205437df0e7e573ad05c8ee9b82363c"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/build.gradle",
+        "hash": "b4b8dfcc5e864ca54e58372093e8321c"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/cordova-js-src/exec.js",
@@ -46997,7 +47217,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/css/style.css",
-        "hash": "a5fd5502e8a9c09407a6b698c8029e4f"
+        "hash": "f08b682cbcd93763c070f64c6bacec3e"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/img/loyaltycard/point-validated.png",
@@ -47048,10 +47268,6 @@
         "hash": "5f2cf82458594240b8ea8e7c42f483eb"
     },
     {
-        "file": "var/apps/ionic/previewer/ios/www/js/controllers/folder.js",
-        "hash": "10a18a7738485affa338edabff15690f"
-    },
-    {
         "file": "var/apps/ionic/previewer/ios/www/js/controllers/form.js",
         "hash": "390ce03a6e88d021d9ce379cb3186643"
     },
@@ -47064,48 +47280,48 @@
         "hash": "440dc0de1b647f5f92dbcf775a1ae042"
     },
     {
-        "file": "var/apps/ionic/previewer/ios/www/js/controllers/mcommerce/cart.js",
-        "hash": "fe9a30f401997de0d1d867f1888ae0b7"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/www/js/controllers/mcommerce/category.js",
-        "hash": "dac01140ae43c96e7e18ca340d252c98"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/www/js/controllers/mcommerce/product.js",
-        "hash": "2d79689d9644bf72d805abd66e308ab9"
+        "file": "var/apps/ionic/previewer/ios/www/js/controllers/mcommerce/sales/confirmation.js",
+        "hash": "ad0d1a0da7c82dc173a70c0ce3777b91"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/controllers/mcommerce/sales/customer.js",
-        "hash": "b94ea980d9bcdf90926602c99c98375e"
+        "hash": "2ecaf84866831f5b3acb9242a1fa0491"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/controllers/mcommerce/sales/delivery.js",
-        "hash": "4722a6bcc8a8bb68bec768c9df85952c"
+        "hash": "ff075d5aa1d42e6832ddb242e66e3d9e"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/controllers/mcommerce/sales/error.js",
-        "hash": "10f6b25c97be042dc23870206e025161"
+        "hash": "812abacafc465c96943a1f7db9a7ed4e"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/controllers/mcommerce/sales/payment.js",
-        "hash": "13339365e35f65f94fbee13c503af691"
+        "hash": "943ff994f6a5073de42a8fd1082b8706"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/controllers/mcommerce/sales/store.js",
-        "hash": "2bb08149df5cec958f512ca37d019676"
+        "hash": "f666b11a98627bd4d9a14a6998c9decc"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/controllers/mcommerce/sales/stripe.js",
-        "hash": "6b8264c77a69ae974c459b37ab8bcde5"
+        "hash": "8575ad3a3cddd36806c1332a3d8af16c"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/controllers/mcommerce/sales/success.js",
-        "hash": "01e71e49a248d28a5f0a50c4b27082e5"
+        "hash": "02c2bb34b2a1e4687d9e4d7aa8754b16"
     },
     {
-        "file": "var/apps/ionic/previewer/ios/www/js/controllers/mcommerce/sales/confirmation.js",
-        "hash": "687255f90c110a11635a7a1ea2d0719d"
+        "file": "var/apps/ionic/previewer/ios/www/js/controllers/mcommerce/cart.js",
+        "hash": "0373b591f9568ecff07774e4faa5e8f8"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/js/controllers/mcommerce/category.js",
+        "hash": "90bf6a4933914c98e0982b9d0c95f8fb"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/js/controllers/mcommerce/product.js",
+        "hash": "f5767f739b72c99690e957eeb5914310"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/controllers/media-player.js",
@@ -47156,14 +47372,6 @@
         "hash": "3f9f1472a7bab28fdeb525fc9b608c02"
     },
     {
-        "file": "var/apps/ionic/previewer/ios/www/js/controllers/places.js",
-        "hash": "f9ff7affa4e4fba4a2e550e603e94497"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/www/js/controllers/customer.js",
-        "hash": "e5e3fd39ae294ce9eac13b2b8b02aab5"
-    },
-    {
         "file": "var/apps/ionic/previewer/ios/www/js/controllers/image.js",
         "hash": "17abbce1344b04727cdcb714879cb066"
     },
@@ -47188,10 +47396,6 @@
         "hash": "0cd1d5ccebc2cc993eed48e36fef2b2e"
     },
     {
-        "file": "var/apps/ionic/previewer/ios/www/js/controllers/catalog.js",
-        "hash": "eaa301a65ca47ca9c4b93d5aac0cc2c7"
-    },
-    {
         "file": "var/apps/ionic/previewer/ios/www/js/controllers/discount.js",
         "hash": "f0e455269a372bf9179b4c92e9abb6b2"
     },
@@ -47214,6 +47418,22 @@
     {
         "file": "var/apps/ionic/previewer/ios/www/js/controllers/loyaltycard.js",
         "hash": "0490bd8ac55aa3f6d5d15cbf486c87ea"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/js/controllers/catalog.js",
+        "hash": "dc42083821f08b98fcc863960206fa31"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/js/controllers/customer.js",
+        "hash": "8b27981c11fa74c394d48554ade14bff"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/js/controllers/folder.js",
+        "hash": "9c92041ea891c3c6d1945f3016d2d097"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/js/controllers/places.js",
+        "hash": "891d4c6502b7b86ae578f94d42450564"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/directives/datetime.js",
@@ -47340,10 +47560,6 @@
         "hash": "114e962afbdd06aa0ffccaeee51c8d36"
     },
     {
-        "file": "var/apps/ionic/previewer/ios/www/js/factory/mcommerce/cart.js",
-        "hash": "e1c890964f3f9608ab92cd424ce65766"
-    },
-    {
         "file": "var/apps/ionic/previewer/ios/www/js/factory/mcommerce/category.js",
         "hash": "b84dd3b7135c43e02c2a53721392f5b8"
     },
@@ -47352,24 +47568,28 @@
         "hash": "85d22a91ffb8841aa646a56a1e4df6c9"
     },
     {
-        "file": "var/apps/ionic/previewer/ios/www/js/factory/mcommerce/sales/customer.js",
-        "hash": "e267f77c7b2fbfd9d4e3e5071fd36085"
-    },
-    {
         "file": "var/apps/ionic/previewer/ios/www/js/factory/mcommerce/sales/delivery.js",
         "hash": "c40ce8c45ef3a25ef371793acb5132de"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/www/js/factory/mcommerce/sales/payment.js",
-        "hash": "b36d1838fc130c446043f2a2e31b4c7e"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/factory/mcommerce/sales/store.js",
         "hash": "d18c9024afdc128d67acba36b7b0f2c4"
     },
     {
+        "file": "var/apps/ionic/previewer/ios/www/js/factory/mcommerce/sales/customer.js",
+        "hash": "c69b81ac1126b608367f44581ba8eb57"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/js/factory/mcommerce/sales/payment.js",
+        "hash": "0e03d9f88b177aea9dbe145fd1eff1f0"
+    },
+    {
         "file": "var/apps/ionic/previewer/ios/www/js/factory/mcommerce/sales/stripe.js",
-        "hash": "8d042199081b1d3f6673a0ae0b43b9b4"
+        "hash": "99b0b2c30038e3509c9a51ae001fc530"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/js/factory/mcommerce/cart.js",
+        "hash": "75f401c5c1fdcb4afd2b556e9eb43995"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/factory/music.js",
@@ -47444,10 +47664,6 @@
         "hash": "add46e2ab47f5c7735b78abc0ec1b06e"
     },
     {
-        "file": "var/apps/ionic/previewer/ios/www/js/factory/customer.js",
-        "hash": "7851fb919fad4667c0dc23befcb88f03"
-    },
-    {
         "file": "var/apps/ionic/previewer/ios/www/js/factory/safe_popups.js",
         "hash": "ce4ab6da5a771581191d9732ce225aea"
     },
@@ -47462,6 +47678,10 @@
     {
         "file": "var/apps/ionic/previewer/ios/www/js/factory/push.js",
         "hash": "60b3c00f57662d022328ecb719b66114"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/js/factory/customer.js",
+        "hash": "c630c85bb1a395698d4f3110cc661511"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/filters/number-fixed-len.js",
@@ -47652,12 +47872,12 @@
         "hash": "76f3b1885f29d48a04f04234740a9b82"
     },
     {
-        "file": "var/apps/ionic/previewer/ios/www/lib/ionic/js/ionic.bundle.min.js",
-        "hash": "30df30f361c192c1c4ad8172eac68c9e"
-    },
-    {
         "file": "var/apps/ionic/previewer/ios/www/lib/ionic/js/ionic.min.js",
         "hash": "261888750cabfb8f088531c1e9967cc0"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/lib/ionic/js/ionic.bundle.min.js",
+        "hash": "82b4395621e2d3ae5471a48dd50e5e05"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/lib/ionic/version.json",
@@ -47897,11 +48117,11 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/application/l1/tc/view.html",
-        "hash": "f445c771db9ff62a919d3b5b691f1a28"
+        "hash": "34a73031bf5f83b266e81f7717f3c38f"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/booking/l1/view.html",
-        "hash": "63ef015ea8eb189ea70769cdfdf2af7f"
+        "hash": "f7ea07f7da140213d68b399299a0859e"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/catalog/category/l1/product/view.html",
@@ -47925,19 +48145,19 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/contact/l1/form.html",
-        "hash": "9ea91bc4e3d3984c38827301838cc048"
+        "hash": "138a97571baa62250b9b84db056f7532"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/contact/l1/view.html",
-        "hash": "41de25a8c7d1ec03666797c9df8c3473"
+        "hash": "5fb94a8bad3f74ad0e1da8f59a4afcc0"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/customer/account/l1/login.html",
-        "hash": "d699d66d3dcc4f141ce7821a424ef48b"
+        "hash": "5d75b52b3819bc82d0189afc44b84e08"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/discount/l1/view.html",
-        "hash": "1f40dd7d5689e6abed9731f7b64eee0a"
+        "hash": "887b5a161ea0c27643323e1ed6d0c4c1"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/event/l1/list.html",
@@ -47949,11 +48169,11 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/facebook/l1/header.html",
-        "hash": "cecdf5e55ac0380e2ea7438e3dd79349"
+        "hash": "b8f9a7a9be3161b6baeb522fd24c08a2"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/facebook/l1/view.html",
-        "hash": "5d0f92f6a40fb3654ef1f14985173c6e"
+        "hash": "74867dfab18cfb373e8e84b21b635c79"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/fanwall/l1/edit.html",
@@ -47976,8 +48196,32 @@
         "hash": "e75a0b3d3282b61f66a59b84fb6208a4"
     },
     {
+        "file": "var/apps/ionic/previewer/ios/www/templates/folder/l2/list.html",
+        "hash": "f40eac419e3e197b2b123f633e94fd51"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/templates/folder/l2/search.html",
+        "hash": "e75a0b3d3282b61f66a59b84fb6208a4"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/templates/folder/l3/list.html",
+        "hash": "e545f84e1a003fdf5b794c466c382c53"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/templates/folder/l3/search.html",
+        "hash": "e75a0b3d3282b61f66a59b84fb6208a4"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/templates/folder/l4/list.html",
+        "hash": "d081a5cce0d09675429d70ecb2ecf905"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/templates/folder/l4/search.html",
+        "hash": "e75a0b3d3282b61f66a59b84fb6208a4"
+    },
+    {
         "file": "var/apps/ionic/previewer/ios/www/templates/form/l1/view.html",
-        "hash": "21e158fb814a7749ed7e0dfd2faf710c"
+        "hash": "3273354b2933a29210261d1ecd06ab41"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/home/l1/view.html",
@@ -48085,7 +48329,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/html/l1/view.html",
-        "hash": "9bfef4d674d91d929775d88a35638335"
+        "hash": "e085034653edf72f182db09c7d471fdd"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/html/l2/list.html",
@@ -48093,7 +48337,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/html/l3/list.html",
-        "hash": "625b49dd3257779bb71cf10e007828da"
+        "hash": "f85872ba02d19861b577a361d267b337"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/html/l5/list.html",
@@ -48125,63 +48369,63 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/links/l1/view.html",
-        "hash": "b292684989709967d44f15d458f20a2e"
+        "hash": "e89eb8600345c496f412aae62a1ce36e"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/loyaltycard/l1/pad.html",
-        "hash": "decfeb77031d79fd98f8d38905eef209"
+        "hash": "d41aeab992df4439f9410c42c5f5a0b8"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/loyaltycard/l1/view.html",
-        "hash": "da74d1307dbf974597e2086d69e59e8e"
+        "hash": "d29062975832c9c9f56d8aa879624e28"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/maps/l1/view.html",
-        "hash": "b1800778361ea3d5788f1b2b083e6de9"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/www/templates/mcommerce/l1/cart.html",
-        "hash": "4a1d085a9ccd3b17f8c49203d335b02c"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/www/templates/mcommerce/l1/product.html",
-        "hash": "e1ce71bb03c70f36ad9783b46bd34299"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/www/templates/mcommerce/l1/sales/confirmation.html",
-        "hash": "40543095a3b58947b442c9d6eb575279"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/www/templates/mcommerce/l1/sales/customer.html",
-        "hash": "f9b4b755be03556a6dc0a69ca384f52c"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/www/templates/mcommerce/l1/sales/delivery.html",
-        "hash": "e8a639d28804e15658a2734c408c5f8a"
+        "hash": "f822c459d69c0a35142698c8d3108adb"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/mcommerce/l1/sales/error.html",
         "hash": "226c1e03fb583a82c6e831888d8c6e14"
     },
     {
-        "file": "var/apps/ionic/previewer/ios/www/templates/mcommerce/l1/sales/payment.html",
-        "hash": "ac507b4b16fc30d57f366e021f20edaf"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/www/templates/mcommerce/l1/sales/store.html",
-        "hash": "ace6ea593c5336ab69bc8d7790e12d3d"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/www/templates/mcommerce/l1/sales/stripe.html",
-        "hash": "6694d86816e88aa9a425e34cb11942c8"
-    },
-    {
         "file": "var/apps/ionic/previewer/ios/www/templates/mcommerce/l1/sales/success.html",
         "hash": "2ede89365c5eb9e5853c573bf7c1decc"
     },
     {
+        "file": "var/apps/ionic/previewer/ios/www/templates/mcommerce/l1/sales/confirmation.html",
+        "hash": "fdd683c19c9ce3059218c1491fe955f2"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/templates/mcommerce/l1/sales/customer.html",
+        "hash": "b779e5bdbea9b00b2ad9f84e2533363b"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/templates/mcommerce/l1/sales/delivery.html",
+        "hash": "1c607dc1e3543db65ed22de5a8f6fd7a"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/templates/mcommerce/l1/sales/payment.html",
+        "hash": "6885ea688bea6cc73705fa77965505cd"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/templates/mcommerce/l1/sales/store.html",
+        "hash": "71e028679148b7f73cfc9df21d30a228"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/templates/mcommerce/l1/sales/stripe.html",
+        "hash": "d53d40153b909f4ef833493a3df17a6a"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/templates/mcommerce/l1/cart.html",
+        "hash": "28f01dfae7190bab166f32235d7e38a2"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/templates/mcommerce/l1/product.html",
+        "hash": "21bb82c3ca3d0f0e465b461f1061fe21"
+    },
+    {
         "file": "var/apps/ionic/previewer/ios/www/templates/media/image/l1/list.html",
-        "hash": "949032709773d97e8c21ebcbfd193069"
+        "hash": "7d6c6eccb55fb84fd952c4d4ef6ca28c"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/media/music/l1/album/boxes.html",
@@ -48221,11 +48465,11 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/media/video/l1/list.html",
-        "hash": "92fb9be74b0721b6c1de92bee7c5f369"
+        "hash": "65c1819bd35446726241ff1a66632162"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/padlock/l1/view.html",
-        "hash": "cc2ceeb9ce864ee1289a1aa2fa14857b"
+        "hash": "ff6dd3ea9c348aad1636f12c38c9e419"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/page/side-menu.html",
@@ -48233,35 +48477,35 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/rss/l1/view.html",
-        "hash": "58f38ea69efb1da658215b5a62e94d9f"
+        "hash": "59cd28efb49e875d7c076fe49d030a83"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/socialgaming/l1/view.html",
-        "hash": "13c622212a96e1e2b902c20e30967197"
+        "hash": "302bf7750ce11fe34b301a02e771f52a"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/sourcecode/l1/view.html",
-        "hash": "1b910b9e4c43aa87e59d7a22eefcfc32"
+        "hash": "9556e959a556e28225e884a514646c10"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/tip/l1/view.html",
-        "hash": "c5b6ba20a5d5047e651675ad09fb35ef"
+        "hash": "c8fb7721f6782ada38b01360e866c811"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/topic/l1/list.html",
-        "hash": "391cdacf73bd122ee169d4c7bf8cba2d"
+        "hash": "91e70d2193e07bdd7f03aaa21f2796f0"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/weather/l1/view.html",
-        "hash": "b917d1c026b1fc348a7b13308cf3c9be"
+        "hash": "b4a7945341c460a15c5cf6887d6d61ee"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/wordpress/l1/view.html",
-        "hash": "fe88529b3caa1ba159594f8f677a67c5"
+        "hash": "594dab8a558b4f7ff556fc573a16e525"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/locked/l1/view.html",
-        "hash": "94a92ce964007211f0641f3e3a829700"
+        "hash": "f0e52cc628cf5b856c4fcf3ffae32ea3"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/cordova_plugins.js",
@@ -48269,19 +48513,11 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/AppsMobileCompany.xcodeproj/project.pbxproj",
-        "hash": "0f7e89a65515d5ef0a0288ca5da7f615"
+        "hash": "f42f3e8ed71def8f8de6b1e6750208b2"
     },
     {
         "file": "var/apps/ionic/previewer/ios/AppsMobileCompany/AppsMobileCompany-Prefix.pch",
         "hash": "dd884d5a7b00819d7d62a01b7a248728"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/AppsMobileCompany/Classes/AppDelegate.h",
-        "hash": "956ce61f260f8da2af7ac665b1c1221b"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/AppsMobileCompany/Classes/AppDelegate.m",
-        "hash": "a1a6e1dae89bd4c93e5e12dd3eab9312"
     },
     {
         "file": "var/apps/ionic/previewer/ios/AppsMobileCompany/Classes/MainViewController.h",
@@ -48298,6 +48534,14 @@
     {
         "file": "var/apps/ionic/previewer/ios/AppsMobileCompany/Classes/Unified-Bridging-Header.h",
         "hash": "e0b01802b46c13bd9b885b9fc715f703"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/AppsMobileCompany/Classes/AppDelegate.h",
+        "hash": "8096d16f62600d7b753f821703c2607d"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/AppsMobileCompany/Classes/AppDelegate.m",
+        "hash": "e8643f68b9b26ebce9c5a8413567649c"
     },
     {
         "file": "var/apps/ionic/previewer/ios/AppsMobileCompany/Plugins/README",
@@ -50428,11 +50672,11 @@
         "hash": "7595e4868ebeb2201435975d3f16f492"
     },
     {
-        "file": "index.php",
-        "hash": "4f68a2f55d78e619a6bcecfac0516e57"
+        "file": "cron.php",
+        "hash": "3bf91dda0e35bf36b3dabd5e03cf0d70"
     },
     {
-        "file": "cron.php",
-        "hash": "c9a4d9e282abde065ed1e847c450840b"
+        "file": "index.php",
+        "hash": "bfe0b244512ae012d8b1e2080a11928c"
     }
 ]

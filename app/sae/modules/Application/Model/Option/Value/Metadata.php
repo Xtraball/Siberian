@@ -75,4 +75,14 @@ class Application_Model_Option_Value_Metadata extends Core_Model_Default
         }
     }
 
+    /**
+     * Remove a metadatum by key
+     *
+     * @param $value_id
+     * @param $code
+     */
+    public static function deleteByCode($value_id, $code){
+        $metadatum = new Application_Model_Option_Value_Metadata();
+        $metadatum->find(array('code' => $code, 'value_id' => $value_id))->delete();
+    }
 }

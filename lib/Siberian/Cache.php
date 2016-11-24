@@ -21,6 +21,8 @@ class Siberian_Cache
         "demo"  => array("sae", "mae", "pe", "demo", "local"),
     );
 
+    public static $registered_caches = array();
+
     const LOCAL_PATH    = "app/local/";
     const DEMO_PATH     = "app/demo/";
     const PE_PATH       = "app/pe/";
@@ -253,6 +255,23 @@ class Siberian_Cache
             "cache_size" => $var_cache_size,
             "tmp_size" => $var_tmp_size,
         );
+    }
+
+    /**
+     * @param $feature
+     */
+    public static function register($feature) {
+        if(!in_array($feature, self::$registered_caches)) {
+            self::$registered_caches[] = $feature;
+        }
+    }
+
+    /**
+     * @param $feature
+     * @return bool
+     */
+    public static function isRegistered($feature) {
+        return (in_array($feature, self::$registered_caches));
     }
 
 }

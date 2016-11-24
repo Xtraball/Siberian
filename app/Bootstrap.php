@@ -243,6 +243,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $minifier->build();
     }
 
+    public function _initTasks() {
+        # 4.7.10 Clean-up debug session file.
+        if(file_exists("/tmp/session.log")) {
+            unlink("/tmp/session.log");
+        }
+    }
+
     protected function _initModules() {
 
 
