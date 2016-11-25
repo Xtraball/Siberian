@@ -1901,7 +1901,7 @@
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/backoffice/advanced/module.phtml",
-        "hash": "9e5b885d1412d66eb3deeced014b4893"
+        "hash": "69e5475b30a8dc9ac58dfce92899c602"
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/html/default.phtml",
@@ -11860,12 +11860,12 @@
         "hash": "ffb192f8197a13d42d1230077304d7d7"
     },
     {
-        "file": "app/sae/modules/Application/Model/Device/Ionic/Android.php",
-        "hash": "fdcb5ada18a0f1aa30aaf117d0ce185e"
-    },
-    {
         "file": "app/sae/modules/Application/Model/Device/Ionic/Ios.php",
         "hash": "3e2724b966c36c2c5ef9e87f2beb2e70"
+    },
+    {
+        "file": "app/sae/modules/Application/Model/Device/Ionic/Android.php",
+        "hash": "f1833915d81489443a0573ad1625297a"
     },
     {
         "file": "app/sae/modules/Application/Model/Device/Abstract.php",
@@ -12009,7 +12009,7 @@
     },
     {
         "file": "app/sae/modules/Application/controllers/Customization/Design/StyleController.php",
-        "hash": "a0132c77f70360b6823f4e473fae6925"
+        "hash": "9771498eeae7878b735bddef2b44391e"
     },
     {
         "file": "app/sae/modules/Application/controllers/Customization/Features/Edit/LogoController.php",
@@ -12120,16 +12120,16 @@
         "hash": "c415cc5fbcf7797c89c6233595b51334"
     },
     {
+        "file": "app/sae/modules/Application/resources/db/data/application_device.php",
+        "hash": "537ee7e2c5045e3051e0f7bb8862d58f"
+    },
+    {
         "file": "app/sae/modules/Application/resources/db/schema/application_acl_option.php",
         "hash": "3e3e46b7983af2928b06c020f0048596"
     },
     {
         "file": "app/sae/modules/Application/resources/db/schema/application_admin.php",
         "hash": "09ea5bc123cc4cb06bfc24f5605f148c"
-    },
-    {
-        "file": "app/sae/modules/Application/resources/db/schema/application_device.php",
-        "hash": "ed589d754bc91b2be9e7d0c4da8b2b29"
     },
     {
         "file": "app/sae/modules/Application/resources/db/schema/application_option_category.php",
@@ -12184,6 +12184,10 @@
         "hash": "18b6ca81bf45c8c3db0be4745d05ac82"
     },
     {
+        "file": "app/sae/modules/Application/resources/db/schema/application_device.php",
+        "hash": "2d9f6a46729a2f42bbba70b16e189827"
+    },
+    {
         "file": "app/sae/modules/Application/resources/design/email/layout/queue.xml",
         "hash": "a38d19a6519e7319c5ae7b25d817bfbd"
     },
@@ -12217,7 +12221,7 @@
     },
     {
         "file": "app/sae/modules/Application/package.json",
-        "hash": "e63795227e027229045262782b64d075"
+        "hash": "079a875fd03e772c3099a92cb64d978e"
     },
     {
         "file": "app/sae/modules/Backoffice/Controller/Default.php",
@@ -12252,12 +12256,12 @@
         "hash": "b094906624cd39346525ee4e7693ab04"
     },
     {
-        "file": "app/sae/modules/Backoffice/controllers/Account/LoginController.php",
-        "hash": "08ae8bb119ee0fcf2de1c3b97c0c7ba1"
-    },
-    {
         "file": "app/sae/modules/Backoffice/controllers/Account/ViewController.php",
         "hash": "673deda680828b217ae3f52f06041cf3"
+    },
+    {
+        "file": "app/sae/modules/Backoffice/controllers/Account/LoginController.php",
+        "hash": "921d09c2f8369dea8ae06d6445a570b1"
     },
     {
         "file": "app/sae/modules/Backoffice/controllers/AccountController.php",
@@ -12301,7 +12305,7 @@
     },
     {
         "file": "app/sae/modules/Backoffice/package.json",
-        "hash": "225d435de7fee180b22af59f79487223"
+        "hash": "8fa8e915a4311dbfebd0f05124034cbc"
     },
     {
         "file": "app/sae/modules/Booking/Model/Booking.php",
@@ -16244,12 +16248,12 @@
         "hash": "d23b47d87a30a7f6e7398177fbc47b80"
     },
     {
-        "file": "lib/Siberian/Feature.php",
-        "hash": "fad7caed80d480fec80c6cdda2888382"
-    },
-    {
         "file": "lib/Siberian/Media.php",
         "hash": "b9c4884c1327055364f5ea14cf7e94ed"
+    },
+    {
+        "file": "lib/Siberian/Feature.php",
+        "hash": "b1e0c8d6982b1370e67116258a1fecc7"
     },
     {
         "file": "lib/Thumbnailer/CreateThumb.php",

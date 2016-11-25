@@ -10,6 +10,20 @@ class Application_Customization_Design_StyleController extends Application_Contr
         }
     }
 
+    public function formoptionsAction() {
+        if($datas = $this->getRequest()->getPost()) {
+
+
+
+            $html = array(
+                "success" => 1,
+                "message" => __("Options saved"),
+            );
+
+            $this->getLayout()->setHtml(Siberian_Json::encode($html));
+        }
+    }
+
     public function changelayoutAction() {
 
         if($datas = $this->getRequest()->getPost()) {

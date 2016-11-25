@@ -6,7 +6,6 @@ class Backoffice_Account_LoginController extends Backoffice_Controller_Default
     public function postAction() {
 
         if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
-
             $this->getSession()->resetInstance();
 
             try {

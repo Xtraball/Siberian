@@ -125,4 +125,8 @@ $schemas['application_device'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'pks' => array(
+        'type' => 'blob',
+        'is_null' => true,
+    ),
 );

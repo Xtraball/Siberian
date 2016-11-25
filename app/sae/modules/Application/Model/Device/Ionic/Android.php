@@ -333,6 +333,12 @@ if(navigator.language) {
         /** Copy the keystore locally */
         copy($keystore_path, "{$this->_dest_source}/{$keystore_filename}");
 
+        /** Backup PKS in DB */
+        if(empty($this->getDevice()->getPks())) {
+            $pks_content = file_get_contents($keystore_path, FILE_BINARY);
+            $this->getDevice()->setPks(bin2hex($pks_content))->save();
+        }
+
     	/** Gradle configuration */
     	$gradlew_path = Core_Model_Directory::getBasePathTo("{$this->_dest_source}/gradlew");
 

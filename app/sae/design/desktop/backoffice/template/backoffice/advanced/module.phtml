@@ -13,7 +13,9 @@
                 <td>{{ module.name }}</td>
                 <td>{{ module.version }}</td>
                 <td style="text-align:right;">
+                    <?php if(APPLICATION_ENV != "production"): ?>
                     <button class="btn btn-xs btn-info" ng-repeat="(k, action) in module.actions" ng-click="moduleAction(module.original_name, k);">{{ action.label }}</button>
+                    <?php endif; ?>
                 </td>
             </tr>
             <tr ng-show="!modules.length">
