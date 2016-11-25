@@ -13,8 +13,8 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
             }
 
             //hide stripe customer id for secure purpose
-            if($metadatas["stripe"] && $metadatas["stripe"]["customerId"]) {
-                unset($metadatas["stripe"]["customerId"]);
+            if($metadatas->stripe && array_key_exists("customerId",$metadatas->stripe) && $metadatas->stripe["customerId"]) {
+                unset($metadatas->stripe["customerId"]);
             }
 
             $data = array(

@@ -334,7 +334,8 @@ if(navigator.language) {
         copy($keystore_path, "{$this->_dest_source}/{$keystore_filename}");
 
         /** Backup PKS in DB */
-        if(empty($this->getDevice()->getPks())) {
+        $pks_content = $this->getDevice()->getPks();
+        if(empty($pks_content)) {
             $pks_content = file_get_contents($keystore_path, FILE_BINARY);
             $this->getDevice()->setPks(bin2hex($pks_content))->save();
         }

@@ -146,7 +146,7 @@ class Application_Model_SourceQueue extends Core_Model_Default {
         }
 
         //we keep using ISO-639 for siberian storage but we have to translate ISO code to faslane languages name
-        $fastlane_languages = [];
+        $fastlane_languages = array();
         foreach ($languages as $codeIos => $activated) {
             $fast_label = Application_Model_Languages::getLabelFromCodeIso($codeIos);
             $fastlane_languages[$fast_label] = $activated;

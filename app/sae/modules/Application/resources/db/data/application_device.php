@@ -11,7 +11,8 @@ $pks_path = Core_Model_Directory::getBasePathTo("/var/apps/android/keystore");
 
 foreach($android_devices as $android_device) {
     $pks = sprintf("%s/%s.pks", $pks_path, $android_device->getAppId());
-    if(empty($android_device->getPks()) && file_exists($pks)) {
+    $pks_content = $android_device->getPks();
+    if(empty($pks_content) && file_exists($pks)) {
         $pks_content = file_get_contents($pks, FILE_BINARY);
         $android_device->setPks(bin2hex($pks_content))->save();
     } else {
