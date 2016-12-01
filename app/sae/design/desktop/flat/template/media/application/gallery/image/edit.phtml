@@ -25,19 +25,19 @@
             <div id="new_images_galery" style="display:none;" class="container-fluid first-row-feature feature-section-bottom">
                 <div id="choose_type">
                     <ul class="list-group">
-                        <li class="color-blue list-group-item btn capitalize">
+                        <li class="color-blue list-group-item btn capitalize" rel="picasa">
                             <a href="javascript:void(0);" rel="picasa" class="block select_type image_type_select capitalize">
                                 <i title="Picasa" class="fa fa-google block img_icon" alt="Picasa" /></i>
                                 <p><?php echo $this->_('Picasa') ?></p>
                             </a>
                         </li>
-                        <li class="color-blue list-group-item btn capitalize">
-                            <a href="javascript:void(0);" rel="instagram" class="block select_type<?php if($instagram_is_available) : ?> image_type_select<?php else : ?> capitalize" onclick="featureNotAvailable(); return false;<?php endif; ?>">
+                        <li class="color-blue list-group-item btn capitalize" rel="instagram" <?php if(!$instagram_is_available) : ?> onclick="featureNotAvailable()" <?php endif; ?>>
+                            <a href="javascript:void(0);" rel="instagram" class="block select_type<?php if($instagram_is_available) : ?> image_type_select<?php endif; ?>">
                                 <i title="Instagram" class="fa fa-instagram block img_icon" alt="Instagram"></i>
                                 <p><?php echo $this->_('Instagram') ?></p>
                             </a>
                         </li>
-                        <li class="color-blue list-group-item btn capitalize">
+                        <li class="color-blue list-group-item btn capitalize" rel="custom">
                             <a href="javascript:void(0);" rel="custom" class="block select_type image_type_select capitalize">
                                 <i title="<?php echo $this->_("My images"); ?>" class="fa fa-camera block img_icon" alt="<?php echo $this->_("My images"); ?>"></i>
                                 <p><?php echo $this->_('My images') ?></p>
@@ -114,7 +114,7 @@
                                                 <label><?php echo $this->_('Description:') ?></label>
                                                 <input type="text" id="image_<?php echo $image->getId(); ?>_<?php echo $p->getId(); ?>_description" name="images[list_<?php echo $image->getId(); ?>][<?php echo $p->getId(); ?>][description]" class="input-flat" value="<?php echo $p->getDescription(); ?>" maxlength="255" onkeyup="$('#' + $(this).attr('id') + '_receiver').val($(this).val());" />
                                             </div>
-                                            <div class="control col-sm-1">
+                                            <div class="col-sm-1">
                                                 <a onclick="deleteImage($(this), '<?php echo $image->getId(); ?>', '<?php echo $p->getId(); ?>');" href="javascript:void(0);" class="btn color-blue pull-right "><i class="fa fa-times"></i></a>
                                             </div>
                                         </div>
@@ -175,7 +175,7 @@
 
         page.setCallback('willappear', function() {
 
-            $('.image_type_select').click(function() {
+            $('.image_type_select').parent().click(function() {
 
                 var id = $(this).attr('rel');
 
@@ -300,7 +300,7 @@
 
         page.setCallback('willdisappear', function() {
             $('#toggle_existing_items').unbind('click');
-            $('.image_type_select').unbind('click');
+            $('.image_type_select').parent().unbind('click');
         })
 
         function deleteImage(element, list_id, image_id) {
@@ -402,8 +402,8 @@
                                 <label><?php echo addslashes($this->_('Description:')) ?></label>\n\
                                 <input type="text" id="image_' + id + '_' + tmp_image_id + '_description" value="" maxlength="255" class="input-flat" onkeyup="$(\'#\'+$(this).attr(\'id\')+\'_receiver\').val($(this).val());" />\n\
                             </div>\n\
-                            <div class="control col-sm-1">\n\
-                                <a onclick="deleteImage($(this), \'' + short_id + '\',\'' + tmp_image_id + '\');" href="javascript:void(0);" class="btn color-blue"><i class="fa fa-times"></i></a>\n\
+                            <div class="col-sm-1">\n\
+                                <br/><a onclick="deleteImage($(this), \'' + short_id + '\',\'' + tmp_image_id + '\');" href="javascript:void(0);" class="btn color-blue"><i class="fa fa-times"></i></a>\n\
                             </div>\n\
                             \n\
                         </li>');

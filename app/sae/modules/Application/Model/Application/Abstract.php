@@ -415,8 +415,8 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return (bool) $this->getData("can_be_published");
     }
 
-    public function isSomeoneElseEditingIt() {
-        return $this->getTable()->isSomeoneElseEditingIt($this->getId(), Zend_Session::getId());
+    public function isSomeoneElseEditingIt($admin_id = null) {
+        return $this->getTable()->isSomeoneElseEditingIt($this->getId(), Zend_Session::getId(), $admin_id);
     }
 
     public function getCustomers() {

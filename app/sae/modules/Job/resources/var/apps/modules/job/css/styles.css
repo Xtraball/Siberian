@@ -72,11 +72,13 @@
 }
 
 .job-company-header h2 {
-    margin-left: calc(25vw + 26px);
+    margin-left: 25vw;
+    padding-left: 26px;
 }
 
 .job-company-header p.employee {
-    margin-left: calc(25vw + 26px);
+    margin-left: 25vw;
+    padding-left: 26px;
 }
 
 .job-company-header p.location {

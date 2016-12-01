@@ -41,7 +41,7 @@
 
 
             <div class="item item-text-wrap item-custom" ng-if="company.subtitle">
-                <p ng-bind-html="company.subtitle"></p>
+                <p ng-bind-html="company.subtitle | trusted_html"></p>
             </div>
 
             <div class="list" ng-show="company.places.length">

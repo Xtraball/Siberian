@@ -68,8 +68,13 @@
         <script type="text/javascript">
 
             <?php
-                $application = $this->getApplication();
-                $app_id = $this->getApplication()->getAppId();
+                if($this->getApplication()) {
+                    $application = $this->getApplication();
+                    $app_id = $this->getApplication()->getAppId();
+                } else {
+                    $app_id = null;
+                }
+
                 if(!empty($app_id)):
             ?>
             (function() {

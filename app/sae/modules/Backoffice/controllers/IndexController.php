@@ -108,6 +108,9 @@ class Backoffice_IndexController extends Backoffice_Controller_Default
                         $message = __("Overview cache cleared.");
 
                         Siberian_Minify::clearCache();
+
+                        $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
+                        Siberian_Autoupdater::configure($protocol.$this->getRequest()->getHttpHost());
                         break;
                     case "locks":
                         $message = __("Removing CRON Scheduler lock files.");

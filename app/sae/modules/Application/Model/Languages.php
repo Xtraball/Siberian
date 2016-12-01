@@ -3,7 +3,7 @@
 class Application_Model_Languages {
 
     private static $_supportedLanguages = array(
-        "pt-PT" => "Brazilian Portugese",
+        "pt-PT" => "Brazilian Portuguese",
         "da" => "Danish",
         "nl" => "Dutch",
         "en-US" => "English",
@@ -22,9 +22,10 @@ class Application_Model_Languages {
         "ma" => "Malay",
         "es-ES" => "Spanish",
         "es-MX" => "Spanish_MX",
-        "pt-BR" => "Portugese",
+        "pt-BR" => "Portuguese",
         "ru" => "Russian",
         "sv" => "Swedish",
+        "nb" => "Norwegian",
         "th" => "Thai",
         "tr" => "Turkish",
         "vi" => "Vietnamese",

@@ -208,6 +208,14 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
 
                 }
 
+                if(!empty($data["package_name"])) {
+                    $application->setPackageName($data["package_name"]);
+                }
+
+                if(!empty($data["bundle_id"])) {
+                    $application->setBundleId($data["bundle_id"]);
+                }
+
                 if(empty($data["free_until"])) {
                     $data["free_until"] = null;
                 } else {

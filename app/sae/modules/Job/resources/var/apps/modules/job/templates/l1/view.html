@@ -31,7 +31,7 @@
             </div>
 
             <div class="item item-text-wrap item-custom" ng-if="place.subtitle">
-                <p ng-bind-html="place.subtitle"></p>
+                <p ng-bind-html="place.subtitle | trusted_html"></p>
             </div>
 
             <div class="item item-text-wrap item-icon-left item-custom" ng-if="place.location">

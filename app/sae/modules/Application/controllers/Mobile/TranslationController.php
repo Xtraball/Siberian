@@ -15,4 +15,8 @@ class Application_Mobile_TranslationController extends Application_Controller_Mo
         $this->_sendHtml($data);
     }
 
+    public function localeAction() {
+        die(strtolower(str_replace("_", "-", Core_Model_Language::getCurrentLocale())));
+    }
+
 }

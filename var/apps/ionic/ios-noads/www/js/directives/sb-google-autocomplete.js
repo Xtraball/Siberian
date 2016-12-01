@@ -5,7 +5,8 @@ App.directive('sbGoogleAutocomplete', function(GoogleMaps, $timeout) {
             address:'=',
             onAddressChange:'&'
         },
-        link: function(scope, element) {
+        require: '?ngModel', // get a hold of NgModelController
+        link: function(scope, element, attrs, ngModel) {
 
             var options = {
                 types: [],
@@ -20,12 +21,21 @@ App.directive('sbGoogleAutocomplete', function(GoogleMaps, $timeout) {
                     var place = scope.googleAutocomplete.getPlace();
 
                     if(place.geometry) {
+                        if(!angular.isObject(scope.location))
+                            scope.location = {};
+
                         scope.location.latitude = place.geometry.location.lat();
                         scope.location.longitude = place.geometry.location.lng();
                     }
 
+                    var val = element.val();
+
+                    if(angular.isObject(ngModel) && angular.isFunction(ngModel.$setViewValue)) {
+                        ngModel.$setViewValue(val, "keyup");
+                    }
+
                     $timeout(function() {
-                        scope.location.address = element.val();
+                        scope.location.address = val;
                         scope.onAddressChange();
                     });
 

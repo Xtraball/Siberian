@@ -172,6 +172,7 @@
                                     <input type="text" id="image_<?php echo $image->getId(); ?>_<?php echo $p->getId(); ?>_description" name="images[list_<?php echo $image->getId(); ?>][<?php echo $p->getId(); ?>][description]" class="form-control input" value="<?php echo $p->getDescription(); ?>" maxlength="255" onkeyup="$('#' + $(this).attr('id') + '_receiver').val($(this).val());" />
                                 </div>
                                 <div class="control right">
+                                    <br/>
                                     <a onclick="deleteImage($(this), '<?php echo $image->getId(); ?>', '<?php echo $p->getId(); ?>');" href="javascript:void(0);"><i class="icon-remove"></i></a>
                                 </div>
                                 <div class="clear"></div>
@@ -411,8 +412,8 @@
                                 <label><?php echo addslashes($this->_('Description:')) ?></label><br />\n\
                                 <input type="text" id="image_' + id + '_' + tmp_image_id + '_description" value="" maxlength="255" class="form-control input" onkeyup="$(\'#\'+$(this).attr(\'id\')+\'_receiver\').val($(this).val());" />\n\
                             </div>\n\
-                            <div class="control right">\n\
-                                <a onclick="deleteImage($(this), \'' + short_id + '\',\'' + tmp_image_id + '\');" href="javascript:void(0);"><i class="icon-remove"></i></a>\n\
+                            <div class="right">\n\
+                                <br/><a onclick="deleteImage($(this), \'' + short_id + '\',\'' + tmp_image_id + '\');" href="javascript:void(0);"><i class="icon-remove"></i></a>\n\
                             </div>\n\
                             <div class="clear"></div>\n\
                         </li>');

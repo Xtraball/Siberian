@@ -487,7 +487,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                         case -3:
                             $html['error'] = true;
                             $html['success'] = false;
-                            $html['message'] = $this->_("You used the code before") . '(' . $cart->getDiscountCode() . ')';
+                            $html['message'] = $this->_("You used the code before") . '(' . $promo->getCode() . ')';
                             break;
                         default:
                             $cart->setDiscountCode($discount_code)->save();

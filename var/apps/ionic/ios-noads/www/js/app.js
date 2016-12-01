@@ -1,9 +1,12 @@
-var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS9UIWebViewPatch', 'angular-carousel', 'lodash', 'ngImgCrop', 'ionic-zoom-view', 'ngSanitize'])
+var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS9UIWebViewPatch', 'angular-carousel', 'lodash', 'ngImgCrop', 'ionic-zoom-view', 'ngSanitize', "tmh.dynamicLocale"])
     //Add spinner template
     .constant("$ionicLoadingConfig", {
         template: "<ion-spinner></ion-spinner>"
     })
-    .config(function ($compileProvider, $httpProvider, $ionicConfigProvider) {
+    .config(function ($compileProvider, $httpProvider, $ionicConfigProvider, tmhDynamicLocaleProvider, UrlProvider) {
+        tmhDynamicLocaleProvider.localeLocationPattern(UrlProvider.$get().get('/app/sae/modules/Application/resources/angular-i18n/angular-locale_{{locale}}.js', {remove_key: true}));
+        tmhDynamicLocaleProvider.storageKey((+new Date())*Math.random()+""); // don't remember locale
+
         //Add hook on HTTP transactions
         $httpProvider.interceptors.push(function ($q, $injector) {
             return {
@@ -109,8 +112,14 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
 
             /** Handler for overview */
             $rootScope.$on('$stateChangeSuccess', function (event, toState, toStateParams, fromState, fromStateParams) {
-                if(parent && parent.postMessage) {
+                if(parent && (typeof parent.postMessage == "function")) {
                     parent.postMessage("state.go", DOMAIN);
+                }
+
+                if($ionicHistory.currentStateName() == "home") {
+                    $timeout(function() {
+                        HomepageLayout.callHooks();
+                    }, 100);
                 }
             });
 
@@ -441,6 +450,7 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                 };
 
                 $window.back = function () {
+                    /** If go back is home */
                     $ionicHistory.goBack();
                 };
 

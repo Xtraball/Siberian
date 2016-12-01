@@ -1,6 +1,5 @@
 
-App.service('$translate', function($http, Url) {
-
+App.service('$translate', function($http, Url, tmhDynamicLocale) {
     var service = {};
 
     service.translations = [];
@@ -18,6 +17,14 @@ App.service('$translate', function($http, Url) {
             responseType: 'json'
         }).success(function (translations) {
             service.translations = translations;
+
+            $http({
+                method: 'GET',
+                url: Url.get("/application/mobile_translation/locale", {add_language: true}),
+                cache: true
+            }).success(function (locale) {
+                tmhDynamicLocale.set(locale);
+            });
         });
     };
 

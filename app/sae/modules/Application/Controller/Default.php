@@ -48,7 +48,12 @@ class Application_Controller_Default extends Admin_Controller_Default {
 
         $this->getSession()->editing_app_id = $this->getApplication()->getId();
 
-        if($this->getApplication()->isSomeoneElseEditingIt()) {
+        $admin_id = null;
+        if($this->getSession()->getAdmin() && $this->getSession()->getAdmin()->getId()) {
+            $admin_id = $this->getSession()->getAdmin()->getId();
+        }
+
+        if($this->getApplication()->isSomeoneElseEditingIt($admin_id)) {
             $this->getSession()->addWarning($this->_("Careful, someone else is working on this application."), "two_editing_the_same_app");
         }
     }
