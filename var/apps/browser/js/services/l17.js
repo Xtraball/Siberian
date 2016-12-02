@@ -38,15 +38,17 @@ App.service('layout_17', function($rootScope, $location, $timeout) {
         if(scrollview) {
             scrollview.style.display = "block";
         }
-        var spacing = document.getElementById('metro-scroll').getBoundingClientRect().width / 100 * 2.5;
-        var element = document.getElementById('metro-line-2');
-        if(element) {
-            var positionInfo = element.getBoundingClientRect();
-            element.style.height = (positionInfo.width-spacing)/4+"px";
-        }
-        var lines = document.getElementsByClassName("metro-line");
-        for (var i = 0; i < lines.length; i++) {
-            lines[i].style.marginBottom = spacing+"px";
+        if(document.getElementById('metro-scroll') && document.getElementById('metro-line-2')) {
+            var spacing = document.getElementById('metro-scroll').getBoundingClientRect().width / 100 * 2.5;
+            var element = document.getElementById('metro-line-2');
+            if(element) {
+                var positionInfo = element.getBoundingClientRect();
+                element.style.height = (positionInfo.width-spacing)/4+"px";
+            }
+            var lines = document.getElementsByClassName("metro-line");
+            for (var i = 0; i < lines.length; i++) {
+                lines[i].style.marginBottom = spacing+"px";
+            }
         }
     };
 

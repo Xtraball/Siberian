@@ -22,7 +22,8 @@ App.service('Dialog', function($cordovaDialogs, $ionicPopup, $translate) {
             return $ionicPopup.alert(
                 {
                     title: alert_title,
-                    template: alert_message
+                    template: alert_message,
+                    okText: alert_button
                 }
             );
         }

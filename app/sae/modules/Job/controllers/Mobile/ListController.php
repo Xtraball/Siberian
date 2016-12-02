@@ -600,7 +600,8 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default {
         } else {
             $html = array(
                 "error" => 1,
-                "message" => __("#567-07: Missing value_id or place_id.")
+                "message" => $form->getTextErrors(),
+                "errors" => $form->getTextErrors(true)
             );
         }
 
@@ -667,7 +668,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default {
         } else {
             $html = array(
                 "error" => 1,
-                "message" => __("#567-07: Missing value_id or company_id.")
+                "message" => __("#567-09: Missing value_id or company_id.")
             );
         }
 

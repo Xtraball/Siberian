@@ -10,6 +10,13 @@
 <?php $default_blocks = $default_block->findAll(array(), "position ASC") ?>
 <?php $blocks = $page->getBlocks() ?>
 
+<?php
+
+$api = Api_Model_Key::findKeysFor("googlemaps");
+$googlemaps_key = $api->getSecretKey();
+
+?>
+
 <div class="edit_page custom_page">
 
     <div>
@@ -206,7 +213,7 @@
             var script_tag = document.createElement('script');
             script_tag.setAttribute("id", "gmaps_libraries");
             script_tag.setAttribute("type", "text/javascript");
-            script_tag.setAttribute("src", "https://maps.google.com/maps/api/js?sensor=false&libraries=places&callback=initializeGmaps");
+            script_tag.setAttribute("src", "https://maps.google.com/maps/api/js?sensor=false&libraries=places&callback=initializeGmaps&key=<?php echo $googlemaps_key; ?>");
             (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
         }
 

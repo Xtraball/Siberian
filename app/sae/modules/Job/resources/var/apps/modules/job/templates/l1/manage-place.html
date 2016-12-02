@@ -12,7 +12,7 @@
 
         <div class="list job-manage">
 
-            <label class="item item-input">
+            <label class="item item-input item-custom">
                 <span class="input-label">{{ "Views" | translate }} *</span>
                 <span>{{ place.views }}</span>
             </label>
@@ -21,19 +21,19 @@
                 *{{ "For more options use the editor" | translate }}
             </div>
 
-            <label class="item item-input item-stacked-label">
+            <label class="item item-input item-custom item-stacked-label">
                 <span class="input-label">{{ "Name" | translate }} *</span>
                 <input type="text" placeholder="{{ 'Name' | translate }}" ng-model="place_edit.title">
             </label>
-            <label class="item item-input item-stacked-label">
+            <label class="item item-input item-custom item-stacked-label">
                 <span class="input-label">{{ "Address" | translate }} *</span>
                 <input type="text" placeholder="{{ 'Address' | translate }}" ng-model="place_edit.location">
             </label>
-            <label class="item item-input item-stacked-label">
+            <label class="item item-input item-custom item-stacked-label">
                 <span class="input-label">{{ "E-mail" | translate }} *</span>
                 <textarea placeholder="{{ 'E-mail' | translate }}" ng-model="place_edit.email"></textarea>
             </label>
-            <label class="item item-input item-stacked-label">
+            <label class="item item-input item-custom item-stacked-label">
                 <span class="input-label">{{ "Keywords, coma separated" | translate }}</span>
                 <input type="text" placeholder="{{ 'Keywords' | translate }}" ng-model="place_edit.keywords">
             </label>

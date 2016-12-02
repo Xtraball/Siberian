@@ -10,7 +10,7 @@ class Job_Form_Company_Delete extends Siberian_Form_Abstract {
         $this
             ->setAction(__path("/job/company/deletepost"))
             ->setAttrib("id", "form-company-delete")
-            ->setConfirmText("You are about to remove this Company and all the associated Places !\n Are you sure ?");
+            ->setConfirmText("You are about to remove this Company and all the associated Positions ! Are you sure ?");
         ;
 
         /** Bind as a delete form */

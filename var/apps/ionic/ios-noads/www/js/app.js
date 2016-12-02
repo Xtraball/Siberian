@@ -112,7 +112,7 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
 
             /** Handler for overview */
             $rootScope.$on('$stateChangeSuccess', function (event, toState, toStateParams, fromState, fromStateParams) {
-                if(parent && (typeof parent.postMessage == "function")) {
+                if(parent && (typeof parent.postMessage == "function") && (parent != window)) {
                     parent.postMessage("state.go", DOMAIN);
                 }
 

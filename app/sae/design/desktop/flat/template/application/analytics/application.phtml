@@ -1,6 +1,10 @@
 <?php $application = $this->getApplication(); ?>
 <?php $demo_mode = !$application->isPublished(); ?>
 <?php $demo_label = $demo_mode ? " ".$this->_("(DEMO)") : ""; ?>
+<?php
+$api = Api_Model_Key::findKeysFor("googlemaps");
+$googlemaps_key = $api->getSecretKey();
+?>
 <div class="application_analytics application content solo-page">
     <h3 class="title-editor border-blue"><?php echo $this->_('App analytics'); ?></h3>
     <div class="container-fluid subcontent content-color">
@@ -209,7 +213,7 @@
                 var script_tag = document.createElement('script');
                 script_tag.setAttribute("id", "gmaps_libraries");
                 script_tag.setAttribute("type", "text/javascript");
-                script_tag.setAttribute("src", "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&callback=updateLocalizationMetric");
+                script_tag.setAttribute("src", "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&callback=updateLocalizationMetric&key=<?php echo $googlemaps_key; ?>");
                 (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
             }, 0);
 

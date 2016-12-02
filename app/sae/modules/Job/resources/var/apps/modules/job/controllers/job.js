@@ -335,6 +335,8 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
             Dialog.alert($translate.instant("Thank you"), $translate.instant(data.message), $translate.instant("OK"));
 
             $scope.loadContent();
+        }).error(function(data) {
+            Dialog.alert($translate.instant("Error"), $translate.instant(data.message), $translate.instant("OK"));
         }).finally(function() {});
     };
 
@@ -425,8 +427,9 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         Job.editCompany(options).success(function(data) {
             $scope.closeManageModal();
             Dialog.alert($translate.instant("Thank you"), $translate.instant(data.message), $translate.instant("OK"));
-
             $scope.loadContent();
+        }).error(function(data) {
+            Dialog.alert($translate.instant("Form error"), $translate.instant(data.message), $translate.instant("OK"));
         }).finally(function() {});
     };
 
@@ -451,10 +454,14 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         });
 
         Job.createPlace(options).success(function(data) {
-            $scope.closeManageModal();
+            $scope.closeCreateModal();
             Dialog.alert($translate.instant("Thank you"), $translate.instant(data.message), $translate.instant("OK"));
             $scope.loadContent();
-        }).finally(function() {});
+        }).error(function(data) {
+            Dialog.alert($translate.instant("Form error"), $translate.instant(data.message), $translate.instant("OK"));
+        }).finally(function() {
+
+        });
     };
 
     $scope.createModal = function() {

@@ -9,7 +9,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
 
         $this->__refreshFBToken($this->getSession()->getCustomer());
 
-	$google_maps_key = $application->getGooglemapsKey();
+	    $google_maps_key = $application->getGooglemapsKey();
         if(!empty($google_maps_key)) {
             $googlemaps_key = $application->getGooglemapsKey();
         } else {

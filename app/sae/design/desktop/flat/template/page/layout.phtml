@@ -84,7 +84,11 @@
                 // Send the app_id along with every ajax editor request
                 $.ajaxPrefilter(function (options, _, jqXHR) {
                     if (options.data) {
-                        options.url += "?" + app_id_param;
+                        if(options.url.indexOf("?") > 1) {
+                            options.url += "&" + app_id_param;
+                        } else {
+                            options.url += "?" + app_id_param;
+                        }
                     } else {
                         options.data = app_id_param;
                     }

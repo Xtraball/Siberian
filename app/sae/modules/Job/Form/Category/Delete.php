@@ -10,7 +10,7 @@ class Job_Form_Category_Delete extends Siberian_Form_Abstract {
         $this
             ->setAction(__path("/job/category/deletepost"))
             ->setAttrib("id", "form-category-delete")
-            ->setConfirmText("You are about to remove this Category !\n Are you sure ?");
+            ->setConfirmText("You are about to remove this Category ! Are you sure ?");
         ;
 
         /** Bind as a delete form */

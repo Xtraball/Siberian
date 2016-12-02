@@ -975,7 +975,6 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             ->setLayoutId($layout_id)
             ->unsCreatedAt()
             ->unsUpdatedAt()
-            ->setBundleId(null)
             ->setDomain(null)
             ->setSubdomain(null)
             ->setSubdomainIsValidated(null)
