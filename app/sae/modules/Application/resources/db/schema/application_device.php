@@ -67,6 +67,12 @@ $schemas['application_device'] = array(
         'collation' => 'utf8_unicode_ci',
         'default' => '0.0.1',
     ),
+    'build_number' => array(
+        'type' => 'integer',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => '1',
+    ),
     'developer_account_username' => array(
         'type' => 'varchar(255)',
         'is_null' => true,

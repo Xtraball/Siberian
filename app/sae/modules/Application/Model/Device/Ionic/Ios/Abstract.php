@@ -197,25 +197,49 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
                 $this->_parsePList($child, $newNode->addChild($key));
             } else {
                 if($lastValue == 'CFBundleDisplayName') {
+
                     $value = $this->_application_name;
+
                 } else if($lastValue == 'CFBundleIdentifier') {
+
                     $value = $this->_package_name;
+
                 } else if($lastValue == "AppId") {
+
                     $value = $this->_application_id;
+
                 } else if(stripos($lastValue, "url_") !== false) {
+
                     $value = $this->__getUrlValue($lastValue);
+
                 } else if(stripos($lastValue, "CFBundleVersion") !== false) {
-                    $version = explode(".", $this->getDevice()->getVersion());
-                    $value = !empty($version[0]) && !empty($version[1]) ? $version[0].".".$version[1] : "1.0";
+
+                    if(isset($this->_previewer)) {
+                        $this->_previewer->setIosBuildNumber($this->_previewer->getIosBuildNumber()+1)->save();
+                        $value = $this->_previewer->getIosVersion().".".$this->_previewer->getIosBuildNumber();
+                    } else {
+                        $this->getDevice()->setBuildNumber($this->getDevice()->getBuildNumber()+1)->save();
+                        $value = $this->getDevice()->getVersion().".".$this->getDevice()->getBuildNumber();
+                    }
+
                 } else if(stripos($lastValue, "CFBundleShortVersionString") !== false) {
-                    $version = explode(".", $this->getDevice()->getVersion());
-                    $value = !empty($version[0]) ? $version[0] : 1;
+
+                    if(isset($this->_previewer)) {
+                        $value = $this->_previewer->getIosVersion();
+                    } else {
+                        $value = $this->getDevice()->getVersion();
+                    }
+
                 } else if($lastValue == "UIStatusBarHidden") {
+
                     $key = $this->_application->getIosStatusBarIsHidden() ? "true" : "false";
                     $value = null;
+
                 } else if($lastValue == "UIViewControllerBasedStatusBarAppearance") {
+
                     $key = $this->_application->getIosStatusBarIsHidden() ? "false" : "true";
                     $value = null;
+
                 }
 
                 $newNode->addChild($key, $value);

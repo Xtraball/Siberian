@@ -14,7 +14,7 @@ App.factory('McommerceSalesPayment', function ($rootScope, $http, Url) {
             url: Url.get("mcommerce/mobile_sales_payment/findpaymentmethods", {
                 value_id: this.value_id
             }),
-            cache: !$rootScope.isOverview,
+            cache: false,
             responseType: 'json'
         });
     };

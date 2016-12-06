@@ -902,7 +902,7 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
 
     public function getPromos(){
         $promo = new Mcommerce_Model_Promo();
-        $promos = $promo->findAll(array('mcommerce_id' => $this->getId()));
+        $promos = $promo->findAll(array('mcommerce_id' => $this->getId(), 'hidden' => 0));
         return $promos;
     }
 }

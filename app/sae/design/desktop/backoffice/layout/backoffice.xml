@@ -15,6 +15,12 @@
         </views>
     </backoffice_index_template>
 
+    <backoffice_paginate_template>
+        <views>
+            <content class="core_view_default" template="html/paginate.phtml" />
+        </views>
+    </backoffice_paginate_template>
+
     <backoffice_account_list_template>
         <views>
             <content class="core_view_default" template="html/default.phtml" />

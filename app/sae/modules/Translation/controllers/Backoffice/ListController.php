@@ -21,8 +21,6 @@ class Translation_Backoffice_ListController extends Backoffice_Controller_Defaul
 
         foreach($languages as $lang) {
 
-            if($lang->getCode() == "en") continue;
-
             $data[] = array(
                 "id" => base64_encode($lang->getCode()),
                 "code" => $lang->getCode(),

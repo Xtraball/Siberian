@@ -36,25 +36,43 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
 
         $cart = $this->getCart();
 
-        $paymentMethods = $cart->getStore()->getPaymentMethods();
+        if(floatval($cart->getTotal()) > 0) {
+            $paymentMethods = $cart->getStore()->getPaymentMethods();
 
-        $html = array("paymentMethods" => array());
+            $html = array("paymentMethods" => array());
 
-        foreach ($paymentMethods as $paymentMethod) {
+            foreach ($paymentMethods as $paymentMethod) {
 
-            $paymentMethodJson = array(
-                "id" => $paymentMethod->getId(),
-                "name" => $paymentMethod->getName()
-            );
+                $paymentMethodJson = array(
+                    "id" => $paymentMethod->getId(),
+                    "name" => $paymentMethod->getName(),
+                    "code" => $paymentMethod->getCode()
+                );
 
-            if ($paymentMethod->isOnline()) {
-                if ($paymentMethod->isCurrencySupported()) {
+                if ($paymentMethod->isOnline()) {
+                    if ($paymentMethod->isCurrencySupported()) {
+                        $html["paymentMethods"][] = $paymentMethodJson;
+                    }
+                } else {
                     $html["paymentMethods"][] = $paymentMethodJson;
                 }
-            } else {
-                $html["paymentMethods"][] = $paymentMethodJson;
             }
         }
+
+        if(floatval($cart->getTotal()) <= 0) {
+            $free_method = new Mcommerce_Model_Payment_Method();
+            $free_method = $free_method->find("free", "code");
+
+            if ($free_method->getId()) {
+                $free_data = array(
+                    "id" => $free_method->getId(),
+                    "name" => $free_method->getName(),
+                    "code" => $free_method->getCode()
+                );
+                $html["paymentMethods"][] = $free_data;
+            }
+        }
+
 
         $this->_sendHtml($html);
     }
@@ -140,6 +158,18 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
                     if($promo){
                         $log = Mcommerce_Model_Promo_Log::createInstance($promo, $this->getCart());
                         $log->save();
+
+                        //Use points if needed
+                        if($promo->getPoints() AND $this->getCart()->getCustomerId()) {
+                            $points = $promo->getPoints();
+                            $customer = new Customer_Model_Customer();
+                            $customer->find($this->getCart()->getCustomerId());
+                            if($customer->getId()) {
+                                $customer_points = $customer->getMetaData("fidelity_points", "points") * 1;
+                                $customer_points -= $points;
+                                $customer->setMetadata("fidelity_points", "points", $customer_points)->save();
+                            }
+                        }
                     }
 
                     $order = new Mcommerce_Model_Order();

@@ -62,6 +62,14 @@ $schemas['mcommerce_promo'] = array(
         'type' => 'tinyint(1)',
         'default' => '0',
     ),
+    'hidden' => array(
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ),
+    'points' => array(
+        'type' => 'int(11)',
+        'is_null' => true,
+    ),
     'valid_until' => array(
         'is_null' => true,
         'type' => 'datetime',

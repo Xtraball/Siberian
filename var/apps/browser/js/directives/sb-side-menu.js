@@ -1,4 +1,4 @@
-App.directive('sbSideMenu', function ($rootScope, $ionicSideMenuDelegate, $ionicHistory, HomepageLayout, ContextualMenu) {
+App.directive('sbSideMenu', function ($rootElement, $rootScope, $ionicSideMenuDelegate, $ionicHistory, HomepageLayout, ContextualMenu) {
     return {
         restrict: 'E',
         replace: true,
@@ -10,6 +10,7 @@ App.directive('sbSideMenu', function ($rootScope, $ionicSideMenuDelegate, $ionic
             HomepageLayout.getFeatures().then( function (features) {
                 scope.layout = HomepageLayout.properties;
                 scope.layout_id = HomepageLayout.properties.layoutId;
+                angular.element($rootElement).addClass(("layout-"+scope.layout_id).replace(/[^a-zA-Z0-9_\-]+/, "-").replace(".", "-").replace(/\-\-*/, "-"));
             });
 
             /** Custom go back, works with/without side-menus */

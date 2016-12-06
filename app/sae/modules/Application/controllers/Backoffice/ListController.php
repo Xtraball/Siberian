@@ -15,17 +15,60 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
     }
 
     public function findallAction() {
+        $application = new Application_Model_Application();
 
-        $offset = $this->getRequest()->getParam("offset")?$this->getRequest()->getParam("offset"):null;
+        $offset = $this->getRequest()->getParam("offset", null);
         $limit = Application_Model_Application::BO_DISPLAYED_PER_PAGE;
+
+        $request = $this->getRequest();
+        if($range = $request->getHeader("Range")) {
+            $parts = explode("-", $range);
+            $offset = $parts[0];
+            $limit = ($parts[1] - $parts[0]) + 1;
+        }
+
+
         $params = array(
             "offset" => $offset,
             "limit" => $limit
         );
 
-        $application = new Application_Model_Application();
-        $applications = $application->findAll(null, null, $params);
-        $app_ids = $application->findAllToPublish();
+        $filters = array();
+        if($_filter = $this->getRequest()->getParam("filter", false)) {
+            $filters["(name LIKE ? OR app_id LIKE ? OR bundle_id LIKE ? OR package_name LIKE ?)"] = "%{$_filter}%";
+        }
+
+        $order = $this->getRequest()->getParam("order", false);
+        $by = filter_var($this->getRequest()->getParam("by", false), FILTER_VALIDATE_BOOLEAN);
+        if($order) {
+            $order_by = ($by) ? "ASC" : "DESC";
+            $order = sprintf("%s %s", $order, $order_by);
+        }
+
+        $to_publish = filter_var($this->getRequest()->getParam("toPublish", false), FILTER_VALIDATE_BOOLEAN);
+        if($to_publish) {
+            $app_ids = $application->findAllToPublish();
+
+            if(empty($app_ids)) {
+                $filters["app_id = ?"] = -1;
+            } else {
+                $filters["app_id IN (?)"] = $app_ids;
+            }
+        }
+
+        $all_applications = $application->findAll($filters, $order);
+        $total = $all_applications->count();
+
+        if($range = $request->getHeader("Range")) {
+            $start = $parts[0];
+            $end = ($total <= $parts[1]) ? $total : $parts[1];
+
+            $this->getResponse()->setHeader("Content-Range", sprintf("%s-%s/%s", $start, $end, $total));
+            $this->getResponse()->setHeader("Range-Unit", "items");
+        }
+
+        $applications = $application->findAll($filters, $order, $params);
+
         $data = array(
             "display_per_page"=> $limit,
             "collection" => array()
@@ -42,7 +85,7 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
             );
         }
 
-        $this->_sendHtml($data);
+        $this->_sendHtml($data["collection"]);
 
     }
 

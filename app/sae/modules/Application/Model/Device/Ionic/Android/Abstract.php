@@ -128,7 +128,17 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         );
 
         /** App Only */
-        if($this->getDevice()) {
+        if(isset($this->_previewer)) {
+            $version_name = $this->_previewer->getAndroidVersion();
+            $version_code = str_pad(str_replace('.', '', $version_name), 6, "0");
+
+            if(($version_code != 1 && $version_code != 10000) || $version_name != "1.0") {
+                $replacements = array_merge($replacements, array(
+                    "versionCode=\"10000\"" => "versionCode=\"{$version_code}\"",
+                    "versionName=\"1.0\"" => "versionName=\"{$version_name}\"",
+                ));
+            }
+        } elseif($this->getDevice()) {
             $version_name = $this->getDevice()->getVersion();
             $version_code = str_pad(str_replace('.', '', $version_name), 6, "0");
 
@@ -221,6 +231,17 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
                 $lang = implode("-", $lang);
             }
 
+            /** Specific case */
+            if($lang == "es-r419") {
+                $lang = "es-rUS";
+            }
+            if($lang == "zh-rHant") {
+                $lang = "zh-rTW";
+            }
+            if($lang == "zh-rHans") {
+                $lang = "zh-rCN";
+            }
+
             // If not, create them out of the English one.
             if (!file_exists("{$this->_dest_source_res}/values-{$lang}/strings.xml")) {
                 mkdir("{$this->_dest_source_res}/values-{$lang}", 0777);
@@ -229,6 +250,7 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
 
             $this->__replace($replacements, "{$this->_dest_source_res}/values-{$lang}/strings.xml", true);
         }
+
 
         $this->__replace($replacements_config, $this->_dest_source_res.'/xml/config.xml', true);
         $this->__replace(array($this->_default_bundle_name => $this->_package_name), $this->_dest_source_res.'/xml/config.xml');

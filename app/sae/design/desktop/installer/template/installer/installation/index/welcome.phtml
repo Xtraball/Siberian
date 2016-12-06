@@ -13,7 +13,7 @@
                 <?php foreach($errors["php_version"] as $error) : ?>
                     <h4 class="bold"><?php echo $error; ?></h4>
                 <?php endforeach ?>
-            <?php else: ?>
+            <?php endif; ?>
 
                 <h4 class="bold">Before continuing the installation, please fix those issues.</h4>
                 <?php if(!empty($errors["permissions"])) : ?>
@@ -36,7 +36,7 @@
                 </ul>
 
                 <?php endif; ?>
-            <?php endif; ?>
+            
 
         </div>
 

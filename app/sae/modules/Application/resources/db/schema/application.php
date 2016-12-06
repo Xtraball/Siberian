@@ -369,6 +369,13 @@ $schemas['application'] = array(
         'type' => 'tinyint(1)',
         'default' => '1',
     ),
+    'fidelity_rate' => array(
+        'type' => 'varchar(50)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => '1'
+    ),
     'created_at' => array(
         'type' => 'datetime',
     ),

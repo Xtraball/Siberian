@@ -5,7 +5,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
     public function loadAction() {
 
         $html = array(
-            "title" => $this->_("Application"),
+            "title" => __("Application"),
             "icon" => "fa-mobile",
         );
 
@@ -147,34 +147,34 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                 }
 
                 if(empty($data["app_id"])) {
-                    throw new Exception($this->_("An error occurred while saving. Please try again later."));
+                    throw new Exception(__("An error occurred while saving. Please try again later."));
                 }
 
                 $application = new Application_Model_Application();
                 $application->find($data["app_id"]);
 
                 if(!$application->getId()) {
-                    throw new Exception($this->_("An error occurred while saving. Please try again later."));
+                    throw new Exception(__("An error occurred while saving. Please try again later."));
                 }
 
                 if(isset($data["design_code"]) AND $application->getDesignCode() == Application_Model_Application::DESIGN_CODE_IONIC AND $data["design_code"] != Application_Model_Application::DESIGN_CODE_IONIC) {
-                    throw new Exception($this->_("You can't go back to Angular."));
+                    throw new Exception(__("You can't go back to Angular."));
                 }
 
                 if(!empty($data["key"])) {
 
                     $module_names = array_map('strtolower', Zend_Controller_Front::getInstance()->getDispatcher()->getSortedModuleDirectories());
                     if(in_array($data["key"], $module_names)) {
-                        throw new Exception($this->_("Your domain key \"%s\" is not valid.", $data["key"]));
+                        throw new Exception(__("Your domain key \"%s\" is not valid.", $data["key"]));
                     }
 
                     $dummy = new Application_Model_Application();
                     $dummy->find($data["key"], "key");
                     if($dummy->getId() AND $dummy->getId() != $application->getId()) {
-                        throw new Exception($this->_("The key is already used by another application."));
+                        throw new Exception(__("The key is already used by another application."));
                     }
                 } else {
-                    throw new Exception($this->_("The key cannot be empty."));
+                    throw new Exception(__("The key cannot be empty."));
                 }
 
                 if(!empty($data["domain"])) {
@@ -187,17 +187,17 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                     $tmp_domain = explode("/", $data["domain"]);
                     $domain = current($tmp_domain);
                     if(preg_match('/^(www.)?('.$domain.')/', $tmp_url)) {
-                        throw new Exception($this->_("You can't use this domain."));
+                        throw new Exception(__("You can't use this domain."));
                     }else{
                         $domain_folder = next($tmp_domain);
                         $module_names = array_map('strtolower', Zend_Controller_Front::getInstance()->getDispatcher()->getSortedModuleDirectories());
                         if(in_array($domain_folder, $module_names)) {
-                            throw new Exception($this->_("Your domain key \"%s\" is not valid.", $domain_folder));
+                            throw new Exception(__("Your domain key \"%s\" is not valid.", $domain_folder));
                         }
                     }
 
                     if(!Zend_Uri::check("http://".$data["domain"])) {
-                        throw new Exception($this->_("Please enter a valid URL"));
+                        throw new Exception(__("Please enter a valid URL"));
                     }
 
                     $dummy = new Application_Model_Application();
@@ -227,7 +227,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
 
                 $data = array(
                     "success"   => 1,
-                    "message"   => $this->_("Info successfully saved"),
+                    "message"   => __("Info successfully saved"),
                     "bundle_id" => $application->getBundleId(),
                     "package_name" => $application->getPackageName(),
                     "url"       => $application->getUrl(),
@@ -251,11 +251,11 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             try {
 
                 if(empty($data["app_id"])) {
-                    throw new Exception($this->_("An error occurred while saving. Please try again later."));
+                    throw new Exception(__("An error occurred while saving. Please try again later."));
                 }
 
                 if(isset($data["design_code"]) && $data["design_code"] != Application_Model_Application::DESIGN_CODE_IONIC) {
-                    throw new Exception($this->_("You can't go back with Angular."));
+                    throw new Exception(__("You can't go back with Angular."));
                 }
 
                 $application = new Application_Model_Application();
@@ -279,7 +279,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
 
                 $data = array(
                     "success"   => 1,
-                    "message"   => $this->_("Your application is now switched to Ionic"),
+                    "message"   => __("Your application is now switched to Ionic"),
                     "design_code" => "ionic",
                 );
 
@@ -302,14 +302,14 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             try {
 
                 if(empty($data["app_id"]) OR !is_array($data["devices"]) OR empty($data["devices"])) {
-                    throw new Exception($this->_("An error occurred while saving. Please try again later."));
+                    throw new Exception(__("An error occurred while saving. Please try again later."));
                 }
 
                 $application = new Application_Model_Application();
                 $application->find($data["app_id"]);
 
                 if(!$application->getId()) {
-                    throw new Exception($this->_("An error occurred while saving. Please try again later."));
+                    throw new Exception(__("An error occurred while saving. Please try again later."));
                 }
 
                 foreach($data["devices"] as $device_data) {
@@ -318,10 +318,14 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                             $device_data["store_url"] = "http://".$device_data["store_url"];
                         }
                         if(!Zend_Uri::check($device_data["store_url"])) {
-                            throw new Exception($this->_("Please enter a correct URL for the %s store", $device_data["name"]));
+                            throw new Exception(__("Please enter a correct URL for the %s store", $device_data["name"]));
                         }
                     } else {
                         $device_data["store_url"] = null;
+                    }
+                    
+                    if(!preg_match("/^([0-9]+)(\.([0-9]{0,5})){0,4}$/", $device_data["version"])) {
+                        throw new Exception(__("Please enter a correct version for the %s app", $device_data["name"]));
                     }
 
                     $device = $application->getDevice($device_data["type_id"]);
@@ -330,7 +334,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
 
                 $data = array(
                     "success" => 1,
-                    "message" => $this->_("Info successfully saved")
+                    "message" => __("Info successfully saved")
                 );
 
             } catch(Exception $e) {
@@ -352,14 +356,14 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             try {
 
                 if(empty($data["app_id"]) OR !is_array($data["devices"]) OR empty($data["devices"])) {
-                    throw new Exception($this->_("An error occurred while saving. Please try again later."));
+                    throw new Exception(__("An error occurred while saving. Please try again later."));
                 }
 
                 $application = new Application_Model_Application();
                 $application->find($data["app_id"]);
 
                 if(!$application->getId()) {
-                    throw new Exception($this->_("An error occurred while saving. Please try again later."));
+                    throw new Exception(__("An error occurred while saving. Please try again later."));
                 }
 
                 $data_app_to_save = array(
@@ -379,7 +383,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
 
                 $data = array(
                     "success" => 1,
-                    "message" => $this->_("Info successfully saved")
+                    "message" => __("Info successfully saved")
                 );
 
             } catch(Exception $e) {
@@ -400,14 +404,14 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             try {
 
                 if(empty($data["app_id"]) OR !is_array($data["devices"]) OR empty($data["devices"])) {
-                    throw new Exception($this->_("An error occurred while saving. Please try again later."));
+                    throw new Exception(__("An error occurred while saving. Please try again later."));
                 }
 
                 $application = new Application_Model_Application();
                 $application->find($data["app_id"]);
 
                 if(!$application->getId()) {
-                    throw new Exception($this->_("An error occurred while saving. Please try again later."));
+                    throw new Exception(__("An error occurred while saving. Please try again later."));
                 }
 
                 $data_app_to_save = array(
@@ -429,7 +433,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
 
                 $data = array(
                     "success" => 1,
-                    "message" => $this->_("Info successfully saved")
+                    "message" => __("Info successfully saved")
                 );
 
             } catch(Exception $e) {
@@ -450,12 +454,12 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             $application = new Application_Model_Application();
 
             if(empty($data['app_id']) OR empty($data['device_id'])) {
-                throw new Exception($this->_('This application does not exist'));
+                throw new Exception(__('This application does not exist'));
             }
 
             $application->find($data['app_id']);
             if(!$application->getId()) {
-                throw new Exception($this->_('This application does not exist'));
+                throw new Exception(__('This application does not exist'));
             }
 
             if($design_code = $this->getRequest()->getParam("design_code")) {
@@ -587,7 +591,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
 
                     $new_name = uniqid("cert_").".pem";
                     if(!rename($file["file"]["tmp_name"], $base_path.$new_name)) {
-                        throw new Exception($this->_("An error occurred while saving. Please try again later."));
+                        throw new Exception(__("An error occurred while saving. Please try again later."));
                     }
 
                     $certificat->setPath($path.$new_name)
@@ -597,7 +601,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                     $data = array(
                         "success" => 1,
                         "pem_infos" => Push_Model_Certificate::getInfos($app_id),
-                        "message" => $this->_("The file has been successfully uploaded")
+                        "message" => __("The file has been successfully uploaded")
                     );
 
                 } else {
@@ -605,7 +609,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                     if (!empty($messages)) {
                         $message = implode("\n", $messages);
                     } else {
-                        $message = $this->_("An error occurred during the process. Please try again later.");
+                        $message = __("An error occurred during the process. Please try again later.");
                     }
 
                     throw new Exception($message);

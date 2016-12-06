@@ -18,7 +18,7 @@ App.config(function($routeProvider) {
 
     $scope.header = new Header();
     $scope.header.button.left.is_visible = false;
-    $scope.content_loader_is_visible = true;
+    $scope.content_loader_is_visible = false;
 
     $scope.button = new SectionButton(function() {
         $location.path("admin/backoffice_edit");
@@ -29,11 +29,17 @@ App.config(function($routeProvider) {
         $scope.header.icon = data.icon;
     });
 
-    Admin.findAll().then(function(data) {
-        $scope.admins = data;
-    }).finally(function() {
-        $scope.content_loader_is_visible = false;
-    });
+    $scope.admins = new Array();
+
+    $scope.perPage = 10;
+    $scope.page = 0;
+    $scope.clientLimit = 250;
+
+    $scope.urlParams = {
+        filter: "",
+        order: "admin_id",
+        by: true
+    };
 
     $scope.deleteAdmin = function(admin) {
 

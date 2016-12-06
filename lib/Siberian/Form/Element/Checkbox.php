@@ -4,6 +4,62 @@
  */
 class Siberian_Form_Element_Checkbox extends Zend_Form_Element_Checkbox {
 
+    /**
+     * @var bool
+     */
+    public $is_form_horizontal = true;
+
+    /**
+     * @var string
+     */
+    public $color = "color-blue";
+
+    /**
+     * @var string
+     */
+    protected $label_cols = "col-md-3";
+
+    /**
+     * @var string
+     */
+    protected $input_cols = "col-md-7";
+
+    /**
+     * @var string
+     */
+    protected $offset_cols = "col-md-offset-3";
+
+    /**
+     * @var string
+     */
+    protected $error_cols = "col-md-7";
+
+    /**
+     * @param $boolean
+     */
+    public function setIsFormHorizontal($boolean) {
+        $this->is_form_horizontal = $boolean;
+    }
+
+    /**
+     * @param $color
+     */
+    public function setColor($color) {
+        $this->color = $color;
+    }
+
+    /**
+     * @param $label
+     * @param $input
+     * @param $offset
+     */
+    public function setCols($label, $input, $offset, $error = null) {
+        $this->label_cols = $label;
+        $this->input_cols = $input;
+        $this->offset_cols = $offset;
+        $this->error_cols = ($error != null) ? $error : $input;
+    }
+
 	/**
 	 * @throws Zend_Form_Exception
 	 */
@@ -52,23 +108,31 @@ class Siberian_Form_Element_Checkbox extends Zend_Form_Element_Checkbox {
 	 */
 	public function setNewDesign() {
 		$this->addClass('sb-form-checkbox');
+		$this->addClass($this->color);
+
+        if($this->is_form_horizontal) {
+            $label_class = "{$this->label_cols}";
+            $element_class = "{$this->input_cols}";
+            $error_class = "{$this->error_cols} {$this->offset_cols}";
+        }
+
 		return $this->setDecorators(array(
 	  		'ViewHelper',
 			array(array('style' => 'HtmlTag'), array(
 				'placement' => Zend_Form_Decorator_Abstract::APPEND,
 				'tag'   => 'div',
-				'class' => 'color-blue'
+				'class' => $this->color,
 			)),
 			array(array('wrapper' => 'HtmlTag'),array(
-				'class' => 'col-sm-7'
+				'class' => ' '.$element_class
 			)),
-			array('Description',array(
-				'tag' 		=> 'span',
-				'placement' => Zend_Form_Decorator_Abstract::APPEND,
-            	'escape' 	=> false
-			)),
+            array('Description', array(
+                'placement' => Zend_Form_Decorator_Abstract::APPEND,
+                'class' => 'sb-form-line-complement sb-form-description '.$error_class,
+                'escape' => false
+            )),
 			array('Label', array(
-				'class' => 'sb-form-line-title col-sm-3',
+				'class' => 'sb-form-line-title '.$label_class,
 				'requiredSuffix' => ' *',
 				'placement' => Zend_Form_Decorator_Abstract::PREPEND,
 			)),
@@ -77,7 +141,7 @@ class Siberian_Form_Element_Checkbox extends Zend_Form_Element_Checkbox {
            		'class'		=> 'alert alert-error'
           	)),
             array('ControlGroup',array(
-            	'class' => 'form-group sb-form-line'
+            	'class' => 'form-group sb-form-line form-group-checkbox'
             ))
 		));
 	}

@@ -381,9 +381,7 @@ class Places_Model_Place extends Core_Model_Default {
     public function asJson($controller, $position) {
         $address = $this->getAddressBlock();
 
-        $url = $this->getApplication()->useIonicDesign() ?
-            $controller->getUrl("places/mobile_details/index", array("value_id" => $this->getValueId(), "place_id" => $this->getId())) :
-            $controller->getPath("cms/mobile_page_view/index", array("value_id" => $this->getValueId(), "page_id" => $this->getId()));
+        $url = $controller->getPath("cms/mobile_page_view/index", array("value_id" => $this->getPage()->getValueId(), "page_id" => $this->getPage()->getId()));
 
         $entity = $this->int_validator->isValid($this->getId()) ? $this : $this->_page;
 

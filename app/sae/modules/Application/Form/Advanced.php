@@ -18,5 +18,9 @@ class Application_Form_Advanced extends Siberian_Form_Abstract {
         $offline_content = $this->addSimpleCheckbox("offline_content", __("Enable Offline content ?"));
 
         $google_maps_key = $this->addSimpleText("googlemaps_key", __("Google Maps JavaScript API Key"));
+
+        $fidelity_rate = $this->addSimpleNumber("fidelity_rate", __("Fidelity points rate"), 0, 10000, true, 0.01);
+
+        $this->groupElements("fidelity", array("fidelity_rate"), __("Fidelity points"));
     }
 }

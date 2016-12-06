@@ -213,4 +213,22 @@ $("#shortcuts1,#shortcuts_analytics,#shortcuts2").click(function(e) {
 	}
 });
 
+var $sidebar = $('#left-sidebar-wrapper');
+$sidebar.on("mousewheel DOMMouseScroll",function(event) {
+    if($sidebar.hasClass("fixed")) {
+        var prevScroll = $sidebar.scrollTop();
+        if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
+            $sidebar.scrollTop($sidebar.scrollTop() - 30);
+        } else {
+            $sidebar.scrollTop($sidebar.scrollTop() + 30);
+        }
+        if($sidebar.scrollTop() !== prevScroll) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    }
+});
+   
+
+
 </script>

@@ -16,7 +16,12 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
 
         $cart = $this->getCart();
 
+        $this->computeDiscount($cart);
+
         $application = $this->getApplication();
+        $currency_code = Core_Model_Language::getCurrencySymbol();
+        $fidelity_rate = $application->getFidelityRate();
+
         $color = $application->getBlock('background')->getColor();
 
         $trashImageUrl = $this->_getColorizedImage($this->_getImage("pictos/trash.png"), $color);
@@ -30,6 +35,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
         $html["cart"] = array(
             "discount_enabled" => true,
             "discount_code" => $cart->getDiscountCode(),
+            "fidelity_rate" => $fidelity_rate,
             "id" => $cart->getId(),
             "valid" => $isValidCart,
             "valid_message" => $this->_("Unable to proceed to checkout the minimum order amount is %s", $this->getStore()->getFormattedMinAmount()),
@@ -52,10 +58,11 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
             ),
             "add_tip" => $mcommerce->getAddTip(),
             "storeId" => $cart->getStoreId(),
+            "currency_code" => $currency_code,
             "subtotalExclTax" => (float)$cart->getSubtotalExclTax(),
             "subtotalInclTax" => (float)$cart->getSubtotalInclTax(),
-            "formattedSubtotalExclTax" => $cart->getSubtotalExclTax() > 0 ? $cart->getFormattedSubtotalExclTax() : null,
-            "formattedSubtotalInclTax" => $cart->getSubtotalInclTax() > 0 ? $cart->getFormattedSubtotalInclTax() : null,
+            "formattedSubtotalExclTax" => $cart->getFormattedSubtotalExclTax(),
+            "formattedSubtotalInclTax" => $cart->getFormattedSubtotalInclTax(),
             "deliveryCost" => (float)$cart->getDeliveryCost(),
             "formattedDeliveryCost" => $cart->getDeliveryCost() > 0 ? $cart->getFormattedDeliveryCost() : null,
             "deliveryTaxRate" => (float)$cart->getDeliveryTaxRate(),
@@ -65,16 +72,16 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
             "formatted_delivery_amount_due" => $cart->formatPrice($cart->getPaidAmount() - $cart->getTotal()),
             "formattedDeliveryTaxRate" => $cart->getDeliveryTaxRate() > 0 ? $cart->getFormattedDeliveryTaxRate() : null,
             "totalExclTax" => (float)$cart->getTotalExclTax(),
-            "formattedTotalExclTax" => $cart->getTotalExclTax() > 0 ? $cart->getFormattedTotalExclTax() : null,
+            "formattedTotalExclTax" => $cart->getFormattedTotalExclTax(),
             "totalTax" => (float)$cart->getTotalTax(),
-            "formattedTotalTax" => $cart->getTotalTax() > 0 ? $cart->getFormattedTotalTax() : null,
-            "formattedDeductedTotalHT" => $cart->getDeductedTotalHT() > 0 ? $cart->getFormattedDeductedTotalHT() : null,
+            "formattedTotalTax" => $cart->getFormattedTotalTax(),
+            "formattedDeductedTotalHT" => $cart->getFormattedDeductedTotalHT(),
             "formattedDeliveryTTC" => $cart->getDeliveryTTC() > 0 ? $cart->getFormattedDeliveryTTC() : null,
-            "formattedDeductedTva" => $cart->getDeductedTva() > 0 ? $cart->getFormattedDeductedTva() : null,
+            "formattedDeductedTva" => $cart->getFormattedDeductedTva(),
             "total" => (float)$cart->getTotal(),
             "tip" => (float)$cart->getTip(),
             "formattedTip" => $cart->getFormattedTip(),
-            "formattedTotal" => $cart->getTotal() > 0 ? $cart->getFormattedTotal() : null,
+            "formattedTotal" => $cart->getFormattedTotal(),
             "formattedSubtotal" => $cart->getFormattedSubtotal(),
             "lines" => array(),
             "pictos" => array(
@@ -517,5 +524,83 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
             );
         }
         $this->_sendHtml($html);
+    }
+
+    public function usefidelitypointsforcartAction() {
+        //This function will create a discount then validate it
+        //to allow users to use fidelity points as discount
+        $html = array();
+        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+            try {
+                $promo = new Mcommerce_Model_Promo();
+                $application = $this->getApplication();
+                $mcommerce = $this->getCurrentOptionValue()->getObject();
+
+                $valid_until = Zend_Date::now()->addDay(1)->toString('yyyy-MM-dd');
+
+                $promo_data = array(
+                    "mcommerce_id" => $mcommerce->getId(),
+                    "type" => "fixed",
+                    "minimum_amount" => 1,
+                    "points" => $data["points"],
+                    "discount" => round($data["points"] * $application->getFidelityRate(), 2, PHP_ROUND_HALF_DOWN),
+                    "label" => __("Points"),
+                    "code" => "points".uniqid(),
+                    "enabled" => 1,
+                    "use_once" => 1,
+                    "hidden" => 1,
+                    "valid_until" => $valid_until
+                );
+
+                $promo->addData($promo_data)->save();
+
+                if($promo->getId()){
+                    $cart = $this->getCart();
+                    $valid = $promo->validate($cart);
+                    $cart->setDiscountCode($promo->getCode())->save();
+                    $html['success'] = true;
+                    $html['message'] = $promo->getLabel();
+
+                } else {
+                    $html['error'] = true;
+                    $html['success'] = false;
+                    $html['message'] = $this->_("Error while using your points") . '(' . $promo->getCode() . ')';
+                }
+            } catch (Exception $e) {
+                $html = array(
+                    'error' => 1,
+                    'message' => $e->getMessage(),
+                    'message_button' => 1,
+                    'message_loader' => 1
+                );
+            }
+        } else {
+            $html = array(
+                'error' => 1,
+                'message' => $this->_('An error occurred during the process. Please try again later.'),
+                'message_button' => 1,
+                'message_loader' => 1
+            );
+        }
+        $this->_sendHtml($html);
+    }
+
+    public function removealldiscountAction() {
+        $html = array();
+        try {
+            $cart = $this->getCart();
+            $cart->setDiscountCode(null)->save();
+            $cart->_compute();
+            $html['success'] = true;
+            $html['message'] = "ok";
+            $this->_sendHtml($html);
+        } catch (Exception $e) {
+            $html = array(
+            'error' => 1,
+            'message' => $e->getMessage(),
+            'message_button' => 1,
+            'message_loader' => 1
+            );
+        }
     }
 }

@@ -648,3 +648,12 @@ div[sb-cms-text] * {  text-align: left;  }
 .push-popup .popup-body .item.item-custom {
     color: black;
 }
+
+.has-mini-player-controls .layout {
+    position: absolute;
+    top: 0;
+    bottom: 89px;
+    width: 100%;
+    height: initial;
+}
+

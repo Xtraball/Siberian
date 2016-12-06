@@ -1,6 +1,6 @@
 "use strict";
 
-App.directive('sbTabbar', function ($ionicHistory, $ionicModal, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $location, $rootScope, $timeout, $translate, $window, Analytics, Application, Customer, Dialog, HomepageLayout, Pages, Url, AUTH_EVENTS, PADLOCK_EVENTS, PUSH_EVENTS) {
+App.directive('sbTabbar', function ($ionicHistory, $ionicModal, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $location, $rootScope, $timeout, $translate, $window, $ionicPlatform, Analytics, Application, Customer, Dialog, HomepageLayout, Pages, Url, AUTH_EVENTS, PADLOCK_EVENTS, PUSH_EVENTS) {
     return {
         restrict: 'A',
         templateUrl: function() {
@@ -163,6 +163,13 @@ App.directive('sbTabbar', function ($ionicHistory, $ionicModal, $ionicSlideBoxDe
                 $scope.tabbar_is_visible = true;
                 $scope.pages_list_is_visible = false;
             };
+
+            /* pages_list_is_visible is true means that the ... button in the main menu was clicked */
+            $ionicPlatform.onHardwareBackButton(function(e){
+                if($scope.pages_list_is_visible){
+                    $scope.closeMore();
+                }
+            })
 
             $rootScope.$on(AUTH_EVENTS.logoutSuccess, function() {
                 $timeout(function() {

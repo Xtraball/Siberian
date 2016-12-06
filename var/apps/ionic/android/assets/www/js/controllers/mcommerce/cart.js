@@ -7,7 +7,7 @@ App.config(function ($stateProvider) {
         cache:false
     })
 
-}).controller('MCommerceCartViewController', function ($scope, $state, $http, $ionicLoading, $stateParams, $translate, Dialog, McommerceCart) {
+}).controller('MCommerceCartViewController', function ($scope, $state, $http, $ionicLoading, $stateParams, $translate, Dialog, McommerceCart, Customer) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -18,11 +18,16 @@ App.config(function ($stateProvider) {
     var updateTipTimoutFn = null;
     $scope.is_loading = true;
 
+    $scope.points_data = {
+        use_points: false,
+        nb_points_used: null
+    };
+
     McommerceCart.value_id = $stateParams.value_id;
     $scope.value_id = $stateParams.value_id;
 
     $scope.page_title = $translate.instant("Cart");
-    
+
     $scope.loadContent = function () {
         $ionicLoading.show({
             template: "<ion-spinner class=\"spinner-custom\"></ion-spinner><br/><br/>" + $translate.instant("Updating price") + "..."
@@ -44,10 +49,29 @@ App.config(function ($stateProvider) {
                 };
             }
 
+            Customer.find().success(function(data) {
+                $scope.cart.customer_fidelity_points = data.metadatas.fidelity_points ? data.metadatas.fidelity_points.points : null;
+                if(!$scope.points_data.use_points) {
+                    $scope.points_data.nb_points_used = $scope.cart.customer_fidelity_points;
+                }
+                $scope.updateEstimatedDiscount();
+            });
         }).finally(function () {
             $ionicLoading.hide();
             $scope.is_loading = false;
         });
+    };
+
+    $scope.updateEstimatedDiscount = function() {
+        if($scope.points_data.nb_points_used > 0) {
+            $scope.cart.estimated_fidelity_discount = (Math.round($scope.points_data.nb_points_used * $scope.cart.fidelity_rate * 100)/100) + " " + $scope.cart.currency_code;
+        }
+    };
+
+    $scope.useFidelityChange = function() {
+        if($scope.points_data.use_points) {
+            $scope.cart.discount_code = null;
+        }
     };
 
     $scope.updateTip = function(){
@@ -116,8 +140,28 @@ App.config(function ($stateProvider) {
             }).finally(function(){
                 $ionicLoading.hide();
             });
+        } else if($scope.points_data.use_points) {
+            if($scope.points_data.nb_points_used > 0) {
+                if($scope.points_data.nb_points_used <= $scope.cart.customer_fidelity_points) {
+                    McommerceCart.useFidelityPoints($scope.points_data.nb_points_used).success(function(data) {
+                        gotToNext();
+                    }).error(function(data) {
+                        Dialog.alert("", data.message, $translate.instant("OK"));
+                    }).finally(function(){
+                        $ionicLoading.hide();
+                    });
+                } else {
+                    Dialog.alert("", $translate.instant("You don't have enough points"), $translate.instant("OK"));
+                }
+            }
         } else {
-            gotToNext();
+            McommerceCart.removeAllDiscount().success(function(data) {
+                gotToNext();
+            }).error(function(data) {
+                Dialog.alert("", data.message, $translate.instant("OK"));
+            }).finally(function(){
+                $ionicLoading.hide();
+            });
         }
     };
 

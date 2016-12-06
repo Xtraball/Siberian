@@ -182,6 +182,17 @@
 
             </div>
 
+            <section class="avatar text-center" ng-if="customer.metadatas.fidelity_points" ng-show="customer.metadatas.fidelity_points.points > 0">
+                <label class="item item-custom">
+                    <i class="ion-ios-information-outline"></i><strong> {{ "Your points" | translate }}</strong>
+                </label>
+
+                <div class="item item-custom">
+                    {{ customer.metadatas.fidelity_points.points }}
+                </div>
+                <br />
+            </section>
+
             <section class="avatar text-center" ng-if="show_avatar" ng-show="customer.stripe">
                 <label class="item item-custom">
                     <i class="ion-ios-information-outline"></i><strong> {{ "Stored card information." | translate }}</strong>

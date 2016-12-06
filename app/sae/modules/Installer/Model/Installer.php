@@ -72,6 +72,21 @@ class Installer_Model_Installer extends Core_Model_Default {
         } catch(Exception $e) {
             $errors[] = "ZipArchive";
         }
+        try {
+            $command = 'zip -L';
+            $output = [];
+            $code = 0;
+            if (function_exists('exec')) {
+                exec($command, $output, $code);
+                // 127 code for missing command 0 for success
+                if ($code !== 0)
+                    throw new Exception('zip:command not found');
+            } else {
+                throw new Exception('exec php function is disabled');
+            }
+        } catch (Exception $e) {
+            $errors[] = "zip shell command";
+        }
 
         try {
 

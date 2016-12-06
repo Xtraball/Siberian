@@ -99,5 +99,28 @@ App.factory('McommerceCart', function($rootScope, $http, httpCache, Url) {
 
     };
 
+    factory.useFidelityPoints = function(points) {
+        if (!this.value_id) return;
+
+        return $http({
+            method: 'POST',
+            data: {points: points},
+            url: Url.get("mcommerce/mobile_cart/usefidelitypointsforcart"),
+            cache: false,
+            responseType:'json'
+        });
+    };
+
+    factory.removeAllDiscount = function() {
+        if (!this.value_id) return;
+
+        return $http({
+            method: 'POST',
+            url: Url.get("mcommerce/mobile_cart/removealldiscount"),
+            cache: false,
+            responseType:'json'
+        });
+    };
+
     return factory;
 });
