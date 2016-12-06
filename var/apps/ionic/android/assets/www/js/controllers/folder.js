@@ -31,7 +31,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         }
     })
 
-}).controller('FolderListController', function($http, $ionicModal, $ionicPopup, $location, $rootScope, $scope, $stateParams, $window, Analytics, Customer, Folder, Url/*, Application, Padlock*/) {
+}).controller('FolderListController', function($http, $ionicModal, $ionicPopup, $location, $rootScope, $scope, $stateParams, $window, $translate, $timeout, Analytics, Customer, Folder, Url) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -41,7 +41,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
 
     $scope.is_loading = true;
     $scope.value_id = Folder.value_id = $stateParams.value_id;
-    $scope.search_modal = {};
+    $scope.search_modal = null;
     $scope.search = {};
 
     Folder.category_id = $stateParams.category_id;
@@ -57,13 +57,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
             $scope.collection = new Array();
 
             for(var i = 0; i < data.folders.length; i++) {
-                //if(!data.folders[i].is_locked || Customer.can_access_locked_features || Padlock.unlock_by_qrcode) {
-                    //if((!Customer.isLoggedIn() && !Padlock.unlock_by_qrcode)  || data.folders[i].code != "padlock") {
-                    //    if((Application.handle_code_scan && data.folders[i].code == "code_scan") || data.folders[i].code != "code_scan") {
-                            $scope.collection.push(data.folders[i]);
-                    //    }
-                    //}
-                //}
+                $scope.collection.push(data.folders[i]);
             }
 
             $scope.cover = data.cover;
@@ -97,7 +91,8 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
                 }, 4000);
                 return;
             }
-            $window.open(feature.url, $rootScope.getTargetForLink(), "location=no");
+            var targetForLink = (ionic.Platform.isAndroid())? '_system' : $rootScope.getTargetForLink();
+            $window.open(feature.url, targetForLink, "location=no");
         
         } else {
             $location.path(feature.url);

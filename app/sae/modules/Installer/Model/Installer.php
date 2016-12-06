@@ -74,7 +74,7 @@ class Installer_Model_Installer extends Core_Model_Default {
         }
         try {
             $command = 'zip -L';
-            $output = [];
+            $output = array();
             $code = 0;
             if (function_exists('exec')) {
                 exec($command, $output, $code);
