@@ -78,7 +78,7 @@ App.factory('Youtube', function($q, $http) {
 
             $http({
                 method: 'GET',
-                url: "https://www.googleapis.com/youtube/v3/search/?&part=snippet&key=" + factory.key + "&maxResults=5&type=video&channelId=" + id + param_offset,
+                url: "https://www.googleapis.com/youtube/v3/search/?&part=snippet&key=" + factory.key + "&maxResults=5&type=video&channelId=" + id + param_offset + "&order=date",
                 cache: true,
                 responseType: 'json'
             }).success(function (response) {

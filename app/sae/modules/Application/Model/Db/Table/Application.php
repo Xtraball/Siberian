@@ -9,14 +9,38 @@ class Application_Model_Db_Table_Application extends Core_Model_Db_Table
         return $this->fetchRow($this->_db->quoteInto('domain = ?', $domain));
     }
 
-    public function findAllByAdmin($admin_id) {
-         $select = $this->select()
+    /**
+     * @param $admin_id
+     * @param array $where
+     * @param null $order
+     * @param null $count
+     * @param null $offset
+     * @return Zend_Db_Table_Rowset_Abstract
+     */
+    public function findAllByAdmin($admin_id, $where = array(), $order = null, $count = null, $offset = null) {
+        $select = $this->select()
             ->from(array('a' => $this->_name))
-            ->join(array('aa' => 'application_admin'), 'aa.app_id = a.app_id', array("is_allowed_to_add_pages"))
-            ->where('aa.admin_id = ?', $admin_id)
-            ->order('a.app_id DESC')
+
             ->setIntegrityCheck(false)
         ;
+
+        if($admin_id != null) {
+            $select
+                ->joinLeft(array('aa' => 'application_admin'), 'aa.app_id = a.app_id', array("is_allowed_to_add_pages"))
+                ->where('aa.admin_id = ?', $admin_id);
+        }
+
+        if(!empty($where)) {
+            $this->_where($select, $where);
+        }
+
+        if($order != null) {
+            $this->_order($select, $order);
+        }
+
+        if($count != null) {
+            $select->limit($count, $offset);
+        }
 
         return $this->fetchAll($select);
     }

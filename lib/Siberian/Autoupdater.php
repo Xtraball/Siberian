@@ -95,8 +95,6 @@ class Siberian_Autoupdater {
 
                 file_put_contents($json_path, $release);
 
-                /** @todo HTTPS */
-
                 # Editing config.xml path
                 if(isset(Siberian_Assets::$config_xml[$type])) {
                     $confix_xml_path = $path.Siberian_Assets::$config_xml[$type];

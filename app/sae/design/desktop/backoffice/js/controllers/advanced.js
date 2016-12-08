@@ -123,6 +123,41 @@ App.config(function($routeProvider) {
         });
     };
 
+    $scope.generateSsl = function() {
+        $scope.form_loader_is_visible = true;
+
+        AdvancedConfiguration.generateSsl().success(function(data) {
+
+            var message = Label.save.error;
+            if(angular.isObject(data) && angular.isDefined(data.message)) {
+                message = data.message;
+                $scope.message.isError(false);
+            } else {
+                $scope.message.isError(true);
+            }
+            $scope.message.setText(message)
+                .show()
+            ;
+
+        }).error(function(data) {
+
+            var message = Label.save.error;
+            if(angular.isObject(data) && angular.isDefined(data.message)) {
+                message = data.message;
+            }
+
+            $scope.message.setText(message)
+                .isError(true)
+                .show()
+            ;
+
+        }).finally(function() {
+            $scope.form_loader_is_visible = false;
+        });
+
+        return false;
+    };
+
 
 
 }).controller("BackofficeAdvancedToolsController", function($scope, $interval, Header, AdvancedTools) {

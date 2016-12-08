@@ -649,6 +649,15 @@ div[sb-cms-text] * {  text-align: left;  }
     color: black;
 }
 
+.list .item.item-custom .input-label {
+    white-space: initial;
+    width: 44%;
+}
+
+.list .item.item-custom.item-select select{
+    max-width: 56%;
+}
+
 .has-mini-player-controls .layout {
     position: absolute;
     top: 0;
@@ -656,4 +665,3 @@ div[sb-cms-text] * {  text-align: left;  }
     width: 100%;
     height: initial;
 }
-

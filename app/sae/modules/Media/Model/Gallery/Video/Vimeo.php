@@ -2,7 +2,7 @@
 
 class Media_Model_Gallery_Video_Vimeo extends Media_Model_Gallery_Video_Abstract {
 
-    const PLAYER_URL = 'http://player.vimeo.com/video/';
+    const PLAYER_URL = 'https://player.vimeo.com/video/';
 
     public function __construct($params = array()) {
         parent::__construct($params);
@@ -11,10 +11,10 @@ class Media_Model_Gallery_Video_Vimeo extends Media_Model_Gallery_Video_Abstract
     }
 
     protected $_flux = array(
-        'user'   => 'http://vimeo.com/api/v2/user',
-        'group'  => 'http://vimeo.com/api/v2/group',
-        'channel'=> 'http://vimeo.com/api/v2/channel',
-        'album'  => 'http://vimeo.com/api/v2/album',
+        'user'   => 'https://vimeo.com/api/v2/user',
+        'group'  => 'https://vimeo.com/api/v2/group',
+        'channel'=> 'https://vimeo.com/api/v2/channel',
+        'album'  => 'https://vimeo.com/api/v2/album',
     );
 
     public function getAllTypes() {
@@ -52,7 +52,7 @@ class Media_Model_Gallery_Video_Vimeo extends Media_Model_Gallery_Video_Abstract
                             'video_id'     => $entry['id'],
                             'title'        => $entry['title'],
                             'description'  => $entry['description'],
-                            'link'         => "http://player.vimeo.com/video/".$entry['id']."?autoplay=1",
+                            'link'         => "https://player.vimeo.com/video/".$entry['id']."?autoplay=1",
                             'image'        => $entry['thumbnail_medium']
                         ));
 

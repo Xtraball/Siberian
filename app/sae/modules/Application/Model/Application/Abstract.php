@@ -55,8 +55,8 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
-    public function findAllByAdmin($admin_id) {
-        return $this->getTable()->findAllByAdmin($admin_id);
+    public function findAllByAdmin($admin_id, $where = array(), $order = null, $count = null, $offset = null) {
+        return $this->getTable()->findAllByAdmin($admin_id, $where, $order, $count, $offset);
     }
 
     public function findAllToPublish() {
@@ -381,9 +381,13 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @throws Zend_Uri_Exception
      */
     public function buildId($type = "app") {
-        $url = Zend_Uri::factory(parent::getUrl(""))->getHost();
+        $url = mb_strtolower(Zend_Uri::factory(parent::getUrl(""))->getHost());
         $url = array_reverse(explode(".", $url));
         $url[] = $type.$this->getKey();
+
+        foreach($url as &$part) {
+            $part = preg_replace("/[^0-9a-z\.]/i", "", $part);
+        }
 
         return implode(".", $url);
     }
@@ -895,7 +899,8 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             $request->useApplicationKey($use_key);
         } else {
             $domain = rtrim($this->getDomain(), "/")."/";
-            $url = Core_Model_Url::createCustom('http://'.$domain, $url, $params, $locale);
+            $protocol = System_Model_Config::getValueFor("use_https") ? "https://" : "http://";
+            $url = Core_Model_Url::createCustom($protocol.$domain, $url, $params, $locale);
         }
 
         if(substr($url, strlen($url) -1, 1) != "/") {
@@ -975,6 +980,8 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             ->setLayoutId($layout_id)
             ->unsCreatedAt()
             ->unsUpdatedAt()
+            ->unsBundleId()
+            ->unsPackageName()
             ->setDomain(null)
             ->setSubdomain(null)
             ->setSubdomainIsValidated(null)

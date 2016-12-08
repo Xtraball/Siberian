@@ -207,12 +207,12 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
     protected function _prepareUrl() {
 
         if(defined("CRON")) {
+            $protocol = System_Model_Config::getValueFor("use_https") ? 'https://' : 'http://';
             $domain = $this->getDevice()->getHost();
         } else {
+            $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
             $domain = $this->_request->getHttpHost();
         }
-
-        /**  @todo HTTPS */
 
         $app_key = $this->getApplication()->getKey();
 
@@ -221,7 +221,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
 var REDIRECT_URI = false;
 window.location.hash = window.location.hash.replace(/\?__goto__=(.*)/, \"\");
 var CURRENT_LANGUAGE = AVAILABLE_LANGUAGES.indexOf(language) >= 0 ? language : 'en';
-DOMAIN = 'http://{$domain}';
+DOMAIN = '{$protocol}{$domain}';
 APP_KEY = '{$app_key}';
 BASE_PATH = '/'+APP_KEY;
 

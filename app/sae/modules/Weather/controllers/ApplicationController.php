@@ -22,7 +22,7 @@ class Weather_ApplicationController extends Application_Controller_Default {
                     }
 
                     $uri = str_replace(" ", "%20", "select woeid from geo.places where text='".$text_param."'&format=json");
-                    $query = "http://query.yahooapis.com/v1/public/yql?q=$uri";
+                    $query = "https://query.yahooapis.com/v1/public/yql?q=$uri";
                     $contents = file_get_contents($query);
 
                     if(!empty($contents)) {

@@ -21,7 +21,7 @@ class Cms_Model_Application_Page_Block_Video_Youtube  extends Core_Model_Default
     }
 
     public function getImageUrl() {
-        return "http://img.youtube.com/vi/{$this->getYoutube()}/0.jpg";
+        return "https://img.youtube.com/vi/{$this->getYoutube()}/0.jpg";
     }
 
     /**
@@ -70,8 +70,8 @@ class Cms_Model_Application_Page_Block_Video_Youtube  extends Core_Model_Default
                         $feed[] = new Core_Model_Default(array(
                             'title' => !empty($item['snippet']['title']) ? $item['snippet']['title'] : null,
                             'content' => !empty($item['snippet']['description']) ? $item['snippet']['description'] : null,
-                            'link'  => "http://www.youtube.com/watch?v={$video_id}",
-                            'image' => "http://img.youtube.com/vi/{$video_id}/0.jpg"
+                            'link'  => "https://www.youtube.com/watch?v={$video_id}",
+                            'image' => "https://img.youtube.com/vi/{$video_id}/0.jpg"
                         ));
                     }
 
@@ -92,8 +92,8 @@ class Cms_Model_Application_Page_Block_Video_Youtube  extends Core_Model_Default
                     'id'           => $params['v'],
                     'title'        => $entry->getTitle(),
                     'description'  => $entry->getContent(),
-                    'link'         => "http://www.youtube.com/embed/{$params['v']}",
-                    'image'        => "http://img.youtube.com/vi/{$params['v']}/0.jpg"
+                    'link'         => "https://www.youtube.com/embed/{$params['v']}",
+                    'image'        => "https://img.youtube.com/vi/{$params['v']}/0.jpg"
                 ));
 
                 $this->_videos[] = $video;

@@ -39,7 +39,13 @@
             </div>
 
             <div class="col-md-6">
+                <label><?php echo __("Generate a certificate via Let's Encrypt.") ?></label>
+                <div>
+                    <a class="btn btn-primary left" ng-click="generateSsl();"><?php echo __("Generate") ?></a>
+                </div>
+
             </div>
+
         </div>
         <?php endif; ?>
 

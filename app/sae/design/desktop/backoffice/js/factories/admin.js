@@ -74,7 +74,7 @@ App.factory('Admin', function($http, Url, DataLoader) {
         var data = {
             admin_id: admin_id,
             app_id: application.id,
-            is_selected: application.is_selected
+            is_allowed_to_add_pages: application.is_allowed_to_add_pages
         };
 
         return $http({

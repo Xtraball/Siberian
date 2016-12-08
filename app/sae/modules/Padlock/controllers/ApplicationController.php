@@ -57,7 +57,7 @@ class Padlock_ApplicationController extends Application_Controller_Default
                     $dir_image .= "/application/padlock/";
                     $image_name = "padlock_qrcode.png";
 
-                    copy('http://api.qrserver.com/v1/create-qr-code/?color=000000&bgcolor=FFFFFF&data=sendback%3A'.$datas["qrcode_unlock_code"].'&qzone=1&margin=0&size=200x200&ecc=L', $dir_image.$image_name);
+                    copy('https://api.qrserver.com/v1/create-qr-code/?color=000000&bgcolor=FFFFFF&data=sendback%3A'.$datas["qrcode_unlock_code"].'&qzone=1&margin=0&size=200x200&ecc=L', $dir_image.$image_name);
                 }
 
                 $this->getApplication()

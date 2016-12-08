@@ -40,10 +40,7 @@ class Admin_Backoffice_ListController extends Backoffice_Controller_Default
         $by = filter_var($this->getRequest()->getParam("by", false), FILTER_VALIDATE_BOOLEAN);
         if($order) {
             $order_by = ($by) ? "ASC" : "DESC";
-            if($order == "firstname") {
-                $order = sprintf("%s %s, %s %s", "firstname", $order_by, "lastname", $order_by);
-            }
-
+            $order = sprintf("%s %s", $order, $order_by);
         }
 
         $admin = new Admin_Model_Admin();

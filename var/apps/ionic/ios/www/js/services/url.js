@@ -25,7 +25,6 @@ App.service("Url", function($location) {
 
             uri = _that.__sanitize(uri);
 
-
             var url = DOMAIN.split("/");
 
             if(add_language) {

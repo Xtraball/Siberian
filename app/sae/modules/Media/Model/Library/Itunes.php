@@ -10,8 +10,8 @@
  */
 class Media_Model_Library_Itunes
 {
-    const API_LOOKUP = 'http://itunes.apple.com/lookup?';
-    const API_SEARCH = 'http://itunes.apple.com/search?';
+    const API_LOOKUP = 'https://itunes.apple.com/lookup?';
+    const API_SEARCH = 'https://itunes.apple.com/search?';
     
     /**
      * The lookup config

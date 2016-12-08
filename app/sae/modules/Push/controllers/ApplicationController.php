@@ -83,7 +83,7 @@ class Push_ApplicationController extends Application_Controller_Default
                         $url = $data['action_value'];
                     }
 
-                    $data['action_value'] = file_get_contents("http://tinyurl.com/api-create.php?url=".urlencode($url));
+                    $data['action_value'] = file_get_contents("https://tinyurl.com/api-create.php?url=".urlencode($url));
                 }
 
                 $data['type_id'] = $message->getMessageType();

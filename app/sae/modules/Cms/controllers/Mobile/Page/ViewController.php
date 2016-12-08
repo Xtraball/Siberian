@@ -35,8 +35,8 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
                 $url_embed = $url = $video->getLink();
                 $video_id = $video->getId();
                 if($video->getTypeId() == "youtube") {
-                    $url_embed = "http://www.youtube.com/embed/{$video->getYoutube()}?autoplay=1";
-                    $url = "http://www.youtube.com/watch?v={$video->getYoutube()}&autoplay=1";
+                    $url_embed = "https://www.youtube.com/embed/{$video->getYoutube()}?autoplay=1";
+                    $url = "https://www.youtube.com/watch?v={$video->getYoutube()}&autoplay=1";
                     $video_id = $video->getYoutube();
                 }
 
@@ -46,6 +46,7 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
                 $block_data["url_embed"] = $url_embed;
                 $block_data["url"] = $url;
                 $block_data["video_id"] = $video_id;
+                $block_data["title"] = $block_data["description"];
             break;
             case "file":
                 $image_path = Application_Model_Application::getImagePath();

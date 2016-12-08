@@ -66,4 +66,36 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
 
     }
 
+    public function generatesslAction() {
+        $request = $this->getRequest();
+        $email = System_Model_Config::getValueFor("support_email");
+
+        try {
+            $root = Core_Model_Directory::getBasePathTo("/");
+            $base = Core_Model_Directory::getBasePathTo("/var/apps/certificates/");
+
+            $lets_encrypt = new Siberian_LetsEncrypt($base, $root, false);
+            if(!empty($email)) {
+                $lets_encrypt->contact = array("mailto:{$email}");
+            }
+            
+            $lets_encrypt->initAccount();
+            $lets_encrypt->signDomains(array($request->getHttpHost()));
+
+            $data = array(
+                "success" => 1,
+                "message" => __("Success"),
+            );
+
+        } catch (Exception $e) {
+            $data = array(
+                "error" => 1,
+                "message" => $e->getMessage(),
+                "trace" => $e->getTraceAsString(),
+            );
+        }
+
+        $this->_sendHtml($data);
+    }
+
 }

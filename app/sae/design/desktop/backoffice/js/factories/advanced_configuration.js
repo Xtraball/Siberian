@@ -37,5 +37,18 @@ App.factory('AdvancedConfiguration', function($http, Url) {
 
     };
 
+    factory.generateSsl =  function() {
+
+        var url = "backoffice/advanced_configuration/generatessl";
+
+        return $http({
+            method: 'POST',
+            url: url,
+            cache: false,
+            responseType:'json'
+        });
+
+    };
+
     return factory;
 });

@@ -35,7 +35,7 @@ class Core_Model_Lib_Qrcode {
             $params['size'] = '100x100';
         }
 
-        $url = "http://chart.apis.google.com/chart?cht=qr&chl={$params['text']}"
+        $url = "https://chart.apis.google.com/chart?cht=qr&chl={$params['text']}"
              . "&chld={$params['correction']}|{$params['margin']}"
              . "&chs={$params['size']}";
 
@@ -70,7 +70,7 @@ class Core_Model_Lib_Qrcode {
             $params['size'] = '100x100';
         }
 
-        return "http://chart.apis.google.com/chart?cht=qr&chl={$params['text']}"
+        return "https://chart.apis.google.com/chart?cht=qr&chl={$params['text']}"
              . "&chld={$params['correction']}|{$params['margin']}"
              . "&chs={$params['size']}";
 

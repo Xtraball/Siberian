@@ -98,21 +98,17 @@ App.config(function($routeProvider) {
         $scope.content_loader_is_visible = false;
     });
 
+    $scope.perPage = 10;
+    $scope.page = 0;
+    $scope.clientLimit = 250;
 
-    Application.findByAdmin($routeParams.admin_id).success(function(data) {
-
-        Application.findAll().then(function(applications) {
-
-            if(angular.isObject(data)) {
-                angular.forEach(applications, function (application) {
-                    application.is_selected = data.app_ids.indexOf(application.id) >= 0;
-                    application.is_allowed_to_add_pages = data.is_allowed_to_add_pages.indexOf(application.id) >= 0;
-                });
-            }
-            $scope.applications = applications;
-        });
-
-    });
+    $scope.urlParams = {
+        admin_id: $routeParams.admin_id,
+        show_all_applications: false,
+        filter: "",
+        order: "app_id",
+        by: true
+    };
 
 
     $scope.saveAdmin = function() {
