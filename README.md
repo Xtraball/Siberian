@@ -64,6 +64,17 @@ server {
 	location ~ ^/app/configs {
         deny all;
     }
+    
+    location ~ ^/var/apps/certificates {
+        deny all;
+    }
+    
+    # Let's Encrypt configuration
+    location ^~ /.well-known/acme-challenge/ {
+        default_type "text/plain";
+    
+        root [/path/to/siberiancms];
+    }
 
 	location / {
 		try_files $uri /index.php?$query_string;

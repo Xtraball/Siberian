@@ -41,8 +41,13 @@ App.config(function($stateProvider) {
             if(data.collection) {
                 $scope.collection = $scope.collection.concat(data.collection);
             }
+
             if(data.groups) {
-                $scope.groups = $scope.groups.concat(data.groups);
+                angular.forEach(data.groups, function(group) {
+                    if($scope.groups.indexOf(group) < 0) {
+                        $scope.groups.push(group);
+                    }
+                });
             }
 
             $scope.can_load_older_posts = data.collection.length > 0;

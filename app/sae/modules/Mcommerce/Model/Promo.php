@@ -70,7 +70,7 @@ class Mcommerce_Model_Promo extends Core_Model_Default {
             return -2;
         }
         // 4th condition: If usable once, the user can use the code only once
-        if ($this->getUseOnce() && $this->getPreviousCodeUses() > 0) {
+        if ($this->getUseOnce() && $this->getPreviousCodeUses($cart) > 0) {
             return -3;
         }
         return 1;
@@ -79,13 +79,15 @@ class Mcommerce_Model_Promo extends Core_Model_Default {
     /**
      * Get the old code uses (if exist)
      *
-     * @param $code
-     * @param $mcommerce_id
+     * @param $cart
      * @return int
      */
-    public function getPreviousCodeUses() {
+    public function getPreviousCodeUses($cart) {
         $log = new Mcommerce_Model_Promo_Log();
-        $logs = $log->findAll(array('promo_id' => $this->getPromoId()));
+        $logs = $log->findAll(array(
+            'promo_id' => $this->getPromoId(),
+            'customer_uuid' => $cart->getCustomerUUID()
+        ));
         return sizeof($logs);
     }
 

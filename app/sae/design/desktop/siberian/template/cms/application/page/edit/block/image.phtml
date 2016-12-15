@@ -20,7 +20,7 @@
                 <input style="display:none" multiple enctype="multipart/form-data" rel="<?php echo $this->getPosition(); ?>" class="left fileupload fileupload_picture" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
             </div>
 
-            <div class="col-sm-7" rel="<?php echo $this->getPosition() ?>" <?php if(!count($libraries) > 0) : ?> style="display:none;"<?php endif; ?>>
+            <div class="col-sm-7" rel="<?php echo $this->getPosition() ?>">
                 <label><?php echo $this->_('Description:'); ?></label>
                 <input type="text" name="block[<?php echo $this->getPosition(); ?>][description]" value="<?php echo $block->getDescription() ?>" class="form-control description input" />
             </div>
@@ -108,72 +108,6 @@
                                 </div>'
                             );
 
-                            /*
-                            //iframe
-                            var id = iframe.content.find('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .image_ul').attr('rel');
-
-                            //Existant
-                            if(id != undefined) {
-                                var li = $('<li />').attr('class', 'left image_li').css('width', iframe.content.find('#cms_page_content_<?php echo $option->getId(); ?>').width()+'px');
-                                var a = $('<a />').css('display', 'block').css('overflow', 'hidden').attr('onclick', 'return false;').attr('href', 'javascript:void(0)');
-
-                                var img_width = iframe.content.find('#cms_page_content_<?php echo $option->getId(); ?>').width();
-                                if(img_width == 0) {
-                                    img_width = iframe.content.find('.image_ul .image_li img').width();
-                                }
-                                var img = $('<img />').attr('width', img_width+'px').attr('src', '<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+datas.file);
-                                a.append(img);
-                                li.append(a);
-                                iframe.content.find('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .image_ul').append(li);
-
-                                var li_gallery = $('<li />').attr('class', 'left gallery_li');
-                                var img_gallery = $('<img />').css('display', 'inline-block').attr('src', '<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+datas.fullsize_file);
-
-                                if(iframe.content.find('.cms_block[rel="<?php echo $this->getPosition(); ?>"]').find('.controls').length < 1) {
-                                    var controls = '\
-                                        <button id="left_control_'+id+'" type="button" class="controls left relative" onclick="scrollviews.scrollToPage(\'carousel_scrollview_'+id+'\', \'prev\')" style="display:none;">\n\
-                                            <img src="<?php echo $this->getImage('pictos/arrow_left.png'); ?>" width="15" height="15" />\n\
-                                        </button>\n\
-                                        <button id="right_control_'+id+'" type="button" class="controls right relative" onclick="scrollviews.scrollToPage(\'carousel_scrollview_\', \'next\')">\n\
-                                                <img src="<?php echo $this->getImage('pictos/arrow_right.png'); ?>" width="15" height="15" />\n\
-                                        </p>\n\
-                                    ';
-                                    iframe.content.find('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .image_ul').after(controls);
-                                } else {
-                                    iframe.content.find('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .image_ul').find('.controls').show();
-                                }
-
-                                li_gallery.append(img_gallery);
-                                iframe.content.find('.gallery_ul[rel="'+id+'"]').append(li_gallery);
-
-                            } else {
-
-                                var img = $('<img />').attr('width', iframe.content.find('#cms_page_content_<?php echo $option->getId(); ?>').width()+'px').attr('src', '<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+datas.file);
-                                var scrollview_carousel = '\
-                                    <div class="cms_block picture" rel="<?php echo $this->getPosition(); ?>">\n\
-                                        <div style="overflow: hidden;" class="image_cont relative" rel="<?php echo $this->getPosition(); ?>" id="carousel_scrollview_<?php echo $this->getPosition(); ?>">\n\
-                                            <ul class="image_ul" rel="<?php echo $this->getPosition(); ?>">\n\
-                                                <li class="left image_li">\n\
-                                                    <a href="javascript:void(0)" onclick="return false;" style="display: block; overflow: hidden;">\n\
-                                                    '+img[0].outerHTML+'\n\
-                                                    </a>\n\
-                                                </li>\n\
-                                            </ul>\n\
-                                            <button id="left_control_carousel_scrollview_<?php echo $this->getPosition(); ?>" type="button" class="controls left relative" onclick="scrollviews.scrollToPage(\'carousel_scrollview_<?php echo $this->getPosition(); ?>\', \'prev\')" style="display:none;">\n\
-                                                <img src="<?php echo $this->getImage('pictos/arrow_left.png'); ?>" width="15" height="15" />\n\
-                                            </button>\n\
-                                            <button id="right_control_carousel_scrollview_<?php echo $this->getPosition(); ?>" type="button" class="controls right relative" onclick="scrollviews.scrollToPage(\'carousel_scrollview_<?php echo $this->getPosition(); ?>\', \'next\')">\n\
-                                                <img src="<?php echo $this->getImage('pictos/arrow_right.png'); ?>" width="15" height="15" />\n\
-                                            </button>\n\
-                                        </div>\n\
-                                        <p width="100%" rel="<?php echo $this->getPosition(); ?>" class="description"></p>\n\
-                                    </div>';
-
-                                iframe.content.find('#cms_page_content_<?php echo $option->getId(); ?>').append(scrollview_carousel);
-
-                                iframe.f.page.current_page.createCarousel('carousel_scrollview_<?php echo $this->getPosition(); ?>');//.refreshCarousel('carousel_scrollview_<?php echo $this->getPosition(); ?>');
-                            }
-                            */
                         }
                     });
                 }

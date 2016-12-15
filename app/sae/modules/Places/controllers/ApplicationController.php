@@ -42,6 +42,42 @@ class Places_ApplicationController extends Application_Controller_Default {
         $this->getLayout()->setHtml(Zend_Json::encode($html));
     }
 
+    public function rankAction() {
+        $ordering = $this->getRequest()->getParam("ordering");
+        $value_id = $this->getRequest()->getParam("option_value_id");
+        $html = array();
+        try {
+            $pages = Cms_Model_Application_Page::findAllByPageId($value_id, array_keys($ordering));
+            $table = new Cms_Model_Db_Table_Application_Page_Block_Address();
+            $adapter = $table->getAdapter();
+            foreach ($pages as $page_row) {
+                $blocks = $page_row->getBlocks();
+                foreach ($blocks as $block) {
+                    if (get_class($block) == "Cms_Model_Application_Block") {
+                        $block->setRank($ordering[$page_row->getPageId()])->save();
+                        $where = $adapter->quoteInto("address_id = ?", $block->getAddressId());
+                        $table->update(array("rank" => $ordering[$page_row->getPageId()]), $where);
+                        break;
+                    }
+                }
+            }
+            $html = array(
+                'success' => 1,
+                'success_message' => $this->_('Order successfully saved saved.'),
+                'message_timeout' => 2,
+                'message_button' => 0,
+                'message_loader' => 0
+            );
+        } catch (Exception $e) {
+            $html = array(
+                'message' => $this->_('An error occured.'),
+                'message_button' => 1,
+                'message_loader' => 1
+            );
+        }
+        $this->getLayout()->setHtml(Zend_Json::encode($html));
+    }
+
     public function searchSettingsAction()
     {
         if ($data = $this->getRequest()->getPost()) {

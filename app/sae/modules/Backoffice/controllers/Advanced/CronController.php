@@ -10,6 +10,7 @@ class Backoffice_Advanced_CronController extends Backoffice_Controller_Default {
         "pushinstant" => "",
         "sources" => "",
         "cachebuilder" => "",
+        "letsencrypt" => "",
     );
 
     public function loadAction() {

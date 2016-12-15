@@ -168,7 +168,7 @@ class Analytics_AnalyticsController extends Application_Controller_Default {
                 if(is_array($top_app_loaded)) {
                     foreach($top_app_loaded as $uniq_app_loaded) {
                         $result[] = array(
-                            "name" => $uniq_app_loaded[0],
+                            "name" => __($uniq_app_loaded[0]),
                             "metric" => $uniq_app_loaded[1]
                         );
                     }

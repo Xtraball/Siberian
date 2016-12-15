@@ -13,6 +13,27 @@ class Cms_Model_Application_Page extends Core_Model_Default
         return $this;
     }
 
+
+
+    public static function findAllOrderedByRank($value_id) {
+        $table = new Cms_Model_Db_Table_Application_Page();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART);
+        $select->setIntegrityCheck(false);
+        $select->join('cms_application_page_block', 'cms_application_page_block.page_id = cms_application_page.page_id')
+            ->join('cms_application_page_block_address', 'cms_application_page_block_address.value_id = cms_application_page_block.value_id')
+            ->where("cms_application_page.value_id = ?", $value_id)
+            ->order("cms_application_page_block_address.rank asc");
+        return $table->fetchAll($select);
+    }
+
+    public static function findAllByPageId($value_id, $ids) {
+        $table = new Cms_Model_Db_Table_Application_Page();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART);
+        $select->where("cms_application_page.value_id = ?", $value_id)
+            ->where("cms_application_page.page_id IN (?)", $ids);
+        return $table->fetchAll($select);
+    }
+
     /**
      * Executed when the feature is created
      *

@@ -44,6 +44,12 @@ $schemas['mcommerce_promo_log'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'customer_uuid' => array(
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'code' => array(
         'type' => 'varchar(255)',
         'is_null' => true,

@@ -60,4 +60,9 @@ $schemas['cms_application_page_block_address'] = array(
         'type' => 'tinyint(1)',
         'default' => '0',
     ),
+    'rank' => array(
+        'type' => 'int(11) unsigned',
+        'default' => '0',
+        'is_null' => true,
+    ),
 );

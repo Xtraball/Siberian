@@ -154,16 +154,18 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
                 if (empty($errors)) {
                     // Keep a log of the promo and code if used
                     $promo = $this->getPromo();
+                    $cart = $this->getCart();
+                    $cart->setCustomerUUID($data["customer_uuid"]);
 
                     if($promo){
-                        $log = Mcommerce_Model_Promo_Log::createInstance($promo, $this->getCart());
+                        $log = Mcommerce_Model_Promo_Log::createInstance($promo, $cart);
                         $log->save();
 
                         //Use points if needed
-                        if($promo->getPoints() AND $this->getCart()->getCustomerId()) {
+                        if($promo->getPoints() AND $cart->getCustomerId()) {
                             $points = $promo->getPoints();
                             $customer = new Customer_Model_Customer();
-                            $customer->find($this->getCart()->getCustomerId());
+                            $customer->find($cart->getCustomerId());
                             if($customer->getId()) {
                                 $customer_points = $customer->getMetaData("fidelity_points", "points") * 1;
                                 $customer_points -= $points;

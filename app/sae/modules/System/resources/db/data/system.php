@@ -140,6 +140,11 @@ $configs = array(
         "code" => "use_https",
         "label" => "Use HTTPS",
         "value" => "0"
+    ),
+    array(
+        "code" => "cpanel_type",
+        "label" => "Admin panel type",
+        "value" => "-1"
     )
 );
 

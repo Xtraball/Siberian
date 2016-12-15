@@ -11,9 +11,15 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                     'latitude' => $this->getRequest()->getParam('latitude'),
                     'longitude' => $this->getRequest()->getParam('longitude')
                 );
+                $value = $this->getCurrentOptionValue();
+                $order_places = $value->getMetadataValue("places_order");
 
                 $repository = new Cms_Model_Application_Page();
-                $pages = $repository->findAll(array('value_id' => $value_id));
+                if ($order_places) {
+                    $pages = $repository->findAll(array('value_id' => $value_id));
+                } else {
+                    $pages = $repository->findAllOrderedByRank($value->getId());
+                }
 
                 $place_list = array();
 
@@ -27,7 +33,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                 }
 
                 // Order places by distance to user, if and the position is set the places_order option is activated
-                if ($position['latitude'] && $position['longitude'] && $this->getCurrentOptionValue()->getMetadataValue('places_order')) {
+                if ($position['latitude'] && $position['longitude'] && $order_places) {
                     usort ( $place_list , array('Places_Model_Place','sortPlacesByDistance'));
                 }
 

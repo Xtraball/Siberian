@@ -1,7 +1,8 @@
 <?php $application = $this->getApplication(); ?>
 <?php $value = $this->getOptionValue(); ?>
 <?php $page = new Cms_Model_Application_Page(); ?>
-<?php $pages = $page->findAll(array('value_id' => $value->getId()), 'page_id DESC'); ?>
+<?php $pages = $page->findAllOrderedByRank($value->getId());?>
+<?php $places_order = !$value->getMetadataValue("places_order"); ?>
 <div class="edit_page places">
     <h3 class="title-editor no-border-radius title-feature-indent">
         <?php echo $this->_('Add'); ?>
@@ -24,9 +25,13 @@
                         <col width="33%" />
                         <col width="60%" />
                         <col width="7%" />
+                        <tbody id="place-row">
                         <?php foreach($pages as $page) : ?>
-                        <tr id="place_row_<?php echo $page->getId(); ?>" class="place_row">
+                        <tr id="place_row_<?php echo $page->getId(); ?>" class="place_row" rel="<?php echo $page->getId(); ?>">
                             <td class="page_name">
+                                <?php if($places_order){ ?>
+                                    <a class="handle_image_type" href="javascript:void(0);"><i class="fa fa-arrows"></i></a>
+                                <?php }?>
                                 <?php echo $page->getTitle(); ?>
                             </td>
                             <td class="event_type">
@@ -40,7 +45,9 @@
                             </td>
                         </tr>
                         <?php endforeach; ?>
+                        </tbody>
                     </table>
+                    <div id="ordering-wrapper"></div>
                 </div>
             <?php endif; ?>
             <div class="row">
@@ -72,6 +79,38 @@
             page.setCallback('willappear', function() {
 
             });
+
+            if (<?php echo $places_order ? 1 : 0 ?>) {
+                $('#place-row').sortable({
+                    handle: '.handle_image_type',
+                    axis: '',
+                    placeholder: "",
+                    helper: 'clone',
+                    tolerance: 'pointer',
+                    start: function (event, ui) {
+                    },
+                    stop: function (event, ui) {
+                    },
+                    update: function (e, ui) {
+                        var that = $(this);
+                        var ordering = {};
+                        // clear old ranking
+                        $('#ordering-wrapper').html('');
+                        // prepare new ranking
+                        $('.place_row').each(function (i, elem) {
+                            ordering[$(elem).attr('rel')] = i + 1;
+                            $('#ordering-wrapper').append('<input type="hidden" name="ordering[' + $(elem).attr('rel') + ']" value="' + (i + 1) + '">');
+                        });
+                        // send new ranking
+                        reload($('#ordering-wrapper'), "<?php echo $this->getUrl("places/application/rank", array("option_value_id" => $value->getId())); ?>/", true, function (data) {
+//                            console.log(data)
+                            page.reload();
+                        }, function () {
+                            that.sortable("cancel");
+                        });
+                    }
+                });
+            }
 
             page.setCallback('didappear', function() {
 

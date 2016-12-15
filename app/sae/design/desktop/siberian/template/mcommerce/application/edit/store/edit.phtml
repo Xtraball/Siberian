@@ -191,11 +191,13 @@
                         <?php $payment_method = new Mcommerce_Model_Payment_Method(); ?>
                         <?php $payment_methods = $payment_method->findAll(); ?>
                         <?php foreach($payment_methods as $method) : ?>
-                        <label for="payment_method_<?php echo $method->getId() ?>" class="checkbox payment_method block<?php if($store->hasPaymentMethod($method->getId())) : ?> checked<?php endif; ?><?php if($method->isOnline()) : ?> toggle_payment_data<?php endif; ?>" tag="<?php if($method->isOnline()) echo $method->getCode(); ?>" style="padding-top:0">
-                            <span class='icon'></span><span class='icon-to-fade'></span>
-                            <input type="checkbox" id="payment_method_<?php echo $method->getId() ?>" class="required" name="new_payment_methods[][method_id]" value="<?php echo $method->getId(); ?>"<?php if($store->hasPaymentMethod($method->getId())) : ?> checked="checked"<?php endif; ?> />
-                            <?php echo $method->getName(); ?>
-                        </label>
+                            <?php if($method->getCode() != "free"): ?>
+                            <label for="payment_method_<?php echo $method->getId() ?>" class="checkbox payment_method block<?php if($store->hasPaymentMethod($method->getId())) : ?> checked<?php endif; ?><?php if($method->isOnline()) : ?> toggle_payment_data<?php endif; ?>" tag="<?php if($method->isOnline()) echo $method->getCode(); ?>" style="padding-top:0">
+                                <span class='icon'></span><span class='icon-to-fade'></span>
+                                <input type="checkbox" id="payment_method_<?php echo $method->getId() ?>" class="required" name="new_payment_methods[][method_id]" value="<?php echo $method->getId(); ?>"<?php if($store->hasPaymentMethod($method->getId())) : ?> checked="checked"<?php endif; ?> />
+                                <?php echo $method->getName(); ?>
+                            </label>
+                            <?php endif; ?>
                         <?php ?>
                         <?php endforeach; ?>
                     </div>

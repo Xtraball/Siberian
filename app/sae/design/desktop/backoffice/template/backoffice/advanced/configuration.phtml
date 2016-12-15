@@ -21,15 +21,19 @@
             </div>
         </div>
 
-        <?php if(APPLICATION_ENV != "production"): ?>
         <div class="form-group">
-
             <div class="col-md-12">
-                <br /><br />
-                <?php echo __("HTTPS support is in test, you should only try it on your development server prior to prepare for further migration.") ?>
-                <br /><br />
+                <button type="submit" class="btn btn-primary right"><?php echo __("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                <div class="clear"></div>
             </div>
+        </div>
 
+    </sb-section>
+
+    <sb-section title="'<?php echo addcslashes(__("HTTPS & SSL Certificates"), "'"); ?>'">
+
+        <div class="form-group">
             <div class="col-md-6">
                 <label for="{{ configs.use_https.code }}">{{ configs.use_https.label }}</label>
                 <select id="configs.use_https.code" class="form-control" ng-model="configs.use_https.value">
@@ -39,25 +43,447 @@
             </div>
 
             <div class="col-md-6">
-                <label><?php echo __("Generate a certificate via Let's Encrypt.") ?></label>
-                <div>
-                    <a class="btn btn-primary left" ng-click="generateSsl();"><?php echo __("Generate") ?></a>
-                </div>
 
+                <label for="{{ configs.cpanel_type.code }}">{{ configs.cpanel_type.label }}</label>
+                <select id="configs.cpanel_type.code" class="form-control" ng-model="configs.cpanel_type.value">
+                    <option value="-1"><?php echo __("Select a panel type or self-managed") ?></option>
+                    <option value="self"><?php echo __("Unknown - Self-managed"); ?></option>
+                    <option value="plesk"><?php echo __("Plesk 12+"); ?></option>
+                    <option value="cpanel"><?php echo __("WHM cPanel"); ?></option>
+                    <option value="directadmin"><?php echo __("DirectAdmin (beta)"); ?></option>
+                    <option value="vestacp"><?php echo __("VestaCP (php 5.6+ only)"); ?></option>
+                </select>
             </div>
 
+            <div class="col-md-6">
+                <br /><br />
+                <label><?php echo __("Request the certificate via Let's Encrypt.") ?></label>
+                <div>
+                    <a class="btn btn-primary left" ng-click="generateSsl(false);"><?php echo __("Request") ?></a>
+                    <a ng-if="show_force" class="btn btn-primary left" ng-click="generateSsl(true);"><?php echo __("Force re-generation") ?></a>
+                </div>
+            </div>
+
+            <div class="col-md-6" ng-if="configs.cpanel_type.value == 'cpanel'">
+                <br /><br />
+
+                <label><?php echo __("Host") ?></label>
+                <input class="form-control" type="text" ng-model="configs.cpanel.host" />
+
+                <label><?php echo __("Username") ?></label>
+                <input class="form-control" type="text" ng-model="configs.cpanel.user" />
+
+                <label><?php echo __("Password") ?></label>
+                <input class="form-control" type="password" ng-model="configs.cpanel.password" />
+            </div>
+
+            <div class="col-md-6" ng-if="configs.cpanel_type.value == 'plesk'">
+                <br /><br />
+
+                <label><?php echo __("Host") ?></label>
+                <input class="form-control" type="text" ng-model="configs.plesk.host" />
+
+                <label><?php echo __("Username") ?></label>
+                <input class="form-control" type="text" ng-model="configs.plesk.user" />
+
+                <label><?php echo __("Password") ?></label>
+                <input class="form-control" type="password" ng-model="configs.plesk.password" />
+            </div>
+
+            <div class="col-md-6" ng-if="configs.cpanel_type.value == 'vestacp'">
+                <br /><br />
+
+                <label><?php echo __("Host") ?></label>
+                <input class="form-control" type="text" ng-model="configs.vestacp.host" />
+
+                <label><?php echo __("Username") ?></label>
+                <input class="form-control" type="text" ng-model="configs.vestacp.user" />
+
+                <label><?php echo __("Password") ?></label>
+                <input class="form-control" type="password" ng-model="configs.vestacp.password" />
+            </div>
+
+            <div class="col-md-6" ng-if="configs.cpanel_type.value == 'directadmin'">
+                <br /><br />
+
+                <label><?php echo __("Host") ?></label>
+                <input class="form-control" type="text" ng-model="configs.directadmin.host" />
+
+                <label><?php echo __("Username") ?></label>
+                <input class="form-control" type="text" ng-model="configs.directadmin.user" />
+
+                <label><?php echo __("Password") ?></label>
+                <input class="form-control" type="password" ng-model="configs.directadmin.password" />
+            </div>
+
+
         </div>
-        <?php endif; ?>
 
         <div class="form-group">
             <div class="col-md-12">
-                <button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
+                <button type="submit" class="btn btn-primary right"><?php echo __("Save"); ?></button>
                 <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
                 <div class="clear"></div>
             </div>
         </div>
+    </sb-section>
+
+
+</form>
+
+    <sb-section title="'<?php echo addcslashes(__("Issued certificates"), "'"); ?>'">
+        <table class="table">
+            <thead>
+            <tr>
+                <th style="width:32px;"><?php echo __("ID") ?></th>
+                <th style="width:180px;"><?php echo __("Platform hostname") ?></th>
+                <th><?php echo __("Whitelabels") ?></th>
+                <th><?php echo __("Source") ?></th>
+                <th style="width:60px;"><?php echo __("Cert") ?></th>
+                <th style="width:60px;"><?php echo __("CA") ?></th>
+                <th style="width:60px;"><?php echo __("Private") ?></th>
+                <th><?php echo __("Created At") ?></th>
+                <th><?php echo __("Updated At") ?></th>
+                <th style="text-align:right;"><?php echo __("Actions") ?></th>
+            </tr>
+            </thead>
+            <tbody ng-repeat="certificate in configs.certificates" ng-show="configs.certificates.length">
+            <tr>
+                <td>{{ certificate.id }}</td>
+                <td>{{ certificate.hostname }}</td>
+                <td>{{ certificate.whitelabels.length }}</td>
+                <td>{{ certificate.source }}</td>
+                <td><a target="_blank" title="<?php echo __js("Download Certificate", '"') ?>" href="<?php echo $this->getUrl("/backoffice/advanced_configuration/downloadcert?type=cert&cert_id="); ?>{{ certificate.id }}"><img src="/app/sae/design/desktop/backoffice/images/service/mini-cert.png" /></a></td>
+                <td><a target="_blank" title="<?php echo __js("Download CA", '"') ?>" href="<?php echo $this->getUrl("/backoffice/advanced_configuration/downloadcert?type=ca&cert_id="); ?>{{ certificate.id }}"><img src="/app/sae/design/desktop/backoffice/images/service/mini-cert.png" /></a></td>
+                <td><a target="_blank" title="<?php echo __js("Download Private", '"') ?>" href="<?php echo $this->getUrl("/backoffice/advanced_configuration/downloadcert?type=private&cert_id="); ?>{{ certificate.id }}"><img src="/app/sae/design/desktop/backoffice/images/service/mini-cert.png" /></a></td>
+                <td>{{ certificate.created_at }}</td>
+                <td>{{ certificate.updated_at }}</td>
+                <td style="text-align:right;">
+                    <button class="btn btn-xs btn-info" style="margin-right: 20px;" ng-click="certificate.show_info = !certificate.show_info"><?php echo __("Info") ?></button>
+                    <button class="btn btn-xs btn-danger" ng-click="removeCertificate('<?php echo __js("You are about to delete this certificate, Are you sure ?", "'") ?>', certificate.id)"><span class="fa fa-remove"></span></button>
+                </td>
+            </tr>
+            <tr ng-show="certificate.show_info">
+                <td colspan="10">
+                    <table class="info-table">
+                        <tr ng-if="certificate.whitelabels.length">
+                            <td colspan="2"><b><?php echo __("Whitelabel hostnames associated with this Certificate") ?>:</b>
+                                <span>{{ certificate.whitelabels.join(', ') }}</span>
+                                <br /><br />
+                            </td>
+                        </tr>
+                        <tr ng-if="configs.cpanel_type.value == 'self'">
+                            <td colspan="2"><b><?php echo __("Full path to use within your webserver.") ?></b></td>
+                        </tr>
+                        <tr ng-if="configs.cpanel_type.value == 'self'">
+                            <td style="padding: 4px 10px 4px 0;"><b><?php echo __("Certificate path:") ?></b></td>
+                            <td>{{ certificate.certificate }}</td>
+                        </tr>
+                        <tr ng-if="configs.cpanel_type.value == 'self'">
+                            <td style="padding: 4px 10px 4px 0;"><b><?php echo __("CA path:") ?></b></td>
+                            <td>{{ certificate.chain }}</td>
+                        </tr>
+                        <tr ng-if="configs.cpanel_type.value == 'self'">
+                            <td style="padding: 4px 10px 4px 0;"><b><?php echo __("Private path:") ?></b></td>
+                            <td>{{ certificate.private }}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+            <tbody ng-show="!configs.certificates.length">
+            <tr>
+                <td colspan="10"><?php echo __("You have no certificate yet.") ?></td>
+            </tr>
+            </tbody>
+        </table>
 
     </sb-section>
-</form>
+
+    <sb-section title="'<?php echo addcslashes(__("Upload your own certificates"), "'"); ?><i class=\'fa fa-plus-square\'>&nbsp;</i>'" class="cert-upload" ng-show="!show_upload" ng-click="show_upload = !show_upload">
+    </sb-section>
+
+    <sb-section title="'<?php echo addcslashes(__("Upload your own certificates"), "'"); ?><i class=\'fa fa-minus-square\'>&nbsp;</i>'" class="cert-upload" ng-show="show_upload" ng-click="show_upload = !show_upload">
+    </sb-section>
+
+    <div class="cert-upload area ng-isolate-scope" ng-show="show_upload" style="margin-top: -100px;">
+
+        <form ng-submit="createCertificate()" ng-show="show_upload" class="form-horizontal">
+            <br />
+
+            <div class="form-group">
+                <div class="col-md-12">
+                    <div class="form-group col-md-6">
+                        <label><?php echo __("Hostname") ?> *</label>
+                        <input class="form-control" type="text" ng-model="form.hostname" />
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group col-md-6">
+                        <label><?php echo __("Upload files or use existing certificates on my server") ?></label>
+                        <br />
+                        <label for="up-cert"><input type="radio" id="up-cert" ng-model="form.upload" value="1" /> <?php echo __("Upload my certificates") ?></label>
+                        <br />
+                        <label for="path-cert"><input type="radio" id="path-cert" ng-model="form.upload" value="0" /> <?php echo __("Use existing certificates on my server") ?></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="form.upload == '1'">
+
+                <!-- Certificate -->
+                <div class="col-md-12">
+                    <h4><?php echo __("Certificate") ?> *</h4>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="upload_a_file">
+                        <label for="cert_path"><?php echo __("Click here to send your certificate"); ?></label>
+                        <input id="cert_path" type="file" nv-file-select="" uploader="cert_path" />
+                    </div>
+                </div>
+
+                <div class="col-md-1">
+                    <div class="drop_a_file">
+                        <label><?php echo __("OR"); ?></label>
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <div class="drop_a_file">
+                        <label><?php echo __("Drop your certificate here"); ?></label>
+                        <div ng-show="cert_path.isHTML5">
+                            <div class="well drop-zone" nv-file-drop="" nv-file-over="" uploader="cert_path">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clear"></div>
+
+                <div class="col-md-12">
+                    <table class="table" ng-show="cert_path.queue.length">
+                        <thead>
+                        <tr>
+                            <th width="75%"><?php echo __("Name") ?></th>
+                            <th ng-show="cert_path.isHTML5"><?php echo __("Progress") ?></th>
+                            <th class="text-center"><?php echo __("Status") ?></th>
+                            <th style="width: 38px;"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in cert_path.queue" ng-show="cert_path.queue.length">
+                            <td><strong>{{ item.file.name }}</strong></td>
+                            <td ng-show="cert_path.isHTML5">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <span ng-show="item.isSuccess"><i class="fa fa-check"></i></span>
+                                <span ng-show="item.isCancel"><i class="fa fa-ban"></i></span>
+                                <span ng-show="item.isError"><i class="fa fa-remove"></i></span>
+                            </td>
+                            <td nowrap class="text-right">
+                                <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()" ng-disabled="item.isReady || item.isUploading">
+                                    <span class="fa fa-remove"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /Certificate -->
+
+                <!-- Private Certificate -->
+                <div class="col-md-12">
+                    <h4><?php echo __("Private certificate") ?> *</h4>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="upload_a_file">
+                        <label for="private_path"><?php echo __("Click here to send your Private certificate"); ?></label>
+                        <input id="private_path" type="file" nv-file-select="" uploader="private_path" />
+                    </div>
+                </div>
+
+                <div class="col-md-1">
+                    <div class="drop_a_file">
+                        <label><?php echo __("OR"); ?></label>
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <div class="drop_a_file">
+                        <label><?php echo __("Drop your certificate here"); ?></label>
+                        <div ng-show="private_path.isHTML5">
+                            <div class="well drop-zone" nv-file-drop="" nv-file-over="" uploader="private_path">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clear"></div>
+
+                <div class="col-md-12">
+                    <table class="table" ng-show="private_path.queue.length">
+                        <thead>
+                        <tr>
+                            <th width="75%"><?php echo __("Name") ?></th>
+                            <th ng-show="private_path.isHTML5"><?php echo __("Progress") ?></th>
+                            <th class="text-center"><?php echo __("Status") ?></th>
+                            <th style="width: 38px;"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in private_path.queue" ng-show="private_path.queue.length">
+                            <td><strong>{{ item.file.name }}</strong></td>
+                            <td ng-show="private_path.isHTML5">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <span ng-show="item.isSuccess"><i class="fa fa-check"></i></span>
+                                <span ng-show="item.isCancel"><i class="fa fa-ban"></i></span>
+                                <span ng-show="item.isError"><i class="fa fa-remove"></i></span>
+                            </td>
+                            <td nowrap class="text-right">
+                                <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()" ng-disabled="item.isReady || item.isUploading">
+                                    <span class="fa fa-remove"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /Private Certificate -->
+
+                <!-- CA Certificate -->
+                <div class="col-md-12">
+                    <h4><?php echo __("CA certificate") ?></h4>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="upload_a_file">
+                        <label for="ca_path"><?php echo __("Click here to send your CA certificate"); ?></label>
+                        <input id="ca_path" type="file" nv-file-select="" uploader="ca_path" />
+                    </div>
+                </div>
+
+                <div class="col-md-1">
+                    <div class="drop_a_file">
+                        <label><?php echo __("OR"); ?></label>
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <div class="drop_a_file">
+                        <label><?php echo __("Drop your certificate here"); ?></label>
+                        <div ng-show="ca_path.isHTML5">
+                            <div class="well drop-zone" nv-file-drop="" nv-file-over="" uploader="ca_path">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clear"></div>
+
+                <div class="col-md-12">
+                    <table class="table" ng-show="ca_path.queue.length">
+                        <thead>
+                        <tr>
+                            <th width="75%"><?php echo __("Name") ?></th>
+                            <th ng-show="ca_path.isHTML5"><?php echo __("Progress") ?></th>
+                            <th class="text-center"><?php echo __("Status") ?></th>
+                            <th style="width: 38px;"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in ca_path.queue" ng-show="ca_path.queue.length">
+                            <td><strong>{{ item.file.name }}</strong></td>
+                            <td ng-show="ca_path.isHTML5">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <span ng-show="item.isSuccess"><i class="fa fa-check"></i></span>
+                                <span ng-show="item.isCancel"><i class="fa fa-ban"></i></span>
+                                <span ng-show="item.isError"><i class="fa fa-remove"></i></span>
+                            </td>
+                            <td nowrap class="text-right">
+                                <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()" ng-disabled="item.isReady || item.isUploading">
+                                    <span class="fa fa-remove"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /CA Certificate -->
+
+
+            </div>
+
+            <div class="form-group" ng-if="form.upload == '0'">
+
+                <div class="col-md-12">
+                    <div class="form-group col-md-6">
+                        <label>
+                            <?php echo __("Path to your Certificate") ?> *
+                        </label>
+                        <input class="form-control" type="text" ng-model="form.cert_path" />
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group col-md-6">
+                        <label>
+                            <?php echo __("Path to your Private key") ?> *
+                        </label>
+                        <input class="form-control" type="text" ng-model="form.private_path" />
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group col-md-6">
+                        <label>
+                            <?php echo __("Path to your CA certificate") ?>
+                        </label>
+                        <input class="form-control" type="text" ng-model="form.ca_path" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary right"><?php echo __("Upload"); ?></button>
+                    <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                    <div class="clear"></div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+<div class="clear"></div>
+
+<style type="text/css">
+    .well.drop-zone {
+        height: 80px;
+        border: dotted 3px lightgray;
+    }
+
+    .cert-upload {
+        cursor: pointer;
+    }
+
+    .cert-upload i.fa {
+        margin-left: 10px;
+    }
+</style>
+
 
 

@@ -183,6 +183,7 @@
                     <?php $payment_method = new Mcommerce_Model_Payment_Method(); ?>
                     <?php $payment_methods = $payment_method->findAll(); ?>
                     <?php foreach($payment_methods as $method) : ?>
+                        <?php if($method->getCode() != "free"): ?>
                         <div class="form-group">
                             <div class="col-md-12">
                                 <label for="payment_method_<?php echo $method->getId() ?>" class="payment_method <?php if($method->isOnline()) : ?> toggle_payment_data<?php endif; ?>" tag="<?php if($method->isOnline()) echo $method->getCode(); ?>" style="padding-top:0">
@@ -191,6 +192,7 @@
                                 </label>
                             </div>
                         </div>
+                        <?php endif; ?>
                         <?php ?>
                     <?php endforeach; ?>
                 </div>

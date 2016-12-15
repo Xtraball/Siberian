@@ -476,9 +476,11 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                 $mcommerce = $this->getCurrentOptionValue()->getObject();
                 $discount_code = $data["discount_code"];
                 $promo->find(array('code' => $discount_code, 'mcommerce_id' => $mcommerce->getId()));
+                $customer_uuid = $data["customer_uuid"];
 
                 if($promo->getId()){
                     $cart = $this->getCart();
+                    $cart->setCustomerUUID($customer_uuid);
                     $valid = $promo->validate($cart);
                     switch($valid) {
                         case -1:

@@ -44,6 +44,42 @@ $api_providers = array(
         "keys" => array(
             "api_key",
         )
+    ),
+    array(
+        "code" => "plesk",
+        "icon" => "fa-shield",
+        "keys" => array(
+            "host",
+            "user",
+            "password",
+        )
+    ),
+    array(
+        "code" => "cpanel",
+        "icon" => "fa-shield",
+        "keys" => array(
+            "host",
+            "user",
+            "password",
+        )
+    ),
+    array(
+        "code" => "vestacp",
+        "icon" => "fa-shield",
+        "keys" => array(
+            "host",
+            "user",
+            "password",
+        )
+    ),
+    array(
+        "code" => "directadmin",
+        "icon" => "fa-shield",
+        "keys" => array(
+            "host",
+            "user",
+            "password",
+        )
     )
 );
 
@@ -59,7 +95,7 @@ foreach($api_providers as $api_provider) {
     $provider
         ->setData($data)
         ->insertOnce(array("code"));
-    
+
     foreach($api_provider["keys"] as $key) {
         $data = array(
             'provider_id' => $provider->getId(),
@@ -70,14 +106,13 @@ foreach($api_providers as $api_provider) {
         $apiModelKey
             ->setData($data)
             ->insertOnce(array("provider_id", "key"));
-
     }
 
 }
 
 # Delete instagram from backoffice
-$provider = new Api_Model_Provider();
-$provider->find("instagram", "code");
+$provider_model = new Api_Model_Provider();
+$provider = $provider_model->find("instagram", "code");
 if($provider->getId()) {
     $provider->delete();
 }

@@ -96,6 +96,7 @@
         discount.close();
     }
     $(document).ready(function () {
+        $.datepicker.setDefaults( $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>']);
         $('#discount_validity').datetimepicker({});
     });
 </script>

@@ -341,6 +341,140 @@ class Siberian_Cron {
 		}
 	}
 
+    /**
+     * Let's Encrypt certificates renewal
+     *
+     * @param $task
+     */
+    public function letsencrypt($task) {
+        if(!$this->isLocked($task->getId())) {
+            $this->lock($task->getId());
+
+            $email = System_Model_Config::getValueFor("support_email");
+            $root = Core_Model_Directory::getBasePathTo("/");
+            $base = Core_Model_Directory::getBasePathTo("/var/apps/certificates/");
+
+            // Check panel type
+            $panel_type = System_Model_Config::getValueFor("cpanel_type");
+
+            // Ensure folders have good rights
+            exec("chmod -R 775 {$base}");
+            if(is_readable("{$root}/.well-known")) {
+                exec("chmod -R 775 {$root}/.well-known");
+            }
+
+            $lets_encrypt = new Siberian_LetsEncrypt($base, $root, false);
+            if(!empty($email)) {
+                $lets_encrypt->contact = array("mailto:{$email}");
+            }
+
+            try {
+                $lets_encrypt->initAccount();
+
+                $ssl_certificates = new System_Model_SslCertificates();
+
+                $to_renew = new Zend_Db_Expr("renew_date < updated_at");
+                $certs = $ssl_certificates->findAll(array(
+                    "source = ?" => System_Model_SslCertificates::SOURCE_LETSENCRYPT,
+                    $to_renew
+                ));
+
+                foreach($certs as $cert) {
+
+                    try {
+
+                        // Before generating certificate again, compare $hostnames
+                        $renew = false;
+                        $domains = $cert->getDomains();
+                        if(is_readable($cert->getCertificate()) && !empty($domains)) {
+                            $cert_content = openssl_x509_parse(file_get_contents($cert->getCertificate()));
+                            if(isset($cert_content["extensions"]) && $cert_content["extensions"]["subjectAltName"]) {
+                                $certificate_hosts = explode(",", str_replace("DNS:", "", $cert_content["extensions"]["subjectAltName"]));
+                                $hostnames = Siberian_Json::decode($cert->getDomains());
+                                foreach($hostnames as $hostname) {
+                                    $hostname = trim($hostname);
+                                    if(!in_array($hostname, $certificate_hosts)) {
+                                        $renew = true;
+                                        $this->log(__("[Let's Encrypt] will add %s to SAN.", $hostname));
+                                    }
+                                }
+                            }
+                        } else {
+                            $renew = true;
+                        }
+
+                        if($renew) {
+                            // Clear log between hostnames.
+                            $lets_encrypt->clearLog();
+                            $result = $lets_encrypt->signDomains(Siberian_Json::decode($cert->getDomains()));
+                        } else {
+                            $result = true;
+                        }
+
+                        if($result) {
+                            // Change updated_at date, time()+10 to ensure renew is newer than updated_at
+                            $cert
+                                ->setRenewDate(time_to_date(time()+10, "YYYY-MM-dd HH:mm:ss"))
+                                ->save();
+
+                            // Sync cPanel - Plesk - VestaCP (beta) - DirectAdmin (beta)
+                            try {
+                                switch($panel_type) {
+                                    case "plesk":
+                                            $siberian_plesk = new Siberian_Plesk();
+                                            $siberian_plesk->updateCertificate($cert);
+                                        break;
+                                    case "cpanel":
+                                            $cpanel = new Siberian_Cpanel();
+                                            $cpanel->updateCertificate($cert);
+                                        break;
+                                    case "vestacp":
+                                            $vestacp = new Siberian_VestaCP();
+                                            $vestacp->updateCertificate($cert);
+                                        break;
+                                    case "directadmin":
+                                            $directadmin = new Siberian_DirectAdmin();
+                                            $directadmin->updateCertificate($cert);
+                                        break;
+                                    case "self":
+                                            $this->log("Self-managed sync is not available for now.");
+                                        break;
+                                }
+                            } catch(Exception $e) {
+                                $this->log(__("[Let's Encrypt] Something went wrong with the API Sync to %s, retry or check in your panel if your SSL certificate is correctly setup.", $panel_type));
+                            }
+
+                            // SocketIO
+                            if(class_exists("SocketIO_Model_SocketIO_Module")) {
+                                SocketIO_Model_SocketIO_Module::killServer();
+                            }
+
+                        } else {
+                            $cert
+                                ->setErrorDate(time_to_date(time(), "YYYY-MM-dd HH:mm:ss"))
+                                ->setErrorLog($lets_encrypt->getLog())
+                                ->save();
+                        }
+                    } catch(Exception $e) {
+                        $cert
+                            ->setErrorDate(time_to_date(time(), "YYYY-MM-dd HH:mm:ss"))
+                            ->setErrorLog($lets_encrypt->getLog())
+                            ->save();
+                    }
+                }
+
+            } catch(Exception $e) {
+                $this->log($e->getMessage());
+                $task->saveLastError($e->getMessage());
+            }
+
+            // Releasing
+            $this->unlock($task->getId());
+        } else {
+            $this->log("Locked task: {$task->getName()}, skipping...");
+        }
+    }
+
 
 	/**
 	 * Analytics aggregation

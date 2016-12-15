@@ -3,6 +3,13 @@
 class Api_Backoffice_Key_ListController extends Backoffice_Controller_Default
 {
 
+    public $exclude_providers = array(
+        "cpanel",
+        "plesk",
+        "vestacp",
+        "directadmin",
+    );
+
     public function loadAction() {
 
         $html = array(
@@ -17,7 +24,7 @@ class Api_Backoffice_Key_ListController extends Backoffice_Controller_Default
     public function findallAction() {
 
         $api_provider = new Api_Model_Provider();
-        $api_providers = $api_provider->findAll();
+        $api_providers = $api_provider->findAll(array("code NOT IN (?)" => $this->exclude_providers));
         $data = array();
 
         foreach($api_providers as $k => $api_provider) {

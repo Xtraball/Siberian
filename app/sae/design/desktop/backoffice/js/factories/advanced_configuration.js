@@ -37,9 +37,15 @@ App.factory('AdvancedConfiguration', function($http, Url) {
 
     };
 
-    factory.generateSsl =  function() {
+    factory.generateSsl =  function(hostname, force) {
 
         var url = "backoffice/advanced_configuration/generatessl";
+
+        if(force) {
+            url = Url.get(url, {hostname: hostname, force_regenerate: force});
+        } else {
+            url = Url.get(url, {hostname: hostname});
+        }
 
         return $http({
             method: 'POST',
@@ -49,6 +55,34 @@ App.factory('AdvancedConfiguration', function($http, Url) {
         });
 
     };
+
+    factory.createCertificate =  function(data) {
+
+        var url = "backoffice/advanced_configuration/createcertificate";
+
+        return $http({
+            method: 'POST',
+            url: url,
+            data: data,
+            cache: false,
+            responseType:'json'
+        });
+
+    };
+
+    factory.removeCertificate =  function(id) {
+
+        var url = "backoffice/advanced_configuration/removecert/cert_id/"+id;
+
+        return $http({
+            method: "GET",
+            url: url,
+            cache: false,
+            responseType:'json'
+        });
+
+    };
+
 
     return factory;
 });

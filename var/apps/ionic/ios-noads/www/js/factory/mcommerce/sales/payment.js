@@ -58,6 +58,7 @@ App.factory('McommerceSalesPayment', function ($rootScope, $http, Url) {
 
         return $http.post(url, {
             validate_payment: 1,
+            customer_uuid: window.device.uuid,
             notes: factory.notes || "" // TG-459
         });
 

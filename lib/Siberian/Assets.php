@@ -123,6 +123,7 @@ class Siberian_Assets
      * @param $from
      */
     public static function copyAssets($from, $exclude_types = array()) {
+        $base = Core_Model_Directory::getBasePathTo("");
         foreach(self::$platforms as $type => $platforms) {
             if(!in_array($type, $exclude_types)) {
                 $www = self::$www[$type];
@@ -130,8 +131,10 @@ class Siberian_Assets
                     $path_from = Core_Model_Directory::getBasePathTo($from);
                     $path_to = Core_Model_Directory::getBasePathTo($platform.$www);
 
-                    exec("cp -r {$path_from}/* {$path_to}/");
-                    exec("chmod -R 775 {$path_to}/");
+                    if($base != $path_from) {
+                        exec("cp -r {$path_from}/* {$path_to}/");
+                        exec("chmod -R 775 {$path_to}/");
+                    }
                 }
             }
         }

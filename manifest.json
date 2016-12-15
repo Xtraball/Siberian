@@ -61,7 +61,7 @@
     },
     {
         "file": "app/sae/design/desktop/backoffice/css/style.css",
-        "hash": "446c8279cda276dacffb4b1de51ee9b9"
+        "hash": "9ac75143e24ce697d4770d4552fd643c"
     },
     {
         "file": "app/sae/design/desktop/backoffice/images/header/logo.png",
@@ -114,6 +114,10 @@
     {
         "file": "app/sae/design/desktop/backoffice/images/service/info.png",
         "hash": "2b1d20773505773cbbb659174d0549ca"
+    },
+    {
+        "file": "app/sae/design/desktop/backoffice/images/service/mini-cert.png",
+        "hash": "bfabed3be02b0fb24acba9d4a0ada81e"
     },
     {
         "file": "app/sae/design/desktop/backoffice/js/angular.min.js",
@@ -233,7 +237,7 @@
     },
     {
         "file": "app/sae/design/desktop/backoffice/js/controllers/advanced.js",
-        "hash": "1c8c721c55649488d261a320fd682db5"
+        "hash": "63bd8cf58ba996ea083865be9b9bf178"
     },
     {
         "file": "app/sae/design/desktop/backoffice/js/directives/ng-thumb.js",
@@ -345,7 +349,7 @@
     },
     {
         "file": "app/sae/design/desktop/backoffice/js/factories/advanced_configuration.js",
-        "hash": "95430354debead3fa6c0f0a99e96eaa9"
+        "hash": "be1e7bc0e3d69e8c0e333d1247198ec3"
     },
     {
         "file": "app/sae/design/desktop/backoffice/js/filters/trusted-html.js",
@@ -1829,7 +1833,7 @@
     },
     {
         "file": "app/sae/design/desktop/backoffice/layout/backoffice.xml",
-        "hash": "fc493ab6d4c041d29bf49f91b3a30787"
+        "hash": "c5df50681b606ce1df06a80316480fd1"
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/acl/role/edit.phtml",
@@ -1853,7 +1857,7 @@
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/api/key/list.phtml",
-        "hash": "97effb464c33e4337836562fceab0dda"
+        "hash": "c84e4ea7af23500d9e75e716506216be"
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/api/user/edit.phtml",
@@ -1905,7 +1909,7 @@
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/backoffice/advanced/configuration.phtml",
-        "hash": "ef4905136bf8c4c06352546a501e56e4"
+        "hash": "27273c80635746b624a6cc94677053c8"
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/html/default.phtml",
@@ -1929,7 +1933,7 @@
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/page/layout/header.phtml",
-        "hash": "bab6f47e960cc9356d89434aef735c23"
+        "hash": "635640fb27bc3e2fc52fe7b4609a0b31"
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/page/layout.phtml",
@@ -5316,14 +5320,6 @@
         "hash": "9ca0ec61883da622693cb552301afb90"
     },
     {
-        "file": "app/sae/design/desktop/flat/template/cms/application/page/edit/block/image.phtml",
-        "hash": "59dcaf3fc68814936858c84d62f61af7"
-    },
-    {
-        "file": "app/sae/design/desktop/flat/template/cms/application/page/edit/block/slider.phtml",
-        "hash": "b5c857e04c11b1ec7f6bdf6ee133c139"
-    },
-    {
         "file": "app/sae/design/desktop/flat/template/cms/application/page/edit/block/text.phtml",
         "hash": "0be2f1143660d528fdc084598a4da30f"
     },
@@ -5342,6 +5338,14 @@
     {
         "file": "app/sae/design/desktop/flat/template/cms/application/page/edit/block/button.phtml",
         "hash": "b5a19fc0e4841285a999ddbbbb6d0c1d"
+    },
+    {
+        "file": "app/sae/design/desktop/flat/template/cms/application/page/edit/block/image.phtml",
+        "hash": "328551e560e8d8bf8d88f40874ed6779"
+    },
+    {
+        "file": "app/sae/design/desktop/flat/template/cms/application/page/edit/block/slider.phtml",
+        "hash": "4bef284759dd19daf37efd4036b3c090"
     },
     {
         "file": "app/sae/design/desktop/flat/template/cms/application/page/taginput.phtml",
@@ -5528,24 +5532,24 @@
         "hash": "9ebbc8bffb9db2e4ab02662d808cad19"
     },
     {
-        "file": "app/sae/design/desktop/flat/template/mcommerce/application/edit/settings/discount/edit.phtml",
-        "hash": "05cd1eb6b47cb51950be26e0f070b786"
-    },
-    {
         "file": "app/sae/design/desktop/flat/template/mcommerce/application/edit/settings/discount/li.phtml",
         "hash": "a2a6050f807f2c89ed87a37c83fb7a4e"
+    },
+    {
+        "file": "app/sae/design/desktop/flat/template/mcommerce/application/edit/settings/discount/edit.phtml",
+        "hash": "bb9d7b5658d58793d38fa49f320d84a5"
     },
     {
         "file": "app/sae/design/desktop/flat/template/mcommerce/application/edit/store.phtml",
         "hash": "3ff6defdece462790598cb05d2ba42fc"
     },
     {
-        "file": "app/sae/design/desktop/flat/template/mcommerce/application/edit/store/edit.phtml",
-        "hash": "89fdd0c9feb6aa850f26db74dd2cab95"
-    },
-    {
         "file": "app/sae/design/desktop/flat/template/mcommerce/application/edit/store/li.phtml",
         "hash": "61c19d4c801819661a6004c6feeff715"
+    },
+    {
+        "file": "app/sae/design/desktop/flat/template/mcommerce/application/edit/store/edit.phtml",
+        "hash": "af83d3e6ad789d5ae39181bc65fa43e2"
     },
     {
         "file": "app/sae/design/desktop/flat/template/mcommerce/application/edit/orders.phtml",
@@ -5660,12 +5664,12 @@
         "hash": "5b1fc6d5ef3ff6caae630c6f7aa0771e"
     },
     {
-        "file": "app/sae/design/desktop/flat/template/places/application/edit.phtml",
-        "hash": "21fa8cd2d360f8f27cd579edd7bc4bbe"
-    },
-    {
         "file": "app/sae/design/desktop/flat/template/places/application/search.phtml",
         "hash": "4acc86fdb7216783c8fd06b520c17bf4"
+    },
+    {
+        "file": "app/sae/design/desktop/flat/template/places/application/edit.phtml",
+        "hash": "77cc8ffed5ec9404482835825ce9d323"
     },
     {
         "file": "app/sae/design/desktop/flat/template/promotion/application/edit/form.phtml",
@@ -9436,14 +9440,6 @@
         "hash": "f791bac8046f0b3c86899104e45e9b16"
     },
     {
-        "file": "app/sae/design/desktop/siberian/template/cms/application/page/edit/block/image.phtml",
-        "hash": "3220bcabfa6d6ef7783f40ac83bd78e2"
-    },
-    {
-        "file": "app/sae/design/desktop/siberian/template/cms/application/page/edit/block/slider.phtml",
-        "hash": "c63c9054205262b5687be458ce380303"
-    },
-    {
         "file": "app/sae/design/desktop/siberian/template/cms/application/page/edit/block/text.phtml",
         "hash": "e8ad06bf9490816d2daf089f17546338"
     },
@@ -9462,6 +9458,14 @@
     {
         "file": "app/sae/design/desktop/siberian/template/cms/application/page/edit/block/button.phtml",
         "hash": "e3656789b9fc039dbcd635251c26bd6b"
+    },
+    {
+        "file": "app/sae/design/desktop/siberian/template/cms/application/page/edit/block/image.phtml",
+        "hash": "44ff7347386d1044d30c61839a903b07"
+    },
+    {
+        "file": "app/sae/design/desktop/siberian/template/cms/application/page/edit/block/slider.phtml",
+        "hash": "915e47384eb040f68906da384b5820ca"
     },
     {
         "file": "app/sae/design/desktop/siberian/template/cms/application/page/tagsinput.phtml",
@@ -9660,12 +9664,12 @@
         "hash": "de07416c21ff4d848507cd070cf296ca"
     },
     {
-        "file": "app/sae/design/desktop/siberian/template/mcommerce/application/edit/store/edit.phtml",
-        "hash": "1088763229201caa2c1a39e3784f2eb0"
-    },
-    {
         "file": "app/sae/design/desktop/siberian/template/mcommerce/application/edit/store/li.phtml",
         "hash": "8f3402f6daf24143ccac805ac2eb75dc"
+    },
+    {
+        "file": "app/sae/design/desktop/siberian/template/mcommerce/application/edit/store/edit.phtml",
+        "hash": "b39fca545dec2740f61a2e8229e341f6"
     },
     {
         "file": "app/sae/design/desktop/siberian/template/mcommerce/application/edit/orders.phtml",
@@ -9777,15 +9781,15 @@
     },
     {
         "file": "app/sae/design/desktop/siberian/template/page/layout.phtml",
-        "hash": "97191cd08646d678c9a7e5c48fc0ced7"
+        "hash": "94d43edb847250dc067ea827a1e77e67"
     },
     {
         "file": "app/sae/design/desktop/siberian/template/places/application/edit.phtml",
-        "hash": "7ba5c55a5f7126dad42a9455b35d8ef4"
+        "hash": "f575859b2876b9417854b609c1ffdcd2"
     },
     {
         "file": "app/sae/design/desktop/siberian/template/places/application/search.phtml",
-        "hash": "f01cc2dc78d783c21a3bd82c2ba4b478"
+        "hash": "e8bcdb4942aae6b5b61c0cb23564fed2"
     },
     {
         "file": "app/sae/design/desktop/siberian/template/promotion/application/edit/form.phtml",
@@ -11689,7 +11693,7 @@
     },
     {
         "file": "app/sae/modules/Analytics/controllers/AnalyticsController.php",
-        "hash": "ff779b9062a6403e58a533e82f2e4487"
+        "hash": "4eb351d21ec0b8de54b5e1ad2c49e513"
     },
     {
         "file": "app/sae/modules/Analytics/resources/db/data/log_db.php",
@@ -11697,7 +11701,7 @@
     },
     {
         "file": "app/sae/modules/Analytics/package.json",
-        "hash": "31bf78d4361c5f4d98bf537db87f4385"
+        "hash": "e5cc6fd4c4af3c62b62582d300fdf113"
     },
     {
         "file": "app/sae/modules/Api/Controller/Default.php",
@@ -11729,7 +11733,7 @@
     },
     {
         "file": "app/sae/modules/Api/controllers/Backoffice/Key/ListController.php",
-        "hash": "736c3ea7db4619567102b96b81a568bd"
+        "hash": "07f9a5e2a17641637eadc2d7a6b15962"
     },
     {
         "file": "app/sae/modules/Api/controllers/Backoffice/User/EditController.php",
@@ -11745,7 +11749,7 @@
     },
     {
         "file": "app/sae/modules/Api/resources/db/data/api_provider.php",
-        "hash": "d0857d1d4be994cff13377bfe49410c6"
+        "hash": "6341bf805da4a82f3130b52de6b6035c"
     },
     {
         "file": "app/sae/modules/Api/resources/db/schema/api_key.php",
@@ -11761,7 +11765,7 @@
     },
     {
         "file": "app/sae/modules/Api/package.json",
-        "hash": "47a739aa5eba1687b399063dc96c0ef6"
+        "hash": "a06f86e497ebfa30eb9b68bb4c0916b6"
     },
     {
         "file": "app/sae/modules/Application/Controller/Default/Ajax.php",
@@ -13824,16 +13828,16 @@
         "hash": "7176ce8d94fa59e157df87ac614715f5"
     },
     {
-        "file": "app/sae/modules/Backoffice/controllers/Advanced/CronController.php",
-        "hash": "e69e7af03c02940cdf079a24867eac64"
-    },
-    {
         "file": "app/sae/modules/Backoffice/controllers/Advanced/ModuleController.php",
         "hash": "f4d3b3d4d7759da763bef9e1cc7ebaf3"
     },
     {
         "file": "app/sae/modules/Backoffice/controllers/Advanced/ConfigurationController.php",
-        "hash": "b8bc09af73ff501e1acfaf300f7eb30a"
+        "hash": "0471d6b286c946b11273b99c5151f316"
+    },
+    {
+        "file": "app/sae/modules/Backoffice/controllers/Advanced/CronController.php",
+        "hash": "3d7fc2c0bfca7528739689df7edec445"
     },
     {
         "file": "app/sae/modules/Backoffice/controllers/IndexController.php",
@@ -13857,7 +13861,7 @@
     },
     {
         "file": "app/sae/modules/Backoffice/package.json",
-        "hash": "33d6652af014c2f4b5aead72023be30b"
+        "hash": "7d82f20ceb6b8f8d0c891d6618a4772a"
     },
     {
         "file": "app/sae/modules/Booking/Model/Booking.php",
@@ -14161,7 +14165,7 @@
     },
     {
         "file": "app/sae/modules/Cms/Model/Application/Page.php",
-        "hash": "62827f3861cb8aa702225c2d3de9c261"
+        "hash": "2f99bb978a802b08ee56e9ed126b0dea"
     },
     {
         "file": "app/sae/modules/Cms/Model/Db/Table/Application/Block.php",
@@ -14272,10 +14276,6 @@
         "hash": "1243182a8eaf10af8cbf3f8925587718"
     },
     {
-        "file": "app/sae/modules/Cms/resources/db/schema/cms_application_page_block_address.php",
-        "hash": "3134295ff8700acc3b8dbc1033e6276b"
-    },
-    {
         "file": "app/sae/modules/Cms/resources/db/schema/cms_application_page_block_file.php",
         "hash": "e03b2292dc76cf4d8d9ab4a2a12cd6fc"
     },
@@ -14320,8 +14320,12 @@
         "hash": "8f367128c83950e406d0ffc89c1584ea"
     },
     {
+        "file": "app/sae/modules/Cms/resources/db/schema/cms_application_page_block_address.php",
+        "hash": "88c540f01141f7b84ad08da4baad65f8"
+    },
+    {
         "file": "app/sae/modules/Cms/package.json",
-        "hash": "4b700497f6de396d236e62cbba836ceb"
+        "hash": "7e0fd5353016da3ecd013f6cc4bacc49"
     },
     {
         "file": "app/sae/modules/Codescan/Model/Codescan.php",
@@ -14596,12 +14600,12 @@
         "hash": "f2beb239f6c9750ca04779455a8af80f"
     },
     {
-        "file": "app/sae/modules/Core/Model/Translator.php",
-        "hash": "e3cf85452babf3647d6657ea046aa035"
-    },
-    {
         "file": "app/sae/modules/Core/Model/Directory.php",
         "hash": "d97dee78786cde41237a196a3cda5581"
+    },
+    {
+        "file": "app/sae/modules/Core/Model/Translator.php",
+        "hash": "2d5c3358ef0e0fb5c5a1ac31e021d1ca"
     },
     {
         "file": "app/sae/modules/Core/View/Default.php",
@@ -14641,7 +14645,7 @@
     },
     {
         "file": "app/sae/modules/Core/package.json",
-        "hash": "8ef7a2f8f8bd51404f6c46a21e0935da"
+        "hash": "4ad735b68d36287537b3109a2efa9856"
     },
     {
         "file": "app/sae/modules/Cron/Model/Db/Table/Cron.php",
@@ -14680,6 +14684,10 @@
         "hash": "12550333c64f78762f24809de211055a"
     },
     {
+        "file": "app/sae/modules/Cron/resources/db/data/letsencrypt.php",
+        "hash": "93aa5947dde32bfbdf63954e897b16cb"
+    },
+    {
         "file": "app/sae/modules/Cron/resources/db/schema/cron.php",
         "hash": "1ad231fbdedddbc4a426b834217eca29"
     },
@@ -14689,7 +14697,7 @@
     },
     {
         "file": "app/sae/modules/Cron/package.json",
-        "hash": "8f0fa68fee564b05bea7ce40299c1760"
+        "hash": "cacdecbee568d5158e0054f65e56b1be"
     },
     {
         "file": "app/sae/modules/Customer/Model/Address.php",
@@ -15245,7 +15253,7 @@
     },
     {
         "file": "app/sae/modules/Mcommerce/Controller/Mobile/Default.php",
-        "hash": "34c0e325df384f5024c0e0b9a6e0d8bd"
+        "hash": "200f29a8eebb2e13f94b3e4a3b8b6b6f"
     },
     {
         "file": "app/sae/modules/Mcommerce/Model/Cart/Line.php",
@@ -15368,16 +15376,16 @@
         "hash": "cd39723a1670f3032631c782fdc64eb7"
     },
     {
-        "file": "app/sae/modules/Mcommerce/Model/Promo.php",
-        "hash": "480f3df8de6103c9544750ce7b737411"
-    },
-    {
         "file": "app/sae/modules/Mcommerce/Model/Promo/Log.php",
-        "hash": "b92e0d9c475b0f6d1a6c0f0d15b6b021"
+        "hash": "361d492879e0b3b9d1e0b53f3e13b2ff"
     },
     {
         "file": "app/sae/modules/Mcommerce/Model/Mcommerce.php",
         "hash": "22e5524e15aad607520d59458b16f545"
+    },
+    {
+        "file": "app/sae/modules/Mcommerce/Model/Promo.php",
+        "hash": "0eef5f333ff9b59c57d84af6bd288656"
     },
     {
         "file": "app/sae/modules/Mcommerce/controllers/Application/Catalog/CategoryController.php",
@@ -15465,7 +15473,7 @@
     },
     {
         "file": "app/sae/modules/Mcommerce/controllers/Mobile/Sales/PaymentController.php",
-        "hash": "a01616a129877f21921077320eca1121"
+        "hash": "b6bc491e12019e35fdf02ed7d2027b53"
     },
     {
         "file": "app/sae/modules/Mcommerce/controllers/Mobile/ProductController.php",
@@ -15473,7 +15481,7 @@
     },
     {
         "file": "app/sae/modules/Mcommerce/controllers/Mobile/CartController.php",
-        "hash": "9e5027c7ceff5ec94a300b285adc99b1"
+        "hash": "c7ebb42b4cc50a174cc828306c6af136"
     },
     {
         "file": "app/sae/modules/Mcommerce/controllers/MobileController.php",
@@ -15548,16 +15556,16 @@
         "hash": "3de0ec55d79c042e2617d413c93cbc1d"
     },
     {
-        "file": "app/sae/modules/Mcommerce/resources/db/schema/mcommerce_promo_log.php",
-        "hash": "878249ce40724b97cfce7ff3d9136762"
-    },
-    {
         "file": "app/sae/modules/Mcommerce/resources/db/schema/mcommerce_promo.php",
         "hash": "e8d6ba6336e12b8ec55098085fd1c129"
     },
     {
+        "file": "app/sae/modules/Mcommerce/resources/db/schema/mcommerce_promo_log.php",
+        "hash": "901597fb12a8fbdd04adb7296c9bb648"
+    },
+    {
         "file": "app/sae/modules/Mcommerce/package.json",
-        "hash": "fff63307551bfa4368adc92befaef5a7"
+        "hash": "374bfb10c05ad02cbfe3f2895364a5f4"
     },
     {
         "file": "app/sae/modules/Media/Model/Db/Table/Gallery/Image.php",
@@ -15933,11 +15941,11 @@
     },
     {
         "file": "app/sae/modules/Payment/Model/Paypal.php",
-        "hash": "dbb13ec5a5891a0edff7ff86ef059a5b"
+        "hash": "23a390ee3437d2f5d9a98ffeef29af76"
     },
     {
         "file": "app/sae/modules/Payment/package.json",
-        "hash": "6e6dd8d78f521ab908fab746da97cb8c"
+        "hash": "be877472f92701a632a4db149e4327a8"
     },
     {
         "file": "app/sae/modules/Places/Model/Db/Table/Place.php",
@@ -15973,11 +15981,11 @@
     },
     {
         "file": "app/sae/modules/Places/controllers/Mobile/ListController.php",
-        "hash": "6894e696009f15895df04dd9ecf3d2fb"
+        "hash": "e52d0d99d6447594815963c4b90866b7"
     },
     {
         "file": "app/sae/modules/Places/controllers/ApplicationController.php",
-        "hash": "ffd60e0ac0981f161af11676b14abb13"
+        "hash": "479e57592df21e8540dc365d46aa3d61"
     },
     {
         "file": "app/sae/modules/Places/resources/db/data/places.php",
@@ -15985,7 +15993,7 @@
     },
     {
         "file": "app/sae/modules/Places/package.json",
-        "hash": "f425d30dfb383de61136b5872c3ec984"
+        "hash": "d95d0f9833c05e7d8811e94afdc71e6e"
     },
     {
         "file": "app/sae/modules/Preview/Model/Db/Table/Preview.php",
@@ -16480,6 +16488,14 @@
         "hash": "fef6155b2da3fd37d140b0a2a4cf1311"
     },
     {
+        "file": "app/sae/modules/System/Model/Db/Table/SslCertificates.php",
+        "hash": "1a3c7de70574dc106c4198d7c75b0a4c"
+    },
+    {
+        "file": "app/sae/modules/System/Model/SslCertificates.php",
+        "hash": "b3c1d98c3cabf3f1b5cdfca8600fb6e3"
+    },
+    {
         "file": "app/sae/modules/System/controllers/Backoffice/Config/DesignController.php",
         "hash": "9d847c9df82eff202e9ee7be9bc513d6"
     },
@@ -16493,7 +16509,7 @@
     },
     {
         "file": "app/sae/modules/System/resources/db/data/system.php",
-        "hash": "a92a670115559d50964c6b391aecee74"
+        "hash": "118dead6d0c2fa77e498ddf89129c7fb"
     },
     {
         "file": "app/sae/modules/System/resources/db/schema/source_code.php",
@@ -16504,8 +16520,12 @@
         "hash": "59171298766eca9016ed5414110f014a"
     },
     {
+        "file": "app/sae/modules/System/resources/db/schema/ssl_certificates.php",
+        "hash": "15db7e439728164f41ea521e0d1d3a12"
+    },
+    {
         "file": "app/sae/modules/System/package.json",
-        "hash": "a4f3e47aa98755b9fd7241a5b8f06500"
+        "hash": "43eeae8725de2e54a6e2b90848ddc91f"
     },
     {
         "file": "app/sae/modules/Template/Model/Db/Table/Design/Block.php",
@@ -17240,12 +17260,12 @@
         "hash": "70d4af2104bda8ba7f6586d67e33a352"
     },
     {
-        "file": "app/BootstrapCron.php",
-        "hash": "e9b22438fc6c2799d1978974ada83f1b"
+        "file": "app/Bootstrap.php",
+        "hash": "c82a59394865444aab603d6453a5b8ff"
     },
     {
-        "file": "app/Bootstrap.php",
-        "hash": "e3a3e6edfd29a4d0e9b64435c5c7fed9"
+        "file": "app/BootstrapCron.php",
+        "hash": "d6ebcaab276e520d5be4cc4abd84a792"
     },
     {
         "file": "check_connection.php",
@@ -17744,10 +17764,6 @@
         "hash": "f1e2fadd57aed56a9fc7d01c21f34fac"
     },
     {
-        "file": "lib/Siberian/Assets.php",
-        "hash": "8f2b6dc193b3e1a9bb275926e7b2febe"
-    },
-    {
         "file": "lib/Siberian/Mail.php",
         "hash": "a9acbbb7c72e42041c911213a8701de8"
     },
@@ -17784,10 +17800,6 @@
         "hash": "c2f86022019cac81d0eb93b427fe0103"
     },
     {
-        "file": "lib/Siberian/Cron.php",
-        "hash": "f4d968af7be7ccdd0c6013a2f2789d43"
-    },
-    {
         "file": "lib/Siberian/Date.php",
         "hash": "829182a173f68deb2233a506e49cc5b9"
     },
@@ -17812,8 +17824,52 @@
         "hash": "045b43181a67de36727d0da3cf37dec6"
     },
     {
+        "file": "lib/Siberian/Assets.php",
+        "hash": "2955afa7067897b1f78844cfc05a6fb9"
+    },
+    {
+        "file": "lib/Siberian/Cpanel.php",
+        "hash": "7a50c76f950529a77e87680fa01ff04a"
+    },
+    {
+        "file": "lib/Siberian/Cpanel/Api.php",
+        "hash": "c18d33923293e161570faac4d4cdc623"
+    },
+    {
+        "file": "lib/Siberian/Cron.php",
+        "hash": "361235e2d628c662224baca946435847"
+    },
+    {
+        "file": "lib/Siberian/DirectAdmin.php",
+        "hash": "e165d540ce5105c66bb260930104356b"
+    },
+    {
+        "file": "lib/Siberian/DirectAdmin/HTTPSocket.php",
+        "hash": "0d4004bab0476486c790c4e4d679efc6"
+    },
+    {
         "file": "lib/Siberian/LetsEncrypt.php",
-        "hash": "02d1fe4c7585258cf7af7bba4dddaf6e"
+        "hash": "746fe2165d8449486dfc71f87a5d88f4"
+    },
+    {
+        "file": "lib/Siberian/Plesk.php",
+        "hash": "b68feff253b34a86191ba2366aad5cfd"
+    },
+    {
+        "file": "lib/Siberian/Request.php",
+        "hash": "ebc34050f20fa385801e119de9a6b742"
+    },
+    {
+        "file": "lib/Siberian/VestaCP.php",
+        "hash": "f17d54252fe416409085a1ab00efd2dc"
+    },
+    {
+        "file": "lib/Siberian/VestaCP/Api.php",
+        "hash": "2f813e0161f56fefdd88ff19fb49e094"
+    },
+    {
+        "file": "lib/Siberian/VestaCP/Client.php",
+        "hash": "d255f81c777478ec14c4a7bca85bccb4"
     },
     {
         "file": "lib/Thumbnailer/CreateThumb.php",
@@ -29976,6 +30032,1402 @@
         "hash": "b1df70c824c318fbcbada785bc2b0454"
     },
     {
+        "file": "lib/Plesk/APS/InstallApplication.php",
+        "hash": "b0e324bec33970def0540b4b3f85dda7"
+    },
+    {
+        "file": "lib/Plesk/APS/ListAvailablePackages.php",
+        "hash": "091a76203b03d664fb5658780fe6da8e"
+    },
+    {
+        "file": "lib/Plesk/ApiRequestException.php",
+        "hash": "e918efc4c1563b9d1a55d55d62c33dad"
+    },
+    {
+        "file": "lib/Plesk/BaseRequest.php",
+        "hash": "82edb13932ab67d5226167374ab907b0"
+    },
+    {
+        "file": "lib/Plesk/CreateClient.php",
+        "hash": "17f8ae09d96a03d69932cd27c0841c98"
+    },
+    {
+        "file": "lib/Plesk/CreateDatabase.php",
+        "hash": "c069b986412780ed7c847ab9575de941"
+    },
+    {
+        "file": "lib/Plesk/CreateDatabaseUser.php",
+        "hash": "4af5647fb38135a1284f8e270f7ee33f"
+    },
+    {
+        "file": "lib/Plesk/CreateEmailAddress.php",
+        "hash": "4d6665e92e5e29314f4d0b2d02ed1b73"
+    },
+    {
+        "file": "lib/Plesk/CreateSecretKey.php",
+        "hash": "9d6ff0af94834755581ab497c518309e"
+    },
+    {
+        "file": "lib/Plesk/CreateSite.php",
+        "hash": "1e387959ef79e706d1f3abfc6501b3f1"
+    },
+    {
+        "file": "lib/Plesk/CreateSiteAlias.php",
+        "hash": "fb849f650577c7a9092e06e0912ac2bf"
+    },
+    {
+        "file": "lib/Plesk/CreateSubdomain.php",
+        "hash": "9c950d9ede578e7aa42c6b2c8623136e"
+    },
+    {
+        "file": "lib/Plesk/CreateSubscription.php",
+        "hash": "c2ce40859524a6295c910410239e4f0b"
+    },
+    {
+        "file": "lib/Plesk/CurlHttpRequest.php",
+        "hash": "10e1ff8e880efdf4157d6634c8dc2dae"
+    },
+    {
+        "file": "lib/Plesk/DeleteClient.php",
+        "hash": "c62cd62f634d56c9a390345d609a216b"
+    },
+    {
+        "file": "lib/Plesk/DeleteDatabase.php",
+        "hash": "65fe17be2e1f01bc5b73b15cf7f441ab"
+    },
+    {
+        "file": "lib/Plesk/DeleteEmailAddress.php",
+        "hash": "03c305d73135635747901dfe230c9113"
+    },
+    {
+        "file": "lib/Plesk/DeleteSecretKey.php",
+        "hash": "fb57f9037a52027e0c76cd13230058e8"
+    },
+    {
+        "file": "lib/Plesk/DeleteSite.php",
+        "hash": "ccb00f958e3d0999e28218725cbdf395"
+    },
+    {
+        "file": "lib/Plesk/DeleteSiteAlias.php",
+        "hash": "647efd9ba51af2a072f52251d21a4020"
+    },
+    {
+        "file": "lib/Plesk/DeleteSubdomain.php",
+        "hash": "e8931a9855aa299ea07d982d6670b035"
+    },
+    {
+        "file": "lib/Plesk/DeleteSubscription.php",
+        "hash": "51a80d01b9aaf943cf10e6ed9dc7cfb6"
+    },
+    {
+        "file": "lib/Plesk/GetClient.php",
+        "hash": "8bdf2fddcc5ee0029a2c47b25987c704"
+    },
+    {
+        "file": "lib/Plesk/GetDatabaseUser.php",
+        "hash": "bd040fbd920788136e5eca2ef18cf086"
+    },
+    {
+        "file": "lib/Plesk/GetServerInfo.php",
+        "hash": "22c683d95c7837fd07ad656add3efe48"
+    },
+    {
+        "file": "lib/Plesk/GetServicePlan.php",
+        "hash": "8b79f0215e4580d3b47e6af07dba2103"
+    },
+    {
+        "file": "lib/Plesk/GetSite.php",
+        "hash": "d9389145ab9ae7a2f26b1ae16ae3dad0"
+    },
+    {
+        "file": "lib/Plesk/GetSubdomain.php",
+        "hash": "f16c56d466e3808ca066b2a1f87f52e8"
+    },
+    {
+        "file": "lib/Plesk/GetSubscription.php",
+        "hash": "126329375d3867fdd28d303e1d2a3a83"
+    },
+    {
+        "file": "lib/Plesk/GetTraffic.php",
+        "hash": "94d2ffe11a6d7c0e8fb667812533feb6"
+    },
+    {
+        "file": "lib/Plesk/Helper/MailPreferences.php",
+        "hash": "694f1f3e48eb6a1bcc3dba448da5171d"
+    },
+    {
+        "file": "lib/Plesk/Helper/Xml.php",
+        "hash": "3f93f3abae290b990c1b3e38d5e24110"
+    },
+    {
+        "file": "lib/Plesk/HttpRequestContract.php",
+        "hash": "0aa01cca2770d1d755fb3cc3d65cd431"
+    },
+    {
+        "file": "lib/Plesk/ListClients.php",
+        "hash": "ac6518ee3f396e3c2ca9fdc1f61fd60c"
+    },
+    {
+        "file": "lib/Plesk/ListDNSRecords.php",
+        "hash": "dbd66207dd9fafd4bf0696293b22a871"
+    },
+    {
+        "file": "lib/Plesk/ListDatabaseServers.php",
+        "hash": "a084a16369414b1f63d4881dd56147f8"
+    },
+    {
+        "file": "lib/Plesk/ListDatabases.php",
+        "hash": "340211084ef25b9c8f2d9e97a4cbd28c"
+    },
+    {
+        "file": "lib/Plesk/ListEmailAddresses.php",
+        "hash": "ef4f91faea6c06672651f531a42fe0e5"
+    },
+    {
+        "file": "lib/Plesk/ListIPAddresses.php",
+        "hash": "44e735c65c090ce88ab64752ec90b0b1"
+    },
+    {
+        "file": "lib/Plesk/ListSecretKeys.php",
+        "hash": "25d9986ebd77fee5db795d64f3ddc63e"
+    },
+    {
+        "file": "lib/Plesk/ListServicePlans.php",
+        "hash": "69896d44e0e2492aaa47e0d61cb639ef"
+    },
+    {
+        "file": "lib/Plesk/ListSiteAliases.php",
+        "hash": "dc99fcdcc98849bf181a1e80709e82ba"
+    },
+    {
+        "file": "lib/Plesk/ListSites.php",
+        "hash": "f0438fb7d8a40c71989244d4d2dd5de3"
+    },
+    {
+        "file": "lib/Plesk/ListSubdomains.php",
+        "hash": "3cdb59040cbce22a670763578843b350"
+    },
+    {
+        "file": "lib/Plesk/ListSubscriptions.php",
+        "hash": "9fb0dffb1efe6c651393b1260b0ecbcd"
+    },
+    {
+        "file": "lib/Plesk/MailService/UpdatePreferences.php",
+        "hash": "548330f5f46c8e0a24e698d7cbbe562c"
+    },
+    {
+        "file": "lib/Plesk/Node.php",
+        "hash": "0a20e22d052c477cc57647fd297e5b74"
+    },
+    {
+        "file": "lib/Plesk/NodeList.php",
+        "hash": "74b0870158de9a71aed93fc22c20d5d8"
+    },
+    {
+        "file": "lib/Plesk/ObjectStatus.php",
+        "hash": "fc663a6d6580bea264b4fd981c767234"
+    },
+    {
+        "file": "lib/Plesk/RenameSubdomain.php",
+        "hash": "e3a1e61a3a5ea21672d3e8021e9075e2"
+    },
+    {
+        "file": "lib/Plesk/SSL/DeleteCertificate.php",
+        "hash": "9aa3314e3346689c8a1ec17900a5573e"
+    },
+    {
+        "file": "lib/Plesk/SSL/InstallCertificate.php",
+        "hash": "8625d339bcdd8a0eb0f176fe72f4c788"
+    },
+    {
+        "file": "lib/Plesk/SSL/ListCertificates.php",
+        "hash": "22bcfb189a49c5ede02b4484ec849110"
+    },
+    {
+        "file": "lib/Plesk/UpdateClient.php",
+        "hash": "f510dcdc01afd0b19fe8af799e3ec741"
+    },
+    {
+        "file": "lib/Plesk/UpdateEmailPassword.php",
+        "hash": "e493dcdf848c625a51ed02bd14846d4e"
+    },
+    {
+        "file": "lib/Plesk/UpdateSite.php",
+        "hash": "ef5ce6619a2e55bb224ad12a0cc8831e"
+    },
+    {
+        "file": "lib/Plesk/UpdateSubdomain.php",
+        "hash": "544491cee334f140e31fcc1df357ab77"
+    },
+    {
+        "file": "lib/Plesk/Wordpress/ActivatePlugin.php",
+        "hash": "bd35103fe65cf38cf363a18ccc0faa13"
+    },
+    {
+        "file": "lib/Plesk/Wordpress/ActivateTheme.php",
+        "hash": "8684f72a624f933f92c01975eecabd1f"
+    },
+    {
+        "file": "lib/Plesk/Wordpress/ClearCache.php",
+        "hash": "a010f219c56bf14e87676398ad24b88b"
+    },
+    {
+        "file": "lib/Plesk/Wordpress/DeactivatePlugin.php",
+        "hash": "792c545e3fc265f88a7cf07a7a433ed7"
+    },
+    {
+        "file": "lib/Plesk/Wordpress/DisableAutoUpdates.php",
+        "hash": "27e184ab8dd81b4c885011b272110d01"
+    },
+    {
+        "file": "lib/Plesk/Wordpress/EnableAutoUpdates.php",
+        "hash": "5ab64f87f125ba63c9f00e74ec6312e4"
+    },
+    {
+        "file": "lib/Plesk/Wordpress/GetPluginList.php",
+        "hash": "57f0faf950fd7a9e40636c04553b62d3"
+    },
+    {
+        "file": "lib/Plesk/Wordpress/GetSecurityStatus.php",
+        "hash": "0e96cc343970b175700a5aec3f610390"
+    },
+    {
+        "file": "lib/Plesk/Wordpress/GetThemeList.php",
+        "hash": "a35ae819c00b146549125d7880ec8b57"
+    },
+    {
+        "file": "lib/Plesk/Wordpress/InstallPlugin.php",
+        "hash": "579f57f8311d58b0f241298a4d99f87a"
+    },
+    {
+        "file": "lib/Plesk/Wordpress/InstallTheme.php",
+        "hash": "24620e7e645cbc403df3afcf51b0c9e4"
+    },
+    {
+        "file": "lib/Plesk/Wordpress/ListInstances.php",
+        "hash": "51f5cb918ec92a4cc1b6a9e3dfa893e7"
+    },
+    {
+        "file": "lib/Plesk/Wordpress/RemoveInstance.php",
+        "hash": "e76a9bb6e43fcf8e0a664aee6d47bad2"
+    },
+    {
+        "file": "lib/Plesk/Wordpress/SearchPlugins.php",
+        "hash": "08a506e6aa3cc8fa317f1851fa288374"
+    },
+    {
+        "file": "lib/Plesk/Wordpress/SearchThemes.php",
+        "hash": "27682562357e166378941993b9555b29"
+    },
+    {
+        "file": "lib/Plesk/Wordpress/UninstallPlugin.php",
+        "hash": "7a2943588f895728d8b7b4fe827b617c"
+    },
+    {
+        "file": "lib/Plesk/Wordpress/UninstallTheme.php",
+        "hash": "26c1f2d1d63d7a83041e705fbb09f8fb"
+    },
+    {
+        "file": "lib/Plesk/Wordpress/UpdateCore.php",
+        "hash": "2aae974613c3c4c917b09dbef3690d25"
+    },
+    {
+        "file": "lib/Plesk/Wordpress/UpdatePlugin.php",
+        "hash": "73888f8320f9e55c28166311a16a6550"
+    },
+    {
+        "file": "lib/Plesk/Wordpress/UpdateTheme.php",
+        "hash": "5872d6643e12e1476b16d6ce7a8c7cb8"
+    },
+    {
+        "file": "lib/vendor/autoload.php",
+        "hash": "8b69f9bbf055191284f71c1622cd6e1d"
+    },
+    {
+        "file": "lib/vendor/composer/ClassLoader.php",
+        "hash": "bf6c4758ae060fd8f3e3a88e6c24ac3c"
+    },
+    {
+        "file": "lib/vendor/composer/LICENSE",
+        "hash": "9b01fc9e0129adc080344653fbcbbc0f"
+    },
+    {
+        "file": "lib/vendor/composer/autoload_classmap.php",
+        "hash": "8645d3a4e3ad87e7cf4d88a46717aab4"
+    },
+    {
+        "file": "lib/vendor/composer/autoload_files.php",
+        "hash": "034fac0627ad5b009dd672ba7e2c25df"
+    },
+    {
+        "file": "lib/vendor/composer/autoload_namespaces.php",
+        "hash": "35e12c7d76c4a81633bcf547c0e229a9"
+    },
+    {
+        "file": "lib/vendor/composer/autoload_psr4.php",
+        "hash": "3baae092c0d284fbb986039b88bd61b6"
+    },
+    {
+        "file": "lib/vendor/composer/autoload_real.php",
+        "hash": "39fecdeb93311b5cb721b23e2521edd0"
+    },
+    {
+        "file": "lib/vendor/composer/autoload_static.php",
+        "hash": "9cc36930f85578e970658cdb8f56b3ea"
+    },
+    {
+        "file": "lib/vendor/composer/installed.json",
+        "hash": "065c8370521826d3f1d0483afa68263b"
+    },
+    {
+        "file": "lib/vendor/fabpot/goutte/.travis.yml",
+        "hash": "9078b01323d870eff63e8f9ab58b4879"
+    },
+    {
+        "file": "lib/vendor/fabpot/goutte/Goutte/Client.php",
+        "hash": "45d3781f7dfe794a1053c7636f6c6b3d"
+    },
+    {
+        "file": "lib/vendor/fabpot/goutte/Goutte/Resources/phar-stub.php",
+        "hash": "d369295c88133b32bd2c1ab14ebe2dea"
+    },
+    {
+        "file": "lib/vendor/fabpot/goutte/Goutte/Tests/ClientTest.php",
+        "hash": "56285bb694a6e2718350da7b76c5e6ac"
+    },
+    {
+        "file": "lib/vendor/fabpot/goutte/Goutte/Tests/fixtures.txt",
+        "hash": "d3b07384d113edec49eaa6238ad5ff00"
+    },
+    {
+        "file": "lib/vendor/fabpot/goutte/LICENSE",
+        "hash": "435bf46cfd44ff9be7851c9f6a49258c"
+    },
+    {
+        "file": "lib/vendor/fabpot/goutte/README.rst",
+        "hash": "cd031805114da3871fc2aba49b02b361"
+    },
+    {
+        "file": "lib/vendor/fabpot/goutte/box.json",
+        "hash": "99310a13028a7ffecc2b87dfbf3afc09"
+    },
+    {
+        "file": "lib/vendor/fabpot/goutte/composer.json",
+        "hash": "580c3680315fffbd8a1fb0636e345eed"
+    },
+    {
+        "file": "lib/vendor/fabpot/goutte/phpunit.xml.dist",
+        "hash": "d0f9d4fe826fa4c319b59136c4245043"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/.travis.yml",
+        "hash": "53bda9cac380d7a67bbeb5cdf041b2e6"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/LICENSE",
+        "hash": "5114b2a8a6396171c70eec44276065c6"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/composer.json",
+        "hash": "75f56fca6ae14433328b2fe870e764c7"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/Client.php",
+        "hash": "d40c0748d0dfc0bad6d270626f00777b"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/ClientInterface.php",
+        "hash": "59a3e49db021b1ba3392d08f07754319"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/Cookie/CookieJar.php",
+        "hash": "8af307569bc5483ea7df423555672cf7"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/Cookie/CookieJarInterface.php",
+        "hash": "0cd2c557aba26246ef86188f882a53b2"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/Cookie/FileCookieJar.php",
+        "hash": "ecdc4a51c4285b588284188cb51ba212"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/Cookie/SessionCookieJar.php",
+        "hash": "3ecf615008dc2288a86bd2f77d1ba5ad"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/Cookie/SetCookie.php",
+        "hash": "683c055fa72355f8d7b37a3a9f1fdc18"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/Exception/BadResponseException.php",
+        "hash": "5d502016856c146aa47d0bbed5106ee1"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/Exception/ClientException.php",
+        "hash": "d1c7f54a71cb105131c0c22b20619bcb"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/Exception/ConnectException.php",
+        "hash": "4c3a541bc2a97f9278417c8ccd49a256"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/Exception/GuzzleException.php",
+        "hash": "be57c551f72e6faff7af43b4bf27c95e"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/Exception/RequestException.php",
+        "hash": "96e3509db51ccbaff2e9a801bb0d4e37"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/Exception/SeekException.php",
+        "hash": "d3321b4b634f612a98acd08e08ef6e74"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/Exception/ServerException.php",
+        "hash": "36ecb7a8e416e9633b10e677fa5a639e"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/Exception/TooManyRedirectsException.php",
+        "hash": "9952c5877077fad22bed15fbe04a1ca7"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/Exception/TransferException.php",
+        "hash": "67921f32b8ca0b62c1640262b48a1055"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php",
+        "hash": "7451a32af69647548e6850c883db22bb"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/Handler/CurlFactoryInterface.php",
+        "hash": "b4dbdca4de39177941fbea19855eb74f"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/Handler/CurlHandler.php",
+        "hash": "18c8727a9457cf6d1f382b4cb394979f"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/Handler/CurlMultiHandler.php",
+        "hash": "dc20cc9837a45e56607bbcb5d89024fa"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/Handler/EasyHandle.php",
+        "hash": "02eec42dd5ec3cd6ef6cca4735c2eb9b"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/Handler/MockHandler.php",
+        "hash": "1e989983e107b30c02697de55cf00b35"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/Handler/Proxy.php",
+        "hash": "0eade7e36c32b1b98a70483348ca98f9"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/Handler/StreamHandler.php",
+        "hash": "4db311c8bf154a28abb32e8df3382e7c"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/HandlerStack.php",
+        "hash": "ccd0aeb3a6975d8f3836dea18603ad6d"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/MessageFormatter.php",
+        "hash": "ddc316fe5a1d06a0c129e6a65cd36cfc"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/Middleware.php",
+        "hash": "d410c016da6acbb32969f96657821e62"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/Pool.php",
+        "hash": "05269a24991f95c28cead841ac0b7a13"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/PrepareBodyMiddleware.php",
+        "hash": "fee264e3f0640f8086d184c28906fdf4"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/RedirectMiddleware.php",
+        "hash": "8970586ea24f21c963050313ceef3909"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/RequestOptions.php",
+        "hash": "b448222661f034a6b8368bb7e5b769ce"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/RetryMiddleware.php",
+        "hash": "2267eeb5be0a87f30d543334482880f1"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/TransferStats.php",
+        "hash": "f94bd1d051bac09f9538b8b8720084e6"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/UriTemplate.php",
+        "hash": "8e71ed1dd6b3906cbf29cacf35e06395"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/functions.php",
+        "hash": "0f28c4525f3ba3b7edbd20916f0dff8e"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/guzzle/src/functions_include.php",
+        "hash": "5f6ee7f97cc86838635c9c1350415bc8"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/.travis.yml",
+        "hash": "eba5a06c53fcc98a67cc422ea6c2163d"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/LICENSE",
+        "hash": "582d7d97bab524143526a38575956e46"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/Makefile",
+        "hash": "12320a1adefd23c1e0c95dae541e3af1"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/composer.json",
+        "hash": "151fa5bde57a7fa991c0667cb1d80304"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/phpunit.xml.dist",
+        "hash": "b9ae0ee5ca5b26ef09506f77bc93f8be"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/src/AggregateException.php",
+        "hash": "babe9fcc334d0b4fea85e9e05f4d552e"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/src/CancellationException.php",
+        "hash": "a9a2fbcbd5dcfb0fdfb3feaf5c7b4324"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/src/EachPromise.php",
+        "hash": "df6789b4bd35f2bbd68cb5faf46d79ad"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/src/FulfilledPromise.php",
+        "hash": "d6001563130d4d92f1b58eeb714c117d"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/src/Promise.php",
+        "hash": "5ec444867e365565e1821f0ad47f965b"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/src/PromiseInterface.php",
+        "hash": "d89b4dc299c87456f210c253c6b94e22"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/src/PromisorInterface.php",
+        "hash": "a9d3c230da1e74e747cf37099bbf3dfa"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/src/RejectedPromise.php",
+        "hash": "0dec3a7152df237c1138075adba8f77a"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/src/RejectionException.php",
+        "hash": "dcf7b821573f91b31bf52e9f00e494bd"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/src/TaskQueue.php",
+        "hash": "d89df735b6c40ab22918a6eca6315b73"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/src/functions.php",
+        "hash": "237d550c6d71c85d924a8bda0c57a135"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/src/functions_include.php",
+        "hash": "f5cb9de3f9980feda6ea3341215bf7ac"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/tests/AggregateExceptionTest.php",
+        "hash": "d06391b5f3517fb75d980d2b8a66dff7"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/tests/EachPromiseTest.php",
+        "hash": "b318d05d24f3af117a5cd50eb89a714f"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/tests/FulfilledPromiseTest.php",
+        "hash": "b195fd36a33bc6d07834df9a18879d5f"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/tests/NotPromiseInstance.php",
+        "hash": "ecdba5c3264cd79fdc07848af2a7dd86"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/tests/PromiseTest.php",
+        "hash": "be0b85c8cb0707cc42d590ed9c90f77c"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/tests/RejectedPromiseTest.php",
+        "hash": "359d07442a3e5826a4438893b6c40910"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/tests/RejectionExceptionTest.php",
+        "hash": "1bc0dcc55b0a814002b3ffd42f79950c"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/tests/TaskQueueTest.php",
+        "hash": "a8ba60772b3e0465778857cfc4e5a000"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/tests/Thennable.php",
+        "hash": "9558b93d622e13f1679c336442558ecc"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/tests/bootstrap.php",
+        "hash": "3516ac23086eb262940d803402630493"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/promises/tests/functionsTest.php",
+        "hash": "6eb342894a628cc16dddb6c4df629663"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/.travis.yml",
+        "hash": "8c363b6acb5362018fbee506df80fdff"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/LICENSE",
+        "hash": "582d7d97bab524143526a38575956e46"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/Makefile",
+        "hash": "02819b60ff1b637ccfd0b7b34f313de0"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/composer.json",
+        "hash": "15841c840ef83a8a9fa1878e145fe8ab"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/phpunit.xml.dist",
+        "hash": "b9ae0ee5ca5b26ef09506f77bc93f8be"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/src/AppendStream.php",
+        "hash": "c3a6a4c089d769f6c2f48587f2ea73b6"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/src/BufferStream.php",
+        "hash": "ca89bcf988c8e4d13a39d5febb985331"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/src/CachingStream.php",
+        "hash": "9044f074880bee4ad2d17f1097055e68"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/src/DroppingStream.php",
+        "hash": "adac9db8a35c6892151e065e9eadd8ac"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/src/FnStream.php",
+        "hash": "8c73770e5baa5e7cc4df48ee852f63c1"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/src/InflateStream.php",
+        "hash": "3b09783825c0a3d024bb1b8f4f99b476"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/src/LazyOpenStream.php",
+        "hash": "2648cdbb073317f8ea813383393aee2b"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/src/LimitStream.php",
+        "hash": "957492238ad22a50fdc79dc31cdfe605"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/src/MessageTrait.php",
+        "hash": "a6b829b5cc2644e0af0e0cc7a55a5b95"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/src/MultipartStream.php",
+        "hash": "a62ba2ea6d57a5fdde0b7541265f4a4c"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/src/NoSeekStream.php",
+        "hash": "a0717a0ab4fe202dcc050b0aa46e375b"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/src/PumpStream.php",
+        "hash": "55ac4bb5f9a26cd93e5fa10a1f5132c3"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/src/Request.php",
+        "hash": "607dc1e7fa7118bd807ae2562229bdf1"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/src/Response.php",
+        "hash": "e0eb0ba0d8a7394818846ce7789e7410"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/src/ServerRequest.php",
+        "hash": "3b3a9349d18435f413aef70d8f79f72c"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/src/Stream.php",
+        "hash": "c5bf50476cf7c5ea7f9c325cc66362b8"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/src/StreamDecoratorTrait.php",
+        "hash": "d4b43ceea144a8327ee0ef440c83bf8b"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/src/StreamWrapper.php",
+        "hash": "cf8a930a24993a423894f705ad7825a7"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/src/UploadedFile.php",
+        "hash": "a36b94212547cd38bb7857f030258a01"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/src/Uri.php",
+        "hash": "01c9343599ff38afcb225c1d36d87a7c"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/src/functions.php",
+        "hash": "7eb219d6c8b23351ed64d40ae8b6c738"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/src/functions_include.php",
+        "hash": "847190da01ae741e44241753f23cc1da"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/tests/AppendStreamTest.php",
+        "hash": "7b8d46f9c7ec602e6f6a70f7a4177aca"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/tests/BufferStreamTest.php",
+        "hash": "4349e3323928022598c10c17e4aa4e54"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/tests/CachingStreamTest.php",
+        "hash": "0165a31c1aeb01573bc0d3e78a0d6c1d"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/tests/DroppingStreamTest.php",
+        "hash": "b2872afe41fc35f6a8c3935f02f57f33"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/tests/FnStreamTest.php",
+        "hash": "589abfe8bcb8616003623bd4b7b9c526"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/tests/FunctionsTest.php",
+        "hash": "225687d3ff77bde8f90a0b4ba0758763"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/tests/InflateStreamTest.php",
+        "hash": "f585055abd946222edfd5c4f9529f711"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/tests/LazyOpenStreamTest.php",
+        "hash": "e7dd9fbf15070afa7fc7fcab072dd8f4"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/tests/LimitStreamTest.php",
+        "hash": "ae386ab364da858013bfcead58ac220c"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/tests/MultipartStreamTest.php",
+        "hash": "4d4401d8125ef73ea7d5e787c466aaa1"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/tests/NoSeekStreamTest.php",
+        "hash": "ebdfa8d6d3b2088153135c2394c9d079"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/tests/PumpStreamTest.php",
+        "hash": "7eb5feff197455b25e774d474122d428"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/tests/RequestTest.php",
+        "hash": "a17a011f06bfc17b0ba300565a109df8"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/tests/ResponseTest.php",
+        "hash": "a26f24bd05e30b50b989fb95456ad519"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/tests/ServerRequestTest.php",
+        "hash": "643f4c583f45b32dc1b7c462fa740abf"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/tests/StreamDecoratorTraitTest.php",
+        "hash": "de346c1d3d3ab910843ae3ca0d4b0b26"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/tests/StreamTest.php",
+        "hash": "2627b4e94dcecbeaa34fc792f0796272"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/tests/StreamWrapperTest.php",
+        "hash": "77641efcce13d1a8cad44edea64acfea"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/tests/UploadedFileTest.php",
+        "hash": "a5fe51d7370e52be2da9f2bbed3348fa"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/tests/UriTest.php",
+        "hash": "ca12c39edf51ac0a86c84afe02beadae"
+    },
+    {
+        "file": "lib/vendor/guzzlehttp/psr7/tests/bootstrap.php",
+        "hash": "f801f3dcff74adc802a39ff30a6d8270"
+    },
+    {
+        "file": "lib/vendor/psr/http-message/LICENSE",
+        "hash": "1b0b156bcf7972a5f131e1e461e84b30"
+    },
+    {
+        "file": "lib/vendor/psr/http-message/composer.json",
+        "hash": "1cbeade761cf023fec4118789f35c352"
+    },
+    {
+        "file": "lib/vendor/psr/http-message/src/MessageInterface.php",
+        "hash": "5b86144b4235dd435ae390a2d2b497e1"
+    },
+    {
+        "file": "lib/vendor/psr/http-message/src/RequestInterface.php",
+        "hash": "9f968a5accc656ebb969b6a973f43610"
+    },
+    {
+        "file": "lib/vendor/psr/http-message/src/ResponseInterface.php",
+        "hash": "3a902ea57f57a8250e371ba6ea40c3b1"
+    },
+    {
+        "file": "lib/vendor/psr/http-message/src/ServerRequestInterface.php",
+        "hash": "8694cf6882b28ef2c24c444d290682ea"
+    },
+    {
+        "file": "lib/vendor/psr/http-message/src/StreamInterface.php",
+        "hash": "dde87a38357aa58a17128df6bca5a554"
+    },
+    {
+        "file": "lib/vendor/psr/http-message/src/UploadedFileInterface.php",
+        "hash": "bf303071ee88d14c0b9f4482002698a0"
+    },
+    {
+        "file": "lib/vendor/psr/http-message/src/UriInterface.php",
+        "hash": "77f0ea01e2cd3a2848d1dec182b2c9eb"
+    },
+    {
+        "file": "lib/vendor/symfony/browser-kit/Client.php",
+        "hash": "c18097d595461a74d61fdcd8cc398a32"
+    },
+    {
+        "file": "lib/vendor/symfony/browser-kit/Cookie.php",
+        "hash": "0f9b8537bc5891814be391c936511988"
+    },
+    {
+        "file": "lib/vendor/symfony/browser-kit/CookieJar.php",
+        "hash": "43105a91219a64feb4f45cb0c070fe9b"
+    },
+    {
+        "file": "lib/vendor/symfony/browser-kit/History.php",
+        "hash": "0870a0153b7fc019168ad814b7521925"
+    },
+    {
+        "file": "lib/vendor/symfony/browser-kit/LICENSE",
+        "hash": "b4e1c29292cf1d95350bbe72f30d6825"
+    },
+    {
+        "file": "lib/vendor/symfony/browser-kit/Request.php",
+        "hash": "b89b677b5d0a995e8bdd3107a7773f23"
+    },
+    {
+        "file": "lib/vendor/symfony/browser-kit/Response.php",
+        "hash": "36f3f51fef30bc567519e4ab3aa7e793"
+    },
+    {
+        "file": "lib/vendor/symfony/browser-kit/Tests/ClientTest.php",
+        "hash": "a7b840ad75f735d66e96f5e9f31185a7"
+    },
+    {
+        "file": "lib/vendor/symfony/browser-kit/Tests/CookieJarTest.php",
+        "hash": "95a36af7c1b213576a3ed6afeeec60f6"
+    },
+    {
+        "file": "lib/vendor/symfony/browser-kit/Tests/CookieTest.php",
+        "hash": "d1c61d74cda992103c1e19fa8d780d64"
+    },
+    {
+        "file": "lib/vendor/symfony/browser-kit/Tests/HistoryTest.php",
+        "hash": "bf70f531837597cb9e80a5c126d366c1"
+    },
+    {
+        "file": "lib/vendor/symfony/browser-kit/Tests/RequestTest.php",
+        "hash": "28dcc60e83cc2fba65b3d07eda487fd1"
+    },
+    {
+        "file": "lib/vendor/symfony/browser-kit/Tests/ResponseTest.php",
+        "hash": "57a303dac9bec34a115f8630be114ed5"
+    },
+    {
+        "file": "lib/vendor/symfony/browser-kit/composer.json",
+        "hash": "c30fe2f5ef44b645859dd1acee1eaf76"
+    },
+    {
+        "file": "lib/vendor/symfony/browser-kit/phpunit.xml.dist",
+        "hash": "973243a5cc897caeef6fed9f6f70406f"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/CssSelectorConverter.php",
+        "hash": "481bc9755707f3f9295a79205187b9f4"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Exception/ExceptionInterface.php",
+        "hash": "bbfbbcb2dff282b15639f4fa70b708c9"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Exception/ExpressionErrorException.php",
+        "hash": "0eb3ca932f39f2c9264630e156882222"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Exception/InternalErrorException.php",
+        "hash": "95e9e75d8e4aecddca912aace0181b1f"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Exception/ParseException.php",
+        "hash": "a0cdbb492979f7d673113567613ed398"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Exception/SyntaxErrorException.php",
+        "hash": "b73d4ea5f838362b5752735bf73f9cec"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/LICENSE",
+        "hash": "b4e1c29292cf1d95350bbe72f30d6825"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Node/AbstractNode.php",
+        "hash": "16db7328e786cdf57a6938fb3981a65f"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Node/AttributeNode.php",
+        "hash": "935aad00658fc6ff8bbef2f3c2dae21d"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Node/ClassNode.php",
+        "hash": "a0f4d5f4f32fdaaa14993d8e5a0c22e0"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Node/CombinedSelectorNode.php",
+        "hash": "1b80b4789d4b380bbc6c33894522b6c5"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Node/ElementNode.php",
+        "hash": "1bfbb2c3b62a8553990cb2a9d451837a"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Node/FunctionNode.php",
+        "hash": "c50c7da995cf290f0a8b97570121fdef"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Node/HashNode.php",
+        "hash": "6172a04a92b2640d47f89ed40bae552b"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Node/NegationNode.php",
+        "hash": "6d7fbf89d93223e6cd69381133406037"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Node/NodeInterface.php",
+        "hash": "f6001d1712751acd43f7f8482472b2fb"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Node/PseudoNode.php",
+        "hash": "dd1c8f2d242cbd8582e56bdf044e6629"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Node/SelectorNode.php",
+        "hash": "2ce1c34425eaca6853e72c86651af646"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Node/Specificity.php",
+        "hash": "bff336ba96441a88114865d1d92f258d"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Parser/Handler/CommentHandler.php",
+        "hash": "1c29f48462f2cea2818840424979dc47"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Parser/Handler/HandlerInterface.php",
+        "hash": "66c5bda8d79c105c81801a00c65066a6"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Parser/Handler/HashHandler.php",
+        "hash": "719ffa90b8152c72810b9e42be473d65"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Parser/Handler/IdentifierHandler.php",
+        "hash": "f616fe196e481e1a63351a0fb6ad4fbe"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Parser/Handler/NumberHandler.php",
+        "hash": "ed7f3e70b1fb04b697d135af854d009a"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Parser/Handler/StringHandler.php",
+        "hash": "d72ba9557c7e2dcc40000e333f689786"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Parser/Handler/WhitespaceHandler.php",
+        "hash": "a1a892279e16580ed6e325d31e6a9398"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Parser/Parser.php",
+        "hash": "adb6d82284d0e91f1081a2b316d5d3b2"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Parser/ParserInterface.php",
+        "hash": "9cc555731226ac1ed9f6b35d57d731ff"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Parser/Reader.php",
+        "hash": "ffa521f6889254ee80acb081ce5b3dab"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Parser/Shortcut/ClassParser.php",
+        "hash": "a6b8ca7f88073d6f4f3e8fe6b937086c"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Parser/Shortcut/ElementParser.php",
+        "hash": "ff9221a13f9fd4bdd0b4472af468a627"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Parser/Shortcut/EmptyStringParser.php",
+        "hash": "c2c1e23fa46c19586ffa96faa9899a30"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Parser/Shortcut/HashParser.php",
+        "hash": "7ba84a604466f927c51df1e4f03efcc9"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Parser/Token.php",
+        "hash": "c9edb71a300fd7998711e5425b14c18f"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Parser/TokenStream.php",
+        "hash": "dc6b2243c1553afeb4e1146828985ca3"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Parser/Tokenizer/Tokenizer.php",
+        "hash": "6518b62bba1670efa482884632bf1d46"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Parser/Tokenizer/TokenizerEscaping.php",
+        "hash": "a25b1d9370290eea73dbbd85a52171a3"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Parser/Tokenizer/TokenizerPatterns.php",
+        "hash": "103659f539342812d44d26af7d4fd3f4"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/CssSelectorConverterTest.php",
+        "hash": "6288a9419165cb66ad28c205774233b0"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/Node/AbstractNodeTest.php",
+        "hash": "0f22366b26b455972da08218600f888a"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/Node/AttributeNodeTest.php",
+        "hash": "092c2094b2f340fe776efd016fce5eb5"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/Node/ClassNodeTest.php",
+        "hash": "eca9764164e56b19fa1345e505ac00a3"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/Node/CombinedSelectorNodeTest.php",
+        "hash": "214991c4a92512b719f1cc0be325019b"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/Node/ElementNodeTest.php",
+        "hash": "5becf1dfc71360137ae0678202e600b5"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/Node/FunctionNodeTest.php",
+        "hash": "bbed27d30c8c4cc7c9ed8e69088600eb"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/Node/HashNodeTest.php",
+        "hash": "104b5fb3905b0d7557cd64af04afa077"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/Node/NegationNodeTest.php",
+        "hash": "d96b688675039a28d44ee2ecd0929df2"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/Node/PseudoNodeTest.php",
+        "hash": "05dd9359681c2bbafed998ce4e35be76"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/Node/SelectorNodeTest.php",
+        "hash": "4a5b7629d4b212920bd00024a5213657"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/Node/SpecificityTest.php",
+        "hash": "d35440d6d80315b18fd06f21f93a9aeb"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/Parser/Handler/AbstractHandlerTest.php",
+        "hash": "f83f8d3decaf17d0051a04b53f8a2c95"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/Parser/Handler/CommentHandlerTest.php",
+        "hash": "196568e95d36d1ca21071e86dbb5eeb8"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/Parser/Handler/HashHandlerTest.php",
+        "hash": "290658d56ebcffe5ce8f2c2c38e2931b"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/Parser/Handler/IdentifierHandlerTest.php",
+        "hash": "2273b97aa4a3c0610549edd8a278f689"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/Parser/Handler/NumberHandlerTest.php",
+        "hash": "a384123020ded9dca1e5adb522f700df"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/Parser/Handler/StringHandlerTest.php",
+        "hash": "5df1ec9081c389b0a8171a15717be896"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/Parser/Handler/WhitespaceHandlerTest.php",
+        "hash": "6b796bb0920add27d724e9d20f549938"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/Parser/ParserTest.php",
+        "hash": "1cde27c5bdf7267d0f57d4e1b956a4c1"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/Parser/ReaderTest.php",
+        "hash": "5b6a8eb9014c35a8bdb4202200bc1c88"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/Parser/Shortcut/ClassParserTest.php",
+        "hash": "1b2c8035f78686902f20778b1cb8f797"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/Parser/Shortcut/ElementParserTest.php",
+        "hash": "8ba77c09ff5ffd51dc3ac24c09d0e122"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/Parser/Shortcut/EmptyStringParserTest.php",
+        "hash": "c03a0a760a4fc403aa3924670d8db091"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/Parser/Shortcut/HashParserTest.php",
+        "hash": "9a34d1dab3847e8a0f506d33a828b316"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/Parser/TokenStreamTest.php",
+        "hash": "abd404d57badfae769653f4db1db5d6d"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/XPath/Fixtures/ids.html",
+        "hash": "ab650cab7dd7fef95d85b7941012a70a"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/XPath/Fixtures/lang.xml",
+        "hash": "717695cc05565465bc3acf15d9a427f2"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/XPath/Fixtures/shakespear.html",
+        "hash": "58178acfc40a4729a0c8b11ac242ece5"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/Tests/XPath/TranslatorTest.php",
+        "hash": "2109663955cfd37424f20d024829ca10"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/XPath/Extension/AbstractExtension.php",
+        "hash": "ae52a36f18328068e6399b5b366732ea"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/XPath/Extension/AttributeMatchingExtension.php",
+        "hash": "c7cabcf652bd7f026927d5a0f381cd13"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/XPath/Extension/CombinationExtension.php",
+        "hash": "df158081d3e9c7beb7afe884a3e989fe"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/XPath/Extension/ExtensionInterface.php",
+        "hash": "05f87ee348aca5c6f20e9169f00452c4"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/XPath/Extension/FunctionExtension.php",
+        "hash": "c840a71275bbae4e58abcad994b3f56f"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/XPath/Extension/HtmlExtension.php",
+        "hash": "1ce1446b3b9c626049042b9b5c952e6e"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/XPath/Extension/NodeExtension.php",
+        "hash": "46da014878368ffb45f18cee0c4df195"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/XPath/Extension/PseudoClassExtension.php",
+        "hash": "06d1cece818a7c9c4892728a6bc11297"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/XPath/Translator.php",
+        "hash": "821fb0d03d255d88a631d69288e7a17d"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/XPath/TranslatorInterface.php",
+        "hash": "205909888c84295c6269ed9ee038e452"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/XPath/XPathExpr.php",
+        "hash": "335f9d8523b968d7f3dbbecebe006823"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/composer.json",
+        "hash": "a7c45dd0a478bdb81e5b085814aeb9e7"
+    },
+    {
+        "file": "lib/vendor/symfony/css-selector/phpunit.xml.dist",
+        "hash": "9f400e487bed961cdad3bef4d66be91b"
+    },
+    {
+        "file": "lib/vendor/symfony/dom-crawler/AbstractUriElement.php",
+        "hash": "9e3c0262a67c9d10895f46ec715b0aa8"
+    },
+    {
+        "file": "lib/vendor/symfony/dom-crawler/Crawler.php",
+        "hash": "a09ffc991437c090acc9dbd546aac171"
+    },
+    {
+        "file": "lib/vendor/symfony/dom-crawler/Field/ChoiceFormField.php",
+        "hash": "712c876b3a9dd050fb0753eeab470d4f"
+    },
+    {
+        "file": "lib/vendor/symfony/dom-crawler/Field/FileFormField.php",
+        "hash": "dfd321d734059c1bdcf84546a301a370"
+    },
+    {
+        "file": "lib/vendor/symfony/dom-crawler/Field/FormField.php",
+        "hash": "30c9cf3c1470dbcdceb41d047a65f6d6"
+    },
+    {
+        "file": "lib/vendor/symfony/dom-crawler/Field/InputFormField.php",
+        "hash": "2c1d6db46e35bfb7d5efb045adf57856"
+    },
+    {
+        "file": "lib/vendor/symfony/dom-crawler/Field/TextareaFormField.php",
+        "hash": "a9cbc7f32016e7250201cc74f63b438b"
+    },
+    {
+        "file": "lib/vendor/symfony/dom-crawler/Form.php",
+        "hash": "c5dee223ec19e456c228d982abe1092f"
+    },
+    {
+        "file": "lib/vendor/symfony/dom-crawler/FormFieldRegistry.php",
+        "hash": "26f94a634bf9691c7e30d0abcbe4529a"
+    },
+    {
+        "file": "lib/vendor/symfony/dom-crawler/Image.php",
+        "hash": "95607d8233ce163e20ba1f1c654580a8"
+    },
+    {
+        "file": "lib/vendor/symfony/dom-crawler/LICENSE",
+        "hash": "b4e1c29292cf1d95350bbe72f30d6825"
+    },
+    {
+        "file": "lib/vendor/symfony/dom-crawler/Link.php",
+        "hash": "87d45cbcc0c964423acdf1212006bf89"
+    },
+    {
+        "file": "lib/vendor/symfony/dom-crawler/Tests/CrawlerTest.php",
+        "hash": "19cc2c779b77234132aabbe47c8489e3"
+    },
+    {
+        "file": "lib/vendor/symfony/dom-crawler/Tests/Field/ChoiceFormFieldTest.php",
+        "hash": "345aaf8a60e6eca061bb6688877cefe1"
+    },
+    {
+        "file": "lib/vendor/symfony/dom-crawler/Tests/Field/FileFormFieldTest.php",
+        "hash": "117cc3722c56d44f1f48bcc9139ad283"
+    },
+    {
+        "file": "lib/vendor/symfony/dom-crawler/Tests/Field/FormFieldTest.php",
+        "hash": "55c98c4590e2c55a7dd4d1bd6074e319"
+    },
+    {
+        "file": "lib/vendor/symfony/dom-crawler/Tests/Field/FormFieldTestCase.php",
+        "hash": "933f6abce62f92d04cfa09025919076f"
+    },
+    {
+        "file": "lib/vendor/symfony/dom-crawler/Tests/Field/InputFormFieldTest.php",
+        "hash": "0fa26bf8503badc839759f9f75d5a099"
+    },
+    {
+        "file": "lib/vendor/symfony/dom-crawler/Tests/Field/TextareaFormFieldTest.php",
+        "hash": "e1d8139694476b22f6cc345f42d0a018"
+    },
+    {
+        "file": "lib/vendor/symfony/dom-crawler/Tests/Fixtures/no-extension",
+        "hash": "2205e48de5f93c784733ffcca841d2b5"
+    },
+    {
+        "file": "lib/vendor/symfony/dom-crawler/Tests/Fixtures/windows-1250.html",
+        "hash": "974fdff2161430f0a84d086ed023b85c"
+    },
+    {
+        "file": "lib/vendor/symfony/dom-crawler/Tests/FormTest.php",
+        "hash": "8bd85aa86311faf2f0137ad4e1e5e170"
+    },
+    {
+        "file": "lib/vendor/symfony/dom-crawler/Tests/ImageTest.php",
+        "hash": "8f766235ac57a3a508c6b02d443c3a01"
+    },
+    {
+        "file": "lib/vendor/symfony/dom-crawler/Tests/LinkTest.php",
+        "hash": "0882511e59a29fdf123d4c621db47e3f"
+    },
+    {
+        "file": "lib/vendor/symfony/dom-crawler/composer.json",
+        "hash": "d75f0f41319edb647ee84865c057b9e3"
+    },
+    {
+        "file": "lib/vendor/symfony/dom-crawler/phpunit.xml.dist",
+        "hash": "06df573017d11d467f3c14695356352d"
+    },
+    {
+        "file": "lib/vendor/symfony/polyfill-mbstring/LICENSE",
+        "hash": "7554338cf4bdd7b6fea8cc8f7119e5c9"
+    },
+    {
+        "file": "lib/vendor/symfony/polyfill-mbstring/Mbstring.php",
+        "hash": "eb0338468c6ff2709d533b88966ad5d5"
+    },
+    {
+        "file": "lib/vendor/symfony/polyfill-mbstring/Resources/unidata/lowerCase.php",
+        "hash": "d9906d2ce0acf432769f3e39d076d9f8"
+    },
+    {
+        "file": "lib/vendor/symfony/polyfill-mbstring/Resources/unidata/upperCase.php",
+        "hash": "593eadd4f6e3791482bfd3a24304ad67"
+    },
+    {
+        "file": "lib/vendor/symfony/polyfill-mbstring/bootstrap.php",
+        "hash": "2e7f80f70de25c72b39fd1b264f5d347"
+    },
+    {
+        "file": "lib/vendor/symfony/polyfill-mbstring/composer.json",
+        "hash": "22e9cbd2ae2995885d5ad8c1fbf1c0c7"
+    },
+    {
         "file": "robots.txt",
         "hash": "20f5d3d68f4c1e68240b015a9f098d94"
     },
@@ -30076,10 +31528,6 @@
         "hash": "7924ce9f807ee047eec0de972f4be6ec"
     },
     {
-        "file": "var/apps/browser/js/controllers/event.js",
-        "hash": "5f2cf82458594240b8ea8e7c42f483eb"
-    },
-    {
         "file": "var/apps/browser/js/controllers/form.js",
         "hash": "390ce03a6e88d021d9ce379cb3186643"
     },
@@ -30090,10 +31538,6 @@
     {
         "file": "var/apps/browser/js/controllers/maps.js",
         "hash": "440dc0de1b647f5f92dbcf775a1ae042"
-    },
-    {
-        "file": "var/apps/browser/js/controllers/mcommerce/sales/confirmation.js",
-        "hash": "ad0d1a0da7c82dc173a70c0ce3777b91"
     },
     {
         "file": "var/apps/browser/js/controllers/mcommerce/sales/customer.js",
@@ -30122,6 +31566,10 @@
     {
         "file": "var/apps/browser/js/controllers/mcommerce/sales/success.js",
         "hash": "02c2bb34b2a1e4687d9e4d7aa8754b16"
+    },
+    {
+        "file": "var/apps/browser/js/controllers/mcommerce/sales/confirmation.js",
+        "hash": "d8d62b6083b5eb36ed38b142e69e032d"
     },
     {
         "file": "var/apps/browser/js/controllers/mcommerce/category.js",
@@ -30246,6 +31694,10 @@
     {
         "file": "var/apps/browser/js/controllers/folder.js",
         "hash": "4e70cd90bba16ecb2e4c16635d9c2317"
+    },
+    {
+        "file": "var/apps/browser/js/controllers/event.js",
+        "hash": "eccbcb2138544b13a50df890e4aa74c9"
     },
     {
         "file": "var/apps/browser/js/directives/datetime.js",
@@ -30393,11 +31845,11 @@
     },
     {
         "file": "var/apps/browser/js/factory/mcommerce/sales/payment.js",
-        "hash": "aa1ad116c07daf7a3c8207a8fc3e8b62"
+        "hash": "a0cc690c4b04580e77ca84b40b665556"
     },
     {
         "file": "var/apps/browser/js/factory/mcommerce/cart.js",
-        "hash": "397e16c8b6402094470949e52225f79d"
+        "hash": "7682661bafcc4b8f3991657bf81af0c2"
     },
     {
         "file": "var/apps/browser/js/factory/music.js",
@@ -30641,7 +32093,7 @@
     },
     {
         "file": "var/apps/browser/js/app.js",
-        "hash": "1e74deccf60bbb5678921d79fbbe4557"
+        "hash": "8e75f82cfaf0ed8e052987f2f1d678a2"
     },
     {
         "file": "var/apps/browser/lib/ionic/css/ionic.css",
@@ -31240,16 +32692,16 @@
         "hash": "1c607dc1e3543db65ed22de5a8f6fd7a"
     },
     {
-        "file": "var/apps/browser/templates/mcommerce/l1/sales/payment.html",
-        "hash": "6885ea688bea6cc73705fa77965505cd"
-    },
-    {
         "file": "var/apps/browser/templates/mcommerce/l1/sales/store.html",
         "hash": "71e028679148b7f73cfc9df21d30a228"
     },
     {
         "file": "var/apps/browser/templates/mcommerce/l1/sales/stripe.html",
         "hash": "d53d40153b909f4ef833493a3df17a6a"
+    },
+    {
+        "file": "var/apps/browser/templates/mcommerce/l1/sales/payment.html",
+        "hash": "295ac60485047d335d68b958d8699819"
     },
     {
         "file": "var/apps/browser/templates/mcommerce/l1/product.html",
@@ -31636,10 +33088,6 @@
         "hash": "7924ce9f807ee047eec0de972f4be6ec"
     },
     {
-        "file": "var/apps/ionic/android/assets/www/js/controllers/event.js",
-        "hash": "5f2cf82458594240b8ea8e7c42f483eb"
-    },
-    {
         "file": "var/apps/ionic/android/assets/www/js/controllers/form.js",
         "hash": "390ce03a6e88d021d9ce379cb3186643"
     },
@@ -31650,10 +33098,6 @@
     {
         "file": "var/apps/ionic/android/assets/www/js/controllers/maps.js",
         "hash": "440dc0de1b647f5f92dbcf775a1ae042"
-    },
-    {
-        "file": "var/apps/ionic/android/assets/www/js/controllers/mcommerce/sales/confirmation.js",
-        "hash": "ad0d1a0da7c82dc173a70c0ce3777b91"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/controllers/mcommerce/sales/customer.js",
@@ -31682,6 +33126,10 @@
     {
         "file": "var/apps/ionic/android/assets/www/js/controllers/mcommerce/sales/success.js",
         "hash": "02c2bb34b2a1e4687d9e4d7aa8754b16"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/js/controllers/mcommerce/sales/confirmation.js",
+        "hash": "d8d62b6083b5eb36ed38b142e69e032d"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/controllers/mcommerce/category.js",
@@ -31806,6 +33254,10 @@
     {
         "file": "var/apps/ionic/android/assets/www/js/controllers/folder.js",
         "hash": "4e70cd90bba16ecb2e4c16635d9c2317"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/js/controllers/event.js",
+        "hash": "eccbcb2138544b13a50df890e4aa74c9"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/directives/datetime.js",
@@ -31953,11 +33405,11 @@
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/factory/mcommerce/sales/payment.js",
-        "hash": "aa1ad116c07daf7a3c8207a8fc3e8b62"
+        "hash": "a0cc690c4b04580e77ca84b40b665556"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/factory/mcommerce/cart.js",
-        "hash": "397e16c8b6402094470949e52225f79d"
+        "hash": "7682661bafcc4b8f3991657bf81af0c2"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/factory/music.js",
@@ -32201,7 +33653,7 @@
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/app.js",
-        "hash": "1e74deccf60bbb5678921d79fbbe4557"
+        "hash": "8e75f82cfaf0ed8e052987f2f1d678a2"
     },
     {
         "file": "var/apps/ionic/android/assets/www/lib/ionic/css/ionic.min.css",
@@ -32760,16 +34212,16 @@
         "hash": "1c607dc1e3543db65ed22de5a8f6fd7a"
     },
     {
-        "file": "var/apps/ionic/android/assets/www/templates/mcommerce/l1/sales/payment.html",
-        "hash": "6885ea688bea6cc73705fa77965505cd"
-    },
-    {
         "file": "var/apps/ionic/android/assets/www/templates/mcommerce/l1/sales/store.html",
         "hash": "71e028679148b7f73cfc9df21d30a228"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/mcommerce/l1/sales/stripe.html",
         "hash": "d53d40153b909f4ef833493a3df17a6a"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/templates/mcommerce/l1/sales/payment.html",
+        "hash": "295ac60485047d335d68b958d8699819"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/mcommerce/l1/product.html",
@@ -38624,10 +40076,6 @@
         "hash": "7924ce9f807ee047eec0de972f4be6ec"
     },
     {
-        "file": "var/apps/ionic/ios-noads/www/js/controllers/event.js",
-        "hash": "5f2cf82458594240b8ea8e7c42f483eb"
-    },
-    {
         "file": "var/apps/ionic/ios-noads/www/js/controllers/form.js",
         "hash": "390ce03a6e88d021d9ce379cb3186643"
     },
@@ -38638,10 +40086,6 @@
     {
         "file": "var/apps/ionic/ios-noads/www/js/controllers/maps.js",
         "hash": "440dc0de1b647f5f92dbcf775a1ae042"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/www/js/controllers/mcommerce/sales/confirmation.js",
-        "hash": "ad0d1a0da7c82dc173a70c0ce3777b91"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/controllers/mcommerce/sales/customer.js",
@@ -38670,6 +40114,10 @@
     {
         "file": "var/apps/ionic/ios-noads/www/js/controllers/mcommerce/sales/success.js",
         "hash": "02c2bb34b2a1e4687d9e4d7aa8754b16"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/js/controllers/mcommerce/sales/confirmation.js",
+        "hash": "d8d62b6083b5eb36ed38b142e69e032d"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/controllers/mcommerce/category.js",
@@ -38794,6 +40242,10 @@
     {
         "file": "var/apps/ionic/ios-noads/www/js/controllers/folder.js",
         "hash": "4e70cd90bba16ecb2e4c16635d9c2317"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/js/controllers/event.js",
+        "hash": "eccbcb2138544b13a50df890e4aa74c9"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/directives/datetime.js",
@@ -38941,11 +40393,11 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/factory/mcommerce/sales/payment.js",
-        "hash": "aa1ad116c07daf7a3c8207a8fc3e8b62"
+        "hash": "a0cc690c4b04580e77ca84b40b665556"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/factory/mcommerce/cart.js",
-        "hash": "397e16c8b6402094470949e52225f79d"
+        "hash": "7682661bafcc4b8f3991657bf81af0c2"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/factory/music.js",
@@ -39189,7 +40641,7 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/app.js",
-        "hash": "1e74deccf60bbb5678921d79fbbe4557"
+        "hash": "8e75f82cfaf0ed8e052987f2f1d678a2"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/lib/ionic/css/ionic.min.css",
@@ -39760,16 +41212,16 @@
         "hash": "1c607dc1e3543db65ed22de5a8f6fd7a"
     },
     {
-        "file": "var/apps/ionic/ios-noads/www/templates/mcommerce/l1/sales/payment.html",
-        "hash": "6885ea688bea6cc73705fa77965505cd"
-    },
-    {
         "file": "var/apps/ionic/ios-noads/www/templates/mcommerce/l1/sales/store.html",
         "hash": "71e028679148b7f73cfc9df21d30a228"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/mcommerce/l1/sales/stripe.html",
         "hash": "d53d40153b909f4ef833493a3df17a6a"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/templates/mcommerce/l1/sales/payment.html",
+        "hash": "295ac60485047d335d68b958d8699819"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/mcommerce/l1/product.html",
@@ -42132,10 +43584,6 @@
         "hash": "7924ce9f807ee047eec0de972f4be6ec"
     },
     {
-        "file": "var/apps/ionic/ios/www/js/controllers/event.js",
-        "hash": "5f2cf82458594240b8ea8e7c42f483eb"
-    },
-    {
         "file": "var/apps/ionic/ios/www/js/controllers/form.js",
         "hash": "390ce03a6e88d021d9ce379cb3186643"
     },
@@ -42146,10 +43594,6 @@
     {
         "file": "var/apps/ionic/ios/www/js/controllers/maps.js",
         "hash": "440dc0de1b647f5f92dbcf775a1ae042"
-    },
-    {
-        "file": "var/apps/ionic/ios/www/js/controllers/mcommerce/sales/confirmation.js",
-        "hash": "ad0d1a0da7c82dc173a70c0ce3777b91"
     },
     {
         "file": "var/apps/ionic/ios/www/js/controllers/mcommerce/sales/customer.js",
@@ -42178,6 +43622,10 @@
     {
         "file": "var/apps/ionic/ios/www/js/controllers/mcommerce/sales/success.js",
         "hash": "02c2bb34b2a1e4687d9e4d7aa8754b16"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/js/controllers/mcommerce/sales/confirmation.js",
+        "hash": "d8d62b6083b5eb36ed38b142e69e032d"
     },
     {
         "file": "var/apps/ionic/ios/www/js/controllers/mcommerce/category.js",
@@ -42302,6 +43750,10 @@
     {
         "file": "var/apps/ionic/ios/www/js/controllers/folder.js",
         "hash": "4e70cd90bba16ecb2e4c16635d9c2317"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/js/controllers/event.js",
+        "hash": "eccbcb2138544b13a50df890e4aa74c9"
     },
     {
         "file": "var/apps/ionic/ios/www/js/directives/datetime.js",
@@ -42449,11 +43901,11 @@
     },
     {
         "file": "var/apps/ionic/ios/www/js/factory/mcommerce/sales/payment.js",
-        "hash": "aa1ad116c07daf7a3c8207a8fc3e8b62"
+        "hash": "a0cc690c4b04580e77ca84b40b665556"
     },
     {
         "file": "var/apps/ionic/ios/www/js/factory/mcommerce/cart.js",
-        "hash": "397e16c8b6402094470949e52225f79d"
+        "hash": "7682661bafcc4b8f3991657bf81af0c2"
     },
     {
         "file": "var/apps/ionic/ios/www/js/factory/music.js",
@@ -42697,7 +44149,7 @@
     },
     {
         "file": "var/apps/ionic/ios/www/js/app.js",
-        "hash": "1e74deccf60bbb5678921d79fbbe4557"
+        "hash": "8e75f82cfaf0ed8e052987f2f1d678a2"
     },
     {
         "file": "var/apps/ionic/ios/www/lib/ionic/css/ionic.min.css",
@@ -43272,16 +44724,16 @@
         "hash": "1c607dc1e3543db65ed22de5a8f6fd7a"
     },
     {
-        "file": "var/apps/ionic/ios/www/templates/mcommerce/l1/sales/payment.html",
-        "hash": "6885ea688bea6cc73705fa77965505cd"
-    },
-    {
         "file": "var/apps/ionic/ios/www/templates/mcommerce/l1/sales/store.html",
         "hash": "71e028679148b7f73cfc9df21d30a228"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/mcommerce/l1/sales/stripe.html",
         "hash": "d53d40153b909f4ef833493a3df17a6a"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/templates/mcommerce/l1/sales/payment.html",
+        "hash": "295ac60485047d335d68b958d8699819"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/mcommerce/l1/product.html",
@@ -43480,10 +44932,6 @@
         "hash": "7924ce9f807ee047eec0de972f4be6ec"
     },
     {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/event.js",
-        "hash": "5f2cf82458594240b8ea8e7c42f483eb"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/form.js",
         "hash": "390ce03a6e88d021d9ce379cb3186643"
     },
@@ -43494,10 +44942,6 @@
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/maps.js",
         "hash": "440dc0de1b647f5f92dbcf775a1ae042"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/mcommerce/sales/confirmation.js",
-        "hash": "ad0d1a0da7c82dc173a70c0ce3777b91"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/mcommerce/sales/customer.js",
@@ -43526,6 +44970,10 @@
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/mcommerce/sales/success.js",
         "hash": "02c2bb34b2a1e4687d9e4d7aa8754b16"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/mcommerce/sales/confirmation.js",
+        "hash": "d8d62b6083b5eb36ed38b142e69e032d"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/mcommerce/category.js",
@@ -43650,6 +45098,10 @@
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/folder.js",
         "hash": "4e70cd90bba16ecb2e4c16635d9c2317"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/event.js",
+        "hash": "eccbcb2138544b13a50df890e4aa74c9"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/directives/datetime.js",
@@ -43801,11 +45253,11 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/factory/mcommerce/sales/payment.js",
-        "hash": "aa1ad116c07daf7a3c8207a8fc3e8b62"
+        "hash": "a0cc690c4b04580e77ca84b40b665556"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/factory/mcommerce/cart.js",
-        "hash": "397e16c8b6402094470949e52225f79d"
+        "hash": "7682661bafcc4b8f3991657bf81af0c2"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/factory/music.js",
@@ -44045,7 +45497,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/app.js",
-        "hash": "1e74deccf60bbb5678921d79fbbe4557"
+        "hash": "8e75f82cfaf0ed8e052987f2f1d678a2"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/lib/ionic/css/ionic.min.css",
@@ -44600,16 +46052,16 @@
         "hash": "1c607dc1e3543db65ed22de5a8f6fd7a"
     },
     {
-        "file": "var/apps/ionic/previewer/android/assets/www/templates/mcommerce/l1/sales/payment.html",
-        "hash": "6885ea688bea6cc73705fa77965505cd"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/mcommerce/l1/sales/store.html",
         "hash": "71e028679148b7f73cfc9df21d30a228"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/mcommerce/l1/sales/stripe.html",
         "hash": "d53d40153b909f4ef833493a3df17a6a"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/templates/mcommerce/l1/sales/payment.html",
+        "hash": "295ac60485047d335d68b958d8699819"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/mcommerce/l1/product.html",
@@ -48788,10 +50240,6 @@
         "hash": "7924ce9f807ee047eec0de972f4be6ec"
     },
     {
-        "file": "var/apps/ionic/previewer/ios/www/js/controllers/event.js",
-        "hash": "5f2cf82458594240b8ea8e7c42f483eb"
-    },
-    {
         "file": "var/apps/ionic/previewer/ios/www/js/controllers/form.js",
         "hash": "390ce03a6e88d021d9ce379cb3186643"
     },
@@ -48802,10 +50250,6 @@
     {
         "file": "var/apps/ionic/previewer/ios/www/js/controllers/maps.js",
         "hash": "440dc0de1b647f5f92dbcf775a1ae042"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/www/js/controllers/mcommerce/sales/confirmation.js",
-        "hash": "ad0d1a0da7c82dc173a70c0ce3777b91"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/controllers/mcommerce/sales/customer.js",
@@ -48834,6 +50278,10 @@
     {
         "file": "var/apps/ionic/previewer/ios/www/js/controllers/mcommerce/sales/success.js",
         "hash": "02c2bb34b2a1e4687d9e4d7aa8754b16"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/js/controllers/mcommerce/sales/confirmation.js",
+        "hash": "d8d62b6083b5eb36ed38b142e69e032d"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/controllers/mcommerce/category.js",
@@ -48958,6 +50406,10 @@
     {
         "file": "var/apps/ionic/previewer/ios/www/js/controllers/folder.js",
         "hash": "4e70cd90bba16ecb2e4c16635d9c2317"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/js/controllers/event.js",
+        "hash": "eccbcb2138544b13a50df890e4aa74c9"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/directives/datetime.js",
@@ -49109,11 +50561,11 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/factory/mcommerce/sales/payment.js",
-        "hash": "aa1ad116c07daf7a3c8207a8fc3e8b62"
+        "hash": "a0cc690c4b04580e77ca84b40b665556"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/factory/mcommerce/cart.js",
-        "hash": "397e16c8b6402094470949e52225f79d"
+        "hash": "7682661bafcc4b8f3991657bf81af0c2"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/factory/music.js",
@@ -49353,7 +50805,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/app.js",
-        "hash": "1e74deccf60bbb5678921d79fbbe4557"
+        "hash": "8e75f82cfaf0ed8e052987f2f1d678a2"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/lib/ionic/css/ionic.min.css",
@@ -49920,16 +51372,16 @@
         "hash": "1c607dc1e3543db65ed22de5a8f6fd7a"
     },
     {
-        "file": "var/apps/ionic/previewer/ios/www/templates/mcommerce/l1/sales/payment.html",
-        "hash": "6885ea688bea6cc73705fa77965505cd"
-    },
-    {
         "file": "var/apps/ionic/previewer/ios/www/templates/mcommerce/l1/sales/store.html",
         "hash": "71e028679148b7f73cfc9df21d30a228"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/mcommerce/l1/sales/stripe.html",
         "hash": "d53d40153b909f4ef833493a3df17a6a"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/templates/mcommerce/l1/sales/payment.html",
+        "hash": "295ac60485047d335d68b958d8699819"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/mcommerce/l1/product.html",

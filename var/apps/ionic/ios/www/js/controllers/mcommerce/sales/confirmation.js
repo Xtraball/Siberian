@@ -59,6 +59,9 @@ App.config(function ($stateProvider) {
                     };
                 }).finally(function () {
                     $ionicLoading.hide();
+                    if (computation && angular.isDefined(computation.message) && computation.show_message) {
+                        Dialog.alert("", computation.message, $translate.instant("OK"));
+                    }
                     $scope.is_loading = false;
                 });
 

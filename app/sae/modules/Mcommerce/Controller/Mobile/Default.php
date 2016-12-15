@@ -103,24 +103,31 @@ class Mcommerce_Controller_Mobile_Default extends Application_Controller_Mobile_
 
     protected function computeDiscount() {
         $cart = $this->getCart();
+        $cart->setCustomerUUID($this->getRequest()->getParam("customer_uuid", ""));
         $promo = Mcommerce_Model_Promo::getApplicablePromo($cart);
         $result = array('success' => false);
         if ($promo) {
             $valid = $promo->validate($cart);
+            $result['show_message'] = true;
             if ($valid == -1) {
                 $result['message'] = $this->_("Discount only for carts with total more than: ") . $promo->getMinimumAmount();
             } else if ($valid == -2) {
                 $result['message'] = $this->_("Discount no longer available");
             } else if ($valid == -3) {
-                $result['message'] = $this->_("You used the code before") . '(' . $cart->getDiscountCode() . ')';
+                $result['message'] = $this->_("You used the code before");
             } else {
                 $promo->applyOn($cart);
+                $result['show_message'] = false;
                 $result['success'] = true;
                 $result['discount'] = $promo->formatPrice($promo->getDeduction($cart));
                 $result['message'] = $promo->getLabel();
             }
         } else {
             $result['message'] = $this->_("Invalid code") . '(' . $cart->getDiscountCode() . ')';
+        }
+        // If discount failed, re-apply original prices
+        if(!$result['success']){
+            $cart->_compute()->setDiscountCode("")->save();
         }
         return $result;
     }

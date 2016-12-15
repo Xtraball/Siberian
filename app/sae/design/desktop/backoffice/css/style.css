@@ -202,7 +202,7 @@ a.link, button.as-link {
 /** /MESSAGES **/
 
 /** TOP / HEADER **/
-.top { position: fixed; top: 0; width: 100%; height: 60px; background-color: #404040; box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3); z-index: 30;}
+.top { position: fixed; top: 0; width: 100%; height: 60px; background-color: #404040; z-index: 30;}
 .top .content { position: relative; width: 99%; min-width: 1250px; height: 60px; margin: 0px auto auto; background-color: #404040; z-index: 2; }
 .top .content .logo { margin-top: 5px; }
 

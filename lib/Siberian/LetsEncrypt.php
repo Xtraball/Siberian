@@ -29,7 +29,7 @@ class Siberian_LetsEncrypt {
     public $state = "France";
 
     /**
-     * http-01 challange only
+     * http-01 challenge only
      *
      * @var string
      */
@@ -59,6 +59,11 @@ class Siberian_LetsEncrypt {
     private $logger;
 
     /**
+     * @var string
+     */
+    public $log = "";
+
+    /**
      * @var Client|ClientInterface
      */
     private $client;
@@ -84,6 +89,14 @@ class Siberian_LetsEncrypt {
     }
 
     /**
+     * Use stating api
+     */
+    public function setIsStaging() {
+        $this->ca = "https://acme-staging.api.letsencrypt.org";
+        $this->client = new Client($this->ca);
+    }
+
+    /**
      *
      */
     public function initAccount() {
@@ -97,6 +110,20 @@ class Siberian_LetsEncrypt {
         } else {
             $this->log('Account already registered. Continuing.');
         }
+    }
+
+    /**
+     * Clear local log
+     */
+    public function clearLog() {
+        $this->log = "";
+    }
+
+    /**
+     * @return string
+     */
+    public function getLog() {
+        return $this->log;
     }
 
     /**
@@ -234,6 +261,9 @@ class Siberian_LetsEncrypt {
         $this->log("Saving chain.pem");
         file_put_contents($domainPath . "/chain.pem", implode("\n", $certificates));
         $this->log("Done !!§§!");
+
+        // Success
+        return true;
     }
 
     /**
@@ -292,6 +322,8 @@ class Siberian_LetsEncrypt {
         $tmpConf = tmpfile();
         $tmpConfMeta = stream_get_meta_data($tmpConf);
         $tmpConfPath = $tmpConfMeta["uri"];
+        $this->log(["SAN: $san"]);
+        $this->log(print_r($domains, true));
         // workaround to get SAN working
         fwrite($tmpConf,
             'HOME = .
@@ -392,10 +424,16 @@ keyUsage = nonRepudiation, digitalSignature, keyEncipherment');
      * @param $message
      */
     protected function log($message) {
+        $this->log .= $message."\n";
+
         if($this->logger) {
             $this->logger->info($message);
         } else {
-            echo $message."\n";
+            if(defined("CRON")) {
+                echo sprintf("[CRON: %s]: %s\n", date("Y-m-d H:i:s"), $message);
+            } else {
+                echo sprintf("[%s]: %s\n", date("Y-m-d H:i:s"), $message);
+            }
         }
     }
 }

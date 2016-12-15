@@ -21,6 +21,11 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                     return config;
                 },
                 responseError: function (response) {
+                    if(response.config.url.match(/(templates|layout\/home)\/.*\.html$/) && (response.config.url != "templates/home/l6/view.html")) {
+                        response.config.url = "templates/home/l6/view.html";
+                        console.log("System: An error occured while loading your Layout template, fallback on Layout 6.");
+                        return $injector.get('$http')(response.config);
+                    }
                     if ((response.status == 0) && (typeof OfflineMode == "object") && !$injector.get('Connection').check()) {
                         $injector.get('Connection').check();
                     }

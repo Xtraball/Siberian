@@ -219,7 +219,20 @@ class Payment_Model_Paypal extends Core_Model_Default {
         }
 
         // Sum of costs of all items in this order
-        $params["PAYMENTREQUEST_0_ITEMAMT"] = round($total_price_excl_tax , 2);
+        $tmp_total = round($total_price_excl_tax , 2);
+        if($order->getTip()) {
+            $tmp_total += $order->getTip();
+        }
+
+        if($order->getDiscountCode()) {
+            $discount = new Mcommerce_Model_Promo();
+            $discount = $discount->find($order->getDiscountCode(), "code");
+            if($discount->getId()) {
+                $tmp_total -= $discount->getDiscount();
+            }
+        }
+
+        $params["PAYMENTREQUEST_0_ITEMAMT"] = $tmp_total;
 
         // Sum of tax for all items in this order
         $params["PAYMENTREQUEST_0_TAXAMT"] = round($total_tax, 2);

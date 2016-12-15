@@ -40,7 +40,7 @@ App.factory('McommerceCart', function($rootScope, $http, httpCache, Url) {
 
         var url = Url.get("mcommerce/mobile_cart/adddiscount", {value_id: this.value_id});
 
-        var data = {discount_code: discount_code};
+        var data = {discount_code: discount_code, customer_uuid: window.device.uuid};
 
         return $http.post(url, data);
     };
@@ -62,7 +62,7 @@ App.factory('McommerceCart', function($rootScope, $http, httpCache, Url) {
 
         if (!this.value_id) return;
 
-        var url = Url.get("mcommerce/mobile_cart/compute", {value_id: this.value_id});
+        var url = Url.get("mcommerce/mobile_cart/compute", {value_id: this.value_id, customer_uuid: window.device.uuid});
 
         var data = {};
 

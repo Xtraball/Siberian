@@ -82,18 +82,25 @@ class Core_Model_Translator
 
         $translator = self::$_translator;
         
-        if(count($args) > 1) unset($args[0]);
+        if(count($args) > 1) {
+            unset($args[0]);
+        }
 
         $text = stripslashes($text);
         $orig_text = $text = stripslashes($text);
 
-        if(!is_null($translator)) $text = $translator->_(trim($text));
+        if(!is_null($translator)) {
+            $text = $translator->_(trim($text));
+        }
 
         if(is_array($text)) {
             return $orig_text;
         }
+
         if(count($args) > 0) {
-            while(count($args) < substr_count($text, '%s')) $args[] = '';
+            while(count($args) < substr_count($text, '%s')) {
+                $args[] = '';
+            }
             array_unshift($args, $text);
             $text = call_user_func_array('sprintf', $args);
         }

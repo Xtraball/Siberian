@@ -20,7 +20,7 @@
                 <input style="display:none" multiple enctype="multipart/form-data" rel="<?php echo $this->getPosition(); ?>" class="fileupload fileupload_picture" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
             </div>
 
-            <div class="col-sm-7" rel="<?php echo $this->getPosition() ?>" <?php if(!count($libraries) > 0) : ?> style="display:none;"<?php endif; ?>>
+            <div class="col-sm-7" rel="<?php echo $this->getPosition() ?>">
                 <label><?php echo $this->_('Description:'); ?></label>
                 <input type="text" name="block[<?php echo $this->getPosition(); ?>][description]" value="<?php echo $block->getDescription() ?>" class="description input-flat" />
             </div>

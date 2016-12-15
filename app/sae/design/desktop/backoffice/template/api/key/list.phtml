@@ -6,7 +6,8 @@
             <div class="col-md-6" ng-repeat="key in api.keys">
                 <div class="form-group">
                     <label class="control-label" for="{{ key.id }}">{{ key.key }}</label>
-                    <input type="text" id="{{ key.id }}" ng-model="key.value" class="form-control" placeholder="{{ key.key }}" />
+                    <input ng-if="key.key == 'password'" type="password" id="{{ key.id }}" ng-model="key.value" class="form-control" placeholder="{{ key.key }}" />
+                    <input ng-if="key.key != 'password'" type="text" id="{{ key.id }}" ng-model="key.value" class="form-control" placeholder="{{ key.key }}" />
                 </div>
             </div>
         </sb-section>

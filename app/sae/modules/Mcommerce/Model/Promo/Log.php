@@ -15,6 +15,7 @@ class Mcommerce_Model_Promo_Log extends Core_Model_Default {
         $log->setTtc(array_sum($cart->getTotalsFromLines()));
         $log->setDiscount($promo->getDeduction($cart));
         $log->setcode($cart->getDiscountCode());
+        $log->setCustomerUuid($cart->getCustomerUUID());
         return $log;
     }
 }
