@@ -94,6 +94,7 @@ class Siberian_LetsEncrypt {
     public function setIsStaging() {
         $this->ca = "https://acme-staging.api.letsencrypt.org";
         $this->client = new Client($this->ca);
+        $this->accountKeyPath = str_replace("_account", "_account-staging", $this->accountKeyPath);
     }
 
     /**
@@ -322,7 +323,7 @@ class Siberian_LetsEncrypt {
         $tmpConf = tmpfile();
         $tmpConfMeta = stream_get_meta_data($tmpConf);
         $tmpConfPath = $tmpConfMeta["uri"];
-        $this->log(["SAN: $san"]);
+        $this->log("SAN: $san");
         $this->log(print_r($domains, true));
         // workaround to get SAN working
         fwrite($tmpConf,

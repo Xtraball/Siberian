@@ -17848,10 +17848,6 @@
         "hash": "0d4004bab0476486c790c4e4d679efc6"
     },
     {
-        "file": "lib/Siberian/LetsEncrypt.php",
-        "hash": "746fe2165d8449486dfc71f87a5d88f4"
-    },
-    {
         "file": "lib/Siberian/VestaCP.php",
         "hash": "f17d54252fe416409085a1ab00efd2dc"
     },
@@ -17874,6 +17870,10 @@
     {
         "file": "lib/Siberian/Request.php",
         "hash": "b7a624935162c1a1bcdb32a912b00210"
+    },
+    {
+        "file": "lib/Siberian/LetsEncrypt.php",
+        "hash": "1f8d665e7af7f6fe18f30803cb1516a6"
     },
     {
         "file": "lib/Thumbnailer/CreateThumb.php",
