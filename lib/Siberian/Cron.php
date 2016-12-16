@@ -364,6 +364,13 @@ class Siberian_Cron {
             }
 
             $lets_encrypt = new Siberian_LetsEncrypt($base, $root, false);
+
+            // Use staging environment
+            $letsencrypt_env = System_Model_Config::getValueFor("letsencrypt_env");
+            if($letsencrypt_env == "staging") {
+                $lets_encrypt->setIsStaging();
+            }
+
             if(!empty($email)) {
                 $lets_encrypt->contact = array("mailto:{$email}");
             }
@@ -475,6 +482,92 @@ class Siberian_Cron {
         }
     }
 
+    /**
+     * @param $task
+     */
+    public function statistics($task) {
+        if(System_Model_Config::getValueFor("send_statistics") != "1") {
+            $this->log("Statistics are disabled.");
+            return;
+        }
+
+        $this->lock($task->getId());
+
+        try {
+            $db = Zend_Db_Table::getDefaultAdapter();
+
+            $editor_user_count = $db->fetchRow($db->select()->from("admin", array(new Zend_Db_Expr("COUNT(*) AS total"))));
+            $backoffice_user_count = $db->fetchRow($db->select()->from("backoffice_user", array(new Zend_Db_Expr("COUNT(*) AS total"))));
+            $apps_app_count = $db->fetchRow($db->select()->from("application", array(new Zend_Db_Expr("COUNT(*) AS total"))));
+            $apps_angular_count = $db->fetchRow($db->select()->from("application", array(new Zend_Db_Expr("COUNT(*) AS total")))->where("design_code = ?", "angular"));
+            $apps_ionic_count = $db->fetchRow($db->select()->from("application", array(new Zend_Db_Expr("COUNT(*) AS total")))->where("design_code = ?", "ionic"));
+            $apps_domain_count = $db->fetchRow($db->select()->from("application", array(new Zend_Db_Expr("COUNT(*) AS total")))->where("domain IS NOT NULL"));
+            if(Siberian_Version::is("PE")) {
+                $whitelabel_count = $db->fetchRow($db->select()->from("whitelabel_editor", array(new Zend_Db_Expr("COUNT(*) AS total"))));
+            } else {
+                $whitelabel_count = 0;
+            }
+            $push_message_count = $db->fetchRow($db->select()->from("push_messages", array(new Zend_Db_Expr("COUNT(*) AS total"))));
+            $android_device_count = $db->fetchRow($db->select()->from("push_gcm_devices", array(new Zend_Db_Expr("COUNT(*) AS total"))));
+            $ios_device_count = $db->fetchRow($db->select()->from("push_apns_devices", array(new Zend_Db_Expr("COUNT(*) AS total"))));
+
+            $modules_model = new Installer_Model_Installer_Module();
+            $all_modules = $modules_model->findAll();
+            $modules = array();
+            foreach($all_modules as $module) {
+                $modules[] = array(
+                    "name" => $module->getData("name"),
+                    "version" => $module->getVersion(),
+                );
+            }
+
+            $statistics = array(
+                "secret" => Core_Model_Secret::SECRET,
+                "data" => array(
+                    "siberian" => array(
+                        "version" => Siberian_Version::VERSION,
+                        "design" => design_code(),
+                        "use_https" => System_Model_Config::getValueFor("use_https"),
+                        "disable_cron" => System_Model_Config::getValueFor("disable_cron"),
+                        "environment" => System_Model_Config::getValueFor("environment"),
+                        "update_channel" => System_Model_Config::getValueFor("update_channel"),
+                        "cpanel_type" => System_Model_Config::getValueFor("cpanel_type"),
+                        "modules" => $modules,
+                    ),
+                    "editor" => array(
+                        "user_count" => $editor_user_count["total"],
+                        "whitelabel_count" => $whitelabel_count["total"],
+                    ),
+                    "backoffice" => array(
+                        "user_count" => $backoffice_user_count["total"],
+                    ),
+                    "apps" => array(
+                        "app_count" => $apps_app_count["total"],
+                        "angular_count" => $apps_angular_count["total"],
+                        "ionic_count" => $apps_ionic_count["total"],
+                        "with_domain" => $apps_domain_count["total"],
+                    ),
+                    "push" => array(
+                        "message_count" => $push_message_count["total"],
+                        "android_devices" => $android_device_count["total"],
+                        "ios_devices" => $ios_device_count["total"],
+                    ),
+                ),
+            );
+
+            $request = new Siberian_Request();
+            $request->post(sprintf("http://stats.xtraball.com/?type=%s", Siberian_Version::TYPE), $statistics);
+
+        } catch(Exception $e){
+            $this->log($e->getMessage());
+            $task->saveLastError($e->getMessage());
+        }
+
+        # Disable when done.
+        $task->disable();
+        # Releasing
+        $this->unlock($task->getId());
+    }
 
 	/**
 	 * Analytics aggregation

@@ -19,6 +19,7 @@
                     <option value="beta"><?php echo __("Beta"); ?></option>
                 </select>
             </div>
+
         </div>
 
         <div class="form-group">
@@ -57,6 +58,12 @@
 
             <div class="col-md-6">
                 <br /><br />
+                <label for="{{ configs.letsencrypt_env.code }}">{{ configs.letsencrypt_env.label }}</label>
+                <select id="configs.letsencrypt_env.code" class="form-control" ng-model="configs.letsencrypt_env.value">
+                    <option value="staging"><?php echo __("Staging"); ?></option>
+                    <option value="production"><?php echo __("Production"); ?></option>
+                </select>
+                <br />
                 <label><?php echo __("Request the certificate via Let's Encrypt.") ?></label>
                 <div>
                     <a class="btn btn-primary left" ng-click="generateSsl(false);"><?php echo __("Request") ?></a>
@@ -137,7 +144,6 @@
             <tr>
                 <th style="width:32px;"><?php echo __("ID") ?></th>
                 <th style="width:180px;"><?php echo __("Platform hostname") ?></th>
-                <th><?php echo __("Whitelabels") ?></th>
                 <th><?php echo __("Source") ?></th>
                 <th style="width:60px;"><?php echo __("Cert") ?></th>
                 <th style="width:60px;"><?php echo __("CA") ?></th>
@@ -151,7 +157,6 @@
             <tr>
                 <td>{{ certificate.id }}</td>
                 <td>{{ certificate.hostname }}</td>
-                <td>{{ certificate.whitelabels.length }}</td>
                 <td>{{ certificate.source }}</td>
                 <td><a target="_blank" title="<?php echo __js("Download Certificate", '"') ?>" href="<?php echo $this->getUrl("/backoffice/advanced_configuration/downloadcert?type=cert&cert_id="); ?>{{ certificate.id }}"><img src="/app/sae/design/desktop/backoffice/images/service/mini-cert.png" /></a></td>
                 <td><a target="_blank" title="<?php echo __js("Download CA", '"') ?>" href="<?php echo $this->getUrl("/backoffice/advanced_configuration/downloadcert?type=ca&cert_id="); ?>{{ certificate.id }}"><img src="/app/sae/design/desktop/backoffice/images/service/mini-cert.png" /></a></td>
@@ -164,11 +169,11 @@
                 </td>
             </tr>
             <tr ng-show="certificate.show_info">
-                <td colspan="10">
+                <td colspan="9">
                     <table class="info-table">
-                        <tr ng-if="certificate.whitelabels.length">
-                            <td colspan="2"><b><?php echo __("Whitelabel hostnames associated with this Certificate") ?>:</b>
-                                <span>{{ certificate.whitelabels.join(', ') }}</span>
+                        <tr ng-if="certificate.domains.length">
+                            <td colspan="2"><b><?php echo __("Hostnames associated with this Certificate") ?>:</b>
+                                <span>{{ certificate.domains.join(', ') }}</span>
                                 <br /><br />
                             </td>
                         </tr>
@@ -187,13 +192,16 @@
                             <td style="padding: 4px 10px 4px 0;"><b><?php echo __("Private path:") ?></b></td>
                             <td>{{ certificate.private }}</td>
                         </tr>
+                        <tr ng-if="!certificate.domains.length && configs.cpanel_type.value != 'self'">
+                            <td colspan="2"><b><?php echo __("No informations.") ?></b></td>
+                        </tr>
                     </table>
                 </td>
             </tr>
             </tbody>
             <tbody ng-show="!configs.certificates.length">
             <tr>
-                <td colspan="10"><?php echo __("You have no certificate yet.") ?></td>
+                <td colspan="9"><?php echo __("You have no certificate yet.") ?></td>
             </tr>
             </tbody>
         </table>

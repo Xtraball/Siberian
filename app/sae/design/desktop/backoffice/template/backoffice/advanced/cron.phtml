@@ -28,6 +28,17 @@
         </div>
 
         <div class="form-group">
+            <div class="col-md-6">
+                <label for="{{ configs.send_statistics.code }}">{{ configs.send_statistics.label }}</label>
+                <select id="configs.send_statistics.code" class="form-control" ng-model="configs.send_statistics.value">
+                    <option value="1"><?php echo __("Yes"); ?></option>
+                    <option value="0"><?php echo __("No"); ?></option>
+                </select>
+                <?php echo __("Statistics are used to improve the platform and help understanding usage of the apps builder.") ?>
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-12">
                 <button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
                 <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>

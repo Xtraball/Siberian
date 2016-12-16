@@ -145,11 +145,20 @@ $configs = array(
         "code" => "cpanel_type",
         "label" => "Admin panel type",
         "value" => "-1"
+    ),
+    array(
+        "code" => "letsencrypt_env",
+        "label" => "Let's Encrypt environment",
+        "value" => "staging"
+    ),
+    array(
+        "code" => "send_statistics",
+        "label" => "Send anonymous statistics to improve the apps builder.",
+        "value" => "1"
     )
 );
 
 foreach($configs as $data) {
-
     $config = new System_Model_Config();
     $config
         ->setData($data)

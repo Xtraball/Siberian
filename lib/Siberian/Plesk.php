@@ -67,6 +67,7 @@ class Siberian_Plesk {
             "csr"           => file_get_contents($ssl_certificate->getLast()),
             "cert"          => file_get_contents($ssl_certificate->getCertificate()),
             "pvt"           => file_get_contents($ssl_certificate->getPrivate()),
+            "ca"            => file_get_contents($ssl_certificate->getChain()),
             "ip-address"    => gethostbyname($ssl_certificate->getHostname()),
         );
 

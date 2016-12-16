@@ -15,6 +15,8 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
         "update_channel",
         "use_https",
         "cpanel_type",
+        "letsencrypt_env",
+        "send_statistics",
     );
 
     public function loadAction() {
@@ -227,8 +229,12 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                 # Check CN against given hostname
                 $cert_info = openssl_x509_parse(file_get_contents($data["cert_path"]));
 
-                if(!isset($cert_info["subject"]) || !isset($cert_info["subject"]["CN"]) || !$cert_info["subject"]["CN"] != $data["hostname"]) {
-                    throw new Exception("#824-04: ".__("The given certificate doesn't match the hostname."));
+                if(!isset($cert_info["subject"])
+                    || !isset($cert_info["subject"]["CN"])
+                    || !$cert_info["subject"]["CN"] != $data["hostname"]
+                    || strpos($data["hostname"], str_replace("*.", ".", $cert_info["subject"]["CN"]))
+                    || strpos($cert_info["subject"]["CN"], $data["hostname"])) {
+                    throw new Exception("#824-04: ".__("The given certificate doesn't match the hostname or wildcard."));
                 }
 
                 if($data["upload"] == "1") {
@@ -351,6 +357,18 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
     }
 
     /**
+     * Simple action to check if host is ok (with json response)
+     */
+    public function checksslAction() {
+        $data = array(
+            "success" => 1,
+            "message" => __("Success"),
+        );
+
+        $this->_sendHtml($data);
+    }
+
+    /**
      * Generate SSL from Let's Encrypt, then sync Admin Panel
      */
     public function generatesslAction() {
@@ -366,6 +384,8 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
             $request = $this->getRequest();
             $email = System_Model_Config::getValueFor("support_email");
             $show_force = false;
+
+            $letsencrypt_env = System_Model_Config::getValueFor("letsencrypt_env");
 
             $root = Core_Model_Directory::getBasePathTo("/");
             $base = Core_Model_Directory::getBasePathTo("/var/apps/certificates/");
@@ -409,6 +429,12 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
             exec("chmod -R 777 {$root}/.well-known");
 
             $lets_encrypt = new Siberian_LetsEncrypt($base, $root, $logger);
+
+            // Use staging environment
+            if($letsencrypt_env == "staging") {
+                $lets_encrypt->setIsStaging();
+            }
+
             if(!empty($email)) {
                 $lets_encrypt->contact = array("mailto:{$email}");
             }
@@ -472,7 +498,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                     ->setLast(sprintf("%s%s/%s", $base, $hostname, "last.csr"))
                     ->setPrivate(sprintf("%s%s/%s", $base, $hostname, "private.pem"))
                     ->setPublic(sprintf("%s%s/%s", $base, $hostname, "public.pem"))
-                    ->setDomains(Siberian_Json::encode($hostnames))
+                    ->setDomains(Siberian_Json::encode(array_values($hostnames), JSON_OBJECT_AS_ARRAY))
                     ->save()
                 ;
 

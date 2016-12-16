@@ -61,12 +61,6 @@ EOT;
             throw new ApiRequestException('admin or webspace parameter is required');
         }
 
-        if (isset($params['ca'])) {
-            $params['ca'] = new Node('ca', $params['ca']);
-        } else {
-            $params['ca'] = '';
-        }
-
         parent::__construct($config, $params, $http);
     }
 

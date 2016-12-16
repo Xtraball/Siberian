@@ -37,7 +37,6 @@ class Siberian_Request {
 
         Zend_Debug::dump("[CODE POST] ".$status_code);
 
-
         return $result;
     }
 

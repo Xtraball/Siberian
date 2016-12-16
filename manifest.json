@@ -1900,16 +1900,16 @@
         "hash": "ce36adcc97c496661c07654a19ad8abd"
     },
     {
-        "file": "app/sae/design/desktop/backoffice/template/backoffice/advanced/cron.phtml",
-        "hash": "dba70bc1fa3682c31c1eaabef4a3109a"
-    },
-    {
         "file": "app/sae/design/desktop/backoffice/template/backoffice/advanced/module.phtml",
         "hash": "69e5475b30a8dc9ac58dfce92899c602"
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/backoffice/advanced/configuration.phtml",
-        "hash": "27273c80635746b624a6cc94677053c8"
+        "hash": "3d0007c28e656c1a77882777be98cdec"
+    },
+    {
+        "file": "app/sae/design/desktop/backoffice/template/backoffice/advanced/cron.phtml",
+        "hash": "e225197ce51feb4e94f3eb9a6bbfb039"
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/html/default.phtml",
@@ -13833,11 +13833,11 @@
     },
     {
         "file": "app/sae/modules/Backoffice/controllers/Advanced/ConfigurationController.php",
-        "hash": "0471d6b286c946b11273b99c5151f316"
+        "hash": "90a8ee9e1e863b0240eac405201ba37f"
     },
     {
         "file": "app/sae/modules/Backoffice/controllers/Advanced/CronController.php",
-        "hash": "3d7fc2c0bfca7528739689df7edec445"
+        "hash": "a405cf3a07349a62282c6390a3780857"
     },
     {
         "file": "app/sae/modules/Backoffice/controllers/IndexController.php",
@@ -13861,7 +13861,7 @@
     },
     {
         "file": "app/sae/modules/Backoffice/package.json",
-        "hash": "7d82f20ceb6b8f8d0c891d6618a4772a"
+        "hash": "0040aa4a7117df01c610d77542495c06"
     },
     {
         "file": "app/sae/modules/Booking/Model/Booking.php",
@@ -14688,6 +14688,10 @@
         "hash": "93aa5947dde32bfbdf63954e897b16cb"
     },
     {
+        "file": "app/sae/modules/Cron/resources/db/data/statistics.php",
+        "hash": "44be2f4c9efa69c0ed83b55f5ef698ac"
+    },
+    {
         "file": "app/sae/modules/Cron/resources/db/schema/cron.php",
         "hash": "1ad231fbdedddbc4a426b834217eca29"
     },
@@ -14697,7 +14701,7 @@
     },
     {
         "file": "app/sae/modules/Cron/package.json",
-        "hash": "cacdecbee568d5158e0054f65e56b1be"
+        "hash": "7ef3b0e8e3d0d074c2f1d4b528ddcb62"
     },
     {
         "file": "app/sae/modules/Customer/Model/Address.php",
@@ -16509,7 +16513,7 @@
     },
     {
         "file": "app/sae/modules/System/resources/db/data/system.php",
-        "hash": "118dead6d0c2fa77e498ddf89129c7fb"
+        "hash": "763ecdd8f7edaab662bfe8fbe53009e4"
     },
     {
         "file": "app/sae/modules/System/resources/db/schema/source_code.php",
@@ -16525,7 +16529,7 @@
     },
     {
         "file": "app/sae/modules/System/package.json",
-        "hash": "43eeae8725de2e54a6e2b90848ddc91f"
+        "hash": "58aed303148c8a9314daa22403bf25ce"
     },
     {
         "file": "app/sae/modules/Template/Model/Db/Table/Design/Block.php",
@@ -17836,10 +17840,6 @@
         "hash": "c18d33923293e161570faac4d4cdc623"
     },
     {
-        "file": "lib/Siberian/Cron.php",
-        "hash": "361235e2d628c662224baca946435847"
-    },
-    {
         "file": "lib/Siberian/DirectAdmin.php",
         "hash": "e165d540ce5105c66bb260930104356b"
     },
@@ -17852,14 +17852,6 @@
         "hash": "746fe2165d8449486dfc71f87a5d88f4"
     },
     {
-        "file": "lib/Siberian/Plesk.php",
-        "hash": "b68feff253b34a86191ba2366aad5cfd"
-    },
-    {
-        "file": "lib/Siberian/Request.php",
-        "hash": "ebc34050f20fa385801e119de9a6b742"
-    },
-    {
         "file": "lib/Siberian/VestaCP.php",
         "hash": "f17d54252fe416409085a1ab00efd2dc"
     },
@@ -17870,6 +17862,18 @@
     {
         "file": "lib/Siberian/VestaCP/Client.php",
         "hash": "d255f81c777478ec14c4a7bca85bccb4"
+    },
+    {
+        "file": "lib/Siberian/Cron.php",
+        "hash": "829b0a3a8fb6d10a935856ac6588d653"
+    },
+    {
+        "file": "lib/Siberian/Plesk.php",
+        "hash": "18ba4ea482411a71c35ea764280e228d"
+    },
+    {
+        "file": "lib/Siberian/Request.php",
+        "hash": "b7a624935162c1a1bcdb32a912b00210"
     },
     {
         "file": "lib/Thumbnailer/CreateThumb.php",
@@ -30236,12 +30240,12 @@
         "hash": "9aa3314e3346689c8a1ec17900a5573e"
     },
     {
-        "file": "lib/Plesk/SSL/InstallCertificate.php",
-        "hash": "8625d339bcdd8a0eb0f176fe72f4c788"
-    },
-    {
         "file": "lib/Plesk/SSL/ListCertificates.php",
         "hash": "22bcfb189a49c5ede02b4484ec849110"
+    },
+    {
+        "file": "lib/Plesk/SSL/InstallCertificate.php",
+        "hash": "3ae25a75c75582008584b33bab4a4ad3"
     },
     {
         "file": "lib/Plesk/UpdateClient.php",
