@@ -304,6 +304,15 @@ class Siberian_Feature {
     }
 
     /**
+     * @param $command
+     */
+    public static function removeCronjob($command) {
+        $job = new Cron_Model_Cron();
+        $job->find($command, "command");
+        $job->delete();
+    }
+
+    /**
      * @param $array
      * @return mixed
      */

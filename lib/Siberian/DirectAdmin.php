@@ -66,9 +66,14 @@ class Siberian_DirectAdmin {
      */
     public function updateCertificate($ssl_certificate) {
 
-        $certificate = file_get_contents($ssl_certificate->getPrivate())."\n".file_get_contents($ssl_certificate->getCertificate());
+        $certificate = file_get_contents($ssl_certificate->getPrivate()).
+            "\n".file_get_contents($ssl_certificate->getCertificate()).
+            "\n".file_get_contents($ssl_certificate->getChain());
 
         $this->logger->info($certificate);
+
+        // @note From here, server may reload, and then interrupt the connection
+        // This is normal behavior, as it's reloading the SSL Certificate.
 
         $this->socket->set_login($this->config["username"], $this->config["password"]);
         $this->socket->method = "POST";
@@ -83,6 +88,8 @@ class Siberian_DirectAdmin {
         $this->logger->info(__("[Siberian_DirectAdmin] Updated DirectAdmin SSL Certificate for %s, %s", $ssl_certificate->getHostname(), print_r($result, true)));
 
         return true;
+
+        // Please consider you can never have the acknowledgement
     }
 
 }

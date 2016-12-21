@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @todo move me to global as i'm a composer/vendor autoloader, thanks !
- */
-$autoloader = Core_Model_Directory::getBasePathTo("/lib/vendor/autoload.php");
-require_once $autoloader;
-
 class Siberian_VestaCP_Api {
 
     /**

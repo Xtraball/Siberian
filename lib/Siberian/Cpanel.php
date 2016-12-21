@@ -38,6 +38,9 @@ class Siberian_Cpanel {
     public function updateCertificate($ssl_certificate) {
         $cpanel = new Siberian_Cpanel_Api($this->config["username"], $this->config["password"], $this->config["host"], true);
 
+        // @note From here, server may reload, and then interrupt the connection
+        // This is normal behavior, as it's reloading the SSL Certificate.
+
         $response = $cpanel->uapi->SSL->install_ssl(
             array(
                 "domain"    => $ssl_certificate->getHostname(),
@@ -57,6 +60,8 @@ class Siberian_Cpanel {
         }
 
         return true;
+
+        // Please consider you can never have the acknowledgement
     }
 
 }

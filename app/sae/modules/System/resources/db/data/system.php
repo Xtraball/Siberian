@@ -155,6 +155,11 @@ $configs = array(
         "code" => "send_statistics",
         "label" => "Send anonymous statistics to improve the apps builder.",
         "value" => "1"
+    ),
+    array(
+        "code" => "campaign_is_active",
+        "label" => "",
+        "value" => "1"
     )
 );
 

@@ -19,6 +19,8 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
         "send_statistics",
     );
 
+    public $_fake_password_key = "__not_safe_not_saved__";
+
     public function loadAction() {
 
         $html = array(
@@ -42,6 +44,12 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
         $data["plesk"] = $plesk->getData();
         $data["vestacp"] = $vestacp->getData();
         $data["directadmin"] = $directadmin->getData();
+
+
+        $data["cpanel"]["password"]         = $this->_fake_password_key;
+        $data["plesk"]["password"]          = $this->_fake_password_key;
+        $data["vestacp"]["password"]        = $this->_fake_password_key;
+        $data["directadmin"]["password"]    = $this->_fake_password_key;
 
         $ssl_certificate_model = new System_Model_SslCertificates();
         $certs = $ssl_certificate_model->findAll();
@@ -127,7 +135,9 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                                 $key->setValue($data[$panel_type]["user"])->save();
                                 break;
                             case "password":
-                                $key->setValue($data[$panel_type]["password"])->save();
+                                if($data[$panel_type]["password"] != $this->_fake_password_key) {
+                                    $key->setValue($data[$panel_type]["password"])->save();
+                                }
                                 break;
                         }
                     }
@@ -214,6 +224,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                 $current_host = $this->getRequest()->getHttpHost();
                 $current_ip = gethostbyname($current_host);
                 $ip = gethostbyname($data["hostname"]);
+                $letsencrypt_env = System_Model_Config::getValueFor("letsencrypt_env");
 
                 if($current_ip != $ip) {
                     throw new Exception("#824-02: ".__("The domain %s doesn't belong to you, or is not configured on your server.", $data["hostname"]));
@@ -224,17 +235,6 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
 
                 if($ssl_cert->getId()) {
                     throw new Exception("#824-03: ".__("An entry already exists for this hostname, remove it first if you need to change your certificates."));
-                }
-
-                # Check CN against given hostname
-                $cert_info = openssl_x509_parse(file_get_contents($data["cert_path"]));
-
-                if(!isset($cert_info["subject"])
-                    || !isset($cert_info["subject"]["CN"])
-                    || !$cert_info["subject"]["CN"] != $data["hostname"]
-                    || strpos($data["hostname"], str_replace("*.", ".", $cert_info["subject"]["CN"]))
-                    || strpos($cert_info["subject"]["CN"], $data["hostname"])) {
-                    throw new Exception("#824-04: ".__("The given certificate doesn't match the hostname or wildcard."));
                 }
 
                 if($data["upload"] == "1") {
@@ -268,6 +268,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                         ->setCertificate($folder."/cert.pem")
                         ->setPrivate($folder."/private.pem")
                         ->setDomains(Siberian_Json::encode($certificate_hosts))
+                        ->setEnvironment($letsencrypt_env)
                         ->setSource(System_Model_SslCertificates::SOURCE_CUSTOMER)
                     ;
 
@@ -308,6 +309,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                         ->setPrivate($data["private_path"])
                         ->setDomains(Siberian_Json::encode($certificate_hosts))
                         ->setSource(System_Model_SslCertificates::SOURCE_CUSTOMER)
+                        ->setEnvironment($letsencrypt_env)
                         ->save()
                     ;
                 }
@@ -359,7 +361,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
     /**
      * Simple action to check if host is ok (with json response)
      */
-    public function checksslAction() {
+    public function checkhttpAction() {
         $data = array(
             "success" => 1,
             "message" => __("Success"),
@@ -369,9 +371,162 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
     }
 
     /**
+     * Simple action to check if host is ok (with json response)
+     */
+    public function checksslAction() {
+        $http_host = $this->getRequest()->getHttpHost();
+        $request = new Siberian_Request();
+        $result = $request->get("https://".$http_host);
+        if($result) {
+            $data = array(
+                "success" => 1,
+                "message" => __("Success"),
+                "https_url" => "https://".$http_host,
+                "http_url" => "http://".$http_host,
+            );
+        } else {
+            $data = array(
+                "error" => 1,
+                "message" => __("HTTPS not reachable"),
+                "https_url" => "https://".$http_host,
+                "http_url" => "http://".$http_host,
+            );
+        }
+
+        $this->_sendHtml($data);
+    }
+
+    /**
+     * Yes ....
+     */
+    public function clearpleskAction() {
+        try {
+            $logger = Zend_Registry::get("logger");
+            $hostname = $this->getRequest()->getHttpHost();
+            $ssl_certificate_model = new System_Model_SslCertificates();
+            $cert = $ssl_certificate_model->find($hostname, "hostname");
+
+            $siberian_plesk = new Siberian_Plesk();
+            $siberian_plesk->removeCertificate($cert);
+
+            $data = array(
+                "success" => 1,
+                "message" => "#824-56".__("Successfully cleaned-up old certificate."),
+            );
+        } catch(Exception $e) {
+            $logger->info("[clearpleskAction]: An error occured %s", $e->getMessage());
+
+            $data = array(
+                "error" => 1,
+                "message" => "#824-55".__("[Plesk] Unknown error."),
+            );
+        }
+
+        $this->_sendHtml($data);
+    }
+
+    /**
+     * Yes ....
+     */
+    public function installpleskAction() {
+        try {
+            $logger = Zend_Registry::get("logger");
+            $hostname = $this->getRequest()->getHttpHost();
+            $ssl_certificate_model = new System_Model_SslCertificates();
+            $cert = $ssl_certificate_model->find($hostname, "hostname");
+
+            $siberian_plesk = new Siberian_Plesk();
+            $siberian_plesk->updateCertificate($cert);
+
+            $data = array(
+                "success" => 1,
+                "message" => "#824-56".__("Successfully installed new certificate."),
+            );
+        } catch(Exception $e) {
+            $logger->info("[clearpleskAction]: An error occured %s", $e->getMessage());
+
+            $data = array(
+                "error" => 1,
+                "message" => "#824-55".__("[Plesk] Unknown error."),
+            );
+        }
+
+        $this->_sendHtml($data);
+    }
+
+    /**
+     * This action may end unexpectedly because of the panel reloading the webserver
+     * This is normal behavior
+     */
+    public function sendtopanelAction() {
+        $logger = Zend_Registry::get("logger");
+        $panel_type = System_Model_Config::getValueFor("cpanel_type");
+        $hostname = $this->getRequest()->getHttpHost();
+        $ssl_certificate_model = new System_Model_SslCertificates();
+        $cert = $ssl_certificate_model->find($hostname, "hostname");
+
+        $ui_panels = array(
+            "plesk" => __("Plesk"),
+            "cpanel" => __("WHM cPanel"),
+            "vestacp" => __("VestaCP"),
+            "directadmin" => __("DirectAdmin"),
+            "self" => __("Self-managed"),
+        );
+
+        // Sync cPanel - Plesk - VestaCP (beta) - DirectAdmin (beta)
+        try {
+            $message = __("Successfully saved Certificate to %s", $ui_panels["$panel_type"]);
+            switch($panel_type) {
+                case "plesk":
+                        $siberian_plesk = new Siberian_Plesk();
+                        $siberian_plesk->selectCertificate($cert);
+                    break;
+                case "cpanel":
+                        $cpanel = new Siberian_Cpanel();
+                        $cpanel->updateCertificate($cert);
+                    break;
+                case "vestacp":
+                        $vestacp = new Siberian_VestaCP();
+                        $vestacp->updateCertificate($cert);
+                    break;
+                case "directadmin":
+                        $directadmin = new Siberian_DirectAdmin();
+                        $directadmin->updateCertificate($cert);
+                    break;
+                case "self":
+                        $logger->info(__("Self-managed sync is not available for now."));
+                        $message = __("Self-managed sync is not available for now.");
+                    break;
+            }
+
+            $data = array(
+                "success" => 1,
+                "message" => $message,
+            );
+
+        } catch(Exception $e) {
+            $logger->info("#824-50: ".__("An error occured while saving certificate to %s.", $e->getMessage()));
+            $data = array(
+                "error" => 1,
+                "message" => $e->getMessage(),
+            );
+        }
+
+        $this->_sendHtml($data);
+    }
+
+    /**
      * Generate SSL from Let's Encrypt, then sync Admin Panel
      */
     public function generatesslAction() {
+        $ui_panels = array(
+            "plesk" => __("Plesk"),
+            "cpanel" => __("WHM cPanel"),
+            "vestacp" => __("VestaCP"),
+            "directadmin" => __("DirectAdmin"),
+            "self" => __("Self-managed"),
+        );
+
         $logger = Zend_Registry::get("logger");
 
         try {
@@ -395,7 +550,9 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
             $hostnames = array($hostname);
 
             // Adding a fake subdomain www. to the main hostname (mainly for cPanel, VestaCP)
-            $hostnames[] = "www.".$hostname;
+            if(in_array($panel_type, array("cpanel", "plesk", "vestacp", "directadmin"))) {
+                $hostnames[] = "www.".$hostname;
+            }
 
             // Add whitelabels if PE
             $is_pe = Siberian_Version::is("PE");
@@ -442,6 +599,33 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
             $ssl_certificate_model = new System_Model_SslCertificates();
             $cert = $ssl_certificate_model->find($request->getHttpHost(), "hostname");
 
+            // Testing given hostnames
+            file_put_contents("{$root}/.well-known/check", "1");
+            $domains_to_remove = array();
+            foreach($hostnames as $_hostname) {
+                // Using an external proxy to reach the domain, as sometimes from localhost it's working and shouldn't.
+                $proxy01 = "http://proxy01.siberiancms.com/acme-challenge.php";
+                $query = array(
+                    "secret" => Core_Model_Secret::SECRET,
+                    "type" => Siberian_Version::TYPE,
+                    "url" => "http://".$_hostname."/.well-known/check",
+                );
+                $uri = sprintf("%s?%s", $proxy01, http_build_query($query));
+
+                $logger->info(__("Testing: %s", $uri));
+                if(file_get_contents($uri) != "1") {
+                    $domains_to_remove[] = $_hostname;
+                }
+            }
+            // Removing unreachable hostnames
+            $hostnames = array_diff($hostnames, $domains_to_remove);
+
+            $logger->info(__("Removing domains: %s", implode(", ", $domains_to_remove)));
+
+            if(empty($hostnames)) {
+                $hostnames = array($request->getHttpHost());
+            }
+
             // Before generating certificate again, compare $hostnames
             $renew = false;
             if(is_readable($cert->getCertificate()) && !empty($hostnames)) {
@@ -460,21 +644,9 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                 $renew = true;
             }
 
-            // Testing given hostnames
-            file_put_contents("{$root}/.well-known/check", "1");
-            $domains_to_remove = array();
-            foreach($hostnames as $_hostname) {
-                if(file_get_contents(sprintf("http://%s/.well-known/check", $_hostname)) === false) {
-                    $domains_to_remove[] = $_hostname;
-                }
-            }
-            // Removing unreachable hostnames
-            $hostnames = array_diff($hostnames, $domains_to_remove);
-
-            $logger->info(__("Removing domains: %s", implode(", ", $domains_to_remove)));
-
-            if(empty($hostnames)) {
-                $hostnames = array($request->getHttpHost());
+            // staging against production, renew if environment is different
+            if($cert->getEnvironment() != $letsencrypt_env) {
+                $renew = true;
             }
 
             // Whether to renew or not the certificate
@@ -489,6 +661,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
             }
 
             if($result) {
+
                 $cert
                     ->setHostname($hostname)
                     ->setSource(System_Model_SslCertificates::SOURCE_LETSENCRYPT)
@@ -498,45 +671,17 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                     ->setLast(sprintf("%s%s/%s", $base, $hostname, "last.csr"))
                     ->setPrivate(sprintf("%s%s/%s", $base, $hostname, "private.pem"))
                     ->setPublic(sprintf("%s%s/%s", $base, $hostname, "public.pem"))
+                    ->setEnvironment($letsencrypt_env)
+                    ->setRenewDate(time_to_date(time() + 10, "YYYY-MM-dd HH:mm:ss"))
                     ->setDomains(Siberian_Json::encode(array_values($hostnames), JSON_OBJECT_AS_ARRAY))
-                    ->save()
-                ;
-
-                // Sync cPanel - Plesk - VestaCP (beta) - DirectAdmin (beta)
-                $message_api = "";
-                try {
-                    switch($panel_type) {
-                        case "plesk":
-                                $siberian_plesk = new Siberian_Plesk();
-                                $siberian_plesk->updateCertificate($cert);
-                            break;
-                        case "cpanel":
-                                $cpanel = new Siberian_Cpanel();
-                                $cpanel->updateCertificate($cert);
-                            break;
-                        case "vestacp":
-                                $vestacp = new Siberian_VestaCP();
-                                $vestacp->updateCertificate($cert);
-                            break;
-                        case "directadmin":
-                                $directadmin = new Siberian_DirectAdmin();
-                                $directadmin->updateCertificate($cert);
-                            break;
-                        case "self":
-                                $logger->info(__("Self-managed sync is not available for now."));
-                            break;
-                    }
-                } catch(Exception $e) {
-                    $message_api = __("Something went wrong with the API Sync to %s, retry or check in your panel if your SSL certificate is correctly setup.", $panel_type);
-                }
+                    ->save();
 
                 // SocketIO
                 if(class_exists("SocketIO_Model_SocketIO_Module")) {
                     SocketIO_Model_SocketIO_Module::killServer();
                 }
 
-                $message = __("Certificate successfully generated.");
-                $message .= "<br />".$message_api;
+                $message = __("Certificate successfully generated. Please wait while %s is reloading configuration ...", $ui_panels[$panel_type]);
 
             } else {
                 $message = "#824-07: ".__("An unknown error occured while issueing your certificate.");
@@ -550,6 +695,10 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                 "success" => 1,
                 "show_force" => $show_force,
                 "message" => $message,
+                "all_messages" => array(
+                    "https_unreachable" => "#824-99: ".__("HTTPS host is unreachable."),
+                    "polling_reload" => __("Waiting for %s to reload, this can take a while...", $panel_type),
+                ),
             );
 
         } catch (Exception $e) {

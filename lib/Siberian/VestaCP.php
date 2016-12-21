@@ -46,6 +46,9 @@ class Siberian_VestaCP {
      * @param $ssl_certificate
      */
     public function updateCertificate($ssl_certificate) {
+        // @note From here, server may reload, and then interrupt the connection
+        // This is normal behavior, as it's reloading the SSL Certificate.
+
         if(version_compare(phpversion(), "5.6", "<")) {
             $this->logger->info("[Siberian_VestaCP] requires php 5.6+");
             throw new Exception(__("[Siberian_VestaCP] requires php 5.6+"));
@@ -54,5 +57,7 @@ class Siberian_VestaCP {
         $this->api->updateDomain($ssl_certificate);
 
         return true;
+
+        // Please consider you can never have the acknowledgement
     }
 }

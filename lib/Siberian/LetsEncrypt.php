@@ -147,14 +147,16 @@ class Siberian_LetsEncrypt {
             );
 
             if(empty($response['challenges'])) {
-                throw new \RuntimeException("HTTP Challenge for $domain is not available. Whole response: ".json_encode($response));
+                $error = isset($response['detail']) ? $response['detail'] : json_encode($response);
+                throw new \RuntimeException("HTTP Challenge for $domain is not available. Error: ".$error);
             }
             $self = $this;
             $challenge = array_reduce($response['challenges'], function ($v, $w) use (&$self) {
                 return $v ? $v : ($w['type'] == $self->challenge ? $w : false);
             });
             if (!$challenge) {
-                throw new \RuntimeException("HTTP Challenge for $domain is not available. Whole response: " . json_encode($response));
+                $error = isset($response['detail']) ? $response['detail'] : json_encode($response);
+                throw new \RuntimeException("HTTP Challenge for $domain is not available. Error: ".$error);
             }
 
             $this->log("Got challenge token for $domain");
@@ -163,7 +165,7 @@ class Siberian_LetsEncrypt {
             // ---------------------------------------------------
             $directory = $this->webRootDir . '/.well-known/acme-challenge';
             $tokenPath = $directory . '/' . $challenge['token'];
-            if (!file_exists($directory) && !@mkdir($directory, 0755, true)) {
+            if (!file_exists($directory) && !@mkdir($directory, 0777, true)) {
                 throw new \RuntimeException("Couldn't create directory to expose challenge: ${tokenPath}");
             }
             $header = array(
@@ -174,7 +176,7 @@ class Siberian_LetsEncrypt {
             );
             $payload = $challenge['token'] . '.' . Base64UrlSafeEncoder::encode(hash('sha256', json_encode($header), true));
             file_put_contents($tokenPath, $payload);
-            chmod($tokenPath, 0644);
+            chmod($tokenPath, 0777);
             // 3. verification process itself
             // -------------------------------
             $uri = "http://${domain}/.well-known/acme-challenge/${challenge['token']}";

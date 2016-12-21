@@ -3,8 +3,15 @@
 class Siberian_Request {
 
     /**
+     * @var bool
+     */
+    public static $debug = false;
+
+    /**
      * @param $endpoint
      * @param $data
+     * @param null $cookie_path
+     * @return mixed
      */
     public static function post($endpoint, $data, $cookie_path = null) {
 
@@ -35,18 +42,25 @@ class Siberian_Request {
         # Closing connection
         curl_close($request);
 
-        Zend_Debug::dump("[CODE POST] ".$status_code);
+        if(self::$debug) {
+            Zend_Debug::dump("[CODE POST] ".$status_code);
+        }
+
 
         return $result;
     }
 
+    /**
+     * @param $endpoint
+     * @param $data
+     * @param null $cookie_path
+     * @return mixed
+     */
     public static function get($endpoint, $data, $cookie_path = null) {
 
         $request = curl_init();
 
         $endpoint .= "?".http_build_query($data);
-
-        Zend_Debug::dump($endpoint);
 
         # Setting options
         curl_setopt($request, CURLOPT_URL, $endpoint);
@@ -68,7 +82,9 @@ class Siberian_Request {
         # Closing connection
         curl_close($request);
 
-        Zend_Debug::dump("[CODE GET] ".$status_code);
+        if(self::$debug) {
+            Zend_Debug::dump("[CODE GET] " . $status_code);
+        }
 
         return $result;
     }

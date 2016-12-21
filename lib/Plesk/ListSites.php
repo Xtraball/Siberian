@@ -41,6 +41,11 @@ EOT;
             $params['filter'] = new Node('filter', $ownerIdNode);
         }
 
+        if (isset($params['name'])) {
+            $ownerIdNode = new Node('name', $params['name']);
+            $params['filter'] = new Node('filter', $ownerIdNode);
+        }
+
         parent::__construct($config, $params);
     }
 

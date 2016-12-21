@@ -43,6 +43,12 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap
         //for cron we are always at root directory
         $path = '';
         Core_Model_Directory::setPath($path);
+
+        # External vendor, from composer
+        if(version_compare(phpversion(), "5.5", ">")) {
+            $autoloader = Core_Model_Directory::getBasePathTo("/lib/vendor/autoload.php");
+            require_once $autoloader;
+        }
     }
 
     protected function _initLogger() {

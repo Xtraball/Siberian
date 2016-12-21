@@ -50,6 +50,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         else if(isset($_SERVER['PHP_SELF'])) $path = $_SERVER['PHP_SELF'];
         $path = str_replace('/'.basename($path), '', $path);
         Core_Model_Directory::setPath($path);
+
+        # External vendor, from composer
+        $autoloader = Core_Model_Directory::getBasePathTo("/lib/vendor/autoload.php");
+        require_once $autoloader;
     }
 
     protected function _initErrorMessages() {

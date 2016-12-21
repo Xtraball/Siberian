@@ -67,7 +67,7 @@ App.config(function($routeProvider) {
 
 
 
-}).controller("BackofficeAdvancedConfigurationController", function($scope, $timeout, $interval, Label, Header, AdvancedConfiguration, FileUploader, Url) {
+}).controller("BackofficeAdvancedConfigurationController", function($http, $scope, $timeout, $interval, Label, Header, AdvancedConfiguration, FileUploader, Url) {
 
     $scope.header = new Header();
     $scope.header.button.left.is_visible = false;
@@ -97,78 +97,240 @@ App.config(function($routeProvider) {
 
         AdvancedConfiguration.save($scope.configs).success(function(data) {
 
-            var message = Label.save.error;
-            if(angular.isObject(data) && angular.isDefined(data.message)) {
-                message = data.message;
-                $scope.message.isError(false);
-            } else {
-                $scope.message.isError(true);
-            }
-            $scope.message.setText(message)
-                .show()
-            ;
-        }).error(function(data) {
-            var message = Label.save.error;
-            if(angular.isObject(data) && angular.isDefined(data.message)) {
-                message = data.message;
-            }
+            $scope.message.onSuccess(data);
 
-            $scope.message.setText(message)
-                .isError(true)
-                .show()
-            ;
+        }).error(function(data) {
+
+            $scope.message.onError(data);
+
         }).finally(function() {
             $scope.form_loader_is_visible = false;
 
             $timeout(function() {
                 location.reload();
-            }, 500);
+            }, 3000);
         });
     };
 
     $scope.show_force = false;
 
+    $scope.all_messages = null;
+
     $scope.generateSsl = function(hostname, force) {
-        $scope.form_loader_is_visible = true;
+        $scope.content_loader_is_visible = true;
 
-        AdvancedConfiguration.generateSsl(hostname, force).success(function(data) {
+        AdvancedConfiguration.save($scope.configs).success(function(data) {
 
-            var message = Label.save.error;
-            if(angular.isObject(data) && angular.isDefined(data.message)) {
-                message = data.message;
-                $scope.message.isError(false);
-            } else {
-                $scope.message.isError(true);
-            }
-            $scope.message.setText(message)
-                .show()
-            ;
+            $scope.message.onSuccess(data);
 
-            $scope.show_force = data.show_force;
+            /** When setting are ok, go for SSL */
+            AdvancedConfiguration.generateSsl(hostname, force).success(function(data) {
+
+                /** Now if it's ok, it's time for Panel  */
+                $scope.message.onSuccess(data);
+
+                $scope.all_messages = data.all_messages;
+
+                console.log("SSL Ok, time to push to panel.");
+
+                if($scope.configs.cpanel_type.value == "plesk") {
+                    /** Plesk is tricky, if you remove the old certificate, it' reloading ... */
+                    $http({
+                        method: 'GET',
+                        url: 'backoffice/advanced_configuration/clearplesk',
+                        cache: false,
+                        responseType:'json'
+                    }).then(function successCallback(response) {
+                        // This may never occurs but well .. :)
+                        $scope.pollerRemovePlesk();
+                    }, function errorCallback(response) {
+                        $scope.pollerRemovePlesk();
+                    });
+                } else if($scope.configs.cpanel_type.value == "self") {
+                    $http({
+                        method: 'GET',
+                        url: 'backoffice/advanced_configuration/sendtopanel',
+                        cache: false,
+                        responseType:'json'
+                    }).then(function successCallback(response) {
+                        // This may never occurs but well .. :)
+                        $scope.poller('backoffice/advanced_configuration/checkhttp');
+                    }, function errorCallback(response) {
+                        $scope.poller('backoffice/advanced_configuration/checkhttp');
+                    });
+                } else {
+                    $http({
+                        method: 'GET',
+                        url: 'backoffice/advanced_configuration/sendtopanel',
+                        cache: false,
+                        responseType:'json'
+                    }).then(function successCallback(response) {
+                        // This may never occurs but well .. :)
+                        $scope.poller('backoffice/advanced_configuration/checkssl');
+                    }, function errorCallback(response) {
+                        $scope.poller('backoffice/advanced_configuration/checkssl');
+                    });
+                }
+
+
+
+            }).error(function(data) {
+
+                $scope.message.onError(data);
+
+            }).finally(function() {});
+
 
         }).error(function(data) {
 
-            var message = Label.save.error;
-            if(angular.isObject(data) && angular.isDefined(data.message)) {
-                message = data.message;
-            }
+            $scope.message.onError(data);
 
-            $scope.message.setText(message)
-                .isError(true)
-                .show()
-            ;
-
-            $scope.show_force = false;
-
-        }).finally(function() {
-            $scope.form_loader_is_visible = false;
-
-            $timeout(function() {
-                location.reload();
-            }, 500);
-        });
+        }).finally(function() {});
 
         return false;
+    };
+
+    $scope.poller = function(url) {
+        var times = 0;
+        var poller = $interval(function() {
+
+            /** We hit the timeout, show an error */
+            if(times++ > 10) {
+                times = 0;
+                $interval.cancel(poller);
+                poller = undefined;
+
+                console.log("#01-Error: timeout reloading panel.");
+                $scope.message.information($scope.all_messages.https_unreachable);
+                $scope.content_loader_is_visible = false;
+            }
+
+            console.log("#02-Retrying: n"+times+" poll.");
+
+            $http({
+                method: 'GET',
+                url: url,
+                cache: false,
+                responseType:'json'
+            }).then(function successCallback(response) {
+                /** Clear poller on success */
+                $interval.cancel(poller);
+                poller = undefined;
+
+                /** Try to get HTTPS for redirect. */
+                if(typeof response.data.https_url != "undefined") {
+                    console.log('typeof response.data.https_url != "undefined"');
+                    location = response.data.https_url+"/backoffice/advanced_configuration";
+                } else {
+                    console.log('location.reload()');
+                    location.reload();
+                }
+
+            }, function errorCallback(response) {
+                console.log("#03-Retry: not reachable yet.");
+            });
+
+            /**.Showing wait message */
+            $scope.message.information($scope.all_messages.polling_reload);
+        }, 3000);
+    };
+
+    $scope.pollerRemovePlesk = function() {
+        var times = 0;
+        var poller = $interval(function() {
+
+            /** We hit the timeout, show an error */
+            if(times++ > 10) {
+                times = 0;
+                $interval.cancel(poller);
+                poller = undefined;
+
+                console.log("#01-Error: timeout reloading panel.");
+                $scope.message.information($scope.all_messages.https_unreachable);
+                $scope.content_loader_is_visible = false;
+            }
+
+            console.log("#02-Retrying: n"+times+" poll.");
+
+            $http({
+                method: 'GET',
+                url: 'backoffice/advanced_configuration/checkhttp',
+                cache: false,
+                responseType:'json'
+            }).then(function successCallback(response) {
+                /** Clear poller on success */
+                $interval.cancel(poller);
+                poller = undefined;
+
+                /** Now it's ok, do the same as without plesk */
+                $http({
+                    method: 'GET',
+                    url: 'backoffice/advanced_configuration/installplesk',
+                    cache: false,
+                    responseType:'json'
+                }).then(function successCallback(response) {
+                    // This may never occurs but well .. :)
+                    $scope.pollerInstallPlesk();
+                }, function errorCallback(response) {
+                    $scope.pollerInstallPlesk();
+                });
+
+            }, function errorCallback(response) {
+                console.log("#03-Retry: not reachable yet.");
+            });
+
+            /**.Showing wait message */
+            $scope.message.information($scope.all_messages.polling_reload);
+        }, 3000);
+    };
+
+    $scope.pollerInstallPlesk = function() {
+        var times = 0;
+        var poller = $interval(function() {
+
+            /** We hit the timeout, show an error */
+            if(times++ > 10) {
+                times = 0;
+                $interval.cancel(poller);
+                poller = undefined;
+
+                console.log("#01-Error: timeout reloading panel.");
+                $scope.message.information($scope.all_messages.https_unreachable);
+                $scope.content_loader_is_visible = false;
+            }
+
+            console.log("#02-Retrying: n"+times+" poll.");
+
+            $http({
+                method: 'GET',
+                url: 'backoffice/advanced_configuration/checkhttp',
+                cache: false,
+                responseType:'json'
+            }).then(function successCallback(response) {
+                /** Clear poller on success */
+                $interval.cancel(poller);
+                poller = undefined;
+
+                /** Now it's ok, do the same as without plesk */
+                $http({
+                    method: 'GET',
+                    url: 'backoffice/advanced_configuration/sendtopanel',
+                    cache: false,
+                    responseType:'json'
+                }).then(function successCallback(response) {
+                    // This may never occurs but well .. :)
+                    $scope.poller('backoffice/advanced_configuration/checkssl');
+                }, function errorCallback(response) {
+                    $scope.poller('backoffice/advanced_configuration/checkssl');
+                });
+
+            }, function errorCallback(response) {
+                console.log("#03-Retry: not reachable yet.");
+            });
+
+            /**.Showing wait message */
+            $scope.message.information($scope.all_messages.polling_reload);
+        }, 3000);
     };
 
     $scope.form = {
@@ -179,11 +341,11 @@ App.config(function($routeProvider) {
         upload: "0"
     };
 
-    $scope.uploaders = new Array(
+    $scope.uploaders = [
         {type : "cert_path",    uploader : "cert_path"},
         {type : "ca_path",      uploader : "ca_path"},
         {type : "private_path", uploader : "private_path"}
-    );
+    ];
 
     for (var i = 0; i < $scope.uploaders.length; i++) {
         var code = $scope.uploaders[i].uploader;

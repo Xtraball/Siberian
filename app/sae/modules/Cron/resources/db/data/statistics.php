@@ -1,3 +1,3 @@
 <?php
-
-Siberian_Feature::installCronjob("Statistics aggregator", "statistics", "-1", "-1", "-1", "-1", "-1", 1, 5);
+// Clean-up cronjob.
+Siberian_Feature::removeCronjob("statistics");

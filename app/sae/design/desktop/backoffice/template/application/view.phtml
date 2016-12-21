@@ -15,14 +15,14 @@
 
         <div class="col-md-4">
             <div class="form-group">
-                <label class="control-label" for="package_name"><?php echo $this->_("Package Name"); ?></label>
+                <label class="control-label" for="package_name"><?php echo __("Package Name"); ?></label>
                 <input type="text" value="{{ tmp_application.package_name }}" ng-model="tmp_application.package_name" class="form-control" name="package_name" id="package_name" />
             </div>
         </div>
 
         <div class="col-md-4">
             <div class="form-group">
-                <label class="control-label" for="domain"><?php echo $this->_("Domain"); ?></label>
+                <label class="control-label" for="domain"><?php echo __("Domain"); ?></label>
                 <input type="text" value="{{ tmp_application.domain }}" ng-model="tmp_application.domain" class="form-control" name="domain" id="domain">
             </div>
         </div>
@@ -41,6 +41,15 @@
                     <button type="button" ng-click="switchToIonic('<?php echo __("If your app is already published on the stores, be sure you have sent an update with the Ionic version, and that this update has already been accepted, otherwise your app may be broken."); ?>')" ng-if="tmp_application.design_code != 'ionic'" class="btn btn-success" style="border-color: white;">
                         <?php echo __("Switch to Ionic design"); ?>
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label"><?php echo __("Privacy policy URL"); ?>: <i></i></label>
+                <div>
+                    <span><?php echo $this->getUrl("")."var/apps/browser/index-prod.html#" ?>{{ tmp_application.key }}?__goto__=/privacy-policy</span>
                 </div>
             </div>
         </div>

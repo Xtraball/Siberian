@@ -6,6 +6,11 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
     public function loadAction() {
 
+        if(class_exists("Core_Model_Statistics")) {
+            $stats = new Core_Model_Statistics();
+            $stats->statistics();
+        }
+
         $config = new System_Model_Config();
         $configs = $config->findAll(array(new Zend_Db_Expr('code LIKE "ftp_%"')));
         

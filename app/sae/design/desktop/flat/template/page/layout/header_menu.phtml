@@ -37,7 +37,7 @@
     <div class="collapse navbar-collapse" id="bs-navbar">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a href="<?php echo $this->getUrl('application/customization_design_style/edit'); ?>" class="<?php if($current_link == 'edit'): ?> active<?php endif; ?>">
+                <a href="<?php echo $this->getUrl('application/customization_design_style/edit'); ?>" class="<?php if($current_link == 'edit'): ?> active<?php endif; ?>" title="<?php echo $this->_('Editor') ?>">
                     <i class="fa fa-tachometer"></i>
                     <div class="section-responsive">
                         <?php echo $this->_('Editor') ?>
@@ -45,7 +45,7 @@
                 </a>
             </li>
             <li>
-                <a href="<?php echo $this->getUrl('admin/account/edit'); ?>" class="<?php if($current_link == 'my_account') : ?> active<?php endif; ?>">
+                <a href="<?php echo $this->getUrl('admin/account/edit'); ?>" class="<?php if($current_link == 'my_account') : ?> active<?php endif; ?>" title="<?php echo $this->_('My account') ?>">
                     <i class="fa fa-user"></i>
                     <div class="section-responsive">
                         <?php echo $this->_('My account'); ?>
@@ -57,7 +57,7 @@
 
                 <?php if($this->_canAccess("admin_access_management")) : ?>
                 <li>
-                    <a href="<?php echo $this->getUrl('admin/access_management/list'); ?>" class="<?php if($current_link == 'access_management') : ?> active<?php endif; ?>">
+                    <a href="<?php echo $this->getUrl('admin/access_management/list'); ?>" class="<?php if($current_link == 'access_management') : ?> active<?php endif; ?>" title="<?php echo $this->_('Access Management') ?>">
                         <i class="fa fa-road"></i>
                         <div class="section-responsive">
                             <?php echo $this->_('Access Management'); ?>
@@ -68,7 +68,7 @@
 
                 <?php if($this->_canAccess("support") AND $url = System_Model_Config::getValueFor("support_link")) : ?>
                     <li class="right">
-                        <a href="<?php echo $url; ?>" target="_blank">
+                        <a href="<?php echo $url; ?>" target="_blank" title="<?php echo $this->_('Support') ?>">
                             <i class="fa fa-medkit"></i>
                             <div class="section-responsive">
                                 <?php echo $this->_('Support'); ?>

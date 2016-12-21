@@ -52,6 +52,11 @@ $schemas['ssl_certificates'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'environment' => array(
+        'type' => 'varchar(64)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'source' => array(
         'type' => 'enum(\'customer\',\'letsencrypt\')',
     ),
