@@ -47,6 +47,9 @@ class Template_DesignController extends Application_Controller_Default {
                     Template_Model_Design::generateCss($this->getApplication(), false, false, true);
                 }
 
+                $layout_model = new Application_Model_Layout_Homepage();
+                $layout = $layout_model->find($design->getLayoutId());
+
                 $html = array(
                     'success' => 1,
                     'overview_src' => $design->getOverview(),

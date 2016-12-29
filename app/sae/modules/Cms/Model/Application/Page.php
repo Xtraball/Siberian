@@ -183,6 +183,27 @@ class Cms_Model_Application_Page extends Core_Model_Default
                     }
                     $blocks[] = $new_block;
                     break;
+                case 'slider':
+                    $block_seed = array(
+                        "description" => $block->getDescription(),
+                        "block_id" => $block->getBlockId(),
+                        "value_id" => "",
+                        "type" => "slider",
+                        "position" => $block->getPosition(),
+                        "library_id" => "",
+                        "image_url" => array(),
+                        "image_fullsize_url" => array()
+                    );
+                    $images_repo = new Cms_Model_Application_Page_Block_Image_Library();
+                    $images = $images_repo->findAll(array('library_id' => $block->getLibraryId()));
+                    $old_app_folder = Core_Model_Directory::getBasePathTo(Application_Model_Application::getImagePath() . DIRECTORY_SEPARATOR . $old_app_id);
+                    $target_app_folder = Core_Model_Directory::getBasePathTo(Application_Model_Application::getImagePath() . DIRECTORY_SEPARATOR . $this->getId());
+                    foreach ($images as $img) {
+                        $block_seed["image_url"][] = preg_replace('/^\/\d+/', '/' . $option->getAppId(), $img->getImageUrl());
+                        $block_seed["image_fullsize_url"][] = preg_replace('/^\/\d+/', '/' . $option->getAppId(), $img->getImageFullsizeUrl());
+                    }
+                    $blocks[] = $block_seed;
+                    break;
                 case 'video':
                     $object = $block->getObject();
                     $object->setId(null);

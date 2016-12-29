@@ -145,7 +145,7 @@ class Core_Model_Directory
         if($is_mac_os) {
             exec("cp -R \"$src/\"* \"$dst\"", $output);
         } else {
-            exec("cp -rH \"$src/\"* \"$dst\"", $output);
+            exec("mkdir \"$dst\"", $output);
             exec("cp -rH \"$src/\"* \"$dst\"", $output);
         }
 

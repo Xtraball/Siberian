@@ -352,7 +352,7 @@ p {
 }
 
 .sidebar-nav li {
-    line-height: 40px;
+    line-height: 36px;
     text-indent: 0.5em;
     border-top: 1px solid #525358;
 }
@@ -395,8 +395,11 @@ img.icon {
 
 li .sub-bar {
     font-size: 0.85em;
-    padding-left: 1em;
     background: #2c2c35;
+}
+
+li .sub-bar a {
+    padding-left: 2em;
 }
 
 .sub-bar > .sub-bar {
@@ -609,6 +612,83 @@ li .sub-bar {
     margin-top: 15px;
 }
 
+.layouts_content_preview .design .radius_top_only {
+    border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    -webkit-border-radius: 5px 5px 0 0;
+}
+
+.layouts_content_preview .design .radius_bottom_only {
+    border-radius: 4px 4px 0 0;
+    -moz-border-radius: 4px 4px 0 0;
+    -webkit-border-radius: 4px 4px 0 0;
+}
+
+.layouts_content_preview .layout-size {
+    height: 320px;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    overflow: hidden;
+}
+
+.layouts_content_preview {
+    border-left: 2px solid #e9e9eb;
+}
+
+.layouts_content_preview img.layout-preview-old {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    z-index: 1;
+    transition: 0.5s ease-out 0s;
+    top:0;
+}
+
+.layouts_content_preview img.layout-preview-new {
+    height: 200% !important;
+}
+
+.layouts_content_preview img.layout-preview-new:hover {
+    left: 0;
+    top: -310px;
+}
+
+span.checked.color-red:hover {
+    background: none;
+    transition: 0.5s ease 0s;
+}
+
+.templates_content_preview .layout-size {
+    height: 320px;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+}
+
+.layout-size:hover .template_title {
+    top:-50px;
+    transition: 0.5s ease 0s;
+}
+
+.layout-size .template_title {
+    top: 0;
+    position: absolute;
+    left: 0;
+    z-index: 2;
+    margin: 0 auto;
+    text-align: center;
+    transition: 0.5s ease-out 0s;
+    width: 100%;
+    height: 40px;
+    line-height: 3vh;
+}
+
+.layout-size img.layout-preview {
+    padding: 0;
+    top:0;
+    border:1px solid #B9B9B9;
+}
+
 /* couleurs */
 .color-red, .input-flat.color-red {
     background-color: #ff3a2e;
@@ -725,18 +805,39 @@ div.mask {
     filter: alpha(opacity=40);
 }
 
-/*div.mask .loader {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    width: 48px;
-    height: 48px;
-    margin-top: 0;
-    margin-left: -24px;
-    padding: 0;
-    background: url("/app/sae/design/desktop/siberian/images/customization/ajax/spinner_mobile.gif") no-repeat scroll center top transparent;
-}*/
+/** Cols sm-15 (20%) */
+.col-xs-15,
+.col-sm-15,
+.col-md-15,
+.col-lg-15 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
 
+.col-xs-15 {
+    width: 20%;
+    float: left;
+}
+@media (min-width: 768px) {
+    .col-sm-15 {
+        width: 20%;
+        float: left;
+    }
+}
+@media (min-width: 992px) {
+    .col-md-15 {
+        width: 20%;
+        float: left;
+    }
+}
+@media (min-width: 1200px) {
+    .col-lg-15 {
+        width: 20%;
+        float: left;
+    }
+}
 
 @keyframes spin {
     0% { transform: rotate(0deg); }
@@ -1107,11 +1208,6 @@ div.loader {
     width: 100%;
 }
 
-.change_layout > img:hover {
-    background-color: grey;
-    opacity: 0.7;
-}
-
 .recommended_size {
     margin-top: 10px;
 }
@@ -1411,8 +1507,8 @@ a.publish_my_app:hover {
 
 #overview .touch_icon {
     position: absolute;
-    top: 327px;
-    left: 50px;
+    top: 292px;
+    left: 54px;
     height: 76px;
 }
 
@@ -1429,16 +1525,16 @@ a.publish_my_app:hover {
 }
 
 #overview .icon {
-    width: 62px;
-    height: 62px;
-    border-radius: 15px;
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
     overflow: hidden;
 }
 
 #mobile_homescreen #preview_icon {
-    width: 62px;
-    height: 62px;
-    border-radius: 15px;
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
     overflow: hidden;
 }
 
@@ -1449,14 +1545,16 @@ a.publish_my_app:hover {
 
 #mobile_homescreen .touch_icon p#app_name {
     position: absolute;
-    bottom: -1px;
-    width: 71px;
+    bottom: 10px;
+    width: 62px;
     margin: 0;
     color: #FFFFFF;
-    font-size: 12px;
-    font-weight: lighter;
+    font-size: 10px;
+    font-weight: 500;
     line-height: 10px;
     text-align: center;
+    letter-spacing: 0.02em;
+    opacity: 0.5;
 }
 
 #overview #mobile_startup, #overview #homepage_cont {
@@ -1465,7 +1563,7 @@ a.publish_my_app:hover {
 }
 
 #mobile_homescreen {
-    height: 555px;
+    height: 576px;
     width: 321px;
 }
 
@@ -1546,6 +1644,19 @@ button.mobile-advice.active:nth-child(3) {
 /** BOUTONS **/
 
 /** TEMPLATES (modal) **/
+h3.template_title {
+    background-color: white;
+    width: 100%;
+    height: 40px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: 0;
+    line-height: 3.5vh;
+    font-weight: 300;
+    font-size: 1.5vh;
+}
+
 .templates_content_preview .design .radius_top_only {
     border-radius: 5px 5px 0 0;
     -moz-border-radius: 5px 5px 0 0;
@@ -1562,14 +1673,49 @@ button.mobile-advice.active:nth-child(3) {
     border-left: 2px solid #e9e9eb;
 }
 
-.custom_modal .modal_content .change_design .checked {
-    background-color: #ff3a2e;
-    height: 100%;
-    opacity: 0.15;
+.templates_content_preview div {
+    height: 480px;
+    overflow: hidden;
+}
+
+.templates_content_preview img {
     position: absolute;
-    width: 100%;
-    top: 0;
+    width: 200%;
+    height: 100%;
     left: 0;
+    z-index: 1;
+    transition:0.5s ease-out 0s;
+    top:40px;
+}
+
+.templates_content_preview .col-md-4 {
+    border-right: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+}
+
+.templates_content_preview img:hover {
+    left:-100%;
+    transition:0.5s ease-out 0s;
+}
+
+.templates_content_preview img:active,.templates_content_preview img:focus,.templates_content_preview img:visited {
+    left: -240px;
+}
+
+/* non-modal) */
+
+#templates p {
+    overflow: hidden;
+}
+
+img#design_overview {
+    width: 200%;
+}
+
+/* */
+
+.custom_modal .modal_content .change_design .checked {
+
 }
 
 .template_image {
@@ -1687,6 +1833,7 @@ button.mobile-advice.active:nth-child(3) {
 
 .custom_modal .modal_content .modal_details ul li {
     list-style: none;
+    padding-right:10px;
 }
 
 .custom_modal .modal_content .modal_details .button {
@@ -2479,4 +2626,28 @@ form dt {
     width: auto;
     text-transform: uppercase;
     padding: 0 10px;
+}
+
+.form-layout-options fieldset:not(.sb-nav) {
+
+}
+
+.form-layout-options .sb-checkbox-label {
+    left: 5px;
+}
+
+.form-horizontal input[type=range].sb-slider {
+    margin-top: 14px;
+}
+
+.form-horizontal div.range-indicator {
+    margin-top: 6px !important;
+}
+
+img.overview-old {
+    width: 100% !important;
+}
+
+.templates_content_preview img.overview-old:hover {
+    left: 0;
 }

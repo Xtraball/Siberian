@@ -24,7 +24,9 @@ class Core_Model_Lib_Image {
 
     public function __construct() {
         $this->_cache_dir = Core_Model_Directory::getImageCacheDirectory(true).'/';
-        if(!is_dir($this->_cache_dir)) mkdir($this->_cache_dir, 0777, true);
+        if(!is_dir($this->_cache_dir)) {
+            mkdir($this->_cache_dir, 0777, true);
+        }
         return $this;
     }
 
@@ -57,6 +59,8 @@ class Core_Model_Lib_Image {
 
                     imagesavealpha($img, true);
                     imagepng($img, $cache.$image_name);
+
+                    Siberian_Media::optimize($cache.$image_name, true);
 
                     $this->_resources = $img;
                 }
@@ -104,6 +108,7 @@ class Core_Model_Lib_Image {
                     imagegif($newIcon, $cache.$image_name);
                 }
 
+                Siberian_Media::optimize($cache.$image_name, true);
 
                 $this->_resources = $newIcon;
 
@@ -146,7 +151,7 @@ class Core_Model_Lib_Image {
         return $this;
     }
 
-    public function setCrop(bool $crop) {
+    public function setCrop($crop) {
         $this->_crop = $crop;
         return $this;
     }

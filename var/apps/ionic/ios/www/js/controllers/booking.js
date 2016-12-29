@@ -39,7 +39,6 @@ App.config(function($stateProvider) {
         Booking.post($scope.formData).success(function(data) {
             Dialog.alert("", data.message, $translate.instant("OK"));
 
-            $scope.bookingForm.submitted = false;
             $scope.formData = {};
 
         }).error(function(data) {

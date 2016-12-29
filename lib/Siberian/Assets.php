@@ -25,6 +25,7 @@ class Siberian_Assets
         "chcp.manifest",
         "js/utils/url.js",
         "js/utils/languages.js",
+        "css/app.css",
     );
 
     public static $assets = array();

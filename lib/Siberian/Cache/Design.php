@@ -27,8 +27,12 @@ class Siberian_Cache_Design extends Siberian_Cache implements Siberian_Cache_Int
     const CACHE_PATH = "var/cache/design.cache";
     const CACHING = true;
 
-    public static function fetch($version)
-    {
+    /**
+     * @param $version
+     */
+    public static function fetch($version) {
+        $base = Core_Model_Directory::getBasePathTo("");
+        chdir($base);
         $version = "{$version}design/";
 
         $design_codes = new DirectoryIterator("$version");

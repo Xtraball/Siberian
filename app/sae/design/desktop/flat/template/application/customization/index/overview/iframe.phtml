@@ -68,6 +68,7 @@ if($has_previewer && method_exists(new Previewer_Model_Previewer(), "getInstance
     });
 
     $(document).ready(function() {
+        console.log("iframe ready");
         $("#mobile_overview").attr("src", "<?php echo $this->getApplication()->getUrl("front/mobile_home/iframe", array(), Core_Model_Language::getCurrentLanguage(), true); ?>");
         iframe.iframeIsLoaded = function() {
             iframe.content.find("body").removeClass("platform-browser").addClass("platform-ios");

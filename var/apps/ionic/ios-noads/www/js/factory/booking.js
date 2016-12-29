@@ -22,7 +22,15 @@ App.factory('Booking', function($rootScope, $http, Url) {
 
         var url = Url.get("booking/mobile_view/post", {value_id: this.value_id});
 
-        return $http.post(url, form);
+        var data = {};
+        for (var prop in form) {
+            data[prop] = form[prop];
+        }
+        if (data.date) {
+            data.date = new Date(data.date).toLocaleString();
+        }
+
+        return $http.post(url, data);
     };
 
     return factory;

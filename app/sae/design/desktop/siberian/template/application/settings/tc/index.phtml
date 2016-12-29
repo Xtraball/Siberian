@@ -1,4 +1,9 @@
-<?php $application = $this->getApplication(); ?>
+<?php
+$application = $this->getApplication();
+$pp = $application->getPrivacyPolicy();
+$form_privacy_policy = new Application_Form_PrivacyPolicy();
+$form_privacy_policy->populate($application->getData());
+?>
 <div class="application_settings application">
     <div class="application_header app_name">
         <?php echo $this->getPartialHtml('customization_header'); ?>
@@ -10,6 +15,24 @@
             <div class="clear"></div>
             <hr />
         </div>
+
+        <!-- Privacy Policy -->
+        <div id="privacy_policy" class="area">
+            <h3 class="title">
+                <?php echo __("Privacy Policy"); ?>
+            </h3>
+            <div id="terms" class="area_content">
+                <span><b><?php  echo __("URL"); ?>:</b> <?php echo $this->getUrl("application/privacypolicy")."?id=".$application->getKey() ?></span>
+                <br />
+                <br />
+                <span><?php echo __("You can use <b>%s</b> as variable for your application name.", "#APP_NAME") ?></span>
+                <br />
+                <br />
+                <?php echo $form_privacy_policy; ?>
+            </div>
+        </div>
+        <!-- /Privacy Policy -->
+
         <?php foreach(Application_Model_Tc::getTypes() as $type => $label) : ?>
         <?php $tc = new Application_Model_Tc(); ?>
         <?php $tc->findByType($application->getId(), $type); ?>
@@ -48,6 +71,23 @@
 
         $('.replace-with-ckeditor').ckeditor();
 
+        <?php
+        $privacy_policy = System_Model_Config::getValueFor('privacy_policy');
+        ?>
+
+        var default_pp = `<?php echo __js($privacy_policy, "`") ?>`;
+
+        $(document).ready(function() {
+            bindForms("#privacy_policy");
+
+            $("#reset_default").on("click", function(event) {
+                /** Stop default submit */
+                event.preventDefault();
+
+                CKEDITOR.instances["privacy_policy"].setData(default_pp);
+            });
+        });
+
     </script>
 <style>
     #create_application table tr th { padding: 10px; border-bottom: 1px solid; font-weight:bold; font-size: 20px; text-transform: uppercase; }
@@ -64,4 +104,12 @@
     #urlForm .row_config_cname span i {margin-right: 10px;font-size: 18px;}
     #urlForm a#configure_cname:focus {outline: 0;}
     #urlForm .row_config_cname span i.icon-info-sign {margin-left: 10px;}
+
+    #fieldset-reset div {
+        width: initial;
+    }
+
+    #fieldset-reset div input {
+        width: initial !important;
+    }
 </style>

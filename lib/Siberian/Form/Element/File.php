@@ -4,6 +4,30 @@
  */
 class Siberian_Form_Element_File extends Zend_Form_Element_File {
 
+    /**
+     * @var bool
+     */
+    public $is_form_horizontal = true;
+
+    /**
+     * @var string
+     */
+    public $color = "color-blue";
+
+    /**
+     * @param $color
+     */
+    public function setColor($color) {
+        $this->color = $color;
+    }
+
+    /**
+     * @param $boolean
+     */
+    public function setIsFormHorizontal($boolean) {
+        $this->is_form_horizontal = $boolean;
+    }
+
 	/**
 	 * @throws Zend_Form_Exception
 	 */
@@ -15,11 +39,21 @@ class Siberian_Form_Element_File extends Zend_Form_Element_File {
 	 * @return Siberian_Form_Element_File
 	 */
 	public function setNewDesign() {
+        if($this->is_form_horizontal) {
+            $label_class = "col-sm-3";
+            $element_class = "col-sm-7";
+            $error_class = "col-sm-7 col-sm-offset-3";
+        } else {
+            $label_class = "";
+            $element_class = "";
+            $error_class = "";
+        }
+
 		return $this->setDecorators(array(
 	  		'ViewHelper',
             array('Description', array(
                 'placement' => Zend_Form_Decorator_Abstract::APPEND,
-                'class' => 'sb-form-line-complement col-sm-7 col-sm-offset-3 sb-form-description',
+                'class' => 'sb-form-line-complement sb-form-description '.$error_class,
             	'escape' => false
             )),
             array('Label', array(

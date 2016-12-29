@@ -46,6 +46,9 @@ $schemas['apk_queue'] = array(
     'build_time' => array(
         'type' => 'int(11) unsigned',
     ),
+    'build_start_time' => array(
+        'type' => 'int(11) unsigned',
+    ),
     'log' => array(
         'type' => 'longtext',
     ),

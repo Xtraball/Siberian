@@ -2,12 +2,15 @@ App.config(function($routeProvider) {
 
     $routeProvider.when(BASE_URL+"/backoffice", {
         controller: 'HomepageController',
+        cache: false,
         templateUrl: BASE_URL+"/backoffice/index/template"
     }).when(BASE_URL+"/backoffice/index/view", {
         controller: 'HomepageController',
+        cache: false,
         templateUrl: BASE_URL+"/backoffice/index/template"
     }).otherwise({
         controller: 'HomepageController',
+        cache: false,
         templateUrl: BASE_URL+"/backoffice/index/template"
     });
 
@@ -53,6 +56,7 @@ App.config(function($routeProvider) {
         $scope.server_usage = data.server_usage;
         $scope.extensions = data.extensions;
         $scope.external_services = data.external_services;
+        $scope.new_messages = data.unread_messages;
     });
 
     Backoffice.find().success(function(data) {
@@ -71,7 +75,7 @@ App.config(function($routeProvider) {
 
         var stats = data.stats;
 
-        $scope.cssStyle = "height:400px; width:1140px;";
+        $scope.cssStyle = "height:420px; width:1140px;";
 
         var labels = stats.map(function(stat){return stat[0];});
         var newUser  = stats.map(function(stat){return stat[1];});
@@ -81,7 +85,7 @@ App.config(function($routeProvider) {
         $scope.graphData = [newUser];
         var color = [
             '204,37,41'
-        ]
+        ];
 
         $scope.graphDatasetOverride = [
             {

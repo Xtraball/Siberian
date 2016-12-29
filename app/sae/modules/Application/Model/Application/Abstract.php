@@ -71,6 +71,20 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
+    /**
+     * @return array|mixed|null|string
+     */
+    public function getPrivacyPolicy() {
+        $data = $this->getData("privacy_policy");
+        $data = trim(strip_tags($data));
+        if(empty($data)) {
+            $config_pp = System_Model_Config::getValueFor("privacy_policy");
+            $this->setData("privacy_policy", $config_pp)->save();
+        }
+
+        return $this->getData("privacy_policy");
+    }
+
     public function save() {
 
         if(!$this->getId()) {
@@ -980,13 +994,18 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             ->setLayoutId($layout_id)
             ->unsCreatedAt()
             ->unsUpdatedAt()
-            ->unsBundleId()
-            ->unsPackageName()
+            ->setData("bundle_id", "")
+            ->setData("package_name", "")
             ->setDomain(null)
             ->setSubdomain(null)
             ->setSubdomainIsValidated(null)
             ->save()
         ;
+
+        // Duplicate the images folder
+        $old_app_folder = Core_Model_Directory::getBasePathTo(Application_Model_Application::getImagePath() . DIRECTORY_SEPARATOR . $old_app_id);
+        $target_app_folder = Core_Model_Directory::getBasePathTo(Application_Model_Application::getImagePath() . DIRECTORY_SEPARATOR . $this->getId());
+        Core_Model_Directory::duplicate($old_app_folder, $target_app_folder);
 
         // Save the design
         if(!empty($blocks)) {

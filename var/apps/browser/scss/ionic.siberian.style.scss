@@ -265,3 +265,16 @@ input:checked + .checkbox-icon:after {
 .icon-custom, .homepage-custom *.icon-custom {
     color: $icon-custom;
 }
+
+/* SLIDER PAGER */
+.layout.colorize-pager {
+  .slider-pager {
+    background-color: $homepage-custom-bg;
+  }
+  .slider-pager-page {
+    color: darken($homepage-custom-bg, 25%);
+    &:active {
+      color: lighten($homepage-custom-bg, 25%);
+    }
+  }
+}

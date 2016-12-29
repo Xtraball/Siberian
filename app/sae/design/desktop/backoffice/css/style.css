@@ -105,8 +105,8 @@ label.error { display: block; margin-top: 5px; color: #C41313; text-shadow: 1px 
 .backoffice_menu ul.l1 li ul.l2 li.has_submenu:hover ul.l3 li:first-child a { border-radius: 3px 0 0 0; }
 .backoffice_menu ul.l1 li ul.l2 li.has_submenu:hover ul.l3 li:last-child a { border-radius: 0 0 0 3px; }
 
-.backoffice_menu ul.l2 li a { padding-top: 15px; padding-bottom: 14px; }
-.backoffice_menu ul.l3 li a { padding-top: 15px; padding-bottom: 14px; }
+.backoffice_menu ul.l2 li a { padding-top: 9px; padding-bottom: 9px; }
+.backoffice_menu ul.l3 li a { padding-top: 9px; padding-bottom: 9px; }
 
 
 /** /MENU **/
@@ -227,7 +227,7 @@ a.link, button.as-link {
 
 /** DEFAULT TEMPLATE **/
 .wrapper {width: 1140px;margin: 60px auto auto; padding-bottom: 30px; border-radius: 0 0 10px 10px; }
-.wrapper .title { position: relative; min-height: 65px; margin-bottom: 30px; border-bottom: 1px solid white; }
+.wrapper .title { position: relative; min-height: 65px; border-bottom: 1px solid white; }
 /*.wrapper .title div { position: absolute; }*/
 .wrapper .title div.loader { height: 55px; padding: 0; background-size: 45px auto; }
 .wrapper .title div.title_content { width: 1100px; padding: 15px; }
@@ -243,12 +243,24 @@ a.link, button.as-link {
 .wrapper .content div.area .title h2 { position: relative; float: left; padding-right: 10px; z-index: 1; font-weight: bold; font-size: 22px; }
 .wrapper .content div.area .title hr { position: absolute; top: 70%; margin: 0; z-index:0; }
 
+.wrapper.container-fluid {width: initial !important; }
+
 /*.wrapper .content div.area .content { margin-top: 10px; }*/
 
-table.table i { font-size: 20px; }
+table.table i { font-size: 14px; }
 table.table { table-layout: fixed; }
 table.table td { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 table.table td.wrap { white-space: normal; }
+table.table.no-wrap td { white-space: normal; overflow: auto; text-overflow: clip; }
+
+td.extensions span.group {
+    float: left;
+    margin-left: 8px;
+}
+
+table.small-padding td {
+    padding: 2px 6px !important;
+}
 
 .preview i{vertical-align:top;font-size:20px}
 /** /DEFAULT TEMPLATE **/
@@ -345,4 +357,39 @@ input.highlight {
     color: #5f5f5f !important;
     background-color: #fff !important;
     border: 1px solid #ddd !important;
+}
+
+
+.notif-author {
+    font-size: 12px;
+    font-style: italic;
+}
+.notif-link {
+    font-weight: bold;
+}
+
+.notif-content {
+    font-size: 16px;
+    margin-top: 24px
+}
+
+.notif-iframe {
+    width: 100%;
+    height: 600px;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+}
+
+.message-badge {
+    font-weight: bold;
+    font-size: 15px;
+    background-color: #cc2529;
+    position: relative;
+    right: 10px;
+    top: -10px;
+    padding: 2px 8px 2px 6px;
+    border-radius: 11px;
 }

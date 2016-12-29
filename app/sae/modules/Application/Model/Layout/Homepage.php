@@ -10,6 +10,12 @@ class Application_Model_Layout_Homepage extends Application_Model_Layout_Abstrac
     public function __construct($params = array()) {
         parent::__construct($params);
         $this->_db_table = 'Application_Model_Db_Table_Layout_Homepage';
+
+        /** Default category is custom, the default is only for system layouts. */
+        $layout_category = new Application_Model_Layout_Category();
+        $custom_layout_category = $layout_category->find("custom", "code");
+        $this->setCategoryId($custom_layout_category->getId());
+
         return $this;
     }
 
@@ -19,7 +25,6 @@ class Application_Model_Layout_Homepage extends Application_Model_Layout_Abstrac
 
     public function isActive() {
         return $this->getData("is_active");
-        return $this->getId() <= 7 || file_exists(Core_Model_Directory::getDesignPath(true, "template/home/l{$this->getId()}/view.phtml", "mobile"));
     }
 
 }

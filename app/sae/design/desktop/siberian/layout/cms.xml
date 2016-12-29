@@ -15,4 +15,11 @@
         </views>
     </cms_application_external_wordpress_edit>
 
+    <cms_application_privacypolicy_edit>
+        <views>
+            <content class="application_view_customization_features_edit_tabbareditor" template="application/customization/features/edit/tabbar_editor.phtml" />
+            <content_editor class="core_view_default" template="cms/application/privacypolicy/edit.phtml" />
+        </views>
+    </cms_application_privacypolicy_edit>
+
 </layout>

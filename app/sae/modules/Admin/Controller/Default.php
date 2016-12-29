@@ -11,8 +11,15 @@ class Admin_Controller_Default extends Core_Controller_Default {
 
         $this->_admin = $this->getSession()->getAdmin();
 
+        $request = $this->getRequest();
+
+
+        if($request->getControllerName() == "privacypolicy") {
+            return $this;
+        }
+
         if(!$this->getSession()->isLoggedIn()
-            AND !preg_match('/(login)|(forgotpassword)|(change)|(map)|(signuppost)|(check)/', $this->getRequest()->getActionName())
+            AND !preg_match('/(login)|(forgotpassword)|(change)|(map)|(signuppost)|(check)/', $request->getActionName())
             AND !$this->getRequest()->isInstalling()
             ) {
             $this->_forward('login', 'account', 'admin');

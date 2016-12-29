@@ -1,81 +1,6 @@
 <?php
 
-class Job_Api_PlaceController extends Job_Controller_Default {
-
-    public function existAction() {
-
-        if($data = $this->getRequest()->getPost()) {
-
-            try {
-
-                if(empty($data["email"])) {
-                    throw new Exception($this->_("The email is required"));
-                }
-
-                $email = $data["email"];
-                $data = array("success" => 1);
-                $admin = new Admin_Model_Admin();
-                $admin->find($email, "email");
-
-                $data = array(
-                    "success" => 1,
-                    "exists" => (bool) $admin->getId()
-                );
-
-            } catch(Exception $e) {
-                $data = array(
-                    "error" => 1,
-                    "message" => $e->getMessage()
-                );
-            }
-
-            $this->_sendHtml($data);
-
-        }
-
-    }
-
-    public function authenticateAction() {
-
-        if($data = $this->getRequest()->getPost()) {
-
-            try {
-
-                if(empty($data["email"])) {
-                    throw new Exception($this->_("The email is required"));
-                }
-                if(empty($data["password"])) {
-                    throw new Exception($this->_("The password is required"));
-                }
-
-                $email = $data["email"];
-                $password = $data["password"];
-                $data = array("success" => 1);
-                $admin = new Admin_Model_Admin();
-                $admin->find($email, "email");
-
-                if(!$admin->getId()) {
-                    throw new Exception("The user doesn't exist.");
-                }
-
-                if(!$admin->authenticate($password)) {
-                    throw new Exception($this->_("Authentication failed."));
-                }
-
-                $data["token"] = $admin->getLoginToken();
-
-            } catch(Exception $e) {
-                $data = array(
-                    "error" => 1,
-                    "message" => $e->getMessage()
-                );
-            }
-
-            $this->_sendHtml($data);
-
-        }
-
-    }
+class Job_Api_PlaceController extends Api_Controller_Default {
 
     public function createAction() {
 
@@ -83,7 +8,7 @@ class Job_Api_PlaceController extends Job_Controller_Default {
 
             try {
 
-                $admin = new Admin_Model_Admin();
+                $place = new Admin_Model_Admin();
                 $email_checker = new Admin_Model_Admin();
 
                 if(!empty($data['user_id'])) {

@@ -6,7 +6,7 @@ class Backoffice_Notif_ListController extends Backoffice_Controller_Default {
 
         $html = array(
             "title" => $this->_("Messages"),
-            "icon" => "fa-envelope",
+            "icon" => "fa-inbox",
         );
 
         $this->_sendHtml($html);
@@ -62,10 +62,24 @@ class Backoffice_Notif_ListController extends Backoffice_Controller_Default {
                 );
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+            $this->_sendHtml($data);
 
         }
 
+    }
+
+    /**
+     * Mark all messages as read.
+     */
+    public function markallreadAction() {
+        $notification = new Backoffice_Model_Notification();
+        $notification->markRead();
+
+        $data = array(
+            "success" => 1,
+        );
+
+        $this->_sendHtml($data);
     }
 
 }

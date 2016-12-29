@@ -44,26 +44,12 @@
 <input enctype="multipart/form-data" class="fileupload bg_hd" type="file" style="display:none" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" rel="hd">
 <input enctype="multipart/form-data" class="fileupload bg_tablet" type="file" style="display:none" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" rel="tablet">
 
-<div class="col-md-12">
-    <div id="homepage_options">
-       <label id="use_homepage_background_image_label" for="use_homepage_background_image">
-            <input type="checkbox" <?php if($application->getUseHomepageBackgroundImageInSubpages() == 1) : ?>checked="checked"<?php endif; ?> id="use_homepage_background_image" name="use_homepage_background_image_in_subpages" value="1" />
-            <?php echo $this->_("Use into all of your application's pages"); ?>
-        </label>
-    </div>
-</div> 
-
-<div class="col-md-12">
-   <label for="ios_status_bar_is_visible" >
-        <input type="checkbox" <?php if($application->getIosStatusBarIsHidden()) : ?>checked="checked"<?php endif; ?> id="ios_status_bar_is_visible" name="ios_status_bar_is_hidden" value="1" />
-        <?php echo $this->_("Hide iOS status bar"); ?>
-    </label>
-    <br />
-    <label for="android_status_bar_is_visible">
-        <input type="checkbox" <?php if($application->getAndroidStatusBarIsHidden()) : ?>checked="checked"<?php endif; ?> id="android_status_bar_is_visible" name="android_status_bar_is_hidden" value="1" />
-        <?php echo $this->_("Hide Android status bar"); ?>
-    </label>
-    <img width="24" style="display:none;" title="Loading" alt="Loading" id="loader_homepage_options" src="<?php echo $this->getImage('customization/ajax/spinner.gif') ?>">
+<div class="col-md-12" id="behavior_container">
+    <?php
+        $form_behavior = new Application_Form_Behavior();
+        $form_behavior->populate($application->getData());
+        echo $form_behavior;
+    ?>
 </div>
 
 <div id="col-md-12">
@@ -72,6 +58,10 @@
     </div>
 </div>
 <script type="text/javascript">
+
+    $(document).ready(function() {
+        bindForms("#behavior_container");
+    });
 
         var homepage_uploader = new Uploader();
         var type = '';
@@ -144,49 +134,6 @@
         $('.upload_bg').click(function(){
             $("input.fileupload."+$(this).attr("rel")).trigger("click");
             return false;
-        });
-
-        $('#use_homepage_background_image').change(function() {
-            var bg_loader = $('#loader_homepage_options').show();
-            reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/mutualizebackgroundimages'); ?>', true, function(datas) {
-                bg_loader.hide();
-            }, function() {
-                bg_loader.hide();
-            });
-        });
-        $('#ios_status_bar_is_visible').change(function() {
-
-            $(this).val($(this).is(':checked') ? 1 : 0);
-
-            if($(this).is(':checked')) {
-                $(".status_bar").addClass('hide');
-            } else {
-                $(".status_bar").removeClass('hide');
-            }
-
-            var bg_loader = $('#loader_homepage_options').show();
-            reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/changeiosstatusbarvisibility'); ?>', true, function(datas) {
-                bg_loader.hide();
-            }, function() {
-                bg_loader.hide();
-            });
-        });
-        $('#android_status_bar_is_visible').change(function() {
-
-            $(this).val($(this).is(':checked') ? 1 : 0);
-
-            if($(this).is(':checked')) {
-                $(".status_bar").addClass('hide');
-            } else {
-                $(".status_bar").removeClass('hide');
-            }
-
-            var bg_loader = $('#loader_homepage_options').show();
-            reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/changeandroidstatusbarvisibility'); ?>', true, function(datas) {
-                bg_loader.hide();
-            }, function() {
-                bg_loader.hide();
-            });
         });
 
 </script>

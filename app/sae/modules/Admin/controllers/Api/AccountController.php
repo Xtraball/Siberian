@@ -2,8 +2,24 @@
 
 class Admin_Api_AccountController extends Api_Controller_Default {
 
+    /**
+     * @var string
+     */
+    public $namespace = "user";
+
+    /**
+     * @var array
+     */
+    public $secured_actions = array(
+        "exist",
+        "authenticate",
+        "create",
+        "update",
+        "forgotpassword",
+    );
+
     public function existAction() {
-        
+
         if($data = $this->getRequest()->getPost()) {
 
             try {

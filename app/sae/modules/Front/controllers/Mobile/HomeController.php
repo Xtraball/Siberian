@@ -138,9 +138,17 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
         $layout = new Application_Model_Layout_Homepage();
         $layout->find($this->getApplication()->getLayoutId());
 
+        $layout_options = $this->getApplication()->getLayoutOptions();
+        if(!empty($layout_options) && $opts = Siberian_Json::decode($layout_options)) {
+            $layout_options = $opts;
+        } else {
+            $layout_options = false;
+        }
+
         $data['layout'] = array(
             "layout_id" => "l{$this->getApplication()->getLayoutId()}",
             "layout_code" => $this->getApplication()->getLayout()->getCode(),
+            "layout_options" => $layout_options,
             "visibility" => $this->getApplication()->getLayoutVisibility(),
             "use_horizontal_scroll" => (int) $layout->getUseHorizontalScroll(),
             "position" => $layout->getPosition()

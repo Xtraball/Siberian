@@ -5,6 +5,19 @@ class Application_Api_AdminController extends Api_Controller_Default {
     private $__application;
     private $__admin;
 
+    /**
+     * @var string
+     */
+    public $namespace = "application";
+
+    /**
+     * @var array
+     */
+    public $secured_actions = array(
+        "add",
+        "remove",
+    );
+
     public function addAction() {
 
         if($data = $this->getRequest()->getPost()) {
@@ -33,6 +46,10 @@ class Application_Api_AdminController extends Api_Controller_Default {
     }
 
     public function removeAction() {
+
+        if(!$this->user->hasAccess("application.revoke_user")) {
+            $this->forward("notauthorized");
+        }
 
         if($data = $this->getRequest()->getPost()) {
 

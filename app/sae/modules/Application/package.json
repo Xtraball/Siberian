@@ -1,7 +1,7 @@
 {
   "name": "Application",
   "decription": "",
-  "version": "4.7.17",
+  "version": "4.8.4",
   "dependencies": {
     "system": {
       "type": "SAE",
@@ -9,7 +9,8 @@
     },
     "modules": {
       "Admin": "4.2.0",
-      "Media": "4.2.0"
+      "Media": "4.2.0",
+      "System": "4.8.4"
     }
   }
 }

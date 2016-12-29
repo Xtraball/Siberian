@@ -211,7 +211,9 @@ class Template_Model_Design extends Core_Model_Default {
         } else {
             $folder = Core_Model_Directory::getBasePathTo("var/cache/css");
             $file = $application->getId().".css";
-            if(!is_dir($folder)) mkdir($folder, 0777, true);
+            if(!is_dir($folder)) {
+                mkdir($folder, 0777, true);
+            }
             file_put_contents("{$folder}/{$file}", $css);
         }
 
@@ -258,8 +260,9 @@ class Template_Model_Design extends Core_Model_Default {
 
     }
 
-    public function getOverview() {
-        return Core_Model_Directory::getPathTo(self::PATH_IMAGE.$this->getData('overview'));
+    public function getOverview($data_key = null) {
+        $data = (empty($data_key)) ? $this->getData('overview') : $this->getData($data_key);
+        return Core_Model_Directory::getPathTo(self::PATH_IMAGE.$data);
     }
 
     public function getBackgroundImage($base = false) {

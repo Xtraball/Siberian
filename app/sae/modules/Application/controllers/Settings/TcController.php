@@ -47,4 +47,30 @@ class Application_Settings_TcController extends Application_Controller_Default {
 
     }
 
+    public function saveprivacypolicyAction() {
+
+        if($data = $this->getRequest()->getPost()) {
+
+            try {
+
+                $this->getApplication()->setPrivacyPolicy($data["privacy_policy"])->save();
+
+                $html = array(
+                    'success' => '1',
+                    'success_message' => $this->_('Privacy policy successfully saved'),
+                    'message_timeout' => 2,
+                    'message_button' => 0,
+                    'message_loader' => 0
+                );
+
+            }
+            catch(Exception $e) {
+                $html = array('message' => $e->getMessage());
+            }
+
+            $this->_sendHtml($html);
+
+        }
+    }
+
 }

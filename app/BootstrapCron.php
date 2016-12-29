@@ -135,6 +135,30 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap
         Core_Model_Language::prepare();
     }
 
+    /** Loading individual bootstrappers */
+    protected function _initModuleBoostrap() {
+        $module_names = $this->_front_controller->getDispatcher()->getModuleDirectories();
+
+        foreach($module_names as $module) {
+            $path = $this->_front_controller->getModuleDirectory($module)."/bootstrap.php";
+            if(is_readable($path)) {
+                try {
+                    require_once $path;
+                    $classname = "{$module}_Bootstrap";
+                    if(class_exists($classname)) {
+                        $bs = new $classname();
+                        if(method_exists($bs, "init")) {
+                            $bs::init($this);
+                        }
+                    }
+                } catch(Exception $e) {
+                    # Silently catch & log malformed bootstrap module
+                    trigger_error($e->getMessage());
+                }
+            }
+        }
+    }
+
     protected function _initCache() {
         $cache_dir = Core_Model_Directory::getCacheDirectory(true);
         if(is_writable($cache_dir)) {

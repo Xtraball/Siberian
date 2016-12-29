@@ -1,6 +1,6 @@
 <?php
 
-class Job_Api_PlaceController extends Job_Controller_Default {
+class Job_Api_PlaceController extends Api_Controller_Default  {
 
     public function existAction() {
 

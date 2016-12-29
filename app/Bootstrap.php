@@ -228,7 +228,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         $front = $this->_front_controller;
         $router = $front->getRouter();
-        $router->addRoute('default', new Siberian_Controller_Router_Route_Module(array(), $front->getDispatcher(), $front->getRequest()));
+        $router
+            ->addRoute("default",
+                new Siberian_Controller_Router_Route_Module(
+                    array(),
+                    $front->getDispatcher(),
+                    $front->getRequest()
+                ));
     }
 
     protected function _initCache() {
@@ -303,6 +309,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $request = $front->getRequest();
 
         $response = $front->dispatch($request);
+
         if ($front->returnResponse()) {
             return $response;
         }

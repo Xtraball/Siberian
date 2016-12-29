@@ -22,7 +22,7 @@ $schemas['backoffice_notification'] = array(
         'collation' => 'utf8_unicode_ci',
     ),
     'description' => array(
-        'type' => 'varchar(255)',
+        'type' => 'text',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
@@ -35,6 +35,28 @@ $schemas['backoffice_notification'] = array(
     'is_high_priority' => array(
         'type' => 'tinyint(1)',
         'default' => '0',
+    ),
+    'source' => array(
+        'type' => 'varchar(255)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'updates',
+    ),
+    'type' => array(
+        'type' => 'varchar(255)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'information',
+    ),
+    'object_type' => array(
+        'type' => 'varchar(255)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
+    'object_id' => array(
+        'type' => 'int(11) unsigned',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
     ),
     'is_read' => array(
         'type' => 'tinyint(1)',

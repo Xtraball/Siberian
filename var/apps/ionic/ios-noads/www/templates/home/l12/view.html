@@ -1,4 +1,4 @@
-<div class="layout l12">
+<div class="layout l12" ng-class="{ 'colorize-pager': features.layoutOptions.colorizePager == '1' }">
     <ion-slide-box delegate-handle="slideBoxLayout" pager-click="gotoPage(index);">
         <ion-slide ng-repeat="page in features.overview.paged_options">
             <a class="text-center homepage-custom transparent" ng-repeat="feature in page"

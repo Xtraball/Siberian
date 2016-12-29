@@ -3,20 +3,20 @@
 <layout>
 
     <application_promote_index>
-        <addLayout name="admin_menu" />
-        <addLayout name="customization_default" />
-        <base>
-            <title>Promote your app!</title>
-        </base>
-        <views>
-            <content class="application_view_promote_index" template="application/promote/index.phtml" />
-            <customization_sidebar_left class="admin_view_default" template="application/customization/index/sidebar_left.phtml" />
-        </views>
-        <actions>
-            <customization_sidebar_left name="setCurrentLink"><code>promote</code></customization_sidebar_left>
-            <header_menu name="setCurrentLink"><code>edit</code></header_menu>
-        </actions>
-    </application_promote_index>
+    <addLayout name="admin_menu" />
+    <addLayout name="customization_default" />
+    <base>
+        <title>Promote your app!</title>
+    </base>
+    <views>
+        <content class="application_view_promote_index" template="application/promote/index.phtml" />
+        <customization_sidebar_left class="admin_view_default" template="application/customization/index/sidebar_left.phtml" />
+    </views>
+    <actions>
+        <customization_sidebar_left name="setCurrentLink"><code>promote</code></customization_sidebar_left>
+        <header_menu name="setCurrentLink"><code>edit</code></header_menu>
+    </actions>
+</application_promote_index>
 
     <application_analytics_application_index>
         <addLayout name="admin_menu" />
@@ -265,5 +265,14 @@
             <content class="core_view_default" template="application/backoffice/edit.phtml" />
         </views>
     </application_backoffice_edit>
+
+    <application_privacypolicy_index>
+        <base>
+            <title>Privacy Policy</title>
+        </base>
+        <views>
+            <content class="core_view_default" template="application/privacypolicy/index.phtml" />
+        </views>
+    </application_privacypolicy_index>
 
 </layout>

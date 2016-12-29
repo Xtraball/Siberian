@@ -315,7 +315,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                 }
 
                 // SocketIO
-                if(class_exists("SocketIO_Model_SocketIO_Module")) {
+                if(class_exists("SocketIO_Model_SocketIO_Module") && method_exists("SocketIO_Model_SocketIO_Module", "killServer")) {
                     SocketIO_Model_SocketIO_Module::killServer();
                 }
 
@@ -411,14 +411,14 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
 
             $data = array(
                 "success" => 1,
-                "message" => "#824-56".__("Successfully cleaned-up old certificate."),
+                "message" => "#824-56: ".__("Successfully cleaned-up old certificate."),
             );
         } catch(Exception $e) {
             $logger->info("[clearpleskAction]: An error occured %s", $e->getMessage());
 
             $data = array(
                 "error" => 1,
-                "message" => "#824-55".__("[Plesk] Unknown error."),
+                "message" => "#824-55: ".__("[Plesk] %s", $e->getMessage()),
             );
         }
 
@@ -447,7 +447,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
 
             $data = array(
                 "error" => 1,
-                "message" => "#824-55".__("[Plesk] Unknown error."),
+                "message" => "#824-59: ".__("[Plesk] %s", $e->getMessage()),
             );
         }
 

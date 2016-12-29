@@ -16,7 +16,11 @@ abstract class Core_Model_Default_Abstract
 
     public $_default_application_image_path = "images/application";
 
+    public $logger = null;
+
     public function __construct($data = array()) {
+        $this->logger = Zend_Registry::get("logger");
+
         foreach($data as $key => $value) {
             if(!is_numeric($key)) {
                 $this->setData($key, $value);

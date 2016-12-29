@@ -7,7 +7,7 @@
                     <img ng-src="{{ feature.icon_url }}" />
                     <div ng-if="feature.code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
                 </div>
-                <p>{{ feature.name }}</p>
+                <p class="{{ features.layoutOptions.title }}">{{ feature.name }}</p>
             </li>
         </ul>
     </ion-scroll>

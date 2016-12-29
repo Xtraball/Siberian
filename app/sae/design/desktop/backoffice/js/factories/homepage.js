@@ -7,7 +7,7 @@ App.factory('Backoffice', function($http, Url) {
         return $http({
             method: 'GET',
             url: Url.get("backoffice/index/load"),
-            cache: true,
+            cache: false,
             responseType:'json'
         });
     };

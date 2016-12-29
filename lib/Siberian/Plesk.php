@@ -44,6 +44,12 @@ class Siberian_Plesk {
             ));
             $results = $request->process();
 
+            if(!$results) {
+                $this->logger->info(sprintf("[Siberian_Plesk] %s", $request->error->getMessage()));
+
+                throw new Exception(__("[%s] %s", $request->error->getCode(), $request->error->getMessage()));
+            }
+
             // Finding domain/subdomain ID
             $subdomain_id = null;
             if(!empty($results) && is_array($results)) {
@@ -72,7 +78,7 @@ class Siberian_Plesk {
             $plesk_browser->updateDomain($hostname, $subdomain_id);
 
         } catch(Exception $e) {
-            throw new Exception("[Siberian_Plesk] Unable to set the Certificate with message %s", $e->getMessage());
+            throw new Exception($e->getMessage());
         }
     }
 
@@ -95,17 +101,18 @@ class Siberian_Plesk {
             $request = new Plesk\SSL\DeleteCertificate($this->config, $params_delete);
             $info = $request->process();
 
-            $this->logger->info(sprintf("[Siberian_Plesk] %s", $request->error));
-            if(strpos($request->error, "Permission denied.") !== false) {
-                // re throw the exception
-                throw new Exception(__("Permission, denied from Plesk, please use the admin account."));
+            if(!$info) {
+                $this->logger->info(sprintf("[Siberian_Plesk] %s", $request->error->getMessage()));
+
+                throw new Exception(__("[%s] %s", $request->error->getCode(), $request->error->getMessage()));
             }
+
             $this->logger->info(sprintf("[Siberian_Plesk] %s", $request->xml_response));
             $this->logger->info(sprintf("[Siberian_Plesk] %s", print_r($info, true)));
             $this->logger->info(sprintf("[Siberian_Plesk] %s", "Certificate cleaned-up"));
         } catch(Exception $e) {
             $this->logger->info(sprintf("[Siberian_Plesk] %s", $e->getMessage()));
-            throw new Exception(__("Permission, denied from Plesk, please use the admin account."));
+            throw new Exception($e->getMessage());
         }
 
         return true;
@@ -132,19 +139,19 @@ class Siberian_Plesk {
             $request = new Plesk\SSL\InstallCertificate($this->config, $params_install);
             $info = $request->process();
 
-            $this->logger->info(sprintf("[Siberian_Plesk] %s", $request->xml_response));
-            $this->logger->info(sprintf("[Siberian_Plesk] %s", $request->error));
-            if(strpos($request->error, "Permission denied.") !== false) {
-                // re throw the exception
-                throw new Exception("Permission, denied from Plesk, please use the admin account.");
+            if(!$info) {
+                $this->logger->info(sprintf("[Siberian_Plesk] %s", $request->error->getMessage()));
+
+                throw new Exception(__("[%s] %s", $request->error->getCode(), $request->error->getMessage()));
             }
+
             $this->logger->info(sprintf("[Siberian_Plesk] %s", $request->xml_response));
             $this->logger->info(sprintf("[Siberian_Plesk] %s", print_r($info, true)));
             $this->logger->info(sprintf("[Siberian_Plesk] %s", "Certificate installed"));
         } catch(Exception $e) {
             $this->logger->info(sprintf("[Siberian_Plesk] Unable to install the certificate: %s", $e->getMessage()));
             $this->logger->info(sprintf("[Siberian_Plesk] %s", print_r($request->error, true)));
-            throw new Exception(__("Permission, denied from Plesk, please use the admin account."));
+            throw new Exception($e->getMessage());
         }
 
         return true;

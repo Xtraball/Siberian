@@ -13,15 +13,122 @@ class Application_Customization_Design_StyleController extends Application_Contr
     public function formoptionsAction() {
         if($datas = $this->getRequest()->getPost()) {
 
+            $application = $this->getApplication();
+            $layout_id = $application->getLayoutId();
+            $layout_model = new Application_Model_Layout_Homepage();
+            $layout = $layout_model->find($layout_id);
+            $layout_code = $layout->getCode();
 
+            if($options = Siberian_Feature::getLayoutOptionsCallbacks($layout_code)) {
+                $options = Siberian_Feature::getLayoutOptionsCallbacks($layout_code);
+                $form_class = $options["form"];
+                $form = new $form_class($layout);
+            } else {
+                $form = new Siberian_Form_Options($layout);
+            }
 
-            $html = array(
-                "success" => 1,
-                "message" => __("Options saved"),
-            );
+            if($form->isValid($datas)) {
+
+                if(isset($datas["homepage_slider_is_visible"])) {
+                    $application->setHomepageSliderIsVisible($datas["homepage_slider_is_visible"]);
+                }
+
+                if(isset($datas["layout_visibility"]) && ($layout->getVisibility() == Application_Model_Layout_Homepage::VISIBILITY_ALWAYS) && $datas["layout_visibility"] == "1") {
+                    $application->setLayoutVisibility(Application_Model_Layout_Homepage::VISIBILITY_ALWAYS);
+                } else {
+                    $application->setLayoutVisibility(Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE);
+                }
+
+                $application->setLayoutOptions(Siberian_Json::encode($datas));
+
+                $application->save();
+
+                $html = array(
+                    "success" => 1,
+                    "message" => __("Options saved"),
+                );
+            } else {
+                $html = array(
+                    "error" => 1,
+                    "message" => $form->getTextErrors(),
+                    "errors" => $form->getTextErrors(true)
+                );
+            }
+
 
             $this->getLayout()->setHtml(Siberian_Json::encode($html));
         }
+    }
+
+    public function homepagesliderAction() {
+        if($datas = $this->getRequest()->getPost()) {
+
+            $application = $this->getApplication();
+            $form = new Application_Form_HomepageSlider();
+
+            if($form->isValid($datas)) {
+
+                $application->setData($form->getValues());
+                $application->save();
+
+                $html = array(
+                    "success" => 1,
+                    "message" => __("Options saved"),
+                );
+            } else {
+                $html = array(
+                    "error" => 1,
+                    "message" => $form->getTextErrors(),
+                    "errors" => $form->getTextErrors(true)
+                );
+            }
+
+
+            $this->getLayout()->setHtml(Siberian_Json::encode($html));
+        }
+    }
+
+    public function behaviorAction() {
+        if($datas = $this->getRequest()->getPost()) {
+
+            $application = $this->getApplication();
+            $form = new Application_Form_Behavior();
+
+            if($form->isValid($datas)) {
+
+                $application->setData($form->getValues());
+                $application->save();
+
+                $html = array(
+                    "success" => 1,
+                    "message" => __("Options saved"),
+                );
+            } else {
+                $html = array(
+                    "error" => 1,
+                    "message" => $form->getTextErrors(),
+                    "errors" => $form->getTextErrors(true)
+                );
+            }
+
+
+            $this->getLayout()->setHtml(Siberian_Json::encode($html));
+        }
+    }
+
+    /**
+     * Modal dialog for import/export
+     */
+    public function layoutsAction() {
+        $layout = $this->getLayout();
+        $layout->setBaseRender('modal', 'html/modal.phtml', 'core_view_default')
+            ->setTitle(__("Choose your layout"))
+            ->setBorderColor("border-red")
+        ;
+        $layout->addPartial('modal_content', 'admin_view_default', 'application/customization/design/style/layouts.phtml');
+        $html = array('modal_html' => $layout->render());
+
+        $this->_sendHtml($html);
     }
 
     public function changelayoutAction() {
@@ -31,7 +138,9 @@ class Application_Customization_Design_StyleController extends Application_Contr
             try {
                 $html = array();
 
-                if(empty($datas['layout_id'])) throw new Exception($this->_('An error occurred while changing your layout.'));
+                if(empty($datas['layout_id'])) {
+                    throw new Exception($this->_('An error occurred while changing your layout.'));
+                }
 
                 $layout = new Application_Model_Layout_Homepage();
                 $layout->find($datas['layout_id']);
@@ -57,8 +166,10 @@ class Application_Customization_Design_StyleController extends Application_Contr
                     $this->getApplication()
                         ->setLayoutId($datas['layout_id'])
                         ->setLayoutVisibility($visibility)
+                        ->setLayoutOptions($layout->getOptions())
                         ->save()
                     ;
+                    $html['success'] = 1;
                     $html['reload'] = 1;
                     $html["display_layout_options"] = $layout->getVisibility() == Application_Model_Layout_Homepage::VISIBILITY_ALWAYS;
                     $html["layout_id"] = $layout->getId();
@@ -133,6 +244,9 @@ class Application_Customization_Design_StyleController extends Application_Contr
 
     }
 
+    /**
+     * @deprecated only for Siberian Design
+     */
     public function changeiosstatusbarvisibilityAction() {
 
         try {
@@ -160,6 +274,9 @@ class Application_Customization_Design_StyleController extends Application_Contr
 
     }
 
+    /**
+     * @deprecated only for Siberian Design
+     */
     public function changeandroidstatusbarvisibilityAction() {
 
         try {
@@ -187,6 +304,9 @@ class Application_Customization_Design_StyleController extends Application_Contr
 
     }
 
+    /**
+     * @deprecated only for Siberian Design
+     */
     public function mutualizebackgroundimagesAction() {
 
         try {

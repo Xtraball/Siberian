@@ -25,6 +25,11 @@ $schemas['application'] = array(
         'collation' => 'utf8_unicode_ci',
         'default' => 'homepage',
     ),
+    'layout_options' => array(
+        'type' => 'text',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'design_id' => array(
         'type' => 'int(11) unsigned',
         'is_null' => true,
@@ -356,6 +361,12 @@ $schemas['application'] = array(
     'offline_content' => array(
         'type' => 'tinyint(1) unsigned',
         'default' => '1',
+    ),
+    'privacy_policy' => array(
+        'type' => 'text',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
     ),
     'is_locked' => array(
         'type' => 'tinyint(1) unsigned',

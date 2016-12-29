@@ -9,13 +9,13 @@
 
     <div id="general-content" class="content">
         <h3 class="title-editor border-green">
-            <?php echo $this->_('General information'); ?>
+            <?php echo __('General information'); ?>
         </h3>
         <div id="general" class="subcontent content-color">
             <div class="container-fluid form-horizontal">
                 <div class="form-group">
                     <div class="col-sm-4">
-                        <label for="name"><?php echo $this->_('Application name'); ?> : </label>
+                        <label for="name"><?php echo __('Application name'); ?> : </label>
                     </div>
                     <div class="col-sm-5">
                         <input type="text" id="name" name="name" class="autosave input-flat" value="<?php echo $application->getName() ? $application->getName() : ucfirst(mb_strtolower($this->getSession()->getAdmin()->getName())); ?>" maxlength="30" />
@@ -26,7 +26,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-4">
-                        <label for="description"><?php echo $this->_('Description'); ?> : </label>
+                        <label for="description"><?php echo __('Description'); ?> : </label>
                     </div>
                     <div class="col-sm-5">
                         <textarea type="text" id="description" name="description" class="autosave input-flat"><?php echo $application->getDescription(); ?></textarea>
@@ -37,7 +37,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-4">
-                        <label for="keywords"><?php echo $this->_('Keywords'); ?> : </label>
+                        <label for="keywords"><?php echo __('Keywords'); ?> : </label>
                     </div>
                     <div class="col-sm-5">
                         <input type="text" id="keywords" name="keywords" class="autosave input-flat" value="<?php echo $application->getKeywords(); ?>" />
@@ -48,11 +48,11 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-4">
-                        <label for="main_category_id"><?php echo $this->_('Main category'); ?> : </label>
+                        <label for="main_category_id"><?php echo __('Main category'); ?> : </label>
                     </div>
                     <div class="col-sm-5">
                         <select id="main_category_id" name="main_category_id" class="autosave styled-select color-green" tabindex="1">
-                            <option value=""><?php echo $this->_('Main category'); ?></option>
+                            <option value=""><?php echo __('Main category'); ?></option>
                             <?php $categories = Application_Model_Device_Ionic_Ios::getStoreCategeories(); ?>
                             <?php foreach($categories as $category) : ?>
                                 <option value="<?php echo $category->getId(); ?>"<?php if($application->getMainCategoryId() == $category->getId()) : ?> selected="selected"<?php endif; ?>><?php echo $category->getName(); ?></option>
@@ -65,11 +65,11 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-4">
-                        <label for="secondary_category_id"><?php echo $this->_('Secondary category<br />(Optional)'); ?> : </label>
+                        <label for="secondary_category_id"><?php echo __('Secondary category<br />(Optional)'); ?> : </label>
                     </div>
                     <div class="col-sm-5">
                         <select id="secondary_category_id" name="secondary_category_id" class="autosave styled-select color-green" tabindex="2">
-                            <option value=""><?php echo $this->_('Secondary category'); ?></option>
+                            <option value=""><?php echo __('Secondary category'); ?></option>
                             <?php foreach($categories as $category) : ?>
                                 <option value="<?php echo $category->getId(); ?>"<?php if($application->getSecondaryCategoryId() AND $application->getSecondaryCategoryId() == $category->getId()) : ?> selected="selected"<?php endif; ?>><?php echo $category->getName(); ?></option>
                             <?php endforeach ?>
@@ -86,7 +86,7 @@
 
     <div id="monetize-content" class="content">
         <h3 class="title-editor border-green">
-            <?php echo $this->_('Monetize your app'); ?>
+            <?php echo __('Monetize your app'); ?>
         </h3>
         <div class="monetize subcontent content-color">
             <div class="container-fluid form-horizontal">
@@ -95,19 +95,19 @@
                         <label for="use_ads" class="<?php if ($application->getUseAds() == 1) echo 'checked' ?>">
                             <input id="use_ads" type="checkbox" class="autosave" value="1" name="use_ads" <?php if ($application->getUseAds() == 1) echo 'checked="checked"' ?> />
                             <input id="flag_use_ads" type="hidden" value="1" name="flag_use_ads" />
-                            <?php echo $this->_('Monetize my app using AdMob?'); ?>
+                            <?php echo __('Monetize my app using AdMob?'); ?>
                         </label>
                     </div>
                 </div>
             <!--<div id="monetize_fields" class="<?php if(!$application->getUseAds()) : ?>none<?php endif; ?>">-->
                 <div class="row">
                     <div class="col-sm-12">
-                        <p><?php echo $this->_("Enter your AdMob ID for each platform."); ?> <?php echo $this->_('<a href="%s" target="_blank">Click here for more information about AdMob</a>', "https://www.google.com/admob/"); ?></p>
+                        <p><?php echo __("Enter your AdMob ID for each platform."); ?> <?php echo __('<a href="%s" target="_blank">Click here for more information about AdMob</a>', "https://www.google.com/admob/"); ?></p>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-2">
-                        <label for="ios_admob_id"><?php echo $this->_('iOS'); ?> : </label>
+                        <label for="ios_admob_id"><?php echo __('iOS'); ?> : </label>
                     </div>
                     <div class="col-sm-5">
                         <input type="text" id="ios_admob_id" name="admob_id" class="autosave input-flat" placeholder="AdMob ID" value="<?php echo $application->getDevice(1)->getAdmobId(); ?>" maxlength="50" />
@@ -124,7 +124,7 @@
 
                 <div class="form-group">
                     <div class="col-sm-2">
-                        <label for="android_admob_id"><?php echo $this->_('Android'); ?> : </label>
+                        <label for="android_admob_id"><?php echo __('Android'); ?> : </label>
                     </div>
                     <div class="col-sm-5">
                         <input type="text" id="android_admob_id" name="admob_id" class="autosave input-flat" placeholder="AdMob ID" value="<?php echo $application->getDevice(2)->getAdmobId(); ?>" maxlength="50" />
@@ -147,7 +147,7 @@
     <div id="apple-content" class="content">
         <?php $device = $application->getDevice(1); ?>
         <h3 class="title-editor border-green">
-            <?php echo $this->_("Apple's Information"); ?>
+            <?php echo __("Apple's Information"); ?>
         </h3>
         <div class="apple subcontent content-color">
             <div class="container-fluid form-horizontal">
@@ -155,7 +155,7 @@
                     <div class="col-sm-12">
                         <label for="has_apple_account_1">
                             <input type="radio" id="has_apple_account_1" name="has_apple_account" class="has_account autosave" value="1" onclick="$('#doesnt_have_apple_account').slideUp(); $('#has_apple_account').slideDown();" />
-                            <?php echo $this->_("I have an Apple developer account"); ?>
+                            <?php echo __("I have an Apple developer account"); ?>
                         </label>
                     </div>
                 </div>
@@ -163,7 +163,7 @@
                     <div class="col-sm-12">
                         <label for="has_apple_account_0">
                             <input type="radio" id="has_apple_account_0" name="has_apple_account" class="has_account" value="0" onclick="$('#has_apple_account').slideUp(); $('#doesnt_have_apple_account').slideDown();" />
-                            <?php echo $this->_("I don't have an Apple developer account and I want to create one"); ?>
+                            <?php echo __("I don't have an Apple developer account and I want to create one"); ?>
                         </label>
                     </div>
                 </div>
@@ -171,7 +171,7 @@
                     <div class="col-sm-12">
                         <label for="has_apple_account_2" <?php if($device->getUseOurDeveloperAccount()) echo "checked"; ?>>
                             <input type="radio" id="has_apple_account_2" name="has_apple_account" class="has_account autosave" value="2" onclick="$('#has_apple_account').slideUp(); $('#doesnt_have_apple_account').slideUp();" />
-                            <?php echo $this->_('I let you publish my application under your Apple developer account'); ?>
+                            <?php echo __('I let you publish my application under your Apple developer account'); ?>
                         </label>
                     </div>
                 </div>
@@ -183,7 +183,7 @@
                                     <br/>
                                     <div class="form-group">
                                         <div class="col-sm-3">
-                                            <label for="ios_username"><?php echo $this->_("Email:"); ?></label>
+                                            <label for="ios_username"><?php echo __("Email:"); ?></label>
                                         </div>
                                         <div class="col-sm-5">
                                             <input type="text" id="ios_username" name="ios_username" class="autosave input-flat" value="<?php echo $device->getDeveloperAccountUsername(); ?>" maxlength="30" />
@@ -194,7 +194,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-3">
-                                            <label for="ios_password"><?php echo $this->_('Password:'); ?></label>
+                                            <label for="ios_password"><?php echo __('Password:'); ?></label>
                                         </div>
                                         <div class="col-sm-5">
                                             <input type="password" id="ios_password" name="ios_password" class="autosave  input-flat" value="<?php echo $device->getDeveloperAccountPassword(); ?>" />
@@ -208,7 +208,7 @@
                             <div id="doesnt_have_apple_account" style="display:none;" class="form-group">
                                 <div class="col-md-12">
                                     <div class="alert alert-info">
-                                        <?php echo $this->_('You have to create an Apple account before publishing your application. <a href="https://developer.apple.com/programs/ios" target="_blank">Click here to create one.</a>'); ?>
+                                        <?php echo __('You have to create an Apple account before publishing your application. <a href="https://developer.apple.com/programs/ios" target="_blank">Click here to create one.</a>'); ?>
                                     </div>
                                 </div>
                             </div>
@@ -222,7 +222,7 @@
     <div id="google-content" class="content">
         <?php $device = $application->getDevice(2); ?>
         <h3 class="title-editor border-green">
-            <?php echo $this->_("Google's Information"); ?>
+            <?php echo __("Google's Information"); ?>
         </h3>
         <div class="google subcontent content-color">
             <div class="container-fluid form-horizontal">
@@ -230,7 +230,7 @@
                     <div class="col-sm-12">
                         <label for="has_android_account_1">
                             <input type="radio" id="has_android_account_1" name="has_android_account" class="has_account autosave input" value="1" onclick="$('#doesnt_have_android_account').slideUp(); $('#has_android_account').slideDown();" />
-                            <?php echo $this->_("I have an Google developer account"); ?>
+                            <?php echo __("I have an Google developer account"); ?>
                         </label>
                     </div>
                 </div>
@@ -238,7 +238,7 @@
                     <div class="col-sm-12">
                         <label for="has_android_account_0" <?php if(!$device->getUseOurDeveloperAccount()) echo 'checked' ?>>
                             <input type="radio" id="has_android_account_0" name="has_android_account" class="has_account input" value="0" onclick="$('#has_android_account').slideUp(); $('#doesnt_have_android_account').slideDown();" />
-                            <?php echo $this->_("I don't have a Google developer account and I want to create one"); ?>
+                            <?php echo __("I don't have a Google developer account and I want to create one"); ?>
                         </label>
                     </div>
                 </div>
@@ -246,7 +246,7 @@
                     <div class="col-sm-12">
                         <label for="has_android_account_2" <?php if($device->getUseOurDeveloperAccount()) echo "checked"; ?>>
                             <input type="radio" id="has_android_account_2" name="has_android_account" class="has_account autosave input" value="2" onclick="$('#has_android_account').slideUp(); $('#doesnt_have_android_account').slideUp();" />
-                            <?php echo $this->_('I let you publish my application under your Google developer account'); ?>
+                            <?php echo __('I let you publish my application under your Google developer account'); ?>
                         </label>
                     </div>
                 </div>
@@ -258,7 +258,7 @@
                                     <br/>
                                     <div class="form-group">
                                         <div class="col-sm-3">
-                                            <label for="android_username"><?php echo $this->_("Email:"); ?></label>
+                                            <label for="android_username"><?php echo __("Email:"); ?></label>
                                         </div>
                                         <div class="col-sm-5">
                                             <input type="text" id="android_username" name="android_username" class="autosave input-flat" value="<?php echo $device->getDeveloperAccountUsername(); ?>" maxlength="30" />
@@ -269,7 +269,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-3">
-                                            <label for="android_password"><?php echo $this->_('Password:'); ?></label>
+                                            <label for="android_password"><?php echo __('Password:'); ?></label>
                                         </div>
                                         <div class="col-sm-5">
                                             <input type="password" id="android_password" name="android_password" class="autosave input-flat" value="<?php echo $device->getDeveloperAccountPassword(); ?>" />
@@ -283,7 +283,7 @@
                             <div id="doesnt_have_android_account" style="display:none;" class="form-group">
                                 <div class="col-md-12">
                                     <div class="alert alert-info">
-                                    <?php echo $this->_('You have to create a Google account before publishing your application. <a href="https://play.google.com/apps/publish/signup" target="_blank">Click here to create one.</a>'); ?>
+                                    <?php echo __('You have to create a Google account before publishing your application. <a href="https://play.google.com/apps/publish/signup" target="_blank">Click here to create one.</a>'); ?>
                                     </div>
                                 </div>
                             </div>

@@ -454,13 +454,14 @@ class Siberian_Cron {
                             }
 
                             // SocketIO
-                            if(class_exists("SocketIO_Model_SocketIO_Module")) {
+                            if(class_exists("SocketIO_Model_SocketIO_Module") && method_exists("SocketIO_Model_SocketIO_Module", "killServer")) {
                                 SocketIO_Model_SocketIO_Module::killServer();
                             }
 
                         } else {
                             $cert
                                 ->setErrorDate(time_to_date(time(), "YYYY-MM-dd HH:mm:ss"))
+                                ->setRenewDate(time_to_date(time()+10, "YYYY-MM-dd HH:mm:ss"))
                                 ->setErrorLog($lets_encrypt->getLog())
                                 ->save();
                         }
@@ -530,7 +531,9 @@ class Siberian_Cron {
 		$this->lock($task->getId());
 
 		try {
-			Siberian_Cache_Design::clearCache();
+		    # Rebuild manifest, clear cache, etc...
+		    $options = Siberian_Json::decode($task->getOptions());
+            Siberian_Autoupdater::configure($options["host"]);
 			# Disable when success.
 			$task->disable();
 		} catch(Exception $e){
@@ -541,6 +544,100 @@ class Siberian_Cron {
 		# Releasing
 		$this->unlock($task->getId());
 	}
+
+    /**
+     * Watch disk quota every hour
+     *
+     * @param $task
+     */
+	public function quotawatcher($task) {
+        # We do really need to lock this thing !
+        $this->lock($task->getId());
+
+        try {
+            $global_root = Core_Model_Directory::getBasePathTo("");
+            $global_quota = System_Model_Config::getValueFor("global_quota");
+            exec("du -cmsL {$global_root}", $output);
+            $parts = explode("\t", end($output));
+            $global_size = $parts[0];
+
+            # Send an alert.
+            if($global_size > $global_quota) {
+                // Send a quota alert.
+            }
+
+        } catch(Exception $e){
+            $this->log($e->getMessage());
+            $task->saveLastError($e->getMessage());
+        }
+
+        # Releasing
+        $this->unlock($task->getId());
+    }
+
+    /**
+     * Alerts watcher
+     *
+     * @param $task
+     */
+    public function alertswatcher($task) {
+        # We do really need to lock this thing !
+        $this->lock($task->getId());
+
+        try {
+            # Search for stuck builds
+            $current_time = time();
+            $apk_stucks = Application_Model_ApkQueue::getStuck($current_time);
+            $source_stucks = Application_Model_SourceQueue::getStuck($current_time);
+
+            # APK Round
+            foreach($apk_stucks as $apk_stuck) {
+                $description = "You have an APK generation stuck for more than 1 hour, please check in <b>Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further builds you can remove locks from the button below.";
+
+                $notification = new Backoffice_Model_Notification();
+                $notification
+                    ->setTitle(__("Alert: The APK build for the Application: %s (%s) is stuck for more than one hour.", $apk_stuck->getName(), $apk_stuck->getAppId()))
+                    ->setDescription(__($description))
+                    ->setSource("cron")
+                    ->setType("alert")
+                    ->setIsHighPriority(1)
+                    ->setObjectType(get_class($apk_stuck))
+                    ->setObjectId($apk_stuck->getId())
+                    ->save();
+
+                # Also change stuck build to failed.
+                $apk_stuck->changeStatus("failed");
+            }
+
+            # Sources Round
+            foreach($source_stucks as $source_stuck) {
+                $description = "You have a Source generation stuck for more than 1 hour, please check in <b>Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further builds you can remove locks from the button below.";
+
+                $notification = new Backoffice_Model_Notification();
+                $notification
+                    ->setTitle(__("Alert: The Source build for the Application: %s (%s) is stuck for more than one hour.", $source_stuck->getName(), $source_stuck->getAppId()))
+                    ->setDescription(__($description))
+                    ->setSource("cron")
+                    ->setType("alert")
+                    ->setIsHighPriority(1)
+                    ->setObjectType(get_class($source_stuck))
+                    ->setObjectId($source_stuck->getId())
+                    ->save();
+
+                # Also change stuck build to failed.
+                $source_stuck->changeStatus("failed");
+            }
+
+            # More alerts to come.
+
+        } catch(Exception $e){
+            $this->log($e->getMessage());
+            $task->saveLastError($e->getMessage());
+        }
+
+        # Releasing
+        $this->unlock($task->getId());
+    }
 
 
 

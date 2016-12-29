@@ -168,13 +168,13 @@
                                     <?php if (!$this->_canAccess("feature_".$option->getCode(),"all") OR $option->onlyOnce() AND in_array($option->getId(), $option_ids)) continue; ?>
                                     <?php $preview = $option->getPreview(); ?>
                                     <li id="add_page_<?php echo $option->getId(); ?>" class="add_option_value col-md-3 col-sm-3 col-xs-4 category_option category_option_<?php echo $option->getCategoryId(); ?>">
-                                        <div class="color-blue block_add_pages_icon">
-                                            <a href="<?php echo $this->getUrl('application/customization_features/save'); ?>" class="details <?php if($preview->getId() AND $preview->getTitle()) : ?>show_previews<?php else : ?>add_page<?php endif; ?>" rel="<?php echo $option->getId(); ?>">
+                                        <a href="<?php echo $this->getUrl('application/customization_features/save'); ?>" class="details <?php if($preview->getId() AND $preview->getTitle()) : ?>show_previews<?php else : ?>add_page<?php endif; ?>" rel="<?php echo $option->getId(); ?>">
+                                            <div class="color-blue block_add_pages_icon">
                                                 <img src="<?php echo $this->getIconUrl($option); ?>" alt="<?php echo $option->getName(); ?>" title="<?php echo $option->getName(); ?>" width="auto" height="50" class="block" data-image="<?php echo $option->getIconId() ?>" data-style="area" data-color="color" />
                                                 <span><?php echo cut($option->getName(), 14); ?></span>
                                                 <input type="hidden" name="option_id" value="<?php echo $option->getId(); ?>"/>
-                                            </a>
-                                        </div>
+                                            </div>
+                                        </a>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>

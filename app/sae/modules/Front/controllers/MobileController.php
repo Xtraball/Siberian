@@ -17,27 +17,32 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
             $googlemaps_key = $api->getSecretKey();
         }
 
+        $privacy_policy = trim($application->getPrivacyPolicy());
+        if(empty($privacy_policy)) {
+            $privacy_policy = false;
+        }
+
         $data = array(
             "css" => $this->getRequest()->getBaseUrl().Template_Model_Design::getCssPath($application)."?t=".time(),
             "customer" => array(
-                "id" => $customer_id,
-                "can_connect_with_facebook" => !!$application->getFacebookId(),
-                "can_access_locked_features" => $customer_id && $this->getSession()->getCustomer()->canAccessLockedFeatures(),
-                "token" => Zend_Session::getId()
+                "id"                            => $customer_id,
+                "can_connect_with_facebook"     => !!$application->getFacebookId(),
+                "can_access_locked_features"    => $customer_id && $this->getSession()->getCustomer()->canAccessLockedFeatures(),
+                "token"                         => Zend_Session::getId()
             ),
             "application" => array(
-                "id" => $application->getId(),
-                "name" => $application->getName(),
-                "is_locked" => $application->requireToBeLoggedIn(),
-                "is_bo_locked" => $application->getIsLocked(),
+                "id"            => $application->getId(),
+                "name"          => $application->getName(),
+                "is_locked"     => $application->requireToBeLoggedIn(),
+                "is_bo_locked"  => $application->getIsLocked(),
                 "colors" => array(
                     "header" => array(
-                        "backgroundColor" => $application->getBlock("header")->getBackgroundColorRGB(),
-                        "color" => $application->getBlock("header")->getColorRGB()
+                        "backgroundColor"   => $application->getBlock("header")->getBackgroundColorRGB(),
+                        "color"             => $application->getBlock("header")->getColorRGB()
                     ),
                     "background" => array(
-                        "backgroundColor" => $application->getBlock("background")->getBackgroundColor(),
-                        "color" => $application->getBlock("background")->getColor()
+                        "backgroundColor"   => $application->getBlock("background")->getBackgroundColor(),
+                        "color"             => $application->getBlock("background")->getColor()
                     ),
                     "list_item" => array(
                         "color" => $application->getBlock("list_item")->getColor()
@@ -45,14 +50,15 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                 ),
                 "admob" => $this->__getAdmobSettings(),
                 "facebook" => array(
-                    "id" => $application->getFacebookId(),
+                    "id"    => $application->getFacebookId(),
                     "scope" => Customer_Model_Customer_Type_Facebook::getScope()
                 ),
-                "gcm_senderid" => Push_Model_Certificate::getAndroidSenderId(),
-                "googlemaps_key" => $googlemaps_key,
-                "offline_content" => ($application->getOfflineContent() == 1),
-                "ios_status_bar_is_hidden" => ($application->getIosStatusBarIsHidden() == 1),
-                "android_status_bar_is_hidden" => ($application->getAndroidStatusBarIsHidden() == 1),
+                "gcm_senderid"                  => Push_Model_Certificate::getAndroidSenderId(),
+                "googlemaps_key"                => $googlemaps_key,
+                "offline_content"               => ($application->getOfflineContent() == 1),
+                "ios_status_bar_is_hidden"      => ($application->getIosStatusBarIsHidden() == 1),
+                "android_status_bar_is_hidden"  => ($application->getAndroidStatusBarIsHidden() == 1),
+                "privacy_policy"                => str_replace("#APP_NAME", $application->getName(), $privacy_policy),
             )
         );
 

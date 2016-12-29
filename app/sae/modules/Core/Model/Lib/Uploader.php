@@ -97,7 +97,9 @@ class Core_Model_Lib_Uploader extends Core_Model_Default
             $folder = $params['dest_folder'];
         }
 
-        if (!is_dir($folder)) mkdir($folder, 0777, true);
+        if (!is_dir($folder)) {
+            mkdir($folder, 0777, true);
+        }
 
         $source = imagecreatefromstring(file_get_contents($file));
         $dest = imagecreatetruecolor($targ_w, $targ_h);
@@ -133,6 +135,8 @@ class Core_Model_Lib_Uploader extends Core_Model_Default
         } else if($params['ext'] == 'gif') {
             imagegif($dest, $folder.$new_name);
         }
+
+        Siberian_Media::optimize($folder.$new_name, true);
         
         return $new_name;
 

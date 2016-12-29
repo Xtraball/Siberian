@@ -21,12 +21,13 @@
         </ul>
     </div>
     <div class="clear"></div>
-    <div class="per-page pull-right" ng-if="perPagePresets.length > 0 && numPages > 1">
+    <div class="per-page pull-right" ng-if="perPagePresets.length > 0">
         <span><?php echo __("Display"); ?></span>
-        <select class="form-control"
-                style="width: 50px; display: inline;"
-                ng-model="$parent.perPage"
-                ng-options="p for p in perPagePresets">
+        <select class="form-control" style="width: 50px; display: inline;" ng-model="$parent.perPage">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
         </select>
         <span><?php echo __("per page"); ?></span>
     </div>

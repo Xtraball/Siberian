@@ -5,7 +5,7 @@ App.config(function($routeProvider) {
         templateUrl: BASE_URL+"/installer/backoffice_module/template"
     });
 
-}).controller("ModuleController", function($scope, $interval, $timeout, Header, Installer, Url, Label, FileUploader) {
+}).controller("ModuleController", function($scope, $interval, $timeout, Backoffice, Header, Installer, Url, Label, FileUploader) {
 
     $scope.header = new Header();
     $scope.header.button.left.is_visible = false;
@@ -392,9 +392,20 @@ App.config(function($routeProvider) {
 
                 $scope.installation.install.success = true;
 
-                $timeout(function() {
-                    location.reload();
-                }, 2500);
+                Backoffice.clearCache("app_manifest").success(function (data) {
+                    $scope.content_loader_is_visible = true;
+                    $scope.message.setText(data.message)
+                        .isError(false)
+                        .show()
+                    ;
+                }).error(function() {
+
+                }).finally(function() {
+                    $timeout(function() {
+                        location.reload();
+                    }, 1500);
+                });
+
 
             } else {
                 $scope.message.setText(Label.uploader.error.general)

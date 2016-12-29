@@ -41,4 +41,30 @@ class Backoffice_Controller_Default extends Core_Controller_Default {
         $this->loadPartials(null, false);
     }
 
+    /**
+     * On every request append cool informations
+     *
+     * @param $data
+     * @return mixed
+     */
+    protected function _sendHtml($data) {
+        $notifs_model = new Backoffice_Model_Notification();
+        $unread = $notifs_model->countUnread();
+
+        $is_numeric = true;
+        foreach ($data as $a => $b) {
+            if (!is_int($a)) {
+                $is_numeric = false;
+            }
+        }
+
+        if(!$is_numeric) {
+            $data["meta"] = array(
+                "unread_messages" => $unread,
+            );
+        }
+
+        return parent::_sendHtml($data);
+    }
+
 }

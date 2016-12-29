@@ -13,6 +13,7 @@ class Backoffice_IndexController extends Backoffice_Controller_Default
         $extensions = Siberian_Service::getExtensions();
         $server_usage = Siberian_Cache::getDiskUsage();
         $libraries = Siberian_Media::getLibraries();
+        $messages = Backoffice_Model_Notification::getMessages();
 
         $html = array(
             "title" => __("Dashboard"),
@@ -22,6 +23,7 @@ class Backoffice_IndexController extends Backoffice_Controller_Default
             "libraries" => $libraries,
             "extensions" => $extensions,
             "server_usage" => $server_usage,
+            "unread_messages" => $messages,
         );
 
         $this->_sendHtml($html);
@@ -116,6 +118,11 @@ class Backoffice_IndexController extends Backoffice_Controller_Default
                         $message = __("Removing CRON Scheduler lock files.");
 
                         Siberian_Cache::__clearLocks();
+                        break;
+                    case "source_locks":
+                        $message = __("Removing CRON Scheduler source lock files.");
+
+                        Siberian_Cache::__clearLocks("source_locks");
                         break;
                     case "app_manifest":
                         $message = __("Rebuilding application manifest files.");

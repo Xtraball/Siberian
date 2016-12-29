@@ -51,7 +51,7 @@
                     <label for="package_name"><?php echo __('Privacy policy URL'); ?> : </label>
                 </div>
                 <div class="col-sm-7">
-                    <span><?php echo $this->getUrl("")."var/apps/browser/index-prod.html#".$application->getKey() ?>?__goto__=/privacy-policy</span>
+                    <span><?php echo $this->getUrl("application/privacypolicy")."?id=".$application->getKey() ?></span>
                 </div>
                 <div class="col-sm-1">
                     <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_package_name" alt="Loading" title="Loading" width="24" style="display:none;" />

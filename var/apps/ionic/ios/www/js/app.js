@@ -264,6 +264,7 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
 
                 Application.app_id = data.application.id;
                 Application.app_name = data.application.name;
+                Application.privacy_policy = data.application.privacy_policy;
                 Application.googlemaps_key = data.application.googlemaps_key;
                 Application.is_locked = data.application.is_locked == 1;
                 Application.offline_content = (data.application.offline_content);

@@ -50,5 +50,14 @@ App.factory('Cms', function ($rootScope, $http, Url) {
         });
     };
 
+    factory.loadPrivacypolicy = function(value_id) {
+        return $http({
+            method: 'GET',
+            url: Url.get("cms/mobile_privacypolicy/find", {value_id: value_id}),
+            cache: !$rootScope.isOverview,
+            responseType: 'json'
+        });
+    };
+
     return factory;
 });

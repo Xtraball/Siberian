@@ -142,8 +142,10 @@ App.config(function($routeProvider) {
                         responseType:'json'
                     }).then(function successCallback(response) {
                         // This may never occurs but well .. :)
+                        $scope.message.onUnknown(response.data);
                         $scope.pollerRemovePlesk();
                     }, function errorCallback(response) {
+                        $scope.message.onUnknown(response.data);
                         $scope.pollerRemovePlesk();
                     });
                 } else if($scope.configs.cpanel_type.value == "self") {
@@ -270,8 +272,19 @@ App.config(function($routeProvider) {
                     responseType:'json'
                 }).then(function successCallback(response) {
                     // This may never occurs but well .. :)
-                    $scope.pollerInstallPlesk();
+                    if(angular.isObject(response.data) && angular.isDefined(response.data.error)) {
+                        // Abort
+                        $scope.message.onUnknown(response.data);
+                    } else {
+                        $scope.pollerInstallPlesk();
+                    }
                 }, function errorCallback(response) {
+                    if(angular.isObject(response.data) && angular.isDefined(response.data.error)) {
+                        // Abort
+                        $scope.message.onUnknown(response.data);
+                    } else {
+                        $scope.pollerInstallPlesk();
+                    }
                     $scope.pollerInstallPlesk();
                 });
 

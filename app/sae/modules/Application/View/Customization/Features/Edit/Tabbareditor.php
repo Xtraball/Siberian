@@ -74,7 +74,7 @@ class Application_View_Customization_Features_Edit_Tabbareditor extends Applicat
                 $actual_position++;
             }
 
-            $sizes = call_user_func_array($callback, array($actual_position));
+            $sizes = call_user_func_array($callback, array($actual_position, Siberian_Json::decode($application->getLayoutOptions())));
 
             if(isset($sizes["width"])) {
                 $width = $sizes["width"];

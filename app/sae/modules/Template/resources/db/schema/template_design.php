@@ -51,6 +51,11 @@ $schemas['template_design'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'overview_new' => array(
+        'type' => 'varchar(255)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'background_image' => array(
         'type' => 'varchar(255)',
         'charset' => 'utf8',

@@ -32,7 +32,9 @@ class ImageController extends Core_Controller_Default
 
             $image_id = 'wordpress_image_'.sha1($image).'-'.$expected_width.'x'.$expected_height;
             $tmp_file = Core_Model_Directory::getTmpDirectory(true).'/'.$image_id.'.'.$this->_image_ext;
-            if(!is_dir(Core_Model_Directory::getImageCacheDirectory(true))) mkdir(Core_Model_Directory::getImageCacheDirectory(true), 0777);
+            if(!is_dir(Core_Model_Directory::getImageCacheDirectory(true))) {
+                mkdir(Core_Model_Directory::getImageCacheDirectory(true), 0777);
+            }
             $dest_file = Core_Model_Directory::getImageCacheDirectory(true).'/'.$image_id.'.'.$this->_image_ext;
 
             if (!file_exists($dest_file) OR !getimagesize($dest_file)) {
@@ -60,8 +62,12 @@ class ImageController extends Core_Controller_Default
                 Thumbnailer_CreateThumb::createThumbnail($tmp_file, $dest_file, $new_width, $new_height, $this->_image_ext, false, array('resizeUp' => true));
                 Thumbnailer_CreateThumb::crop($dest_file, $dest_file, 0, 0, $expected_width, $expected_height, true);
 
-                if(!file_exists($dest_file) OR !getimagesize($dest_file)) throw new Exception('');
+                if(!file_exists($dest_file) OR !getimagesize($dest_file)) {
+                    throw new Exception('');
+                }
             }
+
+            Siberian_Media::optimize($dest_file, true);
 
             $image_url = $dest_file;
 

@@ -59,8 +59,12 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
 
         foreach($data as $code => $values) {
 
-            if(!in_array($code, $this->_codes)) continue;
-            if($code == "favicon") continue;
+            if(!in_array($code, $this->_codes)) {
+                continue;
+            }
+            if($code == "favicon") {
+                continue;
+            }
             $config = new System_Model_Config();
             $config->find($code, "code");
             $config->setValue($values["value"])->save();

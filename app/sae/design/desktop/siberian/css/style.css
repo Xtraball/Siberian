@@ -833,7 +833,10 @@ ul#apps_settings li { width: 120px; margin: 0; }
 #overview .touch_icon p#app_name { position: absolute; bottom: -1px; width:66px; margin: 0; color: white; font-size: 11px; line-height: 10px; text-align: center; left: -4px;}
 #overview .icon { width: 62px; height: 62px; border-radius: 15px; overflow: hidden; }
 #mobile_homescreen #preview_icon { width: 62px; height: 62px; border-radius: 15px; overflow: hidden; }
-#mobile_homescreen img { border-radius: 0; }
+#mobile_homescreen img {
+    border-radius: 0;
+    width: 320px;
+    height: 572px; }
 #mobile_homescreen .touch_icon p#app_name { position: absolute; bottom: -1px; width: 71px; margin: 0; color: #FFFFFF; font-size: 12px; font-weight: lighter; line-height: 10px; text-align: center; }
 #overview #mobile_startup, #overview #homepage_cont{ margin-left: 0; padding: 14px; }
 /** /OVERVIEW **/

@@ -23,7 +23,7 @@ App.provider('HomepageLayout', function () {
 
     };
 
-    self.$get = function ($injector, $ionicSlideBoxDelegate, $location, $q, $rootScope, $stateParams, $timeout, Customer, Padlock, Pages) {
+    self.$get = function ($injector, $ionicSlideBoxDelegate, $location, $q, $rootScope, $stateParams, $timeout, $window, Customer, Padlock, Pages) {
 
         var HomepageLayout = {};
 
@@ -136,7 +136,22 @@ App.provider('HomepageLayout', function () {
 
                         HomepageLayout.properties.layoutId = data.layout_id;
                         HomepageLayout.properties.layoutCode = data.layout_code;
+                        HomepageLayout.properties.layoutOptions = data.layout.layout_options;
                         HomepageLayout.properties.tabbar_is_transparent = data.tabbar_is_transparent;
+
+                        // Check for a custom width
+                        console.log(HomepageLayout.properties.layoutOptions);
+                        if(typeof HomepageLayout.properties.layoutOptions.sidebarWidth != "undefined") {
+                            switch(HomepageLayout.properties.layoutOptions.sidebarWidthUnit) {
+                                case "pixel":
+                                        HomepageLayout.properties.menu.sidebarLeftWidth = HomepageLayout.properties.layoutOptions.sidebarWidthPixel;
+                                    break;
+                                case "percentage":
+                                        var width = $window.innerWidth;
+                                        HomepageLayout.properties.menu.sidebarLeftWidth = (width / 100 * HomepageLayout.properties.layoutOptions.sidebarWidth);
+                                    break;
+                            }
+                        }
 
                         HomepageLayout._init();
 
@@ -222,9 +237,11 @@ App.provider('HomepageLayout', function () {
                  * - features.options: filtered options, including customer_account if visible
                  * - features.overview: filtered options truncated if > to data.limit_to, and concatenated with more_items
                  */
+
                 var features = {
                     layoutId: HomepageLayout.data.layout_id,
                     layoutCode: HomepageLayout.data.layout_code,
+                    layoutOptions: HomepageLayout.data.layout.layout_options,
                     options: options,
                     overview: {
                         hasMore: false,

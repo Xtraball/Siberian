@@ -1,4 +1,23 @@
-<?php $application = $this->getApplication() ?>
+<?php
+$application = $this->getApplication();
+
+$layout_model = new Application_Model_Layout_Homepage();
+$layout = $layout_model->find($application->getLayoutId());
+
+$layout_options = Siberian_Feature::getLayoutOptionsCallbacks($layout->getCode());
+$layout_form = false;
+if(isset($layout_options["form"]) && class_exists($layout_options["form"])) {
+    $layout_form = new $layout_options["form"]($layout);
+
+    $layout_options = $application->getLayoutOptions();
+    if(!empty($layout_options) && $values = Siberian_Json::decode($layout_options)) {
+        $layout_form->populate(array_merge($application->getData(), $values));
+    }
+
+    $layout_form->siberianDesign();
+}
+
+?>
 <div class="style">
 
     <div id="template_container" class="area">
@@ -44,6 +63,43 @@
             </div>
             <?php endforeach ?>
             <div class="clear"></div>
+            <br />
+            <div>
+                <?php if($layout_form !== false): ?>
+                    <h4><?php echo __("Layout options") ?></h4>
+                    <?php if($layout_form->getPresets()): ?>
+                        <p class="preset-title"><?php echo __("Preset") ?></p>
+                        <div class="preset-sets" data-form="<?php echo $layout_form->getId(); ?>">
+                            <table style="text-align: center;" class="sb-mini-carousel" data-items="6">
+                                <tr>
+                                    <td style="width: 30px;" class="prev-arrow">
+                                        <i class="icon-chevron-left"></i>
+                                    </td>
+                                    <td class="sb-carousel-items">
+                                        <div class="sb-carousel-inline">
+                                            <?php foreach($layout_form->getPresets() as $preset): ?>
+                                            <?php
+                                            $values = "";
+                                            foreach($preset["values"] as $key => $value) {
+                                                $values .= " data-$key=\"$value\"";
+                                            }
+                                            ?>
+                                            <a class="sb-carousel-item preset-link" href="javascript:void(0)" <?php echo $values; ?>>
+                                                <img src="<?php echo $preset["preview"] ?>" />
+                                            </a>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    </td>
+                                    <td style="width: 30px;" class="next-arrow">
+                                        <i class="icon-chevron-right"></i>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    <?php endif; ?>
+                    <?php echo $layout_form; ?>
+                <?php endif; ?>
+            </div>
             <br />
             <div id="layout_options"<?php if($application->getLayout()->getVisibility() != Application_Model_Layout_Homepage::VISIBILITY_ALWAYS) : ?> style="display: none;"<?php endif; ?>>
                 <label for="set_layout_visibility" class="checkbox">
@@ -189,6 +245,23 @@
         var modal_preview;
         $(document).ready(function(){
 
+            bindForms("#layouts");
+
+            $("#layouts").on("submit", function() {
+                iframe.reload();
+            });
+
+            $("#layouts input").on("change", function() {
+                var el = $(this);
+                if("homepage_slider_is_visible" == el.attr("id") || "layout_visibility" == el.attr("id")) {
+                    setTimeout(function() {
+                        location.reload();
+                    }, 2000);
+                }
+            });
+
+            $("table.sb-mini-carousel").sbcarousel({visible_items : 5});
+
             <?php if($application->getLayoutVisibility() == Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE && $application->getHomepageSliderIsVisible()) : ?>
             initCarousel();
             <?php endif; ?>
@@ -297,31 +370,7 @@
                 var element = $(this);
                 reload(this, this.href, true, function(response) {
                     if(response.reload) {
-
-                        iframe.reload();
-
-                        if(response.display_layout_options) {
-                            $('#layout_options').show();
-                        } else {
-                            $('#layout_options').hide();
-                        }
-
-                        $('#set_layout_visibility').prop("checked", response.layout_visibility == "<?php echo Application_Model_Layout_Homepage::VISIBILITY_ALWAYS ?>");
-                        if($('#set_layout_visibility').is(":checked")) {
-                            $('#set_layout_visibility').parent("label.checkbox").addClass("checked");
-                            $("#homepage_slider").hide();
-                        } else {
-                            $('#set_layout_visibility').parent("label.checkbox").removeClass("checked");
-
-                            if(response.layout_visibility == "<?php echo Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE; ?>") {
-                                $("#homepage_slider").show();
-                            } else {
-                                $("#homepage_slider").hide();
-                            }
-                        }
-                        $('#layout_id').val(response.layout_id);
-                        $(".layouts .left a .checked").detach().prependTo(element);
-
+                        location.reload();
                     }
                 });
                 return false;
@@ -701,6 +750,64 @@
     .opacity_container input[type=range] { float: left; width: 90%; }
     .opacity_container span { float: right; font-size: 11px; margin-top: -1px }
         /** /IMAGE SLIDER CAROUSEL **/
+
+
+        #layouts h4 {
+            text-align: center;
+            text-transform: uppercase;
+            margin: 5px 0 23px 0;
+        }
+
+        .preset-title {
+            margin-bottom: 1px;
+            font-weight: bold;
+        }
+
+        .preset-sets {
+            border-radius: 4px;
+            background-color: #F4F4F4;
+            float: left;
+            padding: 4px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        form.sb-form:not(.form-horizontal) .control--checkbox {
+            margin: 0;
+            padding: 0;
+            float: right;
+            margin-top: 5px;
+        }
+
+        form.sb-form:not(.form-horizontal) .sb-form-checkbox {
+            width: 20px;
+        }
+
+        form.sb-form:not(.form-horizontal) .form-group-checkbox {
+            margin-bottom: 0px;
+            margin-top: 10px;
+        }
+
+        form.sb-form:not(.form-horizontal) .sb-save-info-button {
+            margin-top: 10px;
+        }
+
+        .prev-arrow, .next-arrow {
+            width: 30px;
+            min-width: 30px;
+            max-width: 30px;
+            font-size: 24px;
+            color: #333333;
+        }
+
+        .sb-carousel-item img {
+            height: auto !important;
+        }
+
+        #homepage_slider {
+            margin-top: 20px;
+        }
+
     </style>
 
     <div class="clear"></div>

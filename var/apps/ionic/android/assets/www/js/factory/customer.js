@@ -1,4 +1,4 @@
-App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache, $window, httpCache, Url, AUTH_EVENTS, CACHE_EVENTS) {
+App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache, $window, httpCache, Application, Url, AUTH_EVENTS, CACHE_EVENTS) {
 
     var factory = {};
 
@@ -48,6 +48,11 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
     };
 
     factory.loginModal = function(scope) {
+        if(typeof scope == "undefined") {
+            scope = $rootScope;
+        }
+        scope.privacy_policy = Application.privacy_policy;
+
         $ionicModal.fromTemplateUrl('templates/customer/account/l1/login.html', {
             scope: scope,
             animation: 'slide-in-up'

@@ -23,6 +23,7 @@ class Application_Model_SourceQueue extends Core_Model_Default {
         switch($status) {
             case "building":
                 $this->setBuildTime(time());
+                $this->setBuildStartTime(time());
                 break;
             case "success":
                 $this->setBuildTime(time() - $this->getBuildTime());
@@ -281,6 +282,26 @@ class Application_Model_SourceQueue extends Core_Model_Default {
         $table = new self();
         $results = $table->findAll(
             array("status IN (?)" => array("queued")),
+            array("created_at ASC")
+        );
+
+        return $results;
+    }
+
+    /**
+     * Fetch builds started from more than 1 hour
+     *
+     * @param $current_time
+     * @return Push_Model_Message[]
+     */
+    public static function getStuck($current_time) {
+        $table = new self();
+
+        $results = $table->findAll(
+            array(
+                "status = ?" => "building",
+                "(build_start_time + 3600) < ?" => $current_time
+            ),
             array("created_at ASC")
         );
 

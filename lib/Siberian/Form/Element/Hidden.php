@@ -4,6 +4,30 @@
  */
 class Siberian_Form_Element_Hidden extends Zend_Form_Element_Hidden {
 
+    /**
+     * @var bool
+     */
+    public $is_form_horizontal = true;
+
+    /**
+     * @param $boolean
+     */
+    public function setIsFormHorizontal($boolean) {
+        $this->is_form_horizontal = $boolean;
+    }
+
+    /**
+     * @var string
+     */
+    public $color = "color-blue";
+
+    /**
+     * @param $color
+     */
+    public function setColor($color) {
+        $this->color = $color;
+    }
+
 	/**
 	 * @throws Zend_Form_Exception
 	 */

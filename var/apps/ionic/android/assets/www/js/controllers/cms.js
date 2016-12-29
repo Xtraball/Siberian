@@ -110,33 +110,6 @@ App.config(function($stateProvider) {
         if($scope.place.address.country) contact.country = $scope.place.address.country;
 
         $scope.message = new Message();
-
-        //Application.addDataToContact(contact, function(response) {
-        //
-        //    $scope.message.setText("Contact successfully added to your address book")
-        //        .isError(false)
-        //        .show()
-        //    ;
-        //    $scope.$digest();
-        //
-        //}, function(response) {
-        //
-        //    var message = "Unable to add the contact to your address book";
-        //
-        //    if(angular.isObject(response)) {
-        //        switch (response.code) {
-        //            case 1: message = "You must give the permission to the app to add a contact to your address book"; break;
-        //            case 2: message = "You already have this user in your contact"; break;
-        //        }
-        //    }
-        //
-        //    $scope.message.setText(message)
-        //        .isError(true)
-        //        .show()
-        //    ;
-        //    $scope.$digest();
-        //
-        //});
     };
 
     $scope.loadContent();

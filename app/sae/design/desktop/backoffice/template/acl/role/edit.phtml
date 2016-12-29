@@ -3,10 +3,10 @@
         <br />
             <div class="form-group">
                 <div class="col-md-3">
-                    <label for="role_code"><?php echo $this->_("Code"); ?></label>
+                    <label for="role_code"><?php echo __("Code"); ?></label>
                 </div>
                 <div class="col-md-9">
-                    <label for="role_label"><?php echo $this->_("Label"); ?></label>
+                    <label for="role_label"><?php echo __("Label"); ?></label>
                 </div>
             </div>
             <div class="form-group">
@@ -21,13 +21,13 @@
                 <div class="col-md-12">
                     <label for="default_role">
                         <input type="checkbox" id="default_role" ng-model="role.default"/>
-                        <?php echo $this->_("This role will be the default one for the whole platform."); ?>
+                        <?php echo __("This role will be the default one for the whole platform."); ?>
                     </label>
                 </div>
             </div>
     </sb-section>
     
-    <sb-section title="'<?php echo addslashes($this->_("Manage access")); ?>'" button="button">
+    <sb-section title="'<?php echo addslashes(__("Manage access")); ?>'" button="button">
         <ul class="list-group">
             <li ng-repeat="resource in resources" class="list-group-item" ng-include="'role/resources/list.html'" />
         </ul>
@@ -35,7 +35,7 @@
 
     <div class="form-group">
         <div class="col-md-12 text-right">
-            <button type="submit" class="btn btn-primary"><?php echo $this->_("Save"); ?></button>
+            <button type="submit" class="btn btn-primary"><?php echo __("Save"); ?></button>
         </div>
     </div>
 

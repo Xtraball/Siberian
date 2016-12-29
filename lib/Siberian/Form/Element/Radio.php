@@ -4,6 +4,30 @@
  */
 class Siberian_Form_Element_Radio extends Zend_Form_Element_Radio {
 
+    /**
+     * @var bool
+     */
+    public $is_form_horizontal = true;
+
+    /**
+     * @param $boolean
+     */
+    public function setIsFormHorizontal($boolean) {
+        $this->is_form_horizontal = $boolean;
+    }
+
+    /**
+     * @var string
+     */
+    public $color = "color-blue";
+
+    /**
+     * @param $color
+     */
+    public function setColor($color) {
+        $this->color = $color;
+    }
+
 	/**
 	 * @throws Zend_Form_Exception
 	 */
@@ -44,6 +68,16 @@ class Siberian_Form_Element_Radio extends Zend_Form_Element_Radio {
 	 * @return Siberian_Form_Element_Radio
 	 */
 	public function setNewDesign() {
+
+        if($this->is_form_horizontal) {
+            $label_class = "col-sm-3";
+            $element_class = "col-sm-7";
+        } else {
+            $label_class = "";
+            $element_class = "";
+            $error_class = "";
+        }
+
 		return $this
 		    ->addClass('sb-form-radio')
 		    ->setAttrib('label_class', 'sb-custom-radio')
@@ -52,10 +86,10 @@ class Siberian_Form_Element_Radio extends Zend_Form_Element_Radio {
 		    ->setDecorators(array(
     	  		'ViewHelper',
 				array(array('container'=>'HtmlTag'),array(
-					'class' => 'sb-radio-container col-sm-7'
+					'class' => 'sb-radio-container '.$element_class
 				)),
                 array('Label', array(
-                    'class' => 'sb-form-line-title col-sm-3',
+                    'class' => 'sb-form-line-title '.$label_class,
                     'requiredSuffix' => ' *',
                     'placement' => Zend_Form_Decorator_Abstract::PREPEND,
                 )),

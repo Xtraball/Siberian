@@ -13,6 +13,10 @@ $schemas['application_layout_homepage'] = array(
         'auto_increment' => true,
         'primary' => true,
     ),
+    'category_id' => array(
+        'type' => 'int(11) unsigned',
+        'is_null' => true,
+    ),
     'visibility' => array(
         'type' => 'varchar(10)',
         'charset' => 'utf8',
@@ -30,6 +34,11 @@ $schemas['application_layout_homepage'] = array(
         'collation' => 'utf8_unicode_ci',
     ),
     'preview' => array(
+        'type' => 'varchar(255)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
+    'preview_new' => array(
         'type' => 'varchar(255)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',

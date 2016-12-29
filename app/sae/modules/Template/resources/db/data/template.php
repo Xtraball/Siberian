@@ -1,15 +1,87 @@
 <?php
 // Mobile Blocks
 $datas = array(
-    array('code' => 'header', 'name' => 'Header', 'use_color' => 1, 'color' => '#00377a', 'use_background_color' => 1, 'background_color' => '#739c03', 'position' => 10),
-    array('code' => 'subheader', 'name' => 'Subheader', 'use_color' => 1, 'color' => '#00377a', 'use_background_color' => 1, 'background_color' => '#739c03', 'position' => 20),
-    array('code' => 'connect_button', 'name' => 'Connect Button', 'use_color' => 1, 'color' => '#233799', 'use_background_color' => 1, 'background_color' => '#f2f2f2', 'position' => 30),
-    array('code' => 'background', 'name' => 'Background', 'use_color' => 1, 'color' => '#ffffff', 'use_background_color' => 1, 'background_color' => '#0c6ec4', 'position' => 40),
-    array('code' => 'discount', 'name' => 'Discount Zone', 'use_color' => 1, 'color' => '#fcfcfc', 'use_background_color' => 1, 'background_color' => '#739c03', 'position' => 50),
-    array('code' => 'button', 'name' => 'Button', 'use_color' => 1, 'color' => '#fcfcfc', 'use_background_color' => 1, 'background_color' => '#00377a', 'position' => 60),
-    array('code' => 'news', 'name' => 'News', 'use_color' => 1, 'color' => '#fcfcfc', 'use_background_color' => 1, 'background_color' => '#00377a', 'position' => 70),
-    array('code' => 'comments', 'name' => 'Comments', 'use_color' => 1, 'color' => '#ffffff', 'use_background_color' => 1, 'background_color' => '#4d5d8a', 'position' => 80),
-    array('code' => 'tabbar', 'name' => 'Tabbar', 'use_color' => 1, 'color' => '#ffffff', 'use_background_color' => 1, 'background_color' => '#739c03', 'image_color' => '#ffffff', 'position' => 90)
+    array(
+        "code" => "header",
+        "name" => "Header",
+        "use_color" => 1,
+        "color" => "#00377a",
+        "use_background_color" => 1,
+        "background_color" => "#739c03",
+        "position" => 10
+    ),
+    array(
+        "code" => "subheader",
+        "name" => "Subheader",
+        "use_color" => 1, "color" => "#00377a",
+        "use_background_color" => 1,
+        "background_color" => "#739c03",
+        "position" => 20
+    ),
+    array(
+        "code" => "connect_button",
+        "name" => "Connect Button",
+        "use_color" => 1,
+        "color" => "#233799",
+        "use_background_color" => 1,
+        "background_color" => "#f2f2f2",
+        "position" => 30
+    ),
+    array(
+        "code" => "background",
+        "name" => "Background",
+        "use_color" => 1,
+        "color" => "#ffffff",
+        "use_background_color" => 1,
+        "background_color" => "#0c6ec4",
+        "position" => 40
+    ),
+    array(
+        "code" => "discount",
+        "name" => "Discount Zone",
+        "use_color" => 1,
+        "color" => "#fcfcfc",
+        "use_background_color" => 1,
+        "background_color" => "#739c03",
+        "position" => 50
+    ),
+    array(
+        "code" => "button",
+        "name" => "Button",
+        "use_color" => 1,
+        "color" => "#fcfcfc",
+        "use_background_color" => 1,
+        "background_color" => "#00377a",
+        "position" => 60
+    ),
+    array(
+        "code" => "news",
+        "name" => "News",
+        "use_color" => 1,
+        "color" => "#fcfcfc",
+        "use_background_color" => 1,
+        "background_color" => "#00377a",
+        "position" => 70
+    ),
+    array(
+        "code" => "comments",
+        "name" => "Comments",
+        "use_color" => 1,
+        "color" => "#ffffff",
+        "use_background_color" => 1,
+        "background_color" => "#4d5d8a",
+        "position" => 80
+    ),
+    array(
+        "code" => "tabbar",
+        "name" => "Tabbar",
+        "use_color" => 1,
+        "color" => "#ffffff",
+        "use_background_color" => 1,
+        "background_color" => "#739c03",
+        "image_color" => "#ffffff",
+        "position" => 90
+    )
 );
 
 foreach($datas as $data) {
@@ -60,6 +132,7 @@ $designs = array(
         "layout_id" => $layouts["layout_6"]->getId(),
         "name" => "Red&Co",
         "overview" => "/rouse/overview.png",
+        "overview_new" => "/rouse/overview_new.png",
         "background_image" => "/../../images/templates/rouse/640x1136.jpg",
         "background_image_hd" => "/../../images/templates/rouse/1242x2208.jpg",
         "background_image_tablet" => "/../../images/templates/rouse/1536x2048.jpg",
@@ -74,6 +147,7 @@ $designs = array(
         "layout_id" => $layouts["layout_5"]->getId(),
         "name" => "Blutility",
         "overview" => "/bleuc/overview.png",
+        "overview_new" => "/bleuc/overview_new.png",
         "background_image" => "/../../images/templates/bleuc/640x1136.jpg",
         "background_image_hd" => "/../../images/templates/bleuc/1242x2208.jpg",
         "background_image_tablet" => "/../../images/templates/bleuc/1536x2048.jpg",
@@ -88,6 +162,7 @@ $designs = array(
         "layout_id" => $layouts["layout_4"]->getId(),
         "name" => "Colors",
         "overview" => "/colors/overview.png",
+        "overview_new" => "/colors/overview_new.png",
         "background_image" => "/../../images/templates/colors/640x1136.jpg",
         "background_image_hd" => "/../../images/templates/colors/1242x2208.jpg",
         "background_image_tablet" => "/../../images/templates/colors/1536x2048.jpg",

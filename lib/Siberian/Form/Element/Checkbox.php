@@ -114,6 +114,10 @@ class Siberian_Form_Element_Checkbox extends Zend_Form_Element_Checkbox {
             $label_class = "{$this->label_cols}";
             $element_class = "{$this->input_cols}";
             $error_class = "{$this->error_cols} {$this->offset_cols}";
+        } else {
+            $label_class = "";
+            $element_class = "";
+            $error_class = "";
         }
 
 		return $this->setDecorators(array(

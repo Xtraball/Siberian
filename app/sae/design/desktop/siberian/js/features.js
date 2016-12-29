@@ -1,5 +1,6 @@
 /** Handle every elements for Forms on the Fly */
-var default_ckeditor_config = {
+var ckeditor_config = [];
+ckeditor_config["default"] = {
     language: 'en',
     toolbar: [
         {name: 'source', items: ['Source']},
@@ -17,6 +18,8 @@ var default_ckeditor_config = {
         {name: 'styles', items: ['TextColor', 'Format']}
     ]
 };
+
+ckeditor_config["complete"] = {};
 
 var feature_picture_uploader = new Uploader();
 
@@ -43,18 +46,10 @@ var feature_form_success = function(html) {
 var feature_reload = function() {
     if(typeof page != "undefined") {
         page.reload();
-
-        if(last_tab != -1) {
-            $(".nav-tabs a[href='"+last_tab+"']").tab("show");
-        }
     }
 };
 
 var last_tab = -1;
-
-$(".nav-tabs a[role='tab']").on("click", function() {
-    last_tab = $(this).attr("href");
-});
 
 var remove_row = function(rowid) {
     var row = $("#"+rowid);
@@ -106,8 +101,24 @@ var button_picture_html = '<div class="feature-upload-placeholder" data-uid="%UI
     '</div>';
 
 var bindForms = function(default_parent) {
+    setTimeout(function() {
+        _bindForms(default_parent);
+    }, 500);
+};
 
-    $.datepicker.setDefaults($.datepicker.regional[datepicker_regional]);
+var _bindForms = function(default_parent) {
+
+    $(default_parent+" .nav-tabs a[role='tab']").on("click", function() {
+        last_tab = $(this).attr("href");
+    });
+
+    if(last_tab != -1) {
+        $(".nav-tabs a[href='"+last_tab+"']").tab("show");
+    }
+
+    if(typeof datepicker_regional != "undefined") {
+        $.datepicker.setDefaults($.datepicker.regional[datepicker_regional]);
+    }
 
     if($(default_parent).data("binded") == "yes") {
         console.info(default_parent+" is already bound.");
@@ -127,14 +138,20 @@ var bindForms = function(default_parent) {
         $(default_parent+" form.feature-form").find(".feature-upload-placeholder").remove();
     };
 
-
-
     var handleRichtext = function() {
         /** Bind ckeditors (only visible ones) */
-        $(default_parent+' .richtext:visible').ckeditor(
-            function(){},
-            default_ckeditor_config
-        );
+        $(default_parent+' .richtext:visible').each(function() {
+            var el = $(this);
+            var ck_key = el.attr("ckeditor");
+            console.log(ck_key);
+            console.log((ck_key in ckeditor_config));
+            var ck_config = (ck_key in ckeditor_config) ? ckeditor_config[ck_key] : ckeditor_config["default"];
+
+            el.ckeditor(
+                function(){},
+                ck_config
+            );
+        });
     };
 
     var handleDatetimePicker = function() {
@@ -146,7 +163,7 @@ var bindForms = function(default_parent) {
             var options = {};
             if(format) {
                 options = {
-                    "altFormat": format
+                    "dateFormat": format
                 };
             }
             switch(type) {
@@ -450,5 +467,40 @@ var bindForms = function(default_parent) {
 
     /** Tooltip */
     $(default_parent+' .display_tooltip').tooltip();
+
+    /** Range/Slider inputs with indicator */
+    $("input[type=range].sb-slider").on("change input", function() {
+        var el = $(this);
+        if(el.next(".range-indicator").length) {
+            el.next(".range-indicator").find("span.value").text(el.val());
+        }
+    });
+
+    /** Bind presets */
+    $(default_parent+' form#form-options').each(function() {
+        var form = $(this);
+        if($("div[data-form='"+form.attr("id")+"']").length) {
+            var presets = $("div[data-form='"+form.attr("id")+"']");
+            presets.find("a").on("click", function() {
+                var preset = $(this);
+                $.each(preset.data(), function(name, value) {
+                    form.find("[name='"+name+"']").each(function() {
+                        var el = $(this);
+                        switch(el.attr("type")) {
+                            default:
+                                el.val(value).trigger("change");
+                                break;
+                            case "hidden":
+                                break;
+                            case "checkbox":
+                                el.prop('checked', value).trigger("change");
+                                break;
+                        }
+                    });
+                });
+                form.submit();
+            });
+        }
+    });
 
 };

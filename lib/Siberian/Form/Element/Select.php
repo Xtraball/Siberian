@@ -3,7 +3,31 @@
  * Class Siberian_Form_Element_Select
  */
 class Siberian_Form_Element_Select extends Zend_Form_Element_Select {
-	
+
+    /**
+     * @var bool
+     */
+    public $is_form_horizontal = true;
+
+    /**
+     * @param $boolean
+     */
+    public function setIsFormHorizontal($boolean) {
+        $this->is_form_horizontal = $boolean;
+    }
+
+    /**
+     * @var string
+     */
+    public $color = "color-blue";
+
+    /**
+     * @param $color
+     */
+    public function setColor($color) {
+        $this->color = $color;
+    }
+
 	public function init(){
 		$this->addPrefixPath('Siberian_Form_Decorator_', 'Siberian/Form/Decorator/', 'decorator');
 		$this->addFilters(array('StringTrim','StripTags'));
@@ -34,18 +58,29 @@ class Siberian_Form_Element_Select extends Zend_Form_Element_Select {
 	 * @return Siberian_Form_Element_Select
 	 */
 	public function setNewDesign(){
-	  	$this->addClass('sb-select styled-select color-blue form-control no-dk');
+	  	$this->addClass('sb-select styled-select '.$this->color.' form-control no-dk');
+
+        if($this->is_form_horizontal) {
+            $label_class = "col-sm-3";
+            $element_class = "col-sm-7";
+            $error_class = "col-sm-7 col-sm-offset-3";
+        } else {
+            $label_class = "";
+            $element_class = "";
+            $error_class = "";
+        }
+
 		return $this->setDecorators(array(
 	  		'ViewHelper',
 			array(array('wrapper'=>'HtmlTag'),array(
-				'class' => 'col-sm-7'
+				'class' => ' '.$element_class
 			)),
             array('Description', array(
                 'placement' => Zend_Form_Decorator_Abstract::APPEND,
-                'class' => 'sb-form-line-complement col-sm-7 col-sm-offset-3 sb-form-description'
+                'class' => 'sb-form-line-complement sb-form-description '.$error_class
             )),
             array('Label', array(
-                'class' => 'sb-form-line-title col-sm-3',
+                'class' => 'sb-form-line-title '.$label_class,
                 'requiredSuffix' => ' *',
                 'placement' => Zend_Form_Decorator_Abstract::PREPEND,
             )),

@@ -66,6 +66,23 @@ class Siberian_Feature {
     }
 
     /**
+     * @param $datas
+     */
+    public static function installApplicationLayout($datas, $category_code = "custom") {
+        $category_model = new Application_Model_Layout_Category();
+        $category = $category_model->find($category_code, "code");
+
+        if(empty($datas["category_id"])) {
+            $datas["category_id"] = $category->getId();
+        }
+
+        $layout = new Application_Model_Layout_Homepage();
+        $layout
+            ->setData($datas)
+            ->insertOrUpdate(array("code"));
+    }
+
+    /**
      * Install layouts if the Feature has multiple
      *
      * @param $option_id

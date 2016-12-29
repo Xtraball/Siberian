@@ -4,6 +4,30 @@
  */
 class Siberian_Form_Element_Submit extends Zend_Form_Element_Submit {
 
+    /**
+     * @var bool
+     */
+    public $is_form_horizontal = true;
+
+    /**
+     * @var string
+     */
+    public $color = "color-blue";
+
+    /**
+     * @param $boolean
+     */
+    public function setIsFormHorizontal($boolean) {
+        $this->is_form_horizontal = $boolean;
+    }
+
+    /**
+     * @param $color
+     */
+    public function setColor($color) {
+        $this->color = $color;
+    }
+
 	/**
 	 * @throws Zend_Form_Exception
 	 */
@@ -24,7 +48,7 @@ class Siberian_Form_Element_Submit extends Zend_Form_Element_Submit {
 	 * @return Siberian_Form_Element_Submit
 	 */
 	public function setNewDesign(){
-		$this->addClass("color-blue");
+		$this->addClass($this->color);
 		return $this->setDecorators(array(
   			'ViewHelper',
 			array('HtmlTag',array(

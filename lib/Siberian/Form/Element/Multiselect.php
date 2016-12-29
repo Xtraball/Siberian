@@ -4,6 +4,30 @@
  */
 class Siberian_Form_Element_Multiselect extends Zend_Form_Element_Multiselect {
 
+    /**
+     * @var bool
+     */
+    public $is_form_horizontal = true;
+
+    /**
+     * @var string
+     */
+    public $color = "color-blue";
+
+    /**
+     * @param $boolean
+     */
+    public function setIsFormHorizontal($boolean) {
+        $this->is_form_horizontal = $boolean;
+    }
+
+    /**
+     * @param $color
+     */
+    public function setColor($color) {
+        $this->color = $color;
+    }
+
 	/**
 	 * @throws Zend_Form_Exception
 	 */
@@ -40,17 +64,29 @@ class Siberian_Form_Element_Multiselect extends Zend_Form_Element_Multiselect {
 	  	$this->addClass('sb-select');
 	  	$this->addClass('input-flat');
 	  	$this->addClass('form-control no-dk');
+
+        if($this->is_form_horizontal) {
+            $label_class = "col-sm-3";
+            $element_class = "col-sm-7";
+            $error_class = "col-sm-7 col-sm-offset-3";
+        } else {
+            $label_class = "";
+            $element_class = "";
+            $error_class = "";
+        }
+
 		return $this->setDecorators(array(
 	  		'ViewHelper',
 			array(array('wrapper'=>'HtmlTag'),array(
-				'class' => 'col-sm-7'
+				'class' => ' '.$element_class
 			)),
             array('Description', array(
                 'placement' => Zend_Form_Decorator_Abstract::APPEND,
-                'class' => 'sb-form-line-complement'
+                'class' => 'sb-form-line-complement sb-form-description '.$error_class,
+                'escape' => false
             )),
             array('Label', array(
-                'class' => 'sb-form-line-title col-sm-3',
+                'class' => 'sb-form-line-title '.$label_class,
                 'requiredSuffix' => ' *',
                 'placement' => Zend_Form_Decorator_Abstract::PREPEND,
             )),

@@ -11,6 +11,7 @@ App.factory('Application', function($http, Url, DataLoader) {
             responseType:'json'
         });
     };
+
     factory.loadViewData = function() {
         return $http({
             method: 'GET',

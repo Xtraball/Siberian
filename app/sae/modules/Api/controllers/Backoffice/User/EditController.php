@@ -6,7 +6,7 @@ class Api_Backoffice_User_EditController extends Backoffice_Controller_Default
     public function loadAction() {
 
         $html = array(
-            "title" => $this->_("User"),
+            "title" => __("User"),
             "icon" => "fa-user",
         );
 
@@ -22,9 +22,25 @@ class Api_Backoffice_User_EditController extends Backoffice_Controller_Default
         $data = array();
         if($user->getId()) {
             $data["user"] = $user->getData();
-            $data["section_title"] = $this->_("Edit the user %s", $user->getUsername());
+            $acl = Siberian_Json::decode($user->getAcl());
+            foreach(Siberian_Api::$acl_keys as $key => $subkeys) {
+                if(!isset($acl[$key])) {
+                    $acl[$key] = array();
+                }
+
+                if(is_array($acl[$key])) {
+                    foreach($subkeys as $subkey) {
+                        if(!array_key_exists($subkey, $acl[$key])) {
+                            $acl[$key][$subkey] = false;
+                        }
+                    }
+                }
+            }
+            $data["user"]["acl"] = $acl;
+
+            $data["section_title"] = __("Edit the user %s", $user->getUsername());
         } else {
-            $data["section_title"] = $this->_("Create a new user");
+            $data["section_title"] = __("Create a new user");
         }
 
         $this->_sendHtml($data);
@@ -49,31 +65,34 @@ class Api_Backoffice_User_EditController extends Backoffice_Controller_Default
                 }
 
                 if($isNew AND empty($data["password"])) {
-                    throw new Exception($this->_("Please, enter a password."));
+                    throw new Exception(__("Please, enter a password."));
                 }
                 if(empty($data["password"]) AND empty($data["confirm_password"])) {
                     unset($data["password"]);
                     unset($data["confirm_password"]);
                 }
                 if(!empty($data["password"]) AND $data["password"] != $data["confirm_password"]) {
-                    throw new Exception($this->_("Passwords don't match"));
+                    throw new Exception(__("Passwords don't match"));
                 }
 
                 $user->addData($data);
 
                 if($dummy->getUsername() == $user->getUsername() AND $dummy->getId() != $user->getId()) {
-                    throw new Exception($this->_("We are sorry but this username already exists."));
+                    throw new Exception(__("We are sorry but this username already exists."));
                 }
 
                 if(!empty($data["password"])) {
                     $user->setPassword($data["password"]);
                 }
 
+                # Save ACL
+                $user->setAcl(Siberian_Json::encode($data["acl"]));
+
                 $user->save();
 
                 $data = array(
                     "success" => 1,
-                    "message" => $this->_("User successfully saved")
+                    "message" => __("User successfully saved")
                 );
 
             } catch(Exception $e) {

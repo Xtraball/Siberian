@@ -142,7 +142,6 @@ App.config(function($stateProvider) {
             $scope.panel.show();
          });
 
-        //$scope.show_instructions = !$scope.show_instructions;
     };
     $scope.closePanel = function() {
         $scope.panel.remove();

@@ -1,6 +1,6 @@
 <?php
 
-exec("vim");
+set_time_limit(9);
 
 $root_path = Core_Model_Directory::getBasePathTo("");
 
@@ -13,6 +13,7 @@ if(is_writable(dirname($crontab_path))) {
 
     # Guessing for php binary
     $possible_paths = array(
+        "/opt/plesk/php/5.6/bin/php",
         "/usr/local/bin/php",
         "/usr/local/bin/php-cli",
         "/usr/bin/php",
@@ -57,7 +58,7 @@ if(is_writable(dirname($crontab_path))) {
     # Install crontab if not
     $crontab = implode("\n", $new_lines);
     if(strpos($crontab, $cron_path) === false) {
-        $new_lines[] = "* * * * * $guessed_path -d memory_limit=256M -f $cron_path >> $cron_log_path 2>&1\n";
+        $new_lines[] = "* * * * * $guessed_path -d memory_limit=512M -f $cron_path >> $cron_log_path 2>&1\n";
     }
 
     # Append new line at the end

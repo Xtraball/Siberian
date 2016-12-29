@@ -25,15 +25,19 @@ class Siberian_Media {
         ),
     );
 
-    public static function optimize($image_path) {
+    public static function optimize($image_path, $force = false) {
         /** Disable if not cron && sae */
-        if(!Cron_Model_Cron::is_active()) {
-            return;
+        if(!$force) {
+            if(!Cron_Model_Cron::is_active()) {
+                return;
+            }
         }
 
         if(!is_writable($image_path)) {
             return;
         }
+
+        $logger = Zend_Registry::get("logger");
 
         $filetype = strtolower(pathinfo($image_path, PATHINFO_EXTENSION));
         if(array_key_exists($filetype, self::$tools)) {
@@ -49,10 +53,11 @@ class Siberian_Media {
                         } else {
                             $cli = str_replace("/local", "", $options["cli"]);
                         }
-
                         $bin = sprintf($cli, $image_path);
+
+                        $logger->info(__("[Siberian_Media] optimizing media %s", $bin));
+
                         exec($bin, $result);
-                        break;
                     }
                 }
             }

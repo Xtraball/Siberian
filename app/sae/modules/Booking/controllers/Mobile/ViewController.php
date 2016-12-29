@@ -45,8 +45,6 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                 if(empty($data['people'])) $errors[] = $this->_('The number of people');
                 if(empty($data['date'])) $errors[] = $this->_('The date and time of the booking');
                 if(empty($data['prestation'])) $errors[] = $this->_('The booking information');
-//                $date = new Zend_Date($data['date']);
-//                if(!empty($data['date']) AND $date->compare(Zend_Date::now(), Zend_Date::DATES) < 0) throw new Exception($this->_('Please, enter a date greater than today'));
 
                 if(!empty($errors)) {
                     $message = $this->_('Please fill out the following fields: ');
@@ -58,6 +56,9 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     $store->find($data['store'], 'store_id');
                     if(!$store->getId()) throw new Exception($this->_('An error occurred during process. Please try again later.'));
                     $data["location"] = $store->getStoreName();
+
+                    $date = new Siberian_Date(strtotime($data['date']), Zend_Registry::get('Zend_Locale'));
+                    $data['date'] = $date->toString();
 
                     //vérif value
                     $booking = new Booking_Model_Booking();

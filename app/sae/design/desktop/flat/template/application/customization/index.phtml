@@ -73,10 +73,8 @@
         },
 
         load: function() {
-            var mask_overview = $('<div />').attr('id', 'mask').addClass('mask');
-            var mask_loader = $('<div />').addClass('loader');
-            mask_overview.appendTo($('body'));
-            mask_overview.append(mask_loader);
+            $("#mask").show();
+
             $('#mobile_overview').load(function() {
 
                 iframe.object = $('#mobile_overview');
@@ -84,7 +82,7 @@
                 iframe.f = iframe.object.get(0).contentWindow;
                 iframe.content.find("body").addClass("iOS7");
 
-                mask_overview.remove();
+                $("#mask").hide();
 
                 if(typeof this.iframeIsLoaded == 'function') this.iframeIsLoaded();
             }.bind(this));
@@ -97,8 +95,6 @@
 
     var originY;
     var maxY;
-
-//    customizator.init();
 
     <?php if(Installer_Model_Installer::hasModule("previewer")) : ?>
     var modal_previewer = new Modal({id: 'app_previewer', url: '<?php echo $this->getUrl('application/previewer/modal'); ?>', is_retain: false, width: 850, height: 'auto'});

@@ -35,6 +35,11 @@ $schemas['api_user'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'acl' => array(
+        'type' => 'longtext',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'created_at' => array(
         'type' => 'datetime',
     ),

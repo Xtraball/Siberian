@@ -57,6 +57,16 @@ App.service("Message", function($timeout) {
             this.setText(message).isError(true).show();
         };
 
+        this.onUnknown = function(data) {
+            if(angular.isObject(data) && angular.isDefined(data.success)) {
+                this.onSuccess(data);
+            }
+
+            if(angular.isObject(data) && angular.isDefined(data.error)) {
+                this.onError(data);
+            }
+        };
+
         this.information = function(message) {
             this.setText(message).isError(false).show();
         };

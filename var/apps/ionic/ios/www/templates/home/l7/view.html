@@ -1,10 +1,10 @@
 <div class="layout l7">
-    <div class="sidebar homepage-custom translucent border-custom rotate-in" ng-show="tabbar_is_visible" ng-class="{ 'no-border': tabbar_is_transparent }">
+    <div class="sidebar homepage-custom translucent border-custom rotate-in" ng-class="{ 'no-border' : features.layoutOptions.borders.indexOf('border-right') != '0' }" ng-show="tabbar_is_visible" ng-class="{ 'no-border': tabbar_is_transparent }">
         <ion-scroll scrollbar-y="false">
             <ul class="items">
-                <li ng-repeat="feature in features.options" class="border-custom" tabbar-items option="feature" go-to-url="goTo(feature)" ng-class="{ 'no-border': tabbar_is_transparent }">
-                    <img ng-src="{{ feature.icon_url }}"/>
-                    <p>{{ feature.name }}</p>
+                <li ng-repeat="feature in features.options" class="border-custom {{ features.layoutOptions.borders.join(' ') }}" ng-class="{ 'no-border' : !features.layoutOptions.borders.length }" tabbar-items option="feature" go-to-url="goTo(feature)" ng-class="{ 'no-border': tabbar_is_transparent }">
+                    <img ng-src="{{ feature.icon_url }}" class="{{ features.layoutOptions.title }}"/>
+                    <p class="{{ features.layoutOptions.title+' '+features.layoutOptions.textTransform }}">{{ feature.name }}</p>
                     <div ng-if="feature.code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
                 </li>
             </ul>

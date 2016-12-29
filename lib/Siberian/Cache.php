@@ -136,7 +136,7 @@ class Siberian_Cache
         $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($folder, 4096), RecursiveIteratorIterator::SELF_FIRST);
         foreach($files as $file) {
             $filename = $file->getFileName();
-            if(!preg_match("/android_pwd/", $filename) && file_exists($file->getPathName())) {
+            if(!preg_match("/android_pwd|\.gitignore/", $filename) && file_exists($file->getPathName())) {
                 unlink($file->getPathName());
             }
         }
@@ -173,9 +173,11 @@ class Siberian_Cache
     }
 
     /**
-     * Alias to clear cache
+     * Clear all locks, or only named ones.
+     *
+     * @param null $name
      */
-    public static function __clearLocks() {
+    public static function __clearLocks($name = null) {
         $folder = Core_Model_Directory::getBasePathTo("var/tmp/");
 
         $locks = new DirectoryIterator($folder);
@@ -183,7 +185,13 @@ class Siberian_Cache
             if(!$lock->isDir() && !$lock->isDot()) {
                 $filename = $lock->getFilename();
                 if(preg_match("/\.lock/", $filename)) {
-                    unlink($lock->getPathname());
+                    if(!empty($name)) {
+                        if(preg_match("/$name/", $filename)) {
+                            unlink($lock->getPathname());
+                        }
+                    } else {
+                        unlink($lock->getPathname());
+                    }
                 }
             }
         }

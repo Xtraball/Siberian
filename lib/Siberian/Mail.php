@@ -17,6 +17,16 @@ class Siberian_Mail extends Zend_Mail {
         /** @todo custom stmp */
     }
 
+    /**
+     * @param $module
+     * @param $template
+     * @param $subject
+     * @param array $recipients
+     * @param array $values
+     * @param string $sender
+     * @param string $sender_name
+     * @throws Exception
+     */
     public function simpleEmail($module, $template, $subject, $recipients = array(), $values = array(), $sender = "", $sender_name = "") {
         $layout = Siberian_Layout();
         $layout->loadEmail($module, $template);

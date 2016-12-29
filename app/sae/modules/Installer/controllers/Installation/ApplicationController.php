@@ -13,12 +13,13 @@ class Installer_Installation_ApplicationController extends Installer_Controller_
                     throw new Exception($this->_('Please, enter a name'));
                 }
 
-                $application->setName($datas['name'])
+                $privacy_policy = System_Model_Config::getValueFor("privacy_policy");
+
+                $application
+                    ->setName($datas['name'])
+                    ->setPrivacyPolicy($privacy_policy)
                     ->save()
                 ;
-
-//                rename(APPLICATION_PATH.'/Bootstrap.php', APPLICATION_PATH.'/Bootstrap.old.php');
-//                rename(APPLICATION_PATH.'/Bootstrap.new.php', APPLICATION_PATH.'/Bootstrap.php');
 
                 $html = array('success' => 1);
 

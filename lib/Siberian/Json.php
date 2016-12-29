@@ -53,10 +53,10 @@ class Siberian_Json extends Zend_Json {
 
     /**
      * @param string $json
+     * @param int $objectDecodeType
      * @return array|mixed
-     * @throws Zend_Exception
      */
-    public static function decode($json) {
+    public static function decode($json, $objectDecodeType = Zend_Json::TYPE_ARRAY) {
         $logger = Zend_Registry::get("logger");
 
         $result = json_decode($json, true);

@@ -84,7 +84,7 @@ class Job_CompanyController extends Application_Controller_Default {
             $html = array(
                 "error" => 1,
                 "message" => $form->getTextErrors(),
-                "errors" => array_filter($form->getErrors())
+                "errors" => $form->getTextErrors(true),
             );
         }
 
@@ -110,7 +110,7 @@ class Job_CompanyController extends Application_Controller_Default {
             $html = array(
                 "error" => 1,
                 "message" => $form->getTextErrors(),
-                "errors" => array_filter($form->getErrors())
+                "errors" => $form->getTextErrors(true),
             );
         }
 
@@ -141,7 +141,7 @@ class Job_CompanyController extends Application_Controller_Default {
             $html = array(
                 "error" => 1,
                 "message" => $form->getTextErrors(),
-                "errors" => array_filter($form->getErrors())
+                "errors" => $form->getTextErrors(true),
             );
         }
 
