@@ -16,8 +16,8 @@
                     <filters folder="js/filters" />
                     <directives folder="js/directives" />
                     <constants folder="js/constants" />
-                    <ckeditor link="js/libraries/moment-including-locales.js" />
-                    <ckeditor link="js/libraries/moment-timezone-with-data.js" />
+                    <moment link="js/libraries/moment-including-locales.js" />
+                    <timezone link="js/libraries/moment-timezone-with-data.js" />
                     <ckeditor link="js/libraries/ckeditor/ckeditor.js" />
                     <chartjs link="js/libraries/angular-chart/chart.js" />
                     <angularchart link="js/libraries/angular-chart/angular-chart.js" />

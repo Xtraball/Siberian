@@ -862,8 +862,10 @@ div.loader {
     height: 44px;
     animation: spin 0.7s linear infinite;
     position: absolute;
-    top: 45%;
-    left: 48%;
+    top: 50%;
+    left: 50%;
+    margin-top: -22px;
+    margin-left: -22px;
 }
 
 #background_image_loader > img {

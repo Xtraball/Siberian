@@ -104,9 +104,9 @@ $overview_new = $template_design->getOverviewNew();
                     <div id="homepage_slider">
                         <div id="homepage_slider_options">
                             <?php
-                                $size = $application->getHomepageSlideSize();
+                                $size = $application->getHomepageSliderSize();
                                 if(empty($size)) {
-                                    $application->setHomepageSlideSize(33)->save();
+                                    $application->setHomepageSliderSize(33)->save();
                                     $application->setData("homepage_slider_size", 33)->save();
                                 }
 

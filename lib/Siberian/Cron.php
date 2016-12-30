@@ -532,8 +532,9 @@ class Siberian_Cron {
 
 		try {
 		    # Rebuild manifest, clear cache, etc...
-		    $options = Siberian_Json::decode($task->getOptions());
-            Siberian_Autoupdater::configure($options["host"]);
+            # 30.12.2016 - Disabling in favor of the new reload from BO/Installer
+		    //$options = Siberian_Json::decode($task->getOptions());
+            //Siberian_Autoupdater::configure($options["host"]);
 			# Disable when success.
 			$task->disable();
 		} catch(Exception $e){

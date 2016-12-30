@@ -27,7 +27,7 @@ App.service('layout_siberian_swipe', function ($rootScope, $timeout, HomepageLay
      *
      * @type {number}
      */
-    var last_index = 0;
+    service.last_index = 0;
 
     /**
      * Must return a valid template
@@ -51,6 +51,7 @@ App.service('layout_siberian_swipe', function ($rootScope, $timeout, HomepageLay
      * onResize is used for css/js callbacks when orientation change
      */
     service.onResize = function() {
+        console.log("last index", service.last_index);
         var options = _features.layoutOptions;
         /** Do nothing for this particular one */
         var time_out = ($rootScope.isOverview) ? 1000 : 200;
@@ -63,7 +64,7 @@ App.service('layout_siberian_swipe', function ($rootScope, $timeout, HomepageLay
                 loop: (options.loop == "1") ? true : false,
                 effect: 'coverflow',
                 centeredSlides: true,
-                initialSlide: last_index,
+                initialSlide: (options.backcurrent == "1") ? service.last_index : 0,
                 slidesPerView: 'auto',
                 loopedSlides: 6,
                 /**freeMode: true,
@@ -79,22 +80,6 @@ App.service('layout_siberian_swipe', function ($rootScope, $timeout, HomepageLay
                     slideShadows : false
                 }
             });
-
-            if(typeof swipe_instance.on == "function") {
-                swipe_instance.on("onSliderMove", function(swiper) {
-                    last_index = (swiper.realIndex)*1;
-                });
-
-                swipe_instance.on("onClick", function(swiper) {
-                    last_index = ((swiper.clickedIndex)*1) % _features.options.length;
-                });
-
-                swipe_instance.on("onTap", function(swiper) {
-                    last_index = ((swiper.clickedIndex)*1) % _features.options.length;
-                });
-            } else {
-                console.error("Something went wrong with Layout Swiper, unable to bind swipe_instance.");
-            }
 
         }, time_out);
     };
@@ -116,6 +101,12 @@ App.service('layout_siberian_swipe', function ($rootScope, $timeout, HomepageLay
 
         return features;
     };
+
+    $rootScope.$on("OPTION_POSITION", function(event, args) {
+        $timeout(function() {
+            service.last_index = (args*1)-1;
+        });
+    });
 
     return service;
 

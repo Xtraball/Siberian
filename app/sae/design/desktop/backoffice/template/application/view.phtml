@@ -553,10 +553,10 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-4">
                 <label for="{{ device.id }}_status"><?php echo __('Languages'); ?></label>
                 <div class="form-group">
-                    <select name="languages" ng-model="ios_publish_informations.languages">
+                    <select name="languages" class="form-control" ng-model="ios_publish_informations.languages">
                         <?php foreach(Application_Model_Languages::getSupportedLanguages() as $code => $language) :?>
                         <option value="<?php echo $code;?>"><?php echo __($language); ?></option>
                         <?php endforeach; ?>

@@ -1832,12 +1832,12 @@
         "hash": "c8f6ddedac46dd05c0079d3fbedf9884"
     },
     {
-        "file": "app/sae/design/desktop/backoffice/layout/front.xml",
-        "hash": "edf7c9622c09950893e7a2d44164bf45"
-    },
-    {
         "file": "app/sae/design/desktop/backoffice/layout/backoffice.xml",
         "hash": "68e6754ace10f74bc5a980dfd41d7d93"
+    },
+    {
+        "file": "app/sae/design/desktop/backoffice/layout/front.xml",
+        "hash": "4d59bd4c44d765a5f636f11710ee3565"
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/acl/role/list.phtml",
@@ -1877,7 +1877,7 @@
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/application/view.phtml",
-        "hash": "1d3796f0cce256aa679f6a5df9a3077d"
+        "hash": "94d13b17b19b6db9fb5af6be27225900"
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/backoffice/account/list.phtml",
@@ -2113,7 +2113,7 @@
     },
     {
         "file": "app/sae/design/desktop/flat/css/style.css",
-        "hash": "14cb93316c59436f3dcc58234834a69f"
+        "hash": "ceb8c4aac40d9f32c555bedf638d090d"
     },
     {
         "file": "app/sae/design/desktop/flat/images/buttons/point.png",
@@ -5177,7 +5177,7 @@
     },
     {
         "file": "app/sae/design/desktop/flat/template/application/customization/design/style.phtml",
-        "hash": "12643a465f564ea9a27f2f59aed87fb6"
+        "hash": "714cefd084abd78ef89b8d985848fa5c"
     },
     {
         "file": "app/sae/design/desktop/flat/template/application/customization/features/edit/background_image.phtml",
@@ -5248,12 +5248,12 @@
         "hash": "87e0a664426c2986608401d2c43b14e2"
     },
     {
-        "file": "app/sae/design/desktop/flat/template/application/customization/index/overview/iframe.phtml",
-        "hash": "ca9575a666a6cf8f22c8b7f4842b3243"
-    },
-    {
         "file": "app/sae/design/desktop/flat/template/application/customization/index/overview/publication.phtml",
         "hash": "b2d93782ea861c1704e949e748fa88d2"
+    },
+    {
+        "file": "app/sae/design/desktop/flat/template/application/customization/index/overview/iframe.phtml",
+        "hash": "290b67ddd1327d9399fb3c55b9d9723e"
     },
     {
         "file": "app/sae/design/desktop/flat/template/application/customization/index/menu.phtml",
@@ -5285,7 +5285,7 @@
     },
     {
         "file": "app/sae/design/desktop/flat/template/application/customization/index.phtml",
-        "hash": "99c6d91a0e8c203672829efcde823f8c"
+        "hash": "93f7f5480796586dc8b1e4bc9efd7a73"
     },
     {
         "file": "app/sae/design/desktop/flat/template/application/previewer/modal.phtml",
@@ -16665,7 +16665,7 @@
     },
     {
         "file": "app/sae/modules/System/resources/db/data/system.php",
-        "hash": "2628c182179e5b5a52b8083198d487b2"
+        "hash": "a8788190c775c5082025ed063076afd2"
     },
     {
         "file": "app/sae/modules/System/resources/db/schema/source_code.php",
@@ -16681,7 +16681,7 @@
     },
     {
         "file": "app/sae/modules/System/package.json",
-        "hash": "02f43c22680cde4fe691096219f87d4e"
+        "hash": "ccd120a4fa6ae9eab03e8aa967ceb687"
     },
     {
         "file": "app/sae/modules/Template/Model/Db/Table/Design/Block.php",
@@ -17473,15 +17473,11 @@
     },
     {
         "file": "app/sae/modules/Layouts/Form/SwipeOptions.php",
-        "hash": "9fd702a45e9234929760976d0a496bab"
+        "hash": "f205635ffd5dc72bfa8faf4466266933"
     },
     {
         "file": "app/sae/modules/Layouts/bootstrap.php",
         "hash": "a3d7349c0124053b4be5721b3ad54a35"
-    },
-    {
-        "file": "app/sae/modules/Layouts/package.json",
-        "hash": "a6eb712acb04b773b846a745df50fc8a"
     },
     {
         "file": "app/sae/modules/Layouts/resources/db/data/layout_assets.php",
@@ -17489,11 +17485,11 @@
     },
     {
         "file": "app/sae/modules/Layouts/resources/db/data/layout_eighteen.php",
-        "hash": "d3abee46053d789e5f21eb1250062186"
+        "hash": "5068a6f3d8da62195083587f5158527c"
     },
     {
         "file": "app/sae/modules/Layouts/resources/db/data/layout_swipe.php",
-        "hash": "5ab75f1963f07121e462b2c30e1c5f75"
+        "hash": "128d9edfa0a1c86289ff16deac13f90b"
     },
     {
         "file": "app/sae/modules/Layouts/resources/design/desktop/flat/images/customization/layout/homepage/layout_swipe.png",
@@ -17548,10 +17544,6 @@
         "hash": "f9ac0336d2be1b4556c5b5106bb8f6a0"
     },
     {
-        "file": "app/sae/modules/Layouts/resources/var/apps/modules/layout/home/layout_siberian_swipe/hooks.js",
-        "hash": "e5328fc948af0875b29c42f3378b4085"
-    },
-    {
         "file": "app/sae/modules/Layouts/resources/var/apps/modules/layout/home/layout_siberian_swipe/style.css",
         "hash": "b285fcc54ab80701388f1234908daf46"
     },
@@ -17566,6 +17558,14 @@
     {
         "file": "app/sae/modules/Layouts/resources/var/apps/modules/layout/home/layout_siberian_swipe/view.html",
         "hash": "a06231ac1c728e8acfeb36c092f03835"
+    },
+    {
+        "file": "app/sae/modules/Layouts/resources/var/apps/modules/layout/home/layout_siberian_swipe/hooks.js",
+        "hash": "b94544bdf4779fc1d62a4cc423a52f28"
+    },
+    {
+        "file": "app/sae/modules/Layouts/package.json",
+        "hash": "c631d82d0ccf618b3f11799db4beec51"
     },
     {
         "file": "app/Bootstrap.php",
@@ -18056,16 +18056,16 @@
         "hash": "8230a5a49f0be66fbfc5d9e359403c45"
     },
     {
-        "file": "lib/Siberian/Form/Abstract.php",
-        "hash": "22169329140ce3c2ba4dff5cbf4c1b07"
-    },
-    {
         "file": "lib/Siberian/Form/Options.php",
         "hash": "1ec5c211b70573efc988096c52e4f10b"
     },
     {
         "file": "lib/Siberian/Form/Options/Abstract.php",
         "hash": "1870cc606c38098b30da33562ee9e8da"
+    },
+    {
+        "file": "lib/Siberian/Form/Abstract.php",
+        "hash": "f21727c1a8b0fea17fb640460d88e10e"
     },
     {
         "file": "lib/Siberian/Service.php",
@@ -18184,10 +18184,6 @@
         "hash": "e0d47a9e16e4c3e696d887f7082b1b76"
     },
     {
-        "file": "lib/Siberian/Cron.php",
-        "hash": "8f81ea59bf1f3b172febc9b56dd7043f"
-    },
-    {
         "file": "lib/Siberian/Feature.php",
         "hash": "4ef39041c5f7e8355805a91943b929a2"
     },
@@ -18206,6 +18202,10 @@
     {
         "file": "lib/Siberian/Plesk.php",
         "hash": "0654ebf617f0c57d89d22d0bbabfe0c0"
+    },
+    {
+        "file": "lib/Siberian/Cron.php",
+        "hash": "71042adfc6f29a44bd77dac1e4261fef"
     },
     {
         "file": "lib/Thumbnailer/CreateThumb.php",
@@ -32121,7 +32121,7 @@
     },
     {
         "file": "var/apps/browser/js/directives/sb-tabbar.js",
-        "hash": "bf5edcdda453bdcebe6dfc7e648103ce"
+        "hash": "50d9ab22d6f5d314952fb026b065e681"
     },
     {
         "file": "var/apps/browser/js/factory/catalog.js",
@@ -32761,7 +32761,7 @@
     },
     {
         "file": "var/apps/browser/scss/ionic.siberian.style.scss",
-        "hash": "055398c78a43014965c3a1db032f3b1d"
+        "hash": "a370a613c232ec949b460a566d7884a0"
     },
     {
         "file": "var/apps/browser/templates/application/l1/colors/view.html",
@@ -32797,7 +32797,7 @@
     },
     {
         "file": "var/apps/browser/templates/cms/privacypolicy/l1/view.html",
-        "hash": "4bf9061d0ca5145acec546fedccf0ac6"
+        "hash": "3db958e95402810b13c08f6cf8c5b49d"
     },
     {
         "file": "var/apps/browser/templates/contact/l1/form.html",
@@ -33701,7 +33701,7 @@
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/directives/sb-tabbar.js",
-        "hash": "bf5edcdda453bdcebe6dfc7e648103ce"
+        "hash": "50d9ab22d6f5d314952fb026b065e681"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/factory/catalog.js",
@@ -34337,7 +34337,7 @@
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/cms/privacypolicy/l1/view.html",
-        "hash": "4bf9061d0ca5145acec546fedccf0ac6"
+        "hash": "3db958e95402810b13c08f6cf8c5b49d"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/contact/l1/form.html",
@@ -40709,7 +40709,7 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/directives/sb-tabbar.js",
-        "hash": "bf5edcdda453bdcebe6dfc7e648103ce"
+        "hash": "50d9ab22d6f5d314952fb026b065e681"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/factory/catalog.js",
@@ -41357,7 +41357,7 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/cms/privacypolicy/l1/view.html",
-        "hash": "4bf9061d0ca5145acec546fedccf0ac6"
+        "hash": "3db958e95402810b13c08f6cf8c5b49d"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/contact/l1/form.html",
@@ -44237,7 +44237,7 @@
     },
     {
         "file": "var/apps/ionic/ios/www/js/directives/sb-tabbar.js",
-        "hash": "bf5edcdda453bdcebe6dfc7e648103ce"
+        "hash": "50d9ab22d6f5d314952fb026b065e681"
     },
     {
         "file": "var/apps/ionic/ios/www/js/factory/catalog.js",
@@ -44889,7 +44889,7 @@
     },
     {
         "file": "var/apps/ionic/ios/www/templates/cms/privacypolicy/l1/view.html",
-        "hash": "4bf9061d0ca5145acec546fedccf0ac6"
+        "hash": "3db958e95402810b13c08f6cf8c5b49d"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/contact/l1/form.html",
@@ -45605,7 +45605,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/directives/sb-tabbar.js",
-        "hash": "bf5edcdda453bdcebe6dfc7e648103ce"
+        "hash": "50d9ab22d6f5d314952fb026b065e681"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/factory/catalog.js",
@@ -46237,7 +46237,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/cms/privacypolicy/l1/view.html",
-        "hash": "4bf9061d0ca5145acec546fedccf0ac6"
+        "hash": "3db958e95402810b13c08f6cf8c5b49d"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/contact/l1/form.html",
@@ -50933,7 +50933,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/directives/sb-tabbar.js",
-        "hash": "bf5edcdda453bdcebe6dfc7e648103ce"
+        "hash": "50d9ab22d6f5d314952fb026b065e681"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/factory/catalog.js",
@@ -51577,7 +51577,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/cms/privacypolicy/l1/view.html",
-        "hash": "4bf9061d0ca5145acec546fedccf0ac6"
+        "hash": "3db958e95402810b13c08f6cf8c5b49d"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/contact/l1/form.html",

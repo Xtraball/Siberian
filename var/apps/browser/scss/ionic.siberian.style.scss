@@ -94,6 +94,13 @@ ion-content {
   }
 }
 
+.item-text-custom {
+  @include item-style($list-item-custom-bg, $list-item-custom-border, $list-item-custom-text);
+}
+.item-text-custom * {
+  color: $list-item-custom-text;
+}
+
 .item.active,
 .item.activated,
 .item-complex.active .item-content,

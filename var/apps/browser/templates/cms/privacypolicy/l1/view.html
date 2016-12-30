@@ -1,6 +1,6 @@
 <div class="row">
 
-    <div class="col col-100 padding" ng-if="!privacy_policy">
+    <div class="col col-100 padding item-text-custom" ng-if="!privacy_policy">
         <h1>Privacy Policy of the {{ app_name }} application</h1>
         <span>This Application collects some Personal Data from its Users.</span><br />
 
@@ -126,5 +126,5 @@
 
     </div>
 
-    <div class="col col-100 padding" ng-bind-html="privacy_policy | trusted_html" ng-if="privacy_policy.length"></div>
+    <div class="col col-100 padding item-text-custom" ng-bind-html="privacy_policy | trusted_html" ng-if="privacy_policy.length"></div>
 </div>

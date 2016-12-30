@@ -15,8 +15,10 @@ class Layouts_Form_SwipeOptions extends Siberian_Form_Options_Abstract {
             "default" => __("Square icons"),
             "cover" => __("Cover background images"),
         ));
--
+
         $loop_features = $this->addSimpleCheckbox("loop", __("Loop features"));
+
+        $backcurrent = $this->addSimpleCheckbox("backcurrent", __("Return to current feature"));
 
         $angle = $this->addSimpleSlider("angle", __("Angle"), array(
             "min" => -30,

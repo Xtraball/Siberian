@@ -16,6 +16,10 @@ if($has_previewer && method_exists(new Previewer_Model_Previewer(), "getInstance
         <p id="android_header" class="android_header toolbar_overview a-right" style="display:none"><?php echo date('H:m'); ?></p>
 
         <iframe id="mobile_overview" sandbox="allow-same-origin allow-scripts allow-forms" width="323" height="580" style="overflow: hidden;"></iframe>
+        <div id="mask-overview" class="mask">
+            <button id="hide_mask" class="reverse btn color-blue" style="display:none;"><i class="fa fa-times"></i></button>
+            <div class="loader"></div>
+        </div>
     </div>
     <div class="btn-group-vertical">
         <button type="button" class="overview_size mobile-advice active no-background" rel="mini"></button>
@@ -55,6 +59,14 @@ if($has_previewer && method_exists(new Previewer_Model_Previewer(), "getInstance
                 'margin-left': sizes.marginLeft
             });
 
+            /** Resize mask */
+            $("#mask-overview").css({
+                'top' : sizes.marginTop,
+                'left': sizes.marginLeft,
+                'width': sizes.width,
+                'height': sizes.height
+            });
+
             if($(this).attr("rel").indexOf("iphone") >= 0) {
                 iframe.content.find("body").removeClass("platform-browser").addClass("platform-ios")
             } else {
@@ -72,7 +84,23 @@ if($has_previewer && method_exists(new Previewer_Model_Previewer(), "getInstance
         $("#mobile_overview").attr("src", "<?php echo $this->getApplication()->getUrl("front/mobile_home/iframe", array(), Core_Model_Language::getCurrentLanguage(), true); ?>");
         iframe.iframeIsLoaded = function() {
             iframe.content.find("body").removeClass("platform-browser").addClass("platform-ios");
+            $("#mask-overview").hide();
         };
     });
 
 </script>
+
+<style type="text/css">
+    #mask-overview {
+        left: 30px;
+        top: 113px;
+        width: 324px;
+        height: 578px;
+    }
+    @media (max-width: 1440px) and (min-width: 768px) {
+        #mask-overview {
+            left: 32px;
+            top: 58px;
+        }
+    }
+</style>

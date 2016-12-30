@@ -170,7 +170,6 @@ $configs = array(
         "code" => "privacy_policy",
         "label" => "Default privacy policy",
         "value" => "
-<div class=\"col col-100 padding\" style=\"color: rgb(0, 0, 0); font-family: Times; font-size: medium;\">
 <h1><strong>Privacy Policy of the #APP_NAME application</strong></h1>
 This Application collects some Personal Data from its Users.
 <h2><strong>Data Controller and Owner</strong></h2>
@@ -253,7 +252,6 @@ To determine whether any of the third party services it uses honor the &ldquo;Do
 <h3><strong>Legal information</strong></h3>
 <p>Notice to European Users: this privacy statement has been prepared in fulfillment of the obligations under Art. 10 of EC Directive n. 95/46/EC, and under the provisions of Directive 2002/58/EC, as revised by Directive 2009/136/EC, on the subject of Cookies. This privacy policy relates solely to this Application.</p>
 <p><em><strong>Latest update: June 11, 2014.</strong></em></p>
-</div>
 ",
     ),
 );
