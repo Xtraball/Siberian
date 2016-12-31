@@ -1912,12 +1912,12 @@
         "hash": "69e5475b30a8dc9ac58dfce92899c602"
     },
     {
-        "file": "app/sae/design/desktop/backoffice/template/backoffice/advanced/cron.phtml",
-        "hash": "e225197ce51feb4e94f3eb9a6bbfb039"
-    },
-    {
         "file": "app/sae/design/desktop/backoffice/template/backoffice/advanced/configuration.phtml",
         "hash": "938944c2c7134be643c5e88fea68e5f7"
+    },
+    {
+        "file": "app/sae/design/desktop/backoffice/template/backoffice/advanced/cron.phtml",
+        "hash": "16bb18b90f59919e94767db2b8ea8467"
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/html/default.phtml",
@@ -5717,7 +5717,7 @@
     },
     {
         "file": "app/sae/design/desktop/flat/template/page/layout/footer.phtml",
-        "hash": "3a52ddb889d4fab4ad59ca1dc1b19fa4"
+        "hash": "60ba38f48970319756c1c3fab2452d60"
     },
     {
         "file": "app/sae/design/desktop/flat/template/page/layout.phtml",
@@ -12161,7 +12161,7 @@
     },
     {
         "file": "app/sae/modules/Application/controllers/Customization/FeaturesController.php",
-        "hash": "7d5269940666bf76e1eecdac18d96cca"
+        "hash": "e430b394caf9f06779178eef2ab4d4de"
     },
     {
         "file": "app/sae/modules/Application/controllers/CustomizationController.php",
@@ -13893,7 +13893,7 @@
     },
     {
         "file": "app/sae/modules/Application/package.json",
-        "hash": "d1d11c542a986b7f7d415b82489852c9"
+        "hash": "6aa7a56dc6acc06dc18f7a94ba86c29f"
     },
     {
         "file": "app/sae/modules/Backoffice/Controller/Default.php",
@@ -13956,12 +13956,12 @@
         "hash": "f4d3b3d4d7759da763bef9e1cc7ebaf3"
     },
     {
-        "file": "app/sae/modules/Backoffice/controllers/Advanced/CronController.php",
-        "hash": "a405cf3a07349a62282c6390a3780857"
-    },
-    {
         "file": "app/sae/modules/Backoffice/controllers/Advanced/ConfigurationController.php",
         "hash": "a50c93f759dfdb55214fcf6a8e39e88d"
+    },
+    {
+        "file": "app/sae/modules/Backoffice/controllers/Advanced/CronController.php",
+        "hash": "ba6e55c4c899b787c2fdeb76761ae596"
     },
     {
         "file": "app/sae/modules/Backoffice/controllers/PaginateController.php",
@@ -13989,7 +13989,7 @@
     },
     {
         "file": "app/sae/modules/Backoffice/package.json",
-        "hash": "fcea1fcc7ed624498c95907fd1554fdd"
+        "hash": "43da0447cd06e37bbc17265a425082df"
     },
     {
         "file": "app/sae/modules/Booking/Model/Booking.php",
@@ -14837,7 +14837,7 @@
     },
     {
         "file": "app/sae/modules/Cron/resources/db/data/quotawatcher.php",
-        "hash": "093acfc2c8d33536806c14331456bb0f"
+        "hash": "505f88870829c73edc7d06bfa79496a9"
     },
     {
         "file": "app/sae/modules/Cron/resources/db/schema/cron.php",
@@ -14849,7 +14849,7 @@
     },
     {
         "file": "app/sae/modules/Cron/package.json",
-        "hash": "6a4cdd91c1497798846f1070d5af5113"
+        "hash": "099562a5d68c8a6406a6936e0c573c89"
     },
     {
         "file": "app/sae/modules/Customer/Model/Address.php",
@@ -18196,16 +18196,16 @@
         "hash": "5d114f6e3d6f6365e6a12bf8ce8f25b0"
     },
     {
-        "file": "lib/Siberian/Media.php",
-        "hash": "5c2412ad8e251f7f177a7363ea002f8d"
-    },
-    {
         "file": "lib/Siberian/Plesk.php",
         "hash": "0654ebf617f0c57d89d22d0bbabfe0c0"
     },
     {
         "file": "lib/Siberian/Cron.php",
         "hash": "71042adfc6f29a44bd77dac1e4261fef"
+    },
+    {
+        "file": "lib/Siberian/Media.php",
+        "hash": "f60c652bdb9489fc88e9b9bcbb8db3d8"
     },
     {
         "file": "lib/Thumbnailer/CreateThumb.php",

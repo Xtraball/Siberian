@@ -6,6 +6,8 @@
  */
 class Siberian_Media {
 
+    protected static $temporary_disabled = false;
+
     public static $tools = array(
         "jpg" => array(
             "jpegoptim" => array(
@@ -26,6 +28,11 @@ class Siberian_Media {
     );
 
     public static function optimize($image_path, $force = false) {
+        /** Temporary disabled */
+        if(self::$temporary_disabled) {
+            return;
+        }
+
         /** Disable if not cron && sae */
         if(!$force) {
             if(!Cron_Model_Cron::is_active()) {
@@ -62,6 +69,27 @@ class Siberian_Media {
                 }
             }
         }
+    }
+
+    /**
+     * Disable until next reload
+     */
+    public static function disableTemporary() {
+        self::$temporary_disabled = true;
+    }
+
+    /**
+     * Re enable from a previous disable
+     */
+    public static function enable() {
+        self::$temporary_disabled = false;
+    }
+
+    /**
+     * @return bool
+     */
+    public static function isTemporaryDisabled() {
+        return self::$temporary_disabled;
     }
 
     /**

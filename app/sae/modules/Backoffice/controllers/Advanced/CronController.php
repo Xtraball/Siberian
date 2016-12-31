@@ -12,6 +12,8 @@ class Backoffice_Advanced_CronController extends Backoffice_Controller_Default {
         "cachebuilder" => "",
         "letsencrypt" => "",
         "statistics" => "Send anonymous statistics to improve the platform and help understanding usage of the apps builder.",
+        "quotawatcher" => "Disk quota usage watcher.",
+        "alertswatcher" => "System monitor to send alerts.",
     );
 
     public function loadAction() {

@@ -2,12 +2,12 @@
 Siberian_Feature::installCronjob(
     "Disk quota watcher",
     "quotawatcher",
+    30,
     -1,
     -1,
     -1,
     -1,
-    -1,
-    true,
+    false,
     1000,
     true
 );

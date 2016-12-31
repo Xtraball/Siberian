@@ -3,6 +3,9 @@
 class Application_Customization_FeaturesController extends Application_Controller_Default {
 
     public function listAction() {
+        /** This page doesn't need media optimizer (also this can lead to timeout) */
+        Siberian_Media::disableTemporary();
+
         $this->loadPartials();
         if($this->getRequest()->isXmlHttpRequest()) {
             $html = array('html' => $this->getLayout()->getPartial('content_editor')->toHtml());
