@@ -155,7 +155,7 @@
                                 <?php  if($positions["ios"] > 1): ?>
                                     <i class="fa fa-gears"></i> <?php echo __('Queued %s/%s', $positions["ios"], $total); ?>
                                 <?php endif; ?>
-                                <?php  if($positions["ios"] >= 1): ?>
+                                <?php  if($positions["ios"] > 1): ?>
                                     <a class="cancel-queue" onclick="cancelQueue(1, 0);" href="javascript:void(0)" >
                                         <i class="fa fa-times"></i> <?php echo __('Cancel'); ?>
                                     </a>
@@ -185,7 +185,7 @@
                                 <?php  if($positions["iosnoads"] > 1): ?>
                                     <i class="fa fa-gears"></i> <?php echo __('Queued %s/%s', $positions["iosnoads"], $total); ?>
                                 <?php endif; ?>
-                                <?php  if($positions["iosnoads"] >= 1): ?>
+                                <?php  if($positions["iosnoads"] > 1): ?>
                                     <a class="cancel-queue" onclick="cancelQueue(1, 1);" href="javascript:void(0)" >
                                         <i class="fa fa-times"></i> <?php echo __('Cancel'); ?>
                                     </a>
@@ -215,7 +215,7 @@
                                 <?php  if($positions["android"] > 1): ?>
                                     <i class="fa fa-gears"></i> <?php echo __('Queued %s/%s', $positions["android"], $total); ?>
                                 <?php endif; ?>
-                                <?php  if($positions["android"] >= 1): ?>
+                                <?php  if($positions["android"] > 1): ?>
                                     <a class="cancel-queue" onclick="cancelQueue(2, 0);" href="javascript:void(0)" >
                                         <i class="fa fa-times"></i> <?php echo __('Cancel'); ?>
                                     </a>
@@ -259,7 +259,7 @@
                                 <?php  if($positions["apk"] > 1): ?>
                                     <i class="fa fa-gears"></i> <?php echo __('Queued %s/%s', $positions["apk"], $total); ?>
                                 <?php endif; ?>
-                                <?php  if($positions["apk"] >= 1): ?>
+                                <?php  if($positions["apk"] > 1): ?>
                                     <a class="cancel-queue" onclick="cancelQueue(2, 0, 'apk');" href="javascript:void(0)" >
                                         <i class="fa fa-times"></i> <?php echo __('Cancel'); ?>
                                     </a>
@@ -318,7 +318,7 @@
         <?php if(Cron_Model_Cron::is_active()): ?>
         loader.show('reload');
         <?php else: ?>
-        message.reset()
+        message.reset();
         message.setMessage("<?php echo __js("Please wait while we generate application source.") ?>");
         message.isError(false);
         message.addLoader(true);
@@ -388,8 +388,10 @@
         switch(type) {
             case "apk":
                 base = more["apk"]["path"];
+                break;
             case "zip":
                 base = more["zip"][device]["path"];
+                break;
         }
         var domain = "<?php echo $this->getUrl(""); ?>";
 

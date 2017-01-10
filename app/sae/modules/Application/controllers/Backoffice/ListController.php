@@ -6,7 +6,7 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
     public function loadAction() {
 
         $html = array(
-            "title" => $this->_("Applications"),
+            "title" => __("Applications"),
             "icon" => "fa-mobile",
         );
 
@@ -56,8 +56,7 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
             }
         }
 
-        $all_applications = $application->findAll($filters, $order);
-        $total = $all_applications->count();
+        $total = $application->countAll($filters);
 
         if($range = $request->getHeader("Range")) {
             $start = $parts[0];

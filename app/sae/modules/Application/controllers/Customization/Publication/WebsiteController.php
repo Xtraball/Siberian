@@ -19,12 +19,12 @@ class Application_Customization_Publication_WebsiteController extends Admin_Cont
 
                 // Récupère le commerçe en cours
                 $admin = $this->getSession()->getAdmin();
-                if(empty($datas['url_key'])) throw new Exception($this->_('Please enter a subdomain.'));
-                if(preg_match("#[^a-z0-9]#", $datas['url_key'])) throw new Exception($this->_('Your mobile address should not contain special characters'));
+                if(empty($datas['url_key'])) throw new Exception(__('Please enter a subdomain.'));
+                if(preg_match("#[^a-z0-9]#", $datas['url_key'])) throw new Exception(__('Your mobile address should not contain special characters'));
 
                 $dummy = new Admin_Model_Admin();
                 if($dummy->find($datas['url_key'], 'url_key')->getId()) {
-                    throw new Exception($this->_('We are sorry but this address is already used.'));
+                    throw new Exception(__('We are sorry but this address is already used.'));
                 }
 
                 $admin->setUrlKey($datas['url_key'])->save();

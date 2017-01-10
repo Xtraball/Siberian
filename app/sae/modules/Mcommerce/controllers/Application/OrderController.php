@@ -13,7 +13,7 @@ class Mcommerce_Application_OrderController extends Application_Controller_Defau
         if($id = $this->getRequest()->getParam('order_id')) {
             $order->find($id);
             if($order->getId() AND $mcommerce->getId() != $order->getMcommerceId()) {
-                throw new Exception($this->_('An error occurred during the process. Please try again later.'));
+                throw new Exception(__('An error occurred during the process. Please try again later.'));
             }
         }
 
@@ -39,7 +39,7 @@ class Mcommerce_Application_OrderController extends Application_Controller_Defau
                 if(!empty($datas['order_id'])) {
                     $order->find($datas['order_id']);
                     if($order->getId() AND $mcommerce->getId() != $order->getMcommerceId()) {
-                        throw new Exception($this->_('An error occurred while saving. Please try again later.'));
+                        throw new Exception(__('An error occurred while saving. Please try again later.'));
                     }
                 }
 
@@ -50,11 +50,11 @@ class Mcommerce_Application_OrderController extends Application_Controller_Defau
                 }
 
                 if (!empty($errors)) {
-                    $message = $this->_('Please fill in the following fields:');
+                    $message = __('Please fill in the following fields:');
                     foreach ($errors as $field) {
                         $message .= '<br />- ' . $field;
                     }
-                    throw new Exception($this->_($message));
+                    throw new Exception(__($message));
                 }
 
                 if ($order->getCustomerId()) {
@@ -77,18 +77,19 @@ class Mcommerce_Application_OrderController extends Application_Controller_Defau
                     $layout = $this->getLayout()->loadEmail('mcommerce', 'send_order_cancelled_to_customer');
                     $content = $layout->render();
 
-                    $mail = new Zend_Mail('UTF-8');
+                    # @version 4.8.7 - SMTP
+                    $mail = new Siberian_Mail();
                     $mail->setBodyHtml($content);
-                    $mail->setFrom($order->getStore()->getEmail(), $this->_('%s - Customer Service', $order->getStore()->getName()));
+                    $mail->setFrom($order->getStore()->getEmail(), __('%s - Customer Service', $order->getStore()->getName()));
                     $mail->addTo($order->fetchCustomerName(), $order->fetchCustomerName());
-                    $mail->setSubject($this->_('Order %s cancelled', $order->getNumber()));
+                    $mail->setSubject(__('Order %s cancelled', $order->getNumber()));
                     $mail->send();
                 }
 
                 $html = array(
                     'success' => '1',
                     'order_id' => $order->getId(),
-                    'success_message' => $this->_('Order successfully saved'),
+                    'success_message' => __('Order successfully saved'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0

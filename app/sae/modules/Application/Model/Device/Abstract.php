@@ -25,7 +25,7 @@ abstract class Application_Model_Device_Abstract extends Core_Model_Default {
 
         $contents = file_get_contents($file);
         if(!$contents) {
-            throw new Exception($this->_('An error occurred while editing file (%s).', $file));
+            throw new Exception(__('An error occurred while editing file (%s).', $file));
         }
 
         foreach($replacements as $search => $replace) {

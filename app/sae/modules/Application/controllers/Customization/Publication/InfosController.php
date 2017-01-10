@@ -24,11 +24,11 @@ class Application_Customization_Publication_InfosController extends Application_
                     }
                     $this->getApplication()->setName($data['name'])->save();
                 } else if(!empty($data['description'])) {
-                    if(strlen($data['description']) < 200) throw new Exception($this->_('The description must be at least 200 characters'));
+                    if(strlen($data['description']) < 200) throw new Exception(__('The description must be at least 200 characters'));
                     $this->getApplication()->setDescription($data['description'])->save();
                 } else if(!empty($data['android_version'])) {
                     if(!preg_match("#^([0-9\.]+)$#", $data['android_version'])) {
-                        throw new Exception($this->_('Invalid version'));
+                        throw new Exception(__('Invalid version'));
                     } else {
                         $this->getApplication()->getDevice(2)->setVersion($data['android_version'])->save();
                     }
@@ -36,16 +36,16 @@ class Application_Customization_Publication_InfosController extends Application_
                     $this->getApplication()->setKeywords($data['keywords'])->save();
                 } else if(!empty($data['bundle_id'])) {
                     if(count(explode('.', $data['bundle_id'])) < 2) {
-                        throw new Exception($this->_('The entered bundle id is incorrect, it should be like: com.siberiancms.app'));
+                        throw new Exception(__('The entered bundle id is incorrect, it should be like: com.siberiancms.app'));
                     }
                     $this->getApplication()->setBundleId($data['bundle_id'])->save();
                 }  else if(!empty($data['package_name'])) {
                     if(count(explode('.', $data['package_name'])) < 2) {
-                        throw new Exception($this->_('The entered package name is incorrect, it should be like: com.siberiancms.app'));
+                        throw new Exception(__('The entered package name is incorrect, it should be like: com.siberiancms.app'));
                     }
                     $this->getApplication()->setPackageName($data['package_name'])->save();
                 } else if(isset($data['main_category_id'])) {
-                    if(empty($data['main_category_id'])) throw new Exception($this->_('The field is required'));
+                    if(empty($data['main_category_id'])) throw new Exception(__('The field is required'));
                     else $this->getApplication()->setMainCategoryId($data['main_category_id'])->save();
                 } else if(isset($data['secondary_category_id'])) {
                     $this->getApplication()->setSecondaryCategoryId($data['secondary_category_id'])->save();
@@ -60,13 +60,13 @@ class Application_Customization_Publication_InfosController extends Application_
                         if($data["admob_type"] != "") {
                             $device->setAdmobType($data["admob_type"]);
                         } else {
-                            throw new Exception($this->_('You must choose an ads type'));
+                            throw new Exception(__('You must choose an ads type'));
                         }
                     }
 
                     $device->save();
                 } else if(isset($data['ios_username'])) {
-                    if(!empty($data['ios_username']) AND !Zend_Validate::is($data['ios_username'], "emailAddress")) throw new Exception($this->_('Please enter a valid email address'));
+                    if(!empty($data['ios_username']) AND !Zend_Validate::is($data['ios_username'], "emailAddress")) throw new Exception(__('Please enter a valid email address'));
                     else $this->getApplication()->getDevice(1)
                         ->setUseOurDeveloperAccount(0)
                         ->setDeveloperAccountUsername(!empty($data['ios_username']) ? $data['ios_username'] : null)
@@ -86,7 +86,7 @@ class Application_Customization_Publication_InfosController extends Application_
                         ->save()
                     ;
                 } else if(isset($data['android_username'])) {
-                    if(!empty($data['android_username']) AND !Zend_Validate::is($data['android_username'], "emailAddress")) throw new Exception($this->_('Please enter a valid email address'));
+                    if(!empty($data['android_username']) AND !Zend_Validate::is($data['android_username'], "emailAddress")) throw new Exception(__('Please enter a valid email address'));
                     else $this->getApplication()->getDevice(2)
                         ->setUseOurDeveloperAccount(0)
                         ->setDeveloperAccountUsername(!empty($data['android_username']) ? $data['android_username'] : null)

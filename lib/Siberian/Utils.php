@@ -8,15 +8,40 @@
  */
 
 class Siberian_Utils {
-	/** utility class */
+
+    /**
+     * @var Siberian_Log
+     */
+	public static $logger;
 
 	public static function load() {
 		define("SAE", 	100);
 		define("MAE", 	200);
 		define("PE", 	300);
 		define("DEMO", 	400);
+
+		self::$logger = Zend_Registry::get("logger");
 	}
+
+    /**
+     * @param $method
+     * @param $params
+     */
+	public function __callStatic($method, $params) {
+        if(strpos($method, "log_") === 0 && count($params) > 0) {
+            $method = substr($method, 4);
+
+            # Debug (only when activated.
+            Siberian_Debug::message($params[0], $method);
+
+            # log in the default logger
+            self::$logger->{$method}($params[0]);
+        }
+        # do nothing.
+    }
+
 }
+
 
 /**
  * Class Utils
@@ -33,6 +58,60 @@ class Utils extends Siberian_Utils {}
  */
 function app() {
     return Application_Model_Application::getSingleton();
+}
+
+
+function log_emerg($message) {
+    Siberian_Utils::log_emerg($message);
+}
+
+/**
+ * @param $message
+ */
+function log_alert($message) {
+    Siberian_Utils::log_alert($message);
+}
+
+/**
+ * @param $message
+ */
+function log_crit($message) {
+    Siberian_Utils::log_crit($message);
+}
+
+/**
+ * @param $message
+ */
+function log_err($message) {
+    Siberian_Utils::log_err($message);
+}
+
+/**
+ * @param $message
+ */
+function log_warn($message) {
+    Siberian_Utils::log_warn($message);
+}
+
+/**
+ * @param $message
+ */
+function log_notice($message) {
+    Siberian_Utils::log_notice($message);
+}
+
+/**
+ * @param $message
+ */
+function log_info($message) {
+    Siberian_Utils::log_info($message);
+}
+
+/**
+ * @param $message
+ */
+function log_debug($message) {
+    Siberian_Utils::log_debug($message);
 }
 
 /**

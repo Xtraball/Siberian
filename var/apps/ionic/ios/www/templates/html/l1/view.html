@@ -51,8 +51,8 @@
                 <div class="item item-divider item-divider-custom">
                     {{ "COMMENTS" | translate }}
                 </div>
-                <div class="item item-text-wrap item-button-right item-custom" ng-repeat="comment in comments" ng-class="{'item-avatar': comment.picture}">
-                    <img ng-src="{{ comment.picture }}" ng-if="comment.picture" />
+                <div class="item item-text-wrap item-button-right item-custom item-avatar" ng-repeat="comment in comments">
+                    <img ng-src="{{ customerAvatar(comment.customer_id) }}"/>
                     <h2>{{ comment.name }}</h2>
                     <p class="justify">{{ comment.message }}</p>
                     <button class="button button-icon button-custom ion-ios-flag" ng-if="show_button_flag" ng-click="flagComment(comment.id)"></button>

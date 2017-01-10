@@ -19,7 +19,7 @@ class Comment_Mobile_CommentController extends Application_Controller_Mobile_Def
                     $data[] = array(
                         "id" => $answer->getId(),
                         "name" => $answer->getCustomerName(),
-                        "picture" => $this->getRequest()->getBaseUrl().$noLogo,
+                        "customer_id" => $answer->getCustomerId(),
                         "message" => $answer->getText(),
                         "created_at" => $this->_durationSince($answer->getCreatedAt())
                     );

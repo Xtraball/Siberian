@@ -373,12 +373,23 @@ class Siberian_Layout extends Zend_Layout
 
     }
 
+    /**
+     * @param $filename
+     * @param $nodename
+     * @return Siberian_Layout_Email
+     */
     public function loadEmail($filename, $nodename) {
         $layout = new Siberian_Layout_Email($filename, $nodename);
         $layout->load();
         return $layout;
     }
 
+    /**
+     * @param $key
+     * @param null $template
+     * @param null $view
+     * @return mixed|null|Zend_View|Zend_View_Interface
+     */
     public function setBaseRender($key, $template = null, $view = null) {
 
         if($key instanceof Zend_View) {

@@ -194,29 +194,29 @@ class Application_Controller_Mobile_Default extends Core_Controller_Default {
         $seconds.= ' ';
 
         if($allDays > 0) {
-            if($allDays == 1) $allDays = $allDays." ".$this->_('day');
-            else $allDays = $allDays." ".$this->_('days');
+            if($allDays == 1) $allDays = $allDays." ".__('day');
+            else $allDays = $allDays." ".__('days');
         } else {
             $allDays = '';
         }
 
         if($hours > 0) {
-            if($hours == 1) $hours = $hours ." ".$this->_('hour');
-            else $hours = $hours." ".$this->_('hours');
+            if($hours == 1) $hours = $hours ." ".__('hour');
+            else $hours = $hours." ".__('hours');
         } else {
             $hours = '';
         }
 
         if($minutes > 0) {
-            if($minutes == 1) $minutes = $minutes ." ".$this->_('minute');
-            else $minutes = $minutes." ".$this->_('minutes');
+            if($minutes == 1) $minutes = $minutes ." ".__('minute');
+            else $minutes = $minutes." ".__('minutes');
         } else {
             $minutes = '';
         }
 
         if($seconds > 0) {
-            if($seconds == 1) $seconds = $seconds ." ".$this->_('second');
-            else $seconds = $seconds." ".$this->_('seconds');
+            if($seconds == 1) $seconds = $seconds ." ".__('second');
+            else $seconds = $seconds." ".__('seconds');
         } else {
             $seconds = '';
         }
@@ -232,7 +232,7 @@ class Application_Controller_Mobile_Default extends Core_Controller_Default {
             $updated_at = $seconds;
         }
 
-        return $this->_('%s ago', $updated_at);
+        return __('%s ago', $updated_at);
     }
 
 }

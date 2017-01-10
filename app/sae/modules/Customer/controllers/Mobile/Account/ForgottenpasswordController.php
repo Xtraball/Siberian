@@ -9,8 +9,8 @@ class Customer_Mobile_Account_ForgottenpasswordController extends Application_Co
 
             try {
 
-                if(empty($data['email'])) throw new Exception($this->_('Please enter your email address'));
-                if(!Zend_Validate::is($data['email'], 'EmailAddress')) throw new Exception($this->_('Please enter a valid email address'));
+                if(empty($data['email'])) throw new Exception(__('Please enter your email address'));
+                if(!Zend_Validate::is($data['email'], 'EmailAddress')) throw new Exception(__('Please enter a valid email address'));
 
                 $customer = new Customer_Model_Customer();
                 $customer->find(array('email' => $data['email'], "app_id" => $this->getApplication()->getId()));
@@ -35,16 +35,17 @@ class Customer_Mobile_Account_ForgottenpasswordController extends Application_Co
                 $layout->getPartial('content_email')->setCustomer($customer)->setPassword($password)->setAdminEmail($admin_email)->setApp($this->getApplication()->getName());
                 $content = $layout->render();
 
-                $mail = new Zend_Mail('UTF-8');
+                # @version 4.8.7 - SMTP
+                $mail = new Siberian_Mail();
                 $mail->setBodyHtml($content);
                 $mail->setFrom($sender, $this->getApplication()->getName());
                 $mail->addTo($customer->getEmail(), $customer->getName());
-                $mail->setSubject($this->_('%s - Your new password', $this->getApplication()->getName()));
+                $mail->setSubject(__('%s - Your new password', $this->getApplication()->getName()));
                 $mail->send();
 
                 $html = array(
                     "success" => 1,
-                    "message" => $this->_("Your new password has been sent to the entered email address")
+                    "message" => __("Your new password has been sent to the entered email address")
                 );
 
             }

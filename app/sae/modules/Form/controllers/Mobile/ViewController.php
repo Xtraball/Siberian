@@ -104,12 +104,12 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default {
                                         }
                                     }
                                 } else if($field->isRequired()) {
-                                    $errors .= $this->_('<strong>%s</strong> must be filled<br />', $field->getName());
+                                    $errors .= __('<strong>%s</strong> must be filled<br />', $field->getName());
                                 }
 
                                 // If the field is empty and required, add an error
                             } else if($field->isRequired()) {
-                                $errors .= $this->_('<strong>%s</strong> must be filled<br />', $field->getName());
+                                $errors .= __('<strong>%s</strong> must be filled<br />', $field->getName());
                             }
                         } else {
                             // If the field is required
@@ -118,22 +118,22 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default {
                                 switch($field->getType()) {
                                     case "email":
                                         if(empty($data[$field->getId()]) OR !Zend_Validate::is($data[$field->getId()], 'EmailAddress')) {
-                                            $errors .= $this->_('<strong>%s</strong> must be a valid email address<br />', $field->getName());
+                                            $errors .= __('<strong>%s</strong> must be a valid email address<br />', $field->getName());
                                         }
                                         break;
                                     case "nombre":
                                         if(!isset($data[$field->getId()]) OR !Zend_Validate::is($data[$field->getId()], 'Digits')) {
-                                            $errors .= $this->_('<strong>%s</strong> must be a numerical value<br />', $field->getName());
+                                            $errors .= __('<strong>%s</strong> must be a numerical value<br />', $field->getName());
                                         }
                                         break;
                                     case "date":
                                         if(!isset($data[$field->getId()])/* OR !$validator->isValid($data[$field->getId()])*/) {
-                                            $errors .= $this->_('<strong>%s</strong> must be a valid date (e.g. dd/mm/yyyy)<br />', $field->getName());
+                                            $errors .= __('<strong>%s</strong> must be a valid date (e.g. dd/mm/yyyy)<br />', $field->getName());
                                         }
                                         break;
                                     default:
                                         if(empty($data[$field->getId()])) {
-                                            $errors .= $this->_('<strong>%s</strong> must be filled<br />', $field->getName());
+                                            $errors .= __('<strong>%s</strong> must be filled<br />', $field->getName());
                                         }
                                         break;
                                 }
@@ -146,7 +146,7 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default {
                                     $image = $data[$field->getId()];
 
                                     if (!preg_match("@^data:image/([^;]+);@", $image, $matches)) {
-                                        throw new Exception($this->_("Unrecognized image format"));
+                                        throw new Exception(__("Unrecognized image format"));
                                     }
 
                                     $extension = $matches[1];
@@ -159,7 +159,7 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default {
 
                                     $contents = file_get_contents($image);
                                     if ($contents === FALSE) {
-                                        throw new Exception($this->_("No uploaded image"));
+                                        throw new Exception(__("No uploaded image"));
                                     }
 
                                     $res = file_put_contents($filePath, $contents);
@@ -206,16 +206,17 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default {
                         ->setFields($dataChanged);
                     $content = $layout->render();
 
-                    $mail = new Zend_Mail('UTF-8');
+                    # @version 4.8.7 - SMTP
+                    $mail = new Siberian_Mail();
                     $mail->setBodyHtml($content);
                     $mail->setFrom($form->getEmail(), $this->getApplication()->getName());
-                    $mail->addTo($form->getEmail(), $this->_('Your app\'s form'));
-                    $mail->setSubject($this->_('Your app\'s form'));
+                    $mail->addTo($form->getEmail(), __('Your app\'s form'));
+                    $mail->setSubject(__('Your app\'s form'));
                     $mail->send();
 
                     $html = array(
                         "success" => 1,
-                        "message" => $this->_("The form has been sent successfully")
+                        "message" => __("The form has been sent successfully")
                     );
                 } else {
                     $html = array('error' => 1, 'message' => $errors);

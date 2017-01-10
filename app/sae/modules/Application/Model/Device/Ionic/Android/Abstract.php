@@ -104,7 +104,7 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             } else {
                 if(is_readable($icon_src) && is_writable(dirname($icon_dst))) {
                     if(!copy($icon_src, $icon_dst)) {
-                        throw new Exception($this->_('An error occured while copying your app icon. Please check the icon, try to send it again and try again.'));
+                        throw new Exception(__('An error occured while copying your app icon. Please check the icon, try to send it again and try again.'));
                     }
                 }
             }

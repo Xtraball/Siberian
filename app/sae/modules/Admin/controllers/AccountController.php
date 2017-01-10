@@ -23,11 +23,11 @@ class Admin_AccountController extends Admin_Controller_Default
                 if(!empty($data['admin_id'])) {
                     $admin->find($data['admin_id']);
                     if(!$admin->getId()) {
-                        throw new Exception($this->_('An error occurred while saving your account. Please try again later.'));
+                        throw new Exception(__('An error occurred while saving your account. Please try again later.'));
                     }
                 }
                 if(empty($data['email'])) {
-                    throw new Exception($this->_('The email is required'));
+                    throw new Exception(__('The email is required'));
                 }
     
                 if( $admin->getId() AND $admin->getId() != $this->getAdmin()->getId() AND (
@@ -35,7 +35,7 @@ class Admin_AccountController extends Admin_Controller_Default
                         !$admin->getParentId()
                     )) {
 
-                        throw new Exception($this->_("An error occurred while saving your account. Please try again later."));
+                        throw new Exception(__("An error occurred while saving your account. Please try again later."));
 
                 }
                 
@@ -45,15 +45,15 @@ class Admin_AccountController extends Admin_Controller_Default
 
                 $check_email_admin->find($data['email'], 'email');
                 if($check_email_admin->getId() AND $check_email_admin->getId() != $admin->getId()) {
-                    throw new Exception($this->_('This email address is already used'));
+                    throw new Exception(__('This email address is already used'));
                 }
 
                 if(isset($data['password'])) {
                     if($data['password'] != $data['confirm_password']) {
-                        throw new Exception($this->_('Your password does not match the entered password.'));
+                        throw new Exception(__('Your password does not match the entered password.'));
                     }
                     if(!empty($data['old_password']) AND !$admin->isSamePassword($data['old_password'])) {
-                        throw new Exception($this->_("The old password does not match the entered password."));
+                        throw new Exception(__("The old password does not match the entered password."));
                     }
                     if(!empty($data['password'])) {
                         $admin->setPassword($data['password']);
@@ -62,7 +62,7 @@ class Admin_AccountController extends Admin_Controller_Default
                 }
 
                 if(empty($data["role_id"]) AND $data["mode"]=="management") {
-                    throw new Exception($this->_('The account role is required'));
+                    throw new Exception(__('The account role is required'));
                 } else {
                     if($data["mode"]=="management") {
                         $admin->setRoleId($data["role_id"]);
@@ -75,7 +75,7 @@ class Admin_AccountController extends Admin_Controller_Default
 
                 $html = array('success' => 1);
                     $html = array_merge($html, array(
-                        'success_message' => $this->_('The account has been successfully saved'),
+                        'success_message' => __('The account has been successfully saved'),
                         'message_timeout' => false,
                         'message_button' => false,
                         'message_loader' => 1
@@ -105,9 +105,9 @@ class Admin_AccountController extends Admin_Controller_Default
                 $admin->find($admin_id);
 
                 if(!$admin->getId()) {
-                    throw new Exception($this->_("This administrator does not exist"));
+                    throw new Exception(__("This administrator does not exist"));
                 } else if(!$admin->getParentId()) {
-                    throw new Exception($this->_("You can't delete the main account"));
+                    throw new Exception(__("You can't delete the main account"));
                 }
 
                 $admin->delete();
@@ -145,7 +145,7 @@ class Admin_AccountController extends Admin_Controller_Default
             try {
 
                 if(empty($datas['email']) OR empty($datas['password'])) {
-                    throw new Exception($this->_('Authentication failed. Please check your email and/or your password'));
+                    throw new Exception(__('Authentication failed. Please check your email and/or your password'));
                 }
                 $admin = new Admin_Model_Admin();
                 $admin->findByEmail($datas['email']);
@@ -157,7 +157,7 @@ class Admin_AccountController extends Admin_Controller_Default
                 }
 
                 if(!$this->getSession()->isLoggedIn()) {
-                    throw new Exception($this->_('Authentication failed. Please check your email and/or your password'));
+                    throw new Exception(__('Authentication failed. Please check your email and/or your password'));
                 }
 
             }
@@ -178,20 +178,20 @@ class Admin_AccountController extends Admin_Controller_Default
 
                 // Check l'email et le mot de passe
                 if(empty($data['email']) OR !Zend_Validate::is($data['email'], 'emailAddress')) {
-                    throw new Exception($this->_('Please enter a valid email address.'));
+                    throw new Exception(__('Please enter a valid email address.'));
                 }
                 if(empty($data['password']) OR strlen($data['password']) < 6) {
-                    throw new Exception($this->_('The password must be at least 6 characters.'));
+                    throw new Exception(__('The password must be at least 6 characters.'));
                 }
                 if(empty($data['confirm_password']) OR $data['password'] != $data['confirm_password']) {
-                    throw new Exception($this->_('The password and the confirmation does not match.'));
+                    throw new Exception(__('The password and the confirmation does not match.'));
                 }
 
                 $admin = new Admin_Model_Admin();
                 $admin->findByEmail($data['email']);
 
                 if($admin->getId()) {
-                    throw new Exception($this->_('We are sorry but this email address is already used.'));
+                    throw new Exception(__('We are sorry but this email address is already used.'));
                 }
 
                 $role = new Acl_Model_Role();
@@ -237,36 +237,34 @@ class Admin_AccountController extends Admin_Controller_Default
             try {
 
                 if(empty($datas['email'])) {
-                    throw new Exception($this->_('Please enter your email address'));
+                    throw new Exception(__('Please enter your email address'));
                 }
 
                 $admin = new Admin_Model_Admin();
                 $admin->findByEmail($datas['email']);
 
                 if(!$admin->getId()) {
-                    throw new Exception($this->_("Your email address does not exist"));
+                    throw new Exception(__("Your email address does not exist"));
                 }
 
                 $password = Core_Model_Lib_String::generate(8);
 
                 $admin->setPassword($password)->save();
 
-                $sender = System_Model_Config::getValueFor("support_email");
-                $support_name = System_Model_Config::getValueFor("support_name");
                 $layout = $this->getLayout()->loadEmail('admin', 'forgot_password');
-                $subject = $this->_('%s - Your new password', $support_name);
+                $subject = __('%s - Your new password');
                 $layout->getPartial('content_email')->setPassword($password);
 
                 $content = $layout->render();
 
-                $mail = new Zend_Mail('UTF-8');
+                # @version 4.8.7 - SMTP
+                $mail = new Siberian_Mail();
                 $mail->setBodyHtml($content);
-                $mail->setFrom($sender, $support_name);
                 $mail->addTo($admin->getEmail(), $admin->getName());
-                $mail->setSubject($subject);
+                $mail->setSubject($subject, array("_sender_name"));
                 $mail->send();
 
-                $this->getSession()->addSuccess($this->_('Your new password has been sent to the entered email address'));
+                $this->getSession()->addSuccess(__('Your new password has been sent to the entered email address'));
 
             }
             catch(Exception $e) {

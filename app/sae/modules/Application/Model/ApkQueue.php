@@ -46,13 +46,11 @@ class Application_Model_ApkQueue extends Core_Model_Default {
         $device->setDownloadType("apk");
         $device->setHost($this->getHost());
 
+        // FAST
         $result = $device->getResources();
 
         /** Saving log */
         $this->setLog(implode("\n", $result["log"]));
-
-        /** Prepare email */
-        $mail = new Siberian_Mail();
 
         $recipients = array();
         switch($this->getUserType()) {
@@ -84,8 +82,10 @@ class Application_Model_ApkQueue extends Core_Model_Default {
                 "link" => $url,
             );
 
-            //$mail->simpleEmail("queue", "apk_queue", __("APK generation for App: %s", $application->getName()), $recipients, $values);
-            //$mail->send();
+            # @version 4.8.7 - SMTP
+            $mail = new Siberian_Mail();
+            $mail->simpleEmail("queue", "apk_queue_success", __("APK generation for App: %s", $application->getName()), $recipients, $values);
+            $mail->send();
 
         } else {
             $this->changeStatus("failed");
@@ -95,8 +95,10 @@ class Application_Model_ApkQueue extends Core_Model_Default {
                 "application_name" => $this->getName(),
             );
 
-            //$mail->simpleEmail("queue", "failed", __("The requested APK generation failed: %s", $application->getName()), $recipients, $values);
-            //$mail->send();
+            # @version 4.8.7 - SMTP
+            $mail = new Siberian_Mail();
+            $mail->simpleEmail("queue", "apk_queue_failed", __("The requested APK generation failed: %s", $application->getName()), $recipients, $values);
+            $mail->send();
 
         }
 

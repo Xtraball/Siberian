@@ -82,7 +82,7 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
 
         $more_colorizable = true;
         if($this->getApplication()->getMoreIconId()) {
-            $library = new Media_Model_Library();
+            $library = new Media_Model_Library_Image();
             $icon = $library->find($this->getApplication()->getMoreIconId());
             if(!$icon->getCanBeColorized()) {
                 $more_color = null;
@@ -91,6 +91,8 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
             }
 
             $more_colorizable = $icon->getCanBeColorized();
+        } else {
+            $more_color = $color;
         }
 
         $data['more_items'] = array(
@@ -108,7 +110,7 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
 
         $account_colorizable = true;
         if($this->getApplication()->getAccountIconId()) {
-            $library = new Media_Model_Library();
+            $library = new Media_Model_Library_Image();
             $icon = $library->find($this->getApplication()->getAccountIconId());
             if(!$icon->getCanBeColorized()) {
                 $account_color = null;
@@ -117,6 +119,8 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
             }
 
             $account_colorizable = $icon->getCanBeColorized();
+        } else {
+            $account_color = $color;
         }
 
         $data['customer_account'] = array(

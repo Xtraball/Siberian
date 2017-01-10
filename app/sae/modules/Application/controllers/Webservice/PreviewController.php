@@ -22,7 +22,7 @@ class Application_Webservice_PreviewController extends Core_Controller_Default
                 $canBeLoggedIn = false;
 
                 if (empty($data['email']) OR empty($data['password'])) {
-                    throw new Exception($this->_('Authentication failed. Please check your email and/or your password'));
+                    throw new Exception(__('Authentication failed. Please check your email and/or your password'));
                 }
                 $admin = new Admin_Model_Admin();
                 $admin->findByEmail($data['email']);
@@ -71,13 +71,13 @@ class Application_Webservice_PreviewController extends Core_Controller_Default
                     }
 
                 } else {
-                    throw new Exception($this->_('Authentication failed. Please check your email and/or your password'));
+                    throw new Exception(__('Authentication failed. Please check your email and/or your password'));
                 }
 
             }
 
         } catch(Exception $e) {
-            $data = array('error' => $this->_('Authentication failed. Please check your email and/or your password'));
+            $data = array('error' => __('Authentication failed. Please check your email and/or your password'));
         }
 
         $this->getResponse()->setBody(Zend_Json::encode($data))->sendResponse();

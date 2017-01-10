@@ -13,11 +13,11 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
             try {
 
                 if(empty($data["privacy_policy"])) {
-                    throw new Exception($this->_("You must agree to our privacy policy to create an account."));
+                    throw new Exception(__("You must agree to our privacy policy to create an account."));
                 }
 
                 if(!Zend_Validate::is($data['email'], 'EmailAddress')) {
-                    throw new Exception($this->_('Please enter a valid email address'));
+                    throw new Exception(__('Please enter a valid email address'));
                 }
 
                 $dummy = new Customer_Model_Customer();
@@ -35,7 +35,7 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
                 }
 
                 if(empty($data['password'])) {
-                    throw new Exception($this->_('Please enter a password'));
+                    throw new Exception(__('Please enter a password'));
                 }
 
                 $customer->setData($data)
@@ -113,11 +113,12 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
         $layout->getPartial('content_email')->setCustomer($customer)->setPassword($password)->setAdminEmail($admin_email)->setApp($this->getApplication()->getName());
         $content = $layout->render();
 
-        $mail = new Zend_Mail('UTF-8');
+        # @version 4.8.7 - SMTP
+        $mail = new Siberian_Mail();
         $mail->setBodyHtml($content);
         $mail->setFrom($sender, $this->getApplication()->getName());
         $mail->addTo($customer->getEmail(), $customer->getName());
-        $mail->setSubject($this->_('%s - Account creation', $this->getApplication()->getName()));
+        $mail->setSubject(__('%s - Account creation', $this->getApplication()->getName()));
         $mail->send();
 
         return $this;

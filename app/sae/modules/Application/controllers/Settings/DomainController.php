@@ -21,20 +21,19 @@ class Application_Settings_DomainController extends Application_Controller_Defau
                     $domain_url = trim(str_replace(array('https', 'http', '://'), '', $this->getRequest()->getBaseUrl()));
 
                     if(!Zend_Uri::check($url)) {
-                        throw new Exception($this->_('Please enter a valid address'));
+                        throw new Exception(__('Please enter a valid address'));
                     } else if(preg_match('/^(www.)?('.$data['domain'].')/', $domain_url)) {
-//                    } else if(addslashes($this->getRequest()->getBaseUrl()) == addslashes($url)) {
-                        throw new Exception($this->_("You can't use this domain."));
+                        throw new Exception(__("You can't use this domain."));
                     }
 
                     $domain_folder = $parts[1];
                     $module_names = array_map('strtolower', Zend_Controller_Front::getInstance()->getDispatcher()->getSortedModuleDirectories());
                     if(in_array($domain_folder, $module_names)) {
-                        throw new Exception($this->_("Your domain key \"%s\" is not valid.", $domain_folder));
+                        throw new Exception(__("Your domain key \"%s\" is not valid.", $domain_folder));
                     }
 
                     if(!Core_Model_Url::checkCname($data["domain"])) {
-                        throw new Exception($this->_("Your CNAME is not properly set"));
+                        throw new Exception(__("Your CNAME is not properly set"));
                     }
     
                 } else {
@@ -48,7 +47,7 @@ class Application_Settings_DomainController extends Application_Controller_Defau
 
                 $html = array(
                     'success' => '1',
-                    'success_message' => $this->_('Info successfully saved'),
+                    'success_message' => __('Info successfully saved'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0,

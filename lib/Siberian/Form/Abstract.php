@@ -713,6 +713,10 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @return mixed
      */
     public static function addClass($new, $element, $isOption = false) {
+        if(is_null($element)) {
+            return;
+        }
+
         if($isOption) {
             $existing = $element->getOption('class');
         } else {

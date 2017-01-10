@@ -9,7 +9,7 @@ class Job_Api_PlaceController extends Api_Controller_Default  {
             try {
 
                 if(empty($data["email"])) {
-                    throw new Exception($this->_("The email is required"));
+                    throw new Exception(__("The email is required"));
                 }
 
                 $email = $data["email"];
@@ -42,10 +42,10 @@ class Job_Api_PlaceController extends Api_Controller_Default  {
             try {
 
                 if(empty($data["email"])) {
-                    throw new Exception($this->_("The email is required"));
+                    throw new Exception(__("The email is required"));
                 }
                 if(empty($data["password"])) {
-                    throw new Exception($this->_("The password is required"));
+                    throw new Exception(__("The password is required"));
                 }
 
                 $email = $data["email"];
@@ -59,7 +59,7 @@ class Job_Api_PlaceController extends Api_Controller_Default  {
                 }
 
                 if(!$admin->authenticate($password)) {
-                    throw new Exception($this->_("Authentication failed."));
+                    throw new Exception(__("Authentication failed."));
                 }
 
                 $data["token"] = $admin->getLoginToken();
@@ -87,19 +87,19 @@ class Job_Api_PlaceController extends Api_Controller_Default  {
                 $email_checker = new Admin_Model_Admin();
 
                 if(!empty($data['user_id'])) {
-                    throw new Exception($this->_("Unable to update a user from here."));
+                    throw new Exception(__("Unable to update a user from here."));
                 }
                 if(empty($data['email'])) {
-                    throw new Exception($this->_("The email is required"));
+                    throw new Exception(__("The email is required"));
                 }
 
                 $email_checker->find($data['email'], 'email');
                 if($email_checker->getId()) {
-                    throw new Exception($this->_("This email address is already used"));
+                    throw new Exception(__("This email address is already used"));
                 }
 
                 if(!isset($data['password'])) {
-                    throw new Exception($this->_('The password is required'));
+                    throw new Exception(__('The password is required'));
                 }
 
                 $admin->addData($data)
@@ -140,7 +140,7 @@ class Job_Api_PlaceController extends Api_Controller_Default  {
 
                     $admin->find($data["user_id"]);
                     if(!$admin->getId()) {
-                        throw new Exception($this->_("This admin does not exist"));
+                        throw new Exception(__("This admin does not exist"));
                     }
 
                 }
@@ -151,7 +151,7 @@ class Job_Api_PlaceController extends Api_Controller_Default  {
                     $email_checker->find($data['email'], 'email');
 
                     if($email_checker->getId() AND $email_checker->getId() != $admin->getId()) {
-                        throw new Exception($this->_("This email address is already used"));
+                        throw new Exception(__("This email address is already used"));
                     }
 
                 }
@@ -190,33 +190,31 @@ class Job_Api_PlaceController extends Api_Controller_Default  {
             try {
 
                 if(empty($data['email'])) {
-                    throw new Exception($this->_('Please enter your email address'));
+                    throw new Exception(__('Please enter your email address'));
                 }
 
                 $admin = new Admin_Model_Admin();
                 $admin->findByEmail($data['email']);
 
                 if(!$admin->getId()) {
-                    throw new Exception($this->_("This email address does not exist"));
+                    throw new Exception(__("This email address does not exist"));
                 }
 
                 $password = Core_Model_Lib_String::generate(8);
 
                 $admin->setPassword($password)->save();
 
-                $sender = System_Model_Config::getValueFor("support_email");
-                $support_name = System_Model_Config::getValueFor("support_name");
                 $layout = $this->getLayout()->loadEmail('admin', 'forgot_password');
-                $subject = $this->_('%s - Your new password', $support_name);
+                $subject = __('%s - Your new password');
                 $layout->getPartial('content_email')->setPassword($password);
 
                 $content = $layout->render();
 
-                $mail = new Zend_Mail('UTF-8');
+                # @version 4.8.7 - SMTP
+                $mail = new Siberian_Mail();
                 $mail->setBodyHtml($content);
-                $mail->setFrom($sender, $support_name);
                 $mail->addTo($admin->getEmail(), $admin->getName());
-                $mail->setSubject($subject);
+                $mail->setSubject($subject, array("_sender_name"));
                 $mail->send();
 
                 $data = array("success" => 1);
@@ -263,11 +261,11 @@ class Job_Api_PlaceController extends Api_Controller_Default  {
                 $admin->find($email, "email");
 
                 if(!$admin->getId()) {
-                    throw new Exception($this->_("The user doesn't exist."));
+                    throw new Exception(__("The user doesn't exist."));
                 }
 
                 if($admin->getLoginToken() != $token) {
-                    throw new Exception($this->_("Authentication failed"));
+                    throw new Exception(__("Authentication failed"));
                 }
 
                 $this->getSession()

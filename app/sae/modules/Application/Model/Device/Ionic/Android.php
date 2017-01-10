@@ -350,12 +350,6 @@ if(navigator.language) {
     	/** Gradle configuration */
     	$gradlew_path = Core_Model_Directory::getBasePathTo("{$this->_dest_source}/gradlew");
 
-    	/** Calling the url to notify the APK is ready  */
-        if(!defined("CRON")) {
-    	    $callback_url = Core_Model_Url::create("application/device/apkisgenerated", array("app_name" => $this->_folder_name));
-    	    file_put_contents($gradlew_path, "\n\nwget $callback_url", FILE_APPEND);
-        }
-
         /** Adding a call to the sdk-updater.php at the gradlew top */
         /** @TODO */
         $search = "DEFAULT_JVM_OPTS=\"\"";

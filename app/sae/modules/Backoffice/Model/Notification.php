@@ -37,6 +37,85 @@ class Backoffice_Model_Notification extends Core_Model_Default {
         return parent::save();
     }
 
+
+    /**
+     * Search for an existing similar alert/message with options
+     *
+     * @param $object_type
+     * @param $object_id
+     * @param $source
+     * @param $type
+     * @param null $time number of seconds since the last similar alert
+     */
+    public static function notificationExists($object_type, $object_id, $source, $type, $time = null) {
+        $model = new self();
+        $options = array(
+            "object_type = ?"   => $object_type,
+            "object_id = ?"     => $object_id,
+            "source = ?"        => $source,
+            "type = ?"          => $type,
+        );
+
+        if(isset($time)) {
+            $date = time_to_date(time() - $time, "YYYY-MM-dd HH:mm:ss");
+            $options["created_at > ?"] = $date;
+        }
+
+        $exists = $model->findAll($options);
+
+        return ($exists->count() > 0);
+    }
+
+    /**
+     * @param $title
+     * @param $message
+     * @param $object_type
+     * @param $object_id
+     * @param $source
+     * @param $type
+     */
+    public static function createNotification($title, $message, $object_type, $object_id, $source, $type, $is_high_priority = false, $link = null) {
+        $model = new self();
+
+        $model
+            ->setTitle($title)
+            ->setDescription($message)
+            ->setObjectType($object_type)
+            ->setObjectId($object_id)
+            ->setSource($source)
+            ->setType($type)
+            ->setIsHighPriority($is_high_priority)
+            ->setLink($link)
+            ->save();
+
+        return $model;
+    }
+
+    /**
+     * @param $notification
+     * @param null $subject
+     * @param null $message
+     */
+    public static function sendEmailForNotification($notification, $subject = null, $message = null) {
+        $email = new Siberian_Mail();
+
+        if(!isset($subject)) {
+            $email->setSubject($notification->getTitle());
+        } else {
+            $email->setSubject($subject);
+        }
+
+        if(!isset($message)) {
+            $email->setBodyHtml($notification->getDescription());
+        } else {
+            $email->setBodyHtml($message);
+        }
+
+        /** Sends to platform owner */
+        $email->ccToSender();
+        $email->send();
+    }
+
     /**
      * @return array|mixed|null|string
      */

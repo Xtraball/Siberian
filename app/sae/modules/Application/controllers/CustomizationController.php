@@ -23,7 +23,7 @@ class Application_CustomizationController extends Application_Controller_Default
             $errors = $this->getApplication()->isAvailableForPublishing($admin_can_publish);
 
             if(!empty($errors)) {
-                $message = $this->_('In order to publish your application, we need:<br />- ');
+                $message = __('In order to publish your application, we need:<br />- ');
                 $message .= join('<br />- ', $errors);
 
                 $html = array(
@@ -35,35 +35,19 @@ class Application_CustomizationController extends Application_Controller_Default
 
                 if(Siberian_Version::TYPE == "MAE") {
 
-                    $backoffice_email = null;
-                    $system = new System_Model_Config();
-                    if($system->getValueFor("support_email")) {
-                        $backoffice_email = $system->getValueFor("support_email");
-                    } else {
-                        $user = new Backoffice_Model_User();
-                        $backoffice_user = $user->findAll(array(), "user_id ASC", array("limit" => 1))->current();
-
-                        if($backoffice_user) {
-                            $backoffice_email = $backoffice_user->getEmail();
-                        }
-
-                    }
-
                     $layout = $this->getLayout()->loadEmail('application', 'publish_app');
                     $layout->getPartial('content_email')->setApp($this->getApplication())->setAdmin($this->getAdmin())->setBackofficeEmail($backoffice_email);
                     $content = $layout->render();
 
-                    $sender = $backoffice_email;
-
-                    $mail = new Zend_Mail('UTF-8');
+                    # @version 4.8.7 - SMTP
+                    $mail = new Siberian_Mail();
                     $mail->setBodyHtml($content);
-                    $mail->setFrom($sender);
                     $mail->addTo($backoffice_email);
-                    $mail->setSubject($this->_('%s – Publication request', $this->getApplication()->getName()));
+                    $mail->setSubject(__("%s – Publication request", $this->getApplication()->getName()));
                     $mail->send();
 
                     $html = array(
-                        'success_message' => $this->_("Your app will be published"),
+                        'success_message' => __("Your app will be published"),
                         'message_button' => 0,
                         'message_loader' => 0,
                         'message_timeout' => 3

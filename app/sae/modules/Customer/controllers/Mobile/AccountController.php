@@ -8,8 +8,8 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
         $this->loadPartials($this->getFullActionName('_').'_l'.$this->_layout_id, false);
         $html = array(
             'html' => $this->getLayout()->render(),
-            'title' => $this->_('Log-in'),
-            'next_button_title' => $this->_('Validate'),
+            'title' => __('Log-in'),
+            'next_button_title' => __('Validate'),
             'next_button_arrow_is_visible' => 1
         );
 
@@ -50,16 +50,16 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
     }
 
     public function editAction() {
-        $title = $this->_("Create");
+        $title = __("Create");
         if($this->getSession()->isLoggedIn('customer')) {
-            $title = $this->_("My Account");
+            $title = __("My Account");
         }
 
         $this->loadPartials($this->getFullActionName('_').'_l'.$this->_layout_id, false);
         $html = array(
             'html' => $this->getLayout()->render(),
             'title' => $title,
-            'next_button_title' => $this->_('Validate'),
+            'next_button_title' => __('Validate'),
             'next_button_arrow_is_visible' => 1
         );
         $this->getLayout()->setHtml(Zend_Json::encode($html));
@@ -70,8 +70,8 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
         $this->loadPartials($this->getFullActionName('_').'_l'.$this->_layout_id, false);
         $html = array(
             'html' => $this->getLayout()->render(),
-            'title' => $this->_("Password"),
-            'next_button_title' => $this->_('Validate'),
+            'title' => __("Password"),
+            'next_button_title' => __('Validate'),
             'next_button_arrow_is_visible' => 1
         );
         $this->getLayout()->setHtml(Zend_Json::encode($html));
@@ -84,7 +84,7 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
             try {
 
                 if((empty($datas['email']) OR empty($datas['password']))) {
-                    throw new Exception($this->_('Authentication failed. Please check your email and/or your password'));
+                    throw new Exception(__('Authentication failed. Please check your email and/or your password'));
                 }
 
                 $customer = new Customer_Model_Customer();
@@ -92,7 +92,7 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
                 $password = $datas['password'];
 
                 if(!$customer->authenticate($password)) {
-                    throw new Exception($this->_('Authentication failed. Please check your email and/or your password'));
+                    throw new Exception(__('Authentication failed. Please check your email and/or your password'));
                 }
 
                 $this->getSession()
@@ -126,7 +126,7 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
                 $user = json_decode(file_get_contents($graph_url));
 
                 if(!$user instanceof stdClass OR !$user->id) {
-                    throw new Exception($this->_('An error occurred while connecting to your Facebook account. Please try again later'));
+                    throw new Exception(__('An error occurred while connecting to your Facebook account. Please try again later'));
                 }
                 // Récupère le user_id
                 $user_id = $user->id;
@@ -231,8 +231,8 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
 
             try {
 
-                if(empty($datas['email'])) throw new Exception($this->_('Please enter your email address'));
-                if(!Zend_Validate::is($datas['email'], 'EmailAddress')) throw new Exception($this->_('Please enter a valid email address'));
+                if(empty($datas['email'])) throw new Exception(__('Please enter your email address'));
+                if(!Zend_Validate::is($datas['email'], 'EmailAddress')) throw new Exception(__('Please enter a valid email address'));
 
                 $customer = new Customer_Model_Customer();
                 $customer->find($datas['email'], 'email');
@@ -257,16 +257,17 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
                 $layout->getPartial('content_email')->setCustomer($customer)->setPassword($password)->setAdminEmail($admin_email)->setApp($this->getApplication()->getName());
                 $content = $layout->render();
 
-                $mail = new Zend_Mail('UTF-8');
+                # @version 4.8.7 - SMTP
+                $mail = new Siberian_Mail();
                 $mail->setBodyHtml($content);
                 $mail->setFrom($sender, $this->getApplication()->getName());
                 $mail->addTo($customer->getEmail(), $customer->getName());
-                $mail->setSubject($this->_('%s – Your new password', $this->getApplication()->getName()));
+                $mail->setSubject(__('%s – Your new password', $this->getApplication()->getName()));
                 $mail->send();
 
                 $html = array('success' => 1);
 
-                $html['message_success'] = $this->_("Your new password has been sent to the entered email address");
+                $html['message_success'] = __("Your new password has been sent to the entered email address");
 
             }
             catch(Exception $e) {
@@ -296,18 +297,18 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
 
             try {
 
-                if(!Zend_Validate::is($datas['email'], 'EmailAddress')) throw new Exception($this->_('Please enter a valid email address'));
+                if(!Zend_Validate::is($datas['email'], 'EmailAddress')) throw new Exception(__('Please enter a valid email address'));
                 $dummy = new Customer_Model_Customer();
                 $dummy->find($datas['email'], 'email');
 
-                if($isNew AND $dummy->getId()) throw new Exception($this->_('We are sorry but this address is already used.'));
+                if($isNew AND $dummy->getId()) throw new Exception(__('We are sorry but this address is already used.'));
 
                 if(!empty($datas['social_datas'])) {
 
                     $social_ids = array();
                     foreach($datas['social_datas'] as $type => $data) {
                         if($customer->findBySocialId($data['id'], $type)->getId()) {
-                            throw new Exception($this->_('We are sorry but the %s account is already linked to one of our customers', ucfirst($type)));
+                            throw new Exception(__('We are sorry but the %s account is already linked to one of our customers', ucfirst($type)));
                         }
                         $social_ids[$type] = array('id' => $data['id']);
                     }
@@ -319,7 +320,7 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
                 $customer->setData('password', $password);
 
                 if(isset($datas['id']) AND $datas['id'] != $this->getSession()->getCustomer()->getId()) {
-                    throw new Exception($this->_('An error occurred while saving. Please try again later.'));
+                    throw new Exception(__('An error occurred while saving. Please try again later.'));
                 }
 
                 $formated_name = Core_Model_Lib_String::format($customer->getName(), true);
@@ -338,24 +339,24 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
                         $customer->setImage('/'.$formated_name.'/'.$image_name);
                     }
                     else {
-                        $this->getSession()->addError($this->_('An error occurred while saving your picture. Please try againg later.'));
+                        $this->getSession()->addError(__('An error occurred while saving your picture. Please try againg later.'));
                     }
                 }
 
                 if(empty($datas['password']) AND $isNew) {
-                    throw new Exception($this->_('Please enter a password'));
+                    throw new Exception(__('Please enter a password'));
                 }
 
                 if(!$isMobile AND $datas['password'] != $datas['confirm_password']) {
-                    throw new Exception($this->_('Your password does not match the entered password.'));
+                    throw new Exception(__('Your password does not match the entered password.'));
                 }
 
                 if($isNew AND !$isMobile AND $datas['email'] != $datas['confirm_email']) {
-                    throw new Exception($this->_("The old email address does not match the entered email address."));
+                    throw new Exception(__("The old email address does not match the entered email address."));
                 }
 
                 if(!$isNew AND !empty($datas['old_password']) AND !$customer->isSamePassword($datas['old_password'])) {
-                    throw new Exception($this->_("The old password does not match the entered password."));
+                    throw new Exception(__("The old password does not match the entered password."));
                 }
 
                 if(!empty($datas['password'])) $customer->setPassword($datas['password']);
@@ -372,7 +373,7 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
 
                 if(!$isMobile) {
 
-                    $this->getSession()->addSuccess($this->_('Your account has been successfully saved'));
+                    $this->getSession()->addSuccess(__('Your account has been successfully saved'));
 
                     // Retour des données (redirection vers la page en cours)
                     $referer = !empty($datas['referer']) ? $datas['referer'] : $this->getRequest()->getHeader('referer');
@@ -424,11 +425,12 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
         $layout->getPartial('content_email')->setCustomer($customer)->setPassword($password)->setAdminEmail($admin_email)->setApp($this->getApplication()->getName());
         $content = $layout->render();
 
-        $mail = new Zend_Mail('UTF-8');
+        # @version 4.8.7 - SMTP
+        $mail = new Siberian_Mail();
         $mail->setBodyHtml($content);
         $mail->setFrom($sender, $this->getApplication()->getName());
         $mail->addTo($customer->getEmail(), $customer->getName());
-        $mail->setSubject($this->_('%s - Account creation', $this->getApplication()->getName()));
+        $mail->setSubject(__('%s - Account creation', $this->getApplication()->getName()));
         $mail->send();
 
         return $this;

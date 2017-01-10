@@ -203,14 +203,14 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         }
 
         if(!copy($design->getBackgroundImage(true), self::getBaseImagePath().$lowres_relative_path.$image_name)) {
-            throw new Exception($this->_('#101: An error occurred while saving'));
+            throw new Exception(__('#101: An error occurred while saving'));
         }
 
         if(!is_dir(self::getBaseImagePath().$relative_path)) {
             mkdir(self::getBaseImagePath().$relative_path, 0777, true);
         }
         if(!copy($design->getBackgroundImageHd(true), self::getBaseImagePath().$relative_path.$image_name)) {
-            throw new Exception($this->_('#102: An error occurred while saving'));
+            throw new Exception(__('#102: An error occurred while saving'));
         }
 
         foreach($design->getBlocks() as $block) {
@@ -533,7 +533,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     public function getTabbarAccountName() {
         if($this->hasTabbarAccountName()) return $this->getData('tabbar_account_name');
-        else return $this->_('My account');
+        else return __('My account');
     }
 
     public function getShortTabbarAccountName() {
@@ -542,7 +542,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     public function getTabbarMoreName() {
         if($this->hasTabbarMoreName()) return $this->getData('tabbar_more_name');
-        else return $this->_('More');
+        else return __('More');
     }
 
     public function getShortTabbarMoreName() {
@@ -780,18 +780,18 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     public function isAvailableForPublishing($check_sources_access_type) {
         $errors = array();
-        if($this->getPages()->count() < 3) $errors[] = $this->_("At least, 4 pages in the application");
-        if(!$this->getData('background_image')) $errors[] = $this->_("The homepage image");
-        if(!$this->getStartupImage()) $errors[] = $this->_("The startup image");
-        if(!$this->getData('icon')) $errors[] = $this->_("The desktop icon");
-        if(!$this->getName()) $errors[] = $this->_("The application name");
+        if($this->getPages()->count() < 3) $errors[] = __("At least, 4 pages in the application");
+        if(!$this->getData('background_image')) $errors[] = __("The homepage image");
+        if(!$this->getStartupImage()) $errors[] = __("The startup image");
+        if(!$this->getData('icon')) $errors[] = __("The desktop icon");
+        if(!$this->getName()) $errors[] = __("The application name");
         if($check_sources_access_type) {
-            if(!$this->getBundleId()) $errors[] = $this->_("The bundle id");
+            if(!$this->getBundleId()) $errors[] = __("The bundle id");
         } else {
-            if(!$this->getDescription()) $errors[] = $this->_("The description");
-            else if(strlen($this->getDescription()) < 200) $errors[] = $this->_("At least 200 characters in the description");
-            if(!$this->getKeywords()) $errors[] = $this->_("The keywords");
-            if(!$this->getMainCategoryId()) $errors[] = $this->_("The main category");
+            if(!$this->getDescription()) $errors[] = __("The description");
+            else if(strlen($this->getDescription()) < 200) $errors[] = __("At least 200 characters in the description");
+            if(!$this->getKeywords()) $errors[] = __("The keywords");
+            if(!$this->getMainCategoryId()) $errors[] = __("The main category");
         }
 
         return $errors;

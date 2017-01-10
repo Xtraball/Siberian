@@ -2,7 +2,15 @@
 
 class Installer_Backoffice_ModuleController extends Backoffice_Controller_Default {
 
+    /**
+     * @var array
+     */
     static $MODULES = array();
+
+    /**
+     * @var bool
+     */
+    public $increase_timelimit = false;
 
     public function loadAction() {
 
@@ -284,6 +292,9 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
     public function installAction() {
 
+        # Increase the timelimit to ensure update will finish
+        //$this->increase_timelimit = set_time_limit(300);
+
         $data = array();
 
         try {
@@ -320,10 +331,16 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 ;
 
                 $installers[] = $installer;
+
+                # Try to increase max execution time (if the set failed)
+                $this->_signalRetry();
             }
 
             foreach($installers as $installer) {
                 $installer->insertData();
+
+                # Try to increase max execution time (if the set failed)
+                $this->_signalRetry();
             }
 
             /** Try installing fresh template. */
@@ -350,6 +367,9 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 "message" => $this->_("Module successfully installed")
             );
 
+            # Try to increase max execution time (if the set failed)
+            $this->_signalRetry();
+
             $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
             Siberian_Autoupdater::configure($protocol.$this->getRequest()->getHttpHost());
 
@@ -364,6 +384,12 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 $cachebuilder->enable();
             }
 
+        } catch(Siberian_Exec_Exception $e) {
+            $data = array(
+                "success" => 1,
+                "reached_timeout" => true,
+                "message" => $e->getMessage()
+            );
         } catch(Exception $e) {
             $data = array(
                 "error" => 1,
@@ -373,6 +399,19 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
         $this->_sendHtml($data);
 
+    }
+
+    /**
+     * Detect if we are close to the timeout and send a signal to continue the installation process.
+     *
+     * @todo remove class_exists("Siberian_Exec") after 4.8.7
+     */
+    protected function _signalRetry() {
+        if(class_exists("Siberian_Exec") && !$this->increase_timelimit) {
+            if(Siberian_Exec::willReachMaxExecutionTime(5)) {
+                throw new Siberian_Exec_Exception("Installation will continue, please wait ...");
+            }
+        }
     }
 
     protected function _fetchUpdates() {
@@ -462,4 +501,9 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
     }
 
+}
+
+# @todo remove me after 4.8.7
+if(!class_exists("Siberian_Exec_Exception")) {
+    class Siberian_Exec_Exception extends Exception {}
 }

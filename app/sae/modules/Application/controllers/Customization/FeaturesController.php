@@ -42,14 +42,14 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 $delete_features = array();
                 $app_id = $this->getApplication()->getId();
 
-                if(empty($datas['option_id'])) throw new Exception($this->_('An error occurred while adding the option'));
+                if(empty($datas['option_id'])) throw new Exception(__('An error occurred while adding the option'));
 
                 // Récupère l'option
                 $option_id = $datas['option_id'];
                 unset($datas['option_id']);
                 $option = new Application_Model_Option();
                 $option->find($option_id);
-                if(!$option->getId()) throw new Exception($this->_('An error occurred while adding the option'));
+                if(!$option->getId()) throw new Exception(__('An error occurred while adding the option'));
 
                 // Récupère les données de l'application pour cette option
                 $option_value = new Application_Model_Option_Value();
@@ -57,7 +57,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                     $option_value->find($datas['value_id']);
                     // Test s'il n'y a pas embrouille entre les ids passés en paramètre et l'application en cours customization
                     if($option_value->getId() AND ($option_value->getOptionId() != $option->getId() OR $option_value->getAppId() != $app_id)) {
-                        throw new Exception($this->_('An error occurred while adding the option'));
+                        throw new Exception(__('An error occurred while adding the option'));
                     }
                     unset($datas['value_id']);
                 }
@@ -114,7 +114,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
             try {
 
-                if(empty($datas['value_id'])) throw new Exception($this->_('An error occurred while deleting the option'));
+                if(empty($datas['value_id'])) throw new Exception(__('An error occurred while deleting the option'));
 
                 // Récupère les données de l'application pour cette option
                 $option_value = new Application_Model_Option_Value();
@@ -122,7 +122,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 $app_id = $this->getApplication()->getId();
 
                 if(!$option_value->getId() OR $option_value->getAppId() != $app_id) {
-                    throw new Exception($this->_('An error occurred while deleting the option'));
+                    throw new Exception(__('An error occurred while deleting the option'));
                 }
 
                 $html = array(
@@ -173,7 +173,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
             }
             catch(Exception $e) {
                 $html = array(
-                    'message' => $this->_('An error occurred while deleting the option'),
+                    'message' => __('An error occurred while deleting the option'),
                     'message_button' => 1,
                     'message_loader' => 1
                 );
@@ -189,7 +189,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
         if($datas = $this->getRequest()->getPost()) {
 
             try {
-                if(empty($datas['value_id'])) throw new Exception($this->_('#107: An error occurred while saving'));
+                if(empty($datas['value_id'])) throw new Exception(__('#107: An error occurred while saving'));
 
                 // Récupère les données de l'application pour cette option
                 $option_value = new Application_Model_Option_Value();
@@ -199,7 +199,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 } else if(isset($datas['is_social_sharing_active'])) {
                     $option_value->setSocialSharingIsActive($datas['is_social_sharing_active']);
                 } else {
-                    throw new Exception($this->_('#108: An error occurred while saving'));
+                    throw new Exception(__('#108: An error occurred while saving'));
                 }
 
                 $option_value->save();
@@ -210,7 +210,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
             catch(Exception $e) {
                 $html = array(
 //                    'message' => $e->getMessage(),
-                    'message' => $this->_('#109: An error occurred while saving'),
+                    'message' => __('#109: An error occurred while saving'),
                     'message_button' => 1,
                     'message_loader' => 1
                 );
@@ -233,10 +233,10 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
                 // Test si l'option_value_id est passé en paramètre
                 if(empty($datas['option_value_id'])) {
-                    throw new Exception($this->_('#110: An error occurred while saving'));
+                    throw new Exception(__('#110: An error occurred while saving'));
                 }
                 if(empty($datas['icon_id'])) {
-                    throw new Exception($this->_('An error occurred while saving. The selected icon is not valid.'));
+                    throw new Exception(__('An error occurred while saving. The selected icon is not valid.'));
                 }
 
                 $icon_saved = $this->setIcon($datas['icon_id'], $datas['option_value_id']);
@@ -249,11 +249,13 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
                     $icon_url = $icon_saved['icon_url'];
                     if($icon->getCanBeColorized()) {
+                        Siberian_Media::disableTemporary();
                         $icon_url = $this->_getColorizedImage($icon->getImageId(), $option_value->getIconColor());
                     }
 
                     $icon_url_reverse_color = null;
                     if($icon_reverse_color = $option_value->getIconReverseColor()) {
+                        Siberian_Media::disableTemporary();
                         $icon_url_reverse_color = $this->_getColorizedImage($icon->getImageId(), $icon_reverse_color);
                     }
 
@@ -267,7 +269,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                     );
 
                 } else {
-                    throw new Exception($this->_('#111: An error occurred while saving'));
+                    throw new Exception(__('#111: An error occurred while saving'));
                 }
 
             }
@@ -302,7 +304,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
             $icon->find($icon_id);
 
             if(!$icon->getId()) {
-                throw new Exception($this->_('An error occurred while saving. The selected icon is not valid.'));
+                throw new Exception(__('An error occurred while saving. The selected icon is not valid.'));
             }
 
             // Charge l'option_value
@@ -339,6 +341,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
             $colored_header_icon_url = $icon_url;
             if($colorizable) {
+                Siberian_Media::disableTemporary();
                 $header_color = $application->getBlock('header')->getColor();
                 $colored_header_icon_url = $this->getUrl('template/block/colorize', array('id' => $icon->getId(), 'color' => str_replace('#', '', $header_color)));
             }
@@ -366,7 +369,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 if($icon->getAppId()) {
                     $icon->delete();
                 } else {
-                    throw new Exception($this->_("You may not delete a library icon"));
+                    throw new Exception(__("You may not delete a library icon"));
                 }
 
                 $html = array(
@@ -395,7 +398,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 // Récupère les positions
                 $positions = $this->getRequest()->getParam('option_value');
                 if(empty($positions)) {
-                    throw new Exception($this->_('An error occurred while sorting your pages. Please try again later.'));
+                    throw new Exception(__('An error occurred while sorting your pages. Please try again later.'));
                 }
 
                 // Supprime les positions en trop, au cas où...
@@ -408,7 +411,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
 //                Now, some icons can be hidden because of ACL by features, so we skip this test
 //                $diff = array_diff($option_value_ids, $positions);
-//                if(!empty($diff)) throw new Exception($this->_('An error occurred while sorting your pages. Please try again later.'));
+//                if(!empty($diff)) throw new Exception(__('An error occurred while sorting your pages. Please try again later.'));
 
                 // Met à jour les positions des option_values
                 $this->getApplication()->updateOptionValuesPosition($positions);
@@ -439,7 +442,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
                 // Test les données
                 if(empty($datas['option_value_id']) OR empty($datas['tabbar_name'])) {
-                    throw new Exception($this->_('An error occurred while saving your page name.'));
+                    throw new Exception(__('An error occurred while saving your page name.'));
                 }
 
                 // Charge l'option_value
@@ -449,7 +452,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
                 // Test s'il n'y a pas embrouille entre l'id de l'application dans l'option_value et l'id de l'application en session
                 if(!$option_value->getId()) {
-                    throw new Exception($this->_('An error occurred while saving your page name.'));
+                    throw new Exception(__('An error occurred while saving your page name.'));
                 }
 
                 $option_folder = new Application_Model_Option();
@@ -500,7 +503,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
                 // Test les données
                 if(empty($datas['option_value_id']) OR empty($datas['tabbar_subtitle'])) {
-                    throw new Exception($this->_('An error occurred while saving your page subtitle.'));
+                    throw new Exception(__('An error occurred while saving your page subtitle.'));
                 }
 
                 switch($datas['option_value_id']) {
@@ -518,7 +521,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
                         // Test s'il n'y a pas embrouille entre l'id de l'application dans l'option_value et l'id de l'application en session
                         if(!$option_value->getId()) {
-                            throw new Exception($this->_('An error occurred while saving your page subtitle.'));
+                            throw new Exception(__('An error occurred while saving your page subtitle.'));
                         }
 
                         $option_value->setTabbarSubtitle($datas['tabbar_subtitle'])
@@ -546,6 +549,13 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
     public function uploadiconAction() {
         if($datas = $this->getRequest()->getPost()) {
+
+            $CanBeColorized = $datas['is_colorized'] == 'true' ? 1 : 0;
+
+            # Disable media optimization for colorizable icons
+            if($CanBeColorized) {
+                Siberian_Media::disableTemporary();
+            }
 
             try {
                 $uploader = new Core_Model_Lib_Uploader();
@@ -575,13 +585,12 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
                     $files = Core_Model_Directory::getTmpDirectory(true).'/'.$file;
 
-                    $CanBeColorized = $datas['is_colorized'] == 'true' ? 1 : 0;
 
                     if(!is_dir($base_lib_path)) {
                         mkdir($base_lib_path, 0777, true);
                     }
                     if(!copy($files, $base_lib_path.'/'.$file)) {
-                        throw new exception($this->_('An error occurred while saving your picture. Please try againg later.'));
+                        throw new exception(__('An error occurred while saving your picture. Please try againg later.'));
                     } else {
 
                         $icon_lib = new Media_Model_Library_Image();
@@ -611,6 +620,8 @@ class Application_Customization_FeaturesController extends Application_Controlle
                             $header_color = $this->getApplication()->getBlock('header')->getColor();
                             $icon_url = $this->getUrl('template/block/colorize', array('id' => $icon_lib->getImageId(), 'color' => str_replace('#', '', $header_color)));
                         }
+
+                        $icon_color = $this->getApplication()->getBlock('header')->getBackgroundColor();
 
                         $html = array (
                             'success' => 1,
@@ -647,7 +658,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
                 $option_value = new Application_Model_Option_Value();
                 $option_value->find($datas['option_id']);
-                if(!$option_value->getId()) throw new Exception($this->_("An error occurred while saving your picture. Please try againg later."));
+                if(!$option_value->getId()) throw new Exception(__("An error occurred while saving your picture. Please try againg later."));
 
                 // Récupère l'option
                 $option = new Application_Model_Option();
@@ -682,11 +693,11 @@ class Application_Customization_FeaturesController extends Application_Controlle
     public function deletebackgroundimageAction() {
         if($datas = $this->getRequest()->getParams()) {
             try {
-                if(empty($datas['value_id'])) throw new Exception($this->_('An error occurred while deleting your picture'));
+                if(empty($datas['value_id'])) throw new Exception(__('An error occurred while deleting your picture'));
 
                 $option_value = new Application_Model_Option_Value();
                 $option_value->find($datas['value_id']);
-                if(!$option_value->getId()) throw new Exception($this->_('An error occurred while deleting your picture'));
+                if(!$option_value->getId()) throw new Exception(__('An error occurred while deleting your picture'));
                 $option_value->setBackgroundImage(null)->save();
 
                 $datas = array(
@@ -711,7 +722,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
             try {
 
                 if(empty($data["layout_id"]) OR !$this->getCurrentOptionValue() OR $this->getCurrentOptionValue()->getAppId() != $this->getApplication()->getId()) {
-                    throw new Exception($this->_(""));
+                    throw new Exception(__(""));
                 }
 
                 $layouts = $this->getCurrentOptionValue()->getLayouts();

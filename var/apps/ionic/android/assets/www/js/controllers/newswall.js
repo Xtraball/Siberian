@@ -206,6 +206,15 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
 
 }).controller('NewswallViewController', function($cordovaSocialSharing, $ionicModal, $http, $scope, $state, $stateParams, $timeout, $translate, Application, AUTH_EVENTS, Comment, Customer, Dialog, News/*, Customer, Answers, Message, Pictos*/) {
 
+    $scope.avatars = {};
+    $scope.customerAvatar = function (customer_id) {
+        if (!(customer_id in $scope.avatars)) {
+            var avatar = Customer.getAvatarUrl(customer_id);
+            $scope.avatars[customer_id] = avatar;
+        }
+        return $scope.avatars[customer_id];
+    }
+
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
             $scope.loadContent();

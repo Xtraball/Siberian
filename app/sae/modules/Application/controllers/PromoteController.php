@@ -8,16 +8,14 @@ class Application_PromoteController extends Application_Controller_Default {
 
     public function qrcodeAction() {
 
-//        if($this->getApplication()->getDomain()) {
-            $qrcode = file_get_contents($this->getApplication()->getQrcode(null, array('size' => '512x512', 'without_template' => 1)));
-            if($qrcode) {
-                $this->_download($qrcode, 'qrcode.png', 'image/png');
-            }
-            else {
-                $this->getSession()->addError($this->_('An error occurred during the generation of your QRCode. Please try again later.'));
-                $this->_redirect('application/promote');
-            }
-//        }
+        $qrcode = file_get_contents($this->getApplication()->getQrcode(null, array('size' => '512x512', 'without_template' => 1)));
+        if($qrcode) {
+            $this->_download($qrcode, 'qrcode.png', 'image/png');
+        }
+        else {
+            $this->getSession()->addError(__('An error occurred during the generation of your QRCode. Please try again later.'));
+            $this->_redirect('application/promote');
+        }
 
     }
 
@@ -36,7 +34,7 @@ class Application_PromoteController extends Application_Controller_Default {
                         $ios_store = "http://".$ios_store;
                     }
                     if(!Zend_Uri::check($ios_store)) {
-                        throw new Exception($this->_("Please enter a correct URL for the %s store", "iOS"));
+                        throw new Exception(__("Please enter a correct URL for the %s store", "iOS"));
                     }
                 } else {
                     $ios_store = null;
@@ -55,7 +53,7 @@ class Application_PromoteController extends Application_Controller_Default {
                         $android_store = "http://".$android_store;
                     }
                     if(!Zend_Uri::check($android_store)) {
-                        throw new Exception($this->_("Please enter a correct URL for the %s store", "Android"));
+                        throw new Exception(__("Please enter a correct URL for the %s store", "Android"));
                     }
                 } else {
                     $android_store = null;
@@ -66,7 +64,7 @@ class Application_PromoteController extends Application_Controller_Default {
 
                 $html = array(
                     'success' => '1',
-                    'success_message' => $this->_('Info successfully saved'),
+                    'success_message' => __('Info successfully saved'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0

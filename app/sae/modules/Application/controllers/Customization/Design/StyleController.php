@@ -139,13 +139,13 @@ class Application_Customization_Design_StyleController extends Application_Contr
                 $html = array();
 
                 if(empty($datas['layout_id'])) {
-                    throw new Exception($this->_('An error occurred while changing your layout.'));
+                    throw new Exception(__('An error occurred while changing your layout.'));
                 }
 
                 $layout = new Application_Model_Layout_Homepage();
                 $layout->find($datas['layout_id']);
 
-                if(!$layout->getId()) throw new Exception($this->_('An error occurred while changing your layout.'));
+                if(!$layout->getId()) throw new Exception(__('An error occurred while changing your layout.'));
 
                 $html = array('success' => 1);
 
@@ -197,12 +197,12 @@ class Application_Customization_Design_StyleController extends Application_Contr
         if($datas = $this->getRequest()->getPost()) {
 
             try {
-                if(empty($datas['layout_id'])) throw new Exception($this->_('An error occurred while changing your layout.'));
+                if(empty($datas['layout_id'])) throw new Exception(__('An error occurred while changing your layout.'));
 
                 $layout = new Application_Model_Layout_Homepage();
                 $layout->find($datas['layout_id']);
 
-                if(!$layout->getId()) throw new Exception($this->_('An error occurred while changing your layout.'));
+                if(!$layout->getId()) throw new Exception(__('An error occurred while changing your layout.'));
 
                 $html = array();
 
@@ -264,7 +264,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
 
         } catch(Exception $e) {
             $html = array(
-                'message' => $this->_('An error occurred while hidding the iOS Status Bar.'),
+                'message' => __('An error occurred while hidding the iOS Status Bar.'),
                 'message_button' => 1,
                 'message_loader' => 1,
             );
@@ -294,7 +294,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
 
         } catch(Exception $e) {
             $html = array(
-                'message' => $this->_('An error occurred while hidding the Android Status Bar.'),
+                'message' => __('An error occurred while hidding the Android Status Bar.'),
                 'message_button' => 1,
                 'message_loader' => 1,
             );
@@ -473,7 +473,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
                         $application = $this->getApplication();
                         $application->setHomepageSliderDuration($datas['slider_image_duration'])->save();
                     } else {
-                        throw new Exception($this->_('Please enter a number for the duration.'));
+                        throw new Exception(__('Please enter a number for the duration.'));
                     }
                 }
 
@@ -553,7 +553,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
         try {
 
             $image_positions = $this->getRequest()->getParam('slider_image');
-            if(empty($image_positions)) throw new Exception($this->_('An error occurred while sorting your slider images. Please try again later.'));
+            if(empty($image_positions)) throw new Exception(__('An error occurred while sorting your slider images. Please try again later.'));
 
             $image = new Media_Model_Library_Image();
             $image->updatePositions($image_positions);
@@ -594,7 +594,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
                         'reload' => 1
                     );
                 } else {
-                    throw new Exception($this->_("An error occurred while deleting your picture"));
+                    throw new Exception(__("An error occurred while deleting your picture"));
                 }
             }
 

@@ -52,8 +52,15 @@ $application = new Zend_Application(
     )
 );
 
+# PHPINFO
+if($_config["environment"] == "development" && isset($_GET["phpi"])) {
+    phpinfo();
+    die;
+}
+
 $config = new Zend_Config($application->getOptions(), true);
 Zend_Registry::set('config', $config);
+Zend_Registry::set('_config', $_config);
 
 session_cache_limiter(false);
 

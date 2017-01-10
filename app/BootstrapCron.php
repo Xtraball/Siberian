@@ -160,6 +160,8 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap
     }
 
     protected function _initCache() {
+        Siberian_Cache_Design::init();
+
         $cache_dir = Core_Model_Directory::getCacheDirectory(true);
         if(is_writable($cache_dir)) {
             $frontendConf = array ('lifetime' => 345600, 'automatic_seralization' => true);

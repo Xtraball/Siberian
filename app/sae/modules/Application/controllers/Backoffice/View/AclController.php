@@ -6,7 +6,7 @@ class Application_Backoffice_View_AclController extends Backoffice_Controller_De
     public function loadAction() {
 
         $html = array(
-            "title" => $this->_("Manage Access"),
+            "title" => __("Manage Access"),
             "icon" => "fa-user",
         );
 
@@ -19,7 +19,7 @@ class Application_Backoffice_View_AclController extends Backoffice_Controller_De
             try{
 
                 if(empty($data["admin_id"]) OR empty($data["app_id"])) {
-                    throw new Exception($this->_("An error occurred while saving. Please try again later."));
+                    throw new Exception(__("An error occurred while saving. Please try again later."));
                 }
 
                 $admin = new Admin_Model_Admin();
@@ -80,7 +80,7 @@ class Application_Backoffice_View_AclController extends Backoffice_Controller_De
             try{
 
                 if(empty($data["admin_id"]) OR empty($data["app_id"])) {
-                    throw new Exception($this->_("An error occurred while saving. Please try again later."));
+                    throw new Exception(__("An error occurred while saving. Please try again later."));
                 }
 
                 $admin = new Admin_Model_Admin();
@@ -90,7 +90,7 @@ class Application_Backoffice_View_AclController extends Backoffice_Controller_De
                 $application->find($data["app_id"]);
 
                 if(!$admin->getId() OR !$application->getId()) {
-                    throw new Exception($this->_("An error occurred while saving. Please try again later."));
+                    throw new Exception(__("An error occurred while saving. Please try again later."));
                 }
 
                 $admin->setIsAllowedToAddPages(!empty($data["can_add_page"]));
@@ -99,7 +99,7 @@ class Application_Backoffice_View_AclController extends Backoffice_Controller_De
 
                 $data = array(
                     "success" => 1,
-                    "message" => $this->_("Data saved successfully.")
+                    "message" => __("Data saved successfully.")
                 );
             } catch(Exception $e) {
                 $data = array(
@@ -117,7 +117,7 @@ class Application_Backoffice_View_AclController extends Backoffice_Controller_De
             try{
 
                 if(empty($data["admin_id"]) OR empty($data["app_id"])) {
-                    throw new Exception($this->_("An error occurred while saving. Please try again later."));
+                    throw new Exception(__("An error occurred while saving. Please try again later."));
                 }
 
                 $application_acl_option = new Application_Model_Acl_Option();
@@ -134,7 +134,7 @@ class Application_Backoffice_View_AclController extends Backoffice_Controller_De
 
                 $data = array(
                     "success" => 1,
-                    "message" => $this->_("Data saved successfully.")
+                    "message" => __("Data saved successfully.")
                 );
             } catch(Exception $e) {
                 $data = array(

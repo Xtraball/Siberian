@@ -23,7 +23,7 @@ class Application_Settings_InstagramController extends Application_Controller_De
 
                 $html = array(
                     'success' => '1',
-                    'success_message' => $this->_('Info successfully saved'),
+                    'success_message' => __('Info successfully saved'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0

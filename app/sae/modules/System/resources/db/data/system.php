@@ -167,6 +167,11 @@ $configs = array(
         "value" => "10000"
     ),
     array(
+        "code" => "enable_custom_smtp",
+        "label" => "Enable custom SMTP configuration",
+        "value" => "0"
+    ),
+    array(
         "code" => "privacy_policy",
         "label" => "Default privacy policy",
         "value" => "
@@ -291,3 +296,6 @@ $config->find($data["code"], "code");
 if(!$config->getId()) {
     $config->setData($data)->save();
 }
+
+# 4.8.7: Maintenance, remove blank entries
+$this->query("DELETE FROM `system_config` WHERE code = '';");

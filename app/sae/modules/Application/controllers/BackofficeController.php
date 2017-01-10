@@ -13,7 +13,7 @@ class Application_BackofficeController extends Backoffice_Controller_Default
             $application = new Application_Model_Application();
             $application->find($app_id);
             if(!$application->getId()) {
-                $this->getSession()->addError($this->_('This application does not exist'));
+                $this->getSession()->addError(__('This application does not exist'));
                 $this->_redirect('application/backoffice/list');
             } else {
                 $this->loadPartials();
@@ -33,18 +33,18 @@ class Application_BackofficeController extends Backoffice_Controller_Default
                 if(!empty($datas['app_id'])) {
                     $application->find($datas['app_id']);
                     if(!$application->getId()) {
-                        throw new Exception($this->_('An error occurred while saving the application. Please try again later.'));
+                        throw new Exception(__('An error occurred while saving the application. Please try again later.'));
                     }
                 }
                 if(empty($datas['bundle_id'])) {
-                    throw new Exception($this->_('The Bundle Id is required'));
+                    throw new Exception(__('The Bundle Id is required'));
                 }
 
                 $application->addData($datas)
                     ->save()
                 ;
 
-                $this->getSession()->addSuccess($this->_('The application has been successfully saved'));
+                $this->getSession()->addSuccess(__('The application has been successfully saved'));
                 $this->_redirect('application/backoffice/list');
 
             }
@@ -71,7 +71,7 @@ class Application_BackofficeController extends Backoffice_Controller_Default
                 $application->find($app_id);
 
                 if(!$application->getId()) {
-                    throw new Exception($this->_("This application does not exist"));
+                    throw new Exception(__("This application does not exist"));
                 }
 
                 $application->delete();
@@ -113,7 +113,7 @@ class Application_BackofficeController extends Backoffice_Controller_Default
 
                 $adapter->setValidators(array('Extension' => array('pem', 'case' => false)));
                 $adapter->getValidator('Extension')->setMessages(array(
-                    'fileExtensionFalse' => $this->_("Extension not allowed, \'%s\' only", '%extension%')
+                    'fileExtensionFalse' => __("Extension not allowed, \'%s\' only", '%extension%')
                 ));
 
                 $files = $adapter->getFileInfo();
@@ -121,12 +121,12 @@ class Application_BackofficeController extends Backoffice_Controller_Default
                 foreach ($files as $file => $info) {
 
                     if (!$adapter->isUploaded($file)) {
-                        throw new Exception($this->_('An error occurred during process. Please try again later.'));
+                        throw new Exception(__('An error occurred during process. Please try again later.'));
                     } else if (!$adapter->isValid($file)) {
                         if(count($adapter->getMessages()) == 1) {
-                            $erreur_message = $this->_('Error : <br/>');
+                            $erreur_message = __('Error : <br/>');
                         } else {
-                            $erreur_message = $this->_('Errors : <br/>');
+                            $erreur_message = __('Errors : <br/>');
                         }
                         foreach($adapter->getMessages() as $message) {
                             $erreur_message .= '- '.$message.'<br/>';
@@ -156,7 +156,7 @@ class Application_BackofficeController extends Backoffice_Controller_Default
                 $datas = array(
                     'success' => 1,
                     'files' => 'eeeee',
-                    'message_success' => $this->_('Info successfully saved'),
+                    'message_success' => __('Info successfully saved'),
                     'message_button' => 0,
                     'message_timeout' => 2,
                 );

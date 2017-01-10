@@ -56,10 +56,8 @@ class Application_Model_SourceQueue extends Core_Model_Default {
         $device->setDownloadType("zip");
         $device->setHost($this->getHost());
 
+        // FAST
         $result = $device->getResources();
-
-        /** Preparing email */
-        $mail = new Siberian_Mail();
 
         $recipients = array();
         switch($this->getUserType()) {
@@ -93,8 +91,10 @@ class Application_Model_SourceQueue extends Core_Model_Default {
                 "link" => $url,
             );
 
-            //$mail->simpleEmail("queue", "apk_queue", __("Source generation for App: %s", $application->getName()), $recipients, $values);
-            //$mail->send();
+            # @version 4.8.7 - SMTP
+            $mail = new Siberian_Mail();
+            $mail->simpleEmail("queue", "source_queue_success", __("Source generation for App: %s", $application->getName()), $recipients, $values);
+            $mail->send();
 
         } else {
             $this->changeStatus("failed");
@@ -104,8 +104,10 @@ class Application_Model_SourceQueue extends Core_Model_Default {
                 "application_name" => $this->getName(),
             );
 
-            //$mail->simpleEmail("queue", "failed", __("The requested source generation failed: %s", $application->getName()), $recipients, $values);
-            //$mail->send();
+            # @version 4.8.7 - SMTP
+            $mail = new Siberian_Mail();
+            $mail->simpleEmail("queue", "source_queue_failed", __("The requested source generation failed: %s", $application->getName()), $recipients, $values);
+            $mail->send();
         }
 
         $this->save();

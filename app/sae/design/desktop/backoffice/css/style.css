@@ -4,6 +4,7 @@ h1, h2, h3, h4, h5 { font-weight: 500; }
 a { color: inherit; text-decoration: none; }
 a:hover { text-decoration: none; }
 p { margin: 10px; }
+textarea, input, button { outline: none; }
 /** /RESET **/
 
 /** GENERAL **/

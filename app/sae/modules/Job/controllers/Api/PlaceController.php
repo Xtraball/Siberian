@@ -129,19 +129,17 @@ class Job_Api_PlaceController extends Api_Controller_Default {
 
                 $admin->setPassword($password)->save();
 
-                $sender = System_Model_Config::getValueFor("support_email");
-                $support_name = System_Model_Config::getValueFor("support_name");
                 $layout = $this->getLayout()->loadEmail('admin', 'forgot_password');
-                $subject = $this->_('%s - Your new password', $support_name);
+                $subject = $this->_('%s - Your new password');
                 $layout->getPartial('content_email')->setPassword($password);
 
                 $content = $layout->render();
 
-                $mail = new Zend_Mail('UTF-8');
+                # @version 4.8.7 - SMTP
+                $mail = new Siberian_Mail();
                 $mail->setBodyHtml($content);
-                $mail->setFrom($sender, $support_name);
                 $mail->addTo($admin->getEmail(), $admin->getName());
-                $mail->setSubject($subject);
+                $mail->setSubject($subject, array("_sender_name"));
                 $mail->send();
 
                 $data = array("success" => 1);

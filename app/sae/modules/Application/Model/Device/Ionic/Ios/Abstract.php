@@ -62,7 +62,7 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
                 imagecopyresized($new_icon, $icon_resource, 0, 0, 0, 0, $width, $height, $width, $height);
                 imagepng($new_icon, $icon_dst);
             } else if(!copy($icon_src, $icon_dst)) {
-                throw new Exception($this->_('An error occured while copying your app icon. Please check the icon, try to send it again and try again.'));
+                throw new Exception(__('An error occured while copying your app icon. Please check the icon, try to send it again and try again.'));
             }
 
         }

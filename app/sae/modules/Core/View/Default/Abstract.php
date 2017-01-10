@@ -146,6 +146,9 @@ abstract class Core_View_Default_Abstract extends Siberian_View
 
     public function getColorizedImage($image_id, $color) {
 
+        # Not usable with colorized images
+        Siberian_Media::disableTemporary();
+
         $color = str_replace('#', '', $color);
         $id = md5(implode('+', array($image_id, $color)));
         $url = '';

@@ -25,17 +25,17 @@ class Application_ApiController extends Api_Controller_Default {
                 if(isset($data["app_id"])) unset($data["app_id"]);
 
                 if(empty($data["name"])) {
-                    throw new Exception($this->_("The name is required"));
+                    throw new Exception(__("The name is required"));
                 }
 
                 if(empty($data["user_id"])) {
-                    throw new Exception($this->_("This admin does not exist"));
+                    throw new Exception(__("This admin does not exist"));
                 }
 
                 $admin = new Admin_Model_Admin();
                 $admin->find($data["user_id"]);
                 if(!$admin->getId()) {
-                    throw new Exception($this->_("This admin does not exist"));
+                    throw new Exception(__("This admin does not exist"));
                 }
 
                 $application = new Application_Model_Application();
@@ -73,14 +73,14 @@ class Application_ApiController extends Api_Controller_Default {
             try {
 
                 if(empty($data["app_id"])) {
-                    throw new Exception($this->_("The app_id is required"));
+                    throw new Exception(__("The app_id is required"));
                 }
 
                 $application = new Application_Model_Application();
                 $application->find($data["app_id"]);
 
                 if(!$application->getId()) {
-                    throw new Exception($this->_("This application does not exist"));
+                    throw new Exception(__("This application does not exist"));
                 }
 
                 $this->__checkKeyAndDomain($data, $application);
@@ -114,13 +114,13 @@ class Application_ApiController extends Api_Controller_Default {
 
             $module_names = array_map('strtolower', Zend_Controller_Front::getInstance()->getDispatcher()->getSortedModuleDirectories());
             if(in_array($data["key"], $module_names)) {
-                throw new Exception($this->_("Your application key \"%s\" is not valid.", $data["key"]));
+                throw new Exception(__("Your application key \"%s\" is not valid.", $data["key"]));
             }
 
             $app_tester = new Application_Model_Application();
             $app_tester->find($data["key"], "key");
             if($app_tester->getId() AND $app_tester->getId() != $application->getId()) {
-                throw new Exception($this->_("The key is already used by another application."));
+                throw new Exception(__("The key is already used by another application."));
             }
         }
 
@@ -134,17 +134,17 @@ class Application_ApiController extends Api_Controller_Default {
             $tmp_domain = explode("/", $data["domain"]);
             $domain = current($tmp_domain);
             if(preg_match('/^(www.)?('.$domain.')/', $tmp_url)) {
-                throw new Exception($this->_("You can't use this domain."));
+                throw new Exception(__("You can't use this domain."));
             } else {
                 $domain_folder = next($tmp_domain);
                 $module_names = array_map('strtolower', Zend_Controller_Front::getInstance()->getDispatcher()->getSortedModuleDirectories());
                 if(in_array($domain_folder, $module_names)) {
-                    throw new Exception($this->_("Your domain key \"%s\" is not valid.", $domain_folder));
+                    throw new Exception(__("Your domain key \"%s\" is not valid.", $domain_folder));
                 }
             }
 
             if(!Zend_Uri::check("http://".$data["domain"])) {
-                throw new Exception($this->_("Please enter a valid URL"));
+                throw new Exception(__("Please enter a valid URL"));
             }
 
             $app_tester = new Application_Model_Application();

@@ -64,6 +64,8 @@ class Backoffice_Controller_Default extends Core_Controller_Default {
             );
         }
 
+        Siberian_Debug::sendDataInHeaders();
+
         return parent::_sendHtml($data);
     }
 

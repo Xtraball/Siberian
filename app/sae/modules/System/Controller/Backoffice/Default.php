@@ -19,7 +19,7 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
 
                 $data = array(
                     "success" => 1,
-                    "message" => $this->_("Info successfully saved")
+                    "message" => __("Info successfully saved")
                 );
             } catch(Exception $e) {
                 $data = array(
@@ -47,15 +47,23 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
         foreach($values as $value) {
             $data[$value->getCode()] = array(
                 "code" => $value->getCode(),
-                "label" => $this->_($value->getLabel()),
+                "label" => __($value->getLabel()),
                 "value" => $value->getValue()
             );
         }
+
+        # Custom SMTP
+        $api_model = new Api_Model_Key();
+        $keys = $api_model::findKeysFor("smtp_credentials");
+        $data["smtp_credentials"] = $keys->getData();
 
         return $data;
     }
 
     protected function _save($data) {
+
+        # Custom SMTP
+        $this->_saveSmtp($data);
 
         foreach($data as $code => $values) {
 
@@ -73,6 +81,35 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
         return $this;
     }
 
+    /**
+     * Save SMTP configuration
+     *
+     * @param $data
+     */
+    public function _saveSmtp($data) {
+        if(!isset($data["smtp_credentials"])) {
+            return $this;
+        }
+
+        $_data = $data["smtp_credentials"];
+
+        $api_provider = new Api_Model_Provider();
+        $api_key = new Api_Model_Key();
+
+        $provider = $api_provider->find("smtp_credentials", "code");
+        if($provider->getId()) {
+            $keys = $api_key->findAll(array("provider_id = ?" => $provider->getId()));
+            foreach($keys as $key) {
+                $code = $key->getKey();
+                if(isset($_data[$code])) {
+                    $key->setValue($_data[$code])->save();
+                }
+            }
+        }
+
+        return $this;
+    }
+
     public function generateanalyticsAction() {
 
         try {
@@ -83,7 +120,7 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
 
             $data = array(
                 "success" => 1,
-                "message" => $this->_("Your analytics has been computed.")
+                "message" => __("Your analytics has been computed.")
             );
         } catch(Exception $e) {
             $data = array(
@@ -127,7 +164,7 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
 
             $data = array(
                 "success" => 1,
-                "message" => $this->_("Your analytics has been computed.")
+                "message" => __("Your analytics has been computed.")
             );
 
         } catch(Exception $e) {

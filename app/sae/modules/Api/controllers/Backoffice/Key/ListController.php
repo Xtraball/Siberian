@@ -8,6 +8,7 @@ class Api_Backoffice_Key_ListController extends Backoffice_Controller_Default
         "plesk",
         "vestacp",
         "directadmin",
+        "smtp_credentials",
     );
 
     public function loadAction() {

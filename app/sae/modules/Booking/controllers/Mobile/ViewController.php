@@ -39,22 +39,22 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
 
                 $errors = array();
 
-                if(empty($data['name'])) $errors[] = $this->_('Your name');
-                if((empty($data['email']) OR !Zend_Validate::is($data['email'], 'emailAddress')) && (empty($data['phone']))) $errors[] = $this->_('Your phone number or email address');
-                if(empty($data['store'])) $errors[] = $this->_('Location');
-                if(empty($data['people'])) $errors[] = $this->_('The number of people');
-                if(empty($data['date'])) $errors[] = $this->_('The date and time of the booking');
-                if(empty($data['prestation'])) $errors[] = $this->_('The booking information');
+                if(empty($data['name'])) $errors[] = __('Your name');
+                if((empty($data['email']) OR !Zend_Validate::is($data['email'], 'emailAddress')) && (empty($data['phone']))) $errors[] = __('Your phone number or email address');
+                if(empty($data['store'])) $errors[] = __('Location');
+                if(empty($data['people'])) $errors[] = __('The number of people');
+                if(empty($data['date'])) $errors[] = __('The date and time of the booking');
+                if(empty($data['prestation'])) $errors[] = __('The booking information');
 
                 if(!empty($errors)) {
-                    $message = $this->_('Please fill out the following fields: ');
+                    $message = __('Please fill out the following fields: ');
                     $message .= join(' - ', $errors);
                     $html = array('error' => 1, 'message' => $message);
                 }
                 else {
                     $store = new Booking_Model_Store();
                     $store->find($data['store'], 'store_id');
-                    if(!$store->getId()) throw new Exception($this->_('An error occurred during process. Please try again later.'));
+                    if(!$store->getId()) throw new Exception(__('An error occurred during process. Please try again later.'));
                     $data["location"] = $store->getStoreName();
 
                     $date = new Siberian_Date(strtotime($data['date']), Zend_Registry::get('Zend_Locale'));
@@ -63,7 +63,7 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     //vérif value
                     $booking = new Booking_Model_Booking();
                     $booking->find($store->getBookingId(), 'booking_id');
-                    if(!$booking->getId()) throw new Exception($this->_('An error occurred during process. Please try again later.'));
+                    if(!$booking->getId()) throw new Exception(__('An error occurred during process. Please try again later.'));
                     $dest_email = $store->getEmail();
 
                     $app_name = $this->getApplication()->getName();
@@ -71,7 +71,9 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     $layout = $this->getLayout()->loadEmail('booking', 'send_email');
                     $layout->getPartial('content_email')->setData($data);
                     $content = $layout->render();
-                    $mail = new Zend_Mail('UTF-8');
+
+                    # @version 4.8.7 - SMTP
+                    $mail = new Siberian_Mail();
                     $mail->setBodyHtml($content);
                     $mail->setFrom($data['email'], $data['name']);
                     $mail->addTo($dest_email, $app_name);
@@ -80,7 +82,7 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
 
                     $html = array(
                         "success" => 1,
-                        "message" => $this->_("Thank you for your request. We'll answer you as soon as possible.")
+                        "message" => __("Thank you for your request. We'll answer you as soon as possible.")
                     );
                 }
 

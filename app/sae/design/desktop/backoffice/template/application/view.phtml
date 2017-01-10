@@ -425,7 +425,7 @@
                 <span ng-show="application.queued.positions.ios > 1">
                     <i class="fa fa-random"></i> <?php echo __("Queued") ?>: {{ application.queued.positions.ios }}/{{ application.queued.total }}
                 </span>
-                <a ng-show="application.queued.positions.ios >= 1" ng-click="cancelQueue(1, 0)" href="javascript:void(0)">
+                <a ng-show="application.queued.positions.ios > 1" ng-click="cancelQueue(1, 0)" href="javascript:void(0)">
                     <i class="fa fa-times"></i> <?php echo __("Cancel") ?>
                 </a>
             </td>
@@ -455,7 +455,7 @@
                 <span ng-show="application.queued.positions.iosnoads > 1">
                     <i class="fa fa-random"></i> <?php echo __("Queued") ?>: {{ application.queued.positions.iosnoads }}/{{ application.queued.total }}
                 </span>
-                <a ng-show="application.queued.positions.iosnoads >= 1" ng-click="cancelQueue(1, 1)" href="javascript:void(0)">
+                <a ng-show="application.queued.positions.iosnoads > 1" ng-click="cancelQueue(1, 1)" href="javascript:void(0)">
                     <i class="fa fa-times"></i> <?php echo __("Cancel") ?>
                 </a>
             </td>
@@ -480,7 +480,7 @@
                 <span ng-show="application.queued.positions.android > 1">
                     <i class="fa fa-random"></i> <?php echo __("Queued") ?>: {{ application.queued.positions.android }}/{{ application.queued.total }}
                 </span>
-                <a ng-show="application.queued.positions.android >= 1" ng-click="cancelQueue(2, 0)" href="javascript:void(0)">
+                <a ng-show="application.queued.positions.android > 1" ng-click="cancelQueue(2, 0)" href="javascript:void(0)">
                     <i class="fa fa-times"></i> <?php echo __("Cancel") ?>
                 </a>
             </td>

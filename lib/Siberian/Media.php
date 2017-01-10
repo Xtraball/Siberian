@@ -44,14 +44,13 @@ class Siberian_Media {
             return;
         }
 
-        $logger = Zend_Registry::get("logger");
-
         $filetype = strtolower(pathinfo($image_path, PATHINFO_EXTENSION));
         if(array_key_exists($filetype, self::$tools)) {
             $tools = self::$tools[$filetype];
 
             foreach($tools as $toolbin => $options) {
                 $path = self::isInstalled($options["bin"]);
+
                 if($path !== false) {
                     exec("{$path} -h", $output);
                     if(isset($output) && isset($output[0]) && !empty($output[0])) {
@@ -62,9 +61,9 @@ class Siberian_Media {
                         }
                         $bin = sprintf($cli, $image_path);
 
-                        $logger->info(__("[Siberian_Media] optimizing media %s", $bin));
+                        log_info(__("[Siberian_Media] optimizing media %s", $bin));
 
-                        exec($bin, $result);
+                        exec($bin." 2>&1", $result);
                     }
                 }
             }
@@ -75,6 +74,8 @@ class Siberian_Media {
      * Disable until next reload
      */
     public static function disableTemporary() {
+        log_info("[Siberian_Media] disableTemporary");
+
         self::$temporary_disabled = true;
     }
 

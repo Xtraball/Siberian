@@ -50,7 +50,7 @@ please check the `fastcgi` options as they may vary depending on your installati
 
 ```
 server {
-    listen 80;
+    listen [::]:80;
 
 	root [/path/to/siberiancms];
 		
@@ -70,10 +70,14 @@ server {
     }
     
     # Let's Encrypt configuration
+    location = /.well-known/check {
+        default_type "text/plain";
+        try_files $uri =404;
+    }
+    
     location ^~ /.well-known/acme-challenge/ {
         default_type "text/plain";
-    
-        root [/path/to/siberiancms];
+        try_files $uri =404;
     }
 
 	location / {
@@ -89,7 +93,6 @@ server {
 		fastcgi_connect_timeout 300s;
 		fastcgi_send_timeout 300s;
 		fastcgi_read_timeout 300s;
-		fastcgi_param APPLICATION_ENV "production";
 	}
 
     location ~* ^.+.(js|css|png|jpg|jpeg|gif|ico|html)$ {

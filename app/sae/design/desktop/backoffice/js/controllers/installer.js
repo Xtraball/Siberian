@@ -366,25 +366,18 @@ App.config(function($routeProvider) {
 
     };
 
-    $scope.installModule = function() {
-
-        $scope.installation.install.is_visible = true;
-        $scope.installation.install.progress = 0;
-        $scope.installation.install.success = false;
-        $scope.installation.install.error = false;
-        $scope.installation.install.running = true;
-
-        $interval(function() {
-            $scope.increaseProgressBar("install");
-        }, 500, 1);
-
-        $scope.installation.install.interval_id = $interval(function() {
-            $scope.increaseProgressBar("install", 1);
-        }, 500, 90);
-
+    $scope.installRetry = 0;
+    $scope.installPoller = function() {
         Installer.install().success(function(data) {
 
-            if(angular.isObject(data) && data.success) {
+            if($scope.installRetry < 5 && angular.isObject(data) && data.success && angular.isDefined(data.reached_timeout)) {
+                // Continue update, recall itself
+                $scope.installPoller();
+                $scope.installRetry++;
+
+                console.log("Installer recall "+$scope.installRetry+" time.");
+
+            } else if(angular.isObject(data) && data.success) {
                 $scope.message.setText(data.message)
                     .isError(false)
                     .show()
@@ -405,7 +398,6 @@ App.config(function($routeProvider) {
                         location.reload();
                     }, 1500);
                 });
-
 
             } else {
                 $scope.message.setText(Label.uploader.error.general)
@@ -431,6 +423,28 @@ App.config(function($routeProvider) {
             $scope.installation.install.running = false;
             $scope.installation.install.progress = 100;
         });
+    };
+
+    $scope.installModule = function() {
+
+        $scope.installRetry = 0;
+
+        $scope.installation.install.is_visible = true;
+        $scope.installation.install.progress = 0;
+        $scope.installation.install.success = false;
+        $scope.installation.install.error = false;
+        $scope.installation.install.running = true;
+
+        $interval(function() {
+            $scope.increaseProgressBar("install");
+        }, 500, 1);
+
+        $scope.installation.install.interval_id = $interval(function() {
+            $scope.increaseProgressBar("install", 1);
+        }, 500, 90);
+
+        /** Installation poller with multiple retries. */
+        $scope.installPoller();
 
     };
 

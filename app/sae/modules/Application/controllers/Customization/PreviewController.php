@@ -12,8 +12,8 @@ class Application_Customization_PreviewController extends Application_Controller
 
             $html = array();
             try {
-                if(empty($datas['subdomain'])) throw new Exception($this->_('Please enter a valid mobile website address.'));
-                if(preg_match("#[^a-z0-9]#", $datas['subdomain'])) throw new Exception($this->_('Your mobile address should not contain special characters'));
+                if(empty($datas['subdomain'])) throw new Exception(__('Please enter a valid mobile website address.'));
+                if(preg_match("#[^a-z0-9]#", $datas['subdomain'])) throw new Exception(__('Your mobile address should not contain special characters'));
                 
                 $this->getApplication()
                     ->setSubdomain($datas['subdomain'])

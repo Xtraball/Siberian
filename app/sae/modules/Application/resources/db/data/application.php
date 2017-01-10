@@ -474,4 +474,23 @@ if(is_writable(APPLICATION_PATH . '/configs/app.ini')) {
 
 }
 
+# Privacy policy
 $this->query("UPDATE application SET privacy_policy = (SELECT value FROM system_config WHERE code = 'privacy_policy') WHERE privacy_policy IS NULL;");
+
+# Add indexes to improve slow queries
+try {
+    $this->query("ALTER TABLE `siberiancms_pe`.`application` ADD UNIQUE `search_domain` (`domain`);");
+} catch(Exception $e) {
+    if(method_exists($this, "log")) {
+        $this->log("Skipped index search_domain, already exists.");
+    }
+}
+
+try {
+    $this->query("ALTER TABLE `siberiancms_pe`.`application` ADD UNIQUE `search_key` (`key`);");
+} catch(Exception $e) {
+    if(method_exists($this, "log")) {
+        $this->log("Skipped index search_key, already exists.");
+    }
+}
+

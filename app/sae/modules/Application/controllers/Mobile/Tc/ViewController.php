@@ -12,7 +12,7 @@ class Application_Mobile_Tc_ViewController extends Application_Controller_Mobile
                 $tc->find($tc_id);
                 $data = array(
                     "html_file_path" => $this->getRequest()->getBaseUrl().$tc->getHtmlFilePath(),
-                    "page_title" => $this->_("Terms & Conditions")
+                    "page_title" => __("Terms & Conditions")
                 );
 
             } catch(Exception $e) {

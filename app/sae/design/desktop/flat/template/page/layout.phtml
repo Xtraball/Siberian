@@ -16,6 +16,9 @@
         <link rel="icon" type="image/png" href="<?php echo $this->getFavicon() ?>" />
         <script type="text/javascript">var login_urls = {};</script>
         <?php echo $this->getPartialHtml("css"); ?>
+
+        <?php echo Siberian_Debug::renderHead(); ?>
+
     </head>
     <body class="<?php echo $this->default_class_name ?> general">
         <div id="customization_mask" style="display:none"></div>
@@ -113,9 +116,11 @@
                  *  i.e. verify the user did not open another application in a new tab.
                  *  If they did then alert the user and refresh the page.
                  */
+                <?php if(!Siberian_Debug::$render): /** Do not call when in debug mode, log pollution */ ?>
                 setInterval(function () {
                     $.ajax({})
                 }, 12000);
+                <?php endif; ?>
 
             }());
             <?php endif; ?>

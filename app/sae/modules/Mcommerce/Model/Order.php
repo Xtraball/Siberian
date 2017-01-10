@@ -202,7 +202,7 @@ class Mcommerce_Model_Order extends Core_Model_Default {
 
         // Customer information
         $page->setFont($font_bold, 20);
-        $page->drawText($this->_("Client"), 50, $y); $y -= 30;
+        $page->drawText(__("Client"), 50, $y); $y -= 30;
 
         $page->setFont($font_regular, 12);
         $page->drawText($this->fetchCustomerName(), 50, $y);$y-=15;
@@ -215,12 +215,12 @@ class Mcommerce_Model_Order extends Core_Model_Default {
 
         // Order general information
         $page->setFont($font_bold, 20);
-        $page->drawText($this->_("Order details"), 50, $y); $y -= 30;
+        $page->drawText(__("Order details"), 50, $y); $y -= 30;
 
         $page->setFont($font_bold, 12);
-        $page->drawText($this->_("Order Number"), 50, $y);
-        $page->drawText($this->_("Delivery Method"), 250, $y);
-        $page->drawText($this->_("Payment Method"), 450, $y);$y-=15;
+        $page->drawText(__("Order Number"), 50, $y);
+        $page->drawText(__("Delivery Method"), 250, $y);
+        $page->drawText(__("Payment Method"), 450, $y);$y-=15;
 
         $page->setFont($font_regular, 12);
         $page->drawText($this->getNumber(), 50, $y);
@@ -229,10 +229,10 @@ class Mcommerce_Model_Order extends Core_Model_Default {
 
         // Order items
         $page->setFont($font_bold, 12);
-        $page->drawText($this->_("Product"), 50, $y);
-        $page->drawText($this->_("Unit Price"), 380, $y);
-        $page->drawText($this->_("Qty"), 460, $y);
-        $page->drawText($this->_("Total"), 500, $y);$y-=10;
+        $page->drawText(__("Product"), 50, $y);
+        $page->drawText(__("Unit Price"), 380, $y);
+        $page->drawText(__("Qty"), 460, $y);
+        $page->drawText(__("Total"), 500, $y);$y-=10;
         $page->drawLine(50, $y, 550, $y);$y-=1;
         $page->drawLine(50, $y, 550, $y);$y-=15;
 
@@ -240,7 +240,7 @@ class Mcommerce_Model_Order extends Core_Model_Default {
         foreach ($this->getLines() as $line) {
 
             $format = unserialize($line->getFormat());
-            $text_format = isset($format['title']) ? $this->_("Format:") . " " . $format['title'] : "";
+            $text_format = isset($format['title']) ? __("Format:") . " " . $format['title'] : "";
 
             $y_ref = $y;
             $max_text_length = 65;
@@ -306,22 +306,22 @@ class Mcommerce_Model_Order extends Core_Model_Default {
         // Totals
         $y -= 45;
         $page->setFont($font_bold, 12);
-        $page->drawText($this->_("Total"), 50, $y);$y-=10;
+        $page->drawText(__("Total"), 50, $y);$y-=10;
         $page->drawLine(50, $y, 550, $y);$y--;
         $page->drawLine(50, $y, 550, $y);$y-=15;
 
         // Titles
         $y_ref = $y;
         $page->setFont($font_bold, 11);
-        $page->drawText($this->_("Subtotal"), 50, $y_ref);$y_ref-=15;
+        $page->drawText(__("Subtotal"), 50, $y_ref);$y_ref-=15;
         $padding = 0;
         if($this->getDeliveryCost() > 0) {
-            $page->drawText($this->_("Delivery Fees"), 50, $y_ref);$y_ref-=15;
-            $page->drawText($this->_("Total Excl. Tax"), 50, $y_ref);$y_ref-=15;
+            $page->drawText(__("Delivery Fees"), 50, $y_ref);$y_ref-=15;
+            $page->drawText(__("Total Excl. Tax"), 50, $y_ref);$y_ref-=15;
             $padding = 30;
         }
-        $page->drawText($this->_("Total Tax"), 50, $y_ref);$y_ref-=15;
-        $page->drawText($this->_("Total"), 50, $y_ref);
+        $page->drawText(__("Total Tax"), 50, $y_ref);$y_ref-=15;
+        $page->drawText(__("Total"), 50, $y_ref);
 
         // Values
         $y_ref = $y;
@@ -343,8 +343,8 @@ class Mcommerce_Model_Order extends Core_Model_Default {
             // Titles
             $y_ref = $y;
             $page->setFont($font_bold, 11);
-            $page->drawText($this->_("Client will pay"), 302, $y_ref);$y_ref-=15;
-            $page->drawText($this->_("Remaining due"), 302, $y_ref);
+            $page->drawText(__("Client will pay"), 302, $y_ref);$y_ref-=15;
+            $page->drawText(__("Remaining due"), 302, $y_ref);
 
             // Values
             $y_ref = $y;
@@ -362,7 +362,7 @@ class Mcommerce_Model_Order extends Core_Model_Default {
      * @return string
      */
     public function getDeliveryMethod() {
-        return $this->_($this->getData('delivery_method'));
+        return __($this->getData('delivery_method'));
     }
 
     public function sendToCustomer() {
@@ -389,11 +389,12 @@ class Mcommerce_Model_Order extends Core_Model_Default {
             throw new Exception("Cannot find order customer.");
         }
 
-        $mail = new Zend_Mail('UTF-8');
+        # @version 4.8.7 - SMTP
+        $mail = new Siberian_Mail();
         $mail->setBodyHtml($content);
-        $mail->setFrom($this->getStore()->getEmail(), $this->_('%s - Customer Service', $this->getStore()->getName()));
+        $mail->setFrom($this->getStore()->getEmail(), __('%s - Customer Service', $this->getStore()->getName()));
         $mail->addTo($mailto,$nameto);
-        $mail->setSubject($this->_('Order confirmation'));
+        $mail->setSubject(__('Order confirmation'));
         $mail->send();
 
         return $this;
@@ -408,11 +409,12 @@ class Mcommerce_Model_Order extends Core_Model_Default {
         $layout->getPartial('content_email')->setCurrentOrder($this);
         $content = $layout->render();
 
-        $mail = new Zend_Mail('UTF-8');
+        # @version 4.8.7 - SMTP
+        $mail = new Siberian_Mail();
         $mail->setBodyHtml($content);
-        $mail->setFrom($this->getStore()->getEmail(), $this->_('Customer Service'));
+        $mail->setFrom($this->getStore()->getEmail(), __('Customer Service'));
         $mail->addTo($this->getStore()->getEmail(), $this->getStore()->getName());
-        $mail->setSubject($this->_("New order from the application"));
+        $mail->setSubject(__("New order from the application"));
         $mail->send();
 
         $printer = $this->getStore()->getPrinter();
@@ -420,10 +422,11 @@ class Mcommerce_Model_Order extends Core_Model_Default {
 
             try {
 
-                $mail = new Zend_Mail('UTF-8');
-                $mail->setFrom($this->getStore()->getEmail(), $this->_('Customer Service'));
+                # @version 4.8.7 - SMTP
+                $mail = new Siberian_Mail();
+                $mail->setFrom($this->getStore()->getEmail(), __('Customer Service'));
                 $mail->addTo($printer->getEmail(), $this->getStore()->getName());
-                $mail->setSubject($this->_("New order from the application"));
+                $mail->setSubject(__("New order from the application"));
                 $mail->setBodyHtml("");
                 $mail->createAttachment(
                     $this->getPdf()->render(),

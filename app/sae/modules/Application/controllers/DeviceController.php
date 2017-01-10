@@ -61,6 +61,9 @@ class Application_DeviceController extends Core_Controller_Default {
 
     }
 
+    /**
+     * @deprecated 4.8.7+
+     */
     public function apkisgeneratedAction() {
 
         $appName = $this->getRequest()->getParam('app_name');
@@ -83,18 +86,17 @@ class Application_DeviceController extends Core_Controller_Default {
 
             $user = $user->findAll(null, "user_id ASC", array("limit" => "1"))->current();
 
-            $sender = System_Model_Config::getValueFor("support_email");
-            $support_name = System_Model_Config::getValueFor("support_name");
             $layout = $this->getLayout()->loadEmail('application', 'download_source');
-            $subject = $this->_('Android APK Generation');
+            $subject = __('Android APK Generation');
             $layout->getPartial('content_email')->setLink($link);
             $layout->getPartial('content_email')->setApkStatus($apk_is_generated);
 
             $content = $layout->render();
 
-            $mail = new Zend_Mail('UTF-8');
+            # Probably deprecated
+            # @version 4.8.7 - SMTP
+            $mail = new Siberian_Mail();
             $mail->setBodyHtml($content);
-            $mail->setFrom($sender, $support_name);
             $mail->addTo($user->getEmail());
             $mail->setSubject($subject);
             $mail->send();

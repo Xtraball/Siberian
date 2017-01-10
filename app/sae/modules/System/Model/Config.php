@@ -42,7 +42,7 @@ class System_Model_Config extends Rss_Model_Feed_Abstract {
             }
 
             if(!is_writable($filepath)) {
-                throw new Exception($this->_("The folder /images/default is not writable."));
+                throw new Exception(__("The folder /images/default is not writable."));
             }
 
             file_put_contents("$filepath/$filename", $data);

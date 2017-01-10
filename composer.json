@@ -1,0 +1,11 @@
+{
+    "name": "xtraball/siberian",
+    "require": {
+        "symfony/browser-kit": "^3.1",
+        "fabpot/goutte": "^3.1",
+        "maximebf/debugbar": "^1.13"
+    },
+    "config": {
+        "vendor-dir": "lib/vendor"
+    }
+}

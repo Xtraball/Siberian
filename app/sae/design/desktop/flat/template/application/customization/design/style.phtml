@@ -21,6 +21,9 @@ $layout_form_options->populate($application->getData());
 $template_design = $application->getDesign();
 $overview_new = $template_design->getOverviewNew();
 
+# App design
+$design_id = $application->getDesignId();
+
 ?>
 <div class="page-content-wrapper">
     <div id="template_content" class="content">
@@ -36,7 +39,9 @@ $overview_new = $template_design->getOverviewNew();
                 <?php endif; ?>
                 <br /><br />
                 <p>
-                    <?php if(!empty($overview_new)): ?>
+                    <?php if(empty($design_id)): ?>
+                        <img id="design_overview" class="overview-old" src="/images/templates/blank/overview.png" width="100% " height="100%"/>
+                    <?php elseif(!empty($overview_new)): ?>
                         <img id="design_overview" src="<?php echo $application->getDesign()->getOverview("overview_new"); ?>" width="100% " height="100%"/>
                     <?php else: ?>
                         <img id="design_overview" class="overview-old" src="<?php echo $application->getDesign()->getOverview(); ?>" width="100% " height="100%"/>
@@ -44,11 +49,9 @@ $overview_new = $template_design->getOverviewNew();
                 </p>
             </div>
             <div class="col-sm-4 col-xs-6">
-                <?php if($this->_canAccess("application_create")) : ?>
-                    <button type="button" id="show_layouts" class="show_layouts add color-red btn">
-                        <i class="fa fa-plus-circle"></i> <?php echo __("Change your layout"); ?>
-                    </button>
-                <?php endif; ?>
+                <button type="button" id="show_layouts" class="show_layouts add color-red btn">
+                    <i class="fa fa-plus-circle"></i> <?php echo __("Change your layout"); ?>
+                </button>
                 <br /><br />
                 <div id="layout_overview"><img id="layout_overview" src="<?php echo $this->getImage($layout->getPreview()); ?>" width="100% " height="100%"/></div>
             </div>
@@ -224,13 +227,10 @@ $overview_new = $template_design->getOverviewNew();
             iframe.reload();
         });
 
-        $("#layouts input").on("change", function() {
-            var el = $(this);
-            if("homepage_slider_is_visible" == el.attr("id") || "layout_visibility" == el.attr("id")) {
-                setTimeout(function() {
-                    location.reload();
-                }, 2000);
-            }
+        $("#homepage_slider_is_visible, #layout_visibility").on("change", function() {
+            setTimeout(function() {
+                location.reload();
+            }, 2000);
         });
 
         $("#homepage_slider_options").on("change", function() {
@@ -277,7 +277,9 @@ $overview_new = $template_design->getOverviewNew();
             height: 'auto'
         });
 
-        $('#show_templates').click(function() {
+        var showTemplatesButton = $("#show_templates");
+
+        showTemplatesButton.click(function() {
             modal_preview.show();
         });
 
@@ -294,9 +296,8 @@ $overview_new = $template_design->getOverviewNew();
         });
 
 
-        <?php if($this->getSession()->showTemplates) : ?>
-            $('#show_templates').click();
-            <?php $this->getSession()->showTemplates = null; ?>
+        <?php if(empty($design_id)): # Show template modal until one is selected ?>
+        showTemplatesButton.click();
         <?php endif ?>
 
         if($("#slider_images").length) {

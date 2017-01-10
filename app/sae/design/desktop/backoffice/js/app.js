@@ -1,4 +1,4 @@
-var App = angular.module("Siberian-Backoffice", ['ngRoute', 'ngAnimate', 'ngSanitize', 'angularFileUpload', 'angular-sortable-view', 'ng.ckeditor', 'chart.js', 'bgf.paginateAnything']);
+var App = angular.module("Siberian-Backoffice", ['ngRoute', 'ngAnimate', 'ngSanitize', 'angularFileUpload', 'angular-sortable-view', 'ng.ckeditor', 'chart.js', 'bgf.paginateAnything', 'ng-phpdebugbar']);
 var meta;
 
 App.run(function($rootScope, $window, $route, $location, Message, AUTH_EVENTS, Auth) {
@@ -50,9 +50,8 @@ App.run(function($rootScope, $window, $route, $location, Message, AUTH_EVENTS, A
     $httpProvider.interceptors.push(function ($q, $injector) {
         return {
             response: function(response) {
-
                 // Wrapper for common meta data, avoiding long polling.
-                if(typeof response.data != "undefined" && typeof response.data.meta != "undefined") {
+                if(angular.isObject(response.data) && angular.isDefined(response.data.meta)) {
                     meta = response.data.meta;
                     if(angular.isObject(meta) && angular.isDefined(meta.unread_messages)) {
                         var unread_mess = document.getElementById('unread_messages');

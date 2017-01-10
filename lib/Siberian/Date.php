@@ -1,10 +1,12 @@
 <?php
 
-class Siberian_Date extends Zend_Date
-{
+class Siberian_Date extends Zend_Date {
 
-    public static function now($locale = null)
-    {
+    const HOUR_SECONDS = 3600;
+    const DAY_SECONDS = 86400;
+    const WEEK_SECONDS = 604800;
+
+    public static function now($locale = null) {
         return new self(time(), self::TIMESTAMP, $locale);
     }
 

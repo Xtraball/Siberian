@@ -20,11 +20,11 @@ class Contact_Mobile_FormController extends Application_Controller_Mobile_Defaul
                 // Test les eventuelles erreurs
                 $errors = array();
                 if(empty($datas['email']) OR !Zend_Validate::is($datas['email'], 'emailAddress')) {
-                    throw new Exception($this->_("Please enter a valid email address"));
+                    throw new Exception(__("Please enter a valid email address"));
                 }
 
                 $contact = $this->getCurrentOptionValue()->getObject();
-                if(!$contact->getId()) throw new Exception($this->_('An error occurred while sending your request. Please try again later.'));
+                if(!$contact->getId()) throw new Exception(__('An error occurred while sending your request. Please try again later.'));
 
                 $dest_email = $contact->getEmail();
 
@@ -34,14 +34,15 @@ class Contact_Mobile_FormController extends Application_Controller_Mobile_Defaul
                 $layout->getPartial('content_email')->setData($datas);
                 $content = $layout->render();
 
-                $mail = new Zend_Mail('UTF-8');
+                # @version 4.8.7 - SMTP
+                $mail = new Siberian_Mail();
                 $mail->setBodyHtml($content);
                 $mail->setFrom($datas['email'], $datas['name']);
                 $mail->addTo($dest_email, $app_name);
-                $mail->setSubject($this->_("Message from your app %s", $app_name));
+                $mail->setSubject(__("Message from your app %s", $app_name));
                 $mail->send();
 
-                $html = array("success" => 1, "message" => $this->_("Your message has been sent"));
+                $html = array("success" => 1, "message" => __("Your message has been sent"));
 
 
             }

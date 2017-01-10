@@ -23,7 +23,7 @@ class Application_Model_Option_Category extends Core_Model_Default {
     }
 
     public function getName() {
-        return $this->_($this->getData("name"));
+        return __($this->getData("name"));
     }
     
 }

@@ -17,6 +17,8 @@ class Template_BlockController extends Core_Controller_Default {
 
     public function colorizeAction() {
 
+        Siberian_Media::disableTemporary();
+
         if(($this->getRequest()->getParam('id') || $this->getRequest()->getParam('url') || $this->getRequest()->getParam('path')) AND $color = $this->getRequest()->getParam('color')) {
 
             $params = array('id', 'url', 'path', 'color');

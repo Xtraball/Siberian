@@ -11,7 +11,7 @@ class Backoffice_Account_LoginController extends Backoffice_Controller_Default
             try {
 
                 if(empty($data['email']) OR empty($data['password'])) {
-                    throw new Exception($this->_('Authentication failed. Please check your email and/or your password'));
+                    throw new Exception(__('Authentication failed. Please check your email and/or your password'));
                 }
                 $user = new Backoffice_Model_User();
                 $user->find($data['email'], 'email');
@@ -26,7 +26,7 @@ class Backoffice_Account_LoginController extends Backoffice_Controller_Default
                 $notification->update();
 
                 if(!$this->getSession()->isLoggedIn()) {
-                    throw new Exception($this->_('Authentication failed. Please check your email and/or your password'));
+                    throw new Exception(__('Authentication failed. Please check your email and/or your password'));
                 }
 
                 $data = array("success" => 1, "user" => $user->getData());
@@ -52,38 +52,36 @@ class Backoffice_Account_LoginController extends Backoffice_Controller_Default
             try {
 
                 if(empty($data['email'])) {
-                    throw new Exception($this->_('Please enter your email address'));
+                    throw new Exception(__('Please enter your email address'));
                 }
 
                 $user = new Backoffice_Model_User();
                 $user->find($data['email'], 'email');
 
                 if(!$user->getId()) {
-                    throw new Exception($this->_("Your email address does not exist"));
+                    throw new Exception(__("Your email address does not exist"));
                 }
 
                 $password = Core_Model_Lib_String::generate(8);
 
                 $user->setPassword($password)->save();
 
-                $sender = System_Model_Config::getValueFor("support_email");
-                $support_name = System_Model_Config::getValueFor("support_name");
                 $layout = $this->getLayout()->loadEmail('admin', 'forgot_password');
-                $subject = $this->_('Your new password');
+                $subject = __('Your new password');
                 $layout->getPartial('content_email')->setPassword($password);
 
                 $content = $layout->render();
 
-                $mail = new Zend_Mail('UTF-8');
+                # @version 4.8.7 - SMTP
+                $mail = new Siberian_Mail();
                 $mail->setBodyHtml($content);
-                $mail->setFrom($sender, $support_name);
                 $mail->addTo($user->getEmail(), $user->getName());
                 $mail->setSubject($subject);
                 $mail->send();
 
                 $data = array(
                     "success" => 1,
-                    "message" => $this->_('Your new password has been sent to the entered email address')
+                    "message" => __('Your new password has been sent to the entered email address')
                 );
 
             }

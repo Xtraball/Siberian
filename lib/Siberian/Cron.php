@@ -290,14 +290,24 @@ class Siberian_Cron {
 			# Generate the APK
 			$queue = Application_Model_ApkQueue::getQueue();
 			foreach($queue as $apk) {
+                # Keep APK Queue id
+                $apk_id = $apk->getId();
+
 				try {
 					$this->log(sprintf("Generating App: ID[%s], Name[%s], Target[APK]", $apk->getAppId(), $apk->getName()));
 					$apk->changeStatus("building");
 					$apk->generate();
 				} catch(Exception $e) {
 					$this->log($e->getMessage());
-					$apk->changeStatus("failed");
-					$task->saveLastError($e->getMessage());
+                    # Trying to fetch APK
+                    $refetch_apk = new Application_Model_ApkQueue();
+                    $refetch_apk = $refetch_apk->find($apk_id);
+                    if(!$refetch_apk->getId()) {
+                        $task->saveLastError("APK Generation was cancelled during the build phase, unable to continue.");
+                    } else {
+                        $refetch_apk->changeStatus("failed");
+                        $task->saveLastError($e->getMessage());
+                    }
 				}
 
 			}
@@ -322,14 +332,25 @@ class Siberian_Cron {
 			# Generate the Source ZIP
 			$queue = Application_Model_SourceQueue::getQueue();
 			foreach($queue as $source) {
+                # Keep Source Queue id
+                $source_id = $source->getId();
+
 				try {
 					$this->log(sprintf("Generating App sources: ID[%s], Name[%s], Target[%s]", $source->getAppId(), $source->getName(), $source->getType()));
 					$source->changeStatus("building");
 					$source->generate();
 				} catch(Exception $e) {
 					$this->log($e->getMessage());
-					$source->changeStatus("failed");
-					$task->saveLastError($e->getMessage());
+
+                    # Trying to fetch APK
+                    $refetch_source = new Application_Model_SourceQueue();
+                    $refetch_source = $refetch_source->find($source_id);
+                    if(!$refetch_source->getId()) {
+                        $task->saveLastError("Source Generation was cancelled during the build phase, unable to continue.");
+                    } else {
+                        $refetch_source->changeStatus("failed");
+                        $task->saveLastError($e->getMessage());
+                    }
 				}
 
 			}
@@ -364,6 +385,7 @@ class Siberian_Cron {
             }
 
             $lets_encrypt = new Siberian_LetsEncrypt($base, $root, false);
+            $le_is_init = false;
 
             // Use staging environment
             $letsencrypt_env = System_Model_Config::getValueFor("letsencrypt_env");
@@ -376,8 +398,6 @@ class Siberian_Cron {
             }
 
             try {
-                $lets_encrypt->initAccount();
-
                 $ssl_certificates = new System_Model_SslCertificates();
 
                 $to_renew = new Zend_Db_Expr("renew_date < updated_at");
@@ -411,6 +431,11 @@ class Siberian_Cron {
                         }
 
                         if($renew) {
+                            if(!$le_is_init) {
+                                $lets_encrypt->initAccount();
+                                $le_is_init = true;
+                            }
+
                             // Clear log between hostnames.
                             $lets_encrypt->clearLog();
                             $result = $lets_encrypt->signDomains(Siberian_Json::decode($cert->getDomains()));

@@ -54,7 +54,7 @@ class Application_Controller_Default extends Admin_Controller_Default {
         }
 
         if($this->getApplication()->isSomeoneElseEditingIt($admin_id)) {
-            $this->getSession()->addWarning($this->_("Careful, someone else is working on this application."), "two_editing_the_same_app");
+            $this->getSession()->addWarning(__("Careful, someone else is working on this application."), "two_editing_the_same_app");
         }
     }
 

@@ -6,21 +6,25 @@ class Application_View_Customization_Features_List_Options extends Core_View_Def
 
     protected function getIconUrl($option) {
 
+        $colorizable = true;
+
         switch($option->getOptionId()) {
             case "customer_account":
-                    $image = new Media_Model_Library_Image();
-                    $image->find($this->getApplication()->getAccountIconId());
-                    $icon_url = $image->getUrl();
-                    $colorizable = $image->getCanBeColorized();
                     if($this->getApplication()->getAccountIconId()) {
+                        $image = new Media_Model_Library_Image();
+                        $image->find($this->getApplication()->getAccountIconId());
+                        $icon_url = $image->getUrl();
+                        $colorizable = $image->getCanBeColorized();
+
                         break;
                     }
             case "more_items":
-                    $image = new Media_Model_Library_Image();
-                    $image->find($this->getApplication()->getMoreIconId());
-                    $icon_url = $image->getUrl();
-                    $colorizable = $image->getCanBeColorized();
                     if($this->getApplication()->getMoreIconId()) {
+                        $image = new Media_Model_Library_Image();
+                        $image->find($this->getApplication()->getMoreIconId());
+                        $icon_url = $image->getUrl();
+                        $colorizable = $image->getCanBeColorized();
+
                         break;
                     }
             default:

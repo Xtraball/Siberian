@@ -80,6 +80,18 @@ $api_providers = array(
             "user",
             "password",
         )
+    ),
+    array(
+        "code" => "smtp_credentials",
+        "icon" => "fa-envelope-o",
+        "keys" => array(
+            "auth",
+            "server",
+            "username",
+            "password",
+            "ssl",
+            "port",
+        )
     )
 );
 

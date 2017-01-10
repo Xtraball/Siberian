@@ -2,16 +2,20 @@
 
 class System_Backoffice_Config_DesignController extends System_Controller_Backoffice_Default {
 
-    protected $_codes = array("editor_design", "favicon", "logo");
+    protected $_codes = array(
+        "editor_design",
+        "favicon",
+        "logo"
+    );
 
     public function loadAction() {
 
         $html = array(
-            "title" => $this->_("Appearance"),
+            "title" => __("Appearance"),
             "icon" => "fa-pencil",
             "message" => array(
-                "flat" => $this->_("<b>File types:</b> %s<br /><b>Recommended size:</b> %s", "png, jpg, jpeg, gif", "345x85px"),
-                "siberian" => $this->_("<b>File types:</b> %s<br /><b>Recommended size:</b> %s", "png, jpg, jpeg, gif", "150x50px")
+                "flat" => __("<b>File types:</b> %s<br /><b>Recommended size:</b> %s", "png, jpg, jpeg, gif", "345x85px"),
+                "siberian" => __("<b>File types:</b> %s<br /><b>Recommended size:</b> %s", "png, jpg, jpeg, gif", "150x50px")
             )
         );
 
@@ -51,7 +55,7 @@ class System_Backoffice_Config_DesignController extends System_Controller_Backof
                     $message = sprintf("Your %s has been successfully saved", $code);
                     $this->_sendHtml(array(
                         "success" => 1,
-                        "message" => $this->_($message)
+                        "message" => __($message)
                     ));
 
                 } else {
@@ -59,7 +63,7 @@ class System_Backoffice_Config_DesignController extends System_Controller_Backof
                     if(!empty($messages)) {
                         $message = implode("\n", $messages);
                     } else {
-                        $message = $this->_("An error occurred during the process. Please try again later.");
+                        $message = __("An error occurred during the process. Please try again later.");
                     }
 
                     throw new Exception($message);

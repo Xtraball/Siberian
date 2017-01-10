@@ -26,7 +26,7 @@ class System_Backoffice_Config_GeneralController extends System_Controller_Backo
     public function loadAction() {
 
         $html = array(
-            "title" => $this->_("General"),
+            "title" => __("General"),
             "icon" => "fa-home",
         );
 
@@ -81,7 +81,7 @@ class System_Backoffice_Config_GeneralController extends System_Controller_Backo
 
                 $data = array(
                     "success" => 1,
-                    "message" => $this->_("Info successfully saved")
+                    "message" => __("Info successfully saved")
                 );
             } catch(Exception $e) {
                 $data = array(

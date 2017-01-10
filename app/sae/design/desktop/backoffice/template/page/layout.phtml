@@ -19,6 +19,8 @@
         <?php $base_url = str_replace($this->getRequest()->getPathInfo(), "", $this->getRequest()->getRequestUri()); ?>
         <?php if(stripos($base_url, "/") !== 0) $base_url = "/$base_url"; ?>
         <base href="<?php echo $base_url; ?>" />
+
+        <?php echo Siberian_Debug::renderHead(); ?>
     </head>
     <body class="<?php echo $this->default_class_name ?> general">
 

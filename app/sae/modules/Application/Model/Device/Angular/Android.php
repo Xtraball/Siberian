@@ -347,7 +347,7 @@ class Application_Model_Device_Angular_Android extends Application_Model_Device_
                 imagepng($newStartupImage, $icon_dst);
             } else {
                 if(!copy($icon_src, $icon_dst)) {
-                    throw new Exception($this->_('An error occured while copying your app icon. Please check the icon, try to send it again and try again.'));
+                    throw new Exception(__('An error occured while copying your app icon. Please check the icon, try to send it again and try again.'));
                 }
             }
         }

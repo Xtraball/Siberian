@@ -39,8 +39,8 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         $this->_layout = $this->_helper->layout->getLayoutInstance();
 
         if(preg_match('/(?i)msie \b[5-9]\b/',$this->getRequest()->getHeader('user_agent')) && !preg_match('/(oldbrowser)/', $this->getRequest()->getActionName())) {
-            $message = $this->_("Your browser is too old to view the content of our website.<br />");
-            $message .= $this->_("In order to fully enjoy our features, we encourage you to use at least:.<br />");
+            $message = __("Your browser is too old to view the content of our website.<br />");
+            $message .= __("In order to fully enjoy our features, we encourage you to use at least:.<br />");
             $message .= '- Internet Explorer 10 ;<br />';
             $message .= '- Firefox 3.5 ;<br />';
             $message .= '- Chrome 8 ;<br />';
@@ -245,6 +245,8 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     }
 
     protected function _getColorizedImage($image_id, $color) {
+
+        Siberian_Media::disableTemporary();
 
         $color = str_replace('#', '', $color);
         $id = md5(implode('+', array($image_id, $color)));
@@ -502,6 +504,9 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
     }
 
+    /**
+     *
+     */
     protected function _initLocale() {
 
         $locale = new Zend_Locale();
@@ -541,11 +546,17 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
     }
 
+    /**
+     * @return $this
+     */
     protected function _initTranslator() {
         Core_Model_Translator::prepare(strtolower($this->getRequest()->getModuleName()));
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
     protected function _needToBeRedirected() {
 
         $url = null;
@@ -563,12 +574,17 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         return $url;
     }
 
+    /**
+     * @param $html
+     */
     protected function _sendHtml($html) {
         if(isset($html['error']) && !empty($html['error'])) {
             $this->getResponse()->setHttpResponseCode(400);
         }
 
         $json = Siberian_Json::encode($html);
+
+        Siberian_Debug::sendDataInHeaders();
 
         $this->getLayout()->setHtml($json);
     }

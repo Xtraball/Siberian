@@ -145,7 +145,7 @@ class Application_Model_Option extends Core_Model_Default
     }
 
     public function getName() {
-        return $this->_($this->getData('name'));
+        return __($this->getData('name'));
     }
 
     public function getUri() {
@@ -157,7 +157,7 @@ class Application_Model_Option extends Core_Model_Default
     }
 
     public function getTabbarName() {
-        return $this->getData('tabbar_name') ? $this->_(mb_convert_encoding($this->getData('tabbar_name'), 'UTF-8', 'UTF-8')) : null;
+        return $this->getData('tabbar_name') ? __(mb_convert_encoding($this->getData('tabbar_name'), 'UTF-8', 'UTF-8')) : null;
     }
 
     public function getShortTabbarName() {

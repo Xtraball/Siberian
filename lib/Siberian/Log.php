@@ -2,9 +2,6 @@
 
 /**
  * Class Siberian_Log
- *
- * @todo logrotate, disk space, etc...
- * invert logic ????? info sends exception ?????
  */
 class Siberian_Log extends Zend_Log {
 

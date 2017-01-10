@@ -59,6 +59,7 @@ $application = new Zend_Application(
 
 $config = new Zend_Config($application->getOptions(), true);
 Zend_Registry::set('config', $config);
+Zend_Registry::set('_config', $_config);
 
 /** Init bootstrap */
 $application->bootstrap();
@@ -67,6 +68,8 @@ $application->bootstrap();
 $start = time();
 $interval = System_Model_Config::getValueFor("cron_interval");
 $interval = (($interval >= 10) && ($interval < 51)) ? $interval : false;
+
+defined("DESIGN_CODE") || define("DESIGN_CODE", design_code());
 
 $cron = new Siberian_Cron();
 $cron->triggerAll();

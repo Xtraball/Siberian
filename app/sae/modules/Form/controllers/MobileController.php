@@ -48,16 +48,16 @@ class Form_MobileController extends Application_Controller_Mobile_Default {
                     // Boucle sur les fields
                     foreach($section->getFields() as $key => $field) {
                         if($field->isRequired() == 1 && $datas['field_'.$k.'_'.$key] == '') {
-                            $errors .= $this->_('<strong>%s</strong> must be filled<br />', $field->getName());
+                            $errors .= __('<strong>%s</strong> must be filled<br />', $field->getName());
                         }
                         if($field->getType() == 'email' && !Zend_Validate::is($datas['field_'.$k.'_'.$key], 'EmailAddress')) {
-                            $errors .= $this->_('<strong>%s</strong> must be a valid email address<br />', $field->getName());
+                            $errors .= __('<strong>%s</strong> must be a valid email address<br />', $field->getName());
                         }
                         if($field->getType() == 'nombre' && !Zend_Validate::is($datas['field_'.$k.'_'.$key], 'Digits')) {
-                            $errors .= $this->_('<strong>%s</strong> must be a numerical value<br />', $field->getName());
+                            $errors .= __('<strong>%s</strong> must be a numerical value<br />', $field->getName());
                         }
                         if($field->getType() == 'date' && !$validator->isValid($datas['field_'.$k.'_'.$key])) {
-                            $errors .= $this->_('<strong>%s</strong> must be a valid date<br />', $field->getName());
+                            $errors .= __('<strong>%s</strong> must be a valid date<br />', $field->getName());
                         }
                         $datasChanged['field_'.$k.'_'.$key] = array('name' => $field->getName(), 'value' => $datas['field_'.$k.'_'.$key]);
                     }
@@ -72,11 +72,12 @@ class Form_MobileController extends Application_Controller_Mobile_Default {
                         ->setDatas($datasChanged);
                     $content = $layout->render();
 
-                    $mail = new Zend_Mail('UTF-8');
+                    # @version 4.8.7 - SMTP
+                    $mail = new Siberian_Mail();
                     $mail->setBodyHtml($content);
                     $mail->setFrom($form->getEmail(), $this->getApplication()->getName());
-                    $mail->addTo($form->getEmail(), $this->_('Your app\'s form'));
-                    $mail->setSubject($this->_('Your app\'s form'));
+                    $mail->addTo($form->getEmail(), __('Your app\'s form'));
+                    $mail->setSubject(__('Your app\'s form'));
                     $mail->send();
 
                     $html = array('success' => 1);

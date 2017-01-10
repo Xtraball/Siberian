@@ -23,6 +23,9 @@ class Core_Model_Session extends Siberian_Session_Namespace
         );
     }
 
+    /**
+     * @return $this
+     */
     public function resetInstance() {
         $this->_instanceSingleton = array();
         $this->current_type = null;
@@ -32,7 +35,6 @@ class Core_Model_Session extends Siberian_Session_Namespace
 
     public function getInstance() {
 
-//        if(!$this->current_type) return false;
         if(!array_key_exists($this->current_type, $this->getTypes())) return false;
 
         if(!isset($this->_instanceSingleton[$this->current_type])) {

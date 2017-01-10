@@ -15,27 +15,27 @@ class Core_Model_Lib_Uploader extends Core_Model_Default
 
         if($adapter->getValidator('ImageSize')) {
             $adapter->getValidator('ImageSize')->setMessages(array(
-                'fileImageSizeWidthTooBig' => $this->_('Image too large, %spx maximum allowed.', '%maxwidth%'),
-                'fileImageSizeWidthTooSmall' => $this->_('Image not large enough, %spx minimum allowed.', '%minwidth%'),
-                'fileImageSizeHeightTooBig' => $this->_('Image too high, %spx maximum allowed.', '%maxheight%'),
-                'fileImageSizeHeightTooSmall' => $this->_('Image not high enough, %spx minimum allowed.', '%minheight%'),
-                'fileImageSizeNotDetected' => $this->_("The image size '%s' could not be detected.", '%value%'),
-                'fileImageSizeNotReadable' => $this->_("The image '%s' does not exist", '%value%')
+                'fileImageSizeWidthTooBig' => __('Image too large, %spx maximum allowed.', '%maxwidth%'),
+                'fileImageSizeWidthTooSmall' => __('Image not large enough, %spx minimum allowed.', '%minwidth%'),
+                'fileImageSizeHeightTooBig' => __('Image too high, %spx maximum allowed.', '%maxheight%'),
+                'fileImageSizeHeightTooSmall' => __('Image not high enough, %spx minimum allowed.', '%minheight%'),
+                'fileImageSizeNotDetected' => __("The image size '%s' could not be detected.", '%value%'),
+                'fileImageSizeNotReadable' => __("The image '%s' does not exist", '%value%')
             ));
         }
 
         if($adapter->getValidator('Size')) {
             $adapter->getValidator('Size')->setMessages(array(
-                'fileSizeTooBig' => $this->_("Image too large, '%s' allowed.", '%max%'),
-                'fileSizeTooSmall' => $this->_("Image not large enough, '%s' allowed.", '%min%'),
-                'fileSizeNotFound' => $this->_("The image '%s' does not exist", '%value%')
+                'fileSizeTooBig' => __("Image too large, '%s' allowed.", '%max%'),
+                'fileSizeTooSmall' => __("Image not large enough, '%s' allowed.", '%min%'),
+                'fileSizeNotFound' => __("The image '%s' does not exist", '%value%')
             ));
         }
 
         if($adapter->getValidator('Extension')) {
             $adapter->getValidator('Extension')->setMessages(array(
-                'fileExtensionFalse' => $this->_("Extension not allowed, '%s' only", '%extension%'),
-                'fileExtensionNotFound' => $this->_("The file '%s' does not exist", '%value%')
+                'fileExtensionFalse' => __("Extension not allowed, '%s' only", '%extension%'),
+                'fileExtensionNotFound' => __("The file '%s' does not exist", '%value%')
             ));
         }
 
@@ -45,12 +45,12 @@ class Core_Model_Lib_Uploader extends Core_Model_Default
 
             //Créé l'image sur le serveur
             if (!$adapter->isUploaded($file)) {
-                throw new Exception($this->_('An error occurred during process. Please try again later.'));
+                throw new Exception(__('An error occurred during process. Please try again later.'));
             } else if (!$adapter->isValid($file)) {
                 if(count($adapter->getMessages()) == 1) {
-                    $erreur_message = $this->_('Error : <br/>');
+                    $erreur_message = __('Error : <br/>');
                 } else {
-                    $erreur_message = $this->_('Errors : <br/>');
+                    $erreur_message = __('Errors : <br/>');
                 }
                 foreach($adapter->getMessages() as $message) {
                     $erreur_message .= '- '.$message.'<br/>';

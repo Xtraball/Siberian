@@ -423,14 +423,13 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default {
 
                         $content = $layout->render();
 
-                        $sender = $email;
-                        $support_name = $fullname;
-
-                        if($sender AND $support_name) {
+                        if($email AND $fullname) {
                             /** Mail to place */
-                            $mail = new Zend_Mail('UTF-8');
+
+                            # @version 4.8.7 - SMTP
+                            $mail = new Siberian_Mail();
                             $mail->setBodyHtml($content);
-                            $mail->setFrom($sender, $support_name);
+                            $mail->setFrom($email, $fullname);
                             $mail->addTo($place_email);
                             $mail->setSubject(__("New contact for: %s", $place_title));
                             $mail->send();

@@ -4,6 +4,7 @@
         <b><?php echo __("From") ?>:</b>
         <span ng-if="notif.source == 'updates'"><?php echo __("Regular updates system") ?>,</span>
         <span ng-if="notif.source == 'cron'"><?php echo __("Cron alerts") ?></span>
+        <span ng-if="notif.source == 'whitelabel'"><?php echo __("Whitelabel request") ?></span>
         <b><?php echo __("Date") ?>:</b>
         <span>{{ notif.created_at }}</span>
     </p>

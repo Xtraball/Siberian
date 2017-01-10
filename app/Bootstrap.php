@@ -54,6 +54,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         # External vendor, from composer
         $autoloader = Core_Model_Directory::getBasePathTo("/lib/vendor/autoload.php");
         require_once $autoloader;
+
+        # Init debugger if needed
+        Siberian_Debug::init();
+
+        if(class_exists("Siberian_Exec")) {
+            Siberian_Exec::start();
+        }
     }
 
     protected function _initErrorMessages() {
@@ -88,15 +95,18 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         $writer = new Zend_Log_Writer_Stream(Core_Model_Directory::getBasePathTo('var/log/output.log'));
         $logger = new Siberian_Log($writer);
-        Zend_Registry::set('logger', $logger);
+        Zend_Registry::set("logger", $logger);
     }
 
     protected function _initConnection() {
 
-        $this->bootstrap('db');
-        $resource = $this->getResource('db');
+        $this->bootstrap("db");
+        $resource = $this->getResource("db");
 
-        //Disabling strict mode
+        # Set profiler if needed
+        $resource = Siberian_Debug::setProfiler($resource);
+
+        # Disabling strict mode on run
         try{
             $resource->query("SET sql_mode = '';");
         } catch(Exception $e) {
@@ -104,7 +114,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             $logger->err("Fatal Error when trying to disable SQL strict mode: \n".print_r($e, true));
         }
 
-        Zend_Registry::set('db', $resource);
+        Zend_Registry::set("db", $resource);
         if(Installer_Model_Installer::isInstalled()) {
 
             try {
@@ -252,13 +262,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         /** Minify Cache */
         $minifier = new Siberian_Minify();
         $minifier->build();
-    }
-
-    public function _initTasks() {
-        # 4.7.10 Clean-up debug session file.
-        if(file_exists("/tmp/session.log")) {
-            unlink("/tmp/session.log");
-        }
     }
 
     protected function _initModules() {

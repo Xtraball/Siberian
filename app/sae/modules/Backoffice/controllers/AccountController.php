@@ -20,7 +20,7 @@ class Backoffice_AccountController extends Backoffice_Controller_Default
 
             $user->find($user_id);
             if(!$user->getId()) {
-                $this->getSession()->addError($this->_('This administrator does not exist'));
+                $this->getSession()->addError(__('This administrator does not exist'));
                 $this->_redirect('backoffice/account/list');
                 return $this;
             }
@@ -42,40 +42,40 @@ class Backoffice_AccountController extends Backoffice_Controller_Default
                 if(!empty($data['user_id'])) {
                     $user->find($data['user_id']);
                     if(!$user->getId()) {
-                        throw new Exception($this->_('An error occurred while saving your account. Please try again later.'));
+                        throw new Exception(__('An error occurred while saving your account. Please try again later.'));
                     }
                 }
                 if(empty($data['email'])) {
-                    throw new Exception($this->_('The email is required'));
+                    throw new Exception(__('The email is required'));
                 }
 
                 $isNew = (bool) !$user->getId();
 
                 $check_email_user->find($data['email'], 'email');
                 if($check_email_user->getId() AND $check_email_user->getId() != $user->getId()) {
-                    throw new Exception($this->_('This email address is already used'));
+                    throw new Exception(__('This email address is already used'));
                 }
 
                 if(isset($data['password'])) {
                     if($data['password'] != $data['confirm_password']) {
-                        throw new Exception($this->_('Your password does not match the entered password.'));
+                        throw new Exception(__('Your password does not match the entered password.'));
                     }
                     if(!empty($data['old_password']) AND !$user->isSamePassword($data['old_password'])) {
-                        throw new Exception($this->_("The old password does not match the entered password."));
+                        throw new Exception(__("The old password does not match the entered password."));
                     }
                     if(!empty($data['password'])) {
                         $user->setPassword($data['password']);
                         unset($data['password']);
                     }
                 } else if($isNew) {
-                    throw new Exception($this->_('The password is required'));
+                    throw new Exception(__('The password is required'));
                 }
 
                 $user->addData($data)
                     ->save()
                 ;
 
-                $this->getSession()->addSuccess($this->_('The account has been successfully saved'));
+                $this->getSession()->addSuccess(__('The account has been successfully saved'));
                 $this->_redirect('backoffice/account/list');
 
             }
@@ -102,12 +102,12 @@ class Backoffice_AccountController extends Backoffice_Controller_Default
                 $users = $user->findAll();
 
                 if($users->count() == 1) {
-                    throw new Exception($this->_("This account can't be deleted, it's the only one"));
+                    throw new Exception(__("This account can't be deleted, it's the only one"));
                 }
                 $user->find($user_id);
 
                 if(!$user->getId()) {
-                    throw new Exception($this->_("This administrator does not exist"));
+                    throw new Exception(__("This administrator does not exist"));
                 }
 
                 $user->delete();
@@ -144,7 +144,7 @@ class Backoffice_AccountController extends Backoffice_Controller_Default
             try {
 
                 if(empty($data['email']) OR empty($data['password'])) {
-                    throw new Exception($this->_('Authentication failed. Please check your email and/or your password'));
+                    throw new Exception(__('Authentication failed. Please check your email and/or your password'));
                 }
                 $user = new Backoffice_Model_User();
                 $user->find($data['email'], 'email');
@@ -156,7 +156,7 @@ class Backoffice_AccountController extends Backoffice_Controller_Default
                 }
                 
                 if(!$this->getSession()->isLoggedIn()) {
-                    throw new Exception($this->_('Authentication failed. Please check your email and/or your password'));
+                    throw new Exception(__('Authentication failed. Please check your email and/or your password'));
                 }
 
             }
@@ -177,36 +177,34 @@ class Backoffice_AccountController extends Backoffice_Controller_Default
             try {
 
                 if(empty($datas['email'])) {
-                    throw new Exception($this->_('Please enter your email address'));
+                    throw new Exception(__('Please enter your email address'));
                 }
 
                 $user = new Backoffice_Model_User();
                 $user->find($datas['email'], 'email');
 
                 if(!$user->getId()) {
-                    throw new Exception($this->_("Your email address does not exist"));
+                    throw new Exception(__("Your email address does not exist"));
                 }
 
                 $password = Core_Model_Lib_String::generate(8);
 
                 $user->setPassword($password)->save();
 
-                $sender = System_Model_Config::getValueFor("support_email");
-                $support_name = System_Model_Config::getValueFor("support_name");
                 $layout = $this->getLayout()->loadEmail('admin', 'forgot_password');
-                $subject = $this->_('Your new password');
+                $subject = __('Your new password');
                 $layout->getPartial('content_email')->setPassword($password);
 
                 $content = $layout->render();
 
-                $mail = new Zend_Mail('UTF-8');
+                # @version 4.8.7 - SMTP
+                $mail = new Siberian_Mail();
                 $mail->setBodyHtml($content);
-                $mail->setFrom($sender, $support_name);
                 $mail->addTo($user->getEmail(), $user->getName());
                 $mail->setSubject($subject);
                 $mail->send();
 
-                $this->getSession()->addSuccess($this->_('Your new password has been sent to the entered email address'));
+                $this->getSession()->addSuccess(__('Your new password has been sent to the entered email address'));
 
             }
             catch(Exception $e) {

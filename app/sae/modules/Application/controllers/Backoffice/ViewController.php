@@ -528,31 +528,38 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
     }
 
     public function cancelqueueAction() {
-        if($data = $this->getRequest()->getParams()) {
+        try {
+            if($data = $this->getRequest()->getParams()) {
 
+                $application_id = $data['app_id'];
+                $type = ($this->getRequest()->getParam("type") == "apk") ? "apk" : "zip";
+                $device = ($this->getRequest()->getParam("device_id") == 1) ? "ios" : "android";
+                $noads = ($this->getRequest()->getParam("no_ads") == 1) ? "noads" : "";
 
-            $application_id = $data['app_id'];
-            $type = ($this->getRequest()->getParam("type") == "apk") ? "apk" : "zip";
-            $device = ($this->getRequest()->getParam("device_id") == 1) ? "ios" : "android";
-            $noads = ($this->getRequest()->getParam("no_ads") == 1) ? "noads" : "";
+                Application_Model_Queue::cancel($application_id, $type, $device.$noads);
 
-            Application_Model_Queue::cancel($application_id, $type, $device.$noads);
+                $more["zip"] = Application_Model_SourceQueue::getPackages($application_id);
+                $more["queued"] = Application_Model_Queue::getPosition($application_id);
 
-            $more["zip"] = Application_Model_SourceQueue::getPackages($application_id);
-            $more["queued"] = Application_Model_Queue::getPosition($application_id);
+                $data = array(
+                    "success" => 1,
+                    "message" => __("Generation cancelled."),
+                    "more" => $more,
+                );
 
-            $data = array(
-                "success" => 1,
-                "message" => __("Generation cancelled."),
-                "more" => $more,
-            );
-
-        } else {
+            } else {
+                $data = array(
+                    "error" => 1,
+                    "message" => __("Missing parameters for cancellation."),
+                );
+            }
+        } catch(Exception $e) {
             $data = array(
                 "error" => 1,
-                "message" => __("Missing parameters for cancellation."),
+                "message" => $e->getMessage(),
             );
         }
+
 
         $this->_sendHtml($data);
     }
