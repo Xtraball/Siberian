@@ -1,32 +1,30 @@
 <?php
-# Layout 18
+# Layout Year
 $default_options = Siberian_Json::encode(array(
-    "borders" => "border-right",
-    "borders" => "border-left",
-    "borders" => "border-top",
-    "label" => "label-left",
+    "positionMenu" => "menu-middle",
     "textTransform" => "title-lowcase",
+    "title" => "titlehidden",
 ));
 
 $layout_category = new Application_Model_Layout_Category();
 $default_layout_category = $layout_category->find("default", "code");
 
 $datas = array(
-    'name' => 'Layout 18',
+    'name' => 'Popup menu',
     'category_id' => $default_layout_category->getId(),
     'visibility' => Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE,
-    'code' => 'layout_siberian_18',
-    'preview' => '/customization/layout/homepage/layout_18.png',
-    'preview_new' => '/customization/layout/homepage/layout_18_modal.png',
+    'code' => 'layout_siberian_year',
+    'preview' => '/customization/layout/homepage/layout_year.png',
+    'preview_new' => '/customization/layout/homepage/layout_year_modal.png',
     'use_more_button' => 1,
     'use_horizontal_scroll' => 0,
-    'number_of_displayed_icons' => 9,
+    'number_of_displayed_icons' => 6,
     'position' => "bottom",
-    "order" => 4,
+    "order" => 6,
     "can_uninstall" => 1,
     "is_active" => 1,
     "use_subtitle" => 1,
-    "use_homepage_slider" => 1,
+    "use_homepage_slider" => 0,
     "options" => $default_options,
 );
 

@@ -3,10 +3,11 @@
 class Application_Customization_Design_StyleController extends Application_Controller_Default {
 
     public function editAction() {
+
         $this->loadPartials();
         if($this->getRequest()->isXmlHttpRequest()) {
             $html = array('html' => $this->getLayout()->getPartial('content_editor')->toHtml());
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+            $this->_sendHtml($html);
         }
     }
 
@@ -55,8 +56,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
                 );
             }
 
-
-            $this->getLayout()->setHtml(Siberian_Json::encode($html));
+            $this->_sendHtml($html);
         }
     }
 
@@ -83,8 +83,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
                 );
             }
 
-
-            $this->getLayout()->setHtml(Siberian_Json::encode($html));
+            $this->_sendHtml($html);
         }
     }
 
@@ -112,7 +111,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
             }
 
 
-            $this->getLayout()->setHtml(Siberian_Json::encode($html));
+            $this->_sendHtml($html);
         }
     }
 
@@ -178,7 +177,6 @@ class Application_Customization_Design_StyleController extends Application_Contr
 
             }
             catch(Exception $e) {
-//                $html = array('message' => 'Une erreur est survenue lors de la sauvegarde, merci de réessayer ultérieurement');
                 $html = array(
                     'message' => $e->getMessage(),
                     'message_button' => 1,
@@ -186,7 +184,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
                 );
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+            $this->_sendHtml($html);
 
         }
 
@@ -238,7 +236,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
                 );
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+            $this->_sendHtml($html);
 
         }
 
@@ -270,7 +268,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
             );
         }
 
-        $this->getLayout()->setHtml(Zend_Json::encode($html));
+        $this->_sendHtml($html);
 
     }
 
@@ -300,7 +298,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
             );
         }
 
-        $this->getLayout()->setHtml(Zend_Json::encode($html));
+        $this->_sendHtml($html);
 
     }
 
@@ -322,7 +320,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
             $html = array('message' => $e->getMessage());
         }
 
-        $this->getLayout()->setHtml(Zend_Json::encode($html));
+        $this->_sendHtml($html);
     }
 
     public function savehomepageAction() {
@@ -369,7 +367,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
                 );
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($datas));
+            $this->_sendHtml($html);
         }
     }
 
@@ -384,11 +382,16 @@ class Application_Customization_Design_StyleController extends Application_Contr
                 $this->getApplication()->setHomepageLogoLink(null);
             }
             $this->getApplication()->save();
-            $html = array('success' => '1');
+            $html = array(
+                'success' => '1'
+            );
         } catch(Exception $e) {
-            $html = array('message' => $e->getMessage());
+            $html = array(
+                'message' => $e->getMessage()
+            );
         }
-        $this->getLayout()->setHtml(Zend_Json::encode($html));
+
+        $this->_sendHtml($html);
     }
 
     /**
@@ -413,33 +416,39 @@ class Application_Customization_Design_StyleController extends Application_Contr
                 );
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+            $this->_sendHtml($html);
         }
     }
 
+    /**
+     *
+     */
     public function changehomepageslidersizeAction() {
 
-            if($datas = $this->getRequest()->getPost()) {
-                try {
-                    $this->getApplication()
-                        ->setHomepageSliderSize($datas['slider_size'])
-                        ->save()
-                    ;
+        if($datas = $this->getRequest()->getPost()) {
+            try {
+                $this->getApplication()
+                    ->setHomepageSliderSize($datas['slider_size'])
+                    ->save()
+                ;
 
-                    $html = array(
-                        "success" => 1,
-                        "reload" => 1
-                    );
-                }catch(Exception $e) {
-                    $html = array(
-                        'message' => $e->getMessage(),
-                    );
-                }
-
-                $this->getLayout()->setHtml(Zend_Json::encode($html));
+                $html = array(
+                    "success" => 1,
+                    "reload" => 1
+                );
+            }catch(Exception $e) {
+                $html = array(
+                    'message' => $e->getMessage(),
+                );
             }
-        }
 
+            $this->_sendHtml($html);
+        }
+    }
+
+    /**
+     *
+     */
     public function changehomepagesliderloopsystemAction() {
 
         if($datas = $this->getRequest()->getPost()) {
@@ -459,10 +468,13 @@ class Application_Customization_Design_StyleController extends Application_Contr
                 );
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+            $this->_sendHtml($html);
         }
     }
 
+    /**
+     *
+     */
     public function setimagessliderdurationAction() {
 
         if($datas = $this->getRequest()->getPost()) {
@@ -493,6 +505,9 @@ class Application_Customization_Design_StyleController extends Application_Contr
         }
     }
 
+    /**
+     *
+     */
     public function savesliderimagesAction() {
 
         if($datas = $this->getRequest()->getPost()) {
@@ -544,10 +559,13 @@ class Application_Customization_Design_StyleController extends Application_Contr
                 );
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($datas));
+            $this->_sendHtml($html);
         }
     }
 
+    /**
+     *
+     */
     public function setsliderimagepositionsAction() {
 
         try {
@@ -574,6 +592,9 @@ class Application_Customization_Design_StyleController extends Application_Contr
         $this->_sendHtml($html);
     }
 
+    /**
+     *
+     */
     public function deletesliderimageAction() {
 
         try {
@@ -602,9 +623,12 @@ class Application_Customization_Design_StyleController extends Application_Contr
             $html = array('message' => $e->getMessage());
         }
 
-        $this->getLayout()->setHtml(Zend_Json::encode($html));
+        $this->_sendHtml($html);
     }
 
+    /**
+     *
+     */
     public function savefontAction() {
         if($datas = $this->getRequest()->getPost()) {
 
@@ -626,10 +650,13 @@ class Application_Customization_Design_StyleController extends Application_Contr
                 $html = array('message' => $e->getMessage());
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+            $this->_sendHtml($html);
         }
     }
 
+    /**
+     *
+     */
     public function savelocaleAction() {
         if($datas = $this->getRequest()->getPost()) {
 
@@ -642,7 +669,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
                 $html = array('message' => $e->getMessage());
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+            $this->_sendHtml($html);
         }
     }
 

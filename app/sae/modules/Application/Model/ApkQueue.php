@@ -75,7 +75,8 @@ class Application_Model_ApkQueue extends Core_Model_Default {
             $this->setPath($result["path"]);
 
             /** Success email */
-            $url = $this->getHost()."/".str_replace(Core_Model_Directory::getBasePathTo(""), "", $result["path"]);
+            $protocol = (System_Model_Config::getValueFor("use_https")) ? "https://" : "http://";
+            $url = $protocol.$this->getHost()."/".str_replace(Core_Model_Directory::getBasePathTo(""), "", $result["path"]);
 
             $values = array(
                 "application_name" => $this->getName(),

@@ -2400,6 +2400,14 @@
         "hash": "3a5be99bfda703d46662253a987177fa"
     },
     {
+        "file": "app/sae/design/desktop/flat/images/customization/layout/homepage/layout_year.png",
+        "hash": "d292ab098f154f2c3120e5942e1d9e34"
+    },
+    {
+        "file": "app/sae/design/desktop/flat/images/customization/layout/homepage/layout_year_modal.png",
+        "hash": "318bc94af1e76c3a5a872176d1fb5818"
+    },
+    {
         "file": "app/sae/design/desktop/flat/images/customization/layout/newswall/layout-1.png",
         "hash": "64486599c84e3ef3a004b7bf80ebd620"
     },
@@ -10053,7 +10061,7 @@
     },
     {
         "file": "app/sae/design/email/template/application/queue/source_queue_success.phtml",
-        "hash": "6f6403414732a710bd6e76f178d1291f"
+        "hash": "37a630a5390bd88fbc55851273540273"
     },
     {
         "file": "app/sae/design/email/template/booking/index/send.phtml",
@@ -11881,7 +11889,7 @@
     },
     {
         "file": "app/sae/modules/Api/package.json",
-        "hash": "0b2b8d2b6d04ac28459277ed812f6a85"
+        "hash": "6b9cad492df7d457d6ec341f211defcd"
     },
     {
         "file": "app/sae/modules/Application/Controller/Default/Ajax.php",
@@ -12072,10 +12080,6 @@
         "hash": "282b6ecad1f3c6ff547971a9f178ab22"
     },
     {
-        "file": "app/sae/modules/Application/Model/ApkQueue.php",
-        "hash": "345557e6613eeeb13f5384014e644a03"
-    },
-    {
         "file": "app/sae/modules/Application/Model/Option.php",
         "hash": "a27aa4359a72380b2ad523be9268fa17"
     },
@@ -12084,8 +12088,12 @@
         "hash": "82bad05cca6dc1fb5678037cc90df09e"
     },
     {
+        "file": "app/sae/modules/Application/Model/ApkQueue.php",
+        "hash": "244a2d42cf41d3480d67c4278c79cd34"
+    },
+    {
         "file": "app/sae/modules/Application/Model/SourceQueue.php",
-        "hash": "d1b4c9260ce80ff14444c39d58b03146"
+        "hash": "cd5e191666be81d27e53443ac932c725"
     },
     {
         "file": "app/sae/modules/Application/View/Customization/Design/Colors.php",
@@ -12149,7 +12157,7 @@
     },
     {
         "file": "app/sae/modules/Application/controllers/Customization/Design/StyleController.php",
-        "hash": "215f80465508a9a1ce1001b309e925d0"
+        "hash": "7be81d5be4e0c822051eddf60491359b"
     },
     {
         "file": "app/sae/modules/Application/controllers/Customization/Features/Edit/LogoController.php",
@@ -16705,7 +16713,7 @@
     },
     {
         "file": "app/sae/modules/System/package.json",
-        "hash": "399bb246fb5bc6c00970f5284b3a2e23"
+        "hash": "f8faded15ccf4d7f63bdb99efc3ab75b"
     },
     {
         "file": "app/sae/modules/Template/Model/Db/Table/Design/Block.php",
@@ -17500,23 +17508,31 @@
         "hash": "f205635ffd5dc72bfa8faf4466266933"
     },
     {
-        "file": "app/sae/modules/Layouts/bootstrap.php",
-        "hash": "a3d7349c0124053b4be5721b3ad54a35"
+        "file": "app/sae/modules/Layouts/Form/LayoutYearOptions.php",
+        "hash": "4cd1e4fcb5009a6a8376b2636ff1c680"
     },
     {
         "file": "app/sae/modules/Layouts/resources/db/data/layout_assets.php",
         "hash": "491149a4a8a0b9c6df5f604639fefd9b"
     },
     {
-        "file": "app/sae/modules/Layouts/resources/db/data/layout_eighteen.php",
-        "hash": "5068a6f3d8da62195083587f5158527c"
-    },
-    {
         "file": "app/sae/modules/Layouts/resources/db/data/layout_swipe.php",
         "hash": "128d9edfa0a1c86289ff16deac13f90b"
     },
     {
+        "file": "app/sae/modules/Layouts/resources/db/data/layout_eighteen.php",
+        "hash": "bfda464cd86de62853b4a5e5ab142ffc"
+    },
+    {
+        "file": "app/sae/modules/Layouts/resources/db/data/layout_year.php",
+        "hash": "e43cdb8196aecd011e5150c394bc3117"
+    },
+    {
         "file": "app/sae/modules/Layouts/resources/design/desktop/flat/images/customization/layout/homepage/layout_swipe.png",
+        "hash": "1b058b78013e0278d883546412bc48fa"
+    },
+    {
+        "file": "app/sae/modules/Layouts/resources/design/desktop/flat/images/customization/layout/homepage/layout_year.png",
         "hash": "1b058b78013e0278d883546412bc48fa"
     },
     {
@@ -17556,16 +17572,20 @@
         "hash": "adb123e07e0c07b6ac96ec133a4c495b"
     },
     {
+        "file": "app/sae/modules/Layouts/resources/design/desktop/siberian/images/customization/layout/homepage/layout_year.png",
+        "hash": "adb123e07e0c07b6ac96ec133a4c495b"
+    },
+    {
         "file": "app/sae/modules/Layouts/resources/var/apps/modules/layout/home/layout_siberian_18/hooks.js",
         "hash": "4907ed481973210fec169cd3d3aa8d6c"
     },
     {
-        "file": "app/sae/modules/Layouts/resources/var/apps/modules/layout/home/layout_siberian_18/style.css",
-        "hash": "b3cf4161ecdd1c8489dea8074a00e6bd"
-    },
-    {
         "file": "app/sae/modules/Layouts/resources/var/apps/modules/layout/home/layout_siberian_18/view.html",
         "hash": "f9ac0336d2be1b4556c5b5106bb8f6a0"
+    },
+    {
+        "file": "app/sae/modules/Layouts/resources/var/apps/modules/layout/home/layout_siberian_18/style.css",
+        "hash": "2e0ce3265fbed5c738e34d137ad4c780"
     },
     {
         "file": "app/sae/modules/Layouts/resources/var/apps/modules/layout/home/layout_siberian_swipe/style.css",
@@ -17588,8 +17608,28 @@
         "hash": "b94544bdf4779fc1d62a4cc423a52f28"
     },
     {
+        "file": "app/sae/modules/Layouts/resources/var/apps/modules/layout/home/layout_siberian_year/hooks.js",
+        "hash": "fe9042b8592542b31a6f64406779110b"
+    },
+    {
+        "file": "app/sae/modules/Layouts/resources/var/apps/modules/layout/home/layout_siberian_year/modal.html",
+        "hash": "14bfb9d9713507ffac41649c4cd90844"
+    },
+    {
+        "file": "app/sae/modules/Layouts/resources/var/apps/modules/layout/home/layout_siberian_year/style.css",
+        "hash": "433172ed3166082609aed01e7aa32171"
+    },
+    {
+        "file": "app/sae/modules/Layouts/resources/var/apps/modules/layout/home/layout_siberian_year/view.html",
+        "hash": "d9d61bebfc930e43510cdef616a24a99"
+    },
+    {
+        "file": "app/sae/modules/Layouts/bootstrap.php",
+        "hash": "7b3bf68dc6f5ba40d765d9bce8faee2a"
+    },
+    {
         "file": "app/sae/modules/Layouts/package.json",
-        "hash": "c631d82d0ccf618b3f11799db4beec51"
+        "hash": "0eb37f3e1987ea947072298c64fd2bd9"
     },
     {
         "file": "app/Bootstrap.php",
@@ -18009,7 +18049,7 @@
     },
     {
         "file": "lib/Siberian/Media.php",
-        "hash": "dd707f54e5e56dfc00d5b4eb0317740f"
+        "hash": "1d0f513af2f308fcda6953d46e442ab7"
     },
     {
         "file": "lib/Siberian/Form/Decorator/ControlGroup.php",
@@ -18113,7 +18153,7 @@
     },
     {
         "file": "lib/Siberian/Utils.php",
-        "hash": "3cd8679d71c4c8abc968511def82ab56"
+        "hash": "4e4a0d2dc00fbb413261dc804aa9e73f"
     },
     {
         "file": "lib/Siberian/Network.php",

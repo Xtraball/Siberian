@@ -228,6 +228,21 @@ class Layouts_Bootstrap {
         });
         #===== /Layout 10 =====#
 
+        #===== Layout Year =====#
+        $js[] = "modules/layout/home/layout_siberian_year/hooks.js";
+        $css[] = "modules/layout/home/layout_siberian_year/style.css";
+
+        Siberian_Feature::registerLayoutOptionsCallbacks("layout_siberian_year", "Layouts_Form_LayoutYearOptions", function($datas) {
+            $options = array(
+                "positionMenu" => $datas["menu-middle"],
+                "textTransform" => $datas["textTransform"],
+                "title" => $datas["titlehidden"],
+            );
+
+            return $options;
+        });
+        #===== /Layout Year =====#
+
         #===== All layouts css/js =====#
         Siberian_Assets::addJavascripts($js);
         Siberian_Assets::addStylesheets($css);

@@ -61,7 +61,7 @@ class Siberian_Media {
                         }
                         $bin = sprintf($cli, $image_path);
 
-                        log_info(__("[Siberian_Media] optimizing media %s", $bin));
+                        self::log(__("[Siberian_Media] optimizing media %s", $bin));
 
                         exec($bin." 2>&1", $result);
                     }
@@ -74,7 +74,7 @@ class Siberian_Media {
      * Disable until next reload
      */
     public static function disableTemporary() {
-        log_info("[Siberian_Media] disableTemporary");
+        self::log("[Siberian_Media] disableTemporary");
 
         self::$temporary_disabled = true;
     }
@@ -152,6 +152,16 @@ class Siberian_Media {
         $base64 = sprintf("data:image/%s;base64,%s", $type, base64_encode($data));
 
         return $base64;
+    }
+
+    /**
+     * @param $message
+     */
+    public static function log($message) {
+        log_info($message);
+        if(defined("CRON")) {
+            echo sprintf("[Siberian_Media] %s \n", $message);
+        }
     }
 
 

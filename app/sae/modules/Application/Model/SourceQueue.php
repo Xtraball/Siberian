@@ -84,7 +84,8 @@ class Application_Model_SourceQueue extends Core_Model_Default {
 
 
             /** Success email */
-            $url = $this->getHost()."/".str_replace(Core_Model_Directory::getBasePathTo(""), "", $result["path"]);
+            $protocol = (System_Model_Config::getValueFor("use_https")) ? "https://" : "http://";
+            $url = $protocol.$this->getHost()."/".str_replace(Core_Model_Directory::getBasePathTo(""), "", $result);
 
             $values = array(
                 "application_name" => $this->getName(),
