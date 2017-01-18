@@ -29,6 +29,17 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
                     );
                 }
             break;
+            case "cover":
+                $library = new Cms_Model_Application_Page_Block_Image_Library();
+                $libraries = $library->findAll(array('library_id' => $block->getLibraryId()), 'image_id ASC', null);
+                $block_data["gallery"] = array();
+                foreach ($libraries as $image) {
+                    $block_data["gallery"][] = array(
+                        "id" => $image->getId(),
+                        "src" => $this->getRequest()->getBaseUrl() . '/images/application' . $image->getImageUrl()
+                    );
+                }
+            break;
             case "video":
                 $video = $block->getObject();
                 $block_data["cover_url"] = $video->getImageUrl();

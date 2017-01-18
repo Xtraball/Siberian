@@ -781,6 +781,10 @@ div[sb-cms-text] * {  text-align: left;  }
     height: 22px
 }
 
+.card.no-shadow {
+    box-shadow:none;
+}
+
 .item.item-custom a {
     color: inherit !important;
 }

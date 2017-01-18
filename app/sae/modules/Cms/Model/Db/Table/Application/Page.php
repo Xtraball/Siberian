@@ -16,7 +16,7 @@ class Cms_Model_Db_Table_Application_Page extends Core_Model_Db_Table {
                 $class = 'Cms_Model_Application_Page_Block_'.ucfirst($block['type']);
                 $block_type = new $class();
 
-                if(($block['type'] == 'image' || $block['type'] == 'slider')) {
+                if(($block['type'] == 'image' || $block['type'] == 'slider' || $block['type'] == 'cover')) {
                     $this->_db->delete('cms_application_page_block_image_library', array('library_id = ?' => $block["library_id"]));
                     unset($block["library_id"]);
                     $lib_class = 'Cms_Model_Application_Page_Block_Image_Library';
@@ -34,7 +34,7 @@ class Cms_Model_Db_Table_Application_Page extends Core_Model_Db_Table {
                         ->save()
                     ;
 
-                    if(($block['type'] == 'image' || $block['type'] == 'slider') && !empty($block["image_url"])) {
+                    if(($block['type'] == 'image' || $block['type'] == 'slider' || $block['type'] == 'cover') && !empty($block["image_url"])) {
                         $lib_class = 'Cms_Model_Application_Page_Block_Image_Library';
                         foreach($block["image_url"] as $index => $image_url) {
                             $image_fullsize_url = $block["image_fullsize_url"][$index];

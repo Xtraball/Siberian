@@ -6,6 +6,7 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
 
         if($datas = $this->getRequest()->getPost()) {
 
+
             $html = '';
 
             try {
@@ -44,6 +45,14 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
                     } else {
                         throw new Exception($this->_("Instagram API settings can't be found."));
                     }
+                } elseif (!empty($datas['param_facebook'])) {
+                    $facebook = new Social_Model_Facebook();
+                    $facebook_is_available = $facebook->getAccessToken() != null;
+                    if(!$facebook_is_available){
+                        throw new Exception($this->_("No valid Facebook API key and secret."));
+                    }
+                    $datas['type_id'] = 'facebook';
+                    var_dump($datas);
                 } elseif (!empty($datas['param'])) {
                     $datas['type_id'] = 'picasa';
                 } else {
@@ -72,6 +81,21 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
 
                 if($save) {
                     $image->setData($datas)->save();
+
+                    // save facebook parameters if necessary
+                    if ($datas['param_facebook']) {
+                        $facebook_gallery = new Media_Model_Gallery_Image_Facebook(
+                            array(
+                                'gallery_id' => $image->getGalleryId(),
+                                'album_id' => $datas['param_facebook']
+                            )
+                        );
+                        if($datas['image_id']){
+                            $facebook_gallery->setImageId($datas['image_id']);
+                        }
+                        $facebook_gallery->save();
+                    }
+
                     $html['id'] = (int) $image->getId();
                     $html['is_new'] = (int) $isNew;
                     $html['success_message'] = $this->_("Images gallery has been saved successfully");
@@ -194,6 +218,28 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
             );
         }
 
+        $this->getLayout()->setHtml(Zend_Json::encode($html));
+    }
+
+    public function albumsAction() {
+        $html = array();
+        try {
+            $pageid = $this->getRequest()->getParam('pageid');
+            if (!$pageid) {
+                throw new Exception("Please specify the page ID");
+            }
+            $facebook = new Social_Model_Facebook();
+            // Verify the page exists
+            $facebook->getPage($pageid);
+            // Return the albums
+            $html = $facebook->getAlbums($pageid);
+        } catch (Exception $e) {
+            $html = array(
+                'message' => $this->_($e->getMessage()),
+                'message_button' => 1,
+                'message_loader' => 1
+            );
+        }
         $this->getLayout()->setHtml(Zend_Json::encode($html));
     }
 

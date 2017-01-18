@@ -338,7 +338,6 @@ class Application_Customization_Design_StyleController extends Application_Contr
                 
                 $uploader = new Core_Model_Lib_Uploader();
                 $file = $uploader->savecrop($datas);
-                $url = "";
 
                 switch($filetype) {
                     case "standard":
@@ -356,12 +355,12 @@ class Application_Customization_Design_StyleController extends Application_Contr
 
                 $url = $application->getHomepageBackgroundImageUrl($filetype);
 
-                $datas = array(
+                $html = array(
                     'success' => 1,
                     'file' => $url
                 );
             } catch (Exception $e) {
-                $datas = array(
+                $html = array(
                     'error' => 1,
                     'message' => $e->getMessage()
                 );
@@ -544,7 +543,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
                     $image_id = $image->getId();
                 }
 
-                $datas = array(
+                $html = array(
                     'success' => 1,
                     'file' => array(
                         "id" => $image_id,
@@ -553,7 +552,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
                 );
 
             } catch (Exception $e) {
-                $datas = array(
+                $html = array(
                     'error' => 1,
                     'message' => $e->getMessage()
                 );

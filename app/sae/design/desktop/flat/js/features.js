@@ -103,7 +103,7 @@ var button_picture_html = '<div class="feature-upload-placeholder" data-uid="%UI
 var bindForms = function(default_parent) {
     setTimeout(function() {
         _bindForms(default_parent);
-    }, 500);
+    }, 200);
 };
 
 var _bindForms = function(default_parent) {
@@ -417,6 +417,7 @@ var _bindForms = function(default_parent) {
     $(default_parent+' table .open-edit').on("click", function() {
         var el = $(this);
         var object_id = el.data("id");
+        var callback = el.data("callback");
 
         $("tr.edit-form[data-id!="+object_id+"]").hide();
         $("tr.edit-form[data-id="+object_id+"]").toggle();
@@ -438,6 +439,14 @@ var _bindForms = function(default_parent) {
                         setTimeout(function() {
                             bindForms("tr.edit-form[data-id="+object_id+"]");
                             handleRichtext();
+                            if(typeof callback != "undefined") {
+                                try {
+                                    eval(callback);
+                                } catch(e) {
+                                    console.log("unable to eval callback "+callback);
+                                }
+
+                            }
                         }, 100);
 
                     } else if(data.error) {
@@ -452,6 +461,13 @@ var _bindForms = function(default_parent) {
             setTimeout(function() {
                 bindForms("tr.edit-form[data-id="+object_id+"]");
                 handleRichtext();
+                if(typeof callback != "undefined") {
+                    try {
+                        eval(callback);
+                    } catch(e) {
+                        console.log("unable to eval callback "+callback);
+                    }
+                }
             }, 100);
         }
 
@@ -461,8 +477,15 @@ var _bindForms = function(default_parent) {
     $(default_parent+' table .close-edit').on("click", function() {
         var el = $(this);
         var object_id = el.data("id");
+        var clear = (typeof el.data("clear") != "undefined");
 
         $("tr.edit-form[data-id]").hide();
+
+        /** Clear if we want to use multiple forms, or just reload every-time */
+        if(clear) {
+            $("tr.edit-form[data-id="+object_id+"]").removeData("binded");
+            $("tr.edit-form[data-id="+object_id+"] p.close-edit").next("form").remove();
+        }
     });
 
     /** Tooltip */

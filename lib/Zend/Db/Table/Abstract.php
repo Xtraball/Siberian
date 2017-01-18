@@ -1610,5 +1610,5 @@ abstract class Zend_Db_Table_Abstract
 
         return new $tableName($options);
     }
-    
+
 }

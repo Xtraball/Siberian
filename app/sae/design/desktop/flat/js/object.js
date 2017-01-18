@@ -73,6 +73,7 @@ var Modal = Class.extend({
     width: 1000,
     is_retain: true,
     is_loaded: false,
+    do_resize: true,
     init: function(datas) {
 
         this.id = datas.id;
@@ -98,20 +99,24 @@ var Modal = Class.extend({
             $(document).keyup(function(e) {
                 if(e.which == 27) this.hide();
             }.bind(this));
-            this.dom.content.css({"max-width": this.width});
+
             this.dom.container.fadeIn(300);
-            //this.dom.content.css({transform: 'scale(1)'});
-            if(this.height) {
-                this.dom.content.css({height: this.height});
-            }
-            else {
-                $(window).resize(function() {
+
+            if(this.do_resize) {
+                this.dom.content.css({"max-width": this.width});
+                if(this.height) {
+                    this.dom.content.css({height: this.height});
+                }
+                else {
+                    $(window).resize(function() {
+                        this.dom.content.css('height', $(window).outerHeight() - 75);
+                        this.dom.details.css('height', $(window).outerHeight() - 180);
+                    }.bind(this));
                     this.dom.content.css('height', $(window).outerHeight() - 75);
                     this.dom.details.css('height', $(window).outerHeight() - 180);
-                }.bind(this));
-                this.dom.content.css('height', $(window).outerHeight() - 75);
-                this.dom.details.css('height', $(window).outerHeight() - 180);
+                }
             }
+
         }
     },
 
@@ -119,7 +124,6 @@ var Modal = Class.extend({
         this.fireCallback('willdisappear');
         $(window).unbind('resize');
         $(document).unbind("keyup");
-        //this.dom.content.css({transform: 'scale(0.9)'});
         this.dom.container.fadeOut(300);
         setTimeout(function() {
             if(!this.is_retain) {
@@ -146,7 +150,7 @@ var Modal = Class.extend({
                 this.hide();
             }.bind(this));
 
-            if(!this.height) {
+            if(!this.height && this.do_resize) {
                 this.dom.content.css('height', $(window).outerHeight() - 75);
                 this.dom.details.css('height', $(window).outerHeight() - 180);
             }

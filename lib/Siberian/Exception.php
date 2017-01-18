@@ -9,10 +9,10 @@
 
 class Siberian_Exception extends Exception {
 
-    public function __construct($message, $code, Exception $previous) {
-        log_debug(sprintf("[Siberian_Exception] %s", $message));
-
+    public function __construct($message = "", $code = 0, Exception $previous = null) {
         parent::__construct($message, $code, $previous);
+
+        log_exception($this);
     }
 
 }

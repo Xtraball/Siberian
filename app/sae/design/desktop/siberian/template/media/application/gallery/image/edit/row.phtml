@@ -3,13 +3,15 @@
 
 <div class="row_image row padding-3" rel="<?php echo $image->getId(); ?>">
     <div class="col-sm-1">
-        <?php if($image->getTypeId() == 'instagram') : ?>
-        <img src="<?php echo $this->getImage('customization/pictos/instagram.png'); ?>" title="Instagram" alt="I" width="28" class="bt-margin" />
-        <?php elseif($image->getTypeId() == 'picasa') : ?>
-        <img src="<?php echo $this->getColorizedImage($this->getImage('customization/pictos/picasa.png', true), "#FFFFFF"); ?>" title="Picasa" alt="Picasa" width="28" class="bt-margin"/>
-        <?php elseif($image->getTypeId() == 'custom') : ?>
-        <img src="<?php echo $this->getColorizedImage($this->getImage('customization/pictos/camera.png', true), "#FFFFFF"); ?>" title="Utilisateur" alt="<?php echo $this->_('User') ?>" width="28" class="bt-margin"/>
-        <?php endif; ?>
+        <?php if($image->getTypeId() == 'instagram') { ?>
+            <img src="<?php echo $this->getImage('customization/pictos/instagram.png'); ?>" title="Instagram" alt="I" width="28" class="bt-margin" />
+        <?php } elseif($image->getTypeId() == 'picasa') { ?>
+            <img src="<?php echo $this->getColorizedImage($this->getImage('customization/pictos/picasa.png', true), "#FFFFFF"); ?>" title="Picasa" alt="Picasa" width="28" class="bt-margin"/>
+        <?php } elseif($image->getTypeId() == 'custom') { ?>
+            <img src="<?php echo $this->getColorizedImage($this->getImage('customization/pictos/camera.png', true), "#FFFFFF"); ?>" title="Utilisateur" alt="<?php echo $this->_('User') ?>" width="28" class="bt-margin"/>
+        <?php } elseif($image->getTypeId() == 'facebook') { ?>
+            <img src="<?php echo $this->getColorizedImage($this->getImage('customization/pictos/facebook.png', true), "#FFFFFF"); ?>" title="Facebook" alt="<?php echo $this->_('Facebook') ?>" width="28" class="bt-margin"/>
+        <?php } ?>
     </div>
     <div class="col-sm-4">
         <input type="text" name="name" value="<?php echo $image->getName(); ?>" placeholder="<?php echo $this->_('Gallery Name') ?>" class="form-control required" />
@@ -34,6 +36,18 @@
         <input type="hidden" id="image_<?php echo $image->getId(); ?>_<?php echo $p->getId(); ?>_description_receiver" name="images[list_<?php echo $image->getId(); ?>][<?php echo $p->getId(); ?>][description]" value="<?php echo $p->getDescription(); ?>" />
         <input type="hidden" name="images[list_<?php echo $image->getId(); ?>][<?php echo $p->getId(); ?>][image_id]" value="<?php echo $p->getId(); ?>" />
         <?php endforeach; ?>
+    <?php elseif ($image->getTypeId() == 'facebook') :?>
+        <?php
+        $facebook = new Media_Model_Gallery_Image_Facebook();
+        $facebook->find(array('gallery_id' => $image->getGalleryId()));
+        $albums = $facebook->getAlbums();
+        ?>
+        <input type="hidden" value="<?php echo $facebook->getImageId()?>" name="image_id">
+        <select name="param_facebook" id="input_facebook" class="sb-select styled-select color-blue form-control no-dk required new_search_input">
+            <?php foreach ($albums as $album) { ?>
+                <option value="<?php echo $album['id'] ?>" <?php if ($facebook->getAlbumId() == $album['id']) echo 'selected' ?>><?php echo $album['name'] ?></option>
+            <?php } ?>
+        </select>
     <?php else : ?>
         <input type="text" name="<?=($image->getTypeId() == 'instagram') ? 'param_instagram' : 'param'; ?>" class="search_input form-control required" value="<?=($image->getTypeId() == 'instagram') ? $image->getParamInstagram() : $image->getParam(); ?>" placeholder="<?php echo $this->_('Parameter') ?>" />
     <?php endif; ?>

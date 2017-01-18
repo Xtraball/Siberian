@@ -136,13 +136,20 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
 
     /**
      * @param $name
+     * @return $this
      */
     public function removeNav($name) {
         $display_group = $this->getDisplayGroup($name);
+        if(is_null($display_group)) {
+            log_debug("The nav doesn't exists.");
+            return $this;
+        }
         foreach($display_group->getElements() as $element) {
             $this->removeElement($element->getName());
         }
         $this->removeDisplayGroup($name);
+
+        return $this;
     }
 
     /**
@@ -410,6 +417,23 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
 
     /**
      * @param $name
+     * @param $html
+     * @param array $attributes
+     * @return Siberian_Form_Element_Html
+     */
+    public function addSimpleHtml($name, $html, $attributes = array()) {
+        $el = new Siberian_Form_Element_Html($name, $attributes);
+        $this->addElement($el);
+        $el->setIsFormHorizontal($this->is_form_horizontal);
+        $el
+            ->setValue($html)
+            ->setNewDesign()
+        ;
+        return $el;
+    }
+
+    /**
+     * @param $name
      * @param $label
      * @return Siberian_Form_Element_Checkbox
      * @throws Zend_Form_Exception
@@ -454,7 +478,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @return Siberian_Form_Element_MultiCheckbox
      * @throws Zend_Form_Exception
      */
-    public function addSimpleMultiCheckbox($name, $label, $options) {
+    public function addSimpleMultiCheckbox($name, $label, $options = array()) {
         $el = new Siberian_Form_Element_MultiCheckbox($name);
         $this->addElement($el);
         $el->setIsFormHorizontal($this->is_form_horizontal);

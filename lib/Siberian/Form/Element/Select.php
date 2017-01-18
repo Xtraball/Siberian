@@ -22,10 +22,46 @@ class Siberian_Form_Element_Select extends Zend_Form_Element_Select {
     public $color = "color-blue";
 
     /**
+     * @var string
+     */
+    protected $label_cols = "col-md-3";
+
+    /**
+     * @var string
+     */
+    protected $input_cols = "col-md-7";
+
+    /**
+     * @var string
+     */
+    protected $offset_cols = "col-md-offset-3";
+
+    /**
+     * @var string
+     */
+    protected $error_cols = "col-md-7";
+
+    /**
      * @param $color
      */
     public function setColor($color) {
         $this->color = $color;
+    }
+
+    /**
+     * @param $label
+     * @param $input
+     * @param $offset
+     * @param null $error
+     * @return $this
+     */
+    public function setCols($label, $input, $offset, $error = null) {
+        $this->label_cols = $label;
+        $this->input_cols = $input;
+        $this->offset_cols = $offset;
+        $this->error_cols = ($error != null) ? $error : $input;
+
+        return $this;
     }
 
 	public function init(){
@@ -57,13 +93,13 @@ class Siberian_Form_Element_Select extends Zend_Form_Element_Select {
 	/**
 	 * @return Siberian_Form_Element_Select
 	 */
-	public function setNewDesign(){
+	public function setNewDesign($class = ""){
 	  	$this->addClass('sb-select styled-select '.$this->color.' form-control no-dk');
 
         if($this->is_form_horizontal) {
-            $label_class = "col-sm-3";
-            $element_class = "col-sm-7";
-            $error_class = "col-sm-7 col-sm-offset-3";
+            $label_class = "{$this->label_cols}";
+            $element_class = "{$this->input_cols}";
+            $error_class = "{$this->error_cols} {$this->offset_cols}";
         } else {
             $label_class = "";
             $element_class = "";
@@ -93,7 +129,7 @@ class Siberian_Form_Element_Select extends Zend_Form_Element_Select {
             	'placement' => Zend_Form_Decorator_Abstract::APPEND,
             )),
             array('ControlGroup',array(
-            	'class' => 'form-group sb-form-line',
+            	'class' => 'form-group sb-form-line '.$class,
             	'id'=>'control-group_'.$this->getId()
             ))
 	  	));

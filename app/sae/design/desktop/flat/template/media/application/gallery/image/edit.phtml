@@ -3,6 +3,11 @@
 <?php $image = new Media_Model_Gallery_Image(); ?>
 <?php $images = $image->findAll(array('value_id' => $option_value->getId()), 'gallery_id DESC'); ?>
 <?php $instagram_is_available = $application->getInstagramClientId() && $application->getInstagramToken(); ?>
+<?php
+//If we're unable to get acces token then facebook is not available
+$facebook = new Social_Model_Facebook();
+$facebook_is_available = $facebook->getAccessToken() != null;
+?>
 <div class="media images">
     <div class="form_content">
         <div class="add-image">
@@ -17,7 +22,7 @@
                     <?php echo $this->_('Choose an album'); ?> :
                 </h3>
                 <ul id="albums_found_list">
-                </ul>             
+                </ul>
             </div>
 
             <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
@@ -42,7 +47,13 @@
                                 <i title="<?php echo $this->_("My images"); ?>" class="fa fa-camera block img_icon" alt="<?php echo $this->_("My images"); ?>"></i>
                                 <p><?php echo $this->_('My images') ?></p>
                             </a>
-                        </li>   
+                        </li>
+                        <li class="color-blue list-group-item btn capitalize" rel="facebook" <?php if(!$facebook_is_available) : ?> onclick="featureNotAvailable()" <?php endif; ?>>
+                            <a href="javascript:void(0);" rel="facebook" class="block select_type image_type_select capitalize">
+                                <i title="<?php echo $this->_("Facebook"); ?>" class="fa fa-facebook block img_icon" alt="<?php echo $this->_("Facebook"); ?>"></i>
+                                <p><?php echo $this->_('Facebook') ?></p>
+                            </a>
+                        </li>
                     </ul>
                 </div>
 
@@ -50,7 +61,7 @@
                     <div class="row">
                         <div class="col-sm-1"></div>
                         <div class="col-sm-5">
-                            <label><?php echo $this->_('Gallery Name') ?> <span class="required-entry required"> *</span> :</label>
+                            <label><span id="name-label"><?php echo $this->_('Gallery Name') ?></span> <span class="required-entry required"> *</span> :</label>
                         </div>
                         <div class="col-sm-4">
                             <label id="label_search"><?php echo $this->_('Search') ?> <span class="required-entry required"> *</span> :</label>
@@ -61,13 +72,15 @@
                             <i id="type_picasa" rel="picasa" class="fa fa-google bt-margin type_selected" title="Picasa" alt="Picasa" style="display:none;" ></i>
                             <i id="type_instagram" rel="instagram" class="bt-margin type_selected fa fa-instagram" title="Instagram" alt="Instagram" style="display:none;" ></i>
                             <i id="type_custom" rel="user" class="margin-top-5 type_selected fa fa-camera" title="<?php echo $this->_("My images"); ?>" alt="<?php echo $this->_("My images"); ?>" style="display:none;"></i>
+                            <i id="type_facebook" rel="facebook" class="margin-top-5 type_selected fa fa-facebook" title="<?php echo $this->_("Facebook"); ?>" alt="<?php echo $this->_("Facebook"); ?>" style="display:none;"></i>
                         </div>
                         <div class="col-sm-5">
-                            <input type="text" name="name" value="" placeholder="<?php echo $this->_('Gallery Name') ?>" class="input-flat required" />
+                            <input id="name-input" type="text" name="name" value="" placeholder="<?php echo $this->_('Gallery Name') ?>" class="input-flat required" />
                         </div>
                         <div class="col-sm-4">
                             <button type="button" id="input_custom" class="new_search_input search_input upload_picture btn btn-block required" rel="list_new"><?php echo $this->_('Send your pictures') ?></button>
                             <input type="text" id="input_picasa" name="param" value="" placeholder="<?php echo $this->_('Parameter') ?>" class="new_search_input search_input input-flat required" />
+                            <select name="param_facebook" id="input_facebook" class="sb-select styled-select color-blue form-control no-dk required new_search_input"></select>
                             <input type="hidden" id="input_instagram" name="param_instagram" value="" class="new_search_input search_input" />
                         </div>
                         <div class="col-sm-1">
@@ -143,7 +156,9 @@
                         <div class="row container-fluid">
                             <div class="col-sm-1"></div>
                             <div class="col-sm-4">
-                                <label><?php echo $this->_('Gallery Name') ?> <span class="required-entry required"> *</span> :</label>
+                                <label>
+                                    <?php echo $this->_('Gallery Name') ?>
+                                    <span class="required-entry required"> *</span> :</label>
                             </div>
                             <div class="col-sm-5">
                                 <label><?php echo $this->_('Search') ?> <span class="required-entry required"> *</span> :</label>
@@ -172,12 +187,35 @@
     </div>
 
     <script type="text/javascript">
+        var label = {
+            'picasa': '<?php echo $this->_('Gallery Name') ?>',
+            'custom': '<?php echo $this->_('Gallery Name') ?>',
+            'instagram': '<?php echo $this->_('Gallery Name') ?>',
+            'facebook': '<?php echo $this->_('Facebook page ID') ?>',
+        }, selected;
 
         page.setCallback('willappear', function() {
 
             $('.image_type_select').parent().click(function() {
 
                 var id = $(this).attr('rel');
+
+                selected = id;
+                // depending on the clicked option display the appropriate label
+                $('#name-label').html(label[id]);
+                $('#name-input').attr('placeholder', label[id]);
+                // Load
+                $('#input_facebook').focus(function () {
+                    reload(this, '<?php echo $this->getUrl('media/application_gallery_image/albums/'); ?>?pageid=' + $('#name-input').val(), true, function (data) {
+                        $('#input_facebook').html("");
+                        $.each(data, function (i, album) {
+                            $('#input_facebook').append($('<option>', {
+                                value: album.id,
+                                text: album.name
+                            }));
+                        });
+                    });
+                });
 
                 if(id == "instagram") {
                     $("#input_instagram").val(1);

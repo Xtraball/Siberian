@@ -6,7 +6,7 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
     public function loadAction() {
 
         $html = array(
-            "title" => $this->_("User"),
+            "title" => __("User"),
             "icon" => "fa-user",
         );
 
@@ -22,12 +22,12 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
         $data = array();
         if($admin->getId()) {
             $data["admin"] = $admin->getData();
-            $data["section_title"] = $this->_("Edit the user %s", $admin->getFirstname() . " " . $admin->getLastname());
+            $data["section_title"] = __("Edit the user %s", $admin->getFirstname() . " " . $admin->getLastname());
         } else {
-            $data["section_title"] = $this->_("Create a new user");
+            $data["section_title"] = __("Create a new user");
         }
 
-        $data["applications_section_title"] = $this->_("Manage access");
+        $data["applications_section_title"] = __("Manage access");
 
         $countries = Zend_Registry::get('Zend_Locale')->getTranslationList('Territory', null, 2);
         asort($countries, SORT_LOCALE_STRING);
@@ -51,7 +51,7 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
             try {
 
                 if(!Zend_Validate::is($data["email"], "emailAddress")) {
-                    throw new Exception($this->_("Please, enter a correct email address."));
+                    throw new Exception(__("Please, enter a correct email address."));
                 }
 
                 $admin = new Admin_Model_Admin();
@@ -66,20 +66,20 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
                 }
 
                 if($isNew AND empty($data["password"])) {
-                    throw new Exception($this->_("Please, enter a password."));
+                    throw new Exception(__("Please, enter a password."));
                 }
                 if(empty($data["password"]) AND empty($data["confirm_password"])) {
                     unset($data["password"]);
                     unset($data["confirm_password"]);
                 }
                 if(!empty($data["password"]) AND $data["password"] != $data["confirm_password"]) {
-                    throw new Exception($this->_("Passwords don't match"));
+                    throw new Siberian_Exception(__("Passwords don't match"));
                 }
 
                 $admin->addData($data);
 
                 if($dummy->getEmail() == $admin->getEmail() AND $dummy->getId() != $admin->getId()) {
-                    throw new Exception($this->_("We are sorry but this email address already exists."));
+                    throw new Exception(__("We are sorry but this email address already exists."));
                 }
 
                 if(!empty($data["password"])) {
@@ -94,7 +94,7 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
 
                 $data = array(
                     "success" => 1,
-                    "message" => $this->_("User successfully saved")
+                    "message" => __("User successfully saved")
                 );
 
             } catch(Exception $e) {

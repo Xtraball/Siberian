@@ -95,6 +95,14 @@ $datas = array(
         'template' => 'cms/application/page/edit/block/slider.phtml',
         'mobile_template' => 'cms/page/%s/view/block/slider.phtml',
     ),
+    array(
+        'type' => 'cover',
+        'position' => 8,
+        'icon' => 'icon-picture',
+        'title' => 'Cover',
+        'template' => 'cms/application/page/edit/block/cover.phtml',
+        'mobile_template' => 'cms/page/%s/view/block/cover.phtml',
+    ),
 );
 
 

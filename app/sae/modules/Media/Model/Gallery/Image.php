@@ -4,7 +4,7 @@ class Media_Model_Gallery_Image extends Core_Model_Default {
 
     protected $_type_instance;
     protected $_types = array(
-        'picasa', 'custom', 'instagram'
+        'picasa', 'custom', 'instagram', 'facebook'
     );
     protected $_offset = 0;
 

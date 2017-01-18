@@ -52,12 +52,16 @@ class Siberian_Form_Element_Checkbox extends Zend_Form_Element_Checkbox {
      * @param $label
      * @param $input
      * @param $offset
+     * @param null $error
+     * @return $this
      */
     public function setCols($label, $input, $offset, $error = null) {
         $this->label_cols = $label;
         $this->input_cols = $input;
         $this->offset_cols = $offset;
         $this->error_cols = ($error != null) ? $error : $input;
+
+        return $this;
     }
 
 	/**

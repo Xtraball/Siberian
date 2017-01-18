@@ -32,10 +32,6 @@ class Siberian_Db_Profiler extends Zend_Db_Profiler {
         # update totalElapsedTime counter
         $this->_totalElapsedTime += $profile->getElapsedSecs();
 
-        # create the message to be logged
-        $message = "\r\nElapsed Secs: " . round($profile->getElapsedSecs(), 5) . "\r\n";
-        $message .= "Query: " . $profile->getQuery() . "\r\n";
-
-        Siberian_Debug::message($message, "SQL");
+        Siberian_Debug::addProfile($profile);
     }
 }

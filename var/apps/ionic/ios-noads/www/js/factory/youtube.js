@@ -18,7 +18,7 @@ App.factory('Youtube', function($q, $http) {
         $http({
             method: 'GET',
             url: "https://www.googleapis.com/youtube/v3/search/?q=" + keyword + "&type=video&part=snippet&key=" + factory.key + "&maxResults=5" + param_offset + "&order=date",
-            cache: true,
+            cache: false,
             responseType:'json'
         }).success(function(response) {
             
@@ -65,7 +65,7 @@ App.factory('Youtube', function($q, $http) {
         $http({
             method: 'GET',
             url: "https://www.googleapis.com/youtube/v3/channels/?part=snippet&key=" + factory.key + "&forUsername="+keyword + "&order=date",
-            cache: true,
+            cache: false,
             responseType:'json'
         }).success(function(data) {
 
@@ -78,8 +78,8 @@ App.factory('Youtube', function($q, $http) {
 
             $http({
                 method: 'GET',
-                url: "https://www.googleapis.com/youtube/v3/search/?&part=snippet&key=" + factory.key + "&maxResults=5&type=video&channelId=" + id + param_offset + "&order=date",
-                cache: true,
+                url: "https://www.googleapis.com/youtube/v3/search/?&part=snippet&key=" + factory.key + "&maxResults=5&type=video&channelId=" + id + param_offset,
+                cache: false,
                 responseType: 'json'
             }).success(function (response) {
 
@@ -129,7 +129,7 @@ App.factory('Youtube', function($q, $http) {
         $http({
             method: 'GET',
             url: "https://www.googleapis.com/youtube/v3/channels?part=contentDetails&key=" + factory.key + "&forUsername="+keyword + "&order=date",
-            cache: true,
+            cache: false,
             responseType:'json'
         }).success(function(data) {
 
@@ -138,7 +138,7 @@ App.factory('Youtube', function($q, $http) {
                 $http({
                     method: 'GET',
                     url: "https://www.googleapis.com/youtube/v3/playlistItems/?&part=snippet&key=" + factory.key + "&maxResults=5&playlistId=" + data.items[0].contentDetails.relatedPlaylists.uploads + param_offset + "&order=date",
-                    cache: true,
+                    cache: false,
                     responseType: 'json'
                 }).success(function (response) {
 

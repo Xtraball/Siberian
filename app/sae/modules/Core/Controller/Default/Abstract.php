@@ -575,9 +575,18 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     }
 
     /**
+     * @deprecated use _sendJson()
+     *
      * @param $html
      */
     protected function _sendHtml($html) {
+        $this->_sendJson($html);
+    }
+
+    /**
+     * @param $html
+     */
+    protected function _sendJson($html) {
         if(isset($html['error']) && !empty($html['error'])) {
             $this->getResponse()->setHttpResponseCode(400);
         }

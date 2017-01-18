@@ -26,6 +26,14 @@ App.directive("sbCmsText", function() {
         '</div>' +
         '<div ng-if="block.description" class="item item-custom padding description">{{ block.description }}</div>'
     };
+}).directive("sbCmsCover", function() {
+    return {
+        restrict: 'A',
+        scope: {
+            block: "="
+        },
+        template: '<img width="100%" ng-src="{{ block.gallery[0].src }}" alt="{{block.name}}">'
+    };
 }).directive("sbCmsSlider", function() {
     return {
         restrict: 'A',

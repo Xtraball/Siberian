@@ -74,9 +74,11 @@ class Siberian_Media {
      * Disable until next reload
      */
     public static function disableTemporary() {
-        self::log("[Siberian_Media] disableTemporary");
+        if(!self::$temporary_disabled) {
+            self::log("[Siberian_Media] disableTemporary");
 
-        self::$temporary_disabled = true;
+            self::$temporary_disabled = true;
+        }
     }
 
     /**

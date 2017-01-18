@@ -44,6 +44,7 @@ App.config(function($routeProvider) {
         angular.extend($scope.application_banner, data.application);
         angular.extend($scope.application_admob, data.application);
         $scope.mobile_source.design_code = $scope.application.design_code;
+        $scope.confirm_message_domain = data.application.confirm_message_domain;
     }).finally(function() {
         $scope.content_loader_is_visible = false;
     });
@@ -274,6 +275,15 @@ App.config(function($routeProvider) {
     $scope.saveInfo = function() {
 
         $scope.application_form_loader_is_visible = true;
+
+        if(($scope.tmp_application.key != $scope.application.key) || ($scope.tmp_application.domain != $scope.application.domain)) {
+            if(!window.confirm($scope.confirm_message_domain)) {
+                $scope.tmp_application.key = $scope.application.key;
+                $scope.tmp_application.domain = $scope.application.domain;
+                $scope.application_form_loader_is_visible = false;
+                return false;
+            }
+        }
 
         Application.saveInfo($scope.tmp_application).success(function(data) {
 

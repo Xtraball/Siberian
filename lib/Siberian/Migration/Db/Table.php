@@ -43,8 +43,7 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract {
      * @param string $table_name
      * @param array $config
      */
-    public function __construct($table_name, $config = array())
-    {
+    public function __construct($table_name, $config = array()) {
         parent::__construct($config);
 
         $this->tableName = $table_name;
@@ -106,7 +105,7 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract {
         catch(Exception $e) {
             /** Try to create the table if it doesn't exist yet for installation purpose. */
             if($try_create AND !$this->createTable()) {
-                throw new Exception(__("Unable to create table '{$this->tableName}', with previous Exception %s.", $e->getMessage()));
+                throw new Siberian_Exception(__("Unable to create table '{$this->tableName}', with previous Exception %s.", $e->getMessage()));
             }
         }
 
@@ -128,7 +127,7 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract {
             include $this->schemaPath;
             $this->schemaFields = $schemas[$this->tableName];
         } else {
-            throw new Exception("Unable to read latest schema for '{$this->tableName}', errors: ".implode("\n", $this->queries).".");
+            throw new Siberian_Exception("Unable to read latest schema for '{$this->tableName}', errors: ".implode("\n", $this->queries).".");
         }
     }
 
@@ -315,7 +314,7 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract {
                 /** Cleaning tmp file */
                 unlink($schema_path);
             } else {
-                throw new Exception("Unable to save schema from database for '{$this->tableName}'.");
+                throw new Siberian_Exception("Unable to save schema from database for '{$this->tableName}'.");
             }
 
         }
@@ -606,7 +605,7 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract {
 
             $migration_log = sprintf($this->log_error, Siberian_Version::VERSION);
             $this->logger->info($message_error, $migration_log, false);
-            throw new Exception($message_error);
+            throw new Siberian_Exception($message_error);
         }
     }
 

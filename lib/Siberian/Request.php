@@ -43,7 +43,7 @@ class Siberian_Request {
         curl_close($request);
 
         if(self::$debug) {
-            Zend_Debug::dump("[CODE POST] ".$status_code);
+            log_debug("[CODE POST] ".$status_code);
         }
 
 
@@ -83,7 +83,7 @@ class Siberian_Request {
         curl_close($request);
 
         if(self::$debug) {
-            Zend_Debug::dump("[CODE GET] " . $status_code);
+            log_debug("[CODE GET] " . $status_code);
         }
 
         return $result;

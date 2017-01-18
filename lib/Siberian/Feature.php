@@ -280,7 +280,7 @@ class Siberian_Feature {
         }
         
         if(!copy($img_src, $img_dst)) {
-            throw new exception(__("An error occurred while saving your picture. Please try again later."));
+            throw new Siberian_Exception(__("An error occurred while saving your picture. Please try again later."));
         } else {
             $path = $relative_path.'/'.$filename;
         }

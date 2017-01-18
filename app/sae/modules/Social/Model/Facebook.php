@@ -228,6 +228,79 @@ class Social_Model_Facebook extends Core_Model_Default {
     }
 
     /**
+     * Get all the albums belonging to a page
+     *
+     * @param $page_id
+     * @return array
+     */
+    public function getAlbums($page_id) {
+        $access_token = $this->getAccessToken();
+        $url = self::buildUrl($page_id . '/albums', array(
+            "access_token" => $access_token
+        ));
+        return $this->_getFBAlbums($url);
+    }
+
+    /**
+     * Retrieves pages recursively
+     *
+     * @param $url
+     * @return array
+     */
+    protected function _getFBAlbums($url) {
+        $response = file_get_contents($url);
+        $response = Zend_Json::decode($response);
+        $albums = $response["data"];
+        // If there still are remaining albums repeat request
+        if ($response["paging"]["next"]) {
+            $albums = array_merge($albums, $this->_getFBAlbums($response["paging"]["next"]));
+        }
+        return $albums;
+    }
+
+    /**
+     * Returns the photos belonging to an album, the after cursor is used for pagination
+     *
+     * @param $album_id
+     * @param null $after
+     * @return mixed|string
+     */
+    public function getPhotos($album_id, $after = null){
+        $access_token = $this->getAccessToken();
+        $params = array(
+            "access_token" => $access_token,
+            "fields" => "images,name"
+        );
+        if($after){
+            $params["after"] = $after;
+        }
+        $url = self::buildUrl($album_id . '/photos', $params);
+        $response = file_get_contents($url);
+        $response = Zend_Json::decode($response);
+        return $response;
+    }
+
+    /**
+     * Verifies and returns the page specified by page_id
+     *
+     * @param $page_id
+     * @return mixed|string
+     * @throws Exception
+     */
+    public function getPage($page_id) {
+        $access_token = $this->getAccessToken();
+        $url = self::buildUrl($page_id, array(
+            "access_token" => $access_token
+        ));
+        $response = file_get_contents($url);
+        $response = Zend_Json::decode($response);
+        if (!$response) {
+            throw new Exception("Page not found");
+        }
+        return $response;
+    }
+
+    /**
      * @return string
      * @deprecated
      */

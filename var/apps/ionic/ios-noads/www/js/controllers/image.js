@@ -69,7 +69,6 @@ App.config(function($stateProvider) {
             for(var i = 0; i < data.collection.length; i++) {
                 $scope.collection.push(data.collection[i]);
             }
-            
             $scope.can_load_more = data.collection.length > 0 && data.show_load_more;
 
         }).error(function(err) {

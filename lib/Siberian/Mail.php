@@ -1,12 +1,8 @@
 <?php
 /**
+ *
  */
 class Siberian_Mail extends Zend_Mail {
-
-    /**
-     * @var
-     */
-    public $logger;
 
     /**
      * @var string
@@ -33,13 +29,21 @@ class Siberian_Mail extends Zend_Mail {
     public $_cc_to_sender = false;
 
     /**
+     * @var bool
+     */
+    public $_is_default_mailer = true;
+
+    /**
+     * @var bool
+     */
+    public $_reply_to_set = false;
+
+    /**
      * Siberian_Mail constructor.
      * @param string $charset
      */
     public function __construct($charset = "UTF-8") {
         parent::__construct($charset);
-
-        $this->logger = Zend_Registry::get("logger");
 
         $configure = false;
 
@@ -111,6 +115,8 @@ class Siberian_Mail extends Zend_Mail {
 
 
         if($configure) {
+            $this->_is_default_mailer = false;
+
             $config = array(
                 "auth"      => $smtp_credentials->getAuth(),
                 "username"  => $smtp_credentials->getUsername(),
@@ -158,16 +164,25 @@ class Siberian_Mail extends Zend_Mail {
      * @return Zend_Mail
      */
     public function setFrom($email, $name = null) {
-        $this->_custom_from = true;
+        if(!$this->sameExpeditor($email, $this->_sender_name) && !$this->_reply_to_set) {
+            $this->_reply_to_set = true;
+            return $this->setReplyTo($email, $name);
+        } else {
+            $this->_custom_from = true;
 
-        return parent::setFrom($email, $name);
+            return parent::setFrom($email, $name);
+        }
     }
 
     /**
      * Send a copy to the sender.
+     *
+     * @return $this
      */
     public function ccToSender() {
         $this->_cc_to_sender = true;
+
+        return $this;
     }
 
     /**
@@ -188,14 +203,14 @@ class Siberian_Mail extends Zend_Mail {
         try {
             return parent::send($transport);
         } catch(Exception $e) {
-            $this->logger->info("[Siberian_Mail] an error occurred while sending the following e-mail.");
-            $this->logger->info(__("[Siberian_Mail::Error] %s.", $e->getMessage()));
-            $this->logger->info("---------- MAIL START ----------");
-            $this->logger->info(
+            log_err("[Siberian_Mail] an error occurred while sending the following e-mail.");
+            log_err(__("[Siberian_Mail::Error] %s.", $e->getMessage()));
+            log_err("---------- MAIL START ----------");
+            log_err(
                 $this->getSubject()."\n".
                 $this->getBodyHtml()."\n"
             );
-            $this->logger->info("----------  MAIL END  ----------");
+            log_err("----------  MAIL END  ----------");
         }
 
     }
@@ -247,6 +262,28 @@ class Siberian_Mail extends Zend_Mail {
 
         $this
             ->setSubject($subject);
+    }
+
+    /**
+     * Checks if a sender is authorized by the smtp
+     *
+     * @param $from
+     * @param $sender
+     * @return bool
+     */
+    public function sameExpeditor($from, $sender) {
+        # Assume it's authorized if no SMTP is configured.
+        if($this->_is_default_mailer) {
+            return true;
+        }
+
+        $from_parts = explode("@", $from);
+        $sender_parts = explode("@", $sender);
+
+        $from_domain = $from_parts[1];
+        $sender_domain = $sender_parts[1];
+
+        return (strpos($from_domain, $sender_domain) !== false);
     }
 
 }

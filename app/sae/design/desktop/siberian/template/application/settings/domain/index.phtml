@@ -53,22 +53,25 @@
     <script type="text/javascript">
 
         $('#urlForm').submit(function() {
-
-            reload($('#urlForm'), $('#urlForm').attr('action'), true, function(data) {
-                if(data.success) {
-                    $('#domain').val(data.application_url);
-                    if(data.show_cname_state) {
-                        $("#config_cname").show();
-                        $("#success_config_cname").fadeIn();
-                    } else {
-                        $("#config_cname").hide();
-                        $("#result_config_cname").hide();
+            // add a warning when changing app URL KEY and Domain
+            var confirmation = confirm("<?php echo $this->_("If your app is already published, changing the URL key will break it. You will have to republish it. Chnage anyway?")?>");
+            if (confirmation) {
+                reload($('#urlForm'), $('#urlForm').attr('action'), true, function(data) {
+                    if(data.success) {
+                        $('#domain').val(data.application_url);
+                        if(data.show_cname_state) {
+                            $("#config_cname").show();
+                            $("#success_config_cname").fadeIn();
+                        } else {
+                            $("#config_cname").hide();
+                            $("#result_config_cname").hide();
+                        }
                     }
-                }
-            }, function() {
-                $("#config_cname").hide();
-                $("#result_config_cname").hide();
-            });
+                }, function() {
+                    $("#config_cname").hide();
+                    $("#result_config_cname").hide();
+                });
+            }
 
             return false;
         });

@@ -48,6 +48,7 @@ class Siberian_Debug {
             self::$debugBar = new DebugBar\StandardDebugBar();
 
             self::$debugBar->setStorage(new DebugBar\Storage\FileStorage(Core_Model_Directory::getBasePathTo(self::$streamPath)));
+            self::$debugBar->addCollector(new Siberian_Debug_Collector_Sql());
 
             self::$debugBarRenderer = self::$debugBar->getJavascriptRenderer();
 
@@ -105,7 +106,6 @@ class Siberian_Debug {
      */
     public static function sendDataInHeaders() {
         if(self::$render) {
-            self::$debugBar["messages"]->addMessage("----- XmlHttpRequest -----", "ASYNC");
             self::$debugBar->sendDataInHeaders(true);
         }
     }
@@ -115,7 +115,6 @@ class Siberian_Debug {
      */
     public static function getDataAsHeaders() {
         if(self::$render) {
-            self::$debugBar["messages"]->addMessage("----- XmlHttpRequest -----", "ASYNC");
             return self::$debugBar->getDataAsHeaders();
         }
     }
@@ -126,6 +125,24 @@ class Siberian_Debug {
     public static function message($message, $label = "info", $isString = true) {
         if(self::$render) {
             self::$debugBar["messages"]->addMessage($message, $label, $isString);
+        }
+    }
+
+    /**
+     * @param $message
+     */
+    public static function addProfile($profile) {
+        if(self::$render) {
+            self::$debugBar["sql"]->addProfile($profile);
+        }
+    }
+
+    /**
+     * @param Exception $e
+     */
+    public static function addException(Exception $e) {
+        if(self::$render) {
+            self::$debugBar["exceptions"]->addException($e);
         }
     }
 

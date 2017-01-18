@@ -207,3 +207,8 @@ div.phpdebugbar-widgets-exceptions li.phpdebugbar-widgets-list-item {
     border: 1px solid #ddd;
     font-family: monospace;
   }
+
+
+.phpdebugbar-widgets-messages * {
+  font-family: monospace !important;
+}

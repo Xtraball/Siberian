@@ -183,6 +183,12 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
                                 throw new Exception($this->_("#19-003: This update is designed for the %s, you can't install it in your %s.", $package->getName(), Siberian_Version::NAME));
                             }
 
+                            # Remove all beta-parts from beta if in stable for requirements
+                            if(System_Model_Config::getValueFor("update_channel") == "stable") {
+                                $version_parts = explode("-", $dependency["version"]);
+                                $dependency["version"] = $version_parts[0];
+                            }
+
                             # If the current version of Siberian equals the package's version
                             if (version_compare(Siberian_Version::VERSION, $package->getVersion(), "=")) {
                                 throw new Exception($this->_("#19-004: You already have installed this update."));

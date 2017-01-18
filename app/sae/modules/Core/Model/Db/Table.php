@@ -194,6 +194,30 @@ class Core_Model_Db_Table extends Zend_Db_Table_Abstract
         return true;
     }
 
+    /**
+     * Converts a simple select to a rowset
+     *
+     * @param $rows
+     * @return mixed
+     */
+    public function toModelClass($rows) {
+        $data  = array(
+            'table'    => $this,
+            'data'     => $rows,
+            'rowClass' => $this->getRowClass(),
+            'stored'   => true
+        );
+
+        $rowsetClass = $this->getRowsetClass();
+
+        if (!class_exists($rowsetClass)) {
+            require_once 'Zend/Loader.php';
+            Zend_Loader::loadClass($rowsetClass);
+        }
+
+        return new $rowsetClass($data);
+    }
+
     protected function _getPrimaryKey($id = null) {
         $primaryIsString = (is_string($this->_primary) || is_numeric($this->_primary)) || is_array($this->_primary) && count($this->_primary) == 1;
         $primaryKey = !is_array($this->_primary) ? array($this->_primary) : $this->_primary;

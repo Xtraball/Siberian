@@ -23,7 +23,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         $configs = $config->findAll(array(new Zend_Db_Expr('code LIKE "ftp_%"')));
         
         $html = array(
-            "title" => $this->_("Modules"),
+            "title" => __("Modules"),
             "icon" => "fa-cloud-download"
         );
 
@@ -41,8 +41,10 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
             $data = $this->_fetchUpdates();
 
+            log_debug(print_r($data, true));
+
             if(empty($data["success"])) {
-                throw new Exception($this->_("An error occurred while loading. Please, try again later."));
+                throw new Siberian_Exception(__("An error occurred while loading. Please, try again later."));
             }
 
             if(!empty($data["url"]) AND !empty($data["filename"])) {
@@ -51,6 +53,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
                 $client = new Zend_Http_Client($data["url"], array(
                     'adapter'   => 'Zend_Http_Client_Adapter_Curl',
+                    'curloptions' => array(CURLOPT_SSL_VERIFYPEER => false),
                 ));
 
                 $client->setMethod(Zend_Http_Client::POST);
@@ -62,17 +65,17 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                     $content = $response->getBody();
 
                     if(empty($content)) {
-                        throw new Exception($this->_("Unable to fetch the update. Please, try again later."));
+                        throw new Siberian_Exception(__("Unable to fetch the update. Please, try again later."));
                     }
 
                     file_put_contents($tmp_path, $content);
 
                 } else {
-                    throw new Exception($this->_("Unable to fetch the update. Please, try again later."));
+                    throw new Siberian_Exception(__("Unable to fetch the update. Please, try again later."));
                 }
 
                 if(!file_exists($tmp_path)) {
-                    throw new Exception($this->_("Unable to fetch the update. Please, try again later."));
+                    throw new Siberian_Exception(__("Unable to fetch the update. Please, try again later."));
                 }
 
                 $data = $this->_getPackageDetails($tmp_path);
@@ -94,7 +97,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         try {
 
             if(empty($_FILES) || empty($_FILES['file']['name'])) {
-                throw new Exception($this->_("No file has been sent"));
+                throw new Siberian_Exception(__("No file has been sent"));
             }
 
             $adapter = new Zend_File_Transfer_Adapter_Http();
@@ -111,10 +114,10 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 if(!empty($messages)) {
                     $message = implode("\n", $messages);
                 } else {
-                    $message = $this->_("An error occurred during the process. Please try again later.");
+                    $message = __("An error occurred during the process. Please try again later.");
                 }
 
-                throw new Exception($message);
+                throw new Siberian_Exception($message);
             }
         } catch(Exception $e) {
             $data = array(
@@ -138,7 +141,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 $file = Core_Model_Directory::getTmpDirectory(true)."/$filename";
 
                 if(!file_exists($file)) {
-                    throw new Exception($this->_("The file %s does not exist", $filename));
+                    throw new Siberian_Exception(__("The file %s does not exist", $filename));
                 }
 
                 $parser = new Installer_Model_Installer_Module_Parser();
@@ -163,7 +166,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
                     $messages = $parser->getErrors();
                     $message = implode("\n", $messages);
-                    throw new Exception($this->_($message));
+                    throw new Siberian_Exception(__($message));
                 }
 
             } catch(Exception $e) {
@@ -201,10 +204,10 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 $ftp = new Siberian_Ftp($ftp_host, $ftp_user, $ftp_password, $ftp_port, $ftp_path);
                 if(!$ftp->checkConnection()) {
                     $error_code = 1;
-                    throw new Exception($this->_("Unable to connect to your FTP. Please check the connection information."));
+                    throw new Siberian_Exception(__("Unable to connect to your FTP. Please check the connection information."));
                 } else if(!$ftp->isSiberianDirectory()) {
                     $error_code = 2;
-                    throw new Exception($this->_("Unable to detect your site. Please make sure the entered path is correct."));
+                    throw new Siberian_Exception(__("Unable to detect your site. Please make sure the entered path is correct."));
                 }
 
                 $fields = array(
@@ -233,7 +236,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
                 $data = array(
                     "success" => 1,
-                    "message" => $this->_("Info successfully saved")
+                    "message" => __("Info successfully saved")
                 );
 
             } catch(Exception $e) {
@@ -261,7 +264,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 $file = Core_Model_Directory::getTmpDirectory(true)."/$filename";
 
                 if(!file_exists($file)) {
-                    throw new Exception($this->_("The file %s does not exist", $filename));
+                    throw new Siberian_Exception(__("The file %s does not exist", $filename));
                 }
 
                 $parser = new Installer_Model_Installer_Module_Parser();
@@ -274,7 +277,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                     $messages = $parser->getErrors();
                     $message = implode("\n", $messages);
 
-                    throw new Exception($this->_($message));
+                    throw new Siberian_Exception(__($message));
 
                 }
 
@@ -364,7 +367,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
             $data = array(
                 "success" => 1,
-                "message" => $this->_("Module successfully installed")
+                "message" => __("Module successfully installed")
             );
 
             # Try to increase max execution time (if the set failed)
@@ -417,16 +420,16 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
     protected function _fetchUpdates() {
 
         /** Default updates url in case of missing configuration */
-        $updates_url = "http://updates.siberiancms.com";
+        $updates_url = "https://updates02.siberiancms.com";
 
         $update_channel = System_Model_Config::getValueFor("update_channel");
         if(in_array($update_channel, array("stable", "beta"))) {
             switch($update_channel) {
                 case "stable":
-                    $updates_url = "http://updates.siberiancms.com";
+                    $updates_url = "https://updates02.siberiancms.com";
                     break;
                 case "beta":
-                    $updates_url = "http://beta-updates.siberiancms.com";
+                    $updates_url = "https://beta-updates02.siberiancms.com";
                     break;
             }
         }
@@ -438,6 +441,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
         $client = new Zend_Http_Client($url, array(
             'adapter'   => 'Zend_Http_Client_Adapter_Curl',
+            'curloptions' => array(CURLOPT_SSL_VERIFYPEER => false),
         ));
 
         $client->setMethod(Zend_Http_Client::POST);
@@ -448,20 +452,20 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         $content = $response->getBody();
 
         if(empty($content)) {
-            throw new Exception($this->_("An error occurred while loading. Please, try again later."));
+            throw new Siberian_Exception(__("An error occurred while loading. Please, try again later."));
         }
 
         $content = Zend_Json::decode($content);
         if($response->getStatus() != 200) {
 
-            $message = $this->_("Unable to check for updates now. Please, try again later.");
+            $message = __("Unable to check for updates now. Please, try again later.");
             if(!empty($content["error"]) AND !empty($content["message"])) {
-                $message = $this->_($content["message"]);
+                $message = __($content["message"]);
             }
 
-            throw new Exception($message);
+            throw new Siberian_Exception($message);
         } else if(empty($content["url"])) {
-            $content["message"] = $this->_("Your system is up to date.");
+            $content["message"] = __("Your system is up to date.");
         }
 
         return $content;
@@ -482,7 +486,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
             "success" => 1,
             "filename" => base64_encode($filename),
             "package_details" => array(
-                "name" => $this->_("%s Update", $package->getName()),
+                "name" => __("%s Update", $package->getName()),
                 "version" => $package->getVersion(),
                 "description" => $package->getDescription()
             )
@@ -501,9 +505,4 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
     }
 
-}
-
-# @todo remove me after 4.8.7
-if(!class_exists("Siberian_Exec_Exception")) {
-    class Siberian_Exec_Exception extends Exception {}
 }

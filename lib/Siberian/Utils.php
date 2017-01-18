@@ -142,6 +142,11 @@ function log_debug($message) {
     Siberian_Utils::log_debug($message);
 }
 
+function log_exception(Exception $e) {
+    log_debug(sprintf("[Siberian_Exception] %s", $e->getMessage()));
+    Siberian_Debug::addException($e);
+}
+
 /**
  * Actual design setup.
  *
@@ -339,6 +344,56 @@ function data_to_jsonsafe($array) {
 	});
 
 	return $array;
+}
+
+/**
+ * Converts a rowset to a form options friendly array
+ *
+ * @param $rowset
+ * @param $key_value
+ * @param $key_label
+ * @return array
+ */
+function rowset_to_options($rowset, $key_value, $key_label) {
+    $options = array();
+    foreach($rowset as $row) {
+        $row->getId();
+
+        if(is_callable($key_value)) {
+            $key = $key_value($row);
+        } else {
+            $key = $row->getData($key_value);
+        }
+
+        if(is_callable($key_label)) {
+            $label = $key_label($row);
+        } else {
+            $label = $row->getData($key_label);
+        }
+
+        $options[$key] = $label;
+    }
+
+    return $options;
+}
+
+/**
+ * @param $text
+ * @return mixed|string
+ */
+function slugify($text) {
+    $text = preg_replace('~[^\pL\d]+~u', '-', $text); # Replace non letter or digits by -
+    $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text); # Transliterate
+    $text = preg_replace('~[^-\w]+~', '', $text); #remove unwanted characters
+    $text = trim($text, '-');
+    $text = preg_replace('~-+~', '-', $text);
+    $text = strtolower($text);
+
+    if (empty($text)) {
+        return 'n-a';
+    }
+
+    return $text;
 }
 
 /**

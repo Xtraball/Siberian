@@ -17,17 +17,17 @@ class Siberian_Form_Element_Button extends Zend_Form_Element_Button {
     /**
      * @var string
      */
-    public $label_class = "";
+    public $label_class = "col-sm-3";
 
     /**
      * @var string
      */
-    public $element_class = "";
+    public $element_class = "col-sm-7";
 
     /**
      * @var string
      */
-    public $error_class = "";
+    public $error_class = "col-sm-7 col-sm-offset-3";
 
     /**
      * @param $boolean
@@ -41,6 +41,20 @@ class Siberian_Form_Element_Button extends Zend_Form_Element_Button {
      */
     public function setColor($color) {
         $this->color = $color;
+    }
+
+    /**
+     * @param $label
+     * @param $input
+     * @param $offset
+     * @return $this
+     */
+    public function setCols($label, $input, $offset) {
+        $this->label_cols = $label;
+        $this->element_class = $input;
+        $this->offset_cols = $offset;
+
+        return $this;
     }
 
 	/**
@@ -91,18 +105,12 @@ class Siberian_Form_Element_Button extends Zend_Form_Element_Button {
 	/**
 	 * @return Siberian_Form_Element_Button
 	 */
-	public function setNewDesign(){
+	public function setNewDesign($class = ""){
 		$this->addClass($this->color);
 
-        if($this->is_form_horizontal) {
-            $label_class = "col-sm-3";
-            $element_class = "col-sm-7";
-            $error_class = "col-sm-7 col-sm-offset-3";
-        } else {
-            $label_class = $this->label_class;
-            $element_class = $this->element_class;
-            $error_class = $this->error_class;
-        }
+        $label_class = $this->label_class;
+        $element_class = $this->element_class;
+        $error_class = $this->error_class;
 
 		return $this->setDecorators(array(
 			'ViewHelper',
@@ -128,7 +136,7 @@ class Siberian_Form_Element_Button extends Zend_Form_Element_Button {
 				'placement' => Zend_Form_Decorator_Abstract::APPEND,
 			)),
 			array('ControlGroup',array(
-				'class' => 'form-group sb-form-line'
+				'class' => 'form-group sb-form-line '.$class
 			))
 		));
 	}

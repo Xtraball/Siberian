@@ -3,13 +3,15 @@
 
 <div class="row_image row padding-3 container-fluid" rel="<?php echo $image->getId(); ?>">
     <div class="col-sm-1 img-col color-blue">
-        <?php if($image->getTypeId() == 'instagram') : ?>
-        <i title="Instagram" alt="I" width="28" class="fa fa-instagram bt-margin" ></i>
-        <?php elseif($image->getTypeId() == 'picasa') : ?>
-        <i title="Picasa" alt="Picasa" width="28" class="fa fa-google bt-margin"/></i>
-        <?php elseif($image->getTypeId() == 'custom') : ?>
-        <i title="Utilisateur" alt="<?php echo $this->_('User') ?>" width="28" class="fa fa-camera bt-margin"/></i>
-        <?php endif; ?>
+        <?php if($image->getTypeId() == 'instagram') { ?>
+            <i title="Instagram" alt="I" width="28" class="fa fa-instagram bt-margin" ></i>
+        <?php } elseif($image->getTypeId() == 'picasa') { ?>
+            <i title="Picasa" alt="Picasa" width="28" class="fa fa-google bt-margin"/></i>
+        <?php } elseif($image->getTypeId() == 'custom') { ?>
+            <i title="Utilisateur" alt="<?php echo $this->_('User') ?>" width="28" class="fa fa-camera bt-margin"/></i>
+        <?php } elseif($image->getTypeId() == 'facebook') { ?>
+            <i title="Facebook" alt="<?php echo $this->_('Page ID') ?>" width="28" class="fa fa-facebook bt-margin"/></i>
+        <?php } ?>
     </div>
     <div class="col-sm-4">
         <input type="text" name="name" value="<?php echo $image->getName(); ?>" placeholder="<?php echo $this->_('Gallery Name') ?>" class="input-flat" />
@@ -34,6 +36,19 @@
         <input type="hidden" id="image_<?php echo $image->getId(); ?>_<?php echo $p->getId(); ?>_description_receiver" name="images[list_<?php echo $image->getId(); ?>][<?php echo $p->getId(); ?>][description]" value="<?php echo $p->getDescription(); ?>" />
         <input type="hidden" name="images[list_<?php echo $image->getId(); ?>][<?php echo $p->getId(); ?>][image_id]" value="<?php echo $p->getId(); ?>" />
         <?php endforeach; ?>
+
+    <?php elseif ($image->getTypeId() == 'facebook') :?>
+        <?php
+        $facebook = new Media_Model_Gallery_Image_Facebook();
+        $facebook->find(array('gallery_id' => $image->getGalleryId()));
+        $albums = $facebook->getAlbums();
+        ?>
+        <input type="hidden" value="<?php echo $facebook->getImageId()?>" name="image_id">
+        <select name="param_facebook" id="input_facebook" class="sb-select styled-select color-blue form-control no-dk required new_search_input">
+            <?php foreach ($albums as $album) { ?>
+                <option value="<?php echo $album['id'] ?>" <?php if ($facebook->getAlbumId() == $album['id']) echo 'selected' ?>><?php echo $album['name'] ?></option>
+            <?php } ?>
+        </select>
     <?php else : ?>
         <input type="<?=($image->getTypeId() == 'instagram') ? 'hidden' : 'text'; ?>" name="<?=($image->getTypeId() == 'instagram') ? 'param_instagram' : 'param'; ?>" class="search_input input-flat" value="<?=($image->getTypeId() == 'instagram') ? 1 : $image->getParam(); ?>" placeholder="<?php echo $this->_('Parameter') ?>" />
     <?php endif; ?>

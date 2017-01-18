@@ -47,7 +47,7 @@
                                 <?php $folder = new Folder_Model_Folder(); ?>
                                 <?php $folder->find($option->getValueId(), 'value_id'); ?>
                                 <?php if (!$folder->getRootCategoryId()) continue; ?>
-                                <option id="<?php echo $option->getValueId() ?>" value="<?php echo $option->getValueId(); ?>"><?php echo$option->getTabbarName(); ?></option>
+                                <option id="<?php echo $option->getValueId() ?>" value="<?php echo $option->getValueId(); ?>"><?php echo $option->getTabbarName(); ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>

@@ -40,7 +40,7 @@ $googlemaps_key = $api->getSecretKey();
                             </div>
                         <?php else: ?>
                             <button class="btn color-blue" type="button" onclick="submitCmsForm();">
-                                <?php echo $this->_('Save'); ?>
+                                <?php echo __('Save'); ?>
                             </button>
                         <?php endif; ?>
                     </div>
@@ -56,28 +56,28 @@ $googlemaps_key = $api->getSecretKey();
                                 <button id="upload_places_picture" onclick="$('#places_file').trigger('click');"
                                         type="button" class="add upload_places_picture btn color-blue">
                                     <i class="fa fa-camera-retro"></i>
-                                    <?php echo $this->_('Add an <br /><span class="bold">image</span>'); ?>
+                                    <?php echo __('Add an <br /><span class="bold">image</span>'); ?>
                                 </button>
                                 <!--<![endif]-->
                             </div>
                             <p id="uploader_logo_ie_description"
-                               style="display:none"><?php echo $this->_('Add an <br /><span class="bold">image</span>'); ?></span></p>
+                               style="display:none"><?php echo __('Add an <br /><span class="bold">image</span>'); ?></span></p>
                             <input id="places_file" class="uploader" style="display:none" type="file" name="files[]"
                                    data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
                         </div>
                         <div class="col-sm-4">
-                            <label for="title_page_<?php echo $this->getId(); ?>"><?php echo $this->_('Title') ?>
+                            <label for="title_page_<?php echo $this->getId(); ?>"><?php echo __('Title') ?>
                                 *</label>
                             <input type="text" name="title" id="title_page_<?php echo $this->getPosition(); ?>"
                                    value="<?php echo $page->getTitle(); ?>"
-                                   placeholder="<?php echo $this->_('Title') ?>"
+                                   placeholder="<?php echo __('Title') ?>"
                                    class="weblink_field input-flat required" rel="<?php echo $page->getId(); ?>"/>
                         </div>
                         <div class="col-sm-4">
                             <label
-                                for="subtitle_page_<?php echo $this->getId(); ?>"><?php echo $this->_('Subtitle') ?></label>
+                                for="subtitle_page_<?php echo $this->getId(); ?>"><?php echo __('Subtitle') ?></label>
                             <input type="text" name="content" id="subtitle_page_<?php echo $this->getId(); ?>"
-                                   class="input-flat" placeholder="<?php echo $this->_('Subtitle') ?>"
+                                   class="input-flat" placeholder="<?php echo __('Subtitle') ?>"
                                    value="<?php echo $page->getContent() ?>" rel="<?php echo $page->getId(); ?>"/>
                         </div>
                     </div>
@@ -88,7 +88,7 @@ $googlemaps_key = $api->getSecretKey();
                                 <input type="checkbox" id="cms_application_page_metadata_show_image"
                                        name="metadata[show_image]"
                                        value="1"<?php if ($page->getMetadataValue('show_image')) : ?> checked="checked"<?php endif; ?> />
-                                <?php echo $this->_("Display image in page") ?>
+                                <?php echo __("Display image in page") ?>
                             </label>
                         </div>
                         <div class="col-sm-4">
@@ -97,7 +97,7 @@ $googlemaps_key = $api->getSecretKey();
                                 <input type="checkbox" id="cms_application_page_metadata_show_titles"
                                        name="metadata[show_titles]"
                                        value="1"<?php if ($page->getMetadataValue('show_titles')) : ?> checked="checked"<?php endif; ?> />
-                                <?php echo $this->_("Display title and subtitle in page") ?>
+                                <?php echo __("Display title and subtitle in page") ?>
                             </label>
                         </div>
                         <div class="col-sm-4"></div>
@@ -128,7 +128,7 @@ $googlemaps_key = $api->getSecretKey();
                 <div class="row">
                     <div class="col-md-12">
                         <label>
-                            <?php echo $this->_("Title"); ?>
+                            <?php echo __("Title"); ?>
                         </label>
                     </div>
                 </div>
@@ -142,7 +142,7 @@ $googlemaps_key = $api->getSecretKey();
 
             <div class="row">
                 <div class="col-md-12 step first-row-feature">
-                    <?php echo $this->_('Add sections:'); ?>
+                    <?php echo __('Add sections:'); ?>
                 </div>
             </div>
             <div class="row">
@@ -151,7 +151,7 @@ $googlemaps_key = $api->getSecretKey();
                         <button type="button" class="btn add_block color-blue"
                                 id="<?php echo $default_block->getType(); ?>">
                             <i class="fa <?php echo $type_icons[$default_block->getIcon()]; ?>"></i>
-                            <span><?php echo $this->_($default_block->getTitle()) ?></span>
+                            <span><?php echo __($default_block->getTitle()) ?></span>
                             <input type="hidden" name="block_id" value="<?php echo $default_block->getId(); ?>"/>
                             <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>"/>
                         </button>
@@ -178,7 +178,7 @@ $googlemaps_key = $api->getSecretKey();
                             </button>
                         <?php else: ?>
                             <button class="btn color-blue" type="button" onclick="submitCmsForm();">
-                                <?php echo $this->_('Save'); ?>
+                                <?php echo __('Save'); ?>
                             </button>
                         <?php endif; ?>
                     </div>
@@ -461,7 +461,7 @@ $googlemaps_key = $api->getSecretKey();
             });
         }
 
-        CKEDITOR.config.language = '<?php echo $this->_('en') ?>';
+        CKEDITOR.config.language = '<?php echo __('en') ?>';
         CKEDITOR.config.extraPlugins = 'cms';
         CKEDITOR.config.toolbar = [
             {name: 'source', items: ['Source']},

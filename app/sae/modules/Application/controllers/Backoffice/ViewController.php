@@ -85,6 +85,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
         $data["apk"] = Application_Model_ApkQueue::getPackages($application->getId());
         $data["zip"] = Application_Model_SourceQueue::getPackages($application->getId());
         $data["queued"] = Application_Model_Queue::getPosition($application->getId());
+        $data["confirm_message_domain"] = __("If your app is already published, changing the URL key or domain will break it. You will have to republish it. Change it anyway?");
 
         $application->addData($data);
 

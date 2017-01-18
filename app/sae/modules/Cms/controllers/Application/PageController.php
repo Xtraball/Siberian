@@ -5,7 +5,6 @@ class Cms_Application_PageController extends Application_Controller_Default {
     public function editpostAction() {
 
         if ($datas = $this->getRequest()->getPost()) {
-
             $html = '';
 
             try {
@@ -61,7 +60,7 @@ class Cms_Application_PageController extends Application_Controller_Default {
                 }
 
                 foreach ($blocks as $k => $block) {
-                    if (($block["type"] == "image" || $block["type"] == "slider") && !empty($block['image_url'])) {
+                    if (($block["type"] == "image" || $block["type"] == "slider" || $block["type"] == "cover") && !empty($block['image_url'])) {
                         foreach ($block['image_url'] as $index => $image_url) {
                             //déjà enregistrée
                             if (substr($image_url, 0, 1) != '/') {
@@ -70,9 +69,6 @@ class Cms_Application_PageController extends Application_Controller_Default {
                                     $blocks[$k]['image_url'][$index] = $image_path . $image_url;
                                 }
                             } else {
-//                                $img = explode('/', $image_url);
-//                                $img = $img[count($img) - 1];
-//                                $blocks[$k]['image_url'][$index] = $image_path . $img;
                                 $blocks[$k]['image_url'][$index] = $image_url;
                             }
                         }
@@ -84,9 +80,6 @@ class Cms_Application_PageController extends Application_Controller_Default {
                                     $blocks[$k]['image_fullsize_url'][$index] = $image_path . $image_url;
                                 }
                             } else {
-//                                $img = explode('/', $image_url);
-//                                $img = $img[count($img) - 1];
-//                                $blocks[$k]['image_fullsize_url'][$index] = $image_path . $img;
                                 $blocks[$k]['image_fullsize_url'][$index] = $image_url;
                             }
                         }

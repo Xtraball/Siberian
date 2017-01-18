@@ -57,12 +57,10 @@ class Siberian_Json extends Zend_Json {
      * @return array|mixed
      */
     public static function decode($json, $objectDecodeType = Zend_Json::TYPE_ARRAY) {
-        $logger = Zend_Registry::get("logger");
-
         $result = json_decode($json, true);
 
         if(is_null($result)) {
-            $logger->err(implode("\n", array("Siberian_Json::decode(), unable to decode json.", json_last_error_msg())), "json_error_", false);
+            log_err(implode("\n", array("Siberian_Json::decode(), unable to decode json.", json_last_error_msg())));
 
             /** Set empty result */
             $result = array();

@@ -22,21 +22,30 @@ class Media_Mobile_Gallery_Image_ViewController extends Application_Controller_M
 
                 foreach ($images as $key => $link) {
                     $key+=$offset;
+
+                    $title = $link->getTitle();
+                    $description = $link->getDescription();
+
+                    $sub = $title;
+                    $sub .= $sub != "" ? "<br />" . $description : $description;
+
                     $data["collection"][] = array(
                         "offset" => $link->getOffset(),
                         "gallery_id" => $key,
                         "is_visible" => false,
                         "src" => stripos($link->getImage(), "http") === false ? $this->getRequest()->getBaseUrl().$link->getImage() : $link->getImage(),
-                        "sub" => $link->getTitle() ? $link->getTitle() : $link->getDescription(),
-                        "title" => $link->getTitle(),
-                        "description" => $link->getDescription(),
+                        "sub" => $sub,
+                        "title" => $title,
+                        "description" => $description,
                         "author" => $link->getAuthor()
                     );
                 }
 
-                if($image->getTypeId() != "custom") {
+                if($image->getTypeId() == "facebook"){
+                    $data["show_load_more"] = !is_null($images[0]->getOffset());
+                } else if($image->getTypeId() != "custom") {
                     $data["show_load_more"] = count($data["images"]) > 0;
-                } else {
+                }  else {
                     $data["show_load_more"] = (($key - $offset) + 1) > (Media_Model_Gallery_Image_Abstract::DISPLAYED_PER_PAGE - 1) ? true : false;
                 }
 

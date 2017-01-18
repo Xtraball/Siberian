@@ -2,7 +2,9 @@
 $module = new Installer_Model_Installer_Module();
 $module->prepare("System", false);
 
-$editor_design = ($module->isInstalled()) ? "siberian" : "flat";
+$exists = System_Model_Config::getValueFor("editor_design");
+$editor_design = (empty($exists)) ? "flat" : "siberian";
+
 /** Disable cron for Fresh sae install */
 $disable_cron = (!$module->isInstalled() && Siberian_Version::is("SAE")) ? "1" : "0";
 $environment = (APPLICATION_ENV == "production") ? "production" : "development";

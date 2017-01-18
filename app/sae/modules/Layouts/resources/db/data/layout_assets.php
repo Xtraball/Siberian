@@ -3,15 +3,5 @@
 Siberian_Assets::copyAssets("/app/sae/modules/Layouts/resources/var/apps/");
 
 # Updating apps without layoutOptions
-$application_model = new Application_Model_Application();
-$apps = $application_model->findAll();
-foreach($apps as $app) {
-    $layout_options = $app->getLayoutOptions();
-
-    if(empty($layout_options)) {
-        $layout_model = new Application_Model_Layout_Homepage();
-        $layout = $layout_model->find($app->getLayoutId());
-        $options = $layout->getOptions();
-        $app->setLayoutOptions($options)->save();
-    }
-}
+# disabled in 4.8.9
+//$this->query("UPDATE `application` SET `layout_options` = (SELECT `options` FROM `application_layout_homepage` WHERE `application_layout_homepage`.`layout_id` =  `application`.`layout_id`) WHERE `layout_options` = '';");

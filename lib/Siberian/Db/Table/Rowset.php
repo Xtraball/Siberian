@@ -49,6 +49,26 @@ class Siberian_Db_Table_Rowset extends Zend_Db_Table_Rowset_Abstract {
         return $this;
     }
 
+    /**
+     * Transform a rowSet to a friendly form array
+     *
+     * @param $key_value
+     * @param $key_label
+     * @return array
+     */
+    public function toSelectOptions($key_value, $key_label) {
+        $options = array();
+        log_debug($this->_rows);
+        foreach($this->_rows as $row) {
+            log_debug($row);
+            log_debug($row->getData($key_value));
+            log_debug($row->getData($key_label));
+            $options[$row->getData($key_value)] = $row->getData($key_label);
+        }
+
+        return $options;
+    }
+
     protected function _loadAndReturnRow($position) {
         if (!isset($this->_data[$position])) {
             require_once 'Zend/Db/Table/Rowset/Exception.php';
