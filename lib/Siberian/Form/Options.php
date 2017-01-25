@@ -20,6 +20,9 @@ class Siberian_Form_Options extends Siberian_Form_Options_Abstract {
             $this->addSimpleCheckbox("homepage_slider_is_visible", __("Display the homepage slider"));
         }
 
+        $homepageoptions = $this->addSimpleHidden("homepageoptions");
+        $homepageoptions->setValue(true);
+
         self::addClass("onchange", $this);
     }
 

@@ -54,7 +54,7 @@ abstract class Core_View_Default_Abstract extends Siberian_View
         self::$_application = $application;
     }
 
-    protected function _getAcl() {
+    public function _getAcl() {
         return self::$_acl;
     }
 

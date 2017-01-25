@@ -114,24 +114,10 @@
                         </a>
                     <?php endif; ?>
 
-                    <?php if($this->_canAccess("editor_settings_facebook")) : ?>
-                        <a href="<?php echo $this->getUrl('application/settings_facebook'); ?>" class="block header no-background<?php if($current_link == 'settings_facebook'): ?> active<?php endif; ?>">
-                            <i class="fa fa-facebook-official"></i>
-                            <?php echo __('Facebook'); ?>
-                        </a>
-                    <?php endif; ?>
-
-                    <?php if($this->_canAccess("editor_settings_instagram")) : ?>
-                        <a href="<?php echo $this->getUrl('application/settings_instagram'); ?>" class="block header no-background<?php if($current_link == 'settings_instagram'): ?> active<?php endif; ?>">
-                            <i class="fa fa-instagram"></i>
-                            <?php echo __('Instagram'); ?>
-                        </a>
-                    <?php endif; ?>
-
-                    <?php if($this->_canAccess("editor_settings_twitter")) : ?>
-                        <a href="<?php echo $this->getUrl('application/settings_twitter'); ?>" class="block header no-background<?php if($current_link == 'settings_twitter'): ?> active<?php endif; ?>">
-                            <i class="fa fa-twitter"></i>
-                            <?php echo __('Twitter'); ?>
+                    <?php if($this->_canAccess("editor_settings_apis")) : ?>
+                        <a href="<?php echo $this->getUrl('application/settings_apis'); ?>" class="block header no-background<?php if($current_link == 'settings_apis'): ?> active<?php endif; ?>">
+                            <i class="fa fa-key"></i>
+                            <?php echo __('APIs'); ?>
                         </a>
                     <?php endif; ?>
 

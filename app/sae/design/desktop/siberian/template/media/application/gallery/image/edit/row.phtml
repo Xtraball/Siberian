@@ -7,6 +7,8 @@
             <img src="<?php echo $this->getImage('customization/pictos/instagram.png'); ?>" title="Instagram" alt="I" width="28" class="bt-margin" />
         <?php } elseif($image->getTypeId() == 'picasa') { ?>
             <img src="<?php echo $this->getColorizedImage($this->getImage('customization/pictos/picasa.png', true), "#FFFFFF"); ?>" title="Picasa" alt="Picasa" width="28" class="bt-margin"/>
+        <?php } elseif($image->getTypeId() == 'flickr') { ?>
+            <img src="<?php echo $this->getColorizedImage($this->getImage('customization/pictos/flickr.png', true), "#FFFFFF"); ?>" title="Flickr" alt="Flickr" width="28" class="bt-margin"/>
         <?php } elseif($image->getTypeId() == 'custom') { ?>
             <img src="<?php echo $this->getColorizedImage($this->getImage('customization/pictos/camera.png', true), "#FFFFFF"); ?>" title="Utilisateur" alt="<?php echo $this->_('User') ?>" width="28" class="bt-margin"/>
         <?php } elseif($image->getTypeId() == 'facebook') { ?>
@@ -17,7 +19,9 @@
         <input type="text" name="name" value="<?php echo $image->getName(); ?>" placeholder="<?php echo $this->_('Gallery Name') ?>" class="form-control required" />
     </div>
     <div class="col-sm-5">
-    <?php if($image->getTypeId() == 'custom') : ?>
+    <?php if($image->getTypeId() == 'flickr') : ?>
+        <input type="text" name="text" class="search_input form-control required" value="<?php echo $image->getTypeInstance()->getIdentifier() ?>" placeholder="<?php echo $this->_('Flickr user') ?>" />
+    <?php elseif($image->getTypeId() == 'custom') : ?>
         <?php $gallery = new Media_Model_Gallery_Image_Custom(); ?>
         <?php $gs = $gallery->findAll(array('gallery_id' => $image->getId())); ?>
         <button type="button" id="input_<?php echo $image->getId(); ?>" class="search_input upload_picture default_button btn-block" rel="list_<?php echo $image->getId(); ?>">

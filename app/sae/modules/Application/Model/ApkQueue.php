@@ -73,6 +73,7 @@ class Application_Model_ApkQueue extends Core_Model_Default {
         if($result && ($result["success"] == true)) {
             $this->changeStatus("success");
             $this->setPath($result["path"]);
+            $this->save();
 
             /** Success email */
             $protocol = (System_Model_Config::getValueFor("use_https")) ? "https://" : "http://";
@@ -90,6 +91,7 @@ class Application_Model_ApkQueue extends Core_Model_Default {
 
         } else {
             $this->changeStatus("failed");
+            $this->save();
 
             /** Failed email */
             $values = array(
@@ -102,8 +104,6 @@ class Application_Model_ApkQueue extends Core_Model_Default {
             $mail->send();
 
         }
-
-        $this->save();
 
         return $result;
     }

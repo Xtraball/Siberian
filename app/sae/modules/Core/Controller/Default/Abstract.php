@@ -82,8 +82,9 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     }
 
     public function getSession($type = null) {
-
-        if(!$type) $type = SESSION_TYPE;
+        if(!$type) {
+            $type = SESSION_TYPE;
+        }
 
         if(isset(self::$_session[$type])) {
             return self::$_session[$type];

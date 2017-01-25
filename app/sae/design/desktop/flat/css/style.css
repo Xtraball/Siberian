@@ -2096,19 +2096,19 @@ div.pp_pic_holder {
 }
 
 table.dataTable thead th.sorting {
-    background-image: url("../images/table/sort_both.png");
+    background-image: url("../images/table/sort_both_v3.png");
     background-repeat: no-repeat;
     background-position: right center;
 }
 
 table.dataTable thead th.sorting_asc {
-    background-image: url("../images/table/sort_asc.png");
+    background-image: url("../images/table/sort_asc_v3.png");
     background-repeat: no-repeat;
     background-position: right center;
 }
 
 table.dataTable thead th.sorting_desc {
-    background-image: url("../images/table/sort_desc.png");
+    background-image: url("../images/table/sort_desc_v3.png");
     background-repeat: no-repeat;
     background-position: right center;
 }
@@ -2820,4 +2820,18 @@ a.ui-datepicker-prev:after {
     float: left;
     padding-bottom: 6px;
     border-bottom: 2px solid grey;
+}
+
+table.sb-pager thead th.sortable {
+    background-image: url(../images/table/sort_both_v3.png);
+    background-repeat: no-repeat;
+    background-position: right center;
+}
+
+table.sb-pager thead th.sortable.up {
+    background-image: url(../images/table/sort_asc_v3.png);
+}
+
+table.sb-pager thead th.sortable.down {
+    background-image: url(../images/table/sort_desc_v3.png);
 }

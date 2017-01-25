@@ -8,6 +8,7 @@
 
         return this.each(function() {
             var table = $(this),
+                tbody = null,
                 pager = null,
                 search = null,
                 searchInput = null,
@@ -17,21 +18,24 @@
                 pagerItemsOriginal = [],
                 pagerInitialized = false,
                 noResult = null,
+                sortOrders = [],
+                currentSortOrder = 0,
+                currentSortIndex = 0,
+                sortableInitialized = false,
+                sortableHeaders = null,
                 currentPage = 1;
 
 
             function initPager() {
                 pagerItemsOriginal = pagerItems = table.find(settings.row_selector).toArray();
                 noResult = table.find("tfoot");
+                tbody = table.find("tbody");
 
                 if(settings.with_search) {
                     initSearch();
                 }
 
-                if(visibleItemsLength() <= settings.items_per_page) {
-                    return;
-                }
-
+                buildSortableHeaders();
                 buildPager();
                 gotoPage(1);
 
@@ -52,6 +56,39 @@
                     doSearch("");
                 });
                 table.before(search);
+            }
+
+            function doSort(element, index) {
+                sortableHeaders.removeClass("up");
+                sortableHeaders.removeClass("down");
+                switch(sortOrders[index]) {
+                    case 0:
+                        sortOrders[index] = 1;
+                        $(element).addClass("up");
+                        break;
+                    case 1:
+                        sortOrders[index] = -1;
+                        $(element).addClass("down");
+                        break;
+                    case -1:
+                        sortOrders[index] = 0;
+                        break;
+                }
+
+                currentSortOrder = sortOrders[index];
+                currentSortIndex = index;
+
+                var tmpRows = tbody.find("tr:not(.edit-form)").get();
+                tmpRows.sort(sortElements);
+
+                $.each(tmpRows, function(index, row) {
+                    tbody.append(row);
+                });
+
+                /** Refresh pager items */
+                pagerItems = table.find(settings.row_selector).toArray();
+
+                gotoPage(1);
             }
 
             function doSearch(text) {
@@ -86,16 +123,51 @@
                 gotoPage(1);
             }
 
+            function sortElements(element_a, element_b) {
+                value_a = getElementValue(element_a);
+                value_b = getElementValue(element_b);
+
+                /** Reset to default order */
+                if(currentSortOrder == 0) {
+                    return (value_a < value_b) ? -1 : 1;
+                }
+
+                /** Numeric sort */
+                if(table.find("thead th:eq("+currentSortIndex+")").hasClass("numeric")) {
+                    return (currentSortOrder == 1) ? (value_a - value_b) : (value_b - value_a);
+                }
+
+                /** Default alpha */
+                if(value_a < value_b) {
+                    return -1 * currentSortOrder;
+                }
+                if(value_a > value_b) {
+                    return 1 * currentSortOrder;
+                }
+                return 0;
+            }
+
+            function getElementValue(element) {
+                if(currentSortOrder == 0) {
+                    return $(element).data("original-index");
+                }
+
+                return $(element).find("td:eq("+currentSortIndex+")").text();
+            }
+
             function gotoPage(page) {
+                if(!pagerInitialized) {
+                    return;
+                }
 
                 noResult.hide();
-                pager.show();
+                showPager();
                 if(visibleItemsLength() == 0) {
                     pagerItems.forEach(function (item) {
                         $(item).hide();
                     });
                     noResult.show();
-                    pager.hide();
+                    hidePager();
                 }
 
                 var max = Math.ceil((visibleItemsLength()/settings.items_per_page)) * settings.items_per_page;
@@ -127,6 +199,10 @@
                         visibleIndex++;
                     }
                 });
+
+                if(visibleItemsLength() <= settings.items_per_page) {
+                    hidePager();
+                }
             }
 
             function visibleItemsLength() {
@@ -156,6 +232,18 @@
                 gotoPage(Math.ceil(visibleItemsLength() / settings.items_per_page));
             }
 
+            function showPager() {
+                if(pagerInitialized) {
+                    pager.show();
+                }
+            }
+
+            function hidePager() {
+                if(pagerInitialized) {
+                    pager.hide();
+                }
+            }
+
             function buildPager() {
                 if(!pagerInitialized) {
                     pager = $(settings.pagerTemplate);
@@ -177,6 +265,38 @@
                 }
 
                 pager.find(".sb-pager-total").text(Math.ceil(visibleItemsLength() / settings.items_per_page));
+            }
+
+            function buildSortableHeaders() {
+                if(!sortableInitialized) {
+                    sortableHeaders = table.find("thead th");
+                    $.each(sortableHeaders, function(index, element) {
+                        sortOrders[index] = 0;
+                        /** Null == from header class */
+                        if(settings.sort_headers == null) {
+                            if($(element).hasClass("sortable")) {
+                                $(element).on("click", function() {
+                                    doSort(element, index);
+                                });
+                            }
+                        } else if(typeof settings.sort_headers == "object") {
+                            if(settings.sort_headers.indexOf(index) != -1) {
+                                $(element).addClass("sortable");
+                                $(element).on("click", function() {
+                                    doSort(element, index);
+                                });
+                            }
+                        }
+                    });
+
+                    /** Original order */
+                    var tmpRows = tbody.find("tr:not(.edit-form)").get();
+                    $.each(tmpRows, function(index, row) {
+                        $(row).data("original-index", index);
+                    });
+
+                    sortableInitialized = true;
+                }
             }
 
             initPager();
@@ -204,7 +324,8 @@
             "       <i class=\"fa fa-search empty active\"></i>" +
             "       <i class=\"fa fa-times clear\"></i>" +
             "   </div>" +
-            "</div>"
+            "</div>",
+        sort_headers: null
     };
 
 })(jQuery);

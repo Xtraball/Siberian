@@ -172,9 +172,9 @@ $delete_category_form = new Job_Form_Category_Delete();
                             <table class="table content-white-bkg sb-pager">
                                 <thead>
                                 <tr class="border-blue">
-                                    <th style="width:26%;"><?php echo __("Name"); ?></th>
-                                    <th style="width:34%;"><?php echo __("Description"); ?></th>
-                                    <th><?php echo __("E-Mail"); ?></th>
+                                    <th class="sortable" style="width:26%;"><?php echo __("Name"); ?></th>
+                                    <th class="sortable" style="width:34%;"><?php echo __("Description"); ?></th>
+                                    <th class="sortable"><?php echo __("E-Mail"); ?></th>
                                     <th></th>
                                     <th></th>
                                     <th></th>
@@ -260,9 +260,9 @@ $delete_category_form = new Job_Form_Category_Delete();
                             <table class="table content-white-bkg sb-pager">
                                 <thead>
                                 <tr class="border-blue">
-                                    <th style="width:26%;"><?php echo __("Name"); ?></th>
-                                    <th style="width:34%;"><?php echo __("Company"); ?></th>
-                                    <th><?php echo __("Description"); ?></th>
+                                    <th class="sortable" style="width:26%;"><?php echo __("Name"); ?></th>
+                                    <th class="sortable" style="width:34%;"><?php echo __("Company"); ?></th>
+                                    <th class="sortable"><?php echo __("Description"); ?></th>
                                     <th></th>
                                     <th></th>
                                     <th></th>
@@ -346,8 +346,8 @@ $delete_category_form = new Job_Form_Category_Delete();
                             <table id="" class="table content-white-bkg sb-pager">
                                 <thead>
                                 <tr class="border-blue">
-                                    <th style="width:26%;"><?php echo __("Name"); ?></th>
-                                    <th><?php echo __("Description"); ?></th>
+                                    <th class="sortable" style="width:26%;"><?php echo __("Name"); ?></th>
+                                    <th class="sortable"><?php echo __("Description"); ?></th>
                                     <th></th>
                                     <th></th>
                                     <th></th>
@@ -400,4 +400,7 @@ $delete_category_form = new Job_Form_Category_Delete();
 </div>
 
 <link href="/app/sae/modules/Job/resources/design/desktop/flat/template/job/application/edit.css" media="screen" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+    var search_placeholder = '<?php echo __js("Search ...", "'") ?>';
+</script>
 <script type="text/javascript" src="/app/sae/modules/Job/resources/design/desktop/flat/template/job/application/edit.js"></script>

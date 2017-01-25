@@ -4,7 +4,7 @@ class Media_Model_Gallery_Image extends Core_Model_Default {
 
     protected $_type_instance;
     protected $_types = array(
-        'picasa', 'custom', 'instagram', 'facebook'
+        'picasa', 'custom', 'instagram', 'flickr', 'facebook'
     );
     protected $_offset = 0;
 
@@ -51,6 +51,11 @@ class Media_Model_Gallery_Image extends Core_Model_Default {
         if(!$isDeleted AND ($this->getTypeId() == 'picasa' || $this->getTypeId() == 'instagram')) {
             if($this->getTypeInstance()->getId()) $this->getTypeInstance()->delete();
             $this->getTypeInstance()->setData($this->_getTypeInstanceData())->setGalleryId($this->getId())->save();
+        }
+        if (!$isDeleted AND ($this->getTypeId() == 'flickr')) {
+            $instance = new Media_Model_Gallery_Image_Flickr();
+            $instance->find(array('gallery_id' => $this->getTypeInstance()->getId()));
+            $instance->setData($this->_getTypeInstanceData())->setGalleryId($this->getId())->save();
         }
         return $this;
     }

@@ -18,6 +18,8 @@ class Application_Settings_AdvancedController extends Application_Controller_Def
                 $application
                     ->setOfflineContent($value)
                     ->setGooglemapsKey($data["googlemaps_key"])
+                    ->setFlickrKey($data["flickr_key"])
+                    ->setFlickrSecret($data["flickr_secret"])
                     ->setFidelityRate($data["fidelity_rate"])
                 ;
 

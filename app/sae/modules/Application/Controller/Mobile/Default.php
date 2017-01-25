@@ -128,18 +128,32 @@ class Application_Controller_Mobile_Default extends Core_Controller_Default {
 
     }
 
-    protected function _sendHtml($html) {
+    /**
+     * Converts an array to json, set the header code to 400 if error
+     *
+     * @param $data
+     */
+    protected function _sendJson($data) {
 
-        if(isset($html['error']) && !empty($html['error'])) {
+        if(isset($data['error']) && !empty($data['error'])) {
             $this->getResponse()->setHttpResponseCode(400);
         }
 
         $this->getResponse()->setHeader('Content-type', 'application/json');
 
-        $json = Siberian_Json::encode($html);
+        $json = Siberian_Json::encode($data);
 
         $this->getLayout()->setHtml($json);
 
+    }
+
+    /**
+     * @deprecated
+     *
+     * @param $html
+     */
+    protected function _sendHtml($html) {
+        $this->_sendJson($html);
     }
 
     protected function _log() {

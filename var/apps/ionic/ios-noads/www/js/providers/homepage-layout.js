@@ -140,8 +140,8 @@ App.provider('HomepageLayout', function () {
                         HomepageLayout.properties.tabbar_is_transparent = data.tabbar_is_transparent;
 
                         // Check for a custom width
-                        console.log(HomepageLayout.properties.layoutOptions);
-                        if(typeof HomepageLayout.properties.layoutOptions.sidebarWidth != "undefined") {
+                        if( typeof HomepageLayout.properties.layoutOptions != "undefined" &&
+                            typeof HomepageLayout.properties.layoutOptions.sidebarWidth != "undefined") {
                             switch(HomepageLayout.properties.layoutOptions.sidebarWidthUnit) {
                                 case "pixel":
                                         HomepageLayout.properties.menu.sidebarLeftWidth = HomepageLayout.properties.layoutOptions.sidebarWidthPixel;

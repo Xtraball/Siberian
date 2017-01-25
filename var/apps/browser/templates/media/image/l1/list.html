@@ -10,7 +10,7 @@
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
-        <ion-gallery ion-gallery-items="collection" ng-if="!is_loading"></ion-gallery>
+        <ion-gallery ion-gallery-items="collection"></ion-gallery>
 
         <ion-infinite-scroll ng-if="current_gallery && can_load_more"
              on-infinite="loadGallery()"

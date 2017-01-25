@@ -8,6 +8,7 @@
 $facebook = new Social_Model_Facebook();
 $facebook_is_available = $facebook->getAccessToken() != null;
 ?>
+<?php $flickr_is_available = $application->getFlickrKey() && $application->getFlickrSecret(); ?>
 <div class="media images">
     <div class="form_content">
         <div class="add-image">
@@ -42,6 +43,12 @@ $facebook_is_available = $facebook->getAccessToken() != null;
                                 <p><?php echo $this->_('Instagram') ?></p>
                             </a>
                         </li>
+                        <li class="color-blue list-group-item btn capitalize" rel="flickr" <?php if(!$flickr_is_available) : ?> onclick="featureNotAvailable()" <?php endif; ?>>
+                            <a href="javascript:void(0);" rel="flickr" class="block select_type<?php if($flickr_is_available) : ?> image_type_select<?php endif; ?>">
+                                <i title="flickr" class="fa fa-flickr block img_icon" alt="flickr"></i>
+                                <p><?php echo $this->_('Flickr') ?></p>
+                            </a>
+                        </li>
                         <li class="color-blue list-group-item btn capitalize" rel="custom">
                             <a href="javascript:void(0);" rel="custom" class="block select_type image_type_select capitalize">
                                 <i title="<?php echo $this->_("My images"); ?>" class="fa fa-camera block img_icon" alt="<?php echo $this->_("My images"); ?>"></i>
@@ -71,6 +78,7 @@ $facebook_is_available = $facebook->getAccessToken() != null;
                         <div class="col-sm-1 img-col color-blue">
                             <i id="type_picasa" rel="picasa" class="fa fa-google bt-margin type_selected" title="Picasa" alt="Picasa" style="display:none;" ></i>
                             <i id="type_instagram" rel="instagram" class="bt-margin type_selected fa fa-instagram" title="Instagram" alt="Instagram" style="display:none;" ></i>
+                            <i id="type_flickr" rel="flickr" class="bt-margin type_selected fa fa-flickr" title="Flickr" alt="Flickr" style="display:none;" ></i>
                             <i id="type_custom" rel="user" class="margin-top-5 type_selected fa fa-camera" title="<?php echo $this->_("My images"); ?>" alt="<?php echo $this->_("My images"); ?>" style="display:none;"></i>
                             <i id="type_facebook" rel="facebook" class="margin-top-5 type_selected fa fa-facebook" title="<?php echo $this->_("Facebook"); ?>" alt="<?php echo $this->_("Facebook"); ?>" style="display:none;"></i>
                         </div>
@@ -82,6 +90,7 @@ $facebook_is_available = $facebook->getAccessToken() != null;
                             <input type="text" id="input_picasa" name="param" value="" placeholder="<?php echo $this->_('Parameter') ?>" class="new_search_input search_input input-flat required" />
                             <select name="param_facebook" id="input_facebook" class="sb-select styled-select color-blue form-control no-dk required new_search_input"></select>
                             <input type="hidden" id="input_instagram" name="param_instagram" value="" class="new_search_input search_input" />
+                            <input type="text" id="input_flickr" name="param_flickr" value="" placeholder="<?php echo $this->_('Flickr') ?>" class="new_search_input search_input input-flat required" />
                         </div>
                         <div class="col-sm-1">
                             <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />

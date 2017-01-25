@@ -297,6 +297,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         }
     }
 
+    public function _initSession() {
+        $session_ini = Core_Model_Directory::getBasePathTo("/app/configs/session.ini");
+        $config = new Zend_Config_Ini($session_ini, "production");
+
+        Zend_Session::setOptions($config->toArray());
+    }
+
     public function run() {
 
         $front   = $this->_front_controller;

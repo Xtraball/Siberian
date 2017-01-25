@@ -6,7 +6,6 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
 
         if($datas = $this->getRequest()->getPost()) {
 
-
             $html = '';
 
             try {
@@ -45,6 +44,15 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
                     } else {
                         throw new Exception($this->_("Instagram API settings can't be found."));
                     }
+                } elseif (!empty($datas['param_flickr'])) {
+                    if($this->getApplication()->getFlickrKey() AND $this->getApplication()->getFlickrSecret()) {
+                        $flickr = new Media_Model_Gallery_Image_Flickr();
+                        $datas['type_id'] = 'flickr';
+                        $datas['type'] = $flickr->guessType($datas['param_flickr']);
+                        $datas['identifier'] = $datas['param_flickr'];
+                    } else {
+                        throw new Exception($this->_("Flickr API settings can't be found."));
+                    }
                 } elseif (!empty($datas['param_facebook'])) {
                     $facebook = new Social_Model_Facebook();
                     $facebook_is_available = $facebook->getAccessToken() != null;
@@ -52,7 +60,6 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
                         throw new Exception($this->_("No valid Facebook API key and secret."));
                     }
                     $datas['type_id'] = 'facebook';
-                    var_dump($datas);
                 } elseif (!empty($datas['param'])) {
                     $datas['type_id'] = 'picasa';
                 } else {

@@ -205,12 +205,6 @@ class Siberian_Mail extends Zend_Mail {
         } catch(Exception $e) {
             log_err("[Siberian_Mail] an error occurred while sending the following e-mail.");
             log_err(__("[Siberian_Mail::Error] %s.", $e->getMessage()));
-            log_err("---------- MAIL START ----------");
-            log_err(
-                $this->getSubject()."\n".
-                $this->getBodyHtml()."\n"
-            );
-            log_err("----------  MAIL END  ----------");
         }
 
     }

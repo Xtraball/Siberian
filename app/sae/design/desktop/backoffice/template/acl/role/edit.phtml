@@ -45,7 +45,8 @@
             <i class="fa pointer bold" ng-click="resource.children_are_visible = !resource.children_are_visible" ng-if="resource.children.length > 0" ng-class="{'fa-plus': !resource.children_are_visible, 'fa-minus': resource.children_are_visible }"></i>
             <label ng-class="{'text-danger': !resource.is_allowed,'text-success': resource.is_allowed}">
                 <input type="checkbox" ng-checked="resource.is_allowed" ng-model="resource.is_allowed" ng-change="toggleIsAllowed(resource)"/>
-                {{ resource.label }}
+                <span ng-if="resource.label.length">{{ resource.label }}</span>
+                <span ng-if="!resource.label.length">{{ resource.code }}</span>
             </label>
         </div>
         

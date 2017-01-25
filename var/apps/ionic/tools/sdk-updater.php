@@ -34,7 +34,6 @@ function shouldupdate($android_sdk_path)
 
 $download_urls = array(
     "http://91.121.77.120/tools/android-sdk.tgz",
-    "http://siberiancms.slic.it/android-sdk.tgz",
     "http://git-develop.siberiancms.com/android-sdk.tgz",
 );
 

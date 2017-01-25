@@ -40,7 +40,9 @@ class Application_Customization_Design_StyleController extends Application_Contr
                     $application->setLayoutVisibility(Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE);
                 }
 
-                $application->setLayoutOptions(Siberian_Json::encode($datas));
+                if(!isset($datas["homepageoptions"])) {
+                    $application->setLayoutOptions(Siberian_Json::encode($datas));
+                }
 
                 $application->save();
 

@@ -81,7 +81,7 @@ class Application_Model_SourceQueue extends Core_Model_Default {
         if(file_exists($result)) {
             $this->changeStatus("success");
             $this->setPath($result);
-
+            $this->save();
 
             /** Success email */
             $protocol = (System_Model_Config::getValueFor("use_https")) ? "https://" : "http://";
@@ -99,6 +99,7 @@ class Application_Model_SourceQueue extends Core_Model_Default {
 
         } else {
             $this->changeStatus("failed");
+            $this->save();
 
             /** Failed email */
             $values = array(
@@ -110,8 +111,6 @@ class Application_Model_SourceQueue extends Core_Model_Default {
             $mail->simpleEmail("queue", "source_queue_failed", __("The requested source generation failed: %s", $application->getName()), $recipients, $values);
             $mail->send();
         }
-
-        $this->save();
 
         if($this->getIsAutopublish()) {
             $this->sendJobToAutoPublishServer($application, $result);

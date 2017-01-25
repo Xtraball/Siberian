@@ -20,10 +20,9 @@ class Customer_Model_Customer extends Core_Model_Default
 
     public function findBySocialId($id, $type, $app_id) {
         $datas = $this->getTable()->findBySocialId($id, $type, $app_id);
-        if(!empty($datas)) {
+        if (!empty($datas)) {
             $this->setData($datas)
-                ->setId($datas['customer_id'])
-            ;
+                ->setId($datas['customer_id']);
         }
 
         return $this;
@@ -47,11 +46,11 @@ class Customer_Model_Customer extends Core_Model_Default
 
     public function getSocialObject($name, $params = array()) {
 
-        if(empty($this->_social_instances[$name])) {
-            if(empty($params)) $params = $this->getSocialDatas($name);
-            if(in_array($name, $this->_types)) {
+        if (empty($this->_social_instances[$name])) {
+            if (empty($params)) $params = $this->getSocialDatas($name);
+            if (in_array($name, $this->_types)) {
                 $social_datas = !empty($params['datas']) ? $params['datas'] : array();
-                $class = 'Customer_Model_Customer_Type_'.ucfirst($name);
+                $class = 'Customer_Model_Customer_Type_' . ucfirst($name);
                 $this->_social_instances[$name] = new $class(array('social_id' => $params['social_id'], 'social_datas' => $social_datas, 'application' => $this->getApplication()));
                 $this->_social_instances[$name]->setCustomer($this);
             }
@@ -61,9 +60,9 @@ class Customer_Model_Customer extends Core_Model_Default
     }
 
     public function getSocialDatas($name = null) {
-        if(!$this->getId()) return null;
-        if(is_null($name)) return $this->_social_datas;
-        if(empty($this->_social_datas[$name])) {
+        if (!$this->getId()) return null;
+        if (is_null($name)) return $this->_social_datas;
+        if (empty($this->_social_datas[$name])) {
             $this->_social_datas = $this->getTable()->findSocialDatas($this->getId());
         }
         return !empty($this->_social_datas[$name]) ? $this->_social_datas[$name] : null;
@@ -92,15 +91,15 @@ class Customer_Model_Customer extends Core_Model_Default
 
     public function canPostSocialMessage() {
 
-        foreach($this->_types as $type) {
-            if($this->getSocialObject($type)->isValid()) return true;
+        foreach ($this->_types as $type) {
+            if ($this->getSocialObject($type)->isValid()) return true;
         }
         return false;
 
     }
 
     public function addSocialPost($customer_message, $message_type, $points = null) {
-        if($this->canPostSocialMessage()) {
+        if ($this->canPostSocialMessage()) {
             $this->getTable()->addSocialPost($this->getId(), $customer_message, $message_type, $points);
         }
         return $this;
@@ -115,8 +114,8 @@ class Customer_Model_Customer extends Core_Model_Default
 
         $isOk = true;
 
-        foreach($this->_types as $type) {
-            if($social = $this->getSocialObject($type) AND $social->isValid()) {
+        foreach ($this->_types as $type) {
+            if ($social = $this->getSocialObject($type) AND $social->isValid()) {
 
                 $message = $social->prepareMessage($datas['message_type'], $pos, $datas['points']);
                 $customer_message = !empty($datas['customer_message']) ? $datas['customer_message'] : "";
@@ -134,12 +133,13 @@ class Customer_Model_Customer extends Core_Model_Default
     public function findAllWithDeviceUid($app_id = null) {
         return $this->getTable()->findAllWithDeviceUid($app_id);
     }
+
     public function isSamePassword($password) {
         return $this->getPassword() == $this->_encrypt($password);
     }
 
     public function setPassword($password) {
-        if(strlen($password) < 6) throw new Exception($this->_('The password must be at least 6 characters'));
+        if (strlen($password) < 6) throw new Exception($this->_('The password must be at least 6 characters'));
         $this->setData('password', $this->_encrypt($password));
         return $this;
     }
@@ -153,32 +153,32 @@ class Customer_Model_Customer extends Core_Model_Default
     }
 
     public function getImageLink() {
-        if($this->getData('image') AND is_file($this->getBaseImagePath() . '/' . $this->getImage())) return $this->getImagePath() . '/' . $this->getImage();
+        if ($this->getData('image') AND is_file($this->getBaseImagePath() . '/' . $this->getImage())) return $this->getImagePath() . '/' . $this->getImage();
         else return $this->getNoImage();
     }
 
     public function getFullImagePath() {
-        if($this->getData('image') AND is_file($this->getBaseImagePath() . '/' . $this->getImage())) return $this->getBaseImagePath() . '/' . $this->getImage();
+        if ($this->getData('image') AND is_file($this->getBaseImagePath() . '/' . $this->getImage())) return $this->getBaseImagePath() . '/' . $this->getImage();
         return null;
     }
 
     //
     public function getNoImage() {
-        return $this->getImagePath().'/placeholder/no-image.png';
+        return $this->getImagePath() . '/placeholder/no-image.png';
     }
 
     public function save($sanityCheck = true) {
         parent::save();
-        if(!is_null($this->_social_datas)) {
+        if (!is_null($this->_social_datas)) {
             $datas = array();
-            foreach($this->_social_datas as $type => $data) {
+            foreach ($this->_social_datas as $type => $data) {
                 $datas[] = array('type' => $type, 'social_id' => $data['id'], 'datas' => serialize(!empty($data['datas']) ? $data['datas'] : array()));
             }
             $this->getTable()->insertSocialDatas($this->getId(), $datas, $this->getApplication()->getId());
         }
-        if(is_array($this->_metadatas) && !empty($this->_metadatas)) {
+        if (is_array($this->_metadatas) && !empty($this->_metadatas)) {
             $datas = array();
-            foreach($this->_metadatas as $module_code => $data) {
+            foreach ($this->_metadatas as $module_code => $data) {
                 $datas[] = array('code' => $module_code, 'datas' => serialize(!empty($data) ? $data : null));
             }
             $this->getTable()->insertMetadatas($this->getId(), $datas);
@@ -197,22 +197,26 @@ class Customer_Model_Customer extends Core_Model_Default
         return $this->getTable()->getAppIdByCustomerId();
     }
 
-    public function getMetadatas($module_code) {
-        if(empty($this->_metadatas) || (!empty($module_code) && empty($this->_metadatas[$module_code]))) {
+    /**
+     * @param null $module_code
+     * @return null
+     */
+    public function getMetadatas($module_code = null) {
+        if (empty($this->_metadatas) || (!empty($module_code) && empty($this->_metadatas[$module_code]))) {
             $this->_metadatas = $this->getTable()->findMetadatas($this->getId());
         }
-        if(!$this->getId()) return null;
-        if(is_null($module_code)) return $this->_metadatas;
+        if (!$this->getId()) return null;
+        if (is_null($module_code)) return $this->_metadatas;
         return is_array($this->_metadatas[$module_code]) ? $this->_metadatas[$module_code] : null;
     }
 
     public function getMetadata($module_code, $key) {
         $metadatas = $this->getMetadatas($module_code);
-	return $metadatas[$key];
+        return $metadatas[$key];
     }
 
     public function setMetadatas($module_code_or_datas, $datas_for_module_code) {
-        if(is_array($module_code_or_datas)) {
+        if (is_array($module_code_or_datas)) {
             $this->_metadatas = $module_code_or_datas;
         } else {
             $this->_metadatas[$module_code_or_datas] = $datas_for_module_code;

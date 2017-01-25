@@ -3,6 +3,7 @@
 <?php $image = new Media_Model_Gallery_Image(); ?>
 <?php $images = $image->findAll(array('value_id' => $option_value->getId()), 'gallery_id DESC'); ?>
 <?php $instagram_is_available = Api_Model_Key::findKeysFor('instagram')->getClientId() && Api_Model_Key::findKeysFor('instagram')->getToken(); ?>
+<?php $flickr_is_available = $application->getFlickrKey() && $application->getFlickrSecret(); ?>
 <?php
 //If we're unable to get acces token then facebook is not available
 $facebook = new Social_Model_Facebook();
@@ -52,6 +53,12 @@ $facebook_is_available = $facebook->getAccessToken() != null;
                             </a>
                         </li>
                         <li class="left a-center">
+                            <a href="javascript:void(0);" rel="flickr" class="block select_type<?php if($flickr_is_available) : ?> image_type_select<?php else : ?>" onclick="featureNotAvailable(); return false;<?php endif; ?>">
+                                <img src="<?php echo $this->getImage('customization/pictos/flickr.png'); ?>" title="Flickr" alt="Flickr" width="50" height="50" />
+                                <p><?php echo $this->_('Flickr') ?></p>
+                            </a>
+                        </li>
+                        <li class="left a-center">
                             <a href="javascript:void(0);" rel="custom" class="block select_type image_type_select">
                                 <img src="<?php echo $this->getColorizedImage($this->getImage('customization/pictos/camera.png', true), "#FFFFFF"); ?>" width="55" height="50" title="<?php echo $this->_("My images"); ?>" alt="<?php echo $this->_("My images"); ?>" />
                                 <p><?php echo $this->_('My images') ?></p>
@@ -81,6 +88,7 @@ $facebook_is_available = $facebook->getAccessToken() != null;
                         <div class="col-sm-1">
                             <img id="type_picasa" rel="picasa" class="bt-margin type_selected" src="<?php echo $this->getColorizedImage($this->getImage('customization/pictos/picasa.png', true), "#FFFFFF"); ?>" title="Picasa" alt="Picasa" width="28" style="display:none;" />
                             <img id="type_instagram" rel="instagram" class="bt-margin type_selected" src="<?php echo $this->getImage('customization/pictos/instagram.png'); ?>" width="28px" height="30px" title="Instagram" alt="Instagram" style="display:none;" />
+                            <img id="type_flickr" rel="flickr" class="bt-margin type_selected" src="<?php echo $this->getImage('customization/pictos/flickr.png'); ?>" width="28px" height="30px" title="Flickr" alt="Flickr" style="display:none;" />
                             <img id="type_custom" rel="user" class="margin-top-5 type_selected" src="<?php echo $this->getColorizedImage($this->getImage('customization/pictos/camera.png', true), "#FFFFFF"); ?>" width="28px" title="<?php echo $this->_("My images"); ?>" alt="<?php echo $this->_("My images"); ?>" style="display:none;" />
                             <img id="type_facebook" rel="facebook" class="margin-top-5 type_selected" src="<?php echo $this->getColorizedImage($this->getImage('customization/pictos/facebook.png', true), "#FFFFFF"); ?>" width="28px" title="<?php echo $this->_("Facebook"); ?>" alt="<?php echo $this->_("Facebook"); ?>" style="display:none;" />
                         </div>
@@ -91,6 +99,7 @@ $facebook_is_available = $facebook->getAccessToken() != null;
                             <button type="button" id="input_custom" class="new_search_input search_input upload_picture default_button btn-block" rel="list_new"><?php echo $this->_('Send your pictures') ?></button>
                             <input type="text" id="input_picasa" data-tip="38" name="param" value="" placeholder="<?php echo $this->_('Parameter') ?>" class="new_search_input search_input form-control required" />
                             <input type="text" id="input_instagram" data-tip="38" name="param_instagram" value="" placeholder="<?php echo $this->_('Username') ?>" class="new_search_input search_input form-control required" />
+                            <input type="text" id="input_flickr" data-tip="38" name="param_flickr" value="" placeholder="<?php echo $this->_('Flickr') ?>" class="new_search_input search_input form-control required" />
                             <select name="param_facebook" id="input_facebook" class="sb-select styled-select color-blue form-control no-dk required new_search_input"></select>
                         </div>
                         <div class="col-sm-1">

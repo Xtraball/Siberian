@@ -420,7 +420,13 @@ var _bindForms = function(default_parent) {
         var callback = el.data("callback");
 
         $("tr.edit-form[data-id!="+object_id+"]").hide();
-        $("tr.edit-form[data-id="+object_id+"]").toggle();
+
+        var tr_edit = $("tr.edit-form[data-id="+object_id+"]");
+
+        /** Move the tr-edit right under the current object (avoiding conflicts with any search) */
+        el.parents("tr").after(tr_edit);
+
+        tr_edit.toggle();
 
         /** Load form if not present */
         if($("tr.edit-form[data-id="+object_id+"] form").length == 0) {

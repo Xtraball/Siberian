@@ -334,18 +334,18 @@ input.highlight {
     background-color: rgba(0, 0, 255, 0.05);
 }
 
-.pointer {
-    background-image: url("/app/sae/design/desktop/flat/images/table/sort_both.png");
+th.pointer {
+    background-image: url("/app/sae/design/desktop/flat/images/table/sort_both_v3.png");
     background-repeat: no-repeat;
     background-position: 100% center;
 }
 
-.pointer-up {
-    background-image: url("/app/sae/design/desktop/flat/images/table/sort_asc.png");
+th.pointer-up {
+    background-image: url("/app/sae/design/desktop/flat/images/table/sort_asc_v3.png");
 }
 
-.pointer-down {
-    background-image: url("/app/sae/design/desktop/flat/images/table/sort_desc.png");
+th.pointer-down {
+    background-image: url("/app/sae/design/desktop/flat/images/table/sort_desc_v3.png");
 }
 
 .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {

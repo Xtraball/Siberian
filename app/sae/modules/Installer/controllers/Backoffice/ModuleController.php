@@ -51,6 +51,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
                 $tmp_path = Core_Model_Directory::getTmpDirectory(true)."/".$data["filename"];
 
+                # for hotfix ssl
                 $client = new Zend_Http_Client($data["url"], array(
                     'adapter'   => 'Zend_Http_Client_Adapter_Curl',
                     'curloptions' => array(CURLOPT_SSL_VERIFYPEER => false),
