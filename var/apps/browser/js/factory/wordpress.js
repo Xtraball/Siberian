@@ -1,4 +1,4 @@
-App.factory('Wordpress', function($rootScope, $q, $http, Url) {
+App.factory('Wordpress', function($rootScope, $q, $sbhttp, Url) {
 
     var factory = {};
 
@@ -15,7 +15,7 @@ App.factory('Wordpress', function($rootScope, $q, $http, Url) {
             offset: offset
         };
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("wordpress/mobile_list/findall", params),
             cache: !$rootScope.isOverview,

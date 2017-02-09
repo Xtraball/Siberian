@@ -1,12 +1,31 @@
 <?php
 class Folder_Model_Folder extends Core_Model_Default {
 
+    protected $_is_cacheable = true;
     protected $_root_category;
 
     public function __construct($params = array()) {
         parent::__construct($params);
         $this->_db_table = 'Folder_Model_Db_Table_Folder';
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getInappStates($value_id) {
+
+        $in_app_states = array(
+            array(
+                "state" => "folder-category-list",
+                "offline" => true,
+                "params" => array(
+                    "value_id" => $value_id,
+                ),
+            ),
+        );
+
+        return $in_app_states;
     }
 
     public function deleteFeature() {
@@ -32,12 +51,39 @@ class Folder_Model_Folder extends Core_Model_Default {
     }
 
     public function getFeaturePaths($option_value) {
-        if(!$this->isCachable()) return array();
+        if(!$this->isCacheable()) return array();
 
         $paths = array();
         $paths[] = $option_value->getPath("findall", array('value_id' => $option_value->getId()), false);
 
-        $subcategories = $this->getRootCategory()->getChildren();
+        $paths = array_merge($paths, $this->_get_subcategories_feature_paths($this->getRootCategory(), $option_value));
+
+        return $paths;
+    }
+
+
+    public function getAssetsPaths($option_value) {
+        if(!$this->isCacheable()) return array();
+
+        $paths = array();
+
+        $folder = $option_value->getObject();
+
+        if($folder->getId()) {
+            $category = new Folder_Model_Category();
+            $category->find($folder->getRootCategoryId(), "category_id");
+            if($category->getId()) {
+                $paths[] = $category->getPictureUrl();
+                $paths = array_merge($paths, $this->_get_subcategories_assets_paths($category));
+            }
+        }
+
+        return $paths;
+    }
+
+    private function _get_subcategories_feature_paths($category, $option_value) {
+        $paths = array();
+        $subcategories = $category->getChildren();
 
         foreach($subcategories as $subcategory) {
             $params = array(
@@ -45,13 +91,20 @@ class Folder_Model_Folder extends Core_Model_Default {
                 "category_id" => $subcategory->getId()
             );
             $paths[] = $option_value->getPath("findall", $params, false);
-
+            $paths = array_merge($paths, $this->_get_subcategories_feature_paths($subcategory, $option_value));
         }
 
-        $pages = $this->getRootCategory()->getPages();
-        foreach($pages as $page) {
-            if($page->getCode() == "source_code") {
-                $paths = array_merge($paths, $page->getObject()->getFeaturePaths($page));
+        return $paths;
+    }
+
+    private function _get_subcategories_assets_paths($category) {
+        $paths = array();
+
+        if(is_object($category) && $category->getId()) {
+            $subs = $category->getChildren();
+            foreach($subs as $subcat) {
+                $paths[] = $subcat->getPictureUrl();
+                $paths = array_merge($paths, $this->_get_subcategories_assets_paths($subcat));
             }
         }
 

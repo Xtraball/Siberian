@@ -1,4 +1,4 @@
-App.factory('Loyalty', function($rootScope, $http, Url) {
+App.factory('Loyalty', function($rootScope, $sbhttp, Url) {
 
     var factory = {};
 
@@ -8,7 +8,7 @@ App.factory('Loyalty', function($rootScope, $http, Url) {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("loyaltycard/mobile_view/findall", {value_id: this.value_id}),
             cache: !$rootScope.isOverview,
@@ -29,7 +29,7 @@ App.factory('Loyalty', function($rootScope, $http, Url) {
             mode_qrcode: pad.mode_qrcode
         };
 
-        return $http.post(url, data);
+        return $sbhttp.post(url, data);
     };
 
     return factory;

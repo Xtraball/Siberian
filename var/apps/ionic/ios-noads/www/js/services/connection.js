@@ -1,72 +1,58 @@
-App.service("Connection", function($cordovaDialogs, $http, $rootScope, $timeout, $translate, $window, Application, Dialog) {
+App.service("Connection", function ($ionicPlatform, $rootScope, $translate, $window, $log, Dialog) {
 
     var service = {};
 
-    $rootScope.isOnline = service.isOnline = true;
+    var _isOnline = true;
+
+    Object.defineProperty(service, "isOnline", {
+        get: function () {
+            return _isOnline;
+        }
+    });
+
+    Object.defineProperty(service, "isOffline", {
+        get: function () {
+            return !service.isOnline;
+        }
+    });
+
     service.show_popup = null;
 
-    service.setIsOffline = function() {
-
-        if(!$rootScope.isOnline) return;
-
-        this.isOnline = false;
-        $rootScope.isOnline = false;
-
-        if(!Application.is_webview) {
-            OfflineMode.useCache("1", function () {
-
-                if(!service.show_popup) {
-                    service.show_popup = true;
-
-                    Dialog.alert($translate.instant("Info"), $translate.instant("You have gone offline"), $translate.instant("OK")).then(function() {
-                        service.show_popup = null;
-                    });
-                }
-
-                $rootScope.$broadcast("connectionStateChange", {isOnline: false});
-            }, null);
-        }
-
-        sbLog('offline confirmed');
-    };
-
-    service.setIsOnline = function() {
-
-        if($rootScope.isOnline) return;
-
-        this.isOnline = true;
-        $rootScope.isOnline = true;
-
-        if(!Application.is_webview) {
-            OfflineMode.useCache("0", function() {
-                $rootScope.$broadcast("connectionStateChange", {isOnline: true});
-            }, null);
-        }
-
-        sbLog('online confirmed');
-    };
-
-    service.check = function () {
-
-        if(!$rootScope.isOnline && !$window.navigator.onLine) {
+    var callbackFromNative = function (data) {
+        if (service.isOnline === data.isOnline) {
+            $window.StatusBar.backgroundColorByHexString("#000000");
             return;
         }
 
-        var url = DOMAIN + "/check_connection.php?t=" + Date.now();
-        var result = false;
+        _isOnline = data.isOnline;
 
-        $http({ method: 'HEAD', url: url })
-            .success(function(response) {
-                service.setIsOnline();
-                result = true;
+        if (!service.show_popup && !$rootScope.is_webview && !_isOnline) {
+            service.show_popup = true;
 
-            }).error(function() {
-            service.setIsOffline();
-            $timeout(service.check, 3000);
-        });
+            Dialog.alert($translate.instant("Info"), $translate.instant("You have gone offline"), $translate.instant("OK")).then(function() {
+                service.show_popup = null;
+                $window.StatusBar.backgroundColorByHexString("#d54c16");
+            });
+        } else if (!$rootScope.is_webview && _isOnline) {
+            $window.StatusBar.backgroundColorByHexString("#000000");
+        }
 
-        return result;
+        $rootScope.$broadcast("connectionStateChange", data);
+
+        if (_isOnline) {
+            $log.info("App is now online.");
+        } else {
+            $log.info("App is offline.");
+        }
+
     };
+
+    $ionicPlatform.ready(function () {
+        if (!$rootScope.is_webview && $window.OfflineMode) {
+            $window.OfflineMode.setCheckConnectionURL(DOMAIN + "/check_connection.php");
+            $window.OfflineMode.registerCallback(callbackFromNative);
+        }
+    });
 
     return service;
 });

@@ -1,4 +1,4 @@
-App.directive('sbPad', function($http, Url) {
+App.directive('sbPad', function($sbhttp, Url) {
     return {
         restrict: 'E',
         scope: {

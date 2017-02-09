@@ -12,12 +12,67 @@ class Places_Model_Place extends Core_Model_Default {
     protected $float_validator;
     protected $int_validator;
 
+    protected $_is_cacheable = true;
+
     public function __construct($params = array()) {
         parent::__construct($params);
         $this->_db_table = 'Places_Model_Db_Table_Place';
         $this->float_validator = new Zend_Validate_Float();
         $this->int_validator = new Zend_Validate_Int();
         return $this;
+    }
+
+    /**
+     * @return string full,none,partial
+     */
+    public function availableOffline() {
+        return "partial";
+    }
+
+    /**
+     * @return array
+     */
+    public function getInappStates($value_id) {
+
+        $childrens = array();
+        $childrens[] = array(
+            "label" => __("Map"),
+            "state" => "places-list-map",
+            "offline" => false,
+            "params" => array(
+                "value_id" => $value_id,
+            ),
+        );
+
+        $page_model = new Cms_Model_Application_Page();
+        $pages = $page_model->findAll(array(
+            "value_id" => $value_id
+        ), null, null);
+
+        foreach($pages as $page) {
+            $childrens[] = array(
+                "label" => $page->getTitle(),
+                "state" => "places-view",
+                "offline" => true,
+                "params" => array(
+                    "value_id" => $value_id,
+                    "page_id" => $page->getId(),
+                ),
+            );
+        }
+
+        $in_app_states = array(
+            array(
+                "state" => "places-list",
+                "offline" => true,
+                "params" => array(
+                    "value_id" => $value_id,
+                ),
+                "childrens" => $childrens
+            ),
+        );
+
+        return $in_app_states;
     }
 
     public function copyTo($option) {
@@ -123,17 +178,22 @@ class Places_Model_Place extends Core_Model_Default {
     }
 
     public function getFeaturePaths($option_value) {
-        if(!$this->isCachable()) return array();
+        if(!$this->isCacheable()) return array();
 
         $paths = array();
         $value_id = $option_value->getId();
 
         // Places list paths
         $params = array(
-            "value_id" => $value_id,
-            "latitude" => 0,
-            "longitude" => 0
+            "value_id" => $value_id
         );
+
+        $paths[] = $option_value->getPath("places/mobile_list/findall", $params, false);
+        $paths[] = $option_value->getPath("places/mobile_list/settings", $params, false);
+
+        $params["latitude"] = 0;
+        $params["longitude"] = 0;
+
         $paths[] = $option_value->getPath("places/mobile_list/findall", $params, false);
 
         // Places view paths
@@ -154,6 +214,47 @@ class Places_Model_Place extends Core_Model_Default {
                     $paths[] = $option_value->getPath("cms/mobile_page_view/findall", $params, false);
                 }
 
+            }
+
+        }
+
+        return $paths;
+    }
+
+    public function getAssetsPaths($option_value) {
+        if(!$this->isCacheable()) return array();
+
+        $paths = array();
+        $value_id = $option_value->getId();
+
+        // Places view paths
+        $pageRepository = new Cms_Model_Application_Page();
+        $pages = $pageRepository->findAll(array('value_id' => $value_id));
+
+        foreach($pages as $page) {
+
+            $blocks = $page->getBlocks();
+
+            foreach($blocks as $block) {
+                $data = $block->getJSONData();
+                $keys = array("image_url", "cover_url", "file_url");
+
+                foreach ($keys as $key) {
+                    $val = $data[$key];
+                    if(!empty($val)) {
+                        $paths[] = $val;
+                    }
+                }
+
+                if(is_array($data["gallery"])) {
+                    foreach ($data["gallery"] as $img) {
+                        $paths[] = $img["src"];
+                    }
+                }
+
+                if($block->getType() == "video" && $data["video_type_id"] == "link") {
+                    $paths[] = $data["url"];
+                }
             }
 
         }

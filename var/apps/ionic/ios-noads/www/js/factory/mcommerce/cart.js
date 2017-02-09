@@ -1,5 +1,5 @@
 
-App.factory('McommerceCart', function($rootScope, $http, httpCache, Url) {
+App.factory('McommerceCart', function($rootScope, $sbhttp, httpCache, Url) {
 
     var factory = {};
 
@@ -9,7 +9,7 @@ App.factory('McommerceCart', function($rootScope, $http, httpCache, Url) {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("mcommerce/mobile_cart/find", {value_id: this.value_id}),
             cache: false,
@@ -25,7 +25,7 @@ App.factory('McommerceCart', function($rootScope, $http, httpCache, Url) {
         
         var data = {form: form};
 
-        return $http.post(url, data).success(function() {
+        return $sbhttp.post(url, data).success(function() {
             httpCache.remove(Url.get("mcommerce/mobile_cart/find", {value_id: this.value_id}));
         });
     };
@@ -42,7 +42,7 @@ App.factory('McommerceCart', function($rootScope, $http, httpCache, Url) {
 
         var data = {discount_code: discount_code, customer_uuid: window.device.uuid};
 
-        return $http.post(url, data);
+        return $sbhttp.post(url, data);
     };
 
     factory.addTip = function (cart) {
@@ -53,7 +53,7 @@ App.factory('McommerceCart', function($rootScope, $http, httpCache, Url) {
 
         var data = {tip: cart.tip ? cart.tip : 0};
 
-        return $http.post(url, data).success(function() {
+        return $sbhttp.post(url, data).success(function() {
             httpCache.remove(Url.get("mcommerce/mobile_cart/find", {value_id: this.value_id}));
         });
     };
@@ -66,7 +66,7 @@ App.factory('McommerceCart', function($rootScope, $http, httpCache, Url) {
 
         var data = {};
 
-        return $http.post(url, data).success(function(results) {
+        return $sbhttp.post(url, data).success(function(results) {
             httpCache.remove(Url.get("mcommerce/mobile_cart/find", {value_id: this.value_id}));
         });
     };
@@ -81,7 +81,7 @@ App.factory('McommerceCart', function($rootScope, $http, httpCache, Url) {
         
         var data = {};
         
-        return $http.delete(url, data);
+        return $sbhttp.delete(url, data);
                                           
     };
 
@@ -89,7 +89,7 @@ App.factory('McommerceCart', function($rootScope, $http, httpCache, Url) {
 
         if (!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'POST',
             data: {line_id: line.id, qty : line.qty, format: line.format},
             url: Url.get("mcommerce/mobile_cart/modify"),
@@ -102,7 +102,7 @@ App.factory('McommerceCart', function($rootScope, $http, httpCache, Url) {
     factory.useFidelityPoints = function(points) {
         if (!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'POST',
             data: {points: points},
             url: Url.get("mcommerce/mobile_cart/usefidelitypointsforcart"),
@@ -114,7 +114,7 @@ App.factory('McommerceCart', function($rootScope, $http, httpCache, Url) {
     factory.removeAllDiscount = function() {
         if (!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'POST',
             url: Url.get("mcommerce/mobile_cart/removealldiscount"),
             cache: false,

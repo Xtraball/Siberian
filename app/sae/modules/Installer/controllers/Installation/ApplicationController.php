@@ -18,6 +18,8 @@ class Installer_Installation_ApplicationController extends Installer_Controller_
                 $application
                     ->setName($datas['name'])
                     ->setPrivacyPolicy($privacy_policy)
+                    ->setAndroidPushIcon("/placeholder/android/push_default_icon.png")
+                    ->setAndroidPushColor("#0099C7")
                     ->save()
                 ;
 

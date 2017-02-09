@@ -47,6 +47,10 @@ App.config(function($stateProvider) {
     };
 
     $scope.showItem = function(item) {
+        if($rootScope.isOffline) {
+            return $rootScope.onlineOnly();
+        }
+
         if(item.url) {
             $window.open(item.url, $rootScope.getTargetForLink(), "location=no");
         }else if(item.action_value) {

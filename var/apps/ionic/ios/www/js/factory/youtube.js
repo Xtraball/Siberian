@@ -1,5 +1,5 @@
 
-App.factory('Youtube', function($q, $http) {
+App.factory('Youtube', function($q, $sbhttp) {
 
     var factory = {};
 
@@ -15,7 +15,7 @@ App.factory('Youtube', function($q, $http) {
 
         var deferred = $q.defer();
 
-        $http({
+        $sbhttp({
             method: 'GET',
             url: "https://www.googleapis.com/youtube/v3/search/?q=" + keyword + "&type=video&part=snippet&key=" + factory.key + "&maxResults=5" + param_offset + "&order=date",
             cache: false,
@@ -62,7 +62,7 @@ App.factory('Youtube', function($q, $http) {
 
         var deferred = $q.defer();
 
-        $http({
+        $sbhttp({
             method: 'GET',
             url: "https://www.googleapis.com/youtube/v3/channels/?part=snippet&key=" + factory.key + "&forUsername="+keyword + "&order=date",
             cache: false,
@@ -76,7 +76,7 @@ App.factory('Youtube', function($q, $http) {
                 id = keyword;
             }
 
-            $http({
+            $sbhttp({
                 method: 'GET',
                 url: "https://www.googleapis.com/youtube/v3/search/?&part=snippet&key=" + factory.key + "&maxResults=5&type=video&channelId=" + id + param_offset,
                 cache: false,
@@ -126,7 +126,7 @@ App.factory('Youtube', function($q, $http) {
 
         var deferred = $q.defer();
 
-        $http({
+        $sbhttp({
             method: 'GET',
             url: "https://www.googleapis.com/youtube/v3/channels?part=contentDetails&key=" + factory.key + "&forUsername="+keyword + "&order=date",
             cache: false,
@@ -135,7 +135,7 @@ App.factory('Youtube', function($q, $http) {
 
             if(data.items[0] && data.items[0].contentDetails && data.items[0].contentDetails.relatedPlaylists && data.items[0].contentDetails.relatedPlaylists.uploads) {
                 
-                $http({
+                $sbhttp({
                     method: 'GET',
                     url: "https://www.googleapis.com/youtube/v3/playlistItems/?&part=snippet&key=" + factory.key + "&maxResults=5&playlistId=" + data.items[0].contentDetails.relatedPlaylists.uploads + param_offset + "&order=date",
                     cache: false,

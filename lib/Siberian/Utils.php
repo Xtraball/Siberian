@@ -148,6 +148,29 @@ function log_exception(Exception $e) {
 }
 
 /**
+ * @param $path
+ * @param bool $external
+ * @return bool
+ */
+function is_image($path, $external = false) {
+    if($external) {
+        $tmp_image = file_get_contents($path);
+        $tmp_path = Core_Model_Directory::getBasePathTo("/var/tmp/".uniqid());
+        file_put_contents($tmp_path, $tmp_image);
+    } else {
+        $tmp_path = $path;
+    }
+
+    $result = (@is_array(getimagesize($tmp_path)));
+
+    if($external) {
+        unlink($tmp_path);
+    }
+
+    return $result;
+}
+
+/**
  * Actual design setup.
  *
  * - siberian
@@ -302,9 +325,33 @@ function __ss($string) {
 	return preg_replace('~/+~', '/', $string);
 }
 
+/**
+ * @param $time
+ * @param string $format
+ * @return string
+ */
 function time_to_date($time, $format = 'y-MM-dd') {
 	$date = new Zend_Date($time);
 	return $date->toString($format);
+}
+
+/**
+ * @param $datetime
+ * @param null $locale
+ * @return string
+ */
+function datetime_to_format($datetime, $locale = null) {
+    if(empty($datetime)) {
+        return "-";
+    }
+
+    $language = Core_Model_Language::getSession()->current_language;
+    $locale = (is_null($locale)) ? new Zend_Locale($language) : $locale;
+
+    $date = new Zend_Date();
+    $date->set($datetime, "YYYY-MM-dd HH:mm:ss");
+
+    return $date->toString(Zend_Date::DATETIME_SHORT, $locale);
 }
 
 /**

@@ -1,4 +1,4 @@
-App.factory('Booking', function($rootScope, $http, Url) {
+App.factory('Booking', function($rootScope, $sbhttp, Url) {
 
     var factory = {};
 
@@ -8,7 +8,7 @@ App.factory('Booking', function($rootScope, $http, Url) {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("booking/mobile_view/find", {value_id: this.value_id}),
             cache: !$rootScope.isOverview,
@@ -30,7 +30,7 @@ App.factory('Booking', function($rootScope, $http, Url) {
             data.date = new Date(data.date).toLocaleString();
         }
 
-        return $http.post(url, data);
+        return $sbhttp.post(url, data);
     };
 
     return factory;

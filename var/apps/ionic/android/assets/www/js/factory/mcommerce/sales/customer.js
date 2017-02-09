@@ -1,5 +1,5 @@
 
-App.factory('McommerceSalesCustomer', function($rootScope, $http, Url) {
+App.factory('McommerceSalesCustomer', function($rootScope, $sbhttp, Url) {
 
     var factory = {};
 
@@ -15,14 +15,14 @@ App.factory('McommerceSalesCustomer', function($rootScope, $http, Url) {
         
         data.option_value_id = this.value_id;
 
-        return $http.post(url, data);
+        return $sbhttp.post(url, data);
     };
 
     factory.find = function() {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("mcommerce/mobile_sales_customer/find", {value_id: this.value_id}),
             cache: false,
@@ -34,7 +34,7 @@ App.factory('McommerceSalesCustomer', function($rootScope, $http, Url) {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("mcommerce/mobile_sales_customer/hasguestmode", {value_id: this.value_id}),
             cache: false,

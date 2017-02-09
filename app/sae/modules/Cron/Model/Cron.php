@@ -126,7 +126,7 @@ class Cron_Model_Cron extends Core_Model_Default {
 		$db = Zend_Db_Table::getDefaultAdapter();
 		$select = $db
 			->select()
-			->from("cron", array("last_error"))
+                ->from("cron", array("name", "last_error", "module_id"))
 			->where("last_error != ''")
 			->order("updated_at DESC")
 			->limit(1)
@@ -135,9 +135,22 @@ class Cron_Model_Cron extends Core_Model_Default {
 		$result = $db->fetchRow($select);
 		if(isset($result) && isset($result["last_error"])) {
 			$error = $result["last_error"];
+
+            try {
+                if($result["module_id"] > 0) {
+                    $module = new Installer_Model_Installer_Module();
+                    $module->find($result["module_id"]);
+                    $module->fetch();
+                    if($module->getId()) {
+                        $module->loadTranslations();
+                    }
+                }
+            } catch (Exception $e) {
+                log_debug($e);
+            }
 			return array(
-				"short" => cut($error, 50),
-				"full" => str_replace("\n", "<br />", $error),
+				"short" => cut(__($result["name"]).": ".__(str_replace("\n", " ", $error)), 50),
+				"full" => __($result["name"]).": <br>".str_replace("\n", "<br>", __(htmlspecialchars($error)))
 			);
 		}
 

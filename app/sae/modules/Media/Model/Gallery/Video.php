@@ -16,6 +16,24 @@ class Media_Model_Gallery_Video extends Core_Model_Default {
         return $this;
     }
 
+    /**
+     * @return array
+     */
+    public function getInappStates($value_id) {
+
+        $in_app_states = array(
+            array(
+                "state" => "video-list",
+                "offline" => false,
+                "params" => array(
+                    "value_id" => $value_id,
+                ),
+            ),
+        );
+
+        return $in_app_states;
+    }
+
     public function find($id, $field = null) {
         parent::find($id, $field);
         if($this->getId()) {

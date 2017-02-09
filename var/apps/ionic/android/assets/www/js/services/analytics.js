@@ -1,4 +1,4 @@
-App.service('Analytics', function($cordovaGeolocation, $http, $q, $rootScope, Application, Url) {
+App.service('Analytics', function($cordovaGeolocation, $sbhttp, $q, $rootScope, Application, Url) {
 
     var service = {};
 
@@ -171,7 +171,7 @@ App.service('Analytics', function($cordovaGeolocation, $http, $q, $rootScope, Ap
     };
 
     service.postData = function(url, params) {
-        return $http({
+        return $sbhttp({
             method: 'POST',
             url: url,
             data: params,

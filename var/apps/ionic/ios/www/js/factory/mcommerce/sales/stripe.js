@@ -1,5 +1,5 @@
 
-App.factory('McommerceStripe', function($rootScope, $http, Url) {
+App.factory('McommerceStripe', function($rootScope, $sbhttp, Url) {
 
     var factory = {};
 
@@ -9,7 +9,7 @@ App.factory('McommerceStripe', function($rootScope, $http, Url) {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'POST',
             url: Url.get("mcommerce/mobile_sales_stripe/find"),
             data: {customer_id: cust_id},
@@ -22,7 +22,7 @@ App.factory('McommerceStripe', function($rootScope, $http, Url) {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'POST',
             url: Url.get("mcommerce/mobile_sales_stripe/process"),
             data: {
@@ -42,7 +42,7 @@ App.factory('McommerceStripe', function($rootScope, $http, Url) {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'POST',
             url: Url.get("mcommerce/mobile_sales_stripe/getcard"),
             data: {"value_id": this.value_id, "customer_id": customer_id},
@@ -55,7 +55,7 @@ App.factory('McommerceStripe', function($rootScope, $http, Url) {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'POST',
             url: Url.get("mcommerce/mobile_sales_stripe/removecard"),
             data: {"value_id": this.value_id, "customer_id": customer_id},

@@ -64,5 +64,24 @@ Zend_Registry::set('_config', $_config);
 
 session_cache_limiter(false);
 
+# Handle fatal errors
+function sbfatal() {
+    $error = error_get_last();
+    if($error != null) {
+        ob_clean();
+        http_response_code(400);
+
+        $error_msg = str_replace("\n", " - ", $error["message"]);
+        $data = array(
+            "error" => true,
+            "message" => (APPLICATION_ENV == "development") ? "FATAL ERROR: {$error_msg}" : "An unknown fatal error occured, please try again.",
+        );
+        exit(json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+    }
+}
+
+# register_shutdown_function("sbfatal");
+# Handle fatal errors
+
 /** Running */
 $application->bootstrap()->run();

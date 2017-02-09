@@ -119,7 +119,10 @@
                         $('#edit').append(data.form);
                         feature.edit();
                         cms_didappear();
-                        $('#address').click().remove();
+                        $('#address').click();
+                        setTimeout(function() {
+                            $('#address').remove();
+                        }, 1000)
                         $('#add_item').hide();
                     });
                 });

@@ -5,7 +5,8 @@ class Sourcecode_Mobile_ViewController extends Application_Controller_Mobile_Def
     public function _toJson($sourcecode){
         $json = array(
             "id" => $sourcecode->getId(),
-            "htmlFilePath" => $this->getRequest()->getBaseUrl().$sourcecode->getHtmlFilePath()
+            "htmlFilePath" => $this->getRequest()->getBaseUrl().$sourcecode->getHtmlFilePath(),
+            "htmlFileCode" => $sourcecode->getHtmlFileCode()
         );
         return $json;
     }

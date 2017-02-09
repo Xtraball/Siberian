@@ -1,5 +1,5 @@
 <h3 class="title-editor border-blue">
-    <?php echo $this->_('Resize your picture'); ?>
+    <?php echo __('Resize your picture'); ?>
 </h3>
 <?php $output = str_replace('§', '/', $this->getOutputUrl()); ?>
 <div class="container-fluid">
@@ -9,7 +9,7 @@
                 <button type="button" id="hide_form" class="add color-blue pull-left btn" onclick="$.prettyPhoto.close();"><i class="fa fa-arrow-left"></i></button>
             </div>
             <div class="col-md-2 col-md-offset-8">
-                <button type="submit" class="add color-blue pull-right btn"><?php echo $this->_('OK') ?></button>
+                <button type="submit" class="add color-blue pull-right btn"><?php echo __('OK') ?></button>
             </div>
         </div>
         <?php if($this->getIsColorizable() && $this->getIsColorizable() == true) : ?>
@@ -18,7 +18,7 @@
                 <div class="colorize_checbox">
                     <label for="colorize_picture" id="colorize_picture_label">
                         <input type="checkbox" value="1" name="is_colorizable" id="colorize_picture">
-                        <?php echo $this->_('Make this image colorizable') ?>
+                        <?php echo __('Make this image colorizable') ?>
                     </label>
                 </div>
             </div>
@@ -156,11 +156,21 @@
             var image_url = '<?php echo $this->getPicture() ?>';
             var color = '<?php echo $this->getImageColor(); ?>';
             color = color.replace('#','');
-            var colorized_image = '<?php echo $this->getUrl("template/block/colorize") ?>/option_value_id/'+'<?php echo $this->getOptionId(); ?>'+'/url/'+image_url+'/color/'+color;
+
+            var option_param = '';
+            <?php $option_id = $this->getOptionId(); ?>
+            <?php if(!empty($option_id)): ?>
+                option_param = 'option_value_id=<?php echo $option_id; ?>&';
+            <?php endif; ?>
+            var colorized_image = '<?php echo $this->getUrl("template/block/colorize"); ?>?' + option_param + 'url=' + image_url + '&color=' + color;
+
             jcrop_api.destroy();
-            $('#picture_cont img').attr('src', colorized_image);
-            $('#preview_cont img').attr('src', colorized_image);
-            $('#is_colorized').val('true');
+            $.get(colorized_image, function() {
+                $('#picture_cont img').attr('src', colorized_image);
+                $('#preview_cont img').attr('src', colorized_image);
+                $('#is_colorized').val('true');
+            })
+
         } else {
             jcrop_api.destroy();
             $('#picture_cont img').attr('src', old_image);
@@ -168,5 +178,12 @@
             $('#is_colorized').val('false');
         }
     });
+    <?php endif; ?>
+
+    <?php if($this->getForceColor() && $this->getIsColorizable() == true): ?>
+    setTimeout(function() {
+        $('#colorize_picture').prop("checked", true).trigger("change");
+        $(".colorize_checbox").hide();
+    }, 100);
     <?php endif; ?>
 </script>

@@ -6,6 +6,6 @@ abstract class Media_Model_Gallery_Image_Abstract extends Core_Model_Default {
 
     protected $_images;
 
-    abstract public function getImages($offset);
+    abstract public function getImages($offset, $limit = self::DISPLAYED_PER_PAGE);
 
 }

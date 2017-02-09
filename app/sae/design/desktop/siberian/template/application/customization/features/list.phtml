@@ -1268,33 +1268,7 @@ var FolderForm = Class.extend({
 
                         //clean sortable
                         $('.categories_list ul:empty').remove();
-//                            $('.categories_list ul').each(function(index) {
-//                                if($(this).is(':empty')) {
-//                                    $(this).remove();
-//                                }
-//                            });
 
-                        __that.showOptions();
-
-//                            var callbacks = new Array();
-//                            callbacks['didcreate'] = function() {
-//                                category.setIframeBackButton(datas.category_id, datas.parent_id);
-//                            };
-                        /*
-                         var option_id = __that.value_id;
-                         var mobile_url = '
-                        <?php echo $this->getApplication()->getUrl('folder/mobile/findchildren'); ?>';
-                         mobile_url += '/category_id/'+datas.category_id;
-                         mobile_url += '/option_value_id/'+option_id;
-                         mobile_url += '/overview/1';
-
-                         iframe.f.page.showSubpage({
-                         id: folder.getPageId(),
-                         url : mobile_url,
-                         isAjax: true
-                         //                                    callbacks: callbacks
-                         }, false);
-                         */
                     } else {
                         if (category.root == datas.category_id) {
                             tabbar_names[__that.value_id] = $('#title').val();
@@ -1316,24 +1290,8 @@ var FolderForm = Class.extend({
         $('.folderForm_cont #title').keyup(function (e) {
             this.titleKeyup($(e.target));
             var cat_id = $('.folderForm').find('input#category_id').val();
-            // iframe.content.find('.header:visible').find('.title').html($(e.target).val());
-            // iframe.content.find('li#subcategory_'+cat_id).find('.title').html($(e.target).val());
-        }.bind(this));
 
-        /*
-         //Keyup subtitle
-         $('.folderForm_cont #subtitle').keyup(function(e) {
-         var cat_id = $('.folderForm').find('input#category_id').val();
-         iframe.content.find('.subtitle:visible').html($(e.target).val());
-         //existant
-         if(iframe.content.find('li#subcategory_'+cat_id).length > 0) {
-         iframe.content.find('li#subcategory_'+cat_id).find('.subtitle').html($(e.target).val());
-         //nouveau
-         } else {
-         iframe.content.find('li#subcategory_'+cat_id).find('.subtitle').html($(e.target).val());
-         }
-         }.bind(this));
-         */
+        }.bind(this));
 
         //Ajoute une feature
         $('#page_list_folder').on('click', '.add_feature', function (e) {
@@ -1372,21 +1330,7 @@ var FolderForm = Class.extend({
                         $('#background_img_src').attr('src', '<?php echo Core_Model_Directory::getTmpDirectory(false)?>/' + file);
                         $('#remove_background_img').show();
                         $('#background_img_src').show();
-                        /*
-                         iframe.content.find('.header_subtitle:visible').css({
-                         position:'relative',
-                         top:'-73px'
-                         });
-                         iframe.content.find('.header_list:visible').css('height', '200px');
-                         if(iframe.content.find('.subheader:visible').find('img').length > 0) {
-                         iframe.content.find('.subheader:visible').find('img').attr('src', file);
-                         } else {
-                         iframe.content.find('.subheader:visible').prepend('<img src="'+file+'" width="320px" height="200px"/>');
-                         }
-                         if(iframe.f.page.getSubpage(folder.getPageId())) {
-                         iframe.f.page.getSubpage(folder.getPageId()).refreshScrollview();
-                         }
-                         */
+
                     }
                 }
             }
@@ -1398,7 +1342,6 @@ var FolderForm = Class.extend({
     },
     showOptions: function () {
         $('.folderForm_cont form').hide();
-//                    $('.folderForm_cont .pages').fadeIn('fast');
         $('#add_page_to_folder').fadeIn('fast');
     },
     deleteCatImage: function () {
@@ -1407,17 +1350,7 @@ var FolderForm = Class.extend({
         $('#remove_background_img').hide();
         $('#background_img_src').hide();
         $('#upload_folder_background').show();
-        /*
-         iframe.content.find('.header_subtitle:visible').css({
-         position:'static',
-         top:'0px'
-         });
-         iframe.content.find('.header_list:visible').css('height', '70px');
-         iframe.content.find('.subheader:visible').find('img').remove();
-         if(iframe.f.page.getSubpage(folder.getPageId())) {
-         iframe.f.page.getSubpage(folder.getPageId()).refreshScrollview();
-         };
-         */
+
     },
     titleKeyup: function (element) {
         var rel = $('.folderForm').attr('rel');
@@ -1477,7 +1410,7 @@ var FolderForm = Class.extend({
                 carousel.update().slideToItem($clone);
                 var feature_count = $('#option_values li.option_value:visible').length;
                 $('.button_handler[rel="' + cat_id + '"]').find('.features_number').html('(' + feature_count + ')');
-                // iframe.f.page.refreshSubpage(folder.getPageId());
+
                 //Met à jour la home pour supprimer l'option assignée
                 if (iframe.f.isHomepage()) {
                     iframe.f.reload();

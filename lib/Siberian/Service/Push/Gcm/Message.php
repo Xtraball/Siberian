@@ -30,6 +30,16 @@ class Siberian_Service_Push_Gcm_Message extends Message {
     }
 
     /**
+     * @param $sTitle
+     * @return Siberian_Service_Push_Gcm_Message
+     */
+    public function setImage($sImage) {
+        $this->addData("image", $sImage);
+
+        return $this;
+    }
+
+    /**
      * @param $sMessage
      * @return Siberian_Service_Push_Gcm_Message
      */
@@ -94,8 +104,14 @@ class Siberian_Service_Push_Gcm_Message extends Message {
      * @param $sCover
      * @return Siberian_Service_Push_Gcm_Message
      */
-    public function setCover($sCover) {
-        $this->addData("cover", $sCover);
+    public function setCover($sCover, $sPicture, $sSummaryText) {
+        if(!empty($sCover)) {
+            $this->addData("cover", $sCover);
+
+            $this->addData("style", "picture");
+            $this->addData("picture", $sPicture);
+            $this->addData("summaryText", $sSummaryText);
+        }
 
         return $this;
     }

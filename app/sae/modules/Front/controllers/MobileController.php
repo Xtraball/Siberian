@@ -23,7 +23,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
         }
 
         $data = array(
-            "css" => $this->getRequest()->getBaseUrl().Template_Model_Design::getCssPath($application)."?t=".time(),
+            "css" => $this->getRequest()->getBaseUrl().Template_Model_Design::getCssPath($application),
             "customer" => array(
                 "id"                            => $customer_id,
                 "can_connect_with_facebook"     => !!$application->getFacebookId(),
@@ -54,6 +54,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                     "scope" => Customer_Model_Customer_Type_Facebook::getScope()
                 ),
                 "gcm_senderid"                  => Push_Model_Certificate::getAndroidSenderId(),
+                "gcm_iconcolor"                 => $application->getAndroidPushColor(),
                 "googlemaps_key"                => $googlemaps_key,
                 "offline_content"               => ($application->getOfflineContent() == 1),
                 "ios_status_bar_is_hidden"      => ($application->getIosStatusBarIsHidden() == 1),
@@ -78,21 +79,21 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
 
         if($this->getRequest()->getParam("value_id") == "home") {
             $urls = array(
-                "standard" => $this->getRequest()->getBaseUrl().$this->getApplication()->getHomepageBackgroundImageUrl(),
-                "hd" => $this->getRequest()->getBaseUrl().$this->getApplication()->getHomepageBackgroundImageUrl("hd"),
-                "tablet" => $this->getRequest()->getBaseUrl().$this->getApplication()->getHomepageBackgroundImageUrl("tablet")
+                "standard" => $this->clean_url($this->getRequest()->getBaseUrl().$this->getApplication()->getHomepageBackgroundImageUrl()),
+                "hd" => $this->clean_url($this->getRequest()->getBaseUrl().$this->getApplication()->getHomepageBackgroundImageUrl("hd")),
+                "tablet" => $this->clean_url($this->getRequest()->getBaseUrl().$this->getApplication()->getHomepageBackgroundImageUrl("tablet"))
             );
         } else if($option->hasBackgroundImage() AND $option->getBackgroundImage() != "no-image") {
             $urls = array(
-                "standard" => $this->getRequest()->getBaseUrl().$option->getBackgroundImageUrl(),
-                "hd" => $this->getRequest()->getBaseUrl().$option->getBackgroundImageUrl(),
-                "tablet" => $this->getRequest()->getBaseUrl().$option->getBackgroundImageUrl()
+                "standard" => $this->clean_url($this->getRequest()->getBaseUrl().$option->getBackgroundImageUrl()),
+                "hd" => $this->clean_url($this->getRequest()->getBaseUrl().$option->getBackgroundImageUrl()),
+                "tablet" => $this->clean_url($this->getRequest()->getBaseUrl().$option->getBackgroundImageUrl())
             );
         } else if($option->getIsHomepage() OR $this->getApplication()->getUseHomepageBackgroundImageInSubpages()) {
             $urls = array(
-                "standard" => $this->getRequest()->getBaseUrl().$this->getApplication()->getHomepageBackgroundImageUrl(),
-                "hd" => $this->getRequest()->getBaseUrl().$this->getApplication()->getHomepageBackgroundImageUrl("hd"),
-                "tablet" => $this->getRequest()->getBaseUrl().$this->getApplication()->getHomepageBackgroundImageUrl("tablet")
+                "standard" => $this->clean_url($this->getRequest()->getBaseUrl().$this->getApplication()->getHomepageBackgroundImageUrl()),
+                "hd" => $this->clean_url($this->getRequest()->getBaseUrl().$this->getApplication()->getHomepageBackgroundImageUrl("hd")),
+                "tablet" => $this->clean_url($this->getRequest()->getBaseUrl().$this->getApplication()->getHomepageBackgroundImageUrl("tablet"))
             );
         }
 

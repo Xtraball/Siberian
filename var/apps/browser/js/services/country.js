@@ -1,9 +1,9 @@
-App.service('Country', function($http, Url) {
+App.service('Country', function($sbhttp, Url) {
 
     var service = {};
 
     service.findAll = function() {
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("/application/mobile_country/findall"),
             cache: true,

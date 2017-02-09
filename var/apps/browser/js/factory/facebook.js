@@ -3,7 +3,7 @@
 /**
  * Facebook feature
  */
-App.factory('Facebook', function($cacheFactory, $http, $q, $rootScope, Url) {
+App.factory('Facebook', function($cacheFactory, $sbhttp, $q, $rootScope, Url) {
 
     var self = this;
 
@@ -20,7 +20,7 @@ App.factory('Facebook', function($cacheFactory, $http, $q, $rootScope, Url) {
     /**
      * Fetch data for Facebook Page
      *
-     * @returns null|$http
+     * @returns null|$sbhttp
      */
     self.loadData = function() {
 
@@ -28,7 +28,7 @@ App.factory('Facebook', function($cacheFactory, $http, $q, $rootScope, Url) {
             return;
         }
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("social/mobile_facebook_list/find", { value_id: self.value_id, need_token: !self.token }),
             cache: !$rootScope.isOverview,
@@ -75,7 +75,7 @@ App.factory('Facebook', function($cacheFactory, $http, $q, $rootScope, Url) {
     };
 
     self.get = function(url) {
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: url,
             cache: false,

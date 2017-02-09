@@ -1,4 +1,4 @@
-App.directive('sbBackgroundImage', function($http, Url) {
+App.directive('sbBackgroundImage', function($sbhttp, Url, $rootScope) {
     return {
         restrict: 'A',
         controller: function($scope, $state, $stateParams, $location) {
@@ -7,10 +7,11 @@ App.directive('sbBackgroundImage', function($http, Url) {
         link: function(scope, element) {
 
             if(angular.isDefined(scope.value_id)) {
-                $http({
+                $sbhttp({
                     method: 'GET',
                     url: Url.get('front/mobile/backgroundimage', {value_id: scope.value_id}),
-                    cache: false
+                    cache: $rootScope.isOffline,
+                    timeout: 10000
                 }).success(function(background_images) {
 
                     if(background_images) {
@@ -28,7 +29,7 @@ App.directive('sbBackgroundImage', function($http, Url) {
                             img.onload = function () {
                                 scope.setBackgroundImageStyle(src);
                             };
-                            if (img.complete) {
+                            if (img.complete || $rootScope.isOffline) {
                                 scope.setBackgroundImageStyle(src);
                             }
                             /*else if(Application.is_ios) {
@@ -38,6 +39,12 @@ App.directive('sbBackgroundImage', function($http, Url) {
 
                     }
 
+                }).finally(function() {
+                    setTimeout(function() {
+                        if(typeof navigator.splashscreen != "undefined") {
+                            navigator.splashscreen.hide();
+                        }
+                    }, 5000);
                 });
             }
 

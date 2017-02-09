@@ -6,7 +6,8 @@ class Cms_Application_Page_Block_VideoController extends Application_Controller_
      * Récupère les vidéos youtube ou podcast associées à une recherche
      */
     public function searchAction() {
-        if ($datas = $this->getRequest()->getPost()) {
+        //if ($datas = $this->getRequest()->getPost()) {
+        if($datas = $this->getRequest()->getParams()) {
 
             $html = '';
 
@@ -16,7 +17,7 @@ class Cms_Application_Page_Block_VideoController extends Application_Controller_
                 $video->setTypeId($datas['type_id']);
                 $videos = $video->getList($datas['search']);
 
-                $html['layout'] = $this->getLayout()
+                $data['layout'] = $this->getLayout()
                     ->addPartial('row', 'admin_view_default', 'cms/application/page/edit/block/video/search.phtml')
                     ->setCurrentOptionValue($this->getCurrentOptionValue())
                     ->setTypeId($datas['type_id'])
@@ -25,14 +26,44 @@ class Cms_Application_Page_Block_VideoController extends Application_Controller_
                 ;
 
             } catch (Exception $e) {
-                $html = array(
+                $data = array(
                     'message' => $e->getMessage(),
                     'message_button' => 1,
                     'message_loader' => 1
                 );
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+            $this->_sendJson($data);
+        }
+    }
+
+    public function searchv2Action() {
+        if($datas = $this->getRequest()->getParams()) {
+            try {
+                $video = new Cms_Model_Application_Page_Block_Video();
+                $video->setTypeId($datas["type"]);
+                $videos = $video->getList($datas["search"]);
+
+                $vids = array();
+                foreach($videos as $video) {
+                    $vids[] = $video->getData();
+                }
+
+                $data = array(
+                    "success" => true,
+                    "videos" => $vids
+                );
+
+            } catch (Exception $e) {
+                $data = array(
+                    "error" => true,
+                    "message" => $e->getMessage(),
+                    "message_button" => 1,
+                    "message_loader" => 1
+                );
+            }
+
+            $this->_sendJson($data);
         }
     }
 

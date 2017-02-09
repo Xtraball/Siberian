@@ -1,12 +1,11 @@
 #import <Foundation/Foundation.h>
 #import <Cordova/CDVPlugin.h>
-
-BOOL useCache;
+#import "RNCachingURLProtocol.h"
 
 @interface CDVOfflineMode : CDVPlugin
-- (void)useCache:(CDVInvokedUrlCommand*)command;
-@end
 
-@interface RNCachingURLProtocol : NSURLProtocol
-- (NSString *)cachePathForRequest:(NSURLRequest *)aRequest;
+- (void)pluginInitialize;
+- (void)setInternalCallback:(CDVInvokedUrlCommand*)command;
+- (void)setCheckConnectionURL:(CDVInvokedUrlCommand*)command;
+
 @end

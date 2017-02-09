@@ -164,7 +164,7 @@ class Siberian_Mail extends Zend_Mail {
      * @return Zend_Mail
      */
     public function setFrom($email, $name = null) {
-        if(!$this->sameExpeditor($email, $this->_sender_name) && !$this->_reply_to_set) {
+        if(!$this->sameExpeditor($email, $this->_sender_email) && !$this->_reply_to_set) {
             $this->_reply_to_set = true;
             return $this->setReplyTo($email, $name);
         } else {
@@ -267,7 +267,7 @@ class Siberian_Mail extends Zend_Mail {
      */
     public function sameExpeditor($from, $sender) {
         # Assume it's authorized if no SMTP is configured.
-        if($this->_is_default_mailer) {
+        if($this->_is_default_mailer || empty($sender)) {
             return true;
         }
 

@@ -66,6 +66,12 @@ abstract class Rss_Model_Feed_Abstract extends Core_Model_Default {
             if($timestamp) {
                 $updated_at = $this->_getUpdatedAt($timestamp);
             }
+
+
+            $picture_ext = var_dump(pathinfo(parse_url($picture, PHP_URL_PATH), PATHINFO_EXTENSION));
+            if(!in_array($picture_ext, array("gif", "png", "jpeg", "jpg")))
+                $picture = null;
+
             $edata = new Core_Model_Default(array(
                 'entry_id'     => $entry->getId(),
                 'title'        => $entry->getTitle(),

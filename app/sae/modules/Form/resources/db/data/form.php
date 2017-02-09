@@ -37,3 +37,11 @@ $icons = array(
 );
 
 Siberian_Feature::installIcons("{$name}-flat", $icons);
+
+try {
+    $this->query("ALTER TABLE `form` CHANGE `email` `email` TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;");
+} catch(Exception $e) {
+    if(method_exists($this, "log")) {
+        $this->log("E-mail already TEXT, skipping.");
+    }
+}

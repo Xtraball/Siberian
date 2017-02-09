@@ -17,6 +17,7 @@
                 pagerItems = [],
                 pagerItemsOriginal = [],
                 pagerInitialized = false,
+                map = [],
                 noResult = null,
                 sortOrders = [],
                 currentSortOrder = 0,
@@ -27,7 +28,7 @@
 
 
             function initPager() {
-                pagerItemsOriginal = pagerItems = table.find(settings.row_selector).toArray();
+                pagerItemsOriginal = pagerItems = table.find(settings.row_selector+":not(.edit-form)").toArray();
                 noResult = table.find("tfoot");
                 tbody = table.find("tbody");
 
@@ -77,16 +78,39 @@
 
                 currentSortOrder = sortOrders[index];
                 currentSortIndex = index;
+                sortType = "text";
+                if($(element).hasClass("numeric")) {
+                    sortType = "numeric";
+                } else if($(element).hasClass("date")) {
+                    sortType = "date";
+                }
 
-                var tmpRows = tbody.find("tr:not(.edit-form)").get();
-                tmpRows.sort(sortElements);
+                if(currentSortOrder == 0) {
+                    sortType = "original";
+                }
 
-                $.each(tmpRows, function(index, row) {
-                    tbody.append(row);
+                // Filter the map first
+                var mapFiltered = map.filter(function(mapElement) {
+                    return (typeof mapElement.el.attr("data-filtered-off") == "undefined");
                 });
+                switch(sortType) {
+                    case "text":
+                            mapFiltered.sort(textSort);
+                        break;
+                    case "numeric":
+                            mapFiltered.sort(numericSort);
+                        break;
+                    case "date":
+                            mapFiltered.sort(dateSort);
+                        break;
+                    case "original":
+                            mapFiltered.sort(originalSort);
+                        break;
+                }
 
-                /** Refresh pager items */
-                pagerItems = table.find(settings.row_selector).toArray();
+                for(var i = 0; i < mapFiltered.length; i++) {
+                    tbody.append(pagerItemsOriginal[mapFiltered[i].index]);
+                }
 
                 gotoPage(1);
             }
@@ -101,43 +125,50 @@
                     searchClear.addClass("active");
                 }
 
-                pagerItems.forEach(function (item) {
-                    var jitem = $(item);
-                    var textValue = jitem.text().trim().replace(/(\n|\s)+/g, " ").toLowerCase();
+                // split only once
+                var text_parts = text.split(" ");
+
+                for(var s = 0; s < map.length; s++) {
+                    var textValue = map[s].textValue;
                     var push = true;
-                    text.split(" ").forEach(function(part) {
+                    text_parts.forEach(function(part) {
                         if(textValue.indexOf(part) == -1) {
                             push = false;
                         }
                     });
 
                     // Use data set
-                    if(!push) {
-                        jitem.data("filtered-off", true);
+                    if(push) {
+                        map[s].el.removeAttr("data-filtered-off");
                     } else {
-                        jitem.removeData("filtered-off");
+                        map[s].el.attr("data-filtered-off", true);
                     }
-                });
+                }
 
                 buildPager();
                 gotoPage(1);
             }
 
-            function sortElements(element_a, element_b) {
-                value_a = getElementValue(element_a);
-                value_b = getElementValue(element_b);
+            function originalSort(element_a, element_b) {
+                return (element_a.index < element_b.index) ? -1 : 1;
+            }
 
-                /** Reset to default order */
-                if(currentSortOrder == 0) {
-                    return (value_a < value_b) ? -1 : 1;
-                }
+            function numericSort(element_a, element_b) {
+                return (currentSortOrder == 1) ?
+                    (element_a.textValues[currentSortIndex]*1 - element_b.textValues[currentSortIndex]*1) :
+                    (element_b.textValues[currentSortIndex]*1 - element_a.textValues[currentSortIndex]*1);
+            }
 
-                /** Numeric sort */
-                if(table.find("thead th:eq("+currentSortIndex+")").hasClass("numeric")) {
-                    return (currentSortOrder == 1) ? (value_a - value_b) : (value_b - value_a);
-                }
+            function dateSort(element_a, element_b) {
+                return (currentSortOrder == 1) ?
+                    (element_a.dateValues[currentSortIndex]*1 - element_b.dateValues[currentSortIndex]*1) :
+                    (element_b.dateValues[currentSortIndex]*1 - element_a.dateValues[currentSortIndex]*1);
+            }
 
-                /** Default alpha */
+            function textSort(element_a, element_b) {
+                value_a = element_a.textValues[currentSortIndex];
+                value_b = element_b.textValues[currentSortIndex];
+
                 if(value_a < value_b) {
                     return -1 * currentSortOrder;
                 }
@@ -145,14 +176,6 @@
                     return 1 * currentSortOrder;
                 }
                 return 0;
-            }
-
-            function getElementValue(element) {
-                if(currentSortOrder == 0) {
-                    return $(element).data("original-index");
-                }
-
-                return $(element).find("td:eq("+currentSortIndex+")").text();
             }
 
             function gotoPage(page) {
@@ -163,9 +186,7 @@
                 noResult.hide();
                 showPager();
                 if(visibleItemsLength() == 0) {
-                    pagerItems.forEach(function (item) {
-                        $(item).hide();
-                    });
+                    table.find(settings.row_selector).hide();
                     noResult.show();
                     hidePager();
                 }
@@ -188,17 +209,8 @@
 
                 var count = 0;
                 var visibleIndex = 0;
-                pagerItems.forEach(function(item) {
-                    $(item).hide();
-                    if((typeof $(item).data("filtered-off") == "undefined") && (count < settings.items_per_page)) {
-                        if(visibleIndex >= start && visibleIndex < end) {
-                            $(item).show();
-                            count++;
-                        }
-
-                        visibleIndex++;
-                    }
-                });
+                table.find(settings.row_selector).hide();
+                table.find(settings.row_selector+":not([data-filtered-off])").slice(start, end).show();
 
                 if(visibleItemsLength() <= settings.items_per_page) {
                     hidePager();
@@ -206,14 +218,7 @@
             }
 
             function visibleItemsLength() {
-                var count = 0;
-                pagerItems.forEach(function(item) {
-                    if(typeof $(item).data("filtered-off") == "undefined") {
-                        count++;
-                    }
-                });
-
-                return count;
+                return table.find(settings.row_selector+":not([data-filtered-off])").length;
             }
 
             function gotoFirst() {
@@ -290,13 +295,35 @@
                     });
 
                     /** Original order */
-                    var tmpRows = tbody.find("tr:not(.edit-form)").get();
-                    $.each(tmpRows, function(index, row) {
-                        $(row).data("original-index", index);
+                    $.each(pagerItemsOriginal, function(index, row) {
+                        createMap(index, row);
                     });
 
                     sortableInitialized = true;
                 }
+            }
+
+            function createMap(index, row) {
+                var _row = $(row);
+                _row.attr("data-original-index", index);
+
+                var _rows = [];
+                var _dateRows = [];
+                _row.find("td").each(function() {
+                    var el = $(this);
+                    _rows.push(el.text().trim().replace(/(\n|\s)+/g, " ").toLowerCase());
+                    _dateRows.push(el.attr("data-timestamp"));
+                });
+
+                var _textValue = _row.text().trim().replace(/(\n|\s)+/g, " ").toLowerCase();
+
+                map.push({
+                    el: _row,
+                    index: index,
+                    textValue: _textValue,
+                    textValues: _rows,
+                    dateValues: _dateRows
+                });
             }
 
             initPager();

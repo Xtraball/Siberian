@@ -28,7 +28,9 @@ class LoyaltyCard_Model_Customer extends Core_Model_Default
                 $is_locked = false;
                 if(!is_null($card->getLastError())) {
                     $now = $this->formatDate(null, 'y-MM-dd HH:mm:ss');
-                    $date = new Zend_Date($card->getLastError());
+                    $date = new Zend_Date();
+                    $date->setDate($card->getLastError(), "y-MM-dd HH:mm:ss");
+
                     $last_error = $date->addDay(1)->toString('y-MM-dd HH:mm:ss');
                     $is_locked = ($last_error > $now && $card->getNumberOfError() >= 3);
                     if(!$last_error > $now) $card->setNumberOfError(0);

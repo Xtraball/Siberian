@@ -27,6 +27,42 @@ class Catalog_Model_Category extends Core_Model_Default
     	return $this;
     }
 
+
+    /**
+     * @return array
+     */
+    public function getInappStates($value_id) {
+        $product_model = new Catalog_Model_Product();
+        $products = $product_model->findByValueId($value_id);
+
+        $state_products = array();
+        foreach($products as $product) {
+
+            $state_products[] = array(
+                "label" => $product->getName(),
+                "state" => "catalog-product-view",
+                "offline" => true,
+                "params" => array(
+                    "value_id" => $value_id,
+                    "product_id" => $product->getId(),
+                ),
+            );
+        }
+
+        $in_app_states = array(
+            array(
+                "state" => "catalog-category-list",
+                "offline" => true,
+                "params" => array(
+                    "value_id" => $value_id,
+                ),
+                "childrens" => $state_products,
+            ),
+        );
+
+        return $in_app_states;
+    }
+
     public function getParent() {
 
         if(!$this->_parent) {
@@ -187,7 +223,7 @@ class Catalog_Model_Category extends Core_Model_Default
     }
 
     public function getFeaturePaths($option_value) {
-        if(!$this->isCachable()) return array();
+        if(!$this->isCacheable()) return array();
 
         $paths = array();
         $paths[] = $option_value->getPath("findall", array('value_id' => $option_value->getId()), false);

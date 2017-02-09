@@ -1,5 +1,5 @@
 
-App.factory('Links', function($rootScope, $http, Url) {
+App.factory('Links', function($rootScope, $sbhttp, Url) {
 
     var factory = {};
 
@@ -9,7 +9,7 @@ App.factory('Links', function($rootScope, $http, Url) {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("weblink/mobile_multi/find", {value_id: this.value_id}),
             cache: !$rootScope.isOverview,

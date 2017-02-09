@@ -1,4 +1,4 @@
-App.factory('Search', function ($rootScope, $http, Url) {
+App.factory('Search', function ($rootScope, $sbhttp, Url) {
 
     var factory = {};
 
@@ -20,7 +20,7 @@ App.factory('Search', function ($rootScope, $http, Url) {
         /* The url and agent must be non-null */
         if (!(this.url && this.agent)) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get(factory.url, {value_id: parameters.value_id}),
             params: parameters,

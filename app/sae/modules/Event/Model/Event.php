@@ -13,6 +13,24 @@ class Event_Model_Event extends Core_Model_Default {
         return $this;
     }
 
+    /**
+     * @return array
+     */
+    public function getInappStates($value_id) {
+
+        $in_app_states = array(
+            array(
+                "state" => "event-list",
+                "offline" => false,
+                "params" => array(
+                    "value_id" => $value_id,
+                ),
+            ),
+        );
+
+        return $in_app_states;
+    }
+
     public function getEvents($offset = 0, $all_event=false) {
 
             $events = $this->findAll(array('value_id' => $this->getValueId()));
@@ -46,7 +64,7 @@ class Event_Model_Event extends Core_Model_Default {
 
     public function getFeaturePaths($option_value) {
 
-        if(!$this->isCachable()) return array();
+        if(!$this->isCacheable()) return array();
 
         $action_view = $this->getActionView();
 

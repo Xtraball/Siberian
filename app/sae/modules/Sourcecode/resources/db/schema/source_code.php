@@ -34,6 +34,10 @@ $schemas['source_code'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'allow_offline' => array(
+        'type' => 'tinyint(1)',
+        'default' => 0
+    ),
     'created_at' => array(
         'type' => 'datetime',
     ),

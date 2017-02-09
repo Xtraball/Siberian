@@ -280,12 +280,59 @@ class Siberian_Feature {
         }
         
         if(!copy($img_src, $img_dst)) {
-            throw new Siberian_Exception(__("An error occurred while saving your picture. Please try again later."));
+            throw new Siberian_Exception("#343-01: ".__("An error occurred while saving your picture. Please try again later."));
         } else {
             $path = $relative_path.'/'.$filename;
         }
 
         return $path;
+    }
+
+    /**
+     * @param Application_Model_Option_Value $option_value
+     * @param $tmp_path
+     * @return null|string
+     * @throws exception
+     */
+    public static function moveUploadedIcon($app_id, $tmp_path) {
+        $path = null;
+
+        $filename = pathinfo($tmp_path, PATHINFO_BASENAME);
+        $relative_path = sprintf("/%s/icons/", $app_id);
+        $folder = Application_Model_Application::getBaseImagePath().$relative_path;
+        $img_dst = $folder."/".$filename;
+        $img_src = Core_Model_Directory::getTmpDirectory(true)."/".$filename;
+
+        if(!is_dir($folder)) {
+            mkdir($folder, 0777, true);
+        }
+
+        if(!copy($img_src, $img_dst)) {
+            throw new Siberian_Exception(__("#343-02: "."An error occurred while saving your picture. Please try again later."));
+        } else {
+            $path = $relative_path.'/'.$filename;
+        }
+
+        return $path;
+    }
+
+    /**
+     * Wrapper to upload or not an image
+     *
+     * @param $option_value
+     * @param $image
+     * @return null|string
+     */
+    public static function saveImageForOption($option_value, $image) {
+        # If the file already exists in images/application
+        if(file_exists(Core_Model_Directory::getBasePathTo("images/application".$image))) {
+            # Nothing changed, skip
+            $image_path = $image;
+        } else {
+            $image_path = Siberian_Feature::moveUploadedFile($option_value, $image);
+        }
+
+        return $image_path;
     }
 
     /**
@@ -302,7 +349,7 @@ class Siberian_Feature {
      * @param int $priority
      * @param bool $standalone
      */
-    public static function installCronjob($name, $command, $minute = 5, $hour = -1, $month_day = -1, $month = -1, $week_day = -1, $is_active = true, $priority = 5, $standalone = false) {
+    public static function installCronjob($name, $command, $minute = 5, $hour = -1, $month_day = -1, $month = -1, $week_day = -1, $is_active = true, $priority = 5, $standalone = false, $module_id = null) {
         $job = new Cron_Model_Cron();
         $job->setData(array(
             "name"          => $name,
@@ -315,6 +362,7 @@ class Siberian_Feature {
             "is_active"     => $is_active,
             "priority"      => $priority,
             "standalone"    => $standalone,
+            "module_id"     => $module_id
         ));
 
         $job->insertOrUpdate(array("command"));

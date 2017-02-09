@@ -2,10 +2,30 @@
 
 class Rss_Model_Feed extends Rss_Model_Feed_Abstract {
 
+    protected $_is_cacheable = true;
+
     public function __construct($params = array()) {
         parent::__construct($params);
         $this->_db_table = 'Rss_Model_Db_Table_Feed';
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getInappStates($value_id) {
+
+        $in_app_states = array(
+            array(
+                "state" => "rss-list",
+                "offline" => true,
+                "params" => array(
+                    "value_id" => $value_id,
+                ),
+            ),
+        );
+
+        return $in_app_states;
     }
 
     public function updatePositions($positions) {
@@ -28,8 +48,7 @@ class Rss_Model_Feed extends Rss_Model_Feed_Abstract {
     }
 
     public function getFeaturePaths($option_value) {
-
-        if(!$this->isCachable()) return array();
+        if(!$this->isCacheable()) return array();
 
         $action_view = $this->getActionView();
 
@@ -51,6 +70,34 @@ class Rss_Model_Feed extends Rss_Model_Feed_Abstract {
                     "value_id" => $option_value->getId()
                 );
                 $paths[] = $option_value->getPath($uri, $params, false);
+            }
+
+        }
+
+        return $paths;
+
+    }
+
+    public function getAssetsPaths($option_value) {
+        if(!$this->isCacheable()) return array();
+
+        $paths = array();
+
+        $feeds = $this->getNews();
+        foreach ($feeds->getEntries() as $entry) {
+            $picture = $entry->getPicture();
+            if(!empty($picture))
+                $paths[] = $picture;
+
+            $matches = array();
+            $regex_url = "/((?:http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(?:\/[^\s\"]*)\.(?:png|gif|jpeg|jpg)+)+/";
+            preg_match_all($regex_url, $entry->getContent(), $matches);
+
+            $matches = call_user_func_array('array_merge', $matches);
+
+            if($matches && count($matches) > 1) {
+                unset($matches[0]);
+                $paths = array_merge($paths, $matches);
             }
 
         }

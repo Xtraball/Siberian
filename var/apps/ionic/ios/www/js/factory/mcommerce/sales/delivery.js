@@ -1,4 +1,4 @@
-App.factory('McommerceSalesDelivery', function($rootScope, $http, Url) {
+App.factory('McommerceSalesDelivery', function($rootScope, $sbhttp, Url) {
 
     var factory = {};
 
@@ -8,7 +8,7 @@ App.factory('McommerceSalesDelivery', function($rootScope, $http, Url) {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("mcommerce/mobile_sales_delivery/findstore", {value_id: this.value_id}),
             cache: false,
@@ -24,7 +24,7 @@ App.factory('McommerceSalesDelivery', function($rootScope, $http, Url) {
         
         var data = {form: form};
 
-        return $http.post(url, data);
+        return $sbhttp.post(url, data);
     };
     
     return factory;

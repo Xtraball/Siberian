@@ -1,5 +1,5 @@
 
-App.factory('Event', function($rootScope, $http, Url) {
+App.factory('Event', function($rootScope, $sbhttp, Url) {
 
     var factory = {};
 
@@ -14,7 +14,7 @@ App.factory('Event', function($rootScope, $http, Url) {
             offset: offset
         };
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("event/mobile_list/findall", params),
             cache: !$rootScope.isOverview,
@@ -26,7 +26,7 @@ App.factory('Event', function($rootScope, $http, Url) {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("event/mobile_view/find", {value_id: this.value_id, event_id: event_id}),
             cache: !$rootScope.isOverview,

@@ -1,4 +1,4 @@
-App.factory('Catalog', function($rootScope, $http, Url) {
+App.factory('Catalog', function($rootScope, $sbhttp, Url) {
 
     var factory = {};
 
@@ -8,7 +8,7 @@ App.factory('Catalog', function($rootScope, $http, Url) {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("catalog/mobile_category_list/findall", {value_id: this.value_id}),
             cache: !$rootScope.isOverview,
@@ -22,7 +22,7 @@ App.factory('Catalog', function($rootScope, $http, Url) {
 
         var url = Url.get('catalog/mobile_category_product_view/find', {value_id: this.value_id, product_id: product_id});
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: url,
             cache: !$rootScope.isOverview,

@@ -1,4 +1,4 @@
-App.factory('McommerceSalesStorechoice', function($rootScope, $http, Url) {
+App.factory('McommerceSalesStorechoice', function($rootScope, $sbhttp, Url) {
 
     var factory = {};
 
@@ -8,7 +8,7 @@ App.factory('McommerceSalesStorechoice', function($rootScope, $http, Url) {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("mcommerce/mobile_sales_storechoice/find", {value_id: this.value_id}),
             cache: false,
@@ -20,7 +20,7 @@ App.factory('McommerceSalesStorechoice', function($rootScope, $http, Url) {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'POST',
             url: Url.get("mcommerce/mobile_sales_storechoice/update"),
             data: {store_id: store_id},

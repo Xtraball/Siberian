@@ -91,6 +91,12 @@ $schemas['application_option'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'mobile_uris' => array(
+        'type' => 'text',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'only_once' => array(
         'type' => 'tinyint(1)',
         'default' => '0',

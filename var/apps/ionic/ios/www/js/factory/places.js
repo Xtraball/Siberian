@@ -1,4 +1,4 @@
-App.factory('Places', function ($rootScope, $http, Url) {
+App.factory('Places', function ($rootScope, $sbhttp, Url) {
 
     var factory = {};
 
@@ -8,7 +8,7 @@ App.factory('Places', function ($rootScope, $http, Url) {
 
         if (!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("places/mobile_view/find", { value_id: this.value_id, place_id: place_id }),
             cache: !$rootScope.isOverview,
@@ -22,7 +22,7 @@ App.factory('Places', function ($rootScope, $http, Url) {
         /* The url and agent must be non-null */
         if (!(this.value_id)) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get('places/mobile_list/settings', {
                 value_id: factory.value_id
@@ -45,7 +45,7 @@ App.factory('Places', function ($rootScope, $http, Url) {
             parameters.longitude = position.longitude;
         }
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("places/mobile_list/findall", parameters),
             cache: !$rootScope.isOverview,

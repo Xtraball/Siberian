@@ -90,6 +90,7 @@ class Push_ApplicationController extends Application_Controller_Default
                 $data['app_id'] = $this->getApplication()->getId();
                 $data["send_to_all"] = $data["topic_receiver"]?0:1;
                 $data["send_to_specific_customer"] = $data["customers_receiver"]?1:0;
+                $data["base_url"] = $this->getRequest()->getBaseUrl();
                 $message->setData($data)->save();
 
                 //PnTopics

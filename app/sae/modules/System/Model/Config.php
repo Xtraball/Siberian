@@ -24,6 +24,14 @@ class System_Model_Config extends Rss_Model_Feed_Abstract {
 
     }
 
+    public static function setValueFor($code, $value) {
+        $config = new self();
+        $config->find($code, "code");
+        $config->setCode($code);
+        $config->setValue($value)->save();
+        return $config;
+    }
+
     public function save() {
 
         $value_changed = $this->getValue() != $this->getOrigValue();

@@ -28,6 +28,12 @@ class Siberian_Media {
     );
 
     public static function optimize($image_path, $force = false) {
+        /** Dev global disable. */
+        $_config = Zend_Registry::get("_config");
+        if(isset($_config["disable_media"])) {
+            return;
+        }
+
         /** Temporary disabled */
         if(self::$temporary_disabled) {
             return;

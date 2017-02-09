@@ -1,5 +1,5 @@
 
-App.factory('Padlock', function($rootScope, $http, httpCache, Url) {
+App.factory('Padlock', function($rootScope, $sbhttp, httpCache, Url) {
 
     var factory = {};
 
@@ -25,7 +25,7 @@ App.factory('Padlock', function($rootScope, $http, httpCache, Url) {
     };
 
     factory.findUnlockTypes = function() {
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("padlock/mobile_view/findunlocktypes", {value_id: this.value_id}),
             cache: !$rootScope.isOverview,
@@ -37,7 +37,7 @@ App.factory('Padlock', function($rootScope, $http, httpCache, Url) {
 
         if(!angular.isDefined(this.value_id)) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("padlock/mobile_view/find", {value_id: this.value_id}),
             cache: !$rootScope.isOverview,
@@ -51,7 +51,7 @@ App.factory('Padlock', function($rootScope, $http, httpCache, Url) {
             qrcode: qrcode
         };
 
-        return $http.post(url, data);
+        return $sbhttp.post(url, data);
     };
 
     return factory;

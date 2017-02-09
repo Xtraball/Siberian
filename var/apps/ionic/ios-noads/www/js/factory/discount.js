@@ -1,5 +1,5 @@
 
-App.factory('Discount', function($rootScope, $http, httpCache, Url, CACHE_EVENTS, Customer) {
+App.factory('Discount', function($rootScope, $sbhttp, httpCache, Url, CACHE_EVENTS, Customer) {
 
     var factory = {};
 
@@ -9,7 +9,7 @@ App.factory('Discount', function($rootScope, $http, httpCache, Url, CACHE_EVENTS
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("promotion/mobile_list/findall", {value_id: this.value_id}),
             cache: !$rootScope.isOverview,
@@ -30,7 +30,7 @@ App.factory('Discount', function($rootScope, $http, httpCache, Url, CACHE_EVENTS
     factory.find = function(promotion_id) {
 
         if(!this.value_id) return;
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("promotion/mobile_view/find", {value_id: this.value_id, promotion_id: promotion_id}),
             cache: !$rootScope.isOverview,
@@ -47,7 +47,7 @@ App.factory('Discount', function($rootScope, $http, httpCache, Url, CACHE_EVENTS
         };
         var url = Url.get("promotion/mobile_list/use", {value_id: this.value_id});
 
-        return $http.post(url, data);
+        return $sbhttp.post(url, data);
     };
 
     factory.unlockByQRCode = function(qrcode) {
@@ -58,7 +58,7 @@ App.factory('Discount', function($rootScope, $http, httpCache, Url, CACHE_EVENTS
             value_id: this.value_id
         };
 
-        return $http.post(url, data);
+        return $sbhttp.post(url, data);
     };
 
     return factory;

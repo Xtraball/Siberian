@@ -1,12 +1,12 @@
-App.factory('Pages', function($http, $rootScope, Push, Url) {
+App.factory('Pages', function($sbhttp, $rootScope, Push, Url) {
 
     var factory = {};
 
     factory.findAll = function() {
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get('front/mobile_home/findall', { device_uid: Push.device_uid }),
-            cache: !$rootScope.isOverview,
+            cache: false,
             responseType:'json'
         });
     };

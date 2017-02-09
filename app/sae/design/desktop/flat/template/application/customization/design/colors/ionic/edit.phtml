@@ -1,3 +1,13 @@
+<link rel="stylesheet" href="/app/sae/design/desktop/flat/js/codemirror/lib/codemirror.css">
+<link rel="stylesheet" href="/app/sae/design/desktop/flat/js/codemirror/addon/hint/show-hint.css">
+<script src="/app/sae/design/desktop/flat/js/codemirror/lib/codemirror.js"></script>
+<script src="/app/sae/design/desktop/flat/js/codemirror/mode/css/css.js"></script>
+<script src="/app/sae/design/desktop/flat/js/codemirror/addon/edit/matchbrackets.js"></script>
+<script src="/app/sae/design/desktop/flat/js/codemirror/addon/edit/closebrackets.js"></script>
+<script src="/app/sae/design/desktop/flat/js/codemirror/addon/hint/show-hint.js"></script>
+<script src="/app/sae/design/desktop/flat/js/codemirror/addon/hint/css-hint.js"></script>
+
+
 <?php $blocks = $this->getApplication()->getBlocks(); ?>
 <?php $tabbar_block = $this->getApplication()->getBlock('tabbar'); ?>
 <div class="page-content-wrapper">
@@ -418,7 +428,11 @@
 
         $("#save_scss").on("click", function(e) {
             e.preventDefault();
-            reload($('#row_scss'), $('#colorsForm').attr('action'), true, function() { refreshCss(); setTimeout(function() { message.hide(); }, 2000); }, function() { refreshCss(); });
+
+            var scss_value = $("#custom_scss").next(".CodeMirror").get(0).CodeMirror.getValue();
+            $("#custom_scss").val(scss_value);
+
+            reload($('#colorsForm'), $('#colorsForm').attr('action'), true, function() { refreshCss(); setTimeout(function() { message.hide(); }, 2000); }, function() { refreshCss(); });
             return false;
         });
 
@@ -482,6 +496,22 @@
             $('#<?php echo $target ?>_receiver').trigger("change");
             trigger_change(input); // pour refresh en live
         });
+
+
+        $(document).ready(function() {
+            var textarea = document.getElementById("custom_scss");
+            var editor = CodeMirror.fromTextArea(textarea, {
+                matchBrackets: true,
+                autofocus: true,
+                mode: "text/x-scss",
+                lineNumbers: true,
+                extraKeys: {"Ctrl-Space": "autocomplete"},
+            });
+
+            setTimeout(function () {
+                editor.refresh();
+            }, 1000);
+        });
     </script>
     <style>
         #mask_colors {background-color: transparent;z-index:999; display: none; }
@@ -501,6 +531,13 @@
         .opacity_container { margin: auto;  max-width: 100px;  min-width: 50px;  width: 100%; }
         .opacity_container input[type=range] { float: left; width: 70%; }
         .opacity_container span { float: right; font-size: 11px; margin-top: -1px }
+        .CodeMirror {
+            font-size: 12px;
+            background-color: #f3f3f3 !important;
+            border-color: #b2b1b1 !important;
+            border-bottom: 2px solid;
+            margin-bottom: 15px;
+        }
     </style>
 
     <div id="mask_colors" class="mask"></div>

@@ -2,6 +2,7 @@
 
 class Catalog_Model_Product extends Core_Model_Default
 {
+    protected $_is_cacheable = true;
 
     const DISPLAYED_PER_PAGE = 10;
 
@@ -23,6 +24,39 @@ class Catalog_Model_Product extends Core_Model_Default
     public function __construct($datas = array()) {
         parent::__construct($datas);
         $this->_db_table = 'Catalog_Model_Db_Table_Product';
+    }
+
+    /**
+     * @return array
+     */
+    public function getInappStates($value_id) {
+        $products = $this->findByValueId($value_id);
+
+        $state_products = array();
+        foreach($products as $product) {
+            $state_products[] = array(
+                "label" => $product->getName(),
+                "state" => "set-meal-view",
+                "offline" => true,
+                "params" => array(
+                    "value_id" => $value_id,
+                    "set_meal_id" => $product->getId(),
+                ),
+            );
+        }
+
+        $in_app_states = array(
+            array(
+                "state" => "set-meal-list",
+                "offline" => true,
+                "params" => array(
+                    "value_id" => $value_id,
+                ),
+            ),
+            $state_products,
+        );
+
+        return $in_app_states;
     }
 
     public function findByCategory($category_id, $use_folder = false, $offset = null) {
@@ -469,6 +503,47 @@ class Catalog_Model_Product extends Core_Model_Default
             return $finalize_errors;
         }
 
+    }
+
+    public function getFeaturePaths($option_value) {
+        if(!$this->isCacheable()) return array();
+
+        $paths = array();
+
+        if($option_value->getCode() == "set_meal") {
+            $menus = $this->findAll(array('value_id' => $option_value->getId(), 'type' => 'menu'));
+
+            for($i = 0; $i <= floor($menus->count()/Catalog_Model_Product::DISPLAYED_PER_PAGE); $i++) {
+                $paths[] = $option_value->getPath("catalog/mobile_setmeal_list/findall", array("value_id" => $option_value->getId(), "offset" => $i*Catalog_Model_Product::DISPLAYED_PER_PAGE));
+            }
+
+            foreach($menus as $menu) {
+                $paths[] = $option_value->getPath("catalog/mobile_setmeal_view/find", array(
+                    "set_meal_id" => $menu->getId(),
+                    "value_id" => $option_value->getId()
+                ));
+            }
+        }
+
+        return $paths;
+    }
+
+    public function getAssetsPaths($option_value) {
+        $paths = array();
+
+        if($option_value->getCode() == "set_meal") {
+            $menus = $this->findAll(array('value_id' => $option_value->getId(), 'type' => 'menu'));
+
+            foreach($menus as $menu) {
+                if($menu->getThumbnailUrl())
+                    $paths[] = $menu->getThumbnailUrl();
+
+                if($menu->getPictureUrl())
+                    $paths[] = $menu->getPictureUrl();
+            }
+        }
+
+        return $paths;
     }
 
 }

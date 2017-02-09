@@ -49,6 +49,7 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                         "father_name" => $folder->getFatherName(),
                         "url" => $this->getPath("folder/mobile_list", array("value_id" => $current_option->getId(), "category_id" => $folder->getId())),
                         "picture" => $current_option->getIconId() ? $this->getRequest()->getBaseUrl().$this->_getColorizedImage($current_option->getIconId(), $color) : null,
+                        "offline_mode" => $folder->isCacheable(),
                         "type" => "folder"
                     );
                     $category_option = new Application_Model_Option_Value();
@@ -61,6 +62,7 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                             "url" => $feature->getPath(null, array('value_id' => $feature->getId()), false),
                             'is_link' => !$feature->getIsAjax(),
                             "picture" => $feature->getIconId() ? $this->getRequest()->getBaseUrl().$this->_getColorizedImage($feature->getIconId(), $color) : null,
+                            "offline_mode" => $feature->getObject()->isCacheable(),
                             "code" => $feature->getCode(),
                             "type" => "feature"
                         );
@@ -81,7 +83,8 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                         "title" => $subcategory->getTitle(),
                         "subtitle" => $subcategory->getSubtitle(),
                         "picture" => $subcategory->getPictureUrl() ? $this->getRequest()->getBaseUrl().$subcategory->getPictureUrl() : null,
-                        "url" => $this->getPath("folder/mobile_list", array("value_id" => $value_id, "category_id" => $subcategory->getId()))
+                        "url" => $this->getPath("folder/mobile_list", array("value_id" => $value_id, "category_id" => $subcategory->getId())),
+                        "offline_mode" => $current_option->getObject()->isCacheable()
                     );
                 }
 
@@ -95,6 +98,7 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                         'is_link' => !$page->getIsAjax(),
                         "url" => $page->getPath(null, array('value_id' => $page->getId()), false),
                         "code" => $page->getCode(),
+                        "offline_mode" => $page->getObject()->isCacheable(),
                         "is_locked" => $page->isLocked(),
                     );
                 }

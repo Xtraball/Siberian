@@ -59,6 +59,7 @@ $unread_count = $notif_model->findAll(array("is_read = ?" => 0))->count();
                     <li class="has_submenu">
                         <a href="javascript:void(0);"><i class="fa fa-money"></i><?php echo __("Sales"); ?></a>
                         <ul class="l3">
+                            <li><a href="<?php echo $this->getUrl('sales/backoffice_index/index'); ?>"><i class="fa fa-toggle-on"></i><?php echo __('Configuration'); ?></a></li>
                             <li><a href="<?php echo $this->getUrl('tax/backoffice_list'); ?>"><i class="fa fa-money"></i><?php echo __('Taxes'); ?></a></li>
                             <li><a href="<?php echo $this->getUrl('subscription/backoffice_list'); ?>"><i class="fa fa-credit-card"></i><?php echo __('Plans'); ?></a></li>
                             <?php if($this->_canAccessDiscounts()) : ?>

@@ -93,7 +93,7 @@
                                     </td>
                                 </tr>
                                 <tr ng-hide="!cron_error_show">
-                                    <td colspan="3" style="white-space: initial;">{{ services.cron_error.full }}</td>
+                                    <td colspan="3" style="white-space: initial;" ng-bind-html="services.cron_error.full"></td>
                                 </tr>
                             </tbody>
                         </table>

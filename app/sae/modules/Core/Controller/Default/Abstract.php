@@ -587,12 +587,12 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     /**
      * @param $html
      */
-    protected function _sendJson($html) {
+    protected function _sendJson($html, $options = JSON_PRETTY_PRINT) {
         if(isset($html['error']) && !empty($html['error'])) {
             $this->getResponse()->setHttpResponseCode(400);
         }
 
-        $json = Siberian_Json::encode($html);
+        $json = Siberian_Json::encode($html, $options);
 
         Siberian_Debug::sendDataInHeaders();
 
@@ -672,5 +672,21 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      * Nothing to do
      */
     public function clearcacheAction() {}
+
+    protected function clean_url($url) {
+        $original_path = parse_url($url, PHP_URL_PATH);
+        $path = explode("/", $original_path);
+        $new_path = "";
+        foreach($path as $segpath) {
+            if($segpath == "" || $segpath == ".") continue;
+            if($segpath == "..") {
+                $new_path = substr($new_path, 0, strrpos($new_path, "/"));
+            } else {
+                $new_path = $new_path."/".$segpath;
+            }
+        }
+
+        return str_replace($original_path, $new_path, $url);
+    }
 
 }

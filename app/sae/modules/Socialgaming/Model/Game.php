@@ -11,6 +11,24 @@ class Socialgaming_Model_Game extends Core_Model_Default {
         return $this;
     }
 
+    /**
+     * @return array
+     */
+    public function getInappStates($value_id) {
+
+        $in_app_states = array(
+            array(
+                "state" => "socialgaming-view",
+                "offline" => true,
+                "params" => array(
+                    "value_id" => $value_id,
+                ),
+            ),
+        );
+
+        return $in_app_states;
+    }
+
     public function findCurrent($value_id) {
         $row = $this->getTable()->findCurrent($value_id);
         $this->_prepareDatas($row);

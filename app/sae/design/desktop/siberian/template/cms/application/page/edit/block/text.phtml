@@ -88,22 +88,7 @@
                     //partie iframe
                     var img = $('<img />').attr('src', '<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+data.result.files).addClass('textillus');
                     var clear = $('<div></div>').addClass('clear');
-                    /*
-                    //block iframe déjà créé
-                    if(iframe.content.find('.cms_block[rel="<?php echo $this->getPosition() ?>"]').length > 0) {
-                        var container = iframe.content.find('.cms_block[rel="<?php echo $this->getPosition() ?>"]');
-                        //Supprime si une image déjà existante
-                        if(container.find('img.textillus').length > 0) {
-                           container.find('img.textillus').remove();
-                        }
-                    //Sinon créé
-                    } else {
-                        var container = $('<div />').addClass('cms_block').addClass('text').attr('rel', <?php echo $this->getPosition() ?>);
-                        iframe.content.find('#cms_page_content_<?php echo $block->getValueId(); ?>').append(container);
-                    }
-                    */
-//                    img.prependTo(container);
-//                    clear.appendTo(container);
+
                     updateImage(<?php echo $this->getPosition() ?>);
                     $('.cms_block[rel="<?php echo $this->getPosition(); ?>"]').find('.param_cont').show();
 
@@ -114,11 +99,6 @@
         //ckeditor
         $('textarea[rel="<?php echo $this->getPosition(); ?>"]').ckeditor(function() {
 
-                /*
-                if(!iframe.content.find('.cms_block[rel="<?php echo $this->getPosition(); ?>"]').length) {
-                    iframe.content.find('#cms_page_content_<?php echo $option->getId(); ?>').append('<div class="cms_block text padding" rel="<?php echo $this->getPosition(); ?>"></div>');
-                }
-                */
                 this.on('change', function (c) {
                     $('textarea[rel="<?php echo $this->getPosition(); ?>"]').html(this.getData());
                     updateFormText(<?php echo $this->getPosition(); ?>);

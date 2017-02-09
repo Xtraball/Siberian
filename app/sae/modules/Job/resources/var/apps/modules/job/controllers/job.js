@@ -112,6 +112,11 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
     };
 
     $scope.adminModal = function() {
+        if($rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }
+
         $ionicModal.fromTemplateUrl('modules/job/templates/l1/admin-modal.html', {
             scope: $scope,
             animation: 'slide-in-up'
@@ -283,6 +288,11 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
     };
 
     $scope.contactModal = function() {
+        if($rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }
+
         $ionicModal.fromTemplateUrl('modules/job/templates/l1/contact.html', {
             scope: $scope,
             animation: 'slide-in-up'
@@ -302,6 +312,11 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
     };
 
     $scope.submitContact = function() {
+        if($rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }
+
         if($scope.form.fullname == "" || $scope.form.email == "" || $scope.form.message == "") {
             Dialog.alert($translate.instant("Form error"), $translate.instant("All fields are required !"), $translate.instant("OK"));
             return;
@@ -320,6 +335,11 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
     };
 
     $scope.submitManage = function() {
+        if($rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }
+
         if($scope.place_edit.title == "" || $scope.place_edit.subtitle == "") {
             Dialog.alert($translate.instant("Form error"), $translate.instant("All fields are required !"), $translate.instant("OK"));
             return;
@@ -341,6 +361,11 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
     };
 
     $scope.manageModal = function() {
+        if($rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }
+
         $ionicModal.fromTemplateUrl('modules/job/templates/l1/manage-place.html', {
             scope: $scope,
             animation: 'slide-in-up'
@@ -414,6 +439,11 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
     };
 
     $scope.submitManage = function() {
+        if($rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }
+
         if($scope.company_edit.title == "" || $scope.company_edit.location == "" || $scope.company_edit.email == "") {
             Dialog.alert($translate.instant("Form error"), $translate.instant("Required fields are missing !"), $translate.instant("OK"));
             return;
@@ -434,6 +464,11 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
     };
 
     $scope.manageModal = function() {
+        if($rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }
+
         $ionicModal.fromTemplateUrl('modules/job/templates/l1/manage-company.html', {
             scope: $scope,
             animation: 'slide-in-up'
@@ -448,6 +483,11 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
     };
 
     $scope.submitCreate = function() {
+        if($rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }
+
         var options = angular.extend($scope.place_create, {
             company_id: $stateParams.company_id,
             value_id: $scope.value_id
@@ -465,6 +505,11 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
     };
 
     $scope.createModal = function() {
+        if($rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }
+
         $ionicModal.fromTemplateUrl('modules/job/templates/l1/create-place.html', {
             scope: $scope,
             animation: 'slide-in-up'

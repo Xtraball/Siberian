@@ -16,8 +16,25 @@ class Cms_Model_Application_Page_Block_Video_Youtube  extends Core_Model_Default
     }
 
     public function isValid() {
-        if($this->getYoutube()) return true;
+        if($this->getYoutube()) {
+            return true;
+        }
+
         return false;
+    }
+
+    /**
+     * @param array $data
+     * @return $this
+     */
+    public function populate($data = array()) {
+
+        $this
+            ->setSearch($data["youtube_search"])
+            ->setYoutube($data["youtube"])
+        ;
+
+        return $this;
     }
 
     public function getImageUrl() {

@@ -1,7 +1,7 @@
-App.service("httpCache", function($http, $cacheFactory, Connection) {
+App.service("httpCache", function($sbhttp, $cacheFactory, Connection) {
     return {
         remove: function(url) {
-            var sid = localStorage.getItem("sb-auth-token")
+            var sid = localStorage.getItem("sb-auth-token");
             if(sid && url.indexOf(".html") == -1 && Connection.isOnline) {
                 url = url + "?sb-token=" + sid;
             }
@@ -10,7 +10,9 @@ App.service("httpCache", function($http, $cacheFactory, Connection) {
                 $cacheFactory.get('$http').remove(url);
             }
 
+            $sbhttp.removeCached(url);
+
             return this;
         }
-    }
+    };
 });

@@ -1,10 +1,55 @@
 <?php
 class Contact_Model_Contact extends Core_Model_Default {
 
+    protected $_is_cacheable = true;
+
     public function __construct($params = array()) {
         parent::__construct($params);
         $this->_db_table = 'Contact_Model_Db_Table_Contact';
         return $this;
+    }
+
+    /**
+     * @return string full,none,partial
+     */
+    public function availableOffline() {
+        return "partial";
+    }
+
+    /**
+     * @return array
+     */
+    public function getInappStates($value_id) {
+
+        $in_app_states = array(
+            array(
+                "state" => "contact-view",
+                "offline" => true,
+                "params" => array(
+                    "value_id" => $value_id,
+                ),
+                "childrens" => array(
+                    array(
+                        "label" => __("Form"),
+                        "state" => "contact-form",
+                        "offline" => true,
+                        "params" => array(
+                            "value_id" => $value_id,
+                        ),
+                    ),
+                    array(
+                        "label" => __("Map"),
+                        "state" => "contact-map",
+                        "offline" => false,
+                        "params" => array(
+                            "value_id" => $value_id,
+                        ),
+                    ),
+                ),
+            ),
+        );
+
+        return $in_app_states;
     }
 
     public function getCoverUrl() {
@@ -18,12 +63,21 @@ class Contact_Model_Contact extends Core_Model_Default {
 
     public function getFeaturePaths($option_value) {
 
-        if(!$this->isCachable()) return array();
-
-        $action_view = $this->getActionView();
+        if(!$this->isCacheable()) {
+            return array();
+        }
 
         $paths = array();
         $paths[] = $option_value->getPath("find", array('value_id' => $option_value->getId()), false);
+
+        return $paths;
+    }
+
+    public function getAssetsPaths($option_value) {
+
+        if(!$this->isCacheable()) return array();
+
+        $paths = array();
 
         if($cover = $this->getCoverUrl()) {
             $paths[] = $cover;

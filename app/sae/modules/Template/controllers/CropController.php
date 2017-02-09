@@ -83,6 +83,7 @@ class Template_CropController extends Admin_Controller_Default
             ->setUploader($this->getRequest()->getParam('uploader'))
             ->setOptionId($option_value_id)
             ->setIsColorizable($is_colorizable)
+            ->setForceColor($this->getRequest()->getParam('force_color'))
             ->setImageColor($this->getRequest()->getParam('image_color'))
             ->toHtml()
         ;

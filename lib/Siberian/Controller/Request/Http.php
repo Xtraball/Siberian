@@ -207,6 +207,27 @@ class Siberian_Controller_Request_Http extends Zend_Controller_Request_Http
             }
         }
 
+        // Init whitelabel for apps
+        if($this->_application && Siberian_Version::is("PE")) {
+            if(!$this->white_label_editor || !$this->_white_label_editor->isActive()) {
+                // try to get whitelabel from admins
+                $admin = new Admin_Model_Admin();
+                $admin->find($this->_application->getAdminId());
+                $parent = $admin->getParentId();
+                if($parent) {
+                    $admin->unsData();
+                    $admin->find($parent);
+                }
+                if($admin->getId()) {
+                    $this->_white_label_editor = new Whitelabel_Model_Editor();
+                    $this->_white_label_editor->find($admin->getId(), "admin_id");
+                    if(!$this->_white_label_editor->isActive()) {
+                        $this->_white_label_editor->unsData();
+                    }
+                }
+            }
+        }
+
         return $paths;
 
     }

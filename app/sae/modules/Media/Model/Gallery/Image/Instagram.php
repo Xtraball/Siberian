@@ -30,7 +30,7 @@ class Media_Model_Gallery_Image_Instagram extends Media_Model_Gallery_Image_Abst
         }
     }
 
-    public function getImages($offset) {
+    public function getImages($offset, $limit = self::DISPLAYED_PER_PAGE) {
 
         if($offset == 1) $offset = null;
 

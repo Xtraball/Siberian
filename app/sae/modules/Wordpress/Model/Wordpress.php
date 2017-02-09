@@ -15,6 +15,24 @@ class Wordpress_Model_Wordpress extends Core_Model_Default {
         return $this;
     }
 
+    /**
+     * @return array
+     */
+    public function getInappStates($value_id) {
+
+        $in_app_states = array(
+            array(
+                "state" => "wordpress-list",
+                "offline" => false,
+                "params" => array(
+                    "value_id" => $value_id,
+                ),
+            ),
+        );
+
+        return $in_app_states;
+    }
+
     public function getCategoryIds() {
 
         if(!$this->_category_ids) {
@@ -380,7 +398,7 @@ class Wordpress_Model_Wordpress extends Core_Model_Default {
 
     public function getFeaturePaths($option_value) {
 
-        if(!$this->isCachable()) return array();
+        if(!$this->isCacheable()) return array();
 
         $paths = array();
 

@@ -47,7 +47,7 @@ App.config(['$provide', function($provide) {
 
             $delegate.postForm = function(url, data, config) {
                 if(!angular.isObject(config))
-                    config = {}
+                    config = {};
 
                 if(!angular.isObject(config.headers))
                     config.headers = {};

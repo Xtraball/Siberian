@@ -1,4 +1,4 @@
-App.factory('Weather', function($rootScope, $q, $http, $cordovaGeolocation, Url, GoogleMaps/*, Application*/) {
+App.factory('Weather', function($rootScope, $q, $sbhttp, $cordovaGeolocation, Url, GoogleMaps/*, Application*/) {
 
     var factory = {};
 
@@ -8,7 +8,7 @@ App.factory('Weather', function($rootScope, $q, $http, $cordovaGeolocation, Url,
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("weather/mobile_view/find", {value_id: this.value_id}),
             cache: false,
@@ -101,7 +101,7 @@ App.factory('Weather', function($rootScope, $q, $http, $cordovaGeolocation, Url,
     };
 
     factory.getWoeid = function(param) {
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: "https://query.yahooapis.com/v1/public/yql?q=select woeid from geo.places where text='" + param + "'&format=json",
             cache: false,
@@ -111,7 +111,7 @@ App.factory('Weather', function($rootScope, $q, $http, $cordovaGeolocation, Url,
     };
 
     factory.getWeatherFromWoeid = function(woeid, unit) {
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: "https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid='" + woeid + "' and u='" + unit + "'&format=json&lang=fr-FR",
             cache: false,

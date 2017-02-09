@@ -1,5 +1,5 @@
 // Playlist
-App.factory('MusicPlaylist', function($http, $rootScope, Url) {
+App.factory('MusicPlaylist', function($sbhttp, $rootScope, Url) {
 
     var factory = {};
 
@@ -12,14 +12,14 @@ App.factory('MusicPlaylist', function($http, $rootScope, Url) {
             return;
         }
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("media/mobile_api_music_playlist/find", {value_id: this.value_id, playlist_id: playlist_id}),
             cache: !$rootScope.isOverview,
             responseType:'json'
         });
     };
-    
+
     factory.findAll = function() {
 
         if (!this.value_id) {
@@ -27,7 +27,7 @@ App.factory('MusicPlaylist', function($http, $rootScope, Url) {
             return;
         }
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("media/mobile_api_music_playlist/findall", {value_id: this.value_id}),
             cache: !$rootScope.isOverview,
@@ -36,7 +36,7 @@ App.factory('MusicPlaylist', function($http, $rootScope, Url) {
     };
 
     factory.findPageTitle = function() {
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("media/mobile_api_music_playlist/getpagetitle", {value_id: this.value_id}),
             cache: !$rootScope.isOverview,
@@ -48,7 +48,7 @@ App.factory('MusicPlaylist', function($http, $rootScope, Url) {
 });
 
 // Album
-App.factory('MusicAlbum', function ($http, $rootScope, Url) {
+App.factory('MusicAlbum', function ($sbhttp, $rootScope, Url) {
 
     var factory = {};
 
@@ -74,7 +74,7 @@ App.factory('MusicAlbum', function ($http, $rootScope, Url) {
             params.track_id = element.track_id;
         }
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("media/mobile_api_music_album/find", params),
             cache: !$rootScope.isOverview,
@@ -89,7 +89,7 @@ App.factory('MusicAlbum', function ($http, $rootScope, Url) {
             return;
         }
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("media/mobile_api_music_album/findall", {value_id: this.value_id,}),
             cache: !$rootScope.isOverview,
@@ -113,7 +113,7 @@ App.factory('MusicAlbum', function ($http, $rootScope, Url) {
             playlist_id: playlist_id
         });
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: url,
             cache: !$rootScope.isOverview,
@@ -125,7 +125,7 @@ App.factory('MusicAlbum', function ($http, $rootScope, Url) {
 });
 
 // Track
-App.factory('MusicTrack', function ($http, $rootScope, Url) {
+App.factory('MusicTrack', function ($sbhttp, $rootScope, Url) {
 
     var factory = {};
 
@@ -153,7 +153,7 @@ App.factory('MusicTrack', function ($http, $rootScope, Url) {
             params.track_id = element.track_id;
         }
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("media/mobile_api_music_track/findbyalbum", params),
             cache: !$rootScope.isOverview,

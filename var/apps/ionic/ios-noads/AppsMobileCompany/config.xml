@@ -96,6 +96,7 @@
     </feature>
     <feature name="OfflineMode">
         <param name="ios-package" value="CDVOfflineMode" />
+        <param name="onload" value="true" />
     </feature>
     <feature name="iosrtcPlugin">
         <param name="ios-package" value="iosrtcPlugin" />

@@ -6,7 +6,7 @@ App.directive("sbCmsText", function() {
         },
         template:
         '<div class="item item-text-wrap item-custom sb-cms-text">' +
-        '   <img width="{{block.size}}%" ng-src="{{ block.image_url }}" ng-if="block.image_url" class="{{ block.alignment }}" />' +
+        '   <img width="{{block.size}}%" ng-src="{{ block.image_url }}" ng-if="block.image.length" class="{{ block.alignment }}" />' +
         '   <div class="content" ng-bind-html="block.content | trusted_html" sb-a-click></div>' +
         '   <div class="cb"></div>' +
         '</div>'
@@ -171,6 +171,11 @@ $scope.handle_address_book = false; // Application.handle_address_book;
 $scope.showMap = function () {
     if($rootScope.isOverview) {
         $rootScope.showMobileFeatureOnlyError();
+        return;
+    }
+
+    if($rootScope.isOffline) {
+        $rootScope.onlineOnly();
         return;
     }
 

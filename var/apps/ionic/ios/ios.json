@@ -187,7 +187,7 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"OfflineMode\"><param name=\"ios-package\" value=\"CDVOfflineMode\" /></feature>",
+                            "xml": "<feature name=\"OfflineMode\"><param name=\"ios-package\" value=\"CDVOfflineMode\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         },
                         {

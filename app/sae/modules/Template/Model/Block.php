@@ -187,9 +187,9 @@ class Template_Model_Block extends Core_Model_Default {
      */
     public function setTextOpacity($colors) {
         if (isset($colors['text_opacity'])) {
-            $opacity = $colors['text_opacity'];
-            if ($this->int_validator->isValid($opacity) && $this->between_validator->isValid($opacity)) {
-                $this->setData('text_opacity', intval($opacity));
+            $opacity = $colors['text_opacity']*1;
+            if ($opacity>=0 AND $opacity<=100) {
+                $this->setData('text_opacity', $opacity);
             }
         }
         return $this;
@@ -205,10 +205,9 @@ class Template_Model_Block extends Core_Model_Default {
      */
     public function setBackgroundOpacity($colors) {
         if (isset($colors['background_opacity'])) {
-            $opacity = $colors['background_opacity'];
-            var_dump($this->int_validator->isValid($opacity));
-            if ($this->int_validator->isValid($opacity) && $this->between_validator->isValid($opacity)) {
-                $this->setData('background_opacity', intval($opacity));
+            $opacity = $colors['background_opacity']*1;
+            if ($opacity>=0 AND $opacity<=100) {
+                $this->setData('background_opacity', $opacity);
             }
         }
         return $this;
@@ -224,9 +223,9 @@ class Template_Model_Block extends Core_Model_Default {
      */
     public function setBorderOpacity($colors) {
         if (isset($colors['border_opacity'])) {
-            $opacity = $colors['border_opacity'];
-            if ($this->int_validator->isValid($opacity) && $this->between_validator->isValid($opacity)) {
-                $this->setData('border_opacity', intval($opacity));
+            $opacity = $colors['border_opacity']*1;
+            if ($opacity>=0 AND $opacity<=100) {
+                $this->setData('border_opacity', $opacity);
             }
         }
         return $this;
@@ -242,9 +241,9 @@ class Template_Model_Block extends Core_Model_Default {
      */
     public function setImageOpacity($colors) {
         if (isset($colors['image_opacity'])) {
-            $opacity = $colors['image_opacity'];
-            if ($this->int_validator->isValid($opacity) && $this->between_validator->isValid($opacity)) {
-                $this->setData('image_opacity', intval($opacity));
+            $opacity = $colors['image_opacity']*1;
+            if ($opacity>=0 AND $opacity<=100) {
+                $this->setData('image_opacity', $opacity);
             }
         }
         return $this;

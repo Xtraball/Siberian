@@ -1,6 +1,7 @@
 <?php
 
 class Media_Model_Gallery_Image extends Core_Model_Default {
+    protected $_is_cacheable = true;
 
     protected $_type_instance;
     protected $_types = array(
@@ -12,6 +13,24 @@ class Media_Model_Gallery_Image extends Core_Model_Default {
         parent::__construct($params);
         $this->_db_table = 'Media_Model_Db_Table_Gallery_Image';
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getInappStates($value_id) {
+
+        $in_app_states = array(
+            array(
+                "state" => "image-list",
+                "offline" => true,
+                "params" => array(
+                    "value_id" => $value_id,
+                ),
+            ),
+        );
+
+        return $in_app_states;
     }
 
     public function find($id, $field = null) {
@@ -71,7 +90,15 @@ class Media_Model_Gallery_Image extends Core_Model_Default {
         if($this->getId() AND $this->getTypeInstance()) {
             return $this->getTypeInstance()->setImageId($this->getId())->getImages($this->_offset);
         }
-        
+
+        return array();
+    }
+
+    public function getAllImages() {
+        if($this->getId() AND $this->getTypeInstance()) {
+            return $this->getTypeInstance()->setImageId($this->getId())->getImages(null, null);
+        }
+
         return array();
     }
 
@@ -82,43 +109,65 @@ class Media_Model_Gallery_Image extends Core_Model_Default {
 
     public function getFeaturePaths($option_value) {
 
-        if(!$this->isCachable()) return array();
-
-        $action_view = $this->getActionView();
+        if(!$this->isCacheable()) return array();
 
         $paths = array();
         $paths[] = $option_value->getPath("findall", array('value_id' => $option_value->getId()), false);
 
-        if($uri = $option_value->getMobileViewUri($action_view)) {
+        $galleries = $this->findAll(array('value_id' => $option_value->getId()));
+        foreach($galleries as $gallery) {
 
-            $uri_parameters = $option_value->getMobileViewUriParameter();
+            if ($gallery->getId() && $gallery->getValueId() == $option_value->getId()) {
 
-            if ($uri_parameters) {
-                $uri_parameters = "value_id,$uri_parameters";
-                $uri_parameters = explode(",", $uri_parameters);
+                $offset = 0;
 
-                foreach ($uri_parameters as $uri_parameter) {
-                    if (stripos($uri_parameter, "/") !== false) {
-                        $data = explode("/", $uri_parameter);
-                        $params[$data[0]] = $data[1];
-                    } else if ($data = $this->getData($uri_parameter)) {
-                        $params[$uri_parameter] = $data;
+                $more = true;
+                while($more) {
+                    $last_offset = $offset;
+
+                    $paths[] = $option_value->getPath(
+                        "media/mobile_gallery_image_view/find",
+                        array(
+                            "gallery_id" => $gallery->getId(),
+                            "offset" => $offset,
+                            "value_id" => $option_value->getId()
+                        ),
+                        false
+                    );
+
+                    $images = $gallery->setOffset($offset)->getImages();
+
+                    // Stupid foreach to mimick controller and have same URLs as it
+                    foreach ($images as $key => $link) {
+                        $key+=$offset;
+                        $last_offset = $link->getOffset();
+                    }
+
+                    if($gallery->getTypeId() != "custom") {
+                        $more = count($data["images"]) > 0;
+                    } else {
+                        $more = ((($key - $offset) + 1) > (Media_Model_Gallery_Image_Abstract::DISPLAYED_PER_PAGE - 1)) ? true : false;
+                    }
+
+                    if($more) {
+                        $offset = $last_offset + 1;
                     }
                 }
+
             }
-
-            $paths[] = $option_value->getPath($uri, $params, false);
-
-            $images = $this->getImages();
-
-            foreach($images as $image) {
-                $paths[] = $image->getImage();
-            }
-
         }
 
         return $paths;
+    }
 
+    public function getAssetsPaths($option_value) {
+        $assets = array();
+
+        foreach($this->getAllImages() as $image) {
+            $assets[] = $image->getImage();
+        }
+
+        return $assets;
     }
 
     public function copyTo($option) {

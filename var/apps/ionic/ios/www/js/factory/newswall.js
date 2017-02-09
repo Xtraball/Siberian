@@ -1,4 +1,4 @@
-App.factory('News', function($rootScope, $http, Url, httpCache) {
+App.factory('News', function($rootScope, $sbhttp, Url, httpCache) {
 
     var factory = {};
 
@@ -14,10 +14,10 @@ App.factory('News', function($rootScope, $http, Url, httpCache) {
             offset: offset
         };
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("comment/mobile_list/findall", params),
-            cache: false,
+            cache: $rootScope.isOffline,
             responseType:'json'
         });
     };
@@ -26,7 +26,7 @@ App.factory('News', function($rootScope, $http, Url, httpCache) {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("comment/mobile_list/findnear", {
                 value_id: this.value_id,
@@ -43,10 +43,10 @@ App.factory('News', function($rootScope, $http, Url, httpCache) {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("comment/mobile_gallery/findall", {value_id: this.value_id}),
-            cache: false,
+            cache: $rootScope.isOffline,
             responseType:'json'
         });
     };
@@ -55,10 +55,10 @@ App.factory('News', function($rootScope, $http, Url, httpCache) {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("comment/mobile_map/findall", {value_id: this.value_id}),
-            cache: false,
+            cache: $rootScope.isOffline,
             responseType:'json'
         });
     };
@@ -69,10 +69,10 @@ App.factory('News', function($rootScope, $http, Url, httpCache) {
 
         var url = Url.get('comment/mobile_view/find', {comment_id: comment_id, value_id: this.value_id});
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: url,
-            cache: false,
+            cache: $rootScope.isOffline,
             responseType:'json'
         });
     };
@@ -87,7 +87,7 @@ App.factory('News', function($rootScope, $http, Url, httpCache) {
             value_id: this.value_id
         };
 
-        return $http.post(url, data).success(function() {
+        return $sbhttp.post(url, data).success(function() {
             httpCache.remove(Url.get("comment/mobile_list/findall", {value_id: factory.value_id}));
         });
     };
@@ -98,7 +98,7 @@ App.factory('News', function($rootScope, $http, Url, httpCache) {
 
         var url = Url.get('comment/mobile_view/flagpost', {comment_id: comment_id, value_id: this.value_id});
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: url,
             cache: false,
@@ -112,7 +112,7 @@ App.factory('News', function($rootScope, $http, Url, httpCache) {
 
         var url = Url.get('comment/mobile_view/flagcomment', {answer_id: answer_id, value_id: this.value_id});
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: url,
             cache: false,
@@ -138,7 +138,7 @@ App.factory('News', function($rootScope, $http, Url, httpCache) {
             };
         }
 
-        return $http.post(url, data).success(function() {
+        return $sbhttp.post(url, data).success(function() {
             httpCache.remove(Url.get("comment/mobile_list/findall", {value_id: factory.value_id}));
         });
     };
@@ -147,16 +147,16 @@ App.factory('News', function($rootScope, $http, Url, httpCache) {
 });
 
 
-App.factory('Comment', function ($rootScope, $http, Url, httpCache) {
+App.factory('Comment', function ($rootScope, $sbhttp, Url, httpCache) {
 
     var factory = {};
 
     factory.findAll = function (comment_id) {
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("comment/mobile_comment/findall", {comment_id: comment_id}),
-            cache: false,
+            cache: $rootScope.isOffline,
             responseType: 'json'
         });
     };
@@ -171,7 +171,7 @@ App.factory('Comment', function ($rootScope, $http, Url, httpCache) {
             text: comment.text
         };
 
-        return $http.post(url, data).success(function() {
+        return $sbhttp.post(url, data).success(function() {
             httpCache.remove(Url.get("comment/mobile_comment/findall", {comment_id: comment.id}));
         });
 

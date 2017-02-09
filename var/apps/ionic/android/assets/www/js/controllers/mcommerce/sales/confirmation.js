@@ -86,7 +86,7 @@ App.config(function ($stateProvider) {
                 $window.location = $scope.onlinePaymentUrl;
             } else {
 
-                var browser = window.open($scope.onlinePaymentUrl, $rootScope.getTargetForLink(), 'location=yes');
+                var browser = $window.open($scope.onlinePaymentUrl, $rootScope.getTargetForLink(), 'location=yes');
 
                 browser.addEventListener('loadstart', function(event) {
 
@@ -146,7 +146,7 @@ App.config(function ($stateProvider) {
 
     $scope.loadContent();
 
-}).controller('MCommerceSalesConfirmationConfirmPaymentController', function ($scope, $state, $stateParams, $timeout, McommerceCart, McommerceSalesPayment) {
+}).controller('MCommerceSalesConfirmationConfirmPaymentController', function ($ionicLoading, $scope, $state, $stateParams, $timeout, McommerceCart, McommerceSalesPayment) {
 
     $scope.is_loading = true;
     $ionicLoading.show({
@@ -170,7 +170,7 @@ App.config(function ($stateProvider) {
         }, 5000);
     }).finally(function () {
         $scope.is_loading = false;
-        $ionicLoading.hide()
+        $ionicLoading.hide();
     });
 
 }).controller('MCommerceSalesConfirmationCancelController', function ($state, $stateParams, $translate, Dialog) {

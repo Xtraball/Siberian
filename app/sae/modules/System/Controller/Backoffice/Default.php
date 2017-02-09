@@ -28,9 +28,14 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
                 );
             }
 
-            $this->_sendHtml($data);
-
+        } else {
+            $data = array(
+                "error" => 1,
+                "message" => "An error occurred while saving"
+            );
         }
+
+        $this->_sendHtml($data);
 
     }
 

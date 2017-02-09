@@ -37,7 +37,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         controller: 'NewswallEditController'
     });
 
-}).controller('NewswallListController', function($cordovaGeolocation, $filter, $http, $ionicModal, $ionicScrollDelegate, $rootScope, $state, $stateParams, $scope, $translate, Customer, News, AUTH_EVENTS) {
+}).controller('NewswallListController', function($cordovaGeolocation, $filter, $sbhttp, $ionicModal, $ionicScrollDelegate, $rootScope, $state, $stateParams, $scope, $translate, Customer, News, AUTH_EVENTS) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -69,6 +69,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
                     {id: 1, "name": "Recent", "value": true},
                     {id: 2, "name": "Near me", "value": false}
                 ];
+
                 $scope.tooltip = {
                     collection: collection,
                     current_item: collection[0],
@@ -117,6 +118,10 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
     };
 
     $scope.getNearComments = function() {
+        if($rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }
 
         $cordovaGeolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }).then(function(position) {
 
@@ -171,6 +176,11 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
     };
 
     $scope.goToMap = function() {
+        if($rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }
+
         $state.go("fanwall-map", {value_id: $scope.value_id});
     };
 
@@ -204,7 +214,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
 
     $scope.loadContent();
 
-}).controller('NewswallViewController', function($cordovaSocialSharing, $ionicModal, $http, $scope, $state, $stateParams, $timeout, $translate, Application, AUTH_EVENTS, Comment, Customer, Dialog, News/*, Customer, Answers, Message, Pictos*/) {
+}).controller('NewswallViewController', function($cordovaSocialSharing, $ionicModal, $sbhttp, $rootScope, $scope, $state, $stateParams, $timeout, $translate, Application, AUTH_EVENTS, Comment, Customer, Dialog, News/*, Customer, Answers, Message, Pictos*/) {
 
     $scope.avatars = {};
     $scope.customerAvatar = function (customer_id) {
@@ -287,6 +297,10 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
     };
 
     $scope.login = function() {
+        if($rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }
 
         $ionicModal.fromTemplateUrl('templates/customer/account/l1/login.html', {
             scope: $scope,
@@ -299,10 +313,20 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
     };
 
     $scope.comment = function() {
+        if($rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }
+
         $state.go("newswall-comment", {value_id: $scope.value_id, comment_id: $stateParams.comment_id});
     };
 
     $scope.addLike = function() {
+        if($rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }
+
         News.addLike($scope.item.id).success(function(data) {
             if(data.success) {
                 $scope.item.number_of_likes++;
@@ -315,6 +339,11 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
     };
 
     $scope.flagPost = function() {
+        if($rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }
+
         News.flagPost($scope.item.id).success(function(data) {
             if(data.success) {
                 Dialog.alert("", data.message, $translate.instant("OK"));
@@ -325,6 +354,11 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
     };
 
     $scope.flagComment = function(answer_id) {
+        if($rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }
+
         News.flagComment(answer_id).success(function(data) {
             if(data.success) {
                 Dialog.alert("", data.message, $translate.instant("OK"));
@@ -335,7 +369,6 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
     };
 
     $scope.showError = function(data) {
-
         if(data && angular.isDefined(data.message)) {
             Dialog.alert("", data.message, $translate.instant("OK"));
         }
@@ -343,7 +376,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
 
     $scope.loadContent();
 
-}).controller('NewswallCommentController', function($http, $ionicModal, $scope, $state, $stateParams, $timeout, $translate, $window, Customer, News, Comment, Dialog/*, Customer, Answers, Message, Pictos, Application*/) {
+}).controller('NewswallCommentController', function($sbhttp, $ionicModal, $rootScope, $scope, $state, $stateParams, $timeout, $translate, $window, Customer, News, Comment, Dialog/*, Customer, Answers, Message, Pictos, Application*/) {
 
     $scope.$on("connectionStateChange", function (event, args) {
         if (args.isOnline == true) {
@@ -360,6 +393,10 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
     };
 
     $scope.post = function() {
+        if($rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }
 
         $scope.is_loading = true;
 
@@ -379,7 +416,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
 
     };
 
-}).controller('NewswallGalleryController', function($http, $scope, $state, $stateParams, News) {
+}).controller('NewswallGalleryController', function($sbhttp, $scope, $state, $stateParams, News) {
 
     $scope.is_loading = true;
     $scope.value_id = News.value_id = $stateParams.value_id;
@@ -396,7 +433,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         $state.go("newswall-view", { value_id: $stateParams.value_id, comment_id: item.id });
     }
 
-}).controller('NewswallMapController', function($scope, $http, $stateParams, $cordovaGeolocation, $state, News) {
+}).controller('NewswallMapController', function($scope, $sbhttp, $stateParams, $cordovaGeolocation, $state, News) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -456,7 +493,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
 
     $scope.loadContent();
 
-}).controller('NewswallEditController', function($cordovaCamera, $cordovaGeolocation, $http, $ionicActionSheet, $rootScope, $scope, $state, $stateParams, $timeout, $translate, Application, Dialog, News) {
+}).controller('NewswallEditController', function($cordovaCamera, $cordovaGeolocation, $sbhttp, $ionicActionSheet, $rootScope, $scope, $state, $stateParams, $timeout, $translate, Application, Dialog, News) {
 
     $scope.new_post = {"text": null};
     $scope.preview_src = null;
@@ -465,6 +502,10 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
     $scope.value_id = News.value_id = $stateParams.value_id;
 
     $scope.sendPost = function() {
+        if($rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }
 
         if (!$scope.new_post.text) {
             Dialog.alert($translate.instant("Error"), $translate.instant("You have to enter a text message."), $translate.instant("OK"));
@@ -485,6 +526,10 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
     };
 
     $scope.takePicture = function() {
+        if($rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }
 
         if(!$scope.can_take_pictures) {
             $rootScope.showMobileFeatureOnlyError();

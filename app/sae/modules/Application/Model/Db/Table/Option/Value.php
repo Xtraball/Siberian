@@ -152,7 +152,8 @@ class Application_Model_Db_Table_Option_Value extends Core_Model_Db_Table {
 
         $select = $this->select()
         ->setIntegrityCheck(false)
-        ->from(array('a' => 'application_option_value'))
+        ->from(array('a' => 'application_option_value'), array("*",
+            "tabbar_name" => new Zend_Db_Expr('IFNULL(a.tabbar_name, ao.name)')))
         ->join(array('ao' => 'application_option'), 'a.option_id = ao.option_id');
 
         if($where) {

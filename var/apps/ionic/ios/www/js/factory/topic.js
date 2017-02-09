@@ -1,4 +1,4 @@
-App.factory('Topic', function($rootScope, $http, Url) {
+App.factory('Topic', function($rootScope, $sbhttp, Url) {
 
     var factory = {};
 
@@ -9,16 +9,16 @@ App.factory('Topic', function($rootScope, $http, Url) {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("topic/mobile_list/findall", { value_id: this.value_id, device_uid: this.device_uid }),
-            cache: false,
+            cache: $rootScope.isOffline,
             responseType:'json'
         });
     };
 
     factory.subscribe = function(topic_id, is_subscribed) {
-        return $http({
+        return $sbhttp({
             method: 'POST',
             data: { category_id: topic_id, device_uid: factory.device_uid, subscribe: is_subscribed },
             url: Url.get("topic/mobile_list/subscribe"),

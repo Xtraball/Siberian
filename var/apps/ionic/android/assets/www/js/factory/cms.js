@@ -1,4 +1,4 @@
-App.factory('Cms', function ($rootScope, $http, Url) {
+App.factory('Cms', function ($rootScope, $sbhttp, Url) {
 
     var factory = {};
 
@@ -8,7 +8,7 @@ App.factory('Cms', function ($rootScope, $http, Url) {
         console.log("page_id: ", page_id);
         if (!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("cms/mobile_page_view/findall", {
                 page_id: page_id,
@@ -23,7 +23,7 @@ App.factory('Cms', function ($rootScope, $http, Url) {
 
         if (!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("cms/mobile_page_view/find", {
                 page_id: page_id,
@@ -38,7 +38,7 @@ App.factory('Cms', function ($rootScope, $http, Url) {
 
         if (!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("cms/mobile_page_view/findblock", {
                 block_id: block_id,

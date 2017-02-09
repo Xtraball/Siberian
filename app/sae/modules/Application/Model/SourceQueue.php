@@ -78,6 +78,7 @@ class Application_Model_SourceQueue extends Core_Model_Default {
         }
 
 
+        $type = ($this->getType() == "android") ? __("Android Source") : __("iOS Source");
         if(file_exists($result)) {
             $this->changeStatus("success");
             $this->setPath($result);
@@ -88,13 +89,14 @@ class Application_Model_SourceQueue extends Core_Model_Default {
             $url = $protocol.$this->getHost()."/".str_replace(Core_Model_Directory::getBasePathTo(""), "", $result);
 
             $values = array(
+                "type" => $type,
                 "application_name" => $this->getName(),
                 "link" => $url,
             );
 
             # @version 4.8.7 - SMTP
             $mail = new Siberian_Mail();
-            $mail->simpleEmail("queue", "source_queue_success", __("Source generation for App: %s", $application->getName()), $recipients, $values);
+            $mail->simpleEmail("queue", "source_queue_success", __("%s generation success for App: %s", $type, $application->getName()), $recipients, $values);
             $mail->send();
 
         } else {
@@ -103,12 +105,13 @@ class Application_Model_SourceQueue extends Core_Model_Default {
 
             /** Failed email */
             $values = array(
+                "type" => $type,
                 "application_name" => $this->getName(),
             );
 
             # @version 4.8.7 - SMTP
             $mail = new Siberian_Mail();
-            $mail->simpleEmail("queue", "source_queue_failed", __("The requested source generation failed: %s", $application->getName()), $recipients, $values);
+            $mail->simpleEmail("queue", "source_queue_failed", __("The requested %s generation failed: %s", $type, $application->getName()), $recipients, $values);
             $mail->send();
         }
 
@@ -269,7 +272,7 @@ class Application_Model_SourceQueue extends Core_Model_Default {
                 # Set is building
                 $data[$type] = array(
                     "path" => str_replace($base_path, "", $result->getData("path")), /** Frakking conflict */
-                    "date" => $result->getFormattedUpdatedAt()
+                    "date" => datetime_to_format($result->getUpdatedAt())
                 );
             }
         }

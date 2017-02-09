@@ -398,6 +398,11 @@ var Uploader = Class.extend({
         if(params["is_colorizable"]) {
             params["url"] += '/is_colorizable/'+params["is_colorizable"];
         }
+
+        if(params["force_color"]) {
+            params["url"] += '/force_color/'+params["force_color"];
+        }
+
         if(params["image_color"]) {
             params["image_color"] = params["image_color"].replace('#','');
             params["url"] += '/image_color/' + params["image_color"];

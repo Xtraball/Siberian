@@ -13,7 +13,32 @@ class Sourcecode_Model_Sourcecode extends Core_Model_Default {
         return $this;
     }
 
-    public function getHtmlFilePath() {
+    /**
+     * @return string
+     */
+    public function availableOffline() {
+        return "partial";
+    }
+
+    /**
+     * @return array
+     */
+    public function getInappStates($value_id) {
+
+        $in_app_states = array(
+            array(
+                "state" => "sourcecode-view",
+                "offline" => $this->isCacheable(),
+                "params" => array(
+                    "value_id" => $value_id,
+                ),
+            ),
+        );
+
+        return $in_app_states;
+    }
+
+    public function getHtmlFilePath($full_path = false) {
 
         if(!file_exists(Core_Model_Directory::getCacheDirectory(true).'/'.$this->_getFilename())) {
             $file = fopen(Core_Model_Directory::getCacheDirectory(true).'/'.$this->_getFilename(), 'w');
@@ -39,25 +64,48 @@ class Sourcecode_Model_Sourcecode extends Core_Model_Default {
             }
             $html_code = html_entity_decode($doc->saveHTML(), ENT_QUOTES, "UTF-8");
 
-            $html = '<html><head>
-                <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-                <meta content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" name="viewport" />
-                <meta content="black" name="apple-mobile-web-app-status-bar-style" />
-                <meta content="IE=8" http-equiv="X-UA-Compatible" />
-                <style type="text/css">
-                html, body { margin:0; padding:0; border:none; }
-                html { overflow: scroll; ' . $iframe_style_scroll . ' }
-                body { font-size: 15px; width: 100%; height: 100%; overflow: auto; -webkit-user-select : none; -webkit-text-size-adjust : none; -webkit-touch-callout: none; line-height:1; background-color:white; }
-                </style>
-            </head><body>'.$html_code.'</body></html>';
+            $html = '
+<html>
+    <head>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <meta content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" name="viewport" />
+        <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+        <meta content="IE=8" http-equiv="X-UA-Compatible" />
+        
+        <style type="text/css">
+            html, body { margin:0; padding:0; border:none; }
+            html { overflow: scroll; ' . $iframe_style_scroll . ' }
+            body { font-size: 15px; width: 100%; height: 100%; overflow: auto; -webkit-user-select : none; -webkit-text-size-adjust : none; -webkit-touch-callout: none; line-height:1; background-color:white; }
+        </style>
+    </head>
+<body>
+    '.$html_code.'
+</body>
+<script type="text/javascript">
+var inAppLinks = document.querySelectorAll("a[data-state]");
+[].forEach.call(inAppLinks, function(el) {
+    el.href = "javascript:void(0);";
+    el.addEventListener("click", function() {
+        parent.postMessage("state-go=state:"+el.attributes["data-state"].value+",offline:"+el.attributes["data-offline"].value+","+el.attributes["data-params"].value+"", "*");
+    });
+});
+</script>
+</html>';
 
             fputs($file, $html);
             fclose($file);
         }
 
-        return Core_Model_Directory::getCacheDirectory().'/'.$this->_getFilename();
+        return Core_Model_Directory::getCacheDirectory($full_path).'/'.$this->_getFilename();
 
     }
+
+    public function getHtmlFileCode() {
+        $file = @file_get_contents($this->getHtmlFilePath(true));
+
+        return is_string($file) ? $file : "";
+    }
+
 
     public function cleanHtmlFile() {
         if(file_exists(Core_Model_Directory::getCacheDirectory(true).'/'.$this->_getFilename())) {
@@ -73,18 +121,49 @@ class Sourcecode_Model_Sourcecode extends Core_Model_Default {
 
     public function getFeaturePaths($option_value) {
 
-        if(!$this->isCachable()) return array();
+        if(!$this->isCacheable()) return array();
 
         $paths = array();
-        $paths[] = $option_value->getPath("find", array('value_id' => $option_value->getId()), false);
-
-        $paths[] = $this->getBaseUrl().Core_Model_Directory::getCacheDirectory().'/'.$this->_getFilename();
+        $paths[] = $option_value->getPath("sourcecode/mobile_view/find", array('value_id' => $option_value->getId()), false);
 
         return $paths;
-
     }
 
+
+    public function getAssetsPaths($option_value) {
+        if(!$this->isCacheable()) return array();
+
+        $paths = array();
+
+        $matches = array();
+        $regex_url = "/((?:http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(?:\/[^\s\"]*)\.(?:png|gif|jpeg|jpg|svg|css|js)+)+/";
+        preg_match_all($regex_url, $this->getHtmlFileCode(), $matches);
+
+        $matches = call_user_func_array('array_merge', $matches);
+
+        if($matches && count($matches) > 1) {
+            unset($matches[0]);
+            $paths = array_merge($paths, $matches);
+        }
+
+        return $paths;
+    }
+
+    public function isCacheable() {
+        return !!$this->getAllowOffline();
+    }
+
+    /**
+     * @param $option
+     * @return $this
+     */
     public function copyTo($option) {
+
+        # Remove in-app links
+        $content = $this->getHtmlCode();
+        $content = preg_replace('/<a(.*)data-state=(.*)>(.*)<\/a>/mi', '', $content);
+        $this->setHtmlCode($content);
+
         $this->setId(null)->setValueId($option->getId())->save();
         return $this;
     }

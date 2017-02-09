@@ -791,7 +791,7 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
 
     public function getFeaturePaths($option_value)
     {
-        if (!$this->isCachable()) return array();
+        if (!$this->isCacheable()) return array();
 
         // Categories paths
         $paths = array();

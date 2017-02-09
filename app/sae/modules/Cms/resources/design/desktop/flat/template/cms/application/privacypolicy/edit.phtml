@@ -1,0 +1,49 @@
+<?php
+$application = $this->getApplication();
+$app_pp = trim($application->getPrivacyPolicy());
+if(empty($app_pp)) {
+    $app_pp = System_Model_Config::getValueFor("privacy_policy");
+}
+
+$form_pp = new Application_Form_PrivacyPolicy();
+$form_pp->populate(array(
+    "privacy_policy" => $app_pp,
+));
+
+$privacy_policy = System_Model_Config::getValueFor('privacy_policy');
+?>
+<div class="edit_page custom_page">
+    <div id="edit_privacy_policy">
+        <div class="col-md-12">
+            <span><b><?php  echo __("URL"); ?>:</b> <?php echo $this->getUrl("application/privacypolicy")."?id=".$application->getKey() ?></span>
+            <br />
+            <br />
+            <span><?php echo __("You can use <b>%s</b> as variable for your application name.", "#APP_NAME") ?></span>
+            <br />
+            <br />
+            <?php echo $form_pp; ?>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            bindForms("#edit_privacy_policy");
+
+            var default_pp = `<?php echo __js($privacy_policy, "`"); ?>`;
+
+            $("#privacy_policy").ckeditor(function() {}, ckeditor_config["complete"]);
+
+            $("#reset_default").on("click", function(event) {
+                /** Stop default submit */
+                event.preventDefault();
+
+                CKEDITOR.instances["privacy_policy"].setData(default_pp);
+            });
+        });
+
+
+    </script>
+
+    <style type="text/css">
+    </style>
+</div>

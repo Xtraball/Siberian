@@ -20,6 +20,13 @@
         <?php echo Siberian_Debug::renderHead(); ?>
 
     </head>
+
+    <script type="text/javascript">
+        var version = "<?php echo Siberian_Version::VERSION ?>";
+        var tmp_directory = "<?php echo Core_Model_Directory::getTmpDirectory() ?>";
+        var datepicker_regional = "<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>";
+    </script>
+
     <body class="<?php echo $this->default_class_name ?> general">
         <div id="customization_mask" style="display:none"></div>
         <?php $sidebar_left_partial = $this->getPartial('customization_sidebar_left'); ?>
@@ -155,9 +162,6 @@
         <?php echo System_Model_Config::getValueFor("support_chat_code") ?>
         <?php endif; ?>
 
-        <script type="text/javascript">
-            var version = "<?php echo Siberian_Version::VERSION ?>";
-        </script>
         <script type="text/javascript" src="/app/sae/design/desktop/siberian/js/preloader.js"></script>
 
     </body>

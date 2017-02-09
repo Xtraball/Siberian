@@ -249,6 +249,30 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         $el->setColor($this->color);
         $el->setNewDesign();
 
+        return $el;}
+
+
+    /**
+     * @param $name
+     * @param string $label
+     * @param bool $placeholder
+     * @return Siberian_Form_Element_Email
+     * @throws Zend_Form_Exception
+     */
+    public function addSimpleEmail($name, $label = "", $placeholder = false) {
+        $el = new Siberian_Form_Element_Email($name);
+        $this->addElement($el);
+        if ($placeholder) {
+            $el->setAttrib('placeholder', $label);
+            $el->setDecorators(array('ViewHelper'));
+        } else {
+            $el->setLabel($label);
+            $el->setDecorators(array('ViewHelper', 'Label'));
+        }
+        $el->setIsFormHorizontal($this->is_form_horizontal);
+        $el->setColor($this->color);
+        $el->setNewDesign();
+
         return $el;
     }
 
@@ -540,6 +564,12 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         $image_input->setAttrib("name", "files[]");
         $image_input->addClass("feature-upload-input");
         $image_input->setAttrib("data-uid", $uid);
+        if(isset($options["data-imagecolor"])) {
+            $image_input->setAttrib("data-imagecolor", $options["data-imagecolor"]);
+        }
+        if(isset($options["data-forcecolor"])) {
+            $image_input->setAttrib("data-forcecolor", $options["data-forcecolor"]);
+        }
 
 
         /** Fake input for cropped image */
@@ -584,6 +614,9 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         /** Fake uploader */
         $input_file = new Siberian_Form_Element_File("{$name}_hidden", __("uploader"));
         $this->addElement($input_file);
+        if(isset($options["multiple"])) {
+            $input_file->setAttrib("multiple", "multiple");
+        }
         $input_file->setAttrib("style", "display: none;");
         $input_file->setAttrib("name", "files[]");
         $input_file->addClass("feature-upload-file");

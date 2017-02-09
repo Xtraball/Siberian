@@ -36,13 +36,13 @@ class Application_CustomizationController extends Application_Controller_Default
                 if(Siberian_Version::TYPE == "MAE") {
 
                     $layout = $this->getLayout()->loadEmail('application', 'publish_app');
-                    $layout->getPartial('content_email')->setApp($this->getApplication())->setAdmin($this->getAdmin())->setBackofficeEmail($backoffice_email);
+                    $layout->getPartial('content_email')->setApp($this->getApplication())->setAdmin($this->getAdmin());
                     $content = $layout->render();
 
                     # @version 4.8.7 - SMTP
                     $mail = new Siberian_Mail();
                     $mail->setBodyHtml($content);
-                    $mail->addTo($backoffice_email);
+                    $mail->ccToSender();
                     $mail->setSubject(__("%s – Publication request", $this->getApplication()->getName()));
                     $mail->send();
 

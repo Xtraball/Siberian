@@ -43,6 +43,11 @@ App.config(function($stateProvider) {
             return;
         }
 
+        if($rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }
+
         if(ionic.Platform.isAndroid() && url.indexOf("pdf") >= 0) {
             $window.open(url, "_system", "location=no");
         } else if(ionic.Platform.isIOS() && url.indexOf("pdf") >= 0) {

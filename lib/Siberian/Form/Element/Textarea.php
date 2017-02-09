@@ -82,7 +82,7 @@ class Siberian_Form_Element_Textarea extends Zend_Form_Element_Textarea {
 		return $this->setDecorators(array(
 	  		'ViewHelper',
 			array(array('wrapper'=>'HtmlTag'),array(
-				'class' => ' '.$label_class
+				'class' => ' '.$element_class
 			)),
             array('Description', array(
                 'placement' => Zend_Form_Decorator_Abstract::APPEND,

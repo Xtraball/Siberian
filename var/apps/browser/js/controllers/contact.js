@@ -32,6 +32,10 @@ App.config(function($stateProvider) {
     };
 
     $scope.openForm = function() {
+        if($rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }
         $state.go("contact-form", {value_id: $stateParams.value_id});
     };
 
@@ -58,6 +62,10 @@ App.config(function($stateProvider) {
     };
 
     $scope.showMap = function() {
+        if($rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }
         $state.go("contact-map", { value_id: $scope.value_id });
     };
 

@@ -13,7 +13,7 @@ class Application_Webservice_PreviewController extends Core_Controller_Default
                 $this->getResponse()->setHeader("Access-Control-Allow-Credentials", true, true);
                 $this->getResponse()->setHeader("Access-Control-Allow-Methods", "PUT", true);
                 $this->getResponse()->setHeader("Access-Control-Allow-Origin", "*", true);
-                $this->getResponse()->setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Pragma", true);
+                $this->getResponse()->setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Pragma, X-Client-Cached-Request", true);
 
             }
 

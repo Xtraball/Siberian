@@ -2,14 +2,34 @@
 
 class Tip_Model_Tip extends Core_Model_Default {
 
+    protected $_is_cacheable = true;
+
     public function __construct($params = array()) {
         parent::__construct($params);
         return $this;
     }
 
+    /**
+     * @return array
+     */
+    public function getInappStates($value_id) {
+
+        $in_app_states = array(
+            array(
+                "state" => "tip-view",
+                "offline" => true,
+                "params" => array(
+                    "value_id" => $value_id,
+                ),
+            ),
+        );
+
+        return $in_app_states;
+    }
+
     public function getFeaturePaths($option_value) {
 
-        if(!$this->isCachable()) return array();
+        if(!$this->isCacheable()) return array();
 
         $paths = array();
 

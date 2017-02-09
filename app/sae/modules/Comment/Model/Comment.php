@@ -1,6 +1,7 @@
 <?php
 class Comment_Model_Comment extends Core_Model_Default {
 
+    protected $_is_cacheable = true;
     const DISPLAYED_PER_PAGE = 5;
 
     protected $_answers;
@@ -11,6 +12,24 @@ class Comment_Model_Comment extends Core_Model_Default {
         parent::__construct($params);
         $this->_db_table = 'Comment_Model_Db_Table_Comment';
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getInappStates($value_id) {
+
+        $in_app_states = array(
+            array(
+                "state" => "newswall-list",
+                "offline" => true,
+                "params" => array(
+                    "value_id" => $value_id,
+                ),
+            ),
+        );
+
+        return $in_app_states;
     }
 
     public function findLast($value_id, $pos_id) {
@@ -138,30 +157,75 @@ class Comment_Model_Comment extends Core_Model_Default {
     }
 
     public function getFeaturePaths($option_value) {
-        if(!$this->isCachable()) return array();
+        if(!$this->isCacheable()) return array();
 
         $paths = array();
 
-        // Newswall path
-        $params = array(
-            'value_id' => $option_value->getId(),
-            'offset' => 0
-        );
-        $paths[] = $option_value->getPath("findall", $params, false);
+        if($option_value->getCode() === "newswall") {
+            $paths[] = $option_value->getPath("comment/mobile_gallery/findall", array('value_id' => $option_value->getId()), false);
+            $paths[] = $option_value->getPath("comment/mobile_map/findall", array('value_id' => $option_value->getId()), false);
 
-        if($uri = $option_value->getMobileViewUri("find")) {
+            // Newswall path
+            $params = array(
+                'value_id' => $option_value->getId(),
+                'offset' => 0
+            );
 
-            $comments = $this->findAll(array("value_id" => $option_value->getId()));
+            $comment = new Comment_Model_Comment();
+            $comments = $comment->findAll(array("value_id" => $option_value->getId(), "is_visible = ?" => 1), "created_at DESC");
+            for($i=0; $i < ceil($comments->count()/Comment_Model_Comment::DISPLAYED_PER_PAGE); $i++) {
+                $params['offset'] = $i*Comment_Model_Comment::DISPLAYED_PER_PAGE;
+                $paths[] = $option_value->getPath("comment/mobile_list/findall", $params, false);
+            }
+
             foreach ($comments as $comment) {
                 $params = array(
                     "comment_id" => $comment->getId(),
                     "value_id" => $option_value->getId()
                 );
-                $paths[] = $option_value->getPath($uri, $params, false);
-
-                $paths[] = $this->getPath("comment/mobile_comment/findall/", array("comment_id" => $comment->getId()), false);
+                $paths[] = $this->getPath("comment/mobile_view/find", $params, false);
+                $paths[] = $this->getPath("comment/mobile_comment/findall", array("comment_id" => $comment->getId()), false);
             }
+        }
 
+        return $paths;
+    }
+
+    public function getAssetsPaths($option_value) {
+        if(!$this->isCacheable()) return array();
+
+        $paths = array();
+
+        if($option_value->getCode() === "newswall") {
+
+            $application = $this->getApplication();
+            $paths[] = $application->getIcon(74);
+
+            $comment = new Comment_Model_Comment();
+            $comments = $comment->findAll(array("value_id" => $option_value->getId(), "is_visible = ?" => 1), "created_at DESC");
+
+            foreach($comments as $comment) {
+                if($comment->getImageUrl())
+                    $paths[] = $comment->getImageUrl();
+
+                $matches = array();
+                $regex_url = "/((?:http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(?:\/[^\s\"]*)\.(?:png|gif|jpeg|jpg))+/";
+                preg_match_all($regex_url, $comment->getText(), $matches);
+
+                $matches = call_user_func_array('array_merge', $matches);
+
+                if($matches && count($matches) > 1) {
+                    unset($matches[0]);
+                    $paths = array_merge($paths, $matches);
+                }
+
+                $answer = new Comment_Model_Answer();
+                $answers = $answer->findByComment($comment->getId());
+
+                foreach($answers as $answer) {
+                    $paths[] = __path("/customer/mobile_account/avatar/", array("customer" => $answer->getCustomerId()));
+                }
+           }
         }
 
         return $paths;

@@ -7,7 +7,6 @@ class Cms_Model_Db_Table_Application_Page extends Core_Model_Db_Table {
     protected $_modelClass = "Cms_Model_Application_Page";
 
     public function saveBlock($page_id, $blocks) {
-
         try {
             $this->beginTransaction();
             $this->_db->delete('cms_application_page_block', array('page_id = ?' => $page_id));

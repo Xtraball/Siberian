@@ -67,7 +67,7 @@ class Media_Model_Gallery_Image_Picasa extends Media_Model_Gallery_Image_Abstrac
         return $this->_albums;
     }
 
-    public function getImages($offset) {
+    public function getImages($offset, $limit = self::DISPLAYED_PER_PAGE) {
 
         if(!$this->_images) {
 

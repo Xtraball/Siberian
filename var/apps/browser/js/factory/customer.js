@@ -1,5 +1,4 @@
-App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache, $window, httpCache, Application, Url, AUTH_EVENTS, CACHE_EVENTS) {
-
+App.factory('Customer', function($sbhttp, $ionicModal, $rootScope, $templateCache, $window, httpCache, Application, Url, AUTH_EVENTS, CACHE_EVENTS) {
     var factory = {};
 
     var _id = null;
@@ -19,6 +18,12 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
             return _id;
         }
     });
+
+    Object.defineProperty($rootScope, "customer_id", {
+        get: function() {
+            return factory.id;
+        }
+    }); // symbolic link to bypass dependency injection for Application service
 
 
     factory.can_access_locked_features = false;
@@ -48,6 +53,11 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
     };
 
     factory.loginModal = function(scope) {
+        if($rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }
+
         if(typeof scope == "undefined") {
             scope = $rootScope;
         }
@@ -65,7 +75,7 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
     factory.login = function(data) {
         data.device_uid = device.uuid;
 
-        return $http({
+        return $sbhttp({
             method: 'POST',
             url: Url.get("customer/mobile_account_login/post"),
             data: data,
@@ -85,7 +95,7 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
             token: token
         };
 
-        return $http({
+        return $sbhttp({
             method: 'POST',
             url: Url.get("customer/mobile_account_login/loginwithfacebook"),
             data: data,
@@ -102,7 +112,7 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
     factory.register = function(data) {
         data.device_uid = device.uuid;
 
-        return $http({
+        return $sbhttp({
             method: 'POST',
             url: Url.get("customer/mobile_account_register/post"),
             data: data,
@@ -118,7 +128,7 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
 
     factory.getAvatarUrl = function(customer_id, options) {
         options = angular.isObject(options) ? options : {};
-        var url = Url.get("/customer/mobile_account/avatar", angular.extend({}, options, {customer: customer_id})) + "?" +(+new Date());
+        var url = Url.get("/customer/mobile_account/avatar", angular.extend({}, options, {customer: customer_id})) + ($rootScope.isOffline ? "" : "?" +(+new Date()));
         return url;
     };
 
@@ -128,7 +138,7 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
             return factory.register(data);
         }
 
-        return $http({
+        return $sbhttp({
             method: 'POST',
             url: Url.get("customer/mobile_account_edit/post"),
             data: data,
@@ -142,7 +152,7 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
 
     factory.forgottenpassword = function(email) {
 
-        return $http({
+        return $sbhttp({
             method: 'POST',
             url: Url.get("customer/mobile_account_forgottenpassword/post"),
             data: {email: email},
@@ -152,7 +162,7 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
 
     factory.logout = function() {
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("customer/mobile_account_login/logout"),
             responseType:'json'
@@ -167,7 +177,7 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
 
     factory.removeCard = function() {
 
-        return $http({
+        return $sbhttp({
             method: 'POST',
             url: Url.get("mcommerce/mobile_sales_stripe/removecard"),
             data: {customer_id: factory.id},
@@ -176,7 +186,7 @@ App.factory('Customer', function($http, $ionicModal, $rootScope, $templateCache,
     };
 
     factory.find = function() {
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("customer/mobile_account_edit/find"),
             responseType:'json'

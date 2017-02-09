@@ -1,4 +1,4 @@
-App.factory('McommerceSalesPayment', function ($rootScope, $http, Url) {
+App.factory('McommerceSalesPayment', function ($rootScope, $sbhttp, Url) {
 
     var factory = {};
 
@@ -9,7 +9,7 @@ App.factory('McommerceSalesPayment', function ($rootScope, $http, Url) {
 
         if (!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("mcommerce/mobile_sales_payment/findpaymentmethods", {
                 value_id: this.value_id
@@ -23,7 +23,7 @@ App.factory('McommerceSalesPayment', function ($rootScope, $http, Url) {
 
         if (!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("mcommerce/mobile_sales_payment/findonlinepaymenturl", {
                 value_id: this.value_id
@@ -45,7 +45,7 @@ App.factory('McommerceSalesPayment', function ($rootScope, $http, Url) {
             form: form
         };
 
-        return $http.post(url, data);
+        return $sbhttp.post(url, data);
     };
 
     factory.validatePayment = function() {
@@ -56,7 +56,7 @@ App.factory('McommerceSalesPayment', function ($rootScope, $http, Url) {
             value_id: this.value_id
         });
 
-        return $http.post(url, {
+        return $sbhttp.post(url, {
             validate_payment: 1,
             customer_uuid: window.device.uuid,
             notes: factory.notes || "" // TG-459
@@ -78,7 +78,7 @@ App.factory('McommerceSalesPayment', function ($rootScope, $http, Url) {
             is_ajax: 1
         };
 
-        return $http({
+        return $sbhttp({
             method: 'POST',
             data: data,
             url: url,

@@ -1,5 +1,5 @@
 
-App.factory('Sourcecode', function($rootScope, $http, Url) {
+App.factory('Sourcecode', function($rootScope, $sbhttp, Url) {
 
     var factory = {};
 
@@ -9,13 +9,13 @@ App.factory('Sourcecode', function($rootScope, $http, Url) {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("sourcecode/mobile_view/find", {value_id: this.value_id}),
-            cache: false,
+            cache: $rootScope.isOffline,
             responseType:'json'
         });
     };
-    
+
     return factory;
 });

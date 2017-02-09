@@ -6,7 +6,7 @@ App.config(function($stateProvider) {
         templateUrl: "templates/form/l1/view.html",
     });
 
-}).controller('FormViewController', function($cordovaCamera, $cordovaGeolocation, $http, $ionicActionSheet, $location, $rootScope, $scope, $stateParams, $timeout, $translate, Application, Dialog, Form, GoogleMaps) {
+}).controller('FormViewController', function($cordovaCamera, $cordovaGeolocation, $sbhttp, $ionicActionSheet, $location, $rootScope, $scope, $stateParams, $timeout, $translate, Application, Dialog, Form, GoogleMaps) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {

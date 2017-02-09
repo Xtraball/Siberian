@@ -7,6 +7,24 @@ class Weather_Model_Weather extends Core_Model_Default {
         return $this;
     }
 
+    /**
+     * @return array
+     */
+    public function getInappStates($value_id) {
+
+        $in_app_states = array(
+            array(
+                "state" => "weather-view",
+                "offline" => false,
+                "params" => array(
+                    "value_id" => $value_id,
+                ),
+            ),
+        );
+
+        return $in_app_states;
+    }
+
     public function copyTo($option) {
 
         $this->setId(null)->setValueId($option->getId())->save();

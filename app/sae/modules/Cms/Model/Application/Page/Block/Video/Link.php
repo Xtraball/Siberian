@@ -10,8 +10,27 @@ class Cms_Model_Application_Page_Block_Video_Link extends Cms_Model_Application_
     }
 
     public function isValid() {
-        if($this->getLink()) return true;
+        if($this->getLink()) {
+            return true;
+        }
+
         return false;
+    }
+
+    /**
+     * @param array $data
+     * @return $this
+     */
+    public function populate($data = array()) {
+        $image = $this->saveImage($data["cover_image"]);
+
+        $this
+            ->setDescription($data["description"])
+            ->setLink($data["video"])
+            ->setImage($image)
+        ;
+
+        return $this;
     }
 
     public function getImageUrl() {

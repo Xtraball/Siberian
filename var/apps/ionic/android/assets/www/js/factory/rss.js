@@ -1,5 +1,5 @@
 
-App.factory('Rss', function($rootScope, $http, Url) {
+App.factory('Rss', function($rootScope, $sbhttp, Url) {
 
     var factory = {};
 
@@ -9,7 +9,7 @@ App.factory('Rss', function($rootScope, $http, Url) {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("rss/mobile_feed_list/findall", {value_id: this.value_id}),
             cache: !$rootScope.isOverview,
@@ -23,7 +23,7 @@ App.factory('Rss', function($rootScope, $http, Url) {
 
         var url = Url.get('rss/mobile_feed_view/find', {feed_id: feed_id, value_id: this.value_id});
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: url,
             cache: true,

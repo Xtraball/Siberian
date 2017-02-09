@@ -85,6 +85,19 @@ if($has_previewer && method_exists(new Previewer_Model_Previewer(), "getInstance
         iframe.iframeIsLoaded = function() {
             iframe.content.find("body").removeClass("platform-browser").addClass("platform-ios");
             $("#mask-overview").hide();
+
+            setTimeout(function() {
+                if((typeof iframe != "undefined")
+                    && (typeof iframe.f != "undefined")
+                    && (typeof iframe.f.setPath == "function")
+                    && (typeof window.overviewEvents != "undefined")
+                    && (window.overviewEvents.length > 0)) {
+
+                    iframe.contentWindow.setPath(window.overviewEvents[0]);
+                    window.overviewEvents = [];
+                }
+            }, 1000);
+
         };
     });
 

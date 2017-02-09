@@ -45,7 +45,18 @@ App.config(function($stateProvider) {
     $scope.toggle = function(item) {
 
         if(Application.is_webview) {
-            $rootScope.showMobileFeatureOnlyError();
+            $timeout(function() {
+                item.is_subscribed = !item.is_subscribed;
+                $rootScope.showMobileFeatureOnlyError();
+            }, 500);
+            return;
+        }
+
+        if($rootScope.isOffline) {
+            $timeout(function() {
+                item.is_subscribed = !item.is_subscribed;
+                $rootScope.onlineOnly();
+            }, 500);
             return;
         }
 

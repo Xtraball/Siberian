@@ -14,6 +14,24 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
         return $this;
     }
 
+    /**
+     * @return array
+     */
+    public function getInappStates($value_id) {
+
+        $in_app_states = array(
+            array(
+                "state" => "music-playlist-list",
+                "offline" => false,
+                "params" => array(
+                    "value_id" => $value_id,
+                ),
+            ),
+        );
+
+        return $in_app_states;
+    }
+
     public function getAllAlbums() {
         if(!$this->_albums) {
             $elements = new Media_Model_Gallery_Music_Elements();
@@ -342,8 +360,7 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
     }
 
     public function getFeaturePaths($option_value) {
-
-        if(!$this->isCachable()) return array();
+        if(!$this->isCacheable()) return array();
 
         $action_view = $this->getActionView();
 
@@ -376,6 +393,57 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
             );
             $paths[] = $this->getPath($playlist_path, $params, false);
 
+            $elements = new Media_Model_Gallery_Music_Elements();
+            $elements = $elements->findAll(array('gallery_id' => $playlist->getId()), 'position ASC');
+
+            foreach($elements as $element) {
+
+                if($element->getAlbumId()) {
+
+                    $album = new Media_Model_Gallery_Music_Album();
+                    $album->find($element->getAlbumId());
+
+                    // Albums paths
+                    $params = array(
+                        "value_id" => $value_id,
+                        "album_id" => $album->getId()
+                    );
+                    $paths[] = $this->getPath("media/mobile_api_music_album/find/", $params, false);
+                    $paths[] = $this->getPath("media/mobile_api_music_track/findbyalbum/", $params, false);
+
+                } else if($element->getTrackId()) {
+
+                    $track = new Media_Model_Gallery_Music_Track();
+                    $track->find($element->getTrackId());
+
+                    // Tracks paths
+                    $params = array(
+                        "value_id" => $value_id,
+                        "track_id" => $track->getId()
+                    );
+                    $paths[] = $this->getPath("media/mobile_api_music_album/find/", $params, false);
+                    $paths[] = $this->getPath("media/mobile_api_music_track/findbyalbum/", $params, false);
+                }
+
+            }
+
+        }
+
+        return $paths;
+    }
+
+    public function getAssetsPaths($option_value) {
+        if(!$this->isCacheable()) return array();
+
+        $action_view = $this->getActionView();
+
+        $paths = array();
+        $value_id = $option_value->getId();
+
+        $playlists = new Media_Model_Gallery_Music();
+        $playlists = $playlists->findAll(array('value_id' => $value_id), 'position ASC');
+
+        foreach($playlists as $playlist) {
             // Artwork URLs paths
             if($artworkUrl = $playlist->getArtworkUrl()) {
                 $paths[] = Application_Model_Application::getImagePath() . $artworkUrl;
@@ -383,7 +451,6 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
 
             $elements = new Media_Model_Gallery_Music_Elements();
             $elements = $elements->findAll(array('gallery_id' => $playlist->getId()), 'position ASC');
-
             foreach($elements as $element) {
 
                 if($element->getAlbumId()) {
@@ -400,9 +467,6 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
                         "value_id" => $value_id,
                         "album_id" => $album->getId()
                     );
-                    $paths[] = $this->getPath("media/mobile_api_music_album/find/", $params, false);
-                    $paths[] = $this->getPath("media/mobile_api_music_track/findbyalbum/", $params, false);
-
                 } else if($element->getTrackId()) {
 
                     $track = new Media_Model_Gallery_Music_Track();
@@ -417,18 +481,14 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
                         "value_id" => $value_id,
                         "track_id" => $track->getId()
                     );
-                    $paths[] = $this->getPath("media/mobile_api_music_album/find/", $params, false);
-                    $paths[] = $this->getPath("media/mobile_api_music_track/findbyalbum/", $params, false);
                 }
-
             }
-
         }
 
         // Default artwork URL path
         $paths[] = Media_Model_Library_Image::getImagePathTo("/musics/default_album.jpg");
 
         return $paths;
-
     }
+
 }

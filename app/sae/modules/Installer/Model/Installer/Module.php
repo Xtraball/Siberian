@@ -124,6 +124,8 @@ class Installer_Model_Installer_Module extends Core_Model_Default
 
     public function insertData() {
 
+        $this->save();
+
         # Processing data files
         foreach($this->_dbFiles as $index => $file) {
 
@@ -139,8 +141,9 @@ class Installer_Model_Installer_Module extends Core_Model_Default
                 $this->_run($file);
             }
 
-            $this->save();
         }
+
+        $this->save();
 
         # Set the version to the last in package.json
         if(version_compare($this->_lastVersion, $this->getVersion(), '>')) {
@@ -156,6 +159,16 @@ class Installer_Model_Installer_Module extends Core_Model_Default
         }
 
         return false;
+    }
+
+    public function fetch() {
+        if(is_array($this->_data)) {
+            $name = $this->_data["name"];
+            log_debug($name);
+            if(!empty($name)) {
+                $this->fetchModule($name);
+            }
+        }
     }
 
     /** Fetching from sae to local */
@@ -189,6 +202,7 @@ class Installer_Model_Installer_Module extends Core_Model_Default
             return;
         }
 
+        $this->_basePath = $folder;
         $this->_packageInfo = $package_info;
 
         /** Get the schema for installation/sync */
@@ -233,6 +247,7 @@ class Installer_Model_Installer_Module extends Core_Model_Default
             $logger = Zend_Registry::get("logger");
             $logger->sendException("Fatal Error When Connecting to The Database: \n".print_r($e, true));
         }
+
         return $this;
     }
 
@@ -251,6 +266,36 @@ class Installer_Model_Installer_Module extends Core_Model_Default
             $logger->sendException($message);
         }
         return $this;
+    }
+
+    /**
+     * Loads translations contained in the module
+     */
+    public function loadTranslations() {
+        $module_folder = new DirectoryIterator($this->_basePath);
+        $translation_modules = array();
+
+        if($module_folder->isDir() && is_readable("{$module_folder->getPathname()}/resources/translations/")) {
+
+            $modules_translations = new DirectoryIterator("{$module_folder->getPathname()}/resources/translations/");
+
+            foreach ($modules_translations as $modules_translation) {
+
+                if($modules_translation->isDir() && !$modules_translation->isDot()) {
+                    /** Looping trough files */
+                    $files = new DirectoryIterator($modules_translation->getPathname());
+                    foreach($files as $file) {
+                        if($file->getExtension() == "csv") {
+                            $translation_modules[] = basename($file->getFilename(), ".csv");
+                        }
+                    }
+                }
+            }
+        }
+
+        foreach($translation_modules as $mod) {
+            Core_Model_Translator::addModule($mod);
+        }
     }
 
 }

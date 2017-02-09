@@ -174,6 +174,16 @@ $configs = array(
         "value" => "0"
     ),
     array(
+        "code" => "vat_check_activated",
+        "label" => "Vat check activated",
+        "value" => "0"
+    ),
+    array(
+        "code" => "invoice_footer_message",
+        "label" => "Invoices footer message",
+        "value" => ""
+    ),
+    array(
         "code" => "privacy_policy",
         "label" => "Default privacy policy",
         "value" => "

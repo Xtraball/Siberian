@@ -22,6 +22,24 @@ class Twitter_Model_Twitter extends Core_Model_Default {
     }
 
     /**
+     * @return array
+     */
+    public function getInappStates($value_id) {
+
+        $in_app_states = array(
+            array(
+                "state" => "twitter-list",
+                "offline" => false,
+                "params" => array(
+                    "value_id" => $value_id,
+                ),
+            ),
+        );
+
+        return $in_app_states;
+    }
+
+    /**
      * Defines twitter keys and set the requested user
      *
      * @return $this

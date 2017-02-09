@@ -31,7 +31,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         }
     })
 
-}).controller('FolderListController', function($http, $ionicModal, $ionicPopup, $location, $rootScope, $scope, $stateParams, $window, $translate, $timeout, Analytics, Customer, Folder, Url) {
+}).controller('FolderListController', function($sbhttp, $ionicModal, $ionicPopup, $location, $rootScope, $scope, $stateParams, $window, $translate, $timeout, Analytics, Customer, Folder, Url) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -51,7 +51,6 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
     ]);
 
     $scope.loadContent = function() {
-
         Folder.findAll().success(function(data) {
 
             $scope.collection = new Array();
@@ -64,7 +63,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
             $scope.page_title = data.page_title;
 
             $scope.search_list = data.search_list;
-            $scope.show_search = data.show_search == "1" ? true : false;
+            $scope.show_search = data.show_search == "1" && $rootScope.isOnline ? true : false;
 
         }).error(function() {
 
@@ -80,7 +79,10 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         	$window.scan_camera_protocols = JSON.stringify(["tel:", "http:", "https:", "geo:", "ctc:"]);
             Application.openScanCamera({protocols: ["tel:", "http:", "https:", "geo:", "ctc:"]}, function(qrcode) {}, function() {});
         
-        } else if(feature.is_link) {
+        } else if(feature.offline_mode !== true && $rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }  else if(feature.is_link) {
             if($rootScope.isOverview) {
                 var popup = $ionicPopup.show({
                     title: $translate.instant("Error"),
@@ -93,7 +95,6 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
             }
             var targetForLink = (ionic.Platform.isAndroid())? '_system' : $rootScope.getTargetForLink();
             $window.open(feature.url, targetForLink, "location=no");
-        
         } else {
             $location.path(feature.url);
         }
@@ -102,6 +103,11 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
     };
 
     $scope.startSearch = function() {
+        if($rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }
+
         if($scope.search.search_value) {
             $ionicModal.fromTemplateUrl('templates/folder/l1/search.html', {
                 scope: $scope,

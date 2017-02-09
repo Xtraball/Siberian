@@ -19,6 +19,8 @@ class Sourcecode_ApplicationController extends Application_Controller_Default
                 if(!$sourcecode->getId()) {
                     $sourcecode->setValueId($option_value->getId());
                 }
+
+                $datas["allow_offline"] = !!$datas["allow_offline"];
                 $sourcecode->addData($datas)->save();
 
                 $html = array(

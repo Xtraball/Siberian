@@ -56,7 +56,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
 
     $scope.loadContent();
 
-}).controller('SetMealViewController', function($scope, $http, $stateParams, SetMeal/*, Application*/) {
+}).controller('SetMealViewController', function($scope, $sbhttp, $stateParams, SetMeal/*, Application*/) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {

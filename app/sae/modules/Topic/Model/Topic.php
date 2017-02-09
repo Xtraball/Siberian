@@ -2,12 +2,30 @@
 
 class Topic_Model_Topic extends Core_Model_Default {
 
-    protected $_is_cachable = false;
+    protected $_is_cacheable = true;
 
     public function __construct($params = array()) {
         parent::__construct($params);
         $this->_db_table = 'Topic_Model_Db_Table_Topic';
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getInappStates($value_id) {
+
+        $in_app_states = array(
+            array(
+                "state" => "topic-list",
+                "offline" => true,
+                "params" => array(
+                    "value_id" => $value_id,
+                ),
+            ),
+        );
+
+        return $in_app_states;
     }
 
     public function prepareFeature($option_value) {
@@ -21,13 +39,42 @@ class Topic_Model_Topic extends Core_Model_Default {
         return $this;
     }
 
-    public function getCategories() {
+    public function getFeaturePaths($option_value) {
+        if(!$this->isCacheable()) return array();
+
+        $paths = array();
+
+        $paths[] = $option_value->getPath("topic/mobile_list/findall", array(
+            "value_id" => $option_value->getId(),
+            "device_uid" => "%DEVICE_UID%"
+        ));
+
+        return $paths;
+    }
+
+    public function getAssetsPaths($option_value) {
+        if(!$this->isCacheable()) return array();
+
+        $paths = array();
+
+        $cats = $this->getCategories(true);
+        foreach($cats as $cat) {
+            $picture = $cat->getPicture() ? Application_Model_Application::getImagePath() . $cat->getPicture() : "";
+            if(!empty($picture)) {
+                $paths[] = $picture;
+            }
+        }
+
+        return $paths;
+    }
+
+    public function getCategories($all = false) {
 
         if(!$this->getId()) {
             $categories = array();
         } else {
             $category = new Topic_Model_Category();
-            $categories = $category->getTopicCategories($this->getId());
+            $categories = $category->getTopicCategories($this->getId(), $all);
         }
 
         return $categories;

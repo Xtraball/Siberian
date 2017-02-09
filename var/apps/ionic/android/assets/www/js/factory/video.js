@@ -1,4 +1,4 @@
-App.factory('Video', function($rootScope, $http, $q, Url, Youtube) {
+App.factory('Video', function($rootScope, $sbhttp, $q, Url, Youtube) {
 
     var factory = {};
 
@@ -8,7 +8,7 @@ App.factory('Video', function($rootScope, $http, $q, Url, Youtube) {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("media/mobile_gallery_video_list/findall", {value_id: this.value_id}),
             cache: !$rootScope.isOverview,
@@ -24,7 +24,7 @@ App.factory('Video', function($rootScope, $http, $q, Url, Youtube) {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("media/mobile_gallery_video_view/find", {gallery_id: item.id, offset: item.current_offset, value_id: this.value_id}),
             cache: !$rootScope.isOverview,

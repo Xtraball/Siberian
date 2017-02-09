@@ -97,10 +97,13 @@ App.directive('sbTabbar', function ($ionicHistory, $ionicModal, $ionicSlideBoxDe
                     $scope.tabbar_is_visible = false;
                     $scope.pages_list_is_visible = true;
                     $scope.more();
+                } else if($rootScope.isOffline && feature.offline_mode !== true) {
+                    $rootScope.onlineOnly();
+                    return false;
                 } else if(feature.is_link) {
                     if($rootScope.isOverview) {
                         Dialog.alert($translate.instant("Error"), $translate.instant("This feature is available from the application only"), $translate.instant("OK"));
-                        return;
+                        return false;
                     }
 
                     if(ionic.Platform.isAndroid() && feature.url.indexOf("pdf") >= 0) {

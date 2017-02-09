@@ -1,5 +1,5 @@
 
-App.factory('McommerceProduct', function($rootScope, $http, Url) {
+App.factory('McommerceProduct', function($rootScope, $sbhttp, Url) {
 
     var factory = {};
 
@@ -9,7 +9,7 @@ App.factory('McommerceProduct', function($rootScope, $http, Url) {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("mcommerce/mobile_product/find", {value_id: this.value_id, product_id: product_id}),
             cache: !$rootScope.isOverview,

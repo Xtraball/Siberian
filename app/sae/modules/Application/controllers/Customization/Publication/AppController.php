@@ -11,6 +11,63 @@ class Application_Customization_Publication_AppController extends Application_Co
         }
     }
 
+    public function iconspostAction() {
+        $values = $this->getRequest()->getPost();
+
+        $form = new Application_Form_Customization_Publication_App();
+        if($form->isValid($values)) {
+
+            $application = $this->getApplication();
+
+            # App icon
+            if(isset($values["icon"]) && !file_exists(Core_Model_Directory::getBasePathTo("images/application".$values["icon"]))) {
+                $path_icon = Siberian_Feature::moveUploadedIcon($application->getId(), Core_Model_Directory::getTmpDirectory() . "/" . $values['icon']);
+                $application->setData("icon", $path_icon);
+            }
+
+            # Android push icon
+            if(isset($values["android_push_icon"]) && !file_exists(Core_Model_Directory::getBasePathTo("images/application".$values["android_push_icon"]))) {
+                $path_android_push_icon = Siberian_Feature::moveUploadedIcon($application->getId(), Core_Model_Directory::getTmpDirectory() . "/" . $values['android_push_icon']);
+                Core_Model_Lib_Image::sColorize(Core_Model_Directory::getBasePathTo("images/application".$path_android_push_icon), "FFFFFF");
+                $application->setData("android_push_icon", $path_android_push_icon);
+            }
+
+            # Android push image
+            if(isset($values["android_push_image"]) && $values["android_push_image"] == "_delete_") {
+                $path = Core_Model_Directory::getBasePathTo("images/application".$application->getData("android_push_image"));
+                if(file_exists($path)) {
+                    unlink($path);
+                }
+                $application->setData("android_push_image", null);
+
+            } else if(isset($values["android_push_image"]) && !file_exists(Core_Model_Directory::getBasePathTo("images/application".$values["android_push_image"]))) {
+                $path_android_push_image = Siberian_Feature::moveUploadedIcon($application->getId(), Core_Model_Directory::getTmpDirectory() . "/" . $values['android_push_image']);
+                $application->setData("android_push_image", $path_android_push_image);
+            }
+
+            # Android push color
+            $application->setData("android_push_color", strtoupper($values["android_push_color"]));
+
+            $application->save();
+
+
+
+            $data = array(
+                "success" => 1,
+                "message" => __("Success."),
+            );
+        } else {
+            /** Do whatever you need when form is not valid */
+            $data = array(
+                "error" => 1,
+                "message" => $form->getTextErrors(),
+                "errors" => $form->getTextErrors(true),
+            );
+        }
+
+        $this->_sendJson($data);
+    }
+
     public function iconAction() {
         $this->getLayout()->setBaseRender('content', 'application/customization/publication/app/icon.phtml', 'admin_view_default');
         $html = array('html' => $this->getLayout()->render());

@@ -14,6 +14,14 @@ class Customer_Model_Customer extends Core_Model_Default
         $this->_db_table = 'Customer_Model_Db_Table_Customer';
     }
 
+    /**
+     * @param $app_id
+     * @return mixed
+     */
+    public function findByAppId($app_id) {
+        return $this->getTable()->findByAppId($app_id);
+    }
+
     public function findByEmail($email) {
         return $this->find($email, 'email');
     }

@@ -7,7 +7,7 @@ App.config(function ($stateProvider) {
         cache:false
     })
 
-}).controller('MCommerceCartViewController', function ($scope, $state, $http, $ionicLoading, $stateParams, $translate, Dialog, McommerceCart, Customer) {
+}).controller('MCommerceCartViewController', function ($scope, $state, $sbhttp, $ionicLoading, $stateParams, $translate, Dialog, McommerceCart, Customer) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {

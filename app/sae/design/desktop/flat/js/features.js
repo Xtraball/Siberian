@@ -1,6 +1,6 @@
 /** Handle every elements for Forms on the Fly */
-var ckeditor_config = [];
-ckeditor_config["default"] = {
+ckeditor_config = {};
+ckeditor_config.default = {
     language: 'en',
     toolbar: [
         {name: 'source', items: ['Source']},
@@ -19,9 +19,54 @@ ckeditor_config["default"] = {
     ]
 };
 
-ckeditor_config["complete"] = {};
+ckeditor_config.cms = {
+    language: 'en',
+    toolbar: [
+        {name: 'source', items: ['Source']},
+        {
+            name: 'basicstyles',
+            groups: ['basicstyles', 'cleanup'],
+            items: ['Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat']
+        },
+        {
+            name: 'paragraph',
+            groups: ['indent', 'align'],
+            items: ['Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
+        },
+        {name: 'styles', items: ['TextColor', 'Format']},
+        {name: 'links', items: ['Link', 'Unlink']},
+        {name: 'other', items: ['cmsimage', 'featurelink']}
+    ],
+    extraPlugins : 'cmsimage,featurelink',
+    extraAllowedContent: 'a[*]'
+};
+
+ckeditor_config.complete = {};
 
 var feature_picture_uploader = new Uploader();
+
+var handleFormError = function(form, data) {
+    feature_form_error(data.message);
+    if(data.errors) {
+        form.find("p.form-field-error").remove();
+        Object.keys(data.errors).forEach(function(key) {
+            var input = form.find("#"+key);
+            if(input.length > 0) {
+                switch(input.attr("type")) {
+                    case "hidden":
+                        /** Search for button data-input */
+                        var alt_input = form.find("[data-input='"+key+"']");
+                        if(alt_input.length > 0) {
+                            input = alt_input;
+                        }
+                    default:
+                        input.after("<p class=\"form-field-error\">"+data.errors[key]+"</p>");
+                        break;
+                }
+            }
+        });
+    }
+};
 
 var feature_form_error = function(html) {
     message.addLoader(true);
@@ -92,6 +137,20 @@ var simpleget = function(uri) {
 
 };
 
+var refreshCkeditor = function(element, key) {
+    var el = $(element);
+    var ck_key = (typeof key == "undefined") ? el.attr("ckeditor") : key;
+    var ck_fkey = (ckeditor_config.hasOwnProperty(ck_key)) ? ck_key : "default";
+
+    console.log(ck_key);
+    console.log(ckeditor_config[ck_fkey]);
+
+    el.ckeditor(
+        function(){},
+        ckeditor_config[ck_fkey]
+    );
+};
+
 /** Button picture uploader */
 var button_picture_html = '<div class="feature-upload-placeholder" data-uid="%UID%">' +
     '   <img src="" data-uid="%UID%" />' +
@@ -157,52 +216,33 @@ var _bindForms = function(default_parent) {
     var handleDatetimePicker = function() {
         $(default_parent+' input[data-datetimepicker]').each(function() {
             var el = $(this);
-            console.log(el);
-            var type = el.data("datetimepicker");
-            var format = el.data("format");
-            var options = {};
-            if(format) {
-                options = {
-                    "dateFormat": format
-                };
-            }
-            switch(type) {
-                default:
-                case "datepicker":
-                        el.datepicker(options);
-                    break;
-                case "timepicker":
-                        el.timepicker(options);
-                    break;
-                case "datetimepicker":
-                        el.datetimepicker(options);
-                    break;
+            if(typeof el.attr("data-hasdatepicker") == "undefined") {
+                el.attr("data-hasdatepicker", true);
+                el.after('<input type="hidden" name="datepicker_format" value="'+datepicker_regional+'" />');
+
+                var type = el.data("datetimepicker");
+                var format = el.data("format");
+                var options = {};
+                if(format) {
+                    options = {
+                        "dateFormat": format
+                    };
+                }
+                switch(type) {
+                    default:
+                    case "datepicker":
+                            el.datepicker(options);
+                        break;
+                    case "timepicker":
+                            el.timepicker(options);
+                        break;
+                    case "datetimepicker":
+                            el.datetimepicker(options);
+                        break;
+                }
             }
 
         });
-    };
-
-    var handleError = function(form, data) {
-        feature_form_error(data.message);
-        if(data.errors) {
-            form.find("p.form-field-error").remove();
-            Object.keys(data.errors).forEach(function(key) {
-                var input = form.find("#"+key);
-                if(input.length > 0) {
-                    switch(input.attr("type")) {
-                        case "hidden":
-                            /** Search for button data-input */
-                            var alt_input = form.find("[data-input='"+key+"']");
-                            if(alt_input.length > 0) {
-                                input = alt_input;
-                            }
-                        default:
-                            input.after("<p class=\"form-field-error\">"+data.errors[key]+"</p>");
-                            break;
-                    }
-                }
-            });
-        }
     };
 
     handleRichtext();
@@ -243,7 +283,7 @@ var _bindForms = function(default_parent) {
             $(default_parent+" .feature-upload-delete[data-uid='"+uid+"']").on("click", function() {
                 var uid = $(this).data("uid");
 
-                $(default_parent+" #"+input).val("_delete_");
+                $(default_parent+" #"+input).val("_delete_").trigger("change");
                 $(default_parent+" .feature-upload-placeholder[data-uid='"+uid+"']").remove();
 
                 return false;
@@ -283,21 +323,41 @@ var _bindForms = function(default_parent) {
                     params["output_url"] = "$template$crop$validate";
                     params["uploader"] = 'feature_picture_uploader';
 
+                    var $el = $(el.target);
+                    if(typeof $el.attr("data-imagecolor") != "undefined") {
+                        console.log($el.attr("data-imagecolor"));
+                        params["image_color"] = $el.attr("data-imagecolor");
+                        params["is_colorizable"] = true;
+                    }
+
+                    if(typeof $el.attr("data-forcecolor") != "undefined") {
+                        params["force_color"] = true;
+                    }
+
                     feature_picture_uploader.crop(params);
                     feature_picture_uploader.callback = function(file) {
-                        $(default_parent+" div.feature-upload-placeholder[data-uid='"+uid+"']").find("img").attr("src", tmp_directory+"/"+file);
+                        var _file = file;
+                        if(typeof file == "object") {
+                            _file = file.file;
+                        }
+                        $(default_parent+" div.feature-upload-placeholder[data-uid='"+uid+"']").find("img").attr("src", tmp_directory+"/"+_file);
                         $(default_parent+" button.feature-upload-delete[data-uid='"+uid+"']").show();
                         if($(default_parent+" button.feature-upload-button[data-uid='"+uid+"']").hasClass("is-required")) {
                             $(default_parent+" button.feature-upload-delete[data-uid='"+uid+"']").hide();
                         }
 
-                        $(default_parent+" #"+input).val(file);
+                        $(default_parent+" #"+input).val(_file).trigger("change");
                     }
                 }
             }
 
         });
     });
+
+    /** Alias */
+    var handleError = function(form, data) {
+        handleFormError(form, data);
+    };
 
     /** Handle form */
     var handleForm = function(form) {
@@ -330,6 +390,15 @@ var _bindForms = function(default_parent) {
                         }, 500);
                     } else if(form.hasClass("onchange")) {
                         /** Do nothing */
+                    } else if(form.hasClass("callback")) {
+                        var callback = el.data("callback");
+                        if(typeof callback != "undefined") {
+                            try {
+                                eval(callback);
+                            } catch(e) {
+                                console.log("unable to eval callback "+callback);
+                            }
+                        }
                     } else if(form.hasClass("delete")) {
                         remove_row(form.data("rowid"));
                         $("tr.edit-form[data-id]").hide();

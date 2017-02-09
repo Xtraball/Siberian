@@ -212,7 +212,6 @@ var Options = Class.extend({
         $('#option_values li').hide();
         if (category_id == 'default') {
             page.close(true);
-//                iframe.f.page.showHomepage();
             $('.option_path .node_container').fadeOut();
             if (typeof layout != 'undefined') {
                 layout.hideCategoryManage();
@@ -338,6 +337,8 @@ function createCarouselSortable() {
         }
     });
 }
+
+window.overviewEvents = [];
 
 var page = {
     callback: new Array(),
@@ -532,7 +533,9 @@ var page = {
 
         this.next = $(a);
 
-        if (typeof show_mobile_page == 'undefined') show_mobile_page = true;
+        if (typeof show_mobile_page == 'undefined') {
+            show_mobile_page = true;
+        }
 
         if (this.next.parent().hasClass('selected')) {
             folder.current_option_id = null;
@@ -598,14 +601,15 @@ var page = {
 
                     $('#title_editor').html(this.next.children('span').attr('rel'));
 
-                    /*if(iframe.f.isSamePath(this.current_path)) {
-                     loader.hide('page.load 1');
-                     page.next = null;
-                     iframe.f.reload();
-                     }
-                     else */
                     if (show_mobile_page) {
-                        iframe.f.setPath(this.current_path);
+
+                        // Check if loading is complete
+                        if((typeof iframe != "undefined") && (typeof iframe.f != "undefined") && (typeof iframe.f.setPath == "function")) {
+                            iframe.f.setPath(this.current_path);
+                        } else {
+                            window.overviewEvents.push(this.current_path);
+                        }
+
                         page.next = null;
                         loader.hide('page.load 2');
                     }

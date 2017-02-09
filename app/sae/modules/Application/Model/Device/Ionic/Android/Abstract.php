@@ -35,6 +35,8 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             }
         }
 
+        $push_icon = Core_Model_Directory::getBasePathTo("/images/application".$application->getAndroidPushIcon());
+
         /** icon/push_icon */
         $icons = array(
             $this->_dest_source_res.'/drawable-ldpi/icon.png'               => $application->getIcon(36, null, true),
@@ -55,7 +57,15 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             $this->_dest_source_res.'/drawable-hdpi/launcher_icon.png'      => $application->getIcon(72, null, true),
             $this->_dest_source_res.'/drawable-xhdpi/launcher_icon.png'     => $application->getIcon(96, null, true),
             $this->_dest_source_res.'/drawable-xxhdpi/launcher_icon.png'    => $application->getIcon(144, null, true),
-            $this->_dest_source_res.'/drawable-xxxhdpi/launcher_icon.png'   => $application->getIcon(192, null, true)
+            $this->_dest_source_res.'/drawable-xxxhdpi/launcher_icon.png'   => $application->getIcon(192, null, true),
+            $this->_dest_source.'/assets/www/img/app_icon.png'              => $application->getIcon(192, null, true),
+            $this->_dest_source_res.'/drawable/ic_icon.png'                 => $push_icon,
+            $this->_dest_source_res.'/drawable-hdpi/ic_icon.png'            => $push_icon,
+            $this->_dest_source_res.'/drawable-ldpi/ic_icon.png'            => $push_icon,
+            $this->_dest_source_res.'/drawable-mdpi/ic_icon.png'            => $push_icon,
+            $this->_dest_source_res.'/drawable-xhdpi/ic_icon.png'           => $push_icon,
+            $this->_dest_source_res.'/drawable-xxhdpi/ic_icon.png'          => $push_icon,
+            $this->_dest_source_res.'/drawable-xxxhdpi/ic_icon.png'         => $push_icon,
         );
 
         /** Associating screen image resolution to various landscape/portrait-resolution */

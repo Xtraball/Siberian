@@ -10,7 +10,7 @@ class Social_Model_Facebook extends Core_Model_Default {
     /**
      * @var bool
      */
-    protected $_is_cachable = false;
+    protected $_is_cacheable = false;
 
     /**
      * @var string
@@ -45,6 +45,24 @@ class Social_Model_Facebook extends Core_Model_Default {
         parent::__construct($params);
         $this->_db_table = 'Social_Model_Db_Table_Facebook';
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getInappStates($value_id) {
+
+        $in_app_states = array(
+            array(
+                "state" => "facebook-list",
+                "offline" => false,
+                "params" => array(
+                    "value_id" => $value_id,
+                ),
+            ),
+        );
+
+        return $in_app_states;
     }
 
     /**

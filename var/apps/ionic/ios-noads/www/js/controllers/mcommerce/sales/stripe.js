@@ -86,12 +86,12 @@ App.config(function ($stateProvider) {
     };
 
     $scope.process = function () {
-        if(!$scope.is_loading) {
+        if (!$scope.is_loading) {
             $scope.is_loading = true;
             $ionicLoading.show({
                 template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
             });
-            if($scope.payment.use_stored_card){
+            if ($scope.payment.use_stored_card) {
                 _process();
             } else {
                 Stripe.card.createToken($scope.card, function (status, response) {
@@ -113,7 +113,7 @@ App.config(function ($stateProvider) {
                 $scope.is_loading = false;
                 $ionicLoading.hide();
             } else {
-                $scope.card  = {
+                $scope.card = {
                     token: response.id,
                     last4: response.card.last4,
                     brand: response.card.brand,
@@ -128,18 +128,19 @@ App.config(function ($stateProvider) {
     };
 
     //function to make payment when all is ready
-    var _process = function(){
+    var _process = function () {
         var data = {
-            "token":$scope.card.token,
-            "use_stored_card":$scope.payment.use_stored_card,
-            "save_card":$scope.payment.save_card,
-            "customer_id":Customer.id || null,
-        }
+            "token": $scope.card.token,
+            "use_stored_card": $scope.payment.use_stored_card,
+            "save_card": $scope.payment.save_card,
+            "customer_id": Customer.id || null
+        };
+
         McommerceStripe.process(data).success(function (res) {
-            if(res) {
+            if (res) {
                 $state.go("mcommerce-sales-success", {value_id: $stateParams.value_id});
             } else {
-                SafePopups.show("alert",{
+                SafePopups.show("alert", {
                     title: $translate.instant('Error'),
                     template: "Unexpected error",
                     buttons: [{
@@ -147,8 +148,8 @@ App.config(function ($stateProvider) {
                     }]
                 });
             }
-        }).error(function(err) {
-            SafePopups.show("alert",{
+        }).error(function (err) {
+            SafePopups.show("alert", {
                 title: $translate.instant('Error'),
                 template: "Unexpected error",
                 buttons: [{
@@ -159,7 +160,7 @@ App.config(function ($stateProvider) {
             $scope.is_loading = false;
             $ionicLoading.hide();
         });
-    }
+    };
 
     $scope.right_button = {
         action: $scope.process,

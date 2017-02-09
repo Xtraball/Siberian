@@ -13,6 +13,37 @@ class Application_Customization_FeaturesController extends Application_Controlle
         }
     }
 
+    /**
+     * 29-Jan-2016
+     *
+     * Get links for in-app linking
+     */
+    public function linksAction() {
+        $features = $this->getApplication()->getUsedOptions();
+
+        $states = array();
+
+        # Default home state
+        $states[] = array(
+            __("Home"),
+            array(array("state" => "home")),
+        );
+
+        foreach($features as $feature) {
+            $feature_model = $feature->getModel();
+            $feature_model = new $feature_model();
+
+            if($feature_states = $feature_model->getInappStates($feature->getValueId())) {
+                $states[] = array(
+                    __($feature->getTabbarname()),
+                    $feature_states
+                );
+            }
+        }
+
+        $this->_sendJson($states, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+    }
+
     public function preloadAction() {
         $view = new Application_View_Customization_Features_List_Options();
         $option = new Application_Model_Option();

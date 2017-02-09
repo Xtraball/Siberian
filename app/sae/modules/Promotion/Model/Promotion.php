@@ -8,6 +8,42 @@ class Promotion_Model_Promotion extends Core_Model_Default
         $this->_db_table = 'Promotion_Model_Db_Table_Promotion';
     }
 
+    /**
+     * @return array
+     */
+    public function getInappStates($value_id) {
+        $discounts = $this->getTable()->findAll(array(
+            "value_id" => $value_id,
+            "is_active" => true
+        ), null, null);
+
+        $state_discounts = array();
+        foreach($discounts as $discount) {
+            $state_discounts[] = array(
+                "label" => $discount->getTitle(),
+                "state" => "discount-view",
+                "offline" => false,
+                "params" => array(
+                    "value_id" => $value_id,
+                    "promotion_id" => $discount->getId(),
+                ),
+            );
+        }
+
+        $in_app_states = array(
+            array(
+                "state" => "discount-list",
+                "offline" => false,
+                "params" => array(
+                    "value_id" => $value_id,
+                ),
+                "childrens" => $state_discounts,
+            ),
+        );
+
+        return $in_app_states;
+    }
+
     public function getFormattedEndAt() {
         if($this->getData('end_at')) {
             $date = new Zend_Date($this->getData('end_at'));

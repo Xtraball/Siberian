@@ -118,16 +118,7 @@ App.config(function($stateProvider) {
         /* Initialize search terms */
         $scope.initSearch();
 
-        $cordovaGeolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }).then(function(position) {
-            $scope.position = {latitude: position.coords.latitude, longitude: position.coords.longitude};
-            $scope.parameters.latitude = position.coords.latitude;
-            $scope.parameters.longitude = position.coords.longitude;
-            // Loading the settings for the search parameters is independent of places loading
-
-            $scope.loadSettings(true);
-            $scope.loadPlaces();
-
-        }, function() {
+        var noGeoLoc = function() {
             $scope.position = {latitude: 0, longitude: 0};
             $scope.parameters.latitude = 0;
             $scope.parameters.longitude = 0;
@@ -135,7 +126,23 @@ App.config(function($stateProvider) {
             $scope.loadSettings(false);
             $scope.loadPlaces();
 
-        });
+        };
+
+        if($rootScope.isOffline) {
+            noGeoLoc();
+        } else {
+            $cordovaGeolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }).then(function(position) {
+                $scope.position = {latitude: position.coords.latitude, longitude: position.coords.longitude};
+                $scope.parameters.latitude = position.coords.latitude;
+                $scope.parameters.longitude = position.coords.longitude;
+                // Loading the settings for the search parameters is independent of places loading
+
+                $scope.loadSettings(true);
+                $scope.loadPlaces();
+
+            }, noGeoLoc);
+        }
+
 
     };
 
@@ -143,20 +150,23 @@ App.config(function($stateProvider) {
         Places.settings().success(function (settings) {
             $scope.settings = settings;
             /* If the coordinates are not defined, then don't show the search by vicinity */
-            if (!($scope.position.longitude && $scope.position.latitude)) {
+            if (!($scope.position.longitude && $scope.position.latitude) || $rootScope.isOffline) {
                 $scope.settings.search_aroundyou_show = false;
             } else {
                 $scope.settings.search_aroundyou_show = search_ayou && $scope.settings.search_aroundyou_show;
             }
             /* Only show search when at least one search method is activated */
-            $scope.settings.showSearch = $scope.settings.search_address_show || $scope.settings.search_text_show ||
-                $scope.settings.search_type_show || $scope.settings.search_aroundyou_show;
-        }).error(function (error) {});
+            $scope.settings.showSearch = !$rootScope.isOffline &&
+                ($scope.settings.search_address_show || $scope.settings.search_text_show ||
+                 $scope.settings.search_type_show || $scope.settings.search_aroundyou_show);
+        }).error(function (error) {
+            $scope.settings = {};
+        });
     };
 
     $scope.loadPlaces = function() {
         $scope.parameters.search = $scope.search;
-        ($scope.searchIsEmpty() ? Places.findAll($scope.position) : Search.findAll($scope.parameters)).success(function (data) {
+        ($scope.searchIsEmpty() || $rootScope.isOffline ? Places.findAll($scope.position) : Search.findAll($scope.parameters)).success(function (data) {
             $scope.page_title = data.page_title;
             $scope.collection = data.places.reduce(function (collection, place) {
                 var item = {
@@ -177,6 +187,11 @@ App.config(function($stateProvider) {
     };
 
     $scope.goToMap = function () {
+        if($rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }
+
         $state.go("places-list-map", {value_id: $scope.value_id, page_id: $stateParams.page_id});
     };
 

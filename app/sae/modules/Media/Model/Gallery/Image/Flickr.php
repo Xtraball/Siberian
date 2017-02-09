@@ -21,9 +21,10 @@ class Media_Model_Gallery_Image_Flickr extends Media_Model_Gallery_Image_Abstrac
      * Returns a collection of images confirming to the Media_Model_Gallery_Image_Abstract contract
      *
      * @param $offset
+     * @param int $limit
      * @return array
      */
-    public function getImages($offset) {
+    public function getImages($offset, $limit = self::DISPLAYED_PER_PAGE) {
         $client = $this->getFlickrClient();
         $params = array(
             'per_page' => self::DISPLAYED_PER_PAGE,

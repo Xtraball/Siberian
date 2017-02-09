@@ -18,8 +18,15 @@ class Media_Mobile_Gallery_ImageController extends Application_Controller_Mobile
 
                 $this->loadPartials($this->getFullActionName('_') . '_l' . $this->_layout_id, false);
                 $this->getLayout()->getPartial('content')->setCurrentImage($image);
+
+                if($this->getRequest()->getParam("all") == 1) {
+                    $imgs = $image->getAllImages();
+                } else {
+                    $imgs = $image->getImages();
+                }
+
                 $images = array();
-                foreach($image->getImages() as $link) {
+                foreach($imgs as $link) {
                     $images[] = $link->getData();
                 }
                 $html = array('html' => $this->getLayout()->render(), 'title' => $this->getCurrentOptionValue()->getTabbarName(), 'id' => $image->getId(), 'images' => $images);

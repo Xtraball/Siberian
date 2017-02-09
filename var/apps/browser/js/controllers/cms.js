@@ -13,7 +13,7 @@ App.config(function($stateProvider) {
         templateUrl: "templates/html/l1/maps.html"
     });
 
-}).controller('CmsViewController', function($cordovaSocialSharing, $http, $location, $scope, $stateParams, $timeout, $translate, Application, Cms, Url/*, Pictos*/) {
+}).controller('CmsViewController', function($cordovaSocialSharing, $sbhttp, $location, $scope, $stateParams, $timeout, $translate, Application, Cms, Url/*, Pictos*/) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -81,6 +81,10 @@ App.config(function($stateProvider) {
     };
 
     $scope.onShowMap = function (block) {
+        if($rootScope.isOffline) {
+            $rootScope.onlineOnly();
+            return;
+        }
 
         params = {};
 

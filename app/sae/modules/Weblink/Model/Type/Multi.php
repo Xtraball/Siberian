@@ -1,10 +1,30 @@
 <?php
 class Weblink_Model_Type_Multi extends Weblink_Model_Weblink {
 
+    protected $_is_cacheable = true;
+
     public function __construct($params = array()) {
         parent::__construct($params);
         $this->_type_id = 2;
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getInappStates($value_id) {
+
+        $in_app_states = array(
+            array(
+                "state" => "links-view",
+                "offline" => false,
+                "params" => array(
+                    "value_id" => $value_id,
+                ),
+            ),
+        );
+
+        return $in_app_states;
     }
 
     public function addLinks() {
@@ -21,6 +41,26 @@ class Weblink_Model_Type_Multi extends Weblink_Model_Weblink {
             return $cover_path;
         }
         return null;
+    }
+
+    public function getFeaturePaths($option_value) {
+        if(!$this->isCacheable()) return array();
+
+        $paths = array();
+
+        $paths[] = $option_value->getPath("weblink/mobile_multi/find", array('value_id' => $option_value->getId()), false);
+
+        return $paths;
+    }
+
+    public function getAssetsPaths($option_value) {
+        if(!$this->isCacheable()) return array();
+
+        $paths = array();
+
+        $paths[] = $this->getCoverUrl();
+
+        return $paths;
     }
 
     public function createDummyContents($option_value, $design, $category) {

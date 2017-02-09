@@ -13,6 +13,23 @@ $schemas['cron'] = array(
         'auto_increment' => true,
         'primary' => true,
     ),
+    'module_id' => array(
+        'type' => 'int(11)',
+        'is_null' => true,
+        'foreign_key' => array(
+            'table' => 'module',
+            'column' => 'module_id',
+            'name' => 'FK_CRON_MODULE_ID',
+            'on_update' => 'CASCADE',
+            'on_delete' => 'CASCADE',
+        ),
+        'index' => array(
+            'key_name' => 'module_id',
+            'index_type' => 'BTREE',
+            'is_null' => true,
+            'is_unique' => false,
+        )
+    ),
     'name' => array(
         'type' => 'varchar(128)',
     ),

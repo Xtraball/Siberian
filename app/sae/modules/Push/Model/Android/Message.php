@@ -199,13 +199,20 @@ class Push_Model_Android_Message {
             ->setTitle($message->getTitle())
             ->setMessage($message->getText())
             ->setGeolocation($message->getLatitude(), $message->getLongitude(), $message->getRadius())
-            ->setCover($message->getCoverUrl())
+            ->setCover($message->getCoverUrl(), $message->getData("base_url").$message->getCoverUrl(), $message->getText())
             ->setDelayWithIdle(false)
             ->setTimeToLive(0)
             ->setSendUntil($message->getSendUntil() ? $message->getSendUntil() : "0")
             ->setActionValue($action_url)
             ->setOpenWebview(!is_numeric($message->getActionValue()))
         ;
+
+        # Default application image
+        # @todo add custom image for each feature sending push.
+        $application_image = $application->getAndroidPushImage();
+        if(!empty($application_image)) {
+            $gcm_message->setImage($message->getData("base_url")."/images/application".$application_image);
+        }
 
         if($application->useIonicDesign() && ($message->getLongitude() && $message->getLatitude())) {
             $gcm_message->contentAvailable(true);

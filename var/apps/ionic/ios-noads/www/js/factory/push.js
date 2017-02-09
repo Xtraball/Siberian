@@ -1,5 +1,4 @@
-
-App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $cordovaPush, $http, $rootScope, $translate, $window, Application, httpCache, Url, PUSH_EVENTS) {
+App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $cordovaPush, $sbhttp, $rootScope, $translate, $window, Application, httpCache, Url, PUSH_EVENTS) {
 
     /*
      * PRIVATE
@@ -9,7 +8,9 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
         device_token: null,
         init_data: {
             android: {
-                senderID: "01234567890"
+                senderID: "01234567890",
+                icon: "ic_icon",
+                iconColor: "#0099C7"
             },
             ios: {
                 clearBadge: "true",
@@ -243,7 +244,7 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
                     push_sound: "enabled"
                 };
 
-                $http({
+                $sbhttp({
                     method: 'POST',
                     url: Url.get(url),
                     data: params,
@@ -261,7 +262,7 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
                 registration_id: btoa(__self.device_token)
             };
 
-            $http({
+            $sbhttp({
                 method: 'POST',
                 url: Url.get(url),
                 data: params,
@@ -386,7 +387,7 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
             dist = dist * 60 * 1.1515;
             if (unit=="K") { dist = dist * 1.609344 }
             if (unit=="N") { dist = dist * 0.8684 }
-            return dist
+            return dist;
         }
 
     };
@@ -401,9 +402,19 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
         displayed_per_page: null
     };
 
+    Object.defineProperty($rootScope, "device_uid", {
+        get: function() {
+            return factory.device_uid;
+        }
+    }); // symbolic link to bypass dependency injection for Application service
+
     factory.setSenderID = function(senderID) {
         __self.init_data.android.senderID = senderID;
-    },
+    };
+
+    factory.setIconColor = function(iconColor) {
+        __self.init_data.android.iconColor = iconColor;
+    };
 
     factory.register = function() {
         __self.register();
@@ -417,10 +428,10 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("push/mobile_list/findall", {value_id: this.value_id, device_uid: this.device_uid, offset:offset}),
-            cache: false,
+            cache: !$rootScope.isOverview,
             responseType:'json'
         }).success(function(data) {
 
@@ -435,10 +446,10 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
 
     factory.getPushs = function(device_uid) {
 
-        $http({
+        $sbhttp({
             method: 'GET',
             url: Url.get("push/mobile/count", {device_uid: device_uid}),
-            cache: true,
+            cache: !$rootScope.isOverview,
             responseType: 'json'
         }).success(function (data) {
             factory.pushs = data.count;
@@ -447,27 +458,28 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
     };
 
     factory.getInAppMessages = function(device_uid) {
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("push/mobile/inapp", {device_uid: device_uid}),
-            cache: false,
+            cache: !$rootScope.isOverview,
             responseType: 'json'
         });
     };
 
     factory.getLastMessages = function() {
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("push/mobile/lastmessages", {device_uid: factory.device_uid}),
             cache: false,
-            responseType: 'json'
+            responseType: 'json',
+            timeout: 10000
         });
     };
 
     factory.markInAppAsRead = function() {
         var device_type = ionic.Platform.isIOS() ? 1 : 2;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("push/mobile/readinapp", {device_uid: factory.device_uid, device_type: device_type}),
             cache: false,
@@ -478,7 +490,7 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
     factory.markAsDisplayed = function(message_id) {
         var device_type = ionic.Platform.isIOS() ? "iphone" : "android";
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("push/" + device_type + "/markdisplayed", {device_uid: factory.device_uid, message_id: message_id}),
             cache: false,

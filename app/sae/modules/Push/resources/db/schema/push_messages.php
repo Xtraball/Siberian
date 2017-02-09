@@ -43,7 +43,24 @@ $schemas['push_messages'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'base_url' => array(
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'cover' => array(
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
+    'with_image' => array(
+        'type' => 'tinyint(1)',
+        'is_null' => true,
+        'default' => '1',
+    ),
+    'custom_image' => array(
         'type' => 'varchar(255)',
         'is_null' => true,
         'charset' => 'utf8',

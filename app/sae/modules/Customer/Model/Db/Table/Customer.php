@@ -5,6 +5,29 @@ class Customer_Model_Db_Table_Customer extends Core_Model_Db_Table
     protected $_name = "customer";
     protected $_primary = "customer_id";
 
+    /**
+     * @param $app_id
+     * @param int $limit
+     * @return array
+     */
+    public function findByAppId($app_id, $limit = 5000) {
+        $select = $this->_db->select()
+            ->from($this->_name, array(
+                "customer_id",
+                "firstname",
+                "lastname",
+                "email",
+                "registration_date" => "created_at",
+                "registration_timestamp" => new Zend_Db_Expr("UNIX_TIMESTAMP(created_at)"),
+            ))
+            ->where("is_active = ?", true)
+            ->where("app_id = ?", $app_id)
+            ->limit($limit)
+        ;
+
+        return $this->_db->fetchAssoc($select);
+    }
+
     public function findSocialDatas($customer_id) {
 
         $social_datas = array();

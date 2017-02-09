@@ -1,7 +1,28 @@
 <?php
 
+/**
+ * Class Cms_Application_PageController
+ *
+ * #578
+ */
 class Cms_Application_PageController extends Application_Controller_Default {
 
+    /**
+     * Remastered edit post, with new models & rules
+     */
+    public function editpostv2Action() {
+        if($data = $this->getRequest()->getPost()) {
+            $option_value = $this->getCurrentOptionValue();
+
+            $page = new Cms_Model_Application_Page();
+            $page->edit_v2($option_value, $data);
+        }
+
+    }
+
+    /**
+     * @deprecated
+     */
     public function editpostAction() {
 
         if ($datas = $this->getRequest()->getPost()) {
@@ -10,7 +31,7 @@ class Cms_Application_PageController extends Application_Controller_Default {
             try {
                 // Test s'il y a un value_id
                 if (empty($datas['value_id'])) {
-                    throw new Exception($this->_('An error occurred while saving your page.'));
+                    throw new Exception(__('An error occurred while saving your page.'));
                 }
 
                 // Récupère l'option_value en cours
@@ -18,7 +39,7 @@ class Cms_Application_PageController extends Application_Controller_Default {
                 $option_value->find($datas['value_id']);
 
                 if(!$option_value->getId()) {
-                    throw new Exception($this->_('An error occurred while saving your page.'));
+                    throw new Exception(__('An error occurred while saving your page.'));
                 }
 
                 $page = new Cms_Model_Application_Page();
@@ -26,7 +47,7 @@ class Cms_Application_PageController extends Application_Controller_Default {
                     if($datas["page_id"] == "new") unset($datas["page_id"]);
                     $page->find($datas["page_id"]);
                     if($page->getId() AND $page->getValueId() != $option_value->getId()) {
-                        throw new Exception($this->_('An error occurred while saving your page.'));
+                        throw new Exception(__('An error occurred while saving your page.'));
                     }
                 }
 
@@ -43,7 +64,7 @@ class Cms_Application_PageController extends Application_Controller_Default {
                     $file = Core_Model_Directory::getTmpDirectory(true).'/'.$datas['picture'];
                     if(!is_dir($path)) mkdir($path, 0777, true);
                     if(!copy($file, $folder.$datas['picture'])) {
-                        throw new exception($this->_('An error occurred while saving. Please try again later.'));
+                        throw new exception(__('An error occurred while saving. Please try again later.'));
                     } else {
                         $datas['picture'] = $relative_path.$datas['picture'];
                     }
@@ -141,7 +162,7 @@ class Cms_Application_PageController extends Application_Controller_Default {
 
                 $html = array(
                     'success' => 1,
-                    'success_message' => $this->_('Page successfully saved'),
+                    'success_message' => __('Page successfully saved'),
                     'page_id' => $page->getId(),
                     'message_timeout' => 2,
                     'message_button' => 0,
@@ -169,7 +190,7 @@ class Cms_Application_PageController extends Application_Controller_Default {
 
                 // Test s'il y a un value_id
                 if (empty($data['option_value_id']) OR empty($data['id'])) {
-                    throw new Exception($this->_('An error occurred while saving. Please try again later.'));
+                    throw new Exception(__('An error occurred while saving. Please try again later.'));
                 }
 
                 // Récupère l'option_value en cours
@@ -177,14 +198,14 @@ class Cms_Application_PageController extends Application_Controller_Default {
                 $option_value->find($data['option_value_id']);
 
                 if(!$option_value->getId()) {
-                    throw new Exception($this->_('An error occurred while saving. Please try again later.'));
+                    throw new Exception(__('An error occurred while saving. Please try again later.'));
                 }
 
                 $page = new Cms_Model_Application_Page();
                 $page->find($data["id"]);
 
                 if(!$page->getId() OR $page->getValueId() != $option_value->getId() OR $option_value->getAppId() != $this->getApplication()->getId()) {
-                    throw new Exception($this->_('An error occurred while saving your page.'));
+                    throw new Exception(__('An error occurred while saving your page.'));
                 }
 
                 /** Clean up tags */
@@ -204,7 +225,7 @@ class Cms_Application_PageController extends Application_Controller_Default {
 
                 $html = array(
                     'success' => 1,
-                    'success_message' => $this->_('Page successfully deleted'),
+                    'success_message' => __('Page successfully deleted'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
@@ -230,16 +251,17 @@ class Cms_Application_PageController extends Application_Controller_Default {
 
                 $position = $this->getRequest()->getParam('position');
 
-                if (empty($datas['block_id']))
-                    throw new Exception($this->_('An error occurred during process. Please try again later.'));
-                if (empty($position))
-                    throw new Exception($this->_('An error occurred during process. Please try again later.'));
+                if (empty($position)) {
+                    throw new Siberian_Exception("#476-01: ".__('An error occurred during process. Please try again later.'));
+                }
 
                 $block = new Cms_Model_Application_Block();
                 $block->find($datas['block_id']);
 
-                if (!$block->getId())
-                    throw new Exception($this->_('An error occurred during process. Please try again later.'));
+                if (!$block->getId()) {
+                    throw new Siberian_Exception("#476-02: ".__('An error occurred during process. Please try again later.'));
+                }
+                    
 
                 $html = array(
                     'success' => 1,

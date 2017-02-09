@@ -20,36 +20,31 @@ class Media_Model_Gallery_Image_Custom extends Media_Model_Gallery_Image_Abstrac
         return $types;
     }
 
-    public function getImages($offset) {
+    public function getImages($offset, $limit = self::DISPLAYED_PER_PAGE) {
 
-        if(!$this->_images) {
+        try {
+            $image = new Media_Model_Gallery_Image_Custom();
+            $params = array();
+            if(!empty($limit)) $params['limit'] = $limit;
+            if(!empty($offset)) $params['offset'] = $offset;
 
-            $this->_images = array();
-
-            try {
-                $image = new Media_Model_Gallery_Image_Custom();
-                $params = array('limit' => self::DISPLAYED_PER_PAGE);
-                if(!empty($offset)) $params['offset'] = $offset;
-
-                $images = $image->findAll(array('gallery_id' => $this->getImageId()), 'image_id DESC', $params);
-            }
-            catch(Exception $e) {
-                $images = array();
-            }
-
-            foreach ($images as $key => $image) {
-                $this->_images[] = new Core_Model_Default(array(
-                    'offset'  => $offset++,
-                    'title'  => $image->getTitle(),
-                    'description'  => $image->getDescription(),
-                    'author' => null,
-                    'image'  => Application_Model_Application::getImagePath().$image->getData('url')
-                ));
-            }
-
+            $images = $image->findAll(array('gallery_id' => $this->getImageId()), 'image_id DESC', $params);
+        }
+        catch(Exception $e) {
+            $images = array();
         }
 
-        return $this->_images;
+        foreach ($images as $key => $image) {
+            $returned_images[] = new Core_Model_Default(array(
+                'offset'  => $offset++,
+                'title'  => $image->getTitle(),
+                'description'  => $image->getDescription(),
+                'author' => null,
+                'image'  => Application_Model_Application::getImagePath().$image->getData('url')
+            ));
+        }
+
+        return $returned_images;
     }
 
 }

@@ -38,31 +38,38 @@ class Core_Model_Lib_Image {
         $cache = $this->_cache_dir;
 
         if((!file_exists($cache.$image_name) OR !$this->getResources()) && file_exists($this->_path)) {
+
             try {
                 list($width, $height) = getimagesize($this->_path);
 
                 $img = imagecreatefromstring(file_get_contents($this->_path));
+                $img2 = imagecreatetruecolor($width, $height);
+                imagesavealpha($img2, true);
+                imagealphablending($img2, false);
+                imagecopyresampled($img2, $img, 0, 0, 0, 0, $width, $height, $width, $height);
                 /** Testing if this is a resource. */
-                if(is_resource($img) && ($img !== false)) {
+                if(is_resource($img2) && ($img2 !== false) && is_resource($img)) {
                     if($this->_color) {
                         $rgb = $this->_toRgb($this->_color);
 
-                        for($x=0; $x<$width; $x++) {
-                            for($y=0; $y<$height; $y++) {
+                        for($y=0; $y<$height; $y++) {
+                            for($x=0; $x<$width; $x++) {
+
                                 $colors = imagecolorat($img, $x, $y);
                                 $current_rgb = imagecolorsforindex($img, $colors);
-                                $color = imagecolorallocatealpha($img, $rgb['red'], $rgb['green'], $rgb['blue'], $current_rgb['alpha']);
-                                imagesetpixel($img, $x, $y, $color);
+                                $color = imagecolorallocatealpha($img2, $rgb['red'], $rgb['green'], $rgb['blue'], $current_rgb['alpha']);
+                                imagesetpixel($img2, $x, $y, $color);
+
                             }
                         }
                     }
 
-                    imagesavealpha($img, true);
-                    imagepng($img, $cache.$image_name);
+                    imagesavealpha($img2, true);
+                    imagepng($img2, $cache.$image_name);
 
                     Siberian_Media::optimize($cache.$image_name, true);
 
-                    $this->_resources = $img;
+                    $this->_resources = $img2;
                 }
 
             } catch(Exception $e) {
@@ -73,6 +80,49 @@ class Core_Model_Lib_Image {
 
         return $this;
 
+    }
+
+    /**
+     * Colorize image in place.
+     *
+     * @param $path
+     * @param string $color
+     * @throws Siberian_Exception
+     */
+    public static function sColorize($path, $color = "000000") {
+        if(file_exists($path)) {
+            try {
+                list($width, $height) = getimagesize($path);
+
+                $img = imagecreatefromstring(file_get_contents($path));
+                $img2 = imagecreatetruecolor($width, $height);
+                imagesavealpha($img2, true);
+                imagealphablending($img2, false);
+                imagecopyresampled($img2, $img, 0, 0, 0, 0, $width, $height, $width, $height);
+
+                /** Testing if this is a resource. */
+                if(is_resource($img2) && ($img2 !== false) && is_resource($img)) {
+                    $rgb = self::sToRgb($color);
+
+                    for($y=0; $y<$height; $y++) {
+                        for($x=0; $x<$width; $x++) {
+
+                            $colors = imagecolorat($img, $x, $y);
+                            $current_rgb = imagecolorsforindex($img, $colors);
+                            $color = imagecolorallocatealpha($img2, $rgb["red"], $rgb["green"], $rgb["blue"], $current_rgb["alpha"]);
+                            imagesetpixel($img2, $x, $y, $color);
+
+                        }
+                    }
+
+                    imagesavealpha($img2, true);
+                    imagepng($img2, $path);
+                }
+
+            } catch(Exception $e) {
+                throw new Siberian_Exception($e->getMessage());
+            }
+        }
     }
 
     public function crop() {
@@ -245,8 +295,25 @@ class Core_Model_Lib_Image {
         return $this->_width || $this->_height;
     }
 
+    /**
+     * @deprecated
+     *
+     * @param $hexStr
+     * @param bool $returnAsString
+     * @param string $seperator
+     * @return array|bool|string
+     */
     protected function _toRgb($hexStr, $returnAsString = false, $seperator = ','){
+        return self::sToRgb($hexStr, $returnAsString, $seperator);
+    }
 
+    /**
+     * @param $hexStr
+     * @param bool $returnAsString
+     * @param string $seperator
+     * @return array|bool|string
+     */
+    public static function sToRgb($hexStr, $returnAsString = false, $seperator = ",") {
         $hexStr = preg_replace("/[^0-9A-Fa-f]/", '', $hexStr);
         $rgbArray = array();
 

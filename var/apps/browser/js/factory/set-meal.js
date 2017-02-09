@@ -1,5 +1,5 @@
 
-App.factory('SetMeal', function($rootScope, $http, Url) {
+App.factory('SetMeal', function($rootScope, $sbhttp, Url) {
 
     var factory = {};
 
@@ -10,7 +10,7 @@ App.factory('SetMeal', function($rootScope, $http, Url) {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("catalog/mobile_setmeal_list/findall", {value_id: this.value_id, offset: offset}),
             cache: !$rootScope.isOverview,
@@ -24,7 +24,7 @@ App.factory('SetMeal', function($rootScope, $http, Url) {
 
         var url = Url.get('catalog/mobile_setmeal_view/find', {set_meal_id: set_meal_id, value_id: this.value_id});
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: url,
             cache: !$rootScope.isOverview,

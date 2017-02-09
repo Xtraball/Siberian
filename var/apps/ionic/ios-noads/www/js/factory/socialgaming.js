@@ -1,5 +1,5 @@
 
-App.factory('Socialgaming', function($rootScope, $http, httpCache, CACHE_EVENTS, Url) {
+App.factory('Socialgaming', function($rootScope, $sbhttp, httpCache, CACHE_EVENTS, Url) {
 
     var factory = {};
 
@@ -9,7 +9,7 @@ App.factory('Socialgaming', function($rootScope, $http, httpCache, CACHE_EVENTS,
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("socialgaming/mobile_view/findall", {value_id: this.value_id,offset: offset}),
             cache: !$rootScope.isOverview,

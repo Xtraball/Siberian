@@ -72,6 +72,7 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
                 'use_my_account'    => $option_value->getUseMyAccount(),
                 'use_nickname'      => $option_value->getUseNickname(),
                 'use_ranking'       => $option_value->getUseRanking(),
+                'offline_mode'      => $option_value->getObject()->isCacheable(),
                 'custom_fields'     => $option_value->getCustomFields(),
                 'position'          => $option_value->getPosition()
             );

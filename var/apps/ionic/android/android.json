@@ -263,7 +263,7 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"OfflineMode\"><param name=\"android-package\" value=\"com.appsmobilecompany.base.OfflineMode\" /></feature>",
+                            "xml": "<feature name=\"OfflineMode\"><param name=\"android-package\" value=\"com.appsmobilecompany.base.OfflineMode\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         },
                         {

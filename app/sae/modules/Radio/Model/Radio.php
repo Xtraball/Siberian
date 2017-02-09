@@ -1,12 +1,28 @@
 <?php
 class Radio_Model_Radio extends Core_Model_Default {
 
-    protected $_is_cachable = false;
-
     public function __construct($params = array()) {
         parent::__construct($params);
         $this->_db_table = 'Radio_Model_Db_Table_Radio';
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getInappStates($value_id) {
+
+        $in_app_states = array(
+            array(
+                "state" => "radio",
+                "offline" => false,
+                "params" => array(
+                    "value_id" => $value_id,
+                ),
+            ),
+        );
+
+        return $in_app_states;
     }
 
     public function copyTo($option) {

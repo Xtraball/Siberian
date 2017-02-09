@@ -72,11 +72,15 @@ class Form_MobileController extends Application_Controller_Mobile_Default {
                         ->setDatas($datasChanged);
                     $content = $layout->render();
 
+                    $emails = explode(",", $form->getEmail());
+
                     # @version 4.8.7 - SMTP
                     $mail = new Siberian_Mail();
                     $mail->setBodyHtml($content);
-                    $mail->setFrom($form->getEmail(), $this->getApplication()->getName());
-                    $mail->addTo($form->getEmail(), __('Your app\'s form'));
+                    $mail->setFrom($emails[0], $this->getApplication()->getName());
+                    foreach($emails as $email) {
+                        $mail->addTo($email, __('Your app\'s form'));
+                    }
                     $mail->setSubject(__('Your app\'s form'));
                     $mail->send();
 

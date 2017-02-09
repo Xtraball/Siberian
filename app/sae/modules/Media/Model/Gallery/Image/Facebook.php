@@ -27,9 +27,10 @@ class Media_Model_Gallery_Image_Facebook extends Media_Model_Gallery_Image_Abstr
      * Returns a collection of images confirming to the Media_Model_Gallery_Image_Abstract contract
      *
      * @param $offset
+     * @param int $limit
      * @return array
      */
-    public function getImages($offset) {
+    public function getImages($offset, $limit = self::DISPLAYED_PER_PAGE) {
         $album_id = $this->find(array('gallery_id' => $this->getGalleryId()))->getAlbumId();
         $facebook = new Social_Model_Facebook();
         $images = $facebook->getPhotos($album_id, $offset ? $offset : null);

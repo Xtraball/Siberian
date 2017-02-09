@@ -33,15 +33,15 @@ App.config(function ($stateProvider) {
         $ionicLoading.show({
             template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
         });
-        var currentTs = new Date().getTime();
-        var guestmail = "guest"+currentTs+(parseInt(Math.random()*1000))+"@guest.com";
+        var currentTs = Date.now();
+        var guestmail = "guest" + currentTs + (parseInt(Math.random() * 1000)) + "@guest.com";
         Customer.register({
-            "civility":"m",
-            "firstname":"Guest",
-            "lastname":"Guest",
-            "email":guestmail,
-            "password":parseInt(Math.random()*10000000000),
-            "privacy_policy":true
+            "civility": "m",
+            "firstname": "Guest",
+            "lastname": "Guest",
+            "email": guestmail,
+            "password": parseInt(Math.random() * 10000000000),
+            "privacy_policy": true
         }).success(function(){
             $scope.is_logged_in = true;
             Customer.guest_mode = true;
@@ -93,7 +93,7 @@ App.config(function ($stateProvider) {
             });
         }).error(function (data) {
             if (data && angular.isDefined(data.message)) {
-                SafePopups.show("alert",{
+                SafePopups.show("alert", {
                     title: $translate.instant('Error'),
                     template: data.message,
                     buttons: [{
@@ -128,7 +128,7 @@ App.config(function ($stateProvider) {
                 $scope.goToDeliveryPage();
             }).error(function (data) {
                 if (data && angular.isDefined(data.message)) {
-                    SafePopups.show("alert",{
+                    SafePopups.show("alert", {
                         title: $translate.instant('Error'),
                         template: data.message,
                         buttons: [{
@@ -145,7 +145,7 @@ App.config(function ($stateProvider) {
             $scope.is_loading = false;
             $ionicLoading.hide();
             if (data && angular.isDefined(data.message)) {
-                SafePopups.show("alert",{
+                SafePopups.show("alert", {
                     title: $translate.instant('Error'),
                     template: data.message,
                     buttons: [{

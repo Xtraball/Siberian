@@ -2,7 +2,7 @@
 abstract class Core_Model_Default_Abstract
 {
     protected $_db_table;
-    protected $_is_cachable = true;
+    protected $_is_cacheable = false;
     protected $_action_view = "find";
     protected static $_application;
     protected static $_session = array();
@@ -71,6 +71,16 @@ abstract class Core_Model_Default_Abstract
         } else {
             $session = new Core_Model_Session($type);
             self::setSession($session, $type);
+            return $session;
+        }
+    }
+
+    public static function _getSession() {
+        if(isset(self::$_session[SESSION_TYPE])) {
+            return self::$_session[SESSION_TYPE];
+        } else {
+            $session = new Core_Model_Session(SESSION_TYPE);
+            self::setSession($session, SESSION_TYPE);
             return $session;
         }
     }
@@ -308,8 +318,15 @@ abstract class Core_Model_Default_Abstract
         return true;
     }
 
-    public function isCachable() {
-        return $this->_is_cachable;
+    /**
+     * @return string full,none,partial
+     */
+    public function availableOffline() {
+        return ($this->isCacheable()) ? "full" : "none";
+    }
+
+    public function isCacheable() {
+        return $this->_is_cacheable;
     }
 
     public function getActionView() {
@@ -333,49 +350,10 @@ abstract class Core_Model_Default_Abstract
     }
 
     public function getFeaturePaths($option_value) {
+        return array();
+    }
 
-        if(!$this->isCachable()) return array();
-
-        $action_view = $this->getActionView();
-
-        $path = $option_value->getPath(null);
-        $paths = array();
-
-        if(stripos($path, "list") !== false) {
-
-            $paths[] = $option_value->getPath("findall", array('value_id' => $option_value->getId()), false);
-
-            if($uri = $option_value->getMobileViewUri($action_view)) {
-                $uri_parameters = $option_value->getMobileViewUriParameter();
-                $params = array();
-
-                if ($uri_parameters) {
-                    $uri_parameters = "value_id," . $uri_parameters;
-                    $uri_parameters = explode(",", $uri_parameters);
-
-                    foreach ($uri_parameters as $uri_parameter) {
-                        if (stripos($uri_parameter, "/") !== false) {
-                            $data = explode("/", $uri_parameter);
-                            $params[$data[0]] = $data[1];
-                        } else if ($data = $this->getData($uri_parameter)) {
-                            $params[$uri_parameter] = $data;
-                        }
-                    }
-
-                }
-
-                $paths[] = $option_value->getPath($uri, $params, false);
-
-            }
-
-        } else if(stripos($path, "view") !== false) {
-            $uri = $option_value->getMobileViewUri($action_view) ? $option_value->getMobileViewUri($action_view) : $action_view;
-
-            $paths[] = $option_value->getPath($uri, array("value_id" => $option_value->getId()), false);
-        }
-
-        return $paths;
-
+    public function getAssetsPaths($option_value) {
     }
 
     public function getTemplatePaths($page, $option_layouts, $suffix, $path) {
@@ -702,6 +680,16 @@ abstract class Core_Model_Default_Abstract
 
     public function copyTo($option, $parent_id = null) {
         return $this;
+    }
+
+    /**
+     * Return an array of all the available states for the current feature
+     *
+     * @param $value_id
+     * @return bool
+     */
+    public function getInappStates($value_id) {
+        return false;
     }
 
 }

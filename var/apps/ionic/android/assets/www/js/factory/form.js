@@ -1,5 +1,5 @@
 
-App.factory('Form', function($rootScope, $http, Url) {
+App.factory('Form', function($rootScope, $sbhttp, Url) {
 
     var factory = {};
 
@@ -9,7 +9,7 @@ App.factory('Form', function($rootScope, $http, Url) {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("form/mobile_view/find", {value_id: this.value_id}),
             cache: !$rootScope.isOverview,
@@ -24,7 +24,7 @@ App.factory('Form', function($rootScope, $http, Url) {
         var url = Url.get("form/mobile_view/post", {value_id: this.value_id});
         var data = {form: form};
 
-        return $http.post(url, data);
+        return $sbhttp.post(url, data);
     };
 
     return factory;

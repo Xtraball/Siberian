@@ -1,0 +1,77 @@
+<?php
+
+$title = $this->getTitle();
+$form = $this->getForm();
+$formid = $form->getAttrib("id");
+$uniqid = $form->getUniqid();
+$pvar = "p{$uniqid}";
+
+?>
+<div class="cms-block-container">
+    <h3 class="title-editor border-blue title-feature-indent">
+        <div class="cms-block-handle">
+            <i class="fa fa-arrows-v"></i>
+        </div>
+        <span>
+            <span class="cms-block-index"></span>
+            <?php echo __($title); ?>
+        </span>
+        <div class="cms-block-delete">
+            <i class="fa fa-trash-o"></i>
+        </div>
+
+    </h3>
+    <div id="<?php echo $formid; ?>" class="cms-block-hide-drag content-white-bkg section-padding" style="padding-bottom: 20px;">
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-offset-3">
+                <a href="javascript:void(0);" class="cms-button-type color-blue btn capitalize" data-type="phone">
+                    <i class="fa fa-phone"></i><br>
+                    <span><?php echo __("Phone") ?></span>
+                </a>
+
+                <a href="javascript:void(0);" class="cms-button-type color-blue btn capitalize" data-type="link">
+                    <i class="fa fa-link"></i><br>
+                    <span><?php echo __("Link") ?></span>
+                </a>
+
+                <a href="javascript:void(0);" class="cms-button-type color-blue btn capitalize" data-type="email">
+                    <i class="fa fa-envelope"></i><br>
+                    <span><?php echo __("E-mail") ?></span>
+                </a>
+            </div>
+        </div>
+
+        <?php echo $form; ?>
+    </div>
+
+    <script type="text/javascript">
+        var <?php echo $pvar; ?> = '#<?php echo $formid; ?>';
+
+        $(document).ready(function() {
+            bindForms(<?php echo $pvar; ?>);
+
+            $(<?php echo $pvar; ?>+" .cms-button-type").on("click", function() {
+                $(<?php echo $pvar; ?>+" .cms-button-type").addClass("button-off");
+                $(<?php echo $pvar; ?>+" .cms-button-input").each(function() {
+                    var el = $(this);
+                    el.parents(".sb-form-line").hide();
+                });
+
+                var button = $(this);
+                button.removeClass("button-off");
+                button.blur();
+
+                $(<?php echo $pvar; ?>+" .cms-input-button-type").val(button.data("type"));
+
+                $(<?php echo $pvar; ?>+" .cms-button-"+button.data("type")).each(function() {
+                    var el = $(this);
+                    el.parents(".sb-form-line").show();
+                });
+            });
+
+            $(<?php echo $pvar; ?>+" a[data-type='phone']").trigger("click");
+        });
+    </script>
+
+</div>

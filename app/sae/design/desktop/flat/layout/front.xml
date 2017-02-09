@@ -31,6 +31,7 @@
                     <features link="js/features.js" />
                     <sbpager link="js/jquery.sbpager.js" />
                     <sbcarousel link="js/jquery.sbcarousel.js" />
+                    <sweetalert link="js/sweetalert.min.js" />
                 </js>
                 <css>
                     <bootstrap link="css/bootstrap.css" />
@@ -45,6 +46,7 @@
                     <jcrop link="css/jquery.Jcrop.min.css" />
                     <jquery_ui link="css/jquery-ui.css" />
                     <user_style link="css/user-style.css" />
+                    <sweetalert link="css/sweetalert.css" />
                 </css>
             </scripts>
             <metas>

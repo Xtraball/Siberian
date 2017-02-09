@@ -17,7 +17,7 @@ $schemas['form'] = array(
         'type' => 'int(11) unsigned',
     ),
     'email' => array(
-        'type' => 'varchar(50)',
+        'type' => 'text',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),

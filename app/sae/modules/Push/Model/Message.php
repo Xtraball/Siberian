@@ -2,12 +2,12 @@
 
 class Push_Model_Message extends Core_Model_Default {
 
+    protected $_is_cacheable = true;
+
     const DISPLAYED_PER_PAGE = 10;
 
     const TYPE_PUSH = 1;
     const TYPE_INAPP = 2;
-
-    protected $_is_cachable = false;
 
     /**
      * @var Siberian_Log
@@ -30,6 +30,55 @@ class Push_Model_Message extends Core_Model_Default {
         $this->logger = Zend_Registry::get("logger");
 
         $this->_initMessageType();
+    }
+
+    /**
+     * @return array
+     */
+    public function getInappStates($value_id) {
+
+        $in_app_states = array(
+            array(
+                "state" => "push-list",
+                "offline" => true,
+                "params" => array(
+                    "value_id" => $value_id,
+                ),
+            ),
+        );
+
+        return $in_app_states;
+    }
+
+    public function getFeaturePaths($option_value) {
+        if(!$this->isCacheable()) return array();
+
+        $paths = array();
+
+        $push_count = new Push_Model_Message();
+        $push_count = $push_count->findAll("app_id", $option_value->getAppId())->count;
+
+        $options = array(
+            "value_id" => $option_value->getId(),
+            "device_uid" => "%DEVICE_UID%"
+        );
+
+        $paths[] = $option_value->getPath("push/mobile_list/findall", $options, false);
+
+        for($i = 0; $i <= ceil($push_count/self::DISPLAYED_PER_PAGE); $i++) {
+            $options["offset"] = ($i*self::DISPLAYED_PER_PAGE);
+            $paths[] = $option_value->getPath("push/mobile_list/findall", $options, false);
+        }
+
+        $paths[] = __path("push/mobile/count", array(
+            "device_uid" => "%DEVICE_UID%"
+        ));
+
+        $paths[] = __path("push/mobile/inapp", array(
+            "device_uid" => "%DEVICE_UID%"
+        ));
+
+        return $paths;
     }
 
     public function delete() {
@@ -91,8 +140,8 @@ class Push_Model_Message extends Core_Model_Default {
 
         }
 
-        return $this->getTable()->findByDeviceId($device_id, $this->_messageType, $app_id, $offset, $allowed_categories);
-    }
+        return $this->getTable()->findByDeviceId($device_id, $this->_messageType, $app_id, $offset, $allowed_categories);}
+
 
     public function countByDeviceId($device_id) {
         return $this->getTable()->countByDeviceId($device_id, $this->_messageType);

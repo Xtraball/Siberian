@@ -1,0 +1,38 @@
+<?php
+
+$title = $this->getTitle();
+$form = $this->getForm();
+$formid = $form->getAttrib("id");
+$uniqid = $form->getUniqid();
+$pvar = "p{$uniqid}";
+
+?>
+<div class="cms-block-container">
+    <h3 class="title-editor border-blue title-feature-indent">
+        <div class="cms-block-handle">
+            <i class="fa fa-arrows-v"></i>
+        </div>
+        <span>
+            <span class="cms-block-index"></span>
+            <?php echo __($title); ?>
+        </span>
+        <div class="cms-block-delete">
+            <i class="fa fa-trash-o"></i>
+        </div>
+
+    </h3>
+    <div id="<?php echo $formid; ?>" class="cms-block-hide-drag content-white-bkg section-padding" style="padding-bottom: 20px;">
+        <?php echo $form; ?>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            bindForms("#<?php echo $formid; ?>");
+
+            bindcmsblockAddress("#<?php echo $formid; ?>");
+        });
+    </script>
+
+</div>
+
+

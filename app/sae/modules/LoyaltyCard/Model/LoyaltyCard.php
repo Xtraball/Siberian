@@ -10,6 +10,24 @@ class LoyaltyCard_Model_LoyaltyCard extends Core_Model_Default
         $this->_db_table = 'LoyaltyCard_Model_Db_Table_LoyaltyCard';
     }
 
+    /**
+     * @return array
+     */
+    public function getInappStates($value_id) {
+
+        $in_app_states = array(
+            array(
+                "state" => "loyaltycard-view",
+                "offline" => false,
+                "params" => array(
+                    "value_id" => $value_id,
+                ),
+            ),
+        );
+
+        return $in_app_states;
+    }
+
     public function findByValueId($value_id) {
         return $this->getTable()->findByValueId($value_id);
     }

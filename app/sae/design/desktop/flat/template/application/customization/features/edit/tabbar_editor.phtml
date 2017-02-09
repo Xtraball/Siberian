@@ -39,16 +39,29 @@ $use_subtitle = ($layout->getUseSubtitle());
 $can_export = Siberian_Exporter::isRegistered($option->getCode()) && (APPLICATION_ENV != "production");
 $can_clearcache = Siberian_Cache::isRegistered($option->getCode()) && (APPLICATION_ENV != "production");
 
+$option_object = $option->getObject();
+$available_offline = $option_object->availableOffline();
+$application = $this->getApplication();
+$application_offline_enabled = ($application->getOfflineContent() == 1);
 
 ?>
 
-<script type="text/javascript">
-    var tmp_directory = "<?php echo Core_Model_Directory::getTmpDirectory() ?>";
-    var datepicker_regional = "<?php Core_Model_Language::getCurrentLanguageDatepicker() ?>";
-</script>
-
 <div class="content_editor">
     <h3 class="title-editor border-blue">
+        <?php if($application_offline_enabled): ?>
+            <?php if($available_offline == "none"): ?>
+            <span class="no-offline pull-left">
+                <i class="fa fa-dot-circle-o"></i>
+                <span><?php echo __("Not available offline."); ?></span>
+            </span>
+            <?php elseif($available_offline == "partial"): ?>
+            <span class="partial-offline pull-left">
+                <i class="fa fa-info-circle"></i>
+                <span><?php echo __("Partially available offline."); ?></span>
+            </span>
+            <?php endif; ?>
+        <?php endif; ?>
+
         <?php echo __("Feature settings"); ?>
 
             <div class="action-buttons">
@@ -520,6 +533,18 @@ $can_clearcache = Siberian_Cache::isRegistered($option->getCode()) && (APPLICATI
             return false;
         });
 
+        // Load window.feature_links
+        $.ajax({
+            url: '<?php echo $this->getUrl("/application/customization_features/links") ?>',
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                window.feature_links = data;
+            }
+        });
+
+        //$(".partial-offline").tooltip({});
+
     </script>
     <style>
         .custom_modal .modal_content li { margin: 5px; background: #0099C7; color: white; border-radius: 0px; float:left; list-style:none; }
@@ -532,5 +557,34 @@ $can_clearcache = Siberian_Cache::isRegistered($option->getCode()) && (APPLICATI
         #icon_and_name .col-icon-button{padding-top: 8px}
         #icon_library { overflow: scroll; }
         #new_icon {  float: right;  font-size: 16px;  }
+
+        .no-offline, .partial-offline {
+            font-size: 14px;
+            position: absolute;
+            left: 30px;
+            color: #a00b0b;
+            text-transform: none;
+        }
+
+        .partial-offline {
+            color: #0e7aa0;
+        }
+
+        .tooltip {
+            text-transform: none;
+        }
+
+        .no-offline i, .partial-offline i {
+            font-size: 20px;
+        }
+
+        .no-offline span, .partial-offline span {
+            top: 3px;
+            position: absolute;
+            left: 24px;
+            width: 400px;
+            text-align: left;
+        }
+
     </style>
 </div>

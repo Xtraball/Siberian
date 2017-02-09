@@ -1,5 +1,5 @@
 
-App.factory('Folder', function($rootScope, $http, Url) {
+App.factory('Folder', function($rootScope, $sbhttp, Url) {
 
     var factory = {};
 
@@ -10,7 +10,7 @@ App.factory('Folder', function($rootScope, $http, Url) {
 
         if(!this.value_id) return;
 
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("folder/mobile_list/findall", {value_id: this.value_id, category_id: this.category_id}),
             cache: !$rootScope.isOverview,

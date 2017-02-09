@@ -80,6 +80,7 @@ class Application_Model_ApkQueue extends Core_Model_Default {
             $url = $protocol.$this->getHost()."/".str_replace(Core_Model_Directory::getBasePathTo(""), "", $result["path"]);
 
             $values = array(
+                "type" => __("Android APK"),
                 "application_name" => $this->getName(),
                 "link" => $url,
             );
@@ -95,6 +96,7 @@ class Application_Model_ApkQueue extends Core_Model_Default {
 
             /** Failed email */
             $values = array(
+                "type" => __("Android APK"),
                 "application_name" => $this->getName(),
             );
 

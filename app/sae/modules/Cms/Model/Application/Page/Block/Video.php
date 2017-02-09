@@ -1,28 +1,60 @@
 <?php
 
-class Cms_Model_Application_Page_Block_Video extends Cms_Model_Application_Page_Block_Abstract
-{
+/**
+ * Class Cms_Model_Application_Page_Block_Video
+ */
+class Cms_Model_Application_Page_Block_Video extends Cms_Model_Application_Page_Block_Abstract {
 
+    /**
+     * @var array
+     */
     protected $_types = array(
-        1 => 'link',
-        2 => 'youtube',
-        3 => 'podcast',
+        1 => "link",
+        2 => "youtube",
+        3 => "podcast",
     );
 
+    /**
+     * @var Cms_Model_Application_Page_Block_Video_*
+     */
     protected $_type_instance;
 
+    /**
+     * Cms_Model_Application_Page_Block_Video constructor.
+     * @param array $params
+     */
     public function __construct($params = array()) {
         parent::__construct($params);
-        $this->_db_table = 'Cms_Model_Db_Table_Application_Page_Block_Video';
+        $this->_db_table = "Cms_Model_Db_Table_Application_Page_Block_Video";
+        return $this;
+    }
+
+    /**
+     * @param array $data
+     * @return mixed
+     */
+    public function populate($data = array()) {
+        $this->setTypeId($data["type"]);
+
+        if($this->getTypeInstance()) {
+            $this->getTypeInstance()->setOptionValue($this->option_value)->populate($data);
+        }
+
         return $this;
     }
 
     public function find($id, $field = null) {
         parent::find($id, $field);
+        # should remove _addTypedatas when all cms up-to-date
         $this->_addTypeDatas();
         return $this;
     }
 
+    /**
+     * Return if the instance is valid
+     *
+     * @return bool
+     */
     public function isValid() {
         return $this->getTypeInstance() ? $this->getTypeInstance()->isValid() : false;
     }
@@ -32,6 +64,10 @@ class Cms_Model_Application_Page_Block_Video extends Cms_Model_Application_Page_
         return '';
     }
 
+    /**
+     * @todo ...
+     * @return null
+     */
     public function getTypeInstance() {
         if(!$this->_type_instance) {
             $type = $this->getTypeId();
@@ -47,10 +83,29 @@ class Cms_Model_Application_Page_Block_Video extends Cms_Model_Application_Page_
 
     }
 
+    /**
+     * @deprecated
+     * @param $search
+     * @return mixed
+     */
     public function getList($search) {
         return $this->getTypeInstance()->getList($search);
     }
 
+    public function save_v2() {
+        parent::save();
+
+        if($this->getTypeInstance()) {
+            $this->getTypeInstance()->setVideoId($this->getId())->save();
+        }
+
+        return $this;
+    }
+
+    /**
+     * @deprecated should be replaced with save_v2/renamed
+     * @return $this
+     */
     public function save() {
         parent::save();
         if(!$this->getIsDeleted()) {
@@ -61,6 +116,10 @@ class Cms_Model_Application_Page_Block_Video extends Cms_Model_Application_Page_
         return $this;
     }
 
+    /**
+     * @deprecated
+     * @return $this
+     */
     protected function _addTypeDatas() {
         if($this->getTypeInstance() AND $this->getTypeInstance()->getId()) {
             $this->addData($this->getTypeInstance()->getData());
@@ -69,6 +128,10 @@ class Cms_Model_Application_Page_Block_Video extends Cms_Model_Application_Page_
         return $this;
     }
 
+    /**
+     * @deprecated
+     * @return array
+     */
     protected function _getTypeInstanceData() {
         $fields = $this->getTypeInstance()->getFields();
         $datas = array();

@@ -23,17 +23,25 @@ class Form_Application_SectionController extends Application_Controller_Default 
                 if(isset($datas['email'])) {
 
                     $error = false;
-                    if (empty($datas['email']) OR !Zend_Validate::is($datas['email'], 'EmailAddress')) {
-                        $html = array('error' => 1, 'message' => $this->_('<strong>%s</strong> must be a valid email address<br />', $this->_('Recipient email')));
-                        $error = true;
-                    } else {
+                    $emails = explode(",", $datas['email']);
+                    foreach($emails as $email) {
+                        if (empty($email) OR !Zend_Validate::is($email, 'EmailAddress')) {
+                            $html = array('error' => 1, 'message' => __('<strong>%s</strong> must be a valid email address<br />', __('Recipient email')));
+                            $error = true;
+                        } else {
 
-                        if (!$form->getId()) {
+
+                        }
+                    }
+
+                    if(!$error) {
+                        if(!$form->getId()) {
                             $form->setValueId($datas['value_id']);
                         }
                         $form->setEmail($datas['email'])->save();
                         unset($datas['email']);
                     }
+                    
                 }
                 else {
 
@@ -42,7 +50,7 @@ class Form_Application_SectionController extends Application_Controller_Default 
                     if(!empty($datas['section_id'])) {
                         $section->find($datas['section_id']);
                         if($section->getId() AND $section->getValueId() != $this->getCurrentOptionValue()->getId()) {
-                            throw new Exception($this->_('An error occurred while saving. Please try again later.'));
+                            throw new Exception(__('An error occurred while saving. Please try again later.'));
                         }
                     }
 
@@ -53,7 +61,7 @@ class Form_Application_SectionController extends Application_Controller_Default 
                 if(!$error) {
                     $html = array(
                         'success' => 1,
-                        'success_message' => $this->_('Info successfully saved'),
+                        'success_message' => __('Info successfully saved'),
                         'message_timeout' => 2,
                         'message_button' => 0,
                         'message_loader' => 0
