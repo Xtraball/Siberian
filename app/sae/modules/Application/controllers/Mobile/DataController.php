@@ -53,7 +53,7 @@ class Application_Mobile_DataController extends Application_Controller_Mobile_De
                     }
                 }
             } catch(Exception $e) {
-                die(var_dump("err", $e)); # Silent not working modules
+                # Silent not working modules
             }
 
         }

@@ -15,7 +15,7 @@ ckeditor_config.default = {
             groups: ['indent', 'align'],
             items: ['Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
         },
-        {name: 'styles', items: ['TextColor', 'Format']}
+        {name: 'styles', items: ['TextColor', 'Format', 'FontSize']}
     ]
 };
 
@@ -33,7 +33,7 @@ ckeditor_config.cms = {
             groups: ['indent', 'align'],
             items: ['Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
         },
-        {name: 'styles', items: ['TextColor', 'Format']},
+        {name: 'styles', items: ['TextColor', 'Format', 'FontSize']},
         {name: 'links', items: ['Link', 'Unlink']},
         {name: 'other', items: ['cmsimage', 'featurelink']}
     ],

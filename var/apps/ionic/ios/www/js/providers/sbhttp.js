@@ -37,8 +37,8 @@ App.provider('$sbhttp', function httpCacheLayerProvider() {
                         var cache = (!httpCacheLayerConfig.neverCache || httpCacheLayerConfig.alwaysCache);
                         var cacheRequest = _.get(requestOptions, "cache", cache);
 
-                        var success_cb = angular.noop;
-                        var error_cb = angular.noop;
+                        var success_cbs = [angular.noop];
+                        var error_cbs = [angular.noop];
 
                         var request_done = false;
                         var request_error = false;
@@ -76,7 +76,7 @@ App.provider('$sbhttp', function httpCacheLayerProvider() {
                                     request_done = true;
                                     request_error = !(response.status >= 200 && response.status <= 299);
 
-                                    var callback = request_error ? error_cb : success_cb;
+                                    var callbacks = request_error ? error_cbs : success_cbs;
                                     var promise_resolver = request_error ? reject : resolve;
 
                                     var sendResult = function() {
@@ -84,7 +84,9 @@ App.provider('$sbhttp', function httpCacheLayerProvider() {
                                             response = _.extend({}, response, {fromCache: true});
                                         }
 
-                                        callback(response.data, response.status, response.headers, config);
+                                        _.forEach(callbacks, function(cb) {
+                                            cb(response.data, response.status, response.headers, config);
+                                        });
                                         promise_resolver(response);
                                     };
 
@@ -125,7 +127,7 @@ App.provider('$sbhttp', function httpCacheLayerProvider() {
 
                         promise.success = function(callback) {
                             if(_.isFunction(callback))
-                                success_cb = callback;
+                                success_cbs.push(callback);
 
                             if(request_done && !request_error)
                                 callback(response.data, response.status, response.headers, config);
@@ -135,7 +137,7 @@ App.provider('$sbhttp', function httpCacheLayerProvider() {
 
                         promise.error = function(callback) {
                             if(_.isFunction(callback))
-                                error_cb = callback;
+                                error_cbs.push(callback);
 
                             if(request_done && request_error)
                                 callback(response.data, response.status, response.headers, config);

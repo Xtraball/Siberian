@@ -114,7 +114,15 @@ class Cms_Model_Application_Block extends Core_Model_Default {
 
         switch($this->getType()) {
             case "text":
-                $block_data["image_url"] = $base_url.$this->getImageUrl();
+                $image = Core_Model_Directory::getBasePathTo($this->getImageUrl());
+                if(is_readable($image) && is_file($image)) {
+                    $block_data["image_url"] = $base_url.$this->getImageUrl();
+                } else {
+                    # Force empty images to be sure old/new cms flavors
+                    $block_data["image_url"] = "";
+                    $block_data["image"] = "";
+                }
+
                 break;
             case "image":
             case "slider":

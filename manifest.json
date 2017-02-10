@@ -6660,10 +6660,6 @@
         "hash": "94ad50bf3d048ed92cc513cd901dc685"
     },
     {
-        "file": "app/sae/design/desktop/flat/js/features.js",
-        "hash": "e60a82ce67f1d91f1d4a77bb3affc308"
-    },
-    {
         "file": "app/sae/design/desktop/flat/js/jquery.sbpager.js",
         "hash": "71d4557a78ac80386eee7b25488bc4d6"
     },
@@ -6674,6 +6670,10 @@
     {
         "file": "app/sae/design/desktop/flat/js/sweetalert.min.js",
         "hash": "896ea791cc3d4651ebd3fb507ec5e5b1"
+    },
+    {
+        "file": "app/sae/design/desktop/flat/js/features.js",
+        "hash": "853278fc3dc9c8035e4d76cf22ccdeab"
     },
     {
         "file": "app/sae/design/desktop/flat/layout/admin.xml",
@@ -13917,7 +13917,7 @@
     },
     {
         "file": "app/sae/modules/Application/controllers/Mobile/DataController.php",
-        "hash": "7030fb2f66296d33866afaa59ed61f72"
+        "hash": "283ff22de079c718ff3b4dc177e9c936"
     },
     {
         "file": "app/sae/modules/Application/controllers/MobileController.php",
@@ -16012,12 +16012,12 @@
         "hash": "61713f27bb88159bc28ee90e6906afaf"
     },
     {
-        "file": "app/sae/modules/Cms/Model/Application/Block.php",
-        "hash": "a0b47a0a51de573d74de516bf5d8410f"
-    },
-    {
         "file": "app/sae/modules/Cms/Model/Application/Page.php",
         "hash": "50aa003619602e6d827b716861132f9d"
+    },
+    {
+        "file": "app/sae/modules/Cms/Model/Application/Block.php",
+        "hash": "943b07c892ec0fe60265287ad911c6ea"
     },
     {
         "file": "app/sae/modules/Cms/Model/Db/Table/Application/Block.php",
@@ -34836,10 +34836,6 @@
         "hash": "1284fb64157266f80edc4830a8007025"
     },
     {
-        "file": "var/apps/browser/js/factory/cms.js",
-        "hash": "1d9638b3a6ec7c0c4ab3655b8eeb1654"
-    },
-    {
         "file": "var/apps/browser/js/factory/contact.js",
         "hash": "e4c4fd1993ec6706fb2e4384b89837e6"
     },
@@ -34964,6 +34960,10 @@
         "hash": "5c92d686b697ddf34ae69205e7986d8b"
     },
     {
+        "file": "var/apps/browser/js/factory/cms.js",
+        "hash": "e1b7c69ec45d5a6f7984a06d4e1e99b1"
+    },
+    {
         "file": "var/apps/browser/js/filters/chunk.js",
         "hash": "54c9dcc10e7d84d15529de0dfeacf8aa"
     },
@@ -35029,7 +35029,7 @@
     },
     {
         "file": "var/apps/browser/js/providers/sbhttp.js",
-        "hash": "79abbe62a6e74c0eca7ad6958572cecd"
+        "hash": "cb8a3d1f4948f80681337f3c6f22089b"
     },
     {
         "file": "var/apps/browser/js/services/contextual-menu.js",
@@ -36424,10 +36424,6 @@
         "hash": "1284fb64157266f80edc4830a8007025"
     },
     {
-        "file": "var/apps/ionic/android/assets/www/js/factory/cms.js",
-        "hash": "1d9638b3a6ec7c0c4ab3655b8eeb1654"
-    },
-    {
         "file": "var/apps/ionic/android/assets/www/js/factory/contact.js",
         "hash": "e4c4fd1993ec6706fb2e4384b89837e6"
     },
@@ -36552,6 +36548,10 @@
         "hash": "5c92d686b697ddf34ae69205e7986d8b"
     },
     {
+        "file": "var/apps/ionic/android/assets/www/js/factory/cms.js",
+        "hash": "e1b7c69ec45d5a6f7984a06d4e1e99b1"
+    },
+    {
         "file": "var/apps/ionic/android/assets/www/js/filters/chunk.js",
         "hash": "54c9dcc10e7d84d15529de0dfeacf8aa"
     },
@@ -36617,7 +36617,7 @@
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/providers/sbhttp.js",
-        "hash": "79abbe62a6e74c0eca7ad6958572cecd"
+        "hash": "cb8a3d1f4948f80681337f3c6f22089b"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/services/contextual-menu.js",
@@ -43524,10 +43524,6 @@
         "hash": "1284fb64157266f80edc4830a8007025"
     },
     {
-        "file": "var/apps/ionic/ios-noads/www/js/factory/cms.js",
-        "hash": "1d9638b3a6ec7c0c4ab3655b8eeb1654"
-    },
-    {
         "file": "var/apps/ionic/ios-noads/www/js/factory/contact.js",
         "hash": "e4c4fd1993ec6706fb2e4384b89837e6"
     },
@@ -43652,6 +43648,10 @@
         "hash": "5c92d686b697ddf34ae69205e7986d8b"
     },
     {
+        "file": "var/apps/ionic/ios-noads/www/js/factory/cms.js",
+        "hash": "e1b7c69ec45d5a6f7984a06d4e1e99b1"
+    },
+    {
         "file": "var/apps/ionic/ios-noads/www/js/filters/chunk.js",
         "hash": "54c9dcc10e7d84d15529de0dfeacf8aa"
     },
@@ -43717,7 +43717,7 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/providers/sbhttp.js",
-        "hash": "79abbe62a6e74c0eca7ad6958572cecd"
+        "hash": "cb8a3d1f4948f80681337f3c6f22089b"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/services/contextual-menu.js",
@@ -47124,10 +47124,6 @@
         "hash": "1284fb64157266f80edc4830a8007025"
     },
     {
-        "file": "var/apps/ionic/ios/www/js/factory/cms.js",
-        "hash": "1d9638b3a6ec7c0c4ab3655b8eeb1654"
-    },
-    {
         "file": "var/apps/ionic/ios/www/js/factory/contact.js",
         "hash": "e4c4fd1993ec6706fb2e4384b89837e6"
     },
@@ -47252,6 +47248,10 @@
         "hash": "5c92d686b697ddf34ae69205e7986d8b"
     },
     {
+        "file": "var/apps/ionic/ios/www/js/factory/cms.js",
+        "hash": "e1b7c69ec45d5a6f7984a06d4e1e99b1"
+    },
+    {
         "file": "var/apps/ionic/ios/www/js/filters/chunk.js",
         "hash": "54c9dcc10e7d84d15529de0dfeacf8aa"
     },
@@ -47317,7 +47317,7 @@
     },
     {
         "file": "var/apps/ionic/ios/www/js/providers/sbhttp.js",
-        "hash": "79abbe62a6e74c0eca7ad6958572cecd"
+        "hash": "cb8a3d1f4948f80681337f3c6f22089b"
     },
     {
         "file": "var/apps/ionic/ios/www/js/services/contextual-menu.js",
@@ -48688,10 +48688,6 @@
         "hash": "1284fb64157266f80edc4830a8007025"
     },
     {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/factory/cms.js",
-        "hash": "1d9638b3a6ec7c0c4ab3655b8eeb1654"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/assets/www/js/factory/contact.js",
         "hash": "e4c4fd1993ec6706fb2e4384b89837e6"
     },
@@ -48816,6 +48812,10 @@
         "hash": "5c92d686b697ddf34ae69205e7986d8b"
     },
     {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/factory/cms.js",
+        "hash": "e1b7c69ec45d5a6f7984a06d4e1e99b1"
+    },
+    {
         "file": "var/apps/ionic/previewer/android/assets/www/js/filters/chunk.js",
         "hash": "54c9dcc10e7d84d15529de0dfeacf8aa"
     },
@@ -48881,7 +48881,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/providers/sbhttp.js",
-        "hash": "79abbe62a6e74c0eca7ad6958572cecd"
+        "hash": "cb8a3d1f4948f80681337f3c6f22089b"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/services/contextual-menu.js",
@@ -56064,10 +56064,6 @@
         "hash": "1284fb64157266f80edc4830a8007025"
     },
     {
-        "file": "var/apps/ionic/previewer/ios/www/js/factory/cms.js",
-        "hash": "1d9638b3a6ec7c0c4ab3655b8eeb1654"
-    },
-    {
         "file": "var/apps/ionic/previewer/ios/www/js/factory/contact.js",
         "hash": "e4c4fd1993ec6706fb2e4384b89837e6"
     },
@@ -56192,6 +56188,10 @@
         "hash": "5c92d686b697ddf34ae69205e7986d8b"
     },
     {
+        "file": "var/apps/ionic/previewer/ios/www/js/factory/cms.js",
+        "hash": "e1b7c69ec45d5a6f7984a06d4e1e99b1"
+    },
+    {
         "file": "var/apps/ionic/previewer/ios/www/js/filters/chunk.js",
         "hash": "54c9dcc10e7d84d15529de0dfeacf8aa"
     },
@@ -56257,7 +56257,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/providers/sbhttp.js",
-        "hash": "79abbe62a6e74c0eca7ad6958572cecd"
+        "hash": "cb8a3d1f4948f80681337f3c6f22089b"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/services/contextual-menu.js",

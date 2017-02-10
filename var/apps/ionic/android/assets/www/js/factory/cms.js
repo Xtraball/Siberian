@@ -5,7 +5,6 @@ App.factory('Cms', function ($rootScope, $sbhttp, Url) {
     factory.value_id = null;
 
     factory.findAll = function (page_id) {
-        console.log("page_id: ", page_id);
         if (!this.value_id) return;
 
         return $sbhttp({
@@ -51,7 +50,7 @@ App.factory('Cms', function ($rootScope, $sbhttp, Url) {
     };
 
     factory.loadPrivacypolicy = function(value_id) {
-        return $http({
+        return $sbhttp({
             method: 'GET',
             url: Url.get("cms/mobile_privacypolicy/find", {value_id: value_id}),
             cache: !$rootScope.isOverview,
