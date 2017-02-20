@@ -1,6 +1,6 @@
 <?php
 
-class Cms_Form_Block_Image extends Cms_Form_Block_Abstract {
+class Cms_Form_Block_Image extends Cms_Form_Block_Image_Abstract {
 
     /**
      * @var string
@@ -27,7 +27,6 @@ class Cms_Form_Block_Image extends Cms_Form_Block_Abstract {
 
         $description = $this->addSimpleText("description", __("Description"));
         $description->setBelongsTo("block[".$this->uniqid."][image]");
-        $description->setRequired(true);
 
         $pictures_uploader = $this->addSimpleFile("image_uploader", __("Add pictures"), array("multiple" => true));
         $pictures_uploader->setBelongsTo("block[".$this->uniqid."][image]");

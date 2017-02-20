@@ -1,5 +1,13 @@
 <?php
 class Places_Model_Place extends Core_Model_Default {
+
+    /**
+     * @var array
+     */
+    public $cache_tags = array(
+        "feature_places",
+    );
+
     protected $select;
     protected $table;
     protected $address;
@@ -74,6 +82,136 @@ class Places_Model_Place extends Core_Model_Default {
 
         return $in_app_states;
     }
+
+    public function getFeaturePaths($option_value) {
+        if(!$this->isCacheable()) {
+            return array();
+        }
+
+        $value_id = $option_value->getId();
+        $cache_id = "feature_paths_valueid_{$value_id}";
+        if(!$result = $this->cache->load($cache_id)) {
+
+            $paths = array();
+            $value_id = $option_value->getId();
+
+            // Places list paths
+            $params = array(
+                "value_id" => $value_id
+            );
+
+            $paths[] = $option_value->getPath("places/mobile_list/findall", $params, false);
+            $paths[] = $option_value->getPath("places/mobile_list/settings", $params, false);
+
+            $params["latitude"] = 0;
+            $params["longitude"] = 0;
+
+            $paths[] = $option_value->getPath("places/mobile_list/findall", $params, false);
+
+            // Places view paths
+            $pageRepository = new Cms_Model_Application_Page();
+            $pages = $pageRepository->findAll(array('value_id' => $value_id));
+
+            foreach($pages as $page) {
+
+                $blocks = $page->getBlocks();
+
+                foreach($blocks as $block) {
+
+                    if($block->getType() == "address") {
+                        $params = array(
+                            "page_id" => $page->getId(),
+                            "value_id" => $value_id
+                        );
+                        $paths[] = $option_value->getPath("cms/mobile_page_view/findall", $params, false);
+                    }
+
+                }
+
+            }
+
+            $this->cache->save($paths, $cache_id,
+                $this->cache_tags + array(
+                "feature_paths",
+                "feature_paths_valueid_{$value_id}"
+            ));
+        } else {
+            $paths = $result;
+        }
+
+        return $paths;
+    }
+
+    public function getAssetsPaths($option_value) {
+        if(!$this->isCacheable()) {
+            return array();
+        }
+
+        $paths = array();
+
+        $value_id = $option_value->getId();
+        $cache_id = "assets_paths_valueid_{$value_id}";
+        if(!$result = $this->cache->load($cache_id)) {
+            $value_id = $option_value->getId();
+
+            // Places view paths
+            $pageRepository = new Cms_Model_Application_Page();
+            $pages = $pageRepository->findAll(array('value_id' => $value_id));
+
+            foreach($pages as $page) {
+
+                $blocks = $page->getBlocks();
+
+                foreach($blocks as $block) {
+                    $data = $block->_toJson("");
+                    $keys = array("icon", "image_url", "cover_url", "file_url");
+
+                    foreach ($keys as $key) {
+                        $val = $data[$key];
+                        if(!empty($val)) {
+                            $paths[] = $val;
+                        }
+                    }
+
+                    if(is_array($data["gallery"])) {
+                        foreach ($data["gallery"] as $img) {
+                            $paths[] = $img["src"];
+                        }
+                    }
+
+                    if($block->getType() == "video" && $data["video_type_id"] == "link") {
+                        $paths[] = $data["url"];
+                    }
+
+                    if($block->getType() == "text") {
+
+                        $matches = array();
+                        $regex_url = "/((?:http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(?:\/[^\s\"]*)\.(?:png|gif|jpeg|jpg)+)+/";
+                        preg_match_all($regex_url, $block->getContent(), $matches);
+
+                        $matches = call_user_func_array('array_merge', $matches);
+
+                        if($matches && count($matches) > 1) {
+                            unset($matches[0]);
+                            $paths = array_merge($paths, $matches);
+                        }
+                    }
+                }
+
+            }
+
+            $this->cache->save($paths, $cache_id,
+                $this->cache_tags + array(
+                "assets_paths",
+                "assets_paths_valueid_{$value_id}"
+            ));
+        } else {
+            $paths = $result;
+        }
+
+        return $paths;
+    }
+
 
     public function copyTo($option) {
 
@@ -177,89 +315,8 @@ class Places_Model_Place extends Core_Model_Default {
         }
     }
 
-    public function getFeaturePaths($option_value) {
-        if(!$this->isCacheable()) return array();
-
-        $paths = array();
-        $value_id = $option_value->getId();
-
-        // Places list paths
-        $params = array(
-            "value_id" => $value_id
-        );
-
-        $paths[] = $option_value->getPath("places/mobile_list/findall", $params, false);
-        $paths[] = $option_value->getPath("places/mobile_list/settings", $params, false);
-
-        $params["latitude"] = 0;
-        $params["longitude"] = 0;
-
-        $paths[] = $option_value->getPath("places/mobile_list/findall", $params, false);
-
-        // Places view paths
-        $pageRepository = new Cms_Model_Application_Page();
-        $pages = $pageRepository->findAll(array('value_id' => $value_id));
-
-        foreach($pages as $page) {
-
-            $blocks = $page->getBlocks();
-
-            foreach($blocks as $block) {
-
-                if($block->getType() == "address") {
-                    $params = array(
-                        "page_id" => $page->getId(),
-                        "value_id" => $value_id
-                    );
-                    $paths[] = $option_value->getPath("cms/mobile_page_view/findall", $params, false);
-                }
-
-            }
-
-        }
-
-        return $paths;
-    }
-
-    public function getAssetsPaths($option_value) {
-        if(!$this->isCacheable()) return array();
-
-        $paths = array();
-        $value_id = $option_value->getId();
-
-        // Places view paths
-        $pageRepository = new Cms_Model_Application_Page();
-        $pages = $pageRepository->findAll(array('value_id' => $value_id));
-
-        foreach($pages as $page) {
-
-            $blocks = $page->getBlocks();
-
-            foreach($blocks as $block) {
-                $data = $block->getJSONData();
-                $keys = array("image_url", "cover_url", "file_url");
-
-                foreach ($keys as $key) {
-                    $val = $data[$key];
-                    if(!empty($val)) {
-                        $paths[] = $val;
-                    }
-                }
-
-                if(is_array($data["gallery"])) {
-                    foreach ($data["gallery"] as $img) {
-                        $paths[] = $img["src"];
-                    }
-                }
-
-                if($block->getType() == "video" && $data["video_type_id"] == "link") {
-                    $paths[] = $data["url"];
-                }
-            }
-
-        }
-
-        return $paths;
+    public static function sortPlacesByLabel($a, $b) {
+        return strcmp($a["title"], $b["title"]);
     }
 
     /**
@@ -287,8 +344,7 @@ class Places_Model_Place extends Core_Model_Default {
      *
      * @return Cms_Model_Application_Page_Block_Address
      */
-    public function getAddressBlock()
-    {
+    public function getAddressBlock() {
         if (!$this->address) {
             foreach ($this->getPage()->getBlocks() as $block) {
                 if ($block->getType() == "address") {
@@ -482,7 +538,14 @@ class Places_Model_Place extends Core_Model_Default {
     public function asJson($controller, $position) {
         $address = $this->getAddressBlock();
 
-        $url = $controller->getPath("cms/mobile_page_view/index", array("value_id" => $this->getPage()->getValueId(), "page_id" => $this->getPage()->getId()));
+        if(!$address) {
+            return false;
+        }
+
+        $url = $controller->getPath("cms/mobile_page_view/index", array(
+            "value_id" => $this->getPage()->getValueId(),
+            "page_id" => $this->getPage()->getId()
+        ));
 
         $entity = $this->int_validator->isValid($this->getId()) ? $this : $this->_page;
 
@@ -491,6 +554,7 @@ class Places_Model_Place extends Core_Model_Default {
             "title" => $entity->getTitle(),
             "subtitle" => $entity->getContent(),
             "picture" => $entity->getPictureUrl() ? $controller->getRequest()->getBaseUrl() . $entity->getPictureUrl() : null,
+            "thumbnail" => $entity->getThumbnailUrl() ? $controller->getRequest()->getBaseUrl() . $entity->getThumbnailUrl() : null,
             "url" => $url,
             "address" => array(
                 "id" => $address->getId(),
@@ -500,15 +564,15 @@ class Places_Model_Place extends Core_Model_Default {
                 "address" => $address->getAddress(),
                 "latitude" => $address->getLatitude(),
                 "longitude" => $address->getLongitude(),
-                "show_address" => $address->getShowAddress(),
-                "show_geolocation_button" => $address->getGeolocationButton()
+                "show_address" => !!($address->getShowAddress()),
+                "show_geolocation_button" => !!($address->getShowGeolocationButton())
             )
         );
 
         // only one address per place
-        $representation['show_image'] = $this->getPage()->getMetadataValue('show_image');
-        $representation['show_titles'] = $this->getPage()->getMetadataValue('show_titles');
-        $representation["distance"] = $this->distance($position);
+        $representation['show_image']   = $this->getPage()->getMetadataValue('show_image');
+        $representation['show_titles']  = $this->getPage()->getMetadataValue('show_titles');
+        $representation["distance"]     = $this->distance($position);
 
         return $representation;
     }

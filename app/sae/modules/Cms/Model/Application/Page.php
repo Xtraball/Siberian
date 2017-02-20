@@ -14,6 +14,26 @@ class Cms_Model_Application_Page extends Core_Model_Default
     }
 
     /**
+     * Returns Pages sorted by rank
+     *
+     * @param $value_id
+     * @return collection of pages
+     */
+    public static function findAllOrderedByRank($value_id) {
+        return self::findAllOrderedBy($value_id, 'rank');
+    }
+
+    /**
+     * Returns Pages sorted by label
+     *
+     * @param $value_id
+     * @return collection of pages
+     */
+    public static function findAllOrderedByLabel($value_id) {
+        return self::findAllOrderedBy($value_id, 'label');
+    }
+
+    /**
      * CMS is special and used in many features
      *
      * @return array
@@ -45,15 +65,173 @@ class Cms_Model_Application_Page extends Core_Model_Default
         return $in_app_states;
     }
 
+    /**
+     * @param $option_value
+     * @return array
+     */
+    public function getFeaturePaths($option_value) {
+        if(!$this->isCacheable()) {
+            return array();
+        }
 
-    public static function findAllOrderedByRank($value_id) {
+        $value_id = $option_value->getId();
+        $cache_id = "feature_paths_valueid_{$value_id}";
+        if(!$result = $this->cache->load($cache_id)) {
+
+            if($option_value->getCode() == "custom_page") {
+                $paths = array();
+
+                $paths[] = $option_value->getPath(
+                    "find",
+                    array(
+                        'page_id' => $this->getId(),
+                        'value_id' => $option_value->getId()
+                    ),
+                    false
+                );
+
+                $paths[] = $option_value->getPath(
+                    "findall",
+                    array(
+                        'page_id' => $this->getId(),
+                        'value_id' => $option_value->getId()
+                    ),
+                    false
+                );
+
+                $paths[] = $option_value->getPath(
+                    "findall",
+                    array(
+                        'value_id' => $option_value->getId()
+                    ),
+                    false
+                );
+
+                foreach($this->getBlocks() as $block) {
+                    $paths[] = $option_value->getPath(
+                        "findblock",
+                        array(
+                            'block_id' => $block->getId(),
+                            'page_id' => $this->getId(),
+                            'value_id' => $option_value->getId()
+                        ),
+                        false
+                    );
+                    $paths[] = $option_value->getPath(
+                        "findblock",
+                        array(
+                            'block_id' => $block->getId(),
+                            'value_id' => $option_value->getId()
+                        ),
+                        false
+                    );
+                }
+            } else {
+                // Places paths
+                $places = new Places_Model_Place();
+                $paths =  $places->getFeaturePaths($option_value);
+            }
+
+            $this->cache->save($paths, $cache_id, array(
+                "feature_paths",
+                "feature_paths_valueid_{$value_id}"
+            ));
+        } else {
+            $paths = $result;
+        }
+
+        return $paths;
+    }
+
+    /**
+     * @param $option_value
+     * @return array|void
+     */
+    public function getAssetsPaths($option_value) {
+        if(!$this->isCacheable()) {
+            return array();
+        }
+
+        $value_id = $option_value->getId();
+        $cache_id = "assets_paths_valueid_{$value_id}";
+        if(!$result = $this->cache->load($cache_id)) {
+
+            if($option_value->getCode() == "custom_page") {
+                $paths = array();
+
+                $val = $this->getPictureUr();
+                if(!empty($val)) {
+                    $paths[] = $val;
+                }
+
+                foreach($this->getBlocks() as $block) {
+                    $data = $block->_toJson("");
+                    $keys = array("icon", "image_url", "cover_url", "file_url");
+
+                    foreach ($keys as $key) {
+                        $val = $data[$key];
+                        if(!empty($val)) {
+                            $paths[] = $val;
+                        }
+                    }
+
+                    if(is_array($data["gallery"])) {
+                        foreach ($data["gallery"] as $img) {
+                            $paths[] = $img["src"];
+                        }
+                    }
+
+                    if($block->getType() == "video" && $data["video_type_id"] == "link") {
+                        $paths[] = $data["url"];
+                    }
+
+                    if($block->getType() == "text") {
+
+                        $matches = array();
+                        $regex_url = "/((?:http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(?:\/[^\s\"]*)\.(?:png|gif|jpeg|jpg)+)+/";
+                        preg_match_all($regex_url, $block->getContent(), $matches);
+
+                        $matches = call_user_func_array('array_merge', $matches);
+
+                        if($matches && count($matches) > 1) {
+                            unset($matches[0]);
+                            $paths = array_merge($paths, $matches);
+                        }
+                    }
+                }
+
+            } else {
+                // Places paths
+                $places = new Places_Model_Place();
+                $paths = $places->getAssetsPaths($option_value);
+            }
+
+            $this->cache->save($paths, $cache_id, array(
+                "assets_paths",
+                "assets_paths_valueid_{$value_id}"
+            ));
+        } else {
+            $paths = $result;
+        }
+
+        return $paths;
+    }
+
+    /**
+     * Return the collection of pages belonging to the feature($value_id) ordered by $field
+     *
+     * @param $value_id
+     * @param $field
+     * @return collection of pages
+     */
+    private static function findAllOrderedBy($value_id, $field) {
         $table = new Cms_Model_Db_Table_Application_Page();
         $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART);
         $select->setIntegrityCheck(false);
         $select->join('cms_application_page_block', 'cms_application_page_block.page_id = cms_application_page.page_id')
             ->join('cms_application_page_block_address', 'cms_application_page_block_address.value_id = cms_application_page_block.value_id')
             ->where("cms_application_page.value_id = ?", $value_id)
-            ->order("cms_application_page_block_address.rank asc");
+            ->order("cms_application_page_block_address." . $field . " asc");
         return $table->fetchAll($select);
     }
 
@@ -92,6 +270,24 @@ class Cms_Model_Application_Page extends Core_Model_Default
         $metadatum->save();
     }
 
+    /**
+     * Handles the saving of the places_order_alpha metadatum
+     *
+     * @param $value_id
+     * @param $order
+     */
+    public static function setPlaceOrderAlpha($value_id, $order) {
+        // Delete old metadata value
+        Application_Model_Option_Value_Metadata::deleteByCode($value_id, 'places_order_alpha');
+        // Replace it with the current one
+        $metadatum = new Application_Model_Option_Value_Metadata();
+        $metadatum->setPayload($order ? 'true' : 'false');
+        $metadatum->setCode('places_order_alpha');
+        $metadatum->setValueId($value_id);
+        $metadatum->setType('boolean');
+        $metadatum->save();
+    }
+
     public function findByUrl($url) {
         $this->find($url, 'url');
         return $this;
@@ -116,119 +312,10 @@ class Cms_Model_Application_Page extends Core_Model_Default
         return is_file($base_path) ? $path : null;
     }
 
-    /**
-     * @param $option_value
-     * @return array
-     */
-    public function getFeaturePaths($option_value) {
-        if(!$this->isCacheable()) {
-            return array();
-        }
-
-        if($option_value->getCode() == "custom_page") {
-            $paths = array();
-
-            $paths[] = $option_value->getPath(
-                "find",
-                array(
-                    'page_id' => $this->getId(),
-                    'value_id' => $option_value->getId()
-                ),
-                false
-            );
-
-            $paths[] = $option_value->getPath(
-                "findall",
-                array(
-                    'page_id' => $this->getId(),
-                    'value_id' => $option_value->getId()
-                ),
-                false
-            );
-
-            $paths[] = $option_value->getPath(
-                "findall",
-                array(
-                    'value_id' => $option_value->getId()
-                ),
-                false
-            );
-
-            foreach($this->getBlocks() as $block) {
-                $paths[] = $option_value->getPath(
-                    "findblock",
-                    array(
-                        'block_id' => $block->getId(),
-                        'page_id' => $this->getId(),
-                        'value_id' => $option_value->getId()
-                    ),
-                    false
-                );
-                $paths[] = $option_value->getPath(
-                    "findblock",
-                    array(
-                        'block_id' => $block->getId(),
-                        'value_id' => $option_value->getId()
-                    ),
-                    false
-                );
-            }
-        } else {
-            // Places paths
-            $places = new Places_Model_Place();
-            $paths =  $places->getFeaturePaths($option_value);
-        }
-
-        return $paths;
-    }
-
-    /**
-     * @param $option_value
-     * @return array|void
-     */
-    public function getAssetsPaths($option_value) {
-        if(!$this->isCacheable()) {
-            return array();
-        }
-
-        if($option_value->getCode() == "custom_page") {
-            $paths = array();
-
-            $val = $this->getPictureUr();
-            if(!empty($val)) {
-                $paths[] = $val;
-            }
-
-
-            foreach($this->getBlocks() as $block) {
-                $data = $block->getJSONData();
-                $keys = array("image_url", "cover_url", "file_url");
-
-                foreach ($keys as $key) {
-                    $val = $data[$key];
-                    if(!empty($val)) {
-                        $paths[] = $val;
-                    }
-                }
-
-                if(is_array($data["gallery"])) {
-                    foreach ($data["gallery"] as $img) {
-                        $paths[] = $img["src"];
-                    }
-                }
-
-                if($block->getType() == "video" && $data["video_type_id"] == "link") {
-                    $paths[] = $data["url"];
-                }
-            }
-
-        } else {
-            // Places paths
-            $places = new Places_Model_Place();
-            $paths = $places->getAssetsPaths($option_value);
-        }
-
-        return $paths;
+    public function getThumbnailUrl() {
+        $path = Application_Model_Application::getImagePath().$this->getThumbnail();
+        $base_path = Application_Model_Application::getBaseImagePath().$this->getThumbnail();
+        return is_file($base_path) ? $path : null;
     }
 
     public function save() {
@@ -262,7 +349,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
 
             # Create a new CMS Page
             $page = new Cms_Model_Application_Page();
-            if(!isset($datas["page_id"])) {
+            if(!isset($datas["page_id"]) || empty($datas["page_id"]) || ($datas["page_id"] == "new")) {
                 $page
                     ->setValueId($value_id)
                     ->save_v2() # save_v2 is a simple save, without all the old saveBlocks
@@ -273,6 +360,20 @@ class Cms_Model_Application_Page extends Core_Model_Default
                 if($page->getId() && ($page->getValueId() != $value_id)) {
                     throw new Siberian_Exception("#578-02".__("An error occurred while saving your page."));
                 }
+            }
+
+            # Places case
+            if(isset($datas["cms_type"]) && $datas["cms_type"] == "places") {
+
+                $page
+                    ->savePlace($option_value, $datas)
+                    ->setMetadata($datas['metadata'])
+                    ->saveMetadata();
+
+                # Create or update tags, then attach them to the option_value
+                $tag_names = explode(",", $datas['tags']);
+                $tags = Application_Model_Tag::upsert($tag_names);
+                $option_value->attachTags($tags, $page);
             }
 
             # Page title
@@ -328,6 +429,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
                     ->createBlock($block_type, $page, $block_position)
                     ->save_v2()
                 ;
+
                 $block_position++;
             }
 
@@ -574,5 +676,24 @@ class Cms_Model_Application_Page extends Core_Model_Default
         $meta->setCode($code);
         $meta->setPayload($payload);
         return $meta;
+    }
+
+    /**
+     * @param $option_value
+     * @param $datas
+     * @return $this
+     */
+    public function savePlace($option_value, $datas) {
+        $picture = Siberian_Feature::saveImageForOptionDelete($option_value, $datas["places_file"]);
+        $thumbnail = Siberian_Feature::saveImageForOptionDelete($option_value, $datas["places_thumbnail"]);
+
+        $this
+            ->setTitle($datas["title"])
+            ->setContent($datas["content"])
+            ->setPicture($picture)
+            ->setThumbnail($thumbnail)
+            ->save();
+
+        return $this;
     }
 }

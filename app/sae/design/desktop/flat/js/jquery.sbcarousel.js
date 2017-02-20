@@ -8,10 +8,9 @@
 
         return this.each(function() {
             var $this = $(this),
-                pagerItems = new Array(),
+                pagerItems = [],
                 containerItems = null,
                 sliderItems = null,
-                pagerItems = null,
                 itemWidth = 0,
                 pageSize = 0,
                 sliderSize = 0,
@@ -20,6 +19,80 @@
                 prevArrow = null,
                 nextArrow = null;
 
+
+            function update() {
+                sliderItems.hide();
+
+                containerItems.css({
+                    "width": "100%",
+                    "max-width": "100%"
+                });
+
+                containerItems.css({
+                    "width": containerItems.width()+"px"
+                });
+
+                pageSize = containerItems.width();
+                itemWidth = (pageSize / settings.visible_items) * 1;
+
+                visibleItems = settings.visible_items;
+                if(itemWidth < settings.min_size) {
+                    itemWidth = (pageSize / settings.visible_items_small) * 1;
+                    visibleItems = settings.visible_items_small;
+                }
+
+                /** Items */
+                pagerItems.css({
+                    "width": itemWidth+"px"
+                });
+                sliderItems.show();
+
+                /** Slidebox */
+                sliderSize = (itemWidth * pagerItems.length) * 1;
+                sliderItems.css({
+                    "width": sliderSize+"px"
+                });
+            }
+
+            function gotoPage(page) {
+                prevArrow.css("opacity", (page <= 1) ? 0.2 : 1);
+                nextArrow.css("opacity", (page * visibleItems >= pagerItems.length) ? 0.2 : 1);
+
+                if((page < 1) || (page > Math.ceil(pagerItems.length/visibleItems))) {
+                    return;
+                }
+
+                currentPage = page;
+                var distance = (page-1) * pageSize;
+                sliderItems.css("transform", "translate(-"+distance+"px)");
+            }
+
+            function gotoElement(selector) {
+                var el = pagerItems.filter(selector);
+                var index = $(el).attr("data-index") * 1;
+                index += 1;
+                var page = Math.ceil(index/settings.visible_items);
+
+                gotoPage(page);
+            }
+
+            function gotoPrevious() {
+                gotoPage(currentPage-1);
+            }
+
+            function gotoNext() {
+                gotoPage(currentPage+1);
+            }
+
+            function buildPager() {
+                prevArrow.on("click", function() {
+                    gotoPrevious();
+                });
+                nextArrow.on("click", function() {
+                    gotoNext();
+                });
+            }
+
             function initPager() {
                 containerItems = $this.find(settings.container_selector);
                 sliderItems = $this.find(settings.slider_selector);
@@ -27,7 +100,7 @@
                 prevArrow = $this.find(settings.prev_selector);
                 nextArrow = $this.find(settings.next_selector);
 
-                if(settings.visible_items_small == -1) {
+                if(settings.visible_items_small === -1) {
                     settings.visible_items_small = Math.ceil(settings.visible_items / 2);
                 }
 
@@ -67,6 +140,10 @@
                     "padding": "0 2px"
                 });
 
+                pagerItems.toArray().forEach(function (el, index) {
+                    $(el).attr("data-index", index);
+                });
+
                 /** Slidebox */
                 sliderSize = (itemWidth * pagerItems.length) * 1;
                 sliderItems.css({
@@ -84,77 +161,22 @@
                 buildPager();
                 gotoPage(1);
 
+                this.gotoPage = gotoPage;
+                this.gotoElement = gotoElement;
+                this.gotoNext = gotoNext;
+                this.gotoPrevious = gotoPrevious;
+                this.update = update;
+
                 $this.data("sbcarousel", this);
-            };
-
-            function update() {
-                sliderItems.hide();
-
-                containerItems.css({
-                    "width": "100%",
-                    "max-width": "100%"
-                });
-
-                containerItems.css({
-                    "width": containerItems.width()+"px"
-                });
-
-                pageSize = containerItems.width();
-                itemWidth = (pageSize / settings.visible_items) * 1;
-
-                visibleItems = settings.visible_items;
-                if(itemWidth < settings.min_size) {
-                    itemWidth = (pageSize / settings.visible_items_small) * 1;
-                    visibleItems = settings.visible_items_small;
-                }
-
-                /** Items */
-                pagerItems.css({
-                    "width": itemWidth+"px"
-                });
-                sliderItems.show();
-
-                /** Slidebox */
-                sliderSize = (itemWidth * pagerItems.length) * 1;
-                sliderItems.css({
-                    "width": sliderSize+"px"
-                });
-            };
-
-            function gotoPage(page) {
-                prevArrow.css("opacity", (page <= 1) ? 0.2 : 1);
-                nextArrow.css("opacity", (page * visibleItems >= pagerItems.length) ? 0.2 : 1);
-
-                if((page < 1) || (page > Math.ceil(pagerItems.length/visibleItems))) {
-                    return;
-                }
-
-                currentPage = page;
-                var distance = (page-1) * pageSize;
-                sliderItems.css("transform", "translate(-"+distance+"px)");
-            };
-
-            function gotoPrevious() {
-                gotoPage(currentPage-1);
-            };
-
-            function gotoNext() {
-                gotoPage(currentPage+1);
-            };
-
-            function buildPager() {
-                prevArrow.on("click", function() {
-                    gotoPrevious();
-                });
-                nextArrow.on("click", function() {
-                    gotoNext();
-                });
-            };
+            }
 
             initPager();
 
             $(window).resize(function() {
-                update();
+                setTimeout(function () {
+                    update();
+                    gotoPage(currentPage);
+                }, 200);
             });
         });
     };

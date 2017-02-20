@@ -174,6 +174,7 @@ App.config(function($stateProvider) {
                     title: place.title,
                     subtitle: place.subtitle,
                     picture: place.picture,
+                    thumbnail: place.thumbnail,
                     url: place.url
                 };
                 collection.push(item);

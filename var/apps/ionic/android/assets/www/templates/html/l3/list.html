@@ -100,14 +100,21 @@
 
         <div class="list" ng-show="getState() == 'RESULTS' || collection.length">
 
+            <!-- MCommerce only -->
+            <div class="button-bar" ng-if="use_button_header">
+                <a class="button button-custom icon-left ion-clipboard" ng-click="openHistory()">{{ "Order history" | translate }}</a>
+                <a class="button button-custom icon-left ion-ios-cart" ng-click="openCart()">{{ "My Cart" | translate }}</a>
+            </div>
+
             <div ng-show="show_search && collection.length > 0">
                 <label class="item item-input">
                     <input type="text" id="search" name="search" ng-model="filter_search" placeholder="{{ 'Search' | translate }}"/>
                 </label>
             </div>
 
-            <div class="item item-custom" ng-click="showItem(item)" ng-repeat="item in collection | filter:filter_search" ng-class="{'item-thumbnail-left': item.picture, 'item-center': (!item.subtitle && !item.message)}">
-                <img ng-src="{{ item.picture }}" ng-if="item.picture" />
+            <div class="item item-custom" ng-click="showItem(item)" ng-repeat="item in collection | filter:filter_search" ng-class="{'item-thumbnail-left': (item.thumbnail.length || item.picture), 'item-center': (!item.subtitle && !item.message)}">
+                <img ng-src="{{ item.thumbnail }}" ng-if="item.thumbnail.length" />
+                <img ng-src="{{ item.picture }}" ng-if="item.picture && !item.thumbnail.length" />
                 <h2>{{ item.title ? item.title : item.author }}</h2>
                 <p ng-if="item.subtitle">{{ item.subtitle }}</p>
                 <p ng-if="!item.subtitle && item.message">{{ item.message }}</p>

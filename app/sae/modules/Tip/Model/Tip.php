@@ -31,15 +31,25 @@ class Tip_Model_Tip extends Core_Model_Default {
 
         if(!$this->isCacheable()) return array();
 
-        $paths = array();
+        $value_id = $option_value->getId();
+        $cache_id = "feature_paths_valueid_{$value_id}";
 
-        $params = array(
-            'value_id' => $option_value->getId()
-        );
-        $paths[] = $option_value->getPath("findall", $params, false);
+        if(!$paths = $this->cache->load($cache_id)) {
+
+            $paths = array();
+
+            $params = array(
+                'value_id' => $option_value->getId()
+            );
+            $paths[] = $option_value->getPath("findall", $params, false);
+
+            $this->cache->save($paths, $cache_id, array(
+                "feature_paths",
+                "feature_paths_valueid_{$value_id}"
+            ));
+        }
 
         return $paths;
-
     }
 
     /**

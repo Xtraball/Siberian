@@ -1,7 +1,26 @@
 <?php
 
+/**
+ * @deprecated
+ *
+ * Seems this controller is not used anymore
+ *
+ * Class Comment_CustomerController
+ */
 class Comment_CustomerController extends Core_Controller_Default
 {
+
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "add" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#",
+            ),
+        ),
+    );
 
     public function listAction() {
         $this->loadPartials();
@@ -29,8 +48,8 @@ class Comment_CustomerController extends Core_Controller_Default
                     ->save()
                 ;
 
-                $message = $this->_('Your message has been successfully saved.');
-                if(!$comment->isVisible()) $message .= ' ' . $this->_('It will be visible only after validation by our team.');
+                $message = __('Your message has been successfully saved.');
+                if(!$comment->isVisible()) $message .= ' ' . __('It will be visible only after validation by our team.');
                 if($this->getCurrentAdmin()->getDesignId() == 6) {
                     $html = array('success' => 1, 'message' => $message);
                 }

@@ -39,7 +39,7 @@
                 <h2 ng-if="cover.title2">{{ "Description" | translate }}</h2>
             </div>
             <div class="item item-text-wrap item-custom" ng-if="item.description">
-                {{ item.description }}
+                <div class="item-text-wrap item-custom"  ng-bind-html="item.description | trusted_html"></div>
             </div>
             <div class="item item-icon-left item-custom" ng-click="openMaps(item.address)" ng-if="item.address">
                 <i class="icon ion-location"></i>

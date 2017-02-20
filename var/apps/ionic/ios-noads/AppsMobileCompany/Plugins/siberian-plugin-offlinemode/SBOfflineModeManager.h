@@ -2,12 +2,14 @@
 
 @interface SBOfflineModeManager : NSObject {
     BOOL isOnline;
-    
+    BOOL canCache;
+
     NSString *checkConnectionURL;
 }
 
 @property (nonatomic, retain) NSString *checkConnectionURL;
 @property (nonatomic) BOOL isOnline;
+@property (nonatomic) BOOL canCache;
 
 + (SBOfflineModeManager *)sharedManager;
 - (void)watchReachability;

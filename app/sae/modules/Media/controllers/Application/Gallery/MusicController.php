@@ -842,6 +842,12 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                         }
                     }
 
+                    if(isset($datas['delete_image']) && $datas['delete_image'] == 'true') {
+                        $album->setArtworkUrl(null);
+                    }
+
+                    $album->save();
+
                     $music_positions = new Media_Model_Gallery_Music_Elements();
                     $music_positions->find($datas['album_id'], 'album_id');
                     if(!$music_positions->getAlbumId()) {

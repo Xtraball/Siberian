@@ -2,6 +2,17 @@
 
 $title = $this->getTitle();
 $form = $this->getForm();
+
+$block = $this->getCmsBlock();
+
+$load = false;
+if(isset($block) && $block->getId()) {
+    $form->loadBlock($block);
+
+    $load = true;
+    $type = $block->getTypeId();
+}
+
 $formid = $form->getAttrib("id");
 $uniqid = $form->getUniqid();
 $pvar = "p{$uniqid}";
@@ -76,7 +87,9 @@ $pvar = "p{$uniqid}";
                 $(<?php echo $pvar; ?>+" .cms-video-cover-image").val(tmp_directory+"/"+el.val());
             });
 
-            $(<?php echo $pvar; ?>+" .video-type").on("click", function() {
+            $(<?php echo $pvar; ?>+" .video-type").on("click", function(event) {
+                event.preventDefault();
+
                 $(<?php echo $pvar; ?>+" .video-type").addClass("button-off");
 
                 $(<?php echo $pvar; ?>+" .cms-video-input").each(function() {
@@ -97,7 +110,7 @@ $pvar = "p{$uniqid}";
                         $(<?php echo $pvar; ?>+" .youtube-result").hide();
                         $(<?php echo $pvar; ?>+" .podcast-result").show();
                         break;
-                    case "video":
+                    case "link":
                         $(<?php echo $pvar; ?>+" .youtube-result").hide();
                         $(<?php echo $pvar; ?>+" .podcast-result").hide();
                         break;
@@ -109,6 +122,8 @@ $pvar = "p{$uniqid}";
                     var el = $(this);
                     el.parents(".sb-form-line").show();
                 });
+
+                return false;
             });
 
             $(<?php echo $pvar; ?>+" a[data-type='link']").trigger("click");
@@ -156,6 +171,14 @@ $pvar = "p{$uniqid}";
                             el.addClass("video-selected");
                             $(<?php echo $pvar; ?>+" .cms-video-youtube-id").val(el.data("videoid"));
                         });
+
+                        /** When a video is already selected. */
+                        var val = $(<?php echo $pvar; ?>+" .cms-video-youtube-id").val();
+                        if(val !== "") {
+                            var selector = "[data-videoid='"+val+"']";
+                            youtube_result.find(".sb-mini-carousel").data("sbcarousel").gotoElement(selector);
+                            $(selector).trigger("click");
+                        }
 
                     },
                     error: function(response) {},
@@ -209,6 +232,14 @@ $pvar = "p{$uniqid}";
                             $(<?php echo $pvar; ?>+" .cms-video-podcast-id").val(el.data("videoid"));
                         });
 
+                        /** When a video is already selected. */
+                        var val = $(<?php echo $pvar; ?>+" .cms-video-podcast-id").val();
+                        if(val !== "") {
+                            var selector = "[data-videoid='"+val+"']";
+                            podcast_result.find(".sb-mini-carousel").data("sbcarousel").gotoElement(selector);
+                            $(selector).trigger("click");
+                        }
+
                     },
                     error: function(response) {},
                     complete: function(response) {
@@ -216,6 +247,13 @@ $pvar = "p{$uniqid}";
                     }
                 });
             });
+
+            <?php if($load): ?>
+            setTimeout(function() {
+                $(<?php echo $pvar; ?>+" a[data-type='<?php echo $type; ?>']").trigger("click");
+                $(<?php echo $pvar; ?>+" input[id$='-video-<?php echo $type; ?>_search']").trigger("change");
+            }, 200);
+            <?php endif; ?>
         });
     </script>
 

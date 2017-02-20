@@ -53,7 +53,12 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                         "type" => "folder"
                     );
                     $category_option = new Application_Model_Option_Value();
-                    $category_options = $category_option->findAll(array("app_id" => $this->getApplication()->getId(), 'folder_category_id' => $folder->getCategoryId()), array('folder_category_position ASC'));
+                    $category_options = $category_option->findAll(array(
+                        "app_id" => $this->getApplication()->getId(),
+                        "folder_category_id" => $folder->getCategoryId(),
+                        "is_visible" => 1,
+                        "is_active" => 1
+                    ), array('folder_category_position ASC'));
 
                     foreach($category_options as $feature) {
                         $search_list[] = array(
@@ -82,7 +87,9 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                     $data["folders"][] = array(
                         "title" => $subcategory->getTitle(),
                         "subtitle" => $subcategory->getSubtitle(),
-                        "picture" => $subcategory->getPictureUrl() ? $this->getRequest()->getBaseUrl().$subcategory->getPictureUrl() : null,
+                        "picture" => $subcategory->getPictureUrl() ?
+                            $this->getRequest()->getBaseUrl().$subcategory->getPictureUrl() :
+                            $this->getRequest()->getBaseUrl().$this->_getColorizedImage($current_option->getIconId(), $color),
                         "url" => $this->getPath("folder/mobile_list", array("value_id" => $value_id, "category_id" => $subcategory->getId())),
                         "offline_mode" => $current_option->getObject()->isCacheable()
                     );

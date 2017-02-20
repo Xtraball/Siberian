@@ -2,44 +2,47 @@
 
 class Places_ApplicationController extends Application_Controller_Default {
 
-    public function formAction() {
+    public function loadformAction() {
 
-
-        $id = $this->getRequest()->getParam("id");
+        $place_id = $this->getRequest()->getParam("place_id");
+        $option_value = $this->getCurrentOptionValue();
 
         try {
-            $option_value = new Application_Model_Option_Value();
-            $option_value->find($this->getRequest()->getParam("option_value_id"));
 
             $page = new Cms_Model_Application_Page();
-            $page->find($id);
+            $page->find($place_id);
 
             $tag_names = $option_value->getTagNames($page);
             $page->tag_names = $tag_names;
 
+            $is_new = false;
             if(!$page->getId()) {
                 $page->setId("new");
                 $page->tag_names = array();
+                $is_new = true;
             }
 
-            $this->getLayout()->setBaseRender('form', 'cms/application/page/edit.phtml', 'admin_view_default')
+            $html = $this->getLayout()
+                ->addPartial('cms_edit', 'Core_View_Default', 'cms/application/page/edit.phtml')
+                ->setOptionValue($option_value)
                 ->setCurrentPage($page)
-                ->setOptionValue($this->getCurrentOptionValue())
                 ->setCurrentFeature("places")
-            ;
+                ->setIsNew($is_new)
+                ->toHtml();
 
-            $html = array(
-                'form' => $this->getLayout()->render(),
-                'success' => 1
+            $data = array(
+                "success" => true,
+                "form" => $html,
             );
 
         } catch (Exception $e) {
-            $html = array(
-                'message' => $e->getMessage()
+            $data = array(
+                "error" => true,
+                "message" => $e->getMessage()
             );
         }
 
-        $this->getLayout()->setHtml(Zend_Json::encode($html));
+        $this->_sendJson($data);
     }
 
     public function rankAction() {
@@ -88,7 +91,8 @@ class Places_ApplicationController extends Application_Controller_Default {
 
                 $settings->setup($data['search']);
                 $settings->save();
-                Cms_Model_Application_Page::setPlaceOrder($data['option_value_id'], $data['places_order']);
+                Cms_Model_Application_Page::setPlaceOrder($data['option_value_id'], $data['places_order'] == 'distance');
+                Cms_Model_Application_Page::setPlaceOrderAlpha($data['option_value_id'], $data['places_order'] == 'alpha');
 
                 $html = array(
                     'success' => 1,

@@ -6,19 +6,9 @@
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
-        <div id="search_section" class="list" ng-show="show_search">
-            <div class="item item-custom item-input-inset">
-                <label class="item-input-wrapper">
-                    <i class="icon ion-search placeholder-icon"></i>
-                    <input type="text" placeholder="{{ 'Search' | translate }}" ng-model="search.search_value">
-                </label>
-                <button class="button button-custom button-small" ng-click="startSearch()">
-                    {{ "OK" | translate }}
-                </button>
-            </div>
-        </div>
+        <ng-include src="'templates/folder/l1/search.html'"></ng-include>
 
-        <div class="list" ng-show="!is_loading && cover">
+        <div class="list" ng-show="!is_loading && cover && !search.search_value">
             <div class="item item-image item-custom" ng-if="cover.picture">
                 <img ng-src="{{ cover.picture }}" />
             </div>
@@ -28,8 +18,9 @@
             </div>
         </div>
 
+      
         <div class="layout Sl16">
-            <div class="list" ng-show="collection.length">
+            <div class="list" ng-show="collection.length && !search.search_value">
                 <a tabbar-items class="item item-custom item-avatar-square text-center" option="item" go-to-url="goTo(item)" ng-repeat="item in collection" ng-class="{'item-avatar': item.picture, 'item-center': (!item.subtitle && !item.message), 'no-border': tabbar_is_transparent}">
                     <div class="items">
                         <img ng-src="{{ item.picture }}" ng-if="item.picture" />
@@ -52,8 +43,9 @@
 <style>
 .layout.Sl16 .scroll-view {  position: absolute;  width: 100%;  height: 100%;  }
 .layout.Sl16 a {  border: 1px solid white;  float: left;  height: 100%;  position: relative;  width: 50%; padding: 0;  margin:0;}
-.layout.Sl16 a img {  width: 55px; height: 55px; }
-.layout.Sl16 a p {  bottom: 0;  font-size: 12px;  height: 22%;  line-height: 20px;  overflow: hidden;  position: absolute;  text-align: center;  text-transform: uppercase;  width: 100%;  z-index: 999;  }
+.layout.Sl16 a img {  width: 45px; height: 45px; }
+.layout.Sl16 a p + p { bottom: 0px }
+ .layout.Sl16 a p {  bottom: 15px;  font-size: 12px;  height: 22%;  line-height: 20px;  overflow: hidden;  position: absolute;  text-align: center;  text-transform: uppercase;  width: 100%;  z-index: 999; padding: 0px 5%; }
 .layout.Sl16 a .items {  height: 100%;  }
 .layout.Sl16 .items { padding: 30%;  }
 .layout.Sl16 .no-border{border:none !important}

@@ -37,4 +37,19 @@ class Cms_Form_Block_Address extends Cms_Form_Block_Abstract {
         ;
     }
 
+    /**
+     * @param $block
+     * @return $this
+     */
+    public function loadBlock($block) {
+        $this->getElement("label")->setValue($block->getLabel());
+        $this->getElement("address")->setValue($block->getAddress());
+        $this->getElement("latitude")->setValue($block->getLatitude());
+        $this->getElement("longitude")->setValue($block->getLongitude());
+        $this->getElement("show_address")->setValue($block->getShowAddress());
+        $this->getElement("show_geolocation_button")->setValue($block->getShowGeolocationButton());
+
+        return $this;
+    }
+
 }

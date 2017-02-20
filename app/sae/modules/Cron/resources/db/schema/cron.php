@@ -76,6 +76,9 @@ $schemas['cron'] = array(
     'last_error' => array(
         'type' => 'longtext',
     ),
+    'last_error_date' => array(
+        'type' => 'datetime',
+    ),
     'last_trigger' => array(
         'type' => 'datetime',
     ),

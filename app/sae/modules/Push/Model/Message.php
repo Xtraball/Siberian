@@ -53,30 +53,39 @@ class Push_Model_Message extends Core_Model_Default {
     public function getFeaturePaths($option_value) {
         if(!$this->isCacheable()) return array();
 
-        $paths = array();
+        $value_id = $option_value->getId();
+        $cache_id = "feature_paths_valueid_{$value_id}";
+        if(!$paths = $this->cache->load($cache_id)) {
 
-        $push_count = new Push_Model_Message();
-        $push_count = $push_count->findAll("app_id", $option_value->getAppId())->count;
+            $paths = array();
 
-        $options = array(
-            "value_id" => $option_value->getId(),
-            "device_uid" => "%DEVICE_UID%"
-        );
+            $push_count = new Push_Model_Message();
+            $push_count = $push_count->countAll("app_id", $option_value->getAppId());
 
-        $paths[] = $option_value->getPath("push/mobile_list/findall", $options, false);
+            $options = array(
+                "value_id" => $option_value->getId(),
+                "device_uid" => "%DEVICE_UID%"
+            );
 
-        for($i = 0; $i <= ceil($push_count/self::DISPLAYED_PER_PAGE); $i++) {
-            $options["offset"] = ($i*self::DISPLAYED_PER_PAGE);
             $paths[] = $option_value->getPath("push/mobile_list/findall", $options, false);
+            for($i = 0; $i <= ceil($push_count/self::DISPLAYED_PER_PAGE); $i++) {
+                $options["offset"] = $i*self::DISPLAYED_PER_PAGE;
+                $paths[] = $option_value->getPath("push/mobile_list/findall", $options, false);
+            }
+
+            $paths[] = __path("push/mobile/count", array(
+                "device_uid" => "%DEVICE_UID%"
+            ));
+
+            $paths[] = __path("push/mobile/inapp", array(
+                "device_uid" => "%DEVICE_UID%"
+            ));
+
+            $this->cache->save($paths, $cache_id, array(
+                "feature_paths",
+                "feature_paths_valueid_{$value_id}"
+            ));
         }
-
-        $paths[] = __path("push/mobile/count", array(
-            "device_uid" => "%DEVICE_UID%"
-        ));
-
-        $paths[] = __path("push/mobile/inapp", array(
-            "device_uid" => "%DEVICE_UID%"
-        ));
 
         return $paths;
     }

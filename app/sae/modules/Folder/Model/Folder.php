@@ -1,7 +1,21 @@
 <?php
 class Folder_Model_Folder extends Core_Model_Default {
 
+    /**
+     * @var array
+     */
+    public $cache_tags = array(
+        "feature_folder",
+    );
+
+    /**
+     * @var bool
+     */
     protected $_is_cacheable = true;
+
+    /**
+     * @var
+     */
     protected $_root_category;
 
     public function __construct($params = array()) {
@@ -28,6 +42,74 @@ class Folder_Model_Folder extends Core_Model_Default {
         return $in_app_states;
     }
 
+    /**
+     * @param $option_value
+     * @return array
+     */
+    public function getFeaturePaths($option_value) {
+        if(!$this->isCacheable()) {
+            return array();
+        }
+
+        $value_id = $option_value->getId();
+        $cache_id = "feature_paths_valueid_{$value_id}";
+        if(!$result = $this->cache->load($cache_id)) {
+
+            $paths = array();
+            $paths[] = $option_value->getPath("findall", array('value_id' => $option_value->getId()), false);
+
+            $paths = array_merge($paths, $this->_get_subcategories_feature_paths($this->getRootCategory(), $option_value));
+
+            $this->cache->save($paths, $cache_id,
+                $this->cache_tags + array(
+                "feature_paths",
+                "feature_paths_valueid_{$value_id}"
+            ));
+        } else {
+            $paths = $result;
+        }
+
+        return $paths;
+    }
+
+    /**
+     * @param $option_value
+     * @return array
+     */
+    public function getAssetsPaths($option_value) {
+        if(!$this->isCacheable()) {
+            return array();
+        }
+
+        $paths = array();
+
+        $value_id = $option_value->getId();
+        $cache_id = "assets_paths_valueid_{$value_id}";
+        if(!$result = $this->cache->load($cache_id)) {
+
+            $folder = $option_value->getObject();
+
+            if($folder->getId()) {
+                $category = new Folder_Model_Category();
+                $category->find($folder->getRootCategoryId(), "category_id");
+                if($category->getId()) {
+                    $paths[] = $category->getPictureUrl();
+                    $paths = array_merge($paths, $this->_get_subcategories_assets_paths($category));
+                }
+            }
+
+            $this->cache->save($paths, $cache_id,
+                $this->cache_tags + array(
+                "assets_paths",
+                "assets_paths_valueid_{$value_id}"
+            ));
+        } else {
+            $paths = $result;
+        }
+
+        return $paths;
+    }
+
     public function deleteFeature() {
 
         if(!$this->getId()) {
@@ -48,37 +130,6 @@ class Folder_Model_Folder extends Core_Model_Default {
 
         return $this->_root_category;
 
-    }
-
-    public function getFeaturePaths($option_value) {
-        if(!$this->isCacheable()) return array();
-
-        $paths = array();
-        $paths[] = $option_value->getPath("findall", array('value_id' => $option_value->getId()), false);
-
-        $paths = array_merge($paths, $this->_get_subcategories_feature_paths($this->getRootCategory(), $option_value));
-
-        return $paths;
-    }
-
-
-    public function getAssetsPaths($option_value) {
-        if(!$this->isCacheable()) return array();
-
-        $paths = array();
-
-        $folder = $option_value->getObject();
-
-        if($folder->getId()) {
-            $category = new Folder_Model_Category();
-            $category->find($folder->getRootCategoryId(), "category_id");
-            if($category->getId()) {
-                $paths[] = $category->getPictureUrl();
-                $paths = array_merge($paths, $this->_get_subcategories_assets_paths($category));
-            }
-        }
-
-        return $paths;
     }
 
     private function _get_subcategories_feature_paths($category, $option_value) {

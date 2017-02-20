@@ -1,4 +1,4 @@
-App.directive('sbBackgroundImage', function($sbhttp, Url, $rootScope) {
+App.directive('sbBackgroundImage', function($rootScope, $sbhttp, Application, Url) {
     return {
         restrict: 'A',
         controller: function($scope, $state, $stateParams, $location) {
@@ -6,12 +6,26 @@ App.directive('sbBackgroundImage', function($sbhttp, Url, $rootScope) {
         },
         link: function(scope, element) {
 
+            scope.setBackgroundImageStyle = function(src) {
+                angular.element(element).addClass("has-background-image").css({"background-image": "url('" + src + "')"});
+                setTimeout(function(){
+                    if(typeof navigator.splashscreen != "undefined") {
+                        navigator.splashscreen.hide();
+                    }
+                }, 100);
+            };
+
+            /** Default base64 fast image */
+            if(scope.value_id === "home") {
+                scope.setBackgroundImageStyle(Application.default_background);
+            }
+
             if(angular.isDefined(scope.value_id)) {
                 $sbhttp({
                     method: 'GET',
                     url: Url.get('front/mobile/backgroundimage', {value_id: scope.value_id}),
                     cache: $rootScope.isOffline,
-                    timeout: 10000
+                    timeout: 5000
                 }).success(function(background_images) {
 
                     if(background_images) {
@@ -32,9 +46,6 @@ App.directive('sbBackgroundImage', function($sbhttp, Url, $rootScope) {
                             if (img.complete || $rootScope.isOffline) {
                                 scope.setBackgroundImageStyle(src);
                             }
-                            /*else if(Application.is_ios) {
-                             scope.setBackgroundImageStyle(src);
-                             }*/
                         }
 
                     }
@@ -44,18 +55,9 @@ App.directive('sbBackgroundImage', function($sbhttp, Url, $rootScope) {
                         if(typeof navigator.splashscreen != "undefined") {
                             navigator.splashscreen.hide();
                         }
-                    }, 5000);
+                    }, 100);
                 });
             }
-
-            scope.setBackgroundImageStyle = function(src) {
-                angular.element(element).addClass("has-background-image").css({"background-image": "url('" + src + "')"});
-                setTimeout(function(){
-                    if(typeof navigator.splashscreen != "undefined") {
-                        navigator.splashscreen.hide();
-                    }
-                },500);
-            };
 
         }
     }

@@ -40,7 +40,7 @@ class Rss_Mobile_Feed_ListController extends Application_Controller_Mobile_Defau
                         "id" => $feed_id,
                         "url" => $this->getPath("rss/mobile_feed_view", array("value_id" => $value_id, "feed_id" => $feed_id)),
                         "title" => $entry->getTitle(),
-                        "subtitle" => $author ? html_entity_decode($entry->getTitle()) : html_entity_decode($entry->getShortDescription()),
+                        "subtitle" => $author ? html_entity_decode($author) : html_entity_decode($entry->getShortDescription()),
                         "picture" => $entry->getPicture()
                     );
                 }

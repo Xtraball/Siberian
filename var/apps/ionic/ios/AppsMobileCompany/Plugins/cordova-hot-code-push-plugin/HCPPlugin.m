@@ -73,7 +73,8 @@ static NSString *const DEFAULT_STARTING_PAGE = @"index.html";
 }
 
 - (void)onAppTerminate {
-    [self unsubscribeFromEvents];
+    // We need events for background updates
+    //[self unsubscribeFromEvents];
 }
 
 - (void)onResume:(NSNotification *)notification {

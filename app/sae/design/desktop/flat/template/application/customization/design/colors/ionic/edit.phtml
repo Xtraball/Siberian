@@ -184,6 +184,7 @@
         var fake_content = false;
 
         /** First replace link with scss */
+        var empty_custom_scss = "";
         var template_css = "<?php echo addslashes(str_replace("\n", "", Template_Model_Design::generateCss($this->getApplication(), true, false, true))); ?>";
         var template = template_css;
         $("input[type=hidden][data-index]").each(function () {
@@ -412,18 +413,15 @@
             /** First processing image */
             if ($("#mobile_overview").contents().find("#scss_live").length == 0) {
                 /** Replace X */
-                var link = $("#mobile_overview").contents().find("head link[href*='var/cache']");
-                link.after("<style id=\"scss_live\" type=\"text/css\">" + template + "</style>");
+                var link = $("#mobile_overview").contents().find("style").last();
+                link.after("<style id=\"scss_live\" type=\"text/css\">" + template + empty_custom_scss + "</style>");
             }
 
-            $("#mobile_overview").contents().find("#scss_live").text(template);
+            $("#mobile_overview").contents().find("#scss_live").text(template + empty_custom_scss);
         };
 
         function refreshCss() {
-            setTimeout(function() {
-                var link = $("#mobile_overview").contents().find("head link[href*='var/cache']");
-                link.attr("href", link.attr("href")+"09");
-            }, 500);
+            trigger_change(false);
         }
 
         $("#save_scss").on("click", function(e) {
@@ -432,7 +430,20 @@
             var scss_value = $("#custom_scss").next(".CodeMirror").get(0).CodeMirror.getValue();
             $("#custom_scss").val(scss_value);
 
-            reload($('#colorsForm'), $('#colorsForm').attr('action'), true, function() { refreshCss(); setTimeout(function() { message.hide(); }, 2000); }, function() { refreshCss(); });
+            reload($('#colorsForm'), $('#colorsForm').attr('action'), true, function() {
+                empty_custom_scss = scss_value;
+                refreshCss();
+                setTimeout(function() {
+                    message.hide();
+                }, 2000);
+
+            }, function() {
+                empty_custom_scss = "";
+                refreshCss();
+            });
+
+
+
             return false;
         });
 

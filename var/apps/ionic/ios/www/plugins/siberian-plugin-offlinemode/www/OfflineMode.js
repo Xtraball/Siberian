@@ -13,6 +13,10 @@ var OfflineMode = function() {
         exec(success_callback, error_callback, "OfflineMode", "cacheURL", [url]);
     };
 
+    offline_mode.setCanCache = function() {
+        exec(function() {}, function() {}, "OfflineMode", "setCanCache", []);
+    };
+
     var internalCallbackName = "__internal_callback_"+(+(new Date()));
     offline_mode[internalCallbackName] = function (data) {
         for(var i = callbacks.length - 1; i >= 0; i--) {

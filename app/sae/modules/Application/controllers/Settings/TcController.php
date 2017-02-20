@@ -2,18 +2,30 @@
 
 class Application_Settings_TcController extends Application_Controller_Default {
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "saveprivacypolicy" => array(
+            "tags" => array(
+                "app_#APP_ID#",
+                "feature_privacypolicy"
+            ),
+        ),
+    );
+
     public function indexAction() {
         $this->loadPartials();
     }
 
     public function saveAction() {
 
-        if($data = $this->getRequest()->getPost()) {
+        if($datas = $this->getRequest()->getPost()) {
 
             try {
 
-                $text = !empty($data["text"]) ? $data["text"] : null;
-                $type = !empty($data["type"]) ? $data["type"] : null;
+                $text = !empty($datas["text"]) ? $datas["text"] : null;
+                $type = !empty($datas["type"]) ? $datas["type"] : null;
                 
                 $tc = new Application_Model_Tc();
                 $tc->findByType($this->getApplication()->getId(), $type);
@@ -28,20 +40,23 @@ class Application_Settings_TcController extends Application_Controller_Default {
                     ->save()
                 ;
 
-                $html = array(
-                    'success' => '1',
-                    'success_message' => __('Info successfully saved'),
-                    'message_timeout' => 2,
-                    'message_button' => 0,
-                    'message_loader' => 0
+                $data = array(
+                    "success"           => true,
+                    "success_message"   => __("Info successfully saved"),
+                    "message_timeout"   => 2,
+                    "message_button"    => 0,
+                    "message_loader"    => 0
                 );
 
             }
             catch(Exception $e) {
-                $html = array('message' => $e->getMessage());
+                $data = array(
+                    "error"     => true,
+                    "message"   => $e->getMessage()
+                );
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($data);
 
         }
 
@@ -49,26 +64,29 @@ class Application_Settings_TcController extends Application_Controller_Default {
 
     public function saveprivacypolicyAction() {
 
-        if($data = $this->getRequest()->getPost()) {
+        if($datas = $this->getRequest()->getPost()) {
 
             try {
 
-                $this->getApplication()->setPrivacyPolicy($data["privacy_policy"])->save();
+                $this->getApplication()->setPrivacyPolicy($datas["privacy_policy"])->save();
 
-                $html = array(
-                    'success' => '1',
-                    'success_message' => __('Privacy policy successfully saved'),
-                    'message_timeout' => 2,
-                    'message_button' => 0,
-                    'message_loader' => 0
+                $data = array(
+                    "success"           => true,
+                    "success_message"   => __("Privacy policy successfully saved"),
+                    "message_timeout"   => 2,
+                    "message_button"    => 0,
+                    "message_loader"    => 0
                 );
 
             }
             catch(Exception $e) {
-                $html = array('message' => $e->getMessage());
+                $data = array(
+                    "error"     => true,
+                    "message"   => $e->getMessage()
+                );
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($data);
 
         }
     }

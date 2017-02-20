@@ -32,13 +32,18 @@ class Cms_Model_Application_Page_Block_Button extends Cms_Model_Application_Page
     public function populate($data = array()) {
 
         $this->setTypeId($data["type"]);
+        $this->setLabel($data["label"]);
+
+        $icon = Siberian_Feature::saveImageForOptionDelete($this->option_value, $data["icon"]);
+
+        $this->setIcon($icon);
+
         switch($data["type"]) {
             case "phone":
                     $this->setContent($data["phone"]);
                 break;
             case "link":
                     $this->setContent($data["link"]);
-                    $this->setLabel($data["label"]);
                 break;
             case "email":
                     $this->setContent($data["email"]);

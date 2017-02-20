@@ -31,6 +31,56 @@ class Event_Model_Event extends Core_Model_Default {
         return $in_app_states;
     }
 
+    /**
+     * @todo to be cached at some point.
+     *
+     * @param $option_value
+     * @return array
+     */
+    public function getFeaturePaths($option_value) {
+        if(!$this->isCacheable()) {
+            return array();
+        }
+
+        $value_id = $option_value->getId();
+        $cache_id = "feature_paths_valueid_{$value_id}";
+        if(!$result = $this->cache->load($cache_id)) {
+
+            $action_view = $this->getActionView();
+
+            $paths = array();
+
+            $params = array(
+                'value_id' => $option_value->getId(),
+                'offset' => 0
+            );
+            $paths[] = $option_value->getPath("findall", $params, false);
+
+            if($uri = $option_value->getMobileViewUri($action_view)) {
+
+                $events = $this->getEvents();
+                foreach ($events as $key => $event) {
+                    $params = array(
+                        "value_id" => $option_value->getId(),
+                        "event_id" => $key
+                    );
+                    $paths[] = $option_value->getPath($uri, $params, false);
+                }
+
+            }
+
+            $this->cache->save($paths, $cache_id, array(
+                "feature_paths",
+                "feature_paths_valueid_{$value_id}"
+            ));
+        } else {
+            $paths = $result;
+        }
+
+        return $paths;
+
+    }
+
     public function getEvents($offset = 0, $all_event=false) {
 
             $events = $this->findAll(array('value_id' => $this->getValueId()));
@@ -60,37 +110,6 @@ class Event_Model_Event extends Core_Model_Default {
 
     public function getCacheId() {
         return 'AGENDA_OVI_' . sha1($this->getValueId() . Core_Model_Language::getCurrentLanguage());
-    }
-
-    public function getFeaturePaths($option_value) {
-
-        if(!$this->isCacheable()) return array();
-
-        $action_view = $this->getActionView();
-
-        $paths = array();
-
-        $params = array(
-            'value_id' => $option_value->getId(),
-            'offset' => 0
-        );
-        $paths[] = $option_value->getPath("findall", $params, false);
-
-        if($uri = $option_value->getMobileViewUri($action_view)) {
-
-            $events = $this->getEvents();
-            foreach ($events as $key => $event) {
-                $params = array(
-                    "value_id" => $option_value->getId(),
-                    "event_id" => $key
-                );
-                $paths[] = $option_value->getPath($uri, $params, false);
-            }
-
-        }
-
-        return $paths;
-
     }
 
     public function copyTo($option) {
@@ -293,7 +312,7 @@ class Event_Model_Event extends Core_Model_Default {
             $b_start_at = $b->getStartAt();
         }
 
-        return strtotime($a_start_at) > strtotime($b_start_at);
+        return strtotime($a_start_at) < strtotime($b_start_at);
     }
 
     protected function msort($array, $key, $sort_flags = SORT_REGULAR) {

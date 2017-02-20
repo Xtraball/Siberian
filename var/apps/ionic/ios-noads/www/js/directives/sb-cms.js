@@ -166,56 +166,57 @@ App.directive("sbCmsText", function() {
         '</div>',
         controller: function ($cordovaGeolocation, $ionicLoading, $rootScope, $scope, $state, $stateParams, $window /*$location, $q, Url/*, Application, GoogleMapService*/) {
 
-$scope.handle_address_book = false; // Application.handle_address_book;
+            $scope.handle_address_book = false; // Application.handle_address_book;
 
-$scope.showMap = function () {
-    if($rootScope.isOverview) {
-        $rootScope.showMobileFeatureOnlyError();
-        return;
-    }
+            $scope.showMap = function () {
+                if($rootScope.isOverview) {
+                    $rootScope.showMobileFeatureOnlyError();
+                    return;
+                }
 
-    if($rootScope.isOffline) {
-        $rootScope.onlineOnly();
-        return;
-    }
+                if($rootScope.isOffline) {
+                    $rootScope.onlineOnly();
+                    return;
+                }
 
-    $ionicLoading.show();
+                $ionicLoading.show();
 
-    $cordovaGeolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }).then(function(position) {
-        $scope.getItineraryLink(position.coords, $scope.block);
+                $cordovaGeolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }).then(function(position) {
+                    $scope.getItineraryLink(position.coords, $scope.block);
 
-        $ionicLoading.hide();
-    }, function() {
-        var null_point = {"latitude":null,"longitude":null};
-        $scope.getItineraryLink(null_point, $scope.block);
+                    $ionicLoading.hide();
+                }, function() {
+                    var null_point = {"latitude":null,"longitude":null};
+                    $scope.getItineraryLink(null_point, $scope.block);
 
-        $ionicLoading.hide();
-    });
-};
+                    $ionicLoading.hide();
+                });
+            };
 
-$scope.addToContact = function () {
+            $scope.addToContact = function () {
 
-    if ($scope.onAddToContact && angular.isFunction($scope.onAddToContact)) {
-        $scope.onAddToContact($scope.block);
-    }
-};
+                if ($scope.onAddToContact && angular.isFunction($scope.onAddToContact)) {
+                    $scope.onAddToContact($scope.block);
+                }
+            };
 
-$scope.getItineraryLink = function(point1,point2) {
-    var link = "https://www.google.com/maps/dir/";
+            $scope.getItineraryLink = function(point1,point2) {
+                var link = "https://www.google.com/maps/dir/";
 
-    if(point1.latitude) {
-        link += point1.latitude + "," + point1.longitude;
-    }
+                if(point1.latitude) {
+                    link += point1.latitude + "," + point1.longitude;
+                }
 
-    if(point2.latitude) {
-        link += "/" + point2.latitude + "," + point2.longitude;
-    }
+                if(point2.latitude) {
+                    link += "/" + point2.latitude + "," + point2.longitude;
+                }
 
-    $window.open(link, $rootScope.getTargetForLink(), "location=no");
-};
+                $window.open(link, $rootScope.getTargetForLink(), "location=no");
+            };
 
-}
-};
+        } // !controller
+    };
+
 }).directive("sbCmsButton", function() {
     return {
         restrict: 'A',
@@ -224,7 +225,10 @@ $scope.getItineraryLink = function(point1,point2) {
         },
         template:
         '   <a href="{{ url }}" target="{{ target }}" class="item item-text-wrap item-icon-left item-custom">' +
-        '       <i class="icon" ng-class="icon"></i>' +
+        '       <i class="icon" ng-class="icon" ng-if="show_icon"></i>' +
+        '       <i class="icon flex-button-icon" ng-if="!show_icon">' +
+        '           <img ng-src="{{ icon_src }}" style="width: 32px; height: 32px;" />' +
+        '       </i>' +
         '       {{ label | translate }}' +
         '   </a>',
         controller: function ($ionicPopup, $rootScope, $scope, $timeout, $translate, $window, Application) {
@@ -247,7 +251,7 @@ $scope.getItineraryLink = function(point1,point2) {
             if (scope.block.type_id == "phone") {
 
                 scope.icon = "ion-ios-telephone-outline";
-                scope.label = "Phone";
+                scope.label = (scope.block.label != null && scope.block.label.length > 0) ? scope.block.label : "Phone";
 
                 if (!scope.block.content.startsWith('tel:')) {
                     scope.block.content = "tel:" + scope.block.content;
@@ -275,13 +279,21 @@ $scope.getItineraryLink = function(point1,point2) {
                     scope.block.content = "mailto:" + scope.block.content;
                 }
                 scope.icon = "ion-ios-email";
-                scope.label = "Email";
+                scope.label = (scope.block.label != null && scope.block.label.length > 0) ? scope.block.label : "Email";
                 scope.url = scope.block.content;
                 scope.target = "_self";
 
                 scope.$on("$destroy", function () {
                     a.off("click");
                 });
+            }
+
+            /** Icon image */
+            scope.show_icon = true;
+            if(scope.block.icon.length) {
+                scope.show_icon = false;
+                scope.icon_src = scope.block.icon;
+                console.log(scope.icon_src);
             }
         }
     };

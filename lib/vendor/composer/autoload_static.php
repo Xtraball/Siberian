@@ -92,11 +92,33 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         ),
     );
 
+    public static $prefixesPsr0 = array (
+        'G' => 
+        array (
+            'Gregwar\\Image' => 
+            array (
+                0 => __DIR__ . '/..' . '/gregwar/image',
+            ),
+            'Gregwar\\Cache' => 
+            array (
+                0 => __DIR__ . '/..' . '/gregwar/cache',
+            ),
+        ),
+        'B' => 
+        array (
+            'Behat\\Transliterator' => 
+            array (
+                0 => __DIR__ . '/..' . '/behat/transliterator/src',
+            ),
+        ),
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitc45135ea47c87544c5381729474d0166::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitc45135ea47c87544c5381729474d0166::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitc45135ea47c87544c5381729474d0166::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }

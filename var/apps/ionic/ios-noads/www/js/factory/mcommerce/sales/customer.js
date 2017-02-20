@@ -42,5 +42,28 @@ App.factory('McommerceSalesCustomer', function($rootScope, $sbhttp, Url) {
         });
     };
 
+    factory.getOrderHistory = function(offset) {
+        if(!this.value_id) return;
+
+        return $sbhttp({
+            method: 'GET',
+            url: Url.get("mcommerce/mobile_sales_customer/getorders", {value_id: this.value_id, offset: offset}),
+            cache: false,
+            responseType:'json'
+        });
+    };
+
+    factory.getOrderDetails = function(order_id) {
+        if(!this.value_id) return;
+
+        return $sbhttp({
+            method: 'GET',
+            url: Url.get("mcommerce/mobile_sales_customer/getorderdetails", {value_id: this.value_id, order_id: order_id}),
+            cache: false,
+            responseType:'json'
+        });
+    };
+
+
     return factory;
 });

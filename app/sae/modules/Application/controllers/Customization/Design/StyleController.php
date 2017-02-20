@@ -2,6 +2,54 @@
 
 class Application_Customization_Design_StyleController extends Application_Controller_Default {
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "formoptions" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+        "changelayout" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+        "changelayoutvisibility" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+        "changeiosstatusbarvisibility" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+        "changeandroidstatusbarvisibility" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+        "savehomepage" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+        "changehomepageslidervisibility" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+        "changehomepageslidersize" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+        "changehomepagesliderloopsystem" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+        "setimagessliderduration" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+        "savesliderimages" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+        "savefont" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+        "savelocale" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+        "homepageslider" => array(
+            "tags" => array("homepage_app_#APP_ID#"),
+        ),
+    );
+
     public function editAction() {
 
         $this->loadPartials();
@@ -164,12 +212,19 @@ class Application_Customization_Design_StyleController extends Application_Contr
                             break;
                     }
 
-                    $this->getApplication()
+                    $app = $this->getApplication();
+
+                    if($layout->getUseHomepageSlider() == 0) {
+                        $app->setHomepageSliderIsVisible(0);
+                    }
+
+                    $app
                         ->setLayoutId($datas['layout_id'])
                         ->setLayoutVisibility($visibility)
                         ->setLayoutOptions($layout->getOptions())
                         ->save()
                     ;
+
                     $html['success'] = 1;
                     $html['reload'] = 1;
                     $html["display_layout_options"] = $layout->getVisibility() == Application_Model_Layout_Homepage::VISIBILITY_ALWAYS;

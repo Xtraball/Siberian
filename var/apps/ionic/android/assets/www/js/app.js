@@ -1,113 +1,386 @@
-var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS9UIWebViewPatch', 'angular-carousel', 'lodash', 'ngImgCrop', 'ionic-zoom-view', 'ngSanitize', "tmh.dynamicLocale", "ngQueue"])
-//Add spinner template
-        .constant("$ionicLoadingConfig", {
-            template: "<ion-spinner></ion-spinner>"
-        })
-        .config(function ($compileProvider, $httpProvider, $ionicConfigProvider, tmhDynamicLocaleProvider, UrlProvider, $sbhttpProvider, $logProvider) {
+/*global
+    angular, localStorage, DOMAIN, console, cordova, StatusBar, BASE_PATH, device, ionic, chcp
+*/
 
-            var Url = UrlProvider.$get();
+console.info((new Date()).getTime(), "start.");
 
-            tmhDynamicLocaleProvider.localeLocationPattern(Url.get('/app/sae/modules/Application/resources/angular-i18n/angular-locale_{{locale}}.js', {remove_key: true}));
-            tmhDynamicLocaleProvider.storageKey((+new Date())*Math.random()+""); // don't remember locale
+var isOverview = (window.parent.location.href !== window.location.href);
 
-            $sbhttpProvider.alwaysCache = true;
-            $sbhttpProvider.debug = false;
+var App = angular.module("starter", [
+        "ionic", "ion-gallery", "ngCordova", "ngIOS9UIWebViewPatch", "angular-carousel",
+        "lodash", "ngImgCrop", "ionic-zoom-view", "ngSanitize", "tmh.dynamicLocale", "ngQueue"
+    ])
+    .constant("$ionicLoadingConfig", {
+        template: "<ion-spinner></ion-spinner>"
+    })
+    .config(function ($compileProvider, $httpProvider, $ionicConfigProvider, $logProvider, $sbhttpProvider, UrlProvider,
+                      tmhDynamicLocaleProvider) {
 
-            $logProvider.debugEnabled(false);
+        var Url = UrlProvider.$get();
 
-            //Add hook on HTTP transactions
-            $httpProvider.interceptors.push(function ($q, $injector) {
-                return {
-                    request: function (config) {
-                        var sid = localStorage.getItem("sb-auth-token");
-                        if (sid && config.url.indexOf(".html") == -1 && $injector.get('Connection').isOnline) {
-                            //Force cookie
-                            if (config.url.indexOf(DOMAIN) > -1 && config.noSbToken !== true) {
-                                config.url = config.url + "?sb-token=" + sid;
-                            }
+        var locale_url = Url.get("/app/sae/modules/Application/resources/angular-i18n/angular-locale_{{locale}}.js", {
+            remove_key: true
+        });
+
+        tmhDynamicLocaleProvider.localeLocationPattern(locale_url);
+        tmhDynamicLocaleProvider.storageKey((+new Date())*Math.random()+""); // don't remember locale
+
+        $sbhttpProvider.alwaysCache = true;
+        $sbhttpProvider.debug = false;
+
+        $logProvider.debugEnabled(false);
+
+        //Add hook on HTTP transactions
+        $httpProvider.interceptors.push(function ($q, $injector, $log) {
+            return {
+                request: function (config) {
+                    var sid = localStorage.getItem("sb-auth-token");
+                    if (sid && config.url.indexOf(".html") == -1 && $injector.get('Connection').isOnline) {
+                        //Force cookie
+                        if (config.url.indexOf(DOMAIN) > -1 && config.noSbToken !== true) {
+                            config.url = config.url + "?sb-token=" + sid;
                         }
-                        return config;
-                    },
-                    responseError: function (response) {
-                        if(response.config.url.match(/(templates|layout\/home)\/.*\.html$/) && (response.config.url != "templates/home/l6/view.html")) {
-                            response.config.url = "templates/home/l6/view.html";
-                            console.log("System: An error occured while loading your Layout template, fallback on Layout 6.");
-                            return $injector.get('$sbhttp')(response.config);
-                        }
-                        return $q.reject(response);
                     }
-                };
+                    return config;
+                },
+                responseError: function (response) {
+                    if(response.config.url.match(/(templates|layout\/home)\/.*\.html$/) && (response.config.url != "templates/home/l6/view.html")) {
+                        response.config.url = "templates/home/l6/view.html";
+                        $log.debug("System: An error occured while loading your Layout template, fallback on Layout 6.");
+                        return $injector.get('$sbhttp')(response.config);
+                    }
+                    return $q.reject(response);
+                }
+            };
+        });
+
+        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|map|geo|skype|tel|file|smsto):/);
+
+        $httpProvider.defaults.withCredentials = true;
+
+        if (isOverview) {
+            $ionicConfigProvider.views.maxCache(0);
+        }
+    })
+    .run(function ($sbhttp, $ionicConfig, $ionicHistory, $ionicPlatform, $ionicPopup, $ionicSlideBoxDelegate,
+                   $ionicScrollDelegate, $injector, $log, $location, $rootScope, $state, $templateCache, $timeout, $translate,
+                   $window, Analytics, Application, Connection, Customer, Dialog, FacebookConnect, Facebook,
+                   Push, Url, tmhDynamicLocale, AUTH_EVENTS, PUSH_EVENTS) {
+
+        $log.debug((new Date()).getTime(), "run start");
+
+        $ionicPlatform.ready(function() {
+
+            $log.debug((new Date()).getTime(), "$ionicPlatform.ready");
+
+            Object.defineProperty($rootScope, "isOnline", {
+                get: function() {
+                    return Connection.isOnline;
+                }
             });
 
-            $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|map|geo|skype|tel|file|smsto):/);
+            Object.defineProperty($rootScope, "isOffline", {
+                get: function() {
+                    return Connection.isOffline;
+                }
+            });
 
-            $httpProvider.defaults.withCredentials = true;
+            var sid = localStorage.getItem("sb-auth-token");
 
-            if (isOverview) {
-                $ionicConfigProvider.views.maxCache(0);
+            if ($window.device) {
+                Push.device_uid = device.uuid;
             }
-        })
-        .run(function ($sbhttp, $ionicConfig, $ionicHistory, $ionicPlatform, $ionicPopup, $ionicSlideBoxDelegate, $ionicScrollDelegate, $location, $rootScope, $state, $templateCache, $timeout, $translate, $window, Analytics, Application, Connection, Customer, Dialog, FacebookConnect, Facebook, HomepageLayout, Push, Url, AUTH_EVENTS, PUSH_EVENTS) {
-            $ionicPlatform.ready(function() {
-                Object.defineProperty($rootScope, "isOnline", {
-                    get: function() {
-                        return Connection.isOnline;
+
+            $log.debug((new Date()).getTime(), "start: front/mobile/loadv2");
+            $sbhttp.get(
+                Url.get("front/mobile/loadv2", {
+                    add_language: true,
+                    sid: sid,
+                    device_uid: Push.device_uid
+                }), {
+                    timeout: 10000,
+                    cache: true
+                }).then(function (response) {
+
+                    $log.debug((new Date()).getTime(), "end: front/mobile/loadv2");
+
+                    var data = response.data.load;
+                    /** Translations & locale */
+                    $translate.translations = response.data.translation;
+                    tmhDynamicLocale.set($translate.translations._locale);
+
+                    var Pages = $injector.get("Pages");
+                    Pages.data = response.data.homepage;
+                    Application.default_background = data.homepage_image; /** Small base64 default image, while loading the real deal */
+
+                    var HomepageLayout = $injector.get("HomepageLayout");
+
+                    $window.cordova = $window.cordova || {};
+                    $window.device = $window.device || {};
+
+                    $window.Connection = Connection;
+
+                    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+                        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
                     }
-                });
-
-                Object.defineProperty($rootScope, "isOffline", {
-                    get: function() {
-                        return Connection.isOffline;
+                    if (window.StatusBar) {
+                        StatusBar.styleDefault();
                     }
-                });
 
-                //Load translation is mandatory to any process
-                $translate.findTranslations().finally(function () {
-                    $ionicPlatform.ready(function () {
-                        $window.cordova = $window.cordova || {};
-                        $window.device = $window.device || {};
+                    Dialog.is_webview = Application.is_webview = (ionic.Platform.device().platform == "browser");
 
-                        $window.Connection = Connection;
+                    Push.startBackgroundGeolocation();
 
-                        if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-                            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-                        }
-                        if (window.StatusBar) {
-                            StatusBar.styleDefault();
-                        }
+                    $rootScope.app_is_loaded = true;
+                    $rootScope.has_popup = false;
+                    $rootScope.app_is_bo_locked = false;
 
-                        Dialog.is_webview = Application.is_webview = (ionic.Platform.device().platform == "browser");
+                    /** WebRTC for iOS */
+                    if (window.device.platform === 'iOS') {
+                        cordova.plugins.iosrtc.registerGlobals();
+                    }
 
-                        if ($window.device) {
-                            Push.device_uid = device.uuid;
-                        }
+                    $rootScope.fetchupdatetimer = null;
 
-                        Push.startBackgroundGeolocation();
+                    $ionicPlatform.on('resume', function (result) {
 
-                        $rootScope.app_is_loaded = true;
-                        $rootScope.has_popup = false;
-                        $rootScope.app_is_bo_locked = false;
+                        /** If app goes live too fast, cancel the update */
+                        $timeout.cancel($rootScope.fetchupdatetimer);
 
-                        /** WebRTC for iOS */
-                        if (window.device.platform === 'iOS') {
-                            cordova.plugins.iosrtc.registerGlobals();
-                        }
-
-                        $ionicPlatform.on('resume', function (result) {
-                            sbLog("## App is resumed ##");
-                            Analytics.storeOpening().then(function (result) {
-                                Analytics.data.storeClosingId = result.id;
-                            });
+                        $log.info("-- app is resumed --");
+                        Analytics.storeOpening().then(function (result) {
+                            Analytics.data.storeClosingId = result.id;
                         });
-
-                        // hello
-                        $ionicPlatform.on('pause', function (result) {
-                            sbLog("## App is on pause ##");
-                            Analytics.storeClosing();
-                        });
-
                     });
 
+                    // hello
+                    $ionicPlatform.on('pause', function (result) {
+                        $log.info("-- app is on pause --");
+                        Analytics.storeClosing();
+
+                        /** When app goes in pause, try to install if required. */
+                        if(typeof chcp !== "undefined") {
+
+                            $rootScope.fetchupdatetimer = $timeout(function() {
+                                if (localStorage.getItem("install-update" === true)) {
+
+                                    chcp.isUpdateAvailableForInstallation(function (error, data) {
+                                        if (error) {
+                                            $log.info("CHCP: Nothing to install");
+                                            $log.info("CHCP: " + error.description);
+                                            return;
+                                        }
+
+                                        // update is in cache and can be installed - install it
+                                        $log.info("CHCP: Current version: " + data.currentVersion);
+                                        $log.info("CHCP: About to install: " + data.readyToInstallVersion);
+                                        chcp.installUpdate(function (error) {
+                                            if (error) {
+                                                $log.info("CHCP: Something went wrong with the update, will retry later.");
+                                                $log.info("CHCP: " + error.description);
+                                            } else {
+                                                return;
+                                            }
+                                        });
+                                    });
+
+                                } else {
+                                    chcp.fetchUpdate(function (error, data) {
+                                        if (error) {
+                                            $log.info("CHCP: Failed to load the update with error code: " + error.code);
+                                            $log.info("CHCP: " + error.description);
+                                            localStorage.setItem("install-update", false);
+                                        } else {
+                                            $log.info("CHCP: Update success, trying to install.");
+
+                                            // update is in cache and can be installed - install it
+                                            $log.info("CHCP: Current version: " + data.currentVersion);
+                                            $log.info("CHCP: About to install: " + data.readyToInstallVersion);
+                                            chcp.installUpdate(function (error) {
+                                                if (error) {
+                                                    $log.info("CHCP: Something went wrong with the update, will retry later.");
+                                                    $log.info("CHCP: " + error.description);
+                                                } else {
+                                                    $log.info("CHCP: Update successfully install, restarting new files.");
+                                                    localStorage.setItem("install-update", false);
+                                                    return;
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+
+                            }, 5000);
+                        }
+                    });
+
+                    if (data.application.is_bo_locked == 1) {
+                        $rootScope.app_is_bo_locked = true;
+
+                        $ionicHistory.nextViewOptions({
+                            disableBack: true
+                        });
+                        $state.go("locked");
+                    }
+
+                    if((data.application.ios_status_bar_is_hidden && ionic.Platform.isIOS()) || (data.application.android_status_bar_is_hidden && ionic.Platform.isAndroid())) {
+                        window.StatusBar.hide();
+                    }
+
+                    if (response.data.css && response.data.css.css) {
+                        var css = document.createElement("style");
+                        css.type = "text/css";
+                        css.innerHTML = response.data.css.css;
+                        document.body.appendChild(css);
+                    }
+
+                    Customer.id = data.customer.id;
+                    Customer.can_access_locked_features = data.customer.can_access_locked_features;
+                    Customer.can_connect_with_facebook = data.customer.can_connect_with_facebook;
+                    Customer.saveCredentials(data.customer.token);
+
+                    Application.app_id = data.application.id;
+                    Application.app_name = data.application.name;
+                    Application.privacy_policy = data.application.privacy_policy;
+                    Application.googlemaps_key = data.application.googlemaps_key;
+                    Application.is_locked = data.application.is_locked == 1;
+                    Application.offline_content = (data.application.offline_content);
+
+                    if (!Application.is_webview) {
+                        if(!$window.localStorage.getItem("first_running")) {
+                            $window.localStorage.setItem("first_running", "true");
+                            Analytics.storeInstallation();
+                        }
+
+                        if(Application.offline_content) {
+                            Application.showCacheDownloadModalOrUpdate();
+                        }
+                    }
+
+                    Analytics.storeOpening().then(function (result) {
+                        if (result && result.id) {
+                            Analytics.data.storeClosingId = result.id;
+                        }
+                    });
+
+                    $rootScope.app_is_locked = Application.is_locked && !Customer.can_access_locked_features;
+
+                    $window.colors = data.application.colors;
+
+                    if (data.application.facebook.id) {
+                        FacebookConnect.permissions = (!Array.isArray(data.application.facebook.scope)) ? new Array(data.application.facebook.scope) : data.application.facebook.scope;
+                        FacebookConnect.app_id = data.application.facebook.id;
+                    }
+
+                    var admob = data.application.admob;
+
+                    if (!Application.is_webview && admob.id && $window.AdMob) {
+                        if (admob.type == "banner") {
+                            $window.AdMob.createBanner({
+                                adId: admob.id,
+                                position: $window.AdMob.AD_POSITION.BOTTOM_CENTER,
+                                autoShow: true
+                            });
+                        } else {
+                            $window.AdMob.prepareInterstitial({
+                                adId: admob.id,
+                                autoShow: true
+                            });
+                        }
+                    }
+
+                    if (Customer.isLoggedIn()) {
+                        $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+                    }
+                    else {
+                        $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
+                    }
+
+                    // Set push senderID
+                    Push.setSenderID(data.application.gcm_senderid);
+                    Push.setIconColor(data.application.gcm_iconcolor);
+                    Push.register();
+                    Push.getLastMessages().success(function (data) {
+                        if (data && !$rootScope.has_popup) {
+
+                            //Loading last push
+                            if (data.push_message) {
+
+                                if (data.push_message.cover || data.push_message.action_value) {
+
+                                    var dialog_data = {
+                                        title: data.push_message.title,
+                                        cssClass: "push-popup",
+                                        template: '<div class="list card">' +
+                                        '   <div class="item item-image' + (data.push_message.cover ? '' : ' ng-hide') + '">' +
+                                        '       <img src="' + data.push_message.cover + '">' +
+                                        '   </div>' +
+                                        '   <div class="item item-custom">' +
+                                        '       <span>' + data.push_message.text + '</span>' +
+                                        '   </div>' +
+                                        '</div>'
+                                    };
+
+                                    if (data.push_message.action_value) {
+                                        dialog_data.okText = $translate.instant("View");
+
+                                        $ionicPopup.confirm(dialog_data).then(function (res) {
+                                            if (res) {
+                                                if($rootScope.isOffline) {
+                                                    return $rootScope.onlineOnly();
+                                                }
+                                                if (data.push_message.open_webview == true || data.push_message.open_webview == "true") {
+                                                    window.open(data.push_message.action_value, "_blank", "location=yes");
+                                                } else {
+                                                    $location.path(data.push_message.action_value);
+                                                }
+                                            }
+
+                                            $rootScope.has_popup = false;
+                                        });
+
+                                        $rootScope.has_popup = true;
+                                    } else {
+                                        $ionicPopup.alert(dialog_data);
+                                    }
+
+                                }
+
+                            }
+
+                            //Loading last InappMessage
+                            if (data.inapp_message) {
+                                $ionicPopup.show({
+                                    title: data.inapp_message.title,
+                                    cssClass: "push-popup",
+                                    template: '<div class="list card">' +
+                                    '   <div class="item item-image' + (data.inapp_message.cover ? '' : ' ng-hide') + '">' +
+                                    '       <img src="' + data.inapp_message.cover + '">' +
+                                    '   </div>' +
+                                    '   <div class="item item-custom">' +
+                                    '       <span>' + data.inapp_message.text + '</span>' +
+                                    '   </div>' +
+                                    '</div>'
+                                    ,
+
+                                    buttons: [
+                                        {
+                                            text: $translate.instant("OK"),
+                                            type: "button-custom",
+                                            onTap: function () {
+                                                Push.markInAppAsRead();
+                                            }
+                                        }
+                                    ]
+                                });
+                            }
+                        }
+                    }); // !push & in-app message
+
+
+                    /** Finalize init */
+
+                    /** rootScope features */
                     $rootScope._getLastId = function (collection) {
                         var last_id = null;
                         for (var i = 0; i < collection.length; i++) {
@@ -188,11 +461,11 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                     window.rootScope = $rootScope;
 
                     $window.addEventListener("online", function () {
-                        sbLog('online');
+                        $log.info('online');
                     });
 
                     $window.addEventListener("offline", function () {
-                        sbLog('offline');
+                        $log.info('offline');
                     });
 
                     $rootScope.onlineOnly = function() {
@@ -239,13 +512,13 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                                     cssClass: "push-popup",
                                     title: data.title,
                                     template: '<div class="list card">' +
-                                        '   <div class="item item-image' + (data.additionalData.cover ? '' : ' ng-hide') + '">' +
-                                        '       <img src="' + (DOMAIN + data.additionalData.cover) + '">' +
-                                        '   </div>' +
-                                        '   <div class="item item-custom">' +
-                                        '       <span>' + data.message + '</span>' +
-                                        '   </div>' +
-                                        '</div>'
+                                    '   <div class="item item-image' + (data.additionalData.cover ? '' : ' ng-hide') + '">' +
+                                    '       <img src="' + (DOMAIN + data.additionalData.cover) + '">' +
+                                    '   </div>' +
+                                    '   <div class="item item-custom">' +
+                                    '       <span>' + data.message + '</span>' +
+                                    '   </div>' +
+                                    '</div>'
                                 };
 
                                 if (data.additionalData.action_value) {
@@ -287,183 +560,6 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                         }, 4000);
                         return;
                     };
-
-                    var sid = localStorage.getItem("sb-auth-token");
-
-                    //get & process app data
-                    $sbhttp.get(Url.get("front/mobile/load", {add_language: true, sid: sid}), {timeout: 10000}).then(function (response) {
-                        var data = response.data;
-
-                        if (data.application.is_bo_locked == 1) {
-                            $rootScope.app_is_bo_locked = true;
-
-                            $ionicHistory.nextViewOptions({
-                                disableBack: true
-                            });
-                            $state.go("locked");
-                        }
-
-                        if((data.application.ios_status_bar_is_hidden && ionic.Platform.isIOS()) || (data.application.android_status_bar_is_hidden && ionic.Platform.isAndroid())) {
-                            window.StatusBar.hide();
-                        }
-
-                        if (data.css) {
-                            var link = document.createElement("link");
-                            link.rel = "stylesheet";
-                            link.href = data.css + "?t="+(+new Date());
-                            document.head.appendChild(link);
-                        }
-
-                        Customer.id = data.customer.id;
-                        Customer.can_access_locked_features = data.customer.can_access_locked_features;
-                        Customer.can_connect_with_facebook = data.customer.can_connect_with_facebook;
-                        Customer.saveCredentials(data.customer.token);
-
-                        Application.app_id = data.application.id;
-                        Application.app_name = data.application.name;
-                        Application.privacy_policy = data.application.privacy_policy;
-                        Application.googlemaps_key = data.application.googlemaps_key;
-                        Application.is_locked = data.application.is_locked == 1;
-                        Application.offline_content = (data.application.offline_content);
-
-                        if (!Application.is_webview) {
-                            if(!$window.localStorage.getItem("first_running")) {
-
-                                if(Application.offline_content) {
-                                    Application.showCacheDownloadModal();
-                                }
-
-                                $window.localStorage.setItem("first_running", "true");
-                                Analytics.storeInstallation();
-                            } else {
-                                if(Application.offline_content) {
-                                    Application.updateCache();
-                                }
-                            }
-                        }
-
-                        Analytics.storeOpening().then(function (result) {
-                            if (result && result.id) {
-                                Analytics.data.storeClosingId = result.id;
-                            }
-                        });
-
-                        $rootScope.app_is_locked = Application.is_locked && !Customer.can_access_locked_features;
-
-                        $window.colors = data.application.colors;
-
-                        if (data.application.facebook.id) {
-                            FacebookConnect.permissions = (!Array.isArray(data.application.facebook.scope)) ? new Array(data.application.facebook.scope) : data.application.facebook.scope;
-                            FacebookConnect.app_id = data.application.facebook.id;
-                        }
-
-                        var admob = data.application.admob;
-
-                        if (!Application.is_webview && admob.id && $window.AdMob) {
-                            if (admob.type == "banner") {
-                                $window.AdMob.createBanner({
-                                    adId: admob.id,
-                                    position: $window.AdMob.AD_POSITION.BOTTOM_CENTER,
-                                    autoShow: true
-                                });
-                            } else {
-                                $window.AdMob.prepareInterstitial({
-                                    adId: admob.id,
-                                    autoShow: true
-                                });
-                            }
-                        }
-
-                        if (Customer.isLoggedIn()) {
-                            $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-                        }
-                        else {
-                            $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
-                        }
-
-                        // Set push senderID
-                        Push.setSenderID(data.application.gcm_senderid);
-                        Push.setIconColor(data.application.gcm_iconcolor);
-                        Push.register();
-                        Push.getLastMessages().success(function (data) {
-                            if (data && !$rootScope.has_popup) {
-
-                                //Loading last push
-                                if (data.push_message) {
-
-                                    if (data.push_message.cover || data.push_message.action_value) {
-
-                                        var dialog_data = {
-                                            title: data.push_message.title,
-                                            cssClass: "push-popup",
-                                            template: '<div class="list card">' +
-                                                '   <div class="item item-image' + (data.push_message.cover ? '' : ' ng-hide') + '">' +
-                                                '       <img src="' + data.push_message.cover + '">' +
-                                                '   </div>' +
-                                                '   <div class="item item-custom">' +
-                                                '       <span>' + data.push_message.text + '</span>' +
-                                                '   </div>' +
-                                                '</div>'
-                                        };
-
-                                        if (data.push_message.action_value) {
-                                            dialog_data.okText = $translate.instant("View");
-
-                                            $ionicPopup.confirm(dialog_data).then(function (res) {
-                                                if (res) {
-                                                    if($rootScope.isOffline) {
-                                                        return $rootScope.onlineOnly();
-                                                    }
-                                                    if (data.push_message.open_webview == true || data.push_message.open_webview == "true") {
-                                                        window.open(data.push_message.action_value, "_blank", "location=yes");
-                                                    } else {
-                                                        $location.path(data.push_message.action_value);
-                                                    }
-                                                }
-
-                                                $rootScope.has_popup = false;
-                                            });
-
-                                            $rootScope.has_popup = true;
-                                        } else {
-                                            $ionicPopup.alert(dialog_data);
-                                        }
-
-                                    }
-
-                                }
-
-                                //Loading last InappMessage
-                                if (data.inapp_message) {
-                                    $ionicPopup.show({
-                                        title: data.inapp_message.title,
-                                        cssClass: "push-popup",
-                                        template: '<div class="list card">' +
-                                            '   <div class="item item-image' + (data.inapp_message.cover ? '' : ' ng-hide') + '">' +
-                                            '       <img src="' + data.inapp_message.cover + '">' +
-                                            '   </div>' +
-                                            '   <div class="item item-custom">' +
-                                            '       <span>' + data.inapp_message.text + '</span>' +
-                                            '   </div>' +
-                                            '</div>'
-                                        ,
-
-                                        buttons: [
-                                            {
-                                                text: $translate.instant("OK"),
-                                                type: "button-custom",
-                                                onTap: function () {
-                                                    Push.markInAppAsRead();
-                                                }
-                                            }
-                                        ]
-                                    });
-                                }
-                            }
-                        });
-                    });
-
-                    Application.loaded = true;
 
                     /** OVERVIEW */
                     $rootScope.isOverview = isOverview;
@@ -537,6 +633,7 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                     if (!$rootScope.isOverview && Application.is_webview) {
                         //Here, we are in webapp mode
                         //So we can generate all webapp meta and manifest for android
+                        //Move the webapp config inside the cache
                         Application.generateWebappConfig().success(function (data) {
                             var head = angular.element(document.querySelector('head'));
                             var last_meta = $window.document.getElementById('last_meta');
@@ -557,50 +654,14 @@ var App = angular.module('starter', ['ionic', 'ion-gallery', 'ngCordova', 'ngIOS
                         });
                     }
 
-                });
+                    Application.loaded = true;
+                    $log.info((new Date()).getTime(), "end.");
+                }); // Main load, then
 
-            });
         });
+    });
 
-/** Dev helpers */
-/**
- * Log || Throw errors
- *
- * @param message
- * @param level value are ''
- * @private
+/***
+ * @deprecated, do nothing to be replaced with $log
  */
-
-var isOverview = window.parent.location.href != window.location.href;
-
-sbLog = function (/** [...] */) {
-    var debug = true;
-    /** set to false in prod */
-    if (!debug) {
-        return;
-    }
-
-    var args = arguments;
-    var levels = new Array('info', 'debug', 'warning', 'error', 'exception', 'throw');
-    var log = Function.prototype.bind.call(console.log, console);
-
-    /** Assuming the last parameter could be the log level */
-    var level = 'info';
-    if (levels.indexOf(args[args.length - 1]) != -1) {
-        var level = args[args.length - 1];
-    }
-
-    switch (level) {
-    case 'exception':
-    case 'throw':
-        throw level + " >> " + args;
-        break;
-    case 'error':
-    case 'warning':
-    case 'debug':
-    case 'info':
-    default:
-        log.apply(console, args);
-        break;
-    }
-};
+sbLog = function (/** [...] */) {};

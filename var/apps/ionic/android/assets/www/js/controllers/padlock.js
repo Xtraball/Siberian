@@ -13,7 +13,7 @@ App.config(function($stateProvider) {
 
     Padlock.value_id = $stateParams.value_id;
     // redirect to an existing value_id
-    Pages.findAll().success(function (data) {
+    Pages.findAll().then(function (data) {
         data.pages.forEach(function (page) {
             if (page.code == 'padlock') {
                 $state.go('padlock-view', {value_id: page.value_id});

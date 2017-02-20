@@ -121,6 +121,15 @@
                         $('#custom_event_end_at').datetimepicker({
                             dateFormat: 'yy-mm-dd'
                         });
+                        CKEDITOR.config.language = '<?php echo $this->_('en') ?>';
+                        CKEDITOR.config.toolbar = [
+                            { name: 'source', items: [ 'Source' ] },
+                            { name: 'insert', items: [ 'Image' ] },
+                            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ] },
+                            { name: 'paragraph', groups: [ 'indent', 'align' ], items: [ 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
+                            { name: 'styles', items: [ 'TextColor', 'Format' ] }
+                        ];
+                        $('#custom_event_description').ckeditor();
                         $("#custom_add_website").click(function() {
                             var html = custom.website_template;
                             html = html.replaceAll("new", $(".custom_event_website").length+1);

@@ -3,13 +3,31 @@
 class Catalog_Application_ProductController extends Application_Controller_Default
 {
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "editpost" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#",
+            ),
+        ),
+        "sortproducts" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#",
+            ),
+        ),
+    );
+
     public function editAction() {
         if($this->getCurrentOptionValue()) {
             $product = new Catalog_Model_Product();
             if($product_id = $this->getRequest()->getParam('id')) {
                 $product->find($product_id);
                 if($product->getId() AND $product->getValueId() != $this->getCurrentOptionValue()->getId()) {
-                    throw new Exception($this->_('An error occurred while loading your product.'));
+                    throw new Exception(__('An error occurred while loading your product.'));
                 }
             }
             else if($category_id = $this->getRequest()->getParam('category_id')) {
@@ -39,7 +57,7 @@ class Catalog_Application_ProductController extends Application_Controller_Defau
 
             try {
 
-                if(empty($data['value_id'])) throw new Exception($this->_('An error occurred while saving the product. Please try again later.'));
+                if(empty($data['value_id'])) throw new Exception(__('An error occurred while saving the product. Please try again later.'));
 
                 $option_value = new Application_Model_Option_Value();
                 $option_value->find($data['value_id']);
@@ -51,7 +69,7 @@ class Catalog_Application_ProductController extends Application_Controller_Defau
                 $isDeleted = !empty($data['is_deleted']);
 
                 if($product->getId() AND $product->getValueId() != $option_value->getId()) {
-                    throw new Exception($this->_('An error occurred while saving the product. Please try again later.'));
+                    throw new Exception(__('An error occurred while saving the product. Please try again later.'));
                 }
 
                 if(!$isDeleted) {
@@ -79,7 +97,7 @@ class Catalog_Application_ProductController extends Application_Controller_Defau
                             }
 
                             if(!copy($img_src, $img_dst)) {
-                                throw new exception($this->_('An error occurred while saving your picture. Please try againg later.'));
+                                throw new exception(__('An error occurred while saving your picture. Please try againg later.'));
                             } else {
                                 $data['picture'] = $illus_relative_path.'/'.$filename;
                             }
@@ -147,7 +165,7 @@ class Catalog_Application_ProductController extends Application_Controller_Defau
 
                 foreach ($rows as $key => $row) {
                     if (!in_array($row, $product_ids)) {
-                        throw new Exception($this->_('An error occurred while saving. One of your products could not be identified.'));
+                        throw new Exception(__('An error occurred while saving. One of your products could not be identified.'));
                     }
                 }
                 $product->updatePosition($rows);
@@ -171,7 +189,7 @@ class Catalog_Application_ProductController extends Application_Controller_Defau
                 $datas = array(
                     'success' => 1,
                     'file' => $file,
-                    'message_success' => $this->_('Info successfully saved'),
+                    'message_success' => __('Info successfully saved'),
                     'message_button' => 0,
                     'message_timeout' => 2,
                 );

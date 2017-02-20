@@ -29,25 +29,6 @@ App.directive("sbPadlock", function(Application) {
             	Customer.loginModal($scope) ;
             };
 
-            /**$scope.login = function() {
-
-                $scope.login = function($scope) { Customer.loginModal($scope) };
-
-                /** @TODO Am I really used somewhere ? I think my !Application.is_locked
-                 *  becomes true WAY TOO LATE after I'm testing it
-                 *
-                $scope.$on('modal.hidden', function() {
-                    sbLog("sbPadlock, modal.hidden STEP1, yeah");
-                    if($scope.is_logged_in && Customer.can_access_locked_features && !Application.is_locked) {
-                        $ionicHistory.goBack();
-                        sbLog("sbPadlock, modal.hidden STEP2, but never shown", !Application.is_locked);
-                    }
-
-                    $timeout(function() { sbLog("sbPadlock, modal.hidden STEP3, with HUGE timeout to see", !Application.is_locked); }, 5000);
-                });
-
-            };*/
-
             $scope.logout = function() {
                 $scope.is_loading = true;
                 Customer.logout().finally(function() {

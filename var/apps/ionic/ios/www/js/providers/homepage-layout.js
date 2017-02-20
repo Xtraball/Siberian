@@ -23,7 +23,9 @@ App.provider('HomepageLayout', function () {
 
     };
 
-    self.$get = function ($injector, $ionicSlideBoxDelegate, $location, $q, $rootScope, $stateParams, $timeout, $window, Customer, Padlock, Pages) {
+    self.$get = function ($injector, $ionicSlideBoxDelegate, $location, $q, $rootScope, $stateParams, $timeout, $window, Customer, Padlock) {
+
+        console.log((new Date()).getTime(), "HomepageLayout instance.");
 
         var HomepageLayout = {};
 
@@ -32,7 +34,7 @@ App.provider('HomepageLayout', function () {
 
         /** Register hooks to be called when homepage is done. */
         HomepageLayout.registerHook = function(hook) {
-            if(typeof hook == "function") {
+            if(typeof hook === "function") {
                 HomepageLayout.load_hooks.push(hook);
             }
         };
@@ -128,7 +130,8 @@ App.provider('HomepageLayout', function () {
                     HomepageLayout.dataLoading = true;
 
                     // load data
-                    Pages.findAll().success(function (data) {
+                    var Pages = $injector.get("Pages"); /** Dynamic instance */
+                    Pages.findAll().then(function (data) {
 
                         HomepageLayout.data = data;
 
@@ -157,8 +160,6 @@ App.provider('HomepageLayout', function () {
 
                         deferred.resolve(HomepageLayout.data);
 
-                    }).error(function (err) {
-                        deferred.reject(err);
                     }).finally(function () {
                         HomepageLayout.dataLoading = false;
                     });
@@ -452,7 +453,7 @@ App.provider('HomepageLayout', function () {
                 return HomepageLayout.getOptions();
             },
             getActiveOptions: function() {
-                return HomepageLayout.getActiveOptions()
+                return HomepageLayout.getActiveOptions();
             },
             getFeatures: function () {
                 return HomepageLayout.getFeatures();
@@ -461,7 +462,7 @@ App.provider('HomepageLayout', function () {
                 return HomepageLayout.is_initialized;
             },
             unlockByQRCode: function (qrcode) {
-                return HomepageLayout.unlockByQRCode(qrcode)
+                return HomepageLayout.unlockByQRCode(qrcode);
             },
             setNeedToBuildTheOptions: function (need_to_build_the_options) {
                 HomepageLayout.options = null;
@@ -479,6 +480,6 @@ App.provider('HomepageLayout', function () {
                 fireLocationChanged: HomepageLayout.fireLocationChanged
             }
         };
-    }
+    };
 
 });

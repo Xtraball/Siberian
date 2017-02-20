@@ -181,6 +181,9 @@ ion-nav-view.has-mini-player-controls > ion-view > ion-content {bottom: 88px;}
     font-size: 25px;
 }
 .mcommerce-stripe .row{padding:0}
+.mcommerce-red-label{
+    color: #FF0000;
+}
 
 /*CHATROOMS*/
 .chatrooms .friend {font-style:italic;}

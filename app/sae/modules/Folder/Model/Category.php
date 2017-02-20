@@ -57,7 +57,7 @@ class Folder_Model_Category extends Core_Model_Default {
     public function getPages() {
         if(!$this->_pages) {
             $page = new Application_Model_Option_Value();
-            $this->_pages = $page->findAll(array('app_id' => $this->getApplication()->getId(), 'folder_category_id' => $this->getId(), "is_active" => 1), "folder_category_position ASC");
+            $this->_pages = $page->findAll(array('app_id' => $this->getApplication()->getId(), 'folder_category_id' => $this->getId(), "is_active" => 1, "is_visible" => 1), "folder_category_position ASC");
         }
 
         return $this->_pages;

@@ -1,0 +1,21 @@
+{
+    "name": "gregwar/cache",
+    "description": "A lightweight file-system cache system",
+    "keywords": ["cache", "caching", "system", "file-system"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Gregwar",
+            "email": "g.passault@gmail.com"
+        }
+    ],
+    "target-dir": "Gregwar/Cache",
+    "require": {
+        "php": ">=5.3"
+    },
+    "autoload": {
+        "psr-0": {
+            "Gregwar\\Cache": ""
+        }
+    }
+}

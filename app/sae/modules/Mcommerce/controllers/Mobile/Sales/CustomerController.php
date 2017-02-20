@@ -119,6 +119,87 @@ class Mcommerce_Mobile_Sales_CustomerController extends Mcommerce_Controller_Mob
 
     }
 
+    public function getordersAction() {
+
+        $offset = $this->getRequest()->getParam("offset") ? $this->getRequest()->getParam("offset") : 0;
+
+        $customer = $this->getSession()->getCustomer();
+        $option = $this->getCurrentOptionValue();
+        $mcommerce = $option->getObject();
+
+        $data = array();
+
+        if ($customer->getId() AND $mcommerce->getId()) {
+            $orders = new Mcommerce_Model_Order();
+            $orders = $orders->findAllByCustomerId($customer->getId(), $mcommerce->getId(), $offset);
+
+            $data["orders"] = $orders;
+        }
+
+        $this->_sendHtml($data);
+    }
+
+    public function getorderdetailsAction() {
+        if ($request_data = $this->getRequest()->getParams()) {
+
+            $html = array();
+
+            try {
+
+                if(!$request_data["order_id"]) {
+                    throw new Exception($this->_("Error"));
+                }
+
+                $order = new Mcommerce_Model_Order();
+                $order->find($request_data["order_id"]);
+
+                if($order->getId()) {
+                    $data["details"] = array(
+                        "order_id" => $order->getOrderId(),
+                        "number" => $order->getNumber(),
+                        "payment_method" => __($order->getPaymentMethod()),
+                        "delivery_method" => __($order->getDeliveryMethod()),
+                        "subtotal" => $order->getFormattedSubtotalExclTax(),
+                        "total" => $order->getFormattedTotal(),
+                        "total_tax" => $order->getFormattedTotalTax(),
+                        "status" => $order->getStatusId(),
+                        "status_label" => __($order->getStatus()),
+                        "date" => $order->getCreatedAt(),
+                        "discount" => $order->getDiscountCode(),
+                        "discount_total" => $order->getDiscountCode() ? $order->getFormattedDiscount() : null,
+                        "tip" => $order->getFormattedTip()
+                    );
+
+                    $data["lines"] = array();
+
+                    foreach($order->getLines() as $line) {
+                        $format = unserialize($line->getFormat());
+                        $text_format = isset($format['title']) ? "<br />" . __("Format:") . " " . $format['title'] : "";
+
+                        $data["lines"][] = array(
+                            "title" => $line->getName() . $text_format,
+                            "qty" => $line->getQty(),
+                            "total" => Mcommerce_Model_Utility::displayPrice($line->getPrice(), $line->getTaxRate(), $line->getQty())
+                        );
+                    }
+                } else {
+                    throw new Exception($this->_("Error"));
+                }
+
+                $html = array(
+                    'order' => $data
+                );
+            } catch (Exception $e) {
+                $html = array(
+                    'error' => 1,
+                    'message' => $e->getMessage()
+                );
+            }
+
+            $this->_sendHtml($html);
+        }
+    }
+
     /**
      * If the request is made from legacy application return "legacy"
      * If the request is made from current application return "current"

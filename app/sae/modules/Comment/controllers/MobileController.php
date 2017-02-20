@@ -2,10 +2,28 @@
 
 class Comment_MobileController extends Application_Controller_Mobile_Default {
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "add" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#",
+            ),
+        ),
+        "addlike" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#",
+            ),
+        ),
+    );
 
     public function viewAction() {
         $this->forward("list");
     }
+
     public function listAction() {
         $this->forward('index', 'index', 'Front', $this->getRequest()->getParams());
     }
@@ -16,12 +34,12 @@ class Comment_MobileController extends Application_Controller_Mobile_Default {
 
     public function findallAction() {
 
-        if($value_id = $this->getRequest()->getParam('value_id')) {
+        if($value_id = $this->getRequest()->getParam("value_id")) {
 
-            $application = $this->getApplication();
-            $comment = new Comment_Model_Comment();
-            $comments = $comment->findLastest($value_id);
-            $color = $application->getBlock('background')->getColor();
+            $application    = $this->getApplication();
+            $comment        = new Comment_Model_Comment();
+            $comments       = $comment->findLastest($value_id);
+            $color          = $application->getBlock("background")->getColor();
 
             $data = array(
                 "news" => array(),
@@ -29,26 +47,26 @@ class Comment_MobileController extends Application_Controller_Mobile_Default {
             );
 
             foreach($comments as $comment) {
-                $data['news'][] = array(
-                    "text" => Core_Model_Lib_String::truncate($comment->getText(), 88),
-                    "created_at" => $comments->getFormattedCreatedAt(),
-                    "number_of_comments" => count($comment->getAnswers()),
-                    "number_of_likes" => count($comment->getLikes())
+                $data["news"][] = array(
+                    "text"                  => cut($comment->getText(), 88),
+                    "created_at"            => $comments->getFormattedCreatedAt(),
+                    "number_of_comments"    => count($comment->getAnswers()),
+                    "number_of_likes"       => count($comment->getLikes())
                 );
             }
 
-            $data['application'] = array(
-                "icon_url" => $application->getIconUrl(74),
-                "name" => $application->getName()
+            $data["application"] = array(
+                "icon_url"  => $application->getIconUrl(74),
+                "name"      => $application->getName()
             );
 
-            $data['picto'] = array(
-                "pencil" => $this->_getColorizedImage($this->getImage("picto/pencil.png"), $color),
-                "comment" => $this->_getColorizedImage($this->getImage("picto/comment.png"), $color),
-                "like" => $this->_getColorizedImage($this->getImage("picto/like.png"), $color),
+            $data["picto"] = array(
+                "pencil"    => $this->_getColorizedImage($this->getImage("picto/pencil.png"), $color),
+                "comment"   => $this->_getColorizedImage($this->getImage("picto/comment.png"), $color),
+                "like"      => $this->_getColorizedImage($this->getImage("picto/like.png"), $color),
             );
 
-            $this->_sendHtml($data);
+            $this->_sendJson($data);
         }
 
     }
@@ -59,7 +77,7 @@ class Comment_MobileController extends Application_Controller_Mobile_Default {
 
             try {
                 if(empty($datas['comment_id']) OR empty($datas['option_value_id'])) {
-                    throw new Exception($this->_('An error occurred during process. Please try again later.'));
+                    throw new Exception(__('An error occurred during process. Please try again later.'));
                 }
 
                 $comment_id = $datas['comment_id'];
@@ -68,7 +86,7 @@ class Comment_MobileController extends Application_Controller_Mobile_Default {
                 if($comment_id != 'new') {
                     $comment->find($comment_id);
                     if(!$comment->getId() OR $comment->getValueId() != $this->getCurrentOptionValue()->getId()) {
-                        throw new Exception($this->_('An error occurred during process. Please try again later.'));
+                        throw new Exception(__('An error occurred during process. Please try again later.'));
                     }
                 }
                 else {
@@ -113,17 +131,23 @@ class Comment_MobileController extends Application_Controller_Mobile_Default {
                     ->save()
                 ;
 
-                $message = $this->_('Your message has been successfully saved.');
-                if(!$comment->isVisible()) $message .= ' ' . $this->_('It will be visible only after validation by our team.');
+                $message = __('Your message has been successfully saved.');
+                if(!$comment->isVisible()) $message .= ' ' . __('It will be visible only after validation by our team.');
 
-                $html = array('success' => 1, 'message' => $message);
+                $data = array(
+                    "success" => true,
+                    "message" => $message
+                );
 
             }
             catch(Exception $e) {
-                $html = array('error' => 1, 'message' => $e->getMessage());
+                $data = array(
+                    "error" => true,
+                    "message" => $e->getMessage()
+                );
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($data);
         }
 
     }
@@ -148,17 +172,20 @@ class Comment_MobileController extends Application_Controller_Mobile_Default {
                     ;
                 endforeach;
 
-                $html = array(
-                    'success' => 1,
-                    'comments' => $partial_comment,
-                    'details' => $partial_details
+                $data = array(
+                    "success"   => true,
+                    "comments"  => $partial_comment,
+                    "details"   => $partial_details
                 );
 
             } catch(Exception $e) {
-                $html = array('error' => 1, 'message' => $e->getMessage());
+                $data = array(
+                    "error"     => true,
+                    "message"   => $e->getMessage()
+                );
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($data);
 
         }
 
@@ -182,18 +209,24 @@ class Comment_MobileController extends Application_Controller_Mobile_Default {
                 $is_saved = $like->save($datas['id'], $customer_id, $datas['ip'], $datas['ua']);
 
                 if($is_saved) {
-                    $message = $this->_('Your like has been successfully added');
-                    $html = array('success' => 1, 'message' => $message);
+                    $message = __('Your like has been successfully added');
+                    $data = array(
+                        "success" => true,
+                        "message" => $message
+                    );
                 } else {
-                    throw new Exception($this->_('You can\'t like more than once the same news'));
+                    throw new Siberian_Exception(__('You can\'t like more than once the same news'));
                 }
 
             }
             catch(Exception $e) {
-                $html = array('error' => 1, 'message' => $e->getMessage());
+                $data = array(
+                    "error" => true,
+                    "message" => $e->getMessage()
+                );
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($data);
         }
 
     }

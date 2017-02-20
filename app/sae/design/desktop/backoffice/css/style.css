@@ -312,6 +312,21 @@ span.pem-invalid { color: #ef3831; font-weight: bold; }
 img.gear-loader { margin-right: 4px; }
 table.queue i.fa { font-size: 12px; }
 table.queue p { margin-bottom: 0; }
+tr.color-success {
+    border-left: 4px solid rgb(110, 165, 9);
+}
+tr.color-failed {
+    border-left: 4px solid rgb(165, 37, 11);
+}
+tr.color-building {
+    border-left: 4px solid rgb(56, 139, 165);
+}
+tr.color-queued {
+    border-left: 4px solid rgb(249, 230, 8);
+}
+tr.color-stuck {
+    background-color: rgba(165, 37, 11, 0.05);
+}
 
 .service-green { color: #60d122; font-weight: bold; }
 .service-orange { color: #ffd200; font-weight: bold; }

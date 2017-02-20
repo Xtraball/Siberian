@@ -41,11 +41,16 @@
 
 + (BOOL)canInitWithRequest:(NSURLRequest *)request
 {
+    if(![SBOfflineModeManager sharedManager].canCache) {
+        return NO;
+    }
+
     NSArray *cachedExtensions = [[NSArray alloc] initWithObjects:@"js", @"css", @"png", @"jpg", @"gif", nil];
     BOOL cache = [cachedExtensions containsObject:[[request URL] pathExtension]] || [[request valueForHTTPHeaderField:@"X-Native-Cache"] isEqualToString:@"true"];
     
-    if(!cache)
+    if(!cache) {
         return NO;
+    }
     
     NSString *url = [NSString stringWithFormat:@"%@", [request URL]];
     BOOL isCheckingConnection = [url rangeOfString:@"check_connection.php" options:NSCaseInsensitiveSearch].location != NSNotFound;

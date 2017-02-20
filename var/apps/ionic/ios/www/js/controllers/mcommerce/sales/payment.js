@@ -40,6 +40,12 @@ App.config(function ($stateProvider) {
                     return paymentMethodId;
                 }, null);
 
+                if($scope.paymentMethods.length == 1 && $scope.paymentMethods[0].code == "free") {
+                    //Free purchase we can skip the payment method selection
+                    $scope.cart.paymentMethodId = $scope.paymentMethods[0].id;
+                    $scope.updatePaymentInfos();
+                }
+
             }).finally(function () {
                 $scope.is_loading = false;
                 $ionicLoading.hide();

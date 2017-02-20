@@ -2,6 +2,17 @@
 
 $title = $this->getTitle();
 $form = $this->getForm();
+
+$block = $this->getCmsBlock();
+
+$load = false;
+if(isset($block) && $block->getId()) {
+    $form->loadBlock($block);
+
+    $load = true;
+    $type = $block->getTypeId();
+}
+
 $formid = $form->getAttrib("id");
 $uniqid = $form->getUniqid();
 $pvar = "p{$uniqid}";
@@ -51,7 +62,9 @@ $pvar = "p{$uniqid}";
         $(document).ready(function() {
             bindForms(<?php echo $pvar; ?>);
 
-            $(<?php echo $pvar; ?>+" .cms-button-type").on("click", function() {
+            $(<?php echo $pvar; ?>+" .cms-button-type").on("click", function(event) {
+                event.preventDefault();
+
                 $(<?php echo $pvar; ?>+" .cms-button-type").addClass("button-off");
                 $(<?php echo $pvar; ?>+" .cms-button-input").each(function() {
                     var el = $(this);
@@ -60,7 +73,6 @@ $pvar = "p{$uniqid}";
 
                 var button = $(this);
                 button.removeClass("button-off");
-                button.blur();
 
                 $(<?php echo $pvar; ?>+" .cms-input-button-type").val(button.data("type"));
 
@@ -68,9 +80,21 @@ $pvar = "p{$uniqid}";
                     var el = $(this);
                     el.parents(".sb-form-line").show();
                 });
+
+                return false;
+            });
+
+            $(<?php echo $pvar; ?>+" #icon_fake").on("change", function () {
+                $(<?php echo $pvar; ?>+" [id$='-button-icon']").val($(this).val());
             });
 
             $(<?php echo $pvar; ?>+" a[data-type='phone']").trigger("click");
+
+            <?php if($load): ?>
+            setTimeout(function() {
+                $(<?php echo $pvar; ?>+" a[data-type='<?php echo $type; ?>']").trigger("click");
+            }, 200);
+            <?php endif; ?>
         });
     </script>
 

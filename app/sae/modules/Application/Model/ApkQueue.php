@@ -127,7 +127,7 @@ class Application_Model_ApkQueue extends Core_Model_Default {
             # Set is building
             return array(
                 "path" => str_replace(Core_Model_Directory::getBasePathTo(""), "", $result->getData("path")),
-                "date" => $result->getFormattedUpdatedAt()
+                "date" => datetime_to_format($result->getUpdatedAt())
             );
         }
 

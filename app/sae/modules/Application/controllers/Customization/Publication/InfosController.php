@@ -2,6 +2,18 @@
 
 class Application_Customization_Publication_InfosController extends Application_Controller_Default {
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "save" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+        "switchtoionic" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+    );
+
     public function indexAction() {
         $this->loadPartials();
 

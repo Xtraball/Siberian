@@ -1,7 +1,7 @@
 <?php $option_value = $this->getOptionValue(); ?>
 <?php $form = $option_value->getObject(); ?>
 <?php $application = $this->getApplication(); ?>
-<?php $facebook_is_available = Api_Model_Key::findKeysFor('facebook')->getAppId() && Api_Model_Key::findKeysFor('facebook')->getSecretKey(); ?>
+<?php $facebook_is_available = $application->getFacebookId() && $application->getFacebookKey(); ?>
 <?php
 $event_type_list = array(
     'fb'    => 'Facebook',

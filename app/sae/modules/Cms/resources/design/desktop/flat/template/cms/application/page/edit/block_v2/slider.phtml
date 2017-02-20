@@ -2,6 +2,13 @@
 
 $title = $this->getTitle();
 $form = $this->getForm();
+
+$block = $this->getCmsBlock();
+
+if(isset($block) && $block->getId()) {
+    $form->loadBlock($block);
+}
+
 $formid = $form->getAttrib("id");
 $uniqid = $form->getUniqid();
 $pvar = "p{$uniqid}";
@@ -68,6 +75,14 @@ $image_template = str_replace("%UNIQID%", $uniqid, Cms_Form_Block_Slider::$image
                 var el = $(this);
                 el.parents("div.sb-form-line").find(<?php echo $pvar; ?>+" #image_uploader_hidden").trigger("click");
             });
+
+            setTimeout(function() {
+                $(<?php echo $pvar; ?>+" .cms-images-container").sortable({
+                    handle: ".cms-image-handle",
+                    items: " .cms-image",
+                    opacity: 0.7
+                });
+            }, 200);
 
         });
     </script>

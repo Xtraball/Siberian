@@ -374,6 +374,21 @@ class Siberian_Layout extends Zend_Layout
     }
 
     /**
+     * @todo create a standalone file not using Siberian_Layout_Email
+     * which can be confusing
+     *
+     * @param $filename
+     * @param $nodename
+     * @return Siberian_Layout_Email
+     */
+    public function loadPartial($filename, $nodename) {
+        $layout = new Siberian_Layout_Email($filename, $nodename);
+        Siberian_View::setDesignType("desktop");
+        $layout->load();
+        return $layout;
+    }
+
+    /**
      * @param $filename
      * @param $nodename
      * @return Siberian_Layout_Email

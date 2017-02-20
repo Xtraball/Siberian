@@ -3,24 +3,46 @@
 class Catalog_Application_CategoryController extends Application_Controller_Default
 {
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "editpost" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#",
+            ),
+        ),
+        "sortcategories" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#",
+            ),
+        ),
+    );
+
     public function editpostAction() {
 
         if($datas = $this->getRequest()->getPost()) {
 
             try {
 
-                if(empty($datas['value_id'])) throw new Exception($this->_('An error occurred while saving the category. Please try again later.'));
+                if(empty($datas['value_id'])) {
+                    throw new Siberian_Exception(__('An error occurred while saving the category. Please try again later.'));
+                }
 
                 $option_value = new Application_Model_Option_Value();
                 $option_value->find($datas['value_id']);
 
-                $html = array();
+                $data = array();
                 $category = new Catalog_Model_Category();
-                if(!empty($datas['category_id'])) $category->find($datas['category_id']);
+                if(!empty($datas['category_id'])) {
+                    $category->find($datas['category_id']);
+                }
                 $isNew = (bool) !$category->getId();
 
                 if($category->getId() AND $category->getValueId() != $option_value->getId()) {
-                    throw new Exception($this->_('An error occurred while saving the category. Please try again later.'));
+                    throw new Siberian_Exception(__('An error occurred while saving the category. Please try again later.'));
                 }
 
                 if(!isset($datas['is_active'])) $datas['is_active'] = 1;
@@ -33,20 +55,18 @@ class Catalog_Application_CategoryController extends Application_Controller_Defa
                     }
                 }
 
-//                $category->setPosIds(!empty($datas['outlets']) ? $datas['outlets'] : array());
                 $category->addData($datas);
                 $category->save();
-                $html = array(
+                $data = array(
                     'success' => 1,
                     'is_new' => (int) $isNew,
                     'parent_id' => $category->getParentId(),
                     'category_id' => $category->getId(),
                     'is_deleted' => $category->getIsDeleted() ? 1 : 0
-//                    'success_message' => 'Votre catégorie a été sauvegardée avec succès',
                 );
                 if($isNew) {
                     if($category->getParentId()) {
-                        $html['li_html'] = $this->getLayout()
+                        $data['li_html'] = $this->getLayout()
                             ->addPartial('row', 'admin_view_default', 'catalog/application/edit/category/subcategory.phtml')
                             ->setCategory($category->getParent())
                             ->setSubcategory($category)
@@ -55,7 +75,7 @@ class Catalog_Application_CategoryController extends Application_Controller_Defa
                         ;
                     }
                     else {
-                        $html['category_html'] = $this->getLayout()
+                        $data['category_html'] = $this->getLayout()
                             ->addPartial('row', 'admin_view_default', 'catalog/application/edit/category.phtml')
                             ->setCategory($category)
                             ->setOptionValue($option_value)
@@ -66,10 +86,10 @@ class Catalog_Application_CategoryController extends Application_Controller_Defa
 
             }
             catch(Exception $e) {
-                $html['message'] = $e->getMessage();
+                $data['message'] = $e->getMessage();
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+            $this->_sendJson($data);
 
         }
 
@@ -81,11 +101,11 @@ class Catalog_Application_CategoryController extends Application_Controller_Defa
 
         if ($rows = $this->getRequest()->getParam('category') OR $rows = $this->getRequest()->getParam('row')) {
 
-            $html = array();
+            $data = array();
             try {
 
                 if(!$this->getCurrentOptionValue()) {
-                    throw new Exception($this->_('#112: An error occurred while saving'));
+                    throw new Exception(__('#112: An error occurred while saving'));
                 }
 
                 $category = new Catalog_Model_Category();
@@ -99,23 +119,19 @@ class Catalog_Application_CategoryController extends Application_Controller_Defa
 
                 foreach ($rows as $row) {
                     if (!in_array($row, $category_ids))
-                        throw new Exception($this->_("An error occurred while saving. One of your categories could not be identified."));
+                        throw new Exception(__("An error occurred while saving. One of your categories could not be identified."));
                 }
 
                 $category->updatePosition($rows);
 
-                $html = array(
+                $data = array(
                     'success' => 1,
-//                    'success_message' => 'Sauvegarde effectuée avec succès',
-//                    'message_button' => 0,
-//                    'message_timeout' => 3,
-//                    'message_loader' => 0
                 );
             } catch (Exception $e) {
-                $html = array('message' => $e->getMessage());
+                $data = array('message' => $e->getMessage());
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+            $this->_sendJson($data);
         }
     }
 }

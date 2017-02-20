@@ -3,6 +3,11 @@
 class Cms_Form_Base extends Siberian_Form_Abstract {
 
     /**
+     * @var string|null
+     */
+    public $feature_code = null;
+
+    /**
      * @var string
      */
     public static $button_template = '
@@ -29,21 +34,34 @@ class Cms_Form_Base extends Siberian_Form_Abstract {
         $html = '
     <p><b>'.__($title).'</b></p>';
 
+        $current = array();
         foreach($blocks as $block) {
-            $tpl = self::$button_template;
-            $tpl = str_replace(array(
-                "%ID%",
-                "%BLOCK_ID%",
-                "%BLOCK_ICON%",
-                "%TITLE%",
-            ), array(
-                $block->getType(),
-                $block->getId(),
-                $block->getIcon(),
-                $block->getTitle(),
-            ), $tpl);
+            if($this->feature_code == "places") {
 
-            $html .= $tpl;
+                # Skip address block for Places.
+                if($block->getType() == "address") {
+                    continue;
+                }
+            }
+
+            if(!in_array($block->getType(), $current)) {
+                $tpl = self::$button_template;
+                $tpl = str_replace(array(
+                    "%ID%",
+                    "%BLOCK_ID%",
+                    "%BLOCK_ICON%",
+                    "%TITLE%",
+                ), array(
+                    $block->getType(),
+                    $block->getId(),
+                    $block->getIcon(),
+                    $block->getTitle(),
+                ), $tpl);
+
+                $html .= $tpl;
+
+                $current[] = $block->getType();
+            }
         }
 
         $this->addSimpleHtml($name, $html, array("class" => "section-padding"));

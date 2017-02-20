@@ -1,5 +1,11 @@
 <?php $option = $this->getOptionValue(); ?>
 <?php $promo = $this->getCurrentPromo();?>
+<?php
+$valid_until = $promo->getValidUntil() ? new Zend_Date($promo->getValidUntil()) : null;
+if($valid_until) {
+    $valid_until = $valid_until->get(Zend_Date::DATETIME_SHORT, Core_Model_Language::getCurrentLanguage());
+}
+?>
 <form id="promoEditForm" method="post" action="<?php echo $this->getUrl('mcommerce/application_settings_discount/editpost'); ?>" class="form-horizontal">
     <fieldset>
         <h3 class="title-editor no-border-radius">
@@ -72,7 +78,7 @@
                     <label for="discount_validity"><?php echo $this->_("Validity date"); ?></label>
                 </div>
                 <div class="col-sm-5">
-                    <input type="text" id="discount_validity" name="valid_until" value="<?php echo $promo->getValidUntil() ?>" class="input-flat"/>
+                    <input type="text" id="discount_validity" name="valid_until" value="<?php echo $valid_until ?>" class="input-flat"/>
                 </div>
             </div>
             <div class="form-group">

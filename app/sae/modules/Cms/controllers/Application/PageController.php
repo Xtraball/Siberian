@@ -8,16 +8,50 @@
 class Cms_Application_PageController extends Application_Controller_Default {
 
     /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "editpost" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#"
+            ),
+        ),
+        "editpostv2" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#"
+            ),
+        ),
+    );
+
+    /**
      * Remastered edit post, with new models & rules
      */
     public function editpostv2Action() {
-        if($data = $this->getRequest()->getPost()) {
-            $option_value = $this->getCurrentOptionValue();
+        $values = $this->getRequest()->getParams();
+        $option_value = $this->getCurrentOptionValue();
 
-            $page = new Cms_Model_Application_Page();
-            $page->edit_v2($option_value, $data);
+        $form = new Cms_Form_Cms();
+        if($form->isValid($values)) {
+            # Create the cms/page/blocks
+            $page_model = new Cms_Model_Application_Page();
+            $page_model->edit_v2($option_value, $values);
+
+            $data = array(
+                "success" => 1,
+                "message" => __("Success."),
+            );
+        } else {
+            /** Do whatever you need when form is not valid */
+            $data = array(
+                "error"     => 1,
+                "message"   => $form->getTextErrors(),
+                "errors"    => $form->getTextErrors(true),
+            );
         }
 
+        $this->_sendJson($data);
     }
 
     /**
@@ -113,9 +147,6 @@ class Cms_Application_PageController extends Application_Controller_Default {
                                 $blocks[$k]['image'] = $image_path . $block['image'];
                             }
                         } else {
-//                            $img = explode('/', $block['image']);
-//                            $img = $img[count($img) - 1];
-//                            $blocks[$k]['image'] = $image_path . $img;
                             $blocks[$k]['image'] = $block['image'];
                         }
                     }
@@ -243,6 +274,9 @@ class Cms_Application_PageController extends Application_Controller_Default {
 
     }
 
+    /**
+     * @deprecated
+     */
     public function addblockAction() {
 
         if ($datas = $this->getRequest()->getPost()) {

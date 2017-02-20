@@ -35,6 +35,11 @@
     <sb-section title="'<?php echo addcslashes(__("HTTPS & SSL Certificates"), "'"); ?>'">
 
         <div class="form-group">
+
+            <div class="col-md-12" ng-show="configs.use_https.value == 1">
+                <p class="alert alert-info" ng-bind-html="configs.testssl.message"></p>
+            </div>
+
             <div class="col-md-6">
                 <label for="{{ configs.use_https.code }}">{{ configs.use_https.label }}</label>
                 <select id="configs.use_https.code" class="form-control" ng-model="configs.use_https.value">
@@ -54,6 +59,7 @@
                     <option value="directadmin"><?php echo __("DirectAdmin (beta)"); ?></option>
                     <option value="vestacp"><?php echo __("VestaCP (php 5.6+ only)"); ?></option>
                 </select>
+
             </div>
 
             <div class="col-md-6">
@@ -64,11 +70,12 @@
                     <option value="production"><?php echo __("Production"); ?></option>
                 </select>
                 <br />
-                <label><?php echo __("Request the certificate via Let's Encrypt.") ?></label>
-                <div>
+                <label ng-show="configs.cpanel_type.value != -1"><?php echo __("Request the certificate via Let's Encrypt.") ?></label>
+                <div ng-show="configs.cpanel_type.value != -1">
                     <a class="btn btn-primary left" ng-click="generateSsl(false);"><?php echo __("Request") ?></a>
                     <a ng-if="show_force" class="btn btn-primary left" ng-click="generateSsl(true);"><?php echo __("Force re-generation") ?></a>
                 </div>
+
             </div>
 
             <div class="col-md-6" ng-if="configs.cpanel_type.value == 'cpanel'">
@@ -128,8 +135,15 @@
 
         <div class="form-group">
             <div class="col-md-12">
+
                 <button type="submit" class="btn btn-primary right"><?php echo __("Save"); ?></button>
+
+                <div ng-show="configs.certificates.length">
+                    <a class="btn btn-primary right" ng-click="testSsl();"><?php echo __("Test SSL/HTTPS") ?></a>
+                </div>
+
                 <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+
                 <div class="clear"></div>
             </div>
         </div>

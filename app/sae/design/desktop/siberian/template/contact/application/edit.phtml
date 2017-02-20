@@ -160,6 +160,15 @@
     var olddiv = $('.form_content > div#list');
     var default_cover_url = '<?php echo $contact->getCoverUrl(); ?>';
     var contact_uploader = new Uploader();
+    CKEDITOR.config.language = '<?php echo $this->_('en') ?>';
+    CKEDITOR.config.toolbar = [
+        { name: 'source', items: [ 'Source' ] },
+        { name: 'insert', items: [ 'Image' ] },
+        { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ] },
+        { name: 'paragraph', groups: [ 'indent', 'align' ], items: [ 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
+        { name: 'styles', items: [ 'TextColor', 'Format' ] }
+    ];
+    $('.description_field').ckeditor();
 
     page.setCallback('didappear', function() {
 
@@ -262,41 +271,7 @@
         });
 
         function updateIframe(champ) {
-
             iframe.f.setAttribute(champ.attr("rel"), champ.val());
-            /*
-            if(champ.attr('id') == 'phone_<?php echo $option_value->getId(); ?>') {
-                if(!$('#phone_<?php echo $option_value->getId(); ?>').valid()) iframe.content.find('#contact_phone_<?php echo $option_value->getId(); ?>').fadeOut();
-                else if(!champ.val().isEmpty()) iframe.content.find('#contact_phone_<?php echo $option_value->getId(); ?>').attr('href', 'tel:'+champ.val()).fadeIn();
-                else iframe.content.find('#contact_phone_<?php echo $option_value->getId(); ?>').fadeOut();
-            }
-            else if(champ.attr('id') == 'email_<?php echo $option_value->getId(); ?>') {
-                iframe.content.find('#contact_email_<?php echo $option_value->getId(); ?>').attr('onclick', 'showContacForm("contact_form_<?php echo $option_value->getId(); ?>");');
-                if(!champ.val().isEmpty()) {
-                    iframe.content.find('#contact_email_<?php echo $option_value->getId(); ?>').slideDown();
-                    iframe.content.find('#contactForm_<?php echo $option_value->getId(); ?>').show();
-                }
-                else iframe.content.find('#contact_email_<?php echo $option_value->getId(); ?>').slideUp();
-            } else if(champ.attr('id') == 'twitter_<?php echo $option_value->getId(); ?>') {
-                if(!champ.val().isEmpty()) iframe.content.find('#contact_twitter_<?php echo $option_value->getId(); ?>').slideDown();
-                else iframe.content.find('#contact_twitter_<?php echo $option_value->getId(); ?>').slideUp();
-            } else if(champ.attr('id') == 'facebook_<?php echo $option_value->getId(); ?>') {
-                if(!champ.val().isEmpty()) iframe.content.find('#contact_facebook_<?php echo $option_value->getId(); ?>').slideDown();
-                else iframe.content.find('#contact_facebook_<?php echo $option_value->getId(); ?>').slideUp();
-            } else if(champ.attr('id') == 'website_<?php echo $option_value->getId(); ?>') {
-                if(!champ.val().isEmpty()) iframe.content.find('#contact_website_<?php echo $option_value->getId(); ?>').slideDown();
-                else iframe.content.find('#contact_website_<?php echo $option_value->getId(); ?>').slideUp();
-            } else if(champ.attr('id') == 'description_<?php echo $option_value->getId(); ?>') {
-                iframe.content.find('#contact_description_<?php echo $option_value->getId(); ?>').html(champ.val().nl2br());
-                if(!$('#description_<?php echo $option_value->getId(); ?>').val().isEmpty()) iframe.content.find('#contact_description_<?php echo $option_value->getId(); ?>').fadeIn();
-                else iframe.content.find('#contact_description_<?php echo $option_value->getId(); ?>').fadeOut();
-            }
-            else {
-                iframe.content.find('#contact_'+champ.attr('id')).html(champ.val());
-                if(!$('#street_<?php echo $option_value->getId(); ?>').val().isEmpty() && !$('#postcode_<?php echo $option_value->getId(); ?>').val().isEmpty() && !$('#city_<?php echo $option_value->getId(); ?>').val().isEmpty() && !$('#country_<?php echo $option_value->getId(); ?>').val().isEmpty()) iframe.content.find('#contact_gmaps_<?php echo $option_value->getId(); ?>').fadeIn();
-                else iframe.content.find('#contact_gmaps_<?php echo $option_value->getId(); ?>').fadeOut();
-            }
-            */
         }
 
     });

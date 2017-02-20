@@ -7,7 +7,7 @@ App.config(function ($stateProvider) {
         cache:false
     })
 
-}).controller('MCommerceProductViewController', function ($cordovaSocialSharing, $ionicLoading, $ionicPopup, $state, $stateParams, $scope, $translate, Analytics, Application, Dialog, McommerceCategory, McommerceCart, McommerceProduct) {
+}).controller('MCommerceProductViewController', function ($cordovaSocialSharing, $ionicLoading, $ionicPopup, $log, $state, $stateParams, $scope, $translate, Analytics, Application, Dialog, McommerceCategory, McommerceCart, McommerceProduct) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -57,10 +57,10 @@ App.config(function ($stateProvider) {
                 $cordovaSocialSharing
                     .share(message, subject, file, link) // Share via native share sheet
                     .then(function (result) {
-                        sbLog("MCommerce::product.js", "social sharing success");
+                        $log.debug("MCommerce::product.js", "social sharing success");
                         $scope.is_sharing = false;
                     }, function (err) {
-                        sbLog("MCommerce::product.js", err);
+                        $log.debug("MCommerce::product.js", err);
                         $scope.is_sharing = false;
                     });
             };

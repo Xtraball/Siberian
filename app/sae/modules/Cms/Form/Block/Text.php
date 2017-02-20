@@ -26,13 +26,6 @@ class Cms_Form_Block_Text extends Cms_Form_Block_Abstract {
         $text->setBelongsTo("block[".$this->uniqid."][text]");
         $text->setRichtext();
 
-        /**
-         *
-        image = filename
-        alignment > left/right
-        size > 25/35/45 == small/medium/large
-         */
-
         # Image section
         $image = $this->addSimpleFile("image_upload", __("Add a picture"));
         $image->setBelongsTo("block[".$this->uniqid."][text]");
@@ -86,6 +79,19 @@ class Cms_Form_Block_Text extends Cms_Form_Block_Abstract {
         $value_id
             ->setRequired(true)
         ;
+    }
+
+    /**
+     * @param $block
+     * @return $this
+     */
+    public function loadBlock($block) {
+        $this->getElement("text")->setValue($block->getContent());
+        $this->getElement("size")->setValue($block->getSize());
+        $this->getElement("alignment")->setValue($block->getAlignment());
+        $this->getElement("image_upload")->setValue($block->getImage());
+
+        return $this;
     }
 
 }

@@ -36,4 +36,36 @@ class Cms_Form_Block_File extends Cms_Form_Block_Abstract {
         ;
     }
 
+    /**
+     * @param $block
+     * @return $this
+     */
+    public function loadBlock($block) {
+
+        $file_html = array();
+        $name = $block->getName();
+        if(!empty($name)) {
+
+            $tmp = static::$file_template;
+            $tmp = str_replace(array(
+                "%UNIQID%",
+                "%FILE_PATH%",
+                "#TEXT#",
+            ), array(
+                $this->getUniqid(),
+                $name,
+                "<b>".__("Attachement").":</b> ".basename($name),
+            ), $tmp);
+
+            $file_html = $tmp;
+        }
+
+        $cms_file_container = '
+<div class="cms-file-container section-padding">'.$file_html.'</div>';
+
+        $this->addSimpleHtml("cms-file-container", $cms_file_container);
+
+        return $this;
+    }
+
 }

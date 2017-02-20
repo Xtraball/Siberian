@@ -16,7 +16,7 @@ App.config(function($stateProvider) {
         cache:false
     });
 
-}).controller('MCommerceListController', function($ionicLoading, $location, $scope, $state, $stateParams, McommerceCategory) {
+}).controller('MCommerceListController', function($ionicLoading, $location, $scope, $state, $stateParams, McommerceCategory, Customer) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -36,6 +36,11 @@ App.config(function($stateProvider) {
     McommerceCategory.value_id = $stateParams.value_id;
     McommerceCategory.category_id = $stateParams.category_id;
     $scope.value_id = $stateParams.value_id;
+
+    $scope.use_button_header = false;
+    if(Customer.isLoggedIn() && !$stateParams.category_id) {
+        $scope.use_button_header = true;
+    }
 
     $scope.loadContent = function() {
 
@@ -61,10 +66,19 @@ App.config(function($stateProvider) {
         }
     };
 
-    $scope.right_button = {
-        action: $scope.openCart,
-        icon: "ion-ios-cart"
+    $scope.openHistory = function () {
+
+        if(!$scope.is_loading) {
+            $state.go("mcommerce-sales-history", {value_id: $scope.value_id});
+        }
     };
+
+    if(!$scope.use_button_header) {
+        $scope.right_button = {
+            action: $scope.openCart,
+            icon: "ion-ios-cart"
+        };
+    }
 
     $scope.showItem = function(item) {
         $location.path(item.url);

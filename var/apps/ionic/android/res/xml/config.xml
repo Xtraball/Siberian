@@ -98,8 +98,8 @@
     <chcp>
         <config-file url="PLATFORM_URL" />
         <native-interface version="2" />
-        <auto-download enabled="true" />
-        <auto-install enabled="true" />
+        <auto-download enabled="false" />
+        <auto-install enabled="false" />
     </chcp>
     <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
     <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />

@@ -1,4 +1,4 @@
-App.service('$translate', function($sbhttp, Url, tmhDynamicLocale) {
+App.service('$translate', function($sbhttp, Url) {
     var service = {};
 
     service.translations = [];
@@ -7,6 +7,10 @@ App.service('$translate', function($sbhttp, Url, tmhDynamicLocale) {
         return angular.isDefined(service.translations[text]) ? service.translations[text] : text;
     };
 
+    /**
+     * @deprecated
+     * @param is_retry
+     */
     service.findTranslations = function(is_retry) {
         return $sbhttp({
             method: 'GET',
@@ -16,14 +20,6 @@ App.service('$translate', function($sbhttp, Url, tmhDynamicLocale) {
             timeout: 4000
         }).success(function (translations) {
             service.translations = translations;
-
-            $sbhttp({
-                method: 'GET',
-                url: Url.get("/application/mobile_translation/locale", {add_language: true}),
-                cache: true
-            }).success(function (locale) {
-                tmhDynamicLocale.set(locale);
-            });
         }).error(function() {
             if(is_retry !== true) {
                 return service.findTranslations(true);

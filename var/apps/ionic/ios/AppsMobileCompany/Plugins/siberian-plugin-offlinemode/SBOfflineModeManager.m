@@ -7,6 +7,7 @@
 
 BOOL isAwareOfReachability = NO;
 BOOL postNotifications = NO;
+BOOL canCache = NO;
 NSTimer *checkTimer;
 
 #pragma mark Singleton Methods
@@ -24,7 +25,8 @@ NSTimer *checkTimer;
     if (self = [super init]) {
         checkConnectionURL = nil;
         isOnline = YES;
-        
+        canCache = [[NSUserDefaults standardUserDefaults] boolForKey:@"canCache"];
+
         // Allocate a reachability object
         TMReachability* reach = [TMReachability reachabilityWithHostname:@"www.google.com"];
         

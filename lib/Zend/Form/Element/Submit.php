@@ -32,7 +32,7 @@ require_once 'Zend/Form/Element/Xhtml.php';
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id: Submit.php 24593 2012-01-05 20:35:02Z matthew $
  */
-class Zend_Form_Element_Submit extends Zend_Form_Element_Xhtml
+class  Zend_Form_Element_Submit extends Zend_Form_Element_Xhtml
 {
     /**
      * Default view helper to use

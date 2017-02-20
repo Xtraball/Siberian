@@ -63,6 +63,17 @@
     <div class="col-sm-1">
         <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
         <input type="hidden" name="id" value="<?php echo $image->getId(); ?>" />
+        <input type="hidden" id="label_<?php echo $image->getId(); ?>" name="label" value="" />
         <button type="button" class="bt-margin color-blue red btn delete_image"><i class="fa fa-times"></i></button>
     </div>
 </div>
+<?php if ($image->getTypeId() == 'facebook') :?>
+    <div class="row padding-3 container-fluid">
+        <div class="col-md-1"></div>
+        <div class="col-md-4">
+            <label for="gallery_name_<?php echo $image->getId(); ?>"><?php echo __("Gallery Name"); ?></label>
+            <input id="gallery_name_<?php echo $image->getId(); ?>" type="text" name="gallery_name_<?php echo $image->getId(); ?>" value="<?php echo $image->getLabel(); ?>" placeholder="<?php echo $this->_('Gallery Name') ?>" class="input-flat change_label" onchange="changeGalleryLabel(<?php echo $image->getId(); ?>)"/>
+            <?php echo __("If set, will appear instead of the Facebook page Id in app."); ?>
+        </div>
+    </div>
+<?php endif; ?>

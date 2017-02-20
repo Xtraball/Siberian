@@ -1,6 +1,13 @@
 <?php
 class Contact_Model_Contact extends Core_Model_Default {
 
+    /**
+     * @var array
+     */
+    public $cache_tags = array(
+        "feature_contact",
+    );
+
     protected $_is_cacheable = true;
 
     public function __construct($params = array()) {
@@ -52,6 +59,76 @@ class Contact_Model_Contact extends Core_Model_Default {
         return $in_app_states;
     }
 
+    /**
+     * @param $option_value
+     * @return array
+     */
+    public function getFeaturePaths($option_value) {
+        if(!$this->isCacheable()) {
+            return array();
+        }
+
+        $value_id = $option_value->getId();
+        $cache_id = "feature_paths_valueid_{$value_id}";
+        if(!$result = $this->cache->load($cache_id)) {
+
+            $paths = array();
+            $paths[] = $option_value->getPath("find", array("value_id" => $option_value->getId()), false);
+
+            $this->cache->save($paths, $cache_id,
+                $this->cache_tags + array(
+                "feature_paths",
+                "feature_paths_valueid_{$value_id}"
+            ));
+        } else {
+            $paths = $result;
+        }
+
+        return $paths;
+    }
+
+    /**
+     * @param $option_value
+     * @return array
+     */
+    public function getAssetsPaths($option_value) {
+        if(!$this->isCacheable()) {
+            return array();
+        }
+
+        $paths = array();
+
+        $value_id = $option_value->getId();
+        $cache_id = "assets_paths_valueid_{$value_id}";
+        if(!$result = $this->cache->load($cache_id)) {
+
+            if($cover = $this->getCoverUrl()) {
+                $paths[] = $cover;
+            }
+
+            $matches = array();
+            $regex_url = "/((?:http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(?:\/[^\s\"]*)\.(?:png|gif|jpeg|jpg)+)+/";
+            preg_match_all($regex_url, $this->getDescription(), $matches);
+
+            $matches = call_user_func_array('array_merge', $matches);
+
+            if($matches && count($matches) > 1) {
+                unset($matches[0]);
+                $paths = array_merge($paths, $matches);
+            }
+
+            $this->cache->save($paths, $cache_id,
+                $this->cache_tags + array(
+                "assets_paths",
+                "assets_paths_valueid_{$value_id}"
+            ));
+        } else {
+            $paths = $result;
+        }
+
+        return $paths;
+    }
+
     public function getCoverUrl() {
         $cover_path = Application_Model_Application::getImagePath().$this->getCover();
         $base_cover_path = Application_Model_Application::getBaseImagePath().$this->getCover();
@@ -59,31 +136,6 @@ class Contact_Model_Contact extends Core_Model_Default {
             return $cover_path;
         }
         return '';
-    }
-
-    public function getFeaturePaths($option_value) {
-
-        if(!$this->isCacheable()) {
-            return array();
-        }
-
-        $paths = array();
-        $paths[] = $option_value->getPath("find", array('value_id' => $option_value->getId()), false);
-
-        return $paths;
-    }
-
-    public function getAssetsPaths($option_value) {
-
-        if(!$this->isCacheable()) return array();
-
-        $paths = array();
-
-        if($cover = $this->getCoverUrl()) {
-            $paths[] = $cover;
-        }
-
-        return $paths;
     }
 
     public function copyTo($option) {

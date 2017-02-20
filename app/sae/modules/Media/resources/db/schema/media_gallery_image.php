@@ -40,6 +40,12 @@ $schemas['media_gallery_image'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'label' => array(
+        'type' => 'varchar(25)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'created_at' => array(
         'type' => 'datetime',
         'is_null' => true,

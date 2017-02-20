@@ -2,6 +2,24 @@
 
 class Comment_Mobile_AnswerController extends Application_Controller_Mobile_Default {
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "add" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#",
+            ),
+        ),
+        "addlike" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#",
+            ),
+        ),
+    );
+
     public function findallAction() {
 
         if($comment_id = $this->getRequest()->getParam('comment_id')) {

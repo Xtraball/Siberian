@@ -130,10 +130,6 @@
             $('#select_categories').change(function() {
                 var id = $(this).val();
 
-//                $('.product_rows').slideUp();
-//                $('#add_product').hide();
-//                if($('#createProduct').is(':visible')) $('#createProduct').slideUp();
-
                 if(!id.isEmpty()) {
                     var subcategory_select = $('#subcategory_'+id);
                     if(subcategory_select.attr('id')) {
@@ -169,31 +165,6 @@
             var element = '#select_categories';
             $('#subcategories').remove();
             <?php endif; ?>
-//            $(element).change(function() {
-//                var id = $(this).val();
-//                $('.product_rows').each(function(e, element) {
-//                    element = $(element);
-//                    if(element.attr('rel') && element.attr('rel') == id) element.slideDown();
-//                    else if(element.is(':visible')) element.slideUp();
-//                });
-//
-//                $('#row_'+id).show();
-//                $('#category_id').val(id);
-//                if(!id.isEmpty() && id > 0) {
-//                    $('#add_product').show();
-//                    iframe.content.find('#categories > .list').each(function() {
-//                        if($(this).is(':visible')) iframe.f.goBack($(this).attr('id'));
-//                    });
-//                    iframe.f.goForth('category_'+id);
-//                }
-//                else {
-//                    $('#add_product').hide();
-//                    iframe.content.find('#categories > .list').each(function() {
-//                        if($(this).is(':visible')) iframe.f.goBack($(this).attr('id'));
-//                    });
-//                    if($('#createProduct').is(':visible')) $('#createProduct').slideUp();
-//                }
-//            });
 
             $(".list_edit").sortable({
                 handle : '.handle',

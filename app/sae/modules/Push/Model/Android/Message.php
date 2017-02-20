@@ -207,11 +207,16 @@ class Push_Model_Android_Message {
             ->setOpenWebview(!is_numeric($message->getActionValue()))
         ;
 
-        # Default application image
-        # @todo add custom image for each feature sending push.
-        $application_image = $application->getAndroidPushImage();
-        if(!empty($application_image)) {
-            $gcm_message->setImage($message->getData("base_url")."/images/application".$application_image);
+        # Priority to custom image
+        $custom_image = $message->getCustomImage();
+        if(is_readable(Core_Model_Directory::getBasePathTo("/images/application".$custom_image))) {
+            $gcm_message->setImage($message->getData("base_url")."/images/application".$custom_image);
+        } else {
+            # Default application image
+            $application_image = $application->getAndroidPushImage();
+            if(!empty($application_image)) {
+                $gcm_message->setImage($message->getData("base_url")."/images/application".$application_image);
+            }
         }
 
         if($application->useIonicDesign() && ($message->getLongitude() && $message->getLatitude())) {

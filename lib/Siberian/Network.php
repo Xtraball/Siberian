@@ -127,4 +127,52 @@ class Siberian_Network {
             return $ip6;
         }
     }
+
+    /**
+     * @param $hostname
+     * @return array
+     */
+    public static function testSsl($hostname, $verify_peer = false) {
+        try {
+            $context = stream_context_create(array(
+                "ssl" => array(
+                    "capture_peer_cert" => true,
+                    "verify_peer_name" => $verify_peer,
+                    "verify_peer" => $verify_peer,
+                ))
+            );
+
+            $socket = stream_socket_client("ssl://{$hostname}:443", $errno, $errstr, 30, STREAM_CLIENT_CONNECT, $context);
+            $params = stream_context_get_params($socket);
+            $cert = openssl_x509_parse($params["options"]["ssl"]["peer_certificate"]);
+
+            $issuer = __("Unknown");
+            if(isset($cert) && isset($cert["issuer"]) && isset($cert["issuer"]["CN"])) {
+                $issuer = $cert["issuer"]["CN"];
+            }
+
+            # Test let's encrypt X1
+            $more = "";
+            if(strpos($issuer, "X1") !== false) {
+                $more = "<br />".__("Note: Let's encrypt X1 is a staging certificate.");
+            }
+
+            if(isset($cert) && isset($cert["validTo_time_t"]) && ($cert["validTo_time_t"] > time())) {
+                $data = array(
+                    "success" => true,
+                    "message" => __("Certificate is valid and SSL is reachable, valid until: %s.<br />Issuer: %s%s", datetime_to_format(date("Y-m-d H:i:s", $cert["validTo_time_t"])), $issuer, $more),
+                );
+            } else {
+                throw new Siberian_Exception(__("Unable to connect in HTTPS or to validate the SSL Certificate.<br />Check if your are not in `Staging`"));
+            }
+
+        } catch (Exception $e) {
+            $data = array(
+                "error" => true,
+                "message" => $e->getMessage(),
+            );
+        }
+
+        return $data;
+    }
 }

@@ -29,7 +29,7 @@
 
             <div class="item item-text-wrap item-icon-left item-custom" ng-show="contact.description">
                 <i class="icon ion-android-menu"></i>
-                <p>{{ contact.description }}</p>
+                <div class="item-text-wrap item-custom"  ng-bind-html="contact.description | trusted_html"></div>
             </div>
 
         </div>

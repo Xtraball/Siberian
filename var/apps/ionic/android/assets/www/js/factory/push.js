@@ -1,4 +1,4 @@
-App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $cordovaPush, $sbhttp, $rootScope, $translate, $window, Application, httpCache, Url, PUSH_EVENTS) {
+App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $cordovaPush, $log, $sbhttp, $rootScope, $translate, $window, Application, httpCache, Url, PUSH_EVENTS) {
 
     /*
      * PRIVATE
@@ -25,7 +25,7 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
 
             if (__self.push) {
                 __self.push.on('registration', function(data) {
-                    sbLog("device_token: " + data.registrationId);
+                    $log.debug("device_token: " + data.registrationId);
                     __self.device_token = data.registrationId;
                     __self._registerDevice();
                 });
@@ -33,7 +33,7 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
                 __self._onNotificationReceived();
 
                 __self.push.on('error', function(e) {
-                    sbLog(e.message);
+                    $log.debug(e.message);
                 });
             }
         },
@@ -43,11 +43,11 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
                 return;
             }
             if(ionic.Platform.isIOS()) {
-                sbLog("-- iOS StartBackgroundLocation --");
+                $log.debug("-- iOS StartBackgroundLocation --");
 
                 __self._startIosBackgroundGeolocation();
             } else if(ionic.Platform.isAndroid()) {
-                sbLog("-- ANDROID StartBackgroundLocation --");
+                $log.debug("-- ANDROID StartBackgroundLocation --");
 
                 BackgroundGeoloc.startBackgroundLocation(function(result) {
                     // Android only
@@ -76,7 +76,7 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
                         BackgroundGeoloc.stopBackgroundLocation();
                     }
                 }, function(err) {
-                    sbLog("error to startLocation: " + err);
+                    $log.debug("error to startLocation: " + err);
                 });
             }
         },
@@ -86,7 +86,7 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
                 var coords = location.coords;
                 var lat    = coords.latitude;
                 var lng    = coords.longitude;
-                console.log('- Location: ', JSON.stringify(location));
+                $log.debug('- Location: ', JSON.stringify(location));
 
                 // Must signal completion of your callbackFn.
                 window.BackgroundGeolocation.finish(taskId);
@@ -94,16 +94,8 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
 
             // This callback will be executed if a location-error occurs.  Eg: this will be called if user disables location-services.
             var failureFn = function(errorCode) {
-                console.warn('- BackgroundGeoLocation error: ', errorCode);
+                $log.debug('- BackgroundGeoLocation error: ', errorCode);
             };
-
-            // Listen to location events & errors.
-            //window.BackgroundGeolocation.on('location', callbackFn, failureFn);
-
-            // Fired whenever state changes from moving->stationary or vice-versa.
-            //window.BackgroundGeolocation.on('motionchange', function(isMoving) {
-            //    console.log('- onMotionChange: ', isMoving);
-            //});
 
             window.BackgroundGeolocation.onGeofence(function(params, taskId) {
                 try {
@@ -112,9 +104,8 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
                     var message_id = identifier.replace("push","");
                     var action = params.action;
 
-                    sbLog('A geofence has been crossed: ', identifier);
-                    sbLog('ENTER or EXIT?: ', action);
-                    //sbLog('location: ', JSON.stringify(location));
+                    $log.debug('A geofence has been crossed: ', identifier);
+                    $log.debug('ENTER or EXIT?: ', action);
 
                     // remove the geofence
                     window.BackgroundGeolocation.removeGeofence(identifier);
@@ -145,7 +136,7 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
                         localStorage.setItem("proximity_alerts", JSON.stringify(proximity_alerts));
                     }
                 } catch(e) {
-                    sbLog('An error occurred in my application code', e);
+                    $log.debug('An error occurred in my application code', e);
                 }
 
                 // The plugin runs your callback in a background-thread:
@@ -179,7 +170,7 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
                 stopOnTerminate: true,
                 startOnBoot: true
             }, function(state) {
-                sbLog('BackgroundGeolocation ready: ', state);
+                $log.debug('BackgroundGeolocation ready: ', state);
                 if (!state.enabled) {
                     window.BackgroundGeolocation.start();
                 }
@@ -213,21 +204,21 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
                 try {
                     device_name = device.platform;
                 } catch(e) {
-                    sbLog(e.message);
+                    $log.debug(e.message);
                 }
 
                 var device_model = null;
                 try {
                     device_model = device.model;
                 } catch(e) {
-                    sbLog(e.message);
+                    $log.debug(e.message);
                 }
 
                 var device_version = null;
                 try {
                     device_version = device.version;
                 } catch(e) {
-                    sbLog(e.message);
+                    $log.debug(e.message);
                 }
 
                 var params = {
@@ -292,7 +283,7 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
                     };
 
                     var callbackErrCurrentPosition = function(err) {
-                        sbLog(err.message);
+                        $log.debug(err.message);
 
                         __self._addProximityAlert(data);
                     };
@@ -321,7 +312,7 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
             });
         },
         _sendLocalNotification: function(p_message_id, p_title, p_message) {
-            sbLog("-- Sending a Local Notification --");
+            $log.debug("-- Sending a Local Notification --");
 
             if(ionic.Platform.isIOS()) p_message = "";
 
@@ -339,7 +330,7 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
             factory.markAsDisplayed(p_message_id);
         },
         _addProximityAlert: function(data) {
-            sbLog("-- Adding a proximity alert --");
+            $log.debug("-- Adding a proximity alert --");
 
             var proximity_alerts = localStorage.getItem("proximity_alerts");
             var json_proximity_alerts = JSON.parse(proximity_alerts);
@@ -357,7 +348,7 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
             }
 
             if(ionic.Platform.isIOS()) {
-                sbLog("-- iOS --");
+                $log.debug("-- iOS --");
 
                 window.BackgroundGeolocation.addGeofence({
                     identifier: "push" + data.additionalData.message_id,
@@ -366,12 +357,12 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
                     longitude: data.additionalData.longitude,
                     notifyOnEntry: true
                 }, function() {
-                    sbLog("Successfully added geofence");
+                    $log.debug("Successfully added geofence");
                 }, function(error) {
-                    sbLog("Failed to add geofence", error);
+                    $log.debug("Failed to add geofence", error);
                 });
             } else {
-                sbLog("-- ANDROID --");
+                $log.debug("-- ANDROID --");
 
                 __self.startBackgroundGeolocation();
             }

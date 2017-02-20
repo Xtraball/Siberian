@@ -548,6 +548,8 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         $image_button->setAttrib("data-input", $name);
         $image_button->removeDecorator('DtDdWrapper');
 
+
+
         if(is_array($options) && isset($options["width"]) && isset($options["height"])) {
             $image_button->setAttrib("data-width", $options["width"]);
             $image_button->setAttrib("data-height", $options["height"]);
@@ -582,6 +584,12 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         if(is_array($options) && isset($options["required"])) {
             $image_button->setRequired($options["required"]);
             $image_hidden->setRequired($options["required"]);
+        }
+
+        if(isset($options["cms-include"])) {
+            $image_button->addClass("cms-include");
+            $image_input->addClass("cms-include");
+            $image_hidden->addClass("cms-include");
         }
 
         return $image_button;

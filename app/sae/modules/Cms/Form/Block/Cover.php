@@ -1,6 +1,6 @@
 <?php
 
-class Cms_Form_Block_Cover extends Cms_Form_Block_Image {
+class Cms_Form_Block_Cover extends Cms_Form_Block_Image_Abstract {
 
     /**
      * @var string
@@ -18,6 +18,7 @@ class Cms_Form_Block_Cover extends Cms_Form_Block_Image {
         parent::init();
 
         $this
+            ->setAction(__path("/template/crop/upload"))
             ->setAttrib("id", "form-cms-block-cover-".$this->uniqid)
         ;
 

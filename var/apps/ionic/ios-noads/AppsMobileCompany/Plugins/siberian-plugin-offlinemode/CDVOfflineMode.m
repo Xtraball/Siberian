@@ -21,6 +21,13 @@ NSString *icb;
     icb = command.callbackId;
 }
 
+- (void)setCanCache:(CDVInvokedUrlCommand*)command
+{
+    [SBOfflineModeManager sharedManager].canCache = YES;
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"canCache"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 - (void)setCheckConnectionURL:(CDVInvokedUrlCommand*)command
 {
     NSString *url = [command.arguments objectAtIndex:0];

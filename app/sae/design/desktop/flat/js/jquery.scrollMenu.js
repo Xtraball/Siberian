@@ -1,4 +1,8 @@
-/* 
+/*global
+ clearTimeout, setTimeout
+ */
+
+/*
  * Set fixed menu on top when page is scrolling
  * @author : GR
  * Markup :
@@ -39,5 +43,4 @@
         });
     };
 })(jQuery);
-
 

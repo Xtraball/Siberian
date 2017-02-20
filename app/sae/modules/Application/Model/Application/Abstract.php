@@ -26,6 +26,32 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         $this->_db_table = 'Application_Model_Db_Table_Application';
     }
 
+    /**
+     * Testing if a value_id belongs to the current app
+     *
+     * @todo Allowing cross-app access
+     *
+     * @param $value_id
+     * @return bool
+     */
+    public function valueIdBelongsTo($value_id) {
+
+        # Handle special cases.
+        if(in_array($value_id, array("home"))) {
+            return true;
+        }
+
+        $option_value_model = new Application_Model_Option_Value();
+        $result = $option_value_model->valueIdBelongsTo($value_id, $this->getId());
+
+        # Cross application access.
+        /**
+         * Check if there is any cross-application access registered, and check for value_id against all the app_ids
+         */
+
+        return $result;
+    }
+
     public function findByHost($host, $path = null) {
 
         if(!empty($path)) {

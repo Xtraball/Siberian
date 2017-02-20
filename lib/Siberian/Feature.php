@@ -317,13 +317,33 @@ class Siberian_Feature {
     }
 
     /**
+     * Wrapper to upload or not an image, with delete
+     *
+     * @param $option_value
+     * @param $image
+     * @return null|string
+     */
+    public static function  saveImageForOptionDelete($option_value, $image) {
+        # If the file already exists in images/application
+        if($image == "_delete_") {
+            $image_path = "";
+        } else if(file_exists(Core_Model_Directory::getBasePathTo("images/application".$image))) {
+            $image_path = $image;
+        } else {
+            $image_path = Siberian_Feature::moveUploadedFile($option_value, $image);
+        }
+
+        return $image_path;
+    }
+
+    /**
      * Wrapper to upload or not an image
      *
      * @param $option_value
      * @param $image
      * @return null|string
      */
-    public static function saveImageForOption($option_value, $image) {
+    public static function  saveImageForOption($option_value, $image) {
         # If the file already exists in images/application
         if(file_exists(Core_Model_Directory::getBasePathTo("images/application".$image))) {
             # Nothing changed, skip

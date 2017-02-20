@@ -396,7 +396,9 @@ storePassword={$store_password}";
 
     	/** Executing gradlew */
         $var_log = $var_log."/apk-build.log";
-        unlink($var_log);
+        if(file_exists($var_log)) {
+            unlink($var_log);
+        }
 
         //we restart connection to not have a "MYSQL GONE AWWAAYYYYY!!!! error"
         $db = Zend_Registry::get('db');
