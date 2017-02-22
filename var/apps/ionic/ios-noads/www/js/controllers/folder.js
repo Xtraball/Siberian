@@ -53,7 +53,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
     $scope.loadContent = function() {
         Folder.findAll().success(function(data) {
 
-            $scope.collection = new Array();
+            $scope.collection = [];
 
             for(var i = 0; i < data.folders.length; i++) {
                 $scope.collection.push(data.folders[i]);
@@ -63,7 +63,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
             $scope.page_title = data.page_title;
 
             $scope.search_list = data.search_list;
-            $scope.show_search = data.show_search == "1" && $rootScope.isOnline ? true : false;
+            $scope.show_search = data.show_search == "1";
 
         }).error(function() {
 
@@ -78,7 +78,6 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         if(feature.code == "code_scan") {
         	$window.scan_camera_protocols = JSON.stringify(["tel:", "http:", "https:", "geo:", "ctc:"]);
             Application.openScanCamera({protocols: ["tel:", "http:", "https:", "geo:", "ctc:"]}, function(qrcode) {}, function() {});
-        
         } else if(feature.offline_mode !== true && $rootScope.isOffline) {
             $rootScope.onlineOnly();
             return;

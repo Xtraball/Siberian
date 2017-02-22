@@ -9,7 +9,7 @@ class Layouts_Form_Layout10Options extends Siberian_Form_Options_Abstract {
         /** Bind as a create form */
         self::addClass("create", $this);
         self::addClass("form-layout-options", $this);
--
+
         $shadow = $this->addSimpleSelect("shadow", __("Display Shadow"), array(
             "shadow" => __("Show"),
             "no-shadow" => __("Hidden"),

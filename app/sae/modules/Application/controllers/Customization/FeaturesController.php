@@ -2,6 +2,40 @@
 
 class Application_Customization_FeaturesController extends Application_Controller_Default {
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "save" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+        "delete" => null, /** Specific, done inside the action. */
+        "setisactive" => array(
+            "tags" => array("homepage_app_#APP_ID#"),
+        ),
+        "seticon" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+        "settabbarname" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+        "settabbarsubtitle" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+        "seticonpositions" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+        "setbackgroundimage" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+        "setlayout" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+        "import" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+    );
+
     public function listAction() {
         /** This page doesn't need media optimizer (also this can lead to timeout) */
         Siberian_Media::disableTemporary();
@@ -111,10 +145,10 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
                 $option_value->getObject()->prepareFeature($option_value);
 
-                if($option->onlyOnce()) $delete_features[] = $option->getId();
+                if($option->onlyOnce()) {
+                    $delete_features[] = $option->getId();
+                }
 
-                // Renvoi le nouveau code HTML
-//                $this->getLayout()->setBaseRender('content', 'application/customization/page/list.phtml', 'admin_view_default');
                 $row = $this->getLayout()->addPartial('row_'.$option_value->getId(), 'application_view_customization_features_list_options', 'application/customization/features/list/options/li.phtml')->setOptionValue($option_value)->setIsSortable(1)->toHtml();
                 $html = array(
                     'success' => 1,
@@ -168,6 +202,16 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 // Option folder
                 if(isset($datas['category_id'])) {
 
+                    $this->cache_triggers["delete"] = array(
+                        "tags" => array(
+                            "feature_paths_valueid_#VALUE_ID#",
+                            "assets_paths_valueid_#VALUE_ID#",
+                        ),
+                    );
+                    $this->_triggerCache();
+                    $this->cache_triggers["delete"] = null;
+
+
                     $option_value->setFolderId(null)
                         ->setFolderCategoryId(null)
                         ->setFolderCategoryPosition(null)
@@ -178,6 +222,14 @@ class Application_Customization_FeaturesController extends Application_Controlle
                     $html['category'] = array('id' => $datas['category_id']);
 
                 } else {
+
+                    $this->cache_triggers["delete"] = array(
+                        "tags" => array(
+                            "app_#APP_ID#",
+                        ),
+                    );
+                    $this->_triggerCache();
+                    $this->cache_triggers["delete"] = null;
 
                     // Récupère l'option
                     $option = new Application_Model_Option();
@@ -196,9 +248,6 @@ class Application_Customization_FeaturesController extends Application_Controlle
                     if($option->onlyOnce()) {
                         $html['page'] = array('id' => $option->getId(), 'name' => $option->getName(), 'icon_url' => $option->getIconUrl(), 'category_id' => $option->getCategoryId());
                     }
-
-                    // Renvoi le nouveau code HTML
-//                    $this->getLayout()->setBaseRender('content', 'application/customization/page/list.phtml', 'admin_view_default');
 
                 }
             }

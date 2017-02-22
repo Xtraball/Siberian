@@ -47,6 +47,12 @@ $schemas['cms_application_page'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'thumbnail' => array(
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'created_at' => array(
         'type' => 'datetime',
     ),

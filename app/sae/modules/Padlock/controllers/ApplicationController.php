@@ -3,6 +3,17 @@
 class Padlock_ApplicationController extends Application_Controller_Default
 {
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "editpost" => array(
+            "tags" => array(
+                "app_#APP_ID#"
+            ),
+        )
+    );
+
     public function editpostAction() {
 
         if($datas = $this->getRequest()->getPost()) {
@@ -11,7 +22,9 @@ class Padlock_ApplicationController extends Application_Controller_Default
                 $application = $this->getApplication();
 
                 // Test s'il y a un value_id
-                if(empty($datas['value_id'])) throw new Exception($this->_('An error occurred while saving. Please try again later.'));
+                if(empty($datas['value_id'])) {
+                    throw new Siberian_Exception(__('An error occurred while saving. Please try again later.'));
+                }
 
                 // Récupère l'option_value en cours
                 $option_value = new Application_Model_Option_Value();
@@ -19,11 +32,10 @@ class Padlock_ApplicationController extends Application_Controller_Default
 
                 // Test s'il y a embrouille entre la value_id en cours de modification et l'application en session
                 if(!$option_value->getId() OR $option_value->getAppId() != $this->getApplication()->getId()) {
-                    throw new Exception($this->_('An error occurred while saving. Please try again later.'));
+                    throw new Siberian_Exception(__('An error occurred while saving. Please try again later.'));
                 }
 
                 // Prépare le weblink
-                $html = array();
                 $padlock = $option_value->getObject();
                 if(!$padlock->getId()) {
                     $padlock->setValueId($datas['value_id']);
@@ -50,9 +62,15 @@ class Padlock_ApplicationController extends Application_Controller_Default
 
                     $dir_image = Core_Model_Directory::getBasePathTo("/images/application/".$this->getApplication()->getId());
 
-                    if(!is_dir($dir_image)) mkdir($dir_image, 0775, true);
-                    if(!is_dir($dir_image."/application")) mkdir($dir_image."/application", 0775, true);
-                    if(!is_dir($dir_image."/application/padlock")) mkdir($dir_image."/application/padlock", 0775, true);
+                    if(!is_dir($dir_image)) {
+                        mkdir($dir_image, 0775, true);
+                    }
+                    if(!is_dir($dir_image."/application")) {
+                        mkdir($dir_image."/application", 0775, true);
+                    }
+                    if(!is_dir($dir_image."/application/padlock")) {
+                        mkdir($dir_image."/application/padlock", 0775, true);
+                    }
 
                     $dir_image .= "/application/padlock/";
                     $image_name = "padlock_qrcode.png";
@@ -74,29 +92,25 @@ class Padlock_ApplicationController extends Application_Controller_Default
                     ->save()
                 ;
 
-                $html = array(
-                    'success' => '1',
-                    'success_message' => $this->_('Info successfully saved'),
-                    'message_timeout' => 2,
-                    'message_button' => 0,
-                    'message_loader' => 0
+                $data = array(
+                    "success"           => true,
+                    "success_message"   => __("Info successfully saved"),
+                    "message_timeout"   => 2,
+                    "message_button"    => 0,
+                    "message_loader"    => 0
                 );
 
 
-            }
-            catch(Exception $e) {
-                $html = array(
-                    'message' => $e->getMessage(),
-                    'message_button' => 1,
-                    'message_loader' => 1
+            } catch(Exception $e) {
+                $data = array(
+                    "error"             => true,
+                    "message"           => $e->getMessage(),
+                    "message_button"    => 1,
+                    "message_loader"    => 1
                 );
             }
 
-            $this->getResponse()
-                ->setBody(Zend_Json::encode($html))
-                ->sendResponse()
-            ;
-            die;
+            $this->_sendJson($data);
 
         }
 

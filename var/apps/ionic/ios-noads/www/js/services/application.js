@@ -1,5 +1,5 @@
 /*global
-    App, ionic, DOMAIN, _
+    App, ionic, DOMAIN, _, window, localStorage
 */
 
 App.service('Application', function ($sbhttp, $q, $rootScope, $timeout, $translate, $window, $queue, $log, Dialog, Url) {
@@ -47,32 +47,42 @@ App.service('Application', function ($sbhttp, $q, $rootScope, $timeout, $transla
         }
     });
 
-    service.showCacheDownloadModal = function () {
+    service.showCacheDownloadModalOrUpdate = function () {
         $rootScope.progressBarPercent = 0;
         $rootScope.showProgressBar = false;
+        var offlineResponse = $window.localStorage.getItem("sb-offline-mode");
 
-        var title = $translate.instant("Offline content");
-        var message = $translate.instant("Do you want to download all the contents now to access it when offline? If you do, we recommend you to use a WiFi connection.");
-        var buttons = [$translate.instant("No"), $translate.instant("Yes")];
+        if(offlineResponse === "ok") {
+            $log.debug("offline mode has been accepted, updating");
+            service.updateCache();
+        } else if(offlineResponse === "no") {
+            $log.debug("offline mode has been refused in the past, not updating");
+        } else {
+            $log.debug("offline mode need to be asked");
+            var title = $translate.instant("Offline content");
+            var message = $translate.instant("Do you want to download all the contents now to access it when offline? If you do, we recommend you to use a WiFi connection.");
+            var buttons = [$translate.instant("No"), $translate.instant("Yes")];
 
-        Dialog.confirm(title, message, buttons, "text-center").then(function (res) {
+            Dialog.confirm(title, message, buttons, "text-center").then(function (res) {
 
-            if (((typeof res === "number") && res === 2) || ((typeof res === "boolean") && res)) {
+                if (((typeof res === "number") && res === 2) || ((typeof res === "boolean") && res)) {
 
-                $window.localStorage.setItem("sb-offline-mode", "ok");
+                    $window.localStorage.setItem("sb-offline-mode", "ok");
 
-                var progress_type = "CIRCLE";
-                if (ionic.Platform.isAndroid()) {
-                    progress_type = "BAR";
+                    var progress_type = "CIRCLE";
+                    if (ionic.Platform.isAndroid()) {
+                        progress_type = "BAR";
+                    }
+                    $window.plugins.ProgressView.show($translate.instant("Downloading..."), progress_type, false, "DEVICE_DARK");
+
+                    $rootScope.showProgressBar = true;
+
+                    service.updateCache();
+                } else {
+                    $window.localStorage.setItem("sb-offline-mode", "no");
                 }
-                $window.plugins.ProgressView.show($translate.instant("Downloading..."), progress_type, false, "DEVICE_DARK");
-
-                $rootScope.showProgressBar = true;
-
-                service.updateCache();
-            }
-        });
-
+            });
+        }
     };
 
     var _updatingCache = false;
@@ -82,11 +92,31 @@ App.service('Application', function ($sbhttp, $q, $rootScope, $timeout, $transla
     };
 
     service.updateCache = function () {
+        window.OfflineMode.setCanCache();
+
         if (_updatingCache === true) {
             return;
         }
 
-        $sbhttp.get(Url.get("application/mobile_data/findall"), {cache: false, timeout: 15000}).success(function (data) {
+        var device_uid = null;
+        if ($window.device) {
+            device_uid = $window.device.uuid;
+        }
+
+        // Double tap for cache
+        $sbhttp.get(Url.get("front/mobile/loadv2", {
+                add_language: true,
+                sid: localStorage.getItem("sb-auth-token"),
+                device_uid: device_uid
+            }), {
+                cache: true,
+                timeout: 15000
+            });
+
+        $sbhttp.get(Url.get("application/mobile_data/findall"), {
+            cache: false,
+            timeout: 15000
+        }).success(function (data) {
             var total = data.paths.length + data.assets.length;
             if (isNaN(total)) {
                 total = 100;
@@ -281,6 +311,8 @@ App.service('Application', function ($sbhttp, $q, $rootScope, $timeout, $transla
 
         }).error(function () {
             _updatingCache = false;
+            $rootScope.showProgressBar = false;
+            $window.plugins.ProgressView.hide();
         });
     };
 

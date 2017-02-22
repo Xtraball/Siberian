@@ -18,7 +18,12 @@ class Application_Mobile_DataController extends Application_Controller_Mobile_De
 
             try{
                 $model = $page->getModel();
-                $object = new $model();
+                if(class_exists($model)) {
+                    $object = new $model();
+                } else {
+                    throw new Siberian_Exception(__("Application_Mobile_DataController::findall, class: {$model} doesn't exists."));
+                }
+
 
                 if (!$page->isActive() OR (!$page->getIsAjax() AND $page->getObject()->getLink())) {
                     continue;
@@ -53,7 +58,7 @@ class Application_Mobile_DataController extends Application_Controller_Mobile_De
                     }
                 }
             } catch(Exception $e) {
-                # Silent not working modules
+                # Catch not working modules silently.
             }
 
         }
@@ -85,10 +90,11 @@ class Application_Mobile_DataController extends Application_Controller_Mobile_De
         $paths = array_values(array_filter(array_values(array_unique(array_values($paths)))));
         $assets = array_values(array_filter(array_values(array_unique(array_values($assets)))));
 
-        $this->_sendHtml(array(
+        $this->_sendJson(array(
             "paths" => is_array($paths) ? $paths : array(),
             "assets" => is_array($assets) ? $assets : array()
-        ));}
+        ));
+    }
 
 
 }

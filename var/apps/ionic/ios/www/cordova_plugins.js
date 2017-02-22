@@ -496,7 +496,7 @@ module.exports.metadata =
     "com.rd11.remote-controls": "1.0.0",
     "cordova-plugin-x-socialsharing": "5.0.12-dev",
     "cordova-plugin-statusbar": "2.2.0",
-    "de.appplant.cordova.plugin.local-notification": "0.8.4",
+    "de.appplant.cordova.plugin.local-notification": "0.8.4.1",
     "siberian-plugin-offlinemode": "1.0.0",
     "cordova-plugin-iosrtc": "3.1.0",
     "cordova-plugin-insomnia": "4.2.0"

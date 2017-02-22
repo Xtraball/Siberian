@@ -609,8 +609,9 @@
     }
 }
 
+#ifdef __IPHONE_8_0
 /**
- * Called on otification settings registration is completed.
+ * Called on notification settings registration is completed.
  */
 - (void) didRegisterUserNotificationSettings:(UIUserNotificationSettings*)settings
 {
@@ -619,6 +620,7 @@
         _command = NULL;
     }
 }
+#endif
 
 #pragma mark -
 #pragma mark Life Cycle

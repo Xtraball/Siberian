@@ -1,8 +1,9 @@
 <?php $application = $this->getApplication(); ?>
 <?php $value = $this->getOptionValue(); ?>
 <?php $page = new Cms_Model_Application_Page(); ?>
-<?php $pages = $page->findAllOrderedByRank($value->getId());?>
 <?php $places_order = !$value->getMetadataValue("places_order"); ?>
+<?php $places_order_alpha = !$value->getMetadataValue("places_order_alpha"); ?>
+<?php $pages = $places_order_alpha ? $page->findAllOrderedByLabel($value->getId()) : $page->findAllOrderedByRank($value->getId());?>
 <div class="edit_page places">
     <div class="form_content">
         <div id="list" class="">

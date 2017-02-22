@@ -11,6 +11,11 @@ abstract class Cms_Form_Block_Abstract extends Siberian_Form_Abstract {
     public $uniqid = null;
 
     /**
+     * @var bool
+     */
+    public $required = false;
+
+    /**
      * Cms_Form_Block_Abstract constructor.
      * @param null $options
      */
@@ -26,6 +31,23 @@ abstract class Cms_Form_Block_Abstract extends Siberian_Form_Abstract {
      */
     public function getUniqid() {
         return $this->uniqid;
+    }
+
+    /**
+     * @param $required
+     * @return $this
+     */
+    public function setRequired($required) {
+        $this->required = $required;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getRequired() {
+        return $this->required;
     }
 
 }

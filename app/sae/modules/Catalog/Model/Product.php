@@ -59,6 +59,81 @@ class Catalog_Model_Product extends Core_Model_Default
         return $in_app_states;
     }
 
+    /**
+     * @param $option_value
+     * @return array
+     */
+    public function getFeaturePaths($option_value) {
+        if(!$this->isCacheable()) {
+            return array();
+        }
+
+        $value_id = $option_value->getId();
+        $cache_id = "feature_paths_valueid_{$value_id}";
+        if(!$result = $this->cache->load($cache_id)) {
+
+            $paths = array();
+
+            if($option_value->getCode() == "set_meal") {
+                $menus = $this->findAll(array('value_id' => $option_value->getId(), 'type' => 'menu'));
+
+                for($i = 0; $i <= floor($menus->count()/Catalog_Model_Product::DISPLAYED_PER_PAGE); $i++) {
+                    $paths[] = $option_value->getPath("catalog/mobile_setmeal_list/findall", array("value_id" => $option_value->getId(), "offset" => $i*Catalog_Model_Product::DISPLAYED_PER_PAGE));
+                }
+
+                foreach($menus as $menu) {
+                    $paths[] = $option_value->getPath("catalog/mobile_setmeal_view/find", array(
+                        "set_meal_id" => $menu->getId(),
+                        "value_id" => $option_value->getId()
+                    ));
+                }
+            }
+
+            $this->cache->save($paths, $cache_id, array(
+                "feature_paths",
+                "feature_paths_valueid_{$value_id}"
+            ));
+        } else {
+            $paths = $result;
+        }
+
+        return $paths;
+    }
+
+    /**
+     * @param $option_value
+     * @return array
+     */
+    public function getAssetsPaths($option_value) {
+        $paths = array();
+
+        $value_id = $option_value->getId();
+        $cache_id = "assets_paths_valueid_{$value_id}";
+        if(!$result = $this->cache->load($cache_id)) {
+
+            if($option_value->getCode() == "set_meal") {
+                $menus = $this->findAll(array('value_id' => $option_value->getId(), 'type' => 'menu'));
+
+                foreach($menus as $menu) {
+                    if($menu->getThumbnailUrl())
+                        $paths[] = $menu->getThumbnailUrl();
+
+                    if($menu->getPictureUrl())
+                        $paths[] = $menu->getPictureUrl();
+                }
+            }
+
+            $this->cache->save($paths, $cache_id, array(
+                "assets_paths",
+                "assets_paths_valueid_{$value_id}"
+            ));
+        } else {
+            $paths = $result;
+        }
+
+        return $paths;
+    }
+
     public function findByCategory($category_id, $use_folder = false, $offset = null) {
         return $this->getTable()->findByCategory($category_id, $use_folder, $offset);
     }
@@ -505,45 +580,6 @@ class Catalog_Model_Product extends Core_Model_Default
 
     }
 
-    public function getFeaturePaths($option_value) {
-        if(!$this->isCacheable()) return array();
 
-        $paths = array();
-
-        if($option_value->getCode() == "set_meal") {
-            $menus = $this->findAll(array('value_id' => $option_value->getId(), 'type' => 'menu'));
-
-            for($i = 0; $i <= floor($menus->count()/Catalog_Model_Product::DISPLAYED_PER_PAGE); $i++) {
-                $paths[] = $option_value->getPath("catalog/mobile_setmeal_list/findall", array("value_id" => $option_value->getId(), "offset" => $i*Catalog_Model_Product::DISPLAYED_PER_PAGE));
-            }
-
-            foreach($menus as $menu) {
-                $paths[] = $option_value->getPath("catalog/mobile_setmeal_view/find", array(
-                    "set_meal_id" => $menu->getId(),
-                    "value_id" => $option_value->getId()
-                ));
-            }
-        }
-
-        return $paths;
-    }
-
-    public function getAssetsPaths($option_value) {
-        $paths = array();
-
-        if($option_value->getCode() == "set_meal") {
-            $menus = $this->findAll(array('value_id' => $option_value->getId(), 'type' => 'menu'));
-
-            foreach($menus as $menu) {
-                if($menu->getThumbnailUrl())
-                    $paths[] = $menu->getThumbnailUrl();
-
-                if($menu->getPictureUrl())
-                    $paths[] = $menu->getPictureUrl();
-            }
-        }
-
-        return $paths;
-    }
 
 }

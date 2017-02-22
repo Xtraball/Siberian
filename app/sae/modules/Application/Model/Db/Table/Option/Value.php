@@ -70,6 +70,20 @@ class Application_Model_Db_Table_Option_Value extends Core_Model_Db_Table {
 
     }
 
+    /**
+     * @param $value_id
+     * @param $app_id
+     * @return bool
+     */
+    public function valueIdBelongsTo($value_id, $app_id) {
+        $result = $this->_db->fetchOne(
+            "SELECT COUNT(value_id) FROM {$this->_name} WHERE value_id = ? AND app_id = ?",
+            array($value_id, $app_id)
+        );
+
+        return ($result > 0);
+    }
+
     public function getLastPosition($app_id = null) {
 
         $select = $this->select()->from($this->_name, array('position'))

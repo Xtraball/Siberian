@@ -52,26 +52,35 @@ class Rss_Model_Feed extends Rss_Model_Feed_Abstract {
 
         $action_view = $this->getActionView();
 
-        $paths = array();
+        $value_id = $option_value->getId();
+        $cache_id = "feature_paths_valueid_{$value_id}";
+        if(!$paths = $this->cache->load($cache_id)) {
+            $paths = array();
 
-        $params = array(
-            'value_id' => $option_value->getId()
-        );
-        $paths[] = $option_value->getPath("findall", $params, false);
+            $params = array(
+                'value_id' => $option_value->getId()
+            );
+            $paths[] = $option_value->getPath("findall", $params, false);
 
-        if($uri = $option_value->getMobileViewUri($action_view)) {
+            if($uri = $option_value->getMobileViewUri($action_view)) {
 
-            $feeds = $this->getNews();
-            foreach ($feeds->getEntries() as $entry) {
-                $feed_id = str_replace("/", "$$", base64_encode($entry->getEntryId()));
+                $feeds = $this->getNews();
+                foreach ($feeds->getEntries() as $entry) {
+                    $feed_id = str_replace("/", "$$", base64_encode($entry->getEntryId()));
 
-                $params = array(
-                    "feed_id" => $feed_id,
-                    "value_id" => $option_value->getId()
-                );
-                $paths[] = $option_value->getPath($uri, $params, false);
+                    $params = array(
+                        "feed_id" => $feed_id,
+                        "value_id" => $option_value->getId()
+                    );
+                    $paths[] = $option_value->getPath($uri, $params, false);
+                }
+
             }
 
+            $this->cache->save($paths, $cache_id, array(
+                "feature_paths",
+                "feature_paths_valueid_{$value_id}"
+            ));
         }
 
         return $paths;
@@ -81,29 +90,38 @@ class Rss_Model_Feed extends Rss_Model_Feed_Abstract {
     public function getAssetsPaths($option_value) {
         if(!$this->isCacheable()) return array();
 
-        $paths = array();
+        $value_id = $option_value->getId();
+        $cache_id = "assets_paths_valueid_{$value_id}";
+        if(!$paths = $this->cache->load($cache_id)) {
+            $paths = array();
 
-        $feeds = $this->getNews();
-        foreach ($feeds->getEntries() as $entry) {
-            $picture = $entry->getPicture();
-            if(!empty($picture))
-                $paths[] = $picture;
+            $feeds = $this->getNews();
+            foreach ($feeds->getEntries() as $entry) {
+                $picture = $entry->getPicture();
+                if(!empty($picture))
+                    $paths[] = $picture;
 
-            $matches = array();
-            $regex_url = "/((?:http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(?:\/[^\s\"]*)\.(?:png|gif|jpeg|jpg)+)+/";
-            preg_match_all($regex_url, $entry->getContent(), $matches);
+                $matches = array();
+                $regex_url = "/((?:http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(?:\/[^\s\"]*)\.(?:png|gif|jpeg|jpg)+)+/";
+                preg_match_all($regex_url, $entry->getContent(), $matches);
 
-            $matches = call_user_func_array('array_merge', $matches);
+                $matches = call_user_func_array('array_merge', $matches);
 
-            if($matches && count($matches) > 1) {
-                unset($matches[0]);
-                $paths = array_merge($paths, $matches);
+                if($matches && count($matches) > 1) {
+                    unset($matches[0]);
+                    $paths = array_merge($paths, $matches);
+                }
+
             }
+
+            $this->cache->save($paths, $cache_id, array(
+                "assets_paths",
+                "assets_paths_valueid_{$value_id}"
+            ));
 
         }
 
         return $paths;
-
     }
 
     /**

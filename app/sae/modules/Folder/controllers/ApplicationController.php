@@ -2,6 +2,47 @@
 
 class Folder_ApplicationController extends Application_Controller_Default
 {
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "editpost" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#",
+            ),
+        ),
+        "addfeature" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#",
+            ),
+        ),
+        "orderfeatures" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#",
+            ),
+        ),
+        "ordercategories" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#",
+            ),
+        ),
+        "deletecategory" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#",
+            ),
+        ),
+        "setshowsearch" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#",
+            ),
+        ),
+    );
 
     public function editpostAction() {
 

@@ -2,6 +2,13 @@
 
 $title = $this->getTitle();
 $form = $this->getForm();
+
+$block = $this->getCmsBlock();
+
+if(isset($block) && $block->getId()) {
+    $form->loadBlock($block);
+}
+
 $formid = $form->getAttrib("id");
 $uniqid = $form->getUniqid();
 $pvar = "p{$uniqid}";
@@ -34,7 +41,7 @@ $file_template = str_replace("%UNIQID%", $uniqid, Cms_Form_Block_File::$file_tem
         $(document).ready(function() {
             bindForms(<?php echo $pvar; ?>);
 
-            $(<?php echo $pvar; ?>+" input[name='files[]']").fileupload({
+            $(<?php echo $pvar; ?>+" input[name='file']").fileupload({
                 dataType: 'json',
                 add: function (el, data) {
                     data.submit();
@@ -43,6 +50,7 @@ $file_template = str_replace("%UNIQID%", $uniqid, Cms_Form_Block_File::$file_tem
                     if(data.result.success) {
                         var cms_file = file_template;
                         cms_file = cms_file.replace("%FILE_PATH%", data.result.file);
+                        cms_file = cms_file.replace("%ORIGINAL_NAME%", data.files[0].name);
                         cms_file = cms_file.replace("#TEXT#", "<b><?php echo __js("Attachment"); ?>:</b> "+data.files[0].name);
 
                         if($(<?php echo $pvar; ?>+" .cms-file").length > 0) {

@@ -8,9 +8,13 @@ App.config(function ($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.otherwise(BASE_PATH);
 
-}).controller('HomeController', function($ionicHistory, $location, $rootScope, $scope, $state, $window, Application, HomepageLayout, Padlock) {
+}).controller('HomeController', function($ionicHistory, $injector, $location, $rootScope, $scope, $state, $window, Application, Padlock) {
+
+    var HomepageLayout = $injector.get("HomepageLayout");
 
     $ionicHistory.clearHistory();
+
+    console.log((new Date()).getTime(), "HomeController");
 
     $scope.loadContent = function() {
 
@@ -19,6 +23,8 @@ App.config(function ($stateProvider, $urlRouterProvider) {
         if($window.localStorage.getItem('sb-uc')) {
             Padlock.unlock_by_qrcode = true;
         }
+
+        console.log((new Date()).getTime(), "HomepageLayout.getFeatures()");
 
         HomepageLayout.getFeatures().then(function (features) {
 

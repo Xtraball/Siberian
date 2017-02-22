@@ -84,13 +84,17 @@
                                     </td>
                                 </tr>
                                 <tr ng-show="services.cron_error.full" ng-class="{ 'no-border-bottom': !cron_error_show }">
-                                    <td><i class="fa fa-exclamation-triangle"></i><?php echo __("Last cron error:") ?><span class="service-red"> {{ services.cron_error.short }}</span></td>
+                                    <td><i class="fa fa-exclamation-triangle"></i><?php echo __("Last cron error") ?>:[<strong>{{ services.cron_error.date }}</strong>] <span class="service-red"> {{ services.cron_error.short }}</span></td>
                                     <td></td>
                                     <td class="text-right">
                                         <button class="btn btn-xs btn-primary" ng-hide="cron_error_show" ng-click="cron_error_show = !cron_error_show;"><?php echo __("Show more") ?></button>
                                         <button class="btn btn-xs btn-primary" ng-hide="!cron_error_show" ng-click="cron_error_show = !cron_error_show;"><?php echo __("Hide") ?></button>
                                         <button class="btn btn-xs btn-primary" ng-hide="!services.cron_error.full" ng-click="clear('cron_error');"><?php echo __("Clear") ?></button>
                                     </td>
+                                </tr>
+                                <tr ng-show="services.cron_error.date">
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                                 <tr ng-hide="!cron_error_show">
                                     <td colspan="3" style="white-space: initial;" ng-bind-html="services.cron_error.full"></td>

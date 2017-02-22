@@ -2,6 +2,15 @@
 
 class Template_DesignController extends Application_Controller_Default {
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "save" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+    );
+
     public function listAction() {
 
         $layout = $this->getLayout();

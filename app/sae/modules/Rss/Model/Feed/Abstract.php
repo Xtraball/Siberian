@@ -19,7 +19,12 @@ abstract class Rss_Model_Feed_Abstract extends Core_Model_Default {
         $data = array();
         foreach ($feed as $entry) {
             $picture = null;
-            if($entry->getEnclosure() && $entry->getEnclosure()->url) $picture = $entry->getEnclosure()->url;
+            if($entry->getEnclosure() && $entry->getEnclosure()->url) {
+                $picture = $entry->getEnclosure()->url;
+                $picture_ext = pathinfo(parse_url($picture, PHP_URL_PATH), PATHINFO_EXTENSION);
+                if(!in_array($picture_ext, array("gif", "png", "jpeg", "jpg")))
+                    $picture = null;
+            }
 
             $description = "";
             if($entry->getContent()) {
@@ -29,23 +34,27 @@ abstract class Rss_Model_Feed_Abstract extends Core_Model_Default {
                 $description = $content->documentElement;
                 $imgs = $description->getElementsByTagName('img');
 
-                if($imgs->length > 0) {
+                foreach($imgs as $k => $img) {
+                    $src = $img->getAttribute('src');
 
-                    foreach($imgs as $k => $img) {
-                        if($k == 0) {
+                    if($src) {
+                        if(stripos($src, "//") === 0) {
+                            preg_match("/^(https?):\/\//", $this->getLink(), $matches);
 
-                            $img = $imgs->item(0);
-
-                            if($img->getAttribute('src') AND stripos($img->getAttribute('src'), ".gif") === false) {
-                                $picture = $img->getAttribute('src');
-                                $img->parentNode->removeChild($img);
+                            if($matches && $matches[1]) {
+                                $src = ($matches[1]).":".$src;
+                                $img->setAttribute("src", $src);
                             }
-
                         }
 
-                        $img->removeAttribute('width');
-                        $img->removeAttribute('height');
+                        if(stripos($src, ".gif") === false && $k === 0) {
+                            $picture = $src;
+                            $img->parentNode->removeChild($img);
+                        }
                     }
+
+                    $img->removeAttribute('width');
+                    $img->removeAttribute('height');
 
                 }
 
@@ -66,11 +75,6 @@ abstract class Rss_Model_Feed_Abstract extends Core_Model_Default {
             if($timestamp) {
                 $updated_at = $this->_getUpdatedAt($timestamp);
             }
-
-
-            $picture_ext = var_dump(pathinfo(parse_url($picture, PHP_URL_PATH), PATHINFO_EXTENSION));
-            if(!in_array($picture_ext, array("gif", "png", "jpeg", "jpg")))
-                $picture = null;
 
             $edata = new Core_Model_Default(array(
                 'entry_id'     => $entry->getId(),

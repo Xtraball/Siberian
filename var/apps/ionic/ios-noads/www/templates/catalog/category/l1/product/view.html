@@ -28,7 +28,7 @@
             <div class="item item-divider item-divider-custom">
                 <h2>{{ "Description" | translate }}</h2>
             </div>
-            <div class="item item-text-wrap item-custom" ng-bind-html="product.description"></div>
+            <div class="item item-text-wrap item-custom" ng-bind-html="product.description | trusted_html"></div>
         </div>
 
         <div class="card" ng-if="!is_loading && product.formats.length">

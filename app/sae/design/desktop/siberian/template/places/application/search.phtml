@@ -114,8 +114,34 @@
                         </label>
                     </div>
                     <div class="col-md-1">
-                        <input type="checkbox" class="form-control" name="places_order" style="width: 33px;"
+                        <input type="radio" value="distance" class="form-control" name="places_order" style="width: 33px;"
                             <?php if ($value->getMetadata('places_order')->getPayload()) echo 'checked' ?> />
+                    </div>
+                </fieldset>
+            </div>
+            <div class="form-group">
+                <fieldset>
+                    <div class="col-md-3">
+                        <label for="search_aroundyou" id="label_search_aroundyou">
+                            <?php echo $this->_("Order results alphebetically:") ?>
+                        </label>
+                    </div>
+                    <div class="col-md-1">
+                        <input type="radio" value="alpha" class="form-control" name="places_order" style="width: 33px;"
+                            <?php if ($value->getMetadata('places_order_alpha')->getPayload()) echo 'checked' ?> />
+                    </div>
+                </fieldset>
+            </div>
+            <div class="form-group">
+                <fieldset>
+                    <div class="col-md-3">
+                        <label for="search_aroundyou" id="label_search_aroundyou">
+                            <?php echo $this->_("Don't order:") ?>
+                        </label>
+                    </div>
+                    <div class="col-md-1">
+                        <input type="radio" value="none" class="form-control" name="places_order" style="width: 33px;"
+                            <?php if (!($value->getMetadata('places_order_alpha')->getPayload() || $value->getMetadata('places_order')->getPayload())) echo 'checked' ?> />
                     </div>
                 </fieldset>
             </div>

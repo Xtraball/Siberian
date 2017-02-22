@@ -65,6 +65,15 @@ class Application_Model_Option_Value extends Application_Model_Option
         return $this;
     }
 
+    /**
+     * @param $value_id
+     * @param $app_id
+     * @return bool
+     */
+    public function valueIdBelongsTo($value_id, $app_id) {
+        return $this->getTable()->valueIdBelongsTo($value_id, $app_id);
+    }
+
     public function findAllWithOptionsInfos($values = array(), $order = null, $params = array()) {
         return $this->getTable()->findAllWithOptionsInfos($values, $order, $params);
     }

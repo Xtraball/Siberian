@@ -218,7 +218,7 @@ App.directive('sbTabbar', function ($ionicHistory, $ionicModal, $ionicSlideBoxDe
     };
 });
 
-App.directive('tabbarItems', function ($rootScope, $timeout) {
+App.directive('tabbarItems', function ($rootScope, $timeout, $log) {
     return {
         restrict: 'A',
         scope: {
@@ -228,7 +228,7 @@ App.directive('tabbarItems', function ($rootScope, $timeout) {
         link: function(scope, element) {
 
             element.on("click", function () {
-                sbLog("Clicked Option: ", scope.option);
+                $log.debug("Clicked Option: ", scope.option);
                 $rootScope.$broadcast("OPTION_POSITION", scope.option.position);
                 $rootScope.$broadcast("CLICKED_OPTION", scope.option);
                 $timeout(function () {

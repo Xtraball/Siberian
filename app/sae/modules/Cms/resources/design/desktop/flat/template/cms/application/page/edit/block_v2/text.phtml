@@ -2,6 +2,12 @@
 
 $title = $this->getTitle();
 $form = $this->getForm();
+$block = $this->getCmsBlock();
+
+if(isset($block) && $block->getId()) {
+    $form->loadBlock($block);
+}
+
 $formid = $form->getAttrib("id");
 $uniqid = $form->getUniqid();
 $pvar = "p{$uniqid}";
@@ -83,16 +89,41 @@ $image_template = str_replace("%UNIQID%", $uniqid, Cms_Form_Block_Text::$image_t
                 $(<?php echo $pvar; ?>+" .cms-text-size-input").val(el.data("size"));
             });
 
+            /** Load align/size/image */
+            var align_val = $(<?php echo $pvar; ?>+" .cms-text-alignment-input").val();
+            if(align_val !== "") {
+                $(<?php echo $pvar; ?>+" .cms-text-align[data-align='"+align_val+"']").trigger("click");
+            }
+
+            var size_val = $(<?php echo $pvar; ?>+" .cms-text-size-input").val();
+            if(size_val !== "") {
+                $(<?php echo $pvar; ?>+" .cms-text-size[data-size='" + size_val + "']").trigger("click");
+            }
+
+            var image_path = $(<?php echo $pvar; ?>+" button[id$='-text-image_upload']").val();
+            if(image_path !== "") {
+                var cms_image = text_image_template;
+                cms_image = cms_image.replace("%IMAGE_PATH%", image_path);
+                cms_image = cms_image.replace("#THUMBNAIL_PATH#", "/images/application"+image_path);
+
+                if($(<?php echo $pvar; ?>+" .cms-image").length > 0) {
+                    $(<?php echo $pvar; ?>+" .cms-image").remove();
+                }
+
+                $(<?php echo $pvar; ?>+" .cms-text-image-container").append(cms_image);
+                <?php echo $pvar; ?>_text_image = true;
+                $(<?php echo $pvar; ?>+" .cms-text-image").closest(".sb-form-line").show();
+            }
+
+            if(!<?php echo $pvar; ?>_text_image) {
+                $(<?php echo $pvar; ?>+" .cms-text-image").closest(".sb-form-line").hide();
+            }
         });
 
         $(document).on("click", <?php echo $pvar; ?>+" .cke_button__cmsimage", function() {
             var el = $(this);
             $(<?php echo $pvar; ?>+" .cms-text-image").closest(".sb-form-line").toggle();
         });
-
-        if(!<?php echo $pvar; ?>_text_image) {
-            $(<?php echo $pvar; ?>+" .cms-text-image").closest(".sb-form-line").hide();
-        }
     </script>
 
     <style type="text/css">

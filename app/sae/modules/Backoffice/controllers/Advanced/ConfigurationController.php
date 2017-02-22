@@ -54,6 +54,9 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
         $ssl_certificate_model = new System_Model_SslCertificates();
         $certs = $ssl_certificate_model->findAll();
 
+        $result = Siberian_Network::testSsl($this->getRequest()->getHttpHost(), true);
+        $data["testssl"] = $result;
+
         $is_pe = Siberian_Version::is("PE");
         if($is_pe) {
             $whitelabel_model = new Whitelabel_Model_Editor();
@@ -85,7 +88,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                 "created_at" => $cert->getFormattedCreatedAt(),
                 "updated_at" => $cert->getFormattedUpdatedAt(),
                 "show_info" => false,
-                "more_info" => __("-"),
+                "more_info" => __("-")
             );
         }
 
@@ -356,6 +359,15 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
 
         }
 
+    }
+
+    /**
+     * Test the current hostname SSL connection
+     */
+    public function testsslAction() {
+        $result = Siberian_Network::testSsl($this->getRequest()->getHttpHost());
+
+        $this->_sendHtml($result);
     }
 
     /**

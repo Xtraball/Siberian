@@ -166,7 +166,8 @@ public class HotCodePushPlugin extends CordovaPlugin {
 
     @Override
     public void onStop() {
-        EventBus.getDefault().unregister(this);
+        // We need events for background updates
+        //EventBus.getDefault().unregister(this);
 
         super.onStop();
     }

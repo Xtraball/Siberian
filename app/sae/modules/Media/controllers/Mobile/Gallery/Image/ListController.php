@@ -15,7 +15,7 @@ class Media_Mobile_Gallery_Image_ListController extends Application_Controller_M
                 foreach($images as $image) {
                     $data["galleries"][] = array(
                         "id" => $image->getId(),
-                        "name" => $image->getName(),
+                        "name" => $image->getLabel() ? $image->getLabel() : $image->getName(),
                         "type" => $image->getTypeId(),
                     );
                 }

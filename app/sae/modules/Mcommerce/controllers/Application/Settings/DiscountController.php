@@ -68,6 +68,12 @@ class Mcommerce_Application_Settings_DiscountController extends Application_Cont
                     $message = $this->_('Please correct the following errors <br>') . implode('<br>', $errors);
                     throw new Exception($message);
                 }
+
+                $valid_until = $datas['valid_until'] ? new Zend_Date($datas['valid_until']) : null;
+                if($valid_until) {
+                    $valid_until = $valid_until->get(Zend_Date::ISO_8601);
+                }
+
                 $promo
                     ->setMcommerceId($mcommerce->getMcommerceId())
                     ->setEnabled($datas['enabled'] === 'on')
@@ -76,11 +82,10 @@ class Mcommerce_Application_Settings_DiscountController extends Application_Cont
                     ->setCode($datas['code'])
                     ->setType($datas['type'])
                     ->setDiscount($datas['discount'])
-                    ->setValidUntil($datas['valid_until'] ? $datas['valid_until'] : null)
+                    ->setValidUntil($valid_until)
                     ->setMinimumAmount($datas['minimum_amount'])
                     ->verifyUnique()
                     ->save();
-
 
 
                 $html = array(

@@ -25,6 +25,23 @@ class Cms_Model_Application_Block extends Core_Model_Default {
         return $this->_object;
     }
 
+    /**
+     * @return bool|Push_Model_Message[]
+     */
+    public function getLibrary() {
+        if($this->getLibraryId()) {
+            $model_library = new Cms_Model_Application_Page_Block_Image_Library();
+            $result = $model_library->findAll(array("library_id" => $this->getLibraryId()));
+
+            return $result;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return string
+     */
     public function getImageUrl() {
         return $this->getObject() ? $this->getObject()->getImageUrl() : '';
     }
@@ -113,6 +130,21 @@ class Cms_Model_Application_Block extends Core_Model_Default {
         $block_data = $this->getData();
 
         switch($this->getType()) {
+            case "address":
+                $block_data["show_address"] = !!($block_data["show_address"]);
+                $block_data["show_geolocation_button"] = !!($block_data["show_geolocation_button"]);
+
+                break;
+            case "button":
+                $image = Core_Model_Directory::getBasePathTo("/images/application/".$this->getIcon());
+                if(is_readable($image) && is_file($image)) {
+                    $block_data["icon"] = $base_url."/images/application/".$this->getIcon();
+                } else {
+                    # Force empty images to be sure old/new cms flavors
+                    $block_data["icon"] = "";
+                }
+
+                break;
             case "text":
                 $image = Core_Model_Directory::getBasePathTo($this->getImageUrl());
                 if(is_readable($image) && is_file($image)) {
@@ -174,8 +206,11 @@ class Cms_Model_Application_Block extends Core_Model_Default {
                 $block_data["file_url"] = $image_path.$this->getName();
                 $info = pathinfo($block_data["file_url"]);
                 $block_data["file_url"] = $base_url.$block_data["file_url"];
-                $filename = mb_strlen($info["filename"]) > 10 ? mb_substr($info["filename"],0,9)."...".$info["extension"]:$info["filename"].".".$info["extension"];
+                $filename = mb_strlen($info["filename"]) > 15 ? mb_substr($info["filename"],0,14)."...".$info["extension"]:$info["filename"].".".$info["extension"];
                 $block_data["display_name"] = $filename;
+                if(!empty($block_data["label"])) {
+                    $block_data["display_name"] = $block_data["label"];
+                }
                 break;
         }
 

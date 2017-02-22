@@ -1,6 +1,11 @@
 <?php
 abstract class Core_Model_Default_Abstract
 {
+    /**
+     * @var Zend_Cache
+     */
+    public $cache = null;
+
     protected $_db_table;
     protected $_is_cacheable = false;
     protected $_action_view = "find";
@@ -20,6 +25,10 @@ abstract class Core_Model_Default_Abstract
 
     public function __construct($data = array()) {
         $this->logger = Zend_Registry::get("logger");
+        if(Zend_Registry::isRegistered("cache") && ($this->cache == null)) {
+            $this->cache = Zend_Registry::get("cache");
+        }
+
 
         foreach($data as $key => $value) {
             if(!is_numeric($key)) {
@@ -319,10 +328,55 @@ abstract class Core_Model_Default_Abstract
     }
 
     /**
+     *
+     * return "full", "partial" or "none" to set the
+     * level of offline support for this feature
+     *
      * @return string full,none,partial
      */
     public function availableOffline() {
         return ($this->isCacheable()) ? "full" : "none";
+    }
+
+    /**
+     *
+     * return a array of URL that will be called by XHR on client side,
+     * and should be cached for offline mode support.
+     *
+     * URLs can be absolute, or relative.
+     *
+     * Relative URL will use siberian main domain root URL as base URL.
+     *
+     * e.g. :
+     * "/app_key/mymodule/mobile_view/findall"
+     * will become
+     * "https://mysiberian.com/app_key/my/module/mobile_view/findall"
+     *
+     * @return string[]
+     */
+    public function getFeaturePaths($option_value) {
+        return array();
+    }
+
+     /**
+     *
+     * return a array of URL that will be used as assets on client
+     * side (src attributes in HTML tags, and such), and should be
+     * cached for offline mode support.
+     *
+     * URLs can be absolute, or relative.
+     *
+     * Relative URL will use siberian main domain root URL as base URL.
+     *
+     * e.g. :
+     * "/images/myimage.jpg"
+     * will become
+     * "https://mysiberian.com/images/myimage.jpg"
+     *
+     * @return string[]
+     */
+    public function getAssetsPaths($option_value) {
+        return array();
     }
 
     public function isCacheable() {
@@ -347,13 +401,6 @@ abstract class Core_Model_Default_Abstract
 
     public function deleteFeature($option_value) {
         return $this;
-    }
-
-    public function getFeaturePaths($option_value) {
-        return array();
-    }
-
-    public function getAssetsPaths($option_value) {
     }
 
     public function getTemplatePaths($page, $option_layouts, $suffix, $path) {

@@ -2,6 +2,15 @@
 
 class Application_PrivacypolicyController extends Application_Controller_Default {
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "index" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+    );
+
     public function indexAction() {
         $this->loadPartials();
 

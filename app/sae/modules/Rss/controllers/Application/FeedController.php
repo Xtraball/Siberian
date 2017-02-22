@@ -3,6 +3,24 @@
 class Rss_Application_FeedController extends Application_Controller_Default
 {
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "search" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#"
+            ),
+        ),
+        "delete" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#"
+            ),
+        )
+    );
+
     public function searchAction() {
 
         if($datas = $this->getRequest()->getPost()) {

@@ -2,6 +2,18 @@
 
 class Comment_Mobile_ListController extends Application_Controller_Mobile_Default {
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "add" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#",
+            ),
+        ),
+    );
+
     private function _genericFindAction($value_id, $comments) {
         $application = $this->getApplication();
         $color = $application->getBlock('background')->getColor();

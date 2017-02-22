@@ -39,6 +39,24 @@ class Mcommerce_Model_Order extends Core_Model_Default {
         return $this;
     }
 
+    public function findAllByCustomerId($customer_id, $mcommerce_id, $offset = 0) {
+        $orders = $this->findAll(array("customer_id" => $customer_id, "mcommerce_id" => $mcommerce_id), array("created_at DESC"), array("limit" => "10", "offset" => $offset));
+        $data = array();
+        foreach($orders as $order) {
+            $data[] = array(
+                "order_id" => $order->getOrderId(),
+                "number" => $order->getNumber(),
+                "payment_method" => $order->getPaymentMethod(),
+                "total" => $order->getFormattedTotal(),
+                "status" => $order->getStatusId(),
+                "status_label" => __(self::$_statuses[$order->getStatusId()]),
+                "date" => $order->getCreatedAt(),
+            );
+        }
+
+        return $data;
+    }
+
     public function fromCart($cart) {
 
         $this->addData($cart->getData())->unsId();

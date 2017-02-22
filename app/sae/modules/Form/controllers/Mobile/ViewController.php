@@ -207,15 +207,16 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default {
                     $content = $layout->render();
 
                     $emails = explode(",", $form->getEmail());
+                    $subject = __('Your app\'s form')." - ".$this->getApplication()->getName()." - ".$this->getCurrentOptionValue()->getTabbarName();
 
                     # @version 4.8.7 - SMTP
                     $mail = new Siberian_Mail();
                     $mail->setBodyHtml($content);
                     $mail->setFrom($emails[0], $this->getApplication()->getName());
                     foreach($emails as $email) {
-                        $mail->addTo($email, __('Your app\'s form'));
+                        $mail->addTo($email, $subject);
                     }
-                    $mail->setSubject(__('Your app\'s form'));
+                    $mail->setSubject($subject);
                     $mail->send();
 
                     $html = array(

@@ -3,6 +3,8 @@
 class Catalog_Model_Category extends Core_Model_Default
 {
 
+    public $_is_cacheable = true;
+
     protected $_products;
     protected $_active_products;
     protected $_parent;
@@ -61,6 +63,47 @@ class Catalog_Model_Category extends Core_Model_Default
         );
 
         return $in_app_states;
+    }
+
+    /**
+     * @param $option_value
+     * @return array
+     */
+    public function getFeaturePaths($option_value) {
+        if(!$this->isCacheable()) {
+            return array();
+        }
+
+        $value_id = $option_value->getId();
+        $cache_id = "feature_paths_valueid_{$value_id}";
+        if(!$result = $this->cache->load($cache_id)) {
+
+            $paths = array();
+            $paths[] = $option_value->getPath("findall", array('value_id' => $option_value->getId()), false);
+
+            if($uri = $option_value->getMobileViewUri("find")) {
+
+                $products = $this->getProducts();
+                foreach ($products as $product) {
+                    $params = array(
+                        "value_id" => $option_value->getId(),
+                        "product_id" => $product->getId()
+                    );
+
+                }
+
+                $paths[] = $option_value->getPath($uri, $params, false);
+            }
+
+            $this->cache->save($paths, $cache_id, array(
+                "feature_paths",
+                "feature_paths_valueid_{$value_id}"
+            ));
+        } else {
+            $paths = $result;
+        }
+
+        return $paths;
     }
 
     public function getParent() {
@@ -220,29 +263,6 @@ class Catalog_Model_Category extends Core_Model_Default
 
         return $this;
 
-    }
-
-    public function getFeaturePaths($option_value) {
-        if(!$this->isCacheable()) return array();
-
-        $paths = array();
-        $paths[] = $option_value->getPath("findall", array('value_id' => $option_value->getId()), false);
-
-        if($uri = $option_value->getMobileViewUri("find")) {
-
-            $products = $this->getProducts();
-            foreach ($products as $product) {
-                $params = array(
-                    "value_id" => $option_value->getId(),
-                    "product_id" => $product->getId()
-                );
-
-            }
-
-            $paths[] = $option_value->getPath($uri, $params, false);
-        }
-
-        return $paths;
     }
 
     public function getTemplatePaths($page, $option_layouts, $suffix, $path) {

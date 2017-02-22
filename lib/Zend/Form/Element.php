@@ -568,8 +568,7 @@ class Zend_Form_Element implements Zend_Validate_Interface
      * @param  mixed $value
      * @return Zend_Form_Element
      */
-    public function setValue($value)
-    {
+    public function setValue($value) {
         $this->_value = $value;
         return $this;
     }

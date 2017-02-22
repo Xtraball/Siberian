@@ -1,6 +1,8 @@
 package com.appsmobilecompany.base;
 
 import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
@@ -47,14 +49,19 @@ public class OfflineMode extends CordovaPlugin {
         CACHED_EXTENSIONS.add("js");
         CACHED_EXTENSIONS.add("css");
     }
-    
+
+    public boolean canCache = false;
     public boolean isOnline = true;
     public boolean isAwareOfReachability = false;
     public boolean postNotifications = false;
     public String checkConnectionUrl;
     public CallbackContext icb;
-    
+    SharedPreferences preferences;
+
     protected void pluginInitialize() {
+        preferences = this.cordova.getActivity().getSharedPreferences("offline-mode", Context.MODE_PRIVATE);
+        canCache = preferences.getBoolean("canCache", false);
+
         checkConnection();
     }
     
@@ -69,6 +76,15 @@ public class OfflineMode extends CordovaPlugin {
         
         if (action.equals("setInternalCallback")) {
             icb = callbackContext;
+            return true;
+        }
+
+        if (action.equals("setCanCache")) {
+            canCache = true;
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("canCache", true);
+            editor.commit();
+            callbackContext.success();
             return true;
         }
         
@@ -104,20 +120,22 @@ public class OfflineMode extends CordovaPlugin {
     
     @Override
     public Uri remapUri(Uri uri) {
-        File cached = new File(this.cachePathForUri(uri));
-        File cachedMeta = new File(this.cachePathForUri(uri)+".meta");
-        if(cached.exists() || cachedMeta.exists()) {
-            return toPluginUri(uri);
-        } else {
-            if(uri.getScheme().startsWith("http")) {
-                String filename = uri.getLastPathSegment();
-                
-                if(filename != null) {
-                    int lastDot = filename.lastIndexOf(".");
-                    if(lastDot > 0 && lastDot+1 < filename.length()) {
-                        String ext = filename.substring(lastDot+1);
-                        if(CACHED_EXTENSIONS.contains(ext)) {
-                            return toPluginUri(uri);
+        if(canCache) {
+            File cached = new File(this.cachePathForUri(uri));
+            File cachedMeta = new File(this.cachePathForUri(uri)+".meta");
+            if(cached.exists() || cachedMeta.exists()) {
+                return toPluginUri(uri);
+            } else {
+                if(uri.getScheme().startsWith("http")) {
+                    String filename = uri.getLastPathSegment();
+
+                    if(filename != null) {
+                        int lastDot = filename.lastIndexOf(".");
+                        if(lastDot > 0 && lastDot+1 < filename.length()) {
+                            String ext = filename.substring(lastDot+1);
+                            if(CACHED_EXTENSIONS.contains(ext)) {
+                                return toPluginUri(uri);
+                            }
                         }
                     }
                 }

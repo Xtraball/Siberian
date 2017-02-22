@@ -78,8 +78,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
         $data["owner_use_ads"] = !!$application->getOwnerUseAds();
 
         if($application->getFreeUntil()) {
-            $date = new Zend_Date($application->getFreeUntil(), Zend_Date::ISO_8601);
-            $data["free_until"] = $date->toString("MM/dd/yyyy");
+            $data["free_until"] = datetime_to_format($application->getFreeUntil(), Zend_Date::DATE_SHORT);
         }
         $data["android_sdk"] = Application_Model_Tools::isAndroidSDKInstalled();
         $data["apk"] = Application_Model_ApkQueue::getPackages($application->getId());

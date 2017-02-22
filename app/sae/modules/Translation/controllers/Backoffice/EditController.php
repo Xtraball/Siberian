@@ -166,6 +166,14 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
                     }
                 }
 
+                # Clean "*_translation" cache tags
+                $this->cache->clean(
+                    Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG,
+                    array(
+                        "mobile_translation"
+                    )
+                );
+
                 $data = array(
                     "success" => 1,
                     "message" => $this->_("Language successfully saved")

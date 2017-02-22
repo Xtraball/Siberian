@@ -42,7 +42,7 @@ class Siberian_Utils {
 		self::$logger = Zend_Registry::get("logger");
 		self::$config = Zend_Registry::get("_config");
 
-		$level = self::$config["debug_level"];
+		$level = (isset(self::$config["debug_level"])) ? self::$config["debug_level"] : "-";
 		self::$debug_level = (isset(self::$config["debug_level"])) ? constant("self::{$level}") : self::ERR;
 	}
 
@@ -340,7 +340,7 @@ function time_to_date($time, $format = 'y-MM-dd') {
  * @param null $locale
  * @return string
  */
-function datetime_to_format($datetime, $locale = null) {
+function datetime_to_format($datetime, $format = Zend_Date::DATETIME_SHORT, $locale = null) {
     if(empty($datetime)) {
         return "-";
     }
@@ -351,7 +351,7 @@ function datetime_to_format($datetime, $locale = null) {
     $date = new Zend_Date();
     $date->set($datetime, "YYYY-MM-dd HH:mm:ss");
 
-    return $date->toString(Zend_Date::DATETIME_SHORT, $locale);
+    return $date->toString($format, $locale);
 }
 
 /**

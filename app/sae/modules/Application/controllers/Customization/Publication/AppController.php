@@ -2,6 +2,18 @@
 
 class Application_Customization_Publication_AppController extends Application_Controller_Default {
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "iconspost" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+        "saveicon" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+    );
+
     public function indexAction() {
         $this->loadPartials();
 
@@ -49,8 +61,6 @@ class Application_Customization_Publication_AppController extends Application_Co
             $application->setData("android_push_color", strtoupper($values["android_push_color"]));
 
             $application->save();
-
-
 
             $data = array(
                 "success" => 1,

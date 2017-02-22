@@ -2,6 +2,15 @@
 
 abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action implements Core_Model_Exporter
 {
+    /**
+     * @var Zend_Cache
+     */
+    public $cache;
+
+    /**
+     * @var array|null
+     */
+    public $cache_triggers = null;
 
     protected $_layout;
     protected static $_application;
@@ -18,6 +27,8 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     }
 
     public function init() {
+
+        $this->cache = Zend_Registry::get("cache");
 
         $this->_initDesign();
         $this->_initSession();
@@ -38,6 +49,8 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
         $this->_layout = $this->_helper->layout->getLayoutInstance();
 
+
+
         if(preg_match('/(?i)msie \b[5-9]\b/',$this->getRequest()->getHeader('user_agent')) && !preg_match('/(oldbrowser)/', $this->getRequest()->getActionName())) {
             $message = __("Your browser is too old to view the content of our website.<br />");
             $message .= __("In order to fully enjoy our features, we encourage you to use at least:.<br />");
@@ -48,6 +61,85 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
             $this->getSession()->addWarning($message, 'old_browser');
 
+        }
+    }
+
+    /**
+     *
+     */
+    public function preDispatch() {
+        # Check for cache triggers and call them
+        $this->_triggerCache();
+
+        parent::preDispatch();
+    }
+
+    /**
+     * This method is used to automatically clean cache tags, with triggers defined in each controllers
+     *
+     * We are using an infinite cache policy, with clear triggers.
+     *
+     */
+    public function _triggerCache() {
+
+        $request = $this->getRequest();
+
+        if(isset($this->cache_triggers) && is_array($this->cache_triggers)) {
+
+            $action_name = $this->getRequest()->getActionName();
+            $current_language = Core_Model_Language::getCurrentLanguage();
+
+            if(isset($this->cache_triggers[$action_name])) {
+
+                $values = $this->cache_triggers[$action_name];
+                if(isset($values["tags"]) && is_array($values["tags"])) {
+
+                    $app = $this->getApplication();
+                    $app_id = "noapps";
+                    if($app) {
+                        $app_id = $app->getId();
+                    }
+
+                    $params = $this->getRequest()->getParams();
+                    $payload_data = Siberian_Json::decode($request->getRawBody());
+                    if(isset($params["value_id"]) && !empty($params["value_id"])) {
+                        $value_id = $params["value_id"];
+                    } else if(isset($params["option_value_id"]) && !empty($params["option_value_id"])) {
+                        $value_id = $params["option_value_id"];
+                    } else if(isset($payload_data["value_id"]) && !empty($payload_data["value_id"])) {
+                        $value_id = $payload_data["value_id"];
+                    } else if(isset($payload_data["option_value_id"]) && !empty($payload_data["option_value_id"])) {
+                        $value_id = $payload_data["option_value_id"];
+                    }
+
+
+                    $final_tags = array();
+                    foreach($values["tags"] as $tag) {
+
+                        $final_tags[] = str_replace(
+                            array(
+                                "#APP_ID#",
+                                "#VALUE_ID#",
+                                "#LOCALE#",
+                            ),
+                            array(
+                                $app_id,
+                                $value_id,
+                                $current_language,
+                            ),
+                            $tag
+                        );
+                    }
+
+                    # Clean-up
+                    $this->cache->clean(
+                        Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG,
+                        $final_tags
+                    );
+
+                    $this->getResponse()->setHeader("x-cache-clean", implode(", ", $final_tags));
+                }
+            }
         }
     }
 
@@ -143,10 +235,6 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     public function oldbrowserAction() {
         $this->loadPartials('front_index_oldbrowser');
         return $this;
-    }
-
-    public function preDispatch() {
-        parent::preDispatch();
     }
 
     public function postDispatch() {
@@ -587,8 +675,8 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     /**
      * @param $html
      */
-    protected function _sendJson($html, $options = JSON_PRETTY_PRINT) {
-        if(isset($html['error']) && !empty($html['error'])) {
+    public function _sendJson($html, $options = JSON_PRETTY_PRINT) {
+        if(isset($html["error"]) && !empty($html["error"])) {
             $this->getResponse()->setHttpResponseCode(400);
         }
 

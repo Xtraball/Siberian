@@ -2,6 +2,29 @@
 
 class Comment_Mobile_ViewController extends Application_Controller_Mobile_Default {
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "addlike" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#",
+            ),
+        ),
+        "flagpost" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#",
+            ),
+        ),
+        "flagcomment" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#",
+            ),
+        ),
+    );
 
     public function indexAction() {
         $this->forward('index', 'index', 'Front', $this->getRequest()->getParams());

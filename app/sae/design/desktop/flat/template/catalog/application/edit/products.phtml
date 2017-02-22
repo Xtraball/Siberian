@@ -91,11 +91,11 @@
                             <?php $i = 0; ?>
                             <?php while($i <= 3) : ?>
                             <tr id="row_format_<?php echo $i ?>"<?php if($i > 1) : ?> class="new_format" style="display:none;"<?php endif; ?>>
-                                <td><?php if($i > 1) : ?><a id="delete_format_<?php echo $i ?>" rel="<?php echo $i; ?>" class="delete delete_format" title="Supprimer"><img src="<?php echo $this->getImage('actions/delete.png'); ?>" alt="Supprimer" title="Supprimer" /></a><?php endif; ?></td>
+                                <td><?php if($i > 1) : ?><a id="delete_format_<?php echo $i ?>" rel="<?php echo $i; ?>" class="delete delete_format" title="<?php echo __("Delete"); ?>"><img src="<?php echo $this->getImage('actions/delete.png'); ?>" alt="<?php echo __("Delete"); ?>" title="<?php echo __("Delete"); ?>" /></a><?php endif; ?></td>
                                 <td class="label">888Format <?php echo $i + 1 ?></td>
-                                <td><input id="product_format_title_<?php echo $i ?>" class="format required automatic autoreset" type="text" value="Format" title="Format" name="option[<?php echo $i ?>][title]" rel="<?php echo $i ?>" /></td>
+                                <td><input id="product_format_title_<?php echo $i ?>" class="format required automatic autoreset" type="text" value="<?php echo __("Format"); ?>" title="<?php echo __("Format"); ?>" name="option[<?php echo $i ?>][title]" rel="<?php echo $i ?>" /></td>
                                 <td>
-                                    <input id="product_format_price_<?php echo $i ?>" class="price required number automatic autoreset" type="text" value="Prix" title="Prix" name="option[<?php echo $i ?>][price]" rel="<?php echo $i ?>"/>
+                                    <input id="product_format_price_<?php echo $i ?>" class="price required number automatic autoreset" type="text" value="<?php echo __("Price"); ?>" title="<?php echo __("Price"); ?>" name="option[<?php echo $i ?>][price]" rel="<?php echo $i ?>"/>
                                     <input id="product_format_option_id_<?php echo $i ?>" type="hidden" class="autoreset" name="option[<?php echo $i ?>][option_id]" rel="<?php echo $i ?>"/>
                                     <input id="product_format_is_deleted_<?php echo $i ?>" type="hidden" class="autoreset" name="option[<?php echo $i ?>][is_deleted]" rel="<?php echo $i ?>"/>
                                 </td>

@@ -3,7 +3,9 @@
     "require": {
         "symfony/browser-kit": "^3.1",
         "fabpot/goutte": "^3.1",
-        "maximebf/debugbar": "^1.13"
+        "maximebf/debugbar": "^1.13",
+        "gregwar/image": "^2.0",
+        "behat/transliterator": "^1.1"
     },
     "config": {
         "vendor-dir": "lib/vendor"

@@ -151,8 +151,19 @@ class Acl_Model_Acl extends Core_Model_Default {
             $resource = new Acl_Model_Resource();
             $this->__resources = $resource->getResources();
 
+            $inserted_resources = array();
+
             foreach($this->__resources as $resource) {
-                $this->__acl->addResource(new Zend_Acl_Resource($resource));
+
+                if(!in_array($resource, $inserted_resources)) {
+                    $inserted_resources[] = $resource;
+                    $this->__acl->addResource(new Zend_Acl_Resource($resource));
+                } else {
+                    # try to fix the duplicate
+                    $resource_model = new Acl_Model_Resource();
+                    $resource_model->find($resource, "code");
+                    $resource_model->delete();
+                }
             }
 
             $resource = new Acl_Model_Resource();

@@ -72,7 +72,7 @@ class Acl_Backoffice_Role_EditController extends Backoffice_Controller_Default
 
                 $role = new Acl_Model_Role();
                 if(empty($param["role"]) Or !is_array($param["role"])) {
-                    throw new Exception($this->_("An error occurred while saving. Please, try again later."));
+                    throw new Exception($this->_("An error occurred while saving. Please try again later."));
                 }
 
                 $role_data = $param["role"];

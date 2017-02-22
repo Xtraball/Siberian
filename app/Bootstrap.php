@@ -250,14 +250,18 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
     protected function _initCache() {
 
+        $this->bootstrap('CacheManager');
+        $default_cache  = $this->getResource("CacheManager")->getCache("default");
+
+
         $cache_dir = Core_Model_Directory::getCacheDirectory(true);
         if(is_writable($cache_dir)) {
             $frontendConf = array ('lifetime' => 345600, 'automatic_seralization' => true);
             $backendConf = array ('cache_dir' => $cache_dir);
             $cache = Zend_Cache::factory('Core','File',$frontendConf,$backendConf);
             $cache->setOption('automatic_serialization', true);
-            Zend_Locale::setCache($cache);
-            Zend_Registry::set('cache', $cache);
+            Zend_Locale::setCache($default_cache);
+            Zend_Registry::set("cache", $default_cache);
         }
 
         /** Minify Cache */

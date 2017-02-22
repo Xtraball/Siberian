@@ -2415,9 +2415,11 @@ div.control {
     position: relative;
     cursor: pointer;
     font-size: 18px;
-    margin: 6px 0 0 15px;
+    margin: 6px 0 0 13px;
     padding: 0;
     height: 24px;
+    float: left;
+    width: 20px;
 }
 
 label.control {
@@ -2508,7 +2510,7 @@ label.control {
     height: 14px;
     width: 14px;
     border-radius: 50%;
-    background: #fff;
+    border: 3px solid white;
 }
 
 .control--radio input:disabled ~ .control__indicator:after {
@@ -2881,6 +2883,10 @@ table.sb-pager thead th.sortable.down {
     right: 56px; !important;
 }
 
+button.add-cms-block {
+    margin-bottom: 3px;
+}
+
 .cms-block-delete i {
     width: 24px;
     display: block;
@@ -2895,9 +2901,9 @@ table.sb-pager thead th.sortable.down {
     display: block;
     border: 4px solid lightgrey;
     border-radius: 4px;
-    width: 160px;
-    margin-right: 20px;
-    margin-bottom: 20px;
+    width: 110px;
+    margin-right: 14px;
+    margin-bottom: 14px;
     float: left;
     background-color: white;
     background-size: contain;
@@ -2927,10 +2933,10 @@ table.sb-pager thead th.sortable.down {
 
 .cms-image img {
     display: block;
-    min-height: 152px;
-    max-height: 152px;
-    min-width: 152px;
-    max-width: 152px;
+    min-height: 102px;
+    max-height: 102px;
+    min-width: 102px;
+    max-width: 102px;
     margin: 0 auto;
     float: left;
     margin-top: -20px;
@@ -2960,6 +2966,11 @@ table.sb-pager thead th.sortable.down {
 
 .cms-button-type.button-off {
     filter: grayscale(100%);
+}
+
+
+.cke_dialog {
+    z-index: 100001 !important;
 }
 
 .cke-dialog-links {
@@ -2992,5 +3003,57 @@ table.sb-pager thead th.sortable.down {
 }
 
 textarea.cke_source {
-    color: black;
+    color: black !important;
+}
+
+.bootstrap-tagsinput {
+    display: inline-block;
+    padding: 4px 6px;
+    vertical-align: middle;
+    max-width: 100%;
+    line-height: 22px;
+    cursor: text;
+}
+.bootstrap-tagsinput input {
+    border: none;
+    box-shadow: none;
+    outline: none;
+    background-color: transparent;
+    padding: 0 6px;
+    margin: 0;
+    width: auto;
+    max-width: inherit;
+}
+.bootstrap-tagsinput.form-control input::-moz-placeholder {
+    color: #777;
+    opacity: 1;
+}
+.bootstrap-tagsinput.form-control input:-ms-input-placeholder {
+    color: #777;
+}
+.bootstrap-tagsinput.form-control input::-webkit-input-placeholder {
+    color: #777;
+}
+.bootstrap-tagsinput input:focus {
+    border: none;
+    box-shadow: none;
+}
+.bootstrap-tagsinput .tag {
+    margin-right: 2px;
+    color: white;
+    border-radius: 2px;
+}
+.bootstrap-tagsinput .tag [data-role="remove"] {
+    margin-left: 8px;
+    cursor: pointer;
+}
+.bootstrap-tagsinput .tag [data-role="remove"]:after {
+    content: "x";
+    padding: 0px 2px;
+}
+.bootstrap-tagsinput .tag [data-role="remove"]:hover {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.bootstrap-tagsinput .tag [data-role="remove"]:hover:active {
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }

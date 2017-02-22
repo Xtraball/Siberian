@@ -1,5 +1,7 @@
-
-App.factory('AdvancedConfiguration', function($http, Url) {
+/*global
+    App
+ */
+App.factory('AdvancedConfiguration', function ($http, Url) {
 
     var factory = {};
 
@@ -8,7 +10,7 @@ App.factory('AdvancedConfiguration', function($http, Url) {
             method: 'GET',
             url: Url.get("backoffice/advanced_configuration/load"),
             cache: true,
-            responseType:'json'
+            responseType: 'json'
         });
     };
 
@@ -18,26 +20,38 @@ App.factory('AdvancedConfiguration', function($http, Url) {
             method: 'GET',
             url: Url.get("backoffice/advanced_configuration/findall"),
             cache: false,
-            responseType:'json'
+            responseType: 'json'
         });
 
     };
 
-    factory.save = function(values) {
+    factory.save = function (values) {
 
         var url = "backoffice/advanced_configuration/save";
 
         return $http({
             method: 'POST',
             data: values,
-            url: Url.get(url+"/save"),
+            url: Url.get(url + "/save"),
             cache: false,
-            responseType:'json'
+            responseType: 'json'
         });
 
     };
 
-    factory.generateSsl =  function(hostname, force) {
+    factory.testSsl = function () {
+
+        var url = "backoffice/advanced_configuration/testssl";
+        return $http({
+            method: 'POST',
+            url: url,
+            cache: false,
+            responseType: 'json'
+        });
+
+    };
+
+    factory.generateSsl = function (hostname, force) {
 
         var url = "backoffice/advanced_configuration/generatessl";
 
@@ -51,12 +65,12 @@ App.factory('AdvancedConfiguration', function($http, Url) {
             method: 'POST',
             url: url,
             cache: false,
-            responseType:'json'
+            responseType: 'json'
         });
 
     };
 
-    factory.createCertificate =  function(data) {
+    factory.createCertificate = function (data) {
 
         var url = "backoffice/advanced_configuration/createcertificate";
 
@@ -65,20 +79,20 @@ App.factory('AdvancedConfiguration', function($http, Url) {
             url: url,
             data: data,
             cache: false,
-            responseType:'json'
+            responseType: 'json'
         });
 
     };
 
-    factory.removeCertificate =  function(id) {
+    factory.removeCertificate = function (id) {
 
-        var url = "backoffice/advanced_configuration/removecert/cert_id/"+id;
+        var url = "backoffice/advanced_configuration/removecert/cert_id/" + id;
 
         return $http({
             method: "GET",
             url: url,
             cache: false,
-            responseType:'json'
+            responseType: 'json'
         });
 
     };

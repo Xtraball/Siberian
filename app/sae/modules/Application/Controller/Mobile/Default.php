@@ -9,7 +9,9 @@ class Application_Controller_Mobile_Default extends Core_Controller_Default {
     public function init() {
 
         // Prevent CORS conversion method in dev environment
-        if($this->getRequest()->getMethod() == "OPTIONS") die;
+        if($this->getRequest()->getMethod() == "OPTIONS") {
+            die;
+        }
 
         parent::init();
 
@@ -17,7 +19,9 @@ class Application_Controller_Mobile_Default extends Core_Controller_Default {
 
         // Test si un id de value est passé en paramètre
         $id = $this->getRequest()->getParam('option_value_id');
-        if (!$id) $id = $this->getRequest()->getParam('value_id');
+        if (!$id) {
+            $id = $this->getRequest()->getParam('value_id');
+        }
         if (!$id) {
             try {
                 $data = Zend_Json::decode($this->getRequest()->getRawBody());
@@ -29,31 +33,40 @@ class Application_Controller_Mobile_Default extends Core_Controller_Default {
             }
         }
 
-        if($id) {
-            // Créé et charge l'objet
-            $this->_current_option_value = new Application_Model_Option_Value();
+        // Testing if value_id belongs to the app (or is allowed)
+        if(!$this->getApplication()->valueIdBelongsTo($id) && $id) {
+            $this->_sendJson(array(
+                "error" => true,
+                "message" => __("Unauthorized access to feature.")
+            ), true);
+        } else {
+            if($id) {
 
-            if($id != "homepage") {
-                $this->_current_option_value->find($id);
-                // Récupère le layout de l'option_value en cours
-                if($this->_current_option_value->getLayoutId()) {
-                    $this->_layout_id = $this->_current_option_value->getLayoutId();
+                // Créé et charge l'objet
+                $this->_current_option_value = new Application_Model_Option_Value();
+
+                if($id != "homepage") {
+                    $this->_current_option_value->find($id);
+                    // Récupère le layout de l'option_value en cours
+                    if($this->_current_option_value->getLayoutId()) {
+                        $this->_layout_id = $this->_current_option_value->getLayoutId();
+                    }
+                } else {
+                    $this->_current_option_value->setIsHomepage(true);
                 }
-            } else {
-                $this->_current_option_value->setIsHomepage(true);
+
             }
 
+            if($this->getFullActionName('_') == 'front_mobile_home_view') {
+                $this->_layout_id = $this->getApplication()->getLayoutId();
+            }
+
+            Core_View_Mobile_Default::setCurrentOption($this->_current_option_value);
+
+            $this->_log();
+
+            return $this;
         }
-
-        if($this->getFullActionName('_') == 'front_mobile_home_view') {
-            $this->_layout_id = $this->getApplication()->getLayoutId();
-        }
-
-        Core_View_Mobile_Default::setCurrentOption($this->_current_option_value);
-
-        $this->_log();
-
-        return $this;
     }
 
     public function getDevice() {
@@ -132,18 +145,28 @@ class Application_Controller_Mobile_Default extends Core_Controller_Default {
      * Converts an array to json, set the header code to 400 if error
      *
      * @param $data
+     * @param bool $send
      */
-    protected function _sendJson($data) {
+    public function _sendJson($data, $send = false) {
+        $response = $this->getResponse();
 
         if(isset($data['error']) && !empty($data['error'])) {
             $this->getResponse()->setHttpResponseCode(400);
         }
 
-        $this->getResponse()->setHeader('Content-type', 'application/json');
+        $response->setHeader('Content-type', 'application/json');
 
         $json = Siberian_Json::encode($data);
 
         $this->getLayout()->setHtml($json);
+
+        # Abort current request and send immediate response
+        if($send === true) {
+            Zend_Controller_Front::getInstance()->returnResponse(true);
+            $response->sendResponse();
+            echo $json;
+            die;
+        }
 
     }
 

@@ -2,6 +2,15 @@
 
 class Application_Customization_Design_ColorsController extends Application_Controller_Default {
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "save" => array(
+            "tags" => array("css_app_#APP_ID#"),
+        ),
+    );
+
     public function editAction() {
         $this->loadPartials();
 

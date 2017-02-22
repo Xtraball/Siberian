@@ -16,7 +16,8 @@ ckeditor_config.default = {
             items: ['Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
         },
         {name: 'styles', items: ['TextColor', 'Format', 'FontSize']}
-    ]
+    ],
+    extraPlugins : 'codemirror',
 };
 
 ckeditor_config.cms = {
@@ -37,13 +38,37 @@ ckeditor_config.cms = {
         {name: 'links', items: ['Link', 'Unlink']},
         {name: 'other', items: ['cmsimage', 'featurelink']}
     ],
-    extraPlugins : 'cmsimage,featurelink',
-    extraAllowedContent: 'a[*]'
+    extraPlugins : 'cmsimage,featurelink,codemirror',
+    extraAllowedContent: 'a img[*]'
 };
 
 ckeditor_config.complete = {};
 
 var feature_picture_uploader = new Uploader();
+
+(function($) {
+    var uniqueCntr = 0;
+    $.fn.scrolled = function (waitTime, fn) {
+        if (typeof waitTime === "function") {
+            fn = waitTime;
+            waitTime = 10;
+        }
+        uniqueCntr += 1;
+        var tag = "scrollTimer" + uniqueCntr.toString();
+        this.scroll(function () {
+            var self = $(this);
+            var timer = self.data(tag);
+            if (timer) {
+                clearTimeout(timer);
+            }
+            timer = setTimeout(function () {
+                self.removeData(tag);
+                fn.call(self[0]);
+            }, waitTime);
+            self.data(tag, timer);
+        });
+    };
+})(jQuery);
 
 var handleFormError = function(form, data) {
     feature_form_error(data.message);
@@ -142,13 +167,13 @@ var refreshCkeditor = function(element, key) {
     var ck_key = (typeof key == "undefined") ? el.attr("ckeditor") : key;
     var ck_fkey = (ckeditor_config.hasOwnProperty(ck_key)) ? ck_key : "default";
 
-    console.log(ck_key);
-    console.log(ckeditor_config[ck_fkey]);
+    setTimeout(function() {
+        el.ckeditor(
+            function(){},
+            ckeditor_config[ck_fkey]
+        );
+    }, 100);
 
-    el.ckeditor(
-        function(){},
-        ckeditor_config[ck_fkey]
-    );
 };
 
 /** Button picture uploader */
@@ -202,14 +227,15 @@ var _bindForms = function(default_parent) {
         $(default_parent+' .richtext:visible').each(function() {
             var el = $(this);
             var ck_key = el.attr("ckeditor");
-            console.log(ck_key);
-            console.log((ck_key in ckeditor_config));
             var ck_config = (ck_key in ckeditor_config) ? ckeditor_config[ck_key] : ckeditor_config["default"];
 
-            el.ckeditor(
-                function(){},
-                ck_config
-            );
+            setTimeout(function () {
+                el.ckeditor(
+                    function(){},
+                    ck_config
+                );
+            }, 200);
+
         });
     };
 

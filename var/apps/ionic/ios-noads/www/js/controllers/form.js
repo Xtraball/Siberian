@@ -6,7 +6,7 @@ App.config(function($stateProvider) {
         templateUrl: "templates/form/l1/view.html",
     });
 
-}).controller('FormViewController', function($cordovaCamera, $cordovaGeolocation, $sbhttp, $ionicActionSheet, $location, $rootScope, $scope, $stateParams, $timeout, $translate, Application, Dialog, Form, GoogleMaps) {
+}).controller('FormViewController', function($cordovaCamera, $cordovaGeolocation, $sbhttp, $ionicActionSheet, $ionicPopup, $location, $rootScope, $scope, $stateParams, $timeout, $translate, Application, Dialog, Form, GoogleMaps) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -132,7 +132,19 @@ App.config(function($stateProvider) {
             }
         }).error(function(data) {
             if(data && angular.isDefined(data.message)) {
-                Dialog.alert($translate.instant("Error"), data.message, $translate.instant("OK"));
+                $ionicPopup.show({
+                    template: "<div style='text-align:center;font-weight:bold;margin-bottom: 10px;'>" + $translate.instant("Error") + "</div>" + data.message,
+                    scope: $scope,
+                    buttons: [{
+                        text: $translate.instant('OK'),
+                        type: 'button-custom',
+                        onTap: function(e) {
+                            return true;
+                        }
+                    }]
+                }).then(function(result) {
+
+                });
             }
         }).finally(function() {
             $scope.is_loading = false;

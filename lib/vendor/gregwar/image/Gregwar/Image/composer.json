@@ -1,0 +1,28 @@
+{
+    "name": "gregwar/image",
+    "description": "Image handling",
+    "keywords": ["image", "gd"],
+    "homepage": "https://github.com/Gregwar/Image",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Grégoire Passault",
+            "email": "g.passault@gmail.com",
+            "homepage": "http://www.gregwar.com/"
+        }
+    ],
+    "require": {
+        "gregwar/cache": "1.*",
+        "php": ">=5.3.0",
+        "ext-gd": "*"
+    },
+    "suggest": {
+        "behat/transliterator": "Transliterator provides ability to set non-latin1 pretty names"
+    },
+    "target-dir": "Gregwar/Image",
+    "autoload": {
+        "psr-0": {
+            "Gregwar\\Image": ""
+        }
+    }
+}

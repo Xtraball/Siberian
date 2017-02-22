@@ -29,7 +29,9 @@
                         <label for="product_description"><?php echo $this->_('Description'); ?> :</label>
                     </div>
                     <div class="col-sm-8">
-                        <input class="input-flat description" type="text" id="product_description" value="<?php echo $product->getDescription(); ?>" name="description" placeholder="Description" />
+                        <textarea id="product_description" name="description" rel="description" class="contact_field input-flat description_field">
+                            <?php echo $product->getDescription(); ?>
+                        </textarea>
                     </div>
                 </div>
                 <?php if($product->getData('type') != 'format') : ?>
@@ -38,7 +40,7 @@
                         <label for="product_price"><?php echo $this->_('Price'); ?> :</label>
                     </div>
                     <div class="col-sm-8">
-                        <input class="input-flat price number" type="text" id="product_price" value="<?php echo $product->getPrice(); ?>" name="price" placeholder="Prix" />
+                        <input class="input-flat price number" type="text" id="product_price" value="<?php echo $product->getPrice(); ?>" name="price" placeholder="<?php echo __("Price"); ?>" />
                     </div>
                 </div>
                 <?php endif; ?>
@@ -101,9 +103,9 @@
                     <?php foreach($product->getType()->getOptions() as $i => $option) : ?>
                     <tr id="row_format_<?php echo $option->getId() ?>" class="format" rel="<?php echo $option->getId() ?>">
                         <td><?php echo $i + 1 ?><?php echo $i == 0 ? $this->_('st') : $this->_('nd') ?></td>
-                        <td><input id="product_format_title_<?php echo $option->getId() ?>" class="format input-flat required" type="text" value="<?php echo $option->getTitle() ?>" placeholder="Format" name="option[<?php echo $option->getId() ?>][title]" rel="<?php echo $option->getId() ?>" /></td>
+                        <td><input id="product_format_title_<?php echo $option->getId() ?>" class="format input-flat required" type="text" value="<?php echo $option->getTitle() ?>" placeholder="<?php echo __("Format"); ?>" name="option[<?php echo $option->getId() ?>][title]" rel="<?php echo $option->getId() ?>" /></td>
                         <td>
-                            <input id="product_format_price_<?php echo $option->getId() ?>" class="input-flat price required number" type="text" placeholder="Prix" value="<?php echo $option->getPrice() ?>" name="option[<?php echo $option->getId() ?>][price]" rel="<?php echo $option->getId() ?>"/>
+                            <input id="product_format_price_<?php echo $option->getId() ?>" class="input-flat price required number" type="text" placeholder="<?php echo __("Price"); ?>" value="<?php echo $option->getPrice() ?>" name="option[<?php echo $option->getId() ?>][price]" rel="<?php echo $option->getId() ?>"/>
                             <input id="product_format_option_id_<?php echo $option->getId() ?>" type="hidden" name="option[<?php echo $option->getId() ?>][option_id]" value="<?php echo $option->getId() ?>" rel="<?php echo $option->getId() ?>"/>
                             <input id="product_format_is_deleted_<?php echo $option->getId() ?>" type="hidden" name="option[<?php echo $option->getId() ?>][is_deleted]" rel="<?php echo $option->getId() ?>"/>
                         </td>
@@ -114,9 +116,9 @@
                     <?php while($i < 4) : ?>
                     <tr id="row_format_new_<?php echo $i ?>" class="format new_format"<?php if($i > 1) : ?> style="display:none;"<?php endif; ?> rel="new_<?php echo $i ?>">
                         <td><?php echo $i + 1 ?><?php echo $i == 0 ? $this->_('st') : $this->_('nd') ?></td>
-                        <td><input id="product_format_title_new_<?php echo $i ?>" class="format required input-flat" type="text" value="" placeholder="Format" name="option[new_<?php echo $i ?>][title]" rel="new_<?php echo $i ?>" /></td>
+                        <td><input id="product_format_title_new_<?php echo $i ?>" class="format required input-flat" type="text" value="" placeholder="<?php echo __("Format"); ?>" name="option[new_<?php echo $i ?>][title]" rel="new_<?php echo $i ?>" /></td>
                         <td>
-                            <input id="product_format_price_new_<?php echo $i ?>" class="input-flat price required number" type="text" placeholder="Prix" value="" name="option[new_<?php echo $i ?>][price]" rel="new_<?php echo $i ?>"/>
+                            <input id="product_format_price_new_<?php echo $i ?>" class="input-flat price required number" type="text" placeholder="<?php echo __("Price"); ?>" value="" name="option[new_<?php echo $i ?>][price]" rel="new_<?php echo $i ?>"/>
                             <input id="product_format_option_id_new_<?php echo $i ?>" type="hidden" name="option[new_<?php echo $i ?>][option_id]" rel="new_<?php echo $i ?>"/>
                             <input id="product_format_is_deleted_new_<?php echo $i ?>" type="hidden" value="<?php if($i > 1) : ?>1<?php endif; ?>" name="option[new_<?php echo $i ?>][is_deleted]" rel="new_<?php echo $i ?>"/>
                         </td>

@@ -123,8 +123,19 @@ var inAppLinks = document.querySelectorAll("a[data-state]");
 
         if(!$this->isCacheable()) return array();
 
-        $paths = array();
-        $paths[] = $option_value->getPath("sourcecode/mobile_view/find", array('value_id' => $option_value->getId()), false);
+
+        $value_id = $option_value->getId();
+        $cache_id = "feature_paths_valueid_{$value_id}";
+
+        if(!$paths = $this->cache->load($cache_id)) {
+            $paths = array();
+            $paths[] = $option_value->getPath("sourcecode/mobile_view/find", array('value_id' => $option_value->getId()), false);
+
+            $this->cache->save($paths, $cache_id, array(
+                "feature_paths",
+                "feature_paths_valueid_{$value_id}"
+            ));
+        }
 
         return $paths;
     }
@@ -133,17 +144,28 @@ var inAppLinks = document.querySelectorAll("a[data-state]");
     public function getAssetsPaths($option_value) {
         if(!$this->isCacheable()) return array();
 
-        $paths = array();
 
-        $matches = array();
-        $regex_url = "/((?:http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(?:\/[^\s\"]*)\.(?:png|gif|jpeg|jpg|svg|css|js)+)+/";
-        preg_match_all($regex_url, $this->getHtmlFileCode(), $matches);
+        $value_id = $option_value->getId();
+        $cache_id = "assets_paths_valueid_{$value_id}";
+        if(!$paths = $this->cache->load($cache_id)) {
 
-        $matches = call_user_func_array('array_merge', $matches);
+            $paths = array();
 
-        if($matches && count($matches) > 1) {
-            unset($matches[0]);
-            $paths = array_merge($paths, $matches);
+            $matches = array();
+            $regex_url = "/((?:http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(?:\/[^\s\"]*)\.(?:png|gif|jpeg|jpg|svg|css|js)+)+/";
+            preg_match_all($regex_url, $this->getHtmlFileCode(), $matches);
+
+            $matches = call_user_func_array('array_merge', $matches);
+
+            if($matches && count($matches) > 1) {
+                unset($matches[0]);
+                $paths = array_merge($paths, $matches);
+            }
+
+            $this->cache->save($paths, $cache_id, array(
+                "assets_paths",
+                "assets_paths_valueid_{$value_id}"
+            ));
         }
 
         return $paths;

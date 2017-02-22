@@ -2,6 +2,15 @@
 
 class Application_Customization_Features_Edit_LogoController extends Application_Controller_Default {
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "save" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+    );
+
     public function saveAction() {
         if($datas = $this->getRequest()->getPost()) {
             try {

@@ -18,6 +18,7 @@ $data = array(
     "mobile_view_uri_parameter"     => "product_id",
     'only_once'                     => 1,
     'is_ajax'                       => 1,
+    'use_my_account'                => 1,
     'position'                      => 220,
     'social_sharing_is_available'   => 1
 );

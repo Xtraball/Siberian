@@ -94,7 +94,16 @@ $facebook_is_available = $facebook->getAccessToken() != null;
                         </div>
                         <div class="col-sm-1">
                             <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
+                            <input type="hidden" id="label" name="label" value="" />
                             <button type="button" class="bt-margin validate btn save_image btn color-blue">OK</button>
+                        </div>
+                    </div>
+                    <div class="row" id="label_row" style="display:none">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-5">
+                            <label for="gallery_name"><?php echo __("Gallery Name"); ?></label>
+                            <input id="gallery_name" type="text" name="gallery_name" value="" placeholder="<?php echo $this->_('Gallery Name') ?>" class="input-flat" />
+                            <?php echo __("If set, will appear instead of the Facebook page Id in app."); ?>
                         </div>
                     </div>
                 </div>
@@ -226,6 +235,13 @@ $facebook_is_available = $facebook->getAccessToken() != null;
                     });
                 });
 
+                //Facebook now have one more field
+                if(id == "facebook") {
+                    $("#label_row").show();
+                } else {
+                    $("#label_row").hide();
+                }
+
                 if(id == "instagram") {
                     $("#input_instagram").val(1);
                     $("#label_search").hide();
@@ -263,6 +279,9 @@ $facebook_is_available = $facebook->getAccessToken() != null;
             });
 
             if(error) return false;
+
+            //Used only in Facebook album
+            $("#label").val($("#gallery_name").val());
 
             reload(tr, '<?php echo $this->getUrl('media/application_gallery_image/editpost'); ?>', true, function(datas) {
                 if(datas.success) {
@@ -383,6 +402,10 @@ $facebook_is_available = $facebook->getAccessToken() != null;
 
         function slideUp() {
             $('#edit_images').slideUp('fast');
+        }
+
+        function changeGalleryLabel(img_id) {
+            $("#label_" + img_id).val($("#gallery_name_" + img_id).val());
         }
 
         function upload() {

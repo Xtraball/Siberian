@@ -2,6 +2,24 @@
 
 class Event_Application_EventController extends  Application_Controller_Default{
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "edit" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#",
+            ),
+        ),
+        "delete" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#",
+            ),
+        ),
+    );
+
     public function editAction() {
         if($datas = $this->getRequest()->getPost()) {
 

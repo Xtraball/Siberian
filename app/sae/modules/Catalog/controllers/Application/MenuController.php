@@ -3,6 +3,24 @@
 class Catalog_Application_MenuController extends Application_Controller_Default
 {
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "editpost" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#",
+            ),
+        ),
+        "deletepost" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#",
+            ),
+        ),
+    );
+
     public function formAction() {
         if($this->getRequest()->getParam("id")) {
             $id = $this->getRequest()->getParam("id");

@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * @deprecated
+ *
+ * Seems this controller is not used anymore
+ *
+ * Class Comment_PageController
+ */
 class Comment_PageController extends Application_Controller_Default
 {
 

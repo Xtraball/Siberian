@@ -7,10 +7,10 @@ class Media_Mobile_Api_Music_TrackController extends Application_Controller_Mobi
 
         $album_cover = $track->getArtworkUrl();
         if(stripos($album_cover, "http") === false) {
-            $album_cover = $this->getRequest()->getBaseUrl() . $album_cover;
-
-            if(!file_exists($album_cover)) {
+            if(!file_exists(Core_Model_Directory::getBasePathTo($album_cover))) {
                 $album_cover = $this->getRequest()->getBaseUrl() . Media_Model_Library_Image::getImagePathTo("/musics/default_album.jpg");
+            } else {
+                $album_cover = $this->getRequest()->getBaseUrl() . $album_cover;
             }
         }
 

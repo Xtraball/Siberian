@@ -6,10 +6,9 @@ class Cms_Application_Page_Block_VideoController extends Application_Controller_
      * Récupère les vidéos youtube ou podcast associées à une recherche
      */
     public function searchAction() {
-        //if ($datas = $this->getRequest()->getPost()) {
         if($datas = $this->getRequest()->getParams()) {
 
-            $html = '';
+            $data = array();
 
             try {
                 $datas = current($datas['block']);

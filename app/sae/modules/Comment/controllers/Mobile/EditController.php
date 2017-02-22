@@ -2,6 +2,18 @@
 
 class Comment_Mobile_EditController extends Application_Controller_Mobile_Default {
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "create" => array(
+            "tags" => array(
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#",
+            ),
+        ),
+    );
+
     public function createAction() {
 
         if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {

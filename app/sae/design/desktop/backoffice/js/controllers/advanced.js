@@ -1,3 +1,6 @@
+/*global
+    App, BASE_URL, Label, angular
+ */
 App.config(function($routeProvider) {
 
     $routeProvider.when(BASE_URL+"/backoffice/advanced_module", {
@@ -14,7 +17,7 @@ App.config(function($routeProvider) {
         templateUrl: BASE_URL+"/backoffice/advanced_cron/template"
     });
 
-}).controller("BackofficeAdvancedController", function($scope, $interval, Header, Advanced) {
+}).controller("BackofficeAdvancedController", function($log, $scope, $interval, Header, Advanced) {
 
     $scope.header = new Header();
     $scope.header.button.left.is_visible = false;
@@ -43,6 +46,7 @@ App.config(function($routeProvider) {
 
         Advanced.moduleAction(module, action).success(function(data) {
 
+            var message = "";
             if(angular.isObject(data) && angular.isDefined(data.message)) {
                 message = data.message;
                 $scope.message.isError(false);
@@ -52,6 +56,7 @@ App.config(function($routeProvider) {
                 .show()
             ;
         }).error(function(data) {
+            var message = "";
             if(angular.isObject(data) && angular.isDefined(data.message)) {
                 message = data.message;
             }
@@ -67,7 +72,7 @@ App.config(function($routeProvider) {
 
 
 
-}).controller("BackofficeAdvancedConfigurationController", function($http, $scope, $timeout, $interval, Label, Header, AdvancedConfiguration, FileUploader, Url) {
+}).controller("BackofficeAdvancedConfigurationController", function($log, $http, $scope, $timeout, $interval, Label, Header, AdvancedConfiguration, FileUploader, Url) {
 
     $scope.header = new Header();
     $scope.header.button.left.is_visible = false;
@@ -116,6 +121,24 @@ App.config(function($routeProvider) {
 
     $scope.all_messages = null;
 
+    $scope.testSsl = function() {
+        $scope.content_loader_is_visible = true;
+
+        AdvancedConfiguration
+            .testSsl()
+            .success(function(data) {
+                $scope.message.onSuccess(data);
+                $scope.configs.testssl = data;
+            })
+            .error(function(data) {
+                $scope.message.onError(data);
+                $scope.configs.testssl = data;
+            })
+            .finally(function() {
+                $scope.content_loader_is_visible = false;
+            });
+    };
+
     $scope.generateSsl = function(hostname, force) {
         $scope.content_loader_is_visible = true;
 
@@ -131,7 +154,7 @@ App.config(function($routeProvider) {
 
                 $scope.all_messages = data.all_messages;
 
-                console.log("SSL Ok, time to push to panel.");
+                $log.info("SSL Ok, time to push to panel.");
 
                 if($scope.configs.cpanel_type.value == "plesk") {
                     /** Plesk is tricky, if you remove the old certificate, it' reloading ... */
@@ -202,12 +225,12 @@ App.config(function($routeProvider) {
                 $interval.cancel(poller);
                 poller = undefined;
 
-                console.log("#01-Error: timeout reloading panel.");
+                $log.info("#01-Error: timeout reloading panel.");
                 $scope.message.information($scope.all_messages.https_unreachable);
                 $scope.content_loader_is_visible = false;
             }
 
-            console.log("#02-Retrying: n"+times+" poll.");
+            $log.info("#02-Retrying: n"+times+" poll.");
 
             $http({
                 method: 'GET',
@@ -221,15 +244,15 @@ App.config(function($routeProvider) {
 
                 /** Try to get HTTPS for redirect. */
                 if(typeof response.data.https_url != "undefined") {
-                    console.log('typeof response.data.https_url != "undefined"');
+                    $log.info('typeof response.data.https_url != "undefined"');
                     location = response.data.https_url+"/backoffice/advanced_configuration";
                 } else {
-                    console.log('location.reload()');
+                    $log.info('location.reload()');
                     location.reload();
                 }
 
             }, function errorCallback(response) {
-                console.log("#03-Retry: not reachable yet.");
+                $log.info("#03-Retry: not reachable yet.");
             });
 
             /**.Showing wait message */
@@ -247,12 +270,12 @@ App.config(function($routeProvider) {
                 $interval.cancel(poller);
                 poller = undefined;
 
-                console.log("#01-Error: timeout reloading panel.");
+                $log.info("#01-Error: timeout reloading panel.");
                 $scope.message.information($scope.all_messages.https_unreachable);
                 $scope.content_loader_is_visible = false;
             }
 
-            console.log("#02-Retrying: n"+times+" poll.");
+            $log.info("#02-Retrying: n"+times+" poll.");
 
             $http({
                 method: 'GET',
@@ -289,7 +312,7 @@ App.config(function($routeProvider) {
                 });
 
             }, function errorCallback(response) {
-                console.log("#03-Retry: not reachable yet.");
+                $log.info("#03-Retry: not reachable yet.");
             });
 
             /**.Showing wait message */
@@ -307,12 +330,12 @@ App.config(function($routeProvider) {
                 $interval.cancel(poller);
                 poller = undefined;
 
-                console.log("#01-Error: timeout reloading panel.");
+                $log.info("#01-Error: timeout reloading panel.");
                 $scope.message.information($scope.all_messages.https_unreachable);
                 $scope.content_loader_is_visible = false;
             }
 
-            console.log("#02-Retrying: n"+times+" poll.");
+            $log.info("#02-Retrying: n"+times+" poll.");
 
             $http({
                 method: 'GET',
@@ -338,7 +361,7 @@ App.config(function($routeProvider) {
                 });
 
             }, function errorCallback(response) {
-                console.log("#03-Retry: not reachable yet.");
+                $log.info("#03-Retry: not reachable yet.");
             });
 
             /**.Showing wait message */
@@ -387,7 +410,7 @@ App.config(function($routeProvider) {
             if(angular.isObject(response) && response.success) {
 
                 $scope.form[response.code] = response.tmp_path;
-                console.log($scope.form);
+                $log.info($scope.form);
 
             } else {
                 $scope.message.setText(Label.uploader.error.general)
@@ -489,7 +512,7 @@ App.config(function($routeProvider) {
 
 
 
-}).controller("BackofficeAdvancedToolsController", function($scope, $interval, Header, AdvancedTools) {
+}).controller("BackofficeAdvancedToolsController", function($log, $scope, $interval, Header, AdvancedTools) {
 
     $scope.header = new Header();
     $scope.header.button.left.is_visible = false;
@@ -516,7 +539,7 @@ App.config(function($routeProvider) {
         });
     };
 
-}).controller("BackofficeAdvancedCronController", function($scope, $interval, Header, AdvancedConfiguration, AdvancedCron) {
+}).controller("BackofficeAdvancedCronController", function($log, $scope, $interval, Header, AdvancedConfiguration, AdvancedCron) {
 
     $scope.header = new Header();
     $scope.header.button.left.is_visible = false;

@@ -475,7 +475,7 @@ if(is_writable(APPLICATION_PATH . '/configs/app.ini')) {
 }
 
 # Privacy policy.
-$this->query("UPDATE application SET privacy_policy = (SELECT value FROM system_config WHERE code = 'privacy_policy') WHERE privacy_policy IS NULL;");
+//$this->query("UPDATE application SET privacy_policy = (SELECT value FROM system_config WHERE code = 'privacy_policy') WHERE privacy_policy IS NULL;");
 
 # Android default push icon.
 $this->query("UPDATE application SET android_push_icon = '/placeholder/android/push_default_icon.png' WHERE android_push_icon IS NULL;");
@@ -483,7 +483,7 @@ $this->query("UPDATE application SET android_push_color = '#0099C7' WHERE androi
 
 # Add indexes to improve slow queries
 try {
-    $this->query("ALTER TABLE `siberiancms_pe`.`application` ADD UNIQUE `search_domain` (`domain`);");
+    $this->query("ALTER TABLE `application` ADD UNIQUE `search_domain` (`domain`);");
 } catch(Exception $e) {
     if(method_exists($this, "log")) {
         $this->log("Skipped index search_domain, already exists.");
@@ -491,7 +491,7 @@ try {
 }
 
 try {
-    $this->query("ALTER TABLE `siberiancms_pe`.`application` ADD UNIQUE `search_key` (`key`);");
+    $this->query("ALTER TABLE `application` ADD UNIQUE `search_key` (`key`);");
 } catch(Exception $e) {
     if(method_exists($this, "log")) {
         $this->log("Skipped index search_key, already exists.");

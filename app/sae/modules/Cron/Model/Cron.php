@@ -81,7 +81,8 @@ class Cron_Model_Cron extends Core_Model_Default {
 	 * @return mixed
 	 */
 	public function saveLastError($message) {
-		return $this->setLastError($message)->save();
+		return $this->setLastErrorDate(date("Y-m-d H:i:s"))
+				->setLastError($message)->save();
 	}
 
 	/**
@@ -126,7 +127,7 @@ class Cron_Model_Cron extends Core_Model_Default {
 		$db = Zend_Db_Table::getDefaultAdapter();
 		$select = $db
 			->select()
-                ->from("cron", array("name", "last_error", "module_id"))
+                ->from("cron", array("name", "last_error", "module_id", "last_error_date"))
 			->where("last_error != ''")
 			->order("updated_at DESC")
 			->limit(1)
@@ -150,7 +151,8 @@ class Cron_Model_Cron extends Core_Model_Default {
             }
 			return array(
 				"short" => cut(__($result["name"]).": ".__(str_replace("\n", " ", $error)), 50),
-				"full" => __($result["name"]).": <br>".str_replace("\n", "<br>", __(htmlspecialchars($error)))
+				"full" => __($result["name"]).": <br>".str_replace("\n", "<br>", __(htmlspecialchars($error))),
+				"date" => datetime_to_format($result["last_error_date"])
 			);
 		}
 

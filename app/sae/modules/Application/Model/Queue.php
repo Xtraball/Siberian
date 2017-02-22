@@ -25,7 +25,7 @@ class Application_Model_Queue extends Core_Model_Default {
                     $queue = new Application_Model_ApkQueue();
                     $queues = $queue->findAll(array(
                         "app_id = ?" => $application_id,
-                        "status NOT INT (?)" => array("success", "building"),
+                        "status NOT IN (?)" => array("success", "building"),
                     ));
                     foreach($queues as $queue) {
                         $queue->delete();
@@ -36,7 +36,7 @@ class Application_Model_Queue extends Core_Model_Default {
                     $queues = $queue->findAll(array(
                         "app_id = ?" => $application_id,
                         "type = ?" => $device,
-                        "status NOT INT (?)" => array("success", "building"),
+                        "status NOT IN (?)" => array("success", "building"),
                     ));
                     foreach($queues as $queue) {
                         $queue->delete();

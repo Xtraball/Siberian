@@ -3,6 +3,15 @@
 class Api_Backoffice_Key_ListController extends Backoffice_Controller_Default
 {
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "save" => array(
+            "tags" => array("front_mobile_load"),
+        ),
+    );
+
     public $exclude_providers = array(
         "cpanel",
         "plesk",
@@ -87,7 +96,7 @@ class Api_Backoffice_Key_ListController extends Backoffice_Controller_Default
             } catch (Exception $e) {
                 $data = array(
                     "error" => 1,
-                    "message" => $this->_("An error occurred while saving. Please, try again later.<br/>".$e->getMessage())
+                    "message" => $this->_("An error occurred while saving. Please try again later.<br/>".$e->getMessage())
                 );
 
             }

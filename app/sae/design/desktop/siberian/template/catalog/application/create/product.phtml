@@ -32,7 +32,9 @@
                         <label for="product_description"><?php echo $this->_('Description'); ?> :</label>
                     </div>
                     <div class="col-sm-7">
-                        <input class="form-control description input" type="text" id="product_description" value="<?php echo $product->getDescription(); ?>" name="description" placeholder="Description" />
+                        <textarea class="form-control description input" type="text" id="product_description" name="description" placeholder="Description">
+                            <?php echo $product->getDescription(); ?>
+                        </textarea>
                     </div>
                 </div>
                 <?php if($product->getData('type') != 'format') : ?>

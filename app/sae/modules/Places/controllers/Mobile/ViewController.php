@@ -56,8 +56,9 @@ class Places_Mobile_ViewController extends Application_Controller_Mobile_Default
                 "address" => $address->getAddress(),
                 "latitude" => $address->getLatitude(),
                 "longitude" => $address->getLongitude(),
-                "show_address" => $address->getShowAddress(),
-                "show_geolocation_button" => $address->getGeolocationButton())
+                "show_address" => !!($address->getShowAddress()),
+                "show_geolocation_button" => !!($address->getShowGeolocationButton())
+            )
         );
 
         return $json;
