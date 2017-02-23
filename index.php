@@ -10,6 +10,8 @@
  *
  */
 
+echo "Super MR";
+
 if(!file_exists("./config.php")) {
     copy("./config.sample.php", "./config.php");
 }
