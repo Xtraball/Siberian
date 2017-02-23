@@ -10,6 +10,12 @@
         <link rel="alternate" href="<?php echo $this->getCurrentUrl(true, $language->getCode()); ?>" hreflang="<?php echo $language->getCode() ?>" />
         <?php endforeach ?>
 
+        <script type="text/javascript">
+            var version = "<?php echo Siberian_Version::VERSION ?>";
+            var tmp_directory = "<?php echo Core_Model_Directory::getTmpDirectory() ?>";
+            var datepicker_regional = "<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>";
+        </script>
+
         <?php echo $this->headLink() ?>
         <?php echo $this->headScript() ?>
 
@@ -20,12 +26,6 @@
         <?php echo Siberian_Debug::renderHead(); ?>
 
     </head>
-
-    <script type="text/javascript">
-        var version = "<?php echo Siberian_Version::VERSION ?>";
-        var tmp_directory = "<?php echo Core_Model_Directory::getTmpDirectory() ?>";
-        var datepicker_regional = "<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>";
-    </script>
 
     <body class="<?php echo $this->default_class_name ?> general">
         <div id="customization_mask" style="display:none"></div>

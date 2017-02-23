@@ -73,6 +73,11 @@ class Admin_AccountController extends Admin_Controller_Default
                     ->save()
                 ;
 
+                //For SAE we link automatically the user to the uniq app
+                if(Siberian_Version::is("sae")) {
+                    $this->getApplication()->addAdmin($admin);
+                }
+
                 $html = array('success' => 1);
                     $html = array_merge($html, array(
                         'success_message' => __('The account has been successfully saved'),

@@ -339,15 +339,7 @@
                     changepicturecallback: function() {
                         toggleHandler($('#toggle_formats'));
                         uploadPicture();
-                        CKEDITOR.config.language = '<?php echo $this->_('en') ?>';
-                        CKEDITOR.config.toolbar = [
-                            { name: 'source', items: [ 'Source' ] },
-                            { name: 'insert', items: [ 'Image' ] },
-                            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ] },
-                            { name: 'paragraph', groups: [ 'indent', 'align' ], items: [ 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
-                            { name: 'styles', items: [ 'TextColor', 'Format' ] }
-                        ];
-                        $('#product_description').ckeditor();
+                        $('#product_description').ckeditor(ckeditor_config.default);
                         $('#productForm').submit(this.save.bind(this));
                     }.bind(this),
                     theme: 'pp_none'
@@ -378,15 +370,7 @@
                     changepicturecallback: function() {
                         toggleHandler($('#toggle_formats'));
                         uploadPicture();
-                        CKEDITOR.config.language = '<?php echo $this->_('en') ?>';
-                        CKEDITOR.config.toolbar = [
-                            { name: 'source', items: [ 'Source' ] },
-                            { name: 'insert', items: [ 'Image' ] },
-                            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ] },
-                            { name: 'paragraph', groups: [ 'indent', 'align' ], items: [ 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
-                            { name: 'styles', items: [ 'TextColor', 'Format' ] }
-                        ];
-                        $('#product_description').ckeditor();
+                        $('#product_description').ckeditor(ckeditor_config.default);
                         $('#productForm').submit(this.save.bind(this));
                     }.bind(this),
                     theme: 'pp_none'

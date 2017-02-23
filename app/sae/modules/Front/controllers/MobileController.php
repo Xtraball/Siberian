@@ -330,6 +330,12 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
             "translation" => $data_translation,
         );
 
+        /** Force no cache */
+        $response = $this->getResponse();
+        $response->setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+        $response->setHeader("Cache-Control", "post-check=0, pre-check=0", false);
+        $response->setHeader("Pragma", "no-cache");
+
         $this->_sendJson($data);
     }
 

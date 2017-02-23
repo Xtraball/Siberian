@@ -15,13 +15,20 @@ App.provider('$sbhttp', function httpCacheLayerProvider() {
                 debug: provider.debug === true
             };
 
-            window.localforage.config({
-                name        : 'sb-offline-mode',
-                storeName   : 'keyvaluepairs',
-                size        : 262144000
-            });
+            var httpCache;
+            httpCache = {};
+            httpCache.getItem = httpCache.setItem = httpCache.deleteItem = function() {
+                return $q.reject("no offline mode cache in webview");
+            };
 
-            var httpCache = window.localforage;
+            if(!ionic.Platform.isWebView() && window.localforage) {
+                window.localforage.config({
+                    name        : 'sb-offline-mode',
+                    storeName   : 'keyvaluepairs',
+                    size        : 262144000
+                });
+                httpCache = window.localforage;
+            }
 
             function httpCacheLayer(httpCacheLayerConfig) {
 
@@ -44,7 +51,7 @@ App.provider('$sbhttp', function httpCacheLayerProvider() {
                         var request_error = false;
 
                         var promise = $q(function(resolve, reject) {
-                            httpCache.getItem(url).then(function(cachedResponse) {
+                            var process = function(cachedResponse) {
                                 try {
                                     // Not sure why, cached response is sometimes double json stringified
                                     while(_.isString(cachedResponse) && _.trim(cachedResponse).length > 0) {
@@ -54,7 +61,6 @@ App.provider('$sbhttp', function httpCacheLayerProvider() {
                                     $log.info("Error parsing data :", e, data);
                                     cachedResponse = null;
                                 }
-
 
                                 var response = cacheRequest && cachedResponse;
 
@@ -104,7 +110,7 @@ App.provider('$sbhttp', function httpCacheLayerProvider() {
                                         return httpCache.setItem(url, data).then(
                                             sendResult,
                                             function(err) {
-                                                $log.info("LOCAL FORAGE ERROR : ", err);
+                                                $log.debug("LOCAL FORAGE ERROR : ", err);
                                                 sendResult();
                                             });
                                     }
@@ -122,7 +128,13 @@ App.provider('$sbhttp', function httpCacheLayerProvider() {
                                         process_response
                                     );
                                 }
-                            }, reject);
+                            };
+
+                            httpCache.getItem(url).then(process, function(err) {
+                                $log.debug("Error retrieving data from cache data :", err);
+                                return process(null);
+                            });
+
                         });
 
                         promise.success = function(callback) {

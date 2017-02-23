@@ -26,7 +26,6 @@ var App = angular.module("starter", [
         tmhDynamicLocaleProvider.storageKey((+new Date())*Math.random()+""); // don't remember locale
 
         $sbhttpProvider.alwaysCache = true;
-        $sbhttpProvider.debug = false;
 
         $logProvider.debugEnabled(false);
 

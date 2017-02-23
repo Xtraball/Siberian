@@ -76,4 +76,22 @@ class Application_Controller_Default extends Admin_Controller_Default {
         return $this->_current_option_value;
     }
 
+    /**
+     * Assign view public vars to template
+     *
+     * @param $partial
+     */
+    public function assignVars($partial) {
+        if($this->getCurrentOptionValue()) {
+            $partial->setOptionValue($this->getCurrentOptionValue());
+        }
+
+        foreach(get_object_vars($this->view) as $name => $value) {
+            if (substr($name, 0, 1) == '_') {
+                continue;
+            }
+            $partial->setData($name, $value);
+        }
+    }
+
 }
