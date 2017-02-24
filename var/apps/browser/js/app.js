@@ -98,7 +98,7 @@ var App = angular.module("starter", [
                     device_uid: Push.device_uid
                 }), {
                     timeout: 10000,
-                    cache: true
+                    cache: !isOverview
                 }).then(function (response) {
 
                     $log.debug((new Date()).getTime(), "end: front/mobile/loadv2");

@@ -17,7 +17,7 @@ App.provider('$sbhttp', function httpCacheLayerProvider() {
 
             var httpCache;
             httpCache = {};
-            httpCache.getItem = httpCache.setItem = httpCache.deleteItem = function() {
+            httpCache.getItem = httpCache.setItem = httpCache.removeItem = function() {
                 return $q.reject("no offline mode cache in webview");
             };
 

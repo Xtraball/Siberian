@@ -16580,16 +16580,16 @@
         "hash": "d92c16854038a9079f4479852c5a13cc"
     },
     {
-        "file": "app/sae/modules/Cms/Model/Application/Page/Block/Video/Link.php",
-        "hash": "e7334dfca9cc7427928e155c1a33a6b2"
-    },
-    {
         "file": "app/sae/modules/Cms/Model/Application/Page/Block/Video/Podcast.php",
         "hash": "3b4b77fb8aa5704184f36e2276190def"
     },
     {
         "file": "app/sae/modules/Cms/Model/Application/Page/Block/Video/Youtube.php",
         "hash": "b17a5a95ece5fcb4642971201975b127"
+    },
+    {
+        "file": "app/sae/modules/Cms/Model/Application/Page/Block/Video/Link.php",
+        "hash": "e83d3ee1b029c03fdaef57f87e16368d"
     },
     {
         "file": "app/sae/modules/Cms/Model/Application/Page/Block/Abstract.php",
@@ -16616,12 +16616,12 @@
         "hash": "e48e3bf6b7dcb6d2e34fc8e0fbbaaf5d"
     },
     {
-        "file": "app/sae/modules/Cms/Model/Application/Page/Block/Video.php",
-        "hash": "76d5b4c71ec6ae3d7f276ccbe0f5854c"
-    },
-    {
         "file": "app/sae/modules/Cms/Model/Application/Page/Block/File.php",
         "hash": "c5aa1510cce62431a5fb09667ef1e460"
+    },
+    {
+        "file": "app/sae/modules/Cms/Model/Application/Page/Block/Video.php",
+        "hash": "2330dd264f40e6f5e929eb79d8123b66"
     },
     {
         "file": "app/sae/modules/Cms/Model/Application/Page/Block.php",
@@ -16948,12 +16948,12 @@
         "hash": "a899e24cac41bc3d551301eba3c5f055"
     },
     {
-        "file": "app/sae/modules/Cms/Form/Block/Video.php",
-        "hash": "2bff343175285a4ee6801ac13018ea41"
-    },
-    {
         "file": "app/sae/modules/Cms/Form/Block/File.php",
         "hash": "b74ee7fcc0763d4a3baeb00230f47973"
+    },
+    {
+        "file": "app/sae/modules/Cms/Form/Block/Video.php",
+        "hash": "8d09573c77f65d17f565f073d8092cf0"
     },
     {
         "file": "app/sae/modules/Cms/Form/Cms.php",
@@ -36733,7 +36733,7 @@
     },
     {
         "file": "var/apps/browser/js/providers/sbhttp.js",
-        "hash": "9d57cc297f5dd851d552771faae316da"
+        "hash": "5f454b73b4fec93d729924fc0be27272"
     },
     {
         "file": "var/apps/browser/js/services/music-tracks-loader.js",
@@ -36742,10 +36742,6 @@
     {
         "file": "var/apps/browser/js/services/analytics.js",
         "hash": "d38bc51ce892790f11e1047d0ec65863"
-    },
-    {
-        "file": "var/apps/browser/js/services/application.js",
-        "hash": "961677f594e27d5cbd3079ebf76e4a7a"
     },
     {
         "file": "var/apps/browser/js/services/connection.js",
@@ -36812,6 +36808,10 @@
         "hash": "07f74feddf8c8bb02d583888f90c2dcd"
     },
     {
+        "file": "var/apps/browser/js/services/application.js",
+        "hash": "f41eaa9c7750f306fc312397a06de257"
+    },
+    {
         "file": "var/apps/browser/js/utils/languages.js",
         "hash": "ff161ece39102919556ea17db550d1e7"
     },
@@ -36829,7 +36829,7 @@
     },
     {
         "file": "var/apps/browser/js/app.js",
-        "hash": "86764f6c7423501e648a2af9a3eee378"
+        "hash": "0a083ac0c4539dd6a527e9ec3185a540"
     },
     {
         "file": "var/apps/browser/lib/ionic/css/ionic.css",
@@ -38349,7 +38349,7 @@
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/providers/sbhttp.js",
-        "hash": "9d57cc297f5dd851d552771faae316da"
+        "hash": "5f454b73b4fec93d729924fc0be27272"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/services/music-tracks-loader.js",
@@ -38358,10 +38358,6 @@
     {
         "file": "var/apps/ionic/android/assets/www/js/services/analytics.js",
         "hash": "d38bc51ce892790f11e1047d0ec65863"
-    },
-    {
-        "file": "var/apps/ionic/android/assets/www/js/services/application.js",
-        "hash": "961677f594e27d5cbd3079ebf76e4a7a"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/services/connection.js",
@@ -38428,6 +38424,10 @@
         "hash": "07f74feddf8c8bb02d583888f90c2dcd"
     },
     {
+        "file": "var/apps/ionic/android/assets/www/js/services/application.js",
+        "hash": "f41eaa9c7750f306fc312397a06de257"
+    },
+    {
         "file": "var/apps/ionic/android/assets/www/js/utils/languages.js",
         "hash": "ff161ece39102919556ea17db550d1e7"
     },
@@ -38445,7 +38445,7 @@
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/app.js",
-        "hash": "86764f6c7423501e648a2af9a3eee378"
+        "hash": "0a083ac0c4539dd6a527e9ec3185a540"
     },
     {
         "file": "var/apps/ionic/android/assets/www/lib/ionic/css/ionic.min.css",
@@ -45465,7 +45465,7 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/providers/sbhttp.js",
-        "hash": "9d57cc297f5dd851d552771faae316da"
+        "hash": "5f454b73b4fec93d729924fc0be27272"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/services/music-tracks-loader.js",
@@ -45474,10 +45474,6 @@
     {
         "file": "var/apps/ionic/ios-noads/www/js/services/analytics.js",
         "hash": "d38bc51ce892790f11e1047d0ec65863"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/www/js/services/application.js",
-        "hash": "961677f594e27d5cbd3079ebf76e4a7a"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/services/connection.js",
@@ -45544,6 +45540,10 @@
         "hash": "07f74feddf8c8bb02d583888f90c2dcd"
     },
     {
+        "file": "var/apps/ionic/ios-noads/www/js/services/application.js",
+        "hash": "f41eaa9c7750f306fc312397a06de257"
+    },
+    {
         "file": "var/apps/ionic/ios-noads/www/js/utils/languages.js",
         "hash": "ff161ece39102919556ea17db550d1e7"
     },
@@ -45561,7 +45561,7 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/app.js",
-        "hash": "86764f6c7423501e648a2af9a3eee378"
+        "hash": "0a083ac0c4539dd6a527e9ec3185a540"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/lib/ionic/css/ionic.min.css",
@@ -49077,7 +49077,7 @@
     },
     {
         "file": "var/apps/ionic/ios/www/js/providers/sbhttp.js",
-        "hash": "9d57cc297f5dd851d552771faae316da"
+        "hash": "5f454b73b4fec93d729924fc0be27272"
     },
     {
         "file": "var/apps/ionic/ios/www/js/services/music-tracks-loader.js",
@@ -49086,10 +49086,6 @@
     {
         "file": "var/apps/ionic/ios/www/js/services/analytics.js",
         "hash": "d38bc51ce892790f11e1047d0ec65863"
-    },
-    {
-        "file": "var/apps/ionic/ios/www/js/services/application.js",
-        "hash": "961677f594e27d5cbd3079ebf76e4a7a"
     },
     {
         "file": "var/apps/ionic/ios/www/js/services/connection.js",
@@ -49156,6 +49152,10 @@
         "hash": "07f74feddf8c8bb02d583888f90c2dcd"
     },
     {
+        "file": "var/apps/ionic/ios/www/js/services/application.js",
+        "hash": "f41eaa9c7750f306fc312397a06de257"
+    },
+    {
         "file": "var/apps/ionic/ios/www/js/utils/languages.js",
         "hash": "ff161ece39102919556ea17db550d1e7"
     },
@@ -49173,7 +49173,7 @@
     },
     {
         "file": "var/apps/ionic/ios/www/js/app.js",
-        "hash": "86764f6c7423501e648a2af9a3eee378"
+        "hash": "0a083ac0c4539dd6a527e9ec3185a540"
     },
     {
         "file": "var/apps/ionic/ios/www/lib/ionic/css/ionic.min.css",
@@ -50665,15 +50665,11 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/providers/sbhttp.js",
-        "hash": "9d57cc297f5dd851d552771faae316da"
+        "hash": "5f454b73b4fec93d729924fc0be27272"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/services/analytics.js",
         "hash": "d38bc51ce892790f11e1047d0ec65863"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/services/application.js",
-        "hash": "961677f594e27d5cbd3079ebf76e4a7a"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/services/connection.js",
@@ -50744,6 +50740,10 @@
         "hash": "07f74feddf8c8bb02d583888f90c2dcd"
     },
     {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/services/application.js",
+        "hash": "f41eaa9c7750f306fc312397a06de257"
+    },
+    {
         "file": "var/apps/ionic/previewer/android/assets/www/js/utils/form-post.js",
         "hash": "c313198f7b46dc3c7d432e816d04eaad"
     },
@@ -50761,7 +50761,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/app.js",
-        "hash": "86764f6c7423501e648a2af9a3eee378"
+        "hash": "0a083ac0c4539dd6a527e9ec3185a540"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/lib/ionic/css/ionic.min.css",
@@ -58053,15 +58053,11 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/providers/sbhttp.js",
-        "hash": "9d57cc297f5dd851d552771faae316da"
+        "hash": "5f454b73b4fec93d729924fc0be27272"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/services/analytics.js",
         "hash": "d38bc51ce892790f11e1047d0ec65863"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/www/js/services/application.js",
-        "hash": "961677f594e27d5cbd3079ebf76e4a7a"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/services/connection.js",
@@ -58132,6 +58128,10 @@
         "hash": "07f74feddf8c8bb02d583888f90c2dcd"
     },
     {
+        "file": "var/apps/ionic/previewer/ios/www/js/services/application.js",
+        "hash": "f41eaa9c7750f306fc312397a06de257"
+    },
+    {
         "file": "var/apps/ionic/previewer/ios/www/js/utils/form-post.js",
         "hash": "c313198f7b46dc3c7d432e816d04eaad"
     },
@@ -58149,7 +58149,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/app.js",
-        "hash": "86764f6c7423501e648a2af9a3eee378"
+        "hash": "0a083ac0c4539dd6a527e9ec3185a540"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/lib/ionic/css/ionic.min.css",

@@ -22,12 +22,10 @@ class Cms_Model_Application_Page_Block_Video_Link extends Cms_Model_Application_
      * @return $this
      */
     public function populate($data = array()) {
-        $image = $this->saveImage($data["cover_image"]);
-
         $this
             ->setDescription($data["description"])
             ->setLink($data["video"])
-            ->setImage($image)
+            ->setImage($data["image"])
         ;
 
         return $this;

@@ -37,6 +37,11 @@ class Cms_Model_Application_Page_Block_Video extends Cms_Model_Application_Page_
         $this->setTypeId($data["type"]);
 
         if($this->getTypeInstance()) {
+            if($data["type"] == "link") {
+                $data["image"] = $this->saveImage($data["cover_image"]);
+                $this->setImage($data["image"]);
+                $this->setDescription($data["description"]);
+            }
             $this->getTypeInstance()->setOptionValue($this->option_value)->populate($data);
         }
 
@@ -46,8 +51,8 @@ class Cms_Model_Application_Page_Block_Video extends Cms_Model_Application_Page_
     public function find($id, $field = null) {
         parent::find($id, $field);
         # should remove _addTypedatas when all cms up-to-date
-        $this->_addTypeDatas();
-        return $this;
+
+        return $this;$this->_addTypeDatas();
     }
 
     /**
@@ -59,8 +64,19 @@ class Cms_Model_Application_Page_Block_Video extends Cms_Model_Application_Page_
         return $this->getTypeInstance() ? $this->getTypeInstance()->isValid() : false;
     }
 
+    public function getImage() {
+        $local = $this->getData("image");
+        if(empty($local)) {
+            $local = $this->getTypeInstance()->getData("image");
+        }
+
+        return $local;
+    }
+
     public function getImageUrl() {
-        if($this->isValid()) return $this->getTypeInstance()->getImageUrl();
+        if($this->isValid()) {
+            return $this->getTypeInstance()->getImageUrl();
+        }
         return '';
     }
 
