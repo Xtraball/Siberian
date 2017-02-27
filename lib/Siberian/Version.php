@@ -4,7 +4,7 @@ class Siberian_Version
 {
     const TYPE = 'SAE';
     const NAME = 'Single App Edition';
-    const VERSION = '4.8.12.2';
+    const VERSION = '4.8.12.3';
     const NATIVE_VERSION = '2';
 
     static function is($type) {

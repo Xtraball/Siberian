@@ -185,13 +185,14 @@ class Cms_Model_Application_Block extends Core_Model_Default {
                 break;
             case "video":
                 $video = $this->getObject();
+                $video_instance = $video->getTypeInstance();
                 $block_data["cover_url"] = $video->getImageUrl();
                 $url_embed = $url = $video->getLink();
                 $video_id = $video->getId();
                 if($video->getTypeId() == "youtube") {
-                    $url_embed = "https://www.youtube.com/embed/{$video->getYoutube()}?autoplay=1";
-                    $url = "https://www.youtube.com/watch?v={$video->getYoutube()}&autoplay=1";
-                    $video_id = $video->getYoutube();
+                    $url_embed = "https://www.youtube.com/embed/{$video_instance->getYoutube()}?autoplay=1";
+                    $url = "https://www.youtube.com/watch?v={$video_instance->getYoutube()}&autoplay=1";
+                    $video_id = $video_instance->getYoutube();
                 }
                 if($video->getTypeId() == "link") {
                     $block_data["cover_url"] = $video->getImageUrl() ? $base_url.$video->getImageUrl() : null;

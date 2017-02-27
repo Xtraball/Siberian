@@ -245,7 +245,7 @@ var _bindForms = function(default_parent) {
                     function(){},
                     ck_config
                 );
-            }, 200);
+            }, 500);
 
         });
     };
