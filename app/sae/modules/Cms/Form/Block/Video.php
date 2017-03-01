@@ -85,6 +85,7 @@ class Cms_Form_Block_Video extends Cms_Form_Block_Abstract {
             case "link":
                     $this->getElement("description")->setValue($block->getDescription());
                     $this->getElement("cover")->setValue($block->getImage());
+                    $this->getElement("cover_image")->setValue($block->getImage());
                     $this->getElement("video")->setValue($video_object->getTypeInstance()->getLink());
                     $this->getElement("type")->setValue("link");
                 break;

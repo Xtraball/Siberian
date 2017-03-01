@@ -8,7 +8,7 @@ App.config(function ($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.otherwise(BASE_PATH);
 
-}).controller('HomeController', function($ionicHistory, $injector, $location, $rootScope, $scope, $state, $window, Application, Padlock) {
+}).controller('HomeController', function($ionicHistory, $injector, $location, $rootScope, $scope, $state, $timeout, $window, Application, Padlock) {
 
     var HomepageLayout = $injector.get("HomepageLayout");
 
@@ -66,7 +66,17 @@ App.config(function ($stateProvider, $urlRouterProvider) {
                     historyRoot: true,
                     disableAnimate: false
                 });
-                $location.path(features.options[0].path);
+                var feat_index = 0;
+                for(var fi = 0; fi < features.options.length; fi++) {
+                    var feat = features.options[fi];
+                    /** Don't load unwanted features on first page. */
+                    if((feat.code !== "code_scan") && (feat.code !== "radio") && (feat.code !== "padlock")) {
+                        feat_index = fi;
+                        break;
+                    }
+                }
+
+                $location.path(features.options[feat_index].path).replace();
             }
 
             /** Redirect where needed if required (paypal/stripe/etc...) ! */
@@ -82,7 +92,10 @@ App.config(function ($stateProvider, $urlRouterProvider) {
             $scope.is_loading = false;
 
             /** When done, call layout hooks */
-            HomepageLayout.callHooks();
+            $timeout(function() {
+                HomepageLayout.callHooks();
+            }, 250);
+
 
         });
 

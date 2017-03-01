@@ -1,6 +1,20 @@
 <?php
 class Application_Backoffice_ViewController extends Backoffice_Controller_Default
 {
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "save" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+        "switchtoionic" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+        "saveadvertising" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+    );
 
     public function loadAction() {
 

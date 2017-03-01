@@ -101,11 +101,13 @@ class Cms_Model_Application_Page_Block_Video extends Cms_Model_Application_Page_
 
     /**
      * @deprecated
+     *
      * @param $search
+     * @param null $id
      * @return mixed
      */
-    public function getList($search) {
-        return $this->getTypeInstance()->getList($search);
+    public function getList($search, $id = null) {
+        return $this->getTypeInstance()->getList($search, $id);
     }
 
     public function save_v2() {

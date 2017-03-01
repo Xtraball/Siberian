@@ -15,7 +15,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
      * Caching every 3 big blocks independently
      */
     public function loadv2Action() {
-        /** Caching each block independantly, to optimize loading */
+        /** Caching each block independently, to optimize loading */
 
         $application = $this->getApplication();
         $app_id = $application->getId();

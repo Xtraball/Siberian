@@ -391,7 +391,9 @@ var App = angular.module("starter", [
                     $rootScope._getFirstId = function (collection) {
                         var first_id = null;
                         for (var i = 0; i < collection.length; i++) {
-                            if (!first_id || collection[i].id < first_id) first_id = collection[i].id;
+                            if (!first_id || collection[i].id < first_id) {
+                                first_id = collection[i].id;
+                            }
                         }
                         return first_id;
                     };
@@ -406,10 +408,10 @@ var App = angular.module("starter", [
                             parent.postMessage("state.go", DOMAIN);
                         }
 
-                        if($ionicHistory.currentStateName() == "home") {
+                        if($ionicHistory.currentStateName() === "home") {
                             $timeout(function() {
                                 HomepageLayout.callHooks();
-                            }, 100);
+                            }, 250);
                         }
                     });
 
@@ -452,6 +454,7 @@ var App = angular.module("starter", [
                             event.preventDefault();
                         } else if (Application.is_webview && toState.name == "codescan") {
                             event.preventDefault();
+                            $rootScope.showMobileFeatureOnlyError();
                         } else if (Connection.isOffline) {
                             // Check if app feature is accessible offline
                         }
@@ -478,6 +481,7 @@ var App = angular.module("starter", [
                     $rootScope.$on(AUTH_EVENTS.loginSuccess, function () {
                         $rootScope.app_is_locked = Application.is_locked && !Customer.can_access_locked_features;
                         if (!$rootScope.app_is_locked && Application.is_locked) {
+                            console.log("FOKCCCC");
                             $state.go("home");
                         }
                     });
@@ -556,7 +560,7 @@ var App = angular.module("starter", [
                         });
                         $timeout(function () {
                             popup.close();
-                        }, 4000);
+                        }, 2350);
                         return;
                     };
 
@@ -585,6 +589,7 @@ var App = angular.module("starter", [
                         };
 
                         $window.setPath = function (path, replace) {
+                            console.log("setPath", path);
                             if ($window.isSamePath(path)) {
                                 $window.reload();
                             } else if (path.length) {
@@ -606,12 +611,27 @@ var App = angular.module("starter", [
                         };
 
                         $window.showHomepage = function () {
+                            console.log("showHomepage");
                             if (HomepageLayout.properties.menu.visibility == "homepage") {
                                 $window.setPath(BASE_PATH);
                             } else {
                                 HomepageLayout.getFeatures().then(function (features) {
-                                    if (features.options[0]) {
-                                        $window.setPath(features.options[0].path);
+                                    $ionicHistory.nextViewOptions({
+                                        historyRoot: true,
+                                        disableAnimate: false
+                                    });
+                                    var feat_index = 0;
+                                    for(var fi = 0; fi < features.options.length; fi++) {
+                                        var feat = features.options[fi];
+                                        /** Don't load unwanted features on first page. */
+                                        if((feat.code !== "code_scan") && (feat.code !== "radio") && (feat.code !== "padlock")) {
+                                            feat_index = fi;
+                                            break;
+                                        }
+                                    }
+
+                                    if (features.options[fi]) {
+                                        $window.setPath(features.options[fi].path, true);
                                     }
                                 });
                             }

@@ -305,7 +305,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
             $cache = Zend_Registry::isRegistered('cache') ? Zend_Registry::get('cache') : null;
             if($cache) {
-                $cache->clean("all");
+                $cache->clean(Zend_Cache::CLEANING_MODE_ALL);
             }
 
             $cache_ids = array('js_mobile.js', 'js_desktop.js', 'css_mobile.css', 'css_desktop.css');

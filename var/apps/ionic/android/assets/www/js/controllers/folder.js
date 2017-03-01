@@ -41,7 +41,6 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
 
     $scope.is_loading = true;
     $scope.value_id = Folder.value_id = $stateParams.value_id;
-    $scope.search_modal = null;
     $scope.search = {};
 
     Folder.category_id = $stateParams.category_id;
@@ -72,7 +71,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         });
 
     };
-    
+
     $scope.goTo = function(feature) {
 
         if(feature.code == "code_scan") {
@@ -100,34 +99,6 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
 
         Analytics.storePageOpening(feature);
     };
-
-    $scope.startSearch = function() {
-        if($rootScope.isOffline) {
-            $rootScope.onlineOnly();
-            return;
-        }
-
-        if($scope.search.search_value) {
-            $ionicModal.fromTemplateUrl('templates/folder/l1/search.html', {
-                scope: $scope,
-                animation: 'slide-in-up'
-            }).then(function(modal) {
-                $scope.search_modal = modal;
-                $scope.search_modal.show();
-            });
-        }
-    };
-
-    $scope.closeSearch = function() {
-        $scope.search.search_value = "";
-        $scope.search_modal.hide();
-    };
-
-    $scope.$on('$destroy', function() {
-        if($scope.search_modal) {
-            $scope.search_modal.remove();
-        }
-    });
 
     $scope.loadContent();
 

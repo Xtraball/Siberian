@@ -127,6 +127,9 @@ class Backoffice_IndexController extends Backoffice_Controller_Default
                     case "app_manifest":
                         $message = __("Rebuilding application manifest files.");
 
+                        $default_cache = Zend_Registry::get("cache");
+                        $default_cache->clean(Zend_Cache::CLEANING_MODE_ALL);
+
                         $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
                         Siberian_Autoupdater::configure($protocol.$this->getRequest()->getHttpHost());
                         break;

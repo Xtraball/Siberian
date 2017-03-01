@@ -35,10 +35,11 @@ class Cms_Model_Application_Page_Block_Video_Podcast extends Core_Model_Default 
     /**
      * Récupère les podcasts
      *
-     * @param string $search
+     * @param $flux
+     * @param null $id
      * @return array
      */
-    public function getList($flux) {
+    public function getList($flux, $id = null) {
 
         Zend_Feed_Reader::registerExtension('Media');
 
@@ -98,6 +99,11 @@ class Cms_Model_Application_Page_Block_Video_Podcast extends Core_Model_Default 
                         "link"          => $entry->getEnclosure()->url,
                         "image"         => $image
                     ));
+
+                    /** Return a single podcast */
+                    if(!is_null($id) && ($id == $entry->getId())) {
+                        return $podcast;
+                    }
 
                     $this->_podcasts[] = $podcast;
                 }

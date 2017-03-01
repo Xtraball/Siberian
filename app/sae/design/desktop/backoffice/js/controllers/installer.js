@@ -394,6 +394,7 @@ App.config(function($routeProvider) {
                 }).error(function() {
 
                 }).finally(function() {
+                    $scope.installation.install.running = false;
                     $timeout(function() {
                         location.reload();
                     }, 1500);
@@ -420,6 +421,7 @@ App.config(function($routeProvider) {
 
         }).finally(function() {
             $interval.cancel($scope.installation.install.interval_id);
+            $scope.content_loader_is_visible = true;
             $scope.installation.install.running = false;
             $scope.installation.install.progress = 100;
         });

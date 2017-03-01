@@ -335,6 +335,7 @@ App.provider('HomepageLayout', function () {
 
         HomepageLayout._updateFromUrl = function (url) {
 
+            console.log((new Date()).getTime(), "HomepageLayout._updateFromUrl", url);
             if (HomepageLayout.options === null) {
                 return;
             }

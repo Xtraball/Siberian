@@ -556,13 +556,14 @@ class Siberian_Cron {
 		$this->lock($task->getId());
 
 		try {
-		    # Rebuild manifest, clear cache, etc...
-            # 30.12.2016 - Disabling in favor of the new reload from BO/Installer
-		    //$options = Siberian_Json::decode($task->getOptions());
-            //Siberian_Autoupdater::configure($options["host"]);
+		    # Clear cache, etc...
+            $default_cache = Zend_Registry::get("cache");
+            $default_cache->clean(Zend_Cache::CLEANING_MODE_ALL);
+
 			# Disable when success.
 			$task->disable();
-		} catch(Exception $e){
+
+        } catch(Exception $e){
 			$this->log($e->getMessage());
 			$task->saveLastError($e->getMessage());
 		}

@@ -8,6 +8,8 @@ App.config(function ($stateProvider) {
 
 }).controller('MediaPlayerController', function($cordovaSocialSharing, $ionicHistory, $ionicModal, $location, $rootScope, $scope, $state, $stateParams, $timeout, $translate, $window, Application, HomepageLayout, MediaPlayer) {
 
+    console.log("RADIOOOOO");
+
     $scope.$on("connectionStateChange", function(event, args) {
         if (args.isOnline == true) {
             $scope.loadContent();
@@ -56,7 +58,17 @@ App.config(function ($stateProvider) {
                         historyRoot: true,
                         disableAnimate: false
                     });
-                    $location.path($scope.features.first_option.path);
+                    var feat_index = 0;
+                    for(var fi = 0; fi < $scope.features.options.length; fi++) {
+                        var feat = $scope.features.options[fi];
+                        /** Don't load unwanted features on first page. */
+                        if((feat.code !== "code_scan") && (feat.code !== "radio") && (feat.code !== "padlock")) {
+                            feat_index = fi;
+                            break;
+                        }
+                    }
+
+                    $location.path($scope.features.options[feat_index].path).replace();
                 }
                 else{
                     $ionicHistory.goBack(-2);

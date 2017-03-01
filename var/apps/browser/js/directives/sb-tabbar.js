@@ -1,6 +1,6 @@
 "use strict";
 
-App.directive('sbTabbar', function ($ionicHistory, $ionicModal, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $location, $rootScope, $timeout, $translate, $window, $ionicPlatform, Analytics, Application, Customer, Dialog, HomepageLayout, Pages, Url, AUTH_EVENTS, PADLOCK_EVENTS, PUSH_EVENTS) {
+App.directive('sbTabbar', function ($sbhttp, $ionicHistory, $ionicModal, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $location, $rootScope, $timeout, $translate, $window, $ionicPlatform, Analytics, Application, Customer, Dialog, HomepageLayout, Pages, Url, AUTH_EVENTS, PADLOCK_EVENTS, PUSH_EVENTS) {
     return {
         restrict: 'A',
         templateUrl: function() {
@@ -50,7 +50,17 @@ App.directive('sbTabbar', function ($ionicHistory, $ionicModal, $ionicSlideBoxDe
                             historyRoot: true,
                             disableAnimate: false
                         });
-                        $location.path(features.first_option.path);
+                        var feat_index = 0;
+                        for(var fi = 0; fi < features.options.length; fi++) {
+                            var feat = features.options[fi];
+                            /** Don't load unwanted features on first page. */
+                            if((feat.code !== "code_scan") && (feat.code !== "radio") && (feat.code !== "padlock")) {
+                                feat_index = fi;
+                                break;
+                            }
+                        }
+
+                        $location.path(features.options[feat_index].path).replace();
                     }
 
                 });
@@ -117,7 +127,17 @@ App.directive('sbTabbar', function ($ionicHistory, $ionicModal, $ionicSlideBoxDe
                     Analytics.storePageOpening(feature);
                 } else {
                     Analytics.storePageOpening(feature);
-                    $location.path(feature.path);
+
+
+                    if (!Application.is_customizing_colors && HomepageLayout.properties.options.autoSelectFirst) {
+                        $ionicHistory.nextViewOptions({
+                            historyRoot: true,
+                            disableAnimate: false
+                        });
+                        $location.path(feature.path).replace();
+                    } else {
+                        $location.path(feature.path);
+                    }
                 }
 
             };
@@ -137,7 +157,19 @@ App.directive('sbTabbar', function ($ionicHistory, $ionicModal, $ionicSlideBoxDe
             if($rootScope.isOverview) {
                 $scope.$on("tabbarStatesChanged", function() {
                     if(!HomepageLayout.isInitialized()) {
-                        $scope.loadContent();
+                        var device_uid = null;
+                        if ($window.device) {
+                            device_uid = $window.device.uuid;
+                        }
+                        $sbhttp.get(Url.get("front/mobile/loadv2", {
+                            add_language: true,
+                            sid: localStorage.getItem("sb-auth-token"),
+                            device_uid: device_uid
+                        }), {timeout: 5000}).then(function (response) {
+                            Pages.data = response.data.homepage;
+                            $scope.loadContent();
+                        });
+
                     }
                 });
             }
@@ -172,7 +204,7 @@ App.directive('sbTabbar', function ($ionicHistory, $ionicModal, $ionicSlideBoxDe
                 if($scope.pages_list_is_visible){
                     $scope.closeMore();
                 }
-            })
+            });
 
             $rootScope.$on(AUTH_EVENTS.logoutSuccess, function() {
                 $timeout(function() {

@@ -21,7 +21,7 @@ App.provider('$sbhttp', function httpCacheLayerProvider() {
                 return $q.reject("no offline mode cache in webview");
             };
 
-            if(!ionic.Platform.isWebView() && window.localforage) {
+            if((ionic.Platform.isIOS() || ionic.Platform.isAndroid()) && window.localforage) {
                 window.localforage.config({
                     name        : 'sb-offline-mode',
                     storeName   : 'keyvaluepairs',

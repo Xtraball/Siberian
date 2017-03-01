@@ -109,7 +109,7 @@ App.service('Application', function ($sbhttp, $q, $rootScope, $timeout, $transla
                 sid: localStorage.getItem("sb-auth-token"),
                 device_uid: device_uid
             }), {
-                cache: !isOverview,
+                cache: !$rootScope.isOverview,
                 timeout: 15000
             });
 

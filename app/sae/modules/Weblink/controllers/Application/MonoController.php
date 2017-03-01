@@ -2,6 +2,16 @@
 
 class Weblink_Application_MonoController extends Application_Controller_Default
 {
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "editpost" => array(
+            "tags" => array(
+                "app_#APP_ID#"
+            ),
+        )
+    );
 
     public function editpostAction() {
 

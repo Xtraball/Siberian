@@ -195,7 +195,15 @@ class Cms_Model_Application_Block extends Core_Model_Default {
                     $video_id = $video_instance->getYoutube();
                 }
                 if($video->getTypeId() == "link") {
+                    $url_embed = $video_instance->getLink();
+                    $url = $video_instance->getLink();
                     $block_data["cover_url"] = $video->getImageUrl() ? $base_url.$video->getImageUrl() : null;
+                }
+                if($video->getTypeId() == "podcast") {
+                    $podcast = $video_instance->getList($video_instance->getSearch(), $video_instance->getLink());
+                    $url_embed = $podcast->getLink();
+                    $url = $podcast->getLink();
+                    $block_data["cover_url"] = $podcast->getImage();
                 }
                 $block_data["url_embed"] = $url_embed;
                 $block_data["url"] = $url;

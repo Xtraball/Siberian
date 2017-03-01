@@ -131,7 +131,7 @@ class Backoffice_Model_Notification extends Core_Model_Default {
     }
 
     /**
-     *
+     * @deprecated, url will change.
      */
     public function update() {
 
@@ -164,6 +164,7 @@ class Backoffice_Model_Notification extends Core_Model_Default {
         try {
 
             $backoffice_notification_model = new self();
+            $backoffice_notification_model->update();
             $messages = $backoffice_notification_model->findAll(
                 array("is_read = ?" => 0),
                 array("created_at DESC", "original_notification_id DESC"),
