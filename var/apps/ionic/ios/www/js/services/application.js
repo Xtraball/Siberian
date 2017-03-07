@@ -6,17 +6,10 @@ App.service('Application', function ($sbhttp, $q, $rootScope, $timeout, $transla
 
     var service = {};
 
+    service.is_webview = null;
+
     var _loaded = false;
     var _loaded_resolver = $q.defer();
-
-    Object.defineProperty(service, "is_webview", {
-        get: function () {
-            return !!$rootScope.is_webview;
-        },
-        set: function (val) {
-            $rootScope.is_webview = !!val;
-        }
-    });
 
     Object.defineProperty(service, "loaded", {
         get: function () {
@@ -35,11 +28,11 @@ App.service('Application', function ($sbhttp, $q, $rootScope, $timeout, $transla
         }
     });
 
-    service.app_id = null;
-    service.app_name = null;
-    service.googlemaps_key = null;
+    service.app_id          = null;
+    service.app_name        = null;
+    service.googlemaps_key  = null;
 
-    service.is_customizing_colors = $window.location.href.indexOf("application/mobile_customization_colors/") >= 0;
+    service.is_customizing_colors = ($window.location.href.indexOf("application/mobile_customization_colors/") >= 0);
 
     Object.defineProperty(service, "acceptedOfflineMode", {
         get: function () {
@@ -48,8 +41,11 @@ App.service('Application', function ($sbhttp, $q, $rootScope, $timeout, $transla
     });
 
     service.showCacheDownloadModalOrUpdate = function () {
-        $rootScope.progressBarPercent = 0;
-        $rootScope.showProgressBar = false;
+
+
+        $rootScope.progressBarPercent           = 0;
+        $rootScope.showProgressBar              = false;
+
         var offlineResponse = $window.localStorage.getItem("sb-offline-mode");
 
         if(offlineResponse === "ok") {
@@ -128,8 +124,8 @@ App.service('Application', function ($sbhttp, $q, $rootScope, $timeout, $transla
                 assets_done = [];
             }
 
-            var fileQueue = [];
-            var retryQueue = [];
+            var fileQueue   = [];
+            var retryQueue  = [];
 
             var delay = 100;
             var maxRequest = 15;
@@ -172,7 +168,12 @@ App.service('Application', function ($sbhttp, $q, $rootScope, $timeout, $transla
                 }
 
                 var percent = (progress / total);
-                $rootScope.progressBarPercent = percent.toFixed(2);
+
+                // Change progress only if it's bigger. (don't go back ...)
+                if(percent.toFixed(2) > $rootScope.progressBarPercent) {
+                    $rootScope.progressBarPercent = percent.toFixed(2);
+                }
+
                 if (isNaN($rootScope.progressBarPercent)) {
                     $rootScope.progressBarPercent = 0;
                 }
@@ -206,7 +207,7 @@ App.service('Application', function ($sbhttp, $q, $rootScope, $timeout, $transla
                         if (!_.includes(data.assets, path)) {
                             total += 1;
                             pathQueue.add({
-                                type: 'asset',
+                                type: "asset",
                                 path: path
                             });
                         }

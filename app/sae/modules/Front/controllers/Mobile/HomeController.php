@@ -2,6 +2,9 @@
 
 class Front_Mobile_HomeController extends Application_Controller_Mobile_Default {
 
+    /**
+     * @deprecated
+     */
     public function iframeAction() {
         $this->getRequest()->setParam('overview', 1);
         $this->getSession()->isOverview = true;
@@ -47,7 +50,17 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
 
     }
 
+    /**
+     * @deprecated
+     *
+     * replaced by front/mobile/loadv2
+     */
     public function findallAction() {
+
+        $application = $this->getApplication();
+        $app_id = $application->getId();
+        $request = $this->getRequest();
+        $current_language = Core_Model_Language::getCurrentLanguage();
 
         $application = $this->getApplication();
 
@@ -62,25 +75,25 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
 
             foreach ($option_values as $option_value) {
                 $data['pages'][] = array(
-                    'value_id' => $option_value->getId(),
-                    'id' => intval($option_value->getId()),
-                    'layout_id' => $option_value->getLayoutId(),
-                    'code' => $option_value->getCode(),
-                    'name' => $option_value->getTabbarName(),
-                    'subtitle' => $option_value->getTabbarSubtitle(),
-                    'is_active' => $option_value->isActive(),
-                    'url' => $option_value->getUrl(null, array('value_id' => $option_value->getId()), false),
-                    'path' => $option_value->getPath(null, array('value_id' => $option_value->getId()), false),
-                    'icon_url' => $this->getRequest()->getBaseUrl() . $this->_getColorizedImage($option_value->getIconId(), $color),
-                    'icon_is_colorable' => $option_value->getImage()->getCanBeColorized(),
-                    'is_locked' => $option_value->isLocked(),
-                    'is_link' => !$option_value->getIsAjax(),
-                    'use_my_account' => $option_value->getUseMyAccount(),
-                    'use_nickname' => $option_value->getUseNickname(),
-                    'use_ranking' => $option_value->getUseRanking(),
-                    'offline_mode' => $option_value->getObject()->isCacheable(),
-                    'custom_fields' => $option_value->getCustomFields(),
-                    'position' => $option_value->getPosition()
+                    'value_id'          => $option_value->getId(),
+                    'id'                => intval($option_value->getId()),
+                    'layout_id'         => $option_value->getLayoutId(),
+                    'code'              => $option_value->getCode(),
+                    'name'              => $option_value->getTabbarName(),
+                    'subtitle'          => $option_value->getTabbarSubtitle(),
+                    'is_active'         => !!$option_value->isActive(),
+                    'url'               => $option_value->getUrl(null, array('value_id' => $option_value->getId()), false),
+                    'path'              => $option_value->getPath(null, array('value_id' => $option_value->getId()), false),
+                    'icon_url'          => $this->getRequest()->getBaseUrl() . $this->_getColorizedImage($option_value->getIconId(), $color),
+                    'icon_is_colorable' => !!$option_value->getImage()->getCanBeColorized(),
+                    'is_locked'         => !!$option_value->isLocked(),
+                    'is_link'           => !$option_value->getIsAjax(),
+                    'use_my_account'    => !!$option_value->getUseMyAccount(),
+                    'use_nickname'      => !!$option_value->getUseNickname(),
+                    'use_ranking'       => !!$option_value->getUseRanking(),
+                    'offline_mode'      => !!$option_value->getObject()->isCacheable(),
+                    'custom_fields'     => $option_value->getCustomFields(),
+                    'position'          => $option_value->getPosition()
                 );
             }
 
@@ -103,13 +116,13 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
             }
 
             $data['more_items'] = array(
-                'code' => $option->getCode(),
-                'name' => $option->getTabbarName(),
-                'subtitle' => $this->getApplication()->getMoreSubtitle(),
-                'is_active' => $option->isActive(),
-                'url' => "",
-                'icon_url' => $this->getRequest()->getBaseUrl() . $this->_getColorizedImage($option->getIconUrl(), $more_color),
-                'icon_is_colorable' => $more_colorizable,
+                'code'                  => $option->getCode(),
+                'name'                  => $option->getTabbarName(),
+                'subtitle'              => $this->getApplication()->getMoreSubtitle(),
+                'is_active'             => !!$option->isActive(),
+                'url'                   => "",
+                'icon_url'              => $this->getRequest()->getBaseUrl() . $this->_getColorizedImage($option->getIconUrl(), $more_color),
+                'icon_is_colorable'     => !!$more_colorizable,
             );
 
             $option = new Application_Model_Option();
@@ -131,19 +144,19 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
             }
 
             $data['customer_account'] = array(
-                'code' => $option->getCode(),
-                'name' => $option->getTabbarName(),
-                'subtitle' => $this->getApplication()->getAccountSubtitle(),
-                'is_active' => $option->isActive(),
-                'url' => $this->getUrl("customer/mobile_account_login"),
-                'path' => $this->getPath("customer/mobile_account_login"),
-                'login_url' => $this->getUrl("customer/mobile_account_login"),
-                'login_path' => $this->getPath("customer/mobile_account_login"),
-                'edit_url' => $this->getUrl("customer/mobile_account_edit"),
-                'edit_path' => $this->getPath("customer/mobile_account_edit"),
-                'icon_url' => $this->getRequest()->getBaseUrl() . $this->_getColorizedImage($option->getIconUrl(), $account_color),
-                'icon_is_colorable' => $account_colorizable,
-                'is_visible' => $this->getApplication()->usesUserAccount()
+                'code'                  => $option->getCode(),
+                'name'                  => $option->getTabbarName(),
+                'subtitle'              => $this->getApplication()->getAccountSubtitle(),
+                'is_active'             => !!$option->isActive(),
+                'url'                   => $this->getUrl("customer/mobile_account_login"),
+                'path'                  => $this->getPath("customer/mobile_account_login"),
+                'login_url'             => $this->getUrl("customer/mobile_account_login"),
+                'login_path'            => $this->getPath("customer/mobile_account_login"),
+                'edit_url'              => $this->getUrl("customer/mobile_account_edit"),
+                'edit_path'             => $this->getPath("customer/mobile_account_edit"),
+                'icon_url'              => $this->getRequest()->getBaseUrl() . $this->_getColorizedImage($option->getIconUrl(), $account_color),
+                'icon_is_colorable'     => !!$account_colorizable,
+                'is_visible'            => !!$this->getApplication()->usesUserAccount()
             );
 
             $layout = new Application_Model_Layout_Homepage();
@@ -157,24 +170,24 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
             }
 
             $data['layout'] = array(
-                "layout_id" => "l{$this->getApplication()->getLayoutId()}",
-                "layout_code" => $this->getApplication()->getLayout()->getCode(),
-                "layout_options" => $layout_options,
-                "visibility" => $this->getApplication()->getLayoutVisibility(),
-                "use_horizontal_scroll" => (int)$layout->getUseHorizontalScroll(),
-                "position" => $layout->getPosition()
+                "layout_id"                 => "l{$this->getApplication()->getLayoutId()}",
+                "layout_code"               => $this->getApplication()->getLayout()->getCode(),
+                "layout_options"            => $layout_options,
+                "visibility"                => $this->getApplication()->getLayoutVisibility(),
+                "use_horizontal_scroll"     => (int)$layout->getUseHorizontalScroll(),
+                "position"                  => $layout->getPosition()
             );
 
-            $data['limit_to'] = $this->getApplication()->getLayout()->getNumberOfDisplayedIcons();
-            $data['layout_id'] = 'l' . $this->getApplication()->getLayoutId();
-            $data['layout_code'] = $this->getApplication()->getLayout()->getCode();
-            $data['tabbar_is_transparent'] = $background_color == "transparent";
+            $data['limit_to']               = $this->getApplication()->getLayout()->getNumberOfDisplayedIcons();
+            $data['layout_id']              = 'l' . $this->getApplication()->getLayoutId();
+            $data['layout_code']            = $this->getApplication()->getLayout()->getCode();
+            $data['tabbar_is_transparent']  = !!($background_color == "transparent");
 
-            $data['homepage_slider_is_visible'] = (bool)$this->getApplication()->getHomepageSliderIsVisible();
-            $data['homepage_slider_duration'] = $this->getApplication()->getHomepageSliderDuration();
-            $data['homepage_slider_loop_at_beginning'] = (bool)$this->getApplication()->getHomepageSliderLoopAtBeginning();
-            $data['homepage_slider_size'] = $this->getApplication()->getHomepageSliderSize();
-            $data['homepage_slider_is_new'] = ($data['homepage_slider_size'] != null);
+            $data['homepage_slider_is_visible']             = !!$this->getApplication()->getHomepageSliderIsVisible();
+            $data['homepage_slider_duration']               = $this->getApplication()->getHomepageSliderDuration();
+            $data['homepage_slider_loop_at_beginning']      = !!$this->getApplication()->getHomepageSliderLoopAtBeginning();
+            $data['homepage_slider_size']                   = $this->getApplication()->getHomepageSliderSize();
+            $data['homepage_slider_is_new']                 = !!($data['homepage_slider_size'] != null);
 
             $homepage_slider_images = array();
             $slider_images = $this->getApplication()->getSliderImages();
@@ -185,7 +198,11 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
 
             $this->cache->save($data, $cache_id, array(
                 "front_mobile_home_findall",
-
+                "app_".$application->getId(),
+                "homepage_app_".$application->getId(),
+                "css_app_".$app_id,
+                "mobile_translation",
+                "mobile_translation_locale_{$current_language}"
             ));
 
             $data["x-cache"] = "MISS";

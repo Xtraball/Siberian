@@ -20,6 +20,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
         $application = $this->getApplication();
         $app_id = $application->getId();
         $request = $this->getRequest();
+        $current_language = Core_Model_Language::getCurrentLanguage();
 
         /** ========== CSS Cache ========== */
         $cache_id_css = "front_mobile_load_css_app_{$app_id}";
@@ -69,8 +70,8 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                 "application" => array(
                     "id"            => $app_id,
                     "name"          => $application->getName(),
-                    "is_locked"     => $application->requireToBeLoggedIn(),
-                    "is_bo_locked"  => $application->getIsLocked(),
+                    "is_locked"     => !!$application->requireToBeLoggedIn(),
+                    "is_bo_locked"  => !!$application->getIsLocked(),
                     "colors" => array(
                         "header" => array(
                             "backgroundColor"   => $application->getBlock("header")->getBackgroundColorRGB(),
@@ -92,9 +93,9 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                     "gcm_senderid"                  => Push_Model_Certificate::getAndroidSenderId(),
                     "gcm_iconcolor"                 => $application->getAndroidPushColor(),
                     "googlemaps_key"                => $googlemaps_key,
-                    "offline_content"               => ($application->getOfflineContent() == 1),
-                    "ios_status_bar_is_hidden"      => ($application->getIosStatusBarIsHidden() == 1),
-                    "android_status_bar_is_hidden"  => ($application->getAndroidStatusBarIsHidden() == 1),
+                    "offline_content"               => !!$application->getOfflineContent(),
+                    "ios_status_bar_is_hidden"      => !!$application->getIosStatusBarIsHidden(),
+                    "android_status_bar_is_hidden"  => !!$application->getAndroidStatusBarIsHidden(),
                     "privacy_policy"                => str_replace("#APP_NAME", $application->getName(), $privacy_policy),
                 ),
                 "homepage_image" => $homepage_image_b64
@@ -115,7 +116,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
 
 
         /** ========== Homepage, Layout, Features ========== */
-        $cache_id_homepage = "front_mobile_home_findall_app_{$application->getId()}";
+        $cache_id_homepage = "front_mobile_home_findall_app_{$application->getId()}_locale_{$current_language}";
         if(!$result = $this->cache->load($cache_id_homepage)) {
 
             $option_values = $application->getPages(10);
@@ -132,17 +133,17 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                         "code"              => $option_value->getCode(),
                         "name"              => $option_value->getTabbarName(),
                         "subtitle"          => $option_value->getTabbarSubtitle(),
-                        "is_active"         => $option_value->isActive(),
+                        "is_active"         => !!$option_value->isActive(),
                         "url"               => $option_value->getUrl(null, array("value_id" => $option_value->getId()), false),
                         "path"              => $option_value->getPath(null, array("value_id" => $option_value->getId()), false),
                         "icon_url"          => $this->getRequest()->getBaseUrl() . $this->_getColorizedImage($option_value->getIconId(), $color),
-                        "icon_is_colorable" => $option_value->getImage()->getCanBeColorized(),
-                        "is_locked"         => $option_value->isLocked(),
+                        "icon_is_colorable" => !!$option_value->getImage()->getCanBeColorized(),
+                        "is_locked"         => !!$option_value->isLocked(),
                         "is_link"           => !$option_value->getIsAjax(),
                         "use_my_account"    => $option_value->getUseMyAccount(),
                         "use_nickname"      => $option_value->getUseNickname(),
                         "use_ranking"       => $option_value->getUseRanking(),
-                        "offline_mode"      => $option_value->getObject()->isCacheable(),
+                        "offline_mode"      => !!$option_value->getObject()->isCacheable(),
                         "custom_fields"     => $option_value->getCustomFields(),
                         "position"          => $option_value->getPosition()
                     );
@@ -174,10 +175,10 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                 "code"                  => $option->getCode(),
                 "name"                  => $option->getTabbarName(),
                 "subtitle"              => $application->getMoreSubtitle(),
-                "is_active"             => $option->isActive(),
+                "is_active"             => !!$option->isActive(),
                 "url"                   => "",
                 "icon_url"              => $this->getRequest()->getBaseUrl() . $this->_getColorizedImage($option->getIconUrl(), $more_color),
-                "icon_is_colorable"     => $more_colorizable,
+                "icon_is_colorable"     => !!$more_colorizable,
             );
 
             $option = new Application_Model_Option();
@@ -202,7 +203,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                 "code"                  => $option->getCode(),
                 "name"                  => $option->getTabbarName(),
                 "subtitle"              => $application->getAccountSubtitle(),
-                "is_active"             => $option->isActive(),
+                "is_active"             => !!$option->isActive(),
                 "url"                   => $this->getUrl("customer/mobile_account_login"),
                 "path"                  => $this->getPath("customer/mobile_account_login"),
                 "login_url"             => $this->getUrl("customer/mobile_account_login"),
@@ -210,8 +211,8 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                 "edit_url"              => $this->getUrl("customer/mobile_account_edit"),
                 "edit_path"             => $this->getPath("customer/mobile_account_edit"),
                 "icon_url"              => $this->getRequest()->getBaseUrl() . $this->_getColorizedImage($option->getIconUrl(), $account_color),
-                "icon_is_colorable"     => $account_colorizable,
-                "is_visible"            => $application->usesUserAccount()
+                "icon_is_colorable"     => !!$account_colorizable,
+                "is_visible"            => !!$application->usesUserAccount()
             );
 
             $layout = new Application_Model_Layout_Homepage();
@@ -240,18 +241,18 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                     "layout_code"               => $application->getLayout()->getCode(),
                     "layout_options"            => $layout_options,
                     "visibility"                => $application->getLayoutVisibility(),
-                    "use_horizontal_scroll"     => (int)$layout->getUseHorizontalScroll(),
+                    "use_horizontal_scroll"     => !!$layout->getUseHorizontalScroll(),
                     "position"                  => $layout->getPosition()
                 ),
                 "limit_to"                              => $application->getLayout()->getNumberOfDisplayedIcons(),
                 "layout_id"                             => "l{$application->getLayoutId()}",
                 "layout_code"                           => $application->getLayout()->getCode(),
-                "tabbar_is_transparent"                 => (bool)($background_color == "transparent"),
-                "homepage_slider_is_visible"            => (bool)$application->getHomepageSliderIsVisible(),
+                "tabbar_is_transparent"                 => !!($background_color == "transparent"),
+                "homepage_slider_is_visible"            => !!$application->getHomepageSliderIsVisible(),
                 "homepage_slider_duration"              => $application->getHomepageSliderDuration(),
-                "homepage_slider_loop_at_beginning"     => (bool)$application->getHomepageSliderLoopAtBeginning(),
+                "homepage_slider_loop_at_beginning"     => !!$application->getHomepageSliderLoopAtBeginning(),
                 "homepage_slider_size"                  => $application->getHomepageSliderSize(),
-                "homepage_slider_is_new"                => (bool)($data['homepage_slider_size'] != null),
+                "homepage_slider_is_new"                => !!($application->getHomepageSliderSize() != null),
                 "homepage_slider_images"                => $homepage_slider_images,
             );
 
@@ -259,7 +260,9 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                 "front_mobile_home_findall",
                 "app_".$application->getId(),
                 "homepage_app_".$application->getId(),
-                "css_app_".$app_id
+                "css_app_".$app_id,
+                "mobile_translation",
+                "mobile_translation_locale_{$current_language}"
             ));
 
             $data_homepage["x-cache"] = "MISS";
@@ -282,8 +285,6 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
 
         /** ========== Translations ========== */
         # Cache is based on locale/app_id.
-        $current_language = Core_Model_Language::getCurrentLanguage();
-
         $cache_id_translation = "application_mobile_translation_findall_app_{$app_id}_locale_{$current_language}";
         if(!$result = $this->cache->load($cache_id_translation)) {
 
@@ -319,7 +320,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
         $data_load["customer"] = array(
             "id"                            => $customer_id,
             "can_connect_with_facebook"     => !!$application->getFacebookId(),
-            "can_access_locked_features"    => $customer_id && $session->getCustomer()->canAccessLockedFeatures(),
+            "can_access_locked_features"    => !!($customer_id && $session->getCustomer()->canAccessLockedFeatures()),
             "token"                         => Zend_Session::getId()
         );
 

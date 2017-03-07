@@ -57,8 +57,10 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     if(!$store->getId()) throw new Exception(__('An error occurred during process. Please try again later.'));
                     $data["location"] = $store->getStoreName();
 
-                    $date = new Siberian_Date(strtotime($data['date']), Zend_Registry::get('Zend_Locale'));
-                    $data['date'] = $date->toString();
+                    $new_date = new Zend_Date();
+                    // Replace unknown timezone with server timezone, as it's a booking date
+                    $date_str = preg_replace("/-00:00$/", $new_date->get(Zend_Date::GMT_DIFF_SEP), $data["date"]);
+                    $data["date"] = $new_date->setTimestamp(strtotime($date_str));
 
                     //vérif value
                     $booking = new Booking_Model_Booking();

@@ -41,7 +41,7 @@ App.directive("sbPadlock", function(Application) {
 
                 $cordovaBarcodeScanner.scan().then(function(barcodeData) {
 
-                    if(!barcodeData.cancelled && barcodeData.text != "") {
+                    if(!barcodeData.cancelled && (barcodeData.text !== "")) {
 
                         $timeout(function () {
                             for (var i = 0; i < $scope.scan_protocols.length; i++) {
@@ -84,7 +84,11 @@ App.directive("sbPadlock", function(Application) {
                     }
 
                 }, function(error) {
-                    Dialog.alert($translate.instant('Error'), $translate.instant('An error occurred while reading the code.'), $translate.instant("OK"));
+                    Dialog.alert(
+                        $translate.instant('Error'),
+                        $translate.instant('An error occurred while reading the code.'),
+                        $translate.instant("OK")
+                    );
                 });
             };
 

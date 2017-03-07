@@ -26,8 +26,12 @@ App.factory('Booking', function($rootScope, $sbhttp, Url) {
         for (var prop in form) {
             data[prop] = form[prop];
         }
+
         if (data.date) {
-            data.date = new Date(data.date).toLocaleString();
+            var date = new Date(data.date);
+            var zeroPad = function(e) { return ("00"+e).slice(-2); };
+            // Send date with unknown timezone (timezone will be replaced server side)
+            data.date = date.getFullYear()+"-"+zeroPad(date.getMonth())+"-"+zeroPad(date.getDate())+"T"+zeroPad(date.getHours())+":"+zeroPad(date.getMinutes())+":"+zeroPad(date.getSeconds())+"-00:00";
         }
 
         return $sbhttp.post(url, data);

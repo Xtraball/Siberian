@@ -11,10 +11,12 @@ class Application_Mobile_TranslationController extends Application_Controller_Mo
     public function findallAction() {
 
         $application = $this->getApplication();
+        $app_id = $application->getId();
+        $current_language = Core_Model_Language::getCurrentLanguage();
 
-        $cache_id = "application_mobile_translation_findall_app_{$application->getId()}";
+        $cache_id_translation = "old_application_mobile_translation_findall_app_{$app_id}_locale_{$current_language}";
 
-        if(!$result = $this->cache->load($cache_id)) {
+        if(!$result = $this->cache->load($cache_id_translation)) {
 
             Siberian_Cache_Translation::init();
 
@@ -24,7 +26,10 @@ class Application_Mobile_TranslationController extends Application_Controller_Mo
                 $data = Core_Model_Translator::getTranslationsFor($application->getDesignCode());
             }
 
-            $this->cache->save($data, $cache_id, array("mobile_translation"));
+            $this->cache->save($data, $cache_id_translation, array(
+                "mobile_translation",
+                "mobile_translation_locale_{$current_language}"
+            ));
 
             $data["x-cache"] = "MISS";
         } else {
@@ -37,6 +42,9 @@ class Application_Mobile_TranslationController extends Application_Controller_Mo
         $this->_sendJson($data);
     }
 
+    /**
+     * @deprecated
+     */
     public function localeAction() {
         die(strtolower(str_replace("_", "-", Core_Model_Language::getCurrentLocale())));
     }

@@ -18,20 +18,25 @@ App.directive('sbSideMenu', function ($rootElement, $rootScope, $ionicSideMenuDe
                 $ionicHistory.goBack();
             };
 
+            /** Special trick to handle manual updates. */
+            scope.checkForUpdate = function() {
+                $rootScope.checkForUpdate();
+            };
+
             scope.showLeft = function() {
-                return (scope.layout_id && scope.layout.menu.position == 'left');
+                return (scope.layout_id && (scope.layout.menu.position === 'left'));
             };
 
             scope.showRight = function() {
-                return (scope.layout_id && scope.layout.menu.position == 'right');
+                return (scope.layout_id && (scope.layout.menu.position === 'right'));
             };
 
             scope.showBottom = function() {
-                return (scope.layout_id && scope.layout.menu.position == 'bottom' && scope.layout.menu.visibility == 'homepage');
+                return (scope.layout_id && (scope.layout.menu.position === 'bottom') && (scope.layout.menu.visibility === 'homepage'));
             };
 
             scope.showAlways = function() {
-                return (scope.layout_id && scope.layout.menu.position == 'bottom' && scope.layout.menu.visibility == 'always');
+                return (scope.layout_id && (scope.layout.menu.position === 'bottom') && (scope.layout.menu.visibility === 'always'));
             };
 
             scope.contextualMenuSideWidth = function() {

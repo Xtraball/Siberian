@@ -10,7 +10,6 @@ App.directive('sbGoogleAutocomplete', function(GoogleMaps, $timeout) {
 
             var options = {
                 types: [],
-//                componentRestrictions: {}
             };
 
             GoogleMaps.addCallback(function() {

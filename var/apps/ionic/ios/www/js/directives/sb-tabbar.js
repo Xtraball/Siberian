@@ -9,11 +9,11 @@ App.directive('sbTabbar', function ($sbhttp, $ionicHistory, $ionicModal, $ionicS
         scope: {},
         link: function ($scope, element, attrs) {
 
-            $scope.tabbar_is_visible = Pages.is_loaded;
-            $scope.tabbar_is_transparent = HomepageLayout.properties.tabbar_is_transparent;
-            $scope.animate_tabbar = !$scope.tabbar_is_visible;
-            $scope.pages_list_is_visible = false;
-            $scope.active_page = 0;
+            $scope.tabbar_is_visible            = Pages.is_loaded;
+            $scope.tabbar_is_transparent        = HomepageLayout.properties.tabbar_is_transparent;
+            $scope.animate_tabbar               = !$scope.tabbar_is_visible;
+            $scope.pages_list_is_visible        = false;
+            $scope.active_page                  = 0;
 
             $scope.layout = HomepageLayout;
 
@@ -46,10 +46,6 @@ App.directive('sbTabbar', function ($sbhttp, $ionicHistory, $ionicModal, $ionicS
                     	$rootScope.loginFeature = null;
                     	
                     } else if (!Application.is_customizing_colors && HomepageLayout.properties.options.autoSelectFirst && features.first_option !== false) {
-                        $ionicHistory.nextViewOptions({
-                            historyRoot: true,
-                            disableAnimate: false
-                        });
                         var feat_index = 0;
                         for(var fi = 0; fi < features.options.length; fi++) {
                             var feat = features.options[fi];
@@ -60,7 +56,15 @@ App.directive('sbTabbar', function ($sbhttp, $ionicHistory, $ionicModal, $ionicS
                             }
                         }
 
-                        $location.path(features.options[feat_index].path).replace();
+                        if(features.options[feat_index].path != $location.path()) {
+                            $ionicHistory.nextViewOptions({
+                                historyRoot: true,
+                                disableAnimate: false
+                            });
+
+                            $location.path(features.options[feat_index].path).replace();
+                        }
+
                     }
 
                 });
@@ -87,23 +91,27 @@ App.directive('sbTabbar', function ($sbhttp, $ionicHistory, $ionicModal, $ionicS
                         $ionicSideMenuDelegate.toggleRight();
                     }
 
-                    if(feature.code != "padlock") { /** do not clear history if we open the padlock */
-	                    $ionicHistory.nextViewOptions({
-	                        historyRoot: true,
-	                        disableAnimate: false
-	                    });
+                    if(feature.code !== "padlock") { /** do not clear history if we open the padlock */
+                        if(feature.path !== $location.path()) {
+                            $ionicHistory.nextViewOptions({
+                                historyRoot: true,
+                                disableAnimate: false
+                            });
+                        }
                     }
                     break;
                     default:
                 }
 
-                if(attrs.isDisabled) return false;
+                if(attrs.isDisabled) {
+                    return false;
+                }
 
-                if(feature.code == "tabbar_account") {
+                if(feature.code === "tabbar_account") {
                     var account_feature = { id: 0 };
                     Analytics.storePageOpening(account_feature);
                     $scope.login();
-                } else if(feature.code == "tabbar_more") {
+                } else if(feature.code === "tabbar_more") {
                     $scope.tabbar_is_visible = false;
                     $scope.pages_list_is_visible = true;
                     $scope.more();
@@ -112,16 +120,23 @@ App.directive('sbTabbar', function ($sbhttp, $ionicHistory, $ionicModal, $ionicS
                     return false;
                 } else if(feature.is_link) {
                     if($rootScope.isOverview) {
-                        Dialog.alert($translate.instant("Error"), $translate.instant("This feature is available from the application only"), $translate.instant("OK"));
+                        Dialog.alert(
+                            $translate.instant("Error"),
+                            $translate.instant("This feature is available from the application only"),
+                            $translate.instant("OK")
+                        );
                         return false;
                     }
 
                     if(ionic.Platform.isAndroid() && feature.url.indexOf("pdf") >= 0) {
                         $window.open(feature.url, "_system", "location=no");
+
                     } else if(ionic.Platform.isIOS() && feature.url.indexOf("pdf") >= 0) {
                         $window.open(feature.url, $rootScope.getTargetForLink(), "EnableViewPortScale=yes");
+
                     } else {
                         $window.open(feature.url, $rootScope.getTargetForLink(), "location=no");
+
                     }
 
                     Analytics.storePageOpening(feature);
@@ -130,11 +145,15 @@ App.directive('sbTabbar', function ($sbhttp, $ionicHistory, $ionicModal, $ionicS
 
 
                     if (!Application.is_customizing_colors && HomepageLayout.properties.options.autoSelectFirst) {
-                        $ionicHistory.nextViewOptions({
-                            historyRoot: true,
-                            disableAnimate: false
-                        });
-                        $location.path(feature.path).replace();
+
+                        if(feature.path !== $location.path()) {
+                            $ionicHistory.nextViewOptions({
+                                historyRoot: true,
+                                disableAnimate: false
+                            });
+                            $location.path(feature.path).replace();
+                        }
+
                     } else {
                         $location.path(feature.path);
                     }
@@ -150,7 +169,10 @@ App.directive('sbTabbar', function ($sbhttp, $ionicHistory, $ionicModal, $ionicS
                 $window.location = "app:closeApplication";
             };
 
-            $scope.login = function($scope) { $rootScope.loginFeature = null; Customer.loginModal($scope) };
+            $scope.login = function($scope) {
+                $rootScope.loginFeature = null;
+                Customer.loginModal($scope);
+            };
 
             $scope.loadContent();
 
@@ -179,14 +201,17 @@ App.directive('sbTabbar', function ($sbhttp, $ionicHistory, $ionicModal, $ionicS
                     $scope.push_badge = args;
                 });
             });
-            $rootScope.$on(PUSH_EVENTS.readPushs, function() { $scope.push_badge = 0; });
+
+            $rootScope.$on(PUSH_EVENTS.readPushs, function() {
+                $scope.push_badge = 0;
+            });
 
             $scope.modalUrl = HomepageLayout.getModalTemplate();
 
             $scope.more = function() {
                 $ionicModal.fromTemplateUrl($scope.modalUrl, {
                     scope: $scope,
-                    animation: 'slide-in-up'
+                    animation: "slide-in-up"
                 }).then(function(modal) {
                     $scope.moreModal = modal;
                     $scope.moreModal.show();
@@ -228,7 +253,7 @@ App.directive('sbTabbar', function ($sbhttp, $ionicHistory, $ionicModal, $ionicS
             });
 
             if($rootScope.isOverview) {
-                $scope.tabbar_is_transparent = $rootScope.tabbar_is_transparent != null ? $rootScope.tabbar_is_transparent : $scope.tabbar_is_transparent;
+                $scope.tabbar_is_transparent = ($rootScope.tabbar_is_transparent !== null) ? $rootScope.tabbar_is_transparent : $scope.tabbar_is_transparent;
                 $window.changeIcon = function(id, url) {
                     angular.forEach($scope.features.options, function(option) {
                         if(option.id == id) {

@@ -4,7 +4,7 @@
         <div class="buttons">
             <button class="button button-clear" ng-click="closeLoginModal()">{{ "Close" | translate }}</button>
         </div>
-        <h1 class="title">{{ page_title | translate }}</h1>
+        <h1 class="title" ng-click="checkForUpdate();">{{ page_title | translate }}</h1>
         <div class="buttons" ng-show="is_logged_in">
             <button class="button button-clear ion-power" ng-click="logout()">
             </button>

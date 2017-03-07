@@ -94,12 +94,6 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
                 $values = $this->cache_triggers[$action_name];
                 if(isset($values["tags"]) && is_array($values["tags"])) {
 
-                    $app = $this->getApplication();
-                    $app_id = "noapps";
-                    if($app) {
-                        $app_id = $app->getId();
-                    }
-
                     $params = $this->getRequest()->getParams();
                     $payload_data = Siberian_Json::decode($request->getRawBody());
                     if(isset($params["value_id"]) && !empty($params["value_id"])) {
@@ -110,6 +104,22 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
                         $value_id = $payload_data["value_id"];
                     } else if(isset($payload_data["option_value_id"]) && !empty($payload_data["option_value_id"])) {
                         $value_id = $payload_data["option_value_id"];
+                    }
+
+                    # App_id
+                    $app = $this->getApplication();
+                    $app_id = "noapps";
+                    if($app) {
+                        $app_id = $app->getId();
+                    }
+
+                    if(empty($app_id) || ($app_id === "noapps")) {
+                        # Search in params/payload
+                        if(isset($params["app_id"]) && !empty($params["app_id"])) {
+                            $app_id = $params["app_id"];
+                        } else if(isset($payload_data["app_id"]) && !empty($payload_data["app_id"])) {
+                            $app_id = $payload_data["app_id"];
+                        }
                     }
 
 

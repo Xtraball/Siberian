@@ -2,14 +2,14 @@ App.directive('sbBackgroundImage', function($rootScope, $sbhttp, Application, Ur
     return {
         restrict: 'A',
         controller: function($scope, $state, $stateParams, $location) {
-            $scope.value_id = $state.current.name == "home" ? "home" : $stateParams.value_id;
+            $scope.value_id = ($state.current.name === "home") ? "home" : $stateParams.value_id;
         },
         link: function(scope, element) {
 
             scope.setBackgroundImageStyle = function(src) {
                 angular.element(element).addClass("has-background-image").css({"background-image": "url('" + src + "')"});
                 setTimeout(function(){
-                    if(typeof navigator.splashscreen != "undefined") {
+                    if(typeof navigator.splashscreen !== "undefined") {
                         navigator.splashscreen.hide();
                     }
                 }, 100);

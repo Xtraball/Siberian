@@ -15,9 +15,9 @@ App.config(function ($stateProvider) {
         }
     });
 
-    McommerceProduct.value_id = $stateParams.value_id;
-    McommerceCart.value_id = $stateParams.value_id;
-    $scope.value_id = $stateParams.value_id;
+    McommerceProduct.value_id   = $stateParams.value_id;
+    McommerceCart.value_id      = $stateParams.value_id;
+    $scope.value_id             = $stateParams.value_id;
 
     $scope.product_id = $stateParams.product_id;
 
@@ -148,6 +148,7 @@ App.config(function ($stateProvider) {
         if(!$scope.is_loading) {
             $state.go("mcommerce-cart-view", {value_id: $scope.value_id});
         }
+
     };
 
     $scope.changeQuantity = function(qty) {

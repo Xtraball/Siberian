@@ -70,8 +70,10 @@ App.provider('$sbhttp', function httpCacheLayerProvider() {
                                 var process_response = function(http_response) {
                                     $log.debug("Processing http response ("+url+") with status code "+_.get(http_response, "status"));
 
-                                    if(_.isObject(http_response) && http_response.status === 0
-                                       && _.isObject(response)) { // If we've been disconnected during the request
+                                    if(_.isObject(http_response)
+                                        && (http_response.status === 0)
+                                        && _.isObject(response)) { // If we've been disconnected during the request
+
                                         isOnline = false;
                                         $log.debug("request failed for "+url+": using cache");
                                         return process_response(response);
@@ -80,13 +82,13 @@ App.provider('$sbhttp', function httpCacheLayerProvider() {
                                     response = http_response;
 
                                     request_done = true;
-                                    request_error = !(response.status >= 200 && response.status <= 299);
+                                    request_error = !((response.status >= 200) && (response.status <= 299));
 
                                     var callbacks = request_error ? error_cbs : success_cbs;
                                     var promise_resolver = request_error ? reject : resolve;
 
                                     var sendResult = function() {
-                                        if(_.isFunction(response.headers) && response.headers("X-From-Native-Cache") === "true") {
+                                        if(_.isFunction(response.headers) && (response.headers("X-From-Native-Cache") === "true")) {
                                             response = _.extend({}, response, {fromCache: true});
                                         }
 
@@ -96,7 +98,7 @@ App.provider('$sbhttp', function httpCacheLayerProvider() {
                                         promise_resolver(response);
                                     };
 
-                                    if(_.isObject(response) && (isOnline || response.fromCache !== true) && cacheRequest && !request_error) {
+                                    if(_.isObject(response) && (isOnline || (response.fromCache !== true)) && cacheRequest && !request_error) {
                                         $log.debug("caching response for URL "+url+" and status "+_.get(http_response, "status"));
 
                                         var data = JSON.stringify(_.extend({}, response, {fromCache: true}));
@@ -138,21 +140,25 @@ App.provider('$sbhttp', function httpCacheLayerProvider() {
                         });
 
                         promise.success = function(callback) {
-                            if(_.isFunction(callback))
+                            if(_.isFunction(callback)) {
                                 success_cbs.push(callback);
+                            }
 
-                            if(request_done && !request_error)
+                            if(request_done && !request_error) {
                                 callback(response.data, response.status, response.headers, config);
+                            }
 
                             return promise;
                         };
 
                         promise.error = function(callback) {
-                            if(_.isFunction(callback))
+                            if(_.isFunction(callback)) {
                                 error_cbs.push(callback);
+                            }
 
-                            if(request_done && request_error)
+                            if(request_done && request_error) {
                                 callback(response.data, response.status, response.headers, config);
+                            }
 
                             return promise;
                         };
@@ -170,12 +176,12 @@ App.provider('$sbhttp', function httpCacheLayerProvider() {
                     }));
                 };
 
-                httpWrapper.head = $http.head;
-                httpWrapper.post = $http.post;
-                httpWrapper.put = $http.put;
-                httpWrapper.delete = $http.delete;
-                httpWrapper.jsonp = $http.jsonp;
-                httpWrapper.patch = $http.patch;
+                httpWrapper.head    = $http.head;
+                httpWrapper.post    = $http.post;
+                httpWrapper.put     = $http.put;
+                httpWrapper.delete  = $http.delete;
+                httpWrapper.jsonp   = $http.jsonp;
+                httpWrapper.patch   = $http.patch;
 
                 // This needs to be dynamic because postForm is an angular decorator
                 Object.defineProperty(httpWrapper, "postForm", {

@@ -268,6 +268,19 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
+    public function getRealLayoutVisibility() {
+        $layout = $this->getLayout();
+        $layout_visibility = $layout->getVisibility();
+        $layout_code = $layout->getCode();
+        if($layout_code === "layout_9") {
+            return "toggle";
+        }
+
+        if($layout_visibility === "always") {
+
+        }
+    }
+
     public function createDummyContents($category, $design = null, $_category = null) {
 
         $design = is_null($design) ? $this->getDesign() : $design;

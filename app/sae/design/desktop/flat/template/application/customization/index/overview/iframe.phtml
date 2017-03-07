@@ -6,7 +6,7 @@ if($has_previewer && method_exists(new Previewer_Model_Previewer(), "getInstance
 }
 ?>
 <?php if($has_previewer AND $previewer AND $previewer->getShowModalButton()==1 AND $this->_canAccess("previewer")): ?>
-    <button id="previewer" class="btn color-blue" style="position: absolute;right: 302px;top: -150px;"><?php echo $this->_('Preview on your phone'); ?></button>
+    <button id="previewer" class="btn color-blue" style="position: absolute;right: 302px;top: -150px;"><?php echo __('Preview on your phone'); ?></button>
 <?php endif; ?>
 <div id="iphone">
     <div class="iphone_content">
@@ -81,7 +81,7 @@ if($has_previewer && method_exists(new Previewer_Model_Previewer(), "getInstance
 
     $(document).ready(function() {
         console.log("iframe ready");
-        $("#mobile_overview").attr("src", "<?php echo $this->getApplication()->getUrl("front/mobile_home/iframe", array(), Core_Model_Language::getCurrentLanguage(), true); ?>");
+        $("#mobile_overview").attr("src", "<?php echo $this->getApplication()->getUrl("/", array(), Core_Model_Language::getCurrentLanguage(), true); ?>");
         iframe.iframeIsLoaded = function() {
             iframe.content.find("body").removeClass("platform-browser").addClass("platform-ios");
             $("#mask-overview").hide();

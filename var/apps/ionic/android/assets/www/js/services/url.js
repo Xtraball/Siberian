@@ -15,7 +15,9 @@ App.service("Url", function($location) {
 
         get: function(uri, params) {
 
-            if(!angular.isDefined(params)) params = {};
+            if(!angular.isDefined(params)) {
+                params = {};
+            }
 
             var add_language = params.add_language;
             delete params.add_language;

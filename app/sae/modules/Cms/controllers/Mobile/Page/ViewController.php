@@ -16,15 +16,17 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
                 $blocks = $page->getBlocks();
                 $json = array();
 
+                $request = $this->getRequest();
+
                 foreach($blocks as $block) {
-                    $json[] = $block->getJSONData($this->getRequest());
+                    $json[] = $block->_toJson($request->getBaseUrl());
                 }
 
                 $data = array(
-                    "blocks" => $json,
-                    "page_title" => $page->getTitle() ? $page->getTitle() : $option_value->getTabbarName(),
-                    "picture" => $page->getPictureUrl(),
-                    "social_sharing_active" => $option_value->getSocialSharingIsActive()
+                    "blocks"                    => $json,
+                    "page_title"                => $page->getTitle() ? $page->getTitle() : $option_value->getTabbarName(),
+                    "picture"                   => $page->getPictureUrl(),
+                    "social_sharing_active"     => $option_value->getSocialSharingIsActive()
                 );
 
             }
@@ -36,7 +38,7 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
             $data = array('error' => 1, 'message' => 'An error occurred during process. Please try again later.');
         }
 
-        $this->_sendHtml($data);
+        $this->_sendJson($data);
     }
 
     public function findallAction() {
@@ -53,7 +55,7 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
                 if ($page_id) {
                     $page->find($page_id);
                 } else if ($option->getCode() == "places" AND !$page_id) {
-                    throw new Exception($this->_("An error occurred during process. Please try again later."));
+                    throw new Exception(__("An error occurred during process. Please try again later."));
                 } else {
                     $page->find($option->getId(), 'value_id');
                 }
@@ -67,16 +69,16 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
 
                 if($option->getCode() == "places") {
                     $data["page"] = array(
-                        "title" => $page->getTitle(),
-                        "subtitle" => $page->getContent(),
-                        "picture" => $page->getPictureUrl() ? $this->getRequest()->getBaseUrl().$page->getPictureUrl() : null,
-                        "show_image" => $page->getMetadataValue('show_image'),
-                        "show_titles" => $page->getMetadataValue('show_titles')
+                        "title"         => $page->getTitle(),
+                        "subtitle"      => $page->getContent(),
+                        "picture"       => $page->getPictureUrl() ? $this->getRequest()->getBaseUrl().$page->getPictureUrl() : null,
+                        "show_image"    => $page->getMetadataValue('show_image'),
+                        "show_titles"   => $page->getMetadataValue('show_titles')
                     );
                 }
 
-                $data["page_title"] = $page->getTitle() ? $page->getTitle() : $option->getTabbarName();
-                $data["social_sharing_active"] = $option->getSocialSharingIsActive();
+                $data["page_title"]             = $page->getTitle() ? $page->getTitle() : $option->getTabbarName();
+                $data["social_sharing_active"]  = $option->getSocialSharingIsActive();
 
             } catch(Exception $e) {
                 $data = array(
@@ -85,7 +87,7 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
                 );
             }
 
-            $this->_sendHtml($data);
+            $this->_sendJson($data);
         }
 
     }
@@ -106,7 +108,7 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
                 if ($page_id) {
                     $page->find($page_id);
                 } else if ($option->getCode() == "places" AND !$page_id) {
-                    throw new Exception($this->_("An error occurred during process. Please try again later."));
+                    throw new Siberian_Exception(__("An error occurred during process. Please try again later."));
                 } else {
                     $page->find($option->getId(), 'value_id');
                 }
@@ -116,7 +118,7 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
 
                 foreach ($blocks as $block) {
                     if($block->getBlockId() == $block_id) {
-                        $data["block"] = $block->getJSONData($this->getRequest());
+                        $data["block"] = $block->_toJson($this->getRequest()->getBaseUrl());
                     }
                 }
 
@@ -133,7 +135,7 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
                 );
             }
 
-            $this->_sendHtml($data);
+            $this->_sendJson($data);
         }
 
     }
