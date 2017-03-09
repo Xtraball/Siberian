@@ -348,7 +348,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
     public function loadAction() {
         $application = $this->getApplication();
 
-        $cache_id = "front_mobile_load_app_{$application->getId()}";
+        $cache_id = "pre4812_front_mobile_load_app_{$application->getId()}";
 
         if(!$result = $this->cache->load($cache_id)) {
 

@@ -14,7 +14,7 @@ class Application_Mobile_TranslationController extends Application_Controller_Mo
         $app_id = $application->getId();
         $current_language = Core_Model_Language::getCurrentLanguage();
 
-        $cache_id_translation = "old_application_mobile_translation_findall_app_{$app_id}_locale_{$current_language}";
+        $cache_id_translation = "pre4812_application_mobile_translation_findall_app_{$app_id}_locale_{$current_language}";
 
         if(!$result = $this->cache->load($cache_id_translation)) {
 

@@ -64,7 +64,7 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
 
         $application = $this->getApplication();
 
-        $cache_id = "front_mobile_home_findall_app_{$application->getId()}";
+        $cache_id = "pre4812_front_mobile_home_findall_app_{$application->getId()}";
 
         if(!$result = $this->cache->load($cache_id)) {
 

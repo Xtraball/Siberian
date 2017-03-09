@@ -273,6 +273,14 @@ class Siberian_Cron {
 			}
 
 		}
+
+        $module_log_files = new DirectoryIterator("{$this->root_path}/var/log/modules/");
+        foreach($module_log_files as $file) {
+            $pathname = $file->getPathname();
+
+            # Clean up all logs
+            unlink($pathname);
+        }
 	}
 
 	/** NOTE: APK & Sources queues shares the same lock, as one may break the other */
