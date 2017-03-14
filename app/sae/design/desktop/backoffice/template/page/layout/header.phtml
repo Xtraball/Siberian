@@ -1,6 +1,7 @@
 <?php
 $notif_model = new Backoffice_Model_Notification();
 $unread_count = $notif_model->findAll(array("is_read = ?" => 0))->count();
+$custom_links = Siberian_Module::getMenus();
 ?>
 <div class="content">
     <div class="logo left">
@@ -44,6 +45,18 @@ $unread_count = $notif_model->findAll(array("is_read = ?" => 0))->count();
                     <li><a href="<?php echo $this->getUrl('subscription/backoffice_application_list'); ?>"><i class="fa fa-list-ul"></i><?php echo __('Subscriptions'); ?></a></li>
                     <?php endif; ?>
                     <li class="has_submenu"><a href="<?php echo $this->getUrl('template/backoffice_category_list'); ?>"><i class="fa fa-picture-o"></i><?php echo __('Templates'); ?></a></li>
+                    <?php if($custom_links): ?>
+                        <li class="has_submenu">
+                            <a href="#"><i class="fa fa-cog"></i><?php echo __("Modules"); ?></a>
+                            <ul class="l3">
+                                <?php foreach($custom_links as $module => $links): ?>
+                                    <?php foreach($links as $link): ?>
+                                        <li><a href="<?php echo $this->getUrl($link["link"]); ?>"><i class="fa fa-modx"></i><?php echo $link["title"]; ?></a></li>
+                                    <?php endforeach; ?>
+                                <?php endforeach; ?>
+                            </ul>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </li>
             <li><a href="<?php echo $this->getUrl('system/backoffice_config_design'); ?>"><i class="fa fa-pencil"></i><?php echo __('Appearance'); ?></a></li>

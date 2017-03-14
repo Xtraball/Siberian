@@ -1,4 +1,4 @@
-var App = angular.module("Siberian-Backoffice", ['ngRoute', 'ngAnimate', 'ngSanitize', 'angularFileUpload', 'angular-sortable-view', 'ng.ckeditor', 'chart.js', 'bgf.paginateAnything', 'ng-phpdebugbar']);
+var App = angular.module("Siberian-Backoffice", ['ngRoute', 'ngAnimate', 'ngSanitize', 'angularFileUpload', 'angular-sortable-view', 'ng.ckeditor', 'chart.js', 'bgf.paginateAnything', 'ng-phpdebugbar', 'ngQueue']);
 var meta;
 
 App.run(function($rootScope, $window, $route, $location, Message, AUTH_EVENTS, Auth) {

@@ -30,15 +30,15 @@
             </div>
             <div class="item item-text-wrap item-custom" ng-bind-html="item.message | trusted_html" ng-if="item.message" sb-a-click></div>
 
-            <div class="item item-text-wrap item-icon-left item-custom" ng-click="comment()" ng-if="is_logged_in">
+            <div class="item item-text-wrap item-icon-left item-custom" ng-click="comment()" ng-if="show_comment_button && is_logged_in">
                 <i class="icon ion-android-textsms"></i>
                 {{ "Comment" | translate }}
             </div>
-            <div class="item item-text-wrap item-icon-left item-custom" ng-click="login()" ng-if="show_comment_button && !is_logged_in">
+            <div class="item item-text-wrap item-icon-left item-custom" ng-click="login()" ng-if="(show_comment_button || show_like_button) && !is_logged_in">
                 <i class="icon ion-ios-person-outline"></i>
                 {{ "Click here to log-in" | translate }}
             </div>
-            <div class="item item-text-wrap item-icon-left item-custom" ng-click="addLike()" ng-if="show_like_button">
+            <div class="item item-text-wrap item-icon-left item-custom" ng-click="addLike()" ng-if="show_like_button && is_logged_in">
                 <i class="icon ion-ios-heart-outline"></i>
                 {{ "Like" | translate }}
             </div>

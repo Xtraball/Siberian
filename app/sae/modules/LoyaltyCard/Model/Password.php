@@ -8,13 +8,13 @@ class LoyaltyCard_Model_Password extends Core_Model_Default
         $this->_db_table = 'LoyaltyCard_Model_Db_Table_Password';
     }
 
-    public function findByPassword($password, $app_id) {
-        $this->find(array('password' => $this->_encrypt($password), 'app_id' => $app_id));
+    public function findByPassword($password, $value_id) {
+        $this->find(array('password' => $this->_encrypt($password), 'value_id' => $value_id));
         return $this;
     }
 
-    public function findByUnlockCode($password, $app_id) {
-        $this->find(array('unlock_code' => $password, 'app_id' => $app_id));
+    public function findByUnlockCode($password, $value_id) {
+        $this->find(array('unlock_code' => $password, 'value_id' => $value_id));
         return $this;
     }
 

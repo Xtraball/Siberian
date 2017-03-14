@@ -11,10 +11,10 @@
         </div>
 
         <div class="buttons">
-            <button class="button button-clear" ng-click="purchase()" ng-disabled="player.is_radio || !player.current_track.purchaseUrl">
+            <button class="button button-clear" ng-click="purchase()" ng-hide="player.is_radio || !player.current_track.purchaseUrl">
                 <i class="icon ion-ios-cart"></i>
             </button>
-            <button class="button button-clear" ng-click="openPlaylist()" ng-disabled="player.is_radio">
+            <button class="button button-clear" ng-click="openPlaylist()" ng-hide="player.is_radio">
                 <i class="icon ion-navicon"></i>
             </button>
             <button class="button button-clear" ng-if="!is_webview" ng-click="share()">

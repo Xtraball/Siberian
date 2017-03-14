@@ -111,9 +111,9 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                 $password = new LoyaltyCard_Model_Password();
 
                 if($datas["mode_qrcode"]) {
-                    $password->findByUnlockCode($password_entered, $application_id);
+                    $password->findByUnlockCode($password_entered, $option_value->getId());
                 } else {
-                    $password->findByPassword($password_entered, $application_id);
+                    $password->findByPassword($password_entered, $option_value->getId());
                 }
 
                 // Test si le mot de passe a été trouvé
@@ -224,7 +224,7 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                 // Récupération du mot de passe
                 $password = new LoyaltyCard_Model_Password();
 
-                $password->findByUnlockCode($password_entered, $application_id);
+                $password->findByUnlockCode($password_entered, $option_value->getId());
 
                 // Test si le mot de passe a été trouvé
                 if(!$password->getId()) {

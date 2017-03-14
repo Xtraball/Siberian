@@ -65,7 +65,7 @@ var App = angular.module("starter", [
     .run(function ($sbhttp, $ionicConfig, $ionicHistory, $ionicPlatform, $ionicPopup, $ionicSlideBoxDelegate,
                    $ionicScrollDelegate, $injector, $log, $location, $rootScope, $state, $templateCache, $timeout,
                    $translate, $window, Analytics, Application, Connection, Customer, Dialog, FacebookConnect, Facebook,
-                   Push, Url, tmhDynamicLocale, AUTH_EVENTS, PUSH_EVENTS) {
+                   Padlock, Push, Url, tmhDynamicLocale, AUTH_EVENTS, PUSH_EVENTS) {
 
         $log.debug((new Date()).getTime(), "run start");
 
@@ -270,7 +270,7 @@ var App = angular.module("starter", [
                         }
                     });
 
-                    $rootScope.app_is_locked = (Application.is_locked && !Customer.can_access_locked_features);
+                    $rootScope.app_is_locked = Application.is_locked && !(Customer.can_access_locked_features || Padlock.unlocked_by_qrcode);
 
                     $window.colors = data.application.colors;
 
@@ -457,6 +457,7 @@ var App = angular.module("starter", [
 
                     $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams, fromState, fromStateParams) {
 
+                        $rootScope.app_is_locked = Application.is_locked && !(Customer.can_access_locked_features || Padlock.unlocked_by_qrcode);
                         if ($rootScope.app_is_locked && (toState.name != "padlock-view")) {
                             event.preventDefault();
                             $state.go("padlock-view");
@@ -493,7 +494,7 @@ var App = angular.module("starter", [
                     };
 
                     $rootScope.$on(AUTH_EVENTS.loginSuccess, function () {
-                        $rootScope.app_is_locked = (Application.is_locked && !Customer.can_access_locked_features);
+                        $rootScope.app_is_locked = (Application.is_locked && !(Customer.can_access_locked_features || Padlock.unlocked_by_qrcode));
                         if (!$rootScope.app_is_locked && Application.is_locked) {
                             $state.go("home");
                         }
@@ -501,7 +502,7 @@ var App = angular.module("starter", [
 
                     $rootScope.$on(AUTH_EVENTS.logoutSuccess, function () {
 
-                        $rootScope.app_is_locked = Application.is_locked;
+                        $rootScope.app_is_locked = (Application.is_locked && !Padlock.unlocked_by_qr_code);
 
                         if ($rootScope.app_is_locked) {
                             $ionicHistory.nextViewOptions({

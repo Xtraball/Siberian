@@ -119,9 +119,16 @@ class Core_Model_Db_Table_Row extends Zend_Db_Table_Row_Abstract
 
     protected function _insert() {
         $date = new Zend_Date();
-        $date = $date->toString('y-MM-dd HH:mm:ss');
-        if(in_array('created_at', $this->_cols) AND !$this->getId()) $this->setCreatedAt($date);
-        if(in_array('updated_at', $this->_cols)) $this->setUpdatedAt($date);
+        $date_string = $date->toString('y-MM-dd HH:mm:ss');
+        if(in_array('created_at', $this->_cols) AND !$this->getId()) $this->setCreatedAt($date_string);
+        if(in_array('updated_at', $this->_cols)) $this->setUpdatedAt($date_string);
+
+        if(in_array('updated_at_utc', $this->_cols)) $this->setUpdatedAtUtc($date->getTimestamp());
+
+        if(in_array('created_at_utc', $this->_cols) AND !$this->getCreatedAtUtc()) {
+            $created_at = new Zend_Date($this->getCreatedAt());
+            $this->setCreatedAtUtc($created_at->getTimestamp());
+        }
 
         return $this;
     }
@@ -129,9 +136,16 @@ class Core_Model_Db_Table_Row extends Zend_Db_Table_Row_Abstract
     protected function _update() {
 
         $date = new Zend_Date();
-        $date = $date->toString('y-MM-dd HH:mm:ss');
+        $date_string = $date->toString('y-MM-dd HH:mm:ss');
 
-        if(in_array('updated_at', $this->_cols)) $this->setUpdatedAt($date);
+        if(in_array('updated_at', $this->_cols)) $this->setUpdatedAt($date_string);
+        if(in_array('updated_at_utc', $this->_cols)) $this->setUpdatedAtUtc($date->getTimestamp());
+
+        // Fix created at utc if column is empty
+        if(in_array('created_at_utc', $this->_cols) AND !$this->getCreatedAtUtc()) {
+            $created_at = new Zend_Date($this->getCreatedAt());
+            $this->setCreatedAtUtc($created_at->getTimestamp());
+        }
 
         return $this;
     }

@@ -415,9 +415,9 @@ App.provider('HomepageLayout', function () {
 
             HomepageLayout.options = HomepageLayout.data.pages.reduce(function (options, option) {
 
-                if (!option.is_locked || Customer.can_access_locked_features || Padlock.unlock_by_qrcode) {
+                if (!option.is_locked || Customer.can_access_locked_features || Padlock.unlocked_by_qrcode) {
 
-                    if ((!Customer.isLoggedIn() && !Padlock.unlock_by_qrcode) || option.code != "padlock") {
+                    if ((!Customer.isLoggedIn() && !Padlock.unlocked_by_qrcode) || option.code != "padlock") {
                         // use is logged or not padlock feature
                         options.push(option);
                     }

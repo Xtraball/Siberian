@@ -31,7 +31,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         }
     })
 
-}).controller('FolderListController', function($sbhttp, $ionicModal, $ionicPopup, $location, $rootScope, $scope, $stateParams, $window, $translate, $timeout, Analytics, Customer, Folder, Url) {
+}).controller('FolderListController', function($sbhttp, $ionicModal, $ionicPopup, $location, $rootScope, $scope, $stateParams, $window, $translate, $timeout, Analytics, AUTH_EVENTS, PADLOCK_EVENTS, Customer, Folder, Padlock, Url) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -49,19 +49,39 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         Url.get("folder/mobile_list/findall", {value_id: Folder.value_id, category_id: Folder.category_id})
     ]);
 
+    function computeCollections() {
+        var unlocked = Customer.can_access_locked_features || Padlock.unlocked_by_qrcode;
+
+        function compute(collection) {
+            var destination = [];
+            angular.forEach(collection, function(folder_item) {
+                if((unlocked || !folder_item.is_locked || folder_item.code == "padlock")) {
+                    if(unlocked && folder_item.code == "padlock")
+                        return;
+
+                    this.push(folder_item);
+                }
+            }, destination);
+            return destination;
+        }
+
+        $scope.collection = compute($scope.collection_data);
+        $scope.search_list = compute($scope.search_list_data);
+    }
+
+    $scope.$on(AUTH_EVENTS.loginStatusChanged, computeCollections);
+    $scope.$on(PADLOCK_EVENTS.unlockFeatures, computeCollections);
+
     $scope.loadContent = function() {
         Folder.findAll().success(function(data) {
-
-            $scope.collection = [];
-
-            for(var i = 0; i < data.folders.length; i++) {
-                $scope.collection.push(data.folders[i]);
-            }
 
             $scope.cover = data.cover;
             $scope.page_title = data.page_title;
 
-            $scope.search_list = data.search_list;
+            $scope.collection_data = data.folders;
+            $scope.search_list_data = data.search_list;
+            computeCollections();
+
             $scope.show_search = data.show_search == "1";
 
         }).error(function() {

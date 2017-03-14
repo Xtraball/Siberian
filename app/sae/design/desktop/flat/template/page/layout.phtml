@@ -125,7 +125,9 @@
                  */
                 <?php if(!Siberian_Debug::$render): /** Do not call when in debug mode, log pollution */ ?>
                 setInterval(function () {
-                    $.ajax({})
+                    $.ajax({
+                        "url":"/application/security/check"
+                    })
                 }, 12000);
                 <?php endif; ?>
 

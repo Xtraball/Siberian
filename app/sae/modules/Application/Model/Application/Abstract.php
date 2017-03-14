@@ -817,6 +817,16 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $this->getSubscription()->isActive();
     }
 
+    public function subscriptionIsOffline() {
+        if(Siberian_Version::TYPE != "PE") return true;
+        return $this->getSubscription()->getPaymentMethod() == "offline";
+    }
+
+    public function subscriptionIsDeleted() {
+        if(Siberian_Version::TYPE != "PE") return true;
+        return $this->getSubscription()->getIsSubscriptionDeleted();
+    }
+
     public function isAvailableForPublishing($check_sources_access_type) {
         $errors = array();
         if($this->getPages()->count() < 3) $errors[] = __("At least, 4 pages in the application");

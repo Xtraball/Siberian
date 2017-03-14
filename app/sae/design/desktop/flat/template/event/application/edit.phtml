@@ -28,37 +28,36 @@ $event_type_list = array(
             <div id="choose_type">
                 <ul class="list-group">
                     <div>
-                    <li class="color-blue list-group-item btn">
-                        <i class="editCurrentEvent fa fa-apple" title="iCal" alt="iCal"></i>
+                      <li class="color-blue list-group-item btn editCurrentEvent">
+                        <i class="fa fa-apple" title="iCal" alt="iCal"></i>
                         <p><?php echo $this->_('iCal') ?></p>
                         <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>"/>
                         <input type="hidden" name="event_type" value="ical" />
-                    </li>
-                    
-                    <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>"/>
-                    <input type="hidden" name="event_type" value="ical" />
+                      </li>
+                      <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>"/>
+                      <input type="hidden" name="event_type" value="ical" />
                     </div>
                     <div>
-                    <li class="color-blue list-group-item btn">
-                        <i class="fa fa-facebook<?php if($facebook_is_available) : ?> editCurrentEvent<?php endif?>" <?php if(!$facebook_is_available) : ?>onclick="featureNotAvailable(); return false;"<?php endif; ?> title="Facebook" alt="Facebook" ></i>
+                      <li class="color-blue list-group-item btn<?php if($facebook_is_available) : ?> editCurrentEvent<?php endif?>" <?php if(!$facebook_is_available) : ?>onclick="featureNotAvailable(); return false;"<?php endif; ?> ">
+                        <i class="fa fa-facebook" title="Facebook" alt="Facebook" ></i>
                         <p><?php echo $this->_('Facebook') ?></p>
                         <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>" />
                         <input type="hidden" name="event_type" value="fb" />
-                    </li>
+                      </li>
 
-                    <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>" />
-                    <input type="hidden" name="event_type" value="fb" />
+                      <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>" />
+                      <input type="hidden" name="event_type" value="fb" />
                     </div>
                     <div>
-                    <li class="color-blue list-group-item btn">
-                        <i class="editCurrentEvent fa fa-calendar" title="Cstm" alt="Cstm"></i>
-                        <p><?php echo $this->_('Custom Page') ?></p>
-                        <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>"/>
-                        <input type="hidden" name="event_type" value="cstm" />
-                    </li>
+                      <li class="color-blue list-group-item btn editCurrentEvent">
+                          <i class="fa fa-calendar" title="Cstm" alt="Cstm"></i>
+                          <p><?php echo $this->_('Custom Page') ?></p>
+                          <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>"/>
+                          <input type="hidden" name="event_type" value="cstm" />
+                      </li>
 
-                    <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>"/>
-                    <input type="hidden" name="event_type" value="cstm" />
+                      <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>"/>
+                      <input type="hidden" name="event_type" value="cstm" />
                     <div>
                 </ul>
                 
@@ -191,11 +190,11 @@ $event_type_list = array(
     }
 
     .delete_event {
-        cursor:pointer; z-index: -1;
+        cursor:pointer;
     }
 
     .editCurrentEvent {
-        cursor:pointer; z-index: -1;
+        cursor:pointer;
     }
     #choose_type ul {
         padding-left: 26%;

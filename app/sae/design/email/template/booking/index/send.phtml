@@ -18,7 +18,7 @@
             <p align="justify" style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;">
                 <?php echo $this->_('Booking details:'); ?>
                 <ul>
-                    <li><?php echo $this->_('Date and time:'); ?> <?php echo $this->getData('date'); ?></li>
+                    <li><?php echo $this->_('Date and time:'); ?> <?php echo datetime_to_format($this->getData('date'), Zend_Date::DATETIME_SHORT, new Zend_Locale($this->getApplication()->getCountryCode())); ?></li>
                     <li><?php echo $this->_('Number of people'); ?>: <?php echo $this->getData('people'); ?></li>
                     <li><?php echo $this->_('Booking subject:'); ?> <?php echo $this->getData('prestation'); ?></li>
                     <li><?php echo $this->_('Booking location:'); ?> <?php echo $this->getData('location'); ?></li>

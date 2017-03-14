@@ -39,7 +39,7 @@ $schemas['comment_answer'] = array(
         ),
     ),
     'text' => array(
-        'type' => 'varchar(255)',
+        'type' => 'varchar(2048)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
@@ -57,4 +57,10 @@ $schemas['comment_answer'] = array(
     'updated_at' => array(
         'type' => 'datetime',
     ),
+    'created_at_utc' => array(
+        'type' => 'bigint'
+    ),
+    'updated_at_utc' => array(
+        'type' => 'bigint'
+    )
 );

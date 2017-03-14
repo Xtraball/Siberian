@@ -98,4 +98,10 @@ $schemas['comment'] = array(
     'updated_at' => array(
         'type' => 'datetime',
     ),
+    'created_at_utc' => array(
+        'type' => 'bigint'
+    ),
+    'updated_at_utc' => array(
+        'type' => 'bigint'
+    )
 );

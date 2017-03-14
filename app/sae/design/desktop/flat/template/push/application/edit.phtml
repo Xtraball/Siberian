@@ -337,7 +337,7 @@ $googlemaps_key = $api->getSecretKey();
                                             <?php if(empty($customer["registration_id"]) AND empty($customer["device_uid"])): ?>
                                                 <span title="<?php echo $this->_("No device found for this user"); ?>">X</span>
                                             <?php else: ?>
-                                                <input type="checkbox" class="checkbox chk_customers" id="<?php echo $customer["customer_id"]; ?>" value="<?php echo $customer["customer_id"]; ?>" />
+                                                <input type="checkbox" class="checkbox chk_customers" onclick="handleClick(this);" id="<?php echo $customer["customer_id"]; ?>" value="<?php echo $customer["customer_id"]; ?>" />
                                             <?php endif; ?>
                                         </td>
                                         <td><?php echo $customer["email"]; ?></td>
@@ -459,6 +459,7 @@ $googlemaps_key = $api->getSecretKey();
 
         var default_cover_url = '<?php echo $messageobj->getCoverUrl(); ?>';
         var img_uploader = new Uploader();
+        var customers_list = new Array();
 
         page.setCallback('didappear', function() {
 
@@ -724,13 +725,13 @@ $googlemaps_key = $api->getSecretKey();
                         }
 
                         /** Individual Push */
-                        var customers = new Array();
+                        /*var customers = new Array();
                         $(".chk_customers").each(function(index,elem) {
                             if($(elem).is(':checked')) {
                                 customers.push($(elem).val());
                             }
-                        });
-                        id_string = customers.join(";");
+                        });*/
+                        id_string = customers_list.join(";");
 
                         $("#customers_receiver").val(id_string);
 
@@ -820,6 +821,21 @@ $googlemaps_key = $api->getSecretKey();
 
             deleteMessage(msgid);
         });
+        
+        function handleClick (customer){
+
+            var customer_id = $(customer).attr('id');
+            
+            if(customer.checked){
+                customers_list.push(customer_id);
+            }else {
+                var index = customers_list.indexOf(customer_id);
+
+                if (index > -1) {
+                    customers_list.splice(index, 1);
+                }
+            }
+        }
 
     </script>
     <link href="/app/sae/design/desktop/flat/template/push/application/edit.css" media="screen" rel="stylesheet" type="text/css">

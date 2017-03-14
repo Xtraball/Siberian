@@ -11,14 +11,16 @@
             <span id="header_app_name"><?php echo $this->getApplication()->getShortName(); ?></span>
         </li>
         <li>
+          <?php $editor_menu = array('editor_design','editor_colors','editor_features','editor_application','editor_publication'); ?>
+          <?php if($this->_canAccessAnyOf($editor_menu)) : ?>
             <div id="shortcuts1" class="collapse in">
                 <a href="#shortcuts-sub-1" data-toggle="collapse" class="collapsed">
                     <i class="fa fa-pencil"></i>
                     <?php echo $this->_('Editor'); ?>
-                    <i class="fa <?php if (in_array($current_link, array('editor_design','editor_colors','editor_features','editor_application','editor_publication'))) echo "fa-angle-down"; else echo "fa-angle-right"; ?>"></i>
+                    <i class="fa <?php if (in_array($current_link, $editor_menu)) echo "fa-angle-down"; else echo "fa-angle-right"; ?>"></i>
                 </a>
-                <div id="shortcuts-sub-1" class="collapse sub-bar<?php if (in_array($current_link, array('editor_design','editor_colors','editor_features','editor_application','editor_publication'))) echo " in"; ?>">
-                    <?php if($this->_canAccess("editor_design")) : ?>
+                <div id="shortcuts-sub-1" class="collapse sub-bar<?php if (in_array($current_link, $editor_menu)) echo " in"; ?>">
+                  <?php if($this->_canAccess("editor_design")) : ?>
                         <a href="<?php echo $this->getUrl('application/customization_design_style/edit'); ?>" class="block header no-background<?php if($current_link == 'editor_design'): ?> font-blue<?php endif; ?>">
                             <i class="fa fa-chevron-circle-right"></i>
                             <?php echo $this->_("Design"); ?>
@@ -55,6 +57,7 @@
                 </div>
             </div>
         </li>
+        <?php endif; ?>
         <?php if($this->_canAccess("promote")):?>
         <li>
             <a href="<?php echo $this->getUrl('application/promote'); ?>" class="<?php if($current_link == 'promote'): ?> active<?php endif; ?>">

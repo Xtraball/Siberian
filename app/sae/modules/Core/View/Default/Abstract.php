@@ -66,6 +66,14 @@ abstract class Core_View_Default_Abstract extends Siberian_View
         return self::_getAcl() ? self::_getAcl()->isAllowed($resource, $value_id) : true;
     }
 
+    protected function _canAccessAnyOf($resources, $value_id = null) {
+        foreach($resources as $resource) {
+            $allowed = self::_canAccess($resource, $value_id);
+            if($allowed)
+                return true;
+        }
+    }
+
     public function getDevice() {
         return self::$_device;
     }

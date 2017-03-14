@@ -33,7 +33,7 @@ App.config(function($stateProvider) {
     }
 
     $scope.loadContent = function() {
-
+        $scope.offset =null;
         if($scope.is_loading) return;
 
         $scope.is_loading = true;

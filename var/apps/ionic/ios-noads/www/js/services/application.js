@@ -88,7 +88,7 @@ App.service('Application', function ($sbhttp, $q, $rootScope, $timeout, $transla
     };
 
     service.updateCache = function () {
-        window.OfflineMode.setCanCache();
+        if(window.OfflineMode) window.OfflineMode.setCanCache();
 
         if (_updatingCache === true) {
             return;

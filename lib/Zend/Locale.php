@@ -116,7 +116,7 @@ class Zend_Locale
         'xh_ZA' => true, 'xh'    => true, 'yo_NG' => true, 'yo'    => true, 'zh_CN' => true,
         'zh_HK' => true, 'zh_MO' => true, 'zh_SG' => true, 'zh_TW' => true, 'zh'    => true,
         'zu_ZA' => true, 'zu'    => true, 'en_KE' => true, 'fr_PF' => true, 'mfe_MU'=> true,
-        'en_ZM' => true, 'en_PG' => true, 'nl_SR' => true
+        'en_ZM' => true, 'en_PG' => true, 'nl_SR' => true, 'en_KY' => true
     );
 
     /**

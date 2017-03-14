@@ -38,10 +38,66 @@ abstract class Core_Model_Default_Abstract
         return $this;
     }
 
+    //                                          .
+    //                                    *   .     .   .
+    //                                      . (*.) .    * .
+    //                                  .  ( .(.. ) )
+    //                                 . .( (..*  ).*) .
+    //                      .            ( *  . ). .)  .
+    //                     /:\           .  ( (. *.) .   
+    //                    /:.:\        .  .  )  *
+    //                   /:.:.:\         .*   /.  .    *  
+    //    M A G I C     |wwWWWww|            /   .
+    //                  (((""")))           /
+    // H A P P E N S !  (. @ @ .)          /
+    //                  (( (_) ))      __ /
+    //                 .-)))o(((-.    |:.   \
+    //                /.:((()))):.:\  /.:.  \
+    //               /.:.:)))((:.:.:\/.:.:.|
+    //              /.:.:.((()).:.:./.:.\.:|
+    //             /.:.:.:.))((:.:.:.:./  \|
+    //            /.:.:.:Y:((().Y.:.:./
+    //           /.:.:.:/:.:)).:\:.:.| 
+    //          /.:.:.:/|.:.(.:.:\:./ 
+    //         /.:.:.:/ |:.:.:.:.|\'
+    //         `;.:./   |.:.:.:.:| `  __,_,_,___)
+    //           |./'   |:.:.:.:.|   (  / / /       _
+    //           `'     |.:.:.:.:|     / / / _ ,_  // . ,_
+    //                  |:.:.:.:.|    / / (_(/_/(_(/_/_//(__)
+    //                  |.:.:.:.:| (_/
+    //                  |:.:.:.:.|
+    //                 |:.:.:.:.:.|
+    //                |.:.:.:.:.:.:|  
+    //            jgs |:.:.:.:.:.:.|
+    //                `-:.:.:.:.:.-'
+    //
     public function __call($method, $args)
     {
         $accessor = substr($method, 0, 3);
         $magicKeys = array('set', 'get', 'uns', 'has');
+
+        if(preg_match('/(CreatedAt|UpdatedAt)$/', $method, $matches)) {
+            $key = Core_Model_Lib_String::camelize($matches[1]);
+            $formatted = (substr($method, 0, 12) == 'getFormatted');
+            $simple_access = $method == "get".$matches[1];
+
+            if($formatted || $simple_access) {
+                $data = $this->getData($key."_utc");
+
+                if($data && @intval($data, 10) > 0) {
+                    $data = gmdate("c", $data);
+                } else { // no data or invalid data, fallback to legacy
+                    $data = $this->getData($key);
+                }
+
+                if($formatted) {
+                    return $this->formatDate($data, !empty($args[0]) ? $args[0] : null);
+                }
+                if($simple_access) {
+                    return $data;
+                }
+            }
+        }
 
         if(substr($method, 0, 12) == 'getFormatted') {
             $key = Core_Model_Lib_String::camelize(substr($method,12));
@@ -55,6 +111,7 @@ abstract class Core_Model_Default_Abstract
                 return $this->formatDate($data, !empty($args[0]) ? $args[0] : null);
             }
         }
+
         if(in_array($accessor, $magicKeys)) {
             if(substr($method, 0, 7) == 'getOrig') {
                 $key = Core_Model_Lib_String::camelize(substr($method,7));

@@ -1,5 +1,5 @@
 <?php
-
+// TODO: Use mssafe_csv in this controller for better CSV
 class Analytics_AnalyticsController extends Application_Controller_Default {
 
     public function getinstallsmetricAction() {
@@ -679,7 +679,7 @@ class Analytics_AnalyticsController extends Application_Controller_Default {
                 $csv_string = "Name;Email;Validation;\n";
                 foreach($loyalties as $loyalty) {
                     if($users_names_mails[$loyalty["customer_id"]]) {
-                        $csv_string .= $users_names_mails[$loyalty["customer_id"]]["name"] . ";" . $users_names_mails[$loyalty["customer_id"]]["mail"] . ";" . $loyalty["validation"];
+                        $csv_string .= $users_names_mails[$loyalty["customer_id"]]["name"] . ";" . $users_names_mails[$loyalty["customer_id"]]["mail"] . ";" . $loyalty["validation"] . "\n";
                     }
                 }
                 $filename = "analytic_validations_by_users_".date("Ymd").".csv";

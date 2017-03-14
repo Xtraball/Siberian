@@ -98,6 +98,12 @@ class Comment_Mobile_ViewController extends Application_Controller_Mobile_Defaul
             try {
 
                 $customer_id = $this->getSession()->getCustomerId();
+                $customer = new Customer_Model_Customer();
+                $customer->find($customer_id);
+                if(!$customer->getId()) {
+                    throw new Siberian_Exception(__("You must be logged in to like something!"));
+                }
+
                 $ip = md5($_SERVER['REMOTE_ADDR']);
                 $ua = md5($_SERVER['HTTP_USER_AGENT']);
                 $like = new Comment_Model_Like();

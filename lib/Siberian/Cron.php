@@ -274,13 +274,17 @@ class Siberian_Cron {
 
 		}
 
-        $module_log_files = new DirectoryIterator("{$this->root_path}/var/log/modules/");
-        foreach($module_log_files as $file) {
-            $pathname = $file->getPathname();
+		# This folder is not always present.
+		if(is_readable("{$this->root_path}/var/log/modules/")) {
+            $module_log_files = new DirectoryIterator("{$this->root_path}/var/log/modules/");
+            foreach($module_log_files as $file) {
+                $pathname = $file->getPathname();
 
-            # Clean up all logs
-            unlink($pathname);
+                # Clean up all logs
+                unlink($pathname);
+            }
         }
+
 	}
 
 	/** NOTE: APK & Sources queues shares the same lock, as one may break the other */
@@ -567,6 +571,9 @@ class Siberian_Cron {
 		    # Clear cache, etc...
             $default_cache = Zend_Registry::get("cache");
             $default_cache->clean(Zend_Cache::CLEANING_MODE_ALL);
+
+            # Clear cron errors
+            Cron_Model_Cron::clearErrors();
 
 			# Disable when success.
 			$task->disable();

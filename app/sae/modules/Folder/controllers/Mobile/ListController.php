@@ -69,7 +69,8 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                             "picture" => $feature->getIconId() ? $this->getRequest()->getBaseUrl().$this->_getColorizedImage($feature->getIconId(), $color) : null,
                             "offline_mode" => $feature->getObject()->isCacheable(),
                             "code" => $feature->getCode(),
-                            "type" => "feature"
+                            "type" => "feature",
+                            "is_locked" => !!$feature->isLocked()
                         );
                     }
                 }
@@ -106,7 +107,7 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                         "url" => $page->getPath(null, array('value_id' => $page->getId()), false),
                         "code" => $page->getCode(),
                         "offline_mode" => $page->getObject()->isCacheable(),
-                        "is_locked" => $page->isLocked(),
+                        "is_locked" => !!$page->isLocked()
                     );
                 }
 
