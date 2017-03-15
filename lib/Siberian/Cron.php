@@ -274,7 +274,7 @@ class Siberian_Cron {
 
 		}
 
-		# This folder is not always present.
+		# This folder is not always present +4.9.1.
 		if(is_readable("{$this->root_path}/var/log/modules/")) {
             $module_log_files = new DirectoryIterator("{$this->root_path}/var/log/modules/");
             foreach($module_log_files as $file) {

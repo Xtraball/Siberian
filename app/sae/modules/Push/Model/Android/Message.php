@@ -117,43 +117,50 @@ class Push_Model_Android_Message {
 
             foreach($aggregate_result->getResults() as $result) {
 
-                # Fetch the device
-                $registration_id = $result->getRegistrationId();
-                if(isset($device_by_token[$registration_id])) {
-                    $device = $device_by_token[$registration_id];
-                } else {
-                    continue;
-                }
+                try {
 
-                $messageId = $result->getMessageId();
-                $errorCode = $result->getErrorCode();
-                if(!empty($messageId)) {
-
-                    if($app_use_ionic) {
-                        $registration_id = $device->getDeviceUid() ? $device->getDeviceUid() : $device->getRegistrationId();
+                    # Fetch the device
+                    $registration_id = $result->getRegistrationId();
+                    if(isset($device_by_token[$registration_id])) {
+                        $device = $device_by_token[$registration_id];
                     } else {
-                        $registration_id = $device->getRegistrationId();
+                        continue;
                     }
 
-                    $this->getMessage()->createLog($device, 1, $registration_id);
+                    $messageId = $result->getMessageId();
+                    $errorCode = $result->getErrorCode();
+                    if(!empty($messageId)) {
 
-                } else if(!empty($errorCode)) {
+                        if($app_use_ionic) {
+                            $registration_id = $device->getDeviceUid() ? $device->getDeviceUid() : $device->getRegistrationId();
+                        } else {
+                            $registration_id = $device->getRegistrationId();
+                        }
 
-                    # Handle error
-                    $error_count = $device->getErrorCount();
-                    if($error_count >= 2) {
-                        # Remove device from list
-                        $device->delete();
+                        /** Very important code, this links push message to user/device */
+                        $this->getMessage()->createLog($device, 1, $registration_id);
 
-                        $msg = sprintf("#810-01: Android Device with ID: %s, Token: %s, removed after 2 failed push.", $device->getId(), $registration_id);
-                        $this->logger->info($msg, "push_android", false);
-                    } else {
-                        $device->setErrorCount(++$error_count)->save();
+                    } else if(!empty($errorCode)) {
 
-                        $msg = sprintf("#810-02: Android Device with ID: %s, Token: %s, failed push ! Errors count: %s.", $device->getId(), $registration_id, $error_count);
-                        $this->logger->info($msg, "push_android", false);
+                        # Handle error
+                        $error_count = $device->getErrorCount();
+                        if($error_count >= 2) {
+                            # Remove device from list
+                            $device->delete();
+
+                            $msg = sprintf("#810-01: Android Device with ID: %s, Token: %s, removed after 2 failed push.", $device->getId(), $registration_id);
+                            $this->logger->info($msg, "push_android", false);
+                        } else {
+                            $device->setErrorCount(++$error_count)->save();
+
+                            $msg = sprintf("#810-02: Android Device with ID: %s, Token: %s, failed push ! Errors count: %s.", $device->getId(), $registration_id, $error_count);
+                            $this->logger->info($msg, "push_android", false);
+                        }
+
                     }
-
+                } catch(Exception $e) {
+                    $msg = sprintf("#810-06: Android Device with ID: %s, Token: %s failed ! Error message: %s.", $device->getId(), $registration_id, $e->getMessage());
+                    $this->logger->info($msg, "push_android", false);
                 }
             }
 
@@ -169,7 +176,7 @@ class Push_Model_Android_Message {
             $this->service_gcm->logger->log($error);
 
             # Throw exception up to notify the push failed
-            throw new Exception($error);
+            throw new Siberian_Exception($error);
         }
 
     }

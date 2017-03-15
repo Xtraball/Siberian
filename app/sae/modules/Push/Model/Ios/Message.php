@@ -89,28 +89,35 @@ class Push_Model_Ios_Message {
 
         # Create logs & Dump errors into log.
         foreach($devices as $device) {
-            if(!array_key_exists($device->getId(), $device_errors)) {
-                # Push ok, so create log
-                $this->message->createLog($device, 1);
-            } else {
-                # Handle error
-                $error_count = $device->getErrorCount();
-                if($error_count >= 2) {
-                    # Remove device from list
-                    $msg = sprintf("#800-01: iOS Device with ID: %s, Token: %s, removed after 3 failed push.", $device->getId(), $device->getDeviceToken());
+            try {
 
-                    $device->delete();
-                    $this->logger->info($msg, "push_ios", false);
+                if(!array_key_exists($device->getId(), $device_errors)) {
+                    # Push ok, so create log
+                    $this->message->createLog($device, 1);
                 } else {
-                    $device->setErrorCount(++$error_count)->save();
+                    # Handle error
+                    $error_count = $device->getErrorCount();
+                    if($error_count >= 2) {
+                        # Remove device from list
+                        $msg = sprintf("#800-01: iOS Device with ID: %s, Token: %s, removed after 3 failed push.", $device->getId(), $device->getDeviceToken());
 
-                    $msg = sprintf("#800-02: iOS Device with ID: %s, Token: %s, failed push ! Errors count: %s.", $device->getId(), $device->getDeviceToken(), $error_count);
-                    $this->logger->info($msg, "push_ios", false);
+                        $device->delete();
+                        $this->logger->info($msg, "push_ios", false);
+                    } else {
+                        $device->setErrorCount(++$error_count)->save();
+
+                        $msg = sprintf("#800-02: iOS Device with ID: %s, Token: %s, failed push ! Errors count: %s.", $device->getId(), $device->getDeviceToken(), $error_count);
+                        $this->logger->info($msg, "push_ios", false);
+                    }
+
+                    if(isset($msg)) {
+                        $this->service_apns->_log($msg);
+                    }
                 }
 
-                if(isset($msg)) {
-                    $this->service_apns->_log($msg);
-                }
+            } catch(Exception $e) {
+                $msg = sprintf("#800-03: iOS Device with ID: %s, Token: %s, failed ! Error message: %s.", $device->getId(), $device->getDeviceToken(), $e->getMessage());
+                $this->logger->info($msg, "push_ios", false);
             }
         }
 

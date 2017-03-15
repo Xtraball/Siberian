@@ -88,6 +88,11 @@ class Application_Customization_Design_StyleController extends Application_Contr
                     $application->setLayoutVisibility(Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE);
                 }
 
+                /** If for layout 9 ... */
+                if($layout->getVisibility() == Application_Model_Layout_Homepage::VISIBILITY_TOGGLE) {
+                    $application->setLayoutVisibility(Application_Model_Layout_Homepage::VISIBILITY_TOGGLE);
+                }
+
                 if(!isset($datas["homepageoptions"])) {
                     $application->setLayoutOptions(Siberian_Json::encode($datas));
                 }

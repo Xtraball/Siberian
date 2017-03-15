@@ -478,6 +478,7 @@ $layout_model = new Application_Model_Layout_Homepage();
 $layout_9_id = $layout_model->find("layout_9", "code")->getId();
 
 # Android default push icon.
+# run in 4.9.1
 $this->query("UPDATE application SET android_push_icon = '/placeholder/android/push_default_icon.png' WHERE (android_push_icon IS NULL OR android_push_icon = '');");
 $this->query("UPDATE application SET android_push_color = '#0099C7' WHERE (android_push_color IS NULL OR android_push_color = '');");
 $this->query("UPDATE application SET layout_visibility = 'toggle' WHERE layout_id = {$layout_9_id};");

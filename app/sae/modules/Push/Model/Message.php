@@ -191,7 +191,7 @@ class Push_Model_Message extends Core_Model_Default {
                         $instance->setMessage($this);
                         $instance->push();
                     } else {
-                        throw new Exception("You must provide an APNS Certificate for the App ID: {$this->getAppId()}");
+                        throw new Siberian_Exception("You must provide an APNS Certificate for the App ID: {$this->getAppId()}");
                     }
                 } catch (Exception $e) {
                     $this->logger->info(sprintf("[CRON: %s]: ".$e->getMessage(), date("Y-m-d H:i:s")), "cron_push");
@@ -211,7 +211,7 @@ class Push_Model_Message extends Core_Model_Default {
                         $instance->setMessage($this);
                         $instance->push();
                     } else {
-                        throw new Exception("You must provide GCM Credentials");
+                        throw new Siberian_Exception("You must provide GCM Credentials");
                     }
                 } catch (Exception $e) {
                     $this->logger->info(sprintf("[CRON: %s]: ".$e->getMessage(), date("Y-m-d H:i:s")), "cron_push");
