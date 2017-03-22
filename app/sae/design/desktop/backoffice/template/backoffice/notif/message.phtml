@@ -15,11 +15,18 @@
     <div class="notif-content">
         <h3><?php echo __("Message") ?></h3>
         <p ng-bind-html="notif.description | trusted_html"></p>
-        <p ng-if="notif.source == 'cron'">
+        <p ng-if="notif.source == 'cron' && notif.origin == 'generator'">
             <br />
             <a class="btn btn-primary pull-right" href="javascript:void(0);" ng-click="removeLocks();">
                 <i class="fa fa-unlock"></i>
                 <?php echo __("Remove locks now") ?>
+            </a>
+        </p>
+        <p ng-if="notif.source == 'cron' && notif.origin == 'letsencrypt'">
+            <br />
+            <a class="btn btn-primary pull-right" href="javascript:void(0);" ng-click="removeLocks();">
+                <i class="fa fa-toggle-on"></i>
+                <?php echo __("Open settings") ?>
             </a>
         </p>
     </div>

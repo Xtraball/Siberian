@@ -228,7 +228,8 @@ class Payment_Model_Paypal extends Core_Model_Default {
             $discount = new Mcommerce_Model_Promo();
             $discount = $discount->find($order->getDiscountCode(), "code");
             if($discount->getId()) {
-                $tmp_total -= $discount->getDiscount();
+                $cart = $this->getCart();
+                $tmp_total -= $discount->getDeduction($cart);
             }
         }
 

@@ -18,6 +18,7 @@ class Siberian_Cpanel {
         "host" => "",
         "username" => "",
         "password" => "",
+        "webspace" => null,
     );
 
     /**
@@ -30,6 +31,7 @@ class Siberian_Cpanel {
         $this->config["host"]       = $cpanel_api->getHost();
         $this->config["username"]   = $cpanel_api->getUser();
         $this->config["password"]   = $cpanel_api->getPassword();
+        $this->config["webspace"]   = $cpanel_api->getWebspace();
     }
 
     /**
@@ -41,9 +43,14 @@ class Siberian_Cpanel {
         // @note From here, server may reload, and then interrupt the connection
         // This is normal behavior, as it's reloading the SSL Certificate.
 
+        $webspace = $ssl_certificate->getHostname();
+        if(!empty($this->config["webspace"])) {
+            $webspace = $this->config["webspace"];
+        }
+
         $response = $cpanel->uapi->SSL->install_ssl(
             array(
-                "domain"    => $ssl_certificate->getHostname(),
+                "domain"    => $webspace,
                 "cert"      => file_get_contents($ssl_certificate->getCertificate()),
                 "key"       => file_get_contents($ssl_certificate->getPrivate()),
                 "cabundle"  => file_get_contents($ssl_certificate->getChain()),
@@ -53,10 +60,10 @@ class Siberian_Cpanel {
         $result = (isset($response->status)) ? ($response->status) : false;
 
         if($result) {
-            $this->logger->info(__("[Siberian_Cpanel] Updated cPanel SSL Certificate for %s", $ssl_certificate->getHostname()));
+            $this->logger->info(__("[Siberian_Cpanel] Updated cPanel SSL Certificate for %s", $webspace));
         } else {
-            $this->logger->info(__("[Siberian_Cpanel] Unable to update cPanel SSL Certificate for %s", $ssl_certificate->getHostname()));
-            throw new Exception(__("[Siberian_Cpanel] Unable to update cPanel SSL Certificate for %s", $ssl_certificate->getHostname()));
+            $this->logger->info(__("[Siberian_Cpanel] Unable to update cPanel SSL Certificate for %s", $webspace));
+            throw new Exception(__("[Siberian_Cpanel] Unable to update cPanel SSL Certificate for %s", $webspace));
         }
 
         return true;

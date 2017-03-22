@@ -72,7 +72,7 @@ App.config(function($routeProvider) {
 
 
 
-}).controller("BackofficeAdvancedConfigurationController", function($log, $http, $scope, $timeout, $interval, Label, Header, AdvancedConfiguration, FileUploader, Url) {
+}).controller("BackofficeAdvancedConfigurationController", function($log, $http, $scope, $timeout, $interval, $window, Label, Header, AdvancedConfiguration, FileUploader, Url) {
 
     $scope.header = new Header();
     $scope.header.button.left.is_visible = false;
@@ -140,6 +140,15 @@ App.config(function($routeProvider) {
     };
 
     $scope.generateSsl = function(hostname, force) {
+
+        if((/^https/i).test($window.location.protocol)) {
+            return $window.alert("You must run request from HTTP.");
+        }
+
+        if(!$window.confirm("Are you sure ?")) {
+            return;
+        }
+
         $scope.content_loader_is_visible = true;
 
         AdvancedConfiguration.save($scope.configs).success(function(data) {
@@ -147,7 +156,7 @@ App.config(function($routeProvider) {
             $scope.message.onSuccess(data);
 
             /** When setting are ok, go for SSL */
-            AdvancedConfiguration.generateSsl(hostname, force).success(function(data) {
+            AdvancedConfiguration.generateSsl($scope.configs.current_domain, force).success(function(data) {
 
                 /** Now if it's ok, it's time for Panel  */
                 $scope.message.onSuccess(data);
@@ -160,48 +169,47 @@ App.config(function($routeProvider) {
                     /** Plesk is tricky, if you remove the old certificate, it' reloading ... */
                     $http({
                         method: 'GET',
-                        url: 'backoffice/advanced_configuration/clearplesk',
+                        url: 'backoffice/advanced_configuration/clearplesk/hostname/'+$scope.configs.current_domain,
                         cache: false,
                         responseType:'json'
-                    }).then(function successCallback(response) {
+                    }).then(function (response) {
                         // This may never occurs but well .. :)
                         $scope.message.onUnknown(response.data);
                         $scope.pollerRemovePlesk();
-                    }, function errorCallback(response) {
+                    }, function (response) {
                         $scope.message.onUnknown(response.data);
                         $scope.pollerRemovePlesk();
                     });
                 } else if($scope.configs.cpanel_type.value == "self") {
                     $http({
                         method: 'GET',
-                        url: 'backoffice/advanced_configuration/sendtopanel',
+                        url: 'backoffice/advanced_configuration/sendtopanel/hostname/'+$scope.configs.current_domain,
                         cache: false,
                         responseType:'json'
-                    }).then(function successCallback(response) {
+                    }).then(function (response) {
                         // This may never occurs but well .. :)
                         $scope.poller('backoffice/advanced_configuration/checkhttp');
-                    }, function errorCallback(response) {
+                    }, function (response) {
                         $scope.poller('backoffice/advanced_configuration/checkhttp');
                     });
                 } else {
                     $http({
                         method: 'GET',
-                        url: 'backoffice/advanced_configuration/sendtopanel',
+                        url: 'backoffice/advanced_configuration/sendtopanel/hostname/'+$scope.configs.current_domain,
                         cache: false,
                         responseType:'json'
-                    }).then(function successCallback(response) {
+                    }).then(function (response) {
                         // This may never occurs but well .. :)
                         $scope.poller('backoffice/advanced_configuration/checkssl');
-                    }, function errorCallback(response) {
+                    }, function (response) {
                         $scope.poller('backoffice/advanced_configuration/checkssl');
                     });
                 }
 
-
-
             }).error(function(data) {
 
                 $scope.message.onError(data);
+                $scope.content_loader_is_visible = false;
 
             }).finally(function() {});
 
@@ -210,7 +218,80 @@ App.config(function($routeProvider) {
 
             $scope.message.onError(data);
 
-        }).finally(function() {});
+        }).finally(function() {
+
+        });
+
+        return false;
+    };
+
+    $scope.uploadToPanel = function(hostname) {
+
+        if((/^https/i).test($window.location.protocol)) {
+            return $window.alert("You must run upload from HTTP.");
+        }
+
+        if(!$window.confirm("Are you sure ?")) {
+            return;
+        }
+
+        $scope.content_loader_is_visible = true;
+
+        AdvancedConfiguration.save($scope.configs)
+            .success(function(data) {
+
+                $scope.message.onSuccess(data);
+
+                $log.info("SSL Ok, time to push to panel.");
+
+                if($scope.configs.cpanel_type.value == "plesk") {
+                    /** Plesk is tricky, if you remove the old certificate, it' reloading ... */
+                    $http({
+                        method: 'GET',
+                        url: 'backoffice/advanced_configuration/clearplesk/hostname/'+hostname,
+                        cache: false,
+                        responseType:'json'
+                    }).then(function (response) {
+                        // This may never occurs but well .. :)
+                        $scope.message.onUnknown(response.data);
+                        $scope.pollerRemovePlesk();
+                    }, function (response) {
+                        $scope.message.onUnknown(response.data);
+                        $scope.pollerRemovePlesk();
+                    });
+                } else if($scope.configs.cpanel_type.value == "self") {
+                    $http({
+                        method: 'GET',
+                        url: 'backoffice/advanced_configuration/sendtopanel/hostname/'+hostname,
+                        cache: false,
+                        responseType:'json'
+                    }).then(function (response) {
+                        // This may never occurs but well .. :)
+                        $scope.poller('backoffice/advanced_configuration/checkhttp');
+                    }, function (response) {
+                        $scope.poller('backoffice/advanced_configuration/checkhttp');
+                    });
+                } else {
+                    $http({
+                        method: 'GET',
+                        url: 'backoffice/advanced_configuration/sendtopanel/hostname/'+hostname,
+                        cache: false,
+                        responseType:'json'
+                    }).then(function (response) {
+                        // This may never occurs but well .. :)
+                        $scope.poller('backoffice/advanced_configuration/checkssl');
+                    }, function (response) {
+                        $scope.poller('backoffice/advanced_configuration/checkssl');
+                    });
+                }
+
+            }).error(function(data) {
+
+                $scope.message.onError(data);
+            }).finally(function() {
+
+                $scope.content_loader_is_visible = true;
+            });
 
         return false;
     };
@@ -282,7 +363,7 @@ App.config(function($routeProvider) {
                 url: 'backoffice/advanced_configuration/checkhttp',
                 cache: false,
                 responseType:'json'
-            }).then(function successCallback(response) {
+            }).then(function (response) {
                 /** Clear poller on success */
                 $interval.cancel(poller);
                 poller = undefined;
@@ -293,7 +374,7 @@ App.config(function($routeProvider) {
                     url: 'backoffice/advanced_configuration/installplesk',
                     cache: false,
                     responseType:'json'
-                }).then(function successCallback(response) {
+                }).then(function (response) {
                     // This may never occurs but well .. :)
                     if(angular.isObject(response.data) && angular.isDefined(response.data.error)) {
                         // Abort
@@ -311,7 +392,7 @@ App.config(function($routeProvider) {
                     $scope.pollerInstallPlesk();
                 });
 
-            }, function errorCallback(response) {
+            }, function (response) {
                 $log.info("#03-Retry: not reachable yet.");
             });
 
@@ -353,14 +434,14 @@ App.config(function($routeProvider) {
                     url: 'backoffice/advanced_configuration/sendtopanel',
                     cache: false,
                     responseType:'json'
-                }).then(function successCallback(response) {
+                }).then(function (response) {
                     // This may never occurs but well .. :)
                     $scope.poller('backoffice/advanced_configuration/checkssl');
-                }, function errorCallback(response) {
+                }, function (response) {
                     $scope.poller('backoffice/advanced_configuration/checkssl');
                 });
 
-            }, function errorCallback(response) {
+            }, function (response) {
                 $log.info("#03-Retry: not reachable yet.");
             });
 
@@ -539,7 +620,7 @@ App.config(function($routeProvider) {
         });
     };
 
-}).controller("BackofficeAdvancedCronController", function($log, $scope, $interval, Header, AdvancedConfiguration, AdvancedCron) {
+}).controller("BackofficeAdvancedCronController", function($log, $scope, $interval, $timeout, Header, AdvancedConfiguration, AdvancedCron) {
 
     $scope.header = new Header();
     $scope.header.button.left.is_visible = false;

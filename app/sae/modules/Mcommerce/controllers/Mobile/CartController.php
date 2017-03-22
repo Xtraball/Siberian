@@ -79,7 +79,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
             "formattedDeliveryTTC" => $cart->getDeliveryTTC() > 0 ? $cart->getFormattedDeliveryTTC() : null,
             "formattedDeductedTva" => $cart->getFormattedDeductedTva(),
             "total" => (float)$cart->getTotal(),
-            "tip" => (float)$cart->getTip(),
+            "tip" => $cart->getTip(),
             "formattedTip" => $cart->getFormattedTip(),
             "formattedTotal" => $cart->getFormattedTotal(),
             "formattedSubtotal" => $cart->getFormattedSubtotal(),
@@ -438,7 +438,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                 if (!$this->validateFloat($tip) || !$this->validateInt($value_id) || !$this->validateInt($cart->getCartId())) {
                     throw new Exception("Missing parameters.");
                 }
-                $cart->setTip($tip)->_compute()->save();
+                $cart->setTip(abs(floatval($tip)))->_compute()->save();
                 $html = array(
                     'cart_id' => $cart->getCartId(),
                     'success' => true

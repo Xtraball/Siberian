@@ -37,6 +37,35 @@ class Backoffice_Model_Notification extends Core_Model_Default {
         return parent::save();
     }
 
+    /**
+     * Clear related notifications.
+     *
+     * @param $object_type
+     * @param $object_id
+     * @return bool
+     */
+    public static function clear($object_type, $object_id) {
+
+        try {
+
+            $model = new self();
+            $notifications = $model->findAll(array(
+                "object_type = ?"   => $object_type,
+                "object_id = ?"     => $object_id
+            ));
+
+            foreach($notifications as $notification) {
+                $notification->delete();
+            }
+
+        } catch(Exception $e) {
+
+            return false;
+        }
+
+        return true;
+    }
+
 
     /**
      * Search for an existing similar alert/message with options

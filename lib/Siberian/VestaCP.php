@@ -23,6 +23,7 @@ class Siberian_VestaCP {
         "host" => "",
         "username" => "",
         "password" => "",
+        "webspace" => null,
     );
 
     public function __construct() {
@@ -37,8 +38,11 @@ class Siberian_VestaCP {
         $this->config["host"]       = $vestacp_api->getHost();
         $this->config["username"]   = $vestacp_api->getUser();
         $this->config["password"]   = $vestacp_api->getPassword();
+        $this->config["webspace"]   = $vestacp_api->getWebspace();
 
-        $this->api = new Siberian_VestaCP_Api($this->config["host"], $this->config["username"], $this->config["password"]);
+        $this->api = new Siberian_VestaCP_Api(
+            $this->config["host"], $this->config["username"], $this->config["password"], $this->config["webspace"]);
+
         $this->api->login();
     }
 

@@ -23,6 +23,7 @@ class Siberian_DirectAdmin {
         "host" => "",
         "username" => "",
         "password" => "",
+        "webspace" => null,
     );
 
     /**
@@ -40,6 +41,7 @@ class Siberian_DirectAdmin {
         $this->config["host"]       = $directadmin_api->getHost();
         $this->config["username"]   = $directadmin_api->getUser();
         $this->config["password"]   = $directadmin_api->getPassword();
+        $this->config["webspace"]   = $directadmin_api->getWebspace();
 
         $scheme = "https";
         if(isset($parts["host"]) && $parts["scheme"] == "ssl") {
@@ -75,17 +77,22 @@ class Siberian_DirectAdmin {
         // @note From here, server may reload, and then interrupt the connection
         // This is normal behavior, as it's reloading the SSL Certificate.
 
+        $webspace = $ssl_certificate->getHostname();
+        if(!empty($this->config["webspace"])) {
+            $webspace = $this->config["webspace"];
+        }
+
         $this->socket->set_login($this->config["username"], $this->config["password"]);
         $this->socket->method = "POST";
         $this->socket->query("/CMD_API_SSL", array(
-            "domain"        => $ssl_certificate->getHostname(),
+            "domain"        => $webspace,
             "action"        => "save",
             "type"          => "paste",
             "certificate"   => $certificate
         ));
         $result = $this->socket->fetch_parsed_body();
 
-        $this->logger->info(__("[Siberian_DirectAdmin] Updated DirectAdmin SSL Certificate for %s, %s", $ssl_certificate->getHostname(), print_r($result, true)));
+        $this->logger->info(__("[Siberian_DirectAdmin] Updated DirectAdmin SSL Certificate for %s, %s", $webspace, print_r($result, true)));
 
         return true;
 

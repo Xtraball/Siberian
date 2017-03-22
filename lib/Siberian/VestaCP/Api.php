@@ -17,13 +17,16 @@ class Siberian_VestaCP_Api {
      *
      * Login into dashboard
      *
-     * @param $username
+     * @param $host
      * @param $password
+     * @param $password
+     * @param $webspace
      */
-    public function __construct($host, $username, $password) {
+    public function __construct($host, $username, $password, $webspace) {
         $this->host = $host;
         $this->username = $username;
         $this->password = $password;
+        $this->webspace = $webspace;
         $this->client = new Siberian_VestaCP_Client();
 
         $this->login();
@@ -57,7 +60,13 @@ class Siberian_VestaCP_Api {
      * @param $ssl_certificate
      */
     public function updateDomain($ssl_certificate) {
-        $this->crawler = $this->client->_request("GET", $this->host."/edit/web/?domain=".$ssl_certificate->getHostname());
+
+        $webspace = $ssl_certificate->getHostname();
+        if(!empty($this->webspace)) {
+            $webspace = $this->webspace;
+        }
+
+        $this->crawler = $this->client->_request("GET", $this->host."/edit/web/?domain=".$webspace);
 
         try {
             $form = $this->crawler->selectButton("Save")->form(array(

@@ -18,6 +18,7 @@ class Siberian_Plesk {
         "host" => "127.0.0.1",
         "username" => "admin",
         "password" => "changeme",
+        "webspace" => null,
     );
 
     /**
@@ -30,6 +31,7 @@ class Siberian_Plesk {
         $this->config["host"]       = $plesk_api->getHost();
         $this->config["username"]   = $plesk_api->getUser();
         $this->config["password"]   = $plesk_api->getPassword();
+        $this->config["webspace"]   = $plesk_api->getWebspace();
     }
 
     /**
@@ -88,11 +90,17 @@ class Siberian_Plesk {
      * @throws Exception
      */
     public function removeCertificate($ssl_certificate) {
-        $cert_name = sprintf("%s-%s", "siberian_letsencrypt", $ssl_certificate->getHostname());
+
+        $webspace = $ssl_certificate->getHostname();
+        if(!empty($this->config["webspace"])) {
+            $webspace = $this->config["webspace"];
+        }
+
+        $cert_name = sprintf("%s-%s", "siberian_letsencrypt", $webspace);
 
         $params_delete = array(
-            "webspace" => $ssl_certificate->getHostname(),
-            "cert-name" => $cert_name,
+            "webspace"      => $webspace,
+            "cert-name"     => $cert_name,
         );
 
         /** First try to remove an existing one */
@@ -122,11 +130,17 @@ class Siberian_Plesk {
      * @param $ssl_certificate
      */
     public function updateCertificate($ssl_certificate) {
-        $cert_name = sprintf("%s-%s", "siberian_letsencrypt", $ssl_certificate->getHostname());
+
+        $webspace = $ssl_certificate->getHostname();
+        if(!empty($this->config["webspace"])) {
+            $webspace = $this->config["webspace"];
+        }
+
+        $cert_name = sprintf("%s-%s", "siberian_letsencrypt", $webspace);
 
         $params_install = array(
             "name"          => $cert_name,
-            "webspace"      => $ssl_certificate->getHostname(),
+            "webspace"      => $webspace,
             "csr"           => file_get_contents($ssl_certificate->getLast()),
             "cert"          => file_get_contents($ssl_certificate->getCertificate()),
             "pvt"           => file_get_contents($ssl_certificate->getPrivate()),
@@ -170,10 +184,16 @@ class Siberian_Plesk {
         $this->logger->info(sprintf("[Siberian_Plesk] Trying to select the certificate and reloading ..."));
         if(version_compare(phpversion(), "5.3", ">")) {
             $this->logger->info(sprintf("[Siberian_Plesk] %s", "Trying to select Certificate."));
-            $this->setCertificate($ssl_certificate->getHostname());
+
+            $webspace = $ssl_certificate->getHostname();
+            if(!empty($this->config["webspace"])) {
+                $webspace = $this->config["webspace"];
+            }
+
+            $this->setCertificate($webspace);
         } else {
             $this->logger->info(sprintf("[Siberian_Plesk] %s", "Unable to set the current Certificate in Plesk, please check for PHP 5.6+."));
-            throw new Exception(__("Unable to select the Certificate in Plesk, please select manually the certificate name %s and save.", $cert_name));
+            throw new Exception(__("Unable to select the Certificate in Plesk, please select manually the certificate name %s and save.", $ssl_certificate->getHostname()));
         }
 
         $this->logger->info(sprintf("[Siberian_Plesk] %s", "Done with success."));

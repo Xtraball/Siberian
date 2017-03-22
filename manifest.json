@@ -200,10 +200,6 @@
         "hash": "332177f5e8632fe3ef9d1e0959ae18ff"
     },
     {
-        "file": "app/sae/design/desktop/backoffice/js/controllers/advanced.js",
-        "hash": "67e31870f2694d3c21272cd6a90023f1"
-    },
-    {
         "file": "app/sae/design/desktop/backoffice/js/controllers/api.js",
         "hash": "82e1f504899d6dc4a9927bab2e0e4ae5"
     },
@@ -242,6 +238,10 @@
     {
         "file": "app/sae/design/desktop/backoffice/js/controllers/installer.js",
         "hash": "2a9b2f41aeec66e5cda10f575dca8a55"
+    },
+    {
+        "file": "app/sae/design/desktop/backoffice/js/controllers/advanced.js",
+        "hash": "5914195c3b0791efc2eea1c552dd65c4"
     },
     {
         "file": "app/sae/design/desktop/backoffice/js/directives/ng-thumb.js",
@@ -1905,15 +1905,11 @@
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/backoffice/notif/message.phtml",
-        "hash": "4571e7e91d7d1628e2280301060f56f0"
+        "hash": "f08845a96eca0071b404dc81cc9731a9"
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/backoffice/user/login.phtml",
         "hash": "03df86039b0343946f7fdd46546d2f9d"
-    },
-    {
-        "file": "app/sae/design/desktop/backoffice/template/backoffice/advanced/configuration.phtml",
-        "hash": "9ea70a43ad61ad24b446db499381eb83"
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/backoffice/advanced/cron.phtml",
@@ -1926,6 +1922,10 @@
     {
         "file": "app/sae/design/desktop/backoffice/template/backoffice/advanced/tools.phtml",
         "hash": "ce36adcc97c496661c07654a19ad8abd"
+    },
+    {
+        "file": "app/sae/design/desktop/backoffice/template/backoffice/advanced/configuration.phtml",
+        "hash": "b9afaba8741fc5124d1962b049195b01"
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/html/default.phtml",
@@ -14168,12 +14168,12 @@
         "hash": "cab5d6c1696f5c86db75b3e5e0ac945c"
     },
     {
-        "file": "app/sae/modules/Api/resources/db/data/api_provider.php",
-        "hash": "0c9201ea4d7ee6cc360fae47d63424e9"
-    },
-    {
         "file": "app/sae/modules/Api/resources/db/data/api_user.php",
         "hash": "a1ca6f3f29ec068964d73d33fd066e5f"
+    },
+    {
+        "file": "app/sae/modules/Api/resources/db/data/api_provider.php",
+        "hash": "1f76b289d74e7dde5adef29b119e0c21"
     },
     {
         "file": "app/sae/modules/Api/resources/db/schema/api_key.php",
@@ -14189,7 +14189,7 @@
     },
     {
         "file": "app/sae/modules/Api/package.json",
-        "hash": "6b9cad492df7d457d6ec341f211defcd"
+        "hash": "ee68cfcff77743398b656d9c4a30e0c0"
     },
     {
         "file": "app/sae/modules/Application/Controller/Default/Ajax.php",
@@ -16257,7 +16257,7 @@
     },
     {
         "file": "app/sae/modules/Backoffice/Model/Notification.php",
-        "hash": "219dfb0cbc07a219e122a21355170f87"
+        "hash": "599c735a2aed6eab60903431335bf043"
     },
     {
         "file": "app/sae/modules/Backoffice/View/Header.php",
@@ -16281,15 +16281,11 @@
     },
     {
         "file": "app/sae/modules/Backoffice/controllers/Notif/MessageController.php",
-        "hash": "b1f7ce9f12683b85ddfb1e4701404152"
+        "hash": "2f3e7a3ff64a9d6a211bca40a8ba0b67"
     },
     {
         "file": "app/sae/modules/Backoffice/controllers/AccountController.php",
         "hash": "698a4843551bf3de311a77a72959a2b2"
-    },
-    {
-        "file": "app/sae/modules/Backoffice/controllers/Advanced/ConfigurationController.php",
-        "hash": "f596b92d2c4779d850922fe9b4b28664"
     },
     {
         "file": "app/sae/modules/Backoffice/controllers/Advanced/CronController.php",
@@ -16302,6 +16298,10 @@
     {
         "file": "app/sae/modules/Backoffice/controllers/Advanced/ToolsController.php",
         "hash": "7176ce8d94fa59e157df87ac614715f5"
+    },
+    {
+        "file": "app/sae/modules/Backoffice/controllers/Advanced/ConfigurationController.php",
+        "hash": "ad2872f8779183c2dd401679d4fae048"
     },
     {
         "file": "app/sae/modules/Backoffice/controllers/Api/OptionsController.php",
@@ -18036,10 +18036,6 @@
         "hash": "034a270c72d7181187613b6f706651f5"
     },
     {
-        "file": "app/sae/modules/Mcommerce/Model/Cart.php",
-        "hash": "dc07ba910604b7c12a897f30901e5d07"
-    },
-    {
         "file": "app/sae/modules/Mcommerce/Model/Customer.php",
         "hash": "074e0b3584f0b0a0efafd762e3f08322"
     },
@@ -18048,16 +18044,20 @@
         "hash": "4759ad91bfe5f5591f6f211765fa9e08"
     },
     {
-        "file": "app/sae/modules/Mcommerce/Model/Order.php",
-        "hash": "14d179d03698bc0f3bc4d82d4ff3dac3"
-    },
-    {
         "file": "app/sae/modules/Mcommerce/Model/Promo.php",
         "hash": "0eef5f333ff9b59c57d84af6bd288656"
     },
     {
         "file": "app/sae/modules/Mcommerce/Model/Promo/Log.php",
         "hash": "361d492879e0b3b9d1e0b53f3e13b2ff"
+    },
+    {
+        "file": "app/sae/modules/Mcommerce/Model/Cart.php",
+        "hash": "b1d8973a06f40234e73a938ed89c134a"
+    },
+    {
+        "file": "app/sae/modules/Mcommerce/Model/Order.php",
+        "hash": "bb45f0b6171d0520310d01e99e982f37"
     },
     {
         "file": "app/sae/modules/Mcommerce/controllers/Application/Catalog/CategoryController.php",
@@ -18145,15 +18145,15 @@
     },
     {
         "file": "app/sae/modules/Mcommerce/controllers/Mobile/Sales/PaymentController.php",
-        "hash": "b6bc491e12019e35fdf02ed7d2027b53"
-    },
-    {
-        "file": "app/sae/modules/Mcommerce/controllers/Mobile/CartController.php",
-        "hash": "c7ebb42b4cc50a174cc828306c6af136"
+        "hash": "6b38ec1d9f86b485647f42e1e2fa66db"
     },
     {
         "file": "app/sae/modules/Mcommerce/controllers/Mobile/ProductController.php",
         "hash": "157d25faa745ba8952fc6be80d9228c5"
+    },
+    {
+        "file": "app/sae/modules/Mcommerce/controllers/Mobile/CartController.php",
+        "hash": "68b4a8752d05f3f3525f97322819c361"
     },
     {
         "file": "app/sae/modules/Mcommerce/controllers/MobileController.php",
@@ -18649,7 +18649,7 @@
     },
     {
         "file": "app/sae/modules/Payment/Model/Paypal.php",
-        "hash": "23a390ee3437d2f5d9a98ffeef29af76"
+        "hash": "3785b9c9314db677128785f70f9a677a"
     },
     {
         "file": "app/sae/modules/Payment/package.json",
@@ -19225,7 +19225,7 @@
     },
     {
         "file": "app/sae/modules/System/Model/SslCertificates.php",
-        "hash": "b3c1d98c3cabf3f1b5cdfca8600fb6e3"
+        "hash": "84745986cb7711fb1c5a878aaf3cb8e2"
     },
     {
         "file": "app/sae/modules/System/controllers/Backoffice/Config/DesignController.php",
@@ -19257,11 +19257,11 @@
     },
     {
         "file": "app/sae/modules/System/resources/db/schema/ssl_certificates.php",
-        "hash": "c6faf451650f787e4e351ec67dc4c95f"
+        "hash": "b2c2c4a443d4a25eac0b34e352b80cc8"
     },
     {
         "file": "app/sae/modules/System/package.json",
-        "hash": "af48deda8e539c90e0b1313f457bcfb5"
+        "hash": "e3010c37822be0eea73279915b8bf491"
     },
     {
         "file": "app/sae/modules/Template/Model/Db/Table/Design/Block.php",
@@ -20696,10 +20696,6 @@
         "hash": "6586792ee0cd8ee63f5af5504ebf0304"
     },
     {
-        "file": "lib/Siberian/LetsEncrypt.php",
-        "hash": "7d24d3476d2e15ba3ee4f8247df3fe5e"
-    },
-    {
         "file": "lib/Siberian/Mail.php",
         "hash": "6920954a48dc0b4556828576bda8d9d5"
     },
@@ -20708,20 +20704,12 @@
         "hash": "b03a89beb44423b17df008154ba0a43b"
     },
     {
-        "file": "lib/Siberian/Plesk.php",
-        "hash": "0654ebf617f0c57d89d22d0bbabfe0c0"
-    },
-    {
         "file": "lib/Siberian/Request.php",
         "hash": "ca77a40a9cab7aa062a6d7eeedd26a0e"
     },
     {
         "file": "lib/Siberian/Tools/Integrity.php",
         "hash": "e560dadbb8b15cebeec2d8e09f718d21"
-    },
-    {
-        "file": "lib/Siberian/VestaCP.php",
-        "hash": "40a52ddf2743e2644aa02b15112dfc61"
     },
     {
         "file": "lib/Siberian/View/Helper/Cache.php",
@@ -20744,20 +20732,24 @@
         "hash": "7e3dc5bf7f3f6526ad259e9fd18d78cb"
     },
     {
-        "file": "lib/Siberian/Cron.php",
-        "hash": "7f9ef357ed822f944c19485fc897925f"
+        "file": "lib/Siberian/Cpanel.php",
+        "hash": "5205f77238c42ff4bc89f71b1d767179"
     },
     {
-        "file": "lib/Siberian/Cpanel.php",
-        "hash": "c7142caa485423ffed82e3248cc99cdf"
+        "file": "lib/Siberian/Cron.php",
+        "hash": "6c48c1091492350ec54f3217f264b897"
+    },
+    {
+        "file": "lib/Siberian/LetsEncrypt.php",
+        "hash": "61d555417ea2afe9809e763ec778865b"
+    },
+    {
+        "file": "lib/Siberian/Plesk.php",
+        "hash": "aa8af6212421e264cf4f643112a20ebd"
     },
     {
         "file": "lib/Siberian/CustomerInformation.php",
         "hash": "d23b47d87a30a7f6e7398177fbc47b80"
-    },
-    {
-        "file": "lib/Siberian/DirectAdmin.php",
-        "hash": "3884aec54dbf771dc6633b7995e601f0"
     },
     {
         "file": "lib/Siberian/Exception.php",
@@ -20868,10 +20860,6 @@
         "hash": "6bfd97a605dd7373922a840104eaea85"
     },
     {
-        "file": "lib/Siberian/Network.php",
-        "hash": "dbc408e7f506ac03b5c88ca7591f9646"
-    },
-    {
         "file": "lib/Siberian/Plesk/Client.php",
         "hash": "6e3b9385213a75ebc3d959a2304d3c1b"
     },
@@ -20888,12 +20876,12 @@
         "hash": "1d72757233a9c4cb5f9b183a81c56d68"
     },
     {
-        "file": "lib/Siberian/VestaCP/Api.php",
-        "hash": "62a4bc4ab737cc02e2fda5b5b341ca00"
-    },
-    {
         "file": "lib/Siberian/VestaCP/Client.php",
         "hash": "d255f81c777478ec14c4a7bca85bccb4"
+    },
+    {
+        "file": "lib/Siberian/VestaCP/Api.php",
+        "hash": "b62bb045c15d5eb8a9b9f95024fa7e56"
     },
     {
         "file": "lib/Siberian/Feature.php",
@@ -20902,6 +20890,18 @@
     {
         "file": "lib/Siberian/Module.php",
         "hash": "e231773ffa143fa90079c040cb74e9e0"
+    },
+    {
+        "file": "lib/Siberian/DirectAdmin.php",
+        "hash": "399960f1c0b6c8e5998b1266b93cad7e"
+    },
+    {
+        "file": "lib/Siberian/Network.php",
+        "hash": "3ad46447666006b4d708edaa5fe0bf5c"
+    },
+    {
+        "file": "lib/Siberian/VestaCP.php",
+        "hash": "adb34119ebd8ee7266089e6b7d1b6cab"
     },
     {
         "file": "lib/Thumbnailer/CreateThumb.php",
