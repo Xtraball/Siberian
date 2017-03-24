@@ -3465,15 +3465,11 @@
     },
     {
         "file": "app/sae/design/desktop/flat/images/push/android-notification-full.png",
-        "hash": "7e13dfe060f24b3e9b88e4fd017e7269"
+        "hash": "a9472c47e8fc449f2a366a1dded96e50"
     },
     {
         "file": "app/sae/design/desktop/flat/images/push/android-notification-image.png",
-        "hash": "f18e127f40666b19a35f400dc3b6da3f"
-    },
-    {
-        "file": "app/sae/design/desktop/flat/images/push/android-notifications.png",
-        "hash": "592e16364f41765bb5be7d6300748f21"
+        "hash": "abd2bb79a7e6f28547f430a2e435db78"
     },
     {
         "file": "app/sae/design/desktop/flat/js/bootstrap.min.js",
@@ -14472,16 +14468,16 @@
         "hash": "884dcecb34e9633df8b4775801cd2646"
     },
     {
-        "file": "app/sae/modules/Application/controllers/Customization/Publication/AppController.php",
-        "hash": "1ea0c9655394c4d3afd4585c375a6f38"
-    },
-    {
         "file": "app/sae/modules/Application/controllers/Customization/Publication/InfosController.php",
         "hash": "973d525cbb950be9b3e4565143818e37"
     },
     {
         "file": "app/sae/modules/Application/controllers/Customization/Publication/WebsiteController.php",
         "hash": "73bef0475d4fd5f2b46c2d379d07d97c"
+    },
+    {
+        "file": "app/sae/modules/Application/controllers/Customization/Publication/AppController.php",
+        "hash": "02dd4d9d107f9a93b437eb972aeb7abc"
     },
     {
         "file": "app/sae/modules/Application/controllers/Customization/FeaturesController.php",
@@ -14581,7 +14577,7 @@
     },
     {
         "file": "app/sae/modules/Application/resources/db/data/application.php",
-        "hash": "f8852993c61530e7596d1883777ecc8c"
+        "hash": "2f34e9a7fd700665afbfa5e640e006c0"
     },
     {
         "file": "app/sae/modules/Application/resources/db/schema/application_acl_option.php",
@@ -16233,7 +16229,7 @@
     },
     {
         "file": "app/sae/modules/Application/package.json",
-        "hash": "f72d222f22a5d1f0969aee4f4381ff6a"
+        "hash": "5fcdddc9feb4459e7be0ec5328da24ce"
     },
     {
         "file": "app/sae/modules/Backoffice/Controller/Default.php",
@@ -17708,12 +17704,12 @@
         "hash": "4bb5f186cb1b586d21f81ca3e7d4d1ba"
     },
     {
-        "file": "app/sae/modules/Front/controllers/MobileController.php",
-        "hash": "ad03474dd082819a1673606ec69ed980"
-    },
-    {
         "file": "app/sae/modules/Front/controllers/IndexController.php",
         "hash": "24d75cec8576ac40072512c5bdbc991f"
+    },
+    {
+        "file": "app/sae/modules/Front/controllers/MobileController.php",
+        "hash": "32ec75295fdd5c4a39036060e7784ade"
     },
     {
         "file": "app/sae/modules/Front/package.json",
@@ -18829,7 +18825,7 @@
     },
     {
         "file": "app/sae/modules/Push/Model/Android/Message.php",
-        "hash": "c457433202427037b4b073190ced7aa3"
+        "hash": "d2f5413d65af0e6804c4a70663a02f78"
     },
     {
         "file": "app/sae/modules/Push/Model/Db/Table/Android/Device.php",

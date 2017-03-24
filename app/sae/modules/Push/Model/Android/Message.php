@@ -216,7 +216,8 @@ class Push_Model_Android_Message {
 
         # Priority to custom image
         $custom_image = $message->getCustomImage();
-        if(is_readable(Core_Model_Directory::getBasePathTo("/images/application".$custom_image))) {
+        $path_custom_image = Core_Model_Directory::getBasePathTo("/images/application".$custom_image);
+        if(is_readable($path_custom_image) && !is_dir($path_custom_image)) {
             $gcm_message->setImage($message->getData("base_url")."/images/application".$custom_image);
         } else {
             # Default application image

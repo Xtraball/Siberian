@@ -66,6 +66,14 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                 $privacy_policy = false;
             }
 
+            $icon_color = strtolower($application->getAndroidPushColor());
+            if(!preg_match("/^#[a-f0-9]{6}$/", $icon_color)) {
+
+                # Fallback with a number only color ...
+                $icon_color = "#808080";
+
+            }
+
             $data_load = array(
                 "application" => array(
                     "id"            => $app_id,
@@ -91,7 +99,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                         "scope" => Customer_Model_Customer_Type_Facebook::getScope()
                     ),
                     "gcm_senderid"                  => Push_Model_Certificate::getAndroidSenderId(),
-                    "gcm_iconcolor"                 => $application->getAndroidPushColor(),
+                    "gcm_iconcolor"                 => $icon_color,
                     "googlemaps_key"                => $googlemaps_key,
                     "offline_content"               => !!$application->getOfflineContent(),
                     "ios_status_bar_is_hidden"      => !!$application->getIosStatusBarIsHidden(),
@@ -369,6 +377,14 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                 $privacy_policy = false;
             }
 
+            $icon_color = strtolower($application->getAndroidPushColor());
+            if(!preg_match("/^#[a-f0-9]{6}$/", $icon_color)) {
+
+                # Fallback with a number only color ...
+                $icon_color = "#808080";
+
+            }
+
             $data = array(
                 "css" => $this->getRequest()->getBaseUrl().Template_Model_Design::getCssPath($application),
                 "application" => array(
@@ -395,7 +411,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                         "scope" => Customer_Model_Customer_Type_Facebook::getScope()
                     ),
                     "gcm_senderid"                  => Push_Model_Certificate::getAndroidSenderId(),
-                    "gcm_iconcolor"                 => $application->getAndroidPushColor(),
+                    "gcm_iconcolor"                 => $icon_color,
                     "googlemaps_key"                => $googlemaps_key,
                     "offline_content"               => ($application->getOfflineContent() == 1),
                     "ios_status_bar_is_hidden"      => ($application->getIosStatusBarIsHidden() == 1),
