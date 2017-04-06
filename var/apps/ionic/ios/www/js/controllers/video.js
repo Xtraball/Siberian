@@ -111,7 +111,7 @@ App.config(function($stateProvider) {
         } else {
 
             Video.find($scope.current_gallery).success(function(data) {
-                $scope.can_load_more = !itemsAlreadyLoaded(response.collection);
+                $scope.can_load_more = !itemsAlreadyLoaded(data.collection);
 
                 if(data.collection && $scope.can_load_more) {
                     $scope.collection = $scope.collection.concat(data.collection);

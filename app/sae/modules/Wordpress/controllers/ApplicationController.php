@@ -43,6 +43,7 @@ class Wordpress_ApplicationController extends Application_Controller_Default
                 // Récupère les catégory_ids déjà en base
                 $category_ids = $wordpress->getCategoryIds();
                 // Récupère les category_ids passés en post
+
                 $datas['category_ids'] = !empty($datas['category_ids']) ? $datas['category_ids'] : array();
 
                 // Filtre les catégories à supprimer
@@ -58,7 +59,7 @@ class Wordpress_ApplicationController extends Application_Controller_Default
                 // Insert en base les nouvelles catégories
                 foreach($category_ids_to_save as $category_id) {
                     $category = new Wordpress_Model_Wordpress_Category();
-                    $category->setData(array(
+                    $category->addData(array(
                         'wp_id' => $wordpress->getId(),
                         'wp_category_id' => $category_id
                     ))->save();

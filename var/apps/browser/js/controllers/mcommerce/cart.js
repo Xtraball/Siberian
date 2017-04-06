@@ -1,5 +1,4 @@
 App.config(function ($stateProvider) {
-
     $stateProvider.state('mcommerce-cart-view', {
         url: BASE_PATH+"/mcommerce/mobile_cart/index/value_id/:value_id",
         controller: 'MCommerceCartViewController',
@@ -33,32 +32,50 @@ App.config(function ($stateProvider) {
             template: "<ion-spinner class=\"spinner-custom\"></ion-spinner><br/><br/>" + $translate.instant("Updating price") + "..."
         });
         $scope.is_loading = true;
-        McommerceCart.find().success(function(data) {
-            if(data.cart.tip === 0) {
-                data.cart.tip = "";
-            }
+        McommerceCart.compute().success(function (computation) {
+            $scope.computation = computation;
+        }).finally(function() {
+            $scope.computation = angular.isObject($scope.computation) ? $scope.computation : {};
 
-            data.cart.discount_code = $scope.cart ? $scope.cart.discount_code : "";
-            $scope.cart = data.cart;
-            $scope.nb_stores = data.nb_stores;
-
-            if($scope.cart.lines.length > 0) {
-                $scope.right_button = {
-                    action: $scope.proceed,
-                    label: $translate.instant("Proceed")
-                };
-            }
-
-            Customer.find().success(function(data) {
-                $scope.cart.customer_fidelity_points = data.metadatas.fidelity_points ? data.metadatas.fidelity_points.points : null;
-                if(!$scope.points_data.use_points) {
-                    $scope.points_data.nb_points_used = $scope.cart.customer_fidelity_points;
+            McommerceCart.find().success(function(data) {
+                if(data.cart.tip === 0) {
+                    data.cart.tip = "";
                 }
-                $scope.updateEstimatedDiscount();
+
+                if(
+                    angular.isObject($scope.cart) &&
+                        (!angular.isString(data.cart.discount_code) ||
+                         data.cart.discount_code.trim().length < 1)
+                ) {
+                    data.cart.discount_code = $scope.cart.discount_code;
+                }
+
+                $scope.cart = data.cart;
+
+                $scope.cart.discount_message = $scope.computation.message;
+                $scope.cart.discount = $scope.computation.discount;
+
+                $scope.nb_stores = data.nb_stores;
+
+                if($scope.cart.lines.length > 0) {
+                    $scope.right_button = {
+                        action: $scope.proceed,
+                        label: $translate.instant("Proceed")
+                    };
+                }
+
+            }).finally(function() {
+                Customer.find().success(function(data) {
+                    $scope.cart.customer_fidelity_points = data.metadatas.fidelity_points ? data.metadatas.fidelity_points.points : null;
+                    if(!$scope.points_data.use_points) {
+                        $scope.points_data.nb_points_used = $scope.cart.customer_fidelity_points;
+                    }
+                    $scope.updateEstimatedDiscount();
+                }).finally(function () {
+                    $ionicLoading.hide();
+                    $scope.is_loading = false;
+                });
             });
-        }).finally(function () {
-            $ionicLoading.hide();
-            $scope.is_loading = false;
         });
     };
 
@@ -71,36 +88,40 @@ App.config(function ($stateProvider) {
     $scope.useFidelityChange = function() {
         if($scope.points_data.use_points) {
             $scope.cart.discount_code = null;
+            $scope.updateTipAndDiscount();
         }
     };
 
-    $scope.updateTip = function(){
+    $scope.updateTipAndDiscount = function(){
         var update = function () {
             $ionicLoading.show({
                 template: "<ion-spinner class=\"spinner-custom\"></ion-spinner><br/><br/>" + $translate.instant("Updating price") + "..."
             });
             $scope.is_loading = true;
-            McommerceCart.addTip($scope.cart).success(function (data) {
-                $ionicLoading.hide();
-                $scope.is_loading = false;
-                if (data.success) {
-                    if (angular.isDefined(data.message)) {
-                        Dialog.alert("", data.message, $translate.instant("OK"));
-                        return;
+            McommerceCart.adddiscount($scope.cart.discount_code, true).finally(function() {
+                McommerceCart.addTip($scope.cart).success(function (data) {
+                    $ionicLoading.hide();
+                    $scope.is_loading = false;
+                    if (data.success) {
+                        if (angular.isDefined(data.message)) {
+                            Dialog.alert("", data.message, $translate.instant("OK"));
+                            return;
+                        }
                     }
+                }).error(function (data) {
+                    if (data && angular.isDefined(data.message)) {
+                        Dialog.alert("", data.message, $translate.instant("OK"));
+                    }
+                }).finally(function() {
                     $scope.loadContent();
-                }
-            }).error(function (data) {
-                $ionicLoading.hide();
-                $scope.is_loading = false;
-                if (data && angular.isDefined(data.message)) {
-                    Dialog.alert("", data.message, $translate.instant("OK"));
-                }
+                });
             });
-        }
+        };
+
         if(updateTipTimoutFn) {
             clearTimeout(updateTipTimoutFn);
         }
+
         //wait 100ms before update
         updateTipTimoutFn = setTimeout(function(){
             update();
@@ -120,10 +141,11 @@ App.config(function ($stateProvider) {
             } else {
                 $scope.goToOverview();
             }
-        }
+        };
 
         if($scope.cart && $scope.cart.discount_code) {
-            McommerceCart.adddiscount($scope.cart.discount_code).success(function(data){
+            McommerceCart.adddiscount($scope.cart.discount_code, true).then(function(response){
+                var data = response.data;
                 if(data && data.success) {
                     gotToNext();
                 } else {
@@ -133,7 +155,8 @@ App.config(function ($stateProvider) {
                         Dialog.alert("", $translate.instant("Unexpected Error"), $translate.instant("OK"));
                     }
                 }
-            }).error(function (data) {
+            }, function (resp) {
+                var data = resp.data;
                 if (data && angular.isDefined(data.message)) {
                     Dialog.alert("", data.message, $translate.instant("OK"));
                 }

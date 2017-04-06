@@ -27,7 +27,7 @@
 
 #import "MainViewController.h"
 //import remoteControls AppsMobileCompany
-#import "RemoteControls.h"
+//#import "RemoteControls.h"
 
 @implementation MainViewController
 
@@ -77,10 +77,10 @@
 {
     [super viewDidLoad];
     // AppsMobileCompany
-    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    //[[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     // Do any additional setup after loading the view from its nib.
     // AppsMobileCompany
-    [[RemoteControls remoteControls] setWebView:self.webView];
+    //[[RemoteControls remoteControls] setWebView:self.webView];
 }
 
 - (void)viewDidUnload
@@ -89,20 +89,14 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
     // Turn off remote control event delivery AppsMobileCompany
-    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
+    //[[UIApplication sharedApplication] endReceivingRemoteControlEvents];
 }
 
 
 // AppsMobileCompany
-- (void)remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {
-    [[RemoteControls remoteControls] receiveRemoteEvent:receivedEvent];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return [super shouldAutorotateToInterfaceOrientation:interfaceOrientation];
-}
+//- (void)remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {
+//    [[RemoteControls remoteControls] receiveRemoteEvent:receivedEvent];
+//}
 
 /* Comment out the block below to over-ride */
 
@@ -111,35 +105,25 @@
 {
     return[super newCordovaViewWithFrame:bounds];
 }
-*/
 
-#pragma mark UIWebDelegate implementation
-
-- (void)webViewDidFinishLoad:(UIWebView*)theWebView
+// CB-12098
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < 90000  
+- (NSUInteger)supportedInterfaceOrientations
+#else  
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+#endif
 {
-    // Black base color for background matches the native apps
-    theWebView.backgroundColor = [UIColor blackColor];
-
-    return [super webViewDidFinishLoad:theWebView];
+    return [super supportedInterfaceOrientations];
 }
 
-/* Comment out the block below to over-ride */
-
-/*
-
-- (void) webViewDidStartLoad:(UIWebView*)theWebView
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
 {
-    return [super webViewDidStartLoad:theWebView];
+    return [super shouldAutorotateToInterfaceOrientation:interfaceOrientation];
 }
 
-- (void) webView:(UIWebView*)theWebView didFailLoadWithError:(NSError*)error
+- (BOOL)shouldAutorotate 
 {
-    return [super webView:theWebView didFailLoadWithError:error];
-}
-
-- (BOOL) webView:(UIWebView*)theWebView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType
-{
-    return [super webView:theWebView shouldStartLoadWithRequest:request navigationType:navigationType];
+    return [super shouldAutorotate];
 }
 */
 

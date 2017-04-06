@@ -39,8 +39,11 @@ class Weblink_Application_MonoController extends Application_Controller_Default
                     $weblink->setValueId($datas['value_id']);
                 }
 
-                // Affecte l'url au lien
-                $weblink->getLink()->setUrl(!empty($datas['link']) ? $datas['link'] : null);
+                // Affecte l'url et comportenement au lien
+                $weblink->getLink()
+                    ->setUrl(!empty($datas['link']) ? $datas['link'] : null)
+                    ->setHideNavbar(!empty($datas['hide_navbar']) ? 1 : 0)
+                    ->setUseExternalApp(!empty($datas['use_external_app']) ? 1 : 0);
 
                 // Sauvegarde
                 $weblink->save();

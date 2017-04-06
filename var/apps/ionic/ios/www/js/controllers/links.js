@@ -7,7 +7,7 @@ App.config(function($stateProvider) {
         code: "weblink"
     });
 
-}).controller('LinksViewController', function($scope, $stateParams, $rootScope, $timeout, $window, Links) {
+}).controller('LinksViewController', function($scope, $stateParams, $rootScope, $timeout, $window, Links, LinkService) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -35,26 +35,14 @@ App.config(function($stateProvider) {
         });
 
     };
+            var options = {
+            };
 
-    $scope.openLink = function(url) {
-
-        if($rootScope.isOverview) {
-            $rootScope.showMobileFeatureOnlyError();
-            return;
-        }
-
-        if($rootScope.isOffline) {
-            $rootScope.onlineOnly();
-            return;
-        }
-
-        if(ionic.Platform.isAndroid() && url.indexOf("pdf") >= 0) {
-            $window.open(url, "_system", "location=no");
-        } else if(ionic.Platform.isIOS() && url.indexOf("pdf") >= 0) {
-            $window.open(url, $rootScope.getTargetForLink(), "EnableViewPortScale=yes");
-        } else {
-            $window.open(url, $rootScope.getTargetForLink(), "location=no");
-        }
+    $scope.openLink = function(url, hide_navbar, use_external_app) {
+        LinkService.openLink(url, {
+            "hide_navbar" : (hide_navbar ? true : false),
+            "use_external_app" : (use_external_app ? true : false)
+        });
     };
 
     if($rootScope.isOverview) {

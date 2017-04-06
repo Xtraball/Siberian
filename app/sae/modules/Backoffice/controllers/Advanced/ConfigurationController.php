@@ -596,7 +596,19 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
 
             // Adding a fake subdomain www. to the main hostname (mainly for cPanel, VestaCP)
             if(in_array($panel_type, array("cpanel", "plesk", "vestacp", "directadmin"))) {
-                $hostnames[] = "www.".$hostname;
+                file_put_contents("{$root}/.well-known/check", "1");
+                $proxy01 = "http://proxy01.siberiancms.com/acme-challenge.php";
+                $query = array(
+                    "secret" => Core_Model_Secret::SECRET,
+                    "type" => Siberian_Version::TYPE,
+                    "url" => "http://www.".$hostname."/.well-known/check",
+                );
+                $uri = sprintf("%s?%s", $proxy01, http_build_query($query));
+
+                $logger->info(__("Testing: %s", $uri));
+                if(file_get_contents($uri) == "1") {
+                    $hostnames[] = "www.".$hostname;
+                }
             }
 
             // Add whitelabels if PE
@@ -604,38 +616,26 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
             if($is_pe) {
                 $whitelabel_model = new Whitelabel_Model_Editor();
                 $whitelabels = $whitelabel_model->findAll(array("is_active = ?", "1"));
+
                 foreach($whitelabels as $whitelabel) {
+                    $whitelabel = trim($whitelabel->getHost());
 
-                    $wl_hostname = $whitelabel->getHost();
-                    $isCloudFlare = Siberian_Network::isCloudFlare($wl_hostname);
-                    $endWithDot = preg_match("/.*\.$/gi", $wl_hostname);
+                    $endWithDot = preg_match("/.*\.$/im", $whitelabel);
+                    $r = dns_get_record($whitelabel, DNS_CNAME);
+                    $isCname = (!empty($r) && isset($r[0]) && isset($r[0]["target"]) && ($r[0]["target"] == $hostname));
+                    $isSelf = ($whitelabel == $hostname);
 
-                    if(!$isCloudFlare && !$endWithDot) {
-                        $hostnames[] = $wl_hostname;
-                    }
+                    if(!$endWithDot && ($isCname || $isSelf)) {
+                        $this->log(__("Adding %s to SAN.", $whitelabel));
 
-                    if($isCloudFlare) {
-                        $logger->info(__("Removing CloudFlare domain %s", $wl_hostname));
+                        $hostnames[] = $whitelabel;
                     }
 
                     if($endWithDot) {
-                        $logger->info(__("Removing domain %s, domain in dot notation is not supported.", $wl_hostname));
+                        $logger->info(__("Removing domain %s, domain in dot notation is not supported.", $whitelabel));
                     }
                 }
             }
-
-            /* @too SSL/HTTPS
-             * @todo SKIPPING APP CUSTOM DOMAINS not yet supported
-             * @todo redirect .well-known challenges if app/domain
-            //
-            // Then application domains
-            $application_model = new Application_Model_Application();
-            $apps = $application_model->findAll(array("domain IS NOT NULL"));
-
-            foreach($apps as $app) {
-                $hostnames[] = $app->getDomain();
-            }
-            */
 
             // Clean-up empty ones
             // Truncate domains list to 100 (SAN is limited to 100 domains
@@ -658,29 +658,6 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
 
             $ssl_certificate_model = new System_Model_SslCertificates();
             $cert = $ssl_certificate_model->find($request->getHttpHost(), "hostname");
-
-            // Testing given hostnames
-            file_put_contents("{$root}/.well-known/check", "1");
-            $domains_to_remove = array();
-            foreach($hostnames as $_hostname) {
-                // Using an external proxy to reach the domain, as sometimes from localhost it's working and shouldn't.
-                $proxy01 = "http://proxy01.siberiancms.com/acme-challenge.php";
-                $query = array(
-                    "secret" => Core_Model_Secret::SECRET,
-                    "type" => Siberian_Version::TYPE,
-                    "url" => "http://".$_hostname."/.well-known/check",
-                );
-                $uri = sprintf("%s?%s", $proxy01, http_build_query($query));
-
-                $logger->info(__("Testing: %s", $uri));
-                if(file_get_contents($uri) != "1") {
-                    $domains_to_remove[] = $_hostname;
-                }
-            }
-            // Removing unreachable hostnames
-            $hostnames = array_diff($hostnames, $domains_to_remove);
-
-            $logger->info(__("Removing domains: %s", implode(", ", $domains_to_remove)));
 
             if(empty($hostnames)) {
                 $hostnames = array($request->getHttpHost());

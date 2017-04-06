@@ -195,13 +195,13 @@ var button_picture_html = '<div class="feature-upload-placeholder" data-uid="%UI
     '   </button>' +
     '</div>';
 
-var bindForms = function(default_parent) {
+var bindForms = function(default_parent, success_cb, error_cb) {
     setTimeout(function() {
-        _bindForms(default_parent);
+        _bindForms(default_parent, success_cb, error_cb);
     }, 200);
 };
 
-var _bindForms = function(default_parent) {
+var _bindForms = function(default_parent, success_cb, error_cb) {
 
     $(default_parent+" .nav-tabs a[role='tab']").on("click", function() {
         last_tab = $(this).attr("href");
@@ -458,6 +458,14 @@ var _bindForms = function(default_parent) {
                     handleError(form, data);
                 }
 
+                if(typeof success_cb === "function") {
+                    try {
+                        success_cb(data);
+                    } catch(e) {
+                        console.log("An error occurred while executing the success callback.");
+                    }
+                }
+
                 loader.hide("sb-features");
             },
             error: function(data) {
@@ -466,6 +474,14 @@ var _bindForms = function(default_parent) {
                     handleError(form, response);
                 } else {
                     feature_form_error("An error occured, please try again.");
+                }
+
+                if(typeof error_cb === "function") {
+                    try {
+                        error_cb(data);
+                    } catch(e) {
+                        console.log("An error occurred while executing the error callback.");
+                    }
                 }
 
                 loader.hide("sb-features");

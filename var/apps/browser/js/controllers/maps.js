@@ -131,7 +131,7 @@ App.config(function($stateProvider) {
 
     $scope.openPanel = function() {
 
-        if(!GoogleMaps.isLoaded() || !$scope.map) return;
+        if(!$scope.map) return;
 
         $ionicModal.fromTemplateUrl("maps-info.html", {
             scope: $scope,
@@ -149,7 +149,7 @@ App.config(function($stateProvider) {
 
     $scope.changeTravelMode = function(mode) {
 
-        if(!GoogleMaps.isLoaded() || $scope.travel_mode == mode) return;
+        if(!$scope.travel_mode == mode) return;
 
         switch(mode) {
             case 'WALKING':
@@ -168,8 +168,6 @@ App.config(function($stateProvider) {
 
     $scope.changeItinerary = function() {
 
-        if(!GoogleMaps.isLoaded()) return;
-
         if(!$scope.origin.address) {
             $scope.getRoute(null);
         } else {
@@ -178,6 +176,7 @@ App.config(function($stateProvider) {
 
     };
 
-    $scope.loadContent();
+
+    GoogleMaps.addCallback($scope.loadContent);
 
 });

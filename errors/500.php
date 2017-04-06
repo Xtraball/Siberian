@@ -27,7 +27,7 @@
 
                     <h1>A Fatal Error Occurred</h1>
                     <p>For security reasons, errors messages are disabled.</p>
-                    <?php if(!empty($_GET["log"])) : ?>
+                    <?php if(!empty($_GET["log"]) && (strpos($_GET["log"],"<script>") === false)) : ?>
                     <p>Error log: <?php echo $_GET["log"] ?></p>
                     <?php endif; ?>
                 </div>

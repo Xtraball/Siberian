@@ -1,4 +1,5 @@
-cordova.define("cordova-plugin-inappbrowser.inappbrowser", function(require, exports, module) { /*
+cordova.define("cordova-plugin-inappbrowser.inappbrowser", function(require, exports, module) {
+/*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -50,7 +51,10 @@ cordova.define("cordova-plugin-inappbrowser.inappbrowser", function(require, exp
             exec(null, null, "InAppBrowser", "close", []);
         },
         show: function (eventname) {
-          exec(null, null, "InAppBrowser", "show", []);
+            exec(null, null, "InAppBrowser", "show", []);
+        },
+        hide: function (eventname) {
+            exec(null, null, "InAppBrowser", "hide", []);
         },
         addEventListener: function (eventname,f) {
             if (eventname in this.channels) {

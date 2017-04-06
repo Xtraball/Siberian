@@ -13,6 +13,9 @@ NSString *icb;
                                              selector:@selector(connectionStatusChanged:)
                                                  name: @"SBOfflineModeManagerConnectionStatusChanged"
                                                object:nil];
+
+    // Prepare the cache AppsMobileCompany
+    [NSURLProtocol registerClass:[RNCachingURLProtocol class]];
 }
 
 

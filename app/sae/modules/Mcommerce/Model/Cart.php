@@ -516,6 +516,10 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
         return $this->formatPrice($this->getDeliveryTTC());
     }
 
+    public function getFormattedSubtotalWithDiscount() {
+        return $this->formatPrice(($this->getDeductedTotalHT()+$this->getDeductedTva()));
+    }
+
     public function getTip() {
         return abs(floatval($this->getData("tip")));
     }

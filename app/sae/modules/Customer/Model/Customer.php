@@ -36,6 +36,10 @@ class Customer_Model_Customer extends Core_Model_Default
         return $this;
     }
 
+    public function findAllCustomersByApp($values = null, $params = null) {
+        return $this->getTable()->findAllCustomersByApp($values, $params);
+    }
+
     public function getName() {
         return $this->getFirstname() . ' ' . $this->getLastname();
     }

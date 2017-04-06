@@ -105,16 +105,25 @@ App.config(function ($stateProvider) {
                 return options;
             }, {}),
             'choices': $scope.product.choicesGroups.reduce(function (choices, choicesGroup) {
+
                 var selected = [];
+
                 choicesGroup.options.forEach(function(e, i){
                     if(e.selected){
                         selected.push(e.id)
                     }
                 });
+
+                if(choicesGroup.required &&  !selected.length) {
+                    errors.push($translate.instant("Option $1 is required.").replace("$1", choicesGroup.title));
+                }
+
                 choices[choicesGroup.id] = {
                     'selected_options': selected
                 };
+
                 return choices;
+
             }, {}),
             'selected_format': $scope.selected_format.id
         };

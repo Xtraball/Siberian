@@ -6,11 +6,8 @@
  * Copyright (c) 2011, IBM Corporation
  */
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
-#import <AudioToolbox/AudioToolbox.h>
 
 //------------------------------------------------------------------------------
 // use the all-in-one version of zxing that we built
@@ -55,7 +52,7 @@
 //------------------------------------------------------------------------------
 // class that does the grunt work
 //------------------------------------------------------------------------------
-@interface CDVbcsProcessor : NSObject <AVCaptureVideoDataOutputSampleBufferDelegate> {}
+@interface CDVbcsProcessor : NSObject <AVCaptureMetadataOutputObjectsDelegate> {}
 @property (nonatomic, retain) CDVBarcodeScanner*           plugin;
 @property (nonatomic, retain) NSString*                   callback;
 @property (nonatomic, retain) UIViewController*           parentViewController;
@@ -70,7 +67,10 @@
 @property (nonatomic)         BOOL                        capturing;
 @property (nonatomic)         BOOL                        isFrontCamera;
 @property (nonatomic)         BOOL                        isShowFlipCameraButton;
+@property (nonatomic)         BOOL                        isShowTorchButton;
 @property (nonatomic)         BOOL                        isFlipped;
+@property (nonatomic)         BOOL                        isTransitionAnimated;
+@property (nonatomic)         BOOL                        isSuccessBeepEnabled;
 
 
 - (id)initWithPlugin:(CDVBarcodeScanner*)plugin callback:(NSString*)callback parentViewController:(UIViewController*)parentViewController alterateOverlayXib:(NSString *)alternateXib;
@@ -155,15 +155,21 @@
 
     callback = command.callbackId;
 
-    NSDictionary* options = command.arguments.count == 0 ? [NSNull null] : [command.arguments objectAtIndex:0];
-
-    if ([options isKindOfClass:[NSNull class]]) {
+    NSDictionary* options;
+    if (command.arguments.count == 0) {
       options = [NSDictionary dictionary];
+    } else {
+      options = command.arguments[0];
     }
+
     BOOL preferFrontCamera = [options[@"preferFrontCamera"] boolValue];
     BOOL showFlipCameraButton = [options[@"showFlipCameraButton"] boolValue];
+    BOOL showTorchButton = [options[@"showTorchButton"] boolValue];
+    BOOL disableAnimations = [options[@"disableAnimations"] boolValue];
+    BOOL disableSuccessBeep = [options[@"disableSuccessBeep"] boolValue];
+
     // We allow the user to define an alternate xib file for loading the overlay.
-    NSString *overlayXib = [options objectForKey:@"overlayXib"];
+    NSString *overlayXib = options[@"overlayXib"];
 
     capabilityError = [self isScanNotPossible];
     if (capabilityError) {
@@ -175,12 +181,12 @@
         return;
     }
 
-    processor = [[CDVbcsProcessor alloc]
-                 initWithPlugin:self
-                 callback:callback
-                 parentViewController:self.viewController
-                 alterateOverlayXib:overlayXib
-                 ];
+    processor = [[[CDVbcsProcessor alloc]
+                initWithPlugin:self
+                      callback:callback
+          parentViewController:self.viewController
+            alterateOverlayXib:overlayXib
+            ] autorelease];
     // queue [processor scanBarcode] to run on the event loop
 
     if (preferFrontCamera) {
@@ -190,6 +196,14 @@
     if (showFlipCameraButton) {
       processor.isShowFlipCameraButton = true;
     }
+
+    if (showTorchButton) {
+      processor.isShowTorchButton = true;
+    }
+
+    processor.isSuccessBeepEnabled = !disableSuccessBeep;
+
+    processor.isTransitionAnimated = !disableAnimations;
 
     processor.formats = options[@"formats"];
 
@@ -220,8 +234,8 @@
 
 - (void)returnImage:(NSString*)filePath format:(NSString*)format callback:(NSString*)callback{
     NSMutableDictionary* resultDict = [[[NSMutableDictionary alloc] init] autorelease];
-    [resultDict setObject:format forKey:@"format"];
-    [resultDict setObject:filePath forKey:@"file"];
+    resultDict[@"format"] = format;
+    resultDict[@"file"] = filePath;
 
     CDVPluginResult* result = [CDVPluginResult
                                resultWithStatus: CDVCommandStatus_OK
@@ -233,12 +247,12 @@
 
 //--------------------------------------------------------------------------
 - (void)returnSuccess:(NSString*)scannedText format:(NSString*)format cancelled:(BOOL)cancelled flipped:(BOOL)flipped callback:(NSString*)callback{
-    NSNumber* cancelledNumber = [NSNumber numberWithInt:(cancelled?1:0)];
+    NSNumber* cancelledNumber = @(cancelled ? 1 : 0);
 
-    NSMutableDictionary* resultDict = [[NSMutableDictionary alloc] init];
-    [resultDict setObject:scannedText     forKey:@"text"];
-    [resultDict setObject:format          forKey:@"format"];
-    [resultDict setObject:cancelledNumber forKey:@"cancelled"];
+    NSMutableDictionary* resultDict = [[NSMutableDictionary new] autorelease];
+    resultDict[@"text"] = scannedText;
+    resultDict[@"format"] = format;
+    resultDict[@"cancelled"] = cancelledNumber;
 
     CDVPluginResult* result = [CDVPluginResult
                                resultWithStatus: CDVCommandStatus_OK
@@ -294,7 +308,7 @@ parentViewController:(UIViewController*)parentViewController
     self.is1D      = YES;
     self.is2D      = YES;
     self.capturing = NO;
-    self.results = [NSMutableArray new];
+    self.results = [[NSMutableArray new] autorelease];
 
     CFURLRef soundFileURLRef  = CFBundleCopyResourceURL(CFBundleGetMainBundle(), CFSTR("CDVBarcodeScanner.bundle/beep"), CFSTR ("caf"), NULL);
     AudioServicesCreateSystemSoundID(soundFileURLRef, &_soundFileObject);
@@ -332,7 +346,7 @@ parentViewController:(UIViewController*)parentViewController
         return;
     }
 
-    self.viewController = [[CDVbcsViewController alloc] initWithProcessor: self alternateOverlay:self.alternateXib];
+    self.viewController = [[[CDVbcsViewController alloc] initWithProcessor: self alternateOverlay:self.alternateXib] autorelease];
     // here we set the orientation delegate to the MainViewController of the app (orientation controlled in the Project Settings)
     self.viewController.orientationDelegate = self.plugin.viewController;
 
@@ -344,7 +358,7 @@ parentViewController:(UIViewController*)parentViewController
 - (void)openDialog {
     [self.parentViewController
      presentViewController:self.viewController
-     animated:YES completion:nil
+     animated:self.isTransitionAnimated completion:nil
      ];
 }
 
@@ -352,8 +366,8 @@ parentViewController:(UIViewController*)parentViewController
 - (void)barcodeScanDone:(void (^)(void))callbackBlock {
     self.capturing = NO;
     [self.captureSession stopRunning];
-    [self.parentViewController dismissViewControllerAnimated:YES completion:callbackBlock];
-    
+    [self.parentViewController dismissViewControllerAnimated:self.isTransitionAnimated completion:callbackBlock];
+
     // viewcontroller holding onto a reference to us, release them so they
     // will release us
     self.viewController = nil;
@@ -375,7 +389,7 @@ parentViewController:(UIViewController*)parentViewController
     }
 
     BOOL allEqual = YES;
-    NSString *compareString = [self.results objectAtIndex:0];
+    NSString *compareString = self.results[0];
 
     for (NSString *aResult in self.results)
     {
@@ -396,7 +410,9 @@ parentViewController:(UIViewController*)parentViewController
         [self barcodeScanDone:^{
             [self.plugin returnSuccess:text format:format cancelled:FALSE flipped:FALSE callback:self.callback];
         }];
-        AudioServicesPlaySystemSound(_soundFileObject);
+        if (self.isSuccessBeepEnabled) {
+          AudioServicesPlaySystemSound(_soundFileObject);
+        }
     });
 }
 
@@ -428,11 +444,24 @@ parentViewController:(UIViewController*)parentViewController
     }];
 }
 
+- (void)toggleTorch {
+  AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+  [device lockForConfiguration:nil];
+  if (device.flashActive) {
+    [device setTorchMode:AVCaptureTorchModeOff];
+    [device setFlashMode:AVCaptureFlashModeOff];
+  } else {
+    [device setTorchModeOnWithLevel:AVCaptureMaxAvailableTorchLevel error:nil];
+    [device setFlashMode:AVCaptureFlashModeOn];
+  }
+  [device unlockForConfiguration];
+}
+
 //--------------------------------------------------------------------------
 - (NSString*)setUpCaptureSession {
     NSError* error = nil;
 
-    AVCaptureSession* captureSession = [[AVCaptureSession alloc] init];
+    AVCaptureSession* captureSession = [[[AVCaptureSession alloc] init] autorelease];
     self.captureSession = captureSession;
 
        AVCaptureDevice* __block device = nil;
@@ -450,22 +479,25 @@ parentViewController:(UIViewController*)parentViewController
 
     }
 
+    // set focus params if available to improve focusing
+    [device lockForConfiguration:&error];
+    if (error == nil) {
+        if([device isFocusModeSupported:AVCaptureFocusModeContinuousAutoFocus]) {
+            [device setFocusMode:AVCaptureFocusModeContinuousAutoFocus];
+        }
+        if([device isAutoFocusRangeRestrictionSupported]) {
+            [device setAutoFocusRangeRestriction:AVCaptureAutoFocusRangeRestrictionNear];
+        }
+    }
+    [device unlockForConfiguration];
 
     AVCaptureDeviceInput* input = [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
     if (!input) return @"unable to obtain video capture device input";
 
-    AVCaptureVideoDataOutput* output = [[AVCaptureVideoDataOutput alloc] init];
+    AVCaptureMetadataOutput* output = [[[AVCaptureMetadataOutput alloc] init] autorelease];
     if (!output) return @"unable to obtain video capture output";
 
-    NSDictionary* videoOutputSettings = [NSDictionary
-                                         dictionaryWithObject:[NSNumber numberWithInt:kCVPixelFormatType_32BGRA]
-                                         forKey:(id)kCVPixelBufferPixelFormatTypeKey
-                                         ];
-
-    output.alwaysDiscardsLateVideoFrames = YES;
-    output.videoSettings = videoOutputSettings;
-
-    [output setSampleBufferDelegate:self queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)];
+    [output setMetadataObjectsDelegate:self queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)];
 
     if ([captureSession canSetSessionPreset:AVCaptureSessionPresetHigh]) {
       captureSession.sessionPreset = AVCaptureSessionPresetHigh;
@@ -489,8 +521,21 @@ parentViewController:(UIViewController*)parentViewController
         return @"unable to add video capture output to session";
     }
 
+    [output setMetadataObjectTypes:@[AVMetadataObjectTypeQRCode,
+                                     AVMetadataObjectTypeAztecCode,
+                                     AVMetadataObjectTypeDataMatrixCode,
+                                     AVMetadataObjectTypeUPCECode,
+                                     AVMetadataObjectTypeEAN8Code,
+                                     AVMetadataObjectTypeEAN13Code,
+                                     AVMetadataObjectTypeCode128Code,
+                                     AVMetadataObjectTypeCode93Code,
+                                     AVMetadataObjectTypeCode39Code,
+                                     AVMetadataObjectTypeITF14Code,
+                                     AVMetadataObjectTypePDF417Code]];
+
     // setup capture preview layer
     self.previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:captureSession];
+    self.previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
 
     // run on next event loop pass [captureSession startRunning]
     [captureSession performSelector:@selector(startRunning) withObject:nil afterDelay:0];
@@ -501,7 +546,7 @@ parentViewController:(UIViewController*)parentViewController
 //--------------------------------------------------------------------------
 // this method gets sent the captured frames
 //--------------------------------------------------------------------------
-- (void)captureOutput:(AVCaptureOutput*)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection*)connection {
+- (void)captureOutput:(AVCaptureOutput*)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection*)connection {
 
     if (!self.capturing) return;
 
@@ -527,73 +572,15 @@ parentViewController:(UIViewController*)parentViewController
 #endif
 
 
-    using namespace zxing;
-
-    // LuminanceSource is pretty dumb; we have to give it a pointer to
-    // a byte array, but then can't get it back out again.  We need to
-    // get it back to free it.  Saving it in imageBytes.
-    uint8_t* imageBytes;
-
-    //        NSTimeInterval timeStart = [NSDate timeIntervalSinceReferenceDate];
-
     try {
-        NSArray *supportedFormats = nil;
-        if (self.formats != nil) {
-            supportedFormats = [self.formats componentsSeparatedByString:@","];
-        }
-        DecodeHints decodeHints;
-        if (supportedFormats == nil || [supportedFormats containsObject:[self formatStringFrom:BarcodeFormat_QR_CODE]]) {
-            decodeHints.addFormat(BarcodeFormat_QR_CODE);
-        }
-        if (supportedFormats == nil || [supportedFormats containsObject:[self formatStringFrom:BarcodeFormat_CODE_128]]) {
-            decodeHints.addFormat(BarcodeFormat_CODE_128);
-        }
-        if (supportedFormats == nil || [supportedFormats containsObject:[self formatStringFrom:BarcodeFormat_CODE_39]]) {
-            decodeHints.addFormat(BarcodeFormat_CODE_39);
-        }
-        if (supportedFormats == nil || [supportedFormats containsObject:[self formatStringFrom:BarcodeFormat_DATA_MATRIX]]) {
-            decodeHints.addFormat(BarcodeFormat_DATA_MATRIX);
-        }
-        if (supportedFormats == nil || [supportedFormats containsObject:[self formatStringFrom:BarcodeFormat_UPC_E]]) {
-            decodeHints.addFormat(BarcodeFormat_UPC_E);
-        }
-        if (supportedFormats == nil || [supportedFormats containsObject:[self formatStringFrom:BarcodeFormat_UPC_A]]) {
-            decodeHints.addFormat(BarcodeFormat_UPC_A);
-        }
-        if (supportedFormats == nil || [supportedFormats containsObject:[self formatStringFrom:BarcodeFormat_EAN_8]]) {
-            decodeHints.addFormat(BarcodeFormat_EAN_8);
-        }
-        if (supportedFormats == nil || [supportedFormats containsObject:[self formatStringFrom:BarcodeFormat_EAN_13]]) {
-            decodeHints.addFormat(BarcodeFormat_EAN_13);
-        }
-//        decodeHints.addFormat(BarcodeFormat_ITF);   causing crashes
+        // This will bring in multiple entities if there are multiple 2D codes in frame.
+        for (AVMetadataObject *metaData in metadataObjects) {
+            AVMetadataMachineReadableCodeObject* code = (AVMetadataMachineReadableCodeObject*)[self.previewLayer transformedMetadataObjectForMetadataObject:(AVMetadataMachineReadableCodeObject*)metaData];
 
-        // here's the meat of the decode process
-        Ref<LuminanceSource>   luminanceSource   ([self getLuminanceSourceFromSample: sampleBuffer imageBytes:&imageBytes]);
-        //            [self dumpImage: [[self getImageFromLuminanceSource:luminanceSource] autorelease]];
-        Ref<Binarizer>         binarizer         (new HybridBinarizer(luminanceSource));
-        Ref<BinaryBitmap>      bitmap            (new BinaryBitmap(binarizer));
-        Ref<MultiFormatReader> reader            (new MultiFormatReader());
-        Ref<Result>            result            (reader->decode(bitmap, decodeHints));
-        Ref<String>            resultText        (result->getText());
-        BarcodeFormat          formatVal =       result->getBarcodeFormat();
-        NSString*              format    =       [self formatStringFrom:formatVal];
-
-
-        const char* cString      = resultText->getText().c_str();
-        NSString*   resultString = [[NSString alloc] initWithCString:cString encoding:NSUTF8StringEncoding];
-
-        if ([self checkResult:resultString]) {
-            [self barcodeScanSucceeded:resultString format:format];
+            if ([self checkResult:code.stringValue]) {
+                [self barcodeScanSucceeded:code.stringValue format:[self formatStringFromMetadata:code]];
+            }
         }
-    }
-    catch (zxing::ReaderException &rex) {
-        //            NSString *message = [[[NSString alloc] initWithCString:rex.what() encoding:NSUTF8StringEncoding] autorelease];
-        //            NSLog(@"decoding: ReaderException: %@", message);
-    }
-    catch (zxing::IllegalArgumentException &iex) {
-        //            NSString *message = [[[NSString alloc] initWithCString:iex.what() encoding:NSUTF8StringEncoding] autorelease];
-        //            NSLog(@"decoding: IllegalArgumentException: %@", message);
     }
     catch (...) {
         //            NSLog(@"decoding: unknown exception");
@@ -603,10 +590,6 @@ parentViewController:(UIViewController*)parentViewController
     //        NSTimeInterval timeElapsed  = [NSDate timeIntervalSinceReferenceDate] - timeStart;
     //        NSLog(@"decoding completed in %dms", (int) (timeElapsed * 1000));
 
-    // free the buffer behind the LuminanceSource
-    if (imageBytes) {
-        free(imageBytes);
-    }
 }
 
 //--------------------------------------------------------------------------
@@ -622,6 +605,26 @@ parentViewController:(UIViewController*)parentViewController
     if (format == zxing::BarcodeFormat_CODE_128)     return @"CODE_128";
     if (format == zxing::BarcodeFormat_CODE_39)      return @"CODE_39";
     if (format == zxing::BarcodeFormat_ITF)          return @"ITF";
+    return @"???";
+}
+
+//--------------------------------------------------------------------------
+// convert metadata object information to barcode format string
+//--------------------------------------------------------------------------
+- (NSString*)formatStringFromMetadata:(AVMetadataMachineReadableCodeObject*)format {
+    if (format.type == AVMetadataObjectTypeQRCode)          return @"QR_CODE";
+    if (format.type == AVMetadataObjectTypeAztecCode)       return @"AZTEC";
+    if (format.type == AVMetadataObjectTypeDataMatrixCode)  return @"DATA_MATRIX";
+    if (format.type == AVMetadataObjectTypeUPCECode)        return @"UPC_E";
+    // According to Apple documentation, UPC_A is EAN13 with a leading 0.
+    if (format.type == AVMetadataObjectTypeEAN13Code && [format.stringValue characterAtIndex:0] == '0') return @"UPC_A";
+    if (format.type == AVMetadataObjectTypeEAN8Code)        return @"EAN_8";
+    if (format.type == AVMetadataObjectTypeEAN13Code)       return @"EAN_13";
+    if (format.type == AVMetadataObjectTypeCode128Code)     return @"CODE_128";
+    if (format.type == AVMetadataObjectTypeCode93Code)      return @"CODE_93";
+    if (format.type == AVMetadataObjectTypeCode39Code)      return @"CODE_39";
+    if (format.type == AVMetadataObjectTypeITF14Code)          return @"ITF";
+    if (format.type == AVMetadataObjectTypePDF417Code)      return @"PDF_417";
     return @"???";
 }
 
@@ -752,7 +755,7 @@ parentViewController:(UIViewController*)parentViewController
 //--------------------------------------------------------------------------
 - (void)dumpImage:(UIImage*)image {
     NSLog(@"writing image to library: %dx%d", (int)image.size.width, (int)image.size.height);
-    ALAssetsLibrary* assetsLibrary = [[ALAssetsLibrary alloc] init];
+    ALAssetsLibrary* assetsLibrary = [[[ALAssetsLibrary alloc] init] autorelease];
     [assetsLibrary
      writeImageToSavedPhotosAlbum:image.CGImage
      orientation:ALAssetOrientationUp
@@ -835,7 +838,8 @@ parentViewController:(UIViewController*)parentViewController
     CGImageRelease(cgImage);
 
     /* save image to file */
-    NSString* filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"tmpqrcode.jpeg"];
+    NSString* fileName = [[[NSProcessInfo processInfo] globallyUniqueString] stringByAppendingString:@".jpg"];
+    NSString* filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
     [UIImageJPEGRepresentation(qrImage, 1.0) writeToFile:filePath atomically:YES];
 
     /* return file path back to cordova */
@@ -896,7 +900,7 @@ parentViewController:(UIViewController*)parentViewController
 - (void)viewWillAppear:(BOOL)animated {
 
     // set video orientation to what the camera sees
-    self.processor.previewLayer.connection.videoOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    self.processor.previewLayer.connection.videoOrientation = (AVCaptureVideoOrientation) [[UIApplication sharedApplication] statusBarOrientation];
 
     // this fixes the bug when the statusbar is landscape, and the preview layer
     // starts up in portrait (not filling the whole view)
@@ -928,6 +932,11 @@ parentViewController:(UIViewController*)parentViewController
 - (void)flipCameraButtonPressed:(id)sender
 {
     [self.processor performSelector:@selector(flipCamera) withObject:nil afterDelay:0];
+}
+
+- (void)torchButtonPressed:(id)sender
+{
+  [self.processor performSelector:@selector(toggleTorch) withObject:nil afterDelay:0];
 }
 
 //--------------------------------------------------------------------------
@@ -962,44 +971,68 @@ parentViewController:(UIViewController*)parentViewController
     UIToolbar* toolbar = [[UIToolbar alloc] init];
     toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
 
-    id cancelButton = [[UIBarButtonItem alloc]
+    id cancelButton = [[[UIBarButtonItem alloc]
                        initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
                        target:(id)self
                        action:@selector(cancelButtonPressed:)
-                       ];
+                       ] autorelease];
 
 
-    id flexSpace = [[UIBarButtonItem alloc]
+    id flexSpace = [[[UIBarButtonItem alloc]
                     initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                     target:nil
                     action:nil
-                    ];
+                    ] autorelease];
 
-    id flipCamera = [[UIBarButtonItem alloc]
+    id flipCamera = [[[UIBarButtonItem alloc]
                        initWithBarButtonSystemItem:UIBarButtonSystemItemCamera
                        target:(id)self
                        action:@selector(flipCameraButtonPressed:)
-                       ];
+                       ] autorelease];
+
+    NSMutableArray *items;
 
 #if USE_SHUTTER
-    id shutterButton = [[UIBarButtonItem alloc]
+    id shutterButton = [[[UIBarButtonItem alloc]
                         initWithBarButtonSystemItem:UIBarButtonSystemItemCamera
                         target:(id)self
                         action:@selector(shutterButtonPressed)
-                        ];
+                        ] autorelease];
 
     if (_processor.isShowFlipCameraButton) {
-      toolbar.items = [NSArray arrayWithObjects:flexSpace,cancelButton,flexSpace, flipCamera ,shutterButton,nil];
+      items = [NSMutableArray arrayWithObjects:flexSpace, cancelButton, flexSpace, flipCamera, shutterButton, nil];
     } else {
-      toolbar.items = [NSArray arrayWithObjects:flexSpace,cancelButton,flexSpace ,shutterButton,nil];
+      items = [NSMutableArray arrayWithObjects:flexSpace, cancelButton, flexSpace, shutterButton, nil];
     }
 #else
     if (_processor.isShowFlipCameraButton) {
-      toolbar.items = [NSArray arrayWithObjects:flexSpace,cancelButton,flexSpace, flipCamera,nil];
+      items = [@[flexSpace, cancelButton, flexSpace, flipCamera] mutableCopy];
     } else {
-      toolbar.items = [NSArray arrayWithObjects:flexSpace,cancelButton,flexSpace,nil];
+      items = [@[flexSpace, cancelButton, flexSpace] mutableCopy];
     }
 #endif
+
+    if (_processor.isShowTorchButton && !_processor.isFrontCamera) {
+      AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+      if ([device hasTorch] && [device hasFlash]) {
+        NSURL *bundleURL = [[NSBundle mainBundle] URLForResource:@"CDVBarcodeScanner" withExtension:@"bundle"];
+        NSBundle *bundle = [NSBundle bundleWithURL:bundleURL];
+        NSString *imagePath = [bundle pathForResource:@"torch" ofType:@"png"];
+        UIImage *image = [UIImage imageWithContentsOfFile:imagePath];
+
+        id torchButton = [[[UIBarButtonItem alloc]
+                           initWithImage:image
+                                   style:UIBarButtonItemStylePlain
+                                  target:(id)self
+                                  action:@selector(torchButtonPressed:)
+                           ] autorelease];
+
+      [items insertObject:torchButton atIndex:0];
+    }
+  }
+
+    toolbar.items = items;
+
     bounds = overlayView.bounds;
 
     [toolbar sizeToFit];
@@ -1012,25 +1045,25 @@ parentViewController:(UIViewController*)parentViewController
     [overlayView addSubview: toolbar];
 
     UIImage* reticleImage = [self buildReticleImage];
-    UIView* reticleView = [[UIImageView alloc] initWithImage: reticleImage];
+    UIView* reticleView = [[[UIImageView alloc] initWithImage:reticleImage] autorelease];
     CGFloat minAxis = MIN(rootViewHeight, rootViewWidth);
 
     rectArea = CGRectMake(
-                          0.5 * (rootViewWidth  - minAxis),
-                          0.5 * (rootViewHeight - minAxis),
-                          minAxis,
-                          minAxis
-                          );
+        (CGFloat) (0.5 * (rootViewWidth  - minAxis)),
+        (CGFloat) (0.5 * (rootViewHeight - minAxis)),
+        minAxis,
+        minAxis
+    );
 
     [reticleView setFrame:rectArea];
 
     reticleView.opaque           = NO;
     reticleView.contentMode      = UIViewContentModeScaleAspectFit;
-    reticleView.autoresizingMask = 0
-    | UIViewAutoresizingFlexibleLeftMargin
-    | UIViewAutoresizingFlexibleRightMargin
-    | UIViewAutoresizingFlexibleTopMargin
-    | UIViewAutoresizingFlexibleBottomMargin
+    reticleView.autoresizingMask = (UIViewAutoresizing) (0
+        | UIViewAutoresizingFlexibleLeftMargin
+        | UIViewAutoresizingFlexibleRightMargin
+        | UIViewAutoresizingFlexibleTopMargin
+        | UIViewAutoresizingFlexibleBottomMargin)
     ;
 
     [overlayView addSubview: reticleView];
@@ -1058,9 +1091,9 @@ parentViewController:(UIViewController*)parentViewController
         CGContextSetStrokeColorWithColor(context, color.CGColor);
         CGContextSetLineWidth(context, RETICLE_WIDTH);
         CGContextBeginPath(context);
-        CGFloat lineOffset = RETICLE_OFFSET+(0.5*RETICLE_WIDTH);
+        CGFloat lineOffset = (CGFloat) (RETICLE_OFFSET+(0.5*RETICLE_WIDTH));
         CGContextMoveToPoint(context, lineOffset, RETICLE_SIZE/2);
-        CGContextAddLineToPoint(context, RETICLE_SIZE-lineOffset, 0.5*RETICLE_SIZE);
+        CGContextAddLineToPoint(context, RETICLE_SIZE-lineOffset, (CGFloat) (0.5*RETICLE_SIZE));
         CGContextStrokePath(context);
     }
 

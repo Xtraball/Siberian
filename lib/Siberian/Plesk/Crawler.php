@@ -91,7 +91,7 @@ class Siberian_Plesk_Crawler {
 
             $this->crawler = $this->client->submit($form);
         } catch(Exception $e) {
-            throw new Exception("[Siberian_Plesk_Crawler]: Unable to save certificate, with message %s.", $e->getMessage());
+            throw new Exception(__("[Siberian_Plesk_Crawler]: Unable to save certificate, with message %s.", $e->getMessage()));
         }
 
         return true;

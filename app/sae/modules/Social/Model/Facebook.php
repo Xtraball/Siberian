@@ -268,11 +268,17 @@ class Social_Model_Facebook extends Core_Model_Default {
     protected function _getFBAlbums($url) {
         $response = file_get_contents($url);
         $response = Zend_Json::decode($response);
-        $albums = $response["data"];
-        // If there still are remaining albums repeat request
-        if ($response["paging"]["next"]) {
-            $albums = array_merge($albums, $this->_getFBAlbums($response["paging"]["next"]));
+
+        if(!$response["error"]) {
+            $albums = $response["data"];
+            // If there still are remaining albums repeat request
+            if ($response["paging"]["next"]) {
+                $albums = array_merge($albums, $this->_getFBAlbums($response["paging"]["next"]));
+            }
+        } else {
+            $albums = false;
         }
+
         return $albums;
     }
 

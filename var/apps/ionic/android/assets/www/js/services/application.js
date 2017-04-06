@@ -193,6 +193,23 @@ App.service('Application', function ($sbhttp, $q, $rootScope, $timeout, $transla
                 }
             };
 
+            /** Force end */
+            var endProgress = function() {
+                progress = total;
+                $rootScope.progressBarPercent = 1;
+                $window.plugins.ProgressView.setProgress($rootScope.progressBarPercent);
+                $window.localStorage.setItem("sb-offline-mode-assets", JSON.stringify(assets_done));
+
+                _updatingCache = false;
+
+                $timeout(function () {
+                    if ($rootScope.showProgressBar) {
+                        $rootScope.showProgressBar = false;
+                        $window.plugins.ProgressView.hide();
+                    }
+                }, 1000);
+            };
+
             // Check and add images not present in assets (useful for push which is device relative)
             var look_for_images = function (object) {
                 _.forEach(object, function (obj, key) {
@@ -275,15 +292,14 @@ App.service('Application', function ($sbhttp, $q, $rootScope, $timeout, $transla
                                 $log.debug("Retry queue ends.");
 
                                 updateProgress();
-                                $rootScope.showProgressBar = false;
-                                $window.plugins.ProgressView.hide();
+                                endProgress();
                             }
                         });
                         pathQueue.addEach(_retryQueue);
                         pathQueue.start();
                     } else {
-                        $rootScope.showProgressBar = false;
-                        $window.plugins.ProgressView.hide();
+
+                        endProgress();
                     }
                 }
             };

@@ -23,4 +23,19 @@
         <input type="hidden" name="link[link_id]" value="<?php echo $link->getId(); ?>" />
         <?php endif; ?>
     </div>
+    <div class="col-sm-5">
+        <label for="link"></label>
+    </div>
+    <div class="col-sm-2">
+        <label for="link"><?php echo $this->_('Without navbar') ?></label>
+    </div>
+    <div class="col-sm-1">
+        <input  name="link[hide_navbar]" type="checkbox" <?php echo ($link->getHideNavbar() ? 'checked' : '');?>/>
+    </div>
+    <div class="col-sm-2">
+        <label for="link"><?php echo $this->_('Use external application') ?></label>
+    </div>
+    <div class="col-sm-1">
+        <input  name="link[use_external_app]" type="checkbox" <?php echo ($link->getUseExternalApp() ? 'checked' : '');?>/>
+    </div>
 </div>

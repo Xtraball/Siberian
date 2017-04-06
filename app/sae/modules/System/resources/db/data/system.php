@@ -311,3 +311,6 @@ if(!$config->getId()) {
 
 # 4.8.7: Maintenance, remove blank entries
 $this->query("DELETE FROM `system_config` WHERE code = '';");
+
+# 4.10.0: Clear locks
+Siberian_Cache::__clearLocks();

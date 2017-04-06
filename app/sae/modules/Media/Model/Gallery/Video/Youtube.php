@@ -21,6 +21,8 @@ class Media_Model_Gallery_Video_Youtube extends Media_Model_Gallery_Video_Abstra
             $this->_videos = array();
 
             //Youtube patch
+            //cyril: I see that WTF code and I check the video. It's a video that say "your device is not compatible".
+            //So, I guess an old youtube implementation is deprecated and somewhere in the code, a fix is hidden.
             $video = array(
                 "video_id" => "UKY3scPIMd8",
                 "type" => "youtube",

@@ -1,0 +1,136 @@
+<sb-section title="'<?php echo __("Push message") ?>'">
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="push_message_title"><?php echo __("Title") ?></label>
+                <input maxlength="30" type="text" id="push_message_title" ng-model="push_message.title" class="form-control" placeholder="<?php echo __("Title") ?>" />
+            </div>
+
+            <div class="col-md-6">
+                <label for="push_message_options"><?php echo __("Options") ?></label>
+
+                <div class="checkbox">
+                    <label for="push_message_sendtoall">
+                        <input type="checkbox" id="push_message_sendtoall" ng-model="push_message.send_to_all" />
+                        <?php echo __("Send to all applications") ?>
+                    </label>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="form-group">
+        <div class="row">
+            <br />
+
+            <div class="col-md-6">
+                <label for="push_message_message"><?php echo __("Message") ?></label>
+                <textarea maxlength="220" rows="3" id="push_message_message" ng-model="push_message.message" class="form-control" placeholder="<?php echo __("Message") ?>">
+                </textarea>
+                <span class="right">{{ 220 - push_message.message.length }} <?php echo __("remaining characters") ?>.</span>
+            </div>
+
+            <div class="col-md-6">
+                <label for="push_message_devices"><?php echo __("Target devices") ?></label>
+                <select id="push_message_devices" class="form-control" ng-model="push_message.devices">
+                    <option value="all" selected="selected"><?php echo __("iOS & Android") ?></option>
+                    <option value="ios"><?php echo __("iOS only") ?></option>
+                    <option value="android"><?php echo __("Android only") ?></option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+
+                <br />
+
+                <div class="checkbox">
+                    <label for="push_message_url">
+                        <input type="checkbox" id="push_message_url" ng-model="push_message.open_url" />
+                        <?php echo __("Open custom URL") ?>
+                    </label>
+                </div>
+
+                <input ng-show="push_message.open_url" maxlength="255" rows="3" id="push_message_url" ng-model="push_message.url" class="form-control" placeholder="<?php echo __("URL") ?>" />
+            </div>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-12">
+                <button type="submit" ng-click="globalSend()" class="btn btn-primary right"><?php echo __("Send push"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+
+</sb-section>
+
+
+<sb-section title="'<?php echo __js("Target applications") ?>'">
+
+
+
+    <br />
+    <div class="form-group">
+        <label for="filter"><?php echo __("Search"); ?></label>
+        <input type="text" id="filter" class="form-control" ng-model="urlParams.filter" placeholder="<?php echo __("Search"); ?>" />
+    </div>
+    <span><?php echo __("Only published application are available for global push notifications.") ?></span>
+
+    <div class="clear"></div>
+    <br />
+
+    <table class="table">
+        <col width="5%" />
+        <col width="5%" />
+        <col width="5%" />
+        <col width="23%" />
+        <col width="30%" />
+        <col width="30%" />
+        <thead>
+        <tr>
+            <th></th>
+            <th></th>
+            <th class="pointer" ng-class="{'pointer-up': urlParams.order == 'app_id' && urlParams.by, 'pointer-down': urlParams.order == 'app_id' && !urlParams.by}" ng-click="urlParams.order = 'app_id'; urlParams.by = !urlParams.by"><?php echo __("Id"); ?></th>
+            <th class="pointer" ng-class="{'pointer-up': urlParams.order == 'name' && urlParams.by, 'pointer-down': urlParams.order == 'name' && !urlParams.by}" ng-click="urlParams.order = 'name'; urlParams.by = !urlParams.by"><?php echo __("Name"); ?></th>
+            <th class="pointer" ng-class="{'pointer-up': urlParams.order == 'bundle_id' && urlParams.by, 'pointer-down': urlParams.order == 'bundle_id' && !urlParams.by}" ng-click="urlParams.order = 'bundle_id'; urlParams.by = !urlParams.by"><?php echo __("Bundle Id"); ?></th>
+            <th class="pointer" ng-class="{'pointer-up': urlParams.order == 'package_name' && urlParams.by, 'pointer-down': urlParams.order == 'package_name' && !urlParams.by}" ng-click="urlParams.order = 'package_name'; urlParams.by = !urlParams.by"><?php echo __("Package Name"); ?></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-show="applications.length" ng-repeat="application in applications">
+            <td>
+                <input type="checkbox" ng-model="checked[application.id]" />
+            </td>
+            <td><img ng-src="{{ application.icon }}" width="30" /></td>
+            <td>{{ application.id }}</td>
+            <td>{{ application.name }}</td>
+            <td>{{ application.bundle_id }}</td>
+            <td>{{ application.package_name }}</td>
+        </tr>
+        <tr ng-show="!applications.length">
+            <td colspan="6" class="a-center"><?php echo __("You don't have any applications yet"); ?></td>
+        </tr>
+        </tbody>
+    </table>
+    <br />
+    <bgf-pagination
+            collection="applications"
+            page="page"
+            per-page="10"
+            link-group-size="2"
+            client-limit="clientLimit"
+            template-url="<?php echo $this->getUrl("/backoffice/paginate/template") ?>"
+            url="'<?php echo $this->getUrl("/application/backoffice_list/findall") ?>'"
+            url-params="urlParams">
+    </bgf-pagination>
+
+</sb-section>

@@ -239,10 +239,20 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
             // Verify the page exists
             $facebook->getPage($pageid);
             // Return the albums
-            $html = $facebook->getAlbums($pageid);
+            $albums = $facebook->getAlbums($pageid);
+
+            if(!$albums) {
+                $html = array(
+                    'message' => __("An error occurred while retrieving your page. Please check your page id."),
+                    'message_button' => 1,
+                    'message_loader' => 1
+                );
+            } else {
+                $html = $albums;
+            }
         } catch (Exception $e) {
             $html = array(
-                'message' => $this->_($e->getMessage()),
+                'message' => __($e->getMessage()),
                 'message_button' => 1,
                 'message_loader' => 1
             );

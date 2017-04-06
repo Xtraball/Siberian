@@ -455,7 +455,7 @@ var page = {
                         }
                         
                         $('#option_value_'+datas.value_id).remove();
-                        if(!datas.use_admin_account) $('#option_value_customer_account').hide();
+                        if(!datas.use_my_account) $('#option_value_customer_account').hide();
                         carousel.update();
                         
 
@@ -501,7 +501,7 @@ var page = {
         $('.add_page').click(function () {
             reload(this.parentNode, "<?php echo $this->getUrl('application/customization_features/save'); ?>", true, function (datas) {
                 if (datas.page_html) {
-                    if (datas.use_admin_account) $('#option_value_customer_account').show();
+                    if (datas.use_my_account) $('#option_value_customer_account').show();
                     var li = $(datas.page_html);
                     var a = li.children('a');
                     $('#option_value_customer_account').before(li);

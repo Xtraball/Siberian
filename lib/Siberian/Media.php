@@ -12,17 +12,17 @@ class Siberian_Media {
         "jpg" => array(
             "jpegoptim" => array(
                 "bin" => "/usr/local/bin/jpegoptim",
-                "cli" => "/usr/local/bin/jpegoptim -m 70 -f %s"
+                "cli" => "/usr/local/bin/jpegoptim -s -q -m 60 %s"
             ),
         ),
         "png" => array(
             "pngquant" => array(
                 "bin" => "/usr/local/bin/pngquant",
-                "cli" => "/usr/local/bin/pngquant --ext .png --force -- %s"
+                "cli" => "/usr/local/bin/pngquant --skip-if-larger --ext .png --force -- %s"
             ),
             "optipng" => array(
                 "bin" => "/usr/local/bin/optipng",
-                "cli" => "/usr/local/bin/optipng -o3 %s"
+                "cli" => "/usr/local/bin/optipng -strip all -quiet -o3 %s"
             ),
         ),
     );

@@ -3,9 +3,9 @@
 
 <div>
     <div id="carousel-container">
-        <ul id="option_values" class="pages_list carousel-ul font-blue">
+        <ul id="option_values" class="pages_list carousel-ul font-blue" data-max-icons="<?php $l = $this->getApplication()->getLayout(); echo $l->getUseMoreButton() ? $l->getNumberOfDisplayedIcons() : ""; ?>">
             <?php foreach($option_values as $key => $option) : ?>
-                
+
                 <?php echo $this->getLayout()->addPartial('row_' . $option->getId(), 'application_view_customization_features_list_options', 'application/customization/features/list/options/li.phtml')
                     ->setOptionValue($option)->setIsSortable(1)
                     ->toHtml();
@@ -13,13 +13,13 @@
             <?php endforeach; ?>
             <?php $option = new Application_Model_Option_Value(); ?>
             <?php $option->find('customer_account'); ?>
-            <?php 
+            <?php
                 echo $this->getLayout()->addPartial('row_'.$option->getId(), 'application_view_customization_features_list_options', 'application/customization/features/list/options/li.phtml')
                     ->setOptionValue($option)
                     ->setIsSortable(0)
                     ->setIsHidden(!$this->getApplication()->usesUserAccount())
                     ->toHtml()
-                ; 
+                ;
             ?>
             <?php if($application->getLayout()->getUseMoreButton()) : ?>
                 <?php $option = new Application_Model_Option_Value(); ?>
@@ -62,4 +62,3 @@
     }
     .carousel-ul{height:102px;padding:0}
 </style>
-

@@ -3774,7 +3774,6 @@ a.subdued {
   .action-sheet-open .action-sheet-backdrop {
     pointer-events: auto; }
 
-  /**
 .platform-android .action-sheet-backdrop.active {
   background-color: rgba(0, 0, 0, 0.2); }
 
@@ -3804,7 +3803,6 @@ a.subdued {
 
 .platform-android .action-sheet-has-icons .button {
   padding-left: 56px; }
-  */
 
 .backdrop {
   position: fixed;
@@ -9080,6 +9078,7 @@ a.button {
 /* TOOLTIP */
 /* SPINNER */
 /* FONT FAMILY */
+/* ICON CUSTOM */
 /* GENERAL */
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, div, p, span, a, * {
   font-family: "Helvetica Neue", "Roboto", "Segoe UI", "sans-serif"; }
@@ -9173,6 +9172,14 @@ ion-content {
   .list .item .item-custom-bg {
     background-color: #444; }
 
+.item-text-custom {
+  border-color: rgba(68, 68, 68, 0.2);
+  background-color: #fff;
+  color: #444; }
+
+.item-text-custom * {
+  color: #444; }
+
 .item.active.item-custom,
 .item.activated.item-custom,
 .item-complex.active .item-content.item-custom,
@@ -9191,44 +9198,43 @@ ion-content {
     background-color: #fff; }
 
 /* CARD */
-.card .item-divider.item-divider-custom {
-  background-color: #f8f8f8;
-  color: #222;
-  border: none; }
-  .card .item-divider.item-divider-custom h2, .card .item-divider.item-divider-custom p, .card .item-divider.item-divider-custom span {
-    color: #222; }
-
-.card.transparent {
-  background-color: transparent;
-  box-shadow: none; }
-  .card.transparent .item.item-custom {
-    background-color: transparent; }
-    .card.transparent .item.item-custom.active, .card.transparent .item.item-custom:active {
-      border-color: transparent;
+.card {
+  background-color: transparent; }
+  .card .item-divider.item-divider-custom {
+    background-color: #f8f8f8;
+    color: #222;
+    border: none; }
+    .card .item-divider.item-divider-custom h2, .card .item-divider.item-divider-custom p, .card .item-divider.item-divider-custom span {
+      color: #222; }
+  .card.transparent {
+    background-color: transparent;
+    box-shadow: none; }
+    .card.transparent .item.item-custom {
       background-color: transparent; }
-
-.card .item.item-custom {
-  border-color: rgba(68, 68, 68, 0.2);
-  background-color: #fff;
-  color: #444; }
-  .card .item.item-custom h1, .card .item.item-custom h2, .card .item.item-custom h3, .card .item.item-custom h4, .card .item.item-custom h5, .card .item.item-custom h6, .card .item.item-custom p, .card .item.item-custom .input-label, .card .item.item-custom input, .card .item.item-custom textarea, .card .item.item-custom.item-select select {
-    color: #444;
-    background-color: transparent; }
-  .card .item.item-custom input::-moz-placeholder, .card .item.item-custom textarea::-moz-placeholder {
-    color: rgba(255, 255, 255, 0.4); }
-  .card .item.item-custom input:-ms-input-placeholder, .card .item.item-custom textarea:-ms-input-placeholder {
-    color: rgba(255, 255, 255, 0.4); }
-  .card .item.item-custom input::-webkit-input-placeholder, .card .item.item-custom textarea::-webkit-input-placeholder {
-    color: rgba(255, 255, 255, 0.4);
-    text-indent: 0; }
-  .card .item.item-custom.active, .card .item.item-custom:active {
+      .card.transparent .item.item-custom.active, .card.transparent .item.item-custom:active {
+        border-color: transparent;
+        background-color: transparent; }
+  .card .item.item-custom {
     border-color: rgba(68, 68, 68, 0.2);
+    background-color: #fff;
+    color: #444; }
+    .card .item.item-custom h1, .card .item.item-custom h2, .card .item.item-custom h3, .card .item.item-custom h4, .card .item.item-custom h5, .card .item.item-custom h6, .card .item.item-custom p, .card .item.item-custom .input-label, .card .item.item-custom input, .card .item.item-custom textarea, .card .item.item-custom.item-select select {
+      color: #444;
+      background-color: transparent; }
+    .card .item.item-custom input::-moz-placeholder, .card .item.item-custom textarea::-moz-placeholder {
+      color: rgba(255, 255, 255, 0.4); }
+    .card .item.item-custom input:-ms-input-placeholder, .card .item.item-custom textarea:-ms-input-placeholder {
+      color: rgba(255, 255, 255, 0.4); }
+    .card .item.item-custom input::-webkit-input-placeholder, .card .item.item-custom textarea::-webkit-input-placeholder {
+      color: rgba(255, 255, 255, 0.4);
+      text-indent: 0; }
+    .card .item.item-custom.active, .card .item.item-custom:active {
+      border-color: rgba(68, 68, 68, 0.2);
+      background-color: #fff; }
+    .card .item.item-custom.translucent {
+      background-color: rgba(68, 68, 68, 0.4); }
+  .card .item .item-custom-bg {
     background-color: #fff; }
-  .card .item.item-custom.translucent {
-    background-color: rgba(68, 68, 68, 0.4); }
-
-.card .item .item-custom-bg {
-  background-color: #fff; }
 
 /* BUTTONS */
 .button.button-custom {
@@ -9333,3 +9339,16 @@ input:checked + .checkbox-icon:after {
 .spinner-custom .spinner-android,
 .spinner-custom .spinner-android-small {
   stroke: #4b8bf4; }
+
+/* ICON */
+.icon-custom, .homepage-custom *.icon-custom {
+  color: #fff; }
+
+/* SLIDER PAGER */
+.layout.colorize-pager .slider-pager {
+  background-color: #fff; }
+
+.layout.colorize-pager .slider-pager-page {
+  color: #bfbfbf; }
+  .layout.colorize-pager .slider-pager-page:active {
+    color: white; }

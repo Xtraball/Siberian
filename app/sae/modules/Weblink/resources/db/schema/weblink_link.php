@@ -47,6 +47,14 @@ $schemas['weblink_link'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'hide_navbar' => array(
+        'type' => 'boolean',
+        'default' => "0"
+    ),
+    'use_external_app' => array(
+        'type' => 'boolean',
+        'default' => "0"
+    ),
     'position' => array(
         'type' => 'tinyint(1) unsigned',
         'default' => '0',

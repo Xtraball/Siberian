@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -20,98 +20,196 @@
 /*jshint node: true*/
 
 var Q     = require('q'),
-    nopt  = require('nopt'),
     path  = require('path'),
     shell = require('shelljs'),
     spawn = require('./spawn'),
-    check_reqs = require('./check_reqs'),
-    fs = require('fs');
+    fs = require('fs'),
+    plist = require('plist'),
+    util = require('util');
+
+var check_reqs;
+try {
+    check_reqs = require('./check_reqs');
+} catch (err) {
+    // For unit tests, check_reqs.js is not a sibling to build.js
+    check_reqs = require('../../../../lib/check_reqs');
+}
+
+var events = require('cordova-common').events;
 
 var projectPath = path.join(__dirname, '..', '..');
 var projectName = null;
 
-module.exports.run = function (argv) {
+// These are regular expressions to detect if the user is changing any of the built-in xcodebuildArgs
+var buildFlagMatchers = {
+    'xcconfig' : /^\-xcconfig\s*(.*)$/,
+    'workspace' : /^\-workspace\s*(.*)/,
+    'scheme' : /^\-scheme\s*(.*)/,
+    'configuration' : /^\-configuration\s*(.*)/,
+    'sdk' : /^\-sdk\s*(.*)/,
+    'destination' : /^\-destination\s*(.*)/,
+    'archivePath' : /^\-archivePath\s*(.*)/,
+    'configuration_build_dir' : /^(CONFIGURATION_BUILD_DIR=.*)/,
+    'shared_precomps_dir' : /^(SHARED_PRECOMPS_DIR=.*)/
+};
 
-    var args = nopt({
-        // "archs": String,     // TODO: add support for building different archs
-        'debug': Boolean,
-        'release': Boolean,
-        'device': Boolean,
-        'emulator': Boolean,
-        'codeSignIdentity': String,
-        'codeSignResourceRules': String,
-        'provisioningProfile': String,
-        'buildConfig' : String
-    }, {'-r': '--release'}, argv);
-
-    if (args.debug && args.release) {
-        return Q.reject('Only one of "debug"/"release" options should be specified');
-    }
-
-    if (args.device && args.emulator) {
-        return Q.reject('Only one of "device"/"emulator" options should be specified');
-    }
-
-    if(args.buildConfig) {
-        if(!fs.existsSync(args.buildConfig)) {
-            return Q.reject('Build config file does not exist:' + args.buildConfig);
+/**
+ * Returns a promise that resolves to the default simulator target; the logic here
+ * matches what `cordova emulate ios` does. 
+ * 
+ * The return object has two properties: `name` (the Xcode destination name),
+ * `identifier` (the simctl identifier), and `simIdentifier` (essentially the cordova emulate target)
+ * 
+ * @return {Promise}
+ */
+function getDefaultSimulatorTarget() {
+    return require('./list-emulator-build-targets').run()
+    .then(function (emulators) {
+        var targetEmulator;
+        if (emulators.length > 0) {
+            targetEmulator = emulators[0];
         }
-        console.log('Reading build config file:', path.resolve(args.buildConfig));
-        var buildConfig = JSON.parse(fs.readFileSync(args.buildConfig, 'utf-8'));
+        emulators.forEach(function (emulator) {
+            if (emulator.name.indexOf('iPhone') === 0) {
+                targetEmulator = emulator;
+            }
+        });
+        return targetEmulator;
+    });
+}
+
+module.exports.run = function (buildOpts) {
+    var emulatorTarget = '';
+
+    buildOpts = buildOpts || {};
+
+    if (buildOpts.debug && buildOpts.release) {
+        return Q.reject('Cannot specify "debug" and "release" options together.');
+    }
+
+    if (buildOpts.device && buildOpts.emulator) {
+        return Q.reject('Cannot specify "device" and "emulator" options together.');
+    }
+
+    if(buildOpts.buildConfig) {
+        if(!fs.existsSync(buildOpts.buildConfig)) {
+            return Q.reject('Build config file does not exist:' + buildOpts.buildConfig);
+        }
+        events.emit('log','Reading build config file:', path.resolve(buildOpts.buildConfig));
+        var contents = fs.readFileSync(buildOpts.buildConfig, 'utf-8');
+        var buildConfig = JSON.parse(contents.replace(/^\ufeff/, '')); // Remove BOM
         if(buildConfig.ios) {
-            var buildType = args.release ? 'release' : 'debug';
+            var buildType = buildOpts.release ? 'release' : 'debug';
             var config = buildConfig.ios[buildType];
             if(config) {
-                ['codeSignIdentity', 'codeSignResourceRules', 'provisioningProfile'].forEach( 
+                ['codeSignIdentity', 'codeSignResourceRules', 'provisioningProfile', 'developmentTeam', 'packageType', 'buildFlag'].forEach(
                     function(key) {
-                        args[key] = args[key] || config[key];
+                        buildOpts[key] = buildOpts[key] || config[key];
                     });
             }
         }
     }
-    
-    return check_reqs.run().then(function () {
+
+return require('./list-devices').run()
+   .then(function (devices) {
+        if (devices.length > 0 && !(buildOpts.emulator)) {
+            // we also explicitly set device flag in options as we pass
+            // those parameters to other api (build as an example)
+            buildOpts.device = true;
+            return check_reqs.check_ios_deploy();
+        }
+    }).then(function () {
+        // CB-12287: Determine the device we should target when building for a simulator
+        if (!buildOpts.device) {
+            var promise;
+            if (buildOpts.target) {
+                // a target was given to us, find the matching Xcode destination name
+                promise = require('./list-emulator-build-targets').targetForSimIdentifier(buildOpts.target);
+            } else {
+                // no target provided, pick a default one (matching our emulator logic)
+                promise = getDefaultSimulatorTarget();
+            }
+            return promise.then(function(theTarget) { 
+                emulatorTarget = theTarget.name;
+                events.emit('log', 'Building for ' + emulatorTarget + ' Simulator');
+            });
+        }
+    }).then(function () {
+        return check_reqs.run();
+    }).then(function () {
         return findXCodeProjectIn(projectPath);
     }).then(function (name) {
         projectName = name;
         var extraConfig = '';
-        if (args.codeSignIdentity) {
-            extraConfig += 'CODE_SIGN_IDENTITY = ' + args.codeSignIdentity + '\n';
-            extraConfig += 'CODE_SIGN_IDENTITY[sdk=iphoneos*] = ' + args.codeSignIdentity + '\n';
+        if (buildOpts.codeSignIdentity) {
+            extraConfig += 'CODE_SIGN_IDENTITY = ' + buildOpts.codeSignIdentity + '\n';
+            extraConfig += 'CODE_SIGN_IDENTITY[sdk=iphoneos*] = ' + buildOpts.codeSignIdentity + '\n';
         }
-        if (args.codeSignResourceRules) {
-            extraConfig += 'CODE_SIGN_RESOURCE_RULES_PATH = ' + args.codeSignResourceRules + '\n';
+        if (buildOpts.codeSignResourceRules) {
+            extraConfig += 'CODE_SIGN_RESOURCE_RULES_PATH = ' + buildOpts.codeSignResourceRules + '\n';
         }
-        if (args.provisioningProfile) {
-            extraConfig += 'PROVISIONING_PROFILE = ' + args.provisioningProfile + '\n';
+        if (buildOpts.provisioningProfile) {
+            extraConfig += 'PROVISIONING_PROFILE = ' + buildOpts.provisioningProfile + '\n';
+        }
+        if (buildOpts.developmentTeam) {
+            extraConfig += 'DEVELOPMENT_TEAM = ' + buildOpts.developmentTeam + '\n';
         }
         return Q.nfcall(fs.writeFile, path.join(__dirname, '..', 'build-extras.xcconfig'), extraConfig, 'utf-8');
     }).then(function () {
-        var configuration = args.release ? 'Release' : 'Debug';
+        var configuration = buildOpts.release ? 'Release' : 'Debug';
 
-        console.log('Building project  : ' + path.join(projectPath, projectName + '.xcodeproj'));
-        console.log('\tConfiguration : ' + configuration);
-        console.log('\tPlatform      : ' + (args.device ? 'device' : 'emulator'));
+        events.emit('log','Building project: ' + path.join(projectPath, projectName + '.xcworkspace'));
+        events.emit('log','\tConfiguration: ' + configuration);
+        events.emit('log','\tPlatform: ' + (buildOpts.device ? 'device' : 'emulator'));
 
-        var xcodebuildArgs = getXcodeArgs(projectName, projectPath, configuration, args.device);
-        return spawn('xcodebuild', xcodebuildArgs, projectPath);
+        var buildOutputDir = path.join(projectPath, 'build', (buildOpts.device ? 'device' : 'emulator'));
+
+        // remove the build/device folder before building
+        return spawn('rm', [ '-rf', buildOutputDir ], projectPath)
+        .then(function() {
+            var xcodebuildArgs = getXcodeBuildArgs(projectName, projectPath, configuration, buildOpts.device, buildOpts.buildFlag, emulatorTarget);
+            return spawn('xcodebuild', xcodebuildArgs, projectPath);
+        });
+
     }).then(function () {
-        if (!args.device) {
+        if (!buildOpts.device || buildOpts.noSign) {
             return;
         }
+
+        var exportOptions = {'compileBitcode': false, 'method': 'development'};
+
+        if (buildOpts.packageType) {
+            exportOptions.method = buildOpts.packageType;
+        }
+
+        if (buildOpts.developmentTeam) {
+            exportOptions.teamID = buildOpts.developmentTeam;
+        }
+
+        var exportOptionsPlist = plist.build(exportOptions);
+        var exportOptionsPath = path.join(projectPath, 'exportOptions.plist');
+
         var buildOutputDir = path.join(projectPath, 'build', 'device');
-        var pathToApp = path.join(buildOutputDir, projectName + '.app');
-        var pathToIpa = path.join(buildOutputDir, projectName + '.ipa');
-        var xcRunArgs = ['-sdk', 'iphoneos', 'PackageApplication', 
-            '-v', pathToApp, 
-            '-o', pathToIpa];
-        if (args.codeSignIdentity) {
-            xcRunArgs.concat('--sign', args.codeSignIdentity);
+
+
+        function checkSystemRuby() {
+          var ruby_cmd = shell.which('ruby');
+
+          if (ruby_cmd != '/usr/bin/ruby') {
+            events.emit('warn', 'Non-system Ruby in use. This may cause packaging to fail.\n' +
+              'If you use RVM, please run `rvm use system`.\n' +
+              'If you use chruby, please run `chruby system`.');
+          }
         }
-        if (args.provisioningProfile) {
-            xcRunArgs.concat('--embed', args.provisioningProfile);
+
+        function packageArchive() {
+          var xcodearchiveArgs = getXcodeArchiveArgs(projectName, projectPath, buildOutputDir, exportOptionsPath);
+          return spawn('xcodebuild', xcodearchiveArgs, projectPath);
         }
-        return spawn('xcrun', xcRunArgs, projectPath);
+
+        return Q.nfcall(fs.writeFile, exportOptionsPath, exportOptionsPlist, 'utf-8')
+                .then(checkSystemRuby)
+                .then(packageArchive);
     });
 };
 
@@ -125,12 +223,12 @@ function findXCodeProjectIn(projectPath) {
     var xcodeProjFiles = shell.ls(projectPath).filter(function (name) {
         return path.extname(name) === '.xcodeproj';
     });
-    
+
     if (xcodeProjFiles.length === 0) {
         return Q.reject('No Xcode project found in ' + projectPath);
     }
     if (xcodeProjFiles.length > 1) {
-        console.warn('Found multiple .xcodeproj directories in \n' +
+        events.emit('warn','Found multiple .xcodeproj directories in \n' +
             projectPath + '\nUsing first one');
     }
 
@@ -142,42 +240,117 @@ module.exports.findXCodeProjectIn = findXCodeProjectIn;
 
 /**
  * Returns array of arguments for xcodebuild
- * @param  {String}  projectName   Name of xcode project
- * @param  {String}  projectPath   Path to project file. Will be used to set CWD for xcodebuild
- * @param  {String}  configuration Configuration name: debug|release
- * @param  {Boolean} isDevice      Flag that specify target for package (device/emulator)
- * @return {Array}                 Array of arguments that could be passed directly to spawn method
+ * @param  {String}  projectName    Name of xcode project
+ * @param  {String}  projectPath    Path to project file. Will be used to set CWD for xcodebuild
+ * @param  {String}  configuration  Configuration name: debug|release
+ * @param  {Boolean} isDevice       Flag that specify target for package (device/emulator)
+ * @param  {Array}   buildFlags
+ * @param  {String}  emulatorTarget Target for emulator (rather than default)
+ * @return {Array}                  Array of arguments that could be passed directly to spawn method
  */
-function getXcodeArgs(projectName, projectPath, configuration, isDevice) {
+function getXcodeBuildArgs(projectName, projectPath, configuration, isDevice, buildFlags, emulatorTarget) {
     var xcodebuildArgs;
-    if (isDevice) {
-        xcodebuildArgs = [
-            '-xcconfig', path.join(__dirname, '..', 'build-' + configuration.toLowerCase() + '.xcconfig'),
-            '-project', projectName + '.xcodeproj',
-            'ARCHS=armv7 armv7s arm64',
-            '-target', projectName,
-            '-configuration', configuration,
-            '-sdk', 'iphoneos',
-            'build',
-            'VALID_ARCHS=armv7 armv7s arm64',
-            'CONFIGURATION_BUILD_DIR=' + path.join(projectPath, 'build', 'device'),
-            'SHARED_PRECOMPS_DIR=' + path.join(projectPath, 'build', 'sharedpch')
-        ];
-    } else { // emulator
-        xcodebuildArgs = [
-            '-xcconfig', path.join(__dirname, '..', 'build-' + configuration.toLowerCase() + '.xcconfig'),
-            '-project', projectName + '.xcodeproj',
-            'ARCHS=i386',
-            '-target', projectName ,
-            '-configuration', configuration,
-            '-sdk', 'iphonesimulator',
-            'build',
-            'VALID_ARCHS=i386',
-            'CONFIGURATION_BUILD_DIR=' + path.join(projectPath, 'build', 'emulator'),
-            'SHARED_PRECOMPS_DIR=' + path.join(projectPath, 'build', 'sharedpch')
-        ];
+    var options;
+    var buildActions;
+    var settings;
+    var customArgs = {};
+    customArgs.otherFlags = [];
+
+    if (buildFlags) {
+        if (typeof buildFlags === 'string' || buildFlags instanceof String) {
+            parseBuildFlag(buildFlags, customArgs);
+        } else { // buildFlags is an Array of strings
+            buildFlags.forEach( function(flag) {
+                parseBuildFlag(flag, customArgs);
+            });
+        }
     }
+    
+    if (isDevice) {
+        options = [
+            '-xcconfig', customArgs.xcconfig || path.join(__dirname, '..', 'build-' + configuration.toLowerCase() + '.xcconfig'),
+            '-workspace',  customArgs.workspace || projectName + '.xcworkspace',
+            '-scheme', customArgs.scheme || projectName,
+            '-configuration', customArgs.configuration || configuration,
+            '-destination', customArgs.destination || 'generic/platform=iOS',
+            '-archivePath', customArgs.archivePath || projectName + '.xcarchive'
+        ];
+        buildActions = [ 'archive' ];
+        settings = [
+            customArgs.configuration_build_dir || 'CONFIGURATION_BUILD_DIR=' + path.join(projectPath, 'build', 'device'),
+            customArgs.shared_precomps_dir || 'SHARED_PRECOMPS_DIR=' + path.join(projectPath, 'build', 'sharedpch')
+        ];
+        // Add other matched flags to otherFlags to let xcodebuild present an appropriate error.
+        // This is preferable to just ignoring the flags that the user has passed in.
+        if (customArgs.sdk) {
+            customArgs.otherFlags = customArgs.otherFlags.concat(['-sdk', customArgs.sdk]);
+        }
+    } else { // emulator
+        options = [
+            '-xcconfig', customArgs.xcconfig || path.join(__dirname, '..', 'build-' + configuration.toLowerCase() + '.xcconfig'),
+            '-workspace', customArgs.project || projectName + '.xcworkspace',
+            '-scheme', customArgs.scheme || projectName,
+            '-configuration', customArgs.configuration || configuration,
+            '-sdk', customArgs.sdk || 'iphonesimulator',
+            '-destination', customArgs.destination || 'platform=iOS Simulator,name=' + emulatorTarget
+        ];
+        buildActions = [ 'build' ];
+        settings = [
+            customArgs.configuration_build_dir || 'CONFIGURATION_BUILD_DIR=' + path.join(projectPath, 'build', 'emulator'),
+            customArgs.shared_precomps_dir || 'SHARED_PRECOMPS_DIR=' + path.join(projectPath, 'build', 'sharedpch')
+        ];
+        // Add other matched flags to otherFlags to let xcodebuild present an appropriate error.
+        // This is preferable to just ignoring the flags that the user has passed in.
+        if (customArgs.archivePath) {
+            customArgs.otherFlags = customArgs.otherFlags.concat(['-archivePath', customArgs.archivePath]);
+        }
+    }
+    xcodebuildArgs = options.concat(buildActions).concat(settings).concat(customArgs.otherFlags);
     return xcodebuildArgs;
+}
+
+
+/**
+ * Returns array of arguments for xcodebuild
+ * @param  {String}  projectName        Name of xcode project
+ * @param  {String}  projectPath        Path to project file. Will be used to set CWD for xcodebuild
+ * @param  {String}  outputPath         Output directory to contain the IPA
+ * @param  {String}  exportOptionsPath  Path to the exportOptions.plist file
+ * @return {Array}                      Array of arguments that could be passed directly to spawn method
+ */
+function getXcodeArchiveArgs(projectName, projectPath, outputPath, exportOptionsPath) {
+  return [
+    '-exportArchive',
+    '-archivePath', projectName + '.xcarchive',
+    '-exportOptionsPlist', exportOptionsPath,
+    '-exportPath', outputPath
+  ];
+}
+
+function parseBuildFlag(buildFlag, args) {
+    var matched;
+    for (var key in buildFlagMatchers) {
+        var found = buildFlag.match(buildFlagMatchers[key]);
+        if (found) {
+            matched = true;
+            // found[0] is the whole match, found[1] is the first match in parentheses.
+            args[key] = found[1];
+            events.emit('warn', util.format('Overriding xcodebuildArg: %s', buildFlag));
+        }
+    }
+
+    if (!matched) {
+        // If the flag starts with a '-' then it is an xcodebuild built-in option or a
+        // user-defined setting. The regex makes sure that we don't split a user-defined
+        // setting that is wrapped in quotes. 
+        if (buildFlag[0] === '-' && !buildFlag.match(/^.*=(\".*\")|(\'.*\')$/)) {
+            args.otherFlags = args.otherFlags.concat(buildFlag.split(' '));
+            events.emit('warn', util.format('Adding xcodebuildArg: %s', buildFlag.split(' ')));
+        } else {
+            args.otherFlags.push(buildFlag);
+            events.emit('warn', util.format('Adding xcodebuildArg: %s', buildFlag));
+        }
+    }
 }
 
 // help/usage function
@@ -186,6 +359,7 @@ module.exports.help = function help() {
     console.log('Usage: build [--debug | --release] [--archs=\"<list of architectures...>\"]');
     console.log('             [--device | --simulator] [--codeSignIdentity=\"<identity>\"]');
     console.log('             [--codeSignResourceRules=\"<resourcerules path>\"]');
+    console.log('             [--developmentTeam=\"<Team ID>\"]');
     console.log('             [--provisioningProfile=\"<provisioning profile>\"]');
     console.log('    --help                  : Displays this dialog.');
     console.log('    --debug                 : Builds project in debug mode. (Default)');
@@ -197,7 +371,10 @@ module.exports.help = function help() {
     console.log('                            : Specifies, what type of project to build');
     console.log('    --codeSignIdentity      : Type of signing identity used for code signing.');
     console.log('    --codeSignResourceRules : Path to ResourceRules.plist.');
+    console.log('    --developmentTeam       : New for Xcode 8. The development team (Team ID)');
+    console.log('                              to use for code signing.');
     console.log('    --provisioningProfile   : UUID of the profile.');
+    console.log('    --device --noSign       : Builds project without application signing.');
     console.log('');
     console.log('examples:');
     console.log('    build ');

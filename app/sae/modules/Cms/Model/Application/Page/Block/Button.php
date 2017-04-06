@@ -33,6 +33,8 @@ class Cms_Model_Application_Page_Block_Button extends Cms_Model_Application_Page
 
         $this->setTypeId($data["type"]);
         $this->setLabel($data["label"]);
+        $this->setHideNavbar($data["hide_navbar"]);
+        $this->setUseExternalApp($data["use_external_app"]);
 
         $icon = Siberian_Feature::saveImageForOptionDelete($this->option_value, $data["icon"]);
 

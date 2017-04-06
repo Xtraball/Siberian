@@ -1,4 +1,5 @@
-cordova.define("de.neofonie.cordova.plugin.progressview.ProgressView", function(require, exports, module) { //
+cordova.define("de.neofonie.cordova.plugin.progressview.ProgressView", function(require, exports, module) {
+//
 //
 //  ProgressView.js
 //  Cordova ProgressView

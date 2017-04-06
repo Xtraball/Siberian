@@ -1,4 +1,8 @@
-App.service('MediaPlayer', function ($interval, $ionicLoading, $location, $rootScope, $state, $stateParams, $timeout, $translate, $window, Application, Dialog) {
+/*global
+    App, angular, ionic, MusicControls
+ */
+App.service('MediaPlayer', function ($log, $interval, $ionicLoading, $rootScope, $state, $stateParams,
+                                     $timeout, $translate, $window, Application, Dialog) {
 
     this.media = null;
 
@@ -40,23 +44,42 @@ App.service('MediaPlayer', function ($interval, $ionicLoading, $location, $rootS
         });
     };
 
-    var _remoteEvent = function(event) {
-        $timeout(function () {
-            switch (event.remoteEvent.subtype) {
-                case "pause":
-                case "play":
+    var music_controls_events = function(event) {
+        switch(event) {
+            case "music-controls-next":
+                    // Do something
+                    if (!service.is_radio) {
+                        service.next();
+                    }
+                break;
+            case "music-controls-previous":
+                    // Do something
+                    if (!service.is_radio) {
+                        service.prev();
+                    }
+                break;
+            case "music-controls-pause":
+            case "music-controls-play":
+            // External controls (iOS only)
+            case "music-controls-toggle-play-pause" :
                     service.playPause();
-                    break;
+                break;
+            case "music-controls-destroy":
+                    service.destroy();
+                break;
 
-                case "nextTrack":
-                    if (!service.is_radio) service.next();
-                    break;
-
-                case "prevTrack":
-                    if (!service.is_radio) service.prev();
-                    break;
-            }
-        });
+            // Headset events (Android only)
+            // All media button events are listed below
+            case "music-controls-media-button" :
+                    // Do something
+                break;
+            case "music-controls-headset-unplugged":
+                    // Do something
+                break;
+            case "music-controls-headset-plugged":
+                    // Do something
+                break;
+        }
     };
 
     service.init = function(tracks_loader, is_radio, track_index) {
@@ -77,7 +100,11 @@ App.service('MediaPlayer', function ($interval, $ionicLoading, $location, $rootS
         service.is_initialized = true;
         service.openPlayer();
 
-        window.addEventListener("remote-event", _remoteEvent);
+        if(ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
+            MusicControls.subscribe(music_controls_events);
+            MusicControls.listen();
+        }
+
     };
 
     service.pre_start = function() {
@@ -85,7 +112,9 @@ App.service('MediaPlayer', function ($interval, $ionicLoading, $location, $rootS
             if(service.is_stream) {
                 service.media.stop();
             } else {
-                if(service.is_playing) service.media.pause();
+                if(service.is_playing) {
+                    service.media.pause();
+                }
                 service.media.release();
             }
         }
@@ -140,6 +169,8 @@ App.service('MediaPlayer', function ($interval, $ionicLoading, $location, $rootS
                 service.playPause();
             }
         }
+
+        service.updateMusicControls();
     };
 
     service.reset = function() {
@@ -156,7 +187,9 @@ App.service('MediaPlayer', function ($interval, $ionicLoading, $location, $rootS
         service.current_track = null;
         service.shuffle_tracks = [];
 
-        window.removeEventListener("remote-event", _remoteEvent);
+        MusicControls.destroy();
+        MusicControls.subscribe(music_controls_events);
+        MusicControls.listen();
     };
 
     service.destroy = function() {
@@ -199,13 +232,16 @@ App.service('MediaPlayer', function ($interval, $ionicLoading, $location, $rootS
             } else {
                 service.media.pause();
             }
+
+            MusicControls.updateIsPlaying(false);
         } else {
             if(ionic.Platform.isIOS()) {
                 service.media.play({playAudioWhenScreenIsLocked: true});
-                service.updateIosRemoteControls();
             } else {
                 service.media.play();
             }
+
+            MusicControls.updateIsPlaying(true);
         }
 
         if(service.is_stream) {
@@ -214,9 +250,7 @@ App.service('MediaPlayer', function ($interval, $ionicLoading, $location, $rootS
             });
         }
 
-        if(ionic.Platform.isIOS()) {
-            service.updateIosRemoteControls();
-        }
+        service.updateMusicControls();
     };
 
     service.prev = function() {
@@ -285,6 +319,8 @@ App.service('MediaPlayer', function ($interval, $ionicLoading, $location, $rootS
 
         service.shuffle_tracks.push(random_index);
         service.current_index = random_index;
+
+        service.updateMusicControls();
     };
 
     service.backward= function() {
@@ -342,14 +378,49 @@ App.service('MediaPlayer', function ($interval, $ionicLoading, $location, $rootS
         service.is_shuffling = !service.is_shuffling;
     };
 
-    service.updateIosRemoteControls = function() {
-        var params = [service.current_track.artistName, service.current_track.name, service.current_track.albumName, service.current_track.albumCover, service.duration, service.elapsed_time];
+    service.updateMusicControls = function() {
+        if(ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
 
-        $window.remoteControls.updateMetas(function(success){
-            console.log("success update");
-        }, function(fail){
-            console.log(fail);
-        }, params);
+            var hasPrev = true;
+            var hasNext = true;
+            if (service.is_radio) {
+                hasPrev = false;
+                hasNext = false;
+            }
+
+            if (service.current_index === 0) {
+                hasPrev = false;
+            }
+
+            if (service.current_index === (service.tracks.length - 1)) {
+                hasNext = false;
+            }
+
+            MusicControls.create({
+                track: service.current_track.name,
+                artist: service.current_track.artistName,
+                cover: service.current_track.albumCover,
+                isPlaying: true,
+                dismissable: true,
+
+                hasPrev: hasPrev,
+                hasNext: hasNext,
+                hasClose: true,
+
+                // iOS only, optional
+                album: service.current_track.albumName,
+                duration: service.duration,
+                elapsed: service.elapsed_time,
+
+                // Android only, optional
+                ticker: $translate.instant("Now playing ") + service.current_track.name
+            }, function () {
+                $log.debug("success");
+            }, function () {
+                $log.debug("error");
+            });
+
+        }
     };
 
     service.update = function(status) {

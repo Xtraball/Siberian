@@ -448,11 +448,14 @@ class Siberian_Cron {
 
                                 foreach($hostnames as $hostname) {
                                     $hostname = trim($hostname);
-                                    $isCloudFlare = Siberian_Network::isCloudFlare($hostname);
-                                    $isNotInArray = !in_array($hostname, $certificate_hosts);
-                                    $endWithDot = preg_match("/.*\.$/gi", $hostname);
 
-                                    if($isNotInArray && !$isCloudFlare && !$endWithDot) {
+                                    $isNotInArray = !in_array($hostname, $certificate_hosts);
+                                    $endWithDot = preg_match("/.*\.$/im", $hostname);
+                                    $r = dns_get_record($hostname, DNS_CNAME);
+                                    $isCname = (!empty($r) && isset($r[0]) && isset($r[0]["target"]) && ($r[0]["target"] === $cert->getHostname()));
+                                    $isSelf = ($hostname === $cert->getHostname());
+
+                                    if($isNotInArray && !$endWithDot && ($isCname || $isSelf)) {
                                         $renew = true;
                                         $this->log(__("[Let's Encrypt] will add %s to SAN.", $hostname));
 
@@ -462,15 +465,12 @@ class Siberian_Cron {
                                     if($endWithDot) {
                                         $this->log(__("[Let's Encrypt] removed domain %s, domain in dot notation is not supported.", $hostname));
                                     }
-
-                                    if($isCloudFlare) {
-                                        $this->log(__("[Let's Encrypt] removed domain %s, cloud flare is not supported.", $hostname));
-                                    }
                                 }
                             }
 
                             // Or compare expiration date (will expire in 5/30 days or less)
                             if(!$renew) {
+
                                 $diff = $cert_content["validTo_time_t"] - time();
 
                                 //$thirty_days = 2592000;
@@ -595,6 +595,8 @@ class Siberian_Cron {
                             ->setObjectType(get_class($cert))
                             ->setObjectId($cert->getId())
                             ->save();
+
+                        Backoffice_Model_Notification::sendEmailForNotification($notification);
                     }
                 }
 

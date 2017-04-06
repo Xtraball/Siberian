@@ -1,5 +1,5 @@
 
-App.factory('McommerceCart', function($rootScope, $sbhttp, httpCache, Url) {
+App.factory('McommerceCart', function($rootScope, $sbhttp, httpCache, Url, $q) {
 
     var factory = {};
 
@@ -31,12 +31,12 @@ App.factory('McommerceCart', function($rootScope, $sbhttp, httpCache, Url) {
     };
 
 
-    factory.adddiscount = function (discount_code) {
+    factory.adddiscount = function (discount_code, use_clean_code) {
 
-        if (!this.value_id) return;
+        if (!this.value_id) return use_clean_code ? $q.reject() : false;
 
         //if no discount added, it's valid
-        if(discount_code.length === 0) return true;
+        if(discount_code.length === 0 && !use_clean_code) return true;
 
         var url = Url.get("mcommerce/mobile_cart/adddiscount", {value_id: this.value_id});
 
@@ -81,7 +81,7 @@ App.factory('McommerceCart', function($rootScope, $sbhttp, httpCache, Url) {
         
         var data = {};
         
-        return $sbhttp.delete(url, data);
+        return $sbhttp.get(url, data);
                                           
     };
 

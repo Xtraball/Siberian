@@ -190,6 +190,14 @@ static NSMutableArray *alertList = nil;
     [self.commandDelegate sendPluginResult:result callbackId:cdvAlertView.callbackId];
 }
 
+- (void)didPresentAlertView:(UIAlertView*)alertView
+{
+    //show keyboard on iOS 8
+    if (alertView.alertViewStyle == UIAlertViewStylePlainTextInput){
+        [[alertView textFieldAtIndex:0] selectAll:nil];
+    }
+}
+
 static void playBeep(int count) {
     SystemSoundID completeSound;
     NSInteger cbDataCount = count;
@@ -220,7 +228,7 @@ static void soundCompletionCallback(SystemSoundID  ssid, void* data) {
 
 -(UIViewController *)getTopPresentedViewController {
     UIViewController *presentingViewController = self.viewController;
-    while(presentingViewController.presentedViewController != nil)
+    while(presentingViewController.presentedViewController != nil && ![presentingViewController.presentedViewController isBeingDismissed])
     {
         presentingViewController = presentingViewController.presentedViewController;
     }

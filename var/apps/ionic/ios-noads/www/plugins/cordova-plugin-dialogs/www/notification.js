@@ -1,4 +1,5 @@
-cordova.define("cordova-plugin-dialogs.notification", function(require, exports, module) { /*
+cordova.define("cordova-plugin-dialogs.notification", function(require, exports, module) {
+/*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -37,9 +38,10 @@ module.exports = {
      * @param {String} buttonLabel          Label of the close button (default: OK)
      */
     alert: function(message, completeCallback, title, buttonLabel) {
+        var _message = (typeof message === "string" ? message : JSON.stringify(message));
         var _title = (typeof title === "string" ? title : "Alert");
-        var _buttonLabel = (buttonLabel || "OK");
-        exec(completeCallback, null, "Notification", "alert", [message, _title, _buttonLabel]);
+        var _buttonLabel = (buttonLabel && typeof buttonLabel === "string" ? buttonLabel : "OK");
+        exec(completeCallback, null, "Notification", "alert", [_message, _title, _buttonLabel]);
     },
 
     /**
@@ -52,6 +54,7 @@ module.exports = {
      * @param {Array} buttonLabels          Array of the labels of the buttons (default: ['OK', 'Cancel'])
      */
     confirm: function(message, resultCallback, title, buttonLabels) {
+        var _message = (typeof message === "string" ? message : JSON.stringify(message));
         var _title = (typeof title === "string" ? title : "Confirm");
         var _buttonLabels = (buttonLabels || ["OK", "Cancel"]);
 
@@ -60,23 +63,9 @@ module.exports = {
             console.log("Notification.confirm(string, function, string, string) is deprecated.  Use Notification.confirm(string, function, string, array).");
         }
 
-        // Some platforms take an array of button label names.
-        // Other platforms take a comma separated list.
-        // For compatibility, we convert to the desired type based on the platform.
-        if (platform.id == "amazon-fireos" || platform.id == "android" || platform.id == "ios" ||
-            platform.id == "windowsphone" || platform.id == "firefoxos" || platform.id == "ubuntu" ||
-            platform.id == "windows8" || platform.id == "windows") {
+        _buttonLabels = convertButtonLabels(_buttonLabels);
 
-            if (typeof _buttonLabels === 'string') {
-                _buttonLabels = _buttonLabels.split(","); // not crazy about changing the var type here
-            }
-        } else {
-            if (Array.isArray(_buttonLabels)) {
-                var buttonLabelArray = _buttonLabels;
-                _buttonLabels = buttonLabelArray.toString();
-            }
-        }
-        exec(resultCallback, null, "Notification", "confirm", [message, _title, _buttonLabels]);
+        exec(resultCallback, null, "Notification", "confirm", [_message, _title, _buttonLabels]);
     },
 
     /**
@@ -92,9 +81,17 @@ module.exports = {
      * @param {String} defaultText          Textbox input value (default: empty string)
      */
     prompt: function(message, resultCallback, title, buttonLabels, defaultText) {
-        var _message = (typeof message === "string" ? message : "Prompt message");
+        var _message = (typeof message === "string" ? message : JSON.stringify(message));
         var _title = (typeof title === "string" ? title : "Prompt");
         var _buttonLabels = (buttonLabels || ["OK","Cancel"]);
+
+        // Strings are deprecated!
+        if (typeof _buttonLabels === 'string') {
+            console.log("Notification.prompt(string, function, string, string) is deprecated.  Use Notification.confirm(string, function, string, array).");
+        }
+
+        _buttonLabels = convertButtonLabels(_buttonLabels);
+
         var _defaultText = (defaultText || "");
         exec(resultCallback, null, "Notification", "prompt", [_message, _title, _buttonLabels, _defaultText]);
     },
@@ -110,5 +107,27 @@ module.exports = {
         exec(null, null, "Notification", "beep", [ defaultedCount ]);
     }
 };
+
+function convertButtonLabels(buttonLabels) {
+
+    // Some platforms take an array of button label names.
+    // Other platforms take a comma separated list.
+    // For compatibility, we convert to the desired type based on the platform.
+    if (platform.id == "amazon-fireos" || platform.id == "android" || platform.id == "ios" ||
+        platform.id == "windowsphone" || platform.id == "firefoxos" || platform.id == "ubuntu" ||
+        platform.id == "windows8" || platform.id == "windows") {
+
+        if (typeof buttonLabels === 'string') {
+            buttonLabels = buttonLabels.split(","); // not crazy about changing the var type here
+        }
+    } else {
+        if (Array.isArray(buttonLabels)) {
+            var buttonLabelArray = buttonLabels;
+            buttonLabels = buttonLabelArray.toString();
+        }
+    }
+
+    return buttonLabels;
+}
 
 });

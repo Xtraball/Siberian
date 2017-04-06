@@ -20,7 +20,7 @@ $googlemaps_key = $api->getSecretKey();
 <div class="edit_page push_notif">
     <div id="list">
         <h3 class="title-editor no-border-radius title-feature-indent">
-            <?php echo $this->_('Add'); ?>
+            <?php echo __('Add'); ?>
             <button type="button" id="add_item" onclick="feature.edit();" class="toggle_design color-blue pull-right bt-header-right btn">
                 <i class="fa fa-plus"></i>
             </button>
@@ -29,7 +29,7 @@ $googlemaps_key = $api->getSecretKey();
         <?php if($messages->count()) : ?>
         <div class="margin-top">
             <h3 class="title-editor no-border-radius title-feature-indent">
-                <?php echo $this->_('Manage'); ?>
+                <?php echo __('Manage'); ?>
                 <button type="button" id="toggle_existing_items" class="toggle_design color-blue pull-right bt-header-right btn">
                     <i class="fa fa-chevron-down"></i>
                 </button>
@@ -93,14 +93,14 @@ $googlemaps_key = $api->getSecretKey();
     <div id="cover_crop" style="display:none;">
         <button type="button" id="cancel_cover_crop" class="btn color-blue pull-left"><i class="fa fa-times"></i></button>
         <button type="button" id="validate_cover_crop" class="btn color-blue pull-right">OK</button>
-        <p><?php echo $this->_('Resize your picture:') ?></p>
+        <p><?php echo __('Resize your picture:') ?></p>
     </div>
     <div id="cover_crop_content"></div>
 
     <div id="edit" style="display: none;">
         <div id="push_step_one" class="push_step" pos="1">
             <h3 class="title-editor no-border-radius">
-                <?php echo $this->_('Editing'); ?>
+                <?php echo __('Editing'); ?>
             </h3>
             <div class="block container-fluid">
                 <form id="pushFirstStepForm" method="post" class="form-horizontal">
@@ -112,7 +112,7 @@ $googlemaps_key = $api->getSecretKey();
                     </div>
                     <div class="form-group">
                         <div class="col-sm-4">
-                            <label for="title"><?php echo $this->_('Title:'); ?> <span class="input-required">*</span></label>
+                            <label for="title"><?php echo __('Title:'); ?> <span class="input-required">*</span></label>
                         </div>
                         <div class="col-sm-4">
                             <input type="text" id="push_title" name="title" class="required input-flat" value="" />
@@ -120,7 +120,7 @@ $googlemaps_key = $api->getSecretKey();
                     </div>
                     <div class="form-group">
                         <div class="col-sm-4">
-                            <label for="text"><?php echo $this->_('Message:'); ?> <span class="input-required">*</span></label>
+                            <label for="text"><?php echo __('Message:'); ?> <span class="input-required">*</span></label>
                         </div>
                         <div class="col-sm-4">
                             <input type="text" id="push_text" name="text" class="required input-flat" value="" maxlength="255" />
@@ -130,7 +130,7 @@ $googlemaps_key = $api->getSecretKey();
                         <div class="form-group">
                             <div class="col-sm-12">
                                 <label>
-                                    <input type="checkbox" id="open_features" /> <?php echo $this->_("Open a feature or a custom URL"); ?>
+                                    <input type="checkbox" id="open_features" /> <?php echo __("Open a feature or a custom URL"); ?>
                                 </label>
                             </div>
                         </div>
@@ -153,7 +153,7 @@ $googlemaps_key = $api->getSecretKey();
                                     <?php endforeach; ?>
                                     <li>
                                         <label class="radio">
-                                            <input type="radio" class="chk_action_value custom" name="action_value" id="<?php echo $feature->getId(); ?>" /> <?php echo $this->_("Custom URL"); ?>
+                                            <input type="radio" class="chk_action_value custom" name="action_value" id="<?php echo $feature->getId(); ?>" /> <?php echo __("Custom URL"); ?>
                                             <span class="hide" id="custom_action_value_field">
                                                 <input type="text" class="input-flat custom_action_value" name="custom_action_value_field" value="">
                                             </span>
@@ -169,12 +169,12 @@ $googlemaps_key = $api->getSecretKey();
                             <!--[if gte IE 10]><!-->
                             <button id="upload_push_picture" type="button" class="upload_contact_picture btn color-blue add image_left">
                                 <i class="icon-camera-retro"></i>
-                                <?php echo $this->_('Insert a <br /><span class="bold">cover image</span>'); ?>
+                                <?php echo __('Insert a <br /><span class="bold">cover image</span>'); ?>
                             </button>
                             <!--<![endif]-->
                         </div>
                         <div class="col-sm-4 text-center">
-                            <p id="uploader_logo_ie_description" style="display:none"><?php echo $this->_('Insert a <br /><span class="bold">cover image</span>'); ?></span></p>
+                            <p id="uploader_logo_ie_description" style="display:none"><?php echo __('Insert a <br /><span class="bold">cover image</span>'); ?></span></p>
                             <input id="push_file" class="uploader" style="display:none" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
                             <img id="cover_img" src="<?php echo $messageobj->getCoverUrl(); ?>" width="210" height="110"<?php if(!$messageobj->getCover()) : ?> style="display:none;"<?php endif; ?> />
                         </div>
@@ -191,7 +191,7 @@ $googlemaps_key = $api->getSecretKey();
         <?php $categories = $pntopic->getId()?$pntopic->getCategories():null; ?>
         <div id="push_step_two" class="section push_step" style="display:none;" pos="2">
             <h3 class="title-editor no-border-radius">
-                <?php echo $this->_('Locate'); ?>
+                <?php echo __('Locate'); ?>
             </h3>
             <div id="push_gmaps" class="container-fluid">
                 <form id="pushSecondStepForm" method="post" class="form-horizontal">
@@ -206,7 +206,7 @@ $googlemaps_key = $api->getSecretKey();
                             <div class="col-md-12">
                                 <label for="use_gmaps_0" onclick="gmaps.hide(); gmaps.deactivateFields();">
                                     <input type="radio" id="use_gmaps_0" name="use_gmaps" class="use_gmaps" value="0" checked="checked" />
-                                    <?php echo $this->_("Send to no specific locations"); ?>
+                                    <?php echo __("Send to no specific locations"); ?>
                                 </label>
                             </div>
                         </div>
@@ -214,7 +214,7 @@ $googlemaps_key = $api->getSecretKey();
                             <div class="col-md-12">
                                 <label for="use_gmaps_1" onclick="gmaps.init().show();">
                                     <input type="radio" id="use_gmaps_1" name="use_gmaps" class="use_gmaps" value="1" />
-                                    <?php echo $this->_("Send to a specific location"); ?>
+                                    <?php echo __("Send to a specific location"); ?>
                                 </label>
                             </div>
                         </div>
@@ -223,10 +223,10 @@ $googlemaps_key = $api->getSecretKey();
                         <?php //<div class="relative"> ?>
                         <div class="form-group">
                             <div class="col-sm-6">
-                                <label for="title"><?php echo $this->_('Enter a location:'); ?> <span class="input-required">*</span></label>
+                                <label for="title"><?php echo __('Enter a location:'); ?> <span class="input-required">*</span></label>
                             </div>
                             <div class="col-sm-6">
-                                <label for="title"><?php echo $this->_('And a radius (in Km):'); ?> <span class="input-required">*</span></label>
+                                <label for="title"><?php echo __('And a radius (in Km):'); ?> <span class="input-required">*</span></label>
                             </div>
                         </div>
                         <div class="form-group">
@@ -234,7 +234,7 @@ $googlemaps_key = $api->getSecretKey();
                                 <input type="text" placeholder="" class="required gmaps_field input-flat" id="push_target" disabled="disabled" />
                             </div>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="" class="required gmaps_field input-flat" id="push_radius" disabled="disabled" placeholder="<?php echo $this->_('Radius'); ?>" />
+                                <input type="text" placeholder="" class="required gmaps_field input-flat" id="push_radius" disabled="disabled" placeholder="<?php echo __('Radius'); ?>" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -250,7 +250,7 @@ $googlemaps_key = $api->getSecretKey();
         </div>
         <div id="push_step_three" class="section push_step" style="display:none;" pos="3">
             <h3 class="title-editor no-border-radius">
-                <?php echo $this->_('Users'); ?>
+                <?php echo __('Users'); ?>
             </h3>
             <div id="push_topics" class="container-fluid">
                 <form id="pushThirdStepForm" method="post" class="form-horizontal">
@@ -261,29 +261,43 @@ $googlemaps_key = $api->getSecretKey();
                         </div>
                     </div>
                     <div class="use_gmaps">
+
+                        <div class="form-group" id="target_devices">
+                            <div class="col-md-12">
+                                <label for="target_devices">
+                                    <?php echo __("Target specific devices"); ?>
+                                    <select name="target_devices" onchange="$('#devices').val($(this).val());">
+                                        <option value="all" selected="selected"><?php echo __("iOS & Android") ?></option>
+                                        <option value="ios"><?php echo __("iOS only") ?></option>
+                                        <option value="android"><?php echo __("Android only") ?></option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <div class="col-md-12">
-                                <label for="all_user" <?php if($categories AND $categories->count()): ?>onclick="topic.hide();customers.hide()"<?php endif; ?>>
+                                <label for="all_user" onclick="<?php if($categories AND $categories->count()): ?>topic.hide();customers.hide();<?php endif; ?>$('#target_devices').show();">
                                     <input type="radio" id="all_user" name="topic_user" class="use_gmaps" value="0" checked="checked" />
-                                    <?php echo $this->_("Send to all my users"); ?>
+                                    <?php echo __("Send to all my users"); ?>
                                 </label>
                             </div>
                         </div>
                         <?php if(Push_Model_Message::hasIndividualPush()): ?>
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    <label for="all_user_2" onclick="customers.show();">
+                                    <label for="all_user_2" onclick="customers.show();$('#target_devices').hide();">
                                         <input type="radio" id="all_user_2" name="topic_user" class="use_gmaps" value="1" />
-                                        <?php echo $this->_("Send to specific users"); ?>
+                                        <?php echo __("Send to specific users"); ?>
                                     </label>
                                 </div>
                             </div>
                         <?php endif; ?>
                         <div class="form-group">
                             <div class="col-md-12">
-                                <label for="all_user_1" <?php if($categories AND $categories->count()): ?>onclick="topic.show();"<?php endif; ?>>
+                                <label for="all_user_1" <?php if($categories AND $categories->count()): ?>onclick="topic.show();$('#target_devices').hide();"<?php endif; ?>>
                                     <input type="radio" id="all_user_1" name="topic_user" class="use_gmaps" value="1" <?php if(!$categories OR ($categories AND !$categories->count())): ?> disabled <?php endif; ?>/>
-                                    <?php echo $this->_("Send to specific topics"); ?>
+                                    <?php echo __("Send to specific topics"); ?>
                                 </label>
                             </div>
                         </div>
@@ -291,7 +305,7 @@ $googlemaps_key = $api->getSecretKey();
                     <div id="topics_list" style="display:none">
                         <ul class="list-group">
                             <?php if(!$categories OR ($categories AND !$categories->count())): ?>
-                                <li id="no_topics" class="list-group-item content-white-bkg"><?php echo $this->_("No items."); ?></li>
+                                <li id="no_topics" class="list-group-item content-white-bkg"><?php echo __("No items."); ?></li>
                             <?php else: ?>
                                 <?php foreach($categories as $category): ?>
                                     <?php $children = $category->getChildren(); ?>
@@ -325,9 +339,9 @@ $googlemaps_key = $api->getSecretKey();
                                 <thead>
                                 <tr class="border-blue">
                                     <th></th>
-                                    <th><?php echo $this->_('Email'); ?></th>
-                                    <th><?php echo $this->_('User'); ?></th>
-                                    <th><?php echo $this->_('Created at'); ?></th>
+                                    <th><?php echo __('Email'); ?></th>
+                                    <th><?php echo __('User'); ?></th>
+                                    <th><?php echo __('Created at'); ?></th>
                                 </tr>
                                 </thead>
                                 <tbody class="content-white-bkg">
@@ -335,7 +349,7 @@ $googlemaps_key = $api->getSecretKey();
                                     <tr>
                                         <td>
                                             <?php if(empty($customer["registration_id"]) AND empty($customer["device_uid"])): ?>
-                                                <span title="<?php echo $this->_("No device found for this user"); ?>">X</span>
+                                                <span title="<?php echo __("No device found for this user"); ?>">X</span>
                                             <?php else: ?>
                                                 <input type="checkbox" class="checkbox chk_customers" onclick="handleClick(this);" id="<?php echo $customer["customer_id"]; ?>" value="<?php echo $customer["customer_id"]; ?>" />
                                             <?php endif; ?>
@@ -356,14 +370,14 @@ $googlemaps_key = $api->getSecretKey();
 
         <div id="push_step_four" class="push_step" style="display:none;" pos="4">
             <h3 class="title-editor no-border-radius">
-                <?php echo $this->_('Additionnal Information'); ?>
+                <?php echo __('Additionnal Information'); ?>
             </h3>
             <div class="container-fluid">
                 <form id="pushFourthStepForm" action="<?php echo $this->getUrl('push/application/editpost') ?>" method="post" class="form-horizontal">
                     <div class="form-group first-row-feature">
                         <div class="col-md-12">
                             <button type="button" onclick="push.goToStep('three');" class="color-blue btn pull-left"><i class="fa fa-arrow-left"></i></button>
-                            <button type="submit" class="btn color-blue pull-right"><?php echo $this->_('OK'); ?></button>
+                            <button type="submit" class="btn color-blue pull-right"><?php echo __('OK'); ?></button>
                         </div>
                     </div>
                     <div class="details">
@@ -373,25 +387,25 @@ $googlemaps_key = $api->getSecretKey();
                                     <?php if($messageobj->getMessageType() == 2): ?>
                                         <li class="list-group-item content-white-bkg">
                                             <label for="send_until_inapp_message" >
-                                                <?php echo $this->_("Please enter an expiration date for your message:"); ?>
+                                                <?php echo __("Please enter an expiration date for your message:"); ?>
                                                 <input type="text" id="inapp_datepicker_send_until" class="input-flat push_datetimepicker required " name="inapp_datepicker_send_until" value="" />
                                             </label>
                                         </li>
                                     <?php endif; ?>
                                     <li class="list-group-item content-white-bg">
-                                        <span><?php echo $this->_("I want to send it"); ?></span>
+                                        <span><?php echo __("I want to send it"); ?></span>
                                     </li>
                                     <li class="list-group-item content-white-bkg">
                                         <label for="send_now" onclick="$('#push_datepicker_send_at').fadeOut(150).attr('disabled', 'disabled');">
                                             <input type="radio" id="send_now" name="send_at_a_specific_datetime" value="0" checked="checked" />
-                                            <?php echo $this->_("now"); ?>
+                                            <?php echo __("now"); ?>
                                         </label>
                                     </li>
                                     <?php if(Cron_Model_Cron::is_active()): ?>
                                     <li class="list-group-item content-white-bkg">
                                         <label for="send_at_a_specific_datetime" onclick="$('#push_datepicker_send_at').removeAttr('disabled').fadeIn(150, function() {$('#push_datepicker_send_at').focus();});">
                                             <input type="radio" id="send_at_a_specific_datetime" name="send_at_a_specific_datetime" value="1" />
-                                            <?php echo $this->_("on a specific date"); ?>
+                                            <?php echo __("on a specific date"); ?>
                                         </label>
                                         <div class="form-group">
                                             <div class="col-md-4">
@@ -405,18 +419,18 @@ $googlemaps_key = $api->getSecretKey();
                         </div>
                         <!-- @TODO fix geolocated push ios/android -->
                         <!--div class="relative is_geolocated">
-                            <span class="block left"><?php echo $this->_("and users entering the area"); ?></span>
+                            <span class="block left"><?php echo __("and users entering the area"); ?></span>
                             <ul class="list-group">
                                 <li class="list-group-item content-white-bkg">
                                     <label for="send_just_now" onclick="$('#push_datepicker_send_until').fadeOut(150).attr('disabled', 'disabled');">
                                         <input type="radio" id="send_just_now" name="send_until_a_specific_datetime" value="0" checked="checked" />
-                                        <?php echo $this->_("now"); ?>
+                                        <?php echo __("now"); ?>
                                     </label>
                                 </li>
                                 <li class="list-group-item content-white-bkg">
                                     <label for="send_until_a_specific_datetime" onclick="$('#push_datepicker_send_until').removeAttr('disabled').fadeIn(150, function() {$('#push_datepicker_send_until').focus();});">
                                         <input type="radio" id="send_until_a_specific_datetime" name="send_until_a_specific_datetime" value="1" />
-                                        <?php echo $this->_("for a limited period"); ?>
+                                        <?php echo __("for a limited period"); ?>
                                     </label>
                                     <div class="form-group">
                                         <div class="col-md-4">
@@ -444,6 +458,7 @@ $googlemaps_key = $api->getSecretKey();
                     <input type="hidden" id="topic_receiver" name="topic_receiver" value="" />
                     <input type="hidden" id="customers_receiver" name="customers_receiver" value="" />
                     <input type="hidden" id="action_value" name="action_value" value="" />
+                    <input type="hidden" id="devices" name="devices" value="" />
                 </form>
             </div>
         </div>
@@ -520,7 +535,7 @@ $googlemaps_key = $api->getSecretKey();
                 }
             });
             $('#remove_cover_img').click(function() {
-                if(confirm("<?php echo $this->_("Are you sure you want to remove the picture?"); ?>")) {
+                if(confirm("<?php echo __("Are you sure you want to remove the picture?"); ?>")) {
                     $('#cover_img').hide().attr('src', '');
                     $('#cover_file').val('');
                     $('#remove_cover').val(1);
@@ -716,7 +731,7 @@ $googlemaps_key = $api->getSecretKey();
                         id_string = "";
 
                         if($("#all_user_1").is(":checked") && $("#topic_receiver").val() == "") {
-                            message.setMessage("<?php echo addslashes($this->_("You must choose a topic before sending your message.")); ?>");
+                            message.setMessage("<?php echo addslashes(__("You must choose a topic before sending your message.")); ?>");
                             message.isError(true);
                             message.addButton(true);
                             message.addLoader(true);
@@ -736,7 +751,7 @@ $googlemaps_key = $api->getSecretKey();
                         $("#customers_receiver").val(id_string);
 
                         if($("#all_user_2").is(":checked") && $("#customers_receiver").val() == "") {
-                            message.setMessage("<?php echo addslashes($this->_("You must choose at least one user before sending your message.")); ?>");
+                            message.setMessage("<?php echo addslashes(__("You must choose at least one user before sending your message.")); ?>");
                             message.isError(true);
                             message.addButton(true);
                             message.addLoader(true);
@@ -761,7 +776,7 @@ $googlemaps_key = $api->getSecretKey();
                         }
                     });
                     <?php else : ?>
-                    message.setMessage("<?php echo addslashes($this->_("Your app must be published to send a push notification.")); ?>");
+                    message.setMessage("<?php echo addslashes(__("Your app must be published to send a push notification.")); ?>");
                     message.isError(true);
                     message.addButton(true);
                     message.addLoader(true);

@@ -231,61 +231,57 @@ App.directive("sbCmsText", function() {
         '       </i>' +
         '       {{ label | translate }}' +
         '   </a>',
-        controller: function ($ionicPopup, $rootScope, $scope, $timeout, $translate, $window, Application) {
+        controller: function ($ionicPopup, $rootScope, $scope, $timeout, $translate, $window, Application, LinkService) {
             $scope.openLink = function() {
-
-                if($rootScope.isOverview) {
-                    $rootScope.showMobileFeatureOnlyError();
-                    return;
-                }
-
-                if(ionic.Platform.isIOS() && $scope.block.content.indexOf("pdf") >= 0) {
-                    $window.open($scope.block.content, $rootScope.getTargetForLink(), "EnableViewPortScale=yes");
-                } else {
-                    $window.open($scope.block.content, $rootScope.getTargetForLink(), "location=no");
-                }
-
+                LinkService.openLink($scope.block.content,{
+                    'hide_navbar': ($scope.block.hide_navbar === "1"),
+                    'use_external_app': ($scope.block.use_external_app === "1")
+                });
             };
         },
         link: function (scope, element) {
-            if (scope.block.type_id == "phone") {
+            switch(scope.block.type_id) {
+                case "phone":
+                    scope.icon = "ion-ios-telephone-outline";
+                    scope.label = (scope.block.label != null && scope.block.label.length > 0) ? scope.block.label : "Phone";
 
-                scope.icon = "ion-ios-telephone-outline";
-                scope.label = (scope.block.label != null && scope.block.label.length > 0) ? scope.block.label : "Phone";
+                    if (!scope.block.content.startsWith('tel:')) {
+                        scope.block.content = "tel:" + scope.block.content;
+                    }
 
-                if (!scope.block.content.startsWith('tel:')) {
-                    scope.block.content = "tel:" + scope.block.content;
-                }
+                    scope.url = scope.block.content;
+                    scope.target = "_self";
+                    break;
 
-                scope.url = scope.block.content;
-                scope.target = "_self";
+                case "link":
+                    scope.icon = "ion-ios-world-outline";
+                    scope.label = (scope.block.label != null && scope.block.label.length > 0) ? scope.block.label : "Website";
+                    var a = angular.element(element).find("a");
+                    a.on("click", function (e) {
+                        e.preventDefault();
+                        scope.openLink();
+                        return false;
+                    });
+                    scope.$on("$destroy", function () {
+                        a.off("click");
+                    });
+                    break;
 
-            } else if (scope.block.type_id == "link") {
+                case "email":
+                    if (!scope.block.content.startsWith('mailto:')) {
+                        scope.block.content = "mailto:" + scope.block.content;
+                    }
+                    scope.icon = "ion-ios-email";
+                    scope.label = (scope.block.label != null && scope.block.label.length > 0) ? scope.block.label : "Email";
+                    scope.url = scope.block.content;
+                    scope.target = "_self";
 
-                scope.icon = "ion-ios-world-outline";
-                scope.label = (scope.block.label != null && scope.block.label.length > 0) ? scope.block.label : "Website";
-                var a = angular.element(element).find("a");
-                a.on("click", function (e) {
-                    e.preventDefault();
-                    scope.openLink();
-                    return false;
-                });
+                    var a = angular.element(element).find("a");
+                    scope.$on("$destroy", function () {
+                        a.off("click");
+                    });
+                    break;
 
-                scope.$on("$destroy", function () {
-                    a.off("click");
-                });
-            } else {
-                if (!scope.block.content.startsWith('mailto:')) {
-                    scope.block.content = "mailto:" + scope.block.content;
-                }
-                scope.icon = "ion-ios-email";
-                scope.label = (scope.block.label != null && scope.block.label.length > 0) ? scope.block.label : "Email";
-                scope.url = scope.block.content;
-                scope.target = "_self";
-
-                scope.$on("$destroy", function () {
-                    a.off("click");
-                });
             }
 
             /** Icon image */
@@ -308,23 +304,10 @@ App.directive("sbCmsText", function() {
         '   <i class="icon ion-paperclip"></i>' +
         '   {{ block.display_name }}' +
         '</div>',
-        controller: function ($rootScope, $scope) {
-
+        controller: function ($rootScope, $scope, LinkService) {
             $scope.openFile = function() {
-
-                if($rootScope.isOverview) {
-                    $rootScope.showMobileFeatureOnlyError();
-                    return;
-                }
-
-                if(ionic.Platform.isAndroid()) {
-                    window.open($scope.block.file_url, "_system", "location=no");
-                } else {
-                    window.open($scope.block.file_url, $rootScope.getTargetForLink(), "EnableViewPortScale=yes");
-                }
-
+                LinkService.openLink($scope.block.file_url,{"use_external_app":"true"});
             };
-
         }
     };
 });

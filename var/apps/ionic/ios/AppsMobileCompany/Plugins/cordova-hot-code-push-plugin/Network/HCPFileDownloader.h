@@ -14,42 +14,28 @@
 typedef void (^HCPFileDownloadCompletionBlock)(NSError *error);
 
 /**
- *  Complition block for data download.
- *
- *  @param data  downloaded data
- *  @param error error information; <code>nil</code> - if everything is fine
- */
-typedef void (^HCPDataDownloadCompletionBlock)(NSData *data, NSError *error);
-
-/**
  *  Helper class to download files from the server.
  */
 @interface HCPFileDownloader : NSObject
 
 /**
- *  Download data asynchronously.
- *
- *  @param url      url to the downloaded file
- *  @param block    data download completion block, called with the data when it is available.
+ * Constructor.
+ * 
+ * @param filesList  list of files to download
+ * @param contentURL url on the server where files are located
+ * @param folderURL  where loaded files should be placed
+ * @param headers    headers to attach to the requests
  */
-- (void) downloadDataFromUrl:(NSURL*)url
-              requestHeaders:(NSDictionary *)headers
-             completionBlock:(HCPDataDownloadCompletionBlock) block;
+- (instancetype)initWithFiles:(NSArray *)filesList
+                    srcDirURL:(NSURL *)contentURL
+                    dstDirURL:(NSURL *)folderURL
+               requestHeaders:(NSDictionary *)headers;
 
 /**
- *  Download list of files asynchronously.
- *
- *  @param filesList  list of files to download. Files are instances of HCPManifestFile class.
- *  @param contentURL url on the server where all files are located. Full URL to the file is constructed from this one and the files mame.
- *  @param folderURL  url to the directory in local file system where to put all loaded files
- *  @param block      download completion block
- *
- *  @see HCPManifestFile
+ * Start download task.
+ * 
+ * @param block complition block
  */
-- (void) downloadFiles:(NSArray *)filesList
-               fromURL:(NSURL *)contentURL
-              toFolder:(NSURL *)folderURL
-        requestHeaders:(NSDictionary *)headers
-       completionBlock:(HCPFileDownloadCompletionBlock)block;
+- (void)startDownloadWithCompletionBlock:(HCPFileDownloadCompletionBlock)block;
 
 @end

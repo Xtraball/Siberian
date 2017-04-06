@@ -734,7 +734,8 @@ div[sb-cms-text] * {  text-align: left;  }
 }
 
 .list .item.item-custom.item-select select{
-    max-width: 56%;
+    max-width: 55%;
+    width: 100%;
 }
 
 .has-mini-player-controls .layout {
