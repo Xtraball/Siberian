@@ -137,4 +137,37 @@ class Customer_ApplicationController extends Application_Controller_Default {
 
     }
 
+    public function getuserslistpaginateAction() {
+        $data = $this->getRequest()->getPost();
+
+        $html = array(
+            "customers" => array()
+        );
+
+        if($data["limit"]) {
+
+            $search_params = array(
+                "app_id" => $this->getApplication()->getId()
+            );
+
+            if($data["search_value"]) {
+                $search_params["search"] = "(email LIKE '%".$data["search_value"]."%' OR firstname LIKE '%".$data["search_value"]."%' OR lastname LIKE '%".$data["search_value"]."%')";
+            }
+
+            $customer_model = new Customer_Model_Customer();
+            $customer_model = $customer_model->findAllCustomersByApp($search_params, array("limit" => $data["limit"], "offset" => $data["offset"]));
+
+            $customers = array();
+            foreach($customer_model as $customer) {
+                $customer->setCreatedAt($customer->getFormattedCreatedAt($this->_(Zend_Date::DATE_MEDIUM)));
+                $customers[] = $customer->getData();
+            }
+
+            $html["customers"] = $customers;
+        }
+
+        $this->getResponse()->setBody(Zend_Json::encode($html))->sendResponse();
+        die;
+    }
+
 }

@@ -14,7 +14,7 @@ class Siberian_Plesk {
     /**
      * @var array
      */
-    protected $config = array(
+    public $config = array(
         "host" => "127.0.0.1",
         "username" => "admin",
         "password" => "changeme",
@@ -46,10 +46,14 @@ class Siberian_Plesk {
             ));
             $results = $request->process();
 
-            if(!$results) {
-                $this->logger->info(sprintf("[Siberian_Plesk] %s", $request->error->getMessage()));
+            if($results === false) {
+                $message = "An unknown error occured while retrieving";
+                if(isset($request->error)) {
+                    $message = $request->error->getMessage();
+                }
+                $this->logger->info(sprintf("[Siberian_Plesk] %s", $message));
 
-                throw new Exception(__("[%s] %s", $request->error->getCode(), $request->error->getMessage()));
+                throw new Siberian_Exception(__("[%s] %s", $request->error->getCode(), $message));
             }
 
             // Finding domain/subdomain ID
@@ -63,6 +67,7 @@ class Siberian_Plesk {
             } else {
                 $request = new Plesk\ListSubdomains($this->config);
                 $results = $request->process();
+
                 if(!empty($results) && is_array($results)) {
                     foreach ($results as $result) {
                         if ($result["name"] == $hostname) {

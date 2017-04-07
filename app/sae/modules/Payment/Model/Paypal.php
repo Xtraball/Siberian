@@ -233,7 +233,7 @@ class Payment_Model_Paypal extends Core_Model_Default {
             }
         }
 
-        $params["PAYMENTREQUEST_0_ITEMAMT"] = $tmp_total;
+        $params["PAYMENTREQUEST_0_ITEMAMT"] = round($tmp_total, 2);
 
         // Sum of tax for all items in this order
         $params["PAYMENTREQUEST_0_TAXAMT"] = round($total_tax, 2);

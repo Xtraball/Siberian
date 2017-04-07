@@ -21,4 +21,18 @@
         </views>
     </push_inapp_application_edit>
 
+    <push_admin_global>
+        <addLayout name="admin_menu" />
+        <base>
+            <title>Push notifications</title>
+        </base>
+        <views>
+            <content class="admin_view_default" template="push/admin/global.phtml" />
+        </views>
+        <actions>
+            <header_menu name="setCurrentLink"><code>push_global</code></header_menu>
+        </actions>
+    </push_admin_global>
+
+
 </layout>

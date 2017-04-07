@@ -56,6 +56,14 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
             }
         }
 
+        $published_only = filter_var($this->getRequest()->getParam("published_only", false), FILTER_VALIDATE_BOOLEAN);
+        if($published_only) {
+            $application_table = new Application_Model_Db_Table_Application();
+            $applications = $application_table->findAllForGlobalPush();
+
+            $filters["app_id IN (?)"] = $applications;
+        }
+
         $total = $application->countAll($filters);
 
         if($range = $request->getHeader("Range")) {

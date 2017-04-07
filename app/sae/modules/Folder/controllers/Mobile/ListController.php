@@ -61,11 +61,26 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                     ), array('folder_category_position ASC'));
 
                     foreach($category_options as $feature) {
+                        /**
+                           START Link special code
+                           We get informations about link at homepage level
+                        */
+                        $hide_navbar = false;
+                        $use_external_app = false;
+                        if($object_link = $feature->getObject()->getLink() AND is_object($object_link)) {
+                            $hide_navbar = $object_link->getHideNavbar();
+                            $use_external_app = $object_link->getHideNavbar();
+                        }
+                        /**
+                           END Link special code
+                        */
                         $search_list[] = array(
                             "name" => $feature->getTabbarName(),
                             "father_name" => $folder->getTitle(),
                             "url" => $feature->getPath(null, array('value_id' => $feature->getId()), false),
                             'is_link' => !$feature->getIsAjax(),
+                            "hide_navbar" => $hide_navbar,
+                            "use_external_app" => $use_external_app,
                             "picture" => $feature->getIconId() ? $this->getRequest()->getBaseUrl().$this->_getColorizedImage($feature->getIconId(), $color) : null,
                             "offline_mode" => $feature->getObject()->isCacheable(),
                             "code" => $feature->getCode(),
@@ -99,10 +114,25 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                 $pages = $current_category->getPages();
 
                 foreach($pages as $page) {
+                    /**
+                      START Link special code
+                      We get informations about link at homepage level
+                      */
+                    $hide_navbar = false;
+                    $use_external_app = false;
+                    if($object_link = $page->getObject()->getLink() AND is_object($object_link)) {
+                        $hide_navbar = $object_link->getHideNavbar();
+                        $use_external_app = $object_link->getUseExternalApp();
+                    }
+                    /**
+                      END Link special code
+                      */
                     $data["folders"][] = array(
                         "title" => $page->getTabbarName(),
                         "subtitle" => "",
                         "picture" => $page->getIconId() ? $this->getRequest()->getBaseUrl().$this->_getColorizedImage($page->getIconId(), $color) : null,
+                        "hide_navbar" => $hide_navbar,
+                        "use_external_app" => $use_external_app,
                         'is_link' => !$page->getIsAjax(),
                         "url" => $page->getPath(null, array('value_id' => $page->getId()), false),
                         "code" => $page->getCode(),

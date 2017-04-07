@@ -2,7 +2,7 @@
     App, ionic, angular
  */
 
-App.directive("sbAClick", function($filter, $rootScope, $timeout, $window, $state) {
+App.directive("sbAClick", function($filter, $rootScope, $timeout, $window, $state, LinkService) {
     return {
         restrict: 'A',
         scope: {
@@ -20,8 +20,8 @@ App.directive("sbAClick", function($filter, $rootScope, $timeout, $window, $stat
                         var state = elem.attributes["data-state"].value;
                         var offline = (typeof elem.attributes["data-offline"] !== "undefined") ? (elem.attributes["data-offline"].value === "true") : false;
 
-                        elem.href = "javascript:void(0);";
-                        angular.element(elem).bind("click", function () {
+                        angular.element(elem).bind("click", function (e) {
+                            e.preventDefault();
                             if(!offline && $rootScope.isOffline) {
                                 $rootScope.onlineOnly();
                             } else {
@@ -30,23 +30,13 @@ App.directive("sbAClick", function($filter, $rootScope, $timeout, $window, $stat
                         });
 
                     } else {
-
-                        var old_href = elem.href;
-                        elem.href = "javascript:void(0)";
-                        angular.element(elem).bind("click", function () {
-                            if ($rootScope.isOverview) {
-                                $rootScope.showMobileFeatureOnlyError();
-                                return false;
+                        angular.element(elem).bind("click", function (e) {
+                            e.preventDefault();
+                            var options = {
+                                "hide_navbar" : false,
+                                "use_external_app" : false
                             }
-
-                            if (/^(tel:).*/.test(old_href) && ionic.Platform.isAndroid()) {
-                                $window.open(old_href, '_self', "location=no");
-                            } else if (ionic.Platform.isIOS() && old_href.indexOf("pdf") >= 0) {
-                                $window.open(old_href, $rootScope.getTargetForLink(), "EnableViewPortScale=yes");
-                            } else {
-                                $window.open(old_href, $rootScope.getTargetForLink(), "location=no");
-                            }
-                            return false;
+                            LinkService.openLink(elem.href,options);
                         });
                     }
                 });

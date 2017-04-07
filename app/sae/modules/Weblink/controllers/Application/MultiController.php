@@ -68,6 +68,8 @@ class Weblink_Application_MultiController extends Application_Controller_Default
 
                 if(!empty($datas['link'])) {
                     $link_datas = $datas['link'];
+                    $link_datas['hide_navbar'] = $link_datas['hide_navbar'] === "on" ? "1" : "0";
+                    $link_datas['use_external_app'] = $link_datas['use_external_app'] === "on" ? "1" : "0";
 
                     if(empty($link_datas['url']) OR !Zend_Uri::check($link_datas['url'])) {
                         throw new Exception($this->_('Please enter a valid url'));

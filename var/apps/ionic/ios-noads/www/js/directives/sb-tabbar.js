@@ -1,6 +1,6 @@
 "use strict";
 
-App.directive('sbTabbar', function ($sbhttp, $ionicHistory, $ionicModal, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $location, $rootScope, $timeout, $translate, $window, $ionicPlatform, Analytics, Application, Customer, Dialog, HomepageLayout, Pages, Url, AUTH_EVENTS, PADLOCK_EVENTS, PUSH_EVENTS) {
+App.directive('sbTabbar', function ($sbhttp, $ionicHistory, $ionicModal, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $location, $rootScope, $timeout, $translate, $window, $ionicPlatform, Analytics, Application, Customer, Dialog, HomepageLayout, LinkService, Pages, Url, AUTH_EVENTS, PADLOCK_EVENTS, PUSH_EVENTS) {
     return {
         restrict: 'A',
         templateUrl: function() {
@@ -119,26 +119,11 @@ App.directive('sbTabbar', function ($sbhttp, $ionicHistory, $ionicModal, $ionicS
                     $rootScope.onlineOnly();
                     return false;
                 } else if(feature.is_link) {
-                    if($rootScope.isOverview) {
-                        Dialog.alert(
-                            $translate.instant("Error"),
-                            $translate.instant("This feature is available from the application only"),
-                            $translate.instant("OK")
-                        );
-                        return false;
-                    }
-
-                    if(ionic.Platform.isAndroid() && feature.url.indexOf("pdf") >= 0) {
-                        $window.open(feature.url, "_system", "location=no");
-
-                    } else if(ionic.Platform.isIOS() && feature.url.indexOf("pdf") >= 0) {
-                        $window.open(feature.url, $rootScope.getTargetForLink(), "EnableViewPortScale=yes");
-
-                    } else {
-                        $window.open(feature.url, $rootScope.getTargetForLink(), "location=no");
-
-                    }
-
+                    var options = {
+                        "hide_navbar" : !!feature.hide_navbar,
+                        "use_external_app" : !!feature.use_external_app
+                    };
+                    LinkService.openLink(feature.url, options);
                     Analytics.storePageOpening(feature);
                 } else {
                     Analytics.storePageOpening(feature);

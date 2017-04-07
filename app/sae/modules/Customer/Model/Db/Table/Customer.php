@@ -28,6 +28,51 @@ class Customer_Model_Db_Table_Customer extends Core_Model_Db_Table
         return $this->_db->fetchAssoc($select);
     }
 
+    public function findAllCustomersByApp($values, $params) {
+
+        $where = "";
+        $subrequest = "(SELECT COUNT(customer_id) as nb_customers FROM customer WHERE app_id = ".$values["app_id"].") as nb_customer";
+        if($values AND is_array($values)) {
+            $where = " WHERE ";
+            $start = true;
+            foreach($values as $quote => $value) {
+                if(!$start) {
+                    $where .= " AND";
+                }
+                if($quote != "search") {
+                    $where .= " ".$quote." = ".$value." ";
+                } else {
+                    if($value <> "") {
+                        $where .= $value." ";
+                        $subrequest = "(SELECT COUNT(customer_id) as nb_customers FROM customer WHERE app_id = ".$values["app_id"]." AND ".$value.") as nb_customer";
+                    }
+                }
+
+                $start = false;
+            }
+        }
+
+        $select = "
+              SELECT
+              customer_id,
+              email,
+              firstname,
+              lastname,
+              created_at,".$subrequest."
+              FROM customer".$where." ORDER BY customer_id ";
+
+        $params_string = "";
+        if($params AND is_array($params)) {
+            foreach($params as $quote => $value) {
+                $params_string .= $quote." ".$value." ";
+            }
+        }
+
+        $select .= $params_string;
+
+        return $this->toModelClass($this->_db->fetchAll($select));
+    }
+
     public function findSocialDatas($customer_id) {
 
         $social_datas = array();

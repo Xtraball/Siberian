@@ -1,4 +1,5 @@
-cordova.define("cordova-hot-code-push-plugin.chcp", function(require, exports, module) { 
+cordova.define("cordova-hot-code-push-plugin.chcp", function(require, exports, module) {
+
 
 var exec = require('cordova/exec'),
   channel = require('cordova/channel'),
@@ -13,7 +14,8 @@ var exec = require('cordova/exec'),
     INSTALL_UPDATE: 'jsInstallUpdate',
     CONFIGURE: 'jsConfigure',
     REQUEST_APP_UPDATE: 'jsRequestAppUpdate',
-    IS_UPDATE_AVAILABLE_FOR_INSTALLATION: 'jsIsUpdateAvailableForInstallation'
+    IS_UPDATE_AVAILABLE_FOR_INSTALLATION: 'jsIsUpdateAvailableForInstallation',
+    GET_INFO: 'jsGetVersionInfo'
   };
 
 // Called when Cordova is ready for work.
@@ -164,7 +166,8 @@ var chcp = {
     CANT_DOWNLOAD_UPDATE_WHILE_INSTALLATION_IN_PROGRESS: -15,
     INSTALLATION_ALREADY_IN_PROGRESS: -16,
     DOWNLOAD_ALREADY_IN_PROGRESS: -17,
-    ASSETS_FOLDER_IN_NOT_YET_INSTALLED: -18
+    ASSETS_FOLDER_IN_NOT_YET_INSTALLED: -18,
+    NEW_APPLICATION_CONFIG_IS_INVALID: -19
   },
 
   // Plugin events
@@ -262,6 +265,16 @@ var chcp = {
    */
   isUpdateAvailableForInstallation: function(callback) {
     callNativeMethod(pluginNativeMethod.IS_UPDATE_AVAILABLE_FOR_INSTALLATION, null, callback);
+  },
+
+  /**
+   * Get information about the current version like current release version, app build version and so on.
+   * The "data" property of the callback will contain all the information.
+   *
+   * @param {Callback(error, data)} callback - called, when information is retrieved from the native side.
+   */
+  getVersionInfo: function(callback) {
+    callNativeMethod(pluginNativeMethod.GET_INFO, null, callback);
   }
 };
 

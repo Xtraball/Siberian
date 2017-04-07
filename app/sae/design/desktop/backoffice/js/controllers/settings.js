@@ -26,6 +26,9 @@ App.config(function($routeProvider) {
     $scope.iosBuildLicenceError = '';
     $scope.iosBuildLicenceInfo = '';
     $scope.generateAnalyticsPeriod = {'from':'','to':'','from_displayed_date':'','to_displayed_date':''};
+    $scope.test = {
+        email: ""
+    };
 
     Settings.type = $scope.code;
 
@@ -127,6 +130,40 @@ App.config(function($routeProvider) {
         }).finally(function() {
             $scope.form_loader_is_visible = false;
         });
+    };
+
+    $scope.testemail = function() {
+
+        $scope.form_loader_is_visible = true;
+
+        Settings.testemail($scope.test.email).success(function(data) {
+
+            var message = Label.save.error;
+            if(angular.isObject(data) && angular.isDefined(data.message)) {
+                message = data.message;
+                $scope.message.isError(false);
+            } else {
+                $scope.message.isError(true);
+            }
+            $scope.message.setText(message)
+                .show()
+            ;
+
+        }).error(function(data) {
+
+            var message = Label.save.error;
+            if(angular.isObject(data) && angular.isDefined(data.message)) {
+                message = data.message;
+            }
+
+            $scope.message.setText(message)
+                .isError(true)
+                .show()
+            ;
+        }).finally(function() {
+            $scope.form_loader_is_visible = false;
+        });
+
     };
 
 

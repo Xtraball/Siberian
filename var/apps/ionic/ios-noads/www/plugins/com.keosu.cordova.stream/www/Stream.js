@@ -1,4 +1,5 @@
-cordova.define("com.keosu.cordova.stream.Stream", function(require, exports, module) { /*
+cordova.define("com.keosu.cordova.stream.Stream", function(require, exports, module) {
+/*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file

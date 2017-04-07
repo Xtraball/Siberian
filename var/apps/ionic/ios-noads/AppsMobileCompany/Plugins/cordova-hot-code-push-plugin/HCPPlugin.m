@@ -101,6 +101,11 @@ static NSString *const DEFAULT_STARTING_PAGE = @"index.html";
     // reset www folder installed flag
     if (_pluginInternalPrefs.isWwwFolderInstalled) {
         _pluginInternalPrefs.wwwFolderInstalled = NO;
+        _pluginInternalPrefs.readyForInstallationReleaseVersionName = @"";
+        _pluginInternalPrefs.previousReleaseVersionName = @"";
+        HCPApplicationConfig *config = [HCPApplicationConfig configFromBundle:[HCPFilesStructure defaultConfigFileName]];
+        _pluginInternalPrefs.currentReleaseVersionName = config.contentConfig.releaseVersion;
+        
         [_pluginInternalPrefs saveToUserDefaults];
     }
     
@@ -785,6 +790,17 @@ static NSString *const DEFAULT_STARTING_PAGE = @"index.html";
     }
     
     CDVPluginResult *result = [CDVPluginResult pluginResultWithActionName:nil data:data error:error];
+    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+}
+
+- (void)jsGetVersionInfo:(CDVInvokedUrlCommand *)command {
+    NSDictionary *data = @{@"currentWebVersion": _pluginInternalPrefs.currentReleaseVersionName,
+                           @"readyToInstallWebVersion": _pluginInternalPrefs.readyForInstallationReleaseVersionName,
+                           @"previousWebVersion": _pluginInternalPrefs.previousReleaseVersionName,
+                           @"appVersion": [NSBundle applicationVersionName],
+                           @"buildVersion": [NSBundle applicationBuildVersion]};
+
+    CDVPluginResult *result = [CDVPluginResult pluginResultWithActionName:nil data:data error:nil];
     [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }
 

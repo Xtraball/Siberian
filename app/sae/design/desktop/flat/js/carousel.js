@@ -19,6 +19,8 @@ var Carousel = Class.extend({
             this.calculatedNbItems = 6;
         }
 
+        var data_max_icons = parseInt(this.container.attr('data-max-icons'), 10);
+
         this.options = {
             items           : this.container.children('li:visible'),
             item_width      : this.container.children('li:first').outerWidth(true),
@@ -27,6 +29,7 @@ var Carousel = Class.extend({
             next_button     : null,
             prev_button     : null,
             pager           : $('#'+this.container.attr('data-pager')),
+            max_icons_in_app: (data_max_icons >= 0 ? data_max_icons : Infinity),
             next_button_interval_id : null,
             prev_button_interval_id : null,
             is_folder: false
@@ -87,13 +90,12 @@ var Carousel = Class.extend({
             this.options.items_per_page = Math.floor(this.container_base_width/this.fixed_item_width);
         }
 
-        var nbr_of_icons_in_app = 0;
         var nbr_of_icons_in_carousel = 0;
         this.options.items.each(function() {
             if(this.id != 'option_value_more_items') nbr_of_icons_in_carousel++;
         });
 
-        if((nbr_of_icons_in_carousel > nbr_of_icons_in_app) && this.options.is_folder == false) {
+        if((nbr_of_icons_in_carousel > this.options.max_icons_in_app) && this.options.is_folder == false) {
             $('#option_value_more_items').show();
             this.options.items = this.container.children('li:visible');
         }

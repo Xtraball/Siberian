@@ -26,7 +26,9 @@ class Weblink_Mobile_MultiController extends Application_Controller_Mobile_Defau
                 "id" => $link->getId(),
                 "title" => $link->getTitle(),
                 "picto_url" => $link->getPictoUrl() ? $this->getRequest()->getBaseUrl().$link->getPictoUrl() : null,
-                "url" => $link->getUrl()
+                "url" => $link->getUrl(),
+                "hide_navbar" => $link->getHideNavbar(),
+                "use_external_app" => $link->getUseExternalApp()
             );
         }
 

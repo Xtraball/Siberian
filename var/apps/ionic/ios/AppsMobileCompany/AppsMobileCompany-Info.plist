@@ -6,8 +6,6 @@
     <dict>
       <key>NSAllowsArbitraryLoads</key>
       <true/>
-      <key>NSExceptionDomains</key>
-      <dict/>
     </dict>
     <key>CFBundleDevelopmentRegion</key>
     <string>English</string>
@@ -75,6 +73,19 @@
     <string/>
     <key>NSMainNibFile~ipad</key>
     <string/>
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+      <string>UIInterfaceOrientationPortrait</string>
+      <string>UIInterfaceOrientationLandscapeLeft</string>
+      <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
+    <key>UISupportedInterfaceOrientations~ipad</key>
+    <array>
+      <string>UIInterfaceOrientationPortrait</string>
+      <string>UIInterfaceOrientationLandscapeLeft</string>
+      <string>UIInterfaceOrientationPortraitUpsideDown</string>
+      <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
     <key>UIRequiresFullScreen</key>
     <true/>
     <key>UILaunchImages</key>
@@ -184,9 +195,9 @@
     <string>Location is required to get specific push notes and other great items</string>
     <key>UIBackgroundModes</key>
     <array>
+      <string>remote-notification</string>
       <string>audio</string>
       <string>fetch</string>
-      <string>remote-notification</string>
     </array>
     <key>NSCameraUsageDescription</key>
     <string>Scan QRCode and share pictures</string>
@@ -194,11 +205,7 @@
     <string>Import pictures from your library</string>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>Use the GPS for live navigation</string>
-    <key>NSCalendarsUsageDescription</key>
-    <string>Be notified of the App events.</string>
-    <key>NSContactsUsageDescription</key>
-    <string>Share content with your contacts</string>
-    <key>NSMotionUsageDescription</key>
-    <string>Smart navigation with TaxiRide and other nice features</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string/>
   </dict>
 </plist>

@@ -412,7 +412,9 @@ App.config(function($routeProvider) {
 
         }).error(function(data) {
 
-            $scope.message.setText(data.message)
+            var message = ((data !== undefined) && (data.message !== undefined)) ? data.message : "An unknown error occurred.";
+
+            $scope.message.setText(message)
                 .isError(true)
                 .show()
             ;

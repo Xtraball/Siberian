@@ -1,4 +1,5 @@
-cordova.define("cordova-plugin-media.Media", function(require, exports, module) { /*
+cordova.define("cordova-plugin-media.Media", function(require, exports, module) {
+/*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -136,6 +137,20 @@ Media.prototype.startRecord = function() {
  */
 Media.prototype.stopRecord = function() {
     exec(null, this.errorCallback, "Media", "stopRecordingAudio", [this.id]);
+};
+
+/**
+ * Pause recording audio file.
+ */
+Media.prototype.pauseRecord = function() {
+    exec(null, this.errorCallback, "Media", "pauseRecordingAudio", [this.id]);
+};
+
+/**
+* Resume recording audio file.
+*/
+Media.prototype.resumeRecord = function() {
+    exec(null, this.errorCallback, "Media", "resumeRecordingAudio", [this.id]);
 };
 
 /**

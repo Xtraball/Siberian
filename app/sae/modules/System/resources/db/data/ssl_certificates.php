@@ -16,3 +16,6 @@ foreach($all_certifs as $certif) {
     }
     
 }
+
+# 4.10.0 fix to refresh certificates.
+$this->query("UPDATE ssl_certificates SET updated_at = NOW();");

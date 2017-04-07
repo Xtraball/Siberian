@@ -31,8 +31,7 @@ EOT;
      * @param array $config
      * @param array $params
      */
-    public function __construct(array $config, array $params = array())
-    {
+    public function __construct(array $config, array $params = array()) {
         $this->default_params['filter'] = new Node('filter');
 
         if (isset($params['domain'])) {

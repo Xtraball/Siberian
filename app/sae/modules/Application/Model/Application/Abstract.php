@@ -14,7 +14,6 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     protected $_customers;
     protected $_options;
     protected $_pages;
-    protected $_uses_user_account;
     protected $_layout;
     protected $_devices;
     protected $_design;
@@ -589,19 +588,14 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     public function usesUserAccount() {
-
-        // TODO: check use_my_account
-
-        if(is_null($this->_uses_user_account)) {
-            $this->_uses_user_account = false;
-            $options = $this->getUsedOptions();
-            foreach($options as $option) {
-                if($option->getUseMyAccount())
-                    $this->_uses_user_account = true;
+        $options = $this->getUsedOptions();
+        foreach($options as $option) {
+            if($option->getUseMyAccount()) {
+                return true;
             }
         }
 
-        return $this->_uses_user_account;
+        return false;
     }
 
     public function getCountryCode() {

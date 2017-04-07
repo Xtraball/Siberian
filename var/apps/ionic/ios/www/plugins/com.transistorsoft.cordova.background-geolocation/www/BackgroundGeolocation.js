@@ -1,4 +1,5 @@
-cordova.define("com.transistorsoft.cordova.background-geolocation.BackgroundGeolocation", function(require, exports, module) { /**
+cordova.define("com.transistorsoft.cordova.background-geolocation.BackgroundGeolocation", function(require, exports, module) {
+/**
 * cordova-background-geolocation
 * Copyright (c) 2015, Transistor Software (9224-2932 Quebec Inc)
 * All rights reserved.

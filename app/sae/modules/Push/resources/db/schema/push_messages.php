@@ -13,6 +13,16 @@ $schemas['push_messages'] = array(
         'auto_increment' => true,
         'primary' => true,
     ),
+    'message_global_id' => array(
+        'type' => 'int(11)',
+        'is_null' => true,
+    ),
+    'target_devices' => array(
+        'type' => 'varchar(32)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'all',
+    ),
     'app_id' => array(
         'type' => 'int(11) unsigned',
         'foreign_key' => array(

@@ -134,6 +134,20 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
 
             foreach ($option_values as $option_value) {
                 try {
+                    $object = $option_value->getObject();
+                    /**
+                      START Link special code
+                      We get informations about link at homepage level
+                      */
+                    $hide_navbar = null;
+                    $use_external_app = null;
+                    if($option_value->getCode() === "weblink_mono") {
+                        $hide_navbar = $object->getHideNavbar();
+                        $use_external_app = $object->getUseExternalApp();
+                    }
+                    /**
+                      END Link special code
+                      */
                     $data_pages[] = array(
                         "value_id"          => $option_value->getId(),
                         "id"                => intval($option_value->getId()),
@@ -143,6 +157,8 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                         "subtitle"          => $option_value->getTabbarSubtitle(),
                         "is_active"         => !!$option_value->isActive(),
                         "url"               => $option_value->getUrl(null, array("value_id" => $option_value->getId()), false),
+                        "hide_navbar"       => $hide_navbar,
+                        "use_external_app"  => $use_external_app,
                         "path"              => $option_value->getPath(null, array("value_id" => $option_value->getId()), false),
                         "icon_url"          => $this->getRequest()->getBaseUrl() . $this->_getColorizedImage($option_value->getIconId(), $color),
                         "icon_is_colorable" => !!$option_value->getImage()->getCanBeColorized(),

@@ -10,7 +10,7 @@
             <div class="item item-custom">
                 <img ng-src="{{ weblink.cover_url }}" width="100%" />
             </div>
-            <button class="button button-block button-custom item-center button-avatar" ng-repeat="link in weblink.links" ng-click="openLink(link.url);">
+            <button class="button button-block button-custom item-center button-avatar" ng-repeat="link in weblink.links" ng-click="openLink(link.url,link.hide_navbar,link.use_external_app);">
                 <img ng-show="link.picto_url" ng-src="{{ link.picto_url }}" width="21" height="21" />
                 {{ link.title }}
             </button>

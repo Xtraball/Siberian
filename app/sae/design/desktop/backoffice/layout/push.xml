@@ -8,4 +8,11 @@
         </views>
     </push_backoffice_certificate_template>
 
+    <push_backoffice_global_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="push/global.phtml" />
+        </views>
+    </push_backoffice_global_template>
+
 </layout>

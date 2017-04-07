@@ -408,6 +408,8 @@ var App = angular.module("starter", [
                         return first_id;
                     };
 
+                    //cyril: RIDICULOUS CODE, in browser we use _system that is not accepted value
+                    //in application we open with _blank that open with inAppBrowser without control...
                     $rootScope.getTargetForLink = function () {
                         return !$rootScope.isNativeApp ? "_system" : "_blank";
                     };

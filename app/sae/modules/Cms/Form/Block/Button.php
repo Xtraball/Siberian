@@ -39,6 +39,16 @@ class Cms_Form_Block_Button extends Cms_Form_Block_Abstract {
         $link->setBelongsTo("block[".$this->uniqid."][button]");
         $link->addClass("cms-button-input cms-button-link");
 
+        # HIDE NAVBAR
+        $link = $this->addSimpleCheckbox("hide_navbar", __("Hide navbar"));
+        $link->setBelongsTo("block[".$this->uniqid."][button]");
+        $link->addClass("cms-button-input cms-button-link");
+
+        # USE EXTERNAL APP
+        $link = $this->addSimpleCheckbox("use_external_app", __("Use external app"));
+        $link->setBelongsTo("block[".$this->uniqid."][button]");
+        $link->addClass("cms-button-input cms-button-link");
+
         # BUTTON TYPE
         $type = $this->addSimpleHidden("type");
         $type->setBelongsTo("block[".$this->uniqid."][button]");
@@ -59,6 +69,8 @@ class Cms_Form_Block_Button extends Cms_Form_Block_Abstract {
 
         $this->getElement("label")->setValue($block->getLabel());
         $this->getElement("type")->setValue($block->getTypeId());
+        $this->getElement("hide_navbar")->setValue($block->getHideNavbar());
+        $this->getElement("use_external_app")->setValue($block->getUseExternalApp());
         $this->getElement($block->getTypeId())->setValue($block->getContent());
         $this->getElement("icon")->setValue($block->getIcon());
         $this->getElement("icon_fake")->setValue($block->getIcon());

@@ -81,7 +81,7 @@ class Application_View_Promote_Index extends Admin_View_Default {
 
         if($application->getBundleId() AND $android_device->getBannerStoreLabel() AND $android_device->getBannerStorePrice()) {
             $metacode .='
-<meta name="google-play-app" content="app-id='.$application->getBundleId().'">';
+<meta name="google-play-app" content="app-id='.$application->getPackageName().'">';
         }
 
         $metacode .= '

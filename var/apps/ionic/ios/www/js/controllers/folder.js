@@ -31,7 +31,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         }
     })
 
-}).controller('FolderListController', function($sbhttp, $ionicModal, $ionicPopup, $location, $rootScope, $scope, $stateParams, $window, $translate, $timeout, Analytics, AUTH_EVENTS, PADLOCK_EVENTS, Customer, Folder, Padlock, Url) {
+}).controller('FolderListController', function($sbhttp, $ionicModal, $ionicPopup, $location, $rootScope, $scope, $stateParams, $window, $translate, $timeout, Analytics, AUTH_EVENTS, PADLOCK_EVENTS, Customer, Folder, LinkService, Padlock, Url) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -101,18 +101,11 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
             $rootScope.onlineOnly();
             return;
         }  else if(feature.is_link) {
-            if($rootScope.isOverview) {
-                var popup = $ionicPopup.show({
-                    title: $translate.instant("Error"),
-                    subTitle: $translate.instant("This feature is available from the application only")
-                });
-                $timeout(function() {
-                    popup.close();
-                }, 4000);
-                return;
-            }
-            var targetForLink = (ionic.Platform.isAndroid())? '_system' : $rootScope.getTargetForLink();
-            $window.open(feature.url, targetForLink, "location=no");
+            var options = {
+                "hide_navbar" : (feature.hide_navbar ? true : false),
+                "use_external_app" : (feature.use_external_app ? true : false)
+            };
+            LinkService.openLink(feature.url,options);
         } else {
             $location.path(feature.url);
         }

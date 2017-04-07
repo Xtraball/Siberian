@@ -51,7 +51,11 @@ App.service('GoogleMaps', function (_, $cordovaGeolocation, $location, $q, $root
                 if (status == google.maps.DirectionsStatus.OK) {
                     deferred.resolve(response);
                 } else {
-                    var errorMessage = $translate.instant("An unexpected error occurred while calculating the route.");
+                    var errorMessage = $translate.instant(
+                        status === "ZERO_RESULTS" ?
+                            "There is no route available with these informations." :
+                            "An unexpected error occurred while calculating the route."
+                    );
                     console.error(errorMessage, status);
                     if(rejectWithResponseAndStatus === true) {
                         deferred.reject([response, status]);
@@ -385,6 +389,12 @@ App.service('GoogleMaps', function (_, $cordovaGeolocation, $location, $q, $root
                         deferred.reject(err);
                     });
                 }, function (err) {
+                    if(
+                        angular.isObject(err) && err.code === 1 &&
+                            angular.isString(err.message) && err.message.indexOf("secure origin")
+                    ) {
+                        deferred.reject("Your location could not be found because your application doesn't use SSL.");
+                    }
                     deferred.reject("gps_disabled");
                 });
 

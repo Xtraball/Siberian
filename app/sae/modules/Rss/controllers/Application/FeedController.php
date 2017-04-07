@@ -32,14 +32,31 @@ class Rss_Application_FeedController extends Application_Controller_Default
 
                 $result = Zend_Feed_Reader::findFeedLinks($datas['link']);
 
+                try {
+                    $rss_feed = Zend_Feed_Reader::import($datas['link']);
+                } catch(Exception $e) {
+                    $rss_feed = null;
+                }
+
+                $feeds = array();
+                foreach($result as $feed) {
+                    if(
+                        empty($feed['href']) ||
+                        $feed['type'] == "text/html" ||
+                        ($rss_feed && $feed['href'] == $rss_feed->getLink())
+                    ) continue;
+                    $feeds[] = $feed['href'];
+                }
+                if($rss_feed && !array_search($rss_feed->getFeedLink(), $feeds) && count($feeds) > 0) {
+                    $feeds = array_merge([$rss_feed->getFeedLink()], $feeds);
+                }
+
                 //On a soit un flux directement, soit une URL sans flux trouvable
-                if(count($result) == 0) {
-                    try {
-                        $feed = Zend_Feed_Reader::import($datas['link']);
+                if(count($feeds) == 0) {
+                    if($rss_feed) {
                         $html = $this->_saveFeed($datas);
-                    }
-                    //Aucun flux à cette adresse
-                    catch(Exception $e) {
+                    } else {
+                        //Aucun flux à cette adresse
                         $html = array(
                             'message' => $this->_("No RSS feed could be found"),
                             'message_button' => 1,
@@ -48,12 +65,6 @@ class Rss_Application_FeedController extends Application_Controller_Default
                     }
                 //On a une adresse avec des flux
                 } else {
-                    $feeds = array();
-                    foreach($result as $feed) {
-                        if(!empty($feed['href'])) {
-                            $feeds[] = $feed['href'];
-                        }
-                    }
                     if(!isset($datas['feed_id'])) {
                         $id = 'new';
                     } else {

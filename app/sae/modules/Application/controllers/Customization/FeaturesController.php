@@ -156,7 +156,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                     'path' => $option_value->getPath(null, array(), "mobile"),
                     'delete_features' => $delete_features,
                     'page_id' => $option_value->getOptionId(),
-                    'use_user_account' => $this->getApplication()->usesUserAccount()
+                    'use_my_account' => $this->getApplication()->usesUserAccount()
                 );
 
             }
@@ -236,7 +236,6 @@ class Application_Customization_FeaturesController extends Application_Controlle
                     $option->find($option_value->getOptionId());
 
                     $html['was_feature'] = true;
-                    $html['use_user_account'] = $this->getApplication()->usesUserAccount();
 
                     if($option_value->getCode() == "folder") {
                         $html['was_folder'] = true;
@@ -244,6 +243,8 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
                     // Supprime l'option de l'application
                     $option_value->delete();
+
+                    $html['use_my_account'] = $this->getApplication()->usesUserAccount();
 
                     if($option->onlyOnce()) {
                         $html['page'] = array('id' => $option->getId(), 'name' => $option->getName(), 'icon_url' => $option->getIconUrl(), 'category_id' => $option->getCategoryId());
