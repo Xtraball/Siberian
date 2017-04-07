@@ -626,7 +626,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                     $isSelf = ($whitelabel == $hostname);
 
                     if(!$endWithDot && ($isCname || $isSelf)) {
-                        $this->log(__("Adding %s to SAN.", $whitelabel));
+                        $logger->info(__("Adding %s to SAN.", $whitelabel));
 
                         $hostnames[] = $whitelabel;
                     }
