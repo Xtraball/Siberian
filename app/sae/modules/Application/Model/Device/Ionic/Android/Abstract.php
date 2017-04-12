@@ -27,6 +27,12 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             $this->_dest_source_res.'/drawable-xhdpi',
             $this->_dest_source_res.'/drawable-xxhdpi',
             $this->_dest_source_res.'/drawable-xxxhdpi',
+            $this->_dest_source_res.'/mipmap-hdpi',
+            $this->_dest_source_res.'/mipmap-ldpi',
+            $this->_dest_source_res.'/mipmap-mdpi',
+            $this->_dest_source_res.'/mipmap-xhdpi',
+            $this->_dest_source_res.'/mipmap-xxhdpi',
+            $this->_dest_source_res.'/mipmap-xxxhdpi',
         );
 
         foreach($resource_folders as $folder) {
@@ -66,6 +72,18 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             $this->_dest_source_res.'/drawable-xhdpi/ic_icon.png'           => $push_icon,
             $this->_dest_source_res.'/drawable-xxhdpi/ic_icon.png'          => $push_icon,
             $this->_dest_source_res.'/drawable-xxxhdpi/ic_icon.png'         => $push_icon,
+            $this->_dest_source_res.'/mipmap-ldpi/icon.png'                 => $application->getIcon(36, null, true),
+            $this->_dest_source_res.'/mipmap-mdpi/icon.png'                 => $application->getIcon(48, null, true),
+            $this->_dest_source_res.'/mipmap-hdpi/icon.png'                 => $application->getIcon(72, null, true),
+            $this->_dest_source_res.'/mipmap-xhdpi/icon.png'                => $application->getIcon(96, null, true),
+            $this->_dest_source_res.'/mipmap-xxhdpi/icon.png'               => $application->getIcon(144, null, true),
+            $this->_dest_source_res.'/mipmap-xxxhdpi/icon.png'              => $application->getIcon(192, null, true),
+            $this->_dest_source_res.'/mipmap-ldpi/launcher_icon.png'        => $application->getIcon(36, null, true),
+            $this->_dest_source_res.'/mipmap-mdpi/launcher_icon.png'        => $application->getIcon(48, null, true),
+            $this->_dest_source_res.'/mipmap-hdpi/launcher_icon.png'        => $application->getIcon(72, null, true),
+            $this->_dest_source_res.'/mipmap-xhdpi/launcher_icon.png'       => $application->getIcon(96, null, true),
+            $this->_dest_source_res.'/mipmap-xxhdpi/launcher_icon.png'      => $application->getIcon(144, null, true),
+            $this->_dest_source_res.'/mipmap-xxxhdpi/launcher_icon.png'     => $application->getIcon(192, null, true),
         );
 
         /** Associating screen image resolution to various landscape/portrait-resolution */

@@ -134,7 +134,10 @@
 
                         <span class="group">
                             <?php echo __("JAVA:") ?>
-                            <span ng-show="extensions.java"><?php echo __("Installed, version") ?><span class="service-green"> {{ extensions.java }}</span>,</span>
+                            <span ng-show="extensions.java"><?php echo __("Installed, version") ?>
+                                <span ng-show="extensions.java_ok" class="service-green"> {{ extensions.java }},</span>
+                                <span ng-show="!extensions.java_ok" class="service-red"> {{ extensions.java }} - <?php echo __("You must upgrade Java to 1.8") ?>,</span>
+                            </span>
                             <span ng-show="!extensions.java"><span class="service-red"><?php echo __("Not found") ?></span>,</span>
                         </span>
 

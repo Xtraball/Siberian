@@ -46,11 +46,11 @@ class Push_Backoffice_GlobalController extends Backoffice_Controller_Default
                 }
 
                 $push_global = new Push_Model_Message_Global();
-                $push_global->createInstance($params);
+                $result = $push_global->createInstance($params);
 
                 $data = array(
                     "success" => true,
-                    "message" => __("Push message is sent."),
+                    "message" => ($result) ? __("Push message is sent.") : __("No message sent, there is no available applications."),
                 );
 
             } else {

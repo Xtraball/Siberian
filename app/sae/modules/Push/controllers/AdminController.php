@@ -24,11 +24,11 @@ class Push_AdminController extends Admin_Controller_Default {
             $values["base_url"] = $this->getRequest()->getBaseUrl();
 
             $push_global = new Push_Model_Message_Global();
-            $push_global->createInstance($values);
+            $result = $push_global->createInstance($values);
 
             $data = array(
                 "success" => true,
-                "message" => __("Push message is sent."),
+                "message" => ($result) ? __("Push message is sent.") : __("No message sent, there is no available applications."),
             );
         } else {
             /** Do whatever you need when form is not valid */

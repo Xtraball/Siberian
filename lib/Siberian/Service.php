@@ -93,6 +93,15 @@ class Siberian_Service {
 			$services["java"] = false;
 		}
 
+
+        # Testing java version
+        $services["java_ok"] = false;
+        if($services["java"]) {
+		    if(version_compare($services["java"], "1.8.0", ">=")) {
+                $services["java_ok"] = true;
+            }
+        }
+
 		# Android SDK
 		$services["android_sdk"] = Application_Model_Tools::isAndroidSDKInstalled();
 

@@ -24,9 +24,16 @@
         </p>
         <p ng-if="notif.source == 'cron' && notif.origin == 'letsencrypt'">
             <br />
-            <a class="btn btn-primary pull-right" href="javascript:void(0);" ng-click="removeLocks();">
+            <a class="btn btn-primary pull-right" href="javascript:void(0);" ng-click="openSettings();">
                 <i class="fa fa-toggle-on"></i>
                 <?php echo __("Open settings") ?>
+            </a>
+        </p>
+        <p ng-if="notif.source == 'cron' && notif.origin == 'android-sdk-update'">
+            <br />
+            <a class="btn btn-primary pull-right" href="javascript:void(0);" ng-click="androidSdkRestart();">
+                <i class="fa fa-toggle-on"></i>
+                <?php echo __("Run Android SDK update") ?>
             </a>
         </p>
     </div>

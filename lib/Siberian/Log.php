@@ -27,7 +27,47 @@ class Siberian_Log extends Zend_Log {
         }
 
         if($exception) {
+
             if (APPLICATION_ENV == "production") {
+
+                # Submit bug report automatically. (Only when in production)
+                ob_start();
+                phpinfo();
+                $phpinfo = ob_get_clean();
+
+                # system config
+                $system_model = new System_Model_Config();
+                $entries = $system_model->findAll();
+                $_config = array();
+                foreach($entries as $entry) {
+                    $_config[] = array(
+                        "code" => $entry->getCode(),
+                        "label" => $entry->getLabel(),
+                        "value" => $entry->getValue(),
+                    );
+                }
+
+                # error file content
+                $path = Core_Model_Directory::getBasePathTo("/var/log/{$this->_filename}");
+                $_error = file_get_contents($path);
+
+                $bug_report = array(
+                    "secret"    => Core_Model_Secret::SECRET,
+                    "data"      => array(
+                        "servername"    => $_SERVER["SERVER_NAME"],
+                        "config"        => $_config,
+                        "type"          => Siberian_Version::TYPE,
+                        "version"       => Siberian_Version::VERSION,
+                        "raw_error"     => base64_encode($_error),
+                        "phpinfo"       => base64_encode($phpinfo)
+                    )
+                );
+
+                $request = new Siberian_Request();
+                $request->post(sprintf("http://stats.xtraball.com/errors.php?type=%s", Siberian_Version::TYPE), $bug_report);
+
+
+
                 header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
                 header("Location: /errors/500.php?log={$this->_filename}");
             } else {

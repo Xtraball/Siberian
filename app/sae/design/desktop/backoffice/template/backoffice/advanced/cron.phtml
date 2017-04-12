@@ -77,6 +77,7 @@
                     <td>{{ system_task.week_day }}</td>
                     <td ng-show="system_task.is_active == '1'"><?php echo __("Yes"); ?></td><td ng-show="system_task.is_active != '1'"><?php echo __("No"); ?></td>
                     <td style="text-align:right;">
+                        <button ng-if="system_task.command == 'androidtools' && system_task.is_active != '1'" class="btn btn-xs btn-danger" ng-click="androidSdkRestart()"><?php echo __("Restart") ?></button>
                         <button class="btn btn-xs btn-info" ng-click="system_task.show_info = !system_task.show_info"><?php echo __("Info") ?></button>
                     </td>
                 </tr>

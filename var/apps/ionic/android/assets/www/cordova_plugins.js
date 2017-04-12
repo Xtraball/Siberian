@@ -33,6 +33,14 @@ module.exports = [
         ]
     },
     {
+        "id": "phonegap-plugin-push.PushNotification",
+        "file": "plugins/phonegap-plugin-push/www/push.js",
+        "pluginId": "phonegap-plugin-push",
+        "clobbers": [
+            "PushNotification"
+        ]
+    },
+    {
         "id": "cordova-plugin-app-version.AppVersionPlugin",
         "file": "plugins/cordova-plugin-app-version/www/AppVersionPlugin.js",
         "pluginId": "cordova-plugin-app-version",
@@ -430,6 +438,7 @@ module.exports.metadata =
     "cordova-hot-code-push-plugin": "1.5.2",
     "cordova-plugin-splashscreen": "4.0.0",
     "siberian-plugin-backgroundgeoloc": "1.0.0",
+    "phonegap-plugin-push": "1.10.0",
     "cordova-plugin-app-version": "0.1.8",
     "com.keosu.cordova.stream": "0.1",
     "cordova-plugin-compat": "1.1.0",

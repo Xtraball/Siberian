@@ -13,17 +13,16 @@ if (!@file_exists($tools_path)) {
 $android_sdk_path = "{$tools_path}/android-sdk";
 
 /** Test if the SDK is correctly installed */
-function shouldupdate($android_sdk_path)
-{
+function shouldupdate($android_sdk_path) {
     $required_folders = array(
-    $android_sdk_path . "/build-tools/23.0.2",
-    $android_sdk_path . "/platforms/android-22",
-    $android_sdk_path . "/platforms/android-23",
-    $android_sdk_path . "/extras/android/support",
-    $android_sdk_path . "/extras/android/m2repository",
-    $android_sdk_path . "/extras/google/m2repository",
-    $android_sdk_path . "/extras/google/google_play_services",
-);
+        $android_sdk_path . "/build-tools/23.0.2",
+        $android_sdk_path . "/platforms/android-25",
+        $android_sdk_path . "/extras/android/support",
+        $android_sdk_path . "/extras/android/m2repository",
+        $android_sdk_path . "/extras/google/m2repository",
+        $android_sdk_path . "/extras/google/google_play_services",
+    );
+
     foreach($required_folders as $folder) {
         if(!file_exists($folder)) {
             return true;
@@ -33,8 +32,8 @@ function shouldupdate($android_sdk_path)
 }
 
 $download_urls = array(
-    "http://91.121.77.120/tools/android-sdk.tgz",
-    //"http://git-develop.siberiancms.com/android-sdk.tgz",
+    "http://91.121.77.120/tools/android-sdk.tar",
+    "http://updates02.siberiancms.com/tools/android-sdk.tar"
 );
 
 $size = sizeof($download_urls) - 1;
@@ -44,8 +43,8 @@ $download_url = $download_urls[$rand];
 if(shouldupdate($android_sdk_path)) {
     rmdir($android_sdk_path);
     chdir($tools_path);
-    exec("rm -rf ./android-sdk.tgz*"); /** Clean-up  */
-    exec("wget {$download_url} && tar --overwrite -xf android-sdk.tgz && rm android-sdk.tgz");
+    exec("rm -rf ./android-sdk.t*"); /** Clean-up  */
+    exec("wget {$download_url} && tar --overwrite -xf android-sdk.tar && rm android-sdk.tar");
 }
 
 exec("chmod -R 777 $android_sdk_path");

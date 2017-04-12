@@ -212,10 +212,6 @@
         "hash": "9a5efc27ef9d835bcebaba3411afe3e9"
     },
     {
-        "file": "app/sae/design/desktop/backoffice/js/controllers/notif.js",
-        "hash": "ebd994f6036b03bda029fa22298ef4b1"
-    },
-    {
         "file": "app/sae/design/desktop/backoffice/js/controllers/sae.js",
         "hash": "f853a984d1e80ec9fb653c72153bc1f1"
     },
@@ -228,20 +224,24 @@
         "hash": "b5a03e566225c0ba74f5f4da0816e940"
     },
     {
-        "file": "app/sae/design/desktop/backoffice/js/controllers/advanced.js",
-        "hash": "5914195c3b0791efc2eea1c552dd65c4"
-    },
-    {
         "file": "app/sae/design/desktop/backoffice/js/controllers/push.js",
         "hash": "ac61e602e87717de115c02912a3da039"
     },
     {
-        "file": "app/sae/design/desktop/backoffice/js/controllers/settings.js",
-        "hash": "d7390751b25a47cb7aa979552bdb2252"
-    },
-    {
         "file": "app/sae/design/desktop/backoffice/js/controllers/installer.js",
         "hash": "7bff30a45a78b072caf2570b9c217e31"
+    },
+    {
+        "file": "app/sae/design/desktop/backoffice/js/controllers/advanced.js",
+        "hash": "5394cb778e775d14a464376e0ef9a6f4"
+    },
+    {
+        "file": "app/sae/design/desktop/backoffice/js/controllers/notif.js",
+        "hash": "d032c4f163dc66d4d7714881cdc8d55e"
+    },
+    {
+        "file": "app/sae/design/desktop/backoffice/js/controllers/settings.js",
+        "hash": "72ed81ed2f0fd51597086405804211e3"
     },
     {
         "file": "app/sae/design/desktop/backoffice/js/directives/ng-thumb.js",
@@ -320,10 +320,6 @@
         "hash": "bdd660ca73aee1a486b9980b169f19ef"
     },
     {
-        "file": "app/sae/design/desktop/backoffice/js/factories/advanced_configuration.js",
-        "hash": "06cacaf826a2eadd76e9e083e9304c95"
-    },
-    {
         "file": "app/sae/design/desktop/backoffice/js/factories/advanced_cron.js",
         "hash": "fd60340d2fec26c5770ab0dfc8562698"
     },
@@ -354,6 +350,10 @@
     {
         "file": "app/sae/design/desktop/backoffice/js/factories/settings.js",
         "hash": "8d7bccb675306e25f118ce1341af58c8"
+    },
+    {
+        "file": "app/sae/design/desktop/backoffice/js/factories/advanced_configuration.js",
+        "hash": "23cd21f4bd4efed7a0ba2bb10ac88092"
     },
     {
         "file": "app/sae/design/desktop/backoffice/js/filters/trusted-html.js",
@@ -1897,7 +1897,7 @@
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/backoffice/index/index.phtml",
-        "hash": "941ce4ffc53ed10d67cddbb75c8ed2dc"
+        "hash": "f5b9dac0e2e62a159bb0194cfaa01d70"
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/backoffice/notif/list.phtml",
@@ -1905,15 +1905,11 @@
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/backoffice/notif/message.phtml",
-        "hash": "f08845a96eca0071b404dc81cc9731a9"
+        "hash": "2f0516bd287ac9bd13890a5432a544b2"
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/backoffice/user/login.phtml",
         "hash": "03df86039b0343946f7fdd46546d2f9d"
-    },
-    {
-        "file": "app/sae/design/desktop/backoffice/template/backoffice/advanced/cron.phtml",
-        "hash": "e101cb5405b9d9b166267d550e5285fa"
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/backoffice/advanced/module.phtml",
@@ -1925,7 +1921,11 @@
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/backoffice/advanced/configuration.phtml",
-        "hash": "8dd06598d3d90f9e76aa65b0038a6271"
+        "hash": "7f7c1c0d630f50641b752fb04740ed0b"
+    },
+    {
+        "file": "app/sae/design/desktop/backoffice/template/backoffice/advanced/cron.phtml",
+        "hash": "be18568bf8469d5e41732239470c5ce4"
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/html/default.phtml",
@@ -1976,16 +1976,16 @@
         "hash": "928ee12837abeef9a1c13dd044c5348b"
     },
     {
-        "file": "app/sae/design/desktop/backoffice/template/system/config/design.phtml",
-        "hash": "6cad055b8a564b20e89b51708eb06003"
-    },
-    {
         "file": "app/sae/design/desktop/backoffice/template/system/config/general.phtml",
         "hash": "360d4b0ce6f21e5bec6fc657146f0c0e"
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/system/config/email.phtml",
         "hash": "65969ef3f1d9d718979bb358743a7e0d"
+    },
+    {
+        "file": "app/sae/design/desktop/backoffice/template/system/config/design.phtml",
+        "hash": "f25c7b3662dcae0759d4e85ecf7782ab"
     },
     {
         "file": "app/sae/design/desktop/backoffice/template/template/category/list.phtml",
@@ -8017,7 +8017,7 @@
     },
     {
         "file": "app/sae/design/desktop/flat/template/page/layout/header_menu.phtml",
-        "hash": "ad0feaba0144bfebdd6d309f3d45dac6"
+        "hash": "ce3bfbd7907eca65eb3c9b27200b6300"
     },
     {
         "file": "app/sae/design/desktop/flat/template/page/layout.phtml",
@@ -14289,7 +14289,7 @@
     },
     {
         "file": "app/sae/modules/Application/Model/Db/Table/Application.php",
-        "hash": "770f8845d96f480a657114e192a77393"
+        "hash": "62e2539451c53606d5501b3ddf8fc88a"
     },
     {
         "file": "app/sae/modules/Application/Model/Device.php",
@@ -14305,7 +14305,7 @@
     },
     {
         "file": "app/sae/modules/Application/Model/Device/Ionic/Android/Abstract.php",
-        "hash": "dbd970cab99e1381002894d43ea8381e"
+        "hash": "56b7c50f1f57c0a3e7348b0bb3d0714c"
     },
     {
         "file": "app/sae/modules/Application/Model/Device/Ionic/Ios/Abstract.php",
@@ -14453,7 +14453,7 @@
     },
     {
         "file": "app/sae/modules/Application/controllers/Backoffice/ListController.php",
-        "hash": "b428860158a6f1429abed7fa7f55410c"
+        "hash": "df8e376fbff6c40492788d86a237250d"
     },
     {
         "file": "app/sae/modules/Application/controllers/Customization/Design/ColorsController.php",
@@ -16285,7 +16285,7 @@
     },
     {
         "file": "app/sae/modules/Backoffice/controllers/Notif/MessageController.php",
-        "hash": "2f3e7a3ff64a9d6a211bca40a8ba0b67"
+        "hash": "51893457752ea403b16eaeadda264255"
     },
     {
         "file": "app/sae/modules/Backoffice/controllers/AccountController.php",
@@ -16305,7 +16305,7 @@
     },
     {
         "file": "app/sae/modules/Backoffice/controllers/Advanced/ConfigurationController.php",
-        "hash": "6190f17b26d5309e54789c752d1d90e1"
+        "hash": "9b6534974979843d3967d95f33e9e54d"
     },
     {
         "file": "app/sae/modules/Backoffice/controllers/Api/OptionsController.php",
@@ -16317,7 +16317,7 @@
     },
     {
         "file": "app/sae/modules/Backoffice/controllers/IndexController.php",
-        "hash": "30405c39001ca6f6d1519b9bccea46da"
+        "hash": "24ae2287a649f0f01a29978410471e03"
     },
     {
         "file": "app/sae/modules/Backoffice/resources/db/data/backoffice.php",
@@ -17196,10 +17196,6 @@
         "hash": "852b975f57416d27856f3a183f608840"
     },
     {
-        "file": "app/sae/modules/Core/Model/Lib/Facebook.php",
-        "hash": "a0d2fff637fdff3bc614246212144284"
-    },
-    {
         "file": "app/sae/modules/Core/Model/Lib/Fonts.php",
         "hash": "461c0383df94f6da31a624f5d9ff09cb"
     },
@@ -17218,6 +17214,10 @@
     {
         "file": "app/sae/modules/Core/Model/Lib/Uploader.php",
         "hash": "19d1f7f925b0599ca73a47f0e9a64406"
+    },
+    {
+        "file": "app/sae/modules/Core/Model/Lib/Facebook.php",
+        "hash": "4e832c409a58af2ea10fb43f96d0ff11"
     },
     {
         "file": "app/sae/modules/Core/Model/Log.php",
@@ -17297,7 +17297,7 @@
     },
     {
         "file": "app/sae/modules/Core/resources/db/data/module.php",
-        "hash": "5e2e55a032326798bb19b98358302764"
+        "hash": "0d9e74b0446609967983b4e3feb0dfa3"
     },
     {
         "file": "app/sae/modules/Core/Form/Default.php",
@@ -17305,7 +17305,7 @@
     },
     {
         "file": "app/sae/modules/Core/package.json",
-        "hash": "ca3104c6da951ddcf9696f05b414a8a9"
+        "hash": "736bbf122c3b1600388ce95f8f0bd493"
     },
     {
         "file": "app/sae/modules/Cron/Model/Db/Table/Cron.php",
@@ -17336,10 +17336,6 @@
         "hash": "41482bfeef9304489a66cd081ab0dcff"
     },
     {
-        "file": "app/sae/modules/Cron/resources/db/data/android-sdk.php",
-        "hash": "84e51acbb90369e904978ecd1c4c29c9"
-    },
-    {
         "file": "app/sae/modules/Cron/resources/db/data/cachebuilder.php",
         "hash": "12550333c64f78762f24809de211055a"
     },
@@ -17360,6 +17356,10 @@
         "hash": "1aa938caa501357a74a074e3dd8668fa"
     },
     {
+        "file": "app/sae/modules/Cron/resources/db/data/android-sdk.php",
+        "hash": "a1757ee82c1f7add97beff9ab7af7d93"
+    },
+    {
         "file": "app/sae/modules/Cron/resources/db/schema/cron.php",
         "hash": "0805c592649d070b2574a345cd780ab0"
     },
@@ -17369,7 +17369,7 @@
     },
     {
         "file": "app/sae/modules/Cron/package.json",
-        "hash": "e48b20d316b33554a4ff51243d586468"
+        "hash": "a8372d5e98a251512d94a23604e3a2c3"
     },
     {
         "file": "app/sae/modules/Customer/Model/Address.php",
@@ -17521,7 +17521,7 @@
     },
     {
         "file": "app/sae/modules/Event/controllers/ApplicationController.php",
-        "hash": "1f492ac1c9f6edabed551e985e464bf9"
+        "hash": "d552f4933c371498d4fa04566d934ba6"
     },
     {
         "file": "app/sae/modules/Event/data/dummy_arts.xml",
@@ -18881,7 +18881,7 @@
     },
     {
         "file": "app/sae/modules/Push/Model/Message/Global.php",
-        "hash": "ba35046de26a4d7334f4d29dfa9df234"
+        "hash": "b324f60a4caa424ac44f19d135867a2a"
     },
     {
         "file": "app/sae/modules/Push/controllers/Backoffice/CertificateController.php",
@@ -18889,7 +18889,7 @@
     },
     {
         "file": "app/sae/modules/Push/controllers/Backoffice/GlobalController.php",
-        "hash": "6e7d1503d36f4e81a0ef37f2409cd59c"
+        "hash": "ee6e1503e7e48536a30a43eecbd73afb"
     },
     {
         "file": "app/sae/modules/Push/controllers/CertificateController.php",
@@ -18916,12 +18916,12 @@
         "hash": "68a3ffeac6d0dc6eba2551551616a0eb"
     },
     {
-        "file": "app/sae/modules/Push/controllers/AdminController.php",
-        "hash": "b891d4b98b432262237ffe8abf77bd2c"
-    },
-    {
         "file": "app/sae/modules/Push/controllers/ApplicationController.php",
         "hash": "9a05123c17d3a643676fbf44c65f4e6a"
+    },
+    {
+        "file": "app/sae/modules/Push/controllers/AdminController.php",
+        "hash": "3a585c8153c0d7bdd55b70ad92cd6918"
     },
     {
         "file": "app/sae/modules/Push/data/dummy_corporate.xml",
@@ -19268,12 +19268,12 @@
         "hash": "c8600311057b0abe94ad87f916752070"
     },
     {
-        "file": "app/sae/modules/System/resources/db/data/system.php",
-        "hash": "21933350ce97865abd5146c726559adb"
+        "file": "app/sae/modules/System/resources/db/data/ssl_certificates.php",
+        "hash": "bf017b9f68862eedaee60162f571d8ef"
     },
     {
-        "file": "app/sae/modules/System/resources/db/data/ssl_certificates.php",
-        "hash": "31447846199b80b251aa23c9f74b8df3"
+        "file": "app/sae/modules/System/resources/db/data/system.php",
+        "hash": "149fc293cac0155a99e71bc76baa25a9"
     },
     {
         "file": "app/sae/modules/System/resources/db/schema/source_code.php",
@@ -19289,7 +19289,7 @@
     },
     {
         "file": "app/sae/modules/System/package.json",
-        "hash": "a7c3380430ce98f95eae9645f4a95e17"
+        "hash": "61eac4adc64307e4b8eb42a30aa8ffd3"
     },
     {
         "file": "app/sae/modules/Template/Model/Db/Table/Design/Block.php",
@@ -20768,6 +20768,10 @@
         "hash": "7b1e62fbf4a6e01edbc6e2ffbdedfe89"
     },
     {
+        "file": "lib/Siberian/Log.php",
+        "hash": "1b8b0ca56ea6c7a67740bab185529fb9"
+    },
+    {
         "file": "lib/Siberian/CustomerInformation.php",
         "hash": "d23b47d87a30a7f6e7398177fbc47b80"
     },
@@ -20872,10 +20876,6 @@
         "hash": "56917c481cfac12e5087edeb23a78fb1"
     },
     {
-        "file": "lib/Siberian/Log.php",
-        "hash": "4be87e02236fccc1577725731d860e0a"
-    },
-    {
         "file": "lib/Siberian/Minify.php",
         "hash": "6bfd97a605dd7373922a840104eaea85"
     },
@@ -20886,10 +20886,6 @@
     {
         "file": "lib/Siberian/Plesk/Crawler.php",
         "hash": "714b9570d2ea545d1ae224b6422a6803"
-    },
-    {
-        "file": "lib/Siberian/Service.php",
-        "hash": "144540bb139c48160b4b8a0aca65775c"
     },
     {
         "file": "lib/Siberian/Utils.php",
@@ -20929,7 +20925,11 @@
     },
     {
         "file": "lib/Siberian/Cron.php",
-        "hash": "047ce8c5b43c0c0c05fca9881162b448"
+        "hash": "c011ab97b9e89d015bc3a64f4fd5a337"
+    },
+    {
+        "file": "lib/Siberian/Service.php",
+        "hash": "f7d5244a7cb6aab28f798eeaff72bfa6"
     },
     {
         "file": "lib/Thumbnailer/CreateThumb.php",
@@ -37133,7 +37133,7 @@
     },
     {
         "file": "var/apps/browser/lib/ngCordova/dist/ng-cordova.min.js",
-        "hash": "e1f3c3c7ec1d42cd8161a9663e897ea5"
+        "hash": "ddddc3632837018ee874320ef3db03bf"
     },
     {
         "file": "var/apps/browser/scss/ionic.siberian.style.scss",
@@ -37576,6 +37576,66 @@
         "hash": "02cd1729a7b4183f311619d41206648c"
     },
     {
+        "file": "var/apps/browser/ServiceWorker.js",
+        "hash": "08c37033ace4fcc29d3c4ba32171d55a"
+    },
+    {
+        "file": "var/apps/browser/cordova_plugins.js",
+        "hash": "2ed597e5f6f0e3e505870e9ce8b91477"
+    },
+    {
+        "file": "var/apps/browser/manifest.json",
+        "hash": "fa7a0fe9b7542fb496149fe85d647f33"
+    },
+    {
+        "file": "var/apps/browser/plugins/cordova-plugin-camera/src/browser/CameraProxy.js",
+        "hash": "3b8a2c134d3d2b48b85647f13078826d"
+    },
+    {
+        "file": "var/apps/browser/plugins/cordova-plugin-camera/www/Camera.js",
+        "hash": "1dfa0b74373b3cde2c55828d734348b1"
+    },
+    {
+        "file": "var/apps/browser/plugins/cordova-plugin-camera/www/CameraConstants.js",
+        "hash": "8a0dfb3e8c9154d7d4c6c244b616e56e"
+    },
+    {
+        "file": "var/apps/browser/plugins/cordova-plugin-camera/www/CameraPopoverOptions.js",
+        "hash": "578f67806b9ad0610a5ee8bbad19e339"
+    },
+    {
+        "file": "var/apps/browser/plugins/cordova-plugin-device/src/browser/DeviceProxy.js",
+        "hash": "cb2324274dc93906bc87c65f5d821769"
+    },
+    {
+        "file": "var/apps/browser/plugins/cordova-plugin-device/www/device.js",
+        "hash": "59040b776103360d369e6802045fe892"
+    },
+    {
+        "file": "var/apps/browser/plugins/cordova-plugin-dialogs/www/browser/notification.js",
+        "hash": "cd6e6b7dc9af4834b9dd266f308b35fc"
+    },
+    {
+        "file": "var/apps/browser/plugins/cordova-plugin-dialogs/www/notification.js",
+        "hash": "5130dd46e15288be12f60d4ee3830781"
+    },
+    {
+        "file": "var/apps/browser/plugins/phonegap-plugin-barcodescanner/src/browser/BarcodeScannerProxy.js",
+        "hash": "08e777fb1226258b00a1442d4cc32970"
+    },
+    {
+        "file": "var/apps/browser/plugins/phonegap-plugin-barcodescanner/www/barcodescanner.js",
+        "hash": "3f9a8e56e03b1e0acc2eb1d1c83c18db"
+    },
+    {
+        "file": "var/apps/browser/plugins/phonegap-plugin-push/www/browser/push.js",
+        "hash": "1b182af81b6910464170a1bc5502ab47"
+    },
+    {
+        "file": "var/apps/browser/plugins/phonegap-plugin-push/www/push.js",
+        "hash": "8c9b52c89b82cc5ac4ad80905d761a86"
+    },
+    {
         "file": "var/apps/certificates/root_ca.pem",
         "hash": "3102f7dd5d45affceafbb4dd6b3f3d85"
     },
@@ -37584,20 +37644,12 @@
         "hash": "3f8efd3e871a383565e66c8acdb4c74e"
     },
     {
-        "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/Config.java",
-        "hash": "f8249c9b79183b36e2e4fd54b20335d9"
-    },
-    {
         "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/ConfigXmlParser.java",
         "hash": "aaf9237a09d6fffea6cb8b3600b29166"
     },
     {
         "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/CordovaArgs.java",
         "hash": "4803579356aab140191533239f515449"
-    },
-    {
-        "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/CordovaBridge.java",
-        "hash": "a7e1754df104f8254299823adec85c44"
     },
     {
         "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/CordovaClientCertRequest.java",
@@ -37636,14 +37688,6 @@
         "hash": "94027e141e4a27c0e548be5133c97bb4"
     },
     {
-        "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/LOG.java",
-        "hash": "ed3901102878b964975615b169b48c8d"
-    },
-    {
-        "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/NativeToJsMessageQueue.java",
-        "hash": "7678b08b2c5c86a22a9dc044b0289d48"
-    },
-    {
         "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/PluginEntry.java",
         "hash": "f80ed1b811cddd09d118f3d53813845a"
     },
@@ -37673,59 +37717,75 @@
     },
     {
         "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/engine/SystemWebChromeClient.java",
-        "hash": "7c029f73f3ddad5a3f8116763e86ffb1"
+        "hash": "39903c10f1197cbe9e6afe41599f8b3e"
     },
     {
         "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/engine/SystemWebViewEngine.java",
-        "hash": "d079b688db10a4ac102b2f5aa5320924"
-    },
-    {
-        "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/CallbackContext.java",
-        "hash": "880aaea726068459b4289f5ed9aecaee"
+        "hash": "2bf2113d529c749d272d29deeb43805c"
     },
     {
         "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/CallbackMap.java",
         "hash": "74e2ea0efc9dc85e598971b597ee493d"
     },
     {
-        "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/CordovaActivity.java",
-        "hash": "19557f8c50af0e6c0d5392e4dbed1011"
-    },
-    {
         "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/CordovaInterface.java",
         "hash": "6d37da72e25be88c5fc18ec6869abb11"
-    },
-    {
-        "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/CordovaInterfaceImpl.java",
-        "hash": "de2e2f91b853b3bec1eeae461e07e96b"
     },
     {
         "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/CordovaPlugin.java",
         "hash": "47a05c831198d15a379b4c774826a26e"
     },
     {
+        "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/ResumeCallback.java",
+        "hash": "86ae302c620458bf862eaf7abe19cecf"
+    },
+    {
+        "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/CallbackContext.java",
+        "hash": "2ad69c1de93f0575845ec1cf33b34cca"
+    },
+    {
+        "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/Config.java",
+        "hash": "657c4c42256daaca3ef93ecd04be01f3"
+    },
+    {
+        "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/CordovaActivity.java",
+        "hash": "a380be3b0775251b9db49c2937cb9b46"
+    },
+    {
+        "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/CordovaBridge.java",
+        "hash": "0b6442587f902eef770178982c5f69ba"
+    },
+    {
+        "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/CordovaInterfaceImpl.java",
+        "hash": "06d047f9d358ca649fedbaed4cbe4134"
+    },
+    {
         "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/CordovaWebView.java",
-        "hash": "0511da4bdbf7892dfe2090c444878c9d"
+        "hash": "af9a64d585bd93f8072027a0412fdf67"
     },
     {
         "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/CordovaWebViewEngine.java",
-        "hash": "c37ee7fce6cebe2f107ce243112f7126"
+        "hash": "e7c5cca8fe257140c74492a7340df809"
     },
     {
         "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/CordovaWebViewImpl.java",
-        "hash": "16fd3b832ac40f595f51143bbc2cdea5"
+        "hash": "dfe84ca7a0dd004d94b2a0ac94b73e59"
     },
     {
         "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/CoreAndroid.java",
-        "hash": "609ee9dd06c40f1fc4c655d3b676e50a"
+        "hash": "a4b86926723374eda6e06b58b36313fe"
+    },
+    {
+        "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/LOG.java",
+        "hash": "ac93f498f8d194bdeee601a0d12069b2"
+    },
+    {
+        "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/NativeToJsMessageQueue.java",
+        "hash": "10559d100458ffa2c852d024df589c27"
     },
     {
         "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/PluginManager.java",
-        "hash": "847bc7158d220b2e2366b515ee47f2c7"
-    },
-    {
-        "file": "var/apps/ionic/android/CordovaLib/src/org/apache/cordova/ResumeCallback.java",
-        "hash": "86ae302c620458bf862eaf7abe19cecf"
+        "hash": "7cfd1660696f1b01758838d3cc57088b"
     },
     {
         "file": "var/apps/ionic/android/CordovaLib/AndroidManifest.xml",
@@ -37733,15 +37793,15 @@
     },
     {
         "file": "var/apps/ionic/android/CordovaLib/build.gradle",
-        "hash": "c11f4ecdb854e6051ae0f819eec310b3"
+        "hash": "4573a74c263ac9eb365dcfe7d8149f78"
     },
     {
         "file": "var/apps/ionic/android/CordovaLib/cordova.gradle",
-        "hash": "363a054656fbc7faa3ae80d1ff73faba"
+        "hash": "6fd2febad2322c63008ffbc36e6ebe7e"
     },
     {
         "file": "var/apps/ionic/android/CordovaLib/project.properties",
-        "hash": "f658774e0f26febc92b5f5cb3e4d93b1"
+        "hash": "8b06d06f9fca62f29042e10c024b61d5"
     },
     {
         "file": "var/apps/ionic/android/assets/www/cordova-js-src/android/nativeapiprovider.js",
@@ -37752,16 +37812,16 @@
         "hash": "f4b029f0e91729c970ff421b8f9bd22e"
     },
     {
-        "file": "var/apps/ionic/android/assets/www/cordova-js-src/exec.js",
-        "hash": "d5ca6ebdc38c2f0d53e9989293e51c9e"
-    },
-    {
         "file": "var/apps/ionic/android/assets/www/cordova-js-src/plugin/android/app.js",
         "hash": "58b79c9693166d44fc65d57979fcdf28"
     },
     {
         "file": "var/apps/ionic/android/assets/www/cordova-js-src/platform.js",
         "hash": "6e1fac8e69e82cb27178bb5a01f1d36c"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/cordova-js-src/exec.js",
+        "hash": "4d368f4918f938b17fad3f819bdda568"
     },
     {
         "file": "var/apps/ionic/android/assets/www/css/angular-carousel.min.css",
@@ -38505,7 +38565,7 @@
     },
     {
         "file": "var/apps/ionic/android/assets/www/lib/ngCordova/dist/ng-cordova.min.js",
-        "hash": "e1f3c3c7ec1d42cd8161a9663e897ea5"
+        "hash": "ddddc3632837018ee874320ef3db03bf"
     },
     {
         "file": "var/apps/ionic/android/assets/www/plugins/com.keosu.cordova.stream/www/Stream.js",
@@ -38718,6 +38778,10 @@
     {
         "file": "var/apps/ionic/android/assets/www/plugins/cordova-plugin-music-controls/www/MusicControls.js",
         "hash": "e2dc747b9ad6da0ec44774afd6cd4a68"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/plugins/phonegap-plugin-push/www/push.js",
+        "hash": "12085a2385a2a3a6e8caf1c1a285e0d9"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/application/l1/colors/view.html",
@@ -39121,19 +39185,15 @@
     },
     {
         "file": "var/apps/ionic/android/assets/www/cordova.js",
-        "hash": "0fd45c6021feede6c24828c33c2ea879"
+        "hash": "077f33b9e4e4c70596968f54f4be4772"
     },
     {
         "file": "var/apps/ionic/android/assets/www/cordova_plugins.js",
-        "hash": "26f6ade6e5809e7b52f786ac39d726fb"
+        "hash": "02096bf0d22752b806ec6f467406f2d1"
     },
     {
         "file": "var/apps/ionic/android/cordova-hot-code-push-plugin/base-chcp.gradle",
         "hash": "2d1d22e49babdaef927cfe4142177e3a"
-    },
-    {
-        "file": "var/apps/ionic/android/cordova/android_sdk_version",
-        "hash": "4987a63c3e1606657556470f5118f4a0"
     },
     {
         "file": "var/apps/ionic/android/cordova/build.bat",
@@ -39154,10 +39214,6 @@
     {
         "file": "var/apps/ionic/android/cordova/defaults.xml",
         "hash": "2d9467333a365263bfd6ab633a688c39"
-    },
-    {
-        "file": "var/apps/ionic/android/cordova/lib/android_sdk_version.js",
-        "hash": "df204774e5437e28e73580271bd4183c"
     },
     {
         "file": "var/apps/ionic/android/cordova/lib/install-device",
@@ -39208,44 +39264,40 @@
         "hash": "efe1ae70e519e884ead1bf5071a91ea9"
     },
     {
-        "file": "var/apps/ionic/android/cordova/lib/AndroidProject.js",
-        "hash": "f08db2b2bac2b865a2e35596f60c636e"
-    },
-    {
         "file": "var/apps/ionic/android/cordova/lib/build.js",
         "hash": "c8bcec87d883b527679160ada1b08d2b"
-    },
-    {
-        "file": "var/apps/ionic/android/cordova/lib/check_reqs.js",
-        "hash": "0191cef868d122eea7a833197256e68b"
     },
     {
         "file": "var/apps/ionic/android/cordova/lib/device.js",
         "hash": "15e50381cd48e886a032300be2e4605a"
     },
     {
-        "file": "var/apps/ionic/android/cordova/lib/emulator.js",
-        "hash": "cc70c56baf1b27e9358520d2a5c8f2c8"
+        "file": "var/apps/ionic/android/cordova/lib/run.js",
+        "hash": "1c5c9136996f5fdcd7305a18393ca83b"
     },
     {
-        "file": "var/apps/ionic/android/cordova/lib/list-devices",
-        "hash": "caa6ba1bb6c8c11b2c9b614360ee2fc9"
+        "file": "var/apps/ionic/android/cordova/lib/AndroidStudio.js",
+        "hash": "b429a737e4a1415a4b5f6345018a3a40"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/lib/check_reqs.js",
+        "hash": "a4d8b4ee5c5ad269fecfd92b50268cec"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/lib/emulator.js",
+        "hash": "60ba8c9f1d2ff30460b603d06ce9a20e"
     },
     {
         "file": "var/apps/ionic/android/cordova/lib/list-emulator-images",
-        "hash": "10ed75a2ce42ff857a3fcd8e4b4a51f1"
+        "hash": "d1628befc1810e9c76ed2b01ece735f1"
     },
     {
-        "file": "var/apps/ionic/android/cordova/lib/list-started-emulators",
-        "hash": "2261b3fc49d9ccca7127f7650f58e04d"
+        "file": "var/apps/ionic/android/cordova/lib/plugin-build.gradle",
+        "hash": "7f354209847654f36a0e18816e7637b4"
     },
     {
-        "file": "var/apps/ionic/android/cordova/lib/pluginHandlers.js",
-        "hash": "701b017626eadae52dbec57d50ec92e0"
-    },
-    {
-        "file": "var/apps/ionic/android/cordova/lib/run.js",
-        "hash": "1c5c9136996f5fdcd7305a18393ca83b"
+        "file": "var/apps/ionic/android/cordova/lib/prepare.js",
+        "hash": "b9ff8b087557a51d88529298005641da"
     },
     {
         "file": "var/apps/ionic/android/cordova/lib/builders/AntBuilder.js",
@@ -39256,24 +39308,36 @@
         "hash": "38c0a56cdf5773bc3654e3be40bdff22"
     },
     {
-        "file": "var/apps/ionic/android/cordova/lib/builders/GradleBuilder.js",
-        "hash": "d18828391a6a1b13743febcac1b9a2cf"
-    },
-    {
         "file": "var/apps/ionic/android/cordova/lib/builders/builders.js",
         "hash": "3027f76d93ffbe8568ee9ccfb9913bec"
     },
     {
-        "file": "var/apps/ionic/android/cordova/lib/plugin-build.gradle",
-        "hash": "2c4f4e2c910767a43395a7542fbadaf2"
-    },
-    {
-        "file": "var/apps/ionic/android/cordova/lib/prepare.js",
-        "hash": "a5d9977723001900015330044fccf44e"
+        "file": "var/apps/ionic/android/cordova/lib/builders/GradleBuilder.js",
+        "hash": "4fed1f0e7043fa7adfd1d37c98eac1ee"
     },
     {
         "file": "var/apps/ionic/android/cordova/lib/retry.js",
         "hash": "e784116054f5716a0db0d2670bfc43a7"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/lib/AndroidProject.js",
+        "hash": "9b79a22bfc58f4beca64e7191b0c0c2c"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/lib/android_sdk.js",
+        "hash": "72fabbed12494ef6cedf6eaf5802c3b8"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/lib/list-devices",
+        "hash": "cd331b574c284922ff7c1e10cae465e0"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/lib/list-started-emulators",
+        "hash": "27e4cbd226e6c9dd7be2853995050db2"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/lib/pluginHandlers.js",
+        "hash": "5efbe2948ca0961896453536eb76f572"
     },
     {
         "file": "var/apps/ionic/android/cordova/log",
@@ -39284,16 +39348,16 @@
         "hash": "a352934c1cef35d16427ab92022716ad"
     },
     {
-        "file": "var/apps/ionic/android/cordova/node_modules/.bin/shjs",
-        "hash": "a0480f14a77045e8ff719b64c8042a4a"
-    },
-    {
         "file": "var/apps/ionic/android/cordova/node_modules/.bin/nopt",
         "hash": "17cd323d2857023eb172688fce83aee5"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/.bin/semver",
         "hash": "f9116052a4b516a8c850efc0fdd85cad"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/node_modules/.bin/shjs",
+        "hash": "a0480f14a77045e8ff719b64c8042a4a"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/nopt/lib/nopt.js",
@@ -39320,12 +39384,12 @@
         "hash": "18282294fd8652f91c5d31e86f456f54"
     },
     {
-        "file": "var/apps/ionic/android/cordova/node_modules/nopt/package.json",
-        "hash": "0d547478c6f65f3b204a48c645133709"
-    },
-    {
         "file": "var/apps/ionic/android/cordova/node_modules/nopt/test/basic.js",
         "hash": "050bd3494788b372b8641a5e3459491f"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/node_modules/nopt/package.json",
+        "hash": "fa4c3ad5b412d349e439c6ad0d5e7c74"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/q/queue.js",
@@ -39333,15 +39397,15 @@
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/q/LICENSE",
-        "hash": "007eeb0530ef13fc1dc164e14af28a64"
+        "hash": "92d3cc1db292f6b3978ef90f05ec4548"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/q/package.json",
-        "hash": "f207699f5cdd65bffa38e44e1edc6e46"
+        "hash": "6e4db88e0a7aa5496e6f155397f8aa30"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/q/q.js",
-        "hash": "d9d13a7e38573e4b500f1bb614a6c31b"
+        "hash": "5f8dc53ca06eee51b26c09d6874d4fe2"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/shelljs/.documentup.json",
@@ -39484,12 +39548,12 @@
         "hash": "eeb0da87858049b5851898cf412c2648"
     },
     {
-        "file": "var/apps/ionic/android/cordova/node_modules/shelljs/package.json",
-        "hash": "67f7cf99dd34514ed9c62df7e09b2d86"
-    },
-    {
         "file": "var/apps/ionic/android/cordova/node_modules/shelljs/shell.js",
         "hash": "9c07ced1236203b217ff1635bb1a0a3e"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/node_modules/shelljs/package.json",
+        "hash": "f1e13b93e626b64d3a2c8e30f0a96008"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/abbrev/LICENSE",
@@ -39497,11 +39561,11 @@
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/abbrev/abbrev.js",
-        "hash": "7a15b8fe67321134796aa0efe08015d0"
+        "hash": "295cdcca75c99f4bc11113aca4cc9dac"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/abbrev/package.json",
-        "hash": "df4372a4c5c5c9ac6519c561a6c85739"
+        "hash": "ba7067aab5de501d25f410831ba56a63"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/ansi/.jshintrc",
@@ -39541,7 +39605,7 @@
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/ansi/package.json",
-        "hash": "1250ae43dd4a0b2a176d2e378520dfda"
+        "hash": "b59e199652ddfe48e9ca7262227ef41f"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/balanced-match/.npmignore",
@@ -39553,7 +39617,7 @@
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/balanced-match/package.json",
-        "hash": "e89450bc591e6931c5c0553ae140dce4"
+        "hash": "d23c7b5e48296b00ce388ebdf569024b"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/base64-js/.travis.yml",
@@ -39572,10 +39636,6 @@
         "hash": "8c9a9542a677f03e56dc92bc8e4a0173"
     },
     {
-        "file": "var/apps/ionic/android/cordova/node_modules/base64-js/package.json",
-        "hash": "aebdd7526a26d7777f3e757ef7d75431"
-    },
-    {
         "file": "var/apps/ionic/android/cordova/node_modules/base64-js/test/convert.js",
         "hash": "203618e3b7bb294092b3d076b3addd36"
     },
@@ -39584,20 +39644,28 @@
         "hash": "700f533ecff804fca6c1ecc8b98610ff"
     },
     {
-        "file": "var/apps/ionic/android/cordova/node_modules/big-integer/BigInteger.js",
-        "hash": "b7437c40415efcbc9361fc8db72dc595"
-    },
-    {
-        "file": "var/apps/ionic/android/cordova/node_modules/big-integer/BigInteger.min.js",
-        "hash": "18f1b04669b5743ffd937ee4f7c68bf1"
+        "file": "var/apps/ionic/android/cordova/node_modules/base64-js/package.json",
+        "hash": "8ae5010995ed174ed67108ab66197e31"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/big-integer/LICENSE",
         "hash": "911690f51af322440237a253d695d19f"
     },
     {
+        "file": "var/apps/ionic/android/cordova/node_modules/big-integer/BigInteger.js",
+        "hash": "1b5c77f6aed6b02a6295e88ec29b03af"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/node_modules/big-integer/BigInteger.min.js",
+        "hash": "6f6848e135c50fe71421519827e057a8"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/node_modules/big-integer/bower.json",
+        "hash": "2678fb2093de59aa7701c3af250bad69"
+    },
+    {
         "file": "var/apps/ionic/android/cordova/node_modules/big-integer/package.json",
-        "hash": "fd9f59c8f4deea60e2b31cc6e339a5c7"
+        "hash": "8c088964dacdfffdc909bb7d63b8c321"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/bplist-parser/.npmignore",
@@ -39606,10 +39674,6 @@
     {
         "file": "var/apps/ionic/android/cordova/node_modules/bplist-parser/bplistParser.js",
         "hash": "d19a21052223790e45edd75dc8e3c59b"
-    },
-    {
-        "file": "var/apps/ionic/android/cordova/node_modules/bplist-parser/package.json",
-        "hash": "0106046b7c99e07b367d80a03d8876be"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/bplist-parser/test/airplay.bplist",
@@ -39652,12 +39716,16 @@
         "hash": "063c282529c4acf539cf3e4bc8e5672c"
     },
     {
+        "file": "var/apps/ionic/android/cordova/node_modules/bplist-parser/package.json",
+        "hash": "60c7da4ee2f5c429c79bc50ae395b7fa"
+    },
+    {
         "file": "var/apps/ionic/android/cordova/node_modules/brace-expansion/index.js",
         "hash": "ce45252e95549a88db7c1df129c91271"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/brace-expansion/package.json",
-        "hash": "2a80de1629a4144bc922e2522b44e639"
+        "hash": "dc7635f8e4ffe6982ed34d08442fc4db"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/concat-map/.travis.yml",
@@ -39676,12 +39744,12 @@
         "hash": "8ef754ba23fdd37b3e8a1c52739ace80"
     },
     {
-        "file": "var/apps/ionic/android/cordova/node_modules/concat-map/package.json",
-        "hash": "3fb8ca4340e394edb1989b609b361385"
-    },
-    {
         "file": "var/apps/ionic/android/cordova/node_modules/concat-map/test/map.js",
         "hash": "a8e1d80e4629945216de220e4b580cf5"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/node_modules/concat-map/package.json",
+        "hash": "12c91704d92366f407fa78760d4e501c"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/.jscs.json",
@@ -39696,32 +39764,12 @@
         "hash": "461b488e0f91b021e08a69cfd7a5f249"
     },
     {
-        "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/.ratignore",
-        "hash": "ffc855f42acc2fb5bd50ebf976544a5d"
-    },
-    {
-        "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/cordova-common.js",
-        "hash": "fdf36b777aa8b75fab374021d1fb8c8f"
-    },
-    {
-        "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/package.json",
-        "hash": "20c0fb759d23934f732cdd3c849a08c7"
-    },
-    {
         "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/.jshintrc",
         "hash": "5c26e905588bf6705346d881d76612e1"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/ActionStack.js",
         "hash": "885fb47085df8b125f3d88f1cb63f7ca"
-    },
-    {
-        "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/ConfigChanges/ConfigChanges.js",
-        "hash": "cb11afb3cfdcdf6c7d863863f0e55caf"
-    },
-    {
-        "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/ConfigChanges/ConfigFile.js",
-        "hash": "f65e24897f7079dff96f3b54c8f7bd23"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/ConfigChanges/ConfigKeeper.js",
@@ -39732,8 +39780,16 @@
         "hash": "2ffcaba7d4aa8959a681d31a9dae844c"
     },
     {
+        "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/ConfigChanges/ConfigChanges.js",
+        "hash": "9d599c9993cc825117f596e0f68d7d97"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/ConfigChanges/ConfigFile.js",
+        "hash": "527e82e9e7a73e7466e8d4b4606024fa"
+    },
+    {
         "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/ConfigParser/ConfigParser.js",
-        "hash": "f134d4b6fe267fe81175485d6f7d6257"
+        "hash": "b579ea6dc128496c11e4d1f51ac0ae41"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/CordovaError/CordovaError.js",
@@ -39748,20 +39804,16 @@
         "hash": "2537fb9a54fb9b2952f4483c3cdc955d"
     },
     {
-        "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/FileUpdater.js",
-        "hash": "3e50ff0e2a9710355f9e3e9124c4f208"
-    },
-    {
         "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/PlatformJson.js",
         "hash": "7a19e5800cb84c075fb22c8975938e45"
     },
     {
-        "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/PluginInfo/PluginInfo.js",
-        "hash": "4917c0ad5767dac7729b16732dfe70da"
-    },
-    {
         "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/PluginInfo/PluginInfoProvider.js",
         "hash": "d77b5865183bf207780571ecf875e49e"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/PluginInfo/PluginInfo.js",
+        "hash": "05106c69ef6ca586333f89b8c778169e"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/PluginManager.js",
@@ -39772,20 +39824,40 @@
         "hash": "c6203d45dd7bd59c4d7fa9326771e99c"
     },
     {
-        "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/superspawn.js",
-        "hash": "de30ac7d06fbed506c960b645147b950"
-    },
-    {
         "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/util/addProperty.js",
         "hash": "0cc119f28233c8b6fd4eaecb0dc5df91"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/util/plist-helpers.js",
-        "hash": "a16566b6f331209f6b8d104c822ae211"
+        "hash": "ef77d9a0fa637c0158a435be30ad3c51"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/util/xml-helpers.js",
-        "hash": "36b2b521c6b7287829c51769e97e45e1"
+        "hash": "3526067d1932c6fc1c53cabd83b4ad05"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/CordovaCheck.js",
+        "hash": "302ac2df0dc3aba8b1618a3fc5266957"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/FileUpdater.js",
+        "hash": "65ef6433f707057433a7bc5465f2671c"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/src/superspawn.js",
+        "hash": "f1dde9779968800ca69e3807357c6a46"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/.ratignore",
+        "hash": "125f6ddd59fc3a5a97551fbe77803508"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/cordova-common.js",
+        "hash": "bebbbe95392aaa9354085534e383b153"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/node_modules/cordova-common/package.json",
+        "hash": "59991a6ed260bf8d1182de9989b302dd"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/cordova-registry-mapper/.npmignore",
@@ -39800,12 +39872,12 @@
         "hash": "0066bc8ee7ffec155366149584825341"
     },
     {
-        "file": "var/apps/ionic/android/cordova/node_modules/cordova-registry-mapper/package.json",
-        "hash": "071c963aea64fba95faa96ed43eecb25"
-    },
-    {
         "file": "var/apps/ionic/android/cordova/node_modules/cordova-registry-mapper/tests/test.js",
         "hash": "302b1cdcedcedba4ce0f6aa36c5f4d93"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/node_modules/cordova-registry-mapper/package.json",
+        "hash": "42838218a15a4996364cc5743a3784c6"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/elementtree/.npmignore",
@@ -39868,10 +39940,6 @@
         "hash": "0b6201a130e7bd8536f67212d791b5cb"
     },
     {
-        "file": "var/apps/ionic/android/cordova/node_modules/elementtree/package.json",
-        "hash": "8edd6b4a5b7e43365a173a79fbf1c8a7"
-    },
-    {
         "file": "var/apps/ionic/android/cordova/node_modules/elementtree/tests/data/xml1.xml",
         "hash": "82734c6a81ab09c0fd8ec811ccab2b29"
     },
@@ -39882,6 +39950,10 @@
     {
         "file": "var/apps/ionic/android/cordova/node_modules/elementtree/tests/test-simple.js",
         "hash": "218c959c71406ef4ed5c6222d58ae650"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/node_modules/elementtree/package.json",
+        "hash": "983fd69744a0dcbfaf04d5222e68176b"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/glob/LICENSE",
@@ -39896,12 +39968,12 @@
         "hash": "db6377c8ada7efa011064195de226ed3"
     },
     {
-        "file": "var/apps/ionic/android/cordova/node_modules/glob/package.json",
-        "hash": "f54f3a1fca6c3f424c57ae3a50aad413"
-    },
-    {
         "file": "var/apps/ionic/android/cordova/node_modules/glob/sync.js",
         "hash": "d70638435fdcfeab9eb7de5250ba67cc"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/node_modules/glob/package.json",
+        "hash": "ac5dcc321cfcfda147739ac828d7f490"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/inflight/LICENSE",
@@ -39909,31 +39981,27 @@
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/inflight/inflight.js",
-        "hash": "964984445c09c9184b61672a604953b0"
+        "hash": "42bbc3622abfefca5862fd0d12441a15"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/inflight/package.json",
-        "hash": "35d2dc9b64670732efb217f9f3e82706"
+        "hash": "bc312a9c59b4cbddd721eff48b40b1a4"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/inherits/LICENSE",
         "hash": "5b2ef2247af6d355ae9d9f988092d470"
     },
     {
-        "file": "var/apps/ionic/android/cordova/node_modules/inherits/inherits.js",
-        "hash": "93c060d3dbadbf5b71bea0128dd3894a"
-    },
-    {
         "file": "var/apps/ionic/android/cordova/node_modules/inherits/inherits_browser.js",
         "hash": "7c26fc24b695f2afbc284bbd5f64d6a4"
     },
     {
-        "file": "var/apps/ionic/android/cordova/node_modules/inherits/package.json",
-        "hash": "3bc3bd772f6cfa2a9b0a366c9d43f587"
+        "file": "var/apps/ionic/android/cordova/node_modules/inherits/inherits.js",
+        "hash": "09b210610125b162700734fb93dc892c"
     },
     {
-        "file": "var/apps/ionic/android/cordova/node_modules/inherits/test.js",
-        "hash": "88a2f874fdc12dd1b1fcd6c9746edeb1"
+        "file": "var/apps/ionic/android/cordova/node_modules/inherits/package.json",
+        "hash": "6bd45cde8ecf509b7f14de9496a7d764"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/lodash/LICENSE",
@@ -41444,10 +41512,6 @@
         "hash": "7c1658b5790700ca97c1ec62c1be3c03"
     },
     {
-        "file": "var/apps/ionic/android/cordova/node_modules/lodash/package.json",
-        "hash": "c2886acad5c39174f6891d16e553ddab"
-    },
-    {
         "file": "var/apps/ionic/android/cordova/node_modules/lodash/string.js",
         "hash": "f16134392f52130f8ed44c5c30bb7159"
     },
@@ -41616,16 +41680,20 @@
         "hash": "30947707dc3e0bd2c842f92a819b7a25"
     },
     {
+        "file": "var/apps/ionic/android/cordova/node_modules/lodash/package.json",
+        "hash": "1ff17783fb35974dd9f5d22bfe8d4c8c"
+    },
+    {
         "file": "var/apps/ionic/android/cordova/node_modules/minimatch/LICENSE",
         "hash": "82703a69f6d7411dde679954c2fd9dca"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/minimatch/minimatch.js",
-        "hash": "ba4ba37d6a942ba7dbab81c62ed144fd"
+        "hash": "9e22ccffac9538b210d6bc9e120e8f15"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/minimatch/package.json",
-        "hash": "fa401052baaf3026ef60f14fe526aad1"
+        "hash": "edf7a76364a291c44cd3ad600ce32d34"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/once/LICENSE",
@@ -41633,11 +41701,11 @@
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/once/once.js",
-        "hash": "638c8c30260edec03835522c8152265d"
+        "hash": "d1d6962324348ad89bf780a233952c61"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/once/package.json",
-        "hash": "21a5e5b2ee60ccc429371d982c9d2cbe"
+        "hash": "99baea22fbf352ad350c1c7470e9b379"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/os-homedir/index.js",
@@ -41649,19 +41717,19 @@
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/os-homedir/package.json",
-        "hash": "0459312e28550cc7eb14dbef219059f4"
-    },
-    {
-        "file": "var/apps/ionic/android/cordova/node_modules/os-tmpdir/index.js",
-        "hash": "55d7f3aa396bbf27c6b7be9cb1eb0970"
+        "hash": "7e1c8e4eb363789d29418e07da3e57e9"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/os-tmpdir/license",
         "hash": "a12ebca0510a773644101a99a867d210"
     },
     {
+        "file": "var/apps/ionic/android/cordova/node_modules/os-tmpdir/index.js",
+        "hash": "df7052b8646c869991df05e187b63de1"
+    },
+    {
         "file": "var/apps/ionic/android/cordova/node_modules/os-tmpdir/package.json",
-        "hash": "d4c0e4eddd0fcea84325ea61f1dd436f"
+        "hash": "4d40ab39a15fb5680e1430797a2c881d"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/osenv/.npmignore",
@@ -41680,32 +41748,32 @@
         "hash": "cc787b37b96db29fc00fee79ce1ffa4e"
     },
     {
-        "file": "var/apps/ionic/android/cordova/node_modules/osenv/package.json",
-        "hash": "8313a694db9c4cfe460cb7e43529faff"
+        "file": "var/apps/ionic/android/cordova/node_modules/osenv/test/windows.js",
+        "hash": "b41ad21b59d3583bee0fd94f244dfd6b"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/osenv/test/unix.js",
-        "hash": "7ab7406a8f26147f4f1d97c547e2c795"
-    },
-    {
-        "file": "var/apps/ionic/android/cordova/node_modules/osenv/test/windows.js",
-        "hash": "b41ad21b59d3583bee0fd94f244dfd6b"
+        "hash": "08727f8ca56a7041b563fd94f2a475a9"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/osenv/x.tap",
         "hash": "d5597d24b606a039007248862d666835"
     },
     {
-        "file": "var/apps/ionic/android/cordova/node_modules/path-is-absolute/index.js",
-        "hash": "d5b147a0e555c1bc860a9f173f9c9338"
+        "file": "var/apps/ionic/android/cordova/node_modules/osenv/package.json",
+        "hash": "ca4bfb4f7ecbb145539aefa916e03326"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/path-is-absolute/license",
         "hash": "a12ebca0510a773644101a99a867d210"
     },
     {
+        "file": "var/apps/ionic/android/cordova/node_modules/path-is-absolute/index.js",
+        "hash": "135a9dc74dc76b698c2abeaaa165f889"
+    },
+    {
         "file": "var/apps/ionic/android/cordova/node_modules/path-is-absolute/package.json",
-        "hash": "b9dbec0c2d015b0765f3f556caeb4fb8"
+        "hash": "5b8c6851dfa2e0631064d5c07660e2fc"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/plist/.jshintrc",
@@ -41753,7 +41821,7 @@
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/plist/package.json",
-        "hash": "a72ecd608e7beeed722f2253c41b0f06"
+        "hash": "0e836eded1c22e073e83a085a3f8f48c"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/properties-parser/README.markdown",
@@ -41762,10 +41830,6 @@
     {
         "file": "var/apps/ionic/android/cordova/node_modules/properties-parser/index.js",
         "hash": "419eaa7439853007e39e9c71aa14e4d9"
-    },
-    {
-        "file": "var/apps/ionic/android/cordova/node_modules/properties-parser/package.json",
-        "hash": "4cfc64b4917f03e474d2a4075312fc3b"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/properties-parser/play-ground.js",
@@ -41790,6 +41854,10 @@
     {
         "file": "var/apps/ionic/android/cordova/node_modules/properties-parser/test/test.js",
         "hash": "17cfe260b5d19bb6d3f44258fcec5a68"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/node_modules/properties-parser/package.json",
+        "hash": "58414f7fd9e3ec9255973038d9c2c472"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/sax/AUTHORS",
@@ -41846,10 +41914,6 @@
     {
         "file": "var/apps/ionic/android/cordova/node_modules/sax/lib/sax.js",
         "hash": "0f23833a3efc58dfe7f737f618162138"
-    },
-    {
-        "file": "var/apps/ionic/android/cordova/node_modules/sax/package.json",
-        "hash": "bff0e98000467b3af80c2d9201c0974a"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/sax/test/buffer-overrun.js",
@@ -41960,16 +42024,16 @@
         "hash": "3bace928b372da9d836844d6bfcd0957"
     },
     {
+        "file": "var/apps/ionic/android/cordova/node_modules/sax/package.json",
+        "hash": "4f874aa867b42397f023d2c566efbc38"
+    },
+    {
         "file": "var/apps/ionic/android/cordova/node_modules/semver/LICENSE",
         "hash": "82703a69f6d7411dde679954c2fd9dca"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/semver/bin/semver",
         "hash": "f9116052a4b516a8c850efc0fdd85cad"
-    },
-    {
-        "file": "var/apps/ionic/android/cordova/node_modules/semver/package.json",
-        "hash": "4b65b366d93b44b208bc96ada2e753cc"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/semver/range.bnf",
@@ -41980,12 +42044,12 @@
         "hash": "a5a96794f4b1221ecbd06bb54318e9d5"
     },
     {
-        "file": "var/apps/ionic/android/cordova/node_modules/underscore/LICENSE",
-        "hash": "e5cfca0461b21ca314a0088fd5b2a236"
+        "file": "var/apps/ionic/android/cordova/node_modules/semver/package.json",
+        "hash": "3fcc6ed90a2d6818ad48a4e5f52959bd"
     },
     {
-        "file": "var/apps/ionic/android/cordova/node_modules/underscore/package.json",
-        "hash": "9dbe90005194033aa34df0d6e2b959c1"
+        "file": "var/apps/ionic/android/cordova/node_modules/underscore/LICENSE",
+        "hash": "e5cfca0461b21ca314a0088fd5b2a236"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/underscore/underscore-min.js",
@@ -42000,12 +42064,16 @@
         "hash": "f893e294cde60c2462cb19b35aac431b"
     },
     {
+        "file": "var/apps/ionic/android/cordova/node_modules/underscore/package.json",
+        "hash": "9793ec794c5ea9236ec9fad840f21911"
+    },
+    {
         "file": "var/apps/ionic/android/cordova/node_modules/unorm/lib/unorm.js",
         "hash": "40a93aaa53adae75b50509fa12459e5d"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/unorm/package.json",
-        "hash": "b2d52cb09b8c38a2ef79012aff9216ac"
+        "hash": "d222545177777adf73fa8d37900dfb86"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/util-deprecate/LICENSE",
@@ -42021,19 +42089,19 @@
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/util-deprecate/package.json",
-        "hash": "3499ebd2100f8ece74e99924924cbd84"
+        "hash": "eb51dcb2cb4b4c2c0a2fcd8838e16893"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/wrappy/LICENSE",
         "hash": "82703a69f6d7411dde679954c2fd9dca"
     },
     {
-        "file": "var/apps/ionic/android/cordova/node_modules/wrappy/package.json",
-        "hash": "a2950e874122102d9e2630f9cd1150e1"
-    },
-    {
         "file": "var/apps/ionic/android/cordova/node_modules/wrappy/wrappy.js",
         "hash": "04a65e1669dc90fa11c900693c1974b1"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/node_modules/wrappy/package.json",
+        "hash": "94330b00c92288d0722ae5e942568097"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/xmlbuilder/.npmignore",
@@ -42113,7 +42181,7 @@
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/xmlbuilder/package.json",
-        "hash": "f8104a6d297d32b808ec380122330342"
+        "hash": "b98d5f9203e7de0c3642d7fd3ed13326"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/xmldom/.npmignore",
@@ -42137,19 +42205,19 @@
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/xmldom/dom-parser.js",
-        "hash": "5a03f4210f0772f4bee2463f13a7a628"
+        "hash": "0961c7fea3605da928c3dcb956260605"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/xmldom/dom.js",
-        "hash": "1c6f3655eaa0f5fe62248274e9f8d1dd"
+        "hash": "16f0e42d9923ab205e8166c14f177ed0"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/xmldom/package.json",
-        "hash": "df41aee6d36688ca7bf9d3d9fbedaee6"
+        "hash": "bc7d97b0bc82b4dd2f4714458822c832"
     },
     {
         "file": "var/apps/ionic/android/cordova/node_modules/xmldom/sax.js",
-        "hash": "ae65ad3784f96b303ccd77ad0c1dfd0c"
+        "hash": "8c25b5d770a937a780104f0baab2db19"
     },
     {
         "file": "var/apps/ionic/android/cordova/run.bat",
@@ -42162,10 +42230,6 @@
     {
         "file": "var/apps/ionic/android/cordova/.jshintrc",
         "hash": "5c26e905588bf6705346d881d76612e1"
-    },
-    {
-        "file": "var/apps/ionic/android/cordova/Api.js",
-        "hash": "90a45a1721dc45fc5c48bf3c9f200ba5"
     },
     {
         "file": "var/apps/ionic/android/cordova/build",
@@ -42184,20 +42248,28 @@
         "hash": "a1eba62dc4597e355f9bb47f4955c477"
     },
     {
+        "file": "var/apps/ionic/android/cordova/Api.js",
+        "hash": "0936d9e9320a4f4d192015e1f768834e"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/android_sdk_version",
+        "hash": "2d0f8e9304deb2d464aaf2853afab6f1"
+    },
+    {
+        "file": "var/apps/ionic/android/cordova/android_sdk_version.bat",
+        "hash": "7bdd49e6f901b9b156515933fce43f6f"
+    },
+    {
         "file": "var/apps/ionic/android/cordova/version",
-        "hash": "d9f8ed4f6a56592d070e3820155bdf63"
+        "hash": "8b62c75cf2990afa7335e34d5babd496"
     },
     {
         "file": "var/apps/ionic/android/gradle/wrapper/gradle-wrapper.jar",
-        "hash": "d7f554d57f4d4428bc2fea69e36ef055"
+        "hash": "3ef954ed0adb79a5bd8a5303165fae05"
     },
     {
         "file": "var/apps/ionic/android/gradle/wrapper/gradle-wrapper.properties",
-        "hash": "6f02fb296e2de25d5a34fcb74604f5dc"
-    },
-    {
-        "file": "var/apps/ionic/android/gradlew",
-        "hash": "a670520d9d36833b3e28d1e4b73cbe22"
+        "hash": "257ede43b7073d15b29fdb3ae58e9d72"
     },
     {
         "file": "var/apps/ionic/android/libs/cordova-generic-ad.jar",
@@ -42218,10 +42290,6 @@
     {
         "file": "var/apps/ionic/android/res/drawable-hdpi/ic_action_remove.png",
         "hash": "f130240c15b7c4465f2be3a3f2273456"
-    },
-    {
-        "file": "var/apps/ionic/android/res/drawable-hdpi/icon.png",
-        "hash": "15ebcd0b40e6b14867c85e43c7f60232"
     },
     {
         "file": "var/apps/ionic/android/res/drawable-hdpi/ic_icon.png",
@@ -42252,10 +42320,6 @@
         "hash": "63195648240121ba1aaaf829626e99a8"
     },
     {
-        "file": "var/apps/ionic/android/res/drawable-ldpi/icon.png",
-        "hash": "bb3f72d33f550a5bbd36ab880f3cb935"
-    },
-    {
         "file": "var/apps/ionic/android/res/drawable-ldpi/ic_icon.png",
         "hash": "df4b321d881a96e02f5bb2810ddf793e"
     },
@@ -42270,10 +42334,6 @@
     {
         "file": "var/apps/ionic/android/res/drawable-mdpi/ic_action_remove.png",
         "hash": "935d5037f22b0f30a76582d23d396222"
-    },
-    {
-        "file": "var/apps/ionic/android/res/drawable-mdpi/icon.png",
-        "hash": "16ed3901554ae3b9faef7cba7dee3742"
     },
     {
         "file": "var/apps/ionic/android/res/drawable-mdpi/ic_icon.png",
@@ -42316,10 +42376,6 @@
         "hash": "246cd882cec372b23946a2f635737ec5"
     },
     {
-        "file": "var/apps/ionic/android/res/drawable-xhdpi/icon.png",
-        "hash": "a124f474eae56146a4dcc5f772d3f659"
-    },
-    {
         "file": "var/apps/ionic/android/res/drawable-xhdpi/ic_icon.png",
         "hash": "df4b321d881a96e02f5bb2810ddf793e"
     },
@@ -42336,16 +42392,8 @@
         "hash": "efaae364b4b20799e9735e63ef3bf415"
     },
     {
-        "file": "var/apps/ionic/android/res/drawable-xxhdpi/icon.png",
-        "hash": "2c618d70edeebed8ff65b620951a926d"
-    },
-    {
-        "file": "var/apps/ionic/android/res/drawable-xxxhdpi/icon.png",
-        "hash": "3358524a5e4ee8a924e99d73bbe37a6d"
-    },
-    {
         "file": "var/apps/ionic/android/res/values/strings.xml",
-        "hash": "96af60a163d245c1a3fafa4cc29a223c"
+        "hash": "c5b718e8c13eb3c1d8fe81e3a58e37bc"
     },
     {
         "file": "var/apps/ionic/android/res/drawable/ic_icon.png",
@@ -42356,12 +42404,32 @@
         "hash": "b1b23a0b4b5570590675d5ab226693b4"
     },
     {
-        "file": "var/apps/ionic/android/settings.gradle",
-        "hash": "0be93033440955a6653ca866487c4b1f"
+        "file": "var/apps/ionic/android/res/mipmap-hdpi/icon.png",
+        "hash": "b49afe76ee3aefb6aaf9940c59c05d3c"
     },
     {
-        "file": "var/apps/ionic/android/src/com/appsmobilecompany/base/MainActivity.java",
-        "hash": "7f2e96f04daf38238f4e148fe7d94ca0"
+        "file": "var/apps/ionic/android/res/mipmap-ldpi/icon.png",
+        "hash": "4643700bb375034188c0755b96d610e4"
+    },
+    {
+        "file": "var/apps/ionic/android/res/mipmap-mdpi/icon.png",
+        "hash": "1514a145857db2e5766f7e744e40e766"
+    },
+    {
+        "file": "var/apps/ionic/android/res/mipmap-xhdpi/icon.png",
+        "hash": "b44c0dbd78f7643d801710ac359ad17d"
+    },
+    {
+        "file": "var/apps/ionic/android/res/mipmap-xxhdpi/icon.png",
+        "hash": "042339c3a8cd7d5fb245db0af9fee2ca"
+    },
+    {
+        "file": "var/apps/ionic/android/res/mipmap-xxxhdpi/icon.png",
+        "hash": "e1dbef4372b5cc6a3107e0bfa69b4004"
+    },
+    {
+        "file": "var/apps/ionic/android/settings.gradle",
+        "hash": "0be93033440955a6653ca866487c4b1f"
     },
     {
         "file": "var/apps/ionic/android/src/com/appsmobilecompany/base/CDVBackgroundGeoloc.java",
@@ -42370,6 +42438,10 @@
     {
         "file": "var/apps/ionic/android/src/com/appsmobilecompany/base/OfflineMode.java",
         "hash": "e9e10914d116e01e034377bade644299"
+    },
+    {
+        "file": "var/apps/ionic/android/src/com/appsmobilecompany/base/MainActivity.java",
+        "hash": "2fd75fbbe0ad20cb5bdd2cc56556b1c5"
     },
     {
         "file": "var/apps/ionic/android/src/com/nordnetab/chcp/main/config/ApplicationConfig.java",
@@ -42644,6 +42716,38 @@
         "hash": "627b2afcff1235012944def2b6f5e348"
     },
     {
+        "file": "var/apps/ionic/android/src/com/adobe/phonegap/push/BackgroundActionButtonHandler.java",
+        "hash": "e7b37a926c974bfc0d61ce8b7acd764e"
+    },
+    {
+        "file": "var/apps/ionic/android/src/com/adobe/phonegap/push/GCMIntentService.java",
+        "hash": "e2cca2f73b316848aab9de55f55c77cd"
+    },
+    {
+        "file": "var/apps/ionic/android/src/com/adobe/phonegap/push/PermissionUtils.java",
+        "hash": "8e37d25318f0cb03914cc705eb99a096"
+    },
+    {
+        "file": "var/apps/ionic/android/src/com/adobe/phonegap/push/PushConstants.java",
+        "hash": "0a9b404a4795df018fb3909f225d7940"
+    },
+    {
+        "file": "var/apps/ionic/android/src/com/adobe/phonegap/push/PushHandlerActivity.java",
+        "hash": "7b63898641f8c379b99bdcf2f9412fe2"
+    },
+    {
+        "file": "var/apps/ionic/android/src/com/adobe/phonegap/push/PushInstanceIDListenerService.java",
+        "hash": "12882bff04b3a2b93f9f0b199793a1de"
+    },
+    {
+        "file": "var/apps/ionic/android/src/com/adobe/phonegap/push/PushPlugin.java",
+        "hash": "53f0212fcc001eff3911660c814c7f82"
+    },
+    {
+        "file": "var/apps/ionic/android/src/com/adobe/phonegap/push/RegistrationIntentService.java",
+        "hash": "923533f47d12e28aa7f8493c0aab86ab"
+    },
+    {
         "file": "var/apps/ionic/android/src/de/appplant/cordova/plugin/localnotification/ClearReceiver.java",
         "hash": "975b4d49ac67e3d11bc31747386fda32"
     },
@@ -42865,27 +42969,43 @@
     },
     {
         "file": "var/apps/ionic/android/AndroidManifest.xml",
-        "hash": "f688805467bf24c6ffed55a1b4bc702f"
+        "hash": "40f4d8cffd58031969b5675e54cf52f3"
     },
     {
         "file": "var/apps/ionic/android/android.json",
-        "hash": "79e92dc1faebf75822ef125a573856b8"
+        "hash": "6746b09b245a10d28085b1ea98e11294"
     },
     {
         "file": "var/apps/ionic/android/build.gradle",
-        "hash": "bb831c0d1a502096e259e4747f4c7dd3"
+        "hash": "88e7810dae3318c854f12daf4c353ea9"
     },
     {
         "file": "var/apps/ionic/android/config.bck.xml",
-        "hash": "ce8029f3edb6d6e002b8f6726477e09f"
+        "hash": "32b354140b7af01f8a9173e7d8d133b1"
+    },
+    {
+        "file": "var/apps/ionic/android/gradlew",
+        "hash": "7f1cd7eb3f75a1dc85cd37753972a6e2"
+    },
+    {
+        "file": "var/apps/ionic/android/gradlew.bat",
+        "hash": "0ea6d812cf51675a8503fe23ae178996"
+    },
+    {
+        "file": "var/apps/ionic/android/phonegap-plugin-push/base-push.gradle",
+        "hash": "d8ffe7b424a381b28c6814976f66a3c0"
     },
     {
         "file": "var/apps/ionic/android/project.properties",
-        "hash": "ea0d686ddf07c5339e22bb00c1e71f2b"
+        "hash": "78d56a874092e9d4ff03918575d28436"
+    },
+    {
+        "file": "var/apps/ionic/android/wrapper.gradle",
+        "hash": "0f664fcdbfbb142dd2755330cc6d5e98"
     },
     {
         "file": "var/apps/ionic/ios-noads/AppsMobileCompany.xcodeproj/project.pbxproj",
-        "hash": "e3743b9a9a4780b9bd163999759e95f3"
+        "hash": "7c7b1fc871ca890e1aeeafe60a18c62a"
     },
     {
         "file": "var/apps/ionic/ios-noads/AppsMobileCompany/AppsMobileCompany-Prefix.pch",
@@ -48781,7 +48901,7 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/www/lib/ngCordova/dist/ng-cordova.min.js",
-        "hash": "e1f3c3c7ec1d42cd8161a9663e897ea5"
+        "hash": "ddddc3632837018ee874320ef3db03bf"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/plugins/com.keosu.cordova.stream/www/Stream.js",
@@ -49453,7 +49573,7 @@
     },
     {
         "file": "var/apps/ionic/ios/AppsMobileCompany.xcodeproj/project.pbxproj",
-        "hash": "a20efcd9c34e051a8ac8a36b1ee2f301"
+        "hash": "467db5d684e47aff4ac1e69201bcfcce"
     },
     {
         "file": "var/apps/ionic/ios/AppsMobileCompany/AppsMobileCompany-Prefix.pch",
@@ -55601,7 +55721,7 @@
     },
     {
         "file": "var/apps/ionic/ios/www/lib/ngCordova/dist/ng-cordova.min.js",
-        "hash": "e1f3c3c7ec1d42cd8161a9663e897ea5"
+        "hash": "ddddc3632837018ee874320ef3db03bf"
     },
     {
         "file": "var/apps/ionic/ios/www/plugins/com.keosu.cordova.stream/www/Stream.js",
@@ -56276,48 +56396,20 @@
         "hash": "4189ae5df333b1d309f3177788c71469"
     },
     {
-        "file": "var/apps/ionic/previewer/android/CordovaLib/build.gradle",
-        "hash": "c11f4ecdb854e6051ae0f819eec310b3"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/CordovaLib/cordova.gradle",
-        "hash": "363a054656fbc7faa3ae80d1ff73faba"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/CordovaLib/project.properties",
-        "hash": "f658774e0f26febc92b5f5cb3e4d93b1"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/AuthenticationToken.java",
         "hash": "3f8efd3e871a383565e66c8acdb4c74e"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/CallbackContext.java",
-        "hash": "880aaea726068459b4289f5ed9aecaee"
     },
     {
         "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/CallbackMap.java",
         "hash": "74e2ea0efc9dc85e598971b597ee493d"
     },
     {
-        "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/Config.java",
-        "hash": "f8249c9b79183b36e2e4fd54b20335d9"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/ConfigXmlParser.java",
         "hash": "aaf9237a09d6fffea6cb8b3600b29166"
     },
     {
-        "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/CordovaActivity.java",
-        "hash": "19557f8c50af0e6c0d5392e4dbed1011"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/CordovaArgs.java",
         "hash": "4803579356aab140191533239f515449"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/CordovaBridge.java",
-        "hash": "a7e1754df104f8254299823adec85c44"
     },
     {
         "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/CordovaClientCertRequest.java",
@@ -56336,10 +56428,6 @@
         "hash": "6d37da72e25be88c5fc18ec6869abb11"
     },
     {
-        "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/CordovaInterfaceImpl.java",
-        "hash": "de2e2f91b853b3bec1eeae461e07e96b"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/CordovaPlugin.java",
         "hash": "47a05c831198d15a379b4c774826a26e"
     },
@@ -56350,22 +56438,6 @@
     {
         "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/CordovaResourceApi.java",
         "hash": "38c43ceb9c0ae7277424597cc48e39b6"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/CordovaWebView.java",
-        "hash": "0511da4bdbf7892dfe2090c444878c9d"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/CordovaWebViewEngine.java",
-        "hash": "c37ee7fce6cebe2f107ce243112f7126"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/CordovaWebViewImpl.java",
-        "hash": "16fd3b832ac40f595f51143bbc2cdea5"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/CoreAndroid.java",
-        "hash": "609ee9dd06c40f1fc4c655d3b676e50a"
     },
     {
         "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/ExposedJsApi.java",
@@ -56384,20 +56456,8 @@
         "hash": "94027e141e4a27c0e548be5133c97bb4"
     },
     {
-        "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/LOG.java",
-        "hash": "ed3901102878b964975615b169b48c8d"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/NativeToJsMessageQueue.java",
-        "hash": "7678b08b2c5c86a22a9dc044b0289d48"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/PluginEntry.java",
         "hash": "f80ed1b811cddd09d118f3d53813845a"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/PluginManager.java",
-        "hash": "847bc7158d220b2e2366b515ee47f2c7"
     },
     {
         "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/PluginResult.java",
@@ -56420,10 +56480,6 @@
         "hash": "d19ff7ff2cfacb4315d4fc9da78fe90a"
     },
     {
-        "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/engine/SystemWebChromeClient.java",
-        "hash": "7c029f73f3ddad5a3f8116763e86ffb1"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/engine/SystemWebView.java",
         "hash": "039caff774067fb47cf4a0a03343d8d1"
     },
@@ -56432,8 +56488,72 @@
         "hash": "ef0ce5828f0703e20521cb0f673425bf"
     },
     {
+        "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/engine/SystemWebChromeClient.java",
+        "hash": "39903c10f1197cbe9e6afe41599f8b3e"
+    },
+    {
         "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/engine/SystemWebViewEngine.java",
-        "hash": "d079b688db10a4ac102b2f5aa5320924"
+        "hash": "2bf2113d529c749d272d29deeb43805c"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/CallbackContext.java",
+        "hash": "2ad69c1de93f0575845ec1cf33b34cca"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/Config.java",
+        "hash": "657c4c42256daaca3ef93ecd04be01f3"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/CordovaActivity.java",
+        "hash": "a380be3b0775251b9db49c2937cb9b46"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/CordovaBridge.java",
+        "hash": "0b6442587f902eef770178982c5f69ba"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/CordovaInterfaceImpl.java",
+        "hash": "06d047f9d358ca649fedbaed4cbe4134"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/CordovaWebView.java",
+        "hash": "af9a64d585bd93f8072027a0412fdf67"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/CordovaWebViewEngine.java",
+        "hash": "a5016e7631a0bf893ffaf96ac8ba3ec5"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/CordovaWebViewImpl.java",
+        "hash": "dfe84ca7a0dd004d94b2a0ac94b73e59"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/CoreAndroid.java",
+        "hash": "a4b86926723374eda6e06b58b36313fe"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/LOG.java",
+        "hash": "ac93f498f8d194bdeee601a0d12069b2"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/NativeToJsMessageQueue.java",
+        "hash": "10559d100458ffa2c852d024df589c27"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/CordovaLib/src/org/apache/cordova/PluginManager.java",
+        "hash": "7cfd1660696f1b01758838d3cc57088b"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/CordovaLib/build.gradle",
+        "hash": "4573a74c263ac9eb365dcfe7d8149f78"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/CordovaLib/cordova.gradle",
+        "hash": "6fd2febad2322c63008ffbc36e6ebe7e"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/CordovaLib/project.properties",
+        "hash": "8b06d06f9fca62f29042e10c024b61d5"
     },
     {
         "file": "var/apps/ionic/previewer/android/android.json",
@@ -56448,10 +56568,6 @@
         "hash": "f4b029f0e91729c970ff421b8f9bd22e"
     },
     {
-        "file": "var/apps/ionic/previewer/android/assets/www/cordova-js-src/exec.js",
-        "hash": "d5ca6ebdc38c2f0d53e9989293e51c9e"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/assets/www/cordova-js-src/platform.js",
         "hash": "6e1fac8e69e82cb27178bb5a01f1d36c"
     },
@@ -56460,8 +56576,8 @@
         "hash": "58b79c9693166d44fc65d57979fcdf28"
     },
     {
-        "file": "var/apps/ionic/previewer/android/assets/www/cordova.js",
-        "hash": "0fd45c6021feede6c24828c33c2ea879"
+        "file": "var/apps/ionic/previewer/android/assets/www/cordova-js-src/exec.js",
+        "hash": "4d368f4918f938b17fad3f819bdda568"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/css/angular-carousel.min.css",
@@ -57205,7 +57321,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/lib/ngCordova/dist/ng-cordova.min.js",
-        "hash": "e1f3c3c7ec1d42cd8161a9663e897ea5"
+        "hash": "ddddc3632837018ee874320ef3db03bf"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/plugins/com.keosu.cordova.stream/www/Stream.js",
@@ -57820,6 +57936,10 @@
         "hash": "2e010fe94958f3de402155be2910f539"
     },
     {
+        "file": "var/apps/ionic/previewer/android/assets/www/cordova.js",
+        "hash": "077f33b9e4e4c70596968f54f4be4772"
+    },
+    {
         "file": "var/apps/ionic/previewer/android/cordova-hot-code-push-plugin/base-chcp.gradle",
         "hash": "2d1d22e49babdaef927cfe4142177e3a"
     },
@@ -57830,14 +57950,6 @@
     {
         "file": "var/apps/ionic/previewer/android/cordova/.jshintrc",
         "hash": "5c26e905588bf6705346d881d76612e1"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/cordova/Api.js",
-        "hash": "90a45a1721dc45fc5c48bf3c9f200ba5"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/cordova/android_sdk_version",
-        "hash": "4987a63c3e1606657556470f5118f4a0"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/build",
@@ -57876,14 +57988,6 @@
         "hash": "efe1ae70e519e884ead1bf5071a91ea9"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/lib/AndroidProject.js",
-        "hash": "f08db2b2bac2b865a2e35596f60c636e"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/cordova/lib/android_sdk_version.js",
-        "hash": "df204774e5437e28e73580271bd4183c"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/cordova/lib/build.js",
         "hash": "c8bcec87d883b527679160ada1b08d2b"
     },
@@ -57896,24 +58000,16 @@
         "hash": "38c0a56cdf5773bc3654e3be40bdff22"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/lib/builders/GradleBuilder.js",
-        "hash": "d18828391a6a1b13743febcac1b9a2cf"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/cordova/lib/builders/builders.js",
         "hash": "3027f76d93ffbe8568ee9ccfb9913bec"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/lib/check_reqs.js",
-        "hash": "0191cef868d122eea7a833197256e68b"
+        "file": "var/apps/ionic/previewer/android/cordova/lib/builders/GradleBuilder.js",
+        "hash": "4fed1f0e7043fa7adfd1d37c98eac1ee"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/lib/device.js",
         "hash": "15e50381cd48e886a032300be2e4605a"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/cordova/lib/emulator.js",
-        "hash": "cc70c56baf1b27e9358520d2a5c8f2c8"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/lib/install-device",
@@ -57932,24 +58028,12 @@
         "hash": "1f7662966d16c1ad01fc09f59c5487e0"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/lib/list-devices",
-        "hash": "caa6ba1bb6c8c11b2c9b614360ee2fc9"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/cordova/lib/list-devices.bat",
         "hash": "3ccf67b6f7facfcd39714869af964988"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/lib/list-emulator-images",
-        "hash": "10ed75a2ce42ff857a3fcd8e4b4a51f1"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/cordova/lib/list-emulator-images.bat",
         "hash": "c7639429e27751c066750a3cc87d67da"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/cordova/lib/list-started-emulators",
-        "hash": "2261b3fc49d9ccca7127f7650f58e04d"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/lib/list-started-emulators.bat",
@@ -57958,18 +58042,6 @@
     {
         "file": "var/apps/ionic/previewer/android/cordova/lib/log.js",
         "hash": "1894c6c3d3d335934f2ce6d111690f53"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/cordova/lib/plugin-build.gradle",
-        "hash": "2c4f4e2c910767a43395a7542fbadaf2"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/cordova/lib/pluginHandlers.js",
-        "hash": "701b017626eadae52dbec57d50ec92e0"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/cordova/lib/prepare.js",
-        "hash": "a5d9977723001900015330044fccf44e"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/lib/retry.js",
@@ -57986,6 +58058,50 @@
     {
         "file": "var/apps/ionic/previewer/android/cordova/lib/start-emulator.bat",
         "hash": "b53bed9bca8450e27c69798a892dc9cb"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/lib/AndroidProject.js",
+        "hash": "9b79a22bfc58f4beca64e7191b0c0c2c"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/lib/AndroidStudio.js",
+        "hash": "b429a737e4a1415a4b5f6345018a3a40"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/lib/android_sdk.js",
+        "hash": "72fabbed12494ef6cedf6eaf5802c3b8"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/lib/check_reqs.js",
+        "hash": "a4d8b4ee5c5ad269fecfd92b50268cec"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/lib/emulator.js",
+        "hash": "60ba8c9f1d2ff30460b603d06ce9a20e"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/lib/list-devices",
+        "hash": "cd331b574c284922ff7c1e10cae465e0"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/lib/list-emulator-images",
+        "hash": "d1628befc1810e9c76ed2b01ece735f1"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/lib/list-started-emulators",
+        "hash": "27e4cbd226e6c9dd7be2853995050db2"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/lib/plugin-build.gradle",
+        "hash": "7f354209847654f36a0e18816e7637b4"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/lib/pluginHandlers.js",
+        "hash": "5efbe2948ca0961896453536eb76f572"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/lib/prepare.js",
+        "hash": "b9ff8b087557a51d88529298005641da"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/log",
@@ -58017,11 +58133,11 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/abbrev/abbrev.js",
-        "hash": "7a15b8fe67321134796aa0efe08015d0"
+        "hash": "295cdcca75c99f4bc11113aca4cc9dac"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/abbrev/package.json",
-        "hash": "df4372a4c5c5c9ac6519c561a6c85739"
+        "hash": "ba7067aab5de501d25f410831ba56a63"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/ansi/.jshintrc",
@@ -58061,7 +58177,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/ansi/package.json",
-        "hash": "1250ae43dd4a0b2a176d2e378520dfda"
+        "hash": "b59e199652ddfe48e9ca7262227ef41f"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/balanced-match/.npmignore",
@@ -58073,7 +58189,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/balanced-match/package.json",
-        "hash": "e89450bc591e6931c5c0553ae140dce4"
+        "hash": "d23c7b5e48296b00ce388ebdf569024b"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/base64-js/.travis.yml",
@@ -58092,10 +58208,6 @@
         "hash": "8c9a9542a677f03e56dc92bc8e4a0173"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/base64-js/package.json",
-        "hash": "aebdd7526a26d7777f3e757ef7d75431"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/base64-js/test/convert.js",
         "hash": "203618e3b7bb294092b3d076b3addd36"
     },
@@ -58104,20 +58216,28 @@
         "hash": "700f533ecff804fca6c1ecc8b98610ff"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/big-integer/BigInteger.js",
-        "hash": "b7437c40415efcbc9361fc8db72dc595"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/big-integer/BigInteger.min.js",
-        "hash": "18f1b04669b5743ffd937ee4f7c68bf1"
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/base64-js/package.json",
+        "hash": "8ae5010995ed174ed67108ab66197e31"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/big-integer/LICENSE",
         "hash": "911690f51af322440237a253d695d19f"
     },
     {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/big-integer/BigInteger.js",
+        "hash": "1b5c77f6aed6b02a6295e88ec29b03af"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/big-integer/BigInteger.min.js",
+        "hash": "6f6848e135c50fe71421519827e057a8"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/big-integer/bower.json",
+        "hash": "2678fb2093de59aa7701c3af250bad69"
+    },
+    {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/big-integer/package.json",
-        "hash": "fd9f59c8f4deea60e2b31cc6e339a5c7"
+        "hash": "8c088964dacdfffdc909bb7d63b8c321"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/bplist-parser/.npmignore",
@@ -58126,10 +58246,6 @@
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/bplist-parser/bplistParser.js",
         "hash": "d19a21052223790e45edd75dc8e3c59b"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/bplist-parser/package.json",
-        "hash": "0106046b7c99e07b367d80a03d8876be"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/bplist-parser/test/airplay.bplist",
@@ -58172,12 +58288,16 @@
         "hash": "063c282529c4acf539cf3e4bc8e5672c"
     },
     {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/bplist-parser/package.json",
+        "hash": "60c7da4ee2f5c429c79bc50ae395b7fa"
+    },
+    {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/brace-expansion/index.js",
         "hash": "ce45252e95549a88db7c1df129c91271"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/brace-expansion/package.json",
-        "hash": "2a80de1629a4144bc922e2522b44e639"
+        "hash": "dc7635f8e4ffe6982ed34d08442fc4db"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/concat-map/.travis.yml",
@@ -58196,12 +58316,12 @@
         "hash": "8ef754ba23fdd37b3e8a1c52739ace80"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/concat-map/package.json",
-        "hash": "3fb8ca4340e394edb1989b609b361385"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/concat-map/test/map.js",
         "hash": "a8e1d80e4629945216de220e4b580cf5"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/concat-map/package.json",
+        "hash": "12c91704d92366f407fa78760d4e501c"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/.jscs.json",
@@ -58216,32 +58336,12 @@
         "hash": "461b488e0f91b021e08a69cfd7a5f249"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/.ratignore",
-        "hash": "ffc855f42acc2fb5bd50ebf976544a5d"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/cordova-common.js",
-        "hash": "fdf36b777aa8b75fab374021d1fb8c8f"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/package.json",
-        "hash": "20c0fb759d23934f732cdd3c849a08c7"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/.jshintrc",
         "hash": "5c26e905588bf6705346d881d76612e1"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/ActionStack.js",
         "hash": "885fb47085df8b125f3d88f1cb63f7ca"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/ConfigChanges/ConfigChanges.js",
-        "hash": "cb11afb3cfdcdf6c7d863863f0e55caf"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/ConfigChanges/ConfigFile.js",
-        "hash": "f65e24897f7079dff96f3b54c8f7bd23"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/ConfigChanges/ConfigKeeper.js",
@@ -58252,8 +58352,16 @@
         "hash": "2ffcaba7d4aa8959a681d31a9dae844c"
     },
     {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/ConfigChanges/ConfigChanges.js",
+        "hash": "9d599c9993cc825117f596e0f68d7d97"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/ConfigChanges/ConfigFile.js",
+        "hash": "527e82e9e7a73e7466e8d4b4606024fa"
+    },
+    {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/ConfigParser/ConfigParser.js",
-        "hash": "f134d4b6fe267fe81175485d6f7d6257"
+        "hash": "b579ea6dc128496c11e4d1f51ac0ae41"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/CordovaError/CordovaError.js",
@@ -58268,20 +58376,16 @@
         "hash": "2537fb9a54fb9b2952f4483c3cdc955d"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/FileUpdater.js",
-        "hash": "3e50ff0e2a9710355f9e3e9124c4f208"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/PlatformJson.js",
         "hash": "7a19e5800cb84c075fb22c8975938e45"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/PluginInfo/PluginInfo.js",
-        "hash": "4917c0ad5767dac7729b16732dfe70da"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/PluginInfo/PluginInfoProvider.js",
         "hash": "d77b5865183bf207780571ecf875e49e"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/PluginInfo/PluginInfo.js",
+        "hash": "05106c69ef6ca586333f89b8c778169e"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/PluginManager.js",
@@ -58292,20 +58396,40 @@
         "hash": "c6203d45dd7bd59c4d7fa9326771e99c"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/superspawn.js",
-        "hash": "de30ac7d06fbed506c960b645147b950"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/util/addProperty.js",
         "hash": "0cc119f28233c8b6fd4eaecb0dc5df91"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/util/plist-helpers.js",
-        "hash": "a16566b6f331209f6b8d104c822ae211"
+        "hash": "ef77d9a0fa637c0158a435be30ad3c51"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/util/xml-helpers.js",
-        "hash": "36b2b521c6b7287829c51769e97e45e1"
+        "hash": "3526067d1932c6fc1c53cabd83b4ad05"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/CordovaCheck.js",
+        "hash": "302ac2df0dc3aba8b1618a3fc5266957"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/FileUpdater.js",
+        "hash": "65ef6433f707057433a7bc5465f2671c"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/src/superspawn.js",
+        "hash": "f1dde9779968800ca69e3807357c6a46"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/.ratignore",
+        "hash": "125f6ddd59fc3a5a97551fbe77803508"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/cordova-common.js",
+        "hash": "bebbbe95392aaa9354085534e383b153"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-common/package.json",
+        "hash": "59991a6ed260bf8d1182de9989b302dd"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-registry-mapper/.npmignore",
@@ -58320,12 +58444,12 @@
         "hash": "0066bc8ee7ffec155366149584825341"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-registry-mapper/package.json",
-        "hash": "071c963aea64fba95faa96ed43eecb25"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-registry-mapper/tests/test.js",
         "hash": "302b1cdcedcedba4ce0f6aa36c5f4d93"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/cordova-registry-mapper/package.json",
+        "hash": "42838218a15a4996364cc5743a3784c6"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/elementtree/.npmignore",
@@ -58388,10 +58512,6 @@
         "hash": "0b6201a130e7bd8536f67212d791b5cb"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/elementtree/package.json",
-        "hash": "8edd6b4a5b7e43365a173a79fbf1c8a7"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/elementtree/tests/data/xml1.xml",
         "hash": "82734c6a81ab09c0fd8ec811ccab2b29"
     },
@@ -58402,6 +58522,10 @@
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/elementtree/tests/test-simple.js",
         "hash": "218c959c71406ef4ed5c6222d58ae650"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/elementtree/package.json",
+        "hash": "983fd69744a0dcbfaf04d5222e68176b"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/glob/LICENSE",
@@ -58416,12 +58540,12 @@
         "hash": "db6377c8ada7efa011064195de226ed3"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/glob/package.json",
-        "hash": "f54f3a1fca6c3f424c57ae3a50aad413"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/glob/sync.js",
         "hash": "d70638435fdcfeab9eb7de5250ba67cc"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/glob/package.json",
+        "hash": "ac5dcc321cfcfda147739ac828d7f490"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/inflight/LICENSE",
@@ -58429,31 +58553,27 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/inflight/inflight.js",
-        "hash": "964984445c09c9184b61672a604953b0"
+        "hash": "42bbc3622abfefca5862fd0d12441a15"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/inflight/package.json",
-        "hash": "35d2dc9b64670732efb217f9f3e82706"
+        "hash": "bc312a9c59b4cbddd721eff48b40b1a4"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/inherits/LICENSE",
         "hash": "5b2ef2247af6d355ae9d9f988092d470"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/inherits/inherits.js",
-        "hash": "93c060d3dbadbf5b71bea0128dd3894a"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/inherits/inherits_browser.js",
         "hash": "7c26fc24b695f2afbc284bbd5f64d6a4"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/inherits/package.json",
-        "hash": "3bc3bd772f6cfa2a9b0a366c9d43f587"
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/inherits/inherits.js",
+        "hash": "09b210610125b162700734fb93dc892c"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/inherits/test.js",
-        "hash": "88a2f874fdc12dd1b1fcd6c9746edeb1"
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/inherits/package.json",
+        "hash": "6bd45cde8ecf509b7f14de9496a7d764"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/lodash/LICENSE",
@@ -59964,10 +60084,6 @@
         "hash": "7c1658b5790700ca97c1ec62c1be3c03"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/lodash/package.json",
-        "hash": "c2886acad5c39174f6891d16e553ddab"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/lodash/string.js",
         "hash": "f16134392f52130f8ed44c5c30bb7159"
     },
@@ -60136,16 +60252,20 @@
         "hash": "30947707dc3e0bd2c842f92a819b7a25"
     },
     {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/lodash/package.json",
+        "hash": "1ff17783fb35974dd9f5d22bfe8d4c8c"
+    },
+    {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/minimatch/LICENSE",
         "hash": "82703a69f6d7411dde679954c2fd9dca"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/minimatch/minimatch.js",
-        "hash": "ba4ba37d6a942ba7dbab81c62ed144fd"
+        "hash": "9e22ccffac9538b210d6bc9e120e8f15"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/minimatch/package.json",
-        "hash": "fa401052baaf3026ef60f14fe526aad1"
+        "hash": "edf7a76364a291c44cd3ad600ce32d34"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/nopt/.npmignore",
@@ -60172,12 +60292,12 @@
         "hash": "58b98097b6f76570cea392845d0d4073"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/nopt/package.json",
-        "hash": "0d547478c6f65f3b204a48c645133709"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/nopt/test/basic.js",
         "hash": "050bd3494788b372b8641a5e3459491f"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/nopt/package.json",
+        "hash": "fa4c3ad5b412d349e439c6ad0d5e7c74"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/once/LICENSE",
@@ -60185,11 +60305,11 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/once/once.js",
-        "hash": "638c8c30260edec03835522c8152265d"
+        "hash": "d1d6962324348ad89bf780a233952c61"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/once/package.json",
-        "hash": "21a5e5b2ee60ccc429371d982c9d2cbe"
+        "hash": "99baea22fbf352ad350c1c7470e9b379"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/os-homedir/index.js",
@@ -60201,19 +60321,19 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/os-homedir/package.json",
-        "hash": "0459312e28550cc7eb14dbef219059f4"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/os-tmpdir/index.js",
-        "hash": "55d7f3aa396bbf27c6b7be9cb1eb0970"
+        "hash": "7e1c8e4eb363789d29418e07da3e57e9"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/os-tmpdir/license",
         "hash": "a12ebca0510a773644101a99a867d210"
     },
     {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/os-tmpdir/index.js",
+        "hash": "df7052b8646c869991df05e187b63de1"
+    },
+    {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/os-tmpdir/package.json",
-        "hash": "d4c0e4eddd0fcea84325ea61f1dd436f"
+        "hash": "4d40ab39a15fb5680e1430797a2c881d"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/osenv/.npmignore",
@@ -60232,32 +60352,32 @@
         "hash": "cc787b37b96db29fc00fee79ce1ffa4e"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/osenv/package.json",
-        "hash": "8313a694db9c4cfe460cb7e43529faff"
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/osenv/test/windows.js",
+        "hash": "b41ad21b59d3583bee0fd94f244dfd6b"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/osenv/test/unix.js",
-        "hash": "7ab7406a8f26147f4f1d97c547e2c795"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/osenv/test/windows.js",
-        "hash": "b41ad21b59d3583bee0fd94f244dfd6b"
+        "hash": "08727f8ca56a7041b563fd94f2a475a9"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/osenv/x.tap",
         "hash": "d5597d24b606a039007248862d666835"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/path-is-absolute/index.js",
-        "hash": "d5b147a0e555c1bc860a9f173f9c9338"
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/osenv/package.json",
+        "hash": "ca4bfb4f7ecbb145539aefa916e03326"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/path-is-absolute/license",
         "hash": "a12ebca0510a773644101a99a867d210"
     },
     {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/path-is-absolute/index.js",
+        "hash": "135a9dc74dc76b698c2abeaaa165f889"
+    },
+    {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/path-is-absolute/package.json",
-        "hash": "b9dbec0c2d015b0765f3f556caeb4fb8"
+        "hash": "5b8c6851dfa2e0631064d5c07660e2fc"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/plist/.jshintrc",
@@ -60305,7 +60425,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/plist/package.json",
-        "hash": "a72ecd608e7beeed722f2253c41b0f06"
+        "hash": "0e836eded1c22e073e83a085a3f8f48c"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/properties-parser/README.markdown",
@@ -60314,10 +60434,6 @@
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/properties-parser/index.js",
         "hash": "419eaa7439853007e39e9c71aa14e4d9"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/properties-parser/package.json",
-        "hash": "4cfc64b4917f03e474d2a4075312fc3b"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/properties-parser/play-ground.js",
@@ -60344,20 +60460,24 @@
         "hash": "17cfe260b5d19bb6d3f44258fcec5a68"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/q/LICENSE",
-        "hash": "007eeb0530ef13fc1dc164e14af28a64"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/q/package.json",
-        "hash": "f207699f5cdd65bffa38e44e1edc6e46"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/q/q.js",
-        "hash": "d9d13a7e38573e4b500f1bb614a6c31b"
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/properties-parser/package.json",
+        "hash": "58414f7fd9e3ec9255973038d9c2c472"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/q/queue.js",
         "hash": "23d8c08ea748d356b2d9359780d15f0e"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/q/LICENSE",
+        "hash": "92d3cc1db292f6b3978ef90f05ec4548"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/q/package.json",
+        "hash": "6e4db88e0a7aa5496e6f155397f8aa30"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/q/q.js",
+        "hash": "5f8dc53ca06eee51b26c09d6874d4fe2"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/sax/AUTHORS",
@@ -60414,10 +60534,6 @@
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/sax/lib/sax.js",
         "hash": "0f23833a3efc58dfe7f737f618162138"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/sax/package.json",
-        "hash": "bff0e98000467b3af80c2d9201c0974a"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/sax/test/buffer-overrun.js",
@@ -60528,6 +60644,10 @@
         "hash": "3bace928b372da9d836844d6bfcd0957"
     },
     {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/sax/package.json",
+        "hash": "4f874aa867b42397f023d2c566efbc38"
+    },
+    {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/semver/LICENSE",
         "hash": "82703a69f6d7411dde679954c2fd9dca"
     },
@@ -60536,16 +60656,16 @@
         "hash": "f9116052a4b516a8c850efc0fdd85cad"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/semver/package.json",
-        "hash": "4b65b366d93b44b208bc96ada2e753cc"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/semver/range.bnf",
         "hash": "b54e62147bf496590215391ac37153a3"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/semver/semver.js",
         "hash": "a5a96794f4b1221ecbd06bb54318e9d5"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/semver/package.json",
+        "hash": "3fcc6ed90a2d6818ad48a4e5f52959bd"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/shelljs/.documentup.json",
@@ -60578,10 +60698,6 @@
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/shelljs/make.js",
         "hash": "eeb0da87858049b5851898cf412c2648"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/shelljs/package.json",
-        "hash": "67f7cf99dd34514ed9c62df7e09b2d86"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/shelljs/scripts/generate-docs.js",
@@ -60696,12 +60812,12 @@
         "hash": "98b1a78adecce5462ddf8ca7c016c22a"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/underscore/LICENSE",
-        "hash": "e5cfca0461b21ca314a0088fd5b2a236"
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/shelljs/package.json",
+        "hash": "f1e13b93e626b64d3a2c8e30f0a96008"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/underscore/package.json",
-        "hash": "9dbe90005194033aa34df0d6e2b959c1"
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/underscore/LICENSE",
+        "hash": "e5cfca0461b21ca314a0088fd5b2a236"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/underscore/underscore-min.js",
@@ -60716,12 +60832,16 @@
         "hash": "f893e294cde60c2462cb19b35aac431b"
     },
     {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/underscore/package.json",
+        "hash": "9793ec794c5ea9236ec9fad840f21911"
+    },
+    {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/unorm/lib/unorm.js",
         "hash": "40a93aaa53adae75b50509fa12459e5d"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/unorm/package.json",
-        "hash": "b2d52cb09b8c38a2ef79012aff9216ac"
+        "hash": "d222545177777adf73fa8d37900dfb86"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/util-deprecate/LICENSE",
@@ -60737,19 +60857,19 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/util-deprecate/package.json",
-        "hash": "3499ebd2100f8ece74e99924924cbd84"
+        "hash": "eb51dcb2cb4b4c2c0a2fcd8838e16893"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/wrappy/LICENSE",
         "hash": "82703a69f6d7411dde679954c2fd9dca"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/node_modules/wrappy/package.json",
-        "hash": "a2950e874122102d9e2630f9cd1150e1"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/wrappy/wrappy.js",
         "hash": "04a65e1669dc90fa11c900693c1974b1"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/node_modules/wrappy/package.json",
+        "hash": "94330b00c92288d0722ae5e942568097"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/xmlbuilder/.npmignore",
@@ -60829,7 +60949,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/xmlbuilder/package.json",
-        "hash": "f8104a6d297d32b808ec380122330342"
+        "hash": "b98d5f9203e7de0c3642d7fd3ed13326"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/xmldom/.npmignore",
@@ -60853,19 +60973,19 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/xmldom/dom-parser.js",
-        "hash": "5a03f4210f0772f4bee2463f13a7a628"
+        "hash": "0961c7fea3605da928c3dcb956260605"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/xmldom/dom.js",
-        "hash": "1c6f3655eaa0f5fe62248274e9f8d1dd"
+        "hash": "16f0e42d9923ab205e8166c14f177ed0"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/xmldom/package.json",
-        "hash": "df41aee6d36688ca7bf9d3d9fbedaee6"
+        "hash": "bc7d97b0bc82b4dd2f4714458822c832"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/node_modules/xmldom/sax.js",
-        "hash": "ae65ad3784f96b303ccd77ad0c1dfd0c"
+        "hash": "8c25b5d770a937a780104f0baab2db19"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova/run",
@@ -60876,24 +60996,32 @@
         "hash": "82a9d7a41a330a9e3e327753cfa9b1f0"
     },
     {
-        "file": "var/apps/ionic/previewer/android/cordova/version",
-        "hash": "d9f8ed4f6a56592d070e3820155bdf63"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/cordova/version.bat",
         "hash": "bbb47eee9ed5e8750b2ea971b86e6f34"
     },
     {
+        "file": "var/apps/ionic/previewer/android/cordova/Api.js",
+        "hash": "0936d9e9320a4f4d192015e1f768834e"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/android_sdk_version",
+        "hash": "2d0f8e9304deb2d464aaf2853afab6f1"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/android_sdk_version.bat",
+        "hash": "7bdd49e6f901b9b156515933fce43f6f"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/cordova/version",
+        "hash": "8b62c75cf2990afa7335e34d5babd496"
+    },
+    {
         "file": "var/apps/ionic/previewer/android/gradle/wrapper/gradle-wrapper.jar",
-        "hash": "d7f554d57f4d4428bc2fea69e36ef055"
+        "hash": "3ef954ed0adb79a5bd8a5303165fae05"
     },
     {
         "file": "var/apps/ionic/previewer/android/gradle/wrapper/gradle-wrapper.properties",
-        "hash": "6f02fb296e2de25d5a34fcb74604f5dc"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/gradlew",
-        "hash": "a670520d9d36833b3e28d1e4b73cbe22"
+        "hash": "158d9b98a7345bb2cc65df75474b57ed"
     },
     {
         "file": "var/apps/ionic/previewer/android/libs/cordova-generic-ad.jar",
@@ -60944,10 +61072,6 @@
         "hash": "f130240c15b7c4465f2be3a3f2273456"
     },
     {
-        "file": "var/apps/ionic/previewer/android/res/drawable-hdpi/icon.png",
-        "hash": "15ebcd0b40e6b14867c85e43c7f60232"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/res/drawable-land-hdpi/screen.png",
         "hash": "9538c5de907d93992081cc73bdee6160"
     },
@@ -60972,10 +61096,6 @@
         "hash": "63195648240121ba1aaaf829626e99a8"
     },
     {
-        "file": "var/apps/ionic/previewer/android/res/drawable-ldpi/icon.png",
-        "hash": "bb3f72d33f550a5bbd36ab880f3cb935"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/res/drawable-mdpi/ic_action_next_item.png",
         "hash": "c25d6b61fd8c5eb003db53064c252414"
     },
@@ -60986,10 +61106,6 @@
     {
         "file": "var/apps/ionic/previewer/android/res/drawable-mdpi/ic_action_remove.png",
         "hash": "935d5037f22b0f30a76582d23d396222"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/res/drawable-mdpi/icon.png",
-        "hash": "16ed3901554ae3b9faef7cba7dee3742"
     },
     {
         "file": "var/apps/ionic/previewer/android/res/drawable-port-hdpi/screen.png",
@@ -61028,10 +61144,6 @@
         "hash": "246cd882cec372b23946a2f635737ec5"
     },
     {
-        "file": "var/apps/ionic/previewer/android/res/drawable-xhdpi/icon.png",
-        "hash": "a124f474eae56146a4dcc5f772d3f659"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/res/drawable-xxhdpi/ic_action_next_item.png",
         "hash": "0b79c5984f1097c5ab40567f645acf6e"
     },
@@ -61042,14 +61154,6 @@
     {
         "file": "var/apps/ionic/previewer/android/res/drawable-xxhdpi/ic_action_remove.png",
         "hash": "efaae364b4b20799e9735e63ef3bf415"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/res/drawable-xxhdpi/icon.png",
-        "hash": "2c618d70edeebed8ff65b620951a926d"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/res/drawable-xxxhdpi/icon.png",
-        "hash": "3358524a5e4ee8a924e99d73bbe37a6d"
     },
     {
         "file": "var/apps/ionic/previewer/android/res/drawable/appiconstyles.xml",
@@ -61076,12 +61180,12 @@
         "hash": "d4950e0010eca563513d4e8b0195d25c"
     },
     {
-        "file": "var/apps/ionic/previewer/android/res/layout/list_row.xml",
-        "hash": "63d9845e5027b055f6d57ebcdef04e52"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/res/layout/login.xml",
         "hash": "9467289afa94ed5f9c58458fdd892bf1"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/res/layout/list_row.xml",
+        "hash": "0cb5feba74783c882cdf7d733e7861cc"
     },
     {
         "file": "var/apps/ionic/previewer/android/res/values/colors.xml",
@@ -61100,16 +61204,40 @@
         "hash": "91f90970ce5a9ca421651a1c8b220908"
     },
     {
+        "file": "var/apps/ionic/previewer/android/res/mipmap-hdpi/icon.png",
+        "hash": "b49afe76ee3aefb6aaf9940c59c05d3c"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/res/mipmap-ldpi/icon.png",
+        "hash": "4643700bb375034188c0755b96d610e4"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/res/mipmap-mdpi/icon.png",
+        "hash": "1514a145857db2e5766f7e744e40e766"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/res/mipmap-xhdpi/icon.png",
+        "hash": "b44c0dbd78f7643d801710ac359ad17d"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/res/mipmap-xxhdpi/icon.png",
+        "hash": "042339c3a8cd7d5fb245db0af9fee2ca"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/res/mipmap-xxxhdpi/icon.png",
+        "hash": "e1dbef4372b5cc6a3107e0bfa69b4004"
+    },
+    {
         "file": "var/apps/ionic/previewer/android/settings.gradle",
         "hash": "0be93033440955a6653ca866487c4b1f"
     },
     {
-        "file": "var/apps/ionic/previewer/android/src/com/appsmobilecompany/base/MainActivity.java",
-        "hash": "ab89bd1eda196663b5439a67504f7da3"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/src/com/appsmobilecompany/base/OfflineMode.java",
         "hash": "e9e10914d116e01e034377bade644299"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/src/com/appsmobilecompany/base/MainActivity.java",
+        "hash": "f4b6c01e266c569f1b0b6c0bc7509308"
     },
     {
         "file": "var/apps/ionic/previewer/android/src/com/nordnetab/chcp/main/config/ApplicationConfig.java",
@@ -61608,28 +61736,40 @@
         "hash": "e99830fa74e411795766eb2f43987f13"
     },
     {
-        "file": "var/apps/ionic/previewer/android/AndroidManifest.xml",
-        "hash": "5e26ddd989e4b998a6622b1169fd5fa5"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/android-previewer.json",
         "hash": "680efb4a80c43b3c8a159fff35804c78"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/build.gradle",
-        "hash": "1ebd40a5a26faa03ab36e4f95a9ba873"
     },
     {
         "file": "var/apps/ionic/previewer/android/config.bck.xml",
         "hash": "b9a37e26922fa213e929a6709cfeb042"
     },
     {
+        "file": "var/apps/ionic/previewer/android/AndroidManifest.xml",
+        "hash": "61321aff80ce4037f98e1899d84b6f2b"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/build.gradle",
+        "hash": "a9126b5e6097e7b893d59ec80a775149"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/gradlew",
+        "hash": "7f1cd7eb3f75a1dc85cd37753972a6e2"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/gradlew.bat",
+        "hash": "0ea6d812cf51675a8503fe23ae178996"
+    },
+    {
         "file": "var/apps/ionic/previewer/android/project.properties",
-        "hash": "355d3309e86c185f4289fcd799d25bcc"
+        "hash": "d59f759a31a639853b6ac8159263fe45"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/wrapper.gradle",
+        "hash": "0f664fcdbfbb142dd2755330cc6d5e98"
     },
     {
         "file": "var/apps/ionic/previewer/ios/AppsMobileCompany.xcodeproj/project.pbxproj",
-        "hash": "86cdea89fc461e4bc16327c78f9b2cf8"
+        "hash": "416c268f387056fc46b53c7ef764383f"
     },
     {
         "file": "var/apps/ionic/previewer/ios/AppsMobileCompany/AppsMobileCompany-Prefix.pch",
@@ -67737,7 +67877,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/lib/ngCordova/dist/ng-cordova.min.js",
-        "hash": "e1f3c3c7ec1d42cd8161a9663e897ea5"
+        "hash": "ddddc3632837018ee874320ef3db03bf"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/plugins/com.keosu.cordova.stream/www/Stream.js",

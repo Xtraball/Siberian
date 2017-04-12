@@ -634,9 +634,36 @@ class Siberian_Cron {
 		$this->lock($task->getId());
 
 		try {
-			$script = "{$this->root_path}/var/apps/ionic/tools/sdk-updater.php";
+		    # Running a clear/tmp before.
+            Siberian_Cache::__clearTmp();
 
-			require_once $script;
+            # Testing disk space (4GB required, 2Gb for archive, 2Gb for extracted)
+            $result = exec("echo $(($(stat -f --format=\"%a*%S\" .)))");
+
+            if($result > 4000000000) {
+                $script = "{$this->root_path}/var/apps/ionic/tools/sdk-updater.php";
+
+                require_once $script;
+            } else {
+
+                # Send a message to the Admin
+                $description = "Android SDK can't be updated, you need at least 4GB of free disk space.";
+
+                $notification = new Backoffice_Model_Notification();
+                $notification
+                    ->setTitle(__("Alert: Android SDK can't be updated."))
+                    ->setDescription(__($description))
+                    ->setSource("cron")
+                    ->setType("android-sdk-update")
+                    ->setIsHighPriority(1)
+                    ->setObjectType("Android_Sdk_Update")
+                    ->setObjectId(1)
+                    ->save();
+
+                Backoffice_Model_Notification::sendEmailForNotification($notification);
+            }
+
+
 		} catch(Exception $e){
 			$this->log($e->getMessage());
 			$task->saveLastError($e->getMessage());

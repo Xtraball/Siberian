@@ -52,7 +52,10 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
             if(empty($app_ids)) {
                 $filters["app_id = ?"] = -1;
             } else {
-                $filters["app_id IN (?)"] = $app_ids;
+                if(!empty($app_ids)) {
+                    $filters["app_id IN (?)"] = $app_ids;
+                }
+
             }
         }
 
@@ -61,7 +64,11 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
             $application_table = new Application_Model_Db_Table_Application();
             $applications = $application_table->findAllForGlobalPush();
 
-            $filters["app_id IN (?)"] = $applications;
+            if(!empty($applications)) {
+                $filters["app_id IN (?)"] = $applications;
+            }
+
+
         }
 
         $total = $application->countAll($filters);

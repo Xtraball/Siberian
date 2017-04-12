@@ -237,7 +237,7 @@ App.config(function($routeProvider) {
             };
 
         }
-    }
+    };
 
     $scope.Change_Design = function() {
         $scope.design_message = $scope.translated_messages[$scope.configs.editor_design.value];

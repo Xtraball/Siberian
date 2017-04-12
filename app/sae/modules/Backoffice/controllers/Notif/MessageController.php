@@ -36,6 +36,9 @@ class Backoffice_Notif_MessageController extends Backoffice_Controller_Default {
                 case "Application_Model_ApkQueue":
                         $origin = "generator";
                     break;
+                case "Android_Sdk_Update":
+                    $origin = "android-sdk-update";
+                    break;
             }
 
             $data = array(

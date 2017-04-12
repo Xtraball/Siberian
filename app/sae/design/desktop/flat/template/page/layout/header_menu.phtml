@@ -54,6 +54,7 @@
                 </a>
             </li>
 
+            <?php if($this->_canAccess("push_admin_global")) : ?>
             <li>
                 <a href="<?php echo $this->getUrl('push/admin/global'); ?>" class="<?php if($current_link == 'push_global') : ?> active<?php endif; ?>" title="<?php echo __('Push notifications') ?>">
                     <i class="fa fa-bullhorn"></i>
@@ -62,6 +63,7 @@
                     </div>
                 </a>
             </li>
+            <?php endif; ?>
 
             <?php if(!$this->getRequest()->isWhiteLabelEditor()) : ?>
 

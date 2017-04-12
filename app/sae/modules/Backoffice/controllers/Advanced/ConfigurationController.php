@@ -102,6 +102,51 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
 
     }
 
+    public function submitreportAction() {
+        try {
+            $request = $this->getRequest();
+
+            if($params = Siberian_Json::decode($request->getRawBody())) {
+
+                ob_start();
+                phpinfo();
+                $phpinfo = ob_get_clean();
+
+                $bug_report = array(
+                    "secret"    => Core_Model_Secret::SECRET,
+                    "data"      => array(
+                        "host"      => $request->getHttpHost(),
+                        "type"      => Siberian_Version::TYPE,
+                        "version"   => Siberian_Version::VERSION,
+                        "canal"     => System_Model_Config::getValueFor("update_channel"),
+                        "message"   => base64_encode($params["message"]),
+                        "phpinfo"   => base64_encode($phpinfo)
+                    )
+                );
+
+                $request = new Siberian_Request();
+                $request->post(sprintf("http://stats.xtraball.com/report.php?type=%s", Siberian_Version::TYPE), $bug_report);
+
+                $payload = array(
+                    "success" => true,
+                    "message" => __("Thanks for your report."),
+                );
+
+            } else {
+                throw new Siberian_Exception(__("Message is required."));
+            }
+
+        } catch(Exception $e) {
+            $payload = array(
+                "error" => true,
+                "message" => $e->getMessage(),
+            );
+        }
+
+        $this->_sendJson($payload);
+
+    }
+
     /**
      * Save settings
      * &
@@ -625,6 +670,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                     $isCname = (!empty($r) && isset($r[0]) && isset($r[0]["target"]) && ($r[0]["target"] == $hostname));
                     $isSelf = ($whitelabel == $hostname);
 
+                    # Force fix in 4.10.1
                     if(!$endWithDot && ($isCname || $isSelf)) {
                         $logger->info(__("Adding %s to SAN.", $whitelabel));
 

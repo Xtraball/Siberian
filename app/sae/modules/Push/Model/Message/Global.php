@@ -26,7 +26,19 @@ class Push_Model_Message_Global extends Core_Model_Default {
         $applications = Siberian_Json::decode($this->getTargetApps());
         if(!!$this->getSendToAll()) {
             $application_table = new Application_Model_Db_Table_Application();
-            $applications = $application_table->findAllForGlobalPush();
+            $all_applications = $application_table->findAllForGlobalPush();
+
+            # Get apps that belong to the current admin
+            $all_for_admin = $application_table->findAllByAdmin(
+                $this->getSession()->getAdminId()
+            )->toArray();
+
+            $filtered = array_map(function($app) {
+                return $app["app_id"];
+            }, $all_for_admin);
+
+            # We keep only apps that belongs to the admin
+            $applications = array_intersect($all_applications, $filtered);
         }
 
         try {
