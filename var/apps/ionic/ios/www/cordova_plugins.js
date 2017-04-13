@@ -498,7 +498,8 @@ module.exports.metadata =
     "siberian-plugin-offlinemode": "1.0.0",
     "cordova-plugin-iosrtc": "3.1.0",
     "cordova-plugin-insomnia": "4.2.0",
-    "cordova-plugin-music-controls": "1.4.1"
+    "cordova-plugin-music-controls": "1.4.1",
+    "siberian": "1.0.0"
 };
 // BOTTOM OF METADATA
 });

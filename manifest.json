@@ -14109,7 +14109,7 @@
     },
     {
         "file": "app/sae/modules/Analytics/controllers/Mobile/StoreController.php",
-        "hash": "62946d5db49445ee9bbe965094acd8bd"
+        "hash": "6d59d550d9bfe091426f163598d4f102"
     },
     {
         "file": "app/sae/modules/Analytics/controllers/TestController.php",
@@ -43005,7 +43005,7 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/AppsMobileCompany.xcodeproj/project.pbxproj",
-        "hash": "7c7b1fc871ca890e1aeeafe60a18c62a"
+        "hash": "96731264a0f7957db2b2b32461f6da24"
     },
     {
         "file": "var/apps/ionic/ios-noads/AppsMobileCompany/AppsMobileCompany-Prefix.pch",
@@ -44096,14 +44096,6 @@
         "hash": "f9018f9264a1a29e01ec664ff09f8e92"
     },
     {
-        "file": "var/apps/ionic/ios-noads/AppsMobileCompany/AppsMobileCompany-Info.plist",
-        "hash": "55b06a0e4f7a38082701d218add79d4a"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/AppsMobileCompany/AppsMobileCompany.entitlements",
-        "hash": "52b2cef0d20df1b3a7d20d393eb9e1db"
-    },
-    {
         "file": "var/apps/ionic/ios-noads/AppsMobileCompany/Bridging-Header.h",
         "hash": "a1fb260ff9ecef3c10405f681e0a0458"
     },
@@ -44238,6 +44230,10 @@
     {
         "file": "var/apps/ionic/ios-noads/AppsMobileCompany/Images.xcassets/LaunchStoryboard.imageset/Contents.json",
         "hash": "193003f25770a69cd0687363d4fc5b9e"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/AppsMobileCompany/AppsMobileCompany-Info.plist",
+        "hash": "be7148fa0e5e608f3214847873614706"
     },
     {
         "file": "var/apps/ionic/ios-noads/CordovaLib/CordovaLib.xcodeproj/project.pbxproj",
@@ -49537,7 +49533,7 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/www/cordova_plugins.js",
-        "hash": "b1245bc8b443535a971e727753dd8e2c"
+        "hash": "22f2766906f145b7035ca383b751484d"
     },
     {
         "file": "var/apps/ionic/ios-noads/AppsMobileCompany.xcworkspace/contents.xcworkspacedata",
@@ -49556,10 +49552,6 @@
         "hash": "9628b93c301eb14c916a1db74a24032b"
     },
     {
-        "file": "var/apps/ionic/ios-noads/ios-noads.json",
-        "hash": "52d941a604a7106e98ffa943e0543cca"
-    },
-    {
         "file": "var/apps/ionic/ios-noads/ios.json",
         "hash": "bb1ce907dd5914005440302ceef544fd"
     },
@@ -49572,8 +49564,12 @@
         "hash": "9a9998a171a1a79ed2beddd8ae6bbfa0"
     },
     {
+        "file": "var/apps/ionic/ios-noads/ios-noads.json",
+        "hash": "6002c25b8c99a30d91b58d2c9d5264e5"
+    },
+    {
         "file": "var/apps/ionic/ios/AppsMobileCompany.xcodeproj/project.pbxproj",
-        "hash": "467db5d684e47aff4ac1e69201bcfcce"
+        "hash": "5dd0ffea3e77c07c25605292d2cb0ed2"
     },
     {
         "file": "var/apps/ionic/ios/AppsMobileCompany/AppsMobileCompany-Prefix.pch",
@@ -50916,14 +50912,6 @@
         "hash": "f9018f9264a1a29e01ec664ff09f8e92"
     },
     {
-        "file": "var/apps/ionic/ios/AppsMobileCompany/AppsMobileCompany-Info.plist",
-        "hash": "55b06a0e4f7a38082701d218add79d4a"
-    },
-    {
-        "file": "var/apps/ionic/ios/AppsMobileCompany/AppsMobileCompany.entitlements",
-        "hash": "52b2cef0d20df1b3a7d20d393eb9e1db"
-    },
-    {
         "file": "var/apps/ionic/ios/AppsMobileCompany/Bridging-Header.h",
         "hash": "a1fb260ff9ecef3c10405f681e0a0458"
     },
@@ -51058,6 +51046,10 @@
     {
         "file": "var/apps/ionic/ios/AppsMobileCompany/Images.xcassets/LaunchStoryboard.imageset/Contents.json",
         "hash": "193003f25770a69cd0687363d4fc5b9e"
+    },
+    {
+        "file": "var/apps/ionic/ios/AppsMobileCompany/AppsMobileCompany-Info.plist",
+        "hash": "918579aaa423030911320bb6389e2f7c"
     },
     {
         "file": "var/apps/ionic/ios/CordovaLib/CordovaLib.xcodeproj/project.pbxproj",
@@ -56361,7 +56353,7 @@
     },
     {
         "file": "var/apps/ionic/ios/www/cordova_plugins.js",
-        "hash": "28e32ca50a180d6f21432c05bf1d821f"
+        "hash": "13917ce56e544f5194f51113a7445c60"
     },
     {
         "file": "var/apps/ionic/ios/AppsMobileCompany.xcworkspace/contents.xcworkspacedata",
@@ -56380,16 +56372,16 @@
         "hash": "15a2a2ec714d86225f573d7cfb95f843"
     },
     {
-        "file": "var/apps/ionic/ios/ios.json",
-        "hash": "16e387edf5ef5260f063883d09763f49"
-    },
-    {
         "file": "var/apps/ionic/ios/pods-debug.xcconfig",
         "hash": "7d85103db6e8b9121d4e9e1f574e8735"
     },
     {
         "file": "var/apps/ionic/ios/pods-release.xcconfig",
         "hash": "9a9998a171a1a79ed2beddd8ae6bbfa0"
+    },
+    {
+        "file": "var/apps/ionic/ios/ios.json",
+        "hash": "243b6bc266629a0b5b41bb7b8cfd537c"
     },
     {
         "file": "var/apps/ionic/previewer/android/CordovaLib/AndroidManifest.xml",
@@ -61769,7 +61761,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/AppsMobileCompany.xcodeproj/project.pbxproj",
-        "hash": "416c268f387056fc46b53c7ef764383f"
+        "hash": "cfc8f5df89b92a8dd0163ff9d35f5192"
     },
     {
         "file": "var/apps/ionic/previewer/ios/AppsMobileCompany/AppsMobileCompany-Prefix.pch",
@@ -63072,14 +63064,6 @@
         "hash": "f9018f9264a1a29e01ec664ff09f8e92"
     },
     {
-        "file": "var/apps/ionic/previewer/ios/AppsMobileCompany/AppsMobileCompany-Info.plist",
-        "hash": "ac3bcbe4248461e6569a408e10376b07"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/AppsMobileCompany/AppsMobileCompany.entitlements",
-        "hash": "90b5a0cf1ed67e28e092ee9dbc3cb986"
-    },
-    {
         "file": "var/apps/ionic/previewer/ios/AppsMobileCompany/Bridging-Header.h",
         "hash": "be2140decd2bc0897a1c802b14df1b58"
     },
@@ -63214,6 +63198,10 @@
     {
         "file": "var/apps/ionic/previewer/ios/AppsMobileCompany/Images.xcassets/LaunchStoryboard.imageset/Contents.json",
         "hash": "193003f25770a69cd0687363d4fc5b9e"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/AppsMobileCompany/AppsMobileCompany-Info.plist",
+        "hash": "7d8391047b71a33024b9bd06a889a9ac"
     },
     {
         "file": "var/apps/ionic/previewer/ios/CordovaLib/CordovaLib.xcodeproj/project.pbxproj",
@@ -68505,7 +68493,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/cordova_plugins.js",
-        "hash": "83e09fbbffb98639d02022b7e8561b80"
+        "hash": "3830822ffb63e7ed5f79d642966314a6"
     },
     {
         "file": "var/apps/ionic/previewer/ios/AppsMobileCompany.xcworkspace/contents.xcworkspacedata",
@@ -68524,10 +68512,6 @@
         "hash": "71aca0c3af87f971d8cbabce43670286"
     },
     {
-        "file": "var/apps/ionic/previewer/ios/ios-previewer.json",
-        "hash": "c4fab16f857e9853eb4b3b55d5b232fe"
-    },
-    {
         "file": "var/apps/ionic/previewer/ios/ios.json",
         "hash": "bb1ce907dd5914005440302ceef544fd"
     },
@@ -68538,6 +68522,10 @@
     {
         "file": "var/apps/ionic/previewer/ios/pods-release.xcconfig",
         "hash": "9a9998a171a1a79ed2beddd8ae6bbfa0"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/ios-previewer.json",
+        "hash": "ae2d24f0b5c56b8c7c03da5fc3ef255b"
     },
     {
         "file": "var/placeholder.png",

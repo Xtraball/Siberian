@@ -9,7 +9,7 @@
                 "parents": {
                     "NSAppTransportSecurity": [
                         {
-                            "xml": "<dict><key>NSAllowsArbitraryLoads</key><true /></dict>",
+                            "xml": "<dict><key>NSAllowsArbitraryLoads</key><true /><key>NSExceptionDomains</key><dict /></dict>",
                             "count": 1
                         }
                     ],
@@ -54,6 +54,24 @@
                     "NSMicrophoneUsageDescription": [
                         {
                             "xml": "<string> </string>",
+                            "count": 1
+                        }
+                    ],
+                    "NSCalendarsUsageDescription": [
+                        {
+                            "xml": "<string>Be notified of the App events.</string>",
+                            "count": 1
+                        }
+                    ],
+                    "NSContactsUsageDescription": [
+                        {
+                            "xml": "<string>Share content with your contacts</string>",
+                            "count": 1
+                        }
+                    ],
+                    "NSMotionUsageDescription": [
+                        {
+                            "xml": "<string>Smart navigation with TaxiRide and other nice features</string>",
                             "count": 1
                         }
                     ]
@@ -303,6 +321,9 @@
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
         "cordova-plugin-music-controls": {
+            "PACKAGE_NAME": "com.appsmobilecompany.base"
+        },
+        "siberian": {
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         }
     },
@@ -804,6 +825,7 @@
         "siberian-plugin-offlinemode": "1.0.0",
         "cordova-plugin-iosrtc": "3.1.0",
         "cordova-plugin-insomnia": "4.2.0",
-        "cordova-plugin-music-controls": "1.4.1"
+        "cordova-plugin-music-controls": "1.4.1",
+        "siberian": "1.0.0"
     }
 }

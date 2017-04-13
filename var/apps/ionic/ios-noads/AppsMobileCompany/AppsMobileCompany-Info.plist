@@ -13,8 +13,6 @@
     <string>${PRODUCT_NAME}</string>
     <key>CFBundleExecutable</key>
     <string>${EXECUTABLE_NAME}</string>
-    <key>CFBundleIconFile</key>
-    <string>icon.png</string>
     <key>CFBundleIcons</key>
     <dict>
       <key>CFBundlePrimaryIcon</key>
@@ -24,7 +22,7 @@
           <string>icon-40</string>
           <string>icon-small</string>
           <string>icon-60</string>
-          <string>icon.png</string>
+          <string>icon</string>
           <string>icon@2x</string>
           <string>icon-72</string>
           <string>icon-72@2x</string>
@@ -207,5 +205,11 @@
     <string>Use the GPS for live navigation</string>
     <key>NSMicrophoneUsageDescription</key>
     <string/>
+    <key>NSCalendarsUsageDescription</key>
+    <string>Be notified of the App events.</string>
+    <key>NSContactsUsageDescription</key>
+    <string>Share content with your contacts</string>
+    <key>NSMotionUsageDescription</key>
+    <string>Smart navigation with TaxiRide and other nice features</string>
   </dict>
 </plist>
