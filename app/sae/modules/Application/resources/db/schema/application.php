@@ -192,9 +192,10 @@ $schemas['application'] = array(
     ),
     'android_push_color' => array(
         'type' => 'varchar(255)',
-        'is_null' => true,
+        'is_null' => false,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
+        'default' => '#0099c7'
     ),
     'android_push_image' => array(
         'type' => 'varchar(255)',

@@ -21,6 +21,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
         $html = array(
             "title" => __("Application"),
             "icon" => "fa-mobile",
+            "ionic_message" => __("If your app is already published on the stores, be sure you have sent an update with the Ionic version, and that this update has already been accepted, otherwise your app may be broken.")
         );
 
         $this->_sendHtml($html);
@@ -527,8 +528,6 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                 "more" => $more,
                 "reload" => $reload,
             );
-
-
 
         } else {
             $data = array(

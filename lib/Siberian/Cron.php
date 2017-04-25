@@ -308,7 +308,15 @@ class Siberian_Cron {
 				try {
 					$this->log(sprintf("Generating App: ID[%s], Name[%s], Target[APK]", $apk->getAppId(), $apk->getName()));
 					$apk->changeStatus("building");
+
+					# Trying to clean-up old related processes
+					exec("pkill -9 -U $(id -u) aapt; pkill -9 -U $(id -u) java");
+
 					$apk->generate();
+
+                    # +After generation**
+                    exec("pkill -9 -U $(id -u) aapt; pkill -9 -U $(id -u) java");
+
 				} catch(Exception $e) {
 					$this->log($e->getMessage());
                     # Trying to fetch APK
@@ -354,7 +362,7 @@ class Siberian_Cron {
 				} catch(Exception $e) {
 					$this->log($e->getMessage());
 
-                    # Trying to fetch APK
+                    # Trying to fetch Source
                     $refetch_source = new Application_Model_SourceQueue();
                     $refetch_source = $refetch_source->find($source_id);
                     if(!$refetch_source->getId()) {

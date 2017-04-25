@@ -423,93 +423,14 @@ foreach($categories as $category_data) {
         ->insertOnce(array("code"));
 }
 
-
-# SYSTEM Write, for app.ini
-$writer = new Zend_Config_Writer_Ini();
-if(is_writable(APPLICATION_PATH . '/configs/app.ini')) {
-
-    $config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/app.ini', null, array('skipExtends' => true, 'allowModifications' => true));
-
-    $write = false;
-
-    /** Fix Mysql gone away */
-    if($config->production->resources->db->params->adapterNamespace != "Siberian_Db_Adapter") {
-        $config->production->resources->db->params->adapterNamespace = "Siberian_Db_Adapter";
-        $write = true;
-    }
-
-    /** JS/CSS Minifier */
-    if(!isset($config->production->siberian->minify)) {
-
-        $config->production->siberian->minify = array(
-            "browser"   => array("css" => "1", "js" => "1"),
-            "android"   => array("css" => "0", "js" => "0"),
-            "ios"       => array("css" => "0", "js" => "0"),
-            "iosnoads"  => array("css" => "0", "js" => "0"),
-        );
-
-        $write = true;
-    }
-
-    /** JS/CSS Minifier */
-    if(!isset($config->development->siberian->minify)) {
-
-        $config->development->siberian->minify = array(
-            "browser" => array("css" => "0", "js" => "0"),
-        );
-
-        $write = true;
-    }
-
-    if($config->production->resources->db->params->adapterNamespace != "Siberian_Db_Adapter") {
-        $config->production->resources->db->params->adapterNamespace = "Siberian_Db_Adapter";
-        $write = true;
-    }
-
-    if($write) { /**Write only if different */
-        $writer->setConfig($config)
-            ->setFilename(APPLICATION_PATH . '/configs/app.ini')
-            ->write();
-    }
-
-}
-
-$layout_model = new Application_Model_Layout_Homepage();
-$layout_9_id = $layout_model->find("layout_9", "code")->getId();
-
-# Android default push icon.
-# run in 4.9.1
-$this->query("UPDATE application SET android_push_icon = '/placeholder/android/push_default_icon.png' WHERE (android_push_icon IS NULL OR android_push_icon = '');");
-$this->query("UPDATE application SET android_push_color = '#0099c7' WHERE (android_push_color IS NULL OR android_push_color = '');");
-$this->query("UPDATE application SET layout_visibility = 'toggle' WHERE layout_id = {$layout_9_id};");
-
-# run in 4.9.3
-$this->query("UPDATE application SET android_push_color = LOWER(android_push_color);");
-
+# run from 4.11.0
 try {
-    $this->query("ALTER TABLE `application` CHANGE `android_push_color` `android_push_color` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT '#0099c7';");
+    $this->query("ALTER TABLE `application` CHANGE `domain` `domain` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;");
 } catch(Exception $e) {
     if(method_exists($this, "log")) {
-        $this->log("Skipped aleter android_push_color, already done.");
-    }
-}
-# run in 4.9.3
-
-
-# Add indexes to improve slow queries
-try {
-    $this->query("ALTER TABLE `application` ADD UNIQUE `search_domain` (`domain`);");
-} catch(Exception $e) {
-    if(method_exists($this, "log")) {
-        $this->log("Skipped index search_domain, already exists.");
+        $this->log("Skipped application nullable domain, already exists.");
     }
 }
 
-try {
-    $this->query("ALTER TABLE `application` ADD UNIQUE `search_key` (`key`);");
-} catch(Exception $e) {
-    if(method_exists($this, "log")) {
-        $this->log("Skipped index search_key, already exists.");
-    }
-}
+
 

@@ -66,8 +66,6 @@ class Siberian_Log extends Zend_Log {
                 $request = new Siberian_Request();
                 $request->post(sprintf("http://stats.xtraball.com/errors.php?type=%s", Siberian_Version::TYPE), $bug_report);
 
-
-
                 header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
                 header("Location: /errors/500.php?log={$this->_filename}");
             } else {

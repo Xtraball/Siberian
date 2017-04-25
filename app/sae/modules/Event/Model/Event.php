@@ -95,6 +95,7 @@ class Event_Model_Event extends Core_Model_Default {
                 }
             }
             usort($this->_tmp_list, array($this, '_sortByDate'));
+
             $this->_list = array();
             foreach($this->_tmp_list as $event) {
                 if(is_array($event)) $event = new Core_Model_Default($event);
@@ -179,16 +180,20 @@ class Event_Model_Event extends Core_Model_Default {
                 }
                 $start_at = new Zend_Date($event['DTSTART'],Zend_Date::ISO_8601);
                 if(!empty($timezone)){
-                    $start_at->setTimezone($timezone);
+                    $start_at = $start_at->setTimezone($timezone);
                 }
+                $start_time_at = $start_at->toString('HH:mm');
+                $start_at = $start_at->toString('y-MM-dd HH:mm:ss');
                 $end_at = new Zend_Date($event['DTEND'],Zend_Date::ISO_8601);
                 if(!empty($timezone)){
-                    $end_at->setTimezone($timezone);
+                    $end_at = $end_at->setTimezone($timezone);
                 }
+                $end_at = $end_at->toString('y-MM-dd HH:mm:ss');
                 $this->_tmp_list[] = array(
                     "id"            => $key,
                     "name"          => $event['SUMMARY'],
                     "start_at"      => $start_at,
+                    "start_time_at" => $start_time_at,
                     "end_at"        => $end_at,
                     "description"   => preg_replace('/\v+|\\\[rn]/','<br/>', $event['DESCRIPTION']),
                     "location"      => isset($event['LOCATION']) ? $event['LOCATION'] : '',
@@ -199,39 +204,34 @@ class Event_Model_Event extends Core_Model_Default {
                 );
             }
         }
-
         return $this;
     }
 
     protected  function _parseFBAgenda($username){
 
-        $app_id         = Core_Model_Lib_Facebook::getAppId();
-        $app_secret     = Core_Model_Lib_Facebook::getSecretKey();
+        $access_token = Core_Model_Lib_Facebook::getAppToken();
 
-        $url = 'https://graph.facebook.com/v2.0/oauth/access_token';
-        $url .= '?grant_type=client_credentials';
-        $url .= "&client_id=$app_id";
-        $url .= "&client_secret=$app_secret";
+        $date = new Zend_Date();
 
-        $access_token = str_replace('access_token=','',file_get_contents($url));
-
-        $url = "https://graph.facebook.com/v2.0/$username/events?access_token=$access_token";
+        $url = "https://graph.facebook.com/v2.7/$username/events?since=".$date->toString("YYYY-MM-dd")."&access_token=$access_token";
 
         $response = file_get_contents($url);
 
-        if(!$response) return $this;
+        if(!$response) {
+            return $this;
+        }
 
-        $events = Zend_Json::decode($response);
+        $events = Siberian_Json::decode($response);
 
         if (!empty($events) && !empty($events['data'])){
             foreach ($events['data'] as $key => $event){
-                $event_datas = file_get_contents("https://graph.facebook.com/v2.0/{$event['id']}?access_token=$access_token");
+                $event_datas = file_get_contents("https://graph.facebook.com/v2.7/{$event['id']}?access_token=$access_token");
 
                 if(!$event_datas) continue;
                 $description = '';
                 if(!$event_datas) continue;
 
-                $event_datas = Zend_Json::decode($event_datas);
+                $event_datas = Siberian_Json::decode($event_datas);
 
                 $updated_at = date_create($event_datas['updated_time'])->format('Y-m-d H:i:s');
 
@@ -250,8 +250,10 @@ class Event_Model_Event extends Core_Model_Default {
                 }
 
                 $start_at = null;
+                $start_time_at = null;
                 if(!empty($event['start_time'])) {
                     $start_at = new Zend_Date($event['start_time'], Zend_Date::ISO_8601);
+                    $start_time_at = $start_at->toString('HH:mm');
                     $start_at = $start_at->toString('y-MM-dd HH:mm:ss');
                 }
 
@@ -259,6 +261,7 @@ class Event_Model_Event extends Core_Model_Default {
                     "id"            => $key,
                     "name"          => $event['name'],
                     "start_at"      => $start_at,
+                    "start_time_at" => $start_time_at,
                     "end_at"        => date_create(isset($event['end_time']) ? $event['end_time'] : "")->format('Y-m-d H:i:s'),
                     "description"   => !empty($event_datas['description']) ? $event_datas['description'] : null,
                     "location"      => $address,
@@ -272,6 +275,8 @@ class Event_Model_Event extends Core_Model_Default {
 //                }
             }
         }
+
+        $this->_tmp_list = array_reverse($this->_tmp_list);
 
         return $this;
 
@@ -312,7 +317,7 @@ class Event_Model_Event extends Core_Model_Default {
             $b_start_at = $b->getStartAt();
         }
 
-        return strtotime($a_start_at) < strtotime($b_start_at);
+        return strtotime($a_start_at) > strtotime($b_start_at);
     }
 
     protected function msort($array, $key, $sort_flags = SORT_REGULAR) {

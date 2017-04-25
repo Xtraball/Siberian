@@ -249,7 +249,6 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
 
         // Check if all the available languages exist in the Android source
         foreach($languages as $lang) {
-            if($lang == "en") continue;
 
             if(stripos($lang, "_") !== false) {
                 $lang = explode("_", $lang);

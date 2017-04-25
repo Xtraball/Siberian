@@ -18,7 +18,9 @@ class Wordpress_Mobile_ListController extends Application_Controller_Mobile_Defa
                 if(count($posts) AND $offset == 0) {
                     foreach($posts as $k => $post) {
                         if(!$post->getIsHidden()) {
-                            $cover = $post;
+                            if(!$cover) {
+                                $cover = $post;
+                            }
                         }
                     }
 
@@ -51,10 +53,10 @@ class Wordpress_Mobile_ListController extends Application_Controller_Mobile_Defa
                     $data["cover"] = array(
                         "id" => $cover->getId(),
                         "title" => $cover->getTitle(),
-                        "subtitle" => html_entity_decode($post->getShortDescription(), ENT_NOQUOTES, "UTF-8"),
+                        "subtitle" => html_entity_decode($cover->getShortDescription(), ENT_NOQUOTES, "UTF-8"),
                         "description" => html_entity_decode($cover->getDescription(), ENT_NOQUOTES, "UTF-8"),
                         "picture" => $cover->getPicture(),
-                        "date" => $post->getFormattedDate(),
+                        "date" => $cover->getFormattedDate(),
                         "is_hidden" => false,
                         "url" => $this->getPath("wordpress/mobile_view", array("value_id" => $value_id, "post_id" => $cover->getId()))
                     );

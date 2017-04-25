@@ -11,7 +11,7 @@ App.config(function($routeProvider) {
         templateUrl: BASE_URL+"/application/backoffice_view_acl/template"
     });
 
-}).controller("ApplicationViewController", function($scope, $location, $routeParams, Header, Application, Url, FileUploader, Label, Settings, License) {
+}).controller("ApplicationViewController", function($scope, $location, $routeParams, Header, Application, Url, FileUploader, Label, Settings, LicenseService) {
 
     $scope.header = new Header();
     $scope.header.button.left.is_visible = false;
@@ -32,6 +32,7 @@ App.config(function($routeProvider) {
     Application.loadViewData().success(function(data) {
         $scope.header.title = data.title;
         $scope.header.icon = data.icon;
+        $scope.ionic_confirm_message = data.ionic_message;
     });
 
     Application.find($routeParams.app_id).success(function(data) {
@@ -51,53 +52,23 @@ App.config(function($routeProvider) {
 
     Settings.type = "general";
     Settings.findAll().success(function(configs) {
-
         //we check license info on config sucees
         if(configs.ios_autobuild_key && configs.ios_autobuild_key.value !== "") {
-            License.getIosBuildLicenseInfo(configs.ios_autobuild_key.value).success(function(infos) {
-                if(infos && infos.success) {
-                    $scope.iosBuildActivationRemain = '';
-                    switch (true) {
-                        case infos.license === "invalid" :
-                            $scope.iosBuildLicenceError = 'Invalid license key';
-                            break;
-                        case infos.license === "expired" :
-                            $scope.iosBuildLicenceError = 'License key expired';
-                            break;
-                        case infos.license === "item_name_mismatch" :
-                            $scope.iosBuildLicenceError = 'This license is not for iOS autopublication';
-                            break;
-                        case infos.activations_left === 0 :
-                            $scope.iosBuildLicenceError = 'No more remaining build';
-                            break;
-                        case infos.license === "inactive":
-                        case infos.license === "valid":
-                        case infos.license === "site_inactive":
-                            if(isFinite(infos.activations_left)) {
-                                $scope.iosBuildActivationRemain = infos.activations_left + " / " + infos.license_limit;
-                            } else {
-                                $scope.iosBuildActivationRemain = infos.activations_left;
-                            }
-                            $scope.iosBuildLicenceError = '';
-                            break;
-                        default :
-                            $scope.iosBuildLicenceError = 'Your license is invalid: ' + infos.license;
-                            break;
-                    }
-                } else {
-                    $scope.iosBuildActivationRemain = '';
-                    $scope.iosBuildLicenceError = 'Cannot valid license key';
-                }
+            LicenseService.getIosBuildLicenseInfo(configs.ios_autobuild_key.value).then(function(infos) {
+                $scope.iosBuildActivationRemain = infos.remainingBuild;
+                $scope.iosBuildLicenceError = infos.errorMessage;
+            },function(reason){
+                $scope.iosBuildActivationRemain = 'n/a';
+                $scope.iosBuildLicenceError = 'We cannot get your license information';
             });
         } else {
             $scope.iosBuildActivationRemain = 'n/a';
             $scope.iosBuildLicenceError = '';
         }
-
     });
 
-    $scope.switchToIonic = function(message) {
-        if(!window.confirm(message)) {
+    $scope.switchToIonic = function() {
+        if(!window.confirm($scope.ionic_confirm_message)) {
             return false;
         }
 

@@ -132,6 +132,18 @@ App.config(function ($stateProvider) {
             McommerceCart.addProduct(postParameters).success(function (data) {
                 if (data.success) {
                     $scope.is_loading = false;
+                    //Don't forget to "reset" selection
+                    $scope.product_quantity = 1;
+                    $scope.selected_format = {id:null};
+                    $scope.product.optionsGroups.forEach(function(option) {
+                        option.selectedOptionId = null;
+                        option.selectedQuantity = 1;
+                    });
+                    $scope.product.choicesGroups.forEach(function(choice) {
+                        choice.options.forEach(function(option) {
+                            option.selected = false;
+                        });
+                    });
                     $ionicLoading.hide();
                     $scope.openCart();
                 }

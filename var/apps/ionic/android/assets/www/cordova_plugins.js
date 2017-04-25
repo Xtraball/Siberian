@@ -459,7 +459,8 @@ module.exports.metadata =
     "de.appplant.cordova.plugin.local-notification": "0.8.4.1",
     "siberian-plugin-offlinemode": "1.0.0",
     "cordova-plugin-insomnia": "4.2.0",
-    "cordova-plugin-music-controls": "1.4.1"
+    "cordova-plugin-music-controls": "1.4.1",
+    "siberian": "1.0.0"
 };
 // BOTTOM OF METADATA
 });

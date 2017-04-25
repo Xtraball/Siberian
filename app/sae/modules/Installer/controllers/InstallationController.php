@@ -6,6 +6,24 @@ class Installer_InstallationController extends Installer_Controller_Installation
         $this->loadPartials();
     }
 
+    public function savelicenseAction() {
+
+        try {
+            if(Installer_Model_Installer::isInstalled() === false) {
+                $request = $this->getRequest();
+                System_Model_Config::setValueFor("siberiancms_key",$request->getParam("key"));
+                $html = array('success' => 1);
+            } else {
+                throw new Exception("An error occured while saving the license.");
+            }
+
+        } catch (Exception $e) {
+            $html = array('message' => $e->getMessage());
+            $this->getResponse()->setHttpResponseCode(400);
+        }
+        $this->getLayout()->setHtml(Zend_Json::encode($html));
+    }
+
     public function endAction() {
 
         try {

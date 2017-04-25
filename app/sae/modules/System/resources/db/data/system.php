@@ -134,6 +134,11 @@ $configs = array(
         "value" => ""
     ),
     array(
+        "code" => "siberiancms_key",
+        "label" => "Your CMS License Key",
+        "value" => ""
+    ),
+    array(
         "code" => "cron_interval",
         "label" => "CRON Scheduler interval",
         "value" => "60"

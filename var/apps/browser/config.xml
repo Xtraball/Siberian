@@ -23,7 +23,7 @@
     <allow-intent href="mailto:*" />
     <chcp>
         <config-file url="PLATFORM_URL" />
-        <native-interface version="3" />
+        <native-interface version="4" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />
     </chcp>

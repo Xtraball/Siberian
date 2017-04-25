@@ -43,7 +43,7 @@ if(shouldupdate($android_sdk_path)) {
     rmdir($android_sdk_path);
     chdir($tools_path);
     /** Clean-up  */
-    exec("rm -rf ./android-sdk"); 
+    exec("rm -rf ./android-sdk");
     exec("rm -rf ./android-sdk.t*");
     exec("wget -O android-sdk.tar {$download_url} && tar --overwrite -xf android-sdk.tar && rm android-sdk.tar");
 }

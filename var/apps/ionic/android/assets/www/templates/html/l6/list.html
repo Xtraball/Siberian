@@ -31,7 +31,7 @@
                             <div class="item-image" ng-if="item.picture" style="background-image:url('{{ item.picture }}')">
                             </div>
                             <div class="item-content">
-                                <h2>{{ item.title ? item.title : item.author }}</h2>
+                                <h2>{{ $index+1 }} - {{ item.title ? item.title : item.author }}</h2>
                                 <p ng-if="item.subtitle">{{ item.subtitle }}</p>
                                 <p ng-if="!item.subtitle && item.message">{{ item.message }}</p>
                             </div>
@@ -47,7 +47,7 @@
                             <div class="item-image" ng-if="collection[$index+1].picture" style="background-image:url('{{ collection[$index+1].picture }}')">
                             </div>
                             <div class="item-content">
-                                <h2>{{ $index+1 }} - {{ collection[$index+1].title ? collection[$index+1].title : collection[$index+1].author }}</h2>
+                                <h2>{{ $index+2 }} - {{ collection[$index+1].title ? collection[$index+1].title : collection[$index+1].author }}</h2>
                                 <p ng-if="collection[$index+1].subtitle">{{ collection[$index+1].subtitle }}</p>
                                 <p ng-if="!collection[$index+1].subtitle && collection[$index+1].message">{{ collection[$index+1].message }}</p>
                             </div>
@@ -61,7 +61,7 @@
                             <div class="item-image" ng-if="collection[$index+2].picture"  style="background-image:url('{{ collection[$index+2].picture }}')">
                             </div>
                             <div class="item-content">
-                                <h2>{{ collection[$index+2].title ? collection[$index+2].title : collection[$index+2].author }}</h2>
+                                <h2>{{ $index+3 }} - {{ collection[$index+2].title ? collection[$index+2].title : collection[$index+2].author }}</h2>
                                 <p ng-if="collection[$index+2].subtitle">{{ collection[$index+2].subtitle }}</p>
                                 <p ng-if="!collection[$index+2].subtitle && collection[$index+2].message">{{ collection[$index+2].message }}</p>
                             </div>

@@ -19,11 +19,11 @@ class Event_Mobile_ListController extends Application_Controller_Mobile_Default 
                 foreach($events as $key => $event) {
                     $start_at->set($event->getStartAt(), $format);
                     $end_at->set($event->getEndAt(), $format);
-                    $formatted_start_at = $start_at->toString($this->_("MM.dd.y"));
+                    $formatted_start_at = $start_at->toString(__("MM.dd.y"));
 
-                    $subtitle2 = $this->_("Entrance: %s", $event->getStartTimeAt());
+                    $subtitle2 = __("Entrance: %s", $event->getStartTimeAt());
                     if($event->getLocationLabel()) {
-                        $subtitle2 .= " | ".$this->_("Location: %s", $event->getLocationLabel());
+                        $subtitle2 .= " | ".__("Location: %s", $event->getLocationLabel());
                     }
 
                     if(!in_array($start_at->toString(Zend_Date::DATE_MEDIUM), $data["groups"])) {
@@ -31,7 +31,11 @@ class Event_Mobile_ListController extends Application_Controller_Mobile_Default 
                     }
 
                     $picture = $event->getPicture() ? $this->getRequest()->getBaseUrl().$event->getPicture() : null;
-                    if($event->getType() == "facebook") $picture = $event->getPicture();
+
+                    if($event->getType() == "facebook") {
+                        $picture = $event->getPicture();
+                    }
+
                     $data['collection'][] = array(
                         "id" => $key,
                         "picture" => $picture,
@@ -54,12 +58,11 @@ class Event_Mobile_ListController extends Application_Controller_Mobile_Default 
                 $data['page_title'] = $option->getTabbarName();
                 $data['displayed_per_page'] = Event_Model_Event::DISPLAYED_PER_PAGE;
 
-            }
-            catch(Exception $e) {
+            } catch(Exception $e) {
                 $data = array('error' => 1, 'message' => $e->getMessage());
             }
 
-            $this->_sendHtml($data);
+            $this->_sendJson($data);
 
         }
 

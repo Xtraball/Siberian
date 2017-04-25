@@ -1,3 +1,6 @@
+<script type="text/javascript">
+    test = "<?php echo __js("If your app is already published on the stores, be sure you have sent an update with the Ionic version, and that this update has already been accepted, otherwise your app may be broken."); ?>";
+</script>
 <sb-section title="'<?php echo __("General Information"); ?>'">
     <form ng-submit="saveInfo()">
         <div class="col-md-4">
@@ -38,7 +41,7 @@
             <div class="form-group">
                 <label class="control-label"><?php echo __("Design"); ?>: <i>{{ tmp_application.design_code }}</i></label>
                 <div>
-                    <button type="button" ng-click="switchToIonic('<?php echo __("If your app is already published on the stores, be sure you have sent an update with the Ionic version, and that this update has already been accepted, otherwise your app may be broken."); ?>')" ng-if="tmp_application.design_code != 'ionic'" class="btn btn-success" style="border-color: white;">
+                    <button type="button" ng-click="switchToIonic(message)" ng-if="tmp_application.design_code != 'ionic'" class="btn btn-success" style="border-color: white;">
                         <?php echo __("Switch to Ionic design"); ?>
                     </button>
                 </div>

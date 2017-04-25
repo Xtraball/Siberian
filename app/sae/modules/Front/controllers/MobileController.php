@@ -142,8 +142,8 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                     $hide_navbar = null;
                     $use_external_app = null;
                     if($option_value->getCode() === "weblink_mono") {
-                        $hide_navbar = $object->getHideNavbar();
-                        $use_external_app = $object->getUseExternalApp();
+                        $hide_navbar = $object->getLink()->getHideNavbar();
+                        $use_external_app = $object->getLink()->getUseExternalApp();
                     }
                     /**
                       END Link special code

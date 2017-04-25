@@ -73,8 +73,7 @@ var PushNotification = function(options) {
                     return;
                 }
 
-                //throw new Error('Error subscribing for Push notifications.');
-                console.error('Error subscribing for Push notifications.');
+                throw new Error('Error subscribing for Push notifications.');
             });
         }).catch(function(error) {
             console.log(error);
