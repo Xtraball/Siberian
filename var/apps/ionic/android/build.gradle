@@ -30,7 +30,7 @@ buildscript {
     // http://tools.android.com/tech-docs/new-build-system/version-compatibility
     // and https://issues.apache.org/jira/browse/CB-8143
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath 'com.android.tools.build:gradle:2.2.3'
         classpath "io.realm:realm-gradle-plugin:2.1.0"
     }
 }
@@ -46,7 +46,7 @@ allprojects {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.13'
+    gradleVersion = '2.14.1'
 }
 
 // Configuration properties. Set these via environment variables, build-extras.gradle, or gradle.properties.
@@ -93,8 +93,8 @@ ext {
 // PLUGIN GRADLE EXTENSIONS START
 apply from: "cordova-plugin-admobpro/base-build.gradle"
 apply from: "cordova-hot-code-push-plugin/base-chcp.gradle"
-apply from: "phonegap-plugin-barcodescanner/base-barcodescanner.gradle"
 apply from: "phonegap-plugin-push/base-push.gradle"
+apply from: "phonegap-plugin-barcodescanner/base-barcodescanner.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
 def hasBuildExtras = file('build-extras.gradle').exists()
@@ -180,7 +180,7 @@ android {
     }
 
     defaultConfig {
-        versionCode cdvVersionCode ?: Integer.parseInt("" + privateHelpers.extractIntFromManifest("versionCode"))
+        versionCode cdvVersionCode ?: new BigInteger("" + privateHelpers.extractIntFromManifest("versionCode"))
         applicationId privateHelpers.extractStringFromManifest("package")
 
         if (cdvMinSdkVersion != null) {
@@ -259,11 +259,12 @@ android {
 dependencies {
     // compile fileTree(dir: 'libs', include: '*.jar')
     // SUB-PROJECT DEPENDENCIES START
-    debugCompile project(path: "CordovaLib", configuration: "debug")
-    releaseCompile project(path: "CordovaLib", configuration: "release")
+    debugCompile(project(path: "CordovaLib", configuration: "debug"))
+    releaseCompile(project(path: "CordovaLib", configuration: "release"))
     compile "com.google.android.gms:play-services-ads:+"
     compile "com.android.support:support-v13:23+"
-    compile "com.google.android.gms:play-services-gcm:+"
+    compile "com.google.android.gms:play-services-gcm:10.2+"
+    compile "me.leolin:ShortcutBadger:1.1.14@aar"
     compile "com.android.support:support-v4:+"
     // SUB-PROJECT DEPENDENCIES END
 }
@@ -282,7 +283,7 @@ def promptForReleaseKeyPassword() {
 
 gradle.taskGraph.whenReady { taskGraph ->
     taskGraph.getAllTasks().each() { task ->
-        if (task.name == 'validateReleaseSigning') {
+        if (task.name == 'validateReleaseSigning' || task.name == 'validateSigningRelease') {
             promptForReleaseKeyPassword()
         }
     }

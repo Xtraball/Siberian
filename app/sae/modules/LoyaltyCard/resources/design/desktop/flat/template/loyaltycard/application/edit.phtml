@@ -183,7 +183,7 @@
                 </div>
                 <div id="employees" class="form-horizontal">
                     <?php $password = new LoyaltyCard_Model_Password(); ?>
-                    <?php $passwords = $password->findAll(array("app_id = ?" => $application->getAppId())); ?>
+                    <?php $passwords = $password->findAll(array("value_id = ?" => $option_value->getId())); ?>
                     <fieldset>
                         <div class="form-group first-row-feature">
                             <div class="col-sm-5">
@@ -215,7 +215,7 @@
                                 <div class="col-sm-2 edit_password_<?php echo $password->getId(); ?>" style="display:none;">
                                     <button type="button" onclick="saveEmployee('password_<?php echo $password->getId(); ?>')" class="btn color-blue">OK</button>
                                     <input type="hidden" name="password_id" value="<?php echo $password->getId(); ?>" />
-                                    <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>" />
+                                    <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
                                 </div>
                             </div>
                         <?php endforeach ?>
@@ -228,7 +228,7 @@
                             </div>
                             <div class="col-sm-2">
                                 <button type="button" class="bt-margin btn color-blue" onclick="saveEmployee('password_new')">OK</button>
-                                <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>" />
+                                <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
                             </div>
                         </div>
                     </fieldset>

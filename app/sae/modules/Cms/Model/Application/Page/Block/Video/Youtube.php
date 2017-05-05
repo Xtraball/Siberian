@@ -49,6 +49,10 @@ class Cms_Model_Application_Page_Block_Video_Youtube  extends Core_Model_Default
      */
     public function getList($search, $type = "video_id") {
 
+        if(is_null($type)) {
+            $type = "video_id";
+        }
+
         if(!$this->_videos) {
 
             $this->_videos = array();

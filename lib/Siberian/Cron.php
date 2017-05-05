@@ -273,6 +273,18 @@ class Siberian_Cron {
 			}
 
 		}
+
+		# This folder is not always present +4.9.1.
+		if(is_readable("{$this->root_path}/var/log/modules/")) {
+            $module_log_files = new DirectoryIterator("{$this->root_path}/var/log/modules/");
+            foreach($module_log_files as $file) {
+                $pathname = $file->getPathname();
+
+                # Clean up all logs
+                unlink($pathname);
+            }
+        }
+
 	}
 
 	/** NOTE: APK & Sources queues shares the same lock, as one may break the other */
@@ -296,7 +308,15 @@ class Siberian_Cron {
 				try {
 					$this->log(sprintf("Generating App: ID[%s], Name[%s], Target[APK]", $apk->getAppId(), $apk->getName()));
 					$apk->changeStatus("building");
+
+					# Trying to clean-up old related processes
+					exec("pkill -9 -U $(id -u) aapt; pkill -9 -U $(id -u) java");
+
 					$apk->generate();
+
+                    # +After generation**
+                    exec("pkill -9 -U $(id -u) aapt; pkill -9 -U $(id -u) java");
+
 				} catch(Exception $e) {
 					$this->log($e->getMessage());
                     # Trying to fetch APK
@@ -342,7 +362,7 @@ class Siberian_Cron {
 				} catch(Exception $e) {
 					$this->log($e->getMessage());
 
-                    # Trying to fetch APK
+                    # Trying to fetch Source
                     $refetch_source = new Application_Model_SourceQueue();
                     $refetch_source = $refetch_source->find($source_id);
                     if(!$refetch_source->getId()) {
@@ -368,6 +388,17 @@ class Siberian_Cron {
      * @param $task
      */
     public function letsencrypt($task) {
+        $letsencrypt_disabled = System_Model_Config::getValueFor("letsencrypt_disabled");
+        if($letsencrypt_disabled > time()) {
+            $this->log(__("[Let's Encrypt] cron renewal is disabled until %s due to rate limit hit, skipping.", date("d/m/Y H:i:s", $letsencrypt_disabled)));
+            return;
+
+        } else {
+
+            # Enabling again after the 7 days period
+            System_Model_Config::setValueFor("letsencrypt_disabled", 0);
+        }
+
         if(!$this->isLocked($task->getId())) {
             $this->lock($task->getId());
 
@@ -403,6 +434,7 @@ class Siberian_Cron {
                 $to_renew = new Zend_Db_Expr("renew_date < updated_at");
                 $certs = $ssl_certificates->findAll(array(
                     "source = ?" => System_Model_SslCertificates::SOURCE_LETSENCRYPT,
+                    "status = ?" => "enabled",
                     $to_renew
                 ));
 
@@ -413,27 +445,70 @@ class Siberian_Cron {
                         // Before generating certificate again, compare $hostnames
                         $renew = false;
                         $domains = $cert->getDomains();
+                        $retain_domains = array();
                         if(is_readable($cert->getCertificate()) && !empty($domains)) {
+
                             $cert_content = openssl_x509_parse(file_get_contents($cert->getCertificate()));
+
                             if(isset($cert_content["extensions"]) && $cert_content["extensions"]["subjectAltName"]) {
                                 $certificate_hosts = explode(",", str_replace("DNS:", "", $cert_content["extensions"]["subjectAltName"]));
                                 $hostnames = Siberian_Json::decode($cert->getDomains());
+
                                 foreach($hostnames as $hostname) {
                                     $hostname = trim($hostname);
-                                    if(!in_array($hostname, $certificate_hosts)) {
+
+                                    $isNotInArray = !in_array($hostname, $certificate_hosts);
+                                    $endWithDot = preg_match("/.*\.$/im", $hostname);
+                                    $r = dns_get_record($hostname, DNS_CNAME);
+                                    $isCname = (!empty($r) && isset($r[0]) && isset($r[0]["target"]) && ($r[0]["target"] === $cert->getHostname()));
+                                    $isSelf = ($hostname === $cert->getHostname());
+
+                                    if($isNotInArray && !$endWithDot && ($isCname || $isSelf)) {
                                         $renew = true;
                                         $this->log(__("[Let's Encrypt] will add %s to SAN.", $hostname));
+
+                                        $retain_domains[] = $hostname;
+                                    }
+
+                                    if($endWithDot) {
+                                        $this->log(__("[Let's Encrypt] removed domain %s, domain in dot notation is not supported.", $hostname));
                                     }
                                 }
                             }
+
+                            // Or compare expiration date (will expire in 5/30 days or less)
+                            if(!$renew) {
+
+                                $diff = $cert_content["validTo_time_t"] - time();
+
+                                //$thirty_days = 2592000;
+                                $five_days = 432000;
+
+                                # Go with five days for now.
+                                if($diff < $five_days) {
+                                    # Should renew
+                                    $renew = true;
+                                    $this->log(__("[Let's Encrypt] will expire in %s days.", floor($diff / 86400)));
+                                }
+                            }
+
                         } else {
                             $renew = true;
                         }
 
+
                         if($renew) {
+                            $result = false;
                             if(!$le_is_init) {
                                 $lets_encrypt->initAccount();
                                 $le_is_init = true;
+                            }
+
+                            # Save back domains
+                            if(sizeof($domains) != sizeof($retain_domains)) {
+                                $cert
+                                    ->setDomains(Siberian_Json::encode($retain_domains))
+                                    ->save();
                             }
 
                             // Clear log between hostnames.
@@ -446,6 +521,7 @@ class Siberian_Cron {
                         if($result) {
                             // Change updated_at date, time()+10 to ensure renew is newer than updated_at
                             $cert
+                                ->setErrorCount(0)
                                 ->setRenewDate(time_to_date(time()+10, "YYYY-MM-dd HH:mm:ss"))
                                 ->save();
 
@@ -485,16 +561,50 @@ class Siberian_Cron {
 
                         } else {
                             $cert
+                                ->setErrorCount($cert->getErrorCount() + 1)
                                 ->setErrorDate(time_to_date(time(), "YYYY-MM-dd HH:mm:ss"))
                                 ->setRenewDate(time_to_date(time()+10, "YYYY-MM-dd HH:mm:ss"))
                                 ->setErrorLog($lets_encrypt->getLog())
                                 ->save();
                         }
+
                     } catch(Exception $e) {
+
+                        if(strpos($e->getMessage(), "many currently pending authorizations") !== false) {
+                            # We hit the rate limit, disable for the next seven days
+                            $in_a_week = time() + 604800;
+                            System_Model_Config::setValueFor("letsencrypt_disabled", $in_a_week);
+                        }
+
                         $cert
+                            ->setErrorCount($cert->getErrorCount() + 1)
                             ->setErrorDate(time_to_date(time(), "YYYY-MM-dd HH:mm:ss"))
                             ->setErrorLog($lets_encrypt->getLog())
                             ->save();
+
+                    }
+
+                    # Disable the certificate after too much errors
+                    if($cert->getErrorCount() >= 3) {
+                        $cert
+                            ->setStatus("disabled")
+                            ->save();
+
+                        # Send a message to the Admin
+                        $description = "It seems that the renewal of the following SSL Certificate %s is failing, please check in <b>Settings > Advanced > Configuration</b> for the specified certificate.";
+
+                        $notification = new Backoffice_Model_Notification();
+                        $notification
+                            ->setTitle(__("Alert: The SSL Certificate %s automatic renewal failed.", $cert->getHostname()))
+                            ->setDescription(__($description, $cert->getHostname()))
+                            ->setSource("cron")
+                            ->setType("alert")
+                            ->setIsHighPriority(1)
+                            ->setObjectType(get_class($cert))
+                            ->setObjectId($cert->getId())
+                            ->save();
+
+                        Backoffice_Model_Notification::sendEmailForNotification($notification);
                     }
                 }
 
@@ -532,9 +642,36 @@ class Siberian_Cron {
 		$this->lock($task->getId());
 
 		try {
-			$script = "{$this->root_path}/var/apps/ionic/tools/sdk-updater.php";
+		    # Running a clear/tmp before.
+            Siberian_Cache::__clearTmp();
 
-			require_once $script;
+            # Testing disk space (4GB required, 2Gb for archive, 2Gb for extracted)
+            $result = exec("echo $(($(stat -f --format=\"%a*%S\" .)))");
+
+            if($result > 4000000000) {
+                $script = "{$this->root_path}/var/apps/ionic/tools/sdk-updater.php";
+
+                require_once $script;
+            } else {
+
+                # Send a message to the Admin
+                $description = "Android SDK can't be updated, you need at least 4GB of free disk space.";
+
+                $notification = new Backoffice_Model_Notification();
+                $notification
+                    ->setTitle(__("Alert: Android SDK can't be updated."))
+                    ->setDescription(__($description))
+                    ->setSource("cron")
+                    ->setType("android-sdk-update")
+                    ->setIsHighPriority(1)
+                    ->setObjectType("Android_Sdk_Update")
+                    ->setObjectId(1)
+                    ->save();
+
+                Backoffice_Model_Notification::sendEmailForNotification($notification);
+            }
+
+
 		} catch(Exception $e){
 			$this->log($e->getMessage());
 			$task->saveLastError($e->getMessage());
@@ -556,13 +693,17 @@ class Siberian_Cron {
 		$this->lock($task->getId());
 
 		try {
-		    # Rebuild manifest, clear cache, etc...
-            # 30.12.2016 - Disabling in favor of the new reload from BO/Installer
-		    //$options = Siberian_Json::decode($task->getOptions());
-            //Siberian_Autoupdater::configure($options["host"]);
+		    # Clear cache, etc...
+            $default_cache = Zend_Registry::get("cache");
+            $default_cache->clean(Zend_Cache::CLEANING_MODE_ALL);
+
+            # Clear cron errors
+            Cron_Model_Cron::clearErrors();
+
 			# Disable when success.
 			$task->disable();
-		} catch(Exception $e){
+
+        } catch(Exception $e){
 			$this->log($e->getMessage());
 			$task->saveLastError($e->getMessage());
 		}

@@ -66,8 +66,8 @@ class LoyaltyCard_ApplicationController extends Application_Controller_Default
 
                 if (!empty($datas['password_id'])) {
                     $password->find($datas['password_id']);
-                    if ($password->getAppId() != $application->getId()) {
-                        throw new Exception($this->_("An error occurred while saving the password. Please try again later"));
+                    if ($password->getValueId() != $datas['value_id']) {
+                        throw new Exception(__("An error occurred while saving the password. Please try again later"));
                     }
                     $isNew = false;
                 } else {
@@ -75,19 +75,19 @@ class LoyaltyCard_ApplicationController extends Application_Controller_Default
                 }
 
                 if (empty($datas['is_deleted'])) {
-                    if (empty($datas['name'])) throw new Exception($this->_('Please enter a name'));
+                    if (empty($datas['name'])) throw new Exception(__('Please enter a name'));
 
                     if (empty($datas['password'])/* OR empty($datas['confirm_password'])*/) {
-                        throw new Exception($this->_('Please enter a password'));
+                        throw new Exception(__('Please enter a password'));
                     }
                     if (strlen($datas['password']) < 4 OR !ctype_digit($datas['password'])/* OR empty($datas['confirm_password'])*/) {
-                        throw new Exception($this->_('Your password must be 4 digits'));
+                        throw new Exception(__('Your password must be 4 digits'));
                     }
 
                     $password->setPassword(sha1($datas['password']));
                     if ($datas['password']) unset($datas['password']);
                 } else if (!$password->getId()) {
-                    throw new Exception($this->_('An error occurred while saving the password. Please try again later.'));
+                    throw new Exception(__('An error occurred while saving the password. Please try again later.'));
                 }
                 $password->addData($datas)
                     ->save();
@@ -124,8 +124,8 @@ class LoyaltyCard_ApplicationController extends Application_Controller_Default
                 $password_id = $data['password_id'];
 
                 $password->find($data['password_id']);
-                if ($password->getAppId() != $application->getId()) {
-                    throw new Exception($this->_("An error occurred while retrieving QRCode. Please try again later"));
+                if(!$password->getId()) {
+                    throw new Exception(__("An error occurred while retrieving QRCode. Please try again later"));
                 }
 
                 if(!$password->getUnlockCode()) {
@@ -153,7 +153,7 @@ class LoyaltyCard_ApplicationController extends Application_Controller_Default
                 $img = imagecreatefrompng($dir_image.$image_name);
                 $readable_name = $password->getName();
                 header('Content-Type: image/png');
-                header('Content-Disposition: attachment; filename="'.$readable_name.'"');
+                header('Content-Disposition: attachment; filename="'.$readable_name.'.png"');
                 imagepng($img);
                 imagedestroy($img);
                 die();
@@ -162,7 +162,7 @@ class LoyaltyCard_ApplicationController extends Application_Controller_Default
                 $html = $e->getMessage();
             }
 
-            echo $html;
+            echo $html; die();
 
         }
     }

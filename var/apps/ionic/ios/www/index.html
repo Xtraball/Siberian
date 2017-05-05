@@ -8,7 +8,7 @@
             script-src * 'unsafe-inline' 'unsafe-eval';
             object-src *;
             style-src * 'unsafe-inline';
-            img-src * data:;
+            img-src * data: android-webview-video-poster:;
             media-src *;
             frame-src * gap://ready ws://* wss://* ;
             child-src * gap://ready ws://* wss://* ;
@@ -73,6 +73,7 @@
         <script src="js/directives/sb-a-click.js"></script>
 
         <script src="js/services/application.js"></script>
+        <script src="js/services/link.js"></script>
         <script src="js/services/http-cache.js"></script>
         <script src="js/services/country.js"></script>
         <script src="js/services/google-maps.js"></script>
@@ -86,10 +87,10 @@
         <script src="js/services/contextual-menu.js"></script>
         <script src="js/services/social.js"></script>
         <script src="js/services/l8.js"></script>
-        <script src="js/services/l9.js"></script>
         <script src="js/services/l10.js"></script>
         <script src="js/services/l17.js"></script>
         <script src="js/services/tmhDynamicLocale.js"></script>
+        <script src="js/services/admob-service.js"></script>
 
         <script src="js/providers/homepage-layout.js"></script>
         <script src="js/providers/sbhttp.js"></script>

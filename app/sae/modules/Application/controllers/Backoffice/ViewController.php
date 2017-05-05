@@ -1,12 +1,27 @@
 <?php
 class Application_Backoffice_ViewController extends Backoffice_Controller_Default
 {
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "save" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+        "switchtoionic" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+        "saveadvertising" => array(
+            "tags" => array("app_#APP_ID#"),
+        ),
+    );
 
     public function loadAction() {
 
         $html = array(
             "title" => __("Application"),
             "icon" => "fa-mobile",
+            "ionic_message" => __("If your app is already published on the stores, be sure you have sent an update with the Ionic version, and that this update has already been accepted, otherwise your app may be broken.")
         );
 
         $this->_sendHtml($html);
@@ -51,7 +66,11 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                 !$device->getUseOurDeveloperAccount() &&
                 (!$device->getDeveloperAccountUsername() || !$device->getDeveloperAccountPassword())
             );
-            $devices[] = $device->getData();
+            $data = $device->getData();
+
+            $data["owner_admob_weight"] = (integer) $data["owner_admob_weight"];
+
+            $devices[] = $data;
         }
 
         $data = array(
@@ -376,7 +395,9 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                     $device = $application->getDevice($device_data["type_id"]);
                     $data_device_to_save = array(
                         "owner_admob_id" => $device_data["owner_admob_id"],
-                        "owner_admob_type" => $device_data["owner_admob_type"]
+                        "owner_admob_interstitial_id" => $device_data["owner_admob_interstitial_id"],
+                        "owner_admob_type" => $device_data["owner_admob_type"],
+                        "owner_admob_weight" => $device_data["owner_admob_weight"]
                     );
                     $device->addData($data_device_to_save)->save();
                 }
@@ -513,8 +534,6 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                 "more" => $more,
                 "reload" => $reload,
             );
-
-
 
         } else {
             $data = array(

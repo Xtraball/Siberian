@@ -158,15 +158,8 @@
     var olddiv = $('.form_content > div#list');
     var default_cover_url = '<?php echo $contact->getCoverUrl(); ?>';
     var contact_uploader = new Uploader();
-    CKEDITOR.config.language = '<?php echo $this->_('en') ?>';
-    CKEDITOR.config.toolbar = [
-        { name: 'source', items: [ 'Source' ] },
-        { name: 'insert', items: [ 'Image' ] },
-        { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ] },
-        { name: 'paragraph', groups: [ 'indent', 'align' ], items: [ 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
-        { name: 'styles', items: [ 'TextColor', 'Format' ] }
-    ];
-    $('.description_field').ckeditor();
+
+    $('.description_field').ckeditor(ckeditor_config.default);
 
     page.setCallback('didappear', function() {
 

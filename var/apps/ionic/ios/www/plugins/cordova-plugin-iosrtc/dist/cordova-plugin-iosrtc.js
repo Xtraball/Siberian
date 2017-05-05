@@ -1,4 +1,5 @@
-cordova.define("cordova-plugin-iosrtc.Plugin", function(require, exports, module) { /*
+cordova.define("cordova-plugin-iosrtc.Plugin", function(require, exports, module) {
+/*
  * cordova-plugin-iosrtc v3.1.0
  * Cordova iOS plugin exposing the full WebRTC W3C JavaScript APIs
  * Copyright 2015-2016 Iñaki Baz Castillo at eFace2Face, inc. (https://eface2face.com)
@@ -1127,6 +1128,7 @@ function RTCDataChannel(peerConnection, label, options, dataFromEvent) {
 		this.id = options.hasOwnProperty('id') ? Number(options.id) : undefined;
 		this.readyState = 'connecting';
 		this.bufferedAmount = 0;
+		this.bufferedAmountLowThreshold = 0;
 
 		// Private attributes.
 		this.peerConnection = peerConnection;
@@ -1147,6 +1149,7 @@ function RTCDataChannel(peerConnection, label, options, dataFromEvent) {
 		this.id = dataFromEvent.id;
 		this.readyState = dataFromEvent.readyState;
 		this.bufferedAmount = dataFromEvent.bufferedAmount;
+		this.bufferedAmountLowThreshold = dataFromEvent.bufferedAmountLowThreshold;
 
 		// Private attributes.
 		this.peerConnection = peerConnection;
@@ -1193,16 +1196,10 @@ RTCDataChannel.prototype.send = function (data) {
 		return;
 	}
 
-	var self = this;
-
-	function onResultOK(data) {
-		self.bufferedAmount = data.bufferedAmount;
-	}
-
 	if (typeof data === 'string' || data instanceof String) {
-		exec(onResultOK, null, 'iosrtcPlugin', 'RTCPeerConnection_RTCDataChannel_sendString', [this.peerConnection.pcId, this.dcId, data]);
+		exec(null, null, 'iosrtcPlugin', 'RTCPeerConnection_RTCDataChannel_sendString', [this.peerConnection.pcId, this.dcId, data]);
 	} else if (window.ArrayBuffer && data instanceof window.ArrayBuffer) {
-		exec(onResultOK, null, 'iosrtcPlugin', 'RTCPeerConnection_RTCDataChannel_sendBinary', [this.peerConnection.pcId, this.dcId, data]);
+		exec(null, null, 'iosrtcPlugin', 'RTCPeerConnection_RTCDataChannel_sendBinary', [this.peerConnection.pcId, this.dcId, data]);
 	} else if (
 		(window.Int8Array && data instanceof window.Int8Array) ||
 		(window.Uint8Array && data instanceof window.Uint8Array) ||
@@ -1215,7 +1212,7 @@ RTCDataChannel.prototype.send = function (data) {
 		(window.Float64Array && data instanceof window.Float64Array) ||
 		(window.DataView && data instanceof window.DataView)
 	) {
-		exec(onResultOK, null, 'iosrtcPlugin', 'RTCPeerConnection_RTCDataChannel_sendBinary', [this.peerConnection.pcId, this.dcId, data.buffer]);
+		exec(null, null, 'iosrtcPlugin', 'RTCPeerConnection_RTCDataChannel_sendBinary', [this.peerConnection.pcId, this.dcId, data.buffer]);
 	} else {
 		throw new Error('invalid data type');
 	}
@@ -1285,6 +1282,17 @@ function onEvent(data) {
 			event = new Event('message');
 			event.data = data.message;
 			this.dispatchEvent(event);
+			break;
+
+		case 'bufferedamount':
+			this.bufferedAmount = data.bufferedAmount;
+
+			if (this.bufferedAmountLowThreshold > 0 && this.bufferedAmountLowThreshold > this.bufferedAmount) {
+				event = new Event('bufferedamountlow');
+				event.bufferedAmount = this.bufferedAmount;
+				this.dispatchEvent(event);
+			}
+
 			break;
 	}
 }
@@ -1906,6 +1914,78 @@ RTCPeerConnection.prototype.createDTMFSender = function (track) {
 };
 
 
+RTCPeerConnection.prototype.getStats = function () {
+	var self = this,
+		isPromise,
+		selector,
+		callback, errback;
+
+	if (arguments.length == 1) {
+		isPromise = true;
+		selector = arguments[0];
+	} else {
+		isPromise = false;
+		selector = arguments[0];
+		callback = arguments[1];
+		errback = arguments[2];
+	}
+
+	if (selector && !(selector instanceof MediaStreamTrack)) {
+		throw new Error('getStats() must be called with null or a valid MediaStreamTrack instance as argument');
+	}
+
+	if (isClosed.call(this)) {
+		return;
+	}
+
+	if (isPromise) {
+		return new Promise(function (resolve, reject) {
+			function onResultOK(array) {
+				if (isClosed.call(self)) {
+					return;
+				}
+
+				resolve(array);
+			}
+
+			function onResultError(error) {
+				if (isClosed.call(self)) {
+					return;
+				}
+
+				debugerror('getStats() | failure: %s', error);
+				if (typeof errback === 'function') {
+					reject(new global.DOMError(error));
+				}
+			}
+
+			exec(onResultOK, onResultError, 'iosrtcPlugin', 'RTCPeerConnection_getStats', [this.pcId, selector ? selector.id : null]);
+		});
+	}
+
+	function onResultOK(array) {
+		if (isClosed.call(self)) {
+			return;
+		}
+		
+		callback(array);
+	}
+
+	function onResultError(error) {
+		if (isClosed.call(self)) {
+			return;
+		}
+
+		debugerror('getStats() | failure: %s', error);
+		if (typeof errback === 'function') {
+			errback(new global.DOMError(error));
+		}
+	}
+
+	exec(onResultOK, onResultError, 'iosrtcPlugin', 'RTCPeerConnection_getStats', [this.pcId, selector ? selector.id : null]);
+};
+
+
 RTCPeerConnection.prototype.close = function () {
 	if (isClosed.call(this)) {
 		return;
@@ -2431,7 +2511,7 @@ function dump() {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./MediaStream":3,"./MediaStreamTrack":5,"./RTCIceCandidate":8,"./RTCPeerConnection":9,"./RTCSessionDescription":10,"./enumerateDevices":11,"./getUserMedia":12,"./rtcninjaPlugin":14,"./videoElementsHandler":15,"cordova/exec":undefined,"debug":16,"domready":19}],14:[function(require,module,exports){
+},{"./MediaStream":3,"./MediaStreamTrack":5,"./RTCIceCandidate":8,"./RTCPeerConnection":9,"./RTCSessionDescription":10,"./enumerateDevices":11,"./getUserMedia":12,"./rtcninjaPlugin":14,"./videoElementsHandler":15,"cordova/exec":undefined,"debug":16,"domready":18}],14:[function(require,module,exports){
 /**
  * Expose the rtcninjaPlugin object.
  */
@@ -3170,7 +3250,39 @@ function coerce(val) {
   return val;
 }
 
-},{"ms":18}],18:[function(require,module,exports){
+},{"ms":19}],18:[function(require,module,exports){
+/*!
+  * domready (c) Dustin Diaz 2014 - License MIT
+  */
+!function (name, definition) {
+
+  if (typeof module != 'undefined') module.exports = definition()
+  else if (typeof define == 'function' && typeof define.amd == 'object') define(definition)
+  else this[name] = definition()
+
+}('domready', function () {
+
+  var fns = [], listener
+    , doc = document
+    , hack = doc.documentElement.doScroll
+    , domContentLoaded = 'DOMContentLoaded'
+    , loaded = (hack ? /^loaded|^c/ : /^loaded|^i|^c/).test(doc.readyState)
+
+
+  if (!loaded)
+  doc.addEventListener(domContentLoaded, listener = function () {
+    doc.removeEventListener(domContentLoaded, listener)
+    loaded = 1
+    while (listener = fns.shift()) listener()
+  })
+
+  return function (fn) {
+    loaded ? setTimeout(fn, 0) : fns.push(fn)
+  }
+
+});
+
+},{}],19:[function(require,module,exports){
 /**
  * Helpers.
  */
@@ -3296,38 +3408,6 @@ function plural(ms, n, name) {
   if (ms < n * 1.5) return Math.floor(ms / n) + ' ' + name;
   return Math.ceil(ms / n) + ' ' + name + 's';
 }
-
-},{}],19:[function(require,module,exports){
-/*!
-  * domready (c) Dustin Diaz 2014 - License MIT
-  */
-!function (name, definition) {
-
-  if (typeof module != 'undefined') module.exports = definition()
-  else if (typeof define == 'function' && typeof define.amd == 'object') define(definition)
-  else this[name] = definition()
-
-}('domready', function () {
-
-  var fns = [], listener
-    , doc = document
-    , hack = doc.documentElement.doScroll
-    , domContentLoaded = 'DOMContentLoaded'
-    , loaded = (hack ? /^loaded|^c/ : /^loaded|^i|^c/).test(doc.readyState)
-
-
-  if (!loaded)
-  doc.addEventListener(domContentLoaded, listener = function () {
-    doc.removeEventListener(domContentLoaded, listener)
-    loaded = 1
-    while (listener = fns.shift()) listener()
-  })
-
-  return function (fn) {
-    loaded ? setTimeout(fn, 0) : fns.push(fn)
-  }
-
-});
 
 },{}],20:[function(require,module,exports){
 void function(root){

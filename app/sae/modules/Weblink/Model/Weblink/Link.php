@@ -11,6 +11,14 @@ class Weblink_Model_Weblink_Link extends Core_Model_Default {
         return $this->getData('url');
     }
 
+    public function getHideNavbar() {
+        return ($this->getData('hide_navbar') === "1" ? true : false);
+    }
+
+    public function getUseExternalApp() {
+        return ($this->getData('use_external_app') === "1" ? true : false);
+    }
+
     public function getPictoUrl() {
         $picto_path = Application_Model_Application::getImagePath().$this->getPicto();
         $picto_base_path = Application_Model_Application::getBaseImagePath().$this->getPicto();

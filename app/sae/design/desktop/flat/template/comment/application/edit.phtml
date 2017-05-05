@@ -269,16 +269,6 @@
     </div>
     <script type="text/javascript">
 
-        CKEDITOR.config.language = '<?php echo $this->_('en') ?>';
-        CKEDITOR.config.toolbar = [
-            {name: 'source', items: ['Source']},
-            {name: 'basicstyles', groups: ['basicstyles', 'cleanup'], items: ['Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat']},
-            {name: 'paragraph', groups: ['indent', 'align'], items: ['Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']},
-            {name: 'links', items: ['Link', 'Unlink']},
-            {name: 'insert', items: ['Cms', 'Image']},
-            {name: 'styles', items: ['TextColor', 'Format', 'FontSize']}
-        ];
-
         page.setCallback('didremove', function () {
             $('#newsCreateForm').submit(function () {
                 if ($('input.uploader').val().isEmpty())
@@ -337,8 +327,8 @@
                 $.datepicker.setDefaults($.datepicker.regional['en']);
             }
 
-            $('#title').ckeditor();
-            $('.update_title').ckeditor();
+            $('#title').ckeditor(ckeditor_config.default);
+            $('.update_title').ckeditor(ckeditor_config.default);
 
             $('#news_date').datepicker({
                 showAnim: 'clip',

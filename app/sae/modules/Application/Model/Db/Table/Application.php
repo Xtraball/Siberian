@@ -126,4 +126,20 @@ class Application_Model_Db_Table_Application extends Core_Model_Db_Table
 
     }
 
+    /**
+     * @return array
+     */
+    public function findAllForGlobalPush() {
+
+        $request = "
+SELECT DISTINCT({$this->_name}.{$this->_primary})
+FROM {$this->_name}
+INNER JOIN application_device ON {$this->_name}.app_id = application_device.app_id
+WHERE application_device.status_id = 3
+;";
+
+        return $this->_db->fetchCol($request);
+
+    }
+
 }

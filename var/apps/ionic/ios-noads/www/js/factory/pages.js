@@ -11,6 +11,7 @@ App.factory('Pages', function ($sbhttp, $q, Push, Url) {
      * @returns {*}
      */
     factory.findAll = function() {
+        var q = $q.defer();
 
         console.log((new Date()).getTime(), "Pages.findAll().");
 
@@ -22,12 +23,13 @@ App.factory('Pages', function ($sbhttp, $q, Push, Url) {
                 responseType:'json'
             }).success(function(data) {
                 factory.data = data;
-            });
+                q.resolve(factory.data);
+            }).error(q.reject);
+        } else {
+            q.resolve(factory.data);
         }
 
-        return $q(function(resolve, reject) {
-            resolve(factory.data);
-        });
+        return q.promise;
     };
 
     return factory;

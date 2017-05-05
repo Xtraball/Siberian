@@ -44,10 +44,10 @@ class Mcommerce_Application_Settings_DiscountController extends Application_Cont
                     }
                 }
                 $float_validator = new Zend_Validate_Float();
-                if ($datas['minimum_amount'] && (!$float_validator->isValid($datas['minimum_amount']) || $datas['minimum_amount'] < 0)) {
+                if ($datas['minimum_amount'] && (!is_numeric($datas['minimum_amount']) || $datas['minimum_amount'] < 0)) {
                     $errors[] = $this->_("Minimum amount should be a positive number");
                 }
-                if (!$float_validator->isValid($datas['discount']) || $datas['discount'] < 0) {
+                if (!is_numeric($datas['discount']) || $datas['discount'] < 0) {
                     $errors[] = $this->_("Discounted amount should be a positive number");
                 }
 

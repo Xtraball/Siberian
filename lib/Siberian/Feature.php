@@ -356,6 +356,23 @@ class Siberian_Feature {
     }
 
     /**
+     * @param $option_value
+     * @param $file
+     * @return null|string
+     */
+    public static function  saveFileForOption($option_value, $file) {
+        # If the file already exists in images/application
+        if(file_exists(Core_Model_Directory::getBasePathTo("images/application".$file))) {
+            # Nothing changed, skip
+            $file_path = $file;
+        } else {
+            $file_path = Siberian_Feature::moveUploadedFile($option_value, $file);
+        }
+
+        return $file_path;
+    }
+
+    /**
      * Installing a cronjob, defaults to every 5 minutes, active, low priority.
      *
      * @param $name

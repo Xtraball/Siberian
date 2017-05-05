@@ -153,14 +153,9 @@ class Event_ApplicationController extends Application_Controller_Default {
                 $app_id     = Core_Model_Lib_Facebook::getAppId();
                 $app_secret = Core_Model_Lib_Facebook::getSecretKey();
 
-                $url = 'https://graph.facebook.com/v2.0/oauth/access_token';
-                $url .= '?grant_type=client_credentials';
-                $url .= "&client_id=$app_id";
-                $url .= "&client_secret=$app_secret";
+                $access_token = Core_Model_Lib_Facebook::getAppToken();
 
-                $access_token = str_replace('access_token=','',file_get_contents($url));
-
-                $url = "https://graph.facebook.com/v2.0/$username/events?access_token=$access_token";
+                $url = "https://graph.facebook.com/v2.7/$username/events?access_token=$access_token";
                 $response = file_get_contents($url);
 
                 if(empty($response)) throw new Exception('Invalid username');

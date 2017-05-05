@@ -266,8 +266,8 @@ $facebook_is_available = $facebook->getAccessToken() != null;
             var _that = $(this);
             var tr = $(this.parentNode.parentNode);
             var error = false;
-            tr.find('input.required').each(function() {
-                if($(this).val().isEmpty()) {
+            tr.find('input.required, select.required').each(function() {
+                if(!$(this).val()) {
                     $(this).addClass('error');
                     if($(this).next('p.error').length == 0) $(this).after('<p class="error"><?php echo addslashes($this->_('Required field')) ?></p>');
                     error = true;

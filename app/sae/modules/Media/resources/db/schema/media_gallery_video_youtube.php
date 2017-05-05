@@ -26,7 +26,7 @@ $schemas['media_gallery_video_youtube'] = array(
         'collation' => 'utf8_unicode_ci',
     ),
     'param' => array(
-        'type' => 'varchar(50)',
+        'type' => 'varchar(255)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),

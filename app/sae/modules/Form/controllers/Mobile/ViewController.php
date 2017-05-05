@@ -139,6 +139,13 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default {
                                 }
                             }
 
+                            if($field->getType() == "date") {
+                                if(isset($data[$field->getId()])) {
+                                    $new_date = new Zend_Date();
+                                    $new_date->setTimestamp(strtotime($data[$field->getId()]));
+                                    $data[$field->getId()] = datetime_to_format($new_date->toString('y-MM-dd HH:mm:ss'));
+                                }
+                            }
                             // If not empty, store its value
                             if(!empty($data[$field->getId()])) {
                                 // If the field is an image

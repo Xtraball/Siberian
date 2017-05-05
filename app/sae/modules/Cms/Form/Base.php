@@ -27,6 +27,8 @@ class Cms_Form_Base extends Siberian_Form_Abstract {
      */
     public function addSections($title = "Add sections", $name = "sections_html") {
 
+        $title = __($title);
+
         # Fetch available CMS Blocks
         $cms_application_block_model = new Cms_Model_Application_Block();
         $blocks = $cms_application_block_model->findAll();
@@ -55,7 +57,7 @@ class Cms_Form_Base extends Siberian_Form_Abstract {
                     $block->getType(),
                     $block->getId(),
                     $block->getIcon(),
-                    $block->getTitle(),
+                    __($block->getTitle()),
                 ), $tpl);
 
                 $html .= $tpl;

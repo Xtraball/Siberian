@@ -150,11 +150,11 @@ class Application_Controller_Mobile_Default extends Core_Controller_Default {
     public function _sendJson($data, $send = false) {
         $response = $this->getResponse();
 
-        if(isset($data['error']) && !empty($data['error'])) {
+        if(isset($data["error"]) && !empty($data["error"])) {
             $this->getResponse()->setHttpResponseCode(400);
         }
 
-        $response->setHeader('Content-type', 'application/json');
+        $response->setHeader("Content-type", "application/json");
 
         $json = Siberian_Json::encode($data);
 
@@ -215,7 +215,6 @@ class Application_Controller_Mobile_Default extends Core_Controller_Default {
     protected function _durationSince($entry) {
 
         $date = new Zend_Date($entry);
-        // $date = new Zend_Date($entry->getTimestamp());
         $now = Zend_Date::now();
         $difference = $now->sub($date);
 

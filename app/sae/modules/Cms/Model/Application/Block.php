@@ -185,16 +185,25 @@ class Cms_Model_Application_Block extends Core_Model_Default {
                 break;
             case "video":
                 $video = $this->getObject();
+                $video_instance = $video->getTypeInstance();
                 $block_data["cover_url"] = $video->getImageUrl();
                 $url_embed = $url = $video->getLink();
                 $video_id = $video->getId();
                 if($video->getTypeId() == "youtube") {
-                    $url_embed = "https://www.youtube.com/embed/{$video->getYoutube()}?autoplay=1";
-                    $url = "https://www.youtube.com/watch?v={$video->getYoutube()}&autoplay=1";
-                    $video_id = $video->getYoutube();
+                    $url_embed = "https://www.youtube.com/embed/{$video_instance->getYoutube()}?autoplay=1";
+                    $url = "https://www.youtube.com/watch?v={$video_instance->getYoutube()}&autoplay=1";
+                    $video_id = $video_instance->getYoutube();
                 }
                 if($video->getTypeId() == "link") {
+                    $url_embed = $video_instance->getLink();
+                    $url = $video_instance->getLink();
                     $block_data["cover_url"] = $video->getImageUrl() ? $base_url.$video->getImageUrl() : null;
+                }
+                if($video->getTypeId() == "podcast") {
+                    $podcast = $video_instance->getList($video_instance->getSearch(), $video_instance->getLink());
+                    $url_embed = $podcast->getLink();
+                    $url = $podcast->getLink();
+                    $block_data["cover_url"] = $podcast->getImage();
                 }
                 $block_data["url_embed"] = $url_embed;
                 $block_data["url"] = $url;
@@ -206,8 +215,11 @@ class Cms_Model_Application_Block extends Core_Model_Default {
                 $block_data["file_url"] = $image_path.$this->getName();
                 $info = pathinfo($block_data["file_url"]);
                 $block_data["file_url"] = $base_url.$block_data["file_url"];
-                $filename = mb_strlen($info["filename"]) > 10 ? mb_substr($info["filename"],0,9)."...".$info["extension"]:$info["filename"].".".$info["extension"];
+                $filename = mb_strlen($info["filename"]) > 15 ? mb_substr($info["filename"],0,14)."...".$info["extension"]:$info["filename"].".".$info["extension"];
                 $block_data["display_name"] = $filename;
+                if(!empty($block_data["label"])) {
+                    $block_data["display_name"] = $block_data["label"];
+                }
                 break;
         }
 

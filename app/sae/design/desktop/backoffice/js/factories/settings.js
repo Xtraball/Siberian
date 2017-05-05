@@ -60,7 +60,18 @@ App.factory('Settings', function($http, Url) {
             url: Url.get(url+"/generateanalyticsforperiod"),
             cache: false,
             responseType:'json',
-            data:period,
+            data:period
+        });
+    };
+
+    factory.testemail = function(email) {
+        var url = "system/backoffice_config_email/testsmtp";
+
+        return $http({
+            method: 'POST',
+            url: Url.get(url, {email: email}),
+            cache: false,
+            responseType:'json',
         });
     };
 

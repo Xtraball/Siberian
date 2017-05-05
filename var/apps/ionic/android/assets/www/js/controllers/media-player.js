@@ -52,11 +52,25 @@ App.config(function ($stateProvider) {
                 $scope.features = features;
 
                 if (!Application.is_customizing_colors && HomepageLayout.properties.options.autoSelectFirst && ($scope.features && $scope.features.first_option !== false)) {
-                    $ionicHistory.nextViewOptions({
-                        historyRoot: true,
-                        disableAnimate: false
-                    });
-                    $location.path($scope.features.first_option.path);
+                    var feat_index = 0;
+                    for(var fi = 0; fi < $scope.features.options.length; fi++) {
+                        var feat = $scope.features.options[fi];
+                        /** Don't load unwanted features on first page. */
+                        if((feat.code !== "code_scan") && (feat.code !== "radio") && (feat.code !== "padlock")) {
+                            feat_index = fi;
+                            break;
+                        }
+                    }
+
+                    if($scope.features.options[feat_index].path != $location.path()) {
+                        $ionicHistory.nextViewOptions({
+                            historyRoot: true,
+                            disableAnimate: false
+                        });
+
+                        $location.path($scope.features.options[feat_index].path).replace();
+                    }
+
                 }
                 else{
                     $ionicHistory.goBack(-2);

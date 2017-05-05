@@ -135,6 +135,11 @@ class Siberian_LetsEncrypt {
         $this->log('Starting certificate generation process for domains');
         $privateAccountKey = $this->readPrivateKey($this->accountKeyPath);
         $accountKeyDetails = openssl_pkey_get_details($privateAccountKey);
+
+        $directory = $this->webRootDir . '/.well-known/acme-challenge';
+        # Clean-up acme-challenges
+        exec("find {$directory} -type f -delete");
+
         // start domains authentication
         // ----------------------------
         foreach ($domains as $domain) {
@@ -163,7 +168,7 @@ class Siberian_LetsEncrypt {
             $location = $this->client->getLastLocation();
             // 2. saving authentication token for web verification
             // ---------------------------------------------------
-            $directory = $this->webRootDir . '/.well-known/acme-challenge';
+
             $tokenPath = $directory . '/' . $challenge['token'];
             if (!file_exists($directory) && !@mkdir($directory, 0777, true)) {
                 throw new \RuntimeException("Couldn't create directory to expose challenge: ${tokenPath}");

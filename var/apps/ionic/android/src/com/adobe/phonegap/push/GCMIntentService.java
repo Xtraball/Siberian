@@ -13,12 +13,19 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.location.Location;
-import android.location.LocationManager;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Paint;
+import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat.WearableExtender;
+import android.support.v4.app.RemoteInput;
 import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
@@ -36,11 +43,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
 
-
 @SuppressLint("NewApi")
-public class GCMIntentService
-        extends GcmListenerService
-        implements PushConstants {
+public class GCMIntentService extends GcmListenerService implements PushConstants {
 
     private static final String LOG_TAG = "PushPlugin_GCMIntentService";
     private static HashMap<Integer, ArrayList<String>> messageMap = new HashMap<Integer, ArrayList<String>>();
@@ -61,34 +65,45 @@ public class GCMIntentService
 
     @Override
     public void onMessageReceived(String from, Bundle extras) {
-        _log("onMessage - from: " + from);
+        Log.d(LOG_TAG, "onMessage - from: " + from);
 
-        if (extras != null) {
+        if (extras != null && isAvailableSender(from)) {
+            Context applicationContext = getApplicationContext();
 
-            SharedPreferences prefs = getApplicationContext().getSharedPreferences(PushPlugin.COM_ADOBE_PHONEGAP_PUSH, Context.MODE_PRIVATE);
+            SharedPreferences prefs = applicationContext.getSharedPreferences(PushPlugin.COM_ADOBE_PHONEGAP_PUSH, Context.MODE_PRIVATE);
             boolean forceShow = prefs.getBoolean(FORCE_SHOW, false);
+            boolean clearBadge = prefs.getBoolean(CLEAR_BADGE, false);
+            String messageKey = prefs.getString(MESSAGE_KEY, MESSAGE);
+            String titleKey = prefs.getString(TITLE_KEY, TITLE);
 
-            extras = normalizeExtras(extras);
+            extras = normalizeExtras(applicationContext, extras, messageKey, titleKey);
+
+            if (clearBadge) {
+                PushPlugin.setApplicationIconBadgeNumber(getApplicationContext(), 0);
+            }
 
             // if we are in the foreground and forceShow is `false` only send data
             if (!forceShow && PushPlugin.isInForeground()) {
-                _log("foreground");
+                Log.d(LOG_TAG, "foreground");
                 extras.putBoolean(FOREGROUND, true);
+                extras.putBoolean(COLDSTART, false);
                 PushPlugin.sendExtras(extras);
             }
             // if we are in the foreground and forceShow is `true`, force show the notification if the data has at least a message or title
             else if (forceShow && PushPlugin.isInForeground()) {
-                _log("foreground force");
+                Log.d(LOG_TAG, "foreground force");
                 extras.putBoolean(FOREGROUND, true);
+                extras.putBoolean(COLDSTART, false);
 
-                showNotificationIfPossible(getApplicationContext(), extras);
+                showNotificationIfPossible(applicationContext, extras);
             }
             // if we are not in the foreground always send notification if the data has at least a message or title
             else {
-                _log("background");
+                Log.d(LOG_TAG, "background");
                 extras.putBoolean(FOREGROUND, false);
+                extras.putBoolean(COLDSTART, PushPlugin.isActive());
 
-                showNotificationIfPossible(getApplicationContext(), extras);
+                showNotificationIfPossible(applicationContext, extras);
             }
         }
     }
@@ -96,10 +111,12 @@ public class GCMIntentService
     /*
      * Change a values key in the extras bundle
      */
-    private void replaceKey(String oldKey, String newKey, Bundle extras, Bundle newExtras) {
+    private void replaceKey(Context context, String oldKey, String newKey, Bundle extras, Bundle newExtras) {
         Object value = extras.get(oldKey);
         if ( value != null ) {
             if (value instanceof String) {
+                value = localizeKey(context, newKey, (String) value);
+
                 newExtras.putString(newKey, (String) value);
             } else if (value instanceof Boolean) {
                 newExtras.putBoolean(newKey, (Boolean) value);
@@ -112,14 +129,59 @@ public class GCMIntentService
     }
 
     /*
+     * Normalize localization for key
+     */
+    private String localizeKey(Context context, String key, String value) {
+        if (key.equals(TITLE) || key.equals(MESSAGE) || key.equals(SUMMARY_TEXT)) {
+            try {
+                JSONObject localeObject = new JSONObject(value);
+
+                String localeKey = localeObject.getString(LOC_KEY);
+
+                ArrayList<String> localeFormatData = new ArrayList<String>();
+                if (!localeObject.isNull(LOC_DATA)) {
+                    String localeData = localeObject.getString(LOC_DATA);
+                    JSONArray localeDataArray = new JSONArray(localeData);
+                    for (int i = 0 ; i < localeDataArray.length(); i++) {
+                        localeFormatData.add(localeDataArray.getString(i));
+                    }
+                }
+
+                String packageName = context.getPackageName();
+                Resources resources = context.getResources();
+
+                int resourceId = resources.getIdentifier(localeKey, "string", packageName);
+
+                if (resourceId != 0) {
+                    return resources.getString(resourceId, localeFormatData.toArray());
+                }
+                else {
+                    Log.d(LOG_TAG, "can't find resource for locale key = " + localeKey);
+
+                    return value;
+                }
+            }
+            catch(JSONException e) {
+                Log.d(LOG_TAG, "no locale found for key = " + key + ", error " + e.getMessage());
+
+                return value;
+            }
+        }
+
+        return value;
+    }
+
+    /*
      * Replace alternate keys with our canonical value
      */
-    private String normalizeKey(String key) {
-        if (key.equals(BODY) || key.equals(ALERT) || key.equals(GCM_NOTIFICATION_BODY)) {
+    private String normalizeKey(String key, String messageKey, String titleKey) {
+        if (key.equals(BODY) || key.equals(ALERT) || key.equals(MP_MESSAGE) || key.equals(GCM_NOTIFICATION_BODY) || key.equals(TWILIO_BODY) || key.equals(messageKey)) {
             return MESSAGE;
-        } else if (key.equals(MSGCNT) || key.equals(BADGE)) {
+        } else if (key.equals(TWILIO_TITLE) || key.equals(titleKey)) {
+            return TITLE;
+        }else if (key.equals(MSGCNT) || key.equals(BADGE)) {
             return COUNT;
-        } else if (key.equals(SOUNDNAME)) {
+        } else if (key.equals(SOUNDNAME) || key.equals(TWILIO_SOUND)) {
             return SOUND;
         } else if (key.startsWith(GCM_NOTIFICATION)) {
             return key.substring(GCM_NOTIFICATION.length()+1, key.length());
@@ -136,40 +198,43 @@ public class GCMIntentService
     /*
      * Parse bundle into normalized keys.
      */
-    private Bundle normalizeExtras(Bundle extras) {
-        _log("normalize extras");
+    private Bundle normalizeExtras(Context context, Bundle extras, String messageKey, String titleKey) {
+        Log.d(LOG_TAG, "normalize extras");
         Iterator<String> it = extras.keySet().iterator();
         Bundle newExtras = new Bundle();
 
         while (it.hasNext()) {
             String key = it.next();
 
-            _log("key = " + key);
+            Log.d(LOG_TAG, "key = " + key);
 
             // If normalizeKeythe key is "data" or "message" and the value is a json object extract
             // This is to support parse.com and other services. Issue #147 and pull #218
-            if (key.equals(PARSE_COM_DATA) || key.equals(MESSAGE)) {
+            if (key.equals(PARSE_COM_DATA) || key.equals(MESSAGE) || key.equals(messageKey)) {
                 Object json = extras.get(key);
                 // Make sure data is json object stringified
                 if ( json instanceof String && ((String) json).startsWith("{") ) {
-                    _log("extracting nested message data from key = " + key);
+                    Log.d(LOG_TAG, "extracting nested message data from key = " + key);
                     try {
                         // If object contains message keys promote each value to the root of the bundle
                         JSONObject data = new JSONObject((String) json);
-                        if ( data.has(ALERT) || data.has(MESSAGE) || data.has(BODY) || data.has(TITLE) ) {
+                        if ( data.has(ALERT) || data.has(MESSAGE) || data.has(BODY) || data.has(TITLE) ||
+                            data.has(messageKey) || data.has(titleKey) ) {
                             Iterator<String> jsonIter = data.keys();
                             while (jsonIter.hasNext()) {
                                 String jsonKey = jsonIter.next();
 
-                                _log("key = data/" + jsonKey);
+                                Log.d(LOG_TAG, "key = data/" + jsonKey);
 
                                 String value = data.getString(jsonKey);
-                                jsonKey = normalizeKey(jsonKey);
+                                jsonKey = normalizeKey(jsonKey, messageKey, titleKey);
+                                value = localizeKey(context, jsonKey, value);
+
                                 newExtras.putString(jsonKey, value);
                             }
                         }
                     } catch( JSONException e) {
-                        _log("normalizeExtras: JSON exception");
+                        Log.e(LOG_TAG, "normalizeExtras: JSON exception");
                     }
                 }
             } else if (key.equals(("notification"))) {
@@ -178,110 +243,85 @@ public class GCMIntentService
                 while (iterator.hasNext()) {
                     String notifkey = iterator.next();
 
-                    _log("notifkey = " + notifkey);
-                    String newKey = normalizeKey(notifkey);
-                    _log("replace key " + notifkey + " with " + newKey);
+                    Log.d(LOG_TAG, "notifkey = " + notifkey);
+                    String newKey = normalizeKey(notifkey, messageKey, titleKey);
+                    Log.d(LOG_TAG, "replace key " + notifkey + " with " + newKey);
 
-                    newExtras.putString(newKey, value.getString(notifkey));
+                    String valueData = value.getString(notifkey);
+                    valueData = localizeKey(context, newKey, valueData);
+
+                    newExtras.putString(newKey, valueData);
                 }
                 continue;
             }
 
-            String newKey = normalizeKey(key);
-            _log("replace key " + key + " with " + newKey);
-            replaceKey(key, newKey, extras, newExtras);
+            String newKey = normalizeKey(key, messageKey, titleKey);
+            Log.d(LOG_TAG, "replace key " + key + " with " + newKey);
+            replaceKey(context, key, newKey, extras, newExtras);
 
         } // while
 
         return newExtras;
     }
 
+    private int extractBadgeCount(Bundle extras) {
+        int count = -1;
+        String msgcnt = extras.getString(COUNT);
+
+        try {
+            if (msgcnt != null) {
+                count = Integer.parseInt(msgcnt);
+            }
+        } catch (NumberFormatException e) {
+            Log.e(LOG_TAG, e.getLocalizedMessage(), e);
+        }
+
+        return count;
+    }
+
     private void showNotificationIfPossible (Context context, Bundle extras) {
+
         // Send a notification if there is a message or title, otherwise just send data
         String message = extras.getString(MESSAGE);
         String title = extras.getString(TITLE);
         String contentAvailable = extras.getString(CONTENT_AVAILABLE);
-
-        Double  message_lat = 0.0,
-                message_long = 0.0,
-                message_radius = 0.0;
-
-        Boolean is_geolocated = false;
-        if((extras.getString("latitude") != null) && (extras.getString("longitude") != null) && (extras.getString("radius") != null)) {
-            message_lat  = Double.parseDouble(extras.getString("latitude"));
-            message_long = Double.parseDouble(extras.getString("longitude"));
-            message_radius = Double.parseDouble(extras.getString("radius"));
-
-            is_geolocated = true;
+        String forceStart = extras.getString(FORCE_START);
+        int badgeCount = extractBadgeCount(extras);
+        if (badgeCount >= 0) {
+            Log.d(LOG_TAG, "count =[" + badgeCount + "]");
+            PushPlugin.setApplicationIconBadgeNumber(context, badgeCount);
         }
 
-        _log("message =[" + message + "]");
-        _log("title =[" + title + "]");
-        _log("contentAvailable =[" + contentAvailable + "]");
+        Log.d(LOG_TAG, "message =[" + message + "]");
+        Log.d(LOG_TAG, "title =[" + title + "]");
+        Log.d(LOG_TAG, "contentAvailable =[" + contentAvailable + "]");
+        Log.d(LOG_TAG, "forceStart =[" + forceStart + "]");
 
-        if(is_geolocated) {
-            _log("message_lat =[" + extras.getString("latitude") + "]");
-            _log("message_long =[" + extras.getString("longitude") + "]");
-            _log("message_radius =[" + extras.getString("radius") + "]");
-        }
-
-
-        if ("true".equals(contentAvailable)){
-            _log("send notification event");
-
-            if(is_geolocated) {
-                JSONObject jsonResult = this.getCurrentPosition(this.getBaseContext());
-
-                try {
-                    Double latitude = (Double) jsonResult.get("latitude");
-                    Double longitude = (Double) jsonResult.get("longitude");
-
-                    Double distance = this._calculateDistance(latitude, longitude, message_lat, message_long, "K");
-
-                    _log("Distance =: "+String.valueOf(distance));
-                    _log("Radius =: "+String.valueOf(message_radius));
-
-                    if(distance <= message_radius) {
-                        _log("create instant notification, we are in the place");
-
-                        createNotification(context, extras);
-                    } else {
-                        _log("@TODO: storing notification for later");
-
-                        PushPlugin.sendExtras(extras);
-
-                        /**
-                         @TODO: GEOFENCING
-
-                         if(extras != null) {
-                         PushPlugin.sendExtras(extras);
-
-                         addGeofence(extras);
-                         buildGoogleApiClient();
-
-                         try {
-                         mGoogleApiClient.connect();
-                         } catch (Exception e) {
-                         e.printStackTrace();
-                         }
-                         }*/
-                    }
-
-                } catch (JSONException e) {
-                    _log("do nothing on error");
-                }
-            } else { /** Push with extras, but not geolocated */
-                PushPlugin.sendExtras(extras);
-            }
-
-        } else if ((message != null && message.length() != 0) ||
+        if ((message != null && message.length() != 0) ||
                 (title != null && title.length() != 0)) {
 
-            _log("create instant notification");
+            Log.d(LOG_TAG, "create notification");
+
+            if(title == null || title.isEmpty()){
+                extras.putString(TITLE, getAppName(this));
+            }
+
             createNotification(context, extras);
         }
 
-
+		if(!PushPlugin.isActive() && "1".equals(forceStart)){
+            Log.d(LOG_TAG, "app is not running but we should start it and put in background");
+			Intent intent = new Intent(this, PushHandlerActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra(PUSH_BUNDLE, extras);
+			intent.putExtra(START_IN_BACKGROUND, true);
+            intent.putExtra(FOREGROUND, false);
+            startActivity(intent);
+		} else if ("1".equals(contentAvailable)) {
+            Log.d(LOG_TAG, "app is not running and content available true");
+            Log.d(LOG_TAG, "send notification event");
+            PushPlugin.sendExtras(extras);
+        }
     }
 
     public void createNotification(Context context, Bundle extras) {
@@ -299,12 +339,19 @@ public class GCMIntentService
         int requestCode = new Random().nextInt();
         PendingIntent contentIntent = PendingIntent.getActivity(this, requestCode, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        Intent dismissedNotificationIntent = new Intent(notificationIntent);
+        dismissedNotificationIntent.putExtra(DISMISSED, true);
+
+        requestCode = new Random().nextInt();
+        PendingIntent deleteIntent = PendingIntent.getActivity(this, requestCode, dismissedNotificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setWhen(System.currentTimeMillis())
-                        .setContentTitle(extras.getString(TITLE))
-                        .setTicker(extras.getString(TITLE))
+                        .setContentTitle(fromHtml(extras.getString(TITLE)))
+                        .setTicker(fromHtml(extras.getString(TITLE)))
                         .setContentIntent(contentIntent)
+                        .setDeleteIntent(deleteIntent)
                         .setAutoCancel(true);
 
         SharedPreferences prefs = context.getSharedPreferences(PushPlugin.COM_ADOBE_PHONEGAP_PUSH, Context.MODE_PRIVATE);
@@ -312,10 +359,10 @@ public class GCMIntentService
         String localIconColor = prefs.getString(ICON_COLOR, null);
         boolean soundOption = prefs.getBoolean(SOUND, true);
         boolean vibrateOption = prefs.getBoolean(VIBRATE, true);
-        _log("stored icon=" + localIcon);
-        _log("stored iconColor=" + localIconColor);
-        _log("stored sound=" + soundOption);
-        _log("stored vibrate=" + vibrateOption);
+        Log.d(LOG_TAG, "stored icon=" + localIcon);
+        Log.d(LOG_TAG, "stored iconColor=" + localIconColor);
+        Log.d(LOG_TAG, "stored sound=" + soundOption);
+        Log.d(LOG_TAG, "stored vibrate=" + vibrateOption);
 
         /*
          * Notification Vibration
@@ -385,47 +432,133 @@ public class GCMIntentService
         /*
          * Notification count
          */
-        setNotificationCount(extras, mBuilder);
+        setNotificationCount(context, extras, mBuilder);
+
+        /*
+         * Notification count
+         */
+        setVisibility(context, extras, mBuilder);
 
         /*
          * Notification add actions
          */
-        createActions(extras, mBuilder, resources, packageName);
+        createActions(extras, mBuilder, resources, packageName, notId);
 
         mNotificationManager.notify(appName, notId, mBuilder.build());
     }
 
-    private void createActions(Bundle extras, NotificationCompat.Builder mBuilder, Resources resources, String packageName) {
-        _log("create actions");
+    private void updateIntent(Intent intent, String callback, Bundle extras, boolean foreground, int notId) {
+        intent.putExtra(CALLBACK, callback);
+        intent.putExtra(PUSH_BUNDLE, extras);
+        intent.putExtra(FOREGROUND, foreground);
+        intent.putExtra(NOT_ID, notId);
+    }
+
+    private void createActions(Bundle extras, NotificationCompat.Builder mBuilder, Resources resources, String packageName, int notId) {
+        Log.d(LOG_TAG, "create actions: with in-line");
         String actions = extras.getString(ACTIONS);
         if (actions != null) {
             try {
                 JSONArray actionsArray = new JSONArray(actions);
+                ArrayList<NotificationCompat.Action> wActions = new ArrayList<NotificationCompat.Action>();
                 for (int i=0; i < actionsArray.length(); i++) {
-                    _log("adding action");
+                    int min = 1;
+                    int max = 2000000000;
+                    Random random = new Random();
+                    int uniquePendingIntentRequestCode = random.nextInt((max - min) + 1) + min;
+                    Log.d(LOG_TAG, "adding action");
                     JSONObject action = actionsArray.getJSONObject(i);
-                    _log("adding callback = " + action.getString(CALLBACK));
-                    Intent intent = new Intent(this, PushHandlerActivity.class);
-                    intent.putExtra(CALLBACK, action.getString(CALLBACK));
-                    intent.putExtra(PUSH_BUNDLE, extras);
-                    PendingIntent pIntent = PendingIntent.getActivity(this, i, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    Log.d(LOG_TAG, "adding callback = " + action.getString(CALLBACK));
+                    boolean foreground = action.optBoolean(FOREGROUND, true);
+                    boolean inline = action.optBoolean("inline", false);
+                    Intent intent = null;
+                    PendingIntent pIntent = null;
+                    if (inline) {
+                        Log.d(LOG_TAG, "Version: " + android.os.Build.VERSION.SDK_INT + " = " + android.os.Build.VERSION_CODES.M);
+                        if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.M) {
+                            Log.d(LOG_TAG, "push activity");
+                            intent = new Intent(this, PushHandlerActivity.class);
+                        } else {
+                            Log.d(LOG_TAG, "push receiver");
+                            intent = new Intent(this, BackgroundActionButtonHandler.class);
+                        }
 
-                    mBuilder.addAction(resources.getIdentifier(action.getString(ICON), DRAWABLE, packageName),
+                        updateIntent(intent, action.getString(CALLBACK), extras, foreground, notId);
+
+                        if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.M) {
+                            Log.d(LOG_TAG, "push activity for notId " + notId);
+                            pIntent = PendingIntent.getActivity(this, uniquePendingIntentRequestCode, intent, PendingIntent.FLAG_ONE_SHOT);
+                        } else {
+                            Log.d(LOG_TAG, "push receiver for notId " + notId);
+                            pIntent = PendingIntent.getBroadcast(this, uniquePendingIntentRequestCode, intent, PendingIntent.FLAG_ONE_SHOT);
+                        }
+                    } else if (foreground) {
+                        intent = new Intent(this, PushHandlerActivity.class);
+                        updateIntent(intent, action.getString(CALLBACK), extras, foreground, notId);
+                        pIntent = PendingIntent.getActivity(this, uniquePendingIntentRequestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    } else {
+                        intent = new Intent(this, BackgroundActionButtonHandler.class);
+                        updateIntent(intent, action.getString(CALLBACK), extras, foreground, notId);
+                        pIntent = PendingIntent.getBroadcast(this, uniquePendingIntentRequestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    }
+
+                    NotificationCompat.Action.Builder actionBuilder =
+                        new NotificationCompat.Action.Builder(resources.getIdentifier(action.optString(ICON, ""), DRAWABLE, packageName),
                             action.getString(TITLE), pIntent);
+
+                    RemoteInput remoteInput = null;
+                    if (inline) {
+                        Log.d(LOG_TAG, "create remote input");
+                        String replyLabel = "Enter your reply here";
+                        remoteInput =
+                                new RemoteInput.Builder(INLINE_REPLY)
+                                .setLabel(replyLabel)
+                                .build();
+                        actionBuilder.addRemoteInput(remoteInput);
+                    }
+
+                    NotificationCompat.Action wAction = actionBuilder.build();
+                    wActions.add(actionBuilder.build());
+
+                    if (inline) {
+                        mBuilder.addAction(wAction);
+                    } else {
+                        mBuilder.addAction(resources.getIdentifier(action.optString(ICON, ""), DRAWABLE, packageName),
+                                action.getString(TITLE), pIntent);
+                    }
+                    wAction = null;
+                    pIntent = null;
                 }
+                mBuilder.extend(new WearableExtender().addActions(wActions));
+                wActions.clear();
             } catch(JSONException e) {
                 // nope
             }
         }
     }
 
-    private void setNotificationCount(Bundle extras, NotificationCompat.Builder mBuilder) {
-        String msgcnt = extras.getString(MSGCNT);
-        if (msgcnt == null) {
-            msgcnt = extras.getString(BADGE);
+    private void setNotificationCount(Context context, Bundle extras, NotificationCompat.Builder mBuilder) {
+        int count = extractBadgeCount(extras);
+        if (count >= 0) {
+            Log.d(LOG_TAG, "count =[" + count + "]");
+            mBuilder.setNumber(count);
         }
-        if (msgcnt != null) {
-            mBuilder.setNumber(Integer.parseInt(msgcnt));
+    }
+
+
+    private void setVisibility(Context context, Bundle extras, NotificationCompat.Builder mBuilder) {
+        String visibilityStr = extras.getString(VISIBILITY);
+        if (visibilityStr != null) {
+            try {
+                Integer visibility = Integer.parseInt(visibilityStr);
+                if (visibility >= NotificationCompat.VISIBILITY_SECRET && visibility <= NotificationCompat.VISIBILITY_PUBLIC) {
+                    mBuilder.setVisibility(visibility);
+                } else {
+                    Log.e(LOG_TAG, "Visibility parameter must be between -1 and 1");
+                }
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -454,7 +587,7 @@ public class GCMIntentService
         if(STYLE_INBOX.equals(style)) {
             setNotification(notId, message);
 
-            mBuilder.setContentText(message);
+            mBuilder.setContentText(fromHtml(message));
 
             ArrayList<String> messageList = messageMap.get(notId);
             Integer sizeList = messageList.size();
@@ -466,19 +599,19 @@ public class GCMIntentService
                     stacking = stacking.replace("%n%", sizeListMessage);
                 }
                 NotificationCompat.InboxStyle notificationInbox = new NotificationCompat.InboxStyle()
-                        .setBigContentTitle(extras.getString(TITLE))
-                        .setSummaryText(stacking);
+                        .setBigContentTitle(fromHtml(extras.getString(TITLE)))
+                        .setSummaryText(fromHtml(stacking));
 
                 for (int i = messageList.size() - 1; i >= 0; i--) {
-                    notificationInbox.addLine(Html.fromHtml(messageList.get(i)));
+                    notificationInbox.addLine(fromHtml(messageList.get(i)));
                 }
 
                 mBuilder.setStyle(notificationInbox);
             } else {
                 NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
                 if (message != null) {
-                    bigText.bigText(message);
-                    bigText.setBigContentTitle(extras.getString(TITLE));
+                    bigText.bigText(fromHtml(message));
+                    bigText.setBigContentTitle(fromHtml(extras.getString(TITLE)));
                     mBuilder.setStyle(bigText);
                 }
             }
@@ -487,11 +620,11 @@ public class GCMIntentService
 
             NotificationCompat.BigPictureStyle bigPicture = new NotificationCompat.BigPictureStyle();
             bigPicture.bigPicture(getBitmapFromURL(extras.getString(PICTURE)));
-            bigPicture.setBigContentTitle(extras.getString(TITLE));
-            bigPicture.setSummaryText(extras.getString(SUMMARY_TEXT));
+            bigPicture.setBigContentTitle(fromHtml(extras.getString(TITLE)));
+            bigPicture.setSummaryText(fromHtml(extras.getString(SUMMARY_TEXT)));
 
-            mBuilder.setContentTitle(extras.getString(TITLE));
-            mBuilder.setContentText(message);
+            mBuilder.setContentTitle(fromHtml(extras.getString(TITLE)));
+            mBuilder.setContentText(fromHtml(message));
 
             mBuilder.setStyle(bigPicture);
         } else {
@@ -500,14 +633,14 @@ public class GCMIntentService
             NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
 
             if (message != null) {
-                mBuilder.setContentText(Html.fromHtml(message));
+                mBuilder.setContentText(fromHtml(message));
 
-                bigText.bigText(message);
-                bigText.setBigContentTitle(extras.getString(TITLE));
+                bigText.bigText(fromHtml(message));
+                bigText.setBigContentTitle(fromHtml(extras.getString(TITLE)));
 
                 String summaryText = extras.getString(SUMMARY_TEXT);
                 if (summaryText != null) {
-                    bigText.setSummaryText(summaryText);
+                    bigText.setSummaryText(fromHtml(summaryText));
                 }
 
                 mBuilder.setStyle(bigText);
@@ -530,7 +663,7 @@ public class GCMIntentService
         } else if (soundname != null && !soundname.contentEquals(SOUND_DEFAULT)) {
             Uri sound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
                     + "://" + context.getPackageName() + "/raw/" + soundname);
-            _log(sound.toString());
+            Log.d(LOG_TAG, sound.toString());
             mBuilder.setSound(sound);
         } else {
             mBuilder.setSound(android.provider.Settings.System.DEFAULT_NOTIFICATION_URI);
@@ -551,7 +684,7 @@ public class GCMIntentService
             if (results.length == 4) {
                 mBuilder.setLights(Color.argb(results[0], results[1], results[2], results[3]), 500, 500);
             } else {
-                _log("ledColor parameter must be an array of length == 4 (ARGB)");
+                Log.e(LOG_TAG, "ledColor parameter must be an array of length == 4 (ARGB)");
             }
         }
     }
@@ -564,7 +697,7 @@ public class GCMIntentService
                 if (priority >= NotificationCompat.PRIORITY_MIN && priority <= NotificationCompat.PRIORITY_MAX) {
                     mBuilder.setPriority(priority);
                 } else {
-                    _log("Priority parameter must be between -2 and 2");
+                    Log.e(LOG_TAG, "Priority parameter must be between -2 and 2");
                 }
             } catch (NumberFormatException e) {
                 e.printStackTrace();
@@ -572,29 +705,65 @@ public class GCMIntentService
         }
     }
 
+    private Bitmap getCircleBitmap(Bitmap bitmap) {
+        final Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        final Canvas canvas = new Canvas(output);
+        final int color = Color.RED;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        final RectF rectF = new RectF(rect);
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        float cx = bitmap.getWidth()/2;
+        float cy = bitmap.getHeight()/2;
+        float radius = cx < cy ? cx : cy;
+        canvas.drawCircle(cx,cy,radius,paint);
+
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+
+        bitmap.recycle();
+
+        return output;
+    }
+
     private void setNotificationLargeIcon(Bundle extras, String packageName, Resources resources, NotificationCompat.Builder mBuilder) {
         String gcmLargeIcon = extras.getString(IMAGE); // from gcm
-        if (gcmLargeIcon != null) {
+        String imageType = extras.getString(IMAGE_TYPE, IMAGE_TYPE_SQUARE);
+        if (gcmLargeIcon != null && !"".equals(gcmLargeIcon)) {
             if (gcmLargeIcon.startsWith("http://") || gcmLargeIcon.startsWith("https://")) {
-                mBuilder.setLargeIcon(getBitmapFromURL(gcmLargeIcon));
-                _log("using remote large-icon from gcm");
+                Bitmap bitmap = getBitmapFromURL(gcmLargeIcon);
+                if (IMAGE_TYPE_SQUARE.equalsIgnoreCase(imageType)) {
+                    mBuilder.setLargeIcon(bitmap);
+                } else {
+                    Bitmap bm = getCircleBitmap(bitmap);
+                    mBuilder.setLargeIcon(bm);
+                }
+                Log.d(LOG_TAG, "using remote large-icon from gcm");
             } else {
                 AssetManager assetManager = getAssets();
                 InputStream istr;
                 try {
                     istr = assetManager.open(gcmLargeIcon);
                     Bitmap bitmap = BitmapFactory.decodeStream(istr);
-                    mBuilder.setLargeIcon(bitmap);
-                    _log("using assets large-icon from gcm");
+                    if (IMAGE_TYPE_SQUARE.equalsIgnoreCase(imageType)) {
+                        mBuilder.setLargeIcon(bitmap);
+                    } else {
+                        Bitmap bm = getCircleBitmap(bitmap);
+                        mBuilder.setLargeIcon(bm);
+                    }
+                    Log.d(LOG_TAG, "using assets large-icon from gcm");
                 } catch (IOException e) {
                     int largeIconId = 0;
                     largeIconId = resources.getIdentifier(gcmLargeIcon, DRAWABLE, packageName);
                     if (largeIconId != 0) {
                         Bitmap largeIconBitmap = BitmapFactory.decodeResource(resources, largeIconId);
                         mBuilder.setLargeIcon(largeIconBitmap);
-                        _log("using resources large-icon from gcm");
+                        Log.d(LOG_TAG, "using resources large-icon from gcm");
                     } else {
-                        _log("Not setting large icon");
+                        Log.d(LOG_TAG, "Not setting large icon");
                     }
                 }
             }
@@ -604,16 +773,16 @@ public class GCMIntentService
     private void setNotificationSmallIcon(Context context, Bundle extras, String packageName, Resources resources, NotificationCompat.Builder mBuilder, String localIcon) {
         int iconId = 0;
         String icon = extras.getString(ICON);
-        if (icon != null) {
+        if (icon != null && !"".equals(icon)) {
             iconId = resources.getIdentifier(icon, DRAWABLE, packageName);
-            _log("using icon from plugin options");
+            Log.d(LOG_TAG, "using icon from plugin options");
         }
-        else if (localIcon != null) {
+        else if (localIcon != null && !"".equals(localIcon)) {
             iconId = resources.getIdentifier(localIcon, DRAWABLE, packageName);
-            _log("using icon from plugin options");
+            Log.d(LOG_TAG, "using icon from plugin options");
         }
         if (iconId == 0) {
-            _log("no icon resource found - using application icon");
+            Log.d(LOG_TAG, "no icon resource found - using application icon");
             iconId = context.getApplicationInfo().icon;
         }
         mBuilder.setSmallIcon(iconId);
@@ -621,18 +790,18 @@ public class GCMIntentService
 
     private void setNotificationIconColor(String color, NotificationCompat.Builder mBuilder, String localIconColor) {
         int iconColor = 0;
-        if (color != null) {
+        if (color != null && !"".equals(color)) {
             try {
                 iconColor = Color.parseColor(color);
             } catch (IllegalArgumentException e) {
-                _log("couldn't parse color from android options");
+                Log.e(LOG_TAG, "couldn't parse color from android options");
             }
         }
-        else if (localIconColor != null) {
+        else if (localIconColor != null && !"".equals(localIconColor)) {
             try {
                 iconColor = Color.parseColor(localIconColor);
             } catch (IllegalArgumentException e) {
-                _log("couldn't parse color from android options");
+                Log.e(LOG_TAG, "couldn't parse color from android options");
             }
         }
         if (iconColor != 0) {
@@ -644,6 +813,7 @@ public class GCMIntentService
         try {
             URL url = new URL(strURL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setConnectTimeout(15000);
             connection.setDoInput(true);
             connection.connect();
             InputStream input = connection.getInputStream();
@@ -654,7 +824,7 @@ public class GCMIntentService
         }
     }
 
-    private static String getAppName(Context context) {
+    public static String getAppName(Context context) {
         CharSequence appName =  context.getPackageManager().getApplicationLabel(context.getApplicationInfo());
         return (String)appName;
     }
@@ -666,72 +836,26 @@ public class GCMIntentService
             retval = Integer.parseInt(extras.getString(value));
         }
         catch(NumberFormatException e) {
-            _log("Number format exception - Error parsing " + value + ": " + e.getMessage());
+            Log.e(LOG_TAG, "Number format exception - Error parsing " + value + ": " + e.getMessage());
         }
         catch(Exception e) {
-            _log("Number format exception - Error parsing " + value + ": " + e.getMessage());
+            Log.e(LOG_TAG, "Number format exception - Error parsing " + value + ": " + e.getMessage());
         }
 
         return retval;
     }
 
-    private JSONObject getCurrentPosition(Context pContext) {
-        LocationManager locationManager = (LocationManager) pContext.getSystemService(Context.LOCATION_SERVICE);
-        Location locationGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        Location locationNet = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        Location current_location;
-
-        JSONObject jsonResult = new JSONObject();
-
-        long GPSLocationTime = 0;
-        if (null != locationGPS) {
-            GPSLocationTime = locationGPS.getTime();
-        }
-
-        long NetLocationTime = 0;
-        if (null != locationNet) {
-            NetLocationTime = locationNet.getTime();
-        }
-
-        if (0 < GPSLocationTime - NetLocationTime) {
-            _log("Located by GPS");
-            current_location = locationGPS;
-        } else {
-            _log("Located by network");
-            current_location = locationNet;
-        }
-
-        try {
-            jsonResult.put("latitude", current_location.getLatitude());
-            jsonResult.put("longitude", current_location.getLongitude());
-            jsonResult.put("provider", current_location.getProvider());
-
-            return jsonResult;
-        } catch (JSONException e) {
+    private Spanned fromHtml(String source) {
+        if (source != null)
+            return Html.fromHtml(source);
+        else
             return null;
-        }
     }
 
-    private Double _calculateDistance(Double lat1, Double lon1, Double lat2, Double lon2, String unit) {
-        Double radlat1 = Math.PI * lat1/180;
-        Double radlat2 = Math.PI * lat2/180;
-        Double theta = lon1-lon2;
-        Double radtheta = Math.PI * theta/180;
-        Double dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-        dist = Math.acos(dist);
-        dist = dist * 180/Math.PI;
-        dist = dist * 60 * 1.1515;
-        if ("K".equals(unit)) {
-            dist = dist * 1.609344 ;
-        }
-        if ("N".equals(unit)) {
-            dist = dist * 0.8684;
-        }
+    private boolean isAvailableSender(String from) {
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(PushPlugin.COM_ADOBE_PHONEGAP_PUSH, Context.MODE_PRIVATE);
+        String savedSenderID = sharedPref.getString(SENDER_ID, "");
 
-        return dist;
-    }
-
-    private void _log(String message) {
-        Log.d(LOG_TAG, message);
+        return from.equals(savedSenderID) || from.startsWith("/topics/");
     }
 }

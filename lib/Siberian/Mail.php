@@ -210,6 +210,25 @@ class Siberian_Mail extends Zend_Mail {
     }
 
     /**
+     * Send test e-mail
+     *
+     * @return Zend_Mail
+     */
+    public function test() {
+        # Set default sender if not custom.
+        if(!$this->_custom_from) {
+            $this->setFrom($this->_sender_email, $this->_sender_name);
+        }
+
+        # Sending to the sender.
+        if($this->_cc_to_sender) {
+            $this->addTo($this->_sender_email, $this->_sender_name);
+        }
+
+        return parent::send(null);
+    }
+
+    /**
      * @param $module
      * @param $template
      * @param $subject

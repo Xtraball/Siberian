@@ -1,18 +1,19 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.appsmobilecompany.base" version="1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <preference name="AllowInlineMediaPlayback" value="false" />
-    <preference name="BackupWebStorage" value="cloud" />
-    <preference name="DisallowOverscroll" value="false" />
-    <preference name="EnableViewportScale" value="false" />
-    <preference name="KeyboardDisplayRequiresUserAction" value="true" />
-    <preference name="MediaPlaybackRequiresUserAction" value="false" />
-    <preference name="SuppressesIncrementalRendering" value="false" />
-    <preference name="GapBetweenPages" value="0" />
-    <preference name="PageLength" value="0" />
-    <preference name="PaginationBreakingMode" value="page" />
-    <preference name="PaginationMode" value="unpaginated" />
     <feature name="LocalStorage">
         <param name="ios-package" value="CDVLocalStorage" />
+    </feature>
+    <feature name="HandleOpenUrl">
+        <param name="ios-package" value="CDVHandleOpenURL" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="IntentAndNavigationFilter">
+        <param name="ios-package" value="CDVIntentAndNavigationFilter" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="GestureHandler">
+        <param name="ios-package" value="CDVGestureHandler" />
+        <param name="onload" value="true" />
     </feature>
     <feature name="AdMob">
         <param name="ios-package" value="CDVAdMobPlugin" />
@@ -21,7 +22,6 @@
     <feature name="BackgroundGeolocation">
         <param name="ios-package" value="CDVBackgroundGeolocation" />
     </feature>
-    <preference name="loadUrlTimeoutValue" value="60000" />
     <feature name="HotCodePush">
         <param name="ios-package" value="HCPPlugin" />
         <param name="onload" value="true" />
@@ -29,6 +29,9 @@
     <feature name="SplashScreen">
         <param name="ios-package" value="CDVSplashScreen" />
         <param name="onload" value="true" />
+    </feature>
+    <feature name="PushNotification">
+        <param name="ios-package" value="PushPlugin" />
     </feature>
     <feature name="AppVersion">
         <param name="ios-package" value="AppVersion" />
@@ -46,7 +49,6 @@
     <feature name="Camera">
         <param name="ios-package" value="CDVCamera" />
     </feature>
-    <preference name="CameraUsesGeolocation" value="false" />
     <feature name="Clipboard">
         <param name="ios-package" value="CDVClipboard" />
     </feature>
@@ -78,12 +80,6 @@
     <feature name="ProgressView">
         <param name="ios-package" value="ProgressView" />
     </feature>
-    <feature name="PushNotification">
-        <param name="ios-package" value="PushPlugin" />
-    </feature>
-    <feature name="RemoteControls">
-        <param name="ios-package" value="RemoteControls" />
-    </feature>
     <feature name="SocialSharing">
         <param name="ios-package" value="SocialSharing" />
         <param name="onload" value="true" />
@@ -92,8 +88,6 @@
         <param name="ios-package" value="CDVStatusBar" />
         <param name="onload" value="true" />
     </feature>
-    <preference name="StatusBarOverlaysWebView" value="true" />
-    <preference name="StatusBarStyle" value="lightcontent" />
     <feature name="LocalNotification">
         <param name="ios-package" onload="true" value="APPLocalNotification" />
         <param name="onload" value="true" />
@@ -109,6 +103,27 @@
     <feature name="Insomnia">
         <param name="ios-package" value="Insomnia" />
     </feature>
+    <feature name="MusicControls">
+        <param name="ios-package" value="MusicControls" />
+    </feature>
+    <name>AppsMobileCompany</name>
+    <description>Apps Mobile Company app source code</description>
+    <author>Apps Mobile Company Dev Team</author>
+    <content src="index.html" />
+    <access origin="*" />
+    <access launch-external="yes" origin="tel:*" />
+    <access launch-external="yes" origin="geo:*" />
+    <access launch-external="yes" origin="mailto:*" />
+    <allow-navigation href="*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="geo:*" />
+    <allow-intent href="mailto:*" />
+    <chcp>
+        <config-file url="PLATFORM_URL" />
+        <native-interface version="4" />
+        <auto-download enabled="false" />
+        <auto-install enabled="false" />
+    </chcp>
     <icon height="57" src="resources/ios/icon/icon.png" width="57" />
     <icon height="114" src="resources/ios/icon/icon@2x.png" width="114" />
     <icon height="40" src="resources/ios/icon/icon-40.png" width="40" />
@@ -135,32 +150,29 @@
     <splash height="1024" src="resources/ios/splash/Default-Portrait~ipad.png" width="768" />
     <splash height="960" src="resources/ios/splash/Default@2x~iphone.png" width="640" />
     <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
-    <name>AppsMobileCompany</name>
-    <description>Apps Mobile Company app source code</description>
-    <author>Apps Mobile Company Dev Team</author>
-    <content src="index.html" />
-    <access origin="*" />
-    <access launch-external="yes" origin="tel:*" />
-    <access launch-external="yes" origin="geo:*" />
-    <access launch-external="yes" origin="mailto:*" />
-    <allow-navigation href="*" />
-    <allow-intent href="tel:*" />
-    <allow-intent href="geo:*" />
-    <allow-intent href="mailto:*" />
+    <preference name="AllowInlineMediaPlayback" value="false" />
+    <preference name="BackupWebStorage" value="none" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="EnableViewportScale" value="false" />
+    <preference name="KeyboardDisplayRequiresUserAction" value="true" />
+    <preference name="MediaPlaybackRequiresUserAction" value="false" />
+    <preference name="SuppressesIncrementalRendering" value="false" />
+    <preference name="SuppressesLongPressGesture" value="false" />
+    <preference name="Suppresses3DTouchGesture" value="false" />
+    <preference name="GapBetweenPages" value="0" />
+    <preference name="PageLength" value="0" />
+    <preference name="PaginationBreakingMode" value="page" />
+    <preference name="PaginationMode" value="unpaginated" />
+    <preference name="loadUrlTimeoutValue" value="60000" />
+    <preference name="CameraUsesGeolocation" value="false" />
+    <preference name="StatusBarOverlaysWebView" value="true" />
+    <preference name="StatusBarStyle" value="lightcontent" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
-    <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="16" />
     <preference name="android-targetSdkVersion" value="23" />
-    <preference name="BackupWebStorage" value="none" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="FadeSplashScreen" value="true" />
     <preference name="FadeSplashScreenDuration" value="500" />
-    <chcp>
-        <config-file url="PLATFORM_URL" />
-        <native-interface version="2" />
-        <auto-download enabled="false" />
-        <auto-install enabled="false" />
-    </chcp>
 </widget>

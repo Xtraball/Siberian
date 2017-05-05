@@ -191,7 +191,6 @@ class Siberian_Migration_Db extends Zend_Db_Table_Abstract {
      */
     public function exportAll() {
         foreach(self::TABLES as $table_name) {
-            echo "$table_name<br />";
             $migration_db_table = new Siberian_Migration_Db_Table($table_name);
             if($migration_db_table->tableExists(false, false)) {
                 $migration_db_table->exportDatabase(true);

@@ -184,41 +184,54 @@ class Push_Model_Message extends Core_Model_Default {
         foreach($this->_types as $type => $class_name) {
 
             if($type == 'ios') {
-                try {
-                    $ios_certificate = Core_Model_Directory::getBasePathTo(Push_Model_Certificate::getiOSCertificat($this->getAppId()));
-                    if(is_readable($ios_certificate) && is_file($ios_certificate)) {
-                        $instance = new Push_Model_Ios_Message(new Siberian_Service_Push_Apns(null, $ios_certificate));
-                        $instance->setMessage($this);
-                        $instance->push();
-                    } else {
-                        throw new Exception("You must provide an APNS Certificate for the App ID: {$this->getAppId()}");
-                    }
-                } catch (Exception $e) {
-                    $this->logger->info(sprintf("[CRON: %s]: ".$e->getMessage(), date("Y-m-d H:i:s")), "cron_push");
-                    $this->_log("Siberian_Service_Push_Apns", $e->getMessage());
-                    $errors[] = $e->getMessage();
 
-                    $success_ios = false;
+                if(in_array($this->getTargetDevices(), array("ios", "all", "", null))) {
+                    try {
+                        $ios_certificate = Core_Model_Directory::getBasePathTo(Push_Model_Certificate::getiOSCertificat($this->getAppId()));
+                        if(is_readable($ios_certificate) && is_file($ios_certificate)) {
+                            $instance = new Push_Model_Ios_Message(new Siberian_Service_Push_Apns(null, $ios_certificate));
+                            $instance->setMessage($this);
+                            $instance->push();
+                        } else {
+                            throw new Siberian_Exception("You must provide an APNS Certificate for the App ID: {$this->getAppId()}");
+                        }
+                    } catch (Exception $e) {
+                        $this->logger->info(sprintf("[CRON: %s]: ".$e->getMessage(), date("Y-m-d H:i:s")), "cron_push");
+                        $this->_log("Siberian_Service_Push_Apns", $e->getMessage());
+                        $errors[] = $e->getMessage();
+
+                        $success_ios = false;
+                    }
+                } else {
+                    $this->logger->info(sprintf("[CRON: %s]: ios is not in the target list, skipping.", date("Y-m-d H:i:s")), "cron_push");
+                    $this->_log("Siberian_Service_Push_Apns", "ios is not in the target list, skipping.");
                 }
+
 
             }
 
             if($type == 'android') {
-                try {
-                    $gcm_key = Push_Model_Certificate::getAndroidKey();
-                    if(!empty($gcm_key)) {
-                        $instance = new Push_Model_Android_Message(new Siberian_Service_Push_Gcm(Push_Model_Certificate::getAndroidKey()));
-                        $instance->setMessage($this);
-                        $instance->push();
-                    } else {
-                        throw new Exception("You must provide GCM Credentials");
-                    }
-                } catch (Exception $e) {
-                    $this->logger->info(sprintf("[CRON: %s]: ".$e->getMessage(), date("Y-m-d H:i:s")), "cron_push");
-                    $this->_log("Siberian_Service_Push_Gcm", $e->getMessage());
-                    $errors[] = $e->getMessage();
 
-                    $success_android = false;
+                if(in_array($this->getTargetDevices(), array("android", "all", "", null))) {
+                    try {
+                        $gcm_key = Push_Model_Certificate::getAndroidKey();
+                        if(!empty($gcm_key)) {
+                            $instance = new Push_Model_Android_Message(new Siberian_Service_Push_Gcm(Push_Model_Certificate::getAndroidKey()));
+                            $instance->setMessage($this);
+                            $instance->push();
+                        } else {
+                            throw new Siberian_Exception("You must provide GCM Credentials");
+                        }
+                    } catch (Exception $e) {
+                        $this->logger->info(sprintf("[CRON: %s]: ".$e->getMessage(), date("Y-m-d H:i:s")), "cron_push");
+                        $this->_log("Siberian_Service_Push_Gcm", $e->getMessage());
+                        $errors[] = $e->getMessage();
+
+                        $success_android = false;
+                    }
+                } else {
+                    $this->logger->info(sprintf("[CRON: %s]: android is not in the target list, skipping.", date("Y-m-d H:i:s")), "cron_push");
+                    $this->_log("Siberian_Service_Push_Apns", "android is not in the target list, skipping.");
                 }
             }
         }

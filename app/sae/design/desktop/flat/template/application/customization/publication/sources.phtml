@@ -6,6 +6,9 @@
     $queued = Application_Model_Queue::getPosition($application->getId());
     $positions = $queued["positions"];
     $total = $queued["total"];
+
+    $ios_device = $application->getDevice(1);
+    $android_device = $application->getDevice(2);
 ?>
 <div class="application container-fluid">
     <div class="content">
@@ -83,14 +86,22 @@
                     <div class="col-sm-2">
                         <label for="ios_admob_id"><?php echo __('iOS'); ?> : </label>
                     </div>
-                    <div class="col-sm-5">
-                        <input type="text" id="ios_admob_id" name="admob_id" class="autosave input-flat" placeholder="AdMob ID" value="<?php echo $application->getDevice(1)->getAdmobId(); ?>" maxlength="50" />
+
+                    <div class="col-sm-3">
+                        <input type="text" id="ios_admob_id" name="admob_id" class="autosave input-flat" placeholder="AdMob Banner ID" value="<?php echo $ios_device->getAdmobId(); ?>" maxlength="50" />
                         <input type="hidden" name="device_id" value="1" />
                     </div>
-                    <div class="col-sm-5">
+
+                    <div class="col-sm-3">
+                        <input type="text" id="ios_admob_interstitial_id" name="admob_interstitial_id" class="autosave input-flat" placeholder="AdMob Interstitial ID" value="<?php echo $ios_device->getAdmobInterstitialId(); ?>" maxlength="50" />
+                        <input type="hidden" name="device_id" value="1" />
+                    </div>
+
+                    <div class="col-sm-4">
                         <select id="select_admob_type_ios" name="admob_type" class="autosave styled-select color-green" tabindex="2">
-                            <option value="banner" <?php if($application->getDevice(1)->getAdmobType() == "banner") : ?> selected="selected"<?php endif; ?>>Banner</option>
-                            <option value="interstitial" <?php if($application->getDevice(1)->getAdmobType() == "interstitial") : ?> selected="selected"<?php endif; ?>>Interstitial</option>
+                            <option value="banner" <?php if($ios_device->getAdmobType() == "banner") : ?> selected="selected"<?php endif; ?>><?php echo __("Banner") ?></option>
+                            <option value="interstitial" <?php if($ios_device->getAdmobType() == "interstitial") : ?> selected="selected"<?php endif; ?>><?php echo __("Interstitial") ?></option>
+                            <option value="banner-interstitial" <?php if($ios_device->getAdmobType() == "banner-interstitial") : ?> selected="selected"<?php endif; ?>><?php echo __("Banner & Interstitial") ?></option>
                         </select>
                         <input type="hidden" name="device_id" value="1" />
                     </div>
@@ -100,14 +111,22 @@
                     <div class="col-sm-2">
                         <label for="android_admob_id"><?php echo __('Android'); ?> : </label>
                     </div>
-                    <div class="col-sm-5">
-                        <input type="text" id="android_admob_id" name="admob_id" class="autosave input-flat" placeholder="AdMob ID" value="<?php echo $application->getDevice(2)->getAdmobId(); ?>" maxlength="50" />
+
+                    <div class="col-sm-3">
+                        <input type="text" id="android_admob_id" name="admob_id" class="autosave input-flat" placeholder="AdMob Banner ID" value="<?php echo $android_device->getAdmobId(); ?>" maxlength="50" />
                         <input type="hidden" name="device_id" value="2" />
                     </div>
-                    <div class="col-sm-5">
+
+                    <div class="col-sm-3">
+                        <input type="text" id="android_admob_interstitial_id" name="admob_interstitial_id" class="autosave input-flat" placeholder="AdMob Interstitial ID" value="<?php echo $android_device->getAdmobInterstitialId(); ?>" maxlength="50" />
+                        <input type="hidden" name="device_id" value="2" />
+                    </div>
+
+                    <div class="col-sm-4">
                         <select id="select_admob_type_android" name="admob_type" class="autosave styled-select color-green" tabindex="2">
-                            <option value="banner" <?php if($application->getDevice(2)->getAdmobType() == "banner") : ?> selected="selected"<?php endif; ?>>Banner</option>
-                            <option value="interstitial" <?php if($application->getDevice(2)->getAdmobType() == "interstitial") : ?> selected="selected"<?php endif; ?>>Interstitial</option>
+                            <option value="banner" <?php if($android_device->getAdmobType() == "banner") : ?> selected="selected"<?php endif; ?>><?php echo __("Banner") ?></option>
+                            <option value="interstitial" <?php if($android_device->getAdmobType() == "interstitial") : ?> selected="selected"<?php endif; ?>><?php echo __("Interstitial") ?></option>
+                            <option value="banner-interstitial" <?php if($android_device->getAdmobType() == "banner-interstitial") : ?> selected="selected"<?php endif; ?>><?php echo __("Banner & Interstitial") ?></option>
                         </select>
                         <input type="hidden" name="device_id" value="2" />
                     </div>

@@ -15,7 +15,7 @@ class Media_Model_Gallery_Image_Instagram extends Media_Model_Gallery_Image_Abst
         return $this;
     }
 
-    public function getUserId($username) {
+    public function getUserId() {
 
         // Requête
         $request = file_get_contents($this->_endpointUrl);

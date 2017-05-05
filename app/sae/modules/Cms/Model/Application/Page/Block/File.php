@@ -31,8 +31,10 @@ class Cms_Model_Application_Page_Block_File extends Cms_Model_Application_Page_B
      * @return $this
      */
     public function populate($data = array()) {
-        $file = Siberian_Feature::saveImageForOption($this->option_value, $data["file"]);
+        $file = Siberian_Feature::saveFileForOption($this->option_value, $data["file"]);
 
+        $this->setLabel($data["label"]);
+        $this->setOriginalName($data["original_name"]);
         $this->setName($file);
 
         return $this;

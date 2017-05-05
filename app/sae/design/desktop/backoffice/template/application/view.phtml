@@ -1,3 +1,6 @@
+<script type="text/javascript">
+    test = "<?php echo __js("If your app is already published on the stores, be sure you have sent an update with the Ionic version, and that this update has already been accepted, otherwise your app may be broken."); ?>";
+</script>
 <sb-section title="'<?php echo __("General Information"); ?>'">
     <form ng-submit="saveInfo()">
         <div class="col-md-4">
@@ -38,7 +41,7 @@
             <div class="form-group">
                 <label class="control-label"><?php echo __("Design"); ?>: <i>{{ tmp_application.design_code }}</i></label>
                 <div>
-                    <button type="button" ng-click="switchToIonic('<?php echo __("If your app is already published on the stores, be sure you have sent an update with the Ionic version, and that this update has already been accepted, otherwise your app may be broken."); ?>')" ng-if="tmp_application.design_code != 'ionic'" class="btn btn-success" style="border-color: white;">
+                    <button type="button" ng-click="switchToIonic(message)" ng-if="tmp_application.design_code != 'ionic'" class="btn btn-success" style="border-color: white;">
                         <?php echo __("Switch to Ionic design"); ?>
                     </button>
                 </div>
@@ -197,6 +200,15 @@
                 </label>
             </div>
         </div>
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="alert alert-info" role="alert">
+                    <?php echo __("If user doesn't use AdMob, split revenue will default to 100.") ?>
+                </div>
+            </div>
+        </div>
+
         <div ng-repeat="device in application_admob.devices" ng-if="application_admob.owner_use_ads">
 
             <div class="col-md-{{ 12 / application_admob.devices.length }}">
@@ -207,14 +219,26 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="admob-id-{{ device.name }}" class="control-label"><?php echo __("AdMob ID"); ?></label>
+                    <label for="admob-weight-{{ device.name }}"><?php echo __("Split Ad revenue (percent for you)"); ?></label>
+                    <input type="number" min="0" max="100" step="1" id="admob-weight-{{ device.name }}" ng-model="device.owner_admob_weight" class="form-control"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="admob-id-{{ device.name }}" class="control-label"><?php echo __("AdMob Banner ID"); ?></label>
                     <input type="text" id="admob-id-{{ device.name }}" class="form-control" ng-model="device.owner_admob_id" />
                 </div>
+
+                <div class="form-group">
+                    <label for="admob-interstitial-id-{{ device.name }}" class="control-label"><?php echo __("AdMob Interstitial ID"); ?></label>
+                    <input type="text" id="admob-interstitial-id-{{ device.name }}" class="form-control" ng-model="device.owner_admob_interstitial_id" />
+                </div>
+
                 <div class="form-group">
                     <label for="admob-type-{{ device.name }}" class="control-label"><?php echo __("AdMob Type"); ?></label>
                     <select id="admob-type-{{ device.name }}" class="form-control" ng-model="device.owner_admob_type">
-                        <option value="banner">Banner</option>
-                        <option value="interstitial">Interstitial</option>
+                        <option value="banner"><?php echo __("Banner") ?></option>
+                        <option value="interstitial"><?php echo __("Interstitial") ?></option>
+                        <option value="banner-interstitial"><?php echo __("Banner & Interstitial") ?></option>
                     </select>
                 </div>
 

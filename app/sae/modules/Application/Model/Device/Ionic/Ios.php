@@ -90,11 +90,11 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
     
     public function prepareResources($cron = false) {
 
-        $this->_application = $this->getApplication();
+        self::$_application = $this->getApplication();
 
-        $this->_package_name = $this->_application->getBundleId();
-        $this->_application_id = Core_Model_Lib_String::format($this->_application->getName()."_".$this->_application->getId(), true);
-        $this->_application_name = $this->_application->getName();
+        $this->_package_name = self::$_application->getBundleId();
+        $this->_application_id = Core_Model_Lib_String::format(self::$_application->getName()."_".self::$_application->getId(), true);
+        $this->_application_name = self::$_application->getName();
 
         /** Prepping paths */
         $this->_preparePathsVars();
@@ -106,7 +106,7 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
 
         /** Shared method */
         $this->buildPList();
-        $this->ionicResources($this->_application);
+        $this->ionicResources(self::$_application);
 
         $zip = $this->zipFolder();
 
@@ -122,8 +122,8 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
             $_dest_ads_suffix = "NoAds";
         }
 
-        $this->_app_name_formatted = Core_Model_Lib_String::format($this->_application->getName(), true);
-        $this->_folder_name = $this->_app_name_formatted.'-'.$this->_application->getId();
+        $this->_app_name_formatted = Core_Model_Lib_String::format(self::$_application->getName(), true);
+        $this->_folder_name = $this->_app_name_formatted.'-'.self::$_application->getId();
 
         /** Ionic sources */
         $this->_orig_source = Core_Model_Directory::getBasePathTo(self::SOURCE_FOLDER.$_source_ads_suffix);
@@ -134,15 +134,15 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
         $this->_dest_source = Core_Model_Directory::getBasePathTo(self::DEST_FOLDER.$_dest_ads_suffix);
         $this->_dest_source = sprintf($this->_dest_source, $this->_folder_name);
         $this->_dest_source_amc = $this->_dest_source."/AppsMobileCompany";
-        $this->_dest_source_res = $this->_dest_source_amc."/Resources";
+        $this->_dest_source_res = $this->_dest_source_amc."/";
 
         $this->_dest_archive = Core_Model_Directory::getBasePathTo(self::ARCHIVE_FOLDER);
 
         /** Vars */
-        $this->_zipname = sprintf("%s_%s_%s%s", $this->_app_name_formatted, $this->_application->getId(), "ios_source", $_package_ads_suffix);
+        $this->_zipname = sprintf("%s_%s_%s%s", $this->_app_name_formatted, self::$_application->getId(), "ios_source", $_package_ads_suffix);
 
         if(!$this->_app_name_formatted) {
-            $this->_zipname = sprintf("%s_%s_%s%s", $this->getDevice()->getAlias(), $this->_application->getId(), "ios_source", $_package_ads_suffix);
+            $this->_zipname = sprintf("%s_%s_%s%s", $this->getDevice()->getAlias(), self::$_application->getId(), "ios_source", $_package_ads_suffix);
         }
     }
 
@@ -158,7 +158,7 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
             $domain = $this->_request->getHttpHost();
         }
 
-        $app_key = $this->_application->getKey();
+        $app_key = self::$_application->getKey();
 
         $url_js_content = "
 /** Auto-generated url.js */
@@ -223,7 +223,7 @@ if(navigator.language) {
             case "url_path": $value = ltrim($this->_request->getBaseUrl(), "/"); break;
             case "url_key":
                 if($this->_request->useApplicationKey()) {
-                    $value = $this->_application->getKey();
+                    $value = self::$_application->getKey();
                 }
                 break;
             default: $value = "";

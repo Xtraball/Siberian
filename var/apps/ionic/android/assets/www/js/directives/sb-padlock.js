@@ -1,7 +1,7 @@
 App.directive("sbPadlock", function(Application) {
     return {
         restrict: "A",
-        controller: function($cordovaBarcodeScanner, $ionicHistory, $ionicModal, $rootScope, $scope, $stateParams, $timeout, $translate, $window, Application, Customer, Dialog, Padlock, AUTH_EVENTS, PADLOCK_EVENTS) {
+        controller: function($cordovaBarcodeScanner, $ionicHistory, $ionicModal, $rootScope, $scope, $state, $stateParams, $timeout, $translate, $window, Application, Customer, Dialog, Padlock, AUTH_EVENTS, PADLOCK_EVENTS) {
 
             $scope.is_webview = Application.is_webview;
 
@@ -41,7 +41,7 @@ App.directive("sbPadlock", function(Application) {
 
                 $cordovaBarcodeScanner.scan().then(function(barcodeData) {
 
-                    if(!barcodeData.cancelled && barcodeData.text != "") {
+                    if(!barcodeData.cancelled && (barcodeData.text !== "")) {
 
                         $timeout(function () {
                             for (var i = 0; i < $scope.scan_protocols.length; i++) {
@@ -52,7 +52,7 @@ App.directive("sbPadlock", function(Application) {
 
                                     Padlock.unlockByQRCode(qrcode).success(function() {
 
-                                        Padlock.unlock_by_qrcode = true;
+                                        Padlock.unlocked_by_qrcode = true;
 
                                         $scope.is_loading = false;
 
@@ -60,7 +60,12 @@ App.directive("sbPadlock", function(Application) {
 
                                         $rootScope.$broadcast(PADLOCK_EVENTS.unlockFeatures);
 
-                                        $ionicHistory.goBack();
+                                        if(Application.is_locked) {
+                                            $ionicHistory.clearHistory();
+			                                      $state.go("home");
+                                        } else {
+                                            $ionicHistory.goBack();
+                                        }
 
                                     }).error(function (data) {
 
@@ -84,7 +89,11 @@ App.directive("sbPadlock", function(Application) {
                     }
 
                 }, function(error) {
-                    Dialog.alert($translate.instant('Error'), $translate.instant('An error occurred while reading the code.'), $translate.instant("OK"));
+                    Dialog.alert(
+                        $translate.instant('Error'),
+                        $translate.instant('An error occurred while reading the code.'),
+                        $translate.instant("OK")
+                    );
                 });
             };
 

@@ -88,6 +88,11 @@ class Application_Customization_Design_StyleController extends Application_Contr
                     $application->setLayoutVisibility(Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE);
                 }
 
+                /** If for layout 9 ... */
+                if($layout->getVisibility() == Application_Model_Layout_Homepage::VISIBILITY_TOGGLE) {
+                    $application->setLayoutVisibility(Application_Model_Layout_Homepage::VISIBILITY_TOGGLE);
+                }
+
                 if(!isset($datas["homepageoptions"])) {
                     $application->setLayoutOptions(Siberian_Json::encode($datas));
                 }
@@ -188,13 +193,15 @@ class Application_Customization_Design_StyleController extends Application_Contr
                 $html = array();
 
                 if(empty($datas['layout_id'])) {
-                    throw new Exception(__('An error occurred while changing your layout.'));
+                    throw new Siberian_Exception(__('An error occurred while changing your layout.'));
                 }
 
                 $layout = new Application_Model_Layout_Homepage();
                 $layout->find($datas['layout_id']);
 
-                if(!$layout->getId()) throw new Exception(__('An error occurred while changing your layout.'));
+                if(!$layout->getId()) {
+                    throw new Siberian_Exception(__('An error occurred while changing your layout.'));
+                }
 
                 $html = array('success' => 1);
 
@@ -227,7 +234,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
 
                     $html['success'] = 1;
                     $html['reload'] = 1;
-                    $html["display_layout_options"] = $layout->getVisibility() == Application_Model_Layout_Homepage::VISIBILITY_ALWAYS;
+                    $html["display_layout_options"] = ($layout->getVisibility() == Application_Model_Layout_Homepage::VISIBILITY_ALWAYS);
                     $html["layout_id"] = $layout->getId();
                     $html["layout_visibility"] = $this->getApplication()->getLayoutVisibility();
                 }
@@ -279,7 +286,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
                         ->save()
                     ;
                     $html['reload'] = 1;
-                    $html["display_layout_options"] = $layout->getVisibility() == Application_Model_Layout_Homepage::VISIBILITY_ALWAYS;
+                    $html["display_layout_options"] = ($layout->getVisibility() == Application_Model_Layout_Homepage::VISIBILITY_ALWAYS);
                     $html["layout_id"] = $layout->getId();
                     $html["layout_visibility"] = $this->getApplication()->getLayoutVisibility();
                 }

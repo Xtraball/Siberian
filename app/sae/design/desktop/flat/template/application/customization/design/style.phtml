@@ -32,11 +32,9 @@ $design_id = $application->getDesignId();
         </h3>
         <div id="templates" class="subcontent content-color">
             <div class="col-sm-4 col-xs-6">
-                <?php if($this->_canAccess("application_create")) : ?>
-                    <button type="button" id="show_templates" class="show_templates add color-red btn">
-                        <i class="fa fa-plus-circle"></i> <?php echo __("Change your template"); ?>
-                    </button>
-                <?php endif; ?>
+                <button type="button" id="show_templates" class="show_templates add color-red btn">
+                    <i class="fa fa-plus-circle"></i> <?php echo __("Change your template"); ?>
+                </button>
                 <br /><br />
                 <p>
                     <?php if(empty($design_id)): ?>

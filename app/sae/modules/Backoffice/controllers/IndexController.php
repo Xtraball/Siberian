@@ -127,6 +127,9 @@ class Backoffice_IndexController extends Backoffice_Controller_Default
                     case "app_manifest":
                         $message = __("Rebuilding application manifest files.");
 
+                        $default_cache = Zend_Registry::get("cache");
+                        $default_cache->clean(Zend_Cache::CLEANING_MODE_ALL);
+
                         $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
                         Siberian_Autoupdater::configure($protocol.$this->getRequest()->getHttpHost());
                         break;
@@ -135,13 +138,27 @@ class Backoffice_IndexController extends Backoffice_Controller_Default
 
                         Cron_Model_Cron::clearErrors();
                         break;
+                    case "android_sdk":
+                        Cron_Model_Cron::clearErrors();
+
+                        # Enable Android SDK Update
+                        $task_model = new Cron_Model_Cron();
+                        $task = $task_model->find("androidtools", "command");
+                        $task->enable();
+
+                        # Clear cron errors/notification
+                        Backoffice_Model_Notification::clear("Android_Sdk_Update", 1);
+
+                        $message = __("Android SDK is marked for update.");
+
+                        break;
                 }
 
                 $html = array(
-                    "success" => 1,
-                    "message" => $message,
-                    "server_usage" => Siberian_Cache::getDiskUsage(),
-                    "services" => Siberian_Service::getServices(),
+                    "success"       => 1,
+                    "message"       => $message,
+                    "server_usage"  => Siberian_Cache::getDiskUsage(),
+                    "services"      => Siberian_Service::getServices(),
                 );
 
             }

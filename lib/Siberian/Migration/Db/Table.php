@@ -299,11 +299,21 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract {
         $raw_schema = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $raw_schema);
 
         $schema_path = realpath(APPLICATION_PATH."/../");
+        $version = Siberian_Version::VERSION;
+
+        if(!file_exists($schema_path."/var/schema/{$version}")) {
+            mkdir($schema_path."/var/schema/{$version}", 0777, true);
+        }
+
         if($save) {
-            $schema_path .= "/var/schema/{$this->tableName}.php";
+            $schema_path .= "/var/schema/{$version}/{$this->tableName}.php";
+            echo "Exporting {$this->tableName} to : {$schema_path}\n";
             file_put_contents($schema_path, $raw_schema);
         } else {
-            $schema_path .= "/var/tmp/{$this->tableName}.php";
+            if(!file_exists($schema_path."/var/tmp/{$version}")) {
+                mkdir($schema_path."/var/tmp/{$version}", 0777, true);
+            }
+            $schema_path .= "/var/tmp/{$version}/{$this->tableName}.php";
             file_put_contents($schema_path, $raw_schema);
 
             if(is_readable($schema_path)) {
@@ -334,15 +344,40 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract {
 
         $migration_log = sprintf($this->log_info, Siberian_Version::VERSION);
 
+        $fix_utc_dates = false;
+
         /** Walks against the latest schema adding columns */
         foreach($this->schemaFields as $column_name => $options) {
             if(!isset($this->localFields[$column_name])) {
-                //$this->logger->info("Updating table: '{$this->tableName}' column: '{$column_name}'", $migration_log, true);
+#                $this->logger->info("Updating table: '{$this->tableName}' column: '{$column_name}'", $migration_log, true);
                 $request = $this->parseAlter($column_name);
                 $this->execSafe($request);
+
+                if(preg_match("/^(created|updated)_at_utc$/", $column_name)) {
+                    $fix_utc_dates = true;
+                }
             }
         }
 
+        if($fix_utc_dates) {
+            $cols = array();
+            if(isset($this->localFields["created_at"])) $cols[] = "created_at";
+            if(isset($this->localFields["updated_at"])) $cols[] = "updated_at";
+            if(count($cols) > 0) {
+                $requestDates = "SELECT ".join($cols, ", ")." FROM `{$this->tableName}` WHERE ".join(array_map(function($col) { return $col."_utc=0"; }, $cols), " OR ");
+                $resultDates = $this->query($requestDates)->fetchAll();
+                foreach($resultDates as $row) {
+                    foreach($cols as $col) {
+                        $col_utc = $col."_utc";
+                        if(isset($row[$col]) && @intval($row[$col_utc]) < 1) {
+                            $date = new Zend_Date($row[$col]);
+                            $timestamp = $date->getTimestamp();
+                            $this->query("UPDATE `{$this->tableName}` SET `{$col_utc}`=$timestamp WHERE `$col`='{$row[$col]}';");
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -459,7 +494,7 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract {
             $col_default = "'{$col_default}'";
         }
 
-        $type           = $col['type'];
+        $type           =  $col['type'];
         $default        = ($col_default != "") ? " DEFAULT {$col_default}" : "";
         $collate        = ($col_collation != "") ? " COLLATE {$col_collation}" : "";
         $null           = (isset($col['is_null'])) ? "" : " NOT NULL";

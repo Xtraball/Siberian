@@ -34,4 +34,14 @@ $schemas['cms_application_page_block_file'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'original_name' => array(
+        'type' => 'varchar(255)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
+    'label' => array(
+        'type' => 'varchar(255)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
 );

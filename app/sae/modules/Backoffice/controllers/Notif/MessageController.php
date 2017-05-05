@@ -27,6 +27,20 @@ class Backoffice_Notif_MessageController extends Backoffice_Controller_Default {
                 $link = str_replace("http://", "https://", $link);
             }
 
+            $origin = '-';
+            switch($notif->getObjectType()) {
+                case "System_Model_SslCertificates":
+                        $origin = "letsencrypt";
+                    break;
+                case "Application_Model_SourceQueue":
+                case "Application_Model_ApkQueue":
+                        $origin = "generator";
+                    break;
+                case "Android_Sdk_Update":
+                    $origin = "android-sdk-update";
+                    break;
+            }
+
             $data = array(
                 "success" => 1,
                 "notif" => array(
@@ -37,6 +51,7 @@ class Backoffice_Notif_MessageController extends Backoffice_Controller_Default {
                     "priority"      => ($notif->getIsHighPriority()),
                     "source"        => $notif->getSource(),
                     "type"          => $notif->getType(),
+                    "origin"        => $origin,
                     "object_type"   => $notif->getObjectType(),
                     "object_id"     => $notif->getObjectId(),
                     "created_at"    => $notif->getFormattedCreatedAt()

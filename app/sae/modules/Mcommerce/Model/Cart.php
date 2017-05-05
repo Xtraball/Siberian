@@ -380,7 +380,7 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
     public function _compute() {
         //note : subtotal_ is with delivery // $toal is with delivery
         list($subtotal_excl_tax, $delivery_cost_excl_tax, $total_tax) = $this->getTotalsFromLines();
-        $tip = floatval($this->getTip());
+        $tip = $this->getTip();
         $total_excl_tax = $subtotal_excl_tax + $delivery_cost_excl_tax;
         $total = $total_excl_tax + $total_tax + $tip;
 
@@ -514,6 +514,14 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
 
     public function getFormattedDeliveryTTC() {
         return $this->formatPrice($this->getDeliveryTTC());
+    }
+
+    public function getFormattedSubtotalWithDiscount() {
+        return $this->formatPrice(($this->getDeductedTotalHT()+$this->getDeductedTva()));
+    }
+
+    public function getTip() {
+        return abs(floatval($this->getData("tip")));
     }
 
 }

@@ -1,4 +1,5 @@
-cordova.define("cordova-plugin-admobpro.AdMob", function(require, exports, module) { 
+cordova.define("cordova-plugin-admobpro.AdMob", function(require, exports, module) {
+
 var argscheck = require('cordova/argscheck'),
     exec = require('cordova/exec');
 

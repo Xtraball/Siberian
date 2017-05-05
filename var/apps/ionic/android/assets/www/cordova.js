@@ -1,5 +1,5 @@
 // Platform: android
-// 2fd4bcb84048415922d13d80d35b8d1668e8e150
+// 7c5fcc5a5adfbf3fb8ceaf36fbdd4bd970bd9c20
 /*
  Licensed to the Apache Software Foundation (ASF) under one
  or more contributor license agreements.  See the NOTICE file
@@ -19,7 +19,7 @@
  under the License.
 */
 ;(function() {
-var PLATFORM_VERSION_BUILD_LABEL = '5.3.0-dev';
+var PLATFORM_VERSION_BUILD_LABEL = '6.2.1';
 // file: src/scripts/require.js
 
 /*jshint -W079 */
@@ -742,8 +742,13 @@ var Channel = function(type, sticky) {
         }
     };
 
-function forceFunction(f) {
-    if (typeof f != 'function') throw "Function required as first argument!";
+function checkSubscriptionArgument(argument) {
+    if (typeof argument !== "function" && typeof argument.handleEvent !== "function") {
+        throw new Error(
+                "Must provide a function or an EventListener object " +
+                "implementing the handleEvent interface."
+        );
+    }
 }
 
 /**
@@ -753,28 +758,39 @@ function forceFunction(f) {
  * and a guid that can be used to stop subscribing to the channel.
  * Returns the guid.
  */
-Channel.prototype.subscribe = function(f, c) {
-    // need a function to call
-    forceFunction(f);
+Channel.prototype.subscribe = function(eventListenerOrFunction, eventListener) {
+    checkSubscriptionArgument(eventListenerOrFunction);
+    var handleEvent, guid;
+
+    if (eventListenerOrFunction && typeof eventListenerOrFunction === "object") {
+        // Received an EventListener object implementing the handleEvent interface
+        handleEvent = eventListenerOrFunction.handleEvent;
+        eventListener = eventListenerOrFunction;
+    } else {
+        // Received a function to handle event
+        handleEvent = eventListenerOrFunction;
+    }
+
     if (this.state == 2) {
-        f.apply(c || this, this.fireArgs);
+        handleEvent.apply(eventListener || this, this.fireArgs);
         return;
     }
 
-    var func = f,
-        guid = f.observer_guid;
-    if (typeof c == "object") { func = utils.close(c, f); }
+    guid = eventListenerOrFunction.observer_guid;
+    if (typeof eventListener === "object") {
+        handleEvent = utils.close(eventListener, handleEvent);
+    }
 
     if (!guid) {
-        // first time any channel has seen this subscriber
+        // First time any channel has seen this subscriber
         guid = '' + nextGuid++;
     }
-    func.observer_guid = guid;
-    f.observer_guid = guid;
+    handleEvent.observer_guid = guid;
+    eventListenerOrFunction.observer_guid = guid;
 
     // Don't add the same handler more than once.
     if (!this.handlers[guid]) {
-        this.handlers[guid] = func;
+        this.handlers[guid] = handleEvent;
         this.numHandlers++;
         if (this.numHandlers == 1) {
             this.onHasSubscribersChange && this.onHasSubscribersChange();
@@ -785,12 +801,20 @@ Channel.prototype.subscribe = function(f, c) {
 /**
  * Unsubscribes the function with the given guid from the channel.
  */
-Channel.prototype.unsubscribe = function(f) {
-    // need a function to unsubscribe
-    forceFunction(f);
+Channel.prototype.unsubscribe = function(eventListenerOrFunction) {
+    checkSubscriptionArgument(eventListenerOrFunction);
+    var handleEvent, guid, handler;
 
-    var guid = f.observer_guid,
-        handler = this.handlers[guid];
+    if (eventListenerOrFunction && typeof eventListenerOrFunction === "object") {
+        // Received an EventListener object implementing the handleEvent interface
+        handleEvent = eventListenerOrFunction.handleEvent;
+    } else {
+        // Received a function to handle event
+        handleEvent = eventListenerOrFunction;
+    }
+
+    guid = handleEvent.observer_guid;
+    handler = this.handlers[guid];
     if (handler) {
         delete this.handlers[guid];
         this.numHandlers--;
@@ -897,10 +921,11 @@ var cordova = require('cordova'),
         // For the ONLINE_EVENT to be viable, it would need to intercept all event
         // listeners (both through addEventListener and window.ononline) as well
         // as set the navigator property itself.
-        ONLINE_EVENT: 2
+        ONLINE_EVENT: 2,
+        EVAL_BRIDGE: 3
     },
     jsToNativeBridgeMode,  // Set lazily.
-    nativeToJsBridgeMode = nativeToJsModes.ONLINE_EVENT,
+    nativeToJsBridgeMode = nativeToJsModes.EVAL_BRIDGE,
     pollEnabled = false,
     bridgeSecret = -1;
 
@@ -923,6 +948,9 @@ function androidExec(success, fail, service, action, args) {
         androidExec.setJsToNativeBridgeMode(jsToNativeModes.JS_OBJECT);
     }
 
+    // If args is not provided, default to an empty array
+    args = args || [];
+
     // Process any ArrayBuffers in the args into a string.
     for (var i = 0; i < args.length; i++) {
         if (utils.typeName(args[i]) == 'ArrayBuffer') {
@@ -932,7 +960,6 @@ function androidExec(success, fail, service, action, args) {
 
     var callbackId = service + cordova.callbackId++,
         argsJson = JSON.stringify(args);
-
     if (success || fail) {
         cordova.callbacks[callbackId] = {success:success, fail:fail};
     }
@@ -952,6 +979,17 @@ function androidExec(success, fail, service, action, args) {
 }
 
 androidExec.init = function() {
+    //CB-11828
+    //This failsafe checks the version of Android and if it's Jellybean, it switches it to
+    //using the Online Event bridge for communicating from Native to JS
+    //
+    //It's ugly, but it's necessary.
+    var check = navigator.userAgent.toLowerCase().match(/android\s[0-9].[0-9]/);
+    var version_code = check && check[0].match(/4.[0-3].*/);
+    if (version_code != null && nativeToJsBridgeMode == nativeToJsModes.EVAL_BRIDGE) {
+      nativeToJsBridgeMode = nativeToJsModes.ONLINE_EVENT;
+    }
+
     bridgeSecret = +prompt('', 'gap_init:' + nativeToJsBridgeMode);
     channel.onNativeReady.fire();
 };
@@ -2083,7 +2121,10 @@ utils.clone = function(obj) {
 
     retVal = {};
     for(i in obj){
-        if(!(i in retVal) || retVal[i] != obj[i]) {
+        // https://issues.apache.org/jira/browse/CB-11522 'unknown' type may be returned in
+        // custom protocol activation case on Windows Phone 8.1 causing "No such interface supported" exception
+        // on cloning.
+        if((!(i in retVal) || retVal[i] != obj[i]) && typeof obj[i] != 'undefined' && typeof obj[i] != 'unknown') {
             retVal[i] = utils.clone(obj[i]);
         }
     }

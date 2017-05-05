@@ -588,4 +588,8 @@ class Mcommerce_Model_Order extends Core_Model_Default {
         return $cart->getFormattedDeliveryTTC();
     }
 
+    public function getTip() {
+        return abs(floatval($this->getData("tip")));
+    }
+
 }

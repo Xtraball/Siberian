@@ -60,19 +60,6 @@ class Installer_Model_Installer extends Core_Model_Default {
         }
 
         try {
-
-            if(class_exists("ZipArchive")) {
-                $test = new ZipArchive();
-            }
-
-            if(!is_object($test)) {
-                $errors[] = "ZipArchive";
-            }
-
-        } catch(Exception $e) {
-            $errors[] = "ZipArchive";
-        }
-        try {
             $command = 'zip -L';
             $output = array();
             $code = 0;
@@ -101,6 +88,16 @@ class Installer_Model_Installer extends Core_Model_Default {
 
         } catch(Exception $e) {
             $errors[] = "gd2";
+        }
+
+        try {
+
+            if(!function_exists("iconv")) {
+                throw new Exception('iconv module is missing');
+            }
+
+        } catch(Exception $e) {
+            $errors[] = "iconv";
         }
 
         try {

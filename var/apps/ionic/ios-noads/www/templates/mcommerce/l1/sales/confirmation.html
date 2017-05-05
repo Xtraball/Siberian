@@ -31,19 +31,23 @@
         </div>
         <div class="card" ng-if="cart.lines.length">
             <div class="item item-divider item-divider-custom">
-                <p><strong><i class="icon ion-calculator"></i> {{ "Total" | translate }}</strong></p>
-            </div>
-            <div class="item item-custom">
-                <strong>{{ "Subtotal" | translate }}</strong>
-                <span class="item-note"><strong>{{ cart.formattedSubtotal }}</strong></span>
+              <p><strong><i class="icon ion-calculator"></i> {{ "Total" | translate }}</strong></p>
             </div>
             <div class="item item-custom" ng-if="cart.deliveryCost > 0">
-                - {{ "Incl." }} {{ "Delivery fees" | translate }}
-                <span class="item-note"> -{{ cart.formattedDeliveryTTC }}</span>
+              {{ "Delivery fees" | translate }}
+              <span class="item-note"> {{ cart.formattedDeliveryTTC }}</span>
+            </div>
+            <div class="item item-custom">
+              <strong>{{ "Subtotal" | translate }}</strong>
+              <span class="item-note"><strong>{{ cart.formattedSubtotal }}</strong></span>
             </div>
             <div class="item item-custom" ng-if="cart.discount_enabled && cart.discount_code != '' && cart.discount">
-                {{ "Discount" | translate }} ({{ cart.discount_message }})
-                <span class="item-note">{{ cart.discount }}</span>
+              {{ "Discount" | translate }} ({{ cart.discount_message }})
+              <span class="item-note">- {{ cart.discount }}</span>
+            </div>
+            <div class="item item-custom">
+              <strong>{{ "Subtotal" | translate }} {{ "Incl." | translate | lowercase }} {{ "Discount" | translate | lowercase }}</strong>
+              <span class="item-note"><strong>{{ cart.formattedSubtotalWithDiscount }}</strong></span>
             </div>
             <div class="item item-custom">
                 {{ "Subtotal Excl. Tax" | translate }}
@@ -80,7 +84,7 @@
         <!--TG-459-->
         <div class="card">
             <div class="item item-divider item-divider-custom">
-                <p><strong><i class="icon ion-clipboard"></i> Notes </strong></p>
+                <p><strong><i class="icon ion-clipboard"></i> {{ "Notes" | translate }} </strong></p>
             </div>
             <div class="item">
                 <p>

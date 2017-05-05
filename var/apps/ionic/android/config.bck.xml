@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.appsmobilecompany.base" version="1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>AppsMobileCompany</name>
+    <description>Apps Mobile Company app source code</description>
+    <author>Apps Mobile Company Dev Team</author>
+    <content src="index.html" />
+    <access origin="*" />
+    <access launch-external="yes" origin="tel:*" />
+    <access launch-external="yes" origin="geo:*" />
+    <access launch-external="yes" origin="mailto:*" />
+    <allow-navigation href="*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="geo:*" />
+    <allow-intent href="mailto:*" />
+    <chcp>
+        <config-file url="PLATFORM_URL" />
+        <native-interface version="4" />
+        <auto-download enabled="false" />
+        <auto-install enabled="false" />
+    </chcp>
+    <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
+    <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
+    <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />
+    <icon density="xhdpi" src="resources/android/icon/drawable-xhdpi-icon.png" />
+    <icon density="xxhdpi" src="resources/android/icon/drawable-xxhdpi-icon.png" />
+    <icon density="xxxhdpi" src="resources/android/icon/drawable-xxxhdpi-icon.png" />
+    <splash density="land-ldpi" src="resources/android/splash/drawable-land-ldpi-screen.png" />
+    <splash density="land-mdpi" src="resources/android/splash/drawable-land-mdpi-screen.png" />
+    <splash density="land-hdpi" src="resources/android/splash/drawable-land-hdpi-screen.png" />
+    <splash density="land-xhdpi" src="resources/android/splash/drawable-land-xhdpi-screen.png" />
+    <splash density="land-xxhdpi" src="resources/android/splash/drawable-land-xxhdpi-screen.png" />
+    <splash density="land-xxxhdpi" src="resources/android/splash/drawable-land-xxxhdpi-screen.png" />
+    <splash density="port-ldpi" src="resources/android/splash/drawable-port-ldpi-screen.png" />
+    <splash density="port-mdpi" src="resources/android/splash/drawable-port-mdpi-screen.png" />
+    <splash density="port-hdpi" src="resources/android/splash/drawable-port-hdpi-screen.png" />
+    <splash density="port-xhdpi" src="resources/android/splash/drawable-port-xhdpi-screen.png" />
+    <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.png" />
+    <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
+    <preference name="loglevel" value="DEBUG" />
+    <preference name="webviewbounce" value="false" />
+    <preference name="UIWebViewBounce" value="false" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="android-minSdkVersion" value="16" />
+    <preference name="android-targetSdkVersion" value="23" />
+    <preference name="BackupWebStorage" value="none" />
+    <preference name="SplashShowOnlyFirstTime" value="false" />
+    <preference name="AutoHideSplashScreen" value="false" />
+    <preference name="FadeSplashScreen" value="true" />
+    <preference name="FadeSplashScreenDuration" value="500" />
+    <feature name="AdMob">
+        <param name="android-package" value="com.rjfun.cordova.admob.AdMobPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <preference name="loadUrlTimeoutValue" value="60000" />
+    <feature name="HotCodePush">
+        <param name="android-package" value="com.nordnetab.chcp.main.HotCodePushPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="SplashScreen">
+        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="BackgroundGeoloc">
+        <param name="android-package" value="com.appsmobilecompany.base.CDVBackgroundGeoloc" />
+    </feature>
+    <feature name="PushNotification">
+        <param name="android-package" value="com.adobe.phonegap.push.PushPlugin" />
+    </feature>
+    <feature name="AppVersion">
+        <param name="android-package" value="uk.co.whiteoctober.cordova.AppVersion" />
+    </feature>
+    <feature name="Stream">
+        <param name="android-package" value="org.apache.cordova.media.AudioHandler" />
+    </feature>
+    <feature name="BarcodeScanner">
+        <param name="android-package" value="com.phonegap.plugins.barcodescanner.BarcodeScanner" />
+    </feature>
+    <feature name="Camera">
+        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
+    </feature>
+    <feature name="Clipboard">
+        <param name="android-package" value="com.verso.cordova.clipboard.Clipboard" />
+    </feature>
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
+    <feature name="Notification">
+        <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
+    </feature>
+    <feature name="File">
+        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
+        <param name="onload" value="true" />
+    </feature>
+    <allow-navigation href="cdvfile:*" />
+    <feature name="Geolocation">
+        <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
+    </feature>
+    <feature name="InAppBrowser">
+        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
+    </feature>
+    <feature name="Keyboard">
+        <param name="android-package" value="io.ionic.keyboard.IonicKeyboard" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Media">
+        <param name="android-package" value="org.apache.cordova.media.AudioHandler" />
+    </feature>
+    <feature name="ProgressView">
+        <param name="android-package" value="de.neofonie.cordova.plugin.progressview.ProgressView" />
+    </feature>
+    <feature name="SocialSharing">
+        <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
+    </feature>
+    <feature name="StatusBar">
+        <param name="android-package" value="org.apache.cordova.statusbar.StatusBar" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="LocalNotification">
+        <param name="android-package" value="de.appplant.cordova.plugin.localnotification.LocalNotification" />
+    </feature>
+    <feature name="OfflineMode">
+        <param name="android-package" value="com.appsmobilecompany.base.OfflineMode" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Insomnia">
+        <param name="android-package" value="nl.xservices.plugins.Insomnia" />
+    </feature>
+    <feature name="MusicControls">
+        <param name="android-package" value="com.homerours.musiccontrols.MusicControls" />
+    </feature>
+</widget>

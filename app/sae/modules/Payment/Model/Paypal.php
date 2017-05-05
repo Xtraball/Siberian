@@ -228,11 +228,12 @@ class Payment_Model_Paypal extends Core_Model_Default {
             $discount = new Mcommerce_Model_Promo();
             $discount = $discount->find($order->getDiscountCode(), "code");
             if($discount->getId()) {
-                $tmp_total -= $discount->getDiscount();
+                $cart = $this->getCart();
+                $tmp_total -= $discount->getDeduction($cart);
             }
         }
 
-        $params["PAYMENTREQUEST_0_ITEMAMT"] = $tmp_total;
+        $params["PAYMENTREQUEST_0_ITEMAMT"] = round($tmp_total, 2);
 
         // Sum of tax for all items in this order
         $params["PAYMENTREQUEST_0_TAXAMT"] = round($total_tax, 2);

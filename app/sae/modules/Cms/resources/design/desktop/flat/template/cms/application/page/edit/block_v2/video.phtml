@@ -172,11 +172,20 @@ $pvar = "p{$uniqid}";
                             $(<?php echo $pvar; ?>+" .cms-video-youtube-id").val(el.data("videoid"));
                         });
 
+                        if(data.videos.length == 1) {
+                            var selector = "[data-videoid='"+data.videos[0].id+"']";
+                            $(selector).trigger("click");
+                        }
+
                         /** When a video is already selected. */
                         var val = $(<?php echo $pvar; ?>+" .cms-video-youtube-id").val();
                         if(val !== "") {
                             var selector = "[data-videoid='"+val+"']";
-                            youtube_result.find(".sb-mini-carousel").data("sbcarousel").gotoElement(selector);
+                            var carousel = youtube_result.find(".sb-mini-carousel").data("sbcarousel");
+                            if(typeof carousel !== "undefined") {
+                                carousel.gotoElement(selector);
+                            }
+
                             $(selector).trigger("click");
                         }
 
@@ -232,11 +241,19 @@ $pvar = "p{$uniqid}";
                             $(<?php echo $pvar; ?>+" .cms-video-podcast-id").val(el.data("videoid"));
                         });
 
+                        if(data.videos.length == 1) {
+                            var selector = "[data-videoid='"+data.videos[0].id+"']";
+                            $(selector).trigger("click");
+                        }
+
                         /** When a video is already selected. */
                         var val = $(<?php echo $pvar; ?>+" .cms-video-podcast-id").val();
                         if(val !== "") {
                             var selector = "[data-videoid='"+val+"']";
-                            podcast_result.find(".sb-mini-carousel").data("sbcarousel").gotoElement(selector);
+                            var carousel = podcast_result.find(".sb-mini-carousel").data("sbcarousel");
+                            if(typeof carousel !== "undefined") {
+                                carousel.gotoElement(selector);
+                            }
                             $(selector).trigger("click");
                         }
 

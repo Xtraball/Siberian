@@ -44,7 +44,7 @@ class Loyaltycard_MobileController extends Application_Controller_Mobile_Default
 
                 // Récupération du mot de passe
                 $password = new LoyaltyCard_Model_Password();
-                $password->findByPassword($password_entered, $application->getAppId());
+                $password->findByPassword($password_entered, $option_value->getId());
 
                 // Test si le mot de passe a été trouvé
                 if(!$password->getId()) {

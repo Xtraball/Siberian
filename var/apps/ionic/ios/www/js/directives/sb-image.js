@@ -26,8 +26,6 @@ App.directive('sbImage', function($timeout) {
             };
             if(img.complete) {
                 scope.setBackgroundImageStyle();
-            //} else if(Application.is_ios) {
-            //    scope.setBackgroundImageStyle();
             }
 
         },

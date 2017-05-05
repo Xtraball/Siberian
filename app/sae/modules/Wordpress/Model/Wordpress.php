@@ -202,7 +202,7 @@ class Wordpress_Model_Wordpress extends Core_Model_Default {
 
                 krsort($this->_remote_posts);
 
-                $cache->save($this->_remote_posts, $cacheId);
+//                $cache->save($this->_remote_posts, $cacheId);
 
             }
         }

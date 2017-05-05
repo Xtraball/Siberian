@@ -36,21 +36,23 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
 
         // Touch Icon
         $icons = array(
-            $this->_dest_source_res.'/icons/icon-small.png'     => $application->getIcon(29, null, true),
-            $this->_dest_source_res.'/icons/icon-small@2x.png'  => $application->getIcon(58, null, true),
-            $this->_dest_source_res.'/icons/icon.png'           => $application->getIcon(57, null, true),
-            $this->_dest_source_res.'/icons/icon@2x.png'        => $application->getIcon(114, null, true),
-            $this->_dest_source_res.'/icons/icon-40.png'        => $application->getIcon(40, null, true),
-            $this->_dest_source_res.'/icons/icon-40@2x.png'     => $application->getIcon(80, null, true),
-            $this->_dest_source_res.'/icons/icon-50.png'        => $application->getIcon(50, null, true),
-            $this->_dest_source_res.'/icons/icon-50@2x.png'     => $application->getIcon(100, null, true),
-            $this->_dest_source_res.'/icons/icon-60.png'        => $application->getIcon(60, null, true),
-            $this->_dest_source_res.'/icons/icon-60@2x.png'     => $application->getIcon(120, null, true),
-            $this->_dest_source_res.'/icons/icon-60@3x.png'     => $application->getIcon(180, null, true),
-            $this->_dest_source_res.'/icons/icon-72.png'        => $application->getIcon(72, null, true),
-            $this->_dest_source_res.'/icons/icon-72@2x.png'     => $application->getIcon(144, null, true),
-            $this->_dest_source_res.'/icons/icon-76.png'        => $application->getIcon(76, null, true),
-            $this->_dest_source_res.'/icons/icon-76@2x.png'     => $application->getIcon(152, null, true),
+            $this->_dest_source_res.'/Images.xcassets/AppIcon.appiconset/icon-small.png'     => $application->getIcon(29, null, true),
+            $this->_dest_source_res.'/Images.xcassets/AppIcon.appiconset/icon-small@2x.png'  => $application->getIcon(58, null, true),
+            $this->_dest_source_res.'/Images.xcassets/AppIcon.appiconset/icon.png'           => $application->getIcon(57, null, true),
+            $this->_dest_source_res.'/Images.xcassets/AppIcon.appiconset/icon@2x.png'        => $application->getIcon(114, null, true),
+            $this->_dest_source_res.'/Images.xcassets/AppIcon.appiconset/icon-40.png'        => $application->getIcon(40, null, true),
+            $this->_dest_source_res.'/Images.xcassets/AppIcon.appiconset/icon-40@2x.png'     => $application->getIcon(80, null, true),
+            $this->_dest_source_res.'/Images.xcassets/AppIcon.appiconset/icon-50.png'        => $application->getIcon(50, null, true),
+            $this->_dest_source_res.'/Images.xcassets/AppIcon.appiconset/icon-50@2x.png'     => $application->getIcon(100, null, true),
+            $this->_dest_source_res.'/Images.xcassets/AppIcon.appiconset/icon-60.png'        => $application->getIcon(60, null, true),
+            $this->_dest_source_res.'/Images.xcassets/AppIcon.appiconset/icon-60@2x.png'     => $application->getIcon(120, null, true),
+            $this->_dest_source_res.'/Images.xcassets/AppIcon.appiconset/icon-60@3x.png'     => $application->getIcon(180, null, true),
+            $this->_dest_source_res.'/Images.xcassets/AppIcon.appiconset/icon-72.png'        => $application->getIcon(72, null, true),
+            $this->_dest_source_res.'/Images.xcassets/AppIcon.appiconset/icon-72@2x.png'     => $application->getIcon(144, null, true),
+            $this->_dest_source_res.'/Images.xcassets/AppIcon.appiconset/icon-76.png'        => $application->getIcon(76, null, true),
+            $this->_dest_source_res.'/Images.xcassets/AppIcon.appiconset/icon-76@2x.png'     => $application->getIcon(152, null, true),
+            $this->_dest_source_res.'/Images.xcassets/AppIcon.appiconset/icon-83.5@2x.png'   => $application->getIcon(152, null, true),
+            $this->_dest_source_res.'/Images.xcassets/AppIcon.appiconset/icon-small@3x.png'  => $application->getIcon(120, null, true),
         );
 
         foreach($icons as $icon_dst => $icon_src) {
@@ -62,7 +64,7 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
                 imagecopyresized($new_icon, $icon_resource, 0, 0, 0, 0, $width, $height, $width, $height);
                 imagepng($new_icon, $icon_dst);
             } else if(!copy($icon_src, $icon_dst)) {
-                throw new Exception(__('An error occured while copying your app icon. Please check the icon, try to send it again and try again.'));
+                throw new Exception(__('An error occured while copying your app icon. Please check the icon, try to send it again and try again.')."\n".$icon_src."\n".$icon_dst);
             }
 
         }
@@ -79,51 +81,51 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
                 array(
                     "width" => 320,
                     "height" => 480,
-                    "dst" => $this->_dest_source_res .'/splash/Default~iphone.png'
+                    "dst" => $this->_dest_source_res .'/Images.xcassets/LaunchImage.launchimage/Default~iphone.png'
                 ), array(
-                    "dst" => $this->_dest_source_res .'/splash/Default@2x~iphone.png'
+                    "dst" => $this->_dest_source_res .'/Images.xcassets/LaunchImage.launchimage/Default@2x~iphone.png'
                 )
             ),
             $startup_src_retina => array(
                 array(
-                    "dst" => $this->_dest_source_res .'/splash/Default-Portrait~ipad.png'
+                    "dst" => $this->_dest_source_res .'/Images.xcassets/LaunchImage.launchimage/Default-Portrait~ipad.png'
                 ), array(
-                    "dst" => $this->_dest_source_res .'/splash/Default-Portrait@2x~ipad.png'
+                    "dst" => $this->_dest_source_res .'/Images.xcassets/LaunchImage.launchimage/Default-Portrait@2x~ipad.png'
                 ), array(
                     "width" => 640,
                     "height" => 1136,
-                    "dst" => $this->_dest_source_res .'/splash/Default-568h@2x~iphone.png'
+                    "dst" => $this->_dest_source_res .'/Images.xcassets/LaunchImage.launchimage/Default-568h@2x~iphone.png'
                 )
             ),
             $startup_src_iphone_6 => array(
                 array(
-                    "dst" => $this->_dest_source_res .'/splash/Default-667h.png'
+                    "dst" => $this->_dest_source_res .'/Images.xcassets/LaunchImage.launchimage/Default-667h.png'
                 )
             ),
             $startup_src_iphone_6_plus => array(
                 array(
-                    "dst" => $this->_dest_source_res .'/splash/Default-736h.png'
+                    "dst" => $this->_dest_source_res .'/Images.xcassets/LaunchImage.launchimage/Default-736h.png'
                 )
             ),
             $startup_src_ipad_retina => array(
                 array(
                     "width" => 768,
                     "height" => 1024,
-                    "dst" => $this->_dest_source_res .'/splash/Default-Portrait~ipad.png'
+                    "dst" => $this->_dest_source_res .'/Images.xcassets/LaunchImage.launchimage/Default-Portrait~ipad.png'
                 ), array(
                     "width" => 768,
                     "height" => 1024,
-                    "dst" => $this->_dest_source_res .'/splash/Default-Portrait~ipad.png'
+                    "dst" => $this->_dest_source_res .'/Images.xcassets/LaunchImage.launchimage/Default-Portrait~ipad.png'
                 ), array(
-                    "dst" => $this->_dest_source_res .'/splash/Default-Portrait@2x~ipad.png'
+                    "dst" => $this->_dest_source_res .'/Images.xcassets/LaunchImage.launchimage/Default-Portrait@2x~ipad.png'
                 ),
                 /** Defaulting landcape splash */
                 array(
-                    "dst" => $this->_dest_source_res .'/splash/Default-Landscape-736h.png'
+                    "dst" => $this->_dest_source_res .'/Images.xcassets/LaunchImage.launchimage/Default-Landscape-736h.png'
                 ),array(
-                    "dst" => $this->_dest_source_res .'/splash/Default-Landscape@2x~ipad.png'
+                    "dst" => $this->_dest_source_res .'/Images.xcassets/LaunchImage.launchimage/Default-Landscape@2x~ipad.png'
                 ),array(
-                    "dst" => $this->_dest_source_res .'/splash/Default-Landscape~ipad.png'
+                    "dst" => $this->_dest_source_res .'/Images.xcassets/LaunchImage.launchimage/Default-Landscape~ipad.png'
                 )
 
             ),

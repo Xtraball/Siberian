@@ -32,7 +32,7 @@ class Push_ApplicationController extends Application_Controller_Default
                         $data[$input] = null;
                     }
                     else if(empty($data[$input])) {
-                        throw new Exception($this->_('Please, enter a valid date'));
+                        throw new Exception(__('Please, enter a valid date'));
                     }
                     else {
                         $date = new Zend_Date($data[$input], 'y-MM-dd HH:mm:ss');
@@ -47,7 +47,7 @@ class Push_ApplicationController extends Application_Controller_Default
                     $date_now = $date_now->toString('y-MM-dd HH:mm:ss');
                     $data["send_until"] = $date->toString('y-MM-dd HH:mm:ss');
                     if($data["send_until"] < $date_now) {
-                        throw new Exception($this->_("The duration limit must be higher than the sent date"));
+                        throw new Exception(__("The duration limit must be higher than the sent date"));
                     }
                 }
 
@@ -56,7 +56,7 @@ class Push_ApplicationController extends Application_Controller_Default
                 }
 
                 if(!empty($data['send_until']) AND $data['send_at'] > $data['send_until']) {
-                    throw new Exception($this->_("The duration limit must be higher than the sent date"));
+                    throw new Exception(__("The duration limit must be higher than the sent date"));
                 }
 
 
@@ -78,7 +78,7 @@ class Push_ApplicationController extends Application_Controller_Default
                     }
 
                     if(!copy($img_src, $img_dst)) {
-                        throw new exception($this->_('An error occurred while saving your picture. Please try again later.'));
+                        throw new exception(__('An error occurred while saving your picture. Please try again later.'));
                     } else {
                         $data['cover'] = $relative_path . $filename;
                     }
@@ -102,6 +102,14 @@ class Push_ApplicationController extends Application_Controller_Default
                 $data["send_to_all"] = $data["topic_receiver"]?0:1;
                 $data["send_to_specific_customer"] = $data["customers_receiver"]?1:0;
                 $data["base_url"] = $this->getRequest()->getBaseUrl();
+
+                if(empty($data["customers_receiver"]) && empty($data["customers_receiver"])) {
+                    $data["target_devices"] = $data["devices"];
+                } else {
+                    $data["target_devices"] = "all";
+                }
+
+
                 $message->setData($data)->save();
 
                 //PnTopics
@@ -160,8 +168,8 @@ class Push_ApplicationController extends Application_Controller_Default
                     'message_loader' => 0
                 );
 
-                if($sendNow) $html['success_message'] = $this->_('Your message has been saved successfully and will be sent in a few minutes');
-                else $html['success_message'] = $this->_('Your message has been saved successfully and will be sent at the entered date');
+                if($sendNow) $html['success_message'] = __('Your message has been saved successfully and will be sent in a few minutes');
+                else $html['success_message'] = __('Your message has been saved successfully and will be sent at the entered date');
 
             }
             catch(Exception $e) {
@@ -187,7 +195,7 @@ class Push_ApplicationController extends Application_Controller_Default
                 $datas = array(
                     'success' => 1,
                     'file' => $file,
-                    'message_success' => $this->_('Info successfully saved'),
+                    'message_success' => __('Info successfully saved'),
                     'message_button' => 0,
                     'message_timeout' => 2,
                 );

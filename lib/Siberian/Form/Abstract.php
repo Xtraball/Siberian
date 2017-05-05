@@ -535,7 +535,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         }
 
         /** Visual image button */
-        $image_button = new Siberian_Form_Element_Button($button_text);
+        $image_button = new Siberian_Form_Element_Button("{$name}_button");
         $this->addElement($image_button);
         $image_button->setLabel($label);
         $image_button->setIsFormHorizontal($this->is_form_horizontal);
@@ -547,7 +547,6 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         $image_button->setAttrib("data-uid", $uid);
         $image_button->setAttrib("data-input", $name);
         $image_button->removeDecorator('DtDdWrapper');
-
 
 
         if(is_array($options) && isset($options["width"]) && isset($options["height"])) {

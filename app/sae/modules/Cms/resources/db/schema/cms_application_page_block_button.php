@@ -46,4 +46,12 @@ $schemas['cms_application_page_block_button'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'hide_navbar' => array(
+        'type' => 'boolean',
+        'default' => "0"
+    ),
+    'use_external_app' => array(
+        'type' => 'boolean',
+        'default' => "0"
+    )
 );

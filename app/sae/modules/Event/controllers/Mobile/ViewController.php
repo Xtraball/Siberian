@@ -43,18 +43,18 @@ class Event_Mobile_ViewController extends Application_Controller_Mobile_Default 
                     if($event->getType() == "facebook") $picture = $event->getPicture();
 
                     $data['event'] = array(
-                        "id" => $event_id,
-                        "title" => $event->getName(),
-                        "description" => $event->getDescription(),
-                        "address" => $event->getAddress(),
-                        "weekday_name" => $start_at->toString(Zend_Date::WEEKDAY_NAME),
-                        "start_at" => $formatted_start_at,
-                        "end_at" => $formatted_end_at,
-                        "ticket_shop_url" => $event->getTicketShopUrl(),
-                        "rsvp" => $event->getRsvp(),
-                        "websites" => $event->getWebsites(),
-                        "in_app_page_path" => $in_app_page_path,
-                        "social_sharing_active" => $option->getSocialSharingIsActive()
+                        "id"                        => $event_id,
+                        "title"                     => $event->getName(),
+                        "description"               => nl2br($event->getDescription()),
+                        "address"                   => $event->getAddress(),
+                        "weekday_name"              => $start_at->toString(Zend_Date::WEEKDAY_NAME),
+                        "start_at"                  => $formatted_start_at,
+                        "end_at"                    => $formatted_end_at,
+                        "ticket_shop_url"           => $event->getTicketShopUrl(),
+                        "rsvp"                      => $event->getRsvp(),
+                        "websites"                  => $event->getWebsites(),
+                        "in_app_page_path"          => $in_app_page_path,
+                        "social_sharing_active"     => $option->getSocialSharingIsActive()
                     );
 
                     $data["cover"] = array(
@@ -69,7 +69,7 @@ class Event_Mobile_ViewController extends Application_Controller_Mobile_Default 
                             )
                         ),
                         "title3" => $formatted_end_at,
-                        "subtitle3" => $end_at->toString($this->_("HH:mm a")),
+                        "subtitle3" => $end_at->toString($this->_("hh:mm a")),
                         "picture" => $picture
                     );
 

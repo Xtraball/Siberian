@@ -10,7 +10,7 @@
 
 <div class="list" ng-if="search.search_value">
 
-  <a tabbar-items class="item item-custom item-avatar-square" option="item" go-to-url="closeSearch();goTo(item)" ng-repeat="item in search_list | filter:search.search_value as results" ng-class="{'item-avatar': item.picture, 'item-center': (!item.subtitle && !item.message)}">
+  <a tabbar-items class="item item-custom item-avatar-square" option="item" go-to-url="goTo(item)" ng-repeat="item in search_list | filter:search.search_value as results" ng-class="{'item-avatar': item.picture, 'item-center': (!item.subtitle && !item.message)}">
     <img ng-src="{{ item.picture }}" ng-if="item.picture" />
     <h2><span ng-if="item.father_name">{{ item.father_name }} > </span><strong>{{ item.name }}</strong></h2>
   </a>

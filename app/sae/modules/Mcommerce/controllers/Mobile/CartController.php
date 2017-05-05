@@ -79,10 +79,11 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
             "formattedDeliveryTTC" => $cart->getDeliveryTTC() > 0 ? $cart->getFormattedDeliveryTTC() : null,
             "formattedDeductedTva" => $cart->getFormattedDeductedTva(),
             "total" => (float)$cart->getTotal(),
-            "tip" => (float)$cart->getTip(),
+            "tip" => $cart->getTip(),
             "formattedTip" => $cart->getFormattedTip(),
             "formattedTotal" => $cart->getFormattedTotal(),
             "formattedSubtotal" => $cart->getFormattedSubtotal(),
+            "formattedSubtotalWithDiscount" => $cart->getFormattedSubtotalWithDiscount(),
             "lines" => array(),
             "pictos" => array(
                 "trash" => $trashImageUrl,
@@ -438,7 +439,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                 if (!$this->validateFloat($tip) || !$this->validateInt($value_id) || !$this->validateInt($cart->getCartId())) {
                     throw new Exception("Missing parameters.");
                 }
-                $cart->setTip($tip)->_compute()->save();
+                $cart->setTip(abs(floatval($tip)))->_compute()->save();
                 $html = array(
                     'cart_id' => $cart->getCartId(),
                     'success' => true
@@ -472,17 +473,22 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
         $html = array();
         if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
             try {
-                $promo = new Mcommerce_Model_Promo();
-                $mcommerce = $this->getCurrentOptionValue()->getObject();
                 $discount_code = $data["discount_code"];
-                $promo->find(array('code' => $discount_code, 'mcommerce_id' => $mcommerce->getId()));
-                $customer_uuid = $data["customer_uuid"];
+                $cart = $this->getCart();
+                $cart->setDiscountCode($discount_code)->save();
+                if(empty($discount_code)) {
+                    $html['success'] = true;
+                    $html['message'] = null;
+                } else {
+                    $promo = new Mcommerce_Model_Promo();
+                    $mcommerce = $this->getCurrentOptionValue()->getObject();
+                    $promo->find(array('code' => $discount_code, 'mcommerce_id' => $mcommerce->getId()));
+                    $customer_uuid = $data["customer_uuid"];
 
-                if($promo->getId()){
-                    $cart = $this->getCart();
-                    $cart->setCustomerUUID($customer_uuid);
-                    $valid = $promo->validate($cart);
-                    switch($valid) {
+                    if($promo->getId()){
+                        $cart->setCustomerUUID($customer_uuid);
+                        $valid = $promo->validate($cart);
+                        switch($valid) {
                         case -1:
                             $html['error'] = true;
                             $html['success'] = false;
@@ -503,11 +509,12 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                             $html['success'] = true;
                             $html['message'] = $promo->getLabel();
                             break;
+                        }
+                    } else {
+                        $html['error'] = true;
+                        $html['success'] = false;
+                        $html['message'] = $this->_("Invalid code") . '(' . $discount_code . ')';
                     }
-                } else {
-                    $html['error'] = true;
-                    $html['success'] = false;
-                    $html['message'] = $this->_("Invalid code") . '(' . $discount_code . ')';
                 }
             } catch (Exception $e) {
                 $html = array(

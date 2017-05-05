@@ -101,6 +101,11 @@ $resource_data = array(
         "url" => "admin/access_management/*"
     ),
     array(
+        "code" => "push_admin_global",
+        "label" => "Send global push notifications",
+        "url" => "push/admin/*"
+    ),
+    array(
         "code" => "analytics_application",
         "label" => "Analytics application page",
         "url" => "application/analytics_application/*"

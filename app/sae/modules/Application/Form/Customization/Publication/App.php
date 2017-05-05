@@ -45,6 +45,8 @@ class Application_Form_Customization_Publication_App extends Siberian_Form_Abstr
 <div>
     <div class="col-md-12">
         '.__("If you want to change the push icon, you <b>must re-publish</b> the application").'
+        <br />
+        <span style="font-size: 12px;">'.__("<b>Note: </b>Icon must be white with transparency, the crop window will colorize it otherwise").'</span>
     </div>
 </div>';
 

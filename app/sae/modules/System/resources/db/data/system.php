@@ -2,12 +2,12 @@
 $module = new Installer_Model_Installer_Module();
 $module->prepare("System", false);
 
-$exists = System_Model_Config::getValueFor("editor_design");
-$editor_design = (empty($exists)) ? "flat" : "siberian";
+/** Force flat. */
+$editor_design = "flat";
 
 /** Disable cron for Fresh sae install */
 $disable_cron = (!$module->isInstalled() && Siberian_Version::is("SAE")) ? "1" : "0";
-$environment = (APPLICATION_ENV == "production") ? "production" : "development";
+$environment = "production";
 
 $configs = array(
     array(
@@ -97,16 +97,34 @@ $configs = array(
         "label" => "Admob ID for platform owner (Ios)"
     ),
     array(
+        "code" => "application_ios_owner_admob_interstitial_id",
+        "label" => "Admob Interstitial ID for platform owner (Ios)"
+    ),
+    array(
         "code" => "application_ios_owner_admob_type",
         "label" => "Admob type for platform owner (Ios)"
+    ),
+    array(
+        "code" => "application_ios_owner_admob_weight",
+        "label" => "Admob split revenue for platform owner (Ios)",
+        "value" => 100
     ),
     array(
         "code" => "application_android_owner_admob_id",
         "label" => "Admob ID for platform owner (Android)"
     ),
     array(
+        "code" => "application_android_owner_admob_interstitial_id",
+        "label" => "Admob Interstitial ID for platform owner (Android)"
+    ),
+    array(
         "code" => "application_android_owner_admob_type",
         "label" => "Admob type for platform owner (Android)"
+    ),
+    array(
+        "code" => "application_android_owner_admob_weight",
+        "label" => "Admob split revenue for platform owner (Android)",
+        "value" => 100
     ),
     array(
         "code" => "application_owner_use_ads",
@@ -131,6 +149,11 @@ $configs = array(
     array(
         "code" => "ios_autobuild_key",
         "label" => "Your iOS autobuild License Key",
+        "value" => ""
+    ),
+    array(
+        "code" => "siberiancms_key",
+        "label" => "Your CMS License Key",
         "value" => ""
     ),
     array(
@@ -311,3 +334,6 @@ if(!$config->getId()) {
 
 # 4.8.7: Maintenance, remove blank entries
 $this->query("DELETE FROM `system_config` WHERE code = '';");
+
+# 4.10.0: Clear locks
+Siberian_Cache::__clearLocks();

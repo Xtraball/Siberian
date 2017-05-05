@@ -15,9 +15,9 @@ App.config(function ($stateProvider) {
         }
     });
 
-    McommerceProduct.value_id = $stateParams.value_id;
-    McommerceCart.value_id = $stateParams.value_id;
-    $scope.value_id = $stateParams.value_id;
+    McommerceProduct.value_id   = $stateParams.value_id;
+    McommerceCart.value_id      = $stateParams.value_id;
+    $scope.value_id             = $stateParams.value_id;
 
     $scope.product_id = $stateParams.product_id;
 
@@ -105,16 +105,25 @@ App.config(function ($stateProvider) {
                 return options;
             }, {}),
             'choices': $scope.product.choicesGroups.reduce(function (choices, choicesGroup) {
+
                 var selected = [];
+
                 choicesGroup.options.forEach(function(e, i){
                     if(e.selected){
                         selected.push(e.id)
                     }
                 });
+
+                if(choicesGroup.required &&  !selected.length) {
+                    errors.push($translate.instant("Option $1 is required.").replace("$1", choicesGroup.title));
+                }
+
                 choices[choicesGroup.id] = {
                     'selected_options': selected
                 };
+
                 return choices;
+
             }, {}),
             'selected_format': $scope.selected_format.id
         };
@@ -123,6 +132,18 @@ App.config(function ($stateProvider) {
             McommerceCart.addProduct(postParameters).success(function (data) {
                 if (data.success) {
                     $scope.is_loading = false;
+                    //Don't forget to "reset" selection
+                    $scope.product_quantity = 1;
+                    $scope.selected_format = {id:null};
+                    $scope.product.optionsGroups.forEach(function(option) {
+                        option.selectedOptionId = null;
+                        option.selectedQuantity = 1;
+                    });
+                    $scope.product.choicesGroups.forEach(function(choice) {
+                        choice.options.forEach(function(option) {
+                            option.selected = false;
+                        });
+                    });
                     $ionicLoading.hide();
                     $scope.openCart();
                 }
@@ -148,6 +169,7 @@ App.config(function ($stateProvider) {
         if(!$scope.is_loading) {
             $state.go("mcommerce-cart-view", {value_id: $scope.value_id});
         }
+
     };
 
     $scope.changeQuantity = function(qty) {

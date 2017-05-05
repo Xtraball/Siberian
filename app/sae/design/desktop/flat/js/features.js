@@ -1,7 +1,15 @@
 /** Handle every elements for Forms on the Fly */
+ckeditor_available_lang = ["af","ar","az","bg","bn","bs","ca","cs","cy","da","de-ch","de","el","en-au","en-ca","en-gb","en","eo","es","et","eu","fa","fi","fo","fr-ca","fr","gl","gu","he","hi","hr","hu","id","is","it","ja","ka","km","ko","ku","lt","lv","mk","mn","ms","nb","nl","no","oc","pl","pt-br","pt","ro","ru","si","sk","sl","sq","sr-latn","sr","sv","th","tr","tt","ug","uk","vi","zh-cn","zh"];
+
+ckeditor_language = "en";
+if(ckeditor_available_lang.indexOf(datepicker_regional) !== -1) {
+    ckeditor_language = datepicker_regional;
+}
+
 ckeditor_config = {};
+
 ckeditor_config.default = {
-    language: 'en',
+    language: ckeditor_language,
     toolbar: [
         {name: 'source', items: ['Source']},
         {name: 'insert', items: ['Image']},
@@ -18,10 +26,11 @@ ckeditor_config.default = {
         {name: 'styles', items: ['TextColor', 'Format', 'FontSize']}
     ],
     extraPlugins : 'codemirror',
+    extraAllowedContent: 'a img[*]'
 };
 
 ckeditor_config.cms = {
-    language: 'en',
+    language: ckeditor_language,
     toolbar: [
         {name: 'source', items: ['Source']},
         {
@@ -39,10 +48,12 @@ ckeditor_config.cms = {
         {name: 'other', items: ['cmsimage', 'featurelink']}
     ],
     extraPlugins : 'cmsimage,featurelink,codemirror',
-    extraAllowedContent: 'a[*]'
+    extraAllowedContent: 'a img[*]'
 };
 
-ckeditor_config.complete = {};
+ckeditor_config.complete = {
+    language: ckeditor_language
+};
 
 var feature_picture_uploader = new Uploader();
 
@@ -184,13 +195,13 @@ var button_picture_html = '<div class="feature-upload-placeholder" data-uid="%UI
     '   </button>' +
     '</div>';
 
-var bindForms = function(default_parent) {
+var bindForms = function(default_parent, success_cb, error_cb) {
     setTimeout(function() {
-        _bindForms(default_parent);
+        _bindForms(default_parent, success_cb, error_cb);
     }, 200);
 };
 
-var _bindForms = function(default_parent) {
+var _bindForms = function(default_parent, success_cb, error_cb) {
 
     $(default_parent+" .nav-tabs a[role='tab']").on("click", function() {
         last_tab = $(this).attr("href");
@@ -234,7 +245,7 @@ var _bindForms = function(default_parent) {
                     function(){},
                     ck_config
                 );
-            }, 200);
+            }, 500);
 
         });
     };
@@ -447,6 +458,14 @@ var _bindForms = function(default_parent) {
                     handleError(form, data);
                 }
 
+                if(typeof success_cb === "function") {
+                    try {
+                        success_cb(data);
+                    } catch(e) {
+                        console.log("An error occurred while executing the success callback.");
+                    }
+                }
+
                 loader.hide("sb-features");
             },
             error: function(data) {
@@ -455,6 +474,14 @@ var _bindForms = function(default_parent) {
                     handleError(form, response);
                 } else {
                     feature_form_error("An error occured, please try again.");
+                }
+
+                if(typeof error_cb === "function") {
+                    try {
+                        error_cb(data);
+                    } catch(e) {
+                        console.log("An error occurred while executing the error callback.");
+                    }
                 }
 
                 loader.hide("sb-features");

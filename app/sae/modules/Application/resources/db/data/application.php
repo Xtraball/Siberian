@@ -423,78 +423,33 @@ foreach($categories as $category_data) {
         ->insertOnce(array("code"));
 }
 
-
-# SYSTEM Write, for app.ini
-$writer = new Zend_Config_Writer_Ini();
-if(is_writable(APPLICATION_PATH . '/configs/app.ini')) {
-
-    $config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/app.ini', null, array('skipExtends' => true, 'allowModifications' => true));
-
-    $write = false;
-
-    /** Fix Mysql gone away */
-    if($config->production->resources->db->params->adapterNamespace != "Siberian_Db_Adapter") {
-        $config->production->resources->db->params->adapterNamespace = "Siberian_Db_Adapter";
-        $write = true;
-    }
-
-    /** JS/CSS Minifier */
-    if(!isset($config->production->siberian->minify)) {
-
-        $config->production->siberian->minify = array(
-            "browser"   => array("css" => "1", "js" => "1"),
-            "android"   => array("css" => "0", "js" => "0"),
-            "ios"       => array("css" => "0", "js" => "0"),
-            "iosnoads"  => array("css" => "0", "js" => "0"),
-        );
-
-        $write = true;
-    }
-
-    /** JS/CSS Minifier */
-    if(!isset($config->development->siberian->minify)) {
-
-        $config->development->siberian->minify = array(
-            "browser" => array("css" => "0", "js" => "0"),
-        );
-
-        $write = true;
-    }
-
-    if($config->production->resources->db->params->adapterNamespace != "Siberian_Db_Adapter") {
-        $config->production->resources->db->params->adapterNamespace = "Siberian_Db_Adapter";
-        $write = true;
-    }
-
-    if($write) { /**Write only if different */
-        $writer->setConfig($config)
-            ->setFilename(APPLICATION_PATH . '/configs/app.ini')
-            ->write();
-    }
-
-}
-
-# Privacy policy.
-//$this->query("UPDATE application SET privacy_policy = (SELECT value FROM system_config WHERE code = 'privacy_policy') WHERE privacy_policy IS NULL;");
-
-# Android default push icon.
-$this->query("UPDATE application SET android_push_icon = '/placeholder/android/push_default_icon.png' WHERE android_push_icon IS NULL;");
-$this->query("UPDATE application SET android_push_color = '#0099C7' WHERE android_push_color IS NULL;");
-
-# Add indexes to improve slow queries
+# run from 4.11.0
 try {
-    $this->query("ALTER TABLE `application` ADD UNIQUE `search_domain` (`domain`);");
+    $this->query("ALTER TABLE `application` CHANGE `domain` `domain` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;");
 } catch(Exception $e) {
     if(method_exists($this, "log")) {
-        $this->log("Skipped index search_domain, already exists.");
+        $this->log("Skipped application nullable domain, already exists.");
     }
 }
 
+# run in 4.11.1
 try {
-    $this->query("ALTER TABLE `application` ADD UNIQUE `search_key` (`key`);");
+    $this->query("ALTER TABLE `application_device` CHANGE `admob_type` `admob_type` ENUM('banner','interstitial','videos','banner-interstitial','banner-videos','interstitial-videos','banner-interstitial-videos') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'banner';");
 } catch(Exception $e) {
     if(method_exists($this, "log")) {
-        $this->log("Skipped index search_key, already exists.");
+        $this->log("Skipped application_device alter enum, already done.");
     }
 }
+
+# @todo remove after 4.11.1
+try {
+    $this->query("UPDATE application_device SET admob_interstitial_id = admob_id WHERE admob_type = 'interstitial';");
+    $this->query("UPDATE application_device SET owner_admob_interstitial_id = owner_admob_id WHERE owner_admob_type = 'interstitial';");
+    $this->query("UPDATE system_config SET application_ios_owner_admob_interstitial_id = application_ios_owner_admob_id WHERE application_ios_owner_admob_type = 'interstitial';");
+    $this->query("UPDATE system_config SET application_android_owner_admob_interstitial_id = application_android_owner_admob_id WHERE application_android_owner_admob_type = 'interstitial';");
+} catch(Exception $e) {}
+
+
+
+
 

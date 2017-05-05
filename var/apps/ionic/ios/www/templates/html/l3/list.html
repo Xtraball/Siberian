@@ -112,11 +112,11 @@
                 </label>
             </div>
 
-            <div class="item item-custom" ng-click="showItem(item)" ng-repeat="item in collection | filter:filter_search" ng-class="{'item-thumbnail-left': (item.thumbnail.length || item.picture), 'item-center': (!item.subtitle && !item.message)}">
+            <div class="item item-custom" ng-click="showItem(item)" ng-if="(!cover || !(cover.id)) || (cover.id != item.id)" ng-repeat="item in collection | filter:filter_search" ng-class="{'item-thumbnail-left': (item.thumbnail.length || item.picture), 'item-center': (!item.subtitle && !item.message)}">
                 <img ng-src="{{ item.thumbnail }}" ng-if="item.thumbnail.length" />
                 <img ng-src="{{ item.picture }}" ng-if="item.picture && !item.thumbnail.length" />
                 <h2>{{ item.title ? item.title : item.author }}</h2>
-                <p ng-if="item.subtitle">{{ item.subtitle }}</p>
+                <p ng-if="item.subtitle" ng-bind-html="item.subtitle"></p>
                 <p ng-if="!item.subtitle && item.message">{{ item.message }}</p>
                 <p class="text-align-right" ng-if="item.details">
                         <span ng-if="item.details.date">

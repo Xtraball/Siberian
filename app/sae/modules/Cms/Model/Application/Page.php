@@ -297,7 +297,6 @@ class Cms_Model_Application_Page extends Core_Model_Default
      * @return Cms_Model_Application_Block[]
      */
     public function getBlocks() {
-
         if(is_null($this->_blocks) AND $this->getId()) {
             $block = new Cms_Model_Application_Block();
             $this->_blocks = $block->findByPage($this->getId());

@@ -1,10 +1,13 @@
+/*global
+    App, console
+ */
 "use strict";
 
 App.provider('HomepageLayout', function () {
 
     var self = this;
 
-    self.layout_ids = new Array();
+    self.layout_ids = [];
 
     self.getLayoutIdForValueId = function(value_id) {
 
@@ -143,8 +146,9 @@ App.provider('HomepageLayout', function () {
                         HomepageLayout.properties.tabbar_is_transparent = data.tabbar_is_transparent;
 
                         // Check for a custom width
-                        if( typeof HomepageLayout.properties.layoutOptions != "undefined" &&
-                            typeof HomepageLayout.properties.layoutOptions.sidebarWidth != "undefined") {
+                        if( (typeof HomepageLayout.properties.layoutOptions !== "undefined") &&
+                            (typeof HomepageLayout.properties.layoutOptions.sidebarWidth !== "undefined")) {
+
                             switch(HomepageLayout.properties.layoutOptions.sidebarWidthUnit) {
                                 case "pixel":
                                         HomepageLayout.properties.menu.sidebarLeftWidth = HomepageLayout.properties.layoutOptions.sidebarWidthPixel;
@@ -182,7 +186,6 @@ App.provider('HomepageLayout', function () {
             var deferred = $q.defer();
 
             // filter features
-
             if (HomepageLayout.options === null) {
 
                 HomepageLayout.getData().then(function (data) {
@@ -206,8 +209,8 @@ App.provider('HomepageLayout', function () {
             HomepageLayout.getOptions().then(function (options) {
 
                 // filter active options
-                var options = options.reduce(function (options, option) {
-                    if (option.is_active == 1) {
+                options = options.reduce(function (options, option) {
+                    if (option.is_active) {
                         options.push(option);
                     }
                     return options;
@@ -322,7 +325,7 @@ App.provider('HomepageLayout', function () {
                 }, 200);
 
                 features.first_option = false;
-                if (HomepageLayout.properties.options.autoSelectFirst && features.options.length !== 0) {
+                if (HomepageLayout.properties.options.autoSelectFirst && (features.options.length !== 0)) {
                     features.first_option = features.options[0];
                 }
 
@@ -335,6 +338,7 @@ App.provider('HomepageLayout', function () {
 
         HomepageLayout._updateFromUrl = function (url) {
 
+            console.log((new Date()).getTime(), "HomepageLayout._updateFromUrl", url);
             if (HomepageLayout.options === null) {
                 return;
             }
@@ -350,10 +354,10 @@ App.provider('HomepageLayout', function () {
 
                         if (option.url === url) {
                             HomepageLayout.properties.options.isRootPage = true;
-                            HomepageLayout.properties.menu.isVisible = HomepageLayout.properties.menu.visibility === 'always';
+                            HomepageLayout.properties.menu.isVisible = (HomepageLayout.properties.menu.visibility === 'always');
                         } else {
                             HomepageLayout.properties.options.isRootPage = false;
-                            HomepageLayout.properties.menu.isVisible = HomepageLayout.properties.menu.visibility === 'always' || false;
+                            HomepageLayout.properties.menu.isVisible = ((HomepageLayout.properties.menu.visibility === 'always') || false);
                         }
 
                         currentOption = option;
@@ -392,7 +396,7 @@ App.provider('HomepageLayout', function () {
 
             HomepageLayout.properties.menu.position = HomepageLayout.data.layout.position;
             HomepageLayout.properties.menu.visibility = HomepageLayout.data.layout.visibility;
-            HomepageLayout.properties.options.autoSelectFirst = HomepageLayout.properties.menu.visibility != "homepage";
+            HomepageLayout.properties.options.autoSelectFirst = (HomepageLayout.properties.menu.visibility !== "homepage");
 
             HomepageLayout._updateFromUrl($location.absUrl());
 
@@ -411,9 +415,9 @@ App.provider('HomepageLayout', function () {
 
             HomepageLayout.options = HomepageLayout.data.pages.reduce(function (options, option) {
 
-                if (!option.is_locked || Customer.can_access_locked_features || Padlock.unlock_by_qrcode) {
+                if (!option.is_locked || Customer.can_access_locked_features || Padlock.unlocked_by_qrcode) {
 
-                    if ((!Customer.isLoggedIn() && !Padlock.unlock_by_qrcode) || option.code != "padlock") {
+                    if ((!Customer.isLoggedIn() && !Padlock.unlocked_by_qrcode) || option.code != "padlock") {
                         // use is logged or not padlock feature
                         options.push(option);
                     }

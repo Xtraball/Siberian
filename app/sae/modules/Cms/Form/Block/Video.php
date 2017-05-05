@@ -73,19 +73,20 @@ class Cms_Form_Block_Video extends Cms_Form_Block_Abstract {
 
         switch($block->getTypeId()) {
             case "youtube":
-                    $this->getElement("youtube_search")->setValue($video_object->getSearch());
-                    $this->getElement("youtube")->setValue($video_object->getYoutube());
+                    $this->getElement("youtube_search")->setValue($video_object->getTypeInstance()->getSearch());
+                    $this->getElement("youtube")->setValue($video_object->getTypeInstance()->getYoutube());
                     $this->getElement("type")->setValue("youtube");
                 break;
             case "podcast":
-                    $this->getElement("podcast_search")->setValue($video_object->getSearch());
-                    $this->getElement("podcast")->setValue($video_object->getLink());
+                    $this->getElement("podcast_search")->setValue($video_object->getTypeInstance()->getSearch());
+                    $this->getElement("podcast")->setValue($video_object->getTypeInstance()->getLink());
                     $this->getElement("type")->setValue("podcast");
                 break;
             case "link":
-                    $this->getElement("description")->setValue($video_object->getDescription());
-                    $this->getElement("cover")->setValue($video_object->getImage());
-                    $this->getElement("video")->setValue($video_object->getLink());
+                    $this->getElement("description")->setValue($block->getDescription());
+                    $this->getElement("cover")->setValue($block->getImage());
+                    $this->getElement("cover_image")->setValue($block->getImage());
+                    $this->getElement("video")->setValue($video_object->getTypeInstance()->getLink());
                     $this->getElement("type")->setValue("link");
                 break;
         }

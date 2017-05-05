@@ -7,7 +7,10 @@ class Template_DesignController extends Application_Controller_Default {
      */
     public $cache_triggers = array(
         "save" => array(
-            "tags" => array("app_#APP_ID#"),
+            "tags" => array(
+                "app_#APP_ID#",
+                "css_app_#APP_ID#"
+            ),
         ),
     );
 
@@ -34,20 +37,28 @@ class Template_DesignController extends Application_Controller_Default {
                 $design = new Template_Model_Design();
                 $design->find($datas['design_id']);
 
-                if(!$design->getId()) throw new Exception($this->_('#119: An error occurred while saving'));
-                else if($design->getCode() != "blank" && empty($datas['category_id'])) throw new Exception($this->_('#120: An error occurred while saving'));
+                if(!$design->getId()) {
+                    throw new Siberian_Exception($this->_('#119: An error occurred while saving'));
+
+                } else if($design->getCode() != "blank" && empty($datas['category_id'])) {
+                    throw new Siberian_Exception($this->_('#120: An error occurred while saving'));
+
+                }
 
                 if(!empty($datas['category_id'])) {
 
                     $category->find($datas['category_id']);                    
                     if(!$category->getCode()) {
-                        throw new Exception($this->_('#121: An error occurred while saving'));
+                        throw new Siberian_Exception($this->_('#121: An error occurred while saving'));
                     }
                     
                 }
 
+                $layout_model = new Application_Model_Layout_Homepage();
+                $layout = $layout_model->find($design->getLayoutId());
+
                 $this->getApplication()
-                    ->setLayoutVisibility(Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE)
+                    ->setLayoutVisibility($layout->getVisibility())
                     ->setDesign($design, $category)
                     ->save()
                 ;
@@ -56,30 +67,28 @@ class Template_DesignController extends Application_Controller_Default {
                     Template_Model_Design::generateCss($this->getApplication(), false, false, true);
                 }
 
-                $layout_model = new Application_Model_Layout_Homepage();
-                $layout = $layout_model->find($design->getLayoutId());
-
-                $html = array(
-                    'success' => 1,
-                    'overview_src' => $design->getOverview(),
-                    'homepage_standard' => $application->getHomepageBackgroundImageUrl(),
-                    'homepage_hd' => $application->getHomepageBackgroundImageUrl('hd'),
-                    'homepage_tablet' => $application->getHomepageBackgroundImageUrl('tablet'),
-                    'app_icon' => $application->getIcon(),
-                    'layout_id' => $design->getLayoutId(),
-                    "display_layout_options" => $application->getLayout()->getVisibility() == Application_Model_Layout_Homepage::VISIBILITY_ALWAYS
+                $data = array(
+                    "success"                   => true,
+                    "overview_src"              => $design->getOverview(),
+                    "homepage_standard"         => $application->getHomepageBackgroundImageUrl(),
+                    "homepage_hd"               => $application->getHomepageBackgroundImageUrl("hd"),
+                    "homepage_tablet"           => $application->getHomepageBackgroundImageUrl("tablet"),
+                    "app_icon"                  => $application->getIcon(),
+                    "layout_id"                 => $design->getLayoutId(),
+                    "display_layout_options"    => $application->getLayout()->getVisibility() == Application_Model_Layout_Homepage::VISIBILITY_ALWAYS
                 );
             }
             catch(Exception $e) {
-                $html = array(
-                    'message' => $e->getMessage(),
-                    'message_buttom' => 1,
-                    'message_loader' => 1
+                $data = array(
+                    "error"             => true,
+                    "message"           => $e->getMessage(),
+                    "message_buttom"    => 1,
+                    "message_loader"    => 1
                 );
             }
         }
-
-        $this->getLayout()->setHtml(Zend_Json::encode($html));
+        
+        $this->_sendJson($data);
 
     }
 

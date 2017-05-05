@@ -107,7 +107,7 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
 
                     $logger->log("We apologize but the payment method " . $payment_method_name . " is currently not available at URL: " . $url, Zend_Log::ERR);
 
-                    throw new Exception($this->_("We apologize but the payment method %s is currently not available", $payment_method_name));
+                    throw new Siberian_Exception($this->_("We apologize but the payment method %s is currently not available", $payment_method_name));
                 }
 
                 $html = array(

@@ -97,6 +97,20 @@ App.factory('AdvancedConfiguration', function ($http, Url) {
 
     };
 
+    factory.submitReport = function(message) {
+        var url = "backoffice/advanced_configuration/submitreport";
+
+        return $http({
+            method: "POST",
+            data: {
+                message: message
+            },
+            url: url,
+            cache: false,
+            responseType: 'json'
+        });
+    };
+
 
     return factory;
 });

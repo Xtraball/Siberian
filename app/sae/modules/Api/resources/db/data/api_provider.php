@@ -52,6 +52,7 @@ $api_providers = array(
             "host",
             "user",
             "password",
+            "webspace",
         )
     ),
     array(
@@ -61,6 +62,7 @@ $api_providers = array(
             "host",
             "user",
             "password",
+            "webspace",
         )
     ),
     array(
@@ -70,6 +72,7 @@ $api_providers = array(
             "host",
             "user",
             "password",
+            "webspace",
         )
     ),
     array(
@@ -79,6 +82,7 @@ $api_providers = array(
             "host",
             "user",
             "password",
+            "webspace",
         )
     ),
     array(

@@ -79,7 +79,7 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
                 $admin->addData($data);
 
                 if($dummy->getEmail() == $admin->getEmail() AND $dummy->getId() != $admin->getId()) {
-                    throw new Exception(__("We are sorry but this email address already exists."));
+                    throw new Siberian_Exception(__("We are sorry but this email address already exists."));
                 }
 
                 if(!empty($data["password"])) {
@@ -92,10 +92,55 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
 
                 $admin->save();
 
+                //For SAE we directly link the admin to the app
+                $this->getApplication()->addAdmin($admin);
+
                 $data = array(
                     "success" => 1,
                     "message" => __("User successfully saved")
                 );
+
+            } catch(Exception $e) {
+                $data = array(
+                    "error" => 1,
+                    "message" => $e->getMessage()
+                );
+            }
+
+            $this->_sendHtml($data);
+        }
+
+    }
+
+    public function setapplicationtoadminAction() {
+
+        if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+
+            try {
+
+                if(empty($data["admin_id"]) OR empty($data["app_id"])) {
+                    throw new Siberian_Exception(__("#103: An error occurred while saving. Please try again later."));
+                }
+
+                $admin = new Admin_Model_Admin();
+                $admin->find($data["admin_id"]);
+                $application = new Application_Model_Application();
+                $application->find($data["app_id"]);
+
+                if(!$admin->getId() OR !$application->getId()) {
+                    throw new Siberian_Exception(__("#104: An error occurred while saving. Please try again later."));
+                }
+
+                $is_selected = !empty($data["is_allowed_to_add_pages"]);
+                $data = array("success" => 1);
+
+                if($is_selected) {
+                    $data["is_allowed_to_add_pages"] = true;
+                    $application->addAdmin($admin);
+                } else {
+                    $data["is_allowed_to_add_pages"] = false;
+                    $application->removeAdmin($admin);
+                }
 
             } catch(Exception $e) {
                 $data = array(

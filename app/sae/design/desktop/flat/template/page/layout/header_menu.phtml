@@ -37,30 +37,42 @@
     <div class="collapse navbar-collapse" id="bs-navbar">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a href="<?php echo $this->getUrl('application/customization_design_style/edit'); ?>" class="<?php if($current_link == 'edit'): ?> active<?php endif; ?>" title="<?php echo $this->_('Editor') ?>">
+                <a href="<?php echo $this->getUrl('application/customization_design_style/edit'); ?>" class="<?php if($current_link == 'edit'): ?> active<?php endif; ?>" title="<?php echo __('Editor') ?>">
                     <i class="fa fa-tachometer"></i>
                     <div class="section-responsive">
-                        <?php echo $this->_('Editor') ?>
+                        <?php echo __('Editor') ?>
                     </div>
                 </a>
             </li>
+
             <li>
-                <a href="<?php echo $this->getUrl('admin/account/edit'); ?>" class="<?php if($current_link == 'my_account') : ?> active<?php endif; ?>" title="<?php echo $this->_('My account') ?>">
+                <a href="<?php echo $this->getUrl('admin/account/edit'); ?>" class="<?php if($current_link == 'my_account') : ?> active<?php endif; ?>" title="<?php echo __('My account') ?>">
                     <i class="fa fa-user"></i>
                     <div class="section-responsive">
-                        <?php echo $this->_('My account'); ?>
+                        <?php echo __('My account'); ?>
                     </div>
                 </a>
             </li>
+
+            <?php if($this->_canAccess("push_admin_global")) : ?>
+            <li>
+                <a href="<?php echo $this->getUrl('push/admin/global'); ?>" class="<?php if($current_link == 'push_global') : ?> active<?php endif; ?>" title="<?php echo __('Push notifications') ?>">
+                    <i class="fa fa-bullhorn"></i>
+                    <div class="section-responsive">
+                        <?php echo __('Push notifications'); ?>
+                    </div>
+                </a>
+            </li>
+            <?php endif; ?>
 
             <?php if(!$this->getRequest()->isWhiteLabelEditor()) : ?>
 
                 <?php if($this->_canAccess("admin_access_management")) : ?>
                 <li>
-                    <a href="<?php echo $this->getUrl('admin/access_management/list'); ?>" class="<?php if($current_link == 'access_management') : ?> active<?php endif; ?>" title="<?php echo $this->_('Access Management') ?>">
+                    <a href="<?php echo $this->getUrl('admin/access_management/list'); ?>" class="<?php if($current_link == 'access_management') : ?> active<?php endif; ?>" title="<?php echo __('Access Management') ?>">
                         <i class="fa fa-road"></i>
                         <div class="section-responsive">
-                            <?php echo $this->_('Access Management'); ?>
+                            <?php echo __('Access Management'); ?>
                         </div>
                     </a>
                 </li>
@@ -68,10 +80,10 @@
 
                 <?php if($this->_canAccess("support") AND $url = System_Model_Config::getValueFor("support_link")) : ?>
                     <li class="right">
-                        <a href="<?php echo $url; ?>" target="_blank" title="<?php echo $this->_('Support') ?>">
+                        <a href="<?php echo $url; ?>" target="_blank" title="<?php echo __('Support') ?>">
                             <i class="fa fa-medkit"></i>
                             <div class="section-responsive">
-                                <?php echo $this->_('Support'); ?>
+                                <?php echo __('Support'); ?>
                             </div>
                         </a>
                     </li>
@@ -79,10 +91,10 @@
             <?php endif; ?>
 
             <li>
-                <a href="<?php echo $this->getUrl('admin/account/logout'); ?>" title="<?php echo $this->_('Log-out') ?>">
+                <a href="<?php echo $this->getUrl('admin/account/logout'); ?>" title="<?php echo __('Log-out') ?>">
                     <i class="fa fa-power-off"></i>
                     <div class="section-responsive">
-                        <?php echo $this->_('Log-out') ?>
+                        <?php echo __('Log-out') ?>
                     </div>
                 </a>
             </li>

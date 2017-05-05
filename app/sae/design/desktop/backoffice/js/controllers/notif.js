@@ -52,7 +52,7 @@ App.config(function($routeProvider) {
         });
     };
 
-}).controller("NotifMessageController", function($scope, $routeParams, Header, Notif, Backoffice) {
+}).controller("NotifMessageController", function($location, $scope, $routeParams, Header, Notif, Backoffice) {
 
     $scope.header = new Header();
     $scope.header.button.left.is_visible = false;
@@ -69,9 +69,14 @@ App.config(function($routeProvider) {
         $scope.content_loader_is_visible = false;
     });
 
-    $scope.removeLocks = function() {
+    $scope.openSettings = function() {
         $scope.content_loader_is_visible = true;
-        Backoffice.clearCache("source_locks").success(function (data) {
+        $location.path("/backoffice/advanced_configuration");
+    };
+
+    $scope.androidSdkRestart = function() {
+        $scope.content_loader_is_visible = true;
+        Backoffice.clearCache("android_sdk").success(function (data) {
             $scope.message.setText(data.message)
                 .isError(false)
                 .show()

@@ -12,7 +12,8 @@ $data = array(
     "is_active" => true,
 );
 
+# 4.10.1 Enable sdk download.
 $androidtools = new Cron_Model_Cron();
 $androidtools
     ->setData($data)
-    ->insertOnce(array("command"));
+    ->insertOrUpdate(array("command"));

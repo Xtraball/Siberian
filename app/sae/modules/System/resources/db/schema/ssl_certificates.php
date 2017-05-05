@@ -60,6 +60,16 @@ $schemas['ssl_certificates'] = array(
     'source' => array(
         'type' => 'enum(\'customer\',\'letsencrypt\')',
     ),
+    'status' => array(
+        'type' => 'varchar(32)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'enabled'
+    ),
+    'error_count' => array(
+        'type' => 'tinyint(4)',
+        'default' => '0'
+    ),
     'error_log' => array(
         'type' => 'text',
         'charset' => 'utf8',

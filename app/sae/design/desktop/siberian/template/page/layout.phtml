@@ -96,9 +96,13 @@
                  *  i.e. verify the user did not open another application in a new tab.
                  *  If they did then alert the user and refresh the page.
                  */
+                <?php if(!Siberian_Debug::$render): /** Do not call when in debug mode, log pollution */ ?>
                 setInterval(function () {
-                    $.ajax({})
+                    $.ajax({
+                        "url":"/application/security/check"
+                    })
                 }, 12000);
+                <?php endif; ?>
 
             }());
             <?php endif; ?>

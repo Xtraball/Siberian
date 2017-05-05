@@ -398,22 +398,22 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
             return;
         }
 
-        $scope.is_loading = true;
+        if(_.isObject($scope.comment) && _.isString($scope.comment.text) && $scope.comment.text.length > 0 && $scope.comment.text.length < 1024) {
+            $scope.is_loading = true;
 
-        Comment.add($scope.comment).success(function(data) {
+            Comment.add($scope.comment).success(function(data) {
 
-            if(data.success) {
-                $scope.comment.text = "";
+                if(data.success) {
+                    $scope.comment.text = "";
 
-                Dialog.alert("", data.message, $translate.instant("OK")).then(function() {
-                    $window.history.back();
-                });
-            }
-
-        }).finally(function() {
-            $scope.is_loading = false;
-        });
-
+                    Dialog.alert("", data.message, $translate.instant("OK")).then(function() {
+                        $window.history.back();
+                    });
+                }
+            }).finally(function() {
+                $scope.is_loading = false;
+            });
+        }
     };
 
 }).controller('NewswallGalleryController', function($sbhttp, $scope, $state, $stateParams, News) {

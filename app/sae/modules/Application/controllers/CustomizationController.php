@@ -5,10 +5,11 @@ class Application_CustomizationController extends Application_Controller_Default
     public function indexAction() {
 
         $resource = new Acl_Model_Resource();
-        $resources = $resource->findAll(array(new Zend_Db_Expr("code LIKE 'editor_%'")));
+        $resources = $resource->findAll(array(new Zend_Db_Expr("code LIKE 'editor_%' AND url IS NOT NULL")));
         foreach($resources as $resource) {
             if($this->_canAccess($resource->getCode())) {
-                $this->_redirect($resource->getData("url"));
+                $url = rtrim(trim($resource->getData("url")), "*");
+                $this->_redirect($url);
             }
         }
 

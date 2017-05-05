@@ -364,7 +364,7 @@ class Analytics_Model_Aggregate_Loyaltycard {
                 $aggregatedData[$appId][$cardId] = array();
             }
 
-            if(!array_key_exists($customerId, $aggregatedData[$appId][$customerId])) {
+            if(!array_key_exists($customerId, $aggregatedData[$appId][$cardId])) {
                 $aggregatedData[$appId][$cardId][$customerId] = 0;
             }
             $aggregatedData[$appId][$cardId][$customerId] += $cardlog['number_of_points'];

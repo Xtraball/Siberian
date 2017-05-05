@@ -1,4 +1,5 @@
-cordova.define("cordova-plugin-background-fetch.BackgroundFetch", function(require, exports, module) { /***
+cordova.define("cordova-plugin-background-fetch.BackgroundFetch", function(require, exports, module) {
+/***
  * Custom Cordova Background Fetch plugin. 
  * @author <chris@transistorsoft.com>
  * @author <brian@briansamson.com>

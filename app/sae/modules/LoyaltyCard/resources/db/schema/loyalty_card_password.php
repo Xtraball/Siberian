@@ -44,6 +44,10 @@ $schemas['loyalty_card_password'] = array(
             'is_unique' => false,
         ),
     ),
+    'value_id' => array(
+        'type' => 'int(11) unsigned',
+        'is_null' => true
+    ),
     'created_at' => array(
         'type' => 'datetime',
     ),

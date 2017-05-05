@@ -58,7 +58,17 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 ));
 
                 $client->setMethod(Zend_Http_Client::POST);
-                $client->setParameterPost("secret", Core_Model_Secret::SECRET);
+
+                if(Siberian_Version::TYPE === "SAE") {
+                    $client->setParameterPost("sae", 1);
+                } else {
+                    $license_key = System_Model_Config::getValueFor("siberiancms_key");
+                    if(!$license_key) {
+                        throw new Siberian_Exception(__("There is no CMS license key set."));
+                    }
+                    $client->setParameterPost("licenseKey", $license_key);
+                    $client->setParameterPost("host", $_SERVER["HTTP_HOST"]);
+                }
 
                 $response = $client->request();
 
@@ -66,17 +76,17 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                     $content = $response->getBody();
 
                     if(empty($content)) {
-                        throw new Siberian_Exception(__("Unable to fetch the update. Please, try again later."));
+                        throw new Siberian_Exception(__("#100: Unable to fetch the update. Please, try again later."));
                     }
 
                     file_put_contents($tmp_path, $content);
 
                 } else {
-                    throw new Siberian_Exception(__("Unable to fetch the update. Please, try again later."));
+                    throw new Siberian_Exception(__("#101: Unable to fetch the update. Please, try again later."));
                 }
 
                 if(!file_exists($tmp_path)) {
-                    throw new Siberian_Exception(__("Unable to fetch the update. Please, try again later."));
+                    throw new Siberian_Exception(__("#102: Unable to fetch the update. Please, try again later."));
                 }
 
                 $data = $this->_getPackageDetails($tmp_path);
@@ -305,7 +315,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
             $cache = Zend_Registry::isRegistered('cache') ? Zend_Registry::get('cache') : null;
             if($cache) {
-                $cache->clean("all");
+                $cache->clean(Zend_Cache::CLEANING_MODE_ALL);
             }
 
             $cache_ids = array('js_mobile.js', 'js_desktop.js', 'css_mobile.css', 'css_desktop.css');
@@ -424,7 +434,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         $updates_url = "https://updates02.siberiancms.com";
 
         $update_channel = System_Model_Config::getValueFor("update_channel");
-        if(in_array($update_channel, array("stable", "beta"))) {
+        if(in_array($update_channel, array("stable", "beta", "preview"))) {
             switch($update_channel) {
                 case "stable":
                     $updates_url = "https://updates02.siberiancms.com";
@@ -432,21 +442,33 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 case "beta":
                     $updates_url = "https://beta-updates02.siberiancms.com";
                     break;
+                case "preview":
+                    $updates_url = "https://preview-updates02.siberiancms.com";
+                    break;
             }
         }
 
         $current_version = Siberian_Version::VERSION;
-        $platform_type = strtolower(Siberian_Version::TYPE);
+
         $url = "{$updates_url}/check.php?";
-        $url .= "type={$platform_type}&version={$current_version}";
+        $url .= "version={$current_version}";
 
         $client = new Zend_Http_Client($url, array(
             'adapter'   => 'Zend_Http_Client_Adapter_Curl',
             'curloptions' => array(CURLOPT_SSL_VERIFYPEER => false),
         ));
-
         $client->setMethod(Zend_Http_Client::POST);
-        $client->setParameterPost("secret", Core_Model_Secret::SECRET);
+
+        if(Siberian_Version::TYPE === "SAE") {
+            $client->setParameterPost("sae", "1");
+        } else {
+            $license_key = System_Model_Config::getValueFor("siberiancms_key");
+            if(!$license_key) {
+                throw new Siberian_Exception(__("There is no CMS license key set."));
+            }
+            $client->setParameterPost("licenseKey", $license_key);
+            $client->setParameterPost("host", $_SERVER["HTTP_HOST"]);
+        }
 
         $response = $client->request();
 

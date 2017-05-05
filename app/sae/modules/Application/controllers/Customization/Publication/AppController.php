@@ -58,7 +58,11 @@ class Application_Customization_Publication_AppController extends Application_Co
             }
 
             # Android push color
-            $application->setData("android_push_color", strtoupper($values["android_push_color"]));
+            $icon_color = strtolower($values["android_push_color"]);
+            if(!preg_match("/^#[a-f0-9]{6}$/", $icon_color)) {
+                $icon_color = "#0099c7";
+            }
+            $application->setData("android_push_color", $icon_color);
 
             $application->save();
 

@@ -31,7 +31,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         }
     })
 
-}).controller('FolderListController', function($sbhttp, $ionicModal, $ionicPopup, $location, $rootScope, $scope, $stateParams, $window, $translate, $timeout, Analytics, Customer, Folder, Url) {
+}).controller('FolderListController', function($sbhttp, $ionicModal, $ionicPopup, $location, $rootScope, $scope, $stateParams, $window, $translate, $timeout, Analytics, AUTH_EVENTS, PADLOCK_EVENTS, Customer, Folder, LinkService, Padlock, Url) {
 
     $scope.$on("connectionStateChange", function(event, args) {
         if(args.isOnline == true) {
@@ -41,7 +41,6 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
 
     $scope.is_loading = true;
     $scope.value_id = Folder.value_id = $stateParams.value_id;
-    $scope.search_modal = null;
     $scope.search = {};
 
     Folder.category_id = $stateParams.category_id;
@@ -50,19 +49,39 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         Url.get("folder/mobile_list/findall", {value_id: Folder.value_id, category_id: Folder.category_id})
     ]);
 
+    function computeCollections() {
+        var unlocked = Customer.can_access_locked_features || Padlock.unlocked_by_qrcode;
+
+        function compute(collection) {
+            var destination = [];
+            angular.forEach(collection, function(folder_item) {
+                if((unlocked || !folder_item.is_locked || folder_item.code == "padlock")) {
+                    if(unlocked && folder_item.code == "padlock")
+                        return;
+
+                    this.push(folder_item);
+                }
+            }, destination);
+            return destination;
+        }
+
+        $scope.collection = compute($scope.collection_data);
+        $scope.search_list = compute($scope.search_list_data);
+    }
+
+    $scope.$on(AUTH_EVENTS.loginStatusChanged, computeCollections);
+    $scope.$on(PADLOCK_EVENTS.unlockFeatures, computeCollections);
+
     $scope.loadContent = function() {
         Folder.findAll().success(function(data) {
-
-            $scope.collection = [];
-
-            for(var i = 0; i < data.folders.length; i++) {
-                $scope.collection.push(data.folders[i]);
-            }
 
             $scope.cover = data.cover;
             $scope.page_title = data.page_title;
 
-            $scope.search_list = data.search_list;
+            $scope.collection_data = data.folders;
+            $scope.search_list_data = data.search_list;
+            computeCollections();
+
             $scope.show_search = data.show_search == "1";
 
         }).error(function() {
@@ -72,7 +91,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         });
 
     };
-    
+
     $scope.goTo = function(feature) {
 
         if(feature.code == "code_scan") {
@@ -82,52 +101,17 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
             $rootScope.onlineOnly();
             return;
         }  else if(feature.is_link) {
-            if($rootScope.isOverview) {
-                var popup = $ionicPopup.show({
-                    title: $translate.instant("Error"),
-                    subTitle: $translate.instant("This feature is available from the application only")
-                });
-                $timeout(function() {
-                    popup.close();
-                }, 4000);
-                return;
-            }
-            var targetForLink = (ionic.Platform.isAndroid())? '_system' : $rootScope.getTargetForLink();
-            $window.open(feature.url, targetForLink, "location=no");
+            var options = {
+                "hide_navbar" : (feature.hide_navbar ? true : false),
+                "use_external_app" : (feature.use_external_app ? true : false)
+            };
+            LinkService.openLink(feature.url,options);
         } else {
             $location.path(feature.url);
         }
 
         Analytics.storePageOpening(feature);
     };
-
-    $scope.startSearch = function() {
-        if($rootScope.isOffline) {
-            $rootScope.onlineOnly();
-            return;
-        }
-
-        if($scope.search.search_value) {
-            $ionicModal.fromTemplateUrl('templates/folder/l1/search.html', {
-                scope: $scope,
-                animation: 'slide-in-up'
-            }).then(function(modal) {
-                $scope.search_modal = modal;
-                $scope.search_modal.show();
-            });
-        }
-    };
-
-    $scope.closeSearch = function() {
-        $scope.search.search_value = "";
-        $scope.search_modal.hide();
-    };
-
-    $scope.$on('$destroy', function() {
-        if($scope.search_modal) {
-            $scope.search_modal.remove();
-        }
-    });
 
     $scope.loadContent();
 

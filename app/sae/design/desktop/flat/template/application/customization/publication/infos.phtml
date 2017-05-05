@@ -4,6 +4,9 @@
     if($this->isPe()) {
         $pe_use_ads = $application->getSubscription()->getSubscription()->getUseAds();
     }
+
+    $ios_device = $application->getDevice(1);
+    $android_device = $application->getDevice(2);
 ?>
 <div class="page-content-wrapper">
 
@@ -99,7 +102,7 @@
                         </label>
                     </div>
                 </div>
-            <!--<div id="monetize_fields" class="<?php if(!$application->getUseAds()) : ?>none<?php endif; ?>">-->
+
                 <div class="row">
                     <div class="col-sm-12">
                         <p><?php echo __("Enter your AdMob ID for each platform."); ?> <?php echo __('<a href="%s" target="_blank">Click here for more information about AdMob</a>', "https://www.google.com/admob/"); ?></p>
@@ -109,14 +112,19 @@
                     <div class="col-sm-2">
                         <label for="ios_admob_id"><?php echo __('iOS'); ?> : </label>
                     </div>
-                    <div class="col-sm-5">
-                        <input type="text" id="ios_admob_id" name="admob_id" class="autosave input-flat" placeholder="AdMob ID" value="<?php echo $application->getDevice(1)->getAdmobId(); ?>" maxlength="50" />
+                    <div class="col-sm-3">
+                        <input type="text" id="ios_admob_id" name="admob_id" class="autosave input-flat" placeholder="AdMob Banner ID" value="<?php echo $ios_device->getAdmobId(); ?>" maxlength="50" />
                         <input type="hidden" name="device_id" value="1" />
                     </div>
-                    <div class="col-sm-5">
+                    <div class="col-sm-3">
+                        <input type="text" id="ios_admob_interstitial_id" name="admob_interstitial_id" class="autosave input-flat" placeholder="AdMob Interstitial ID" value="<?php echo $ios_device->getAdmobInterstitialId(); ?>" maxlength="50" />
+                        <input type="hidden" name="device_id" value="1" />
+                    </div>
+                    <div class="col-sm-4">
                         <select id="select_admob_type_ios" name="admob_type" class="autosave styled-select color-green" tabindex="2">
-                            <option value="banner" <?php if($application->getDevice(1)->getAdmobType() == "banner") : ?> selected="selected"<?php endif; ?>>Banner</option>
-                            <option value="interstitial" <?php if($application->getDevice(1)->getAdmobType() == "interstitial") : ?> selected="selected"<?php endif; ?>>Interstitial</option>
+                            <option value="banner" <?php if($ios_device->getAdmobType() == "banner") : ?> selected="selected"<?php endif; ?>><?php echo __("Banner") ?></option>
+                            <option value="interstitial" <?php if($ios_device->getDevice(1)->getAdmobType() == "interstitial") : ?> selected="selected"<?php endif; ?>><?php echo __("Interstitial") ?></option>
+                            <option value="banner-interstitial" <?php if($ios_device->getDevice(1)->getAdmobType() == "banner-interstitial") : ?> selected="selected"<?php endif; ?>><?php echo __("Banner & Interstitial") ?></option>
                         </select>
                         <input type="hidden" name="device_id" value="1" />
                     </div>
@@ -126,26 +134,30 @@
                     <div class="col-sm-2">
                         <label for="android_admob_id"><?php echo __('Android'); ?> : </label>
                     </div>
-                    <div class="col-sm-5">
-                        <input type="text" id="android_admob_id" name="admob_id" class="autosave input-flat" placeholder="AdMob ID" value="<?php echo $application->getDevice(2)->getAdmobId(); ?>" maxlength="50" />
+                    <div class="col-sm-3">
+                        <input type="text" id="android_admob_id" name="admob_id" class="autosave input-flat" placeholder="AdMob Banner ID" value="<?php echo $android_device->getAdmobId(); ?>" maxlength="50" />
                         <input type="hidden" name="device_id" value="2" />
                     </div>
-                    <div class="col-sm-5">
+                    <div class="col-sm-3">
+                        <input type="text" id="android_admob_interstitial_id" name="admob_interstitial_id" class="autosave input-flat" placeholder="AdMob Interstitial ID" value="<?php echo $android_device->getAdmobInterstitialId(); ?>" maxlength="50" />
+                        <input type="hidden" name="device_id" value="2" />
+                    </div>
+                    <div class="col-sm-4">
                         <select id="select_admob_type_android" name="admob_type" class="autosave no-dk styled-select color-green" tabindex="2">
-                            <option value="banner" <?php if($application->getDevice(2)->getAdmobType() == "banner") : ?> selected="selected"<?php endif; ?>>Banner</option>
-                            <option value="interstitial" <?php if($application->getDevice(2)->getAdmobType() == "interstitial") : ?> selected="selected"<?php endif; ?>>Interstitial</option>
+                            <option value="banner" <?php if($android_device->getAdmobType() == "banner") : ?> selected="selected"<?php endif; ?>><?php echo __("Banner") ?></option>
+                            <option value="interstitial" <?php if($android_device->getAdmobType() == "interstitial") : ?> selected="selected"<?php endif; ?>><?php echo __("Interstitial") ?></option>
+                            <option value="banner-interstitial" <?php if($android_device->getAdmobType() == "banner-interstitial") : ?> selected="selected"<?php endif; ?>><?php echo __("Banner & Interstitial") ?></option>
                         </select>
                         <input type="hidden" name="device_id" value="2" />
                     </div>
                 </div>
-                <!--</div>-->
+
             </div>
         </div>
     </div>
     <?php endif; ?>
 
     <div id="apple-content" class="content">
-        <?php $device = $application->getDevice(1); ?>
         <h3 class="title-editor border-green">
             <?php echo __("Apple's Information"); ?>
         </h3>
@@ -169,7 +181,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <label for="has_apple_account_2" <?php if($device->getUseOurDeveloperAccount()) echo "checked"; ?>>
+                        <label for="has_apple_account_2" <?php if($ios_device->getUseOurDeveloperAccount()) echo "checked"; ?>>
                             <input type="radio" id="has_apple_account_2" name="has_apple_account" class="has_account autosave" value="2" onclick="$('#has_apple_account').slideUp(); $('#doesnt_have_apple_account').slideUp();" />
                             <?php echo __('I let you publish my application under your Apple developer account'); ?>
                         </label>
@@ -186,7 +198,7 @@
                                             <label for="ios_username"><?php echo __("Email:"); ?></label>
                                         </div>
                                         <div class="col-sm-5">
-                                            <input type="text" id="ios_username" name="ios_username" class="autosave input-flat" value="<?php echo $device->getDeveloperAccountUsername(); ?>" maxlength="30" />
+                                            <input type="text" id="ios_username" name="ios_username" class="autosave input-flat" value="<?php echo $ios_device->getDeveloperAccountUsername(); ?>" maxlength="30" />
                                         </div>
                                         <div class="col-sm-4">
                                             <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_ios_username" alt="Loading" title="Loading" width="24" style="display:none;" />
@@ -197,7 +209,7 @@
                                             <label for="ios_password"><?php echo __('Password:'); ?></label>
                                         </div>
                                         <div class="col-sm-5">
-                                            <input type="password" id="ios_password" name="ios_password" class="autosave  input-flat" value="<?php echo $device->getDeveloperAccountPassword(); ?>" />
+                                            <input type="password" id="ios_password" name="ios_password" class="autosave  input-flat" value="<?php echo $ios_device->getDeveloperAccountPassword(); ?>" />
                                         </div>
                                         <div class="col-sm-4">
                                             <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_ios_password" alt="Loading" title="Loading" width="24" style="display:none;" />

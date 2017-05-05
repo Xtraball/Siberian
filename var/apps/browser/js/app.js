@@ -4,7 +4,8 @@
 
 console.info((new Date()).getTime(), "start.");
 
-var isOverview = (window.parent.location.href !== window.location.href);
+var isOverview = (window.parent.location.href !== window.location.href); /** isOverview stands for the App overview in the Browser. */
+var isNativeApp = (ionic.Platform.isIOS() || ionic.Platform.isAndroid()); /** isNativeApp stands for Android or iOS native application only */
 
 var App = angular.module("starter", [
         "ionic", "ion-gallery", "ngCordova", "ngIOS9UIWebViewPatch", "angular-carousel",
@@ -26,7 +27,6 @@ var App = angular.module("starter", [
         tmhDynamicLocaleProvider.storageKey((+new Date())*Math.random()+""); // don't remember locale
 
         $sbhttpProvider.alwaysCache = true;
-        $sbhttpProvider.debug = false;
 
         $logProvider.debugEnabled(false);
 
@@ -35,7 +35,7 @@ var App = angular.module("starter", [
             return {
                 request: function (config) {
                     var sid = localStorage.getItem("sb-auth-token");
-                    if (sid && config.url.indexOf(".html") == -1 && $injector.get('Connection').isOnline) {
+                    if (sid && (config.url.indexOf(".html") === -1) && $injector.get('Connection').isOnline) {
                         //Force cookie
                         if (config.url.indexOf(DOMAIN) > -1 && config.noSbToken !== true) {
                             config.url = config.url + "?sb-token=" + sid;
@@ -44,7 +44,7 @@ var App = angular.module("starter", [
                     return config;
                 },
                 responseError: function (response) {
-                    if(response.config.url.match(/(templates|layout\/home)\/.*\.html$/) && (response.config.url != "templates/home/l6/view.html")) {
+                    if(response.config.url.match(/(templates|layout\/home)\/.*\.html$/) && (response.config.url !== "templates/home/l6/view.html")) {
                         response.config.url = "templates/home/l6/view.html";
                         $log.debug("System: An error occured while loading your Layout template, fallback on Layout 6.");
                         return $injector.get('$sbhttp')(response.config);
@@ -63,33 +63,43 @@ var App = angular.module("starter", [
         }
     })
     .run(function ($sbhttp, $ionicConfig, $ionicHistory, $ionicPlatform, $ionicPopup, $ionicSlideBoxDelegate,
-                   $ionicScrollDelegate, $injector, $log, $location, $rootScope, $state, $templateCache, $timeout, $translate,
-                   $window, Analytics, Application, Connection, Customer, Dialog, FacebookConnect, Facebook,
-                   Push, Url, tmhDynamicLocale, AUTH_EVENTS, PUSH_EVENTS) {
+                   $ionicScrollDelegate, $injector, $log, $location, $rootScope, $state, $templateCache, $timeout,
+                   $translate, $window, AdmobService, Analytics, Application, Connection, Customer, Dialog, FacebookConnect, Facebook,
+                   Padlock, Push, Url, tmhDynamicLocale, AUTH_EVENTS, PUSH_EVENTS) {
 
         $log.debug((new Date()).getTime(), "run start");
+
+        // native app, or webview/browser
+        Dialog.is_webview       = !isNativeApp;
+        Application.is_webview  = !isNativeApp;
+        $rootScope.isNativeApp  = isNativeApp;
+
+        Object.defineProperty($rootScope, "isOnline", {
+            get: function() {
+                return Connection.isOnline;
+            }
+        });
+
+        Object.defineProperty($rootScope, "isOffline", {
+            get: function() {
+                return Connection.isOffline;
+            }
+        });
 
         $ionicPlatform.ready(function() {
 
             $log.debug((new Date()).getTime(), "$ionicPlatform.ready");
-
-            Object.defineProperty($rootScope, "isOnline", {
-                get: function() {
-                    return Connection.isOnline;
-                }
-            });
-
-            Object.defineProperty($rootScope, "isOffline", {
-                get: function() {
-                    return Connection.isOffline;
-                }
-            });
 
             var sid = localStorage.getItem("sb-auth-token");
 
             if ($window.device) {
                 Push.device_uid = device.uuid;
             }
+
+            $window.cordova = $window.cordova || {};
+            $window.device = $window.device || {};
+
+            $window.Connection = Connection;
 
             $log.debug((new Date()).getTime(), "start: front/mobile/loadv2");
             $sbhttp.get(
@@ -99,7 +109,7 @@ var App = angular.module("starter", [
                     device_uid: Push.device_uid
                 }), {
                     timeout: 10000,
-                    cache: true
+                    cache: !isOverview
                 }).then(function (response) {
 
                     $log.debug((new Date()).getTime(), "end: front/mobile/loadv2");
@@ -115,25 +125,19 @@ var App = angular.module("starter", [
 
                     var HomepageLayout = $injector.get("HomepageLayout");
 
-                    $window.cordova = $window.cordova || {};
-                    $window.device = $window.device || {};
-
-                    $window.Connection = Connection;
-
                     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
                         cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
                     }
+
                     if (window.StatusBar) {
                         StatusBar.styleDefault();
                     }
 
-                    Dialog.is_webview = Application.is_webview = (ionic.Platform.device().platform == "browser");
-
                     Push.startBackgroundGeolocation();
 
-                    $rootScope.app_is_loaded = true;
-                    $rootScope.has_popup = false;
-                    $rootScope.app_is_bo_locked = false;
+                    $rootScope.app_is_loaded        = true;
+                    $rootScope.has_popup            = false;
+                    $rootScope.app_is_bo_locked     = false;
 
                     /** WebRTC for iOS */
                     if (window.device.platform === 'iOS') {
@@ -214,7 +218,7 @@ var App = angular.module("starter", [
                         }
                     });
 
-                    if (data.application.is_bo_locked == 1) {
+                    if (!!data.application.is_bo_locked) {
                         $rootScope.app_is_bo_locked = true;
 
                         $ionicHistory.nextViewOptions({
@@ -224,9 +228,12 @@ var App = angular.module("starter", [
                     }
 
                     if((data.application.ios_status_bar_is_hidden && ionic.Platform.isIOS()) || (data.application.android_status_bar_is_hidden && ionic.Platform.isAndroid())) {
-                        window.StatusBar.hide();
+                        if(typeof window.StatusBar !== "undefined") {
+                            window.StatusBar.hide();
+                        }
                     }
 
+                    /** Append custom CSS/SCSS to the page. */
                     if (response.data.css && response.data.css.css) {
                         var css = document.createElement("style");
                         css.type = "text/css";
@@ -234,19 +241,19 @@ var App = angular.module("starter", [
                         document.body.appendChild(css);
                     }
 
-                    Customer.id = data.customer.id;
-                    Customer.can_access_locked_features = data.customer.can_access_locked_features;
-                    Customer.can_connect_with_facebook = data.customer.can_connect_with_facebook;
+                    Customer.id                             = data.customer.id;
+                    Customer.can_access_locked_features     = data.customer.can_access_locked_features;
+                    Customer.can_connect_with_facebook      = data.customer.can_connect_with_facebook;
                     Customer.saveCredentials(data.customer.token);
 
-                    Application.app_id = data.application.id;
-                    Application.app_name = data.application.name;
-                    Application.privacy_policy = data.application.privacy_policy;
-                    Application.googlemaps_key = data.application.googlemaps_key;
-                    Application.is_locked = data.application.is_locked == 1;
-                    Application.offline_content = (data.application.offline_content);
+                    Application.app_id              = data.application.id;
+                    Application.app_name            = data.application.name;
+                    Application.privacy_policy      = data.application.privacy_policy;
+                    Application.googlemaps_key      = data.application.googlemaps_key;
+                    Application.is_locked           = data.application.is_locked;
+                    Application.offline_content     = data.application.offline_content;
 
-                    if (!Application.is_webview) {
+                    if ($rootScope.isNativeApp) {
                         if(!$window.localStorage.getItem("first_running")) {
                             $window.localStorage.setItem("first_running", "true");
                             Analytics.storeInstallation();
@@ -263,36 +270,21 @@ var App = angular.module("starter", [
                         }
                     });
 
-                    $rootScope.app_is_locked = Application.is_locked && !Customer.can_access_locked_features;
+                    $rootScope.app_is_locked = Application.is_locked && !(Customer.can_access_locked_features || Padlock.unlocked_by_qrcode);
 
                     $window.colors = data.application.colors;
 
                     if (data.application.facebook.id) {
-                        FacebookConnect.permissions = (!Array.isArray(data.application.facebook.scope)) ? new Array(data.application.facebook.scope) : data.application.facebook.scope;
+                        FacebookConnect.permissions = (!Array.isArray(data.application.facebook.scope)) ?
+                            new Array(data.application.facebook.scope) : data.application.facebook.scope;
                         FacebookConnect.app_id = data.application.facebook.id;
                     }
 
-                    var admob = data.application.admob;
-
-                    if (!Application.is_webview && admob.id && $window.AdMob) {
-                        if (admob.type == "banner") {
-                            $window.AdMob.createBanner({
-                                adId: admob.id,
-                                position: $window.AdMob.AD_POSITION.BOTTOM_CENTER,
-                                autoShow: true
-                            });
-                        } else {
-                            $window.AdMob.prepareInterstitial({
-                                adId: admob.id,
-                                autoShow: true
-                            });
-                        }
-                    }
+                    AdmobService.init(data.application.admob_v2);
 
                     if (Customer.isLoggedIn()) {
                         $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-                    }
-                    else {
+                    } else {
                         $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
                     }
 
@@ -384,7 +376,9 @@ var App = angular.module("starter", [
                     $rootScope._getLastId = function (collection) {
                         var last_id = null;
                         for (var i = 0; i < collection.length; i++) {
-                            if (!last_id || collection[i].id > last_id) last_id = collection[i].id;
+                            if (!last_id || collection[i].id > last_id) {
+                                last_id = collection[i].id;
+                            }
                         }
                         return last_id;
                     };
@@ -392,32 +386,36 @@ var App = angular.module("starter", [
                     $rootScope._getFirstId = function (collection) {
                         var first_id = null;
                         for (var i = 0; i < collection.length; i++) {
-                            if (!first_id || collection[i].id < first_id) first_id = collection[i].id;
+                            if (!first_id || collection[i].id < first_id) {
+                                first_id = collection[i].id;
+                            }
                         }
                         return first_id;
                     };
 
+                    //cyril: RIDICULOUS CODE, in browser we use _system that is not accepted value
+                    //in application we open with _blank that open with inAppBrowser without control...
                     $rootScope.getTargetForLink = function () {
-                        return Application.is_webview ? "_system" : "_blank";
+                        return !$rootScope.isNativeApp ? "_system" : "_blank";
                     };
 
                     /** Handler for overview */
                     $rootScope.$on('$stateChangeSuccess', function (event, toState, toStateParams, fromState, fromStateParams) {
-                        if(parent && (typeof parent.postMessage == "function") && (parent != window)) {
+                        if(parent && (typeof parent.postMessage === "function") && (parent !== window)) {
                             parent.postMessage("state.go", DOMAIN);
                         }
 
-                        if($ionicHistory.currentStateName() == "home") {
+                        if($ionicHistory.currentStateName() === "home") {
                             $timeout(function() {
                                 HomepageLayout.callHooks();
-                            }, 100);
+                            }, 250);
                         }
                     });
 
                     /** Event to catch state-go from source code */
-                    var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
-                    var eventer = window[eventMethod];
-                    var messageEvent = (eventMethod === "attachEvent") ? "onmessage" : "message";
+                    var eventMethod     = window.addEventListener ? "addEventListener" : "attachEvent";
+                    var eventer         = window[eventMethod];
+                    var messageEvent    = (eventMethod === "attachEvent") ? "onmessage" : "message";
 
                     // Listen to message from child window
                     eventer(messageEvent, function(e) {
@@ -446,15 +444,21 @@ var App = angular.module("starter", [
 
                     $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams, fromState, fromStateParams) {
 
-                        if ($rootScope.app_is_locked && toState.name != "padlock-view") {
+                        $rootScope.app_is_locked = Application.is_locked && !(Customer.can_access_locked_features || Padlock.unlocked_by_qrcode);
+                        if ($rootScope.app_is_locked && (toState.name != "padlock-view")) {
                             event.preventDefault();
                             $state.go("padlock-view");
-                        } else if (Customer.can_access_locked_features && toState.name == "padlock-view") {
+
+                        } else if (Customer.can_access_locked_features && (toState.name == "padlock-view")) {
                             event.preventDefault();
-                        } else if (Application.is_webview && toState.name == "codescan") {
+
+                        } else if (!$rootScope.isNativeApp && (toState.name == "codescan")) {
                             event.preventDefault();
+
+                            $rootScope.showMobileFeatureOnlyError();
                         } else if (Connection.isOffline) {
                             // Check if app feature is accessible offline
+                            void(0);
                         }
                     });
 
@@ -477,7 +481,7 @@ var App = angular.module("starter", [
                     };
 
                     $rootScope.$on(AUTH_EVENTS.loginSuccess, function () {
-                        $rootScope.app_is_locked = Application.is_locked && !Customer.can_access_locked_features;
+                        $rootScope.app_is_locked = (Application.is_locked && !(Customer.can_access_locked_features || Padlock.unlocked_by_qrcode));
                         if (!$rootScope.app_is_locked && Application.is_locked) {
                             $state.go("home");
                         }
@@ -485,7 +489,7 @@ var App = angular.module("starter", [
 
                     $rootScope.$on(AUTH_EVENTS.logoutSuccess, function () {
 
-                        $rootScope.app_is_locked = Application.is_locked;
+                        $rootScope.app_is_locked = (Application.is_locked && !Padlock.unlocked_by_qr_code);
 
                         if ($rootScope.app_is_locked) {
                             $ionicHistory.nextViewOptions({
@@ -557,8 +561,46 @@ var App = angular.module("starter", [
                         });
                         $timeout(function () {
                             popup.close();
-                        }, 4000);
+                        }, 2350);
                         return;
+                    };
+
+                    $rootScope.unlockUpdate = 0;
+                    $rootScope.checkForUpdate = function() {
+
+                        if(!$rootScope.isNativeApp) {
+                            $log.info("Stop update, Android or iOS is required.");
+                            return;
+                        }
+
+                        if($rootScope.unlockUpdate < 5) {
+                            $rootScope.unlockUpdate += 1;
+                            return;
+                        }
+
+                        $rootScope.unlockUpdate = 0;
+
+                        chcp.fetchUpdate(function (error, data) {
+                            if (error) {
+                                $log.info("CHCP: Failed to load the update with error code: " + error.code);
+                                $window.alert("CHCP: " + error.description);
+                            } else {
+                                $window.alert("CHCP: Update success, trying to install.");
+
+                                // update is in cache and can be installed - install it
+                                $log.info("CHCP: Current version: " + data.currentVersion);
+                                $log.info("CHCP: About to install: " + data.readyToInstallVersion);
+                                chcp.installUpdate(function (error) {
+                                    if (error) {
+                                        $log.info("CHCP: Something went wrong with the update, will retry later.");
+                                        $window.alert("CHCP: " + error.description);
+                                    } else {
+                                        $window.alert("CHCP: Update successfully install, restarting new files.");
+                                        return;
+                                    }
+                                });
+                            }
+                        });
                     };
 
                     /** OVERVIEW */
@@ -566,7 +608,7 @@ var App = angular.module("starter", [
                     if ($rootScope.isOverview) {
 
                         $window.isHomepage = function () {
-                            return $location.path() == BASE_PATH;
+                            return ($location.path() === BASE_PATH);
                         };
 
                         $window.clearCache = function (url) {
@@ -575,7 +617,7 @@ var App = angular.module("starter", [
 
                         $window.reload = function (path) {
 
-                            if (!path || path == $location.path()) {
+                            if (!path || (path === $location.path())) {
                                 $ionicHistory.clearCache();
                                 $state.reload();
                             }
@@ -603,16 +645,31 @@ var App = angular.module("starter", [
                         };
 
                         $window.isSamePath = function (path) {
-                            return $location.path() == path;
+                            return ($location.path() === path);
                         };
 
                         $window.showHomepage = function () {
-                            if (HomepageLayout.properties.menu.visibility == "homepage") {
+                            console.log("showHomepage");
+                            if (HomepageLayout.properties.menu.visibility === "homepage") {
                                 $window.setPath(BASE_PATH);
                             } else {
                                 HomepageLayout.getFeatures().then(function (features) {
-                                    if (features.options[0]) {
-                                        $window.setPath(features.options[0].path);
+                                    $ionicHistory.nextViewOptions({
+                                        historyRoot: true,
+                                        disableAnimate: false
+                                    });
+                                    var feat_index = 0;
+                                    for(var fi = 0; fi < features.options.length; fi++) {
+                                        var feat = features.options[fi];
+                                        /** Don't load unwanted features on first page. */
+                                        if((feat.code !== "code_scan") && (feat.code !== "radio") && (feat.code !== "padlock")) {
+                                            feat_index = fi;
+                                            break;
+                                        }
+                                    }
+
+                                    if (features.options[fi]) {
+                                        $window.setPath(features.options[fi].path, true);
                                     }
                                 });
                             }
@@ -656,6 +713,14 @@ var App = angular.module("starter", [
 
                     Application.loaded = true;
                     $log.info((new Date()).getTime(), "end.");
+
+
+                    // Check for padlock
+                    var currentState = $ionicHistory.currentStateName();
+                    if ($rootScope.app_is_locked && (currentState !== "padlock-view")) {
+                        $state.go("padlock-view");
+                    }
+
                 }); // Main load, then
 
         });

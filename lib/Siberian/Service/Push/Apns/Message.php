@@ -97,8 +97,12 @@ class Siberian_Service_Push_Apns_Message extends ApnsPHP_Message_Custom {
             $aPayload['aps']['message_id'] = $this->_iMessageId;
         }
 
-        if(isset($this->_sSendUntil) || is_null($this->_sSendUntil)) {
+        if(isset($this->_sSendUntil)) {
             $aPayload['aps']['send_until'] = $this->_sSendUntil;
+        }
+
+        if(isset($this->_sSendUntil) && (is_null($this->_sSendUntil) || empty($this->_sSendUntil))) {
+            $aPayload['aps']['send_until'] = null;
         }
 
         if(isset($this->_sUserInfo)) {

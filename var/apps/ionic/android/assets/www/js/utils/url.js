@@ -1,4 +1,6 @@
-/** search for a redirection */
+/*global
+ window, document, localStorage, angular
+ */
 var goto = window.location.hash.match(/\?__goto__=(.*)/);
 var REDIRECT_URI = false;
 if(goto) {
@@ -9,7 +11,7 @@ if(goto) {
 }
 
 /** Set default variables */
-var is_https = document.URL.indexOf('https') === 0;
+var is_https = (document.URL.indexOf('https') === 0);
 
 if(document.URL.indexOf('http') === 0) {
 
@@ -27,7 +29,7 @@ if(document.URL.indexOf('http') === 0) {
 
     if(path.length > 2) {
         APP_KEY = path[0];
-        path = new Array();
+        path = [];
     }
 
     path = path.reverse();
@@ -36,7 +38,7 @@ if(document.URL.indexOf('http') === 0) {
         localStorage.setItem("sb-current-language", CURRENT_LANGUAGE);
     } else {
         var language = localStorage.getItem("sb-current-language");
-        CURRENT_LANGUAGE = language ? language : "en";
+        CURRENT_LANGUAGE = !!language ? language : "en";
     }
 
     if (angular.isDefined(path[0])) {

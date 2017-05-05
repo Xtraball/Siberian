@@ -2,6 +2,8 @@
 
 class System_Controller_Backoffice_Default extends Backoffice_Controller_Default {
 
+    static public $crmApiUrl = "http://krypton.siberiancms.com";
+
     public function findallAction() {
 
         $data = $this->_findconfig();
@@ -181,6 +183,35 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
 
         $this->_sendHtml($data);
 
+    }
+
+    public function checksiberiancmslicenseAction() {
+        try {
+            $data = array(
+                'host' => $_SERVER['SERVER_NAME'],
+                'licenseKey' => System_Model_Config::getValueFor('siberiancms_key')
+            );
+            $json = json_encode($data);
+            $client = new Zend_Http_Client(self::$crmApiUrl."/siberian-licenses/use");
+            $client->setMethod(Zend_Http_Client::POST);
+            $client->setHeaders(array("Content-type" => 'application/json'));
+            $response = $client->setRawData($json)->request();
+            if($response->getRawBody() === "License has no more activation left") {
+                throw new Exception(__("License has no more activation left"));
+            }
+            if($response->getStatus() !== 200) {
+                throw new Exception(__("Invalid license key"));
+            }
+            $data = array(
+                "message" => __("License is valid")
+            );
+        } catch(Exception $e) {
+            $data = array(
+                "error" => 1,
+                "message" => $e->getMessage()
+            );
+        }
+        $this->_sendHtml($data);
     }
 
 }

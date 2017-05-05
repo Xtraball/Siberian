@@ -75,10 +75,6 @@
         <filesMatch "\\.(html|htm)$">
             Header set Cache-Control "max-age=7200, public"
         </filesMatch>
-        # Disable caching for scripts and other dynamic files
-        # <FilesMatch "\.(pl|php|cgi|spl|scgi|fcgi)$">
-        #     Header unset Cache-Control
-        # </FilesMatch>
     </IfModule>
 
 ###########################################################################

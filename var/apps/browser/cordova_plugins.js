@@ -1,6 +1,22 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
+        "file": "plugins/phonegap-plugin-push/www/push.js",
+        "id": "phonegap-plugin-push.PushNotification",
+        "pluginId": "phonegap-plugin-push",
+        "clobbers": [
+            "PushNotification"
+        ]
+    },
+    {
+        "file": "plugins/phonegap-plugin-push/www/browser/push.js",
+        "id": "phonegap-plugin-push.BrowserPush",
+        "pluginId": "phonegap-plugin-push",
+        "clobbers": [
+            "PushNotification"
+        ]
+    },
+    {
         "file": "plugins/phonegap-plugin-barcodescanner/www/barcodescanner.js",
         "id": "phonegap-plugin-barcodescanner.BarcodeScanner",
         "pluginId": "phonegap-plugin-barcodescanner",
@@ -73,41 +89,17 @@ module.exports = [
         "merges": [
             "navigator.notification"
         ]
-    },
-    {
-        "file": "plugins/cordova-plugin-media/www/MediaError.js",
-        "id": "cordova-plugin-media.MediaError",
-        "pluginId": "cordova-plugin-media",
-        "clobbers": [
-            "window.MediaError"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-media/www/Media.js",
-        "id": "cordova-plugin-media.Media",
-        "pluginId": "cordova-plugin-media",
-        "clobbers": [
-            "window.Media"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-media/www/browser/Media.js",
-        "id": "cordova-plugin-media.BrowserMedia",
-        "pluginId": "cordova-plugin-media",
-        "clobbers": [
-            "window.Media"
-        ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "phonegap-plugin-barcodescanner": "6.0.2",
+    "phonegap-plugin-push": "1.10.0",
+    "phonegap-plugin-barcodescanner": "6.0.6",
     "cordova-plugin-compat": "1.1.0",
     "cordova-plugin-camera": "2.3.1-dev",
-    "cordova-plugin-device": "1.1.1",
-    "cordova-plugin-dialogs": "1.2.1-dev",
-    "cordova-plugin-media": "2.2.1-dev"
+    "cordova-plugin-device": "1.1.6-dev",
+    "cordova-plugin-dialogs": "1.3.3-dev"
 }
 // BOTTOM OF METADATA
 });

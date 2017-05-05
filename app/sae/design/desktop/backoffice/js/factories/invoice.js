@@ -7,7 +7,7 @@ App.factory('Invoice', function($http, Url) {
         return $http({
             method: 'GET',
             url: Url.get("sales/backoffice_invoice_list/load"),
-            cache: true,
+            cache: false,
             responseType:'json'
         });
     };
@@ -15,7 +15,7 @@ App.factory('Invoice', function($http, Url) {
         return $http({
             method: 'GET',
             url: Url.get("sales/backoffice_invoice_view/load"),
-            cache: true,
+            cache: false,
             responseType:'json'
         });
     };
@@ -25,7 +25,7 @@ App.factory('Invoice', function($http, Url) {
         return $http({
             method: 'GET',
             url: Url.get("sales/backoffice_invoice_list/findall"),
-            cache: true,
+            cache: false,
             responseType:'json'
         });
     };
@@ -35,7 +35,7 @@ App.factory('Invoice', function($http, Url) {
         return $http({
             method: 'GET',
             url: Url.get("sales/backoffice_invoice_view/find", {invoice_id: invoice_id}),
-            cache: true,
+            cache: false,
             responseType:'json'
         });
     };

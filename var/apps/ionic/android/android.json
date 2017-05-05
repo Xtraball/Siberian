@@ -13,19 +13,11 @@
                             "count": 1
                         },
                         {
-                            "xml": "<activity android:clearTaskOnLaunch=\"true\" android:configChanges=\"orientation|keyboardHidden|screenSize\" android:exported=\"false\" android:name=\"com.google.zxing.client.android.CaptureActivity\" android:theme=\"@android:style/Theme.NoTitleBar.Fullscreen\" android:windowSoftInputMode=\"stateAlwaysHidden\"><intent-filter><action android:name=\"com.google.zxing.client.android.SCAN\" /><category android:name=\"android.intent.category.DEFAULT\" /></intent-filter></activity>",
+                            "xml": "<activity android:exported=\"true\" android:name=\"com.adobe.phonegap.push.PushHandlerActivity\" android:permission=\"${applicationId}.permission.PushHandlerActivity\" />",
                             "count": 1
                         },
                         {
-                            "xml": "<activity android:label=\"Share\" android:name=\"com.google.zxing.client.android.encode.EncodeActivity\"><intent-filter><action android:name=\"com.phonegap.plugins.barcodescanner.ENCODE\" /><category android:name=\"android.intent.category.DEFAULT\" /></intent-filter></activity>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<activity android:label=\"Share\" android:name=\"com.google.zxing.client.android.HelpActivity\"><intent-filter><action android:name=\"android.intent.action.VIEW\" /><category android:name=\"android.intent.category.DEFAULT\" /></intent-filter></activity>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<activity android:exported=\"true\" android:name=\"com.adobe.phonegap.push.PushHandlerActivity\" />",
+                            "xml": "<receiver android:name=\"com.adobe.phonegap.push.BackgroundActionButtonHandler\" />",
                             "count": 1
                         },
                         {
@@ -41,7 +33,15 @@
                             "count": 1
                         },
                         {
-                            "xml": "<service android:exported=\"false\" android:name=\"com.adobe.phonegap.push.RegistrationIntentService\"></service>",
+                            "xml": "<service android:exported=\"false\" android:name=\"com.adobe.phonegap.push.RegistrationIntentService\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<activity android:clearTaskOnLaunch=\"true\" android:configChanges=\"orientation|keyboardHidden|screenSize\" android:exported=\"false\" android:name=\"com.google.zxing.client.android.CaptureActivity\" android:theme=\"@android:style/Theme.NoTitleBar.Fullscreen\" android:windowSoftInputMode=\"stateAlwaysHidden\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<activity android:label=\"Share\" android:name=\"com.google.zxing.client.android.encode.EncodeActivity\" />",
                             "count": 1
                         },
                         {
@@ -71,12 +71,16 @@
                         {
                             "xml": "<activity android:exported=\"false\" android:launchMode=\"singleInstance\" android:name=\"de.appplant.cordova.plugin.notification.ClickActivity\" android:theme=\"@android:style/Theme.NoDisplay\" />",
                             "count": 1
+                        },
+                        {
+                            "xml": "<service android:name=\"com.homerours.musiccontrols.MusicControlsNotificationKiller\" />",
+                            "count": 1
                         }
                     ],
                     "/*": [
                         {
                             "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
-                            "count": 2
+                            "count": 1
                         },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
@@ -109,6 +113,10 @@
                         {
                             "xml": "<uses-feature android:name=\"android.hardware.location.gps\" android:required=\"false\" />",
                             "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />",
+                            "count": 1
                         }
                     ],
                     "/manifest": [
@@ -129,18 +137,6 @@
                             "count": 2
                         },
                         {
-                            "xml": "<uses-permission android:name=\"android.permission.CAMERA\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.FLASHLIGHT\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-feature android:name=\"android.hardware.camera\" android:required=\"true\" />",
-                            "count": 1
-                        },
-                        {
                             "xml": "<uses-permission android:name=\"android.permission.WAKE_LOCK\" />",
                             "count": 1
                         },
@@ -153,11 +149,31 @@
                             "count": 1
                         },
                         {
+                            "xml": "<uses-permission android:name=\"${applicationId}.permission.C2D_MESSAGE\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"${applicationId}.permission.PushHandlerActivity\" />",
+                            "count": 1
+                        },
+                        {
                             "xml": "<permission android:name=\"${applicationId}.permission.C2D_MESSAGE\" android:protectionLevel=\"signature\" />",
                             "count": 1
                         },
                         {
-                            "xml": "<uses-permission android:name=\"${applicationId}.permission.C2D_MESSAGE\" />",
+                            "xml": "<permission android:name=\"${applicationId}.permission.PushHandlerActivity\" android:protectionLevel=\"signature\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.CAMERA\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.FLASHLIGHT\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-feature android:name=\"android.hardware.camera\" android:required=\"true\" />",
                             "count": 1
                         },
                         {
@@ -184,6 +200,10 @@
                         },
                         {
                             "xml": "<feature name=\"BackgroundGeoloc\"><param name=\"android-package\" value=\"com.appsmobilecompany.base.CDVBackgroundGeoloc\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"PushNotification\"><param name=\"android-package\" value=\"com.adobe.phonegap.push.PushPlugin\" /></feature>",
                             "count": 1
                         },
                         {
@@ -219,6 +239,10 @@
                             "count": 1
                         },
                         {
+                            "xml": "<allow-navigation href=\"cdvfile:*\" />",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"Geolocation\"><param name=\"android-package\" value=\"org.apache.cordova.geolocation.Geolocation\" /></feature>",
                             "count": 1
                         },
@@ -239,19 +263,11 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"PushNotification\"><param name=\"android-package\" value=\"com.adobe.phonegap.push.PushPlugin\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"SocialSharing\"><param name=\"android-package\" value=\"nl.xservices.plugins.SocialSharing\" /></feature>",
                             "count": 1
                         },
                         {
                             "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" value=\"org.apache.cordova.statusbar.StatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"VideoPlayer\"><param name=\"android-package\" value=\"com.dawsonloudon.videoplayer.VideoPlayer\" /></feature>",
                             "count": 1
                         },
                         {
@@ -269,6 +285,10 @@
                         {
                             "xml": "<feature name=\"Insomnia\"><param name=\"android-package\" value=\"nl.xservices.plugins.Insomnia\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"MusicControls\"><param name=\"android-package\" value=\"com.homerours.musiccontrols.MusicControls\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -278,6 +298,16 @@
                     "/*": [
                         {
                             "xml": "<preference name=\"loadUrlTimeoutValue\" value=\"60000\" />",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "res/values/strings.xml": {
+                "parents": {
+                    "/resources": [
+                        {
+                            "xml": "<string name=\"google_app_id\" translatable=\"false\">01234567890</string>",
                             "count": 1
                         }
                     ]
@@ -301,6 +331,10 @@
         "siberian-plugin-backgroundgeoloc": {
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
+        "phonegap-plugin-push": {
+            "SENDER_ID": "01234567890",
+            "PACKAGE_NAME": "com.appsmobilecompany.base"
+        },
         "cordova-plugin-app-version": {
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
@@ -311,7 +345,6 @@
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
         "phonegap-plugin-barcodescanner": {
-            "CAMERA_USAGE_DESCRIPTION": " ",
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
         "cordova-plugin-camera": {
@@ -344,16 +377,10 @@
         "de.neofonie.cordova.plugin.progressview": {
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
-        "phonegap-plugin-push": {
-            "PACKAGE_NAME": "com.appsmobilecompany.base"
-        },
         "cordova-plugin-x-socialsharing": {
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
         "cordova-plugin-statusbar": {
-            "PACKAGE_NAME": "com.appsmobilecompany.base"
-        },
-        "com.dawsonloudon.videoplayer": {
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
         "cordova-plugin-whitelist": {
@@ -366,6 +393,12 @@
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
         "cordova-plugin-insomnia": {
+            "PACKAGE_NAME": "com.appsmobilecompany.base"
+        },
+        "cordova-plugin-music-controls": {
+            "PACKAGE_NAME": "com.appsmobilecompany.base"
+        },
+        "siberian": {
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         }
     },
@@ -401,6 +434,14 @@
             "pluginId": "siberian-plugin-backgroundgeoloc",
             "clobbers": [
                 "window.BackgroundGeoloc"
+            ]
+        },
+        {
+            "id": "phonegap-plugin-push.PushNotification",
+            "file": "plugins/phonegap-plugin-push/www/push.js",
+            "pluginId": "phonegap-plugin-push",
+            "clobbers": [
+                "PushNotification"
             ]
         },
         {
@@ -693,8 +734,7 @@
             "pluginId": "ionic-plugin-keyboard",
             "clobbers": [
                 "cordova.plugins.Keyboard"
-            ],
-            "runs": true
+            ]
         },
         {
             "id": "cordova-plugin-media.MediaError",
@@ -721,14 +761,6 @@
             ]
         },
         {
-            "id": "phonegap-plugin-push.PushNotification",
-            "file": "plugins/phonegap-plugin-push/www/push.js",
-            "pluginId": "phonegap-plugin-push",
-            "clobbers": [
-                "PushNotification"
-            ]
-        },
-        {
             "id": "cordova-plugin-x-socialsharing.SocialSharing",
             "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
             "pluginId": "cordova-plugin-x-socialsharing",
@@ -742,14 +774,6 @@
             "pluginId": "cordova-plugin-statusbar",
             "clobbers": [
                 "window.StatusBar"
-            ]
-        },
-        {
-            "id": "com.dawsonloudon.videoplayer.VideoPlayer",
-            "file": "plugins/com.dawsonloudon.videoplayer/www/VideoPlayer.js",
-            "pluginId": "com.dawsonloudon.videoplayer",
-            "clobbers": [
-                "VideoPlayer"
             ]
         },
         {
@@ -800,35 +824,44 @@
             "clobbers": [
                 "window.plugins.insomnia"
             ]
+        },
+        {
+            "id": "cordova-plugin-music-controls.MusicControls",
+            "file": "plugins/cordova-plugin-music-controls/www/MusicControls.js",
+            "pluginId": "cordova-plugin-music-controls",
+            "clobbers": [
+                "MusicControls"
+            ]
         }
     ],
     "plugin_metadata": {
         "cordova-plugin-extension": "1.3.0",
         "cordova-plugin-admobpro": "2.14.0",
-        "cordova-hot-code-push-plugin": "1.3.2",
+        "cordova-hot-code-push-plugin": "1.5.2",
         "cordova-plugin-splashscreen": "4.0.0",
         "siberian-plugin-backgroundgeoloc": "1.0.0",
+        "phonegap-plugin-push": "1.10.0",
         "cordova-plugin-app-version": "0.1.8",
         "com.keosu.cordova.stream": "0.1",
         "cordova-plugin-compat": "1.1.0",
-        "phonegap-plugin-barcodescanner": "6.0.2",
+        "phonegap-plugin-barcodescanner": "6.0.6",
         "cordova-plugin-camera": "2.3.1-dev",
         "com.verso.cordova.clipboard": "0.1.0",
-        "cordova-plugin-device": "1.1.1",
-        "cordova-plugin-dialogs": "1.2.1-dev",
-        "cordova-plugin-file": "4.1.2-dev",
+        "cordova-plugin-device": "1.1.6-dev",
+        "cordova-plugin-dialogs": "1.3.3-dev",
+        "cordova-plugin-file": "4.3.3-dev",
         "cordova-plugin-geolocation": "2.1.0",
-        "cordova-plugin-inappbrowser": "1.5.0",
-        "ionic-plugin-keyboard": "2.0.1",
-        "cordova-plugin-media": "2.2.1-dev",
+        "cordova-plugin-inappbrowser": "1.7.1-dev",
+        "ionic-plugin-keyboard": "2.2.1",
+        "cordova-plugin-media": "2.4.1",
         "de.neofonie.cordova.plugin.progressview": "3.0.1",
-        "phonegap-plugin-push": "1.5.3",
         "cordova-plugin-x-socialsharing": "5.0.12-dev",
         "cordova-plugin-statusbar": "2.2.0",
-        "com.dawsonloudon.videoplayer": "1.0.0",
         "cordova-plugin-whitelist": "1.2.1",
         "de.appplant.cordova.plugin.local-notification": "0.8.4.1",
         "siberian-plugin-offlinemode": "1.0.0",
-        "cordova-plugin-insomnia": "4.2.0"
+        "cordova-plugin-insomnia": "4.2.0",
+        "cordova-plugin-music-controls": "1.4.1",
+        "siberian": "1.0.0"
     }
 }

@@ -10,6 +10,12 @@
         <link rel="alternate" href="<?php echo $this->getCurrentUrl(true, $language->getCode()); ?>" hreflang="<?php echo $language->getCode() ?>" />
         <?php endforeach ?>
 
+        <script type="text/javascript">
+            var version = "<?php echo Siberian_Version::VERSION ?>";
+            var tmp_directory = "<?php echo Core_Model_Directory::getTmpDirectory() ?>";
+            var datepicker_regional = "<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>";
+        </script>
+
         <?php echo $this->headLink() ?>
         <?php echo $this->headScript() ?>
 
@@ -20,12 +26,6 @@
         <?php echo Siberian_Debug::renderHead(); ?>
 
     </head>
-
-    <script type="text/javascript">
-        var version = "<?php echo Siberian_Version::VERSION ?>";
-        var tmp_directory = "<?php echo Core_Model_Directory::getTmpDirectory() ?>";
-        var datepicker_regional = "<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>";
-    </script>
 
     <body class="<?php echo $this->default_class_name ?> general">
         <div id="customization_mask" style="display:none"></div>
@@ -82,29 +82,21 @@
                     $application = $this->getApplication();
                     $app_id = $this->getApplication()->getAppId();
                 } else {
-                    $app_id = null;
+                    $app_id = "";
                 }
 
-                if(!empty($app_id)):
+                if(!empty($app_id) && !Siberian_Version::is("SAE")):
             ?>
             (function() {
-                // Creates an app_id ajax param. Yields something like 'app_id=2'
-                var app_id_param = $.param({app_id: '<?php echo $app_id; ?>' });
 
-                // Send the app_id along with every ajax editor request
-                $.ajaxPrefilter(function (options, _, jqXHR) {
-                    if (options.data) {
-                        if(options.url.indexOf("?") > 1) {
-                            options.url += "&" + app_id_param;
-                        } else {
-                            options.url += "?" + app_id_param;
-                        }
-                    } else {
-                        options.data = app_id_param;
-                    }
-                });
+                <?php if(!Siberian_Debug::$render): /** Do not call when in debug mode, log pollution */ ?>
+                var timeout = 12000;
+                setInterval(function () {
+                    $.ajax({
+                        "url":"/application/security/check?app_id=<?php echo $app_id; ?>"
+                    })
+                }, 12000);
 
-                /* If there is a 400 error and the refresh flag is set then refresh the page.  */
                 $.ajaxSetup({
                     statusCode: {
                         400: function (err) {
@@ -114,19 +106,13 @@
                                 // alert the user and refresh the page
                                 alert("<?php echo __js("You cannot have multiple sessions to manage apps, so the session for this app is closed. This page is about to be reloaded.") ?>");
                                 window.location.reload();
+                            } else {
+                                /** Increase timeout on false to reduce server load. */
+                                timeout = 42000;
                             }
                         }
                     }
                 });
-
-                /*  Send an empty ajax request at a 12seconds interval in order to verify application session consitency,
-                 *  i.e. verify the user did not open another application in a new tab.
-                 *  If they did then alert the user and refresh the page.
-                 */
-                <?php if(!Siberian_Debug::$render): /** Do not call when in debug mode, log pollution */ ?>
-                setInterval(function () {
-                    $.ajax({})
-                }, 12000);
                 <?php endif; ?>
 
             }());

@@ -38,17 +38,48 @@ class Core_Model_Lib_Facebook extends Core_Model_Default {
         return $secret_key;
     }
 
+    /**
+     * Try to fetch the access token in any form
+     *
+     * @return mixed
+     */
+    public static function getAppToken() {
+        $app_id         = Core_Model_Lib_Facebook::getAppId();
+        $app_secret     = Core_Model_Lib_Facebook::getSecretKey();
+
+        $url = 'https://graph.facebook.com/v2.7/oauth/access_token';
+        $url .= '?grant_type=client_credentials';
+        $url .= "&client_id=$app_id";
+        $url .= "&client_secret=$app_secret";
+
+        $token_response = file_get_contents($url);
+        if(strpos($token_response, "access_token=") === false) {
+            $result = Siberian_Json::decode($token_response);
+            $access_token = $result["access_token"];
+        } else {
+            $access_token = str_replace("access_token=", "", $token_response);
+        }
+
+        return $access_token;
+    }
+
+    /**
+     * Facebook api now returns a JSON response
+     * Siberian 4.10.1
+     *
+     * @param $access_token
+     * @return bool
+     */
     public static function getOrRefreshToken($access_token) {
         /** Refresh the token life. */
         $facebook_app_id = self::getAppId();
         $facebook_secret = self::getSecretKey();
 
         $token_url = "https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id={$facebook_app_id}&client_secret={$facebook_secret}&fb_exchange_token={$access_token}";
-        $response = file_get_contents($token_url);
+        $response = Siberian_Json::decode(file_get_contents($token_url));
 
-        $results = array();
-        if(preg_match("/access_token=(.*)&/", $response, $results)){
-            $access_token = $results[1];
+        if(isset($response["access_token"])){
+            $access_token = $response["access_token"];
         }
         else {
             return false;

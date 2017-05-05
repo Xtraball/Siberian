@@ -14,7 +14,6 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     protected $_customers;
     protected $_options;
     protected $_pages;
-    protected $_uses_user_account;
     protected $_layout;
     protected $_devices;
     protected $_design;
@@ -266,6 +265,19 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
         return $this;
 
+    }
+
+    public function getRealLayoutVisibility() {
+        $layout = $this->getLayout();
+        $layout_visibility = $layout->getVisibility();
+        $layout_code = $layout->getCode();
+        if($layout_code === "layout_9") {
+            return "toggle";
+        }
+
+        if($layout_visibility === "always") {
+
+        }
     }
 
     public function createDummyContents($category, $design = null, $_category = null) {
@@ -576,19 +588,14 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     public function usesUserAccount() {
-
-        // TODO: check use_my_account
-
-        if(is_null($this->_uses_user_account)) {
-            $this->_uses_user_account = false;
-            $options = $this->getUsedOptions();
-            foreach($options as $option) {
-                if($option->getUseMyAccount())
-                    $this->_uses_user_account = true;
+        $options = $this->getUsedOptions();
+        foreach($options as $option) {
+            if($option->getUseMyAccount()) {
+                return true;
             }
         }
 
-        return $this->_uses_user_account;
+        return false;
     }
 
     public function getCountryCode() {
@@ -802,6 +809,16 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     public function subscriptionIsActive() {
         if(Siberian_Version::TYPE != "PE") return true;
         return $this->getSubscription()->isActive();
+    }
+
+    public function subscriptionIsOffline() {
+        if(Siberian_Version::TYPE != "PE") return true;
+        return $this->getSubscription()->getPaymentMethod() == "offline";
+    }
+
+    public function subscriptionIsDeleted() {
+        if(Siberian_Version::TYPE != "PE") return true;
+        return $this->getSubscription()->getIsSubscriptionDeleted();
     }
 
     public function isAvailableForPublishing($check_sources_access_type) {

@@ -21,18 +21,20 @@ package org.apache.cordova.media;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaResourceApi;
+import org.apache.cordova.PermissionHelper;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
+import android.media.AudioManager.OnAudioFocusChangeListener;
 import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
 
 import java.security.Permission;
 import java.util.ArrayList;
 
+import org.apache.cordova.LOG;
 import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,8 +56,9 @@ import java.util.HashMap;
 public class AudioHandler extends CordovaPlugin {
 
     public static String TAG = "AudioHandler";
-    HashMap<String, AudioPlayer> players;	// Audio player object
-    ArrayList<AudioPlayer> pausedForPhone;     // Audio players that were paused when phone call came in
+    HashMap<String, AudioPlayer> players;  // Audio player object
+    ArrayList<AudioPlayer> pausedForPhone; // Audio players that were paused when phone call came in
+    ArrayList<AudioPlayer> pausedForFocus; // Audio players that were paused when focus was lost
     private int origVolumeStream = -1;
     private CallbackContext messageChannel;
 
@@ -75,6 +78,7 @@ public class AudioHandler extends CordovaPlugin {
     public AudioHandler() {
         this.players = new HashMap<String, AudioPlayer>();
         this.pausedForPhone = new ArrayList<AudioPlayer>();
+        this.pausedForFocus = new ArrayList<AudioPlayer>();
     }
 
 
@@ -114,7 +118,13 @@ public class AudioHandler extends CordovaPlugin {
             promptForRecord();
         }
         else if (action.equals("stopRecordingAudio")) {
-            this.stopRecordingAudio(args.getString(0));
+            this.stopRecordingAudio(args.getString(0), true);
+        }
+        else if (action.equals("pauseRecordingAudio")) {
+            this.stopRecordingAudio(args.getString(0), false);
+        }
+        else if (action.equals("resumeRecordingAudio")) {
+            this.resumeRecordingAudio(args.getString(0));
         }
         else if (action.equals("startPlayingAudio")) {
             String target = args.getString(1);
@@ -278,13 +288,25 @@ public class AudioHandler extends CordovaPlugin {
     }
 
     /**
-     * Stop recording and save to the file specified when recording started.
+     * Stop/Pause recording and save to the file specified when recording started.
      * @param id				The id of the audio player
+     * @param stop      If true stop recording, if false pause recording
      */
-    public void stopRecordingAudio(String id) {
+    public void stopRecordingAudio(String id, boolean stop) {
         AudioPlayer audio = this.players.get(id);
         if (audio != null) {
-            audio.stopRecording();
+            audio.stopRecording(stop);
+        }
+    }
+
+    /**
+     * Resume recording
+     * @param id				The id of the audio player
+     */
+    public void resumeRecordingAudio(String id) {
+        AudioPlayer audio = players.get(id);
+        if (audio != null) {
+            audio.resumeRecording();
         }
     }
 
@@ -296,6 +318,7 @@ public class AudioHandler extends CordovaPlugin {
     public void startPlayingAudio(String id, String file) {
         AudioPlayer audio = getOrCreatePlayer(id, file);
         audio.startPlaying(file);
+        getAudioFocus();
     }
 
     /**
@@ -363,6 +386,8 @@ public class AudioHandler extends CordovaPlugin {
      */
     @SuppressWarnings("deprecation")
     public void setAudioOutputDevice(int output) {
+        String TAG1 = "AudioHandler.setAudioOutputDevice(): Error : ";
+
         AudioManager audiMgr = (AudioManager) this.cordova.getActivity().getSystemService(Context.AUDIO_SERVICE);
         if (output == 2) {
             audiMgr.setRouting(AudioManager.MODE_NORMAL, AudioManager.ROUTE_SPEAKER, AudioManager.ROUTE_ALL);
@@ -371,9 +396,60 @@ public class AudioHandler extends CordovaPlugin {
             audiMgr.setRouting(AudioManager.MODE_NORMAL, AudioManager.ROUTE_EARPIECE, AudioManager.ROUTE_ALL);
         }
         else {
-            System.out.println("AudioHandler.setAudioOutputDevice() Error: Unknown output device.");
+             LOG.e(TAG1," Unknown output device");
         }
     }
+
+    public void pauseAllLostFocus() {
+        for (AudioPlayer audio : this.players.values()) {
+            if (audio.getState() == AudioPlayer.STATE.MEDIA_RUNNING.ordinal()) {
+                this.pausedForFocus.add(audio);
+                audio.pausePlaying();
+            }
+        }
+    }
+
+    public void resumeAllGainedFocus() {
+        for (AudioPlayer audio : this.pausedForFocus) {
+            audio.startPlaying(null);
+        }
+        this.pausedForFocus.clear();
+    }
+
+    /**
+     * Get the the audio focus
+     */
+    private OnAudioFocusChangeListener focusChangeListener = new OnAudioFocusChangeListener() {
+            public void onAudioFocusChange(int focusChange) {
+                switch (focusChange) {
+                case (AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) :
+                case (AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) :
+                case (AudioManager.AUDIOFOCUS_LOSS) :
+                    pauseAllLostFocus();
+                    break;
+                case (AudioManager.AUDIOFOCUS_GAIN):
+                    resumeAllGainedFocus();
+                    break;
+                default:
+                    break;
+                }
+            }
+        };
+
+    public void getAudioFocus() {
+        String TAG2 = "AudioHandler.getAudioFocus(): Error : ";
+
+        AudioManager am = (AudioManager) this.cordova.getActivity().getSystemService(Context.AUDIO_SERVICE);
+        int result = am.requestAudioFocus(focusChangeListener,
+                                          AudioManager.STREAM_MUSIC,
+                                          AudioManager.AUDIOFOCUS_GAIN);
+
+        if (result != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+            LOG.e(TAG2,result + " instead of " + AudioManager.AUDIOFOCUS_REQUEST_GRANTED);
+        }
+
+    }
+
 
     /**
      * Get the audio device to be used for playback.
@@ -401,11 +477,13 @@ public class AudioHandler extends CordovaPlugin {
      * @param volume            Volume to adjust to 0.0f - 1.0f
      */
     public void setVolume(String id, float volume) {
+        String TAG3 = "AudioHandler.setVolume(): Error : ";
+
         AudioPlayer audio = this.players.get(id);
         if (audio != null) {
             audio.setVolume(volume);
         } else {
-            System.out.println("AudioHandler.setVolume() Error: Unknown Audio Player " + id);
+          LOG.e(TAG3,"Unknown Audio Player " + id);
         }
     }
 
@@ -429,7 +507,7 @@ public class AudioHandler extends CordovaPlugin {
                 message.put(action, actionData);
             }
         } catch (JSONException e) {
-            Log.e(TAG, "Failed to create event message", e);
+            LOG.e(TAG, "Failed to create event message", e);
         }
 
         PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, message);
