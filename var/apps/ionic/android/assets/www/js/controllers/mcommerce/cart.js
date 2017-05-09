@@ -66,7 +66,7 @@ App.config(function ($stateProvider) {
 
             }).finally(function() {
                 Customer.find().success(function(data) {
-                    $scope.cart.customer_fidelity_points = data.metadatas.fidelity_points ? data.metadatas.fidelity_points.points : null;
+                    $scope.cart.customer_fidelity_points = (data.metadatas && data.metadatas.fidelity_points) ? data.metadatas.fidelity_points.points : null;
                     if(!$scope.points_data.use_points) {
                         $scope.points_data.nb_points_used = $scope.cart.customer_fidelity_points;
                     }

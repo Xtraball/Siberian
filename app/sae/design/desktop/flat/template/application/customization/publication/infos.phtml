@@ -123,8 +123,8 @@
                     <div class="col-sm-4">
                         <select id="select_admob_type_ios" name="admob_type" class="autosave styled-select color-green" tabindex="2">
                             <option value="banner" <?php if($ios_device->getAdmobType() == "banner") : ?> selected="selected"<?php endif; ?>><?php echo __("Banner") ?></option>
-                            <option value="interstitial" <?php if($ios_device->getDevice(1)->getAdmobType() == "interstitial") : ?> selected="selected"<?php endif; ?>><?php echo __("Interstitial") ?></option>
-                            <option value="banner-interstitial" <?php if($ios_device->getDevice(1)->getAdmobType() == "banner-interstitial") : ?> selected="selected"<?php endif; ?>><?php echo __("Banner & Interstitial") ?></option>
+                            <option value="interstitial" <?php if($ios_device->getAdmobType() == "interstitial") : ?> selected="selected"<?php endif; ?>><?php echo __("Interstitial") ?></option>
+                            <option value="banner-interstitial" <?php if($ios_device->getAdmobType() == "banner-interstitial") : ?> selected="selected"<?php endif; ?>><?php echo __("Banner & Interstitial") ?></option>
                         </select>
                         <input type="hidden" name="device_id" value="1" />
                     </div>
