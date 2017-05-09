@@ -64,16 +64,18 @@ class Siberian_Cache_Design extends Siberian_Cache implements Siberian_Cache_Int
                 $module_name = strtolower(basename($module_folder->getPathname()));
 
                 foreach ($modules_design_codes as $design_code) {
-                    $cache = static::getCache();
+                    if($design_code->isDir() && !$design_code->isDot()) {
+                        $cache = static::getCache();
 
-                    /** Init the array if not. */
-                    $base_code = $design_code->getFilename();
-                    if (!isset($cache[$base_code])) {
-                        $cache[$base_code] = array();
+                        /** Init the array if not. */
+                        $base_code = $design_code->getFilename();
+                        if (!isset($cache[$base_code])) {
+                            $cache[$base_code] = array();
+                        }
+
+                        /** Looping trough files */
+                        self::recursiveSearch($design_code->getPathname(), $base_code, self::isAllowedOverride($module_name));
                     }
-
-                    /** Looping trough files */
-                    self::recursiveSearch($design_code->getPathname(), $base_code, self::isAllowedOverride($module_name));
                 }
             }
         }

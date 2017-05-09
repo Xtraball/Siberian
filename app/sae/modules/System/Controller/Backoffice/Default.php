@@ -2,7 +2,7 @@
 
 class System_Controller_Backoffice_Default extends Backoffice_Controller_Default {
 
-    static public $crmApiUrl = "http://perseval.xtraball.com:18081";
+    static public $crmApiUrl = "http://krypton.siberiancms.com";
 
     public function findallAction() {
 

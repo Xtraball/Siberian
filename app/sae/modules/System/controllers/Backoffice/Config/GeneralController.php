@@ -2,6 +2,18 @@
 
 class System_Backoffice_Config_GeneralController extends System_Controller_Backoffice_Default {
 
+
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "save" => array(
+            "tags" => array(
+                "front_mobile_load",
+            ),
+        )
+    );
+
     protected $_codes = array(
         "platform_name",
         "company_name",
@@ -15,9 +27,13 @@ class System_Backoffice_Config_GeneralController extends System_Controller_Backo
         "system_publication_access_type",
         "system_generate_apk",
         "application_ios_owner_admob_id",
+        "application_ios_owner_admob_interstitial_id",
         "application_ios_owner_admob_type",
+        "application_ios_owner_admob_weight",
         "application_android_owner_admob_id",
+        "application_android_owner_admob_interstitial_id",
         "application_android_owner_admob_type",
+        "application_android_owner_admob_weight",
         "application_owner_use_ads",
         "editor_design",
         "ios_autobuild_key"
@@ -62,6 +78,9 @@ class System_Backoffice_Config_GeneralController extends System_Controller_Backo
         if(!empty($languages) AND count($languages) > 1) {
             $data["languages"] = $languages;
         }
+
+        $data["application_android_owner_admob_weight"]["value"] = (integer) $data["application_android_owner_admob_weight"]["value"];
+        $data["application_ios_owner_admob_weight"]["value"] = (integer) $data["application_ios_owner_admob_weight"]["value"];
 
         $this->_sendHtml($data);
 

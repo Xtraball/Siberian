@@ -66,7 +66,11 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                 !$device->getUseOurDeveloperAccount() &&
                 (!$device->getDeveloperAccountUsername() || !$device->getDeveloperAccountPassword())
             );
-            $devices[] = $device->getData();
+            $data = $device->getData();
+
+            $data["owner_admob_weight"] = (integer) $data["owner_admob_weight"];
+
+            $devices[] = $data;
         }
 
         $data = array(
@@ -391,7 +395,9 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                     $device = $application->getDevice($device_data["type_id"]);
                     $data_device_to_save = array(
                         "owner_admob_id" => $device_data["owner_admob_id"],
-                        "owner_admob_type" => $device_data["owner_admob_type"]
+                        "owner_admob_interstitial_id" => $device_data["owner_admob_interstitial_id"],
+                        "owner_admob_type" => $device_data["owner_admob_type"],
+                        "owner_admob_weight" => $device_data["owner_admob_weight"]
                     );
                     $device->addData($data_device_to_save)->save();
                 }

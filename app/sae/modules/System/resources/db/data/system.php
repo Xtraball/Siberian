@@ -97,16 +97,34 @@ $configs = array(
         "label" => "Admob ID for platform owner (Ios)"
     ),
     array(
+        "code" => "application_ios_owner_admob_interstitial_id",
+        "label" => "Admob Interstitial ID for platform owner (Ios)"
+    ),
+    array(
         "code" => "application_ios_owner_admob_type",
         "label" => "Admob type for platform owner (Ios)"
+    ),
+    array(
+        "code" => "application_ios_owner_admob_weight",
+        "label" => "Admob split revenue for platform owner (Ios)",
+        "value" => 100
     ),
     array(
         "code" => "application_android_owner_admob_id",
         "label" => "Admob ID for platform owner (Android)"
     ),
     array(
+        "code" => "application_android_owner_admob_interstitial_id",
+        "label" => "Admob Interstitial ID for platform owner (Android)"
+    ),
+    array(
         "code" => "application_android_owner_admob_type",
         "label" => "Admob type for platform owner (Android)"
+    ),
+    array(
+        "code" => "application_android_owner_admob_weight",
+        "label" => "Admob split revenue for platform owner (Android)",
+        "value" => 100
     ),
     array(
         "code" => "application_owner_use_ads",

@@ -64,7 +64,7 @@ var App = angular.module("starter", [
     })
     .run(function ($sbhttp, $ionicConfig, $ionicHistory, $ionicPlatform, $ionicPopup, $ionicSlideBoxDelegate,
                    $ionicScrollDelegate, $injector, $log, $location, $rootScope, $state, $templateCache, $timeout,
-                   $translate, $window, Analytics, Application, Connection, Customer, Dialog, FacebookConnect, Facebook,
+                   $translate, $window, AdmobService, Analytics, Application, Connection, Customer, Dialog, FacebookConnect, Facebook,
                    Padlock, Push, Url, tmhDynamicLocale, AUTH_EVENTS, PUSH_EVENTS) {
 
         $log.debug((new Date()).getTime(), "run start");
@@ -280,22 +280,7 @@ var App = angular.module("starter", [
                         FacebookConnect.app_id = data.application.facebook.id;
                     }
 
-                    var admob = data.application.admob;
-
-                    if ($rootScope.isNativeApp && admob.id && $window.AdMob) {
-                        if (admob.type === "banner") {
-                            $window.AdMob.createBanner({
-                                adId:       admob.id,
-                                position:   $window.AdMob.AD_POSITION.BOTTOM_CENTER,
-                                autoShow:   true
-                            });
-                        } else {
-                            $window.AdMob.prepareInterstitial({
-                                adId:       admob.id,
-                                autoShow:   true
-                            });
-                        }
-                    }
+                    AdmobService.init(data.application.admob_v2);
 
                     if (Customer.isLoggedIn()) {
                         $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);

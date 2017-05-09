@@ -208,20 +208,50 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         
         foreach($module_names as $module) {
             $path = $this->_front_controller->getModuleDirectory($module)."/bootstrap.php";
-            if(is_readable($path)) {
+            $path_init = $this->_front_controller->getModuleDirectory($module)."/init.php";
+
+            # Init is the new flavor 5.0, and has priority over bootstrap.
+            if(is_readable($path_init)) {
+
                 try {
-                    require_once $path;
+
+                    ob_start();
+                    require_once $path_init;
+                    if(is_callable($init)) {
+                        $init($this);
+                    }
+                    ob_end_clean();
+
+                } catch(Exception $e) {
+                    # Silently catch & log malformed init module
+                    trigger_error($e->getMessage());
+                }
+
+            } else if(is_readable($path)) {
+
+                try {
+
                     $classname = "{$module}_Bootstrap";
-                    if(class_exists($classname)) {
-                        $bs = new $classname();
-                        if(method_exists($bs, "init")) {
-                            $bs::init($this);
+
+                    # Ensure this Class is not duplicated.
+                    if(!class_exists($classname, false)) {
+                        require_once $path;
+
+                        if(class_exists($classname)) {
+                            $bs = new $classname();
+                            if(method_exists($bs, "init")) {
+                                $bs::init($this);
+                            }
                         }
+
+                    } else {
+                        throw new Siberian_Exception("The bootstrap file located at '{$path}' redefines/or is already loaded, Class '{$classname}', please remove it or rename it.");
                     }
                 } catch(Exception $e) {
                     # Silently catch & log malformed bootstrap module
                     trigger_error($e->getMessage());
                 }
+
             }
         }
     }

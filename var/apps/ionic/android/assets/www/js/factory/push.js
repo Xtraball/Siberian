@@ -187,7 +187,10 @@ App.factory('Push', function($cordovaGeolocation, $cordovaLocalNotification, $co
                 __self.init_data.android.senderID = null;
             }
 
-            __self.push = PushNotification.init(__self.init_data);
+            if(ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
+                __self.push = PushNotification.init(__self.init_data);
+            }
+
         },
         _registerDevice: function() {
             if(ionic.Platform.isIOS()) {

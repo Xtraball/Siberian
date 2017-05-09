@@ -2,6 +2,7 @@
 <?php $settings_links = array('push', 'url', 'api_keys', 'module'); ?>
 <?php $resource = new Acl_Model_Resource(); ?>
 <?php $editor_url = $resource->getFirstEditorResourceAllowed($this); ?>
+<?php $custom_links = Siberian_Module::getEditorMenus(); ?>
 <?php if($this->getApplication()) : ?>
 <!-- Sidebar -->
 <div id="left-sidebar-wrapper" class="bkg-sidebar-left">
@@ -16,42 +17,42 @@
             <div id="shortcuts1" class="collapse in">
                 <a href="#shortcuts-sub-1" data-toggle="collapse" class="collapsed">
                     <i class="fa fa-pencil"></i>
-                    <?php echo $this->_('Editor'); ?>
+                    <?php echo __('Editor'); ?>
                     <i class="fa <?php if (in_array($current_link, $editor_menu)) echo "fa-angle-down"; else echo "fa-angle-right"; ?>"></i>
                 </a>
                 <div id="shortcuts-sub-1" class="collapse sub-bar<?php if (in_array($current_link, $editor_menu)) echo " in"; ?>">
                   <?php if($this->_canAccess("editor_design")) : ?>
                         <a href="<?php echo $this->getUrl('application/customization_design_style/edit'); ?>" class="block header no-background<?php if($current_link == 'editor_design'): ?> font-blue<?php endif; ?>">
                             <i class="fa fa-chevron-circle-right"></i>
-                            <?php echo $this->_("Design"); ?>
+                            <?php echo __("Design"); ?>
                         </a>
                     <?php endif; ?>
 
                     <?php if($this->_canAccess("editor_colors")) : ?>
                         <a href="<?php echo $this->getUrl('application/customization_design_colors/edit'); ?>" class="block header no-background<?php if($current_link == 'editor_colors'): ?> font-blue<?php endif; ?>">
                             <i class="fa fa-chevron-circle-right"></i>
-                            <?php echo $this->_('Colors'); ?>
+                            <?php echo __('Colors'); ?>
                         </a>
                     <?php endif; ?>
 
                     <?php if($this->_canAccess("editor_features")) : ?>
                         <a href="<?php echo $this->getUrl('application/customization_features/list'); ?>" class="block header no-background<?php if($current_link == 'editor_features'): ?> font-blue<?php endif; ?>">
                             <i class="fa fa-chevron-circle-right"></i>
-                            <?php echo $this->_('Features'); ?>
+                            <?php echo __('Features'); ?>
                         </a>
                     <?php endif; ?>
 
                     <?php if($this->_canAccess("editor_application")) : ?>
                         <a href="<?php echo $this->getUrl('application/customization_publication_app'); ?>" class="block header no-background<?php if($current_link == 'editor_application'): ?> font-blue<?php endif; ?>">
                             <i class="fa fa-chevron-circle-right"></i>
-                            <?php echo $this->_('Application'); ?>
+                            <?php echo __('Application'); ?>
                         </a>
                     <?php endif; ?>
 
                     <?php if($this->_canAccess("editor_publication")) : ?>
                         <a href="<?php echo $this->getUrl('application/customization_publication_infos'); ?>" class="block header no-background<?php if($current_link == 'editor_publication'): ?> font-blue<?php endif; ?>">
                             <i class="fa fa-chevron-circle-right"></i>
-                            <?php echo $this->_('Publication'); ?>
+                            <?php echo __('Publication'); ?>
                         </a>
                     <?php endif; ?>
                 </div>
@@ -62,7 +63,7 @@
         <li>
             <a href="<?php echo $this->getUrl('application/promote'); ?>" class="<?php if($current_link == 'promote'): ?> active<?php endif; ?>">
                 <i class="fa fa-bullhorn"></i>
-                <?php echo $this->_('Promote'); ?>
+                <?php echo __('Promote'); ?>
                 <i class="fa fa-angle-right"></i>
             </a>
         </li>
@@ -72,20 +73,20 @@
             <div id="shortcuts_analytics" class="collapse in">
                 <a href="#shortcuts_analytics-sub-1" data-toggle="collapse" class="collapsed down">
                     <i class="fa fa-line-chart"></i>
-                    <?php echo $this->_('Analytics'); ?>
+                    <?php echo __('Analytics'); ?>
                     <i class="fa <?php if (in_array($current_link, array('analytics_application','analytics_feature'))) echo "fa-angle-down"; else echo "fa-angle-right"; ?>"></i>
                 </a>
                 <div id="shortcuts_analytics-sub-1" class="collapse sub-bar<?php if (in_array($current_link, array('analytics_application','analytics_feature'))) echo " in"; ?>">
                     <?php if($this->_canAccess("analytics_application")): ?>
                     <a href="<?php echo $this->getUrl('application/analytics_application'); ?>" class="block header no-background<?php if($current_link == 'analytics_application'): ?> active<?php endif; ?>">
                         <i class="fa fa-area-chart"></i>
-                        <?php echo $this->_("App analytics"); ?>
+                        <?php echo __("App analytics"); ?>
                     </a>
                     <?php endif; ?>
                     <?php if($this->_canAccess("analytics_feature")): ?>
                     <a href="<?php echo $this->getUrl('application/analytics_feature'); ?>" class="block header no-background<?php if($current_link == 'analytics_feature'): ?> active<?php endif; ?>">
                         <i class="fa fa-bar-chart"></i>
-                        <?php echo $this->_("Feature Analytics"); ?>
+                        <?php echo __("Feature Analytics"); ?>
                     </a>
                     <?php endif; ?>
                 </div>
@@ -96,7 +97,7 @@
         <li>
             <a href="<?php echo $this->getUrl('customer/application/list'); ?>" class="<?php if($current_link == 'customer'): ?> active<?php endif; ?>">
                 <i class="fa fa-users"></i>
-                <?php echo $this->_('Users'); ?>
+                <?php echo __('Users'); ?>
                 <i class="fa fa-angle-right"></i>
             </a>
         </li>
@@ -106,14 +107,14 @@
             <div id="shortcuts2" class="collapse in">
                 <a href="#shortcuts-sub-2" data-toggle="collapse" class="collapsed down">
                     <i class="fa fa-cogs"></i>
-                    <?php echo $this->_('Settings'); ?>
+                    <?php echo __('Settings'); ?>
                     <i class="fa <?php if (in_array($current_link, array('settings_advanced', 'settings_tc','settings_facebook','settings_domain','settings_message','settings_import'))) echo "fa-angle-down"; else echo "fa-angle-right"; ?>"></i>
                 </a>
                 <div id="shortcuts-sub-2" class="collapse sub-bar<?php if (in_array($current_link, array('settings_tc','settings_facebook','settings_domain','settings_message','settings_import'))) echo " in"; ?>">
                     <?php if($this->_canAccess("editor_settings_tc")) : ?>
                         <a href="<?php echo $this->getUrl('application/settings_tc'); ?>" class="block header no-background<?php if($current_link == 'settings_tc'): ?> active<?php endif; ?>">
                             <i class="fa fa-file-text"></i>
-                            <?php echo $this->_("Terms & Conditions"); ?>
+                            <?php echo __("Terms & Conditions"); ?>
                         </a>
                     <?php endif; ?>
 
@@ -148,6 +149,29 @@
                 </div>
             </div>
         </li>
+
+        <?php if($custom_links): ?>
+        <li>
+            <div id="shortcuts-3" class="collapse in">
+                <a href="#shortcuts-sub-3" data-toggle="collapse" class="collapsed down">
+                    <i class="fa fa-microchip"></i>
+                    <?php echo __('Modules'); ?>
+                    <i class="fa fa-angle-down"></i>
+                </a>
+                <div id="shortcuts-sub-3" class="collapse sub-bar in">
+                    <?php foreach($custom_links as $module => $links): ?>
+                        <?php foreach($links as $link): ?>
+                            <a href="<?php echo $this->getUrl($link["link"]); ?>" class="block header no-background">
+                                <i class="fa fa-modx"></i>
+                                <?php echo $link["title"]; ?>
+                            </a>
+                        <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </li>
+        <?php endif; ?>
+        
     </ul>
     <?php endif; ?>
 </div>

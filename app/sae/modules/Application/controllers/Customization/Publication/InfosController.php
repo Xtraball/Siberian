@@ -68,6 +68,8 @@ class Application_Customization_Publication_InfosController extends Application_
 
                     if(isset($data["admob_id"])) {
                         $device->setAdmobId($data["admob_id"]);
+                    } else if(isset($data["admob_interstitial_id"])) {
+                        $device->setAdmobInterstitialId($data["admob_interstitial_id"]);
                     } else if(isset($data["admob_type"])) {
                         if($data["admob_type"] != "") {
                             $device->setAdmobType($data["admob_type"]);

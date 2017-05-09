@@ -432,5 +432,24 @@ try {
     }
 }
 
+# run in 4.11.1
+try {
+    $this->query("ALTER TABLE `application_device` CHANGE `admob_type` `admob_type` ENUM('banner','interstitial','videos','banner-interstitial','banner-videos','interstitial-videos','banner-interstitial-videos') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'banner';");
+} catch(Exception $e) {
+    if(method_exists($this, "log")) {
+        $this->log("Skipped application_device alter enum, already done.");
+    }
+}
+
+# @todo remove after 4.11.1
+try {
+    $this->query("UPDATE application_device SET admob_interstitial_id = admob_id WHERE admob_type = 'interstitial';");
+    $this->query("UPDATE application_device SET owner_admob_interstitial_id = owner_admob_id WHERE owner_admob_type = 'interstitial';");
+    $this->query("UPDATE system_config SET application_ios_owner_admob_interstitial_id = application_ios_owner_admob_id WHERE application_ios_owner_admob_type = 'interstitial';");
+    $this->query("UPDATE system_config SET application_android_owner_admob_interstitial_id = application_android_owner_admob_id WHERE application_android_owner_admob_type = 'interstitial';");
+} catch(Exception $e) {}
+
+
+
 
 

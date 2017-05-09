@@ -43,8 +43,14 @@ $schemas['application_device'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'admob_interstitial_id' => array(
+        'type' => 'varchar(150)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'admob_type' => array(
-        'type' => 'enum(\'banner\',\'interstitial\')',
+        'type' => 'enum(\'banner\',\'interstitial\',\'videos\',\'banner-interstitial\',\'banner-videos\',\'interstitial-videos\',\'banner-interstitial-videos\')',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
         'default' => 'banner',
@@ -55,11 +61,21 @@ $schemas['application_device'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'owner_admob_interstitial_id' => array(
+        'type' => 'varchar(150)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'owner_admob_type' => array(
         'type' => 'varchar(150)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
+    ),
+    'owner_admob_weight' => array(
+        'type' => 'tinyint(4)',
+        'default' => 100,
     ),
     'version' => array(
         'type' => 'varchar(10)',

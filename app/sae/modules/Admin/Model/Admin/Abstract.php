@@ -24,6 +24,10 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
         $application_table = new Application_Model_Db_Table_Application();
         $applications = $application_table->findAllForGlobalPush();
 
+        if(count($applications) <= 0) {
+            return array();
+        }
+
         $application_model = new Application_Model_Application();
         $admin_applications = $application_model->findAllByAdmin($this->getId(), array(
             "a.app_id IN (?)" => $applications
