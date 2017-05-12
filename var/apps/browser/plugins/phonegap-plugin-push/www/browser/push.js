@@ -33,11 +33,12 @@ var PushNotification = function(options) {
     var that = this;
 
     // Add manifest.json to main HTML file
-    var linkElement = document.createElement('link');
-    linkElement.rel = 'manifest';
-    linkElement.href = 'manifest.json';
-    document.getElementsByTagName('head')[0].appendChild(linkElement);
+    //var linkElement = document.createElement('link');
+    //linkElement.rel = 'manifest';
+    //linkElement.href = 'manifest.json';
+    //document.getElementsByTagName('head')[0].appendChild(linkElement);
 
+    /**
     if ('serviceWorker' in navigator && 'MessageChannel' in window) {
         var result;
         var channel = new MessageChannel();
@@ -81,7 +82,7 @@ var PushNotification = function(options) {
         });
     } else {
         throw new Error('Service Workers are not supported on your browser.');
-    }
+    }*/
 };
 
 /**

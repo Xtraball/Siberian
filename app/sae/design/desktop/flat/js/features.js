@@ -125,7 +125,7 @@ var feature_form_success = function(html) {
 };
 
 var feature_reload = function() {
-    if(typeof page != "undefined") {
+    if(typeof page !== "undefined") {
         page.reload();
     }
 };
@@ -175,7 +175,7 @@ var simpleget = function(uri) {
 
 var refreshCkeditor = function(element, key) {
     var el = $(element);
-    var ck_key = (typeof key == "undefined") ? el.attr("ckeditor") : key;
+    var ck_key = (typeof key === "undefined") ? el.attr("ckeditor") : key;
     var ck_fkey = (ckeditor_config.hasOwnProperty(ck_key)) ? ck_key : "default";
 
     setTimeout(function() {
@@ -207,21 +207,20 @@ var _bindForms = function(default_parent, success_cb, error_cb) {
         last_tab = $(this).attr("href");
     });
 
-    if(last_tab != -1) {
+    if(last_tab !== -1) {
         $(".nav-tabs a[href='"+last_tab+"']").tab("show");
     }
 
-    if(typeof datepicker_regional != "undefined") {
+    if(typeof datepicker_regional !== "undefined") {
         $.datepicker.setDefaults($.datepicker.regional[datepicker_regional]);
     }
 
-    if($(default_parent).data("binded") == "yes") {
+    if($(default_parent).data("binded") === "yes") {
         console.info(default_parent+" is already bound.");
         return;
-    } else {
-        $(default_parent).data("binded", "yes");
     }
 
+    $(default_parent).data("binded", "yes");
 
     /** Clean-up form */
     var toggle_add_success = function() {
@@ -253,9 +252,9 @@ var _bindForms = function(default_parent, success_cb, error_cb) {
     var handleDatetimePicker = function() {
         $(default_parent+' input[data-datetimepicker]').each(function() {
             var el = $(this);
-            if(typeof el.attr("data-hasdatepicker") == "undefined") {
+            if(typeof el.attr("data-hasdatepicker") === "undefined") {
                 el.attr("data-hasdatepicker", true);
-                el.after('<input type="hidden" name="datepicker_format" value="'+datepicker_regional+'" />');
+                el.after('<input type="hidden" name="datepicker_format" value="' + datepicker_regional + '" />');
 
                 var type = el.data("datetimepicker");
                 var format = el.data("format");
@@ -352,7 +351,7 @@ var _bindForms = function(default_parent, success_cb, error_cb) {
                 if(data.result.success) {
                     feature_picture_uploader.hide();
 
-                    var params = new Array();
+                    var params = [];
                     params["url"] = "/template/crop/crop";
                     params["file"] = data.result.files;
                     params["output_w"] = width;
@@ -361,20 +360,20 @@ var _bindForms = function(default_parent, success_cb, error_cb) {
                     params["uploader"] = 'feature_picture_uploader';
 
                     var $el = $(el.target);
-                    if(typeof $el.attr("data-imagecolor") != "undefined") {
+                    if(typeof $el.attr("data-imagecolor") !== "undefined") {
                         console.log($el.attr("data-imagecolor"));
                         params["image_color"] = $el.attr("data-imagecolor");
                         params["is_colorizable"] = true;
                     }
 
-                    if(typeof $el.attr("data-forcecolor") != "undefined") {
+                    if(typeof $el.attr("data-forcecolor") !== "undefined") {
                         params["force_color"] = true;
                     }
 
                     feature_picture_uploader.crop(params);
                     feature_picture_uploader.callback = function(file) {
                         var _file = file;
-                        if(typeof file == "object") {
+                        if(typeof file === "object") {
                             _file = file.file;
                         }
                         $(default_parent+" div.feature-upload-placeholder[data-uid='"+uid+"']").find("img").attr("src", tmp_directory+"/"+_file);
@@ -384,7 +383,7 @@ var _bindForms = function(default_parent, success_cb, error_cb) {
                         }
 
                         $(default_parent+" #"+input).val(_file).trigger("change");
-                    }
+                    };
                 }
             }
 
@@ -419,8 +418,8 @@ var _bindForms = function(default_parent, success_cb, error_cb) {
                     if(form.hasClass("toggle")) {
                         var button = form.find("button[type='submit']");
                         button.find("i").remove();
-                        button.append((data.state == 1) ? button.data("toggle-off") : button.data("toggle-on"));
-                        button.attr("title", (data.state == 1) ? button.data("title-off") : button.data("title-on"));
+                        button.append((data.state === 1) ? button.data("toggle-off") : button.data("toggle-on"));
+                        button.attr("title", (data.state === 1) ? button.data("title-off") : button.data("title-on"));
                         button.tooltip("destroy");
                         setTimeout(function() {
                             button.tooltip();
@@ -429,11 +428,11 @@ var _bindForms = function(default_parent, success_cb, error_cb) {
                         /** Do nothing */
                     } else if(form.hasClass("callback")) {
                         var callback = el.data("callback");
-                        if(typeof callback != "undefined") {
+                        if(typeof callback !== "undefined") {
                             try {
                                 eval(callback);
                             } catch(e) {
-                                console.log("unable to eval callback "+callback);
+                                console.log("unable to eval callback " + callback);
                             }
                         }
                     } else if(form.hasClass("delete")) {
@@ -470,7 +469,7 @@ var _bindForms = function(default_parent, success_cb, error_cb) {
             },
             error: function(data) {
                 var response = $.parseJSON(data.responseText);
-                if(response.message != "") {
+                if(response.message !== "") {
                     handleError(form, response);
                 } else {
                     feature_form_error("An error occured, please try again.");

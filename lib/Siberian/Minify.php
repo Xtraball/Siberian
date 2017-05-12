@@ -203,26 +203,28 @@ class Siberian_Minify extends \Minify\Minify {
 
         $app_files = '</title>';
 
+        $current_release = System_Model_Config::getValueFor("current_release");
+
         if($css) {
             $content = preg_replace('/(\s*<(!--)?link href="[a-z0-9\.\/\-_]+\.css" rel="stylesheet"(--)?>\s*)+/mi', '', $content);
             $app_files .= '
-        <link href="prod.css" rel="stylesheet">';
+        <link href="prod.css?version=' . $current_release . '" rel="stylesheet">';
         }
 
         if($js) {
             $content = preg_replace('/(\s*<(!--)?script src="[a-z0-9\.\/\-_]+\.js"><\/script(--)?>\s*)+/mi', '', $content);
             $app_files .= '
-        <script src="prod.js"></script>';
+        <script src="prod.js?version=' . $current_release . '"></script>';
         }
 
         foreach(self::$EXCLUDE_CSS as $exclude) {
             $app_files .= '
-        <link href="'.$exclude.'" rel="stylesheet">';
+        <link href="'.$exclude.'?version=' . $current_release . '" rel="stylesheet">';
         }
 
         foreach(self::$EXCLUDE_JS as $exclude) {
             $app_files .= '
-        <script src="'.$exclude.'"></script>';
+        <script src="'.$exclude.'?version=' . $current_release . '"></script>';
         }
 
         $content = preg_replace('/<\/title>/mi', $app_files."\n\t", $content);

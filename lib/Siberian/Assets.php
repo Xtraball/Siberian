@@ -41,6 +41,11 @@ class Siberian_Assets
     public static $assets_js = array();
 
     /**
+     * @var array
+     */
+    protected static $features_assets = array();
+
+    /**
      * Available platforms
      *
      * @var array
@@ -123,28 +128,167 @@ class Siberian_Assets
     /**
      * @param $from
      */
-    public static function copyAssets($from, $exclude_types = array()) {
+    public static function copyAssets($from, $exclude_types = null, $to = "") {
+        if(!is_array($exclude_types)) $exclude_types = array();
         $base = Core_Model_Directory::getBasePathTo("");
         foreach(self::$platforms as $type => $platforms) {
             if(!in_array($type, $exclude_types)) {
                 $www = self::$www[$type];
                 foreach($platforms as $platform) {
-                    $path_from = Core_Model_Directory::getBasePathTo($from);
-                    $path_to = Core_Model_Directory::getBasePathTo($platform.$www);
+                    $path_from = __ss(Core_Model_Directory::getBasePathTo($from));
+                    $path_to = __ss(Core_Model_Directory::getBasePathTo(
+                        $platform.$www.(strlen(trim($to)) > 0 ? "/".$to : "")
+                    ));
 
                     if($base != $path_from) {
-                        exec("cp -r {$path_from}/* {$path_to}/");
-                        exec("chmod -R 775 {$path_to}/");
+                        // Create directory tree if needed, useful since we now copy also single files
+                        if(is_dir($path_from)) {
+                            $dir_dest =  $path_to;
+                            $path_to .= "/";
+                            $path_from .= "/*";
+                        } else {
+                            $dir_dest = dirname($path_to);
+                        }
+
+                        if(!is_dir($dir_dest)) {
+                            mkdir(__ss($dir_dest), 0777, true);
+                        }
+
+                        exec("cp -r {$path_from} {$path_to}");
+                        exec("chmod -R 775 {$path_to}");
                     }
                 }
             }
         }
     }
 
+    public static function destroyAssets($dirpath, $exclude_types = null) {
+        if(!is_array($exclude_types)) $exclude_types = array();
+        $base = Core_Model_Directory::getBasePathTo("");
+        foreach(self::$platforms as $type => $platforms) {
+            if(!in_array($type, $exclude_types)) {
+                $www = self::$www[$type];
+                foreach($platforms as $platform) {
+                    $path = Core_Model_Directory::getBasePathTo($platform.$www.$dirpath);
+
+                    if(is_dir($path)) {
+                        if($base != $path) {
+                            exec("rm -r {$path}");
+                            exec("chmod -R 775 {$path}");
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public static function buildFeatures() {
+        $module = new Installer_Model_Installer_Module();
+        $modules = $module->findAll();
+
+        $features = array();
+
+        foreach($modules as $module) {
+            $module->prepare();
+            $features = array_merge($features, $module->getFeatures());
+        }
+
+        foreach($features as $feature) {
+            $name = $feature["name"];
+            $category = $feature["category"];
+            $code = $feature["code"];
+            $model = $feature["model"];
+            $desktop_uri = $feature["desktop_uri"];
+            $mobile_uri = $feature["mobile_uri"];
+            $icons = $feature["icons"];
+
+            $feature_dir = "features/".$code;
+
+            self::destroyAssets($feature_dir);
+            if(is_dir($feature["__DIR__"]."/assets")) {
+                self::copyAssets($feature["__DIR__"]."/assets", null, $feature_dir."/assets");
+            }
+
+            if(is_dir($feature["__DIR__"]."/templates")) {
+                self::copyAssets($feature["__DIR__"]."/templates", null, $feature_dir."/templates");
+            }
+
+            // build index.js here
+            $feature_js = self::compileFeature($feature, true, true);
+
+            $out_dir = Core_Model_Directory::getBasePathTo("var/tmp/out");
+            $built_file = $out_dir."/".$code.".js";
+            if(!is_dir($out_dir)) mkdir($out_dir, 0777, true);
+
+            file_put_contents($built_file, $feature_js);
+            $feature_js_path = $feature_dir."/".$code.".js";
+            self::copyAssets($built_file, null, $feature_js_path);
+            if(!in_array($feature_js_path, self::$features_assets["js"][$code])) {
+                self::$features_assets["js"][$code][] = $feature_js_path;
+            }
+
+            Siberian_Feature::installFeature(
+                $category,
+                array(
+                    "name" => $name,
+                    "code" => $code,
+                    "model" => $model,
+                    "desktop_uri" => $desktop_uri,
+                    "mobile_uri" => $mobile_uri
+                ),
+                $icons
+            );
+
+        }
+
+    }
+
+    public static function compileFeature($feature, $copy_assets = false, $insert_assets = false) {
+        $feature_js = "";
+        $code = $feature["code"];
+        $feature_dir = "features/".$code;
+
+        $feature_register = " Features.register(".$feature["__JSON__"]."); ";
+
+        foreach($feature["files"] as $file) {
+            if(!preg_match("/(?:[\/\\]\.\.)?(?:\.\.[\/\\]?)/", $file)) { // ignore files with ".." for security reasons
+                $in_file = $feature["__DIR__"]."/".$file;
+                $out_file = $feature_dir."/".$file;
+                $ext = pathinfo($file, PATHINFO_EXTENSION);
+                if(is_readable($in_file) && in_array($ext, array("js", "css"))) {
+                    if($feature["compile"]) {
+                        if($ext === "js") {
+                            $feature_js .= file_get_contents($in_file)." ";
+                        } elseif ($ext === "css") {
+                            $feature_js .= "Features.insertCSS(".json_encode(file_get_contents($in_file)).", \"".$code."\");";
+                        }
+                    } else {
+                        if($copy_assets) {
+                            self::copyAssets($in_file, null, $out_file);
+                        }
+                        if($insert_assets) {
+                            if($ext === "css" && !in_array($out_file, self::$features_assets["css"][$code])) {
+                                self::$features_assets["css"][$code][] = $out_file;
+                            } elseif ($ext === "js" && !in_array($out_file, self::$features_assets["js"][$code])) {
+                                self::$features_assets["js"][$code][] = $out_file;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        $feature_js = $feature_js.$feature_register;
+
+        return $feature_js;
+    }
+
     /**
      * Re-build index.html with assets
      */
     public static function buildIndex() {
+        self::buildFeatures();
+
         foreach(self::$platforms as $type => $platforms) {
 
             $www_folder = self::$www[$type];
@@ -159,6 +303,31 @@ class Siberian_Assets
 
                 foreach(self::$assets_css as $asset_css) {
                     $index_content = self::__appendAsset($index_content, $asset_css, "css");
+                }
+
+                // Collect which feature is already present in index.html
+                preg_match_all("/<(?:script|link)[^>]+data-feature=\"([^\"]+)\"[^>]?>/", $index_content, $ins_features);
+                if(is_array($ins_features)) {
+                    $ins_features = array_unique($ins_features[1]);
+                }
+
+                // Add features to index.html
+                $reg_features = array();
+                foreach(array("js", "css") as $type) {
+                    foreach(self::$features_assets[$type] as $code => $assets) {
+                        if(!in_array($code, $reg_features)) {
+                            $reg_features[] = $code; // keep track of which features has been added
+                        }
+                        foreach($assets as $asset) {
+                            $index_content = self::__appendAsset($index_content, $asset, $type, $code);
+                        }
+                    }
+                }
+
+                // Remove not registered features from index.html
+                $features_to_del = array_diff($ins_features, $reg_features);
+                foreach($features_to_del as $f) {
+                    $index_content = self::__removeAllFeatureAssets($index_content, $f);
                 }
 
                 if(is_writable($index_path)) {
@@ -176,23 +345,68 @@ class Siberian_Assets
      * @param $type
      * @return mixed
      */
-    public static function __appendAsset($index_content, $asset_path, $type) {
+    public static function __appendAsset($index_content, $asset_path, $type, $feature = null) {
         $asset_path = __ss($asset_path);
         $search = "</head>";
-        switch($type) {
-            case 'js':
-                    $replace = "\n\t\t<script src=\"{$asset_path}\"></script>\n\t</head>";
-                break;
-            case 'css':
-                    $replace = "\n\t\t<link href=\"{$asset_path}\" rel=\"stylesheet\">\n\t</head>";
-                break;
-        }
+        $replace = self::___assetLine($asset_path, $type, $feature)."</head>";
 
         if(strpos($index_content, $asset_path) === false) {
             $index_content = str_replace($search, $replace, $index_content);
         }
 
         return $index_content;
+    }
+
+    public static function __removeAsset($index_content, $asset_path, $type, $feature = null) {
+        $asset_path = __ss($asset_path);
+        $search = "</head>";
+        $replace = self::___assetLine($asset_path, $type, $feature)."</head>";
+
+        if(strpos($index_content, $asset_path) === false) {
+            $index_content = str_replace($search, $replace, $index_content);
+        }
+
+        return $index_content;
+    }
+
+    private static function __removeAllFeatureAssets($index_content, $feature, $type = null) {
+        if($type == null) {
+            return self::__removeAllFeatureAssets(
+                self::__removeAllFeatureAssets(
+                    $index_content,
+                    $feature,
+                    "js"
+                ),
+                $feature,
+                "css"
+            );
+        }
+
+        switch($type) {
+        case "js":
+            $regex = "/\n?\t*<script[^<]+data-feature=\"${feature}\"><\\/script>\n?\t*/";
+            break;
+        case "css":
+            $regex = "/\n?\t*<link[^<]+data-feature=\"${feature}\">\n?\t*/";
+            break;
+        }
+
+        return preg_replace($regex, "", $index_content);
+    }
+
+    private static function ___assetLine($asset_path, $type, $feature = null) {
+        $asset_path = __ss($asset_path);
+        $feature_data = is_string($feature) ? " data-feature=\"$feature\"" : "";
+        switch($type) {
+        case 'js':
+            $replace = "\n\t\t<script src=\"{$asset_path}\"{$feature_data}></script>\n\t";
+            break;
+        case 'css':
+            $replace = "\n\t\t<link href=\"{$asset_path}\" rel=\"stylesheet\"{$feature_data}>\n\t";
+            break;
+        }
+
+        return $replace;
     }
 
     /**

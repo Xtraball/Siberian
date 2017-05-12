@@ -23,6 +23,9 @@ class Siberian_Autoupdater {
      */
     public static function configure($host) {
 
+        $current_release = "".Siberian_Version::VERSION.".".time();
+        System_Model_Config::setValueFor("current_release", $current_release);
+
         # Clear
         Siberian_Cache_Design::clearCache();
         Siberian_Cache_Design::init();
@@ -88,7 +91,7 @@ class Siberian_Autoupdater {
                 $release = array(
                     "content_url" => $host.__ss($platform.$www_folder),
                     "min_native_interface" => Siberian_Version::NATIVE_VERSION,
-                    "release" => "".Siberian_Version::VERSION.".".time(),
+                    "release"               => System_Model_Config::getValueFor("current_release"),
                 );
 
                 $release = Siberian_Json::encode($release, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);

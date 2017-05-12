@@ -138,12 +138,12 @@
     </form>
     <form action="<?php echo $this->getUrl('catalog/application_product/validatecrop'); ?>" method="post" id="validateCrop" class="form-horizontal">
         <div class="row list subcontent">
-            <div class="col-sm-3" id="cont_delete_picture" >
+            <div class="col-sm-3 col-xs-3" id="cont_delete_picture" >
                 <?php if($product->getPicture()) : ?>
                 <button type="button" onclick="product.removepicture();" id="delete_picture" class="btn color-blue"><i class="fa fa-times"></i></button>
                 <?php endif; ?>
             </div>
-            <div id="product_picture" class="col-sm-4">
+            <div id="product_picture" class="col-sm-4 col-xs-4">
                 <?php if($product->getPicture()) : ?>
                     <img src="<?php echo Application_Model_Application::getImagePath().$product->getPicture(); ?>" width="150" />
                 <?php endif; ?>

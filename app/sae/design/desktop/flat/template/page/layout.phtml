@@ -12,6 +12,7 @@
 
         <script type="text/javascript">
             var version = "<?php echo Siberian_Version::VERSION ?>";
+            var current_release = "<?php echo System_Model_Config::getValueFor("current_release") ?>";
             var tmp_directory = "<?php echo Core_Model_Directory::getTmpDirectory() ?>";
             var datepicker_regional = "<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>";
         </script>

@@ -7,6 +7,7 @@ console.info((new Date()).getTime(), "start.");
 var isOverview = (window.parent.location.href !== window.location.href); /** isOverview stands for the App overview in the Browser. */
 var isNativeApp = (ionic.Platform.isIOS() || ionic.Platform.isAndroid()); /** isNativeApp stands for Android or iOS native application only */
 
+// WARNING: If angular module name is changed here, change it also in utils/features.js
 var App = angular.module("starter", [
         "ionic", "ion-gallery", "ngCordova", "ngIOS9UIWebViewPatch", "angular-carousel",
         "lodash", "ngImgCrop", "ionic-zoom-view", "ngSanitize", "tmh.dynamicLocale", "ngQueue"
@@ -280,7 +281,12 @@ var App = angular.module("starter", [
                         FacebookConnect.app_id = data.application.facebook.id;
                     }
 
-                    AdmobService.init(data.application.admob_v2);
+                    try {
+                        AdmobService.init(data.application.admob_v2);
+                    } catch(error) {
+                        $log.error("Unable to init AdMob.");
+                    }
+
 
                     if (Customer.isLoggedIn()) {
                         $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
@@ -721,6 +727,8 @@ var App = angular.module("starter", [
                         $state.go("padlock-view");
                     }
 
+                }).catch(function(error) {
+                    $log.error("main promise caught error, ", error);
                 }); // Main load, then
 
         });

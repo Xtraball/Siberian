@@ -57,12 +57,16 @@ App.service("AdmobService", function ($rootScope, $window) {
             var get_weigth = function(probs) {
                 var random = _.random(0, 1000);
                 var offset = 0;
+                var key_used = "app";
+                var match = false;
                 _.forEach(probs, function(value, key) {
                     offset += (value * 1000);
-                    if(random <= offset) {
-                        return key;
+                    if(!match && (random <= offset)) {
+                        key_used = key;
+                        match = true;
                     }
                 });
+                return key_used;
             };
 
             var whom = "app";
@@ -88,7 +92,6 @@ App.service("AdmobService", function ($rootScope, $window) {
             $window.AdMob.createBanner({
                 adId:       options.banner_id,
                 position:   $window.AdMob.AD_POSITION.BOTTOM_CENTER,
-                isTesting:  true,
                 autoShow:   true
             });
         }
@@ -96,7 +99,6 @@ App.service("AdmobService", function ($rootScope, $window) {
         if(options.insterstitial) {
             $window.AdMob.prepareInterstitial({
                 adId:       options.insterstitial_id,
-                isTesting:  true,
                 autoShow:   true
             });
         }

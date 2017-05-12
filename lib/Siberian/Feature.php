@@ -134,6 +134,29 @@ class Siberian_Feature {
         /** @todo */
     }
 
+
+    /**
+     * Fully install a feature, including icons and ACL
+     *
+     * @param $category
+     * @param $feature_data
+     * @param $icons
+     * @return Application_Model_Option
+     */
+    public static function installFeature($category, $feature_data, $icons) {
+        $name = $feature_data["name"];
+        $feature_icons = Siberian_Feature::installIcons($name."-flat", $icons);
+        $feature_data["library_id"] = $feature_icons["library_id"];
+        $feature_data["icon_id"] = $feature_icons["icon_id"];
+
+        $option = Siberian_Feature::install($category, $feature_data, array('code'));
+        Siberian_Feature::installAcl($option);
+
+        Siberian_Assets::copyAssets("/app/local/modules//resources/var/apps/");
+
+        return $option;
+    }
+
     /**
      * @param $category_code
      * @param $data

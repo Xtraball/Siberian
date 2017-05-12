@@ -13,6 +13,7 @@ class Installer_Model_Installer_Module extends Core_Model_Default
     protected $_isInstalled = false;
     protected $_packageInfo = null;
     protected $_basePath;
+    protected $_features = null;
 
     public function __construct($config = array()) {
         $this->_db_table = 'Installer_Model_Db_Table_Installer_Module';
@@ -194,6 +195,7 @@ class Installer_Model_Installer_Module extends Core_Model_Default
             if(version_compare($current_package_info["version"], $highest_package_version, '>')) {
                 $package_info = $current_package_info;
                 $highest_package_version = $current_package_info["version"];
+                $this->_basePath = dirname($package_file);
             }
         }
 
@@ -202,7 +204,6 @@ class Installer_Model_Installer_Module extends Core_Model_Default
             return;
         }
 
-        $this->_basePath = $folder;
         $this->_packageInfo = $package_info;
 
         /** Get the schema for installation/sync */
@@ -296,6 +297,60 @@ class Installer_Model_Installer_Module extends Core_Model_Default
         foreach($translation_modules as $mod) {
             Core_Model_Translator::addModule($mod);
         }
+    }
+
+    public function getFeature($feature_code, $refresh = false) {
+        $this->getFeatures($refresh);
+
+        return $this->_features[$feature_code];
+    }
+
+    public function getFeatures($refresh = false) {
+        if($this->_basePath === null)
+            $this->fetch();
+
+        if($this->_features === null || $refresh) {
+            $this->_features = array();
+
+            $features_glob = glob($this->_basePath."/features/*/feature.json");
+
+            foreach($features_glob as $feature) {
+                $feature_json = json_decode(file_get_contents($feature), true);
+
+                if($feature_json) {
+                    $feature_json["__JSON__"] = json_encode($feature_json);
+                    $feature_json["__FILE__"] = $feature;
+                    $feature_json["__DIR__"] = dirname($feature);
+
+                    $mandatory_keys = array("name", "code", "model", "desktop_uri", "routes", "icons");
+
+                    foreach($mandatory_keys as $k) {
+                        if(!array_key_exists($k, $feature_json)) {
+                            $invalid = true;
+                            break;
+                        }
+                    }
+
+                    if(!$invalid) {
+
+                        $main_route = array_reduce( // Let's see if we have a mobile_uri
+                            $feature_json["routes"],
+                            function($carry, $item) {
+                                return $item["root"] === true ? $item["url"] : $carry;
+                            },
+                            null
+                        );
+
+                        if($main_route) { // If we have, it definitely is a feature
+                            $feature_json["mobile_uri"] = "goto/feature/".$feature_json["code"];
+                            $this->_features[$feature_json["code"]] = $feature_json;
+                        }
+                    }
+                }
+            }
+        }
+
+        return array_values($this->_features);
     }
 
 }

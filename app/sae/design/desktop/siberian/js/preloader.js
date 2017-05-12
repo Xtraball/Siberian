@@ -1,9 +1,9 @@
 /*global
-    localStorage, XMLHttpRequest
+    localStorage, XMLHttpRequest, current_release
  */
 
 $(document).ready(function() {
-    if(localStorage.getItem("latest-cache") != version) {
+    if(localStorage.getItem("latest-cache") !== current_release) {
 
         var preload = [
             "/var/apps/browser/prod.js",
@@ -118,12 +118,12 @@ $(document).ready(function() {
             xhr.send(null);
         };
 
-        preload.forEach(function(element, index, obj) {
-            request(element+"?version="+version);
+        preload.forEach(function(element) {
+            request(element + "?version=" + current_release);
         });
 
         /** Save information */
-        localStorage.setItem("latest-cache", version);
+        localStorage.setItem("latest-cache", current_release);
     }
 
 });

@@ -6,6 +6,25 @@ class Installer_ModuleController extends Backoffice_Controller_Default {
         $this->loadPartials();
     }
 
+    public function getfeatureAction() {
+        if(APPLICATION_ENV == "development") {
+            $module = $this->getRequest()->getParam("mod");
+            $feature = $this->getRequest()->getParam("feat");
+
+            $module_obj = new Installer_Model_Installer_Module();
+            $module_obj->prepare($module);
+            $feature_json = $module_obj->getFeature($feature);
+
+            if($feature_json) {
+                http_response_code(200);
+                header("Content-Type: text/javascript");
+                die(Siberian_Assets::compileFeature($feature_json));
+            }
+            http_response_code(404);
+            die("Not found");
+        }
+    }
+
     public function installAction() {
 
         $module_names = Zend_Controller_Front::getInstance()->getDispatcher()->getSortedModuleDirectories();

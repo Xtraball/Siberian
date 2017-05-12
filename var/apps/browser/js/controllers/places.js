@@ -3,6 +3,7 @@ App.config(function($stateProvider) {
     $stateProvider.state('places-list', {
         url: BASE_PATH+"/places/mobile_list/index/value_id/:value_id",
         controller: 'PlacesListController',
+        cache: false,
         templateUrl: "templates/html/l3/list.html"
     }).state('places-list-map', {
         url: BASE_PATH+"/cms/mobile_list_map/index/value_id/:value_id",
