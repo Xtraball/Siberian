@@ -62,13 +62,19 @@ class Application_Controller_Default extends Admin_Controller_Default {
 
         if($this->getCurrentOptionValue()) {
             $this->loadPartials(null, false);
-            $this->getLayout()->getPartial('content')->setOptionValue($this->getCurrentOptionValue());
-            if($this->getLayout()->getPartial('content_editor')) $this->getLayout()->getPartial('content_editor')->setOptionValue($this->getCurrentOptionValue());
+
+            $layout = $this->getLayout();
+            $content_partial = $layout->getPartial('content');
+            $this->assignVars($content_partial);
+
+            if($layout->getPartial('content_editor')) {
+                $content_editor_partial = $layout->getPartial('content_editor');
+                $this->assignVars($content_editor_partial);
+            }
             $html = array('html' => mb_convert_encoding($this->getLayout()->render(), 'UTF-8', 'UTF-8'));
             $path =  $this->getCurrentOptionValue()->getPath(null, array(), "mobile");
             $html["path"] = $path ? $path : "";
             $this->getLayout()->setHtml(Zend_Json::encode($html));
-
         }
     }
 

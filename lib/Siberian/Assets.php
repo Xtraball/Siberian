@@ -189,7 +189,7 @@ class Siberian_Assets
         $features = array();
 
         foreach($modules as $module) {
-            $module->prepare();
+            $module->fetch();
             $features = array_merge($features, $module->getFeatures());
         }
 
@@ -199,8 +199,25 @@ class Siberian_Assets
             $code = $feature["code"];
             $model = $feature["model"];
             $desktop_uri = $feature["desktop_uri"];
+            $my_account = !!$feature["use_account"];
+            $only_once = !!$feature["only_once"];
             $mobile_uri = $feature["mobile_uri"];
+
             $icons = $feature["icons"];
+            if(is_array($icons)) {
+                $basePath = "/".str_replace(Core_Model_Directory::getBasePathTo(""), "", $feature["__DIR__"]);
+                $icons = array_map(
+                    function($icon) use ($basePath) {
+                        return $basePath."/".$icon;
+                    },
+                    $icons
+                );
+            }
+
+            $is_ajax = $feature["is_ajax"] !== false;
+            $social_sharing = !!$feature["social_sharing"];
+            $nickname = !!$feature["use_nickname"];
+            $ranking = !!$feature["use_ranking"];
 
             $feature_dir = "features/".$code;
 
@@ -227,20 +244,32 @@ class Siberian_Assets
                 self::$features_assets["js"][$code][] = $feature_js_path;
             }
 
-            Siberian_Feature::installFeature(
-                $category,
-                array(
-                    "name" => $name,
-                    "code" => $code,
-                    "model" => $model,
-                    "desktop_uri" => $desktop_uri,
-                    "mobile_uri" => $mobile_uri
-                ),
-                $icons
+            $data = array(
+                "name" => $name,
+                "code" => $code,
+                "model" => $model,
+                "desktop_uri" => $desktop_uri,
+                "mobile_uri" => $mobile_uri,
+                "use_my_account" => $my_account,
+                "only_once" => $only_once,
+                "is_ajax" => $is_ajax,
+                "social_sharing_is_available" => $social_sharing,
+                "use_nickname" => $nickname,
+                "use_ranking" => $ranking,
             );
 
-        }
+            $position = intval($feature["position"], 10) || null;
+            if($position) $data["position"] = $position;
 
+            $custom_fields = is_array($feature["custom_fields"]) ? $feature["custom_fields"] : null;
+            if($custom_fields) $data["custom_fields"] = json_encode($custom_fields);
+
+            Siberian_Feature::installFeature(
+                $category,
+                $data,
+                $icons
+            );
+        }
     }
 
     public static function compileFeature($feature, $copy_assets = false, $insert_assets = false) {

@@ -171,6 +171,11 @@ class Core_Model_Translator
 
     }
 
+    /**
+     * @todo To cache
+     *
+     * @return array
+     */
     protected static function _getIonicTranslations() {
 
         $translation_cache = Siberian_Cache_Translation::getCache();
@@ -188,6 +193,7 @@ class Core_Model_Translator
             }
         }
 
+        $flipped_keys = array_flip($keys);
 
         $current_language = Core_Model_Language::getCurrentLanguage();
         $translation_files_path = Core_Model_Directory::getBasePathTo("languages/{$current_language}");
@@ -200,7 +206,7 @@ class Core_Model_Translator
 
                 $resource = fopen($file->getPathName(), "r");
                 while ($data = fgetcsv($resource, 1024, ";", "\"")) {
-                    if (!empty($data[0]) AND !empty($data[1]) AND in_array($data[0], $keys)) {
+                    if (!empty($data[0]) AND !empty($data[1]) AND isset($flipped_keys[$data[0]]) ) {
                         $translations[$data[0]] = $data[1];
                     }
                 }

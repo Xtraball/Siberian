@@ -187,9 +187,11 @@ App.service('MediaPlayer', function ($log, $interval, $ionicLoading, $rootScope,
         service.current_track = null;
         service.shuffle_tracks = [];
 
-        MusicControls.destroy();
-        MusicControls.subscribe(music_controls_events);
-        MusicControls.listen();
+        if(ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
+            MusicControls.destroy();
+            MusicControls.subscribe(music_controls_events);
+            MusicControls.listen();
+        }
     };
 
     service.destroy = function() {
@@ -233,7 +235,9 @@ App.service('MediaPlayer', function ($log, $interval, $ionicLoading, $rootScope,
                 service.media.pause();
             }
 
-            MusicControls.updateIsPlaying(false);
+            if(ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
+                MusicControls.updateIsPlaying(false);
+            }
         } else {
             if(ionic.Platform.isIOS()) {
                 service.media.play({playAudioWhenScreenIsLocked: true});
@@ -241,7 +245,9 @@ App.service('MediaPlayer', function ($log, $interval, $ionicLoading, $rootScope,
                 service.media.play();
             }
 
-            MusicControls.updateIsPlaying(true);
+            if(ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
+                MusicControls.updateIsPlaying(true);
+            }
         }
 
         if(service.is_stream) {

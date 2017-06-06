@@ -126,7 +126,7 @@ class Core_Model_Db_Table_Row extends Zend_Db_Table_Row_Abstract
         if(in_array('updated_at_utc', $this->_cols)) $this->setUpdatedAtUtc($date->getTimestamp());
 
         if(in_array('created_at_utc', $this->_cols) AND !$this->getCreatedAtUtc()) {
-            $created_at = new Zend_Date($this->getCreatedAt());
+            $created_at = $this->getId() ? new Zend_Date($this->getCreatedAt()) : $date;
             $this->setCreatedAtUtc($created_at->getTimestamp());
         }
 

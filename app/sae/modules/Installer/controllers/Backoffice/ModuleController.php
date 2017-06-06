@@ -27,6 +27,12 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
             "icon" => "fa-cloud-download"
         );
 
+        // Duplicate user to new namespace.
+        if(version_compare(Siberian_Version::VERSION, "5.0.0", "<")) {
+            $current_user = $this->getSession()->getBackofficeUser();
+            $this->getSession("backoffice")->setBackofficeUser($current_user);
+        }
+
         $this->_sendHtml($html);
 
     }

@@ -142,7 +142,7 @@ class Siberian_Minify extends \Minify\Minify {
      * @param $output_js
      */
     public function minifyJs($platform, $index_path, $output_js) {
-        $regex = '/<script src="([a-z0-9\.\/\-_]+\.js)">/mi';
+        $regex = '/<script[^>]+src="([a-z0-9\.\/\-_]+\.js)"/mi';
 
         $this->_minify("js", $regex, $index_path, $output_js);
     }
@@ -212,7 +212,7 @@ class Siberian_Minify extends \Minify\Minify {
         }
 
         if($js) {
-            $content = preg_replace('/(\s*<(!--)?script src="[a-z0-9\.\/\-_]+\.js"><\/script(--)?>\s*)+/mi', '', $content);
+            $content = preg_replace('/(\s*<(!--)?script[^>]+src="[a-z0-9\.\/\-_]+\.js"[^>]*><\/script(--)?>\s*)+/mi', '', $content);
             $app_files .= '
         <script src="prod.js?version=' . $current_release . '"></script>';
         }

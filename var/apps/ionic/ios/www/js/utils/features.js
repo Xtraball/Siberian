@@ -45,6 +45,9 @@ window.Features = (new (function Features() {
                                 break;
                             }
 
+                            // route.cache = false if r.cache === false, otherwise route.cache = true
+                            route.cache = !(r.cache === false);
+
                             this[r.state] = route;
                         }
                     }, routes);

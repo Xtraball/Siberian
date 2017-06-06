@@ -47,10 +47,6 @@ class Application_Api_AdminController extends Api_Controller_Default {
 
     public function removeAction() {
 
-        if(!$this->user->hasAccess("application.revoke_user")) {
-            $this->forward("notauthorized");
-        }
-
         if($data = $this->getRequest()->getPost()) {
 
             try {
