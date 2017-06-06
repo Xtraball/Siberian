@@ -81,7 +81,7 @@ class Core_Model_Translator
     public static function translate($text, array $args = array()) {
 
         $translator = self::$_translator;
-        
+
         if(count($args) > 1) {
             unset($args[0]);
         }
@@ -188,8 +188,8 @@ class Core_Model_Translator
             }
         }
 
-	$flipped_keys = array_flip($keys);
-	
+	      $flipped_keys = array_flip($keys);
+
         $current_language = Core_Model_Language::getCurrentLanguage();
         $translation_files_path = Core_Model_Directory::getBasePathTo("languages/{$current_language}");
         if(is_dir($translation_files_path)) {
@@ -198,10 +198,10 @@ class Core_Model_Translator
             foreach ($files as $file) {
                 if (!$file->isFile()) continue;
                 if (pathinfo($file->getPathName(), PATHINFO_EXTENSION) != "csv") continue;
-                
+
                 $resource = fopen($file->getPathName(), "r");
                 while ($data = fgetcsv($resource, 1024, ";", "\"")) {
-                    if (!empty($data[0]) AND !empty($data[1]) AND isSet($flipped_keys[$data[0]]) ) {
+                    if (!empty($data[0]) AND !empty($data[1]) AND isset($flipped_keys[$data[0]]) ) {
                         $translations[$data[0]] = $data[1];
                     }
 
