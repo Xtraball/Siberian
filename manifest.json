@@ -17209,7 +17209,7 @@
     },
     {
         "file": "app/sae/modules/Core/Controller/Default/Abstract.php",
-        "hash": "edc9bf151d7f363ed1fb0aab8e94c419"
+        "hash": "a0a755456ca896c917ba81f87f98b5c9"
     },
     {
         "file": "app/sae/modules/Core/Form/Default.php",
@@ -20261,7 +20261,7 @@
     },
     {
         "file": "app/Bootstrap.php",
-        "hash": "51f6592baa07d6ccfaaa838cb4c8ea8e"
+        "hash": "ef86f4f28ca9aa81c80a8eb5936d7333"
     },
     {
         "file": "check_connection.php",
@@ -20945,7 +20945,7 @@
     },
     {
         "file": "lib/Siberian/Db/Table/Rowset.php",
-        "hash": "de5936aefc6c17e44ee8f09279e4a9ae"
+        "hash": "8515c9a715c7aff2ec92c4a88536a863"
     },
     {
         "file": "lib/Siberian/Debug.php",
@@ -36204,8 +36204,36 @@
         "hash": "ae51d2732d97c54042a75e8fb2703d91"
     },
     {
-        "file": "lib/WooCommerce",
-        "hash": false
+        "file": "lib/WooCommerce/Client.php",
+        "hash": "7c741983bfd4f56967c2e464bc1922d2"
+    },
+    {
+        "file": "lib/WooCommerce/HttpClient/BasicAuth.php",
+        "hash": "427b0c430398b0f961befff910f07ae4"
+    },
+    {
+        "file": "lib/WooCommerce/HttpClient/HttpClient.php",
+        "hash": "4739b375c5077215f12e916adc0d3270"
+    },
+    {
+        "file": "lib/WooCommerce/HttpClient/HttpClientException.php",
+        "hash": "66ff4346b47f971cd9ea4780c85f6668"
+    },
+    {
+        "file": "lib/WooCommerce/HttpClient/OAuth.php",
+        "hash": "91a28e037f17978ddcd96d0c887a2570"
+    },
+    {
+        "file": "lib/WooCommerce/HttpClient/Options.php",
+        "hash": "42c03a9141d2bc2527d9cafc0cc2f40c"
+    },
+    {
+        "file": "lib/WooCommerce/HttpClient/Request.php",
+        "hash": "37eb1d23bc580c7eb4b1727fd3ca43ba"
+    },
+    {
+        "file": "lib/WooCommerce/HttpClient/Response.php",
+        "hash": "39b4112cc8621360040e8f00ad49d265"
     },
     {
         "file": "robots.txt",
@@ -43149,7 +43177,7 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/AppsMobileCompany.xcodeproj/project.pbxproj",
-        "hash": "0def508ea46121f5fbf64abebd045d78"
+        "hash": "d58266757b7e18a0101d73021b6dbd58"
     },
     {
         "file": "var/apps/ionic/ios-noads/AppsMobileCompany.xcworkspace/contents.xcworkspacedata",
@@ -49721,7 +49749,7 @@
     },
     {
         "file": "var/apps/ionic/ios/AppsMobileCompany.xcodeproj/project.pbxproj",
-        "hash": "ee2e796431e8813c3539b996bfb5ed01"
+        "hash": "bc68f67e410d8f19ce3da11d7ed9b2eb"
     },
     {
         "file": "var/apps/ionic/ios/AppsMobileCompany.xcworkspace/contents.xcworkspacedata",
@@ -61929,7 +61957,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/AppsMobileCompany.xcodeproj/project.pbxproj",
-        "hash": "de014f5ea48771ae69d64124bc7dfcda"
+        "hash": "6c86b4d9e931396254da2ba2f39fe67e"
     },
     {
         "file": "var/apps/ionic/previewer/ios/AppsMobileCompany.xcworkspace/contents.xcworkspacedata",
@@ -61968,12 +61996,12 @@
         "hash": "33ad969e2fa1488fe73bcb9ab4e0625a"
     },
     {
-        "file": "var/apps/ionic/previewer/ios/AppsMobileCompany/Classes/MainViewController.m",
-        "hash": "8f90d0b5da3cf9e95d9078575e70d531"
-    },
-    {
         "file": "var/apps/ionic/previewer/ios/AppsMobileCompany/Classes/MainViewController.xib",
         "hash": "eb5a7e24959fa4e6e161d85ac1a42c4a"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/AppsMobileCompany/Classes/MainViewController.m",
+        "hash": "bc6e4311f10f2b093c77f5527cc4d9ab"
     },
     {
         "file": "var/apps/ionic/previewer/ios/AppsMobileCompany/Entitlements-Debug.plist",
@@ -68449,23 +68477,23 @@
     },
     {
         "file": "var/apps/ionic/android.tgz",
-        "hash": "6d77e1a6108dc2fdfa151d7844bb28dd"
+        "hash": "c839394f8f452f7d8bee8f7d954afcad"
     },
     {
         "file": "var/apps/ionic/ios.tgz",
-        "hash": "2598995dc2189c4c097ebadd1ec9944e"
+        "hash": "9db9d3d19538bbb7f83d4b412d42793b"
     },
     {
         "file": "var/apps/ionic/ios-noads.tgz",
-        "hash": "8b2da472457a49e85739326aff8dcb84"
+        "hash": "e4279392a9691b9bd9be3d84363373e4"
     },
     {
         "file": "var/apps/ionic/previewer.tgz",
-        "hash": "8858cfb46a28b33bf0b34c3fcbb145b3"
+        "hash": "464f99cf30efb599492159f784aef9ae"
     },
     {
         "file": "var/apps/browser.tgz",
-        "hash": "d34fbb6d77297620958fbe41d8dad509"
+        "hash": "401e600cdaf5f063761d0ff97e6f2f20"
     },
     {
         "file": "var/placeholder.png",

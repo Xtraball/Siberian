@@ -98,12 +98,4 @@ class Siberian_Db_Table_Rowset extends Zend_Db_Table_Rowset_Abstract {
         return $this->_rows[$position];
     }
 
-    public function toArray() {
-        $rowArray = array();
-        foreach ($this as $row) {
-            $rowArray[] = $row;
-        }
-        return $rowArray;
-    }
-
 }

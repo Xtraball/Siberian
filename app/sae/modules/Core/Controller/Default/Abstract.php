@@ -321,6 +321,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
         $path = $this->getRequest()->getParam('path');
         $path = base64_decode($path);
+
         $name = $this->getRequest()->getParam('name');
         $name = base64_decode($name);
 
@@ -705,6 +706,12 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      * @param string $content_type
      */
     protected function _download($file, $filename, $content_type = 'application/vnd.ms-excel') {
+
+        $sibTmpPath = Core_Model_Directory::getBasePathTo("/var/tmp");
+        //check if we download a file from /var/tmp
+        if(stripos($file,$sibTmpPath) !== 0) {
+            throw new Exception("Forbidden path $file");
+        }
 
         $response = $this->getResponse();
 
