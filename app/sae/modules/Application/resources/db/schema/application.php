@@ -307,6 +307,12 @@ $schemas['application'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'facebook_linked_page' => array(
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'googlemaps_key' => array(
         'type' => 'varchar(255)',
         'is_null' => true,

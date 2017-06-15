@@ -182,10 +182,26 @@ $facebook_is_available = $facebook->getAccessToken() != null;
                                 <label><?php echo $this->_('Search') ?> <span class="required-entry required"> *</span> :</label>
                             </div>
                         </div>
+                        <?php
+                            $albums = array();
+                            $current_fb_name = null;
+                        ?>
                         <?php foreach ($images as $image) : ?>
+                            <?php
+                                //Here we store fb gallery information for performance purpose
+                                if($image->getTypeId() == 'facebook') {
+                                    if($current_fb_name != $image->getName()) {
+                                        $current_fb_name = $image->getName();
+                                        $facebook = new Media_Model_Gallery_Image_Facebook();
+                                        $facebook->find(array('gallery_id' => $image->getGalleryId()));
+                                        $albums = $facebook->getAlbums();
+                                    }
+                                }
+                            ?>
                             <?php echo $this->getLayout()->addPartial('row_' . $image->getId(), 'admin_view_default', 'media/application/gallery/image/edit/row.phtml')
                                 ->setCurrentImage($image)
                                 ->setCurrentOptionValue($option_value)
+                                ->setFbAlbums($albums)
                                 ->toHtml()
                             ;?>
                         <?php endforeach; ?>

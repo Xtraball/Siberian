@@ -124,4 +124,18 @@ class LoyaltyCard_Model_Db_Table_Customer_Log extends Core_Model_Db_Table
 
     }
 
+    public function getDlAnalytics($card_id, $start_date, $end_date) {
+        $select = $this->select()
+            ->from(array('main' => $this->_name))
+            ->joinLeft(array('c' => 'customer'), 'c.customer_id = main.customer_id', array('customer_name' => new Zend_Db_Expr('CONCAT(c.firstname, " ", c.lastname)'), 'email'))
+            ->joinLeft(array('lp' => 'loyalty_card_password'), 'main.password_id = lp.password_id', array('employee_name' => 'name'))
+            ->where('main.created_at >= ?', $start_date)
+            ->where('main.created_at <= ?', $end_date)
+            ->where('main.card_id = ?', $card_id)
+            ->setIntegrityCheck(false)
+        ;
+
+        return $this->fetchAll($select);
+    }
+
 }

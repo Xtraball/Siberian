@@ -202,7 +202,6 @@ var bindForms = function(default_parent, success_cb, error_cb) {
 };
 
 var _bindForms = function(default_parent, success_cb, error_cb) {
-
     $(default_parent+" .nav-tabs a[role='tab']").on("click", function() {
         last_tab = $(this).attr("href");
     });
@@ -234,7 +233,7 @@ var _bindForms = function(default_parent, success_cb, error_cb) {
 
     var handleRichtext = function() {
         /** Bind ckeditors (only visible ones) */
-        $(default_parent+' .richtext:visible').each(function() {
+        $(default_parent+' .richtext').each(function() {
             var el = $(this);
             var ck_key = el.attr("ckeditor");
             var ck_config = (ck_key in ckeditor_config) ? ckeditor_config[ck_key] : ckeditor_config["default"];

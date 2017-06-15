@@ -21,6 +21,10 @@
     }
     usort($opts, "alphasort");
     $options = $opts;
+
+    //For Facebook import
+    $app_id     = Core_Model_Lib_Facebook::getAppId();
+    $app_secret = Core_Model_Lib_Facebook::getSecretKey();
 ?>
 
 
@@ -31,6 +35,13 @@
         </script>
         <h3 class="title-editor border-blue">
             <?php echo __('Your pages'); ?>
+            <?php if($app_id AND $app_secret): ?>
+                <?php if(System_Model_Config::getValueFor("facebook_import_active") AND $this->_canAccess("editor_facebook_import")): ?>
+                    <button id="import_facebook" class="color-blue bt-header-right btn pull-right bt-import-fb" onclick="modal_fb_import.show()">
+                        <?php echo __("Facebook Import") ?>
+                    </button>
+                <?php endif; ?>
+            <?php endif; ?>
             <?php if(APPLICATION_ENV != "production"): ?>
             <button id="feature_import_export" class="color-blue bt-header-right btn import-feature pull-right export-button">
                 <?php echo __("Import / Export") ?>
@@ -188,6 +199,20 @@
 </div>
 
 <script type="text/javascript">
+
+    <?php if($app_id AND $app_secret): ?>
+        <?php if($this->_canAccess("editor_facebook_import")) : ?>
+            <?php if(System_Model_Config::getValueFor("facebook_import_active") AND $this->_canAccess("editor_facebook_import")): ?>
+                var modal_fb_import = new Modal({
+                    id: 'modal_fb_import',
+                    url: '<?php echo $this->getUrl('importer/facebook/getmodaltemplate', array("color" => "blue")); ?>',
+                    is_retain: true,
+                    width: 800,
+                    height: 'auto'
+                });
+            <?php endif; ?>
+        <?php endif; ?>
+    <?php endif; ?>
 
 var carousel = null;
 $(document).ready(function () {
@@ -1532,6 +1557,17 @@ function WidthChangeV2(mql) {
     }
     .carret li a.button_handler:hover {
         transition: none 0s ease 0s;
+    }
+    .bt-import-fb{
+        position: absolute;
+    <?php if(APPLICATION_ENV != "production"): ?>
+        right: 150px;
+    <?php else: ?>
+        right: 0px;
+    <?php endif; ?>
+        width: auto;
+        padding: 5px;
+        text-transform: uppercase;
     }
 </style>
 

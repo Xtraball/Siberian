@@ -62,7 +62,7 @@ class Mcommerce_Controller_Mobile_Default extends Application_Controller_Mobile_
                     ->save();
                 $this->getSession()->setCart($cart);
             } else {
-                $logger->debug("Cart already exists: " . print_r($cart, true));
+                $logger->debug("Cart already exists.");
             }
         }
         $this->_cart = $cart;

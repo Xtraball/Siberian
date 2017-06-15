@@ -44,7 +44,7 @@ class Media_Mobile_Gallery_Image_ViewController extends Application_Controller_M
                 if ($image->getTypeId() == "flickr") {
                     $data["show_load_more"] = $image->getTypeInstance()->showLoadMore();
                 } elseif($image->getTypeId() == "facebook"){
-                    $data["show_load_more"] = !is_null($images[0]->getOffset());
+                    $data["show_load_more"] = $images[0] ? !is_null($images[0]->getOffset()) : false;
                 } else if($image->getTypeId() != "custom") {
                     $data["show_load_more"] = count($data["images"]) > 0;
                 }  else {

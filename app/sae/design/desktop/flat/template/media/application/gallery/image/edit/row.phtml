@@ -45,7 +45,7 @@
         <?php
         $facebook = new Media_Model_Gallery_Image_Facebook();
         $facebook->find(array('gallery_id' => $image->getGalleryId()));
-        $albums = $facebook->getAlbums();
+        $albums = $this->getFbAlbums();
         ?>
         <input type="hidden" value="<?php echo $facebook->getImageId()?>" name="image_id">
         <select name="param_facebook" id="input_facebook" class="sb-select styled-select color-blue form-control no-dk required new_search_input">

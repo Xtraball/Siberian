@@ -707,11 +707,6 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      */
     protected function _download($file, $filename, $content_type = 'application/vnd.ms-excel') {
 
-        $sibTmpPath = Core_Model_Directory::getBasePathTo("/var/tmp");
-        //check if we download a file from /var/tmp
-        if(stripos($file,$sibTmpPath) !== 0) {
-            throw new Exception("Forbidden path $file");
-        }
 
         $response = $this->getResponse();
 
@@ -723,6 +718,12 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         $response->setHeader('Last-Modified', date('r'));
 
         if(file_exists($file)) {
+
+            $sibTmpPath = Core_Model_Directory::getBasePathTo("/var/tmp");
+            //check if we download a file from /var/tmp
+            if(stripos($file,$sibTmpPath) !== 0) {
+                throw new Exception("Forbidden path $file");
+            }
 
             $response->setHeader('Content-Length', filesize($file));
             $response->sendHeaders();

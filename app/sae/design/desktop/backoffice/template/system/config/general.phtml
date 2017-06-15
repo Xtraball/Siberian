@@ -7,6 +7,13 @@
                 <label for="{{ configs.platform_name.code }}">{{ configs.platform_name.label }}</label>
                 <input type="text" id="{{ configs.platform_name.code }}" ng-model="configs.platform_name.value" class="form-control" placeholder="{{ configs.platform_name.label }}" />
             </div>
+            <div class="col-md-6">
+                <label for="{{ configs.facebook_import_active.code }}">{{ configs.facebook_import_active.label }}</label>
+                <select id="{{ configs.facebook_import_active.code }}" class="form-control" ng-model="configs.facebook_import_active.value">
+                    <option value="1"><?php echo __("Active"); ?></option>
+                    <option value="0"><?php echo __("Inactive"); ?></option>
+                </select>
+            </div>
         </div>
 
     </sb-section>
