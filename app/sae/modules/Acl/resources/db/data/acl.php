@@ -57,7 +57,11 @@ $resource_data = array(
                 "label" => "Access the Publication tab",
                 "url" => "application/customization_publication_infos/index",
             ),
-
+            array(
+                "code"  => "editor_facebook_import",
+                "label" => "Import features from Facebook",
+                "url"   => "importer/*"
+            ),
             array(
                 "code" => "editor_settings",
                 "label" => "Access the settings from the editor",

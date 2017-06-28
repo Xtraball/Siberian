@@ -125,11 +125,29 @@ class Push_Model_Message extends Core_Model_Default {
     }
 
     public function getTitle() {
-        return mb_convert_encoding($this->getData('title'), 'UTF-8', 'UTF-8');
+        return !!$this->getData("base64") ? base64_decode($this->getData("title")) : mb_convert_encoding($this->getData('title'), 'UTF-8', 'UTF-8');
     }
 
     public function getText() {
-        return mb_convert_encoding($this->getData('text'), 'UTF-8', 'UTF-8');
+      return !!$this->getData("base64") ? base64_decode($this->getData("text")) : mb_convert_encoding($this->getData('text'), 'UTF-8', 'UTF-8');
+    }
+
+    public function setTitle($title) {
+        $text = $this->getText();
+        return $this->addData(array(
+            "base64" => 1,
+            "title" => base64_encode($title),
+            "text" => base64_encode($text)
+        ));
+    }
+
+    public function setText($text) {
+        $title = $this->getTitle();
+        return $this->addData(array(
+            "base64" => 1,
+            "title" => base64_encode($title),
+            "text" => base64_encode($text)
+        ));
     }
 
     public function markAsRead($device_uid,$message_id = null) {

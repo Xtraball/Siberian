@@ -87,10 +87,10 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
     public function getBrandName() {
         return "Apple";
     }
-    
+
     public function prepareResources($cron = false) {
 
-        self::$_application = $this->getApplication();
+        self::$_application = $this->_application = $this->getApplication();
 
         $this->_package_name = self::$_application->getBundleId();
         $this->_application_id = Core_Model_Lib_String::format(self::$_application->getName()."_".self::$_application->getId(), true);

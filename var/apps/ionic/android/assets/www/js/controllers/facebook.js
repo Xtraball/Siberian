@@ -38,7 +38,7 @@ App.config(function($stateProvider) {
 
         Facebook.findUser().success(function(user) {
 
-            user.picture = Facebook.host_img+user.id+"/picture?width=400";
+                user.picture = Facebook.getPictureUrl(user.id, 400);
 
             $scope.cover_image_style = {};
             if(user.cover) {
@@ -95,8 +95,8 @@ App.config(function($stateProvider) {
 
                     /** Better picture */
                     var picture = post.full_picture;
-                    if(post.type ==  "photo") {
-                        picture = Facebook.host_img+post.object_id+"/picture?width=480";
+                    if(post.type === "photo") {
+                        picture = Facebook.getPictureUrl(post.object_id, 480);
                     }
 
                     post.picture = picture;
@@ -167,12 +167,6 @@ App.config(function($stateProvider) {
 
 }).controller('FacebookViewController', function($filter, $rootScope, $scope, $stateParams, $translate, Dialog, Facebook) {
 
-    $scope.$on("connectionStateChange", function(event, args) {
-        if(args.isOnline == true) {
-            $scope.loadContent();
-        }
-    });
-
     $scope.is_loading = false;
     $scope.comments = new Array();
     $scope.show_form = false;
@@ -212,7 +206,7 @@ App.config(function($stateProvider) {
                     for(var i in _post.comments.data) {
                         var comment = _post.comments.data[i];
                         comment.name = comment.from.name;
-                        comment.picture = Facebook.host_img+comment.from.id+"/picture?width=150";
+                        comment.picture = Facebook.getPictureUrl(comment.from.id, 150);
                         comment.created_at = comment.created_time;
                         delete comment.created_time;
                         delete comment.from;
@@ -231,19 +225,19 @@ App.config(function($stateProvider) {
                 }
 
                 var picture = _post.full_picture;
-                if(_post.type ==  "photo") {
-                    picture = Facebook.host_img+_post.object_id+"/picture?width=480";
+                if(_post.type === "photo") {
+                    picture = Facebook.getPictureUrl(_post.object_id, 480);
                 }
                 _post.picture = picture;
                 _post.created_at = _post.created_time;
                 _post.title = _post.name;
                 _post.author = _post.from.name;
-                _post.icon = Facebook.host_img+_post.from.id+"/picture?width=150";
+                _post.icon = Facebook.getPictureUrl(_post.from.id, 150);
                 delete _post.full_picture;
                 delete _post.created_time;
                 delete _post.name;
                 delete _post.from;
-                
+
                 _post.message = $filter("linky")(_post.message);
                 _post.description = $filter("linky")(_post.description);
 

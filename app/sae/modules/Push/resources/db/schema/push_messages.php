@@ -44,14 +44,18 @@ $schemas['push_messages'] = array(
         'default' => '1',
     ),
     'title' => array(
-        'type' => 'varchar(30)',
+        'type' => 'text',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
     'text' => array(
-        'type' => 'varchar(255)',
+        'type' => 'text',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
+    ),
+    'base64' => array(
+      'type' => 'tinyint(1)',
+      'default' => '0'      
     ),
     'base_url' => array(
         'type' => 'varchar(255)',

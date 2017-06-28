@@ -665,9 +665,15 @@ class Analytics_AnalyticsController extends Application_Controller_Default {
 
                 $loyalties = new LoyaltyCard_Model_Customer_Log();
                 $lines = $loyalties->getDlAnalytics($data["card_id"], $start_date, $end_date);
-                $csv_string = "Customer Name;Customer Email;Employee name;Number of points;Date\n";
+                $csv_string = "Customer Name;Customer Email;Employee name;Number of points;Date;Reward\n";
                 foreach($lines as $loyalty) {
-                    $csv_string .= $loyalty->getCustomerName() . ";" . $loyalty->getEmail() . ";" . $loyalty->getEmployeeName() . ";" . $loyalty->getNumberOfPoints() . ";" . $loyalty->getCreatedAt() . "\n";
+                    $csv_string .= $loyalty->getCustomerName() . ";" . $loyalty->getEmail() . ";" . $loyalty->getEmployeeName() . ";" . $loyalty->getNumberOfPoints() . ";" . $loyalty->getCreatedAt() . ";No\n";
+                }
+
+                //Add rewards
+                $lines = $loyalties->getDlRewards($data["card_id"], $start_date, $end_date);
+                foreach($lines as $loyalty) {
+                    $csv_string .= $loyalty->getCustomerName() . ";" . $loyalty->getEmail() . ";" . $loyalty->getEmployeeName() . ";" . $loyalty->getNumberOfPoints() . ";" . $loyalty->getUsedAt() . ";".$loyalty->getAdvantage()."\n";
                 }
                 $filename = "analytic_validations_by_users_".date("Ymd").".csv";
                 header('Content-Type: application/csv');

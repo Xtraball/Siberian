@@ -58,9 +58,11 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     $data["location"] = $store->getStoreName();
 
                     $new_date = new Zend_Date();
+
                     // Replace unknown timezone with server timezone, as it's a booking date
                     $date_str = preg_replace("/-00:00$/", $new_date->get(Zend_Date::GMT_DIFF_SEP), $data["date"]);
-                    $data["date"] = $new_date->setTimestamp(strtotime($date_str));
+
+                    $data["date"] = $new_date->set($date_str);
 
                     //vérif value
                     $booking = new Booking_Model_Booking();

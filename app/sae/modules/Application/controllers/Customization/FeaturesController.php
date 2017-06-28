@@ -64,14 +64,21 @@ class Application_Customization_FeaturesController extends Application_Controlle
         );
 
         foreach($features as $feature) {
-            $feature_model = $feature->getModel();
-            $feature_model = new $feature_model();
+            try{
+                $feature_model = $feature->getModel();
+                if(!class_exists($feature_model)) {
+                    throw new Exception("Class doesn't exists : ".$feature_model);
+                }
+                $feature_model = new $feature_model();
 
-            if($feature_states = $feature_model->getInappStates($feature->getValueId())) {
-                $states[] = array(
-                    __($feature->getTabbarname()),
-                    $feature_states
-                );
+                if($feature_states = $feature_model->getInappStates($feature->getValueId())) {
+                    $states[] = array(
+                        __($feature->getTabbarname()),
+                        $feature_states
+                    );
+                }
+            } catch(Exception $e) {
+                log_info($e->getMessage());
             }
         }
 

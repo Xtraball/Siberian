@@ -3,7 +3,7 @@
 <?php $demo_label = $demo_mode ? " ".$this->_("(DEMO)") : ""; ?>
 <?php
 $api = Api_Model_Key::findKeysFor("googlemaps");
-$googlemaps_key = $api->getSecretKey();
+$googlemaps_key = $api->getSecretKey() ? $api->getSecretKey() : $application->getGooglemapsKey();
 ?>
 <div class="application_analytics application content solo-page">
     <h3 class="title-editor border-blue"><?php echo $this->_('App analytics'); ?></h3>

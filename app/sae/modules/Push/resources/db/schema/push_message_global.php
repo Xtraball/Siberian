@@ -14,14 +14,18 @@ $schemas['push_message_global'] = array(
         'primary' => true,
     ),
     'title' => array(
-        'type' => 'varchar(30)',
+        'type' => 'text',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
     'message' => array(
-        'type' => 'varchar(255)',
+        'type' => 'text',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
+    ),
+    'base64' => array(
+        'type' => 'tinyint(1)',
+        'default' => '0'
     ),
     'send_to_all' => array(
         'type' => 'tinyint(1)',

@@ -31,7 +31,7 @@ App.factory('Booking', function($rootScope, $sbhttp, Url) {
             var date = new Date(data.date);
             var zeroPad = function(e) { return ("00"+e).slice(-2); };
             // Send date with unknown timezone (timezone will be replaced server side)
-            data.date = date.getFullYear()+"-"+zeroPad(date.getMonth())+"-"+zeroPad(date.getDate())+"T"+zeroPad(date.getHours())+":"+zeroPad(date.getMinutes())+":"+zeroPad(date.getSeconds())+"-00:00";
+            data.date = date.getFullYear()+"-"+zeroPad(date.getMonth()+1)+"-"+zeroPad(date.getDate())+"T"+zeroPad(date.getHours())+":"+zeroPad(date.getMinutes())+":"+zeroPad(date.getSeconds())+"-00:00";
         }
 
         return $sbhttp.post(url, data);

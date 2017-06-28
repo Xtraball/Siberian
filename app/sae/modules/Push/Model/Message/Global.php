@@ -82,4 +82,31 @@ class Push_Model_Message_Global extends Core_Model_Default {
         }
 
     }
+
+    public function getTitle() {
+        return !!$this->getData("base64") ? base64_decode($this->getData("title")) : $this->getData("title");
+    }
+
+    public function getMessage() {
+      return !!$this->getData("base64") ? base64_decode($this->getData("message")) : $this->getData('message');
+    }
+
+    public function setTitle($title) {
+        $text = $this->getText();
+        return $this->addData(array(
+            "base64" => 1,
+            "title" => base64_encode($title),
+            "message" => base64_encode($text)
+        ));
+    }
+
+    public function setMessage($text) {
+        $title = $this->getTitle();
+        return $this->addData(array(
+            "base64" => 1,
+            "title" => base64_encode($title),
+            "message" => base64_encode($text)
+        ));
+    }
+
 }

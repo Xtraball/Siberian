@@ -128,7 +128,7 @@ App.factory('Youtube', function($q, $sbhttp) {
 
         $sbhttp({
             method: 'GET',
-            url: "https://www.googleapis.com/youtube/v3/channels?part=stentDetails&key=" + factory.key + "&forUsername="+keyword + "&order=date",
+            url: "https://www.googleapis.com/youtube/v3/channels?part=contentDetails&key=" + factory.key + "&forUsername="+keyword + "&order=date",
             cache: false,
             responseType:'json'
         }).success(function(data) {

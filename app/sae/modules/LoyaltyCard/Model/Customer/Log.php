@@ -96,4 +96,8 @@ class LoyaltyCard_Model_Customer_Log extends Core_Model_Default
         return $this->getTable()->getDlAnalytics($card_id, $start_date, $end_date);
     }
 
+    public function getDlRewards($card_id, $start_date, $end_date) {
+        return $this->getTable()->getDlRewards($card_id, $start_date, $end_date);
+    }
+
 }

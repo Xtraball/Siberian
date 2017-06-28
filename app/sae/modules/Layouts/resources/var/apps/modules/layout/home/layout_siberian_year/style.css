@@ -324,3 +324,10 @@
 .layout.layout_siberian_year.modal img {width: 30px; height: 30px;}
 .layout.layout_siberian_year.modal p {line-height: 20px; height: 20px; overflow: hidden;}
 .layout.layout_siberian_year .no-border{border-top:none; box-shadow: none;}
+
+@media screen and (min-width:680px) {
+    .layout.layout_siberian_year.modal{
+        right: 0 !important;
+        left: 0 !important
+    }
+}

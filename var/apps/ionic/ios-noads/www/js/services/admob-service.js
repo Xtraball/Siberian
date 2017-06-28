@@ -123,7 +123,7 @@ App.service("AdmobService", function ($rootScope, $window) {
         if(options.interstitial) {
 
             $window.AdMob.prepareInterstitial({
-                adId:       options.insterstitial_id,
+                adId:       options.interstitial_id,
                 autoShow:   false
             });
 
@@ -142,7 +142,7 @@ App.service("AdmobService", function ($rootScope, $window) {
 
                     /** Then prepare the next one. */
                     $window.AdMob.prepareInterstitial({
-                        adId:       options.insterstitial_id,
+                        adId:       options.interstitial_id,
                         autoShow:   false
                     });
 

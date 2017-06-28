@@ -94,10 +94,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
 
     $scope.goTo = function(feature) {
 
-        if(feature.code == "code_scan") {
-        	$window.scan_camera_protocols = JSON.stringify(["tel:", "http:", "https:", "geo:", "ctc:"]);
-            Application.openScanCamera({protocols: ["tel:", "http:", "https:", "geo:", "ctc:"]}, function(qrcode) {}, function() {});
-        } else if(feature.offline_mode !== true && $rootScope.isOffline) {
+        if(feature.offline_mode !== true && $rootScope.isOffline) {
             $rootScope.onlineOnly();
             return;
         }  else if(feature.is_link) {

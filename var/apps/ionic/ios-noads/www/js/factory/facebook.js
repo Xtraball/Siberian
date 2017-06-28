@@ -14,8 +14,18 @@ App.factory('Facebook', function($cacheFactory, $sbhttp, $q, $rootScope, Url) {
     self.page_urls = new Array();
     self.displayed_per_page = 22;
     self.host = "https://graph.facebook.com/v2.7/";
-    self.host_img = "https://graph.facebook.com/";
+    self.host_img = "https://graph.facebook.com/v2.7/";
     self.cache = $cacheFactory("facebook");
+
+    /**
+     * Build picture url
+     *
+     * @param picture_id
+     * @returns {string}
+     */
+    self.getPictureUrl = function(picture_id, size) {
+        return self.host_img + picture_id + "/picture?width=" + size + "&access_token=" + self.token;
+    };
 
     /**
      * Fetch data for Facebook Page

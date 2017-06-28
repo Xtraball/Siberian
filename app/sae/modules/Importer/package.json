@@ -6,6 +6,9 @@
     "system": {
       "type": "SAE",
       "version": "4.2.0"
+    },
+    "modules": {
+      "Acl": "4.10.0"
     }
   }
 }

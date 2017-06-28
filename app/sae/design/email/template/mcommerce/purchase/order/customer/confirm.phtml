@@ -124,23 +124,6 @@ $customer = $order->getCustomer();
                             <td style="font-size:13px;" align="right"></td>
                         </tr>
                     <?php endforeach; ?>
-
-                    <?php foreach ($line->getOptions() as $option) : ?>
-                        <?php
-                        $displayPrice = Mcommerce_Model_Utility::displayPrice($option->getPrice(), 0, $option->getQty());
-                        $displayPriceInclTax = Mcommerce_Model_Utility::displayPrice($option->getPrice(), $line->getTaxRate(), $line->getQty());
-                        $displayBasePrice = Mcommerce_Model_Utility::displayPrice($option->getPrice(), 0);
-                        $displayBasePriceInclTax = Mcommerce_Model_Utility::displayPrice($option->getPrice(), $line->getTaxRate());
-                        ?>
-                        <tr>
-                            <td style="font-size:13px;">+ <?php echo $option->getQty(); ?>
-                                x <?php echo $option->getName(); ?></td>
-                            <td style="font-size:13px;" align="right"><?php echo $displayBasePriceInclTax; ?></td>
-                            <td style="font-size:13px;"
-                                align="center"><?php echo $option->getQty() * $line->getQty(); ?></td>
-                            <td style="font-size:13px;" align="right"><?php echo $displayPriceInclTax; ?></td>
-                        </tr>
-                    <?php endforeach; ?>
                     <tr>
                         <td colspan="4">
                             <div

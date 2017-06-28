@@ -68,9 +68,7 @@ if($has_previewer && method_exists("Previewer_Model_Previewer", "getInstance")) 
 </div>
 
 <?php if($this->_canAccess("editor_publication") AND $level1 == 'publication_infos' AND ($publish_type == 'info' OR !$this->getApplication()->subscriptionIsActive()) AND $this->getApplication()->canBePublished()) : ?>
-    <?php if(!$this->getApplication()->subscriptionIsOffline() OR $this->getApplication()->subscriptionIsDeleted()): ?>
-        <div class="ready_for_publish container-fluid">
-            <a class="btn color-dark-red publish_my_app" href="<?php echo $this->getUrl('application/customization/check'); ?>" onclick="reload(this, this.href, true); return false;"><?php echo $this->_('Ready ? Publish my app!'); ?></a>
-        </div>
-    <?php endif; ?>
+    <div class="ready_for_publish container-fluid">
+        <a class="btn color-dark-red publish_my_app" href="<?php echo $this->getUrl('application/customization/check'); ?>" onclick="reload(this, this.href, true); return false;"><?php echo $this->_('Ready ? Publish my app!'); ?></a>
+    </div>
 <?php endif; ?>

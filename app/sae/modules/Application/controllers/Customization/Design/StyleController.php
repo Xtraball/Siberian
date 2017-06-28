@@ -94,7 +94,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
                 }
 
                 if(!isset($datas["homepageoptions"])) {
-                    $application->setLayoutOptions(Siberian_Json::encode($datas));
+                    $application->setLayoutOptions(Siberian_Json::encode($datas, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
                 }
 
                 $application->save();
@@ -399,7 +399,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
                 $folder = Application_Model_Application::getBaseImagePath().$relative_path;
                 $datas['dest_folder'] = $folder;
                 $datas['ext'] = 'jpg';
-                
+
                 $uploader = new Core_Model_Lib_Uploader();
                 $file = $uploader->savecrop($datas);
 
@@ -414,7 +414,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
                         $application->setBackgroundImageTablet($relative_path.$file);
                         break;
                 }
-                
+
                 $application->save();
 
                 $url = $application->getHomepageBackgroundImageUrl($filetype);
@@ -737,4 +737,3 @@ class Application_Customization_Design_StyleController extends Application_Contr
     }
 
 }
-

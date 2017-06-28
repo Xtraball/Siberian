@@ -295,12 +295,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         }
 
         /** Minify Cache */
-        $minifier = new Siberian_Minify();
-        $minifier->build();
+        if(Installer_Model_Installer::isInstalled()) {
+            $minifier = new Siberian_Minify();
+            $minifier->build();
+        }
+
     }
 
     protected function _initModules() {
-
 
         if(!$this->_request->isInstalling()) {
 

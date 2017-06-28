@@ -36,7 +36,7 @@ class Core_Model_Lib_Qrcode {
         }
 
         $url = "https://chart.apis.google.com/chart?cht=qr&chl={$params['text']}"
-             . "&chld={$params['correction']}|{$params['margin']}"
+             . "&chld={$params['correction']}%7C{$params['margin']}"
              . "&chs={$params['size']}";
 
         if(!empty($params['without_template'])) {

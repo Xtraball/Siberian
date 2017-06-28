@@ -371,6 +371,18 @@ class Mcommerce_Model_Order extends Core_Model_Default {
             $page->drawText(html_entity_decode($this->formatPrice($this->getPaidAmount() - $this->getTotal()), ENT_COMPAT, "UTF-8"), 502, $y_ref);
         }
 
+        //Notes
+        if($this->getNotes()) {
+            $y-=75;
+            $page->setFont($font_bold, 12);
+            $page->drawText(__("Notes"), 50, $y);$y-=10;
+            $page->drawLine(50, $y, 550, $y);$y--;
+            $page->drawLine(50, $y, 550, $y);$y-=15;
+            $page->setFont($font_regular, 11);
+            $y_ref = $y;
+            $page->drawText(html_entity_decode($this->getNotes(), ENT_COMPAT, "UTF-8"), 50, $y_ref);
+        }
+
         return $pdf;
     }
 

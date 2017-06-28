@@ -110,7 +110,10 @@ class Push_ApplicationController extends Application_Controller_Default
                 }
 
 
-                $message->setData($data)->save();
+                $message->setData($data);
+                // Use new methods for automatic base64 conversion
+                $message->setTitle($data["title"])->setText($data["text"]);
+                $message->save();
 
                 //PnTopics
                 if($data["topic_receiver"]) {
