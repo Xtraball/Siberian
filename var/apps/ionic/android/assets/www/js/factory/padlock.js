@@ -1,10 +1,26 @@
+/*global
+ App, angular
+ */
 
-App.factory('Padlock', function($rootScope, $sbhttp, httpCache, Url) {
+/**
+ * Padlock
+ *
+ * @author Xtraball SAS
+ */
+angular.module("starter").factory("Padlock", function($pwaRequest) {
 
-    var factory = {};
+    var factory = {
+        value_id    : null,
+        events      : {}
+    };
 
-    factory.value_id = null;
-    factory.events = {};
+    /**
+     *
+     * @param value_id
+     */
+    factory.setValueId = function(value_id) {
+        factory.value_id = value_id;
+    };
 
     factory.onStatusChange = function(id, urls) {
         factory.events[id] = urls;
@@ -17,7 +33,9 @@ App.factory('Padlock', function($rootScope, $sbhttp, httpCache, Url) {
             if(angular.isArray(factory.events[i])) {
                 var data = factory.events[i];
                 for(var j = 0; j < data.length; j++) {
-                    httpCache.remove(data[j]);
+
+                    /** Trigger a cahce refresh */
+                    $pwaRequest.cache(data[j]);
                 }
             }
 
@@ -25,33 +43,44 @@ App.factory('Padlock', function($rootScope, $sbhttp, httpCache, Url) {
     };
 
     factory.findUnlockTypes = function() {
-        return $sbhttp({
-            method: 'GET',
-            url: Url.get("padlock/mobile_view/findunlocktypes", {value_id: this.value_id}),
-            cache: !$rootScope.isOverview,
-            responseType:'json'
+
+        if(!this.value_id) {
+            return $pwaRequest.reject("[Factory::Padlock.findUnlockTypes] missing value_id");
+        }
+
+        return $pwaRequest.get("padlock/mobile_view/findunlocktypes", {
+            urlParams: {
+                value_id: this.value_id
+            }
         });
+
     };
 
     factory.find = function() {
 
-        if(!angular.isDefined(this.value_id)) return;
+        if(!this.value_id) {
+            return $pwaRequest.reject("[Factory::Padlock.find] missing value_id");
+        }
 
-        return $sbhttp({
-            method: 'GET',
-            url: Url.get("padlock/mobile_view/find", {value_id: this.value_id}),
-            cache: !$rootScope.isOverview,
-            responseType:'json'
+        return $pwaRequest.get("padlock/mobile_view/find", {
+            urlParams: {
+                value_id: this.value_id
+            }
         });
     };
 
     factory.unlockByQRCode = function(qrcode) {
-        var url = Url.get("padlock/mobile_view/unlockByQRCode");
-        var data = {
-            qrcode: qrcode
-        };
 
-        return $sbhttp.post(url, data);
+        if(!qrcode) {
+            return $pwaRequest.reject("[Factory::Padlock.unlockByQRCode] missing value_id");
+        }
+
+        return $pwaRequest.post("padlock/mobile_view/unlockByQRCode", {
+            data: {
+                qrcode: qrcode
+            },
+            cache: false
+        });
     };
 
     return factory;

@@ -16,7 +16,7 @@ $event_type_list = array(
 <div class="form_content">
     <div id="list">
         <h3 class="title-editor no-border-radius title-feature-indent">
-            <?php echo $this->_('Add') ?>
+            <?php echo $this->_(('Add content')) ?>
             <button type="button" onclick="$('#new_event').hide(); $('#new_events_gallery').fadeIn(); $('#no_item').hide();" class="btn color-blue toggle_design pull-right bt-header-right btn" id="add_item">
                 <i class="fa fa-plus"></i>
             </button>
@@ -24,7 +24,7 @@ $event_type_list = array(
 
         <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
 
-        <div id="new_events_gallery" style="display:none;" class="container-fluid">
+        <div id="new_events_gallery" style="display:none;" class="container-fluid content-feature">
             <div id="choose_type">
                 <ul class="list-group">
                     <div>
@@ -67,12 +67,12 @@ $event_type_list = array(
         <?php if($events->count() > 0) : ?>
             <div id="existing_items_section">
                 <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo $this->_('Manage'); ?>
+                    <?php echo $this->_(('Manage content')); ?>
                     <button type="button" class="color-blue pull-right bt-header-right btn" id="toggle_existing_items">
-                        <i class="fa fa-chevron-down"></i>
+                        <i class="fa fa-angle-down"></i>
                     </button>
                 </h3>
-                <div id="existing_items" style="display:none;" class="container-fluid first-row-feature">
+                <div id="existing_items" style="display:none;" class="container-fluid first-row-feature content-feature">
                     <ul class="list-group">
                         <?php foreach($events as $event) : ?>
                             <li class="list-group-item content-white-bkg">
@@ -84,7 +84,7 @@ $event_type_list = array(
                                         <?php echo $this->_($event_type_list[$event->getEventType()]); ?>
                                     </div>
                                     <div class="col-sm-2 text-right bold actions">
-                                        <i class="editCurrentEvent fa fa-edit"></i>
+                                        <i class="editCurrentEvent fa fa-pencil"></i>
                                         <i class="delete_event fa fa-remove"></i>
                                         <input type="hidden" name="id" value="<?php echo $event->getId(); ?>" />
                                         <input type="hidden" name="name" value="<?php echo $event->getName(); ?>" />
@@ -197,13 +197,13 @@ $event_type_list = array(
         cursor:pointer;
     }
     #choose_type ul {
-        padding-left: 26%;
+        padding-left: 20%;
     }
     #choose_type li {
         float: left;
         padding-top: 20px;
         width: 120px;
-        margin-bottom: 15px;
+        margin-right:2px;
     }
     .fa-facebook, .fa-calendar{font-size:2em}
 </style>
@@ -256,10 +256,17 @@ $event_type_list = array(
     });
 
     page.setCallback('didappear', function() {
-        $('#toggle_existing_items').click(function() {
-            $('#existing_items').stop().slideToggle(300, function() {
-                if($(this).is(':visible')) $('#toggle_existing_items').children('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
-                else $('#toggle_existing_items').children('i').removeClass('fa-chevron-up').addClass('fa-chevron-down')
+        $('#toggle_existing_items').click(function () {
+            $('#existing_items').stop().slideToggle(300, function () {
+                if ($(this).is(':visible')) {
+                    $('#toggle_existing_items').children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+                    $('#toggle_existing_items').removeClass('color-blue');
+                }
+                else
+                {
+                    $('#toggle_existing_items').children('i').removeClass('fa-angle-up').addClass('fa-angle-down');
+                    $('#toggle_existing_items').addClass('color-blue');
+                }
             });
         });
 

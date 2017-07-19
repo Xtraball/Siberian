@@ -8,10 +8,6 @@
  * @note preparation for the incoming cron scheduler.
  *
  */
-if(version_compare(PHP_VERSION, '5.3.0') < 0) {
-    die("PHP >=5.3 is required.\n");
-}
-
 require_once dirname(__FILE__)."/config.php";
 
 # Test purpose only
@@ -70,6 +66,24 @@ $interval = System_Model_Config::getValueFor("cron_interval");
 $interval = (($interval >= 10) && ($interval < 51)) ? $interval : false;
 
 defined("DESIGN_CODE") || define("DESIGN_CODE", design_code());
+
+/** Creating an Alert in the Backoffice rather than killing the process */
+if(version_compare(PHP_VERSION, '5.6.0') < 0) {
+    $description = "PHP version >= 5.6.0 is required for the cron scheduler to run correctly, your php-cli version is " . PHP_VERSION . ".";
+
+    $notification = new Backoffice_Model_Notification();
+    $notification
+        ->setTitle(__("Alert: PHP version >= 5.6.0 is required for the cron scheduler to run correctly"))
+        ->setDescription(__($description))
+        ->setSource("cron")
+        ->setType("alert")
+        ->setIsHighPriority(1)
+        ->setObjectType("cron_scheduler")
+        ->setObjectId("42")
+        ->save();
+
+    die("PHP >=5.6 is required.\n");
+}
 
 $cron = new Siberian_Cron();
 $cron->triggerAll();

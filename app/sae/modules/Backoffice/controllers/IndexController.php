@@ -124,6 +124,11 @@ class Backoffice_IndexController extends Backoffice_Controller_Default
 
                         Siberian_Cache::__clearLocks("source_locks");
                         break;
+                    case "generator":
+                        $message = __("Removing CRON Scheduler generator lock files.");
+
+                        Siberian_Cache::__clearLocks("generator");
+                        break;
                     case "app_manifest":
                         $message = __("Rebuilding application manifest files.");
 

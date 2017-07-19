@@ -1,5 +1,5 @@
 /*global
- App, ionic, _
+ angular, ionic, _
  */
 
 /**
@@ -46,7 +46,7 @@
     }
 }
  */
-App.service("AdmobService", function ($rootScope, $window) {
+angular.module("starter").service("AdmobService", function ($rootScope, $window) {
 
     var service = {
         interstitialWeights: {

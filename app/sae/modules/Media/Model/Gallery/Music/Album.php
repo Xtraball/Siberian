@@ -109,4 +109,36 @@ class Media_Model_Gallery_Music_Album extends Core_Model_Default {
         return $name;
     }
 
+    /** API v2 introduced in Siberian 5.0 with Progressive Web Apps. */
+    public static function _toJson($value_id, $album) {
+
+        $total_duration     = $album->getTotalDuration();
+        $total_tracks       = $album->getTotalTracks();
+        $url = __path("media/mobile_gallery_music_album/index", array(
+            "value_id" => $value_id,
+            "album_id" => $album->getId()
+        ));
+        $element = "album";
+
+        $artwork_url = $album->getArtworkUrl();
+        if(stripos($artwork_url, "http") === false) {
+            $artwork_url = Core_Model_Directory::getBasePathTo($artwork_url);
+        }
+        $artwork_image = Siberian_Image::open($artwork_url)->cropResize(256)->inline();
+
+        $json = array(
+            "id"                => $album->getId(),
+            "name"              => $album->getName(),
+            "artworkUrl"        => $artwork_image,
+            "artistName"        => $album->getArtistName(),
+            "totalDuration"     => $total_duration,
+            "totalTracks"       => $total_tracks,
+            "path"              => $url,
+            "type"              => $album->getType(),
+            "element"           => $element
+        );
+
+        return $json;
+    }
+
 }

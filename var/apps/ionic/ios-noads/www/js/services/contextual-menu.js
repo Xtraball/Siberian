@@ -1,4 +1,8 @@
-App.service('ContextualMenu', function($ionicSideMenuDelegate, $timeout, HomepageLayout) {
+/*global
+ angular
+ */
+
+angular.module("starter").service('ContextualMenu', function($ionicSideMenuDelegate, $timeout, HomepageLayout) {
     var DEFAULT_WIDTH = 275;
 
     var self = {};
@@ -23,7 +27,7 @@ App.service('ContextualMenu', function($ionicSideMenuDelegate, $timeout, Homepag
 
     Object.defineProperty(self, "direction", {
         get: function() {
-            return HomepageLayout.properties.menu.position == 'right' ? 'left' : 'right';
+            return (HomepageLayout.properties.menu.position === "right") ? "left" : "right";
         }
     });
 
@@ -48,7 +52,7 @@ App.service('ContextualMenu', function($ionicSideMenuDelegate, $timeout, Homepag
         }
 
         return (function() {
-            if(_templateURL == templateURL) {
+            if(_templateURL === templateURL) {
                 self.reset();
             }
         });
@@ -64,7 +68,7 @@ App.service('ContextualMenu', function($ionicSideMenuDelegate, $timeout, Homepag
         if(self.exists && self.isEnabled) {
             $ionicSideMenuDelegate["toggle"+direction](open);
         }
-    }
+    };
 
     self.open = function() {
         self.toggle(true);

@@ -3,20 +3,20 @@
 <div class="row">
     <div class="col-md-12">
         <div class="page-content-wrapper content solo-page">
-            <h3 class="title-editor border-blue">
+            <h3 class="title-editor border-blue text-center">
                 <?php echo $this->_('List of my accounts'); ?>
             </h3>
             <div class="subcontent content-color">
                 <div class="row">
                     <div class="col-md-12">
-                        <button class="add color-blue btn" onclick="window.location = '<?php echo $this->getUrl('admin/account/new'); ?>'" type="button">
+                        <button id="sb-tour-add-account" class="color-blue btn sb-tour" onclick="window.location = '<?php echo $this->getUrl('admin/account/new'); ?>'" type="button">
                             <i class="fa fa-plus"></i>
                         </button>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <table class="regular_infos list list-input" width="100%">
+                        <table id="sb-tour-account-table" class="regular_infos list list-input sb-tour" width="100%">
                             <col width="30%" />
                             <col width="30%" />
                             <col width="30%" />

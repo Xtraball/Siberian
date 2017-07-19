@@ -132,6 +132,11 @@ class Catalog_Application_ProductController extends Application_Controller_Defau
                     ;
                 }
 
+                /** Update touch date, then never expires (until next touch) */
+                $option_value
+                    ->touch()
+                    ->expires(-1);
+
             }
             catch(Exception $e) {
                 $html['message'] = $e->getMessage();
@@ -173,6 +178,12 @@ class Catalog_Application_ProductController extends Application_Controller_Defau
                 $html = array(
                     'success' => 1
                 );
+
+                /** Update touch date, then never expires (until next touch) */
+                $this->getCurrentOptionValue()
+                    ->touch()
+                    ->expires(-1);
+
             } catch (Exception $e) {
                 $html = array('message' => $e->getMessage());
             }

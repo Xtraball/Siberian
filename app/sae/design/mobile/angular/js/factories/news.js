@@ -1,10 +1,18 @@
 
 App.factory('News', function($rootScope, $http, Url, httpCache) {
 
-    var factory = {};
+    var factory = {
+        value_id: null,
+        displayed_per_page: null
+    };
 
-    factory.value_id = null;
-    factory.displayed_per_page = null;
+    /**
+     *
+     * @param value_id
+     */
+    factory.setValueId = function(value_id) {
+        factory.value_id = value_id;
+    };
 
     factory.findAll = function(offset) {
 

@@ -1,8 +1,8 @@
 <?php $video = $this->getCurrentVideo(); ?>
 <?php $option_value = $this->getCurrentOptionValue(); ?>
 <?php $key = $this->getCurrentKey(); ?>
-<div id="new_gallery_<?php echo $video->getTypeId(); ?>" class="new_gallery vimeo" style="display:none;">
-    <div class="row">
+<div id="new_gallery_<?php echo $video->getTypeId(); ?>" class="new_gallery vimeo subcontent form-horizontal container-fluid" style="display:none;">
+    <div class="form-group">
         <div class="col-sm-1"></div>
         <div class="col-sm-3">
             <label><?php echo $this->_('Gallery Name') ?> <span class="required-entry"> *</span> :</label>
@@ -14,7 +14,7 @@
             <label><?php echo $this->_('Type') ?> <span class="required-entry"> *</span> :</label>
         </div>
     </div>
-    <div id="row_<?php echo $video->getId(); ?>_<?php echo $video->getTypeId(); ?>" class="row_video row">
+    <div id="row_<?php echo $video->getId(); ?>_<?php echo $video->getTypeId(); ?>" class="row_video form-group">
         <div class="col-sm-1 img-col color-blue"><img src="<?php echo $this->getImage('pictos/vimeo.png'); ?>" title="<?php echo $this->_('Vimeo'); ?>" alt="<?php echo $this->_('Vimeo'); ?>" width="33" height="33" /></div>
         <div class="col-sm-3"><input type="text" name="name" value="<?php echo $video->getName(); ?>" placeholder="<?php echo $this->_('Gallery Name') ?>" class=" input-flat required" /></div>
         <div class="col-sm-3"><input type="text" name="param" value="<?php echo $video->getParam(); ?>" placeholder="<?php echo $this->_('Parameter') ?>" class=" input-flat required" /></div>

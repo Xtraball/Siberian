@@ -452,4 +452,22 @@ try {
 
 
 
+# run in 5.0.0
+$this->query("
+UPDATE application 
+SET privacy_policy_title = (
+    SELECT tabbar_name 
+	FROM application_option_value 
+	INNER JOIN application_option 
+    	ON (application_option.option_id = application_option_value.option_id)
+    WHERE application_option_value.app_id = application.app_id
+    AND application_option.code = 'privacy_policy'
+)
+WHERE ( 
+    privacy_policy_title IS NULL 
+    OR 
+    privacy_policy_title = ''
+)");
+
+
 

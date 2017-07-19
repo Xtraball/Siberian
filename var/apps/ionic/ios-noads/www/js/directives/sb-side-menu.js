@@ -1,4 +1,9 @@
-App.directive('sbSideMenu', function ($rootElement, $rootScope, $ionicSideMenuDelegate, $ionicHistory, HomepageLayout, ContextualMenu) {
+/*global
+ angular
+ */
+
+angular.module("starter").directive('sbSideMenu', function ($rootElement, $rootScope, $ionicHistory, HomepageLayout,
+                                                            ContextualMenu) {
     return {
         restrict: 'E',
         replace: true,

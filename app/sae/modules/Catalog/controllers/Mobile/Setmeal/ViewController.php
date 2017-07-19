@@ -2,6 +2,9 @@
 
 class Catalog_Mobile_Setmeal_ViewController extends Application_Controller_Mobile_Default {
 
+    /**
+     * @deprecated in Siberian 5.0, payload is embed in returned list/offset
+     */
     public function findAction() {
 
         if($value_id = $this->getRequest()->getParam('value_id') AND $set_meal_id = $this->getRequest()->getParam('set_meal_id')) {

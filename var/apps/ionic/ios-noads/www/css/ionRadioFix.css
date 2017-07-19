@@ -4,14 +4,12 @@
  *
  * To apply the patch, include this CSS after your ionic.css include.
  */
-  .item-radio input:checked + .radio-content .item-content {
-    /* style the item content when its checked */
-    background: #f7f7f7; 
-    
-  }
-    
-  .item-radio input:checked + .radio-content .radio-icon {
-    /* show the checkmark icon when its checked */
-    visibility: visible;
-    
-  }
+.item-radio input:checked + .radio-content .item-content {
+  /* style the item content when its checked */
+  background: #f7f7f7;
+}
+
+.item-radio input:checked + .radio-content .radio-icon {
+  /* show the checkmark icon when its checked */
+  visibility: visible;
+}

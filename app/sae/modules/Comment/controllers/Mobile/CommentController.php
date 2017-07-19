@@ -54,7 +54,7 @@ class Comment_Mobile_CommentController extends Application_Controller_Mobile_Def
                 $customer_id = $this->getSession()->getCustomerId();
 
                 if(empty($customer_id) OR empty($data['comment_id']) OR empty($data['text'])) {
-                    throw new Exception($this->_("#105: An error occurred while saving"));
+                    throw new Exception(__("#105: An error occurred while saving"));
                 }
 
                 $comment_id = $data['comment_id'];
@@ -69,17 +69,21 @@ class Comment_Mobile_CommentController extends Application_Controller_Mobile_Def
 
                 $html = array('success' => 1);
 
-                $message = $this->_('Your message has been successfully saved.');
-                if(!$answer->isVisible()) $message .= ' ' . $this->_('It will be visible only after validation by our team.');
-                else {
+                $message = __('Your message has been successfully saved.');
+                if(!$answer->isVisible()) {
+                    $message .= ' ' . __('It will be visible only after validation by our team.');
+                } else {
 
                     $customer = $this->getSession()->getCustomer();
 
                     $html["answer"] = array(
-                        "author" => $customer->getFirstname() . ' ' . mb_substr($customer->getLastname(), 0, 1) . '.',
-                        "picture" => $customer->getImageLink(),
-                        "message" => $answer->getText(),
-                        "created_at" => $answer->getFormattedCreatedAt()
+                        "id"            => (integer) $answer->getId(),
+                        "customer_id"   => (integer) $customer->getId(),
+                        "author"        => $customer->getFirstname() . ' ' . mb_substr($customer->getLastname(), 0, 1) . '.',
+                        "name"          => $customer->getFirstname() . ' ' . mb_substr($customer->getLastname(), 0, 1) . '.',
+                        "picture"       => $customer->getImageLink(),
+                        "message"       => $answer->getText(),
+                        "created_at"    => datetime_to_format($answer->getCreatedAt())
                     );
 
                 }
@@ -91,7 +95,7 @@ class Comment_Mobile_CommentController extends Application_Controller_Mobile_Def
                 $html = array('error' => 1, 'message' => $e->getMessage());
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($html);
         }
 
     }

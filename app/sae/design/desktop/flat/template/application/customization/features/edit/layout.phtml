@@ -1,14 +1,14 @@
 <?php $option_value = $this->getOptionValue(); ?>
 <?php $layouts = $option_value->getLayouts(); ?>
 <?php if($layouts->count() > 1) : ?>
-<div>
+<div class="margin-bkg">
     <h3 class="title-editor no-border-radius title-feature-indent">
         <?php echo $this->_('Design'); ?>
         <button type="button" id="toggle_layout" class="toggle_design color-blue pull-right bt-header-right btn">
-            <i class="fa fa-chevron-down"></i>
+            <i class="fa fa-angle-down"></i>
         </button>
     </h3>
-    <div id="change_layout" class="design" style="display:none;">
+    <div id="change_layout" class="design subcontent content-feature" style="display:none;">
         <div class="row">
             <div class="col-md-12 layouts">
                 <?php foreach($layouts as $layout) : ?>
@@ -35,8 +35,14 @@
 
             $('#toggle_layout').click(function() {
                 $('#change_layout').stop().slideToggle(300, function() {
-                    if($('#change_layout').is(':visible')) $('#toggle_layout').children('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
-                    else $('#toggle_layout').children('i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                    if($('#change_layout').is(':visible')) {
+                        $('#toggle_layout').children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+                        $('#toggle_layout').removeClass('color-blue');
+                    }
+                    else {
+                        $('#toggle_layout').children('i').removeClass('fa-angle-up').addClass('fa-angle-down');
+                        $('#toggle_layout').addClass('color-blue');
+                    }
                 });
             });
 
@@ -74,14 +80,14 @@
         float: left;
         margin-left: 10px;
         margin-top: 5px;
-        border-radius: 5px;
+        border-radius: 3px;
         padding: 4px;
         transition: none;
     }
 
     .design a.layout.selected {
         padding: 2px;
-        border: 2px solid;
+        border: 1px solid;
     }
 
     .design .layouts a.layout img {

@@ -1,27 +1,23 @@
-App.config(function ($stateProvider) {
+/*global
+ App, angular, BASE_PATH
+ */
 
-    $stateProvider.state('media-player', {
-        url: BASE_PATH + "/media/mobile_gallery_music_player/index/value_id/:value_id",
-        controller: 'MediaPlayerController',
-        templateUrl: "templates/media/music/l1/player/view.html"
-    });
+angular.module("starter").controller("MediaPlayerController", function($cordovaSocialSharing, $ionicHistory, Modal,
+                                                                       $location, $rootScope, $scope, $state,
+                                                                       $stateParams, $timeout, $translate, $window,
+                                                                       Application, HomepageLayout, MediaPlayer,
+                                                                       SB, SocialSharing, LinkService) {
 
-}).controller('MediaPlayerController', function($cordovaSocialSharing, $ionicHistory, $ionicModal, $location, $rootScope, $scope, $state, $stateParams, $timeout, $translate, $window, Application, HomepageLayout, MediaPlayer) {
 
-    $scope.$on("connectionStateChange", function(event, args) {
-        if (args.isOnline == true) {
-            $scope.loadContent();
-        }
-    });
+    $scope.is_webview = !$rootScope.isNativeApp;
 
-    $scope.is_webview = !ionic.Platform.isIOS() && !ionic.Platform.isAndroid() && !ionic.Platform.isWindowsPhone();
-
-    $ionicModal.fromTemplateUrl('templates/media/music/l1/player/playlist.html', {
-        scope: $scope,
-        animation: 'slide-in-up'
-    }).then(function (modal) {
-        $scope.mediaplayer_playlist_modal = modal;
-    });
+    Modal
+        .fromTemplateUrl("templates/media/music/l1/player/playlist.html", {
+            scope: $scope
+        })
+        .then(function (modal) {
+            $scope.mediaplayer_playlist_modal = modal;
+        });
 
     $scope.loadContent = function () {
         if (!MediaPlayer.media) {
@@ -34,8 +30,7 @@ App.config(function ($stateProvider) {
         MediaPlayer.is_initialized = false;
 
         MediaPlayer.is_minimized = true;
-        console.log("Minimizing");
-        $rootScope.$broadcast("mediaPlayer.mini.show");
+        $rootScope.$broadcast(SB.EVENTS.MEDIA_PLAYER.SHOW);
     };
 
     $scope.destroy = function () {
@@ -122,44 +117,25 @@ App.config(function ($stateProvider) {
 
     $scope.purchase = function () {
 
-        if($rootScope.isOverview) {
-            $rootScope.showMobileFeatureOnlyError();
+        if($rootScope.isNotAvailableOffline()) {
             return;
         }
 
         if (MediaPlayer.current_track.purchaseUrl) {
-            $window.open(MediaPlayer.current_track.purchaseUrl, $rootScope.getTargetForLink(), "location=no");
+            LinkService.openLink(MediaPlayer.current_track.purchaseUrl);
         }
     };
 
     $scope.share = function () {
 
-        // Fix for $cordovaSocialSharing issue that opens dialog twice
-        if($scope.is_sharing) return;
-
-        $scope.is_sharing = true;
-
-        var app_name = Application.app_name;
-        var message = "";
-        var link = "";
-        var subject = "";
-        var file = MediaPlayer.current_track.albumCover ? MediaPlayer.current_track.albumCover : "";
-
-        if (MediaPlayer.is_radio) {
-            message = $translate.instant("I'm listening to $1 on $2 app.").replace("$1", MediaPlayer.current_track.name).replace("$2", app_name);
-        } else {
-            message = $translate.instant("I'm listening to $1 from $2 on $3 app.").replace("$1", MediaPlayer.current_track.name).replace("$2", MediaPlayer.current_track.artistName).replace("$3", app_name);
+        var content = MediaPlayer.current_track.name;
+        if(!MediaPlayer.is_radio) {
+            content = MediaPlayer.current_track.name + " from " + MediaPlayer.current_track.artistName;
         }
+        var file = MediaPlayer.current_track.albumCover ? MediaPlayer.current_track.albumCover : undefined;
 
-        $cordovaSocialSharing
-            .share(message, subject, file, link) // Share via native share sheet
-            .then(function (result) {
-                console.log("success");
-                $scope.is_sharing = false;
-            }, function (err) {
-                console.log(err);
-                $scope.is_sharing = false;
-            });
+        SocialSharing.share(content, undefined, undefined, undefined, file);
+
     };
 
     $scope.loadContent();

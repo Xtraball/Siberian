@@ -17,11 +17,11 @@ $promos = $mcommerce->getPromos();
             <h3 class="title-editor no-border-radius title-feature-indent">
                 <?php echo $this->_("Manage discounts"); ?>
                 <button type="button" id="toggle_existing_promos" class="color-blue pull-right bt-header-right btn">
-                    <i class="fa fa-chevron-down"></i>
+                    <i class="fa fa-angle-down"></i>
                     <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>"/>
                 </button>
             </h3>
-            <div id="existing_promos" style="display:none;" class="container-fluid first-row-feature">
+            <div id="existing_promos" style="display:none;" class="container-fluid first-row-feature content-feature">
                 <ul class="list-group promos_list">
                     <?php foreach ($promos as $promo) : ?>
                         <?php echo $this->getLayout()->addPartial('row_promo_'.$promo->getId(), 'admin_view_default', 'mcommerce/application/edit/settings/discount/li.phtml')
@@ -41,8 +41,8 @@ $promos = $mcommerce->getPromos();
         processEvents: function() {
             $('#toggle_existing_promos').click(function() {
                 $('#existing_promos').stop().slideToggle(300, function() {
-                    if($(this).is(':visible')) $('#toggle_existing_promos').children('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
-                    else $('#toggle_existing_promos').children('i').removeClass('fa-chevron-up').addClass('fa-chevron-down')
+                    if($(this).is(':visible')) $('#toggle_existing_promos').children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+                    else $('#toggle_existing_promos').children('i').removeClass('fa-angle-up').addClass('fa-angle-down')
                 });
             });
 

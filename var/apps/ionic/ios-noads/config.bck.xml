@@ -23,10 +23,12 @@
     <access launch-external="yes" origin="tel:*" />
     <access launch-external="yes" origin="geo:*" />
     <access launch-external="yes" origin="mailto:*" />
+    <access launch-external="yes" origin="sms:*" />
     <allow-navigation href="*" />
     <allow-intent href="tel:*" />
     <allow-intent href="geo:*" />
     <allow-intent href="mailto:*" />
+    <allow-intent href="sms:*" />
     <chcp>
         <config-file url="PLATFORM_URL" />
         <native-interface version="4" />
@@ -98,9 +100,6 @@
     <feature name="AppVersion">
         <param name="ios-package" value="AppVersion" />
     </feature>
-    <feature name="Stream">
-        <param name="ios-package" value="CDVStream" />
-    </feature>
     <feature name="BackgroundFetch">
         <param name="ios-package" value="CDVBackgroundFetch" />
         <param name="onload" value="true" />
@@ -121,9 +120,6 @@
     <feature name="Device">
         <param name="ios-package" value="CDVDevice" />
     </feature>
-    <feature name="Notification">
-        <param name="ios-package" value="CDVNotification" />
-    </feature>
     <feature name="File">
         <param name="ios-package" value="CDVFile" />
         <param name="onload" value="true" />
@@ -136,12 +132,6 @@
     </feature>
     <feature name="Keyboard">
         <param name="ios-package" onload="true" value="IonicKeyboard" />
-    </feature>
-    <feature name="Media">
-        <param name="ios-package" value="CDVSound" />
-    </feature>
-    <feature name="ProgressView">
-        <param name="ios-package" value="ProgressView" />
     </feature>
     <feature name="SocialSharing">
         <param name="ios-package" value="SocialSharing" />
@@ -159,10 +149,6 @@
     </feature>
     <feature name="OfflineMode">
         <param name="ios-package" value="CDVOfflineMode" />
-        <param name="onload" value="true" />
-    </feature>
-    <feature name="iosrtcPlugin">
-        <param name="ios-package" value="iosrtcPlugin" />
         <param name="onload" value="true" />
     </feature>
     <feature name="Insomnia">

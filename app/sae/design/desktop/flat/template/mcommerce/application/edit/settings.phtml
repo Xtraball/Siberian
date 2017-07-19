@@ -4,17 +4,17 @@
 <?php $stores = $mcommerce->getStores(); ?>
 <div class="settings">
     <div id="settings">
-        <h3 class="title-editor">
+        <h3 class="title-editor no-border-radius title-feature-indent">
             <?php echo $this->_('Manage user fields'); ?>
         </h3>
-        <div class="container-fluid first-row-feature">
+        <div class="container-fluid first-row-feature content-feature">
             <form id="mcommerceFieldsForm" action="<?php echo $this->getUrl('mcommerce/application_settings_fields/save'); ?>" class="form-horizontal">
                 <div class="form-group">
-                    <div class="col-sm-3">
+                    <div class="col-sm-5">
                         <label for="show_search"><?php echo $this->_("Phone number"); ?></label>
                     </div>
                     <div class="col-sm-5">
-                        <select name="phone" id="" class="form-control">
+                        <select name="phone" id="" class="form-control styled-select color-blue">
                             <option value="hidden" <?php if($mcommerce->getPhone() == 'hidden') echo 'selected' ?>><?php echo $this->_("Hidden"); ?></option>
                             <option value="optional" <?php if($mcommerce->getPhone() == 'optional') echo 'selected' ?>><?php echo $this->_("Optional"); ?></option>
                             <option value="mandatory" <?php if($mcommerce->getPhone() == 'mandatory') echo 'selected' ?>><?php echo $this->_("Mandatory"); ?></option>
@@ -22,11 +22,11 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-sm-3">
+                    <div class="col-sm-5">
                         <label for="show_search"><?php echo $this->_("Birthday"); ?></label>
                     </div>
                     <div class="col-sm-5">
-                        <select name="birthday" id="" class="form-control">
+                        <select name="birthday" id="" class="form-control styled-select color-blue">
                             <option value="hidden" <?php if($mcommerce->getBirthday() == 'hidden') echo 'selected' ?>><?php echo $this->_("Hidden"); ?></option>
                             <option value="optional" <?php if($mcommerce->getBirthday() == 'optional') echo 'selected' ?>><?php echo $this->_("Optional"); ?></option>
                             <option value="mandatory" <?php if($mcommerce->getBirthday() == 'mandatory') echo 'selected' ?>><?php echo $this->_("Mandatory"); ?></option>
@@ -34,11 +34,11 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-sm-3">
+                    <div class="col-sm-5">
                         <label for="show_search"><?php echo $this->_("Invoicing address"); ?></label>
                     </div>
                     <div class="col-sm-5">
-                        <select name="invoicing_address" id="" class="form-control">
+                        <select name="invoicing_address" id="" class="form-control styled-select color-blue">
                             <option value="hidden" <?php if($mcommerce->getInvoicingAddress() == 'hidden') echo 'selected' ?>><?php echo $this->_("Hidden"); ?></option>
                             <option value="optional" <?php if($mcommerce->getInvoicingAddress() == 'optional') echo 'selected' ?>><?php echo $this->_("Optional"); ?></option>
                             <option value="mandatory" <?php if($mcommerce->getInvoicingAddress() == 'mandatory') echo 'selected' ?>><?php echo $this->_("Mandatory"); ?></option>
@@ -46,11 +46,11 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-sm-3">
+                    <div class="col-sm-5">
                         <label for="show_search"><?php echo $this->_("Delivery address"); ?></label>
                     </div>
                     <div class="col-sm-5">
-                        <select name="delivery_address" id="" class="form-control">
+                        <select name="delivery_address" id="" class="form-control styled-select color-blue">
                             <option value="hidden" <?php if($mcommerce->getDeliveryAddress() == 'hidden') echo 'selected' ?>><?php echo $this->_("Hidden"); ?></option>
                             <option value="optional" <?php if($mcommerce->getDeliveryAddress() == 'optional') echo 'selected' ?>><?php echo $this->_("Optional"); ?></option>
                             <option value="mandatory" <?php if($mcommerce->getDeliveryAddress() == 'mandatory') echo 'selected' ?>><?php echo $this->_("Mandatory"); ?></option>
@@ -71,10 +71,10 @@
             ->setCurrentOptionValue($option)
             ->toHtml();
         ?>
-        <h3 class="title-editor">
+        <h3 class="title-editor no-border-radius title-feature-indent">
             <?php echo $this->_('Connected Printers'); ?>
         </h3>
-        <div class="container-fluid first-row-feature">
+        <div class="container-fluid first-row-feature content-feature">
             <form id="mcommercePrintersForm" action="<?php echo $this->getUrl('mcommerce/application_settings_printer/save'); ?>" class="form-horizontal">
                 <div class="form-group">
                     <div class="col-sm-12">
@@ -89,7 +89,7 @@
                 <?php $printer = new Mcommerce_Model_Store_Printer(); ?>
                 <?php $printer->find($store->getId(), 'store_id'); ?>
                 <div class="form-group">
-                    <div class="col-sm-3">
+                    <div class="col-sm-5">
                         <label for="printer_email_<?php echo $store->getId(); ?>"><?php echo $store->getName(); ?></label>
                     </div>
                     <div class="col-sm-5">
@@ -108,17 +108,17 @@
                 <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
             </form>
         </div>
-        <h3 class="title-editor">
+        <h3 class="title-editor no-border-radius title-feature-indent">
             <?php echo $this->_('Search'); ?>
         </h3>
-        <div class="container-fluid first-row-feature">
+        <div class="container-fluid first-row-feature content-feature">
             <form id="mcommerceSearchForm" action="<?php echo $this->getUrl('mcommerce/application_settings_search/save'); ?>" class="form-horizontal">
                 <div class="form-group">
-                    <div class="col-sm-3">
+                    <div class="col-sm-5">
                         <label for="show_search"><?php echo $this->_("Show search fields on product list ?"); ?></label>
                     </div>
                     <div class="col-sm-5">
-                        <input type="checkbox" id="show_search" name="show_search" <?php if($mcommerce->getShowSearch()) echo "checked" ?>/>
+                        <input type="checkbox" id="show_search" name="show_search" <?php if($mcommerce->getShowSearch()) echo "checked" ?> class="color-blue"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -132,17 +132,17 @@
             </form>
         </div>
 
-        <h3 class="title-editor">
+        <h3 class="title-editor no-border-radius title-feature-indent">
             <?php echo $this->_('Tip'); ?>
         </h3>
-        <div class="container-fluid first-row-feature">
+        <div class="container-fluid first-row-feature content-feature">
             <form id="mcommerceTipForm" action="<?php echo $this->getUrl('mcommerce/application_settings_tip/save'); ?>" class="form-horizontal">
                 <div class="form-group">
-                    <div class="col-sm-3">
+                    <div class="col-sm-5">
                         <label for="add_tip"><?php echo $this->_("Customer can add tip to a command?"); ?></label>
                     </div>
                     <div class="col-sm-5">
-                        <input type="checkbox" id="add_tip" name="add_tip" <?php if($mcommerce->getAddTip()) echo "checked" ?>/>
+                        <input type="checkbox" id="add_tip" name="add_tip" <?php if($mcommerce->getAddTip()) echo "checked" ?> class="color-blue"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -156,17 +156,17 @@
             </form>
         </div>
 
-        <h3 class="title-editor">
+        <h3 class="title-editor no-border-radius title-feature-indent">
             <?php echo $this->_('Guest Order'); ?>
         </h3>
-        <div class="container-fluid first-row-feature">
+        <div class="container-fluid first-row-feature content-feature">
             <form id="mcommerceGuestModeForm" action="<?php echo $this->getUrl('mcommerce/application_settings_guestmode/save'); ?>" class="form-horizontal">
                 <div class="form-group">
-                    <div class="col-sm-3">
+                    <div class="col-sm-5">
                         <label for="guest_mode"><?php echo $this->_("Permit unregistered user to make order?"); ?></label>
                     </div>
                     <div class="col-sm-5">
-                        <input type="checkbox" id="guest_mode" name="guest_mode" <?php if($mcommerce->getGuestMode()) echo "checked" ?>/>
+                        <input type="checkbox" id="guest_mode" name="guest_mode" <?php if($mcommerce->getGuestMode()) echo "checked" ?> class="color-blue"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -192,13 +192,13 @@
                 <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
                 <div id="section_existing_taxes" <?php if(!$taxes->count()) : ?> style="display:none"<?php endif; ?> class="margin-top">
                     <h3 class="title-editor no-border-radius title-feature-indent">
-                        <?php echo $this->_('Manage'); ?>
+                        <?php echo $this->_(('Manage content')); ?>
                         <button type="button" id="toggle_existing_taxes" class="color-blue pull-right bt-header-right btn">
-                            <i class="fa fa-chevron-down"></i>
+                            <i class="fa fa-angle-down"></i>
                             <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
                         </button>
                     </h3>
-                    <div id="existing_taxes" style="display:none;" class="container-fluid first-row-feature">
+                    <div id="existing_taxes" style="display:none;" class="container-fluid first-row-feature content-feature">
                         <ul class="list-group taxes_list">
                             <?php foreach ($taxes as $tax) : ?>
                             <?php echo $this->getLayout()->addPartial('row_tax_'.$tax->getId(), 'admin_view_default', 'mcommerce/application/edit/settings/tax/li.phtml')
@@ -273,8 +273,8 @@
             processEvents: function() {
                 $('#toggle_existing_taxes').click(function() {
                     $('#existing_taxes').stop().slideToggle(300, function() {
-                        if($(this).is(':visible')) $('#toggle_existing_taxes').children('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
-                        else $('#toggle_existing_taxes').children('i').removeClass('fa-chevron-up').addClass('fa-chevron-down')
+                        if($(this).is(':visible')) $('#toggle_existing_taxes').children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+                        else $('#toggle_existing_taxes').children('i').removeClass('fa-angle-up').addClass('fa-angle-down')
                     });
                 });
 

@@ -1,4 +1,4 @@
-<ion-view cache-view="false" >
+<ion-view sb-page-background cache-view="false" >
     <ion-nav-title>{{ page_title }}</ion-nav-title>
     <ion-nav-buttons side="secondary">
         <button ng-click="right_button.action()" class="button button-clear header-item"
@@ -8,7 +8,7 @@
         </button>
     </ion-nav-buttons>
 
-    <ion-content sb-background-image>
+    <ion-content>
 
         <div ng-if="(!is_loading) && (!is_logged_in)">
             <label class="item item-custom">
@@ -17,15 +17,15 @@
                     translate }}
                 </p>
             </label>
-            <div class="item item-custom item-icon-left" ng-click="login()">
+            <div class="item item-custom item-icon-left" ng-click="customer_login()">
                 <i class="icon ion-person"></i>
                 {{ "Login" | translate }}
             </div>
-            <div class="item item-custom item-icon-left" ng-click="signup()">
+            <div class="item item-custom item-icon-left" ng-click="customer_signup()">
                 <i class="icon ion-person-add"></i>
                 {{ "Signup" | translate }}
             </div>
-            <div class="item item-custom item-icon-left" ng-if="hasguestmode" ng-click="guestmode()">
+            <div class="item item-custom item-icon-left" ng-if="hasguestmode" ng-click="customer_guestmode()">
                 <i class="icon ion-ios-cart"></i>
                 {{ "Guest Order" | translate }}
             </div>

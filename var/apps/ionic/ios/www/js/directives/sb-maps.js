@@ -1,4 +1,4 @@
-App.directive('sbMaps', function() {
+angular.module("starter").directive('sbMaps', function() {
     return {
         restrict: 'A',
         scope: {

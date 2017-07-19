@@ -30,7 +30,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         // Duplicate user to new namespace.
         if(version_compare(Siberian_Version::VERSION, "5.0.0", "<")) {
             $current_user = $this->getSession()->getBackofficeUser();
-            $this->getSession("backoffice")->setBackofficeUser($current_user);
+            $this->getSession()->setBackofficeUser($current_user);
         }
 
         $this->_sendHtml($html);
@@ -40,6 +40,64 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
     public function downloadupdateAction() {
 
         try {
+
+            $fatal_errors = false;
+            $_errors = array();
+
+            if(function_exists("exec")) {
+
+                // Testing zip/unzip
+                $base = Core_Model_Directory::getBasePathTo("/var/tmp/");
+                $zip_file = Core_Model_Directory::getBasePathTo("/var/tmp/test.zip");
+                $test_file = Core_Model_Directory::getBasePathTo("/var/tmp/test.file");
+
+                if(file_exists($test_file)) {
+                    unlink($test_file);
+                }
+                if(file_exists($zip_file)) {
+                    unlink($zip_file);
+                }
+
+                try {
+                    file_put_contents($test_file, "test");
+                    chdir($base);
+                    exec("zip test.zip test.file");
+                    if(!file_exists($zip_file)) {
+                        $_errors[] = "Please enable/add binary: zip & unzip";
+                        $fatal_errors = true;
+                    } else {
+                        // now test unzip
+                        if(file_exists($test_file)) {
+                            unlink($test_file);
+                        }
+                        exec("unzip {$zip_file}");
+                        if(!file_exists($test_file)) {
+                            $_errors[] = "Please enable/add binary: unzip";
+                            $fatal_errors = true;
+                        }
+                    }
+                } catch(Exception $e) {
+                    $_errors[] = "Please enable/add binary: zip";
+                    $fatal_errors = true;
+                } finally {
+                    // Unlink files
+                    if(file_exists($test_file)) {
+                        unlink($test_file);
+                    }
+                    if(file_exists($zip_file)) {
+                        unlink($zip_file);
+                    }
+                }
+
+
+            } else {
+                $_errors[] = "Please enable/add function: exec()";
+                $fatal_errors = true;
+            }
+
+            if($fatal_errors) {
+                throw new Siberian_Exception(implode(", ", $_errors));
+            }
 
             set_time_limit(6000);
             ini_set('max_execution_time', 6000);

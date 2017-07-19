@@ -1,6 +1,8 @@
-"use strict";
+/*global
+    App
+*/
+angular.module("starter").directive("sbVideo", function($timeout, $window) {
 
-App.directive("sbVideo", function($timeout, $window, $ionicPlatform) {
     return {
         restrict: "A",
         replace:true,

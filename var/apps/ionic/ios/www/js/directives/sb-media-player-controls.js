@@ -1,7 +1,7 @@
-App.directive('sbMediaPlayerControls', function () {
+angular.module("starter").directive('sbMediaPlayerControls', function () {
     return {
         restrict: 'A',
-        controller: function($scope, $state, $timeout, MediaPlayer) {
+        controller: function($scope, MediaPlayer) {
             $scope.player = MediaPlayer;
 
             $scope.openPlayer = function() {
@@ -37,7 +37,7 @@ App.directive('sbMediaPlayerControls', function () {
     };
 });
 
-App.directive('sbMediaMiniPlayer', function () {
+angular.module("starter").directive('sbMediaMiniPlayer', function () {
     return {
         restrict: 'E',
         templateUrl: 'templates/media/music/l1/player/mini.html'

@@ -33,6 +33,42 @@ class Media_Model_Gallery_Image extends Core_Model_Default {
         return $in_app_states;
     }
 
+    /**
+     * @param $option_value
+     * @return bool
+     */
+    public function getEmbedPayload($option_value) {
+
+        $color = $this->getApplication()->getBlock('subheader')->getColor();
+        $colorized_picto = Core_Controller_Default_Abstract::sGetColorizedImage(Core_Model_Lib_Image::sGetImage("pictos/more.png", true), $color);
+
+        $payload = array(
+            "galleries"         => array(),
+            "page_title"        => $option_value->getTabbarName(),
+            "header_right_button"   => array(
+                "picto_url" => $colorized_picto
+            )
+        );
+
+        if($this->getId()) {
+            $gallery_model = new Media_Model_Gallery_Image();
+            $galleries = $gallery_model->findAll(array("value_id" => $option_value->getId()));
+
+            foreach($galleries as $gallery) {
+                $payload["galleries"][] = array(
+                    "id"    => (integer) $gallery->getId(),
+                    "name"  => $gallery->getLabel() ? $gallery->getLabel() : $gallery->getName(),
+                    "type"  => $gallery->getTypeId(),
+                );
+            }
+
+        }
+
+        return $payload;
+
+    }
+
+
     public function find($id, $field = null) {
         parent::find($id, $field);
         if($this->getId()) {

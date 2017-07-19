@@ -86,6 +86,11 @@ class Event_Application_EventController extends  Application_Controller_Default{
 
                 $event->addData($datas)->save();
 
+                /** Update touch date, then never expires (until next touch) */
+                $option_value
+                    ->touch()
+                    ->expires(-1);
+
                 $cache = Zend_Registry::get('cache');
                 $cache->remove($option_value->getObject()->getCacheId());
 

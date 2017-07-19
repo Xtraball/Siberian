@@ -1,9 +1,12 @@
-"use strict";
+/*global
+ angular, APP_KEY, DEVICE_TYPE, DOMAIN
+ */
 
 /**
  * FacebookConnect for users (login)
  */
-App.service('FacebookConnect', function($cordovaOauth, $rootScope, $timeout, $window, Application, Customer, AUTH_EVENTS) {
+angular.module("starter").service('FacebookConnect', function($cordovaOauth, $rootScope, $timeout, $window,
+                                                              Customer, Dialog, SB) {
 
     var self = this;
 
@@ -16,12 +19,32 @@ App.service('FacebookConnect', function($cordovaOauth, $rootScope, $timeout, $wi
     self.fb_login = null;
 
     self.login = function() {
-        $cordovaOauth.facebook(self.app_id, self.permissions).then(function(result) {
-            Customer.loginWithFacebook(result.access_token);
-            Customer.modal.hide();
-        }, function(error) {
-            Customer.modal.hide();
-        });
+        if($rootScope.isNotAvailableInOverview()) {
+            return;
+        }
+
+        if(DEVICE_TYPE === SB.DEVICE.TYPE_BROWSER) {
+            var scope = (self.permissions) ? self.permissions.join(",") : "",
+                redirect_uri = encodeURIComponent(DOMAIN + "/" + APP_KEY + "?login_fb=true"),
+                facebook_uri = "https://graph.facebook.com/oauth/authorize?client_id=" +
+                    self.app_id+"&scope=" + scope + "&response_type=token&redirect_uri=" + redirect_uri;
+
+            $window.location = facebook_uri;
+        } else {
+            $cordovaOauth.facebook(self.app_id, self.permissions)
+                .then(function(result) {
+                    Customer.loginWithFacebook(result.access_token)
+                        .then(function() {
+                            Customer.login_modal.hide();
+                        });
+                }, function(error) {
+                    Dialog.alert("Login error", error, "OK", -1)
+                        .then(function() {
+                            Customer.login_modal.hide();
+                        });
+                });
+        }
+
     };
 
     self.logout = function () {
@@ -29,7 +52,7 @@ App.service('FacebookConnect', function($cordovaOauth, $rootScope, $timeout, $wi
         self.access_token = null;
     };
 
-    $rootScope.$on(AUTH_EVENTS.logoutSuccess, function () {
+    $rootScope.$on(SB.EVENTS.AUTH.logoutSuccess, function () {
         $timeout(function () {
             self.logout();
         });

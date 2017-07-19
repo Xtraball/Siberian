@@ -1,163 +1,181 @@
-// Playlist
-App.factory('MusicPlaylist', function($sbhttp, $rootScope, Url) {
+/*global
+ App, angular
+ */
 
-    var factory = {};
+/**
+ * MusicPlaylist
+ *
+ * @author Xtraball SAS
+ */
+angular.module("starter").factory("MusicPlaylist", function($pwaRequest) {
 
-    factory.value_id = null;
+    var factory = {
+        value_id: null,
+        extendedOptions: {}
+    };
 
-    factory.find = function(playlist_id) {
+    /**
+     *
+     * @param value_id
+     */
+    factory.setValueId = function(value_id) {
+        factory.value_id = value_id;
+    };
 
-        if (!this.value_id) {
-            console.error('value_id is not defined.');
-            return;
-        }
+    /**
+     *
+     * @param options
+     */
+    factory.setExtendedOptions = function(options) {
+        factory.extendedOptions = options;
+    };
 
-        return $sbhttp({
-            method: 'GET',
-            url: Url.get("media/mobile_api_music_playlist/find", {value_id: this.value_id, playlist_id: playlist_id}),
-            cache: !$rootScope.isOverview,
-            responseType:'json'
-        });
+    /**
+     * Pre-Fetch feature.
+     *
+     * @param value_id
+     */
+    factory.preFetch = function(page) {
+        factory.findAll();
+        /** @todo prefetch, when findall is done, pre-fetch albums, tracks ... */
     };
 
     factory.findAll = function() {
 
         if (!this.value_id) {
-            console.error('value_id is not defined.');
-            return;
+            return $pwaRequest.reject("[Factory::MusicPlaylist.findAll] missing value_id");
         }
 
-        return $sbhttp({
-            method: 'GET',
-            url: Url.get("media/mobile_api_music_playlist/findall", {value_id: this.value_id}),
-            cache: !$rootScope.isOverview,
-            responseType:'json'
+        return $pwaRequest.get("media/mobile_api_music_playlist/findall", angular.extend({
+            urlParams: {
+                value_id: this.value_id
+            }
+        }, factory.extendedOptions));
+    };
+
+    factory.find = function(playlist_id) {
+
+        if (!this.value_id) {
+            return $pwaRequest.reject("[Factory::MusicPlaylist.find] missing value_id");
+        }
+
+        return $pwaRequest.get("media/mobile_api_music_playlist/find", {
+            urlParams: {
+                value_id        : this.value_id,
+                playlist_id     : playlist_id
+            }
         });
     };
 
     factory.findPageTitle = function() {
-        return $sbhttp({
-            method: 'GET',
-            url: Url.get("media/mobile_api_music_playlist/getpagetitle", {value_id: this.value_id}),
-            cache: !$rootScope.isOverview,
-            responseType:'json'
+
+        if (!this.value_id) {
+            return $pwaRequest.reject("[Factory::MusicPlaylist.findPageTitle] missing value_id");
+        }
+
+        return $pwaRequest.get("media/mobile_api_music_playlist/getpagetitle", {
+            urlParams: {
+                value_id: this.value_id
+            }
         });
+
     };
 
     return factory;
 });
 
-// Album
-App.factory('MusicAlbum', function ($sbhttp, $rootScope, Url) {
 
-    var factory = {};
+/**
+ * MusicAlbum
+ *
+ * @author Xtraball SAS
+ */
+angular.module("starter").factory("MusicAlbum", function ($pwaRequest) {
 
-    factory.value_id = null;
+    var factory = {
+        value_id: null
+    };
 
     factory.find = function (element) {
 
-        if (!this.value_id) {
-            console.error('value_id is not defined.');
-            return;
-        }
-        if (!element) {
-            console.error('album_id is not defined.');
-            return;
+        if (!this.value_id || !element) {
+            return $pwaRequest.reject("[Factory::MusicAlbum.find] missing value_id and/or element");
         }
 
         var params = {
             value_id: this.value_id
         };
+
         if(element.album_id) {
             params.album_id = element.album_id;
         } else {
             params.track_id = element.track_id;
         }
 
-        return $sbhttp({
-            method: 'GET',
-            url: Url.get("media/mobile_api_music_album/find", params),
-            cache: !$rootScope.isOverview,
-            responseType: 'json'
+        return $pwaRequest.get("media/mobile_api_music_album/find", {
+            urlParams: params
         });
     };
 
     factory.findAll = function() {
 
         if (!this.value_id) {
-            console.error('value_id is not defined.');
-            return;
+            return $pwaRequest.reject("[Factory::MusicAlbum.findAll] missing value_id");
         }
 
-        return $sbhttp({
-            method: 'GET',
-            url: Url.get("media/mobile_api_music_album/findall", {value_id: this.value_id,}),
-            cache: !$rootScope.isOverview,
-            responseType:'json'
+        return $pwaRequest.get("media/mobile_api_music_album/findall", {
+            urlParams: {
+                value_id: this.value_id
+            }
         });
     };
 
     factory.findByPlaylist = function (playlist_id) {
 
-        if (!this.value_id) {
-            console.error('value_id is not defined.');
-            return;
-        }
-        if (!playlist_id) {
-            console.error('playlist_id is not defined.');
-            return;
+        if (!this.value_id || !playlist_id) {
+            return $pwaRequest.reject("[Factory::MusicAlbum.findByPlaylist] missing value_id and/or playlist_id");
         }
 
-        var url = Url.get("media/mobile_api_music_album/findbyplaylist", {
-            value_id: this.value_id,
-            playlist_id: playlist_id
-        });
-
-        return $sbhttp({
-            method: 'GET',
-            url: url,
-            cache: !$rootScope.isOverview,
-            responseType: 'json'
+        return $pwaRequest.get("media/mobile_api_music_album/findbyplaylist", {
+            urlParams: {
+                value_id: this.value_id,
+                playlist_id: playlist_id
+            }
         });
     };
 
     return factory;
 });
 
-// Track
-App.factory('MusicTrack', function ($sbhttp, $rootScope, Url) {
+/**
+ * MusicTrack
+ *
+ * @author Xtraball SAS
+ */
+angular.module("starter").factory("MusicTrack", function ($pwaRequest) {
 
-    var factory = {};
-
-    factory.value_id = null;
+    var factory = {
+        value_id: null
+    };
 
     factory.findByAlbum = function (element) {
 
-        console.log("element: ", element);
-        if (!this.value_id) {
-            console.error('value_id is not defined.');
-            return;
-        }
-
-        if (!element) {
-            console.error('album_id is not defined.');
-            return;
+        if (!this.value_id || !element) {
+            return $pwaRequest.reject("[Factory::MusicTrack.findByAlbum] missing value_id and/or element");
         }
 
         var params = {
             value_id: this.value_id
         };
+
         if(element.album_id) {
             params.album_id = element.album_id;
         } else {
             params.track_id = element.track_id;
         }
 
-        return $sbhttp({
-            method: 'GET',
-            url: Url.get("media/mobile_api_music_track/findbyalbum", params),
-            cache: !$rootScope.isOverview,
-            responseType: 'json'
+        return $pwaRequest.get("media/mobile_api_music_track/findbyalbum", {
+            urlParams: params
         });
     };
 

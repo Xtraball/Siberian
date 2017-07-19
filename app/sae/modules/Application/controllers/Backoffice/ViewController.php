@@ -280,6 +280,10 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                 $application = new Application_Model_Application();
                 $application->find($data["app_id"]);
 
+                if(!$application->getId()) {
+                    throw new Siberian_Exception(__("Application id %s not found.", $data["app_id"]));
+                }
+
                 $application->setDesignCode(Application_Model_Application::DESIGN_CODE_IONIC);
 
                 if($design_id = $application->getDesignId()) {

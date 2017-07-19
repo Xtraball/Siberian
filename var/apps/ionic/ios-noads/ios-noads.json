@@ -19,10 +19,6 @@
                             "count": 1
                         },
                         {
-                            "xml": "<array><string>audio</string></array>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<array><string>fetch</string></array>",
                             "count": 1
                         }
@@ -49,12 +45,6 @@
                         {
                             "xml": "<string>Use the GPS for live navigation</string>",
                             "count": 2
-                        }
-                    ],
-                    "NSMicrophoneUsageDescription": [
-                        {
-                            "xml": "<string> </string>",
-                            "count": 1
                         }
                     ],
                     "NSCalendarsUsageDescription": [
@@ -105,10 +95,6 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Stream\"><param name=\"ios-package\" value=\"CDVStream\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"BackgroundFetch\"><param name=\"ios-package\" value=\"CDVBackgroundFetch\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         },
@@ -137,10 +123,6 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Notification\"><param name=\"ios-package\" value=\"CDVNotification\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"File\"><param name=\"ios-package\" value=\"CDVFile\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         },
@@ -154,14 +136,6 @@
                         },
                         {
                             "xml": "<feature name=\"Keyboard\"><param name=\"ios-package\" onload=\"true\" value=\"IonicKeyboard\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"Media\"><param name=\"ios-package\" value=\"CDVSound\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"ProgressView\"><param name=\"ios-package\" value=\"ProgressView\" /></feature>",
                             "count": 1
                         },
                         {
@@ -186,10 +160,6 @@
                         },
                         {
                             "xml": "<feature name=\"OfflineMode\"><param name=\"ios-package\" value=\"CDVOfflineMode\" /><param name=\"onload\" value=\"true\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"iosrtcPlugin\"><param name=\"ios-package\" value=\"iosrtcPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         },
                         {
@@ -245,9 +215,6 @@
         "cordova-plugin-app-event": {
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
-        "com.keosu.cordova.stream": {
-            "PACKAGE_NAME": "com.appsmobilecompany.base"
-        },
         "cordova-plugin-background-fetch": {
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
@@ -270,9 +237,6 @@
         "cordova-plugin-device": {
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
-        "cordova-plugin-dialogs": {
-            "PACKAGE_NAME": "com.appsmobilecompany.base"
-        },
         "cordova-plugin-extension": {
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
@@ -288,13 +252,6 @@
         "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
-        "cordova-plugin-media": {
-            "MICROPHONE_USAGE_DESCRIPTION": " ",
-            "PACKAGE_NAME": "com.appsmobilecompany.base"
-        },
-        "de.neofonie.cordova.plugin.progressview": {
-            "PACKAGE_NAME": "com.appsmobilecompany.base"
-        },
         "cordova-plugin-x-socialsharing": {
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
@@ -305,9 +262,6 @@
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
         "siberian-plugin-offlinemode": {
-            "PACKAGE_NAME": "com.appsmobilecompany.base"
-        },
-        "cordova-plugin-iosrtc": {
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
         "cordova-plugin-insomnia": {
@@ -360,14 +314,6 @@
             "pluginId": "cordova-plugin-app-version",
             "clobbers": [
                 "cordova.getAppVersion"
-            ]
-        },
-        {
-            "id": "com.keosu.cordova.stream.Stream",
-            "file": "plugins/com.keosu.cordova.stream/www/Stream.js",
-            "pluginId": "com.keosu.cordova.stream",
-            "clobbers": [
-                "window.Stream"
             ]
         },
         {
@@ -448,14 +394,6 @@
             "pluginId": "cordova-plugin-device",
             "clobbers": [
                 "device"
-            ]
-        },
-        {
-            "id": "cordova-plugin-dialogs.notification",
-            "file": "plugins/cordova-plugin-dialogs/www/notification.js",
-            "pluginId": "cordova-plugin-dialogs",
-            "merges": [
-                "navigator.notification"
             ]
         },
         {
@@ -681,30 +619,6 @@
             ]
         },
         {
-            "id": "cordova-plugin-media.MediaError",
-            "file": "plugins/cordova-plugin-media/www/MediaError.js",
-            "pluginId": "cordova-plugin-media",
-            "clobbers": [
-                "window.MediaError"
-            ]
-        },
-        {
-            "id": "cordova-plugin-media.Media",
-            "file": "plugins/cordova-plugin-media/www/Media.js",
-            "pluginId": "cordova-plugin-media",
-            "clobbers": [
-                "window.Media"
-            ]
-        },
-        {
-            "id": "de.neofonie.cordova.plugin.progressview.ProgressView",
-            "file": "plugins/de.neofonie.cordova.plugin.progressview/www/ProgressView.js",
-            "pluginId": "de.neofonie.cordova.plugin.progressview",
-            "clobbers": [
-                "window.plugins.ProgressView"
-            ]
-        },
-        {
             "id": "cordova-plugin-x-socialsharing.SocialSharing",
             "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
             "pluginId": "cordova-plugin-x-socialsharing",
@@ -756,14 +670,6 @@
             ]
         },
         {
-            "id": "cordova-plugin-iosrtc.Plugin",
-            "file": "plugins/cordova-plugin-iosrtc/dist/cordova-plugin-iosrtc.js",
-            "pluginId": "cordova-plugin-iosrtc",
-            "clobbers": [
-                "cordova.plugins.iosrtc"
-            ]
-        },
-        {
             "id": "cordova-plugin-insomnia.Insomnia",
             "file": "plugins/cordova-plugin-insomnia/www/Insomnia.js",
             "pluginId": "cordova-plugin-insomnia",
@@ -787,7 +693,6 @@
         "phonegap-plugin-push": "1.10.0",
         "cordova-plugin-app-version": "0.1.8",
         "cordova-plugin-app-event": "1.2.0",
-        "com.keosu.cordova.stream": "0.1",
         "cordova-plugin-background-fetch": "3.0.4",
         "phonegap-plugin-barcodescanner": "6.0.6",
         "cordova-plugin-compat": "1.1.0",
@@ -795,19 +700,15 @@
         "com.verso.cordova.clipboard": "0.1.0",
         "cordova-plugin-console": "1.0.7-dev",
         "cordova-plugin-device": "1.1.6-dev",
-        "cordova-plugin-dialogs": "1.3.3-dev",
         "cordova-plugin-extension": "1.3.0",
         "cordova-plugin-file": "4.3.3-dev",
         "cordova-plugin-geolocation": "2.1.0",
         "cordova-plugin-inappbrowser": "1.7.1-dev",
         "ionic-plugin-keyboard": "2.2.1",
-        "cordova-plugin-media": "2.4.1",
-        "de.neofonie.cordova.plugin.progressview": "3.0.1",
         "cordova-plugin-x-socialsharing": "5.0.12-dev",
         "cordova-plugin-statusbar": "2.2.0",
         "de.appplant.cordova.plugin.local-notification": "0.8.4.1",
         "siberian-plugin-offlinemode": "1.0.0",
-        "cordova-plugin-iosrtc": "3.1.0",
         "cordova-plugin-insomnia": "4.2.0",
         "cordova-plugin-music-controls": "1.4.1",
         "siberian": "1.0.0"

@@ -5,6 +5,8 @@ $googlemaps_key = $api->getSecretKey();
 
 <script type="text/javascript">
 
+// Used to enable/disable automatic scrolling to new blocks (for default ones)
+window.cms_blocks_scrollto = true;
 var tmp_directory = '<?php echo Core_Model_Directory::getTmpDirectory() ?>';
 var block_url = '<?php echo __path("cms/application_block/getblock") ?>';
 var value_id = '<?php echo $this->getOptionValue()->getId() ?>';
@@ -115,16 +117,18 @@ $(document).ready(function() {
                 var latestBlock = $("#sections_html_container .cms-block-container").last();
                 var scrollTo = latestBlock.offset().top - affixFieldset.outerHeight() - 15;
 
-                setTimeout(function () {
-                    $('html, body').animate({
-                        scrollTop: scrollTo
-                    }, "slow", "linear", function () {
-                        scrollTo = latestBlock.offset().top - affixFieldset.outerHeight() - 15;
+                if(window.cms_blocks_scrollto) {
+                    setTimeout(function () {
                         $('html, body').animate({
                             scrollTop: scrollTo
-                        }, "fast")
-                    });
-                }, 100);
+                        }, "slow", "linear", function () {
+                            scrollTo = latestBlock.offset().top - affixFieldset.outerHeight() - 15;
+                            $('html, body').animate({
+                                scrollTop: scrollTo
+                            }, "fast")
+                        });
+                    }, 100);
+                }
 
             },
             error: function(response) {

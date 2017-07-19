@@ -7,12 +7,12 @@ $push_form = new Push_Form_Global();
 
 
 <div class="page-content-wrapper content solo-page">
-    <h3 class="title-editor border-blue"><?php echo __("Global push notifications"); ?></h3>
+    <h3 class="title-editor border-blue text-center"><?php echo __("Global push notifications"); ?></h3>
     <div class="subcontent content-color container-fluid">
         <div class="row">
 
             <?php if(count($applications) <= 0): ?>
-                <div class="col-md-6">
+                <div id="sb-tour-global-push-1" class="col-lg-6 sb-tour">
                     <h4 class="center"><?php echo __("Push notification"); ?></h4>
                     <div class="subcontent content-color">
                         <div class="alert alert-info">
@@ -22,7 +22,7 @@ $push_form = new Push_Form_Global();
                 </div>
 
             <?php else: ?>
-            <div class="col-md-6">
+            <div id="sb-tour-global-push-1" class="col-lg-6 sb-tour">
                 <h4 class="center"><?php echo __("Push notification"); ?></h4>
                 <div id="push-form-bind" class="subcontent content-color">
                     <?php echo $push_form; ?>
@@ -30,7 +30,7 @@ $push_form = new Push_Form_Global();
             </div>
             <?php endif; ?>
 
-            <div class="col-md-6">
+            <div id="sb-tour-global-push-select-app" class="col-lg-6 sb-tour">
                 <h4 class="center"><?php echo __("Select target applications"); ?></h4>
                 <span><?php echo __("Only published application are available for global push notifications.") ?></span>
                 <div class="subcontent content-color">
@@ -53,9 +53,9 @@ $push_form = new Push_Form_Global();
                                         <div class="color-blue control__indicator"></div>
                                     </div>
                                 </td>
-                                <td><?php echo $application->getId(); ?></td>
-                                <td><?php echo $application->getName(); ?></td>
-                                <td><?php echo $application->getBundleId(); ?></td>
+                                <td style="word-break: break-word;"><?php echo $application->getId(); ?></td>
+                                <td style="word-break: break-word;"><?php echo $application->getName(); ?></td>
+                                <td style="word-break: break-word;"><?php echo $application->getBundleId(); ?></td>
                                 <td><?php echo $application->getPackageName(); ?></td>
                             </tr>
                         <?php endforeach; ?>

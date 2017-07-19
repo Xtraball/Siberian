@@ -5,8 +5,10 @@ class IndexController extends Core_Controller_Default {
     public function indexAction() {
         $layout_id = null;
 
-        if(!$this->getRequest()->isApplication()) {
-            if ($this->getRequest()->isInstalling()) {
+        $request = $this->getRequest();
+
+        if(!$request->isApplication()) {
+            if ($request->isInstalling()) {
                 $layout_id = 'installer_installation_index';
                 // Do not redirect here
             }
@@ -21,11 +23,27 @@ class IndexController extends Core_Controller_Default {
             $module = substr($layout_id, 0, stripos($layout_id, '_'));
             Core_Model_Translator::addModule($module);
         } else if($this->getApplication()->useIonicDesign()) {
-            $ionic_url = $this->getApplication()->getIonicUrl(null, array(), Core_Model_Language::getCurrentLanguage());
-            $path_info = $this->getRequest()->getPathInfo();
+
+            $ionic_url = $this->getApplication()
+                ->getIonicUrl(null, array(), Core_Model_Language::getCurrentLanguage());
+            $path_info = $request->getPathInfo();
+
+            if($request->getParam('login_fb', false) !== false) {
+                $url = sprintf("%s?__tokenfb__=", $ionic_url);
+                echo "<script type='text/javascript'>
+    var token = window.location.hash.match(/\#access_token=(.*)&expires_in/);
+    token = token[1];
+    window.location = '" . $url . "' + token;
+</script>";
+                die;
+            }
 
             if(!empty($path_info) and $path_info != "/") {
                 $ionic_url = $ionic_url . "?__goto__=" . $path_info;
+            }
+
+            if($request->getParam('overview', false) !== false) {
+                $ionic_url = str_replace('/browser/', '/overview/', $ionic_url);
             }
 
             $this->getResponse()

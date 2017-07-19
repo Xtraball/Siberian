@@ -1,12 +1,12 @@
-<ion-view>
+<ion-view sb-page-background class="event-view">
     <ion-nav-title>{{ page_title }}</ion-nav-title>
-    <ion-content sb-background-image>
+    <ion-content>
 
         <div class="loader" ng-show="is_loading">
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
-        <div class="card" ng-if="!is_loading">
+        <div class="list" ng-class="{'card': card_design}" ng-if="!is_loading">
             <div class="item item-custom">
                 <h2>{{ cover.title }}</h2>
                 <p>{{ cover.subtitle }}</p>
@@ -39,7 +39,7 @@
                 <h2 ng-if="cover.title2">{{ "Description" | translate }}</h2>
             </div>
             <div class="item item-text-wrap item-custom" ng-if="item.description">
-                <div class="item-text-wrap item-custom"  ng-bind-html="item.description | trusted_html"></div>
+                <div class="item-text-wrap item-custom" ng-bind-html="item.description | html_linky" sb-a-click></div>
             </div>
             <div class="item item-icon-left item-custom" ng-click="openMaps(item.address)" ng-if="item.address">
                 <i class="icon ion-location"></i>

@@ -69,6 +69,17 @@ App.config(function($routeProvider) {
         $scope.content_loader_is_visible = false;
     });
 
+    $scope.removeLocks = function() {
+        $scope.content_loader_is_visible = true;
+        Backoffice.clearCache("generator").success(function (data) {
+            $scope.message.setText(data.message)
+                .isError(false)
+                .show()
+            ;
+            $scope.content_loader_is_visible = false;
+        });
+    };
+
     $scope.openSettings = function() {
         $scope.content_loader_is_visible = true;
         $location.path("/backoffice/advanced_configuration");

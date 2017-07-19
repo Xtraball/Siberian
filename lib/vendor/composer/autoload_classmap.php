@@ -6,4 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
+    'Zebra_Image' => $vendorDir . '/stefangabos/zebra_image/Zebra_Image.php',
 );

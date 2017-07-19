@@ -1,4 +1,4 @@
-<ion-modal-view class="layout modal slide-top">
+<ion-modal-view sb-page-background class="layout modal slide-top">
 
     <ion-header-bar class="bar-custom">
         <div class="buttons">
@@ -13,7 +13,7 @@
     <ion-content>
 
 
-        <div class="list job-more">
+        <div class="list job-more" ng-class="{'card' : card_design}">
             <div class="item item-custom">
                 <h2>{{ "City" | translate }}</h2>
                 <div>
@@ -22,7 +22,7 @@
             </div>
 
             <div class="item item-custom">
-                <h2>{{ "Distance" | translate }} <span class="job-distance" ><span ng-bind="distance_range[Math.floor(filters.radius)]"></span>{{ "km" | translate }}</span></h2>
+                <h2>{{ "Distance" | translate }} <span class="job-distance" ><span ng-bind="distance_range[Math.floor(filters.radius)]"></span>{{ distance_unit }}</span></h2>
                 <div>
                     <input type="range" ng-model="filters.radius" min="0" max="10" step="0.1" />
                 </div>
@@ -41,8 +41,8 @@
 
         </div>
 
-        <div class="job-padding">
-            <button class="button button-block button-custom item-icon-left" ng-click="validateFilters();">
+        <div ng-class="{'padding' : card_design}">
+            <button class="button button-positive button-positive-custom item-icon-left" ng-class="{'button-block' : card_design, 'button-full' : !card_design}" ng-click="validateFilters();">
                 <i class="icon ion-ios-search"></i>{{ "Search" | translate }}
             </button>
         </div>

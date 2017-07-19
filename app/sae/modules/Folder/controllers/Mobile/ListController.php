@@ -2,6 +2,40 @@
 
 class Folder_Mobile_ListController extends Application_Controller_Mobile_Default {
 
+    public function findallv2Action() {
+
+        try {
+            $request = $this->getRequest();
+
+            if($value_id = $request->getParam("value_id")) {
+
+                $option = $this->getCurrentOptionValue();
+                if($option) {
+                    $option->setRequest($request);
+
+                    $payload = $option->getObject()->getEmbedPayload($option);
+                }
+
+            } else {
+                throw new Siberian_Exception(__("Missing parameter value_id."));
+            }
+
+        } catch(Exception $e) {
+
+            $payload = array(
+                "error" => true,
+                "message" => $e->getMessage()
+            );
+
+        }
+
+        $this->_sendJson($payload);
+
+    }
+
+    /**
+     * @deprecated in Siberian 5.0
+     */
     public function findallAction() {
 
         if($value_id = $this->getRequest()->getParam('value_id')) {
@@ -18,7 +52,7 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                 $object = $this->getCurrentOptionValue()->getObject();
 
                 if(!$object->getId() OR ($current_category->getId() AND $current_category->getRootCategoryId() != $object->getRootCategoryId())) {
-                    throw new Exception($this->_('An error occurred during process. Please try again later.'));
+                    throw new Exception(__('An error occurred during process. Please try again later.'));
                 }
 
                 $color_code = 'background';
@@ -78,7 +112,7 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                             "name" => $feature->getTabbarName(),
                             "father_name" => $folder->getTitle(),
                             "url" => $feature->getPath(null, array('value_id' => $feature->getId()), false),
-                            'is_link' => !$feature->getIsAjax(),
+                            "is_link" => (boolean) !$feature->getIsAjax(),
                             "hide_navbar" => $hide_navbar,
                             "use_external_app" => $use_external_app,
                             "picture" => $feature->getIconId() ? $this->getRequest()->getBaseUrl().$this->_getColorizedImage($feature->getIconId(), $color) : null,
@@ -133,7 +167,7 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                         "picture" => $page->getIconId() ? $this->getRequest()->getBaseUrl().$this->_getColorizedImage($page->getIconId(), $color) : null,
                         "hide_navbar" => $hide_navbar,
                         "use_external_app" => $use_external_app,
-                        'is_link' => !$page->getIsAjax(),
+                        "is_link" => (boolean) !$page->getIsAjax(),
                         "url" => $page->getPath(null, array('value_id' => $page->getId()), false),
                         "code" => $page->getCode(),
                         "offline_mode" => $page->getObject()->isCacheable(),

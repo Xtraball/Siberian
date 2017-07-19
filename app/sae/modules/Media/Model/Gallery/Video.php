@@ -34,6 +34,44 @@ class Media_Model_Gallery_Video extends Core_Model_Default {
         return $in_app_states;
     }
 
+    /**
+     * @param $option_value
+     * @return bool
+     */
+    public function getEmbedPayload($option_value) {
+
+        $payload = array(
+            "collection"                => array(),
+            "page_title"                => $option_value->getTabbarName(),
+            "displayed_per_page"        => Media_Model_Gallery_Video_Abstract::DISPLAYED_PER_PAGE
+        );
+
+        $video = new Media_Model_Gallery_Video();
+        $videos = $video->findAll(array("value_id" => $option_value->getId()));
+        $has_youtube_videos = false;
+
+        foreach($videos as $video) {
+            $payload["collection"][] = array(
+                "id"                => (integer) $video->getId(),
+                "name"              => $video->getName(),
+                "type"              => $video->getTypeId(),
+                "search_by"         => $video->getType(),
+                "search_keyword"    => $video->getParam()
+            );
+
+            if($video->getTypeId() == "youtube") {
+                $has_youtube_videos = true;
+            }
+        }
+
+        if($has_youtube_videos) {
+            $payload["youtube_key"] = Api_Model_Key::findKeysFor('youtube')->getApiKey();
+        }
+
+        return $payload;
+
+    }
+
     public function find($id, $field = null) {
         parent::find($id, $field);
         if($this->getId()) {

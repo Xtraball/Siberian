@@ -18,20 +18,16 @@ class Application_SecurityController extends Core_Controller_Default_Abstract {
         $is_ajax = $this->getRequest()->isXmlHttpRequest();
         $old_tab = $app_id != $this->getSession()->getApplication()->getAppId();
 
-        if ($is_editor && $is_ajax && $app_id && $old_tab) {
-            $this->getResponse()->clearBody();
-            $this->getResponse()->clearHeaders();
-            $this->getResponse()->setBody(Zend_Json::encode(array("refresh" => true)));
-            $this->getResponse()->setHttpResponseCode(400);
-            $this->getResponse()->sendResponse();
+        if (false /**$is_editor && $is_ajax && $app_id && $old_tab*/) {
+            $this->_sendJson(array(
+                "error" => true,
+                "refresh" => true
+            ));
         } else {
-            $this->getResponse()->clearBody();
-            $this->getResponse()->clearHeaders();
-            $this->getResponse()->setBody(Zend_Json::encode(array("refresh" => false)));
-            $this->getResponse()->setHttpResponseCode(200);
-            $this->getResponse()->sendResponse();
+            $this->_sendJson(array(
+                "succes" => true,
+                "refresh" => false
+            ));
         }
-
-        exit;
     }
 }

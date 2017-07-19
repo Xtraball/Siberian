@@ -2,6 +2,9 @@
 
 class Maps_Mobile_ViewController extends Application_Controller_Mobile_Default {
 
+    /**
+     * @deprecated in Siberian 5.0
+     */
     public function findAction() {
 
         if($value_id = $this->getRequest()->getParam('value_id')) {

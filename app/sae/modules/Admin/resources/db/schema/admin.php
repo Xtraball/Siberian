@@ -47,6 +47,10 @@ $schemas['admin'] = array(
         'type' => 'tinyint(1) unsigned',
         'default' => '1',
     ),
+    'is_allowed_to_manage_tour' => array(
+        'type' => 'tinyint(1) unsigned',
+        'default' => '0',
+    ),
     'publication_access_type' => array(
         'type' => 'enum(\'sources\',\'info\')',
         'is_null' => true,

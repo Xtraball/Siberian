@@ -1,4 +1,4 @@
-App.directive('sbInputNumber', function() {
+angular.module("starter").directive('sbInputNumber', function() {
     return {
         restrict: 'E',
         scope: {

@@ -4,7 +4,7 @@ class Push_Mobile_ListController extends Application_Controller_Mobile_Default {
 
     public function findallAction() {
 
-        $data = array("collection" => array());
+        $payload = array("collection" => array());
         $option = $this->getCurrentOptionValue();
         $color = $this->getApplication()->getBlock('background')->getColor();
         $offset = $this->getRequest()->getParam('offset',0);
@@ -22,21 +22,22 @@ class Push_Mobile_ListController extends Application_Controller_Mobile_Default {
             foreach($messages as $message) {
 
                 $message_value_id = $message->getValueId();
-	        if(!empty($message_value_id)) {
+
+	            if(!empty($message_value_id)) {
                     continue; # We skip it
                 }
 
                 $meta = array(
                     "date" => array(
                         "picto" => $icon_pencil,
-                        "text" => $message->getFormattedCreatedAt(Zend_Date::DATETIME_MEDIUM)
+                        "text"  => datetime_to_format($message->getCreatedAt())
                     )
                 );
 
                 if(!$message->getIsRead()) {
                     $meta["likes"] = array(
                         "picto" => $icon_new,
-                        "text" => $this->_("New")
+                        "text"  => __("New")
                     );
                 }
 
@@ -61,16 +62,16 @@ class Push_Mobile_ListController extends Application_Controller_Mobile_Default {
                     $icon = null;
                 }
 
-                $data["collection"][] = array(
-                    "id" => $message->getId(),
-                    "author" => $message->getTitle(),
-                    "message" => $message->getText(),
-                    "topic" => $message->getLabel(),
-                    "details" => $meta,
-                    "picture" => $picture,
-                    "icon" => $icon,
-                    "action_value" => $action_value,
-                    "url" => $url
+                $payload["collection"][] = array(
+                    "id"            => (integer) $message->getId(),
+                    "author"        => $message->getTitle(),
+                    "message"       => $message->getText(),
+                    "topic"         => $message->getLabel(),
+                    "details"       => $meta,
+                    "picture"       => $picture,
+                    "icon"          => $icon,
+                    "action_value"  => $action_value,
+                    "url"           => $url
                 );
             }
 
@@ -78,10 +79,10 @@ class Push_Mobile_ListController extends Application_Controller_Mobile_Default {
 
         }
 
-        $data["page_title"] = $this->getCurrentOptionValue()->getTabbarName();
-        $data["displayed_per_page"] = Push_Model_Message::DISPLAYED_PER_PAGE;
+        $payload["page_title"] = $this->getCurrentOptionValue()->getTabbarName();
+        $payload["displayed_per_page"] = Push_Model_Message::DISPLAYED_PER_PAGE;
 
-        $this->_sendHtml($data);
+        $this->_sendJson($payload);
 
     }
 

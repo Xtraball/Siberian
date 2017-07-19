@@ -142,6 +142,20 @@ class Application_Controller_Mobile_Default extends Core_Controller_Default {
     }
 
     /**
+     * Send raw text
+     *
+     * @param $data
+     */
+    public function _sendRaw($data) {
+        $response = $this->getResponse();
+
+        Zend_Controller_Front::getInstance()->returnResponse(true);
+        $response->sendResponse();
+        echo $data;
+        die;
+    }
+
+    /**
      * Converts an array to json, set the header code to 400 if error
      *
      * @param $data
@@ -150,11 +164,23 @@ class Application_Controller_Mobile_Default extends Core_Controller_Default {
     public function _sendJson($data, $send = false) {
         $response = $this->getResponse();
 
+        $response->setHeader("Content-type", "application/json");
+
         if(isset($data["error"]) && !empty($data["error"])) {
-            $this->getResponse()->setHttpResponseCode(400);
+
+            if(isset($data["gone"]) && $data["gone"]) {
+                /** Resource is gone */
+                $response->setHttpResponseCode(410);
+            } else {
+                $response->setHttpResponseCode(400);
+            }
+
         }
 
-        $response->setHeader("Content-type", "application/json");
+        /** Handle development case, unset exception messages in production. */
+        if(!Siberian_Debug::isDevelopment() && isset($data["exceptionMessage"])) {
+            unset($data["exceptionMessage"]);
+        }
 
         $json = Siberian_Json::encode($data);
 

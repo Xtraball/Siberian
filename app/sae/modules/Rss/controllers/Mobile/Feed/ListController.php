@@ -16,7 +16,7 @@ class Rss_Mobile_Feed_ListController extends Application_Controller_Mobile_Defau
 
             $rss_feed = new Rss_Model_Feed();
             $rss_feeds = $rss_feed->findAll(array('value_id' => $value_id), 'position ASC');
-            $data = array();
+            $payload = array();
 
             foreach($rss_feeds as $rss_feed) {
 
@@ -36,80 +36,41 @@ class Rss_Mobile_Feed_ListController extends Application_Controller_Mobile_Defau
                     }
 
                     $feed_id = str_replace("/", "$$", base64_encode($entry->getEntryId()));
-                    $data['collection'][] = array(
-                        "id" => $feed_id,
-                        "url" => $this->getPath("rss/mobile_feed_view", array("value_id" => $value_id, "feed_id" => $feed_id)),
-                        "title" => $entry->getTitle(),
-                        "subtitle" => $author ? html_entity_decode($author) : html_entity_decode($entry->getShortDescription()),
-                        "picture" => $entry->getPicture()
+                    $payload['collection'][] = array(
+                        "id"        => $feed_id,
+                        "url"       => $this->getPath("rss/mobile_feed_view", array(
+                            "value_id" => $value_id,
+                            "feed_id" => $feed_id)
+                        ),
+                        "title"     => $entry->getTitle(),
+                        "subtitle"  => $author ? html_entity_decode($author) :
+                            html_entity_decode($entry->getShortDescription()),
+                        "picture"   => $entry->getPicture(),
+                        "embed_payload" => array(
+                            "id"                    => base64_encode($entry->getEntryId()),
+                            "url"                   => $entry->getLink() ? $entry->getLink() : $entry->getEntryId(),
+                            "title"                 => $entry->getTitle(),
+                            "description"           => $entry->getContent(),
+                            "picture"               => $entry->getPicture(),
+                            "date"                  => $entry->getUpdatedAt(),
+                            "social_sharing_active" => $this->getCurrentOptionValue()->getSocialSharingIsActive()
+                        )
                     );
                 }
             }
 
-            if(!empty($data['collection'][0]) AND !empty($data['collection'][0]["picture"])) {
-                $data["cover"] = $data['collection'][0];
-                $data['collection'] = array_slice($data['collection'], 1, count($data['collection'])-1);
+            if(!empty($payload['collection'][0]) AND !empty($payload['collection'][0]["picture"])) {
+                $payload["cover"] = $payload['collection'][0];
+                $payload['collection'] = array_slice($payload['collection'], 1, count($payload['collection'])-1);
             }
 
-            $data['page_title'] = $this->getCurrentOptionValue()->getTabbarName();
+            $payload['page_title'] = $this->getCurrentOptionValue()->getTabbarName();
 
-            $this->_sendHtml($data);
+            $this->_sendJson($payload);
         }
 
     }
 
-//    protected function _getUpdatedAt($entry) {
-//
-//        if(!$entry->getTimestamp()) return null;
-//
-//        $date = new Zend_Date($entry->getTimestamp());
-//        $now = Zend_Date::now();
-//        $difference = $now->sub($date);
-//
-//        $seconds = $difference->toValue() % 60; $allMinutes = ($difference->toValue() - $seconds) / 60;
-//        $minutes = $allMinutes % 60; $allHours = ($allMinutes - $minutes) / 60;
-//        $hours =  $allHours % 24; $allDays = ($allHours - $hours) / 24;
-//        $allDays.= ' ';
-//        $hours.= ' ';
-//        $minutes.= ' ';
-//
-//        if($allDays > 0) {
-//            $allDays .= $this->_('day');
-//            if($allDays > 1) {
-//                $allDays .= "s";
-//            }
-//        } else {
-//            $allDays = '';
-//        }
-//        if($hours > 0) {
-//            $hours .= $this->_('hour');
-//            if($hours > 1) {
-//                $hours .= "s";
-//            }
-//        } else {
-//            $hours = '';
-//        }
-//        if($minutes > 0) {
-//            $minutes .= $this->_('minute');
-//            if($minutes > 1) {
-//                $minutes .= "s";
-//            }
-//        } else {
-//            $minutes = '';
-//        }
-//
-//        $updated_at = '';
-//        if($allDays != '') {
-//            $updated_at = $allDays;
-//        } elseif($hours != '') {
-//            $updated_at = $hours;
-//        } elseif($minutes != '') {
-//            $updated_at = $minutes;
-//        }
-//
-//        return $updated_at;
-//
-//    }
 
 
 }

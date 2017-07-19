@@ -1,4 +1,4 @@
-<ion-view>
+<ion-view sb-page-background>
     <ion-nav-title>{{ page_title }}</ion-nav-title>
     <ion-nav-buttons side="secondary">
         <div sb-tooltip collection="tooltip.collection" current-item="tooltip.current_item" button-label="tooltip.button_label" on-item-clicked="showTooltip(object)" ng-if="tooltip"></div>
@@ -8,21 +8,21 @@
     </ion-nav-buttons>
 
     <div class="bar bar-subheader" ng-show="options.display_search">
-        <div class="item item-input-inset job-search">
-            <div class="item-input-wrapper textual">
-                <i class="icon ion-ios-search"></i>
-                <input type="text" placeholder='{{ "Search..." | translate }}' ng-model="filters.fulltext" />
+        <div class="item item-input-inset job-search row">
+            <div class="col col-50 textual">
+                <label class="item-input-wrapper">
+                    <i class="icon ion-ios-search"></i>
+                    <input type="text" placeholder='{{ "Search..." | translate }}' ng-model="filters.fulltext" />
+                </label>
             </div>
 
-            <div class="item-input-wrapper place" ng-click="filterModal();">
+            <div class="col col-50 item-input-wrapper place" ng-click="filterModal();">
                 <i class="icon ion-ios-location-outline"></i>
                 <span ng-show="filters.locality">{{ filters.locality }}</span>
                 <span ng-show="!filters.locality">{{ "Locality" | translate }}</span>
+                <i class="icon ion-ios-plus-outline" style="float: right;"></i>
             </div>
 
-            <div class="item-input-wrapper more" ng-click="filterModal();">
-                <i class="icon ion-ios-plus-outline"></i>
-            </div>
         </div>
     </div>
 
@@ -40,7 +40,7 @@
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
-        <div class="list" ng-show="collection.length">
+        <div class="list" ng-class="{'card' : card_design}" ng-show="collection.length">
 
             <div ng-click="showItem(item)" ng-repeat="item in collection | filter: filterPlaces">
                 <div class="item item-custom item-place" ng-class="{ 'item-thumbnail-custom': item.icon && options.display_place_icon }">
@@ -56,7 +56,7 @@
             </div>
         </div>
 
-        <div class="list" ng-if="!is_loading && !collection.length">
+        <div class="list" ng-class="{'card' : card_design}" ng-if="!is_loading && !collection.length">
             <div class="item text-center item-custom">
                 {{ "No items found" | translate }}
             </div>

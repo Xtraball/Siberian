@@ -23,9 +23,209 @@ class Siberian_Assets
         "npm-debug.log",
         "chcp.json",
         "chcp.manifest",
+        "css/app.css",
         "js/utils/url.js",
         "js/utils/languages.js",
-        "css/app.css",
+        "npm-debug.log",
+        /// Unused build files to exclude
+        "js/controllers/application.js",
+        "js/controllers/booking.js",
+        "js/controllers/catalog.js",
+        "js/controllers/cms.js",
+        "js/controllers/codescan.js",
+        "js/controllers/contact.js",
+        "js/controllers/customer.js",
+        "js/controllers/discount.js",
+        "js/controllers/event.js",
+        "js/controllers/facebook.js",
+        "js/controllers/folder.js",
+        "js/controllers/form.js",
+        "js/controllers/homepage.js",
+        "js/controllers/image.js",
+        "js/controllers/links.js",
+        "js/controllers/locked.js",
+        "js/controllers/loyalty-card.js",
+        "js/controllers/maps.js",
+        "js/controllers/media-player.js",
+        "js/controllers/music.js",
+        "js/controllers/newswall.js",
+        "js/controllers/padlock.js",
+        "js/controllers/places.js",
+        "js/controllers/privacy-policy.js",
+        "js/controllers/push.js",
+        "js/controllers/radio.js",
+        "js/controllers/rss.js",
+        "js/controllers/set-meal.js",
+        "js/controllers/social-gaming.js",
+        "js/controllers/source-code.js",
+        "js/controllers/tip.js",
+        "js/controllers/topic.js",
+        "js/controllers/twitter.js",
+        "js/controllers/video.js",
+        "js/controllers/weather.js",
+        "js/controllers/wordpress.js",
+        "js/directives/datetime.js",
+        "js/directives/directives.bundle.js",
+        "js/directives/sb-a-click.js",
+        "js/directives/sb-album-boxes.js",
+        "js/directives/sb-app-locked.js",
+        "js/directives/sb-cms.js",
+        "js/directives/sb-events.js",
+        "js/directives/sb-google-autocomplete.js",
+        "js/directives/sb-image.js",
+        "js/directives/sb-input-number.js",
+        "js/directives/sb-maps.js",
+        "js/directives/sb-media-player-controls.js",
+        "js/directives/sb-nav-view.js",
+        "js/directives/sb-pad.js",
+        "js/directives/sb-padlock.js",
+        "js/directives/sb-page-background.js",
+        "js/directives/sb-side-menu.js",
+        "js/directives/sb-tabbar.js",
+        "js/directives/sb-tooltip.js",
+        "js/directives/sb-video.js",
+        "js/factory/booking.js",
+        "js/factory/catalog.js",
+        "js/factory/cms.js",
+        "js/factory/contact.js",
+        "js/factory/customer.js",
+        "js/factory/discount.js",
+        "js/factory/event.js",
+        "js/factory/facebook.js",
+        "js/factory/folder.js",
+        "js/factory/form.js",
+        "js/factory/image.js",
+        "js/factory/links.js",
+        "js/factory/loyalty-card.js",
+        "js/factory/maps.js",
+        "js/factory/music.js",
+        "js/factory/newswall.js",
+        "js/factory/padlock.js",
+        "js/factory/pages.js",
+        "js/factory/places.js",
+        "js/factory/push.js",
+        "js/factory/radio.js",
+        "js/factory/rss.js",
+        "js/factory/search.js",
+        "js/factory/set-meal.js",
+        "js/factory/social-gaming.js",
+        "js/factory/source-code.js",
+        "js/factory/tc.js",
+        "js/factory/tip.js",
+        "js/factory/topic.js",
+        "js/factory/twitter.js",
+        "js/factory/video.js",
+        "js/factory/weather.js",
+        "js/factory/wordpress.js",
+        "js/factory/youtube.js",
+        "js/features/application.js",
+        "js/features/booking.js",
+        "js/features/catalog.js",
+        "js/features/cms.js",
+        "js/features/codescan.js",
+        "js/features/contact.js",
+        "js/features/discount.js",
+        "js/features/event.js",
+        "js/features/facebook.js",
+        "js/features/features.bundle.js",
+        "js/features/folder.js",
+        "js/features/form.js",
+        "js/features/homepage.js",
+        "js/features/image.js",
+        "js/features/links.js",
+        "js/features/locked.js",
+        "js/features/loyalty-card.js",
+        "js/features/maps.js",
+        "js/features/mcommerce.js",
+        "js/features/media-player.js",
+        "js/features/music.js",
+        "js/features/newswall.js",
+        "js/features/padlock.js",
+        "js/features/places.js",
+        "js/features/privacy-policy.js",
+        "js/features/push.js",
+        "js/features/radio.js",
+        "js/features/rss.js",
+        "js/features/set-meal.js",
+        "js/features/social-gaming.js",
+        "js/features/source-code.js",
+        "js/features/tip.js",
+        "js/features/topic.js",
+        "js/features/twitter.js",
+        "js/features/video.js",
+        "js/features/weather.js",
+        "js/features/wordpress.js",
+        "js/filters/filters.js",
+        "js/libraries/angular-queue.js",
+        "js/packed/application.bundle.js",
+        "js/packed/booking.bundle.js",
+        "js/packed/catalog.bundle.js",
+        "js/packed/cms.bundle.js",
+        "js/packed/codescan.bundle.js",
+        "js/packed/contact.bundle.js",
+        "js/packed/discount.bundle.js",
+        "js/packed/event.bundle.js",
+        "js/packed/facebook.bundle.js",
+        "js/packed/folder.bundle.js",
+        "js/packed/form.bundle.js",
+        "js/packed/homepage.bundle.js",
+        "js/packed/image.bundle.js",
+        "js/packed/links.bundle.js",
+        "js/packed/loyalty_card.bundle.js",
+        "js/packed/m_commerce.bundle.js",
+        "js/packed/maps.bundle.js",
+        "js/packed/media.bundle.js",
+        "js/packed/newswall.bundle.js",
+        "js/packed/padlock.bundle.js",
+        "js/packed/places.bundle.js",
+        "js/packed/privacy_policy.bundle.js",
+        "js/packed/push.bundle.js",
+        "js/packed/radio.bundle.js",
+        "js/packed/rss.bundle.js",
+        "js/packed/social_gaming.bundle.js",
+        "js/packed/source_code.bundle.js",
+        "js/packed/tip.bundle.js",
+        "js/packed/topic.bundle.js",
+        "js/packed/twitter.bundle.js",
+        "js/packed/video.bundle.js",
+        "js/packed/weather.bundle.js",
+        "js/packed/wordpress.bundle.js",
+        "js/packed/youtube.bundle.js",
+        "js/providers/homepage-layout.js",
+        "js/providers/providers.bundle.js",
+        "js/providers/pwa-cache.js",
+        "js/providers/pwa-request.js",
+        "js/services/admob-service.js",
+        "js/services/analytics.js",
+        "js/services/application.js",
+        "js/services/connection.js",
+        "js/services/contextual-menu.js",
+        "js/services/country.js",
+        "js/services/dialog.js",
+        "js/services/facebook-connect.js",
+        "js/services/google-maps.js",
+        "js/services/l10.js",
+        "js/services/l17.js",
+        "js/services/l8.js",
+        "js/services/link-service.js",
+        "js/services/loader.js",
+        "js/services/location.js",
+        "js/services/media-player.js",
+        "js/services/modal.js",
+        "js/services/music-tracks-loader.js",
+        "js/services/picture.js",
+        "js/services/progressbar-service.js",
+        "js/services/push-service.js",
+        "js/services/services.bundle.js",
+        "js/services/session.js",
+        "js/services/social-sharing.js",
+        "js/services/tmhDynamicLocale.js",
+        "js/services/translate.js",
+        "js/services/url.js",
+        "js/utils/features.js",
+        "js/utils/form-post.js",
+        "js/utils/languages.js",
+        "js/utils/utils.bundle.js",
     );
 
     public static $assets = array();
@@ -45,6 +245,17 @@ class Siberian_Assets
      */
     protected static $features_assets = array();
 
+
+    /**
+     * @var array
+     */
+    protected static $preBuildCallbacks = array();
+
+    /**
+     * @var array
+     */
+    protected static $postBuildCallbacks = array();
+
     /**
      * Available platforms
      *
@@ -53,6 +264,7 @@ class Siberian_Assets
     public static $platforms = array(
         "browser" => array(
             "/var/apps/browser/",
+            "/var/apps/overview/",
         ),
         "android" => array(
             "/var/apps/ionic/android/",
@@ -219,7 +431,7 @@ class Siberian_Assets
             $nickname = !!$feature["use_nickname"];
             $ranking = !!$feature["use_ranking"];
 
-            $feature_dir = "features/".$code;
+            $feature_dir = "./features/".$code;
 
             self::destroyAssets($feature_dir);
             if(is_dir($feature["__DIR__"]."/assets")) {
@@ -231,15 +443,22 @@ class Siberian_Assets
             }
 
             // build index.js here
-            $feature_js = self::compileFeature($feature, true, true);
-
             $out_dir = Core_Model_Directory::getBasePathTo("var/tmp/out");
+            if(!is_dir($out_dir)) {
+                mkdir($out_dir, 0777, true);
+            }
+
+            $feature_js_path = $feature_dir."/".$code.".js";
+            $feature_js_bundle_path = $feature_dir."/".$code.".bundle.min.js";
+
+            $feature_js = self::compileFeature($feature, $feature_js_bundle_path);
+
             $built_file = $out_dir."/".$code.".js";
-            if(!is_dir($out_dir)) mkdir($out_dir, 0777, true);
 
             file_put_contents($built_file, $feature_js);
-            $feature_js_path = $feature_dir."/".$code.".js";
+
             self::copyAssets($built_file, null, $feature_js_path);
+
             if(!in_array($feature_js_path, self::$features_assets["js"][$code])) {
                 self::$features_assets["js"][$code][] = $feature_js_path;
             }
@@ -272,12 +491,17 @@ class Siberian_Assets
         }
     }
 
-    public static function compileFeature($feature, $copy_assets = false, $insert_assets = false) {
-        $feature_js = "";
+    public static function compileFeature($feature, $bundle_path = null) {
+
         $code = $feature["code"];
         $feature_dir = "features/".$code;
+        $minifier_js = new MatthiasMullie\Minify\JS();
+        $minifier_css = new MatthiasMullie\Minify\CSS();
 
-        $feature_register = " Features.register(".$feature["__JSON__"]."); ";
+        $out_dir = Core_Model_Directory::getBasePathTo("var/tmp/out");
+        if(!is_dir($out_dir)) {
+            mkdir($out_dir, 0777, true);
+        }
 
         foreach($feature["files"] as $file) {
             if(!preg_match("/(?:[\/\\]\.\.)?(?:\.\.[\/\\]?)/", $file)) { // ignore files with ".." for security reasons
@@ -285,31 +509,117 @@ class Siberian_Assets
                 $out_file = $feature_dir."/".$file;
                 $ext = pathinfo($file, PATHINFO_EXTENSION);
                 if(is_readable($in_file) && in_array($ext, array("js", "css"))) {
-                    if($feature["compile"]) {
-                        if($ext === "js") {
-                            $feature_js .= file_get_contents($in_file)." ";
-                        } elseif ($ext === "css") {
-                            $feature_js .= "Features.insertCSS(".json_encode(file_get_contents($in_file)).", \"".$code."\");";
-                        }
-                    } else {
-                        if($copy_assets) {
-                            self::copyAssets($in_file, null, $out_file);
-                        }
-                        if($insert_assets) {
-                            if($ext === "css" && !in_array($out_file, self::$features_assets["css"][$code])) {
-                                self::$features_assets["css"][$code][] = $out_file;
-                            } elseif ($ext === "js" && !in_array($out_file, self::$features_assets["js"][$code])) {
-                                self::$features_assets["js"][$code][] = $out_file;
-                            }
-                        }
+                    if($ext === "js") {
+                        $minifier_js->add($in_file);
+                    } elseif ($ext === "css") {
+                        $minifier_css->add($in_file);
                     }
                 }
             }
         }
 
-        $feature_js = $feature_js.$feature_register;
 
-        return $feature_js;
+        // minify assets
+        $output = "";
+
+        $bundle_css = $minifier_css->minify();
+        $minifier_js->add("\nFeatures.insertCSS(".json_encode($bundle_css).", \"".$code."\");");
+
+        if($bundle_path != null) {
+            $tmp_file = "{$out_dir}/feature.{$code}.bundle.min.js";
+            $minifier_js->minify($tmp_file);
+
+            /** Replace
+             * App.info,
+             * App.constant,
+             * App.controller,
+             * App.config,
+             * App.factory,
+             * App.service,
+             * App.directive,
+             * App.run,
+             * App.provider,
+             * App.value,
+             * App.decorator,
+             * App.component,
+             * App.register,
+             * App.animation
+             *
+             * with angular.module("starter") for $ocLazyLoad */
+            __replace(array(
+                "#App\.(info|constant|controller|config|factory|service|directive|run|provider|value|decorator|component|register|animation)#im" => 'angular.module("starter").$1'
+            ), $tmp_file, true);
+
+            self::copyAssets($tmp_file, null, $bundle_path);
+
+            $output = " Features.register(".$feature["__JSON__"].", ['{$bundle_path}']); ";
+
+        } else {
+            $output = $minifier_js->minify() . "\n;Features.register(".$feature["__JSON__"]."); ";
+        }
+
+        return $output;
+    }
+
+    /**
+     * Compile all tepmlates in the $templateCache for angular
+     *
+     * @param $source
+     */
+    public static function buildTemplateCaches($source) {
+        $phulp = new Phulp\Phulp();
+
+        $phulp->task('angular-template-cache', function ($phulp) use ($source) {
+
+            $phulp
+                ->src([$source . '/templates/'], '/html$/')
+                ->pipe(new Phulp\AngularTemplateCache\AngularTemplateCache(
+                    'templates-templates.js', [
+                        'module' => 'templates',
+                        'root' => 'templates/'
+                    ]
+                ))
+                ->pipe($phulp->dest($source . '/dist/'));
+
+            $phulp
+                ->src([$source . '/modules/'], '/html$/')
+                ->pipe(new Phulp\AngularTemplateCache\AngularTemplateCache(
+                    'templates-modules.js', [
+                        'module' => 'templates',
+                        'root' => 'modules/'
+                    ]
+                ))
+                ->pipe($phulp->dest($source . '/dist/'));
+
+            if(!file_exists($source . '/features/')) {
+                mkdir($source . '/features/', 0775, true);
+            }
+
+            $phulp
+                ->src([$source . '/features/'], '/html$/')
+                ->pipe(new Phulp\AngularTemplateCache\AngularTemplateCache(
+                    'templates-features.js', [
+                        'module' => 'templates',
+                        'root' => 'features/'
+                    ]
+                ))
+                ->pipe($phulp->dest($source . '/dist/'));
+        });
+
+        $phulp->run('angular-template-cache');
+
+        # Concat & Clean-up
+        $content = file_get_contents($source . "/dist/templates-templates.js") . "\n"
+                 . file_get_contents($source . "/dist/templates-modules.js") . "\n"
+                 . file_get_contents($source . "/dist/templates-features.js");
+        ;
+
+        file_put_contents($source . "/dist/templates.js", $content);
+
+        unlink($source . "/dist/templates-templates.js");
+        unlink($source . "/dist/templates-modules.js");
+        unlink($source . "/dist/templates-features.js");
+
     }
 
     /**
@@ -322,9 +632,19 @@ class Siberian_Assets
 
             $www_folder = self::$www[$type];
             foreach($platforms as $platform) {
+
                 $path = Core_Model_Directory::getBasePathTo($platform);
                 $index_path = $path.$www_folder."index.html";
                 $index_content = file_get_contents($index_path);
+
+                $index_content = self::preBuildAction($index_content, $index_path, $type, $platform);
+
+                foreach(self::$preBuildCallbacks as $callback) {
+                    $index_content = $callback($index_content, $index_path, $type, $platform);
+                }
+
+                # Build the templateCache, Siberian 5.0
+                self::buildTemplateCaches($path.$www_folder);
 
                 foreach(self::$assets_js as $asset_js) {
                     $index_content = self::__appendAsset($index_content, $asset_js, "js");
@@ -359,11 +679,75 @@ class Siberian_Assets
                     $index_content = self::__removeAllFeatureAssets($index_content, $f);
                 }
 
+                foreach(self::$postBuildCallbacks as $callback) {
+                    $index_content = $callback($index_content, $index_path, $type, $platform);
+                }
+
+                $index_content = self::postBuildAction($index_content, $index_path, $type, $platform);
+
                 if(is_writable($index_path)) {
                     file_put_contents($index_path, $index_content);
                 }
             }
         }
+    }
+
+    public static function registerPreBuildCallback($code, $callback) {
+        if(!is_string($code) || strlen(trim($code)) < 1) {
+            throw new InvalidArgumentException("code should be a non empty string. Input was: ".$code);
+        }
+        if(!is_callable($callback)) {
+            throw new InvalidArgumentException("callback should be callable");
+        }
+
+        self::$preBuildCallbacks[$code] = $callback;
+    }
+
+    public static function unregisterPreBuildCallback($code, $callback) {
+        unset(self::$preBuildCallbacks[$code]);
+    }
+
+    public static function registerPostBuildCallback($code, $callback) {
+        if(!is_string($code) || strlen(trim($code)) < 1) {
+            throw new InvalidArgumentException("code should be a non empty string. Input was: ".$code);
+        }
+        if(!is_callable($callback)) {
+            throw new InvalidArgumentException("callback should be callable");
+        }
+
+        self::$postBuildCallbacks[$code] = $callback;
+    }
+
+    public static function unregisterPostBuildCallback($code, $callback) {
+        unset(self::$postBuildCallbacks[$code]);
+    }
+
+    /**
+     *  When subclassing Siberian_Assets, you can override this method
+     *  to add a preBuildAction on index.html build operations
+     *
+     * @param $index_content
+     * @param $index_path
+     * @param $type
+     * @param $platform
+     * @return string $index_content modified
+     */
+    public static function preBuildAction($index_content, $index_path, $type, $platform) {
+        return $index_content;
+    }
+
+    /**
+     *  When subclassing Siberian_Assets, you can override this method
+     *  to add a postBuildAction on index.html build operations
+     *
+     * @param $index_content
+     * @param $index_path
+     * @param $type
+     * @param $platform
+     * @return string $index_content modified
+     */
+    public static function postBuildAction($index_content, $index_path, $type, $platform) {
+        return $index_content;
     }
 
     /**
@@ -398,7 +782,7 @@ class Siberian_Assets
         return $index_content;
     }
 
-    private static function __removeAllFeatureAssets($index_content, $feature, $type = null) {
+    public static function __removeAllFeatureAssets($index_content, $feature, $type = null) {
         if($type == null) {
             return self::__removeAllFeatureAssets(
                 self::__removeAllFeatureAssets(
@@ -423,7 +807,7 @@ class Siberian_Assets
         return preg_replace($regex, "", $index_content);
     }
 
-    private static function ___assetLine($asset_path, $type, $feature = null) {
+    public static function ___assetLine($asset_path, $type, $feature = null) {
         $asset_path = __ss($asset_path);
         $feature_data = is_string($feature) ? " data-feature=\"$feature\"" : "";
         switch($type) {

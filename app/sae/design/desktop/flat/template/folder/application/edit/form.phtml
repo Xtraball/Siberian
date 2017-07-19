@@ -33,9 +33,9 @@
                     <div class="form-group" style="margin-left:0">
                         <div class="col-sm-4">
                             <!--[if gte IE 10]><!-->
-                            <button id="upload_folder_background" <?php if($category->getPicture()) : echo ' style="display:none" '; endif; ?>type="button" class="upload_folder_background color-blue add">
+                            <button id="upload_folder_background" <?php if($category->getPicture()) : echo ' style="display:none" '; endif; ?>type="button" class="upload_folder_background color-blue btn">
                                 <i class="icon-camera-retro"></i>
-                                <?php echo $this->_('Add a') ?><br /><span class="bold"><?php echo $this->_('picture') ?></span>
+                                <?php echo $this->_('Add a picture') ?>
                             </button>
                             <!--<![endif]-->
                             <input id="folder_background_file" class="uploader" style="display:none" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">

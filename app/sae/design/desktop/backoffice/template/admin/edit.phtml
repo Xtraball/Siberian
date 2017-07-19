@@ -73,6 +73,17 @@
             </div>
         </div>
 
+        <div class="clear form-group">
+            <div class="col-md-6">
+                <label for="{{ admin.is_allowed_to_manage_tour }}"><?php echo __("Can manage guided tour"); ?></label>
+                <select class="form-control" ng-model="admin.is_allowed_to_manage_tour">
+                    <option value="0"><?php echo __("No"); ?></option>
+                    <option value="1"><?php echo __("Yes"); ?></option>
+                </select>
+                <p class="help-block" ng-show="admin.is_allowed_to_manage_tour == 'yes'"><?php echo __("This admin can manage guided tour from editor"); ?></p>
+            </div>
+        </div>
+
         <div class="clear form-group" ng-if="admin.id">
             <div class="col-md-12">
                 <div class="checkbox">

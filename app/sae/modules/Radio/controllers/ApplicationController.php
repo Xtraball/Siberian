@@ -1,6 +1,18 @@
 <?php
 
 class Radio_ApplicationController extends Application_Controller_Default {
+
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "editpost" => array(
+            "tags" => array(
+                "homepage_app_#APP_ID#",
+            ),
+        ),
+    );
+
     /**
      * Simple edit post, validator
      */
@@ -27,6 +39,11 @@ class Radio_ApplicationController extends Application_Controller_Default {
             $warning_message = Siberian_Network::testipv4($values['link']);
 
             $radio->save();
+
+            /** Update touch date, then never expires (until next touch) */
+            $this->getCurrentOptionValue()
+                ->touch()
+                ->expires(-1);
 
             $html = array(
                 "success" => 1,

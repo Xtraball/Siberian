@@ -1,7 +1,7 @@
 <?php $category = $this->getCategory(); ?>
 <li id="category_<?php echo $category->getId(); ?>" class="list-group-item content-white-bkg">
     <div id="actions_<?php echo $category->getId(); ?>">
-        <i class="fa fa-arrows icon-move"></i>
+        <i class="fa fa-sort icon-move"></i>
         <span id="category_title_<?php echo $category->getId(); ?>"><?php echo $category->getName() ?></span>
         <span class="category_actions pull-right">
             <i class="fa fa-pencil pointer" id="edit_category_<?php echo $category->getCategoryId(); ?>" rel="<?php echo $category->getCategoryId() ?>" onclick="categories.edit('<?php echo $category->getCategoryId() ?>');"></i>

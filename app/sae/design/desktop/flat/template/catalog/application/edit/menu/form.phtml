@@ -9,14 +9,14 @@ if ($this->getMenu()->getId() != null) {
 $menu_description_id = 'menu_description';
 $application = $this->getApplication();
 ?>
-<h3 class="title-editor">
+<h3 class="title-editor no-border-radius title-feature-indent">
     <?php echo $this->_('Editing'); ?>
 </h3>
-<div class="container-fluid">
+<div class="container-fluid content-feature">
     <form id="formCreateMenu" method="post" action="<?php echo $this->getUrl('catalog/application_menu/editpost', array('id' => $menu->getId())); ?>" class="form-horizontal subcontent">
         <div class="form-group">
             <div class="col-md-12">
-                <button type="button" onclick="page.reload();" class="btn color-blue pull-left"><i class="fa fa-arrow-left"></i></button>
+                <button type="button" onclick="page.reload();" class="btn color-blue pull-left"><i class="fa fa-angle-left"></i></button>
                 <button type="submit" class="btn color-blue pull-right">OK</button>
             </div>
         </div>
@@ -68,7 +68,7 @@ $application = $this->getApplication();
             </div>
             <!--[if gte IE 10]><!-->
             <div class="col-sm-5">
-                <button id="picture_uploader" class="upload_picture btn color-blue add" type="button" rel="<?php echo $menu->getId() ? $menu->getId() : 'new' ?>">
+                <button id="picture_uploader" class="upload_picture btn color-blue" type="button" rel="<?php echo $menu->getId() ? $menu->getId() : 'new' ?>">
                     <?php echo $menu->getPicture() ? $this->_("Edit the") : $this->_('Add a'); ?>
                     <?php echo $this->_('picture'); ?>
                 </button>
@@ -78,11 +78,10 @@ $application = $this->getApplication();
         </div>
 
         <div id="delete_picture" class="form-group"<?php if(!$menu->getPicture()) : ?> style="display:none;"<?php endif; ?>>
-            <div class="col-sm-3">
-                <button type="button" onclick="removepicture();" id="delete_picture" class="btn color-blue"><i class="fa fa-times"></i></button>
-            </div>
+            <div class="col-sm-3"></div>
             <div class="col-sm-4">
                 <img src="<?php echo Application_Model_Application::getImagePath().$menu->getPicture() ?>" width="150" height="150" />
+                <button type="button" onclick="removepicture();" id="delete_picture" class="btn color-blue"><i class="fa fa-times"></i></button>
             </div>
         </div>
 
@@ -173,3 +172,8 @@ $application = $this->getApplication();
         }
     });
 </script>
+<style>
+    button#delete_picture {
+        left:15px;
+    }
+</style>

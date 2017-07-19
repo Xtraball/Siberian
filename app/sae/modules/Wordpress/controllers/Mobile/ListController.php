@@ -36,29 +36,29 @@ class Wordpress_Mobile_ListController extends Application_Controller_Mobile_Defa
                 foreach($posts as $post) {
 
                     $data["collection"][] = array(
-                        "id" => $post->getId(),
-                        "title" => $post->getTitle(),
-                        "subtitle" => html_entity_decode($post->getShortDescription(), ENT_NOQUOTES, "UTF-8"),
-                        "description" => $post->getDescription(),
-                        "picture" => $post->getPicture(),
-                        "date" => $post->getFormattedDate(),
-                        "is_hidden" => !!$post->getIsHidden(),
-                        "url" => $this->getPath("wordpress/mobile_view", array("value_id" => $value_id, "post_id" => $post->getId())),
-                        "social_sharing_active" => $option_value->getSocialSharingIsActive()
+                        "id"                        => (integer) $post->getId(),
+                        "title"                     => $post->getTitle(),
+                        "subtitle"                  => html_entity_decode($post->getShortDescription(), ENT_NOQUOTES, "UTF-8"),
+                        "description"               => $post->getDescription(),
+                        "picture"                   => $post->getPicture(),
+                        "date"                      => $post->getFormattedDate(),
+                        "is_hidden"                 => (boolean) $post->getIsHidden(),
+                        "url"                       => $this->getPath("wordpress/mobile_view", array("value_id" => $value_id, "post_id" => $post->getId())),
+                        "social_sharing_active"     => $option_value->getSocialSharingIsActive()
                     );
 
                 }
 
                 if($cover) {
                     $data["cover"] = array(
-                        "id" => $cover->getId(),
-                        "title" => $cover->getTitle(),
-                        "subtitle" => html_entity_decode($cover->getShortDescription(), ENT_NOQUOTES, "UTF-8"),
-                        "description" => html_entity_decode($cover->getDescription(), ENT_NOQUOTES, "UTF-8"),
-                        "picture" => $cover->getPicture(),
-                        "date" => $cover->getFormattedDate(),
-                        "is_hidden" => false,
-                        "url" => $this->getPath("wordpress/mobile_view", array("value_id" => $value_id, "post_id" => $cover->getId()))
+                        "id"            => (integer) $cover->getId(),
+                        "title"         => $cover->getTitle(),
+                        "subtitle"      => html_entity_decode($cover->getShortDescription(), ENT_NOQUOTES, "UTF-8"),
+                        "description"   => html_entity_decode($cover->getDescription(), ENT_NOQUOTES, "UTF-8"),
+                        "picture"       => $cover->getPicture(),
+                        "date"          => $cover->getFormattedDate(),
+                        "is_hidden"     => false,
+                        "url"           => $this->getPath("wordpress/mobile_view", array("value_id" => $value_id, "post_id" => $cover->getId()))
                     );
                 }
 
@@ -70,7 +70,7 @@ class Wordpress_Mobile_ListController extends Application_Controller_Mobile_Defa
                 $data = array('error' => 1, 'message' => $e->getMessage());
             }
 
-            $this->_sendHtml($data);
+            $this->_sendJson($data);
 
         }
 

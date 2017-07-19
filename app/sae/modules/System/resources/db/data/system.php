@@ -51,6 +51,16 @@ $configs = array(
         "label" => "Default Languages"
     ),
     array(
+        "code" => "app_default_identifier_android",
+        "label" => "Application base Package Name (Android)",
+        "value" => ""
+    ),
+    array(
+        "code" => "app_default_identifier_ios",
+        "label" => "Application base Bundle ID (iOS)",
+        "value" => ""
+    ),
+    array(
         "code" => "system_publication_access_type",
         "label" => "Publication access type",
         "value" => "sources"
@@ -337,3 +347,29 @@ $this->query("DELETE FROM `system_config` WHERE code = '';");
 
 # 4.10.0: Clear locks
 Siberian_Cache::__clearLocks();
+
+# 4.12.0
+$id_android = System_Model_Config::getValueFor("app_default_identifier_android");
+$id_ios = System_Model_Config::getValueFor("app_default_identifier_ios");
+
+$buildId = function($suffix) {
+    $request = Zend_Controller_Front::getInstance()->getRequest();
+    $url = mb_strtolower($request->getServer("HTTP_HOST"));
+    $url = array_reverse(explode(".", $url));
+    $url[] = $suffix;
+
+    foreach($url as &$part) {
+        $part = preg_replace("/[^0-9a-z\.]/i", "", $part);
+    }
+
+    return implode(".", $url);
+};
+
+if(empty($id_android)) {
+    System_Model_Config::setValueFor("app_default_identifier_android", $buildId("android"));
+}
+
+if(empty($id_ios)) {
+    System_Model_Config::setValueFor("app_default_identifier_ios", $buildId("ios"));
+}
+

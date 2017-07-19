@@ -27,7 +27,7 @@ class Comment_Mobile_EditController extends Application_Controller_Mobile_Defaul
 
                 $comment->setText($data['text']);
                 $comment->setCustomerId($this->getSession()->getCustomerId());
-                $comment->setValueId($data['value_id']);
+                $comment->setValueId($this->getRequest()->getParam("value_id", $data['value_id']));
 
                 $position = $data['position'];
                 if ($position) {
@@ -52,6 +52,61 @@ class Comment_Mobile_EditController extends Application_Controller_Mobile_Defaul
 
             $this->_sendHtml($html);
         }
+    }
+
+    /**
+     * Create fanwall post Siberian 5.0
+     */
+    public function createv2Action() {
+
+        try {
+            $request = $this->getRequest();
+            $session = $this->getSession();
+            if($params = Siberian_Json::decode($request->getRawBody())) {
+
+                if (!$session->getCustomerId()) {
+                    throw new Siberian_Exception(__("You must be connected to create a post!"));
+                }
+
+                $comment = new Comment_Model_Comment();
+                $comment
+                    ->setText($params["text"])
+                    ->setCustomerId($session->getCustomerId())
+                    ->setValueId($params["value_id"]);
+
+                $position = $params["position"];
+                if ($position) {
+                    $comment
+                        ->setLatitude($position['latitude'])
+                        ->setLongitude($position['longitude']);
+                }
+
+                $image = $params["image"];
+                if ($image) {
+                    $url = $this->_saveImageContent($image);
+                    $comment->setImage($url);
+                }
+
+                $comment->save();
+
+                $payload = array(
+                    "success" => true,
+                    "message" => __("Your post was successfully added")
+                );
+
+            } else {
+                throw new Siberian_Exception(__("Missing parameters, value_id or message."));
+            }
+
+        } catch(Exception $e) {
+
+            $payload = array(
+                "error" => true,
+                "message" => $e->getMessage()
+            );
+        }
+
+        $this->_sendJson($payload);
     }
 
     // Reference parameter

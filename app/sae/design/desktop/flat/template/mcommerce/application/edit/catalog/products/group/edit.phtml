@@ -10,18 +10,18 @@ $edit = $requireChoiceEditor ? "Edit the choice list group" : "Edit the options 
       action="<?php echo $this->getUrl('mcommerce/application_catalog_product_group/editpost'); ?>"
       class="form-horizontal">
     <fieldset>
-        <h3 class="title-editor">
+        <h3 class="title-editor no-border-radius title-feature-indent">
             <?php if (!$group->getId()) : ?>
                 <?php echo $this->_($create); ?>
             <?php else : ?>
                 <?php echo $this->_("%s %s", $edit, mb_strlen($group->getTitle(), 'utf8') > 20 ? mb_substr($group->getTitle(), 0, 20, 'utf8') . '...' : $group->getTitle()); ?>
             <?php endif; ?>
         </h3>
-        <div class="container-fluid first-row-feature">
+        <div class="container-fluid first-row-feature content-feature">
             <div class="form-group">
                 <div class="col-md-12">
                     <button type="button" onclick="products.groups.group.close();" class="btn color-blue pull-left"><i
-                            class="fa fa-arrow-left"></i></button>
+                            class="fa fa-angle-left"></i></button>
                     <button type="submit" class="btn color-blue pull-right">OK</button>
                 </div>
             </div>
@@ -41,7 +41,7 @@ $edit = $requireChoiceEditor ? "Edit the choice list group" : "Edit the options 
                 </div>
                 <div class="col-sm-5">
                     <label id="label_group_is_required" for="group_is_required">
-                        <input class="checkbox" type="checkbox" id="group_is_required" value="1"
+                        <input class="color-blue" type="checkbox" id="group_is_required" value="1"
                                name="is_required"<?php if ($group->isRequired()) : ?> checked="checked"<?php endif; ?> />
                         <input type="hidden" name="as_checkbox" value="<?php echo $requireChoiceEditor ?>"/>
                     </label>
@@ -58,7 +58,7 @@ $edit = $requireChoiceEditor ? "Edit the choice list group" : "Edit the options 
                 <i class="fa fa-plus"></i>
             </button>
         </h3>
-        <div class="container-fluid">
+        <div class="container-fluid content-feature">
             <div class="list list-input"
                  id="group_option_edit_list"<?php if ($group_options->count() == 0) : ?> style="display:none;"<?php endif; ?>>
                 <?php foreach ($group_options as $group_option) : ?>

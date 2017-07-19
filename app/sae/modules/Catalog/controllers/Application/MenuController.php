@@ -108,6 +108,11 @@ class Catalog_Application_MenuController extends Application_Controller_Default
                 $html['message_timeout'] = 2;
                 $html['message_button'] = 0;
                 $html['message_loader'] = 0;
+
+                /** Update touch date, then never expires (until next touch) */
+                $option_value
+                    ->touch()
+                    ->expires(-1);
             }
             catch(Exception $e) {
                 $html = array(

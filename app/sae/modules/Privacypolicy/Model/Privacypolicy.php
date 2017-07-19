@@ -34,28 +34,7 @@ class Privacypolicy_Model_Privacypolicy extends Core_Model_Default {
      * @return array
      */
     public function getFeaturePaths($option_value) {
-        if(!$this->isCacheable()) {
-            return array();
-        }
-
-        $value_id = $option_value->getId();
-        $cache_id = "feature_paths_valueid_{$value_id}";
-        if(!$result = $this->cache->load($cache_id)) {
-
-            $paths = array(
-                "/{$this->getApplication()->getKey()}/cms/mobile_privacypolicy/find/{$option_value->getId()}"
-            );
-
-            $this->cache->save($paths, $cache_id,
-                $this->cache_tags + array(
-                    "feature_paths",
-                    "feature_paths_valueid_{$value_id}"
-                ));
-        } else {
-            $paths = $result;
-        }
-
-        return $paths;
+        return array();
     }
 
     /**

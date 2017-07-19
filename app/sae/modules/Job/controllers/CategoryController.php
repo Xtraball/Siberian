@@ -59,6 +59,11 @@ class Job_CategoryController extends Application_Controller_Default {
 
             $category->save();
 
+            /** Update touch date, then never expires (until next touch) */
+            $this->getCurrentOptionValue()
+                ->touch()
+                ->expires(-1);
+
             $html = array(
                 "success" => 1,
                 "message" => __("Success."),
@@ -85,6 +90,11 @@ class Job_CategoryController extends Application_Controller_Default {
         if($form->isValid($values)) {
             $category = new Job_Model_Category();
             $result = $category->find($values["category_id"])->toggle();
+
+            /** Update touch date, then never expires (until next touch) */
+            $this->getCurrentOptionValue()
+                ->touch()
+                ->expires(-1);
 
             $html = array(
                 "success" => 1,
@@ -113,6 +123,11 @@ class Job_CategoryController extends Application_Controller_Default {
             $category = new Job_Model_Category();
             $category->find($values["category_id"]);
             $category->delete();
+
+            /** Update touch date, then never expires (until next touch) */
+            $this->getCurrentOptionValue()
+                ->touch()
+                ->expires(-1);
 
             $html = array(
                 'success' => 1,

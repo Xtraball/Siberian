@@ -1,9 +1,9 @@
 <?php echo $this->doctype() ?>
 <html>
     <head>
-        <title><?php echo $this->_($this->getTitle()) ?></title>
+        <title><?php echo __($this->getTitle()) ?></title>
         <?php foreach($this->getMetas() as $meta) : ?>
-        <meta <?php echo $meta->getTag() ?>="<?php echo $meta->getKey(); ?>" content="<?php echo $this->_($meta->getContent()); ?>" />
+        <meta <?php echo $meta->getTag() ?>="<?php echo $meta->getKey(); ?>" content="<?php echo __($meta->getContent()); ?>" />
         <?php endforeach ?>
         <?php foreach(Core_Model_Language::getLanguages() as $language) : ?>
         <?php if(Core_Model_Language::getCurrentLanguage() == $language->getCode()) continue;?>
@@ -15,6 +15,64 @@
             var current_release = "<?php echo System_Model_Config::getValueFor("current_release") ?>";
             var tmp_directory = "<?php echo Core_Model_Directory::getTmpDirectory() ?>";
             var datepicker_regional = "<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>";
+
+            <?php $existing_steps = new Tour_Model_Step(); ?>
+            <?php $existing_steps = $existing_steps->findAllForJS(Core_Model_Language::getCurrentLanguage(), $_SERVER['REQUEST_URI']); ?>
+            var existing_steps = new Array();
+            <?php
+                if(count($existing_steps)):
+            ?>
+                existing_steps = <?php echo(Zend_Json::encode($existing_steps)); ?>;
+            <?php
+                endif;
+            ?>
+
+            function launchBootstrapTour() {
+                if(!window.localStorage.getItem("sb-tour")) {
+
+                    var step_to_display = [];
+
+                    for(var key in existing_steps) {
+                        var step = {
+                            "element": "#" + existing_steps[key].elem_id,
+                            "title": existing_steps[key].title,
+                            "content": existing_steps[key].text,
+                            "placement": existing_steps[key].placement ? existing_steps[key].placement : "auto",
+                            "path": existing_steps[key].url
+                        };
+                        step_to_display.push(step);
+                    }
+
+                    if(step_to_display.length) {
+                        if(tour && tour.ended()) {
+                            tour.restart();
+                        } else {
+                            tour = new Tour({
+                                template: "<div class='popover tour content-white-bkg'>" +
+                                "<div class='arrow'></div>" +
+                                "<h3 class='popover-title title-editor border-blue'></h3>" +
+                                "<div class='popover-content content-color'></div>" +
+                                "<div class='popover-navigation content-color'>" +
+                                "<div class='row'><div class='col-md-6'><button class='form-control btn color-blue' data-role='prev'>« <?php echo __("Back"); ?></button>" +
+                                "</div><div class='col-md-6'><button class='form-control btn color-blue' data-role='next'><?php echo __("Next"); ?> »</button>" +
+                                "</div></div><div class='row'><div class='col-md-12 text-center first-row-feature'><a class='end-tour' data-role='end'><?php echo __("End tour"); ?></a></div></div>" +
+                                "</div>" +
+                                "</div>",
+                                steps: step_to_display,
+                                backdrop: true
+                            });
+
+                            // Initialize the tour
+                            tour.init();
+
+                            // Start the tour
+                            tour.start();
+                        }
+                    } else {
+                        $("#sb-tour-enable").hide();
+                    }
+                }
+            }
         </script>
 
         <?php echo $this->headLink() ?>
@@ -37,6 +95,9 @@
                     <?php if($this->_canAccessWhiteLabelEditor()) : ?>
                         <?php echo $this->getPartialHtml('customization_sidebar') ?>
                     <?php endif; ?>
+                    <?php if($this->getSession()->getAdmin()->isAllowedToManageTour()): ?>
+                        <?php echo $this->getPartialHtml('sb_tour_sidebar') ?>
+                    <?php endif; ?>
                     <div class="right-toggled">
                         <div class="sidebars">
                             <?php if($sidebar_left_partial) echo $sidebar_left_partial->renderHtml(); ?>
@@ -52,7 +113,7 @@
             <div class="footer">
                 <?php echo $this->getPartialHtml('footer') ?>
                 <div id="up" style="display:none">
-                <a href="javascript:void(0)" class="color-blue btn" data-image="341" data-style="header" data-color="background_color"><i class="fa fa-caret-up"></i>
+                <a href="javascript:void(0)" class="box foo" data-image="341" data-style="header" data-color="background_color"><i class="fa fa-caret-up"></i>
                 </a>
                 </div>
             </div>
@@ -63,21 +124,19 @@
             </div>
             <div id="alert">
                 <div class="row">
-                    <div class="col-md-12 text-right">
-                        <i class="fa fa-times pointer" id="close_alert_message"></i>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 text-center">
+                    <div class="col-md-2">
                         <i id="error_icon" class="fa fa-check"></i>
                     </div>
-                    <div class="col-md-10">
+                    <div class="col-md-8">
                         <div id="alert_message"></div>
+                    </div>
+                    <div class="col-md-2 text-right">
+                        <i class="fa fa-times pointer" id="close_alert_message"></i>
                     </div>
                 </div>
             </div>
         <script type="text/javascript">
-
+            var tour = null;
             <?php
                 if($this->getApplication()) {
                     $application = $this->getApplication();
@@ -135,15 +194,20 @@
                     $(d).animate({scrollTop: $('body').offset().top});
                     return false;
                 });
+
+                // Instance the tour
+                <?php if(System_Model_Config::getValueFor("bootstraptour_active") == "1"): ?>
+                    launchBootstrapTour();
+                <?php endif; ?>
+
             });
 
             function featureNotAvailable() {
-                new AlertMessage('<?php echo addslashes($this->_('Please create the API keys to enable this feature.')); ?>', true)
+                new AlertMessage('<?php echo addslashes(__('Please create the API keys to enable this feature.')); ?>', true)
                     .isError(true)
                     .show()
                 ;
             }
-            
         </script>
         <?php if(!$this->getRequest()->isWhiteLabelEditor()) : ?>
         <?php echo System_Model_Config::getValueFor("support_chat_code") ?>

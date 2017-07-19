@@ -59,7 +59,7 @@ class Job_PlaceController extends Application_Controller_Default {
             );
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
     }
 
     /**
@@ -110,6 +110,11 @@ class Job_PlaceController extends Application_Controller_Default {
 
             $place->save();
 
+            /** Update touch date, then never expires (until next touch) */
+            $this->getCurrentOptionValue()
+                ->touch()
+                ->expires(-1);
+
             $html = array(
                 "success" => 1,
                 "message" => __("Success."),
@@ -123,7 +128,7 @@ class Job_PlaceController extends Application_Controller_Default {
             );
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
     }
 
     /**
@@ -136,6 +141,11 @@ class Job_PlaceController extends Application_Controller_Default {
         if($form->isValid($values)) {
             $place = new Job_Model_Place();
             $result = $place->find($values["place_id"])->toggle();
+
+            /** Update touch date, then never expires (until next touch) */
+            $this->getCurrentOptionValue()
+                ->touch()
+                ->expires(-1);
 
             $html = array(
                 "success" => 1,
@@ -151,7 +161,7 @@ class Job_PlaceController extends Application_Controller_Default {
             );
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
     }
 
     /**
@@ -165,6 +175,11 @@ class Job_PlaceController extends Application_Controller_Default {
             $place = new Job_Model_Company();
             $place->find($values["place_id"]);
             $place->delete();
+
+            /** Update touch date, then never expires (until next touch) */
+            $this->getCurrentOptionValue()
+                ->touch()
+                ->expires(-1);
 
             $html = array(
                 'success' => 1,
@@ -181,7 +196,7 @@ class Job_PlaceController extends Application_Controller_Default {
             );
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
     }
 
 

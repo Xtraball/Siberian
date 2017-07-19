@@ -1,4 +1,7 @@
-App.service('MusicTracksLoader', function ($q, $stateParams, MusicTrack) {
+/*global
+    angular
+ */
+angular.module("starter").service('MusicTracksLoader', function ($q, $stateParams, MusicTrack) {
 
     MusicTrack.value_id = $stateParams.value_id;
 
@@ -29,7 +32,7 @@ App.service('MusicTracksLoader', function ($q, $stateParams, MusicTrack) {
         var albumsIds = [];
 
         // filter duplicated
-        var albums = service._filterDuplicatedAlbums(albums, albumsIds);
+        albums = service._filterDuplicatedAlbums(albums, albumsIds);
 
         var tracksLoader = service._buildTracksLoader(albums);
 
@@ -67,6 +70,9 @@ App.service('MusicTracksLoader', function ($q, $stateParams, MusicTrack) {
     };
 
     service._buildTracksLoader = function (albums) {
+
+        console.log("_buildTracksLoader", albums);
+
         return {
             albums: albums,
             tracks: [],
@@ -178,24 +184,31 @@ App.service('MusicTracksLoader', function ($q, $stateParams, MusicTrack) {
         }
 
         // synchronize all queries
-        $q.all(promises).then(function (tracksResponses) {
+        try {
+            $q.all(promises)
+                .then(function (tracksResponses) {
 
-                var tracksLoaded = tracksResponses.reduce(function (tracks, tracksResponse) {
-                    tracks = tracks.concat(tracksResponse.data.tracks);
-                    return tracks;
-                }, []);
+                        var tracksLoaded = tracksResponses.reduce(function (tracks, tracksResponse) {
+                            tracks = tracks.concat(tracksResponse.tracks);
 
-                tracksLoader.tracks = tracksLoader.tracks.concat(tracksLoaded);
+                            return tracks;
+                        }, []);
 
-                deferred.resolve({
-                    tracksLoader: tracksLoader,
-                    tracksLoaded: tracksLoaded
-                });
-            },
-            function (err) {
-                console.error('Error while loading tracks.', err);
-                deferred.reject(err);
-            }).finally(function () {});
+                        tracksLoader.tracks = tracksLoader.tracks.concat(tracksLoaded);
+
+                        deferred.resolve({
+                            tracksLoader: tracksLoader,
+                            tracksLoaded: tracksLoaded
+                        });
+                    },
+                    function (err) {
+                        console.error('Error while loading tracks.', err);
+                        deferred.reject(err);
+                    }).finally(function () {});
+        } catch(e) {
+            console.error(e.message);
+        }
+
 
         return deferred.promise;
 

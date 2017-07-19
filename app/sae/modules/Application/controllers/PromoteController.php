@@ -15,7 +15,7 @@ class Application_PromoteController extends Application_Controller_Default {
         $qr_code = $response->getRawBody();
 
         if(!empty($qr_code)) {
-            $this->_download($qrcode, 'qrcode.png', 'image/png');
+            $this->_download($qr_code, 'qrcode.png', 'image/png');
         }
         else {
             $this->getSession()->addError(__('An error occurred during the generation of your QRCode. Please try again later.'));

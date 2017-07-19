@@ -29,6 +29,11 @@ $schemas['padlock'] = array(
             'is_unique' => false,
         ),
     ),
+    'description' => array(
+        'type' => 'text',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'created_at' => array(
         'type' => 'datetime',
     ),

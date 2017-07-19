@@ -1,19 +1,12 @@
-App.config(function ($stateProvider) {
+/*global
+ App, angular, BASE_PATH, DOMAIN
+ */
 
-    $stateProvider.state('mcommerce-product-view', {
-        url: BASE_PATH+"/mcommerce/mobile_product/index/value_id/:value_id/product_id/:product_id",
-        controller: 'MCommerceProductViewController',
-        templateUrl: "templates/mcommerce/l1/product.html",
-        cache:false
-    })
+angular.module("starter").controller("MCommerceProductViewController", function ($cordovaSocialSharing, Loader,
+                                                          $log, $state, $stateParams, $scope, $translate, Analytics,
+                                                          Application, Dialog, McommerceCategory,
+                                                          McommerceCart, McommerceProduct) {
 
-}).controller('MCommerceProductViewController', function ($cordovaSocialSharing, $ionicLoading, $ionicPopup, $log, $state, $stateParams, $scope, $translate, Analytics, Application, Dialog, McommerceCategory, McommerceCart, McommerceProduct) {
-
-    $scope.$on("connectionStateChange", function(event, args) {
-        if(args.isOnline == true) {
-            $scope.loadContent();
-        }
-    });
 
     McommerceProduct.value_id   = $stateParams.value_id;
     McommerceCart.value_id      = $stateParams.value_id;
@@ -30,61 +23,61 @@ App.config(function ($stateProvider) {
 
     $scope.loadContent = function () {
         $scope.is_loading = true;
-        $ionicLoading.show({
-            template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
-        });
 
-        McommerceProduct.find($scope.product_id).success(function (data) {
-            $scope.product = data.product;
+        Loader.show();
 
-            Analytics.storeProductOpening($scope.product);
+        McommerceProduct.find($scope.product_id)
+            .then(function (data) {
+                $scope.product = data.product;
 
-            $scope.social_sharing_active = !!($scope.product.social_sharing_active == 1 && !Application.is_webview);
+                Analytics.storeProductOpening($scope.product);
 
-            $scope.share = function () {
+                $scope.social_sharing_active = !!($scope.product.social_sharing_active == 1 && !Application.is_webview);
 
-                // Fix for $cordovaSocialSharing issue that opens dialog twice
-                if($scope.is_sharing) return;
+                $scope.share = function () {
 
-                $scope.is_sharing = true;
+                    // Fix for $cordovaSocialSharing issue that opens dialog twice
+                    if($scope.is_sharing) {
+                        return;
+                    }
 
-                var app_name = Application.app_name;
-                var link = DOMAIN + "/application/device/downloadapp/app_id/" + Application.app_id;
-                var subject = "";
-                var file = ($scope.product.picture[0] && $scope.product.picture[0].url)  ? $scope.product.picture[0].url : "";
-                var content = $scope.product.name;
-                var message = $translate.instant("Hi. I just found: $1 in the $2 app.").replace("$1", content).replace("$2", app_name);
-                $cordovaSocialSharing
-                    .share(message, subject, file, link) // Share via native share sheet
-                    .then(function (result) {
-                        $log.debug("MCommerce::product.js", "social sharing success");
-                        $scope.is_sharing = false;
-                    }, function (err) {
-                        $log.debug("MCommerce::product.js", err);
-                        $scope.is_sharing = false;
-                    });
-            };
+                    $scope.is_sharing = true;
 
-            if($scope.product.formatGroups.length > 0) {
-                $scope.selected_format.id = $scope.product.formatGroups[0].id;
-            }
+                    var app_name = Application.app_name;
+                    var link = DOMAIN + "/application/device/downloadapp/app_id/" + Application.app_id;
+                    var subject = "";
+                    var file = ($scope.product.picture[0] && $scope.product.picture[0].url)  ? $scope.product.picture[0].url : "";
+                    var content = $scope.product.name;
+                    var message = $translate.instant("Hi. I just found: $1 in the $2 app.").replace("$1", content).replace("$2", app_name);
+                    $cordovaSocialSharing
+                        .share(message, subject, file, link) // Share via native share sheet
+                        .then(function (result) {
+                            $log.debug("MCommerce::product.js", "social sharing success");
+                            $scope.is_sharing = false;
+                        }, function (err) {
+                            $log.debug("MCommerce::product.js", err);
+                            $scope.is_sharing = false;
+                        });
+                };
 
-            $scope.page_title = data.page_title;
+                if($scope.product.formatGroups.length > 0) {
+                    $scope.selected_format.id = $scope.product.formatGroups[0].id;
+                }
 
-        }).finally(function () {
-            $scope.is_loading = false;
-            $ionicLoading.hide();
-        });
+                $scope.page_title = data.page_title;
+
+            }).then(function () {
+                $scope.is_loading = false;
+                Loader.hide();
+            });
     };
 
     $scope.addProduct = function () {
 
         $scope.is_loading = true;
-        $ionicLoading.show({
-            template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
-        });
+        Loader.show();
 
-        var errors = new Array();
+        var errors = [];
 
         var postParameters = {
             'product_id': $scope.product_id,
@@ -110,7 +103,7 @@ App.config(function ($stateProvider) {
 
                 choicesGroup.options.forEach(function(e, i){
                     if(e.selected){
-                        selected.push(e.id)
+                        selected.push(e.id);
                     }
                 });
 
@@ -129,8 +122,17 @@ App.config(function ($stateProvider) {
         };
 
         if(errors.length <= 0) {
-            McommerceCart.addProduct(postParameters).success(function (data) {
-                if (data.success) {
+            McommerceCart.addProduct(postParameters)
+                .then(function (data) {
+                    if (data.success) {
+                        $scope.is_loading = false;
+                        Loader.hide();
+                        $scope.openCart();
+                    }
+                }, function (data) {
+                    if (data && angular.isDefined(data.message)) {
+                        Dialog.alert("", data.message, $translate.instant("OK"));
+                    }
                     $scope.is_loading = false;
                     //Don't forget to "reset" selection
                     $scope.product_quantity = 1;
@@ -144,22 +146,14 @@ App.config(function ($stateProvider) {
                             option.selected = false;
                         });
                     });
-                    $ionicLoading.hide();
-                    $scope.openCart();
-                }
-            }).error(function (data) {
-                if (data && angular.isDefined(data.message)) {
-                    Dialog.alert("", data.message, $translate.instant("OK"));
-                }
-                $scope.is_loading = false;
-                $ionicLoading.hide();
-            });
+                    Loader.hide();
+                });
         } else {
             var message = errors.join("<br/>");
-            Dialog.alert("", message, $translate.instant("OK"));
+            Dialog.alert("", message, "OK");
 
             $scope.is_loading = false;
-            $ionicLoading.hide();
+            Loader.hide();
         }
 
     };

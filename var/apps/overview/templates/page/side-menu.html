@@ -1,0 +1,52 @@
+<ion-side-menus>
+
+    <script type="text/ng-template" id="homepage-menu.html">
+        <div sb-tabbar></div>
+    </script>
+
+    <ion-side-menu side="left" width="layout.menu.sidebarLeftWidth" ng-if="showLeft()">
+        <ng-include src="'homepage-menu.html'" class="{{ layout_id }}"></ng-include>
+    </ion-side-menu>
+
+    <ion-side-menu side="left" width="contextualMenuSideWidth()" ng-if="contextualMenuExists() && showRight()">
+        <ng-include src="contextualMenu()"></ng-include>
+    </ion-side-menu>
+
+    <ion-side-menu-content ng-class="(showAlways()) ? 'has-footer-fixed' : ''" >
+
+        <ion-nav-bar class="bar-custom">
+            <ion-nav-back-button ng-click="goBack()">
+                <span class="default-title">{{ "Back" | translate }}</span>
+            </ion-nav-back-button>
+
+            <ion-nav-buttons side="left">
+                <button ng-show="showLeft()" menu-toggle="left" class="button button-clear icon ion-navicon-round"></button>
+            </ion-nav-buttons>
+
+            <ion-nav-buttons side="right">
+                <button ng-show="showRight()" menu-toggle="right" class="button button-clear icon ion-navicon-round"></button>
+            </ion-nav-buttons>
+
+        </ion-nav-bar>
+
+        <sb-nav-view></sb-nav-view>
+
+        <sb-media-mini-player></sb-media-mini-player>
+
+        <!-- Global footer -->
+        <ion-footer-bar ng-if="showAlways()">
+            <ng-include src="'homepage-menu.html'" class="always {{ layout_id }}"></ng-include>
+        </ion-footer-bar>
+
+    </ion-side-menu-content>
+
+
+    <ion-side-menu side="right" width="layout.menu.sidebarRightWidth" ng-if="showRight()">
+        <ng-include src="'homepage-menu.html'" class="{{ layout_id }}"></ng-include>
+    </ion-side-menu>
+
+    <ion-side-menu side="right" width="contextualMenuSideWidth()" ng-if="contextualMenuExists() && !showRight()" is-enabled="contextualMenuIsEnabled()">
+        <ng-include src="contextualMenu()"></ng-include>
+    </ion-side-menu>
+
+</ion-side-menus>

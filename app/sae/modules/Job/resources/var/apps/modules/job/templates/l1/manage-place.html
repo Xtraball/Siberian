@@ -1,4 +1,4 @@
-<ion-modal-view class="layout modal slide-top">
+<ion-modal-view sb-page-background class="layout modal slide-top">
 
     <ion-header-bar class="bar-custom">
         <div class="buttons">
@@ -10,7 +10,7 @@
     <ion-content>
 
 
-        <div class="list job-manage">
+        <div class="list job-manage" ng-class="{'card' : card_design}">
 
             <label class="item item-input item-custom">
                 <span class="input-label">{{ "Views" | translate }} *</span>
@@ -37,7 +37,7 @@
                 <span class="input-label">{{ "Keywords, coma separated" | translate }}</span>
                 <input type="text" placeholder="{{ 'Keywords' | translate }}" ng-model="place_edit.keywords">
             </label>
-            <ion-checkbox ng-model="place_edit.is_active">{{ "Is active" | translate }}</ion-checkbox>
+            <ion-checkbox class="item-custom" ng-model="place_edit.is_active">{{ "Is active" | translate }}</ion-checkbox>
         </div>
 
         <div class="job-padding">

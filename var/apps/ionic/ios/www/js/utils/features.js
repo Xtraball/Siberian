@@ -1,3 +1,6 @@
+/*global
+ angular, console, BASE_PATH
+ */
 window.Features = (new (function Features() {
     var _app = angular.module("starter"); // WARNING: Must be the same as in app.js
     var $this = {};
@@ -11,7 +14,7 @@ window.Features = (new (function Features() {
         document.head.appendChild(css);
     };
 
-    $this.register = function(json) {
+    $this.register = function(json, bundle) {
         var feature_base = "features/"+json.code+"/";
         _app.config(
             [
@@ -22,31 +25,42 @@ window.Features = (new (function Features() {
                     angular.forEach(json.routes, function(r) {
                         if(r.autoregister !== false) {
                             var route = {
-                                "url": BASE_PATH+"/"+r.url,
+                                "url": BASE_PATH + "/" + r.url,
                                 "controller": r.controller
                             };
 
-                            switch(true) {
-                            case angular.isString(r.templateHTML):
-                                route.template = r.templateHTML;
-                                break;
-                            case (angular.isObject(r.layouts) && angular.isString(r.template)):
-                                route.templateUrl = function(param) {
-                                    var layout_id = HomepageLayoutProvider.getLayoutIdForValueId(param.value_id);
-                                    if(angular.isString(r.layouts[layout_id])) {
-                                        return template_base+r.layouts[layout_id]+"/"+r.template;
-                                    }
-
-                                    return template_base+r.layouts["default"]+"/"+r.template;
+                            if(angular.isDefined(bundle)) {
+                                route.resolve = {
+                                    lazy: ["$ocLazyLoad", function($ocLazyLoad) {
+                                        return $ocLazyLoad.load(bundle);
+                                    }]
                                 };
-                                break;
-                            case angular.isString(r.template):
-                                route.templateUrl = template_base + r.template;
-                                break;
+                            }
+
+                            switch(true) {
+                                case angular.isString(r.templateHTML):
+                                        route.template = r.templateHTML;
+                                    break;
+                                case (angular.isObject(r.layouts) && angular.isString(r.template)):
+                                        route.templateUrl = function(param) {
+                                            var layout_id = HomepageLayoutProvider.getLayoutIdForValueId(param.value_id);
+                                            if(angular.isString(r.layouts[layout_id])) {
+                                                return template_base + r.layouts[layout_id] + "/" + r.template;
+                                            }
+
+                                            return template_base + r.layouts["default"] + "/" + r.template;
+                                        };
+                                    break;
+                                case ((r.externalTemplate === true) && angular.isString(r.template)):
+                                        route.templateUrl = r.template;
+                                    break;
+                                case angular.isString(r.template):
+                                        route.templateUrl = template_base + r.template;
+                                    break;
                             }
 
                             // route.cache = false if r.cache === false, otherwise route.cache = true
-                            route.cache = !(r.cache === false);
+                            route.cache = (r.cache !== false);
 
                             this[r.state] = route;
                         }
@@ -64,10 +78,11 @@ window.Features = (new (function Features() {
     };
 
     _app.config(["$stateProvider", function($stateProvider) {
-        $stateProvider.state("go-to-feature", {
-            url: BASE_PATH+"/goto/feature/:code/value_id/:value_id",
-            template: "redirecting..."
-        });
+        $stateProvider
+            .state("go-to-feature", {
+                url         : BASE_PATH + "/goto/feature/:code/value_id/:value_id",
+                template    : "redirecting..."
+            });
     }]).factory(
         "Features", [
             "$q", "$state",
@@ -79,8 +94,9 @@ window.Features = (new (function Features() {
 
                 // Get a feature JSON
                 factory.get = function(feature_code) {
-                    if(__features.hasOwnProperty(feature_code))
+                    if(__features.hasOwnProperty(feature_code)) {
                         return __features[feature_code];
+                    }
 
                     return null;
                 };
@@ -99,7 +115,9 @@ window.Features = (new (function Features() {
                             }
                         }
                         if(route) {
-                            $state.go(route.state, {value_id: value_id});
+                            $state.go(route.state, {
+                                value_id: value_id
+                            });
                             $q.resolve();
                         }
                     }
@@ -112,14 +130,14 @@ window.Features = (new (function Features() {
         ]
     ).run(["$rootScope", "Features", function($rootScope, Features) {
         $rootScope.$on('$stateChangeStart', function(evt, toState, toParams, fromState, fromParams) {
-            if(angular.isObject(toState) && toState.name === "go-to-feature") {
+            if(angular.isObject(toState) && (toState.name === "go-to-feature")) {
                 evt.preventDefault();
                 if(
                     angular.isObject(toParams) &&
-                        angular.isString(toParams.code) &&
-                        toParams.code.trim().length > 0 &&
-                        !isNaN(+toParams.value_id) &&
-                        +toParams.value_id > 0
+                    angular.isString(toParams.code) &&
+                    (toParams.code.trim().length > 0) &&
+                    !isNaN(+toParams.value_id) &&
+                    (+toParams.value_id > 0)
                 ) {
                     Features.goTo(toParams.code, toParams.value_id);
                 }

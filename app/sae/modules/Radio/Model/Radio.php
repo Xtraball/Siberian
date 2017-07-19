@@ -25,6 +25,42 @@ class Radio_Model_Radio extends Core_Model_Default {
         return $in_app_states;
     }
 
+    /**
+     * @param $option_value
+     * @return bool
+     */
+    public function getEmbedPayload($option_value) {
+
+        $payload = false;
+
+        if($this->getId()) {
+
+            if(substr($this->getLink(), -1) == "/") {
+                $stream_tag = ";";
+            } else {
+                if(mb_stripos($this->getLink(), "/", 8) > 0) {
+                    $stream_tag = "";
+                } else {
+                    $stream_tag = "/;";
+                }
+            }
+
+            $this->setLink($this->getLink() . $stream_tag);
+
+            $payload = array(
+                "radio" => array(
+                    "url"           => addslashes($this->getLink()),
+                    "title"         => $this->getTitle(),
+                    "background"    => $option_value->getBaseUrl() . "/images/application" . $this->getBackground(),
+                )
+            );
+
+        }
+
+        return $payload;
+
+    }
+
     public function copyTo($option) {
         $this->setId(null)->setValueId($option->getId())->save();
         return $this;

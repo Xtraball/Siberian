@@ -28,8 +28,39 @@ class Weather_Mobile_ViewController extends Application_Controller_Mobile_Defaul
             $data = array('error' => 1, 'message' => 'An error occurred during process. Please try again later.');
         }
 
-        $this->_sendHtml($data);
+        $this->_sendJson($data);
 
+    }
+
+    public function proxyAction() {
+
+        try {
+
+            if($params = Siberian_Json::decode($this->getRequest()->getRawBody())) {
+
+                $_request = base64_decode($params["request"]);
+
+                if(strpos($_request, "yahoo") === false) {
+                    throw new Siberian_Exception(__("Not a Yahoo weather request, aborting."));
+                }
+
+                $response = Siberian_Request::get($_request);
+
+                $payload = Siberian_Json::decode($response);
+
+            } else {
+
+                throw new Siberian_Exception(__("Missing request."));
+            }
+
+        } catch(Exception $e) {
+            $payload = array(
+                "error" => true,
+                "message" => $e->getMessage()
+            );
+        }
+
+        $this->_sendJson($payload);
     }
 
 

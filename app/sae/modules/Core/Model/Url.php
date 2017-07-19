@@ -91,11 +91,18 @@ class Core_Model_Url extends Core_Model_Default
             $params = $request->getParams();
             $remove = array('module', 'controller', 'action');
             foreach($params as $key => $param) {
-                if(in_array($param, $remove)) unset($params[$key]);
+                if(in_array($param, $remove)) {
+                    unset($params[$key]);
+                }
             }
         }
         else {
             $params = array();
+        }
+
+        # Sanitize data, prevents XSS injection, Siberian 5.0
+        foreach($params as &$param) {
+            $param = filter_var($param, FILTER_SANITIZE_STRING);
         }
 
         return self::create($url, $params, $locale);

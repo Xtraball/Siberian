@@ -1,7 +1,12 @@
-App.directive("sbPadlock", function(Application) {
+/*global
+ angular
+ */
+
+angular.module("starter").directive("sbPadlock", function(Application) {
     return {
         restrict: "A",
-        controller: function($cordovaBarcodeScanner, $ionicHistory, $ionicModal, $rootScope, $scope, $state, $stateParams, $timeout, $translate, $window, Application, Customer, Dialog, Padlock, AUTH_EVENTS, PADLOCK_EVENTS) {
+        controller: function($cordovaBarcodeScanner, $ionicHistory, Modal, $rootScope, $scope, $state, $stateParams,
+                             $timeout, $translate, $window, Application, Customer, Dialog, Padlock, SB) {
 
             $scope.is_webview = Application.is_webview;
 
@@ -9,31 +14,48 @@ App.directive("sbPadlock", function(Application) {
                 $ionicHistory.clearHistory();
             }
 
-            $rootScope.$on(AUTH_EVENTS.loginSuccess, function() {
+            $rootScope.$on(SB.EVENTS.AUTH.loginSuccess, function() {
                 $scope.is_logged_in = true;
             });
-            $rootScope.$on(AUTH_EVENTS.logoutSuccess, function() {
+
+            $rootScope.$on(SB.EVENTS.AUTH.logoutSuccess, function() {
                 $scope.is_logged_in = false;
             });
 
             $scope.is_logged_in = Customer.isLoggedIn();
             $scope.value_id = Padlock.value_id = $stateParams.value_id;
 
-            Padlock.findUnlockTypes().success(function(data) {
-                $scope.unlock_by_account_type = data.unlock_by_account;
-                $scope.unlock_by_qrcode_type = data.unlock_by_qrcode;
-            });
+            Padlock.findUnlockTypes()
+                .then(function(data) {
+                    $scope.unlock_by_account_type = data.unlock_by_account;
+                    $scope.unlock_by_qrcode_type = data.unlock_by_qrcode;
+                });
 
-            $scope.login = function($scope) { 
-            	$rootScope.loginFeature = true; 
-            	Customer.loginModal($scope) ;
+            $scope.padlock_login = function () {
+                Customer.display_account_form = false;
+                Customer.loginModal($scope, function() {
+                    $rootScope.$broadcast(SB.EVENTS.PADLOCK.unlockFeatures);
+
+                    if(Application.is_locked) {
+                        $ionicHistory.clearHistory();
+                        $state.go("home");
+                    } else {
+                        $ionicHistory.goBack();
+                    }
+                });
             };
 
-            $scope.logout = function() {
+            $scope.padlock_signup = function () {
+                Customer.display_account_form = true;
+                Customer.loginModal($scope);
+            };
+
+            $scope.padlock_logout = function() {
                 $scope.is_loading = true;
-                Customer.logout().finally(function() {
-                    $scope.is_loading = false;
-                });
+                Customer.logout()
+                    .then(function() {
+                        $scope.is_loading = false;
+                    });
             };
 
             $scope.openScanCamera = function() {
@@ -50,35 +72,36 @@ App.directive("sbPadlock", function(Application) {
 
                                     var qrcode = barcodeData.text.replace($scope.scan_protocols[i], "");
 
-                                    Padlock.unlockByQRCode(qrcode).success(function() {
+                                    Padlock.unlockByQRCode(qrcode)
+                                        .then(function() {
 
-                                        Padlock.unlocked_by_qrcode = true;
+                                            Padlock.unlocked_by_qrcode = true;
 
-                                        $scope.is_loading = false;
+                                            $scope.is_loading = false;
 
-                                        $window.localStorage.setItem('sb-uc', qrcode);
+                                            $window.localStorage.setItem('sb-uc', qrcode);
 
-                                        $rootScope.$broadcast(PADLOCK_EVENTS.unlockFeatures);
+                                            $rootScope.$broadcast(SB.EVENTS.PADLOCK.unlockFeatures);
 
-                                        if(Application.is_locked) {
-                                            $ionicHistory.clearHistory();
-			                                      $state.go("home");
-                                        } else {
-                                            $ionicHistory.goBack();
-                                        }
+                                            if(Application.is_locked) {
+                                                $ionicHistory.clearHistory();
+                                                $state.go("home");
+                                            } else {
+                                                $ionicHistory.goBack();
+                                            }
 
-                                    }).error(function (data) {
+                                        }, function (data) {
 
-                                        var message_text = $translate.instant('An error occurred while reading the code.');
-                                        if(angular.isObject(data)) {
-                                            message_text = data.message;
-                                        }
+                                            var message_text = $translate.instant('An error occurred while reading the code.');
+                                            if(angular.isObject(data)) {
+                                                message_text = data.message;
+                                            }
 
-                                        Dialog.alert($translate.instant('Error'), message_text, $translate.instant("OK"));
+                                            Dialog.alert("Error", message_text, "OK", -1);
 
-                                    }).finally(function () {
-                                        $scope.is_loading = false;
-                                    });
+                                        }).then(function () {
+                                            $scope.is_loading = false;
+                                        });
 
                                     break;
                                 }
@@ -89,11 +112,7 @@ App.directive("sbPadlock", function(Application) {
                     }
 
                 }, function(error) {
-                    Dialog.alert(
-                        $translate.instant('Error'),
-                        $translate.instant('An error occurred while reading the code.'),
-                        $translate.instant("OK")
-                    );
+                    Dialog.alert("Error", "An error occurred while reading the code.", "OK", -1);
                 });
             };
 

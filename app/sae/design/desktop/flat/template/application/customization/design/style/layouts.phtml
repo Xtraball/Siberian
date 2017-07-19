@@ -12,22 +12,22 @@
 ?>
 <div class="content-no-padding col-md-3 col-xs-3">
     <ul>
-        <li>
-            <a href="javascript:void(0);" class="change_category color-red">
+        <li class="change_category color-red">
+            <a href="javascript:void(0);">
                 <?php echo __("All"); ?>
                 <input type="hidden" value="0" name="category_id" />
             </a>
         </li>
         <?php foreach($categories as $category) : ?>
-            <li>
-                <a href="javascript:void(0);" class="change_category">
+            <li class="change_category">
+                <a href="javascript:void(0);">
                     <?php echo __($category->getName()); ?>
                     <input type="hidden" value="<?php echo $category->getCategoryId(); ?>" />
                 </a>
             </li>
         <?php endforeach ?>
-        <li>
-            <a href="javascript:void(0);" class="change_category_withoptions">
+        <li class="change_category_withoptions">
+            <a href="javascript:void(0);">
                 <?php echo __("With options"); ?>
                 <input type="hidden" value="withoptions>" />
             </a>
@@ -153,9 +153,5 @@
         left: 0;
         top: 0;
         opacity: 1;
-    }
-
-    .layout-with-options {
-
     }
 </style>

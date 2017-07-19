@@ -65,7 +65,7 @@ class Siberian_Form_Element_MultiCheckbox extends Zend_Form_Element_MultiCheckbo
 	 * @throws Zend_Form_Exception
 	 */
 	public function setNewDesign(){
-	  	$this->addClass('sb-form-checkbox');
+	  	$this->addClass('sb-form-checkbox ' . $this->color);
 		$this->setSeparator("");
 		$this->setAttrib("escape", false);
 

@@ -101,12 +101,11 @@
 </script>
 
 <div id="list" class="edit_page wordpress">
-    <h3 class="title-editor no-border-radius">
+    <h3 class="title-editor no-border-radius title-feature-indent">
         <?php echo $this->_('Wordpress') ?>
     </h3>
-    <div class="container-fluid first-row-feature">
+    <div class="container-fluid first-row-feature content-feature">
         <div class="infos">
-            <p class="underline"><a href="/external/app-creator.zip"><?php echo $this->_('Click here to download our Wordpress plugin'); ?></a></p>
             <div id="wordpress_search">
                 <form id="wordpressSearchForm" name="wordpressSearchForm" method="post" action="<?php echo $this->getUrl('wordpress/application/search') ?>" class="form-horizontal">
                     <div class="form-group">
@@ -123,13 +122,14 @@
                     </div>
                 </form>
             </div>
+            <p class="underline"><a href="/external/app-creator.zip" class="btn btn-grey"><?php echo $this->_('Click here to download our Wordpress plugin'); ?></a></p>
         </div>
         <div id="loader_search_loader" class="a-center none">
             <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" />
             <p><?php echo $this->_('Loading categories'); ?></p>
         </div>
         <div id="wordpress_content"<?php if(!$root_category->isValid()) : ?> style="display:none;"<?php endif; ?>>
-            <form id="wordpressForm" name="wordpressForm" method="post" action="<?php echo $this->getUrl('wordpress/application/editpost') ?>">
+            <form id="wordpressForm" name="wordpressForm" method="post" action="<?php echo $this->getUrl('wordpress/application/editpost') ?>" class="form-horizontal">
                 <div id="wordpress_categories">
                     <?php if($wordpress->getData('url') AND $root_category->isValid()) : ?>
                     <?php echo $this->getLayout()->addPartial('categories_html', 'admin_view_default', 'wordpress/application/edit/categories.phtml')
@@ -206,5 +206,14 @@
         padding: 0;
         font-size: 15px;
         line-height: 15px;
+    }
+    #wordpress_categories ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    .margin-list {
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
 </style>

@@ -1,4 +1,4 @@
-App.directive('sbTooltip', function () {
+angular.module("starter").directive('sbTooltip', function () {
     return {
         restrict: 'A',
         scope: {},
@@ -30,12 +30,12 @@ App.directive('sbTooltip', function () {
             '        </ul>' +
             '    </ion-scroll>' +
             '</div>',
-        controller: function($scope) {
+        controller: function($scope, $translate) {
 
             var tooltip = this;
 
             if(!tooltip.button_label) {
-                tooltip.button_label = "More";
+                tooltip.button_label = $translate.instant("More");
             }
 
             $scope.toggleTooltip = function() {

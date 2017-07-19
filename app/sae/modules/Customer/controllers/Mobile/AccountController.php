@@ -107,7 +107,7 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
                 $html = array('error' => 1, 'message' => $e->getMessage());
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($html);
         }
 
     }
@@ -212,14 +212,21 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
                 // Connexion du client
                 $this->getSession()->setCustomer($customer);
 
-                $html = array('success' => 1, 'customer_id' => $customer->getId());
+                $html = array(
+                    'success' => true,
+                    'customer_id' => $customer->getId(),
+                    'customer' => $this->_getCustomer()
+                );
 
             }
             catch(Exception $e) {
-                $html = array('error' => 1, 'message' => $e->getMessage());
+                $html = array(
+                    'error' => true,
+                    'message' => $e->getMessage()
+                );
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($html);
 
         }
 
@@ -277,7 +284,7 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
                 );
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($html);
 
         }
 
@@ -385,14 +392,21 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
                     $this->getSession()->$key = $value;
                 }
 
-                $html = array('success' => 1, 'customer_id' => $customer->getId());
+                $html = array(
+                    'success' => 1,
+                    'customer_id' => $customer->getId(),
+                    'customer' => $this->_getCustomer()
+                );
 
             }
             catch(Exception $e) {
-                $html = array('error' => 1, 'message' => $e->getMessage());
+                $html = array(
+                    'error' => 1,
+                    'message' => $e->getMessage()
+                );
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($html);
 
         }
 
@@ -436,5 +450,13 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
         return $this;
 
     }
+
+    /**
+     * @return array
+     */
+    private function _getCustomer() {
+        return Customer_Model_Customer::getCurrent();
+    }
+
 
 }

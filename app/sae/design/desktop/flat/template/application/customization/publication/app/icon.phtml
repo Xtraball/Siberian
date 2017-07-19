@@ -14,8 +14,8 @@ $android_push_icon = "/images/application".$application->getAndroidPushIcon();
 $android_push_image = "/images/application".$application->getAndroidPushImage();
 
 ?>
-<div id="icon_conteneur" class="content">
-    <h3 class="title-editor border-purple">
+<div id="icon_conteneur" class="content sb-tour">
+    <h3 class="title-editor border-purple text-center">
         <?php echo __("Dashboard icon"); ?>
     </h3>
     <div id="icon" class="subcontent content-color">
@@ -25,16 +25,16 @@ $android_push_image = "/images/application".$application->getAndroidPushImage();
     </div>
 </div>
 
-<div id="android_conteneur" class="content">
-    <h3 class="title-editor border-purple">
+<div id="android_conteneur" class="content sb-tour">
+    <h3 class="title-editor border-purple text-center">
         <?php echo __("Android push"); ?>
     </h3>
-    <div id="icon" class="subcontent content-color">
-        <div class="col-md-6">
-            <h4 style="text-align: center;"><?php echo __("Settings") ?></h4>
+    <div id="icon" class="subcontent content-color container-fluid">
+        <div id="sb-tour-push-settings" class="col-md-6 content-options content-white-bkg sb-tour">
+            <h4><?php echo __("Settings") ?></h4>
             <?php echo $android_form; ?>
         </div>
-        <div class="col-md-6">
+        <div id="sb-tour-preview-settings" class="col-md-6 sb-tour">
             <h4 style="text-align: center;"><?php echo __("Preview") ?></h4>
 
             <b><?php echo __("Status bar"); ?></b>
@@ -274,5 +274,9 @@ $android_push_image = "/images/application".$application->getAndroidPushImage();
         float: right;
         font-size: 12px;
     }
-
+    h4 {
+        font-weight: 200;
+        text-align: center;
+        text-transform: uppercase;
+    }
 </style>

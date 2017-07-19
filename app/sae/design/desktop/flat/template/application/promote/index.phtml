@@ -3,51 +3,55 @@
     <div class="col-md-12">
         <div class="page-content-wrapper">
 
-            <div class="content solo-page">
-                <h3 class="title-editor border-blue">
-                    <?php echo $this->_('Stores URL'); ?>
+            <div id="sb-tour-store-url" class="content solo-page sb-tour">
+                <h3 class="title-editor border-blue text-center">
+                    <?php echo __('Stores URL'); ?>
                 </h3>
                 <div class="subcontent content-color container-fluid">
                     <form id="storesForm" class="form-horizontal" action="<?php echo $this->getUrl('application/promote/savestores'); ?>" method="post" onsubmit="return false">
                         <div class="form-group">
                             <div class="col-md-6">
-                                    <label for="ios_store_url"><?php echo $this->_('iOS'); ?></label>
+                                    <label for="ios_store_url"><?php echo __('iOS'); ?></label>
                                     <input type="url" class="input-flat" name="ios_store_url" id="ios_store_url" value="<?php echo $application->getDevice(1)->getStoreUrl(); ?>" />
                             </div>
 
                             <div class="col-md-6">
-                                <label for="android_store_url"><?php echo $this->_('Android'); ?></label>
+                                <label for="android_store_url"><?php echo __('Android'); ?></label>
                                 <input type="url" class="input-flat" name="android_store_url" id="android_store_url" value="<?php echo $application->getDevice(2)->getStoreUrl(); ?>" />
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-12">
-                                <button type="submit" class="btn color-blue"><?php echo $this->_("Save"); ?></button>
+                                <button type="submit" class="btn color-blue pull-right"><?php echo __("Save"); ?></button>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
 
-            <div id="qrcode_content" class="content solo-page">
-                <h3 class="title-editor border-blue">
-                    <?php echo $this->_('My QRCode'); ?>
+            <div id="qrcode_content" class="content solo-page sb-tour">
+                <h3 class="title-editor border-blue text-center">
+                    <?php echo __('My QRCode'); ?>
                 </h3>
                 <div id="qrcode" class="subcontent content-color">
                     <div class="col-md-12">
-                        <p><?php echo $this->_('You can download your QRCode by <a class="f-bold" href="%s">clicking here</a>', $this->getUrl('application/promote/qrcode')); ?></p>
+                        <p>
+                            <button class="btn color-blue" onclick="javascript:window.open('<?php echo $this->getUrl('application/promote/qrcode'); ?>')">
+                                <?php echo __("Download your QRCode") ?>
+                            </button>
+                        </p>
                         <?php echo $application->getQrcode(); ?>
                     </div>
                 </div>
             </div>
             <?php if($application->getBannerAuthor() AND $application->getBannerButtonLabel()): ?>
-            <div id="banner_content" class="content">
-                <h3 class="title-editor border-blue">
-                    <?php echo $this->_('Banner'); ?>
+            <div id="banner_content" class="content sb-tour">
+                <h3 class="title-editor border-blue text-center">
+                    <?php echo __('Banner'); ?>
                 </h3>
-                <p><strong><?php echo $this->_("In order to insert a promote banner for your application on your site, please follow those steps:"); ?></strong></p>
+                <p><strong><?php echo __("In order to insert a promote banner for your application on your site, please follow those steps:"); ?></strong></p>
                 <p>
-                    <?php echo $this->_("1. Insert the following code between the %s tag of your page:", htmlentities("<head>")); ?>
+                    <?php echo __("1. Insert the following code between the %s tag of your page:", htmlentities("<head>")); ?>
                 </p>
                 <p>
                     <pre>
@@ -55,7 +59,7 @@
                     </pre>
                 </p>
                 <p>
-                    <?php echo $this->_("2. Insert the following code at the end of the %s tag of your page:", htmlentities("<body>")); ?>
+                    <?php echo __("2. Insert the following code at the end of the %s tag of your page:", htmlentities("<body>")); ?>
                 </p>
                 <p>
                     <pre>

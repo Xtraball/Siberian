@@ -22,8 +22,8 @@ class Catalog_Mobile_Category_ListController extends Application_Controller_Mobi
                     usort($products, array($this, "_sortProducts"));
 
                     $category_data = array(
-                        "id" => $category->getId(),
-                        "name" => $category->getName(),
+                        "id"        => (integer) $category->getId(),
+                        "name"      => $category->getName(),
                     );
 
                     $children = $category->getChildren();
@@ -38,16 +38,16 @@ class Catalog_Mobile_Category_ListController extends Application_Controller_Mobi
                             usort($child_products, array($this, "_sortProducts"));
 
                             $category_data["children"][] = array(
-                                "id" => $child->getId(),
-                                "name" => $child->getName(),
-                                "collection" => $child_products
+                                "id"            => (integer) $child->getId(),
+                                "name"          => $child->getName(),
+                                "collection"    => $child_products
                             );
                         }
 
                          array_unshift($category_data["children"], array(
-                            "id" => $child->getId(),
-                            "name" => $this->_("%s - All", $category->getName()),
-                            "collection" => $products
+                            "id"            => (integer) $child->getId(),
+                            "name"          => __("%s - All", $category->getName()),
+                            "collection"    => $products
                         ));
 
                     } else {
@@ -64,19 +64,47 @@ class Catalog_Mobile_Category_ListController extends Application_Controller_Mobi
                 $data = array('error' => 1, 'message' => $e->getMessage());
             }
 
-            $this->_sendHtml($data);
+            $this->_sendJson($data);
         }
 
     }
 
     protected function _productToJson($product, $value_id) {
+        $format = array();
+        if($product->getData("type") == "format") {
+            foreach($product->getType()->getOptions() as $option) {
+                $format[] = array(
+                    "id"    => (integer) $option->getId(),
+                    "title" => $option->getTitle(),
+                    "price" => $option->getFormattedPrice()
+                );
+            }
+        }
+
+        $picture_b64 = null;
+        if($product->getPictureUrl()) {
+            $picture = Core_Model_Directory::getBasePathTo($product->getPictureUrl());
+            $picture_b64 = Siberian_Image::open($picture)->inline("png");
+        }
+
+        $embed_payload = array(
+            "name"                  => $product->getName(),
+            "conditions"            => $product->getConditions(),
+            "description"           => $product->getDescription(),
+            "price"                 => $product->getPrice() > 0 ? $product->getFormattedPrice() : null,
+            "picture"               => $picture_b64,
+            "formats"               => $format,
+            "social_sharing_active" => (boolean) $this->getCurrentOptionValue()->getSocialSharingIsActive()
+        );
+
         return array(
-            "id" => $product->getId(),
-            "title" => $product->getName(),
-            "subtitle" => $product->getPrice() > 0 ? $product->getFormattedPrice() : strip_tags($product->getDescription()),
-            "picture" => $product->getPictureUrl() ? $this->getRequest()->getBaseUrl().$product->getPictureUrl() : null,
-            "url" => $this->getPath("catalog/mobile_category_product_view", array("value_id" => $value_id, "product_id" => $product->getId())),
-            "position" => $product->getPosition()
+            "id"                => (integer) $product->getId(),
+            "title"             => $product->getName(),
+            "subtitle"          => strip_tags($product->getDescription()).($product->getPrice() > 0 ? "<br>".$product->getFormattedPrice() : ""),
+            "picture"           => $picture_b64,
+            "url"               => $this->getPath("catalog/mobile_category_product_view", array("value_id" => $value_id, "product_id" => $product->getId())),
+            "position"          => $product->getPosition(),
+            "embed_payload"     => $embed_payload
         );
     }
 

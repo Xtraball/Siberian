@@ -4,7 +4,7 @@
     <div>
         <?php if(!$category->getChildren()->count()) : ?>
         <label for="select_category_<?php echo $category->getId(); ?>" id="label_select_category_<?php echo $category->getId(); ?>" class="label_select_category" data-parent="label_select_category_<?php echo $category->getId(); ?>">
-            <input type="checkbox" class="select_category" value="<?php echo $category->getId(); ?>" name="new_category_ids[]" id="select_category_<?php echo $category->getId(); ?>"<?php if(in_array($category->getId(), $product->getCategoryIds())) : ?> checked="checked"<?php endif; ?>>
+            <input type="checkbox" class="select_category color-blue" value="<?php echo $category->getId(); ?>" name="new_category_ids[]" id="select_category_<?php echo $category->getId(); ?>"<?php if(in_array($category->getId(), $product->getCategoryIds())) : ?> checked="checked"<?php endif; ?>>
             <span><?php echo $category->getTitle() ?></span>
         </label>
         <?php else : ?>

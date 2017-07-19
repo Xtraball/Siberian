@@ -1,47 +1,79 @@
-"use strict";
+/*global
+ App, angular, device
+ */
 
-App.factory('Twitter', function ($cacheFactory, $http, $q, $rootScope, Url) {
+/**
+ * Twitter
+ *
+ * @author Xtraball SAS
+ */
+angular.module("starter").factory("Twitter", function($pwaRequest) {
 
-    var self = this;
+    var factory = {
+        value_id        : null,
+        last_id         : null,
+        extendedOptions : {}
+    };
 
-    /** Features */
-    self.value_id = null;
-    self.last_id = null;
+    /**
+     *
+     * @param value_id
+     */
+    factory.setValueId = function(value_id) {
+        factory.value_id = value_id;
+    };
 
-    self.loadData = function () {
+    /**
+     *
+     * @param options
+     */
+    factory.setExtendedOptions = function(options) {
+        factory.extendedOptions = options;
+    };
 
-        if (!self.value_id) {
-            return;
+    /**
+     * Pre-Fetch feature.
+     *
+     * @param page
+     */
+    factory.preFetch = function(page) {
+        factory.loadData();
+    };
+
+    factory.loadData = function () {
+
+        if (!this.value_id) {
+            return $pwaRequest.reject("[Factory::Twitter.loadData] missing value_id");
         }
 
-        var data = {value_id: self.value_id}
-        if (self.last_id) {
-            data['last_id'] = self.last_id;
+        var data = {
+            value_id: this.value_id
+        };
+
+        if (this.last_id) {
+            data.last_id = this.last_id;
         }
 
-        return $http({
-            method: 'GET',
-            url: Url.get("twitter/mobile_twitter/list", data),
-            cache: false,
-            withCredentials: false,
-            responseType: 'json'
+        /** @todo Limit cache for twitter */
+        return $pwaRequest.get("twitter/mobile_twitter/list", angular.extend({
+            urlParams: data,
+            withCredentials: false
+        }, factory.extendedOptions));
+    };
+
+    factory.getInfo = function () {
+
+        if (!this.value_id) {
+            return $pwaRequest.reject("[Factory::Twitter.getInfo] missing value_id");
+        }
+
+        return $pwaRequest.get("twitter/mobile_twitter/info", {
+            urlParams: {
+                value_id: this.value_id
+            },
+            withCredentials: false
         });
     };
 
-    self.getInfo = function () {
-
-        if (!self.value_id) {
-            return;
-        }
-
-        return $http({
-            method: 'GET',
-            url: Url.get("twitter/mobile_twitter/info", {value_id: self.value_id}),
-            cache: false,
-            withCredentials: false,
-            responseType: 'json'
-        });
-    };
-
-    return self;
+    return factory;
 });

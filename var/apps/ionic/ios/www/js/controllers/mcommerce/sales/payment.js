@@ -1,19 +1,9 @@
-App.config(function ($stateProvider) {
-    
-    $stateProvider.state('mcommerce-sales-payment', {
-        url: BASE_PATH+"/mcommerce/mobile_sales_payment/index/value_id/:value_id",
-        controller: 'MCommerceSalesPaymentViewController',
-        templateUrl: "templates/mcommerce/l1/sales/payment.html",
-        cache:false
-    });
-
-}).controller('MCommerceSalesPaymentViewController', function ($ionicLoading, $scope, $state, $stateParams, $translate, Dialog, McommerceCart, McommerceSalesPayment, SafePopups) {
-
-    $scope.$on("connectionStateChange", function(event, args) {
-        if(args.isOnline == true) {
-            $scope.loadContent();
-        }
-    });
+/*global
+ App, angular, BASE_PATH
+ */
+angular.module("starter").controller("MCommerceSalesPaymentViewController", function (Loader, $scope, $state, $stateParams,
+                                                               $translate, McommerceCart, McommerceSalesPayment,
+                                                               Dialog) {
 
     $scope.page_title = $translate.instant("Payment");
 
@@ -22,38 +12,38 @@ App.config(function ($stateProvider) {
     $scope.value_id = $stateParams.value_id;
 
     $scope.loadContent = function () {
-        $ionicLoading.show({
-            template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
-        });
-        McommerceCart.find().success(function (data) {
+        Loader.show();
+        McommerceCart.find()
+            .then(function (data) {
 
             $scope.cart = data.cart;
 
-            McommerceSalesPayment.findPaymentMethods().success(function (data) {
-                $scope.paymentMethods = data.paymentMethods;
+            McommerceSalesPayment.findPaymentMethods()
+                .then(function (data) {
+                    $scope.paymentMethods = data.paymentMethods;
 
-                $scope.paymentMethodId = data.paymentMethods.reduce(function (paymentMethodId, paymentMethod) {
-                    if ($scope.cart.paymentMethodId === paymentMethod.id) {
-                        paymentMethodId = paymentMethod.id;
+                    $scope.paymentMethodId = data.paymentMethods.reduce(function (paymentMethodId, paymentMethod) {
+                        if ($scope.cart.paymentMethodId === paymentMethod.id) {
+                            paymentMethodId = paymentMethod.id;
+                        }
+
+                        return paymentMethodId;
+                    }, null);
+
+                    if($scope.paymentMethods.length == 1 && $scope.paymentMethods[0].code == "free") {
+                        //Free purchase we can skip the payment method selection
+                        $scope.cart.paymentMethodId = $scope.paymentMethods[0].id;
+                        $scope.updatePaymentInfos();
                     }
 
-                    return paymentMethodId;
-                }, null);
+                }).then(function () {
+                    $scope.is_loading = false;
+                Loader.hide();
+                });
 
-                if($scope.paymentMethods.length == 1 && $scope.paymentMethods[0].code == "free") {
-                    //Free purchase we can skip the payment method selection
-                    $scope.cart.paymentMethodId = $scope.paymentMethods[0].id;
-                    $scope.updatePaymentInfos();
-                }
-
-            }).finally(function () {
-                $scope.is_loading = false;
-                $ionicLoading.hide();
-            });
-
-        }).error(function () {
+        }, function () {
             $scope.is_loading = false;
-            $ionicLoading.hide();
+                Loader.hide();
         });
     };
 
@@ -62,44 +52,35 @@ App.config(function ($stateProvider) {
         if(!$scope.is_loading) {
 
             $scope.is_loading = true;
-            $ionicLoading.show({
-                template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
-            });
+            Loader.show();
 
             var postParameters = {
                 'payment_method_id': $scope.cart.paymentMethodId
             };
 
-            McommerceSalesPayment.updatePaymentInfos(postParameters).success(function (data) {
-                $scope.goToConfirmationPage();
-            }).error(function (data) {
-                if (data && angular.isDefined(data.message)) {
-                    SafePopups.show("alert",{
-                        title: $translate.instant(''),
-                        template: $translate.instant(data.message),
-                        buttons: [{
-                            text: $translate.instant("OK")
-                        }]
-                    });
-                }
-            }).finally(function() {
-                $scope.is_loading = false;
-                $ionicLoading.hide();
-            });
+            McommerceSalesPayment.updatePaymentInfos(postParameters)
+                .then(function (data) {
+                    $scope.goToConfirmationPage();
+
+                }, function (data) {
+                    if (data && angular.isDefined(data.message)) {
+                        Dialog.alert("", data.message, "OK");
+                    }
+
+                }).then(function() {
+                    $scope.is_loading = false;
+                    Loader.hide();
+                });
         }
     };
 
     $scope.goToConfirmationPage = function () {
         if($scope.cart.paymentMethodId) {
-            $state.go("mcommerce-sales-confirmation", {value_id: $stateParams.value_id});
+            $state.go("mcommerce-sales-confirmation", {
+                value_id: $stateParams.value_id
+            });
         } else {
-            SafePopups.show("alert",{
-                title: $translate.instant(''),
-                template: $translate.instant("Please choose a payment method."),
-                buttons: [{
-                    text: $translate.instant("OK")
-                }]
-            })
+            Dialog.alert("", "Please choose a payment method.", "OK");
         }
     };
 

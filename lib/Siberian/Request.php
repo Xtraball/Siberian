@@ -60,7 +60,9 @@ class Siberian_Request {
 
         $request = curl_init();
 
-        $endpoint .= "?".http_build_query($data);
+        if(strpos($endpoint, "?") === false) {
+            $endpoint .= "?".http_build_query($data);
+        }
 
         # Setting options
         curl_setopt($request, CURLOPT_URL, $endpoint);

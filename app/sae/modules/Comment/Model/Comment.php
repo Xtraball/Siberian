@@ -2,7 +2,7 @@
 class Comment_Model_Comment extends Core_Model_Default {
 
     protected $_is_cacheable = true;
-    const DISPLAYED_PER_PAGE = 5;
+    const DISPLAYED_PER_PAGE = 10;
 
     protected $_answers;
     protected $_likes;

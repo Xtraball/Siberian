@@ -44,7 +44,7 @@ class Client extends BaseClient
     public function getClient()
     {
         if (!$this->client) {
-            $this->client = new GuzzleClient(array('defaults' => array('allow_redirects' => false, 'cookies' => true)));
+            $this->client = new GuzzleClient(array('allow_redirects' => false, 'cookies' => true));
         }
 
         return $this->client;
@@ -52,14 +52,31 @@ class Client extends BaseClient
 
     public function setHeader($name, $value)
     {
-        $this->headers[$name] = $value;
+        $this->headers[strtolower($name)] = $value;
 
         return $this;
     }
 
     public function removeHeader($name)
     {
-        unset($this->headers[$name]);
+        unset($this->headers[strtolower($name)]);
+    }
+
+    public function resetHeaders()
+    {
+        $this->headers = array();
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function restart()
+    {
+        parent::restart();
+        $this->resetAuth()
+             ->resetHeaders();
     }
 
     public function setAuth($user, $password = '', $type = 'basic')

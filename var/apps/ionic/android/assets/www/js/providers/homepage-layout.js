@@ -1,13 +1,13 @@
 /*global
-    App, console
+ angular, console, _
  */
 "use strict";
 
-App.provider('HomepageLayout', function () {
+angular.module("starter").provider('HomepageLayout', function () {
 
     var self = this;
 
-    self.layout_ids = [];
+    self.layout_ids = {};
 
     self.getLayoutIdForValueId = function(value_id) {
 
@@ -26,7 +26,13 @@ App.provider('HomepageLayout', function () {
 
     };
 
-    self.$get = function ($injector, $ionicSlideBoxDelegate, $location, $q, $rootScope, $stateParams, $timeout, $window, Customer, Padlock) {
+    self.setLayoutIdForValueId = function(value_id, layout_id) {
+        self.layout_ids[value_id] = layout_id;
+    };
+
+    self.$get = function ($injector, $ionicSlideBoxDelegate, $ionicPlatform, $ionicHistory, $ionicSideMenuDelegate,
+                          $location, $log, $q, $rootScope, $stateParams, $timeout, $window, LinkService, Analytics,
+                          Customer, Pages, Padlock, Modal) {
 
         console.log((new Date()).getTime(), "HomepageLayout instance.");
 
@@ -34,6 +40,126 @@ App.provider('HomepageLayout', function () {
 
         /** Hooks */
         HomepageLayout.load_hooks = [];
+        HomepageLayout.more_modal = null;
+
+        /**
+         *
+         * @param feature
+         * @returns {boolean}
+         */
+        HomepageLayout.openFeature = function(feature, scope) {
+
+            if(scope === undefined) {
+                scope = $rootScope;
+            }
+
+            /** Close any open modal first. */
+            if(Modal.is_open) {
+                Modal.current_modal.hide();
+            }
+
+            /** Clear history for side-menu feature */
+            switch(Pages.data.layout.position) {
+                case "left":
+                case "right":
+                    if($ionicSideMenuDelegate.isOpenLeft()){
+                        $ionicSideMenuDelegate.toggleLeft();
+                    }
+                    if($ionicSideMenuDelegate.isOpenRight()){
+                        $ionicSideMenuDelegate.toggleRight();
+                    }
+
+                    if(feature.code !== "padlock") { /** do not clear history if we open the padlock */
+                        if(feature.path !== $location.path()) {
+                            $ionicHistory.nextViewOptions({
+                                historyRoot: true,
+                                disableAnimate: false
+                            });
+                        }
+                    }
+                    break;
+            }
+
+            switch(true) {
+                case (feature.code === "tabbar_account"):
+                    Analytics.storePageOpening({
+                        id: 0
+                    });
+
+                    Customer.loginModal(scope);
+
+                    break;
+
+                case (feature.code === "tabbar_more"):
+                    HomepageLayout.getFeatures().then(function(features) {
+                        scope.tabbar_is_visible = false;
+                        scope.pages_list_is_visible = true;
+                        scope.features = features;
+
+                        scope.closeMore = function() {
+                            HomepageLayout.more_modal.hide();
+                            scope.tabbar_is_visible = true;
+                            scope.pages_list_is_visible = false;
+                        };
+
+                        /** That's weird. */
+                        scope.goTo = function(feature) {
+                            scope.closeMore();
+                            HomepageLayout.openFeature(feature, scope);
+                        };
+
+                        Modal
+                            .fromTemplateUrl(HomepageLayout.getModalTemplate(), {
+                                scope: scope
+                            })
+                            .then(function(modal) {
+                                HomepageLayout.more_modal = modal;
+                                HomepageLayout.more_modal.show();
+
+                                /* pages_list_is_visible is true means that the ... button in the main menu was clicked */
+                                $ionicPlatform.onHardwareBackButton(function(e){
+                                    if(scope.pages_list_is_visible){
+                                        scope.closeMore();
+                                    }
+                                });
+                            });
+                    });
+
+                    break;
+
+                case ($rootScope.isOffline && !feature.offline_mode && $rootScope.isNotAvailableOffline()):
+                    break;
+
+                case (feature.is_link):
+                    LinkService.openLink(feature.url, {
+                        "hide_navbar" : !!feature.hide_navbar,
+                        "use_external_app" : !!feature.use_external_app
+                    });
+                    Analytics.storePageOpening(feature);
+
+                    break;
+
+                default:
+
+                    Analytics.storePageOpening(feature);
+
+                    if (!$injector.get("Application").is_customizing_colors && HomepageLayout.properties.options.autoSelectFirst) {
+
+                        if(feature.path !== $location.path()) {
+                            $ionicHistory.nextViewOptions({
+                                historyRoot: true,
+                                disableAnimate: false
+                            });
+                            $location.path(feature.path).replace();
+                        }
+
+                    } else {
+                        $location.path(feature.path);
+                    }
+            }
+
+
+        };
 
         /** Register hooks to be called when homepage is done. */
         HomepageLayout.registerHook = function(hook) {
@@ -130,43 +256,41 @@ App.provider('HomepageLayout', function () {
                     });
                 } else {
 
-                    HomepageLayout.dataLoading = true;
+                    Pages.ready
+                        .then(function() {
 
-                    // load data
-                    var Pages = $injector.get("Pages"); /** Dynamic instance */
-                    Pages.findAll().then(function (data) {
+                            HomepageLayout.dataLoading = true;
 
-                        HomepageLayout.data = data;
+                            HomepageLayout.data = Pages.data;
 
-                        self.pages = data.pages;
+                            self.pages = Pages.data.pages;
+                            self.layout_ids = Pages.data.layouts;
 
-                        HomepageLayout.properties.layoutId = data.layout_id;
-                        HomepageLayout.properties.layoutCode = data.layout_code;
-                        HomepageLayout.properties.layoutOptions = data.layout.layout_options;
-                        HomepageLayout.properties.tabbar_is_transparent = data.tabbar_is_transparent;
+                            HomepageLayout.properties.layoutId = Pages.data.layout_id;
+                            HomepageLayout.properties.layoutCode = Pages.data.layout_code;
+                            HomepageLayout.properties.layoutOptions = Pages.data.layout.layout_options;
+                            HomepageLayout.properties.tabbar_is_transparent = Pages.data.tabbar_is_transparent;
 
-                        // Check for a custom width
-                        if( (typeof HomepageLayout.properties.layoutOptions !== "undefined") &&
-                            (typeof HomepageLayout.properties.layoutOptions.sidebarWidth !== "undefined")) {
+                            // Check for a custom width
+                            if( (typeof HomepageLayout.properties.layoutOptions !== "undefined") &&
+                                (typeof HomepageLayout.properties.layoutOptions.sidebarWidth !== "undefined")) {
 
-                            switch(HomepageLayout.properties.layoutOptions.sidebarWidthUnit) {
-                                case "pixel":
+                                switch(HomepageLayout.properties.layoutOptions.sidebarWidthUnit) {
+                                    case "pixel":
                                         HomepageLayout.properties.menu.sidebarLeftWidth = HomepageLayout.properties.layoutOptions.sidebarWidthPixel;
-                                    break;
-                                case "percentage":
+                                        break;
+                                    case "percentage":
                                         var width = $window.innerWidth;
                                         HomepageLayout.properties.menu.sidebarLeftWidth = (width / 100 * HomepageLayout.properties.layoutOptions.sidebarWidth);
-                                    break;
+                                        break;
+                                }
                             }
-                        }
 
-                        HomepageLayout._init();
+                            HomepageLayout._init();
+                            HomepageLayout.dataLoading = false;
 
-                        deferred.resolve(HomepageLayout.data);
-
-                    }).finally(function () {
-                        HomepageLayout.dataLoading = false;
-                    });
+                            deferred.resolve(HomepageLayout.data);
+                        });
 
                 }
 
@@ -324,6 +448,7 @@ App.provider('HomepageLayout', function () {
                     $ionicSlideBoxDelegate.update();
                 }, 200);
 
+
                 features.first_option = false;
                 if (HomepageLayout.properties.options.autoSelectFirst && (features.options.length !== 0)) {
                     features.first_option = features.options[0];
@@ -404,11 +529,7 @@ App.provider('HomepageLayout', function () {
         };
 
         HomepageLayout.setLayoutId = function(value_id, layout_id) {
-            for(var i in self.pages) {
-                if(self.pages[i].value_id == value_id) {
-                    self.pages[i].layout_id = layout_id;
-                }
-            }
+            self.setLayoutIdForValueId(layout_id, value_id);
         };
 
         HomepageLayout._buildOptions = function () {
@@ -434,6 +555,9 @@ App.provider('HomepageLayout', function () {
 
         return {
             leftAreaSize: 150,
+            openFeature: function(feature, scope) {
+                return HomepageLayout.openFeature(feature, scope);
+            },
             registerHook: function (hook) {
                 return HomepageLayout.registerHook(hook);
             },

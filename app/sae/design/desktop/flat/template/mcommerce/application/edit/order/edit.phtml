@@ -11,14 +11,14 @@ if(isset($customer) && !empty($customer)) {
 <form id="orderEditForm" method="post" action="<?php echo $this->getUrl('mcommerce/application_order/editpost'); ?>"
       class="form-horizontal">
     <fieldset class="edit_order_informations">
-        <h3 class="title-editor">
+        <h3 class="title-editor no-border-radius title-feature-indent">
             <?php echo $this->_('Customer'); ?>
         </h3>
-        <div class="container-fluid first-row-feature">
+        <div class="container-fluid first-row-feature content-feature">
             <div class="form-group">
                 <div class="col-md-12">
                     <button type="button" onclick="orders.close();" class="btn color-blue pull-left"><i
-                            class="fa fa-arrow-left"></i></button>
+                            class="fa fa-angle-left"></i></button>
                     <button type="submit" class="btn color-blue pull-right">OK</button>
                     <?php if ($order->getStatusId() == Mcommerce_Model_Order::DEFAULT_STATUS): ?>
                         <button type="button" onclick="orders.cancel();" class="btn color-blue pull-right"
@@ -188,7 +188,7 @@ if(isset($customer) && !empty($customer)) {
         </div>
     </fieldset>
     <fieldset>
-        <h3 class="title-editor">
+        <h3 class="title-editor no-border-radius title-feature-indent">
             <?php echo $this->_('Details'); ?>
         </h3>
         <div class="container-fluid">
@@ -312,7 +312,7 @@ if(isset($customer) && !empty($customer)) {
     </fieldset>
 
     <fieldset>
-        <h3 class="title-editor">
+        <h3 class="title-editor no-border-radius title-feature-indent">
             <?php echo $this->_('Notes'); ?>
         </h3>
         <div class="container-fluid">

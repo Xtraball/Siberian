@@ -10,6 +10,8 @@
                 <js>
                     <jquery link="js/jquery.js" />
                     <jquery_ui link="js/jquery-ui.js" />
+                    <ckeditor link="js/ckeditor/ckeditor.js"/>
+                    <ckeditor_jquery link="js/ckeditor/adapters/jquery.js"/>
                     <validateform link="js/jquery.validate.js" />
                     <placeholder link="js/jquery.placeholder.js" />
                     <object link="js/object.js" />
@@ -33,6 +35,7 @@
                     <sbpager link="js/jquery.sbpager.js" />
                     <sbcarousel link="js/jquery.sbcarousel.js" />
                     <sweetalert link="js/sweetalert.min.js" />
+                    <bootstraptour link="js/bootstrap-tour.js" />
                 </js>
                 <css>
                     <bootstrap link="css/bootstrap.css" />
@@ -49,6 +52,7 @@
                     <jquery_ui link="css/jquery-ui.css" />
                     <user_style link="css/user-style.css" />
                     <sweetalert link="css/sweetalert.css" />
+                    <bootstraptour link="css/bootstrap-tour.min.css" />
                 </css>
             </scripts>
             <metas>
@@ -63,6 +67,7 @@
             <css class="front_view_default" template="page/layout/css.phtml" />
             <messages class="front_view_html_messages" template="html/messages.phtml" />
             <footer class="core_view_default" template="page/layout/footer.phtml" />
+            <sb_tour_sidebar class="admin_view_default" template="html/sb_tour_sidebar.phtml" />
         </views>
     </default>
 
@@ -83,8 +88,6 @@
                     <fileupload_iframe link="js/fileupload/jquery.iframe-transport.js" />
                     <fileupload_transport link="js/fileupload/jquery.xdr-transport.js" />
                     <fileupload link="js/fileupload/jquery.fileupload.js" />
-                    <ckeditor link="js/ckeditor/ckeditor.js"/>
-                    <ckeditor_jquery link="js/ckeditor/adapters/jquery.js"/>
                     <catalog link="js/catalog.js"/>
                     <prettyPhoto link="js/jquery.prettyPhoto.js" />
                     <jcrop link="js/jquery.Jcrop.min.js"/>

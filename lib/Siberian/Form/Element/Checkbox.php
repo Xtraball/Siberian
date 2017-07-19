@@ -189,17 +189,12 @@ class Siberian_Form_Element_Checkbox extends Zend_Form_Element_Checkbox {
 				'placement' => Zend_Form_Decorator_Abstract::APPEND,
 				'class' => 'help-inline'
 			)),
-			array(array('style' => 'HtmlTag'), array(
-				'placement' => Zend_Form_Decorator_Abstract::APPEND,
-				'tag'   => 'div',
-				'class' => 'control__indicator'
-			)),
 			array(array('controls' => 'HtmlTag'), array(
 				'tag'   => 'div',
 				'class' => 'controls',
 			)),
 			array('Label', array(
-				'class' => 'control-label control control--checkbox',
+				'class' => 'control-label control',
 				'requiredSuffix' => ' *',
 				'placement' => Zend_Form_Decorator_Abstract::PREPEND
 			)),

@@ -1,4 +1,4 @@
-App.directive('sbGoogleAutocomplete', function(GoogleMaps, $timeout) {
+angular.module("starter").directive('sbGoogleAutocomplete', function(GoogleMaps, $timeout) {
     return {
         scope: {
             location: '=',

@@ -13,12 +13,14 @@ class Cms_Application_PageController extends Application_Controller_Default {
     public $cache_triggers = array(
         "editpost" => array(
             "tags" => array(
+                "homepage_app_#APP_ID#",
                 "feature_paths_valueid_#VALUE_ID#",
                 "assets_paths_valueid_#VALUE_ID#"
             ),
         ),
         "editpostv2" => array(
             "tags" => array(
+                "homepage_app_#APP_ID#",
                 "feature_paths_valueid_#VALUE_ID#",
                 "assets_paths_valueid_#VALUE_ID#"
             ),
@@ -37,6 +39,11 @@ class Cms_Application_PageController extends Application_Controller_Default {
             # Create the cms/page/blocks
             $page_model = new Cms_Model_Application_Page();
             $page_model->edit_v2($option_value, $values);
+
+            /** Update touch date, then never expires (until next touch) */
+            $option_value
+                ->touch()
+                ->expires(-1);
 
             $data = array(
                 "success" => 1,
@@ -190,6 +197,11 @@ class Cms_Application_PageController extends Application_Controller_Default {
                 $tag_names = explode(",", $datas['tags']);
                 $tags = Application_Model_Tag::upsert($tag_names);
                 $option_value->attachTags($tags, $page);
+
+                /** Update touch date, then never expires (until next touch) */
+                $option_value
+                    ->touch()
+                    ->expires(-1);
 
                 $html = array(
                     'success' => 1,

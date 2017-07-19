@@ -1,37 +1,106 @@
+/*global
+    App, angular
+ */
 
-App.factory('Event', function($rootScope, $sbhttp, Url) {
+/**
+ * Event
+ *
+ * @author Xtraball SAS
+ */
+angular.module("starter").factory("Event", function($pwaRequest) {
 
-    var factory = {};
+    var factory = {
+        value_id        : null,
+        collection      : [],
+        extendedOptions : {}
+    };
 
-    factory.value_id = null;
+    /**
+     *
+     * @param value_id
+     */
+    factory.setValueId = function(value_id) {
+        factory.value_id = value_id;
+    };
 
-    factory.findAll = function(offset) {
+    /**
+     *
+     * @param options
+     */
+    factory.setExtendedOptions = function(options) {
+        factory.extendedOptions = options;
+    };
 
-        if(!this.value_id) return;
+    /**
+     * Custom Page
+     *
+     * @todo preload only the second page, next pages are preloaded only once furthermore, to reduce data usage.
+     *
+     * @param page
+     */
+    factory.preFetch = function() {
+        factory.findAll(0);
+    };
 
-        var params = {
-            value_id: this.value_id,
-            offset: offset
-        };
+    factory.findAll = function(offset, refresh) {
 
-        return $sbhttp({
-            method: 'GET',
-            url: Url.get("event/mobile_list/findall", params),
-            cache: !$rootScope.isOverview,
-            responseType:'json'
+        if(!this.value_id) {
+            $pwaRequest.reject("[Factory::Event.findAll] missing value_id");
+        }
+
+        return $pwaRequest.get("event/mobile_list/findall",
+            angular.extend({
+                urlParams: {
+                    value_id    : this.value_id,
+                    offset      : offset
+                },
+                refresh: refresh,
+                timeout: 30000
+            }, factory.extendedOptions)
+        );
+
+    };
+
+    factory.findById = function(event_id, refresh) {
+
+        if(!this.value_id) {
+            $pwaRequest.reject("[Factory::Event.findById] missing value_id");
+        }
+
+        return $pwaRequest.get("event/mobile_view/find", {
+            urlParams: {
+                value_id    : this.value_id,
+                event_id    : event_id
+            },
+            refresh: refresh,
+            timeout: 30000
         });
     };
 
-    factory.findById = function(event_id) {
+    /**
+     * Search for event payload inside cached collection
+     *
+     * @param event_id
+     * @returns {*}
+     */
+    factory.getEvent = function(event_id) {
 
-        if(!this.value_id) return;
+        if(!this.value_id) {
+            return $pwaRequest.reject("[Factory::Event.getEvent] missing value_id");
+        }
 
-        return $sbhttp({
-            method: 'GET',
-            url: Url.get("event/mobile_view/find", {value_id: this.value_id, event_id: event_id}),
-            cache: !$rootScope.isOverview,
-            responseType:'json'
-        });
+        var event = _.get(_.filter(factory.collection, function(event) {
+            return (event.id == event_id);
+        })[0], "embed_payload", false);
+
+        if(!event) {
+            /** Well then fetch it. */
+            return factory.findById(event_id);
+
+        } else {
+
+            return $pwaRequest.resolve(event);
+        }
     };
 
     return factory;

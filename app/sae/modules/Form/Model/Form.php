@@ -28,6 +28,54 @@ class Form_Model_Form extends Core_Model_Default {
         return $in_app_states;
     }
 
+    /**
+     * @param $option_value
+     * @return bool
+     */
+    public function getEmbedPayload($option_value) {
+
+        $payload = array(
+            "sections"      => array(),
+            "page_title"    => $option_value->getTabbarName()
+        );
+
+        if($this->getId()) {
+            $sections = $this->getSections();
+
+            foreach($sections as $section) {
+
+                $section_data = array(
+                    "name"      => $section->getName(),
+                    "fields"    => array()
+                );
+
+                $fields = $section->getFields();
+
+                foreach($fields as $field) {
+
+                    $field_data = array(
+                        "id"            => $field->getId(),
+                        "type"          => $field->getType(),
+                        "name"          => $field->getName(),
+                        "options"       => $field->hasOptions() ? $field->getOptions() : array()
+                    );
+
+                    if($field->isRequired()) {
+                        $field_data["name"] .= " *";
+                    }
+
+                    $section_data["fields"][] = $field_data;
+                }
+
+                $payload["sections"][] = $section_data;
+            }
+
+        }
+
+        return $payload;
+
+    }
+
     public function getSections() {
 
         if(!$this->_sections) {

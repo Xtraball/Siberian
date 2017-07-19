@@ -13,13 +13,13 @@ $facebook_is_available = $facebook->getAccessToken() != null;
     <div class="form_content">
         <div class="add-image">
             <h3 class="title-editor no-border-radius title-feature-indent">
-                <?php echo $this->_('Add') ?>
+                <?php echo $this->_(('Add content')) ?>
                 <button type="button" onclick="$('#no_item').hide(); $('#new_images_galery').show();" class="btn toggle_design color-blue pull-right bt-header-right" id="add_item">
                     <i class="fa fa-plus"></i>
                 </button>
             </h3>
             <div id="albums_found" style="display: none;">
-                <h3 class="title-editor no-border-radius">
+                <h3 class="title-editor no-border-radius title-feature-indent">
                     <?php echo $this->_('Choose an album'); ?> :
                 </h3>
                 <ul id="albums_found_list">
@@ -28,7 +28,7 @@ $facebook_is_available = $facebook->getAccessToken() != null;
 
             <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
 
-            <div id="new_images_galery" style="display:none;" class="container-fluid first-row-feature feature-section-bottom">
+            <div id="new_images_galery" style="display:none;" class="container-fluid subcontent content-feature">
                 <div id="choose_type">
                     <ul class="list-group">
                         <li class="color-blue list-group-item btn capitalize" rel="picasa">
@@ -86,7 +86,7 @@ $facebook_is_available = $facebook->getAccessToken() != null;
                             <input id="name-input" type="text" name="name" value="" placeholder="<?php echo $this->_('Gallery Name') ?>" class="input-flat required" />
                         </div>
                         <div class="col-sm-4">
-                            <button type="button" id="input_custom" class="new_search_input search_input upload_picture btn btn-block required" rel="list_new"><?php echo $this->_('Send your pictures') ?></button>
+                            <button type="button" id="input_custom" class="new_search_input search_input upload_picture btn btn-block required color-blue" rel="list_new"><?php echo $this->_('Send your pictures') ?></button>
                             <input type="text" id="input_picasa" name="param" value="" placeholder="<?php echo $this->_('Parameter') ?>" class="new_search_input search_input input-flat required" />
                             <select name="param_facebook" id="input_facebook" class="sb-select styled-select color-blue form-control no-dk required new_search_input"></select>
                             <input type="hidden" id="input_instagram" name="param_instagram" value="" class="new_search_input search_input" />
@@ -110,7 +110,7 @@ $facebook_is_available = $facebook->getAccessToken() != null;
             </div>
         </div>
 
-        <div id="edit_images" style="display:none;">
+        <div id="edit_images" style="display:none;" class="margin-bkg">
             <i class="icon-caret-up"></i>
 
             <h3 class="title-editor no-border-radius title-feature-indent">
@@ -120,7 +120,7 @@ $facebook_is_available = $facebook->getAccessToken() != null;
                 </a>
             </h3>
             <!--[if gte IE 10]><!-->
-            <div class="container-fluid first-row-feature">
+            <div class="container-fluid first-row-feature content-feature">
                 <button type="button" id="trigger_upload_image" class="btn color-blue btn-block"><?php echo $this->_('Browse') ?></button>
                 <!--<![endif]-->
                 <input id="upload_image" style="display:none;" multiple type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" />
@@ -164,12 +164,12 @@ $facebook_is_available = $facebook->getAccessToken() != null;
         <div class="manage">
             <div id="existing_items_section">
                 <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo $this->_('Manage'); ?>
+                    <?php echo $this->_(('Manage content')); ?>
                     <button type="button" class="toggle_design color-blue pull-right bt-header-right btn" id="toggle_existing_items">
-                        <i class="fa fa-chevron-down"></i>
+                        <i class="fa fa-angle-down"></i>
                     </button>
                 </h3>
-                <div id="existing_items" style="display:none;" class="container-fluid first-row-feature">
+                <div id="existing_items" style="display:none;" class="container-fluid first-row-feature content-feature">
                     <div id="table_list_images">
                         <div class="row container-fluid">
                             <div class="col-sm-1"></div>
@@ -369,12 +369,17 @@ $facebook_is_available = $facebook->getAccessToken() != null;
         });
 
         page.setCallback('didappear', function() {
-            $('#toggle_existing_items').click(function() {
-                $('#existing_items').stop().slideToggle(300, function() {
-                    if ($(this).is(':visible'))
-                        $('#toggle_existing_items').children('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+            $('#toggle_existing_items').click(function () {
+                $('#existing_items').stop().slideToggle(300, function () {
+                    if ($(this).is(':visible')) {
+                        $('#toggle_existing_items').children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+                        $('#toggle_existing_items').removeClass('color-blue');
+                    }
                     else
-                        $('#toggle_existing_items').children('i').removeClass('fa-chevron-up').addClass('fa-chevron-down')
+                    {
+                        $('#toggle_existing_items').children('i').removeClass('fa-angle-up').addClass('fa-angle-down');
+                        $('#toggle_existing_items').addClass('color-blue');
+                    }
                 });
             });
             upload();
@@ -518,7 +523,6 @@ $facebook_is_available = $facebook->getAccessToken() != null;
     </script>
     <style>
         .media.images #choose_type ul {
-            padding-left: 26%;
             margin:0;
         }
         #albums_found_list li {
@@ -534,9 +538,14 @@ $facebook_is_available = $facebook->getAccessToken() != null;
             margin-bottom: 7px;
         }
         #choose_type li {
-            padding-top: 20px;
+            width: 125px;
+            padding: 0;
             float: left;
-            width: 120px;
+            margin-right: 1em;
+        }
+        #choose_type li a {
+            display: block;
+            padding: 20px;
         }
         .img-col {
             padding: 5px 0;
@@ -561,8 +570,8 @@ $facebook_is_available = $facebook->getAccessToken() != null;
         #list_new .row .control .btn.color-blue {
             margin-top: 1.9em;
         }
-        #close_panel .fa.fa-times {
-            text-indent: -55px;
+        #choose_type li p {
+            margin-bottom:0;
         }
     </style>
 </div>

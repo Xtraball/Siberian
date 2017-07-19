@@ -48,3 +48,29 @@ Siberian_Feature::installIcons("{$name}-flat", $icons);
 
 # Copy assets at install time
 Siberian_Assets::copyAssets("/app/sae/modules/Job/resources/var/apps/");
+
+try {
+    $this->query("ALTER TABLE `job_place` CHANGE `keywords` `keywords` TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL;");
+} catch(Exception $e) {
+    // already executed
+}
+
+try {
+    $this->query("ALTER TABLE `job_place` CHANGE `contract_type` `contract_type` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL;");
+} catch(Exception $e) {
+    // already executed
+}
+
+try {
+    $this->query("ALTER TABLE `job_place` CHANGE `income_from` `income_from` VARCHAR(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL;");
+} catch(Exception $e) {
+    // already executed
+}
+
+try {
+    $this->query("ALTER TABLE `job_place` CHANGE `income_to` `income_to` VARCHAR(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL;");
+} catch(Exception $e) {
+    // already executed
+}
+
+

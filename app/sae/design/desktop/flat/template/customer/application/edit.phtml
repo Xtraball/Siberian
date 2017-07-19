@@ -2,15 +2,15 @@
 <div class="row">
     <div class="col-md-12">
         <div class="page-content-wrapper form-horizontal">
-            <div class="content solo-page">
-                <h3 class="title-editor border-blue">
+            <div id="sb-tour-edit-user" class="content solo-page sb-tour">
+                <h3 class="title-editor border-blue text-center">
                     <?php if($customer->getId()) : ?>
                         <?php echo $this->_("Edit the user %s", $customer->getName()); ?>
                     <?php else : ?>
                         <?php echo $this->_("Create a new user"); ?>
                     <?php endif; ?>
                 </h3>
-                <div id="customer_forms" class="subcontent content-color container-fluid">
+                <div id="customer_forms" class="first-row-feature content-color container-fluid">
                     <div id="customer_form_new">
                         <form id="customerForm" action="<?php echo $this->getUrl('customer/application/save'); ?>" method="post" class="form-horizontal">
                             <div class="form-group">
@@ -69,8 +69,8 @@
 
                                     <div class="form-group">
                                         <div class="col-sm-12">
-                                            <label for="show_in_social_gaming">
-                                                <input type="checkbox"<?php if($customer->getShowInSocialGaming()) : ?> checked="checked"<?php endif; ?> id="show_in_social_gaming" name="show_in_social_gaming" value="1" />
+                                            <label for="show_in_social_gaming" class="checkbox-inline">
+                                                <input type="checkbox"<?php if($customer->getShowInSocialGaming()) : ?> checked="checked"<?php endif; ?> id="show_in_social_gaming" name="show_in_social_gaming" value="1" class="color-blue checkbox sb-tour" />
                                                 <?php echo $this->_("This user is visible in ranking"); ?>
                                             </label>
                                         </div>
@@ -78,8 +78,8 @@
 
                                     <div class="form-group">
                                         <div class="col-sm-12">
-                                            <label for="can_access_locked_features">
-                                                <input type="checkbox"<?php if($customer->canAccessLockedFeatures()) : ?> checked="checked"<?php endif; ?> id="can_access_locked_features" name="can_access_locked_features" value="1" />
+                                            <label for="can_access_locked_features" class="checkbox-inline">
+                                                <input type="checkbox"<?php if($customer->canAccessLockedFeatures()) : ?> checked="checked"<?php endif; ?> id="can_access_locked_features" name="can_access_locked_features" value="1" class="color-blue checkbox sb-tour" />
                                                 <?php echo $this->_("This user can access the pages locked by the \"Locker\" feature"); ?>
                                             </label>
                                         </div>
@@ -93,11 +93,9 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-md-2 col-sm-2 col-xs-6">
-                                    <button type="button" id="cancel_customer" class="add color-blue btn"><?php echo $this->_("Cancel"); ?></button>
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-6">
-                                    <button type="submit" class="add color-blue btn"><?php echo $this->_("Save"); ?></button>
+                                <div class="col-md-12 col-sm-2 col-xs-12">
+                                    <button type="button" id="cancel_customer" class="color-blue btn sb-tour"><?php echo $this->_("Cancel"); ?></button>
+                                    <button id="sb-tour-save_user" type="submit" class="color-blue btn pull-right sb-tour"><?php echo $this->_("Save"); ?></button>
                                 </div>
                             </div>
                             <input type="hidden" name="customer_id" value="<?php echo $customer->getId(); ?>" />

@@ -12,6 +12,7 @@
 class Siberian_Controller_Request_Http extends Zend_Controller_Request_Http
 {
 
+    protected $_is_backoffice = false;
     protected $_is_application = false;
     protected $_language_code;
     protected $_force_language_code = false;
@@ -92,6 +93,10 @@ class Siberian_Controller_Request_Http extends Zend_Controller_Request_Http
         } else {
             return !is_null($this->_application);
         }
+    }
+
+    public function isBackoffice() {
+        return $this->_is_backoffice;
     }
 
     public function isWhiteLabelEditor() {

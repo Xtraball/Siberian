@@ -3,86 +3,64 @@
 <?php $application = $this->getApplication(); ?>
 <?php $store = $this->getCurrentStore(); ?>
 <?php $default_store = $mcommerce->getDefaultStore(); ?>
-<h3 class="title-editor">
+<h3 class="title-editor no-border-radius title-feature-indent">
     <?php echo $this->_('Store information'); ?>
+    <button type="button" onclick="store.close();" class="btn color-blue pull-left bt-header-left"><i class="fa fa-angle-left"></i></button>
 </h3>
-<form id="storeEditForm" method="post" action="<?php echo $this->getUrl('mcommerce/application_store/editpost'); ?>" class="form-horizontal subcontent">
+<form id="storeEditForm" method="post" action="<?php echo $this->getUrl('mcommerce/application_store/editpost'); ?>" class="form-horizontal subcontent content-feature">
     <div class="container-fluid">
-        <div class="form-group">
-            <div class="col-md-12">
-                <button type="button" onclick="store.close();" class="btn color-blue pull-left"><i class="fa fa-arrow-left"></i></button>
-                <button type="submit" class="btn color-blue pull-right">OK</button>
-            </div>
-        </div>
         <fieldset class="edit_store_informations">
-            <div class="form-group">
-                <div class="col-sm-3">
-                    <label for="name"><?php echo $this->_('Store name:'); ?> <span>*</span></label>
-                </div>
-                <div class="col-sm-5">
-                    <input type="text" id="name" name="name" class="input-flat required" value="<?php echo $store->getName() ? $store->getName() : $mcommerce->getName(); ?>" placeholder="<?php echo $this->_('Store name'); ?>" />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-3">
-                    <label for="email"><?php echo $this->_('Email:'); ?> <span>*</span></label>
-                </div>
-                <div class="col-sm-5">
-                    <input type="text" id="email" name="email" class="input-flat required" value="<?php echo $store->getEmail(); ?>" placeholder="<?php echo $this->_('Email'); ?>" />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-3">
-                    <label for="street"><?php echo $this->_('Street:'); ?> <span>*</span></label>
-                </div>
-                <div class="col-sm-5">
-                    <textarea id="street" name="street" class="input-flat required" placeholder="<?php echo $this->_('Street'); ?>"><?php echo $store->getStreet('\n'); ?></textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-3">
-                    <label for="postcode"><?php echo $this->_('Postcode:'); ?> <span>*</span></label>
-                </div>
-                <div class="col-sm-5">
-                    <input type="text" id="postcode" name="postcode" class="input-flat required" value="<?php echo $store->getPostcode(); ?>" placeholder="<?php echo $this->_('Postcode'); ?>" />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-3">
-                    <label for="city"><?php echo $this->_('City:'); ?> <span>*</span></label>
-                </div>
-                <div class="col-sm-5">
-                    <input type="text" id="city" name="city" class="input-flat required" value="<?php echo $store->getCity(); ?>" placeholder="<?php echo $this->_('City'); ?>" />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-3">
-                    <label for="country"><?php echo $this->_('Country:'); ?></label>
-                </div>
-                <div class="col-sm-5">
-                    <input type="text" class="input-flat" id="country" name="country" value="<?php echo $store->getCountry(); ?>" placeholder="<?php echo $this->_('Country'); ?>" />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-3">
-                    <label for="phone"><?php echo $this->_('Phone:'); ?></label>
-                </div>
-                <div class="col-sm-5">
-                    <input type="text" id="phone" class="input-flat" name="phone" value="<?php echo $store->getPhone(); ?>" placeholder="<?php echo $this->_('Phone'); ?>" />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-3">
-                    <label for="opening_hours"><?php echo $this->_("Hours of operation:"); ?></label>
-                </div>
-                <div class="col-sm-5">
-                    <input type="text" id="opening_hours" class="input-flat" name="opening_hours" value="<?php echo $store->getOpeningHours(); ?>" placeholder="<?php echo $this->_("Hours of operation"); ?>" />
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="text" id="name" name="name" class="input-flat required" value="<?php echo $store->getName() ? $store->getName() : $mcommerce->getName(); ?>" placeholder="<?php echo $this->_('Store name'); ?>" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="text" id="email" name="email" class="input-flat required" value="<?php echo $store->getEmail(); ?>" placeholder="<?php echo $this->_('Email'); ?>" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <textarea id="street" name="street" class="input-flat required" placeholder="<?php echo $this->_('Street'); ?>"><?php echo $store->getStreet('\n'); ?></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="text" id="postcode" name="postcode" class="input-flat required" value="<?php echo $store->getPostcode(); ?>" placeholder="<?php echo $this->_('Postcode'); ?>" />
+                        </div>
+                    </div>
+
+                        </div>
+                        <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="text" id="city" name="city" class="input-flat required" value="<?php echo $store->getCity(); ?>" placeholder="<?php echo $this->_('City'); ?>" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="text" class="input-flat" id="country" name="country" value="<?php echo $store->getCountry(); ?>" placeholder="<?php echo $this->_('Country'); ?>" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="text" id="phone" class="input-flat" name="phone" value="<?php echo $store->getPhone(); ?>" placeholder="<?php echo $this->_('Phone'); ?>" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="text" id="opening_hours" class="input-flat" name="opening_hours" value="<?php echo $store->getOpeningHours(); ?>" placeholder="<?php echo $this->_("Hours of operation"); ?>" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </fieldset>
     </div>
     <fieldset class="edit_store_delivery">
-        <h3 class="title-editor">
+        <h3 class="title-editor no-border-radius title-feature-indent" style="border-left: none;">
             <?php echo $this->_('Delivery'); ?>
         </h3>
         <div class="container-fluid first-row-feature">
@@ -90,16 +68,16 @@
                 <div class="col-sm-3">
                     <label><?php echo $this->_('Delivery methods:'); ?> <span>*</span></label>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-9">
                     <?php $delivery_method = new Mcommerce_Model_Delivery_Method(); ?>
                     <?php $delivery_methods = $delivery_method->findAll(); ?>
                     <?php foreach($delivery_methods as $k => $method) : ?>
                         <div class="form-group">
                             <div class="col-md-12">
                                 <?php $method->addData($store->getDeliveryMethod($method->getId())->getData()); ?>
-                                <label for="delivery_method_<?php echo $method->getId() ?>" class="required delivery_method <?php if(!$method->isFree()) : ?> toggle_shippging_cost<?php endif; ?>">
-                                    <input type="checkbox" id="delivery_method_<?php echo $method->getId() ?>" class="required" name="new_delivery_methods[][method_id]" value="<?php echo $method->getId(); ?>"<?php if($method->getStoreDeliveryMethodId()) : ?> checked="checked"<?php endif; ?> />
-                                    <?php echo $method->getName(); ?>
+                                <label for="delivery_method_<?php echo $method->getId() ?>" class="control required delivery_method <?php if(!$method->isFree()) : ?> toggle_shippging_cost<?php endif; ?>">
+                                    <input type="checkbox" id="delivery_method_<?php echo $method->getId() ?>" color="color-blue" class="required sb-form-checkbox color-blue" name="new_delivery_methods[][method_id]" value="<?php echo $method->getId(); ?>"<?php if($method->getStoreDeliveryMethodId()) : ?> checked="checked"<?php endif; ?> />
+                                    <span class="sb-checkbox-label"><?php echo $method->getName(); ?></span>
                                 </label>
                             </div>
                         </div>
@@ -139,8 +117,9 @@
                     <label for="clients_calculate_change"><?php echo $this->_("The clients calculate the change:"); ?></label>
                 </div>
                 <div class="col-sm-5">
-                    <label for="clients_calculate_change" class="clients_calculate_change">
-                        <input type="checkbox" id="clients_calculate_change" name="clients_calculate_change" value="1"<?php if($store->getClientsCalculateChange()) : ?> checked="checked"<?php endif; ?> />
+                    <label for="clients_calculate_change" class="control clients_calculate_change">
+                        <input type="checkbox" color="color-blue" class="sb-form-checkbox color-blue" id="clients_calculate_change" name="clients_calculate_change" value="1"<?php if($store->getClientsCalculateChange()) : ?> checked="checked"<?php endif; ?> />
+                        <div class="color-blue control__indicator"></div>
                     </label>
                 </div>
             </div>
@@ -171,7 +150,7 @@
         </div>
     </fieldset>
     <fieldset class="edit_store_payments">
-        <h3 class="title-editor">
+        <h3 class="title-editor no-border-radius title-feature-indent" style="border-left: none;">
             <?php echo $this->_('Payment'); ?>
         </h3>
         <div class="container-fluid first-row-feature">
@@ -179,16 +158,17 @@
                 <div class="col-sm-3">
                     <label><?php echo $this->_('Payment methods:'); ?> <span>*</span></label>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-9">
                     <?php $payment_method = new Mcommerce_Model_Payment_Method(); ?>
                     <?php $payment_methods = $payment_method->findAll(); ?>
                     <?php foreach($payment_methods as $method) : ?>
                         <?php if($method->getCode() != "free"): ?>
                         <div class="form-group">
                             <div class="col-md-12">
-                                <label for="payment_method_<?php echo $method->getId() ?>" class="payment_method <?php if($method->isOnline()) : ?> toggle_payment_data<?php endif; ?>" tag="<?php if($method->isOnline()) echo $method->getCode(); ?>" style="padding-top:0">
-                                    <input type="checkbox" id="payment_method_<?php echo $method->getId() ?>" class="required" name="new_payment_methods[][method_id]" value="<?php echo $method->getId(); ?>"<?php if($store->hasPaymentMethod($method->getId())) : ?> checked="checked"<?php endif; ?> />
-                                    <?php echo $method->getName(); ?>
+                                <label for="payment_method_<?php echo $method->getId() ?>" class="control payment_method <?php if($method->isOnline()) : ?> toggle_payment_data<?php endif; ?>" tag="<?php if($method->isOnline()) echo $method->getCode(); ?>" style="padding-top:0">
+                                    <input type="checkbox" id="payment_method_<?php echo $method->getId() ?>" class="sb-form-checkbox color-blue required" name="new_payment_methods[][method_id]" value="<?php echo $method->getId(); ?>"<?php if($store->hasPaymentMethod($method->getId())) : ?> checked="checked"<?php endif; ?> />
+                                    <span class="sb-checkbox-label"><?php echo $method->getName(); ?></span>
+                                    <div class="color-blue control__indicator"></div>
                                 </label>
                             </div>
                         </div>
@@ -199,7 +179,7 @@
             </div>
             <?php $method = $store->getPaymentMethod("paypal")->getInstance(); ?>
             <div class="form-group paypal_data"<?php if(!$method->getId()) : ?>style="display:none;"<?php endif; ?>>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <label for="paypal_user"><?php echo $this->_("Username:"); ?> <span>*</span></label>
                 </div>
                 <div class="col-sm-5">
@@ -207,7 +187,7 @@
                 </div>
             </div>
             <div class="form-group paypal_data"<?php if(!$method->getId()) : ?>style="display:none;"<?php endif; ?>>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <label for="paypal_password"><?php echo $this->_("Password:"); ?> <span>*</span></label>
                 </div>
                 <div class="col-sm-5">
@@ -215,7 +195,7 @@
                 </div>
             </div>
             <div class="form-group paypal_data"<?php if(!$method->getId()) : ?>style="display:none;"<?php endif; ?>>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <label for="paypal_signature"><?php echo $this->_("Signature:"); ?> <span>*</span></label>
                 </div>
                 <div class="col-sm-5">
@@ -229,7 +209,7 @@
                 </div>
             </div>
             <div class="form-group stripe_data"<?php if(!$method->getId()) : ?>style="display:none;"<?php endif; ?>>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <label for="stripe_secret_key"><?php echo $this->_("Secret Key:"); ?> <span>*</span></label>
                 </div>
                 <div class="col-sm-5">
@@ -237,7 +217,7 @@
                 </div>
             </div>
             <div class="form-group stripe_data"<?php if(!$method->getId()) : ?>style="display:none;"<?php endif; ?>>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <label for="stripe_publishable_key"><?php echo $this->_("Publishable Key:"); ?> <span>*</span></label>
                 </div>
                 <div class="col-sm-5">
@@ -248,7 +228,7 @@
     </fieldset>
     <?php if($taxes->count() == 0) : ?>
         <fieldset class="edit_store_tax">
-            <h3 class="title-editor">
+            <h3 class="title-editor no-border-radius title-feature-indent" style="border-left: none;">
                 <?php echo $this->_('Tax'); ?>
             </h3>
             <div class="container-fluid first-row-feature">
@@ -263,6 +243,15 @@
             </div>
         </fieldset>
     <?php endif; ?>
+    <fieldset>
+        <div class="container-fluid first-row-feature">
+            <div class="row">
+                <div class="save pull-right">
+                    <button class="btn btn-block color-blue" type="submit">Save</button>
+                </div>
+            </div>
+        </div>
+    </fieldset>
     <?php if($store->getId()) : ?>
         <input type="hidden" name="store_id" id="store_id" value="<?php echo $store->getId() ?>" />
     <?php endif; ?>
@@ -271,7 +260,10 @@
 <style>
     .mcommerce .payment_method label.error, .mcommerce .delivery_method label.error {
         position: absolute;
-        top: -15px;
-        right: 15px;
+        left: 100%;
+        width: 100%;
+    }
+    textarea {
+        resize: vertical;
     }
 </style>

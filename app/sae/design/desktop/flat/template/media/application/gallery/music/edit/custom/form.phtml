@@ -5,7 +5,7 @@
         $album->find($this->getAlbumId());
     }
 ?>
-<h3 class="title-editor border-blue">
+<h3 class="title-editor border-blue text-center">
     <?php echo $this->_('Custom') ?>
 </h3>
 <div class="container-fluid first-row-feature">
@@ -14,14 +14,14 @@
                 <div class="form-group">
                     <div class="col-sm-3">
                         <!--[if gte IE 10]><!-->
-                        <button id="upload_music_custom_image" type="button" <?php echo $album->getData('artwork_url') ? 'style="display:none;margin-top:30px;"' : '' ?> class="upload_comment_picture bg_hd upload btn-grey">
+                        <button id="upload_music_custom_image" type="button" <?php echo $album->getData('artwork_url') ? 'style="display:none;margin-top:30px;"' : '' ?> class="upload_comment_picture bg_hd upload btn-grey btn">
                             <i class="icon-camera-retro"></i>
                             <?php echo $this->_('Add a') ?><br /><span class="bold"><?php echo $this->_('picture') ?></span>
                         </button>
                         <!--<![endif]-->
                         <input id="music_custom_image_file" class="uploader" <?php echo $album->getData('artwork_url') ? 'style="display:none"' : '' ?> type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
                         <img id="music_custom_img_src" src="<?php echo $album->getArtworkUrl() ?>" <?php echo !$album->getData('artwork_url') ? 'style="display:none"' : '' ?> width="100px" height="100px"/>
-                        <a id="remove_custom_image_img" <?php echo !$album->getData('artwork_url') ? 'style="display:none"' : '' ?>><i class="fa fa-times"></i></a>
+                        <a id="remove_custom_image_img" class="color-blue btn" <?php echo !$album->getData('artwork_url') ? 'style="display:none"' : '' ?>><i class="fa fa-times"></i></a>
                     </div>
                     <div class="col-sm-4">
                         <label for="custom_artist"><?php echo $this->_('Artist:') ?> </label>
@@ -43,25 +43,6 @@
         $tracks = new Media_Model_Gallery_Music_Track();
         $tracks = $tracks->findAll(array('album_id' => $album->getId()), 'position ASC');
     ?>
-    <ul id="tracks_list" <?php echo $tracks->count() == 0 ? 'style="display:none"' : '' ?> class="table_row_galleries sortable list-group">
-        <?php foreach($tracks as $track) : ?>
-            <li rel="<?php echo $track->getId() ?>" class="track_item list-group-item content-white-bkg">
-                <i class="handle fa fa-arrows icon-move"></i>
-                <span class="inner_content"><?php echo $this->_("%s by %s", $track->getName(), $track->getArtistName()); ?><span class="pull-right"><?php echo $track->getFormatedDuration() ?></span></span>
-                <span class="actions pull-right">
-                    <button class="deleteTrack color-blue btn pull-left" type="button"><i class="fa fa-times"></i></button>
-                    <input type="hidden" name="type" value="track" />
-                    <input type="hidden" name="album_id" value="<?php echo $album->getId() ?>" />
-                    <input type="hidden" name="element_id[]" value="<?php echo $track->getId() ?>" />
-                    <input type="hidden" name="value_id" value="<?php echo $option_value->getId() ?>" />
-                </span>
-            </li>
-        <?php endforeach ?>
-    </ul>
-    <?php echo $this->_('+ Add a track') ?>
-    <div class="pull-right">
-        <span id="track_count"><?php echo $tracks->count() ?> <?php echo $tracks->count() == 1 ? $this->_('title') : $this->_('titles') ?></span>
-    </div>
     <form id="add_track" action="<?php echo $this->getUrl('media/application_gallery_music/add_custom_track'); ?>" method="post" class="form-horizontal first-row-feature">
         <div id="table_list_track_new" class="list">
             <div class="form-group">
@@ -93,7 +74,30 @@
             </div>
         </div>
     </form>
-    <button onclick="$('#save_custom').submit();" class="color-blue save_selection btn btn-block" type="button"><?php echo $this->_('Save') ?></button>
+    <ul id="tracks_list" <?php echo $tracks->count() == 0 ? 'style="display:none"' : '' ?> class="table_row_galleries sortable list-group">
+        <?php foreach($tracks as $track) : ?>
+            <li rel="<?php echo $track->getId() ?>" class="track_item list-group-item content-white-bkg">
+                <i class="handle fa fa-sort icon-move"></i>
+                <span class="inner_content"><?php echo $this->_("%s by %s", $track->getName(), $track->getArtistName()); ?><span class="pull-right"><?php echo $track->getFormatedDuration() ?></span></span>
+                <span class="actions pull-right">
+                    <button class="deleteTrack color-blue btn pull-left" type="button"><i class="fa fa-times"></i></button>
+                    <input type="hidden" name="type" value="track" />
+                    <input type="hidden" name="album_id" value="<?php echo $album->getId() ?>" />
+                    <input type="hidden" name="element_id[]" value="<?php echo $track->getId() ?>" />
+                    <input type="hidden" name="value_id" value="<?php echo $option_value->getId() ?>" />
+                </span>
+            </li>
+        <?php endforeach ?>
+    </ul>
+    <div class="first-row-feature">
+        <?php echo $this->_('+ Add a track') ?>
+        <div class="pull-right">
+            <span id="track_count"><?php echo $tracks->count() ?> <?php echo $tracks->count() == 1 ? $this->_('title') : $this->_('titles') ?></span>
+        </div>
+    </div>
+    <div class="first-row-feature">
+    <button onclick="$('#save_custom').submit();" class="color-blue save_selection btn btn-block first-row-feature pull-right" type="button"><?php echo $this->_('Save') ?></button>
+    </div>
 
     <form style="display:none" id="save_custom" action="<?php echo $this->getUrl('media/application_gallery_music/save_custom'); ?>" method="post" class="form-horizontal">
         <div class="form-group">
@@ -212,8 +216,8 @@
                 var seconds = duration - minutes * 60;
                 seconds = seconds.toFixed(0);
                 duration = minutes+':'+seconds;
-                var track = '<li class="new track_item" rel="new_'+new_track_index+'">';
-                track += '<i class="handle fa fa-arrows icon-move"></i>';
+                var track = '<li class="new track_item list-group-item" rel="new_'+new_track_index+'">';
+                track += '<i class="handle fa fa-sort icon-move"></i>';
                 track += '<span class="inner_content">';
                 track += $('#custom_track_title').val();
                 if($('#custom_track_artist').val().length > 0) track += ' <?php echo $this->_('by') ?> '+$('#custom_track_artist').val();
@@ -428,8 +432,10 @@
         border: solid 2px;
     }
     #remove_custom_image_img {
-        vertical-align: top;
         cursor: pointer;
+        left:15px;
+        position: absolute;
+        top:0;
     }
     #tracks_list {
         margin-top: 10px;
@@ -452,7 +458,7 @@
         padding: 10px;
         width: 89%;
     }
-    #tracks_list .fa fa-arrows icon-move {
+    #tracks_list .fa fa-sort icon-move {
         cursor: move;
     }
     .tracks_list-placeholder {

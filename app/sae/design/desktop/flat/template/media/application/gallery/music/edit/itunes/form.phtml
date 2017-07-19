@@ -1,9 +1,9 @@
 <?php $option_value = $this->getOptionValue(); ?>
-<h3 class="title-editor border-blue">
+<h3 class="title-editor border-blue text-center">
     <?php echo $this->_('iTunes') ?>
 </h3>
-<div class="container-fluid first-row-feature">
-    <form id="search_itunes" action="<?php echo $this->getUrl('media/application_gallery_music/searchitunes'); ?>" method="post" class="form-horizontal">
+<div class="first-row-feature content-color">
+    <form id="search_itunes" action="<?php echo $this->getUrl('media/application_gallery_music/searchitunes'); ?>" method="post" class="container-fluid form-horizontal">
         <div class="form-group">
             <div class="col-md-12">
                 <button type="button" class="select_itunes_type btn color-blue active" rel="musicArtist">
@@ -25,7 +25,7 @@
                 </div>
                 <div class="col-sm-4">
                     <button onclick="$('#search_itunes').submit()" class="search_itunes btn color-blue" type="button"><?php echo $this->_('Search') ?></button>
-                    <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="search_loader" class="loader_url" alt="Loading" title="Loading" width="24" style="display:none;" />
+                    <div class="loader" id="search_loader" alt="Loading" title="Loading" style="display: none;"></div>
                 </div>
             </div>
         </div>
@@ -43,25 +43,24 @@
         </div>
     </form>
 
-    <div class="form-group">
+    <div class="container-fluid">
         <div id="itunes_results" class="search_results" style="display:none">
             <div id="select">
                 <label for="select_all">
-                    <input type="checkbox" value="select_all" id="select_all" data-toggle="checkbox">
+                    <input type="checkbox" value="select_all" id="select_all" data-toggle="checkbox" class="color-blue checkbox-inline">
                     <?php echo $this->_('Select all') ?>
                 </label>
             </div>
-            <div id="pagination" class="pull-right">
+            <ul id="results" style="padding-top: 10px;" class="row"></ul>
+            <div id="pagination" class="text-center">
                 <button id="previous" class="change_page validate btn color-blue" type="button"><i class="fa fa-chevron-left"></i></button>
                 <button id="next" class="change_page validate btn color-blue" type="button"><i class="fa fa-chevron-right"></i></button>
             </div>
-            
-            <ul id="results" style="padding-top: 10px;"></ul>
-            <button onclick="$('#save_itunes').submit()" class="right save_selection btn btn-block color-blue" type="button"><?php echo $this->_('Add') ?></button>
+            <button onclick="$('#save_itunes').submit()" class="right save_selection btn btn-block color-blue pull-right" type="button"><?php echo $this->_('Add') ?></button>
         </div>
     </div>
 
-    <form id="save_itunes" action="<?php echo $this->getUrl('media/application_gallery_music/saveitunes'); ?>" method="post" class="form-group">
+    <form id="save_itunes" action="<?php echo $this->getUrl('media/application_gallery_music/saveitunes'); ?>" method="post">
         <div class="col-md-3">
             <input type="hidden" name="gallery_id" value="<?php echo $this->getGalleryId() ?>">
         </div>
@@ -267,7 +266,7 @@
 
     function displayArtists(results) {
         $.each(results, function(key, artist) {
-            var artist_element = '<li class="artist">';
+            var artist_element = '<li class="artist content-white-bkg">';
             artist_element += '<p class="artist_name"><a href="javascript:void(0)" rel="'+artist.artistId+'">'+artist.artistName+'</p>';
             artist_element += '<p class="artist_genre">'+artist.primaryGenreName+'</p>';
             artist_element += '</li>';
@@ -372,5 +371,12 @@
     }
     #results{
         padding-top:10px;
+    }
+    #search_loader {
+        float: left;
+        margin-left: 1vw;
+    }
+    .search_itunes {
+        float: left;
     }
 </style>

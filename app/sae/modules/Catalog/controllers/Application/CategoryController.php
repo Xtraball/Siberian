@@ -84,6 +84,11 @@ class Catalog_Application_CategoryController extends Application_Controller_Defa
                     }
                 }
 
+                /** Update touch date, then never expires (until next touch) */
+                $option_value
+                    ->touch()
+                    ->expires(-1);
+
             }
             catch(Exception $e) {
                 $data['message'] = $e->getMessage();

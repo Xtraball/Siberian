@@ -11,9 +11,10 @@
 
 namespace Symfony\Component\DomCrawler\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
-class CrawlerTest extends \PHPUnit_Framework_TestCase
+class CrawlerTest extends TestCase
 {
     public function testConstructor()
     {
@@ -30,14 +31,14 @@ class CrawlerTest extends \PHPUnit_Framework_TestCase
     public function testGetUri()
     {
         $uri = 'http://symfony.com';
-        $crawler = new Crawler(null,  $uri);
+        $crawler = new Crawler(null, $uri);
         $this->assertEquals($uri, $crawler->getUri());
     }
 
     public function testGetBaseHref()
     {
         $baseHref = 'http://symfony.com';
-        $crawler = new Crawler(null,  null, $baseHref);
+        $crawler = new Crawler(null, null, $baseHref);
         $this->assertEquals($baseHref, $crawler->getBaseHref());
     }
 
@@ -238,7 +239,13 @@ EOF
         $crawler = new Crawler();
         $crawler->addContent('<html><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><span>中文</span></html>');
         $this->assertEquals('中文', $crawler->filterXPath('//span')->text(), '->addContent() guess wrong charset');
+    }
 
+    /**
+     * @requires extension iconv
+     */
+    public function testAddContentNonUtf8()
+    {
         $crawler = new Crawler();
         $crawler->addContent(iconv('UTF-8', 'SJIS', '<html><head><meta charset="Shift_JIS"></head><body>日本語</body></html>'));
         $this->assertEquals('日本語', $crawler->filterXPath('//body')->text(), '->addContent() can recognize "Shift_JIS" in html5 meta charset tag');
@@ -989,6 +996,8 @@ HTML;
             $crawler = new Crawler('<p></p>');
             $crawler->filter('p')->children();
             $this->assertTrue(true, '->children() does not trigger a notice if the node has no children');
+        } catch (\PHPUnit\Framework\Error\Notice $e) {
+            $this->fail('->children() does not trigger a notice if the node has no children');
         } catch (\PHPUnit_Framework_Error_Notice $e) {
             $this->fail('->children() does not trigger a notice if the node has no children');
         }
@@ -1060,6 +1069,51 @@ HTML;
         $crawler = new Crawler('<html><body><ul><li>List item 1<ul><li>Sublist item 1</li><li>Sublist item 2</ul></li></ul></body></html>');
 
         $this->assertCount(1, $crawler->filter('li:contains("List item 1")'));
+    }
+
+    public function testEvaluateReturnsTypedResultOfXPathExpressionOnADocumentSubset()
+    {
+        $crawler = $this->createTestCrawler();
+
+        $result = $crawler->filterXPath('//form/input')->evaluate('substring-before(@name, "Name")');
+
+        $this->assertSame(array('Text', 'Foo', 'Bar'), $result);
+    }
+
+    public function testEvaluateReturnsTypedResultOfNamespacedXPathExpressionOnADocumentSubset()
+    {
+        $crawler = $this->createTestXmlCrawler();
+
+        $result = $crawler->filterXPath('//yt:accessControl/@action')->evaluate('string(.)');
+
+        $this->assertSame(array('comment', 'videoRespond'), $result);
+    }
+
+    public function testEvaluateReturnsTypedResultOfNamespacedXPathExpression()
+    {
+        $crawler = $this->createTestXmlCrawler();
+        $crawler->registerNamespace('youtube', 'http://gdata.youtube.com/schemas/2007');
+
+        $result = $crawler->evaluate('string(//youtube:accessControl/@action)');
+
+        $this->assertSame(array('comment'), $result);
+    }
+
+    public function testEvaluateReturnsACrawlerIfXPathExpressionEvaluatesToANode()
+    {
+        $crawler = $this->createTestCrawler()->evaluate('//form/input[1]');
+
+        $this->assertInstanceOf(Crawler::class, $crawler);
+        $this->assertCount(1, $crawler);
+        $this->assertSame('input', $crawler->first()->nodeName());
+    }
+
+    /**
+     * @expectedException \LogicException
+     */
+    public function testEvaluateThrowsAnExceptionIfDocumentIsEmpty()
+    {
+        (new Crawler())->evaluate('//form/input[1]');
     }
 
     public function createTestCrawler($uri = null)

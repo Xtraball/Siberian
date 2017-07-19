@@ -8,7 +8,7 @@
     <?php $tracks = new Media_Model_Gallery_Music_Track(); ?>
     <?php $tracks = $tracks->findAll(array('album_id' => $album->getId())); ?>
     <li rel="<?php echo $album->getId() ?>" class="list-group-item content-white-bkg">
-        <i class="handle fa fa-arrows icon-move"></i>
+        <i class="handle fa fa-sort icon-move"></i>
         <span class="logos inner_content">
             <?php if($album->getType() == 'podcast') : ?>
                 <i class="fa fa-microphone" ></i>
@@ -45,7 +45,7 @@
     <?php $track = new Media_Model_Gallery_Music_Track(); ?>
     <?php $track->find($element->getTrackId()); ?>
     <li rel="<?php echo $track->getId() ?>" class="list-group-item content-white-bkg">
-        <i class="handle fa fa-arrows icon-move"></i>
+        <i class="handle fa fa-sort icon-move"></i>
         <span class="logos inner_content">
             <?php if($track->getType() == 'podcast') : ?>
                 <i class="fa fa-microphone"></i>

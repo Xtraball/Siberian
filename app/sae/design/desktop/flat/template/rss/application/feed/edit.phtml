@@ -3,10 +3,10 @@
 <?php $rss_feed = $option_value->getObject(); ?>
 <div class="edit_page rss_feed">
     <div id="manage">
-        <h3 class="title-editor no-border-radius">
-            <?php echo $this->_('Manage'); ?>
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo $this->_(('Manage content')); ?>
         </h3>
-        <div class="rss_feed container-fluid">
+        <div class="rss_feed container-fluid content-feature">
             <form id="form_rss_feed" class="form_rss_feed form-horizontal">
                 <div class="form-group first-row-feature">
                     <div class="col-md-12">
@@ -16,15 +16,15 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-5 pull-right">
-                        <label class="checkbox" for="picture_<?php echo $rss_feed->getId(); ?>">
-                            <input type="checkbox" value="1" id="picture_<?php echo $rss_feed->getId(); ?>" name="picture" <?php if($rss_feed->getPicture()) echo 'checked="checked"'; ?>>
+                        <label for="picture_<?php echo $rss_feed->getId(); ?>" class="checkbox-inline">
+                            <input type="checkbox" value="1" id="picture_<?php echo $rss_feed->getId(); ?>" class="color-blue checkbox" name="picture" <?php if($rss_feed->getPicture()) echo 'checked="checked"'; ?>>
                             <?php echo $this->_('Display feed pictures whenever possible'); ?>
                         </label>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-12">
-                        <button type="submit" class="btn btn save_feed color-blue"><?php echo $this->_('Save'); ?></button>
+                        <button type="submit" class="btn btn save_feed color-blue pull-right"><?php echo $this->_('Save'); ?></button>
                     </div>
                 </div>
 
@@ -54,7 +54,7 @@
     </div>
 
     <div id="links_found" style="display: none;">
-        <h4 class="title-editor border-blue">
+        <h4 class="title-editor border-blue text-center">
             <?php echo $this->_('Found feeds'); ?> :
         </h4>
     </div>

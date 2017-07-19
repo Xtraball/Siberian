@@ -194,7 +194,6 @@
     <key>UIBackgroundModes</key>
     <array>
       <string>remote-notification</string>
-      <string>audio</string>
       <string>fetch</string>
     </array>
     <key>NSCameraUsageDescription</key>
@@ -203,8 +202,6 @@
     <string>Import pictures from your library</string>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>Use the GPS for live navigation</string>
-    <key>NSMicrophoneUsageDescription</key>
-    <string/>
     <key>NSCalendarsUsageDescription</key>
     <string>Be notified of the App events.</string>
     <key>NSContactsUsageDescription</key>

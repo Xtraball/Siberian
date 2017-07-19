@@ -1,6 +1,6 @@
 <?php
 
-class Core_Model_Session extends Siberian_Session_Namespace
+class Core_Model_Session extends Zend_Session_Namespace
 {
 
     const TYPE_ADMIN = 'front';
@@ -16,10 +16,10 @@ class Core_Model_Session extends Siberian_Session_Namespace
 
     public function getTypes() {
         return array(
-            self::TYPE_ADMIN => "Admin_Model_Session",
-            self::TYPE_BACKOFFICE => "Backoffice_Model_Session",
-            self::TYPE_CUSTOMER => "Customer_Model_Session",
-            self::TYPE_MCOMMERCE => "Core_Model_Default",
+            self::TYPE_ADMIN        => "Admin_Model_Session",
+            self::TYPE_BACKOFFICE   => "Backoffice_Model_Session",
+            self::TYPE_CUSTOMER     => "Customer_Model_Session",
+            self::TYPE_MCOMMERCE    => "Core_Model_Default",
         );
     }
 

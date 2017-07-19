@@ -16,6 +16,11 @@ class Promotion_Mobile_ListController extends Application_Controller_Mobile_Defa
                 $data['promotions'] = array();
             }
 
+            $tc = new Application_Model_Tc();
+            $tc->findByType($this->getApplication()->getId(), "discount");
+            $text = $tc->getText();
+            $data["tc_id"] = !empty($text) ? $tc->getId() : null;
+
             foreach($promotion_customers as $promotion_customer) {
 
                 $picture = $promotion_customer->getPictureUrl() ? $this->getRequest()->getBaseUrl().$promotion_customer->getPictureUrl() : null;
@@ -26,61 +31,46 @@ class Promotion_Mobile_ListController extends Application_Controller_Mobile_Defa
 
                 if($promotion_customer->getUnlockCode() && !$promotion_customer->getCustomerId()) {
                     $picture = $this->getRequest()->getBaseUrl() . "/images/library/code_scan/qrcode.png";
-                    $title = $this->_("Scan it.");
+                    $title = __("Scan it.");
                     $subtitle = "";
                     $url = "";
                     $is_locked = true;
                 }
 
-                $data['promotions'][] = array(
-                    "id" => $promotion_customer->getPromotionId(),
-                    "picture" => $picture,
-                    "title" => $title,
-                    "subtitle" => $subtitle,
-                    "url" => $url,
-                    "is_locked" => $is_locked
+                $tc_id = null;
+                if($data["tc_id"]) {
+                    $tc_id = (integer) $data["tc_id"];
+                }
+
+                $embed_payload = array(
+                    "id"            => (integer) $promotion_customer->getPromotionId(),
+                    "picture"       => $promotion_customer->getPictureUrl() ? $this->getRequest()->getBaseUrl().$promotion_customer->getPictureUrl() : null,
+                    "title"         => $promotion_customer->getTitle(),
+                    "description"   => $promotion_customer->getDescription(),
+                    "conditions"    => $promotion_customer->getConditions(),
+                    "is_unique"     => (boolean) $promotion_customer->getIsUnique(),
+                    "end_at"        => datetime_to_format($promotion_customer->getEndAt()),
+                    "confirm_message" => __("Do you want to use this coupon?"),
+                    "page_title"    => $promotion_customer->getTitle(),
+                    "tc_id"         => $tc_id
                 );
 
-                /*
-                switch($option->getLayoutId()) {
-                    case 2:
-                    case 3:
-                    case 4:
-                        $data['promotions'][] = array(
-                            "id" => $promotion_customer->getPromotionId(),
-                            "picture" => $this->getRequest()->getBaseUrl().$promotion_customer->getPictureUrl(),
-                            "title" => $promotion_customer->getTitle(),
-                            "subtitle" => $promotion_customer->getDescription(),
-                            "url" => $this->getPath("promotion/mobile_view", array("value_id" => $value_id, "promotion_id" => $promotion_customer->getPromotionId())),
-                        );
-                    break;
-                    case 1:
-                    default:
-                        $data['promotions'][] = array(
-                            "id" => $promotion_customer->getPromotionId(),
-                            "picture" => $this->getRequest()->getBaseUrl().$promotion_customer->getPictureUrl(),
-                            "title" => $promotion_customer->getTitle(),
-                            "description" => $promotion_customer->getDescription(),
-                            "conditions" => $promotion_customer->getConditions(),
-                            "is_unique" => $promotion_customer->getIsUnique(),
-                            "end_at" => $promotion_customer->getFormattedEndAt($this->_('MMMM dd y')),
-                            "unlock_code" => $promotion_customer->getUnlockCode(),
-                            "is_used" => $promotion_customer->getIsUsed()
-                        );
-                    break;
-                }
-                */
+                $data["promotions"][] = array(
+                    "id"                => (integer) $promotion_customer->getPromotionId(),
+                    "picture"           => $picture,
+                    "title"             => $title,
+                    "subtitle"          => $subtitle,
+                    "url"               => $url,
+                    "is_locked"         => (boolean) $is_locked,
+                    "embed_payload"     => $embed_payload
+                );
+
             }
 
             $data["social_sharing_is_active"] = $option->getSocialSharingIsActive();
             $data['page_title'] = $option->getTabbarName();
 
-            $tc = new Application_Model_Tc();
-            $tc->findByType($this->getApplication()->getId(), "discount");
-            $text = $tc->getText();
-            $data["tc_id"] = !empty($text) ? $tc->getId() : null;
-
-            $this->_sendHtml($data);
+            $this->_sendJson($data);
 
         }
     }
@@ -90,13 +80,15 @@ class Promotion_Mobile_ListController extends Application_Controller_Mobile_Defa
 
         try {
             $customer_id = $this->getSession()->getCustomerId();
-            if(!$customer_id) throw new Exception($this->_('You must be logged in to use a discount'));
-            $html = array();
 
-            if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+            if(!$customer_id) {
+                throw new Siberian_Exception(__('You must be logged in to use a discount'));
+            }
+
+            if($data = Siberian_Json::decode($this->getRequest()->getRawBody())) {
 
                 if(empty($data['promotion_id'])) {
-                    throw new Exception($this->_("An error occurred while saving. Please try again later."));
+                    throw new Siberian_Exception(__("An error occurred while saving. Please try again later."));
                 }
 
                 $promotion_id = $data['promotion_id'];
@@ -114,26 +106,37 @@ class Promotion_Mobile_ListController extends Application_Controller_Mobile_Defa
                 }
 
                 if($promotion->getIsUnique() AND $promotion_customer->getId() AND $promotion_customer->getIsUsed()) {
-                    $html['remove'] = true;
-                    throw new Exception($this->_('You have already use this discount'));
+
+                    $data = array(
+                        "success"   => true,
+                        "message"   => __('You have already use this discount'),
+                        "remove"    => true
+                    );
+
                 }
                 else {
                     $promotion_customer->setIsUsed(1)->save();
-                    $html = array(
-                        "success" => 1,
-                        "message" => $this->_("This discount is now used"),
-                        "remove" => 1
+
+                    $data = array(
+                        "success"   => true,
+                        "message"   => __("This discount is now used"),
+                        "remove"    => true
                     );
                 }
 
+            } else {
+                throw new Siberian_Exception(__("Missing data."));
             }
-        }
-        catch(Exception $e) {
-            $html['error'] = 1;
-            $html['message'] = $e->getMessage();
+
+
+        } catch(Exception $e) {
+            $data = array(
+                "error"     => true,
+                "message"   => $e->getMessage()
+            );
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($data);
     }
 
     public function unlockbyqrcodeAction() {
@@ -141,7 +144,7 @@ class Promotion_Mobile_ListController extends Application_Controller_Mobile_Defa
         try {
 
             $customer_id = $this->getSession()->getCustomerId();
-            if(!$customer_id) throw new Exception($this->_('You must be logged in to use a discount'));
+            if(!$customer_id) throw new Exception(__('You must be logged in to use a discount'));
 
             if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
 
@@ -154,10 +157,10 @@ class Promotion_Mobile_ListController extends Application_Controller_Mobile_Defa
                 $promotion_customer->findLast($promotion_id, $customer_id);
 
                 if($promotion->getUnlockCode() != $data["qrcode"]) {
-                    throw new Exception($this->_("This code is unrecognized"));
+                    throw new Exception(__("This code is unrecognized"));
                 }
                 if($promotion_customer->getIsUsed() != "" && $promotion_customer->getIsUsed() == 0) {
-                    throw new Exception($this->_("You have already use this code"));
+                    throw new Exception(__("You have already use this code"));
                 }
 
                 if(!$promotion_customer->getId()) {

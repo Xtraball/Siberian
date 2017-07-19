@@ -1,4 +1,4 @@
-App.directive("datetime", function($ionicPlatform) {
+angular.module("starter").directive("datetime", function($ionicPlatform) {
     return {
         restrict: 'A',
         scope: {

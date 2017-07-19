@@ -6,13 +6,13 @@
 <?php $stores = $store->findAll(array('booking_id' => $booking->getId())); ?>
 <div id="list" class="booking">
     <h3 class="title-editor no-border-radius title-feature-indent">
-        <?php echo $this->_('Add'); ?>
+        <?php echo $this->_(('Add content')); ?>
         <button type="button" id="add_booking" class="toggle_design color-blue pull-right bt-header-right btn">
             <i class="fa fa-plus"></i>
         </button>
     </h3>
     <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
-    <div class="container-fluid">
+    <div class="container-fluid content-feature">
         <div id="row_new" style="display: none;">
             <h4><?php echo $this->_("Enter the location name and contact email:"); ?></h4>
             <form id="new_form_booking" class="form_booking form-horizontal">
@@ -44,12 +44,12 @@
     </div>
     <div id="existing_items_section" <?php if($stores->count() == 0) : ?> style="display:none;"<?php endif; ?>>
         <h3 class="title-editor no-border-radius title-feature-indent">
-            <?php echo $this->_('Manage'); ?>
+            <?php echo $this->_(('Manage content')); ?>
             <button type="button" id="toggle_existing_items" class="toggle_design color-blue pull-right bt-header-right btn">
-                <i class="fa fa-chevron-down"></i>
+                <i class="fa fa-angle-down"></i>
             </button>
         </h3>
-        <div id="existing_items" class="container-fluid form-horizontal" style="display:none">
+        <div id="existing_items" class="container-fluid form-horizontal content-feature" style="display:none">
             <div class="form-group first-row-feature">
                 <div class="col-sm-4">
                     <label><?php echo $this->_('Location:') ?> <span class="required-entry"> *</span></label>
@@ -90,10 +90,17 @@
 
     page.setCallback('didappear', function() {
 
-        $('#toggle_existing_items').click(function() {
-            $('#existing_items').stop().slideToggle(300, function() {
-                if($(this).is(':visible')) $('#toggle_existing_items').children('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
-                else $('#toggle_existing_items').children('i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+        $('#toggle_existing_items').click(function () {
+            $('#existing_items').stop().slideToggle(300, function () {
+                if ($(this).is(':visible')) {
+                    $('#toggle_existing_items').children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+                    $('#toggle_existing_items').removeClass('color-blue');
+                }
+                else
+                {
+                    $('#toggle_existing_items').children('i').removeClass('fa-angle-up').addClass('fa-angle-down');
+                    $('#toggle_existing_items').addClass('color-blue');
+                }
             });
         });
 
@@ -152,3 +159,8 @@
     }
 
 </script>
+<style>
+    .booking .content-feature {
+        padding-bottom: 0;
+    }
+</style>

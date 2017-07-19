@@ -45,7 +45,7 @@ class Admin_Api_AccountController extends Api_Controller_Default {
                 );
             }
 
-            $this->_sendHtml($data);
+            $this->_sendJson($data);
 
         }
 
@@ -87,7 +87,7 @@ class Admin_Api_AccountController extends Api_Controller_Default {
                 );
             }
 
-            $this->_sendHtml($data);
+            $this->_sendJson($data);
 
         }
 
@@ -136,7 +136,7 @@ class Admin_Api_AccountController extends Api_Controller_Default {
                 );
             }
 
-            $this->_sendHtml($data);
+            $this->_sendJson($data);
 
         }
 
@@ -148,7 +148,9 @@ class Admin_Api_AccountController extends Api_Controller_Default {
 
             try {
 
-                if(isset($data["id"])) unset($data["id"]);
+                if(isset($data["id"])) {
+                    unset($data["id"]);
+                }
 
                 $admin = new Admin_Model_Admin();
 
@@ -166,8 +168,11 @@ class Admin_Api_AccountController extends Api_Controller_Default {
                     $email_checker = new Admin_Model_Admin();
                     $email_checker->find($data['email'], 'email');
 
-                    if($email_checker->getId() AND $email_checker->getId() != $admin->getId()) {
-                        throw new Exception(__("This email address is already used"));
+                    if($email_checker->getId()
+                        AND $email_checker->getId() != $admin->getId()) {
+                        throw new Exception(
+                            __("This email address is already used")
+                        );
                     }
 
                 }
@@ -193,7 +198,7 @@ class Admin_Api_AccountController extends Api_Controller_Default {
                 );
             }
 
-            $this->_sendHtml($data);
+            $this->_sendJson($data);
 
         }
 
@@ -201,10 +206,8 @@ class Admin_Api_AccountController extends Api_Controller_Default {
 
     public function forgotpasswordAction() {
 
-        if($data = $this->getRequest()->getPost()) {
-
-            try {
-
+        try {
+            if($data = $this->getRequest()->getPost()) {
                 if(empty($data['email'])) {
                     throw new Exception(__('Please enter your email address'));
                 }
@@ -233,19 +236,18 @@ class Admin_Api_AccountController extends Api_Controller_Default {
                 $mail->setSubject($subject, array("_sender_name"));
                 $mail->send();
 
-                $data = array("success" => 1);
-
-            }
-            catch(Exception $e) {
                 $data = array(
-                    'error' => 1,
-                    'message' => $e->getMessage()
+                    "success" => true
                 );
             }
-
-            $this->_sendHtml($data);
-
+        } catch(Exception $e) {
+            $data = array(
+                'error' => 1,
+                'message' => $e->getMessage()
+            );
         }
+
+        $this->_sendJson($data);
     }
 
     public function isloggedinAction() {
@@ -261,7 +263,7 @@ class Admin_Api_AccountController extends Api_Controller_Default {
                 );
             }
 
-            $this->_sendHtml($data);
+            $this->_sendJson($data);
 
         }
 
@@ -269,7 +271,8 @@ class Admin_Api_AccountController extends Api_Controller_Default {
 
     public function autologinAction() {
 
-        if($email = $this->getRequest()->getParam("email") AND $token = $this->getRequest()->getParam("token")) {
+        if($email = $this->getRequest()->getParam("email")
+            AND $token = $this->getRequest()->getParam("token")) {
 
             try {
 

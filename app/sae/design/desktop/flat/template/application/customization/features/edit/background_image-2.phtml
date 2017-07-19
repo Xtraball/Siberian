@@ -2,14 +2,14 @@
 <?php $option_value = new Application_Model_Option_Value(); ?>
 <?php $option_value->find($this->getValueId()); ?>
 <?php $block = $application->getBlock('background'); ?>
-<div class="subcontent color-content">
+<div class="margin-bkg color-content">
     <h3 class="title-editor no-border-radius title-feature-indent">
         <?php echo $this->_('Background'); ?>
         <button type="button" id="toggle_design" class="toggle_design color-blue pull-right bt-header-right btn">
-            <i class="fa fa-chevron-down"></i>
+            <i class="fa fa-angle-down"></i>
         </button>
     </h3>
-    <div id="change_background_image" style="display:none;" class="no-border-radius content-color content container-fluid subcontent">
+    <div id="change_background_image" style="display:none;" class="no-border-radius content container-fluid subcontent content-feature">
         <div class="row">
             <div class="col-md-12">
                 <div class="conteneur_background_image pull-left">
@@ -33,10 +33,14 @@
     </div>
 </div>
 <style>
-    #change_background_image .conteneur_background_image, #change_background_image #background_image { width: 64px; height: 110px; }
-    .conteneur_background_image { background-color: <?php echo $block->getBackgroundColor(); ?>; border: solid 2px; overflow: hidden; border-radius: 7px; }
+    #change_background_image .conteneur_background_image, #change_background_image #background_image { width: 64px; height: 110px; float: left; }
+    .conteneur_background_image { background-color: <?php echo $block->getBackgroundColor(); ?>; border: solid 1px; overflow: hidden; border-radius: 3px; }
     button#background_image { background: none; border-radius: 2px;padding:0;border: none; }
-    #delete_background_image { margin-left: 5px; }
+    #delete_background_image {
+        margin-left: 5px;
+        position: absolute;
+        left:10px;
+    }
 </style>
 <script type="text/javascript">
 
@@ -116,8 +120,14 @@
         },
         toggleDesign: function() {
             $('#change_background_image').stop().slideToggle(300, function() {
-                if($('#change_background_image').is(':visible')) $('#toggle_design').children('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
-                else $('#toggle_design').children('i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                if($('#change_background_image').is(':visible')) {
+                    $('#toggle_design').children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+                    $('#toggle_design').removeClass('color-blue');
+                }
+                else {
+                    $('#toggle_design').children('i').removeClass('fa-angle-up').addClass('fa-angle-down');
+                    $('#toggle_design').addClass('color-blue');
+                }
             });            
         },
         setCallback: function(id, callback) {

@@ -6,7 +6,7 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
     public function findallAction() {
 
         if($this->getRequest()->getParam('value_id')) {
-            $data = array();
+            $payload = array();
             $fcc = new LoyaltyCard_Model_Customer();
             $customer_id = $this->getSession()->getCustomerId() | 0;
             $cards = $fcc->findAllByOptionValue($this->getCurrentOptionValue()->getId(), $customer_id);
@@ -24,47 +24,47 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                 }
             }
 
-            $data["promotions"] = array();
+            $payload["promotions"] = array();
             foreach($promotions as $promotion) {
-                $data["promotions"][] = array(
+                $payload["promotions"][] = array(
                     "id" => $promotion->getId(),
                     "advantage" => $promotion->getAdvantage()
                 );
             }
 
-            $data["card"] = array();
+            $payload["card"] = array();
             if($current_card->getCardId()) {
 
-                $data["card"] = array(
-                    "id" => $current_card->getId(),
-                    "is_visible" => (bool) $current_card->getCardId(),
-                    "name" => $current_card->getName(),
-                    "advantage" => $current_card->getAdvantage(),
-                    "conditions" => $current_card->getConditions(),
-                    "number_of_points" => $current_card->getNumberOfPoints(),
-                    "max_number_of_points" => $current_card->getMaxNumberOfPoints()
+                $payload["card"] = array(
+                    "id"                    => (integer) $current_card->getId(),
+                    "is_visible"            => (boolean) $current_card->getCardId(),
+                    "name"                  => $current_card->getName(),
+                    "advantage"             => $current_card->getAdvantage(),
+                    "conditions"            => $current_card->getConditions(),
+                    "number_of_points"      => (integer) $current_card->getNumberOfPoints(),
+                    "max_number_of_points"  => (integer) $current_card->getMaxNumberOfPoints()
                 );
 
-                $data["points"] = $this->_getPoints($current_card);
+                $payload["points"] = $this->_getPoints($current_card);
 
             }
 
             $_pictos = $this->_getPictos($current_card);
-            $data["picto_urls"] = array(
-                "normal_url" => $_pictos["inactive"],
+            $payload["picto_urls"] = array(
+                "normal_url"    => $_pictos["inactive"],
                 "validated_url" => $_pictos["active"],
             );
 
-            $data["page_title"] = $this->getCurrentOptionValue()->getTabbarName();
-            $data["pad_title"] = $this->_("Enter the password");
-            $data["card_is_locked"] = $cardIsLocked;
+            $payload["page_title"] = $this->getCurrentOptionValue()->getTabbarName();
+            $payload["pad_title"] = __("Enter the password");
+            $payload["card_is_locked"] = $cardIsLocked;
 
             $tc = new Application_Model_Tc();
             $tc->findByType($this->getApplication()->getId(), "loyaltycard");
             $text = $tc->getText();
-            $data["tc_id"] = !empty($text) ? $tc->getId() : null;
+            $payload["tc_id"] = !empty($text) ? $tc->getId() : null;
 
-            $this->_sendHtml($data);
+            $this->_sendJson($payload);
         }
 
     }
@@ -84,18 +84,23 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                 // Récupération du client en cours
                 $customer_id = $this->getSession()->getCustomerId();
                 // Si le client n'est pas connecté
-                if(empty($customer_id)) throw new Exception($this->_('You must be logged in to validate points'));
+                if(empty($customer_id)) {
+                    throw new Siberian_Exception(__('You must be logged in to validate points'));
+                }
 
                 $customer_card_id = $datas['customer_card_id'];
 
                 // Récupération de la carte de fidélité de l'utilisateur en cours
                 $card = new LoyaltyCard_Model_Customer();
+
                 // Récupère la carte du client ou, à défaut, en créé une nouvelle
                 $cards = $card->findAllByOptionValue($option_value->getId(), $customer_id);
 
                 foreach($cards as $tmp_card) {
                     // Si la carte n'existe pas, customer_card_id == 0
-                    if($tmp_card->getCustomerCardId() == $customer_card_id) $card = $tmp_card;
+                    if($tmp_card->getCustomerCardId() == $customer_card_id) {
+                        $card = $tmp_card;
+                    }
                 }
 
                 // Déclaration des variables annexes
@@ -104,7 +109,7 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
 
                 // Ou si le mot de passe est vide ou non numérique
                 if($card->getValueId() != $option_value->getId() OR empty($password_entered) OR !preg_match('/[0-9]/', $nbr)) {
-                    throw new Exception($this->_('An error occurred while validating point. Please try again later.'));
+                    throw new Siberian_Exception(__("An error occurred while validating point<br />Please try again later."));
                 }
 
                 // Récupération du mot de passe
@@ -125,13 +130,13 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                     // S'il reste au moins 1 tentative de saisie, on envoie un message d'erreur
                     if($only > 0) {
                         $html['customer_card_id'] = $card->getCustomerCardId();
-                        throw new Exception($this->_('Wrong password. Be carefull! %d remaining attempt%s before locking your card. Ask the store person for validating your point', $only, $only > 1 ? 's' : ''));
+                        throw new Siberian_Exception(__('Wrong password.<br />Be careful !<br />%d remaining attempt%s before locking your card.<br />Ask the store person for validating your point', $only, $only > 1 ? 's' : ''));
                     }
                     else {
                         // Sinon, on ferme le clavier et on annonce que la carte est bloquée
                         $html['close_pad'] = true;
                         $html['card_is_locked'] = true;
-                        throw new Exception($this->_('You have exceeded the number of attempts to validate points. Your card is locked for 24h'));
+                        throw new Siberian_Exception(__("You have exceeded the number of attempts to validate points.<br />Your card is locked for 24h"));
                     }
                 }
                 // Sinon on valide (le point ou la carte)
@@ -151,7 +156,7 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
 
                         // On renvoie un message de validation
                         $s = $nbr>1?'s':'';
-                        $msg = $this->_('Point%s successfully validated', $s, $s);
+                        $msg = __('Point%s successfully validated', $s, $s);
                         $html = array(
                             'success' => true,
                             'message' => $msg,
@@ -170,7 +175,7 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                         ;
                         $html = array(
                             'success' => true,
-                            'message' => $this->_('You just finished your card'),
+                            'message' => __('You just finished your card'),
                             'promotion_id_to_remove' => $card->getId(),
                             'close_pad' => true
                         );
@@ -203,7 +208,7 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                 // Récupération du client en cours
                 $customer_id = $this->getSession()->getCustomerId();
                 // Si le client n'est pas connecté
-                if(empty($customer_id)) throw new Exception($this->_('You must be logged in to validate points'));
+                if(empty($customer_id)) throw new Exception(__('You must be logged in to validate points'));
 
                 $customer_card_id = $data['customer_card_id'];
 
@@ -228,7 +233,7 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
 
                 // Test si le mot de passe a été trouvé
                 if(!$password->getId()) {
-                    throw new Exception($this->_('An error occurred with your QRCode.'));
+                    throw new Exception(__('An error occurred with your QRCode.'));
                 }
                 // Sinon on valide (le point ou la carte)
                 else {
@@ -247,7 +252,7 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
 
                         // On renvoie un message de validation
                         $s = $nbr>1?'s':'';
-                        $msg = $this->_('Point%s successfully validated', $s, $s);
+                        $msg = __('Point%s successfully validated', $s, $s);
                         $html = array(
                             'success' => true,
                             'message' => $msg,
@@ -266,7 +271,7 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                         ;
                         $html = array(
                             'success' => true,
-                            'message' => $this->_('You just finished your card'),
+                            'message' => __('You just finished your card'),
                             'promotion_id_to_remove' => $card->getId(),
                             'close_pad' => true
                         );
@@ -281,18 +286,13 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
             $html['message'] = $e->getMessage();
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
 
     }
     
     protected function _getPoints($current_card) {
 
-        $regular_image_url = $this->_getImage('pictos/point.png');
-        $validated_image_url = $this->_getColorizedImage($this->_getImage('pictos/point_validated.png', true), $this->getApplication()->getBlock('connect_button')->getBackgroundColor());
-
-        /** If images */
-        $image_active = ($current_card->getImageActive()) ? $this->getRequest()->getBaseUrl()."/images/application".$current_card->getImageActive() :  $this->getRequest()->getBaseUrl().$validated_image_url;
-        $image_inactive = ($current_card->getImageInactive()) ? $this->getRequest()->getBaseUrl()."/images/application".$current_card->getImageInactive() :  $this->getRequest()->getBaseUrl().$regular_image_url;
+        $pictures = $this->_getPictos($current_card);
 
         $points = array();
 
@@ -305,9 +305,9 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
             }
 
             $points[] = array(
-                "is_validated" => $is_validated,
-                "image_url" => $image_inactive,
-                "validated_image_url" => $image_active,
+                "is_validated"          => $is_validated,
+                "image_url"             => $pictures["inactive"],
+                "validated_image_url"   => $pictures["active"],
             );
         }
 
@@ -319,13 +319,27 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
         $regular_image_url = $this->_getImage('pictos/point.png');
         $validated_image_url = $this->_getColorizedImage($this->_getImage('pictos/point_validated.png', true), $this->getApplication()->getBlock('connect_button')->getBackgroundColor());
 
-        /** If images */
-        $image_active = ($current_card->getImageActive()) ? $this->getRequest()->getBaseUrl()."/images/application".$current_card->getImageActive() :  $this->getRequest()->getBaseUrl().$validated_image_url;
-        $image_inactive = ($current_card->getImageInactive()) ? $this->getRequest()->getBaseUrl()."/images/application".$current_card->getImageInactive() :  $this->getRequest()->getBaseUrl().$regular_image_url;
+
+        if($current_card->getImageActive()) {
+            $path = Core_Model_Directory::getBasePathTo("images/application" . $current_card->getImageActive());
+        } else {
+            $path = Core_Model_Directory::getBasePathTo($validated_image_url);
+        }
+        $image = Siberian_Image::open($path);
+        $image_active_b64 = $image->inline($image->guessType());
+
+        if($current_card->getImageInactive()) {
+            $path = Core_Model_Directory::getBasePathTo("images/application" . $current_card->getImageInactive());
+        } else {
+            $path = Core_Model_Directory::getBasePathTo($regular_image_url);
+        }
+
+        $image_inactive = Siberian_Image::open($path);
+        $image_inactive_b64 = $image_inactive->inline($image_inactive->guessType());
 
         return array(
-            "active" => $image_active,
-            "inactive" => $image_inactive,
+            "active" => $image_active_b64,
+            "inactive" => $image_inactive_b64,
         );
     }
 

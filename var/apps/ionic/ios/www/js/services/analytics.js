@@ -1,4 +1,7 @@
-App.service('Analytics', function($cordovaGeolocation, $sbhttp, $q, $rootScope, Application, Url) {
+/*global
+    App, device, cordova
+ */
+angular.module("starter").service("Analytics", function($cordovaGeolocation, $pwaRequest, $q, $log, $rootScope, Application, Url) {
 
     var service = {};
 
@@ -35,7 +38,7 @@ App.service('Analytics', function($cordovaGeolocation, $sbhttp, $q, $rootScope, 
     service.storeOpening = function() {
         var deferred = $q.defer();
 
-        if(!Application.is_webview) {
+        if(!Application.is_webview && (typeof cordova !== "undefined")) {
             var url = Url.get("analytics/mobile_store/opening");
             var params = {
                 OS: cordova.device ? device.platform : "Browser",
@@ -56,12 +59,17 @@ App.service('Analytics', function($cordovaGeolocation, $sbhttp, $q, $rootScope, 
                 params.latitude = position.coords.latitude;
                 params.longitude = position.coords.longitude;
 
-                service.postData(url, params).success(function (result) {
+                service.postData(url, params).then(function (result) {
                     deferred.resolve(result);
+                }).catch(function(error) {
+
                 });
             }, function () {
-                service.postData(url, params).success(function (result) {
+
+                service.postData(url, params).then(function (result) {
                     deferred.resolve(result);
+                }).catch(function(error) {
+
                 });
             });
 
@@ -73,7 +81,15 @@ App.service('Analytics', function($cordovaGeolocation, $sbhttp, $q, $rootScope, 
     service.storeClosing = function() {
         if(!$rootScope.isOverview) {
             var url = Url.get("analytics/mobile_store/closing");
-            var params = {id: service.data.storeClosingId};
+
+            if(typeof service.data.storeClosingId === "undefined") {
+                $log.debug("aborting /analytics/mobile_store/closing, no id.");
+                return;
+            }
+
+            var params = {
+                id: service.data.storeClosingId
+            };
 
             service.postData(url, params);
         }
@@ -171,12 +187,12 @@ App.service('Analytics', function($cordovaGeolocation, $sbhttp, $q, $rootScope, 
     };
 
     service.postData = function(url, params) {
-        return $sbhttp({
-            method: 'POST',
-            url: url,
+        return $pwaRequest.post(url, {
             data: params,
             cache: false,
-            responseType: 'json'
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
         });
     };
 

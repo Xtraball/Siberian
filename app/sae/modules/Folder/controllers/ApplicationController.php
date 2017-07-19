@@ -10,36 +10,42 @@ class Folder_ApplicationController extends Application_Controller_Default
             "tags" => array(
                 "feature_paths_valueid_#VALUE_ID#",
                 "assets_paths_valueid_#VALUE_ID#",
+                "homepage_app_#APP_ID#",
             ),
         ),
         "addfeature" => array(
             "tags" => array(
                 "feature_paths_valueid_#VALUE_ID#",
                 "assets_paths_valueid_#VALUE_ID#",
+                "homepage_app_#APP_ID#",
             ),
         ),
         "orderfeatures" => array(
             "tags" => array(
                 "feature_paths_valueid_#VALUE_ID#",
                 "assets_paths_valueid_#VALUE_ID#",
+                "homepage_app_#APP_ID#",
             ),
         ),
         "ordercategories" => array(
             "tags" => array(
                 "feature_paths_valueid_#VALUE_ID#",
                 "assets_paths_valueid_#VALUE_ID#",
+                "homepage_app_#APP_ID#",
             ),
         ),
         "deletecategory" => array(
             "tags" => array(
                 "feature_paths_valueid_#VALUE_ID#",
                 "assets_paths_valueid_#VALUE_ID#",
+                "homepage_app_#APP_ID#",
             ),
         ),
         "setshowsearch" => array(
             "tags" => array(
                 "feature_paths_valueid_#VALUE_ID#",
                 "assets_paths_valueid_#VALUE_ID#",
+                "homepage_app_#APP_ID#",
             ),
         ),
     );
@@ -110,6 +116,11 @@ class Folder_ApplicationController extends Application_Controller_Default
                 } else {
                     $parent_id = $data['parent_id'];
                 }
+
+                /** Update touch date, then never expires (until next touch) */
+                $option_value
+                    ->touch()
+                    ->expires(-1);
 
                 $html = array(
                     'success' => '1',

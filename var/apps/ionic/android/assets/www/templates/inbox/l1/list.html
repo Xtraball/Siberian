@@ -1,4 +1,4 @@
-<ion-view cache-view="false">
+<ion-view sb-page-background cache-view="false">
     <ion-nav-title>{{ page_title }}</ion-nav-title>
     <ion-nav-buttons side="secondary">
         <div sb-tooltip collection="tooltip.collection" current-item="tooltip.current_item" button-label="tooltip.button_label" on-item-clicked="setShowRecent(object)" ng-if="tooltip"></div>
@@ -8,7 +8,7 @@
         </button>
     </ion-nav-buttons>
 
-    <ion-content sb-background-image>
+    <ion-content>
 
         <div class="loader" ng-show="is_loading">
             <ion-spinner class="spinner-custom"></ion-spinner>

@@ -5,7 +5,12 @@
 .layout.layout_siberian_year .list.row .item-content{height:40%}
 
 /* LAYOUT Year */
-.layout.layout_siberian_year .item h2 { margin-top: 10px; }
+.layout.layout_siberian_year .item h2 {
+    position: absolute;
+    bottom: -20px;
+    width: 100%;
+}
+
 .layout.layout_siberian_year .item {
     margin: 0;
     border-width: 0px;
@@ -14,6 +19,7 @@
     background-size: 50%;
     padding:0;
     background-repeat: no-repeat;
+    overflow: visible;
 }
 .layout.layout_siberian_year .no-border{border:none !important}
 
@@ -27,6 +33,7 @@
     height: 100%;
     top: 0;
     width:100%;
+    left:0;
 }
 
 .layout.layout_siberian_year ion-scroll {
@@ -262,7 +269,7 @@
     transform: translate3d(-0.25084px, -104.9997px, 0);
 }
 
-.layout.layout_siberian_year .menu-item p {
+.layout.layout_siberian_year .menu-item h2 {
     transition-duration: 120ms;
     -webkit-transition-duration: 120ms;
     -webkit-transform: translate3d(0px, -40px, 0);
@@ -270,7 +277,7 @@
     opacity: 0;
 }
 
-.layout.layout_siberian_year .menu-open:checked ~ .menu-item p {
+.layout.layout_siberian_year .menu-open:checked ~ .menu-item h2 {
     transition-duration: 120ms;
     -webkit-transition-duration: 120ms;
     -webkit-transform: translate3d(0px, 0px, 0);
@@ -296,11 +303,11 @@
     text-transform: uppercase;
 }
 
-.layout.layout_siberian_year p.titlehidden {
+.layout.layout_siberian_year .menu-item a h2.titlehidden {
     display: none;
 }
 
-.layout.layout_siberian_year p.titlevisible {
+.layout.layout_siberian_year .menu-item a h2.titlevisible {
     display: block;
 }
 

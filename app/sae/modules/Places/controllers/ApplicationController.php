@@ -2,6 +2,22 @@
 
 class Places_ApplicationController extends Application_Controller_Default {
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "searchsettings" => array(
+            "tags" => array(
+                "homepage_app_#APP_ID#",
+            ),
+        ),
+        "rank" => array(
+            "tags" => array(
+                "homepage_app_#APP_ID#",
+            ),
+        ),
+    );
+    
     public function loadformAction() {
 
         $place_id = $this->getRequest()->getParam("place_id");
@@ -64,16 +80,22 @@ class Places_ApplicationController extends Application_Controller_Default {
                     }
                 }
             }
+
+            $this->getCurrentOptionValue()
+                ->touch()
+                ->expires(-1);
+
+
             $html = array(
                 'success' => 1,
-                'success_message' => $this->_('Order successfully saved saved.'),
+                'success_message' => __('Order successfully saved saved.'),
                 'message_timeout' => 2,
                 'message_button' => 0,
                 'message_loader' => 0
             );
         } catch (Exception $e) {
             $html = array(
-                'message' => $this->_('An error occured.'),
+                'message' => __('An error occured.'),
                 'message_button' => 1,
                 'message_loader' => 1
             );
@@ -81,7 +103,7 @@ class Places_ApplicationController extends Application_Controller_Default {
         $this->getLayout()->setHtml(Zend_Json::encode($html));
     }
 
-    public function searchSettingsAction()
+    public function searchsettingsAction()
     {
         if ($data = $this->getRequest()->getPost()) {
             $html = array();
@@ -94,9 +116,14 @@ class Places_ApplicationController extends Application_Controller_Default {
                 Cms_Model_Application_Page::setPlaceOrder($data['option_value_id'], $data['places_order'] == 'distance');
                 Cms_Model_Application_Page::setPlaceOrderAlpha($data['option_value_id'], $data['places_order'] == 'alpha');
 
+                $this->getCurrentOptionValue()
+                    ->touch()
+                    ->expires(-1);
+
+
                 $html = array(
                     'success' => 1,
-                    'success_message' => $this->_('Setting successfully saved.'),
+                    'success_message' => __('Setting successfully saved.'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0

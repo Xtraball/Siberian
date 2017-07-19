@@ -5,7 +5,9 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
     public function findAction() {
 
         $customer = $this->getSession()->getCustomer();
-        $data = array();
+        $payload = array();
+        $payload["is_logged_in"] = false;
+
         if($customer->getId()) {
             $metadatas = $customer->getMetadatas();
             if(empty($metadatas)) {
@@ -17,7 +19,7 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
                 unset($metadatas->stripe["customerId"]);
             }
 
-            $data = array(
+            $payload = array(
                 "id" => $customer->getId(),
                 "civility" => $customer->getCivility(),
                 "firstname" => $customer->getFirstname(),
@@ -34,13 +36,15 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
                 if(class_exists($exporter_class) && method_exists($exporter_class, "getInformation")) {
                     $tmp_class = new $exporter_class();
                     $info = $tmp_class->getInformation($customer->getId());
-                    $data["stripe"] = $info ? $info : array();
+                    $payload["stripe"] = $info ? $info : array();
                 }
             }
 
+            $payload["is_logged_in"] = true;
+
         }
 
-        $this->_sendHtml($data);
+        $this->_sendJson($payload);
 
     }
 
@@ -145,7 +149,8 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
                 $html = array(
                     "success" => 1,
                     "message" => $this->_("Info successfully saved"),
-                    "clearCache" => $clearCache
+                    "clearCache" => $clearCache,
+                    "customer" => Customer_Model_Customer::getCurrent()
                 );
 
             }

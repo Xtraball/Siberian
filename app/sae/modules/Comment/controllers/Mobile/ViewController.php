@@ -49,42 +49,58 @@ class Comment_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                 $color = $application->getBlock('background')->getColor();
                 $cleaned_message = str_replace(array("\n","\r"), "", html_entity_decode(strip_tags($comment->getText()), ENT_QUOTES, 'UTF-8'));
 
+                $answer = new Comment_Model_Answer();
+                $answers = $answer->findByComment($comment->getId());
+                $all_answers = array();
+                foreach($answers as $answer) {
+                    $all_answers[] = array(
+                        "id"                => (integer) $answer->getId(),
+                        "name"              => $answer->getCustomerName(),
+                        "customer_id"       => (integer) $answer->getCustomerId(),
+                        "message"           => $answer->getText(),
+                        "created_at"        => $this->_durationSince($answer->getCreatedAt())
+                    );
+
+                }
+
                 switch($this->getCurrentOptionValue()->getLayoutId()) {
                     case 2:
                         $data = array(
-                            "id" => $comment->getId(),
-                            "author" => $customer->getFirstname() ? $customer->getFirstname() : $application->getName(),
-                            "title" => $comment->getTitle(),
-                            "subtitle" => $comment->getSubtitle(),
-                            "message" => $comment->getText(),
-                            "cleaned_message" => mb_strlen($cleaned_message) > 67 ? mb_substr($cleaned_message, 0, 64) . "..." : $cleaned_message,
-                            "picture" => $comment->getImageUrl() ? $this->getRequest()->getBaseUrl().$comment->getImageUrl() : null,
-                            "icon" => $this->getRequest()->getBaseUrl().$application->getIcon(74),
-                            "created_at" => $comment->getFormattedDate($this->_("MM.dd.y")),
-                            "code" => $this->getCurrentOptionValue()->getCode(),
-                            "social_sharing_active" => $option->getSocialSharingIsActive()
+                            "id"                        => (integer) $comment->getId(),
+                            "author"                    => $customer->getFirstname() ? $customer->getFirstname() : $application->getName(),
+                            "title"                     => $comment->getTitle(),
+                            "subtitle"                  => $comment->getSubtitle(),
+                            "message"                   => $comment->getText(),
+                            "cleaned_message"           => mb_strlen($cleaned_message) > 67 ? mb_substr($cleaned_message, 0, 64) . "..." : $cleaned_message,
+                            "picture"                   => $comment->getImageUrl() ? $this->getRequest()->getBaseUrl().$comment->getImageUrl() : null,
+                            "icon"                      => $this->getRequest()->getBaseUrl().$application->getIcon(74),
+                            "created_at"                => $comment->getFormattedDate(__("MM.dd.y")),
+                            "code"                      => $this->getCurrentOptionValue()->getCode(),
+                            "social_sharing_active"     => (boolean) $option->getSocialSharingIsActive(),
+                            "answers"                   => $all_answers
                         );
                     break;
                     case 1:
                     default:
                         $data = array(
-                            "id" => $comment->getId(),
-                            "author" => $customer->getFirstname() ? $customer->getFirstname() : $application->getName(),
-                            "message" => $comment->getText(),
-                            "cleaned_message" => mb_strlen($cleaned_message) > 67 ? mb_substr($cleaned_message, 0, 64) . "..." : $cleaned_message,
-                            "picture" => $comment->getImageUrl() ? $this->getRequest()->getBaseUrl().$comment->getImageUrl() : null,
-                            "icon" => $this->getRequest()->getBaseUrl().$application->getIcon(74),
-                            "can_comment" => true,
-                            "created_at" => $this->_durationSince($comment->getCreatedAt()),
-                            "number_of_likes" => count($comment->getLikes()),
-                            "flag_icon" => $this->_getColorizedImage($this->_getImage("pictos/flag.png"), $color),
-                            "code" => $this->getCurrentOptionValue()->getCode(),
-                            "social_sharing_active" => $option->getSocialSharingIsActive()
+                            "id"                            => (integer) $comment->getId(),
+                            "author"                        => $customer->getFirstname() ? $customer->getFirstname() : $application->getName(),
+                            "message"                       => $comment->getText(),
+                            "cleaned_message"               => mb_strlen($cleaned_message) > 67 ? mb_substr($cleaned_message, 0, 64) . "..." : $cleaned_message,
+                            "picture"                       => $comment->getImageUrl() ? $this->getRequest()->getBaseUrl().$comment->getImageUrl() : null,
+                            "icon"                          => $this->getRequest()->getBaseUrl().$application->getIcon(74),
+                            "can_comment"                   => true,
+                            "created_at"                    => $this->_durationSince($comment->getCreatedAt()),
+                            "number_of_likes"               => count($comment->getLikes()),
+                            "flag_icon"                     => $this->_getColorizedImage($this->_getImage("pictos/flag.png"), $color),
+                            "code"                          => $this->getCurrentOptionValue()->getCode(),
+                            "social_sharing_active"         => (boolean) $option->getSocialSharingIsActive(),
+                            "answers"                       => $all_answers
                         );
                     break;
                 }
 
-                $this->_sendHtml($data);
+                $this->_sendJson($data);
             }
 
         }
@@ -97,7 +113,8 @@ class Comment_Mobile_ViewController extends Application_Controller_Mobile_Defaul
 
             try {
 
-                $customer_id = $this->getSession()->getCustomerId();
+                $session = $this->getSession();
+                $customer_id = $session->getCustomerId();
                 $customer = new Customer_Model_Customer();
                 $customer->find($customer_id);
                 if(!$customer->getId()) {
@@ -111,26 +128,29 @@ class Comment_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                 if(!$like->findByIp($data['comment_id'], $customer_id, $ip, $ua)) {
 
                     $like->setCommentId($data['comment_id'])
-                    ->setCustomerId($customer_id)
-                    ->setCustomerIp($ip)
-                    ->setAdminAgent($ua)
+                        ->setCustomerId($customer_id)
+                        ->setCustomerIp($ip)
+                        ->setAdminAgent($ua)
                     ;
 
                     $like->save();
 
-                    $message = $this->_('Your like has been successfully added');
-                    $html = array('success' => 1, 'message' => $message);
+                    $message = __('Your like has been successfully added');
+                    $html = array(
+                        'success' => true,
+                        'message' => $message
+                    );
 
                 } else {
-                    throw new Exception($this->_("You can't like more than once the same news"));
+                    throw new Exception(__("You can't like more than once the same news"));
                 }
 
             }
             catch(Exception $e) {
-                $html = array('error' => 1, 'message' => $e->getMessage());
+                $html = array('error' => true, 'message' => $e->getMessage());
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($html);
         }
 
     }
@@ -147,10 +167,10 @@ class Comment_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                 $comment->setFlag($comment->getFlag() + 1);
                 $comment->save();
 
-                $message = $this->_('Your flag has successfully been notified');
-                $html = array('success' => 1, 'message' => $message);
+                $message = __('Your flag has successfully been notified');
+                $html = array('success' => true, 'message' => $message);
 
-                $this->_sendHtml($html);
+                $this->_sendJson($html);
             }
         }
     }
@@ -170,10 +190,10 @@ class Comment_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                 $answer->setFlag($answer->getFlag() + 1);
                 $answer->save();
 
-                $message = $this->_('Your flag has successfully been notified');
-                $html = array('success' => 1, 'message' => $message);
+                $message = __('Your flag has successfully been notified');
+                $html = array('success' => true, 'message' => $message);
 
-                $this->_sendHtml($html);
+                $this->_sendJson($html);
             }
         }
     }

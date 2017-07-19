@@ -5,6 +5,17 @@ class Wordpress_ApplicationController extends Application_Controller_Default
 
     protected $_categories = array();
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "editpost" => array(
+            "tags" => array(
+                "homepage_app_#APP_ID#"
+            ),
+        )
+    );
+
     public function editpostAction() {
 
         if($datas = $this->getRequest()->getPost()) {
@@ -13,14 +24,14 @@ class Wordpress_ApplicationController extends Application_Controller_Default
 
             try {
                 // Test s'il y a un value_id
-                if(empty($datas['value_id'])) throw new Exception($this->_('#122: An error occurred while saving'));
+                if(empty($datas['value_id'])) throw new Exception(__('#122: An error occurred while saving'));
 
                 // Récupère l'option_value en cours
                 $option_value = new Application_Model_Option_Value();
                 $option_value->find($datas['value_id']);
 
                 if(empty($datas['url'])) {
-                    throw new Exception($this->_('Please enter a valid url'));
+                    throw new Exception(__('Please enter a valid url'));
                 }
 
                 // Récupère le Wordpress en cours et met à jour son url
@@ -68,10 +79,15 @@ class Wordpress_ApplicationController extends Application_Controller_Default
                 // Vide la cache
                 Zend_Registry::get('cache')->remove('wordpress_cache_'.sha1($wordpress->getId()));
 
+                /** Update touch date, then never expires (until next touch) */
+                $option_value
+                    ->touch()
+                    ->expires(-1);
+
                 // Retourne le message de success
                 $html = array(
                     'success' => 1,
-                    'success_message' => $this->_('Categories successfully saved'),
+                    'success_message' => __('Categories successfully saved'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
@@ -103,7 +119,7 @@ class Wordpress_ApplicationController extends Application_Controller_Default
                 $categories = array();
 
                 // Test s'il y a un value_id
-                if(empty($datas['value_id'])) throw new Exception($this->_('#123: An error occurred while saving'));
+                if(empty($datas['value_id'])) throw new Exception(__('#123: An error occurred while saving'));
 
                 // Récupère l'option_value en cours
                 $option_value = new Application_Model_Option_Value();
@@ -137,7 +153,7 @@ class Wordpress_ApplicationController extends Application_Controller_Default
 
                 }
                 else {
-                    throw new Exception($this->_("We are sorry but our Wordpress plugin hasn\'t been detected on your website. Please be sure it is correctly installed and activated."));
+                    throw new Exception(__("We are sorry but our Wordpress plugin hasn\'t been detected on your website. Please be sure it is correctly installed and activated."));
                 }
 
             }

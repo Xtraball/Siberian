@@ -1,10 +1,7 @@
-App.config(function($stateProvider) {
+/*global
+ App, BASE_PATH
+ */
 
-    $stateProvider.state('locked', {
-        url: BASE_PATH+"/locked/mobile_view/index",
-        controller: 'LockedController',
-        templateUrl: 'templates/locked/l1/view.html'
-    });
-}).controller('LockedController', function($window, $scope) {
-    $scope.is_loading = false;
+angular.module("starter").controller("LockedController", function() {
+    /** Done */
 });

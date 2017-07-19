@@ -9,15 +9,14 @@
  * @development fast-env switch
  *
  */
-
 if(!file_exists("./config.php")) {
     copy("./config.sample.php", "./config.php");
 }
 
 require_once "./config.php";
 
-set_time_limit(120);
-ini_set('max_execution_time', 120);
+set_time_limit(300);
+ini_set('max_execution_time', 300);
 umask(0);
 
 setlocale(LC_MONETARY, 'en_US');

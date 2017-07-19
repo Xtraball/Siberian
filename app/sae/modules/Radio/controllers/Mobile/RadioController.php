@@ -43,7 +43,7 @@ class Radio_Mobile_RadioController extends Application_Controller_Mobile_Default
             $data = array('error' => 1, 'message' => $this->_("An error occurred while loading. Please try again later."));
         }
 
-        $this->_sendHtml($data);
+        $this->_sendJson($data);
 
     }
 

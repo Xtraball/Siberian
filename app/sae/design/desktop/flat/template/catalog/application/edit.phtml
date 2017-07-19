@@ -6,10 +6,10 @@
 
 <div class="edit_page catalog">
     <script type="text/javascript">var products = new Array();</script>
-    <div id="cont_add_main_cat" class="container-fluid">
+    <div id="cont_add_main_cat" class="container-fluid first-row-feature content-feature">
         <div class="row">
             <div class="col-md-12">
-                <button type="button" class="btn color-blue addCategory" onclick="$('#create_category').fadeIn(300, function() {$(this).find('input.category_name').focus()});"><i class="fa fa-plus-circle"></i> <?php echo $this->_('Main category'); ?></button>
+                <button type="button" class="btn color-blue addCategory" onclick="$('#create_category').fadeIn(300, function() {$(this).find('input.category_name').focus()});"> <?php echo $this->_('Main category'); ?></button>
             </div>
         </div>
         <div id="create_category" style="display: none;">
@@ -28,7 +28,7 @@
         </div>
 
     </div>
-    <div id="categories" class="categories container-fluid first-row-feature">
+    <div id="categories" class="categories container-fluid content-feature">
         <?php if($categories->count() > 0) : ?>
         <?php foreach($categories as $category) : ?>
         <?php echo $this->getLayout()
@@ -238,7 +238,7 @@
             add: function(parent_id) {
                 var ul = $('#subcategories_'+parent_id);
                 ul.parents('div.subcategories').show();
-                var li = $('<li />').addClass('subcategory list-group-item content-white-bkg').attr('id', 'row_new');
+                var li = $('<li />').addClass('subcategory list-group-item').attr('id', 'row_new');
                 var html = this.getSubcategoryDummy(parent_id);
                 li.append(html);
                 ul.append(li);
@@ -631,7 +631,6 @@
     <style>
         .sort_category {
             margin-right:7px;
-            cursor: move;
         }
         .pp_details {
             display: none;

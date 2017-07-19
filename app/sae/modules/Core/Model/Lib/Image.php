@@ -125,6 +125,29 @@ class Core_Model_Lib_Image {
         }
     }
 
+    /**
+     * No image should be null and not an empty string
+     *
+     * @param $name
+     * @param bool $base
+     * @return null|string
+     */
+    public static function sGetImage($name, $base = false) {
+
+        if(file_exists(Core_Model_Directory::getDesignPath(true) . "/images/" . $name)) {
+
+            return Core_Model_Directory::getDesignPath($base).'/images/'.$name;
+
+        } else if(file_exists(Media_Model_Library_Image::getBaseImagePathTo($name))) {
+
+            return $base ? Media_Model_Library_Image::getBaseImagePathTo($name) :
+                Media_Model_Library_Image::getImagePathTo($name);
+
+        }
+
+        return null;
+    }
+
     public function crop() {
 
         $extension = pathinfo($this->_path, PATHINFO_EXTENSION);

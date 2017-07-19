@@ -4,18 +4,20 @@
 <?php $tracks = $tracks->findAll(array('album_id' => $album->getId()), 'position ASC'); ?>
 
 <div id="album_cont">
-    <div class="pull-left">
-        <?php if($album->getArtworkUrl()) : ?>
-            <img class="album_illus" src="<?php echo $album->getArtworkUrl() ?>" width="150px" height="150px"/>
-        <?php endif; ?>
+    <h3 class="title-editor border-blue text-center"><?php echo $album->getName() ?></h3>
+    <div class="container-fluid subcontent">
+        <div class="pull-left">
+            <?php if($album->getArtworkUrl()) : ?>
+                <img class="album_illus" src="<?php echo $album->getArtworkUrl() ?>" width="150px" height="150px"/>
+            <?php endif; ?>
+        </div>
+        <span class="track_count pull-left"><?php echo $tracks->count() ?> <?php echo $tracks->count() == 1 ? $this->_('title') : $this->_('titles') ?></span>
     </div>
-    <h3 class="title-editor border-blue no-border-radius title-feature-indent"><?php echo $album->getName() ?></h3>
-    <span class="track_count"><?php echo $tracks->count() ?> <?php echo $tracks->count() == 1 ? $this->_('title') : $this->_('titles') ?></span>    
-    <div class="container-fluid first-row-feature">
+    <div class="container-fluid">
         <ul id="track_edit" class="table_row_galleries sortable list-group">
             <?php foreach($tracks as $track) : ?>
                 <li rel="<?php echo $track->getId() ?>" class="list-group-item content-white-bkg">
-                    <i class="handle fa fa-arrows fa fa-arrows icon-move"></i>
+                    <i class="handle fa fa-sort fa fa-sort icon-move"></i>
                     <span class="inner_content">
                         <?php echo $track->getName() ?> de <?php echo $track->getArtistName() ?><span class="pull-right"><?php echo $track->getFormatedDuration() ?></span>
                     </span>
@@ -32,9 +34,6 @@
     </div>
 </div>
 <style type="text/css">
-    #album_cont {
-        padding: 0 10px;
-    }
     #album_cont img.album_illus {
         border: solid 1px;
         margin-right: 20px;
@@ -59,7 +58,7 @@
         padding: 10px;
         width: 89%;
     }
-    #track_edit .fa fa-arrows icon-move {
+    #track_edit .fa fa-sort icon-move {
         cursor: move;
     }
     .track_edit-placeholder {

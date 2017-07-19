@@ -1,179 +1,168 @@
-App.config(function($stateProvider, HomepageLayoutProvider) {
+/*global
+ App, angular, BASE_PATH
+ */
 
-    $stateProvider.state('discount-list', {
-        url: BASE_PATH+"/promotion/mobile_list/index/value_id/:value_id",
-        controller: 'DiscountListController',
-        templateUrl: function(param) {
-            var layout_id = HomepageLayoutProvider.getLayoutIdForValueId(param.value_id);
-            switch(layout_id) {
-                case "2": layout_id = "l2"; break;
-                case "3": layout_id = "l5"; break;
-                case "4": layout_id = "l6"; break;
-                case "1":
-                default: layout_id = "l3";
-            }
-            return 'templates/html/'+layout_id+'/list.html';
-        }
-    }).state('discount-view', {
-        url: BASE_PATH+"/promotion/mobile_view/index/value_id/:value_id/promotion_id/:promotion_id",
-        controller: 'DiscountViewController',
-        templateUrl: "templates/discount/l1/view.html"
+angular.module("starter").controller("DiscountListController", function($cordovaBarcodeScanner, $filter, Modal,
+                                                                        $rootScope, $scope, $state, $stateParams,
+                                                                        $timeout, $translate, $window, Application,
+                                                                        Customer, Dialog, Discount, Url, SB,
+                                                                        SocialSharing, Tc) {
+
+    angular.extend($scope, {
+        is_loading              : false,
+        value_id                : $stateParams.value_id,
+        is_logged_in            : Customer.isLoggedIn(),
+        social_sharing_active   : false,
+        load_more               : false,
+        card_design             : false,
+        use_pull_refresh        : true,
+        collection              : [],
+        pull_to_refresh         : false
     });
 
-}).controller('DiscountListController', function($cordovaBarcodeScanner, $cordovaSocialSharing, $filter, $ionicModal, $rootScope, $scope, $state, $stateParams, $timeout, $translate, $window, Application, Customer, Dialog, Discount, Url, AUTH_EVENTS, CACHE_EVENTS) {
+    Discount.setValueId($stateParams.value_id);
 
-    $scope.$on("connectionStateChange", function(event, args) {
-        if(args.isOnline == true) {
-            $scope.loadContent();
-        }
-    });
-
-    $scope.$on(AUTH_EVENTS.loginSuccess, function() {
+    $scope.$on(SB.EVENTS.AUTH.loginSuccess, function() {
         $scope.is_logged_in = true;
-        $scope.loadContent();
+        $scope.loadContent(true);
     });
-    $scope.$on(AUTH_EVENTS.logoutSuccess, function() {
+
+    $scope.$on(SB.EVENTS.AUTH.logoutSuccess, function() {
         $scope.is_logged_in = false;
-        $scope.loadContent();
+        $scope.loadContent(true);
     });
 
-    $scope.social_sharing_active = false;
-    $scope.is_logged_in = Customer.isLoggedIn();
-    $scope.is_loading = true;
-    $scope.value_id = Discount.value_id = $stateParams.value_id;
-
-    $rootScope.$on(CACHE_EVENTS.clearDiscount, function(event, args) {
+    $rootScope.$on(SB.EVENTS.CACHE.clearDiscount, function(event, args) {
         $scope.remove(args.discount_id);
     });
 
-    $scope.loadContent = function() {
+    $scope.loadContent = function(pullToRefresh) {
 
-        Discount.findAll().success(function(data) {
+        $scope.is_loading = true;
 
-            $scope.collection = data.promotions;
-            /** Chunks for L5 */
-            $scope.collection_chunks = $filter("chunk")($scope.collection, 2);
+        Discount.findAll(pullToRefresh)
+            .then(function(data) {
 
-            $scope.tc_id = data.tc_id;
+                $scope.collection = angular.copy(data.promotions);
 
-            $scope.social_sharing_active = !!(data.social_sharing_is_active == 1 && $scope.collection.length > 0 && !Application.is_webview);
+                /** Chunks for L5 */
+                $scope.collection_chunks = $filter("chunk")($scope.collection, 2);
+                $scope.tc_id = data.tc_id;
+                $scope.social_sharing_active = (data.social_sharing_is_active && $rootScope.isNativeApp);
+                $scope.page_title = data.page_title;
 
-            $scope.page_title = data.page_title;
-        }).finally(function() {
-            $scope.is_loading = false;
-        });
+                return data;
+
+            }, function(error) {
+
+            }).then(function(data) {
+
+                if($scope.pull_to_refresh) {
+                    $scope.$broadcast('scroll.refreshComplete');
+                    $scope.pull_to_refresh = false;
+                }
+
+                $scope.is_loading = false;
+
+                /** Preload discounts, and T&Cs */
+                if(data.tc_id) {
+                    Tc.find(data.tc_id, pullToRefresh);
+                }
+
+                angular.forEach(data.promotions, function(promotion) {
+                    Discount.find(promotion.id, pullToRefresh);
+                });
+            });
+    };
+
+    $scope.getState = function() {
+       return (!$scope.is_loading && $scope.collection && !$scope.collection.length) ? "NO_RESULTS" : "RESULTS";
+    };
+
+    $scope.pullToRefresh = function() {
+        $scope.pull_to_refresh = true;
+        $scope.loadContent(true);
     };
 
     $scope.share = function () {
 
-        // Fix for $cordovaSocialSharing issue that opens dialog twice
-        if($scope.is_sharing) return;
-
-        $scope.is_sharing = true;
-
-        var app_name = Application.app_name;
-        var link = DOMAIN + "/application/device/downloadapp/app_id/" + Application.app_id;
-        var subject = "";
-        var file = "";
         var content = $scope.collection[$scope.carousel_index].title ? $scope.collection[$scope.carousel_index].title:null;
-        var message = $translate.instant("Hi. I just found: $1 in the $2 app.").replace("$1", content).replace("$2", app_name);
+        var message = "I just found this discount $1 in $2 app.";
 
-        $cordovaSocialSharing
-            .share(message, subject, file, link) // Share via native share sheet
-            .then(function (result) {
-                console.log("succes");
-                $scope.is_sharing = false;
-            }, function (err) {
-                console.log(err);
-                $scope.is_sharing = false;
-            });
+        SocialSharing.share(content, message);
     };
 
     $scope.login = function() {
-        if($rootScope.isOverview) {
-            $rootScope.showMobileFeatureOnlyError();
-            return;
-        }
-
-        $ionicModal.fromTemplateUrl('templates/customer/account/l1/login.html', {
-            scope: $scope,
-            animation: 'slide-in-up'
-        }).then(function(modal) {
-            Customer.modal = modal;
-            Customer.modal.show();
-        });
-
+        Customer.loginModal($scope);
     };
 
     $scope.use = function(discount_id) {
 
-        if($rootScope.isOverview) {
-            $rootScope.showMobileFeatureOnlyError();
+        if($rootScope.isNotAvailableInOverview()) {
             return;
         }
-        Discount.use(discount_id).success(function(data) {
 
-            $scope.message = new Message();
-            $scope.message.setText(data.message)
-                .show()
-            ;
+        Discount.use(discount_id)
+            .then(function(data) {
 
-            if(data.remove) {
-                $rootScope.$broadcast(CACHE_EVENTS.clearDiscount, { discount_id: discount_id });
-            }
-
-        }).error(function(data) {
-
-            if(data) {
-
-                if(angular.isDefined(data.message)) {
-                    $scope.message = new Message();
-                    $scope.message.isError(true)
-                        .setText(data.message)
-                        .show()
-                    ;
-                }
+                Dialog.alert("Success", data.message, "OK", -1);
 
                 if(data.remove) {
-                    $scope.remove(discount_id);
+                    $rootScope.$broadcast(SB.EVENTS.CACHE.clearDiscount, {
+                        discount_id: discount_id
+                    });
                 }
-            }
 
-        }).finally();
+            }, function(data) {
+
+                if(data) {
+
+                    if(angular.isDefined(data.message)) {
+                        Dialog.alert("Error", data.message, "OK", -1);
+                    }
+
+                    if(data.remove) {
+                        $scope.remove(discount_id);
+                    }
+                }
+
+            });
 
     };
 
+    /**
+     * Clean-up collection, should refresh cache too.
+     *
+     * @param discount_id
+     */
     $scope.remove = function(discount_id) {
-        for(var i = 0; i < $scope.collection.length; i++) {
-            if($scope.collection[i].id == discount_id) {
-                $scope.collection.splice(i, 1);
-            }
-        }
+
+        $timeout(function() {
+            _.remove($scope.collection, function(discount) {
+                return ((discount.id * 1) === (discount_id * 1));
+            });
+
+            Discount.findAll();
+        }, 1);
+
     };
 
+    /**
+     * @todo this should be a service !
+     */
     $scope.openScanCamera = function() {
 
         if(!Application.is_webview) {
             $scope.scan_protocols = ["sendback:"];
 
             if (!$scope.is_logged_in) {
-                $ionicModal.fromTemplateUrl('templates/customer/account/l1/login.html', {
-                    scope: $scope,
-                    animation: 'slide-in-up'
-                }).then(function (modal) {
-                    Customer.modal = modal;
-                    Customer.modal.show();
-                });
-
-                $scope.$on('modal.hidden', function () {
-                    $scope.is_logged_in = Customer.isLoggedIn();
-                    $scope.showScanCamera();
-                });
+                $scope.login();
             } else {
                 $scope.showScanCamera();
             }
+
         } else {
-            Dialog.alert($translate.instant("Info"), $translate.instant("This will open the code scan camera on your device."), $translate.instant("OK"));
+            Dialog.alert("Info", "This will open the code scan camera on your device.", "OK");
         }
 
     };
@@ -191,31 +180,36 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
                             var qrcode = barcodeData.text.replace($scope.scan_protocols[i], "");
 
                             // load data
-                            Discount.unlockByQRCode(qrcode).success(function(data) {
+                            Discount.unlockByQRCode(qrcode)
+                                .then(function(data) {
 
-                                for(var i = 0; i < $scope.collection.length; i++) {
-                                    if($scope.collection[i].id == data.promotion.id) {
-                                        $scope.collection[i] = data.promotion;
-                                        console.log($scope.collection[i]);
-                                        break;
+                                    for(var i = 0; i < $scope.collection.length; i++) {
+                                        if($scope.collection[i].id == data.promotion.id) {
+                                            $scope.collection[i] = data.promotion;
+                                            console.log($scope.collection[i]);
+                                            break;
+                                        }
                                     }
-                                }
 
-                                $state.go("discount-view", { value_id: $scope.value_id, promotion_id: data.promotion.id });
-                                $scope.is_loading = false;
+                                    $state.go("discount-view", {
+                                        value_id: $scope.value_id,
+                                        promotion_id: data.promotion.id
+                                    });
 
-                            }).error(function (data) {
+                                    $scope.is_loading = false;
 
-                                var message_text = $translate.instant('An error occurred while reading the code.');
-                                if(angular.isObject(data)) {
-                                    message_text = data.message;
-                                }
+                                }, function (data) {
 
-                                Dialog.alert($translate.instant("Error"), message_text, $translate.instant("OK"));
+                                    var message_text = "An error occurred while reading the code.";
+                                    if(angular.isObject(data)) {
+                                        message_text = data.message;
+                                    }
 
-                            }).finally(function () {
-                                $scope.is_loading = false;
-                            });
+                                    Dialog.alert("Error", message_text, "OK", -1);
+
+                                }).then(function () {
+                                    $scope.is_loading = false;
+                                });
 
                             break;
                         }
@@ -226,7 +220,7 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
             }
 
         }, function(error) {
-            Dialog.alert($translate.instant("Error"), $translate.instant('An error occurred while reading the code.'), $translate.instant("OK"));
+            Dialog.alert("Error", "An error occurred while reading the code.", "OK", -1);
         });
     };
 
@@ -235,26 +229,9 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         $scope.dummy = {};
         $scope.dummy.is_dummy = true;
 
-        $window.prepareDummy = function() {
-            //var hasDummy = false;
-            //for(var i in $scope.collection) {
-            //    if($scope.collection[i].is_dummy) {
-            //        hasDummy = true;
-            //    }
-            //}
-            //
-            //if(!hasDummy) {
-            //    $timeout(function() {
-            //        $scope.collection.unshift($scope.dummy);
-            //    });
-            //}
-        };
+        $window.prepareDummy = function() {};
 
-        $window.setAttributeToDummy = function(attribute, value) {
-            //$timeout(function() {
-            //    $scope.dummy[attribute] = value;
-            //});
-        };
+        $window.setAttributeToDummy = function(attribute, value) {};
 
         $scope.$on("$destroy", function() {
             $scope.prepareDummy = null;
@@ -267,157 +244,139 @@ App.config(function($stateProvider, HomepageLayoutProvider) {
         if(item.is_locked) {
             $scope.openScanCamera();
         } else {
-            $state.go("discount-view", {value_id: $scope.value_id, promotion_id: item.id});
+            $state.go("discount-view", {
+                value_id: $scope.value_id,
+                promotion_id: item.id
+            });
         }
     };
 
     $scope.showTc = function() {
-        $state.go("tc-view", {tc_id: $scope.tc_id});
+        $state.go("tc-view", {
+            tc_id: $scope.tc_id
+        });
     };
 
-    $scope.loadContent();
+    $scope.loadContent(false);
 
-}).controller('DiscountViewController', function($cordovaSocialSharing, $ionicHistory, $ionicModal, $ionicPopup, $rootScope, $scope, $state, $stateParams, $timeout, $translate, $window, Application, Customer, Dialog, Discount, Url, AUTH_EVENTS, CACHE_EVENTS) {
+}).controller("DiscountViewController", function($cordovaSocialSharing, $ionicHistory, Modal, $ionicPopup,
+                                                 $rootScope, $scope, $state, $stateParams, $timeout, $translate,
+                                                 $window, Application, Customer, Dialog, Discount, Url, SB, SocialSharing,
+                                                 Loader) {
 
-    $scope.$on("connectionStateChange", function(event, args) {
-        if(args.isOnline == true) {
-            $scope.loadContent();
-        }
+
+    angular.extend($scope, {
+        is_loading                  : false,
+        value_id                    : $stateParams.value_id,
+        is_logged_in                : Customer.isLoggedIn(),
+        card_design                 : false,
+        use_pull_to_refresh         : false,
+        social_sharing_active       : false
     });
 
-    $scope.$on(AUTH_EVENTS.loginSuccess, function() {
+    $scope.$on(SB.EVENTS.AUTH.loginSuccess, function() {
         $scope.is_logged_in = true;
         $scope.loadContent();
     });
-    $scope.$on(AUTH_EVENTS.logoutSuccess, function() {
+
+    $scope.$on(SB.EVENTS.AUTH.logoutSuccess, function() {
         $scope.is_logged_in = false;
         $scope.loadContent();
     });
 
-    $scope.social_sharing_active = false;
-    $scope.is_logged_in = Customer.isLoggedIn();
-    $scope.is_loading = true;
-    $scope.value_id = Discount.value_id = $stateParams.value_id;
+    Discount.setValueId($stateParams.value_id);
 
     $scope.loadContent = function() {
 
-        Discount.find($stateParams.promotion_id).success(function(data) {
+        Discount.find($stateParams.promotion_id)
+            .then(function(data) {
 
-            $scope.promotion = data.promotion;
+                $scope.promotion = data.promotion;
 
-            $scope.modal_title = data.confirm_message;
-            $scope.tc_id = data.tc_id;
+                $scope.modal_title = data.confirm_message;
+                $scope.tc_id = data.tc_id;
 
-            $scope.social_sharing_active = !!(data.social_sharing_is_active == 1 && !Application.is_webview);
+                $scope.social_sharing_active = !!(data.social_sharing_is_active == 1 && !Application.is_webview);
 
-            $scope.page_title = data.page_title;
+                $scope.page_title = data.page_title;
 
-        }).finally(function() {
-            $scope.is_loading = false;
-        });
-    };
-
-    $scope.share = function () {
-
-        // Fix for $cordovaSocialSharing issue that opens dialog twice
-        if($scope.is_sharing) return;
-
-        $scope.is_sharing = true;
-
-        var app_name = Application.app_name;
-        var link = DOMAIN + "/application/device/downloadapp/app_id/" + Application.app_id;
-        var subject = "";
-        var file = "";
-        var content = $scope.promotion.title;
-        var message = $translate.instant("Hi. I just found: $1 in the $2 app.").replace("$1", content).replace("$2", app_name);
-
-        $cordovaSocialSharing
-            .share(message, subject, file, link) // Share via native share sheet
-            .then(function (result) {
-                console.log("success");
-                $scope.is_sharing = false;
-            }, function (err) {
-                console.log(err);
-                $scope.is_sharing = false;
+            }).then(function() {
+                $scope.is_loading = false;
             });
     };
 
+    $scope.share = function() {
+        SocialSharing.share();
+    };
+
     $scope.login = function() {
-
-        if($rootScope.isOverview) {
-            $rootScope.showMobileFeatureOnlyError();
-            return;
-        }
-
-        $ionicModal.fromTemplateUrl('templates/customer/account/l1/login.html', {
-            scope: $scope,
-            animation: 'slide-in-up'
-        }).then(function(modal) {
-            Customer.modal = modal;
-            Customer.modal.show();
-        });
-
+        Customer.loginModal($scope);
     };
     
     $scope.confirmBeforeUse = function () {
 
-        if ($rootScope.isOverview) {
-            $rootScope.showMobileFeatureOnlyError();
+        if($rootScope.isNotAvailableInOverview()) {
             return;
         }
 
-        var buttons = [$translate.instant("Cancel"), $translate.instant("OK")];
+        var buttons = ["Yes", "No"];
 
-        Dialog.confirm("", $scope.modal_title, buttons, "text-center").then(function (res) {
-
-            if (Application.is_webview) {
-                if (res) {
+        Dialog.confirm("Confirmation", $scope.modal_title, buttons, "text-center")
+            .then(function (result) {
+                if(result) {
                     $scope.use();
                 }
-            } else {
-                if (res == 2) {
-                    $scope.use();
-                }
-            }
-        });
+            });
 
     };
 
     $scope.use = function() {
 
-        Discount.use($stateParams.promotion_id).success(function(data) {
+        Loader.show();
 
-            $scope.is_loading = true;
+        Discount.use($stateParams.promotion_id)
+            .then(function(data) {
 
-            Dialog.alert("", data.message, $translate.instant("OK"));
+                Dialog.alert("Thank you", data.message, "OK", -1)
+                    .then(function() {
 
-            if(data.remove) {
-                $rootScope.$broadcast(CACHE_EVENTS.clearDiscount, { discount_id: $stateParams.promotion_id });
-                $ionicHistory.goBack();
-            }
+                        if(data.remove) {
+                            Discount.findAll(true)
+                                .then(function() {
+                                    $rootScope.$broadcast(SB.EVENTS.CACHE.clearDiscount, {
+                                        discount_id: $stateParams.promotion_id
+                                    });
+                                    $ionicHistory.goBack();
+                                });
+                        }
+                    });
 
-        }).error(function(data) {
+            }, function(data) {
 
-            if(data) {
+                Dialog.alert("Error", data.message, "OK", -1)
+                    .then(function() {
 
-                if(angular.isDefined(data.message)) {
-                    Dialog.alert($translate.instant("Error"), data.message, $translate.instant("OK"));
-                }
+                        if(data.remove) {
+                            Discount.findAll(true)
+                                .then(function() {
+                                    $rootScope.$broadcast(SB.EVENTS.CACHE.clearDiscount, {
+                                        discount_id: $stateParams.promotion_id
+                                    });
+                                    $ionicHistory.goBack();
+                                });
+                        }
+                    });
 
-                if(data.remove) {
-                    $rootScope.$broadcast(CACHE_EVENTS.clearDiscount, { discount_id: $stateParams.promotion_id });
-                    $ionicHistory.goBack();
-                }
-            }
-
-        }).finally(function() {
-            $scope.is_loading = false;
-        });
+            }).then(function() {
+                Loader.hide();
+            });
 
     };
 
     $scope.showTc = function() {
-        $state.go("tc-view", { tc_id: $scope.tc_id });
+        $state.go("tc-view", {
+            tc_id: $scope.tc_id
+        });
     };
 
     $scope.loadContent();

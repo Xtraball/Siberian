@@ -74,8 +74,6 @@ class Comment_ApplicationController extends Application_Controller_Default {
                             ->save()
                     ;
 
-                    $url = array('comment/admin/edit');
-
                     $html = array(
                         'success' => '1',
                         'success_message' => __('Information successfully saved'),
@@ -92,7 +90,7 @@ class Comment_ApplicationController extends Application_Controller_Default {
                 );
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+            $this->_sendJson($html);
         }
     }
 

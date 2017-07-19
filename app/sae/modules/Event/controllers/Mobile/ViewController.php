@@ -76,15 +76,23 @@ class Event_Mobile_ViewController extends Application_Controller_Mobile_Default 
                     $data['page_title'] = $event->getName();
 
                 } else {
-                    throw new Exception("Unable to find this event.");
+                    throw new Siberian_Exception("Unable to find this event.", 410);
                 }
 
             }
             catch(Exception $e) {
-                $data = array('error' => 1, 'message' => $e->getMessage());
+
+                $data = array(
+                    "error"     => true,
+                    "message"   => $e->getMessage()
+                );
+
+                if($e->getCode() === 410) {
+                    $data["gone"] = true;
+                }
             }
 
-            $this->_sendHtml($data);
+            $this->_sendJson($data);
 
         }
 

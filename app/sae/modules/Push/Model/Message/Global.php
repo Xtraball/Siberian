@@ -12,7 +12,7 @@ class Push_Model_Message_Global extends Core_Model_Default {
      *
      * @param $params
      */
-    public function createInstance($params) {
+    public function createInstance($params, $backoffice = false) {
 
         $this->setTitle($params["title"]);
         $this->setMessage($params["message"]);
@@ -28,7 +28,7 @@ class Push_Model_Message_Global extends Core_Model_Default {
             $application_table = new Application_Model_Db_Table_Application();
             $all_applications = $application_table->findAllForGlobalPush();
 
-            # Get apps that belong to the current admin
+            // Get apps that belong to the current admin!
             $all_for_admin = $application_table->findAllByAdmin(
                 $this->getSession()->getAdminId()
             )->toArray();
@@ -37,8 +37,12 @@ class Push_Model_Message_Global extends Core_Model_Default {
                 return $app["app_id"];
             }, $all_for_admin);
 
-            # We keep only apps that belongs to the admin
-            $applications = array_intersect($all_applications, $filtered);
+            // We keep only apps that belongs to the admin!
+            if(!$backoffice) {
+                $applications = array_intersect($all_applications, $filtered);
+            } else {
+                $applications = $all_applications;
+            }
         }
 
         try {

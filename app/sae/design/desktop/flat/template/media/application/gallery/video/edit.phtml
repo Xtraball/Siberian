@@ -8,15 +8,15 @@
         <div class="form_content">
         <div class="add-video">
             <h3 class="title-editor no-border-radius title-feature-indent">
-                <?php echo $this->_('Add') ?>
+                <?php echo $this->_(('Add content')) ?>
                 <button type="button" class="btn color-blue pull-right bt-header-right" onclick="$('#table_list_videos').show(); $('#choose_type').show(); $('#no_item').hide(); $('#new_gallery_youtube').hide(); $('#new_gallery_itunes').hide(); $('#new_gallery_vimeo').hide();" id="add_item">
                     <i class="fa fa-plus"></i>
                 </button>
             </h3>
-                <div class="container-fluid first-row-feature feature-section-bottom">
+                <div class="container-fluid content-feature">
                     <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
 
-                    <div id="choose_type" class="none">
+                    <div id="choose_type" class="none subcontent">
                         <ul class="list-group">
                             <li class="video_select <?php if(!$youtube_key) echo "no_youtube" ?> color-blue list-group-item btn capitalize" rel="youtube">
                                 <img src="<?php echo $this->getImage('pictos/youtube.png'); ?>" title="<?php echo $this->_('Youtube'); ?>" alt="<?php echo $this->_('Youtube'); ?>" width="64" height="64" />
@@ -59,13 +59,13 @@
 
             <div class="form" id="existing_items_section"<?php if($videos->count() == 0) : ?> style="display:none"<?php endif; ?>>
                 <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo $this->_('Manage'); ?>
+                    <?php echo $this->_(('Manage content')); ?>
                     <button type="button" class="toggle_design color-blue pull-right bt-header-right btn" id="toggle_existing_items">
-                        <i class="fa fa-chevron-down"></i>
+                        <i class="fa fa-angle-down"></i>
                     </button>
                 </h3>
-                <div id="existing_items" class="container-fluid first-row-feature">
-                    <div id="table_list_videos" class="form-horizontal">
+                <div id="existing_items" class="container-fluid content-feature">
+                    <div id="table_list_videos" class="form-horizontal first-row-feature form-horizontal container-fluid">
                         <div class="form-group">
                             <div class="col-sm-1">&nbsp;</div>
                             <div class="col-sm-3">
@@ -168,10 +168,17 @@
                 });
 
                 page.setCallback('didappear', function() {
-                    $('#toggle_existing_items').click(function() {
-                        $('#existing_items').stop().slideToggle(300, function() {
-                            if($(this).is(':visible')) $('#toggle_existing_items').children('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
-                            else $('#toggle_existing_items').children('i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                    $('#toggle_existing_items').click(function () {
+                        $('#existing_items').stop().slideToggle(300, function () {
+                            if ($(this).is(':visible')) {
+                                $('#toggle_existing_items').children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+                                $('#toggle_existing_items').removeClass('color-blue');
+                            }
+                            else
+                            {
+                                $('#toggle_existing_items').children('i').removeClass('fa-angle-up').addClass('fa-angle-down');
+                                $('#toggle_existing_items').addClass('color-blue');
+                            }
                         });
                     });
 
@@ -191,7 +198,6 @@
     <style type="text/css">
         #choose_type ul {
             margin: 0;
-            padding-left: 26%;
         }
         .edit_page .section .row_video .full_td {
             max-width: 295px;
@@ -201,9 +207,10 @@
             float: left;
             padding-top: 20px;
             width: 120px;
+            margin-right:1em;
         }
         .img-col {
-            padding: 5px 0;
+            padding: 0;
             text-align: center;
         }
         .row_video {

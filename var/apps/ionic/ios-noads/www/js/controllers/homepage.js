@@ -1,23 +1,14 @@
 /*global
-    App, REDIRECT_URI, BASE_PATH, IMAGE_URL, APP_KEY, console
+ angular, REDIRECT_URI, BASE_PATH, IMAGE_URL, APP_KEY, console
  */
-App.config(function ($stateProvider, $urlRouterProvider) {
 
-    $stateProvider.state('home', {
-        url: BASE_PATH,
-        templateUrl: 'templates/home/view.html',
-        controller: 'HomeController'
-    });
-
-    $urlRouterProvider.otherwise(BASE_PATH);
-
-}).controller('HomeController', function($ionicHistory, $injector, $location, $rootScope, $scope, $state, $timeout, $window, Application, Padlock) {
+angular.module("starter").controller("HomeController", function($ionicNavBarDelegate, $ionicHistory, $injector,
+                                                                $location, $rootScope, $scope, $state, $timeout,
+                                                                $window, Application, Padlock) {
 
     var HomepageLayout = $injector.get("HomepageLayout");
 
     $ionicHistory.clearHistory();
-
-    console.log((new Date()).getTime(), "HomeController");
 
     $scope.loadContent = function() {
 
@@ -26,8 +17,6 @@ App.config(function ($stateProvider, $urlRouterProvider) {
         if($window.localStorage.getItem('sb-uc')) {
             Padlock.unlocked_by_qrcode = true;
         }
-
-        console.log((new Date()).getTime(), "HomepageLayout.getFeatures()");
 
         HomepageLayout.getFeatures().then(function (features) {
 
@@ -43,8 +32,12 @@ App.config(function ($stateProvider, $urlRouterProvider) {
                 loop_at_beginning:      features.data.homepage_slider_loop_at_beginning,
                 new_slider:             features.data.homepage_slider_is_new,
                 height:                 features.data.homepage_slider_size,
+                offset:                 features.data.homepage_slider_offset,
+                opacity:                features.data.homepage_slider_opacity,
                 images:                 []
             };
+
+            console.log("homepage_slider",homepage_slider);
 
             var tmp_images = features.data.homepage_slider_images;
 
@@ -56,7 +49,9 @@ App.config(function ($stateProvider, $urlRouterProvider) {
                 return (homepage_slider.is_active_for_layout && homepage_slider.is_visible && homepage_slider.images);
             };
 
-            $scope.homepage_slider = homepage_slider;
+            Application.loaded.then(function() {
+                $scope.homepage_slider = homepage_slider;
+            });
 
             $scope.features = features;
 

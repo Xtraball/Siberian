@@ -40,6 +40,12 @@ $schemas['promotion'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'thumbnail' => array(
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'description' => array(
         'type' => 'text',
         'charset' => 'utf8',

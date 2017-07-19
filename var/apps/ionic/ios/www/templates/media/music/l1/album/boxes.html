@@ -1,9 +1,9 @@
-<div class="row row-no-padding" ng-repeat="albums in paged_albums">
-    <div class="list col-34 col-offset-10" ng-repeat="album in albums" ng-click="onAlbumSelected({ album: album })">
+<div class="row" ng-repeat="albums in paged_albums">
+    <div class="col-50 album-cover" ng-repeat="album in albums" ng-click="onAlbumSelected({ album: album })">
         <div class="item item-image item-custom">
             <img ng-src="{{ album.artworkUrl }}">
         </div>
-        <div class="item item-custom">
+        <div class="item item-custom album-legend">
             <p>{{ album.name }}</p>
             <p>
                 {{ album.totalTracks }}

@@ -2,7 +2,7 @@
 <?php $music = new Media_Model_Gallery_Music() ?>
 <?php $option_value = $this->getOptionValue(); ?>
 
-<h3 class="title-editor border-blue">
+<h3 class="title-editor border-blue text-center">
     <?php echo $this->_('Soundcloud') ?>
 </h3>
 <div class="container-fluid">
@@ -22,7 +22,7 @@
             <div class="playlist_select_cont">
                 <?php echo $this->_('Logged in as') ?> <span id="soundcloud_name"></span>
                 <br/><br/>
-                <select id="playlist_select">
+                <select id="playlist_select" class="styled-select color-blue">
                 </select>
             </div>
         </div>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="col-sm-4">
                     <button class="search_soundcloud btn color-blue" type="button"><?php echo $this->_('Search') ?></button>
-                    <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="search_loader" class="loader_url" alt="Loading" title="Loading" width="24" style="display:none;" />
+                    <div class="loader" id="search_loader" alt="Loading" title="Loading" style="display: none;"></div>
                 </div>
             </div>
         </div>
@@ -58,18 +58,15 @@
     <div id="soundcloud_results" class="search_results" style="display:none">
         <p class="left" id="select">
             <label for="select_all">
-                <input type="checkbox" value="select_all" id="select_all" data-toggle="checkbox">
+                <input type="checkbox" value="select_all" id="select_all" data-toggle="checkbox" class="color-blue checkbox">
                 <?php echo $this->_('Select all') ?>
             </label>
         </p>
+        <ul id="results" class="row"></ul>
         <div id="pagination" class="pull-right">
             <button id="previous" class="change_page validate btn color-blue" type="button"><i class="fa fa-chevron-left"></i></button>
             <button id="next" class="change_page validate btn color-blue" type="button"><i class="fa fa-chevron-right"></i></button>
         </div>
-
-        <hr class="border-blue"/>
-        <ul id="results"></ul>
-        <hr class="border-blue"/>
         <button onclick="$('#save_soundcloud').submit();" class="pull-right save_selection btn btn-block color-blue" type="button"><?php echo $this->_('Add') ?></button>
     </div>
     <form style="display:none" id="save_soundcloud" action="<?php echo $this->getUrl('media/application_gallery_music/savesoundcloud'); ?>" method="post">

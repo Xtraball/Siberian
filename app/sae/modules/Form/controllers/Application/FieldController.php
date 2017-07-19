@@ -3,6 +3,22 @@
 class Form_Application_FieldController extends Application_Controller_Default {
 
     /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "editpost" => array(
+            "tags" => array(
+                "homepage_app_#APP_ID#",
+            ),
+        ),
+        "sortfields" => array(
+            "tags" => array(
+                "homepage_app_#APP_ID#",
+            ),
+        ),
+    );
+
+    /**
      * Affichage de la boxe
      */
     public function editAction() {
@@ -74,6 +90,10 @@ class Form_Application_FieldController extends Application_Controller_Default {
                 $field->addData($datas);
                 $field->save();
 
+                $this->getCurrentOptionValue()
+                    ->touch()
+                    ->expires(-1);
+
                 // Success
                 $html = array('success' => 1);
 
@@ -94,6 +114,9 @@ class Form_Application_FieldController extends Application_Controller_Default {
                             ->setField($field)
                             ->setOptionValue($this->getCurrentOptionValue())
                             ->toHtml();
+
+
+
                 }
             } catch (Exception $e) {
                 $html['message'] = $e->getMessage();

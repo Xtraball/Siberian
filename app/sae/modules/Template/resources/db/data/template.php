@@ -410,15 +410,109 @@ $blocks = array(
     ),
     /* BUTTONS */
     array(
-        "code" => "buttons",
-        "name" => "Button",
-        "color" => "#444",
-        "color_variable_name" => '$button-custom-text',
-        "background_color" => "#f8f8f8",
-        "background_color_variable_name" => '$button-custom-bg',
-        "border_color" => "#b2b2b2",
-        "border_color_variable_name" => '$button-custom-border',
-        "position" => "80"
+        "code" => "buttons_group",
+        "name" => "Buttons",
+        "position" => "80",
+        "children" => array(
+            array(
+                "code" => "buttons",
+                "name" => "Button",
+                "more" => "phone, locate, facebook, email, etc..",
+                "color" => "#444",
+                "color_variable_name" => '$button-custom-text',
+                "background_color" => "#f8f8f8",
+                "background_color_variable_name" => '$button-custom-bg',
+                "border_color" => "#b2b2b2",
+                "border_color_variable_name" => '$button-custom-border',
+            ),
+            array(
+                "code" => "buttons_light",
+                "name" => "Button light",
+                "color" => "#444",
+                "color_variable_name" => '$button-light-custom-text',
+                "background_color" => "#ffffff",
+                "background_color_variable_name" => '$button-light-custom-bg',
+                "border_color" => "#dddddd",
+                "border_color_variable_name" => '$button-light-custom-border',
+            ),
+            array(
+                "code" => "buttons_positive",
+                "name" => "Button positive",
+                "more" => "form submit, search, validation, confirmation",
+                "color" => "#ffffff",
+                "color_variable_name" => '$button-positive-custom-text',
+                "background_color" => "#387ef5",
+                "background_color_variable_name" => '$button-positive-custom-bg',
+                "border_color" => "#0c60ee",
+                "border_color_variable_name" => '$button-positive-custom-border',
+            ),
+            array(
+                "code" => "buttons_calm",
+                "name" => "Button calm",
+                "more" => "informative, modal",
+                "color" => "#ffffff",
+                "color_variable_name" => '$button-calm-custom-text',
+                "background_color" => "#11c1f3",
+                "background_color_variable_name" => '$button-calm-custom-bg',
+                "border_color" => "#0a9dc7",
+                "border_color_variable_name" => '$button-calm-custom-border',
+            ),
+            array(
+                "code" => "buttons_balanced",
+                "name" => "Button balanced",
+                "more" => "contextual, depends on module/layout",
+                "color" => "#ffffff",
+                "color_variable_name" => '$button-balanced-custom-text',
+                "background_color" => "#33cd5f",
+                "background_color_variable_name" => '$button-balanced-custom-bg',
+                "border_color" => "#28a54c",
+                "border_color_variable_name" => '$button-balanced-custom-border',
+            ),
+            array(
+                "code" => "buttons_energized",
+                "name" => "Button energized",
+                "more" => "contextual, depends on module/layout",
+                "color" => "#ffffff",
+                "color_variable_name" => '$button-energized-custom-text',
+                "background_color" => "#ffc900",
+                "background_color_variable_name" => '$button-energized-custom-bg',
+                "border_color" => "#e6b500",
+                "border_color_variable_name" => '$button-energized-custom-border',
+            ),
+            array(
+                "code" => "buttons_assertive",
+                "name" => "Button assertive",
+                "more" => "confirm action, deletion, etc ...",
+                "color" => "#ffffff",
+                "color_variable_name" => '$button-assertive-custom-text',
+                "background_color" => "#ef473a",
+                "background_color_variable_name" => '$button-assertive-custom-bg',
+                "border_color" => "#e42112",
+                "border_color_variable_name" => '$button-assertive-custom-border',
+            ),
+            array(
+                "code" => "buttons_royal",
+                "name" => "Button royal",
+                "more" => "contextual, depends on module/layout",
+                "color" => "#ffffff",
+                "color_variable_name" => '$button-royal-custom-text',
+                "background_color" => "#886aea",
+                "background_color_variable_name" => '$button-royal-custom-bg',
+                "border_color" => "#6b46e5",
+                "border_color_variable_name" => '$button-royal-custom-border',
+            ),
+            array(
+                "code" => "buttons_dark",
+                "name" => "Button dark",
+                "more" => "contextual, depends on module/layout",
+                "color" => "#ffffff",
+                "color_variable_name" => '$button-dark-custom-text',
+                "background_color" => "#444444",
+                "background_color_variable_name" => '$button-dark-custom-bg',
+                "border_color" => "#111111",
+                "border_color_variable_name" => '$button-dark-custom-border',
+            ),
+        ),
     ),
     /* CHECKBOX */
     array(
@@ -510,9 +604,25 @@ $blocks = array(
     array(
         "code" => "icon",
         "name" => "Icon",
-        "color" => "#fff",
-        "color_variable_name" => '$icon-custom',
-        "position" => "125"
+        "position" => "125",
+        "children" => array(
+            array(
+                "code" => "icon",
+                "name" => "Icon",
+                "color" => "#fff",
+                "color_variable_name" => '$icon-custom',
+            ), array(
+                "code" => "icon_active",
+                "name" => "Icon active",
+                "color" => "#333",
+                "color_variable_name" => '$icon-active-custom',
+            ), array(
+                "code" => "icon_inactive",
+                "name" => "Icon inactive",
+                "color" => "#cccccc",
+                "color_variable_name" => '$icon-inactive-custom',
+            ),
+        )
     ),
     /* SPINNER */
     array(
@@ -530,6 +640,30 @@ $blocks = array(
                 "name" => "Android Spinner",
                 "background_color" => "#4b8bf4",
                 "background_color_variable_name" => '$spinner-custom-android-bg'
+            ),
+        )
+    ),
+    /* DIALOG */
+    array(
+        "code" => "dialog",
+        "name" => "Dialog",
+        "position" => "135",
+        "children" => array(
+            array(
+                "code" => "dialog_text",
+                "name" => "Dialog text",
+                "color" => "#000",
+                "color_variable_name" => '$dialog-custom-text',
+            ), array(
+                "code" => "dialog_bg",
+                "name" => "Dialog background",
+                "color" => "#fff",
+                "color_variable_name" => '$dialog-custom-bg',
+            ), array(
+                "code" => "dialog_button",
+                "name" => "Dialog button",
+                "color" => "#007aff",
+                "color_variable_name" => '$dialog-custom-button',
             ),
         )
     )
@@ -556,7 +690,7 @@ foreach($blocks as $data) {
             $child = new Template_Model_Block();
             $child
                 ->setData($child_data)
-                ->insertOrUpdate(array("code", "type_id", "parent_id"));
+                ->insertOrUpdate(array("code", "type_id"));
 
         }
     }

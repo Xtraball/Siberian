@@ -47,11 +47,11 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
 ?>
 
 <div class="content_editor">
-    <h3 class="title-editor border-blue">
+    <h3 class="title-editor border-blue text-center">
         <?php if($application_offline_enabled): ?>
             <?php if($available_offline == "none"): ?>
             <span class="no-offline pull-left">
-                <i class="fa fa-dot-circle-o"></i>
+                <i class="fa fa-circle"></i>
                 <span><?php echo __("Not available offline."); ?></span>
             </span>
             <?php elseif($available_offline == "partial"): ?>
@@ -62,7 +62,7 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
             <?php endif; ?>
         <?php endif; ?>
 
-        <?php echo __("Feature settings"); ?>
+        <?php echo __("Page settings"); ?>
 
             <div class="action-buttons">
                 <?php if($can_export): ?>
@@ -82,63 +82,60 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
             </div>
 
     </h3>
-    <div id="icon_and_name" class="row icon_and_name container-fluid feature-section-bottom first-row-feature">
-        <div>
-            <div class="col-md-3 col-xs-3 col-icon-button">
-                <button type="button" id="change_icon" class="add color-blue btn" data-image="330" data-style="area" data-color="color">
-                    <img id="current_icon" src="<?php echo $this->getIconUrl($option); ?>" width="auto" height="40" data-image="<?php echo $option->getIconId(); ?>" data-style="color-blue" data-color="color" />
-                </button>
-            </div>
-
-            <div class="col-md-9 col-xs-9 col-icon-button">
-                <div class="form-group <?php echo ($use_subtitle) ? "col-md-3 col-xs-3" : "col-md-6 col-xs-6" ?>">
+    <div id="icon_and_name" class="icon_and_name container-fluid first-row-feature">
+        <div class="row">
+            <div class="<?php echo ($use_subtitle) ? "col-md-4 col-xs-4" : "col-md-6 col-xs-6 col-icon" ?>">
+                <div class="col-icon-button">
+                    <button type="button" id="change_icon" class="color-blue btn" data-image="330" data-style="area" data-color="color">
+                        <span class="edit-btn"><i class="fa fa-pencil"></i></span>
+                        <img id="current_icon" src="<?php echo $this->getIconUrl($option); ?>" width="auto" height="40" data-image="<?php echo $option->getIconId(); ?>" data-style="color-blue" data-color="color" />
+                    </button>
+                </div>
+                <div class="col-icon-first">
                     <label for="tabbar_name"><?php echo __('Page name:'); ?></label>
                     <br />
                     <input type="text" id="tabbar_name" class="input-flat" name="tabbar_name" value="<?php echo $option->getTabbarName(); ?>" />
                     <input type="hidden" id="tabbar_name_id" name="option_value_id" value="<?php echo $option->getId() ?>" />
                 </div>
+            </div>
 
-                <?php if($use_subtitle): ?>
-                <div class="form-group col-md-3 col-xs-3">
-                    <label for="tabbar_subtitle"><?php echo __('Subtitle:'); ?></label>
-                    <br />
-                    <input type="text" id="tabbar_subtitle" class="input-flat" name="tabbar_subtitle" value="<?php echo $option->getTabbarSubtitle(); ?>" />
-                    <input type="hidden" id="tabbar_subtitle_id" name="option_value_id" value="<?php echo $option->getId() ?>" />
-                </div>
-                <?php endif; ?>
+            <?php if($use_subtitle): ?>
+            <div class="col-md-2 col-xs-2">
+                <label for="tabbar_subtitle"><?php echo __('Subtitle:'); ?></label>
+                <br />
+                <input type="text" id="tabbar_subtitle" class="input-flat" name="tabbar_subtitle" value="<?php echo $option->getTabbarSubtitle(); ?>" />
+                <input type="hidden" id="tabbar_subtitle_id" name="option_value_id" value="<?php echo $option->getId() ?>" />
+            </div>
+            <?php endif; ?>
 
-                <?php if(is_numeric($option->getId())) : ?>
-                <div class="col-md-3 col-xs-3 text-center">
+            <?php if(is_numeric($option->getId())) : ?>
+                <div class="col-md-2 col-sm-2 col-xs-2 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 text-center">
                     <label><?php echo __("Activated"); ?></label>
                     <div id="toggle_feature_is_activated">
                         <div style="width:100%;padding-top:4px">
-                            <input class='sb-tgl sb-tgl-flat feature_is_activated' id='chk_activate' type='checkbox' <?php if($option->isActive()) echo 'checked="checked"'; ?>>
-                            <label class='sb-tgl-btn color-blue' for='chk_activate' ></label>
-                            <input type="hidden" id="is_active" name="is_active" value="" />
-                            <input type="hidden" name="value_id" value="<?php echo $option->getId(); ?>" />
+                            <input class="sb-tgl sb-tgl-flat feature_is_activated color-blue checkbox" id="chk_activate" type="checkbox" checked="checked">
+                            <label class="sb-tgl-btn color-blue" for="chk_activate"></label>
+                            <input type="hidden" id="is_active" name="is_active" value="">
+                            <input type="hidden" name="value_id" value="<?php echo $option->getId(); ?>">
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 col-xs-3 text-center">
-                    <?php if($option->getSocialSharingIsAvailable() == 1) : ?>
-                        <label><?php echo __("Social Sharing"); ?></label>
-                        <div id="toggle_social_sharing_is_activated">
-                            <div style="width:100%;padding-top:4px">
-                                <input class='sb-tgl sb-tgl-flat social_sharing_is_activated' id='chk_activate_social_sharing' type='checkbox' <?php if($option->getSocialSharingIsActive()) echo 'checked="checked"'; ?>>
-                                <label class='sb-tgl-btn color-blue' for='chk_activate_social_sharing' ></label>
-                                <input type="hidden" id="is_social_sharing_active" name="is_social_sharing_active" value="" />
-                                <input type="hidden" name="value_id" value="<?php echo $option->getId(); ?>" />
-                            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2 text-center pull-right">
+                <?php if($option->getSocialSharingIsAvailable() == 1) : ?>
+                    <label class="text-resize"><?php echo __("Social Sharing"); ?></label>
+                    <div id="toggle_social_sharing_is_activated">
+                        <div style="width:100%;padding-top:4px">
+                            <input class='sb-tgl sb-tgl-flat social_sharing_is_activated color-blue checkbox' id='chk_activate_social_sharing' type='checkbox' <?php if($option->getSocialSharingIsActive()) echo 'checked="checked"'; ?>>
+                            <label class='sb-tgl-btn color-blue' for='chk_activate_social_sharing' ></label>
+                            <input type="hidden" id="is_social_sharing_active" name="is_social_sharing_active" value="" />
+                            <input type="hidden" name="value_id" value="<?php echo $option->getId(); ?>" />
                         </div>
-                    <?php endif; ?>
-                </div>
+                    </div>
                 <?php endif; ?>
-
             </div>
-
+            <?php endif; ?>
         </div>
     </div>
-
 
     <!-- Icons modal -->
     <div id="icon_library_manager" class="custom_modal icon_library_manager" style="display:none;">
@@ -150,11 +147,11 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                         <i class="fa fa-times"></i>
                     </button>
                 </span>
-                <h3 class="title-editor border-blue no-border-radius">
+                <h3 class="title-editor border-blue no-border-radius text-center">
                     <?php echo __('Manage icons'); ?>
                 </h3>
                 <div class="details">
-                    <div class="container-fluid content-white-bkg">
+                    <div class="container-fluid content-color">
                         <div class="row">
                             <div class="col-md-12">
                                 <h3 class="subtitle">
@@ -163,7 +160,7 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                                         <!--[if gte IE 10]><!-->
                                         <div id="new_icon">
                                             <a href="javascript:void(0)" class="upload_icon icon" rel="<?php echo $option->getId(); ?>" >
-                                                <button class="add color-blue" type="button">
+                                                <button class="btn color-blue" type="button">
                                                     <?php echo __('Add a new icon') ?>
                                                 </button>
                                             </a>
@@ -184,7 +181,7 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                                             <?php if($icon->getUrl() AND (!$icon->getAppId() OR $icon->getAppId() == $this->getApplication()->getId()) AND !in_array($icon->getId(), $icon_ids)) : ?>
                                                 <li rel="<?php echo $option->getId(); ?>" class="color-blue">
                                                     <a href="<?php echo $this->getUrl('application/customization_features/seticon'); ?>" class="left icon" rel="<?php echo $option->getId(); ?>" >
-                                                        <button class="select_icon" type="button">
+                                                        <button class="select_icon btn" type="button">
                                                             <img src="<?php echo $icon->getUrl(); ?>" width="auto" height="65" class="colorize" />
                                                         </button>
                                                         <input type="hidden" name="option_value_id" value="<?php echo $option->getValueId(); ?>" />
@@ -225,7 +222,7 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                                         <?php if($icon->getUrl() AND !in_array($icon->getId(), $all_icon_ids)) : ?>
                                             <li data-filter="<?php echo $icon->getLink() ?>" rel="<?php echo $option->getId(); ?>" class="<?php echo ($icon->getCanBeColorized()==0) ? "colorizable" : "color-blue"; ?>">
                                                 <a href="<?php echo $this->getUrl('application/customization_features/seticon'); ?>" class="left icon" rel="<?php echo $option->getId(); ?>" >
-                                                    <button class="select_icon" type="button">
+                                                    <button class="select_icon btn" type="button">
                                                         <img src="<?php echo $icon->getUrl(); ?>" width="auto" height="65" class="colorize" />
                                                     </button>
                                                     <input type="hidden" name="option_value_id" value="<?php echo $option->getValueId(); ?>" />
@@ -254,7 +251,7 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
     <!-- /Icons modal -->
 
     
-    <div class="edit_page">
+    <div class="edit_page container-fluid subcontent">
         <?php echo $this->getPartialHtml('content_editor'); ?>
     </div>
     <script type="text/javascript">
@@ -396,7 +393,7 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                             var img_src = '<?php echo Media_Model_Library_Image::getImagePathTo('/', $this->getApplication()->getId()) ?>'+files.file;
                             $('.icons_list').append('<li class="newly_added left relative">\n\
                                 <a rel="<?php echo $option->getId(); ?>" class="left icon" href="<?php echo $this->getUrl('application/customization_features/seticon'); ?>">\n\
-                                    <button class="select_icon" type="button">\n\
+                                    <button class="select_icon btn" type="button">\n\
                                         <img width="65" height="65" class="colorize" src="'+img_src+'">\n\
                                     </button>\n\
                                     <input type="hidden" value="<?php echo $option->getId(); ?>" name="option_value_id">\n\
@@ -547,23 +544,32 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
 
     </script>
     <style>
-        .custom_modal .modal_content li { margin: 5px; background: #0099C7; color: white; border-radius: 0px; float:left; list-style:none; }
+        .custom_modal .modal_content li { margin: 5px; background: #0099C7; color: white; border-radius: 0px; float:left; list-style:none; -webkit-border-radius:3px; -moz-border-radius:3px; border-radius:3px; position: relative; }
         .custom_modal .modal_content img { padding: 8px; }
         .custom_modal .modal_content .icons_list li { /*padding: 15px;*/ }
         .custom_modal .modal_content li .select_icon { background: none; color: white;border:none; }
-        .custom_modal .modal_content li .delete_icon { position:absolute; top:0; right:0; }
+        .custom_modal .modal_content li .delete_icon { position:absolute; top:0; right:5px; }
         .custom_modal .modal_content .container-fluid { padding-bottom: 20px; }
         .custom_modal .bt_close_modal_icons{border: none;background: transparent;font-size: 25px;}
-        #icon_and_name .col-icon-button{padding-top: 8px}
-        #icon_library { overflow: scroll; }
+        .col-icon {
+            /*padding-left: 90px;*/
+        }
+        #icon_and_name .col-icon-button {
+            padding-top: 5px;
+            width: 70px;
+            position: absolute;
+            left: 15px;
+        }
+        #icon_library { overflow-y: scroll; }
         #new_icon {  float: right;  font-size: 16px;  }
 
         .no-offline, .partial-offline {
             font-size: 14px;
             position: absolute;
-            left: 30px;
+            left: 15px;
             color: #a00b0b;
             text-transform: none;
+            font-weight:200;
         }
 
         .partial-offline {
@@ -585,6 +591,29 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
             width: 400px;
             text-align: left;
         }
+        .icons_list.filter_list li {
+            background-color: #a7a7ab !important;
+            z-index: 1;
+            opacity:0.6;
+        }
 
+        .icons_list.filter_list li:hover {
+            opacity:1;
+            -webkit-transform: scale(1.2);
+            -moz-transform: scale(1.2);
+            -ms-transform: scale(1.2);
+            -o-transform: scale(1.2);
+            transform: scale(1.2);
+            background-color: initial;
+        }
+
+        .icon_and_name .text-resize {
+            letter-spacing: -0.5px;
+            font-size: 0.9em;
+            margin-bottom: 0.5em;
+        }
+        .col-icon-first {
+            padding-left: 70px;
+        }
     </style>
 </div>

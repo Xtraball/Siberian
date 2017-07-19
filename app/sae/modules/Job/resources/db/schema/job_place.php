@@ -93,6 +93,7 @@ $schemas['job_place'] = array(
     'keywords' => array(
         'type' => 'text',
         'charset' => 'utf8',
+        'is_null' => true,
         'collation' => 'utf8_unicode_ci',
     ),
     'views' => array(

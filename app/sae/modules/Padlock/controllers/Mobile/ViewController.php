@@ -49,11 +49,14 @@ class Padlock_Mobile_ViewController extends Application_Controller_Mobile_Defaul
             }
         }
 
-        $html = array(
-            "page_title" => $this->getCurrentOptionValue()->getTabbarName()
+        $option = $this->getCurrentOptionValue();
+
+        $payload = array(
+            "page_title"    => $option->getTabbarName(),
+            "description"   => $option->getObject()->getDescription()
         );
 
-        $this->_sendHtml($html);
+        $this->_sendJson($payload);
     }
     public function findunlocktypesAction() {
 
@@ -68,12 +71,12 @@ class Padlock_Mobile_ViewController extends Application_Controller_Mobile_Defaul
             }
         }
 
-        $html = array(
+        $payload = array(
             "unlock_by_account" => $unlock_by_account,
             "unlock_by_qrcode" => $unlock_by_qrcode
         );
 
-        $this->_sendHtml($html);
+        $this->_sendJson($payload);
     }
 
     public function unlockbyqrcodeAction() {
@@ -86,18 +89,18 @@ class Padlock_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     throw new Exception($this->_("This code is unrecognized"));
                 }
 
-                $html = array(
+                $payload = array(
                     "success" => 1,
                 );
 
             }
         } catch(Exception $e) {
-            $html = array(
+            $payload = array(
                 "error" => 1,
                 "message" => $e->getMessage()
             );
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($payload);
     }
 }

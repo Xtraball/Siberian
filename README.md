@@ -1,5 +1,7 @@
 # SiberianCMS: SAE Single App Edition
 
+[Public Roadmap](http://board.siberiancms.com/b/7AYdMDEpFcmt3eZtb/siberiancms-public-roadmap)
+
 ![welcome](docs/siberiancms.png)
 
 ## Documentation

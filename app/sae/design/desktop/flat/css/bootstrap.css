@@ -951,7 +951,7 @@ img {
     line-height: 1.42857143;
     background-color: #fff;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 2px;
     -webkit-transition: all .2s ease-in-out;
     -o-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
@@ -1348,7 +1348,7 @@ code {
     font-size: 90%;
     color: #c7254e;
     background-color: #f9f2f4;
-    border-radius: 4px;
+    border-radius: 2px;
 }
 kbd {
     padding: 2px 4px;
@@ -1376,7 +1376,7 @@ pre {
     word-wrap: break-word;
     background-color: #f5f5f5;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 2px;
 }
 pre code {
     padding: 0;
@@ -2369,7 +2369,7 @@ output {
     background-color: #fff;
     background-image: none;
     border: 1px solid;
-    border-radius: 4px;
+    border-radius: 2px;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
     -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
@@ -2759,7 +2759,7 @@ select[multiple].input-lg {
     user-select: none;
     background-image: none;
     border: 1px solid transparent;
-    border-radius: 4px;
+    border-radius: 2px;
 }
 .btn:focus,
 .btn:active:focus,
@@ -3166,7 +3166,7 @@ tbody.collapse.in {
     background-clip: padding-box;
     border: 1px solid #ccc;
     border: 1px solid rgba(0, 0, 0, .15);
-    border-radius: 4px;
+    border-radius: 2px;
     -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
     box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
 }
@@ -3531,7 +3531,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     text-align: center;
     background-color: #eee;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 2px;
 }
 .input-group-addon.input-sm {
     padding: 5px 10px;
@@ -3692,7 +3692,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .nav-tabs.nav-justified > li > a {
     margin-right: 0;
-    border-radius: 4px;
+    border-radius: 2px;
 }
 .nav-tabs.nav-justified > .active > a,
 .nav-tabs.nav-justified > .active > a:hover,
@@ -3714,7 +3714,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     float: left;
 }
 .nav-pills > li > a {
-    border-radius: 4px;
+    border-radius: 2px;
 }
 .nav-pills > li + li {
     margin-left: 2px;
@@ -3760,7 +3760,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .nav-tabs-justified > li > a {
     margin-right: 0;
-    border-radius: 4px;
+    border-radius: 2px;
 }
 .nav-tabs-justified > .active > a,
 .nav-tabs-justified > .active > a:hover,
@@ -3797,7 +3797,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 @media (min-width: 768px) {
     .navbar {
-        border-radius: 4px;
+        border-radius: 2px;
     }
 }
 @media (min-width: 768px) {
@@ -3927,7 +3927,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     background-color: transparent;
     background-image: none;
     border: 1px solid transparent;
-    border-radius: 4px;
+    border-radius: 2px;
 }
 .navbar-toggle:focus {
     outline: 0;
@@ -4317,7 +4317,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
     margin-bottom: 20px;
     list-style: none;
     background-color: #f5f5f5;
-    border-radius: 4px;
+    border-radius: 2px;
 }
 .breadcrumb > li {
     display: inline-block;
@@ -4334,7 +4334,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
     display: inline-block;
     padding-left: 0;
     margin: 20px 0;
-    border-radius: 4px;
+    border-radius: 2px;
 }
 .pagination > li {
     display: inline;
@@ -4612,7 +4612,7 @@ a.list-group-item.active > .badge,
     line-height: 1.42857143;
     background-color: #fff;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 2px;
     -webkit-transition: all .2s ease-in-out;
     -o-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
@@ -4635,7 +4635,8 @@ a.thumbnail.active {
     padding: 15px;
     margin-bottom: 20px;
     border: 1px solid transparent;
-    border-radius: 4px;
+    border-bottom: 3px solid transparent;
+    border-radius: 2px;
 }
 .alert h4 {
     margin-top: 0;
@@ -4665,7 +4666,7 @@ a.thumbnail.active {
 .alert-success {
     color: #3c763d;
     background-color: #dff0d8;
-    border-color: #d6e9c6;
+    border-bottom-color: #d6e9c6;
 }
 .alert-success hr {
     border-top-color: #c9e2b3;
@@ -4676,7 +4677,7 @@ a.thumbnail.active {
 .alert-info {
     color: #31708f;
     background-color: #d9edf7;
-    border-color: #bce8f1;
+    border-bottom-color: #bce8f1;
 }
 .alert-info hr {
     border-top-color: #a6e1ec;
@@ -4687,7 +4688,7 @@ a.thumbnail.active {
 .alert-warning {
     color: #8a6d3b;
     background-color: #fcf8e3;
-    border-color: #faebcc;
+    border-bottom-color: #faebcc;
 }
 .alert-warning hr {
     border-top-color: #f7e1b5;
@@ -4698,7 +4699,7 @@ a.thumbnail.active {
 .alert-danger {
     color: #a94442;
     background-color: #f2dede;
-    border-color: #ebccd1;
+    border-bottom-color: #ebccd1;
 }
 .alert-danger hr {
     border-top-color: #e4b9c0;
@@ -4735,7 +4736,7 @@ a.thumbnail.active {
     margin-bottom: 20px;
     overflow: hidden;
     background-color: #f5f5f5;
-    border-radius: 4px;
+    border-radius: 2px;
     -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
 }
@@ -5019,7 +5020,7 @@ a.list-group-item-danger.active:focus {
     margin-bottom: 20px;
     background-color: #fff;
     border: 1px solid transparent;
-    border-radius: 4px;
+    border-radius: 2px;
     -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
     box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
 }
@@ -5198,7 +5199,7 @@ a.list-group-item-danger.active:focus {
 }
 .panel-group .panel {
     margin-bottom: 0;
-    border-radius: 4px;
+    border-radius: 2px;
 }
 .panel-group .panel + .panel {
     margin-top: 5px;
@@ -5354,7 +5355,7 @@ a.list-group-item-danger.active:focus {
     margin-bottom: 20px;
     background-color: #f5f5f5;
     border: 1px solid #e3e3e3;
-    border-radius: 4px;
+    border-radius: 2px;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
 }
@@ -5554,7 +5555,7 @@ button.close {
     text-align: center;
     text-decoration: none;
     background-color: #000;
-    border-radius: 4px;
+    border-radius: 2px;
 }
 .tooltip-arrow {
     position: absolute;

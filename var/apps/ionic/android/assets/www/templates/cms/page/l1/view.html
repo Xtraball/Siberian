@@ -1,4 +1,4 @@
-<ion-view>
+<ion-view sb-page-background>
     <ion-nav-title>{{ page_title }}</ion-nav-title>
     <ion-nav-buttons side="secondary">
         <button ng-show="social_sharing_active" class="button button-clear" ng-click="share()">
@@ -6,11 +6,17 @@
         </button>
     </ion-nav-buttons>
 
-    <ion-content sb-background-image ng-class="{ 'has-tabs' : template_tabs && footer_is_tabs, 'inbox-content' : (module_code == 'inbox') }">
+    <ion-content ng-class="{ 'has-tabs' : template_tabs && footer_is_tabs, 'inbox-content' : (module_code == 'inbox') }">
 
         <div class="loader" ng-show="is_loading">
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
+
+        <ion-refresher ng-if="use_pull_to_refresh"
+                       class="spinner-custom"
+                       pulling-text="{{ 'Pull to refresh...' | translate }}"
+                       on-refresh="pullToRefresh()">
+        </ion-refresher>
 
         <div ng-include="template_header"></div>
 

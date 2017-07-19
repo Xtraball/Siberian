@@ -6,12 +6,12 @@ class Tip_Mobile_ViewController extends Application_Controller_Mobile_Default {
 
         $option = $this->getCurrentOptionValue();
         $currency = Core_Model_Language::getCurrentCurrency();
-        $data = array(
+        $payload = array(
             "currency_symbol" => Core_Model_Language::getCurrentCurrency()->getSymbol(),
             "page_title" => $option->getTabbarName(),
             "format" => $currency->toCurrency(1,array("locale" => $currency->getLocale()))
         );
 
-        $this->_sendHtml($data);
+        $this->_sendJson($payload);
     }
 }

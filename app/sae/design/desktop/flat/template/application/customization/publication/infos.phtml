@@ -10,8 +10,8 @@
 ?>
 <div class="page-content-wrapper">
 
-    <div id="general-content" class="content">
-        <h3 class="title-editor border-green">
+    <div id="general-content" class="content sb-tour">
+        <h3 class="title-editor border-green text-center">
             <?php echo __('General information'); ?>
         </h3>
         <div id="general" class="subcontent content-color">
@@ -87,8 +87,8 @@
     </div>
     <?php if(!$application->getOwnerUseAds() AND !System_Model_Config::getValueFor("application_owner_use_ads") AND !$pe_use_ads): ?>
 
-    <div id="monetize-content" class="content">
-        <h3 class="title-editor border-green">
+    <div id="monetize-content" class="content sb-tour">
+        <h3 class="title-editor border-green text-center">
             <?php echo __('Monetize your app'); ?>
         </h3>
         <div class="monetize subcontent content-color">
@@ -96,8 +96,10 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <label for="use_ads" class="<?php if ($application->getUseAds() == 1) echo 'checked' ?>">
-                            <input id="use_ads" type="checkbox" class="autosave" value="1" name="use_ads" <?php if ($application->getUseAds() == 1) echo 'checked="checked"' ?> />
+                            <input id="use_ads" type="checkbox" color="color-green" class="autosave checkbox-inline" value="1" name="use_ads" <?php if ($application->getUseAds() == 1) echo 'checked="checked"' ?> />
                             <input id="flag_use_ads" type="hidden" value="1" name="flag_use_ads" />
+                            <div class="color-green"></div>
+                            <div class="color-green control__indicator"></div>
                             <?php echo __('Monetize my app using AdMob?'); ?>
                         </label>
                     </div>
@@ -157,32 +159,32 @@
     </div>
     <?php endif; ?>
 
-    <div id="apple-content" class="content">
-        <h3 class="title-editor border-green">
+    <div id="apple-content" class="content sb-tour">
+        <h3 class="title-editor border-green text-center">
             <?php echo __("Apple's Information"); ?>
         </h3>
         <div class="apple subcontent content-color">
             <div class="container-fluid form-horizontal">
                 <div class="row">
                     <div class="col-sm-12">
-                        <label for="has_apple_account_1">
-                            <input type="radio" id="has_apple_account_1" name="has_apple_account" class="has_account autosave" value="1" onclick="$('#doesnt_have_apple_account').slideUp(); $('#has_apple_account').slideDown();" />
+                        <label for="has_apple_account_1" class="radio">
+                            <input type="radio" id="has_apple_account_1" name="has_apple_account" class="has_account autosave color-blue" value="1" onclick="$('#doesnt_have_apple_account').slideUp(); $('#has_apple_account').slideDown();" />
                             <?php echo __("I have an Apple developer account"); ?>
                         </label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <label for="has_apple_account_0">
-                            <input type="radio" id="has_apple_account_0" name="has_apple_account" class="has_account" value="0" onclick="$('#has_apple_account').slideUp(); $('#doesnt_have_apple_account').slideDown();" />
+                        <label for="has_apple_account_0" class="radio">
+                            <input type="radio" id="has_apple_account_0" name="has_apple_account" class="has_account color-blue" value="0" onclick="$('#has_apple_account').slideUp(); $('#doesnt_have_apple_account').slideDown();" />
                             <?php echo __("I don't have an Apple developer account and I want to create one"); ?>
                         </label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <label for="has_apple_account_2" <?php if($ios_device->getUseOurDeveloperAccount()) echo "checked"; ?>>
-                            <input type="radio" id="has_apple_account_2" name="has_apple_account" class="has_account autosave" value="2" onclick="$('#has_apple_account').slideUp(); $('#doesnt_have_apple_account').slideUp();" />
+                        <label for="has_apple_account_2" class="radio" <?php if($ios_device->getUseOurDeveloperAccount()) echo "checked"; ?>>
+                            <input type="radio" id="has_apple_account_2" name="has_apple_account" class="has_account autosave color-blue" value="2" onclick="$('#has_apple_account').slideUp(); $('#doesnt_have_apple_account').slideUp();" />
                             <?php echo __('I let you publish my application under your Apple developer account'); ?>
                         </label>
                     </div>
@@ -231,7 +233,7 @@
         </div>
     </div>
 
-    <div id="google-content" class="content">
+    <div id="google-content" class="content sb-tour">
         <?php $device = $application->getDevice(2); ?>
         <h3 class="title-editor border-green">
             <?php echo __("Google's Information"); ?>
@@ -240,24 +242,24 @@
             <div class="container-fluid form-horizontal">
                 <div class="row">
                     <div class="col-sm-12">
-                        <label for="has_android_account_1">
-                            <input type="radio" id="has_android_account_1" name="has_android_account" class="has_account autosave input" value="1" onclick="$('#doesnt_have_android_account').slideUp(); $('#has_android_account').slideDown();" />
+                        <label for="has_android_account_1" class="radio">
+                            <input type="radio" id="has_android_account_1" name="has_android_account" class="has_account autosave input color-blue" value="1" onclick="$('#doesnt_have_android_account').slideUp(); $('#has_android_account').slideDown();" />
                             <?php echo __("I have an Google developer account"); ?>
                         </label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <label for="has_android_account_0" <?php if(!$device->getUseOurDeveloperAccount()) echo 'checked' ?>>
-                            <input type="radio" id="has_android_account_0" name="has_android_account" class="has_account input" value="0" onclick="$('#has_android_account').slideUp(); $('#doesnt_have_android_account').slideDown();" />
+                        <label for="has_android_account_0" class="radio" <?php if(!$device->getUseOurDeveloperAccount()) echo 'checked' ?>>
+                            <input type="radio" id="has_android_account_0" name="has_android_account" class="has_account input color-blue" value="0" onclick="$('#has_android_account').slideUp(); $('#doesnt_have_android_account').slideDown();" />
                             <?php echo __("I don't have a Google developer account and I want to create one"); ?>
                         </label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <label for="has_android_account_2" <?php if($device->getUseOurDeveloperAccount()) echo "checked"; ?>>
-                            <input type="radio" id="has_android_account_2" name="has_android_account" class="has_account autosave input" value="2" onclick="$('#has_android_account').slideUp(); $('#doesnt_have_android_account').slideUp();" />
+                        <label for="has_android_account_2" class="radio" <?php if($device->getUseOurDeveloperAccount()) echo "checked"; ?>>
+                            <input type="radio" id="has_android_account_2" name="has_android_account" class="has_account autosave input color-blue" value="2" onclick="$('#has_android_account').slideUp(); $('#doesnt_have_android_account').slideUp();" />
                             <?php echo __('I let you publish my application under your Google developer account'); ?>
                         </label>
                     </div>

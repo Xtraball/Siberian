@@ -28,8 +28,8 @@
         <div id="product_configuration">
             <h4 class="align-center"><?php echo $this->_('Does this product have many formats?'); ?></h4>
             <div class="align-center choose_type">
-                <label for="is_multiple_1">Oui</label><input type="radio" id="is_multiple_1" class="is_multiple" name="is_multiple" value="1" />
-                <label for="is_multiple_0">Non</label><input type="radio" id="is_multiple_0" class="is_multiple" name="is_multiple" value="0" checked="checked" />
+                <label for="is_multiple_1">Oui</label><input type="radio" id="is_multiple_1" class="is_multiple color-blue radio" name="is_multiple" value="1" />
+                <label for="is_multiple_0">Non</label><input type="radio" id="is_multiple_0" class="is_multiple color-blue radio" name="is_multiple" value="0" checked="checked" />
             </div>
             <br />
         </div>
@@ -45,7 +45,7 @@
                     <div class="title">
                         <h4><label for="categories"><?php echo $this->_('Choose a category'); ?> :</label></h4>
                     </div>
-                    <select id="select_categories" name="category_id">
+                    <select id="select_categories" name="category_id" class="styled-select color-blue">
                         <option value=""><?php echo $this->_('Editing'); ?><?php echo $this->_('Choose a category'); ?></option>
                     <?php foreach($categories as $category) : ?>
                         <option value="<?php echo $category->getId(); ?>"><?php echo $category->getName(); ?></option>
@@ -59,7 +59,7 @@
                     <?php foreach($categories as $category) : ?>
                         <?php $children = $category->getChildren(); ?>
                         <?php if(count($children)) : ?>
-                            <select id="subcategory_<?php echo $category->getId(); ?>" name="subcategory_id" class="subcategory">
+                            <select id="subcategory_<?php echo $category->getId(); ?>" name="subcategory_id" class="subcategory styled-select color-blue">
                                 <option value="0"><?php echo $this->_('Choose a subcategory'); ?></option>
                                 <?php foreach($category->getChildren() as $subcategory) : ?>
                                 <?php $hasSubcategories = true; ?>

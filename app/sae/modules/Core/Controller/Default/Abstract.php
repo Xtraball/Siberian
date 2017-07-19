@@ -3,7 +3,7 @@
 abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action implements Core_Model_Exporter
 {
     /**
-     * @var Zend_Cache
+     * @var Zend_Cache_Backend_File|Zend_Cache
      */
     public $cache;
 
@@ -344,6 +344,42 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
     }
 
+    public static function sGetColorizedImage($image_id, $color) {
+
+        Siberian_Media::disableTemporary();
+
+        $color = str_replace('#', '', $color);
+        $id = md5(implode('+', array($image_id, $color)));
+        $url = '';
+
+        $image = new Media_Model_Library_Image();
+        if(is_numeric($image_id)) {
+            $image->find($image_id);
+            if(!$image->getId()) return $url;
+            if(!$image->getCanBeColorized()) $color = null;
+            $path = $image->getLink();
+            $path = Media_Model_Library_Image::getBaseImagePathTo($path, $image->getAppId());
+        } else if(!Zend_Uri::check($image_id) AND stripos($image_id, Core_Model_Directory::getBasePathTo()) === false) {
+            $path = Core_Model_Directory::getBasePathTo($image_id);
+        } else {
+            $path = $image_id;
+        }
+
+        try {
+            $image = new Core_Model_Lib_Image();
+            $image->setId($id)
+                ->setPath($path)
+                ->setColor($color)
+                ->colorize()
+            ;
+            $url = $image->getUrl();
+        } catch(Exception $e) {
+            $url = '';
+        }
+
+        return $url;
+    }
+
     protected function _getColorizedImage($image_id, $color) {
 
         Siberian_Media::disableTemporary();
@@ -490,7 +526,9 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
     protected function _initSession() {
 
-        if(Zend_Session::isStarted()) return $this;
+        if(Zend_Session::isStarted()) {
+            return $this;
+        }
         
         $configSession = new Zend_Config_Ini(APPLICATION_PATH . '/configs/session.ini', APPLICATION_ENV);
 
@@ -519,13 +557,14 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
             $session_type = 'front';
 
             if($this->getRequest()->isApplication()) {
+
+
                 if(Siberian_Version::is('sae')) {
                     $session_type = 'mobile';
                 } else {
                     $session_type = 'mobile'.$this->getRequest()->getApplication()->getAppId();
                 }
-            }
-            else if($this->_isInstanceOfBackoffice()) {
+            } else if($this->_isInstanceOfBackoffice()) {
                 $session_type = 'backoffice';
             }
 

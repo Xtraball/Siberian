@@ -2,6 +2,17 @@
 
 class Form_Application_SectionController extends Application_Controller_Default {
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "editpost" => array(
+            "tags" => array(
+                "homepage_app_#APP_ID#",
+            ),
+        ),
+    );
+
     public function editpostAction() {
 
         if ($datas = $this->getRequest()->getPost()) {
@@ -77,6 +88,10 @@ class Form_Application_SectionController extends Application_Controller_Default 
                             ->setOptionValue($this->getCurrentOptionValue())
                             ->toHtml();
                     }
+
+                    $this->getCurrentOptionValue()
+                        ->touch()
+                        ->expires(-1);
                 }
             } catch (Exception $e) {
                 // Erreur

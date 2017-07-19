@@ -1,4 +1,4 @@
-App.directive('sbAlbumsBoxes', function () {
+angular.module("starter").directive('sbAlbumsBoxes', function () {
     return {
         restrict: 'A',
         templateUrl: 'templates/media/music/l1/album/boxes.html',

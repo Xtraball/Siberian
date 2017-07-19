@@ -6,11 +6,11 @@
 <?php asort($countries, SORT_LOCALE_STRING); ?>
 <div id="list" class="edit_page weather">
     <form id="weatherForm" name="weatherForm" method="post" action="<?php echo $this->getUrl('weather/application/editpost') ?>">
-        <h3 class="title-editor no-border-radius">
+        <h3 class="title-editor no-border-radius title-feature-indent">
             <?php echo $this->_("Weather information") ?>
         </h3>
         <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
-        <div class="container-fluid first-row-feature">
+        <div class="container-fluid first-row-feature content-feature">
             <div class="form-horizontal">
                 <div class="form-group">
                     <div class="col-md-3">

@@ -12,17 +12,15 @@ $source_code = $option_value->getObject();
 
 <div class="source_code">
     <div id="edit">
-        <h3 class="title-editor no-border-radius">
+        <h3 class="title-editor no-border-radius title-feature-indent">
             <?php echo __('Source Code'); ?>
         </h3>
-        <div class="container-fluid first-row-feature">
+        <div class="container-fluid first-row-feature content-feature">
             <form id="sourcecodeCreateForm" action="<?php echo $this->getUrl('sourcecode/application/editpost') ?>" method="post" class="form-horizontal">
                 <div class="form-group">
                     <div class="col-md-12">
-                        <div class="buttons">
-                            <button type="button" onclick="page.reload()" class="btn color-blue pull-left"><i class="fa fa-arrow-left"></i></button>
-                            <button type="submit" class="btn color-blue pull-right">OK</button>
-                        </div>
+                        <button type="button" onclick="page.reload()" class="btn color-blue pull-left"><i class="fa fa-angle-left"></i></button>
+                        <button type="submit" class="btn color-blue pull-right">OK</button>
                     </div>
                 </div>
                 <br />
@@ -34,12 +32,11 @@ $source_code = $option_value->getObject();
                             <?php echo __("Be aware that if the code you enter here requires any kind of server interaction it will not work properly in offline mode."); ?>
                         </div>
 
-                        <label for="allow_offline" style="margin: 0; padding-top: 2px;"><?php echo __("Allow offline mode"); ?></label>
-                        <div class="control control--checkbox" style="width: 40px; float: left; margin: 0;">
+                        <label for="allow_offline_source_code_<?php echo $option_value->getId(); ?>" class="checkbox-inline">
                             <input type="hidden" name="display_search" value="0">
-                            <input type="checkbox"  id="allow_offline_source_code_<?php echo $option_value->getId(); ?>" name="allow_offline" <?php if(!!$source_code->getAllowOffline()) echo 'checked="checked"' ?> class="sb-form-checkbox color-blue flatbox">
-                            <div class="color-blue control__indicator"></div>
-                        </div>
+                            <input type="checkbox"  id="allow_offline_source_code_<?php echo $option_value->getId(); ?>" name="allow_offline" <?php if(!!$source_code->getAllowOffline()) echo 'checked="checked"' ?> class="sb-form-checkbox checkbox color-blue">
+                            <?php echo __("Allow offline mode"); ?>
+                        </label>
 
                     </div>
                 </div>
@@ -62,7 +59,7 @@ $source_code = $option_value->getObject();
     </div>
 
     <div class="dialog-inapplinks">
-        <div class="title-editor border-blue">
+        <div class="title-editor border-blue text-center">
             <span><?php echo __("In-App links") ?></span>
             <i class="fa fa-times dialog-close"></i>
         </div>

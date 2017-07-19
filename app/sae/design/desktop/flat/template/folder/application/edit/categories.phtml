@@ -7,12 +7,12 @@
 <?php $category_options = $category_option->findAll(array("app_id" => $this->getApplication()->getId(), 'folder_category_id' => $category->getCategoryId()), array('folder_category_position ASC')); ?>
 
 <div class="manage_categories content-color" style="display:none">
-    <div class="container-fluid first-row-feature">
+    <div class="container-fluid first-row-feature content-feature">
         <div class="content content-white-bkg">
             <div class="form-group">
                 <div class="col-md-12" id="manage_search">
-                    <label>
-                        <input type="checkbox" id="show_search" name="show_search" onclick="category.changeShowSearch()" <?php if($folder->getShowSearch()) echo "checked"; ?>/>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="show_search" name="show_search" onclick="category.changeShowSearch()" <?php if($folder->getShowSearch()) echo "checked"; ?> class="checkbox color-blue"/>
                         <?php echo $this->_("Show search field"); ?>
                     </label>
                     <input type="hidden" id="value_id" name="value_id" value="<?php echo $current_option->getId(); ?>" />
@@ -40,7 +40,7 @@
                                         <span id="title_category_<?php echo $category->getCategoryId() ?>" class="title"><?php echo $category->getTitle(); ?></span>
                                         <i class="features_number">(<?php echo count($category_options) ?>)</i>
                                     </a>
-                                    <i class="edit_category fa fa-edit" rel="<?php echo $category->getCategoryId() ?>" onclick="category.loadForm(<?php echo $category->getCategoryId() ?>, 'null');"></i>
+                                    <div class="bloc-actions"><i class="edit_category fa fa-pencil" rel="<?php echo $category->getCategoryId() ?>" onclick="category.loadForm(<?php echo $category->getCategoryId() ?>, 'null');"></i></div>
                                 </div>
                             <?php else : ?>
                                 <?php
@@ -203,7 +203,7 @@
                 placeholder: 'placeholder',
                 revert: 150,
                 zIndex: 9999,
-                handle: '.fa-arrows',
+                handle: '.fa-sort',
                 protectRoot: true,
                 rootID: '<?php echo $category->getCategoryId() ?>',
                 start: function(e, ui) {
@@ -410,13 +410,13 @@
                     var dummy = '<li id="category_dummy" style="display: block;">';
                     dummy += '<div class="button_handler active color-blue">';
                     if($('.categories_list').find('a').length > 0) {
-                        dummy += '<i class="fa fa-arrows"></i>';
+                        dummy += '<i class="fa fa-sort"></i>';
                     }
                     dummy += '<a onclick="return false;" href="javascript:void(0)">';
                     dummy += '<span class="dummy_text">'+value+'</span><i class="features_number">(0)</i>';
                     dummy += '</a>';
                     dummy += '<i class="delete_category fa fa-remove" style="visibility:hidden"></i>';
-                    dummy += '<i class="edit_category fa fa-edit" style="visibility:hidden"></i>';
+                    dummy += '<i class="edit_category fa fa-pencil" style="visibility:hidden"></i>';
                     dummy += '</div></li>';
 
                     //Création catégorie dummy dans mobile
@@ -598,7 +598,6 @@
         margin: auto auto 20px;
     }
     .manage_categories #add_category {
-        border-bottom: 2px solid #eee;
         padding-left: 1em;
     }
     .categories_list {
@@ -619,9 +618,11 @@
     }
     .categories_list li div.button_handler {
         height: 35px;
-        padding: 3px 0;
         transition: none 0s ease 0s;
         position: relative;
+    }
+    .categories_list li div.button_handler.active {
+        padding-left: 2em;
     }
     .categories_list li div.button_handler i {
         margin-right: 5px;
@@ -686,9 +687,7 @@
         cursor: move;
     }
     .categories_list li .fa-remove, .categories_list li .fa-edit{
-        float: right;
         cursor: pointer;
-        margin-top: 7px;
         visibility: hidden;
         transition: none 0s ease 0s;
     }
@@ -704,7 +703,7 @@
         opacity: 0.8;
     }
     .categories_list li {
-        margin-left: 10px; /* comment */
+        /*margin-left: 10px;*/
     }
     .categories_list .list-group-item {
         border: medium none;
@@ -768,5 +767,9 @@
 
     #manage_search {
         margin-top: 10px;
+    }
+    .bloc-actions {
+        position: absolute;
+        right: 0;
     }
 </style>

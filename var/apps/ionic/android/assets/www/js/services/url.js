@@ -1,4 +1,7 @@
-App.service("Url", function($location) {
+/*global
+    App, angular, DOMAIN, CURRENT_LANGUAGE, APP_KEY
+ */
+angular.module("starter").service("Url", function($location) {
 
     this.__sanitize = function(str) {
 
@@ -53,10 +56,12 @@ App.service("Url", function($location) {
 
         build: function(uri, params) {
 
-            if(!angular.isDefined(params)) params = {};
+            if(!angular.isDefined(params)) {
+                params = {};
+            }
 
             var url = _that.__sanitize(uri);
-            var p = new Array();
+            var p = [];
 
             for(var i in params) {
                 if(angular.isDefined(params[i])) {
@@ -69,17 +74,17 @@ App.service("Url", function($location) {
             return url;
         }
 
-    }
+    };
 });
 
-if(typeof String.prototype.startsWith != 'function') {
+if(typeof String.prototype.startsWith !== "function") {
     String.prototype.startsWith = function (str) {
         return this.substring(0, str.length) === str;
-    }
+    };
 }
 
-if(typeof String.prototype.endsWith != 'function') {
+if(typeof String.prototype.endsWith !== "function") {
     String.prototype.endsWith = function (str) {
         return this.substring(this.length - str.length, this.length) === str;
-    }
+    };
 }

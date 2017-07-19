@@ -4,12 +4,12 @@
     <div class="form-group">
         <div class="col-md-1">
             <a href="javascript:void(0)" id="edit_option_group_<?php echo $group->getGroupId(); ?>" class="edit_option_group" rel="<?php echo $group->getGroupId(); ?>">
-                <i class="fa fa-edit"></i>
+                <i class="fa fa-pencil"></i>
             </a>
         </div>
         <div class="col-md-11">
             <label for="toggle_group_options_<?php echo $group->getGroupId(); ?>" id="label_toggle_group_options_<?php echo $group->getGroupId(); ?>" class="label_toggle_group_options">
-                <input type="checkbox" class="toggle_group_options toggle_group_options_<?php echo $group->getGroupId(); ?>" value="<?php echo $group->getGroupId(); ?>" name="group[<?php echo $group->getGroupId(); ?>][group_id]" id="toggle_group_options_<?php echo $group->getGroupId(); ?>"<?php if($group->getIsSelected()) : ?> checked="checked"<?php endif; ?>>
+                <input type="checkbox" class="color-blue toggle_group_options toggle_group_options_<?php echo $group->getGroupId(); ?>" value="<?php echo $group->getGroupId(); ?>" name="group[<?php echo $group->getGroupId(); ?>][group_id]" id="toggle_group_options_<?php echo $group->getGroupId(); ?>"<?php if($group->getIsSelected()) : ?> checked="checked"<?php endif; ?>>
                 <span id="title_toggle_group_options_<?php echo $group->getGroupId(); ?>"><?php echo $group->getTitle() ?></span>
             </label>
             <input type="hidden" id="group_option_is_deleted_<?php echo $group->getGroupId(); ?>" name="group[<?php echo $group->getGroupId(); ?>][is_deleted]" value="1" disabled="disabled" />

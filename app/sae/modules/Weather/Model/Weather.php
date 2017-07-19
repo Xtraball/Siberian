@@ -25,6 +25,38 @@ class Weather_Model_Weather extends Core_Model_Default {
         return $in_app_states;
     }
 
+    /**
+     * @param null $option_value
+     * @return array
+     */
+    public function getEmbedPayload($option_value = null) {
+
+        $payload = array(
+            "collection"    => array(),
+            "page_title"    => $option_value->getTabbarName(),
+            "icon_url"      => $this->_getImage("weather/")
+        );
+
+        if($this->getId()) {
+            $payload["collection"] = $this->getData();
+        }
+
+        return $payload;
+    }
+
+    protected function _getImage($name, $base = false) {
+
+        if(file_exists(Core_Model_Directory::getDesignPath(true) . '/images/' . $name)) {
+            return Core_Model_Directory::getDesignPath($base).'/images/'.$name;
+        }
+        else if(file_exists(Media_Model_Library_Image::getBaseImagePathTo($name))) {
+            return $base ? Media_Model_Library_Image::getBaseImagePathTo($name) : Media_Model_Library_Image::getImagePathTo($name);
+        }
+
+        return "";
+
+    }
+
     public function copyTo($option) {
 
         $this->setId(null)->setValueId($option->getId())->save();

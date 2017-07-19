@@ -3,7 +3,7 @@ $section_id = $section->getId();
 $sectionModel = new Form_Model_Field();
 $fields = $sectionModel->findBySectionId($section_id); ?>
 
-<div id="section_<?php echo $section_id;?>" class="inner_content container-fluid form-section subcontent">
+<div id="section_<?php echo $section_id;?>" class="inner_content container-fluid subcontent content-white-bkg">
     <div class="details form-horizontal">
         <div id="section_details_<?php echo $section_id;?>" class="name">
             <div class="form-group">
@@ -38,15 +38,11 @@ $fields = $sectionModel->findBySectionId($section_id); ?>
             <?php endif; ?>
         </ul>
         <div>
-            <a id="add_field_section_<?php echo $section_id ?>" class="add_field link btn color-blue" section_id="<?php echo $section_id; ?>" href="#" class="name"><i class="fa fa-plus-circle"></i> <?php echo $this->_('Add a field'); ?></a>
+            <a id="add_field_section_<?php echo $section_id ?>" class="add_field link btn color-blue" section_id="<?php echo $section_id; ?>" href="#" class="name"> <?php echo $this->_('Add a field'); ?></a>
         </div>
     </div>
     
 </div>
-<style>
-    .fields{padding-left:25px}
-    .form-section{margin-top:15px;}
-</style>
 <script type="text/javascript">
     $(document).ready(function(){
        if($('#form_email_config').is(':visible') == false) {

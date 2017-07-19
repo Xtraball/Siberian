@@ -1,35 +1,98 @@
+/*global
+ App, device, angular
+ */
 
-App.factory('Rss', function($rootScope, $sbhttp, Url) {
+/**
+ * Rss
+ *
+ * @author Xtraball SAS
+ */
+angular.module("starter").factory("Rss", function($pwaRequest) {
 
-    var factory = {};
+    var factory = {
+        value_id: null,
+        extendedOptions: {},
+        collection: []
+    };
 
-    factory.value_id = null;
+    /**
+     *
+     * @param value_id
+     */
+    factory.setValueId = function(value_id) {
+        factory.value_id = value_id;
+    };
+
+    /**
+     *
+     * @param options
+     */
+    factory.setExtendedOptions = function(options) {
+        factory.extendedOptions = options;
+    };
+
+    /**
+     * Pre-Fetch feature.
+     *
+     * @param page
+     */
+    factory.preFetch = function() {
+        factory.findAll();
+    };
 
     factory.findAll = function() {
 
-        if(!this.value_id) return;
+        if(!this.value_id) {
+            return $pwaRequest.reject("[Factory::Rss.findAll] missing value_id");
+        }
 
-        return $sbhttp({
-            method: 'GET',
-            url: Url.get("rss/mobile_feed_list/findall", {value_id: this.value_id}),
-            cache: !$rootScope.isOverview,
-            responseType:'json'
-        });
+        return $pwaRequest.get("rss/mobile_feed_list/findall", angular.extend({
+            urlParams: {
+                value_id: this.value_id
+            }
+        }, factory.extendedOptions));
     };
 
     factory.find = function(feed_id) {
 
-        if(!this.value_id) return;
+        if(!this.value_id) {
+            return $pwaRequest.reject("[Factory::Rss.find] missing value_id");
+        }
 
-        var url = Url.get('rss/mobile_feed_view/find', {feed_id: feed_id, value_id: this.value_id});
-
-        return $sbhttp({
-            method: 'GET',
-            url: url,
-            cache: true,
-            responseType:'json'
+        return $pwaRequest.get("rss/mobile_feed_view/find", {
+            urlParams: {
+                value_id    : this.value_id,
+                feed_id     : feed_id
+            }
         });
     };
+
+    /**
+     * Search for feed payload inside cached collection
+     *
+     * @param feed_id
+     * @returns {*}
+     */
+    factory.getFeed = function(feed_id) {
+
+        if(!this.value_id) {
+            return $pwaRequest.reject("[Factory::Rss.getFeed] missing value_id");
+        }
+
+        var feed = _.get(_.filter(factory.collection, function(feed) {
+            return (feed.id == feed_id);
+        })[0], "embed_payload", false);
+
+        if(!feed) {
+            /** Well then fetch it. */
+            return factory.find(feed_id);
+
+        } else {
+
+            return $pwaRequest.resolve(feed);
+        }
+    };
+
 
     return factory;
 });

@@ -10,7 +10,8 @@ class Sourcecode_ApplicationController extends Application_Controller_Default
         "editpost" => array(
             "tags" => array(
                 "feature_paths_valueid_#VALUE_ID#",
-                "assets_paths_valueid_#VALUE_ID#"
+                "assets_paths_valueid_#VALUE_ID#",
+                "homepage_app_#APP_ID#"
             ),
         )
     );
@@ -34,6 +35,11 @@ class Sourcecode_ApplicationController extends Application_Controller_Default
 
                 $datas["allow_offline"] = !!$datas["allow_offline"];
                 $sourcecode->addData($datas)->save();
+
+                /** Update touch date, then never expires (until next touch) */
+                $option_value
+                    ->touch()
+                    ->expires(-1);
 
                 $html = array(
                     'success' => '1',

@@ -34,6 +34,11 @@ class Media_Application_Gallery_VideoController extends Application_Controller_D
 
                 $video->setData($datas)->save();
 
+                /** Update touch date, then never expires (until next touch) */
+                $option_value
+                    ->touch()
+                    ->expires(-1);
+
                 $html = array(
                     'success' => 1,
                     'is_new' => (int) $isNew,

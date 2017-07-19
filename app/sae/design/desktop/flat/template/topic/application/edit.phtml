@@ -4,10 +4,10 @@
 <?php $categories = $topic->getCategories() ?>
     <div class="form_content topics-edit">
         <div id="page-description">
-            <h3 class="title-editor no-border-radius">
+            <h3 class="title-editor no-border-radius title-feature-indent">
                 <?php echo $this->_('Page description'); ?>
             </h3>
-            <div class="container-fluid first-row-feature">
+            <div class="container-fluid first-row-feature content-feature">
                 <div class="form-horizontal">
                     <div class="form-group">
                         <div class="col-md-12">
@@ -17,13 +17,13 @@
                             </form>
                         </div>
                         <div class="col-md-12">
-                            <button class="button btn bt_save btn color-blue" onclick="editDescription()"><?php echo $this->_('Save'); ?></button>
+                            <button class="button btn bt_save btn color-blue pull-right" onclick="editDescription()"><?php echo $this->_('Save'); ?></button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="manage-topics">
+        <div id="manage-topics" class="margin-bkg">
             <h3 class="title-editor no-border-radius title-feature-indent">
                 <?php echo $this->_('Manage Topics'); ?>
                 <button type="button" id="add_category" class="btn edit_category color-blue toggle_design pull-right bt-header-right btn" rel="new" onclick="categories.edit(null);">
@@ -32,7 +32,7 @@
                     <input type="hidden" id="add_category_parent_id" name="parent_id" value="" />
                 </button>  
             </h3>
-            <div class="container-fluid first-row-feature">
+            <div class="container-fluid first-row-feature content-feature">
                 <ul id="category_root" class="tree list-group">
                     <?php foreach($categories as $category) : ?>
                         <?php echo $this->getLayout()->addPartial('root_category_'.$category->getId(), get_class($this), 'topic/application/edit/list.phtml')
@@ -281,5 +281,3 @@
             .bt_save{padding:5px;margin-top:5px;width:55px !important}
         </style>
     </div>
-    
-

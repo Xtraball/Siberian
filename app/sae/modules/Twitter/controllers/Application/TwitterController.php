@@ -2,6 +2,16 @@
 
 class Twitter_Application_TwitterController extends Application_Controller_Default
 {
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "editpost" => array(
+            "tags" => array(
+                "homepage_app_#APP_ID#"
+            ),
+        )
+    );
 
     public function editpostAction() {
 
@@ -33,6 +43,11 @@ class Twitter_Application_TwitterController extends Application_Controller_Defau
 
                 $twitter->setData($data)->save();
 
+                /** Update touch date, then never expires (until next touch) */
+                $option_value
+                    ->touch()
+                    ->expires(-1);
+
                 $html = array(
                     'success' => '1',
                     'success_message' => $this->_('Info successfully saved'),
@@ -50,7 +65,7 @@ class Twitter_Application_TwitterController extends Application_Controller_Defau
                 );
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+            $this->_sendJson($html);
 
         }
 
@@ -76,7 +91,8 @@ class Twitter_Application_TwitterController extends Application_Controller_Defau
         } catch (Exception $e) {
             $data = array('error' => 1, 'message' => $this->_($e->getMessage()), 'code' => $e->getCode());
         }
-        $this->_sendHtml($data);
+
+        $this->_sendJson($data);
     }
 
 }

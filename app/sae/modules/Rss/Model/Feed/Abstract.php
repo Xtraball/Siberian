@@ -32,30 +32,42 @@ abstract class Rss_Model_Feed_Abstract extends Core_Model_Default {
                 $content->loadHTML($entry->getContent());
                 $content->encoding = 'utf-8';
                 $description = $content->documentElement;
-                $imgs = $description->getElementsByTagName('img');
 
-                foreach($imgs as $k => $img) {
-                    $src = $img->getAttribute('src');
+                if($picture === null) {
+                  $imgs = $description->getElementsByTagName('img');
 
-                    if($src) {
-                        if(stripos($src, "//") === 0) {
-                            preg_match("/^(https?):\/\//", $this->getLink(), $matches);
+                  foreach($imgs as $k => $img) {
+                      $src = $img->getAttribute('src');
 
-                            if($matches && $matches[1]) {
-                                $src = ($matches[1]).":".$src;
-                                $img->setAttribute("src", $src);
-                            }
-                        }
+                      if($src) {
+                          if(stripos($src, "//") === 0) {
+                              preg_match("/^(https?):\/\//", $this->getLink(), $matches);
 
-                        if(stripos($src, ".gif") === false && $k === 0) {
-                            $picture = $src;
-                            $img->parentNode->removeChild($img);
-                        }
-                    }
+                              if($matches && $matches[1]) {
+                                  $src = ($matches[1]).":".$src;
+                                  $img->setAttribute("src", $src);
+                              }
+                          }
 
-                    $img->removeAttribute('width');
-                    $img->removeAttribute('height');
+                          $width = $img->getAttribute("width");
+                          $height = $img->getAttribute("height");
 
+                          if(stripos($src, ".gif") === false && $k === 0) {
+                              if(
+                                  (($width || $height) && // check if size exists
+                                  ($width > 5 && $height > 5)) || // and is minimum 5x5
+                                  ($width == null && $height == null) // if we have no size at all, consider it ok
+                              ) {
+                                  $picture = $src;
+                                  $img->parentNode->removeChild($img);
+                              }
+                          }
+                      }
+
+                      $img->removeAttribute('width');
+                      $img->removeAttribute('height');
+
+                  }
                 }
 
                 $as = $description->getElementsByTagName('a');

@@ -1,101 +1,116 @@
-App.config(function($stateProvider, HomepageLayoutProvider) {
+/*global
+ App, angular, BASE_PATH
+ */
 
-    $stateProvider.state('set-meal-list', {
-        url: BASE_PATH+"/catalog/mobile_setmeal_list/index/value_id/:value_id",
-        controller: 'SetMealListController',
-        templateUrl: function(param) {
-            var layout_id = HomepageLayoutProvider.getLayoutIdForValueId(param.value_id);
-            switch(layout_id) {
-                case "2": layout_id = "l5"; break;
-                case "3": layout_id = "l6"; break;
-                case "1":
-                default: layout_id = "l3";
-            }
-            return 'templates/html/'+layout_id+'/list.html';
-        }
-    }).state('set-meal-view', {
-        url: BASE_PATH+"/catalog/mobile_setmeal_view/index/value_id/:value_id/set_meal_id/:set_meal_id",
-        controller: 'SetMealViewController',
-        templateUrl: "templates/catalog/setmeal/l1/view.html"
+angular.module("starter").controller("SetMealListController", function($filter, $scope, $state, $stateParams, $timeout,
+                                                                       SetMeal) {
+
+    angular.extend($scope, {
+        is_loading          : true,
+        value_id            : $stateParams.value_id,
+        displayed_per_page  : 10,
+        load_more           : false,
+        use_pull_refresh    : true,
+        pull_to_refresh     : false,
+        card_design         : false
     });
 
-}).controller('SetMealListController', function($filter, $scope, $state, $stateParams, SetMeal) {
+    SetMeal.setValueId($stateParams.value_id);
 
-    $scope.$on("connectionStateChange", function(event, args) {
-        if(args.isOnline == true) {
-            $scope.loadContent();
-        }
-    });
+    $scope.loadContent = function(loadMore) {
 
-    $scope.is_loading = true;
-    $scope.can_load_older_posts = true;
-    $scope.collection = new Array();
-    $scope.value_id = SetMeal.value_id = $stateParams.value_id;
+        $scope.is_loading = true;
 
-    $scope.loadContent = function() {
+        SetMeal.findAll(SetMeal.collection.length, false)
+            .then(function(data) {
+                if(data.collection.length) {
+                    SetMeal.collection              = SetMeal.collection.concat(data.collection);
+                    $scope.collection               = SetMeal.collection;
+                    $scope.collection_chunks        = $filter("chunk")($scope.collection, 2);
+                } else {
+                    $scope.collection               = SetMeal.collection;
+                    $scope.collection_chunks        = $filter("chunk")($scope.collection, 2);
+                }
 
-        SetMeal.findAll($scope.collection.length).success(function(data) {
-            $scope.collection = $scope.collection.concat(data.collection);
-            $scope.collection_chunks = $filter("chunk")($scope.collection, 2);
-            $scope.page_title = data.page_title;
-            $scope.can_load_older_posts = data.collection.length > 0;
-        }).finally(function() {
-            $scope.is_loading = false;
-            $scope.$broadcast('scroll.infiniteScrollComplete');
-        });
+                $scope.displayed_per_page = data.displayed_per_page;
+                $scope.page_title         = data.page_title;
+
+                return data;
+
+            }).then(function(data) {
+                if(loadMore) {
+                    $scope.$broadcast('scroll.infiniteScrollComplete');
+                }
+
+                $scope.is_loading = false;
+
+                $timeout(function() {
+                    $scope.load_more = (data.collection.length === $scope.displayed_per_page);
+
+                }, 250);
+            });
 
     };
 
     $scope.loadMore = function() {
-        $scope.loadContent();
+        $scope.loadContent(true);
+    };
+
+    $scope.pullToRefresh = function() {
+        $scope.pull_to_refresh  = true;
+        $scope.load_more        = false;
+
+        SetMeal.findAll(0, true)
+            .then(function(data) {
+
+                if(data.collection) {
+                    SetMeal.collection = data.collection;
+                    $scope.collection  = SetMeal.collection;
+                }
+
+                $scope.load_more = (data.collection.length === data.displayed_per_page);
+
+            }).then(function() {
+                $scope.$broadcast('scroll.refreshComplete');
+                $scope.pull_to_refresh = false;
+            });
     };
 
     $scope.showItem = function(item) {
-        $state.go("set-meal-view", {value_id: $scope.value_id, set_meal_id: item.id});
+        $state.go("set-meal-view", {
+            value_id: $scope.value_id,
+            set_meal_id: item.id
+        });
     };
 
-    $scope.loadContent();
+    $scope.loadContent(false);
 
-}).controller('SetMealViewController', function($scope, $sbhttp, $stateParams, SetMeal/*, Application*/) {
+}).controller('SetMealViewController', function($ionicHistory, $scope, $stateParams, Loader, SetMeal) {
 
-    $scope.$on("connectionStateChange", function(event, args) {
-        if(args.isOnline == true) {
-            $scope.loadContent();
-        }
+    angular.extend($scope, {
+        is_loading: false,
+        value_id: $stateParams.value_id
     });
 
-    $scope.is_loading = false;
-    $scope.value_id = SetMeal.value_id = $stateParams.value_id;
-    SetMeal.set_meal_id = $stateParams.set_meal_id;
+    SetMeal.setValueId($stateParams.value_id);
+    SetMeal.setSetMealId($stateParams.set_meal_id);
 
     $scope.loadContent = function() {
 
-        $scope.is_loading = true;
+        Loader.show();
 
-        SetMeal.find($stateParams.set_meal_id).success(function(set_meal) {
+        SetMeal.getSetMeal()
+            .then(function(set_meal) {
+                $scope.set_meal     = set_meal;
+                $scope.page_title   = set_meal.name;
 
-            $scope.set_meal = set_meal;
-            $scope.page_title = set_meal.name;
+            }, function() {
+                $ionicHistory.goBack();
 
-            //if($scope.set_meal.social_sharing_active==1 && Application.handle_social_sharing) {
-            //    $scope.header_right_button = {
-            //        picto_url: Pictos.get("share", "header"),
-            //        hide_arrow: true,
-            //        action: function () {
-            //            $scope.sharing_data = {
-            //                "page_name": $scope.set_meal.name,
-            //                "picture": $scope.set_meal.picture ? $scope.set_meal.picture : null,
-            //                "content_url": null
-            //            }
-            //            Application.socialShareData($scope.sharing_data);
-            //        },
-            //        height: 25
-            //    };
-            //}
+            }).then(function() {
 
-        }).finally($scope.showError).finally(function() {
-            $scope.is_loading = false;
-        });
+                Loader.hide();
+            });
 
     };
 

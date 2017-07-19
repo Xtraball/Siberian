@@ -13,28 +13,8 @@ class Weblink_Mobile_MultiController extends Application_Controller_Mobile_Defau
     public function findAction() {
 
         $option = $this->getCurrentOptionValue();
-        $weblink = $option->getObject();
-        $data = array();
-
-        $data["weblink"] = array(
-            "cover_url" => $weblink->getCoverUrl() ? $this->getRequest()->getBaseUrl().$weblink->getCoverUrl() : null,
-            "links" => array()
-        );
-
-        foreach($weblink->getLinks() as $link) {
-            $data["weblink"]["links"][] = array(
-                "id" => $link->getId(),
-                "title" => $link->getTitle(),
-                "picto_url" => $link->getPictoUrl() ? $this->getRequest()->getBaseUrl().$link->getPictoUrl() : null,
-                "url" => $link->getUrl(),
-                "hide_navbar" => $link->getHideNavbar(),
-                "use_external_app" => $link->getUseExternalApp()
-            );
-        }
-
-        $data['page_title'] = $option->getTabbarName();
-
-        $this->_sendHtml($data);
+        $payload = $option->getObject()->getEmbedPayload($option);
+        $this->_sendJson($payload);
 
     }
 

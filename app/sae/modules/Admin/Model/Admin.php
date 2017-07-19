@@ -12,4 +12,8 @@ class Admin_Model_Admin extends Admin_Model_Admin_Abstract
         return $this->_subaccounts;
 
     }
+
+    public function isAllowedToManageTour() {
+        return $this->getId() ? (bool)$this->getTable()->isAllowedToManageTour($this->getId()) : false;
+    }
 }

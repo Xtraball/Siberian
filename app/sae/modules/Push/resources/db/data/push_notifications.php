@@ -24,7 +24,8 @@ $data = array(
     'mobile_uri'    => "push/mobile_list/",
     'only_once'     => 1,
     'is_ajax'       => 1,
-    'position'      => 130
+    'position'      => 130,
+    "use_my_account" => 1,
 );
 
 $option = Siberian_Feature::install($category, $data, array('code'));

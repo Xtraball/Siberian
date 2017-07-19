@@ -35,14 +35,15 @@ class Application_BackofficeController extends Backoffice_Controller_Default
                     if(!$application->getId()) {
                         throw new Exception(__('An error occurred while saving the application. Please try again later.'));
                     }
+
+                    $application->addData($datas)
+                        ->save()
+                    ;
                 }
+
                 if(empty($datas['bundle_id'])) {
                     throw new Exception(__('The Bundle Id is required'));
                 }
-
-                $application->addData($datas)
-                    ->save()
-                ;
 
                 $this->getSession()->addSuccess(__('The application has been successfully saved'));
                 $this->_redirect('application/backoffice/list');

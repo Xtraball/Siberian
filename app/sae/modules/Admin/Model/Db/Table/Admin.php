@@ -42,6 +42,17 @@ class Admin_Model_Db_Table_Admin extends Core_Model_Db_Table {
 
     }
 
+    public function isAllowedToManageTour($admin_id) {
+
+        $select = $this->_db->select()
+            ->from($this->_name, array("is_allowed_to_manage_tour"))
+            ->where("admin_id = ?", $admin_id);
+        ;
+
+        return $this->_db->fetchOne($select);
+
+    }
+
     public function getAvailableRole() {
         $select = $this->_db->select()
             ->from("acl_role", array("role_id","code","label"))

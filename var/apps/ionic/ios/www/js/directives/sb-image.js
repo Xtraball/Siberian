@@ -1,6 +1,6 @@
 "use strict";
 
-App.directive('sbImage', function($timeout) {
+angular.module("starter").directive('sbImage', function($timeout) {
     return {
         restrict: 'A',
         scope: {

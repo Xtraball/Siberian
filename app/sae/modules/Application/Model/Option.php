@@ -126,11 +126,32 @@ class Application_Model_Option extends Core_Model_Default
         return parent::delete();
     }
 
+    /**
+     * Shortcut for embed payload
+     *
+     * @param null $request
+     * @return bool
+     */
+    public function getEmbedPayload($request = null) {
+        if($request !== null) {
+            $this->setBaseUrl($request->getBaseUrl());
+            $this->setRequest($request);
+        } else {
+            $this->setBaseUrl("");
+            $this->setRequest(null);
+        }
+
+        return $this->getObject()->getEmbedPayload($this);
+    }
+
     public function getObject() {
         if(!$this->_object) {
             if($class = $this->getModel()) {
 
                 try {
+                    if(!class_exists($class)) {
+                        throw new Siberian_Exception("The current class doesn't exists {$class}");
+                    }
                     $this->_object = new $class();
                     $this->_object->find($this->getValueId(), 'value_id');
                 } catch (Exception $e) {

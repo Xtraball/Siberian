@@ -2,14 +2,14 @@
 <?php $websites = $event->getWebsites(); ?>
 <div id="add_custom_event" class="custom_event">
     <div>
-        <h3 class="title-editor border-blue">
+        <h3 class="title-editor border-blue text-center">
             <?php echo $event->getId() ? $this->_("Modify the event") : $this->_('Create a new event'); ?>
         </h3>
         <div class="container-fluid">
             <form action="<?php echo $this->getUrl('event/application_event/edit'); ?>" method="post" id="customEventForm" class="form-horizontal">
                 <div class="form-group first-row-feature">
                     <div class="col-md-12">
-                        <button type="button" id="hide_form" class="color-blue btn pull-left" onclick="custom.cancel();"><i class="fa fa-arrow-left"></i></button>
+                        <button type="button" id="hide_form" class="color-blue btn pull-left" onclick="custom.cancel();"><i class="fa fa-angle-left"></i></button>
                         <button type="button" class="btn color-blue pull-right" onclick="custom.save();">OK</button>
                     </div>
                 </div>
@@ -114,7 +114,7 @@
                     <div class="col-sm-8">
                         <input class="custom_event_website_label_<?php echo $k ?> input-flat" type="text" id="custom_event_website_label_<?php echo $k ?>" value="<?php echo $website["label"]; ?>" name="websites[<?php echo $k ?>][label]" />
                         <input class="custom_event_website_url_<?php echo $k ?> input-flat" type="text" id="custom_event_website_url_<?php echo $k ?>" value="<?php echo $website["url"]; ?>" name="websites[<?php echo $k ?>][url]" />
-                        <a class="remove remove_website" href="javascript:void(0)" rel="<?php echo $k ?>" onclick="custom.removeWebsite('<?php echo $k ?>')"><i class="fa fa-times"></i></a>
+                        <a class="remove remove_website btn color-blue" href="javascript:void(0)" rel="<?php echo $k ?>" onclick="custom.removeWebsite('<?php echo $k ?>')"><i class="fa fa-times"></i></a>
                     </div>
                 </div>
                 <?php endforeach; ?>
@@ -127,7 +127,7 @@
                         <div class="col-sm-8">
                             <input class="custom_event_website_new input-flat" type="text" id="custom_event_website_label_new" value="" name="websites[new][label]" placeholder="<?php echo $this->_("Label"); ?>" />
                             <input class="custom_event_website_new input-flat" type="text" id="custom_event_website_url_new" value="" name="websites[new][url]" placeholder="<?php echo $this->_("URL"); ?>" />
-                            <a class="remove remove_website" href="javascript:void(0)" rel="new" onclick="custom.removeWebsite('new')"><i class="fa fa-times"></i></a>
+                            <a class="remove remove_website btn color-blue" href="javascript:void(0)" rel="new" onclick="custom.removeWebsite('new')"><i class="fa fa-times"></i></a>
                         </div>
                     </div>
                 </div>
@@ -169,6 +169,9 @@
                     <div class="col-sm-8 text-center" id="event_picture">
                         <?php if($event->getPicture()) : ?>
                             <img src="<?php echo Application_Model_Application::getImagePath().$event->getPicture(); ?>" width="150" height="100" />
+                        <?php endif; ?>
+                        <?php if($event->getPicture()) : ?>
+                            <button type="button" onclick="custom.removepicture();" id="delete_picture" class="color-blue btn"><i class="fa fa-times"></i></button>
                         <?php endif; ?>
                     </div>
                 </div>

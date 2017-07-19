@@ -37,7 +37,10 @@ class System_Backoffice_Config_GeneralController extends System_Controller_Backo
         "application_owner_use_ads",
         "editor_design",
         "ios_autobuild_key",
-        "facebook_import_active"
+        "bootstraptour_active",
+        "facebook_import_active",
+        "app_default_identifier_android",
+        "app_default_identifier_ios"
     );
 
     public function loadAction() {

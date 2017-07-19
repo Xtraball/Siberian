@@ -5,9 +5,9 @@
 <?php $custom_links = Siberian_Module::getEditorMenus(); ?>
 <?php if($this->getApplication()) : ?>
 <!-- Sidebar -->
-<div id="left-sidebar-wrapper" class="bkg-sidebar-left">
+<div id="left-sidebar-wrapper" class="bkg-sidebar-left sb-tour">
     <ul class="sidebar-nav">
-        <li class="sidebar-brand">
+        <li id="sb-tour-app-name" class="sidebar-brand sb-tour">
             <img id="header_app_icon" src="<?php echo $this->getApplication()->getIcon(); ?>" class="icon"/>
             <span id="header_app_name"><?php echo $this->getApplication()->getShortName(); ?></span>
         </li>
@@ -19,39 +19,41 @@
                     <i class="fa fa-pencil"></i>
                     <?php echo __('Editor'); ?>
                     <i class="fa <?php if (in_array($current_link, $editor_menu)) echo "fa-angle-down"; else echo "fa-angle-right"; ?>"></i>
+                    <?php echo $this->_('Create'); ?>
+                    <i class="fa <?php if (in_array($current_link, array('editor_design','editor_colors','editor_features','editor_application','editor_publication'))) echo "fa-angle-down"; else echo "fa-angle-right"; ?>"></i>
                 </a>
                 <div id="shortcuts-sub-1" class="collapse sub-bar<?php if (in_array($current_link, $editor_menu)) echo " in"; ?>">
                   <?php if($this->_canAccess("editor_design")) : ?>
                         <a href="<?php echo $this->getUrl('application/customization_design_style/edit'); ?>" class="block header no-background<?php if($current_link == 'editor_design'): ?> font-blue<?php endif; ?>">
-                            <i class="fa fa-chevron-circle-right"></i>
+                            <i class="fa fa-caret-right"></i>
                             <?php echo __("Design"); ?>
                         </a>
                     <?php endif; ?>
 
                     <?php if($this->_canAccess("editor_colors")) : ?>
                         <a href="<?php echo $this->getUrl('application/customization_design_colors/edit'); ?>" class="block header no-background<?php if($current_link == 'editor_colors'): ?> font-blue<?php endif; ?>">
-                            <i class="fa fa-chevron-circle-right"></i>
+                            <i class="fa fa-caret-right"></i>
                             <?php echo __('Colors'); ?>
                         </a>
                     <?php endif; ?>
 
                     <?php if($this->_canAccess("editor_features")) : ?>
                         <a href="<?php echo $this->getUrl('application/customization_features/list'); ?>" class="block header no-background<?php if($current_link == 'editor_features'): ?> font-blue<?php endif; ?>">
-                            <i class="fa fa-chevron-circle-right"></i>
+                            <i class="fa fa-caret-right"></i>
                             <?php echo __('Features'); ?>
                         </a>
                     <?php endif; ?>
 
                     <?php if($this->_canAccess("editor_application")) : ?>
                         <a href="<?php echo $this->getUrl('application/customization_publication_app'); ?>" class="block header no-background<?php if($current_link == 'editor_application'): ?> font-blue<?php endif; ?>">
-                            <i class="fa fa-chevron-circle-right"></i>
+                            <i class="fa fa-caret-right"></i>
                             <?php echo __('Application'); ?>
                         </a>
                     <?php endif; ?>
 
                     <?php if($this->_canAccess("editor_publication")) : ?>
                         <a href="<?php echo $this->getUrl('application/customization_publication_infos'); ?>" class="block header no-background<?php if($current_link == 'editor_publication'): ?> font-blue<?php endif; ?>">
-                            <i class="fa fa-chevron-circle-right"></i>
+                            <i class="fa fa-caret-right"></i>
                             <?php echo __('Publication'); ?>
                         </a>
                     <?php endif; ?>
@@ -64,7 +66,6 @@
             <a href="<?php echo $this->getUrl('application/promote'); ?>" class="<?php if($current_link == 'promote'): ?> active<?php endif; ?>">
                 <i class="fa fa-bullhorn"></i>
                 <?php echo __('Promote'); ?>
-                <i class="fa fa-angle-right"></i>
             </a>
         </li>
         <?php endif; ?>
@@ -98,7 +99,6 @@
             <a href="<?php echo $this->getUrl('customer/application/list'); ?>" class="<?php if($current_link == 'customer'): ?> active<?php endif; ?>">
                 <i class="fa fa-users"></i>
                 <?php echo __('Users'); ?>
-                <i class="fa fa-angle-right"></i>
             </a>
         </li>
         <?php endif; ?>
@@ -108,9 +108,9 @@
                 <a href="#shortcuts-sub-2" data-toggle="collapse" class="collapsed down">
                     <i class="fa fa-cogs"></i>
                     <?php echo __('Settings'); ?>
-                    <i class="fa <?php if (in_array($current_link, array('settings_advanced', 'settings_tc','settings_facebook','settings_domain','settings_message','settings_import'))) echo "fa-angle-down"; else echo "fa-angle-right"; ?>"></i>
+                    <i class="fa <?php if (in_array($current_link, array('settings_advanced', 'settings_apis', 'settings_tc','settings_facebook', 'settings_advanced', 'settings_domain','settings_message','settings_import'))) echo "fa-angle-down"; else echo "fa-angle-right"; ?>"></i>
                 </a>
-                <div id="shortcuts-sub-2" class="collapse sub-bar<?php if (in_array($current_link, array('settings_tc','settings_facebook','settings_domain','settings_message','settings_import'))) echo " in"; ?>">
+                <div id="shortcuts-sub-2" class="collapse sub-bar<?php if (in_array($current_link, array('settings_tc','settings_facebook','settings_domain','settings_message','settings_import','settings_advanced','settings_apis'))) echo " in"; ?>">
                     <?php if($this->_canAccess("editor_settings_tc")) : ?>
                         <a href="<?php echo $this->getUrl('application/settings_tc'); ?>" class="block header no-background<?php if($current_link == 'settings_tc'): ?> active<?php endif; ?>">
                             <i class="fa fa-file-text"></i>
@@ -171,7 +171,7 @@
             </div>
         </li>
         <?php endif; ?>
-        
+
     </ul>
     <?php endif; ?>
 </div>

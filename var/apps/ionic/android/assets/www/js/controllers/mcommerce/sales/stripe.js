@@ -1,25 +1,15 @@
-App.config(function ($stateProvider) {
+/*global
+ App, BASE_PATH, Stripe
+ */
 
-    $stateProvider.state('mcommerce-sales-stripe', {
-        url: BASE_PATH+"/mcommerce/mobile_sales_stripe/index/value_id/:value_id",
-        controller: 'MCommerceSalesStripeViewController',
-        templateUrl: "templates/mcommerce/l1/sales/stripe.html",
-        cache:false
-    });
-
-}).controller('MCommerceSalesStripeViewController', function ($ionicLoading, $ionicPopup, $location, $scope, $state, $stateParams, $timeout, $translate, Application, Customer, McommerceStripe, SafePopups) {
-
-    $scope.$on("connectionStateChange", function(event, args) {
-        if(args.isOnline == true) {
-            $scope.loadContent();
-        }
-    });
+angular.module("starter").controller("MCommerceSalesStripeViewController", function (Loader, $scope, $state,
+                                                              $stateParams, $timeout, $translate,
+                                                              Customer, McommerceStripe, Dialog) {
 
     $scope.is_loading = true;
-    $ionicLoading.show({
-        template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
-    });
-    $scope.value_id = McommerceStripe.value_id = $stateParams.value_id;
+    Loader.show();
+    $scope.value_id = $stateParams.value_id;
+    McommerceStripe.value_id = $stateParams.value_id;
     $scope.card = {};
     $scope.payment = {};
     $scope.payment.save_card = false;
@@ -27,30 +17,31 @@ App.config(function ($stateProvider) {
 
     $scope.loadContent = function () {
         $scope.guest_mode = Customer.guest_mode;
+        var cust_id = null;
         if(Customer.isLoggedIn()) {
-            var cust_id = Customer.id;
-        } else {
-            var cust_id = null;
+            cust_id = Customer.id;
         }
 
         //reset save card param
         $scope.payment.save_card = false;
 
-        McommerceStripe.find(cust_id).success(function (data) {
-            Stripe.setPublishableKey(data.publishable_key);
-            $scope.cart_total = data.total;
-            if(data.card && data.card.exp_year){
-                $scope.card = data.card;
-                $scope.payment.use_stored_card = true;
-            }
-        }).finally(function () {
-            $scope.is_loading = false;
-            $ionicLoading.hide();
-        });
+        McommerceStripe
+            .find(cust_id)
+            .then(function (data) {
+                Stripe.setPublishableKey(data.publishable_key);
+                $scope.cart_total = data.total;
+                if(data.card && data.card.exp_year){
+                    $scope.card = data.card;
+                    $scope.payment.use_stored_card = true;
+                }
+            }).then(function () {
+                $scope.is_loading = false;
+                Loader.hide();
+            });
 
     };
 
-    if(typeof Stripe == "undefined") {
+    if(typeof Stripe === "undefined") {
         var stripeJS = document.createElement('script');
         stripeJS.type = "text/javascript";
         stripeJS.src = "https://js.stripe.com/v2/";
@@ -63,34 +54,31 @@ App.config(function ($stateProvider) {
     }
 
     $scope.unloadcard = function () {
-        SafePopups.show("confirm",{
-            title: $translate.instant('Confirmation'),
-            template: $translate.instant("Do you confirm you want to remove your card?")
-        }).then(function(res){
-            if(res) {
-                $scope.is_loading = true;
-                $ionicLoading.show({
-                    template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
-                });
-                //we cannot be there without customer
-                McommerceStripe.removeCard(Customer.id).success(function (data) {
-                    $scope.oldcard = $scope.card;
-                    $scope.card = {};
-                    $scope.payment.use_stored_card = false;
-                }).finally(function () {
-                    $scope.is_loading = false;
-                    $ionicLoading.hide();
-                });
-            }
-        });
+        Dialog.confirm("Confirmation", "Do you confirm you want to remove your card?", ["Yes", "No"])
+            .then(function(result) {
+                if(result) {
+                    $scope.is_loading = true;
+                    Loader.show();
+                    //we cannot be there without customer
+                    McommerceStripe
+                        .removeCard(Customer.id)
+                        .then(function (data) {
+                            $scope.oldcard = $scope.card;
+                            $scope.card = {};
+                            $scope.payment.use_stored_card = false;
+                        }).then(function () {
+                            $scope.is_loading = false;
+                            Loader.hide();
+                        });
+                }
+            });
+
     };
 
     $scope.process = function () {
         if (!$scope.is_loading) {
             $scope.is_loading = true;
-            $ionicLoading.show({
-                template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
-            });
+            Loader.show();
             if ($scope.payment.use_stored_card) {
                 _process();
             } else {
@@ -104,14 +92,9 @@ App.config(function ($stateProvider) {
     var _stripeResponseHandler = function(status, response) {
         $timeout(function() {
             if (response.error) {
-                $ionicPopup.show({
-                    subTitle: response.error.message,
-                    buttons: [{
-                        text: $translate.instant("OK")
-                    }]
-                });
+                Dialog.alert("", response.error.message, "OK");
                 $scope.is_loading = false;
-                $ionicLoading.hide();
+                Loader.hide();
             } else {
                 $scope.card = {
                     token: response.id,
@@ -130,36 +113,26 @@ App.config(function ($stateProvider) {
     //function to make payment when all is ready
     var _process = function () {
         var data = {
-            "token": $scope.card.token,
-            "use_stored_card": $scope.payment.use_stored_card,
-            "save_card": $scope.payment.save_card,
-            "customer_id": Customer.id || null
+            "token"             : $scope.card.token,
+            "use_stored_card"   : $scope.payment.use_stored_card,
+            "save_card"         : $scope.payment.save_card,
+            "customer_id"       : Customer.id || null
         };
 
-        McommerceStripe.process(data).success(function (res) {
-            if (res) {
-                $state.go("mcommerce-sales-success", {value_id: $stateParams.value_id});
-            } else {
-                SafePopups.show("alert", {
-                    title: $translate.instant('Error'),
-                    template: "Unexpected error",
-                    buttons: [{
-                        text: $translate.instant("OK")
-                    }]
-                });
-            }
-        }).error(function (err) {
-            SafePopups.show("alert", {
-                title: $translate.instant('Error'),
-                template: "Unexpected error",
-                buttons: [{
-                    text: $translate.instant("OK")
-                }]
+        McommerceStripe
+            .process(data)
+            .then(function (res) {
+                if (res) {
+                    $state.go("mcommerce-sales-success", {value_id: $stateParams.value_id});
+                } else {
+                    Dialog.alert("Error", "Unexpected error", "OK");
+                }
+            }, function (err) {
+                Dialog.alert("Error", "Unexpected error", "OK");
+            }).then(function () {
+                $scope.is_loading = false;
+                Loader.hide();
             });
-        }).finally(function () {
-            $scope.is_loading = false;
-            $ionicLoading.hide();
-        });
     };
 
     $scope.right_button = {

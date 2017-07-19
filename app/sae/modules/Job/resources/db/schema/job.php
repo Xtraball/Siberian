@@ -45,7 +45,17 @@ $schemas['job'] = array(
         'type' => 'varchar(255)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-        'default' => 'Place',
+        'default' => 'Company',
+    ),
+    'default_radius' => array(
+        'type' => 'tinyint(2)',
+        'default' => 4,
+    ),
+    'distance_unit' => array(
+        'type' => 'varchar(4)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'km',
     ),
     'created_at' => array(
         'type' => 'datetime',

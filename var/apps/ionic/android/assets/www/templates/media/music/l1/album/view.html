@@ -1,6 +1,6 @@
-<ion-view class="audio-list">
+<ion-view sb-page-background class="audio-list">
     <ion-nav-title>{{ page_title }}</ion-nav-title>
-    <ion-content sb-background-image>
+    <ion-content>
 
         <div class="list" ng-show="album.tracks">
             <div class="item item-thumbnail-left item-custom" ng-click="play(0)">
@@ -15,7 +15,10 @@
                     </span>
                     - {{ album.totalDuration }}
                 </p>
-                <h2 class="item-note">{{ "Read all" | translate }}</h2>
+                <h2 class="item-note">
+                    <i class="icon ion-ios-play"></i>
+                    {{ "Listen to all" | translate }}
+                </h2>
             </div>
         </div>
 

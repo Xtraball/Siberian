@@ -5,11 +5,11 @@
 <div id="list" class="edit_page formulaire">
 
     <div class="cont_add_section form-horizontal">
-        <h3 class="title-editor no-border-radius">
+        <h3 class="title-editor no-border-radius title-feature-indent">
             <?php echo $this->_('Information'); ?>
         </h3>
         <div class="container-fluid">
-            <div id="form_email_config" style="<?php echo $sections->count(0) == 0 ? 'display:none' : ''?>" class="first-row-feature form-group">
+            <div id="form_email_config" style="<?php echo $sections->count(0) == 0 ? 'display:none' : ''?>" class="first-row-feature form-group content-feature">
                 <div class="col-sm-3">
                     <label for="form_email"><?php echo $this->_('Recipient email:'); ?> *</label>
                 </div>
@@ -17,9 +17,9 @@
                     <input type="email" class="input-flat" name="email" id="form_email" value="<?php echo $form->getEmail(); ?>" />
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-sm-12">
-                    <p class="first-row-feature">
+            <div class="row">
+                <div class="col-sm-12 subcontent content-feature">
+                    <p>
                         <?php echo $this->_("Form data will be sent to this email. Until you fill out this field, your form won't be displayed on client side."); ?>
                     </p>
                 </div>
@@ -27,14 +27,14 @@
         </div>
     </div>
 
-    <div class="cont_add_section">
-        <h3 class="title-editor no-border-radius">
+    <div class="cont_add_section margin-bkg">
+        <h3 class="title-editor no-border-radius title-feature-indent">
             <?php echo $this->_('Manage fields'); ?>
         </h3>
-        <div class="container-fluid">
+        <div class="container-fluid content-feature">
             <div class="row first-row-feature">
                 <div class="col-md-3">
-                    <button type="button" class="addSection color-blue btn" onclick="$('#create_section').fadeIn(300, function() {$('#section_name').focus()});"><i class="fa fa-plus-circle"></i> <?php echo $this->_('Add a section'); ?></button>
+                    <button type="button" class="addSection color-blue btn" onclick="$('#create_section').fadeIn(300, function() {$('#section_name').focus()});"><?php echo $this->_('Add a section'); ?></button>
                 </div>
                 <div class="col-md-9">
                     <div id="create_section" style="display: none;">
@@ -57,7 +57,7 @@
             </div>
         </div>
     </div>
-    <div id="sections" class="sections">
+    <div id="sections" class="sections container-fluid subcontent content-feature">
         <?php if ($sections->count() > 0) : ?>
             <?php foreach ($sections as $section) : ?>
                 <?php

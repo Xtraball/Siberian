@@ -137,7 +137,7 @@
     iframe: {
       attrs: {
         src: null, srcdoc: null, name: null, width: null, height: null,
-        sandbox: ["allow-top-navigation", "allow-same-origin", "allow-forms", "allow-scripts"],
+        sandbox: ["allow-top-navigation", "allow-same-origin", "allow-forms", "allow-scripts", "allow-modals"],
         seamless: ["", "seamless"]
       }
     },

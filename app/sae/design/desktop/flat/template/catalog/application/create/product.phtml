@@ -4,14 +4,14 @@
 <?php $children = $parent->getChildren(); ?>
 <?php $application = $this->getApplication(); ?>
 <div id="create_product" class="product">
-    <h3 class="title-editor border-blue">
+    <h3 class="title-editor border-blue text-center">
         <?php echo $product->getId() ? $this->_('Edit the product') : $this->_('Create a new product'); ?>
     </h3>
     <form action="<?php echo $this->getUrl('catalog/application_product/editpost'); ?>" method="post" id="productForm" class="subcontent form-horizontal">
         <div class="container-fluid">
             <div class="form-group">
                 <div class="col-md-12">
-                    <button type="button" id="hide_form" class="btn color-blue pull-left" onclick="product.cancel();"><i class="fa fa-arrow-left"></i></button>
+                    <button type="button" id="hide_form" class="btn color-blue pull-left" onclick="product.cancel();"><i class="fa fa-angle-left"></i></button>
                     <button type="submit" class="btn color-blue pull-right">OK</button>
                 </div>
             </div>
@@ -76,15 +76,15 @@
             </div>
         </div>
         <?php if(!$product->getId() OR $product->getData('type') == 'format') : ?>
-        <div class="product_formats">
-            <h3 class="title-editor border-blue title-feature-indent">
+        <div class="product_formats container-fluid">
+            <h3 class="title-editor title-feature-indent">
                 <?php echo $this->_('Product formats'); ?>
                 <?php if(!$product->getId()) : ?>
                     <input class='sb-tgl sb-tgl-flat color-blue' id='is_multiple' name='is_multiple' type='checkbox' <?php if($product->getData('type') == 'format') echo 'checked="checked"'; ?> onclick="product.toggleFormats();">
                     <label class='format-chk-tgl sb-tgl-btn color-blue' for='is_multiple' ></label>
                 <?php endif; ?>
             </h3>
-            <div id="list_format" class="container-fluid" <?php if($product->getData('type') != 'format') : ?> style="display:none;"<?php endif; ?>>
+            <div id="list_format" class="container-fluid content-feature" <?php if($product->getData('type') != 'format') : ?> style="display:none;"<?php endif; ?>>
                 <table class="table">
                     <col width="12%" />
                     <col width="38%" />
@@ -137,7 +137,7 @@
         <input type="hidden" id="picture" name="picture" value="<?php echo $product->getPicture(); ?>" />
     </form>
     <form action="<?php echo $this->getUrl('catalog/application_product/validatecrop'); ?>" method="post" id="validateCrop" class="form-horizontal">
-        <div class="row list subcontent">
+        <div class="container-fluid list subcontent">
             <div class="col-sm-3 col-xs-3" id="cont_delete_picture" >
                 <?php if($product->getPicture()) : ?>
                 <button type="button" onclick="product.removepicture();" id="delete_picture" class="btn color-blue"><i class="fa fa-times"></i></button>

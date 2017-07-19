@@ -1,4 +1,4 @@
-App.directive('sbAppLocked', function ($rootScope, $ionicHistory) {
+angular.module("starter").directive('sbAppLocked', function () {
     return {
         restrict: 'E',
         replace: true,

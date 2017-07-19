@@ -4,27 +4,46 @@ class Application_Mobile_Tc_ViewController extends Application_Controller_Mobile
 
     public function findAction() {
 
-        if($tc_id = $this->getRequest()->getParam("tc_id")) {
+        try {
 
-            try {
+            if($tc_id = $this->getRequest()->getParam("tc_id")) {
 
-                $tc = new Application_Model_Tc();
-                $tc->find($tc_id);
-                $data = array(
-                    "html_file_path" => $this->getRequest()->getBaseUrl().$tc->getHtmlFilePath(),
-                    "page_title" => __("Terms & Conditions")
-                );
+                try {
 
-            } catch(Exception $e) {
-                $data = array(
-                    "error" => 1,
-                    "message" => $e->getMessage()
-                );
+                    $tc = new Application_Model_Tc();
+                    $tc->find($tc_id);
+                    $data = array(
+                        "success"           => true,
+                        "page_title"        => __("Terms & Conditions"),
+                        "terms_conditions"  => $tc->getText(),
+
+                        /** Pre 5.0.0 backward compatibility. */
+                        "html_file_path"    => $this->getRequest()->getBaseUrl().$tc->getHtmlFilePath()
+                    );
+
+                } catch(Exception $e) {
+                    throw new Siberian_Exception(__("Unable to find TC with id %s.", $tc_id));
+                }
+
+            } else {
+                throw new Siberian_Exception(__("Missing parameters."));
             }
 
-            $this->_sendHtml($data);
+        } catch (Exception $e) {
+
+            $message = $e->getMessage();
+            $message = (empty($message)) ? __("%s An unknown error occurred, please try again later.", "Tc::findAction") : $message;
+
+            $data = array(
+                "error"     => true,
+                "message"   => $message
+            );
 
         }
+
+        $this->_sendJson($data);
+
+
 
     }
 

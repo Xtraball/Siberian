@@ -17,6 +17,52 @@ class Weblink_Model_Weblink extends Core_Model_Default {
         return $this;
     }
 
+    /**
+     * @param $option_value
+     * @return bool
+     */
+    public function getEmbedPayload($option_value) {
+
+        $payload = array(
+            "weblink"       => array(
+                "links"         => array(),
+                "cover_url"     => null,
+            ),
+            "page_title"    => $option_value->getTabbarName()
+        );
+
+        if($this->getId()) {
+
+            $payload["weblink"]["cover_url"] = null;
+            if($this->getCoverUrl()) {
+                $picture_file = Core_Model_Directory::getBasePathTo($this->getCoverUrl());
+                $payload["weblink"]["cover_url"] = Siberian_Image::open($picture_file)->inline("png");
+            }
+
+            foreach($this->getLinks() as $link) {
+
+                $picto_b64 = null;
+                if($link->getPictoUrl()) {
+                    $picture_file = Core_Model_Directory::getBasePathTo($link->getPictoUrl());
+                    $picto_b64 = Siberian_Image::open($picture_file)->inline("png");
+                }
+
+                $payload["weblink"]["links"][] = array(
+                    "id"                => $link->getId() * 1,
+                    "title"             => $link->getTitle(),
+                    "picto_url"         => $picto_b64,
+                    "url"               => $link->getUrl(),
+                    "hide_navbar"       => !!$link->getHideNavbar(),
+                    "use_external_app"  => !!$link->getUseExternalApp()
+                );
+            }
+
+        }
+
+        return $payload;
+
+    }
+
     public function find($id, $field = null) {
         parent::find($id, $field);
         $this->addLinks();

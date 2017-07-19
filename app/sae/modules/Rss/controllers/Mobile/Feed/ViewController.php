@@ -10,6 +10,9 @@ class Rss_Mobile_Feed_ViewController extends Application_Controller_Mobile_Defau
         $this->loadPartials($this->getFullActionName('_').'_l'.$this->_layout_id, false);
     }
 
+    /**
+     * @deprecated in Siberian 5.0
+     */
     public function findAction() {
 
         if($value_id = $this->getRequest()->getParam('value_id') AND $feed_id = $this->getRequest()->getParam('feed_id')) {

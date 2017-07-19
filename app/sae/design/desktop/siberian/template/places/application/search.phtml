@@ -16,7 +16,7 @@
 
     <section class="no-border-radius content-color content_editor container-fluid subcontent transition">
         <form method="post" id="search-settings-form"
-              action="<?php echo $this->getUrl('places/application/search-settings') ?>">
+              action="<?php echo $this->getUrl('places/application/searchsettings') ?>">
             <div class="form-group">
                 <div class="col-md-12">
                     <h3><?php echo $this->_('Enable search filters: '); ?></h3>
@@ -160,7 +160,7 @@
 
 <script>
     var submitSearchSettingsForm = function () {
-        reload($("#search-settings-form"), '<?php echo $this->getUrl('places/application/search-settings') ?>', true, function (datas) {
+        reload($("#search-settings-form"), '<?php echo $this->getUrl('places/application/searchsettings') ?>', true, function (datas) {
             if (datas.success) {
                 page.reload();
             }

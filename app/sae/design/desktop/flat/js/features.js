@@ -523,11 +523,11 @@ var _bindForms = function(default_parent, success_cb, error_cb) {
         var el = $(this);
         el.closest("h3").next(".feature-manage-items").stop().slideToggle(300, function() {
             if($(this).is(':visible')) {
-                el.children('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                el.children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
                 el.children('i').removeClass('icon-chevron-down').addClass('icon-chevron-up');
             }
             else {
-                el.children('i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                el.children('i').removeClass('fa-angle-up').addClass('fa-angle-down');
                 el.children('i').removeClass('icon-chevron-up').addClass('icon-chevron-down');
             }
         });
@@ -617,23 +617,6 @@ var _bindForms = function(default_parent, success_cb, error_cb) {
     /** Tooltip */
     $(default_parent+' .display_tooltip').tooltip();
 
-    $(default_parent+' .sb-form-checkbox').each(function() {
-        var el = $(this);
-        if(!el.hasClass('flatbox')) {
-            el.parent().addClass("control control--checkbox");
-            el.parent().append('<div class="'+el.attr("color")+' control__indicator"></div>');
-            el.addClass('flatbox');
-        }
-    });
-
-    $(default_parent+' .sb-form-radio').each(function() {
-        var el = $(this);
-        if(!el.hasClass('flatbox')) {
-            el.parent().addClass("control control--radio");
-            el.parent().append('<div class="'+el.attr("color")+' control__indicator"></div>');
-            el.addClass('flatbox');
-        }
-    });
 
     /** Range/Slider inputs with indicator */
     $("input[type=range].sb-slider").on("change input", function() {

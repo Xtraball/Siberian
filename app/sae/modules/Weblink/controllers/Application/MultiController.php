@@ -3,6 +3,17 @@
 class Weblink_Application_MultiController extends Application_Controller_Default
 {
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "editpost" => array(
+            "tags" => array(
+                "homepage_app_#APP_ID#"
+            ),
+        )
+    );
+
     public function editpostAction() {
 
         if($datas = $this->getRequest()->getPost()) {
@@ -122,6 +133,11 @@ class Weblink_Application_MultiController extends Application_Controller_Default
                         ->toHtml()
                     ;
                 }
+
+                /** Update touch date, then never expires (until next touch) */
+                $option_value
+                    ->touch()
+                    ->expires(-1);
 
             }
             catch(Exception $e) {

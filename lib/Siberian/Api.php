@@ -33,6 +33,10 @@ class Siberian_Api {
             "clearcache" => "Clear cache",
             "clearlog" => "Clear logs",
         ),
+        "push" => array(
+            "list" => "List available applications",
+            "send" => "Send global push notifications",
+        ),
     );
 
     /**
@@ -42,6 +46,7 @@ class Siberian_Api {
         "application" => "Applications",
         "user" => "Users",
         "backoffice" => "Backoffice options",
+        "push" => "Push notifications",
     );
 
     /**

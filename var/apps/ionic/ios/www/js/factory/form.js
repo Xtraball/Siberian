@@ -1,30 +1,70 @@
+/*global
+    App, angular
+ */
 
-App.factory('Form', function($rootScope, $sbhttp, Url) {
+/**
+ * Form
+ *
+ * @author Xtraball SAS
+ */
+angular.module("starter").factory("Form", function($pwaRequest) {
 
-    var factory = {};
+    var factory = {
+        value_id: null,
+        extendedOptions: {}
+    };
 
-    factory.value_id = null;
+    /**
+     *
+     * @param value_id
+     */
+    factory.setValueId = function(value_id) {
+        factory.value_id = value_id;
+    };
+
+    /**
+     *
+     * @param options
+     */
+    factory.setExtendedOptions = function(options) {
+        factory.extendedOptions = options;
+    };
+
+    /**
+     * Pre-Fetch feature.
+     */
+    factory.preFetch = function() {
+        factory.findAll();
+    };
 
     factory.findAll = function() {
 
-        if(!this.value_id) return;
+        if(!this.value_id) {
+            return $pwaRequest.reject("[Factory::Form.findAll] missing value_id");
+        }
 
-        return $sbhttp({
-            method: 'GET',
-            url: Url.get("form/mobile_view/find", {value_id: this.value_id}),
-            cache: !$rootScope.isOverview,
-            responseType:'json'
-        });
+        return $pwaRequest.get("form/mobile_view/find", angular.extend({
+            urlParams: {
+                value_id: this.value_id
+            }
+        }, factory.extendedOptions));
     };
 
     factory.post = function (form) {
 
-        if (!this.value_id) return;
+        if (!this.value_id) {
+            return $pwaRequest.reject("[Factory::Form.post] missing value_id");
+        }
 
-        var url = Url.get("form/mobile_view/post", {value_id: this.value_id});
-        var data = {form: form};
-
-        return $sbhttp.post(url, data);
+        return $pwaRequest.post("form/mobile_view/post", {
+            urlParams: {
+                value_id: this.value_id
+            },
+            data: {
+                "form": form
+            },
+            cache: false
+        });
     };
 
     return factory;

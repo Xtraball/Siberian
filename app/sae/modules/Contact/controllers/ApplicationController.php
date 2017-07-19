@@ -10,6 +10,7 @@ class Contact_ApplicationController extends Application_Controller_Default
             "tags" => array(
                 "feature_paths_valueid_#VALUE_ID#",
                 "assets_paths_valueid_#VALUE_ID#",
+                "homepage_app_#APP_ID#",
             ),
         ),
     );
@@ -76,6 +77,11 @@ class Contact_ApplicationController extends Application_Controller_Default
                 }
 
                 $contact->save();
+
+                /** Update touch date, then never expires (until next touch) */
+                $option_value
+                    ->touch()
+                    ->expires(-1);
 
                 $html = array(
                     'success' => '1',

@@ -20,7 +20,7 @@ class Places_Model_Place extends Core_Model_Default {
     protected $float_validator;
     protected $int_validator;
 
-    protected $_is_cacheable = true;
+    protected $_is_cacheable = false;
 
     public function __construct($params = array()) {
         parent::__construct($params);
@@ -35,6 +35,41 @@ class Places_Model_Place extends Core_Model_Default {
      */
     public function availableOffline() {
         return "partial";
+    }
+
+    /**
+     * @param $option_value
+     * @return bool|array
+     */
+    public function getEmbedPayload($option_value) {
+
+        $payload = array(
+            "page_title"    => $option_value->getTabbarName(),
+            "settings"      => array()
+        );
+
+        if($this->getId()) {
+
+            $payload["settings"] = array(
+                "tags" => array()
+            );
+
+            $metadata = $option_value->getMetadatas();
+            foreach ($metadata as $meta) {
+                $payload["settings"][$meta->getCode()] = $meta->getPayload();
+            }
+
+            $tags = $option_value->getOwnTags(new Cms_Model_Application_Page());
+            foreach ($tags as $tag) {
+                $payload["settings"]["tags"][] = strtolower(trim($tag->getName()));
+            }
+
+            $payload["settings"]["tags"] = array_unique($payload["settings"]["tags"]);
+
+        }
+
+        return $payload;
+
     }
 
     /**
@@ -108,26 +143,19 @@ class Places_Model_Place extends Core_Model_Default {
 
             $paths[] = $option_value->getPath("places/mobile_list/findall", $params, false);
 
-            // Places view paths
-            $pageRepository = new Cms_Model_Application_Page();
-            $pages = $pageRepository->findAll(array('value_id' => $value_id));
+            $db = Zend_Db_Table::getDefaultAdapter();
+            $request = "
+SELECT cap.page_id AS p_page_id, capba.value_id AS a_value_id
+FROM cms_application_page AS cap
+INNER JOIN cms_application_page_block AS capb ON capb.page_id = cap.page_id
+INNER JOIN cms_application_page_block_address AS capba ON capb.value_id = capba.value_id
+WHERE cap.value_id = {$value_id}
+";
 
-            foreach($pages as $page) {
-
-                $blocks = $page->getBlocks();
-
-                foreach($blocks as $block) {
-
-                    if($block->getType() == "address") {
-                        $params = array(
-                            "page_id" => $page->getId(),
-                            "value_id" => $value_id
-                        );
-                        $paths[] = $option_value->getPath("cms/mobile_page_view/findall", $params, false);
-                    }
-
-                }
-
+            $places = $db->fetchAll($request);
+            foreach($places as $place) {
+                $paths[] = sprintf("/cms/mobile_page_view/findall/page_id/%s/value_id/%s",
+                    $place["p_page_id"], $place["a_value_id"]);
             }
 
             $this->cache->save($paths, $cache_id,
@@ -158,7 +186,14 @@ class Places_Model_Place extends Core_Model_Default {
             $pageRepository = new Cms_Model_Application_Page();
             $pages = $pageRepository->findAll(array('value_id' => $value_id));
 
+            $count = 0;
             foreach($pages as $page) {
+                $count++;
+
+                if($count > 20) {
+                    // unmanageable over 20 records ...
+                    break;
+                }
 
                 $blocks = $page->getBlocks();
 
@@ -535,7 +570,7 @@ class Places_Model_Place extends Core_Model_Default {
      * @param $position
      * @return array
      */
-    public function asJson($controller, $position) {
+    public function asJson($controller, $position, $option_value, $base_url = "") {
         $address = $this->getAddressBlock();
 
         if(!$address) {
@@ -543,38 +578,90 @@ class Places_Model_Place extends Core_Model_Default {
         }
 
         $url = $controller->getPath("cms/mobile_page_view/index", array(
-            "value_id" => $this->getPage()->getValueId(),
-            "page_id" => $this->getPage()->getId()
+            "value_id"  => $this->getPage()->getValueId(),
+            "page_id"   => $this->getPage()->getId()
         ));
+
+        $page = new Cms_Model_Application_Page();
+        $page->find($this->getPage()->getId());
+
+        $blocks = $page->getBlocks();
+        $json = array();
+
+        foreach($blocks as $block) {
+            $json[] = $block->_toJson($base_url);
+        }
 
         $entity = $this->int_validator->isValid($this->getId()) ? $this : $this->_page;
 
+        $embed_payload = array(
+            "blocks"                    => $json,
+            "page"                      => array(
+                "title"         => $entity->getTitle(),
+                "subtitle"      => $entity->getContent(),
+                "picture"       => $entity->getPictureUrl() ? $controller->getRequest()->getBaseUrl() . $entity->getPictureUrl() : null,
+                "show_image"    => (boolean) $this->getPage()->getMetadataValue('show_image'),
+                "show_titles"   => (boolean) $this->getPage()->getMetadataValue('show_titles'),
+            ),
+            "page_title"                => $page->getTitle() ? $page->getTitle() : $option_value->getTabbarName(),
+            "picture"                   => $page->getPictureUrl(),
+            "social_sharing_active"     => $option_value->getSocialSharingIsActive()
+        );
+
         $representation = array(
-            "id" => $entity->getPageId(),
-            "title" => $entity->getTitle(),
-            "subtitle" => $entity->getContent(),
-            "picture" => $entity->getPictureUrl() ? $controller->getRequest()->getBaseUrl() . $entity->getPictureUrl() : null,
-            "thumbnail" => $entity->getThumbnailUrl() ? $controller->getRequest()->getBaseUrl() . $entity->getThumbnailUrl() : null,
-            "url" => $url,
-            "address" => array(
-                "id" => $address->getId(),
-                "position" => $address->getPosition(),
-                "block_id" => $address->getBlockId(),
-                "label" => $address->getLabel(),
-                "address" => $address->getAddress(),
-                "latitude" => $address->getLatitude(),
-                "longitude" => $address->getLongitude(),
-                "show_address" => !!($address->getShowAddress()),
-                "show_geolocation_button" => !!($address->getShowGeolocationButton())
+            "id"            => (integer) $entity->getPageId(),
+            "title"         => $entity->getTitle(),
+            "subtitle"      => $entity->getContent(),
+            "picture"       => $entity->getPictureUrl() ? $controller->getRequest()->getBaseUrl() . $entity->getPictureUrl() : null,
+            "thumbnail"     => $entity->getThumbnailUrl() ? $controller->getRequest()->getBaseUrl() . $entity->getThumbnailUrl() : null,
+            "url"           => $url,
+            "address"       => array(
+                "id"                        => (integer) $address->getId(),
+                "position"                  => $address->getPosition(),
+                "block_id"                  => (integer) $address->getBlockId(),
+                "label"                     => $address->getLabel(),
+                "address"                   => $address->getAddress(),
+                "latitude"                  => $address->getLatitude(),
+                "longitude"                 => $address->getLongitude(),
+                "show_address"              => (boolean) $address->getShowAddress(),
+                "show_geolocation_button"   => (boolean) $address->getShowGeolocationButton()
+            ),
+            "show_image"    => (boolean) $this->getPage()->getMetadataValue('show_image'),
+            "show_titles"   => (boolean) $this->getPage()->getMetadataValue('show_titles'),
+            "distance"      => $this->distance($position),
+            "embed_payload" => $embed_payload
+        );
+
+        return $representation;
+    }
+
+    public function asMapJson($controller, $position, $option_value, $base_url = "") {
+        $address = $this->getAddressBlock();
+        $page = $this->getPage();
+
+        if(!$address) {
+            return false;
+        }
+
+        # Compress homepage default
+        $picture_b64 = null;
+        if($page->getPictureUrl()) {
+            $picture = Core_Model_Directory::getBasePathTo($page->getPictureUrl());
+            $picture_b64 = Siberian_Image::open($picture)->cropResize(64)->inline();
+        }
+
+        $payload = array(
+            "id"            => (integer) $page->getPageId(),
+            "title"         => $page->getTitle(),
+            "picture"       => $picture_b64,
+            "address"       => array(
+                "address"       => $address->getAddress(),
+                "latitude"      => (float) $address->getLatitude(),
+                "longitude"     => (float) $address->getLongitude(),
             )
         );
 
-        // only one address per place
-        $representation['show_image']   = $this->getPage()->getMetadataValue('show_image');
-        $representation['show_titles']  = $this->getPage()->getMetadataValue('show_titles');
-        $representation["distance"]     = $this->distance($position);
-
-        return $representation;
+        return $payload;
     }
 
 }

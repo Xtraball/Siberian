@@ -1,64 +1,105 @@
+/*global
+    App, angular
+ */
 
-App.factory('Discount', function($rootScope, $sbhttp, httpCache, Url, CACHE_EVENTS, Customer) {
+/**
+ * Discount
+ *
+ * @author Xtraball SAS
+ */
+angular.module("starter").factory("Discount", function($pwaRequest, Tc) {
 
-    var factory = {};
-
-    factory.value_id = null;
-
-    factory.findAll = function() {
-
-        if(!this.value_id) return;
-
-        return $sbhttp({
-            method: 'GET',
-            url: Url.get("promotion/mobile_list/findall", {value_id: this.value_id}),
-            cache: !$rootScope.isOverview,
-            responseType:'json'
-        }).success(function() {
-
-            var url =  Url.get("promotion/mobile_list/findall", {value_id: factory.value_id});
-
-            Customer.onStatusChange("promotion", [url]);
-
-            $rootScope.$on(CACHE_EVENTS.clearDiscount, function() {
-                console.log("Removing cache");
-                httpCache.remove(url);
-            });
-        });
+    var factory = {
+        value_id: null,
+        extendedOptions: {}
     };
 
-    factory.find = function(promotion_id) {
+    /**
+     *
+     * @param value_id
+     */
+    factory.setValueId = function(value_id) {
+        factory.value_id = value_id;
+    };
 
-        if(!this.value_id) return;
-        return $sbhttp({
-            method: 'GET',
-            url: Url.get("promotion/mobile_view/find", {value_id: this.value_id, promotion_id: promotion_id}),
-            cache: !$rootScope.isOverview,
-            responseType:'json'
+    /**
+     *
+     * @param options
+     */
+    factory.setExtendedOptions = function(options) {
+        factory.extendedOptions = options;
+    };
+
+    /**
+     * Custom Page
+     */
+    factory.preFetch = function() {
+        factory.findAll();
+    };
+
+    /**
+     * @todo move the Tc.find elsewhere.
+     * @param refresh
+     */
+    factory.findAll = function(refresh) {
+
+        if(!this.value_id) {
+            return $pwaRequest.reject("[Factory::Discount.findAll] missing value_id");
+        }
+
+        return $pwaRequest.get("promotion/mobile_list/findall", angular.extend({
+                urlParams: {
+                    value_id: this.value_id
+                },
+                refresh: refresh
+            }, factory.extendedOptions));
+    };
+
+    factory.find = function(promotion_id, refresh) {
+
+        if(!this.value_id) {
+            return $pwaRequest.reject("[Factory::Discount.find] missing value_id");
+        }
+
+        return $pwaRequest.get("promotion/mobile_view/find", {
+            urlParams: {
+                value_id        : this.value_id,
+                promotion_id    : promotion_id
+            },
+            refresh: refresh
         });
+
     };
 
     factory.use = function(promotion_id) {
 
-        if(!this.value_id) return;
+        if(!this.value_id) {
+            return $pwaRequest.reject("[Factory::Discount.use] missing value_id");
+        }
 
-        var data = {
-            promotion_id: promotion_id
-        };
-        var url = Url.get("promotion/mobile_list/use", {value_id: this.value_id});
-
-        return $sbhttp.post(url, data);
+        return $pwaRequest.post("promotion/mobile_list/use", {
+            data: {
+                value_id        : this.value_id,
+                promotion_id    : promotion_id
+            },
+            cache: false
+        });
     };
 
     factory.unlockByQRCode = function(qrcode) {
 
-        var url = Url.get("promotion/mobile_list/unlockByQRCode");
-        var data = {
-            qrcode: qrcode,
-            value_id: this.value_id
-        };
+        if(!this.value_id) {
+            return $pwaRequest.reject("[Factory::Discount.unlockByQRCode] missing value_id");
+        }
 
-        return $sbhttp.post(url, data);
+        return $pwaRequest.post("promotion/mobile_list/unlockByQRCode", {
+            data: {
+                value_id    : this.value_id,
+                qrcode      : qrcode
+            },
+            cache: false
+        });
+
     };
 
     return factory;

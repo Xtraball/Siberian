@@ -2,6 +2,17 @@
 
 class Maps_ApplicationController extends Application_Controller_Default {
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "editpost" => array(
+            "tags" => array(
+                "homepage_app_#APP_ID#",
+            ),
+        ),
+    );
+
     public function editpostAction() {
 
         if($data = $this->getRequest()->getParams()) {
@@ -12,7 +23,7 @@ class Maps_ApplicationController extends Application_Controller_Default {
                 $maps->find($data["value_id"],"value_id");
 
                 if(!$data["address"]) {
-                    throw new Exception($this->_("Address is mandatory."));
+                    throw new Siberian_Exception(__("Address is mandatory."));
                 }
 
                 $data["latitude"] = $data["cms_latitude_0"];
@@ -21,28 +32,35 @@ class Maps_ApplicationController extends Application_Controller_Default {
                 $maps->setData($data)
                         ->save();
 
-                $html = array(
-                    'success' => '1',
-                    'success_message' => $this->_('Info successfully saved'),
+                $this->getCurrentOptionValue()
+                    ->touch()
+                    ->expires(-1);
+
+                $payload = array(
+                    'success' => true,
+                    'success_message' => __('Info successfully saved'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
                 );
 
             } catch (Exception $e) {
-                $html = array(
-                    "message" => $e->getMessage(),
-                    "error" => 1
+                $payload = array(
+                    "error" => true,
+                    "message" => $e->getMessage()
+
                 );
             }
+
         } else {
-            $html = array(
-                "message" => $this->_("An error occurred during the process. Please try again later."),
-                "error" => 1
+            $payload = array(
+                "error" => true,
+                "message" => __("An error occurred during the process. Please try again later.")
+
             );
         }
 
-        $this->getLayout()->setHtml(Zend_Json::encode($html));
+        $this->_sendJson($payload);
     }
 
 }

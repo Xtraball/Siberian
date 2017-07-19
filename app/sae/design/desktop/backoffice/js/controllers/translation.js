@@ -37,7 +37,8 @@ App.config(function($routeProvider) {
         $scope.content_loader_is_visible = false;
     });
 
-}).controller("TranslationEditController", function($http, $scope, $location, $routeParams, Header, Label, SectionButton, Translations, Url) {
+}).controller("TranslationEditController", function($http, $scope, $location, $routeParams, $queue, Header, Label,
+                                                    SectionButton, Translations, Url) {
 
     $scope.header = new Header();
     $scope.header.button.left.is_visible = false;
@@ -47,7 +48,12 @@ App.config(function($routeProvider) {
     $scope.can_translate = false;
     Translations.type = $scope.code;
 
-    $scope.currentClass = new Array();
+    $scope.yandexTranslation = {
+        showProgress: false,
+        progress: 0
+    };
+
+    $scope.currentClass = [];
 
     $scope.updateClass = function(key) {
         $scope.currentClass[key] = "highlight";
@@ -125,58 +131,124 @@ App.config(function($routeProvider) {
         });
     };
 
-    $scope.available_target = new Array("be", "ca", "cs", "da", "de", "el", "es", "et", "fi", "fr", "hu", "it", "lt", "lv", "mk", "nl", "no", "pt", "ru", "sk", "sl", "sq", "sv", "tr", "uk");
+    $scope.available_target = ["be", "ca", "cs", "da", "de", "el", "es", "et", "fi", "fr", "hu", "it", "lt", "lv", "mk", "nl", "no", "pt", "ru", "sk", "sl", "sq", "sv", "tr", "uk"];
 
     $scope.translate = function(key, target) {
-        $http({
+        return $http({
             method: 'POST',
             url: Url.get("translation/backoffice_edit/translate"),
             data: {"text": key, "target": target},
             cache: false,
             responseType:'json'
-        }).then(function(response) {
-            if(response.data && response.data.result && response.data.result.text) {
-                $scope.translation.collection[key] = response.data.result.text[0];
-            }
-        }, function (response) {
-            if(response.data && response.data.message) {
-                $scope.message.setText(response.data.message)
-                    .isError(true)
-                    .show()
-                ;
-
-                return false;
-            }
         });
-
-        return true;
     };
 
     $scope.translateAll = function() {
-        var breakOnError = false;
 
-        angular.forEach($scope.translation.collection, function(value, key) {
-
-            if(!breakOnError && !$scope.translate(key, $scope.translation.country_code.split("_")[0])) {
-                breakOnError = true;
+        var keys = [];
+        var size = 0;
+        var remain = 0;
+        var callbackTranslate = function (key) {
+            var value = keys[key];
+            if(!breakOnError) {
+                $scope.translate(key, $scope.translation.country_code.split("_")[0])
+                    .then(function(response) {
+                        if(response.data && response.data.result && response.data.result.text) {
+                            $scope.translation.collection[key] = response.data.result.text[0];
+                        }
+                        $scope.updateClass(key);
+                        $scope.yandexTranslation.progress = Math.round((size - remain) / size * 100);
+                        remain = remain - 1;
+                    }, function (response) {
+                        if(response.data && response.data.message) {
+                            $scope.message.setText(response.data.message)
+                                .isError(true)
+                                .show()
+                            ;
+                        }
+                        breakOnError = true;
+                    });
+            } else {
+                $scope.yandexTranslation.progress = 0;
+                $scope.yandexTranslation.showProgress = false;
             }
 
-            $scope.updateClass(key);
+        };
+
+        var breakOnError = false,
+            currentLanguage = $scope.translation.country_code.split("_")[0],
+            translateQueue = $queue.queue(callbackTranslate, {
+                delay: 100,
+                paused: true,
+                complete: function() {
+                    $scope.yandexTranslation.showProgress = false;
+                }
+            });
+
+        angular.forEach($scope.translation.collection, function(value, key) {
+            keys[key] = value;
+            translateQueue.add(key);
         });
+
+        size = translateQueue.size();
+        remain = size;
+        translateQueue.start();
+        $scope.yandexTranslation.showProgress = true;
+
     };
 
     $scope.translateMissing = function() {
-        var breakOnError = false;
+
+        var keys = [];
+        var size = 0;
+        var remain = 0;
+        var callbackTranslate = function (key) {
+            if(!breakOnError) {
+                $scope.translate(key, $scope.translation.country_code.split("_")[0])
+                    .then(function(response) {
+                        if(response.data && response.data.result && response.data.result.text) {
+                            $scope.translation.collection[key] = response.data.result.text[0];
+                        }
+                        $scope.updateClass(key);
+                        $scope.yandexTranslation.progress = Math.round((size - remain) / size * 100);
+                        remain = remain - 1;
+                    }, function (response) {
+                        if(response.data && response.data.message) {
+                            $scope.message.setText(response.data.message)
+                                .isError(true)
+                                .show()
+                            ;
+                        }
+                        breakOnError = true;
+                    });
+            } else {
+                $scope.yandexTranslation.progress = 0;
+                $scope.yandexTranslation.showProgress = false;
+            }
+        };
+
+        var breakOnError = false,
+            currentLanguage = $scope.translation.country_code.split("_")[0],
+            translateQueue = $queue.queue(callbackTranslate, {
+                delay: 100,
+                paused: true,
+                complete: function() {
+                    $scope.yandexTranslation.showProgress = false;
+                }
+            });
 
         angular.forEach($scope.translation.collection, function(value, key) {
-            if(!breakOnError && value === null || value.trim() == "") {
-                if(!$scope.translate(key, $scope.translation.country_code.split("_")[0])) {
-                    breakOnError = true;
-                }
-
-                $scope.updateClass(key);
+            if(value === null || value === "") {
+                keys[key] = value;
+                translateQueue.add(key);
             }
         });
+
+        size = translateQueue.size();
+        remain = size;
+        translateQueue.start();
+        $scope.yandexTranslation.showProgress = true;
+
     };
 
 });

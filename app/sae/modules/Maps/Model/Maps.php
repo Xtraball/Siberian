@@ -25,6 +25,36 @@ class Maps_Model_Maps extends Core_Model_Default {
         return $in_app_states;
     }
 
+    /**
+     * @param $option_value
+     * @return bool
+     */
+    public function getEmbedPayload($option_value) {
+
+        $payload = array(
+            "collection"    => array(),
+            "page_title"    => $option_value->getTabbarName(),
+            "icon_url"      => Core_Model_Lib_Image::sGetImage("maps/")
+        );
+
+        if($this->getId()) {
+
+            /** Fallback/Fix for empty lat/lng */
+            $lat = $this->getLatitude();
+            $lng = $this->getLongitude();
+            if(empty($lat) && empty($lng)) {
+                $geo = Siberian_Google_Geocoding::getLatLng($this->getAddress());
+                $this->setLatitude($geo[0]);
+                $this->setLongitude($geo[1]);
+            }
+
+            $payload["collection"] = $this->getData();
+        }
+
+        return $payload;
+
+    }
+
     public function copyTo($option) {
 
         $this->setId(null)->setValueId($option->getId())->save();

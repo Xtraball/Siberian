@@ -87,20 +87,8 @@
                             "count": 1
                         },
                         {
-                            "xml": "<uses-permission android:name=\"android.permission.RECORD_AUDIO\" />",
-                            "count": 2
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\" />",
-                            "count": 2
-                        },
-                        {
                             "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
-                            "count": 5
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\" />",
-                            "count": 2
+                            "count": 3
                         },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
@@ -211,10 +199,6 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Stream\"><param name=\"android-package\" value=\"org.apache.cordova.media.AudioHandler\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"BarcodeScanner\"><param name=\"android-package\" value=\"com.phonegap.plugins.barcodescanner.BarcodeScanner\" /></feature>",
                             "count": 1
                         },
@@ -228,10 +212,6 @@
                         },
                         {
                             "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"Notification\"><param name=\"android-package\" value=\"org.apache.cordova.dialogs.Notification\" /></feature>",
                             "count": 1
                         },
                         {
@@ -252,14 +232,6 @@
                         },
                         {
                             "xml": "<feature name=\"Keyboard\"><param name=\"android-package\" value=\"io.ionic.keyboard.IonicKeyboard\" /><param name=\"onload\" value=\"true\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"Media\"><param name=\"android-package\" value=\"org.apache.cordova.media.AudioHandler\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"ProgressView\"><param name=\"android-package\" value=\"de.neofonie.cordova.plugin.progressview.ProgressView\" /></feature>",
                             "count": 1
                         },
                         {
@@ -338,9 +310,6 @@
         "cordova-plugin-app-version": {
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
-        "com.keosu.cordova.stream": {
-            "PACKAGE_NAME": "com.appsmobilecompany.base"
-        },
         "cordova-plugin-compat": {
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
@@ -356,9 +325,6 @@
         "cordova-plugin-device": {
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
-        "cordova-plugin-dialogs": {
-            "PACKAGE_NAME": "com.appsmobilecompany.base"
-        },
         "cordova-plugin-file": {
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
@@ -369,12 +335,6 @@
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
         "ionic-plugin-keyboard": {
-            "PACKAGE_NAME": "com.appsmobilecompany.base"
-        },
-        "cordova-plugin-media": {
-            "PACKAGE_NAME": "com.appsmobilecompany.base"
-        },
-        "de.neofonie.cordova.plugin.progressview": {
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
         "cordova-plugin-x-socialsharing": {
@@ -453,14 +413,6 @@
             ]
         },
         {
-            "id": "com.keosu.cordova.stream.Stream",
-            "file": "plugins/com.keosu.cordova.stream/www/Stream.js",
-            "pluginId": "com.keosu.cordova.stream",
-            "clobbers": [
-                "window.Stream"
-            ]
-        },
-        {
             "id": "phonegap-plugin-barcodescanner.BarcodeScanner",
             "file": "plugins/phonegap-plugin-barcodescanner/www/barcodescanner.js",
             "pluginId": "phonegap-plugin-barcodescanner",
@@ -514,22 +466,6 @@
             "pluginId": "cordova-plugin-device",
             "clobbers": [
                 "device"
-            ]
-        },
-        {
-            "id": "cordova-plugin-dialogs.notification",
-            "file": "plugins/cordova-plugin-dialogs/www/notification.js",
-            "pluginId": "cordova-plugin-dialogs",
-            "merges": [
-                "navigator.notification"
-            ]
-        },
-        {
-            "id": "cordova-plugin-dialogs.notification_android",
-            "file": "plugins/cordova-plugin-dialogs/www/android/notification.js",
-            "pluginId": "cordova-plugin-dialogs",
-            "merges": [
-                "navigator.notification"
             ]
         },
         {
@@ -737,30 +673,6 @@
             ]
         },
         {
-            "id": "cordova-plugin-media.MediaError",
-            "file": "plugins/cordova-plugin-media/www/MediaError.js",
-            "pluginId": "cordova-plugin-media",
-            "clobbers": [
-                "window.MediaError"
-            ]
-        },
-        {
-            "id": "cordova-plugin-media.Media",
-            "file": "plugins/cordova-plugin-media/www/Media.js",
-            "pluginId": "cordova-plugin-media",
-            "clobbers": [
-                "window.Media"
-            ]
-        },
-        {
-            "id": "de.neofonie.cordova.plugin.progressview.ProgressView",
-            "file": "plugins/de.neofonie.cordova.plugin.progressview/www/ProgressView.js",
-            "pluginId": "de.neofonie.cordova.plugin.progressview",
-            "clobbers": [
-                "window.plugins.ProgressView"
-            ]
-        },
-        {
             "id": "cordova-plugin-x-socialsharing.SocialSharing",
             "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
             "pluginId": "cordova-plugin-x-socialsharing",
@@ -842,19 +754,15 @@
         "siberian-plugin-backgroundgeoloc": "1.0.0",
         "phonegap-plugin-push": "1.10.0",
         "cordova-plugin-app-version": "0.1.8",
-        "com.keosu.cordova.stream": "0.1",
         "cordova-plugin-compat": "1.1.0",
         "phonegap-plugin-barcodescanner": "6.0.6",
         "cordova-plugin-camera": "2.3.1-dev",
         "com.verso.cordova.clipboard": "0.1.0",
         "cordova-plugin-device": "1.1.6-dev",
-        "cordova-plugin-dialogs": "1.3.3-dev",
         "cordova-plugin-file": "4.3.3-dev",
         "cordova-plugin-geolocation": "2.1.0",
         "cordova-plugin-inappbrowser": "1.7.1-dev",
         "ionic-plugin-keyboard": "2.2.1",
-        "cordova-plugin-media": "2.4.1",
-        "de.neofonie.cordova.plugin.progressview": "3.0.1",
         "cordova-plugin-x-socialsharing": "5.0.12-dev",
         "cordova-plugin-statusbar": "2.2.0",
         "cordova-plugin-whitelist": "1.2.1",

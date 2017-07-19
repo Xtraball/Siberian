@@ -9,14 +9,14 @@ if ($this->getPromotion()->getId() != null) {
 }
 $application = $this->getApplication();
 ?>
-<h3 class="title-editor no-border-radius">
+<h3 class="title-editor no-border-radius title-feature-indent">
     <?php echo $this->_('Create a new discount'); ?>
 </h3>
-<div class="container-fluid">
+<div class="container-fluid content-feature">
     <form id="promotionEditForm" method="post" action="<?php echo $this->getUrl('promotion/application/editpost', array('id' => $promotion->getId())); ?>" class="form-horizontal">
         <div class="form-group first-row-feature">
             <div class="col-md-12">
-                <button type="button" onclick="page.reload();" class="btn color-blue"><i class="fa fa-arrow-left"></i></button>
+                <button type="button" onclick="page.reload();" class="btn color-blue"><i class="fa fa-angle-left"></i></button>
                 <button type="submit" class="btn color-blue pull-right">OK</button>
             </div>
         </div>
@@ -29,8 +29,8 @@ $application = $this->getApplication();
                 <label><?php echo $this->_('Picture'); ?> :</label>
             </div>
             <!--[if gte IE 10]><!-->
-            <div class="col-sm-5">
-                <button id="picture_uploader" class="upload_picture btn add color-blue" type="button" rel="<?php echo $promotion->getId() ? $promotion->getId() : 'new' ?>">
+            <div class="col-sm-9">
+                <button id="picture_uploader" class="upload_picture btn color-blue" type="button" rel="<?php echo $promotion->getId() ? $promotion->getId() : 'new' ?>">
                     <?php echo $promotion->getPicture() ? $this->_("Edit the") : $this->_('Add a'); ?>
                     <?php echo $this->_('picture'); ?>
                 </button>
@@ -41,10 +41,10 @@ $application = $this->getApplication();
 
         <div id="delete_picture" class="form-group"<?php if(!$promotion->getPicture()) : ?> style="display:none;"<?php endif; ?>>
             <div class="col-sm-3">
-                <button type="button" onclick="promotion.removePicture();" id="delete_picture" class="btn color-blue"><i class="fa fa-times"></i></button>
             </div>
             <div class="col-sm-4">
                 <img src="<?php echo $promotion->getPictureUrl() ?>" width="238" />
+                <button type="button" onclick="promotion.removePicture();" id="delete_picture" class="btn color-blue"><i class="fa fa-times"></i></button>
             </div>
         </div>
 
@@ -52,7 +52,7 @@ $application = $this->getApplication();
             <div class="col-sm-3">
                 <label for="title"><?php echo $this->_('Name'); ?> : <span class="input-required">*</span></label>
             </div>
-            <div class="col-sm-5">
+            <div class="col-sm-9">
                 <input type="text" id="title" name="title" class="input-flat" value="<?php echo $promotion->getTitle(); ?>" />
             </div>
         </div>
@@ -61,7 +61,7 @@ $application = $this->getApplication();
             <div class="col-sm-3">
                 <label for="description"><?php echo $this->_('Description'); ?> : <span class="input-required">*</span></label>
             </div>
-            <div class="col-sm-5">
+            <div class="col-sm-9">
                 <textarea type="textarea" rows="4" id="description" name="description" class="input-flat"><?php echo $promotion->getDescription(); ?></textarea>
             </div>
         </div>
@@ -70,7 +70,7 @@ $application = $this->getApplication();
             <div class="col-sm-3">
                 <label for="conditions"><?php echo $this->_('Conditions'); ?> : <span class="input-required">*</span></label>
             </div>
-            <div class="col-sm-5">
+            <div class="col-sm-9">
                 <input type="text" id="conditions" name="conditions" class="input-flat" value="<?php echo $promotion->getConditions(); ?>" />
             </div>
         </div>
@@ -78,8 +78,8 @@ $application = $this->getApplication();
         <div class="form-group">
             <div class="col-sm-9 col-sm-offset-3">
                 <label for="is_unique">
-                    <input id="is_unique" type="checkbox" class="" value="1" name="is_unique" <?php if ($promotion->getIsUnique() == 1) echo 'checked="checked"' ?> />
-                    <?php echo $this->_('use only once'); ?> ?
+                    <input id="is_unique" type="checkbox" class="color-blue checkbox-inline" value="1" name="is_unique" <?php if ($promotion->getIsUnique() == 1) echo 'checked="checked"' ?> color="color-blue"/>
+                    <span><?php echo $this->_('use only once'); ?> ?</span>
                 </label>
             </div>
         </div>
@@ -88,7 +88,7 @@ $application = $this->getApplication();
             <div class="col-sm-3">
                 <label for="end_at"><?php echo $this->_('End at'); ?> :</label>
             </div>
-            <div class="col-sm-5">
+            <div class="col-sm-9">
                 <input type="text" id="end_at" name="end_at" class="calendar input-flat" <?php if ($promotion->getId() AND !$promotion->getEndAt()) echo 'disabled="disabled"' ?> value="<?php if ($promotion->getEndAt()) echo $promotion->getEndAt(); ?>" autocomplete="off" />
             </div>
         </div>
@@ -99,8 +99,8 @@ $application = $this->getApplication();
             </div>
             <div class="col-sm-8">
                 <label for="is_illimited">
-                    <input type="checkbox" id="is_illimited" <?php if ($promotion->getId() AND !$promotion->getEndAt()) echo 'checked="checked"' ?> name="is_illimited" value="1" />
-                    (<?php echo $this->_("you'll be able to remove this promotion later"); ?>)
+                    <input type="checkbox" id="is_illimited" <?php if ($promotion->getId() AND !$promotion->getEndAt()) echo 'checked="checked"' ?> name="is_illimited" value="1" color="color-blue" class="color-blue checkbox-inline"/>
+                    <span>(<?php echo $this->_("you'll be able to remove this promotion later"); ?>)</span>
                 </label>
             </div>
         </div>
@@ -126,6 +126,11 @@ $application = $this->getApplication();
 </div>
 <style>
     #qrcode_info input[type='text'] { position:absolute; left:-9999px; }
+    button#delete_picture {
+        position: absolute;
+        top: 0;
+        left:15px;
+    }
 </style>
 
 <script>

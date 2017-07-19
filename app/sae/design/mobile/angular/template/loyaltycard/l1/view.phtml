@@ -44,7 +44,7 @@
 
                         <div class="promotions relative" ng-if="promotions.length">
                             <div class="promotion discount padding">
-                                <div class="title "><h4><?php echo $this->_("Congratulations") ?> <?php echo $this->getSession()->getCustomer()->getFirstname(); ?></h4></div>
+                                <div class="title "><h4><?php echo $this->_("Congratulations") ?> <?php echo $this->getSession("admin")->getCustomer()->getFirstname(); ?></h4></div>
                                 <div class="discounts">
                                     <div class="relative">
                                         <ul rn-carousel rn-carousel-indicator="true">

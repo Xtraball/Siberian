@@ -103,6 +103,28 @@ class Promotion_ApplicationController extends Application_Controller_Default
                 else if(!empty($data['remove_cover'])) {
                     $data['picture'] = null;
                 }
+
+                if(!empty($data['thumbnail'])) {
+
+                    $filename = pathinfo($data['thumbnail'], PATHINFO_BASENAME);
+                    $relative_path = $option_value->getImagePathTo();
+                    $folder = Application_Model_Application::getBaseImagePath().$relative_path;
+                    $img_dst = $folder.'/'.$filename;
+                    $img_src = Core_Model_Directory::getTmpDirectory(true).'/'.$filename;
+
+                    if(!is_dir($folder)) {
+                        mkdir($folder, 0777, true);
+                    }
+
+                    if(!copy($img_src, $img_dst)) {
+                        throw new exception($this->_('An error occurred while saving your picture. Please try again later.'));
+                    } else {
+                        $data['thumbnail'] = $relative_path.'/'.$filename;
+                    }
+                }
+                else if(!empty($data['remove_thumbnail'])) {
+                    $data['thumbnail'] = null;
+                }
                 
                 $promotion->setData($data);
 
@@ -121,6 +143,11 @@ class Promotion_ApplicationController extends Application_Controller_Default
                     copy('https://api.qrserver.com/v1/create-qr-code/?color=000000&bgcolor=FFFFFF&data=sendback%3A'.$data["unlock_code"].'&qzone=1&margin=0&size=200x200&ecc=L', $dir_image.$image_name);
                 }
 
+                /** Update touch date, then never expires (until next touch) */
+                $option_value
+                    ->touch()
+                    ->expires(-1);
+
                 $html = array(
                     'promotion_id' => $promotion->getId(),
                     'success_message' => $this->_('Discount successfully saved'),
@@ -128,6 +155,11 @@ class Promotion_ApplicationController extends Application_Controller_Default
                     'message_button' => 0,
                     'message_loader' => 0
                 );
+
+                /** Update touch date, then never expires (until next touch) */
+                $option_value
+                    ->touch()
+                    ->expires(-1);
             }
             catch(Exception $e) {
                 $html = array(

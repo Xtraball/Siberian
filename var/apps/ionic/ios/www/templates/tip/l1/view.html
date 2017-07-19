@@ -1,13 +1,11 @@
-<ion-view class="tip-view">
+<ion-view sb-page-background class="tip-view">
     <ion-nav-title>{{ page_title }}</ion-nav-title>
-    <ion-content class="tips-calculator" sb-background-image>
+    <ion-content class="tips-calculator">
 
-        <div class="loader" ng-show="is_loading">
-            <ion-spinner class="spinner-custom"></ion-spinner>
-        </div>
+
 
         <form ng-submit="calculate()">
-            <div class="list" ng-show="!is_loading">
+            <div class="list" ng-class="{'card': card_design}">
 
                 <label class="item item-input item-custom">
                     <span class="input-label">{{ "Amount of bill" | translate }}</span>
@@ -22,17 +20,14 @@
                     <input type="number" ng-model="bill.number" min="1" />
                 </label>
 
-                <button type="submit" class="button button-block button-custom">{{ "Calculate" | translate }}</button>
+                <button type="submit" class="button button-positive button-positive-custom" ng-class="{'button-full': !card_design, 'button-block': card_design}">{{ "Calculate" | translate }}</button>
 
                 <div class="item item-body item-custom" ng-show="global_tip">
                     <div class="display-global-tip" ng-if="global_tip" style="margin-bottom: 10px;">
                         {{ global_tip }}
                     </div>
                     <div class="a-center display-other-tip" ng-if="each_tip" style="padding-bottom: 10px;">
-                        {{ "Tip for each:" | translate }}
-                    </div>
-                    <div class="a-center display-other-tip" ng-if="each_tip">
-                        {{ each_tip }}
+                        {{ "Tip for each:" | translate }} {{ each_tip }}
                     </div>
                 </div>
 

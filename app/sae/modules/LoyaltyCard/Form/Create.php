@@ -48,7 +48,7 @@ class LoyaltyCard_Form_Create extends Siberian_Form_Abstract {
             ->addClass("default_button")
             ->addClass("form_button");
 
-        $this->addNav("repeat", "Save", false, true);
+        $this->addNav("repeat", "OK", false, true);
 
         $value_id = $this->addSimpleHidden("value_id");
         $value_id

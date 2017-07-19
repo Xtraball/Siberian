@@ -11,13 +11,42 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
         }
     }
 
-    public function postAction() {
-        if($datas = Zend_Json::decode($this->getRequest()->getRawBody())) {
+    public function postv2Action() {
 
-            try {
+        try {
+
+            $request = $this->getRequest();
+
+            if($params = Siberian_Json::decode($request->getRawBody())) {
+
+
+            } else {
+                throw new Siberian_Exception(__("Missing parameters."));
+            }
+
+        } catch(Exception $e) {
+
+            $payload = array(
+                "error"     => true,
+                "message"   => $e->getMessage()
+            );
+
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    private function _getCustomer() {
+        return Customer_Model_Customer::getCurrent();
+    }
+
+    public function postAction() {
+        try {
+
+            if($datas = Siberian_Json::decode($this->getRequest()->getRawBody())) {
 
                 if((empty($datas['email']) OR empty($datas['password']))) {
-                    throw new Exception($this->_('Authentication failed. Please check your email and/or your password'));
+                    throw new Siberian_Exception(__('Authentication failed. Please check your email and/or your password'));
                 }
 
                 $customer = new Customer_Model_Customer();
@@ -29,7 +58,7 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
                 $password = $datas['password'];
 
                 if(!$customer->getId() OR !$customer->authenticate($password)) {
-                    throw new Exception($this->_('Authentication failed. Please check your email and/or your password'));
+                    throw new Siberian_Exception(__('Authentication failed. Please check your email and/or your password'));
                 }
 
                 //PUSH TO USER ONLY
@@ -72,25 +101,31 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
                     ->setCustomer($customer)
                 ;
 
-                $html = array(
-                    'success' => 1,
-                    'customer_id' => $customer->getId(),
-                    'can_access_locked_features' => $customer->canAccessLockedFeatures(),
-                    'token' => Zend_Session::getId()
+                $payload = array(
+                    "success" => true,
+                    "customer_id" => $customer->getId(),
+                    "can_access_locked_features" => $customer->canAccessLockedFeatures(),
+                    "token" => Zend_Session::getId(),
+                    "customer" => $this->_getCustomer()
                 );
 
-            }
-            catch(Exception $e) {
-                $html = array('error' => 1, 'message' => $e->getMessage());
+            } else {
+                throw new Siberian_Exception(__("An error occurred, please try again."));
             }
 
-            $this->_sendHtml($html);
+        } catch(Exception $e) {
+            $payload = array(
+                "error"     => true,
+                "message"   => $e->getMessage()
+            );
         }
+
+        $this->_sendJson($payload);
 
     }
 
     public function loginwithfacebookAction() {
-        $datas = Zend_Json::decode($this->getRequest()->getRawBody());
+        $datas = Siberian_Json::decode($this->getRequest()->getRawBody());
         if(isset($datas["token"])) {
 
             try {
@@ -102,7 +137,7 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
                 $access_token = Core_Model_Lib_Facebook::getOrRefreshToken($access_token);
 
                 if($access_token === false) {
-                    throw new Exception($this->_('An error occurred while connecting to your Facebook account. Please try again later'));
+                    throw new Siberian_Exception(__('An error occurred while connecting to your Facebook account. Please try again later'));
                 }
 
                 // Fetch data from Facebook
@@ -110,7 +145,7 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
                 $user = json_decode(file_get_contents($graph_url));
 
                 if(!$user instanceof stdClass OR !$user->id) {
-                    throw new Exception($this->_('An error occurred while connecting to your Facebook account. Please try again later'));
+                    throw new Siberian_Exception(__('An error occurred while connecting to your Facebook account. Please try again later'));
                 }
                 // Retrieve the user_id
                 $user_id = $user->id;
@@ -228,18 +263,22 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
                 $this->getSession()->setCustomer($customer);
 
                 $html = array(
-                    'success' => 1,
+                    'success' => true,
                     'customer_id' => $customer->getId(),
                     'can_access_locked_features' => $customer->canAccessLockedFeatures(),
-                    'token' => Zend_Session::getId()
+                    'token' => Zend_Session::getId(),
+                    'customer' => $this->_getCustomer()
                 );
 
             }
             catch(Exception $e) {
-                $html = array('error' => 1, 'message' => $e->getMessage());
+                $html = array(
+                    'error' => true,
+                    'message' => $e->getMessage()
+                );
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($html);
 
         }
 

@@ -433,15 +433,70 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @throws Zend_Uri_Exception
      */
     public function buildId($type = "app") {
-        $url = mb_strtolower(Zend_Uri::factory(parent::getUrl(""))->getHost());
-        $url = array_reverse(explode(".", $url));
-        $url[] = $type.$this->getKey();
 
-        foreach($url as &$part) {
-            $part = preg_replace("/[^0-9a-z\.]/i", "", $part);
+        $buildId = function($host, $suffix) {
+
+            $url = array_reverse(explode(".", $url));
+            $url[] = $suffix;
+
+            foreach($url as &$part) {
+                $part = preg_replace("/[^0-9a-z\.]/i", "", $part);
+            }
+
+            return implode(".", $url);
+        };
+
+        /** Just in case someone messed-up data in backoffice we must have a fallback. */
+        if(Siberian::getWhitelabel() !== false) {
+
+            $whitelabel = Siberian::getWhitelabel();
+
+            $id_android = $whitelabel->getData("app_default_identifier_android");
+            $id_ios = $whitelabel->getData("app_default_identifier_ios");
+
+            $host = $whitelabel->getHost();
+
+            if(empty($id_android)) {
+                $whitelabel->setData("app_default_identifier_android", $buildId($host, "android"));
+            }
+
+            if(empty($id_ios)) {
+                $whitelabel->setData("app_default_identifier_ios", $buildId($host, "ios"));
+            }
+
+            $whitelabel->save();
+
+            $id_android = $whitelabel->getData("app_default_identifier_android");
+            $id_ios = $whitelabel->getData("app_default_identifier_ios");
+
+        } else {
+            $id_android = System_Model_Config::getValueFor("app_default_identifier_android");
+            $id_ios = System_Model_Config::getValueFor("app_default_identifier_ios");
+
+            $request = Zend_Controller_Front::getInstance()->getRequest();
+            $host = mb_strtolower($request->getServer("HTTP_HOST"));
+
+            if(empty($id_android)) {
+                System_Model_Config::setValueFor("app_default_identifier_android", $buildId($host, "android"));
+            }
+
+            if(empty($id_ios)) {
+                System_Model_Config::setValueFor("app_default_identifier_ios", $buildId($host, "ios"));
+            }
+
+            $id_android = System_Model_Config::getValueFor("app_default_identifier_android");
+            $id_ios = System_Model_Config::getValueFor("app_default_identifier_ios");
         }
 
-        return implode(".", $url);
+        // Now we can process bundle id or package name
+        switch($type) {
+            case "android":
+                    return $id_android . $this->getKey();
+                break;
+            case "ios":
+                    return $id_ios . $this->getKey();
+                break;
+        }
     }
 
     /**
@@ -531,12 +586,23 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @param int $samples
      * @return Application_Model_Option_Value[]
      */
-    public function getPages($samples = 0) {
+    public function getPages($samples = 0, $with_folder = false) {
+
+        $options = array(
+            "a.app_id"      => $this->getId(),
+            "remove_folder" => new Zend_Db_Expr("folder_category_id IS NULL"),
+            "is_visible"    => 1
+        );
+
+        if($with_folder) {
+            unset($options["remove_folder"]);
+        }
 
         if(empty($this->_pages)) {
             $option = new Application_Model_Option_Value();
-            $this->_pages = $option->findAll(array("a.app_id" => $this->getId(), 'remove_folder' => new Zend_Db_Expr('folder_category_id IS NULL'), 'is_visible' => 1/*, '`aov`.`is_active`' => 1*/));
+            $this->_pages = $option->findAll($options);
         }
+
         if($this->_pages->count() == 0 AND $samples > 0) {
             $dummy = Application_Model_Option_Value::getDummy();
             for($i = 0; $i < $samples; $i++) {

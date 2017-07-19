@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="application_messages page-content-wrapper content solo-page">
-            <h3 class="title-editor border-blue">
+            <h3 class="title-editor border-blue text-center">
                 <?php echo $this->_('Messages'); ?>
             </h3>
             <div class="subcontent content-color">
@@ -13,7 +13,7 @@
                     <form id="form_post_message" class="form-horizontal" method="post" action="<?php echo $this->getUrl('message/application/save'); ?>" onsubmit="return false;" >
                         <div class="form-group">
                             <div class="col-md-2">
-                                <button type="button" id="bt_upload_file" class="add color-blue btn">
+                                <button type="button" id="bt_upload_file" class="color-blue btn">
                                     <i class="icon-file"></i>
                                     <?php echo $this->_("Attach a file"); ?>
                                 </button>
@@ -37,7 +37,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-12">
-                                <button type="submit" class="add color-blue btn"><?php echo $this->_("Send"); ?></button>
+                                <button type="submit" class="color-blue btn"><?php echo $this->_("Send"); ?></button>
                             </div>
                         </div>
                         <input type="hidden" id="app_id" name="app_id" value="<?php echo $this->getApplication()->getId(); ?>" />
@@ -68,7 +68,7 @@
                     <div class="col-sm-2">
                         <div class="text-center">
                             <?php echo $this->_("Load older messages"); ?><br/>
-                            <i class="fa-chevron-down"></i>
+                            <i class="fa-angle-down"></i>
                             <input type="hidden" id="load_more_app_id" name="load_more_app_id" value="<?php echo $this->getApplication()->getId(); ?>" />
                             <input type="hidden" id="offset" name="offset" value="<?php echo $nb_messages; ?>" />
                         </div>

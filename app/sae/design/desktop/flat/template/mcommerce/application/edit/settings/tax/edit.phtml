@@ -4,17 +4,17 @@
 <?php $stores = $mcommerce->getStores(); ?>
 <form id="taxEditForm" method="post" action="<?php echo $this->getUrl('mcommerce/application_settings_tax/editpost'); ?>" class="form-horizontal">
     <fieldset>
-        <h3 class="title-editor no-border-radius">
+        <h3 class="title-editor no-border-radius title-feature-indent">
             <?php if($tax->getId()) : ?>
                 <?php echo $this->_("Edit the tax %s", $tax->getName()); ?>
             <?php else : ?>
                 <?php echo $this->_("Create a new tax"); ?>
             <?php endif; ?>
         </h3>
-        <div class="container-fluid">
+        <div class="container-fluid content-feature">
             <div class="form-group first-row-feature">
                 <div class="col-md-12">
-                    <button type="button" onclick="mcommerce_settings.tax.close();" class="btn color-blue pull-left"><i class="fa fa-arrow-left"></i></button>
+                    <button type="button" onclick="mcommerce_settings.tax.close();" class="btn color-blue pull-left"><i class="fa fa-angle-left"></i></button>
                     <button type="submit" class="btn color-blue pull-right">OK</button>
                 </div>
             </div>

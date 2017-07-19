@@ -83,4 +83,7 @@ class Media_Mobile_Api_Music_TrackController extends Application_Controller_Mobi
         $this->_sendHtml($data);
     }
 
+    /** API v2 introduced in Siberian 5.0 with Progressive Web Apps. */
+
+
 }

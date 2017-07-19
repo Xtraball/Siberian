@@ -26,8 +26,8 @@
     <form action="<?php echo $this->getUrl('admin/account/savepost') ?>" method="post" id="editForm" class="form-horizontal <?php echo $class_col ?>">
         <div class="<?php echo $class_sub_col ?>">
             <div class="page-content-wrapper">
-                <div id="information" class="content solo-page">
-                    <h3 class="title-editor border-blue">
+                <div id="information" class="content solo-page sb-tour">
+                    <h3 class="title-editor border-blue text-center">
                         <?php echo $this->_('Information'); ?>
                     </h3>
                     <div class="container-fluid subcontent content-color">
@@ -118,7 +118,7 @@
                             <div class="col-md-6"></div>
                             <div class="col-md-6">
                                 <div class="col-md-5 col-md-offset-7">
-                                    <button class="add color-blue btn btn-default send_form"><?php echo $this->_("Save"); ?></button>
+                                    <button class="color-blue btn btn-default send_form pull-right"><?php echo $this->_("Save"); ?></button>
                                 </div>
                             </div>
                         </div>
@@ -130,8 +130,8 @@
         <?php if($this->getMode()=="management"):?>
         <div class="<?php echo $class_sub_col ?>">
             <div class="page-content-wrapper">
-                <div id="account_role" class="content solo-page">
-                    <h3 class="title-editor border-blue">
+                <div id="account_role" class="content solo-page sb-tour">
+                    <h3 class="title-editor border-blue text-center">
                         <?php echo $this->_('Account role'); ?>
                     </h3>
                     <div class="container-fluid subcontent content-color">
@@ -157,19 +157,22 @@
 
         <div class="<?php echo $class_sub_col ?>">
             <div class="page-content-wrapper">
-                <div id="change_password" class="content solo-page">
-                    <h3 class="title-editor border-blue">
+                <div id="change_password" class="content solo-page sb-tour">
+                    <h3 class="title-editor border-blue text-center">
                         <span id="title_change_password"><?php echo $this->_('Change password'); ?></span>
                     </h3>
                     <div class="container-fluid subcontent content-color" id="table-change-password">
                         <?php if($admin->getId()) : ?>
                         <div class="form-group">
-                            <div class="col-md-3"></div>
-                            <div class="col-md-9">
-                                <label for="change-password">
-                                    <input type="checkbox" name="changepassword" id="change-password" />
+                            <div class=" control control--checkbox">
+                                <label for="change-password" class="col-md-3">
                                     <?php echo $this->_('Change password'); ?>
                                 </label>
+                                <div class="col-md-9">
+                                    <input type="checkbox" name="changepassword" id="change-password" color="color-blue" class="sb-form-checkbox checkbox color-blue"/>
+                                    <div class="color-blue"></div>
+                                    <div class="control__indicator"></div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -203,7 +206,7 @@
                             <div class="col-md-6"></div>
                             <div class="col-md-6">
                                 <div class="col-md-5 col-md-offset-7">
-                                    <button class="add color-blue btn btn-default send_form"><?php echo $this->_("Save"); ?></button>
+                                    <button class="color-blue btn btn-default send_form pull-right"><?php echo $this->_("Save"); ?></button>
                                 </div>
                             </div>
                         </div>
@@ -221,7 +224,7 @@
             <div class="col-md-12">
                 <div class="page-content-wrapper">
                     <div class="content solo-page">
-                        <h3 class="title-editor border-blue no-margin-bottom">
+                        <h3 class="title-editor border-blue no-margin-bottom text-center">
                             <span id="title_change_password"><?php echo $this->_('Applications'); ?></span>
                         </h3>
                         <div class="container-fluid subcontent content-color">
@@ -244,11 +247,11 @@
                                 <?php foreach($applications as $key => $application) : ?>
                                     <?php if(!$application->isActive()) continue; ?>
                                     <tr id="row_<?php echo $application->getId(); ?>">
-                                        <td class="text-center"><input type="checkbox" value="<?php echo $application->getId(); ?>" class="toggle-access" <?php if($application->getIsAllowedToEdit()) : ?> checked="checked"<?php endif; ?> /></td>
+                                        <td class="text-center"><input type="checkbox" value="<?php echo $application->getId(); ?>" class="toggle-access color-blue checkbox" <?php if($application->getIsAllowedToEdit()) : ?> checked="checked"<?php endif; ?> /></td>
                                         <td><img src="<?php echo $application->getIcon(35) ?>" width="35" /></td>
                                         <td><?php echo $application->getName(); ?></td>
                                         <td><?php echo $application->getBundleId(); ?></td>
-                                        <td class="text-center"><input type="checkbox" class="is-allowed-to-add-pages" value="<?php echo $application->getId(); ?>" <?php if($application->getIsAllowedToAddPages()) : ?> checked="checked"<?php endif; if(!$application->getIsAllowedToEdit()) : ?> style="display:none;"<?php endif; ?> /></td>
+                                        <td class="text-center"><input type="checkbox" class="is-allowed-to-add-pages color-blue checkbox" value="<?php echo $application->getId(); ?>" <?php if($application->getIsAllowedToAddPages()) : ?> checked="checked"<?php endif; if(!$application->getIsAllowedToEdit()) : ?> style="display:none;"<?php endif; ?> /></td>
                                     </tr>
                                 <?php endforeach; ?>
                                 </tbody>

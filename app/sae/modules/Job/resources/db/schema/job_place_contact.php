@@ -44,6 +44,18 @@ $schemas['job_place_contact'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'phone' => array(
+        'type' => 'varchar(255)',
+        'is_null' => false,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
+    'address' => array(
+        'type' => 'varchar(255)',
+        'is_null' => false,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'message' => array(
         'type' => 'text',
         'is_null' => false,

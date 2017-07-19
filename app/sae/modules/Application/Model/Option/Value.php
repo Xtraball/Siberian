@@ -526,8 +526,52 @@ class Application_Model_Option_Value extends Application_Model_Option
     public function forYaml() {
         $data = $this->getData();
 
-        $data["background"] = $this->_getBackground();
+        if($this->getBackground()) {
+            $data["background"] = $this->_getBackground();
+        }
 
         return $data;
+    }
+
+    /**
+     * Touch option_value.
+     *
+     * @context progressive web apps, cache rules
+     *
+     * @return Application_Model_Option_Value
+     */
+    public function touch() {
+        $this->setTouchedAt(time())->save();
+
+        # Refresh corresponding cache
+        $tag = "homepage_app_".$this->getApplication()->getId();
+        $this->cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, array($tag));
+
+        return $this;
+    }
+
+    /**
+     * When expires_at is set to null, the cache will never expire until a manual trigger is done, via push or via touch.
+     * If touch is newer than the saved touch, then it will be refreshed.
+     * If expires is past, then even if option is un-touched, cache will be refreshed.
+     *
+     * @context progressive web apps, cache rules
+     *
+     * @param null|int $time -1 will never expire.
+     * @return Application_Model_Option_Value
+     */
+    public function expires($time = null) {
+        /** Default expires in a week. */
+        if($time === null) {
+            $time = time() + 604800;
+        }
+
+        $this->setExpiresAt($time)->save();
+
+        # Refresh corresponding cache
+        $tag = "homepage_app_".$this->getApplication()->getId();
+        $this->cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, array($tag));
+
+        return $this;
     }
 }

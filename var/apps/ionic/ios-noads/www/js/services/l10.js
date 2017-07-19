@@ -1,4 +1,7 @@
-App.service('layout_10', function($rootScope) {
+/*global
+ angular
+ */
+angular.module("starter").service('layout_10', function() {
 
     var service = {};
 

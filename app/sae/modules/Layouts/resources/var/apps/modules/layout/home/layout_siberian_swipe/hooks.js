@@ -4,7 +4,7 @@
  *
  * All the following functions are required in order for the Layout to work
  */
-App.service('layout_siberian_swipe', function ($rootScope, $timeout, HomepageLayout) {
+angular.module("starter").service('layout_siberian_swipe', function ($rootScope, $timeout) {
 
     var service = {};
 

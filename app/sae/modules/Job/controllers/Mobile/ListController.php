@@ -11,6 +11,10 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default {
             try {
 
                 if ($value_id = $values['value_id']) {
+
+                    $job = new Job_Model_Job();
+                    $job->find($value_id, "value_id");
+
                     $time = $values["time"];
                     $pull_to_refresh = filter_var($values["pull_to_refresh"], FILTER_VALIDATE_BOOLEAN);
                     $count = $values["count"];
@@ -29,6 +33,12 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default {
 
                     if(!$more_search) {
                         $radius = 1000;
+                    }
+
+                    /** Convert to miles */
+                    $distance_unit = $job->getDistanceUnit();
+                    if($distance_unit === "mi") {
+                        $radius = $radius * 0.621371;
                     }
 
                     $search_by_distance = false;
@@ -119,9 +129,6 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default {
 
                 }
 
-                $job = new Job_Model_Job();
-                $job->find($value_id, "value_id");
-
                 $category = new Job_Model_Category();
                 $categories = $category->findAll(array(
                     "job_id" => $job->getId(),
@@ -163,11 +170,13 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default {
 
 
                 $options = array(
-                    "display_search" => filter_var($job->getDisplaySearch(), FILTER_VALIDATE_BOOLEAN),
-                    "display_place_icon" => filter_var($job->getDisplayPlaceIcon(), FILTER_VALIDATE_BOOLEAN),
-                    "display_income" => filter_var($job->getDisplayIncome(), FILTER_VALIDATE_BOOLEAN),
-                    "title_company" => __($job->getTitleCompany()),
-                    "title_place" => __($job->getTitlePlace()),
+                    "display_search"        => filter_var($job->getDisplaySearch(), FILTER_VALIDATE_BOOLEAN),
+                    "display_place_icon"    => filter_var($job->getDisplayPlaceIcon(), FILTER_VALIDATE_BOOLEAN),
+                    "display_income"        => filter_var($job->getDisplayIncome(), FILTER_VALIDATE_BOOLEAN),
+                    "distance_unit"         => $distance_unit,
+                    "default_radius"        => $job->getDefaultRadius(),
+                    "title_company"         => __($job->getTitleCompany()),
+                    "title_place"           => __($job->getTitlePlace()),
                 );
 
                 $html = array(
@@ -189,7 +198,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default {
                 );
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($html);
         }
 
     }
@@ -273,7 +282,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default {
                 );
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($html);
         }
 
 
@@ -385,7 +394,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default {
                 );
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($html);
         }
 
 
@@ -411,6 +420,8 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default {
                         $fullname   = $values["fullname"];
                         $email      = $values["email"];
                         $message    = $values["message"];
+                        $phone      = $values["phone"];
+                        $address    = $values["address"];
 
                         $layout = Zend_Controller_Action_HelperBroker::getStaticHelper('layout')->getLayoutInstance()->loadEmail('job', 'contact_form');
                         $layout
@@ -418,6 +429,8 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default {
                             ->setPlaceTitle($place_title)
                             ->setFullname($fullname)
                             ->setEmail($email)
+                            ->setPhone($phone)
+                            ->setAddress($address)
                             ->setMessage($message)
                         ;
 
@@ -468,7 +481,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default {
             );
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
 
     }
 
@@ -538,7 +551,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default {
             );
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
 
     }
 
@@ -604,7 +617,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default {
             );
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
     }
 
     public function editcompanyAction() {
@@ -671,7 +684,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default {
             );
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
 
     }
 }

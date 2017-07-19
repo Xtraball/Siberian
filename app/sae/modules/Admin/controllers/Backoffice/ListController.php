@@ -123,7 +123,7 @@ class Admin_Backoffice_ListController extends Backoffice_Controller_Default
                 $key = sha1($admin->getFirstname() . $admin->getId());
 
                 if($key == $this->getRequest()->getParam('key', 'aa')) {
-                    $front_session = $this->getSession('front');
+                    $front_session = $this->getSession(Core_Model_Session::TYPE_ADMIN);
                     $front_session->resetInstance()->setAdmin($admin);
                     $this->_redirect('');
                     return $this;

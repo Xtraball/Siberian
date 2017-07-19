@@ -20,8 +20,8 @@ if(!isset($_config["debug"]) || !$_config["debug"]) {
     die;
 }
 
-set_time_limit(120);
-ini_set('max_execution_time', 120);
+set_time_limit(300);
+ini_set('max_execution_time', 300);
 umask(0);
 
 setlocale(LC_MONETARY, 'en_US');

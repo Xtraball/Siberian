@@ -1,0 +1,179 @@
+/*global
+ App, angular, BASE_PATH
+ */
+
+angular.module("starter").controller("FolderListController", function($scope, $stateParams, $ionicNavBarDelegate,
+                                                                      $timeout, SB, Customer, Folder, Padlock) {
+
+    angular.extend($scope, {
+        is_loading      : true,
+        value_id        : $stateParams.value_id,
+        search          : {},
+        card_design     : false
+    });
+
+    Folder.setValueId($stateParams.value_id);
+    Folder.setCategoryId(_.get($stateParams, "category_id", null));
+
+    $scope.computeCollections = function() {
+        var unlocked = Customer.can_access_locked_features || Padlock.unlocked_by_qrcode;
+
+        var compute = function(collection) {
+            var destination = [];
+            angular.forEach(collection, function(folder_item) {
+                if(unlocked || !folder_item.is_locked || (folder_item.code === "padlock")) {
+                    if(unlocked && (folder_item.code === "padlock")) {
+                        return;
+                    }
+
+                    this.push(folder_item);
+                }
+            }, destination);
+            return destination;
+        };
+
+        $scope.collection = compute($scope.collection_data);
+        $scope.search_list = compute($scope.search_list_data);
+    };
+
+    $scope.loadContent = function() {
+        Folder.findAll()
+            .then(function(data) {
+
+                var values = angular.copy(data);
+
+                $scope.cover        = values.cover;
+
+                $ionicNavBarDelegate.title(values.page_title);
+                $timeout(function() {
+                    $scope.page_title   = values.page_title;
+                });
+
+                $scope.collection_data      = values.folders;
+                $scope.search_list_data     = values.search_list;
+
+                $scope.computeCollections();
+
+                $scope.show_search = values.show_search;
+
+                return values;
+
+            }).then(function(data) {
+                $scope.is_loading = false;
+
+                /** Pre-load any sub-folder */
+                var sub_folders = _.filter(data.folders, {
+                    is_subfolder: true
+                });
+
+                angular.forEach(sub_folders, function(sub_folder) {
+                    if(_.find(Folder.collection, {category_id: sub_folder.category_id}) === undefined) {
+                        Folder.findAll($scope.value_id, sub_folder.category_id, {
+                            refresh: true
+                        }).then(function(folder) {
+                            Folder.collection.push(folder);
+                        });
+                    }
+
+                });
+
+            });
+
+    };
+
+    $scope.$on(SB.EVENTS.AUTH.loginSuccess, function() {
+        $scope.loadContent();
+    });
+
+    $scope.$on(SB.EVENTS.AUTH.logoutSuccess, function() {
+        $scope.loadContent();
+    });
+
+    $scope.$on(SB.EVENTS.PADLOCK.unlockFeatures, function() {
+        $scope.loadContent();
+    });
+
+    $scope.$on(SB.EVENTS.PADLOCK.lockFeatures, function() {
+        $scope.loadContent();
+    });
+
+    $scope.loadContent();
+
+});
+;/*global
+    App, angular, _
+ */
+
+/**
+ * Folder
+ *
+ * @author Xtraball SAS
+ */
+angular.module("starter").factory("Folder", function($pwaRequest) {
+
+    var factory = {
+        value_id    : null,
+        folder_id   : null,
+        category_id : null,
+        collection  : [],
+        extendedOptions: {}
+    };
+
+    /**
+     *
+     * @param value_id
+     */
+    factory.setValueId = function(value_id) {
+        factory.value_id = value_id;
+    };
+
+    /**
+     *
+     * @param category_id
+     */
+    factory.setCategoryId = function(category_id) {
+        factory.category_id = category_id;
+    };
+
+    /**
+     *
+     * @param options
+     */
+    factory.setExtendedOptions = function(options) {
+        factory.extendedOptions = options;
+    };
+
+    factory.findAll = function(value_id, category_id, options) {
+
+        value_id = (value_id === undefined) ? this.value_id : value_id;
+        category_id = (category_id === undefined) ? this.category_id : category_id;
+
+        if(!value_id) {
+            return $pwaRequest.reject("[Factory::Facebook.findAll] missing value_id");
+        }
+
+        var payload = $pwaRequest.getPayloadForValueId(factory.value_id);
+        if((payload !== false) && (category_id === null)) {
+
+            return $pwaRequest.resolve(payload);
+
+        } else if((category_id !== null) && (_.find(factory.collection, {category_id: category_id}) !== undefined)) {
+
+            return _.find(factory.collection, {category_id: category_id});
+
+        } else {
+
+            /** Otherwise fallback on PWA */
+            return $pwaRequest.get("folder/mobile_list/findallv2", angular.extend({
+                urlParams: {
+                    value_id    : value_id,
+                    category_id : category_id
+                }
+            }, factory.extendedOptions, options));
+
+        }
+
+    };
+
+    return factory;
+});

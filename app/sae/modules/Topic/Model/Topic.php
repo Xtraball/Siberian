@@ -28,6 +28,62 @@ class Topic_Model_Topic extends Core_Model_Default {
         return $in_app_states;
     }
 
+    /**
+     * @param $option_value
+     * @return bool
+     */
+    public function getEmbedPayload($option_value) {
+
+        $payload = array(
+            "description"   => $this->getDescription(),
+            "collection"    => array(),
+            "page_title"    => $option_value->getTabbarName()
+        );
+
+        if ($this->getId()) {
+
+            $device_uid = $_GET["device_uid"];
+
+            $subscription = new Topic_Model_Subscription();
+
+            $parent_categories = $this->getCategories();
+            foreach ($parent_categories as $category) {
+                $picture = $category->getPicture() ? Application_Model_Application::getImagePath() . $category->getPicture() : null;
+
+                $data_category = array(
+                    "id"                => $category->getId() * 1,
+                    "name"              => $category->getName(),
+                    "description"       => $category->getDescription(),
+                    "picture"           => $picture,
+                    "is_subscribed"     => $device_uid ? $subscription->isSubscribed($category->getId(), $device_uid) : null
+                );
+
+                $children = $category->getChildren();
+                $data_children = array();
+                foreach ($children as $child) {
+
+                    $picture = $child->getPicture() ? Application_Model_Application::getImagePath() . $child->getPicture() : "";
+
+                    $data_children[] = array(
+                        "id"                => $child->getId() * 1,
+                        "name"              => $child->getName(),
+                        "description"       => $child->getDescription(),
+                        "picture"           => $picture,
+                        "is_subscribed"     => $device_uid ? $subscription->isSubscribed($child->getId(), $device_uid) : null
+                    );
+                }
+
+                $data_category["children"] = $data_children;
+
+                $payload["collection"][] = $data_category;
+            }
+        }
+
+
+        return $payload;
+
+    }
+
     public function prepareFeature($option_value) {
 
         parent::prepareFeature($option_value);

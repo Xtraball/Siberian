@@ -105,4 +105,14 @@ $schemas['application_option_value'] = array(
         'type' => 'tinyint(1) unsigned',
         'default' => '1',
     ),
+    'touched_at' => array(
+        'type' => 'int(11)',
+        'is_null' => false,
+        'default' => -1,
+    ),
+    'expires_at' => array(
+        'type' => 'int(11)',
+        'is_null' => false,
+        'default' => -1,
+    ),
 );

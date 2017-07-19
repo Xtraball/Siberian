@@ -33,7 +33,7 @@
         <script type="text/javascript">
             tabbar_names = new Array();
         </script>
-        <h3 class="title-editor border-blue">
+        <h3 id="sb-tour-pages-section" class="title-editor border-blue text-center sb-tour">
             <?php echo __('Your pages'); ?>
             <?php if($app_id AND $app_secret): ?>
                 <?php if(System_Model_Config::getValueFor("facebook_import_active") AND $this->_canAccess("editor_facebook_import")): ?>
@@ -43,12 +43,12 @@
                 <?php endif; ?>
             <?php endif; ?>
             <?php if(APPLICATION_ENV != "production"): ?>
-            <button id="feature_import_export" class="color-blue bt-header-right btn import-feature pull-right export-button">
+            <button id="feature_import_export" class="color-blue sb-tour bt-header-right btn import-feature pull-right export-button">
                 <?php echo __("Import / Export") ?>
             </button>
             <?php endif; ?>
         </h3>
-        <div id="pages_list" class="subcontent content-color">
+        <div id="pages_list" class="subcontent content-color sb-tour">
             <div class="option_path">
                 <?php if ($option_values_folders) : ?>
                     <div id="node_container_default" class="node_container" style="display:none">
@@ -98,7 +98,7 @@
                     <i class="fa fa-times"></i>
                 </button>
             </span>
-            <h3 class="title-editor border-blue">
+            <h3 class="title-editor border-blue text-center">
                 <?php echo $this->_('Add a page'); ?>
             </h3>
             <?php foreach($options as $key => $option) : ?>
@@ -146,7 +146,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-2 col-md-offset-10">
-                                <button type="button" class="add_page preview_button add color-blue pull-right btn">
+                                <button type="button" class="add_page preview_button color-blue pull-right btn">
                                     <?php echo $this->_('Add'); ?>
                                 </button>
                                 <input type="hidden" name="option_id" value="<?php echo $option->getId(); ?>" />
@@ -157,15 +157,15 @@
             <?php endforeach; ?>
         </div>
     </div>
-    <div id="add_pages_content" class="content">
-        <h3 class="title-editor border-blue">
+    <div id="add_pages_content" class="content sb-tour">
+        <h3 class="title-editor border-blue text-center">
             <?php echo $this->_('Add pages'); ?>
         </h3>
-        <div id="add-pages" class="subcontent content-white-bkg">
+        <div id="add-pages" class="subcontent content-color">
             <div class="container-fluid">
                 <div class="content">
-                    <div class="content-no-padding col-md-3">
-                        <ul class="carret">
+                    <div id="sb-tour-add-pages-filter" class="content-no-padding col-md-3 sb-tour">
+                        <ul class="carret content-options content-white-bkg">
                             <li><a href="javascript:void(0)" class="filter_category color-blue button_handler active" rel="all"><?php echo strtoupper($this->_("All")); ?></a></li>
                             <?php foreach($categories as $category) : ?>
                             <li><a href="javascript:void(0)" class="filter_category" rel="<?php echo $category->getId() ?>"><?php echo strtoupper($this->_($category->getName())); ?></a></li>
@@ -174,13 +174,13 @@
                     </div>
                     <div class="icons-list col-md-9">
                         <div>
-                            <ul id="add_page_list">
+                            <ul id="add_page_list" class="sb-tour">
                                 <?php foreach ($options as $key => $option) : ?>
                                     <?php if (!$this->_canAccess("feature_".$option->getCode(),"all") OR $option->onlyOnce() AND in_array($option->getId(), $option_ids)) continue; ?>
                                     <?php $preview = $option->getPreview(); ?>
-                                    <li id="add_page_<?php echo $option->getId(); ?>" class="add_option_value col-md-3 col-sm-3 col-xs-4 category_option category_option_<?php echo $option->getCategoryId(); ?>">
+                                    <li id="add_page_<?php echo $option->getId(); ?>" class="sb-tour add_option_value col-md-3 col-sm-3 col-xs-4 category_option category_option_<?php echo $option->getCategoryId(); ?>">
                                         <a href="<?php echo $this->getUrl('application/customization_features/save'); ?>" class="details <?php if($preview->getId() AND $preview->getTitle()) : ?>show_previews<?php else : ?>add_page<?php endif; ?>" rel="<?php echo $option->getId(); ?>">
-                                            <div class="color-blue block_add_pages_icon">
+                                            <div class="color-blue block_add_pages_icon btn">
                                                 <img src="<?php echo $this->getIconUrl($option); ?>" alt="<?php echo $option->getName(); ?>" title="<?php echo $option->getName(); ?>" width="auto" height="50" class="block" data-image="<?php echo $option->getIconId() ?>" data-style="area" data-color="color" />
                                                 <span><?php echo cut($option->getName(), 14); ?></span>
                                                 <input type="hidden" name="option_id" value="<?php echo $option->getId(); ?>"/>
@@ -399,12 +399,14 @@ var page = {
         $('.option_value').off('mouseenter mouseout');
         $('#pages_list').on({
             mouseenter: function () {
-                $(this).children('div.actions').fadeIn();
+                $(this).children('div.actions').slideDown();
+                $(this).children('i.fa-caret-up').slideDown('fast');
             },
             mouseleave: function () {
                 var a = $(this).children('a.details');
                 if (!$(this).hasClass('selected')) {
-                    $(this).children('div.actions').stop().fadeOut();
+                    $(this).children('div.actions').stop().slideUp();
+                    $(this).children('i.fa-caret-up').stop().slideUp('fast');
                 }
             }
         }, '.option_value');
@@ -600,7 +602,8 @@ var page = {
                     }
 
                     this.next.addClass('active');
-                    this.next.parent().children('div.actions').fadeIn();
+                    this.next.parent().children('div.actions').slideDown();
+                    this.next.parent().children('i.fa-caret-up').slideUp();
 
                     this.current_path = datas.path;
 
@@ -706,7 +709,8 @@ var page = {
         }.bind(this));
         $('#header_editor').slideUp(animated ? 300 : 0, function () { $('#title_editor').html(''); });
 
-        $('.option_value.selected').removeClass('selected').children('div.actions').fadeOut();
+        $('.option_value.selected').removeClass('selected').children('div.actions').slideUp();
+        $('.option_value.selected').removeClass('selected').children('i.fa-caret-up').slideDown();
         $('a.details.active').removeClass('active');
 
         if (this.current) {
@@ -1213,7 +1217,7 @@ var FolderForm = Class.extend({
                         //Liste catégories
                         $('.folderForm input#category_id').val(datas.category_id);
                         $('#category_dummy').attr('id', 'category_' + datas.category_id);
-                        $('li#category_' + datas.category_id).find('.fa fa-arrows icon-move').removeAttr('style');
+                        $('li#category_' + datas.category_id).find('.fa fa-sort-h icon-move').removeAttr('style');
                         if (category.root != '') {
                             $('li#category_' + datas.category_id).find('.delete_category').removeAttr('style');
                         }
@@ -1476,19 +1480,6 @@ function WidthChangeV2(mql) {
     /*END PREVIEW MODAL*/
 
     /*carousel*/
-    #carousel-container ul li i.fa-caret-up {
-        position: absolute;
-        bottom: -40px;
-        width: 80px;
-        font-size: 35px;
-        z-index: 1;
-        display: none;
-    }
-
-    #carousel-container ul li.selected i.fa-caret-up {
-        display: block;
-    }
-
     #carousel-container ul li.page_placeholder {
         width: 100px;
         height:95px;
@@ -1508,18 +1499,19 @@ function WidthChangeV2(mql) {
 
     #carousel-container div.actions {
         position: absolute;
-        top: 0px;
+        top: -1.8vh;
         left: 5px;
         right: 5px;
-        z-index: 2;
+        width: 80%;
+        margin: 0 auto;
     }
 
-    #carousel-container div.actions .move_page i {
-        font-size: 12px;
-    }
-
-    #carousel-container div.actions .delete_page i {
-        font-size: 14px;
+    #carousel-container ul li i.fa-caret-up {
+        position: absolute;
+        bottom: -21px;
+        width: 80px;
+        font-size: 35px;
+        left: 10px;
     }
     /** carousel **/
 
@@ -1557,6 +1549,32 @@ function WidthChangeV2(mql) {
     }
     .carret li a.button_handler:hover {
         transition: none 0s ease 0s;
+    }
+    #add_page_list .block_add_pages_icon {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        transition: all 0.3s ease 0s;
+        -moz-transition: all 0.3s ease 0s;
+        -webkit-transition: all 0.3s ease 0s;
+        -o-transition: all 0.3s ease 0s;
+        width:100%;
+    }
+    li:nth-child(1) i.fa.fa-arrows-h, li:nth-child(1) i.fa.fa-arrows-h:before {
+        content: "\f178";
+        cursor: e-resize;
+    }
+    li:nth-last-child() i.fa.fa-arrows-h, li:nth-last-child() i.fa.fa-arrows-h:before {
+        content: "\f177";
+    }
+    /*.icons-list {
+        padding-right: 0;
+    }*/
+    .option_value a.radio {
+        display: inherit;
+        margin: auto;
+    }
+    #pages_list {
+        padding-bottom:5px;
     }
     .bt-import-fb{
         position: absolute;

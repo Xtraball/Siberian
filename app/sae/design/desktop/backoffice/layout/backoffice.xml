@@ -84,4 +84,10 @@
         </views>
     </backoffice_advanced_whitelabel_template>
 
+    <backoffice_tour_settings_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="backoffice/tour/settings.phtml" />
+        </views>
+    </backoffice_tour_settings_template>
 </layout>

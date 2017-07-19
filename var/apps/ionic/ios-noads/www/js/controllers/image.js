@@ -1,54 +1,56 @@
-App.config(function($stateProvider) {
+/*global
+ App, angular, BASE_PATH
+ */
 
-    $stateProvider.state('image-list', {
-        url: BASE_PATH+"/media/mobile_gallery_image_list/index/value_id/:value_id",
-        templateUrl: 'templates/media/image/l1/list.html',
-        controller: 'ImageListController'
+angular.module("starter").controller("ImageListController", function($scope, $stateParams, $timeout, $translate, Url,
+                                                                     Image, ionGalleryConfig) {
+
+    angular.extend($scope, {
+        is_loading      : false,
+        can_load_more   : true,
+        images          : [],
+        collection      : [],
+        show_galleries  : false,
+        value_id        : $stateParams.value_id,
+        card_design     : false
     });
-
-}).controller('ImageListController', function($scope, $stateParams, $timeout, $translate, Url, Image, ionGalleryConfig) {
 
     ionGalleryConfig.action_label = $translate.instant("Done");
 
-    $scope.$on("connectionStateChange", function(event, args) {
-        if(args.isOnline == true) {
-            $scope.loadContent();
-        }
-    });
-
-    $scope.is_loading = false;
-    $scope.can_load_more = true;
-    $scope.images = new Array();
-    $scope.collection = new Array();
-    $scope.show_galleries = false;
-    $scope.value_id = Image.value_id = $stateParams.value_id;
+    Image.setValueId($stateParams.value_id);
 
     $scope.loadContent = function() {
 
-        if($scope.is_loading) return;
-
         $scope.is_loading = true;
 
-        Image.findAll().success(function(data) {
-            $scope.galleries = data.galleries;
-            if($scope.galleries.length) {
+        Image.findAll()
+            .then(function(data) {
+
+                $scope.galleries = data.galleries;
+                if($scope.galleries.length) {
+                    $scope.is_loading = false;
+                    $scope.showGallery($scope.galleries[0]);
+                }
+                $scope.page_title = data.page_title;
+
+            }).then(function() {
+
                 $scope.is_loading = false;
-                $scope.showGallery($scope.galleries[0]);
-            }
-            $scope.page_title = data.page_title;
-        }).finally(function() {
-            $scope.is_loading = false;
-        });
+
+            });
     };
 
     $scope.showGallery = function(gallery) {
 
         $scope.show_galleries = false;
+        $scope.button_label = gallery.name;
 
-        if($scope.current_gallery && $scope.current_gallery.id == gallery.id || $scope.is_loading) return;
+        if($scope.current_gallery && ($scope.current_gallery.id === gallery.id) || $scope.is_loading) {
+            return;
+        }
 
         $scope.can_load_more = true;
-        $scope.collection = new Array();
+        $scope.collection = [];
         $scope.current_gallery = gallery;
 
         $scope.loadGallery();
@@ -62,20 +64,22 @@ App.config(function($stateProvider) {
 
         if($scope.collection.length) {
             offset = $scope.collection[$scope.collection.length - 1].offset;
-            if ($scope.current_gallery.type == "custom") offset++;
+            if ($scope.current_gallery.type == "custom") {
+                offset++;
+            }
         }
 
-        Image.find($scope.current_gallery, offset).success(function(data) {
-            for(var i = 0; i < data.collection.length; i++) {
-                $scope.collection.push(data.collection[i]);
-            }
-            $scope.can_load_more = data.collection.length > 0 && data.show_load_more;
+        Image.find($scope.current_gallery, offset)
+            .then(function(data) {
+                for(var i = 0; i < data.collection.length; i++) {
+                    $scope.collection.push(data.collection[i]);
+                }
+                $scope.can_load_more = data.collection.length > 0 && data.show_load_more;
 
-        }).error(function(err) {
-        }).finally(function() {
-            $scope.is_loading = false;
-            $scope.$broadcast('scroll.infiniteScrollComplete');
-        });
+            }).then(function() {
+                $scope.is_loading = false;
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+            });
 
 
     };

@@ -15,13 +15,20 @@ class Template_Model_Db_Table_Block extends Core_Model_Db_Table {
         if(!empty($values['app_id'])) {
 
             $fields['color'] = new Zend_Db_Expr('IFNULL(tba.color, tb.color)');
-            $fields['background_color'] = new Zend_Db_Expr('IFNULL(tba.background_color, tb.background_color)');
-            $fields['border_color'] = new Zend_Db_Expr('IFNULL(tba.border_color, tb.border_color)');
-            $fields['image_color'] = new Zend_Db_Expr('IFNULL(tba.image_color, tb.image_color)');
-            $fields['text_opacity'] = new Zend_Db_Expr('IFNULL(tba.text_opacity, tb.text_opacity)');
-            $fields['background_opacity'] = new Zend_Db_Expr('IFNULL(tba.background_opacity, tb.background_opacity)');
-            $fields['border_opacity'] = new Zend_Db_Expr('IFNULL(tba.border_opacity, tb.border_opacity)');
-            $fields['image_opacity'] = new Zend_Db_Expr('IFNULL(tba.image_opacity, tb.image_opacity)');
+            $fields['background_color'] =
+                new Zend_Db_Expr('IFNULL(tba.background_color, tb.background_color)');
+            $fields['border_color'] =
+                new Zend_Db_Expr('IFNULL(tba.border_color, tb.border_color)');
+            $fields['image_color'] =
+                new Zend_Db_Expr('IFNULL(tba.image_color, tb.image_color)');
+            $fields['text_opacity'] =
+                new Zend_Db_Expr('IFNULL(tba.text_opacity, tb.text_opacity)');
+            $fields['background_opacity'] =
+                new Zend_Db_Expr('IFNULL(tba.background_opacity, tb.background_opacity)');
+            $fields['border_opacity'] =
+                new Zend_Db_Expr('IFNULL(tba.border_opacity, tb.border_opacity)');
+            $fields['image_opacity'] =
+                new Zend_Db_Expr('IFNULL(tba.image_opacity, tb.image_opacity)');
 
             $join = join(' AND ', array(
                 'tba.block_id = tb.block_id',
@@ -38,15 +45,23 @@ class Template_Model_Db_Table_Block extends Core_Model_Db_Table {
 
         if(!empty($values)) {
             foreach($values as $quote => $value) {
-                if($value instanceof Zend_Db_Expr) $select->where($value);
-                else if(stripos($quote, '?') !== false) $select->where($quote, $value);
-                else $select->where($quote . ' = ?', $value);
+                if ($value instanceof Zend_Db_Expr) {
+                    $select->where($value);
+                } else if (stripos($quote, '?') !== false) {
+                    $select->where($quote, $value);
+                } else {
+                    $select->where($quote . ' = ?', $value);
+                }
             }
         }
 
         if(!empty($params)) {
-            if(!empty($params['limit'])) $select->limit($params['limit']);
-            if(!empty($params['offset'])) $select->offset($params['offset']);
+            if(!empty($params['limit'])) {
+                $select->limit($params['limit']);
+            }
+            if(!empty($params['offset'])) {
+                $select->offset($params['offset']);
+            }
         }
 
         if(!empty($order)) {
@@ -60,7 +75,11 @@ class Template_Model_Db_Table_Block extends Core_Model_Db_Table {
         foreach($blocks as $block) {
             if(!$block->getParentId()) {
                 $sorted_collection[] = $block;
-            } else {
+            }
+        }
+
+        foreach($blocks as $block) {
+            if($block->getParentId()) {
                 $this->__buildTree($block, $sorted_collection);
             }
         }

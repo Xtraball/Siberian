@@ -275,10 +275,10 @@ var AlertMessage = Class.extend({
     isError: function(isError) {
         if(!this.noBackground) {
             if (isError) {
-                $('#alert').removeClass('header').css('background-color', '#a94442');
+                $('#alert').removeClass('header').css('background-color', '#ed5f55');
                 $("#error_icon").removeClass("fa-check").addClass("fa-exclamation-triangle");
             } else {
-                $('#alert').removeClass('header').css('background-color', '#3c763d');
+                $('#alert').removeClass('header').css('background-color', '#3bb85d');
                 $("#error_icon").removeClass("fa-exclamation-triangle").addClass("fa-check");
             }
         } else {
@@ -651,8 +651,8 @@ $(document).ready(function(){
 
 function bindScrollOverview() {
     $(window).bind('scroll', function() {
-        var navHeight = 180;
-        var navHeightLeft = 70;
+        var navHeight = 100;
+        var navHeightLeft = 93;
         if ($(window).scrollTop() > navHeight) {
             $('#iphone').addClass('phone-fixed');
             $('#previewer').css({position:"fixed", top:"25px"});

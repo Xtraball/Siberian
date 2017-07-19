@@ -1,58 +1,59 @@
-App.config(function($stateProvider) {
+/*global
+    App, angular, BASE_PATH, IS_NATIVE_APP
+ */
+angular.module("starter").controller("BookingController", function($scope, $stateParams, Booking, Dialog, Loader) {
 
-    $stateProvider.state('booking-view', {
-        url: BASE_PATH+"/booking/mobile_view/index/value_id/:value_id",
-        controller: 'BookingController',
-        templateUrl: "templates/booking/l1/view.html"
+    angular.extend($scope, {
+        is_loading          : false,
+        value_id            : $stateParams.value_id,
+        use_pull_refresh    : false,
+        formData            : {},
+        people              : [],
+        card_design         : false
     });
 
-}).controller('BookingController', function($rootScope, $scope, $stateParams, $timeout, $translate, Booking, Dialog) {
+    Booking.setValueId($stateParams.value_id);
 
-    $scope.$on("connectionStateChange", function(event, args) {
-        if(args.isOnline == true) {
-            $scope.loadContent();
-        }
-    });
-
-    $scope.value_id = Booking.value_id = $stateParams.value_id;
-    $scope.formData = {};
-    $scope.people = new Array(); var length = 0;
-    while (length < 20) $scope.people.push(length++);
+    var length = 1;
+    while (length <= 20) {
+        $scope.people.push(length);
+        length += 1;
+    }
 
     $scope.loadContent = function() {
 
         $scope.is_loading = true;
 
-        Booking.findStores().success(function(data) {
-            $scope.stores = data.stores;
-            $scope.page_title = data.page_title;
-        }).finally(function() {
-            $scope.is_loading = false;
-        });
-
+        Booking.findStores()
+            .then(function (data) {
+                $scope.populate(data);
+            }).then(function () {
+                $scope.is_loading = false;
+            });
     };
 
-    $scope.postForm = function() {
-
-        $scope.is_loading = true;
-
-        Booking.post($scope.formData).success(function(data) {
-            Dialog.alert("", data.message, $translate.instant("OK"));
-
-            $scope.formData = {};
-
-        }).error(function(data) {
-            if(data && angular.isDefined(data.message)) {
-                Dialog.alert($translate.instant("Error"), data.message, $translate.instant("OK"));
-            }
-
-        }).finally(function() {
-            $scope.is_loading = false;
-        });
+    $scope.populate = function(data) {
+        $scope.stores       = data.stores;
+        $scope.page_title   = data.page_title;
     };
 
-    $timeout(function() {
-        $scope.loadContent();
-    }, 3000);
+    $scope.submitForm = function() {
+
+        Loader.show();
+
+        Booking
+            .submitForm($scope.formData)
+            .then(function(data) {
+                Dialog.alert("Success", data.message, "OK");
+                /** Reset form on success. */
+                $scope.formData = {};
+            }, function(data) {
+                Dialog.alert("Error", data.message, "OK");
+            }).then(function() {
+                Loader.hide();
+            });
+    };
+
+    $scope.loadContent();
 
 });

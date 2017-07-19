@@ -1,53 +1,62 @@
+/*global
+ App, angular
+ */
 
-App.factory('Youtube', function($q, $sbhttp) {
+/**
+ * Youtube
+ *
+ * @author Xtraball SAS
+ */
+angular.module("starter").factory("Youtube", function($q, $pwaRequest) {
 
-    var factory = {};
+    var factory = {
+        key             : null,
+        extendedOptions : {}
+    };
 
-    factory.key = null;
-    
     factory.findBySearch = function(keyword, offset) {
 
         var param_offset = "";
         
-        if(offset != null && angular.isDefined(offset)) {
+        if((offset !== null) && angular.isDefined(offset)) {
             param_offset = "&pageToken=" + offset;
         }
 
         var deferred = $q.defer();
 
-        $sbhttp({
-            method: 'GET',
-            url: "https://www.googleapis.com/youtube/v3/search/?q=" + keyword + "&type=video&part=snippet&key=" + factory.key + "&maxResults=5" + param_offset + "&order=date",
-            cache: false,
-            responseType:'json'
-        }).success(function(response) {
+        var google_url = "https://www.googleapis.com/youtube/v3/search/?q=" +
+            keyword + "&type=video&part=snippet&key=" + factory.key + "&maxResults=5" +
+            param_offset + "&order=date";
+
+        $pwaRequest.get(google_url, {})
+            .then(function(response) {
             
-            var data = {
-                collection: new Array()
-            };
-
-            angular.forEach(response.items, function (item) {
-
-                var video = {
-                    video_id: item.id.videoId,
-                    cover_url: item.snippet.thumbnails.medium.url,
-                    title: item.snippet.title,
-                    description: item.snippet.description,
-                    date: item.snippet.publishedAt,
-                    url: "https://www.youtube.com/watch?v=" + item.id.videoId,
-                    url_embed: "https://www.youtube.com/embed/" + item.id.videoId
+                var data = {
+                    collection: []
                 };
 
-                data.collection.push(video);
+                angular.forEach(response.items, function (item) {
+
+                    var video = {
+                        video_id        : item.id.videoId,
+                        cover_url       : item.snippet.thumbnails.medium.url,
+                        title           : item.snippet.title,
+                        description     : item.snippet.description,
+                        date            : item.snippet.publishedAt,
+                        url             : "https://www.youtube.com/watch?v=" + item.id.videoId,
+                        url_embed       : "https://www.youtube.com/embed/" + item.id.videoId
+                    };
+
+                    data.collection.push(video);
+                });
+
+                data.nextPageToken = response.nextPageToken;
+
+                return deferred.resolve(data);
+
+            }, function (data) {
+                return deferred.reject(data);
             });
-
-            data.nextPageToken = response.nextPageToken;
-
-            return deferred.resolve(data);
-
-        }).error(function (data) {
-            return deferred.reject(data);
-        });
 
         return deferred.promise;
     };
@@ -56,18 +65,17 @@ App.factory('Youtube', function($q, $sbhttp) {
 
         var param_offset = "";
 
-        if(offset != null && angular.isDefined(offset)) {
+        if((offset !== null) && angular.isDefined(offset)) {
             param_offset = "&pageToken=" + offset;
         }
 
         var deferred = $q.defer();
 
-        $sbhttp({
-            method: 'GET',
-            url: "https://www.googleapis.com/youtube/v3/channels/?part=snippet&key=" + factory.key + "&forUsername="+keyword + "&order=date",
-            cache: false,
-            responseType:'json'
-        }).success(function(data) {
+        var google_url = "https://www.googleapis.com/youtube/v3/channels/?part=snippet&key=" +
+            factory.key + "&forUsername="+keyword + "&order=date";
+
+        $pwaRequest.get(google_url)
+            .then(function(data) {
 
             var id;
             if(data.items[0]) {
@@ -76,27 +84,26 @@ App.factory('Youtube', function($q, $sbhttp) {
                 id = keyword;
             }
 
-            $sbhttp({
-                method: 'GET',
-                url: "https://www.googleapis.com/youtube/v3/search/?&part=snippet&key=" + factory.key + "&maxResults=5&type=video&channelId=" + id + param_offset + "&order=date",
-                cache: false,
-                responseType: 'json'
-            }).success(function (response) {
+            var youtube_url = "https://www.googleapis.com/youtube/v3/search/?&part=snippet&key=" +
+                factory.key + "&maxResults=5&type=video&channelId=" + id + param_offset + "&order=date";
+
+            $pwaRequest.get(youtube_url)
+                .then(function (response) {
 
                 var data = {
-                    collection: new Array()
+                    collection: []
                 };
 
                 angular.forEach(response.items, function (item) {
 
                     var video = {
-                        video_id: item.id.videoId,
-                        cover_url: item.snippet.thumbnails.medium.url,
-                        title: item.snippet.title,
-                        description: item.snippet.description,
-                        date: item.snippet.publishedAt,
-                        url: "https://www.youtube.com/watch?v=" + item.id.videoId,
-                        url_embed: "https://www.youtube.com/embed/" + item.id.videoId
+                        video_id        : item.id.videoId,
+                        cover_url       : item.snippet.thumbnails.medium.url,
+                        title           : item.snippet.title,
+                        description     : item.snippet.description,
+                        date            : item.snippet.publishedAt,
+                        url             : "https://www.youtube.com/watch?v=" + item.id.videoId,
+                        url_embed       : "https://www.youtube.com/embed/" + item.id.videoId
                     };
 
                     data.collection.push(video);
@@ -107,7 +114,7 @@ App.factory('Youtube', function($q, $sbhttp) {
 
                 return deferred.resolve(data);
 
-            }).error(function (data) {
+            }, function (data) {
                 return deferred.reject(data);
             });
 
@@ -120,42 +127,43 @@ App.factory('Youtube', function($q, $sbhttp) {
         
         var param_offset = "";
 
-        if(offset != null && angular.isDefined(offset)) {
+        if((offset !== null) && angular.isDefined(offset)) {
             param_offset = "&pageToken=" + offset;
         }
 
         var deferred = $q.defer();
 
-        $sbhttp({
-            method: 'GET',
-            url: "https://www.googleapis.com/youtube/v3/channels?part=contentDetails&key=" + factory.key + "&forUsername="+keyword + "&order=date",
-            cache: false,
-            responseType:'json'
-        }).success(function(data) {
+        var youtube_url ="https://www.googleapis.com/youtube/v3/channels?part=contentDetails&key=" +
+            factory.key + "&forUsername="+keyword + "&order=date";
 
-            if(data.items[0] && data.items[0].contentDetails && data.items[0].contentDetails.relatedPlaylists && data.items[0].contentDetails.relatedPlaylists.uploads) {
-                
-                $sbhttp({
-                    method: 'GET',
-                    url: "https://www.googleapis.com/youtube/v3/playlistItems/?&part=snippet&key=" + factory.key + "&maxResults=5&playlistId=" + data.items[0].contentDetails.relatedPlaylists.uploads + param_offset + "&order=date",
-                    cache: false,
-                    responseType: 'json'
-                }).success(function (response) {
+        $pwaRequest.get(youtube_url)
+            .then(function(data) {
+
+            if(data.items[0] && data.items[0].contentDetails &&
+                data.items[0].contentDetails.relatedPlaylists &&
+                data.items[0].contentDetails.relatedPlaylists.uploads) {
+
+                var google_url = "https://www.googleapis.com/youtube/v3/playlistItems/?&part=snippet&key=" +
+                    factory.key + "&maxResults=5&playlistId=" +
+                    data.items[0].contentDetails.relatedPlaylists.uploads + param_offset + "&order=date";
+
+                $pwaRequest.get(google_url)
+                    .then(function (response) {
 
                     var data = {
-                        collection: new Array()
+                        collection: []
                     };
 
                     angular.forEach(response.items, function(item) {
 
                         var video = {
-                            video_id: item.snippet.resourceId.videoId,
-                            cover_url: item.snippet.thumbnails.medium.url,
-                            title: item.snippet.title,
-                            description: item.snippet.description,
-                            date: item.snippet.publishedAt,
-                            url: "https://www.youtube.com/watch?v=" + item.snippet.resourceId.videoId,
-                            url_embed: "https://www.youtube.com/embed/" + item.snippet.resourceId.videoId
+                            video_id    : item.snippet.resourceId.videoId,
+                            cover_url   : item.snippet.thumbnails.medium.url,
+                            title       : item.snippet.title,
+                            description : item.snippet.description,
+                            date        : item.snippet.publishedAt,
+                            url         : "https://www.youtube.com/watch?v=" + item.snippet.resourceId.videoId,
+                            url_embed   : "https://www.youtube.com/embed/" + item.snippet.resourceId.videoId
                         };
 
                         data.collection.push(video);
@@ -166,7 +174,7 @@ App.factory('Youtube', function($q, $sbhttp) {
 
                     return deferred.resolve(data);
 
-                }).error(function (data) {
+                }, function (data) {
                     return deferred.reject(data);
                 });
             } else {

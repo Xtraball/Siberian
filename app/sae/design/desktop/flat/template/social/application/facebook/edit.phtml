@@ -3,10 +3,10 @@
 <?php $facebook = $option_value->getObject(); ?>
 <div id="list" class="edit_page facebook">
     <form id="facebookForm" name="facebookForm" method="post" action="<?php echo $this->getUrl('social/application_facebook/editpost') ?>" class="form-horizontal">
-        <h3 class="title-editor no-border-radius">
+        <h3 class="title-editor no-border-radius title-feature-indent">
             <?php echo $this->_('Facebook'); ?>
         </h3>
-        <div class="container-fluid">
+        <div class="container-fluid content-feature">
             <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
             <div class="form-group first-row-feature">
                 <div class="col-sm-12">

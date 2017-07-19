@@ -19,7 +19,7 @@
                 <td></td>
                 <td colspan="4">
                     <label class="checkbox" for="picture_<?php echo $rss_feed->getId(); ?>">
-                        <input type="checkbox" value="1" id="picture_<?php echo $rss_feed->getId(); ?>" name="picture" <?php if($rss_feed->getPicture()) echo 'checked="checked"'; ?>>
+                        <input type="checkbox" value="1" id="picture_<?php echo $rss_feed->getId(); ?>" class="color-blue" name="picture" <?php if($rss_feed->getPicture()) echo 'checked="checked"'; ?>>
                     </label>
                     <label for="picture_<?php echo $rss_feed->getId(); ?>"><?php echo $this->_('Display feed pictures whenever possible'); ?></label>
                 </td>

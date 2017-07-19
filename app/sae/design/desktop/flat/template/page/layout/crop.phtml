@@ -1,4 +1,4 @@
-<h3 class="title-editor border-blue">
+<h3 class="title-editor border-blue text-center">
     <?php echo __('Resize your picture'); ?>
 </h3>
 <?php $output = str_replace('§', '/', $this->getOutputUrl()); ?>
@@ -6,10 +6,10 @@
     <form action="<?php echo str_replace('$', '/', $output); ?>" method="post" id="saveCrop" class="form-horizontal solo-page">
         <div class="form-group">
             <div class="col-md-2">
-                <button type="button" id="hide_form" class="add color-blue pull-left btn" onclick="$.prettyPhoto.close();"><i class="fa fa-arrow-left"></i></button>
+                <button type="button" id="hide_form" class="color-blue pull-left btn" onclick="$.prettyPhoto.close();"><i class="fa fa-angle-left"></i></button>
             </div>
             <div class="col-md-2 col-md-offset-8">
-                <button type="submit" class="add color-blue pull-right btn"><?php echo __('OK') ?></button>
+                <button type="submit" class="color-blue pull-right btn"><?php echo __('OK') ?></button>
             </div>
         </div>
         <?php if($this->getIsColorizable() && $this->getIsColorizable() == true) : ?>
@@ -17,7 +17,7 @@
             <div class="col-md-12">
                 <div class="colorize_checbox">
                     <label for="colorize_picture" id="colorize_picture_label">
-                        <input type="checkbox" value="1" name="is_colorizable" id="colorize_picture">
+                        <input type="checkbox" value="1" name="is_colorizable" id="colorize_picture" class="color-blue checkbox">
                         <?php echo __('Make this image colorizable') ?>
                     </label>
                 </div>

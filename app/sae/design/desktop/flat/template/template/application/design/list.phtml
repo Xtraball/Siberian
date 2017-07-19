@@ -5,15 +5,15 @@
 <?php $categories = $category->findAll(null, "name ASC"); ?>
 <div class="content-no-padding col-md-3 col-xs-3">
     <ul>
-        <li>
-        <a href="javascript:void(0);" class="change_category color-red">
+        <li class="change_category color-red">
+        <a href="javascript:void(0);">
             <?php echo __("All"); ?>
             <input type="hidden" value="0" name="category_id" />
         </a>
         </li>
         <?php foreach($categories as $category) : ?>
-        <li>
-            <a href="javascript:void(0);" class="change_category">
+        <li class="change_category">
+            <a href="javascript:void(0);">
                 <?php echo __($category->getName()); ?>
                 <input type="hidden" value="<?php echo $category->getCategoryId(); ?>" />
             </a>

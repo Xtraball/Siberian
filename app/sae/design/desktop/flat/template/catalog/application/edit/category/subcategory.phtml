@@ -1,13 +1,13 @@
-<li id="row_<?php echo $this->getSubcategory()->getId(); ?>" class="subcategory list-group-item content-white-bkg" style="list-style:none">
+<li id="row_<?php echo $this->getSubcategory()->getId(); ?>" class="subcategory list-group-item" style="list-style:none">
     <div id="subcategory_actions_<?php echo $this->getSubcategory()->getId(); ?>" class="subcategory_actions row" rel="<?php echo $this->getSubcategory()->getId(); ?>">
         <div class="col-md-1">
-            <a class="handle_subcategory action" style="display:none;"><i class="fa fa-arrows"></i></a>
+            <a class="handle_subcategory action"><i class="fa fa-sort"></i></a>
         </div>
         <div class="col-md-8">
             <a href="javascript:void(0);" id="label_subcategory_name_<?php echo $this->getSubcategory()->getId() ?>" class="label_subcategory_name" parent_id="<?php echo $this->getCategory()->getId(); ?>" category_id="<?php echo $this->getSubcategory()->getId(); ?>"><?php echo $this->getSubcategory()->getName(); ?></a>
         </div>
-        <div class="action col-md-3 text-right" style="display: none;">
-            <a class="edit_subcategory" href="javascript:void(0)" rel="<?php echo $this->getSubcategory()->getId(); ?>"><i class="fa fa-edit"></i></a>
+        <div class="action col-md-3 text-right">
+            <a class="edit_subcategory" href="javascript:void(0)" rel="<?php echo $this->getSubcategory()->getId(); ?>"><i class="fa fa-pencil"></i></a>
             <a class="delete_subcategory" href="javascript:void(0)" rel="<?php echo $this->getSubcategory()->getId(); ?>"><i class="fa fa-times"></i></a>
         </div>
     </div>

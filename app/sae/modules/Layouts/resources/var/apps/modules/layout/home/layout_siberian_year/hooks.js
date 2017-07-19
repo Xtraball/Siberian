@@ -4,7 +4,7 @@
  *
  * All the following functions are required in order for the Layout to work
  */
-App.service('layout_siberian_year', function ($rootScope, $timeout, HomepageLayout) {
+angular.module("starter").service('layout_siberian_year', function ($rootScope, $timeout, HomepageLayout) {
 
     var service = {};
 

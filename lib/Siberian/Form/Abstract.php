@@ -104,7 +104,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
 
         $back_button = new Siberian_Form_Element_Button("sb-back");
         $back_button->setAttrib("escape", false);
-        $back_button->setLabel("<i class=\"fa fa-chevron-left icon icon-chevron-left\"></i>");
+        $back_button->setLabel("<i class=\"fa fa-angle-left \"></i>");
         $back_button->addClass("pull-left feature-back-button default_button");
         $back_button->setColor($this->color);
         $back_button->setBackDesign();

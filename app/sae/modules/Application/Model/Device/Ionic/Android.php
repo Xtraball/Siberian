@@ -219,6 +219,8 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
         $url_js_content = "
 /** Auto-generated url.js */
 var REDIRECT_URI = false;
+var IS_NATIVE_APP = true;
+var DEVICE_TYPE = 1;
 window.location.hash = window.location.hash.replace(/\?__goto__=(.*)/, \"\");
 var CURRENT_LANGUAGE = AVAILABLE_LANGUAGES.indexOf(language) >= 0 ? language : 'en';
 DOMAIN = '{$protocol}{$domain}';
@@ -231,11 +233,11 @@ var IMAGE_URL = DOMAIN + '/';";
         file_put_contents($this->_dest_source."/assets/www/js/utils/url.js", $url_js_content);
 
         /** Embed CSS */
-        $app_id = $this->getApplication()->getId();
-        $base_css = Core_Model_Directory::getBasePathTo("var/cache/css/{$app_id}.css");
-        if(is_readable($base_css)) {
-            file_put_contents($this->_dest_source."/assets/www/css/app.css", file_get_contents($base_css));
-        }
+        //$app_id = $this->getApplication()->getId();
+        //$base_css = Core_Model_Directory::getBasePathTo("var/cache/css/{$app_id}.css");
+        //if(is_readable($base_css)) {
+        //    file_put_contents($this->_dest_source."/assets/www/css/app.css", file_get_contents($base_css));
+        //}
 
     }
 
@@ -301,6 +303,18 @@ if(navigator.language) {
         $keystore_folder = Core_Model_Directory::getBasePathTo(self::BACKWARD_ANDROID."/keystore");
         $var_log = Core_Model_Directory::getBasePathTo(self::VAR_FOLDER."/log");
         $var_path = Core_Model_Directory::getBasePathTo(self::VAR_FOLDER);
+        $gradle_path = Core_Model_Directory::getBasePathTo(self::IONIC_FOLDER."/tools/gradle");
+
+
+        /** Damn licenses */
+        $licenses_folder = Core_Model_Directory::getBasePathTo(self::IONIC_FOLDER."/tools/android-sdk/licenses");
+        if(!file_exists($licenses_folder)) {
+            mkdir($licenses_folder, 0777, true);
+        }
+        if(!file_exists($licenses_folder . "/android-sdk-license")) {
+            file_put_contents($licenses_folder . "/android-sdk-license", "\n8933bad161af4178b1185d1a37fbf41ea5269c55");
+            chmod($licenses_folder . "/android-sdk-license", 0777);
+        }
 
         /** Joker /!\ */
         exec("chmod -R 777 {$var_path}");
@@ -330,12 +344,15 @@ if(navigator.language) {
     	$keystore_path = Core_Model_Directory::getBasePathTo(self::BACKWARD_ANDROID."/keystore/{$keystore_filename}");
     	if(!file_exists($keystore_path)) {
     		/** Sanitize organization name, or default if empty. */
-    		$organization = preg_replace('/[,\s]+/', " ", System_Model_Config::getValueFor("company_name"));
+    		$organization = preg_replace('/[,\s\']+/', " ", System_Model_Config::getValueFor("company_name"));
     		if (!$organization) {
     			$organization = "Default";
     		}
 
-    		exec("keytool -genkeypair -keyalg RSA -noprompt -alias {$alias} -dname \"CN={$organization}, O={$organization}\" -keystore {$keystore_path} -storepass {$store_password} -keypass {$key_password} -validity 36135", $output);
+    		$keytool = Core_Model_Directory::getBasePathTo("app/sae/modules/Application/Model/Device/Ionic/bin/helper");
+
+    		chmod($keytool, 0777);
+    		exec("{$keytool} '{$alias}' '{$organization}' '{$keystore_path}' '{$store_password}' '{$key_password}'");
     	}
         /** Copy the keystore locally */
         copy($keystore_path, "{$this->_dest_source}/{$keystore_filename}");
@@ -355,6 +372,9 @@ if(navigator.language) {
         $search = "DEFAULT_JVM_OPTS=\"\"";
         $replace = "
 export _JAVA_OPTIONS=\"-Xmx384m -Xms384m -XX:MaxPermSize=384m\"
+export ANDROID_HOME=\"$android_sdk_path\"
+export GRADLE_USER_HOME=\"$gradle_path\"
+export GRADLE_HOME=\"$gradle_path\"
 
 DEFAULT_JVM_OPTS=\"\"
 ";

@@ -10,7 +10,7 @@
 
             <div class="feature-block-add">
                 <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo __('Add'); ?>
+                    <?php echo __(('Add content')); ?>
                     <button type="button" class="feature-toggle-add toggle_design color-blue pull-right bt-header-right btn" onclick="iframe.f.prepareDummy();">
                         <i class="fa fa-plus"></i>
                     </button>
@@ -20,9 +20,9 @@
 
             <div class="feature-block-create">
                 <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo __('Add'); ?>
+                    <?php echo __(('Add content')); ?>
                 </h3>
-                <div id="loyaltycard-create" class="container-fluid first-row-feature">
+                <div id="loyaltycard-create" class="container-fluid first-row-feature content-feature">
                     <?php
                     $form_create = new LoyaltyCard_Form_Create();
                     $form_create->setValueId($option_value->getId());
@@ -35,12 +35,12 @@
             <?php if($cards->count()) : ?>
                 <div class="manage margin-top">
                     <h3 class="title-editor no-border-radius title-feature-indent">
-                        <?php echo $this->_('Manage'); ?>
+                        <?php echo $this->_(('Manage content')); ?>
                         <button type="button" class="color-blue pull-right bt-header-right btn" id="toggle_existing_items">
-                            <i class="fa fa-chevron-down"></i>
+                            <i class="fa fa-angle-down"></i>
                         </button>
                     </h3>
-                    <div id="existing_items" class="container-fluid first-row-feature">
+                    <div id="existing_items" class="container-fluid first-row-feature content-feature">
                         <div><h4 class="no-border-radius"><?php echo $this->_('Current card') ?></h4></div>
                         <ul class="list list-group">
                             <?php foreach($cards as $card) : ?>
@@ -172,8 +172,8 @@
         </div>
 
         <div id="passwords" style="display: none;">
-            <h3 class="border-no-radius title-editor"><span class=""><?php echo $this->_('My passwords') ?></span></h3>
-            <div class="container-fluid first-row-feature">
+            <h3 class="title-editor no-border-radius title-feature-indent"><span class=""><?php echo $this->_('My passwords') ?></span></h3>
+            <div class="container-fluid first-row-feature content-feature">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="buttons">
@@ -271,10 +271,16 @@
 
         page.setCallback('didappear', function() {
 
-            $('#toggle_existing_items').click(function() {
-                $('#existing_items').stop().slideToggle(300, function() {
-                    if($(this).is(':visible')) $('#toggle_existing_items').children('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
-                    else $('#toggle_existing_items').children('i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+            $('#toggle_existing_items').click(function () {
+                $('#existing_items').stop().slideToggle(300, function () {
+                    if ($(this).is(':visible')) {
+                        $('#toggle_existing_items').children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+                        $('#toggle_existing_items').removeClass('color-blue');
+                    }
+                    else {
+                        $('#toggle_existing_items').children('i').removeClass('fa-angle-up').addClass('fa-angle-down');
+                        $('#toggle_existing_items').addClass('color-blue');
+                    }
                 });
             });
 
@@ -337,7 +343,7 @@
                                     <i class="fa fa-times"></i>\n\
                                 </a>\n\
                             </div>\n\
-                            <input type="password" name="password" class="edit_password_#{password_id} align-center required number  maxlength="4" value="" placeholder="<?php echo $this->_('Password') ?>" style="display:none;" />\n\
+                            <input type="password" name="password" class="edit_password_#{password_id} align-center required number input-flat"  maxlength="4" value="" placeholder="<?php echo $this->_('Password') ?>" style="display:none;" />\n\
                         </div>\n\
                         <div class="col-sm-2 edit_password_#{password_id}" style="display:none;">\n\
                             <button type="button" onclick="saveEmployee(\'password_#{password_id}\')" class="bt-margin validate btn color-blue">OK</button>\n\

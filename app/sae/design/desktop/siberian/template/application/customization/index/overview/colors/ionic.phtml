@@ -2,7 +2,7 @@
     <div id="iphone">
         <div class="iphone_content">
             <p id="iphone_header" class="status_bar iphone_header toolbar_overview a-center"><?php echo date('H:m'); ?></p>
-            <iframe id="mobile_overview" sandbox="allow-same-origin allow-scripts allow-forms" src="<?php echo $this->getApplication()->getIonicUrl("", array(), null, true); ?>" width="320" height="568" style="overflow: hidden;"></iframe>
+            <iframe id="mobile_overview" sandbox="allow-same-origin allow-scripts allow-forms allow-modals" src="<?php echo $this->getApplication()->getIonicUrl("", array(), null, true); ?>" width="320" height="568" style="overflow: hidden;"></iframe>
         </div>
         <div class="btn-group-vertical">
             <button type="button" class="overview_size mobile-advice switch switch_overview no-background" ></button>
@@ -12,8 +12,8 @@
 </div>
 <script type="text/javascript">
 
-    var colors_url = "<?php echo $this->getApplication()->getIonicUrl("application/mobile_customization_colors", array(), null, true); ?>";
-    var overview_url = "<?php echo $this->getApplication()->getIonicUrl("", array(), null, true); ?>";
+    var colors_url = "<?php echo $this->getApplication()->getIonicUrl("application/mobile_customization_colors", array(), null, true); ?>?overview=1";
+    var overview_url = "<?php echo $this->getApplication()->getIonicUrl("", array(), null, true); ?>?overview=1";
 
     $(document).ready(function() {
         iframe.iframeIsLoaded = function() {

@@ -1,4 +1,7 @@
-App.service('layout_17', function($rootScope, $location, $timeout) {
+/*global
+ angular
+ */
+angular.module("starter").service('layout_17', function($rootScope, $location, $timeout) {
 
     var service = {};
 

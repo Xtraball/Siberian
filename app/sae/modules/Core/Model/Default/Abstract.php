@@ -141,12 +141,14 @@ abstract class Core_Model_Default_Abstract
         }
     }
 
-    public static function _getSession() {
-        if(isset(self::$_session[SESSION_TYPE])) {
-            return self::$_session[SESSION_TYPE];
+    public static function _getSession($type = null) {
+        if(is_null($type)) $type = SESSION_TYPE;
+
+        if(isset(self::$_session[$type])) {
+            return self::$_session[$type];
         } else {
-            $session = new Core_Model_Session(SESSION_TYPE);
-            self::setSession($session, SESSION_TYPE);
+            $session = new Core_Model_Session($type);
+            self::setSession($session, $type);
             return $session;
         }
     }
@@ -793,6 +795,16 @@ abstract class Core_Model_Default_Abstract
      * @return bool
      */
     public function getInappStates($value_id) {
+        return false;
+    }
+
+    /**
+     * If the feature payload is small enough, we could embed it inside the main app loadv2
+     *
+     * @param $value_id
+     * @return bool
+     */
+    public function getEmbedPayload($value_id = null) {
         return false;
     }
 

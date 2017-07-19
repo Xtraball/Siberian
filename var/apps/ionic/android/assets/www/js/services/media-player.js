@@ -1,32 +1,42 @@
 /*global
-    App, angular, ionic, MusicControls
+    App, angular, ionic, MusicControls, DEVICE_TYPE, Audio
  */
-App.service('MediaPlayer', function ($log, $interval, $ionicLoading, $rootScope, $state, $stateParams,
-                                     $timeout, $translate, $window, Application, Dialog) {
 
-    this.media = null;
+/**
+ * MediaPlayer
+ *
+ * @author Xtraball SAS
+ */
+angular.module("starter").service("MediaPlayer", function ($interval, $rootScope, $state, $log, $stateParams, $timeout,
+                                     $translate, $window, Dialog, Loader, SB) {
 
-    this.is_initialized = false;
-    this.is_minimized = false;
-    this.is_playing = false;
-    this.is_radio = false;
-    this.is_shuffling = false;
-    this.is_stream = false;
 
-    this.repeat_type = null;
 
-    this.shuffle_tracks = [];
-    this.tracks = [];
+    var service = {
+        media : null,
 
-    this.current_index = 0;
-    this.current_track = null;
+        is_initialized : false,
+        is_minimized : false,
+        is_playing : false,
+        is_radio : false,
+        is_shuffling : false,
+        is_stream : false,
 
-    this.duration = 0;
-    this.elapsed_time = 0;
+        repeat_type : null,
 
-    this.value_id = null;
+        shuffle_tracks : [],
+        tracks : [],
 
-    var service = this;
+        current_index : 0,
+        current_track : null,
+
+        duration : 0,
+        elapsed_time : 0,
+
+        value_id : null,
+
+        use_music_controls : (SB.DEVICE.TYPE_BROWSER !== DEVICE_TYPE)
+    };
 
     service.loading = function() {
         var message = $translate.instant("Loading");
@@ -34,14 +44,7 @@ App.service('MediaPlayer', function ($log, $interval, $ionicLoading, $rootScope,
             message = $translate.instant("Buffering");
         }
 
-        var template = "<div class=\"loader\"><ion-spinner class=\"spinner-custom\"></ion-spinner><br />"+message+"</div>";
-
-        $ionicLoading.show({
-            content: message,
-            template: template,
-            animation: 'fade-in',
-            maxWidth: 200
-        });
+        Loader.show(message);
     };
 
     var music_controls_events = function(event) {
@@ -83,14 +86,19 @@ App.service('MediaPlayer', function ($log, $interval, $ionicLoading, $rootScope,
     };
 
     service.init = function(tracks_loader, is_radio, track_index) {
-        if(service.media && service.current_track.streamUrl != tracks_loader.tracks[track_index].streamUrl) {
+        // Destroy service when changing media feature!
+        if(service.value_id !== $stateParams.value_id) {
+            service.destroy();
+        }
+
+        if(service.media && (service.current_track.streamUrl !== tracks_loader.tracks[track_index].streamUrl)) {
             service.destroy();
         }
 
         if (!service.media) {
-            service.value_id = $stateParams.value_id;
-            service.is_radio = is_radio;
-            service.current_index = track_index;
+            service.value_id        = $stateParams.value_id;
+            service.is_radio        = is_radio;
+            service.current_index   = track_index;
 
             if (tracks_loader) {
                 service.tracks = tracks_loader.tracks;
@@ -100,23 +108,21 @@ App.service('MediaPlayer', function ($log, $interval, $ionicLoading, $rootScope,
         service.is_initialized = true;
         service.openPlayer();
 
-        if(ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
+        if(service.use_music_controls) {
             MusicControls.subscribe(music_controls_events);
             MusicControls.listen();
         }
 
     };
 
+    service.play = function() {
+        service.media.play();
+        service.is_playing = true;
+    };
+
     service.pre_start = function() {
         if(service.media) {
-            if(service.is_stream) {
-                service.media.stop();
-            } else {
-                if(service.is_playing) {
-                    service.media.pause();
-                }
-                service.media.release();
-            }
+            service.media.pause();
         }
 
         service.is_playing = false;
@@ -129,9 +135,13 @@ App.service('MediaPlayer', function ($log, $interval, $ionicLoading, $rootScope,
     service.start = function() {
         service.current_track = service.tracks[service.current_index];
 
-        if(service.current_track.streamUrl.indexOf("http://") == -1 && service.current_track.streamUrl.indexOf("https://") == -1) {
-            Dialog.alert("", $translate.instant('No current stream to load.'), $translate.instant("OK"));
-            $ionicLoading.hide();
+        $log.info(service.current_track, service.tracks);
+
+        if((service.current_track.streamUrl.indexOf("http://") === -1) &&
+            (service.current_track.streamUrl.indexOf("https://") === -1)) {
+
+            Loader.hide();
+            Dialog.alert("Error", "No current stream to load.", "OK", -1);
             return;
         }
 
@@ -140,35 +150,12 @@ App.service('MediaPlayer', function ($log, $interval, $ionicLoading, $rootScope,
             service.current_track.albumCover = service.current_track.albumCover.replace("100x100bb", $window.innerWidth + "x" + $window.innerWidth + "bb")
         }
 
-        if(service.is_radio && ionic.Platform.isIOS()) {
-            service.is_stream = true;
-            service.media = new Stream(service.current_track.streamUrl, null, function (err) {
-                $ionicLoading.hide();
-                service.is_playing = false;
+        service.is_stream = service.is_radio;
+        $log.debug(service.current_track);
 
-                Dialog.alert($translate.instant('Error'), $translate.instant('An error occurred while loading the radio.'), $translate.instant("OK"));
-            });
-            service.media.play();
-            $timeout(function() {
-                service.is_playing = true;
-                $ionicLoading.hide();
-            }, 1000);
-        } else {
-            service.is_stream = false;
-            service.media = new Media(service.current_track.streamUrl, null, function (err) {
-                $ionicLoading.hide();
-
-                Dialog.alert($translate.instant('Error'), $translate.instant('An error occurred while loading the media.'), $translate.instant("OK"));
-            }, function (status) {
-                service.update(status);
-            });
-
-            if(service.media && service.is_radio && Application.is_webview) {
-                $ionicLoading.hide();
-            } else {
-                service.playPause();
-            }
-        }
+        service.media = new Audio(service.current_track.streamUrl);
+        service.play();
+        Loader.hide();
 
         service.updateMusicControls();
     };
@@ -180,33 +167,26 @@ App.service('MediaPlayer', function ($log, $interval, $ionicLoading, $rootScope,
         service.is_initialized = false;
 
         service.is_minimized = false;
-        $rootScope.$broadcast("mediaPlayer.mini.hide");
+        $rootScope.$broadcast(SB.EVENTS.MEDIA_PLAYER.HIDE);
 
         service.repeat_type = null;
         service.current_index = 0;
         service.current_track = null;
         service.shuffle_tracks = [];
 
-        if(ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
+        if(service.use_music_controls) {
             MusicControls.destroy();
             MusicControls.subscribe(music_controls_events);
             MusicControls.listen();
         }
+
     };
 
     service.destroy = function() {
         if(service.media) {
             if (service.is_playing) {
-                if (service.is_stream) {
-                    service.media.stop();
-                } else {
-                    $interval.cancel(service.seekbarTimer);
-                    service.media.pause();
-                }
-            }
-
-            if (!service.is_stream) {
-                service.media.release();
+                $interval.cancel(service.seekbarTimer);
+                service.media.pause();
             }
         }
 
@@ -214,10 +194,13 @@ App.service('MediaPlayer', function ($log, $interval, $ionicLoading, $rootScope,
     };
 
     service.openPlayer = function() {
-        $state.go('media-player', { value_id: service.value_id });
+        $state.go("media-player", {
+            value_id: service.value_id
+        });
 
         service.is_minimized = false;
-        $rootScope.$broadcast("mediaPlayer.mini.hide");
+
+        $rootScope.$broadcast(SB.EVENTS.MEDIA_PLAYER.HIDE);
 
         if(!service.media) {
             $timeout(function() {
@@ -229,38 +212,26 @@ App.service('MediaPlayer', function ($log, $interval, $ionicLoading, $rootScope,
 
     service.playPause = function() {
         if(service.is_playing) {
-            if(service.is_stream) {
-                service.media.stop();
-            } else {
-                service.media.pause();
-            }
+            service.media.pause();
 
-            if(ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
+            if(service.use_music_controls) {
                 MusicControls.updateIsPlaying(false);
             }
         } else {
-            if(ionic.Platform.isIOS()) {
-                service.media.play({playAudioWhenScreenIsLocked: true});
-            } else {
-                service.media.play();
-            }
+            service.media.play();
 
-            if(ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
+            if(service.use_music_controls) {
                 MusicControls.updateIsPlaying(true);
             }
         }
 
-        if(service.is_stream) {
-            $timeout(function() {
-                service.is_playing = !service.is_playing;
-            });
-        }
+        service.is_playing = !service.is_playing;
 
         service.updateMusicControls();
     };
 
     service.prev = function() {
-        if(service.repeat_type == "one") {
+        if(service.repeat_type === "one") {
             service.seekTo(0);
         } else {
 
@@ -272,10 +243,10 @@ App.service('MediaPlayer', function ($log, $interval, $ionicLoading, $rootScope,
 
                 service._randomSong();
 
-            } else if (service.repeat_type == 'all' && service.current_index == 0) {
+            } else if ((service.repeat_type === "all") && (service.current_index === 0)) {
                 service.current_index = service.tracks.length - 1;
             } else if (service.current_index > 0) {
-                service.current_index--;
+                service.current_index -= 1;
             }
 
         }
@@ -285,22 +256,22 @@ App.service('MediaPlayer', function ($log, $interval, $ionicLoading, $rootScope,
     };
 
     service.next = function() {
-        if (service.repeat_type == "one") {
+        if (service.repeat_type === "one") {
             service.seekTo(0);
         } else {
 
             if (service.is_shuffling) {
 
-                if (service.shuffle_tracks.length >= service.tracks.length && service.repeat_type == "all") {
+                if ((service.shuffle_tracks.length >= service.tracks.length) && (service.repeat_type === "all")) {
                     service.shuffle_tracks = [];
                 }
 
                 service._randomSong();
 
-            } else if (service.repeat_type == 'all' && service.current_index >= (service.tracks.length - 1)) {
+            } else if ((service.repeat_type === "all") && (service.current_index >= (service.tracks.length - 1))) {
                 service.current_index = 0;
             } else if (service.current_index < (service.tracks.length - 1)) {
-                service.current_index++;
+                service.current_index += 1;
             }
 
             service.pre_start();
@@ -311,11 +282,11 @@ App.service('MediaPlayer', function ($log, $interval, $ionicLoading, $rootScope,
     service._randomSong = function() {
         var random_index = Math.floor(Math.random() * service.tracks.length);
 
-        while (service.shuffle_tracks.indexOf(random_index) != -1 || random_index == service.current_index) {
-            if(service.shuffle_tracks.indexOf(random_index) != -1) {
+        while ((service.shuffle_tracks.indexOf(random_index) !== -1) || (random_index === service.current_index)) {
+            if(service.shuffle_tracks.indexOf(random_index) !== -1) {
                 random_index = Math.floor(Math.random() * service.tracks.length);
             } else {
-                random_index++;
+                random_index += 1;
             }
         }
 
@@ -369,11 +340,11 @@ App.service('MediaPlayer', function ($log, $interval, $ionicLoading, $rootScope,
                 service.repeat_type = "all";
                 break;
 
-            case 'all':
+            case "all":
                 service.repeat_type = "one";
                 break;
 
-            case 'one':
+            case "one":
                 service.repeat_type = null;
                 break;
         }
@@ -385,7 +356,7 @@ App.service('MediaPlayer', function ($log, $interval, $ionicLoading, $rootScope,
     };
 
     service.updateMusicControls = function() {
-        if(ionic.Platform.isIOS() || ionic.Platform.isAndroid()) {
+        if(service.use_music_controls) {
 
             var hasPrev = true;
             var hasNext = true;
@@ -429,38 +400,6 @@ App.service('MediaPlayer', function ($log, $interval, $ionicLoading, $rootScope,
         }
     };
 
-    service.update = function(status) {
-        if(status == Media.MEDIA_RUNNING) {
-            // Hide seekbar if stream is a radio
-            if(!service.is_radio) {
-                service.updateSeekBar();
-            }
-
-            if (!service.is_media_loaded) {
-                if(service.current_track.duration) {
-                    service.duration = service.current_track.duration / 1000;
-                } else {
-                    service.duration = service.media.getDuration();
-                }
-
-                service.is_media_loaded = true;
-            }
-
-            $timeout(function(){
-                service.is_media_stopped = false;
-                service.is_playing = true;
-                $ionicLoading.hide();
-            }, 500);
-        } else if(status == Media.MEDIA_PAUSED) {
-            service.is_playing = false;
-            $interval.cancel(service.seekbarTimer);
-        } else if(status == Media.MEDIA_STOPPED) {
-            service.is_media_stopped = true;
-            service.is_playing = false;
-        }
-
-    };
-
     service.updateSeekBar = function() {
         service.seekbarTimer = $interval(function () {
             if(service.is_playing) {
@@ -469,7 +408,7 @@ App.service('MediaPlayer', function ($log, $interval, $ionicLoading, $rootScope,
                         service.elapsed_time = current_position;
                     },
                     function (error) {
-                        console.log(error);
+                        $log.error(error);
                     }
                 );
             }
@@ -481,5 +420,7 @@ App.service('MediaPlayer', function ($log, $interval, $ionicLoading, $rootScope,
             }
         }, 100);
     };
+
+    return service;
 
 });

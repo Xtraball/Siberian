@@ -1,49 +1,41 @@
-App.controller('CustomerController', function(_, $cordovaCamera, $cordovaOauth, $ionicActionSheet, $ionicLoading, $ionicPopup, $ionicScrollDelegate, $q, $rootScope, $scope, $timeout, $translate, $window, Application, Customer, Dialog, FacebookConnect, SafePopups, HomepageLayout) {
+/*global
+ App, angular, BASE_PATH, IS_PREVIEWER, _
+ */
 
-    $scope.can_connect_with_facebook = !!Customer.can_connect_with_facebook;
+/**
+ * CustomerController
+ *
+ * This controller handles the login modal.
+ *
+ * @author Xtraball SAS
+ */
+angular.module("starter").controller('CustomerController', function($cordovaCamera, $ionicActionSheet, Loader,
+                                              $ionicPopup, $ionicScrollDelegate, $rootScope, $scope, $timeout,
+                                              $translate, Application, Customer, Dialog, FacebookConnect,
+                                              HomepageLayout) {
 
-    $scope.customer = {};
-    $scope.card = {};
-
-    $scope.is_logged_in = Customer.isLoggedIn();
-    $scope.app_name = Application.app_name;
-
-    $scope.display_login_form = (!$scope.is_logged_in) && (!Customer.display_account_form );
-    $scope.display_account_form = $scope.is_logged_in || Customer.display_account_form;
-
-    HomepageLayout.getData().then(function(data) {
-        if(data.customer_account.name) {
-            $scope.page_title = data.customer_account.name;
-        }
+    angular.extend($scope, {
+        customer                        : Customer.customer,
+        card                            : {},
+        is_logged_in                    : Customer.isLoggedIn(),
+        app_name                        : Application.app_name,
+        display_login_form              : (!$scope.is_logged_in) && (!Customer.display_account_form),
+        display_account_form            : ($scope.is_logged_in || Customer.display_account_form),
+        can_connect_with_facebook       : !!Customer.can_connect_with_facebook,
+        page_title                      : $translate.instant("My account"),
+        show_avatar                     : true,
+        avatar_loaded                   : false,
+        privacy_policy                  : Application.privacy_policy
     });
-    $scope.closeLoginModal = function() {
-        Customer.modal.hide();
-    };
 
+    /** Alias for the global login modal */
     $scope.login = function() {
-
-        $scope.is_loading = true;
-        $ionicLoading.show({
-            template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
-        });
-        Customer.login($scope.customer).success(function(data) {
-            if(data && data.success) {
-                $scope.closeLoginModal();
-            }
-        }).error(function(data) {
-            if(data && angular.isDefined(data.message)) {
-                Dialog.alert($translate.instant("Error"), data.message, $translate.instant("OK"));
-            }
-
-        }).finally(function() {
-            $scope.is_loading = false;
-            $ionicLoading.hide();
-        });
+        console.log("controller-loginModal");
+        Customer.loginModal($scope);
     };
 
     $scope.loginWithFacebook = function() {
-        if((typeof IS_PREVIEWER !== 'undefined' && angular.isDefined(IS_PREVIEWER)) || $rootScope.isOverview || Application.is_webview) {
-            $rootScope.showMobileFeatureOnlyError();
+        if($rootScope.isNotAvailableInOverview()) {
             return;
         }
         FacebookConnect.login();
@@ -51,37 +43,32 @@ App.controller('CustomerController', function(_, $cordovaCamera, $cordovaOauth, 
 
     $scope.forgotPassword = function() {
 
-        $scope.is_loading = true;
-        $ionicLoading.show({
-            template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
-        });
+        Loader.show();
 
-        Customer.forgottenpassword($scope.customer.email).success(function(data) {
-            if(data && angular.isDefined(data.message)) {
-                Dialog.alert("", data.message, $translate.instant("OK"));
+        Customer.forgottenpassword($scope.customer.email)
+            .then(function(data) {
+                if(data && angular.isDefined(data.message)) {
+                    Dialog.alert("", data.message, "OK", -1);
 
-                if(data.success) {
-                    $scope.displayLoginForm();
+                    if(data.success) {
+                        $scope.displayLoginForm();
+                    }
                 }
-            }
-        }).error(function(data) {
-            if(data && angular.isDefined(data.message)) {
-                Dialog.alert($translate.instant("Error"), data.message, $translate.instant("OK"));
-            }
+            }, function(data) {
+                if(data && angular.isDefined(data.message)) {
+                    Dialog.alert("Error", data.message, "OK", -1);
+                }
 
-        }).finally(function() {
-            $scope.is_loading = false;
-            $ionicLoading.hide();
-        });
+            }).then(function() {
+                Loader.hide();
+            });
 
     };
-
-    $scope.show_avatar = true;
-    $scope.avatar_loaded = false;
 
     $scope.hideAvatar = function() {
         $scope.show_avatar = false;
     };
+
     $scope.avatarLoaded = function() {
         $scope.avatar_loaded = true;
         $scope.show_avatar = true;
@@ -92,9 +79,9 @@ App.controller('CustomerController', function(_, $cordovaCamera, $cordovaOauth, 
             { text: $translate.instant("Edit") }
         ];
 
-        if($scope.customer.avatar != null) {
+        if($scope.customer.avatar !== null) {
             var text = "Cancel "+($scope.customer.delete_avatar ? "delete" : "edit");
-            buttons.push({ text: $translate.instant(text) })
+            buttons.push({ text: $translate.instant(text) });
         } else {
             if($scope.customer.is_custom_image) {
                 buttons.push({ text: $translate.instant("Delete") });
@@ -132,6 +119,13 @@ App.controller('CustomerController', function(_, $cordovaCamera, $cordovaOauth, 
         });
     };
 
+
+    /**
+     *
+     * @todo move me to Picture service, add the cool crop modal option
+     *
+     * @param field
+     */
     $scope.takePicture = function(field) {
         var gotImage = function(image_url) {
             // TODO: move all picture taking and cropping modal
@@ -234,18 +228,21 @@ App.controller('CustomerController', function(_, $cordovaCamera, $cordovaOauth, 
 
     $scope.loadContent = function() {
 
-        if(!$scope.is_logged_in) return;
+        if(!$scope.is_logged_in) {
+            return;
+        } else {
+            // Force display account when logged in.
+            $scope.displayAccountForm();
+        }
 
-        $scope.is_loading = true;
-        $ionicLoading.show({
-            template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
-        });
-        Customer.find().success(function(customer) {
-            $scope.customer = customer;
-            $scope.customer.metadatas = _.isObject($scope.customer.metadatas) ? $scope.customer.metadatas : {};
-            $scope.avatar_url = Customer.getAvatarUrl($scope.customer.id);
-        }).then(function() {
-            return HomepageLayout.getActiveOptions().then(function (options) {
+        Loader.show();
+
+        $scope.customer = Customer.customer;
+        $scope.customer.metadatas = _.isObject($scope.customer.metadatas) ? $scope.customer.metadatas : {};
+        $scope.avatar_url = Customer.getAvatarUrl($scope.customer.id);
+
+        return HomepageLayout.getActiveOptions()
+            .then(function (options) {
                 $scope.optional_fields = {
                     ranking: !!_.find(options, {"use_ranking": "1"}),
                     nickname: !!_.find(options, {"use_nickname": "1"})
@@ -268,46 +265,51 @@ App.controller('CustomerController', function(_, $cordovaCamera, $cordovaOauth, 
                         });
                     }
                 });
+
+                Loader.hide();
             });
-        }).finally(function() {
-            $scope.is_loading = false;
-            $ionicLoading.hide();
-        });
     };
 
     $scope.save = function() {
 
         $scope.is_loading = true;
-        $ionicLoading.show({
-            template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
-        });
 
-        Customer.save($scope.customer).success(function(data) {
-            if(angular.isDefined(data.message)) {
-                Dialog.alert("", data.message, $translate.instant("OK"));
-            }
+        Loader.show();
 
-            if(data.success) {
-                $scope.closeLoginModal();
-            }
+        Customer.save($scope.customer)
+            .then(function(data) {
+                if(angular.isDefined(data.message)) {
+                    Dialog.alert("", data.message, "OK", -1)
+                        .then(function() {
+                            Customer.login_modal.hide();
+                        });
+                }
 
-        }).error(function(data) {
-            if(data && angular.isDefined(data.message)) {
-                Dialog.alert($translate.instant("Error"), data.message, $translate.instant("OK"));
-            }
-        }).finally(function() {
-            $scope.is_loading = false;
-            $ionicLoading.hide();
-        });
+                return data;
+
+            }, function(data) {
+                if(data && angular.isDefined(data.message)) {
+                    Dialog.alert("Error", data.message, "OK", -1);
+                }
+
+                return data;
+
+            }).then(function() {
+                $scope.is_loading = false;
+
+                Loader.hide();
+            });
     };
 
     $scope.logout = function() {
-        Customer.logout().success(function(data) {
-            FacebookConnect.logout();
-            if(data.success) {
-                $scope.closeLoginModal();
-            }
-        });
+        Customer.logout()
+            .then(function(data) {
+
+                FacebookConnect.logout();
+                if(data.success) {
+                    Customer.hideModal();
+                }
+            });
     };
 
     $scope.displayLoginForm = function() {
@@ -344,33 +346,32 @@ App.controller('CustomerController', function(_, $cordovaCamera, $cordovaOauth, 
     };
 
     $scope.unloadcard = function() {
-        SafePopups.show("confirm",{
-            title: $translate.instant('Confirmation'),
-            template: $translate.instant("Do you confirm you want to remove your card?")
-        }).then(function(res){
-            if(res) {
-                $scope.is_loading = true;
-                $ionicLoading.show({
-                    template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
-                });
-                //we cannot be there without customer
-                Customer.removeCard().success(function (data) {
-                    $scope.card = {};
-                    $scope.customer.stripe = {};
-                }).error(function(data) {
-                    if(data && angular.isDefined(data.message)) {
-                        SafePopups.show("alert", {
-                            title: $translate.instant("Error"),
-                            template: data.message,
-                            okText: $translate.instant("OK")
+        Dialog.confirm("Confirmation", "Do you confirm you want to remove your card?")
+            .then(function(result){
+                if(result) {
+                    $scope.is_loading = true;
+
+                    Loader.show();
+
+                    //we cannot be there without customer
+                    Customer.removeCard()
+                        .then(function (data) {
+
+                            $scope.card = {};
+                            $scope.customer.stripe = {};
+
+                        }, function(data) {
+                            if(data && angular.isDefined(data.message)) {
+
+                                Dialog.alert("Error", data.message, "OK", -1);
+
+                            }
+                        }).then(function () {
+                            $scope.is_loading = false;
+                            Loader.hide();
                         });
-                    }
-                }).finally(function () {
-                    $scope.is_loading = false;
-                    $ionicLoading.hide();
-                });
-            }
-        });
+                }
+            });
     };
 
     $scope.loadContent();

@@ -1,24 +1,28 @@
-<ion-view>
+<ion-view sb-page-background>
     <ion-nav-title>{{ name }}</ion-nav-title>
-    <ion-content class="l1" sb-background-image>
+    <ion-content class="l1">
 
         <div class="loader" ng-show="is_loading">
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
-        <div class="item item-custom" ng-if="banner_url">
-            <img ng-src="{{ banner_url }}" class="full-image"/>
+        <div class="list" ng-class="{'card' : card_design}">
+
+            <div class="item item-custom" ng-if="banner_url">
+                <img ng-src="{{ banner_url }}" class="full-image"/>
+            </div>
+
+            <div>
+                <p class="item item-custom item-text-wrap" ng-if="description">{{ description }}</p>
+            </div>
+
+            <div class="item item-custom" ng-show="collection.length && !is_loading">
+                <strong>{{ nb_followers }}</strong> {{ "followers" | translate }} - <strong>{{ nb_friends }}</strong> {{ "following" | translate }}
+            </div>
+
         </div>
 
-        <div>
-            <p class="item item-custom item-text-wrap sb-cms-text" ng-if="description">{{ description }}</p>
-        </div>
-
-        <div class="item item-custom" ng-show="collection.length && !is_loading">
-            <strong>{{ nb_followers }}</strong> {{ "followers" | translate }} - <strong>{{ nb_friends }}</strong> {{ "following" | translate }}
-        </div>
-
-        <div class="list" ng-show="collection.length">
+        <div class="list" ng-class="{'card' : card_design}" ng-show="collection.length">
 
             <div ng-repeat="item in collection">
                 <div class="item item-custom" ng-class="{ 'item-avatar': item.user.profile_image_url }">
@@ -30,7 +34,7 @@
             </div>
         </div>
 
-        <div class="list" ng-if="!is_loading && !collection.length">
+        <div class="list" ng-class="{'card' : card_design}" ng-if="!is_loading && !collection.length">
             <div class="item text-center item-custom">
                 {{ "No items found" | translate }}
             </div>

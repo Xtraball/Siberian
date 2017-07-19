@@ -16,8 +16,8 @@ if(!file_exists("./config.php")) {
 
 require_once "./config.php";
 
-set_time_limit(120);
-ini_set('max_execution_time', 120);
+set_time_limit(300);
+ini_set('max_execution_time', 300);
 umask(0);
 
 setlocale(LC_MONETARY, 'en_US');
@@ -65,6 +65,7 @@ Zend_Registry::set('_config', $_config);
 session_cache_limiter(false);
 
 $application->bootstrap();
+
 
 if(isset($argv[1])) {
     switch($argv[1]) {

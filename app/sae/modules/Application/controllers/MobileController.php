@@ -11,6 +11,10 @@ class Application_MobileController extends Application_Controller_Mobile_Default
         $this->getLayout()->setHtml(implode(",", Core_Model_Language::getLanguageCodes()));
     }
 
+    /**
+     * @deprecated Siberian 5.0, moved to front/mobile/loadv2
+     * regrouping startup items in once.
+     */
     public function generatewebappconfigAction() {
 
         //Generate manifest

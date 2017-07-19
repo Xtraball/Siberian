@@ -1,20 +1,20 @@
 <?php $comment = $this->getCurrentComment(); ?>
 <?php $answers = $comment->getAnswers(); ?>
 <div>
-    <h3 class="title-editor no-border-radius">
+    <h3 class="title-editor no-border-radius title-feature-indent">
         <?php echo $this->_('My customers\' comments'); ?>
     </h3>
-    <div class="container-fluid">
+    <div class="container-fluid content-feature">
         <div class="row first-row-feature">
             <div class="col-md-12">
-                <button id="hide_answers" class="btn color-blue pull-left" type="button"><i class="fa fa-arrow-left"></i></button>
+                <button id="hide_answers" class="btn color-blue pull-left" type="button"><i class="fa fa-angle-left"></i></button>
             </div>
         </div>
         <?php if($answers->count() > 0) : ?>
         <br/>
         <div class="row">
-            <div class="content-white-bkg col-md-12">
-                <table class="table list">
+            <div class="col-md-12">
+                <table class="table table-hover content-white-bkg ">
                     <col width="95%" />
                     <col width="5%" />
                     <?php foreach($answers as $answer) : ?>
@@ -37,7 +37,7 @@
         <?php else : ?>
             <div class="row">
                 <div class="col-md-12">
-                    <p style="padding-top:15px"><?php echo $this->_("There is no comment for this news"); ?></p>
+                    <h4><?php echo $this->_("There is no comment for this news"); ?></h4>
                 </div>
             </div>
         <?php endif; ?>

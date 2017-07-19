@@ -5,7 +5,7 @@
 <?php $libraries = $library->findAll(array('library_id' => $block->getLibraryId()), 'image_id ASC', null); ?>
 <div id="cms_block_<?php echo $this->getPosition(); ?>" class="category content-white-bkg cms_block picture" rel="<?php echo $this->getPosition(); ?>">
     <div class="control left">
-        <a class="handle" href="javascript:void(0);"><i class="fa fa-arrows"></i></a>
+        <a class="handle" href="javascript:void(0);"><i class="fa fa-sort"></i></a>
     </div>
     <div class="left ckcontainer image_edit display_image container-fluid" rel="<?php echo $this->getPosition(); ?>">
 
@@ -30,7 +30,7 @@
         <div class="form-group clear image_cont">
             <?php foreach($libraries as $library) : ?>
                 <div rel="<?php echo $block->getPosition(); ?>" class="image_cont_details pull-left">
-                    <a class="handle_image_type" href="javascript:void(0);"><i class="fa fa-arrows"></i></a>
+                    <a class="handle_image_type" href="javascript:void(0);"><i class="fa fa-sort"></i></a>
                     <img src="<?php echo $library->getImage(); ?>" width="100px" height="50px" />
                     <a class="removeimg" onclick="deleteImageImage(this);" href="javascript:void(0);"><i class="fa fa-times"></i></a>
                     <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][image_url][]" value="<?php echo $library->getData('image_url') ?>" class="picture" />
@@ -98,7 +98,7 @@
                             //partie gauche edit
                             $('.cms_block[rel="<?php echo $this->getPosition(); ?>"]').find('.image_cont').append(
                                 '<div class="image_cont_details pull-left" rel="<?php echo $this->getPosition(); ?>">\n\
-                                    <a class="handle_image_type" style="vertical-align:top;margin-right:5px;" href="javascript:void(0);"><i class="fa fa-arrows"></i></a>\n\
+                                    <a class="handle_image_type" style="vertical-align:top;margin-right:5px;" href="javascript:void(0);"><i class="fa fa-sort"></i></a>\n\
                                     <img height="50px" width="100px" src="<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+datas.file+'"/>\n\
                                     <a style="vertical-align:top; margin-left:5px;display:inline-block;margin-right:10px;" onclick="deleteImageImage(this);" class="removeimg" href="javascript:void(0);">\n\
                                         <i class="fa fa-times"></i>\n\

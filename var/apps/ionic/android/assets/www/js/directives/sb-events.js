@@ -13,5 +13,5 @@ function EventToDirective(app, directive_name, eventName) {
   }]);
 }
 
-EventToDirective(App, 'sbError', 'error');
-EventToDirective(App, 'sbLoad', 'load');
+EventToDirective(angular.module("starter"), 'sbError', 'error');
+EventToDirective(angular.module("starter"), 'sbLoad', 'load');

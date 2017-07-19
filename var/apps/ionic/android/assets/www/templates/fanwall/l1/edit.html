@@ -1,7 +1,12 @@
-<ion-view cache-view="false" view-title="{{ 'New post' | translate }}">
-    <ion-content sb-background-image>
+<ion-view sb-page-background view-title="{{ 'New post' | translate }}">
+    <ion-content>
 
-        <div class="list">
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner></ion-spinner>
+        </div>
+
+        <div class="list" ng-class="{'card': card_design}">
+
             <label class="item item-input item-custom">
                 <textarea rows="5" ng-model="new_post.text" placeholder="{{ 'Your comment' | translate }}" ></textarea>
             </label>
@@ -15,12 +20,14 @@
                 {{ "Add Image" | translate }}
             </div>
 
-            <button type="button" class="button button-block button-custom" ng-click="sendPost()" ng-show="!is_loading">{{ "Send" | translate }}</button>
+        </div>
 
-            <div class="loader" ng-show="is_loading">
-                <ion-spinner></ion-spinner>
-            </div>
-
+        <div ng-class="{'padding' : card_design}">
+            <button type="button"
+                    class="button button-custom button-positive button-positive-custom"
+                    ng-class="{'button-full': !card_design, 'button-block': card_design}"
+                    ng-click="sendPost()"
+                    ng-show="!is_loading">{{ "Send" | translate }}</button>
         </div>
 
     </ion-content>

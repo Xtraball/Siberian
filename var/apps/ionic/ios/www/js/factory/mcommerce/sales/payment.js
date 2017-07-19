@@ -1,88 +1,91 @@
-App.factory('McommerceSalesPayment', function ($rootScope, $sbhttp, Url) {
+/*global
+    App
+ */
+angular.module("starter").factory("McommerceSalesPayment", function ($pwaRequest, $session) {
 
-    var factory = {};
-
-    factory.value_id = null;
-    factory.notes = "";
+    var factory = {
+        value_id: null,
+        notes: ""
+    };
 
     factory.findPaymentMethods = function () {
 
-        if (!this.value_id) return;
+        if (!this.value_id) {
+            return $pwaRequest.reject("[McommerceSalesPayment::findPaymentMethods] missing value_id.");
+        }
 
-        return $sbhttp({
-            method: 'GET',
-            url: Url.get("mcommerce/mobile_sales_payment/findpaymentmethods", {
+        return $pwaRequest.get("mcommerce/mobile_sales_payment/findpaymentmethods", {
+            urlParams: {
                 value_id: this.value_id
-            }),
-            cache: false,
-            responseType: 'json'
+            },
+            cache: false
         });
     };
 
     factory.findOnlinePaymentUrl = function () {
 
-        if (!this.value_id) return;
+        if (!this.value_id) {
+            return $pwaRequest.reject("[McommerceSalesPayment::findOnlinePaymentUrl] missing value_id.");
+        }
 
-        return $sbhttp({
-            method: 'GET',
-            url: Url.get("mcommerce/mobile_sales_payment/findonlinepaymenturl", {
+        return $pwaRequest.get("mcommerce/mobile_sales_payment/findonlinepaymenturl", {
+            urlParams: {
                 value_id: this.value_id
-            }),
-            cache: false,
-            responseType: 'json'
+            },
+            cache: false
         });
     };
 
     factory.updatePaymentInfos = function (form) {
 
-        if (!this.value_id) return;
+        if (!this.value_id) {
+            return $pwaRequest.reject("[McommerceSalesPayment::updatePaymentInfos] missing value_id.");
+        }
 
-        var url = Url.get("mcommerce/mobile_sales_payment/update", {
-            value_id: this.value_id
+        return $pwaRequest.post("mcommerce/mobile_sales_payment/update", {
+            urlParams: {
+                value_id: this.value_id
+            },
+            data: {
+                form: form
+            }
         });
-
-        var data = {
-            form: form
-        };
-
-        return $sbhttp.post(url, data);
     };
 
     factory.validatePayment = function() {
 
-        if (!this.value_id) return;
+        if (!this.value_id) {
+            return $pwaRequest.reject("[McommerceSalesPayment::validatePayment] missing value_id.");
+        }
 
-        var url = Url.get("mcommerce/mobile_sales_payment/validatepayment", {
-            value_id: this.value_id
-        });
-
-        return $sbhttp.post(url, {
-            validate_payment: 1,
-            customer_uuid: window.device.uuid,
-            notes: factory.notes || "" // TG-459
+        return $pwaRequest.post("mcommerce/mobile_sales_payment/validatepayment", {
+            urlParams: {
+                value_id: this.value_id
+            },
+            data: {
+                validate_payment: 1,
+                customer_uuid: $session.getDeviceUid(),
+                notes: factory.notes || "" // TG-459
+            }
         });
 
     };
 
     factory.validateOnlinePayment = function (token, payerID) {
 
-        if (!this.value_id) return;
+        if (!this.value_id) {
+            return $pwaRequest.reject("[McommerceSalesPayment::validateOnlinePayment] missing value_id.");
+        }
 
-        var url = Url.get("mcommerce/mobile_sales_payment/validatepayment", {
-            value_id: this.value_id
-        });
-
-        var data = {
-            token: token,
-            PayerID: payerID,
-            is_ajax: 1
-        };
-
-        return $sbhttp({
-            method: 'POST',
-            data: data,
-            url: url,
-            responseType:'json'
+        return $pwaRequest.post("mcommerce/mobile_sales_payment/validatepayment", {
+            urlParams: {
+                value_id: this.value_id
+            },
+            data: {
+                token: token,
+                PayerID: payerID,
+                is_ajax: 1
+            }
         });
     };
 

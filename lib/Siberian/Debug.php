@@ -59,6 +59,15 @@ class Siberian_Debug {
     }
 
     /**
+     * Alias/Shortcut for development mode.
+     *
+     * @return bool
+     */
+    public static function isDevelopment() {
+        return (APPLICATION_ENV === "development");
+    }
+
+    /**
      * @param $resource
      * @return mixed
      */

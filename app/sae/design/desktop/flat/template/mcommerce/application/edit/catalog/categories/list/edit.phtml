@@ -10,7 +10,7 @@
             <input type="hidden" name="remove_picture" id="remove_category_background" value="" />
             <input type="hidden" name="file" id="category_file" value="" />
             <div class="form-group">
-                <div class="col-sm-2"></div>
+                <div class="col-sm-1"></div>
                 <div class="col-sm-4">
                     <label for="title" class="black0"><?php echo $this->_('Title') ?> <span>*</span></label>
                 </div>
@@ -19,9 +19,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-sm-2 category_background_cont text-center">
+                <div class="col-sm-1 category_background_cont text-center">
                         <!--[if gte IE 10]><!-->
-                    <button id="upload_category_background" <?php if($category->getPicture()) : echo ' style="display:none" '; endif; ?>type="button" class="upload_category_background btn color-blue add">
+                    <button id="upload_category_background" <?php if($category->getPicture()) : echo ' style="display:none" '; endif; ?>type="button" class="upload_category_background btn color-blue">
                         <i class="fa fa-camera-retro"></i>
                     </button>
                     <!--<![endif]-->
@@ -32,7 +32,7 @@
                 <div class="col-sm-4">
                     <input type="text" id="category_title" name="title" class="category_bg_field required input-flat" value="<?php echo $category->getTitle(); ?>" rel="<?php echo $category->getId() ? $category->getId() : 'new' ?>" />
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     <input type="text" id="category_subtitle" name="subtitle" class="category_bg_field input-flat" value="<?php echo $category->getSubtitle() ?>" />
                 </div>
                 <div class="col-sm-1">

@@ -1,6 +1,6 @@
-<ion-view class="topic-view">
+<ion-view sb-page-background class="topic-view">
     <ion-nav-title>{{ page_title }}</ion-nav-title>
-    <ion-content sb-background-image class="topic-list">
+    <ion-content class="topic-list">
 
         <div class="list">
 
@@ -40,9 +40,6 @@
         <div class="loader" ng-show="is_loading">
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
-
-        <!--<sb-switch toggle-switch="toggleSwitch(is_checked,params)" is-checked="item.is_subscribed" params="{topic_id:item.id}" />-->
-        <!--<sb-switch toggle-switch="toggleSwitch(is_checked,params)" is-checked="child.is_subscribed" params="{topic_id:child.id}" />-->
 
     </ion-content>
 </ion-view>

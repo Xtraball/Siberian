@@ -9,7 +9,7 @@
             <i class="fa fa-plus"></i>
         </button>
     </h3>
-    <div class="container-fluid first-row-feature">
+    <div class="container-fluid first-row-feature content-feature">
         <ul id="category_root" class="tree list-group">
             <?php echo $this->getLayout()->addPartial('root_category_'.$category->getId(), get_class($this), 'mcommerce/application/edit/catalog/categories/list.phtml')
                 ->setCategory($category)
@@ -237,7 +237,7 @@
                     }
                     if(!datas.category_id) {
                         var li = $('<li />').attr('id', 'category_dummy');
-                        li.append('<a class="category_title"><i class="fa fa-arrows"></i><span id="category_title_new"></span></a>');
+                        li.append('<a class="category_title"><i class="fa fa-sort"></i><span id="category_title_new"></span></a>');
                         li.addClass("list-group-item  content-white-bkg");
                         ul.append(li);
                         li.css("display", "none");
@@ -264,7 +264,6 @@
             }
         }
     }
-
     tabs.addObject('categories', categories);
 </script>
 <style>
@@ -280,5 +279,4 @@
         border-color: red;
         border-style: solid;
     }
-    .category_title:hover{font-weight:bold;cursor:pointer}
 </style>

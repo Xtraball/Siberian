@@ -1,13 +1,16 @@
-<ion-view hide-nav-bar="!features.first_option">
-    <ion-content class="homepage" scroll="false" sb-background-image>
+<ion-view sb-page-background hide-nav-bar="app_hide_navbar">
+    <ion-content class="homepage" scroll="false">
 
         <div class="loader" ng-show="is_loading">
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
-        <ion-slide-box id="homepage_slider" ng-if="showSlider() && !app_is_bo_locked"
-                       auto-play="true" does-continue="{{ homepage_slider.loop_at_beginning }}"
-                       slide-interval="{{ homepage_slider.duration }}" show-pager="false"
+        <ion-slide-box id="homepage_slider"
+                       ng-if="showSlider() && !app_is_bo_locked"
+                       auto-play="true"
+                       does-continue="{{ homepage_slider.loop_at_beginning }}"
+                       slide-interval="{{ homepage_slider.duration }}"
+                       show-pager="false"
                        style="height: 100%;" >
 
             <ion-slide ng-repeat="image in homepage_slider.images" ng-if="!homepage_slider.new_slider">
@@ -15,7 +18,7 @@
             </ion-slide>
 
             <ion-slide ng-repeat="image in homepage_slider.images" ng-if="homepage_slider.new_slider">
-                <div class="new_slider" ng-style="{'background-image': 'url({{ image }})', 'height': '{{ homepage_slider.height }}%'}"></div>
+                <div class="new_slider" ng-style="{'background-image': 'url({{ image }})', 'height': '{{ homepage_slider.height }}%', 'margin-top': '{{ homepage_slider.offset }}%', 'opacity': '{{ homepage_slider.opacity/100 }}'}"></div>
             </ion-slide>
         </ion-slide-box>
 

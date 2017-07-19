@@ -58,7 +58,7 @@
 ###########################################################################
 # Set the Memory Limit
     <IfModule mod_php5.c>
-        php_value memory_limit 128M
+        php_value memory_limit 256M
     </IfModule>
 
 ###########################################################################

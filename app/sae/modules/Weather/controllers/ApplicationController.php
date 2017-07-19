@@ -2,6 +2,17 @@
 
 class Weather_ApplicationController extends Application_Controller_Default {
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "editpost" => array(
+            "tags" => array(
+                "homepage_app_#APP_ID#"
+            ),
+        ),
+    );
+
     public function editpostAction() {
 
         if($data = $this->getRequest()->getParams()) {
@@ -47,6 +58,11 @@ class Weather_ApplicationController extends Application_Controller_Default {
                     ->save()
                 ;
 
+                /** Update touch date, then never expires (until next touch) */
+                $this->getCurrentOptionValue()
+                    ->touch()
+                    ->expires(-1);
+
                 $html = array(
                     'success' => '1',
                     'success_message' => $this->_('Info successfully saved'),
@@ -67,7 +83,7 @@ class Weather_ApplicationController extends Application_Controller_Default {
             );
         }
 
-        $this->getLayout()->setHtml(Zend_Json::encode($html));
+        $this->_sendJson($html);
     }
 
     /**

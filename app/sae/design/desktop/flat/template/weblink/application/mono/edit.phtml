@@ -5,11 +5,11 @@
     <div id="list" class="edit_page weblink weblink_mono">
         <div class="mono">
             <form id="weblinkForm" name="weblinkForm" method="post" action="<?php echo $this->getUrl('weblink/application_mono/editpost') ?>" class="form-horizontal">
-                <h3 class="title-editor no-border-radius">
+                <h3 class="title-editor no-border-radius title-feature-indent">
                     <?php echo $this->_('Information') ?>
                 </h3>
                 <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
-                <div class="container-fluid first-row-feature">
+                <div class="container-fluid first-row-feature content-feature">
                     <div class="infos">
                         <div id="weblink_content">
                             <div class="form-group">
@@ -23,17 +23,17 @@
                             <div class="form-group">
                                 <div class="col-sm-2">
                                 </div>
-                                <div class="col-sm-2">
-                                    <label for="link"><?php echo $this->_('Without navbar') ?></label>
+                                <div class="col-sm-4">
+                                    <label for="link" class="checkbox-inline">
+                                        <input  name="hide_navbar" class="color-blue checkbox" type="checkbox" <?php echo ($weblink->getLink()->getHideNavbar() ? 'checked' : '');?>/>
+                                        <?php echo $this->_('Without navbar') ?>
+                                    </label>
                                 </div>
-                                <div class="col-sm-2">
-                                    <input  name="hide_navbar" type="checkbox" <?php echo ($weblink->getLink()->getHideNavbar() ? 'checked' : '');?>/>
-                                </div>
-                                <div class="col-sm-2">
-                                    <label for="link"><?php echo $this->_('Use external application') ?></label>
-                                </div>
-                                <div class="col-sm-2">
-                                    <input  name="use_external_app" type="checkbox" <?php echo ($weblink->getLink()->getUseExternalApp() ? 'checked' : '');?>/>
+                                <div class="col-sm-4">
+                                    <label for="link" class="checkbox-inline">
+                                        <input  name="use_external_app" class="color-blue checkbox" type="checkbox" <?php echo ($weblink->getLink()->getUseExternalApp() ? 'checked' : '');?>/>
+                                        <?php echo $this->_('Use external application') ?>
+                                    </label>
                                 </div>
                             </div>
                         </div>

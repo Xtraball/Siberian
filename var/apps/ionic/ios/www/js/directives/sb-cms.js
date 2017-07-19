@@ -1,4 +1,4 @@
-App.directive("sbCmsText", function() {
+angular.module("starter").directive("sbCmsText", function() {
     return {
         restrict: 'A',
         scope: {
@@ -66,64 +66,69 @@ App.directive("sbCmsText", function() {
         '       </ion-content>' +
         '   </div>'+
         '</script>',
-        controller: function($ionicGesture, $ionicModal, $ionicScrollDelegate, $rootScope, $scope) {
-            $scope.carouselIndex = 0;
+        controller: function($ionicGesture, Modal, $ionicScrollDelegate, $ocLazyLoad, $scope) {
 
-            $scope.is_fullscreen = false;
+            $ocLazyLoad.load("./js/libraries/angular-carousel.min.js")
+                .then(function() {
+                    $scope.carouselIndex = 0;
 
-            $scope.setCarouselIndex = function(index) {
-                if(index < 0) {
-                    index = 0;
-                } else if(index >= $scope.block.gallery.length) {
-                    index--;
-                }
-                $scope.carouselIndexModal = index;
-            };
+                    $scope.is_fullscreen = false;
 
-            $scope.showFullscreen = function(index) {
-                $ionicModal.fromTemplateUrl('zoom-modal.html', {
-                    scope: $scope,
-                    animation: 'block'
-                }).then(function(modal) {
-                    $scope.modal = modal;
-                    $scope.carouselIndexModal = index;
-                    $scope.modal.show();
+                    $scope.setCarouselIndex = function(index) {
+                        if(index < 0) {
+                            index = 0;
+                        } else if(index >= $scope.block.gallery.length) {
+                            index--;
+                        }
+                        $scope.carouselIndexModal = index;
+                    };
 
-                    $scope.modal.is_zoomed = false;
-                    $scope.modal.scale_to_original_size = false;
+                    $scope.showFullscreen = function(index) {
+                        Modal
+                            .fromTemplateUrl("zoom-modal.html", {
+                                scope: $scope,
+                                animation: "block"
+                            }).then(function(modal) {
+                            $scope.modal = modal;
+                            $scope.carouselIndexModal = index;
+                            $scope.modal.show();
 
-                    var element = angular.element(document.getElementById('zoomedImage'));
-
-                    $scope.modal.release = $ionicGesture.on("release", function() {
-                        if($scope.modal.scale_to_original_size) {
-                            $ionicScrollDelegate.$getByHandle('slide-' + $scope.carouselIndexModal).zoomTo(1, true);
+                            $scope.modal.is_zoomed = false;
                             $scope.modal.scale_to_original_size = false;
-                        }
-                    }, element);
 
-                    $scope.modal.pinch = $ionicGesture.on("pinch", function (event, o, t, l) {
-                        if(event.gesture.scale < 1) {
-                            $scope.modal.scale_to_original_size = true;
-                        }
-                    }, element);
+                            var element = angular.element(document.getElementById('zoomedImage'));
 
-                    $scope.modal.doubleTap = $ionicGesture.on("doubletap", function (event) {
-                        if($scope.modal.is_zoomed) {
-                            $ionicScrollDelegate.$getByHandle('slide-' + $scope.carouselIndexModal).zoomTo(1, true);
-                        } else {
-                            $ionicScrollDelegate.$getByHandle('slide-' + $scope.carouselIndexModal).zoomTo(3, true, event.gesture.touches[0].pageX, event.gesture.touches[0].pageY);
-                        }
+                            $scope.modal.release = $ionicGesture.on("release", function() {
+                                if($scope.modal.scale_to_original_size) {
+                                    $ionicScrollDelegate.$getByHandle('slide-' + $scope.carouselIndexModal).zoomTo(1, true);
+                                    $scope.modal.scale_to_original_size = false;
+                                }
+                            }, element);
 
-                        $scope.modal.is_zoomed = !$scope.modal.is_zoomed;
-                    }, element);
+                            $scope.modal.pinch = $ionicGesture.on("pinch", function (event, o, t, l) {
+                                if(event.gesture.scale < 1) {
+                                    $scope.modal.scale_to_original_size = true;
+                                }
+                            }, element);
+
+                            $scope.modal.doubleTap = $ionicGesture.on("doubletap", function (event) {
+                                if($scope.modal.is_zoomed) {
+                                    $ionicScrollDelegate.$getByHandle('slide-' + $scope.carouselIndexModal).zoomTo(1, true);
+                                } else {
+                                    $ionicScrollDelegate.$getByHandle('slide-' + $scope.carouselIndexModal).zoomTo(3, true, event.gesture.touches[0].pageX, event.gesture.touches[0].pageY);
+                                }
+
+                                $scope.modal.is_zoomed = !$scope.modal.is_zoomed;
+                            }, element);
+                        });
+
+                    };
+
+                    $scope.hideFullscreen = function() {
+                        $scope.carouselIndex = $scope.carouselIndexModal;
+                        $scope.modal.remove();
+                    };
                 });
-
-            };
-
-            $scope.hideFullscreen = function() {
-                $scope.carouselIndex = $scope.carouselIndexModal;
-                $scope.modal.remove();
-            };
         }
     };
 }).directive("sbCmsVideo", function() {
@@ -164,7 +169,7 @@ App.directive("sbCmsText", function() {
         '       {{ "Locate" | translate }}' +
         '   </div>' +
         '</div>',
-        controller: function ($cordovaGeolocation, $ionicLoading, $rootScope, $scope, $state, $stateParams, $window /*$location, $q, Url/*, Application, GoogleMapService*/) {
+        controller: function ($cordovaGeolocation, $ionicLoading, $rootScope, $scope, $window) {
 
             $scope.handle_address_book = false; // Application.handle_address_book;
 
@@ -231,7 +236,7 @@ App.directive("sbCmsText", function() {
         '       </i>' +
         '       {{ label | translate }}' +
         '   </a>',
-        controller: function ($ionicPopup, $rootScope, $scope, $timeout, $translate, $window, Application, LinkService) {
+        controller: function ($scope, LinkService) {
             $scope.openLink = function() {
                 LinkService.openLink($scope.block.content,{
                     'hide_navbar': ($scope.block.hide_navbar === "1"),
@@ -304,7 +309,7 @@ App.directive("sbCmsText", function() {
         '   <i class="icon ion-paperclip"></i>' +
         '   {{ block.display_name }}' +
         '</div>',
-        controller: function ($rootScope, $scope, LinkService) {
+        controller: function ($scope, LinkService) {
             $scope.openFile = function() {
                 LinkService.openLink($scope.block.file_url,{"use_external_app":"true"});
             };

@@ -1,4 +1,4 @@
-<ion-view>
+<ion-view sb-page-background>
     <ion-nav-title>{{ page_title }}</ion-nav-title>
     <ion-nav-buttons side="secondary">
         <div sb-tooltip collection="tooltip.collection" current-item="tooltip.current_item" button-label="tooltip.button_label" on-item-clicked="showTooltip(object)" ng-if="tooltip"></div>
@@ -8,13 +8,7 @@
         </button>
     </ion-nav-buttons>
 
-    <ion-content sb-background-image>
-
-        <!--<ion-refresher-->
-        <!--pulling-text="{{ 'Pull to refresh...' | translate }}"-->
-        <!--on-refresh="refresh()"-->
-        <!--ng-if="refresh">-->
-        <!--</ion-refresher>-->
+    <ion-content>
 
         <div ng-include="template_header"></div>
 
@@ -73,7 +67,7 @@
                 </div>
             </div>
 
-            <ion-infinite-scroll ng-if="can_load_older_posts"
+            <ion-infinite-scroll ng-if="load_more"
                                  on-infinite="loadMore()"
                                  immediate-check="false"
                                  distance="10%">

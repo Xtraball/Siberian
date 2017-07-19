@@ -19,14 +19,27 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Component\\VarDumper\\' => 28,
+            'Symfony\\Component\\Finder\\' => 25,
             'Symfony\\Component\\DomCrawler\\' => 29,
             'Symfony\\Component\\CssSelector\\' => 30,
             'Symfony\\Component\\BrowserKit\\' => 29,
+        ),
+        'R' => 
+        array (
+            'React\\EventLoop\\' => 16,
         ),
         'P' => 
         array (
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
+            'Psr\\Cache\\' => 10,
+            'Phulp\\AngularTemplateCache\\' => 27,
+            'Phulp\\' => 6,
+        ),
+        'M' => 
+        array (
+            'MatthiasMullie\\PathConverter\\' => 29,
+            'MatthiasMullie\\Minify\\' => 22,
         ),
         'G' => 
         array (
@@ -50,6 +63,10 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         array (
             0 => __DIR__ . '/..' . '/symfony/var-dumper',
         ),
+        'Symfony\\Component\\Finder\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/finder',
+        ),
         'Symfony\\Component\\DomCrawler\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/dom-crawler',
@@ -62,6 +79,10 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         array (
             0 => __DIR__ . '/..' . '/symfony/browser-kit',
         ),
+        'React\\EventLoop\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/react/event-loop/src',
+        ),
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
@@ -69,6 +90,26 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'Psr\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/cache/src',
+        ),
+        'Phulp\\AngularTemplateCache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/reisraff/phulp-angular-template-cache/src',
+        ),
+        'Phulp\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/reisraff/phulp/src',
+        ),
+        'MatthiasMullie\\PathConverter\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/matthiasmullie/path-converter/src',
+        ),
+        'MatthiasMullie\\Minify\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/matthiasmullie/minify/src',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (
@@ -104,6 +145,13 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
                 0 => __DIR__ . '/..' . '/gregwar/cache',
             ),
         ),
+        'D' => 
+        array (
+            'Doctrine\\Common\\Collections\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/collections/lib',
+            ),
+        ),
         'B' => 
         array (
             'Behat\\Transliterator' => 
@@ -113,12 +161,17 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         ),
     );
 
+    public static $classMap = array (
+        'Zebra_Image' => __DIR__ . '/..' . '/stefangabos/zebra_image/Zebra_Image.php',
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitc45135ea47c87544c5381729474d0166::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitc45135ea47c87544c5381729474d0166::$prefixDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInitc45135ea47c87544c5381729474d0166::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitc45135ea47c87544c5381729474d0166::$classMap;
 
         }, null, ClassLoader::class);
     }

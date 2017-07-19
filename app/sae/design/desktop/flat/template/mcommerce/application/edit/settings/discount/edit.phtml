@@ -8,17 +8,17 @@ if($valid_until) {
 ?>
 <form id="promoEditForm" method="post" action="<?php echo $this->getUrl('mcommerce/application_settings_discount/editpost'); ?>" class="form-horizontal">
     <fieldset>
-        <h3 class="title-editor no-border-radius">
+        <h3 class="title-editor no-border-radius title-feature-indent">
             <?php if($promo->getId()) : ?>
                 <?php echo $this->_("Edit the discount %s", $promo->getLabel()); ?>
             <?php else : ?>
                 <?php echo $this->_("Create a new discount"); ?>
             <?php endif; ?>
         </h3>
-        <div class="container-fluid">
+        <div class="container-fluid content-feature">
             <div class="form-group first-row-feature">
                 <div class="col-md-12">
-                    <button type="button" onclick="goBack();" class="btn color-blue pull-left"><i class="fa fa-arrow-left"></i></button>
+                    <button type="button" onclick="goBack();" class="btn color-blue pull-left"><i class="fa fa-angle-left"></i></button>
                     <button type="submit" class="btn color-blue pull-right">OK</button>
                 </div>
             </div>
@@ -27,7 +27,7 @@ if($valid_until) {
                     <label for="discount_enabled"><?php echo $this->_("Enabled"); ?></label>
                 </div>
                 <div class="col-sm-5">
-                    <input type="checkbox" id="enabled" name="enabled" <?php if ($promo->getEnabled()) echo "checked" ?>/>
+                    <input type="checkbox" id="enabled" name="enabled" <?php if ($promo->getEnabled()) echo "checked" ?> class="color-blue checkbox"/>
                 </div>
             </div>
             <div class="form-group">
@@ -59,7 +59,7 @@ if($valid_until) {
                     <label for="discount_type"><?php echo $this->_("Discount type"); ?></label>
                 </div>
                 <div class="col-sm-5">
-                    <select name="type" id="" class="form-control">
+                    <select name="type" id="" class="form-control styled-select color-blue">
                         <option value="fixed" <?php if($promo->getType() == 'fixed') echo 'selected' ?>><?php echo $this->_("Fixed"); ?></option>
                         <option value="percentage" <?php if($promo->getType() == 'percentage') echo 'selected' ?>><?php echo $this->_("Percentage"); ?></option>
                     </select>
@@ -86,7 +86,7 @@ if($valid_until) {
                     <label for="discount_useonce"><?php echo $this->_("Usable once"); ?></label>
                 </div>
                 <div class="col-sm-5">
-                    <input type="checkbox" id="discount_useonce" name="use_once" <?php if ($promo->getUseOnce()) echo "checked" ?>/>
+                    <input type="checkbox" id="discount_useonce" name="use_once" <?php if ($promo->getUseOnce()) echo "checked" ?> class="color-blue checkbox"/>
                 </div>
             </div>
         </div>

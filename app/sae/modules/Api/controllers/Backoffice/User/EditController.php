@@ -29,7 +29,7 @@ class Api_Backoffice_User_EditController extends Backoffice_Controller_Default
                 }
 
                 if(is_array($acl[$key])) {
-                    foreach($subkeys as $subkey) {
+                    foreach($subkeys as $subkey => $subvalue) {
                         if(!array_key_exists($subkey, $acl[$key])) {
                             $acl[$key][$subkey] = false;
                         }

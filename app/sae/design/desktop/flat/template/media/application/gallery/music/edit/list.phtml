@@ -3,12 +3,12 @@
 <?php $option_value = $this->getOptionValue(); ?>
 <?php $soundcloud_api_key = Api_Model_Key::findKeysFor('soundcloud'); ?>
 <?php $soundcloud_is_available = $soundcloud_api_key->getClientId() AND $soundcloud_api_key->getSecretId(); ?>
-<div class="container-fluid">
+<div class="content-options content-white-bkg">
     <div class="form-horizontal">
         <div class="buttons form-group">
             <div class="col-md-12">
                 <button type="button" onclick="page.reload();" class="color-blue btn pull-left">
-                    <i class="fa fa-arrow-left"></i>
+                    <i class="fa fa-angle-left"></i>
                 </button>
             </div>         
         </div>
@@ -189,9 +189,6 @@
     </script>
 </div>
 <style type="text/css">
-    #album_cont {
-        padding: 0 10px;
-    }
     #album_cont img.album_illus {
         border: solid 1px;
         margin-right: 20px;
@@ -223,7 +220,7 @@
         display: inline-block;
         vertical-align: middle;
     }
-    #album_edit .fa fa-arrows icon-move {
+    #album_edit .fa fa-sort icon-move {
         cursor: move;
     }
     .album_edit-placeholder {
@@ -236,10 +233,10 @@
         overflow : hidden;
     }
     .search_results #results {
-        height: 210px;
         overflow: hidden;
         position: relative;
         padding: 0;
+        height:180px;
     }
     .search_results #select {
         margin-bottom: 0 !important;
@@ -253,7 +250,7 @@
         font-size: 23px;
         padding: 10px 0;
         position: absolute;
-        top: 0px;
+        top: 10px;
         width: 100px;
         height: 100px;
         line-height: 80px;
@@ -264,9 +261,9 @@
         width: 130px;
         vertical-align: top;
         margin: 10px;
+        padding: 10px;
         position: relative;
         margin: 0 10px 10px;
-        height: 200px;
         overflow: hidden;
     }
     .search_results p.album_infos {
@@ -312,5 +309,11 @@
         float: left;
         padding-top: 20px;
         width: 120px;
+        margin-right:1em;
+    }
+    p.artist_name {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
     }
 </style>

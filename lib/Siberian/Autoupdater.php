@@ -19,6 +19,16 @@ class Siberian_Autoupdater {
     public static $manifest_name = "chcp.manifest";
 
     /**
+     * @var string
+     */
+    public static $pwa_worker_files = "pwa-worker-template.js";
+
+    /**
+     * @var string
+     */
+    public static $pwa_manifest = "pwa-manifest.json";
+
+    /**
      * @param $host
      */
     public static function configure($host) {
@@ -29,6 +39,9 @@ class Siberian_Autoupdater {
         # Clear
         Siberian_Cache_Design::clearCache();
         Siberian_Cache_Design::init();
+
+        # Clear tmp (web app manifest, and temporary archives)
+        Siberian_Cache::__clearTmp();
 
         # Rebuild index
         Siberian_Assets::copyAllAssets();
@@ -62,6 +75,7 @@ class Siberian_Autoupdater {
                 $manifest_path = __ss($path.$www_folder.self::$manifest_name);
 
                 $hash = array();
+                $static_assets = array();
 
                 /** Looping trough files */
                 $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path.$www_folder, 4096), RecursiveIteratorIterator::SELF_FIRST);
@@ -75,6 +89,7 @@ class Siberian_Autoupdater {
 
                     # Add only required files
                     if(!self::exclude($relative_path)) {
+                        $static_assets[] = $relative_path;
                         $hash[] = array(
                             "file" => $relative_path,
                             "hash" => md5_file($pathname),
@@ -89,8 +104,8 @@ class Siberian_Autoupdater {
 
                 # Release version change
                 $release = array(
-                    "content_url" => $host.__ss($platform.$www_folder),
-                    "min_native_interface" => Siberian_Version::NATIVE_VERSION,
+                    "content_url"           => $host.__ss($platform.$www_folder),
+                    "min_native_interface"  => Siberian_Version::NATIVE_VERSION,
                     "release"               => System_Model_Config::getValueFor("current_release"),
                 );
 
@@ -128,33 +143,5 @@ class Siberian_Autoupdater {
             }
         }
         return false;
-    }
-}
-
-# Fix app not loading Utils.php before update ends
-if(!function_exists("__ss")) {
-    function __ss($string) {
-        return preg_replace('~/+~', '/', $string);
-    }
-}
-
-if(!function_exists("__replace")) {
-    function __replace($replacements, $file, $regex = false) {
-
-        $contents = file_get_contents($file);
-        if(!$contents) {
-            throw new Exception(__("An error occurred while editing file (%s).", $file));
-        }
-
-        foreach($replacements as $search => $replace) {
-            if($regex) {
-                $contents = preg_replace($search, $replace, $contents);
-            } else {
-                $contents = str_replace($search, $replace, $contents);
-            }
-
-        }
-
-        file_put_contents($file, $contents);
     }
 }

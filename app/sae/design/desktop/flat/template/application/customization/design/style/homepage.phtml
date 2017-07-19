@@ -2,59 +2,57 @@
 <?php $upload_path = Application_Model_Application::getImagePath().'/homepage_image/'; ?>
 <!--[if gte IE 10]><!-->
 <div class="row">
-    <div class="col-lg-12 col-sm-12 col-xs-12 startup-blocks">
-        <div class="form-group">
-            <div class="col-lg-4 col-sm-4 col-xs-4">
-                <img id="homepage_standard" width="100%" src="<?php echo $application->getHomepageBackgroundImageUrl() ?>" />
-            </div>
-            <div class="col-md-4 col-sm-4 col-xs-4">
-                <img id="homepage_hd" width="100%" src="<?php echo $application->getHomepageBackgroundImageUrl('hd') ?>" />
-            </div>
-            <div class="col-md-4 col-sm-4 col-xs-4">
-                <img id="homepage_tablet" width="100%" src="<?php echo $application->getHomepageBackgroundImageUrl('tablet') ?>" />
-            </div>
-        </div>
+    <div id="sb-tour-hp-1" class="col-lg-4 col-sm-4 col-xs-4 sb-tour">
+
+        <img id="homepage_standard" width="100%" src="<?php echo $application->getHomepageBackgroundImageUrl() ?>" class="upload_bg bg pointer" rel="bg"/>
+
+    </div>
+    <div id="sb-tour-hp-2" class="col-md-4 col-sm-4 col-xs-4 sb-tour">
+        <img id="homepage_hd" width="100%" src="<?php echo $application->getHomepageBackgroundImageUrl('hd') ?>" class="upload_bg bg_hd pointer" rel="bg_hd"/>
+    </div>
+    <div id="sb-tour-hp-3" class="col-md-4 col-sm-4 col-xs-4 sb-tour">
+        <img id="homepage_tablet" width="100%" src="<?php echo $application->getHomepageBackgroundImageUrl('tablet') ?>" class="upload_bg bg_tablet pointer" rel="bg_tablet"/>
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-12 col-sm-12 col-xs-12 ">
-        <div class="form-group">
-            <div class="col-md-4 col-sm-4 col-xs-4 startup-bottom-blocks">
-                <p class="recommended_size"><b><?php echo $this->_('Recommended size:'); ?></b> 640x1136</p>
-                <button type="button" class="bg upload btn-grey upload_bg" rel="bg">
-                    <?php echo $this->_("Change your picture"); ?><br/>
-                </button>
-            </div>
-            <div class="col-md-4 col-sm-4 col-xs-4 startup-bottom-blocks">
-                <p class="clear recommended_size"><b><?php echo $this->_('Recommended size:'); ?></b> 1242x2208</p>
-                <button type="button" class="bg_hd upload btn-grey upload_bg" rel="bg_hd">
-                    <?php echo $this->_("Change your picture"); ?><br/>
-                </button>
-            </div>
-            <div class="col-md-4 col-sm-4 col-xs-4 startup-bottom-blocks">
-                <p class="clear recommended_size"><b><?php echo $this->_('Recommended size:'); ?></b> 1536x2048</p>
-                <button type="button" class="bg_tablet upload btn-grey upload_bg" rel="bg_tablet">
-                    <?php echo $this->_("Change your picture"); ?><br/>
-                </button>
-            </div>
-        </div>
+    <div class="col-md-4 col-sm-4 col-xs-4 startup-bottom-blocks">
+        <p class="recommended_size"><b><?php echo __('Recommended size:'); ?></br></b> 640x1136</p>
+        <button id="sb-tour-hp-1-bt" type="button" class="bg btn-grey upload_bg btn btn-full-width sb-tour" rel="bg">
+            <?php echo __("Change your picture"); ?><br/>
+        </button>
+    </div>
+    <div class="col-md-4 col-sm-4 col-xs-4 startup-bottom-blocks">
+        <p class="clear recommended_size"><b><?php echo __('Recommended size:'); ?></br></b> 1242x2208</p>
+        <button id="sb-tour-hp-2-bt" type="button" class="bg_hd btn-grey upload_bg btn btn-full-width sb-tour" rel="bg_hd">
+            <?php echo __("Change your picture"); ?><br/>
+        </button>
+    </div>
+    <div class="col-md-4 col-sm-4 col-xs-4 startup-bottom-blocks">
+        <p class="clear recommended_size"><b><?php echo $this->_('Recommended size:'); ?></br></b> 1536x2048</p>
+        <button id="sb-tour-hp-3-bt" type="button" class="bg_tablet btn-grey upload_bg btn btn-full-width sb-tour" rel="bg_tablet">
+            <?php echo __("Change your picture"); ?><br/>
+        </button>
     </div>
 </div>
 <input enctype="multipart/form-data" class="fileupload bg" type="file" style="display:none" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" rel="standard">
 <input enctype="multipart/form-data" class="fileupload bg_hd" type="file" style="display:none" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" rel="hd">
 <input enctype="multipart/form-data" class="fileupload bg_tablet" type="file" style="display:none" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" rel="tablet">
-
-<div class="col-md-12" id="behavior_container">
-    <?php
-        $form_behavior = new Application_Form_Behavior();
-        $form_behavior->populate($application->getData());
-        echo $form_behavior;
-    ?>
+<div class="row content-in">
+    <div class="col-md-6 col-xs-12 sb-tour" id="behavior_container">
+        <div class="content-options content-white-bkg">
+            <?php
+                $form_behavior = new Application_Form_Behavior();
+                $form_behavior->populate($application->getData());
+                echo $form_behavior;
+            ?>
+        </div>
+    </div>
 </div>
-
-<div id="col-md-12">
-    <div id="capture_conteneurs">
-        <div class="left" id="crop_image_bg_cont"></div>
+<div class="row">
+    <div id="col-md-12">
+        <div id="capture_conteneurs">
+            <div class="left" id="crop_image_bg_cont"></div>
+        </div>
     </div>
 </div>
 <script type="text/javascript">

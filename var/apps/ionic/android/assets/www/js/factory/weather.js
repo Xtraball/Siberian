@@ -1,36 +1,78 @@
-App.factory('Weather', function($rootScope, $q, $sbhttp, $cordovaGeolocation, Url, GoogleMaps/*, Application*/) {
+/*global
+ App, device, angular, btoa
+ */
 
-    var factory = {};
+/**
+ * Weather
+ *
+ * @author Xtraball SAS
+ */
+angular.module("starter").factory("Weather", function($q, $pwaRequest, $cordovaGeolocation, GoogleMaps) {
 
-    factory.value_id = null;
+    var factory = {
+        value_id        : null,
+        extendedOptions : {}
+    };
+
+    /**
+     *
+     * @param value_id
+     */
+    factory.setValueId = function(value_id) {
+        factory.value_id = value_id;
+    };
+
+    /**
+     *
+     * @param options
+     */
+    factory.setExtendedOptions = function(options) {
+        factory.extendedOptions = options;
+    };
 
     factory.find = function() {
 
-        if(!this.value_id) return;
+        if(!this.value_id) {
+            return $pwaRequest.reject("[Factory::Weather.find] missing value_id");
+        }
 
-        return $sbhttp({
-            method: 'GET',
-            url: Url.get("weather/mobile_view/find", {value_id: this.value_id}),
-            cache: false,
-            responseType:'json'
-        });
+        var payload = $pwaRequest.getPayloadForValueId(factory.value_id);
+        if(payload !== false) {
+
+            return $pwaRequest.resolve(payload);
+
+        } else {
+
+            /** Otherwise fallback on PWA */
+            return $pwaRequest.get("weather/mobile_view/find", angular.extend({
+                urlParams: {
+                    value_id: this.value_id
+                }
+            }, factory.extendedOptions));
+
+        }
+
+
     };
 
     factory.getWeather = function(woeid, unit) {
         var deferred = $q.defer();
 
         if(woeid) {
-            factory.getWeatherFromWoeid(woeid, unit).success(function(data) {
+            factory.getWeatherFromWoeid(woeid, unit).then(function(data) {
                 if(!data.query.results.channel.astronomy) {
                     deferred.reject("Unable to get weather for this location.");
                 } else {
                     deferred.resolve(data);
                 }
-            }).error(function() {
+            }, function() {
                 deferred.reject("Unable to get weather.");
             });
         } else {
 
+            /***
+             * @todo use location service
+             */
             $cordovaGeolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }).then(function(position) {
 
                 GoogleMaps.reverseGeocode(position.coords).then(function(data) {
@@ -55,7 +97,8 @@ App.factory('Weather', function($rootScope, $q, $sbhttp, $cordovaGeolocation, Ur
                             param = country;
                         }
 
-                        factory.getWoeid(param).success(function(data) {
+                        factory.getWoeid(param)
+                            .then(function(data) {
 
                             var woeid = null;
                             if(data["query"]["count"]> 0) {
@@ -67,20 +110,20 @@ App.factory('Weather', function($rootScope, $q, $sbhttp, $cordovaGeolocation, Ur
                             }
 
                             if(woeid) {
-                                factory.getWeatherFromWoeid(woeid, unit).success(function(data) {
+                                factory.getWeatherFromWoeid(woeid, unit).then(function(data) {
 
                                     if(!data.query.results.channel.astronomy) {
                                         deferred.reject("Unable to get weather for this location.");
                                     } else {
                                         deferred.resolve(data);
                                     }
-                                }).error(function() {
+                                }, function() {
                                     deferred.reject("Unable to get weather.");
                                 });
                             } else {
                                 deferred.reject("Unable to get your woeid.");
                             }
-                        }).error(function() {
+                        }, function() {
                             deferred.reject("Unable to get your woeid.");
                         });
 
@@ -101,22 +144,26 @@ App.factory('Weather', function($rootScope, $q, $sbhttp, $cordovaGeolocation, Ur
     };
 
     factory.getWoeid = function(param) {
-        return $sbhttp({
-            method: 'GET',
-            url: "https://query.yahooapis.com/v1/public/yql?q=select woeid from geo.places where text='" + param + "'&format=json",
-            cache: false,
-            withCredentials: false,
-            responseType:'json'
+
+        var yql = encodeURI("select woeid from geo.places where text='" + param + "'");
+
+        return $pwaRequest.post("/weather/mobile_view/proxy", {
+            data: {
+                request: btoa("https://query.yahooapis.com/v1/public/yql?q=" + yql + "&format=json")
+            },
+            cache: false
         });
     };
 
     factory.getWeatherFromWoeid = function(woeid, unit) {
-        return $sbhttp({
-            method: 'GET',
-            url: "https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid='" + woeid + "' and u='" + unit + "'&format=json&lang=fr-FR",
-            cache: false,
-            withCredentials: false,
-            responseType:'json'
+
+        var yql = encodeURI("select * from weather.forecast where woeid='" + woeid + "' and u='" + unit + "'");
+
+        return $pwaRequest.post("/weather/mobile_view/proxy", {
+            data: {
+                request: btoa("https://query.yahooapis.com/v1/public/yql?q=" + yql + "&format=json&lang=fr-FR")
+            },
+            cache: false
         });
     };
 

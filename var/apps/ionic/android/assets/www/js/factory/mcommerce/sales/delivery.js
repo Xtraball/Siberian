@@ -1,30 +1,40 @@
-App.factory('McommerceSalesDelivery', function($rootScope, $sbhttp, Url) {
+/*global
+    App
+ */
+angular.module("starter").factory("McommerceSalesDelivery", function($pwaRequest) {
 
-    var factory = {};
-
-    factory.value_id = null;
+    var factory = {
+        value_id: null
+    };
 
     factory.findStore = function() {
 
-        if(!this.value_id) return;
+        if(!this.value_id) {
+            return $pwaRequest.reject("[McommerceSalesDelivery::findStore] missing value_id.");
+        }
 
-        return $sbhttp({
-            method: 'GET',
-            url: Url.get("mcommerce/mobile_sales_delivery/findstore", {value_id: this.value_id}),
-            cache: false,
-            responseType:'json'
+        return $pwaRequest.get("mcommerce/mobile_sales_delivery/findstore", {
+            urlParams: {
+                value_id: this.value_id
+            },
+            cache: false
         });
     };
     
     factory.updateDeliveryInfos = function (form) {
 
-        if (!this.value_id) return;
+        if (!this.value_id) {
+            return $pwaRequest.reject("[McommerceSalesDelivery::updateDeliveryInfos] missing value_id.");
+        }
 
-        var url = Url.get("mcommerce/mobile_sales_delivery/update", {value_id: this.value_id});
-        
-        var data = {form: form};
-
-        return $sbhttp.post(url, data);
+        return $pwaRequest.post("mcommerce/mobile_sales_delivery/update", {
+            urlParams: {
+                value_id: this.value_id
+            },
+            data: {
+                form: form
+            }
+        });
     };
     
     return factory;

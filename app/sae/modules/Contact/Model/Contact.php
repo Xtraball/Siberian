@@ -24,6 +24,55 @@ class Contact_Model_Contact extends Core_Model_Default {
     }
 
     /**
+     * @param $option_value
+     * @return bool
+     */
+    public function getEmbedPayload($option_value) {
+
+        $payload = false;
+
+        if($this->getId()) {
+
+            $cover_b64 = null;
+            if($this->getCoverUrl()) {
+                $cover_path = Core_Model_Directory::getBasePathTo($this->getCoverUrl());
+                $image = Siberian_Image::open($cover_path)->cropResize(720);
+                $cover_b64 = $image->inline($image->guessType());
+            }
+
+            $payload = array(
+                "contact" => array(
+                    "name"          => $this->getName(),
+                    "cover_url"     => $cover_b64,
+                    "street"        => $this->getStreet(),
+                    "postcode"      => $this->getPostcode(),
+                    "city"          => $this->getCity(),
+                    "description"   => $this->getDescription(),
+                    "phone"         => $this->getPhone(),
+                    "email"         => $this->getEmail(),
+                    "form_url"      => __path("contact/mobile_form/index", array("value_id" => $option_value->getId())),
+                    "website_url"   => $this->getWebsite(),
+                    "facebook_url"  => $this->getFacebook(),
+                    "twitter_url"   => $this->getTwitter()
+                ),
+                "page_title" => $option_value->getTabbarName()
+            );
+
+            if($this->getLatitude() && $this->getLongitude()) {
+                $payload['contact']["coordinates"] = array(
+                    "latitude"      => $this->getLatitude(),
+                    "longitude"     => $this->getLongitude()
+                );
+            }
+
+        }
+
+        return $payload;
+
+    }
+
+
+    /**
      * @return array
      */
     public function getInappStates($value_id) {
@@ -64,7 +113,8 @@ class Contact_Model_Contact extends Core_Model_Default {
      * @return array
      */
     public function getFeaturePaths($option_value) {
-        if(!$this->isCacheable()) {
+        return array();
+        /**if(!$this->isCacheable()) {
             return array();
         }
 
@@ -84,7 +134,7 @@ class Contact_Model_Contact extends Core_Model_Default {
             $paths = $result;
         }
 
-        return $paths;
+        return $paths;*/
     }
 
     /**

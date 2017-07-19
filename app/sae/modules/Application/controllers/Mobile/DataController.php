@@ -4,12 +4,21 @@ class Application_Mobile_DataController extends Application_Controller_Mobile_De
 
     public function findallAction() {
 
-        $pages = $this->getApplication()->getOptions();
+        $application = $this->getApplication();
+        $pages = $application->getOptions();
+
+        $request = $this->getRequest();
+        $base_url = $request->getBaseUrl();
+
         $paths = array();
         $assets = array();
 
-        $paths[] = __path("front/mobile/load");
-        $paths[] = __path("front/mobile/backgroundimage", array("value_id" => "home"));
+        $paths[] = __path("front/mobile/loadv3");
+        $paths[] = __path("front/mobile/touched");
+        $paths[] = __path("front/mobile/backgroundimages", array(
+            'device_width' => $request->getParam("device_width"),
+            'device_height' => $request->getParam("device_height"),
+        ));
         $assets[] = $this->getApplication()->getHomepageBackgroundImageUrl();
         $assets[] = $this->getApplication()->getHomepageBackgroundImageUrl("hd");
         $assets[] = $this->getApplication()->getHomepageBackgroundImageUrl("tablet");
@@ -27,11 +36,6 @@ class Application_Mobile_DataController extends Application_Controller_Mobile_De
 
                 if (!$page->isActive() OR (!$page->getIsAjax() AND $page->getObject()->getLink())) {
                     continue;
-                }
-
-                $paths[] = $page->getPath("front/mobile/backgroundimage", array("value_id" => $page->getId()));
-                if($page->hasBackgroundImage() AND $page->getBackgroundImage() != "no-image" AND trim($page->getBackgroundImage()) != "") {
-                    $assets[] = $page->getBackgroundImageUrl();
                 }
 
                 if(!$object->getTable() || is_a($object, "Push_Model_Message")) {
@@ -63,15 +67,10 @@ class Application_Mobile_DataController extends Application_Controller_Mobile_De
 
         }
 
-        $app = $this->getApplication();
-
-        $assets = array_values(array_merge($assets, $app->getAllPictos()));
-        $assets[] = Template_Model_Design::getCssPath($app);
-
         foreach($paths as $key => $path) {
             $path = trim($path);
             if(strlen($path) > 0 && strpos($path, "http") !== 0) {
-                $path = $this->getRequest()->getBaseUrl() . $path;
+                $path = $base_url . $path;
             }
             $paths[$key] = $path;
         }
@@ -79,7 +78,7 @@ class Application_Mobile_DataController extends Application_Controller_Mobile_De
         foreach($assets as $key => $path) {
             $path = trim($path);
             if(strlen($path) > 0 && strpos($path, "http") !== 0) {
-                $path = $this->clean_url($this->getRequest()->getBaseUrl() . $path);
+                $path = $this->clean_url($base_url . $path);
             }
             $assets[$key] = $path;
         }

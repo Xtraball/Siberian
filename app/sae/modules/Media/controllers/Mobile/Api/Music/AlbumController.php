@@ -176,4 +176,67 @@ class Media_Mobile_Api_Music_AlbumController extends Application_Controller_Mobi
         $this->_sendHtml($data);
     }
 
+    /** API v2 introduced in Siberian 5.0 with Progressive Web Apps. */
+    public function findallv2Action() {
+
+        try {
+            /** Do your stuff here. */
+            if($value_id = $this->getRequest()->getParam("value_id")) {
+
+                $playlists = new Media_Model_Gallery_Music();
+                $playlists = $playlists->findAll(array(
+                    "value_id" => $value_id
+                ), "position ASC");
+
+                $albums_json = array();
+
+                foreach($playlists as $playlist) {
+
+                    $elements = new Media_Model_Gallery_Music_Elements();
+                    $elements = $elements->findAll(array(
+                        "gallery_id" => $playlist->getId()
+                    ), "position ASC");
+
+                    foreach($elements as $element) {
+
+                        if($element->getAlbumId()) {
+
+                            $album = new Media_Model_Gallery_Music_Album();
+                            $album->find($element->getAlbumId());
+
+                            $albums_json[] = Media_Model_Gallery_Music_Album::_toJson($value_id, $album);
+
+                        } else if($element->getTrackId()) {
+
+                            $track = new Media_Model_Gallery_Music_Track();
+                            $track->find($element->getTrackId());
+
+                            $albums_json[] = Media_Model_Gallery_Music_Track::_toJson($track);
+
+                        }
+                    }
+                }
+
+                $payload = array(
+                    "success" => true,
+                    "albums" => $albums_json
+                );
+
+            } else {
+                $payload = array(
+                    "error" => true,
+                    "message" => __("Missing value_id.")
+                );
+            }
+
+        } catch(Exception $e) {
+            $payload = array(
+                "error" => true,
+                "message" => __("An unknown error occurred, please try again later.")
+            );
+        }
+
+        $this->_sendJson($payload);
+    }
+
 }

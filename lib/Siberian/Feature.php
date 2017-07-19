@@ -152,7 +152,7 @@ class Siberian_Feature {
         $option = Siberian_Feature::install($category, $feature_data, array('code'));
         Siberian_Feature::installAcl($option);
 
-        Siberian_Assets::copyAssets("/app/local/modules//resources/var/apps/");
+        Siberian_Assets::copyAssets("/app/local/modules/resources/var/apps/");
 
         return $option;
     }

@@ -40,7 +40,20 @@ class Job_ApplicationController extends Application_Controller_Default {
                 $job->setTitlePlace($values["title_place"]);
             }
 
+            if(isset($values["distance_unit"])) {
+                $job->setDistanceUnit($values["distance_unit"]);
+            }
+
+            if(isset($values["default_radius"])) {
+                $job->setDefaultRadius($values["default_radius"]);
+            }
+
             $job->save();
+
+            /** Update touch date, then never expires (until next touch) */
+            $this->getCurrentOptionValue()
+                ->touch()
+                ->expires(-1);
 
             $html = array(
                 "success" => 1,

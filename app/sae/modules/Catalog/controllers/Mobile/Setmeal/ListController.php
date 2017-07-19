@@ -4,53 +4,86 @@ class Catalog_Mobile_Setmeal_ListController extends Application_Controller_Mobil
 
     public function findallAction() {
 
-        if($value_id = $this->getRequest()->getParam('value_id')) {
+        try {
 
-            $data = array("collection" => array());
+            $request = $this->getRequest();
 
-            $menu = new Catalog_Model_Product();
-            $offset = $this->getRequest()->getParam('offset', 0);
-            $menus = $menu->findAll(array('value_id' => $value_id, 'type' => 'menu'), array(), array("offset" => $offset, "limit" => Catalog_Model_Product::DISPLAYED_PER_PAGE));
+            if($value_id = $request->getParam("value_id")) {
 
-            foreach($menus as $menu) {
-                $data["collection"][] = array(
-                    "id" => $menu->getId(),
-                    "title" => $menu->getName(),
-                    "subtitle" => $menu->getFormattedPrice(),
-                    "picture" => $menu->getThumbnailUrl() ? $this->getRequest()->getBaseUrl().$menu->getThumbnailUrl() : null,
-                    "url" => $this->getPath("catalog/mobile_setmeal_view", array("value_id" => $value_id, "set_meal_id" => $menu->getId())),
+                $option_value = $this->getCurrentOptionValue();
+
+                $collection = array();
+
+                $menu = new Catalog_Model_Product();
+                $offset = $request->getParam("offset", 0);
+                $menus = $menu->findAll(array(
+                        "value_id" => $value_id,
+                        "type" => "menu"
+                    ),
+                    array(),
+                    array(
+                        "offset" => $offset,
+                        "limit" => Catalog_Model_Product::DISPLAYED_PER_PAGE
+                    )
                 );
+
+
+
+                foreach($menus as $menu) {
+
+                    $thumbnail_b64 = null;
+                    if($menu->getThumbnailUrl()) {
+                        $picture = Core_Model_Directory::getBasePathTo($menu->getThumbnailUrl());
+                        $thumbnail_b64 = Siberian_Image::open($picture)->inline("png");
+                    }
+
+                    $picture_b64 = null;
+                    if($menu->getPictureUrl()) {
+                        $picture = Core_Model_Directory::getBasePathTo($menu->getPictureUrl());
+                        $picture_b64 = Siberian_Image::open($picture)->inline("png");
+                    }
+
+                    $collection[] = array(
+                        "id"        => $menu->getId() * 1,
+                        "title"     => $menu->getName(),
+                        "subtitle"  => $menu->getFormattedPrice(),
+                        "picture"   => $thumbnail_b64,
+                        "url"       => $this->getPath("catalog/mobile_setmeal_view", array(
+                                            "value_id" => $value_id, "set_meal_id" => $menu->getId())),
+                        "embed_payload" => array(
+                            "name"          => $menu->getName(),
+                            "conditions"    => $menu->getConditions(),
+                            "description"   => $menu->getDescription(),
+                            "price"         => $menu->getPrice() > 0 ? $menu->getFormattedPrice() : null,
+                            "picture"       => $picture_b64,
+                            "social_sharing_active" => !!$option_value->getSocialSharingIsActive()
+                        )
+                    );
+                }
+
+                $payload = array(
+                    "success"               => true,
+                    "collection"            => $collection,
+                    "page_title"            => $option_value->getTabbarName(),
+                    "displayed_per_page"    => Catalog_Model_Product::DISPLAYED_PER_PAGE
+                );
+
+            } else {
+                throw new Siberian_Exception(__("Missing parameter value_id."));
             }
 
+        } catch(Exception $e) {
 
-//            foreach($menus as $menu) {
-//                switch($this->getCurrentOptionValue()->getLayoutId()) {
-//                    case 2:
-//                    case 3:
-//                        $data["collection"][] = array(
-//                            "title" => $menu->getName(),
-//                            "subtitle" => $menu->getFormattedPrice(),
-//                            "picture" => $menu->getThumbnailUrl(),
-//                            "url" => $this->getPath("catalog/mobile_setmeal_view", array("value_id" => $value_id, "set_meal_id" => $menu->getId())),
-//                        );
-//                        break;
-//                    case 1:
-//                    default:
-//                        $data["collection"][] = array(
-//                            "title" => $menu->getName(),
-//                            "subtitle" => $menu->getConditions(),
-//                            "picture" => $menu->getThumbnailUrl(),
-//                            "url" => $this->getPath("catalog/mobile_setmeal_view", array("value_id" => $value_id, "set_meal_id" => $menu->getId())),
-//                        );
-//                        break;
-//                }
-//            }
+            $payload = array(
+                "error" => true,
+                "message" => $e->getMessage()
+            );
 
-            $data["page_title"] = $this->getCurrentOptionValue()->getTabbarName();
-            $data["displayed_per_page"] = Catalog_Model_Product::DISPLAYED_PER_PAGE;
-
-            $this->_sendHtml($data);
         }
+
+        $this->_sendJson($payload);
+
+
     }
 
 }

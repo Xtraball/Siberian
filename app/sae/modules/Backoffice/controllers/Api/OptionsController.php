@@ -21,9 +21,11 @@ class Backoffice_Api_OptionsController extends Api_Controller_Default  {
      */
     public function manifestAction() {
         $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
-        Siberian_Autoupdater::configure($protocol.$this->getRequest()->getHttpHost());
+        Siberian_Autoupdater::configure(
+            $protocol.$this->getRequest()->getHttpHost()
+        );
 
-        $this->_sendHtml(array(
+        $this->_sendJson(array(
             "success" => 1,
             "message" => __("Manifest rebuilt with succes."),
         ));
@@ -35,7 +37,7 @@ class Backoffice_Api_OptionsController extends Api_Controller_Default  {
     public function clearcacheAction() {
         Siberian_Cache::__clearCache();
 
-        $this->_sendHtml(array(
+        $this->_sendJson(array(
             "success" => 1,
             "message" => __("Cache cleared."),
         ));
@@ -47,7 +49,7 @@ class Backoffice_Api_OptionsController extends Api_Controller_Default  {
     public function clearlogsAction() {
         Siberian_Cache::__clearLog();
 
-        $this->_sendHtml(array(
+        $this->_sendJson(array(
             "success" => 1,
             "message" => __("Logs cleared."),
         ));

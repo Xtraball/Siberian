@@ -1,32 +1,79 @@
-App.factory('Booking', function($rootScope, $sbhttp, Url) {
+/*global
+    App, angular
+ */
 
-    var factory = {};
+/**
+ * Booking
+ *
+ * @author Xtraball SAS
+ */
+angular.module("starter").factory("Booking", function($pwaRequest) {
 
-    factory.value_id = null;
+    var factory = {
+        value_id: null,
+        cache_key: null,
+        cache_key_prefix: "feature_booking_",
+        extendedOptions: {}
+    };
+
+    /**
+     *
+     * @param value_id
+     */
+    factory.setValueId = function(value_id) {
+        factory.value_id = value_id;
+        factory.cache_key = factory.cache_key_prefix + value_id;
+    };
+
+    /**
+     *
+     * @param options
+     */
+    factory.setExtendedOptions = function(options) {
+        factory.extendedOptions = options;
+    };
 
     factory.findStores = function() {
 
-        if(!this.value_id) return;
+        if(!this.value_id) {
+            return $pwaRequest.reject("[Factory::Booking.findStores] missing value_id");
+        }
 
-        return $sbhttp({
-            method: 'GET',
-            url: Url.get("booking/mobile_view/find", {value_id: this.value_id}),
-            cache: !$rootScope.isOverview,
-            responseType:'json'
-        });
+        var payload = $pwaRequest.getPayloadForValueId(factory.value_id);
+        if(payload !== false) {
+
+            return $pwaRequest.resolve(payload);
+
+        } else {
+
+            /** Otherwise fallback on PWA */
+            return $pwaRequest.get("booking/mobile_view/find",
+                angular.extend({
+                    urlParams: {
+                        value_id: this.value_id
+                    }
+                }, factory.extendedOptions)
+            );
+
+        }
     };
 
-    factory.post = function(form) {
+    factory.submitForm = function(form) {
 
-        if(!this.value_id) return;
-
-        var url = Url.get("booking/mobile_view/post", {value_id: this.value_id});
+        if(!this.value_id) {
+            return $pwaRequest.reject("[Factory::Booking.submitForm] missing value_id");
+        }
 
         var data = {};
         for (var prop in form) {
             data[prop] = form[prop];
         }
 
+        data.value_id = this.value_id;
+
+        /**
+         * @todo fix date.
+         */
         if (data.date) {
             var date = new Date(data.date);
             var zeroPad = function(e) { return ("00"+e).slice(-2); };
@@ -34,7 +81,13 @@ App.factory('Booking', function($rootScope, $sbhttp, Url) {
             data.date = date.getFullYear()+"-"+zeroPad(date.getMonth()+1)+"-"+zeroPad(date.getDate())+"T"+zeroPad(date.getHours())+":"+zeroPad(date.getMinutes())+":"+zeroPad(date.getSeconds())+"-00:00";
         }
 
-        return $sbhttp.post(url, data);
+        return $pwaRequest.post("booking/mobile_view/post", {
+            urlParams: {
+                value_id: this.value_id
+            },
+            data    : data,
+            cache   : false
+        });
     };
 
     return factory;

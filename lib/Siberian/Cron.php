@@ -76,6 +76,7 @@ class Siberian_Cron {
 			$all = $this->cron->getActiveActions($minute, $hour, $month_day, $month, $week_day);
 
 			$actions = array();
+
 			foreach ($all as $task){
 				$actions[] = array(
 					"id" => $task->getCommand(),

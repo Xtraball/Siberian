@@ -11,7 +11,7 @@
                 <i class="fa fa-plus"></i>
             </button>
         </h3>
-        <div class="container-fluid first-row-feature">
+        <div class="container-fluid first-row-feature content-feature">
             <table id="table_products_list" class="table content-white-bkg">
                 <col width="20px" />
                 <col width="35%" />
@@ -19,7 +19,7 @@
                 <col width="50px" />
                 <col width="100px" />
                 <thead>
-                    <tr class="border-blue">
+                    <tr class="border-grey">
                         <th><?php echo $this->_('Id'); ?></th>
                         <th><?php echo $this->_('Product'); ?></th>
                         <th><?php echo $this->_('Description'); ?></th>
@@ -34,7 +34,7 @@
                         <td><?php echo Core_Model_Lib_String::truncate(strip_tags($product->getName()), 25); ?></td>
                         <td><?php echo Core_Model_Lib_String::truncate(strip_tags($product->getDescription()), 25); ?></td>
                         <td align="right"><?php echo $product->getFormattedPrice($this->getApplication()->getCountryCode()); ?></td>
-                        <td align="center"><i class="fa fa-edit"></i></i></td>
+                        <td align="center"><i class="fa fa-pencil"></i></i></td>
                     </tr>
                     <?php endforeach ?>
                 </tbody>
@@ -161,7 +161,7 @@
                                                 datas.product.name,
                                                 datas.product.description,
                                                 datas.product.formatted_price,
-                                                '<i class="fa fa-edit"></i>'
+                                                '<i class="fa fa-pencil"></i>'
                                             ]
                                         );
 
@@ -297,7 +297,7 @@
                             datas.product.name,
                             new_desc,
                             datas.product.formatted_price,
-                            '<i class="fa fa-edit"></i>'
+                            '<i class="fa fa-pencil"></i>'
                         ]
                     );
                     products.bindEditProduct($('#edit_product_row_'+datas.product_id));

@@ -1,15 +1,38 @@
+/*global
+ App, device, angular
+ */
 
-App.factory('Tc', function($rootScope, $sbhttp, Url) {
+/**
+ * Tc
+ *
+ * @author Xtraball SAS
+ */
+angular.module("starter").factory("Tc", function($pwaRequest) {
 
-    var factory = {};
+    var factory = {
+        id              : null,
+        extendedOptions : {}
+    };
 
-    factory.find = function(tc_id) {
+    /**
+     *
+     * @param id
+     */
+    factory.setId = function(id) {
+        factory.id = id;
+    };
 
-        return $sbhttp({
-            method: 'GET',
-            url: Url.get("application/mobile_tc_view/find", {tc_id: tc_id}),
-            cache: !$rootScope.isOverview,
-            responseType:'json'
+    factory.find = function(tc_id, refresh) {
+
+        if(!factory.id || !tc_id) {
+            $pwaRequest.reject("[Factory::Tc.find] missing factory.id or tc_id");
+        }
+
+        return $pwaRequest.get("application/mobile_tc_view/find", {
+            urlParams: {
+                tc_id: tc_id || factory.id
+            },
+            refresh: refresh
         });
     };
 

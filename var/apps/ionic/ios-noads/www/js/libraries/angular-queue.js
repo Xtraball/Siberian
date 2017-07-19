@@ -8,13 +8,15 @@
     'use strict';
 
     angular.module('ngQueue', []).factory('$queue',
-        ['$timeout',
-            function($timeout) {
+        ['$timeout', '$q',
+            function($timeout, $q) {
 
                 var defaults = {
-                    delay: 100,
-                    complete: null,
-                    paused: false
+                    delay           : 100,
+                    persistent      : false,
+                    max_concurrent  : -1,
+                    complete        : null,
+                    paused          : false
                 };
 
                 /**
@@ -25,7 +27,7 @@
                     options = angular.extend({}, defaults, options);
 
                     if (!angular.isFunction(callback)) {
-                        throw new Error('callback must be a function');
+                        throw new Error("callback must be a function");
                     }
 
                     //-- Private variables
@@ -33,11 +35,15 @@
                         timeoutProm = null;
 
                     //-- Public variables
-                    this.queue = [];
-                    this.delay = options.delay;
-                    this.callback = callback;
-                    this.complete = options.complete;
-                    this.paused = options.paused;
+                    this.queue              = [];
+                    this.delay              = options.delay;
+                    this.complete           = options.complete;
+                    this.paused             = options.paused;
+                    this.max_concurrent     = options.max_concurrent;
+                    this.persistent         = options.persistent;
+                    this.user_callback      = callback;
+                    this.active_count       = 0;
+                    this.global_pause        = false;
 
                     //-- Private methods
                     /**
@@ -52,7 +58,30 @@
                         timeoutProm = null;
                     };
 
+
                     //-- Privileged/Public methods
+
+                    /**
+                     * Callback wrapper with a promise for concurrent threads
+                     *
+                     * @param item
+                     * @returns {*}
+                     */
+                    this.callback = function(item) {
+                        var _this = this;
+
+                        console.info("remain in queue: ", this.size());
+
+                        $timeout(function() {
+                            _this.user_callback.call(_this, item);
+                        }, 1);
+
+                        if(item.network_promise !== undefined) {
+                            return item.network_promise.promise;
+                        } else {
+                            return $q.resolve();
+                        }
+                    };
 
                     /**
                      * size() returns the size of the queue
@@ -70,7 +99,19 @@
                      * @return<Number> queue size
                      */
                     this.add = function(item) {
+                        console.log("Add item to queue: ", item);
+
                         return this.addEach([item]);
+                    };
+
+                    /**
+                     * addFirst() adds an item to the top of the queue
+                     *
+                     * @param<Object> item
+                     * @return<Number> queue size
+                     */
+                    this.addFirst = function(item) {
+                        return this.addEachFirst([item]);
                     };
 
                     /**
@@ -83,9 +124,31 @@
                         if (items) {
                             cleared = false;
                             this.queue = this.queue.concat(items);
+                            window.ku = this.queue;
                         }
 
-                        if (!this.paused) { this.start(); }
+                        if (!this.paused) {
+                            this.start();
+                        }
+
+                        return this.size();
+                    };
+
+                    /**
+                     * addEach() adds an array of items to the back of the queue
+                     *
+                     * @param<Array> items
+                     * @return<Number> queue size
+                     */
+                    this.addEachFirst = function(items) {
+                        if (items) {
+                            cleared = false;
+                            this.queue = items.concat(this.queue);
+                        }
+
+                        if (!this.paused) {
+                            this.start();
+                        }
 
                         return this.size();
                     };
@@ -109,8 +172,26 @@
                      *
                      */
                     this.pause = function() {
+                        console.info("queue pause");
                         stop();
                         this.paused = true;
+                    };
+
+                    /**
+                     * pause() pauses processing of the queue
+                     *
+                     */
+                    this.globalPause = function() {
+                        this.global_pause = true;
+                        this.pause();
+                    };
+
+                    /**
+                     *
+                     */
+                    this.globalStart = function() {
+                        this.global_pause = false;
+                        this.start();
                     };
 
 
@@ -120,6 +201,10 @@
                      *
                      */
                     this.start = function() {
+                        if(this.global_pause) {
+                            return;
+                        }
+
                         var _this = this;
                         this.paused = false;
                         if (this.size() && !timeoutProm) {
@@ -132,8 +217,12 @@
                                     return;
                                 }
 
+                                if((_this.max_concurrent > 0) && (_this.active_count > _this.max_concurrent)) {
+                                    return;
+                                }
 
-                                if (!_this.size()) {
+                                /** If the queue is not persistent, call the complete callback on complete. */
+                                if (!_this.size() && !_this.persistent) {
                                     cleared = true;
                                     if (angular.isFunction(_this.complete)) {
                                         _this.complete.call(_this);
@@ -141,11 +230,45 @@
                                     return;
                                 }
 
-                                item = _this.queue.shift();
-                                _this.callback.call(_this, item);
+                                /** Clear when persistent */
+                                if(!_this.size() && _this.persistent) {
+                                    cleared = true;
+                                    return;
+                                }
 
-                                timeoutProm = $timeout(loopy,
-                                    _this.delay);
+                                /** Increase active count (only if nothing returned before) */
+                                _this.active_count += 1;
+
+                                item = _this.queue.shift();
+                                var promise = _this.callback.call(_this, item);
+
+                                /** No max concurrent threads, call after delay */
+                                if(_this.max_concurrent === -1) {
+
+                                    timeoutProm = $timeout(loopy, _this.delay);
+
+                                } else {
+                                    /** Call loopy only when callback is done */
+
+                                    var callnext = function() {
+                                        _this.active_count -= 1;
+
+                                        timeoutProm = $timeout(loopy, _this.delay);
+                                    };
+
+                                    try {
+                                        promise.then(function(success) {
+                                            callnext();
+                                        }, function(error) {
+                                            callnext();
+                                        }).catch(function(error) {
+                                            callnext();
+                                        });
+                                    } catch(error) {
+                                        callnext();
+                                    }
+
+                                }
 
                                 return;
                             })();

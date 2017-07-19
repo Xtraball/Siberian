@@ -1,42 +1,87 @@
-App.factory('Video', function($rootScope, $sbhttp, $q, Url, Youtube) {
+/*global
+ App, device, angular
+ */
 
-    var factory = {};
+/**
+ * Video
+ *
+ * @author Xtraball SAS
+ */
+angular.module("starter").factory("Video", function($pwaRequest, Youtube) {
 
-    factory.value_id = null;
+    var factory = {
+        value_id        : null,
+        extendedOptions : {}
+    };
+
+    /**
+     *
+     * @param value_id
+     */
+    factory.setValueId = function(value_id) {
+        factory.value_id = value_id;
+    };
+
+    /**
+     *
+     * @param options
+     */
+    factory.setExtendedOptions = function(options) {
+        factory.extendedOptions = options;
+    };
+
+    /**
+     * Pre-Fetch feature.
+     */
+    factory.preFetch = function() {
+        factory.findAll();
+    };
 
     factory.findAll = function() {
 
-        if(!this.value_id) return;
+        if(!this.value_id) {
+            return $pwaRequest.reject("[Factory::Video.findAll] missing value_id");
+        }
 
-        return $sbhttp({
-            method: 'GET',
-            url: Url.get("media/mobile_gallery_video_list/findall", {value_id: this.value_id}),
-            cache: !$rootScope.isOverview,
-            responseType:'json'
-        }).success(function(data) {
-            if(data.displayed_per_page) {
-                factory.displayed_per_page = data.displayed_per_page;
-            }
-        });
+        var payload = $pwaRequest.getPayloadForValueId(factory.value_id);
+        if(payload !== false) {
+
+            return $pwaRequest.resolve(payload);
+
+        } else {
+
+            /** Otherwise fallback on PWA */
+            return $pwaRequest.get("media/mobile_gallery_video_list/findall", angular.extend({
+                urlParams: {
+                    value_id: this.value_id
+                }
+            }, factory.extendedOptions));
+
+        }
+
+
     };
 
     factory.find = function(item) {
 
-        if(!this.value_id) return;
+        if(!this.value_id) {
+            return $pwaRequest.reject("[Factory::Video.find] missing value_id");
+        }
 
-        return $sbhttp({
-            method: 'GET',
-            url: Url.get("media/mobile_gallery_video_view/find", {gallery_id: item.id, offset: item.current_offset, value_id: this.value_id}),
-            cache: !$rootScope.isOverview,
-            responseType:'json'
+        return $pwaRequest.get("media/mobile_gallery_video_view/find", {
+            urlParams: {
+                value_id    : this.value_id,
+                gallery_id  : item.id,
+                offset      : item.current_offset
+            }
         });
     };
 
     factory.findInYouTube = function(search_by, keyword, offset) {
 
-        if(search_by == "user") {
+        if(search_by === "user") {
             return Youtube.findByUser(keyword, offset);
-        } else if(search_by == 'channel') {
+        } else if(search_by === "channel") {
             return Youtube.findByChannel(keyword, offset);
         } else {
             return Youtube.findBySearch(keyword, offset);

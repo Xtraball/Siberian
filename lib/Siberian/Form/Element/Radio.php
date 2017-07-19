@@ -79,8 +79,8 @@ class Siberian_Form_Element_Radio extends Zend_Form_Element_Radio {
         }
 
 		return $this
-		    ->addClass('sb-form-radio')
-		    ->setAttrib('label_class', 'sb-custom-radio')
+		    ->addClass('sb-form-radio color-red')
+		    ->setAttrib('label_class', 'sb-custom-radio radio-inline')
 			->setSeparator("<br />")
 			->setAttrib("escape", false)
 		    ->setDecorators(array(

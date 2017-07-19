@@ -31,6 +31,11 @@ $schemas['template_block'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'more' => array(
+        'type' => 'varchar(255)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'color' => array(
         'type' => 'varchar(10)',
         'charset' => 'utf8',
@@ -39,6 +44,12 @@ $schemas['template_block'] = array(
     ),
     'color_variable_name' => array(
         'type' => 'varchar(50)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
+    'color_variable_label' => array(
+        'type' => 'varchar(64)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
@@ -55,6 +66,12 @@ $schemas['template_block'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'background_color_variable_label' => array(
+        'type' => 'varchar(64)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'border_color' => array(
         'type' => 'varchar(10)',
         'is_null' => true,
@@ -63,6 +80,12 @@ $schemas['template_block'] = array(
     ),
     'border_color_variable_name' => array(
         'type' => 'varchar(50)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
+    'border_color_variable_label' => array(
+        'type' => 'varchar(64)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
@@ -107,6 +130,12 @@ $schemas['template_block'] = array(
     ),
     'image_color_variable_name' => array(
         'type' => 'varchar(50)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
+    'image_color_variable_label' => array(
+        'type' => 'varchar(64)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',

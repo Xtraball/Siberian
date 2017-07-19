@@ -19,7 +19,7 @@ $type_icons = array(
 ?>
 <div id="create_field" class="field">
     <div>
-        <h3 class="title-editor border-blue no-border-radius">
+        <h3 class="title-editor border-blue text-center no-border-radius">
             <?php echo ($field->getId() ? $this->_('Edit field %s', $field->getName()) : $this->_('Create a new field')) ?>
         </h3>
         <div class="container-fluid">
@@ -32,7 +32,7 @@ $type_icons = array(
                 <div class="form-group first-row-feature">
                     <div class="col-md-12">
                         <button type="button" id="hide_form" class="btn pull-left color-blue" onclick="field.cancel();">
-                            <i class="fa fa-arrow-left"></i>
+                            <i class="fa fa-angle-left"></i>
                         </button>
                         <button type="submit" class="btn pull-right color-blue"><?php echo $this->_('OK'); ?></button>
                     </div>
@@ -48,7 +48,7 @@ $type_icons = array(
                 <div class="form-group">
                     <div class="col-sm-12">
                         <label for="field_required">
-                            <input type="checkbox" id="field_required" value="1" name="required" <?php echo ($field->getRequired() == 1 ? 'checked' : '') ?> />
+                            <input type="checkbox" id="field_required" value="1" name="required" <?php echo ($field->getRequired() == 1 ? 'checked' : '') ?> class="color-blue checkbox-inline"/>
                             <?php echo $this->_('This field is required'); ?>
                         </label>
                     </div>
@@ -66,11 +66,11 @@ $type_icons = array(
                 <div class="form-group">
                     <div class="col-md-12">
                         <div id="choose_type">
-                            <ul class="choose_type">
+                            <ul class="choose_type list-group">
                                 <?php $type = new Form_Model_Field(); ?>
                                 <?php $types = $type->getTypes(); ?>
                                 <?php foreach($types as $type) : ?>
-                                <li id="field_<?php echo $type->getType(); ?>" class="pull-left text-center pointer <?php if($field->getType() == $type->getType()) : ?> active<?php endif; ?>" title="<?php echo $type->getLabel(); ?>"
+                                <li id="field_<?php echo $type->getType(); ?>" class="list-group-item pull-left text-center pointer <?php if($field->getType() == $type->getType()) : ?> active<?php endif; ?>" title="<?php echo $type->getLabel(); ?>"
                                     <?php if(!$field->getId()) : ?> onclick="field.setType('<?php echo $type->getType(); ?>');"<?php endif; ?>
                                 >
                                     <p>
@@ -127,7 +127,7 @@ $type_icons = array(
                     </div>
                     <div class="form-group">
                         <div class="col-md-12">
-                            <p class="btn color-blue" onclick="field.addOption()"><i class="fa fa-plus-circle"></i> <?php echo $this->_('Add an option'); ?></p>
+                            <p class="btn color-blue" onclick="field.addOption()"></i> <?php echo $this->_('Add an option'); ?></p>
                         </div>
                     </div>
                 </div>
@@ -136,7 +136,7 @@ $type_icons = array(
     </div>
 </div>
 <style>
-    #choose_type li{
+    /*#choose_type li{
         display: table-cell;
         font-size: 22px;
         height: 50px;
@@ -149,5 +149,15 @@ $type_icons = array(
     #choose_type li.active{
         border:3px solid;
     }
-    .pp_details{display:none}
+    .pp_details{display:none}*/
+    ul.choose_type.list-group {
+        margin: 0;
+    }
+    .choose_type .list-group-item p {
+        margin: 0!important;
+    }
+    #choose_type .choose_type li {
+        filter: grayscale(100%);
+        -webkit-filter: grayscale(100%);
+    }
 </style>

@@ -164,6 +164,11 @@ class Push_ApplicationController extends Application_Controller_Default
                     $siberian_cron->execute($task);
                 }
 
+                /** Update touch date, then never expires (until next touch) */
+                $this->getCurrentOptionValue()
+                    ->touch()
+                    ->expires(-1);
+
                 $html = array(
                     'success' => 1,
                     'message_timeout' => 2,

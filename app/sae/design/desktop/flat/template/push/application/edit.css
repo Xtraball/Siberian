@@ -24,11 +24,6 @@
     line-height: 65px;
     margin-right: 5px;
 }
-
-.push_notif .push_datetimepicker {
-    margin-top: 8px;
-    margin-left: 10px;
-}
 ul.list li {
     padding-top: 10px;
     padding-bottom: 10px;
@@ -86,14 +81,6 @@ div#list a.icon {
     width: 100%;
     height: 100%;
     z-index:999;
-}
-
-.list-group-item {
-    padding: 12px 0;
-}
-
-#pushFourthStepForm .list-group-item {
-    padding: 12px 15px;
 }
 
 i.fa.fa-times.delete-msg {

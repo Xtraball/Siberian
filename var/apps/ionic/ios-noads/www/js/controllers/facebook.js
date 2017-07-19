@@ -1,64 +1,62 @@
-App.config(function($stateProvider) {
+/*global
+    App, angular, BASE_PATH
+ */
 
-    $stateProvider.state('facebook-list', {
-        url: BASE_PATH+"/social/mobile_facebook_list/index/value_id/:value_id",
-        controller: 'FacebookListController',
-        templateUrl: "templates/html/l1/list.html"
-    }).state('facebook-view', {
-        url: BASE_PATH+"/social/mobile_facebook_view/index/value_id/:value_id/post_id/:post_id",
-        controller: 'FacebookViewController',
-        templateUrl: "templates/facebook/l1/view.html"
-    });
-
-}).controller('FacebookListController', function($filter, $location, $q, $scope, $state, $stateParams, $timeout, $window, Facebook, Url) {
+angular.module("starter").controller('FacebookListController', function($filter, $location, $q, $scope, $state,
+                                                                        $stateParams, $timeout, $window, Facebook) {
 
     $scope.is_loading = true;
     $scope.can_load_older_posts = true;
+    $scope.load_more = true;
     $scope.value_id = Facebook.value_id = $stateParams.value_id;
     $scope.show_posts_loader = false;
     $scope.user = {
-        talking_about_count: 0,
-        likes: 0,
-        fan_count: 0
+            talking_about_count : 0,
+            likes               : 0,
+            fan_count           : 0
     };
 
-    $scope.collection = new Array();
+    $scope.card_design = false;
+
+    $scope.collection = [];
 
     $scope.template_header = "templates/facebook/l1/header.html";
 
-    Facebook.page_urls = new Array();
-    Facebook.loadData().success(function(response) {
-        $scope.findUser();
-        $scope.page_title = response.page_title;
-    });
+    Facebook.page_urls = [];
+    Facebook.loadData()
+        .then(function(response) {
+            $scope.findUser();
+            $scope.page_title = response.page_title;
+        });
 
     $scope.findUser = function(username) {
 
         $scope.show_user_loader = true;
 
-        Facebook.findUser().success(function(user) {
+        Facebook.findUser()
+            .then(function(user) {
 
                 user.picture = Facebook.getPictureUrl(user.id, 400);
 
-            $scope.cover_image_style = {};
-            if(user.cover) {
-                $scope.cover_image_url = user.cover.source;$scope.show_user_loader = false;
-                $scope.cover_image_style = {'background-image':'url(' + $scope.cover_image_url + ')'};
-            }
+                $scope.cover_image_style = {};
+                if(user.cover) {
+                    $scope.cover_image_url = user.cover.source;$scope.show_user_loader = false;
+                    $scope.cover_image_style = {'background-image':'url(' + $scope.cover_image_url + ')'};
+                }
 
-            user.author = user.name;
-            delete user.name;
+                user.author = user.name;
+                delete user.name;
 
-            $scope.show_user_loader = false;
-            $scope.user = user;
+                $scope.show_user_loader = false;
+                $scope.user = user;
 
-            $scope.show_posts_loader = true;
+                $scope.show_posts_loader = true;
 
-            $scope.loadMore();
+                $scope.loadMore();
 
-        }, function(error) {
-            $scope.show_user_loader = false;
-        });
+            }, function(error) {
+                $scope.show_user_loader = false;
+            });
     };
 
     $scope.loadMore = function() {
@@ -68,30 +66,33 @@ App.config(function($stateProvider) {
 
         var deferred = $q.defer();
 
-        Facebook.findPosts().success(function(response) {
+        Facebook.findPosts()
+            .then(function(response) {
 
-            var posts = angular.isDefined(response.posts) ? response.posts : response;
-            var new_collection = new Array();
-            Facebook.page_urls['posts'] = posts.paging ? posts.paging.next : null;
+                var posts = angular.isDefined(response.posts) ? response.posts : response;
+                var new_collection = [];
+                Facebook.page_urls['posts'] = posts.paging ? posts.paging.next : null;
 
-            if(posts.data.length) {
+                    if(posts.data.length) {
 
-                for(var i in posts.data) {
+                        for(var i in posts.data) {
 
-                    if(!posts.data[i].type || !posts.data[i].message) continue;
+                            if(!posts.data[i].type || !posts.data[i].message) {
+                                continue;
+                            }
 
-                    var post = posts.data[i];
+                            var post = posts.data[i];
 
-                    var number_of_likes = !angular.isDefined(post.likes) ? 0 : post.likes.data.length >= 25 ? "> 25" : post.likes.data.length;
-                    delete post.likes;
+                            var number_of_likes = !angular.isDefined(post.likes) ? 0 : post.likes.data.length >= 25 ? "> 25" : post.likes.data.length;
+                            delete post.likes;
 
-                    var number_of_comments = !angular.isDefined(post.comments) ? 0 : post.comments.data.length >= 25 ? "> 25" : post.comments.data.length;
-                    delete post.comments;
+                            var number_of_comments = !angular.isDefined(post.comments) ? 0 : post.comments.data.length >= 25 ? "> 25" : post.comments.data.length;
+                            delete post.comments;
 
-                    post.subtitle = post.message;
-                    delete post.message;
-                    post.title = post.from.name;
-                    delete post.from.name;
+                            post.subtitle = post.message;
+                            delete post.message;
+                            post.title = post.from.name;
+                            delete post.from.name;
 
                     /** Better picture */
                     var picture = post.full_picture;
@@ -99,59 +100,65 @@ App.config(function($stateProvider) {
                         picture = Facebook.getPictureUrl(post.object_id, 480);
                     }
 
-                    post.picture = picture;
-                    post.details = {
-                        date: {
-                            text: $filter('date')(post.created_time, "short")
-                        },
-                        comments: {
-                            text: number_of_comments
-                        },
-                        likes: {
-                            text: number_of_likes
+                            post.picture = picture;
+                            post.details = {
+                                date: {
+                                    text: $filter('date')(post.created_time, "short")
+                                },
+                                comments: {
+                                    text: number_of_comments
+                                },
+                                likes: {
+                                    text: number_of_likes
+                                }
+                            };
+
+                            if($scope.collection.length) {
+                                $scope.collection.push(post);
+                            }
+
+                            new_collection.push(post);
+
                         }
-                    };
 
-                    if($scope.collection.length) {
-                        $scope.collection.push(post);
-                    }
+                        if(!$scope.collection.length) {
+                            if(new_collection.length) {
+                                $timeout(function () {
+                                    $scope.collection = new_collection;
+                                });
+                            } else {
+                                $scope.can_load_older_posts = false;
+                                $scope.load_more = false;
+                            }
+                        }
 
-                    new_collection.push(post);
-
-                }
-
-                if(!$scope.collection.length) {
-                    if(new_collection.length) {
-                        $timeout(function () {
-                            $scope.collection = new_collection;
-                        });
                     } else {
                         $scope.can_load_older_posts = false;
+                        $scope.load_more = false;
                     }
-                }
 
-            } else {
-                $scope.can_load_older_posts = false;
-            }
+                    // sb-load-more directive callback formatted data
+                var response = {
+                    data: {
+                        collection: new_collection
+                    }
+                };
 
-            // sb-load-more directive callback formatted data
-            var response = { data: { collection: new_collection } };
+                deferred.resolve(response);
 
-            deferred.resolve(response);
-
-            $scope.is_loading = false;
-            $scope.show_posts_loader = false;
-            $scope.show_user_loader = false;
-            $scope.$broadcast('scroll.infiniteScrollComplete');
+                $scope.is_loading = false;
+                $scope.show_posts_loader = false;
+                $scope.show_user_loader = false;
+                $scope.$broadcast('scroll.infiniteScrollComplete');
 
 
-        }, function(error) {
-            $scope.is_loading = false;
-            $scope.show_posts_loader = false;
-            $scope.show_user_loader = false;
-            deferred.reject(error);
-            $scope.$broadcast('scroll.infiniteScrollComplete');
-        });
+            }, function(error) {
+                $scope.is_loading = false;
+                $scope.show_posts_loader = false;
+                $scope.show_user_loader = false;
+                deferred.reject(error);
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+            });
 
         return deferred.promise;
 
@@ -168,7 +175,7 @@ App.config(function($stateProvider) {
 }).controller('FacebookViewController', function($filter, $rootScope, $scope, $stateParams, $translate, Dialog, Facebook) {
 
     $scope.is_loading = false;
-    $scope.comments = new Array();
+    $scope.comments = [];
     $scope.show_form = false;
     $scope.value_id = Facebook.value_id = $stateParams.value_id;
     Facebook.post_id = $stateParams.post_id;
@@ -177,12 +184,14 @@ App.config(function($stateProvider) {
         number_of_likes: 0
     };
 
+    $scope.card_design = false;
+
     var cache = Facebook.cache;
 
     $scope.showError = function(data) {
 
         if(data && angular.isDefined(data.message)) {
-            Dialog.alert($translate.instant("Error"), data.message, $translate.instant("OK"));
+            Dialog.alert("Error", data.message, "OK");
         }
 
         $scope.is_loading = false;
@@ -196,12 +205,13 @@ App.config(function($stateProvider) {
             $scope.is_loading = false;
             $scope.post = cache.get("facebook-"+$stateParams.post_id);
         } else {
-            Facebook.findPost($stateParams.post_id).success(function(_post) {
+            Facebook.findPost($stateParams.post_id)
+                .then(function(_post) {
 
-                if(angular.isDefined(_post.comments)) {
+                    if(angular.isDefined(_post.comments)) {
 
-                    _post.number_of_comments = _post.comments.data.length >= 25 ? "> 25" : _post.comments.data.length;
-                    Facebook.page_urls['comments'] = _post.comments.paging.next;
+                        _post.number_of_comments = _post.comments.data.length >= 25 ? "> 25" : _post.comments.data.length;
+                        Facebook.page_urls['comments'] = _post.comments.paging.next;
 
                     for(var i in _post.comments.data) {
                         var comment = _post.comments.data[i];
@@ -213,16 +223,16 @@ App.config(function($stateProvider) {
                         $scope.comments.push(comment);
                     }
 
-                    delete _post.comments;
-                } else {
-                    _post.number_of_comments = 0;
-                }
-                if(angular.isDefined(_post.likes)) {
-                    _post.number_of_likes = _post.likes.data.length >= 25 ? "> 25" : _post.likes.data.length;
-                    delete _post.likes;
-                } else {
-                    _post.number_of_likes = 0;
-                }
+                        delete _post.comments;
+                    } else {
+                        _post.number_of_comments = 0;
+                    }
+                    if(angular.isDefined(_post.likes)) {
+                        _post.number_of_likes = _post.likes.data.length >= 25 ? "> 25" : _post.likes.data.length;
+                        delete _post.likes;
+                    } else {
+                        _post.number_of_likes = 0;
+                    }
 
                 var picture = _post.full_picture;
                 if(_post.type === "photo") {
@@ -241,13 +251,13 @@ App.config(function($stateProvider) {
                 _post.message = $filter("linky")(_post.message);
                 _post.description = $filter("linky")(_post.description);
 
-                $scope.is_loading = false;
-                $scope.page_title = _post.title;
-                $scope.post = _post;
+                    $scope.is_loading = false;
+                    $scope.page_title = _post.title;
+                    $scope.post = _post;
 
-                cache.put("facebook-"+$stateParams.post_id, _post);
+                    cache.put("facebook-"+$stateParams.post_id, _post);
 
-            }, $scope.showError);
+                }, $scope.showError);
         }
 
     };

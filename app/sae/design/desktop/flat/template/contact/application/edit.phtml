@@ -6,11 +6,11 @@
     <div id="list" class="edit_page contact">
         <div class="form_content">
             <form id="contactForm" name="contactForm" method="post" action="<?php echo $this->getUrl('contact/application/editpost') ?>" class="form-horizontal">
-                <h3 class="title-editor no-border-radius">
+                <h3 class="title-editor no-border-radius title-feature-indent">
                     <?php echo $this->_('Contact information') ?>
                 </h3>
                 <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
-                <div class="container-fluid first-row-feature">
+                <div class="container-fluid first-row-feature content-feature">
                     <div class="infos">
                         <div id="cover_crop" style="display:none;">
                             <button type="button" id="cancel_cover_crop" class="color-blue btn pull-left"><i class="fa fa-times"></i></button>
@@ -24,26 +24,24 @@
                                 <div class="col-sm-4">
                                     <label for="name"><?php echo $this->_('Name') ?>:</label>
                                 </div>
-                                <div class="col-sm-5">
+                                <div class="col-sm-8">
                                     <input type="text" id="name_<?php echo $option_value->getId() ?>" name="name" class="contact_field input-flat" value="<?php echo !is_null($contact->getName()) ? $contact->getName() : $application->getName() ?>" rel="name" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-4">
                                     <!--[if gte IE 10]><!-->
-                                    <button id="upload_contact_picture" type="button" class="upload_contact_picture add color-blue btn">
+                                    <button id="upload_contact_picture" type="button" class="upload_contact_picture color-blue btn">
                                         <i class="icon-camera-retro"></i>
                                         <?php echo $this->_('Insert a <br /><span class="bold">cover image</span>'); ?>
                                     </button>
                                     <!--<![endif]-->
                                 </div>
-                                <div class="col-sm-4 text-center">
+                                <div class="col-sm-8">
                                     <p id="uploader_logo_ie_description" style="display:none"><?php echo $this->_('Insert a <br /><span class="bold">cover image</span>'); ?></span></p>
                                     <input id="contact_file" class="uploader input-flat" style="display:none" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
                                     <img id="cover_img" src="<?php echo $contact->getCoverUrl(); ?>" width="210" height="186"<?php if(!$contact->getCover()) : ?> style="display:none;"<?php endif; ?> />
-                                </div>
-                                <div class="col-sm-4">
-                                    <a href="" style="<?php if(!$contact->getCover()) : ?>display:none;<?php endif; ?>" id="remove_cover_img">
+                                    <a href="" style="<?php if(!$contact->getCover()) : ?>display:none;<?php endif; ?>" id="remove_cover_img" class="btn color-blue">
                                         <i class="fa fa-times"></i>
                                     </a>
                                 </div>
@@ -52,7 +50,7 @@
                                 <div class="col-sm-4">
                                     <label for="phone"><?php echo $this->_('Phone') ?>:</label>
                                 </div>
-                                <div class="col-sm-5">
+                                <div class="col-sm-8">
                                     <input type="text" id="phone_<?php echo $option_value->getId() ?>" name="phone" rel="phone" class="contact_field input-flat" value="<?php echo $contact->getPhone() ?>" />
                                 </div>
                             </div>
@@ -60,7 +58,7 @@
                                 <div class="col-sm-4">
                                     <label for="street"><?php echo $this->_('Address') ?>:</label>
                                 </div>
-                                <div class="col-sm-5">
+                                <div class="col-sm-8">
                                     <input type="text" id="street_<?php echo $option_value->getId() ?>" name="street" rel="street" class="contact_field input-flat" value="<?php echo $contact->getStreet() ?>" />
                                 </div>
                             </div>
@@ -68,7 +66,7 @@
                                 <div class="col-sm-4">
                                     <label for="postcode"><?php echo $this->_('Zip code') ?>:</label>
                                 </div>
-                                <div class="col-sm-5">
+                                <div class="col-sm-8">
                                     <input type="text" id="postcode_<?php echo $option_value->getId() ?>" name="postcode" rel="postcode" class="contact_field input-flat" value="<?php echo $contact->getPostcode() ?>" />
                                 </div>
                             </div>
@@ -76,7 +74,7 @@
                                 <div class="col-sm-4">
                                     <label for="city"><?php echo $this->_('City') ?>:</label>
                                 </div>
-                                <div class="col-sm-5">
+                                <div class="col-sm-8">
                                     <input type="text" id="city_<?php echo $option_value->getId() ?>" name="city" rel="city" class="contact_field input-flat" value="<?php echo $contact->getCity() ?>" />
                                 </div>
                             </div>
@@ -84,7 +82,7 @@
                                 <div class="col-sm-4">
                                     <label for="country"><?php echo $this->_('Country') ?>:</label>
                                 </div>
-                                <div class="col-sm-5">
+                                <div class="col-sm-8">
                                     <input type="text" id="country_<?php echo $option_value->getId() ?>" name="country" rel="country" class="contact_field input-flat" value="<?php echo $contact->getCountry() ?>" />
                                 </div>
                             </div>
@@ -92,7 +90,7 @@
                                 <div class="col-sm-4">
                                     <label for="description"><?php echo $this->_('Description') ?>:</label>
                                 </div>
-                                <div class="col-sm-5">
+                                <div class="col-sm-8">
                                     <textarea id="description_<?php echo $option_value->getId() ?>" name="description" rel="description" class="contact_field input-flat description_field"><?php echo $contact->getDescription() ?></textarea>
                                 </div>
                             </div>
@@ -100,7 +98,7 @@
                                 <div class="col-sm-4">
                                     <label for="email"><?php echo $this->_('Email') ?>:</label>
                                 </div>
-                                <div class="col-sm-5">
+                                <div class="col-sm-8">
                                     <input type="text" id="email_<?php echo $option_value->getId() ?>" name="email" rel="email" class="contact_field email input-flat" value="<?php echo $contact->getEmail() ?>" />
                                 </div>
                             </div>
@@ -108,7 +106,7 @@
                                 <div class="col-sm-4">
                                     <label for="website"><?php echo $this->_('Website') ?>:</label>
                                 </div>
-                                <div class="col-sm-5">
+                                <div class="col-sm-8">
                                     <input type="text" id="website_<?php echo $option_value->getId() ?>" name="website" rel="website_url" class="contact_field url input-flat" value="<?php echo $contact->getWebsite() ?>"/>
                                 </div>
                             </div>
@@ -116,7 +114,7 @@
                                 <div class="col-sm-4">
                                     <label for="facebook"><?php echo $this->_('Facebook') ?>:</label>
                                 </div>
-                                <div class="col-sm-5">
+                                <div class="col-sm-8">
                                     <input type="text" id="facebook_<?php echo $option_value->getId() ?>" name="facebook" rel="facebook_url" class="contact_field url input-flat" value="<?php echo $contact->getFacebook() ?>"/>
                                 </div>
                             </div>
@@ -124,7 +122,7 @@
                                 <div class="col-sm-4">
                                     <label for="twitter"><?php echo $this->_('Twitter') ?>:</label>
                                 </div>
-                                <div class="col-sm-5">
+                                <div class="col-sm-8">
                                     <input type="text" id="twitter_<?php echo $option_value->getId() ?>" name="twitter" rel="twitter_url" class="contact_field url input-flat" value="<?php echo $contact->getTwitter() ?>"/>
                                 </div>
                             </div>
@@ -281,5 +279,10 @@
     #contact_content label.error {
         width: 220px;
         text-shadow: none;
+    }
+    a#remove_cover_img {
+        position: absolute;
+        left: 15px;
+        top: 0;
     }
 </style>

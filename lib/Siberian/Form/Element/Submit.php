@@ -32,6 +32,8 @@ class Siberian_Form_Element_Submit extends Zend_Form_Element_Submit {
 	 * @throws Zend_Form_Exception
 	 */
 	public function init(){
+        $this->getView()->addHelperPath('Siberian/View/Helper/', 'Siberian_View_Helper');
+
 		$this
 			->setAttrib('class', 'btn')
 			->setAttrib('data-loading-text', __("Patientez ..."))

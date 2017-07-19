@@ -338,7 +338,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $session_ini = Core_Model_Directory::getBasePathTo("/app/configs/session.ini");
         $config = new Zend_Config_Ini($session_ini, "production");
 
-        Zend_Session::setOptions($config->toArray());
+        $_config = $config->toArray();
+
+        # Awesome hotfix for sessions.
+        if($this->_request->isApplication()) {
+            $_config["name"] = "front";
+        }
+
+        Zend_Session::setOptions($_config);
     }
 
     public function run() {

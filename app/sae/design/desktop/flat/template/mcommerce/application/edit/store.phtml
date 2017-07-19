@@ -18,7 +18,7 @@
                 <h3 class="title-editor no-border-radius title-feature-indent">
                     <?php echo $this->_('Import'); ?>
                     <button type="button" class="toggle_details color-blue pull-right bt-header-right btn">
-                        <i class="fa fa-chevron-down"></i>
+                        <i class="fa fa-angle-down"></i>
                     </button>
                 </h3>
                 <?php echo $this->getLayout()->addPartial('import', 'Admin_View_Default', "import/application/edit/import.phtml")
@@ -31,12 +31,12 @@
 
             <div id="section_existing_stores" <?php if(!$stores->count()) : ?> style="display:none"<?php endif; ?> class="margin-top">
                 <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo $this->_('Manage'); ?>
+                    <?php echo $this->_(('Manage content')); ?>
                     <button type="button" id="toggle_existing_stores" class="toggle_details color-blue pull-right bt-header-right btn">
-                        <i class="fa fa-chevron-down"></i>
+                        <i class="fa fa-angle-down"></i>
                     </button>
                 </h3>
-                <div id="existing_stores" style="display:none;" class="container-fluid first-row-feature">
+                <div id="existing_stores" style="display:none;" class="container-fluid first-row-feature content-feature">
                     <ul class="list-group stores_list">
                         <?php foreach ($stores as $store) : ?>
                         <?php echo $this->getLayout()->addPartial('row_store_'.$store->getId(), 'admin_view_default', 'mcommerce/application/edit/store/li.phtml')
@@ -63,15 +63,15 @@
 
                 $('#toggle_existing_stores').click(function() {
                     $('#existing_stores').stop().slideToggle(300, function() {
-                        if($(this).is(':visible')) $('#toggle_existing_stores').children('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
-                        else $('#toggle_existing_stores').children('i').removeClass('fa-chevron-up').addClass('fa-chevron-down')
+                        if($(this).is(':visible')) $('#toggle_existing_stores').children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+                        else $('#toggle_existing_stores').children('i').removeClass('fa-angle-up').addClass('fa-angle-down')
                     });
                 });
 
                 $('#toggle_import').click(function() {
                     $('#import_area').stop().slideToggle(300, function() {
-                        if($(this).is(':visible')) $('#toggle_import').children('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
-                        else $('#toggle_import').children('i').removeClass('fa-chevron-up').addClass('fa-chevron-down')
+                        if($(this).is(':visible')) $('#toggle_import').children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+                        else $('#toggle_import').children('i').removeClass('fa-angle-up').addClass('fa-angle-down')
                     });
                 });
 

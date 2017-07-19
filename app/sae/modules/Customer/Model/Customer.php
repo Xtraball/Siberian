@@ -248,4 +248,55 @@ class Customer_Model_Customer extends Core_Model_Default
         return $this->setMetadatas($module_code, $datas);
     }
 
+    /**
+     * The only entrypoint for the customer
+     *
+     * @return array
+     */
+    public static function getCurrent() {
+        $customer = self::_getSession()->getCustomer();
+
+        $payload = array();
+        $payload["is_logged_in"] = false;
+
+        if($customer->getId()) {
+            $metadatas = $customer->getMetadatas();
+            if(empty($metadatas)) {
+                $metadatas = json_decode("{}"); // we really need a javascript object here
+            }
+
+            //hide stripe customer id for secure purpose
+            if($metadatas->stripe && array_key_exists("customerId",$metadatas->stripe) && $metadatas->stripe["customerId"]) {
+                unset($metadatas->stripe["customerId"]);
+            }
+
+            $payload = array(
+                "id"                            => $customer->getId(),
+                "civility"                      => $customer->getCivility(),
+                "firstname"                     => $customer->getFirstname(),
+                "lastname"                      => $customer->getLastname(),
+                "nickname"                      => $customer->getNickname(),
+                "email"                         => $customer->getEmail(),
+                "show_in_social_gaming"         => (bool) $customer->getShowInSocialGaming(),
+                "is_custom_image"               => (bool) $customer->getIsCustomImage(),
+                "can_access_locked_features"    => (bool) $customer->canAccessLockedFeatures(),
+                "metadatas"                     => $metadatas
+            );
+
+            if(Siberian_CustomerInformation::isRegistered("stripe")) {
+                $exporter_class = Siberian_CustomerInformation::getClass("stripe");
+                if(class_exists($exporter_class) && method_exists($exporter_class, "getInformation")) {
+                    $tmp_class = new $exporter_class();
+                    $info = $tmp_class->getInformation($customer->getId());
+                    $payload["stripe"] = $info ? $info : array();
+                }
+            }
+
+            $payload["is_logged_in"] = true;
+
+        }
+
+        return $payload;
+    }
+
 }

@@ -38,6 +38,28 @@ class Sourcecode_Model_Sourcecode extends Core_Model_Default {
         return $in_app_states;
     }
 
+    /**
+     * @param $option_value
+     * @return bool
+     */
+    public function getEmbedPayload($option_value) {
+
+        $payload = false;
+
+        if($this->getId()) {
+            $payload = array(
+                "sourcecode" => array(
+                    "id"   => $this->getId(),
+                    "code" => $this->getHtmlFileCode()
+                ),
+                "page_title" => $option_value->getTabbarName()
+            );
+        }
+
+        return $payload;
+
+    }
+
     public function getHtmlFilePath($full_path = false) {
 
         if(!file_exists(Core_Model_Directory::getCacheDirectory(true).'/'.$this->_getFilename())) {
@@ -120,7 +142,6 @@ var inAppLinks = document.querySelectorAll("a[data-state]");
     }
 
     public function getFeaturePaths($option_value) {
-
         if(!$this->isCacheable()) return array();
 
 

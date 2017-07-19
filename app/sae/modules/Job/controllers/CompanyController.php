@@ -51,11 +51,21 @@ class Job_CompanyController extends Application_Controller_Default {
             $company = new Job_Model_Company();
             $company->addData($values);
 
-            $path_logo = Siberian_Feature::moveUploadedFile($this->getCurrentOptionValue(), Core_Model_Directory::getTmpDirectory()."/".$values['logo']);
-            $path_header = Siberian_Feature::moveUploadedFile($this->getCurrentOptionValue(), Core_Model_Directory::getTmpDirectory()."/".$values['header']);
-            $company->setData("logo", $path_logo);
-            $company->setData("header", $path_header);
             $company->setData("is_active", true);
+
+            if(file_exists(Core_Model_Directory::getBasePathTo("images/application".$values["logo"]))) {
+                # Nothing changed, skip
+            } else {
+                $path_logo = Siberian_Feature::moveUploadedFile($this->getCurrentOptionValue(), Core_Model_Directory::getTmpDirectory()."/".$values['logo']);
+                $company->setData("logo", $path_logo);
+            }
+
+            if(file_exists(Core_Model_Directory::getBasePathTo("images/application".$values["header"]))) {
+                # Nothing changed, skip
+            } else {
+                $path_header = Siberian_Feature::moveUploadedFile($this->getCurrentOptionValue(), Core_Model_Directory::getTmpDirectory()."/".$values['header']);
+                $company->setData("header", $path_header);
+            }
 
             $company->setData("administrators", implode(",", $company->getData("administrators")));
 
@@ -74,6 +84,11 @@ class Job_CompanyController extends Application_Controller_Default {
             }
 
             $company->save();
+
+            /** Update touch date, then never expires (until next touch) */
+            $this->getCurrentOptionValue()
+                ->touch()
+                ->expires(-1);
 
             $html = array(
                 "success" => 1,
@@ -99,6 +114,11 @@ class Job_CompanyController extends Application_Controller_Default {
         if($form->isValid($values)) {
             $company = new Job_Model_Company();
             $result = $company->find($values["company_id"])->toggle();
+
+            /** Update touch date, then never expires (until next touch) */
+            $this->getCurrentOptionValue()
+                ->touch()
+                ->expires(-1);
 
             $html = array(
                 "success" => 1,
@@ -129,6 +149,11 @@ class Job_CompanyController extends Application_Controller_Default {
             $company->find($values["company_id"]);
 
             $company->delete();
+
+            /** Update touch date, then never expires (until next touch) */
+            $this->getCurrentOptionValue()
+                ->touch()
+                ->expires(-1);
 
             $html = array(
                 'success' => 1,

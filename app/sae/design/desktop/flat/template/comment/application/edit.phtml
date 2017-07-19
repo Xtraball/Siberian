@@ -8,12 +8,12 @@
             <?php $radius = new Comment_Model_Radius(); ?>
             <?php $radius->find($value->getId(), 'value_id'); ?>
             <div>
-                <h3 class="title-editor no-border-radius">
+                <h3 class="title-editor no-border-radius title-feature-indent">
                     <?php echo $this->_('Near me settings'); ?>
                 </h3>
-                <div class="container-fluid">
+                <div class="container-fluid first-row-feature content-feature">
                     <form id="near_radius" action="<?php echo $this->getUrl('comment/application/saveradius'); ?>" class="form-horizontal">
-                        <div class="form-group first-row-feature">
+                        <div class="form-group">
                             <div class="col-sm-4">
                                 <label for="near_me_radius"><?php echo $this->_('\'Near me\' radius (in km):'); ?></label>
                             </div>
@@ -34,23 +34,25 @@
             </div>
         <?php endif; ?>
 
+        <div class="margin-bkg">
         <h3 class="title-editor no-border-radius title-feature-indent">
-            <?php echo $this->_('Add'); ?>
+            <?php echo $this->_(('Add content')); ?>
             <button class="new_menu color-blue pull-right bt-header-right btn" onclick="feature.edit();" id="add_item" type="button">
                 <i class="fa fa-plus"></i>
             </button>
         </h3>
+            </div>
         <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
 
         <?php if ($comments->count()) : ?>
             <div class="margin-top">
                 <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo $this->_('Manage'); ?>
+                    <?php echo $this->_(('Manage content')); ?>
                     <button type="button" id="toggle_existing_items" class="color-blue pull-right bt-header-right btn">
-                        <i class="fa fa-chevron-down"></i>
+                        <i class="fa fa-angle-down"></i>
                     </button>
                 </h3>
-                <div id="existing_items" style="display:none;" class="container-fluid first-row-feature">
+                <div id="existing_items" style="display:none;" class="container-fluid first-row-feature content-feature">
                     <ul class="list-group">
                         <?php foreach ($comments as $comment) : ?>
                             <?php $text = trim(strip_tags($comment->getText())); ?>
@@ -58,7 +60,7 @@
                             <?php $title = $comment->getTitle(); ?>
                             <?php if (empty($text)) continue; ?>
                             <li class="news_actions list-group-item content-white-bkg" rel="<?php echo $comment->getId(); ?>">
-                                <div class="form-group">
+                                <div class="row">
                                     <div class="col-md-9" text-justify">
                                         <?php 
                                             if(!empty($title)) {
@@ -88,7 +90,7 @@
                                             </a>
                                         <?php endif; ?>
                                         <a href="javascript:void(0)" title="<?php echo $this->_('Delete this info') ?>" class="delete_comment" rel="<?php echo $comment->getId() ?>">
-                                            <i class="fa fa-trash"></i>
+                                            <i class="fa fa-remove"></i>
                                         </a>
                                         <a href="javascript:void(0)" class="<?php if ($comment->getFlag() == 0) echo 'hidden'; ?> show_details" title="<?php echo $this->_('Was flagged as inappropriate') ?>">
                                             <i class="fa fa-flag"></i>
@@ -106,70 +108,68 @@
                                 </div>
                                 <div id="update_news_<?php echo $comment->getId(); ?>" class="container-fluid" style="display: none;">
                                     <div class="row">
-                                        <div class="col-md-12">
-                                            <form action="<?php echo $this->getUrl('comment/application/updatepost') ?>" method="post" class="form-horizontal newsUpdateForm">
-                                                <div class="form-group buttons first-row-feature">
-                                                    <div class="col-md-12">
-                                                        <button type="button" class="btn color-blue pull-left hide_update_section" rel="<?php echo $comment->getId();?>"><i class="fa fa-arrow-left"></i></button>
-                                                        <button type="submit" class="btn color-blue pull-right">OK</button>
-                                                    </div>
+                                        <form action="<?php echo $this->getUrl('comment/application/updatepost') ?>" method="post" class="form-horizontal newsUpdateForm">
+                                            <div class="form-group buttons first-row-feature">
+                                                <div class="col-md-12">
+                                                    <button type="button" class="btn color-blue pull-left hide_update_section" rel="<?php echo $comment->getId();?>"><i class="fa fa-angle-left"></i></button>
+                                                    <button type="submit" class="btn color-blue pull-right">OK</button>
                                                 </div>
-                                                <input type="hidden" name="value_id" value="<?php echo $value->getId(); ?>" />
-                                                <input type="hidden" name="id" value="<?php echo $comment->getId(); ?>" />
-                                                <div class="form-group">
-                                                    <div class="col-md-6">
-                                                        <label for="news_update_title"><?php echo $this->_("Title"); ?></label>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label for="news_update_subtitle"><?php echo $this->_("Date"); ?></label>
-                                                    </div>
+                                            </div>
+                                            <input type="hidden" name="value_id" value="<?php echo $value->getId(); ?>" />
+                                            <input type="hidden" name="id" value="<?php echo $comment->getId(); ?>" />
+                                            <div class="form-group">
+                                                <div class="col-md-6">
+                                                    <label for="news_update_title"><?php echo $this->_("Title"); ?></label>
                                                 </div>
-                                                <div class="form-group">
-                                                    <div class="col-md-6">
-                                                        <input type="text" class="input-flat new_update_title" name="title" placeholder="<?php echo $this->_("Title"); ?>" value="<?php echo $comment->getTitle(); ?>"/>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <input type="text" class="input-flat news_update_date" name="date" placeholder="<?php echo $this->_("Date"); ?>" value="<?php echo $comment->getDate(); ?>"/>
-                                                    </div>
+                                                <div class="col-md-6">
+                                                    <label for="news_update_subtitle"><?php echo $this->_("Date"); ?></label>
                                                 </div>
-                                                <div class="form-group">
-                                                    <div class="col-md-12">
-                                                        <label for="news_update_subtitle"><?php echo $this->_("Subtitle"); ?></label>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <input type="text"  class="input-flat news_update_subtitle" name="subtitle" placeholder="<?php echo $this->_("Subtitle"); ?>" value="<?php echo $comment->getSubtitle(); ?>"/>
-                                                    </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-6">
+                                                    <input type="text" class="input-flat new_update_title" name="title" placeholder="<?php echo $this->_("Title"); ?>" value="<?php echo $comment->getTitle(); ?>"/>
                                                 </div>
-                                                <div class="form-group">
-                                                    <div class="col-md-12">
-                                                        <textarea style="width:98%;height: 100px;" name="text" class="input-flat update_title" rows="3" cols="95" maxlength="255">
-                                                            <?php echo $comment->getText(); ?>
-                                                        </textarea>
-                                                    </div>
+                                                <div class="col-md-6">
+                                                    <input type="text" class="input-flat news_update_date" name="date" placeholder="<?php echo $this->_("Date"); ?>" value="<?php echo $comment->getDate(); ?>"/>
                                                 </div>
-                                                <div class="form-group">
-                                                    <div class="col-md-12">
-                                                        <!--[if gte IE 10]><!-->
-                                                        <button  type="button" class="upload_update_comment_picture btn color-blue image_left" rel="<?php echo $comment->getId() ?>">
-                                                            <i class="fa fa-camera-retro"></i>
-                                                            <?php echo $this->_('Insert a'); ?><br>
-                                                            <span class="bold"><?php echo $this->_('picture'); ?></span>
-                                                        </button>
-                                                        <!--<![endif]-->
-                                                        <input id="uploader_update_comment_<?php echo $comment->getId() ?>" class="uploader_comment" style="display:none" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
-                                                    </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <label for="news_update_subtitle"><?php echo $this->_("Subtitle"); ?></label>
                                                 </div>
-                                                <div class="form-group">
-                                                    <div class="col-md-12">
-                                                        <div id="uploaded_update_content_<?php echo $comment->getId(); ?>"></div>
-                                                    </div>
+                                                <div class="col-md-12">
+                                                    <input type="text"  class="input-flat news_update_subtitle" name="subtitle" placeholder="<?php echo $this->_("Subtitle"); ?>" value="<?php echo $comment->getSubtitle(); ?>"/>
                                                 </div>
-                                                <input type="hidden" name="option_value_id" value="<?php echo $value->getId(); ?>" />
-                                                <input type="hidden" id="image_update_actus_<?php echo $comment->getId();?>" name="image" value="<?php echo $comment->getImage();?>" />
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <textarea style="width:98%;height: 100px;" name="text" class="input-flat update_title" rows="3" cols="95" maxlength="255">
+                                                        <?php echo $comment->getText(); ?>
+                                                    </textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <!--[if gte IE 10]><!-->
+                                                    <button  type="button" class="upload_update_comment_picture btn color-blue image_left" rel="<?php echo $comment->getId() ?>">
+                                                        <i class="fa fa-camera-retro"></i>
+                                                        <?php echo $this->_('Insert a'); ?><br>
+                                                        <span class="bold"><?php echo $this->_('picture'); ?></span>
+                                                    </button>
+                                                    <!--<![endif]-->
+                                                    <input id="uploader_update_comment_<?php echo $comment->getId() ?>" class="uploader_comment" style="display:none" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <div id="uploaded_update_content_<?php echo $comment->getId(); ?>"></div>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="option_value_id" value="<?php echo $value->getId(); ?>" />
+                                            <input type="hidden" id="image_update_actus_<?php echo $comment->getId();?>" name="image" value="<?php echo $comment->getImage();?>" />
 
-                                                <input type="hidden" id="comment_visibility_<?php echo $comment->getId();?>" name="is_visible" value="<?php echo $comment->getIsVisible()?>"/>
-                                            </form>
-                                        </div>
+                                            <input type="hidden" id="comment_visibility_<?php echo $comment->getId();?>" name="is_visible" value="<?php echo $comment->getIsVisible()?>"/>
+                                        </form>
                                     </div>
                                 </div>
                             </li>
@@ -196,14 +196,14 @@
         ?>
     </div>
     <div id="edit" style="display: none;">
-        <h3 class="title-editor no-border-radius">
+        <h3 class="title-editor no-border-radius title-feature-indent">
             <?php echo $this->_('Create a news'); ?>
         </h3>
-        <div class="container-fluid">
+        <div class="container-fluid content-feature">
             <form id="newsCreateForm" action="<?php echo $this->getUrl('comment/application/editpost') ?>" method="post" class="form-horizontal">
                 <div class="form-group buttons first-row-feature">
                     <div class="col-md-12">
-                        <button type="button" onclick="page.reload()" class="btn color-blue pull-left"><i class="fa fa-arrow-left"></i></button>
+                        <button type="button" onclick="page.reload()" class="btn color-blue pull-left"><i class="fa fa-angle-left"></i></button>
                         <button type="submit" class="btn color-blue pull-right">OK</button>
                     </div>
                 </div>
@@ -242,8 +242,7 @@
                         <!--[if gte IE 10]><!-->
                         <button  id="upload_comment_picture" type="button" class="upload_comment_picture btn color-blue image_left">
                             <i class="fa fa-camera-retro"></i>
-                            <?php echo $this->_('Insert a'); ?><br>
-                            <span class="bold"><?php echo $this->_('picture'); ?></span>
+                            <?php echo $this->_('Insert a picture'); ?><br>
                         </button>
                         <!--<![endif]-->
                         <input id="uploader_comment" class="uploader_comment" style="display:none" type="file" name="files[]" rel="<?php echo $comment->getId(); ?>" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
@@ -262,7 +261,7 @@
     <div id="answers" style="display:none;">
     </div>
     <div id="logo_edit">
-        <button type="button" id="cancel_crop" class="delete pull-left"><i class="fa fa-arrow-left"></i></button>
+        <button type="button" id="cancel_crop" class="delete pull-left"><i class="fa fa-angle-left"></i></button>
         <button type="button" id="validate_crop" class="btn pull-right">OK</button>
         <p><?php echo $this->_('Resize your picture:'); ?></p>
         <div id="logo_cont"></div>
@@ -327,9 +326,6 @@
                 $.datepicker.setDefaults($.datepicker.regional['en']);
             }
 
-            $('#title').ckeditor(ckeditor_config.default);
-            $('.update_title').ckeditor(ckeditor_config.default);
-
             $('#news_date').datepicker({
                 showAnim: 'clip',
                 dateFormat: 'yy-mm-dd'
@@ -341,10 +337,15 @@
 
             $('#toggle_existing_items').click(function () {
                 $('#existing_items').stop().slideToggle(300, function () {
-                    if ($(this).is(':visible'))
-                        $('#toggle_existing_items').children('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                    if ($(this).is(':visible')) {
+                        $('#toggle_existing_items').children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+                        $('#toggle_existing_items').removeClass('color-blue');
+                    }
                     else
-                        $('#toggle_existing_items').children('i').removeClass('fa-chevron-up').addClass('fa-chevron-down')
+                    {
+                        $('#toggle_existing_items').children('i').removeClass('fa-angle-up').addClass('fa-angle-down');
+                        $('#toggle_existing_items').addClass('color-blue');
+                    }
                 });
             });
 
@@ -451,6 +452,11 @@
                 });
             });
 
+            setTimeout(function() {
+                $('#title').ckeditor(ckeditor_config.default);
+                $('.update_title').ckeditor(ckeditor_config.default);
+            }, 100);
+
         });
 
         page.setCallback('willdisappear', function () {
@@ -533,6 +539,10 @@
         .cke_button__image_icon { display:none; }
         .comment .news_details{padding-left:55px}
         #logo_edit {display: none;}
+        button#delete_picture {
+            position: absolute;
+            left: 10px;
+        }
     </style>
 
 </div>

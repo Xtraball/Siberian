@@ -97,10 +97,7 @@
         .content.application .application_content {
             width: auto;
         }
-        /*.content.application .application_content .area {
-            background: transparent !important;
-            color: #404040 !important;
-        }*/
+
     </style>
 </div>
 
@@ -110,7 +107,7 @@
         signin_post: '<?php echo $this->getUrl('admin/account/loginpost'); ?>',
         signup_post: '<?php echo $this->getUrl('admin/account/signuppost'); ?>',
         forgotpassword_post: '<?php echo $this->getUrl('admin/account/forgotpasswordpost'); ?>',
-    }
+    };
 
     $('#nav-login a').click(function() {
         if($(this).hasClass("active")) return false;

@@ -65,13 +65,13 @@ $delete_form->setValueId($option_value->getId());
                         <h3 class="title-editor no-border-radius title-feature-indent">
                             <?php echo __("Manage"); ?>
                             <button type="button" class="toggle_design color-blue pull-right bt-header-right btn feature-toggle-items">
-                                <i class="fa fa-chevron-down"></i>
+                                <i class="fa fa-angle-down"></i>
                             </button>
                         </h3>
-                        <div class="container-fluid first-row-feature feature-manage-items">
+                        <div class="container-fluid first-row-feature content-feature feature-manage-items">
                             <table class="table content-white-bkg sb-pager">
                                 <thead>
-                                <tr class="border-blue">
+                                <tr class="border-grey">
                                     <th style="width:40px;"></th>
                                     <th class="sortable" style="width:30%;"><?php echo __("Title"); ?></th>
                                     <th class="sortable" style="width:65%;"><?php echo __("Subtitle"); ?></th>
@@ -125,11 +125,10 @@ $delete_form->setValueId($option_value->getId());
 
         <div role="tabpanel" class="tab-pane" id="search">
             <div>
-                <h3 class="title-editor no-border-radius title-feature-indent">
+                <h3 class="title-editor title-feature-indent">
                     <?php echo __("Search filters & Options"); ?>
                 </h3>
             </div>
-
             <div>
                 <?php
                     /** @todo Places_Form_Search .... with bindForms() */

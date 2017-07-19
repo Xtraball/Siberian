@@ -3,15 +3,51 @@
 class Topic_ApplicationController extends Application_Controller_Default
 {
 
+    /**
+     * @var array
+     */
+    public $cache_triggers = array(
+        "save" => array(
+            "tags" => array(
+                "homepage_app_#APP_ID#"
+            ),
+        ),
+        "editcategory" => array(
+            "tags" => array(
+                "homepage_app_#APP_ID#"
+            ),
+        ),
+        "editpostcategory" => array(
+            "tags" => array(
+                "homepage_app_#APP_ID#"
+            ),
+        ),
+        "editdescription" => array(
+            "tags" => array(
+                "homepage_app_#APP_ID#"
+            ),
+        ),
+        "delete" => array(
+            "tags" => array(
+                "homepage_app_#APP_ID#"
+            ),
+        ),
+        "order" => array(
+            "tags" => array(
+                "homepage_app_#APP_ID#"
+            ),
+        ),
+    );
+
     public function saveAction() {
         try {
             if($data = $this->getRequest()->getPost()) {
 
-                if(empty($data['name'])) throw new Exception($this->_('Please, fill out all fields'));
+                if(empty($data['name'])) throw new Exception(__('Please, fill out all fields'));
 
                 $topic = $this->getCurrentOptionValue()->getObject();
                 if(!$topic->getId()) {
-                    throw new Exception($this->_('An error occurred while saving. Please try again later.'));
+                    throw new Exception(__('An error occurred while saving. Please try again later.'));
                 }
 
                 $topic->setName($datas['name'])
@@ -19,10 +55,15 @@ class Topic_ApplicationController extends Application_Controller_Default
                     ->save()
                 ;
 
+                /** Update touch date, then never expires (until next touch) */
+                $this->getCurrentOptionValue()
+                    ->touch()
+                    ->expires(-1);
+
                 $html = array(
                     'success' => '1',
                     'create_store' => $mcommerce->getStores()->count() == 0,
-                    'success_message' => $this->_('Info successfully saved'),
+                    'success_message' => __('Info successfully saved'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
@@ -30,7 +71,7 @@ class Topic_ApplicationController extends Application_Controller_Default
 
             }
             else {
-                throw new Exception($this->_('An error occurred while saving. Please try again later.'));
+                throw new Exception(__('An error occurred while saving. Please try again later.'));
             }
 
         }
@@ -43,7 +84,7 @@ class Topic_ApplicationController extends Application_Controller_Default
             );
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
     }
 
     public function editcategoryAction() {
@@ -67,7 +108,7 @@ class Topic_ApplicationController extends Application_Controller_Default
             'category_id' => $category->getId()
         );
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
     }
 
     public function editpostcategoryAction() {
@@ -81,7 +122,7 @@ class Topic_ApplicationController extends Application_Controller_Default
                     $topic->find(array("value_id" => $this->getCurrentOptionValue()->getValueId()));
 
                     if (!$topic->getId()) {
-                        throw new Exception($this->_('An error occurred while saving. Please try again later.'));
+                        throw new Exception(__('An error occurred while saving. Please try again later.'));
                     }
 
                     $category = new Topic_Model_Category();
@@ -103,7 +144,7 @@ class Topic_ApplicationController extends Application_Controller_Default
                     if (file_exists($file)) {
                         if (!is_dir($path)) mkdir($path, 0777, true);
                         if (!copy($file, $folder . $picture)) {
-                            throw new exception($this->_('An error occurred while saving. Please try again later.'));
+                            throw new exception(__('An error occurred while saving. Please try again later.'));
                         } else {
                             $data['picture'] = $relative_path . $picture;
                         }
@@ -118,12 +159,17 @@ class Topic_ApplicationController extends Application_Controller_Default
                     ->save()
                 ;
 
+                /** Update touch date, then never expires (until next touch) */
+                $this->getCurrentOptionValue()
+                    ->touch()
+                    ->expires(-1);
+
                 $html = array(
                     'is_new' => (int) $isNew,
                     'category_id' => $category->getId(),
                     'category_label' => $category->getName(),
                     'success' => '1',
-                    'success_message' => $this->_('Category successfully saved.'),
+                    'success_message' => __('Category successfully saved.'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
@@ -146,7 +192,7 @@ class Topic_ApplicationController extends Application_Controller_Default
                 );
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($html);
 
         }
     }
@@ -158,14 +204,19 @@ class Topic_ApplicationController extends Application_Controller_Default
                 $topic->find(array("value_id" => $this->getCurrentOptionValue()->getValueId()));
 
                 if (!$topic->getId()) {
-                    throw new Exception($this->_('An error occurred while saving. Please try again later.'));
+                    throw new Exception(__('An error occurred while saving. Please try again later.'));
                 }
 
                 $topic->setData($data)->save();
 
+                /** Update touch date, then never expires (until next touch) */
+                $this->getCurrentOptionValue()
+                    ->touch()
+                    ->expires(-1);
+
                 $html = array(
                     'success' => '1',
-                    'success_message' => $this->_('Description successfully saved.'),
+                    'success_message' => __('Description successfully saved.'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
@@ -180,7 +231,7 @@ class Topic_ApplicationController extends Application_Controller_Default
                 );
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($html);
         }
     }
 
@@ -191,9 +242,7 @@ class Topic_ApplicationController extends Application_Controller_Default
 
                 // Récupère les positions
                 $positions = $this->getRequest()->getParam('category');
-//                Zend_Debug::dump($positions);
-//                die(__METHOD__ . " L:" . __LINE__);
-                if(empty($positions)) throw new Exception($this->_('An error occurred while saving. Please try again later.'));
+                if(empty($positions)) throw new Exception(__('An error occurred while saving. Please try again later.'));
 
                 $position = 0;
                 foreach($positions as $index => $parent_category) {
@@ -209,6 +258,11 @@ class Topic_ApplicationController extends Application_Controller_Default
                     $position++;
                 }
 
+                /** Update touch date, then never expires (until next touch) */
+                $this->getCurrentOptionValue()
+                    ->touch()
+                    ->expires(-1);
+
                 // Renvoie OK
                 $html = array('success' => 1);
 
@@ -222,7 +276,7 @@ class Topic_ApplicationController extends Application_Controller_Default
                 );
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($html);
 
         }
     }
@@ -233,17 +287,22 @@ class Topic_ApplicationController extends Application_Controller_Default
 
             try {
                 if(empty($data['category_id'])) {
-                    throw new Exception($this->_('An error occurred while saving. Please try again later.'));
+                    throw new Exception(__('An error occurred while saving. Please try again later.'));
                 }
 
                 $category = new Topic_Model_Category();
                 $category->find($data['category_id']);
 
                 if(!$category->getId()) {
-                    throw new Exception($this->_('An error occurred while saving. Please try again later.'));
+                    throw new Exception(__('An error occurred while saving. Please try again later.'));
                 }
 
                 $category->delete();
+
+                /** Update touch date, then never expires (until next touch) */
+                $this->getCurrentOptionValue()
+                    ->touch()
+                    ->expires(-1);
 
                 $html = array(
                     'success' => 1
@@ -258,7 +317,7 @@ class Topic_ApplicationController extends Application_Controller_Default
                 );
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($html);
 
         }
 
@@ -285,7 +344,7 @@ class Topic_ApplicationController extends Application_Controller_Default
                 );
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($html);
 
         }
 

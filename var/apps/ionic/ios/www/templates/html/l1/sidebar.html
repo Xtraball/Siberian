@@ -1,4 +1,4 @@
-<ion-view class="sidebar l1">
+<ion-view sb-page-background class="sidebar l1">
     <ion-nav-title>{{ page_title }}</ion-nav-title>
     <ion-nav-buttons side="secondary">
         <button class="button button-clear" ng-click="toggleMenu()">
@@ -23,47 +23,13 @@
     </div>
 
 
-    <!--<ion-header-bar class="bar bar-subheader bar-clear row-no-padding">-->
-        <!--&lt;!&ndash;<div class="subheader content">&ndash;&gt;-->
-            <!--<div>-->
-                <!--<div class="loader" ng-show="sidebar.is_loading">-->
-                    <!--<ion-spinner></ion-spinner>-->
-                <!--</div>-->
+    <ion-content>
 
-                <!--&lt;!&ndash;<sb-loader is-loading="sidebar.is_loading" size="'32'" block="'subheader'"></sb-loader>&ndash;&gt;-->
-                <!--<h3 class="title" ng-hide="sidebar.is_loading" ng-class="{left: sidebar.collection.length > 1 || sidebar.object_id == 'catalog'}">{{ sidebar.current_item.name }}</h3>-->
-                <!--<button type="button" class="btn_open btn_right right subheader reverse" ng-if="sidebar.collection.length > 1 || sidebar.object_id == 'catalog'" ng-click="sidebar.toggle()">-->
-                    <!--{{ 'All items' | translate }}-->
-                    <!--&lt;!&ndash;<img src="<?php echo $this->getColorizedImage($this->getImage("pictos/browse.png", true), $this->getApplication()->getBlock("subheader")->getBackgroundColor()); ?>" width="10" />&ndash;&gt;-->
-                <!--</button>-->
-                <!--&lt;!&ndash;<div class="clear"></div>&ndash;&gt;-->
-            <!--</div>-->
-        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-        <!--&lt;!&ndash;<div class="subheader sidebar right scrollable_content" ng-class="{ 'slide-right': sidebar.show }" sb-scroll ng-if="sidebar.show">&ndash;&gt;-->
-            <!--<div class="content">-->
-                <!--<ul>-->
-                    <!--<li ng-repeat="item in sidebar.collection" ng-include="'sidebar_l1.html'"></li>-->
-                <!--</ul>-->
-            <!--</div>-->
-        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-    <!--</ion-header-bar>-->
-
-    <ion-content sb-background-image>
-        <!--<div class="scrollable_content" sb-load-more factory="factory" collection="collection" load-more="loadMore(offset)">-->
-            <!--<div class="for_ads_banner">-->
-                <!--<div ng-include="template_view"></div>-->
-            <!--</div>-->
-        <!--</div>-->
-
-        <!--<sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>-->
         <div class="loader" ng-show="is_loading">
             <ion-spinner></ion-spinner>
         </div>
     </ion-content>
 
-<!--</div>-->
 
 </ion-view>
 

@@ -1,4 +1,8 @@
-App.service("Connection", function ($ionicPlatform, $rootScope, $translate, $window, $log, Dialog) {
+/*global
+    angular, DOMAIN
+ */
+angular.module("starter").service("Connection", function ($ionicPlatform, $rootScope,
+                                                          $translate, $window, $log, $http, Dialog) {
 
     var service = {};
 
@@ -28,13 +32,15 @@ App.service("Connection", function ($ionicPlatform, $rootScope, $translate, $win
         if (!service.show_popup && $rootScope.isNativeApp && !_isOnline) {
             service.show_popup = true;
 
-            Dialog.alert(
-                    $translate.instant("Info"),
+            if(!$rootScope.onPause) {
+                Dialog.alert($translate.instant("Info"),
                     $translate.instant("You have gone offline"),
-                    $translate.instant("OK"))
-                .then(function() {
-                    service.show_popup = null;
-                });
+                    $translate.instant("OK"), -1)
+                    .then(function() {
+                        service.show_popup = null;
+                    });
+            }
+
         }
 
         $rootScope.$broadcast("connectionStateChange", data);

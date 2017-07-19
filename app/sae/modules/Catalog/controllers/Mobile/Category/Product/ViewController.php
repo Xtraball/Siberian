@@ -37,7 +37,7 @@ class Catalog_Mobile_Category_Product_ViewController extends Application_Control
 
             }
 
-            $this->_sendHtml($data);
+            $this->_sendJson($data);
         }
     }
 

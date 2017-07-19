@@ -88,6 +88,10 @@ class Application_Controller_Default extends Admin_Controller_Default {
      * @param $partial
      */
     public function assignVars($partial) {
+        if(!isset($partial)) {
+            return;
+        }
+
         if($this->getCurrentOptionValue()) {
             $partial->setOptionValue($this->getCurrentOptionValue());
         }

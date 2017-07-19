@@ -55,7 +55,7 @@ class Media_Mobile_Gallery_Image_ViewController extends Application_Controller_M
                 $data = array('error' => 1, 'message' => $e->getMessage());
             }
 
-            $this->_sendHtml($data);
+            $this->_sendJson($data);
         }
 
     }

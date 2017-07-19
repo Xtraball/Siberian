@@ -196,6 +196,10 @@ class Front_Mobile_HomeController extends Application_Controller_Mobile_Default 
             }
             $data['homepage_slider_images'] = $homepage_slider_images;
 
+            foreach($application->getOptions() as $opt) {
+              $data['layouts'][$opt->getValueId()] = $opt->getLayoutId();
+            }
+
             $this->cache->save($data, $cache_id, array(
                 "front_mobile_home_findall",
                 "app_".$application->getId(),

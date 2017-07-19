@@ -258,4 +258,16 @@ class Siberian_Network {
 
         return (($ip_decimal & $netmask_decimal) == ($range_decimal & $netmask_decimal));
     }
+
+    /**
+     * @param $main_hostname
+     * @param $hostname
+     * @return bool
+     */
+    public static function validateCname($main_hostname, $hostname) {
+        $r = dns_get_record($hostname, DNS_CNAME);
+        $isCname = (!empty($r) && isset($r[0]) && isset($r[0]["target"]) && ($r[0]["target"] === $main_hostname));
+
+        return $isCname;
+    }
 }

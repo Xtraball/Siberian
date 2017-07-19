@@ -17,9 +17,9 @@ $required = $form->getRequired();
 
 ?>
 <div class="cms-block-container">
-    <h3 class="title-editor border-blue title-feature-indent">
+    <h3 class="title-editor title-feature-indent">
         <div class="cms-block-handle">
-            <i class="fa fa-arrows-v"></i>
+            <i class="fa fa-sort"></i>
         </div>
         <span>
             <span class="cms-block-index"></span>
@@ -27,12 +27,12 @@ $required = $form->getRequired();
         </span>
         <?php if(!$required): ?>
         <div class="cms-block-delete">
-            <i class="fa fa-trash-o"></i>
+            <i class="fa fa-close"></i>
         </div>
         <?php endif; ?>
 
     </h3>
-    <div id="<?php echo $formid; ?>" class="cms-block-hide-drag content-white-bkg section-padding" style="padding-bottom: 20px;">
+    <div id="<?php echo $formid; ?>" class="cms-block-hide-drag content-white-bkg section-padding content-feature" style="padding-bottom: 20px;">
         <?php echo $form; ?>
     </div>
 

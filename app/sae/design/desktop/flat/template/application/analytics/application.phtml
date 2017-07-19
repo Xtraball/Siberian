@@ -6,28 +6,28 @@ $api = Api_Model_Key::findKeysFor("googlemaps");
 $googlemaps_key = $api->getSecretKey() ? $api->getSecretKey() : $application->getGooglemapsKey();
 ?>
 <div class="application_analytics application content solo-page">
-    <h3 class="title-editor border-blue"><?php echo $this->_('App analytics'); ?></h3>
+    <h3 class="title-editor border-blue text-center"><?php echo $this->_('App analytics'); ?></h3>
     <div class="container-fluid subcontent content-color">
         <?php if(!$demo_mode): ?>
-            <div id="row_filter_metrics" class="row content-white-bkg">
+            <div id="row_filter_metrics" class="row content-white-bkg sb-tour">
                 <div class="col-md-1 col-sm-6 col-xs-6">
                     <label for="from"><?php echo $this->_("From"); ?></label>
                 </div>
                 <div class="col-md-3 col-sm-6 col-xs-6">
-                    <input type="text" id="from" name="from" class="input-flat">
+                    <input type="text" id="from" name="from" class="input-flat sb-tour">
                 </div>
                 <div class="col-md-1 col-sm-6 col-xs-6">
                     <label for="to"><?php echo $this->_("to"); ?></label>
                 </div>
                 <div class="col-md-3 col-sm-6 col-xs-6">
-                    <input type="text" id="to" name="to" class="input-flat">
+                    <input type="text" id="to" name="to" class="input-flat sb-tour">
                 </div>
                 <div class="col-md-2">
                     <button class="btn color-blue" onclick="Filter_Metrics()"><?php echo $this->_("Filter metrics"); ?></button>
                 </div>
             </div>
         <?php else: ?>
-            <div class="row">
+            <div id="sb-tour-alert-demo-mode" class="row sb-tour">
                 <div class="col-md-12">
                     <div class="alert alert-warning">
                         <?php echo $this->_("Please note that this page is currently displaying DEMO data. Real data will be displayed when your application is published."); ?>
@@ -36,30 +36,30 @@ $googlemaps_key = $api->getSecretKey() ? $api->getSecretKey() : $application->ge
             </div>
         <?php endif; ?>
         <div class="row">
-            <div class="col-md-6 col-sm-12 col-xs-12 first-row-feature">
-                <div class="color-blue text-center totals_metrics">
-                    <strong><?php echo $this->_("Total visits"); ?> : <span id="total_visits"></span></strong>
+            <div id="sb-tour-total-visits-1" class="col-md-6 col-sm-12 col-xs-12 first-row-feature sb-tour">
+                <div class="text-center totals_metrics color-blue">
+                    <?php echo $this->_("Total visits"); ?> : <span id="total_visits"></span>
                 </div>
             </div>
-            <div class="col-md-6 col-sm-12 col-xs-12 first-row-feature">
-                <div class="color-blue text-center totals_metrics">
-                    <strong><?php echo $this->_("Total installs"); ?> : <span id="total_installs"></span></strong>
+            <div id="sb-tour-total-installs-1" class="col-md-6 col-sm-12 col-xs-12 first-row-feature sb-tour">
+                <div class="text-center totals_metrics color-blue">
+                    <?php echo $this->_("Total installs"); ?> : <span id="total_installs"></span>
                 </div>
             </div>
         </div>
         <div class="row first-row-feature">
             <div class="col-md-12" style="max-height:350px">
                 <div id="visits_loader" class="loader_metrics"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br/><?php echo $this->_("Loading..."); ?></div>
-                <canvas id="analytics_visits" class="content-white-bkg" width="400" height="350"></canvas>
+                <canvas id="analytics_visits" class="content-white-bkg sb-tour" width="400" height="350"></canvas>
             </div>
         </div>
         <div class="row">
             <div class="col-md-4  col-xs-12 first-row-feature" style="max-height:350px">
                 <div id="installs_loader" class="loader_metrics"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br/><?php echo $this->_("Loading..."); ?></div>
-                <canvas id="analytics_installs" class="content-white-bkg" width="400" height="350"></canvas>
+                <canvas id="analytics_installs" class="content-white-bkg sb-tour" width="400" height="350"></canvas>
             </div>
             <div class="col-md-4  col-xs-12 first-row-feature" style="max-height:350px">
-                <table class="table table-striped content-white-bkg">
+                <table id="sb-tour-anlytics-table-localize" class="table table-striped content-white-bkg sb-tour">
                     <thead>
                     <tr>
                         <th colspan="2" class="border-purple text-center" style="font-size:12px"><?php echo $this->_("Users localization"); ?><?php echo $demo_label; ?></th>
@@ -77,12 +77,12 @@ $googlemaps_key = $api->getSecretKey() ? $api->getSecretKey() : $application->ge
             </div>
             <div class="col-md-4  col-xs-12 first-row-feature" style="max-height:350px">
                 <div id="feature_time_loader" class="loader_metrics"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br/><?php echo $this->_("Loading..."); ?></div>
-                <canvas id="analytics_time" class="content-white-bkg" width="400" height="350"></canvas>
+                <canvas id="analytics_time" class="content-white-bkg sb-tour" width="400" height="350"></canvas>
             </div>
         </div>
         <div class="row first-row-feature">
             <div class="col-md-6  col-xs-12">
-                <table class="table table-striped content-white-bkg">
+                <table id="sb-tour-table-visits-features" class="table table-striped content-white-bkg sb-tour">
                     <thead>
                     <tr>
                         <th colspan="2" class="border-purple text-center" style="font-size:12px"><?php echo $this->_("Visits by feature (All)"); ?><?php echo $demo_label; ?></th>
@@ -136,7 +136,7 @@ $googlemaps_key = $api->getSecretKey() ? $api->getSecretKey() : $application->ge
             </div>
             <div class="col-md-6  col-xs-12" style="max-height:350px">
                 <div id="feature_visits_loader" class="loader_metrics"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br/><?php echo $this->_("Loading..."); ?></div>
-                <canvas id="analytics_features_visits" class="content-white-bkg" width="400" height="350"></canvas>
+                <canvas id="analytics_features_visits" class="content-white-bkg sb-tour" width="400" height="350"></canvas>
             </div>
         </div>
     </div>
@@ -147,7 +147,7 @@ $googlemaps_key = $api->getSecretKey() ? $api->getSecretKey() : $application->ge
     #row_filter_metrics{padding: 5px;margin-right: 0px;margin-left: 0;}
     #row_filter_metrics label{line-height:29px}
     #analytics_features_localization{width:100%;height:290px}
-    .totals_metrics{padding: 15px;border-radius: 4px;;text-transform: uppercase}
+    .totals_metrics{padding: 15px;border-radius: 2px;;text-transform: uppercase;}
 </style>
 <script>
     var visitsChart;

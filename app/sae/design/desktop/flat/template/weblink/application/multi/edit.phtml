@@ -4,52 +4,40 @@
 <div class="form_content">
     <div id="list" class="edit_page weblink">
         <div class="weblinks">
-            <h3 class="title-editor no-border-radius">
-                <?php echo $this->_('Your links') ?>
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo __('Your links') ?>
             </h3>
-            <div class="container-fluid first-row-feature">
+            <div class="container-fluid first-row-feature content-feature">
                 <div id="cover_crop" style="display:none;">
                     <button type="button" id="cancel_cover_crop" class="btn color-blue pull-left"><i class="fa fa-remove"></i></button>
                     <button type="button" id="validate_cover_crop" class="default_button pull-right btn color-blue">OK</button>
-                    <p><?php echo $this->_('Resize your picture:') ?></p>
+                    <p><?php echo __('Resize your picture:') ?></p>
                 </div>
                 <div id="cover_crop_content"></div>
                 <div id="weblink_content" class="form-horizontal">
                     <div class="form-group">
                         <div class="col-sm-4">
                             <!--[if gte IE 10]><!-->
-                            <button id="upload_weblink_picture" type="button" class="upload_weblink_picture bg_hd upload btn-grey">
-                                <?php echo $this->_('Insert a <br /><span class="bold">cover image</span>'); ?>
+                            <button id="upload_weblink_picture" type="button" class="upload_weblink_picture bg_hd btn-grey btn">
+                                <?php echo __('Insert a <span class="bold">cover image</span>'); ?>
                             </button>
                             <!--<![endif]-->
-                            <p id="uploader_logo_ie_description" style="display:none"><?php echo $this->_('Insert a <br /><span class="bold">cover image</span>'); ?></span></p>
+                            <p id="uploader_logo_ie_description" style="display:none"><?php echo __('Insert a <br /><span class="bold">cover image</span>'); ?></span></p>
                             <input id="link_file_cover" class="uploader link_file input-flat" style="display:none" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" data-id="cover" rel="cover" />
                         </div>
-                        <div class="col-sm-5">
+                        <div class="col-sm-6">
                             <img id="cover_img" src="<?php echo $weblink->getCoverUrl(); ?>" width="220" height="186"<?php if(!$weblink->getCover()) : ?> style="display:none;"<?php endif; ?> />
-                        </div>
-                        <div class="col-sm-1">
-                            <a href="" style="<?php if(!$weblink->getCover()) : ?>display:none;<?php endif; ?>" id="remove_cover_img">
+                            <a href="" style="<?php if(!$weblink->getCover()) : ?>display:none;<?php endif; ?>" id="remove_cover_img" class="btn color-blue">
                                 <i class="fa fa-remove"></i>
                             </a>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <button type="button" id="add_link" class="as-link btn color-blue">+ <?php echo $this->_('Add a link'); ?></button>
+                            <button type="button" id="add_link" class="as-link btn color-blue">+ <?php echo __('Add a link'); ?></button>
                         </div>
                     </div>
-                    <div class="form-group" id="table_list_links" <?php if($weblink->getLinks()->count() == 0) : ?> style="display:none;"<?php endif; ?>>
-                        <div class="col-sm-1">
-                            <label><?php echo $this->_('Picto') ?></label>
-                        </div>
-                        <div class="col-sm-4">
-                            <label><?php echo $this->_('Title') ?><span class="required-entry"> *</span></label>
-                        </div>
-                        <div class="col-sm-4">
-                            <label><?php echo $this->_('Link') ?><span class="required-entry"> *</span></label>
-                        </div>
-                    </div>
+                    <div class="list-group">
                         <?php foreach($weblink->getLinks() as $link) : ?>
                             <?php echo $this->getLayout()->addPartial('row_'.$link->getId(), 'admin_view_default', 'weblink/application/multi/edit/row.phtml')
                                 ->setCurrentLink($link)
@@ -129,7 +117,7 @@
                     link.hideNewRow(true);
                 }
                 else {
-                    if(confirm('<?php echo addslashes($this->_('Are you sure you want to delete this link?')); ?>')) {
+                    if(confirm('<?php echo addslashes(__('Are you sure you want to delete this link?')); ?>')) {
                         if(!$('#link_is_deleted_'+$(this).attr('rel')).length) {
                             $('<input />').attr('type', 'hidden')
                                 .attr('id', 'link_is_deleted_'+$(this).attr('rel'))
@@ -278,7 +266,7 @@
             $('#remove_cover_img').hide();
         });
         $('#remove_cover_img').click(function() {
-            if(confirm("<?php echo $this->_("Are you sure you want to delete this picture?"); ?>")) {
+            if(confirm("<?php echo __("Are you sure you want to delete this picture?"); ?>")) {
                 $('#remove_cover').val(1);
                 reload($('#weblinkCoverForm'), '<?php echo $this->getUrl('weblink/application_multi/editpost') ?>', true, function(datas) {
                     if(datas.success) {
@@ -301,7 +289,7 @@
         tr.find('input.required').each(function() {
             if($(this).val().isEmpty()) {
                 $(this).addClass('error');
-                if($(this).next('p.error').length == 0) $(this).after('<p class="error"><?php echo addslashes($this->_('Required field')) ?></p>');
+                if($(this).next('p.error').length == 0) $(this).after('<p class="error"><?php echo addslashes(__('Required field')) ?></p>');
                 error = true;
             }
             else {
@@ -328,5 +316,10 @@
     }
     .row_link {
         margin-bottom: 10px;
+    }
+    a#remove_cover_img {
+        position: absolute;
+        top:0;
+        left:15px;
     }
 </style>
