@@ -307,7 +307,7 @@ class Cms_Application_PageController extends Application_Controller_Default {
                 if (!$block->getId()) {
                     throw new Siberian_Exception("#476-02: ".__('An error occurred during process. Please try again later.'));
                 }
-                    
+
 
                 $html = array(
                     'success' => 1,
@@ -387,7 +387,7 @@ class Cms_Application_PageController extends Application_Controller_Default {
                 'success' => 1,
                 'fullsize_file' => $current_file,
                 'file' => $new_file,
-                'message_success' => 'Enregistrement réussi',
+                'message_success' => __("Success."),
                 'message_button' => 0,
                 'message_timeout' => 2,
             );
@@ -435,7 +435,7 @@ class Cms_Application_PageController extends Application_Controller_Default {
                 $datas = array(
                     'success' => 1,
                     'file' => $file,
-                    'message_success' => 'Enregistrement réussi',
+                    'message_success' => __("Success."),
                     'message_button' => 0,
                     'message_timeout' => 2,
                 );

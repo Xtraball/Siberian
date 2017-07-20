@@ -66,7 +66,7 @@ $enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getI
                                         <?php echo __(ucfirst($message->getStatus())); ?>
                                     <?php endif; ?>
                                 </td>
-                                <td><?php echo $message->getFormattedCreatedAt() ?></td>
+                                <td><?php echo datetime_to_format($message->getCreatedAt(), Zend_Date::DATETIME_MEDIUM); ?></td>
                                 <td>
                                     <i class="fa fa-search toggle-more" data-msgid="<?php echo $message->getId(); ?>"></i>
                                 </td>
@@ -80,10 +80,10 @@ $enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getI
                                     <br />
                                     <b><?php echo __("Message"); ?>:</b> <?php echo $message->getText(); ?>
                                     <br />
-                                    <b><?php echo __('Creation date'); ?>:</b> <?php echo $message->getFormattedCreatedAt() ?>
+                                    <b><?php echo __('Creation date'); ?>:</b> <?php echo datetime_to_format($message->getCreatedAt(), Zend_Date::DATETIME_MEDIUM); ?>
                                     <br />
                                     <?php if((!empty($message->getSendAt())) && ($message->getStatus() !== "delivered")): ?>
-                                        <b><?php echo __('Sending date'); ?>:</b> <?php echo __("Scheduled for <i>%s</i>", $message->getFormattedSendAt()); ?>
+                                        <b><?php echo __('Sending date'); ?>:</b> <?php echo __("Scheduled for <i>%s</i>", datetime_to_format($message->getCreatedAt(), Zend_Date::DATETIME_MEDIUM)); ?>
                                     <?php else: ?>
                                         <b><?php echo __("Sending date"); ?>:</b> <?php echo ($message->getStatus() == 'delivered') ? $message->getFormattedDeliveredAt() : __(ucfirst($message->getStatus())); ?>
                                     <?php endif; ?>
@@ -848,11 +848,11 @@ $enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getI
 
             deleteMessage(msgid);
         });
-        
+
         function handleClick (customer){
 
             var customer_id = $(customer).attr('id');
-            
+
             if(customer.checked){
                 customers_list.push(customer_id);
             }else {

@@ -172,8 +172,8 @@ class Folder_Model_Folder extends Core_Model_Default {
 
                     //$option_pictureb64 = $picture_b64;
 
-                    $picture_b64 = $picture_file;
-                    $option_pictureb64 = $picture_file;
+                    $picture_b64 = $request->getBaseUrl() . $picture_file;
+                    $option_pictureb64 = $request->getBaseUrl() . $picture_file;
                 }
 
                 $url = $this->getPath("folder/mobile_list", array(
@@ -218,7 +218,7 @@ class Folder_Model_Folder extends Core_Model_Default {
                         $picture_file = Core_Controller_Default_Abstract::sGetColorizedImage($feature->getIconId(), $color);
                         //$picture_file = Core_Model_Directory::getBasePathTo($picture_file);
                         //$picture_b64 = Siberian_Image::open($picture_file)->cropResize(128)->inline("png");
-                        $picture_b64 = $picture_file;
+                        $picture_b64 = $request->getBaseUrl() . $picture_file;
                     }
 
                     $url = $feature->getPath(null, array("value_id" => $feature->getId()), false);
@@ -258,7 +258,7 @@ class Folder_Model_Folder extends Core_Model_Default {
                 if($subcategory->getPictureUrl()) {
                     //$picture_file = Core_Model_Directory::getBasePathTo($subcategory->getPictureUrl());
                     //$picture_b64 = Siberian_Image::open($picture_file)->inline("png");
-                    $picture_b64 = $subcategory->getPictureUrl();
+                    $picture_b64 = $request->getBaseUrl() . $subcategory->getPictureUrl();
                 }
 
                 $url = __path("folder/mobile_list", array(
@@ -300,7 +300,7 @@ class Folder_Model_Folder extends Core_Model_Default {
                     //Core_Model_Lib_Image::sColorize($base_path);
                     //$colorized_path = $request->getBaseUrl() . str_replace($base, "/", $base_path);
                     //$picture_b64 = Siberian_Image::open($base_path)->cropResize(128)->inline("png");
-                    $picture_b64 = $icon;
+                    $picture_b64 = $request->getBaseUrl() . $icon;
 
                 }
 
@@ -331,7 +331,7 @@ class Folder_Model_Folder extends Core_Model_Default {
             if($current_category->getPictureUrl()) {
                 //$picture_file = Core_Model_Directory::getBasePathTo($current_category->getPictureUrl());
                 //$cover_b64 = Siberian_Image::open($picture_file)->inline("png");
-                $cover_b64 = $current_category->getPictureUrl();
+                $cover_b64 = $request->getBaseUrl() . $current_category->getPictureUrl();
             }
 
             $payload["cover"] = array(
