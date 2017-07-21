@@ -33,12 +33,11 @@ angular.module("starter").provider('HomepageLayout', function () {
     self.$get = function ($injector, $ionicSlideBoxDelegate, $ionicPlatform, $ionicHistory, $ionicSideMenuDelegate,
                           $location, $log, $q, $rootScope, $stateParams, $timeout, $window, LinkService, Analytics,
                           Customer, Pages, Padlock, Modal) {
-
-        console.log((new Date()).getTime(), "HomepageLayout instance.");
+        console.log((new Date()).getTime(), 'HomepageLayout instance.');
 
         var HomepageLayout = {};
 
-        /** Hooks */
+        // Hooks!
         HomepageLayout.load_hooks = [];
         HomepageLayout.more_modal = null;
 
@@ -47,30 +46,36 @@ angular.module("starter").provider('HomepageLayout', function () {
          * @param feature
          * @returns {boolean}
          */
-        HomepageLayout.openFeature = function(feature, scope) {
-
-            if(scope === undefined) {
+        HomepageLayout.openFeature = function (feature, scope) {
+            if (scope === undefined) {
                 scope = $rootScope;
             }
 
-            /** Close any open modal first. */
-            if(Modal.is_open) {
+            // Close any open modal first!
+            if (Modal.is_open) {
                 Modal.current_modal.hide();
             }
 
-            /** Clear history for side-menu feature */
-            switch(Pages.data.layout.position) {
-                case "left":
-                case "right":
-                    if($ionicSideMenuDelegate.isOpenLeft()){
+            // Double check for modal!
+            if (scope.pages_list_is_visible) {
+                HomepageLayout.more_modal.hide();
+                scope.tabbar_is_visible = true;
+                scope.pages_list_is_visible = false;
+            }
+
+            // Clear history for side-menu feature!
+            switch (Pages.data.layout.position) {
+                case 'left':
+                case 'right':
+                    if ($ionicSideMenuDelegate.isOpenLeft()) {
                         $ionicSideMenuDelegate.toggleLeft();
                     }
-                    if($ionicSideMenuDelegate.isOpenRight()){
+                    if ($ionicSideMenuDelegate.isOpenRight()) {
                         $ionicSideMenuDelegate.toggleRight();
                     }
 
-                    if(feature.code !== "padlock") { /** do not clear history if we open the padlock */
-                        if(feature.path !== $location.path()) {
+                    if (feature.code !== 'padlock') { // do not clear history if we open the padlock!
+                        if (feature.path !== $location.path()) {
                             $ionicHistory.nextViewOptions({
                                 historyRoot: true,
                                 disableAnimate: false
@@ -80,8 +85,8 @@ angular.module("starter").provider('HomepageLayout', function () {
                     break;
             }
 
-            switch(true) {
-                case (feature.code === "tabbar_account"):
+            switch (true) {
+                case (feature.code === 'tabbar_account'):
                     Analytics.storePageOpening({
                         id: 0
                     });
@@ -90,35 +95,35 @@ angular.module("starter").provider('HomepageLayout', function () {
 
                     break;
 
-                case (feature.code === "tabbar_more"):
-                    HomepageLayout.getFeatures().then(function(features) {
+                case (feature.code === 'tabbar_more'):
+                    HomepageLayout.getFeatures().then(function (features) {
                         scope.tabbar_is_visible = false;
                         scope.pages_list_is_visible = true;
                         scope.features = features;
 
-                        scope.closeMore = function() {
+                        scope.closeMore = function () {
                             HomepageLayout.more_modal.hide();
                             scope.tabbar_is_visible = true;
                             scope.pages_list_is_visible = false;
                         };
 
-                        /** That's weird. */
-                        scope.goTo = function(feature) {
+                        // That's weird!
+                        scope.goTo = function (goToFeature) {
                             scope.closeMore();
-                            HomepageLayout.openFeature(feature, scope);
+                            HomepageLayout.openFeature(goToFeature, scope);
                         };
 
                         Modal
                             .fromTemplateUrl(HomepageLayout.getModalTemplate(), {
                                 scope: scope
                             })
-                            .then(function(modal) {
+                            .then(function (modal) {
                                 HomepageLayout.more_modal = modal;
                                 HomepageLayout.more_modal.show();
 
-                                /* pages_list_is_visible is true means that the ... button in the main menu was clicked */
-                                $ionicPlatform.onHardwareBackButton(function(e){
-                                    if(scope.pages_list_is_visible){
+                                // pages_list_is_visible is true means that the ... button in the main menu was clicked!
+                                $ionicPlatform.onHardwareBackButton(function (e) {
+                                    if (scope.pages_list_is_visible) {
                                         scope.closeMore();
                                     }
                                 });
@@ -132,8 +137,8 @@ angular.module("starter").provider('HomepageLayout', function () {
 
                 case (feature.is_link):
                     LinkService.openLink(feature.url, {
-                        "hide_navbar" : !!feature.hide_navbar,
-                        "use_external_app" : !!feature.use_external_app
+                        'hide_navbar': !!feature.hide_navbar,
+                        'use_external_app': !!feature.use_external_app
                     });
                     Analytics.storePageOpening(feature);
 
@@ -143,33 +148,29 @@ angular.module("starter").provider('HomepageLayout', function () {
 
                     Analytics.storePageOpening(feature);
 
-                    if (!$injector.get("Application").is_customizing_colors && HomepageLayout.properties.options.autoSelectFirst) {
-
-                        if(feature.path !== $location.path()) {
+                    if (!$injector.get('Application').is_customizing_colors && HomepageLayout.properties.options.autoSelectFirst) {
+                        if (feature.path !== $location.path()) {
                             $ionicHistory.nextViewOptions({
                                 historyRoot: true,
                                 disableAnimate: false
                             });
                             $location.path(feature.path).replace();
                         }
-
                     } else {
                         $location.path(feature.path);
                     }
             }
-
-
         };
 
         /** Register hooks to be called when homepage is done. */
-        HomepageLayout.registerHook = function(hook) {
-            if(typeof hook === "function") {
+        HomepageLayout.registerHook = function (hook) {
+            if (typeof hook === 'function') {
                 HomepageLayout.load_hooks.push(hook);
             }
         };
 
         /** Call all registered hooks. */
-        HomepageLayout.callHooks = function() {
+        HomepageLayout.callHooks = function () {
             /** Call registered hooks */
             for (var i = 0; i < HomepageLayout.load_hooks.length; i++) {
                 HomepageLayout.load_hooks[i]();

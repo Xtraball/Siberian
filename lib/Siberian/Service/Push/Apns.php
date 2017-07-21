@@ -32,22 +32,15 @@ class Siberian_Service_Push_Apns extends ApnsPHP_Push {
         $message->setCustomIdentifier(sprintf("device_id-%s", $device->getId()));
 
         # Badge count
-        if($device->getPushBadge() == 'enabled') {
-            $message->setBadge($device->getNotRead() + 1);
-        }
+        $message->setBadge($device->getNotRead() + 1);
 
         # Message
-        if($device->getPushAlert() == 'enabled') {
-            $message->setTitle($push_message->getTitle());
-            $message->setText($push_message->getText());
-            $message->setActionLocKey(__("See"));
-        }
+        $message->setTitle($push_message->getTitle());
+        $message->setText($push_message->getText());
+        $message->setActionLocKey(__("See"));
 
         # Sound
-        if($device->getPushSound() == 'enabled') {
-            /** @TODO Allow user to upload custom notification sounds */
-            $message->setSound("Submarine.aiff");
-        }
+        $message->setSound("Submarine.aiff");
 
         # Cover
         $message->setCover($push_message->getCoverUrl());

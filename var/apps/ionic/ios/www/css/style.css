@@ -640,11 +640,6 @@ div[sb-cms-text] * {  text-align: left;  }
     float: right;
 }
 
-.item img {
-  max-width: 100%;
-  height: auto !important;
-}
-
 .item-input.search-text-input {
     height: 35px;
     right: 44px;

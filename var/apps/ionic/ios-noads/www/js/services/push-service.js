@@ -7,17 +7,16 @@
  *
  * @author Xtraball SAS
  */
-angular.module("starter").service("PushService", function($cordovaLocalNotification, $location, $log, $q, $rootScope,
-                                                          $translate, $window, Application, Dialog, LinkService,
-                                                          Push, SB) {
-
+angular.module('starter').service('PushService', function ($cordovaLocalNotification, $location, $log, $q, $rootScope,
+                                                           $translate, $window, Application, Dialog, LinkService,
+                                                           Push, SB) {
     var service = {
         push: null,
         settings: {
             android: {
-                senderID    : "01234567890",
-                icon        : "ic_icon",
-                iconColor   : "#0099C7"
+                senderID    : '01234567890',
+                icon        : 'ic_icon',
+                iconColor   : '#0099C7'
             },
             ios: {
                 clearBadge  : true,
@@ -32,24 +31,22 @@ angular.module("starter").service("PushService", function($cordovaLocalNotificat
     /**
      * Configure Push Service
      *
-     * @param params
+     * @param senderID
+     * @param iconColor
      */
-    service.configure = function(senderID, iconColor) {
-
-        /** senderID error proof for Android. */
-        if((Push.device_type === SB.DEVICE.TYPE_ANDROID) &&
-            (senderID === "01234567890" || senderID === "") ) {
-
-            $log.debug("Invalid senderId: "+senderID);
+    service.configure = function (senderID, iconColor) {
+        // senderID error proof for Android!
+        if ((Push.device_type === SB.DEVICE.TYPE_ANDROID) &&
+            (senderID === '01234567890' || senderID ==='')) {
+            $log.debug('Invalid senderId: ' + senderID);
             service.settings.android.senderID = null;
         } else {
             service.settings.android.senderID = senderID;
         }
 
-        /** Validating push color */
-        if(!(/^#[0-9A-F]{6}$/i).test(iconColor)) {
-
-            $log.debug("Invalid iconColor: "+iconColor);
+        // Validating push color!
+        if (!(/^#[0-9A-F]{6}$/i).test(iconColor)) {
+            $log.debug('Invalid iconColor: ' + iconColor);
         } else {
             service.settings.android.iconColor = iconColor;
         }
@@ -58,9 +55,8 @@ angular.module("starter").service("PushService", function($cordovaLocalNotificat
     /**
      * If available, initialize push
      */
-    service.init = function() {
-
-        if(!$window.PushNotification) {
+    service.init = function () {
+        if (!$window.PushNotification) {
             return;
         }
 
@@ -70,214 +66,194 @@ angular.module("starter").service("PushService", function($cordovaLocalNotificat
     /**
      * Handle registration, and various push events
      */
-    service.register = function() {
+    service.register = function () {
         service.init();
 
         if (service.push && $rootScope.isNativeApp) {
-
-            service.push.on("registration", function(data) {
-
-                $log.debug("device_token: " + data.registrationId);
+            service.push.on('registration', function (data) {
+                $log.debug('device_token: ' + data.registrationId);
 
                 Push.device_token = data.registrationId;
                 service.registerDevice();
             });
 
             service.onNotificationReceived();
-
-            service.push.on("error", function(error) {
-
+            service.push.on('error', function (error) {
                 $log.debug(error.message);
             });
 
             service.updateUnreadCount();
 
-            Application.loaded.then(function() {
-                /** When Application is loaded, and push registered, look for missed push */
+            Application.loaded.then(function () {
+                // When Application is loaded, and push registered, look for missed push!
                 service.fetchMessagesOnStart();
 
-                /** Register for push events */
+                // Register for push events!
                 $rootScope.$on(SB.EVENTS.PUSH.notificationReceived, function (event, data) {
-
-                    // Refresh to prevent the need for pullToRefresh
+                    // Refresh to prevent the need for pullToRefresh!
                     Push.findAll(0, true);
 
                     service.displayNotification(data);
                 });
-
             });
         } else {
-
-            $log.debug("Unable to initialize push service.");
+            $log.debug('Unable to initialize push service.');
         }
     };
 
-    service.registerDevice = function() {
-
-        switch(Push.device_type) {
+    service.registerDevice = function () {
+        switch (Push.device_type) {
             case SB.DEVICE.TYPE_ANDROID:
-                    service.registerAndroid();
+                service.registerAndroid();
                 break;
 
             case SB.DEVICE.TYPE_IOS:
-                    service.registerIos();
+                service.registerIos();
                 break;
         }
-
     };
 
-    service.registerAndroid = function() {
-
+    service.registerAndroid = function () {
         var params = {
             app_id              : Application.app_id,
             app_name            : Application.app_name,
             registration_id     : btoa(Push.device_token)
         };
-
         Push.registerAndroidDevice(params);
     };
 
-    service.registerIos = function() {
+    service.registerIos = function () {
+        cordova.getAppVersion.getVersionNumber()
+            .then(function (appVersion) {
+                var deviceName = null;
+                try {
+                    deviceName = device.platform;
+                } catch (e) {
+                    $log.debug(e.message);
+                }
 
-        cordova.getAppVersion.getVersionNumber().then(function(app_version) {
-            var device_name = null;
-            try {
-                device_name = device.platform;
-            } catch(e) {
-                $log.debug(e.message);
-            }
+                var deviceModel = null;
+                try {
+                    deviceModel = device.model;
+                } catch (e) {
+                    $log.debug(e.message);
+                }
 
-            var device_model = null;
-            try {
-                device_model = device.model;
-            } catch(e) {
-                $log.debug(e.message);
-            }
+                var deviceVersion = null;
+                try {
+                    deviceVersion = device.version;
+                } catch (e) {
+                    $log.debug(e.message);
+                }
 
-            var device_version = null;
-            try {
-                device_version = device.version;
-            } catch(e) {
-                $log.debug(e.message);
-            }
+                var params = {
+                    app_id          : Application.app_id,
+                    app_name        : Application.app_name,
+                    app_version     : appVersion,
+                    device_token    : Push.device_token,
+                    device_name     : deviceName,
+                    device_model    : deviceModel,
+                    device_version  : deviceVersion,
+                    push_badge      : 'enabled',
+                    push_alert      : 'enabled',
+                    push_sound      : 'enabled'
+                };
 
-            var params = {
-                app_id          : Application.app_id,
-                app_name        : Application.app_name,
-                app_version     : app_version,
-                device_token    : Push.device_token,
-                device_name     : device_name,
-                device_model    : device_model,
-                device_version  : device_version,
-                push_badge      : true,
-                push_alert      : true,
-                push_sound      : true
-            };
-
-            Push.registerIosDevice(params);
-        });
+                Push.registerIosDevice(params);
+            });
     };
 
-    service.onNotificationReceived = function() {
-
-        service.push.on("notification", function(data) {
-
-            if(data.additionalData.longitude && data.additionalData.latitude) {
-
-                var callbackCurrentPosition = function(result) {
-
+    service.onNotificationReceived = function () {
+        service.push.on('notification', function (data) {
+            if (data.additionalData.longitude && data.additionalData.latitude) {
+                var callbackCurrentPosition = function (result) {
                     var distance_in_km = calculateDistance(
                         result.latitude,
                         result.longitude,
                         data.additionalData.latitude,
                         data.additionalData.longitude,
-                        "K"
+                        'K'
                     );
 
-                    if(distance_in_km <= data.additionalData.radius) {
-
-                        if(Push.device_type === SB.DEVICE.TYPE_IOS) {
-                            data.title      = data.additionalData.user_info.alert.body;
-                            data.message    = data.title;
+                    if (distance_in_km <= data.additionalData.radius) {
+                        if (Push.device_type === SB.DEVICE.TYPE_IOS) {
+                            data.title = data.additionalData.user_info.alert.body;
+                            data.message = data.title;
                         }
 
                         service.sendLocalNotification(data.additionalData.message_id, data.title, data.message);
 
                         $rootScope.$broadcast(SB.EVENTS.PUSH.notificationReceived, data);
-
                     } else {
                         service.addProximityAlert(data);
                     }
                 };
 
-                var callbackErrCurrentPosition = function(err) {
+                var callbackErrCurrentPosition = function (err) {
                     $log.debug(err.message);
 
                     service.addProximityAlert(data);
                 };
 
-                if(Push.device_type === SB.DEVICE.TYPE_IOS) {
-                    $window.BackgroundGeolocation.getCurrentPosition(function(location, taskId) {
-                        location.latitude   = location.coords.latitude;
-                        location.longitude  = location.coords.longitude;
+                if (Push.device_type === SB.DEVICE.TYPE_IOS) {
+                    $window.BackgroundGeolocation
+                        .getCurrentPosition(function (location, taskId) {
+                            location.latitude = location.coords.latitude;
+                            location.longitude = location.coords.longitude;
 
-                        callbackCurrentPosition(location);
-                        $window.BackgroundGeolocation.finish(taskId);
-
-                    }, callbackErrCurrentPosition);
+                            callbackCurrentPosition(location);
+                            $window.BackgroundGeolocation.finish(taskId);
+                        }, callbackErrCurrentPosition);
                 } else {
-                    // Get the user current position when app on foreground
+                    // Get the user current position when app on foreground!
                     $window.BackgroundGeoloc.getCurrentPosition(callbackCurrentPosition, callbackErrCurrentPosition);
                 }
             } else {
                 $rootScope.$broadcast(SB.EVENTS.PUSH.notificationReceived, data);
             }
 
-            service.push.finish(function() {
-                $log.debug("push finish success");
-                // success
-            }, function() {
-                $log.debug("push finish error");
-                // error
+            service.push.finish(function () {
+                $log.debug('push finish success');
+                // success!
+            }, function () {
+                $log.debug('push finish error');
+                // error!
             });
-
         });
     };
 
-    service.startBackgroundGeolocation = function() {
-
-        if(!$window.BackgroundGeolocation) {
-
-            $log.debug("unable to find BackgroundGeolocation plugin.");
+    service.startBackgroundGeolocation = function () {
+        if (!$window.BackgroundGeolocation) {
+            $log.debug('unable to find BackgroundGeolocation plugin.');
             return;
         }
 
-        switch(Push.device_type) {
+        switch (Push.device_type) {
             case SB.DEVICE.TYPE_IOS:
 
-                $log.debug("-- iOS StartBackgroundLocation --");
+                $log.debug('-- iOS StartBackgroundLocation --');
                 service.startIosBackgroundGeolocation();
 
                 break;
 
             case SB.DEVICE.TYPE_ANDROID:
 
-                $log.debug("-- ANDROID StartBackgroundLocation --");
+                $log.debug('-- ANDROID StartBackgroundLocation --');
 
-                $window.BackgroundGeoloc.startBackgroundLocation(function(result) {
-
-                    /** Android only. */
-                    var proximity_alerts = JSON.parse(localStorage.getItem("proximity_alerts"));
-                    if(proximity_alerts !== null) {
-                        angular.forEach(proximity_alerts, function(value, index) {
+                $window.BackgroundGeoloc.startBackgroundLocation(function (result) {
+                    // Android only!
+                    var proximity_alerts = JSON.parse(localStorage.getItem('proximity_alerts'));
+                    if (proximity_alerts !== null) {
+                        angular.forEach(proximity_alerts, function (value, index) {
                             var alert = value;
 
-                            var distance_in_km = calculateDistance(result.latitude, result.longitude, alert.additionalData.latitude, alert.additionalData.longitude, "K");
-                            if(distance_in_km <= alert.additionalData.radius) {
+                            var distance_in_km = calculateDistance(result.latitude,
+                                result.longitude, alert.additionalData.latitude, alert.additionalData.longitude, 'K');
+                            if (distance_in_km <= alert.additionalData.radius) {
                                 var current_date = Date.now();
                                 var push_date = new Date(alert.additionalData.send_until).getTime();
 
-                                if(!push_date || (push_date >= current_date)) {
+                                if (!push_date || (push_date >= current_date)) {
                                     service.sendLocalNotification(alert.additionalData.message_id, alert.title, alert.message);
 
                                     $rootScope.$broadcast(SB.EVENTS.PUSH.notificationReceived, alert);
@@ -287,61 +263,59 @@ angular.module("starter").service("PushService", function($cordovaLocalNotificat
                             }
                         });
 
-                        localStorage.setItem("proximity_alerts", JSON.stringify(proximity_alerts));
+                        localStorage.setItem('proximity_alerts', JSON.stringify(proximity_alerts));
                     } else {
                         $window.BackgroundGeoloc.stopBackgroundLocation();
                     }
-                }, function(err) {
-                    $log.debug("error to startLocation: " + err);
+                }, function (err) {
+                    $log.debug('error to startLocation: ' + err);
                 });
 
                 break;
         }
-
     };
 
-    service.startIosBackgroundGeolocation = function() {
-
-        //This callback will be executed every time a geolocation is recorded in the background.
-        var callbackFn = function(location, taskId) {
+    service.startIosBackgroundGeolocation = function () {
+        //This callback will be executed every time a geolocation is recorded in the background!
+        var callbackFn = function (location, taskId) {
             var coords = location.coords;
-            var lat    = coords.latitude;
-            var lng    = coords.longitude;
-            $log.debug("- Location: ", JSON.stringify(location));
+            var lat = coords.latitude;
+            var lng = coords.longitude;
+            $log.debug('- Location: ', JSON.stringify(location));
 
             // Must signal completion of your callbackFn.
             $window.BackgroundGeolocation.finish(taskId);
         };
 
         // This callback will be executed if a location-error occurs.  Eg: this will be called if user disables location-services.
-        var failureFn = function(errorCode) {
-            $log.debug("- BackgroundGeoLocation error: ", errorCode);
+        var failureFn = function (errorCode) {
+            $log.debug('- BackgroundGeoLocation error: ', errorCode);
         };
 
-        $window.BackgroundGeolocation.onGeofence(function(params, taskId) {
+        $window.BackgroundGeolocation.onGeofence(function (params, taskId) {
             try {
                 //var location        = params.location;
                 var identifier      = params.identifier;
-                var message_id      = identifier.replace("push", "");
+                var message_id      = identifier.replace('push', '');
                 var action          = params.action;
 
-                $log.debug("A geofence has been crossed: ", identifier);
-                $log.debug("ENTER or EXIT ?: ", action);
+                $log.debug('A geofence has been crossed: ', identifier);
+                $log.debug('ENTER or EXIT ?: ', action);
 
                 // Remove the geofence
                 $window.BackgroundGeolocation.removeGeofence(identifier);
 
                 // Remove the stored proximity alert
-                var proximity_alerts = JSON.parse(localStorage.getItem("proximity_alerts"));
-                if(proximity_alerts !== null) {
-                    angular.forEach(proximity_alerts, function(value, index) {
+                var proximity_alerts = JSON.parse(localStorage.getItem('proximity_alerts'));
+                if (proximity_alerts !== null) {
+                    angular.forEach(proximity_alerts, function (value, index) {
                         var alert = value;
 
-                        if(message_id === alert.additionalData.message_id) {
+                        if (message_id === alert.additionalData.message_id) {
                             var current_date = Date.now();
                             var push_date = new Date(alert.additionalData.send_until).getTime();
 
-                            if(!push_date || (push_date >= current_date)) {
+                            if (!push_date || (push_date >= current_date)) {
                                 alert.title = alert.additionalData.user_info.alert.body;
                                 alert.message = alert.title;
 
@@ -354,43 +328,41 @@ angular.module("starter").service("PushService", function($cordovaLocalNotificat
                         }
                     });
 
-                    localStorage.setItem("proximity_alerts", JSON.stringify(proximity_alerts));
+                    localStorage.setItem('proximity_alerts', JSON.stringify(proximity_alerts));
                 }
-            } catch(e) {
-                $log.debug("An error occurred in my application code", e);
+            } catch (e) {
+                $log.debug('An error occurred in my application code', e);
             }
 
             $window.BackgroundGeolocation.finish(taskId);
         });
 
-        // BackgroundGeoLocation is highly configurable.
+        // BackgroundGeoLocation is highly configurable!
         $window.BackgroundGeolocation.configure({
+            // Geolocation config!
+            desiredAccuracy: 0,
+            distanceFilter: 10,
+            stationaryRadius: 50,
+            locationUpdateInterval: 1000,
+            fastestLocationUpdateInterval: 5000,
 
-            // Geolocation config
-            desiredAccuracy                 : 0,
-            distanceFilter                  : 10,
-            stationaryRadius                : 50,
-            locationUpdateInterval          : 1000,
-            fastestLocationUpdateInterval   : 5000,
+            // Activity Recognition config!
+            activityType: 'AutomotiveNavigation',
+            activityRecognitionInterval: 5000,
+            stopTimeout: 5,
 
-            // Activity Recognition config
-            activityType                    : "AutomotiveNavigation",
-            activityRecognitionInterval     : 5000,
-            stopTimeout                     : 5,
+            // Disable aggressive GPS!
+            disableMotionActivityUpdates: true,
 
-            // Disable aggressive GPS
-            disableMotionActivityUpdates    : true,
+            // Block mode!
+            useSignificantChangesOnly: true,
 
-            // Block mode
-            useSignificantChangesOnly       : true,
-
-            // Application config
-            debug                           : false,
-            stopOnTerminate                 : true,
-            startOnBoot                     : true
-        }, function(state) {
-
-            $log.debug("BackgroundGeolocation ready: ", state);
+            // Application config!
+            debug: false,
+            stopOnTerminate: true,
+            startOnBoot: true
+        }, function (state) {
+            $log.debug('BackgroundGeolocation ready: ', state);
             if (!state.enabled) {
                 $window.BackgroundGeolocation.start();
             }
@@ -402,48 +374,45 @@ angular.module("starter").service("PushService", function($cordovaLocalNotificat
      *
      * @param data
      */
-    service.addProximityAlert = function(data) {
-        $log.debug("-- Adding a proximity alert --");
+    service.addProximityAlert = function (data) {
+        $log.debug('-- Adding a proximity alert --');
 
-        var proximity_alerts        = localStorage.getItem("proximity_alerts");
-        var json_proximity_alerts   = JSON.parse(proximity_alerts);
+        var proximityAlerts = localStorage.getItem('proximity_alerts');
+        var jsonProximityAlerts = JSON.parse(proximityAlerts);
 
-        if(json_proximity_alerts === null) {
-            json_proximity_alerts = [];
-            json_proximity_alerts.push(data);
-            localStorage.setItem("proximity_alerts", JSON.stringify(json_proximity_alerts));
-
+        if (jsonProximityAlerts === null) {
+            jsonProximityAlerts = [];
+            jsonProximityAlerts.push(data);
+            localStorage.setItem('proximity_alerts', JSON.stringify(jsonProximityAlerts));
         } else {
-            var index = proximity_alerts.indexOf(JSON.stringify(data));
-            if(index === -1) {
-                json_proximity_alerts.push(data);
-                localStorage.setItem("proximity_alerts", JSON.stringify(json_proximity_alerts));
+            var index = proximityAlerts.indexOf(JSON.stringify(data));
+            if (index === -1) {
+                jsonProximityAlerts.push(data);
+                localStorage.setItem('proximity_alerts', JSON.stringify(jsonProximityAlerts));
             }
         }
 
-        switch(Push.device_type) {
+        switch (Push.device_type) {
             case SB.DEVICE.TYPE_IOS:
 
-                    $log.debug("-- iOS --");
+                    $log.debug('-- iOS --');
                     $window.BackgroundGeolocation.addGeofence({
-                        identifier          : "push" + data.additionalData.message_id,
-                        radius              : parseInt(data.additionalData.radius * 1000),
-                        latitude            : data.additionalData.latitude,
-                        longitude           : data.additionalData.longitude,
-                        notifyOnEntry       : true
-                    }, function() {
-                        $log.debug("Successfully added geofence");
-
-                    }, function(error) {
-                        $log.debug("Failed to add geofence", error);
-
+                        identifier: 'push' + data.additionalData.message_id,
+                        radius: Number.parseInt(data.additionalData.radius * 1000, 10),
+                        latitude: data.additionalData.latitude,
+                        longitude: data.additionalData.longitude,
+                        notifyOnEntry: true
+                    }, function () {
+                        $log.debug('Successfully added geofence');
+                    }, function (error) {
+                        $log.debug('Failed to add geofence', error);
                     });
 
                 break;
 
             case SB.DEVICE.TYPE_ANDROID:
 
-                    $log.debug("-- ANDROID --");
+                    $log.debug('-- ANDROID --');
                     service.startBackgroundGeolocation();
 
                 break;
@@ -453,152 +422,141 @@ angular.module("starter").service("PushService", function($cordovaLocalNotificat
     /**
      * Update push badge.
      */
-    service.updateUnreadCount = function() {
-
-        Push.updateUnreadCount().then(function(data) {
-
-            Push.unread_count = data.unread_count;
-            $rootScope.$broadcast(SB.EVENTS.PUSH.unreadPush);
-        });
-
+    service.updateUnreadCount = function () {
+        Push.updateUnreadCount()
+            .then(function (data) {
+                Push.unread_count = data.unread_count;
+                $rootScope.$broadcast(SB.EVENTS.PUSH.unreadPush);
+            });
     };
 
     /**
      * LocalNotification wrapper.
      *
-     * @param message_id
+     * @param messageId
      * @param title
      * @param message
      */
-    service.sendLocalNotification = function(message_id, title, message) {
-        $log.debug("-- Push-Service, sending a Local Notification --");
+    service.sendLocalNotification = function (messageId, title, message) {
+        $log.debug('-- Push-Service, sending a Local Notification --');
 
-        if(Push.device_type === SB.DEVICE.TYPE_IOS) {
-            message = "";
+        var localMessage = angular.copy(message);
+        if (Push.device_type === SB.DEVICE.TYPE_IOS) {
+            localMessage = '';
         }
 
         var params = {
-            id      : message_id,
-            title   : title,
-            text    : message
+            id: messageId,
+            title: title,
+            text: localMessage
         };
 
-        if(Push.device_type === SB.DEVICE.TYPE_ANDROID) {
-            params.icon = "res://icon.png";
+        if (Push.device_type === SB.DEVICE.TYPE_ANDROID) {
+            params.icon = 'res://icon.png';
         }
 
         $cordovaLocalNotification.schedule(params);
 
-        Push.markAsDisplayed(message_id);
+        Push.markAsDisplayed(messageId);
     };
 
     /**
      * Trying to fetch latest Push & InApp messages on app Start.
      */
-    service.fetchMessagesOnStart = function() {
-
+    service.fetchMessagesOnStart = function () {
         Push.getLastMessages()
             .then(function (data) {
-
-                /** Last push */
+                // Last push!
                 var push = data.push_message;
                 if (push) {
                     service.displayNotification(push);
                 }
 
                 /** Last InApp Message */
-                var inapp_message = data.inapp_message;
-                if (inapp_message) {
-
-                    inapp_message.type = "inapp_message";
-                    inapp_message.message = inapp_message.text;
-                    inapp_message.config = {
+                var inappMessage = data.inapp_message;
+                if (inappMessage) {
+                    inappMessage.type = 'inapp_message';
+                    inappMessage.message = inappMessage.text;
+                    inappMessage.config = {
                         buttons: [
                             {
-                                text    : $translate.instant("OK"),
-                                type    : "button-custom",
-                                onTap   : function () {
+                                text: $translate.instant('OK'),
+                                type: 'button-custom',
+                                onTap: function () {
                                     Push.markInAppAsRead();
                                 }
                             }
                         ]
                     };
 
-                    if(inapp_message.cover !== null) {
-                        inapp_message.additionalData = {
-                            cover : inapp_message.cover
+                    if (inappMessage.cover !== null) {
+                        inappMessage.additionalData = {
+                            cover: inappMessage.cover
                         };
                     }
 
-                    service.displayNotification(inapp_message);
+                    service.displayNotification(inappMessage);
                 }
-
         });
     };
 
     /**
      * Displays a notification to the user
      *
-     * @param {Object} message_payload
+     * @param {Object} messagePayload
 
      * @returns Promise
      */
-    service.displayNotification = function(message_payload) {
+    service.displayNotification = function (messagePayload) {
+        $log.debug('PUSH messagePayload', messagePayload);
 
-        $log.debug("PUSH message_payload", message_payload);
-
-        var extended_payload = message_payload.additionalData;
+        var extendedPayload = messagePayload.additionalData;
         var promise = $q.defer();
 
-        if ((extended_payload !== undefined) && (extended_payload.cover || extended_payload.action_value)) {
-
+        if ((extendedPayload !== undefined) && (extendedPayload.cover || extendedPayload.action_value)) {
             var config = {
-                okText      : $translate.instant("View"),
-                cancelText  : $translate.instant("Cancel"),
-                cssClass    : "push-popup",
-                title       : message_payload.title,
+                okText: $translate.instant('View'),
+                cancelText: $translate.instant('Cancel'),
+                cssClass: 'push-popup',
+                title: messagePayload.title,
                 template: '<div class="list card">' +
-                '   <div class="item item-image' + (extended_payload.cover ? '' : ' ng-hide') + '">' +
-                '       <img src="' + (DOMAIN + extended_payload.cover) + '">' +
+                '   <div class="item item-image' + (extendedPayload.cover ? '' : ' ng-hide') + '">' +
+                '       <img src="' + (DOMAIN + extendedPayload.cover) + '">' +
                 '   </div>' +
                 '   <div class="item item-custom">' +
-                '       <span>' + message_payload.message + '</span>' +
+                '       <span>' + messagePayload.message + '</span>' +
                 '   </div>' +
                 '</div>'
             };
 
-            if(message_payload.config) {
-                config = angular.extend(config, message_payload.config);
+            if (messagePayload.config) {
+                config = angular.extend(config, messagePayload.config);
             }
 
-            if (extended_payload.action_value) {
-
-                //title, message, buttons_array, css_class
+            if (extendedPayload.action_value) {
+                // title, message, buttons_array, css_class!
                 promise = Dialog
                     .ionicPopup(config)
                     .then(function (confirm) {
-                        if(confirm) {
-                            if ((extended_payload.open_webview !== true) && (extended_payload.open_webview !== "true")) {
-                                $location.path(extended_payload.action_value);
+                        if (confirm) {
+                            if ((extendedPayload.open_webview !== true) && (extendedPayload.open_webview !== 'true')) {
+                                $location.path(extendedPayload.action_value);
                             } else {
-                                LinkService.openLink(extended_payload.action_value);
+                                LinkService.openLink(extendedPayload.action_value);
                             }
                         }
                     });
-
             } else {
-                promise = Dialog.alert(message_payload.title, message_payload.message, "OK");
+                promise = Dialog.alert(messagePayload.title, messagePayload.message, 'OK');
             }
-
         } else {
-            promise = Dialog.alert("Notification", message_payload.message, "OK");
+            promise = Dialog.alert('Notification', messagePayload.message, 'OK');
         }
 
-        /** Search for less resource consuming maybe use Push factory directly */
-        $rootScope.$broadcast(SB.EVENTS.PUSH.unreadPushs, message_payload.count);
+        // Search for less resource consuming maybe use Push factory directly!
+        $rootScope.$broadcast(SB.EVENTS.PUSH.unreadPushs, messagePayload.count);
 
         return promise;
-
     };
 
     return service;

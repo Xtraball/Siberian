@@ -335,6 +335,23 @@ module.exports = [
         ]
     },
     {
+        "id": "cordova-plugin-network-information.network",
+        "file": "plugins/cordova-plugin-network-information/www/network.js",
+        "pluginId": "cordova-plugin-network-information",
+        "clobbers": [
+            "navigator.connection",
+            "navigator.network.connection"
+        ]
+    },
+    {
+        "id": "cordova-plugin-network-information.Connection",
+        "file": "plugins/cordova-plugin-network-information/www/Connection.js",
+        "pluginId": "cordova-plugin-network-information",
+        "clobbers": [
+            "Connection"
+        ]
+    },
+    {
         "id": "ionic-plugin-keyboard.keyboard",
         "file": "plugins/ionic-plugin-keyboard/www/ios/keyboard.js",
         "pluginId": "ionic-plugin-keyboard",
@@ -430,6 +447,7 @@ module.exports.metadata =
     "cordova-plugin-file": "4.3.3-dev",
     "cordova-plugin-geolocation": "2.1.0",
     "cordova-plugin-inappbrowser": "1.7.1-dev",
+    "cordova-plugin-network-information": "1.3.4-dev",
     "ionic-plugin-keyboard": "2.2.1",
     "cordova-plugin-x-socialsharing": "5.0.12-dev",
     "cordova-plugin-statusbar": "2.2.0",

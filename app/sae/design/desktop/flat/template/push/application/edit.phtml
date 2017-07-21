@@ -1,28 +1,28 @@
-<?php $application = $this->getApplication(); ?>
-<?php $option = $this->getOptionValue(); ?>
-<?php $features = $this->getApplication()->getOptions(); ?>
-<?php $messageobj = new Push_Model_Message(); ?>
-<?php $messageobj->setMessageTypeByOptionValue($option->getOptionId()) ?>
-<?php $messages = $messageobj->findAll(array('app_id = ?' => $this->getApplication()->getId(),'type_id = ?' => $messageobj->getMessageType()), 'created_at DESC'); ?>
-<?php $canSendMessages = $application->isPublished(); ?>
-<?php $pntopic = new Topic_Model_Topic(); ?>
-<?php $pntopic->find(array("app_id" => $option->getAppId())); ?>
-<?php $customers = array(); ?>
-<?php if(Push_Model_Message::hasIndividualPush()): ?>
-    <?php $customer = new Customer_Model_Customer(); ?>
-    <?php $customers = $customer->findAllWithDeviceUid($option->getAppId()); ?>
-<?php endif; ?>
-
-
 <?php
+
+$application = $this->getApplication();
+$option = $this->getOptionValue();
+$features = $this->getApplication()->getOptions();
+$messageobj = new Push_Model_Message();
+$messageobj->setMessageTypeByOptionValue($option->getOptionId());
+$messages = $messageobj->findAllForFeature($application->getId(), $messageobj->getMessageType());
+$canSendMessages = $application->isPublished();
+$pntopic = new Topic_Model_Topic();
+$pntopic->find(array("app_id" => $option->getAppId()));
+$customers = array();
+if(Push_Model_Message::hasIndividualPush()){
+    $customer = new Customer_Model_Customer();
+    $customers = $customer->findAllWithDeviceUid($option->getAppId());
+}
+
 $api = Api_Model_Key::findKeysFor("googlemaps");
 $googlemaps_key = $api->getSecretKey();
-
 
 $enable_android = !empty(Push_Model_Certificate::getAndroidSenderId());
 $enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getId()));
 
 ?>
+
 <div class="edit_page push_notif">
     <div id="list">
         <h3 class="title-editor no-border-radius title-feature-indent">
@@ -263,7 +263,6 @@ $enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getI
                             <div class="col-md-12">
                                 <div id="push_map_canvas_receiver">
                                 </div>
-                                <?php /*<div id="mask_gmaps" class="overlay"></div>*/ ?>
                             </div>
                         </div>
                     </div>

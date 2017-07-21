@@ -7,8 +7,7 @@
  *
  * @author Xtraball SAS
  */
-angular.module("starter").service("Modal", function($rootScope, $ionicModal, $timeout, $q) {
-
+angular.module('starter').service('Modal', function ($rootScope, $ionicModal, $timeout, $q) {
     var service = {
         is_open                     : false,
         stack                       : [],
@@ -17,12 +16,11 @@ angular.module("starter").service("Modal", function($rootScope, $ionicModal, $ti
     };
 
     /** Listening from $rootScope to prevent external $ionicModal not proxied */
-    $rootScope.$on("modal.shown", function() {
+    $rootScope.$on('modal.shown', function () {
         service.is_open = true;
 
         /** Listening for modal.hidden dynamically */
-        service.modal_hidden_subscriber = $rootScope.$on("modal.hidden", function() {
-
+        service.modal_hidden_subscriber = $rootScope.$on('modal.hidden', function() {
             /** Un-subscribe from modal.hidden RIGHT NOW, otherwise we will create a loop with the automated clean-up */
             service.modal_hidden_subscriber();
 
@@ -39,26 +37,24 @@ angular.module("starter").service("Modal", function($rootScope, $ionicModal, $ti
     /**
      * Un stack popups on event
      */
-    service.unStack = function() {
-
-        if(service.stack.length >= 1) {
-            $timeout(function() {
+    service.unStack = function () {
+        if (service.stack.length >= 1) {
+            $timeout(function () {
                 var modal = service.stack.shift();
 
-                switch(modal.type) {
-                    case "fromTemplateUrl":
+                switch (modal.type) {
+                    case 'fromTemplateUrl':
                             service.renderFromTemplateUrl(modal.data);
                         break;
-                    case "confirm":
-                            service.renderConfirm(modal.data);
+                    case 'fromTemplate':
+                            service.renderFromTemplate(modal.data);
                         break;
                 }
             }, 250);
-
         } else {
             service.current_modal = null;
 
-            $timeout(function() {
+            $timeout(function () {
                 return;
             }, 250);
         }
@@ -70,39 +66,36 @@ angular.module("starter").service("Modal", function($rootScope, $ionicModal, $ti
      * @param config
      * @returns {*|promise}
      */
-    service.fromTemplateUrl = function(templateUrl, config) {
+    service.fromTemplateUrl = function (templateUrl, config) {
         var deferred = $q.defer();
 
         /** Stack alert */
         service.stack.push({
-            type: "fromTemplateUrl",
+            type: 'fromTemplateUrl',
             data: {
-                templateUrl : templateUrl,
-                config      : config,
-                promise     : deferred
+                templateUrl: templateUrl,
+                config: config,
+                promise: deferred
             }
         });
 
-        if((service.stack.length === 1) && !service.is_open) {
+        if ((service.stack.length === 1) && !service.is_open) {
             service.unStack();
         }
 
         return deferred.promise;
-
     };
 
     /**
      * @param data
      */
-    service.renderFromTemplateUrl = function(data) {
-
+    service.renderFromTemplateUrl = function (data) {
         return $ionicModal
             .fromTemplateUrl(data.templateUrl, data.config)
-            .then(function(modal) {
+            .then(function (modal) {
                 service.current_modal = modal;
                 data.promise.resolve(modal);
             });
-
     };
 
     /**
@@ -111,42 +104,37 @@ angular.module("starter").service("Modal", function($rootScope, $ionicModal, $ti
      * @param config
      * @returns {*|promise}
      */
-    service.fromTemplate = function(template, config) {
+    service.fromTemplate = function (template, config) {
         var deferred = $q.defer();
 
         /** Stack alert */
         service.stack.push({
-            type: "fromTemplate",
+            type: 'fromTemplate',
             data: {
-                template : template,
-                config   : config,
-                promise  : deferred
+                template: template,
+                config: config,
+                promise: deferred
             }
         });
 
-        if((service.stack.length === 1) && !service.is_open) {
+        if ((service.stack.length === 1) && !service.is_open) {
             service.unStack();
         }
 
         return deferred.promise;
-
     };
 
     /**
      * @param data
      */
-    service.renderFromTemplate = function(data) {
-
+    service.renderFromTemplate = function (data) {
         return $ionicModal
             .fromTemplate(data.template, data.config)
-            .then(function(modal) {
+            .then(function (modal) {
                 service.current_modal = modal;
                 data.promise.resolve(modal);
             });
-
     };
-
-
 
     return service;
 });

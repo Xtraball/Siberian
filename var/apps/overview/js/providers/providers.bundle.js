@@ -33,12 +33,11 @@ angular.module("starter").provider('HomepageLayout', function () {
     self.$get = function ($injector, $ionicSlideBoxDelegate, $ionicPlatform, $ionicHistory, $ionicSideMenuDelegate,
                           $location, $log, $q, $rootScope, $stateParams, $timeout, $window, LinkService, Analytics,
                           Customer, Pages, Padlock, Modal) {
-
-        console.log((new Date()).getTime(), "HomepageLayout instance.");
+        console.log((new Date()).getTime(), 'HomepageLayout instance.');
 
         var HomepageLayout = {};
 
-        /** Hooks */
+        // Hooks!
         HomepageLayout.load_hooks = [];
         HomepageLayout.more_modal = null;
 
@@ -47,30 +46,36 @@ angular.module("starter").provider('HomepageLayout', function () {
          * @param feature
          * @returns {boolean}
          */
-        HomepageLayout.openFeature = function(feature, scope) {
-
-            if(scope === undefined) {
+        HomepageLayout.openFeature = function (feature, scope) {
+            if (scope === undefined) {
                 scope = $rootScope;
             }
 
-            /** Close any open modal first. */
-            if(Modal.is_open) {
+            // Close any open modal first!
+            if (Modal.is_open) {
                 Modal.current_modal.hide();
             }
 
-            /** Clear history for side-menu feature */
-            switch(Pages.data.layout.position) {
-                case "left":
-                case "right":
-                    if($ionicSideMenuDelegate.isOpenLeft()){
+            // Double check for modal!
+            if (scope.pages_list_is_visible) {
+                HomepageLayout.more_modal.hide();
+                scope.tabbar_is_visible = true;
+                scope.pages_list_is_visible = false;
+            }
+
+            // Clear history for side-menu feature!
+            switch (Pages.data.layout.position) {
+                case 'left':
+                case 'right':
+                    if ($ionicSideMenuDelegate.isOpenLeft()) {
                         $ionicSideMenuDelegate.toggleLeft();
                     }
-                    if($ionicSideMenuDelegate.isOpenRight()){
+                    if ($ionicSideMenuDelegate.isOpenRight()) {
                         $ionicSideMenuDelegate.toggleRight();
                     }
 
-                    if(feature.code !== "padlock") { /** do not clear history if we open the padlock */
-                        if(feature.path !== $location.path()) {
+                    if (feature.code !== 'padlock') { // do not clear history if we open the padlock!
+                        if (feature.path !== $location.path()) {
                             $ionicHistory.nextViewOptions({
                                 historyRoot: true,
                                 disableAnimate: false
@@ -80,8 +85,8 @@ angular.module("starter").provider('HomepageLayout', function () {
                     break;
             }
 
-            switch(true) {
-                case (feature.code === "tabbar_account"):
+            switch (true) {
+                case (feature.code === 'tabbar_account'):
                     Analytics.storePageOpening({
                         id: 0
                     });
@@ -90,35 +95,35 @@ angular.module("starter").provider('HomepageLayout', function () {
 
                     break;
 
-                case (feature.code === "tabbar_more"):
-                    HomepageLayout.getFeatures().then(function(features) {
+                case (feature.code === 'tabbar_more'):
+                    HomepageLayout.getFeatures().then(function (features) {
                         scope.tabbar_is_visible = false;
                         scope.pages_list_is_visible = true;
                         scope.features = features;
 
-                        scope.closeMore = function() {
+                        scope.closeMore = function () {
                             HomepageLayout.more_modal.hide();
                             scope.tabbar_is_visible = true;
                             scope.pages_list_is_visible = false;
                         };
 
-                        /** That's weird. */
-                        scope.goTo = function(feature) {
+                        // That's weird!
+                        scope.goTo = function (goToFeature) {
                             scope.closeMore();
-                            HomepageLayout.openFeature(feature, scope);
+                            HomepageLayout.openFeature(goToFeature, scope);
                         };
 
                         Modal
                             .fromTemplateUrl(HomepageLayout.getModalTemplate(), {
                                 scope: scope
                             })
-                            .then(function(modal) {
+                            .then(function (modal) {
                                 HomepageLayout.more_modal = modal;
                                 HomepageLayout.more_modal.show();
 
-                                /* pages_list_is_visible is true means that the ... button in the main menu was clicked */
-                                $ionicPlatform.onHardwareBackButton(function(e){
-                                    if(scope.pages_list_is_visible){
+                                // pages_list_is_visible is true means that the ... button in the main menu was clicked!
+                                $ionicPlatform.onHardwareBackButton(function (e) {
+                                    if (scope.pages_list_is_visible) {
                                         scope.closeMore();
                                     }
                                 });
@@ -132,8 +137,8 @@ angular.module("starter").provider('HomepageLayout', function () {
 
                 case (feature.is_link):
                     LinkService.openLink(feature.url, {
-                        "hide_navbar" : !!feature.hide_navbar,
-                        "use_external_app" : !!feature.use_external_app
+                        'hide_navbar': !!feature.hide_navbar,
+                        'use_external_app': !!feature.use_external_app
                     });
                     Analytics.storePageOpening(feature);
 
@@ -143,33 +148,29 @@ angular.module("starter").provider('HomepageLayout', function () {
 
                     Analytics.storePageOpening(feature);
 
-                    if (!$injector.get("Application").is_customizing_colors && HomepageLayout.properties.options.autoSelectFirst) {
-
-                        if(feature.path !== $location.path()) {
+                    if (!$injector.get('Application').is_customizing_colors && HomepageLayout.properties.options.autoSelectFirst) {
+                        if (feature.path !== $location.path()) {
                             $ionicHistory.nextViewOptions({
                                 historyRoot: true,
                                 disableAnimate: false
                             });
                             $location.path(feature.path).replace();
                         }
-
                     } else {
                         $location.path(feature.path);
                     }
             }
-
-
         };
 
         /** Register hooks to be called when homepage is done. */
-        HomepageLayout.registerHook = function(hook) {
-            if(typeof hook === "function") {
+        HomepageLayout.registerHook = function (hook) {
+            if (typeof hook === 'function') {
                 HomepageLayout.load_hooks.push(hook);
             }
         };
 
         /** Call all registered hooks. */
-        HomepageLayout.callHooks = function() {
+        HomepageLayout.callHooks = function () {
             /** Call registered hooks */
             for (var i = 0; i < HomepageLayout.load_hooks.length; i++) {
                 HomepageLayout.load_hooks[i]();
@@ -1351,4 +1352,4 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
 /** $sbhttp Backward compatibility with pre 5.0 versions (mainly modules) */
 angular.module("starter").provider("$sbhttp",function(){var b={alwaysCache:!1,neverCache:!1,debug:!1};return b.$get=["$rootScope","$http","$log","$q","$window","_",function(c,d,e,f,g,h){function k(a){var b=function(b){var g=h.upperCase(h.trim(h.get(b,"method"))),i=h.trim(h.get(b,"url"));if(e.debug(new Error("Stacktrace following").stack),"GET"===g&&i.length>0){e.debug("GET "+i);var k=c.isOnline,l=!a.neverCache||a.alwaysCache,m=h.get(b,"cache",l),n=[angular.noop],o=[angular.noop],p=!1,q=!1,r=f(function(a,c){var f=function(f){try{for(;h.isString(f)&&h.trim(f).length>0;)f=JSON.parse(f)}catch(a){e.info("Error parsing data :",a,data),f=null}var g=m&&f,l=h.extend({},b,{}),r=function(b){if(e.debug("Processing http response ("+i+") with status code "+h.get(b,"status")),h.isObject(b)&&0===b.status&&h.isObject(g))return k=!1,e.debug("request failed for "+i+": using cache"),r(g);g=b,p=!0,q=!(g.status>=200&&g.status<=299);var d=q?o:n,f=q?c:a,s=function(){h.isFunction(g.headers)&&"true"===g.headers("X-From-Native-Cache")&&(g=h.extend({},g,{fromCache:!0})),h.forEach(d,function(a){a(g.data,g.status,g.headers,l)}),f(g)};if(h.isObject(g)&&(k||!0!==g.fromCache)&&m&&!q){e.debug("caching response for URL "+i+" and status "+h.get(b,"status"));var t=JSON.stringify(h.extend({},g,{fromCache:!0}));try{t=JSON.stringify(t)}catch(a){e.info("Error stringifying data :",a,t)}return j.setItem(i,t).then(s,function(a){e.debug("LOCAL FORAGE ERROR : ",a),s()})}return s()};h.isObject(g)&&!k?(e.debug("we're offline: using cache"),r(g)):(e.debug("sending http call with config: ",l),d(l).then(r,r))};j.getItem(i).then(f,function(a){return e.debug("Error retrieving data from cache data :",a),f(null)})});return r.success=function(a){return h.isFunction(a)&&n.push(a),p&&!q&&a(response.data,response.status,response.headers,config),r},r.error=function(a){return h.isFunction(a)&&o.push(a),p&&q&&a(response.data,response.status,response.headers,config),r},r}return d(b)};return b.get=function(a,c){return b(h.extend({},c||{},{method:"GET",url:a}))},b.head=d.head,b.post=d.post,b.put=d.put,b.delete=d.delete,b.jsonp=d.jsonp,b.patch=d.patch,Object.defineProperty(b,"postForm",{get:function(){return d.postForm}}),b.cache=function(a){return!c.is_webview&&window.OfflineMode?f(function(b,c){window.OfflineMode.cacheURL(a,function(){e.info("cached URL succesfully : ",a),b()},function(){e.info("Failed to cache URL : ",a),c()})}):f.reject()},b.removeCached=function(a){return j.removeItem(a)},b}var j,i={alwaysCache:b.alwaysCache,neverCache:!b.alwaysCache&&b.neverCache,debug:!0===b.debug};return j={},j.getItem=j.setItem=j.removeItem=function(){return f.reject("no offline mode cache in webview")},(ionic.Platform.isIOS()||ionic.Platform.isAndroid())&&window.localforage&&(window.localforage.config({name:"sb-offline-mode",storeName:"keyvaluepairs",size:262144e3}),j=window.localforage),new k(i)}],b});
 /** httpCache Backward compatibility with pre 5.0 versions (mainly modules) */
-angular.module("starter").service("httpCache", function($sbhttp, $cacheFactory, Connection) {return {remove: function(url) {var sid = localStorage.getItem("sb-auth-token");if(sid && url.indexOf(".html") == -1 && Connection.isOnline) {url = url + "?sb-token=" + sid;}if(angular.isDefined($cacheFactory.get('$http').get(url))) {$cacheFactory.get('$http').remove(url);}$sbhttp.removeCached(url);return this;}};});
+angular.module("starter").service("httpCache", function($sbhttp, $cacheFactory, ConnectionService) {return {remove: function(url) {var sid = localStorage.getItem("sb-auth-token");if(sid && url.indexOf(".html") == -1 && ConnectionService.isOnline) {url = url + "?sb-token=" + sid;}if(angular.isDefined($cacheFactory.get('$http').get(url))) {$cacheFactory.get('$http').remove(url);}$sbhttp.removeCached(url);return this;}};});

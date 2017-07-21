@@ -658,25 +658,20 @@ class Siberian_Assets
                 preg_match_all("/<(?:script|link)[^>]+data-feature=\"([^\"]+)\"[^>]?>/", $index_content, $ins_features);
                 if(is_array($ins_features)) {
                     $ins_features = array_unique($ins_features[1]);
+    
+                    // Remove all features from index.html
+                    foreach($ins_features as $f) {
+                        $index_content = self::__removeAllFeatureAssets($index_content, $f);
+                    }
                 }
 
                 // Add features to index.html
-                $reg_features = array();
                 foreach(array("js", "css") as $type) {
                     foreach(self::$features_assets[$type] as $code => $assets) {
-                        if(!in_array($code, $reg_features)) {
-                            $reg_features[] = $code; // keep track of which features has been added
-                        }
                         foreach($assets as $asset) {
                             $index_content = self::__appendAsset($index_content, $asset, $type, $code);
                         }
                     }
-                }
-
-                // Remove not registered features from index.html
-                $features_to_del = array_diff($ins_features, $reg_features);
-                foreach($features_to_del as $f) {
-                    $index_content = self::__removeAllFeatureAssets($index_content, $f);
                 }
 
                 foreach(self::$postBuildCallbacks as $callback) {

@@ -158,6 +158,10 @@ class Push_Model_Message extends Core_Model_Default {
         return $this->getTable()->markAsDisplayed($device_id, $message_id);
     }
 
+    public function findAllForFeature($appId, $typeId, $limit = 100) {
+        return $this->getTable()->findAllForFeature($appId, $typeId, $limit);
+    }
+
     public function findByDeviceId($device_id, $app_id, $offset = 0) {
         $allowed_categories = null;
         if($this->_messageType == self::TYPE_INAPP) {

@@ -67,18 +67,12 @@ class Push_Model_Iphone_Message extends Core_Model_Default {
 
         $aps = array('aps' => array());
 
-        if($device->getPushAlert() == 'enabled') {
-            $aps['aps']['alert'] =  array(
-                'body' => $message->getText(),
-                'action-loc-key' => $this->_("See")
-            );
-        }
-        if($device->getPushBadge() == 'enabled') {
-            $aps['aps']['badge'] = $device->getNotRead() + 1;
-        }
-        if($device->getPushSound() == 'enabled') {
-            $aps['aps']['sound'] = "Submarine.aiff";
-        }
+        $aps['aps']['alert'] =  array(
+            'body' => $message->getText(),
+            'action-loc-key' => $this->_("See")
+        );
+        $aps['aps']['badge'] = $device->getNotRead() + 1;
+        $aps['aps']['sound'] = "Submarine.aiff";
 
         // Push Geolocated //
         if($message->getLongitude() && $message->getLatitude()) {

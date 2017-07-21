@@ -46,7 +46,9 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
             if($datas = Siberian_Json::decode($this->getRequest()->getRawBody())) {
 
                 if((empty($datas['email']) OR empty($datas['password']))) {
-                    throw new Siberian_Exception(__('Authentication failed. Please check your email and/or your password'));
+                    throw new Siberian_Exception(
+                        __('Authentication failed. Please check your email and/or your password')
+                    );
                 }
 
                 $customer = new Customer_Model_Customer();
@@ -58,7 +60,9 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
                 $password = $datas['password'];
 
                 if(!$customer->getId() OR !$customer->authenticate($password)) {
-                    throw new Siberian_Exception(__('Authentication failed. Please check your email and/or your password'));
+                    throw new Siberian_Exception(
+                        __('Authentication failed. Please check your email and/or your password')
+                    );
                 }
 
                 //PUSH TO USER ONLY

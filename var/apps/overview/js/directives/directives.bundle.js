@@ -418,10 +418,10 @@ EventToDirective(angular.module("starter"), 'sbLoad', 'load');
 ;angular.module("starter").directive('sbGoogleAutocomplete', function(GoogleMaps, $timeout) {
     return {
         scope: {
-            location: '=',
-            address:'=',
-            place: '=',
-            onAddressChange:'&'
+            location: '=?',
+            address:'=?',
+            place: '=?',
+            onAddressChange:'&?'
         },
         require: '?ngModel', // get a hold of NgModelController
         link: function(scope, element, attrs, ngModel) {

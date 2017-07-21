@@ -4,7 +4,7 @@ class Siberian_Version {
 
     const TYPE = 'SAE';
     const NAME = 'Single App Edition';
-    const VERSION = '4.12.1';
+    const VERSION = '4.12.2';
     const NATIVE_VERSION = '4';
     const API_VERSION = 'undefined';
 

@@ -1,4 +1,4 @@
-<div class="row" ng-repeat="albums in paged_albums">
+<div class="row list" ng-repeat="albums in paged_albums">
     <div class="col-50 album-cover" ng-repeat="album in albums" ng-click="onAlbumSelected({ album: album })">
         <div class="item item-image item-custom">
             <img ng-src="{{ album.artworkUrl }}">

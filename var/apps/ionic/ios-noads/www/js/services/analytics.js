@@ -186,12 +186,12 @@ angular.module("starter").service("Analytics", function($cordovaGeolocation, $pw
         }
     };
 
-    service.postData = function(url, params) {
+    service.postData = function (url, params) {
         return $pwaRequest.post(url, {
             data: params,
             cache: false,
             headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
+                'Content-Type': 'application/x-www-form-urlencoded'
             }
         });
     };

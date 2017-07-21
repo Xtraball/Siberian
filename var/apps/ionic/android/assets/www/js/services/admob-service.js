@@ -46,117 +46,110 @@
     }
 }
  */
-angular.module("starter").service("AdmobService", function ($rootScope, $window) {
-
+angular.module('starter').service('AdmobService', function ($log, $rootScope, $window) {
     var service = {
         interstitialWeights: {
             start: {
-                "show": 0.333,
-                "skip": 0.667
+                'show': 0.333,
+                'skip': 0.667
             },
             low: {
-                "show": 0.025,
-                "skip": 0.975
+                'show': 0.025,
+                'skip': 0.975
             },
             default: {
-                "show": 0.06,
-                "skip": 0.94
+                'show': 0.06,
+                'skip': 0.94
             },
             medium: {
-                "show": 0.125,
-                "skip": 0.875
+                'show': 0.125,
+                'skip': 0.875
             }
         },
-        interstitialState: "start",
+        interstitialState: 'start',
         viewEnterCount: 0
     };
 
-    service.get_weight = function(probs) {
+    service.getWeight = function (probs) {
         var random = _.random(0, 1000);
         var offset = 0;
-        var key_used = "app";
+        var keyUsed = 'app';
         var match = false;
-        _.forEach(probs, function(value, key) {
-            offset += (value * 1000);
-            if(!match && (random <= offset)) {
-                key_used = key;
+        _.forEach(probs, function (value, key) {
+            offset = offset + (value * 1000);
+            if (!match && (random <= offset)) {
+                keyUsed = key;
                 match = true;
             }
         });
-        return key_used;
+        $log.debug('AdMob key used: ', keyUsed);
+        return keyUsed;
     };
 
-    service.init = function(options) {
-
+    service.init = function (options) {
         if ($rootScope.isNativeApp && $window.AdMob) {
-
-            var whom = "app";
+            var whom = 'app';
             var _options = {};
-            if(ionic.Platform.isIOS()) {
-                whom = service.get_weight(options.ios_weight);
+            if (ionic.Platform.isIOS()) {
+                $log.debug('AdMob init iOS');
+                whom = service.getWeight(options.ios_weight);
                 _options = options[whom].ios;
                 service.initWithOptions(_options);
             }
 
-            if(ionic.Platform.isAndroid()) {
-                whom = service.get_weight(options.android_weight);
+            if (ionic.Platform.isAndroid()) {
+                $log.debug('AdMob init Android');
+                whom = service.getWeight(options.android_weight);
                 _options = options[whom].android;
                 service.initWithOptions(_options);
             }
-
         }
     };
 
-    service.initWithOptions = function(options) {
-
-        if(options.banner) {
-
+    service.initWithOptions = function (options) {
+        if (options.banner) {
             $window.AdMob.createBanner({
-                adId:       options.banner_id,
-                adSize:     "SMART_BANNER",
-                position:   $window.AdMob.AD_POSITION.BOTTOM_CENTER,
-                autoShow:   true
+                adId: options.banner_id,
+                adSize: 'SMART_BANNER',
+                position: $window.AdMob.AD_POSITION.BOTTOM_CENTER,
+                autoShow: true
             });
-
         }
 
-        if(options.interstitial) {
-
+        if (options.interstitial) {
             $window.AdMob.prepareInterstitial({
-                adId:       options.interstitial_id,
-                autoShow:   false
+                adId: options.interstitial_id,
+                autoShow: false
             });
 
-            $rootScope.$on("$ionicView.enter", function () {
+            $rootScope.$on('$ionicView.enter', function () {
+                service.viewEnterCount = service.viewEnterCount + 1;
 
-                service.viewEnterCount += 1;
-
-                /** After 12 views, increase chances to show an Interstitial ad */
-                if(service.viewEnterCount >= 12) {
-                    service.interstitialState = "medium";
+                // After 12 views, increase chances to show an Interstitial ad!
+                if (service.viewEnterCount >= 12) {
+                    service.interstitialState = 'medium';
                 }
 
                 var action = service.get_weight(service.interstitialWeights[service.interstitialState]);
-                if(action === "show") {
+                if (action === 'show') {
                     $window.AdMob.showInterstitial();
 
                     /** Then prepare the next one. */
                     $window.AdMob.prepareInterstitial({
-                        adId:       options.interstitial_id,
-                        autoShow:   false
+                        adId: options.interstitial_id,
+                        autoShow: false
                     });
 
-                    if(service.interstitialState === "start") {
-                        service.interstitialState = "low";
+                    if (service.interstitialState === 'start') {
+                        service.interstitialState = 'low';
                     } else {
-                        service.interstitialState = "default";
+                        service.interstitialState = 'default';
                     }
 
                     service.viewEnterCount = 0;
                 }
             });
         }
-
     };
 
     return service;

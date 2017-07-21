@@ -55,6 +55,21 @@ class Push_Model_Db_Table_Message extends Core_Model_Db_Table {
         return $this;
     }
 
+    public function findAllForFeature($appId, $typeId, $limit = 100) {
+
+        $select = "
+              SELECT *
+              FROM push_messages
+              WHERE app_id = '{$appId}'
+              AND type_id = '{$typeId}'
+              AND value_id IS NULL
+              AND message_global_id IS NULL
+              ORDER BY created_at DESC
+              LIMIT {$limit}";
+
+        return $this->toModelClass($this->_db->fetchAll($select));
+    }
+
     public function findByDeviceId($device_uid, $message_type, $app_id, $offset = 0, $allowed_categories = null) {
 
         $select_label = $this->_db->select()

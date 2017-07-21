@@ -33,7 +33,9 @@ class Push_IphoneController extends Core_Controller_Default
             );
 
             foreach($params as $key => $value) {
-                if(!in_array($key, $fields)) unset($params[$key]);
+                if(!in_array($key, $fields)) {
+                    unset($params[$key]);
+                }
             }
 
             $params['status'] = 'active';

@@ -22,7 +22,7 @@
                     {{ "Log-in with Facebook" | translate }}
                 </div>
 
-                <div class="item item-divider item-divider-custom" ng-if="!is_logged_in">
+                <div class="item item-divider item-divider-custom" ng-if="!is_logged_in" ng-show="_facebook_enabled">
                     <p>{{ "Or with your account" | translate }} :</p>
                 </div>
 
