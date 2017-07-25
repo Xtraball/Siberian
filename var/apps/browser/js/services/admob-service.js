@@ -130,7 +130,7 @@ angular.module('starter').service('AdmobService', function ($log, $rootScope, $w
                     service.interstitialState = 'medium';
                 }
 
-                var action = service.get_weight(service.interstitialWeights[service.interstitialState]);
+                var action = service.getWeight(service.interstitialWeights[service.interstitialState]);
                 if (action === 'show') {
                     $window.AdMob.showInterstitial();
 

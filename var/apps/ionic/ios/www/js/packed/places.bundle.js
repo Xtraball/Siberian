@@ -121,22 +121,29 @@ angular.module("starter").controller("PlacesListController", function (Location,
     var search_ayou = true;
 
     Places.settings()
-        .then(function(settings) {
+        .then(function (settings) {
+            Location.getLocation()
+                .then(function (position) {
+                    $scope.position.latitude = position.coords.latitude;
+                    $scope.position.longitude = position.coords.longitude;
+                }, function (error) {
+                    $scope.position.latitude = 0;
+                    $scope.position.longitude = 0;
+                }).then(function () {
+                    $scope.settings = settings;
 
-            $scope.settings = settings;
-            /* If the coordinates are not defined, then don't show the search by vicinity */
-            if (!($scope.position.longitude && $scope.position.latitude) || $rootScope.isOffline) {
-                $scope.settings.search_aroundyou_show = false;
-            } else {
-                $scope.settings.search_aroundyou_show = search_ayou && $scope.settings.search_aroundyou_show;
-            }
-            /* Only show search when at least one search method is activated */
-            $scope.settings.showSearch = !$rootScope.isOffline &&
-                ($scope.settings.search_address_show || $scope.settings.search_text_show ||
-                $scope.settings.search_type_show || $scope.settings.search_aroundyou_show);
+                    /* If the coordinates are not defined, then don't show the search by vicinity */
+                    if (!($scope.position.longitude && $scope.position.latitude) || $rootScope.isOffline) {
+                        $scope.settings.search_aroundyou_show = false;
+                    } else {
+                        $scope.settings.search_aroundyou_show = search_ayou && $scope.settings.search_aroundyou_show;
+                    }
+                    /* Only show search when at least one search method is activated */
+                    $scope.settings.showSearch = !$rootScope.isOffline &&
+                        ($scope.settings.search_address_show || $scope.settings.search_text_show ||
+                        $scope.settings.search_type_show || $scope.settings.search_aroundyou_show);
+                });
         });
-
-
 
 
     $scope.loadContent = function (loadMore) {
@@ -174,15 +181,24 @@ angular.module("starter").controller("PlacesListController", function (Location,
         $scope.loadPlaces(true);
     };
 
-    $scope.loadPlaces = function(loadMore) {
+    $scope.loadPlaces = function (loadMore) {
+        $scope.is_loading = true;
+
         $scope.parameters.search = $scope.search;
 
         var offset = $scope.collection.length;
 
         $scope.parameters.offset = offset;
 
-        var resolver = ($scope.searchIsEmpty() || $rootScope.isOffline) ?
-            Places.findAll($scope.position, offset) : Search.findAll($scope.parameters);
+        var resolver = null;
+        if (($scope.searchIsEmpty() || $rootScope.isOffline)) {
+            resolver = Places.findAll($scope.position, offset);
+        } else {
+            // Clear collection on search!
+            $scope.collection = [];
+            Places.collection = [];
+            resolver = Search.findAll($scope.parameters);
+        }
 
         resolver
             .then(function (data) {
@@ -206,7 +222,7 @@ angular.module("starter").controller("PlacesListController", function (Location,
 
                 $scope.load_more = (data.places.length >= data.displayed_per_page);
 
-            }).then(function() {
+            }).then(function () {
                 if(loadMore) {
                     $scope.$broadcast('scroll.infiniteScrollComplete');
                 }
@@ -216,7 +232,7 @@ angular.module("starter").controller("PlacesListController", function (Location,
 
     };
 
-    $scope.pullToRefresh = function() {
+    $scope.pullToRefresh = function () {
         $scope.pull_to_refresh = true;
         $scope.load_more = false;
 

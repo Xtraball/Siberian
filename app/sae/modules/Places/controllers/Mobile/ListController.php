@@ -148,17 +148,19 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
 
             if ($search_criteria = Siberian_Json::decode($request->getRawBody())) {
 
+                Zend_Debug::dump($search_criteria);
+
                 $value_id = $request->getParam("value_id");
 
                 $option = $this->getCurrentOptionValue();
 
                 $position = array(
-                    "latitude"  => $request->getParam("latitude"),
-                    "longitude" => $request->getParam("longitude")
+                    "latitude"  => $search_criteria["latitude"],
+                    "longitude" => $search_criteria["longitude"]
                 );
 
                 $repository = new Places_Model_Place();
-                $pages = $repository->search($search_criteria, $value_id);
+                $pages = $repository->search($search_criteria["search"], $value_id);
                 $place_list = array();
 
                 foreach ($pages as $page) {

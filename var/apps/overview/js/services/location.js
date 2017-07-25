@@ -9,10 +9,9 @@
  * @author Xtraball SAS
  *
  */
-angular.module("starter").service("Location", function($cordovaGeolocation, $q) {
-
+angular.module('starter').service('Location', function ($cordovaGeolocation, $q) {
     var service = {
-        last_fetch: null,
+        lastFetch: null,
         position: null
     };
 
@@ -20,47 +19,41 @@ angular.module("starter").service("Location", function($cordovaGeolocation, $q) 
      * Default timeout is 10 seconds
      *
      * @param config
+     * @param force
      * @returns {*|promise}
      */
-    service.getLocation = function(config, force) {
-
+    service.getLocation = function (config, force) {
         var deferred = $q.defer();
-        var is_resolved = false;
+        var isResolved = false;
 
-        force = (force !== undefined);
+        var localForce = (force !== undefined);
 
-        config = angular.extend({
-            enableHighAccuracy  : true,
-            timeout             : 10000,
-            maximumAge          : 0
+        var localConfig = angular.extend({
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
         }, config);
 
-        if(!force && (service.last_fetch !== null) && ((service.last_fetch + 420000) > Date.now())) {
+        if (!localForce && (service.lastFetch !== null) && ((service.lastFetch + 420000) > Date.now())) {
             // fresh poll, send direct
             deferred.resolve(service.position);
-            is_resolved = true;
+            isResolved = true;
         }
 
-        $cordovaGeolocation.getCurrentPosition(config)
-            .then(function(position) {
-
-                service.last_fetch = Date.now();
+        $cordovaGeolocation.getCurrentPosition(localConfig)
+            .then(function (position) {
+                service.lastFetch = Date.now();
                 service.position = position;
-
-                if(!is_resolved) {
+                if (!isResolved) {
                     deferred.resolve(service.position);
                 }
-
-            }, function() {
-
-                if(!is_resolved) {
+            }, function () {
+                if (!isResolved) {
                     deferred.reject();
                 }
-
             });
 
         return deferred.promise;
-
     };
 
     /**
@@ -68,19 +61,17 @@ angular.module("starter").service("Location", function($cordovaGeolocation, $q) 
      *
      * @returns {null}
      */
-    service.getLatest = function() {
+    service.getLatest = function () {
         var deferred = $q.defer();
 
-        if(service.last_fetch === null) {
-
-            /** Try to fetch it. */
+        if (service.lastFetch === null) {
+            // Try to fetch it!
             service.getLocation()
-                .then(function(position) {
+                .then(function (position) {
                     deferred.resolve(position);
-                }, function() {
+                }, function () {
                     deferred.reject(false);
                 });
-
         } else {
             deferred.resolve(service.position);
         }

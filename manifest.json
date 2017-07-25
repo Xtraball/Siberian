@@ -19165,7 +19165,7 @@
     },
     {
         "file": "app/sae/modules/Places/controllers/Mobile/ListController.php",
-        "hash": "b2f78e4e2883bfdaca1000a761d14f27"
+        "hash": "77b1aa4272fc86ac9dbfde6ddc29e935"
     },
     {
         "file": "app/sae/modules/Places/controllers/ApplicationController.php",
@@ -36760,6 +36760,10 @@
         "hash": "e241313378d87f96596f2790a429d04b"
     },
     {
+        "file": "var/apps/browser/js/controllers/places.js",
+        "hash": "09e50fa56c6d9fd197c76473cfbd3515"
+    },
+    {
         "file": "var/apps/browser/js/controllers/application.js",
         "hash": "b6226327e05a425a105bb2a4a5c8a667"
     },
@@ -36936,14 +36940,6 @@
         "hash": "49d3d65b1421a455cce0e44c050c679c"
     },
     {
-        "file": "var/apps/browser/js/controllers/places.js",
-        "hash": "15577279f0a70e47418071e557fcc075"
-    },
-    {
-        "file": "var/apps/browser/js/controllers/places.min.js",
-        "hash": "7cf5d83e65a10b3a1734c380c4523b5c"
-    },
-    {
         "file": "var/apps/browser/js/controllers/privacy-policy.js",
         "hash": "4af0b5aa976b6d1c67cd922c999ccca9"
     },
@@ -37042,6 +37038,10 @@
     {
         "file": "var/apps/browser/js/controllers/push.js",
         "hash": "8ff55a12b0e1ec24b2da400af0238a74"
+    },
+    {
+        "file": "var/apps/browser/js/controllers/places.min.js",
+        "hash": "811ba82bf851ce1ef4dfd169b6af517d"
     },
     {
         "file": "var/apps/browser/js/directives/datetime.js",
@@ -37556,10 +37556,6 @@
         "hash": "3928449e048a92b8aaf6581b08da9f5a"
     },
     {
-        "file": "var/apps/browser/js/services/location.js",
-        "hash": "08f9f7f4361f7761ee8bab596dff5dd5"
-    },
-    {
         "file": "var/apps/browser/js/services/media-player.js",
         "hash": "a7cd1e813a13b90d93c7e5626cc88de8"
     },
@@ -37592,10 +37588,6 @@
         "hash": "be1cc9be0726996af09300376c968985"
     },
     {
-        "file": "var/apps/browser/js/services/admob-service.js",
-        "hash": "67d04c87a77111923408e7b6b12a9ec6"
-    },
-    {
         "file": "var/apps/browser/js/services/analytics.js",
         "hash": "ba94e94e80d3af337ee6d479bc7aa4ad"
     },
@@ -37616,16 +37608,24 @@
         "hash": "ecf10d884f7898c530b2b63612b0adda"
     },
     {
+        "file": "var/apps/browser/js/services/session.js",
+        "hash": "37387bdec291bb023673b541b4199a2d"
+    },
+    {
+        "file": "var/apps/browser/js/services/admob-service.js",
+        "hash": "ffcb1f67bb1f13ea0c42bdcf0bdfbe3d"
+    },
+    {
+        "file": "var/apps/browser/js/services/location.js",
+        "hash": "0325c2deeabc20d97fdfaf48cc2a9397"
+    },
+    {
         "file": "var/apps/browser/js/services/services.bundle.js",
-        "hash": "c8122b3f70d5eb69a89934c2cb319f5e"
+        "hash": "9bb2c9096b5c0e831ed9ad75ba20c4be"
     },
     {
         "file": "var/apps/browser/js/services/services.bundle.min.js",
-        "hash": "9e95d776363289390294cd51b4019885"
-    },
-    {
-        "file": "var/apps/browser/js/services/session.js",
-        "hash": "37387bdec291bb023673b541b4199a2d"
+        "hash": "f9302dc747fe83999bf89cc83eac9aae"
     },
     {
         "file": "var/apps/browser/js/utils/languages.js",
@@ -37964,14 +37964,6 @@
         "hash": "49d3d65b1421a455cce0e44c050c679c"
     },
     {
-        "file": "var/apps/browser/js/packed/places.bundle.js",
-        "hash": "edebc2f4421c6c45db97021f3411f1a3"
-    },
-    {
-        "file": "var/apps/browser/js/packed/places.bundle.min.js",
-        "hash": "2e5ba7d9fb128964aad5856f96a57d12"
-    },
-    {
         "file": "var/apps/browser/js/packed/privacy_policy.bundle.js",
         "hash": "4af0b5aa976b6d1c67cd922c999ccca9"
     },
@@ -38084,12 +38076,20 @@
         "hash": "fcae43a2978baeeb27101db3ccd42adf"
     },
     {
+        "file": "var/apps/browser/js/packed/places.bundle.js",
+        "hash": "e06f82dd870eeaf62e1e6fd8a33dfea1"
+    },
+    {
+        "file": "var/apps/browser/js/packed/places.bundle.min.js",
+        "hash": "a8811df2fe8bb6603b707944a6291e5f"
+    },
+    {
         "file": "var/apps/browser/js/app.js",
-        "hash": "583615d7874ae17ad777509c428088c7"
+        "hash": "000dfa4b6beac79671b9191900135f29"
     },
     {
         "file": "var/apps/browser/js/app.min.js",
-        "hash": "fc327c0726c9e09c62a68f5ac9da3a82"
+        "hash": "9ef1c6fceeef6e02842949cbb767a296"
     },
     {
         "file": "var/apps/browser/lib/ionic/css/ionic.css",
@@ -38498,18 +38498,6 @@
     {
         "file": "var/apps/browser/plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
         "hash": "c6672016c68695b24278fc05de566a18"
-    },
-    {
-        "file": "var/apps/browser/plugins/cordova-plugin-network-information/src/browser/network.js",
-        "hash": "8397565506c402d4ec51f3befecc36b2"
-    },
-    {
-        "file": "var/apps/browser/plugins/cordova-plugin-network-information/www/Connection.js",
-        "hash": "34e0c6596532f74f2eef9c61d78e1ad1"
-    },
-    {
-        "file": "var/apps/browser/plugins/cordova-plugin-network-information/www/network.js",
-        "hash": "3997b7f76580dfd2f0a0f7f694078ddf"
     },
     {
         "file": "var/apps/browser/scss/ionic.siberian.style.scss",
@@ -38921,7 +38909,7 @@
     },
     {
         "file": "var/apps/browser/cordova_plugins.js",
-        "hash": "23386e976357e7d94997a1258628d6d7"
+        "hash": "8d08acfe50a5aaaa3282498ec6812712"
     },
     {
         "file": "var/apps/certificates/root_ca.pem",
@@ -39228,6 +39216,10 @@
         "hash": "e241313378d87f96596f2790a429d04b"
     },
     {
+        "file": "var/apps/ionic/android/assets/www/js/controllers/places.js",
+        "hash": "09e50fa56c6d9fd197c76473cfbd3515"
+    },
+    {
         "file": "var/apps/ionic/android/assets/www/js/controllers/application.js",
         "hash": "b6226327e05a425a105bb2a4a5c8a667"
     },
@@ -39404,14 +39396,6 @@
         "hash": "49d3d65b1421a455cce0e44c050c679c"
     },
     {
-        "file": "var/apps/ionic/android/assets/www/js/controllers/places.js",
-        "hash": "15577279f0a70e47418071e557fcc075"
-    },
-    {
-        "file": "var/apps/ionic/android/assets/www/js/controllers/places.min.js",
-        "hash": "7cf5d83e65a10b3a1734c380c4523b5c"
-    },
-    {
         "file": "var/apps/ionic/android/assets/www/js/controllers/privacy-policy.js",
         "hash": "4af0b5aa976b6d1c67cd922c999ccca9"
     },
@@ -39510,6 +39494,10 @@
     {
         "file": "var/apps/ionic/android/assets/www/js/controllers/push.js",
         "hash": "8ff55a12b0e1ec24b2da400af0238a74"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/js/controllers/places.min.js",
+        "hash": "811ba82bf851ce1ef4dfd169b6af517d"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/directives/datetime.js",
@@ -40024,10 +40012,6 @@
         "hash": "3928449e048a92b8aaf6581b08da9f5a"
     },
     {
-        "file": "var/apps/ionic/android/assets/www/js/services/location.js",
-        "hash": "08f9f7f4361f7761ee8bab596dff5dd5"
-    },
-    {
         "file": "var/apps/ionic/android/assets/www/js/services/media-player.js",
         "hash": "a7cd1e813a13b90d93c7e5626cc88de8"
     },
@@ -40060,10 +40044,6 @@
         "hash": "be1cc9be0726996af09300376c968985"
     },
     {
-        "file": "var/apps/ionic/android/assets/www/js/services/admob-service.js",
-        "hash": "67d04c87a77111923408e7b6b12a9ec6"
-    },
-    {
         "file": "var/apps/ionic/android/assets/www/js/services/analytics.js",
         "hash": "ba94e94e80d3af337ee6d479bc7aa4ad"
     },
@@ -40084,16 +40064,24 @@
         "hash": "ecf10d884f7898c530b2b63612b0adda"
     },
     {
+        "file": "var/apps/ionic/android/assets/www/js/services/session.js",
+        "hash": "37387bdec291bb023673b541b4199a2d"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/js/services/admob-service.js",
+        "hash": "ffcb1f67bb1f13ea0c42bdcf0bdfbe3d"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/js/services/location.js",
+        "hash": "0325c2deeabc20d97fdfaf48cc2a9397"
+    },
+    {
         "file": "var/apps/ionic/android/assets/www/js/services/services.bundle.js",
-        "hash": "c8122b3f70d5eb69a89934c2cb319f5e"
+        "hash": "9bb2c9096b5c0e831ed9ad75ba20c4be"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/services/services.bundle.min.js",
-        "hash": "9e95d776363289390294cd51b4019885"
-    },
-    {
-        "file": "var/apps/ionic/android/assets/www/js/services/session.js",
-        "hash": "37387bdec291bb023673b541b4199a2d"
+        "hash": "f9302dc747fe83999bf89cc83eac9aae"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/utils/languages.js",
@@ -40432,14 +40420,6 @@
         "hash": "49d3d65b1421a455cce0e44c050c679c"
     },
     {
-        "file": "var/apps/ionic/android/assets/www/js/packed/places.bundle.js",
-        "hash": "edebc2f4421c6c45db97021f3411f1a3"
-    },
-    {
-        "file": "var/apps/ionic/android/assets/www/js/packed/places.bundle.min.js",
-        "hash": "2e5ba7d9fb128964aad5856f96a57d12"
-    },
-    {
         "file": "var/apps/ionic/android/assets/www/js/packed/privacy_policy.bundle.js",
         "hash": "4af0b5aa976b6d1c67cd922c999ccca9"
     },
@@ -40552,12 +40532,20 @@
         "hash": "fcae43a2978baeeb27101db3ccd42adf"
     },
     {
+        "file": "var/apps/ionic/android/assets/www/js/packed/places.bundle.js",
+        "hash": "e06f82dd870eeaf62e1e6fd8a33dfea1"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/js/packed/places.bundle.min.js",
+        "hash": "a8811df2fe8bb6603b707944a6291e5f"
+    },
+    {
         "file": "var/apps/ionic/android/assets/www/js/app.js",
-        "hash": "583615d7874ae17ad777509c428088c7"
+        "hash": "000dfa4b6beac79671b9191900135f29"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/app.min.js",
-        "hash": "fc327c0726c9e09c62a68f5ac9da3a82"
+        "hash": "9ef1c6fceeef6e02842949cbb767a296"
     },
     {
         "file": "var/apps/ionic/android/assets/www/lib/ionic/css/ionic.min.css",
@@ -40818,14 +40806,6 @@
     {
         "file": "var/apps/ionic/android/assets/www/plugins/siberian-plugin-offlinemode/www/OfflineMode.js",
         "hash": "e13e1b5ee0176d5f512b4a1b48c18e78"
-    },
-    {
-        "file": "var/apps/ionic/android/assets/www/plugins/cordova-plugin-network-information/www/Connection.js",
-        "hash": "09795adf13b14107984c599d8a65dc13"
-    },
-    {
-        "file": "var/apps/ionic/android/assets/www/plugins/cordova-plugin-network-information/www/network.js",
-        "hash": "dd64e282f2eeadd7e56e8d862e19cd00"
     },
     {
         "file": "var/apps/ionic/android/assets/www/templates/application/l1/colors/view.html",
@@ -41225,7 +41205,7 @@
     },
     {
         "file": "var/apps/ionic/android/assets/www/cordova_plugins.js",
-        "hash": "34821535480092c4c15447e79879b79e"
+        "hash": "6c41c64aa2538469a11a93f19f0b6604"
     },
     {
         "file": "var/apps/ionic/android/cordova-hot-code-push-plugin/base-chcp.gradle",
@@ -44309,7 +44289,7 @@
     },
     {
         "file": "var/apps/ionic/android/gradle/wrapper/gradle-wrapper.properties",
-        "hash": "d7ccb0b0ec3dadfdcd7afafd810a7084"
+        "hash": "972ea479405ec31e5610e43d04cba2bb"
     },
     {
         "file": "var/apps/ionic/android/gradlew",
@@ -44992,10 +44972,6 @@
         "hash": "a646b2e7e3038536595a52ec78913fa4"
     },
     {
-        "file": "var/apps/ionic/android/src/org/apache/cordova/networkinformation/NetworkManager.java",
-        "hash": "a08201c0b4b4205838b082dc4d897001"
-    },
-    {
         "file": "var/apps/ionic/android/src/uk/co/whiteoctober/cordova/AppVersion.java",
         "hash": "e99830fa74e411795766eb2f43987f13"
     },
@@ -45017,15 +44993,15 @@
     },
     {
         "file": "var/apps/ionic/android/android.json",
-        "hash": "d9a4c9e480b43c048313c2df064f6e2e"
+        "hash": "f8bb12353c4ecf5da61e6cbf3cf831bf"
     },
     {
         "file": "var/apps/ionic/android/config.bck.xml",
-        "hash": "1843b84470dc4f34ccbaad6236072f7d"
+        "hash": "7c339c66dfcaf99c4c26e1ef4b07e865"
     },
     {
         "file": "var/apps/ionic/ios-noads/AppsMobileCompany.xcodeproj/project.pbxproj",
-        "hash": "5cce72906e5336897d1cce0ee0386a94"
+        "hash": "47a6baec5de9cd8163934065dc4a4bc3"
     },
     {
         "file": "var/apps/ionic/ios-noads/AppsMobileCompany.xcworkspace/contents.xcworkspacedata",
@@ -45918,22 +45894,6 @@
     {
         "file": "var/apps/ionic/ios-noads/AppsMobileCompany/Plugins/siberian-plugin-offlinemode/TMReachability.m",
         "hash": "6c24f77512fc7ff0f225ee691147b069"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/AppsMobileCompany/Plugins/cordova-plugin-network-information/CDVConnection.h",
-        "hash": "a0a64cad05c80dd1fda79ddcb695c3f2"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/AppsMobileCompany/Plugins/cordova-plugin-network-information/CDVConnection.m",
-        "hash": "0848d06e908a10ad6bcb02cd3e6a7de7"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/AppsMobileCompany/Plugins/cordova-plugin-network-information/CDVReachability.h",
-        "hash": "fe7d365cf89fd5f3a2da7fce98415f86"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/AppsMobileCompany/Plugins/cordova-plugin-network-information/CDVReachability.m",
-        "hash": "d05c5d3b7796e1325c85a4eb6e0b086e"
     },
     {
         "file": "var/apps/ionic/ios-noads/AppsMobileCompany/Resources/CDVBarcodeScanner.bundle/beep.caf",
@@ -50012,6 +49972,10 @@
         "hash": "e241313378d87f96596f2790a429d04b"
     },
     {
+        "file": "var/apps/ionic/ios-noads/www/js/controllers/places.js",
+        "hash": "09e50fa56c6d9fd197c76473cfbd3515"
+    },
+    {
         "file": "var/apps/ionic/ios-noads/www/js/controllers/application.js",
         "hash": "b6226327e05a425a105bb2a4a5c8a667"
     },
@@ -50188,14 +50152,6 @@
         "hash": "49d3d65b1421a455cce0e44c050c679c"
     },
     {
-        "file": "var/apps/ionic/ios-noads/www/js/controllers/places.js",
-        "hash": "15577279f0a70e47418071e557fcc075"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/www/js/controllers/places.min.js",
-        "hash": "7cf5d83e65a10b3a1734c380c4523b5c"
-    },
-    {
         "file": "var/apps/ionic/ios-noads/www/js/controllers/privacy-policy.js",
         "hash": "4af0b5aa976b6d1c67cd922c999ccca9"
     },
@@ -50294,6 +50250,10 @@
     {
         "file": "var/apps/ionic/ios-noads/www/js/controllers/push.js",
         "hash": "8ff55a12b0e1ec24b2da400af0238a74"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/js/controllers/places.min.js",
+        "hash": "811ba82bf851ce1ef4dfd169b6af517d"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/directives/datetime.js",
@@ -50808,10 +50768,6 @@
         "hash": "3928449e048a92b8aaf6581b08da9f5a"
     },
     {
-        "file": "var/apps/ionic/ios-noads/www/js/services/location.js",
-        "hash": "08f9f7f4361f7761ee8bab596dff5dd5"
-    },
-    {
         "file": "var/apps/ionic/ios-noads/www/js/services/media-player.js",
         "hash": "a7cd1e813a13b90d93c7e5626cc88de8"
     },
@@ -50844,10 +50800,6 @@
         "hash": "be1cc9be0726996af09300376c968985"
     },
     {
-        "file": "var/apps/ionic/ios-noads/www/js/services/admob-service.js",
-        "hash": "67d04c87a77111923408e7b6b12a9ec6"
-    },
-    {
         "file": "var/apps/ionic/ios-noads/www/js/services/analytics.js",
         "hash": "ba94e94e80d3af337ee6d479bc7aa4ad"
     },
@@ -50868,16 +50820,24 @@
         "hash": "ecf10d884f7898c530b2b63612b0adda"
     },
     {
+        "file": "var/apps/ionic/ios-noads/www/js/services/session.js",
+        "hash": "37387bdec291bb023673b541b4199a2d"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/js/services/admob-service.js",
+        "hash": "ffcb1f67bb1f13ea0c42bdcf0bdfbe3d"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/js/services/location.js",
+        "hash": "0325c2deeabc20d97fdfaf48cc2a9397"
+    },
+    {
         "file": "var/apps/ionic/ios-noads/www/js/services/services.bundle.js",
-        "hash": "c8122b3f70d5eb69a89934c2cb319f5e"
+        "hash": "9bb2c9096b5c0e831ed9ad75ba20c4be"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/services/services.bundle.min.js",
-        "hash": "9e95d776363289390294cd51b4019885"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/www/js/services/session.js",
-        "hash": "37387bdec291bb023673b541b4199a2d"
+        "hash": "f9302dc747fe83999bf89cc83eac9aae"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/utils/languages.js",
@@ -51216,14 +51176,6 @@
         "hash": "49d3d65b1421a455cce0e44c050c679c"
     },
     {
-        "file": "var/apps/ionic/ios-noads/www/js/packed/places.bundle.js",
-        "hash": "edebc2f4421c6c45db97021f3411f1a3"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/www/js/packed/places.bundle.min.js",
-        "hash": "2e5ba7d9fb128964aad5856f96a57d12"
-    },
-    {
         "file": "var/apps/ionic/ios-noads/www/js/packed/privacy_policy.bundle.js",
         "hash": "4af0b5aa976b6d1c67cd922c999ccca9"
     },
@@ -51336,12 +51288,20 @@
         "hash": "fcae43a2978baeeb27101db3ccd42adf"
     },
     {
+        "file": "var/apps/ionic/ios-noads/www/js/packed/places.bundle.js",
+        "hash": "e06f82dd870eeaf62e1e6fd8a33dfea1"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/js/packed/places.bundle.min.js",
+        "hash": "a8811df2fe8bb6603b707944a6291e5f"
+    },
+    {
         "file": "var/apps/ionic/ios-noads/www/js/app.js",
-        "hash": "583615d7874ae17ad777509c428088c7"
+        "hash": "000dfa4b6beac79671b9191900135f29"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/app.min.js",
-        "hash": "fc327c0726c9e09c62a68f5ac9da3a82"
+        "hash": "9ef1c6fceeef6e02842949cbb767a296"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/lib/ionic/css/ionic.min.css",
@@ -51614,14 +51574,6 @@
     {
         "file": "var/apps/ionic/ios-noads/www/plugins/siberian-plugin-offlinemode/www/OfflineMode.js",
         "hash": "e13e1b5ee0176d5f512b4a1b48c18e78"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/www/plugins/cordova-plugin-network-information/www/Connection.js",
-        "hash": "09795adf13b14107984c599d8a65dc13"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/www/plugins/cordova-plugin-network-information/www/network.js",
-        "hash": "dd64e282f2eeadd7e56e8d862e19cd00"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/templates/application/l1/colors/view.html",
@@ -52021,23 +51973,23 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/www/cordova_plugins.js",
-        "hash": "295a0f32cfb08c0473d68ea3e5f819ce"
+        "hash": "6fa7cc4509b2c456f491871ef737420e"
     },
     {
         "file": "var/apps/ionic/ios-noads/config.bck.xml",
-        "hash": "3fec2763d176ccb40edf1ccf9f2cb485"
+        "hash": "5201906e10dfdd4a8a0e04fa68352bed"
     },
     {
         "file": "var/apps/ionic/ios-noads/frameworks.json",
-        "hash": "e415c5158aed1f4fdff6da57128f28b0"
+        "hash": "19bf3faf0831282bcdf60988ffa1fe74"
     },
     {
         "file": "var/apps/ionic/ios-noads/ios-noads.json",
-        "hash": "d5c07aa9cabb52c86912705ee921bd5c"
+        "hash": "5b89e338a796f9550e8c16ffe8fa6647"
     },
     {
         "file": "var/apps/ionic/ios/AppsMobileCompany.xcodeproj/project.pbxproj",
-        "hash": "5bedbe50baa8af59521f64483452afb0"
+        "hash": "8d368304d25be4cbc5f31818c1c402ad"
     },
     {
         "file": "var/apps/ionic/ios/AppsMobileCompany.xcworkspace/contents.xcworkspacedata",
@@ -53182,22 +53134,6 @@
     {
         "file": "var/apps/ionic/ios/AppsMobileCompany/Plugins/siberian-plugin-offlinemode/TMReachability.m",
         "hash": "6c24f77512fc7ff0f225ee691147b069"
-    },
-    {
-        "file": "var/apps/ionic/ios/AppsMobileCompany/Plugins/cordova-plugin-network-information/CDVConnection.h",
-        "hash": "a0a64cad05c80dd1fda79ddcb695c3f2"
-    },
-    {
-        "file": "var/apps/ionic/ios/AppsMobileCompany/Plugins/cordova-plugin-network-information/CDVConnection.m",
-        "hash": "0848d06e908a10ad6bcb02cd3e6a7de7"
-    },
-    {
-        "file": "var/apps/ionic/ios/AppsMobileCompany/Plugins/cordova-plugin-network-information/CDVReachability.h",
-        "hash": "fe7d365cf89fd5f3a2da7fce98415f86"
-    },
-    {
-        "file": "var/apps/ionic/ios/AppsMobileCompany/Plugins/cordova-plugin-network-information/CDVReachability.m",
-        "hash": "d05c5d3b7796e1325c85a4eb6e0b086e"
     },
     {
         "file": "var/apps/ionic/ios/AppsMobileCompany/Resources/CDVBarcodeScanner.bundle/beep.caf",
@@ -57272,6 +57208,10 @@
         "hash": "e241313378d87f96596f2790a429d04b"
     },
     {
+        "file": "var/apps/ionic/ios/www/js/controllers/places.js",
+        "hash": "09e50fa56c6d9fd197c76473cfbd3515"
+    },
+    {
         "file": "var/apps/ionic/ios/www/js/controllers/application.js",
         "hash": "b6226327e05a425a105bb2a4a5c8a667"
     },
@@ -57448,14 +57388,6 @@
         "hash": "49d3d65b1421a455cce0e44c050c679c"
     },
     {
-        "file": "var/apps/ionic/ios/www/js/controllers/places.js",
-        "hash": "15577279f0a70e47418071e557fcc075"
-    },
-    {
-        "file": "var/apps/ionic/ios/www/js/controllers/places.min.js",
-        "hash": "7cf5d83e65a10b3a1734c380c4523b5c"
-    },
-    {
         "file": "var/apps/ionic/ios/www/js/controllers/privacy-policy.js",
         "hash": "4af0b5aa976b6d1c67cd922c999ccca9"
     },
@@ -57554,6 +57486,10 @@
     {
         "file": "var/apps/ionic/ios/www/js/controllers/push.js",
         "hash": "8ff55a12b0e1ec24b2da400af0238a74"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/js/controllers/places.min.js",
+        "hash": "811ba82bf851ce1ef4dfd169b6af517d"
     },
     {
         "file": "var/apps/ionic/ios/www/js/directives/datetime.js",
@@ -58068,10 +58004,6 @@
         "hash": "3928449e048a92b8aaf6581b08da9f5a"
     },
     {
-        "file": "var/apps/ionic/ios/www/js/services/location.js",
-        "hash": "08f9f7f4361f7761ee8bab596dff5dd5"
-    },
-    {
         "file": "var/apps/ionic/ios/www/js/services/media-player.js",
         "hash": "a7cd1e813a13b90d93c7e5626cc88de8"
     },
@@ -58104,10 +58036,6 @@
         "hash": "be1cc9be0726996af09300376c968985"
     },
     {
-        "file": "var/apps/ionic/ios/www/js/services/admob-service.js",
-        "hash": "67d04c87a77111923408e7b6b12a9ec6"
-    },
-    {
         "file": "var/apps/ionic/ios/www/js/services/analytics.js",
         "hash": "ba94e94e80d3af337ee6d479bc7aa4ad"
     },
@@ -58128,16 +58056,24 @@
         "hash": "ecf10d884f7898c530b2b63612b0adda"
     },
     {
+        "file": "var/apps/ionic/ios/www/js/services/session.js",
+        "hash": "37387bdec291bb023673b541b4199a2d"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/js/services/admob-service.js",
+        "hash": "ffcb1f67bb1f13ea0c42bdcf0bdfbe3d"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/js/services/location.js",
+        "hash": "0325c2deeabc20d97fdfaf48cc2a9397"
+    },
+    {
         "file": "var/apps/ionic/ios/www/js/services/services.bundle.js",
-        "hash": "c8122b3f70d5eb69a89934c2cb319f5e"
+        "hash": "9bb2c9096b5c0e831ed9ad75ba20c4be"
     },
     {
         "file": "var/apps/ionic/ios/www/js/services/services.bundle.min.js",
-        "hash": "9e95d776363289390294cd51b4019885"
-    },
-    {
-        "file": "var/apps/ionic/ios/www/js/services/session.js",
-        "hash": "37387bdec291bb023673b541b4199a2d"
+        "hash": "f9302dc747fe83999bf89cc83eac9aae"
     },
     {
         "file": "var/apps/ionic/ios/www/js/utils/languages.js",
@@ -58476,14 +58412,6 @@
         "hash": "49d3d65b1421a455cce0e44c050c679c"
     },
     {
-        "file": "var/apps/ionic/ios/www/js/packed/places.bundle.js",
-        "hash": "edebc2f4421c6c45db97021f3411f1a3"
-    },
-    {
-        "file": "var/apps/ionic/ios/www/js/packed/places.bundle.min.js",
-        "hash": "2e5ba7d9fb128964aad5856f96a57d12"
-    },
-    {
         "file": "var/apps/ionic/ios/www/js/packed/privacy_policy.bundle.js",
         "hash": "4af0b5aa976b6d1c67cd922c999ccca9"
     },
@@ -58596,12 +58524,20 @@
         "hash": "fcae43a2978baeeb27101db3ccd42adf"
     },
     {
+        "file": "var/apps/ionic/ios/www/js/packed/places.bundle.js",
+        "hash": "e06f82dd870eeaf62e1e6fd8a33dfea1"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/js/packed/places.bundle.min.js",
+        "hash": "a8811df2fe8bb6603b707944a6291e5f"
+    },
+    {
         "file": "var/apps/ionic/ios/www/js/app.js",
-        "hash": "583615d7874ae17ad777509c428088c7"
+        "hash": "000dfa4b6beac79671b9191900135f29"
     },
     {
         "file": "var/apps/ionic/ios/www/js/app.min.js",
-        "hash": "fc327c0726c9e09c62a68f5ac9da3a82"
+        "hash": "9ef1c6fceeef6e02842949cbb767a296"
     },
     {
         "file": "var/apps/ionic/ios/www/lib/ionic/css/ionic.min.css",
@@ -58878,14 +58814,6 @@
     {
         "file": "var/apps/ionic/ios/www/plugins/siberian-plugin-offlinemode/www/OfflineMode.js",
         "hash": "e13e1b5ee0176d5f512b4a1b48c18e78"
-    },
-    {
-        "file": "var/apps/ionic/ios/www/plugins/cordova-plugin-network-information/www/Connection.js",
-        "hash": "09795adf13b14107984c599d8a65dc13"
-    },
-    {
-        "file": "var/apps/ionic/ios/www/plugins/cordova-plugin-network-information/www/network.js",
-        "hash": "dd64e282f2eeadd7e56e8d862e19cd00"
     },
     {
         "file": "var/apps/ionic/ios/www/templates/application/l1/colors/view.html",
@@ -59285,19 +59213,19 @@
     },
     {
         "file": "var/apps/ionic/ios/www/cordova_plugins.js",
-        "hash": "d7e34e4e437a5c1c8c3d3ac2c4d9f0c6"
+        "hash": "73163f7dbe40433477148d58bdb227dc"
     },
     {
         "file": "var/apps/ionic/ios/config.bck.xml",
-        "hash": "2e6f885c59619641f0f47b3757481c74"
+        "hash": "da063b739b993591f660f5510f46717a"
     },
     {
         "file": "var/apps/ionic/ios/frameworks.json",
-        "hash": "88c40a16cda2f02f278fa3e291778bf7"
+        "hash": "4e69940b3aaad07c5e4599d9d62fd10c"
     },
     {
         "file": "var/apps/ionic/ios/ios.json",
-        "hash": "522144f7a54cbb993a9270cd3751bdcf"
+        "hash": "cb7cef6494449b103b34cef81b46fa57"
     },
     {
         "file": "var/apps/ionic/previewer/android/CordovaLib/AndroidManifest.xml",
@@ -59604,6 +59532,10 @@
         "hash": "e241313378d87f96596f2790a429d04b"
     },
     {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/places.js",
+        "hash": "09e50fa56c6d9fd197c76473cfbd3515"
+    },
+    {
         "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/application.js",
         "hash": "b6226327e05a425a105bb2a4a5c8a667"
     },
@@ -59780,14 +59712,6 @@
         "hash": "49d3d65b1421a455cce0e44c050c679c"
     },
     {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/places.js",
-        "hash": "15577279f0a70e47418071e557fcc075"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/places.min.js",
-        "hash": "7cf5d83e65a10b3a1734c380c4523b5c"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/privacy-policy.js",
         "hash": "4af0b5aa976b6d1c67cd922c999ccca9"
     },
@@ -59886,6 +59810,10 @@
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/push.js",
         "hash": "8ff55a12b0e1ec24b2da400af0238a74"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/places.min.js",
+        "hash": "811ba82bf851ce1ef4dfd169b6af517d"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/directives/datetime.js",
@@ -60400,10 +60328,6 @@
         "hash": "3928449e048a92b8aaf6581b08da9f5a"
     },
     {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/services/location.js",
-        "hash": "08f9f7f4361f7761ee8bab596dff5dd5"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/assets/www/js/services/media-player.js",
         "hash": "a7cd1e813a13b90d93c7e5626cc88de8"
     },
@@ -60436,10 +60360,6 @@
         "hash": "be1cc9be0726996af09300376c968985"
     },
     {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/services/admob-service.js",
-        "hash": "67d04c87a77111923408e7b6b12a9ec6"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/assets/www/js/services/analytics.js",
         "hash": "ba94e94e80d3af337ee6d479bc7aa4ad"
     },
@@ -60460,16 +60380,24 @@
         "hash": "ecf10d884f7898c530b2b63612b0adda"
     },
     {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/services/session.js",
+        "hash": "37387bdec291bb023673b541b4199a2d"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/services/admob-service.js",
+        "hash": "ffcb1f67bb1f13ea0c42bdcf0bdfbe3d"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/services/location.js",
+        "hash": "0325c2deeabc20d97fdfaf48cc2a9397"
+    },
+    {
         "file": "var/apps/ionic/previewer/android/assets/www/js/services/services.bundle.js",
-        "hash": "c8122b3f70d5eb69a89934c2cb319f5e"
+        "hash": "9bb2c9096b5c0e831ed9ad75ba20c4be"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/services/services.bundle.min.js",
-        "hash": "9e95d776363289390294cd51b4019885"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/services/session.js",
-        "hash": "37387bdec291bb023673b541b4199a2d"
+        "hash": "f9302dc747fe83999bf89cc83eac9aae"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/utils/languages.js",
@@ -60808,14 +60736,6 @@
         "hash": "49d3d65b1421a455cce0e44c050c679c"
     },
     {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/packed/places.bundle.js",
-        "hash": "edebc2f4421c6c45db97021f3411f1a3"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/packed/places.bundle.min.js",
-        "hash": "2e5ba7d9fb128964aad5856f96a57d12"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/assets/www/js/packed/privacy_policy.bundle.js",
         "hash": "4af0b5aa976b6d1c67cd922c999ccca9"
     },
@@ -60928,12 +60848,20 @@
         "hash": "fcae43a2978baeeb27101db3ccd42adf"
     },
     {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/packed/places.bundle.js",
+        "hash": "e06f82dd870eeaf62e1e6fd8a33dfea1"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/packed/places.bundle.min.js",
+        "hash": "a8811df2fe8bb6603b707944a6291e5f"
+    },
+    {
         "file": "var/apps/ionic/previewer/android/assets/www/js/app.js",
-        "hash": "583615d7874ae17ad777509c428088c7"
+        "hash": "000dfa4b6beac79671b9191900135f29"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/app.min.js",
-        "hash": "fc327c0726c9e09c62a68f5ac9da3a82"
+        "hash": "9ef1c6fceeef6e02842949cbb767a296"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/lib/ionic/css/ionic.min.css",
@@ -61182,14 +61110,6 @@
     {
         "file": "var/apps/ionic/previewer/android/assets/www/plugins/siberian-plugin-offlinemode/www/OfflineMode.js",
         "hash": "e13e1b5ee0176d5f512b4a1b48c18e78"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/assets/www/plugins/cordova-plugin-network-information/www/Connection.js",
-        "hash": "09795adf13b14107984c599d8a65dc13"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/assets/www/plugins/cordova-plugin-network-information/www/network.js",
-        "hash": "dd64e282f2eeadd7e56e8d862e19cd00"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/templates/application/l1/colors/view.html",
@@ -61589,7 +61509,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/cordova_plugins.js",
-        "hash": "2a9a2153b1e5129a0307be06ee79586a"
+        "hash": "d7e865b5c892ad8102ee9629c4328f55"
     },
     {
         "file": "var/apps/ionic/previewer/android/cordova-hot-code-push-plugin/base-chcp.gradle",
@@ -64669,7 +64589,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/gradle/wrapper/gradle-wrapper.properties",
-        "hash": "a6840100597c674f6cc069382621fde4"
+        "hash": "fc379d0df5b9f622d588fb6db1e780ef"
     },
     {
         "file": "var/apps/ionic/previewer/android/gradlew",
@@ -65360,10 +65280,6 @@
         "hash": "a646b2e7e3038536595a52ec78913fa4"
     },
     {
-        "file": "var/apps/ionic/previewer/android/src/org/apache/cordova/networkinformation/NetworkManager.java",
-        "hash": "a08201c0b4b4205838b082dc4d897001"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/src/uk/co/whiteoctober/cordova/AppVersion.java",
         "hash": "e99830fa74e411795766eb2f43987f13"
     },
@@ -65385,15 +65301,15 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/android-previewer.json",
-        "hash": "e5ba8c74b6c401683f66cfce9ea79d62"
+        "hash": "c656d23802cd40701d23caaecea01ef2"
     },
     {
         "file": "var/apps/ionic/previewer/android/config.bck.xml",
-        "hash": "9f80bc198f2ec4b6d339e16f18f68066"
+        "hash": "5bf46e03d8fa6ddd2618770576c9103f"
     },
     {
         "file": "var/apps/ionic/previewer/ios/AppsMobileCompany.xcodeproj/project.pbxproj",
-        "hash": "9321324c5e38d9559343567638292c2f"
+        "hash": "398be18a26424f9a4cbabfb9063ad882"
     },
     {
         "file": "var/apps/ionic/previewer/ios/AppsMobileCompany.xcworkspace/contents.xcworkspacedata",
@@ -66234,22 +66150,6 @@
     {
         "file": "var/apps/ionic/previewer/ios/AppsMobileCompany/Plugins/siberian-plugin-previewer/Previewer/previewerLoginViewController.m",
         "hash": "a696ded9c84487d35bf93ad86766f643"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/AppsMobileCompany/Plugins/cordova-plugin-network-information/CDVConnection.h",
-        "hash": "a0a64cad05c80dd1fda79ddcb695c3f2"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/AppsMobileCompany/Plugins/cordova-plugin-network-information/CDVConnection.m",
-        "hash": "0848d06e908a10ad6bcb02cd3e6a7de7"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/AppsMobileCompany/Plugins/cordova-plugin-network-information/CDVReachability.h",
-        "hash": "fe7d365cf89fd5f3a2da7fce98415f86"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/AppsMobileCompany/Plugins/cordova-plugin-network-information/CDVReachability.m",
-        "hash": "d05c5d3b7796e1325c85a4eb6e0b086e"
     },
     {
         "file": "var/apps/ionic/previewer/ios/AppsMobileCompany/Resources/CDVBarcodeScanner.bundle/beep.caf",
@@ -70340,6 +70240,10 @@
         "hash": "e241313378d87f96596f2790a429d04b"
     },
     {
+        "file": "var/apps/ionic/previewer/ios/www/js/controllers/places.js",
+        "hash": "09e50fa56c6d9fd197c76473cfbd3515"
+    },
+    {
         "file": "var/apps/ionic/previewer/ios/www/js/controllers/application.js",
         "hash": "b6226327e05a425a105bb2a4a5c8a667"
     },
@@ -70516,14 +70420,6 @@
         "hash": "49d3d65b1421a455cce0e44c050c679c"
     },
     {
-        "file": "var/apps/ionic/previewer/ios/www/js/controllers/places.js",
-        "hash": "15577279f0a70e47418071e557fcc075"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/www/js/controllers/places.min.js",
-        "hash": "7cf5d83e65a10b3a1734c380c4523b5c"
-    },
-    {
         "file": "var/apps/ionic/previewer/ios/www/js/controllers/privacy-policy.js",
         "hash": "4af0b5aa976b6d1c67cd922c999ccca9"
     },
@@ -70622,6 +70518,10 @@
     {
         "file": "var/apps/ionic/previewer/ios/www/js/controllers/push.js",
         "hash": "8ff55a12b0e1ec24b2da400af0238a74"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/js/controllers/places.min.js",
+        "hash": "811ba82bf851ce1ef4dfd169b6af517d"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/directives/datetime.js",
@@ -71136,10 +71036,6 @@
         "hash": "3928449e048a92b8aaf6581b08da9f5a"
     },
     {
-        "file": "var/apps/ionic/previewer/ios/www/js/services/location.js",
-        "hash": "08f9f7f4361f7761ee8bab596dff5dd5"
-    },
-    {
         "file": "var/apps/ionic/previewer/ios/www/js/services/media-player.js",
         "hash": "a7cd1e813a13b90d93c7e5626cc88de8"
     },
@@ -71172,10 +71068,6 @@
         "hash": "be1cc9be0726996af09300376c968985"
     },
     {
-        "file": "var/apps/ionic/previewer/ios/www/js/services/admob-service.js",
-        "hash": "67d04c87a77111923408e7b6b12a9ec6"
-    },
-    {
         "file": "var/apps/ionic/previewer/ios/www/js/services/analytics.js",
         "hash": "ba94e94e80d3af337ee6d479bc7aa4ad"
     },
@@ -71196,16 +71088,24 @@
         "hash": "ecf10d884f7898c530b2b63612b0adda"
     },
     {
+        "file": "var/apps/ionic/previewer/ios/www/js/services/session.js",
+        "hash": "37387bdec291bb023673b541b4199a2d"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/js/services/admob-service.js",
+        "hash": "ffcb1f67bb1f13ea0c42bdcf0bdfbe3d"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/js/services/location.js",
+        "hash": "0325c2deeabc20d97fdfaf48cc2a9397"
+    },
+    {
         "file": "var/apps/ionic/previewer/ios/www/js/services/services.bundle.js",
-        "hash": "c8122b3f70d5eb69a89934c2cb319f5e"
+        "hash": "9bb2c9096b5c0e831ed9ad75ba20c4be"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/services/services.bundle.min.js",
-        "hash": "9e95d776363289390294cd51b4019885"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/www/js/services/session.js",
-        "hash": "37387bdec291bb023673b541b4199a2d"
+        "hash": "f9302dc747fe83999bf89cc83eac9aae"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/utils/languages.js",
@@ -71544,14 +71444,6 @@
         "hash": "49d3d65b1421a455cce0e44c050c679c"
     },
     {
-        "file": "var/apps/ionic/previewer/ios/www/js/packed/places.bundle.js",
-        "hash": "edebc2f4421c6c45db97021f3411f1a3"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/www/js/packed/places.bundle.min.js",
-        "hash": "2e5ba7d9fb128964aad5856f96a57d12"
-    },
-    {
         "file": "var/apps/ionic/previewer/ios/www/js/packed/privacy_policy.bundle.js",
         "hash": "4af0b5aa976b6d1c67cd922c999ccca9"
     },
@@ -71664,12 +71556,20 @@
         "hash": "fcae43a2978baeeb27101db3ccd42adf"
     },
     {
+        "file": "var/apps/ionic/previewer/ios/www/js/packed/places.bundle.js",
+        "hash": "e06f82dd870eeaf62e1e6fd8a33dfea1"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/js/packed/places.bundle.min.js",
+        "hash": "a8811df2fe8bb6603b707944a6291e5f"
+    },
+    {
         "file": "var/apps/ionic/previewer/ios/www/js/app.js",
-        "hash": "583615d7874ae17ad777509c428088c7"
+        "hash": "000dfa4b6beac79671b9191900135f29"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/app.min.js",
-        "hash": "fc327c0726c9e09c62a68f5ac9da3a82"
+        "hash": "9ef1c6fceeef6e02842949cbb767a296"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/lib/ionic/css/ionic.min.css",
@@ -71930,14 +71830,6 @@
     {
         "file": "var/apps/ionic/previewer/ios/www/plugins/siberian-plugin-offlinemode/www/OfflineMode.js",
         "hash": "e13e1b5ee0176d5f512b4a1b48c18e78"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/www/plugins/cordova-plugin-network-information/www/Connection.js",
-        "hash": "09795adf13b14107984c599d8a65dc13"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/www/plugins/cordova-plugin-network-information/www/network.js",
-        "hash": "dd64e282f2eeadd7e56e8d862e19cd00"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/templates/application/l1/colors/view.html",
@@ -72337,39 +72229,39 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/cordova_plugins.js",
-        "hash": "38f68bfde861cf0385d84793018200a8"
+        "hash": "9ae2e9cb0b113daa3c46d68e2d753df1"
     },
     {
         "file": "var/apps/ionic/previewer/ios/config.bck.xml",
-        "hash": "fe5b06e4bbc086ce963c2ae8381cfbbf"
+        "hash": "ec8a5aef3668f4fcc9c34aa23a2235fe"
     },
     {
         "file": "var/apps/ionic/previewer/ios/frameworks.json",
-        "hash": "9ebd8a63d5587939d6aac13f2ce8565a"
+        "hash": "e9a9b173bbecf239b341202384cf8b8a"
     },
     {
         "file": "var/apps/ionic/previewer/ios/ios-previewer.json",
-        "hash": "2aa49dfaa3af45613f652b66e5b2e978"
+        "hash": "96ae14b173146d7132ac9490107b304c"
     },
     {
         "file": "var/apps/ionic/android.tgz",
-        "hash": "704a3286284bdbaa0141b594b6570fb7"
+        "hash": "5812138ba87ba4408cf4b74355cf1bbe"
     },
     {
         "file": "var/apps/ionic/ios.tgz",
-        "hash": "36ffa8e61de4eed511226b43135b9222"
+        "hash": "90937e0dc952d87c7006bf4c0edcf702"
     },
     {
         "file": "var/apps/ionic/ios-noads.tgz",
-        "hash": "afd0677ced92e9ff3229fca56210bd92"
+        "hash": "7cb0b363f496a4ddda54554bb342dcd9"
     },
     {
         "file": "var/apps/ionic/previewer.tgz",
-        "hash": "332b46e86e103cf580675462816a06ff"
+        "hash": "aa754a58882b8c2d437f040a3602c63c"
     },
     {
         "file": "var/apps/browser.tgz",
-        "hash": "a9ffd1de65e813192e2cc77c053f5c30"
+        "hash": "d8ec2d4b8646deb69f14542d624c9e00"
     },
     {
         "file": "var/apps/overview/confighelper.js",
@@ -72696,14 +72588,6 @@
         "hash": "49d3d65b1421a455cce0e44c050c679c"
     },
     {
-        "file": "var/apps/overview/js/controllers/places.js",
-        "hash": "15577279f0a70e47418071e557fcc075"
-    },
-    {
-        "file": "var/apps/overview/js/controllers/places.min.js",
-        "hash": "7cf5d83e65a10b3a1734c380c4523b5c"
-    },
-    {
         "file": "var/apps/overview/js/controllers/privacy-policy.js",
         "hash": "4af0b5aa976b6d1c67cd922c999ccca9"
     },
@@ -72806,6 +72690,14 @@
     {
         "file": "var/apps/overview/js/controllers/push.js",
         "hash": "8ff55a12b0e1ec24b2da400af0238a74"
+    },
+    {
+        "file": "var/apps/overview/js/controllers/places.js",
+        "hash": "09e50fa56c6d9fd197c76473cfbd3515"
+    },
+    {
+        "file": "var/apps/overview/js/controllers/places.min.js",
+        "hash": "811ba82bf851ce1ef4dfd169b6af517d"
     },
     {
         "file": "var/apps/overview/js/directives/datetime.js",
@@ -73568,14 +73460,6 @@
         "hash": "49d3d65b1421a455cce0e44c050c679c"
     },
     {
-        "file": "var/apps/overview/js/packed/places.bundle.js",
-        "hash": "edebc2f4421c6c45db97021f3411f1a3"
-    },
-    {
-        "file": "var/apps/overview/js/packed/places.bundle.min.js",
-        "hash": "2e5ba7d9fb128964aad5856f96a57d12"
-    },
-    {
         "file": "var/apps/overview/js/packed/privacy_policy.bundle.js",
         "hash": "4af0b5aa976b6d1c67cd922c999ccca9"
     },
@@ -73688,6 +73572,14 @@
         "hash": "fcae43a2978baeeb27101db3ccd42adf"
     },
     {
+        "file": "var/apps/overview/js/packed/places.bundle.js",
+        "hash": "e06f82dd870eeaf62e1e6fd8a33dfea1"
+    },
+    {
+        "file": "var/apps/overview/js/packed/places.bundle.min.js",
+        "hash": "a8811df2fe8bb6603b707944a6291e5f"
+    },
+    {
         "file": "var/apps/overview/js/providers/pwa-cache.js",
         "hash": "ea98faad2e5576b865a3ef3d8769f1d9"
     },
@@ -73748,10 +73640,6 @@
         "hash": "3928449e048a92b8aaf6581b08da9f5a"
     },
     {
-        "file": "var/apps/overview/js/services/location.js",
-        "hash": "08f9f7f4361f7761ee8bab596dff5dd5"
-    },
-    {
         "file": "var/apps/overview/js/services/media-player.js",
         "hash": "a7cd1e813a13b90d93c7e5626cc88de8"
     },
@@ -73788,10 +73676,6 @@
         "hash": "be1cc9be0726996af09300376c968985"
     },
     {
-        "file": "var/apps/overview/js/services/admob-service.js",
-        "hash": "67d04c87a77111923408e7b6b12a9ec6"
-    },
-    {
         "file": "var/apps/overview/js/services/analytics.js",
         "hash": "ba94e94e80d3af337ee6d479bc7aa4ad"
     },
@@ -73812,16 +73696,24 @@
         "hash": "ecf10d884f7898c530b2b63612b0adda"
     },
     {
+        "file": "var/apps/overview/js/services/session.js",
+        "hash": "37387bdec291bb023673b541b4199a2d"
+    },
+    {
+        "file": "var/apps/overview/js/services/admob-service.js",
+        "hash": "ffcb1f67bb1f13ea0c42bdcf0bdfbe3d"
+    },
+    {
+        "file": "var/apps/overview/js/services/location.js",
+        "hash": "0325c2deeabc20d97fdfaf48cc2a9397"
+    },
+    {
         "file": "var/apps/overview/js/services/services.bundle.js",
-        "hash": "c8122b3f70d5eb69a89934c2cb319f5e"
+        "hash": "9bb2c9096b5c0e831ed9ad75ba20c4be"
     },
     {
         "file": "var/apps/overview/js/services/services.bundle.min.js",
-        "hash": "9e95d776363289390294cd51b4019885"
-    },
-    {
-        "file": "var/apps/overview/js/services/session.js",
-        "hash": "37387bdec291bb023673b541b4199a2d"
+        "hash": "f9302dc747fe83999bf89cc83eac9aae"
     },
     {
         "file": "var/apps/overview/js/utils/features.js",
@@ -73849,11 +73741,11 @@
     },
     {
         "file": "var/apps/overview/js/app.js",
-        "hash": "583615d7874ae17ad777509c428088c7"
+        "hash": "000dfa4b6beac79671b9191900135f29"
     },
     {
         "file": "var/apps/overview/js/app.min.js",
-        "hash": "fc327c0726c9e09c62a68f5ac9da3a82"
+        "hash": "9ef1c6fceeef6e02842949cbb767a296"
     },
     {
         "file": "var/apps/overview/lib/ionic/css/ionic.css",
@@ -74264,18 +74156,6 @@
         "hash": "8c9b52c89b82cc5ac4ad80905d761a86"
     },
     {
-        "file": "var/apps/overview/plugins/cordova-plugin-network-information/src/browser/network.js",
-        "hash": "8397565506c402d4ec51f3befecc36b2"
-    },
-    {
-        "file": "var/apps/overview/plugins/cordova-plugin-network-information/www/Connection.js",
-        "hash": "34e0c6596532f74f2eef9c61d78e1ad1"
-    },
-    {
-        "file": "var/apps/overview/plugins/cordova-plugin-network-information/www/network.js",
-        "hash": "3997b7f76580dfd2f0a0f7f694078ddf"
-    },
-    {
         "file": "var/apps/overview/scss/ionic.siberian.style.scss",
         "hash": "c2b873b9fbf00b3139ca760a7f12fbdb"
     },
@@ -74673,7 +74553,7 @@
     },
     {
         "file": "var/apps/overview/cordova_plugins.js",
-        "hash": "23386e976357e7d94997a1258628d6d7"
+        "hash": "8d08acfe50a5aaaa3282498ec6812712"
     },
     {
         "file": "var/placeholder.png",

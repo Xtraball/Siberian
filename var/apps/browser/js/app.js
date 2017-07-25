@@ -190,20 +190,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
             $rootScope.isOffline = true;
         });
 
-        // New navigator plugin to know offline state on start
-        try {
-            if (DEVICE_TYPE !== SB.DEVICE.TYPE_BROWSER) {
-                if ((navigator !== undefined) &&
-                    (navigator.connection !== undefined) &&
-                    (navigator.connection.type === Connection.NONE)) {
-                    $rootScope.isOnline = false;
-                    $rootScope.isOffline = true;
-                }
-            }
-        } catch (e) {
-            $log.info('update proof.');
-        }
-
         $rootScope.openLoaderProgress = function () {
             $rootScope.ui_background_loader = false;
             $rootScope.ui_progress_view = true;
@@ -595,10 +581,9 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
 
                             $rootScope.unlockUpdate = 0;
 
-                            var checkingUpdate = Dialog.alert('CHCP', 'Checking for update ...');
+                            var checkingUpdate = Dialog.alert('CHCP', 'Checking for update ...', 'OK', -1);
 
                             chcp.fetchUpdate(function (fetchUpdateError, fetchUpdateData) {
-                                checkingUpdate.close();
                                 if (fetchUpdateError) {
                                     $log.info('CHCP: Failed to load the update with error code: ' + fetchUpdateError.code);
                                     if (fetchUpdateError.code === 2) {
