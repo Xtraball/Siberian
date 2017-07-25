@@ -42,6 +42,10 @@ class Places_Form_Place extends Cms_Form_Cms {
         $show_titles->setBelongsTo("metadata");
         $show_titles->addClass("cms-include");
 
+        $show_titles = $this->addSimpleCheckbox("show_titles", __("Display title and subtitle in page"));
+        $show_titles->setBelongsTo("metadata");
+        $show_titles->addClass("cms-include");
+
         $tags = $this->addSimpleText("tags", __("Tags"));
         $tags->addClass("cms-include");
         $tags->setAttrib("data-role", "tagsinput");
