@@ -19,8 +19,6 @@
                     <i class="fa fa-pencil"></i>
                     <?php echo __('Editor'); ?>
                     <i class="fa <?php if (in_array($current_link, $editor_menu)) echo "fa-angle-down"; else echo "fa-angle-right"; ?>"></i>
-                    <?php echo $this->_('Create'); ?>
-                    <i class="fa <?php if (in_array($current_link, array('editor_design','editor_colors','editor_features','editor_application','editor_publication'))) echo "fa-angle-down"; else echo "fa-angle-right"; ?>"></i>
                 </a>
                 <div id="shortcuts-sub-1" class="collapse sub-bar<?php if (in_array($current_link, $editor_menu)) echo " in"; ?>">
                   <?php if($this->_canAccess("editor_design")) : ?>

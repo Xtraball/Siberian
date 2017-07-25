@@ -237,13 +237,13 @@ class Siberian_Layout extends Zend_Layout
                     fclose($css);
                 }
 
-                // Appending the JS files to the view
+                // Appending the CSS files to the view
                 $css_file .= "?".filemtime(Core_Model_Directory::getBasePathTo($css_file));
                 if(preg_match("#^app/#", $css_file)) {
                     $css_file = "/".$css_file;
                 }
                 $this->_scripts['css'][] = $css_file;
-                $baseView->headLink()->appendStylesheet($css_file, 'screen');
+                $baseView->headLink()->appendStylesheet($css_file, 'all');
 
             } else {
 
@@ -253,7 +253,7 @@ class Siberian_Layout extends Zend_Layout
                         $file = "/".$file;
                     }
                     $this->_scripts['css'][] = $file;
-                    $baseView->headLink()->appendStylesheet($file, 'screen');
+                    $baseView->headLink()->appendStylesheet($file, 'all');
                 }
 
             }
@@ -261,7 +261,7 @@ class Siberian_Layout extends Zend_Layout
             if(!empty($cssToMerge["external"])) {
                 foreach($cssToMerge["external"] as $external_css) {
                     $this->_scripts['css'][] = $external_css;
-                    $baseView->headLink()->appendStylesheet($external_css, 'screen');
+                    $baseView->headLink()->appendStylesheet($external_css, 'all');
                 }
             }
 

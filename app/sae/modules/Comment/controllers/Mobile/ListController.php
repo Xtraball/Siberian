@@ -77,7 +77,7 @@ class Comment_Mobile_ListController extends Application_Controller_Mobile_Defaul
                                 "text"  => count($comment->getLikes())
                             )
                         ),
-                        "embed_payload" => $data = array(
+                        "embed_payload" => array(
                             "id"                        => (integer) $comment->getId(),
                             "author"                    => $customer->getFirstname() ? $customer->getFirstname() : $application->getName(),
                             "title"                     => $comment->getTitle(),
@@ -169,7 +169,17 @@ class Comment_Mobile_ListController extends Application_Controller_Mobile_Defaul
         if ($value_id = $this->getRequest()->getParam('value_id')) {
             $offset = $this->getRequest()->getParam("offset", 0);
             $comment = new Comment_Model_Comment();
-            $comments = $comment->findAll(array("value_id" => $value_id, "is_visible = ?" => 1), "created_at DESC", array("offset" => $offset, "limit" => Comment_Model_Comment::DISPLAYED_PER_PAGE));
+            $comments = $comment->findAll(
+                array(
+                    "value_id" => $value_id,
+                    "is_visible = ?" => 1
+                ),
+                "created_at DESC",
+                array(
+                    "offset" => $offset,
+                    "limit" => Comment_Model_Comment::DISPLAYED_PER_PAGE
+                )
+            );
             $this->_genericFindAction($value_id, $comments);
         }
     }

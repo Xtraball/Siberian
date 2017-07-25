@@ -113,7 +113,7 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                     <label><?php echo __("Activated"); ?></label>
                     <div id="toggle_feature_is_activated">
                         <div style="width:100%;padding-top:4px">
-                            <input class="sb-tgl sb-tgl-flat feature_is_activated color-blue checkbox" id="chk_activate" type="checkbox" <?php echo ($option->getIsActive()) ? 'checked="checked' : '' ?>>
+                            <input class="sb-tgl sb-tgl-flat feature_is_activated color-blue checkbox" id="chk_activate" type="checkbox" <?php echo ($option->getIsActive()) ? 'checked="checked"' : '' ?>>
                             <label class="sb-tgl-btn color-blue" for="chk_activate"></label>
                             <input type="hidden" id="is_active" name="is_active" value="<?php echo $option->getIsActive() ?>">
                             <input type="hidden" name="value_id" value="<?php echo $option->getId(); ?>">

@@ -2,8 +2,9 @@
  App, angular, BASE_PATH
  */
 
-angular.module("starter").controller("MCommerceCartViewController", function ($scope, $state, Loader, $stateParams, $translate,
-                                                       Dialog, McommerceCart, Customer) {
+angular.module('starter').controller('MCommerceCartViewController', function ($scope, $state, Loader, $stateParams,
+                                                                              $translate, $timeout, Dialog,
+                                                                              McommerceCart, Customer) {
 
     // counter of pending tip calls
     var updateTipTimoutFn = null;
@@ -230,23 +231,21 @@ angular.module("starter").controller("MCommerceCartViewController", function ($s
                 }
             }, function (data) {
                 if (data && angular.isDefined(data.message)) {
-                    Dialog.alert("", data.message, "OK");
+                    Dialog.alert('', data.message, 'OK');
                 }
             });
     };
 
-    $scope.changeQuantity = function(qty, params) {
-
-        Loader.show("Updating price");
+    $scope.changeQuantity = function (qty, params) {
+        Loader.show('Updating price');
 
         $scope.is_loading = true;
-        params.line.qty = qty;
-        McommerceCart.modifyLine(params.line)
-            .then(function(data) {
-                Loader.hide();
-                $scope.is_loading = false;
-                angular.forEach($scope.cart.lines,function(line,index) {
-                    if(line.id == data.line.id) {
+        params.line.qty = angular.copy(qty);
+
+        return McommerceCart.modifyLine(params.line)
+            .then(function (data) {
+                angular.forEach($scope.cart.lines, function (line, index) {
+                    if (line.id == data.line.id) {
                         $scope.cart.lines[index] = data.line;
                     }
                 });
@@ -259,18 +258,21 @@ angular.module("starter").controller("MCommerceCartViewController", function ($s
                 $scope.cart.deliveryCost = data.cart.deliveryCost;
                 $scope.cart.valid = data.cart.valid;
 
+                return data;
             }, function (data) {
-                Loader.hide();
-                $scope.is_loading = false;
                 if (data && angular.isDefined(data.message)) {
                     $scope.message = new Message();
                     $scope.message.isError(true)
                         .setText(data.message)
                         .show();
                 }
+            }).then(function (data) {
+                Loader.hide();
+                $scope.is_loading = false;
+
+                return data;
             });
     };
 
     $scope.loadContent();
-
 });

@@ -36,7 +36,7 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
             if($current_card->getCardId()) {
 
                 $payload["card"] = array(
-                    "id"                    => (integer) $current_card->getId(),
+                    "id"                    => (integer) $current_card->getCardId(),
                     "is_visible"            => (boolean) $current_card->getCardId(),
                     "name"                  => $current_card->getName(),
                     "advantage"             => $current_card->getAdvantage(),

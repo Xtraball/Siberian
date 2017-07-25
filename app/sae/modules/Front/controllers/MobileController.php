@@ -184,6 +184,17 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                         $hide_navbar = $object->getLink()->getHideNavbar();
                         $use_external_app = $object->getLink()->getUseExternalApp();
                     }
+
+                    if(sizeof($option_values) >= 50) {
+                        if($option_value->getCode() === "folder") {
+                            $embed_payload = false;
+                        } else {
+                            $embed_payload = $option_value->getEmbedPayload($request);
+                        }
+                    } else {
+                        $embed_payload = $option_value->getEmbedPayload($request);
+                    }
+
                     /**
                       END Link special code
                       */
@@ -208,7 +219,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                         "use_ranking"       => (boolean) $option_value->getUseRanking(),
                         "offline_mode"      => (boolean) $option_value->getObject()->isCacheable(),
                         "custom_fields"     => $option_value->getCustomFields(),
-                        "embed_payload"     => $option_value->getEmbedPayload($request),
+                        "embed_payload"     => $embed_payload,
                         "position"          => (integer) $option_value->getPosition(),
                         "homepage"          => (boolean) ($option_value->getFolderCategoryId() === null),
                         "touched_at"        => (integer) $option_value->getTouchedAt(),
@@ -892,6 +903,16 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                         $use_external_app = $object->getUseExternalApp();
                     }
 
+                    if(sizeof($option_values) >= 50) {
+                        if($option_value->getCode() === "folder") {
+                            $embed_payload = false;
+                        } else {
+                            $embed_payload = $option_value->getEmbedPayload($request);
+                        }
+                    } else {
+                        $embed_payload = $option_value->getEmbedPayload($request);
+                    }
+
                     $data_pages[] = array(
                         "value_id"          => (integer) $option_value->getId(),
                         "id"                => (integer) $option_value->getId(),
@@ -913,7 +934,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                         "use_ranking"       => (boolean) $option_value->getUseRanking(),
                         "offline_mode"      => (boolean) $option_value->getObject()->isCacheable(),
                         "custom_fields"     => $option_value->getCustomFields(),
-                        "embed_payload"     => $option_value->getEmbedPayload($request),
+                        "embed_payload"     => $embed_payload,
                         "position"          => (integer) $option_value->getPosition(),
                         "homepage"          => (boolean) ($option_value->getFolderCategoryId() === null),
                         "touched_at"        => (integer) $option_value->getTouchedAt(),
