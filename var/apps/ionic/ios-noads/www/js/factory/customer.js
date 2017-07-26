@@ -154,8 +154,8 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
                     _pcustomer_get_avatar: function () {
                         factory.getAvatarUrl();
                     },
-                    _pcustomer_save: function () {
-                        factory.save();
+                    _pcustomer_save: function (data) {
+                        factory.save(data);
                     },
                     _pcustomer_forgotten_password: function () {
                         factory.forgottenpassword();
@@ -307,7 +307,7 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
     factory.forgottenpassword = function (email) {
         Loader.show();
 
-        var promise = $pwaRequest.post("customer/mobile_account_forgottenpassword/post", {
+        var promise = $pwaRequest.post('customer/mobile_account_forgottenpassword/post', {
                 data: {
                     email: email
                 },

@@ -30,17 +30,16 @@
         </div>
     </ion-content>
 
+    <script type="text/ng-template" id="sidebar_l1.html">
+
+        <a class="item reverse" ng-click="sidebar.showItem(item);" ng-class="{subheader: sidebar.current_item == item}">
+            {{ item.name }}
+        </a>
+
+        <ul ng-if="item.children" ng-show="item.show_children">
+            <li ng-repeat="item in item.children" ng-include="'sidebar_l1.html'"></li>
+        </ul>
+
+    </script>
 
 </ion-view>
-
-<script type="text/ng-template" id="sidebar_l1.html">
-
-    <a class="item reverse" ng-click="sidebar.showItem(item);" ng-class="{subheader: sidebar.current_item == item}">
-        {{ item.name }}
-    </a>
-
-    <ul ng-if="item.children" ng-show="item.show_children">
-        <li ng-repeat="item in item.children" ng-include="'sidebar_l1.html'"></li>
-    </ul>
-
-</script>

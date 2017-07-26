@@ -157,6 +157,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|map|geo|skype|tel|file|smsto):/);
         $httpProvider.defaults.withCredentials = true;
         $ionicConfigProvider.views.maxCache(0);
+        $ionicConfigProvider.backButton.previousTitleText(false);
     })
     .run(function ($injector, $ionicConfig, $ionicHistory, $ionicNavBarDelegate, $ionicPlatform, $ionicPopup,
                    $ionicScrollDelegate, $ionicSlideBoxDelegate, $location, $log, $ocLazyLoad, $pwaRequest, $q,
@@ -226,16 +227,10 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
             return false;
         };
 
-        // Watcher for nav-bar!
-        Object.defineProperty($rootScope, 'app_hide_navbar', {
-            set: function (value) {
-                $log.debug('set $rootScope.app_hide_navbar to : ', value);
-                $ionicNavBarDelegate.showBar(!value);
-            }
-        });
-        $rootScope.app_hide_navbar = true;
-
         $ionicPlatform.ready(function () {
+
+            $ionicNavBarDelegate.showBar(false);
+
             var loadApp = function () {
                 $log.debug('$ionicPlatform.ready');
 
@@ -268,6 +263,10 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         var load = data.load;
                         var manifest = data.manifest;
 
+                        // Translations & locale!
+                        $translate.translations = data.translation;
+                        tmhDynamicLocale.set($translate.translations._locale);
+
                         if (!$session.getId()) {
                             $session.setId(data.load.customer.token);
                         }
@@ -282,10 +281,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         if (LOGIN_FB) {
                             Customer.loginWithFacebook(fbtoken);
                         }
-
-                        // Translations & locale!
-                        $translate.translations = data.translation;
-                        tmhDynamicLocale.set($translate.translations._locale);
 
                         var HomepageLayout = $injector.get('HomepageLayout');
 
@@ -487,6 +482,20 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             return !$rootScope.isNativeApp ? '_system' : '_blank';
                         };
 
+                        $window.__ionicNavBarDelegate = $ionicNavBarDelegate;
+
+                        $rootScope.$on('$ionicView.loaded', function (event, data) {
+                            if (data.stateName !== 'home') {
+                                $timeout(function () {
+                                    $ionicNavBarDelegate.showBar(true);
+                                }, 100);
+                            } else {
+                                $timeout(function () {
+                                    $ionicNavBarDelegate.showBar(!!HomepageLayout.properties.options.autoSelectFirst);
+                                }, 100);
+                            }
+                        });
+
                         // Handler for overview & navbar!
                         $rootScope.$on('$stateChangeSuccess', function (event, toState, toStateParams, fromState, fromStateParams) {
                             // Only for overview.
@@ -496,8 +505,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         });
 
                         $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams, fromState, fromStateParams) {
-                            $rootScope.app_hide_navbar = false;
-
                             $rootScope.app_is_locked = Application.is_locked &&
                                 !(Customer.can_access_locked_features || Padlock.unlocked_by_qrcode);
 

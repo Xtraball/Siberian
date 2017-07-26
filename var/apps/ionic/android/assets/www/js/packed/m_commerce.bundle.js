@@ -1,5 +1,5 @@
 /*global
- App, angular, BASE_PATH
+ App, angular, BASE_PATH, _
  */
 
 angular.module('starter').controller('MCommerceCartViewController', function ($scope, $state, Loader, $stateParams,
@@ -240,16 +240,12 @@ angular.module('starter').controller('MCommerceCartViewController', function ($s
         Loader.show('Updating price');
 
         $scope.is_loading = true;
-        params.line.qty = angular.copy(qty);
 
-        return McommerceCart.modifyLine(params.line)
+        var localLine = angular.copy(params.line);
+        localLine.qty = angular.copy(qty);
+
+        return McommerceCart.modifyLine(localLine)
             .then(function (data) {
-                angular.forEach($scope.cart.lines, function (line, index) {
-                    if (line.id == data.line.id) {
-                        $scope.cart.lines[index] = data.line;
-                    }
-                });
-
                 $scope.cart.formattedSubtotalExclTax = data.cart.formattedSubtotalExclTax;
                 $scope.cart.formattedDeliveryCost = data.cart.formattedDeliveryCost;
                 $scope.cart.formattedTotalExclTax = data.cart.formattedTotalExclTax;
@@ -267,10 +263,22 @@ angular.module('starter').controller('MCommerceCartViewController', function ($s
                         .show();
                 }
             }).then(function (data) {
-                Loader.hide();
-                $scope.is_loading = false;
+                var scopeLineIndex = _.findIndex($scope.cart.lines, function (line) {
+                    return line.id == data.line.id;
+                });
+
+                $timeout(function () {
+                    $scope.cart.lines[scopeLineIndex] = data.line;
+                    $scope.cart.lines[scopeLineIndex].qty = data.line.qty;
+
+                    Loader.hide();
+                    $scope.is_loading = false;
+                }, 500);
 
                 return data;
+            }).catch(function () {
+                Loader.hide();
+                $scope.is_loading = false;
             });
     };
 

@@ -47,7 +47,7 @@ class LoyaltyCard_Model_Db_Table_Customer extends Core_Model_Db_Table
         // S'il n'y a pas de carte de fidélité ou si la dernière est terminée, on en crée une nouvelle basée sur la dernière de l'option_value en cours
         if(count($cards) == 0 OR $last_card_is_done) {
             foreach($pcols as $key => $value) $pcols[$key] = new Zend_Db_Expr('null');
-            $pcols['customer_card_id'] = new Zend_Db_Expr('0');
+            //$pcols['customer_card_id'] = new Zend_Db_Expr('0');
             $pcols['customer_id'] = new Zend_Db_Expr($customer_id);
             $pcols['number_of_points'] = new Zend_Db_Expr('0');
             $pcols['is_used'] = new Zend_Db_Expr('0');

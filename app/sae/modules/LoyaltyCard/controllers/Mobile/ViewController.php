@@ -36,7 +36,7 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
             if($current_card->getCardId()) {
 
                 $payload["card"] = array(
-                    "id"                    => (integer) $current_card->getCardId(),
+                    "id"                    => (integer) $current_card->getCustomerCardId(),
                     "is_visible"            => (boolean) $current_card->getCardId(),
                     "name"                  => $current_card->getName(),
                     "advantage"             => $current_card->getAdvantage(),
@@ -83,6 +83,7 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
 
                 // Récupération du client en cours
                 $customer_id = $this->getSession()->getCustomerId();
+
                 // Si le client n'est pas connecté
                 if(empty($customer_id)) {
                     throw new Siberian_Exception(__('You must be logged in to validate points'));
@@ -97,9 +98,10 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                 $cards = $card->findAllByOptionValue($option_value->getId(), $customer_id);
 
                 foreach($cards as $tmp_card) {
-                    // Si la carte n'existe pas, customer_card_id == 0
-                    if($tmp_card->getCustomerCardId() == $customer_card_id) {
+                    // Si la carte existes
+                    if($tmp_card->getCustomerId() == $customer_id) {
                         $card = $tmp_card;
+                        break;
                     }
                 }
 

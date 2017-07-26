@@ -98,7 +98,7 @@
 
         </form>
 
-        <form method="post" name="accountForm" ng-submit="save()" class="slide-top" ng-show="display_account_form">
+        <form method="post" name="accountForm" ng-submit="save(customer)" class="slide-top" ng-show="display_account_form">
             <section class="avatar text-center padding" ng-if="show_avatar">
                 <div>
                     <img width="150" height="150" ng-src="{{ avatar_url }}"
@@ -109,18 +109,6 @@
             </section>
 
             <div class="list" ng-class="{'card': card_design}">
-
-                <!--<label class="item item-input item-select item-custom">-->
-                    <!--<div class="input-label">-->
-                        <!--{{ "Title" | translate }}-->
-                    <!--</div>-->
-                    <!--<select ng-model="customer.civility">-->
-                        <!--<option value=""></option>-->
-                        <!--<option value="mlle">{{ "Miss" | translate }}</option>-->
-                        <!--<option value="mme">{{ "Mrs" | translate }}</option>-->
-                        <!--<option value="m">{{ "Mr" | translate }}</option>-->
-                    <!--</select>-->
-                <!--</label>-->
 
                 <div class="item item-input item-custom">
                     <div class="input-label">

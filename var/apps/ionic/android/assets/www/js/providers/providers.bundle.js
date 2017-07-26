@@ -51,16 +51,16 @@ angular.module("starter").provider('HomepageLayout', function () {
                 scope = $rootScope;
             }
 
-            // Close any open modal first!
-            if (Modal.is_open) {
-                Modal.current_modal.hide();
-            }
-
-            // Double check for modal!
-            if (scope.pages_list_is_visible) {
+            // Close more when changing feature.
+            if (HomepageLayout.more_modal) {
                 HomepageLayout.more_modal.hide();
                 scope.tabbar_is_visible = true;
                 scope.pages_list_is_visible = false;
+            }
+
+            // Close any open modal first!
+            if (Modal.is_open) {
+                Modal.current_modal.hide();
             }
 
             // Clear history for side-menu feature!
@@ -102,14 +102,11 @@ angular.module("starter").provider('HomepageLayout', function () {
                         scope.features = features;
 
                         scope.closeMore = function () {
-                            HomepageLayout.more_modal.hide();
-                            scope.tabbar_is_visible = true;
-                            scope.pages_list_is_visible = false;
+                            // do nothing please!
                         };
 
                         // That's weird!
                         scope.goTo = function (goToFeature) {
-                            scope.closeMore();
                             HomepageLayout.openFeature(goToFeature, scope);
                         };
 

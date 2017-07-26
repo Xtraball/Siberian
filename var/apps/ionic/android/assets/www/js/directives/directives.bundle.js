@@ -529,7 +529,7 @@ angular.module('starter').directive('sbInputNumber', function ($timeout) {
         '   <div class="input-container text-right">' +
         '       <button class="button button-small button-custom button-left" ng-click="down()">-</button>' +
         '       <div class="item-input-wrapper">' +
-        '           <input type="text" value="{{ value }}" class="text-center input" readonly />' +
+        '           <input type="text" value="{{ dirValue }}" class="text-center input" readonly />' +
         '       </div>' +
         '       <button class="button button-small button-custom button-right" ng-click="up()">+</button>' +
         '   </div>' +
@@ -540,31 +540,32 @@ angular.module('starter').directive('sbInputNumber', function ($timeout) {
             scope.min = scope.min ? scope.min : 0;
             scope.max = scope.max ? scope.max : 999;
             scope.value = scope.value ? angular.copy(scope.value) : 0;
+            scope.dirValue = scope.value;
             scope.params = scope.params ? scope.params : {};
             scope.label = attrs.label ? attrs.label + ':' : '';
 
             scope.up = function () {
-                if (scope.value < scope.max) {
-                    scope.callBack(scope.value + 1);
+                if (scope.dirValue < scope.max) {
+                    scope.dirValue = scope.dirValue + 1;
+                    scope.callBack(scope.dirValue);
                 }
             };
 
             scope.down = function () {
-                if (scope.value > scope.min) {
-                    scope.callBack(scope.value - 1);
+                if (scope.dirValue > scope.min) {
+                    scope.dirValue = scope.dirValue - 1;
+                    scope.callBack(scope.dirValue);
                 }
             };
 
             scope.callBack = function (value) {
-                if (scope.changeQty) {
-                    scope.changeQty({
-                        qty: value,
-                        params: scope.params
-                    }).then(function () {
-                        $timeout(function () {
-                            scope.value = value;
-                        }, 200);
-                    });
+                if (typeof scope.changeQty === 'function') {
+                    $timeout(function () {
+                        scope.changeQty({
+                            qty: value,
+                            params: scope.params
+                        });
+                    }, 500);
                 }
             };
         }
@@ -950,65 +951,77 @@ angular.module("starter").directive("sbPageBackground", function ($rootScope, $s
         }
     };
 });
-;/*global
+;/* global
  angular
  */
 
-angular.module("starter").directive('sbSideMenu', function ($rootElement, $rootScope, $ionicHistory, HomepageLayout,
-                                                            ContextualMenu) {
+angular.module('starter').directive('sbSideMenu', function ($rootElement, $rootScope, $ionicHistory, $translate, $timeout,
+                                                            HomepageLayout, ContextualMenu, Application) {
     return {
         restrict: 'E',
         replace: true,
         scope: {},
-        templateUrl: "templates/page/side-menu.html",
-        link: function(scope, element) {
-
+        templateUrl: 'templates/page/side-menu.html',
+        link: function (scope, element) {
             /** Defining the global functionnalities of the page */
-            HomepageLayout.getFeatures().then( function (features) {
-                scope.layout = HomepageLayout.properties;
-                scope.layout_id = HomepageLayout.properties.layoutId;
-                angular.element($rootElement).addClass(("layout-"+scope.layout_id).replace(/[^a-zA-Z0-9_\-]+/, "-").replace(".", "-").replace(/\-\-*/, "-"));
+            HomepageLayout.getFeatures()
+                .then(function (features) {
+                    scope.layout = HomepageLayout.properties;
+                    scope.layout_id = HomepageLayout.properties.layoutId;
+                    angular.element($rootElement)
+                        .addClass(('layout-'+scope.layout_id)
+                        .replace(/[^a-zA-Z0-9_\-]+/, '-')
+                        .replace('.', '-')
+                        .replace(/\-\-*/, '-'));
+                });
+
+            scope.backButton = 'Back';
+
+            scope.$on('$stateChangeSuccess', function (event, toState, toStateParams, fromState, fromStateParams) {
+                scope.backButton = $translate.instant('Back');
             });
 
             /** Custom go back, works with/without side-menus */
-            scope.goBack = function() {
+            scope.goBack = function () {
                 $ionicHistory.goBack();
             };
 
             /** Special trick to handle manual updates. */
-            scope.checkForUpdate = function() {
+            scope.checkForUpdate = function () {
                 $rootScope.checkForUpdate();
             };
 
-            scope.showLeft = function() {
+            scope.showLeft = function () {
                 return (scope.layout_id && (scope.layout.menu.position === 'left'));
             };
 
-            scope.showRight = function() {
+            scope.showRight = function () {
                 return (scope.layout_id && (scope.layout.menu.position === 'right'));
             };
 
-            scope.showBottom = function() {
-                return (scope.layout_id && (scope.layout.menu.position === 'bottom') && (scope.layout.menu.visibility === 'homepage'));
+            scope.showBottom = function () {
+                return (scope.layout_id && (scope.layout.menu.position === 'bottom') &&
+                    (scope.layout.menu.visibility === 'homepage'));
             };
 
-            scope.showAlways = function() {
-                return (scope.layout_id && (scope.layout.menu.position === 'bottom') && (scope.layout.menu.visibility === 'always'));
+            scope.showAlways = function () {
+                return (scope.layout_id && (scope.layout.menu.position === 'bottom') &&
+                    (scope.layout.menu.visibility === 'always'));
             };
 
-            scope.contextualMenuSideWidth = function() {
+            scope.contextualMenuSideWidth = function () {
                 return ContextualMenu.width;
             };
 
-            scope.contextualMenuIsEnabled = function() {
+            scope.contextualMenuIsEnabled = function () {
                 return ContextualMenu.isEnabled;
             };
 
-            scope.contextualMenuExists = function() {
+            scope.contextualMenuExists = function () {
                 return ContextualMenu.exists;
             };
 
-            scope.contextualMenu = function() {
+            scope.contextualMenu = function () {
                 return ContextualMenu.templateURL;
             };
         }

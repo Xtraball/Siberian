@@ -1792,30 +1792,29 @@ angular.module("starter").service('GoogleMaps', function ($cordovaGeolocation, $
     return service;
 
 });
-;/*global
+;/* global
  angular
  */
-angular.module("starter").service('layout_10', function() {
-
+angular.module('starter').service('layout_10', function ($rootScope) {
     var service = {};
 
-    service.getTemplate = function() {
-        return "templates/home/l10/view.html";
+    service.getTemplate = function () {
+        return 'templates/home/l10/view.html';
     };
 
-    service.getModalTemplate = function() {
-        return "templates/home/l10/modal.html";
+    service.getModalTemplate = function () {
+        return 'templates/home/l10/modal.html';
     };
 
-    service.onResize = function() {};
+    service.onResize = function () {};
 
-    service.features = function(features, more_button) {
-        var third_option = features.overview.options[2];
-        var fourth_option = features.overview.options[3];
+    service.features = function (features, moreButton) {
+        var thirdOption = features.overview.options[2];
+        var fourthOption = features.overview.options[3];
         /** Placing more button at the third place (middle in layout) */
-        features.overview.options[2] = more_button;
-        features.overview.options[3] = third_option;
-        features.overview.options[4] = fourth_option;
+        features.overview.options[2] = moreButton;
+        features.overview.options[3] = thirdOption;
+        features.overview.options[4] = fourthOption;
         /** Removing 4 first option for the modal */
         features.options = features.options.slice(4, features.options.length);
 
@@ -1823,7 +1822,8 @@ angular.module("starter").service('layout_10', function() {
     };
 
     return service;
-});;/*global
+});
+;/*global
  angular
  */
 angular.module("starter").service('layout_17', function($rootScope, $location, $timeout) {
@@ -4300,21 +4300,19 @@ angular.module("starter").service("SocialSharing", function($cordovaSocialSharin
     return 'tmh.dynamicLocale';
 
 }));
-;/*global
+;/* global
  angular
  */
-angular.module("starter").service('$translate', function() {
-
+angular.module('starter').service('$translate', function () {
     var service = {};
 
     service.translations = [];
 
-    service.instant = function(text) {
+    service.instant = function (text) {
         return angular.isDefined(service.translations[text]) ? service.translations[text] : text;
     };
 
     return service;
-
 });
 ;/*global
     App, angular, DOMAIN, CURRENT_LANGUAGE, APP_KEY
