@@ -33,6 +33,9 @@ class Application_Controller_Mobile_Default extends Core_Controller_Default {
             }
         }
 
+        // We are in an application
+        Siberian::setApplication($this->getApplication());
+
         // Testing if value_id belongs to the app (or is allowed)
         if(!$this->getApplication()->valueIdBelongsTo($id) && $id) {
             $this->_sendJson(array(

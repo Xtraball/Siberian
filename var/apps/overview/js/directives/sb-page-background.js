@@ -2,9 +2,8 @@
     App, angular, window
  */
 
-angular.module("starter").directive("sbPageBackground", function ($rootScope, $state, $stateParams, $pwaRequest,
+angular.module('starter').directive('sbPageBackground', function ($rootScope, $state, $stateParams, $pwaRequest,
                                                                   $session, $timeout, Application) {
-
     var init = false,
         is_updating = false,
         device_screen = $session.getDeviceScreen(),
@@ -13,7 +12,7 @@ angular.module("starter").directive("sbPageBackground", function ($rootScope, $s
 
     $session.loaded
         .then(function () {
-            $pwaRequest.get("front/mobile/backgroundimages", {
+            $pwaRequest.get('front/mobile/backgroundimages', {
                 urlParams: {
                     device_width:   device_screen.width,
                     device_height:  device_screen.height
@@ -26,7 +25,7 @@ angular.module("starter").directive("sbPageBackground", function ($rootScope, $s
     return {
         restrict: 'A',
         controller: function ($scope, $state, $stateParams) {
-            $scope.value_id = ($state.current.name === "home") ? "home" : $stateParams.value_id;
+            $scope.value_id = ($state.current.name === 'home') ? 'home' : $stateParams.value_id;
         },
         link: function (scope, element) {
 

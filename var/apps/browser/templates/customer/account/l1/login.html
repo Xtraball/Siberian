@@ -98,7 +98,7 @@
 
         </form>
 
-        <form method="post" name="accountForm" ng-submit="save(customer)" class="slide-top" ng-show="display_account_form">
+        <form method="post" name="accountForm" ng-submit="_pcustomer_register_or_save(customer)" class="slide-top" ng-show="display_account_form">
             <section class="avatar text-center padding" ng-if="show_avatar">
                 <div>
                     <img width="150" height="150" ng-src="{{ avatar_url }}"

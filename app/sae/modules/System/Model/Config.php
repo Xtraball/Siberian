@@ -36,6 +36,11 @@ class System_Model_Config extends Rss_Model_Feed_Abstract {
 
         $value_changed = $this->getValue() != $this->getOrigValue();
 
+        $code = $this->getCode();
+        if(empty($code)) {
+            return $this;
+        }
+
         if(stripos($this->getValue(), "image/png;base64") !== false) {
 
             $data = substr($this->getValue(),strpos($this->getValue(),",")+1);

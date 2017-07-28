@@ -462,6 +462,16 @@ $schemas['application'] = array(
         'collation' => 'utf8_unicode_ci',
         'default' => '1'
     ),
+    'enable_custom_smtp' => array(
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ),
+    'smtp_credentials' => array(
+        'type' => 'text',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => '',
+    ),
     'created_at' => array(
         'type' => 'datetime',
     ),

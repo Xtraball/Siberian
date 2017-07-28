@@ -30,7 +30,7 @@ class Customer_Mobile_Account_ForgottenpasswordController extends Application_Co
 
                 $customer->setPassword($password)->save();
 
-                $sender = 'no-reply@'.Core_Model_Lib_String::format($this->getApplication()->getName(), true).'.com';
+                //$sender = 'no-reply@'.Core_Model_Lib_String::format($this->getApplication()->getName(), true).'.com';
                 $layout = $this->getLayout()->loadEmail('customer', 'forgot_password');
                 $layout->getPartial('content_email')->setCustomer($customer)->setPassword($password)->setAdminEmail($admin_email)->setApp($this->getApplication()->getName());
                 $content = $layout->render();
@@ -38,7 +38,7 @@ class Customer_Mobile_Account_ForgottenpasswordController extends Application_Co
                 # @version 4.8.7 - SMTP
                 $mail = new Siberian_Mail();
                 $mail->setBodyHtml($content);
-                $mail->setFrom($sender, $this->getApplication()->getName());
+                //$mail->setFrom($sender, $this->getApplication()->getName());
                 $mail->addTo($customer->getEmail(), $customer->getName());
                 $mail->setSubject(__('%s - Your new password', $this->getApplication()->getName()));
                 $mail->send();

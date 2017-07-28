@@ -73,7 +73,9 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
         $this->_saveSmtp($data);
 
         foreach($data as $code => $values) {
-
+            if(empty($code)) {
+                continue;
+            }
             if(!in_array($code, $this->_codes)) {
                 continue;
             }

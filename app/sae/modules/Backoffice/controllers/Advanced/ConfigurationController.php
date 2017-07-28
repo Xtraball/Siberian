@@ -662,16 +662,15 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                 $whitelabel_model = new Whitelabel_Model_Editor();
                 $whitelabels = $whitelabel_model->findAll(array("is_active = ?", "1"));
 
-                foreach($whitelabels as $whitelabel) {
-                    $whitelabel = trim($whitelabel->getHost());
+                foreach($whitelabels as $_whitelabel) {
+                    $whitelabel = trim($_whitelabel->getHost());
 
                     $endWithDot = preg_match("/.*\.$/im", $whitelabel);
                     $r = dns_get_record($whitelabel, DNS_CNAME);
                     $isCname = (!empty($r) && isset($r[0]) && isset($r[0]["target"]) && ($r[0]["target"] == $hostname));
                     $isSelf = ($whitelabel == $hostname);
 
-                    # Force fix in 4.10.1
-                    if(!$endWithDot && ($isCname || $isSelf)) {
+                    if(!$endWithDot && ($isCname || $isSelf) && $_whitelabel->getIsActive()) {
                         $logger->info(__("Adding %s to SAN.", $whitelabel));
 
                         $hostnames[] = $whitelabel;

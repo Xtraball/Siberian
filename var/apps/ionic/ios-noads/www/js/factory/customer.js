@@ -1,4 +1,4 @@
-/*global
+/* global
     App, angular, ionic, device
  */
 
@@ -10,15 +10,15 @@
 angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $rootScope, $session, $timeout,
                                                         $injector, Loader, Modal, Dialog, Url, SB) {
     var factory = {
-        events                          : [],
-        customer                        : null,
-        modal                           : null,
-        login_modal                     : null,
-        can_access_locked_features      : false,
-        display_account_form            : false,
-        login_modal_hidden_subscriber   : null,
-        is_logged_in                    : false,
-        facebook_login_enabled          : false
+        events: [],
+        customer: null,
+        modal: null,
+        login_modal: null,
+        can_access_locked_features: false,
+        display_account_form: false,
+        login_modal_hidden_subscriber: null,
+        is_logged_in: false,
+        facebook_login_enabled: false
     };
 
     /**
@@ -131,7 +131,7 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
         });
 
         var login_promise = Modal
-            .fromTemplateUrl("templates/customer/account/l1/login.html", {
+            .fromTemplateUrl('templates/customer/account/l1/login.html', {
                 scope: angular.extend(localScope, {
                     _pcustomer_close: function () {
                         factory.login_modal.hide();
@@ -148,14 +148,11 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
                     _pcustomer_check_update: function () {
                         $rootScope.checkForUpdate();
                     },
-                    _pcustomer_register: function (data) {
-                        factory.register(data);
+                    _pcustomer_register_or_save: function (data) {
+                        factory.save(data);
                     },
                     _pcustomer_get_avatar: function () {
                         factory.getAvatarUrl();
-                    },
-                    _pcustomer_save: function (data) {
-                        factory.save(data);
                     },
                     _pcustomer_forgotten_password: function () {
                         factory.forgottenpassword();
@@ -323,20 +320,18 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
         return promise;
     };
 
-    factory.logout = function() {
-
+    factory.logout = function () {
         Loader.show();
 
-        var promise = $pwaRequest.get("customer/mobile_account_login/logout", {
+        var promise = $pwaRequest.get('customer/mobile_account_login/logout', {
                 cache: false
             });
 
-        promise.then(function(result) {
-
+        promise.then(function (result) {
                 factory.clearCredentials();
 
                 return result;
-            }).then(function(result) {
+            }).then(function (result) {
                 Loader.hide();
 
                 return result;
@@ -345,29 +340,28 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
         return promise;
     };
 
-    factory.removeCard = function() {
-
+    factory.removeCard = function () {
         Loader.show();
 
-        var promise = $pwaRequest.post("mcommerce/mobile_sales_stripe/removecard", {
+        var promise = $pwaRequest.post('mcommerce/mobile_sales_stripe/removecard', {
                 data: {
                     customer_id: factory.id
                 },
                 cache: false
             });
 
-        promise.then(function() {
+        promise.then(function () {
                 Loader.hide();
             });
 
         return promise;
     };
 
-    factory.find = function() {
-        return $pwaRequest.get("customer/mobile_account_edit/find");
+    factory.find = function () {
+        return $pwaRequest.get('customer/mobile_account_edit/find');
     };
 
-    factory.isLoggedIn = function() {
+    factory.isLoggedIn = function () {
         return factory.is_logged_in;
     };
 
@@ -376,7 +370,6 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
     };
 
     factory.clearCredentials = function () {
-
         factory.customer = null;
         factory.can_access_locked_features = false;
         factory.is_logged_in = false;

@@ -12,7 +12,7 @@ class Application_Form_Advanced extends Siberian_Form_Abstract {
             ->setAttrib("id", "form-application-advanced")
         ;
 
-        /** Bind as a onchange form */
+        // Bind as a onchange form!
         self::addClass("onchange", $this);
 
         $offline_content = $this->addSimpleCheckbox("offline_content", __("Enable Offline content ?"));

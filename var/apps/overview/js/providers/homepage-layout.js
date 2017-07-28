@@ -102,7 +102,9 @@ angular.module("starter").provider('HomepageLayout', function () {
                         scope.features = features;
 
                         scope.closeMore = function () {
-                            // do nothing please!
+                            HomepageLayout.more_modal.hide();
+                            scope.tabbar_is_visible = true;
+                            scope.pages_list_is_visible = false;
                         };
 
                         // That's weird!

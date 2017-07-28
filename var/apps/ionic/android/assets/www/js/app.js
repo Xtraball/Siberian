@@ -728,7 +728,14 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         $ocLazyLoad.load('./js/libraries/moment.min.js')
                             .then(function () {
                                 window.momentjs_loaded = true;
+                                try {
+                                    moment.locale([language, 'en']);
+                                } catch (e) {
+                                    moment.locale('en');
+                                }
                             });
+
+                        $ocLazyLoad.load('./js/libraries/angular-carousel.min.js');
 
                         var ProgressbarService = $injector.get('ProgressbarService');
                         ProgressbarService.init(load.application.colors.loader);

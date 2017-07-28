@@ -161,19 +161,19 @@
                     if(datas.results.length > 0) {
                         displayArtists(datas.results);
                     } else {
-                        $('#itunes_results #results').append('<p><?php echo $this->_('No artist found') ?></p>');
+                        $('#itunes_results #results').append('<p><?php echo __js('No artist found', "'") ?></p>');
                     }
                 } else if(datas.entity == 'album') {
                     if(datas.results.length > 0) {
                         displayAlbums(datas.results);
                     } else {
-                        $('#itunes_results #results').append('<p><?php echo $this->_('No album found') ?></p>');
+                        $('#itunes_results #results').append('<p><?php echo __js('No album found', "'") ?></p>');
                     }
                 } else {
                     if(datas.results.length > 0) {
                         displaySongs(datas.results);
                     } else {
-                        $('#itunes_results #results').append('<p><?php echo $this->_('No track found') ?></p>');
+                        $('#itunes_results #results').append('<p><?php echo __js('No track found', "'") ?></p>');
                     }
                 }
                 $('#itunes_results').slideDown('400');

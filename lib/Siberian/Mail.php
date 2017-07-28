@@ -39,6 +39,11 @@ class Siberian_Mail extends Zend_Mail {
     public $_reply_to_set = false;
 
     /**
+     * @var bool
+     */
+    public $_is_application = true;
+
+    /**
      * Siberian_Mail constructor.
      * @param string $charset
      */
@@ -47,16 +52,12 @@ class Siberian_Mail extends Zend_Mail {
 
         $configure = false;
 
-        # @todo SMTP for applications
-        # 1. Application standalone settings
-        //if(false) {}
-
-        # 2. Whitelabel
+        //$application = Siberian::getApplication();
         $whitelabel = Siberian::getWhitelabel();
-        /**else */
-        if(($whitelabel !== false)) {
-            # Configuration of send name/email
-            $values = Siberian_Json::decode($whitelabel->getData("smtp_credentials"));
+
+        // Name & E-mails, enable & test after my holidays @Anders.
+        /**if($application !== false) { // 1. Application standalone settings!
+            $values = Siberian_Json::decode($application->getData("smtp_credentials"));
             $smtp_credentials = new Core_Model_Default();
             $smtp_credentials->setData($values);
 
@@ -70,16 +71,24 @@ class Siberian_Mail extends Zend_Mail {
                 $this->_sender_email = $sender_email;
             }
 
-            # Configure SMTP only if enabled
-            if($whitelabel->getEnableCustomSmtp()) {
-                $configure = true;
-            }
-        }
-        # 3. System wide
-        else if(System_Model_Config::getValueFor("enable_custom_smtp") == "1") {
-            $api_model = new Api_Model_Key();
-            $smtp_credentials = $api_model::findKeysFor("smtp_credentials");
+            $this->_is_application = true;
+        } else */
 
+        if($whitelabel !== false) { // 2. Whitelabel!
+            $values = Siberian_Json::decode($whitelabel->getData("smtp_credentials"));
+            $smtp_credentials = new Core_Model_Default();
+            $smtp_credentials->setData($values);
+
+            $sender_name = $smtp_credentials->getSenderName();
+            if(!empty($sender_name)) {
+                $this->_sender_name = $sender_name;
+            }
+
+            $sender_email = $smtp_credentials->getSenderEmail();
+            if(!empty($sender_email)) {
+                $this->_sender_email = $sender_email;
+            }
+        } else {
             $sender_name = System_Model_Config::getValueFor("support_name");
             if(!empty($sender_name)) {
                 $this->_sender_name = $sender_name;
@@ -89,6 +98,25 @@ class Siberian_Mail extends Zend_Mail {
             if(!empty($sender_email)) {
                 $this->_sender_email = $sender_email;
             }
+        }
+
+        // Custom SMTP
+        /**if($application->getEnableCustomSmtp()) {
+            $values = Siberian_Json::decode($application->getData("smtp_credentials"));
+            $smtp_credentials = new Core_Model_Default();
+            $smtp_credentials->setData($values);
+
+            $configure = true;
+        } else */
+        if(($whitelabel !== false) && $whitelabel->getEnableCustomSmtp()) {
+            $values = Siberian_Json::decode($whitelabel->getData("smtp_credentials"));
+            $smtp_credentials = new Core_Model_Default();
+            $smtp_credentials->setData($values);
+
+            $configure = true;
+        } else if(System_Model_Config::getValueFor("enable_custom_smtp") == "1") {
+            $api_model = new Api_Model_Key();
+            $smtp_credentials = $api_model::findKeysFor("smtp_credentials");
 
             $configure = true;
         }
@@ -105,14 +133,18 @@ class Siberian_Mail extends Zend_Mail {
         # Last chance to have a default e-mail. Product owner
         if(empty($this->_sender_email)) {
             $user = new Backoffice_Model_User();
-            $backoffice_user = $user->findAll(array(), "user_id ASC", array("limit" => 1))->current();
+            $backoffice_user = $user->findAll(
+                array(),
+                "user_id ASC",
+                array(
+                    "limit" => 1
+                )
+            )->current();
 
             if($backoffice_user) {
                 $this->_sender_email = $backoffice_user->getEmail();
             }
         }
-
-
 
         if($configure) {
             $this->_is_default_mailer = false;
@@ -166,6 +198,7 @@ class Siberian_Mail extends Zend_Mail {
     public function setFrom($email, $name = null) {
         if(!$this->sameExpeditor($email, $this->_sender_email) && !$this->_reply_to_set) {
             $this->_reply_to_set = true;
+
             return $this->setReplyTo($email, $name);
         } else {
             $this->_custom_from = true;
@@ -190,6 +223,11 @@ class Siberian_Mail extends Zend_Mail {
      * @return Zend_Mail
      */
     public function send($transport = null) {
+        // Enable & Test after my holidays @Anders
+        //if($this->_is_application && !$this->_custom_from) {
+        //    $this->_sender_name = Siberian::getApplication()->getName();
+        //}
+
         # Set default sender if not custom.
         if(!$this->_custom_from) {
             $this->setFrom($this->_sender_email, $this->_sender_name);

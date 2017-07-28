@@ -1,18 +1,16 @@
-/*global
+/* global
  App, angular, BASE_PATH
  */
 
-angular.module("starter").controller("MediaPlayerController", function($cordovaSocialSharing, $ionicHistory, Modal,
+angular.module('starter').controller('MediaPlayerController', function ($cordovaSocialSharing, $ionicHistory, Modal,
                                                                        $location, $rootScope, $scope, $state,
                                                                        $stateParams, $timeout, $translate, $window,
                                                                        Application, HomepageLayout, MediaPlayer,
                                                                        SB, SocialSharing, LinkService) {
-
-
     $scope.is_webview = !$rootScope.isNativeApp;
 
     Modal
-        .fromTemplateUrl("templates/media/music/l1/player/playlist.html", {
+        .fromTemplateUrl('templates/media/music/l1/player/playlist.html', {
             scope: $scope
         })
         .then(function (modal) {
@@ -38,44 +36,40 @@ angular.module("starter").controller("MediaPlayerController", function($cordovaS
         MediaPlayer.destroy();
     };
 
-    $scope.goBack = function() {
+    $scope.goBack = function () {
+        if (MediaPlayer.is_radio && MediaPlayer.is_initialized) {
+            // l1_fixed && l9 needs another behavior!
+            HomepageLayout.getFeatures()
+                .then(function (features) {
+                    $scope.features = features;
 
-        if(MediaPlayer.is_radio && MediaPlayer.is_initialized) {
-        	
-        	/** l1_fixed && l9 needs another behavior */
-        	HomepageLayout.getFeatures().then(function (features) {
-                $scope.features = features;
-
-                if (!Application.is_customizing_colors && HomepageLayout.properties.options.autoSelectFirst && ($scope.features && $scope.features.first_option !== false)) {
-                    var feat_index = 0;
-                    for(var fi = 0; fi < $scope.features.options.length; fi++) {
-                        var feat = $scope.features.options[fi];
-                        /** Don't load unwanted features on first page. */
-                        if((feat.code !== "code_scan") && (feat.code !== "radio") && (feat.code !== "padlock")) {
-                            feat_index = fi;
-                            break;
+                    if (!Application.is_customizing_colors && HomepageLayout.properties.options.autoSelectFirst &&
+                        ($scope.features && $scope.features.first_option !== false)) {
+                        var featIndex = 0;
+                        for (var fi = 0; fi < $scope.features.options.length; fi = fi + 1) {
+                            var feat = $scope.features.options[fi];
+                            // Don't load unwanted features on first page!
+                            if ((feat.code !== 'code_scan') && (feat.code !== 'radio') && (feat.code !== 'padlock')) {
+                                featIndex = fi;
+                                break;
+                            }
                         }
+
+                        if ($scope.features.options[featIndex].path != $location.path()) {
+                            $ionicHistory.nextViewOptions({
+                                historyRoot: true,
+                                disableAnimate: false
+                            });
+
+                            $location.path($scope.features.options[featIndex].path).replace();
+                        }
+                    } else {
+                        $ionicHistory.goBack(-2);
                     }
-
-                    if($scope.features.options[feat_index].path != $location.path()) {
-                        $ionicHistory.nextViewOptions({
-                            historyRoot: true,
-                            disableAnimate: false
-                        });
-
-                        $location.path($scope.features.options[feat_index].path).replace();
-                    }
-
-                }
-                else{
-                    $ionicHistory.goBack(-2);
-                }
-        	});
-
+                });
         } else {
-        	$ionicHistory.goBack(-1);
+            $ionicHistory.goBack(-1);
         }
-
     };
 
     // Playlist modal
@@ -116,8 +110,7 @@ angular.module("starter").controller("MediaPlayerController", function($cordovaS
     };
 
     $scope.purchase = function () {
-
-        if($rootScope.isNotAvailableOffline()) {
+        if ($rootScope.isNotAvailableOffline()) {
             return;
         }
 
@@ -127,17 +120,14 @@ angular.module("starter").controller("MediaPlayerController", function($cordovaS
     };
 
     $scope.share = function () {
-
         var content = MediaPlayer.current_track.name;
-        if(!MediaPlayer.is_radio) {
-            content = MediaPlayer.current_track.name + " from " + MediaPlayer.current_track.artistName;
+        if (!MediaPlayer.is_radio) {
+            content = MediaPlayer.current_track.name + ' from ' + MediaPlayer.current_track.artistName;
         }
         var file = MediaPlayer.current_track.albumCover ? MediaPlayer.current_track.albumCover : undefined;
 
         SocialSharing.share(content, undefined, undefined, undefined, file);
-
     };
 
     $scope.loadContent();
-
 });

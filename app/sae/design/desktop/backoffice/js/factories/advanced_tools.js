@@ -23,5 +23,16 @@ App.factory('AdvancedTools', function($http, Url) {
 
     };
 
+    factory.restoreapps = function() {
+
+        return $http({
+            method: 'GET',
+            url: Url.get("backoffice/advanced_tools/restoreapps"),
+            cache: false,
+            responseType:'json'
+        });
+
+    };
+
     return factory;
 });

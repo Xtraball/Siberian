@@ -33,7 +33,7 @@
 
             <div ng-show="!player.is_radio">
                 <div class=" range range-positive">
-                    <input type="range" name="seekbar" min="0" max="{{ player.duration }}" value="{{ player.elapsed_time }}" on-touch="willSeek()" on-release="seekTo(player.elapsed_time)" ng-model="player.elapsed_time">
+                    <input type="range" name="seekbar" min="0" max="{{ player.media.duration }}" value="{{ player.elapsed_time }}" on-touch="willSeek()" on-release="seekTo(player.elapsed_time)" ng-model="player.elapsed_time">
                 </div>
             </div>
         </div>

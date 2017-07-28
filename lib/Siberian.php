@@ -13,6 +13,11 @@ class Siberian {
     public static $whitelabel = false;
 
     /**
+     * @var bool|Application_Model_Application
+     */
+    public static $application = false;
+
+    /**
      * @param $whitelabel
      */
     public static function setWhitelabel($whitelabel) {
@@ -20,9 +25,23 @@ class Siberian {
     }
 
     /**
-     * @return bool|Whitelabel_Model_Editor
+     * @return bool|Application_Model_Application
      */
     public static function getWhitelabel() {
         return self::$whitelabel;
+    }
+
+    /**
+     * @param $application
+     */
+    public static function setApplication($application) {
+        self::$application = $application;
+    }
+
+    /**
+     * @return bool|Application_Model_Application
+     */
+    public static function getApplication() {
+        return self::$application;
     }
 }

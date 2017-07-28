@@ -80,11 +80,11 @@ angular.module("starter").directive("sbAClick", function($filter, $rootScope, $t
 
         }
     };
-});;angular.module("starter").directive("sbCmsText", function() {
+});;angular.module('starter').directive('sbCmsText', function () {
     return {
         restrict: 'A',
         scope: {
-            block: "="
+            block: '='
         },
         template:
         '<div class="item item-text-wrap item-custom sb-cms-text">' +
@@ -93,12 +93,12 @@ angular.module("starter").directive("sbAClick", function($filter, $rootScope, $t
         '   <div class="cb"></div>' +
         '</div>'
     };
-}).directive("sbCmsImage", function() {
+}).directive('sbCmsImage', function () {
     return {
         restrict: 'A',
         scope: {
-            block: "=",
-            gallery: "="
+            block: '=',
+            gallery: '='
         },
         template:
         '<div class="item item-image-gallery item-custom">' +
@@ -108,20 +108,20 @@ angular.module("starter").directive("sbAClick", function($filter, $rootScope, $t
         '</div>' +
         '<div ng-if="block.description" class="item item-custom padding description">{{ block.description }}</div>'
     };
-}).directive("sbCmsCover", function() {
+}).directive('sbCmsCover', function () {
     return {
         restrict: 'A',
         scope: {
-            block: "="
+            block: '='
         },
         template: '<img width="100%" ng-src="{{ block.gallery[0].src }}" alt="{{block.name}}">'
     };
-}).directive("sbCmsSlider", function() {
+}).directive('sbCmsSlider', function () {
     return {
         restrict: 'A',
         scope: {
-            block: "=",
-            gallery: "="
+            block: '=',
+            gallery: '='
         },
         template:
         '<div class="item item-image-gallery item-custom sb-cms-image">' +
@@ -148,89 +148,84 @@ angular.module("starter").directive("sbAClick", function($filter, $rootScope, $t
         '       </ion-content>' +
         '   </div>'+
         '</script>',
-        controller: function($ionicGesture, Modal, $ionicScrollDelegate, $ocLazyLoad, $scope) {
+        controller: function ($ionicGesture, Modal, $ionicScrollDelegate, $scope) {
+            $scope.carouselIndex = 0;
 
-            $ocLazyLoad.load("./js/libraries/angular-carousel.min.js")
-                .then(function() {
-                    $scope.carouselIndex = 0;
+            $scope.is_fullscreen = false;
 
-                    $scope.is_fullscreen = false;
+            $scope.setCarouselIndex = function (index) {
+                if (index < 0) {
+                    index = 0;
+                } else if (index >= $scope.block.gallery.length) {
+                    index--;
+                }
+                $scope.carouselIndexModal = index;
+            };
 
-                    $scope.setCarouselIndex = function(index) {
-                        if(index < 0) {
-                            index = 0;
-                        } else if(index >= $scope.block.gallery.length) {
-                            index--;
-                        }
-                        $scope.carouselIndexModal = index;
-                    };
+            $scope.showFullscreen = function (index) {
+                Modal
+                    .fromTemplateUrl('zoom-modal.html', {
+                        scope: $scope,
+                        animation: 'block'
+                    }).then(function (modal) {
+                    $scope.modal = modal;
+                    $scope.carouselIndexModal = index;
+                    $scope.modal.show();
 
-                    $scope.showFullscreen = function(index) {
-                        Modal
-                            .fromTemplateUrl("zoom-modal.html", {
-                                scope: $scope,
-                                animation: "block"
-                            }).then(function(modal) {
-                            $scope.modal = modal;
-                            $scope.carouselIndexModal = index;
-                            $scope.modal.show();
+                    $scope.modal.is_zoomed = false;
+                    $scope.modal.scale_to_original_size = false;
 
-                            $scope.modal.is_zoomed = false;
+                    var element = angular.element(document.getElementById('zoomedImage'));
+
+                    $scope.modal.release = $ionicGesture.on('release', function () {
+                        if ($scope.modal.scale_to_original_size) {
+                            $ionicScrollDelegate.$getByHandle('slide-' + $scope.carouselIndexModal).zoomTo(1, true);
                             $scope.modal.scale_to_original_size = false;
+                        }
+                    }, element);
 
-                            var element = angular.element(document.getElementById('zoomedImage'));
+                    $scope.modal.pinch = $ionicGesture.on('pinch', function (event, o, t, l) {
+                        if (event.gesture.scale < 1) {
+                            $scope.modal.scale_to_original_size = true;
+                        }
+                    }, element);
 
-                            $scope.modal.release = $ionicGesture.on("release", function() {
-                                if($scope.modal.scale_to_original_size) {
-                                    $ionicScrollDelegate.$getByHandle('slide-' + $scope.carouselIndexModal).zoomTo(1, true);
-                                    $scope.modal.scale_to_original_size = false;
-                                }
-                            }, element);
+                    $scope.modal.doubleTap = $ionicGesture.on('doubletap', function (event) {
+                        if ($scope.modal.is_zoomed) {
+                            $ionicScrollDelegate.$getByHandle('slide-' + $scope.carouselIndexModal).zoomTo(1, true);
+                        } else {
+                            $ionicScrollDelegate.$getByHandle('slide-' + $scope.carouselIndexModal).zoomTo(3, true, event.gesture.touches[0].pageX, event.gesture.touches[0].pageY);
+                        }
 
-                            $scope.modal.pinch = $ionicGesture.on("pinch", function (event, o, t, l) {
-                                if(event.gesture.scale < 1) {
-                                    $scope.modal.scale_to_original_size = true;
-                                }
-                            }, element);
-
-                            $scope.modal.doubleTap = $ionicGesture.on("doubletap", function (event) {
-                                if($scope.modal.is_zoomed) {
-                                    $ionicScrollDelegate.$getByHandle('slide-' + $scope.carouselIndexModal).zoomTo(1, true);
-                                } else {
-                                    $ionicScrollDelegate.$getByHandle('slide-' + $scope.carouselIndexModal).zoomTo(3, true, event.gesture.touches[0].pageX, event.gesture.touches[0].pageY);
-                                }
-
-                                $scope.modal.is_zoomed = !$scope.modal.is_zoomed;
-                            }, element);
-                        });
-
-                    };
-
-                    $scope.hideFullscreen = function() {
-                        $scope.carouselIndex = $scope.carouselIndexModal;
-                        $scope.modal.remove();
-                    };
+                        $scope.modal.is_zoomed = !$scope.modal.is_zoomed;
+                    }, element);
                 });
+            };
+
+            $scope.hideFullscreen = function () {
+                $scope.carouselIndex = $scope.carouselIndexModal;
+                $scope.modal.remove();
+            };
         }
     };
-}).directive("sbCmsVideo", function() {
+}).directive('sbCmsVideo', function () {
     return {
         restrict: 'A',
         scope: {
-            block: "="
+            block: '='
         },
         template:
-        '<div class="cms_block">'
-        + '<div sb-video video="block"></div>'
-        + '</div>'
+        '<div class="cms_block">' +
+        '   <div sb-video video="block"></div>' +
+        '</div>'
     };
-}).directive("sbCmsAddress", function() {
+}).directive('sbCmsAddress', function () {
     return {
         restrict: 'A',
         scope: {
-            block: "=",
-            onShowMap: "&",
-            onAddToContact: "&"
+            block: '=',
+            onShowMap: '&',
+            onAddToContact: '&'
         },
         template:
         '<div>' +
@@ -252,28 +247,27 @@ angular.module("starter").directive("sbAClick", function($filter, $rootScope, $t
         '   </div>' +
         '</div>',
         controller: function ($cordovaGeolocation, $ionicLoading, $rootScope, $scope, $window) {
-
             $scope.handle_address_book = false; // Application.handle_address_book;
 
             $scope.showMap = function () {
-                if($rootScope.isOverview) {
+                if ($rootScope.isOverview) {
                     $rootScope.showMobileFeatureOnlyError();
                     return;
                 }
 
-                if($rootScope.isOffline) {
+                if ($rootScope.isOffline) {
                     $rootScope.onlineOnly();
                     return;
                 }
 
                 $ionicLoading.show();
 
-                $cordovaGeolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }).then(function(position) {
+                $cordovaGeolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }).then(function (position) {
                     $scope.getItineraryLink(position.coords, $scope.block);
 
                     $ionicLoading.hide();
-                }, function() {
-                    var null_point = {"latitude":null,"longitude":null};
+                }, function () {
+                    var null_point = { 'latitude': null, 'longitude': null };
                     $scope.getItineraryLink(null_point, $scope.block);
 
                     $ionicLoading.hide();
@@ -281,110 +275,105 @@ angular.module("starter").directive("sbAClick", function($filter, $rootScope, $t
             };
 
             $scope.addToContact = function () {
-
                 if ($scope.onAddToContact && angular.isFunction($scope.onAddToContact)) {
                     $scope.onAddToContact($scope.block);
                 }
             };
 
-            $scope.getItineraryLink = function(point1,point2) {
-                var link = "https://www.google.com/maps/dir/";
+            $scope.getItineraryLink = function (point1, point2) {
+                var link = 'https://www.google.com/maps/dir/';
 
-                if(point1.latitude) {
-                    link += point1.latitude + "," + point1.longitude;
+                if (point1.latitude) {
+                    link = link + (point1.latitude + ',' + point1.longitude);
                 }
 
-                if(point2.latitude) {
-                    link += "/" + point2.latitude + "," + point2.longitude;
+                if (point2.latitude) {
+                    link = link + ('/' + point2.latitude + ',' + point2.longitude);
                 }
 
-                $window.open(link, $rootScope.getTargetForLink(), "location=no");
+                $window.open(link, ($rootScope.isNativeApp ? "_system" : "_blank"), "location=no");
             };
-
         } // !controller
     };
-
-}).directive("sbCmsButton", function() {
+}).directive('sbCmsButton', function () {
     return {
         restrict: 'A',
         scope: {
-            block: "="
+            block: '='
         },
         template:
-        '   <a href="{{ url }}" target="{{ target }}" class="item item-text-wrap item-icon-left item-custom">' +
-        '       <i class="icon" ng-class="icon" ng-if="show_icon"></i>' +
-        '       <i class="icon flex-button-icon" ng-if="!show_icon">' +
-        '           <img ng-src="{{ icon_src }}" style="width: 32px; height: 32px;" />' +
-        '       </i>' +
-        '       {{ label | translate }}' +
-        '   </a>',
+        '<a href="{{ url }}" target="{{ target }}" class="item item-text-wrap item-icon-left item-custom">' +
+        '   <i class="icon" ng-class="icon" ng-if="show_icon"></i>' +
+        '   <i class="icon flex-button-icon" ng-if="!show_icon">' +
+        '       <img ng-src="{{ icon_src }}" style="width: 32px; height: 32px;" />' +
+        '   </i>' +
+        '   {{ label | translate }}' +
+        '</a>',
         controller: function ($scope, LinkService) {
-            $scope.openLink = function() {
-                LinkService.openLink($scope.block.content,{
-                    'hide_navbar': ($scope.block.hide_navbar === "1"),
-                    'use_external_app': ($scope.block.use_external_app === "1")
+            $scope.openLink = function () {
+                LinkService.openLink($scope.block.content, {
+                    'hide_navbar': ($scope.block.hide_navbar === '1'),
+                    'use_external_app': ($scope.block.use_external_app === '1')
                 });
             };
         },
         link: function (scope, element) {
-            switch(scope.block.type_id) {
-                case "phone":
-                    scope.icon = "ion-ios-telephone-outline";
-                    scope.label = (scope.block.label != null && scope.block.label.length > 0) ? scope.block.label : "Phone";
+            switch (scope.block.type_id) {
+                case 'phone':
+                    scope.icon = 'ion-ios-telephone-outline';
+                    scope.label = (scope.block.label != null && scope.block.label.length > 0) ? scope.block.label : 'Phone';
 
                     if (!scope.block.content.startsWith('tel:')) {
-                        scope.block.content = "tel:" + scope.block.content;
+                        scope.block.content = 'tel:' + scope.block.content;
                     }
 
                     scope.url = scope.block.content;
-                    scope.target = "_self";
+                    scope.target = '_self';
                     break;
 
-                case "link":
-                    scope.icon = "ion-ios-world-outline";
-                    scope.label = (scope.block.label != null && scope.block.label.length > 0) ? scope.block.label : "Website";
-                    var a = angular.element(element).find("a");
-                    a.on("click", function (e) {
+                case 'link':
+                    scope.icon = 'ion-ios-world-outline';
+                    scope.label = (scope.block.label != null && scope.block.label.length > 0) ? scope.block.label : 'Website';
+                    var a = angular.element(element).find('a');
+                    a.on('click', function (e) {
                         e.preventDefault();
                         scope.openLink();
                         return false;
                     });
-                    scope.$on("$destroy", function () {
-                        a.off("click");
+                    scope.$on('$destroy', function () {
+                        a.off('click');
                     });
                     break;
 
-                case "email":
+                case 'email':
                     if (!scope.block.content.startsWith('mailto:')) {
-                        scope.block.content = "mailto:" + scope.block.content;
+                        scope.block.content = 'mailto:' + scope.block.content;
                     }
-                    scope.icon = "ion-ios-email";
-                    scope.label = (scope.block.label != null && scope.block.label.length > 0) ? scope.block.label : "Email";
+                    scope.icon = 'ion-ios-email';
+                    scope.label = (scope.block.label != null && scope.block.label.length > 0) ? scope.block.label : 'Email';
                     scope.url = scope.block.content;
-                    scope.target = "_self";
+                    scope.target = '_self';
 
-                    var a = angular.element(element).find("a");
-                    scope.$on("$destroy", function () {
-                        a.off("click");
+                    var a = angular.element(element).find('a');
+                    scope.$on('$destroy', function () {
+                        a.off('click');
                     });
                     break;
-
             }
 
             /** Icon image */
             scope.show_icon = true;
-            if(scope.block.icon.length) {
+            if (scope.block.icon.length) {
                 scope.show_icon = false;
                 scope.icon_src = scope.block.icon;
-                console.log(scope.icon_src);
             }
         }
     };
-}).directive("sbCmsFile", function() {
+}).directive('sbCmsFile', function () {
     return {
         restrict: 'A',
         scope: {
-            block: "="
+            block: '='
         },
         template:
         '<div class="item item-text-wrap item-icon-left item-custom" ng-click="openFile()">' +
@@ -392,8 +381,8 @@ angular.module("starter").directive("sbAClick", function($filter, $rootScope, $t
         '   {{ block.display_name }}' +
         '</div>',
         controller: function ($scope, LinkService) {
-            $scope.openFile = function() {
-                LinkService.openLink($scope.block.file_url,{"use_external_app":"true"});
+            $scope.openFile = function () {
+                LinkService.openLink($scope.block.file_url, { 'use_external_app': 'true' });
             };
         }
     };
@@ -827,9 +816,8 @@ angular.module("starter").directive("sbPadlock", function(Application) {
     App, angular, window
  */
 
-angular.module("starter").directive("sbPageBackground", function ($rootScope, $state, $stateParams, $pwaRequest,
+angular.module('starter').directive('sbPageBackground', function ($rootScope, $state, $stateParams, $pwaRequest,
                                                                   $session, $timeout, Application) {
-
     var init = false,
         is_updating = false,
         device_screen = $session.getDeviceScreen(),
@@ -838,7 +826,7 @@ angular.module("starter").directive("sbPageBackground", function ($rootScope, $s
 
     $session.loaded
         .then(function () {
-            $pwaRequest.get("front/mobile/backgroundimages", {
+            $pwaRequest.get('front/mobile/backgroundimages', {
                 urlParams: {
                     device_width:   device_screen.width,
                     device_height:  device_screen.height
@@ -851,7 +839,7 @@ angular.module("starter").directive("sbPageBackground", function ($rootScope, $s
     return {
         restrict: 'A',
         controller: function ($scope, $state, $stateParams) {
-            $scope.value_id = ($state.current.name === "home") ? "home" : $stateParams.value_id;
+            $scope.value_id = ($state.current.name === 'home') ? 'home' : $stateParams.value_id;
         },
         link: function (scope, element) {
 

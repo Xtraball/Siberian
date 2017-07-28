@@ -16,8 +16,8 @@
                 <div ng-repeat="file in integrity_result.hash">
                     <span>{{ file }}</span>
                 </div>
-
             </div>
+
             <div class="col-md-12" ng-show="integrity_result.missing.length">
                 <h4><?php echo __("File is missing.") ?></h4>
                 <div ng-repeat="file in integrity_result.missing">
@@ -27,8 +27,20 @@
             </div>
         </div>
 
-
     </sb-section>
 </form>
+
+<form ng-submit="restore_apps()" class="form-horizontal">
+    <sb-section title="'<?php echo addcslashes(__("Restore Apps sources"), "'"); ?>'">
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary left"><i class="fa fa-medkit"></i> <?php echo __("Restore Apps"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </sb-section>
+</form>
+
 
 

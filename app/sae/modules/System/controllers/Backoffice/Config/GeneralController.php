@@ -92,7 +92,7 @@ class System_Backoffice_Config_GeneralController extends System_Controller_Backo
 
     public function saveAction() {
 
-        if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+        if($data = Siberian_Json::decode($this->getRequest()->getRawBody())) {
 
             try {
 

@@ -12,7 +12,6 @@ class Push_Model_Db_Table_Iphone_Device extends Core_Model_Db_Table {
             ->joinLeft(array('pdm' => 'push_delivered_message'), 'pdm.device_id = pad.device_id AND pdm.status = 1 AND pdm.is_read = 0 AND pdm.is_displayed = 1 AND pdm.device_type = 1', array('not_read' => new Zend_Db_Expr('COUNT(pdm.deliver_id)')))
             ->joinLeft(array('pm' => 'push_messages'), 'pm.message_id = pdm.message_id AND pm.type_id = 1', array())
             ->where('pad.app_id = ?', $app_id)
-            ->where('(pad.push_badge = "enabled" OR pad.push_alert = "enabled" OR pad.push_sound = "enabled")')
             ->group('pad.device_id')
         ;
 
