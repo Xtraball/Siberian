@@ -261,7 +261,7 @@ angular.module('starter').service('Dialog', function ($ionicPopup, $timeout, $tr
         service.is_open = true;
 
         return $ionicPopup
-            .confirm(data.config)
+            .show(data.config)
             .then(function (result) {
                 data.promise.resolve(result);
                 service.unStack();

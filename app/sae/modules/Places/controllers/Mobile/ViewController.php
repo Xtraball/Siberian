@@ -36,7 +36,7 @@ class Places_Mobile_ViewController extends Application_Controller_Mobile_Default
             $data = array('error' => 1, 'message' => 'An error occurred during process. Please try again later.');
         }
 
-        $this->_sendHtml($data);
+        $this->_sendJson($data);
 
     }
 

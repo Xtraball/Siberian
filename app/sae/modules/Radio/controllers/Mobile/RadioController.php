@@ -21,17 +21,11 @@ class Radio_Mobile_RadioController extends Application_Controller_Mobile_Default
                 $radio_repository = new Radio_Model_Radio();
                 $radio = $radio_repository->find(array('value_id' => $value_id));
 
-                if(substr($radio->getLink(), -1) == "/") {
-                    $stream_tag = ";";
-                } else {
-                    if(mb_stripos($radio->getLink(), "/", 8) > 0) {
-                        $stream_tag = "";
-                    } else {
-                        $stream_tag = "/;";
-                    }
+                // Fix for shoutcast, force stream!
+                $contentType = Siberian_Request::testStream($this->getLink());
+                if(explode('/', $contentType)[0] !== 'audio') {
+                    $this->setLink($this->getLink() . '/;');
                 }
-
-                $radio->setLink($radio->getLink().$stream_tag);
 
                 $data = array("radio" => $this->_toJson($radio));
             }

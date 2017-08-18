@@ -383,7 +383,7 @@ var page = {
         $('#pages_list').on('click', '.delete_page', function (e) {
             var confirm_message = '<?php echo $this->_('Delete this page?') ?>';
             if ($(e.currentTarget).parent().parent().attr('rel').length > 0) {
-                confirm_message = '<?php echo $this->_(' "Remove this page from this folder?"'); ?>';
+                confirm_message = '<?php echo __js("Remove this page from this folder?"); ?>';
             }
 
             if(confirm(confirm_message)) {

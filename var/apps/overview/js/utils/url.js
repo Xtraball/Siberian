@@ -8,21 +8,18 @@ var LOGIN_FB = false;
 var IS_NATIVE_APP = false;
 var DEVICE_TYPE = 3;
 
-console.log("goto", goto, fbtoken, window.location);
-
-if(goto) {
+if (goto) {
     goto = goto[1];
     REDIRECT_URI = goto;
     // Replace the path!
-    window.location.hash = window.location.hash.replace(/\?__goto__=(.*)/, "");
+    window.location.hash = window.location.hash.replace(/\?__goto__=(.*)/, '');
 }
 
-if(fbtoken) {
+if (fbtoken) {
     LOGIN_FB = true;
     fbtoken = fbtoken[1];
-    console.log("fbtoken", LOGIN_FB, fbtoken);
     // Replace the path!
-    window.location.hash = window.location.hash.replace(/\?__tokenfb__=(.*)/, "");
+    window.location.hash = window.location.hash.replace(/\?__tokenfb__=(.*)/, '');
 }
 
 /** Set default variables */
@@ -41,12 +38,11 @@ function getParameterByName(name, url) {
     if (!results[2]) {
         return '';
     }
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
-if(document.URL.indexOf('http') === 0) {
-
-    var BASE_PATH = "/";
+if (document.URL.indexOf('http') === 0) {
+    var BASE_PATH = '/';
     var APP_KEY = null;
     var CURRENT_LANGUAGE = null;
 

@@ -604,7 +604,7 @@ WHERE cap.value_id = {$value_id}
                 "show_titles"   => (boolean) $this->getPage()->getMetadataValue('show_titles'),
             ),
             "page_title"                => $page->getTitle() ? $page->getTitle() : $option_value->getTabbarName(),
-            "picture"                   => $page->getPictureUrl(),
+            "picture"                   => $entity->getPictureUrl() ? $controller->getRequest()->getBaseUrl() . $entity->getPictureUrl() : null,
             "social_sharing_active"     => $option_value->getSocialSharingIsActive()
         );
 

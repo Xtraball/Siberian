@@ -35,17 +35,11 @@ class Radio_Model_Radio extends Core_Model_Default {
 
         if($this->getId()) {
 
-            if(substr($this->getLink(), -1) == "/") {
-                $stream_tag = ";";
-            } else {
-                if(mb_stripos($this->getLink(), "/", 8) > 0) {
-                    $stream_tag = "";
-                } else {
-                    $stream_tag = "/;";
-                }
+            // Fix for shoutcast, force stream!
+            $contentType = Siberian_Request::testStream($this->getLink());
+            if(explode('/', $contentType)[0] !== 'audio') {
+                $this->setLink($this->getLink() . '/;');
             }
-
-            $this->setLink($this->getLink() . $stream_tag);
 
             $payload = array(
                 "radio" => array(

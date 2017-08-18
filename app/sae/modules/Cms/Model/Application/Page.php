@@ -20,7 +20,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
      * @param $params
      * @return collection of pages
      */
-    public static function findAllOrderedByRank($value_id, $params) {
+    public static function findAllOrderedByRank($value_id, $params = null) {
         return self::findAllOrderedBy($value_id, 'rank', $params);
     }
 
@@ -31,7 +31,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
      * @param $params
      * @return collection of pages
      */
-    public static function findAllOrderedByLabel($value_id, $params) {
+    public static function findAllOrderedByLabel($value_id, $params = null) {
         return self::findAllOrderedBy($value_id, 'label', $params);
     }
 

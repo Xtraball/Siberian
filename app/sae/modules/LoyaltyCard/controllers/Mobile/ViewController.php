@@ -96,10 +96,9 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
 
                 // Récupère la carte du client ou, à défaut, en créé une nouvelle
                 $cards = $card->findAllByOptionValue($option_value->getId(), $customer_id);
-
                 foreach($cards as $tmp_card) {
                     // Si la carte existes
-                    if($tmp_card->getCustomerId() == $customer_id) {
+                    if($tmp_card->getId() == $customer_card_id) {
                         $card = $tmp_card;
                         break;
                     }
@@ -157,7 +156,7 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                         $card->createLog($password->getId(), $nbr);
 
                         // On renvoie un message de validation
-                        $s = $nbr>1?'s':'';
+                        $s = ($nbr > 1) ? 's' : '';
                         $msg = __('Point%s successfully validated', $s, $s);
                         $html = array(
                             'success' => true,
@@ -191,7 +190,7 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
             $html['message'] = $e->getMessage();
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
 
     }
 

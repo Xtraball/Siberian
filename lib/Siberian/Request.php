@@ -56,11 +56,11 @@ class Siberian_Request {
      * @param null $cookie_path
      * @return mixed
      */
-    public static function get($endpoint, $data, $cookie_path = null) {
+    public static function get($endpoint, $data = [], $cookie_path = null) {
 
         $request = curl_init();
 
-        if(strpos($endpoint, "?") === false) {
+        if(strpos($endpoint, "?") === false && !empty($data)) {
             $endpoint .= "?".http_build_query($data);
         }
 
@@ -89,5 +89,34 @@ class Siberian_Request {
         }
 
         return $result;
+    }
+
+    /**
+     * @param $endpoint
+     * @param $data
+     * @param null $cookie_path
+     * @return mixed
+     */
+    public static function testStream($endpoint) {
+
+        $request = curl_init();
+
+        # Setting options
+        curl_setopt($request, CURLOPT_URL, $endpoint);
+        curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($request, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($request, CURLOPT_TIMEOUT, 3);
+        curl_setopt($request, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($request, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.78 Safari/537.36');
+
+        # Call
+        curl_exec($request);
+
+        $contentType = curl_getinfo($request, CURLINFO_CONTENT_TYPE);
+
+        curl_close($request);
+
+        return $contentType;
     }
 }

@@ -4,14 +4,14 @@
         <div class="buttons">
             <button class="button button-clear button-dark" ng-click="closePad()">{{ "Cancel" | translate }}</button>
         </div>
-        <h1 class="title">{{ "Enter password" | translate }}</h1>
+        <h1 class="title">{{ page_title | translate }}</h1>
     </ion-header-bar>
 
     <ion-content>
 
         <div class="list" ng-class="{'card' : card_design}">
 
-            <div class="item item-select item-custom" ng-if="pad.card.max_number_of_points > 0 && promotions.length == 0">
+            <div class="item item-select item-custom" ng-if="pad.card.max_number_of_points > 0">
                 <p class="title" ng-hide="pad.number_of_points > 1">{{ pad.number_of_points }} {{ "point to validate" | translate }}</p>
                 <p class="title" ng-hide="pad.number_of_points <= 1">{{ pad.number_of_points }} {{ "points to validate" | translate }}</p>
                 <select ng-model="pad.number_of_points" ng-options="point for point in pad.points"></select>

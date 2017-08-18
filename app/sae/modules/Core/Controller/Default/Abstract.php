@@ -759,8 +759,9 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         if(file_exists($file)) {
 
             $sibTmpPath = Core_Model_Directory::getBasePathTo("/var/tmp");
+            $sibAppsPath = Core_Model_Directory::getBasePathTo("/var/apps");
             //check if we download a file from /var/tmp
-            if(stripos($file,$sibTmpPath) !== 0) {
+            if(stripos($file, $sibTmpPath) !== 0 && stripos($file, $sibAppsPath) !== 0 ) {
                 throw new Exception("Forbidden path $file");
             }
 

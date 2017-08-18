@@ -1,6 +1,6 @@
 /*global
     angular, caches, localStorage, DOMAIN, cordova, StatusBar, window, BASE_PATH, device, ionic, chcp,
-    IS_NATIVE_APP, DEVICE_TYPE, LOGIN_FB, fbtoken, Connection
+    IS_NATIVE_APP, DEVICE_TYPE, LOGIN_FB, fbtoken, Connection, moment
 */
 
 window.momentjs_loaded = false;
@@ -231,7 +231,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
 
             $ionicNavBarDelegate.showBar(false);
 
-            var loadApp = function () {
+            var loadApp = function (refresh) {
                 $log.debug('$ionicPlatform.ready');
 
                 // Fallback empty objects for browser!
@@ -239,11 +239,11 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                 $window.device = $window.device || {};
                 $window.ConnectionService = ConnectionService;
 
-                var network_promise = $q.defer();
+                var networkPromise = $q.defer();
 
                 // Session is ready we can initiate first request!
                 $session.loaded.then(function () {
-                    var device_screen = $session.getDeviceScreen();
+                    var deviceScreen = $session.getDeviceScreen();
 
                     $log.debug('device_uid', $session.getDeviceUid());
                     $log.debug('start: front/mobile/loadv3');
@@ -252,13 +252,13 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         data: {
                             add_language: true,
                             device_uid: $session.getDeviceUid(),
-                            device_width: device_screen.width,
-                            device_height: device_screen.height
+                            device_width: deviceScreen.width,
+                            device_height: deviceScreen.height
                         },
                         timeout: 20000,
                         cache: !isOverview,
-                        refresh: true,
-                        network_promise: network_promise
+                        refresh: refresh,
+                        network_promise: networkPromise
                     }).then(function (data) {
                         var load = data.load;
                         var manifest = data.manifest;
@@ -711,7 +711,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
 
                         Application.loaded = true;
 
-                        network_promise.promise
+                        networkPromise.promise
                             .then(function (networkPromiseResult) {
                                 // On refresh cache success, refresh pages, then refresh homepage!
                                 Pages.populate(networkPromiseResult.homepage);
@@ -754,11 +754,14 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         }
                     }).catch(function (error) {
                         $log.error('main promise caught error, ', error);
+
+                        // In case we are unable to refresh loadApp, use cached version
+                        $timeout(loadApp(false), 1);
                     }); // Main load, then
                 }); // Session loaded
             };
 
-            $timeout(loadApp(), 1);
+            $timeout(loadApp(true), 1);
         });
     });
 

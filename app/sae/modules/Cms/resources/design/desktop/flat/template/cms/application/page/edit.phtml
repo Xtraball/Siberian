@@ -63,7 +63,7 @@ $form_blocks = $cms_form->loadBlocks($blocks);
         <?php
             $welp .= $this->getLayout()->addPartial("block_template", "Core_View_Default", $form_block["template"])
                 ->setForm($form_block["form"])
-                ->setTitle($form_block["block"]->getType())
+                ->setTitle(ucfirst($form_block["block"]->getType()))
                 ->setCmsBlock($form_block["block"])
                 ->toHtml();
         ?>

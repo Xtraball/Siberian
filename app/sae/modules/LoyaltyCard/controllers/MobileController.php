@@ -55,7 +55,7 @@ class Loyaltycard_MobileController extends Application_Controller_Mobile_Default
                     // S'il reste au moins 1 tentative de saisie, on envoie un message d'erreur
                     if($only > 0) {
                         $html['customer_card_id'] = $card->getCustomerCardId();
-                        throw new Exception($this->_('Wrong password.<br />Be carefull! %d remaining attempt%s before locking your card.<br /> Ask the store person for validating your point', $only, $only > 1 ? 's' : ''));
+                        throw new Exception($this->_('Wrong password.<br />Be careful !<br />%d remaining attempt%s before locking your card.<br />Ask the store person for validating your point', $only, $only > 1 ? 's' : ''));
                     }
                     else {
                         // Sinon, on ferme le clavier et on annonce que la carte est bloquée
