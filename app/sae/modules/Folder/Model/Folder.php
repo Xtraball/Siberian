@@ -354,6 +354,9 @@ class Folder_Model_Folder extends Core_Model_Default {
     private function _getAllChildren($category, &$tab_children) {
         $children = $category->getChildren();
         foreach($children as $child) {
+            if($category->getCategoryId() === $category->getParentId()) {
+                continue;
+            }
             $child->setFatherName($category->getTitle());
             array_push($tab_children, $child);
             $this->_getAllChildren($child, $tab_children);
