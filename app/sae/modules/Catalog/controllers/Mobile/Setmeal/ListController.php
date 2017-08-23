@@ -27,8 +27,6 @@ class Catalog_Mobile_Setmeal_ListController extends Application_Controller_Mobil
                     )
                 );
 
-
-
                 foreach($menus as $menu) {
 
                     $thumbnail_b64 = null;
@@ -46,7 +44,7 @@ class Catalog_Mobile_Setmeal_ListController extends Application_Controller_Mobil
                     $collection[] = array(
                         "id"        => $menu->getId() * 1,
                         "title"     => $menu->getName(),
-                        "subtitle"  => $menu->getFormattedPrice(),
+                        "subtitle"  => $menu->getPrice() > 0 ? $menu->getFormattedPrice() : null,
                         "picture"   => $thumbnail_b64,
                         "url"       => $this->getPath("catalog/mobile_setmeal_view", array(
                                             "value_id" => $value_id, "set_meal_id" => $menu->getId())),

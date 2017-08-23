@@ -21,7 +21,7 @@ $data = array(
     'only_once'     => 1,
     'is_ajax'       => 1,
     'position'      => 130,
-    "use_my_account" => 1,
+    "use_my_account" => 0,
 );
 
 $option = Siberian_Feature::install($category, $data, array('code'));

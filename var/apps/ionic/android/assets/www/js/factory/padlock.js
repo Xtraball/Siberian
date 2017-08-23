@@ -30,7 +30,7 @@ angular.module('starter').factory('Padlock', function ($pwaRequest) {
             if (angular.isArray(factory.events[i])) {
                 var data = factory.events[i];
                 for (var j = 0; j < data.length; j++) {
-                    /** Trigger a cahce refresh */
+                    // Trigger a cache refresh!
                     $pwaRequest.cache(data[j]);
                 }
             }

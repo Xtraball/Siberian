@@ -41,30 +41,6 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
         FacebookConnect.login();
     };
 
-    $scope.forgotPassword = function() {
-
-        Loader.show();
-
-        Customer.forgottenpassword($scope.customer.email)
-            .then(function(data) {
-                if(data && angular.isDefined(data.message)) {
-                    Dialog.alert("", data.message, "OK", -1);
-
-                    if(data.success) {
-                        $scope.displayLoginForm();
-                    }
-                }
-            }, function(data) {
-                if(data && angular.isDefined(data.message)) {
-                    Dialog.alert("Error", data.message, "OK", -1);
-                }
-
-            }).then(function() {
-                Loader.hide();
-            });
-
-    };
-
     $scope.hideAvatar = function() {
         $scope.show_avatar = false;
     };
@@ -312,28 +288,32 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
             });
     };
 
-    $scope.displayLoginForm = function() {
+    $scope.displayLoginForm = function () {
         $scope.display_forgot_password_form = false;
         $scope.display_account_form = false;
         $scope.display_privacy_policy = false;
         $scope.display_login_form = true;
     };
 
-    $scope.displayForgotPasswordForm = function() {
+    $rootScope.$on('displayLogin', function () {
+        $scope.displayLoginForm();
+    });
+
+    $scope.displayForgotPasswordForm = function () {
         $scope.display_login_form = false;
         $scope.display_account_form = false;
         $scope.display_privacy_policy = false;
         $scope.display_forgot_password_form = true;
     };
 
-    $scope.displayAccountForm = function() {
+    $scope.displayAccountForm = function () {
         $scope.display_login_form = false;
         $scope.display_forgot_password_form = false;
         $scope.display_privacy_policy = false;
         $scope.display_account_form = true;
     };
 
-    $scope.displayPrivacyPolicy = function(from) {
+    $scope.displayPrivacyPolicy = function (from) {
         $scope.displayed_from = from || '';
         $scope.display_login_form = false;
         $scope.display_forgot_password_form = false;
@@ -341,7 +321,7 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
         $scope.display_privacy_policy = true;
     };
 
-    $scope.scrollTop = function() {
+    $scope.scrollTop = function () {
         $ionicScrollDelegate.scrollTop(false);
     };
 

@@ -381,7 +381,7 @@ angular.module("starter").controller("DiscountListController", function($cordova
 
     $scope.loadContent();
 
-});;/*global
+});;/* global
     App, angular
  */
 
@@ -390,8 +390,7 @@ angular.module("starter").controller("DiscountListController", function($cordova
  *
  * @author Xtraball SAS
  */
-angular.module("starter").factory("Discount", function($pwaRequest, Tc) {
-
+angular.module('starter').factory('Discount', function ($pwaRequest) {
     var factory = {
         value_id: null,
         extendedOptions: {}
@@ -401,7 +400,7 @@ angular.module("starter").factory("Discount", function($pwaRequest, Tc) {
      *
      * @param value_id
      */
-    factory.setValueId = function(value_id) {
+    factory.setValueId = function (value_id) {
         factory.value_id = value_id;
     };
 
@@ -409,14 +408,14 @@ angular.module("starter").factory("Discount", function($pwaRequest, Tc) {
      *
      * @param options
      */
-    factory.setExtendedOptions = function(options) {
+    factory.setExtendedOptions = function (options) {
         factory.extendedOptions = options;
     };
 
     /**
      * Custom Page
      */
-    factory.preFetch = function() {
+    factory.preFetch = function () {
         factory.findAll();
     };
 
@@ -424,13 +423,12 @@ angular.module("starter").factory("Discount", function($pwaRequest, Tc) {
      * @todo move the Tc.find elsewhere.
      * @param refresh
      */
-    factory.findAll = function(refresh) {
-
-        if(!this.value_id) {
-            return $pwaRequest.reject("[Factory::Discount.findAll] missing value_id");
+    factory.findAll = function (refresh) {
+        if (!this.value_id) {
+            return $pwaRequest.reject('[Factory::Discount.findAll] missing value_id');
         }
 
-        return $pwaRequest.get("promotion/mobile_list/findall", angular.extend({
+        return $pwaRequest.get('promotion/mobile_list/findall', angular.extend({
                 urlParams: {
                     value_id: this.value_id
                 },
@@ -438,51 +436,46 @@ angular.module("starter").factory("Discount", function($pwaRequest, Tc) {
             }, factory.extendedOptions));
     };
 
-    factory.find = function(promotion_id, refresh) {
-
-        if(!this.value_id) {
-            return $pwaRequest.reject("[Factory::Discount.find] missing value_id");
+    factory.find = function (promotion_id, refresh) {
+        if (!this.value_id) {
+            return $pwaRequest.reject('[Factory::Discount.find] missing value_id');
         }
 
-        return $pwaRequest.get("promotion/mobile_view/find", {
+        return $pwaRequest.get('promotion/mobile_view/find', {
             urlParams: {
-                value_id        : this.value_id,
-                promotion_id    : promotion_id
+                value_id: this.value_id,
+                promotion_id: promotion_id
             },
             refresh: refresh
         });
-
     };
 
-    factory.use = function(promotion_id) {
-
-        if(!this.value_id) {
-            return $pwaRequest.reject("[Factory::Discount.use] missing value_id");
+    factory.use = function (promotion_id) {
+        if (!this.value_id) {
+            return $pwaRequest.reject('[Factory::Discount.use] missing value_id');
         }
 
-        return $pwaRequest.post("promotion/mobile_list/use", {
+        return $pwaRequest.post('promotion/mobile_list/use', {
             data: {
-                value_id        : this.value_id,
-                promotion_id    : promotion_id
+                value_id: this.value_id,
+                promotion_id: promotion_id
             },
             cache: false
         });
     };
 
-    factory.unlockByQRCode = function(qrcode) {
-
-        if(!this.value_id) {
-            return $pwaRequest.reject("[Factory::Discount.unlockByQRCode] missing value_id");
+    factory.unlockByQRCode = function (qrcode) {
+        if (!this.value_id) {
+            return $pwaRequest.reject('[Factory::Discount.unlockByQRCode] missing value_id');
         }
 
-        return $pwaRequest.post("promotion/mobile_list/unlockByQRCode", {
+        return $pwaRequest.post('promotion/mobile_list/unlockByQRCode', {
             data: {
-                value_id    : this.value_id,
-                qrcode      : qrcode
+                value_id: this.value_id,
+                qrcode: qrcode
             },
             cache: false
         });
-
     };
 
     return factory;

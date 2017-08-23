@@ -103,6 +103,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
 
     public function searchAction()
     {
+        $request = $this->getRequest();
         if ($search_criteria = json_decode($this->getRequest()->getParam("search"))) {
             try {
                 $value_id = $this->getRequest()->getParam("value_id");
@@ -118,7 +119,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                     $place = new Places_Model_Place();
                     $place->setPage($page);
                     // Get the json representation of the place
-                    $representation = $place->asJson($this, $position, $option);
+                    $representation = $place->asJson($this, $position, $option, $request->getBaseUrl());
                     // append it to the places' list
                     $place_list[] = $representation;
                 }
@@ -167,7 +168,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                     $place = new Places_Model_Place();
                     $place->setPage($page);
                     // Get the json representation of the place
-                    $representation = $place->asJson($this, $position, $option);
+                    $representation = $place->asJson($this, $position, $option, $request->getBaseUrl());
                     // append it to the places" list
                     $place_list[] = $representation;
                 }

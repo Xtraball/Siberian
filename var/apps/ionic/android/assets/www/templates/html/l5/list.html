@@ -25,7 +25,7 @@
                         </div>
                         <div class="item-content">
                             <h2>{{ item.title ? item.title : item.author }}</h2>
-                            <p ng-if="item.subtitle">{{ item.subtitle }}</p>
+                            <p ng-if="item.subtitle" ng-bind-html="item.subtitle"></p>
                             <p ng-if="!item.subtitle && item.message">{{ item.message }}</p>
                         </div>
                         <div class="item-image" ng-if="!item.picture">

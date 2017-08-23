@@ -117,7 +117,7 @@ angular.module("starter").controller("FormViewController", function(Location, $s
     $scope.loadContent();
 
 });
-;/*global
+;/* global
     App, angular
  */
 
@@ -126,8 +126,7 @@ angular.module("starter").controller("FormViewController", function(Location, $s
  *
  * @author Xtraball SAS
  */
-angular.module("starter").factory("Form", function($pwaRequest) {
-
+angular.module('starter').factory('Form', function ($pwaRequest) {
     var factory = {
         value_id: null,
         extendedOptions: {}
@@ -137,7 +136,7 @@ angular.module("starter").factory("Form", function($pwaRequest) {
      *
      * @param value_id
      */
-    factory.setValueId = function(value_id) {
+    factory.setValueId = function (value_id) {
         factory.value_id = value_id;
     };
 
@@ -145,24 +144,23 @@ angular.module("starter").factory("Form", function($pwaRequest) {
      *
      * @param options
      */
-    factory.setExtendedOptions = function(options) {
+    factory.setExtendedOptions = function (options) {
         factory.extendedOptions = options;
     };
 
     /**
      * Pre-Fetch feature.
      */
-    factory.preFetch = function() {
+    factory.preFetch = function () {
         factory.findAll();
     };
 
-    factory.findAll = function() {
-
-        if(!this.value_id) {
-            return $pwaRequest.reject("[Factory::Form.findAll] missing value_id");
+    factory.findAll = function () {
+        if (!this.value_id) {
+            return $pwaRequest.reject('[Factory::Form.findAll] missing value_id');
         }
 
-        return $pwaRequest.get("form/mobile_view/find", angular.extend({
+        return $pwaRequest.get('form/mobile_view/find', angular.extend({
             urlParams: {
                 value_id: this.value_id
             }
@@ -170,17 +168,16 @@ angular.module("starter").factory("Form", function($pwaRequest) {
     };
 
     factory.post = function (form) {
-
         if (!this.value_id) {
-            return $pwaRequest.reject("[Factory::Form.post] missing value_id");
+            return $pwaRequest.reject('[Factory::Form.post] missing value_id');
         }
 
-        return $pwaRequest.post("form/mobile_view/post", {
+        return $pwaRequest.post('form/mobile_view/post', {
             urlParams: {
                 value_id: this.value_id
             },
             data: {
-                "form": form
+                'form': form
             },
             cache: false
         });

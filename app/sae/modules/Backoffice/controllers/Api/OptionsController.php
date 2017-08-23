@@ -13,6 +13,7 @@ class Backoffice_Api_OptionsController extends Api_Controller_Default  {
     public $secured_actions = array(
         "manifest",
         "clearcache",
+        "cleartmp",
         "clearlogs",
     );
 
@@ -40,6 +41,20 @@ class Backoffice_Api_OptionsController extends Api_Controller_Default  {
         $this->_sendJson(array(
             "success" => 1,
             "message" => __("Cache cleared."),
+        ));
+    }
+
+    /**
+     * Clear var/tmp
+     */
+    public function cleartmpAction() {
+        Siberian_Cache::__clearTmp();
+        Application_Model_SourceQueue::clearPaths();
+        Application_Model_ApkQueue::clearPaths();
+
+        $this->_sendJson(array(
+            "success" => 1,
+            "message" => __("Temp cleared."),
         ));
     }
 

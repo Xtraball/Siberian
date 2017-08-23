@@ -1,5 +1,5 @@
-/*global
- App, device
+/* global
+ angular, device
  */
 
 /**
@@ -7,16 +7,15 @@
  *
  * @author Xtraball SAS
  */
-angular.module("starter").factory("Search", function($pwaRequest) {
-
+angular.module('starter').factory('Search', function ($pwaRequest) {
     var factory = {
-        url     : null,
-        agent   : null,
+        url: null,
+        agent: null,
         extendedOptions: {}
     };
 
-    factory.setAgent = function (agent, value_id) {
-        agent.value_id = value_id;
+    factory.setAgent = function (agent, valueId) {
+        agent.value_id = valueId;
         factory.agent = agent;
 
         /* The agent performs the finding of particular elements */
@@ -24,17 +23,17 @@ angular.module("starter").factory("Search", function($pwaRequest) {
     };
 
     factory.findAll = function (parameters) {
-
         /* The url and agent must be non-null */
         if (!(this.url && this.agent)) {
-            return $pwaRequest.reject("[Factory::Search.findAll] missing url and agent");
+            return $pwaRequest.reject('[Factory::Search.findAll] missing url and agent');
         }
 
         return $pwaRequest.post(factory.url, {
             urlParams: {
                 value_id: parameters.value_id
             },
-            data : parameters
+            data: parameters,
+            refresh: false
         });
     };
 

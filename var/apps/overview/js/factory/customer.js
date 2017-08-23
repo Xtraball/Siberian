@@ -18,7 +18,8 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
         display_account_form: false,
         login_modal_hidden_subscriber: null,
         is_logged_in: false,
-        facebook_login_enabled: false
+        facebook_login_enabled: false,
+        loginScope: null
     };
 
     /**
@@ -84,6 +85,8 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
         if (scope === undefined) {
             localScope = $rootScope;
         }
+
+        factory.loginScope = localScope;
 
         localScope.card_design = false;
 
@@ -154,8 +157,8 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
                     _pcustomer_get_avatar: function () {
                         factory.getAvatarUrl();
                     },
-                    _pcustomer_forgotten_password: function () {
-                        factory.forgottenpassword();
+                    _pcustomer_forgotten_password: function (email) {
+                        factory.forgotPassword(email);
                     },
                     _pcustomer_remove_card: function () {
                         factory.removeCard();
@@ -261,6 +264,30 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
             });
 
         return promise;
+    };
+
+    factory.forgotPassword = function (email) {
+        try {
+            Loader.show();
+            factory.forgottenpassword(email)
+                .then(function (data) {
+                    if (data && angular.isDefined(data.message)) {
+                        Dialog.alert('', data.message, 'OK', -1);
+
+                        if (data.success) {
+                            $rootScope.$broadcast('displayLogin');
+                        }
+                    }
+                }, function (data) {
+                    if (data && angular.isDefined(data.message)) {
+                        Dialog.alert('Error', data.message, 'OK', -1);
+                    }
+                }).then(function () {
+                    Loader.hide();
+                });
+        } catch (e) {
+            Loader.hide();
+        }
     };
 
     factory.getAvatarUrl = function (customerId, options) {

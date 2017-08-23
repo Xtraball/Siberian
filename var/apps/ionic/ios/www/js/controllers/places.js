@@ -1,46 +1,43 @@
 /*global
- App, angular, BASE_PATH
+  angular, BASE_PATH
  */
 
-angular.module("starter").controller("PlacesListController", function (Location, $q, $scope, $rootScope, $state,
+angular.module('starter').controller('PlacesListController', function (Location, $q, $scope, $rootScope, $state,
                                                                        $stateParams, $translate, $timeout, Places,
                                                                        Search) {
-
     angular.extend($scope, {
-        is_loading  : true,
-        value_id    : $stateParams.value_id,
-        position    : {
+        is_loading: true,
+        value_id: $stateParams.value_id,
+        position: {
             longitude: 0,
             latitude: 0
         },
-        settings    : null,
+        settings: null,
         show_search_bar: false,
-        search_part_name: "SEARCH",
+        search_part_name: 'SEARCH',
         tag: null,
-        filter_search: "",
+        filter_search: '',
         parameters: {
-            "value_id": $stateParams.value_id
+            'value_id': $stateParams.value_id
         },
-        collection              : [],
-        load_more               : false,
-        use_pull_refresh        : true,
-        pull_to_refresh         : false,
-        card_design             : false,
-        module_code             : "places"
+        collection: [],
+        load_more: false,
+        use_pull_refresh: true,
+        pull_to_refresh: false,
+        card_design: false,
+        module_code: 'places'
     });
 
     Places.setValueId($stateParams.value_id);
 
-
     // @var $scope.filter_search
-    //IMPORTANT! MCommerce and Places use same list template
-    //This settings is here to make search in mcommerce available
+    // IMPORTANT! MCommerce and Places use same list template
+    // This settings is here to make search in mcommerce available
     // important OK ... but named is better > mcommerce_search_filter ....
 
-    $scope.setSearchPartName = function (part_name) {
-
+    $scope.setSearchPartName = function (partName) {
         /* SEARCH, SEARCH_TEXT, SEARCH_TYPE, SEARCH_ADDRESS, SEARCH_AROUND_YOU */
-        $scope.search_part_name = part_name;
+        $scope.search_part_name = partName;
     };
 
     $scope.findByAroundyou = function () {
@@ -61,29 +58,27 @@ angular.module("starter").controller("PlacesListController", function (Location,
      * @param tag
      */
     $scope.findByTag = function (tag) {
-
-        $scope.search.type = ($scope.search.type === tag) ? "" : tag;
+        $scope.search.type = ($scope.search.type === tag) ? '' : tag;
         $scope.loadPlaces();
     };
 
     /** What the fuck ? */
     $scope.getState = function () {
         if ($scope.is_loading) {
-            return "LOADING";
+            return 'LOADING';
         } else if (Array.isArray($scope.collection) && $scope.collection.length > 0) {
-            return "RESULTS";
-        } else {
-            return "NO_RESULTS";
+            return 'RESULTS';
         }
+            return 'NO_RESULTS';
     };
 
     /* Store search params */
     $scope.initSearch = function () {
         $scope.search = {
-            "text"      : "",
-            "type"      : "",
-            "address"   : "",
-            "aroundyou" : false
+            'text': '',
+            'type': '',
+            'address': '',
+            'aroundyou': false
         };
     };
 
@@ -92,15 +87,15 @@ angular.module("starter").controller("PlacesListController", function (Location,
      * If true then load all places, otherwise search for terms
      */
     $scope.searchIsEmpty = function () {
-        return (($scope.search.text === "") &&
-                ($scope.search.type === "") &&
-                ($scope.search.address === "") &&
+        return (($scope.search.text === '') &&
+                ($scope.search.type === '') &&
+                ($scope.search.address === '') &&
                 (!$scope.search.aroundyou));
     };
 
     $scope.clear = function () {
         $scope.loadPlaces();
-        $scope.setSearchPartName("SEARCH");
+        $scope.setSearchPartName('SEARCH');
     };
 
 
@@ -108,11 +103,11 @@ angular.module("starter").controller("PlacesListController", function (Location,
      * Configuring the Search service
      */
     Search.setAgent(Places, $scope.value_id);
-    Search.url = "places/mobile_list/searchv2";
+    Search.url = 'places/mobile_list/searchv2';
 
     $scope.right_button = {
-        icon: "ion-ios-location-outline",
-        action: function() {
+        icon: 'ion-ios-location-outline',
+        action: function () {
             $scope.goToMap();
         }
     };
@@ -150,7 +145,7 @@ angular.module("starter").controller("PlacesListController", function (Location,
         /* Initialize search terms */
         $scope.initSearch();
 
-        var noGeoLoc = function() {
+        var noGeoLoc = function () {
             $scope.position = {
                 latitude: 0, longitude: 0
             };
@@ -160,24 +155,24 @@ angular.module("starter").controller("PlacesListController", function (Location,
             $scope.loadPlaces(loadMore, false);
         };
 
-        if($rootScope.isOffline) {
+        if ($rootScope.isOffline) {
             noGeoLoc();
         } else {
             Location.getLocation()
-                .then(function(position) {
-                $scope.position = {latitude: position.coords.latitude, longitude: position.coords.longitude};
+                .then(function (position) {
+                $scope.position = {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+                };
                 $scope.parameters.latitude = position.coords.latitude;
                 $scope.parameters.longitude = position.coords.longitude;
 
                 $scope.loadPlaces(loadMore, true);
-
             }, noGeoLoc);
         }
-
-
     };
 
-    $scope.loadMore = function() {
+    $scope.loadMore = function () {
         $scope.loadPlaces(true);
     };
 
@@ -202,17 +197,16 @@ angular.module("starter").controller("PlacesListController", function (Location,
 
         resolver
             .then(function (data) {
-
                 $scope.page_title = data.page_title;
                 Places.collection = Places.collection.concat(angular.copy(data.places));
                 $scope.reduce_collection = data.places.reduce(function (collection, place) {
                     var item = {
-                        id          : place.id,
-                        title       : place.title,
-                        subtitle    : place.subtitle,
-                        picture     : place.picture,
-                        thumbnail   : place.thumbnail,
-                        url         : place.url
+                        id: place.id,
+                        title: place.title,
+                        subtitle: place.subtitle,
+                        picture: place.picture,
+                        thumbnail: place.thumbnail,
+                        url: place.url
                     };
                     collection.push(item);
                     return collection;
@@ -220,16 +214,14 @@ angular.module("starter").controller("PlacesListController", function (Location,
 
                 $scope.collection = $scope.collection.concat($scope.reduce_collection);
 
-                $scope.load_more = (data.places.length >= data.displayed_per_page);
-
+                $scope.load_more = (data.places.length > 0);
             }).then(function () {
-                if(loadMore) {
+                if (loadMore) {
                     $scope.$broadcast('scroll.infiniteScrollComplete');
                 }
 
                 $scope.is_loading = false;
             });
-
     };
 
     $scope.pullToRefresh = function () {
@@ -237,19 +229,18 @@ angular.module("starter").controller("PlacesListController", function (Location,
         $scope.load_more = false;
 
         Places.findAll($scope.position, 0, true)
-            .then(function(data) {
-
-                if(data.collection) {
+            .then(function (data) {
+                if (data.collection) {
                     $scope.page_title = data.page_title;
                     Places.collection = angular.copy(data.places);
                     $scope.reduce_collection = data.places.reduce(function (collection, place) {
                         var item = {
-                            id          : place.id,
-                            title       : place.title,
-                            subtitle    : place.subtitle,
-                            picture     : place.picture,
-                            thumbnail   : place.thumbnail,
-                            url         : place.url
+                            id: place.id,
+                            title: place.title,
+                            subtitle: place.subtitle,
+                            picture: place.picture,
+                            thumbnail: place.thumbnail,
+                            url: place.url
                         };
                         collection.push(item);
                         return collection;
@@ -259,41 +250,37 @@ angular.module("starter").controller("PlacesListController", function (Location,
                 }
 
                 $scope.load_more = (data.places.length >= data.displayed_per_page);
-
-            }).then(function() {
+            }).then(function () {
                 $scope.$broadcast('scroll.refreshComplete');
                 $scope.pull_to_refresh = false;
 
-                $timeout(function() {
+                $timeout(function () {
                     $scope.can_load_older_posts = !!$scope.collection.length;
                 }, 500);
-
             });
     };
 
     $scope.goToMap = function () {
-        if($rootScope.isNotAvailableOffline()) {
+        if ($rootScope.isNotAvailableOffline()) {
             return;
         }
 
-        $state.go("places-list-map", {
+        $state.go('places-list-map', {
             value_id: $scope.value_id,
             page_id: $stateParams.page_id
         });
     };
 
-    $scope.showItem = function(item) {
-        $state.go("places-view", {
-            value_id    : $scope.value_id,
-            page_id     : item.id,
-            type        : "places"
+    $scope.showItem = function (item) {
+        $state.go('places-view', {
+            value_id: $scope.value_id,
+            page_id: item.id,
+            type: 'places'
         });
     };
 
     $scope.loadContent(false);
-
-}).controller("CmsListMapController", function ($scope, $state, $stateParams, Places) {
-
+}).controller('CmsListMapController', function ($scope, $state, $stateParams, $translate, Places) {
     angular.extend($scope, {
         is_loading: true,
         value_id: $stateParams.value_id
@@ -302,61 +289,63 @@ angular.module("starter").controller("PlacesListController", function (Location,
     Places.setValueId($stateParams.value_id);
 
     $scope.loadContent = function () {
+        Places.findAllMaps()
+            .then(function (data) {
+                $scope.page_title = data.page_title;
+                $scope.collection = data.places;
 
-        Places.findAllMaps().then(function(data) {
+                var markers = [];
 
-            $scope.page_title = data.page_title;
-            $scope.collection = data.places;
+                for (var i = 0; i < $scope.collection.length; i = i + 1) {
+                    var place = $scope.collection[i];
 
-            var markers = [];
-
-            for(var i = 0; i < $scope.collection.length; i++) {
-
-                var place = $scope.collection[i];
-
-                var marker = {
-                    title: place.title + "<br />" + place.address.address,
-                    onClick: function() {
-                        $scope.goToPlace(place.id);
-                    }
-                };
-
-                if(place.address.latitude && place.address.longitude) {
-                    marker.latitude = place.address.latitude;
-                    marker.longitude = place.address.longitude;
-                } else {
-                    marker.address = place.address.address;
-                }
-
-                if(place.picture) {
-                    marker.icon = {
-                        url: place.picture,
-                        width: 70,
-                        height: 44
+                    var marker = {
+                        config: {
+                            id: angular.copy(place.id)
+                        },
+                        title:
+                            place.title + '<br />' +
+                            place.address.address + '<br />' +
+                            '<i class="ion-android-open"></i>&nbsp;' + $translate.instant('See details') + '</span>',
+                        onClick: (function (config) {
+                            $scope.goToPlace(config.id);
+                        })
                     };
+
+                    if (place.address.latitude && place.address.longitude) {
+                        marker.latitude = place.address.latitude;
+                        marker.longitude = place.address.longitude;
+                    } else {
+                        marker.address = place.address.address;
+                    }
+
+                    if (place.picture) {
+                        marker.icon = {
+                            url: place.picture,
+                            width: 70,
+                            height: 44
+                        };
+                    }
+
+                    markers.push(marker);
                 }
 
-                markers.push(marker);
-            }
-
-            $scope.map_config = {
-                markers: markers,
-                bounds_to_marker: true
-            };
-
-        }).finally(function () {
-            $scope.is_loading = false;
-        });
-
+                $scope.map_config = {
+                    markers: markers,
+                    bounds_to_marker: true
+                };
+            }).finally(function () {
+                $scope.is_loading = false;
+            });
     };
 
     $scope.loadContent();
 
-    $scope.goToPlace = function(place_id) {
-        $state.go("places-view", {
-            value_id    : $scope.value_id,
-            page_id     : place_id,
-            type        : "places"
+    $scope.goToPlace = function (placeId) {
+        $state.go('places-view', {
+            value_id: $scope.value_id,
+            page_id: placeId,
+            type: 'places'
         });
     };
 });

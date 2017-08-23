@@ -1465,7 +1465,8 @@ angular.module("starter").service('GoogleMaps', function ($cordovaGeolocation, $
         directionsRenderer: null,
         panel_id: null,
         markers: [],
-        init: function() {
+        lastInfoWindow: null,
+        init: function () {
             if(typeof GoogleMaps == "undefined" && !gmap_script_appended) {
                 if(_init_called)
                     return;
@@ -1589,28 +1590,31 @@ angular.module("starter").service('GoogleMaps', function ($cordovaGeolocation, $
                     content: infoWindowContent
                 });
 
-                if(markerHasAction) {
-                    google.maps.event.addListener(infoWindows, 'domready', function() {
-                        document.getElementById(id).addEventListener("click", marker.action.onclick);
+                if (markerHasAction) {
+                    google.maps.event.addListener(infoWindows, 'domready', function () {
+                        document.getElementById(id).addEventListener('click', marker.action.onclick);
                     });
                 }
 
                 google.maps.event.addListener(mapMarker, 'click', function () {
+                    if(service.lastInfoWindow !== null) {
+                        service.lastInfoWindow.close();
+                    }
                     infoWindows.open(service.map, mapMarker);
-                    if(marker.hasOwnProperty("onClick") && (typeof marker.onClick === "function")) {
-                        google.maps.event.addDomListener(document.getElementById(marker_id), "click", function(event) {
-                            marker.onClick();
+                    service.lastInfoWindow = infoWindows;
+                    if (marker.hasOwnProperty('onClick') && (typeof marker.onClick === 'function')) {
+                        google.maps.event.addDomListener(document.getElementById(marker_id), 'click', function (event) {
+                            marker.onClick(angular.extend({}, marker.config));
                         });
                     }
                 });
-
             }
 
-            if(marker.is_centered) {
+            if (marker.is_centered) {
                 service.setCenter(marker);
             }
 
-            if(+index < 0) {
+            if (+index < 0) {
                 service.markers.push(mapMarker);
             } else {
                 service.markers.splice(index, 0, mapMarker);
@@ -1618,10 +1622,10 @@ angular.module("starter").service('GoogleMaps', function ($cordovaGeolocation, $
 
             return mapMarker;
         },
-        removeMarker: function(mapMarker) {
+        removeMarker: function (mapMarker) {
             var index = service.markers.indexOf(mapMarker);
 
-            if(index >= 0) {
+            if (index >= 0) {
                 service.markers[index].setMap(null);
                 service.markers.splice(index, 1);
                 return true;
@@ -1629,8 +1633,8 @@ angular.module("starter").service('GoogleMaps', function ($cordovaGeolocation, $
 
             return false;
         },
-        replaceMarker: function(mapMarker, marker) {
-            if(service.removeMarker(mapMarker)) {
+        replaceMarker: function (mapMarker, marker) {
+            if (service.removeMarker(mapMarker)) {
                 return service.addMarker(marker);
             }
 
@@ -1693,17 +1697,18 @@ angular.module("starter").service('GoogleMaps', function ($cordovaGeolocation, $
             });
 
             return deferred.promise;
-
         },
         reverseGeocode: function (position) {
-
             var deferred = $q.defer();
 
             if (!this.geocoder) {
                 this.geocoder = new google.maps.Geocoder();
             }
 
-            var latlng = {lat: position.latitude, lng: position.longitude};
+            var latlng = {
+                lat: position.latitude,
+                lng: position.longitude
+            };
 
             this.geocoder.geocode({
                 'location': latlng
@@ -2948,176 +2953,161 @@ angular.module("starter").service('MusicTracksLoader', function ($q, $stateParam
     return service;
 
 });;/*global
- angular, IS_NATIVE_APP, DEVICE_TYPE, Camera, CameraPopoverOptions, FileReader
- */
+    angular, DEVICE_TYPE, Camera, CameraPopoverOptions, FileReader
+*/
 
 /**
  * Picture
  *
  * @author Xtraball SAS
  */
-angular.module("starter").service("Picture", function($cordovaCamera, $ionicActionSheet, $q, $rootScope,
+angular.module('starter').service('Picture', function ($cordovaCamera, $ionicActionSheet, $q, $rootScope,
                                                       $translate, Dialog, SB) {
-
     var service = {
-        is_open : false,
-        sheet_resolver : null,
-        stack   : []
+        isOpen: false,
+        sheetResolver: null,
+        stack: []
     };
 
     /**
-     *
      * @param width
      * @param height
      * @param quality
      */
-    service.takePicture = function(width, height, quality) {
-
-        if(service.is_open || $rootScope.isNotAvailableInOverview()) {
+    service.takePicture = function (width, height, quality) {
+        if (service.isOpen || $rootScope.isNotAvailableInOverview()) {
             return $q.reject();
         }
 
-        if(Camera === undefined) {
-            Dialog.alert("Error", "Camera is not available.", "OK", -1)
-                .then(function() {
+        if (Camera === undefined) {
+            Dialog.alert('Error', 'Camera is not available.', 'OK', -1)
+                .then(function () {
                     return $q.reject();
                 });
             return $q.reject();
         }
 
-        service.is_open = true;
+        service.isOpen = true;
 
         var deferred = $q.defer();
 
-        width   = (width === undefined) ? 1200 : width;
-        height  = (height === undefined) ? 1200 : height;
-        quality = (quality === undefined) ? 90 : quality;
+        var localWidth = (width === undefined) ? 1200 : width;
+        var localHeight = (height === undefined) ? 1200 : height;
+        var localQuality = (quality === undefined) ? 90 : quality;
 
-        var source_type = Camera.PictureSourceType.CAMERA;
+        var sourceType = Camera.PictureSourceType.CAMERA;
 
         var _buttons = [
             {
-                text: $translate.instant("Import from Library")
+                text: $translate.instant('Import from Library')
             }
         ];
 
-        if(DEVICE_TYPE !== SB.DEVICE.TYPE_BROWSER) {
+        if (DEVICE_TYPE !== SB.DEVICE.TYPE_BROWSER) {
             _buttons.unshift({
-                text: $translate.instant("Take a picture")
+                text: $translate.instant('Take a picture')
             });
         }
 
-        service.sheet_resolver = $ionicActionSheet.show({
+        service.sheetResolver = $ionicActionSheet.show({
             buttons: _buttons,
-            cancelText: $translate.instant("Cancel"),
-            cancel: function() {
-                service.sheet_resolver();
+            cancelText: $translate.instant('Cancel'),
+            cancel: function () {
+                service.sheetResolver();
 
                 deferred.reject({
-                    message: $translate.instant("Cancelled")
+                    message: $translate.instant('Cancelled')
                 });
 
-                service.is_open = false;
+                service.isOpen = false;
             },
-            buttonClicked: function(index) {
-                if(index === 0) {
-                    source_type = Camera.PictureSourceType.CAMERA;
+            buttonClicked: function (index) {
+                if (index === 0) {
+                    sourceType = Camera.PictureSourceType.CAMERA;
                 }
 
-                if(index === 1) {
-                    source_type = Camera.PictureSourceType.PHOTOLIBRARY;
+                if (index === 1) {
+                    sourceType = Camera.PictureSourceType.PHOTOLIBRARY;
                 }
 
                 var options = {
-                    quality                 : quality,
-                    destinationType         : Camera.DestinationType.DATA_URL,
-                    sourceType              : source_type,
-                    encodingType            : Camera.EncodingType.JPEG,
-                    targetWidth             : width,
-                    targetHeight            : height,
-                    correctOrientation      : true,
-                    popoverOptions          : CameraPopoverOptions,
-                    saveToPhotoAlbum        : false
+                    quality: localQuality,
+                    destinationType: Camera.DestinationType.DATA_URL,
+                    sourceType: sourceType,
+                    encodingType: Camera.EncodingType.JPEG,
+                    targetWidth: localWidth,
+                    targetHeight: localHeight,
+                    correctOrientation: true,
+                    popoverOptions: CameraPopoverOptions,
+                    saveToPhotoAlbum: false
                 };
 
-                if(DEVICE_TYPE === SB.DEVICE.TYPE_BROWSER) {
-
-                    var input = angular.element("<input type='file' accept='image/*'>");
-                    var selectedFile = function(evt) {
-                        var file = evt.currentTarget.files[0];
+                if (DEVICE_TYPE === SB.DEVICE.TYPE_BROWSER) {
+                    var input = angular.element('<input type="file" accept="image/*">');
+                    var selectedFile = function (selectEvent) {
+                        var file = selectEvent.currentTarget.files[0];
                         var reader = new FileReader();
-                        reader.onload = function (evt) {
-                            input.off("change", selectedFile);
+                        reader.onload = function (onloadEvent) {
+                            input.off('change', selectedFile);
 
-                            if(evt.target.result.length > 0) {
-                                service.sheet_resolver();
+                            if (onloadEvent.target.result.length > 0) {
+                                service.sheetResolver();
 
                                 deferred.resolve({
-                                    image: evt.target.result
+                                    image: onloadEvent.target.result
                                 });
 
-                                service.is_open = false;
+                                service.isOpen = false;
                             } else {
-                                service.sheet_resolver();
-                                service.is_open = false;
+                                service.sheetResolver();
+                                service.isOpen = false;
                             }
-
                         };
-                        reader.onerror = function() {
-                            service.sheet_resolver();
+                        reader.onerror = function () {
+                            service.sheetResolver();
 
-                            Dialog.alert("Error", "An error occurred while loading the picture.", "OK", -1)
-                                .then(function() {
-                                    service.is_open = false;
+                            Dialog.alert('Error', 'An error occurred while loading the picture.', 'OK', -1)
+                                .then(function () {
+                                    service.isOpen = false;
                                 });
                         };
                         reader.readAsDataURL(file);
                     };
-                    input.on("change", selectedFile);
+                    input.on('change', selectedFile);
                     input[0].click();
-
                 } else {
-
                     $cordovaCamera.getPicture(options)
-                        .then(function(imageData) {
-
-                            service.sheet_resolver();
+                        .then(function (imageData) {
+                            service.sheetResolver();
 
                             deferred.resolve({
-                                image: "data:image/jpeg;base64," + imageData
+                                image: 'data:image/jpeg;base64,' + imageData
                             });
 
-                            service.is_open = false;
+                            service.isOpen = false;
+                        }, function (error) {
+                            service.sheetResolver();
 
-                        }, function(error) {
-
-                            service.sheet_resolver();
-
-                            Dialog.alert("Error", "An error occurred while taking a picture.", "OK", -1)
-                                .then(function() {
-                                    service.is_open = false;
+                            Dialog.alert('Error', 'An error occurred while taking a picture.', 'OK', -1)
+                                .then(function () {
+                                    service.isOpen = false;
                                 });
 
                             deferred.reject({
                                 message: error
                             });
+                        }).catch(function (error) {
+                            service.sheetResolver();
 
-                        }).catch(function(error) {
+                            Dialog.alert('Error', 'An error occurred while taking a picture.', 'OK', -1)
+                                .then(function () {
+                                    service.isOpen = false;
+                                });
 
-                        service.sheet_resolver();
-
-                        Dialog.alert("Error", "An error occurred while taking a picture.", "OK", -1)
-                            .then(function() {
-                                service.is_open = false;
+                            deferred.reject({
+                                message: error
                             });
-
-                        deferred.reject({
-                            message: error
                         });
-
-                    });
-
-
                 }
 
                 return true;
@@ -3125,11 +3115,11 @@ angular.module("starter").service("Picture", function($cordovaCamera, $ionicActi
         });
 
         return deferred.promise;
-
     };
 
     return service;
-});;/*global
+});
+;/*global
  angular, ProgressBar
  */
 
@@ -3140,30 +3130,28 @@ angular.module("starter").service("Picture", function($cordovaCamera, $ionicActi
  *
  * @note wrapper to lazyload/get progressbar js
  */
-angular.module("starter").service("ProgressbarService", function($ocLazyLoad) {
-
+angular.module('starter').service('ProgressbarService', function ($ocLazyLoad) {
     var service = {
         config: {
-            trail: "#eee",
-            bar_text: "#aaa"
+            trail: '#eee',
+            bar_text: '#aaa'
         },
         progress_bar: null
     };
 
-    service.init = function(config) {
+    service.init = function (config) {
         service.config = config;
 
-        return $ocLazyLoad.load("./js/libraries/progressbar.min.js");
+        return $ocLazyLoad.load('./js/libraries/progressbar.min.js');
     };
 
-    service.createCircle = function(container) {
-
+    service.createCircle = function (container) {
         service.progress_bar = new ProgressBar.Circle(container, {
             color: service.config.bar_text,
             strokeWidth: 2.6,
             trailWidth: 2,
             trailColor: service.config.trail,
-            easing: "easeInOut",
+            easing: 'easeInOut',
             duration: 1000,
             text: {
                 autoStyleContainer: false
@@ -3172,21 +3160,20 @@ angular.module("starter").service("ProgressbarService", function($ocLazyLoad) {
                 color: service.config.bar_text,
                 width: 2.6
             },
-            to:   {
+            to: {
                 color: service.config.bar_text,
                 width: 2.6
             },
-            step: function(state, circle) {
-                circle.path.setAttribute("stroke", state.color);
-                circle.path.setAttribute("stroke-width", state.width);
+            step: function (state, circle) {
+                circle.path.setAttribute('stroke', state.color);
+                circle.path.setAttribute('stroke-width', state.width);
 
                 var value = Math.round(circle.value() * 100);
                 if (value === 0) {
-                    circle.setText("");
+                    circle.setText('');
                 } else {
                     circle.setText(value);
                 }
-
             }
         });
     };
@@ -3195,21 +3182,20 @@ angular.module("starter").service("ProgressbarService", function($ocLazyLoad) {
      *
      * @param progress 0-1
      */
-    service.updateProgress = function(progress) {
-        if(service.progress_bar !== null) {
+    service.updateProgress = function (progress) {
+        if (service.progress_bar !== null) {
             service.progress_bar.animate(progress);
         }
     };
 
-    service.remove = function() {
-        if(service.progress_bar !== null) {
+    service.remove = function () {
+        if (service.progress_bar !== null) {
             service.progress_bar.destroy();
             service.progress_bar = null;
         }
     };
 
     return service;
-
 });
 ;/*global
     App, DOMAIN, angular, btoa, device, cordova, calculateDistance

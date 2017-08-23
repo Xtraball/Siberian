@@ -1,4 +1,4 @@
-/*global
+/* global
     App, angular, _
  */
 
@@ -7,13 +7,12 @@
  *
  * @author Xtraball SAS
  */
-angular.module("starter").factory("Folder", function($pwaRequest) {
-
+angular.module('starter').factory('Folder', function ($pwaRequest) {
     var factory = {
-        value_id    : null,
-        folder_id   : null,
-        category_id : null,
-        collection  : [],
+        value_id: null,
+        folder_id: null,
+        category_id: null,
+        collection: [],
         extendedOptions: {}
     };
 
@@ -21,7 +20,7 @@ angular.module("starter").factory("Folder", function($pwaRequest) {
      *
      * @param value_id
      */
-    factory.setValueId = function(value_id) {
+    factory.setValueId = function (value_id) {
         factory.value_id = value_id;
     };
 
@@ -29,7 +28,7 @@ angular.module("starter").factory("Folder", function($pwaRequest) {
      *
      * @param category_id
      */
-    factory.setCategoryId = function(category_id) {
+    factory.setCategoryId = function (category_id) {
         factory.category_id = category_id;
     };
 
@@ -37,40 +36,33 @@ angular.module("starter").factory("Folder", function($pwaRequest) {
      *
      * @param options
      */
-    factory.setExtendedOptions = function(options) {
+    factory.setExtendedOptions = function (options) {
         factory.extendedOptions = options;
     };
 
-    factory.findAll = function(value_id, category_id, options) {
+    factory.findAll = function (value_id, category_id, options) {
+        var localValueId = (value_id === undefined) ? this.value_id : value_id;
+        var localCategoryId = (category_id === undefined) ? this.category_id : category_id;
 
-        value_id = (value_id === undefined) ? this.value_id : value_id;
-        category_id = (category_id === undefined) ? this.category_id : category_id;
-
-        if(!value_id) {
-            return $pwaRequest.reject("[Factory::Facebook.findAll] missing value_id");
+        if (!localValueId) {
+            return $pwaRequest.reject('[Factory::Facebook.findAll] missing value_id');
         }
 
         var payload = $pwaRequest.getPayloadForValueId(factory.value_id);
-        if((payload !== false) && (category_id === null)) {
-
+        if ((payload !== false) && (localCategoryId === null)) {
             return $pwaRequest.resolve(payload);
-
-        } else if((category_id !== null) && (_.find(factory.collection, {category_id: category_id}) !== undefined)) {
-
-            return _.find(factory.collection, {category_id: category_id});
-
-        } else {
-
-            /** Otherwise fallback on PWA */
-            return $pwaRequest.get("folder/mobile_list/findallv2", angular.extend({
-                urlParams: {
-                    value_id    : value_id,
-                    category_id : category_id
-                }
-            }, factory.extendedOptions, options));
-
+        } else if ((localCategoryId !== null) &&
+            (_.find(factory.collection, { category_id: localCategoryId }) !== undefined)) {
+            return _.find(factory.collection, { category_id: localCategoryId });
         }
 
+        // Otherwise fallback on PWA!
+        return $pwaRequest.get('folder/mobile_list/findallv2', angular.extend({
+            urlParams: {
+                value_id: localValueId,
+                category_id: localCategoryId
+            }
+        }, factory.extendedOptions, options));
     };
 
     return factory;

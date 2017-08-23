@@ -137,7 +137,8 @@ angular.module("starter").service('GoogleMaps', function ($cordovaGeolocation, $
         directionsRenderer: null,
         panel_id: null,
         markers: [],
-        init: function() {
+        lastInfoWindow: null,
+        init: function () {
             if(typeof GoogleMaps == "undefined" && !gmap_script_appended) {
                 if(_init_called)
                     return;
@@ -261,28 +262,31 @@ angular.module("starter").service('GoogleMaps', function ($cordovaGeolocation, $
                     content: infoWindowContent
                 });
 
-                if(markerHasAction) {
-                    google.maps.event.addListener(infoWindows, 'domready', function() {
-                        document.getElementById(id).addEventListener("click", marker.action.onclick);
+                if (markerHasAction) {
+                    google.maps.event.addListener(infoWindows, 'domready', function () {
+                        document.getElementById(id).addEventListener('click', marker.action.onclick);
                     });
                 }
 
                 google.maps.event.addListener(mapMarker, 'click', function () {
+                    if(service.lastInfoWindow !== null) {
+                        service.lastInfoWindow.close();
+                    }
                     infoWindows.open(service.map, mapMarker);
-                    if(marker.hasOwnProperty("onClick") && (typeof marker.onClick === "function")) {
-                        google.maps.event.addDomListener(document.getElementById(marker_id), "click", function(event) {
-                            marker.onClick();
+                    service.lastInfoWindow = infoWindows;
+                    if (marker.hasOwnProperty('onClick') && (typeof marker.onClick === 'function')) {
+                        google.maps.event.addDomListener(document.getElementById(marker_id), 'click', function (event) {
+                            marker.onClick(angular.extend({}, marker.config));
                         });
                     }
                 });
-
             }
 
-            if(marker.is_centered) {
+            if (marker.is_centered) {
                 service.setCenter(marker);
             }
 
-            if(+index < 0) {
+            if (+index < 0) {
                 service.markers.push(mapMarker);
             } else {
                 service.markers.splice(index, 0, mapMarker);
@@ -290,10 +294,10 @@ angular.module("starter").service('GoogleMaps', function ($cordovaGeolocation, $
 
             return mapMarker;
         },
-        removeMarker: function(mapMarker) {
+        removeMarker: function (mapMarker) {
             var index = service.markers.indexOf(mapMarker);
 
-            if(index >= 0) {
+            if (index >= 0) {
                 service.markers[index].setMap(null);
                 service.markers.splice(index, 1);
                 return true;
@@ -301,8 +305,8 @@ angular.module("starter").service('GoogleMaps', function ($cordovaGeolocation, $
 
             return false;
         },
-        replaceMarker: function(mapMarker, marker) {
-            if(service.removeMarker(mapMarker)) {
+        replaceMarker: function (mapMarker, marker) {
+            if (service.removeMarker(mapMarker)) {
                 return service.addMarker(marker);
             }
 
@@ -365,17 +369,18 @@ angular.module("starter").service('GoogleMaps', function ($cordovaGeolocation, $
             });
 
             return deferred.promise;
-
         },
         reverseGeocode: function (position) {
-
             var deferred = $q.defer();
 
             if (!this.geocoder) {
                 this.geocoder = new google.maps.Geocoder();
             }
 
-            var latlng = {lat: position.latitude, lng: position.longitude};
+            var latlng = {
+                lat: position.latitude,
+                lng: position.longitude
+            };
 
             this.geocoder.geocode({
                 'location': latlng

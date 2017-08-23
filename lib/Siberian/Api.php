@@ -30,6 +30,7 @@ class Siberian_Api {
         ),
         "backoffice" => array(
             "manifest" => "Rebuild manifest",
+            "cleartmp" => "Clear temp",
             "clearcache" => "Clear cache",
             "clearlog" => "Clear logs",
         ),
