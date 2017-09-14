@@ -16,6 +16,11 @@ abstract class Cms_Form_Block_Abstract extends Siberian_Form_Abstract {
     public $required = false;
 
     /**
+     * @var string
+     */
+    public $blockType = '__unknown__';
+
+    /**
      * Cms_Form_Block_Abstract constructor.
      * @param null $options
      */
@@ -24,6 +29,16 @@ abstract class Cms_Form_Block_Abstract extends Siberian_Form_Abstract {
         $this->uniqid = uniqid();
 
         parent::__construct($options);
+    }
+
+    public function init() {
+        parent::init();
+
+        $uniqid = $this->addSimpleHidden('uniqid_key');
+        $uniqid
+            ->setValue($this->uniqid)
+            ->setBelongsTo('block[' . $this->uniqid . '][' . $this->blockType . ']')
+            ->addClass('uniqid_key');
     }
 
     /**

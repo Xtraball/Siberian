@@ -217,8 +217,12 @@ class Customer_Model_Customer extends Core_Model_Default
         if (empty($this->_metadatas) || (!empty($module_code) && empty($this->_metadatas[$module_code]))) {
             $this->_metadatas = $this->getTable()->findMetadatas($this->getId());
         }
-        if (!$this->getId()) return null;
-        if (is_null($module_code)) return $this->_metadatas;
+        if (!$this->getId()) {
+            return null;
+        }
+        if (is_null($module_code)) {
+            return $this->_metadatas;
+        }
         return is_array($this->_metadatas[$module_code]) ? $this->_metadatas[$module_code] : null;
     }
 

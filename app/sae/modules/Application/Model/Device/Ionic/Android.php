@@ -339,32 +339,35 @@ if(navigator.language) {
     	$store_password = $this->getDevice()->getStorePass();
     	$key_password = $this->getDevice()->getKeyPass();
 
-    	/** Generating Keystore. */
+    	// Generating Keystore!
         $keystore_filename = "{$app_id}.pks";
-    	$keystore_path = Core_Model_Directory::getBasePathTo(self::BACKWARD_ANDROID."/keystore/{$keystore_filename}");
-    	if(!file_exists($keystore_path)) {
-    		/** Sanitize organization name, or default if empty. */
-    		$organization = preg_replace('/[,\s\']+/', " ", System_Model_Config::getValueFor("company_name"));
+    	$keystore_path = Core_Model_Directory::getBasePathTo(self::BACKWARD_ANDROID . '/keystore/' . $keystore_filename);
+    	if (!file_exists($keystore_path)) {
+    		// Sanitize organization name, or default if empty!
+    		$organization = preg_replace('/[,\s\']+/', ' ', System_Model_Config::getValueFor('company_name'));
     		if (!$organization) {
-    			$organization = "Default";
+    			$organization = 'Default';
     		}
 
-    		$keytool = Core_Model_Directory::getBasePathTo("app/sae/modules/Application/Model/Device/Ionic/bin/helper");
+    		$keytool = Core_Model_Directory::getBasePathTo('app/sae/modules/Application/Model/Device/Ionic/bin/helper');
 
     		chmod($keytool, 0777);
     		exec("{$keytool} '{$alias}' '{$organization}' '{$keystore_path}' '{$store_password}' '{$key_password}'");
+
+    		// Copy PKS with a uniqid/date somewhere else!
+    		copy($keystore_path, str_replace('.pks', date('d-m-Y') . '-' . uniqid() . '.pks', $keystore_path));
     	}
-        /** Copy the keystore locally */
+        // Copy the keystore locally!
         copy($keystore_path, "{$this->_dest_source}/{$keystore_filename}");
 
-        /** Backup PKS in DB */
+        // Backup PKS in DB!
         $pks_content = $this->getDevice()->getPks();
-        if(empty($pks_content)) {
+        if (empty($pks_content)) {
             $pks_content = file_get_contents($keystore_path, FILE_BINARY);
             $this->getDevice()->setPks(bin2hex($pks_content))->save();
         }
 
-    	/** Gradle configuration */
+    	// Gradle configuration!
     	$gradlew_path = Core_Model_Directory::getBasePathTo("{$this->_dest_source}/gradlew");
 
         /** Adding a call to the sdk-updater.php at the gradlew top */

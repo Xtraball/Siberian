@@ -5,6 +5,11 @@ class Cms_Form_Block_Slider extends Cms_Form_Block_Image_Abstract {
     /**
      * @var string
      */
+    public $blockType = 'slider';
+
+    /**
+     * @var string
+     */
     public static $image_template = '
 <div class="cms-image" style="background-image: url(#THUMBNAIL_PATH#);">
     <div class="cms-image-handle">

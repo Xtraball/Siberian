@@ -1,7 +1,3 @@
-/*global
- angular, REDIRECT_URI, BASE_PATH, IMAGE_URL, APP_KEY, console
- */
-
 angular.module('starter').controller('HomeController', function ($ionicHistory, $injector,
                                                                 $location, $rootScope, $scope, $state, $timeout,
                                                                 $window, Application, Padlock) {
@@ -10,7 +6,6 @@ angular.module('starter').controller('HomeController', function ($ionicHistory, 
     $ionicHistory.clearHistory();
 
     $scope.loadContent = function () {
-
         $scope.is_loading = true;
 
         if ($window.localStorage.getItem('sb-uc')) {
@@ -56,19 +51,20 @@ angular.module('starter').controller('HomeController', function ($ionicHistory, 
             $scope.tabbar_is_transparent = HomepageLayout.properties.tabbar_is_transparent;
 
 
-            /** Redirect where needed if required (paypal/stripe/etc...) ! */
+            // Redirect where needed if required (paypal/stripe/etc...)!
             if (REDIRECT_URI) {
                 var redirect_path = '/' + APP_KEY + REDIRECT_URI;
                 REDIRECT_URI = false;
                 redirect_path = redirect_path.replace(/(\/)+/, '/');
                 $location.path(redirect_path);
             } else {
-                /** Load first feature is needed */
-                if (!REDIRECT_URI && !Application.is_customizing_colors && HomepageLayout.properties.options.autoSelectFirst && features.first_option !== false) {
+                // Load first feature is needed!
+                if (!REDIRECT_URI && !Application.is_customizing_colors &&
+                    HomepageLayout.properties.options.autoSelectFirst && features.first_option !== false) {
                     var feat_index = 0;
                     for (var fi = 0; fi < features.options.length; fi = fi + 1) {
                         var feat = features.options[fi];
-                        /** Don't load unwanted features on first page. */
+                        // Don't load unwanted features on first page!
                         if ((feat.code !== 'code_scan') && (feat.code !== 'radio') && (feat.code !== 'padlock')) {
                             feat_index = fi;
                             break;
@@ -81,12 +77,12 @@ angular.module('starter').controller('HomeController', function ($ionicHistory, 
                             disableAnimate: false
                         });
 
-                        // go to first feature
+                        // Go to first feature!
                         $location.path(features.options[feat_index].path).replace();
                     }
                 }
 
-                /** When done, call layout hooks */
+                // When done, call layout hooks!
                 $timeout(function () {
                     HomepageLayout.callHooks();
                 }, 100);

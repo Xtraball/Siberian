@@ -31,34 +31,41 @@ class Cms_Application_PageController extends Application_Controller_Default {
      * Remastered edit post, with new models & rules
      */
     public function editpostv2Action() {
-        $values = $this->getRequest()->getParams();
-        $option_value = $this->getCurrentOptionValue();
+        try {
+            $values = $this->getRequest()->getParams();
+            $option_value = $this->getCurrentOptionValue();
 
-        $form = new Cms_Form_Cms();
-        if($form->isValid($values)) {
-            # Create the cms/page/blocks
-            $page_model = new Cms_Model_Application_Page();
-            $page_model->edit_v2($option_value, $values);
+            $form = new Cms_Form_Cms();
+            if($form->isValid($values)) {
+                # Create the cms/page/blocks
+                $page_model = new Cms_Model_Application_Page();
+                $page_model->edit_v2($option_value, $values);
 
-            /** Update touch date, then never expires (until next touch) */
-            $option_value
-                ->touch()
-                ->expires(-1);
+                /** Update touch date, then never expires (until next touch) */
+                $option_value
+                    ->touch()
+                    ->expires(-1);
 
-            $data = array(
-                "success" => 1,
-                "message" => __("Success."),
-            );
-        } else {
-            /** Do whatever you need when form is not valid */
-            $data = array(
-                "error"     => 1,
-                "message"   => $form->getTextErrors(),
-                "errors"    => $form->getTextErrors(true),
-            );
+                $payload = [
+                    'success' => true,
+                    'message' => __('Success.'),
+                ];
+            } else {
+                /** Do whatever you need when form is not valid */
+                $payload = [
+                    'error' => true,
+                    'message' => $form->getTextErrors(),
+                    'errors' => $form->getTextErrors(true),
+                ];
+            }
+        } catch (Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
         }
 
-        $this->_sendJson($data);
+        $this->_sendJson($payload);
     }
 
     /**

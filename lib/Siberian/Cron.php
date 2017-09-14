@@ -60,6 +60,9 @@ class Siberian_Cron {
 		echo sprintf("[CRON: %s]: %s\n", date("Y-m-d H:i:s"), $text);
 	}
 
+    /**
+     * @return array|bool|void
+     */
 	public function triggerAll(){
 		if(!Cron_Model_Cron::is_active()) {
 			$this->log("Cron is disabled in your system, see: Backoffice > Settings > Advanced > Configuration > Cron");
@@ -84,7 +87,7 @@ class Siberian_Cron {
 				);
 				$this->execute($task);
 			}
-			
+
 			return $actions;
 		} catch (Exception $e) {
 			if(APPLICATION_ENV === "development") {
@@ -94,6 +97,23 @@ class Siberian_Cron {
 			return false;
 		}
 	}
+
+    /**
+     * @param $command
+     */
+	public function runTaskByCommand($command) {
+        try {
+            $tasks = $this->cron->getTaskByCommand($command);
+            foreach($tasks as $task) {
+                if(!$task->getId()) {
+                    throw new Siberian_Exception('The task doesn\'t exists.');
+                }
+                $this->execute($task);
+            }
+        } catch (Exception $e) {
+            $this->log('[runTaskByCommand::ERROR]: ' . $e->getMessage());
+        }
+    }
 
 	/**
 	 * @param Cron_Model_Cron $task
@@ -108,7 +128,7 @@ class Siberian_Cron {
 
 			/** Non blocking tasks */
 			try {
-				
+
 				$command = $task->getCommand();
 				if(strpos($command, "::") !== false) {
 					# Split Class::method
@@ -569,9 +589,9 @@ class Siberian_Cron {
                                 ->save();
                         }
 
-                    } catch(Exception $e) {
-
-                        if(strpos($e->getMessage(), "many currently pending authorizations") !== false) {
+                    } catch (Exception $e) {
+                        if ((strpos($e->getMessage(), "many currently pending authorizations") !== false) ||
+                            (strpos($e->getMessage(), "many certificates already issued") !== false)) {
                             # We hit the rate limit, disable for the next seven days
                             $in_a_week = time() + 604800;
                             System_Model_Config::setValueFor("letsencrypt_disabled", $in_a_week);
@@ -582,7 +602,6 @@ class Siberian_Cron {
                             ->setErrorDate(time_to_date(time(), "YYYY-MM-dd HH:mm:ss"))
                             ->setErrorLog($lets_encrypt->getLog())
                             ->save();
-
                     }
 
                     # Disable the certificate after too much errors
@@ -683,6 +702,53 @@ class Siberian_Cron {
 		# Releasing
 		$this->unlock($task->getId());
 	}
+
+    /**
+     * Check payments recurrencies
+     *
+     * @param $task
+     */
+	public function checkpayments($task) {
+        # We do really need to lock this thing !
+        $this->lock($task->getId());
+
+        try {
+            # This handles paypal only!
+            Payment_PaypalController::checkRecurrencies();
+
+        } catch(Exception $e){
+            $this->log($e->getMessage());
+            $task->saveLastError($e->getMessage());
+        }
+
+        # Releasing
+        $this->unlock($task->getId());
+    }
+
+    /**
+     * Check disk usage every day
+     *
+     * @param $task
+     */
+    public function diskusage($task) {
+        # We do really need to lock this thing !
+        $this->lock($task->getId());
+
+        try {
+            # Timeout to 5 minutes.
+            $this->log('[Fetching current disk usage]');
+            Siberian_Cache::getDiskUsage(true);
+
+        } catch(Exception $e){
+            $this->log($e->getMessage());
+            $task->saveLastError($e->getMessage());
+        }
+
+        $this->log('[Done fetching current disk usage]');
+
+        # Releasing
+        $this->unlock($task->getId());
+    }
 
 	/**
 	 * Rebuilds the cache

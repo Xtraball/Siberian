@@ -151,13 +151,7 @@
         </div>        
     </div>
     <div class="background">
-        <?php
-            echo $this->getLayout()
-                ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
-                ->setValueId($option->getId())
-                ->toHtml()
-            ;
-        ?>
+        <?php echo $this->importBackground($option); ?>
     </div>
 
     <div class="layout">
@@ -172,16 +166,19 @@
 
 <script type="text/javascript">
 
+    $(document).ready(function () {
+        bindForms('#list');
+    });
+
     page.setCallback('didappear', function() {
 
         wordpress.init();
 
         <?php if($wordpress->checkModule()) : ?>
-        $('#wordpress_url').val('<?php echo $wordpress->getData('url'); ?>');
-        <?php if($root_category->isValid()) : ?>
-        wordpress.showCategories();
-        <?php endif; ?>
-//        $('#wordpressSearchForm').submit();
+            $('#wordpress_url').val('<?php echo $wordpress->getData('url'); ?>');
+            <?php if($root_category->isValid()) : ?>
+                wordpress.showCategories();
+            <?php endif; ?>
         <?php endif; ?>
 
     });

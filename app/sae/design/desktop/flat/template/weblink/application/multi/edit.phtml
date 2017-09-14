@@ -59,22 +59,20 @@
                 <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>"/>
             </div>
         </div>
-        <div class="background">
-            <?php
-                echo $this->getLayout()
-                    ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
-                    ->setValueId($option_value->getId())
-                    ->toHtml()
-                ;
-            ?>
+        <div class="background background-images-upload">
+            <?php echo $this->importBackground($option_value); ?>
         </div>
     </div>
 </div>
 <script type="text/javascript">
+    $(document).ready(function () {
+        bindForms('.background-images-upload');
+    });
+
     var olddiv = $('.form_content > div#list');
     var weblink_uploader = new Uploader();
 
-    var uploader_types = new Array('cover', 'picto');
+    var uploader_types = ['cover', 'picto'];
     uploader_types['cover'] = {
         height: 585,
         width: 495,

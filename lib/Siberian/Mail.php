@@ -304,7 +304,10 @@ class Siberian_Mail extends Zend_Mail {
                             $this->addTo($recipient->getEmail());
                         break;
                     case "Admin_Model_Admin":
-                            $this->addTo($recipient->getEmail(), sprintf("%s %s", $recipient->getFirstname(), $recipient->getLastname()));
+                            $this->addTo($recipient->getEmail(),
+                                sprintf("%s %s",
+                                    $recipient->getFirstname(),
+                                    $recipient->getLastname()));
                         break;
                 }
 

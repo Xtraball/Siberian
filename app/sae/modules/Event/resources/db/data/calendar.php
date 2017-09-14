@@ -25,7 +25,7 @@ $data = array(
     'only_once'                     => 0,
     'is_ajax'                       => 1,
     'position'                      => 200,
-    'social_sharing_is_available'   => 1
+    'social_sharing_is_available'   => 0
 );
 
 $option = Siberian_Feature::install($category, $data, array('code'));

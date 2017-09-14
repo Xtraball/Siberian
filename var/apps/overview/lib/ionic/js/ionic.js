@@ -2766,8 +2766,7 @@ ionic.tap = {
   },
 
   ignoreScrollStart: function(e) {
-    return (e.defaultPrevented) ||  // defaultPrevented has been assigned by another component handling the event
-           (/^(file|range)$/i).test(e.target.type) ||
+    return (/^(file|range)$/i).test(e.target.type) ||
            (e.target.dataset ? e.target.dataset.preventScroll : e.target.getAttribute('data-prevent-scroll')) == 'true' || // manually set within an elements attributes
            (!!(/^(object|embed)$/i).test(e.target.tagName)) ||  // flash/movie/object touches should not try to scroll
            ionic.tap.isElementTapDisabled(e.target); // check if this element, or an ancestor, has `data-tap-disabled` attribute

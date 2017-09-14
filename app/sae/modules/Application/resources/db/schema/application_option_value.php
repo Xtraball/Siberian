@@ -89,6 +89,12 @@ $schemas['application_option_value'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'background_landscape_image' => array(
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'is_visible' => array(
         'type' => 'tinyint(1)',
         'default' => '1',

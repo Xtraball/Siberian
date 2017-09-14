@@ -97,13 +97,7 @@ $enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getI
         </div>
         <?php endif; ?>
 
-        <?php
-        echo $this->getLayout()
-            ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
-            ->setValueId($option->getId())
-            ->toHtml()
-        ;
-        ?>
+        <?php echo $this->importBackground($option); ?>
     </div>
 
     <div id="cover_crop" style="display:none;">
@@ -476,6 +470,11 @@ $enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getI
     </div>
     <script type="text/javascript">
 
+
+        $(document).ready(function () {
+            bindForms('#list');
+        });
+
         var default_cover_url = '<?php echo $messageobj->getCoverUrl(); ?>';
         var img_uploader = new Uploader();
         var customers_list = [];
@@ -667,18 +666,10 @@ $enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getI
                 });
             },
             show: function() {
-//                if(!$("#no_topics").is(":visible")) {
                 $("#customers_list").show();
                 topic.hide();
-//                }
             },
             hide: function() {
-//                $(".chk_topic").each(function(index,elem) {
-//                    $(elem).removeAttr('checked');
-//                    $(elem).parent().removeClass('checked');
-//                });
-
-//                $("#topic_receiver").val("");
                 $("#customers_list").hide();
             }
         };

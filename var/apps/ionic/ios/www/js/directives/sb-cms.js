@@ -1,3 +1,6 @@
+/**
+ * CMS Directives
+ */
 angular.module('starter').directive('sbCmsText', function () {
     return {
         restrict: 'A',
@@ -72,12 +75,13 @@ angular.module('starter').directive('sbCmsText', function () {
             $scope.is_fullscreen = false;
 
             $scope.setCarouselIndex = function (index) {
-                if (index < 0) {
-                    index = 0;
-                } else if (index >= $scope.block.gallery.length) {
-                    index--;
+                var localIndex = index;
+                if (localIndex < 0) {
+                    localIndex = 0;
+                } else if (localIndex >= $scope.block.gallery.length) {
+                    localIndex = localIndex - 1;
                 }
-                $scope.carouselIndexModal = index;
+                $scope.carouselIndexModal = localIndex;
             };
 
             $scope.showFullscreen = function (index) {
@@ -164,31 +168,29 @@ angular.module('starter').directive('sbCmsText', function () {
         '       {{ "Locate" | translate }}' +
         '   </div>' +
         '</div>',
-        controller: function ($cordovaGeolocation, $ionicLoading, $rootScope, $scope, $window) {
+        controller: function ($cordovaGeolocation, Loader, $rootScope, $scope, $window) {
             $scope.handle_address_book = false; // Application.handle_address_book;
 
             $scope.showMap = function () {
-                if ($rootScope.isOverview) {
-                    $rootScope.showMobileFeatureOnlyError();
+                if ($rootScope.isNotAvailableInOverview()) {
                     return;
                 }
 
-                if ($rootScope.isOffline) {
-                    $rootScope.onlineOnly();
+                if ($rootScope.isNotAvailableOffline()) {
                     return;
                 }
 
-                $ionicLoading.show();
+                Loader.show();
 
                 $cordovaGeolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }).then(function (position) {
                     $scope.getItineraryLink(position.coords, $scope.block);
 
-                    $ionicLoading.hide();
+                    Loader.hide();
                 }, function () {
                     var null_point = { 'latitude': null, 'longitude': null };
                     $scope.getItineraryLink(null_point, $scope.block);
 
-                    $ionicLoading.hide();
+                    Loader.hide();
                 });
             };
 
@@ -209,7 +211,7 @@ angular.module('starter').directive('sbCmsText', function () {
                     link = link + ('/' + point2.latitude + ',' + point2.longitude);
                 }
 
-                $window.open(link, ($rootScope.isNativeApp ? "_system" : "_blank"), "location=no");
+                $window.open(link, ($rootScope.isNativeApp ? '_system' : '_blank'), 'location=no');
             };
         } // !controller
     };
@@ -236,10 +238,12 @@ angular.module('starter').directive('sbCmsText', function () {
             };
         },
         link: function (scope, element) {
+            var a = angular.element(element).find('a');
             switch (scope.block.type_id) {
                 case 'phone':
                     scope.icon = 'ion-ios-telephone-outline';
-                    scope.label = (scope.block.label != null && scope.block.label.length > 0) ? scope.block.label : 'Phone';
+                    scope.label = ((scope.block.label !== null) && (scope.block.label.length > 0)) ?
+                        scope.block.label : 'Phone';
 
                     if (!scope.block.content.startsWith('tel:')) {
                         scope.block.content = 'tel:' + scope.block.content;
@@ -251,8 +255,8 @@ angular.module('starter').directive('sbCmsText', function () {
 
                 case 'link':
                     scope.icon = 'ion-ios-world-outline';
-                    scope.label = (scope.block.label != null && scope.block.label.length > 0) ? scope.block.label : 'Website';
-                    var a = angular.element(element).find('a');
+                    scope.label = ((scope.block.label !== null) && (scope.block.label.length > 0)) ?
+                        scope.block.label : 'Website';
                     a.on('click', function (e) {
                         e.preventDefault();
                         scope.openLink();
@@ -268,11 +272,11 @@ angular.module('starter').directive('sbCmsText', function () {
                         scope.block.content = 'mailto:' + scope.block.content;
                     }
                     scope.icon = 'ion-ios-email';
-                    scope.label = (scope.block.label != null && scope.block.label.length > 0) ? scope.block.label : 'Email';
+                    scope.label = ((scope.block.label !== null) && (scope.block.label.length > 0)) ?
+                        scope.block.label : 'Email';
                     scope.url = scope.block.content;
                     scope.target = '_self';
 
-                    var a = angular.element(element).find('a');
                     scope.$on('$destroy', function () {
                         a.off('click');
                     });

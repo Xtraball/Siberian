@@ -140,7 +140,7 @@
                 <img ng-src="{{ item.thumbnail }}" ng-if="item.thumbnail.length" />
                 <img ng-src="{{ item.picture }}" ng-if="item.picture && !item.thumbnail.length" />
                 <h2>{{ item.title ? item.title : item.author }}</h2>
-                <p ng-if="item.subtitle" ng-bind-html="item.subtitle"></p>
+                <p class="three-lines" ng-if="item.subtitle" ng-bind-html="item.subtitle"></p>
                 <p ng-if="!item.subtitle && item.message">{{ item.message }}</p>
                 <p class="text-align-right" ng-if="item.details">
                     <span ng-if="item.details.date">

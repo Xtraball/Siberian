@@ -5,6 +5,11 @@ class Cms_Form_Block_Cover extends Cms_Form_Block_Image_Abstract {
     /**
      * @var string
      */
+    public $blockType = 'cover';
+
+    /**
+     * @var string
+     */
     public static $image_template = '
 <div class="cms-image" style="background-image: url(#THUMBNAIL_PATH#);">
     <div class="cms-image-delete">

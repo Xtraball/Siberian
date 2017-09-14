@@ -55,17 +55,16 @@
         </div>
     </form>
 </div>
-<div class="background">
-    <?php
-    echo $this->getLayout()
-        ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
-        ->setValueId($option_value->getId())
-        ->toHtml()
-    ;
-    ?>
+<div class="background background-upload-image">
+    <?php echo $this->importBackground($option_value); ?>
 </div>
 
 <script type="text/javascript">
+
+    $(document).ready(function () {
+        bindForms('#list');
+        bindForms('.background-upload-image');
+    });
 
     page.setCallback('didappear', function() {
 

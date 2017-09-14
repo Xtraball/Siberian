@@ -41,6 +41,20 @@ class Cron_Model_Cron extends Core_Model_Default {
 		return $db->fetchAll($select);
 	}
 
+    /**
+     * @param $command
+     * @return mixed
+     */
+	public function getTaskByCommand($command) {
+        $db = $this->getTable();
+        $select = $db->select()
+            ->where("command = ?", $command)
+            ->limit(1)
+        ;
+
+        return $db->fetchAll($select);
+    }
+
 	/**
 	 * Update the last trigger date
 	 */

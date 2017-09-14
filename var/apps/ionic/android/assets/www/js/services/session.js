@@ -105,7 +105,7 @@ angular.module('starter').service('$session', function ($log, $pwaCache, $q, $wi
      *
      * @param width
      * @param height
-     * @returns {{width: number, height: number}}
+     * @returns {{width: number, height: number, orientation: string}}
      */
     service.setDeviceScreen = function (width, height) {
         var orientation = ($window.matchMedia('(orientation: portrait)').matches) ? 'portrait' : 'landscape';
@@ -119,12 +119,13 @@ angular.module('starter').service('$session', function ($log, $pwaCache, $q, $wi
 
     /**
      *
-     * @returns {{width: number, height: number}}
+     * @returns {{width: number, height: number, orientation: string}}
      */
     service.getDeviceScreen = function () {
         return {
-            width   : service.device_width,
-            height  : service.device_height
+            width: service.device_width,
+            height: service.device_height,
+            orientation: service.device_orientation
         };
     };
 
@@ -161,7 +162,7 @@ angular.module('starter').service('$session', function ($log, $pwaCache, $q, $wi
                 $log.debug('Set once $session from pwaRegistry on start: ', value);
                 service.setId(value);
 
-                /** Don't forget to log-in the customer. */
+                // Don't forget to log-in the customer.!
             } else if ((fallback !== null) && (fallback !== undefined)) {
                 $log.debug('Set once $session from fallback localstorage on start: ', fallback);
 

@@ -4,8 +4,7 @@
  *
  * All the following functions are required in order for the Layout to work
  */
-angular.module("starter").service('layout_siberian_swipe', function ($rootScope, $timeout) {
-
+angular.module('starter').service('layout_siberian_swipe', function ($rootScope, $timeout) {
     var service = {};
 
     /**
@@ -34,8 +33,8 @@ angular.module("starter").service('layout_siberian_swipe', function ($rootScope,
      *
      * @returns {string}
      */
-    service.getTemplate = function() {
-        return "modules/layout/home/layout_siberian_swipe/view.html";
+    service.getTemplate = function () {
+        return 'modules/layout/home/layout_siberian_swipe/view.html';
     };
 
     /**
@@ -43,31 +42,31 @@ angular.module("starter").service('layout_siberian_swipe', function ($rootScope,
      *
      * @returns {string}
      */
-    service.getModalTemplate = function() {
-        return "modules/layout/home/modal/view.html";
+    service.getModalTemplate = function () {
+        return 'modules/layout/home/modal/view.html';
     };
 
     /**
      * onResize is used for css/js callbacks when orientation change
      */
-    service.onResize = function() {
-        console.log("last index", service.last_index);
+    service.onResize = function () {
+        console.log('last index', service.last_index);
         var options = _features.layoutOptions;
-        /** Do nothing for this particular one */
+        // Do nothing for this particular one!
         var time_out = ($rootScope.isOverview) ? 1000 : 200;
-        $timeout(function() {
-            if(swipe_instance != null && typeof swipe_instance.destroy == "function") {
+        $timeout(function () {
+            if ((swipe_instance !== null) && (typeof swipe_instance.destroy === 'function')) {
                 swipe_instance.destroy(true, false);
             }
             swipe_instance = new Swiper('.layout.layout_siberian_swipe .swiper-container', {
                 direction: 'vertical',
-                loop: (options.loop == "1") ? true : false,
+                loop: (options.loop === '1'),
                 effect: 'coverflow',
                 centeredSlides: true,
-                initialSlide: (options.backcurrent == "1") ? service.last_index : 0,
+                initialSlide: (options.backcurrent === '1') ? service.last_index : 0,
                 slidesPerView: 'auto',
                 loopedSlides: 6,
-                /**freeMode: true,
+                /** freeMode: true,
                  freeModeMomentum: true,
                  freeModeMomentumRatio: 0.5,
                  freeModeMomentumVelocityRatio: 0.3,
@@ -77,10 +76,9 @@ angular.module("starter").service('layout_siberian_swipe', function ($rootScope,
                     stretch: options.stretch,
                     depth: options.depth,
                     modifier: 1,
-                    slideShadows : false
+                    slideShadows: false
                 }
             });
-
         }, time_out);
     };
 
@@ -95,19 +93,18 @@ angular.module("starter").service('layout_siberian_swipe', function ($rootScope,
      * @param more_button
      * @returns {*}
      */
-    service.features = function(features, more_button) {
+    service.features = function (features, more_button) {
         /** Place more button at the end */
         _features = features;
 
         return features;
     };
 
-    $rootScope.$on("OPTION_POSITION", function(event, args) {
-        $timeout(function() {
+    $rootScope.$on('OPTION_POSITION', function (event, args) {
+        $timeout(function () {
             service.last_index = (args*1)-1;
         });
     });
 
     return service;
-
 });

@@ -47,39 +47,59 @@ class Push_MobileController extends Application_Controller_Mobile_Default {
             $message->findLastPushMessage($device_uid, $application->getId());
 
             if($message->getId()) {
-                //We read this push
+                // We read this push!
                 $message->markAsRead($device_uid,$message->getMessageId());
 
                 if(is_numeric($message->getActionValue())) {
                     $option_value = new Application_Model_Option_Value();
                     $option_value->find($message->getActionValue());
-                    $action_url = $option_value->getPath(null, array('value_id' => $option_value->getId()),false);
+                    $action_url = $option_value->getPath(
+                        null,
+                        array('value_id' => $option_value->getId()),
+                        false
+                    );
                 } else {
                     $action_url = $message->getActionValue();
                 }
 
-                $data["push_message"] = array(
-                    "title" => $message->getTitle(),
-                    "text" => $message->getText(),
-                    "cover" => $message->getCoverUrl() ? $this->getRequest()->getBaseUrl() . $message->getCoverUrl() : null,
-                    "action_value" => $action_url,
-                    "open_webview" => !is_numeric($message->getActionValue())
-                );
+                $data['push_message'] = [
+                    'cover' => $message->getCoverUrl() ?
+                        $this->getRequest()->getBaseUrl() . $message->getCoverUrl() :
+                        null,
+                    'action_value' => $action_url,
+                    'open_webview' => !is_numeric($message->getActionValue()),
+                    'additionalData' => [
+                        'action_value' => $action_url,
+                        'open_webview' => !is_numeric($message->getActionValue()),
+                        'cover' => $message->getCoverUrl() ?
+                            $this->getRequest()->getBaseUrl() . $message->getCoverUrl() :
+                            null,
+                    ],
+                    'message' => $message->getText(),
+                    'title' => $message->getTitle(),
+                    'text' => $message->getText()
+                ];
             }
 
             $message = new Push_Model_Message();
-            $message->findLastInAppMessage($this->getApplication()->getId(),$device_uid);
+            $message->findLastInAppMessage(
+                $this->getApplication()->getId(),
+                $device_uid
+            );
 
             if($message->getId()) {
                 $data["inapp_message"] = array(
                     "title" => $message->getTitle(),
                     "text" => $message->getText(),
-                    "cover" => $message->getCoverUrl() ? $this->getRequest()->getBaseUrl() . $message->getCoverUrl() : null
+                    "message" => $message->getText(),
+                    "cover" => $message->getCoverUrl() ?
+                        $this->getRequest()->getBaseUrl() . $message->getCoverUrl() :
+                        null
                 );
             }
         }
 
-        $this->_sendHtml($data);
+        $this->_sendJson($data);
     }
 
     public function readinappAction(){

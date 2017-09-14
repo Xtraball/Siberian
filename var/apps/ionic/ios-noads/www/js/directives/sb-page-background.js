@@ -3,12 +3,13 @@
  */
 
 angular.module('starter').directive('sbPageBackground', function ($rootScope, $state, $stateParams, $pwaRequest,
-                                                                  $session, $timeout, Application) {
+                                                                  $session, $timeout, $window, Application) {
     var init = false,
         isUpdating = false,
         deviceScreen = $session.getDeviceScreen(),
         deffered = $pwaRequest.defer(),
-        backgroundImages = deffered.promise;
+        backgroundImages = deffered.promise,
+        orientationChange = $window.matchMedia('(orientation: portrait)');
 
     $session.loaded
         .then(function () {
@@ -77,10 +78,15 @@ angular.module('starter').directive('sbPageBackground', function ($rootScope, $s
                                 networkDone = true;
 
                                 var valueId = angular.copy(scope.valueId);
+
+                                if (deviceScreen.orientation === 'landscape') {
+                                    valueId = 'landscape_' + valueId;
+                                }
+
                                 var exists = (angular.isDefined(valueId) &&
                                                 angular.isDefined(data.backgrounds) &&
                                                  angular.isDefined(data.backgrounds[valueId]));
-                                var fallback = ((Application.homepage_background || (valueId === 'home')) &&
+                                var fallback = ((Application.homepage_background || (valueId === 'home' || valueId === 'landscape_home')) &&
                                                 angular.isDefined(data.backgrounds) &&
                                                 angular.isDefined(data.backgrounds.home));
 
@@ -115,6 +121,13 @@ angular.module('starter').directive('sbPageBackground', function ($rootScope, $s
             if (!init) {
                 $rootScope.$on('$stateChangeStart', function (evt, toState, toParams) {
                     scope.valueId = (toState.name === 'home') ? 'home' : toParams.value_id;
+                    updateBackground();
+                });
+
+                orientationChange.addListener(function () {
+                    // Refresh device screen!
+                    deviceScreen = $session.setDeviceScreen();
+                    // Then trigger background update!
                     updateBackground();
                 });
                 init = true;

@@ -14,6 +14,16 @@ angular.module("starter").directive("datetime", function($ionicPlatform) {
         }
     };
 });;/*global
+    angular
+ */
+angular.module('starter')
+    .directive('repeatDone', function () {
+        return function (scope, element, attrs) {
+            if (scope.$last) { // all are rendered
+                scope.$eval(attrs.repeatDone);
+            }
+        };
+    });;/*global
     App, ionic, angular
  */
 
@@ -80,7 +90,10 @@ angular.module("starter").directive("sbAClick", function($filter, $rootScope, $t
 
         }
     };
-});;angular.module('starter').directive('sbCmsText', function () {
+});;/**
+ * CMS Directives
+ */
+angular.module('starter').directive('sbCmsText', function () {
     return {
         restrict: 'A',
         scope: {
@@ -154,12 +167,13 @@ angular.module("starter").directive("sbAClick", function($filter, $rootScope, $t
             $scope.is_fullscreen = false;
 
             $scope.setCarouselIndex = function (index) {
-                if (index < 0) {
-                    index = 0;
-                } else if (index >= $scope.block.gallery.length) {
-                    index--;
+                var localIndex = index;
+                if (localIndex < 0) {
+                    localIndex = 0;
+                } else if (localIndex >= $scope.block.gallery.length) {
+                    localIndex = localIndex - 1;
                 }
-                $scope.carouselIndexModal = index;
+                $scope.carouselIndexModal = localIndex;
             };
 
             $scope.showFullscreen = function (index) {
@@ -246,31 +260,29 @@ angular.module("starter").directive("sbAClick", function($filter, $rootScope, $t
         '       {{ "Locate" | translate }}' +
         '   </div>' +
         '</div>',
-        controller: function ($cordovaGeolocation, $ionicLoading, $rootScope, $scope, $window) {
+        controller: function ($cordovaGeolocation, Loader, $rootScope, $scope, $window) {
             $scope.handle_address_book = false; // Application.handle_address_book;
 
             $scope.showMap = function () {
-                if ($rootScope.isOverview) {
-                    $rootScope.showMobileFeatureOnlyError();
+                if ($rootScope.isNotAvailableInOverview()) {
                     return;
                 }
 
-                if ($rootScope.isOffline) {
-                    $rootScope.onlineOnly();
+                if ($rootScope.isNotAvailableOffline()) {
                     return;
                 }
 
-                $ionicLoading.show();
+                Loader.show();
 
                 $cordovaGeolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }).then(function (position) {
                     $scope.getItineraryLink(position.coords, $scope.block);
 
-                    $ionicLoading.hide();
+                    Loader.hide();
                 }, function () {
                     var null_point = { 'latitude': null, 'longitude': null };
                     $scope.getItineraryLink(null_point, $scope.block);
 
-                    $ionicLoading.hide();
+                    Loader.hide();
                 });
             };
 
@@ -291,7 +303,7 @@ angular.module("starter").directive("sbAClick", function($filter, $rootScope, $t
                     link = link + ('/' + point2.latitude + ',' + point2.longitude);
                 }
 
-                $window.open(link, ($rootScope.isNativeApp ? "_system" : "_blank"), "location=no");
+                $window.open(link, ($rootScope.isNativeApp ? '_system' : '_blank'), 'location=no');
             };
         } // !controller
     };
@@ -318,10 +330,12 @@ angular.module("starter").directive("sbAClick", function($filter, $rootScope, $t
             };
         },
         link: function (scope, element) {
+            var a = angular.element(element).find('a');
             switch (scope.block.type_id) {
                 case 'phone':
                     scope.icon = 'ion-ios-telephone-outline';
-                    scope.label = (scope.block.label != null && scope.block.label.length > 0) ? scope.block.label : 'Phone';
+                    scope.label = ((scope.block.label !== null) && (scope.block.label.length > 0)) ?
+                        scope.block.label : 'Phone';
 
                     if (!scope.block.content.startsWith('tel:')) {
                         scope.block.content = 'tel:' + scope.block.content;
@@ -333,8 +347,8 @@ angular.module("starter").directive("sbAClick", function($filter, $rootScope, $t
 
                 case 'link':
                     scope.icon = 'ion-ios-world-outline';
-                    scope.label = (scope.block.label != null && scope.block.label.length > 0) ? scope.block.label : 'Website';
-                    var a = angular.element(element).find('a');
+                    scope.label = ((scope.block.label !== null) && (scope.block.label.length > 0)) ?
+                        scope.block.label : 'Website';
                     a.on('click', function (e) {
                         e.preventDefault();
                         scope.openLink();
@@ -350,11 +364,11 @@ angular.module("starter").directive("sbAClick", function($filter, $rootScope, $t
                         scope.block.content = 'mailto:' + scope.block.content;
                     }
                     scope.icon = 'ion-ios-email';
-                    scope.label = (scope.block.label != null && scope.block.label.length > 0) ? scope.block.label : 'Email';
+                    scope.label = ((scope.block.label !== null) && (scope.block.label.length > 0)) ?
+                        scope.block.label : 'Email';
                     scope.url = scope.block.content;
                     scope.target = '_self';
 
-                    var a = angular.element(element).find('a');
                     scope.$on('$destroy', function () {
                         a.off('click');
                     });
@@ -817,12 +831,13 @@ angular.module("starter").directive("sbPadlock", function(Application) {
  */
 
 angular.module('starter').directive('sbPageBackground', function ($rootScope, $state, $stateParams, $pwaRequest,
-                                                                  $session, $timeout, Application) {
+                                                                  $session, $timeout, $window, Application) {
     var init = false,
         isUpdating = false,
         deviceScreen = $session.getDeviceScreen(),
         deffered = $pwaRequest.defer(),
-        backgroundImages = deffered.promise;
+        backgroundImages = deffered.promise,
+        orientationChange = $window.matchMedia('(orientation: portrait)');
 
     $session.loaded
         .then(function () {
@@ -891,10 +906,15 @@ angular.module('starter').directive('sbPageBackground', function ($rootScope, $s
                                 networkDone = true;
 
                                 var valueId = angular.copy(scope.valueId);
+
+                                if (deviceScreen.orientation === 'landscape') {
+                                    valueId = 'landscape_' + valueId;
+                                }
+
                                 var exists = (angular.isDefined(valueId) &&
                                                 angular.isDefined(data.backgrounds) &&
                                                  angular.isDefined(data.backgrounds[valueId]));
-                                var fallback = ((Application.homepage_background || (valueId === 'home')) &&
+                                var fallback = ((Application.homepage_background || (valueId === 'home' || valueId === 'landscape_home')) &&
                                                 angular.isDefined(data.backgrounds) &&
                                                 angular.isDefined(data.backgrounds.home));
 
@@ -931,6 +951,13 @@ angular.module('starter').directive('sbPageBackground', function ($rootScope, $s
                     scope.valueId = (toState.name === 'home') ? 'home' : toParams.value_id;
                     updateBackground();
                 });
+
+                orientationChange.addListener(function () {
+                    // Refresh device screen!
+                    deviceScreen = $session.setDeviceScreen();
+                    // Then trigger background update!
+                    updateBackground();
+                });
                 init = true;
             }
 
@@ -943,15 +970,15 @@ angular.module('starter').directive('sbPageBackground', function ($rootScope, $s
  angular
  */
 
-angular.module('starter').directive('sbSideMenu', function ($rootElement, $rootScope, $ionicHistory, $translate, $timeout,
-                                                            HomepageLayout, ContextualMenu, Application) {
+angular.module('starter').directive('sbSideMenu', function ($rootElement, $rootScope, $ionicHistory, $translate,
+                                                            $timeout, HomepageLayout, ContextualMenu) {
     return {
         restrict: 'E',
         replace: true,
         scope: {},
         templateUrl: 'templates/page/side-menu.html',
         link: function (scope, element) {
-            /** Defining the global functionnalities of the page */
+            /** Defining the global functionalities of the page */
             HomepageLayout.getFeatures()
                 .then(function (features) {
                     scope.layout = HomepageLayout.properties;
@@ -1015,33 +1042,31 @@ angular.module('starter').directive('sbSideMenu', function ($rootElement, $rootS
         }
     };
 });
-;/*global
+;/* global
  App, angular
  */
 
-angular.module("starter").directive("sbTabbar", function ($pwaRequest, $ionicHistory, Modal, $ionicSlideBoxDelegate,
+angular.module('starter').directive('sbTabbar', function ($pwaRequest, $ionicHistory, Modal, $ionicSlideBoxDelegate,
                                     $ionicSideMenuDelegate, $location, $rootScope, $session, $timeout,
                                     $translate, $window, $ionicPlatform, Analytics, Application,
                                     Customer, Dialog, HomepageLayout, LinkService, Pages, Url, SB) {
     return {
         restrict: 'A',
-        templateUrl: function() {
+        templateUrl: function () {
             return HomepageLayout.getTemplate();
         },
         scope: {},
         link: function ($scope, element, attrs) {
-
-            $scope.tabbar_is_visible            = Pages.is_loaded;
-            $scope.tabbar_is_transparent        = HomepageLayout.properties.tabbar_is_transparent;
-            $scope.animate_tabbar               = !$scope.tabbar_is_visible;
-            $scope.pages_list_is_visible        = false;
-            $scope.active_page                  = 0;
-            $scope.card_design                  = false;
+            $scope.tabbar_is_visible = Pages.is_loaded;
+            $scope.tabbar_is_transparent = HomepageLayout.properties.tabbar_is_transparent;
+            $scope.animate_tabbar = !$scope.tabbar_is_visible;
+            $scope.pages_list_is_visible = false;
+            $scope.active_page = 0;
+            $scope.card_design = false;
 
             $scope.layout = HomepageLayout;
 
-            $scope.loadContent = function() {
-
+            $scope.loadContent = function () {
                 HomepageLayout.getOptions()
                     .then(function (options) {
                         $scope.options = options;
@@ -1055,34 +1080,40 @@ angular.module("starter").directive("sbTabbar", function ($pwaRequest, $ionicHis
 
                 HomepageLayout.getFeatures()
                     .then(function (features) {
-
-                        // filtered active options
+                        // filtered active options!
                         $scope.features = features;
 
                         $timeout(function () {
-                            if(!Pages.is_loaded) {
+                            if (!Pages.is_loaded) {
                                 Pages.is_loaded = true;
                                 $scope.tabbar_is_visible = true;
                             }
                         }, 500);
 
-                        /** Load first feature is needed */
-                        if($rootScope.loginFeature === true) {
-                            $ionicHistory.goBack();
+                        // Load first feature is needed!
+                        if ($rootScope.loginFeature === true) {
+                            if ($rootScope.loginFeatureBack === true) {
+                                $ionicHistory.goBack();
+                            } else {
+                                $rootScope.loginFeatureBack = false;
+                            }
                             $rootScope.loginFeature = null;
-
-                        } else if (!Application.is_customizing_colors && HomepageLayout.properties.options.autoSelectFirst && features.first_option !== false) {
+                        } else if (!Application.is_customizing_colors &&
+                            HomepageLayout.properties.options.autoSelectFirst &&
+                            (features.first_option !== false)) {
                             var feat_index = 0;
-                            for(var fi = 0; fi < features.options.length; fi++) {
+                            for (var fi = 0; fi < features.options.length; fi = fi + 1) {
                                 var feat = features.options[fi];
-                                /** Don't load unwanted features on first page. */
-                                if((feat.code !== "code_scan") && (feat.code !== "radio") && (feat.code !== "padlock")) {
+                                // Don't load unwanted features on first page!
+                                if ((feat.code !== 'code_scan') &&
+                                    (feat.code !== 'radio') &&
+                                    (feat.code !== 'padlock')) {
                                     feat_index = fi;
                                     break;
                                 }
                             }
 
-                            if(features.options[feat_index].path !== $location.path()) {
+                            if (features.options[feat_index].path !== $location.path()) {
                                 $ionicHistory.nextViewOptions({
                                     historyRoot: true,
                                     disableAnimate: false
@@ -1090,9 +1121,7 @@ angular.module("starter").directive("sbTabbar", function ($pwaRequest, $ionicHis
 
                                 $location.path(features.options[feat_index].path).replace();
                             }
-
                         }
-
                     });
             };
 
@@ -1101,92 +1130,96 @@ angular.module("starter").directive("sbTabbar", function ($pwaRequest, $ionicHis
                 $scope.pages_list_is_visible = false;
             };
 
-            $scope.gotoPage = function(index) {
-                $ionicSlideBoxDelegate.$getByHandle("slideBoxLayout").slide(index);
+            $scope.gotoPage = function (index) {
+                $ionicSlideBoxDelegate.$getByHandle('slideBoxLayout').slide(index);
             };
 
-            $scope.closePreviewer = function() {
-                $window.location = "app:closeApplication";
+            $scope.closePreviewer = function () {
+                $window.location = 'app:closeApplication';
             };
 
-            $scope.login = function($scope) {
+            $scope.login = function ($scope) {
                 $rootScope.loginFeature = null;
                 Customer.loginModal($scope);
             };
 
             $scope.loadContent();
 
-            if($rootScope.isOverview) {
-                $scope.$on("tabbarStatesChanged", function() {
+            if ($rootScope.isOverview) {
+                $scope.$on('tabbarStatesChanged', function () {
                     $scope.loadContent();
                 });
             }
 
-            $rootScope.$on(SB.EVENTS.CACHE.layoutReload, function() {
+            $rootScope.$on(SB.EVENTS.CACHE.layoutReload, function () {
                 $scope.loadContent();
             });
 
-            $rootScope.$on(SB.EVENTS.PUSH.unreadPushs, function(event, args) {
-                $timeout(function() {
+            $rootScope.$on(SB.EVENTS.PUSH.unreadPushs, function (event, args) {
+                $timeout(function () {
                     $scope.push_badge = args;
                 });
             });
 
-            $rootScope.$on(SB.EVENTS.PUSH.readPushs, function() {
+            $rootScope.$on(SB.EVENTS.PUSH.readPushs, function () {
                 $scope.push_badge = 0;
             });
 
-            var rebuildOptions = function() {
-                $timeout(function() {
+            var rebuildOptions = function () {
+                $timeout(function () {
                     HomepageLayout.setNeedToBuildTheOptions(true);
                     $scope.loadContent();
                 });
             };
 
-            $rootScope.$on(SB.EVENTS.AUTH.logoutSuccess, function() { rebuildOptions(); });
-            $rootScope.$on(SB.EVENTS.AUTH.loginSuccess, function() { rebuildOptions(); });
-            $rootScope.$on(SB.EVENTS.PADLOCK.unlockFeatures, function() { rebuildOptions(); });
-            $rootScope.$on(SB.EVENTS.CACHE.pagesReload, function() { rebuildOptions(); });
-
-            Application.loaded.then(function() {
+            $rootScope.$on(SB.EVENTS.AUTH.logoutSuccess, function () {
+                rebuildOptions();
+            });
+            $rootScope.$on(SB.EVENTS.AUTH.loginSuccess, function () {
+                rebuildOptions();
+            });
+            $rootScope.$on(SB.EVENTS.PADLOCK.unlockFeatures, function () {
+                rebuildOptions();
+            });
+            $rootScope.$on(SB.EVENTS.CACHE.pagesReload, function () {
                 rebuildOptions();
             });
 
-            if($rootScope.isOverview) {
+            Application.loaded
+                .then(function () {
+                    rebuildOptions();
+                });
 
-                $window.changeIcon = function(id, url) {
-                    angular.forEach($scope.features.options, function(option) {
-                        if(option.id == id) {
-                            $timeout(function() {
+            if ($rootScope.isOverview) {
+                $window.changeIcon = function (id, url) {
+                    angular.forEach($scope.features.options, function (option) {
+                        if (option.id == id) {
+                            $timeout(function () {
                                 option.icon_url = url;
                             });
                         }
                     });
                 };
-
             }
-
         }
     };
 });
 
-angular.module("starter").directive("tabbarItems", function ($rootScope, $timeout, $log, HomepageLayout) {
+angular.module('starter').directive('tabbarItems', function ($rootScope, $timeout, $log, HomepageLayout) {
     return {
-        restrict: "A",
+        restrict: 'A',
         scope: {
-            option: "="
+            option: '='
         },
-        link: function(scope, element) {
-
-            element.on("click", function () {
-                $log.debug("Clicked Option: ", scope.option);
-                $rootScope.$broadcast("OPTION_POSITION", scope.option.position);
+        link: function (scope, element) {
+            element.on('click', function () {
+                $log.debug('Clicked Option: ', scope.option);
+                $rootScope.$broadcast('OPTION_POSITION', scope.option.position);
 
                 $timeout(function () {
                     HomepageLayout.openFeature(scope.option, scope);
                 });
             });
-
         }
     };
 });

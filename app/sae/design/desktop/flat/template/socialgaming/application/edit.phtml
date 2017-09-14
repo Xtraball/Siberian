@@ -110,12 +110,6 @@
                                             <?php echo $next_game->getPeriodLabel() ?>
                                         </div>
                                     </div>
-                                    <?php /*
-                                    <tr class="first">
-                                        <td class="label">Cadeau :</td>
-                                        <td><span class="bold"><?php echo $next_game->getGift() ? $next_game->getGift() : 'Aucun'; ?></span></td>
-                                    </tr>
-                                     */?>
                                     <div class="row">
                                         <div class="col-sm-4 first">
                                             <label><?php echo $this->_('End at'); ?> :</label>
@@ -145,12 +139,6 @@
                                         <td class="label"><?php echo $this->_('Publication date'); ?> :</td>
                                         <td><span class="bold"><?php echo $game->getFormattedCreatedAt('d MMMM yyyy à HH:mm') ?></span></td>
                                     </tr>
-                                    <?php /*
-                                    <tr class="first">
-                                        <td class="label">Cadeau :</td>
-                                        <td><span class="bold"><?php echo $game->getGift() ? $game->getGift() : 'Aucun'; ?></span></td>
-                                    </tr>
-                                     */?>
                                     <tr class="first">
                                         <td class="label"><?php echo $this->_('End at'); ?> :</td>
                                         <td><span class="bold"><?php echo $game->getEndAt() ? $this->_('On the').' '.$game->getFormattedEndAt('d MMMM yyyy') : $this->_('Never'); ?></span></td>
@@ -166,13 +154,7 @@
             <?php endif; ?>
 
             <div class="background">
-                <?php
-                    echo $this->getLayout()
-                        ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
-                        ->setValueId($option->getId())
-                        ->toHtml()
-                    ;
-                ?>
+                <?php echo $this->importBackground($option); ?>
             </div>
 
         </div>
@@ -216,6 +198,10 @@
         </div>
     </div>
     <script type="text/javascript">
+
+        $(document).ready(function () {
+            bindForms('#list');
+        });
 
         page.setCallback('didappear', function() {
 

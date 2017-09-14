@@ -179,21 +179,13 @@
             </div>
         <?php endif; ?>
 
-        <?php
-        echo $this->getLayout()
-                ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
-                ->setValueId($value->getId())
-                ->toHtml()
-        ;
-        ?>
+        <br />
 
-        <?php
-        echo $this->getLayout()
-                ->addPartial('layout', 'Core_View_Default', 'application/customization/features/edit/layout.phtml')
-                ->setOptionValue($value)
-                ->toHtml()
-        ;
-        ?>
+        <?php echo $this->importLayout($value); ?>
+
+        <?php echo $this->importBackground($value); ?>
+
+
     </div>
     <div id="edit" style="display: none;">
         <h3 class="title-editor no-border-radius title-feature-indent">
@@ -267,6 +259,10 @@
         <div id="logo_cont"></div>
     </div>
     <script type="text/javascript">
+
+        $(document).ready(function () {
+            bindForms('#list');
+        });
 
         page.setCallback('didremove', function () {
             $('#newsCreateForm').submit(function () {

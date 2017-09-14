@@ -54,7 +54,7 @@ class Admin_Controller_Default extends Core_Controller_Default {
             "controller" => $this->getRequest()->getControllerName(),
             "action" => $this->getRequest()->getActionName(),
         );
-        
+
         return $this->_canAccess($resource);
 
     }

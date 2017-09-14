@@ -1,4 +1,4 @@
-<?php
+ <?php
 /**
  * Class Job_Form_Place_Delete
  */

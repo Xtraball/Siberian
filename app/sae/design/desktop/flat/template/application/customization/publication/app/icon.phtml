@@ -67,8 +67,8 @@ $android_push_image = "/images/application".$application->getAndroidPushImage();
 
 <script type="text/javascript">
     $(document).ready(function() {
-        bindForms("#icon_conteneur");
-        bindForms("#android_conteneur");
+        bindForms('#icon_conteneur', 'color-purple');
+        bindForms('#android_conteneur', 'color-purple');
 
         $("input#icon").on("change", function() {
             var src = $("button[data-input='icon']").next(".feature-upload-placeholder").find("img").attr("src");
@@ -129,6 +129,14 @@ $android_push_image = "/images/application".$application->getAndroidPushImage();
                     $(".hide-empty-image").show();
                 }
             }
+
+            setTimeout(function () {
+                $('#android_push_icon_button')
+                    .siblings('div.feature-upload-placeholder')
+                    .children('img')
+                    .addClass('color-purple')
+                    .css({padding: '5px'});
+            }, 500);
         };
 
         $("#android_push_image").on("change", function() {

@@ -627,8 +627,12 @@ var page = {
 
                     $('#header_editor').fadeIn();
 
-                    if (typeof background_image == 'object') background_image.init();
-                    if (typeof option_layout == 'object') option_layout.init();
+                    if (typeof background_image == 'object' && typeof background_image.init == 'function') {
+                        background_image.init();
+                    }
+                    if (typeof option_layout == 'object' && typeof option_layout.init == 'function') {
+                        option_layout.init();
+                    }
                 }
                 else if (datas.message) {
                     var page_message = new AlertMessage(datas.message);

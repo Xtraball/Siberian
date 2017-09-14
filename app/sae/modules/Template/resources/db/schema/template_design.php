@@ -71,6 +71,24 @@ $schemas['template_design'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'background_image_landscape' => array(
+        'type' => 'varchar(255)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'is_null' => true,
+    ),
+    'background_image_landscape_hd' => array(
+        'type' => 'varchar(255)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'is_null' => true,
+    ),
+    'background_image_landscape_tablet' => array(
+        'type' => 'varchar(255)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'is_null' => true,
+    ),
     'icon' => array(
         'type' => 'varchar(255)',
         'is_null' => true,

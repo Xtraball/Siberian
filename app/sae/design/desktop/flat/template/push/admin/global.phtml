@@ -87,7 +87,7 @@ $push_form = new Push_Form_Global();
 <script type="text/javascript">
     $(document).ready(function() {
 
-        bindForms("#push-form-bind", function(data) {
+        bindForms("#push-form-bind", "color-blue", function(data) {
             $("#form-push-global").get(0).reset();
             $("#send_to_all").prop("checked", false).trigger("change");
         });
@@ -117,17 +117,21 @@ $push_form = new Push_Form_Global();
         });
 
         $("input.appid-checkbox").on("change", function() {
-           var total = $("input.appid-checkbox").length;
-           var checked = $("input.appid-checkbox").filter(":checked").length;
+            var total = $("input.appid-checkbox").length;
+            var checked = $("input.appid-checkbox:checked").length;
 
             if(total === checked) {
-                $("#send_to_all").prop("checked", true);
+                $("#send_to_all").prop('checked', true);
+                $("#checked").val('');
             } else {
-                $("#send_to_all").prop("checked", false);
+                $("#send_to_all").prop('checked', false);
+
+                var checked = [];
+                $("input.appid-checkbox:checked").each(function (index, element) {
+                    checked.push($(element).data('appid'));
+                });
+                $("#checked").val(checked.join(','));
             }
-
-            $("#checked").val($("input.appid-checkbox"))
-
         });
 
         $("table.sb-pager").sbpager({

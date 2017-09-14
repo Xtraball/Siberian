@@ -57,20 +57,11 @@
             </div>
             <?php endif; ?>
 
-            <?php
-                echo $this->getLayout()
-                    ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
-                    ->setValueId($option_value->getId())
-                    ->toHtml()
-                ;
-            ?>
+            <?php echo $this->importBackground($option_value); ?>
 
-            <?php echo $this->getLayout()
-                ->addPartial('layout', 'Core_View_Default', 'application/customization/features/edit/layout.phtml')
-                ->setOptionValue($option_value)
-                ->toHtml()
-            ;
-            ?>
+            <br />
+
+            <?php echo $this->importLayout($option_value); ?>
 
         </div>
         <div id="edit" style="display: none;"></div>
@@ -158,6 +149,10 @@
             $('.del_menu').unbind('click');
             $('#formCreateMenu').unbind('submit');
             $('.menu_actions').unbind('mouseenter mouseout');
+        });
+
+        $(document).ready(function () {
+            bindForms('#list');
         });
     </script>
 </div>

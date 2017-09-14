@@ -32,12 +32,12 @@
                 <p>{{ "Click here to log-in" | translate }}</p>
             </div>
 
-            <div class="item item-text-wrap item-icon-left item-custom" ng-if="promotion.description">
+            <div class="item item-text-wrap item-icon-left item-custom" ng-if="promotion.description_html">
                 <i class="icon ion-ios-information-outline"></i>
-                <p>{{ promotion.description }}</p>
+                <p ng-bind-html="promotion.description_html | trusted_html"></p>
             </div>
 
-            <div class="item item-text-wrap item-icon-left item-custom" ng-if="promotion.description">
+            <div class="item item-text-wrap item-icon-left item-custom" ng-if="promotion.conditions">
                 <i class="icon ion-android-warning"></i>
                 <p>{{ promotion.conditions }}</p>
             </div>

@@ -48,15 +48,13 @@
             </div>
         </div>
     </form>
-    <?php
-    echo $this->getLayout()
-        ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
-        ->setValueId($option_value->getId())
-        ->toHtml()
-    ;
-    ?>
+    <?php echo $this->importBackground($option_value); ?>
 </div>
 <script type="text/javascript">
+
+    $(document).ready(function () {
+        bindForms('#list');
+    });
 
     page.setCallback('didappear', function() {
 
@@ -84,14 +82,15 @@
         $('#twitterForm').unbind('submit');
     });
 
-    background_image.setCallback('cropDidFinish', function() {
-        iframe.content.find('.news').addClass('no-background');
-        iframe.content.find('.comments').addClass('no-background');
-    }).setCallback('imageDidRemove', function(datas) {
-        if(!datas.background_image_url) {
-            iframe.content.find('.news').removeClass('no-background');
-            iframe.content.find('.comments').removeClass('no-background');
-        }
-    });
+    background_image
+        .setCallback('cropDidFinish', function() {
+            iframe.content.find('.news').addClass('no-background');
+            iframe.content.find('.comments').addClass('no-background');
+        }).setCallback('imageDidRemove', function(datas) {
+            if(!datas.background_image_url) {
+                iframe.content.find('.news').removeClass('no-background');
+                iframe.content.find('.comments').removeClass('no-background');
+            }
+        });
 
 </script>

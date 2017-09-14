@@ -93,23 +93,29 @@ angular.module('starter').factory('Push', function ($pwaRequest, $session, SB) {
         });
     };
 
-    factory.getLastMessages = function () {
+    /**
+     *
+     * @param cache
+     */
+    factory.getLastMessages = function (cache) {
+        var localCache = (cache === undefined) ? true : cache;
         return $pwaRequest.get('push/mobile/lastmessages', {
             urlParams: {
                 device_uid: $session.getDeviceUid()
-            }
+            },
+            refresh: true,
+            cache: localCache
         });
     };
 
     /**
      * Mark in-app message as read.
-     *
      */
     factory.markInAppAsRead = function () {
         return $pwaRequest.get('push/mobile/readinapp', {
             urlParams: {
-                device_uid  : $session.getDeviceUid(),
-                device_type : factory.device_type
+                device_uid: $session.getDeviceUid(),
+                device_type: factory.device_type
             },
             cache: false
         });

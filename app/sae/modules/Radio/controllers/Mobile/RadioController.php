@@ -23,8 +23,11 @@ class Radio_Mobile_RadioController extends Application_Controller_Mobile_Default
 
                 // Fix for shoutcast, force stream!
                 $contentType = Siberian_Request::testStream($this->getLink());
-                if(explode('/', $contentType)[0] !== 'audio') {
-                    $this->setLink($this->getLink() . '/;');
+                if(!in_array(explode('/', $contentType)[0], ['audio']) &&
+                    !in_array($contentType, ['application/ogg'])) {
+                    if(strrpos($this->getLink(), ';') === false) {
+                        $this->setLink($this->getLink() . '/;');
+                    }
                 }
 
                 $data = array("radio" => $this->_toJson($radio));

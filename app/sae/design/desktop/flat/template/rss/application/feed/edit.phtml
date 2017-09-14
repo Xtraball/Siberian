@@ -34,14 +34,8 @@
         </div>
     </div>
 
-    <div class="background">
-        <?php
-            echo $this->getLayout()
-                ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
-                ->setValueId($option_value->getId())
-                ->toHtml()
-            ;
-        ?>
+    <div class="background background-images-upload">
+        <?php echo $this->importBackground($option_value); ?>
     </div>
 
     <div class="layout">
@@ -73,6 +67,11 @@
         }
     </style>
     <script type="text/javascript">
+
+        $(document).ready(function () {
+            bindForms('#list');
+            bindForms('.background-images-upload');
+        });
 
         page.setCallback('didappear', function() {
             bindAll();

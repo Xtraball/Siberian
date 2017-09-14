@@ -154,18 +154,18 @@ angular.module('starter').service('AdmobService', function ($log, $rootScope, $w
 
     return service;
 });
-;/*global
+;/* global
     App, device, cordova
  */
-angular.module("starter").service("Analytics", function($cordovaGeolocation, $pwaRequest, $q, $log, $rootScope, Application, Url) {
-
+angular.module('starter').service('Analytics', function ($cordovaGeolocation, $pwaRequest, $q, $log, $rootScope,
+                                                         Application, Url) {
     var service = {};
 
     service.data = {};
 
-    service.storeInstallation = function() {
-        if(!Application.is_webview) {
-            var url = Url.get("analytics/mobile_store/installation");
+    service.storeInstallation = function () {
+        if (!Application.is_webview) {
+            var url = Url.get('analytics/mobile_store/installation');
             var params = {
                 OS: device.platform,
                 OSVersion: device.version,
@@ -191,15 +191,15 @@ angular.module("starter").service("Analytics", function($cordovaGeolocation, $pw
         }
     };
 
-    service.storeOpening = function() {
+    service.storeOpening = function () {
         var deferred = $q.defer();
 
-        if(!Application.is_webview && (typeof cordova !== "undefined")) {
-            var url = Url.get("analytics/mobile_store/opening");
+        if (!Application.is_webview && (typeof cordova !== 'undefined')) {
+            var url = Url.get('analytics/mobile_store/opening');
             var params = {
-                OS: cordova.device ? device.platform : "Browser",
+                OS: cordova.device ? device.platform : 'Browser',
                 OSVersion: cordova.device ? device.version : null,
-                Device: cordova.device ? device.platform : "Browser",
+                Device: cordova.device ? device.platform : 'Browser',
                 DeviceVersion: cordova.device ? device.model : null,
                 deviceUUID: cordova.device ? device.uuid : null,
                 latitude: null,
@@ -217,29 +217,27 @@ angular.module("starter").service("Analytics", function($cordovaGeolocation, $pw
 
                 service.postData(url, params).then(function (result) {
                     deferred.resolve(result);
-                }).catch(function(error) {
+                }).catch(function (error) {
 
                 });
             }, function () {
-
                 service.postData(url, params).then(function (result) {
                     deferred.resolve(result);
-                }).catch(function(error) {
+                }).catch(function (error) {
 
                 });
             });
-
         }
 
         return deferred.promise;
     };
 
-    service.storeClosing = function() {
-        if(!$rootScope.isOverview) {
-            var url = Url.get("analytics/mobile_store/closing");
+    service.storeClosing = function () {
+        if (!$rootScope.isOverview) {
+            var url = Url.get('analytics/mobile_store/closing');
 
-            if(typeof service.data.storeClosingId === "undefined") {
-                $log.debug("aborting /analytics/mobile_store/closing, no id.");
+            if (typeof service.data.storeClosingId === 'undefined') {
+                $log.debug('aborting /analytics/mobile_store/closing, no id.');
                 return;
             }
 
@@ -251,14 +249,14 @@ angular.module("starter").service("Analytics", function($cordovaGeolocation, $pw
         }
     };
 
-    service.storePageOpening = function(page) {
-        if(!$rootScope.isOverview) {
-            var url = Url.get("analytics/mobile_store/pageopening");
+    service.storePageOpening = function (page) {
+        if (!$rootScope.isOverview) {
+            var url = Url.get('analytics/mobile_store/pageopening');
             var params = {
                 featureId: page.value_id,
-                OS: cordova.device ? device.platform : "Browser",
+                OS: cordova.device ? device.platform : 'Browser',
                 OSVersion: cordova.device ? device.version : null,
-                Device: cordova.device ? device.platform : "Browser",
+                Device: cordova.device ? device.platform : 'Browser',
                 DeviceVersion: cordova.device ? device.model : null,
                 deviceUUID: cordova.device ? device.uuid : null,
                 latitude: null,
@@ -281,15 +279,15 @@ angular.module("starter").service("Analytics", function($cordovaGeolocation, $pw
         }
     };
 
-    service.storeProductOpening = function(product) {
-        if(!$rootScope.isOverview) {
-            var url = Url.get("analytics/mobile_store/productopening");
+    service.storeProductOpening = function (product) {
+        if (!$rootScope.isOverview) {
+            var url = Url.get('analytics/mobile_store/productopening');
             var params = {
                 productId: product.id,
                 name: product.name,
-                OS: cordova.device ? device.platform : "Browser",
+                OS: cordova.device ? device.platform : 'Browser',
                 OSVersion: cordova.device ? device.version : null,
-                Device: cordova.device ? device.platform : "Browser",
+                Device: cordova.device ? device.platform : 'Browser',
                 DeviceVersion: cordova.device ? device.model : null,
                 deviceUUID: cordova.device ? device.uuid : null,
                 latitude: null,
@@ -312,14 +310,14 @@ angular.module("starter").service("Analytics", function($cordovaGeolocation, $pw
         }
     };
 
-    service.storeProductSold = function(products) {
-        if(!$rootScope.isOverview) {
-            var url = Url.get("analytics/mobile_store/productsold");
+    service.storeProductSold = function (products) {
+        if (!$rootScope.isOverview) {
+            var url = Url.get('analytics/mobile_store/productsold');
             var params = {
                 products: products,
-                OS: cordova.device ? device.platform : "Browser",
+                OS: cordova.device ? device.platform : 'Browser',
                 OSVersion: cordova.device ? device.version : null,
-                Device: cordova.device ? device.platform : "Browser",
+                Device: cordova.device ? device.platform : 'Browser',
                 DeviceVersion: cordova.device ? device.model : null,
                 deviceUUID: cordova.device ? device.uuid : null,
                 latitude: null,
@@ -354,7 +352,7 @@ angular.module("starter").service("Analytics", function($cordovaGeolocation, $pw
 
     return service;
 });
-;/*global
+;/* global
     App, caches, cacheName, ionic, DOMAIN, _, window, localStorage, IS_NATIVE_APP
 */
 
@@ -363,67 +361,65 @@ angular.module("starter").service("Analytics", function($cordovaGeolocation, $pw
  *
  * @author Xtraball SAS
  */
-angular.module("starter").service("Application", function ($pwaRequest, $q, $rootScope, $session, $timeout,
+angular.module('starter').service('Application', function ($pwaRequest, $q, $rootScope, $session, $timeout, $ionicPlatform,
                                                            $window, $queue, $log, Dialog, ProgressbarService) {
-
-    /** @todo mcommerce preFetch */
     var service = {
         /** @deprecated, should used DEVICE_TYPE with constants */
         is_webview: !IS_NATIVE_APP,
         known_modules: {
-            //"booking"                   : "Booking", Removed not used anymore.
-            "calendar"                  : "Event",
-            "catalog"                   : "Catalog",
-            //"code_scan"                 : "null",
-            //"contact"                   : "Contact", Removed not used anymore.
-            "custom_page"               : "Cms",
-            "discount"                  : "Discount",
-            //"facebook"                  : "null",
-            "fanwall"                   : "Newswall",
-            //"folder"                    : "Folder", Removed not used anymore.
-            "form"                      : "Form",
-            //"image_gallery"             : "Image", Removed not used anymore.
-            //"inapp_messages"            : "null",
-            //"loyalty"                   : "LoyaltyCard",Removed not used anymore.
-            //"m_commerce"                : "null",
-            //"magento"                   : "null", weblink_mono, not required
-            //"maps"                      : "null", Removed not used anymore.
-            "music_gallery"             : "MusicPlaylist",
-            "newswall"                  : "Newswall",
-            //"padlock"                   : "null",
-            "places"                    : "Places",
-            //"prestashop"                : "null",  weblink_mono, not required
-            //"privacy_policy"            : "null", already loaded in loadv2
-            "push_notification"         : "Push",
-            "qr_discount"               : "Push",
-            //"radio"                     : "Radio",Removed not used anymore.
-            "rss_feed"                  : "Rss",
-            "set_meal"                  : "SetMeal",
-            //"shopify"                   : "null", weblink_mono, not required
-            "social_gaming"             : "SocialGaming",
-            //"source_code"               : "SourceCode",Removed not used anymore.
-            //"tip"                       : "Tip",Removed not used anymore.
-            //"topic"                     : "Topic",Removed not used anymore.
-            "twitter"                   : "Twitter",
-            "video_gallery"             : "Videos",
-            //"volusion"                  : "null", weblink_mono, not required
-            //"weather"                   : "Weather",Removed not used anymore.
-            //"weblink_mono"              : "null", weblink_mono, not required
-            //"weblink_multi"             : "Links", Removed not used anymore.
-            //"woocommerce"               : "null", weblink_mono, not required
-            "wordpress"                 : "Wordpress"
+            // "booking"                   : "Booking", Removed not used anymore.
+            'calendar': 'Event',
+            'catalog': 'Catalog',
+            // "code_scan"                 : "null",
+            // "contact"                   : "Contact", Removed not used anymore.
+            'custom_page': 'Cms',
+            'discount': 'Discount',
+            // "facebook"                  : "null",
+            'fanwall': 'Newswall',
+            // "folder"                    : "Folder", Removed not used anymore.
+            'form': 'Form',
+            // "image_gallery"             : "Image", Removed not used anymore.
+            // "inapp_messages"            : "null",
+            // "loyalty"                   : "LoyaltyCard",Removed not used anymore.
+            // "m_commerce"                : "null",
+            // "magento"                   : "null", weblink_mono, not required
+            // "maps"                      : "null", Removed not used anymore.
+            'music_gallery': 'MusicPlaylist',
+            'newswall': 'Newswall',
+            // "padlock"                   : "null",
+            'places': 'Places',
+            // "prestashop"                : "null",  weblink_mono, not required
+            // "privacy_policy"            : "null", already loaded in loadv2
+            'push_notification': 'Push',
+            'qr_discount': 'Push',
+            // "radio"                     : "Radio",Removed not used anymore.
+            'rss_feed': 'Rss',
+            'set_meal': 'SetMeal',
+            // "shopify"                   : "null", weblink_mono, not required
+            'social_gaming': 'SocialGaming',
+            // "source_code"               : "SourceCode",Removed not used anymore.
+            // "tip"                       : "Tip",Removed not used anymore.
+            // "topic"                     : "Topic",Removed not used anymore.
+            'twitter': 'Twitter',
+            'video_gallery': 'Videos',
+            // "volusion"                  : "null", weblink_mono, not required
+            // "weather"                   : "Weather",Removed not used anymore.
+            // "weblink_mono"              : "null", weblink_mono, not required
+            // "weblink_multi"             : "Links", Removed not used anymore.
+            // "woocommerce"               : "null", weblink_mono, not required
+            'wordpress': 'Wordpress'
         },
         lazyLoadCodes: {
-            "calendar"          : ["event"],
-            "custom_page"       : ["cms"],
-            "fanwall"           : ["newswall"],
-            "music_gallery"     : ["media"],
-            "places"            : ["cms", "places"],
-            "qr_discount"       : ["discount"],
-            "rss_feed"          : ["rss"],
-            "set_meal"          : ["catalog"],
-            "video_gallery"     : ["video"],
-            "push_notification" : ["push"]
+            'calendar': ['event'],
+            'custom_page': ['cms'],
+            'fanwall': ['newswall'],
+            'music_gallery': ['media'],
+            'places': ['cms', 'places'],
+            'qr_discount': ['discount'],
+            'rss_feed': ['rss'],
+            'set_meal': ['catalog'],
+            'video_gallery': ['video'],
+            'push_notification': ['push']
         }
     };
 
@@ -437,17 +433,15 @@ angular.module("starter").service("Application", function ($pwaRequest, $q, $roo
      *
      * @param pages
      */
-    service.preLoad = function(pages) {
-
+    service.preLoad = function (pages) {
         // Disabled until 5.0 or further update
-        return;
-
+        //return;
     };
 
-    Object.defineProperty(service, "loaded", {
+    Object.defineProperty(service, 'loaded', {
         get: function () {
             if (_loaded) {
-                $log.info("Application loaded, resolving promise");
+                $log.info('Application loaded, resolving promise');
                 return $q.resolve();
             }
             return _loaded_resolver.promise;
@@ -455,16 +449,16 @@ angular.module("starter").service("Application", function ($pwaRequest, $q, $roo
         set: function (value) {
             _loaded = !!value;
             if (_loaded === true) {
-                $log.info("Application loaded, resolving promise");
+                $log.info('Application loaded, resolving promise');
                 _loaded_resolver.resolve();
             }
         }
     });
 
-    Object.defineProperty(service, "ready", {
+    Object.defineProperty(service, 'ready', {
         get: function () {
             if (_ready) {
-                $log.info("Application ready, resolving promise");
+                $log.info('Application ready, resolving promise');
                 return $q.resolve();
             }
             return _ready_resolver.promise;
@@ -472,23 +466,23 @@ angular.module("starter").service("Application", function ($pwaRequest, $q, $roo
         set: function (value) {
             _ready = !!value;
             if (_ready === true) {
-                $log.info("Application ready, resolving promise");
+                $log.info('Application ready, resolving promise');
                 _ready_resolver.resolve();
             }
         }
     });
 
-    service.app_id          = null;
-    service.app_name        = null;
-    service.googlemaps_key  = null;
+    service.app_id = null;
+    service.app_name = null;
+    service.googlemaps_key = null;
 
     /** @todo change this ... */
-    service.is_customizing_colors = ($window.location.href.indexOf("application/mobile_customization_colors/") >= 0);
+    service.is_customizing_colors = ($window.location.href.indexOf('application/mobile_customization_colors/') >= 0);
 
     /** @todo change this ... */
-    Object.defineProperty(service, "acceptedOfflineMode", {
+    Object.defineProperty(service, 'acceptedOfflineMode', {
         get: function () {
-            return ($window.localStorage.getItem("sb-offline-mode") === "ok");
+            return ($window.localStorage.getItem('sb-offline-mode') === 'ok');
         }
     });
 
@@ -497,73 +491,67 @@ angular.module("starter").service("Application", function ($pwaRequest, $q, $roo
      *
      * @param data
      */
-    service.populate = function(data) {
-        service.app_id                  = data.application.id;
-        service.app_name                = data.application.name;
-        service.privacy_policy          = data.application.privacy_policy;
-        service.privacy_policy_title    = data.application.privacy_policy_title;
-        service.googlemaps_key          = data.application.googlemaps_key;
-        service.is_locked               = data.application.is_locked;
-        service.offline_content         = data.application.offline_content;
-        service.homepage_background     = data.application.homepage_background;
+    service.populate = function (data) {
+        service.app_id = data.application.id;
+        service.app_name = data.application.name;
+        service.privacy_policy = data.application.privacy_policy;
+        service.privacy_policy_title = data.application.privacy_policy_title;
+        service.googlemaps_key = data.application.googlemaps_key;
+        service.is_locked = data.application.is_locked;
+        service.offline_content = data.application.offline_content;
+        service.homepage_background = data.application.homepage_background;
 
-        /** Small base64 default image, while loading the real deal */
-        service.default_background  = data.homepage_image;
-        service.colors  = data.application.colors;
+        // Small base64 default image, while loading the real deal!
+        service.default_background = data.homepage_image;
+        service.colors = data.application.colors;
 
         service.ready = true;
     };
 
     service.showCacheDownloadModalOrUpdate = function () {
-
-        /** Lazy Load progressbar, then dooooo it */
+        // Lazy Load progressbar, then dooooo it!
         ProgressbarService.init()
-            .then(function() {
-
+            .then(function () {
                 $rootScope.progressBarPercent = 0;
 
-                var offlineResponse = $window.localStorage.getItem("sb-offline-mode");
+                var offlineResponse = $window.localStorage.getItem('sb-offline-mode');
 
-                if(offlineResponse === "ok") {
-                    $log.debug("offline mode has been accepted, updating");
-                    service.updateCache();
-                } else if(offlineResponse === "no") {
-                    $log.debug("offline mode has been refused in the past, not updating");
+                if (offlineResponse === 'ok') {
+                    $log.debug('offline mode has been accepted, updating');
+                    service.updateCache(false);
+                } else if (offlineResponse === 'no') {
+                    $log.debug('offline mode has been refused in the past, not updating');
                 } else {
-                    $log.debug("offline mode need to be asked");
-                    var title = "Offline content";
-                    var message = "Do you want to download all the contents now to access it when offline? If you do, we recommend you to use a WiFi connection.";
-                    var buttons = ["Yes", "No"];
+                    $log.debug('offline mode need to be asked');
+                    var title = 'Offline content';
+                    var message = 'Do you want to download all the contents now to access it when offline? If you do, we recommend you to use a WiFi connection.';
+                    var buttons = ['Yes', 'No'];
 
-                    Dialog.confirm(title, message, buttons, "text-center").then(function (res) {
-
+                    Dialog.confirm(title, message, buttons, 'text-center').then(function (res) {
                         if (res) {
-
-                            $window.localStorage.setItem("sb-offline-mode", "ok");
+                            $window.localStorage.setItem('sb-offline-mode', 'ok');
 
                             $rootScope.openLoaderProgress();
-                            ProgressbarService.createCircle(".ui-progress-view-circle");
+                            ProgressbarService.createCircle('.ui-progress-view-circle');
 
-                            service.updateCache();
-
+                            service.updateCache(true);
                         } else {
-                            $window.localStorage.setItem("sb-offline-mode", "no");
+                            $window.localStorage.setItem('sb-offline-mode', 'no');
                         }
                     });
                 }
-
             });
     };
 
     var _updatingCache = false;
 
-    var _replace_tokens = function(url) {
+    var _replace_tokens = function (url) {
         return _.isString(url) ?
-            url.replace("%DEVICE_UID%", $session.getDeviceUid()).replace("%CUSTOMER_ID%", $rootScope.customer_id) : 0;
+            url.replace('%DEVICE_UID%', $session.getDeviceUid()).replace('%CUSTOMER_ID%', $rootScope.customer_id) : 0;
     };
 
-    service.updateCache = function () {
-        if(window.OfflineMode) {
+    service.updateCache = function (forceMain) {
+        if (window.OfflineMode) {
             window.OfflineMode.setCanCache();
         }
 
@@ -573,17 +561,16 @@ angular.module("starter").service("Application", function ($pwaRequest, $q, $roo
 
         var device_screen = $session.getDeviceScreen();
 
-        $pwaRequest.get("application/mobile_data/findall", {
+        $pwaRequest.get('application/mobile_data/findall', {
             data: {
-                device_uid      : $session.getDeviceUid(),
-                device_width    : device_screen.width,
-                device_height   : device_screen.height
+                device_uid: $session.getDeviceUid(),
+                device_width: device_screen.width,
+                device_height: device_screen.height
             },
             cache: false,
             timeout: 30000
         }).then(function (data) {
-
-            $log.debug("application/mobile_data/findall", data);
+            $log.debug('application/mobile_data/findall', data);
 
             var total = data.paths.length + data.assets.length;
             if (isNaN(total)) {
@@ -591,13 +578,13 @@ angular.module("starter").service("Application", function ($pwaRequest, $q, $roo
             }
 
             var progress = 0;
-            var assets_done = JSON.parse($window.localStorage.getItem("sb-offline-mode-assets"));
+            var assets_done = JSON.parse($window.localStorage.getItem('sb-offline-mode-assets'));
             if (!_.isArray(assets_done)) {
                 assets_done = [];
             }
 
-            var fileQueue   = [];
-            var retryQueue  = [];
+            var fileQueue = [];
+            var retryQueue = [];
 
             var delay = 500;
             var maxRequest = 15;
@@ -610,15 +597,14 @@ angular.module("starter").service("Application", function ($pwaRequest, $q, $roo
             var pathQueue = null;
 
             var updateFailed = function (asset) {
-
-                requestCount -= 1;
+                requestCount = requestCount - 1;
                 if (requestCount < 0) {
                     requestCount = 0;
                 }
 
-                /** Restart queue */
+                // Restart queue
                 if (pathQueue.paused && (requestCount <= maxRequest)) {
-                    $log.debug("Start " + requestCount);
+                    $log.debug('Start ' + requestCount);
                     pathQueue.start();
                 }
 
@@ -626,25 +612,24 @@ angular.module("starter").service("Application", function ($pwaRequest, $q, $roo
             };
 
             var updateProgress = function () {
-                progress += 1;
+                progress = progress + 1;
 
-                requestCount -= 1;
+                requestCount = requestCount - 1;
                 if (requestCount < 0) {
                     requestCount = 0;
                 }
 
-                /** Restart queue */
+                // Restart queue!
                 if (pathQueue.paused && (requestCount <= maxRequest)) {
-                    $log.debug("Start " + requestCount);
+                    $log.debug('Start ' + requestCount);
                     pathQueue.start();
                 }
 
-                if($rootScope.isNativeApp) {
-
+                if ($rootScope.isNativeApp) {
                     var percent = (progress / total);
 
                     // Change progress only if it's bigger. (don't go back ...)
-                    if(percent.toFixed(2) > $rootScope.progressBarPercent) {
+                    if (percent.toFixed(2) > $rootScope.progressBarPercent) {
                         $rootScope.progressBarPercent = percent.toFixed(2);
                     }
 
@@ -653,7 +638,7 @@ angular.module("starter").service("Application", function ($pwaRequest, $q, $roo
                     }
 
                     ProgressbarService.updateProgress($rootScope.progressBarPercent);
-                    $window.localStorage.setItem("sb-offline-mode-assets", JSON.stringify(assets_done));
+                    $window.localStorage.setItem('sb-offline-mode-assets', JSON.stringify(assets_done));
 
                     if ($rootScope.progressBarPercent >= 1) {
                         _updatingCache = false;
@@ -666,12 +651,12 @@ angular.module("starter").service("Application", function ($pwaRequest, $q, $roo
                 }
             };
 
-            /** Force end */
-            var endProgress = function() {
+            // Force end!
+            var endProgress = function () {
                 progress = total;
                 $rootScope.progressBarPercent = 1;
                 ProgressbarService.updateProgress($rootScope.progressBarPercent);
-                $window.localStorage.setItem("sb-offline-mode-assets", JSON.stringify(assets_done));
+                $window.localStorage.setItem('sb-offline-mode-assets', JSON.stringify(assets_done));
 
                 _updatingCache = false;
 
@@ -685,17 +670,16 @@ angular.module("starter").service("Application", function ($pwaRequest, $q, $roo
             var look_for_images = function (object) {
                 _.forEach(object, function (obj, key) {
                     if (_.isString(obj) && (/\.(png|jpg|jpeg|gif)$/.test(obj))) {
-
                         var path = _replace_tokens(obj);
 
                         if (!/^https?:/.test(path)) {
-                            path = (DOMAIN + "/" + path).replace(/([^:/])\/+/g, "$1/");
+                            path = (DOMAIN + '/' + path).replace(/([^:/])\/+/g, '$1/');
                         }
 
                         if (!_.includes(data.assets, path)) {
-                            total += 1;
+                            total = total + 1;
                             pathQueue.add({
-                                type: "asset",
+                                type: 'asset',
                                 path: path
                             });
                         }
@@ -707,12 +691,12 @@ angular.module("starter").service("Application", function ($pwaRequest, $q, $roo
 
             var retry = true;
             var fetchAssets = function (asset) {
-                if (asset.type === "path") {
-                    requestCount += 1;
+                if (asset.type === 'path') {
+                    requestCount = requestCount + 1;
                     $pwaRequest.get(asset.path, {
                         cache: !$rootScope.isOverview
                     }).then(function (data) {
-                        if(_.isObject(data)) {
+                        if (_.isObject(data)) {
                             look_for_images(data);
                         }
                         updateProgress(asset);
@@ -723,8 +707,8 @@ angular.module("starter").service("Application", function ($pwaRequest, $q, $roo
                             updateProgress();
                         }
                     });
-                } else if (asset.type === "asset") {
-                    requestCount += 1;
+                } else if (asset.type === 'asset') {
+                    requestCount = requestCount + 1;
 
                     $pwaRequest.cacheImage(asset.path).then(function () {
                         updateProgress();
@@ -740,7 +724,7 @@ angular.module("starter").service("Application", function ($pwaRequest, $q, $roo
                 }
 
                 if (requestCount >= maxRequest) {
-                    $log.debug("Paused " + requestCount);
+                    $log.debug('Paused ' + requestCount);
                     pathQueue.pause();
                 }
             };
@@ -749,7 +733,7 @@ angular.module("starter").service("Application", function ($pwaRequest, $q, $roo
                 delay: delay,
                 paused: true,
                 complete: function () {
-                    $log.debug("Queue ends.");
+                    $log.debug('Queue ends.');
 
                     updateProgress();
                     retry = false;
@@ -759,7 +743,7 @@ angular.module("starter").service("Application", function ($pwaRequest, $q, $roo
                             delay: 1000,
                             paused: true,
                             complete: function () {
-                                $log.debug("Retry queue ends.");
+                                $log.debug('Retry queue ends.');
 
                                 updateProgress();
                                 endProgress();
@@ -768,16 +752,15 @@ angular.module("starter").service("Application", function ($pwaRequest, $q, $roo
                         pathQueue.addEach(_retryQueue);
                         pathQueue.start();
                     } else {
-
                         endProgress();
                     }
                 }
             };
 
-            /** Rework objects */
+            // Build objects
             _.forEach(data.paths, function (path) {
                 fileQueue.push({
-                    type: "path",
+                    type: 'path',
                     path: _replace_tokens(path)
                 });
             });
@@ -786,7 +769,7 @@ angular.module("starter").service("Application", function ($pwaRequest, $q, $roo
                 var path = _replace_tokens(asset);
                 if (!_.includes(assets_done, path)) {
                     fileQueue.push({
-                        type: "asset",
+                        type: 'asset',
                         path: path
                     });
                 }
@@ -797,11 +780,18 @@ angular.module("starter").service("Application", function ($pwaRequest, $q, $roo
             pathQueue = $queue.queue(fetchAssets, options);
             pathQueue.addEach(fileQueue);
 
-            service.loaded.then(function() {
-                pathQueue.start();
+            service.loaded.then(function () {
+                if (forceMain) {
+                    pathQueue.start();
+                } else {
+                    $ionicPlatform.on('pause', function (result) {
+                        pathQueue.start();
+                    });
+                    $ionicPlatform.on('resume', function (result) {
+                        pathQueue.pause();
+                    });
+                }
             });
-
-
         }, function () {
             _updatingCache = false;
         });
@@ -1816,11 +1806,11 @@ angular.module('starter').service('layout_10', function ($rootScope) {
     service.features = function (features, moreButton) {
         var thirdOption = features.overview.options[2];
         var fourthOption = features.overview.options[3];
-        /** Placing more button at the third place (middle in layout) */
+        // Placing more button at the third place (middle in layout)!
         features.overview.options[2] = moreButton;
         features.overview.options[3] = thirdOption;
         features.overview.options[4] = fourthOption;
-        /** Removing 4 first option for the modal */
+        // Removing 4 first option for the modal!
         features.options = features.options.slice(4, features.options.length);
 
         return features;
@@ -1828,36 +1818,35 @@ angular.module('starter').service('layout_10', function ($rootScope) {
 
     return service;
 });
-;/*global
+;/* global
  angular
  */
-angular.module("starter").service('layout_17', function($rootScope, $location, $timeout) {
-
+angular.module('starter').service('layout_17', function ($rootScope, $location, $timeout) {
     var service = {};
 
-    service.getTemplate = function() {
-        return "templates/home/l17/view.html";
+    service.getTemplate = function () {
+        return 'templates/home/l17/view.html';
     };
 
-    service.getModalTemplate = function() {
-        return "templates/home/modal/view.html";
+    service.getModalTemplate = function () {
+        return 'templates/home/modal/view.html';
     };
 
-    service.onResize = function() {
+    service.onResize = function () {
         /** Double tap */
-        $timeout(function() {
+        $timeout(function () {
             service._resize();
-            $timeout(function() {
+            $timeout(function () {
                 service._resize();
             }, 500);
         }, 100);
     };
 
-    service.features = function(features, more_button) {
+    service.features = function (features, more_button) {
         var more_options = features.options.slice(12);
-        var chunks = new Array();
+        var chunks = [];
         var i, j, temparray, chunk = 2;
-        for (i = 0, j = more_options.length; i < j; i += chunk) {
+        for (i = 0, j = more_options.length; i < j; i = i + chunk) {
             temparray = more_options.slice(i, i + chunk);
             chunks.push(temparray);
         }
@@ -1866,42 +1855,42 @@ angular.module("starter").service('layout_17', function($rootScope, $location, $
         return features;
     };
 
-    service._resize = function() {
+    service._resize = function () {
         var scrollview = document.getElementById('metro-scroll');
-        if(scrollview) {
-            scrollview.style.display = "block";
+        if (scrollview) {
+            scrollview.style.display = 'block';
         }
-        if(document.getElementById('metro-scroll') && document.getElementById('metro-line-2')) {
+        if (document.getElementById('metro-scroll') && document.getElementById('metro-line-2')) {
             var spacing = document.getElementById('metro-scroll').getBoundingClientRect().width / 100 * 2.5;
             var element = document.getElementById('metro-line-2');
-            if(element) {
+            if (element) {
                 var positionInfo = element.getBoundingClientRect();
-                element.style.height = (positionInfo.width-spacing)/4+"px";
+                element.style.height = (positionInfo.width-spacing)/4+'px';
             }
-            var lines = document.getElementsByClassName("metro-line");
+            var lines = document.getElementsByClassName('metro-line');
             for (var i = 0; i < lines.length; i++) {
-                lines[i].style.marginBottom = spacing+"px";
+                lines[i].style.marginBottom = spacing+'px';
             }
         }
     };
 
     return service;
-});;/*global
+});
+;/*global
     angular
  */
-angular.module("starter").service('layout_8', function() {
-
+angular.module('starter').service('layout_8', function () {
     var service = {};
 
-    service.getTemplate = function() {
-        return "templates/home/l8/view.html";
+    service.getTemplate = function () {
+        return 'templates/home/l8/view.html';
     };
 
-    service.getModalTemplate = function() {
-        return "templates/home/modal/view.html";
+    service.getModalTemplate = function () {
+        return 'templates/home/modal/view.html';
     };
 
-    service.onResize = function() {};
+    service.onResize = function () {};
 
     service.features = function (features, more_button) {
         var first_option = null;
@@ -1919,7 +1908,8 @@ angular.module("starter").service('layout_8', function() {
     };
 
     return service;
-});;/*global
+});
+;/*global
  angular, DEVICE_TYPE
  */
 
@@ -3213,15 +3203,15 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
         push: null,
         settings: {
             android: {
-                senderID    : '01234567890',
-                icon        : 'ic_icon',
-                iconColor   : '#0099C7'
+                senderID: '01234567890',
+                icon: 'ic_icon',
+                iconColor: '#0099C7'
             },
             ios: {
-                clearBadge  : true,
-                alert       : true,
-                badge       : true,
-                sound       : true
+                clearBadge: true,
+                alert: true,
+                badge: true,
+                sound: true
             },
             windows: {}
         }
@@ -3314,9 +3304,9 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
 
     service.registerAndroid = function () {
         var params = {
-            app_id              : Application.app_id,
-            app_name            : Application.app_name,
-            registration_id     : btoa(Push.device_token)
+            app_id: Application.app_id,
+            app_name: Application.app_name,
+            registration_id: btoa(Push.device_token)
         };
         Push.registerAndroidDevice(params);
     };
@@ -3346,16 +3336,16 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
                 }
 
                 var params = {
-                    app_id          : Application.app_id,
-                    app_name        : Application.app_name,
-                    app_version     : appVersion,
-                    device_token    : Push.device_token,
-                    device_name     : deviceName,
-                    device_model    : deviceModel,
-                    device_version  : deviceVersion,
-                    push_badge      : 'enabled',
-                    push_alert      : 'enabled',
-                    push_sound      : 'enabled'
+                    app_id: Application.app_id,
+                    app_name: Application.app_name,
+                    app_version: appVersion,
+                    device_token: Push.device_token,
+                    device_name: deviceName,
+                    device_model: deviceModel,
+                    device_version: deviceVersion,
+                    push_badge: 'enabled',
+                    push_alert: 'enabled',
+                    push_sound: 'enabled'
                 };
 
                 Push.registerIosDevice(params);
@@ -3475,7 +3465,7 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
     };
 
     service.startIosBackgroundGeolocation = function () {
-        //This callback will be executed every time a geolocation is recorded in the background!
+        // This callback will be executed every time a geolocation is recorded in the background!
         var callbackFn = function (location, taskId) {
             var coords = location.coords;
             var lat = coords.latitude;
@@ -3493,10 +3483,10 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
 
         $window.BackgroundGeolocation.onGeofence(function (params, taskId) {
             try {
-                //var location        = params.location;
-                var identifier      = params.identifier;
-                var message_id      = identifier.replace('push', '');
-                var action          = params.action;
+                // var location  = params.location;
+                var identifier = params.identifier;
+                var message_id = identifier.replace('push', '');
+                var action = params.action;
 
                 $log.debug('A geofence has been crossed: ', identifier);
                 $log.debug('ENTER or EXIT ?: ', action);
@@ -3663,7 +3653,7 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
      * Trying to fetch latest Push & InApp messages on app Start.
      */
     service.fetchMessagesOnStart = function () {
-        Push.getLastMessages()
+        Push.getLastMessages(false)
             .then(function (data) {
                 // Last push!
                 var push = data.push_message;
@@ -3671,11 +3661,11 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
                     service.displayNotification(push);
                 }
 
-                /** Last InApp Message */
+                // Last InApp Message!
                 var inappMessage = data.inapp_message;
                 if (inappMessage) {
-                    inappMessage.type = 'inapp_message';
                     inappMessage.message = inappMessage.text;
+                    inappMessage.title = inappMessage.title;
                     inappMessage.config = {
                         buttons: [
                             {
@@ -3714,8 +3704,26 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
 
         if ((extendedPayload !== undefined) && (extendedPayload.cover || extendedPayload.action_value)) {
             var config = {
-                okText: $translate.instant('View'),
-                cancelText: $translate.instant('Cancel'),
+                buttons: [
+                    {
+                        text: $translate.instant('Cancel'),
+                        type: 'button-custom',
+                        onTap: function () {
+                            // Simply closes!
+                        }
+                    },
+                    {
+                        text: $translate.instant('View'),
+                        type: 'button-custom',
+                        onTap: function () {
+                            if ((extendedPayload.open_webview !== true) && (extendedPayload.open_webview !== 'true')) {
+                                $location.path(extendedPayload.action_value);
+                            } else {
+                                LinkService.openLink(extendedPayload.action_value);
+                            }
+                        }
+                    }
+                ],
                 cssClass: 'push-popup',
                 title: messagePayload.title,
                 template: '<div class="list card">' +
@@ -3728,28 +3736,19 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
                 '</div>'
             };
 
-            if (messagePayload.config) {
+            if (messagePayload.config !== undefined) {
                 config = angular.extend(config, messagePayload.config);
             }
 
             if (extendedPayload.action_value) {
                 // title, message, buttons_array, css_class!
-                promise = Dialog
-                    .ionicPopup(config)
-                    .then(function (confirm) {
-                        if (confirm) {
-                            if ((extendedPayload.open_webview !== true) && (extendedPayload.open_webview !== 'true')) {
-                                $location.path(extendedPayload.action_value);
-                            } else {
-                                LinkService.openLink(extendedPayload.action_value);
-                            }
-                        }
-                    });
+                promise = Dialog.ionicPopup(config);
             } else {
                 promise = Dialog.alert(messagePayload.title, messagePayload.message, 'OK');
             }
         } else {
-            promise = Dialog.alert('Notification', messagePayload.message, 'OK');
+            var localTitle = (messagePayload.title !== undefined) ? messagePayload.title : 'Notification';
+            promise = Dialog.alert(localTitle, messagePayload.message, 'OK');
         }
 
         // Search for less resource consuming maybe use Push factory directly!
@@ -3867,7 +3866,7 @@ angular.module('starter').service('$session', function ($log, $pwaCache, $q, $wi
      *
      * @param width
      * @param height
-     * @returns {{width: number, height: number}}
+     * @returns {{width: number, height: number, orientation: string}}
      */
     service.setDeviceScreen = function (width, height) {
         var orientation = ($window.matchMedia('(orientation: portrait)').matches) ? 'portrait' : 'landscape';
@@ -3881,12 +3880,13 @@ angular.module('starter').service('$session', function ($log, $pwaCache, $q, $wi
 
     /**
      *
-     * @returns {{width: number, height: number}}
+     * @returns {{width: number, height: number, orientation: string}}
      */
     service.getDeviceScreen = function () {
         return {
-            width   : service.device_width,
-            height  : service.device_height
+            width: service.device_width,
+            height: service.device_height,
+            orientation: service.device_orientation
         };
     };
 
@@ -3923,7 +3923,7 @@ angular.module('starter').service('$session', function ($log, $pwaCache, $q, $wi
                 $log.debug('Set once $session from pwaRegistry on start: ', value);
                 service.setId(value);
 
-                /** Don't forget to log-in the customer. */
+                // Don't forget to log-in the customer.!
             } else if ((fallback !== null) && (fallback !== undefined)) {
                 $log.debug('Set once $session from fallback localstorage on start: ', fallback);
 
@@ -4374,59 +4374,66 @@ if(typeof String.prototype.endsWith !== "function") {
     String.prototype.endsWith = function (str) {
         return this.substring(this.length - str.length, this.length) === str;
     };
-};/*global
- angular
+};/* global
+ angular, YT
  */
-angular.module("starter").service('YouTubeAutoPauser', function($ionicPlatform, $window) {
-  var iframes = [];
-  var players = [];
-  var initialized = false;
-  var loaded = false;
-  var service = {};
+angular.module('starter').service('YouTubeAutoPauser', function ($ionicPlatform, $window) {
+    var iframes = [];
+    var players = [];
+    var initialized = false;
+    var loaded = false;
+    var service = {};
 
-  function initialize() {
-    initialized = true;
-    $window.onYouTubeIframeAPIReady = function() {
-      loaded = true;
-      players = players.concat(iframes.map(function(iframe) {
-        return new YT.Player(iframe, {});
-      }));
+    /**
+     *
+     */
+    function initialize() {
+        initialized = true;
+        $window.onYouTubeIframeAPIReady = function () {
+            loaded = true;
+            players = players.concat(iframes.map(function (iframe) {
+                return new YT.Player(iframe, {});
+            }));
 
-      $ionicPlatform.on("pause", function (result) {
-          var filtered_players = [];
-          players.forEach(function(item) {
-            if(
-              angular.isObject(item) &&  // YT.Player
-              angular.isFunction(item.pauseVideo) && // check function exists
-              angular.isObject(item.a) && // iframe element
-              angular.isObject(item.a.parentElement) // check if still in DOM
-            ) {
-              item.pauseVideo();
-              filtered_players.push(item);
+            $ionicPlatform.on('pause', function (result) {
+                var filtered_players = [];
+                players.forEach(function (item) {
+                    if (
+                        angular.isObject(item) && // YT.Player!
+                        angular.isFunction(item.pauseVideo) && // check function exists!
+                        angular.isObject(item.a) && // iframe element!
+                        angular.isObject(item.a.parentElement) // check if still in DOM!
+                    ) {
+                        item.pauseVideo();
+                        filtered_players.push(item);
+                    }
+                });
+                players = filtered_players; // replace players with checked and filtered!
+            });
+        };
+
+        var tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    }
+
+    /**
+     *
+     * @param iframe
+     */
+    service.register = function (iframe) {
+        var localIframe = angular.element(iframe)[0];
+
+        if (loaded) {
+            players.push(new YT.Player(localIframe, {}));
+        } else {
+            if (!initialized) {
+                initialize();
             }
-          });
-          players = filtered_players; // replace players with checked and filtered
-      });
+            iframes.push(localIframe);
+        }
     };
 
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-  }
-
-  service.register = function(iframe) {
-    iframe = angular.element(iframe)[0];
-
-    if(loaded) {
-      players.push(new YT.Player(iframe, {}));
-    } else {
-      if(!initialized) {
-        initialize();
-      }
-      iframes.push(iframe);
-    }
-  };
-
-  return service;
+    return service;
 });

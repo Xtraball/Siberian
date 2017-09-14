@@ -105,13 +105,7 @@ $event_type_list = array(
             </div>
         <?php endif; ?>
         <div class="background">
-            <?php
-            echo $this->getLayout()
-                ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
-                ->setValueId($option_value->getId())
-                ->toHtml()
-            ;
-            ?>
+            <?php echo $this->importBackground($option_value); ?>
         </div>
     </div>
     <div id="edit" style="display:none"></div>
@@ -208,6 +202,10 @@ $event_type_list = array(
     .fa-facebook, .fa-calendar{font-size:2em}
 </style>
 <script type="text/javascript">
+
+    $(document).ready(function () {
+        bindForms('#list');
+    });
 
     page.setCallback('willappear', function() {
 

@@ -118,7 +118,7 @@ $delete_form->setValueId($option_value->getId());
                 </div>
             <?php endif; ?>
 
-            <div>
+            <div class="background-images">
                 <?php echo $this->importBackground($option_value); ?>
             </div>
         </div>
@@ -210,6 +210,7 @@ $delete_form->setValueId($option_value->getId());
         });
 
         bindForms(".feature-block-list");
+        bindForms(".background-images");
 
         $("table.sb-pager").sbpager({
             with_search: true,

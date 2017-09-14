@@ -21,6 +21,7 @@ class Application_Model_Option_Value extends Application_Model_Option
     protected static $_editor_icon_reverse_color = null;
 
     protected $_background_image_url;
+    protected $_background_landscape_image_url;
 
     /**
      * @param bool $base
@@ -157,27 +158,33 @@ class Application_Model_Option_Value extends Application_Model_Option
     }
 
     public function getBackgroundImageUrl() {
-
-        if(!$this->_background_image_url) {
-
-            if($this->getBackgroundImage() AND $this->getBackgroundImage() != "no-image") {
-                $this->_background_image_url = Application_Model_Application::getImagePath().$this->getBackgroundImage();
+        if (!$this->_background_image_url) {
+            if ($this->getBackgroundImage() AND $this->getBackgroundImage() != 'no-image') {
+                $this->_background_image_url = Application_Model_Application::getImagePath() . $this->getBackgroundImage();
             }
-
         }
 
         return $this->_background_image_url;
+    }
 
+    public function getBackgroundLandscapeImageUrl() {
+        if (!$this->_background_landscape_image_url) {
+            if ($this->getBackgroundLandscapeImage() AND $this->getBackgroundLandscapeImage() != 'no-image') {
+                $this->_background_landscape_image_url = Application_Model_Application::getImagePath() . $this->getBackgroundLandscapeImage();
+            }
+        }
+
+        return $this->_background_landscape_image_url;
     }
 
     public function addOptionDatas() {
-        if(is_numeric($this->getId())) {
+        if (is_numeric($this->getId())) {
             $datas = $this->getTable()->getOptionDatas($this->getOptionId());
-            foreach($datas as $key => $value) {
-                if(is_null($this->getData($key))) $this->setData($key, $value);
+            foreach ($datas as $key => $value) {
+                if (is_null($this->getData($key))) $this->setData($key, $value);
             }
-
         }
+
         return $this;
     }
 

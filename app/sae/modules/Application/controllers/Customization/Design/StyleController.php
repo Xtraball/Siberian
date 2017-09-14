@@ -413,6 +413,18 @@ class Application_Customization_Design_StyleController extends Application_Contr
                     case "tablet":
                         $application->setBackgroundImageTablet($relative_path.$file);
                         break;
+                    case "landscape_standard":
+                        $application->setBackgroundImageLandscape($relative_path.$file);
+                        $application->setUseLandscape(true);
+                        break;
+                    case "landscape_hd":
+                        $application->setBackgroundImageLandscapeHd($relative_path.$file);
+                        $application->setUseLandscape(true);
+                        break;
+                    case "landscape_tablet":
+                        $application->setBackgroundImageLandscapeTablet($relative_path.$file);
+                        $application->setUseLandscape(true);
+                        break;
                 }
 
                 $application->save();

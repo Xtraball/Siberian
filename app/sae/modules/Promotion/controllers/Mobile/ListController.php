@@ -23,10 +23,16 @@ class Promotion_Mobile_ListController extends Application_Controller_Mobile_Defa
 
             foreach($promotion_customers as $promotion_customer) {
 
-                $picture = $promotion_customer->getPictureUrl() ? $this->getRequest()->getBaseUrl().$promotion_customer->getPictureUrl() : null;
+                $picture = $promotion_customer->getPictureUrl() ?
+                    $this->getRequest()->getBaseUrl() . $promotion_customer->getPictureUrl() : null;
+                $thumbnail = $promotion_customer->getThumbnailUrl() ?
+                    $this->getRequest()->getBaseUrl() . $promotion_customer->getThumbnailUrl() : null;
                 $title = $promotion_customer->getTitle();
                 $subtitle = $promotion_customer->getDescription();
-                $url = $this->getPath("promotion/mobile_view", array("value_id" => $value_id, "promotion_id" => $promotion_customer->getPromotionId()));
+                $url = $this->getPath("promotion/mobile_view", [
+                    'value_id' => $value_id,
+                    'promotion_id' => $promotion_customer->getPromotionId()
+                ]);
                 $is_locked = false;
 
                 if($promotion_customer->getUnlockCode() && !$promotion_customer->getCustomerId()) {
@@ -44,13 +50,17 @@ class Promotion_Mobile_ListController extends Application_Controller_Mobile_Defa
 
                 $embed_payload = array(
                     "id"            => (integer) $promotion_customer->getPromotionId(),
-                    "picture"       => $promotion_customer->getPictureUrl() ? $this->getRequest()->getBaseUrl().$promotion_customer->getPictureUrl() : null,
+                    "picture"       => $promotion_customer->getPictureUrl() ?
+                        $this->getRequest()->getBaseUrl() . $promotion_customer->getPictureUrl() : null,
+                    "thumbnail"     => $promotion_customer->getThumbnailUrl() ?
+                        $this->getRequest()->getBaseUrl() . $promotion_customer->getThumbnailUrl() : null,
                     "title"         => $promotion_customer->getTitle(),
-                    "description"   => $promotion_customer->getDescription(),
+                    "description"   => html_entity_decode(strip_tags($promotion_customer->getDescription())),
+                    "description_html"   => $promotion_customer->getDescription(),
                     "conditions"    => $promotion_customer->getConditions(),
                     "is_unique"     => (boolean) $promotion_customer->getIsUnique(),
-                    "end_at"        => datetime_to_format($promotion_customer->getEndAt()),
-                    "confirm_message" => __("Do you want to use this coupon?"),
+                    "end_at"        => datetime_to_format($promotion_customer->getEndAt(), Zend_Date::DATE_SHORT),
+                    "confirm_message" => __('Do you want to use this coupon?'),
                     "page_title"    => $promotion_customer->getTitle(),
                     "tc_id"         => $tc_id
                 );
@@ -58,8 +68,10 @@ class Promotion_Mobile_ListController extends Application_Controller_Mobile_Defa
                 $data["promotions"][] = array(
                     "id"                => (integer) $promotion_customer->getPromotionId(),
                     "picture"           => $picture,
+                    "thumbnail"         => $thumbnail,
                     "title"             => $title,
-                    "subtitle"          => $subtitle,
+                    "subtitle"          => html_entity_decode(strip_tags($subtitle)),
+                    "subtitle_html"     => $subtitle,
                     "url"               => $url,
                     "is_locked"         => (boolean) $is_locked,
                     "embed_payload"     => $embed_payload
@@ -69,6 +81,7 @@ class Promotion_Mobile_ListController extends Application_Controller_Mobile_Defa
 
             $data["social_sharing_is_active"] = $option->getSocialSharingIsActive();
             $data['page_title'] = $option->getTabbarName();
+            $data['modal_title'] = __('Do you want to use this coupon?');
 
             $this->_sendJson($data);
 
@@ -192,7 +205,7 @@ class Promotion_Mobile_ListController extends Application_Controller_Mobile_Defa
             );
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
     }
 
 }

@@ -5,9 +5,9 @@ class Siberian_Image extends Gregwar\Image\Image {
     /**
      * @var array
      */
-    public static $formats = array(
-        "thumbnail" => 256
-    );
+    public static $formats = [
+        'thumbnail' => 256
+    ];
 
     /**
      * @var null
@@ -66,9 +66,7 @@ class Siberian_Image extends Gregwar\Image\Image {
 
             $resource = Siberian_Image::open($resource);
 
-            /**
-             *  Optimize images with the screen resolution or format
-             */
+            // Optimize images with the screen resolution or format!
             if(isset($format) && isset(self::$formats[$format])) {
                 $max_width = self::$formats[$format];
             } else if(isset($device_width) && isset($device_height)) {
@@ -78,18 +76,18 @@ class Siberian_Image extends Gregwar\Image\Image {
                 $max_width = 1024;
             }
 
-            /** Range sizes, this will group cache, to reduce the spread */
-            if(($max_width < 512) && ($max_width >= 256)) {
+            // Range sizes, this will group cache, to reduce the spread
+            if (($max_width < 512) && ($max_width >= 256)) {
                 $max_width = 256;
-            } else if(($max_width < 720) && ($max_width >= 512)) {
+            } else if (($max_width < 720) && ($max_width >= 512)) {
                 $max_width = 512;
-            } else if(($max_width < 1024) && ($max_width >= 720)) {
+            } else if (($max_width < 1024) && ($max_width >= 720)) {
                 $max_width = 720;
             }
 
-            /** Resize only if image width is bigger than guessed range */
-            if($resource->width() > $max_width) {
-                $resource = $resource->cropResize($max_width, null, "transparent");
+            // Resize only if image width is bigger than guessed range!
+            if ($resource->width() > $max_width) {
+                $resource = $resource->cropResize($max_width, null, 'transparent');
             }
 
             $base64 = $resource->inline($resource->guessType());
@@ -99,8 +97,8 @@ class Siberian_Image extends Gregwar\Image\Image {
              *  don't cache it locally but send the proxied url
              */
             if(strlen(base64_decode($base64)) > self::$max_size) {
-                $data = str_replace(Core_Model_Directory::getBasePathTo(""),
-                    $base_url."/", $resource->guess());
+                $data = str_replace(Core_Model_Directory::getBasePathTo(''),
+                    $base_url . '/', $resource->guess());
             } else {
                 $data = $base64;
             }
@@ -109,7 +107,7 @@ class Siberian_Image extends Gregwar\Image\Image {
 
         } else {
             throw new Siberian_Exception(
-                __("[Error] Siberian_Image, no resource provided."));
+                __('[Error] Siberian_Image, no resource provided.'));
         }
     }
 

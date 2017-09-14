@@ -50,7 +50,7 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
 
         if($this->getCountryCode()) {
             if(empty($countries[$this->getCountryCode()])) {
-                throw new Exception($this->_("An error occurred while saving. The country is not valid."));
+                throw new Exception(__("An error occurred while saving. The country is not valid."));
             } else if($this->getCountry() != $countries[$this->getCountryCode()]) {
                 $this->setCountry($countries[$this->getCountryCode()]);
             }
@@ -140,7 +140,9 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
     }
 
     public function setPassword($password) {
-        if(strlen($password) < 6) throw new Exception($this->_('The password must be at least 6 characters'));
+        if (strlen($password) < 6) {
+            throw new Siberian_Exception(__('The password must be at least 6 characters'));
+        }
         $this->setData('password', $this->_encrypt($password));
         return $this;
     }
@@ -188,8 +190,8 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
         $roles = $this->getTable()->getAvailableRole();
 
         for($i = 0; $i<count($roles); $i++) {
-            $roles[$i]["label"] = $this->_($roles[$i]["label"]);
-            $roles[$i]["code"] = $this->_($roles[$i]["code"]);
+            $roles[$i]["label"] = __($roles[$i]["label"]);
+            $roles[$i]["code"] = __($roles[$i]["code"]);
         }
         return $roles;
     }
@@ -212,16 +214,16 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
             $mail->setBodyHtml($content);
             $mail->setFrom($sender, $support_name);
             $mail->addTo($this->getEmail());
-            $mail->setSubject($this->_("Welcome!"));
+            $mail->setSubject(__("Welcome!"));
             $mail->send();
 
             //mail to admin
-            $end_message = System_Model_Config::getValueFor("signup_mode") == "validation" ? " ".$this->_("Connect to your backoffice to validate this account.") : "";
+            $end_message = System_Model_Config::getValueFor("signup_mode") == "validation" ? " ".__("Connect to your backoffice to validate this account.") : "";
             $mail = new Siberian_Mail();
-            $mail->setBodyHtml($this->_("Hello, a new user has registered on your platform : %s.", $this->getEmail()).$end_message);
+            $mail->setBodyHtml(__("Hello, a new user has registered on your platform : %s.", $this->getEmail()).$end_message);
             $mail->setFrom($sender, $support_name);
             $mail->addTo($sender);
-            $mail->setSubject($this->_("New user registration on your platform"));
+            $mail->setSubject(__("New user registration on your platform"));
             $mail->send();
         }
 

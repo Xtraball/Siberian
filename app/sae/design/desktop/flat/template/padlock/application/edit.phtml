@@ -96,13 +96,7 @@
             </form>
         </div>
         <div id="background">
-            <?php
-                echo $this->getLayout()
-                    ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
-                    ->setValueId($option_value->getId())
-                    ->toHtml()
-                ;
-            ?>
+            <?php echo $this->importBackground($option_value); ?>
         </div>
     </div>
     <style>
@@ -112,6 +106,10 @@
         }
     </style>
     <script type="text/javascript">
+
+        $(document).ready(function () {
+            bindForms('#list');
+        });
 
         page.setCallback('didappear', function() {
 

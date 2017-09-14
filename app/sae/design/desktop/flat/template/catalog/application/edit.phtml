@@ -4,7 +4,7 @@
 <?php $category = new Catalog_Model_Category(); ?>
 <?php $categories = $category->findByValueId($option_value->getId(), null, true, true); ?>
 
-<div class="edit_page catalog">
+<div id="list" class="edit_page catalog">
     <script type="text/javascript">var products = new Array();</script>
     <div id="cont_add_main_cat" class="container-fluid first-row-feature content-feature">
         <div class="row">
@@ -42,13 +42,7 @@
         <?php endif; ?>
     </div>
 
-    <?php
-        echo $this->getLayout()
-            ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
-            ->setValueId($option_value->getId())
-            ->toHtml()
-        ;
-    ?>
+    <?php echo $this->importBackground($option_value); ?>
 
     <?php echo $this->getLayout()
         ->addPartial('layout', 'Core_View_Default', 'application/customization/features/edit/layout.phtml')
@@ -58,6 +52,10 @@
     ?>
 
     <script type="text/javascript">
+        $(document).ready(function () {
+            bindForms('#list');
+        });
+
         page.setCallback('didappear', function() {
             category.processEvents();
             subcategory.processEvents();

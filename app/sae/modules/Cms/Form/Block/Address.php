@@ -2,6 +2,11 @@
 
 class Cms_Form_Block_Address extends Cms_Form_Block_Abstract {
 
+    /**
+     * @var string
+     */
+    public $blockType = 'address';
+
     public function init() {
         parent::init();
 

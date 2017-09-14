@@ -158,7 +158,29 @@ $schemas['application'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'background_image_landscape' => array(
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
+    'background_image_landscape_hd' => array(
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
+    'background_image_landscape_tablet' => array(
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'use_homepage_background_image_in_subpages' => array(
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ),
+    'use_landscape' => array(
         'type' => 'tinyint(1)',
         'default' => '0',
     ),

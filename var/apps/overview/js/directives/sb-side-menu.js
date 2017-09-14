@@ -2,15 +2,15 @@
  angular
  */
 
-angular.module('starter').directive('sbSideMenu', function ($rootElement, $rootScope, $ionicHistory, $translate, $timeout,
-                                                            HomepageLayout, ContextualMenu, Application) {
+angular.module('starter').directive('sbSideMenu', function ($rootElement, $rootScope, $ionicHistory, $translate,
+                                                            $timeout, HomepageLayout, ContextualMenu) {
     return {
         restrict: 'E',
         replace: true,
         scope: {},
         templateUrl: 'templates/page/side-menu.html',
         link: function (scope, element) {
-            /** Defining the global functionnalities of the page */
+            /** Defining the global functionalities of the page */
             HomepageLayout.getFeatures()
                 .then(function (features) {
                     scope.layout = HomepageLayout.properties;

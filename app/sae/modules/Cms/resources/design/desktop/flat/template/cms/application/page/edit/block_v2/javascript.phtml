@@ -56,7 +56,7 @@ var resetIndex = function() {
 
 $(document).ready(function() {
 
-    if(!$("#gmaps_libraries").length) {
+    if (!$("#gmaps_libraries").length) {
         var script_tag = document.createElement("script");
         script_tag.setAttribute("id","gmaps_libraries");
         script_tag.setAttribute("type","text/javascript");
@@ -64,10 +64,11 @@ $(document).ready(function() {
         (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
     }
 
-    var bindCmsBlocks = function() {
-        $(".cms-block-handle").unbind("mousedown mouseup");
+    var bindCmsBlocks = function () {
+        var cms_block_handle  = $('.cms-block-handle');
+        cms_block_handle.unbind("mousedown mouseup");
 
-        $(".cms-block-handle")
+        cms_block_handle
             .mousedown(function() {
                 var el = $(this);
                 el.parents(".cms-block-container").find(".cms-block-hide-drag").hide();
@@ -77,7 +78,7 @@ $(document).ready(function() {
                 el.parents(".cms-block-container").find(".cms-block-hide-drag").show();
             });
 
-        $(".blocks-container").sortable({
+        $('.blocks-container').sortable({
             handle: ".cms-block-handle",
             axis: "y",
             items: " .cms-block-container",

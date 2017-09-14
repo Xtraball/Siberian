@@ -326,6 +326,27 @@ function __ss($string) {
 }
 
 /**
+ * Short alias for Config getter
+ *
+ * @param $code
+ * @return mixed
+ */
+function __get($code) {
+    return System_Model_Config::getValueFor($code);
+}
+
+/**
+ * Short alias for Config setter
+ *
+ * @param $code
+ * @param $value
+ * @return System_Model_Config
+ */
+function __set($code, $value) {
+    return System_Model_Config::setValueFor($code, $value);
+}
+
+/**
  * @param $time
  * @param string $format
  * @return string

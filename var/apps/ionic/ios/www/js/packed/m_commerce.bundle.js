@@ -554,26 +554,24 @@ angular.module("starter").controller("MCommerceProductViewController", function 
 
     $scope.loadContent();
 
-});;/*global
+});;/* global
     App, angular, BASE_PATH
  */
 
-angular.module("starter").controller("MCommerceSalesConfirmationViewController", function ($ionicPopup, Loader, $location, $rootScope,
+angular.module('starter').controller('MCommerceSalesConfirmationViewController', function ($ionicPopup, Loader, $location, $rootScope,
                                                                     $scope, $state, $stateParams, $timeout, $translate,
                                                                     $window, Analytics, Application, Customer, Dialog,
                                                                     McommerceCart, McommerceSalesPayment) {
-
     $scope.is_loading = true;
     Loader.show();
 
-    $scope.page_title = $translate.instant("Review");
+    $scope.page_title = $translate.instant('Review');
 
     McommerceCart.value_id = $stateParams.value_id;
     McommerceSalesPayment.value_id = $stateParams.value_id;
     $scope.value_id = $stateParams.value_id;
 
     $scope.loadContent = function () {
-
         $scope.guest_mode = Customer.guest_mode;
         McommerceCart.compute()
             .then(function (computation) {
@@ -583,27 +581,28 @@ angular.module("starter").controller("MCommerceSalesConfirmationViewController",
                         $scope.cart.discount_message = computation.message;
                         $scope.cart.discount = computation.discount;
 
-                        McommerceSalesPayment.findOnlinePaymentUrl().then(function (data) {
-                            $scope.onlinePaymentUrl = data.url;
-                            $scope.form_url = data.form_url;
+                        McommerceSalesPayment.findOnlinePaymentUrl()
+                            .then(function (data) {
+                                $scope.onlinePaymentUrl = data.url;
+                                $scope.form_url = data.form_url;
 
-                            $scope.right_button = {
-                                action: $scope.validate,
-                                label: $translate.instant("Validate")
-                            };
-                        }).then(function () {
-                            Loader.hide();
-                            if (computation && angular.isDefined(computation.message) && computation.show_message) {
-                                Dialog.alert("", computation.message, "OK");
-                            }
-                            $scope.is_loading = false;
-                        });
-
+                                $scope.right_button = {
+                                    action: $scope.validate,
+                                    label: $translate.instant('Validate')
+                                };
+                            }).then(function () {
+                                Loader.hide();
+                                if (computation &&
+                                    angular.isDefined(computation.message) &&
+                                    computation.show_message) {
+                                    Dialog.alert('', computation.message, 'OK');
+                                }
+                                $scope.is_loading = false;
+                            });
                     }, function () {
                         $scope.is_loading = false;
                         Loader.hide();
                     });
-
             }, function () {
                 Loader.hide();
                 $scope.is_loading = false;
@@ -611,51 +610,47 @@ angular.module("starter").controller("MCommerceSalesConfirmationViewController",
     };
 
     $scope.validate = function () {
-
         // TG-459
-        McommerceSalesPayment.notes = $scope.notes || "";
-        sessionStorage.setItem('mcommerce-notes',$scope.notes || "");
+        McommerceSalesPayment.notes = $scope.notes || '';
+        sessionStorage.setItem('mcommerce-notes', $scope.notes || '');
 
         if ($scope.onlinePaymentUrl) {
-
-            if(Application.is_webview) {
+            if (Application.is_webview) {
                 $window.location = $scope.onlinePaymentUrl;
             } else {
-
                 /** @todo Use LinkService but force inAppBrowser with listeners */
                 var browser = $window.open($scope.onlinePaymentUrl, $rootScope.getTargetForLink(), 'location=yes');
 
-                browser.addEventListener('loadstart', function(event) {
-
-                    if(/(mcommerce\/mobile_sales_confirmation\/confirm)/.test(event.url)) {
-
+                browser.addEventListener('loadstart', function (event) {
+                    if (/(mcommerce\/mobile_sales_confirmation\/confirm)/.test(event.url)) {
                         var url = new URL(event.url);
-                        var params = url.search.replace(/(^\?)/,'').split("&").map(function(n){return n = n.split("="),this[n[0]] = n[1],this}.bind({}))[0];
-                        if(params.token && params.PayerID) {
+                        var params = url.search.replace(/(^\?)/, '').split('&').map(function (n) {
+                            return n = n.split('='), this[n[0]] = n[1], this;
+                        }.bind({}))[0];
+                        if (params.token && params.payer_id) {
                             browser.close();
-                            $state.go("mcommerce-sales-confirmation-payment", { token: params.token, PayerID: params.PayerID, value_id: $stateParams.value_id });
+                            $state.go('mcommerce-sales-confirmation-payment', {
+                                token: params.token,
+                                payer_id: params.payer_id,
+                                value_id: $stateParams.value_id
+                            });
                         }
-
-                    } else if(/(mcommerce\/mobile_sales_confirmation\/cancel)/.test(event.url)) {
-
+                    } else if (/(mcommerce\/mobile_sales_confirmation\/cancel)/.test(event.url)) {
                         browser.close();
 
-                        Dialog.alert("", "The payment has been cancelled, something wrong happened? Feel free to contact us.", "OK")
-                            .then(function() {
-                                $state.go("mcommerce-sales-confirmation", {
+                        Dialog.alert('', 'The payment has been cancelled, something wrong happened? Feel free to contact us.', 'OK')
+                            .then(function () {
+                                $state.go('mcommerce-sales-confirmation', {
                                     value_id: $stateParams.value_id
                                 });
                             });
-
                     }
                 });
-
             }
-        } else if($scope.form_url) {
+        } else if ($scope.form_url) {
             $location.path($scope.form_url);
         } else {
-
-            if($scope.is_loading) {
+            if ($scope.is_loading) {
                 return;
             }
 
@@ -663,9 +658,9 @@ angular.module("starter").controller("MCommerceSalesConfirmationViewController",
             Loader.show();
 
             McommerceSalesPayment.validatePayment()
-                .then(function(data) {
+                .then(function (data) {
                     var products = [];
-                    angular.forEach($scope.cart.lines, function(value, key) {
+                    angular.forEach($scope.cart.lines, function (value, key) {
                         var product = value.product;
                         product.category_id = value.category_id;
                         product.quantity = value.qty;
@@ -673,80 +668,70 @@ angular.module("starter").controller("MCommerceSalesConfirmationViewController",
                         products.push(product);
                     });
                     Analytics.storeProductSold(products);
-                    //end of non online payment
-                    $state.go("mcommerce-sales-success", {
+                    // end of non online payment!
+                    $state.go('mcommerce-sales-success', {
                         value_id: $stateParams.value_id
                     });
-
-                }, function(data) {
-                    Dialog.alert("", data.message, "OK");
-
-                }).then(function() {
+                }, function (data) {
+                    Dialog.alert('', data.message, 'OK');
+                }).then(function () {
                     $scope.is_loading = false;
                     Loader.hide();
                 });
-
         }
     };
 
     $scope.loadContent();
-
-}).controller("MCommerceSalesConfirmationConfirmPaymentController", function ($ionicLoading, $scope, $state,
+}).controller('MCommerceSalesConfirmationConfirmPaymentController', function ($ionicLoading, $scope, $state,
                                                                               $stateParams, $timeout, McommerceCart,
                                                                               McommerceSalesPayment) {
-
     $scope.is_loading = true;
     $ionicLoading.show({
-        template: "<ion-spinner class=\"spinner-custom\"></ion-spinner>"
+        template: '<ion-spinner class="spinner-custom"></ion-spinner>'
     });
 
     McommerceSalesPayment.value_id = $stateParams.value_id;
 
-    McommerceSalesPayment.validateOnlinePayment($stateParams.token, $stateParams.payerId)
+    McommerceSalesPayment.validateOnlinePayment($stateParams.token, $stateParams.payer_id)
         .then(function (data) {
             if (data.success) {
-                //end of non online payment
-                $state.go("mcommerce-sales-success", {
+                // end of non online payment!
+                $state.go('mcommerce-sales-success', {
                     value_id: $stateParams.value_id
                 });
             }
-
         }, function (data) {
             if (data && angular.isDefined(data.message)) {
                 $scope.confirmation_message = data.message;
             }
-            // redirect after 5 seconds
+            // redirect after 5 seconds!
             $timeout(function () {
-                $state.go("mcommerce-sales-confirmation", {
+                $state.go('mcommerce-sales-confirmation', {
                     value_id: $stateParams.value_id
                 });
             }, 5000);
-
         }).then(function () {
             $scope.is_loading = false;
             $ionicLoading.hide();
         });
-
-}).controller("MCommerceSalesConfirmationCancelController", function ($state, $stateParams, $translate, Dialog) {
-
-    // display cancelation message
-    Dialog.alert("", "The payment has been cancelled, something wrong happened? Feel free to contact us.", "OK")
-        .then(function() {
-            $state.go("mcommerce-sales-confirmation", {
+}).controller('MCommerceSalesConfirmationCancelController', function ($state, $stateParams, $translate, Dialog) {
+    // display cancelation message!
+    Dialog.alert('', 'The payment has been cancelled, something wrong happened? Feel free to contact us.', 'OK')
+        .then(function () {
+            $state.go('mcommerce-sales-confirmation', {
                 value_id: $stateParams.value_id
             });
         });
-
 });
 ;/*global
  App, angular, BASE_PATH
  */
-angular.module("starter").controller("MCommerceSalesCustomerViewController", function (Loader, $state, $stateParams, $scope,
-                                                                $translate, McommerceCart, McommerceSalesCustomer,
-                                                                Customer, Dialog, SB) {
-
-
-    Customer.onStatusChange("category", []);
+angular.module('starter').controller('MCommerceSalesCustomerViewController', function (Loader, $state, $stateParams,
+                                                                                       $scope, $translate, $rootScope,
+                                                                                       McommerceCart,
+                                                                                       McommerceSalesCustomer, Customer,
+                                                                                       Dialog, SB) {
+    Customer.onStatusChange('category', []);
 
     $scope.hasguestmode = false;
 
@@ -763,15 +748,15 @@ angular.module("starter").controller("MCommerceSalesCustomerViewController", fun
     $scope.customer_guestmode = function () {
         Loader.show();
         var currentTs = Date.now();
-        var guestmail = "guest" + currentTs + (parseInt(Math.random() * 1000)) + "@guest.com";
+        var guestmail = 'guest' + currentTs + (parseInt(Math.random() * 1000, 10)) + '@guest.com';
         Customer.register({
-                "civility": "m",
-                "firstname": "Guest",
-                "lastname": "Guest",
-                "email": guestmail,
-                "password": parseInt(Math.random() * 10000000000),
-                "privacy_policy": true
-            }).then(function(){
+                civility: 'm',
+                firstname: 'Guest',
+                lastname: 'Guest',
+                email: guestmail,
+                password: parseInt(Math.random() * 10000000000, 10),
+                privacy_policy: true
+            }).then(function () {
                 $scope.is_logged_in = true;
                 Customer.guest_mode = true;
                 $scope.loadContent();
@@ -798,23 +783,23 @@ angular.module("starter").controller("MCommerceSalesCustomerViewController", fun
     McommerceSalesCustomer.value_id = $stateParams.value_id;
     $scope.value_id = $stateParams.value_id;
 
-    $scope.page_title = $translate.instant("My information");
+    $scope.page_title = $translate.instant('My information');
 
     $scope.loadContent = function () {
         McommerceSalesCustomer
             .hasGuestMode()
             .then(function (dataGuestMode) {
-                //check if had guest mode
-                if(dataGuestMode.success && dataGuestMode.activated) {
+                // Check if had guest mode!
+                if (dataGuestMode.success && dataGuestMode.activated) {
                     $scope.hasguestmode = true;
                 }
-                //getting user
+                // Getting user!
                 McommerceSalesCustomer
                     .find()
                     .then(function (data) {
                         $scope.customer = data.customer;
-                        //fix birthday ?
-                        if ($scope.customer && $scope.customer.hasOwnProperty("metadatas") && $scope.customer.metadatas.birthday) {
+                        // Fix birthday!
+                        if ($scope.customer && $scope.customer.hasOwnProperty('metadatas') && $scope.customer.metadatas.birthday) {
                             $scope.customer.metadatas.birthday = new Date($scope.customer.metadatas.birthday);
                         }
                         $scope.settings = data.settings;
@@ -822,10 +807,9 @@ angular.module("starter").controller("MCommerceSalesCustomerViewController", fun
                         $scope.is_loading = false;
                         Loader.hide();
                     });
-
             }, function (data) {
                 if (data && angular.isDefined(data.message)) {
-                    Dialog.alert("Error", data.message, "OK");
+                    Dialog.alert('Error', data.message, 'OK');
                 }
             }).then(function () {
                 $scope.is_loading = false;
@@ -834,16 +818,23 @@ angular.module("starter").controller("MCommerceSalesCustomerViewController", fun
     };
 
     $scope.goToDeliveryPage = function () {
-        $state.go("mcommerce-sales-delivery", {value_id: $stateParams.value_id});
+        $state.go('mcommerce-sales-delivery', {
+            value_id: $stateParams.value_id
+        });
     };
 
     $scope.updateCustomerInfos = function () {
+        $rootScope.loginFeature = true;
+        $rootScope.loginFeatureBack = false;
+
         $scope.is_loading = true;
         Loader.show();
 
-        // Associate the customer to the cart and validate the extra fields
+        // Associate the customer to the cart and validate the extra fields!
         McommerceSalesCustomer
-            .updateCustomerInfos({'customer': $scope.customer})
+            .updateCustomerInfos({
+                customer: $scope.customer
+            })
             .then(function (data) {
                 $scope.customer = data.customer;
 
@@ -856,31 +847,29 @@ angular.module("starter").controller("MCommerceSalesCustomerViewController", fun
                         $scope.goToDeliveryPage();
                     }, function (data) {
                         if (data && angular.isDefined(data.message)) {
-                            Dialog.alert("Error", data.message, "OK");
+                            Dialog.alert('Error', data.message, 'OK');
                         }
                     }).then(function () {
                         $scope.is_loading = false;
-                    Loader.hide();
+                        Loader.hide();
                     });
-
             }, function (data) {
                 $scope.is_loading = false;
                 Loader.hide();
                 if (data && angular.isDefined(data.message)) {
-                    Dialog.alert("Error", data.message, "OK");
+                    Dialog.alert('Error', data.message, 'OK');
                 }
             });
-
     };
 
     $scope.right_button = {
         action: $scope.updateCustomerInfos,
-        label: $translate.instant("Next")
+        label: $translate.instant('Next')
     };
 
     $scope.loadContent();
-
-});;/*global
+});
+;/*global
  App, angular, BASE_PATH
  */
 angular.module("starter").controller("MCommerceSalesDeliveryViewController", function (Loader, $scope, $stateParams, $state,
@@ -1638,22 +1627,20 @@ angular.module("starter").factory("McommerceProduct", function($pwaRequest) {
 
     return factory;
 });
-;/*global
+;/* global
     App
  */
-angular.module("starter").factory("McommerceSalesCustomer", function($pwaRequest) {
-
+angular.module('starter').factory('McommerceSalesCustomer', function ($pwaRequest) {
     var factory = {
         value_id: null
     };
 
     factory.updateCustomerInfos = function (form) {
-
         if (!this.value_id) {
-            return $pwaRequest.reject("[McommerceSalesCustomer::updateCustomerInfos] missing value_id.");
+            return $pwaRequest.reject('[McommerceSalesCustomer::updateCustomerInfos] missing value_id.');
         }
 
-        return $pwaRequest.post("mcommerce/mobile_sales_customer/update", {
+        return $pwaRequest.post('mcommerce/mobile_sales_customer/update', {
             urlParams: {
                 value_id: this.value_id
             },
@@ -1664,13 +1651,12 @@ angular.module("starter").factory("McommerceSalesCustomer", function($pwaRequest
         });
     };
 
-    factory.find = function() {
-
-        if(!this.value_id) {
-            return $pwaRequest.reject("[McommerceSalesCustomer::find] missing value_id.");
+    factory.find = function () {
+        if (!this.value_id) {
+            return $pwaRequest.reject('[McommerceSalesCustomer::find] missing value_id.');
         }
 
-        return $pwaRequest.get("mcommerce/mobile_sales_customer/find", {
+        return $pwaRequest.get('mcommerce/mobile_sales_customer/find', {
             urlParams: {
                 value_id: this.value_id
             },
@@ -1678,13 +1664,12 @@ angular.module("starter").factory("McommerceSalesCustomer", function($pwaRequest
         });
     };
 
-    factory.hasGuestMode = function() {
-
-        if(!this.value_id) {
-            return $pwaRequest.reject("[McommerceSalesCustomer::hasGuestMode] missing value_id.");
+    factory.hasGuestMode = function () {
+        if (!this.value_id) {
+            return $pwaRequest.reject('[McommerceSalesCustomer::hasGuestMode] missing value_id.');
         }
 
-        return $pwaRequest.get("mcommerce/mobile_sales_customer/hasguestmode", {
+        return $pwaRequest.get('mcommerce/mobile_sales_customer/hasguestmode', {
             urlParams: {
                 value_id: this.value_id
             },
@@ -1692,14 +1677,13 @@ angular.module("starter").factory("McommerceSalesCustomer", function($pwaRequest
         });
     };
 
-    factory.getOrderHistory = function(offset) {
-
-        if(!this.value_id) {
-            return $pwaRequest.reject("[McommerceSalesCustomer::getOrderHistory] missing value_id.");
+    factory.getOrderHistory = function (offset) {
+        if (!this.value_id) {
+            return $pwaRequest.reject('[McommerceSalesCustomer::getOrderHistory] missing value_id.');
         }
 
-        return $pwaRequest.get("mcommerce/mobile_sales_customer/getorders", {
-            urlParams:  {
+        return $pwaRequest.get('mcommerce/mobile_sales_customer/getorders', {
+            urlParams: {
                 value_id: this.value_id,
                 offset: offset
             },
@@ -1707,13 +1691,12 @@ angular.module("starter").factory("McommerceSalesCustomer", function($pwaRequest
         });
     };
 
-    factory.getOrderDetails = function(order_id) {
-
-        if(!this.value_id) {
-            return $pwaRequest.reject("[McommerceSalesCustomer::getOrderDetails] missing value_id.");
+    factory.getOrderDetails = function (order_id) {
+        if (!this.value_id) {
+            return $pwaRequest.reject('[McommerceSalesCustomer::getOrderDetails] missing value_id.');
         }
 
-        return $pwaRequest.get("mcommerce/mobile_sales_customer/getorderdetails", {
+        return $pwaRequest.get('mcommerce/mobile_sales_customer/getorderdetails', {
             urlParams: {
                 value_id: this.value_id,
                 order_id: order_id
@@ -1766,23 +1749,18 @@ angular.module("starter").factory("McommerceSalesDelivery", function($pwaRequest
     
     return factory;
 });
-;/*global
-    App
- */
-angular.module("starter").factory("McommerceSalesPayment", function ($pwaRequest, $session) {
-
+;angular.module('starter').factory('McommerceSalesPayment', function ($pwaRequest, $session) {
     var factory = {
         value_id: null,
-        notes: ""
+        notes: ''
     };
 
     factory.findPaymentMethods = function () {
-
         if (!this.value_id) {
-            return $pwaRequest.reject("[McommerceSalesPayment::findPaymentMethods] missing value_id.");
+            return $pwaRequest.reject('[McommerceSalesPayment::findPaymentMethods] missing value_id.');
         }
 
-        return $pwaRequest.get("mcommerce/mobile_sales_payment/findpaymentmethods", {
+        return $pwaRequest.get('mcommerce/mobile_sales_payment/findpaymentmethods', {
             urlParams: {
                 value_id: this.value_id
             },
@@ -1791,12 +1769,11 @@ angular.module("starter").factory("McommerceSalesPayment", function ($pwaRequest
     };
 
     factory.findOnlinePaymentUrl = function () {
-
         if (!this.value_id) {
-            return $pwaRequest.reject("[McommerceSalesPayment::findOnlinePaymentUrl] missing value_id.");
+            return $pwaRequest.reject('[McommerceSalesPayment::findOnlinePaymentUrl] missing value_id.');
         }
 
-        return $pwaRequest.get("mcommerce/mobile_sales_payment/findonlinepaymenturl", {
+        return $pwaRequest.get('mcommerce/mobile_sales_payment/findonlinepaymenturl', {
             urlParams: {
                 value_id: this.value_id
             },
@@ -1805,12 +1782,11 @@ angular.module("starter").factory("McommerceSalesPayment", function ($pwaRequest
     };
 
     factory.updatePaymentInfos = function (form) {
-
         if (!this.value_id) {
-            return $pwaRequest.reject("[McommerceSalesPayment::updatePaymentInfos] missing value_id.");
+            return $pwaRequest.reject('[McommerceSalesPayment::updatePaymentInfos] missing value_id.');
         }
 
-        return $pwaRequest.post("mcommerce/mobile_sales_payment/update", {
+        return $pwaRequest.post('mcommerce/mobile_sales_payment/update', {
             urlParams: {
                 value_id: this.value_id
             },
@@ -1820,45 +1796,44 @@ angular.module("starter").factory("McommerceSalesPayment", function ($pwaRequest
         });
     };
 
-    factory.validatePayment = function() {
-
+    factory.validatePayment = function () {
         if (!this.value_id) {
-            return $pwaRequest.reject("[McommerceSalesPayment::validatePayment] missing value_id.");
+            return $pwaRequest.reject('[McommerceSalesPayment::validatePayment] missing value_id.');
         }
 
-        return $pwaRequest.post("mcommerce/mobile_sales_payment/validatepayment", {
+        return $pwaRequest.post('mcommerce/mobile_sales_payment/validatepayment', {
             urlParams: {
                 value_id: this.value_id
             },
             data: {
                 validate_payment: 1,
                 customer_uuid: $session.getDeviceUid(),
-                notes: factory.notes || "" // TG-459
+                notes: factory.notes || '' // TG-459
             }
         });
-
     };
 
-    factory.validateOnlinePayment = function (token, payerID) {
-
+    factory.validateOnlinePayment = function (token, payer_id) {
         if (!this.value_id) {
-            return $pwaRequest.reject("[McommerceSalesPayment::validateOnlinePayment] missing value_id.");
+            return $pwaRequest.reject('[McommerceSalesPayment::validateOnlinePayment] missing value_id.');
         }
 
-        return $pwaRequest.post("mcommerce/mobile_sales_payment/validatepayment", {
+        return $pwaRequest.post('mcommerce/mobile_sales_payment/validatepayment', {
             urlParams: {
                 value_id: this.value_id
             },
             data: {
                 token: token,
-                PayerID: payerID,
+                PayerID: payer_id,
+                payer_id: payer_id,
                 is_ajax: 1
             }
         });
     };
 
     return factory;
-});;/*global
+});
+;/*global
     App
  */
 angular.module("starter").factory("McommerceSalesStorechoice", function($pwaRequest) {

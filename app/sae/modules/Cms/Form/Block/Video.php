@@ -2,6 +2,11 @@
 
 class Cms_Form_Block_Video extends Cms_Form_Block_Abstract {
 
+    /**
+     * @var string
+     */
+    public $blockType = 'video';
+
     public function init() {
         parent::init();
 

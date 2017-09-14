@@ -19,6 +19,7 @@ class Promotion_Mobile_ViewController extends Application_Controller_Mobile_Defa
                 "id" => $promotion->getPromotionId(),
                 "picture" => $promotion->getPictureUrl() ? $this->getRequest()->getBaseUrl().$promotion->getPictureUrl() : null,
                 "title" => $promotion->getTitle(),
+                "description" => html_entity_decode(strip_tags($promotion->getDescription())),
                 "description" => $promotion->getDescription(),
                 "conditions" => $promotion->getConditions(),
                 "is_unique" => (bool) $promotion->getIsUnique(),

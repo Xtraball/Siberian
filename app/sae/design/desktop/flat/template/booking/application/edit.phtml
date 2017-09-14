@@ -70,14 +70,8 @@
         </div>
     </div>
 
-    <div>
-        <?php
-            echo $this->getLayout()
-                ->addPartial('background_image', 'core_view_default', 'application/customization/features/edit/background_image.phtml')
-                ->setValueId($option_value->getId())
-                ->toHtml()
-            ;
-        ?>
+    <div class="background-images-import">
+        <?php echo $this->importBackground($option_value); ?>
     </div>
 </div>
 <style>
@@ -157,6 +151,8 @@
             return false;
         });
     }
+
+    bindForms('.background-images-import');
 
 </script>
 <style>

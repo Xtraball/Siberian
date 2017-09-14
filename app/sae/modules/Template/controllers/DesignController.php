@@ -17,7 +17,7 @@ class Template_DesignController extends Application_Controller_Default {
     public function listAction() {
 
         $layout = $this->getLayout();
-        $layout->setBaseRender('modal', 'html/modal.phtml', 'core_view_default')->setTitle($this->_('TEMPLATES'))->setSubtitle($this->_('Choose a template to customize'));
+        $layout->setBaseRender('modal', 'html/modal.phtml', 'core_view_default')->setTitle(__('TEMPLATES'))->setSubtitle(__('Choose a template to customize'));
         $layout->addPartial('modal_content', 'template_view_application_design_list', 'template/application/design/list.phtml')->setTitle('Test title');
         $html = array('modal_html' => $layout->render());
 
@@ -30,28 +30,26 @@ class Template_DesignController extends Application_Controller_Default {
         if($datas = $this->getRequest()->getParams()) {
 
             try {
-                if(empty($datas['design_id'])) throw new Exception($this->_('#118: An error occurred while saving'));
+                if (empty($datas['design_id'])) {
+                    throw new Siberian_Exception(__('#118: An error occurred while saving'));
+                }
 
                 $application = $this->getApplication();
                 $category = new Template_Model_Category();
                 $design = new Template_Model_Design();
                 $design->find($datas['design_id']);
 
-                if(!$design->getId()) {
-                    throw new Siberian_Exception($this->_('#119: An error occurred while saving'));
-
+                if (!$design->getId()) {
+                    throw new Siberian_Exception(__('#119: An error occurred while saving'));
                 } else if($design->getCode() != "blank" && empty($datas['category_id'])) {
-                    throw new Siberian_Exception($this->_('#120: An error occurred while saving'));
-
+                    throw new Siberian_Exception(__('#120: An error occurred while saving'));
                 }
 
-                if(!empty($datas['category_id'])) {
-
+                if (!empty($datas['category_id'])) {
                     $category->find($datas['category_id']);                    
-                    if(!$category->getCode()) {
-                        throw new Siberian_Exception($this->_('#121: An error occurred while saving'));
+                    if (!$category->getCode()) {
+                        throw new Siberian_Exception(__('#121: An error occurred while saving'));
                     }
-                    
                 }
 
                 $layout_model = new Application_Model_Layout_Homepage();

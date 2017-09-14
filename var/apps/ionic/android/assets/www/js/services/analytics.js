@@ -1,15 +1,15 @@
-/*global
+/* global
     App, device, cordova
  */
-angular.module("starter").service("Analytics", function($cordovaGeolocation, $pwaRequest, $q, $log, $rootScope, Application, Url) {
-
+angular.module('starter').service('Analytics', function ($cordovaGeolocation, $pwaRequest, $q, $log, $rootScope,
+                                                         Application, Url) {
     var service = {};
 
     service.data = {};
 
-    service.storeInstallation = function() {
-        if(!Application.is_webview) {
-            var url = Url.get("analytics/mobile_store/installation");
+    service.storeInstallation = function () {
+        if (!Application.is_webview) {
+            var url = Url.get('analytics/mobile_store/installation');
             var params = {
                 OS: device.platform,
                 OSVersion: device.version,
@@ -35,15 +35,15 @@ angular.module("starter").service("Analytics", function($cordovaGeolocation, $pw
         }
     };
 
-    service.storeOpening = function() {
+    service.storeOpening = function () {
         var deferred = $q.defer();
 
-        if(!Application.is_webview && (typeof cordova !== "undefined")) {
-            var url = Url.get("analytics/mobile_store/opening");
+        if (!Application.is_webview && (typeof cordova !== 'undefined')) {
+            var url = Url.get('analytics/mobile_store/opening');
             var params = {
-                OS: cordova.device ? device.platform : "Browser",
+                OS: cordova.device ? device.platform : 'Browser',
                 OSVersion: cordova.device ? device.version : null,
-                Device: cordova.device ? device.platform : "Browser",
+                Device: cordova.device ? device.platform : 'Browser',
                 DeviceVersion: cordova.device ? device.model : null,
                 deviceUUID: cordova.device ? device.uuid : null,
                 latitude: null,
@@ -61,29 +61,27 @@ angular.module("starter").service("Analytics", function($cordovaGeolocation, $pw
 
                 service.postData(url, params).then(function (result) {
                     deferred.resolve(result);
-                }).catch(function(error) {
+                }).catch(function (error) {
 
                 });
             }, function () {
-
                 service.postData(url, params).then(function (result) {
                     deferred.resolve(result);
-                }).catch(function(error) {
+                }).catch(function (error) {
 
                 });
             });
-
         }
 
         return deferred.promise;
     };
 
-    service.storeClosing = function() {
-        if(!$rootScope.isOverview) {
-            var url = Url.get("analytics/mobile_store/closing");
+    service.storeClosing = function () {
+        if (!$rootScope.isOverview) {
+            var url = Url.get('analytics/mobile_store/closing');
 
-            if(typeof service.data.storeClosingId === "undefined") {
-                $log.debug("aborting /analytics/mobile_store/closing, no id.");
+            if (typeof service.data.storeClosingId === 'undefined') {
+                $log.debug('aborting /analytics/mobile_store/closing, no id.');
                 return;
             }
 
@@ -95,14 +93,14 @@ angular.module("starter").service("Analytics", function($cordovaGeolocation, $pw
         }
     };
 
-    service.storePageOpening = function(page) {
-        if(!$rootScope.isOverview) {
-            var url = Url.get("analytics/mobile_store/pageopening");
+    service.storePageOpening = function (page) {
+        if (!$rootScope.isOverview) {
+            var url = Url.get('analytics/mobile_store/pageopening');
             var params = {
                 featureId: page.value_id,
-                OS: cordova.device ? device.platform : "Browser",
+                OS: cordova.device ? device.platform : 'Browser',
                 OSVersion: cordova.device ? device.version : null,
-                Device: cordova.device ? device.platform : "Browser",
+                Device: cordova.device ? device.platform : 'Browser',
                 DeviceVersion: cordova.device ? device.model : null,
                 deviceUUID: cordova.device ? device.uuid : null,
                 latitude: null,
@@ -125,15 +123,15 @@ angular.module("starter").service("Analytics", function($cordovaGeolocation, $pw
         }
     };
 
-    service.storeProductOpening = function(product) {
-        if(!$rootScope.isOverview) {
-            var url = Url.get("analytics/mobile_store/productopening");
+    service.storeProductOpening = function (product) {
+        if (!$rootScope.isOverview) {
+            var url = Url.get('analytics/mobile_store/productopening');
             var params = {
                 productId: product.id,
                 name: product.name,
-                OS: cordova.device ? device.platform : "Browser",
+                OS: cordova.device ? device.platform : 'Browser',
                 OSVersion: cordova.device ? device.version : null,
-                Device: cordova.device ? device.platform : "Browser",
+                Device: cordova.device ? device.platform : 'Browser',
                 DeviceVersion: cordova.device ? device.model : null,
                 deviceUUID: cordova.device ? device.uuid : null,
                 latitude: null,
@@ -156,14 +154,14 @@ angular.module("starter").service("Analytics", function($cordovaGeolocation, $pw
         }
     };
 
-    service.storeProductSold = function(products) {
-        if(!$rootScope.isOverview) {
-            var url = Url.get("analytics/mobile_store/productsold");
+    service.storeProductSold = function (products) {
+        if (!$rootScope.isOverview) {
+            var url = Url.get('analytics/mobile_store/productsold');
             var params = {
                 products: products,
-                OS: cordova.device ? device.platform : "Browser",
+                OS: cordova.device ? device.platform : 'Browser',
                 OSVersion: cordova.device ? device.version : null,
-                Device: cordova.device ? device.platform : "Browser",
+                Device: cordova.device ? device.platform : 'Browser',
                 DeviceVersion: cordova.device ? device.model : null,
                 deviceUUID: cordova.device ? device.uuid : null,
                 latitude: null,

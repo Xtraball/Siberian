@@ -852,6 +852,29 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
     }
 
     /**
+     * Handles picture upload
+     *
+     * @param $optionValue
+     * @param $object
+     * @param $key
+     * @param $value
+     */
+    public static function handlePicture($optionValue, $object, $key, $value) {
+        if($value == '_delete_') {
+            $object->setData($key, '');
+        } else if(file_exists(Core_Model_Directory::getBasePathTo('images/application' . $value))) {
+            # Nothing changed, skip
+        } else {
+            $path_banner = Siberian_Feature::moveUploadedFile(
+                $optionValue,
+                Core_Model_Directory::getTmpDirectory() . '/' . $value,
+                $value
+            );
+            $object->setData($key, $path_banner);
+        }
+    }
+
+    /**
      * @return bool
      */
     public function getPresets() {

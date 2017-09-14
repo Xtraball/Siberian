@@ -304,14 +304,17 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
 
             try {
 
-                if(!Zend_Validate::is($datas['email'], 'EmailAddress')) throw new Exception(__('Please enter a valid email address'));
+                if(!Zend_Validate::is($datas['email'], 'EmailAddress')) {
+                    throw new Exception(__('Please enter a valid email address'));
+                }
                 $dummy = new Customer_Model_Customer();
                 $dummy->find($datas['email'], 'email');
 
-                if($isNew AND $dummy->getId()) throw new Exception(__('We are sorry but this address is already used.'));
+                if($isNew AND $dummy->getId()) {
+                    throw new Exception(__('We are sorry but this address is already used.'));
+                }
 
                 if(!empty($datas['social_datas'])) {
-
                     $social_ids = array();
                     foreach($datas['social_datas'] as $type => $data) {
                         if($customer->findBySocialId($data['id'], $type)->getId()) {
@@ -321,7 +324,9 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
                     }
                 }
                 $password = $customer->getPassword();
-                if(empty($datas['show_in_social_gaming'])) $datas['show_in_social_gaming'] = 0;
+                if(empty($datas['show_in_social_gaming'])) {
+                    $datas['show_in_social_gaming'] = 0;
+                }
 
                 $customer->setData($datas);
                 $customer->setData('password', $password);

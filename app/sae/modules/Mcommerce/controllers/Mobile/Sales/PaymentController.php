@@ -127,110 +127,125 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
 
     }
 
-    public function validatepaymentAction()
-    {
-        if ($data = $this->getRequest()->getPost()) {
-            $data = $this->getRequest()->getPost();
-        } else if ($data = $this->getRequest()->getRawBody()) {
-            $data = Zend_Json::decode($data);
-        } else {
-            $data = $this->getRequest()->getFilteredParams();
-        }
+    public function validatepaymentAction() {
+        try {
+            if ($data = $this->getRequest()->getPost()) {
+                $data = $this->getRequest()->getPost();
+            } else if ($data = $this->getRequest()->getRawBody()) {
+                $data = Zend_Json::decode($data);
+            } else {
+                $data = $this->getRequest()->getFilteredParams();
+            }
 
-        if (!empty($data)) {
-            try {
-                $errors = $this->getCart()->check();
-                $status_id = Mcommerce_Model_Order::DEFAULT_STATUS;
+            if (!empty($data)) {
+                try {
+                    $errors = $this->getCart()->check();
+                    $status_id = Mcommerce_Model_Order::DEFAULT_STATUS;
 
-                if (empty($errors) AND $this->getCart()->getPaymentMethod()->isOnline()) {
-                    $payment_is_valid = $this->getCart()->getPaymentMethod()->addData($data)->pay();
-                    if (!$payment_is_valid) {
-                        throw new Exception($this->_('An error occurred while proceeding the payment. Please, try again later.'));
-                    } else {
-                        $status_id = Mcommerce_Model_Order::PAID_STATUS;
-                    }
-                }
-
-                if (empty($errors)) {
-                    // Keep a log of the promo and code if used
-                    $promo = $this->getPromo();
-                    $cart = $this->getCart();
-                    $cart->setCustomerUUID($data["customer_uuid"]);
-
-                    if($promo){
-                        $log = Mcommerce_Model_Promo_Log::createInstance($promo, $cart);
-                        $log->save();
-
-                        //Use points if needed
-                        if($promo->getPoints() AND $cart->getCustomerId()) {
-                            $points = $promo->getPoints();
-                            $customer = new Customer_Model_Customer();
-                            $customer->find($cart->getCustomerId());
-                            if($customer->getId()) {
-                                $customer_points = $customer->getMetaData("fidelity_points", "points") * 1;
-                                $customer_points -= $points;
-                                $customer->setMetadata("fidelity_points", "points", $customer_points)->save();
-                            }
+                    if (empty($errors) AND $this->getCart()->getPaymentMethod()->isOnline()) {
+                        $payment_is_valid = $this->getCart()->getPaymentMethod()->addData($data)->pay();
+                        if (!$payment_is_valid) {
+                            throw new Exception($this->_('An error occurred while proceeding the payment. Please, try again later.'));
+                        } else {
+                            $status_id = Mcommerce_Model_Order::PAID_STATUS;
                         }
                     }
 
-                    $order = new Mcommerce_Model_Order();
-                    $order->fromCart($this->getCart())->setStatusId($status_id);
-                    // TG-459
-                    array_key_exists("notes", $data) ? $order->setNotes($data['notes']):$order->setNotes("");
-                    $order->save();
+                    if (empty($errors)) {
+                        // Keep a log of the promo and code if used
+                        $promo = $this->getPromo();
+                        $cart = $this->getCart();
+                        $cart->setCustomerUUID($data["customer_uuid"]);
 
-                    if (in_array($this->getCart()->getPaymentMethod()->getCode(), array("check", "cc_upon_delivery", "paypal"))) {
-                        $order->setHidePaidAmount(true);
+                        if($promo){
+                            $log = Mcommerce_Model_Promo_Log::createInstance($promo, $cart);
+                            $log->save();
+
+                            //Use points if needed
+                            if($promo->getPoints() AND $cart->getCustomerId()) {
+                                $points = $promo->getPoints();
+                                $customer = new Customer_Model_Customer();
+                                $customer->find($cart->getCustomerId());
+                                if($customer->getId()) {
+                                    $customer_points = $customer->getMetaData("fidelity_points", "points") * 1;
+                                    $customer_points -= $points;
+                                    $customer->setMetadata("fidelity_points", "points", $customer_points)->save();
+                                }
+                            }
+                        }
+
+                        $order = new Mcommerce_Model_Order();
+                        $order->fromCart($this->getCart())->setStatusId($status_id);
+                        // TG-459
+                        array_key_exists("notes", $data) ? $order->setNotes($data['notes']):$order->setNotes("");
+                        $order->save();
+
+                        if (in_array($this->getCart()->getPaymentMethod()->getCode(), array("check", "cc_upon_delivery", "paypal"))) {
+                            $order->setHidePaidAmount(true);
+                        }
+                        $order->sendToCustomer();
+                        $order->sendToStore();
+
+                        $message = $this->_('We thank you for your order. A confirmation email has been sent');
+
+                        $html = array(
+                            'success' => 1,
+                            'message' => $message
+                        );
+
+                        $this->getSession()->unsetCart();
+                    } else {
+                        $message = $this->_('An error occurred while proceeding your order:');
+                        foreach ($errors as $error) {
+                            $message .= "<br /> - $error";
+                        }
+                        throw new Exception($message);
                     }
-                    $order->sendToCustomer();
-                    $order->sendToStore();
 
-                    $message = $this->_('We thank you for your order. A confirmation email has been sent');
-
+                } catch (Exception $e) {
+                    $message = $e->getMessage();
+                    $this->getSession()->addError($message);
                     $html = array(
-                        'success' => 1,
+                        'error' => 1,
                         'message' => $message
                     );
+                }
 
-                    $this->getSession()->unsetCart();
-                } else {
-                    $message = $this->_('An error occurred while proceeding your order:');
-                    foreach ($errors as $error) {
-                        $message .= "<br /> - $error";
+                // Mode browser/webapp!
+                if ($this->getApplication()->useIonicDesign() && empty($data["is_ajax"])) {
+                    if (isset($html["success"])) {
+                        $this->_redirect('mcommerce/mobile_sales_success/index', [
+                            'value_id' => $this->getCurrentOptionValue()->getValueId()
+                        ]);
                     }
-                    throw new Exception($message);
+
+                    if (isset($html["error"])) {
+                        $this->_redirect('mcommerce/mobile_sales_error/index', [
+                            'value_id' => $this->getCurrentOptionValue()->getValueId()
+                        ]);
+                    }
                 }
 
-            } catch (Exception $e) {
-                $message = $e->getMessage();
-                $this->getSession()->addError($message);
-                $html = array(
-                    'error' => 1,
-                    'message' => $message
-                );
-            }
-
-            /** Mode browser/webapp */
-            if ($this->getApplication()->useIonicDesign() && empty($data["is_ajax"])) {
-                if (isset($html["success"])) {
-                    $this->_redirect('mcommerce/mobile_sales_success/index', array("value_id" => $this->getCurrentOptionValue()->getValueId()));
+                if (!empty($data["is_ajax"])) {
+                    $this->_sendJson($html, true);
+                } elseif (isset($html["error"])) {
+                    $this->_redirect('mcommerce/mobile_sales_error/index', [
+                        'value_id' => $this->getCurrentOptionValue()->getValueId()
+                    ]);
+                } elseif (isset($html["success"])) {
+                    $this->_sendJson($html, true);
                 }
 
-                if (isset($html["error"])) {
-                    $this->_redirect('mcommerce/mobile_sales_error/index', array("value_id" => $this->getCurrentOptionValue()->getValueId()));
-                }
             }
 
-            if (!empty($data["is_ajax"])) {
-                $this->_sendHtml($html);
-            } elseif (isset($html["error"])) {
-                $this->_redirect('mcommerce/mobile_sales_error/index', array("value_id" => $this->getCurrentOptionValue()->getValueId()));
-            } elseif (isset($html["success"])) {
-                $this->_sendHtml($html);
-            }
-
+        } catch (Exception $e) {
+            $html = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
         }
+
+        $this->_sendJson($html);
     }
 
     public function printToGCPAction()

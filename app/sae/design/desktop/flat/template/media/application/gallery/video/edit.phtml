@@ -4,7 +4,7 @@
 <?php $video = new Media_Model_Gallery_Video(); ?>
 <?php //$video->setTypeId('youtube'); ?>
 <?php $videos = $video->findAll(array('value_id' => $option_value->getId()), 'gallery_id DESC'); ?>
-    <div class="edit_page media videos">
+    <div id="list" class="edit_page media videos">
         <div class="form_content">
         <div class="add-video">
             <h3 class="title-editor no-border-radius title-feature-indent">
@@ -92,16 +92,15 @@
             </div>
 
             <div class="background">
-                <?php
-                echo $this->getLayout()
-                    ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
-                    ->setValueId($option_value->getId())
-                    ->toHtml()
-                ;
-                ?>
+                <?php echo $this->importBackground($option_value); ?>
             </div>
 
             <script type="text/javascript">
+
+                $(document).ready(function () {
+                    bindForms('#list');
+                });
+
                 page.setCallback('willappear', function() {
 
                     $('.video_select').click(function(){

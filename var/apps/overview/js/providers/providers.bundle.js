@@ -1,40 +1,36 @@
-/*global
- angular, console, _
- */
-"use strict";
-
-angular.module("starter").provider('HomepageLayout', function () {
-
+angular.module('starter').provider('HomepageLayout', function () {
     var self = this;
 
     self.layout_ids = {};
 
-    self.getLayoutIdForValueId = function(value_id) {
-
-        var layout_id = 1;
+    self.getLayoutIdForValueId = function (valueId) {
+        var layoutId = 1;
         try {
-            for(var i in self.pages) {
-                if(self.pages[i].value_id == value_id) {
-                    layout_id = self.pages[i].layout_id;
+            for (var i in self.pages) {
+                if (self.pages[i].value_id == valueId) {
+                    layoutId = self.pages[i].layout_id;
                 }
             }
-        } catch(e) {
-            layout_id = 1;
+        } catch (e) {
+            layoutId = 1;
         }
 
-        return layout_id;
-
+        return layoutId;
     };
 
-    self.setLayoutIdForValueId = function(value_id, layout_id) {
+    self.setLayoutIdForValueId = function (value_id, layout_id) {
         self.layout_ids[value_id] = layout_id;
+        // Live overview layout change!
+        for (var i in self.pages) {
+            if (self.pages[i].value_id == value_id) {
+                self.pages[i].layout_id = layout_id;
+            }
+        }
     };
 
     self.$get = function ($injector, $ionicSlideBoxDelegate, $ionicPlatform, $ionicHistory, $ionicSideMenuDelegate,
                           $location, $log, $q, $rootScope, $stateParams, $timeout, $window, LinkService, Analytics,
                           Customer, Pages, Padlock, Modal) {
-        console.log((new Date()).getTime(), 'HomepageLayout instance.');
-
         var HomepageLayout = {};
 
         // Hooks!
@@ -44,6 +40,7 @@ angular.module("starter").provider('HomepageLayout', function () {
         /**
          *
          * @param feature
+         * @param scope
          * @returns {boolean}
          */
         HomepageLayout.openFeature = function (feature, scope) {
@@ -120,7 +117,8 @@ angular.module("starter").provider('HomepageLayout', function () {
                                 HomepageLayout.more_modal = modal;
                                 HomepageLayout.more_modal.show();
 
-                                // pages_list_is_visible is true means that the ... button in the main menu was clicked!
+                                // pages_list_is_visible is true means that the ...
+                                // button in the main menu was clicked!
                                 $ionicPlatform.onHardwareBackButton(function (e) {
                                     if (scope.pages_list_is_visible) {
                                         scope.closeMore();
@@ -147,7 +145,8 @@ angular.module("starter").provider('HomepageLayout', function () {
 
                     Analytics.storePageOpening(feature);
 
-                    if (!$injector.get('Application').is_customizing_colors && HomepageLayout.properties.options.autoSelectFirst) {
+                    if (!$injector.get('Application').is_customizing_colors &&
+                        HomepageLayout.properties.options.autoSelectFirst) {
                         if (feature.path !== $location.path()) {
                             $ionicHistory.nextViewOptions({
                                 historyRoot: true,
@@ -176,33 +175,29 @@ angular.module("starter").provider('HomepageLayout', function () {
             }
 
             /** Slidebox update for resize/orientation */
-            $timeout(function() {
+            $timeout(function () {
                 $ionicSlideBoxDelegate.update();
             }, 800);
         };
 
-        HomepageLayout.getTemplate = function() {
+        HomepageLayout.getTemplate = function () {
             var layout_code = HomepageLayout.properties.layoutCode;
             var layout_id = HomepageLayout.properties.layoutId;
-            if($injector.has(layout_code)) {
+            if ($injector.has(layout_code)) {
                 return $injector.get(layout_code).getTemplate();
-            } else {
-                return "templates/home/"+layout_id+"/view.html";
             }
+            return 'templates/home/' + layout_id + '/view.html';
         };
 
-        HomepageLayout.getModalTemplate = function() {
+        HomepageLayout.getModalTemplate = function () {
             var layout_code = HomepageLayout.properties.layoutCode;
-            if($injector.has(layout_code)) {
+            if ($injector.has(layout_code)) {
                 return $injector.get(layout_code).getModalTemplate();
-            } else {
-                /** Default modal */
-                return "templates/home/modal/view.html";
             }
+            return 'templates/home/modal/view.html';
         };
 
         HomepageLayout._initData = function () {
-
             HomepageLayout.data = null;
             HomepageLayout.need_to_build_the_options = true;
             HomepageLayout.options = null;
@@ -236,11 +231,10 @@ angular.module("starter").provider('HomepageLayout', function () {
                     // status of menu visibility (used in 'toggle' mode only)
                     isVisible: false,
                     // sidebars width
-                    sidebarLeftWidth: "120",
-                    sidebarRightWidth: "120"
+                    sidebarLeftWidth: '120',
+                    sidebarRightWidth: '120'
                 }
             };
-
         };
 
         HomepageLayout.getData = function () {
@@ -248,17 +242,14 @@ angular.module("starter").provider('HomepageLayout', function () {
 
             // filter features
             if (HomepageLayout.data === null) {
-
                 if (HomepageLayout.dataLoading) {
                     // already loading
                     $timeout(function () {
                         deferred.resolve(HomepageLayout.getData());
                     });
                 } else {
-
                     Pages.ready
-                        .then(function() {
-
+                        .then(function () {
                             HomepageLayout.dataLoading = true;
 
                             HomepageLayout.data = Pages.data;
@@ -272,16 +263,17 @@ angular.module("starter").provider('HomepageLayout', function () {
                             HomepageLayout.properties.tabbar_is_transparent = Pages.data.tabbar_is_transparent;
 
                             // Check for a custom width
-                            if( (typeof HomepageLayout.properties.layoutOptions !== "undefined") &&
-                                (typeof HomepageLayout.properties.layoutOptions.sidebarWidth !== "undefined")) {
-
-                                switch(HomepageLayout.properties.layoutOptions.sidebarWidthUnit) {
-                                    case "pixel":
-                                        HomepageLayout.properties.menu.sidebarLeftWidth = HomepageLayout.properties.layoutOptions.sidebarWidthPixel;
+                            if ((typeof HomepageLayout.properties.layoutOptions !== 'undefined') &&
+                                (typeof HomepageLayout.properties.layoutOptions.sidebarWidth !== 'undefined')) {
+                                switch (HomepageLayout.properties.layoutOptions.sidebarWidthUnit) {
+                                    case 'pixel':
+                                        HomepageLayout.properties.menu.sidebarLeftWidth =
+                                            HomepageLayout.properties.layoutOptions.sidebarWidthPixel;
                                         break;
-                                    case "percentage":
+                                    case 'percentage':
                                         var width = $window.innerWidth;
-                                        HomepageLayout.properties.menu.sidebarLeftWidth = (width / 100 * HomepageLayout.properties.layoutOptions.sidebarWidth);
+                                        HomepageLayout.properties.menu.sidebarLeftWidth =
+                                            (width / 100 * HomepageLayout.properties.layoutOptions.sidebarWidth);
                                         break;
                                 }
                             }
@@ -291,9 +283,7 @@ angular.module("starter").provider('HomepageLayout', function () {
 
                             deferred.resolve(HomepageLayout.data);
                         });
-
                 }
-
             } else {
                 if (HomepageLayout.need_to_build_the_options) {
                     HomepageLayout._buildOptions();
@@ -306,19 +296,16 @@ angular.module("starter").provider('HomepageLayout', function () {
         };
 
         HomepageLayout.getOptions = function () {
-
             var deferred = $q.defer();
 
             // filter features
             if (HomepageLayout.options === null) {
-
-                HomepageLayout.getData().then(function (data) {
-
-                    deferred.resolve(HomepageLayout.options);
-
-                }, function (err) {
-                    deferred.reject(err);
-                });
+                HomepageLayout.getData()
+                    .then(function (data) {
+                        deferred.resolve(HomepageLayout.options);
+                    }, function (err) {
+                        deferred.reject(err);
+                    });
             } else {
                 deferred.resolve(HomepageLayout.options);
             }
@@ -327,43 +314,44 @@ angular.module("starter").provider('HomepageLayout', function () {
         };
 
         HomepageLayout.getActiveOptions = function () {
-
             var deferred = $q.defer();
 
-            HomepageLayout.getOptions().then(function (options) {
+            HomepageLayout.getOptions()
+                .then(function (options) {
+                    // filter active options
+                    options = options.reduce(function (options, option) {
+                        if (option.is_active) {
+                            options.push(option);
+                        }
+                        return options;
+                    }, []);
 
-                // filter active options
-                options = options.reduce(function (options, option) {
-                    if (option.is_active) {
-                        options.push(option);
+                    HomepageLayout.data.customer_account.url = Customer.isLoggedIn() ?
+                        HomepageLayout.data.customer_account.edit_url :
+                        HomepageLayout.data.customer_account.login_url;
+                    HomepageLayout.data.customer_account.path = Customer.isLoggedIn() ?
+                        HomepageLayout.data.customer_account.edit_path :
+                        HomepageLayout.data.customer_account.login_path;
+
+                    if (HomepageLayout.data.customer_account.is_visible) {
+                        options.push(HomepageLayout.data.customer_account);
                     }
-                    return options;
-                }, []);
 
-                HomepageLayout.data.customer_account.url = Customer.isLoggedIn() ? HomepageLayout.data.customer_account.edit_url : HomepageLayout.data.customer_account.login_url;
-                HomepageLayout.data.customer_account.path = Customer.isLoggedIn() ? HomepageLayout.data.customer_account.edit_path : HomepageLayout.data.customer_account.login_path;
-
-                if (HomepageLayout.data.customer_account.is_visible) {
-                    options.push(HomepageLayout.data.customer_account);
-                }
-
-                deferred.resolve(options);
-            });
+                    deferred.resolve(options);
+                });
             return deferred.promise;
-
         };
 
         HomepageLayout.getFeatures = function () {
-
             var deferred = $q.defer();
 
             HomepageLayout.getActiveOptions().then(function (options) {
-
                 /*
                  * features
                  * - features.layoutId: layout id
                  * - features.options: filtered options, including customer_account if visible
-                 * - features.overview: filtered options truncated if > to data.limit_to, and concatenated with more_items
+                 * - features.overview: filtered options truncated if > to data.limit_to,
+                 *      and concatenated with more_items
                  */
 
                 var features = {
@@ -383,9 +371,7 @@ angular.module("starter").provider('HomepageLayout', function () {
                 var limit = features.overview.limit;
 
                 if (limit !== null && limit > 0 && features.options.length > limit) {
-
                     if (HomepageLayout.data.layout.use_horizontal_scroll) {
-
                         var paged_options = [];
                         for (var i = 0; i < features.options.length; i++) {
                             paged_options.push(features.options[i]);
@@ -397,16 +383,12 @@ angular.module("starter").provider('HomepageLayout', function () {
                         if (paged_options.length) {
                             features.overview.paged_options.push(paged_options);
                         }
-
                     } else {
-
                         // truncate to (limit - 1)
                         for (var i = 0; i < (limit - 1); i++) {
                             features.overview.options.push(features.options[i]);
                         }
-
                         features.overview.hasMore = true;
-
                     }
                 } else if (HomepageLayout.data.layout.use_horizontal_scroll) {
                     features.overview.paged_options = [features.options];
@@ -414,37 +396,34 @@ angular.module("starter").provider('HomepageLayout', function () {
                     features.overview.options = features.options;
                 }
 
-                /** MORE ... */
+                // MORE ...!
                 var more_button = {
                     name: features.data.more_items.name,
                     icon_url: features.data.more_items.icon_url,
                     icon_is_colorable: features.data.more_items.icon_is_colorable,
                     code: features.data.more_items.code,
-                    url: "tabbar_more"
+                    url: 'tabbar_more'
                 };
 
-                /** Inject custom layout feature hooks. */
+                // Inject custom layout feature hooks!
                 var layout_code = HomepageLayout.data.layout_code;
-                if($injector.has(layout_code)) {
+                if ($injector.has(layout_code)) {
                     features = $injector.get(layout_code).features(features, more_button);
 
-                    /** Hook orientationchange/viewenter home */
-                    HomepageLayout.registerHook(function() {
+                    // Hook orientationchange/viewenter home!
+                    HomepageLayout.registerHook(function () {
                         $injector.get(layout_code).onResize();
                     });
 
-                    window.addEventListener("orientationchange", function(){
+                    window.addEventListener('orientationchange', function () {
                         $injector.get(layout_code).onResize();
                     });
-                } else {
-                    /** Default behavior to push more button */
-                    if (features.overview.hasMore) {
-                        features.overview.options.push(more_button);
-                    }
+                } else if (features.overview.hasMore) {
+                    features.overview.options.push(more_button);
                 }
 
-                /** Slidebox update for resize/orientation */
-                $timeout(function() {
+                // Slidebox update for resize/orientation!
+                $timeout(function () {
                     $ionicSlideBoxDelegate.update();
                 }, 200);
 
@@ -458,31 +437,27 @@ angular.module("starter").provider('HomepageLayout', function () {
             });
 
             return deferred.promise;
-
         };
 
         HomepageLayout._updateFromUrl = function (url) {
-
-            console.log((new Date()).getTime(), "HomepageLayout._updateFromUrl", url);
             if (HomepageLayout.options === null) {
                 return;
             }
 
             if ($stateParams.value_id) {
-
                 var optionId = parseInt($stateParams.value_id);
 
                 // get current option from URL
                 var currentOption = HomepageLayout.options.reduce(function (currentOption, option) {
-
                     if (option.id === optionId) {
-
                         if (option.url === url) {
                             HomepageLayout.properties.options.isRootPage = true;
-                            HomepageLayout.properties.menu.isVisible = (HomepageLayout.properties.menu.visibility === 'always');
+                            HomepageLayout.properties.menu.isVisible =
+                                (HomepageLayout.properties.menu.visibility === 'always');
                         } else {
                             HomepageLayout.properties.options.isRootPage = false;
-                            HomepageLayout.properties.menu.isVisible = ((HomepageLayout.properties.menu.visibility === 'always') || false);
+                            HomepageLayout.properties.menu.isVisible =
+                                ((HomepageLayout.properties.menu.visibility === 'always') || false);
                         }
 
                         currentOption = option;
@@ -498,13 +473,10 @@ angular.module("starter").provider('HomepageLayout', function () {
 
                 return currentOption;
             } else {
-
                 if (/customer\/mobile_account/.test(url) || /cms\/mobile_privacypolicy/.test(url)) {
-
                     HomepageLayout.properties.options.isRootPage = /customer\/mobile_account_login/.test(url);
                     HomepageLayout.properties.menu.isVisible = HomepageLayout.properties.menu.visibility === 'always';
                     HomepageLayout.properties.options.current = null;
-
                 } else {
                     return null;
                 }
@@ -516,35 +488,31 @@ angular.module("starter").provider('HomepageLayout', function () {
         };
 
         HomepageLayout._init = function () {
-
             var options = HomepageLayout._buildOptions();
 
             HomepageLayout.properties.menu.position = HomepageLayout.data.layout.position;
             HomepageLayout.properties.menu.visibility = HomepageLayout.data.layout.visibility;
-            HomepageLayout.properties.options.autoSelectFirst = (HomepageLayout.properties.menu.visibility !== "homepage");
+            HomepageLayout.properties.options.autoSelectFirst =
+                (HomepageLayout.properties.menu.visibility !== 'homepage');
 
             HomepageLayout._updateFromUrl($location.absUrl());
 
             HomepageLayout.is_initialized = true;
         };
 
-        HomepageLayout.setLayoutId = function(value_id, layout_id) {
-            self.setLayoutIdForValueId(layout_id, value_id);
+        HomepageLayout.setLayoutId = function (value_id, layout_id) {
+            self.setLayoutIdForValueId(value_id, layout_id);
         };
 
         HomepageLayout._buildOptions = function () {
-
             HomepageLayout.options = HomepageLayout.data.pages.reduce(function (options, option) {
-
                 if (!option.is_locked || Customer.can_access_locked_features || Padlock.unlocked_by_qrcode) {
-
-                    if ((!Customer.isLoggedIn() && !Padlock.unlocked_by_qrcode) || option.code != "padlock") {
+                    if ((!Customer.isLoggedIn() && !Padlock.unlocked_by_qrcode) || (option.code !== 'padlock')) {
                         // use is logged or not padlock feature
                         options.push(option);
                     }
                 }
                 return options;
-
             }, []);
 
             HomepageLayout.need_to_build_the_options = false;
@@ -555,7 +523,7 @@ angular.module("starter").provider('HomepageLayout', function () {
 
         return {
             leftAreaSize: 150,
-            openFeature: function(feature, scope) {
+            openFeature: function (feature, scope) {
                 return HomepageLayout.openFeature(feature, scope);
             },
             registerHook: function (hook) {
@@ -575,12 +543,12 @@ angular.module("starter").provider('HomepageLayout', function () {
             },
             unsetData: function () {
                 HomepageLayout._initData();
-                $rootScope.$broadcast("tabbarStatesChanged");
+                $rootScope.$broadcast('tabbarStatesChanged');
             },
             getOptions: function () {
                 return HomepageLayout.getOptions();
             },
-            getActiveOptions: function() {
+            getActiveOptions: function () {
                 return HomepageLayout.getActiveOptions();
             },
             getFeatures: function () {
@@ -599,7 +567,7 @@ angular.module("starter").provider('HomepageLayout', function () {
             rebuildOptions: function () {
                 HomepageLayout._buildOptions();
             },
-            setLayoutId: function(value_id, layout_id) {
+            setLayoutId: function (value_id, layout_id) {
                 HomepageLayout.setLayoutId(value_id, layout_id);
             },
             properties: HomepageLayout.properties,
@@ -609,8 +577,8 @@ angular.module("starter").provider('HomepageLayout', function () {
             }
         };
     };
-
-});;/*global
+});
+;/*global
     App, window, window.localforage, APP_KEY
  */
 angular.module("starter").provider('$pwaCache', function () {

@@ -1,12 +1,12 @@
 /*global
  App, angular, BASE_PATH
  */
-angular.module("starter").controller("MCommerceSalesCustomerViewController", function (Loader, $state, $stateParams, $scope,
-                                                                $translate, McommerceCart, McommerceSalesCustomer,
-                                                                Customer, Dialog, SB) {
-
-
-    Customer.onStatusChange("category", []);
+angular.module('starter').controller('MCommerceSalesCustomerViewController', function (Loader, $state, $stateParams,
+                                                                                       $scope, $translate, $rootScope,
+                                                                                       McommerceCart,
+                                                                                       McommerceSalesCustomer, Customer,
+                                                                                       Dialog, SB) {
+    Customer.onStatusChange('category', []);
 
     $scope.hasguestmode = false;
 
@@ -23,15 +23,15 @@ angular.module("starter").controller("MCommerceSalesCustomerViewController", fun
     $scope.customer_guestmode = function () {
         Loader.show();
         var currentTs = Date.now();
-        var guestmail = "guest" + currentTs + (parseInt(Math.random() * 1000)) + "@guest.com";
+        var guestmail = 'guest' + currentTs + (parseInt(Math.random() * 1000, 10)) + '@guest.com';
         Customer.register({
-                "civility": "m",
-                "firstname": "Guest",
-                "lastname": "Guest",
-                "email": guestmail,
-                "password": parseInt(Math.random() * 10000000000),
-                "privacy_policy": true
-            }).then(function(){
+                civility: 'm',
+                firstname: 'Guest',
+                lastname: 'Guest',
+                email: guestmail,
+                password: parseInt(Math.random() * 10000000000, 10),
+                privacy_policy: true
+            }).then(function () {
                 $scope.is_logged_in = true;
                 Customer.guest_mode = true;
                 $scope.loadContent();
@@ -58,23 +58,23 @@ angular.module("starter").controller("MCommerceSalesCustomerViewController", fun
     McommerceSalesCustomer.value_id = $stateParams.value_id;
     $scope.value_id = $stateParams.value_id;
 
-    $scope.page_title = $translate.instant("My information");
+    $scope.page_title = $translate.instant('My information');
 
     $scope.loadContent = function () {
         McommerceSalesCustomer
             .hasGuestMode()
             .then(function (dataGuestMode) {
-                //check if had guest mode
-                if(dataGuestMode.success && dataGuestMode.activated) {
+                // Check if had guest mode!
+                if (dataGuestMode.success && dataGuestMode.activated) {
                     $scope.hasguestmode = true;
                 }
-                //getting user
+                // Getting user!
                 McommerceSalesCustomer
                     .find()
                     .then(function (data) {
                         $scope.customer = data.customer;
-                        //fix birthday ?
-                        if ($scope.customer && $scope.customer.hasOwnProperty("metadatas") && $scope.customer.metadatas.birthday) {
+                        // Fix birthday!
+                        if ($scope.customer && $scope.customer.hasOwnProperty('metadatas') && $scope.customer.metadatas.birthday) {
                             $scope.customer.metadatas.birthday = new Date($scope.customer.metadatas.birthday);
                         }
                         $scope.settings = data.settings;
@@ -82,10 +82,9 @@ angular.module("starter").controller("MCommerceSalesCustomerViewController", fun
                         $scope.is_loading = false;
                         Loader.hide();
                     });
-
             }, function (data) {
                 if (data && angular.isDefined(data.message)) {
-                    Dialog.alert("Error", data.message, "OK");
+                    Dialog.alert('Error', data.message, 'OK');
                 }
             }).then(function () {
                 $scope.is_loading = false;
@@ -94,16 +93,23 @@ angular.module("starter").controller("MCommerceSalesCustomerViewController", fun
     };
 
     $scope.goToDeliveryPage = function () {
-        $state.go("mcommerce-sales-delivery", {value_id: $stateParams.value_id});
+        $state.go('mcommerce-sales-delivery', {
+            value_id: $stateParams.value_id
+        });
     };
 
     $scope.updateCustomerInfos = function () {
+        $rootScope.loginFeature = true;
+        $rootScope.loginFeatureBack = false;
+
         $scope.is_loading = true;
         Loader.show();
 
-        // Associate the customer to the cart and validate the extra fields
+        // Associate the customer to the cart and validate the extra fields!
         McommerceSalesCustomer
-            .updateCustomerInfos({'customer': $scope.customer})
+            .updateCustomerInfos({
+                customer: $scope.customer
+            })
             .then(function (data) {
                 $scope.customer = data.customer;
 
@@ -116,28 +122,25 @@ angular.module("starter").controller("MCommerceSalesCustomerViewController", fun
                         $scope.goToDeliveryPage();
                     }, function (data) {
                         if (data && angular.isDefined(data.message)) {
-                            Dialog.alert("Error", data.message, "OK");
+                            Dialog.alert('Error', data.message, 'OK');
                         }
                     }).then(function () {
                         $scope.is_loading = false;
-                    Loader.hide();
+                        Loader.hide();
                     });
-
             }, function (data) {
                 $scope.is_loading = false;
                 Loader.hide();
                 if (data && angular.isDefined(data.message)) {
-                    Dialog.alert("Error", data.message, "OK");
+                    Dialog.alert('Error', data.message, 'OK');
                 }
             });
-
     };
 
     $scope.right_button = {
         action: $scope.updateCustomerInfos,
-        label: $translate.instant("Next")
+        label: $translate.instant('Next')
     };
 
     $scope.loadContent();
-
 });

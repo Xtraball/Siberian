@@ -45,16 +45,18 @@ class Siberian_Module {
      * @param $code
      * @param $title
      * @param $link
+     * @param $icon
      */
-    public static function addMenu($module, $code, $title, $link) {
+    public static function addMenu($module, $code, $title, $link, $icon = '') {
         if(!isset(self::$menus[$module])) {
             self::$menus[$module] = array();
         }
 
         if(!isset(self::$menus[$module][$code])) {
             self::$menus[$module][$code] = array(
-                "title"     => __($title),
-                "link"      => $link,
+                "title" => __($title),
+                "link" => $link,
+                "icon" => $icon,
             );
         }
     }
@@ -74,16 +76,18 @@ class Siberian_Module {
      * @param $code
      * @param $title
      * @param $link
+     * @param $icon
      */
-    public static function addEditorMenu($module, $code, $title, $link) {
+    public static function addEditorMenu($module, $code, $title, $link, $icon = '') {
         if(!isset(self::$editor_menus[$module])) {
             self::$editor_menus[$module] = array();
         }
 
         if(!isset(self::$editor_menus[$module][$code])) {
             self::$editor_menus[$module][$code] = array(
-                "title"     => __($title),
-                "link"      => $link,
+                "title" => __($title),
+                "link" => $link,
+                "icon" => $icon,
             );
         }
     }

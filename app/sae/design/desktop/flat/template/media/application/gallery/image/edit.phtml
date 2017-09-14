@@ -9,7 +9,7 @@ $facebook = new Social_Model_Facebook();
 $facebook_is_available = $facebook->getAccessToken() != null;
 ?>
 <?php $flickr_is_available = $application->getFlickrKey() && $application->getFlickrSecret(); ?>
-<div class="media images">
+<div id="list" class="media images">
     <div class="form_content">
         <div class="add-image">
             <h3 class="title-editor no-border-radius title-feature-indent">
@@ -210,22 +210,21 @@ $facebook_is_available = $facebook->getAccessToken() != null;
             </div>
         </div>
         <?php endif; ?>
-        <div class="background">
-            <?php echo $this->getLayout()
-                ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
-                ->setValueId($option_value->getId())
-                ->toHtml()
-            ; ?>
-        </div>
+
+        <?php echo $this->importBackground($option_value); ?>
 
     </div>
 
     <script type="text/javascript">
+        $(document).ready(function () {
+            bindForms('#list');
+        });
+
         var label = {
             'picasa': '<?php echo $this->_('Gallery Name') ?>',
             'custom': '<?php echo $this->_('Gallery Name') ?>',
             'instagram': '<?php echo $this->_('Gallery Name') ?>',
-            'facebook': '<?php echo $this->_('Facebook page ID') ?>',
+            'facebook': '<?php echo $this->_('Facebook page ID') ?>'
         }, selected;
 
         page.setCallback('willappear', function() {

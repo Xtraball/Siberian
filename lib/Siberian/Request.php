@@ -108,7 +108,16 @@ class Siberian_Request {
         curl_setopt($request, CURLOPT_TIMEOUT, 3);
         curl_setopt($request, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($request, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.78 Safari/537.36');
+        $headers = array(
+            'Pragma: no-cache',
+            'Accept-Encoding: identity;q=1, *;q=0',
+            'Range: bytes=0-',
+            'Accept: */*',
+            'Connection: keep-alive',
+            'Cache-Control: no-cache',
+            'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36',
+        );
+        curl_setopt($request, CURLOPT_HTTPHEADER, $headers);
 
         # Call
         curl_exec($request);

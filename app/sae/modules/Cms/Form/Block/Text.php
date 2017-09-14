@@ -5,6 +5,11 @@ class Cms_Form_Block_Text extends Cms_Form_Block_Abstract {
     /**
      * @var string
      */
+    public $blockType = 'text';
+
+    /**
+     * @var string
+     */
     public static $image_template = '
 <div class="cms-image" style="background-image: url(#THUMBNAIL_PATH#);">
     <div class="cms-image-delete">

@@ -36,6 +36,8 @@ class Push_Form_Global extends Siberian_Form_Abstract {
 
         $url = $this->addSimpleText("url", __("URL"));
 
+        $checked = $this->addSimpleHidden("checked");
+
         $this->addNav("send_push", __("Send"), false, false);
     }
 

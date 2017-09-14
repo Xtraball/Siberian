@@ -31,12 +31,12 @@ class Cms_Model_Application_Page_Block_Text extends Cms_Model_Application_Page_B
      * @return $this
      */
     public function populate($data = array()) {
-        $image = $this->saveImage($data["image"]);
+        $image = $this->saveImage($data['image']);
 
         $this
-            ->setContent($data["text"])
-            ->setSize($data["size"])
-            ->setAlignment($data["alignment"])
+            ->setContent($data['text'])
+            ->setSize($data['size'])
+            ->setAlignment($data['alignment'])
             ->setImage($image)
         ;
 

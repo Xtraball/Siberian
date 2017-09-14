@@ -87,15 +87,7 @@
                 </div>
             </div>
 
-            <div class="section">
-                <?php
-                    echo $this->getLayout()
-                        ->addPartial('background_image', 'core_view_default', 'application/customization/features/edit/background_image.phtml')
-                        ->setValueId($option_value->getId())
-                        ->toHtml()
-                    ;
-                ?>
-            </div>
+            <?php echo $this->importBackground($option_value); ?>
         </div>
 
     </div>

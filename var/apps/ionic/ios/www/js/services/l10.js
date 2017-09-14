@@ -17,11 +17,11 @@ angular.module('starter').service('layout_10', function ($rootScope) {
     service.features = function (features, moreButton) {
         var thirdOption = features.overview.options[2];
         var fourthOption = features.overview.options[3];
-        /** Placing more button at the third place (middle in layout) */
+        // Placing more button at the third place (middle in layout)!
         features.overview.options[2] = moreButton;
         features.overview.options[3] = thirdOption;
         features.overview.options[4] = fourthOption;
-        /** Removing 4 first option for the modal */
+        // Removing 4 first option for the modal!
         features.options = features.options.slice(4, features.options.length);
 
         return features;

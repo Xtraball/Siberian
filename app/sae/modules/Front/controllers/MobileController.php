@@ -1186,20 +1186,16 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
 
     }
 
-
-
-
     public function backgroundimagesAction() {
-
         try {
+            $request = $this->getRequest();
+            $base_url = $request->getBaseUrl();
+            $application = $this->getApplication();
+            $use_background_for_all = $application->getUseHomepageBackgroundImageInSubpages();
+            $device_width = $request->getParam('device_width');
+            $device_height = $request->getParam('device_height');
 
-            $request                    = $this->getRequest();
-            $base_url                   = $request->getBaseUrl();
-            $application                = $this->getApplication();
-            $use_background_for_all     = $application->getUseHomepageBackgroundImageInSubpages();
-            $device_width               = $request->getParam("device_width");
-            $device_height              = $request->getParam("device_height");
-            if($device_height > $device_width) {
+            if ($device_height > $device_width) {
                 $ratio = $device_height / $device_width;
                 $biggest = $device_height;
             } else {
@@ -1210,81 +1206,105 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
             $backgrounds = array();
             $options = $application->getOptions();
 
-            $device_resolution = "standard";
-            if($ratio < 1.7) {
-                $device_resolution = "tablet";
+            $device_resolution = 'standard';
+            if ($ratio < 1.4) {
+                $device_resolution = 'tablet';
             }
-            if(($device_resolution === "standard") && ($biggest > 2000)) {
-                $device_resolution = "hd";
+            if (($device_resolution === 'standard') && ($biggest > 2000)) {
+                $device_resolution = 'hd';
             }
             $fallback = img_to_base64(null);
 
-            /** Homepage global */
+            // Homepage global!
             try {
-                $backgrounds["home"] = Siberian_Image::getForMobile($base_url, Core_Model_Directory::getBasePathTo($this->getApplication()->getHomepageBackgroundImageUrl($device_resolution)));
-            } catch(Exception $e) {
-                $backgrounds["home"] = $fallback;
+                $backgrounds['home'] = Siberian_Image::getForMobile(
+                    $base_url,
+                    Core_Model_Directory::getBasePathTo($application->getHomepageBackgroundImageUrl($device_resolution))
+                );
+                $backgrounds['landscape_home'] = Siberian_Image::getForMobile(
+                    $base_url,
+                    Core_Model_Directory::getBasePathTo($application->getHomepageBackgroundImageUrl('landscape_' . $device_resolution))
+                );
+            } catch (Exception $e) {
+                $backgrounds['home'] = $fallback;
+                $backgrounds['landscape_home'] = $fallback;
             }
 
-            foreach($options as $option) {
-
+            foreach ($options as $option) {
                 $background = null;
 
                 $value_id = $option->getId();
-                if($option->hasBackgroundImage() && ($option->getBackgroundImage() !== "no-image") && ($option->getBackgroundImage() !== "")) {
+                if($option->hasBackgroundImage() &&
+                    ($option->getBackgroundImage() !== 'no-image') &&
+                    ($option->getBackgroundImage() !== '')) {
 
                     try {
-                        $background = Siberian_Image::getForMobile($base_url, Core_Model_Directory::getBasePathTo($option->getBackgroundImageUrl()));
+                        $background = Siberian_Image::getForMobile(
+                            $base_url,
+                            Core_Model_Directory::getBasePathTo($option->getBackgroundImageUrl())
+                        );
                     } catch(Exception $e) {
                         $background = $fallback;
                     }
 
-                } else if($option->getIsHomepage() || $use_background_for_all) {
+                    try {
+                        $landscape_background = Siberian_Image::getForMobile(
+                            $base_url,
+                            Core_Model_Directory::getBasePathTo($option->getBackgroundLandscapeImageUrl())
+                        );
+                    } catch(Exception $e) {
+                        // Landscape fallback is portrait!
+                        $landscape_background = $background;
+                    }
+
+                } else if ($option->getIsHomepage() || $use_background_for_all) {
                     $background = $backgrounds["home"];
+                    $landscape_background = $backgrounds["landscape_home"];
                 }
 
-                if(!empty($background)) {
+                if (!empty($background)) {
                     $backgrounds[$value_id] = $background;
+                    $backgrounds['landscape_'.$value_id] = ($landscape_background === null) ? $background : $landscape_background;
                 }
-
             }
 
-            $data = array(
-                "success"       => true,
-                "backgrounds"   => $backgrounds
-            );
+            $payload = [
+                'success' => true,
+                'backgrounds' => $backgrounds
+            ];
 
-            if(Siberian_Debug::isDevelopment()) {
-                $data["debug"] = array(
-                    "type"      => $device_resolution,
-                    "ratio"     => $ratio,
-                    "biggest"   => $biggest
-                );
+            if (Siberian_Debug::isDevelopment()) {
+                $payload['debug'] = [
+                    'type' => $device_resolution,
+                    'ratio' => $ratio,
+                    'biggest' => $biggest
+                ];
             }
-
         } catch(Exception $e) {
-            $data = array(
-                "error" => true,
-                "message" => __("Unable to fetch your application background images.")
-            );
+            $payload = [
+                'error' => true,
+                'message' => __('Unable to fetch your application background images.')
+            ];
         }
 
-        $this->_sendJson($data);
-
+        $this->_sendJson($payload);
     }
 
-
+    /**
+     * @deprecated and possibly not used
+     *
+     * @return string
+     */
     protected function _getBackgroundImage() {
-
-        $url = "";
+        $url = '';
         $option = $this->getCurrentOptionValue();
 
         if($option->getIsHomepage()) {
-            $url = $this->getApplication()->getBackgroundImageUrl("retina4");
+            $url = $this->getApplication()->getBackgroundImageUrl('retina4');
         } else if($option->getHasBackgroundImage()) {
             $url = $option->getBackgroundImageUrl();
         } else if($option->getUseHomepageBackgroundImage()) {
-            $url = $this->getApplication()->getHomepageBackgroundImageUrl("retina");
+            $url = $this->getApplication()->getHomepageBackgroundImageUrl('retina');
         }
 
         return $url;

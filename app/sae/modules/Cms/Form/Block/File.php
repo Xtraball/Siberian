@@ -5,6 +5,11 @@ class Cms_Form_Block_File extends Cms_Form_Block_Abstract {
     /**
      * @var string
      */
+    public $blockType = 'file';
+
+    /**
+     * @var string
+     */
     public static $file_template = '
 <div class="cms-file">
     #TEXT#

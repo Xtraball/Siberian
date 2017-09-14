@@ -51,15 +51,13 @@
             </div>
         </div>
         <div id="background">
-            <?php
-            echo $this->getLayout()
-                ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
-                ->setValueId($option->getId())
-                ->toHtml()
-            ;
-            ?>
+            <?php echo $this->importBackground($option); ?>
         </div>
         <script type="text/javascript">
+
+            $(document).ready(function () {
+                bindForms('#background');
+            });
 
             function editDescription() {
                 var form = $('#editPageDescription');

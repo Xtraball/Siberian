@@ -241,6 +241,10 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract {
         foreach($schema as $column) {
             list($name, $default, $nullable, $character_set, $collation, $col_type, $col_key, $extra) = array_values($column);
 
+            if ($default[0] === "'" && $default[strlen($default) - 1] === "'" ) {
+                $default = substr($default, 1, strlen($default) - 2);
+            }
+
             $col_type = addslashes($col_type);
             $nullable = ($nullable == 'YES') ? "'is_null' => true," : "";
             $auto_increment = ($extra == 'auto_increment') ? "'auto_increment' => true," : "";

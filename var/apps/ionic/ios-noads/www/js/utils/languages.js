@@ -4,6 +4,7 @@
 
 var AVAILABLE_LANGUAGES = ['en'];
 var language = 'en';
+var forceLocale = getParameterByName('locale');
 if (navigator.language) {
     var tmp_language = navigator.language.replace('-', '_');
 

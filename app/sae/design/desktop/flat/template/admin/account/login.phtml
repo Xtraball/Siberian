@@ -117,8 +117,8 @@
         checklogin_post: '<?php echo $this->getUrl('admin/account/check'); ?>',
         signin_post: '<?php echo $this->getUrl('admin/account/loginpost'); ?>',
         signup_post: '<?php echo $this->getUrl('admin/account/signuppost'); ?>',
-        forgotpassword_post: '<?php echo $this->getUrl('admin/account/forgotpasswordpost'); ?>',
-    }
+        forgotpassword_post: '<?php echo $this->getUrl('admin/account/forgotpasswordpost'); ?>'
+    };
 
     $('#nav-login a').click(function() {
         if($(this).hasClass("active")) return false;

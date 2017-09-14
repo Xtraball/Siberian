@@ -271,16 +271,44 @@ abstract class Core_View_Default_Abstract extends Siberian_View
      * Custom background for features
      *
      * @param $option
+     * @param $toggleDown
      * @return mixed
      */
-    public function importBackground($option_value) {
+    public function importBackground($option_value, $toggleDown = true) {
 
         $background_section = $this->getLayout()
             ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image-2.phtml')
+            ->setOptionValue($option_value)
             ->setValueId($option_value->getId())
+            ->setToggleDown($toggleDown)
             ->toHtml();
 
         return $background_section;
+    }
+
+    /**
+     * Custom layouts for features
+     *
+     * @param $option
+     * @param $toggleDown
+     * @return mixed
+     */
+    public function importLayout($option_value, $toggleDown = true) {
+
+        // In case there is only 1 layout, returns an HTML comment, but nothing more!
+        $layouts = $option_value->getLayouts();
+        if ($layouts->count() < 1) {
+            return '<!-- importLayout:nothing to load -->';
+        }
+
+        $layout_section = $this->getLayout()
+            ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/layout-2.phtml')
+            ->setOptionValue($option_value)
+            ->setValueId($option_value->getId())
+            ->setToggleDown($toggleDown)
+            ->toHtml();
+
+        return $layout_section;
     }
 
     public function getLogo() {

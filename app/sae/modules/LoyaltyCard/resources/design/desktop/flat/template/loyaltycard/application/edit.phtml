@@ -160,14 +160,8 @@
                 </div>
             <?php endif; ?>
 
-            <div class="background">
-                <?php
-                echo $this->getLayout()
-                    ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
-                    ->setValueId($option_value->getId())
-                    ->toHtml()
-                ;
-                ?>
+            <div class="background-images-import">
+                <?php echo $this->importBackground($option_value); ?>
             </div>
         </div>
 
@@ -248,7 +242,7 @@
             setNumberOfPoints: function(nbr) {
                 iframe.f.setNumberOfPoints(nbr)
             }
-        }
+        };
 
         page.setCallback('didremove',  function() {
 

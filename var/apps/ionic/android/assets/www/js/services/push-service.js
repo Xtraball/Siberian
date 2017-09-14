@@ -14,15 +14,15 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
         push: null,
         settings: {
             android: {
-                senderID    : '01234567890',
-                icon        : 'ic_icon',
-                iconColor   : '#0099C7'
+                senderID: '01234567890',
+                icon: 'ic_icon',
+                iconColor: '#0099C7'
             },
             ios: {
-                clearBadge  : true,
-                alert       : true,
-                badge       : true,
-                sound       : true
+                clearBadge: true,
+                alert: true,
+                badge: true,
+                sound: true
             },
             windows: {}
         }
@@ -115,9 +115,9 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
 
     service.registerAndroid = function () {
         var params = {
-            app_id              : Application.app_id,
-            app_name            : Application.app_name,
-            registration_id     : btoa(Push.device_token)
+            app_id: Application.app_id,
+            app_name: Application.app_name,
+            registration_id: btoa(Push.device_token)
         };
         Push.registerAndroidDevice(params);
     };
@@ -147,16 +147,16 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
                 }
 
                 var params = {
-                    app_id          : Application.app_id,
-                    app_name        : Application.app_name,
-                    app_version     : appVersion,
-                    device_token    : Push.device_token,
-                    device_name     : deviceName,
-                    device_model    : deviceModel,
-                    device_version  : deviceVersion,
-                    push_badge      : 'enabled',
-                    push_alert      : 'enabled',
-                    push_sound      : 'enabled'
+                    app_id: Application.app_id,
+                    app_name: Application.app_name,
+                    app_version: appVersion,
+                    device_token: Push.device_token,
+                    device_name: deviceName,
+                    device_model: deviceModel,
+                    device_version: deviceVersion,
+                    push_badge: 'enabled',
+                    push_alert: 'enabled',
+                    push_sound: 'enabled'
                 };
 
                 Push.registerIosDevice(params);
@@ -276,7 +276,7 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
     };
 
     service.startIosBackgroundGeolocation = function () {
-        //This callback will be executed every time a geolocation is recorded in the background!
+        // This callback will be executed every time a geolocation is recorded in the background!
         var callbackFn = function (location, taskId) {
             var coords = location.coords;
             var lat = coords.latitude;
@@ -294,10 +294,10 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
 
         $window.BackgroundGeolocation.onGeofence(function (params, taskId) {
             try {
-                //var location        = params.location;
-                var identifier      = params.identifier;
-                var message_id      = identifier.replace('push', '');
-                var action          = params.action;
+                // var location  = params.location;
+                var identifier = params.identifier;
+                var message_id = identifier.replace('push', '');
+                var action = params.action;
 
                 $log.debug('A geofence has been crossed: ', identifier);
                 $log.debug('ENTER or EXIT ?: ', action);
@@ -464,7 +464,7 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
      * Trying to fetch latest Push & InApp messages on app Start.
      */
     service.fetchMessagesOnStart = function () {
-        Push.getLastMessages()
+        Push.getLastMessages(false)
             .then(function (data) {
                 // Last push!
                 var push = data.push_message;
@@ -472,11 +472,11 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
                     service.displayNotification(push);
                 }
 
-                /** Last InApp Message */
+                // Last InApp Message!
                 var inappMessage = data.inapp_message;
                 if (inappMessage) {
-                    inappMessage.type = 'inapp_message';
                     inappMessage.message = inappMessage.text;
+                    inappMessage.title = inappMessage.title;
                     inappMessage.config = {
                         buttons: [
                             {
@@ -515,8 +515,26 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
 
         if ((extendedPayload !== undefined) && (extendedPayload.cover || extendedPayload.action_value)) {
             var config = {
-                okText: $translate.instant('View'),
-                cancelText: $translate.instant('Cancel'),
+                buttons: [
+                    {
+                        text: $translate.instant('Cancel'),
+                        type: 'button-custom',
+                        onTap: function () {
+                            // Simply closes!
+                        }
+                    },
+                    {
+                        text: $translate.instant('View'),
+                        type: 'button-custom',
+                        onTap: function () {
+                            if ((extendedPayload.open_webview !== true) && (extendedPayload.open_webview !== 'true')) {
+                                $location.path(extendedPayload.action_value);
+                            } else {
+                                LinkService.openLink(extendedPayload.action_value);
+                            }
+                        }
+                    }
+                ],
                 cssClass: 'push-popup',
                 title: messagePayload.title,
                 template: '<div class="list card">' +
@@ -529,28 +547,19 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
                 '</div>'
             };
 
-            if (messagePayload.config) {
+            if (messagePayload.config !== undefined) {
                 config = angular.extend(config, messagePayload.config);
             }
 
             if (extendedPayload.action_value) {
                 // title, message, buttons_array, css_class!
-                promise = Dialog
-                    .ionicPopup(config)
-                    .then(function (confirm) {
-                        if (confirm) {
-                            if ((extendedPayload.open_webview !== true) && (extendedPayload.open_webview !== 'true')) {
-                                $location.path(extendedPayload.action_value);
-                            } else {
-                                LinkService.openLink(extendedPayload.action_value);
-                            }
-                        }
-                    });
+                promise = Dialog.ionicPopup(config);
             } else {
                 promise = Dialog.alert(messagePayload.title, messagePayload.message, 'OK');
             }
         } else {
-            promise = Dialog.alert('Notification', messagePayload.message, 'OK');
+            var localTitle = (messagePayload.title !== undefined) ? messagePayload.title : 'Notification';
+            promise = Dialog.alert(localTitle, messagePayload.message, 'OK');
         }
 
         // Search for less resource consuming maybe use Push factory directly!

@@ -1,11 +1,9 @@
-/*global
-    angular, caches, localStorage, DOMAIN, cordova, StatusBar, window, BASE_PATH, device, ionic, chcp,
-    IS_NATIVE_APP, DEVICE_TYPE, LOGIN_FB, fbtoken, Connection, moment
-*/
+/**
+ * Application Bootstrap
+ */
 
 window.momentjs_loaded = false;
-var DEBUG = true;
-
+var DEBUG = false;
 
 // Fallback for non re-published apps
 if (IS_NATIVE_APP === undefined) {
@@ -73,34 +71,34 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
     .constant('SB', {
         EVENTS: {
             AUTH: {
-                loginSuccess            : 'auth-login-success',
-                logoutSuccess           : 'auth-logout-success',
-                registerSuccess         : 'auth-register-success'
+                loginSuccess: 'auth-login-success',
+                logoutSuccess: 'auth-logout-success',
+                registerSuccess: 'auth-register-success'
             },
             CACHE: {
-                pagesReload             : 'pages-reload',
-                layoutReload            : 'layout-reload',
-                clearSocialGaming       : 'clear-cache-socialgaming',
-                clearDiscount           : 'clear-cache-discount'
+                pagesReload: 'pages-reload',
+                layoutReload: 'layout-reload',
+                clearSocialGaming: 'clear-cache-socialgaming',
+                clearDiscount: 'clear-cache-discount'
             },
             PADLOCK: {
-                unlockFeatures          : 'padlock-unlock-features',
-                lockFeatures            : 'padlock-lock-features'
+                unlockFeatures: 'padlock-unlock-features',
+                lockFeatures: 'padlock-lock-features'
             },
             PUSH: {
-                notificationReceived    : 'push-notification-received',
-                unreadPush              : 'push-get-unreaded',
-                readPush                : 'push-mark-as-read'
+                notificationReceived: 'push-notification-received',
+                unreadPush: 'push-get-unreaded',
+                readPush: 'push-mark-as-read'
             },
             MEDIA_PLAYER: {
-                HIDE  : 'media-player-hide',
-                SHOW  : 'media-player-show'
+                HIDE: 'media-player-hide',
+                SHOW: 'media-player-show'
             }
         },
         DEVICE: {
-            TYPE_ANDROID    : 1,
-            TYPE_IOS        : 2,
-            TYPE_BROWSER    : 3
+            TYPE_ANDROID: 1,
+            TYPE_IOS: 2,
+            TYPE_BROWSER: 3
         }
     })
     // Deprecated constants below, fallback pre 5.0
@@ -130,9 +128,9 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         if ((config.url.indexOf(DOMAIN) > -1) && (config.noSbToken !== true)) {
                             var sessionParam = 'sb-token=' + sessionId;
                             if (config.url.indexOf('?') > 1) {
-                                config.url += '&' + sessionParam;
+                                config.url = config.url + '&' + sessionParam;
                             } else {
-                                config.url += '?' + sessionParam;
+                                config.url = config.url + '?' + sessionParam;
                             }
                         }
                     }
@@ -166,19 +164,20 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                    Pages, Push, PushService, SB, SafePopups, tmhDynamicLocale) {
         $log.debug('run start');
 
-        //$rootScope object;
+        // $rootScope object!
         angular.extend($rootScope, {
-            isNativeApp             : IS_NATIVE_APP,
-            isOnline                : true,
-            isOffline               : false,
-            card_design             : false,
-            app_is_loaded           : true,
-            app_is_bo_locked        : false,
-            ui_background_loader    : false,
-            ui_progress_view        : false
+            isNativeApp: IS_NATIVE_APP,
+            isOnline: true,
+            isOffline: false,
+            card_design: false,
+            app_is_loaded: true,
+            app_is_bo_locked: false,
+            ui_background_loader: false,
+            ui_progress_view: false,
+            loginFeatureBack: true
         });
 
-        /** Listeners for network events */
+        // Listeners for network events!
         $window.addEventListener('online', function () {
             $log.info('online');
             $rootScope.isOnline = true;
@@ -206,7 +205,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
             $rootScope.ui_progress_view = false;
         };
 
-        /** @note should be used the less possible */
+        // @note should be used the less possible!
         $rootScope.isNotAvailableOffline = function () {
             if ($rootScope.isOffline) {
                 Dialog.alert('Offline mode',
@@ -228,7 +227,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
         };
 
         $ionicPlatform.ready(function () {
-
             $ionicNavBarDelegate.showBar(false);
 
             var loadApp = function (refresh) {
@@ -316,7 +314,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
 
                         // App keyboard & StatusBar!
                         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-                            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+                            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
                         }
 
                         if (window.StatusBar) {
@@ -476,8 +474,8 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             $rootScope.$broadcast(SB.EVENTS.AUTH.logoutSuccess);
                         }
 
-                        //cyril: RIDICULOUS CODE, in browser we use _system that is not accepted value
-                        //in application we open with _blank that open with inAppBrowser without control...
+                        // cyril: RIDICULOUS CODE, in browser we use _system that is not accepted value!
+                        // in application we open with _blank that open with inAppBrowser without control...!
                         $rootScope.getTargetForLink = function () {
                             return !$rootScope.isNativeApp ? '_system' : '_blank';
                         };
@@ -519,7 +517,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             }
                         });
 
-                        /** Event to catch state-go from source code */
+                        // Event to catch state-go from source code!
                         var eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
                         var eventer = window[eventMethod];
                         var messageEvent = (eventMethod === 'attachEvent') ? 'onmessage' : 'message';
@@ -549,7 +547,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             }
                         }, false);
 
-                        /** Global listeners for logout/lock app */
+                        // Global listeners for logout/lock app!
                         $rootScope.$on(SB.EVENTS.AUTH.loginSuccess, function () {
                             $rootScope.app_is_locked = (Application.is_locked && !(Customer.can_access_locked_features || Padlock.unlocked_by_qrcode));
 
@@ -573,7 +571,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             Analytics.storeClosing();
                         });
 
-                        /** Debug/Support method to check for updates. */
+                        // Debug/Support method to check for updates!
                         $rootScope.unlockUpdate = 0;
                         $rootScope.checkForUpdate = function () {
                             if (!$rootScope.isNativeApp) {
@@ -618,7 +616,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             });
                         };
 
-                        /** OVERVIEW */
+                        // OVERVIEW!
                         $rootScope.isOverview = isOverview;
                         if ($rootScope.isOverview) {
                             $window.isHomepage = function () {
@@ -670,12 +668,12 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                             historyRoot: true,
                                             disableAnimate: false
                                         });
-                                        var feat_index = 0;
+                                        var featIndex = 0;
                                         for (var fi = 0; fi < features.options.length; fi = fi + 1) {
                                             var feat = features.options[fi];
-                                            /** Don't load unwanted features on first page. */
+                                            // Don't load unwanted features on first page.!
                                             if ((feat.code !== 'code_scan') && (feat.code !== 'radio') && (feat.code !== 'padlock')) {
-                                                feat_index = fi;
+                                                featIndex = fi;
                                                 break;
                                             }
                                         }
@@ -724,7 +722,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                 }, 100);
                             });
 
-                        /** Loads momentjs/progressbar async. */
+                        // Loads momentjs/progressbar async.
                         $ocLazyLoad.load('./js/libraries/moment.min.js')
                             .then(function () {
                                 window.momentjs_loaded = true;
@@ -755,8 +753,12 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                     }).catch(function (error) {
                         $log.error('main promise caught error, ', error);
 
-                        // In case we are unable to refresh loadApp, use cached version
-                        $timeout(loadApp(false), 1);
+                        // In case we are unable to refresh loadApp, use cached version and refresh only once
+                        if (refresh === true) {
+                            $timeout(loadApp(false), 1);
+                        } else {
+                            $log.error('main promise caught error, refresh: false failed.', error);
+                        }
                     }); // Main load, then
                 }); // Session loaded
             };

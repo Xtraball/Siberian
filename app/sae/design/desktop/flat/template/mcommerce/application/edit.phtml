@@ -3,7 +3,7 @@
 <?php $mcommerce = $option->getObject(); ?>
 <?php $stores = $mcommerce->getStores(); ?>
 <div id="mcommerce" class="form_content mcommerce">
-    <div class="edit_page mcommerce">
+    <div id="list" class="edit_page mcommerce">
         <div>
             <div id="mcomerce_tabs">
                 <div id="mcomerce_tabs_header" <?php if($stores->count() == 0) : ?> style="display:none;"<?php endif; ?> class="subcontent">
@@ -31,17 +31,16 @@
                 </div>
                 <div id="mcomerce_tabs_content" class="tabs_content"></div>
             </div>
-            <?php
-                echo $this->getLayout()
-                    ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
-                    ->setValueId($option->getId())
-                    ->toHtml()
-                ;
-            ?>
+
+            <?php echo $this->importBackground($option); ?>
         </div>
     </div>
 </div>
 <script type="text/javascript">
+
+    $(document).ready(function () {
+        bindForms('#list');
+    });
 
     page.setCallback('didappear', function() {
 
@@ -72,7 +71,7 @@
     });
 
     var tabs = {
-        objects: new Array(),
+        objects: [],
         processEvents: function() {
             $('.show_tab').click(function(e) {
 

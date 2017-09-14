@@ -73,6 +73,16 @@ class Promotion_Model_Promotion extends Core_Model_Default
         return $url;
     }
 
+    public function getThumbnailUrl() {
+        $url = null;
+        if($this->getThumbnail()) {
+            if(file_exists(Core_Model_Directory::getBasePathTo(Application_Model_Application::getImagePath().$this->getThumbnail()))) {
+                $url = Application_Model_Application::getImagePath().$this->getThumbnail();
+            }
+        }
+        return $url;
+    }
+
     public function getUsedPromotions($start_at, $end_at) {
         return $this->getTable()->getUsedPromotions($start_at, $end_at);
     }

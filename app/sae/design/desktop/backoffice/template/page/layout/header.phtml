@@ -50,7 +50,12 @@ $custom_links = Siberian_Module::getMenus();
                             <ul class="l3">
                                 <?php foreach($custom_links as $module => $links): ?>
                                     <?php foreach($links as $link): ?>
-                                        <li><a href="<?php echo $this->getUrl($link["link"]); ?>"><i class="fa fa-modx"></i><?php echo $link["title"]; ?></a></li>
+                                        <li>
+                                            <a href="<?php echo $this->getUrl($link['link']); ?>">
+                                                <i class="<?php echo (!empty($link['icon'])) ? $link['icon'] : 'fa fa-cogs' ?>"></i>
+                                                <?php echo $link["title"]; ?>
+                                            </a>
+                                        </li>
                                     <?php endforeach; ?>
                                 <?php endforeach; ?>
                             </ul>

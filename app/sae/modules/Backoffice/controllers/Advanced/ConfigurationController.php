@@ -825,7 +825,8 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
 
         } catch (Exception $e) {
 
-            if(strpos($e->getMessage(), "many currently pending authorizations") !== false) {
+            if ((strpos($e->getMessage(), "many currently pending authorizations") !== false) ||
+                (strpos($e->getMessage(), "many certificates already issued") !== false)) {
                 # We hit the rate limit, disable for the next seven days
                 $in_a_week = time() + 604800;
                 System_Model_Config::setValueFor("letsencrypt_disabled", $in_a_week);

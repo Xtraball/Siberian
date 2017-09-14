@@ -3,16 +3,16 @@
 <div class="container-fluid">
     <div id="list" class="row">
         <div class="col-md-12">
-            <p><?php echo $this->_("This feature allows your users to calculate tips with their app."); ?></p>
+            <p><?php echo __("This feature allows your users to calculate tips with their app."); ?></p>
         </div>
     </div>
 </div>
-<div>
-    <?php
-    echo $this->getLayout()
-        ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
-        ->setValueId($option_value->getId())
-        ->toHtml()
-    ;
-    ?>
+<div class="background-images-upload">
+    <?php echo $this->importBackground($option_value); ?>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        bindForms('.background-images-upload');
+    });
+</script>

@@ -24,8 +24,8 @@ class Push_Model_Message_Global extends Core_Model_Default {
         }
 
         $applications = Siberian_Json::decode($this->getTargetApps());
+        $application_table = new Application_Model_Db_Table_Application();
         if(!!$this->getSendToAll()) {
-            $application_table = new Application_Model_Db_Table_Application();
             $all_applications = $application_table->findAllForGlobalPush();
 
             // Get apps that belong to the current admin!
@@ -43,6 +43,15 @@ class Push_Model_Message_Global extends Core_Model_Default {
             } else {
                 $applications = $all_applications;
             }
+        } else {
+            // Get apps that belong to the current admin in case any injection to other apps is tested!
+            $all_for_admin = $application_table->findAllByAdmin(
+                $this->getSession()->getAdminId()
+            )->toArray();
+            $filtered = array_map(function($app) {
+                return $app["app_id"];
+            }, $all_for_admin);
+            $applications = array_intersect($applications, $filtered);
         }
 
         try {

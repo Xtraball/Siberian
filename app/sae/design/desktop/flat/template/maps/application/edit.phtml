@@ -58,18 +58,16 @@ $googlemaps_key = $api->getSecretKey();
             </form>
 
             <div class="background">
-                <?php
-                echo $this->getLayout()
-                    ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
-                    ->setValueId($option_value->getId())
-                    ->toHtml()
-                ;
-                ?>
+                <?php echo $this->importBackground($option_value); ?>
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
+
+    $(document).ready(function () {
+        bindForms('#list');
+    });
 
     if(!$('#gmaps_libraries').length) {
         var script_tag = document.createElement('script');

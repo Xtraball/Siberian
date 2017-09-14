@@ -16,7 +16,7 @@ class System_Model_Config extends Rss_Model_Feed_Abstract {
 
         if(!isset(self::$_values[$code])) {
             $config = new self();
-            $config->find($code, "code");
+            $config->find($code, 'code');
             self::$_values[$code] = $config->getValue();
         }
 

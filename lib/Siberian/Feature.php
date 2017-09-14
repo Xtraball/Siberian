@@ -368,7 +368,7 @@ class Siberian_Feature {
      */
     public static function  saveImageForOption($option_value, $image) {
         # If the file already exists in images/application
-        if(file_exists(Core_Model_Directory::getBasePathTo("images/application".$image))) {
+        if (file_exists(Core_Model_Directory::getBasePathTo('images/application' . $image))) {
             # Nothing changed, skip
             $image_path = $image;
         } else {
@@ -385,7 +385,7 @@ class Siberian_Feature {
      */
     public static function  saveFileForOption($option_value, $file) {
         # If the file already exists in images/application
-        if(file_exists(Core_Model_Directory::getBasePathTo("images/application".$file))) {
+        if (file_exists(Core_Model_Directory::getBasePathTo('images/application' . $file))) {
             # Nothing changed, skip
             $file_path = $file;
         } else {

@@ -86,7 +86,16 @@ if(version_compare(PHP_VERSION, '5.6.0') < 0) {
 }
 
 $cron = new Siberian_Cron();
-$cron->triggerAll();
+if(isset($argv) && isset($argv[1]) && ($argv[1] == 'runcommand')) {
+    if(isset($argv[2])) {
+        $cron->runTaskByCommand($argv[2]);
+        die('Execution done.' . PHP_EOL);
+    } else {
+        die('Missing command name.' . PHP_EOL);
+    }
+} else {
+    $cron->triggerAll();
+}
 
 /** Highly experimental, may increase server load. */
 if($interval !== false) {

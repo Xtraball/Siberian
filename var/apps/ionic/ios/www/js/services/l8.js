@@ -1,19 +1,18 @@
 /*global
     angular
  */
-angular.module("starter").service('layout_8', function() {
-
+angular.module('starter').service('layout_8', function () {
     var service = {};
 
-    service.getTemplate = function() {
-        return "templates/home/l8/view.html";
+    service.getTemplate = function () {
+        return 'templates/home/l8/view.html';
     };
 
-    service.getModalTemplate = function() {
-        return "templates/home/modal/view.html";
+    service.getModalTemplate = function () {
+        return 'templates/home/modal/view.html';
     };
 
-    service.onResize = function() {};
+    service.onResize = function () {};
 
     service.features = function (features, more_button) {
         var first_option = null;

@@ -17,9 +17,7 @@ class Push_AdminController extends Admin_Controller_Default {
         if($form->isValid($values)) {
 
             # Filter checked applications
-            $values["checked"] = array_keys(array_filter($values["checked"], function($v) {
-                return ($v == true);
-            }));
+            $values["checked"] = explode(',', $values["checked"]);
 
             $values["base_url"] = $this->getRequest()->getBaseUrl();
 

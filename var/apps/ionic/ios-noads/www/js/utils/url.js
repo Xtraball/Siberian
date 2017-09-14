@@ -46,16 +46,16 @@ if (document.URL.indexOf('http') === 0) {
     var APP_KEY = null;
     var CURRENT_LANGUAGE = null;
 
-    var DOMAIN = window.location.protocol + "//" + window.location.host;
+    var DOMAIN = window.location.protocol + '//' + window.location.host;
 
     if ((window.location.port * 1) === 8100) {
         checkDevDomain();
     }
 
-    var path = window.location.hash.replace("#", "").split("/").filter(Boolean);
+    var path = window.location.hash.replace('#', '').split('/').filter(Boolean);
 
 
-    if(path.length > 2) {
+    if (path.length > 2) {
         APP_KEY = path[0];
         path = [];
     }
@@ -63,27 +63,27 @@ if (document.URL.indexOf('http') === 0) {
     path = path.reverse();
     if (angular.isDefined(path[1])) {
         CURRENT_LANGUAGE = path[1];
-        localStorage.setItem("sb-current-language", CURRENT_LANGUAGE);
+        localStorage.setItem('sb-current-language', CURRENT_LANGUAGE);
     } else {
-        var language = localStorage.getItem("sb-current-language");
-        CURRENT_LANGUAGE = !!language ? language : "en";
+        var language = localStorage.getItem('sb-current-language');
+        CURRENT_LANGUAGE = !!language ? language : 'en';
     }
 
     if (angular.isDefined(path[0])) {
         APP_KEY = path[0];
     }
 
-    if((APP_KEY === null) || (APP_KEY === "")) {
-        APP_KEY = getParameterByName("app_key");
+    if ((APP_KEY === null) || (APP_KEY === '')) {
+        APP_KEY = getParameterByName('app_key');
     }
 
     BASE_PATH += APP_KEY;
 
-    localStorage.setItem("sb-current-language", CURRENT_LANGUAGE);
+    localStorage.setItem('sb-current-language', CURRENT_LANGUAGE);
 }
 
 var BASE_URL = DOMAIN + BASE_PATH;
-var IMAGE_URL = DOMAIN + "/";
+var IMAGE_URL = DOMAIN + '/';
 
 
 function checkDevDomain() {

@@ -69,6 +69,7 @@ $form_blocks = $cms_form->loadBlocks($blocks);
         ?>
         <?php endforeach; ?>
         <?php $cms_form->getElement("sections_html_container")->setValue($welp); echo $cms_form; ?>
+        <input type="hidden" name="orderUniqid" id="orderUniqid" value="" />
     </div>
 
     <?php if(!$is_places): ?>
@@ -85,23 +86,32 @@ $form_blocks = $cms_form->loadBlocks($blocks);
             });
         });
 
-        $("#fieldset-navcmsmessagerepeat button").on("click", function () {
-            $("#form-cms").trigger("submit");
+        var formCms = $('#form-cms');
+
+        $("#fieldset-navcmsmessagerepeat button").on('click', function () {
+            formCms.trigger('submit');
         });
 
-        $("#form-cms").on("submit", function(event) {
+        formCms.on('submit', function(event) {
             event.preventDefault();
 
-            loader.show("sb-features");
+            loader.show('sb-features');
 
             var form = $(this);
-            var datas = $("#page_id, #value_id, #form-cms .cms-include, #form-cms [id^='form-cms-block-']").serializeArray();
+            var uniqidOrder = $("[id^='form-cms-block-'] .uniqid_key")
+                .serializeArray()
+                .map(function(value) {
+                    return value.value;
+                })
+                .join(',');
+            $('#orderUniqid').val(uniqidOrder);
+            var datas = $("#page_id, #value_id, #form-cms .cms-include, #form-cms [id^='form-cms-block-'], #orderUniqid");
 
             $.ajax({
-                url: $("#form-cms").attr("action"),
-                method: "POST",
-                dataType: "json",
-                data: datas,
+                url: formCms.attr('action'),
+                method: 'POST',
+                dataType: 'json',
+                data: datas.serializeArray(),
                 success: function(data) {
                     if(data.success) {
                         feature_form_success(data.message || data.success_message);
@@ -110,17 +120,17 @@ $form_blocks = $cms_form->loadBlocks($blocks);
                         handleFormError(form, data);
                     }
 
-                    loader.hide("sb-features");
+                    loader.hide('sb-features');
                 },
                 error: function(data) {
                     var response = $.parseJSON(data.responseText);
                     if(response.message != "") {
                         handleFormError(form, response);
                     } else {
-                        feature_form_error("An error occured, please try again.");
+                        feature_form_error('An error occured, please try again.');
                     }
 
-                    loader.hide("sb-features");
+                    loader.hide('sb-features');
                 }
             });
         });

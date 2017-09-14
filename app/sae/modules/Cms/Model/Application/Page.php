@@ -390,9 +390,13 @@ class Cms_Model_Application_Page extends Core_Model_Default
      * @param $datas
      */
     public function edit_v2($option_value, $datas) {
-        try {
 
-            if(!$option_value) {
+        $db = Zend_Db_Table::getDefaultAdapter();
+        try {
+            // Starts a transaction
+            $db->beginTransaction();
+
+            if (!$option_value) {
                 throw new Siberian_Exception("#578-01".__("An error occurred while saving your page."));
             }
 
@@ -400,7 +404,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
 
             # Create a new CMS Page
             $page = new Cms_Model_Application_Page();
-            if(!isset($datas["page_id"]) || empty($datas["page_id"]) || ($datas["page_id"] == "new")) {
+            if (!isset($datas["page_id"]) || empty($datas["page_id"]) || ($datas["page_id"] == "new")) {
                 $page
                     ->setValueId($value_id)
                     ->save_v2() # save_v2 is a simple save, without all the old saveBlocks
@@ -408,13 +412,13 @@ class Cms_Model_Application_Page extends Core_Model_Default
             } else {
                 $page->find($datas["page_id"]);
 
-                if($page->getId() && ($page->getValueId() != $value_id)) {
+                if ($page->getId() && ($page->getValueId() != $value_id)) {
                     throw new Siberian_Exception("#578-02".__("An error occurred while saving your page."));
                 }
             }
 
             # Places case
-            if(isset($datas["cms_type"]) && $datas["cms_type"] == "places") {
+            if (isset($datas["cms_type"]) && $datas["cms_type"] == "places") {
 
                 $page
                     ->savePlace($option_value, $datas)
@@ -434,40 +438,43 @@ class Cms_Model_Application_Page extends Core_Model_Default
 
             # Clear all page_blocks
             $cms_page_block = new Cms_Model_Application_Page_Block();
-            $cms_page_blocks = $cms_page_block->findAll(array("page_id = ?" => $page->getId()));
-            foreach($cms_page_blocks as $cms_page_block) {
+            $cms_page_blocks = $cms_page_block->findAll(['page_id = ?' => $page->getId()]);
+            foreach ($cms_page_blocks as $cms_page_block) {
                 $cms_page_block->delete();
             }
 
-            //$blocks = array();
+            $positions = explode(',', $datas['orderUniqid']);
+
             $block_position = 0;
-            foreach ($datas["block"] as $uniqid => $block) {
+            $blocks = $datas['block'];
+            foreach ($positions as $uniqid) {
+                $block = $blocks[$uniqid];
                 $block_type = key($block);
                 $values = $block[$block_type];
 
                 switch($block_type) {
-                    case "text":
+                    case 'text':
                         $model = new Cms_Model_Application_Page_Block_Text();
                         break;
-                    case "image":
+                    case 'image':
                         $model = new Cms_Model_Application_Page_Block_Image();
                         break;
-                    case "video":
+                    case 'video':
                         $model = new Cms_Model_Application_Page_Block_Video();
                         break;
-                    case "address":
+                    case 'address':
                         $model = new Cms_Model_Application_Page_Block_Address();
                         break;
-                    case "button":
+                    case 'button':
                         $model = new Cms_Model_Application_Page_Block_Button();
                         break;
-                    case "file":
+                    case 'file':
                         $model = new Cms_Model_Application_Page_Block_File();
                         break;
-                    case "slider":
+                    case 'slider':
                         $model = new Cms_Model_Application_Page_Block_Slider();
                         break;
-                    case "cover":
+                    case 'cover':
                         $model = new Cms_Model_Application_Page_Block_Cover();
                         break;
                     default:
@@ -484,10 +491,16 @@ class Cms_Model_Application_Page extends Core_Model_Default
                 $block_position++;
             }
 
+            // Everything was ok, Commit
+            $db->commit();
+
             return $page;
 
         } catch(Exception $e) {
-            die("Exception: ".$e->getMessage());
+            // We got an unrecoverable error, rollback
+            $db->rollBack();
+            // rethrow error up
+            throw $e;
         }
     }
 

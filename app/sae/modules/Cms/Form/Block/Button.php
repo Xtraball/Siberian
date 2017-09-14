@@ -2,6 +2,11 @@
 
 class Cms_Form_Block_Button extends Cms_Form_Block_Abstract {
 
+    /**
+     * @var string
+     */
+    public $blockType = 'button';
+
     public function init() {
         parent::init();
 

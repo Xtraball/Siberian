@@ -25,7 +25,7 @@ class Siberian_Exec {
      * @return int max_execution_time in seconds
      */
     public static function getIniMaxExecutionTime() {
-        return ini_get("max_execution_time");
+        return ini_get('max_execution_time');
     }
 
     /**
@@ -33,7 +33,10 @@ class Siberian_Exec {
      * @return bool
      */
     public static function willReachMaxExecutionTime($margin = 5) {
-        return (self::getIniMaxExecutionTime() <= self::getCurrentExecutionTime()+$margin);
+        return (
+            self::getIniMaxExecutionTime() <=
+            self::getCurrentExecutionTime() + $margin
+        );
     }
 
 }

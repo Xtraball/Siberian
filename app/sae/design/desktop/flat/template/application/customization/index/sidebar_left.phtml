@@ -159,8 +159,8 @@
                 <div id="shortcuts-sub-3" class="collapse sub-bar in">
                     <?php foreach($custom_links as $module => $links): ?>
                         <?php foreach($links as $link): ?>
-                            <a href="<?php echo $this->getUrl($link["link"]); ?>" class="block header no-background">
-                                <i class="fa fa-modx"></i>
+                            <a href="<?php echo $this->getUrl($link['link']); ?>" class="block header no-background">
+                                <i class="<?php echo (!empty($link['icon'])) ? $link['icon'] : 'fa fa-modx' ?>"></i>
                                 <?php echo $link["title"]; ?>
                             </a>
                         <?php endforeach; ?>

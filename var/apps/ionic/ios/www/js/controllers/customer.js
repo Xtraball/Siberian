@@ -28,9 +28,8 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
         privacy_policy                  : Application.privacy_policy
     });
 
-    /** Alias for the global login modal */
+    // Alias for the global login modal!
     $scope.login = function() {
-        console.log("controller-loginModal");
         Customer.loginModal($scope);
     };
 
@@ -202,15 +201,13 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
         }
     };
 
-    $scope.loadContent = function() {
-
-        if(!$scope.is_logged_in) {
+    $scope.loadContent = function () {
+        if (!$scope.is_logged_in) {
             return;
-        } else {
-            // Force display account when logged in.
-            $scope.displayAccountForm();
         }
 
+        // Force display account when logged in!
+        $scope.displayAccountForm();
         Loader.show();
 
         $scope.customer = Customer.customer;
@@ -220,19 +217,23 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
         return HomepageLayout.getActiveOptions()
             .then(function (options) {
                 $scope.optional_fields = {
-                    ranking: !!_.find(options, {"use_ranking": "1"}),
-                    nickname: !!_.find(options, {"use_nickname": "1"})
+                    ranking: !!_.find(options, {
+                        use_ranking: '1'
+                    }),
+                    nickname: !!_.find(options, {
+                        use_nickname: '1'
+                    })
                 };
 
                 $scope.custom_fields = [];
 
-                _.forEach(options, function(opt) {
-                    var fields = _.get(opt, "custom_fields");
+                _.forEach(options, function (opt) {
+                    var fields = _.get(opt, 'custom_fields');
 
-                    if(_.isArray(fields) && fields.length > 0) {
-                        $scope.custom_fields.push(_.pick(opt, ["name", "code", "custom_fields"])); // We keep a small copy of the option
-                        _.forEach(fields, function(field) {
-                            var mpath =  opt.code+"."+field.key;
+                    if (_.isArray(fields) && fields.length > 0) {
+                        $scope.custom_fields.push(_.pick(opt, ['name', 'code', 'custom_fields'])); // We keep a small copy of the option
+                        _.forEach(fields, function (field) {
+                            var mpath =  opt.code + '.' + field.key;
                             _.set(  // We create metadata with default value if it doesn't exist
                                 $scope.customer.metadatas,
                                 mpath,
@@ -246,43 +247,40 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
             });
     };
 
-    $scope.save = function() {
-
+    $scope.save = function () {
         $scope.is_loading = true;
 
         Loader.show();
 
         Customer.save($scope.customer)
-            .then(function(data) {
-                if(angular.isDefined(data.message)) {
-                    Dialog.alert("", data.message, "OK", -1)
+            .then(function (data) {
+                if (angular.isDefined(data.message)) {
+                    Dialog.alert('', data.message, 'OK', -1)
                         .then(function() {
                             Customer.login_modal.hide();
                         });
                 }
 
                 return data;
-
-            }, function(data) {
+            }, function (data) {
                 if(data && angular.isDefined(data.message)) {
-                    Dialog.alert("Error", data.message, "OK", -1);
+                    Dialog.alert('Error', data.message, 'OK', -1);
                 }
 
                 return data;
-
-            }).then(function() {
+            }).then(function () {
                 $scope.is_loading = false;
 
                 Loader.hide();
             });
     };
 
-    $scope.logout = function() {
+    $scope.logout = function () {
         Customer.logout()
-            .then(function(data) {
+            .then(function (data) {
 
                 FacebookConnect.logout();
-                if(data.success) {
+                if (data.success) {
                     Customer.hideModal();
                 }
             });

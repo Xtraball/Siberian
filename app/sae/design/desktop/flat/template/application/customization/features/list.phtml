@@ -1,16 +1,21 @@
-<?php $option = new Application_Model_Option(); ?>
-<?php $options = $option->findAll(array()); ?>
-<?php $category = new Application_Model_Option_Category(); ?>
-<?php $categories = $category->findAll(); ?>
-<?php $option_ids = $this->getApplication()->getOptionIds(); ?>
-
-<?php $option_folder = new Application_Model_Option(); ?>
-<?php $option_folder->find(array('code' => 'folder')); ?>
-
-<?php $option_value_folder = new Application_Model_Option_Value(); ?>
-<?php $option_values_folders = $option_value_folder->findFolderValues($this->getApplication()->getId(), $option_folder->getOptionId()); ?>
-
 <?php
+    $option = new Application_Model_Option();
+    $options = $option->findAll(array());
+    $category = new Application_Model_Option_Category();
+    $categories = $category->findAll();
+    $option_ids = $this->getApplication()->getOptionIds();
+
+    $option_folder = new Application_Model_Option();
+    $option_folder->find(array('code' => 'folder'));
+
+    $option_value_folder = new Application_Model_Option_Value();
+    $option_values_folders = $option_value_folder->findFolderValues($this->getApplication()->getId(), $option_folder->getOptionId());
+
+    $application = $this->getApplication();
+    $appId = $application->getId();
+    $session = $this->getSession();
+    $admin = $session->getAdmin();
+
     # Sorting features by alpha (with translations)
     $opts = array();
     foreach($options as $option) {
@@ -27,33 +32,34 @@
     $app_secret = Core_Model_Lib_Facebook::getSecretKey();
 ?>
 
+<script type="text/javascript">
+    tabbar_names = [];
+</script>
 
 <div class="page-content-wrapper">
-    <div id="pages_content" class="content position-path">
-        <script type="text/javascript">
-            tabbar_names = new Array();
-        </script>
-        <h3 id="sb-tour-pages-section" class="title-editor border-blue text-center sb-tour">
+    <div id="pages_content" class="content position-path sb-tour">
+
+        <h3 class="title-editor border-blue text-center">
             <?php echo __('Your pages'); ?>
-            <?php if($app_id AND $app_secret): ?>
-                <?php if(System_Model_Config::getValueFor("facebook_import_active") AND $this->_canAccess("editor_facebook_import")): ?>
+            <?php if($app_id && $app_secret): ?>
+                <?php if(System_Model_Config::getValueFor('facebook_import_active') AND $this->_canAccess('editor_facebook_import')): ?>
                     <button id="import_facebook" class="color-blue bt-header-right btn pull-right bt-import-fb" onclick="modal_fb_import.show()">
                         <?php echo __("Facebook Import") ?>
                     </button>
                 <?php endif; ?>
             <?php endif; ?>
-            <?php if(APPLICATION_ENV != "production"): ?>
-            <button id="feature_import_export" class="color-blue sb-tour bt-header-right btn import-feature pull-right export-button">
+            <?php /**if(APPLICATION_ENV !== 'production'): ?>
+            <button id="feature_import_export" class="sb-tour color-blue bt-header-right btn import-feature pull-right export-button">
                 <?php echo __("Import / Export") ?>
             </button>
-            <?php endif; ?>
+            <?php endif;*/ ?>
         </h3>
         <div id="pages_list" class="subcontent content-color sb-tour">
             <div class="option_path">
                 <?php if ($option_values_folders) : ?>
                     <div id="node_container_default" class="node_container" style="display:none">
                         <select id="primary_category_id" name="primary_category_id" class="option_node styled-select color-blue form-select" tabindex="1">
-                            <option value="default"><?php echo $this->_('Main') ?></option>
+                            <option value="default"><?php echo __('Main') ?></option>
                             <?php foreach ($option_values_folders as $key => $option) : ?>
                                 <?php $folder = new Folder_Model_Folder(); ?>
                                 <?php $folder->find($option->getValueId(), 'value_id'); ?>
@@ -65,7 +71,11 @@
                 <?php endif; ?>
             </div>
             <div>
-                <?php echo $this->getLayout()->addPartial('list_options', 'admin_view_default', 'application/customization/features/list/options.phtml')->setCategoryId('default')->toHtml(); ?>
+                <?php echo $this->getLayout()
+                    ->addPartial('list_options', 'admin_view_default', 'application/customization/features/list/options.phtml')
+                    ->setCategoryId('default')
+                    ->toHtml();
+                ?>
             </div>
         </div>
     </div>
@@ -77,7 +87,7 @@
         </div>
     </div>
 
-    <?php if(APPLICATION_ENV != "production"): ?>
+    <?php /**if(APPLICATION_ENV != "production"): ?>
         <script type="text/javascript">
 
             var modal_import_export = new Modal({id: 'modal_import_export', url: '<?php echo $this->getUrl('application/customization_features/exportmodal'); ?>', is_retain: false, width: 850, height: 'auto'});
@@ -86,9 +96,9 @@
             });
 
         </script>
-    <?php endif; ?>
+    <?php endif;*/ ?>
 
-<?php if($this->getSession()->getAdmin()->isAllowedToAddPages($this->getApplication()->getId())) : ?>
+<?php if($admin->isAllowedToAddPages($appId)) : ?>
     <div id="previews" style="display:none;">
         <div id="preview_mask" class="close_previews"></div>
 
@@ -99,7 +109,7 @@
                 </button>
             </span>
             <h3 class="title-editor border-blue text-center">
-                <?php echo $this->_('Add a page'); ?>
+                <?php echo __('Add a page'); ?>
             </h3>
             <?php foreach($options as $key => $option) : ?>
                 <?php $preview = $option->getPreview(); ?>
@@ -147,7 +157,7 @@
                         <div class="row">
                             <div class="col-md-2 col-md-offset-10">
                                 <button type="button" class="add_page preview_button color-blue pull-right btn">
-                                    <?php echo $this->_('Add'); ?>
+                                    <?php echo __('Add content'); ?>
                                 </button>
                                 <input type="hidden" name="option_id" value="<?php echo $option->getId(); ?>" />
                             </div>
@@ -157,18 +167,19 @@
             <?php endforeach; ?>
         </div>
     </div>
+
     <div id="add_pages_content" class="content sb-tour">
         <h3 class="title-editor border-blue text-center">
-            <?php echo $this->_('Add pages'); ?>
+            <?php echo __('Add pages'); ?>
         </h3>
         <div id="add-pages" class="subcontent content-color">
             <div class="container-fluid">
                 <div class="content">
                     <div id="sb-tour-add-pages-filter" class="content-no-padding col-md-3 sb-tour">
                         <ul class="carret content-options content-white-bkg">
-                            <li><a href="javascript:void(0)" class="filter_category color-blue button_handler active" rel="all"><?php echo strtoupper($this->_("All")); ?></a></li>
+                            <li><a href="javascript:void(0)" class="filter_category color-blue button_handler active" rel="all"><?php echo strtoupper(__("All")); ?></a></li>
                             <?php foreach($categories as $category) : ?>
-                            <li><a href="javascript:void(0)" class="filter_category" rel="<?php echo $category->getId() ?>"><?php echo strtoupper($this->_($category->getName())); ?></a></li>
+                            <li><a href="javascript:void(0)" class="filter_category" rel="<?php echo $category->getId() ?>"><?php echo strtoupper(__($category->getName())); ?></a></li>
                             <?php endforeach; ?>
                         </ul>
                     </div>
@@ -180,8 +191,8 @@
                                     <?php $preview = $option->getPreview(); ?>
                                     <li id="add_page_<?php echo $option->getId(); ?>" class="sb-tour add_option_value col-md-3 col-sm-3 col-xs-4 category_option category_option_<?php echo $option->getCategoryId(); ?>">
                                         <a href="<?php echo $this->getUrl('application/customization_features/save'); ?>" class="details <?php if($preview->getId() AND $preview->getTitle()) : ?>show_previews<?php else : ?>add_page<?php endif; ?>" rel="<?php echo $option->getId(); ?>">
-                                            <div class="color-blue block_add_pages_icon btn">
-                                                <img src="<?php echo $this->getIconUrl($option); ?>" alt="<?php echo $option->getName(); ?>" title="<?php echo $option->getName(); ?>" width="auto" height="50" class="block" data-image="<?php echo $option->getIconId() ?>" data-style="area" data-color="color" />
+                                            <div class="color-blue block_add_pages_icon btn default_size_details" style="background-image: url('<?php echo $this->getIconUrl($option); ?>')">
+                                                <img src="/app/sae/design/desktop/flat/images/placeholder/blank-512.png" alt="<?php echo $option->getName(); ?>" title="<?php echo $option->getName(); ?>" width="auto" height="50" class="block" data-image="<?php echo $option->getIconId() ?>" data-style="area" data-color="color" />
                                                 <span><?php echo cut($option->getName(), 14); ?></span>
                                                 <input type="hidden" name="option_id" value="<?php echo $option->getId(); ?>"/>
                                             </div>
@@ -197,6 +208,7 @@
     </div>
 <?php endif; ?>
 </div>
+
 
 <script type="text/javascript">
 
@@ -366,14 +378,13 @@ function createCarouselSortable() {
 window.overviewEvents = [];
 
 var page = {
-    callback: new Array(),
+    callback: [],
     current: null,
     next: null,
     current_path: null,
     ask_confirmation: false,
     processEvents: function () {
-
-        page.resetBorder();
+        try {
         this.bindAddPage();
         $(".filter_category").click(function() {
 
@@ -387,17 +398,16 @@ var page = {
                 $(".category_option").addClass("hide");
                 $(".category_option_"+category_id).show();
                 $(".category_option_"+category_id).removeClass("hide");
-                page.resetBorder();
             } else {
                 $(".category_option").show();
                 $(".category_option").removeClass("hide");
-                page.resetBorder();
             }
 
             $("#category_title").html($(this).html());
-        })
+            });
         $('.option_value').off('mouseenter mouseout');
-        $('#pages_list').on({
+            var pagesList = $('#pages_list');
+            pagesList.on({
             mouseenter: function () {
                 $(this).children('div.actions').slideDown();
                 $(this).children('i.fa-caret-up').slideDown('fast');
@@ -412,11 +422,11 @@ var page = {
         }, '.option_value');
 
         //Supprime option slider
-        $('#pages_list').off('click', '.delete_page');
-        $('#pages_list').on('click', '.delete_page', function (e) {
-            var confirm_message = '<?php echo $this->_('Delete this page?') ?>';
+            pagesList.off('click', '.delete_page');
+            pagesList.on('click', '.delete_page', function (e) {
+                var confirm_message = '<?php echo __('Delete this page?') ?>';
             if ($(e.currentTarget).parent().parent().attr('rel').length > 0) {
-                confirm_message = '<?php echo __js("Remove this page from this folder?"); ?>';
+                    confirm_message = '<?php echo __(' "Remove this page from this folder?"'); ?>';
             }
 
             if(confirm(confirm_message)) {
@@ -522,10 +532,15 @@ var page = {
             }
             return false;
         });
+        } catch (e) {
+            console.error('page.processEvents: exception: ' + e.message);
+        }
     },
     bindAddPage: function () {
-        $('.add_page').unbind('click');
-        $('.add_page').click(function () {
+        try {
+            var addPage = $('.add_page');
+            addPage.unbind('click');
+            addPage.click(function () {
             reload(this.parentNode, "<?php echo $this->getUrl('application/customization_features/save'); ?>", true, function (datas) {
                 if (datas.page_html) {
                     if (datas.use_my_account) $('#option_value_customer_account').show();
@@ -555,9 +570,12 @@ var page = {
             return false;
         });
         preview.processEvents();
+        } catch (e) {
+            console.error('page.bindAddPage: exception: ' + e.message);
+        }
     },
     load: function (a, show_mobile_page) {
-
+        try {
         this.next = $(a);
 
         if (typeof show_mobile_page == 'undefined') {
@@ -591,7 +609,6 @@ var page = {
 
                     if (this.next.hasClass('folder')) {
                         folder.id = this.next.attr('rel');
-//                        show_mobile_page = false;
                     }
                     else if (folder.id) {
                         folder.current_option_id = this.next.attr('rel');
@@ -607,16 +624,17 @@ var page = {
 
                     this.current_path = datas.path;
 
-                    var div = $('#page').children('div');
-                    var new_div = $('<div />').css('left', $('#page').width()).attr('pos', this.next.attr('pos')).hide();
+                        var page = $('#page');
+                        var div = page.children('div');
+                        var new_div = $('<div />').css('left', page.width()).attr('pos', this.next.attr('pos')).hide();
 
                     new_div.append(datas.html);
-                    new_div.appendTo($('#page'));
+                        new_div.appendTo(page);
 
                     this.fireCallback('colorize_icon');
                     this.fireCallback('willappear');
 
-                    $('#page').show();
+                        page.show();
                     this.next.parent().addClass('selected');
 
                     var didappear_callback = function () {
@@ -649,8 +667,12 @@ var page = {
 
                     $('#header_editor').fadeIn();
 
-                    if (typeof background_image == 'object') background_image.init();
-                    if (typeof option_layout == 'object') option_layout.init();
+                    if (typeof background_image == 'object' && typeof background_image.init == 'function') {
+                        background_image.init();
+                    }
+                    if (typeof option_layout == 'object' && typeof option_layout.init == 'function') {
+                        option_layout.init();
+                    }
                 }
                 else if (datas.message) {
                     var page_message = new AlertMessage(datas.message);
@@ -675,7 +697,7 @@ var page = {
 
             }.bind(this),
             error: function () {
-                customization_message = new AlertMessage("<?php echo $this->_('An error occurred while loading'); ?>");
+                    customization_message = new AlertMessage("<?php echo __('An error occurred while loading'); ?>");
                 customization_message.addButton(false);
                 customization_message.setTimer(3);
                 customization_message.addLoader(false);
@@ -684,21 +706,28 @@ var page = {
                 this.next = null;
             }
         });
+        } catch (e) {
+            console.error('page.load: exception: ' + e.message);
+        }
     },
     reload: function () {
+        try {
         $(this.current).parent().removeClass('selected');
         this.load(this.current);
+        } catch (e) {
+            console.error('page.load: exception: ' + e.message);
+        }
     },
-
     close: function (animated) {
-
+        try {
         if (!this.current) return this;
-        if (typeof background_image == 'object') {
-            background_image.destroy();
-        }
-        if (typeof option_layout == 'object') {
-            option_layout.destroy();
-        }
+
+            if (typeof background_image == 'object' && typeof background_image.destroy == 'function') {
+                background_image.destroy();
+            }
+            if (typeof option_layout == 'object' && typeof option_layout.destroy == 'function') {
+                option_layout.destroy();
+            }
 
         $('#page').slideUp(animated ? 300 : 0, function () {
             this.fireCallback('destroy_logo_uploader');
@@ -707,10 +736,14 @@ var page = {
             $('#page').html('');
             this.fireCallback('diddisappear');
         }.bind(this));
-        $('#header_editor').slideUp(animated ? 300 : 0, function () { $('#title_editor').html(''); });
+            $('#header_editor').slideUp(animated ? 300 : 0, function () {
+                $('#title_editor').html('');
+            });
 
-        $('.option_value.selected').removeClass('selected').children('div.actions').slideUp();
-        $('.option_value.selected').removeClass('selected').children('i.fa-caret-up').slideDown();
+            var optionValueSelected = $('.option_value.selected');
+            optionValueSelected.removeClass('selected').children('div.actions').slideUp();
+            optionValueSelected.removeClass('selected').children('i.fa-caret-up').slideDown();
+
         $('a.details.active').removeClass('active');
 
         if (this.current) {
@@ -733,7 +766,6 @@ var page = {
                     iframe.f.showHomepage();
                 }
             } else if (!folder.id || !folder.current_option_id || this.current.attr('rel') != folder.id) {
-//                    iframe.f.page.destroySubpage(this.current.attr('rel'), recursive);
             }
         }
 
@@ -742,45 +774,60 @@ var page = {
         }
 
         this.current = null;
-
+        } catch (e) {
+            console.error('page.close: exception: ' + e.message);
+        }
     },
-
     slide: function (oldDiv, newDiv, dir) {
+        try {
         oldDiv.addClass('absolute');
-        var oldLeft = $('#page').width();
-        var newLeft = $('#page').width() * -1;
+            var page = $('#page');
+            var oldLeft = page.width();
+            var newLeft = oldLeft * -1;
         if (dir == 'right') {
             oldLeft *= -1;
             newLeft *= -1;
         }
 
-        oldDiv.animate({left: oldLeft}, 300, null, function () { oldDiv.remove(); });
-        newDiv.css('left', newLeft).animate({left: 0}, 300, null, function () { newDiv.removeClass('absolute'); });
+            oldDiv.animate({left: oldLeft}, 300, null, function () {
+                oldDiv.remove();
+            });
+            newDiv.css('left', newLeft).animate({left: 0}, 300, null, function () {
+                newDiv.removeClass('absolute');
+            });
+        } catch (e) {
+            console.error('page.slide: exception: ' + e.message);
+        }
     },
-
     setCallback: function (type, callback) {
+        try {
         this.callback[type] = callback;
+        } catch (e) {
+            console.error('page.setCallback: exception: ' + e.message);
+        }
     },
-
     getCallback: function (type) {
+        try {
         return typeof this.callback[type] == 'function' ? this.callback[type] : function () {};
+        } catch (e) {
+            console.error('page.getCallback: exception: ' + e.message);
+        }
     },
-
     fireCallback: function (type) {
-        if (typeof this.callback[type] == 'function') this.callback[type]();
-        this.callback[type] = null;
-    },
-
-    resetBorder: function() {
-
-        $(".category_option:not(.hide)").each(function(x, elem) {
-
-            if((x+1)%4 == 0) {
-                $(elem).css("border-right-style","none");
+        try {
+            if (typeof this.callback[type] == 'function') {
+                this.callback[type]();
             }
-        });
-    }
-}
+        this.callback[type] = null;
+        } catch (e) {
+            console.error('page.fireCallback: exception: ' + e.message);
+        }
+
+    },
+    resetBorder: function() {
+        // Deprecated, do nothing!
+            }
+};
 
 var folder = {
     id: null,
@@ -1566,9 +1613,6 @@ function WidthChangeV2(mql) {
     li:nth-last-child() i.fa.fa-arrows-h, li:nth-last-child() i.fa.fa-arrows-h:before {
         content: "\f177";
     }
-    /*.icons-list {
-        padding-right: 0;
-    }*/
     .option_value a.radio {
         display: inherit;
         margin: auto;
@@ -1578,14 +1622,15 @@ function WidthChangeV2(mql) {
     }
     .bt-import-fb{
         position: absolute;
-    <?php if(APPLICATION_ENV != "production"): ?>
-        right: 150px;
-    <?php else: ?>
         right: 0px;
-    <?php endif; ?>
         width: auto;
         padding: 5px;
         text-transform: uppercase;
+    }
+    div.default_size_details {
+        background-size: 50px 50px;
+        background-position: 15px 10px;
+        background-repeat: no-repeat;
     }
 </style>
 

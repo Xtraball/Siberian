@@ -249,6 +249,9 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             ->setBackgroundImage($design->getBackgroundImage())
             ->setBackgroundImageHd($design->getBackgroundImageHd())
             ->setBackgroundImageTablet($design->getBackgroundImageTablet())
+            ->setBackgroundImageLandscape($design->getBackgroundImageLandscape())
+            ->setBackgroundImageLandscapeHd($design->getBackgroundImageLandscapeHd())
+            ->setBackgroundImageLandscapeTablet($design->getBackgroundImageLandscapeTablet())
             ->setIcon($design->getIcon())
             ->setStartupImage($design->getStartupImage())
             ->setStartupImageRetina($design->getStartupImageRetina())
@@ -923,16 +926,20 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
         try {
             $backgroundImage = '';
-            if($background_image = $this->getData('background_image')) {
-                if($type == 'normal') $background_image .= '.jpg';
-                else if($type == 'retina') $background_image .= '@2x.jpg';
-                else if($type == 'retina4') $background_image .= '-568h@2x.jpg';
-                if(file_exists(self::getBaseImagePath().$background_image)) {
-                    $backgroundImage = self::getImagePath().$background_image;
+            if ($background_image = $this->getData('background_image')) {
+                if ($type === 'normal') {
+                    $background_image .= '.jpg';
+                } else if($type === 'retina') {
+                    $background_image .= '@2x.jpg';
+                } else if($type === 'retina4') {
+                    $background_image .= '-568h@2x.jpg';
+                }
+
+                if (file_exists(self::getBaseImagePath() . $background_image)) {
+                    $backgroundImage = self::getImagePath() . $background_image;
                 }
             }
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             $backgroundImage = '';
         }
 
@@ -943,29 +950,41 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $backgroundImage;
     }
 
-    public function getHomepageBackgroundImageUrl($type = '') {
+    public function getHomepageBackgroundImageUrl($type = '', $return = false) {
 
         try {
 
             $image = '';
 
-            switch($type) {
+            switch ($type) {
+                case "landscape_hd": $image_name = $this->getData('background_image_landscape_hd'); break;
+                case "landscape_tablet": $image_name = $this->getData('background_image_landscape_tablet'); break;
+                case "landscape_standard":
+                case "landscape": $image_name = $this->getData('background_image_landscape'); break;
                 case "hd": $image_name = $this->getData('background_image_hd'); break;
                 case "tablet": $image_name = $this->getData('background_image_tablet'); break;
                 case "standard":
                 default: $image_name = $this->getData('background_image'); break;
             }
 
-            if(!empty($image_name)) {
-                if(file_exists(self::getBaseImagePath().$image_name)) {
+            if ($return === true) {
+                return $image_name;
+            }
+
+            // In case we don't have landscape ones for example!!
+            if (empty($image_name)) {
+                $image_name = $this->getData('background_image');
+            }
+
+            if (!empty($image_name)) {
+                if (file_exists(self::getBaseImagePath().$image_name)) {
                     $image = self::getImagePath() . $image_name;
                 } else if(file_exists(self::getBaseTemplatePath().$image_name)) {
                     $image = self::getTemplatePath() . $image_name;
                 }
             }
 
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             $image = '';
         }
 
