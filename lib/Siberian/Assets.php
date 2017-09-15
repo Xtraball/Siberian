@@ -414,6 +414,7 @@ class Siberian_Assets
             $my_account = !!$feature["use_account"];
             $only_once = !!$feature["only_once"];
             $mobile_uri = $feature["mobile_uri"];
+            $layouts = isset($feature["layouts"]) ? $feature["layouts"]: [];
 
             $icons = $feature["icons"];
             if(is_array($icons)) {
@@ -483,11 +484,19 @@ class Siberian_Assets
             $custom_fields = is_array($feature["custom_fields"]) ? $feature["custom_fields"] : null;
             if($custom_fields) $data["custom_fields"] = json_encode($custom_fields);
 
-            Siberian_Feature::installFeature(
+            $option = Siberian_Feature::installFeature(
                 $category,
                 $data,
                 $icons
             );
+
+            if(!empty($layouts)) {
+                Siberian_Feature::installLayouts(
+                    $option->getId(),
+                    $code,
+                    $layouts
+                );
+            }
         }
     }
 

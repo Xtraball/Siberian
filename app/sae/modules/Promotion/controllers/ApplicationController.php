@@ -78,7 +78,7 @@ class Promotion_ApplicationController extends Application_Controller_Default {
                 ->save();
 
             // Write QRCode file in place!
-            if ($values['unlock_by'] === 'qrcode') {
+            if ($values['unlock_by'] === 'qrcode' && !$promotion->getId()) {
                 $image_name = $promotion->getId() . '-qrpromotion_qrcode.png';
                 $file = Core_Model_Directory::getBasePathTo('/images/application/' .
                     $this->getApplication()->getId() . '/application/qrpromotion/' .

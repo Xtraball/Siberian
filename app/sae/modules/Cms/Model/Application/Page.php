@@ -392,10 +392,10 @@ class Cms_Model_Application_Page extends Core_Model_Default
     public function edit_v2($option_value, $datas) {
 
         $db = Zend_Db_Table::getDefaultAdapter();
-        try {
-            // Starts a transaction
-            $db->beginTransaction();
+        // Starts a transaction
+        $db->beginTransaction();
 
+        try {
             if (!$option_value) {
                 throw new Siberian_Exception("#578-01".__("An error occurred while saving your page."));
             }
@@ -438,7 +438,9 @@ class Cms_Model_Application_Page extends Core_Model_Default
 
             # Clear all page_blocks
             $cms_page_block = new Cms_Model_Application_Page_Block();
-            $cms_page_blocks = $cms_page_block->findAll(['page_id = ?' => $page->getId()]);
+            $cms_page_blocks = $cms_page_block->findAll([
+                'page_id = ?' => $page->getId()
+            ]);
             foreach ($cms_page_blocks as $cms_page_block) {
                 $cms_page_block->delete();
             }
@@ -492,15 +494,19 @@ class Cms_Model_Application_Page extends Core_Model_Default
             }
 
             // Everything was ok, Commit
-            $db->commit();
+            if ($db->getConnection()->getAttribute(PDO::ATTR_AUTOCOMMIT) === 0) {
+                $db->commit();
+            }
 
             return $page;
 
         } catch(Exception $e) {
             // We got an unrecoverable error, rollback
-            $db->rollBack();
-            // rethrow error up
-            throw $e;
+            if ($db->getConnection()->getAttribute(PDO::ATTR_AUTOCOMMIT) === 0) {
+                $db->rollBack();
+                // rethrow error up
+                throw $e;
+            }
         }
     }
 

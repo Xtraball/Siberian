@@ -69,6 +69,7 @@ class Push_MobileController extends Application_Controller_Mobile_Default {
                     'action_value' => $action_url,
                     'open_webview' => !is_numeric($message->getActionValue()),
                     'additionalData' => [
+                        'message_id' => $message->getId(),
                         'action_value' => $action_url,
                         'open_webview' => !is_numeric($message->getActionValue()),
                         'cover' => $message->getCoverUrl() ?

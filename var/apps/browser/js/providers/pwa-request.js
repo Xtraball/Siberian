@@ -517,43 +517,34 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                  * @param key
                  * @param data
                  */
-                httpWrapper.getItem = function(key, data_callback) {
-
-                    if(typeof data_callback !== "function") {
-                        throw new Error("data_callback must be a function.");
+                httpWrapper.getItem = function (key, dataCallback) {
+                    if (typeof dataCallback !== 'function') {
+                        throw new Error('dataCallback must be a function.');
                     }
 
                     var deferred = $q.defer();
 
                     provider.registryCache
                         .getItem(key)
-                        .then(function(cached_data) {
-
-                            /** We need to cache the object */
-                            if(cached_data === null) {
-
+                        .then(function (cachedData) {
+                            // We need to cache the object!
+                            if (cachedData === null) {
                                 provider.registryCache
-                                    .setItem(key, data_callback.call(this))
-                                    .then(function(resolve) {
+                                    .setItem(key, dataCallback.call(this))
+                                    .then(function (resolve) {
                                         deferred.resolve(resolve);
-                                    }, function(reject) {
+                                    }, function (reject) {
                                         deferred.reject(reject);
                                     });
-
                             } else {
-
                                 provider.registryCache
-                                    .setItem(key, data_callback.call(this));
+                                    .setItem(key, dataCallback.call(this));
 
-                                deferred.resolve(cached_data);
-
+                                deferred.resolve(cachedData);
                             }
-
-                        }).catch(function(error) {
-
-                            /** Reject with a standardized object response. */
+                        }).catch(function (error) {
+                            // Reject with a standardized object response!
                             deferred.reject(null);
-
                         });
 
                     return deferred.promise;

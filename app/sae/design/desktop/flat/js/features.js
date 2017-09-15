@@ -251,7 +251,7 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
     };
 
     var handleDatetimePicker = function () {
-        $(default_parent+' input[data-datetimepicker]').each(function () {
+        $(default_parent + ' input[data-datetimepicker]').each(function () {
             var el = $(this);
             if (typeof el.attr('data-hasdatepicker') === 'undefined') {
                 el.attr('data-hasdatepicker', true);
@@ -490,20 +490,20 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
 
     /** Bind forms */
     $(default_parent+' .feature-form.create, '+default_parent+' .feature-form.edit').on('submit', function (event) {
- event.preventDefault(); handleForm(this);
-});
+        event.preventDefault(); handleForm(this);
+    });
 
     $(default_parent+' .feature-form.toggle').on('submit', function (event) {
- event.preventDefault(); handleForm(this);
-});
+        event.preventDefault(); handleForm(this);
+    });
 
     $(default_parent+' .feature-form.onchange').on('change submit', function (event) {
- event.preventDefault(); handleForm(this);
-});
+        event.preventDefault(); handleForm(this);
+    });
 
     $(default_parent+' .feature-form.delete').on('submit', function (event) {
- event.preventDefault(); handleForm(this);
-});
+        event.preventDefault(); handleForm(this);
+    });
 
 
     /** Bind default buttons */

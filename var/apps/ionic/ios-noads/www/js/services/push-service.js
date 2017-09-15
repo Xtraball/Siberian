@@ -8,8 +8,8 @@
  * @author Xtraball SAS
  */
 angular.module('starter').service('PushService', function ($cordovaLocalNotification, $location, $log, $q, $rootScope,
-                                                           $translate, $window, Application, Dialog, LinkService,
-                                                           Push, SB) {
+                                                           $translate, $window, $session, Application, Dialog,
+                                                           LinkService, Pages, Push, SB) {
     var service = {
         push: null,
         settings: {
@@ -91,7 +91,13 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
                 // Register for push events!
                 $rootScope.$on(SB.EVENTS.PUSH.notificationReceived, function (event, data) {
                     // Refresh to prevent the need for pullToRefresh!
-                    Push.findAll(0, true);
+                    var pushFeature = _.filter(Pages.getActivePages(), function (page) {
+                        return (page.code === 'push_notification');
+                    });
+                    if (pushFeature.length >= 1) {
+                        Push.setValueId(pushFeature[0].value_id);
+                        Push.findAll(0, true);
+                    }
 
                     service.displayNotification(data);
                 });
@@ -476,7 +482,6 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
                 var inappMessage = data.inapp_message;
                 if (inappMessage) {
                     inappMessage.message = inappMessage.text;
-                    inappMessage.title = inappMessage.title;
                     inappMessage.config = {
                         buttons: [
                             {
@@ -510,62 +515,83 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
     service.displayNotification = function (messagePayload) {
         $log.debug('PUSH messagePayload', messagePayload);
 
-        var extendedPayload = messagePayload.additionalData;
-        var promise = $q.defer();
+        // Prevent an ID being shown twice.
+        $session.getItem('pushMessageIds')
+            .then(function (pushMessageIds) {
+                var localPushMessageIds = pushMessageIds;
+                if (pushMessageIds === null) {
+                    localPushMessageIds = [];
+                }
 
-        if ((extendedPayload !== undefined) && (extendedPayload.cover || extendedPayload.action_value)) {
-            var config = {
-                buttons: [
-                    {
-                        text: $translate.instant('Cancel'),
-                        type: 'button-custom',
-                        onTap: function () {
-                            // Simply closes!
+                var messageId = parseInt(messagePayload.additionalData.message_id, 10);
+                if (localPushMessageIds.indexOf(messageId) === -1) {
+                    // Store acknowledged messages in localstorage.
+                    localPushMessageIds.push(messageId);
+                    $session.setItem('pushMessageIds', localPushMessageIds);
+
+                    var extendedPayload = messagePayload.additionalData;
+                    var promise = $q.defer();
+
+                    if ((extendedPayload !== undefined) && (extendedPayload.cover || extendedPayload.action_value)) {
+                        var config = {
+                            buttons: [
+                                {
+                                    text: $translate.instant('Cancel'),
+                                    type: 'button-custom',
+                                    onTap: function () {
+                                        // Simply closes!
+                                    }
+                                },
+                                {
+                                    text: $translate.instant('View'),
+                                    type: 'button-custom',
+                                    onTap: function () {
+                                        if ((extendedPayload.open_webview !== true) &&
+                                            (extendedPayload.open_webview !== 'true')) {
+                                            $location.path(extendedPayload.action_value);
+                                        } else {
+                                            LinkService.openLink(extendedPayload.action_value);
+                                        }
+                                    }
+                                }
+                            ],
+                            cssClass: 'push-popup',
+                            title: messagePayload.title,
+                            template: '<div class="list card">' +
+                            '   <div class="item item-image' + (extendedPayload.cover ? '' : ' ng-hide') + '">' +
+                            '       <img src="' + (DOMAIN + extendedPayload.cover) + '">' +
+                            '   </div>' +
+                            '   <div class="item item-custom">' +
+                            '       <span>' + messagePayload.message + '</span>' +
+                            '   </div>' +
+                            '</div>'
+                        };
+
+                        if (messagePayload.config !== undefined) {
+                            config = angular.extend(config, messagePayload.config);
                         }
-                    },
-                    {
-                        text: $translate.instant('View'),
-                        type: 'button-custom',
-                        onTap: function () {
-                            if ((extendedPayload.open_webview !== true) && (extendedPayload.open_webview !== 'true')) {
-                                $location.path(extendedPayload.action_value);
-                            } else {
-                                LinkService.openLink(extendedPayload.action_value);
-                            }
+
+                        if (extendedPayload.cover || extendedPayload.action_value) {
+                            // title, message, buttons_array, css_class!
+                            promise = Dialog.ionicPopup(config);
+                        } else {
+                            promise = Dialog.alert(messagePayload.title, messagePayload.message, 'OK');
                         }
+                    } else {
+                        var localTitle = (messagePayload.title !== undefined) ?
+                            messagePayload.title : 'Notification';
+                        promise = Dialog.alert(localTitle, messagePayload.message, 'OK');
                     }
-                ],
-                cssClass: 'push-popup',
-                title: messagePayload.title,
-                template: '<div class="list card">' +
-                '   <div class="item item-image' + (extendedPayload.cover ? '' : ' ng-hide') + '">' +
-                '       <img src="' + (DOMAIN + extendedPayload.cover) + '">' +
-                '   </div>' +
-                '   <div class="item item-custom">' +
-                '       <span>' + messagePayload.message + '</span>' +
-                '   </div>' +
-                '</div>'
-            };
 
-            if (messagePayload.config !== undefined) {
-                config = angular.extend(config, messagePayload.config);
-            }
+                    // Search for less resource consuming maybe use Push factory directly!
+                    $rootScope.$broadcast(SB.EVENTS.PUSH.unreadPushs, messagePayload.count);
 
-            if (extendedPayload.action_value) {
-                // title, message, buttons_array, css_class!
-                promise = Dialog.ionicPopup(config);
-            } else {
-                promise = Dialog.alert(messagePayload.title, messagePayload.message, 'OK');
-            }
-        } else {
-            var localTitle = (messagePayload.title !== undefined) ? messagePayload.title : 'Notification';
-            promise = Dialog.alert(localTitle, messagePayload.message, 'OK');
-        }
+                    return promise;
+                }
 
-        // Search for less resource consuming maybe use Push factory directly!
-        $rootScope.$broadcast(SB.EVENTS.PUSH.unreadPushs, messagePayload.count);
-
-        return promise;
+                // Nope!
+                $log.debug('Will not display duplicated message: ', messagePayload);
+            });
     };
 
     return service;

@@ -236,10 +236,6 @@
         "hash": "c0b8ee702c9cbb3377d179d765a82f57"
     },
     {
-        "file": "app/sae/design/desktop/backoffice/js/controllers/push.js",
-        "hash": "ac61e602e87717de115c02912a3da039"
-    },
-    {
         "file": "app/sae/design/desktop/backoffice/js/controllers/role.js",
         "hash": "1224787779befc355cf0b611fb6c3ebc"
     },
@@ -270,6 +266,10 @@
     {
         "file": "app/sae/design/desktop/backoffice/js/controllers/advanced.js",
         "hash": "102c04da420ae1f8a55c724105aedb22"
+    },
+    {
+        "file": "app/sae/design/desktop/backoffice/js/controllers/push.js",
+        "hash": "fe0ff917ec480296dfe303e02cc81d89"
     },
     {
         "file": "app/sae/design/desktop/backoffice/js/directives/ng-thumb.js",
@@ -7412,12 +7412,12 @@
         "hash": "598958d3b3ad389e5f75f9257f29271c"
     },
     {
-        "file": "app/sae/design/desktop/flat/js/features.js",
-        "hash": "adce359368e3aff23401d90d62cf12cf"
-    },
-    {
         "file": "app/sae/design/desktop/flat/js/jquery.sbpager.js",
         "hash": "06a8f98f54f0dc0247d0ea8642607303"
+    },
+    {
+        "file": "app/sae/design/desktop/flat/js/features.js",
+        "hash": "6cf9ddb0c8cc9f83c84740aa32ec7d03"
     },
     {
         "file": "app/sae/design/desktop/flat/layout/admin.xml",
@@ -16813,7 +16813,7 @@
     },
     {
         "file": "app/sae/modules/Cms/Model/Application/Page.php",
-        "hash": "80c9adb2381895465b351c737f050ce4"
+        "hash": "7d92ac70e21a8960414b5e9d9d1161c9"
     },
     {
         "file": "app/sae/modules/Cms/Model/Db/Table/Application/Block.php",
@@ -19325,7 +19325,7 @@
     },
     {
         "file": "app/sae/modules/Promotion/controllers/ApplicationController.php",
-        "hash": "c3d9eab148de116898590ae52cd2f207"
+        "hash": "6559930b546ac082c7bb61f775ce3ef6"
     },
     {
         "file": "app/sae/modules/Promotion/resources/db/data/qr_discount.php",
@@ -19388,12 +19388,12 @@
         "hash": "338a8e879e3207c3bce2e35ccb10d933"
     },
     {
-        "file": "app/sae/modules/Promotion/Form/Promotion.php",
-        "hash": "496476f6d43304a4f1835670e4eb655f"
-    },
-    {
         "file": "app/sae/modules/Promotion/Form/Promotion/Delete.php",
         "hash": "0e62001f0ed11a820c80cc46d1521d11"
+    },
+    {
+        "file": "app/sae/modules/Promotion/Form/Promotion.php",
+        "hash": "c63cb9948d5961f402639d7590411559"
     },
     {
         "file": "app/sae/modules/Promotion/package.json",
@@ -19501,7 +19501,7 @@
     },
     {
         "file": "app/sae/modules/Push/controllers/MobileController.php",
-        "hash": "65355e6b358acfe8aed1ae9be7df719e"
+        "hash": "c32acf4ff510cc7a86fe5b0201e44c56"
     },
     {
         "file": "app/sae/modules/Push/resources/db/data/push.php",
@@ -21157,7 +21157,7 @@
     },
     {
         "file": "lib/Siberian/Service/Push/Apns.php",
-        "hash": "55d05f4d4122cfce0a9b0d34d1f0c16f"
+        "hash": "bdebdab1ffdfd82c97d52b048afe0882"
     },
     {
         "file": "lib/Siberian/Session/Namespace.php",
@@ -21260,10 +21260,6 @@
         "hash": "17f9cc4c48c5281e9ed98267950e5638"
     },
     {
-        "file": "lib/Siberian/Assets.php",
-        "hash": "0622f48bd46b49fccbcd0f82a4b26352"
-    },
-    {
         "file": "lib/Siberian/Layout.php",
         "hash": "89d11660d322467cbf9733cf0007979a"
     },
@@ -21310,6 +21306,10 @@
     {
         "file": "lib/Siberian/Utils.php",
         "hash": "cf5d47083e22bdd331a879f417054cc0"
+    },
+    {
+        "file": "lib/Siberian/Assets.php",
+        "hash": "502c1812bea0819485dee97363a1931b"
     },
     {
         "file": "lib/Symfony/Component/Yaml/Command/LintCommand.php",
@@ -38368,6 +38368,10 @@
         "hash": "3cad84ebecd6368f60e9c5d03851c0cb"
     },
     {
+        "file": "var/apps/browser/js/factory/pages.js",
+        "hash": "9026ae134d21c3b19f96a9aba406ac0c"
+    },
+    {
         "file": "var/apps/browser/js/factory/booking.min.js",
         "hash": "658a2d3b032c5cfb352cc4fe3514208c"
     },
@@ -38418,10 +38422,6 @@
     {
         "file": "var/apps/browser/js/factory/padlock.min.js",
         "hash": "6a1b896f5ada4666fcb38cba713fa105"
-    },
-    {
-        "file": "var/apps/browser/js/factory/pages.js",
-        "hash": "0ff5ae0e5c8682bd796e9b3b40a350bf"
     },
     {
         "file": "var/apps/browser/js/factory/pages.min.js",
@@ -38632,24 +38632,24 @@
         "hash": "1970f37f615a8339b6b249e396ee7d0d"
     },
     {
-        "file": "var/apps/browser/js/providers/pwa-cache.js",
-        "hash": "ea98faad2e5576b865a3ef3d8769f1d9"
-    },
-    {
-        "file": "var/apps/browser/js/providers/pwa-request.js",
-        "hash": "7c643dee386ee9d759fd2c19b74b4a3b"
-    },
-    {
         "file": "var/apps/browser/js/providers/homepage-layout.js",
         "hash": "a00eb3fafa294eb9264c4fa078e4df0d"
     },
     {
         "file": "var/apps/browser/js/providers/providers.bundle.js",
-        "hash": "bd1a6c8e11a52988e7f0e1e99f854bd9"
+        "hash": "43a31564a80cb5095238779bd69febb2"
     },
     {
         "file": "var/apps/browser/js/providers/providers.bundle.min.js",
-        "hash": "334f739e82078b8d60238d68ca4e67a5"
+        "hash": "8735b05129a140607aefd4c4f5990093"
+    },
+    {
+        "file": "var/apps/browser/js/providers/pwa-cache.js",
+        "hash": "37828b0bfe246e5a5cbd720e4e8dd9cc"
+    },
+    {
+        "file": "var/apps/browser/js/providers/pwa-request.js",
+        "hash": "b8b53900e513034ee24ca0d595b65c02"
     },
     {
         "file": "var/apps/browser/js/services/tmhDynamicLocale.js",
@@ -38748,18 +38748,6 @@
         "hash": "6b9e841709a1173f547b42070eb62a36"
     },
     {
-        "file": "var/apps/browser/js/services/push-service.js",
-        "hash": "892bf856a1830b8bc474e6cd62924d21"
-    },
-    {
-        "file": "var/apps/browser/js/services/services.bundle.js",
-        "hash": "d3c34a1f9e0cef7bb406df91ec2fb9cf"
-    },
-    {
-        "file": "var/apps/browser/js/services/services.bundle.min.js",
-        "hash": "feda08291cec97fa9eae85a766068aef"
-    },
-    {
         "file": "var/apps/browser/js/services/session.js",
         "hash": "7974b575b75b2eb0de4801a4bef4cc33"
     },
@@ -38768,16 +38756,20 @@
         "hash": "22ade73c6ce91badbf926f0e6ee8acad"
     },
     {
-        "file": "var/apps/browser/js/utils/features.js",
-        "hash": "7139746f5e705900becde86855a21f06"
+        "file": "var/apps/browser/js/services/push-service.js",
+        "hash": "36cf69297ef3bbf83dcde403cb058eb3"
+    },
+    {
+        "file": "var/apps/browser/js/services/services.bundle.js",
+        "hash": "edf59cf87d679178e92bc1baf0a2aa03"
+    },
+    {
+        "file": "var/apps/browser/js/services/services.bundle.min.js",
+        "hash": "8047d7f432abaaaa4a6d8d4cbb423c11"
     },
     {
         "file": "var/apps/browser/js/utils/form-post.js",
         "hash": "760581b0afa6fd6ce08439332449db24"
-    },
-    {
-        "file": "var/apps/browser/js/utils/utils.bundle.js",
-        "hash": "d9a4a9178ed9a2f01eeae8395ee8a540"
     },
     {
         "file": "var/apps/browser/js/utils/utils.bundle.min.js",
@@ -38790,6 +38782,14 @@
     {
         "file": "var/apps/browser/js/utils/url.js",
         "hash": "8fa3c95227710d3ef49884115803e214"
+    },
+    {
+        "file": "var/apps/browser/js/utils/features.js",
+        "hash": "92686e190a2ec1baf8c4784fab0d6e86"
+    },
+    {
+        "file": "var/apps/browser/js/utils/utils.bundle.js",
+        "hash": "762ef12c1ec6a47df505478aecbe44f1"
     },
     {
         "file": "var/apps/browser/js/features/padlock.js",
@@ -39225,11 +39225,11 @@
     },
     {
         "file": "var/apps/browser/js/app.js",
-        "hash": "6efc5bbfaf94ec2978fed51ae8ab1095"
+        "hash": "3c6ed24514eec2032c41032a5f49aa8b"
     },
     {
         "file": "var/apps/browser/js/app.min.js",
-        "hash": "9a8e42e6f55e54547d0e46e63ef5dbe9"
+        "hash": "685683dca3308b8664f7b621c879fad9"
     },
     {
         "file": "var/apps/browser/lib/ionic/css/ionic.css",
@@ -40840,6 +40840,10 @@
         "hash": "3cad84ebecd6368f60e9c5d03851c0cb"
     },
     {
+        "file": "var/apps/ionic/android/assets/www/js/factory/pages.js",
+        "hash": "9026ae134d21c3b19f96a9aba406ac0c"
+    },
+    {
         "file": "var/apps/ionic/android/assets/www/js/factory/booking.min.js",
         "hash": "658a2d3b032c5cfb352cc4fe3514208c"
     },
@@ -40890,10 +40894,6 @@
     {
         "file": "var/apps/ionic/android/assets/www/js/factory/padlock.min.js",
         "hash": "6a1b896f5ada4666fcb38cba713fa105"
-    },
-    {
-        "file": "var/apps/ionic/android/assets/www/js/factory/pages.js",
-        "hash": "0ff5ae0e5c8682bd796e9b3b40a350bf"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/factory/pages.min.js",
@@ -41104,24 +41104,24 @@
         "hash": "1970f37f615a8339b6b249e396ee7d0d"
     },
     {
-        "file": "var/apps/ionic/android/assets/www/js/providers/pwa-cache.js",
-        "hash": "ea98faad2e5576b865a3ef3d8769f1d9"
-    },
-    {
-        "file": "var/apps/ionic/android/assets/www/js/providers/pwa-request.js",
-        "hash": "7c643dee386ee9d759fd2c19b74b4a3b"
-    },
-    {
         "file": "var/apps/ionic/android/assets/www/js/providers/homepage-layout.js",
         "hash": "a00eb3fafa294eb9264c4fa078e4df0d"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/providers/providers.bundle.js",
-        "hash": "bd1a6c8e11a52988e7f0e1e99f854bd9"
+        "hash": "43a31564a80cb5095238779bd69febb2"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/providers/providers.bundle.min.js",
-        "hash": "334f739e82078b8d60238d68ca4e67a5"
+        "hash": "8735b05129a140607aefd4c4f5990093"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/js/providers/pwa-cache.js",
+        "hash": "37828b0bfe246e5a5cbd720e4e8dd9cc"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/js/providers/pwa-request.js",
+        "hash": "b8b53900e513034ee24ca0d595b65c02"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/services/tmhDynamicLocale.js",
@@ -41220,18 +41220,6 @@
         "hash": "6b9e841709a1173f547b42070eb62a36"
     },
     {
-        "file": "var/apps/ionic/android/assets/www/js/services/push-service.js",
-        "hash": "892bf856a1830b8bc474e6cd62924d21"
-    },
-    {
-        "file": "var/apps/ionic/android/assets/www/js/services/services.bundle.js",
-        "hash": "d3c34a1f9e0cef7bb406df91ec2fb9cf"
-    },
-    {
-        "file": "var/apps/ionic/android/assets/www/js/services/services.bundle.min.js",
-        "hash": "feda08291cec97fa9eae85a766068aef"
-    },
-    {
         "file": "var/apps/ionic/android/assets/www/js/services/session.js",
         "hash": "7974b575b75b2eb0de4801a4bef4cc33"
     },
@@ -41240,16 +41228,20 @@
         "hash": "22ade73c6ce91badbf926f0e6ee8acad"
     },
     {
-        "file": "var/apps/ionic/android/assets/www/js/utils/features.js",
-        "hash": "7139746f5e705900becde86855a21f06"
+        "file": "var/apps/ionic/android/assets/www/js/services/push-service.js",
+        "hash": "36cf69297ef3bbf83dcde403cb058eb3"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/js/services/services.bundle.js",
+        "hash": "edf59cf87d679178e92bc1baf0a2aa03"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/js/services/services.bundle.min.js",
+        "hash": "8047d7f432abaaaa4a6d8d4cbb423c11"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/utils/form-post.js",
         "hash": "760581b0afa6fd6ce08439332449db24"
-    },
-    {
-        "file": "var/apps/ionic/android/assets/www/js/utils/utils.bundle.js",
-        "hash": "d9a4a9178ed9a2f01eeae8395ee8a540"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/utils/utils.bundle.min.js",
@@ -41262,6 +41254,14 @@
     {
         "file": "var/apps/ionic/android/assets/www/js/utils/url.js",
         "hash": "8fa3c95227710d3ef49884115803e214"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/js/utils/features.js",
+        "hash": "92686e190a2ec1baf8c4784fab0d6e86"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/js/utils/utils.bundle.js",
+        "hash": "762ef12c1ec6a47df505478aecbe44f1"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/features/padlock.js",
@@ -41697,11 +41697,11 @@
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/app.js",
-        "hash": "6efc5bbfaf94ec2978fed51ae8ab1095"
+        "hash": "3c6ed24514eec2032c41032a5f49aa8b"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/app.min.js",
-        "hash": "9a8e42e6f55e54547d0e46e63ef5dbe9"
+        "hash": "685683dca3308b8664f7b621c879fad9"
     },
     {
         "file": "var/apps/ionic/android/assets/www/lib/ionic/css/ionic.min.css",
@@ -51608,6 +51608,10 @@
         "hash": "3cad84ebecd6368f60e9c5d03851c0cb"
     },
     {
+        "file": "var/apps/ionic/ios-noads/www/js/factory/pages.js",
+        "hash": "9026ae134d21c3b19f96a9aba406ac0c"
+    },
+    {
         "file": "var/apps/ionic/ios-noads/www/js/factory/booking.min.js",
         "hash": "658a2d3b032c5cfb352cc4fe3514208c"
     },
@@ -51658,10 +51662,6 @@
     {
         "file": "var/apps/ionic/ios-noads/www/js/factory/padlock.min.js",
         "hash": "6a1b896f5ada4666fcb38cba713fa105"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/www/js/factory/pages.js",
-        "hash": "0ff5ae0e5c8682bd796e9b3b40a350bf"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/factory/pages.min.js",
@@ -51872,24 +51872,24 @@
         "hash": "1970f37f615a8339b6b249e396ee7d0d"
     },
     {
-        "file": "var/apps/ionic/ios-noads/www/js/providers/pwa-cache.js",
-        "hash": "ea98faad2e5576b865a3ef3d8769f1d9"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/www/js/providers/pwa-request.js",
-        "hash": "7c643dee386ee9d759fd2c19b74b4a3b"
-    },
-    {
         "file": "var/apps/ionic/ios-noads/www/js/providers/homepage-layout.js",
         "hash": "a00eb3fafa294eb9264c4fa078e4df0d"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/providers/providers.bundle.js",
-        "hash": "bd1a6c8e11a52988e7f0e1e99f854bd9"
+        "hash": "43a31564a80cb5095238779bd69febb2"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/providers/providers.bundle.min.js",
-        "hash": "334f739e82078b8d60238d68ca4e67a5"
+        "hash": "8735b05129a140607aefd4c4f5990093"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/js/providers/pwa-cache.js",
+        "hash": "37828b0bfe246e5a5cbd720e4e8dd9cc"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/js/providers/pwa-request.js",
+        "hash": "b8b53900e513034ee24ca0d595b65c02"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/services/tmhDynamicLocale.js",
@@ -51988,18 +51988,6 @@
         "hash": "6b9e841709a1173f547b42070eb62a36"
     },
     {
-        "file": "var/apps/ionic/ios-noads/www/js/services/push-service.js",
-        "hash": "892bf856a1830b8bc474e6cd62924d21"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/www/js/services/services.bundle.js",
-        "hash": "d3c34a1f9e0cef7bb406df91ec2fb9cf"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/www/js/services/services.bundle.min.js",
-        "hash": "feda08291cec97fa9eae85a766068aef"
-    },
-    {
         "file": "var/apps/ionic/ios-noads/www/js/services/session.js",
         "hash": "7974b575b75b2eb0de4801a4bef4cc33"
     },
@@ -52008,16 +51996,20 @@
         "hash": "22ade73c6ce91badbf926f0e6ee8acad"
     },
     {
-        "file": "var/apps/ionic/ios-noads/www/js/utils/features.js",
-        "hash": "7139746f5e705900becde86855a21f06"
+        "file": "var/apps/ionic/ios-noads/www/js/services/push-service.js",
+        "hash": "36cf69297ef3bbf83dcde403cb058eb3"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/js/services/services.bundle.js",
+        "hash": "edf59cf87d679178e92bc1baf0a2aa03"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/js/services/services.bundle.min.js",
+        "hash": "8047d7f432abaaaa4a6d8d4cbb423c11"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/utils/form-post.js",
         "hash": "760581b0afa6fd6ce08439332449db24"
-    },
-    {
-        "file": "var/apps/ionic/ios-noads/www/js/utils/utils.bundle.js",
-        "hash": "d9a4a9178ed9a2f01eeae8395ee8a540"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/utils/utils.bundle.min.js",
@@ -52030,6 +52022,14 @@
     {
         "file": "var/apps/ionic/ios-noads/www/js/utils/url.js",
         "hash": "8fa3c95227710d3ef49884115803e214"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/js/utils/features.js",
+        "hash": "92686e190a2ec1baf8c4784fab0d6e86"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/js/utils/utils.bundle.js",
+        "hash": "762ef12c1ec6a47df505478aecbe44f1"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/features/padlock.js",
@@ -52465,11 +52465,11 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/app.js",
-        "hash": "6efc5bbfaf94ec2978fed51ae8ab1095"
+        "hash": "3c6ed24514eec2032c41032a5f49aa8b"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/app.min.js",
-        "hash": "9a8e42e6f55e54547d0e46e63ef5dbe9"
+        "hash": "685683dca3308b8664f7b621c879fad9"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/lib/ionic/css/ionic.min.css",
@@ -58860,6 +58860,10 @@
         "hash": "3cad84ebecd6368f60e9c5d03851c0cb"
     },
     {
+        "file": "var/apps/ionic/ios/www/js/factory/pages.js",
+        "hash": "9026ae134d21c3b19f96a9aba406ac0c"
+    },
+    {
         "file": "var/apps/ionic/ios/www/js/factory/booking.min.js",
         "hash": "658a2d3b032c5cfb352cc4fe3514208c"
     },
@@ -58910,10 +58914,6 @@
     {
         "file": "var/apps/ionic/ios/www/js/factory/padlock.min.js",
         "hash": "6a1b896f5ada4666fcb38cba713fa105"
-    },
-    {
-        "file": "var/apps/ionic/ios/www/js/factory/pages.js",
-        "hash": "0ff5ae0e5c8682bd796e9b3b40a350bf"
     },
     {
         "file": "var/apps/ionic/ios/www/js/factory/pages.min.js",
@@ -59124,24 +59124,24 @@
         "hash": "1970f37f615a8339b6b249e396ee7d0d"
     },
     {
-        "file": "var/apps/ionic/ios/www/js/providers/pwa-cache.js",
-        "hash": "ea98faad2e5576b865a3ef3d8769f1d9"
-    },
-    {
-        "file": "var/apps/ionic/ios/www/js/providers/pwa-request.js",
-        "hash": "7c643dee386ee9d759fd2c19b74b4a3b"
-    },
-    {
         "file": "var/apps/ionic/ios/www/js/providers/homepage-layout.js",
         "hash": "a00eb3fafa294eb9264c4fa078e4df0d"
     },
     {
         "file": "var/apps/ionic/ios/www/js/providers/providers.bundle.js",
-        "hash": "bd1a6c8e11a52988e7f0e1e99f854bd9"
+        "hash": "43a31564a80cb5095238779bd69febb2"
     },
     {
         "file": "var/apps/ionic/ios/www/js/providers/providers.bundle.min.js",
-        "hash": "334f739e82078b8d60238d68ca4e67a5"
+        "hash": "8735b05129a140607aefd4c4f5990093"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/js/providers/pwa-cache.js",
+        "hash": "37828b0bfe246e5a5cbd720e4e8dd9cc"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/js/providers/pwa-request.js",
+        "hash": "b8b53900e513034ee24ca0d595b65c02"
     },
     {
         "file": "var/apps/ionic/ios/www/js/services/tmhDynamicLocale.js",
@@ -59240,18 +59240,6 @@
         "hash": "6b9e841709a1173f547b42070eb62a36"
     },
     {
-        "file": "var/apps/ionic/ios/www/js/services/push-service.js",
-        "hash": "892bf856a1830b8bc474e6cd62924d21"
-    },
-    {
-        "file": "var/apps/ionic/ios/www/js/services/services.bundle.js",
-        "hash": "d3c34a1f9e0cef7bb406df91ec2fb9cf"
-    },
-    {
-        "file": "var/apps/ionic/ios/www/js/services/services.bundle.min.js",
-        "hash": "feda08291cec97fa9eae85a766068aef"
-    },
-    {
         "file": "var/apps/ionic/ios/www/js/services/session.js",
         "hash": "7974b575b75b2eb0de4801a4bef4cc33"
     },
@@ -59260,16 +59248,20 @@
         "hash": "22ade73c6ce91badbf926f0e6ee8acad"
     },
     {
-        "file": "var/apps/ionic/ios/www/js/utils/features.js",
-        "hash": "7139746f5e705900becde86855a21f06"
+        "file": "var/apps/ionic/ios/www/js/services/push-service.js",
+        "hash": "36cf69297ef3bbf83dcde403cb058eb3"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/js/services/services.bundle.js",
+        "hash": "edf59cf87d679178e92bc1baf0a2aa03"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/js/services/services.bundle.min.js",
+        "hash": "8047d7f432abaaaa4a6d8d4cbb423c11"
     },
     {
         "file": "var/apps/ionic/ios/www/js/utils/form-post.js",
         "hash": "760581b0afa6fd6ce08439332449db24"
-    },
-    {
-        "file": "var/apps/ionic/ios/www/js/utils/utils.bundle.js",
-        "hash": "d9a4a9178ed9a2f01eeae8395ee8a540"
     },
     {
         "file": "var/apps/ionic/ios/www/js/utils/utils.bundle.min.js",
@@ -59282,6 +59274,14 @@
     {
         "file": "var/apps/ionic/ios/www/js/utils/url.js",
         "hash": "8fa3c95227710d3ef49884115803e214"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/js/utils/features.js",
+        "hash": "92686e190a2ec1baf8c4784fab0d6e86"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/js/utils/utils.bundle.js",
+        "hash": "762ef12c1ec6a47df505478aecbe44f1"
     },
     {
         "file": "var/apps/ionic/ios/www/js/features/padlock.js",
@@ -59717,11 +59717,11 @@
     },
     {
         "file": "var/apps/ionic/ios/www/js/app.js",
-        "hash": "6efc5bbfaf94ec2978fed51ae8ab1095"
+        "hash": "3c6ed24514eec2032c41032a5f49aa8b"
     },
     {
         "file": "var/apps/ionic/ios/www/js/app.min.js",
-        "hash": "9a8e42e6f55e54547d0e46e63ef5dbe9"
+        "hash": "685683dca3308b8664f7b621c879fad9"
     },
     {
         "file": "var/apps/ionic/ios/www/lib/ionic/css/ionic.min.css",
@@ -61200,6 +61200,10 @@
         "hash": "3cad84ebecd6368f60e9c5d03851c0cb"
     },
     {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/factory/pages.js",
+        "hash": "9026ae134d21c3b19f96a9aba406ac0c"
+    },
+    {
         "file": "var/apps/ionic/previewer/android/assets/www/js/factory/booking.min.js",
         "hash": "658a2d3b032c5cfb352cc4fe3514208c"
     },
@@ -61250,10 +61254,6 @@
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/factory/padlock.min.js",
         "hash": "6a1b896f5ada4666fcb38cba713fa105"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/factory/pages.js",
-        "hash": "0ff5ae0e5c8682bd796e9b3b40a350bf"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/factory/pages.min.js",
@@ -61464,24 +61464,24 @@
         "hash": "1970f37f615a8339b6b249e396ee7d0d"
     },
     {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/providers/pwa-cache.js",
-        "hash": "ea98faad2e5576b865a3ef3d8769f1d9"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/providers/pwa-request.js",
-        "hash": "7c643dee386ee9d759fd2c19b74b4a3b"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/assets/www/js/providers/homepage-layout.js",
         "hash": "a00eb3fafa294eb9264c4fa078e4df0d"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/providers/providers.bundle.js",
-        "hash": "bd1a6c8e11a52988e7f0e1e99f854bd9"
+        "hash": "43a31564a80cb5095238779bd69febb2"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/providers/providers.bundle.min.js",
-        "hash": "334f739e82078b8d60238d68ca4e67a5"
+        "hash": "8735b05129a140607aefd4c4f5990093"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/providers/pwa-cache.js",
+        "hash": "37828b0bfe246e5a5cbd720e4e8dd9cc"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/providers/pwa-request.js",
+        "hash": "b8b53900e513034ee24ca0d595b65c02"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/services/tmhDynamicLocale.js",
@@ -61580,18 +61580,6 @@
         "hash": "6b9e841709a1173f547b42070eb62a36"
     },
     {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/services/push-service.js",
-        "hash": "892bf856a1830b8bc474e6cd62924d21"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/services/services.bundle.js",
-        "hash": "d3c34a1f9e0cef7bb406df91ec2fb9cf"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/services/services.bundle.min.js",
-        "hash": "feda08291cec97fa9eae85a766068aef"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/assets/www/js/services/session.js",
         "hash": "7974b575b75b2eb0de4801a4bef4cc33"
     },
@@ -61600,16 +61588,20 @@
         "hash": "22ade73c6ce91badbf926f0e6ee8acad"
     },
     {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/utils/features.js",
-        "hash": "7139746f5e705900becde86855a21f06"
+        "file": "var/apps/ionic/previewer/android/assets/www/js/services/push-service.js",
+        "hash": "36cf69297ef3bbf83dcde403cb058eb3"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/services/services.bundle.js",
+        "hash": "edf59cf87d679178e92bc1baf0a2aa03"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/services/services.bundle.min.js",
+        "hash": "8047d7f432abaaaa4a6d8d4cbb423c11"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/utils/form-post.js",
         "hash": "760581b0afa6fd6ce08439332449db24"
-    },
-    {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/utils/utils.bundle.js",
-        "hash": "d9a4a9178ed9a2f01eeae8395ee8a540"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/utils/utils.bundle.min.js",
@@ -61622,6 +61614,14 @@
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/utils/url.js",
         "hash": "8fa3c95227710d3ef49884115803e214"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/utils/features.js",
+        "hash": "92686e190a2ec1baf8c4784fab0d6e86"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/utils/utils.bundle.js",
+        "hash": "762ef12c1ec6a47df505478aecbe44f1"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/features/padlock.js",
@@ -62057,11 +62057,11 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/app.js",
-        "hash": "6efc5bbfaf94ec2978fed51ae8ab1095"
+        "hash": "3c6ed24514eec2032c41032a5f49aa8b"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/app.min.js",
-        "hash": "9a8e42e6f55e54547d0e46e63ef5dbe9"
+        "hash": "685683dca3308b8664f7b621c879fad9"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/lib/ionic/css/ionic.min.css",
@@ -71920,6 +71920,10 @@
         "hash": "3cad84ebecd6368f60e9c5d03851c0cb"
     },
     {
+        "file": "var/apps/ionic/previewer/ios/www/js/factory/pages.js",
+        "hash": "9026ae134d21c3b19f96a9aba406ac0c"
+    },
+    {
         "file": "var/apps/ionic/previewer/ios/www/js/factory/booking.min.js",
         "hash": "658a2d3b032c5cfb352cc4fe3514208c"
     },
@@ -71970,10 +71974,6 @@
     {
         "file": "var/apps/ionic/previewer/ios/www/js/factory/padlock.min.js",
         "hash": "6a1b896f5ada4666fcb38cba713fa105"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/www/js/factory/pages.js",
-        "hash": "0ff5ae0e5c8682bd796e9b3b40a350bf"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/factory/pages.min.js",
@@ -72184,24 +72184,24 @@
         "hash": "1970f37f615a8339b6b249e396ee7d0d"
     },
     {
-        "file": "var/apps/ionic/previewer/ios/www/js/providers/pwa-cache.js",
-        "hash": "ea98faad2e5576b865a3ef3d8769f1d9"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/www/js/providers/pwa-request.js",
-        "hash": "7c643dee386ee9d759fd2c19b74b4a3b"
-    },
-    {
         "file": "var/apps/ionic/previewer/ios/www/js/providers/homepage-layout.js",
         "hash": "a00eb3fafa294eb9264c4fa078e4df0d"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/providers/providers.bundle.js",
-        "hash": "bd1a6c8e11a52988e7f0e1e99f854bd9"
+        "hash": "43a31564a80cb5095238779bd69febb2"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/providers/providers.bundle.min.js",
-        "hash": "334f739e82078b8d60238d68ca4e67a5"
+        "hash": "8735b05129a140607aefd4c4f5990093"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/js/providers/pwa-cache.js",
+        "hash": "37828b0bfe246e5a5cbd720e4e8dd9cc"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/js/providers/pwa-request.js",
+        "hash": "b8b53900e513034ee24ca0d595b65c02"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/services/tmhDynamicLocale.js",
@@ -72300,18 +72300,6 @@
         "hash": "6b9e841709a1173f547b42070eb62a36"
     },
     {
-        "file": "var/apps/ionic/previewer/ios/www/js/services/push-service.js",
-        "hash": "892bf856a1830b8bc474e6cd62924d21"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/www/js/services/services.bundle.js",
-        "hash": "d3c34a1f9e0cef7bb406df91ec2fb9cf"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/www/js/services/services.bundle.min.js",
-        "hash": "feda08291cec97fa9eae85a766068aef"
-    },
-    {
         "file": "var/apps/ionic/previewer/ios/www/js/services/session.js",
         "hash": "7974b575b75b2eb0de4801a4bef4cc33"
     },
@@ -72320,16 +72308,20 @@
         "hash": "22ade73c6ce91badbf926f0e6ee8acad"
     },
     {
-        "file": "var/apps/ionic/previewer/ios/www/js/utils/features.js",
-        "hash": "7139746f5e705900becde86855a21f06"
+        "file": "var/apps/ionic/previewer/ios/www/js/services/push-service.js",
+        "hash": "36cf69297ef3bbf83dcde403cb058eb3"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/js/services/services.bundle.js",
+        "hash": "edf59cf87d679178e92bc1baf0a2aa03"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/js/services/services.bundle.min.js",
+        "hash": "8047d7f432abaaaa4a6d8d4cbb423c11"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/utils/form-post.js",
         "hash": "760581b0afa6fd6ce08439332449db24"
-    },
-    {
-        "file": "var/apps/ionic/previewer/ios/www/js/utils/utils.bundle.js",
-        "hash": "d9a4a9178ed9a2f01eeae8395ee8a540"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/utils/utils.bundle.min.js",
@@ -72342,6 +72334,14 @@
     {
         "file": "var/apps/ionic/previewer/ios/www/js/utils/url.js",
         "hash": "8fa3c95227710d3ef49884115803e214"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/js/utils/features.js",
+        "hash": "92686e190a2ec1baf8c4784fab0d6e86"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/js/utils/utils.bundle.js",
+        "hash": "762ef12c1ec6a47df505478aecbe44f1"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/features/padlock.js",
@@ -72777,11 +72777,11 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/app.js",
-        "hash": "6efc5bbfaf94ec2978fed51ae8ab1095"
+        "hash": "3c6ed24514eec2032c41032a5f49aa8b"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/app.min.js",
-        "hash": "9a8e42e6f55e54547d0e46e63ef5dbe9"
+        "hash": "685683dca3308b8664f7b621c879fad9"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/lib/ionic/css/ionic.min.css",
@@ -73469,23 +73469,23 @@
     },
     {
         "file": "var/apps/ionic/android.tgz",
-        "hash": "8b23f5d56e1001a2d6c9dc4767354ee0"
+        "hash": "9b8111f23a5f5c38fdc0cec7838e8c2c"
     },
     {
         "file": "var/apps/ionic/ios.tgz",
-        "hash": "5f86fbf99839ad6c0a66784af23bc53c"
+        "hash": "14b870202e3c9dcf1c90f2b350ee5534"
     },
     {
         "file": "var/apps/ionic/ios-noads.tgz",
-        "hash": "15c2725038058f4acc5d831a74065235"
+        "hash": "87f0e74c618540bf339bacd1106e0408"
     },
     {
         "file": "var/apps/ionic/previewer.tgz",
-        "hash": "11724614aab3c8ac4217f7600ebcd745"
+        "hash": "f9eae63cd646285b22d26d2f2f288a15"
     },
     {
         "file": "var/apps/browser.tgz",
-        "hash": "bac8dad58f74f5a23557cd684b325268"
+        "hash": "c265e1d542589141dc864728ab8f7d2b"
     },
     {
         "file": "var/apps/overview/confighelper.js",
@@ -74096,10 +74096,6 @@
         "hash": "6a1b896f5ada4666fcb38cba713fa105"
     },
     {
-        "file": "var/apps/overview/js/factory/pages.js",
-        "hash": "0ff5ae0e5c8682bd796e9b3b40a350bf"
-    },
-    {
         "file": "var/apps/overview/js/factory/pages.min.js",
         "hash": "415c00b807b55c1003acc8f030d7c1b8"
     },
@@ -74314,6 +74310,10 @@
     {
         "file": "var/apps/overview/js/factory/push.min.js",
         "hash": "8a305ef848768f36a8bb68c280365448"
+    },
+    {
+        "file": "var/apps/overview/js/factory/pages.js",
+        "hash": "9026ae134d21c3b19f96a9aba406ac0c"
     },
     {
         "file": "var/apps/overview/js/features/padlock.js",
@@ -74808,24 +74808,24 @@
         "hash": "2b0b852c9b8c88627aef50e15c31d20a"
     },
     {
-        "file": "var/apps/overview/js/providers/pwa-cache.js",
-        "hash": "ea98faad2e5576b865a3ef3d8769f1d9"
-    },
-    {
-        "file": "var/apps/overview/js/providers/pwa-request.js",
-        "hash": "7c643dee386ee9d759fd2c19b74b4a3b"
-    },
-    {
         "file": "var/apps/overview/js/providers/homepage-layout.js",
         "hash": "a00eb3fafa294eb9264c4fa078e4df0d"
     },
     {
         "file": "var/apps/overview/js/providers/providers.bundle.js",
-        "hash": "bd1a6c8e11a52988e7f0e1e99f854bd9"
+        "hash": "43a31564a80cb5095238779bd69febb2"
     },
     {
         "file": "var/apps/overview/js/providers/providers.bundle.min.js",
-        "hash": "334f739e82078b8d60238d68ca4e67a5"
+        "hash": "8735b05129a140607aefd4c4f5990093"
+    },
+    {
+        "file": "var/apps/overview/js/providers/pwa-cache.js",
+        "hash": "37828b0bfe246e5a5cbd720e4e8dd9cc"
+    },
+    {
+        "file": "var/apps/overview/js/providers/pwa-request.js",
+        "hash": "b8b53900e513034ee24ca0d595b65c02"
     },
     {
         "file": "var/apps/overview/js/services/contextual-menu.js",
@@ -74924,18 +74924,6 @@
         "hash": "6b9e841709a1173f547b42070eb62a36"
     },
     {
-        "file": "var/apps/overview/js/services/push-service.js",
-        "hash": "892bf856a1830b8bc474e6cd62924d21"
-    },
-    {
-        "file": "var/apps/overview/js/services/services.bundle.js",
-        "hash": "d3c34a1f9e0cef7bb406df91ec2fb9cf"
-    },
-    {
-        "file": "var/apps/overview/js/services/services.bundle.min.js",
-        "hash": "feda08291cec97fa9eae85a766068aef"
-    },
-    {
         "file": "var/apps/overview/js/services/session.js",
         "hash": "7974b575b75b2eb0de4801a4bef4cc33"
     },
@@ -74944,16 +74932,20 @@
         "hash": "22ade73c6ce91badbf926f0e6ee8acad"
     },
     {
-        "file": "var/apps/overview/js/utils/features.js",
-        "hash": "7139746f5e705900becde86855a21f06"
+        "file": "var/apps/overview/js/services/push-service.js",
+        "hash": "36cf69297ef3bbf83dcde403cb058eb3"
+    },
+    {
+        "file": "var/apps/overview/js/services/services.bundle.js",
+        "hash": "edf59cf87d679178e92bc1baf0a2aa03"
+    },
+    {
+        "file": "var/apps/overview/js/services/services.bundle.min.js",
+        "hash": "8047d7f432abaaaa4a6d8d4cbb423c11"
     },
     {
         "file": "var/apps/overview/js/utils/form-post.js",
         "hash": "760581b0afa6fd6ce08439332449db24"
-    },
-    {
-        "file": "var/apps/overview/js/utils/utils.bundle.js",
-        "hash": "d9a4a9178ed9a2f01eeae8395ee8a540"
     },
     {
         "file": "var/apps/overview/js/utils/utils.bundle.min.js",
@@ -74968,12 +74960,20 @@
         "hash": "8fa3c95227710d3ef49884115803e214"
     },
     {
+        "file": "var/apps/overview/js/utils/features.js",
+        "hash": "92686e190a2ec1baf8c4784fab0d6e86"
+    },
+    {
+        "file": "var/apps/overview/js/utils/utils.bundle.js",
+        "hash": "762ef12c1ec6a47df505478aecbe44f1"
+    },
+    {
         "file": "var/apps/overview/js/app.js",
-        "hash": "6efc5bbfaf94ec2978fed51ae8ab1095"
+        "hash": "3c6ed24514eec2032c41032a5f49aa8b"
     },
     {
         "file": "var/apps/overview/js/app.min.js",
-        "hash": "9a8e42e6f55e54547d0e46e63ef5dbe9"
+        "hash": "685683dca3308b8664f7b621c879fad9"
     },
     {
         "file": "var/apps/overview/lib/ionic/css/ionic.css",

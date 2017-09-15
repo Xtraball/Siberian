@@ -3,7 +3,7 @@
  */
 
 window.momentjs_loaded = false;
-var DEBUG = false;
+var DEBUG = true;
 
 // Fallback for non re-published apps
 if (IS_NATIVE_APP === undefined) {

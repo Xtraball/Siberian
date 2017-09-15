@@ -578,60 +578,55 @@ angular.module('starter').provider('HomepageLayout', function () {
         };
     };
 });
-;/*global
-    App, window, window.localforage, APP_KEY
- */
-angular.module("starter").provider('$pwaCache', function () {
-
+;angular.module('starter').provider('$pwaCache', function () {
     var provider = this;
 
     provider.$get = function () {
-
         var provider = {};
 
-        if(typeof window.localforage === "undefined") {
+        if (typeof window.localforage === 'undefined') {
             provider = {
-                isEnabled           : false,
+                isEnabled: false
             };
 
             return provider;
         }
 
         provider = {
-            isEnabled           : true,
-            defaultDrivers      : [window.localforage.INDEXEDDB, window.localforage.LOCALSTORAGE],
-            defaultStoreName    : "content-cache",
-            valueidStoreName    : "valueid-index",
-            registryStoreName   : "registry-index",
-            cacheKey            : "pwa-cache-" + APP_KEY,
+            isEnabled: true,
+            defaultDrivers: [window.localforage.INDEXEDDB, window.localforage.LOCALSTORAGE],
+            defaultStoreName: 'content-cache',
+            valueidStoreName: 'valueid-index',
+            registryStoreName: 'registry-index',
+            cacheKey: 'pwa-cache-' + APP_KEY,
             /** Fixed to 64MB */
-            cacheMaxSize        : 64000000,
+            cacheMaxSize: 64000000,
             /** Caches */
-            defaultCache        : null,
-            valueidCache        : null,
-            registryCache       : null,
-            backgroundImages    : []
+            defaultCache: null,
+            valueidCache: null,
+            registryCache: null,
+            backgroundImages: []
         };
 
         provider.defaultCache = window.localforage.createInstance({
-            driver      : provider.defaultDrivers,
-            name        : provider.cacheKey,
-            storeName   : provider.defaultStoreName,
-            size        : provider.cacheMaxSize
+            driver: provider.defaultDrivers,
+            name: provider.cacheKey,
+            storeName: provider.defaultStoreName,
+            size: provider.cacheMaxSize
         });
 
         provider.valueidCache = window.localforage.createInstance({
-            driver      : provider.defaultDrivers,
-            name        : provider.cacheKey,
-            storeName   : provider.valueidStoreName,
-            size        : (provider.cacheMaxSize / 16)
+            driver: provider.defaultDrivers,
+            name: provider.cacheKey,
+            storeName: provider.valueidStoreName,
+            size: (provider.cacheMaxSize / 16)
         });
 
         provider.registryCache = window.localforage.createInstance({
-            driver      : window.localforage.LOCALSTORAGE,
-            name        : provider.cacheKey,
-            storeName   : provider.registryStoreName,
-            size        : (provider.cacheMaxSize / 16)
+            driver: window.localforage.LOCALSTORAGE,
+            name: provider.cacheKey,
+            storeName: provider.registryStoreName,
+            size: (provider.cacheMaxSize / 16)
         });
 
         /**
@@ -639,7 +634,7 @@ angular.module("starter").provider('$pwaCache', function () {
          *
          * @returns {null}
          */
-        provider.getDefaultCache = function() {
+        provider.getDefaultCache = function () {
             return provider.defaultCache;
         };
 
@@ -647,7 +642,7 @@ angular.module("starter").provider('$pwaCache', function () {
          *
          * @returns {*}
          */
-        provider.getValueidCache = function() {
+        provider.getValueidCache = function () {
             return provider.valueidCache;
         };
 
@@ -655,7 +650,7 @@ angular.module("starter").provider('$pwaCache', function () {
          *
          * @returns {*}
          */
-        provider.getRegistryCache = function() {
+        provider.getRegistryCache = function () {
             return provider.registryCache;
         };
 
@@ -1181,43 +1176,34 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                  * @param key
                  * @param data
                  */
-                httpWrapper.getItem = function(key, data_callback) {
-
-                    if(typeof data_callback !== "function") {
-                        throw new Error("data_callback must be a function.");
+                httpWrapper.getItem = function (key, dataCallback) {
+                    if (typeof dataCallback !== 'function') {
+                        throw new Error('dataCallback must be a function.');
                     }
 
                     var deferred = $q.defer();
 
                     provider.registryCache
                         .getItem(key)
-                        .then(function(cached_data) {
-
-                            /** We need to cache the object */
-                            if(cached_data === null) {
-
+                        .then(function (cachedData) {
+                            // We need to cache the object!
+                            if (cachedData === null) {
                                 provider.registryCache
-                                    .setItem(key, data_callback.call(this))
-                                    .then(function(resolve) {
+                                    .setItem(key, dataCallback.call(this))
+                                    .then(function (resolve) {
                                         deferred.resolve(resolve);
-                                    }, function(reject) {
+                                    }, function (reject) {
                                         deferred.reject(reject);
                                     });
-
                             } else {
-
                                 provider.registryCache
-                                    .setItem(key, data_callback.call(this));
+                                    .setItem(key, dataCallback.call(this));
 
-                                deferred.resolve(cached_data);
-
+                                deferred.resolve(cachedData);
                             }
-
-                        }).catch(function(error) {
-
-                            /** Reject with a standardized object response. */
+                        }).catch(function (error) {
+                            // Reject with a standardized object response!
                             deferred.reject(null);
-
                         });
 
                     return deferred.promise;

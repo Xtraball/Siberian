@@ -62,10 +62,12 @@ class Promotion_Form_Promotion extends Siberian_Form_Abstract {
             "end_at",
             __("End at"),
             false,
-            Siberian_Form_Abstract::DATEPICKER
+            Siberian_Form_Abstract::DATEPICKER,
+            'yy-mm-dd'
         );
 
         $end_at->addValidator(new Siberian_Form_Validate_DateGreaterThanToday(), true);
+        $end_at->setAttrib('id', 'end_at_' . uniqid());
 
         $unlimited = $this->addSimpleCheckbox(
             'unlimited',
