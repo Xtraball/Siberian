@@ -129,10 +129,10 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
 
     public function validatepaymentAction() {
         try {
-            if ($data = $this->getRequest()->getPost()) {
+            if ($data = $this->getRequest()->getRawBody()) {
+                $data = Siberian_Json::decode($data);
+            } else if ($data = $this->getRequest()->getPost()) {
                 $data = $this->getRequest()->getPost();
-            } else if ($data = $this->getRequest()->getRawBody()) {
-                $data = Zend_Json::decode($data);
             } else {
                 $data = $this->getRequest()->getFilteredParams();
             }

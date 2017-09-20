@@ -8,15 +8,15 @@ class Push_Api_GlobalController extends Api_Controller_Default {
     /**
      * @var string
      */
-    public $namespace = "push";
+    public $namespace = 'push';
 
     /**
      * @var array
      */
-    public $secured_actions = array(
-        "list",
-        "send",
-    );
+    public $secured_actions = [
+        'list',
+        'send',
+    ];
 
     public function listAction() {
         try {
@@ -25,14 +25,14 @@ class Push_Api_GlobalController extends Api_Controller_Default {
                 $application_table = new Application_Model_Db_Table_Application();
                 $all_applications = $application_table->findAllForGlobalPush();
 
-                if(isset($params["admin_id"])) {
+                if(isset($params['admin_id'])) {
                     // Get apps that belong to the current admin!
                     $all_for_admin = $application_table->findAllByAdmin(
                         $this->getSession()->getAdminId()
                     )->toArray();
 
                     $filtered = array_map(function($app) {
-                        return $app["app_id"];
+                        return $app['app_id'];
                     }, $all_for_admin);
 
                     // We keep only apps that belongs to the admin!
@@ -41,10 +41,20 @@ class Push_Api_GlobalController extends Api_Controller_Default {
                     $applications = $all_applications;
                 }
 
-                $data = array(
-                    "success" => true,
-                    "applications" => $applications,
-                );
+                $result = [];
+                if (!empty($applications)) {
+                    $ids = join(',', $applications);
+                    $result = $application_table->getAdapter()->fetchAll('
+                        SELECT `app_id`, `name`, `key`, `bundle_id`, `package_name`, `admin_id`
+                        FROM `application`
+                        WHERE `app_id` IN (' . $ids . ')
+                    ');
+                }
+
+                $data = [
+                    'success' => true,
+                    'applications' => $result,
+                ];
             } else {
                 throw new Siberian_Exception(
                     __("%s, No params sent.",

@@ -65,14 +65,14 @@ class Push_ApplicationController extends Application_Controller_Default
                 // Récupère l'option_value en cours
                 $option_value = $this->getCurrentOptionValue();
 
-                if(!empty($data['file'])) {
+                if (!empty($data['file'])) {
 
                     $file = pathinfo($data['file']);
                     $filename = $file['basename'];
                     $relative_path = $option_value->getImagePathTo();
-                    $folder = Application_Model_Application::getBaseImagePath().$relative_path;
-                    $img_dst = $folder.$filename;
-                    $img_src = Core_Model_Directory::getTmpDirectory(true).'/'.$filename;
+                    $folder = Application_Model_Application::getBaseImagePath() . $relative_path;
+                    $img_dst = $folder . $filename;
+                    $img_src = Core_Model_Directory::getTmpDirectory(true) . '/' . $filename;
 
                     if(!is_dir($folder)) {
                         mkdir($folder, 0777, true);
@@ -83,15 +83,16 @@ class Push_ApplicationController extends Application_Controller_Default
                     } else {
                         $data['cover'] = $relative_path . $filename;
                     }
-                }else if(!empty($data['remove_cover'])) {
+                } else if(!empty($data['remove_cover'])) {
                     $data['cover'] = null;
                 }
 
-                if(empty($data['action_value'])) {
+                if (empty($data['action_value'])) {
                     $data['action_value'] = null;
                 } else if(!preg_match('/^[0-9]*$/', $data['action_value'])) {
                     $url = "http://".$data['action_value'];
-                    if(stripos($data['action_value'], "http://") !== false || stripos($data['action_value'], "https://") !== false) {
+                    if(stripos($data['action_value'], "http://") !== false ||
+                        stripos($data['action_value'], "https://") !== false) {
                         $url = $data['action_value'];
                     }
 

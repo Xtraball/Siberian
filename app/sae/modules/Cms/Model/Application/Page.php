@@ -418,7 +418,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
             }
 
             # Places case
-            if (isset($datas["cms_type"]) && $datas["cms_type"] == "places") {
+            if (isset($datas['cms_type']) && $datas['cms_type'] === 'places') {
 
                 $page
                     ->savePlace($option_value, $datas)
@@ -426,14 +426,14 @@ class Cms_Model_Application_Page extends Core_Model_Default
                     ->saveMetadata();
 
                 # Create or update tags, then attach them to the option_value
-                $tag_names = explode(",", $datas['tags']);
+                $tag_names = explode(',', $datas['tags']);
                 $tags = Application_Model_Tag::upsert($tag_names);
                 $option_value->attachTags($tags, $page);
             }
 
             # Page title
             $page
-                ->setTitle($datas["title"])
+                ->setTitle($datas['title'])
                 ->save_v2();
 
             # Clear all page_blocks
@@ -494,18 +494,20 @@ class Cms_Model_Application_Page extends Core_Model_Default
             }
 
             // Everything was ok, Commit
-            if ($db->getConnection()->getAttribute(PDO::ATTR_AUTOCOMMIT) === 0) {
+            try {
                 $db->commit();
+            } catch (Exception $e) {
+                // ignore
             }
 
             return $page;
 
         } catch(Exception $e) {
             // We got an unrecoverable error, rollback
-            if ($db->getConnection()->getAttribute(PDO::ATTR_AUTOCOMMIT) === 0) {
+            try {
                 $db->rollBack();
-                // rethrow error up
-                throw $e;
+            } catch (Exception $e) {
+                // ignore
             }
         }
     }

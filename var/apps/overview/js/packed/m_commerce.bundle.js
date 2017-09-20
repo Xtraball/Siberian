@@ -5,8 +5,7 @@
 angular.module('starter').controller('MCommerceCartViewController', function ($scope, $state, Loader, $stateParams,
                                                                               $translate, $timeout, Dialog,
                                                                               McommerceCart, Customer) {
-
-    // counter of pending tip calls
+    // Counter of pending tip calls!
     var updateTipTimoutFn = null;
     $scope.is_loading = true;
 
@@ -18,27 +17,26 @@ angular.module('starter').controller('MCommerceCartViewController', function ($s
     McommerceCart.value_id = $stateParams.value_id;
     $scope.value_id = $stateParams.value_id;
 
-    $scope.page_title = $translate.instant("Cart");
+    $scope.page_title = $translate.instant('Cart');
 
     $scope.loadContent = function () {
-
-        Loader.show("Updating price");
+        Loader.show('Updating price');
 
         $scope.is_loading = true;
 
         McommerceCart.compute()
             .then(function (computation) {
                 $scope.computation = computation;
-            }).then(function() {
+            }).then(function () {
                 $scope.computation = angular.isObject($scope.computation) ? $scope.computation : {};
 
                 McommerceCart.find()
-                    .then(function(data) {
-                        if(data.cart.tip === 0) {
-                            data.cart.tip = "";
+                    .then(function (data) {
+                        if (data.cart.tip === 0) {
+                            data.cart.tip = '';
                         }
 
-                        if(
+                        if (
                             angular.isObject($scope.cart) &&
                                 (!angular.isString(data.cart.discount_code) ||
                                  data.cart.discount_code.trim().length < 1)
@@ -53,23 +51,23 @@ angular.module('starter').controller('MCommerceCartViewController', function ($s
 
                         $scope.nb_stores = data.nb_stores;
 
-                        if($scope.cart.lines.length > 0) {
+                        if ($scope.cart.lines.length > 0) {
                             $scope.right_button = {
                                 action: $scope.proceed,
-                                label: $translate.instant("Proceed")
+                                label: $translate.instant('Proceed')
                             };
                         }
-
-                    }).then(function() {
+                    }).then(function () {
                         Customer.find()
-                            .then(function(data) {
-                                $scope.cart.customer_fidelity_points = (data.metadatas && data.metadatas.fidelity_points) ? data.metadatas.fidelity_points.points : null;
-                                if(!$scope.points_data.use_points) {
+                            .then(function (data) {
+                                $scope.cart.customer_fidelity_points = (data.metadatas && data.metadatas.fidelity_points) ?
+                                    data.metadatas.fidelity_points.points : null;
+                                if (!$scope.points_data.use_points) {
                                     $scope.points_data.nb_points_used = $scope.cart.customer_fidelity_points;
                                 }
                                 $scope.updateEstimatedDiscount();
                             })
-                            .then(function() {
+                            .then(function () {
                                 Loader.hide();
                                 $scope.is_loading = false;
                             });
@@ -77,153 +75,151 @@ angular.module('starter').controller('MCommerceCartViewController', function ($s
             });
     };
 
-    $scope.updateEstimatedDiscount = function() {
-        if($scope.points_data.nb_points_used > 0) {
-            $scope.cart.estimated_fidelity_discount = (Math.round($scope.points_data.nb_points_used * $scope.cart.fidelity_rate * 100)/100) + " " + $scope.cart.currency_code;
+    $scope.updateEstimatedDiscount = function () {
+        if ($scope.points_data.nb_points_used > 0) {
+            $scope.cart.estimated_fidelity_discount =
+                (Math.round($scope.points_data.nb_points_used * $scope.cart.fidelity_rate * 100)/100) +
+                ' ' + $scope.cart.currency_code;
         }
     };
 
-    $scope.useFidelityChange = function() {
-        if($scope.points_data.use_points) {
+    $scope.useFidelityChange = function () {
+        if ($scope.points_data.use_points) {
             $scope.cart.discount_code = null;
             $scope.updateTipAndDiscount();
         }
     };
 
-    $scope.updateTipAndDiscount = function(){
+    $scope.updateTipAndDiscount = function () {
         var update = function () {
-
-            Loader.show("Updating price");
+            Loader.show('Updating price');
 
             $scope.is_loading = true;
             McommerceCart.adddiscount($scope.cart.discount_code, true)
-                .then(function() {
+                .then(function () {
                     McommerceCart.addTip($scope.cart)
                         .then(function (data) {
                             Loader.hide();
                             $scope.is_loading = false;
                             if (data.success) {
                                 if (angular.isDefined(data.message)) {
-                                    Dialog.alert("", data.message, "OK");
+                                    Dialog.alert('', data.message, 'OK');
                                     return;
                                 }
                             }
                         }, function (data) {
                             if (data && angular.isDefined(data.message)) {
-                                Dialog.alert("", data.message, "OK");
+                                Dialog.alert('', data.message, 'OK');
                             }
-                        }).then(function() {
+                        }).then(function () {
                             $scope.loadContent();
                         });
                 });
         };
 
-        if(updateTipTimoutFn) {
+        if (updateTipTimoutFn) {
             clearTimeout(updateTipTimoutFn);
         }
 
-        //wait 100ms before update
-        updateTipTimoutFn = setTimeout(function(){
+        // Wait 100ms before update!
+        updateTipTimoutFn = setTimeout(function () {
             update();
-        },600);
+        }, 600);
     };
 
-    $scope.proceed = function() {
+    $scope.proceed = function () {
         Loader.show();
 
-        var gotToNext = function() {
-            if(!$scope.cart.valid) {
+        var gotToNext = function () {
+            if (!$scope.cart.valid) {
                 $scope.cartIdInvalid();
-            } else if($scope.nb_stores > 1) {
+            } else if ($scope.nb_stores > 1) {
                 $scope.goToStoreChoice();
             } else {
                 $scope.goToOverview();
             }
         };
 
-        if($scope.cart && $scope.cart.discount_code) {
+        if ($scope.cart && $scope.cart.discount_code) {
             McommerceCart.adddiscount($scope.cart.discount_code, true)
-                .then(function(response){
-                    var data = response.data;
-                    if(data && data.success) {
+                .then(function (data) {
+                    if (data && data.success) {
                         gotToNext();
                     } else {
-                        if(data && data.message) {
-                            Dialog.alert("", data.message, "OK");
+                        if (data && data.message) {
+                            Dialog.alert('', data.message, 'OK');
                         } else {
-                            Dialog.alert("", "Unexpected Error", "OK");
+                            Dialog.alert('', 'Unexpected Error', 'OK');
                         }
                     }
                 }, function (resp) {
                     var data = resp.data;
                     if (data && angular.isDefined(data.message)) {
-                        Dialog.alert("", data.message, "OK");
+                        Dialog.alert('', data.message, 'OK');
                     }
-                }).then(function(){
+                }).then(function () {
                     Loader.hide();
                 });
-        } else if($scope.points_data.use_points) {
-            if($scope.points_data.nb_points_used > 0) {
-                if($scope.points_data.nb_points_used <= $scope.cart.customer_fidelity_points) {
+        } else if ($scope.points_data.use_points) {
+            if ($scope.points_data.nb_points_used > 0) {
+                if ($scope.points_data.nb_points_used <= $scope.cart.customer_fidelity_points) {
                     McommerceCart.useFidelityPoints($scope.points_data.nb_points_used)
-                        .then(function(data) {
+                        .then(function (data) {
                             gotToNext();
-                        }, function(data) {
-                            Dialog.alert("", data.message, "OK");
-                        }).then(function(){
+                        }, function (data) {
+                            Dialog.alert('', data.message, 'OK');
+                        }).then(function () {
                             Loader.hide();
                         });
-
                 } else {
-                    Dialog.alert("", "You don't have enough points", "OK");
+                    Dialog.alert('', "You don't have enough points", 'OK');
                 }
             }
         } else {
             McommerceCart.removeAllDiscount()
-                .then(function(data) {
+                .then(function (data) {
                     gotToNext();
-                }, function(data) {
-                    Dialog.alert("", data.message, "OK");
-                }).then(function(){
+                }, function (data) {
+                    Dialog.alert('', data.message, 'OK');
+                }).then(function () {
                 Loader.hide();
                 });
         }
     };
 
-    $scope.cartIdInvalid = function() {
-        Dialog.alert("", $scope.cart.valid_message, "OK");
+    $scope.cartIdInvalid = function () {
+        Dialog.alert('', $scope.cart.valid_message, 'OK');
     };
 
-    $scope.goToStoreChoice = function() {
-        $state.go("mcommerce-sales-store", {
+    $scope.goToStoreChoice = function () {
+        $state.go('mcommerce-sales-store', {
             value_id: $scope.value_id
         });
     };
 
     $scope.goToOverview = function () {
-        if(!$scope.is_loading) {
-            $state.go("mcommerce-sales-customer", {
+        if (!$scope.is_loading) {
+            $state.go('mcommerce-sales-customer', {
                 value_id: $scope.value_id
             });
         }
     };
 
     $scope.goToCategories = function () {
-        $state.go("mcommerce-category-list", {
+        $state.go('mcommerce-category-list', {
             value_id: $scope.value_id
         });
     };
 
     $scope.removeLine = function (line) {
-
-        Loader.show("Updating price");
+        Loader.show('Updating price');
 
         $scope.is_loading = true;
         McommerceCart.deleteLine(line.id)
             .then(function (data) {
                 if (data.success) {
                     if (angular.isDefined(data.message)) {
-                        Dialog.alert("", data.message, "OK");
+                        Dialog.alert('', data.message, 'OK');
                         return;
                     }
                     // update content

@@ -423,52 +423,20 @@ foreach($categories as $category_data) {
         ->insertOnce(array("code"));
 }
 
-# run from 4.11.0
+
+# run in 4.12.12 clean-up empty applications
 try {
-    $this->query("ALTER TABLE `application` CHANGE `domain` `domain` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;");
+    $this->query("DELETE FROM application 
+WHERE (name IS NULL OR name = '')
+AND (bundle_id IS NULL OR bundle_id = '')
+AND (package_name IS NULL OR package_name = '')
+AND (design_id IS NULL OR design_id = '')
+AND admin_id = 0;");
 } catch(Exception $e) {
     if(method_exists($this, "log")) {
-        $this->log("Skipped application nullable domain, already exists.");
+        $this->log("Skipped application clean-up, already done.");
     }
 }
-
-# run in 4.11.1
-try {
-    $this->query("ALTER TABLE `application_device` CHANGE `admob_type` `admob_type` ENUM('banner','interstitial','videos','banner-interstitial','banner-videos','interstitial-videos','banner-interstitial-videos') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'banner';");
-} catch(Exception $e) {
-    if(method_exists($this, "log")) {
-        $this->log("Skipped application_device alter enum, already done.");
-    }
-}
-
-# @todo remove after 4.11.1
-try {
-    $this->query("UPDATE application_device SET admob_interstitial_id = admob_id WHERE admob_type = 'interstitial';");
-    $this->query("UPDATE application_device SET owner_admob_interstitial_id = owner_admob_id WHERE owner_admob_type = 'interstitial';");
-    $this->query("UPDATE system_config SET application_ios_owner_admob_interstitial_id = application_ios_owner_admob_id WHERE application_ios_owner_admob_type = 'interstitial';");
-    $this->query("UPDATE system_config SET application_android_owner_admob_interstitial_id = application_android_owner_admob_id WHERE application_android_owner_admob_type = 'interstitial';");
-} catch(Exception $e) {}
-
-
-
-
-# run in 4.12.2
-$this->query("
-UPDATE application 
-SET privacy_policy_title = (
-    SELECT tabbar_name 
-	FROM application_option_value 
-	INNER JOIN application_option 
-    	ON (application_option.option_id = application_option_value.option_id)
-    WHERE application_option_value.app_id = application.app_id
-    AND application_option.code = 'privacy_policy'
-    LIMIT 1
-)
-WHERE ( 
-    privacy_policy_title IS NULL 
-    OR 
-    privacy_policy_title = ''
-)");
 
 
 

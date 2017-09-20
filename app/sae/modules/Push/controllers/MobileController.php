@@ -40,7 +40,9 @@ class Push_MobileController extends Application_Controller_Mobile_Default {
 
     public function lastmessagesAction() {
         $data = array();
-        if($device_uid = $this->getRequest()->getParam('device_uid')) {
+        $request = $this->getRequest();
+        $baseUrl = $request->getBaseUrl();
+        if($device_uid = $request->getParam('device_uid')) {
             $application = $this->getApplication();
 
             $message = new Push_Model_Message();
@@ -64,7 +66,7 @@ class Push_MobileController extends Application_Controller_Mobile_Default {
 
                 $data['push_message'] = [
                     'cover' => $message->getCoverUrl() ?
-                        $this->getRequest()->getBaseUrl() . $message->getCoverUrl() :
+                        $baseUrl . $message->getCoverUrl() :
                         null,
                     'action_value' => $action_url,
                     'open_webview' => !is_numeric($message->getActionValue()),
@@ -73,7 +75,7 @@ class Push_MobileController extends Application_Controller_Mobile_Default {
                         'action_value' => $action_url,
                         'open_webview' => !is_numeric($message->getActionValue()),
                         'cover' => $message->getCoverUrl() ?
-                            $this->getRequest()->getBaseUrl() . $message->getCoverUrl() :
+                            $baseUrl . $message->getCoverUrl() :
                             null,
                     ],
                     'message' => $message->getText(),
@@ -84,17 +86,25 @@ class Push_MobileController extends Application_Controller_Mobile_Default {
 
             $message = new Push_Model_Message();
             $message->findLastInAppMessage(
-                $this->getApplication()->getId(),
+                $application->getId(),
                 $device_uid
             );
 
             if($message->getId()) {
-                $data["inapp_message"] = array(
-                    "title" => $message->getTitle(),
-                    "text" => $message->getText(),
-                    "message" => $message->getText(),
-                    "cover" => $message->getCoverUrl() ?
-                        $this->getRequest()->getBaseUrl() . $message->getCoverUrl() :
+                $data['inapp_message'] = array(
+                    'title' => $message->getTitle(),
+                    'text' => $message->getText(),
+                    'message' => $message->getText(),
+                    'message_id' => $message->getId(),
+                    'additionalData' => [
+                        'message_id' => $message->getId(),
+                        'open_webview' => false,
+                        'cover' => $message->getCoverUrl() ?
+                            $baseUrl . $message->getCoverUrl() :
+                            null,
+                    ],
+                    'cover' => $message->getCoverUrl() ?
+                        $baseUrl . $message->getCoverUrl() :
                         null
                 );
             }
@@ -112,7 +122,7 @@ class Push_MobileController extends Application_Controller_Mobile_Default {
                 "message" => "Success."
             );
         }
-        $this->_sendHtml($data);
+        $this->_sendJson($data);
     }
 
     protected function _getDeviceUid() {

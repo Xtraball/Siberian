@@ -107,7 +107,7 @@ $schemas['promotion'] = array(
         'default' => 'account',
     ),
     'unlock_code' => array(
-        'type' => 'varchar(10)',
+        'type' => 'varchar(32)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',

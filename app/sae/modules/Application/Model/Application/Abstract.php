@@ -113,10 +113,22 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     public function save() {
 
         if(!$this->getId()) {
+
+            // Check if values are valid!
+            $applicationName = trim($this->getData('name'));
+            if (empty($applicationName)) {
+                throw new Siberian_Exception(__('Name is required to save the Application.'));
+            }
+
+            $adminId = trim($this->getData('admin_id'));
+            if (empty($adminId) || ($adminId === 0) || ($adminId === '0')) {
+                throw new Siberian_Exception(__('AdminId is required to save the Application.'));
+            }
+
             $this->setKey(uniqid())
                 ->setDesignCode(self::DESIGN_CODE_IONIC)
             ;
-            if(!$this->getLayoutId()) {
+            if (!$this->getLayoutId()) {
                 $this->setLayoutId(1);
             }
         }

@@ -502,7 +502,7 @@ WHERE cap.value_id = {$value_id}
                         111.1111 * DEGREES(ACOS(COS(RADIANS($latitude)) *
                         COS(RADIANS(cms_application_page_block_address.latitude)) *
                         COS(RADIANS($longitude - cms_application_page_block_address.longitude)) +
-                        SIN(RADIANS($latitude)) * SIN(RADIANS(cms_application_page_block_address.latitude)))) <
+                        SIN(RADIANS($latitude)) * SIN(RADIANS(cms_application_page_block_address.latitude)))) <  
                         cast(application_option_value_metadata.payload AS DECIMAL(10,2))
                     ");
         }
@@ -643,13 +643,13 @@ WHERE cap.value_id = {$value_id}
             return false;
         }
 
+        # Compress homepage default
         $picture_b64 = null;
         if (!(boolean) $this->getPage()->getMetadataValue('show_picto')) {
-          # Compress homepage default
-          if($page->getPictureUrl()) {
-              $picture = Core_Model_Directory::getBasePathTo($page->getPictureUrl());
-              $picture_b64 = Siberian_Image::open($picture)->cropResize(64)->inline();
-          }
+            if ($page->getPictureUrl()) {
+                $picture = Core_Model_Directory::getBasePathTo($page->getPictureUrl());
+                $picture_b64 = Siberian_Image::open($picture)->cropResize(64)->inline();
+            }
         }
 
         $payload = array(

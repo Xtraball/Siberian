@@ -481,6 +481,7 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
                 // Last InApp Message!
                 var inappMessage = data.inapp_message;
                 if (inappMessage) {
+                    inappMessage.type = 'inapp';
                     inappMessage.message = inappMessage.text;
                     inappMessage.config = {
                         buttons: [
@@ -494,7 +495,7 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
                         ]
                     };
 
-                    if (inappMessage.cover !== null) {
+                    if ((inappMessage.cover !== null) && (inappMessage.additionalData === undefined)) {
                         inappMessage.additionalData = {
                             cover: inappMessage.cover
                         };
@@ -533,6 +534,12 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
                     var promise = $q.defer();
 
                     if ((extendedPayload !== undefined) && (extendedPayload.cover || extendedPayload.action_value)) {
+                        // Prevent missing or not base url!
+                        var coverUri = extendedPayload.cover;
+                        if (extendedPayload.cover.indexOf('http') !== 0) {
+                            coverUri = DOMAIN + extendedPayload.cover;
+                        }
+
                         var config = {
                             buttons: [
                                 {
@@ -557,18 +564,46 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
                             ],
                             cssClass: 'push-popup',
                             title: messagePayload.title,
-                            template: '<div class="list card">' +
-                            '   <div class="item item-image' + (extendedPayload.cover ? '' : ' ng-hide') + '">' +
-                            '       <img src="' + (DOMAIN + extendedPayload.cover) + '">' +
-                            '   </div>' +
-                            '   <div class="item item-custom">' +
-                            '       <span>' + messagePayload.message + '</span>' +
-                            '   </div>' +
+                            template:
+                            '<div class="list card">' +
+                                '<div class="item item-image' + (extendedPayload.cover ? '' : ' ng-hide') + '">' +
+                                    '<img src="' + (coverUri) + '">' +
+                                '</div>' +
+                                '<div class="item item-custom">' +
+                                    '<span>' + messagePayload.message + '</span>' +
+                                '</div>' +
                             '</div>'
                         };
 
                         if (messagePayload.config !== undefined) {
                             config = angular.extend(config, messagePayload.config);
+                        }
+
+                        // Handles case with only a cover image!
+                        if ((extendedPayload.action_value === undefined) ||
+                            (extendedPayload.action_value === '') ||
+                            (extendedPayload.action_value === null)) {
+                            config.buttons = [
+                                {
+                                    text: $translate.instant('OK'),
+                                    type: 'button-custom',
+                                    onTap: function () {
+                                        // Simply closes!
+                                    }
+                                }
+                            ];
+                        }
+
+                        if ((messagePayload.type !== undefined) && (messagePayload.type === 'inapp')) {
+                            config.buttons = [
+                                {
+                                    text: $translate.instant('OK'),
+                                    type: 'button-custom',
+                                    onTap: function () {
+                                        Push.markInAppAsRead();
+                                    }
+                                }
+                            ];
                         }
 
                         if (extendedPayload.cover || extendedPayload.action_value) {

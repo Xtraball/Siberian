@@ -1,11 +1,14 @@
 /* global
- navigator
+ navigator, getParameterByName
  */
 
 var AVAILABLE_LANGUAGES = ['en'];
 var language = 'en';
 var forceLocale = getParameterByName('locale');
-if (navigator.language) {
+if (AVAILABLE_LANGUAGES.indexOf(forceLocale) >= 0) {
+    // Force locale via param
+    language = forceLocale;
+} else if (navigator.language) {
     var tmp_language = navigator.language.replace('-', '_');
 
     try {

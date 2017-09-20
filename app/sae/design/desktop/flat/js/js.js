@@ -312,7 +312,7 @@ var Uploader = Class.extend({
     init: function() {
         this.current_pretty_photo_content = '';
     },
-    showProgressbar: function() {
+    showProgressbar: function () {
         message.setTimer(false);
         message.addLoader(true);
         message.setNoBackground(true);
@@ -324,13 +324,13 @@ var Uploader = Class.extend({
             value: 100
         });
     },
-    moveProgressbar: function(data) {
+    moveProgressbar: function (data) {
         var progress = parseInt(data.loaded / data.total * 100, 10);
         $('#progressbar').progressbar({
             value: progress
         });
     },
-    showError: function(error) {
+    showError: function (error) {
         $('#progressbar').progressbar({
             value: 0
         });
@@ -343,7 +343,7 @@ var Uploader = Class.extend({
         message.addButton(true);
         message.setTimer(false);
     },
-    showSuccess: function(success) {
+    showSuccess: function (success) {
         $('#progressbar').progressbar({
             value: 0
         });
@@ -356,19 +356,19 @@ var Uploader = Class.extend({
         message.addButton(false);
         message.setTimer(false);
     },
-    hide: function() {
+    hide: function () {
         $('#progressbar').progressbar({
             value: 0
         });
         $('#progressbar').stop().hide();
         message.hide();
     },
-    crop: function(params) {
-        if($('#crop_image').length < 1 ) {
+    crop: function (params) {
+        if ($('#crop_image').length < 1 ) {
             $('body').append('<a style="display:none" id="crop_image" rel="prettyPhoto[ajax]" href=""></a>');
         }
 
-        if($('.pp_inline').length > 0) {
+        if ($('.pp_inline').length > 0) {
            this.current_pretty_photo_content = $('.pp_inline').clone(true);
         }
 
@@ -379,58 +379,56 @@ var Uploader = Class.extend({
             deeplinking: false,
             keyboard_shortcuts: false,
             theme: 'pp_none',
-            changepicturecallback: function() {
+            changepicturecallback: function () {
                 eval($('.pp_inline script').html());
             },
-            callback: function() {}
+            callback: function () {}
         });
-        params["url"] += '/picture/'+params["file"];
-        params["url"] += '/outputWidth/'+params["output_w"];
-        params["url"] += '/outputHeight/'+params["output_h"];
-        params["url"] += '/outputUrl/'+params["output_url"];
-        if(params["quality"]) {
-            params["url"] += '/quality/'+params["quality"];
+        params['url'] += '/picture/' + params['file'];
+        params['url'] += '/outputWidth/' + params['output_w'];
+        params['url'] += '/outputHeight/' + params['output_h'];
+        params['url'] += '/outputUrl/' + params['output_url'];
+        if (params['quality']) {
+            params['url'] += '/quality/' + params['quality'];
         }
-        params["url"] += '/uploader/'+params["uploader"];
-        if(params["option_value_id"]) {
-            params["url"] += '/option_value_id/'+params["option_value_id"];
+        params['url'] += '/uploader/' + params['uploader'];
+        if (params['option_value_id']) {
+            params['url'] += '/option_value_id/' + params['option_value_id'];
         }
-        if(params["is_colorizable"]) {
-            params["url"] += '/is_colorizable/'+params["is_colorizable"];
+        if (params['is_colorizable']) {
+            params['url'] += '/is_colorizable/' + params['is_colorizable'];
         }
-
-        if(params["force_color"]) {
-            params["url"] += '/force_color/'+params["force_color"];
+        if (params['force_color']) {
+            params['url'] += '/force_color/' + params['force_color'];
         }
-
-        if(params["image_color"]) {
-            params["image_color"] = params["image_color"].replace('#','');
-            params["url"] += '/image_color/' + params["image_color"];
+        if (params['image_color']) {
+            params['image_color'] = params['image_color'].replace('#', '');
+            params['url'] += '/image_color/' + params['image_color'];
         }
 
-        params["url"] += '?ajax=true';
+        params['url'] += '?ajax=true';
 
-        if(this.current_pretty_photo_content.length > 0) {
+        console.log('pretty-photo', params);
+
+        if (this.current_pretty_photo_content.length > 0) {
             $.ajax({
-                type: "GET",
-                url: params["url"]
+                type: 'GET',
+                url: params['url']
             })
-            .done(function(datas) {
+            .done(function (datas) {
                 $('.pp_inline').html(datas);
             });
         } else {
-        $.prettyPhoto.open(params["url"]);
+            $.prettyPhoto.open(params['url']);
         }
     },
-    callback: function() {
-    },
-    callbackDidFinish: function() {
-    }
+    callback: function () {},
+    callbackDidFinish: function () {}
 });
 
 var Table = Class.extend({
 
-    init: function(urls, params) {
+    init: function (urls, params) {
 
         this.table = $("#table_list");
         this.reload_url = urls.reload_url;

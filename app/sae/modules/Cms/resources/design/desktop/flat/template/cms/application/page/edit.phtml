@@ -73,7 +73,7 @@ $form_blocks = $cms_form->loadBlocks($blocks);
     </div>
 
     <?php if(!$is_places): ?>
-    <div>
+    <div class="background-images-upload">
         <?php echo $this->importBackground($option_value); ?>
     </div>
     <?php endif; ?>
@@ -225,6 +225,8 @@ $form_blocks = $cms_form->loadBlocks($blocks);
                     initialStartAt = sections_html.top;
                 },100);
             });
+
+            bindForms('.background-images-upload');
 
         });
 

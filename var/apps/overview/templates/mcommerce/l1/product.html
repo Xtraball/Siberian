@@ -18,9 +18,15 @@
                 </h2>
             </div>
             <div ng-if="product.picture.length" class="item item-custom">
-                <ion-scroll direction="x" paging="true" scrollbar-x="false">
-                    <img ng-repeat="picture in product.picture" ng-src="{{picture.url}}" width="100%"/>
-                </ion-scroll>
+                <ion-slide-box id="homepage_slider"
+                               auto-play="false"
+                               does-continue="true"
+                               show-pager="true">
+
+                    <ion-slide ng-repeat="picture in product.picture">
+                        <img ng-src="{{picture.url}}" style="width:100%;" />
+                    </ion-slide>
+                </ion-slide-box>
             </div>
         </div>
         <div class="card">

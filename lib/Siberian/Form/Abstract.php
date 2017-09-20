@@ -529,9 +529,9 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         $button_text = !empty($button_text) ? $button_text : __("Add a picture");
 
         if(is_array($options) && isset($options["width"]) && isset($options["height"])) {
-            $button_text .= " (".$options["width"]."x".$options["height"].")";
+            $label .= " " . $options["width"] . " x " . $options["height"];
         } else {
-            $button_text .= " (320x150)";
+            $label .= " 320 x 150";
         }
 
         /** Visual image button */

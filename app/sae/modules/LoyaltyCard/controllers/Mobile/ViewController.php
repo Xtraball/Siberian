@@ -24,45 +24,45 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                 }
             }
 
-            $payload["promotions"] = array();
+            $payload['promotions'] = [];
             foreach($promotions as $promotion) {
-                $payload["promotions"][] = array(
-                    "id" => $promotion->getId(),
-                    "advantage" => $promotion->getAdvantage()
-                );
+                $payload['promotions'][] = [
+                    'id' => $promotion->getId(),
+                    'advantage' => $promotion->getAdvantage()
+                ];
             }
 
-            $payload["card"] = array();
+            $payload['card'] = [];
             if($current_card->getCardId()) {
 
-                $payload["card"] = array(
-                    "id"                    => (integer) $current_card->getCustomerCardId(),
-                    "is_visible"            => (boolean) $current_card->getCardId(),
-                    "name"                  => $current_card->getName(),
-                    "advantage"             => $current_card->getAdvantage(),
-                    "conditions"            => $current_card->getConditions(),
-                    "number_of_points"      => (integer) $current_card->getNumberOfPoints(),
-                    "max_number_of_points"  => (integer) $current_card->getMaxNumberOfPoints()
-                );
+                $payload['card'] = [
+                    'id' => (integer) $current_card->getCustomerCardId(),
+                    'is_visible' => (boolean) $current_card->getCardId(),
+                    'name' => $current_card->getName(),
+                    'advantage' => $current_card->getAdvantage(),
+                    'conditions' => $current_card->getConditions(),
+                    'number_of_points' => (integer) $current_card->getNumberOfPoints(),
+                    'max_number_of_points' => (integer) $current_card->getMaxNumberOfPoints()
+                ];
 
-                $payload["points"] = $this->_getPoints($current_card);
+                $payload['points'] = $this->_getPoints($current_card);
 
             }
 
             $_pictos = $this->_getPictos($current_card);
-            $payload["picto_urls"] = array(
-                "normal_url"    => $_pictos["inactive"],
-                "validated_url" => $_pictos["active"],
-            );
+            $payload['picto_urls'] = [
+                'normal_url' => $_pictos['inactive'],
+                'validated_url' => $_pictos['active'],
+            ];
 
-            $payload["page_title"] = $this->getCurrentOptionValue()->getTabbarName();
-            $payload["pad_title"] = __("Enter the password");
-            $payload["card_is_locked"] = $cardIsLocked;
+            $payload['page_title'] = $this->getCurrentOptionValue()->getTabbarName();
+            $payload['pad_title'] = __('Enter the password');
+            $payload['card_is_locked'] = $cardIsLocked;
 
             $tc = new Application_Model_Tc();
-            $tc->findByType($this->getApplication()->getId(), "loyaltycard");
+            $tc->findByType($this->getApplication()->getId(), 'loyaltycard');
             $text = $tc->getText();
-            $payload["tc_id"] = !empty($text) ? $tc->getId() : null;
+            $payload['tc_id'] = !empty($text) ? $tc->getId() : null;
 
             $this->_sendJson($payload);
         }

@@ -113,13 +113,14 @@ class Places_ApplicationController extends Application_Controller_Default {
 
                 $settings->setup($data['search']);
                 $settings->save();
-                Cms_Model_Application_Page::setPlaceOrder($data['option_value_id'], $data['places_order'] == 'distance');
-                Cms_Model_Application_Page::setPlaceOrderAlpha($data['option_value_id'], $data['places_order'] == 'alpha');
+                Cms_Model_Application_Page::setPlaceOrder($data['option_value_id'],
+                    $data['places_order'] === 'distance');
+                Cms_Model_Application_Page::setPlaceOrderAlpha($data['option_value_id'],
+                    $data['places_order'] === 'alpha');
 
                 $this->getCurrentOptionValue()
                     ->touch()
                     ->expires(-1);
-
 
                 $html = array(
                     'success' => 1,

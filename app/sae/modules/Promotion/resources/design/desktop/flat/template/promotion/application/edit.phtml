@@ -5,10 +5,11 @@ $option_value = $this->getOptionValue();
 
 $unlock_type = ($option_value->getCode() === 'qr_discount') ? 'qrcode' : 'account';
 
+$uniqId = uniqid();
 $form_discount = new Promotion_Form_Promotion();
 $form_discount->setValueId($option_value->getId());
 $form_discount->getElement('unlock_by')->setValue($unlock_type);
-$form_discount->addQrCode(uniqid());
+$form_discount->addQrCode($uniqId);
 
 $promotion_model = new Promotion_Model_Promotion();
 $promotions = $promotion_model->findAll([

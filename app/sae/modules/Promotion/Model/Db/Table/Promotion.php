@@ -5,6 +5,8 @@ class Promotion_Model_Db_Table_Promotion extends Core_Model_Db_Table
     protected $_name = "promotion";
     protected $_primary = "promotion_id";
 
+    protected $_modelClass = 'Promotion_Model_Promotion';
+
     public function getOldPromotions($subDay = 30) {
         $date = new Zend_Date();
         $now = $date->toString('y-MM-dd');
@@ -63,6 +65,18 @@ class Promotion_Model_Db_Table_Promotion extends Core_Model_Db_Table
             ->where("aov.app_id = ?", $app_id)
             ->setIntegrityCheck(false);
         return $this->_db->fetchAssoc($select);
+    }
+
+    public function fixPromotions() {
+        $select = "SELECT 
+promotion.*, 
+application_option_value.app_id AS app_id
+FROM promotion
+INNER JOIN application_option_value ON application_option_value.value_id = promotion.value_id
+WHERE promotion.unlock_by = 'qrcode'
+AND promotion.unlock_code IS NULL";
+
+        return $this->toModelClass($this->_db->fetchAll($select));
     }
 
 }

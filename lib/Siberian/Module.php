@@ -20,6 +20,11 @@ class Siberian_Module {
     public static $editor_menus = array();
 
     /**
+     * @var array
+     */
+    public static $modules_roots = array();
+
+    /**
      * @param $feature
      * @param $classname
      */
@@ -98,6 +103,27 @@ class Siberian_Module {
     public static function getEditorMenus() {
         if(!empty(self::$editor_menus)) {
             return self::$editor_menus;
+        }
+        return false;
+    }
+
+    /**
+     * @param $module
+     */
+    public static function addModuleRoot($module, $root) {
+        $moduleKey = trim(strtolower($module));
+        if(!isset(self::$modules_roots[$moduleKey])) {
+            self::$modules_roots[$moduleKey] = $root;
+        }
+    }
+
+    /**
+     * @return array|bool
+     */
+    public static function getModuleRoot($module) {
+        $moduleKey = trim(strtolower($module));
+        if(!empty(self::$modules_roots[$moduleKey])) {
+            return self::$modules_roots[$moduleKey];
         }
         return false;
     }

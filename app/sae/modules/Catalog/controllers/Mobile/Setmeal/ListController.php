@@ -10,6 +10,11 @@ class Catalog_Mobile_Setmeal_ListController extends Application_Controller_Mobil
 
             if($value_id = $request->getParam("value_id")) {
 
+                $baseUrl = '';
+                if ($this->getRequest()) {
+                    $baseUrl = $this->getRequest()->getBaseUrl();
+                }
+
                 $option_value = $this->getCurrentOptionValue();
 
                 $collection = array();
@@ -32,13 +37,13 @@ class Catalog_Mobile_Setmeal_ListController extends Application_Controller_Mobil
                     $thumbnail_b64 = null;
                     if($menu->getThumbnailUrl()) {
                         $picture = Core_Model_Directory::getBasePathTo($menu->getThumbnailUrl());
-                        $thumbnail_b64 = Siberian_Image::open($picture)->inline("png");
+                        $thumbnail_b64 = Siberian_Image::getForMobile($baseUrl, $picture, null, 2048, 2048);
                     }
 
                     $picture_b64 = null;
                     if($menu->getPictureUrl()) {
                         $picture = Core_Model_Directory::getBasePathTo($menu->getPictureUrl());
-                        $picture_b64 = Siberian_Image::open($picture)->inline("png");
+                        $picture_b64 = Siberian_Image::getForMobile($baseUrl, $picture, null, 2048, 2048);
                     }
 
                     $collection[] = array(

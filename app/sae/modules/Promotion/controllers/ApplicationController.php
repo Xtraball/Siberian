@@ -74,8 +74,7 @@ class Promotion_ApplicationController extends Application_Controller_Default {
                 ->setIsActive(1)
                 ->setUnlockBy($values['unlock_by'])
                 ->setIsUnique($values['use_only_once'])
-                ->setValueId($values['value_id'])
-                ->save();
+                ->setValueId($values['value_id']);
 
             // Write QRCode file in place!
             if ($values['unlock_by'] === 'qrcode' && !$promotion->getId()) {
@@ -90,6 +89,10 @@ class Promotion_ApplicationController extends Application_Controller_Default {
 
                 $qrCode = $this->generateQrCode($values['unlock_code'], 200, 10);
                 $qrCode->writeFile($file);
+
+                $promotion
+                    ->setUnlockCode($values['unlock_code'])
+                    ->save();
             }
 
             // Update touch date, then never expires (until next touch)!

@@ -70,42 +70,48 @@ class Catalog_Mobile_Category_ListController extends Application_Controller_Mobi
     }
 
     protected function _productToJson($product, $value_id) {
+
+        $baseUrl = '';
+        if ($this->getRequest()) {
+            $baseUrl = $this->getRequest()->getBaseUrl();
+        }
+
         $format = array();
-        if($product->getData("type") == "format") {
+        if($product->getData('type') === 'format') {
             foreach($product->getType()->getOptions() as $option) {
-                $format[] = array(
-                    "id"    => (integer) $option->getId(),
-                    "title" => $option->getTitle(),
-                    "price" => $option->getFormattedPrice()
-                );
+                $format[] = [
+                    'id' => (integer) $option->getId(),
+                    'title' => $option->getTitle(),
+                    'price' => $option->getFormattedPrice()
+                ];
             }
         }
 
         $picture_b64 = null;
         if($product->getPictureUrl()) {
             $picture = Core_Model_Directory::getBasePathTo($product->getPictureUrl());
-            $picture_b64 = Siberian_Image::open($picture)->inline("png");
+            $picture_b64 = Siberian_Image::getForMobile($baseUrl, $picture, null, 2048, 2048);
         }
 
-        $embed_payload = array(
-            "name"                  => $product->getName(),
-            "conditions"            => $product->getConditions(),
-            "description"           => $product->getDescription(),
-            "price"                 => $product->getPrice() > 0 ? $product->getFormattedPrice() : null,
-            "picture"               => $picture_b64,
-            "formats"               => $format,
-            "social_sharing_active" => (boolean) $this->getCurrentOptionValue()->getSocialSharingIsActive()
-        );
+        $embed_payload = [
+            'name' => $product->getName(),
+            'conditions' => $product->getConditions(),
+            'description' => $product->getDescription(),
+            'price' => $product->getPrice() > 0 ? $product->getFormattedPrice() : null,
+            'picture' => $picture_b64,
+            'formats' => $format,
+            'social_sharing_active' => (boolean) $this->getCurrentOptionValue()->getSocialSharingIsActive()
+        ];
 
-        return array(
-            "id"                => (integer) $product->getId(),
-            "title"             => $product->getName(),
-            "subtitle"          => strip_tags($product->getDescription()).($product->getPrice() > 0 ? "<br>".$product->getFormattedPrice() : ""),
-            "picture"           => $picture_b64,
-            "url"               => $this->getPath("catalog/mobile_category_product_view", array("value_id" => $value_id, "product_id" => $product->getId())),
-            "position"          => $product->getPosition(),
-            "embed_payload"     => $embed_payload
-        );
+        return [
+            'id' => (integer) $product->getId(),
+            'title' => $product->getName(),
+            'subtitle' => strip_tags($product->getDescription()).($product->getPrice() > 0 ? "<br>".$product->getFormattedPrice() : ""),
+            'picture' => $picture_b64,
+            'url' => $this->getPath("catalog/mobile_category_product_view", array("value_id" => $value_id, "product_id" => $product->getId())),
+            'position' => $product->getPosition(),
+            'embed_payload' => $embed_payload
+        ];
     }
 
     protected function _sortProducts($a, $b) {
