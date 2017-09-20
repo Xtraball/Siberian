@@ -42,6 +42,10 @@ class Places_Form_Place extends Cms_Form_Cms {
         $show_titles->setBelongsTo("metadata");
         $show_titles->addClass("cms-include");
 
+        $show_image = $this->addSimpleCheckbox("show_picto", __("Display pictogram instead of image in map"));
+        $show_image->setBelongsTo("metadata");
+        $show_image->addClass("cms-include");
+
         $tags = $this->addSimpleText("tags", __("Tags"));
         $tags->addClass("cms-include");
         $tags->setAttrib("data-role", "tagsinput");
