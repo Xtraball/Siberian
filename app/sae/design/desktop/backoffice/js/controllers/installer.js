@@ -5,7 +5,7 @@ App.config(function($routeProvider) {
         templateUrl: BASE_URL+"/installer/backoffice_module/template"
     });
 
-}).controller("ModuleController", function($scope, $interval, $timeout, Backoffice, Header, Installer, Url, Label, FileUploader) {
+}).controller("ModuleController", function($scope, $interval, $timeout, Backoffice, Header, Installer, Url, Label, FileUploader, AdvancedTools) {
 
     $scope.header = new Header();
     $scope.header.button.left.is_visible = false;
@@ -78,13 +78,13 @@ App.config(function($routeProvider) {
 
     $scope.uploader.filters.push({
         name: 'limit',
-        fn: function(item, options) {
+        fn: function (item, options) {
             return this.queue.length < 1;
         }
     });
 
     /*/******** PAGE DATA **********/
-    Installer.loadData().success(function(data) {
+    Installer.loadData().success(function (data) {
         $scope.header.title = data.title;
         $scope.header.icon = data.icon;
         //$scope.ftp.credentials = data.ftp;
@@ -367,17 +367,17 @@ App.config(function($routeProvider) {
     };
 
     $scope.installRetry = 0;
-    $scope.installPoller = function() {
-        Installer.install().success(function(data) {
-
-            if($scope.installRetry < 5 && angular.isObject(data) && data.success && angular.isDefined(data.reached_timeout)) {
+    $scope.installPoller = function () {
+        Installer.install().success(function (data) {
+            if ($scope.installRetry < 5 &&
+                angular.isObject(data) &&
+                data.success && angular.isDefined(data.reached_timeout)) {
                 // Continue update, recall itself
                 $scope.installPoller();
                 $scope.installRetry++;
 
-                console.log("Installer recall "+$scope.installRetry+" time.");
-
-            } else if(angular.isObject(data) && data.success) {
+                console.log('Installer recall ' + $scope.installRetry + ' time.');
+            } else if (angular.isObject(data) && data.success) {
                 $scope.message.setText(data.message)
                     .isError(false)
                     .show()
@@ -385,20 +385,42 @@ App.config(function($routeProvider) {
 
                 $scope.installation.install.success = true;
 
-                Backoffice.clearCache("app_manifest").success(function (data) {
-                    $scope.content_loader_is_visible = true;
-                    $scope.message.setText(data.message)
-                        .isError(false)
-                        .show()
-                    ;
-                }).error(function() {
+                $scope.content_loader_is_visible = true;
 
-                }).finally(function() {
-                    $scope.installation.install.running = false;
-                    $timeout(function() {
-                        location.reload();
-                    }, 1500);
-                });
+                if (($scope.package_details !== undefined) &&
+                    ($scope.package_details.restore_apps !== undefined) &&
+                    ($scope.package_details.restore_apps === true)) {
+                    AdvancedTools.restoreapps()
+                        .finally(function () {
+                            Backoffice.clearCache('app_manifest')
+                                .success(function (manifestData) {
+                                    $scope.content_loader_is_visible = true;
+                                    $scope.message.setText(manifestData.message)
+                                        .isError(false)
+                                        .show()
+                                    ;
+                                }).finally(function () {
+                                    $scope.installation.install.running = false;
+                                    $timeout(function () {
+                                        location.reload();
+                                    }, 1500);
+                                });
+                        });
+                } else {
+                    Backoffice.clearCache('app_manifest')
+                        .success(function (data) {
+                            $scope.content_loader_is_visible = true;
+                            $scope.message.setText(data.message)
+                                .isError(false)
+                                .show()
+                            ;
+                        }).finally(function () {
+                            $scope.installation.install.running = false;
+                            $timeout(function () {
+                                location.reload();
+                            }, 1500);
+                        });
+                }
 
             } else {
                 $scope.message.setText(Label.uploader.error.general)

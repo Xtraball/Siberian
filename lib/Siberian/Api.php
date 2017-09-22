@@ -32,7 +32,7 @@ class Siberian_Api {
             "manifest" => "Rebuild manifest",
             "cleartmp" => "Clear temp",
             "clearcache" => "Clear cache",
-            "clearlog" => "Clear logs",
+            "clearlogs" => "Clear logs",
         ),
         "push" => array(
             "list" => "List available applications",

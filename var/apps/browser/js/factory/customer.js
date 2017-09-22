@@ -101,7 +101,7 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
                 }, 600);
             });
 
-            var logoutSuccessSubscriber = scope.$on(SB.EVENTS.AUTH.logoutSuccess, function () {
+            var logoutSuccessSubscriber = localScope.$on(SB.EVENTS.AUTH.logoutSuccess, function () {
                 if (typeof logoutCallback === 'function') {
                     logoutCallback();
                 }

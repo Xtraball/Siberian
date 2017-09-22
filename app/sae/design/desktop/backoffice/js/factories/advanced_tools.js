@@ -1,37 +1,32 @@
 
-App.factory('AdvancedTools', function($http, Url) {
-
+App.factory('AdvancedTools', function ($http, Url) {
     var factory = {};
 
-    factory.loadData = function() {
+    factory.loadData = function () {
         return $http({
             method: 'GET',
-            url: Url.get("backoffice/advanced_tools/load"),
+            url: Url.get('backoffice/advanced_tools/load'),
             cache: true,
-            responseType:'json'
+            responseType: 'json'
         });
     };
 
-    factory.runtest = function() {
-
+    factory.runtest = function () {
         return $http({
             method: 'GET',
-            url: Url.get("backoffice/advanced_tools/runtest"),
+            url: Url.get('backoffice/advanced_tools/runtest'),
             cache: false,
-            responseType:'json'
+            responseType: 'json'
         });
-
     };
 
-    factory.restoreapps = function() {
-
+    factory.restoreapps = function () {
         return $http({
             method: 'GET',
-            url: Url.get("backoffice/advanced_tools/restoreapps"),
+            url: Url.get('backoffice/advanced_tools/restoreapps'),
             cache: false,
-            responseType:'json'
+            responseType: 'json'
         });
-
     };
 
     return factory;

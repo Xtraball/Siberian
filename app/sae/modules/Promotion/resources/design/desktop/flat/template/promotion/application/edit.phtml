@@ -29,7 +29,11 @@ $deletePromotionForm->setValueId($option_value->getId());
         <li role="presentation" class="active">
             <a href="#discount" aria-controls="discount" role="tab" data-toggle="tab">
                 <i class="fa fa-certificate"></i>
-                <?php echo __('Discount') ?>
+                <?php if ($unlock_type === 'account'): ?>
+                    <?php echo __('Discount') ?>
+                <?php else: ?>
+                    <?php echo __('QR Coupon') ?>
+                <?php endif; ?>
             </a>
         </li>
         <li role="presentation">

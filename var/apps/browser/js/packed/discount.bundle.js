@@ -149,43 +149,37 @@ angular.module('starter').controller('DiscountListController', function ($cordov
         $cordovaBarcodeScanner.scan().then(function (barcodeData) {
             if (!barcodeData.cancelled && (barcodeData.text !== '')) {
                 $timeout(function () {
-                    for (var i = 0; i < $scope.scan_protocols.length; i++) {
-                        if (barcodeData.text.toLowerCase().indexOf($scope.scan_protocols[i]) === 0) {
-                            $scope.is_loading = true;
+                    $scope.is_loading = true;
 
-                            var qrcode = barcodeData.text.replace($scope.scan_protocols[i], '');
+                    var qrcode = barcodeData.text.replace('sendback:', '');
 
-                            // Load data!
-                            Discount.unlockByQRCode(qrcode)
-                                .then(function (data) {
-                                    for (var i = 0; i < $scope.collection.length; i++) {
-                                        if ($scope.collection[i].id == data.promotion.id) {
-                                            $scope.collection[i] = data.promotion;
-                                            console.log($scope.collection[i]);
-                                            break;
-                                        }
-                                    }
+                    // Load data!
+                    Discount.unlockByQRCode(qrcode)
+                        .then(function (data) {
+                            for (var i = 0; i < $scope.collection.length; i++) {
+                                if ($scope.collection[i].id == data.promotion.id) {
+                                    $scope.collection[i] = data.promotion;
+                                    console.log($scope.collection[i]);
+                                    break;
+                                }
+                            }
 
-                                    $state.go('discount-view', {
-                                        value_id: $scope.value_id,
-                                        promotion_id: data.promotion.id
-                                    });
+                            $state.go('discount-view', {
+                                value_id: $scope.value_id,
+                                promotion_id: data.promotion.id
+                            });
 
-                                    $scope.is_loading = false;
-                                }, function (data) {
-                                    var message_text = 'An error occurred while reading the code.';
-                                    if (angular.isObject(data)) {
-                                        message_text = data.message;
-                                    }
+                            $scope.is_loading = false;
+                        }, function (data) {
+                            var message_text = 'An error occurred while reading the code.';
+                            if (angular.isObject(data)) {
+                                message_text = data.message;
+                            }
 
-                                    Dialog.alert('Error', message_text, 'OK', -1);
-                                }).then(function () {
-                                    $scope.is_loading = false;
-                                });
-
-                            break;
-                        }
-                    }
+                            Dialog.alert('Error', message_text, 'OK', -1);
+                        }).then(function () {
+                            $scope.is_loading = false;
+                        });
                 });
             }
         }, function (error) {

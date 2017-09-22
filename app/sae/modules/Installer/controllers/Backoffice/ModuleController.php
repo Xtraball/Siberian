@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 class Installer_Backoffice_ModuleController extends Backoffice_Controller_Default {
 
@@ -586,6 +586,11 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
         if(($release_note = $package->getReleaseNote())) {
             $data["release_note"] = $package->getReleaseNote();
+        }
+
+        $data["package_details"]["restore_apps"] = false;
+        if(($restore_apps = $package->getRestoreApps())) {
+            $data["package_details"]["restore_apps"] = $package->getRestoreApps();
         }
 
         return $data;

@@ -272,15 +272,17 @@ abstract class Core_View_Default_Abstract extends Siberian_View
      *
      * @param $option
      * @param $toggleDown
+     * @param $marginTop
      * @return mixed
      */
-    public function importBackground($option_value, $toggleDown = true) {
+    public function importBackground($option_value, $toggleDown = true, $marginTop = true) {
 
         $background_section = $this->getLayout()
             ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image-2.phtml')
             ->setOptionValue($option_value)
             ->setValueId($option_value->getId())
             ->setToggleDown($toggleDown)
+            ->setMarginTop($marginTop)
             ->toHtml();
 
         return $background_section;

@@ -1489,6 +1489,17 @@ div.loader {
     display: block;
     width: auto;
     margin: 0 auto;
+    max-width: 86px;
+}
+
+.option_value p.feature_name {
+    font-size: 8px;
+    line-height: 8px;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 2px;
 }
 
 .option_value span {
@@ -1499,7 +1510,10 @@ div.loader {
     font-size: 12px;
     -webkit-transition:0.3s fade 1s;
 }
-.option_value:hover span, .option_value.selected a span {
+.option_value:hover span,
+.option_value.selected a span,
+.option_value:hover p.feature_name,
+.option_value.selected p.feature_name {
     opacity: 0;
 }
 

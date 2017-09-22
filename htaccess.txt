@@ -20,6 +20,10 @@
     </IfModule>
 
 ###########################################################################
+# PHP_AUTH_BASIC
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+
+###########################################################################
 # Compression
     <IfModule mod_deflate.c>
         SetOutputFilter DEFLATE

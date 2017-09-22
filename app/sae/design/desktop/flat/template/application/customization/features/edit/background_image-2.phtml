@@ -16,11 +16,12 @@
     $form->populate($values);
 
     $toggledown = $this->getToggleDown();
+    $marginTop = $this->getMarginTop();
 ?>
-<div class="margin-bkg color-content">
+<div class="color-content <?php echo ($marginTop) ? 'margin-bkg' : ''; ?>">
     <h3 class="title-editor no-border-radius title-feature-indent">
         <?php echo __('Background'); ?>
-        <?php if($toggledown): ?>
+        <?php if ($toggledown): ?>
         <button type="button" id="toggle_design" class="toggle_design color-blue pull-right bt-header-right btn">
             <i class="fa fa-angle-down"></i>
         </button>

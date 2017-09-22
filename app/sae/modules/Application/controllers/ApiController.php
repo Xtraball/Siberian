@@ -21,19 +21,23 @@ class Application_ApiController extends Api_Controller_Default {
 
             try {
 
-                if(isset($data["id"])) unset($data["id"]);
-                if(isset($data["app_id"])) unset($data["app_id"]);
+                if (isset($data["id"])) {
+                    unset($data["id"]);
+                }
+                if (isset($data["app_id"])) {
+                    unset($data["app_id"]);
+                }
 
                 if(empty($data["name"])) {
                     throw new Exception(__("The name is required"));
                 }
 
                 if(empty($data["user_id"])) {
-                    throw new Exception(__("This admin does not exist"));
+                    throw new Exception(__("The user_id is required"));
                 }
 
                 $admin = new Admin_Model_Admin();
-                $admin->find($data["user_id"]);
+                $admin = $admin->find($data["user_id"]);
                 if(!$admin->getId()) {
                     throw new Exception(__("This admin does not exist"));
                 }
@@ -42,8 +46,10 @@ class Application_ApiController extends Api_Controller_Default {
 
                 $this->__checkKeyAndDomain($data, $application);
 
-                $application->addData($data)
+                $application
+                    ->addData($data)
                     ->addAdmin($admin)
+                    ->setData('admin_id', $admin->getId())
                     ->save()
                 ;
 
