@@ -291,16 +291,16 @@ class Social_Model_Facebook extends Core_Model_Default {
      */
     public function getPhotos($album_id, $after = null){
         $access_token = $this->getAccessToken();
-        $params = array(
-            "access_token" => $access_token,
-            "fields" => "images,name"
-        );
-        if($after){
-            $params["after"] = $after;
+        $params = [
+            'access_token' => $access_token,
+            'fields' => 'images,name'
+        ];
+        if ($after) {
+            $params['after'] = $after;
         }
         $url = self::buildUrl($album_id . '/photos', $params);
         $response = file_get_contents($url);
-        $response = Zend_Json::decode($response);
+        $response = Siberian_Json::decode($response);
         return $response;
     }
 

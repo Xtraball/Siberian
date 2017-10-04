@@ -1,7 +1,8 @@
 /* global
     App, angular, BASE_PATH, IS_NATIVE_APP
  */
-angular.module('starter').controller('BookingController', function ($scope, $stateParams, Booking, Customer, Dialog, Loader) {
+angular.module('starter').controller('BookingController', function ($scope, $stateParams, Booking, Customer,
+                                                                    Dialog, Loader) {
     angular.extend($scope, {
         is_loading: false,
         value_id: $stateParams.value_id,

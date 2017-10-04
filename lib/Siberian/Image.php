@@ -62,7 +62,7 @@ class Siberian_Image extends Gregwar\Image\Image {
     public static function getForMobile($base_url, $resource,
                                         $format = null, $device_width = null,
                                         $device_height = null) {
-        if(isset($resource)) {
+        if(isset($resource) && is_file($resource)) {
 
             $resource = Siberian_Image::open($resource);
 

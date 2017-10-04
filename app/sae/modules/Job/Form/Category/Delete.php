@@ -26,6 +26,11 @@ class Job_Form_Category_Delete extends Siberian_Form_Abstract {
         $category_id->addValidator("Db_RecordExists", true, $select);
         $category_id->setMinimalDecorator();
 
+        $value_id = $this->addSimpleHidden("value_id");
+        $value_id
+            ->setRequired(true)
+        ;
+
         $mini_submit = $this->addMiniSubmit();
     }
 }

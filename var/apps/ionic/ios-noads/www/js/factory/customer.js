@@ -74,11 +74,11 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
      * @param logoutCallback
      * @param registerCallback
      *
-     * @return Promise
+     * @return Promise|boolean
      */
     factory.loginModal = function (scope, loginCallback, logoutCallback, registerCallback) {
         if ($rootScope.isNotAvailableOffline()) {
-            return;
+            return false;
         }
 
         var localScope = scope;
@@ -133,7 +133,7 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
             });
         });
 
-        var login_promise = Modal
+        var loginPromise = Modal
             .fromTemplateUrl('templates/customer/account/l1/login.html', {
                 scope: angular.extend(localScope, {
                     _pcustomer_close: function () {
@@ -173,7 +173,7 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
                 return modal;
             });
 
-        return login_promise;
+        return loginPromise;
     };
 
     factory.login = function (data) {
@@ -204,6 +204,11 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
     };
 
     factory.facebookConnect = function () {
+        // Warning about API v2.7 for facebook expiration!
+        if (Math.ceil(Date.now()/1000) > 1533420000) {
+            console.error('Facebook API v2.7 will shutdown 5 October 2018, please upgrade to latest API Version.');
+        }
+
         if ($rootScope.isNotAvailableInOverview()) {
             return;
         }

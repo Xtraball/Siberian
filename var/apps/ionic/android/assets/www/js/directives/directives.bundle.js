@@ -837,6 +837,7 @@ angular.module('starter').directive('sbPageBackground', function ($rootScope, $s
         deviceScreen = $session.getDeviceScreen(),
         deffered = $pwaRequest.defer(),
         backgroundImages = deffered.promise,
+        catched = false,
         orientationChange = $window.matchMedia('(orientation: portrait)');
 
     $session.loaded
@@ -851,7 +852,10 @@ angular.module('starter').directive('sbPageBackground', function ($rootScope, $s
                 }).then(function (data) {
                     deffered.resolve(data);
                 }).catch(function () {
-                    $timeout(loadBackgrounds(false), 1);
+                    if (!catched) {
+                        catched = true;
+                        $timeout(loadBackgrounds(false), 1);
+                    }
                 }); // Main load, then
             };
             loadBackgrounds(true);

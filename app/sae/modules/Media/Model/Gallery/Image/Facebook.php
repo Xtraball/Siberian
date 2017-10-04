@@ -31,26 +31,31 @@ class Media_Model_Gallery_Image_Facebook extends Media_Model_Gallery_Image_Abstr
      * @return array
      */
     public function getImages($offset, $limit = self::DISPLAYED_PER_PAGE) {
-        $album_id = $this->find(array('gallery_id' => $this->getGalleryId()))->getAlbumId();
-        $facebook = new Social_Model_Facebook();
-        $images = $facebook->getPhotos($album_id, $offset ? $offset : null);
-        $collection = array();
+        $album_id = $this->find([
+            'gallery_id' => $this->getGalleryId()
+        ])->getAlbumId();
+
+        $images = (new Social_Model_Facebook())
+            ->getPhotos($album_id, $offset ? $offset : null);
+        $collection = [];
+
         // If the photos have a next page then set the after property
-        if ($images["paging"]["next"]) {
-            $this->cursor = $images["paging"]["cursors"]["after"];
+        if ($images['paging']['next']) {
+            $this->cursor = $images['paging']['cursors']['after'];
         }
+
         // Select the images with the width closest to the PREFERED_WIDTH
-        foreach ($images["data"] as $multi_image) {
-            usort($multi_image['images'], array('Media_Model_Gallery_Image_Facebook', 'closest'));
+        foreach ($images['data'] as $multi_image) {
+            usort($multi_image['images'], ['Media_Model_Gallery_Image_Facebook', 'closest']);
             $image = $multi_image['images'][0];
-            $collection[] = new Core_Model_Default(array(
+            $collection[] = new Core_Model_Default([
                 'offset' => $this->cursor,
                 'description' => $multi_image['name'],
                 'title' => null,
                 'author' => null,
                 'thumbnail' => null,
-                'image' => $image["source"]
-            ));
+                'image' => $image['source']
+            ]);
         }
         return $collection;
     }

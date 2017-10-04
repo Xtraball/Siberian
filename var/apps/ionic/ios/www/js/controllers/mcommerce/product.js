@@ -5,9 +5,7 @@
 angular.module("starter").controller("MCommerceProductViewController", function ($cordovaSocialSharing, Loader,
                                                           $log, $state, $stateParams, $scope, $translate, Analytics,
                                                           Application, Dialog, McommerceCategory,
-                                                          McommerceCart, McommerceProduct) {
-
-
+                                                          McommerceCart, McommerceProduct, $rootScope) {
     McommerceProduct.value_id   = $stateParams.value_id;
     McommerceCart.value_id      = $stateParams.value_id;
     $scope.value_id             = $stateParams.value_id;
@@ -32,7 +30,7 @@ angular.module("starter").controller("MCommerceProductViewController", function 
 
                 Analytics.storeProductOpening($scope.product);
 
-                $scope.social_sharing_active = !!($scope.product.social_sharing_active == 1 && !Application.is_webview);
+                $scope.social_sharing_active = ($scope.product.social_sharing_active && $rootScope.isNativeApp);
 
                 $scope.share = function () {
 

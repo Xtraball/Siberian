@@ -176,11 +176,7 @@ angular.module("starter").controller("ContactViewController", function($rootScop
         });
 
 });
-;/* global
-    App, angular
- */
-
-/**
+;/**
  * Contact
  *
  * @author Xtraball SAS
@@ -217,12 +213,12 @@ angular.module('starter').factory('Contact', function ($pwaRequest) {
             return $pwaRequest.resolve(payload);
         }
 
-            /** Otherwise fallback on PWA */
-            return $pwaRequest.get('contact/mobile_view/find', angular.extend({
-                urlParams: {
-                    value_id: this.value_id
-                }
-            }, factory.extendedOptions));
+        /** Otherwise fallback on PWA */
+        return $pwaRequest.get('contact/mobile_view/find', angular.extend({
+            urlParams: {
+                value_id: this.value_id
+            }
+        }, factory.extendedOptions));
     };
 
     factory.submitForm = function (form) {

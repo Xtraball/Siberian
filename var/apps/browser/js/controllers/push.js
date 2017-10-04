@@ -1,7 +1,3 @@
-/*global
- App, angular, BASE_PATH
- */
-
 /**
  * PushController
  *
@@ -11,13 +7,13 @@
 angular.module('starter').controller('PushController', function ($location, $rootScope, $scope, $stateParams,
                                                                  LinkService, SB, Push) {
     angular.extend($scope, {
-        is_loading          : true,
-        value_id            : $stateParams.value_id,
-        collection          : [],
-        toggle_text         : false,
-        card_design         : false,
-        load_more           : false,
-        use_pull_refresh    : true
+        is_loading: true,
+        value_id: $stateParams.value_id,
+        collection: [],
+        toggle_text: false,
+        card_design: false,
+        load_more: false,
+        use_pull_refresh: true
     });
 
     Push.setValueId($stateParams.value_id);

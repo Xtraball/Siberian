@@ -1,6 +1,3 @@
-/*global
-    angular, DOMAIN
- */
 angular.module('starter').service('ConnectionService', function ($ionicPlatform, $rootScope,
                                                                  $translate, $window, $log, $http, Dialog) {
     var service = {};
@@ -54,7 +51,7 @@ angular.module('starter').service('ConnectionService', function ($ionicPlatform,
 
     $ionicPlatform.ready(function () {
         if ($rootScope.isNativeApp && $window.OfflineMode) {
-            $window.OfflineMode.setCheckConnectionURL(DOMAIN + '/check_connection.php');
+            $window.OfflineMode.setCheckConnectionURL(DOMAIN + '/ping.txt');
             $window.OfflineMode.registerCallback(callbackFromNative);
         }
     });

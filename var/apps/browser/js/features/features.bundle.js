@@ -1,6 +1,3 @@
-/*global
-    angular, lazyLoadResolver, BASE_PATH
- */
 angular.module('starter').config(function ($stateProvider) {
     $stateProvider
         .state('colors-view', {
@@ -689,10 +686,7 @@ angular.module('starter').config(function ($stateProvider) {
             resolve: lazyLoadResolver('privacy_policy')
         });
 });
-;/* global
-    angular, lazyLoadResolver, BASE_PATH
- */
-angular.module('starter').config(function ($stateProvider) {
+;angular.module('starter').config(function ($stateProvider) {
     $stateProvider
         .state('push-list', {
             url: BASE_PATH + '/push/mobile_list/index/value_id/:value_id',

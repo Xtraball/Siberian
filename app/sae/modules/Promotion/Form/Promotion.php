@@ -100,9 +100,7 @@ class Promotion_Form_Promotion extends Siberian_Form_Abstract {
     public function addQrCode ($qrCodeUuid) {
         if ($this->getElement('unlock_by')->getValue() === 'qrcode') {
             $this->getElement('unlock_code')->setValue($qrCodeUuid);
-            $qrCodeUrl = __path('/promotion/application/generateqrcode', [
-                'code' => $qrCodeUuid
-            ]);
+            $qrCodeUrl = __path('/promotion/application/generateqrcode?code=' . $qrCodeUuid);
             $html = '
 <div class="col-md-3">' . __('Your QRCode') . '</div>
 <div class="col-md-7">

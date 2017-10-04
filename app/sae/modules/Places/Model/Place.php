@@ -605,7 +605,7 @@ WHERE cap.value_id = {$value_id}
             ),
             "page_title"                => $page->getTitle() ? $page->getTitle() : $option_value->getTabbarName(),
             "picture"                   => $entity->getPictureUrl() ? $controller->getRequest()->getBaseUrl() . $entity->getPictureUrl() : null,
-            "social_sharing_active"     => $option_value->getSocialSharingIsActive()
+            "social_sharing_active"     => (boolean) $option_value->getSocialSharingIsActive()
         );
 
         $representation = array(

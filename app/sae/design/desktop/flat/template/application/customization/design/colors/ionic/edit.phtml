@@ -164,17 +164,17 @@
                     </div>
                     <?php endforeach; ?>
 
-                    <div id="sb-tour-custom-css-section" class="change-overview-content content-color content sb-tour">
+                    <div id="sb-tour-custom-css-section" class="change-overview-content content-colors sb-tour col-xs-12">
                         <h3 class="title-editor border-yellow text-center">
                             <?php echo __("Advanced Customization CSS / SCSS"); ?>
                             <div class="css-toggle sb-tour" id="toggle-scss">
                                 <input class="sb-tgl sb-tgl-flip toggle" id="cb_on_off" type="checkbox" value="0" class="color-blue checkbox"/>
-                                <label class="sb-tgl-btn" for="cb_on_off" data-tg-off="Off" data-tg-on="On!"></label>
+                                <label class="sb-tgl-btn" for="cb_on_off" data-tg-off="<?php echo __js('Show') ?>" data-tg-on="<?php echo __js('Hide') ?>"></label>
                             </div>
                         </h3>
 
                         <?php $custom_scss = $this->getApplication()->getCustomScss(); ?>
-                        <div id="row_scss" class="subcontent container-fluid" style="display: none;">
+                        <div id="row_scss" class="subcontent content-color container-fluid" style="display: none;">
                             <h4>
                                 <?php echo __("Available SCSS Variables corresponding to previously set colors"); ?>
                             </h4>
@@ -569,7 +569,7 @@
         @media (max-width: 1440px) and (min-width: 768px) {  button.mobile-advice:nth-child(2) {  display: block;  }  }
         .mini-color { margin-bottom: 6px;}
         div.mini-box { width: 22px; height: 22px; float: left; margin-right: 10px;}
-        .css-toggle {  margin-top: 0px;  float: right;  margin-right: 10px;  font-size: 14px;  }
+        .css-toggle {  margin-top: 0;  float: right;  margin-right: 10px;  font-size: 14px; width: 100px; }
         .opacity_container { margin: auto;  max-width: 100px;  min-width: 50px;  width: 100%; position:relative }
         .opacity_container input[type=range] { float: left; width: 65%; }
         .opacity_container span { right: 0; font-size: 11px; margin-top: -1px; position:absolute}

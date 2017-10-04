@@ -59,7 +59,7 @@ class Catalog_Mobile_Setmeal_ListController extends Application_Controller_Mobil
                             "description"   => $menu->getDescription(),
                             "price"         => $menu->getPrice() > 0 ? $menu->getFormattedPrice() : null,
                             "picture"       => $picture_b64,
-                            "social_sharing_active" => !!$option_value->getSocialSharingIsActive()
+                            "social_sharing_active" => (boolean) $option_value->getSocialSharingIsActive()
                         )
                     );
                 }

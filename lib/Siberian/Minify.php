@@ -134,7 +134,7 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify {
 
             $this->replaceIndex($platform, $index_path, $do_css, $do_js);
 
-            $this->buildServiceWorker();
+            //$this->buildServiceWorker();
         }
 
 
@@ -145,8 +145,8 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify {
      */
     public function buildServiceWorker() {
         $base = self::$PLATFORMS["browser"]["base"];
-        $manifest_file = $base . "/" . Siberian_Autoupdater::$pwa_manifest;
-        $current_release = System_Model_Config::getValueFor("current_release");
+        //$manifest_file = $base . "/" . Siberian_Autoupdater::$pwa_manifest;
+        //$current_release = System_Model_Config::getValueFor("current_release");
 
         $app_shell_files = Siberian_Json::decode(file_get_contents(Core_Model_Directory::getBasePathTo($manifest_file)));
 
@@ -198,19 +198,19 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify {
         $app_shell_files[]  = "dist/app.bundle-min.js?version=" . $current_release;
 
         # Write to file
-        $template = Core_Model_Directory::getBasePathTo($base . "/" . "pwa-worker-template.js");
-        $destination = Core_Model_Directory::getBasePathTo($base . "/" . "pwa-worker.js");
-        $service_worker = file_get_contents($template);
+        //$template = Core_Model_Directory::getBasePathTo($base . "/" . "pwa-worker-template.js");
+        //$destination = Core_Model_Directory::getBasePathTo($base . "/" . "pwa-worker.js");
+        //$service_worker = file_get_contents($template);
 
         $toreplace = Siberian_Json::encode($app_shell_files);
 
 
-        $service_worker = str_replace("var filesToCache = [];",
+        /**$service_worker = str_replace("var filesToCache = [];",
             "var filesToCache = " . $toreplace . ";", $service_worker);
         $service_worker = str_replace("var cacheName = \"pwa-worker-\" + Date.now();",
             "var cacheName = \"pwa-worker-" . System_Model_Config::getValueFor("current_release") . "\";", $service_worker);
 
-        file_put_contents($destination, $service_worker);
+        file_put_contents($destination, $service_worker);*/
     }
 
     /**

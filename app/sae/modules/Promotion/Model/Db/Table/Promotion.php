@@ -74,7 +74,11 @@ application_option_value.app_id AS app_id
 FROM promotion
 INNER JOIN application_option_value ON application_option_value.value_id = promotion.value_id
 WHERE promotion.unlock_by = 'qrcode'
-AND promotion.unlock_code IS NULL";
+AND ( 
+  promotion.unlock_code IS NULL
+  OR 
+  promotion.unlock_code = ''
+)";
 
         return $this->toModelClass($this->_db->fetchAll($select));
     }

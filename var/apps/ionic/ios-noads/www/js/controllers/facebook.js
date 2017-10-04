@@ -1,47 +1,40 @@
-/*global
-    App, angular, BASE_PATH
- */
-
-angular.module("starter").controller('FacebookListController', function($filter, $location, $q, $scope, $state,
+angular.module('starter').controller('FacebookListController', function ($filter, $location, $q, $scope, $state,
                                                                         $stateParams, $timeout, $window, Facebook) {
-
     $scope.is_loading = true;
     $scope.can_load_older_posts = true;
     $scope.load_more = true;
     $scope.value_id = Facebook.value_id = $stateParams.value_id;
     $scope.show_posts_loader = false;
     $scope.user = {
-            talking_about_count : 0,
-            likes               : 0,
-            fan_count           : 0
+        talking_about_count: 0,
+        likes: 0,
+        fan_count: 0
     };
 
     $scope.card_design = false;
 
     $scope.collection = [];
 
-    $scope.template_header = "templates/facebook/l1/header.html";
+    $scope.template_header = 'templates/facebook/l1/header.html';
 
     Facebook.page_urls = [];
     Facebook.loadData()
-        .then(function(response) {
+        .then(function (response) {
             $scope.findUser();
             $scope.page_title = response.page_title;
         });
 
-    $scope.findUser = function(username) {
-
+    $scope.findUser = function (username) {
         $scope.show_user_loader = true;
 
         Facebook.findUser()
-            .then(function(user) {
-
+            .then(function (user) {
                 user.picture = Facebook.getPictureUrl(user.id, 400);
 
                 $scope.cover_image_style = {};
-                if(user.cover) {
-                    $scope.cover_image_url = user.cover.source;$scope.show_user_loader = false;
-                    $scope.cover_image_style = {'background-image':'url(' + $scope.cover_image_url + ')'};
+                if (user.cover) {
+                    $scope.cover_image_url = user.cover.source; $scope.show_user_loader = false;
+                    $scope.cover_image_style = { 'background-image': 'url(' + $scope.cover_image_url + ')' };
                 }
 
                 user.author = user.name;
@@ -53,40 +46,35 @@ angular.module("starter").controller('FacebookListController', function($filter,
                 $scope.show_posts_loader = true;
 
                 $scope.loadMore();
-
-            }, function(error) {
+            }, function (error) {
                 $scope.show_user_loader = false;
             });
     };
 
-    $scope.loadMore = function() {
-
+    $scope.loadMore = function () {
         $scope.is_loading = true;
         $scope.show_user_loader = true;
 
         var deferred = $q.defer();
 
         Facebook.findPosts()
-            .then(function(response) {
-
+            .then(function (response) {
                 var posts = angular.isDefined(response.posts) ? response.posts : response;
                 var new_collection = [];
-                Facebook.page_urls['posts'] = posts.paging ? posts.paging.next : null;
+                Facebook.page_urls.posts = posts.paging ? posts.paging.next : null;
 
-                    if(posts.data.length) {
-
-                        for(var i in posts.data) {
-
-                            if(!posts.data[i].type || !posts.data[i].message) {
+                    if (posts.data.length) {
+                        for (var i in posts.data) {
+                            if (!posts.data[i].type || !posts.data[i].message) {
                                 continue;
                             }
 
                             var post = posts.data[i];
 
-                            var number_of_likes = !angular.isDefined(post.likes) ? 0 : post.likes.data.length >= 25 ? "> 25" : post.likes.data.length;
+                            var number_of_likes = !angular.isDefined(post.likes) ? 0 : post.likes.data.length >= 25 ? '> 25' : post.likes.data.length;
                             delete post.likes;
 
-                            var number_of_comments = !angular.isDefined(post.comments) ? 0 : post.comments.data.length >= 25 ? "> 25" : post.comments.data.length;
+                            var number_of_comments = !angular.isDefined(post.comments) ? 0 : post.comments.data.length >= 25 ? '> 25' : post.comments.data.length;
                             delete post.comments;
 
                             post.subtitle = post.message;
@@ -94,16 +82,16 @@ angular.module("starter").controller('FacebookListController', function($filter,
                             post.title = post.from.name;
                             delete post.from.name;
 
-                    /** Better picture */
-                    var picture = post.full_picture;
-                    if(post.type === "photo") {
-                        picture = Facebook.getPictureUrl(post.object_id, 480);
-                    }
+                            /** Better picture */
+                            var picture = post.full_picture;
+                            if (post.type === 'photo') {
+                                picture = Facebook.getPictureUrl(post.object_id, 480);
+                            }
 
                             post.picture = picture;
                             post.details = {
                                 date: {
-                                    text: $filter('date')(post.created_time, "short")
+                                    text: $filter('moment_calendar')(post.created_time)
                                 },
                                 comments: {
                                     text: number_of_comments
@@ -113,16 +101,15 @@ angular.module("starter").controller('FacebookListController', function($filter,
                                 }
                             };
 
-                            if($scope.collection.length) {
+                            if ($scope.collection.length) {
                                 $scope.collection.push(post);
                             }
 
                             new_collection.push(post);
-
                         }
 
-                        if(!$scope.collection.length) {
-                            if(new_collection.length) {
+                        if (!$scope.collection.length) {
+                            if (new_collection.length) {
                                 $timeout(function () {
                                     $scope.collection = new_collection;
                                 });
@@ -131,7 +118,6 @@ angular.module("starter").controller('FacebookListController', function($filter,
                                 $scope.load_more = false;
                             }
                         }
-
                     } else {
                         $scope.can_load_older_posts = false;
                         $scope.load_more = false;
@@ -150,9 +136,7 @@ angular.module("starter").controller('FacebookListController', function($filter,
                 $scope.show_posts_loader = false;
                 $scope.show_user_loader = false;
                 $scope.$broadcast('scroll.infiniteScrollComplete');
-
-
-            }, function(error) {
+            }, function (error) {
                 $scope.is_loading = false;
                 $scope.show_posts_loader = false;
                 $scope.show_user_loader = false;
@@ -161,19 +145,16 @@ angular.module("starter").controller('FacebookListController', function($filter,
             });
 
         return deferred.promise;
-
     };
 
-    $scope.showItem = function(item) {
-        $state.go("facebook-view", {value_id: $scope.value_id, post_id: item.id});
+    $scope.showItem = function (item) {
+        $state.go('facebook-view', { value_id: $scope.value_id, post_id: item.id });
     };
 
-    $scope.removeScrollEvent = function() {
+    $scope.removeScrollEvent = function () {
         angular.element($window).unbind('scroll');
     };
-
-}).controller('FacebookViewController', function($filter, $rootScope, $scope, $stateParams, $translate, Dialog, Facebook) {
-
+}).controller('FacebookViewController', function ($filter, $rootScope, $scope, $stateParams, $translate, Dialog, Facebook) {
     $scope.is_loading = false;
     $scope.comments = [];
     $scope.show_form = false;
@@ -188,36 +169,32 @@ angular.module("starter").controller('FacebookListController', function($filter,
 
     var cache = Facebook.cache;
 
-    $scope.showError = function(data) {
-
-        if(data && angular.isDefined(data.message)) {
-            Dialog.alert("Error", data.message, "OK");
+    $scope.showError = function (data) {
+        if (data && angular.isDefined(data.message)) {
+            Dialog.alert('Error', data.message, 'OK');
         }
 
         $scope.is_loading = false;
     };
 
-    $scope.loadContent = function() {
-
+    $scope.loadContent = function () {
         $scope.is_loading = true;
 
-        if(cache.get("facebook-"+$stateParams.post_id) && !$rootScope.isOverview) {
+        if (cache.get('facebook-'+$stateParams.post_id) && !$rootScope.isOverview) {
             $scope.is_loading = false;
-            $scope.post = cache.get("facebook-"+$stateParams.post_id);
+            $scope.post = cache.get('facebook-'+$stateParams.post_id);
         } else {
             Facebook.findPost($stateParams.post_id)
-                .then(function(_post) {
+                .then(function (_post) {
+                    if (angular.isDefined(_post.comments)) {
+                        _post.number_of_comments = _post.comments.data.length >= 25 ? '> 25' : _post.comments.data.length;
+                        Facebook.page_urls.comments = _post.comments.paging.next;
 
-                    if(angular.isDefined(_post.comments)) {
-
-                        _post.number_of_comments = _post.comments.data.length >= 25 ? "> 25" : _post.comments.data.length;
-                        Facebook.page_urls['comments'] = _post.comments.paging.next;
-
-                    for(var i in _post.comments.data) {
+                    for (var i in _post.comments.data) {
                         var comment = _post.comments.data[i];
                         comment.name = comment.from.name;
                         comment.picture = Facebook.getPictureUrl(comment.from.id, 150);
-                        comment.created_at = comment.created_time;
+                        comment.created_at = $filter('moment_calendar')(comment.created_time);
                         delete comment.created_time;
                         delete comment.from;
                         $scope.comments.push(comment);
@@ -227,19 +204,19 @@ angular.module("starter").controller('FacebookListController', function($filter,
                     } else {
                         _post.number_of_comments = 0;
                     }
-                    if(angular.isDefined(_post.likes)) {
-                        _post.number_of_likes = _post.likes.data.length >= 25 ? "> 25" : _post.likes.data.length;
+                    if (angular.isDefined(_post.likes)) {
+                        _post.number_of_likes = _post.likes.data.length >= 25 ? '> 25' : _post.likes.data.length;
                         delete _post.likes;
                     } else {
                         _post.number_of_likes = 0;
                     }
 
                 var picture = _post.full_picture;
-                if(_post.type === "photo") {
+                if (_post.type === 'photo') {
                     picture = Facebook.getPictureUrl(_post.object_id, 480);
                 }
                 _post.picture = picture;
-                _post.created_at = _post.created_time;
+                _post.created_at = $filter('moment')(_post.created_time).format('lll');
                 _post.title = _post.name;
                 _post.author = _post.from.name;
                 _post.icon = Facebook.getPictureUrl(_post.from.id, 150);
@@ -248,21 +225,17 @@ angular.module("starter").controller('FacebookListController', function($filter,
                 delete _post.name;
                 delete _post.from;
 
-                _post.message = $filter("linky")(_post.message);
-                _post.description = $filter("linky")(_post.description);
+                _post.message = $filter('linky')(_post.message);
+                _post.description = $filter('linky')(_post.description);
 
                     $scope.is_loading = false;
                     $scope.page_title = _post.title;
                     $scope.post = _post;
 
-                    cache.put("facebook-"+$stateParams.post_id, _post);
-
+                    cache.put('facebook-'+$stateParams.post_id, _post);
                 }, $scope.showError);
         }
-
     };
 
-
     $scope.loadContent();
-
 });

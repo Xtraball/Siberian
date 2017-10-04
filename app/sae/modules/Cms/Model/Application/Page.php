@@ -391,29 +391,33 @@ class Cms_Model_Application_Page extends Core_Model_Default
      */
     public function edit_v2($option_value, $datas) {
 
+        if (empty($datas['orderUniqid'])) {
+            throw new Siberian_Exception('#578-21' . __('At least one section is required to save.'));
+        }
+
         $db = Zend_Db_Table::getDefaultAdapter();
         // Starts a transaction
         $db->beginTransaction();
 
         try {
             if (!$option_value) {
-                throw new Siberian_Exception("#578-01".__("An error occurred while saving your page."));
+                throw new Siberian_Exception('#578-01' . __('An error occurred while saving your page.'));
             }
 
             $value_id = $option_value->getId();
 
             # Create a new CMS Page
             $page = new Cms_Model_Application_Page();
-            if (!isset($datas["page_id"]) || empty($datas["page_id"]) || ($datas["page_id"] == "new")) {
+            if (!isset($datas['page_id']) || empty($datas['page_id']) || ($datas['page_id'] == 'new')) {
                 $page
                     ->setValueId($value_id)
                     ->save_v2() # save_v2 is a simple save, without all the old saveBlocks
                 ;
             } else {
-                $page->find($datas["page_id"]);
+                $page->find($datas['page_id']);
 
                 if ($page->getId() && ($page->getValueId() != $value_id)) {
-                    throw new Siberian_Exception("#578-02".__("An error occurred while saving your page."));
+                    throw new Siberian_Exception('#578-02'.__('An error occurred while saving your page.'));
                 }
             }
 
@@ -446,6 +450,9 @@ class Cms_Model_Application_Page extends Core_Model_Default
             }
 
             $positions = explode(',', $datas['orderUniqid']);
+
+            // At least one block was not saved
+            $messagePartialError = [];
 
             $block_position = 0;
             $blocks = $datas['block'];
@@ -483,15 +490,22 @@ class Cms_Model_Application_Page extends Core_Model_Default
                         throw new Siberian_Exception(__("This block type doesn't exists."));
                 }
 
-                $model
+                $result = $model
                     ->setOptionValue($option_value)
                     ->populate($values)
                     ->createBlock($block_type, $page, $block_position)
                     ->save_v2()
                 ;
 
+                if ($result === false) {
+                    $messagePartialError[] =
+                        __('The block N°%s, %s was not saved, the block was either empty or invalid.', $block_position + 1, __(ucfirst($block_type)));
+                }
+
                 $block_position++;
             }
+
+            $page->setData('__invalid_blocks', $messagePartialError);
 
             // Everything was ok, Commit
             try {

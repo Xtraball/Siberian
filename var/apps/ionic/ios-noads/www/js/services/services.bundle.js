@@ -799,10 +799,7 @@ angular.module('starter').service('Application', function ($pwaRequest, $q, $roo
 
     return service;
 });
-;/*global
-    angular, DOMAIN
- */
-angular.module('starter').service('ConnectionService', function ($ionicPlatform, $rootScope,
+;angular.module('starter').service('ConnectionService', function ($ionicPlatform, $rootScope,
                                                                  $translate, $window, $log, $http, Dialog) {
     var service = {};
 
@@ -855,7 +852,7 @@ angular.module('starter').service('ConnectionService', function ($ionicPlatform,
 
     $ionicPlatform.ready(function () {
         if ($rootScope.isNativeApp && $window.OfflineMode) {
-            $window.OfflineMode.setCheckConnectionURL(DOMAIN + '/check_connection.php');
+            $window.OfflineMode.setCheckConnectionURL(DOMAIN + '/ping.txt');
             $window.OfflineMode.registerCallback(callbackFromNative);
         }
     });
@@ -1255,68 +1252,66 @@ angular.module('starter').service('SafePopups', function (Dialog) {
     };
     return service;
 });
-;/*global
- angular, APP_KEY, DEVICE_TYPE, DOMAIN
- */
-
-/**
+;/**
  * FacebookConnect for users (login)
  */
-angular.module("starter").service('FacebookConnect', function($cordovaOauth, $rootScope, $timeout, $window,
-                                                              Customer, Dialog, SB) {
+angular.module('starter').service('FacebookConnect', function ($cordovaOauth, $rootScope, $timeout, $window,
+                                                              Customer, Dialog, SB, Loader) {
+    var _this = this;
 
-    var self = this;
+    _this.app_id = null;
+    _this.version = 'v2.7';
+    _this.is_initialized = false;
+    _this.is_logged_in = false;
+    _this.access_token = null;
+    _this.permissions = null;
+    _this.fb_login = null;
 
-    self.app_id = null;
-    self.version = "v2.7";
-    self.is_initialized = false;
-    self.is_logged_in = false;
-    self.access_token = null;
-    self.permissions = null;
-    self.fb_login = null;
-
-    self.login = function() {
-        if($rootScope.isNotAvailableInOverview()) {
+    _this.login = function () {
+        if ($rootScope.isNotAvailableInOverview()) {
             return;
         }
 
-        if(DEVICE_TYPE === SB.DEVICE.TYPE_BROWSER) {
-            var scope = (self.permissions) ? self.permissions.join(",") : "",
-                redirect_uri = encodeURIComponent(DOMAIN + "/" + APP_KEY + "?login_fb=true"),
-                facebook_uri = "https://graph.facebook.com/oauth/authorize?client_id=" +
-                    self.app_id+"&scope=" + scope + "&response_type=token&redirect_uri=" + redirect_uri;
+        if (DEVICE_TYPE === SB.DEVICE.TYPE_BROWSER) {
+            var scope = (_this.permissions) ? _this.permissions.join(',') : '',
+                redirectUri = encodeURIComponent(DOMAIN + '/' + APP_KEY + '?login_fb=true');
 
-            $window.location = facebook_uri;
+            $window.location = 'https://graph.facebook.com/oauth/authorize?client_id=' +
+                _this.app_id+'&scope=' + scope + '&response_type=token&redirect_uri=' + redirectUri;
         } else {
-            $cordovaOauth.facebook(self.app_id, self.permissions)
-                .then(function(result) {
+            Loader.show();
+            $cordovaOauth.facebook(_this.app_id, _this.permissions)
+                .then(function (result) {
                     Customer.loginWithFacebook(result.access_token)
-                        .then(function() {
+                        .then(function () {
                             Customer.login_modal.hide();
+                        }).finally(function () {
+                            Loader.hide();
                         });
-                }, function(error) {
-                    Dialog.alert("Login error", error, "OK", -1)
-                        .then(function() {
+                }, function (error) {
+                    Dialog.alert('Login error', error, 'OK', -1)
+                        .then(function () {
                             Customer.login_modal.hide();
+                            Loader.hide();
                         });
                 });
         }
-
     };
 
-    self.logout = function () {
-        self.is_logged_in = false;
-        self.access_token = null;
+    _this.logout = function () {
+        _this.is_logged_in = false;
+        _this.access_token = null;
     };
 
     $rootScope.$on(SB.EVENTS.AUTH.logoutSuccess, function () {
         $timeout(function () {
-            self.logout();
+            _this.logout();
         });
     });
 
-    return self;
-});;/*global
+    return _this;
+});
+;/*global
     google, App, angular
 */
 angular.module("starter").service('GoogleMaps', function ($cordovaGeolocation, $location, $q, $rootScope, $translate, $window, Application) {
@@ -3720,7 +3715,6 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
                     $session.setItem('pushMessageIds', localPushMessageIds);
 
                     var extendedPayload = messagePayload.additionalData;
-                    var promise = $q.defer();
 
                     if ((extendedPayload !== undefined) && (extendedPayload.cover || extendedPayload.action_value)) {
                         // Prevent missing or not base url!
@@ -3797,20 +3791,18 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
 
                         if (extendedPayload.cover || extendedPayload.action_value) {
                             // title, message, buttons_array, css_class!
-                            promise = Dialog.ionicPopup(config);
+                            Dialog.ionicPopup(config);
                         } else {
-                            promise = Dialog.alert(messagePayload.title, messagePayload.message, 'OK');
+                            Dialog.alert(messagePayload.title, messagePayload.message, 'OK');
                         }
                     } else {
                         var localTitle = (messagePayload.title !== undefined) ?
                             messagePayload.title : 'Notification';
-                        promise = Dialog.alert(localTitle, messagePayload.message, 'OK');
+                        Dialog.alert(localTitle, messagePayload.message, 'OK');
                     }
 
                     // Search for less resource consuming maybe use Push factory directly!
                     $rootScope.$broadcast(SB.EVENTS.PUSH.unreadPushs, messagePayload.count);
-
-                    return promise;
                 }
 
                 // Nope!

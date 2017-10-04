@@ -1,16 +1,12 @@
-/*global
-    App, angular, BASE_PATH, DOMAIN, Message
-*/
-angular.module("starter").controller("CmsViewController", function($location, $log, $rootScope, $scope, $stateParams,
+angular.module('starter').controller('CmsViewController', function ($location, $log, $rootScope, $scope, $stateParams,
                                                                    Cms, SocialSharing, Url, Places) {
-
     angular.extend($scope, {
-        is_loading              : true,
-        value_id                : $stateParams.value_id,
-        social_sharing_active   : false,
-        use_pull_to_refresh     : true,
-        pull_to_refresh         : false,
-        card_design             : false
+        is_loading: true,
+        value_id: $stateParams.value_id,
+        social_sharing_active: false,
+        use_pull_to_refresh: true,
+        pull_to_refresh: false,
+        card_design: false
     });
 
     if ($stateParams.type === 'places') {
@@ -30,7 +26,7 @@ angular.module("starter").controller("CmsViewController", function($location, $l
                         $scope.page = data.page;
 
                         if ($scope.page) {
-                            $scope.template_header = "templates/cms/page/l1/view/subheader.html";
+                            $scope.template_header = 'templates/cms/page/l1/view/subheader.html';
                         }
 
                         $scope.page_title = data.page_title;
@@ -48,13 +44,12 @@ angular.module("starter").controller("CmsViewController", function($location, $l
                         $scope.page = data.page;
 
                         if ($scope.page) {
-                            $scope.template_header = "templates/cms/page/l1/view/subheader.html";
+                            $scope.template_header = 'templates/cms/page/l1/view/subheader.html';
                         }
 
                         $scope.page_title = data.page_title;
-
                     }, function (error) {
-                        $log.error("[CmsViewController] an error occurred while loading CMS", error);
+                        $log.error('[CmsViewController] an error occurred while loading CMS', error);
                     }).then(function () {
                         if ($scope.pull_to_refresh) {
                             $scope.$broadcast('scroll.refreshComplete');
@@ -165,51 +160,40 @@ angular.module("starter").controller("CmsViewController", function($location, $l
 
                 if (data.block.picture_url) {
                     marker.icon = {
-                        url     : data.block.picture_url,
-                        width   : 70,
-                        height  : 44
+                        url: data.block.picture_url,
+                        width: 70,
+                        height: 44
                     };
                 }
 
                 Location.getLocation()
-                    .then(function(position) {
+                    .then(function (position) {
                         $scope.createMap(position.coords, marker);
-                    }, function() {
+                    }, function () {
                         $scope.createMap(null, marker);
                     });
-
-            }, function(error) {
-
-                $log.error("[CmsViewMapController] an error occurred while loading CMS", error);
-
-            }).then(function() {
-
+            }, function (error) {
+                $log.error('[CmsViewMapController] an error occurred while loading CMS', error);
+            }).then(function () {
                 $scope.is_loading = false;
-
             });
-
-
     };
 
-    $scope.createMap = function(origin, destination) {
-
+    $scope.createMap = function (origin, destination) {
         $scope.is_loading = false;
 
-        if(origin) {
-
+        if (origin) {
             $scope.map_config = {
                 coordinates: {
                     origin: origin,
                     destination: destination
                 }
             };
-
         } else {
             $scope.map_config = {
                 markers: [destination]
             };
         }
-
     };
 
     $scope.loadContent();

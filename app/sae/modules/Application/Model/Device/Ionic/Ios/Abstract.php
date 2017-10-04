@@ -53,6 +53,7 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
             $this->_dest_source_res.'/Images.xcassets/AppIcon.appiconset/icon-76@2x.png'     => $application->getIcon(152, null, true),
             $this->_dest_source_res.'/Images.xcassets/AppIcon.appiconset/icon-83.5@2x.png'   => $application->getIcon(152, null, true),
             $this->_dest_source_res.'/Images.xcassets/AppIcon.appiconset/icon-small@3x.png'  => $application->getIcon(120, null, true),
+            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-1024.png'    => $application->getIcon(1024, null, true),
         );
 
         foreach($icons as $icon_dst => $icon_src) {
@@ -67,6 +68,13 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
                 throw new Exception(__('An error occured while copying your app icon. Please check the icon, try to send it again and try again.')."\n".$icon_src."\n".$icon_dst);
             }
 
+        }
+
+        //
+        if (file_exists($this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-1024.png')) {
+            $image = Siberian_Image::open($this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-1024.png');
+            $image->resize(1024, 1024, 0xffffff);
+            $image->save($this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-1024.png', 'png', 100);
         }
 
         // Startup Images

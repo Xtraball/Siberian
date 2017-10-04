@@ -32,7 +32,7 @@ class Catalog_Mobile_Category_Product_ViewController extends Application_Control
                     "price" => $product->getPrice() > 0 ? $product->getFormattedPrice() : null,
                     "picture" => $product->getPictureUrl() ? $this->getRequest()->getBaseUrl().$product->getPictureUrl() : null,
                     "formats" => $format,
-                    "social_sharing_active" => $option_value->getSocialSharingIsActive()
+                    "social_sharing_active" => (boolean) $option_value->getSocialSharingIsActive()
                 );
 
             }

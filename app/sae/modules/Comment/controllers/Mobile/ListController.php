@@ -41,6 +41,7 @@ class Comment_Mobile_ListController extends Application_Controller_Mobile_Defaul
                             "name"              => $answer->getCustomerName(),
                             "customer_id"       => (integer) $answer->getCustomerId(),
                             "message"           => $answer->getText(),
+                            /** deprecated for mt_created_at */
                             "created_at"        => $this->_durationSince($answer->getCreatedAt()),
                             "mt_created_at"     => $answer->getCreatedAt()
                         );

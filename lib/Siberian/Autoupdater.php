@@ -21,12 +21,12 @@ class Siberian_Autoupdater {
     /**
      * @var string
      */
-    public static $pwa_worker_files = "pwa-worker-template.js";
+    //public static $pwa_worker_files = "pwa-worker-template.js";
 
     /**
      * @var string
      */
-    public static $pwa_manifest = "pwa-manifest.json";
+    //public static $pwa_manifest = "pwa-manifest.json";
 
     /**
      * @param $host

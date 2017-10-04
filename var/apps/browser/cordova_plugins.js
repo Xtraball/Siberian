@@ -274,7 +274,7 @@ module.exports.metadata =
 {
     "phonegap-plugin-push": "1.10.0",
     "phonegap-plugin-barcodescanner": "6.0.6",
-    "cordova-plugin-compat": "1.1.0",
+    "cordova-plugin-compat": "1.2.0",
     "cordova-plugin-camera": "2.3.1-dev",
     "cordova-plugin-device": "1.1.6-dev",
     "cordova-plugin-file": "4.3.3-dev",

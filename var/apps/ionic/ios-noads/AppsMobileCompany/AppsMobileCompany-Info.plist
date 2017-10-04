@@ -2,15 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
   <dict>
-    <key>NSAppTransportSecurity</key>
-    <dict>
-      <key>NSAllowsArbitraryLoads</key>
-      <true/>
-    </dict>
     <key>CFBundleDevelopmentRegion</key>
     <string>English</string>
     <key>CFBundleDisplayName</key>
-    <string>${PRODUCT_NAME}</string>
+    <string>AppsMobileCompany</string>
     <key>CFBundleExecutable</key>
     <string>${EXECUTABLE_NAME}</string>
     <key>CFBundleIcons</key>
@@ -189,6 +184,11 @@
         <string>{768, 1024}</string>
       </dict>
     </array>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+      <key>NSAllowsArbitraryLoads</key>
+      <true/>
+    </dict>
     <key>NSLocationAlwaysUsageDescription</key>
     <string>Location is required to get specific push notes and other great items</string>
     <key>UIBackgroundModes</key>
@@ -204,10 +204,12 @@
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>Use the GPS for live navigation</string>
     <key>NSCalendarsUsageDescription</key>
-    <string>Be notified of the App events.</string>
+    <string>Be notified of the App events</string>
     <key>NSContactsUsageDescription</key>
     <string>Share content with your contacts</string>
     <key>NSMotionUsageDescription</key>
     <string>Smart navigation with TaxiRide and other nice features</string>
+    <key>NFCReaderUsageDescription</key>
+    <string>Allow NFC Tag enabled features</string>
   </dict>
 </plist>

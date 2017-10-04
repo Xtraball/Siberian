@@ -53,8 +53,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 
 .nav.navbar-nav.navbar-right a:hover {
-    /*background-color: #555;
-    color: white;*/
     border-radius: 3px;
     cursor: pointer;
 }
@@ -112,10 +110,6 @@ i.fa.fa-plus {
     max-width: 250px;
     position: relative;
     transition: all 0.5s ease 0s;
-    -moz-transition: all 0.5s ease 0s;
-    -webkit-transition: all 0.5s ease 0s;
-    -o-transition: all 0.5s ease 0s;
-    -ms-transition: all 0.5s ease 0s;
     width: 100%;
     height: 60px;
     left: 0;
@@ -243,10 +237,6 @@ i.fa.fa-plus {
 .navbar-header.unleft-toggled {
     left: -200px;
     transition: all 0.5s ease 0s;
-    -moz-transition: all 0.5s ease 0s;
-    -webkit-transition: all 0.5s ease 0s;
-    -o-transition: all 0.5s ease 0s;
-    -ms-transition: all 0.5s ease 0s;
 }
 
 #wrapper.right-toggled {
@@ -262,7 +252,6 @@ i.fa.fa-plus {
     transition: all 0.5s ease 0s;
     width: 0;
     z-index: 10;
-    height: 100%;
 }
 
 #left-sidebar-wrapper.fixed, #right-sidebar-wrapper.fixed {
@@ -389,8 +378,8 @@ li .sub-bar a {
     width: 100%;
     height: 100%;
     position: fixed;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     z-index: 100;
 }
 
@@ -473,7 +462,6 @@ li .sub-bar a {
 
 .content-feature {
     border-left: 1px solid #555!important;
-    /*padding-bottom: 15px;*/
     margin-bottom: 0;
     float: none;
 }
@@ -483,10 +471,6 @@ li .sub-bar a {
     padding-left: 10px;
     margin-bottom: 15px;
 }
-
-/*.edit_page:nth-child(1) {
-    padding-bottom: 15px;
-}*/
 
 .content-dashed {
     padding: 10px;
@@ -638,10 +622,7 @@ li .sub-bar a {
 }
 
 .content-options-feature {
-    /* border-bottom: 2px solid #ccc; */
     border-left: 2px solid #555;
-    /* border-right: 2px solid #ccc; */
-    /*background-color: #ccc;*/
 }
 
 .edit-btn {
@@ -994,7 +975,6 @@ div.loader {
 .input-flat {
     border-style: none none solid;
     border-width: medium medium 2px;
-    transition: border 0.3s ease 0s;
     padding: 6px 12px;
     border-color: #b2b1b1;
     background-color: #f3f3f3;
@@ -1030,7 +1010,6 @@ div.loader {
 .sb-tgl + .sb-tgl-btn {
     outline: 0;
     display: block;
-    width: 4em;
     height: 2em;
     position: relative;
     cursor: pointer;
@@ -1066,7 +1045,6 @@ div.loader {
 .sb-tgl-flat + .sb-tgl-btn {
     -webkit-transition: all .2s ease;
     transition: all .2s ease;
-    /*border: 4px solid;*/
     border-radius: 3px;
     width: 80px;
     background-color: #555;
@@ -1084,7 +1062,6 @@ div.loader {
 .sb-tgl-flat + .sb-tgl-btn:after {
     -webkit-transition: all .2s ease;
     transition: all .2s ease;
-    background: #555;
     content: "";
     border-radius: 3px;
     width: 20px;
@@ -1117,9 +1094,7 @@ div.loader {
     text-align: center;
     position: absolute;
     line-height: 2em;
-    font-weight: bold;
     color: #fff;
-    position: absolute;
     top: 0;
     left: 0;
     -webkit-backface-visibility: hidden;
@@ -1275,8 +1250,8 @@ div.loader {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     margin-top: 0;
     margin-bottom: 0;
-    padding-bottom: 5px;
-    padding-top: 15px;
+    padding-bottom: 8px;
+    padding-top: 12px;
     text-transform: uppercase;
     font-weight: 100;
     letter-spacing: 0.05em;
@@ -1392,20 +1367,12 @@ div.loader {
     background-image: none;
 }
 
-#homepage_slider_options {
-    /*margin-bottom: 15px;*/
-}
-
 /* colors */
 .square_color {
     margin: auto;
     max-width: 100px;
     min-width: 50px;
     width: 100%;
-}
-
-.square_color .bordered {
-    /*border: 1px solid white;*/
 }
 
 .square_color button {
@@ -1625,7 +1592,6 @@ div.loader {
 
 #add-pages .icons-list li span {
     display: block;
-    text-transform: none;
     font-size: 0.73em;
     text-transform: uppercase;
     margin-top: 0.2em;
@@ -1688,8 +1654,13 @@ a.details.add_page {
 .option_path {
     left: 0.4em;
     position: absolute;
-    top: 0.4em;
+    top: 9px;
     width: auto;
+    margin-left: 150px;
+}
+
+.option_path select {
+    height: 29px;
 }
 
 .categories .subcategories ul li.subcategory input.subcategory_name {
@@ -1787,12 +1758,12 @@ a.details.add_page {
     line-height: 22px;
     margin: 0;
     padding: 0 5px 0 0;
-    font-family: Helvetica;
+    font-family: 'Helvetica', sans-serif;
     font-size: 11px;
     font-weight: bold;
     color: black;
     background-repeat: no-repeat;
-    background-position: left center;;
+    background-position: left center;
 }
 
 #overview #iphone .iphone_content .status_bar {
@@ -2340,7 +2311,7 @@ div.pp_pic_holder {
     .navbar-header,
     .navbar-header.unleft-toggled,
     .navbar-header.color-blue {
-        left: 0px;
+        left: 0;
         background-color: transparent !important;
     }
 
@@ -2525,20 +2496,11 @@ a {
     display: flex;
     align-items: center;
 }
-/*.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {*/
-    /*background-color: transparent;*/
-/*}*/
 .dropdown-menu > li > a:nth-last-child(1) {
     width: 100%;
     margin: 0;
 }
-/*.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {*/
-    /*background-color: transparent;*/
-    /*border-color: #428bca;*/
-/*}*/
-/*.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {*/
-    /*background-color: transparent;*/
-/*}*/
+
 /** fix-bootstrap **/
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
     border-top: none;
@@ -2574,7 +2536,6 @@ table.dataTable thead th.sorting_desc {
 /** Form elements */
 .sb-nav {
     margin-top: 20px;
-    /*margin-bottom: 20px;*/
 }
 
 form.sb-form label {
@@ -2788,7 +2749,7 @@ tr.edit-form {
 }
 
 .sb-pagination .btn.color-blue {
-    padding: 0px 8px 0px 6px;
+    padding: 0 8px 0 6px;
 }
 
 .sb-pager-pages,
@@ -2798,11 +2759,11 @@ tr.edit-form {
 }
 
 .sb-pager-next.btn.color-blue {
-    padding: 0px 8px 0px 10px;
+    padding: 0 8px 0 10px;
 }
 
 .sb-pager-last.btn.color-blue {
-    padding: 0px 8px 0px 8px;
+    padding: 0 8px 0 8px;
 }
 
 .sb-pagination .btn.color-blue i {
@@ -2954,14 +2915,6 @@ input[type=radio]:after {
     opacity: 0.5;
 }
 
-label.radio-inline {
-<<<<<<< Updated upstream
-
-=======
-    /*text-indent:10px;*/
->>>>>>> Stashed changes
-}
-
 label.checkbox-inline {
     text-indent:10px;
 }
@@ -2985,14 +2938,14 @@ input[type=range].sb-slider::-webkit-slider-runnable-track {
     width: 100%;
     height: 3.9px;
     cursor: pointer;
-    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+    box-shadow: 0 0px 0 #000000, 0 0px 0 #0d0d0d;
     background: #777777;
     border-radius: 0px;
-    border: 0px solid #ffffff;
+    border: 0 solid #ffffff;
 }
 
 input[type=range].sb-slider::-webkit-slider-thumb {
-    box-shadow: 0px 0px 0px #670000, 0px 0px 0px #810000;
+    box-shadow: 0 0px 0 #670000, 0 0px 0 #810000;
     height: 12px;
     width: 11px;
     border-radius: 3px;
@@ -3010,14 +2963,14 @@ input[type=range].sb-slider::-moz-range-track {
     width: 100%;
     height: 4px;
     cursor: pointer;
-    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+    box-shadow: 0 0px 0 #000000, 0 0px 0 #0d0d0d;
     background: #777777;
     border-radius: 0px;
-    border: 0px solid #ffffff;
+    border: 0 solid #ffffff;
 }
 
 input[type=range].sb-slider::-moz-range-thumb {
-    box-shadow: 0px 0px 0px #670000, 0px 0px 0px #810000;
+    box-shadow: 0 0px 0 #670000, 0 0px 0 #810000;
     height: 12px;
     width: 11px;
     border-radius: 3px;
@@ -3036,21 +2989,20 @@ input[type=range].sb-slider::-ms-track {
 
 input[type=range].sb-slider::-ms-fill-lower {
     background: #777777;
-    border: 0px solid #ffffff;
+    border: 0 solid #ffffff;
     border-radius: 0px;
-    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+    box-shadow: 0 0px 0 #000000, 0 0px 0 #0d0d0d;
 }
 
 input[type=range].sb-slider::-ms-fill-upper {
     background: #777777;
-    border: 0px solid #ffffff;
+    border: 0 solid #ffffff;
     border-radius: 0px;
-    box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
+    box-shadow: 0 0 0 #000000, 0 0 0 #0d0d0d;
 }
 
 input[type=range].sb-slider::-ms-thumb {
-    box-shadow: 0px 0px 0px #670000, 0px 0px 0px #810000;
-    height: 12px;
+    box-shadow: 0 0 0 #670000, 0 0 0 #810000;
     width: 1px;
     border-radius: 3px;
     background: #777777;
@@ -3099,8 +3051,8 @@ form dt {
 
 .action-buttons {
     position: absolute;
-    right: 0px;
-    top:0px;
+    right: 0;
+    top: 0;
 }
 
 .action-button {
@@ -3170,7 +3122,7 @@ div.ui-datepicker-buttonpane .ui-datepicker-close.ui-state-hover {
 }
 
 .ui-widget-header .ui-state-hover {
-    border-radius: 0px !important;
+    border-radius: 0 !important;
     border: 0 !important;
     background: none !important;
 }
@@ -3477,11 +3429,47 @@ textarea.cke_source {
 }
 .bootstrap-tagsinput .tag [data-role="remove"]:after {
     content: "x";
-    padding: 0px 2px;
+    padding: 0 2px;
 }
 .bootstrap-tagsinput .tag [data-role="remove"]:hover {
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 .bootstrap-tagsinput .tag [data-role="remove"]:hover:active {
     box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+
+/** Search/Filter for carousel/features */
+.list-search {
+    width: 140px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 200;
+    position: absolute;
+    top: 9px;
+    left: 8px;
+}
+
+.list-search input {
+    width: 140px;
+    padding-right: 28px;
+}
+
+.list-search i {
+    display: none;
+    left: 118px;
+    position: relative;
+    top: -23px;
+    width: 20px;
+}
+
+.list-search i.active {
+    display: block;
+}
+
+.list-search i.clear {
+    cursor: pointer;
+}
+
+.list-search i.clear:hover {
+    opacity: 0.6;
 }

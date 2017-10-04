@@ -188,7 +188,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default {
                     "admin_companies" => $admin_companies,
                     "more" => (count($total) > ($count + count($places))),
                     "page_title" => $this->getCurrentOptionValue()->getTabbarName(),
-                    "social_sharing_active" => $this->getCurrentOptionValue()->getSocialSharingIsActive(),
+                    "social_sharing_active" => (boolean) $this->getCurrentOptionValue()->getSocialSharingIsActive(),
                 );
 
             } catch(Exception $e) {
@@ -267,7 +267,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default {
                             "place" => $place,
                             "page_title" => $this->getCurrentOptionValue()->getTabbarName(),
                             "is_admin" => $is_admin,
-                            "social_sharing_active" => $this->getCurrentOptionValue()->getSocialSharingIsActive(),
+                            "social_sharing_active" => (boolean) $this->getCurrentOptionValue()->getSocialSharingIsActive(),
                         );
 
                     }

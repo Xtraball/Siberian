@@ -120,9 +120,8 @@ function reload(element, url, showLoader, success_callback, error_callback) {
 
     $.post(url,
         datas,
-        function(data) {
-
-            if(data.message || data.success_message) {
+        function (data) {
+            if (data.message || data.success_message) {
 //                if(typeof message == 'undefined') var message = new AlertMessage();
                 message.setMessage(data.message ? data.message : data.success_message);
                 message.addButton(data.message_button ? true : false);
@@ -132,16 +131,21 @@ function reload(element, url, showLoader, success_callback, error_callback) {
                 message.show();
             }
 
-            if(data.message) {
-                if(error_callback && typeof(error_callback) === "function") error_callback(data, message);
+            if (data.message) {
+                if (error_callback && typeof(error_callback) === 'function') {
+                    error_callback(data, message);
+                }
                 return;
             }
-            if(data.url) {
+            if (data.url) {
                 window.location = data.url;
-            }
-            else {
-                if(success_callback && typeof(success_callback) === "function") success_callback(data, message);
-                if(data.html) element.parent().html(data.html);
+            } else {
+                if (success_callback && typeof(success_callback) === 'function') {
+                    success_callback(data, message);
+                }
+                if (data.html) {
+                    element.parent().html(data.html);
+                }
             }
 
         },

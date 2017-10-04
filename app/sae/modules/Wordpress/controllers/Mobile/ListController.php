@@ -44,7 +44,7 @@ class Wordpress_Mobile_ListController extends Application_Controller_Mobile_Defa
                         "date"                      => $post->getFormattedDate(),
                         "is_hidden"                 => (boolean) $post->getIsHidden(),
                         "url"                       => $this->getPath("wordpress/mobile_view", array("value_id" => $value_id, "post_id" => $post->getId())),
-                        "social_sharing_active"     => $option_value->getSocialSharingIsActive()
+                        "social_sharing_active"     => (boolean) $option_value->getSocialSharingIsActive()
                     );
 
                 }

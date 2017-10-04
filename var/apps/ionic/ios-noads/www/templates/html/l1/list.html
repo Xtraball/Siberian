@@ -58,20 +58,20 @@
                         <div class="col col-75 col-offset-25">
                             <img ng-src="{{ item.picture }}" ng-if="item.picture" />
                             <p class="padding text-right" ng-if="item.details">
-                            <span ng-if="item.details.date">
-                                <i class="ion-ios-calendar-outline"></i>
-                                <span ng-if="!item.details.date.mt_text">{{ item.details.date.text }}</span>
-                                <span ng-if="item.details.date.mt_text">{{ item.details.date.mt_text | from_now }}</span>
-                            </span>
+                                <span ng-if="item.details.date">
+                                    <i class="ion-ios-calendar-outline"></i>
+                                    <span ng-if="!item.details.date.mt_text">{{ item.details.date.text }}</span>
+                                    <span ng-if="item.details.date.mt_text">{{ item.details.date.mt_text | moment_calendar }}</span>
+                                </span>
                                 <span ng-if="item.details.comments">
-                                <i class="ion-ios-chatboxes-outline"></i>
-                                {{ item.details.comments.text }}
-                            </span>
+                                    <i class="ion-ios-chatboxes-outline"></i>
+                                    {{ item.details.comments.text }}
+                                </span>
                                 <span ng-if="item.details.likes">
-                                <i class="ion-ios-heart-outline"></i>
-                                {{ item.details.likes.text }}
-                            </span>
-                            <div class="clear"></div>
+                                    <i class="ion-ios-heart-outline"></i>
+                                    {{ item.details.likes.text }}
+                                </span>
+                                <div class="clear"></div>
                             </p>
                         </div>
                     </div>
@@ -100,7 +100,8 @@
                         <p class="padding text-right" ng-if="item.details">
                         <span ng-if="item.details.date">
                             <i class="ion-ios-calendar-outline"></i>
-                            {{ item.details.date.text | from_now }}
+                            <span ng-if="!item.details.date.mt_text">{{ item.details.date.text }}</span>
+                            <span ng-if="item.details.date.mt_text">{{ item.details.date.mt_text | moment_calendar }}</span>
                         </span>
                         <span ng-if="item.details.comments">
                             <i class="ion-ios-chatboxes-outline"></i>

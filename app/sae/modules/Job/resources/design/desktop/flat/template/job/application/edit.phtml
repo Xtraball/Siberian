@@ -25,6 +25,7 @@ foreach($companies as $_company) {
 
 # Toggle company
 $form_company_toggle = new Job_Form_Company_Toggle();
+$form_company_toggle->setValueId($option_value->getId());
 
 # Place form
 if(!empty(array_keys($company_options))) {
@@ -60,7 +61,9 @@ if(!empty($company_options)) {
 
 # Company & Place delete forms
 $delete_form = new Job_Form_Company_Delete();
+$delete_form->setValueId($option_value->getId());
 $delete_place_form = new Job_Form_Place_Delete();
+$delete_place_form->setValueId($option_value->getId());
 
 # Options
 $form_options = new Job_Form_Options();
@@ -69,6 +72,7 @@ $form_options->populate($job->getData());
 
 # Toggle job
 $form_place_toggle = new Job_Form_Place_Toggle();
+$form_place_toggle->setValueId($option_value->getId());
 
 # Categories
 $category = new Job_Model_Category();
@@ -84,9 +88,10 @@ $form_category
 
 $form_category->addNav("job-category-save-nav", "OK", false);
 
-
 $form_category_toggle = new Job_Form_Category_Toggle();
+$form_category_toggle->setValueId($option_value->getId());
 $delete_category_form = new Job_Form_Category_Delete();
+$delete_category_form->setValueId($option_value->getId());
 
 ?>
 

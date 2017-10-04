@@ -40,6 +40,15 @@
     <div id="pages_content" class="content position-path sb-tour">
 
         <h3 class="title-editor border-blue text-center">
+
+            <div class="list-search">
+                <div class="list-search-content">
+                    <input type="text" class="search_filter_carousel input-flat" placeholder="<?php echo __js('Search...', '"'); ?>" />
+                    <i class="fa fa-search empty active"></i>
+                    <i class="fa fa-times clear"></i>
+                </div>
+            </div>
+
             <?php echo __('Your pages'); ?>
             <?php if($app_id && $app_secret): ?>
                 <?php if(System_Model_Config::getValueFor('facebook_import_active') AND $this->_canAccess('editor_facebook_import')): ?>
@@ -170,6 +179,15 @@
 
     <div id="add_pages_content" class="content sb-tour">
         <h3 class="title-editor border-blue text-center">
+
+            <div class="list-search">
+                <div class="list-search-content">
+                    <input type="text" class="search_filter_feature input-flat" placeholder="<?php echo __js('Search...', '"'); ?>" />
+                    <i class="fa fa-search empty active"></i>
+                    <i class="fa fa-times clear"></i>
+                </div>
+            </div>
+
             <?php echo __('Add pages'); ?>
         </h3>
         <div id="add-pages" class="subcontent content-color">
@@ -178,7 +196,7 @@
                     <div id="sb-tour-add-pages-filter" class="content-no-padding col-md-3 sb-tour">
                         <ul class="carret content-options content-white-bkg">
                             <li><a href="javascript:void(0)" class="filter_category color-blue button_handler active" rel="all"><?php echo strtoupper(__("All")); ?></a></li>
-                            <?php foreach($categories as $category) : ?>
+                            <?php $cats = [];foreach($categories as $category) : $cats[$category->getId()] = $category->getData('name') ?>
                             <li><a href="javascript:void(0)" class="filter_category" rel="<?php echo $category->getId() ?>"><?php echo strtoupper(__($category->getName())); ?></a></li>
                             <?php endforeach; ?>
                         </ul>
@@ -189,7 +207,9 @@
                                 <?php foreach ($options as $key => $option) : ?>
                                     <?php if (!$this->_canAccess("feature_".$option->getCode(),"all") OR $option->onlyOnce() AND in_array($option->getId(), $option_ids)) continue; ?>
                                     <?php $preview = $option->getPreview(); ?>
-                                    <li id="add_page_<?php echo $option->getId(); ?>" class="sb-tour add_option_value col-md-3 col-sm-3 col-xs-4 category_option category_option_<?php echo $option->getCategoryId(); ?>">
+                                    <li id="add_page_<?php echo $option->getId(); ?>"
+                                        data-search="<?php echo __js(strtolower($option->getName() . ' ' . $option->getCode() . ' ' . $option->getData('name') . ' ' . $cats[$option->getCategoryId()] . ' ' . __($cats[$option->getCategoryId()])), '"'); ?>"
+                                        class="feature_search sb-tour add_option_value col-md-3 col-sm-3 col-xs-4 category_option category_option_<?php echo $option->getCategoryId(); ?>">
                                         <a href="<?php echo $this->getUrl('application/customization_features/save'); ?>" class="details <?php if($preview->getId() AND $preview->getTitle()) : ?>show_previews<?php else : ?>add_page<?php endif; ?>" rel="<?php echo $option->getId(); ?>">
                                             <div class="color-blue block_add_pages_icon btn default_size_details" style="background-image: url('<?php echo $this->getIconUrl($option); ?>')">
                                                 <img src="/app/sae/design/desktop/flat/images/placeholder/blank-512.png" alt="<?php echo $option->getName(); ?>" title="<?php echo $option->getName(); ?>" width="auto" height="50" class="block" data-image="<?php echo $option->getIconId() ?>" data-style="area" data-color="color" />
@@ -268,6 +288,7 @@ var Options = Class.extend({
         var carousel = $('#pages_list #option_values').data('carousel');
         carousel.options.items_per_page = items_per_page;
         carousel.options.is_folder = is_folder;
+        carouselSearch.clearSearch();
         carousel.update();
         carousel.slideToPage(0);
     },
@@ -388,6 +409,8 @@ var page = {
         this.bindAddPage();
         $(".filter_category").click(function() {
 
+                featureSearch.clearSearch();
+
             $(".filter_category").removeClass("color-blue button_handler active");
             $(this).addClass("color-blue button_handler active");
 
@@ -493,6 +516,7 @@ var page = {
                         
                         $('#option_value_'+datas.value_id).remove();
                         if(!datas.use_my_account) $('#option_value_customer_account').hide();
+                            carouselSearch.clearSearch();
                         carousel.update();
                         
 
@@ -554,6 +578,8 @@ var page = {
 
                     iframe.f.reloadTabbar();
 
+                        carouselSearch.clearSearch();
+                        featureSearch.clearSearch();
                     carousel.update().slideToItem(li);
 
                     //Scroll to top after adding a feature
@@ -1043,7 +1069,7 @@ var feature = {
 
     },
     appMustBePublished: function (message) {
-        if (!message) message = '<?php echo addslashes($this->_('You must have published your application to access this feature')); ?>';
+        if (!message) message = '<?php echo addslashes(__('You must have published your application to access this feature')); ?>';
         this.alert.setMessage(message);
         this.alert.isError(1);
         this.alert.show();
@@ -1286,7 +1312,7 @@ var FolderForm = Class.extend({
                             var $select = $('.option_path option.dummy').parent();
                             $('.option_path option.dummy').removeClass('dummy');
 //                            $select.dropkick('reload');
-                            $('#left_category #no_item span').eq(1).html('<?php echo addslashes($this->_('to add a subfolder.')) ?>');
+                            $('#left_category #no_item span').eq(1).html('<?php echo addslashes(__('to add a subfolder.')) ?>');
                             category.root = datas.category_id;
                             folder.root_category_id = datas.category_id;
                             parent_id = 'default';
@@ -1434,6 +1460,8 @@ var FolderForm = Class.extend({
                 $clone.attr('data-folder-id', datas.folder_id);
                 $clone.find('img').show();
                 $clone.fadeIn(400);
+                carouselSearch.clearSearch();
+                featureSearch.clearSearch();
                 carousel.update().slideToItem($clone);
                 var feature_count = $('#option_values li.option_value:visible').length;
                 $('.button_handler[rel="' + cat_id + '"]').find('.features_number').html('(' + feature_count + ')');
@@ -1455,6 +1483,36 @@ var FolderForm = Class.extend({
         $('#page_list_folder').off('click', '.add_feature');
     }
 });
+
+
+/** =====     SEARCH     ===== */
+var carouselSearch = new initSearch(
+    '#pages_content .list-search input.search_filter_carousel',
+    '#pages_content .list-search .clear',
+    '#pages_content .list-search .empty',
+    '#pages_content .search_carousel_li',
+    function () {
+        carousel.update();
+    }
+);
+$('#pages_content .search_carousel_li .actions .move_page')
+    .on('mousedown', function (e) {
+        e.preventDefault();
+        carouselSearch.clearSearch(function () {
+            carousel.update().slideToItem($(this).closest('li.search_carousel_li'));
+        });
+    });
+
+var featureSearch = new initSearch(
+    '#add_pages_content .list-search input.search_filter_feature',
+    '#add_pages_content .list-search .clear',
+    '#add_pages_content .list-search .empty',
+    '#add_page_list .feature_search',
+    function () {
+        //carousel.update();
+    }
+);
+/** =====     SEARCH     ===== */
 
 
 function bindGmapsSearchBox(input) {

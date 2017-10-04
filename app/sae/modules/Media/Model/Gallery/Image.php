@@ -123,11 +123,23 @@ class Media_Model_Gallery_Image extends Core_Model_Default {
     }
 
     public function getImages() {
-        if($this->getId() AND $this->getTypeInstance()) {
-            return $this->getTypeInstance()->setImageId($this->getId())->getImages($this->_offset);
+        $results = [];
+        if($this->getId() && $this->getTypeInstance()) {
+            switch ($this->getTypeInstance()) {
+                case 'Media_Model_Gallery_Image_Facebook':
+                    $results = $this->getTypeInstance()
+                        ->setGalleryId($this->getGalleryId())
+                        ->getImages($this->_offset);
+                    break;
+                default:
+                    $results = $this->getTypeInstance()
+                        ->setGalleryId($this->getGalleryId())
+                        ->setImageId($this->getGalleryId())
+                        ->getImages($this->_offset);
+            }
         }
 
-        return array();
+        return $results;
     }
 
     public function getAllImages() {
@@ -254,9 +266,9 @@ class Media_Model_Gallery_Image extends Core_Model_Default {
     }
 
     protected function _addTypeDatas() {
-        if($this->getTypeInstance()) {
-            $this->getTypeInstance()->find($this->getId());
-            if($this->getTypeInstance()->getId()) {
+        if ($this->getTypeInstance()) {
+            $this->getTypeInstance()->find($this->getId(), 'gallery_id');
+            if ($this->getTypeInstance()->getId()) {
                 $this->addData($this->getTypeInstance()->getData());
             }
         }

@@ -910,3 +910,9 @@ input[type=range]:focus::-ms-fill-upper {
 [nav-view-transition=ios][nav-view-direction=forward], [nav-view-transition=ios][nav-view-direction=back] {
     background-color: transparent;
 }
+
+.nowrap {
+    overflow: initial !important;
+    text-overflow: initial !important;
+    white-space: initial !important;
+}

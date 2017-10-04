@@ -5,7 +5,7 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>English</string>
     <key>CFBundleDisplayName</key>
-    <string>${PRODUCT_NAME}</string>
+    <string>AppsMobileCompany</string>
     <key>CFBundleExecutable</key>
     <string>${EXECUTABLE_NAME}</string>
     <key>CFBundleIcons</key>
@@ -204,10 +204,12 @@
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>Use the GPS for live navigation</string>
     <key>NSCalendarsUsageDescription</key>
-    <string>Be notified of the App events.</string>
+    <string>Be notified of the App events</string>
     <key>NSContactsUsageDescription</key>
     <string>Share content with your contacts</string>
     <key>NSMotionUsageDescription</key>
     <string>Smart navigation with TaxiRide and other nice features</string>
+    <key>NFCReaderUsageDescription</key>
+    <string>Allow NFC Tag enabled features</string>
   </dict>
 </plist>

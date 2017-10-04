@@ -120,6 +120,9 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
                 throw new Siberian_Exception(__('Name is required to save the Application.'));
             }
 
+            // Force trim name on save.
+            $this->setName(trim($this->getData('name')));
+
             $adminId = trim($this->getData('admin_id'));
             if (empty($adminId) || ($adminId === 0) || ($adminId === '0')) {
                 throw new Siberian_Exception(__('AdminId is required to save the Application.'));
@@ -738,28 +741,41 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     public function getLogo() {
-        $logo = self::getImagePath().$this->getData('logo');
-        $base_logo = self::getBaseImagePath().$this->getData('logo');
-        if(is_file($base_logo) AND file_exists($base_logo)) return $logo;
-        else return self::getImagePath().'/placeholder/no-image.png';
+        $logo = self::getImagePath() . $this->getData('logo');
+        $baseLogo = self::getBaseImagePath() . $this->getData('logo');
+        if (is_file($baseLogo)) {
+            return $logo;
+        }
+
+        return self::getImagePath() . '/placeholder/no-image.png';
     }
 
     public function getIcon($size = null, $name = null, $base = false) {
 
-        if(!$size) $size = 114;
+        if (!$size) {
+            $size = 114;
+        }
 
         $icon = self::getBaseImagePath().$this->getData('icon');
-        if(!is_file($icon) OR !file_exists($icon)) $icon = self::getBaseImagePath().'/placeholder/no-image.png';
+        if (!is_file($icon) || !file_exists($icon)) {
+            $icon = self::getBaseImagePath() . '/placeholder/no-image.png';
+            $image = Siberian_Image::open($icon);
+            $image->fillBackground(0xf3f3f3);
+            return $image->inline('png', 100);
+        }
 
-        if(empty($name)) $name = sha1($icon.$size);
-        $name .= '_'.filesize($icon);
+        if (empty($name)) {
+            $name = sha1($icon . $size);
+        }
+        $name = $name . '_' . filesize($icon);
 
         $newIcon = new Core_Model_Lib_Image();
-        $newIcon->setId($name)
+        $newIcon
+            ->setId($name)
             ->setPath($icon)
             ->setWidth($size)
-            ->crop()
-        ;
+            ->crop();
+
         return $newIcon->getUrl($base);
     }
 

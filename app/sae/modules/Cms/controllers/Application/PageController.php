@@ -39,16 +39,23 @@ class Cms_Application_PageController extends Application_Controller_Default {
             if($form->isValid($values)) {
                 # Create the cms/page/blocks
                 $page_model = new Cms_Model_Application_Page();
-                $page_model->edit_v2($option_value, $values);
+                $page = $page_model->edit_v2($option_value, $values);
 
                 /** Update touch date, then never expires (until next touch) */
                 $option_value
                     ->touch()
                     ->expires(-1);
 
+                $message = __('Success.');
+                if (!empty($page->getData('__invalid_blocks'))) {
+                    $message = __('Partially saved.') . '<br />' .
+                        implode('<br />', $page->getData('__invalid_blocks'));
+                }
+
                 $payload = [
                     'success' => true,
-                    'message' => __('Success.'),
+                    'message' => $message,
+                    'message_timeout' => 7,
                 ];
             } else {
                 /** Do whatever you need when form is not valid */

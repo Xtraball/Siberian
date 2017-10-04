@@ -392,7 +392,7 @@ module.exports.metadata =
     "siberian-plugin-backgroundgeoloc": "1.0.0",
     "phonegap-plugin-push": "1.10.0",
     "cordova-plugin-app-version": "0.1.8",
-    "cordova-plugin-compat": "1.1.0",
+    "cordova-plugin-compat": "1.2.0",
     "phonegap-plugin-barcodescanner": "6.0.6",
     "cordova-plugin-camera": "2.3.1-dev",
     "com.verso.cordova.clipboard": "0.1.0",

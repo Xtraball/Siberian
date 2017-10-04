@@ -32,7 +32,7 @@ class Social_Mobile_FacebookController extends Application_Controller_Mobile_Def
                 $html = array('error' => 1, 'message' => $e->getMessage());
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($html);
 
         }
 
@@ -64,7 +64,7 @@ class Social_Mobile_FacebookController extends Application_Controller_Mobile_Def
                 $html = array('error' => 1, 'message' => $e->getMessage());
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($html);
         }
 
     }

@@ -531,7 +531,6 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
                     $session.setItem('pushMessageIds', localPushMessageIds);
 
                     var extendedPayload = messagePayload.additionalData;
-                    var promise = $q.defer();
 
                     if ((extendedPayload !== undefined) && (extendedPayload.cover || extendedPayload.action_value)) {
                         // Prevent missing or not base url!
@@ -608,20 +607,18 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
 
                         if (extendedPayload.cover || extendedPayload.action_value) {
                             // title, message, buttons_array, css_class!
-                            promise = Dialog.ionicPopup(config);
+                            Dialog.ionicPopup(config);
                         } else {
-                            promise = Dialog.alert(messagePayload.title, messagePayload.message, 'OK');
+                            Dialog.alert(messagePayload.title, messagePayload.message, 'OK');
                         }
                     } else {
                         var localTitle = (messagePayload.title !== undefined) ?
                             messagePayload.title : 'Notification';
-                        promise = Dialog.alert(localTitle, messagePayload.message, 'OK');
+                        Dialog.alert(localTitle, messagePayload.message, 'OK');
                     }
 
                     // Search for less resource consuming maybe use Push factory directly!
                     $rootScope.$broadcast(SB.EVENTS.PUSH.unreadPushs, messagePayload.count);
-
-                    return promise;
                 }
 
                 // Nope!

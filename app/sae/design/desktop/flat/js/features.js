@@ -86,7 +86,7 @@ var feature_picture_uploader = new Uploader();
 }(jQuery));
 
 var handleFormError = function (form, data) {
-    feature_form_error(data.message);
+    feature_form_error(data.message, data.message_timeout);
     if (data.errors) {
         form.find('p.form-field-error').remove();
         Object.keys(data.errors).forEach(function (key) {
@@ -108,24 +108,26 @@ var handleFormError = function (form, data) {
     }
 };
 
-var feature_form_error = function (html) {
+var feature_form_error = function (html, timer) {
     message.addLoader(true);
     message.setNoBackground(false);
     message.isError(true);
     message.setMessage(html);
     message.show();
     message.addButton(true);
-    message.setTimer(2);
+    var localTimer = (timer !== undefined) ? timer : 3;
+    message.setTimer(localTimer);
 };
 
-var feature_form_success = function (html) {
+var feature_form_success = function (html, timer) {
     message.addLoader(true);
     message.setNoBackground(false);
     message.isError(false);
     message.setMessage(html);
     message.show();
     message.addButton(false);
-    message.setTimer(2);
+    var localTimer = (timer !== undefined) ? timer : 3;
+    message.setTimer(localTimer);
 };
 
 var feature_reload = function () {
@@ -158,17 +160,17 @@ var simpleget = function (uri) {
         dataType: 'json',
         success: function (data) {
             if (data.success) {
-                feature_form_success(data.message || data.success_message);
+                feature_form_success(data.message || data.success_message, data.message_timeout);
             } else if (data.error) {
-                feature_form_error(data.message);
+                feature_form_error(data.message, data.message_timeout);
             } else {
-                feature_form_error('An error occured, please try again.');
+                feature_form_error('An error occured, please try again.', data.message_timeout);
             }
 
             loader.hide('sb-simpleget');
         },
         error: function (data) {
-            feature_form_error('An error occured, please try again.');
+            feature_form_error('An error occured, please try again.', data.message_timeout);
 
             loader.hide('sb-simpleget');
         }
@@ -415,7 +417,7 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
             dataType: 'json',
             success: function (data) {
                 if (data.success) {
-                    feature_form_success(data.message || data.success_message);
+                    feature_form_success(data.message || data.success_message, data.message_timeout);
                     if (form.hasClass('toggle')) {
                         var button = form.find('button[type=\'submit\']');
                         button.find('i').remove();
@@ -470,7 +472,7 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
                 if (response.message !== '') {
                     handleError(form, response);
                 } else {
-                    feature_form_error('An error occured, please try again.');
+                    feature_form_error('An error occured, please try again.', data.message_timeout);
                 }
 
                 if (typeof error_cb === 'function') {
@@ -579,7 +581,7 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
                             }
                         }, 100);
                     } else if (data.error) {
-                        feature_form_error(data.message);
+                        feature_form_error(data.message, data.message_timeout);
                     }
                 },
                 error: function () {
@@ -654,4 +656,87 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
             });
         }
     });
+};
+
+// Special search/filter
+var initSearch = function (input, clear, empty, itemsClass, fnCallback) {
+    var self = this;
+
+    self.input = $(input);
+    self.clear = $(clear);
+    self.empty = $(empty);
+    self.itemsClass = itemsClass;
+    self.fnCallback = fnCallback;
+    self.isFolder = false;
+    self.folderId = null;
+
+    self.doSearch = function (text, searchFnCallback) {
+        // Restore!
+        if (text.length === 0) {
+            self.empty.addClass('active');
+            self.clear.removeClass('active');
+        } else {
+            self.empty.removeClass('active');
+            self.clear.addClass('active');
+        }
+
+        // split only once!
+        var textParts = text.split(' ');
+
+        $(self.itemsClass).each(function (index, item) {
+            var element = $(item);
+            var textValue = element.data('search');
+            var push = true;
+            textParts.forEach(function (part) {
+                if (textValue.indexOf(part) === -1) {
+                    push = false;
+                }
+            });
+
+            var globalPush = (
+                (push && !self.isFolder && ((element.attr('rel') === '') || (element.attr('rel') === undefined))) ||
+                (push && self.isFolder && (element.attr('rel') === self.folderId) && (element.attr('rel') !== ''))
+            );
+
+            if (globalPush) {
+                element.show();
+            } else {
+                element.hide();
+            }
+        });
+
+        if (typeof self.fnCallback === 'function') {
+            self.fnCallback();
+        }
+
+        if (typeof searchFnCallback === 'function') {
+            searchFnCallback();
+        }
+    };
+
+    self.input.on('keyup', function () {
+        self.doSearch($(this).val().trim().toLowerCase(), null);
+    });
+
+    self.clear.on('click', function () {
+        self.input.val('');
+        self.doSearch('', null);
+    });
+
+    return {
+        doSearch: function (text, fnCallback) {
+            self.input.val(text);
+            self.doSearch(text, fnCallback);
+        },
+        clearSearch: function (fnCallback) {
+            self.input.val('');
+            self.doSearch('', fnCallback);
+        },
+        setIsFolder: function (isFolder) {
+            self.isFolder = isFolder;
+        },
+        setFolderId: function (folderId) {
+            self.folderId = folderId;
+        }
+    };
 };

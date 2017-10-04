@@ -80,7 +80,8 @@ $deletePromotionForm->setValueId($option_value->getId());
                                 <thead>
                                 <tr class="border-grey">
                                     <th class="sortable" style="width:26%;"><?php echo __('Title'); ?></th>
-                                    <th class="sortable" style="width:70%;"><?php echo __('Description'); ?></th>
+                                    <th class="sortable" style="width:60%;"><?php echo __('Description'); ?></th>
+                                    <th class="sortable"><?php echo __('Is unique?'); ?></th>
                                     <th></th>
                                     <th></th>
                                     <th></th>
@@ -91,6 +92,7 @@ $deletePromotionForm->setValueId($option_value->getId());
                                     <tr id="promotion_manage_element_<?php echo $promotion->getId(); ?>" class="promotion-manage-element sb-pager">
                                         <td><?php echo cut($promotion->getTitle(), 22); ?></td>
                                         <td><?php echo cut($promotion->getDescription(), 30); ?></td>
+                                        <td><?php echo ($promotion->getIsUnique()) ? __('Yes') : __('No'); ?></td>
                                         <td>
                                             <i class="fa fa-search toggle-more" data-promotionid="<?php echo $promotion->getId(); ?>"></i>
                                         </td>

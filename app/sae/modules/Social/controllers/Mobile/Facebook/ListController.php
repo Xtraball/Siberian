@@ -3,8 +3,7 @@
 class Social_Mobile_Facebook_ListController extends Application_Controller_Mobile_Default {
 
     public function findAction() {
-
-        if($value_id = $this->getRequest()->getParam("value_id")) {
+        if ($value_id = $this->getRequest()->getParam("value_id")) {
 
             $facebook = $this->getCurrentOptionValue()->getObject();
             $data = array(
@@ -12,8 +11,7 @@ class Social_Mobile_Facebook_ListController extends Application_Controller_Mobil
                 "token" => $facebook->getAccessToken(),
                 "page_title" => $this->getCurrentOptionValue()->getTabbarName()
             );
-            $this->_sendHtml($data);
-
+            $this->_sendJson($data);
         }
 
     }

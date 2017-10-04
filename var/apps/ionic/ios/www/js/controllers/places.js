@@ -1,7 +1,3 @@
-/*global
-  angular, BASE_PATH
- */
-
 angular.module('starter').controller('PlacesListController', function (Location, $q, $scope, $rootScope, $state,
                                                                        $stateParams, $translate, $timeout, Places,
                                                                        Search) {
@@ -69,7 +65,7 @@ angular.module('starter').controller('PlacesListController', function (Location,
         } else if (Array.isArray($scope.collection) && $scope.collection.length > 0) {
             return 'RESULTS';
         }
-            return 'NO_RESULTS';
+        return 'NO_RESULTS';
     };
 
     /* Store search params */
@@ -184,6 +180,12 @@ angular.module('starter').controller('PlacesListController', function (Location,
         var offset = $scope.collection.length;
 
         $scope.parameters.offset = offset;
+
+        // Clear collection.
+        if (offset <= 0) {
+            $scope.collection = [];
+            Places.collection = [];
+        }
 
         var resolver = null;
         if (($scope.searchIsEmpty() || $rootScope.isOffline)) {

@@ -56,6 +56,11 @@ angular.module('starter').factory('Facebook', function ($cacheFactory, $pwaReque
             return $pwaRequest.reject('[Factory::Facebook.loadData] missing value_id');
         }
 
+        // Warning about API v2.7 for facebook expiration!
+        if (Math.ceil(Date.now()/1000) > 1533420000) {
+            console.error('Facebook API v2.7 will shutdown 5 October 2018, please upgrade to latest API Version.');
+        }
+
         return $pwaRequest.get('social/mobile_facebook_list/find', {
             urlParams: {
                 value_id: this.value_id,

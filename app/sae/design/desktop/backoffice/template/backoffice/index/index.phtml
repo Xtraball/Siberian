@@ -210,8 +210,18 @@
                     </td>
                     <td>
                         <table class="sub-table">
+                            <tr class="no-border-bottom">
+                                <td colspan="3">
+                                    <div class="alert alert-info" style="padding: 4px; margin: 0;">
+                                        <i class="fa fa-database"></i><?php echo __("Disk usage & Cache:") ?>
+                                        <?php echo __('values are refreshed once a day only!') ?>
+                                    </div>
+                                </td>
+                            </tr>
                             <tr ng-class="{ 'no-border-bottom': !show_more_size }">
-                                <td><i class="fa fa-database"></i><?php echo __("Disk usage & Cache:") ?></td>
+                                <td>
+                                    <?php echo __("Total usage:") ?>
+                                </td>
                                 <td>
                                     {{ server_usage.total }}
                                 </td>

@@ -24,7 +24,7 @@ class Catalog_Mobile_Setmeal_ViewController extends Application_Controller_Mobil
                     "description" => $set_meal->getDescription(),
                     "price" => $set_meal->getPrice() > 0 ? $set_meal->getFormattedPrice() : null,
                     "picture" => $set_meal->getPictureUrl() ? $this->getRequest()->getBaseUrl().$set_meal->getPictureUrl() : null,
-                    "social_sharing_active" => $option_value->getSocialSharingIsActive()
+                    "social_sharing_active" => (boolean) $option_value->getSocialSharingIsActive()
                 );
 
             }

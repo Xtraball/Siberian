@@ -38,7 +38,7 @@ class Rss_Mobile_Feed_ViewController extends Application_Controller_Mobile_Defau
                             "description" => $entry->getContent(),
                             "picture" => $entry->getPicture(),
                             "date" => $entry->getUpdatedAt(),
-                            "social_sharing_active" => $option->getSocialSharingIsActive()
+                            "social_sharing_active" => (boolean) $option->getSocialSharingIsActive()
                         );
 
                     }

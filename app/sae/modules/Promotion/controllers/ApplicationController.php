@@ -15,8 +15,16 @@ class Promotion_ApplicationController extends Application_Controller_Default {
             $form = new Promotion_Form_Promotion();
 
             $formData = $promotion->getData();
-            $formData['use_only_one'] = $promotion->getIsUnique();
+            $formData['use_only_once'] = $promotion->getIsUnique();
             $formData['unlimited'] = empty($promotion->getEndAt());
+
+            // Fix empty QRCodes
+            if (($promotion->getUnlockBy() === 'qrcode') &&
+                (empty($promotion->getUnlockCode()))) {
+                $promotion->setUnlockCode(uniqid());
+                $promotion->save();
+                $formData['unlock_code'] = $promotion->getUnlockCode();
+            }
 
             $form->populate($formData);
             $form->setValueId($this->getCurrentOptionValue()->getId());
@@ -74,14 +82,16 @@ class Promotion_ApplicationController extends Application_Controller_Default {
                 ->setIsActive(1)
                 ->setUnlockBy($values['unlock_by'])
                 ->setIsUnique($values['use_only_once'])
-                ->setValueId($values['value_id']);
+                ->setValueId($values['value_id'])
+                ->save();
 
             // Write QRCode file in place!
             $image_name = $promotion->getId() . '-qrpromotion_qrcode.png';
             $file = Core_Model_Directory::getBasePathTo('/images/application/' .
                 $this->getApplication()->getId() . '/application/qrpromotion/' .
                 $image_name);
-            if (($values['unlock_by'] === 'qrcode') && !file_exists($file)) {
+
+            if ($values['unlock_by'] === 'qrcode' && !empty($values['unlock_code'])) {
                 if (!file_exists(dirname($file))) {
                     mkdir(dirname($file), 0777, true);
                 }
@@ -90,10 +100,9 @@ class Promotion_ApplicationController extends Application_Controller_Default {
                 $qrCode->writeFile($file);
 
                 $promotion
-                    ->setUnlockCode($values['unlock_code']);
+                    ->setUnlockCode($values['unlock_code'])
+                    ->save();
             }
-
-            $promotion->save();
 
             // Update touch date, then never expires (until next touch)!
             $this->getCurrentOptionValue()

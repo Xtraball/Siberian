@@ -1,6 +1,3 @@
-/*global
-    angular, lazyLoadResolver, BASE_PATH
- */
 angular.module('starter').config(function ($stateProvider) {
     $stateProvider
         .state('colors-view', {

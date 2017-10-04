@@ -97,11 +97,11 @@ angular.module("starter").filter("parseUrlFilter", function() {
 /**
  * Filter with linky, then unescape, then trust as html
  */
-}).filter("html_linky", function($sce, $filter) {
+}).filter('html_linky', function ($sce, $filter) {
 
-    return function(text_or_html) {
-        text_or_html = $filter("linky")(text_or_html);
-        text_or_html = angular.element("<div/>").html(text_or_html).text();
+    return function (text_or_html) {
+        text_or_html = $filter('linky')(text_or_html);
+        text_or_html = angular.element('<div/>').html(text_or_html).text();
         text_or_html = $sce.trustAsHtml(text_or_html);
 
         return text_or_html;
@@ -111,83 +111,54 @@ angular.module("starter").filter("parseUrlFilter", function() {
 /**
  * Assumed default format is mysql date.
  */
-}).filter("from_now", function() {
-
+}).filter('from_now', function () {
     return function (date, format) {
-
-        if (window.momentjs_loaded) {
-            if (moment(date).isValid()) {
-                if (format === undefined) {
-                    return moment(date).fromNow();
-                } else {
-                    return moment(date, format).fromNow();
-                }
+        if (window.momentjs_loaded && moment(date).isValid()) {
+            if (format === undefined) {
+                return moment(date).fromNow();
             }
-
-            return date;
-        } else {
-            return date;
+            return moment(date, format).fromNow();
         }
+        return date;
     };
 
-}).filter("moment_calendar", function() {
-
+}).filter('moment_calendar', function () {
     return function (date, format) {
-
         var now = moment();
 
-        if (window.momentjs_loaded) {
-            if (moment(date).isValid()) {
-                // Same day = 'Today HH:mm'
-                if(moment(date).isSame(now, "day") && moment(date).isSame(now, "hour")) {
-
-                    if (format === undefined) {
-                        return moment(date).fromNow();
-                    } else {
-                        return moment(date, format).fromNow();
-                    }
-
-                } else if(moment(date).isSame(now, "day")) {
-
-                    if (format === undefined) {
-                        return moment(date).calendar();
-                    } else {
-                        return moment(date, format).calendar();
-                    }
-
-                } else {
-
-                    if (format === undefined) {
-                        return moment(date).format("lll");
-                    } else {
-                        return moment(date, format).format("lll");
-                    }
-
+        if (window.momentjs_loaded && moment(date).isValid()) {
+            // Same day = 'Today HH:mm'
+            if (moment(date).isSame(now, 'day') && moment(date).isSame(now, 'hour')) {
+                if (format === undefined) {
+                    return moment(date).fromNow();
                 }
-
+                return moment(date, format).fromNow();
             }
 
-            return date;
-        } else {
-            return date;
+            if (moment(date).isSame(now, 'day')) {
+                if (format === undefined) {
+                    return moment(date).calendar();
+                }
+                return moment(date, format).calendar();
+            }
+
+            if (format === undefined) {
+                return moment(date).format('lll');
+            }
+            return moment(date, format).format('lll');
         }
+        return date;
     };
-
-}).filter("moment", function() {
-
+}).filter('moment', function () {
     return function (date) {
-
-        if(window.momentjs_loaded) {
-            if(date === undefined) {
+        if (window.momentjs_loaded) {
+            if (date === undefined) {
                 return moment();
-            } else {
-                return moment(date);
             }
-        } else {
-            return date;
+            return moment(date);
         }
+        return date;
     };
-
 }).filter("emojify", function ($sce) {
 
     var EMOJIS = {

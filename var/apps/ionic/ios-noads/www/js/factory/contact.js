@@ -1,7 +1,3 @@
-/* global
-    App, angular
- */
-
 /**
  * Contact
  *
@@ -39,12 +35,12 @@ angular.module('starter').factory('Contact', function ($pwaRequest) {
             return $pwaRequest.resolve(payload);
         }
 
-            /** Otherwise fallback on PWA */
-            return $pwaRequest.get('contact/mobile_view/find', angular.extend({
-                urlParams: {
-                    value_id: this.value_id
-                }
-            }, factory.extendedOptions));
+        /** Otherwise fallback on PWA */
+        return $pwaRequest.get('contact/mobile_view/find', angular.extend({
+            urlParams: {
+                value_id: this.value_id
+            }
+        }, factory.extendedOptions));
     };
 
     factory.submitForm = function (form) {

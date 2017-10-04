@@ -26,6 +26,11 @@ class Job_Form_Place_Delete extends Siberian_Form_Abstract {
         $place_id->addValidator("Db_RecordExists", true, $select);
         $place_id->setMinimalDecorator();
 
+        $value_id = $this->addSimpleHidden("value_id");
+        $value_id
+            ->setRequired(true)
+        ;
+
         $mini_submit = $this->addMiniSubmit();
     }
 }

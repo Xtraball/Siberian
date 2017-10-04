@@ -17,15 +17,15 @@
                 <img width="75" height="75" ng-src="{{ post.icon }}" alt="{{ post.author }}" title="{{ post.author }}" />
                 <h2>{{ post.author }}<span ng-show="post.author && post.title"> - </span><span>{{ post.title }}</span>
                 </h2>
-                <p>{{ post.created_at | date : "short" }}</p>
+                <p>{{ post.created_at }}</p>
             </div>
             <div class="item item-body item-custom">
                 <img class="full-image" ng-src="{{ post.picture }}" alt="{{ post.author }}" title="{{ post.author }}" ng-if="post.picture" />
                 <p ng-if="post.link" class="fb-link" sb-a-click>
                     <i class="ion-ios-redo-outline"></i>
-                    <a href="{{ post.link }}">{{ "Open link" | translate }}</a>
+                    <a ng-href="{{ post.link }}">{{ "Open link" | translate }}</a>
                 </p>
-                <p ng-if="post.description" ng-bind-html="post.description" sb-a-click></p>
+                <p ng-if="post.description" ng-bind-html="post.description | trusted_html" sb-a-click></p>
             </div>
             <div class="item item-body item-custom">
                 <p ng-if="post.message" ng-bind-html="post.message" sb-a-click></p>

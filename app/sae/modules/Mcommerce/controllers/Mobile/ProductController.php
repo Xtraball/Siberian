@@ -119,7 +119,7 @@ class Mcommerce_Mobile_ProductController extends Mcommerce_Controller_Mobile_Def
                         "optionsGroups" => $optionsGroups,
                         "choicesGroups" => $choicesGroups,
                         "formatGroups" => $formatGroup,
-                        "social_sharing_active" => $option_value->getSocialSharingIsActive()
+                        "social_sharing_active" => (boolean) $option_value->getSocialSharingIsActive()
                     ),
                     "page_title" => $product->getName()
                 );

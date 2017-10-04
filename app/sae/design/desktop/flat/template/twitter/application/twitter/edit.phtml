@@ -4,22 +4,22 @@
 <div id="list" class="edit_page twitter">
     <form id="twitterForm" name="twitterForm" method="post" action="<?php echo $this->getUrl('twitter/application_twitter/editpost') ?>" class="form-horizontal">
         <h3 class="title-editor no-border-radius title-feature-indent">
-            <?php echo $this->_('twitter'); ?>
+            <?php echo __('twitter'); ?>
         </h3>
         <div class="container-fluid content-feature">
             <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
             <div class="form-group first-row-feature">
                 <div class="col-sm-12">
-                    <label><?php echo $this->_('Enter your twitter handle') ?> *:</label>
+                    <label><?php echo __('Enter your twitter handle') ?> *:</label>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-6">
-                    <input type="text" id="twitter_user" name="twitter_user" value="<?php echo $twitter->getTwitterUser()?>" placeholder="<?php echo $this->_("Enter your twitter handle") ?>" class="required input-flat" />
+                    <input type="text" id="twitter_user" name="twitter_user" value="<?php echo $twitter->getTwitterUser()?>" placeholder="<?php echo __("Enter your twitter handle") ?>" class="required input-flat" />
                 </div>
                 <div class="col-sm-2">
                     <button class="btn color-blue" type="submit">
-                        <?php echo $this->_('OK'); ?>
+                        <?php echo __('OK'); ?>
                     </button>
                 </div>
                 <div class="col-sm-4">
@@ -37,7 +37,7 @@
             <div class="form-group">
                 <div class="col-sm-8">
                     <button class="btn color-blue" type="submit">
-                        <?php echo $this->_('Verify'); ?>
+                        <?php echo __('Verify'); ?>
                     </button>
                 </div>
                 <div class="col-sm-4">
@@ -48,6 +48,7 @@
             </div>
         </div>
     </form>
+
     <?php echo $this->importBackground($option_value); ?>
 </div>
 <script type="text/javascript">
@@ -82,15 +83,20 @@
         $('#twitterForm').unbind('submit');
     });
 
-    background_image
-        .setCallback('cropDidFinish', function() {
-            iframe.content.find('.news').addClass('no-background');
-            iframe.content.find('.comments').addClass('no-background');
-        }).setCallback('imageDidRemove', function(datas) {
+    try {
+        background_image
+            .setCallback('cropDidFinish', function() {
+                iframe.content.find('.news').addClass('no-background');
+                iframe.content.find('.comments').addClass('no-background');
+            }).setCallback('imageDidRemove', function(datas) {
             if(!datas.background_image_url) {
                 iframe.content.find('.news').removeClass('no-background');
                 iframe.content.find('.comments').removeClass('no-background');
             }
         });
+    } catch (e) {
+        console.error('skip, nope.');
+    }
+
 
 </script>
