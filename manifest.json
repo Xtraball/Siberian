@@ -7404,12 +7404,12 @@
         "hash": "06a8f98f54f0dc0247d0ea8642607303"
     },
     {
-        "file": "app/sae/design/desktop/flat/js/features.js",
-        "hash": "3eaa9913c2dd50302c2b0d6ffdc3935c"
-    },
-    {
         "file": "app/sae/design/desktop/flat/js/js.js",
         "hash": "e346b01b5790397f5b904205b610a60a"
+    },
+    {
+        "file": "app/sae/design/desktop/flat/js/features.js",
+        "hash": "14e9f76acff29773a1e198afa238bc4c"
     },
     {
         "file": "app/sae/design/desktop/flat/layout/admin.xml",
@@ -7641,7 +7641,7 @@
     },
     {
         "file": "app/sae/design/desktop/flat/template/application/customization/features/list/options/li.phtml",
-        "hash": "75f793f0509cee9b139767bca38de346"
+        "hash": "e32c2ad355347f36153ebbb35d68f9dc"
     },
     {
         "file": "app/sae/design/desktop/flat/template/application/customization/features/list/soundcloudcallback.phtml",
@@ -7657,7 +7657,7 @@
     },
     {
         "file": "app/sae/design/desktop/flat/template/application/customization/features/list.phtml",
-        "hash": "56d91dd2ca421eb9b03b347ad9675723"
+        "hash": "14a60c422594386323ae2a23c54a486c"
     },
     {
         "file": "app/sae/design/desktop/flat/template/application/customization/index.phtml",
@@ -7848,24 +7848,24 @@
         "hash": "3d339614908f29f8ef7fdd510baf16f4"
     },
     {
-        "file": "app/sae/design/desktop/flat/template/folder/application/edit/options.phtml",
-        "hash": "8f1d4020c0df63e0ec46037c93eff991"
-    },
-    {
-        "file": "app/sae/design/desktop/flat/template/folder/application/edit/categories.phtml",
-        "hash": "f809b1d3a7276d8c3639eee5f4cbd3c6"
-    },
-    {
         "file": "app/sae/design/desktop/flat/template/folder/application/edit/form.phtml",
         "hash": "3aa12f946b2474473279c134b1c571d2"
     },
     {
+        "file": "app/sae/design/desktop/flat/template/folder/application/edit/categories.phtml",
+        "hash": "e36b58999e3eedd56eeca27ea17bb7be"
+    },
+    {
+        "file": "app/sae/design/desktop/flat/template/folder/application/edit/options.phtml",
+        "hash": "7e3c82db678ce1be59f88e6431b10a2b"
+    },
+    {
         "file": "app/sae/design/desktop/flat/template/folder/application/edit/sidebar.phtml",
-        "hash": "f72e3c567c3a171d749dea7a47255150"
+        "hash": "6fb2f2678b4c7d11ce26bddb76c482ba"
     },
     {
         "file": "app/sae/design/desktop/flat/template/folder/application/edit.phtml",
-        "hash": "f7365e6de50071ebe1b72edb787b2c1f"
+        "hash": "5d3d58a12cc35734621169a94362b1a2"
     },
     {
         "file": "app/sae/design/desktop/flat/template/form/application/edit/field/row.phtml",
@@ -18957,7 +18957,7 @@
     },
     {
         "file": "app/sae/modules/Media/controllers/Mobile/Gallery/Image/ViewController.php",
-        "hash": "736e7058a857ef7dcaf94b4f2705c9b8"
+        "hash": "594c9c5ef56f407e47e8362d02e86566"
     },
     {
         "file": "app/sae/modules/Media/controllers/Mobile/Gallery/ImageController.php",
@@ -21292,16 +21292,16 @@
         "hash": "5e0699ecc18ebbdcacbcaf11c56b52ed"
     },
     {
-        "file": "lib/Siberian/Autoupdater.php",
-        "hash": "9bfb151f91aeadb32bb0ac0d4fe5175a"
-    },
-    {
         "file": "lib/Siberian/Image.php",
         "hash": "b204757dcbbb1f88579e9a8297486637"
     },
     {
         "file": "lib/Siberian/Minify.php",
         "hash": "f9588785d5b730e0229837c04a55e32f"
+    },
+    {
+        "file": "lib/Siberian/Autoupdater.php",
+        "hash": "504d415a15bfc1375eb6915d72f5214d"
     },
     {
         "file": "lib/Symfony/Component/Yaml/Command/LintCommand.php",
@@ -37952,6 +37952,10 @@
         "hash": "ccd2070af0016c68f00001970ac59a60"
     },
     {
+        "file": "var/apps/browser/js/controllers/newswall.js",
+        "hash": "d0d2fe9a7c8c31d3c2b98c272dedcaf3"
+    },
+    {
         "file": "var/apps/browser/js/controllers/application.js",
         "hash": "b6226327e05a425a105bb2a4a5c8a667"
     },
@@ -38036,12 +38040,8 @@
         "hash": "f224a9008de31d63c5df30fda7175da6"
     },
     {
-        "file": "var/apps/browser/js/controllers/newswall.js",
-        "hash": "bbfd361473a8fd028e50a5a6a49f6078"
-    },
-    {
         "file": "var/apps/browser/js/controllers/newswall.min.js",
-        "hash": "6a6d6823aa4034414ee112d308095e80"
+        "hash": "2f652940da57c120e095a247e39db3c0"
     },
     {
         "file": "var/apps/browser/js/controllers/privacy-policy.js",
@@ -38745,15 +38745,15 @@
     },
     {
         "file": "var/apps/browser/js/services/push-service.js",
-        "hash": "938afb1478eaa2d4b9250ee490589fc4"
+        "hash": "a42abd70eff76e717251e9a51031996c"
     },
     {
         "file": "var/apps/browser/js/services/services.bundle.js",
-        "hash": "ad29fd0cf8ae6da97fa89990efde3c5d"
+        "hash": "c50a4692a22c95acdf5f582020e3cdb5"
     },
     {
         "file": "var/apps/browser/js/services/services.bundle.min.js",
-        "hash": "fea0afe86dc48aa599907f685b109fd4"
+        "hash": "3e2b3cd984b243eb0d59c55d4835ac23"
     },
     {
         "file": "var/apps/browser/js/utils/form-post.js",
@@ -38972,10 +38972,6 @@
         "hash": "95462340014053cad2d7e29896e62bac"
     },
     {
-        "file": "var/apps/browser/js/packed/newswall.bundle.js",
-        "hash": "9fe7637a8c045b1d09aa6803875cb54a"
-    },
-    {
         "file": "var/apps/browser/js/packed/discount.bundle.js",
         "hash": "2633d8d6a1add09a699541ff8021f530"
     },
@@ -38994,6 +38990,10 @@
     {
         "file": "var/apps/browser/js/packed/m_commerce.bundle.min.js",
         "hash": "41f9cb0e101e661fccc53e0cb2a3b6f2"
+    },
+    {
+        "file": "var/apps/browser/js/packed/newswall.bundle.js",
+        "hash": "62dd814797a2fa65beb9fef81163ca4d"
     },
     {
         "file": "var/apps/browser/js/packed/form.bundle.min.js",
@@ -39033,7 +39033,7 @@
     },
     {
         "file": "var/apps/browser/js/packed/newswall.bundle.min.js",
-        "hash": "ecccd6400b41634e45968139c6a1593c"
+        "hash": "953c5f5d9c20c26cf35f6e01b371cafa"
     },
     {
         "file": "var/apps/browser/js/packed/places.bundle.js",
@@ -40424,6 +40424,10 @@
         "hash": "ccd2070af0016c68f00001970ac59a60"
     },
     {
+        "file": "var/apps/ionic/android/assets/www/js/controllers/newswall.js",
+        "hash": "d0d2fe9a7c8c31d3c2b98c272dedcaf3"
+    },
+    {
         "file": "var/apps/ionic/android/assets/www/js/controllers/application.js",
         "hash": "b6226327e05a425a105bb2a4a5c8a667"
     },
@@ -40508,12 +40512,8 @@
         "hash": "f224a9008de31d63c5df30fda7175da6"
     },
     {
-        "file": "var/apps/ionic/android/assets/www/js/controllers/newswall.js",
-        "hash": "bbfd361473a8fd028e50a5a6a49f6078"
-    },
-    {
         "file": "var/apps/ionic/android/assets/www/js/controllers/newswall.min.js",
-        "hash": "6a6d6823aa4034414ee112d308095e80"
+        "hash": "2f652940da57c120e095a247e39db3c0"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/controllers/privacy-policy.js",
@@ -41217,15 +41217,15 @@
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/services/push-service.js",
-        "hash": "938afb1478eaa2d4b9250ee490589fc4"
+        "hash": "a42abd70eff76e717251e9a51031996c"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/services/services.bundle.js",
-        "hash": "ad29fd0cf8ae6da97fa89990efde3c5d"
+        "hash": "c50a4692a22c95acdf5f582020e3cdb5"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/services/services.bundle.min.js",
-        "hash": "fea0afe86dc48aa599907f685b109fd4"
+        "hash": "3e2b3cd984b243eb0d59c55d4835ac23"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/utils/form-post.js",
@@ -41444,10 +41444,6 @@
         "hash": "95462340014053cad2d7e29896e62bac"
     },
     {
-        "file": "var/apps/ionic/android/assets/www/js/packed/newswall.bundle.js",
-        "hash": "9fe7637a8c045b1d09aa6803875cb54a"
-    },
-    {
         "file": "var/apps/ionic/android/assets/www/js/packed/discount.bundle.js",
         "hash": "2633d8d6a1add09a699541ff8021f530"
     },
@@ -41466,6 +41462,10 @@
     {
         "file": "var/apps/ionic/android/assets/www/js/packed/m_commerce.bundle.min.js",
         "hash": "41f9cb0e101e661fccc53e0cb2a3b6f2"
+    },
+    {
+        "file": "var/apps/ionic/android/assets/www/js/packed/newswall.bundle.js",
+        "hash": "62dd814797a2fa65beb9fef81163ca4d"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/packed/form.bundle.min.js",
@@ -41505,7 +41505,7 @@
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/packed/newswall.bundle.min.js",
-        "hash": "ecccd6400b41634e45968139c6a1593c"
+        "hash": "953c5f5d9c20c26cf35f6e01b371cafa"
     },
     {
         "file": "var/apps/ionic/android/assets/www/js/packed/places.bundle.js",
@@ -51368,6 +51368,10 @@
         "hash": "ccd2070af0016c68f00001970ac59a60"
     },
     {
+        "file": "var/apps/ionic/ios-noads/www/js/controllers/newswall.js",
+        "hash": "d0d2fe9a7c8c31d3c2b98c272dedcaf3"
+    },
+    {
         "file": "var/apps/ionic/ios-noads/www/js/controllers/application.js",
         "hash": "b6226327e05a425a105bb2a4a5c8a667"
     },
@@ -51452,12 +51456,8 @@
         "hash": "f224a9008de31d63c5df30fda7175da6"
     },
     {
-        "file": "var/apps/ionic/ios-noads/www/js/controllers/newswall.js",
-        "hash": "bbfd361473a8fd028e50a5a6a49f6078"
-    },
-    {
         "file": "var/apps/ionic/ios-noads/www/js/controllers/newswall.min.js",
-        "hash": "6a6d6823aa4034414ee112d308095e80"
+        "hash": "2f652940da57c120e095a247e39db3c0"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/controllers/privacy-policy.js",
@@ -52161,15 +52161,15 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/services/push-service.js",
-        "hash": "938afb1478eaa2d4b9250ee490589fc4"
+        "hash": "a42abd70eff76e717251e9a51031996c"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/services/services.bundle.js",
-        "hash": "ad29fd0cf8ae6da97fa89990efde3c5d"
+        "hash": "c50a4692a22c95acdf5f582020e3cdb5"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/services/services.bundle.min.js",
-        "hash": "fea0afe86dc48aa599907f685b109fd4"
+        "hash": "3e2b3cd984b243eb0d59c55d4835ac23"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/utils/form-post.js",
@@ -52388,10 +52388,6 @@
         "hash": "95462340014053cad2d7e29896e62bac"
     },
     {
-        "file": "var/apps/ionic/ios-noads/www/js/packed/newswall.bundle.js",
-        "hash": "9fe7637a8c045b1d09aa6803875cb54a"
-    },
-    {
         "file": "var/apps/ionic/ios-noads/www/js/packed/discount.bundle.js",
         "hash": "2633d8d6a1add09a699541ff8021f530"
     },
@@ -52410,6 +52406,10 @@
     {
         "file": "var/apps/ionic/ios-noads/www/js/packed/m_commerce.bundle.min.js",
         "hash": "41f9cb0e101e661fccc53e0cb2a3b6f2"
+    },
+    {
+        "file": "var/apps/ionic/ios-noads/www/js/packed/newswall.bundle.js",
+        "hash": "62dd814797a2fa65beb9fef81163ca4d"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/packed/form.bundle.min.js",
@@ -52449,7 +52449,7 @@
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/packed/newswall.bundle.min.js",
-        "hash": "ecccd6400b41634e45968139c6a1593c"
+        "hash": "953c5f5d9c20c26cf35f6e01b371cafa"
     },
     {
         "file": "var/apps/ionic/ios-noads/www/js/packed/places.bundle.js",
@@ -58796,6 +58796,10 @@
         "hash": "ccd2070af0016c68f00001970ac59a60"
     },
     {
+        "file": "var/apps/ionic/ios/www/js/controllers/newswall.js",
+        "hash": "d0d2fe9a7c8c31d3c2b98c272dedcaf3"
+    },
+    {
         "file": "var/apps/ionic/ios/www/js/controllers/application.js",
         "hash": "b6226327e05a425a105bb2a4a5c8a667"
     },
@@ -58880,12 +58884,8 @@
         "hash": "f224a9008de31d63c5df30fda7175da6"
     },
     {
-        "file": "var/apps/ionic/ios/www/js/controllers/newswall.js",
-        "hash": "bbfd361473a8fd028e50a5a6a49f6078"
-    },
-    {
         "file": "var/apps/ionic/ios/www/js/controllers/newswall.min.js",
-        "hash": "6a6d6823aa4034414ee112d308095e80"
+        "hash": "2f652940da57c120e095a247e39db3c0"
     },
     {
         "file": "var/apps/ionic/ios/www/js/controllers/privacy-policy.js",
@@ -59589,15 +59589,15 @@
     },
     {
         "file": "var/apps/ionic/ios/www/js/services/push-service.js",
-        "hash": "938afb1478eaa2d4b9250ee490589fc4"
+        "hash": "a42abd70eff76e717251e9a51031996c"
     },
     {
         "file": "var/apps/ionic/ios/www/js/services/services.bundle.js",
-        "hash": "ad29fd0cf8ae6da97fa89990efde3c5d"
+        "hash": "c50a4692a22c95acdf5f582020e3cdb5"
     },
     {
         "file": "var/apps/ionic/ios/www/js/services/services.bundle.min.js",
-        "hash": "fea0afe86dc48aa599907f685b109fd4"
+        "hash": "3e2b3cd984b243eb0d59c55d4835ac23"
     },
     {
         "file": "var/apps/ionic/ios/www/js/utils/form-post.js",
@@ -59816,10 +59816,6 @@
         "hash": "95462340014053cad2d7e29896e62bac"
     },
     {
-        "file": "var/apps/ionic/ios/www/js/packed/newswall.bundle.js",
-        "hash": "9fe7637a8c045b1d09aa6803875cb54a"
-    },
-    {
         "file": "var/apps/ionic/ios/www/js/packed/discount.bundle.js",
         "hash": "2633d8d6a1add09a699541ff8021f530"
     },
@@ -59838,6 +59834,10 @@
     {
         "file": "var/apps/ionic/ios/www/js/packed/m_commerce.bundle.min.js",
         "hash": "41f9cb0e101e661fccc53e0cb2a3b6f2"
+    },
+    {
+        "file": "var/apps/ionic/ios/www/js/packed/newswall.bundle.js",
+        "hash": "62dd814797a2fa65beb9fef81163ca4d"
     },
     {
         "file": "var/apps/ionic/ios/www/js/packed/form.bundle.min.js",
@@ -59877,7 +59877,7 @@
     },
     {
         "file": "var/apps/ionic/ios/www/js/packed/newswall.bundle.min.js",
-        "hash": "ecccd6400b41634e45968139c6a1593c"
+        "hash": "953c5f5d9c20c26cf35f6e01b371cafa"
     },
     {
         "file": "var/apps/ionic/ios/www/js/packed/places.bundle.js",
@@ -61132,6 +61132,10 @@
         "hash": "ccd2070af0016c68f00001970ac59a60"
     },
     {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/newswall.js",
+        "hash": "d0d2fe9a7c8c31d3c2b98c272dedcaf3"
+    },
+    {
         "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/application.js",
         "hash": "b6226327e05a425a105bb2a4a5c8a667"
     },
@@ -61216,12 +61220,8 @@
         "hash": "f224a9008de31d63c5df30fda7175da6"
     },
     {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/newswall.js",
-        "hash": "bbfd361473a8fd028e50a5a6a49f6078"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/newswall.min.js",
-        "hash": "6a6d6823aa4034414ee112d308095e80"
+        "hash": "2f652940da57c120e095a247e39db3c0"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/controllers/privacy-policy.js",
@@ -61925,15 +61925,15 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/services/push-service.js",
-        "hash": "938afb1478eaa2d4b9250ee490589fc4"
+        "hash": "a42abd70eff76e717251e9a51031996c"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/services/services.bundle.js",
-        "hash": "ad29fd0cf8ae6da97fa89990efde3c5d"
+        "hash": "c50a4692a22c95acdf5f582020e3cdb5"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/services/services.bundle.min.js",
-        "hash": "fea0afe86dc48aa599907f685b109fd4"
+        "hash": "3e2b3cd984b243eb0d59c55d4835ac23"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/utils/form-post.js",
@@ -62152,10 +62152,6 @@
         "hash": "95462340014053cad2d7e29896e62bac"
     },
     {
-        "file": "var/apps/ionic/previewer/android/assets/www/js/packed/newswall.bundle.js",
-        "hash": "9fe7637a8c045b1d09aa6803875cb54a"
-    },
-    {
         "file": "var/apps/ionic/previewer/android/assets/www/js/packed/discount.bundle.js",
         "hash": "2633d8d6a1add09a699541ff8021f530"
     },
@@ -62174,6 +62170,10 @@
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/packed/m_commerce.bundle.min.js",
         "hash": "41f9cb0e101e661fccc53e0cb2a3b6f2"
+    },
+    {
+        "file": "var/apps/ionic/previewer/android/assets/www/js/packed/newswall.bundle.js",
+        "hash": "62dd814797a2fa65beb9fef81163ca4d"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/packed/form.bundle.min.js",
@@ -62213,7 +62213,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/packed/newswall.bundle.min.js",
-        "hash": "ecccd6400b41634e45968139c6a1593c"
+        "hash": "953c5f5d9c20c26cf35f6e01b371cafa"
     },
     {
         "file": "var/apps/ionic/previewer/android/assets/www/js/packed/places.bundle.js",
@@ -72028,6 +72028,10 @@
         "hash": "ccd2070af0016c68f00001970ac59a60"
     },
     {
+        "file": "var/apps/ionic/previewer/ios/www/js/controllers/newswall.js",
+        "hash": "d0d2fe9a7c8c31d3c2b98c272dedcaf3"
+    },
+    {
         "file": "var/apps/ionic/previewer/ios/www/js/controllers/application.js",
         "hash": "b6226327e05a425a105bb2a4a5c8a667"
     },
@@ -72112,12 +72116,8 @@
         "hash": "f224a9008de31d63c5df30fda7175da6"
     },
     {
-        "file": "var/apps/ionic/previewer/ios/www/js/controllers/newswall.js",
-        "hash": "bbfd361473a8fd028e50a5a6a49f6078"
-    },
-    {
         "file": "var/apps/ionic/previewer/ios/www/js/controllers/newswall.min.js",
-        "hash": "6a6d6823aa4034414ee112d308095e80"
+        "hash": "2f652940da57c120e095a247e39db3c0"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/controllers/privacy-policy.js",
@@ -72821,15 +72821,15 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/services/push-service.js",
-        "hash": "938afb1478eaa2d4b9250ee490589fc4"
+        "hash": "a42abd70eff76e717251e9a51031996c"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/services/services.bundle.js",
-        "hash": "ad29fd0cf8ae6da97fa89990efde3c5d"
+        "hash": "c50a4692a22c95acdf5f582020e3cdb5"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/services/services.bundle.min.js",
-        "hash": "fea0afe86dc48aa599907f685b109fd4"
+        "hash": "3e2b3cd984b243eb0d59c55d4835ac23"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/utils/form-post.js",
@@ -73048,10 +73048,6 @@
         "hash": "95462340014053cad2d7e29896e62bac"
     },
     {
-        "file": "var/apps/ionic/previewer/ios/www/js/packed/newswall.bundle.js",
-        "hash": "9fe7637a8c045b1d09aa6803875cb54a"
-    },
-    {
         "file": "var/apps/ionic/previewer/ios/www/js/packed/discount.bundle.js",
         "hash": "2633d8d6a1add09a699541ff8021f530"
     },
@@ -73070,6 +73066,10 @@
     {
         "file": "var/apps/ionic/previewer/ios/www/js/packed/m_commerce.bundle.min.js",
         "hash": "41f9cb0e101e661fccc53e0cb2a3b6f2"
+    },
+    {
+        "file": "var/apps/ionic/previewer/ios/www/js/packed/newswall.bundle.js",
+        "hash": "62dd814797a2fa65beb9fef81163ca4d"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/packed/form.bundle.min.js",
@@ -73109,7 +73109,7 @@
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/packed/newswall.bundle.min.js",
-        "hash": "ecccd6400b41634e45968139c6a1593c"
+        "hash": "953c5f5d9c20c26cf35f6e01b371cafa"
     },
     {
         "file": "var/apps/ionic/previewer/ios/www/js/packed/places.bundle.js",
@@ -73981,23 +73981,23 @@
     },
     {
         "file": "var/apps/ionic/android.tgz",
-        "hash": "55fccdc9e4904e566bc1a3bc4bd797ce"
+        "hash": "cb5a8e10a9eae1cca5b726c9551c5aa0"
     },
     {
         "file": "var/apps/ionic/ios.tgz",
-        "hash": "939e6f1c2a3ac5ac87974bfd94e660c2"
+        "hash": "c0afcf21625593ea1f2396968711b338"
     },
     {
         "file": "var/apps/ionic/ios-noads.tgz",
-        "hash": "ce003c0078f0022b732ff128af47982c"
+        "hash": "3da0e010ebf7bc1f0a4ca0523dedbb13"
     },
     {
         "file": "var/apps/ionic/previewer.tgz",
-        "hash": "dbfd6cb56be38f59021d90fd0730fae2"
+        "hash": "e5c511cda8c0180a592e25b00266cb33"
     },
     {
         "file": "var/apps/browser.tgz",
-        "hash": "167172ee3a7e1cde7f939c797cbe6d46"
+        "hash": "7b7e28e1074df58ff3c0e6973b75907b"
     },
     {
         "file": "var/apps/overview/confighelper.js",
@@ -74232,14 +74232,6 @@
         "hash": "f224a9008de31d63c5df30fda7175da6"
     },
     {
-        "file": "var/apps/overview/js/controllers/newswall.js",
-        "hash": "bbfd361473a8fd028e50a5a6a49f6078"
-    },
-    {
-        "file": "var/apps/overview/js/controllers/newswall.min.js",
-        "hash": "6a6d6823aa4034414ee112d308095e80"
-    },
-    {
         "file": "var/apps/overview/js/controllers/privacy-policy.js",
         "hash": "4af0b5aa976b6d1c67cd922c999ccca9"
     },
@@ -74434,6 +74426,14 @@
     {
         "file": "var/apps/overview/js/controllers/places.min.js",
         "hash": "4446bac892b5ca299b1329db35d78656"
+    },
+    {
+        "file": "var/apps/overview/js/controllers/newswall.js",
+        "hash": "d0d2fe9a7c8c31d3c2b98c272dedcaf3"
+    },
+    {
+        "file": "var/apps/overview/js/controllers/newswall.min.js",
+        "hash": "2f652940da57c120e095a247e39db3c0"
     },
     {
         "file": "var/apps/overview/js/directives/datetime.js",
@@ -75080,10 +75080,6 @@
         "hash": "95462340014053cad2d7e29896e62bac"
     },
     {
-        "file": "var/apps/overview/js/packed/newswall.bundle.js",
-        "hash": "9fe7637a8c045b1d09aa6803875cb54a"
-    },
-    {
         "file": "var/apps/overview/js/packed/discount.bundle.js",
         "hash": "2633d8d6a1add09a699541ff8021f530"
     },
@@ -75102,6 +75098,10 @@
     {
         "file": "var/apps/overview/js/packed/m_commerce.bundle.min.js",
         "hash": "41f9cb0e101e661fccc53e0cb2a3b6f2"
+    },
+    {
+        "file": "var/apps/overview/js/packed/newswall.bundle.js",
+        "hash": "62dd814797a2fa65beb9fef81163ca4d"
     },
     {
         "file": "var/apps/overview/js/packed/form.bundle.min.js",
@@ -75141,7 +75141,7 @@
     },
     {
         "file": "var/apps/overview/js/packed/newswall.bundle.min.js",
-        "hash": "ecccd6400b41634e45968139c6a1593c"
+        "hash": "953c5f5d9c20c26cf35f6e01b371cafa"
     },
     {
         "file": "var/apps/overview/js/packed/places.bundle.js",
@@ -75445,15 +75445,15 @@
     },
     {
         "file": "var/apps/overview/js/services/push-service.js",
-        "hash": "938afb1478eaa2d4b9250ee490589fc4"
+        "hash": "a42abd70eff76e717251e9a51031996c"
     },
     {
         "file": "var/apps/overview/js/services/services.bundle.js",
-        "hash": "ad29fd0cf8ae6da97fa89990efde3c5d"
+        "hash": "c50a4692a22c95acdf5f582020e3cdb5"
     },
     {
         "file": "var/apps/overview/js/services/services.bundle.min.js",
-        "hash": "fea0afe86dc48aa599907f685b109fd4"
+        "hash": "3e2b3cd984b243eb0d59c55d4835ac23"
     },
     {
         "file": "var/apps/overview/js/utils/form-post.js",

@@ -22,14 +22,6 @@
                     <i class="edit_category fa fa-pencil" rel="<?php echo $category->getCategoryId() ?>" onclick="category.loadForm(<?php echo $category->getCategoryId() ?>, <?php echo $this->getParentId() ?>);"></i>
                 </div>
             </div>
-            <?php
-//                echo $this->getLayout()
-//                    ->addPartial('folder_manage_sidebar', 'Core_View_Default', 'folder/application/edit/sidebar.phtml')
-//                    ->setValueId($this->getValueId())
-//                    ->setParentId($category->getCategoryId())
-//                    ->toHtml()
-//                ;
-            ?>
         </li>
     <?php endforeach; ?>
 <?php if($categories->count() > 0) : ?>

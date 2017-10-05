@@ -78,7 +78,9 @@ class Siberian_Autoupdater {
                 $static_assets = array();
 
                 /** Looping trough files */
-                $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path.$www_folder, 4096), RecursiveIteratorIterator::SELF_FIRST);
+                $files = new RecursiveIteratorIterator(
+                    new RecursiveDirectoryIterator($path.$www_folder, 4096),
+                    RecursiveIteratorIterator::SELF_FIRST);
                 foreach($files as $file) {
                     if($file->isDir()) {
                         continue;

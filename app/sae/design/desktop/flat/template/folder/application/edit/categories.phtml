@@ -101,7 +101,6 @@
             //Passe la root en selected si elle existe
             if($('option[value="'+option_value+'"]').length > 0) {
                 $('option[value="'+option_value+'"]').prop('selected', true);
-//                $('option[value="'+option_value+'"]').parent().dropkick('reload');
             }
 
             //Si en provenance d'une option
@@ -182,13 +181,7 @@
                         $('.folderForm input#title').val($(e.target).val());
                         $('#add_page_list span.folder_name').html($(e.target).val());
                     }
-//                    if(iframe.content.find('#page_title_'+option_id).length > 0) {
-//                        iframe.content.find('#page_title_'+option_id).html($(e.target).val());
-//                    } else {
-//                        iframe.content.find('#page_title_subcategory_'+__that.root).html($(e.target).val());
-//                    }
                 }
-//                $('select#primary_category_id').dropkick('reload');
             }.bind(this));
 
             //Drag catégories
@@ -230,46 +223,17 @@
                     }
 
                     $('.edit_category[rel="'+cat_id+'"]').attr('onclick', 'category.loadForm('+cat_id+','+new_parent+')');
-/*
-                    var need_to_refresh_this_page = null;
-                    var dragged_category_id = 'subcategory_'+ui.item.children('.button_handler:first').attr('rel');
-                    var dragged_page = iframe.f.page.getSubpage(dragged_category_id);
-                    if(dragged_page && dragged_page.is_displayed) need_to_refresh_this_page = dragged_page;
-                    else iframe.f.page.destroySubpage(dragged_page);
 
-                    //Rafraîchit la nouvelle page parent
-                    var parent_id = ui.item.parent('.categories_list').prev('div.button_handler').attr('rel');
-                    parent_id = parent_id == this.root ? '<?php echo $folder->getValueId(); ?>' : 'subcategory_'+parent_id;
-                    var parent_page = iframe.f.page.getSubpage(parent_id);
-
-                    if(parent_page) {
-                        if(parent_page.is_displayed) {
-                            need_to_refresh_this_page = parent_page;
-                        } else {
-                            iframe.f.page.destroySubpage(parent_page);
-                            iframe.content.find('#'+dragged_category_id).remove();
-                        }
-                    }
-*/
                     $(e).removeClass('color-blue');
                     $('.categories_list li.placeholder').remove();
                     var order = $('.categories_list.sortable').nestedSortable('serialize');
                     $('.categories_list.sortable').nestedSortable('refresh');
                     reload($('.categories_list.sortable'), '<?php echo $this->getUrl('folder/application/ordercategories'); ?>?'+order, true, function(datas) {
-//                        if(datas.success && need_to_refresh_this_page) {
-//                            iframe.f.page.refreshSubpage(need_to_refresh_this_page);
-//                        }
+
                     });
                 }.bind(this)
             });
         },
-/*        calculateHeight: function() {
-            if($('#right_category').outerHeight(true) > $('#left_category').outerHeight(true)) {
-                $('#left_category').height($('#right_category').height());
-            } else {
-                $('#right_category').height($('#left_category').height());
-            }
-        },*/
         loadForm: function(cat_id, parent_id) {
             //Si la catégorie est déjà ouverte
             if($('.folderForm').attr('rel') == cat_id) {
@@ -295,10 +259,6 @@
                     this.open = 'form';
                 }
 
-//                if(iframe.f.page.getSubpage('category_dummy')) {
-//                    iframe.f.page.destroySubpage('category_dummy');
-//                }
-
                 //Rend le formulaire de modif de la catégorie
                 var url = '<?php echo $this->getUrl('folder/application/renderform') ?>/option_value_id/'+option_id+'/category_id/'+cat_id+'/parent_id/'+parent_id;
                 if($('#load_category_'+cat_id).hasClass('not-loaded')) {
@@ -311,13 +271,14 @@
                         folder.current_category_id = cat_id;
                         var $current_cat = $('div.color-blue[rel="'+cat_id+'"]');
                         if($current_cat.length > 0 || this.root.length > 0 || cat_id != this.root) {
-                            options.loadNewSlider(cat_id, '<?php echo $current_option->getId() ?>');
+                            //options.loadNewSlider(cat_id);
                         }
-                        if(typeof folder_form == 'object') folder_form.destroy();
+                        if(typeof folder_form == 'object') {
+                            folder_form.destroy();
+                        }
 
                         $('#folderForm_cont').remove();
                         $('#add_page_to_folder').before(datas.form);
-//                        $('.right_category').html(datas.form);
                         $('.categories_list div.active').removeClass('active color-blue');
                         $('.categories_list div[rel="'+cat_id+'"]').addClass('active color-blue');
                         if($('li#category_dummy').length > 0) {
@@ -326,7 +287,6 @@
                         if($('option.dummy').length > 0) {
                             $select = $('option.dummy').parent();
                             $('option.dummy').remove();
-//                            $select.dropkick('reload');
                         }
 
                         //Fix IE
@@ -334,37 +294,6 @@
                             $('#folder_background_file').show();
                         }
 
-//                        this.calculateHeight();
-/*
-                        //Mobile
-                        var page_id = cat_id == this.root ? option_id : 'subcategory_'+cat_id;
-                        var mobile_url = '<?php echo $this->getApplication()->getUrl('folder/mobile/findchildren', array(), true); ?>';
-                        mobile_url += '/category_id/'+cat_id;
-                        mobile_url += '/option_value_id/'+option_id;
-                        mobile_url += '/overview/1';
-
-                        var mobile_subpage = iframe.f.page.getSubpage(page_id);
-
-                        if(!mobile_subpage || !mobile_subpage.is_displayed && !mobile_subpage.is_loading) {
-                            loader.show('mobile_page');
-                            var callbacks = {
-                                is_now_visible: function() {
-                                    loader.hide('mobile_page');
-                                    this.unsCallback('is_now_visible')
-                                }
-                            }
-                            if(mobile_subpage) {
-                                mobile_subpage.setCallback('is_now_visible', callbacks.is_now_visible);
-                            }
-
-                            iframe.f.page.showSubpage({
-                                id: page_id,
-                                url : mobile_url,
-                                isAjax: true,
-                                callbacks: callbacks
-                            });
-                        }
-*/
                         if(datas.subcategories_html) {
                             $('#category_'+cat_id).append(datas.subcategories_html);
                             $('#load_category_'+cat_id).removeClass('not-loaded');
@@ -395,15 +324,12 @@
                         var $select = $('select#primary_category_id');
                         if($select.length > 0) {
                             $select.append('<option class="dummy" selected="selected" value="'+value+'">'+value+'</option>');
-//                            $select.dropkick('reload');
                         }
                     }
 
                     if(typeof folder_form == 'object') folder_form.destroy();
                     $('#folderForm_cont').remove();
                     $('#add_page_to_folder').before(datas.form);
-//                    $('.right_category').html(datas.form);
-//                    __that.calculateHeight();
                     $('#category_dummy').remove();
                     $('div.active.color-blue').removeClass('active color-blue');
                     //Dummy category
@@ -431,21 +357,7 @@
                     if(__that.root == '') {
                         title = value;
                     }
-/*
-                    iframe.f.page.showSubpage({
-                        title: title,
-                        id: "category_dummy",
-                        html: mobile_dummy,
-                        isAjax: false,
-                        callbacks: {
-                            didcreate: function() {
-                                // Bloque bouton retour
-                                this.setBackButtonAction(function() {return false;});
-                                this.unsCallback('didcreate');
-                            }
-                        }
-                    });
-*/
+
                     //check ajout root
                     if(__that.root != '') {
                         //check ajout cat dans root cat
@@ -465,7 +377,6 @@
                     }
 
                     $('#right_category .folderForm').show();
-//                    $('.right_category .pages').hide();
                     $('#add_page_to_folder').hide();
                 }
             }, function(){
@@ -478,6 +389,7 @@
             } else {
                 folder_form.showOptions();
             }
+            options.loadNewSlider(id);
         },
         deleteCategory: function(cat_id) {
             var option_id = '<?php echo $current_option->getId() ?>';
@@ -508,10 +420,7 @@
                         });
 
 
-//                        iframe.f.page.destroySubpage('subcategory_'+cat_id);
-//                        iframe.content.find('#subcategory_'+cat_id).remove();
                         $('li#category_'+cat_id).remove();
-//                        this.calculateHeight();
                     }
                 }.bind(this), function(){
                 });
@@ -541,33 +450,6 @@
             return val;
         },
         setIframeBackButton: function(cat_id, parent_id) {
-//            var option_id = '<?php echo $current_option->getId() ?>';
-//            var callback = function() {
-//                var didcreate_callback = function() {
-//                    var subpage = iframe.f.page.getSubpage('subcategory_'+parent_id);
-//                    iframe.f.page.slide(subpage, 'back');
-//                    subpage.unsCallback('didcreate');
-//                };
-//
-//                var mobile_url = '<?php echo $this->getApplication()->getUrl('folder/mobile/findchildren', array(), true); ?>';
-//                mobile_url += '/category_id/'+parent_id;
-//                mobile_url += '/option_value_id/'+option_id;
-//                mobile_url += '/overview/1';
-//
-//                var callbacks = new Array();
-//                callbacks['didcreate'] = didcreate_callback;
-//
-//                iframe.f.page.showSubpage({
-//                    id: 'subcategory_'+parent_id,
-//                    url : mobile_url,
-//                    isAjax: true,
-//                    callbacks: callbacks
-//                }, true);
-//            };
-//
-//            var subpage = iframe.f.page.getSubpage('subcategory_'+cat_id);
-//            subpage.setBackButtonAction(callback);
-//            subpage.unsCallback('didcreate');
         },
         changeShowSearch: function() {
             reload($('#manage_search'), '<?php echo $this->getUrl('folder/application/setshowsearch'); ?>', true, function(data) {
@@ -659,10 +541,6 @@
     .categories_list li div.button_handler:hover .arrow, .categories_list li div.button_handler.active .arrow {
         display: block;
     }
-/*    .categories_list li div.button_handler:hover .delete_category, .categories_list li div.button_handler:hover .edit_category {
-        transition: none 0s ease 0s;
-        visibility: visible;
-    }*/
     .categories_list li div.button_handler.active .delete_category, .categories_list li div.button_handler.active .edit_category {
         visibility: visible;
     }

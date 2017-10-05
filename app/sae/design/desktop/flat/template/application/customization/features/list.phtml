@@ -16,7 +16,7 @@
     $session = $this->getSession();
     $admin = $session->getAdmin();
 
-    # Sorting features by alpha (with translations)
+    // Sorting features by alpha (with translations)!
     $opts = array();
     foreach($options as $option) {
         $opts[] = $option;
@@ -27,7 +27,7 @@
     usort($opts, "alphasort");
     $options = $opts;
 
-    //For Facebook import
+    // For Facebook import!
     $app_id     = Core_Model_Lib_Facebook::getAppId();
     $app_secret = Core_Model_Lib_Facebook::getSecretKey();
 ?>
@@ -57,11 +57,11 @@
                     </button>
                 <?php endif; ?>
             <?php endif; ?>
-            <?php /**if(APPLICATION_ENV !== 'production'): ?>
+            <?php if(APPLICATION_ENV !== 'production'): ?>
             <button id="feature_import_export" class="sb-tour color-blue bt-header-right btn import-feature pull-right export-button">
                 <?php echo __("Import / Export") ?>
             </button>
-            <?php endif;*/ ?>
+            <?php endif; ?>
         </h3>
         <div id="pages_list" class="subcontent content-color sb-tour">
             <div class="option_path">
@@ -96,7 +96,7 @@
         </div>
     </div>
 
-    <?php /**if(APPLICATION_ENV != "production"): ?>
+    <?php if(APPLICATION_ENV != "production"): ?>
         <script type="text/javascript">
 
             var modal_import_export = new Modal({id: 'modal_import_export', url: '<?php echo $this->getUrl('application/customization_features/exportmodal'); ?>', is_retain: false, width: 850, height: 'auto'});
@@ -105,7 +105,7 @@
             });
 
         </script>
-    <?php endif;*/ ?>
+    <?php endif; ?>
 
 <?php if($admin->isAllowedToAddPages($appId)) : ?>
     <div id="previews" style="display:none;">
@@ -255,8 +255,16 @@ $(document).ready(function () {
         carousel = $('#pages_list #option_values').data('carousel');
     },500);
 
+    // Prevents too much resize events
+    var isResizing = false;
     $( window ).resize(function() {
+        if (!isResizing) {
+            isResizing = true;
         carousel.update();
+            setTimeout(function() {
+                isResizing = false;
+            }, 100);
+        }
     });
 });
 
@@ -265,9 +273,11 @@ var Options = Class.extend({
 
     },
     loadNewSlider: function (category_id, value_id, showCategoryManage) {
-        if (typeof showCategoryManage == 'undefined') showCategoryManage = true;
+        if (typeof showCategoryManage == 'undefined') {
+            showCategoryManage = true;
+        }
         $('#option_values li').hide();
-        if (category_id == 'default') {
+        if (category_id === 'default') {
             page.close(true);
             $('.option_path .node_container').fadeOut();
             if (typeof layout != 'undefined') {
@@ -277,20 +287,24 @@ var Options = Class.extend({
             $('#option_values li[rel=""]').show();
             var items_per_page = 6;
             var is_folder = false;
+            carouselSearch.setFolderId(null);
         } else {
-            if (typeof layout != 'undefined' && showCategoryManage == true) {
+            if (typeof layout !== 'undefined' && showCategoryManage === true) {
                 layout.showCategoryManage();
             }
             var items_per_page = 10;
             var is_folder = true;
-            $('#option_values li[rel="' + category_id + '"]').show();
+            carouselSearch.setFolderId(category_id);
         }
         var carousel = $('#pages_list #option_values').data('carousel');
         carousel.options.items_per_page = items_per_page;
         carousel.options.is_folder = is_folder;
-        carouselSearch.clearSearch();
-        carousel.update();
-        carousel.slideToPage(0);
+
+        carouselSearch.setIsFolder(is_folder);
+        carouselSearch.clearSearch(function() {
+            carousel.update().slideToPage(1);
+        });
+
     },
 
     resetElement: function (option_value_id) {
@@ -409,7 +423,9 @@ var page = {
         this.bindAddPage();
         $(".filter_category").click(function() {
 
-                featureSearch.clearSearch();
+                featureSearch.clearSearch(function() {
+                    carousel.update().slideToPage(1);
+                });
 
             $(".filter_category").removeClass("color-blue button_handler active");
             $(this).addClass("color-blue button_handler active");
@@ -516,9 +532,9 @@ var page = {
                         
                         $('#option_value_'+datas.value_id).remove();
                         if(!datas.use_my_account) $('#option_value_customer_account').hide();
-                            carouselSearch.clearSearch();
-                        carousel.update();
-                        
+                            carouselSearch.clearSearch(function() {
+                                carousel.update().slideToPage(1);
+                            });
 
                         if(datas.was_folder) {
                             $('#option_values > .option_value').each(function() {
@@ -578,9 +594,10 @@ var page = {
 
                     iframe.f.reloadTabbar();
 
-                        carouselSearch.clearSearch();
+                        carouselSearch.clearSearch(function() {
+                            carousel.update().slideToItem(li);
+                        });
                         featureSearch.clearSearch();
-                    carousel.update().slideToItem(li);
 
                     //Scroll to top after adding a feature
                     var d = (navigator.userAgent && navigator.userAgent.indexOf('WebKit')) != -1 ? document.body : document.documentElement;
@@ -1370,7 +1387,7 @@ var FolderForm = Class.extend({
                 }
                 if (data.result.success) {
                     folder_background_uploader.hide();
-                    var params = new Array();
+                    var params = [];
                     params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
                     params["file"] = data.result.files;
                     params["output_w"] = 640;
@@ -1418,9 +1435,6 @@ var FolderForm = Class.extend({
             $('span.dummy_text').html(subval);
             if (!folder.root_category_id) {
                 $('.option_path option.dummy').html(option_val);
-                if ($('.option_path option.dummy').parent().length > 0) {
-//                    $('.option_path option.dummy').parent().dropkick('reload');
-                }
             }
         } else {
             $('#title_category_' + rel).html(subval);
@@ -1429,7 +1443,6 @@ var FolderForm = Class.extend({
                 if ($('.option_path option[value="' + element_value + '"]').parent().length > 0) {
                     var select_option = $('.option_path option[value="' + element_value + '"]');
                     select_option.html(option_val);
-//                    select_option.parent().dropkick('reload');
                 }
             }
         }
@@ -1449,7 +1462,6 @@ var FolderForm = Class.extend({
                 var cat_id = link.find('input[name="category_id"]').val();
                 var $slider_li = $('#option_values li#option_value_' + id);
                 var $form_li = link.parent();
-                ;
                 $form_li.fadeOut(400);
                 var $clone = $slider_li.clone();
                 $slider_li.remove();
@@ -1460,9 +1472,11 @@ var FolderForm = Class.extend({
                 $clone.attr('data-folder-id', datas.folder_id);
                 $clone.find('img').show();
                 $clone.fadeIn(400);
-                carouselSearch.clearSearch();
+                carouselSearch.clearSearch(function() {
+                    carousel.update().slideToItem($clone);
+                });
                 featureSearch.clearSearch();
-                carousel.update().slideToItem($clone);
+
                 var feature_count = $('#option_values li.option_value:visible').length;
                 $('.button_handler[rel="' + cat_id + '"]').find('.features_number').html('(' + feature_count + ')');
                 if (iframe.f.isHomepage()) {
@@ -1492,12 +1506,11 @@ var carouselSearch = new initSearch(
     '#pages_content .list-search .empty',
     '#pages_content .search_carousel_li',
     function () {
-        carousel.update();
+        carousel.update().slideToPage(1);
     }
 );
 $('#pages_content .search_carousel_li .actions .move_page')
     .on('mousedown', function (e) {
-        e.preventDefault();
         carouselSearch.clearSearch(function () {
             carousel.update().slideToItem($(this).closest('li.search_carousel_li'));
         });
@@ -1507,10 +1520,7 @@ var featureSearch = new initSearch(
     '#add_pages_content .list-search input.search_filter_feature',
     '#add_pages_content .list-search .clear',
     '#add_pages_content .list-search .empty',
-    '#add_page_list .feature_search',
-    function () {
-        //carousel.update();
-    }
+    '#add_page_list .feature_search'
 );
 /** =====     SEARCH     ===== */
 

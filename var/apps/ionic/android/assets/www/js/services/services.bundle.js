@@ -3704,7 +3704,7 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
         $session.getItem('pushMessageIds')
             .then(function (pushMessageIds) {
                 var localPushMessageIds = pushMessageIds;
-                if (pushMessageIds === null) {
+                if (pushMessageIds === null || !Array.isArray(pushMessageIds)) {
                     localPushMessageIds = [];
                 }
 
@@ -3716,12 +3716,20 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
 
                     var extendedPayload = messagePayload.additionalData;
 
-                    if ((extendedPayload !== undefined) && (extendedPayload.cover || extendedPayload.action_value)) {
+                    if ((extendedPayload !== undefined) &&
+                        (extendedPayload.cover || extendedPayload.action_value)) {
                         // Prevent missing or not base url!
                         var coverUri = extendedPayload.cover;
-                        if (extendedPayload.cover.indexOf('http') !== 0) {
-                            coverUri = DOMAIN + extendedPayload.cover;
+                        try {
+                            if (coverUri.indexOf('http') !== 0) {
+                                coverUri = DOMAIN + extendedPayload.cover;
+                            }
+                        } catch (e) {
+                            // No cover!
                         }
+
+                        var isInAppMessage = ((messagePayload.type !== undefined) &&
+                            (messagePayload.type === 'inapp'));
 
                         var config = {
                             buttons: [
@@ -3729,6 +3737,9 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
                                     text: $translate.instant('Cancel'),
                                     type: 'button-custom',
                                     onTap: function () {
+                                        if (isInAppMessage) {
+                                            Push.markInAppAsRead();
+                                        }
                                         // Simply closes!
                                     }
                                 },
@@ -3736,6 +3747,10 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
                                     text: $translate.instant('View'),
                                     type: 'button-custom',
                                     onTap: function () {
+                                        if (isInAppMessage) {
+                                            Push.markInAppAsRead();
+                                        }
+
                                         if ((extendedPayload.open_webview !== true) &&
                                             (extendedPayload.open_webview !== 'true')) {
                                             $location.path(extendedPayload.action_value);
@@ -3777,27 +3792,12 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
                             ];
                         }
 
-                        if ((messagePayload.type !== undefined) && (messagePayload.type === 'inapp')) {
-                            config.buttons = [
-                                {
-                                    text: $translate.instant('OK'),
-                                    type: 'button-custom',
-                                    onTap: function () {
-                                        Push.markInAppAsRead();
-                                    }
-                                }
-                            ];
-                        }
-
-                        if (extendedPayload.cover || extendedPayload.action_value) {
-                            // title, message, buttons_array, css_class!
-                            Dialog.ionicPopup(config);
-                        } else {
-                            Dialog.alert(messagePayload.title, messagePayload.message, 'OK');
-                        }
+                        $log.debug('Message payload (ionicPopup):', messagePayload, config);
+                        Dialog.ionicPopup(config);
                     } else {
                         var localTitle = (messagePayload.title !== undefined) ?
                             messagePayload.title : 'Notification';
+                        $log.debug('Message payload (alert):', messagePayload);
                         Dialog.alert(localTitle, messagePayload.message, 'OK');
                     }
 
@@ -3807,6 +3807,10 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
 
                 // Nope!
                 $log.debug('Will not display duplicated message: ', messagePayload);
+            }).catch(function (err) {
+                // we got an error
+                $log.debug('We got an error with the localForage when trying to display push message: ', messagePayload);
+                $log.debug(err);
             });
     };
 

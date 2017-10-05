@@ -706,11 +706,12 @@ var initSearch = function (input, clear, empty, itemsClass, fnCallback) {
         });
 
         if (typeof self.fnCallback === 'function') {
-            self.fnCallback();
+            console.log(self.fnCallback);
+            setTimeout(self.fnCallback(), 100);
         }
 
         if (typeof searchFnCallback === 'function') {
-            searchFnCallback();
+            setTimeout(searchFnCallback(), 100);
         }
     };
 
@@ -724,13 +725,13 @@ var initSearch = function (input, clear, empty, itemsClass, fnCallback) {
     });
 
     return {
-        doSearch: function (text, fnCallback) {
+        doSearch: function (text, doSearchFnCallback) {
             self.input.val(text);
-            self.doSearch(text, fnCallback);
+            self.doSearch(text, doSearchFnCallback);
         },
-        clearSearch: function (fnCallback) {
+        clearSearch: function (clearSearchFnCallback) {
             self.input.val('');
-            self.doSearch('', fnCallback);
+            self.doSearch('', clearSearchFnCallback);
         },
         setIsFolder: function (isFolder) {
             self.isFolder = isFolder;

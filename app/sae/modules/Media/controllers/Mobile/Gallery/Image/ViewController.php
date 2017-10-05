@@ -15,7 +15,7 @@ class Media_Mobile_Gallery_Image_ViewController extends Application_Controller_M
             $image = (new Media_Model_Gallery_Image())
                 ->find($gallery_id);
 
-            if (!$image->getId() || ($image->getValueId() !== $this->getCurrentOptionValue()->getId())) {
+            if (!$image->getId()) {
                 throw new Siberian_Exception(__('An error occurred while loading pictures. Please try later.'));
             }
 
@@ -70,7 +70,7 @@ class Media_Mobile_Gallery_Image_ViewController extends Application_Controller_M
         } catch (Exception $e) {
             $payload = [
                 'error' => true,
-                'message' => __('An unknown error occurred, please try again later.')
+                'message' => $e->getMessage()
             ];
         }
 
