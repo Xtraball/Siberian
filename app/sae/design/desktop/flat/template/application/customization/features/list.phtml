@@ -294,6 +294,8 @@ var Options = Class.extend({
             }
             var items_per_page = 10;
             var is_folder = true;
+            $('#option_values li[rel="' + category_id + '"]').show();
+            console.log('setFolderId', category_id);
             carouselSearch.setFolderId(category_id);
         }
         var carousel = $('#pages_list #option_values').data('carousel');
@@ -594,15 +596,17 @@ var page = {
 
                     iframe.f.reloadTabbar();
 
-                        carouselSearch.clearSearch(function() {
-                            carousel.update().slideToItem(li);
-                        });
-                        featureSearch.clearSearch();
-
                     //Scroll to top after adding a feature
                     var d = (navigator.userAgent && navigator.userAgent.indexOf('WebKit')) != -1 ? document.body : document.documentElement;
                     $(d).animate({scrollTop: $('body').offset().top});
                     page.processEvents();
+
+                    carouselSearch.clearSearch(function() {
+                        setTimeout(function () {
+                            carousel.update().slideToItem($('li#' + li.attr('id')));
+                        }, 1400);
+                    });
+                    featureSearch.clearSearch();
                 }
                 if (datas.delete_features.length) {
                     for (var i = 0; i < datas.delete_features.length; i++) {
@@ -1473,7 +1477,9 @@ var FolderForm = Class.extend({
                 $clone.find('img').show();
                 $clone.fadeIn(400);
                 carouselSearch.clearSearch(function() {
-                    carousel.update().slideToItem($clone);
+                    setTimeout(function () {
+                        carousel.update().slideToItem($('li#' + $clone.attr('id')));
+                    }, 1000);
                 });
                 featureSearch.clearSearch();
 

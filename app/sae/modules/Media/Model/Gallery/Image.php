@@ -56,7 +56,7 @@ class Media_Model_Gallery_Image extends Core_Model_Default {
 
             foreach($galleries as $gallery) {
                 $payload["galleries"][] = array(
-                    "id"    => (integer) $gallery->getId(),
+                    "id"    => (integer) $gallery->getGalleryId(),
                     "name"  => $gallery->getLabel() ? $gallery->getLabel() : $gallery->getName(),
                     "type"  => $gallery->getTypeId(),
                 );
@@ -125,7 +125,7 @@ class Media_Model_Gallery_Image extends Core_Model_Default {
     public function getImages() {
         $results = [];
         if($this->getId() && $this->getTypeInstance()) {
-            switch ($this->getTypeInstance()) {
+            switch (get_class($this->getTypeInstance())) {
                 case 'Media_Model_Gallery_Image_Facebook':
                     $results = $this->getTypeInstance()
                         ->setGalleryId($this->getGalleryId())

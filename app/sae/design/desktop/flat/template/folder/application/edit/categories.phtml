@@ -85,6 +85,7 @@
     </div>
 </div>
 <script type="text/javascript">
+    var isInit = false;
     var Category = Class.extend({
         init: function() {
             this.root = '<?php echo $folder->getRootCategoryId() ?>';
@@ -270,9 +271,14 @@
 
                         folder.current_category_id = cat_id;
                         var $current_cat = $('div.color-blue[rel="'+cat_id+'"]');
-                        if($current_cat.length > 0 || this.root.length > 0 || cat_id != this.root) {
-                            //options.loadNewSlider(cat_id);
+
+                        if($('.folderForm').attr('rel') != cat_id) {
+                            if (!isInit) {
+                                isInit = true;
+                                options.loadNewSlider(cat_id);
+                            }
                         }
+
                         if(typeof folder_form == 'object') {
                             folder_form.destroy();
                         }
