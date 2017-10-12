@@ -124,7 +124,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             $this->setName(trim($this->getData('name')));
 
             $adminId = trim($this->getData('admin_id'));
-            if (empty($adminId) || ($adminId === 0) || ($adminId === '0')) {
+            if (!Siberian_Version::is('SAE') && (empty($adminId) || ($adminId === 0) || ($adminId === '0'))) {
                 throw new Siberian_Exception(__('AdminId is required to save the Application.'));
             }
 
