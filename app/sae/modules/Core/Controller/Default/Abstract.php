@@ -26,6 +26,13 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         return $this->int_validator->isValid($val);
     }
 
+    /**
+     * @return Zend_Controller_Request_Http
+     */
+    public function getRequest() {
+        return parent::getRequest();
+    }
+
     public function init() {
 
         $this->cache = Zend_Registry::get("cache");

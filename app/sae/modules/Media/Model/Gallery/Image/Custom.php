@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Class Media_Model_Gallery_Image_Custom
+ *
+ * @method integer getId()
+ * @method setGalleryId(integer $galleryId)
+ * @method setUrl(string $url)
+ * @method $this setTitle(string $title)
+ * @method $this setDescription(string $description)
+ */
 class Media_Model_Gallery_Image_Custom extends Media_Model_Gallery_Image_Abstract {
 
     public function __construct($params = array()) {

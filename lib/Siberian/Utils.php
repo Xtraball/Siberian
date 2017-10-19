@@ -272,6 +272,26 @@ function __js($string, $escape = '"') {
 }
 
 /**
+ * Alias: Force single quote escape
+ *
+ * @param $string
+ * @return mixed|string
+ */
+function __jss($string) {
+    return __js($string, "'");
+}
+
+/**
+ * Alias: Force double quote escape
+ *
+ * @param $string
+ * @return mixed|string
+ */
+function __jsd($string) {
+    return __js($string, '"');
+}
+
+/**
  * @param string $url
  * @param array $params
  * @param null $locale

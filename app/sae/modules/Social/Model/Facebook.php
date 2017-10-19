@@ -289,7 +289,7 @@ class Social_Model_Facebook extends Core_Model_Default {
      * @param null $after
      * @return mixed|string
      */
-    public function getPhotos($album_id, $after = null){
+    public function getPhotos($album_id, $after = null) {
         $access_token = $this->getAccessToken();
         $params = [
             'access_token' => $access_token,
@@ -301,7 +301,44 @@ class Social_Model_Facebook extends Core_Model_Default {
         $url = self::buildUrl($album_id . '/photos', $params);
         $response = file_get_contents($url);
         $response = Siberian_Json::decode($response);
+
         return $response;
+    }
+
+    /**
+     * Builds the first albumUrl
+     *
+     * @param $albumId
+     * @return string
+     */
+    public function getAlbumUrl($albumId) {
+        $currentPage = self::buildUrl($albumId . '/photos', [
+            'access_token' => Core_Model_Lib_Facebook::getAppToken(),
+            'fields' => 'images,name'
+        ]);
+
+        return $currentPage;
+    }
+
+    /**
+     * Return the first & next page of an album if exists
+     *
+     * @param $url
+     * @return array
+     */
+    public function getAlbumUrls($currentPage) {
+        $response = file_get_contents($currentPage);
+        $response = Siberian_Json::decode($response);
+
+        $nextPage = false;
+        if (isset($response['paging'], $response['paging']['next'])) {
+            $nextPage = $response['paging']['next'];
+        }
+
+        return [
+            'currentPage' => $currentPage,
+            'nextPage' => $nextPage,
+        ];
     }
 
     /**
@@ -312,14 +349,13 @@ class Social_Model_Facebook extends Core_Model_Default {
      * @throws Exception
      */
     public function getPage($page_id) {
-        $access_token = $this->getAccessToken();
-        $url = self::buildUrl($page_id, array(
-            "access_token" => $access_token
-        ));
+        $url = self::buildUrl($page_id, [
+            'access_token' => Core_Model_Lib_Facebook::getAppToken()
+        ]);
         $response = file_get_contents($url);
         $response = Zend_Json::decode($response);
         if (!$response) {
-            throw new Exception("Page not found");
+            throw new Siberian_Exception('Page not found');
         }
         return $response;
     }
@@ -337,41 +373,14 @@ class Social_Model_Facebook extends Core_Model_Default {
      * @deprecated
      */
     public function getAccessToken() {
-        $app_id     = Core_Model_Lib_Facebook::getAppId();
-        $app_secret = Core_Model_Lib_Facebook::getSecretKey();
-
-        $url = self::buildUrl("oauth/access_token", array(
-            "grant_type" => "client_credentials",
-            "client_id" => $app_id,
-            "client_secret" => $app_secret,
-        ));
-
-        $content = Zend_Json::decode(self::__curl_get($url));
-
-        return $content["access_token"];
+        return Core_Model_Lib_Facebook::getAppToken();
     }
 
     /**
      * @return mixed
      */
     private function __getAccessToken() {
-
-        $app_id     = Core_Model_Lib_Facebook::getAppId();
-        $app_secret = Core_Model_Lib_Facebook::getSecretKey();
-
-        if($this->_page == 1) {
-            $url = self::buildUrl("oauth/access_token", array(
-                "grant_type" => "client_credentials",
-                "client_id" => $app_id,
-                "client_secret" => $app_secret,
-            ));
-        } else {
-            $url = $this->_next_url;
-        }
-
-        $content = Zend_Json::decode(self::__curl_get($url));
-
-        return $content["access_token"];
+        return Core_Model_Lib_Facebook::getAppToken();
     }
 
     /**

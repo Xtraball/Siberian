@@ -619,6 +619,11 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         // OVERVIEW!
                         $rootScope.isOverview = isOverview;
                         if ($rootScope.isOverview) {
+
+                            $window.overview = {
+                                features: {}
+                            };
+
                             $window.isHomepage = function () {
                                 return ($location.path() === BASE_PATH);
                             };
@@ -693,6 +698,10 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             $window.setLayoutId = function (valueId, layoutId) {
                                 HomepageLayout.setLayoutId(valueId, layoutId);
                             };
+
+                            if (parent && (typeof parent.postMessage === 'function') && (parent !== window)) {
+                                parent.postMessage('overview.loaded', DOMAIN);
+                            }
                         }
 
                         /**

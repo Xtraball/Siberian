@@ -1,12 +1,26 @@
 <?php
 
+/**
+ * Class Media_Model_Gallery_Image
+ *
+ * @method setImageId(integer $imageId)
+ * @method setName(string $name)
+ * @method setTypeId(string $typeId)
+ * @method integer getId()
+ * @method string getTypeId()
+ * @method integer getGalleryId()
+ */
 class Media_Model_Gallery_Image extends Core_Model_Default {
     protected $_is_cacheable = true;
 
     protected $_type_instance;
-    protected $_types = array(
-        'picasa', 'custom', 'instagram', 'flickr', 'facebook'
-    );
+    protected $_types = [
+        'picasa',
+        'custom',
+        'instagram',
+        'flickr',
+        'facebook'
+    ];
     protected $_offset = 0;
 
     public function __construct($params = array()) {
@@ -35,37 +49,40 @@ class Media_Model_Gallery_Image extends Core_Model_Default {
 
     /**
      * @param $option_value
-     * @return bool
+     * @return array|boolean
      */
     public function getEmbedPayload($option_value) {
 
         $color = $this->getApplication()->getBlock('subheader')->getColor();
-        $colorized_picto = Core_Controller_Default_Abstract::sGetColorizedImage(Core_Model_Lib_Image::sGetImage("pictos/more.png", true), $color);
+        $colorized_picto = Core_Controller_Default_Abstract::sGetColorizedImage(
+            Core_Model_Lib_Image::sGetImage('pictos/more.png', true), $color);
 
-        $payload = array(
-            "galleries"         => array(),
-            "page_title"        => $option_value->getTabbarName(),
-            "header_right_button"   => array(
-                "picto_url" => $colorized_picto
-            )
-        );
+        $payload = [
+            'galleries' => [],
+            'page_title' => $option_value->getTabbarName(),
+            'header_right_button' => [
+                'picto_url' => $colorized_picto
+            ]
+        ];
 
-        if($this->getId()) {
-            $gallery_model = new Media_Model_Gallery_Image();
-            $galleries = $gallery_model->findAll(array("value_id" => $option_value->getId()));
+        if ($this->getId()) {
+            $galleries = (new Media_Model_Gallery_Image())
+                ->findAll([
+                    'value_id' => $option_value->getId()
+                ]);
 
             foreach($galleries as $gallery) {
-                $payload["galleries"][] = array(
-                    "id"    => (integer) $gallery->getGalleryId(),
-                    "name"  => $gallery->getLabel() ? $gallery->getLabel() : $gallery->getName(),
-                    "type"  => $gallery->getTypeId(),
-                );
-            }
+                $currentGallery = [
+                    'id' => (integer) $gallery->getGalleryId(),
+                    'name' => $gallery->getLabel() ? $gallery->getLabel() : $gallery->getName(),
+                    'type' => $gallery->getTypeId(),
+                ];
 
+                $payload['galleries'][] = $currentGallery;
+            }
         }
 
         return $payload;
-
     }
 
 
@@ -86,6 +103,9 @@ class Media_Model_Gallery_Image extends Core_Model_Default {
         return $rows;
     }
 
+    /**
+     * @return Media_Model_Gallery_Image_Abstract
+     */
     public function getTypeInstance() {
         if(!$this->_type_instance) {
             $type = $this->getTypeId();
@@ -103,11 +123,11 @@ class Media_Model_Gallery_Image extends Core_Model_Default {
     public function save() {
         $isDeleted = $this->getIsDeleted();
         parent::save();
-        if(!$isDeleted AND ($this->getTypeId() == 'picasa' || $this->getTypeId() == 'instagram')) {
+        if(!$isDeleted AND ($this->getTypeId() === 'picasa' || $this->getTypeId() === 'instagram')) {
             if($this->getTypeInstance()->getId()) $this->getTypeInstance()->delete();
             $this->getTypeInstance()->setData($this->_getTypeInstanceData())->setGalleryId($this->getId())->save();
         }
-        if (!$isDeleted AND ($this->getTypeId() == 'flickr')) {
+        if (!$isDeleted AND ($this->getTypeId() === 'flickr')) {
             $instance = new Media_Model_Gallery_Image_Flickr();
             $instance->find(array('gallery_id' => $this->getTypeInstance()->getId()));
             $instance->setData($this->_getTypeInstanceData())->setGalleryId($this->getId())->save();

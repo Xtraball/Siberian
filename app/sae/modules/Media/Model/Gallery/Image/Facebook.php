@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Class Media_Model_Gallery_Image_Facebook
+ *
+ * @method $this setImageId(integer $imageId)
+ * @method integer getGalleryId()
+ */
 class Media_Model_Gallery_Image_Facebook extends Media_Model_Gallery_Image_Abstract {
     protected $page_id = null;
     protected $gallery = null;
@@ -24,6 +30,72 @@ class Media_Model_Gallery_Image_Facebook extends Media_Model_Gallery_Image_Abstr
     }
 
     /**
+     * Fetch current & next album urls, first if no url given
+     *
+     * @param null $albumUrl
+     * @return array
+     */
+    public function getAlbumUrls($albumUrl = null) {
+        if ($albumUrl === null) {
+            $albumId = $this->find([
+                'gallery_id' => $this->getGalleryId()
+            ])->getAlbumId();
+
+            $albumUrl = (new Social_Model_Facebook())
+                ->getAlbumUrl($albumId);
+        }
+
+        $albumUrls = (new Social_Model_Facebook())
+            ->getAlbumUrls($albumUrl);
+
+        return $albumUrls;
+    }
+
+    /**
+     * Facebook something!
+     *
+     * @param $albumUrlPage
+     * @return array
+     */
+    public function getImagesForUrl($albumUrlPage) {
+        $response = file_get_contents($albumUrlPage);
+        $response = Siberian_Json::decode($response);
+
+        $collection = [];
+
+        // Select images with the biggest resolution!
+        foreach ($response['data'] as $multiImage) {
+
+            $lastImageWidth = 0;
+            $thumbnailSource = null;
+            $imageSource = null;
+
+            foreach($multiImage['images'] as $image) {
+                $imageWidth = $image['width'];
+                if ($imageWidth < 500) {
+                    $thumbnailSource = $image['source'];
+                }
+
+                // Keep the biggest image!
+                if ($imageWidth > $lastImageWidth) {
+                    $lastImageWidth = $imageWidth;
+                    $imageSource = $image['source'];
+                }
+            }
+
+            $collection[] = new Core_Model_Default([
+                'description' => (isset($multiImage['name'])) ? $multiImage['name'] : null,
+                'title' => null,
+                'author' => null,
+                'thumbnail' => $thumbnailSource,
+                'image' => $imageSource,
+            ]);
+        }
+
+        return $collection;
+    }
+
+    /**
      * Returns a collection of images confirming to the Media_Model_Gallery_Image_Abstract contract
      *
      * @param $offset
@@ -37,12 +109,8 @@ class Media_Model_Gallery_Image_Facebook extends Media_Model_Gallery_Image_Abstr
 
         $images = (new Social_Model_Facebook())
             ->getPhotos($album_id, $offset ? $offset : null);
-        $collection = [];
 
-        // If the photos have a next page then set the after property
-        if ($images['paging']['next']) {
-            $this->cursor = $images['paging']['cursors']['after'];
-        }
+        $collection = [];
 
         // Select the images with the width closest to the PREFERED_WIDTH
         foreach ($images['data'] as $multi_image) {
@@ -54,9 +122,10 @@ class Media_Model_Gallery_Image_Facebook extends Media_Model_Gallery_Image_Abstr
                 'title' => null,
                 'author' => null,
                 'thumbnail' => null,
-                'image' => $image['source']
+                'image' => $image['source'],
             ]);
         }
+
         return $collection;
     }
 

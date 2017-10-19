@@ -54,11 +54,21 @@ angular.module('starter').controller('LoyaltyViewController', function ($cordova
         }
     };
 
+    /**
+     *
+     * @param refresh no used for now, until new ...
+     */
     $scope.loadContent = function (refresh) {
         Loader.show();
         $scope.is_loading = true;
 
-        LoyaltyCard.findAll(refresh)
+        // Force refresh for now!
+        var localRefresh = false;
+        if ($rootScope.isOnline) {
+            localRefresh = true;
+        }
+
+        LoyaltyCard.findAll(localRefresh)
             .then(function (data) {
                 $scope.promotions = data.promotions;
                 $scope.card = data.card;

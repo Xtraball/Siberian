@@ -1,6 +1,3 @@
-/*global
-    $, jQuery
-*/
 
 // Handle every elements for Forms on the Fly!
 ckeditor_available_lang = ['af', 'ar', 'az', 'bg', 'bn', 'bs', 'ca', 'cs', 'cy', 'da', 'de-ch', 'de', 'el', 'en-au', 'en-ca', 'en-gb', 'en', 'eo', 'es', 'et', 'eu', 'fa', 'fi', 'fo', 'fr-ca', 'fr', 'gl', 'gu', 'he', 'hi', 'hr', 'hu', 'id', 'is', 'it', 'ja', 'ka', 'km', 'ko', 'ku', 'lt', 'lv', 'mk', 'mn', 'ms', 'nb', 'nl', 'no', 'oc', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'si', 'sk', 'sl', 'sq', 'sr-latn', 'sr', 'sv', 'th', 'tr', 'tt', 'ug', 'uk', 'vi', 'zh-cn', 'zh'];
@@ -173,6 +170,58 @@ var simpleget = function (uri) {
             feature_form_error('An error occured, please try again.', data.message_timeout);
 
             loader.hide('sb-simpleget');
+        }
+    });
+};
+
+var formget = function (uri, formData, callbackSuccess, callbackError, preventDefault) {
+    loader.show('sb-formget');
+    var localPreventDefault = (preventDefault === undefined) ? false : preventDefault;
+
+    $.ajax({
+        type: 'POST',
+        url: uri,
+        data: formData,
+        dataType: 'json',
+        success: function (data) {
+            if (data.success) {
+                if (localPreventDefault) {
+                    feature_form_success(data.message || data.success_message, data.message_timeout);
+                }
+
+                if (typeof callbackSuccess === 'function') {
+                    callbackSuccess(data);
+                }
+            } else if (data.error) {
+                if (localPreventDefault) {
+                    feature_form_error(data.message, data.message_timeout);
+                }
+
+                if (typeof callbackError === 'function') {
+                    callbackError(data);
+                }
+            } else {
+                if (localPreventDefault) {
+                    feature_form_error('An error occured, please try again.', data.message_timeout);
+                }
+
+                if (typeof callbackError === 'function') {
+                    callbackError(data);
+                }
+            }
+
+            loader.hide('sb-formget');
+        },
+        error: function (data) {
+            if (localPreventDefault) {
+                feature_form_error(response.message, response.message_timeout);
+            }
+
+            if (typeof callbackError === 'function') {
+                callbackError(response);
+            }
+
+            loader.hide('sb-formget');
         }
     });
 };
@@ -741,3 +790,25 @@ var initSearch = function (input, clear, empty, itemsClass, fnCallback) {
         }
     };
 };
+
+// Global Eventer for overview!
+try {
+    var eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
+    var eventListener = window[eventMethod];
+    var messageEvent = (eventMethod === 'attachEvent') ? 'onmessage' : 'message';
+
+    // Listen to message from child window
+    iframeLoaded = new Promise(function (resolve, reject) {
+        eventListener(messageEvent, function (e) {
+            switch (e.data) {
+                case 'overview.loaded':
+                    resolve();
+                    break;
+            }
+        }, false);
+    });
+} catch (e) {
+    // No luck, no promise!
+}
+
+

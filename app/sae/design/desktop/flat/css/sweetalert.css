@@ -22,7 +22,6 @@ body.stop-scrolling {
     background-color: white;
     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     width: 478px;
-    padding: 17px;
     border-radius: 2px;
     text-align: center;
     position: fixed;
@@ -46,16 +45,18 @@ body.stop-scrolling {
 }
 
 .sweet-alert h2 {
-    color: #575757;
-    font-size: 30px;
-    text-align: center;
-    font-weight: 600;
-    text-transform: none;
+    font-size: 24px;
+    border-bottom: 2px solid #0099C7;
+    background-color: #fff;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-bottom: 8px;
+    padding-top: 8px;
+    text-transform: uppercase;
+    font-weight: 100;
+    letter-spacing: 0.05em;
     position: relative;
-    margin: 25px 0;
-    padding: 0;
-    line-height: 40px;
-    display: block;
 }
 
 .sweet-alert p {
@@ -64,9 +65,9 @@ body.stop-scrolling {
     text-align: center;
     font-weight: 300;
     position: relative;
-    text-align: inherit;
     float: none;
     margin: 0;
+    margin-top: 1em;
     padding: 0;
     line-height: normal;
 }
@@ -236,7 +237,7 @@ body.stop-scrolling {
     -webkit-border-radius: 2px;
     border-radius: 2px;
     padding: 10px 32px;
-    margin: 26px 5px 0 5px;
+    margin: 1em 5px 1em 5px;
     cursor: pointer;
 }
 

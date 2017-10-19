@@ -111,10 +111,12 @@ var loader = {
 }
 
 function reload(element, url, showLoader, success_callback, error_callback) {
-    if(showLoader) loader.show('reload');
+    if (showLoader) {
+        loader.show('reload');
+    }
     element = $(element);
     var datas = {};
-    if(element.length) {
+    if (element.length) {
         datas = /form/i.test(element.get(0).nodeName) ? element.serializeArray() : element.find('input, textarea, select').serializeArray();
     }
 
@@ -122,7 +124,6 @@ function reload(element, url, showLoader, success_callback, error_callback) {
         datas,
         function (data) {
             if (data.message || data.success_message) {
-//                if(typeof message == 'undefined') var message = new AlertMessage();
                 message.setMessage(data.message ? data.message : data.success_message);
                 message.addButton(data.message_button ? true : false);
                 message.setTimer(data.message_timeout ? data.message_timeout : false);

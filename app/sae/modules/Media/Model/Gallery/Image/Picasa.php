@@ -41,7 +41,9 @@ class Media_Model_Gallery_Image_Picasa extends Media_Model_Gallery_Image_Abstrac
             Zend_Feed_Reader::registerExtension('Picasa');
 
             try {
-                if(empty($offset)) $offset = 1;
+                if (empty($offset)) {
+                    $offset = 1;
+                }
                 $this->setType('album')->unsAlbumId();
                 $this->_setPicasaUrl($offset);
                 $feed = Zend_Feed_Reader::import($this->getLink());

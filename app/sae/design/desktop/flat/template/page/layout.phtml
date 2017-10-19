@@ -190,8 +190,7 @@
                 $("input, textarea").placeholder();
 
                 $('#up').children('a').click(function() {
-                    var d = (navigator.userAgent && navigator.userAgent.indexOf('WebKit')) != -1 ? document.body : document.documentElement;
-                    $(d).animate({scrollTop: $('body').offset().top});
+                    $('html').animate({scrollTop:0}, 'slow');
                     return false;
                 });
 

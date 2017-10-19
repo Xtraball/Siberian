@@ -6,8 +6,9 @@
  * This object is a copy of Application_Model_Option
  * used to save per-app options/features
  *
+ * @method integer getId()
+ *
  */
-
 class Application_Model_Option_Value extends Application_Model_Option
 {
 

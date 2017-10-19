@@ -55,7 +55,7 @@ class Siberian_Mail extends Zend_Mail {
         //$application = Siberian::getApplication();
         $whitelabel = Siberian::getWhitelabel();
 
-        // Name & E-mails, enable & test after my holidays @Anders.
+        // Name & E-mails, enable & test
         /**if($application !== false) { // 1. Application standalone settings!
             $values = Siberian_Json::decode($application->getData("smtp_credentials"));
             $smtp_credentials = new Core_Model_Default();

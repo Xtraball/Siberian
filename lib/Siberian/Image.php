@@ -22,6 +22,11 @@ class Siberian_Image extends Gregwar\Image\Image {
     public static $max_size = 25000;
 
     /**
+     * @var bool
+     */
+    protected static $force_cache = true;
+
+    /**
      * Siberian_Image constructor.
      * @param null $originalFile
      * @param null $width
@@ -59,9 +64,12 @@ class Siberian_Image extends Gregwar\Image\Image {
      * @return mixed|string
      * @throws Siberian_Exception
      */
-    public static function getForMobile($base_url, $resource,
-                                        $format = null, $device_width = null,
-                                        $device_height = null) {
+    public static function getForMobile($base_url,
+                                        $resource,
+                                        $format = null,
+                                        $device_width = null,
+                                        $device_height = null,
+                                        $returnInfos = false) {
         if(isset($resource) && is_file($resource)) {
 
             $resource = Siberian_Image::open($resource);
@@ -96,19 +104,40 @@ class Siberian_Image extends Gregwar\Image\Image {
              *  If the image is bigger than 100kb,
              *  don't cache it locally but send the proxied url
              */
-            if(strlen(base64_decode($base64)) > self::$max_size) {
+            if(strlen(base64_decode($base64)) > self::$max_size || self::$force_cache) {
                 $data = str_replace(Core_Model_Directory::getBasePathTo(''),
                     $base_url . '/', $resource->guess());
             } else {
                 $data = $base64;
             }
 
-            return $data;
+            if (!$returnInfos) {
+                return $data;
+            }
+
+            return [
+                'type' => $resource->guessType(),
+                'data' => $data
+            ];
 
         } else {
             throw new Siberian_Exception(
                 __('[Error] Siberian_Image, no resource provided.'));
         }
+    }
+
+    /**
+     * Force image to be cached as URL
+     */
+    public static function enableForceCache () {
+        self::$force_cache = true;
+    }
+
+    /**
+     * Disable image URL cache
+     */
+    public static function disableForceCache () {
+        self::$force_cache = false;
     }
 
 }

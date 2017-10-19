@@ -34,7 +34,7 @@ $file_template = str_replace("%UNIQID%", $uniqid, Cms_Form_Block_File::$file_tem
     </div>
 
     <script type="text/javascript">
-        var file_template = '<?php echo str_replace("\n", "", $file_template); ?>';
+        var <?php echo $pvar; ?>_file_template = '<?php echo str_replace("\n", "", $file_template); ?>';
 
         var <?php echo $pvar; ?> = '#<?php echo $formid; ?>';
 
@@ -48,7 +48,7 @@ $file_template = str_replace("%UNIQID%", $uniqid, Cms_Form_Block_File::$file_tem
                 },
                 done: function (el, data) {
                     if(data.result.success) {
-                        var cms_file = file_template;
+                        var cms_file = <?php echo $pvar; ?>_file_template;
                         cms_file = cms_file.replace("%FILE_PATH%", data.result.file);
                         cms_file = cms_file.replace("%ORIGINAL_NAME%", data.files[0].name);
                         cms_file = cms_file.replace("#TEXT#", "<b><?php echo __js("Attachment"); ?>:</b> "+data.files[0].name);

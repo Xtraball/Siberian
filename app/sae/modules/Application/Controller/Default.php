@@ -78,6 +78,9 @@ class Application_Controller_Default extends Admin_Controller_Default {
         }
     }
 
+    /**
+     * @return Application_Model_Option_Value
+     */
     public function getCurrentOptionValue() {
         return $this->_current_option_value;
     }

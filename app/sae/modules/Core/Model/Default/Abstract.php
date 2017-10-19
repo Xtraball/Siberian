@@ -324,7 +324,7 @@ abstract class Core_Model_Default_Abstract
      * @param mixed $value
      * @return $this
      */
-    public function setData($key, $value=null) {
+    public function setData($key, $value = null) {
         if(is_array($key)) {
             if(isset($this->_data['id'])) {
                 $key['id'] = $this->_data['id'];
@@ -336,7 +336,7 @@ abstract class Core_Model_Default_Abstract
         return $this;
     }
 
-    public function unsData($key=null)
+    public function unsData($key = null)
     {
         if (is_null($key)) {
             $this->_data = array();
@@ -346,7 +346,7 @@ abstract class Core_Model_Default_Abstract
         return $this;
     }
 
-    public function getData($key='')
+    public function getData($key = '')
     {
         if ($key==='') {
             return $this->_data;

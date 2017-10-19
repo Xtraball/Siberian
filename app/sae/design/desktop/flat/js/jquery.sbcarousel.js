@@ -1,12 +1,15 @@
 /**
- * Minimalist pager
+ * Minimalist jQuery carousel
+ *
+ * @author Xtraball <dev@xtraball.com>
+ * @version 1.0.0
+ *
  */
-(function($){
-
-    $.fn.sbcarousel = function(options) {
+(function ($) {
+    $.fn.sbcarousel = function (options) {
         var settings = $.extend({}, $.fn.sbcarousel.defaults, options);
 
-        return this.each(function() {
+        return this.each(function () {
             var $this = $(this),
                 pagerItems = [],
                 containerItems = null,
@@ -24,54 +27,54 @@
                 sliderItems.hide();
 
                 containerItems.css({
-                    "width": "100%",
-                    "max-width": "100%"
+                    'width': '100%',
+                    'max-width': '100%'
                 });
 
                 containerItems.css({
-                    "width": containerItems.width()+"px"
+                    'width': containerItems.width() + 'px'
                 });
 
                 pageSize = containerItems.width();
-                itemWidth = (pageSize / settings.visible_items) * 1;
+                itemWidth = pageSize / settings.visible_items;
 
                 visibleItems = settings.visible_items;
-                if(itemWidth < settings.min_size) {
-                    itemWidth = (pageSize / settings.visible_items_small) * 1;
+                if (itemWidth < settings.min_size) {
+                    itemWidth = pageSize / settings.visible_items_small;
                     visibleItems = settings.visible_items_small;
                 }
 
-                /** Items */
+                // Items!
                 pagerItems.css({
-                    "width": itemWidth+"px"
+                    'width': itemWidth + 'px'
                 });
                 sliderItems.show();
 
-                /** Slidebox */
-                sliderSize = (itemWidth * pagerItems.length) * 1;
+                // Slidebox!
+                sliderSize = itemWidth * pagerItems.length;
                 sliderItems.css({
-                    "width": sliderSize+"px"
+                    'width': sliderSize + 'px'
                 });
             }
 
             function gotoPage(page) {
-                prevArrow.css("opacity", (page <= 1) ? 0.2 : 1);
-                nextArrow.css("opacity", (page * visibleItems >= pagerItems.length) ? 0.2 : 1);
+                prevArrow.css('opacity', (page <= 1) ? 0.2 : 1);
+                nextArrow.css('opacity', (page * visibleItems >= pagerItems.length) ? 0.2 : 1);
 
-                if((page < 1) || (page > Math.ceil(pagerItems.length/visibleItems))) {
+                if ((page < 1) || (page > Math.ceil(pagerItems.length / visibleItems))) {
                     return;
                 }
 
                 currentPage = page;
                 var distance = (page-1) * pageSize;
-                sliderItems.css("transform", "translate(-"+distance+"px)");
+                sliderItems.css('transform', 'translate(-' + distance + 'px)');
             }
 
             function gotoElement(selector) {
                 var el = pagerItems.filter(selector);
-                var index = $(el).attr("data-index") * 1;
-                index += 1;
-                var page = Math.ceil(index/settings.visible_items);
+                var index = $(el).attr('data-index') * 1;
+                index = index + 1;
+                var page = Math.ceil(index / settings.visible_items);
 
                 gotoPage(page);
             }
@@ -85,10 +88,10 @@
             }
 
             function buildPager() {
-                prevArrow.on("click", function() {
+                prevArrow.on('click', function () {
                     gotoPrevious();
                 });
-                nextArrow.on("click", function() {
+                nextArrow.on('click', function () {
                     gotoNext();
                 });
             }
@@ -100,60 +103,60 @@
                 prevArrow = $this.find(settings.prev_selector);
                 nextArrow = $this.find(settings.next_selector);
 
-                if(settings.visible_items_small === -1) {
+                if (settings.visible_items_small === -1) {
                     settings.visible_items_small = Math.ceil(settings.visible_items / 2);
                 }
 
                 $this.css({
-                    "width": "100%"
+                    'width': '100%'
                 });
 
-                /** Main container */
+                // Main container!
                 pagerItems.hide();
                 containerItems.css({
-                    "width": "100%",
-                    "max-width": "100%"
+                    'width': '100%',
+                    'max-width': '100%'
                 });
 
                 containerItems.css({
-                    "display": "block",
-                    "width": containerItems.width()+"px",
-                    "overflow": "hidden"
+                    'display': 'block',
+                    'width': containerItems.width() + 'px',
+                    'overflow': 'hidden'
                 });
 
                 pageSize = containerItems.width();
-                itemWidth = (pageSize / settings.visible_items) * 1;
+                itemWidth = pageSize / settings.visible_items;
                 visibleItems = settings.visible_items;
-                if(itemWidth < settings.min_size) {
-                    itemWidth = (pageSize / settings.visible_items_small) * 1;
+                if (itemWidth < settings.min_size) {
+                    itemWidth = pageSize / settings.visible_items_small;
                     visibleItems = settings.visible_items_small;
                 }
 
-                /** Items */
+                // Items!
                 pagerItems.css({
-                    "width": itemWidth+"px",
-                    "float": "left"
+                    'width': itemWidth + 'px',
+                    'float': 'left'
                 });
                 pagerItems.show();
-                $this.find(settings.item_selector+" img").css({
-                    "width": "100%",
-                    "padding": "0 2px"
+                $this.find(settings.item_selector+' img').css({
+                    'width': '100%',
+                    'padding': '0 2px'
                 });
 
                 pagerItems.toArray().forEach(function (el, index) {
-                    $(el).attr("data-index", index);
+                    $(el).attr('data-index', index);
                 });
 
-                /** Slidebox */
-                sliderSize = (itemWidth * pagerItems.length) * 1;
+                // Slidebox!
+                sliderSize = itemWidth * pagerItems.length;
                 sliderItems.css({
-                    "width": sliderSize+"px",
-                    "transition-duration": "1s"
+                    'width': sliderSize + 'px',
+                    'transition-duration': '1s'
                 });
 
-                if(pagerItems.length < visibleItems-1) {
-                    prevArrow.css("opacity", 0.2);
-                    nextArrow.css("opacity", 0.2);
+                if (pagerItems.length < visibleItems - 1) {
+                    prevArrow.css('opacity', 0.2);
+                    nextArrow.css('opacity', 0.2);
 
                     return;
                 }
@@ -167,12 +170,12 @@
                 this.gotoPrevious = gotoPrevious;
                 this.update = update;
 
-                $this.data("sbcarousel", this);
+                $this.data('sbcarousel', this);
             }
 
             initPager();
 
-            $(window).resize(function() {
+            $(window).resize(function () {
                 setTimeout(function () {
                     update();
                     gotoPage(currentPage);
@@ -185,11 +188,10 @@
         visible_items: 3,
         visible_items_small: -1,
         min_size: -1,
-        prev_selector: ".prev-arrow",
-        next_selector: ".next-arrow",
-        container_selector: ".sb-carousel-items",
-        slider_selector: ".sb-carousel-inline",
-        item_selector: ".sb-carousel-item"
+        prev_selector: '.prev-arrow',
+        next_selector: '.next-arrow',
+        container_selector: '.sb-carousel-items',
+        slider_selector: '.sb-carousel-inline',
+        item_selector: '.sb-carousel-item'
     };
-
 })(jQuery);

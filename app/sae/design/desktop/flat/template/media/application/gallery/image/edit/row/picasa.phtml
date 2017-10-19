@@ -1,0 +1,13 @@
+<?php
+    $imageGallery = $this->getCurrentImageGallery();
+?>
+
+<input type="text"
+       name="param"
+       class="search_input input-flat"
+       value="<?php echo $imageGallery->getParam(); ?>"
+       placeholder="<?php echo __('Parameter') ?>" />
+
+<input type="hidden"
+       name="album_id"
+       value="<?php echo $imageGallery->getAlbumId(); ?>" />

@@ -33,7 +33,7 @@ $image_template = str_replace("%UNIQID%", $uniqid, Cms_Form_Block_Cover::$image_
     </div>
 
     <script type="text/javascript">
-        var cover_input_template = '<?php echo str_replace("\n", "", $image_template); ?>';
+        var <?php echo $pvar; ?>_cover_input_template = '<?php echo str_replace("\n", "", $image_template); ?>';
 
         var <?php echo $pvar; ?> = '#<?php echo $formid; ?>';
 
@@ -48,7 +48,7 @@ $image_template = str_replace("%UNIQID%", $uniqid, Cms_Form_Block_Cover::$image_
                 },
                 done: function (el, data) {
                     if(data.result.success) {
-                        var cms_image = cover_input_template;
+                        var cms_image = <?php echo $pvar; ?>_cover_input_template;
                         cms_image = cms_image.replace("%IMAGE_PATH%", data.result.files);
                         cms_image = cms_image.replace("#THUMBNAIL_PATH#", tmp_directory+"/"+data.result.files);
 

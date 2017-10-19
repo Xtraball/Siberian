@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Class Application_Model_Application_Abstract
+ *
+ * @method string getFlickrKey()
+ * @method string getFlickrSecret()
+ */
 abstract class Application_Model_Application_Abstract extends Core_Model_Default {
 
     const PATH_IMAGE = '/images/application';
@@ -124,7 +130,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             $this->setName(trim($this->getData('name')));
 
             $adminId = trim($this->getData('admin_id'));
-            if (!Siberian_Version::is('SAE') && (empty($adminId) || ($adminId === 0) || ($adminId === '0'))) {
+            if (empty($adminId) || ($adminId === 0) || ($adminId === '0')) {
                 throw new Siberian_Exception(__('AdminId is required to save the Application.'));
             }
 
@@ -346,23 +352,30 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $this->_design_blocks;
     }
 
+    /**
+     * @param $code
+     * @return Template_Model_Block
+     */
     public function getBlock($code) {
 
-        if($this->useIonicDesign() AND $code == "tabbar") {
-            $code = "homepage";
+        if ($this->useIonicDesign() && $code === 'tabbar') {
+            $code = 'homepage';
         }
         $blocks = $this->getBlocks();
 
-        foreach($blocks as $block) {
-            if($block->getCode() == $code) return $block;
-            else if($block->getChildren()) {
+        foreach ($blocks as $block) {
+            if ($block->getCode() === $code) {
+                return $block;
+            } else if ($block->getChildren()) {
                 foreach($block->getChildren() as $child) {
-                    if($child->getCode() == $code) return $child;
+                    if($child->getCode() === $code) {
+                        return $child;
+                    }
                 }
             }
         }
 
-        return new Template_Model_Block();
+        return (new Template_Model_Block());
     }
 
     public function setBlocks($blocks) {
