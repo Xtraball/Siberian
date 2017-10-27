@@ -1,4 +1,4 @@
- <?php
+<?php
 
 class Installer_Backoffice_ModuleController extends Backoffice_Controller_Default {
 
