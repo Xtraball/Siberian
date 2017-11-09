@@ -1,0 +1,45 @@
+<sb-section title="notif.title" button="button">
+
+    <p class="notif-author">
+        <b><?php echo __("From") ?>:</b>
+        <span ng-if="notif.source == 'updates'"><?php echo __("Regular updates system") ?>,</span>
+        <span ng-if="notif.source == 'cron'"><?php echo __("Cron alerts") ?></span>
+        <span ng-if="notif.source == 'whitelabel'"><?php echo __("Whitelabel request") ?></span>
+        <b><?php echo __("Date") ?>:</b>
+        <span>{{ notif.created_at }}</span>
+    </p>
+    <hr />
+    <p class="notif-link" ng-if="notif.link">
+        <i><a href="{{ notif.link }}" target="_blank">{{ notif.link }} <i class="fa fa-external-link"></i></a></i>
+    </p>
+    <div class="notif-content">
+        <h3><?php echo __("Message") ?></h3>
+        <p ng-bind-html="notif.description | trusted_html"></p>
+        <p ng-if="notif.source == 'cron' && notif.origin == 'generator'">
+            <br />
+            <a class="btn btn-primary pull-right" href="javascript:void(0);" ng-click="removeLocks();">
+                <i class="fa fa-unlock"></i>
+                <?php echo __("Remove locks now") ?>
+            </a>
+        </p>
+        <p ng-if="notif.source == 'cron' && notif.origin == 'letsencrypt'">
+            <br />
+            <a class="btn btn-primary pull-right" href="javascript:void(0);" ng-click="openSettings();">
+                <i class="fa fa-toggle-on"></i>
+                <?php echo __("Open settings") ?>
+            </a>
+        </p>
+        <p ng-if="notif.source == 'cron' && notif.origin == 'android-sdk-update'">
+            <br />
+            <a class="btn btn-primary pull-right" href="javascript:void(0);" ng-click="androidSdkRestart();">
+                <i class="fa fa-toggle-on"></i>
+                <?php echo __("Run Android SDK update") ?>
+            </a>
+        </p>
+    </div>
+    <br /><br />
+    <div ng-if="notif.link">
+        <h3><?php echo __("Link preview") ?></h3>
+        <iframe class="notif-iframe" src="{{ notif.link | trusted_src }}"></iframe>
+    </div>
+</sb-section>

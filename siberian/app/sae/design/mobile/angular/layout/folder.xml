@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <folder_mobile_list_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="folder/l1/list.phtml" />
+            <cover class="core_view_mobile_default" template="html/l1/cover.phtml" />
+        </views>
+    </folder_mobile_list_template_l1>
+
+</layout>

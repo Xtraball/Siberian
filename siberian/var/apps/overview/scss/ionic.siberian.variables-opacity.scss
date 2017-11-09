@@ -1,0 +1,136 @@
+/* GENERAL */
+$general-custom-bg:               #ededed !default;
+
+/* HEADER */
+$bar-custom-bg:                   #f8f8f8 !default;
+$bar-custom-text:                 #444 !default;
+$bar-custom-border:               #b2b2b2 !default;
+$bar-custom-active-bg:            $bar-custom-bg !default;
+$bar-custom-active-border:        $bar-custom-border !default;
+
+/* HOMEPAGE */
+$homepage-custom-text:            #111 !default;
+$homepage-custom-bg:              #fff !default;
+$homepage-custom-border:          #ddd !default;
+$homepage-custom-bg-translucent:  $homepage-custom-bg !default;
+
+/* LIST */
+$list-item-divider-custom-bg:     #f8f8f8 !default;
+$list-item-divider-custom-text:   #222 !default;
+$list-item-custom-bg:             #fff !default;
+$list-item-custom-bg-active:      $list-item-custom-bg !default;
+$list-item-custom-text:           #444 !default;
+$list-item-custom-text-translucent: $list-item-custom-text !default;
+$list-item-custom-border:         $list-item-custom-text !default;
+$list-item-custom-border-active:  $list-item-custom-border !default;
+
+/* CARD */
+$card-item-divider-custom-bg:     #f8f8f8 !default;
+$card-item-divider-custom-text:   #222 !default;
+$card-item-custom-bg:             #fff !default;
+$card-item-custom-bg-active:      $card-item-custom-bg !default;
+$card-item-custom-bg-translucent: $card-item-custom-bg !default;
+$card-item-custom-text:           #444 !default;
+$card-item-custom-text-translucent: $card-item-custom-text !default;
+$card-item-custom-border:         $card-item-custom-text !default;
+$card-item-custom-active-border:  $card-item-custom-border !default;
+
+/* BUTTONS */
+$button-custom-bg:                #f8f8f8 !default;
+$button-custom-text:              #444 !default;
+$button-custom-border:            #b2b2b2 !default;
+$button-custom-active-bg:         darken($button-custom-bg, 10%) !default;
+$button-custom-active-border:     darken($button-custom-bg, 30%) !default;
+
+$button-light-custom-bg:                #ffffff !default;
+$button-light-custom-text:              #444 !default;
+$button-light-custom-border:            #dddddd !default;
+$button-light-custom-active-bg:         darken($button-light-custom-bg, 10%) !default;
+$button-light-custom-active-border:     darken($button-light-custom-bg, 30%) !default;
+
+$button-positive-custom-bg:                #387ef5 !default;
+$button-positive-custom-text:              #ffffff !default;
+$button-positive-custom-border:            #0c60ee !default;
+$button-positive-custom-active-bg:         darken($button-positive-custom-bg, 10%) !default;
+$button-positive-custom-active-border:     darken($button-positive-custom-bg, 30%) !default;
+
+$button-calm-custom-bg:                #11c1f3 !default;
+$button-calm-custom-text:              #ffffff !default;
+$button-calm-custom-border:            #0a9dc7 !default;
+$button-calm-custom-active-bg:         darken($button-calm-custom-bg, 10%) !default;
+$button-calm-custom-active-border:     darken($button-calm-custom-bg, 30%) !default;
+
+$button-balanced-custom-bg:                #33cd5f !default;
+$button-balanced-custom-text:              #ffffff !default;
+$button-balanced-custom-border:            #28a54c !default;
+$button-balanced-custom-active-bg:         darken($button-balanced-custom-bg, 10%) !default;
+$button-balanced-custom-active-border:     darken($button-balanced-custom-bg, 30%) !default;
+
+$button-energized-custom-bg:                #ffc900 !default;
+$button-energized-custom-text:              #ffffff !default;
+$button-energized-custom-border:            #e6b500 !default;
+$button-energized-custom-active-bg:         darken($button-energized-custom-bg, 10%) !default;
+$button-energized-custom-active-border:     darken($button-energized-custom-bg, 30%) !default;
+
+$button-assertive-custom-bg:                #ef473a !default;
+$button-assertive-custom-text:              #ffffff !default;
+$button-assertive-custom-border:            #e42112 !default;
+$button-assertive-custom-active-bg:         darken($button-assertive-custom-bg, 10%) !default;
+$button-assertive-custom-active-border:     darken($button-assertive-custom-bg, 30%) !default;
+
+$button-royal-custom-bg:                #886aea !default;
+$button-royal-custom-text:              #ffffff !default;
+$button-royal-custom-border:            #6b46e5 !default;
+$button-royal-custom-active-bg:         darken($button-royal-custom-bg, 10%) !default;
+$button-royal-custom-active-border:     darken($button-royal-custom-bg, 30%) !default;
+
+$button-dark-custom-bg:                #444444 !default;
+$button-dark-custom-text:              #ffffff !default;
+$button-dark-custom-border:            #111111 !default;
+$button-dark-custom-active-bg:         darken($button-dark-custom-bg, 10%) !default;
+$button-dark-custom-active-border:     darken($button-dark-custom-bg, 30%) !default;
+
+/* CHECKBOX */
+$checkbox-general-custom-bg:      #fff !default;
+$checkbox-general-custom-text:    #444 !default;
+$checkbox-on-custom-bg:           #387ef5 !default;
+$checkbox-on-custom-text:         #fff !default;
+$checkbox-on-custom-border:       $checkbox-on-custom-bg !default;
+$checkbox-off-custom-bg:          #fff !default;
+$checkbox-off-custom-border:      darken($checkbox-off-custom-bg, 15%) !default;
+
+/* RADIO */
+$radio-custom-bg:                 #fff;
+$radio-custom-bg-active:          darken($radio-custom-bg, 3%);
+$radio-custom-text:               #444;
+
+/* TOGGLE */
+$toggle-general-custom-bg:        #fff !default;
+$toggle-general-custom-text:      #444 !default;
+$toggle-on-custom-bg:             #387ef5 !default;
+$toggle-off-custom-bg:            #fff !default;
+$toggle-on-custom-border:         $toggle-on-custom-bg !default;
+$toggle-off-custom-border:        #e6e6e6 !default;
+$toggle-handle-on-custom-bg:      #fff !default;
+$toggle-handle-off-custom-bg:     #fff !default;
+
+/* TOOLTIP */
+$tooltip-custom-text:             #fff !default;
+$tooltip-custom-bg:               #444 !default;
+
+/* SPINNER */
+$spinner-custom-ios-bg:           #69717d !default;
+$spinner-custom-android-bg:       #4b8bf4 !default;
+
+/* FONT FAMILY */
+$font-family:                     "Helvetica Neue", "Roboto", "Segoe UI", "sans-serif" !default;
+
+/* ICON CUSTOM */
+$icon-custom:                     #fff !default;
+$icon-active-custom:              #444 !default;
+$icon-inactive-custom:            lighten($icon-active-custom, 30%);
+
+/* DIALOG */
+$dialog-custom-bg:                rgba(255, 255, 255, 0.99) !default;
+$dialog-custom-text:              #000 !default;
+$dialog-custom-button:            #007aff !default;

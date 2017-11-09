@@ -1,0 +1,46 @@
+<div class="animated part part1 title-margin">
+    <h3 class="title blue10">Siberian CMS needs few info about your database server.</h3>
+    <p>Please fill this form out.</p>
+</div>
+<div class="animated part part2">
+    <form id="databaseForm">
+        <table class="no-collapse" cellspacing="10" width="100%">
+            <!--<tr>
+                <th align="left"><label for="db_host">Host: </label></th>
+                <th align="left"><label for="db_name">Database Name: </label></th>
+            </tr>-->
+            <tr>
+                <td><input type="text" id="db_host" name="host" class="required input-flat" placeholder="Host" /></td>
+                <td><input type="text" id="db_name" name="dbname" class="required input-flat" placeholder="Database Name" /></td>
+            </tr>
+            <!--<tr>
+                <th align="left"><label for="db_username">Database Username: </label></th>
+                <th align="left"><label for="db_password">Database Password: </label></th>
+            </tr>-->
+            <tr>
+                <td><input type="text" id="db_username" name="username" class="required input-flat" placeholder="Database Username" /></td>
+                <td><input type="password" id="db_password" name="password" class="required input-flat" placeholder="Database Password" /></td>
+            </tr>
+        </table>
+        <button type="submit" style="display:none;"></button>
+    </form>
+    <div>
+        <p id="checking_connection" class="checking_connection_status loading" style="display:none;">Checking connection</p>
+        <p id="connection_is_ok" class="checking_connection_status blue5" style="display:none;"><i class="icon-ok"></i> Your database connection is properly set!</p>
+        <p id="connection_has_failed" class="checking_connection_status red5" style="display:none;"></p>
+    </div>
+</div>
+<script type="text/javascript">
+    var step = new Step(3);
+    $('#databaseForm').submit(function() {
+        installer.nextStep();
+        return false;
+    });
+    step.canGoForward = function() {
+        if($('#databaseForm').valid()) {
+            return installer.checkDatabaseConnection();
+        }
+        return false;
+    };
+    installer.addStep(step);
+</script>

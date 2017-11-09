@@ -1,0 +1,20 @@
+<?php
+    $imageGallery = $this->getCurrentImageGallery();
+    $images = (new Media_Model_Gallery_Image_Custom())
+        ->findAll([
+            'gallery_id' => $imageGallery->getGalleryId()
+        ]);
+    $imagesCount = $images->count();
+?>
+
+<button type="button"
+        id="input_<?php echo $imageGallery->getGalleryId(); ?>"
+        class="search_input upload_picture btn btn-block btn-grey"
+        rel="list_<?php echo $imageGallery->getGalleryId(); ?>">
+
+    <?php if($imagesCount === 0) : ?>
+        <?php echo __('Send your pictures') ?>
+    <?php else : ?>
+        <?php echo __('%s Image%s', $imagesCount, ($imagesCount > 1) ? 's' : '') ?>
+    <?php endif; ?>
+</button>

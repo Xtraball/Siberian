@@ -1,0 +1,127 @@
+<br />
+<div class="content application">
+    <div class="application_content inner_content">
+        <div class="title">
+            <h2 class="left inner_content f-rounded"><?php echo $this->_('Log in'); ?></h2>
+            <div class="clear"></div>
+            <hr />
+        </div>
+        <div class="area">
+            <h3 class="title">
+                <span class="left area"><?php echo $this->_("Login to your backoffice interface"); ?></span>
+                <div class="clear"></div>
+            </h3>
+            <div>
+                <form action="<?php echo $this->getUrl('backoffice/account/loginpost') ?>" method="post" id="loginForm">
+                    <div id="login" class="form">
+                        <div class="form_content">
+                            <p class="signin_content"><?php echo $this->_('Enter your credentials:'); ?></p>
+                            <table class="list list-input">
+                                <tr>
+                                    <td class="label"><label for="email"><?php echo $this->_('Email:'); ?></label></td>
+                                    <td><input type="text" id="email" name="email" placeholder="<?php echo $this->_('Your email address'); ?>" class="required input email" value="" /></td>
+                                </tr>
+                                <tr class="signin_content signup_content">
+                                    <td class="label"><label for="password"><?php echo $this->_('Password:'); ?></label></td>
+                                    <td><input type="password" id="password" placeholder="<?php echo $this->_('Your password'); ?>" class="input required" name="password" value="" /></td>
+                                </tr>
+                                <tr class="signin_content">
+                                    <td class="align-right" colspan="2"><a href="javascript:void(0);" id="btnForgotPassword"><?php echo $this->_('Forgot your password?'); ?></a></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="button">
+                            <hr />
+                            <button type="submit" class="signin signin_content default_button"><?php echo $this->_('Log in'); ?></button>
+                        </div>
+                    </div>
+                </form>
+
+                <form action="<?php echo $this->getUrl('backoffice/account/forgotpasswordpost') ?>" method="post" id="forgotpasswordForm" class="none">
+                    <div id="login" class="form">
+                        <div class="form_content">
+                            <button type="button" id="btnBackForgotPassword" class="delete"><i class="icon-arrow-left"></i></button>
+                            <br />
+                            <p class="forgot_password_content"><?php echo $this->_('Forgot your password? Don\'t worry! Simply enter your email address and we\'ll send you a new one right now.'); ?></p>
+                            <table class="list list-input">
+                                <tr>
+                                    <td class="label"><label for="email"><?php echo $this->_('Email:'); ?></label></td>
+                                    <td><input type="text" id="email" name="email" placeholder="<?php echo $this->_('Your email address'); ?>" class="required input email" value="" /></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="button">
+                            <hr />
+                            <button type="submit" class="signin forgot_password_content default_button"><?php echo $this->_('Send'); ?></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $('#loginForm').submit(function() {
+            if(!$(this).valid()) return false;
+
+        });
+
+        $('#forgotpasswordForm').submit(function() {
+            if(!$(this).valid()) return false;
+
+        });
+
+        $('#btnForgotPassword').click(function() {
+            $('#loginForm').hide();
+            $('#forgotpasswordForm').fadeIn();
+        });
+
+        $('#btnBackForgotPassword').click(function() {
+            $('#forgotpasswordForm').hide();
+            $('#loginForm').fadeIn();
+        });
+    </script>
+    <style>
+        #login {
+            height: 300px;
+            position: relative;
+        }
+        #login .title {
+            display: block;
+            height: 50px;
+            width: 100%;
+        }
+        #login .title button {
+            width: 50%;
+            height: 50px;
+        }
+        #login .button {
+            position:absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding-top: 15px;
+        }
+        #login .title button.selected, #login .title button:hover {
+            border-bottom: 2px solid white;
+        }
+        #login .title button.signin {
+            border-radius: 5px 0 0 0;
+            padding: 5px 0;
+            min-width: auto;
+        }
+        #login .title button {
+            border-radius: 0 5px 0 0;
+        }
+        #loginForm {
+            margin: 0;
+        }
+        button.signin {
+            height: 40px;
+            min-width: 210px;
+            margin: 0;
+            padding: 5px 30px;
+            cursor: pointer;
+            font-size: 28px;
+        }
+    </style>
+</div>

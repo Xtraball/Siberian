@@ -1,0 +1,97 @@
+<sb-section title="section_title_one">
+
+    <form ng-submit="" class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-6" ng-if="options">
+                <label for="list_option"><?php echo $this->_("Feature");?></label>
+            </div>
+            <div class="col-md-6">
+                <label for="list_language"><?php echo $this->_("Language");?></label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-6" ng-if="options">
+                <select id="list_option" ng-model="option.id" ng-options="k as v for (k, v) in options" class="form-control">
+                </select>
+            </div>
+            <div class="col-md-5">
+                <select id="list_language" ng-change="findPreviewByLanguage(language_code)" ng-model="language_code" ng-options="k as v for (k, v) in languages" class="form-control">
+                </select>
+            </div>
+            <div class="col-md-1 preview">
+                <i class="fa fa-remove pointer" ng-click="deleteTranslation()" title="<?php echo $this->_("Delete translation")?>" ng-show="preview.from_database == 1"></i>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <label for="title"><?php echo $this->_("Title");?></label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="text" id="title" ng-model="preview.title" class="form-control" maxlength="255"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <label for="description"><?php echo $this->_("Description");?></label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <textarea id="description" ng-model="preview.description" class="form-control" rows="10"></textarea>
+            </div>
+        </div>
+    </form>
+
+</sb-section>
+
+<sb-section title="section_title_two" class="upload_area">
+    <p class="help-block"><?php echo $this->_("<b>File types:</b> %s<br />", "png, jpg, jpeg, gif"); ?></p>
+
+    <br />
+    <div class="row">
+        <div class="col-md-3">
+            <div class="upload_a_file">
+                <label for="image_uploader"><?php echo $this->_("Click here to send your image"); ?></label>
+                <input id="image_uploader" type="file" nv-file-select="" uploader="image_uploader" />
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="drop_a_file">
+                <label><?php echo $this->_("OR"); ?></label>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="drop_a_file">
+                <label><?php echo $this->_("Drop your image here"); ?></label>
+                <div ng-show="image_uploader.isHTML5">
+                    <div class="well drop-zone" nv-file-drop="" nv-file-over="" uploader="image_uploader">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</sb-section>
+<sb-section title="'<?php echo $this->_("Existing images :");?>'" ng-if="preview.images.length > 0">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-info"><?php echo $this->_("Drag and drop images to reorder them."); ?></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <ul sv-root sv-part="preview.images" class="sortable-container">
+                <li ng-repeat="image in preview.images" sv-element="opts" class="preview" ng-show="image.to_delete != 1"><img ng-src="{{ image.link }}" width="150px"/> <i class="fa fa-remove pointer" ng-click="deleteImage(image.id)" title="<?php echo $this->_("Delete image")?>"></i> <i sv-handle class="fa fa-arrows cursor"></i></i></li>
+            </ul>
+        </div>
+    </div>
+</sb-section>
+<div class="row">
+    <div class="col-md-12">
+        <button class="btn btn-primary pull-right" ng-click="save()">Save</button>
+    </div>
+</div>

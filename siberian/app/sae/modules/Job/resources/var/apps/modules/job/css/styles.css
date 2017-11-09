@@ -1,0 +1,241 @@
+.job-search {
+    padding: 0px;
+    border: 0px;
+}
+
+.job-search i.icon {
+    font-size: 24px;
+    margin-left: 4px;
+}
+
+.job-search .textual,
+.job-search .place,
+.job-search .more {
+    padding: 0px;
+    border-radius: 0;
+    border: 0px;
+    background-color: transparent;
+}
+
+.job-search .textual {
+    width: 100%;
+}
+
+.job-search .place {
+    float: right;
+    max-width: 200px;
+    font-size: 14px;
+    overflow: hidden;
+}
+
+.job-search .place i.icon {
+    font-size: 22px;
+    margin-right: 6px;
+}
+
+.job-search .more {
+    float: right;
+    max-width: 30px;
+}
+
+.item-place {
+    padding: 6px;
+}
+
+.item-place p.subtitle {
+    font-size: 13px;
+    opacity: 0.7;
+}
+
+.item-place p.subtitle-company {
+    font-size: 13px;
+    opacity: 0.5;
+}
+
+.job-company-logo {
+    position: absolute;
+    width: 25%;
+    left: 26px;
+    bottom: 34px;
+    z-index: 1000;
+    border: 4px solid rgba(255,255,255,0.85);
+    border-radius: 2px;
+    background: white;
+}
+
+.job-company-header {
+    text-align: left;
+}
+
+.job-company-header p {
+    font-weight: normal;
+}
+
+.job-company-header h2 {
+    margin-left: 25vw;
+    padding-left: 26px;
+}
+
+.job-company-header p.employee {
+    margin-left: 25vw;
+    padding-left: 26px;
+}
+
+.job-company-header p.location {
+    margin-left: 12px;
+}
+
+.job-company-header p i {
+    margin-right: 6px;
+}
+
+.item-thumbnail-custom {
+    padding-left: 76px;
+}
+
+.item-thumbnail-custom img {
+    position: absolute;
+    top: 7px;
+    left: 7px;
+    height: 60px;
+    border: 3px solid rgba(0,0,0,0.25);
+    border-radius: 3px;
+}
+
+.job-distance {
+    float: right;
+}
+
+.job-more label.item.item-checkbox.ng-valid {
+    border: 0;
+    width: 50%;
+    float: left;
+    padding: 4px 4px 4px 26px;
+    font-size: 14px;
+}
+
+.job-more .checkbox input,
+.job-more .checkbox-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.job-more .checkbox.checkbox-input-hidden.disable-pointer-events.checkbox-circle {
+    padding: 0;
+}
+
+.job-more i.checkbox-icon::before {
+    margin-left: -6px;
+    margin-top: 10px;
+    border-radius: 0;
+}
+
+.job-more i.checkbox-icon::after {
+    margin-left: -8px;
+    margin-top: 0px;
+}
+
+.job-more input.ng-valid.ng-touched.ng-dirty.ng-valid-parse {
+    width: 100%;
+    margin-top: 16px;
+}
+
+.job-padding {
+    padding: 0 20%;
+}
+
+.platform-android .job-more i.checkbox-icon::before {
+    margin-top: 5px;
+}
+
+.platform-android .job-more label.item.item-checkbox.ng-valid {
+    margin-bottom: 12px;
+}
+
+.platform-android .job-more i.checkbox-icon::after {
+    margin-left: -10px;
+    margin-top: -1px;
+}
+
+.job-contact textarea {
+    min-height: 120px;
+}
+
+.ta-root button {
+    width: 10.6%;
+    background: none;
+}
+
+.ta-root .btn-group:first-of-type {
+    margin-bottom: 4px;
+}
+
+.ta-root .btn-group button {
+    border: 1px solid grey;
+    border-width: 1px 0px 1px 1px;
+}
+
+.ta-root .btn-group button:first-of-type {
+    border-width: 1px 0px 1px 1px;
+    border-radius: 2px 0 0 2px;
+}
+
+.ta-text.ta-editor {
+    margin-right: 4.6%;
+    padding: 0;
+}
+
+.ta-root .btn-group button:last-of-type {
+    border-width: 1px 1px 1px 1px;
+    border-radius: 0 2px 2px 0;
+}
+
+.ta-root .ta-editor * {
+    overflow: auto;
+    text-overflow: clip;
+    white-space: normal;
+}
+
+.ta-editor.ta-html, .ta-scroll-window.form-control {
+    min-height: 200px;
+    height: 200px;
+}
+
+.job-line-return {
+    text-overflow: clip;
+    white-space: initial;
+}
+
+.job-small-text {
+    font-size: 12px;
+}
+
+.job-inactive {
+    background-color: #ac2925;
+    color: white;
+    text-transform: uppercase;
+    padding: 0px 30px 30px 30px;
+    font-size: 11px;
+    font-weight: bold;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    text-align: center;
+    position: absolute;
+    bottom: -10px;
+    right: -42px;
+    z-index: 100;
+}
+
+button.create-job {
+    margin-top: -7px;
+    background: transparent;
+    border: none;
+    color: inherit;
+}
+
+.job-admin span {
+    font-size: 13px;
+}

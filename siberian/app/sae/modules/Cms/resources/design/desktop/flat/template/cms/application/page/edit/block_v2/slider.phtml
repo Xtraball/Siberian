@@ -1,0 +1,90 @@
+<?php
+
+$title = $this->getTitle();
+$form = $this->getForm();
+
+$block = $this->getCmsBlock();
+
+if(isset($block) && $block->getId()) {
+    $form->loadBlock($block);
+}
+
+$formid = $form->getAttrib("id");
+$uniqid = $form->getUniqid();
+$pvar = "p{$uniqid}";
+$image_template = str_replace("%UNIQID%", $uniqid, Cms_Form_Block_Slider::$image_template);
+
+?>
+<div class="cms-block-container">
+    <h3 class="title-editor title-feature-indent">
+        <div class="cms-block-handle">
+            <i class="fa fa-sort"></i>
+        </div>
+        <span>
+            <span class="cms-block-index"></span>
+            <?php echo __($title); ?>
+        </span>
+        <div class="cms-block-delete">
+            <i class="fa fa-close"></i>
+        </div>
+
+    </h3>
+    <div id="<?php echo $formid; ?>" class="cms-block-hide-drag content-white-bkg section-padding content-feature" style="padding-bottom: 20px;">
+        <?php echo $form; ?>
+    </div>
+
+    <script type="text/javascript">
+        var <?php echo $pvar; ?>_slider_input_template = '<?php echo str_replace("\n", "", $image_template); ?>';
+        var <?php echo $pvar; ?> = '#<?php echo $formid; ?>';
+
+        $(document).ready(function() {
+            bindForms(<?php echo $pvar; ?>);
+
+            $(<?php echo $pvar; ?>+" input[name='files[]']").fileupload({
+                dataType: 'json',
+                add: function (el, data) {
+                    data.submit();
+                },
+                done: function (el, data) {
+                    if(data.result.success) {
+                        var cms_image = <?php echo $pvar; ?>_slider_input_template;
+                        cms_image = cms_image.replace("%IMAGE_PATH%", data.result.files);
+                        cms_image = cms_image.replace("#THUMBNAIL_PATH#", tmp_directory+"/"+data.result.files);
+
+                        $(<?php echo $pvar; ?>+" .cms-images-container").append(cms_image);
+
+                        $(<?php echo $pvar; ?>+" .cms-images-container").sortable({
+                            handle: ".cms-image-handle",
+                            items: " .cms-image",
+                            opacity: 0.7,
+                        });
+
+                    } else if(data.result.error) {
+                        feature_form_error(data.result.message);
+                    }
+                },
+                fail: function(el, data) {
+                    if(data.result.error) {
+                        feature_form_error(data.result.message);
+                    }
+                }
+            });
+
+            /** Delegate */
+            $(<?php echo $pvar; ?>+" button[id$='image_uploader']").on("click", function() {
+                var el = $(this);
+                el.parents("div.sb-form-line").find(<?php echo $pvar; ?>+" #image_uploader_hidden").trigger("click");
+            });
+
+            setTimeout(function() {
+                $(<?php echo $pvar; ?>+" .cms-images-container").sortable({
+                    handle: ".cms-image-handle",
+                    items: " .cms-image",
+                    opacity: 0.7
+                });
+            }, 200);
+
+        });
+    </script>
+
+</div>

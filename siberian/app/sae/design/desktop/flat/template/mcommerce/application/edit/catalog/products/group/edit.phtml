@@ -1,0 +1,87 @@
+<?php $option = $this->getOptionValue();
+$group = $this->getCurrentGroup();
+$requireChoiceEditor = $this->getRequireChoiceEditor();
+$group_options = $group->getOptions();
+$create = $requireChoiceEditor ? "Create a new choice list group" : "Create a new options group";
+$edit = $requireChoiceEditor ? "Edit the choice list group" : "Edit the options group";
+?>
+
+<form id="groupEditForm" method="post"
+      action="<?php echo $this->getUrl('mcommerce/application_catalog_product_group/editpost'); ?>"
+      class="form-horizontal">
+    <fieldset>
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php if (!$group->getId()) : ?>
+                <?php echo $this->_($create); ?>
+            <?php else : ?>
+                <?php echo $this->_("%s %s", $edit, mb_strlen($group->getTitle(), 'utf8') > 20 ? mb_substr($group->getTitle(), 0, 20, 'utf8') . '...' : $group->getTitle()); ?>
+            <?php endif; ?>
+        </h3>
+        <div class="container-fluid first-row-feature content-feature">
+            <div class="form-group">
+                <div class="col-md-12">
+                    <button type="button" onclick="products.groups.group.close();" class="btn color-blue pull-left"><i
+                            class="fa fa-angle-left"></i></button>
+                    <button type="submit" class="btn color-blue pull-right">OK</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <label for="group_title"><?php echo $this->_("Name of the options group:"); ?></label>
+                </div>
+                <div class="col-sm-5">
+                    <input class="title input-flat required" type="text" id="group_title"
+                           value="<?php echo $group->getTitle(); ?>" name="title"
+                           placeholder="<?php echo $this->_("e.g., Sauces"); ?>"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <label for="group_is_required"><?php echo $this->_("At least one option is required:"); ?></label>
+                </div>
+                <div class="col-sm-5">
+                    <label id="label_group_is_required" for="group_is_required">
+                        <input class="color-blue" type="checkbox" id="group_is_required" value="1"
+                               name="is_required"<?php if ($group->isRequired()) : ?> checked="checked"<?php endif; ?> />
+                        <input type="hidden" name="as_checkbox" value="<?php echo $requireChoiceEditor ?>"/>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo $this->_('Add options'); ?>
+            <button type="button" onclick="javascript:products.groups.group.addOption();"
+                    class="add_option color-blue pull-right bt-header-right btn">
+                <i class="fa fa-plus"></i>
+            </button>
+        </h3>
+        <div class="container-fluid content-feature">
+            <div class="list list-input"
+                 id="group_option_edit_list"<?php if ($group_options->count() == 0) : ?> style="display:none;"<?php endif; ?>>
+                <?php foreach ($group_options as $group_option) : ?>
+                    <?php
+                    echo $this->getLayout()->addPartial('group_option_row_' . $group_option->getId(), 'admin_view_default', 'mcommerce/application/edit/catalog/products/group/edit/row.phtml')
+                        ->setCurrentGroupOption($group_option)
+                        ->toHtml();
+                    ?>
+                <?php endforeach ?>
+                <?php echo $this->getLayout()->addPartial('group_option_row_new', 'admin_view_default', 'mcommerce/application/edit/catalog/products/group/edit/row.phtml')
+                    ->setCurrentGroupOption(new Catalog_Model_Product_Group_Option(array('id' => 'new')))
+                    ->toHtml(); ?>
+            </div>
+        </div>
+
+        <div id="group_option_no_item"<?php if ($group_options->count() > 0) : ?> style="display:none;"<?php endif; ?>>
+            <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+        </div>
+    </fieldset>
+
+    <?php if ($group->getId()) : ?>
+        <input type="hidden" name="group_id" id="group_id" value="<?php echo $group->getId() ?>"/>
+    <?php endif; ?>
+    <input type="hidden" name="option_value_id" value="<?php echo $option->getId() ?>"/>
+
+</form>

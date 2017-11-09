@@ -1,0 +1,12 @@
+<li class="dropdown languages">
+    <a id="dLabel" data-target="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="capitalize reverse sb-tour"><?php echo Core_Model_Language::getCurrentLanguage(); ?> <span class="caret"></span></a>
+    <ul class="dropdown-menu content-white-bkg">
+        <?php foreach (Core_Model_Language::getLanguages() as $language) : ?>
+        <li <?php if(Core_Model_Language::getCurrentLanguage() == $language->getCode()) : ?> class="active"<?php endif; ?>>
+            <a href="<?php echo $this->getCurrentUrl(true, $language->getCode()); ?>">
+                <?php echo $language->getName(); ?>
+            </a>
+        </li>
+        <?php endforeach ?>
+    </ul>
+</li>

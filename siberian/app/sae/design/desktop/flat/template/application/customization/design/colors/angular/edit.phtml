@@ -1,0 +1,319 @@
+<?php $blocks = $this->getApplication()->getBlocks(); ?>
+<?php $tabbar_block = $this->getApplication()->getBlock('tabbar'); ?>
+<div class="page-content-wrapper">
+    <form id="colorsForm" action="<?php echo $this->getUrl('application/customization_design_colors/save'); ?>" method="post">
+        <div id="colors">
+            <div id="colors_content" class="content">
+                <div id="app_colors">
+                    <h3 class="title-editor border-yellow">
+                        <?php echo $this->_('Choose your colors'); ?>
+                    </h3>
+                    <div class="subcontent content-color">
+                        <div class="col-md-12">
+                            <table class="no-collapse" cellspacing="10" width="500px">
+                                <col width="150px" />
+                                <col width="50px" />
+                                <col width="150px" />
+                                <col width="50px" />
+                                <?php foreach($blocks as $block) : ?>
+                                    <?php if($block->getCode() == 'tabbar') continue; ?>
+                                    <tr id="row_<?php echo $block->getId(); ?>">
+                                        <td>
+                                            <?php echo $this->_($block->getName()); ?>
+                                            <input type="hidden" name="block_id" value="<?php echo $block->getId(); ?>" />
+                                        </td>
+                                        <td>
+                                            <div class="square_color"><button type="button" id="<?php echo $block->getCode(); ?>_background_color" class="<?php echo $block->getCode(); ?>_background_color upload" style="background-color: <?php echo $block->getBackgroundColor(); ?>"></button></div>
+                                            <input type="hidden" id="<?php echo $block->getCode(); ?>_background_color_receiver" name="background_color" value="<?php echo $block->getBackgroundColor() ?>" />
+                                        </td>
+                                        <td><?php echo $this->_("%s Text", $block->getName()); ?></td>
+                                        <td>
+                                            <div class="square_color"><button type="button" id="<?php echo $block->getCode(); ?>_color" class="<?php echo $block->getCode(); ?>_color upload" style="background-color: <?php echo $block->getColor(); ?>"></button></div>
+                                            <input type="hidden" id="<?php echo $block->getCode(); ?>_color_receiver" name="color" value="<?php echo $block->getColor() ?>" />
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="colors_content" class="content">
+
+                <div id="tabbar_colors">
+                    <h3 class="title-editor border-yellow">
+                        <?php echo $this->_('Choose your icons color'); ?>
+                    </h3>
+                    <div class="subcontent content-color">
+                        <div class="col-md-12">
+                            <table class="no-collapse" cellspacing="10" width="500px">
+                                <col width="150px" />
+                                <col width="50px" />
+                                <col width="150px" />
+                                <col width="50px" />
+
+                                <tr id="row_<?php echo $tabbar_block->getId(); ?>">
+                                    <td>
+                                        <?php echo $tabbar_block->getName(); ?>
+                                        <input type="hidden" name="block_id" value="<?php echo $tabbar_block->getId(); ?>" />
+                                    </td>
+                                    <td>
+                                        <div class="square_color"><button type="button" id="<?php echo $tabbar_block->getCode(); ?>_background_color" class="<?php echo $tabbar_block->getCode(); ?>_background_color upload" style="background-color: <?php echo $tabbar_block->getBackgroundColor(); ?>"></button></div>
+                                        <input type="hidden" id="<?php echo $tabbar_block->getCode(); ?>_background_color_receiver" name="background_color" value="<?php echo $tabbar_block->getBackgroundColor() ?>" />
+                                    </td>
+
+                                    <td><?php echo $this->_("%s Text", $tabbar_block->getName()); ?></td>
+                                    <td>
+                                        <div class="square_color"><button type="button" id="<?php echo $tabbar_block->getCode(); ?>_color" class="<?php echo $tabbar_block->getCode(); ?>_color upload" style="background-color: <?php echo $tabbar_block->getColor(); ?>"></button></div>
+                                        <input type="hidden" id="<?php echo $tabbar_block->getCode(); ?>_color_receiver" name="color" value="<?php echo $tabbar_block->getColor() ?>" />
+                                    </td>
+                                    <td><?php echo $this->_('Icons'); ?></td>
+                                    <td>
+                                        <div>
+                                            <div class="square_color right"><button type="button" id="<?php echo $tabbar_block->getCode(); ?>_icon_color" class="<?php echo $tabbar_block->getCode(); ?>_icon_color upload" style="background-color: <?php echo $tabbar_block->getImageColor(); ?>"></button></div>
+                                            <input type="hidden" id="<?php echo $tabbar_block->getCode(); ?>_icon_color_receiver" name="tabbar_color" value="<?php echo $tabbar_block->getImageColor() ?>" />
+                                            <input type="hidden" id="<?php echo $tabbar_block->getCode(); ?>_has_changed" name="tabbar_color_has_changed" value="0" />
+
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label for="<?php echo $tabbar_block->getCode(); ?>_transparent_background_color_receiver">
+                                            <?php echo $this->_("Transparent"); ?>
+                                        </label>
+                                    </td>
+                                    <td colspan="5">
+                                        <label for="<?php echo $tabbar_block->getCode(); ?>_transparent_background_color_receiver" class="checkbox">
+                                            <input type="checkbox" id="<?php echo $tabbar_block->getCode(); ?>_transparent_background_color_receiver" class="color-blue" name="background_color" value="transparent"<?php if($tabbar_block->getBackgroundColor() == "transparent") : ?> checked="checked"<?php endif; ?> />
+                                        </label>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    var scroller;
+
+    $(document).ready(function() {
+        $('#app_colors').hover(function() {
+            $('#mobile_overview').show();
+            $('#homepage_overview').hide();
+            iframe.content = $('#mobile_overview').contents();
+        }, function() {return false;});
+
+        $('#tabbar_colors').hover(function() {
+            $('#mobile_overview').hide();
+            $('#homepage_overview').show();
+            iframe.content = $('#homepage_overview').contents();
+        }, function() {return false;});
+
+        $('#mask_colors').hide();
+    });
+    <?php foreach($blocks as $block) : ?>
+
+    <?php $target = $block->getCode(); ?>
+    $('#<?php echo $target ?>_color').ColorPicker({
+        color: '<?php echo $block->getColor() ?>',
+        onShow: function (colpkr) {
+            $(colpkr).slideDown(500);
+            overview_colors.showMask('<?php echo $block->getCode(); ?>');
+            return false;
+        },
+        onHide: function (colpkr) {
+            $(colpkr).slideUp(500);
+
+            overview_colors.hideMask('<?php echo $block->getCode(); ?>');
+            reload($('#row_<?php echo $block->getId(); ?>'), $('#colorsForm').attr('action'), false, function() {$('#<?php echo $tabbar_block->getCode() ?>_has_changed').val(0);});
+            return false;
+        },
+        onSubmit: function(hsb, hex, rgb, el) {
+            $('.colorpicker').slideUp(500);
+            overview_colors.hideMask('<?php echo $block->getCode(); ?>');
+            return false;
+        },
+        onChange: function (hsb, hex, rgb) {
+            hex = '#'+hex;
+            $('#<?php echo $target ?>_color_receiver').val(hex);
+            overview_colors.setColor('<?php echo $block->getCode(); ?>', hex);
+        },
+        setDefaultColors: function(hex) {
+            hex = '#'+hex;
+            $('.<?php echo $block->getCode() ?>_color').css('background-color', hex);
+        }
+    });
+
+    $('#<?php echo $target ?>_background_color').ColorPicker({
+        color: '<?php echo $block->getBackgroundColor() ?>',
+        onShow: function (colpkr) {
+            overview_colors.showMask('<?php echo $block->getCode(); ?>');
+            $(colpkr).slideDown(500);
+            return false;
+        },
+        onHide: function (colpkr) {
+            $(colpkr).slideUp(500);
+            overview_colors.hideMask('<?php echo $block->getCode(); ?>');
+            reload($('#row_<?php echo $block->getId(); ?>'), $('#colorsForm').attr('action'), false, function() {$('#<?php echo $tabbar_block->getCode() ?>_has_changed').val(0);});
+            return false;
+        },
+        onSubmit: function(hsb, hex, rgb, el) {
+            $('.colorpicker').slideUp(500);
+            overview_colors.hideMask('<?php echo $block->getCode(); ?>');
+            return false;
+        },
+        onChange: function (hsb, hex, rgb) {
+            hex = '#'+hex;
+            $('#<?php echo $target ?>_background_color_receiver').val(hex);
+            overview_colors.setBackgroundColor('<?php echo $block->getCode(); ?>', hex);
+        },
+        setDefaultColors: function(hex) {
+            hex = '#'+hex;
+            $('.<?php echo $block->getCode() ?>_background_color').css('background-color', hex);
+        }
+    });
+
+    <?php endforeach; ?>
+
+    $('#<?php echo $tabbar_block->getCode() ?>_icon_color').ColorPicker({
+        color: '<?php echo $tabbar_block->getImageColor() ?>',
+        onShow: function (colpkr) {
+            $(colpkr).slideDown(500);
+            overview_colors.showMask('<?php echo $block->getCode(); ?>');
+            return false;
+        },
+        onHide: function (colpkr) {
+            $(colpkr).slideUp(500);
+            overview_colors.hideMask('<?php echo $block->getCode(); ?>');
+            reload($('#row_<?php echo $tabbar_block->getId(); ?>'), $('#colorsForm').attr('action'), false, function() {$('#<?php echo $tabbar_block->getCode() ?>_has_changed').val(0);});
+            return false;
+        },
+        onSubmit: function(hsb, hex, rgb, el) {
+            $('.colorpicker').slideUp(500);
+            return false;
+        },
+        onChange: function (hsb, hex, rgb) {
+            overview_colors.setTabbarColor(rgb, '#'+hex);
+            overview_colors.hideMask('<?php echo $block->getCode(); ?>');
+            $('#<?php echo $tabbar_block->getCode() ?>_icon_color_receiver').val("#"+hex);
+            $('#<?php echo $tabbar_block->getCode() ?>_has_changed').val(1);
+        },
+        setDefaultColors: function(hex) {
+            hex = '#'+hex;
+            $('.<?php echo $tabbar_block->getCode() ?>_icon_color').css('background-color', hex);
+        }
+    });
+    <?php $color = $block->getImageColor(); ?>
+    <?php if(!empty($color)) : ?>
+    <?php $rgb = $block->toRgb($color); ?>
+    var rgb = new Array();
+    rgb['r'] = <?php echo $rgb['red'] ?>;
+    rgb['g'] = <?php echo $rgb['green'] ?>;
+    rgb['b'] = <?php echo $rgb['blue'] ?>;
+    <?php endif; ?>
+
+    var overview_colors = {
+        element: $('#overview'),
+        setColor: function(to, color) {
+            var html = '';
+            if(/(background)|(news)|(comments)/.test(to)) {
+                html = '.'+to+', a .'+to+', a.'+to+' {color: '+color+'}';
+                html += '.'+to+'.reverse, .'+to+' .reverse, .'+to+'.reverse * {background-color: '+color+';}';
+
+            }
+            else {
+                html += '.'+to+', a .'+to+', a.'+to+' {color: '+color+' !important;}';
+                html += '.'+to+'.reverse, .'+to+' .reverse {background-color: '+color+' !important;}';
+            }
+
+            html = '<style id="color_'+to+'">'+html+'</style>';
+
+            iframe.content.find('style#color_'+to).replaceWith(html);
+
+        },
+        setBackgroundColor: function(to, color) {
+            var html = '';
+            if(/(background)|(news)|(comments)|(tabbar)/.test(to)) {
+                html =  '.'+to+' {background-color: '+color+'}';
+                html += '.'+to+' .no-background, .'+to+'.no-background {background-color: transparent;}';
+                html += '.'+to+'.reverse, a .'+to+'.reverse, a.'+to+'.reverse {color: '+color+';}';
+            }
+            else {
+                html =  '.'+to+' {background-color: '+color+' !important;}';
+                html += '.'+to+' .no-background, .'+to+'.no-background {background-color: transparent !important;}';
+                html += '.'+to+'.reverse, a .'+to+'.reverse, a.'+to+'.reverse {color: '+color+' !important;}';
+            }
+
+            html = '<style id="backgroundColor_'+to+'">'+html+'</style>';
+
+            iframe.content.find('style#backgroundColor_'+to).replaceWith(html);
+        },
+        setImageColor: function(to, rgb, type, field_code) {
+            to = iframe.content.find(to);
+            if(type == 'img') {
+                to.parent().find('canvas').remove();
+                var newcanvas = to.colorize(rgb, true);
+                if(newcanvas) {
+                    $(newcanvas).insertBefore(to);
+                    to.hide();
+                }
+            }
+            else {
+                rgb = rgb.replace('#', '');
+                var url = '<?php echo $this->getUrl('template/block/colorize', array('id' => 'icon_id', 'color' => 'color_code')) ?>'.replace('icon_id', to.attr('rel')).replace('color_code', rgb);
+                if(field_code == 'path') {
+                    url = url.replace('/id/', '/path/');
+                }
+                to.css('background-image', 'url('+url+')');
+            }
+        },
+        setTabbarColor: function(rgb, hex) {
+            iframe.content.find('.tabbar').find('canvas').remove();
+            iframe.content.find('.tabbar').find('img').each(function() {
+                if($(this).hasClass('colorable')) {
+                    var newcanvas = $(this).colorize(rgb, true);
+                    if(newcanvas) {
+                        $(newcanvas).insertBefore($(this));
+                        $(this).hide();
+                    }
+                }
+            });
+
+            if(iframe.content.find('#imageColor_tabbar').length) {
+                var html = '';
+                html += '.border-color {border-color: '+hex+' !important}';
+                html = '<style id="imageColor_tabbar">'+html+'</style>';
+                iframe.content.find('style#imageColor_tabbar').replaceWith(html);
+            }
+
+        },
+        pulsate: function(code) {
+            iframe.content.find('.'+code).effect('pulsate', {times: 2});
+        },
+        showMask: function(code) {
+            if(code == 'tabbar') return this;
+            iframe.f.showMask(code);
+        },
+        hideMask: function(code) {
+            if(code == 'tabbar') return this;
+            iframe.f.hideMask(code);
+        }
+    };
+
+    $('#<?php echo $tabbar_block->getCode(); ?>_transparent_background_color_receiver').click(function() {
+        var color = $(this).is(":checked") ? this.value : "#000000";
+        $(this).ColorPickerSetColor(color);
+        $('#<?php echo $tabbar_block->getCode(); ?>_background_color_receiver').val(color);
+        overview_colors.setBackgroundColor("<?php echo $tabbar_block->getCode(); ?>", color);
+        $('.<?php echo $block->getCode() ?>_background_color').css('background-color', color);
+        reload($('#row_<?php echo $tabbar_block->getId(); ?>'), $('#colorsForm').attr('action'), false, function(data) {$('#<?php echo $tabbar_block->getCode() ?>_has_changed').val(0);});
+    });
+
+</script>
+<div id="mask_colors" class="mask"></div>

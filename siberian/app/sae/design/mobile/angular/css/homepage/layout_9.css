@@ -1,0 +1,9 @@
+.layout-left-sidebar.layout-l9 {width:120px;}
+.layout-left-sidebar.layout-l9 div.background-tabbar {position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;}
+.layout-left-sidebar.layout-l9 ul.tabbar {position:relative;z-index:1;}
+.iOS7 .layout-left-sidebar.layout-l9 ul.tabbar {padding-top: 21px;}
+.layout-left-sidebar.layout-l9 .items {height:100%;}
+.at-view-slide.background.layout-l9 {transition:0.3s ease 0s;-webkit-transition-property:-webkit-transform;-moz-transition-property:-moz-transform;-o-transition-property:-o-transform;transition-property:transform;box-shadow:-2px -2px 5px rgba(0, 0, 0, 0.3);z-index:20;}
+.at-view-slide.background.with-left-sidebar.layout-l9 {transform: translateX(120px);-webkit-transform: translateX(120px);}
+.android_app .at-view-slide.background.layout-l9 {transition:0.3s ease 0s;-webkit-transition-property:left;-moz-transition-property:left;-o-transition-property:left;transition-property:left;box-shadow:-2px -2px 5px rgba(0, 0, 0, 0.3);z-index:20;}
+.android_app .at-view-slide.background.with-left-sidebar.layout-l9 {transform: translateX(0px);-webkit-transform: translateX(0px); left:120px;}

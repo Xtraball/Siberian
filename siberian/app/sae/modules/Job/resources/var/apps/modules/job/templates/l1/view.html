@@ -1,0 +1,70 @@
+<ion-view sb-page-background>
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <button ng-show="social_sharing_active && !is_admin" class="button button-clear" ng-click="share()">
+            <i class="icon ion-ios-upload-outline"></i>
+        </button>
+        <button ng-click="goHome()" class="button button-clear header-item">
+            <i class="icon ion-ios-list-outline"></i>
+        </button>
+        <button ng-show="is_admin" ng-click="manageModal()" class="button button-clear header-item">
+            <i class="icon ion-ios-compose-outline"></i>
+        </button>
+
+    </ion-nav-buttons>
+
+    <ion-content sb-background-image>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="list" ng-class="{'card' : card_design}">
+
+            <div class="item item-image item-custom" ng-if="place.banner" >
+                <img ng-src="{{ place.banner }}" width="100%" />
+                <div ng-show="!place.is_active" class="job-inactive">{{ "inactive" | translate }}</div>
+            </div>
+
+            <div class="item item-divider item-divider-custom" ng-if="place.title">
+                <h2>{{ place.title }}</h2>
+            </div>
+
+            <div class="item item-text-wrap item-custom" ng-if="place.subtitle">
+                <p ng-bind-html="place.subtitle | trusted_html"></p>
+            </div>
+
+            <div class="item item-text-wrap item-icon-left item-custom" ng-if="place.location">
+                <i class="icon ion-ios-location-outline"></i>
+                <p>{{ place.location }}</p>
+            </div>
+
+            <div class="item item-text-wrap item-icon-left item-custom" ng-if="options.display_income && (place.income_from || place.income_to)">
+                <i class="icon ion-social-usd-outline"></i>
+                <p>
+                    <span ng-show="place.income_from">{{ place.income_from }}</span>
+                    <span ng-show="place.income_to"> {{ "to" | translate }} {{ place.income_to }}</span>
+                </p>
+            </div>
+
+            <div class="item item-text-wrap item-icon-left item-custom" ng-if="place.display_contact != 'hidden' && place.email != ''" ng-click="contactAction();">
+                <i class="icon ion-ios-email-outline"></i>
+                <p>
+                    <span ng-if="place.display_contact == 'contactform' || place.display_contact == 'both'">{{ "Contact" | translate }}</span>
+                    <span ng-if="place.display_contact == 'both'">: </span>
+                    <span ng-if="place.display_contact == 'email' || place.display_contact == 'both'">{{ place.email }}</span>
+                </p>
+            </div>
+
+            <div class="item item-text-wrap item-icon-left item-custom" ng-click="showCompany(place.company_id)" ng-if="place.company.title">
+                <i class="icon ion-ios-home-outline"></i>
+                <p>{{ place.company.title }}</p>
+            </div>
+
+
+        </div>
+
+    </ion-content>
+    
+</ion-view>
+

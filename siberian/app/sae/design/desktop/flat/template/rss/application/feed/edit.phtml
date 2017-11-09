@@ -1,0 +1,137 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $rss_feed = $option_value->getObject(); ?>
+<div class="edit_page rss_feed">
+    <div id="manage">
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo $this->_(('Manage content')); ?>
+        </h3>
+        <div class="rss_feed container-fluid content-feature">
+            <form id="form_rss_feed" class="form_rss_feed form-horizontal">
+                <div class="form-group first-row-feature">
+                    <div class="col-md-12">
+                        <label for="title"><?php echo $this->_('Enter the URL of this RSS feed'); ?> : <span class="input-required">*</span></label>
+                        <input type="text" id="link_<?php echo $rss_feed->getId(); ?>" name="link" class="input-flat required url" value="<?php echo $rss_feed->getLink() ?>" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-5 pull-right">
+                        <label for="picture_<?php echo $rss_feed->getId(); ?>" class="checkbox-inline">
+                            <input type="checkbox" value="1" id="picture_<?php echo $rss_feed->getId(); ?>" class="color-blue checkbox" name="picture" <?php if($rss_feed->getPicture()) echo 'checked="checked"'; ?>>
+                            <?php echo $this->_('Display feed pictures whenever possible'); ?>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn save_feed color-blue pull-right"><?php echo $this->_('Save'); ?></button>
+                    </div>
+                </div>
+
+                <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>"/>
+                <input type="hidden" name="feed_id" value="<?php echo $rss_feed->getId(); ?>"/>
+            </form>
+        </div>
+    </div>
+
+    <div class="background background-images-upload">
+        <?php echo $this->importBackground($option_value); ?>
+    </div>
+
+    <div class="layout">
+        <?php echo $this->getLayout()
+            ->addPartial('layout', 'Core_View_Default', 'application/customization/features/edit/layout.phtml')
+            ->setOptionValue($option_value)
+            ->toHtml()
+        ;
+        ?>
+    </div>
+
+    <div id="links_found" style="display: none;">
+        <h4 class="title-editor border-blue text-center">
+            <?php echo $this->_('Found feeds'); ?> :
+        </h4>
+    </div>
+
+    <style>
+        .rss_feed div.rss_feed h3 { font-size: 1em; margin: 10px 0px; }
+        .rss_feed ul li .form_rss_feed { margin: 0; }
+        .rss_feed ul li.inner_content { height: 91px; border-radius: 5px; }
+        .form_rss_feed table tr { vertical-align: top; }
+        .form_rss_feed table tr td button { margin: 6px auto; }
+        a.link_found.reverse {background-color: #3c3b37; color:white;}
+        div#links_found, div#links_found_new { margin-top: 20px; }
+        ul#links_found_list {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            bindForms('#list');
+            bindForms('.background-images-upload');
+        });
+
+        page.setCallback('didappear', function() {
+            bindAll();
+        });
+
+        page.setCallback('willdisappear', function() {
+            $('#form_rss_feed').unbind('submit');
+            $('.link_found').unbind('click');
+        });
+
+        function bindAll() {
+
+            $('#form_rss_feed').submit(function() {
+                $('#links_found').slideUp();
+                var url_field = $(this).find('.url');
+                if(!url_field.val().isEmpty() && !url_field.val().startsWith('http://') && !url_field.val().startsWith('https://')) url_field.val('http://'+url_field.val());
+                if(!$(this).valid()) {
+                    return false;
+                }
+                $(this).data('validator').resetForm();
+//                $(this).removeData('validator');
+                reload(this, '<?php echo $this->getUrl('rss/application_feed/search') ?>', true, function(datas) {
+                    if(datas.links) {
+                        $('#links_found').append('<ul id="links_found_list" class="list-group"></ul>');
+                        for(var id in datas.links) {
+                            $('<a />').addClass('link_found block list-group-item content-white-bkg').attr('href', datas.links[id]).attr('rel', datas.id).html(datas.links[id]).appendTo($('#links_found_list'));
+                        }
+                        $('#links_found').prettyPhoto({
+                            default_width: 500,
+                            default_height: 400,
+                            show_title: false,
+                            deeplinking: false,
+                            social_tools: '',
+                            gallery_markup: '',
+                            keyboard_shortcuts: false,
+                            changepicturecallback: function() {
+                                $('#links_found_list .link_found').click(function() {
+                                    $('#link_'+$(this).attr('rel')).val($(this).attr('href'));
+                                    $.prettyPhoto.close();
+                                    return false;
+                                }).hover(function() {
+                                    $(this).addClass('reverse');
+                                }, function() {
+                                    $(this).removeClass('reverse');
+                                });
+                            },
+                            callback: function() {
+                                $('#links_found_list').remove();
+                            },
+                            theme: 'pp_none'
+                        });
+                        $.prettyPhoto.open('#links_found','<?php echo $this->_('Found feeds'); ?>');
+                    } else {
+                        page.reload();
+                    }
+                });
+                return false;
+            });
+
+        }
+
+    </script>
+</div>

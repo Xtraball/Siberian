@@ -1,0 +1,122 @@
+<?php
+$block = $this->getCurrentBlock();
+$button = $block->getObject();
+?>
+<div id="cms_block_<?php echo $this->getPosition(); ?>" class="category content-white-bkg cms_block button" rel="<?php echo $this->getPosition(); ?>">
+    <div class="control left">
+        <a class="handle" href="javascript:void(0);"><i class="fa fa-sort"></i></a>
+    </div>
+    <div class="container-fluid">
+
+        <div class="description_cont form-horizontal" rel="<?php echo $this->getPosition() ?>">
+            <?php if (!$button->getId()) : ?>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <?php echo __('Select a button type:'); ?>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3 button_type">
+                        <a href="#" type="button" class="color-blue btn capitalize bt_link" id="button_phone_<?php echo $this->getPosition() ?>" data="<?php echo $this->getPosition(); ?>" >
+                            <i class="fa fa-phone"></i><br/>
+                            <span><?php echo __('Phone') ?></span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 button_type">
+                        <a href="#" type="button" class="color-blue btn capitalize bt_link" id="button_link_<?php echo $this->getPosition() ?>">
+                            <i class="fa fa-link"></i><br/>
+                            <span><?php echo __('Link') ?></span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 button_type">
+                        <a href="#" type="button" class="color-blue btn capitalize bt_link" id="button_email_<?php echo $this->getPosition() ?>">
+                            <i class="fa fa-envelope"></i><br/>
+                            <span><?php echo __('Email') ?></span>
+                        </a>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <div class="form-group">
+                <div class="col-sm-2">
+                    <div id="field_label_<?php echo $this->getPosition(); ?>" for="content_<?php echo $this->getPosition(); ?>">
+                        <?php echo $block->getTypeId() == 'email' ? __('Email:') : ($block->getTypeId() == 'link' ? __('Link:') : __('Phone:')); ?>
+                    </div>
+                    <div id="field_label_label_<?php echo $this->getPosition(); ?>" for="content_<?php echo $this->getPosition(); ?>">
+                        <?php echo $block->getTypeId() == 'link' ? __('Label:') : ''; ?>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <input type="text" id="content_<?php echo $this->getPosition(); ?>" class="input-flat required" name="block[<?php echo $this->getPosition(); ?>][content]" value="<?php echo $block->getContent(); ?>" placeholder="" />
+                    <?php if ($block->getTypeId() == 'link') : ?>
+                        <input id="label_<?php echo $this->getPosition(); ?>" type="text" class="input-flat required" placeholder="label" name="block[<?php echo $this->getPosition(); ?>][label]" value="<?php echo $block->getLabel(); ?>"/>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][button_id]" value="<?php echo $block->getButtonId(); ?>" id="button_id_<?php echo $this->getPosition(); ?>" />
+        <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][type_id]" value="<?php echo $block->getTypeId() ? $block->getTypeId() : "phone"; ?>" id="type_id_<?php echo $this->getPosition(); ?>" />
+        <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][block_id]" value="<?php echo $block->getBlockId(); ?>" />
+        <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][value_id]" value="<?php echo $block->getValueId(); ?>" />
+        <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][type]" value="<?php echo $block->getType(); ?>" />
+        <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][position]" value="<?php echo $this->getPosition(); ?>" class="hidden_pos" rel="<?php echo $this->getPosition(); ?>"  />
+    </div>
+    <div class="control right">
+        <a class="remove" href="javascript:void(0);"><i class="fa fa-times"></i></a>
+    </div>
+
+    <script type="text/javascript">
+        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .remove').click(function () {
+            removeElem(<?php echo $this->getPosition(); ?>);
+        });
+
+        var action_count = 0;
+        $('#button_link_<?php echo $this->getPosition() ?>').click(function () {
+            $('#field_label_<?php echo $this->getPosition() ?>').html('<?php echo addslashes(__('Link:')) ?>');
+            $('#type_id_<?php echo $this->getPosition() ?>').val('link');
+            if(action_count == 0) {
+                $('#field_label_label_<?php echo $this->getPosition(); ?>').append('<?php echo addslashes(__('Label:')) ?>');
+                var container = $('#content_<?php echo $this->getPosition(); ?>').parent();
+                container.append('<input id="label_<?php echo $this->getPosition(); ?>" type="text" class="input-flat required" placeholder="label" name="block[<?php echo $this->getPosition(); ?>][label]" value="<?php echo __js($block->getLabel(),"'"); ?>"/>');
+            }
+            action_count++;
+
+            return false;
+        });
+
+        $('#button_phone_<?php echo $this->getPosition() ?>').click(function () {
+            $('#field_label_<?php echo $this->getPosition() ?>').html('<?php echo addslashes(__('Phone:')) ?>');
+            $('#type_id_<?php echo $this->getPosition() ?>').val('phone');
+
+            $('#label_<?php echo $this->getPosition(); ?>').remove();
+            $('#field_label_label_<?php echo $this->getPosition(); ?>').html('');
+            action_count = 0;
+
+            return false;
+        });
+        $('#button_email_<?php echo $this->getPosition() ?>').click(function () {
+            $('#field_label_<?php echo $this->getPosition() ?>').html('<?php echo addslashes(__('Email:')) ?>');
+            $('#type_id_<?php echo $this->getPosition() ?>').val('email');
+            $('#label_<?php echo $this->getPosition(); ?>').remove();
+            $('#field_label_label_<?php echo $this->getPosition(); ?>').html('');
+            action_count = 0;
+
+            return false;
+        });
+
+        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .handle').mousedown(function () {
+            dragTransformMouseDown($(this));
+        }).mouseup(function () {
+            dragTransformMouseUp($(this));
+        });
+    </script>
+    <style>
+        .cms_block .button_type i {
+            font-size: 50px;
+        }
+
+        .cms_block .bt_link{
+            width:100%;
+        }
+
+    </style>
+</div>

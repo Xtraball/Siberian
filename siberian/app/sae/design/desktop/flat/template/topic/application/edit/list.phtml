@@ -1,0 +1,21 @@
+<?php $category = $this->getCategory(); ?>
+<li id="category_<?php echo $category->getId(); ?>" class="list-group-item content-white-bkg">
+    <div id="actions_<?php echo $category->getId(); ?>">
+        <i class="fa fa-sort icon-move"></i>
+        <span id="category_title_<?php echo $category->getId(); ?>"><?php echo $category->getName() ?></span>
+        <span class="category_actions pull-right">
+            <i class="fa fa-pencil pointer" id="edit_category_<?php echo $category->getCategoryId(); ?>" rel="<?php echo $category->getCategoryId() ?>" onclick="categories.edit('<?php echo $category->getCategoryId() ?>');"></i>
+            <i class="fa fa-remove remove_category pointer" rel="<?php echo $category->getCategoryId() ?>" onclick="categories.delete(this,'<?php echo $category->getCategoryId() ?>');"></i>
+        </span>
+    </div>
+    <ul id="children_of_<?php echo $category->getId(); ?>" class="clear tree">
+        <?php foreach($category->getChildren() as $child) : ?>
+        <?php
+            echo $this->getLayout()->addPartial('child_'.$child->getId(), get_class($this), $this->getTemplate())
+                ->setCategory($child)
+                ->toHtml()
+            ;
+        ?>
+        <?php endforeach ?>
+    </ul>
+</li>

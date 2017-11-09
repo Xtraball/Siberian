@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <application_backoffice_view_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="application/view.phtml" />
+        </views>
+    </application_backoffice_view_template>
+
+    <application_backoffice_view_acl_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="application/view/acl.phtml" />
+        </views>
+    </application_backoffice_view_acl_template>
+</layout>

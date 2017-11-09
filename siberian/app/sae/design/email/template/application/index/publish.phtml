@@ -1,0 +1,15 @@
+<table>
+    <tr style="margin:auto; padding: 0 15px; color:#888888; font-size: 17px; line-height: 150%; width:600px">
+        <td>
+            <p align="justify" style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo __('You have received a publication request:'); ?><br/>
+                <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo __('App ID:'); ?> <strong><?php echo $this->getApp()->getId() ?></strong></span><br/>
+                <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo __('App name:'); ?> <strong><?php echo $this->getApp()->getName() ?></strong></span><br/>
+                <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo __('User ID:'); ?> <strong><?php echo $this->getAdmin()->getId() ?></strong></span><br/>
+                <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo __('User email:'); ?> <strong><?php echo $this->getAdmin()->getEmail() ?></strong></span><br/>
+            </p>
+            <p>
+                <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><a href="<?php echo $this->getUrl('application/backoffice_view', array("app_id" => $this->getApp()->getId())); ?>"><?php echo __("Click here to open the application"); ?></a></span>
+            </p>
+        </td>
+    </tr>
+</table>

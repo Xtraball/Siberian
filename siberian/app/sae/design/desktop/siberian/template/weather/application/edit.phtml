@@ -1,0 +1,94 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $application = $this->getApplication(); ?>
+<?php $weather = new Weather_Model_Weather(); ?>
+<?php $weather->find($option_value->getId(),"value_id"); ?>
+<?php $countries = Zend_Registry::get('Zend_Locale')->getTranslationList('Territory', null, 2); ?>
+<?php asort($countries, SORT_LOCALE_STRING); ?>
+<div class="form_content">
+    <div id="list" class="edit_page weather">
+        <div class="form_content">
+            <form id="weatherForm" name="weatherForm" method="post" action="<?php echo $this->getUrl('weather/application/editpost') ?>" class="form-horizontal">
+                <h4 class="subtitle">
+                    <span class="left area"><?php echo $this->_("Weather information") ?></span>
+                    <hr />
+                    <div class="clear"></div>
+                </h4>
+                <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
+                <div class="form_content form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label for="address"><?php echo $this->_("Country:"); ?></label>
+                        </div>
+                        <div class="col-md-9">
+                            <select id="country_code" name="country_code" class="form-control">
+                                <option value=""></option>
+                                <?php foreach($countries as $key => $country): ?>
+                                    <option value="<?php echo $key; ?>" <?php if($key == $weather->getCountryCode()) echo "selected"; ?>><?php echo $country; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label for="address"><?php echo $this->_("Postal code or city:"); ?></label>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" id="city" name="city" class="form-control" value="<?php echo $weather->getCity(); ?>"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <label for="address"><?php echo $this->_("Units:"); ?></label>
+                        </div>
+                        <div class="col-md-9">
+                            <select id="unit" name="unit" class="form-control">
+                                <option value="f" <?php if($weather->getUnit() == "f") echo "selected"; ?>>°F, mph, mi</option>
+                                <option value="c" <?php if($weather->getUnit() == "c") echo "selected"; ?>>°C, km/h, km</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <button class="pull-right default_button btn" type="submit">
+                                <?php echo $this->_('Save'); ?>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="section">
+            <?php
+            echo $this->getLayout()
+                ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
+                ->setValueId($option_value->getId())
+                ->toHtml()
+            ;
+            ?>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    page.setCallback('didappear', function() {
+
+        $('#weatherForm').submit(function() {
+            if(!$(this).valid()) return false;
+            reload($('#weatherForm'), '<?php echo $this->getUrl('weather/application/editpost') ?>', true, function(data) {
+                if(data.success) {
+                    page.reload();
+                }
+            });
+            return false;
+        });
+
+    });
+
+    page.setCallback('willdisappear', function() {
+        $('#weatherForm').unbind('submit');
+    });
+
+</script>
+<style>
+
+</style>

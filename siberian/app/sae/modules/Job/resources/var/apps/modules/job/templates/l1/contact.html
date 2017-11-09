@@ -1,0 +1,60 @@
+<ion-modal-view sb-page-background class="layout modal slide-top">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear" ng-click="closeContactModal();">{{ "Close" | translate }}</button>
+        </div>
+        <h1 class="title">{{ "Contact" | translate }}</h1>
+    </ion-header-bar>
+
+    <ion-content>
+
+        <form name="bookingForm" ng-submit="submitContact();" novalidate>
+
+            <div class="list job-contact" ng-class="{'card' : card_design}">
+
+                <div class="item item-divider item-divider-custom">
+                    {{ 'Identity' | translate }}
+                </div>
+
+                <label class="item item-input item-custom">
+                    <i class="icon ion-person"></i>
+                    <input type="text" placeholder="{{ 'Full name' | translate }} *" ng-model="form.fullname">
+                </label>
+
+                <label class="item item-input item-custom">
+                    <i class="icon ion-email"></i>
+                    <input type="text" placeholder="{{ 'Email' | translate }} *" ng-model="form.email">
+                </label>
+
+                <label class="item item-input item-custom">
+                    <i class="icon ion-ios-telephone"></i>
+                    <input type="text" placeholder="{{ 'Phone' | translate }}" ng-model="form.phone">
+                </label>
+
+                <label class="item item-input item-custom">
+                    <i class="icon ion-ios-location"></i>
+                    <input type="text" placeholder="{{ 'Address' | translate }}" ng-model="form.address">
+                </label>
+
+                <div class="item item-divider item-divider-custom">
+                    {{ 'Message' | translate }}
+                </div>
+
+                <label class="item item-input item-custom">
+                    <textarea placeholder="{{ 'Message' | translate }}" ng-model="form.message"></textarea>
+                </label>
+
+            </div>
+
+            <div ng-class="{'padding' : card_design}">
+                <button class="button button-positive button-positive-custom item-icon-left"
+                        ng-class="{'button-block': card_design, 'button-full': !card_design}">
+                    <i class="icon ion-ios-paperplane"></i>{{ "Send contact request" | translate }}
+                </button>
+            </div>
+
+        </form>
+
+    </ion-content>
+</ion-modal-view>

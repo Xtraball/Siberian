@@ -1,0 +1,174 @@
+<sb-section title="section_title">
+
+    <form ng-submit="saveAdmin();">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="email"><?php echo __("Email address"); ?></label>
+                <input type="email" id="email" ng-model="admin.email" class="form-control" placeholder="<?php echo __("Email address"); ?>" />
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="company"><?php echo __("Company"); ?></label>
+                <input type="text" id="company" ng-model="admin.company" class="form-control" placeholder="<?php echo __("Company"); ?>" />
+            </div>
+        </div>
+
+        <div class="clear col-md-6">
+            <div class="form-group">
+                <label for="firstname"><?php echo __("Firstname"); ?></label>
+                <input type="text" id="firstname" ng-model="admin.firstname" class="form-control" placeholder="<?php echo __("Firstname"); ?>" />
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="lastname"><?php echo __("Lastname"); ?></label>
+                <input type="text" id="lastname" ng-model="admin.lastname" class="form-control" placeholder="<?php echo __("Lastname"); ?>" />
+            </div>
+        </div>
+
+        <div class="clear col-md-6">
+            <div class="form-group">
+                <label for="lastname"><?php echo __("Address"); ?></label>
+                <textarea rows="5" id="address" ng-model="admin.address" class="form-control" placeholder="<?php echo __("Address"); ?>"></textarea>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="country_code"><?php echo __("Country"); ?></label>
+                <select id="country_code" class="form-control" ng-model="admin.country_code" ng-options="k as v for (k, v) in country_codes">
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="phone"><?php echo __("Phone"); ?></label>
+                <input type="text" id="phone" ng-model="admin.phone" class="form-control" placeholder="<?php echo __("Phone"); ?>" />
+            </div>
+        </div>
+
+        <div class="clear col-md-6">
+            <div class="form-group">
+                <label for="{{ admin.publication_access_type }}"><?php echo __("Publication access type"); ?></label>
+                <select class="form-control" ng-model="admin.publication_access_type">
+                    <option value="sources"><?php echo __("Sources code"); ?></option>
+                    <option value="info"><?php echo __("Info"); ?></option>
+                </select>
+                <p class="help-block" ng-show="admin.publication_access_type == 'sources'"><?php echo __("This admin can download application sources code."); ?></p>
+                <p class="help-block" ng-show="admin.publication_access_type == 'info'"><?php echo __("This admin gives you the required information to publish applications"); ?></p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-6">
+                <label for="role_id"><?php echo __("Account Role") ?></label>
+                <select class="form-control" ng-model="admin.role_id" ng-options="role.role_id as role.label for role in roles" required="true">
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="clear form-group">
+            <div class="col-md-6">
+                <label for="{{ admin.is_allowed_to_manage_tour }}"><?php echo __("Can manage guided tour"); ?></label>
+                <select class="form-control" ng-model="admin.is_allowed_to_manage_tour">
+                    <option value="0"><?php echo __("No"); ?></option>
+                    <option value="1"><?php echo __("Yes"); ?></option>
+                </select>
+                <p class="help-block" ng-show="admin.is_allowed_to_manage_tour == 'yes'"><?php echo __("This admin can manage guided tour from editor"); ?></p>
+            </div>
+        </div>
+
+        <div class="clear form-group" ng-if="admin.id">
+            <div class="col-md-12">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="admin.change_password" />
+                        <?php echo __("Change password"); ?>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+
+        <div class="slide-left" ng-if="!admin.id || admin.change_password">
+
+            <div class="clear form-group">
+                <div class="col-md-6">
+                    <label for="password"><?php echo __("Password"); ?></label>
+                    <input type="password" id="password" ng-model="admin.password" class="form-control"  />
+                </div>
+                <div class="col-md-6">
+                    <label for="confirm_password"><?php echo __("Confirm Password"); ?></label>
+                    <input type="password" id="confirm_password" ng-model="admin.confirm_password" class="form-control" placeholder="<?php echo __("Confirm Password"); ?>" />
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </form>
+
+</sb-section>
+
+<sb-section title="applications_section_title" ng-if="admin.id">
+    <table class="table">
+        <col width="3%" />
+        <col width="7%" />
+        <col width="5%" />
+        <col width="20%" />
+        <col width="30%" />
+        <col width="30%" />
+        <col width="15%" />
+        <thead>
+        <tr>
+            <th></th>
+            <th></th>
+            <th class="pointer" ng-class="{'pointer-up': urlParams.order == 'app_id' && urlParams.by, 'pointer-down': urlParams.order == 'app_id' && !urlParams.by}" ng-click="urlParams.order = 'app_id'; urlParams.by = !urlParams.by"><?php echo __("Id"); ?></th>
+            <th class="pointer" ng-class="{'pointer-up': urlParams.order == 'name' && urlParams.by, 'pointer-down': urlParams.order == 'name' && !urlParams.by}" ng-click="urlParams.order = 'name'; urlParams.by = !urlParams.by"><?php echo __("Name"); ?></th>
+            <th class="pointer" ng-class="{'pointer-up': urlParams.order == 'bundle_id' && urlParams.by, 'pointer-down': urlParams.order == 'bundle_id' && !urlParams.by}" ng-click="urlParams.order = 'bundle_id'; urlParams.by = !urlParams.by"><?php echo __("Bundle Id"); ?></th>
+            <th class="pointer" ng-class="{'pointer-up': urlParams.order == 'package_name' && urlParams.by, 'pointer-down': urlParams.order == 'package_name' && !urlParams.by}" ng-click="urlParams.order = 'package_name'; urlParams.by = !urlParams.by"><?php echo __("Package Name"); ?></th>
+            <th class="text-center"><?php echo __("Access"); ?></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="application in applications">
+            <td class="valign-middle"><input type="checkbox" ng-model="application.is_allowed_to_add_pages" ng-checked="application.is_allowed_to_add_pages" ng-change="setAppToAdmin(application)" /></td>
+            <td class="text-center">
+                <img ng-src="{{ application.icon }}" width="35" ng-show="!application.loader_is_visible" />
+                <sb-loader is_visible="application.loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+            </td>
+            <td class="valign-middle">{{ application.id }}</td>
+            <td class="valign-middle">{{ application.name }}</td>
+            <td class="valign-middle">{{ application.bundle_id }}</td>
+            <td class="valign-middle">{{ application.package_name }}</td>
+            <td class="valign-middle text-center"><a href="<?php echo $this->getUrl("application/backoffice_view_acl"); ?>/app_id/{{ application.id }}/admin_id/{{ admin.id }}" title="<?php echo __("Edit"); ?>"><i class="fa fa-edit"></i></a></td>
+        </tr>
+        <tr ng-show="!applications.length">
+            <td colspan="7" class="a-center"><?php echo __("This user has no applications yet."); ?></td>
+        </tr>
+        </tbody>
+    </table>
+    <br />
+    <bgf-pagination
+            collection="applications"
+            page="page"
+            per-page="perPage"
+            link-group-size="2"
+            client-limit="clientLimit"
+            template-url="<?php echo $this->getUrl("/backoffice/paginate/template") ?>"
+            url="'<?php echo $this->getUrl("/application/backoffice_list/findbyadmin") ?>'"
+            url-params="urlParams">
+    </bgf-pagination>
+</sb-section>

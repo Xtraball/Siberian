@@ -1,0 +1,88 @@
+<?php $option = $this->getOptionValue(); ?>
+<?php $mcommerce = $option->getObject(); ?>
+
+<div id="tax">
+    <div id="tax_list" pos="1">
+        <div class="section">
+            <h4 class="subtitle">
+                <span><?php echo $this->_('Tax'); ?></span>
+                <hr />
+                
+            </h4>
+            <div class="form_content">
+                <form id="mcommerceStoreForm" action="<?php echo $this->getUrl('mcommerce/application/save'); ?>">
+                    <table cellspacing="10" class="no-collapse">
+                        <tbody>
+                            <tr>
+                                <td class="label"><label for="name"><?php echo $this->_('Name:'); ?></label></td>
+                                <td><input type="text" value="<?php echo $mcommerce->getName(); ?>" id="name" class="input input-flat" name="name" /></td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="description"><?php echo $this->_('Description:'); ?></label></td>
+                                <td><input type="text" value="<?php echo $mcommerce->getDescription(); ?>" id="description" class="input input-flat" name="description" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="save right">
+                        <button class="btn btn-block" type="submit">
+                            <?php echo $this->_('Save'); ?>
+                        </button>
+                    </div>
+                    
+                    <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
+                </form>
+            </div>
+        </div>
+        <div id="stores_manager"<?php if(!$mcommerce->getId()) : ?> style="display:none"<?php endif; ?>>
+            <div class="section">
+                <h4 class="subtitle">
+                    <span><?php echo $this->_('My stores'); ?></span>
+                    <hr />
+                    <span>
+                        <button type="button" class="btn edit_store right" id="add_item">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </span>
+                    
+                </h4>
+                <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+            </div>
+            <div id="section_existing_stores" class="section"<?php if(!$stores->count()) : ?> style="display:none"<?php endif; ?>>
+                <h4 class="subtitle">
+                    <span><?php echo $this->_('Manage'); ?></span>
+                    <hr />
+                    <span>
+                        <button type="button" class="btn toggle_details" id="toggle_existing_stores">
+                            <i class="fa-angle-down"></i>
+                            <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
+                        </button>
+                    </span>
+                    
+                </h4>
+                <div id="existing_stores" style="display:none;">
+
+                    <?php //if($stores->count()) : ?>
+                    <ul class="list stores_list">
+                        <?php foreach ($stores as $store) : ?>
+                        <?php echo $this->getLayout()->addPartial('row_store_'.$store->getId(), 'admin_view_default', 'mcommerce/application/edit/store/li.phtml')
+                                ->setCurrentOptionValue($option)
+                                ->setCurrentStore($store)
+                                ->toHtml()
+                            ;
+                        ?>
+                        <?php endforeach ?>
+                    </ul>
+                    <?php //endif; ?>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="store_edit" pos="2">
+
+    </div>
+</div>
+<div id="store_edit">
+
+</div>

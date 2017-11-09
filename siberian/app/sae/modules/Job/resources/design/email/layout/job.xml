@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <contact_form>
+        <views>
+            <header class="core_view_email_default" template="job/default/header.phtml" />
+            <base class="core_view_email_default" template="job/default/content.phtml" />
+            <footer class="core_view_email_default" template="job/default/footer.phtml" />
+        </views>
+        <views>
+            <content_email class="core_view_email_default" template="job/contact_form.phtml" />
+        </views>
+    </contact_form>
+
+</layout>

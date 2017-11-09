@@ -1,0 +1,85 @@
+<form ng-submit="save();">
+
+    <sb-section title="section_title">
+
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="username"><?php echo __("Username"); ?></label>
+                <input type="text" id="username" ng-model="user.username" class="form-control" placeholder="<?php echo __("Username"); ?>" />
+            </div>
+        </div>
+        
+        <div class="clear col-md-6">
+            <div class="form-group">
+                <label for="firstname"><?php echo __("Firstname"); ?></label>
+                <input type="text" id="firstname" ng-model="user.firstname" class="form-control" placeholder="<?php echo __("Firstname"); ?>" />
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="lastname"><?php echo __("Lastname"); ?></label>
+                <input type="text" id="lastname" ng-model="user.lastname" class="form-control" placeholder="<?php echo __("Lastname"); ?>" />
+            </div>
+        </div>
+
+        <div class="clear form-group" ng-if="user.id">
+            <div class="col-md-12">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="user.change_password" />
+                        <?php echo __("Change password"); ?>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="clear"></div>
+
+        <div class="slide-left" ng-if="!user.id || user.change_password">
+
+            <div class="clear form-group">
+                <div class="col-md-6">
+                    <label for="password"><?php echo __("Password"); ?></label>
+                    <input type="password" id="password" ng-model="user.password" class="form-control" placeholder="<?php echo __("Password"); ?>" />
+                </div>
+                <div class="col-md-6">
+                    <label for="confirm_password"><?php echo __("Confirm Password"); ?></label>
+                    <input type="password" id="confirm_password" ng-model="user.confirm_password" class="form-control" placeholder="<?php echo __("Confirm Password"); ?>" />
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </sb-section>
+
+    <sb-section title="'<?php echo __js("Select API access") ?>'">
+
+        <?php $i = 0; foreach(Siberian_Api::getSections() as $section => $title): $i++; ?>
+            <div class="<?php echo ($i%4 == 0) ? "clear" : ""; ?> col-md-4">
+                <h4><?php echo __($title) ?></h4>
+                <?php foreach(Siberian_Api::$acl_keys[$section] as $subkey => $subtitle): ?>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="user.acl.<?php echo $section ?>.<?php echo $subkey ?>" />
+                        <?php echo __($subtitle); ?>
+                    </label>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endforeach; ?>
+
+    </sb-section>
+
+    <br /><br />
+
+    <div class="col-md-12">
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
+            <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+            <div class="clear"></div>
+        </div>
+    </div>
+</form>
+
+

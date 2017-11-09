@@ -1,0 +1,33 @@
+<sb-section title="'<?php echo addslashes($this->_("List of existing previews")); ?>'" button="button">
+    <br />
+    <div class="form-group">
+        <label for="filter"><?php echo $this->_("Search"); ?></label>
+        <input type="text" id="filter" class="form-control" ng-model="filter" placeholder="<?php echo $this->_("Search"); ?>" />
+    </div>
+    <br />
+    <table class="table">
+        <col width="5%" />
+        <col width="87%" />
+        <col width="8%" />
+        <thead>
+        <tr>
+            <th class="pointer" ng-click="order = 'id'; by = !by"><?php echo $this->_("Id"); ?></th>
+            <th class="pointer" ng-click="order = 'feature_name'; by = !by"><?php echo $this->_("Feature"); ?></th>
+            <th><?php echo $this->_("Actions"); ?></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="slide-left" ng-repeat="preview in previews | filter:filter | orderBy:order:by">
+            <td>{{ preview.id }}</td>
+            <td>{{ preview.feature_name }}</td>
+            <td>
+                <a href="<?php echo $this->getUrl("preview/backoffice_edit"); ?>/preview_id/{{ preview.id }}" title="<?php echo $this->_("Edit"); ?>"><i class="fa fa-edit"></i></a>
+                <a href="#" ng-click="deletePreview(preview.id)" title="<?php echo $this->_("Delete"); ?>"><i class="fa fa-remove"></i></a>
+            </td>
+        </tr>
+        <tr ng-show="!previews.length">
+            <td colspan="5" class="a-center"><?php echo $this->_("You don't have any previews yet"); ?></td>
+        </tr>
+        </tbody>
+    </table>
+</sb-section>

@@ -1,0 +1,218 @@
+<?php $application = $this->getApplication(); ?>
+<?php $upload_path = Application_Model_Application::getImagePath().'/homepage_image/'; ?>
+<!--[if gte IE 10]><!-->
+<div class="feature-block-add">
+    <h3 class="title-editor no-border-radius title-feature-indent"><?php echo __('Portrait') ?></h3>
+</div>
+<div class="container-fluid first-row-feature content-feature">
+    <div class="row">
+        <div id="sb-tour-hp-1" class="col-lg-4 col-sm-4 col-xs-4 sb-tour">
+            <img id="homepage_standard" width="100%" src="<?php echo $application->getHomepageBackgroundImageUrl() ?>" class="upload_bg bg pointer" rel="bg"/>
+        </div>
+        <div id="sb-tour-hp-2" class="col-md-4 col-sm-4 col-xs-4 sb-tour">
+            <img id="homepage_hd" width="100%" src="<?php echo $application->getHomepageBackgroundImageUrl('hd') ?>" class="upload_bg bg_hd pointer" rel="bg_hd"/>
+        </div>
+        <div id="sb-tour-hp-3" class="col-md-4 col-sm-4 col-xs-4 sb-tour">
+            <img id="homepage_tablet" width="100%" src="<?php echo $application->getHomepageBackgroundImageUrl('tablet') ?>" class="upload_bg bg_tablet pointer" rel="bg_tablet"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-sm-4 col-xs-4 startup-bottom-blocks">
+            <p class="recommended_size"><b><?php echo __('Recommended size:'); ?></br></b> 640x1136</p>
+            <button id="sb-tour-hp-1-bt" type="button" class="bg btn-grey upload_bg btn btn-full-width sb-tour" rel="bg">
+                <?php echo __("Change your picture"); ?><br/>
+            </button>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-4 startup-bottom-blocks">
+            <p class="clear recommended_size"><b><?php echo __('Recommended size:'); ?></br></b> 1242x2208</p>
+            <button id="sb-tour-hp-2-bt" type="button" class="bg_hd btn-grey upload_bg btn btn-full-width sb-tour" rel="bg_hd">
+                <?php echo __("Change your picture"); ?><br/>
+            </button>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-4 startup-bottom-blocks">
+            <p class="clear recommended_size"><b><?php echo $this->_('Recommended size:'); ?></br></b> 1536x2048</p>
+            <button id="sb-tour-hp-3-bt" type="button" class="bg_tablet btn-grey upload_bg btn btn-full-width sb-tour" rel="bg_tablet">
+                <?php echo __("Change your picture"); ?><br/>
+            </button>
+        </div>
+    </div>
+</div>
+<br />
+<div class="feature-block-add">
+    <h3 class="title-editor no-border-radius title-feature-indent"><?php echo __('Landscape') ?></h3>
+</div>
+
+<?php
+$bg_landscape = $application->getHomepageBackgroundImageUrl('landscape');
+$bg_landscape_hd = $application->getHomepageBackgroundImageUrl('landscape_hd');
+$bg_landscape_tablet = $application->getHomepageBackgroundImageUrl('landscape_tablet');
+?>
+
+<div class="container-fluid first-row-feature content-feature">
+    <br />
+    <div class="row">
+        <div id="sb-tour-hp-4" class="col-lg-4 col-sm-4 col-xs-4 sb-tour">
+            <img id="homepage_landscape_standard" width="100%" src="<?php echo $bg_landscape ?>" class="upload_bg landscape_bg pointer" rel="bg" />
+        </div>
+        <div id="sb-tour-hp-5" class="col-md-4 col-sm-4 col-xs-4 sb-tour">
+            <img id="homepage_landscape_hd" width="100%" src="<?php echo $bg_landscape_hd ?>" class="upload_bg landscape_bg_hd pointer" rel="bg_hd" />
+        </div>
+        <div id="sb-tour-hp-6" class="col-md-4 col-sm-4 col-xs-4 sb-tour">
+            <img id="homepage_landscape_tablet" width="100%" src="<?php echo $bg_landscape_tablet ?>" class="upload_bg landscape_bg_tablet pointer" rel="bg_tablet" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 col-sm-4 col-xs-4 startup-bottom-blocks">
+            <p class="recommended_size"><b><?php echo __('Recommended size:'); ?></br></b> 1136x640</p>
+            <button id="sb-tour-hp-4-bt" type="button" class="landscape_bg btn-grey upload_bg btn btn-full-width sb-tour" rel="landscape_bg">
+                <?php echo __("Change your picture"); ?><br/>
+            </button>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-4 startup-bottom-blocks">
+            <p class="clear recommended_size"><b><?php echo __('Recommended size:'); ?></br></b> 2208x1242</p>
+            <button id="sb-tour-hp-5-bt" type="button" class="landscape_bg_hd btn-grey upload_bg btn btn-full-width sb-tour" rel="landscape_bg_hd">
+                <?php echo __("Change your picture"); ?><br/>
+            </button>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-4 startup-bottom-blocks">
+            <p class="clear recommended_size"><b><?php echo $this->_('Recommended size:'); ?></br></b> 2048x1536</p>
+            <button id="sb-tour-hp-6-bt" type="button" class="landscape_bg_tablet btn-grey upload_bg btn btn-full-width sb-tour" rel="landscape_bg_tablet">
+                <?php echo __("Change your picture"); ?><br/>
+            </button>
+        </div>
+    </div>
+</div>
+<input enctype="multipart/form-data" class="fileupload bg" type="file" style="display:none" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" rel="standard">
+<input enctype="multipart/form-data" class="fileupload bg_hd" type="file" style="display:none" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" rel="hd">
+<input enctype="multipart/form-data" class="fileupload bg_tablet" type="file" style="display:none" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" rel="tablet">
+<input enctype="multipart/form-data" class="fileupload landscape_bg" type="file" style="display:none" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" rel="landscape_standard">
+<input enctype="multipart/form-data" class="fileupload landscape_bg_hd" type="file" style="display:none" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" rel="landscape_hd">
+<input enctype="multipart/form-data" class="fileupload landscape_bg_tablet" type="file" style="display:none" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" rel="landscape_tablet">
+<div class="row content-in">
+    <div class="col-md-6 col-xs-12 sb-tour" id="behavior_container">
+        <div class="content-options content-white-bkg">
+            <?php
+                $form_behavior = new Application_Form_Behavior();
+                $form_behavior->populate($application->getData());
+                echo $form_behavior;
+            ?>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div id="col-md-12">
+        <div id="capture_conteneurs">
+            <div class="left" id="crop_image_bg_cont"></div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    .upload-landscape-placeholder {
+        width: 100%;
+        text-align: center;
+        padding: 60px 0;
+        border: 1px solid grey;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+</style>
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        bindForms("#behavior_container");
+    });
+
+        var homepage_uploader = new Uploader();
+        var type = '';
+
+        $('.fileupload').fileupload({
+            autoUpload: true,
+            dataType: 'json',
+            type: 'POST',
+            add: function (e, data) {
+                type = $(this).attr("rel");
+                data.formData = {
+                    fileType: type,
+                    uniq_prefix: type+'_',
+                    minwidth: '100',
+                    minheight: '200',
+                    maxwidth: '3000',
+                    maxheight: '3000'
+                };
+                data.submit();
+                homepage_uploader.showProgressbar();
+            },
+            progressall: function (e, data) {
+                homepage_uploader.moveProgressbar(data);
+            },
+            done: function (e, data) {
+                if(data.result.error) {
+                    loader.hide();
+                    homepage_uploader.showError(data.result.message);
+                } else {
+                    homepage_uploader.hide();
+                    var params = [];
+                    params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+                    params["file"] = data.result.files;
+                    params["uploader"] = 'homepage_uploader';
+                    if($(this).hasClass('bg_hd')) {
+                        params["output_w"] = 1242;
+                        params["output_h"] = 2208;
+                        params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('application/customization_design_style/savehomepage')) ?>$filetype$hd';
+                    } else if($(this).hasClass('bg_tablet')) {
+                        params["output_w"] = 1536;
+                        params["output_h"] = 2048;
+                        params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('application/customization_design_style/savehomepage')) ?>$filetype$tablet';
+                    } else if($(this).hasClass('bg')) {
+                        params["output_w"] = 640;
+                        params["output_h"] = 1136;
+                        params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('application/customization_design_style/savehomepage')) ?>$filetype$standard';
+                    } if($(this).hasClass('landscape_bg_hd')) {
+                        params["output_w"] = 2208;
+                        params["output_h"] = 1242;
+                        params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('application/customization_design_style/savehomepage')) ?>$filetype$landscape_hd';
+                    } else if($(this).hasClass('landscape_bg_tablet')) {
+                        params["output_w"] = 2048;
+                        params["output_h"] = 1536;
+                        params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('application/customization_design_style/savehomepage')) ?>$filetype$landscape_tablet';
+                    } else if($(this).hasClass('landscape_bg')) {
+                        params["output_w"] = 1136;
+                        params["output_h"] = 640;
+                        params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('application/customization_design_style/savehomepage')) ?>$filetype$landscape_standard';
+                    }
+
+                    homepage_uploader.crop(params);
+                    homepage_uploader.callback = function(file) {
+                        if(type == 'hd') {
+                            $('#homepage_hd').attr('src', file).removeAttr('style');
+                            $('#crop_image_hd_cont').html('<img src="'+file+'" width="160px" />');
+                        } else if(type == 'tablet') {
+                            $('#homepage_tablet').attr('src', file).removeAttr('style');
+                            $('#crop_image_tablet_cont').html('<img src="'+file+'" width="160px" />');
+                        } else if(type == 'standard') {
+                            $('#homepage_standard').attr('src', file).removeAttr('style');
+                            $('#crop_image_standard_cont').html('<img src="'+file+'" width="160px" />');
+                            iframe.reload();
+                        } else if(type == 'landscape_hd') {
+                            $('#homepage_landscape_hd').attr('src', file).removeAttr('style');
+                            $('#crop_image_landscape_hd_cont').html('<img src="'+file+'" width="160px" />');
+                        } else if(type == 'landscape_tablet') {
+                            $('#homepage_landscape_tablet').attr('src', file).removeAttr('style');
+                            $('#crop_image_landscape_tablet_cont').html('<img src="'+file+'" width="160px" />');
+                        } else if(type == 'landscape_standard') {
+                            $('#homepage_landscape_standard').attr('src', file).removeAttr('style');
+                            $('#crop_image_landscape_standard_cont').html('<img src="'+file+'" width="160px" />');
+                        }
+
+                    }
+                }
+            }
+        });
+
+        $('.upload_bg').click(function(){
+            $("input.fileupload."+$(this).attr("rel")).trigger("click");
+            return false;
+        });
+
+</script>

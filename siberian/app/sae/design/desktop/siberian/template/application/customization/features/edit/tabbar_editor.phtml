@@ -1,0 +1,479 @@
+<?php
+$option = $this->getOptionValue();
+
+if($option->getValueId() == "customer_account") {
+    $library = new Media_Model_Library();
+    $library->find("customer_account", "name");
+
+} elseif($option->getValueId() == "more_items") {
+    $library = new Media_Model_Library();
+    $library->find("more_items", "name");
+
+} else {
+    $library = $option->getLibrary();
+}
+
+$available_icons = array($library->getIcons());
+
+if($option->getCode() == 'folder') {
+    $a_option = new Application_Model_Option();
+    $options = $a_option->findAll();
+    foreach($options as $other_option) {
+        if($other_option->getCode() == 'folder') {
+            continue;
+        }
+        $new_icons = $other_option->getLibrary()->getIcons();
+        $available_icons[] = $new_icons;
+    }
+}
+
+$library = new Media_Model_Library();
+$all_icons = $library->getAllFeatureIcons();
+
+$layout_id = $this->getApplication()->getLayoutId();
+$layout_model = new Application_Model_Layout_Homepage();
+$layout = $layout_model->find($layout_id);
+$use_subtitle = ($layout->getUseSubtitle());
+
+# Exporter
+$can_export = Siberian_Exporter::isRegistered($option->getCode()) && (APPLICATION_ENV != "production");
+$can_clearcache = Siberian_Cache::isRegistered($option->getCode()) && (APPLICATION_ENV != "production");
+
+
+?>
+
+<script type="text/javascript">
+    var tmp_directory = "<?php echo Core_Model_Directory::getTmpDirectory() ?>";
+    var datepicker_regional = "<?php Core_Model_Language::getCurrentLanguageDatepicker() ?>";
+</script>
+
+<div class="content_editor">
+    <div id="icon_and_name" class="row icon_and_name">
+        <div class="col-md-3">
+            <button type="button" id="change_icon" class="area" data-image="330" data-style="area" data-color="color">
+                <img id="current_icon" src="<?php echo $this->getIconUrl($option); ?>" width="40" height="40" data-image="<?php echo $option->getIconId(); ?>" data-style="area" data-color="color" />
+                <i class="icon-angle-down"></i>
+            </button>
+        </div>
+        <div class="tabbar_name col-md-9">
+            <div class="row">
+                <div class="col-md-5">
+                    <label for="tabbar_name"><?php echo $this->_('Page name:'); ?></label>
+                </div>
+                <?php if(is_numeric($option->getId())) : ?>
+                <div class="col-md-3">
+                    <label><?php echo $this->_("Activated"); ?></label>
+                </div>
+                <div class="col-md-4">
+                    <?php if($option->getSocialSharingIsAvailable() == 1) : ?>
+                    <label><?php echo $this->_("Social Sharing"); ?></label>
+                    <?php endif; ?>
+                </div>
+                <?php endif; ?>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                    <input type="text" id="tabbar_name" class="area reverse form-control" name="tabbar_name" value="<?php echo $option->getTabbarName(); ?>" />
+                    <img width="24" src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_tabbar_name" alt="Loading" title="Loading" class="loader">
+                    <input type="hidden" id="tabbar_name_id" name="option_value_id" value="<?php echo $option->getId() ?>" />
+                </div>
+                <div class="col-md-3 padding-top-5">
+                        <div id="icon_library_manager" class="custom_modal icon_library_manager" style="display:none;">
+                            <div id="modal_mask_icon_library_manager" class="modal_mask close_modal close_modal_icon_library_manager"></div>
+
+                            <div class="area no-background">
+                                <div id="icon_library" class="modal_content inner_content">
+                                    <h3 class="title">
+                                        <span class="bg-white0 f-bold">
+                                            <?php echo $this->_('Library icons'); ?>
+                                        </span>
+                                        <hr />
+                                        <span class="right">
+                                            <button class="inner_content close_modal close_modal_icon_library_manager" type="button">
+                                                <i class="icon-remove"></i>
+                                            </button>
+                                        </span>
+                                        <div class="clear"></div>
+                                    </h3>
+                                    <div class="details">
+                                        <div class="section">
+                                            <h4 class="subtitle">
+                                                <span><?php echo $this->_('Feature icons') ?>
+
+                                                    <div class="left">
+                                                        <!--[if gte IE 10]><!-->
+                                                        <a href="javascript:void(0)" class="upload_icon left icon" rel="<?php echo $option->getId(); ?>" >
+                                                            <button class="select_icon add_icon" type="button">
+                                                                <?php echo __('Add a new icon') ?>
+                                                            </button>
+                                                        </a>
+                                                        <!--<![endif]-->
+                                                        <span id="input_upload_custom_icon_message" style="display:none"><?php echo $this->_('Add a new icon') ?></span>
+                                                        <input id="input_upload_custom_icon" class="uploader" style="display:none" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+                                                        <div class="clear"></div>
+                                                    </div>
+                                                </span>
+                                            </h4>
+                                            <ul class="icons_list">
+                                                <?php $icon_ids = array(); ?>
+                                                <?php foreach($available_icons as $lib_icon) : ?>
+                                                    <?php foreach($lib_icon as $icon) : ?>
+                                                        <?php if($icon->getUrl() AND (!$icon->getAppId() OR $icon->getAppId() == $this->getApplication()->getId()) AND !in_array($icon->getId(), $icon_ids)) : ?>
+                                                            <li rel="<?php echo $option->getId(); ?>" class="left relative">
+                                                                <a href="<?php echo $this->getUrl('application/customization_features/seticon'); ?>" class="left icon" rel="<?php echo $option->getId(); ?>" >
+                                                                    <button class="select_icon" type="button">
+                                                                        <img src="<?php echo $icon->getUrl(); ?>" width="45" height="45" class="colorize" />
+                                                                    </button>
+                                                                    <input type="hidden" name="option_value_id" value="<?php echo $option->getValueId(); ?>" />
+                                                                    <input type="hidden" name="icon_id" value="<?php echo $icon->getId(); ?>" />
+                                                                </a>
+                                                                <?php if($icon->getAppId()) : ?>
+                                                                    <a href="<?php echo $this->getUrl('application/customization_features/deleteicon'); ?>" class="delete_icon">
+                                                                        <i class="icon-remove"></i>
+                                                                        <input type="hidden" name="option_value_id" value="<?php echo $option->getValueId(); ?>" />
+                                                                        <input type="hidden" name="icon_id" value="<?php echo $icon->getId(); ?>" />
+                                                                    </a>
+                                                                <?php endif; ?>
+                                                                <div class="clear"></div>
+                                                            </li>
+                                                            <?php $icon_ids[] = $icon->getId() ?>
+                                                        <?php endif; ?>
+                                                    <?php endforeach; ?>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        </div>
+                                        <div class="section">
+                                            <h4 class="subtitle">
+                                                <span><?php echo $this->_('Library icons') ?></span>
+                                            </h4>
+                                            <div class="form-group filter-icons">
+                                                <input type="text" class="input-flat" style="width: 260px;" placeholder="<?php echo __("Search by keywords ...") ?>" />
+                                                <button type="reset" class="btn default_button color-blue"><?php echo __("Reset") ?></button>
+                                            </div>
+                                            <ul class="icons_list filter_list">
+                                                <?php $all_icon_ids = array(); ?>
+                                                <?php foreach($all_icons as $icon) : ?>
+                                                    <?php if($icon->getUrl() AND !in_array($icon->getId(), $all_icon_ids)) : ?>
+                                                        <li data-filter="<?php echo $icon->getLink() ?>" rel="<?php echo $option->getId(); ?>" class="left relative">
+                                                            <a href="<?php echo $this->getUrl('application/customization_features/seticon'); ?>" class="left icon" rel="<?php echo $option->getId(); ?>" >
+                                                                <button class="select_icon" type="button">
+                                                                    <img src="<?php echo $icon->getUrl(); ?>" width="45" height="45" class="colorize" />
+                                                                </button>
+                                                                <input type="hidden" name="option_value_id" value="<?php echo $option->getValueId(); ?>" />
+                                                                <input type="hidden" name="icon_id" value="<?php echo $icon->getId(); ?>" />
+                                                            </a>
+                                                            <?php if($icon->getAppId()) : ?>
+                                                                <a href="<?php echo $this->getUrl('application/customization_features/deleteicon'); ?>" class="delete_icon">
+                                                                    <i class="icon-remove"></i>
+                                                                    <input type="hidden" name="option_value_id" value="<?php echo $option->getValueId(); ?>" />
+                                                                    <input type="hidden" name="icon_id" value="<?php echo $icon->getId(); ?>" />
+                                                                </a>
+                                                            <?php endif; ?>
+                                                            <div class="clear"></div>
+                                                        </li>
+                                                        <?php $all_icon_ids[] = $icon->getId() ?>
+                                                    <?php endif; ?>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    <div id="toggle_feature_is_activated" class="toggle">
+                        <label class="toggle-radio" for="feature_is_deactivated" data-image="338" data-style="area" data-color="color_on_active"><?php echo $this->_('Yes'); ?></label>
+                        <input type="radio" name="is_active" class="feature_is_activated" id="feature_is_activated" value="1" <?php if($option->isActive()) echo 'checked="checked"'; ?> />
+                        <label class="toggle-radio" for="feature_is_activated" data-image="338" data-style="area" data-color="color" ><?php echo $this->_('No'); ?></label>
+                        <input type="radio" name="is_active" class="feature_is_activated" id="feature_is_deactivated" value="0" <?php if(!$option->isActive()) echo 'checked="checked"'; ?> />
+                        <input type="hidden" name="value_id" value="<?php echo $option->getId(); ?>" />
+                    </div>
+                </div>
+                <div class="col-md-4 padding-top-5 text-center">
+                    <?php if($option->getSocialSharingIsAvailable() == 1) : ?>
+                    <div id="toggle_social_sharing_is_activated" class="toggle">
+                        <label class="toggle-radio" for="social_sharing_is_deactivated" data-image="338" data-style="area" data-color="color_on_active"><?php echo $this->_('Yes'); ?></label>
+                        <input type="radio" name="is_social_sharing_active" class="feature_is_activated" id="social_sharing_is_activated" value="1" <?php if($option->getSocialSharingIsActive()) echo 'checked="checked"'; ?>/>
+                        <label class="toggle-radio" for="social_sharing_is_activated" data-image="338" data-style="area" data-color="color" ><?php echo $this->_('No'); ?></label>
+                        <input type="radio" name="is_social_sharing_active" class="feature_is_activated" id="social_sharing_is_deactivated" value="0" <?php if(!$option->getSocialSharingIsActive()) echo 'checked="checked"'; ?>/>
+                        <input type="hidden" name="value_id" value="<?php echo $option->getId(); ?>" />
+                    </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <?php /*if(in_array($option->getOptionId(), array(1))) : ?>
+            <?php echo $this->getLayout()->addPartial('logo', 'core_view_default', 'application/customization/features/edit/tabbar_editor/logo.phtml')->setOptionValue($option)->toHtml(); ?>
+            <?php endif;*/ ?>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="edit_page">
+        <?php echo $this->getPartialHtml('content_editor'); ?>
+    </div>
+    <script type="text/javascript">
+
+        var custom_icon_uploader = new Uploader();
+
+        page.setCallback('bind_icons_events', function() {
+
+            toggleHandler($('#toggle_feature_is_activated'));
+            toggleHandler($('#toggle_social_sharing_is_activated'));
+            $('.feature_is_activated').change(function() {
+                reload($("#" + $(this).parent().attr("id")), '<?php echo $this->getUrl('application/customization_features/setisactive'); ?>', true, function(datas) {
+                    if(datas.success) {
+                        iframe.f.reloadTabbar();
+                    }
+                });
+            });
+
+            var icon_library = {
+                tolerance: 180,
+                mask: null,
+                processEvents: function() {
+
+                    $('#change_icon').unbind('click');
+                    $('#change_icon').click(function() {
+                        icon_library.open($(this).attr('rel'));
+                    });
+
+                    $('.close_modal_icon_library_manager').unbind('click');
+                    $('.close_modal_icon_library_manager').click(function() {
+                        icon_library.close(true);
+                    });
+
+                },
+                open: function(id) {
+
+                    $(document).keyup(function(e) {
+                        if(e.which == 27) icon_library.close(true);
+                    });
+
+                    $(window).unbind('resize');
+                    $(window).resize(this.resize.bind(this));
+
+                    this.resize();
+
+                    $('#icon_library_manager').fadeIn();
+                    if(!$('#icon_library .upload_icon').is(':visible')) {
+                        $('#input_upload_custom_icon_message').show();
+                        $('#input_upload_custom_icon').show();
+                    }
+
+                },
+                close: function(animated) {
+                    if(animated) {
+                        $('#icon_library_manager').fadeOut(300, function() {});
+                    }
+                    else {
+                        $('#icon_library_manager').hide();
+                        $('.library').hide();
+                    }
+                    $(document).unbind('keyup');
+                },
+                resize: function(all) {
+                    var selector = ".details";
+                    if(!all) selector += ":visible";
+                    $('#icon_library').css('height', $(window).outerHeight() - 75);
+                    $('#icon_library_manager').find(selector).css('height', $(window).outerHeight() - this.tolerance);
+                }
+            }
+
+            icon_library.processEvents();
+
+            //Ajout d'un icône
+            $('#icon_library').on('click', '.icon', function() {
+                reload($(this), this.href, true, function(datas) {
+                    if(datas.success) {
+                        updateLayout(datas);
+                        icon_library.close();
+                    }
+                });
+                return false;
+            });
+
+            //Suppression d'un icône
+            $('#icon_library').on('click', '.delete_icon', function() {
+                var $icon = $(this);
+                reload($(this), this.href, true, function(datas) {
+                    if(datas.success) {
+                        $icon.parent().fadeOut(600, function(){
+                            $icon.parent().remove();
+                        });
+                    }
+                });
+
+                return false;
+            });
+
+            $('#icon_library .upload_icon').click(function() {
+                $('#input_upload_custom_icon').trigger('click');
+            });
+
+            $('#input_upload_custom_icon').fileupload({
+                dataType: 'json',
+                add: function(e, data) {
+                    data.submit();
+                    custom_icon_uploader.showProgressbar();
+                },
+                progressall: function(e, data) {
+                    custom_icon_uploader.moveProgressbar(data);
+                },
+                done: function(e, data) {
+                    if(data.result.error) {
+                        custom_icon_uploader.showError(data.result.message);
+                    }
+
+                    if(data.result.success) {
+                        custom_icon_uploader.hide();
+                        var params = new Array();
+                        params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+                        params["file"] = data.result.files;
+                        params["option_value_id"] = '<?php echo $option->getId() ?>';
+                        params["output_w"] = "<?php echo $this->getIconWidth(); ?>";
+                        params["output_h"] = "<?php echo $this->getIconHeight(); ?>";
+                        params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('application/customization_features/uploadicon')) ?>';
+                        params["uploader"] = 'custom_icon_uploader';
+                        params["image_color"] = '<?php echo $this->getApplication()->getBlock('tabbar')->getImageColor(); ?>';
+                        params["is_colorizable"] = true;
+                        custom_icon_uploader.crop(params);
+                        custom_icon_uploader.callback = function(files) {
+                            var img_src = '<?php echo Media_Model_Library_Image::getImagePathTo('/', $this->getApplication()->getId()) ?>'+files.file;
+                            $('.icons_list').append('<li class="newly_added left relative">\n\
+                                <a rel="<?php echo $option->getId(); ?>" class="left icon" href="<?php echo $this->getUrl('application/customization_features/seticon'); ?>">\n\
+                                    <button class="select_icon" type="button">\n\
+                                        <img width="45" height="45" class="colorize" src="'+img_src+'">\n\
+                                    </button>\n\
+                                    <input type="hidden" value="<?php echo $option->getId(); ?>" name="option_value_id">\n\
+                                    <input type="hidden" value="'+files.icon_id+'" name="icon_id">\n\
+                                </a>\n\
+                                <a href="<?php echo $this->getUrl('application/customization_features/deleteicon'); ?>" class="delete_icon">\n\
+                                    <i class="icon-remove"></i>\n\
+                                    <input type="hidden" name="option_value_id" value="<?php echo $option->getValueId(); ?>" />\n\
+                                    <input type="hidden" name="icon_id" value="'+files.icon_id+'" />\n\
+                                </a>\n\
+                                </li>');
+                            updateLayout(files);
+                        }
+                    }
+                }
+            });
+
+            function updateLayout(datas) {
+                //your pages
+                $('#icon_<?php echo $option->getId(); ?>').attr('src', datas.icon_url).attr('data-image', datas.icon_id);
+                //icone en cours feature
+                $('#current_icon').attr('src', datas.icon_url);
+                //drodown
+                $('#change_icon').removeClass('open');
+                $('#icons').slideUp();
+
+                iframe.f.changeIcon(page.current.attr("rel"), datas.colored_icon_url);
+
+            }
+
+            $('#tabbar_name').keyup(function(e) {
+                if(e.keyCode == 13) {
+                    this.blur();
+                }
+                else {
+                    var val = $(this).val().trim();
+                    var subval = val;
+                    if(subval.length > 8) subval = subval.substring(0, 3).trim()+'...'+subval.substring(subval.length-4, subval.length).trim();
+                    $('#tabbar_name_<?php echo $option->getId(); ?>').html(subval);
+                    iframe.content.find('.tabbar_name_<?php echo $option->getId(); ?>').html(subval);
+                    iframe.content.find('#page_title_<?php echo $option->getId(); ?>').html(val);
+                    if(iframe.f.page.getSubpage('<?php echo $option->getId(); ?>')) {
+                        iframe.f.page.getSubpage('<?php echo $option->getId(); ?>').calcTitleWidth();
+                    }
+                    //folder
+                    iframe.content.find('#tabbar_item_<?php echo $option->getId(); ?>').find('.text.title').html(val);
+                    $('#title_editor').html(val);
+                }
+            }).change(function() {
+                var val = $(this).val();
+                var tabbar_name_loader = $('#loader_'+$(this).attr('id'));
+                var subval = val;
+                if(subval.length > 8) subval = subval.substring(0, 3).trim()+'...'+subval.substring(subval.length-4, subval.length).trim();
+                $('#tabbar_name_<?php echo $option->getId(); ?>').html(subval);
+                tabbar_name_loader.show();
+                reload(this.parentNode, '<?php echo $this->getUrl('application/customization_features/settabbarname'); ?>', false, function(datas) {
+                    if(datas.success) {
+                        tabbar_names['<?php echo $option->getId(); ?>'] = val;
+                    }
+                    tabbar_name_loader.hide();
+                }, function(datas) {
+                    iframe.content.find('.tabbar_name_<?php echo $option->getId(); ?>').html(tabbar_names['<?php echo $option->getId(); ?>']);
+                    $('#tabbar_name_<?php echo $option->getId(); ?>').html(tabbar_names['<?php echo $option->getId(); ?>']);
+                    $(this).val(tabbar_names['<?php echo $option->getId(); ?>']);
+                    tabbar_name_loader.hide();
+                }.bind(this));
+            });
+
+            $('#tabbar_subtitle').keyup(function(e) {
+                if(e.keyCode == 13) {
+                    this.blur();
+                }
+                else {
+                    var val = $(this).val().trim();
+                    var subval = val;
+                    if(subval.length > 8) subval = subval.substring(0, 3).trim()+'...'+subval.substring(subval.length-4, subval.length).trim();
+                    $('#tabbar_subtitle_<?php echo $option->getId(); ?>').html(subval);
+                }
+            }).change(function() {
+                var val = $(this).val();
+                var tabbar_subtitle_loader = $('#loader_'+$(this).attr('id'));
+                var subval = val;
+                if(subval.length > 8) subval = subval.substring(0, 3).trim()+'...'+subval.substring(subval.length-4, subval.length).trim();
+                $('#tabbar_subtitle_<?php echo $option->getId(); ?>').html(subval);
+                tabbar_subtitle_loader.show();
+                reload(this.parentNode, '<?php echo $this->getUrl('application/customization_features/settabbarsubtitle'); ?>', false, function(datas) {
+                    tabbar_subtitle_loader.hide();
+                }, function(datas) {
+                    tabbar_subtitle_loader.hide();
+                }.bind(this));
+            });
+        });
+
+        page.setCallback('unbind_icons_events', function() {
+            $('.feature_is_activated').unbind('change');
+            <?php if($option->getLibrary()->getId()) : ?>
+            $('.icon').unbind('click');
+            $('#change_icon').unbind('keyup').unbind('blur');
+            <?php endif; ?>
+            $('#tabbar_name').unbind('keyup').unbind('blur');
+        });
+
+        /** Icon filtering */
+        $(".filter-icons input[type=text]").on("keyup", function() {
+            var search = $(this);
+            var value = search.val();
+
+            $(".filter_list li[data-filter]").hide();
+            $(".filter_list li[data-filter]").each(function() {
+                var el = $(this);
+                var filter = el.data("filter");
+
+                if(filter.indexOf(value) > -1) {
+                    el.show();
+                }
+            });
+        });
+
+        $(".filter-icons button").on("click", function() {
+            $(".filter-icons input[type=text]").val("");
+            $(".filter_list li[data-filter]").show();
+        });
+
+    </script>
+    <style>
+        .custom_modal .modal_content .section { margin-top: 30px; }
+        .custom_modal .modal_content .section li.left { margin: 5px; padding: 15px; background: #404040; color: white; border-radius: 10px; }
+        .custom_modal .modal_content .section li.left .select_icon { background: none; color: white; }
+        .custom_modal .modal_content .section li.left .delete_icon { position:absolute; top:0; right:0; }
+        #icon_library { overflow: scroll; }
+        #new_icon {  float: right;  font-size: 16px;  }
+    </style>
+</div>

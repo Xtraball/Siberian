@@ -1,0 +1,60 @@
+<?php $application = $this->getApplication() ?>
+<div class="page-content-wrapper">
+
+    <?php echo $this->createPartialHtml('icon_create', 'admin_view_default', 'application/customization/publication/app/icon.phtml'); ?>
+
+    <div id="startup_conteneur" class="content sb-tour">
+        <h3 class="title-editor border-purple text-center">
+            <?php echo __('Startup image'); ?>
+        </h3>
+        <div id="startup" class="subcontent content-color">
+            <?php echo $this->createPartialHtml('startup_create', 'admin_view_default', 'application/customization/publication/app/startup.phtml'); ?>
+        </div>
+    </div>
+    <form id="publicationForm" action="<?php echo $this->getUrl('application/customization_publication_app/save'); ?>" method="post">
+    </form>
+</div>
+
+<?php
+    $pages = $application->getPages();
+    $pages_id = array();
+    foreach($pages as $page) {
+        $pages_id[] = $page->getId();
+    }
+?>
+<ul id="pages_id" style="display:none">
+    <?php
+        foreach($pages_id as $id) {
+            echo '<li id="'.$id.'"></li>';
+        }
+    ?>
+</ul>
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+
+        $('#name').keyup(function() {
+            setAppName($('#name').val());
+        });
+
+        $('#publicationForm').submit(function() {
+            var loading = new AlertMessage();
+            loading.show();
+            reload(this, this.action, true, function(datas) {
+                if(datas.success) {
+                    clearTimeout(timer);
+                }
+            });
+            return false;
+        });
+
+        var eq = 0;
+        $('#generate_captures').click( function() {
+            supprime_capture('all', '');
+            $('#captures ul').html('');
+            loadCaptures(eq);
+        });
+
+    });
+</script>

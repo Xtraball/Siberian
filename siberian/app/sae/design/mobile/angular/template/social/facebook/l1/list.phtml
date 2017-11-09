@@ -1,0 +1,50 @@
+<?php $color = $this->getApplication()->getBlock("news")->getColor() ?>
+
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="scrollable_content" sb-load-more factory="factory" collection="collection" load-more="loadMore()">
+        <div class="list l1 news">
+            <ul>
+                <li class="cover" image-src="cover_image_url" sb-image ng-show="!cover_image_url"></li>
+                <li class="cover" image-src="cover_image_url" sb-image ng-if="cover_image_url"></li>
+                <li><sb-loader is-loading="show_user_loader" size="'32'" block="'news'"></sb-loader></li>
+            </ul>
+
+            <div class="padding">
+                <ul>
+                    <li class="relative">
+                        <div class="info">
+                            <div class="logo large left">
+                                <img width="100" height="100" class="logo_src" ng-src="{{ user.picture }}" />
+                            </div>
+                            <div class="comment_metas">
+                            <span class="count block">
+                                <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/comment.png', true), $color); ?>" alt="<?php echo $this->_('Comments') ?>" height="11" />
+                                <span class="right">{{ user.talking_about_count }}</span>
+                            </span>
+                            <span class="count block">
+                                <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/heart.png', true), $color); ?>" alt="<?php echo $this->_('Likes') ?>" height="11" />
+                                <span class="right">{{ user.likes }}</span>
+                            </span>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                        <p class="about">
+                            <span class="name bold">{{ user.name }}</span>
+                            <span class="name">{{ user.about }}</span><br /><br />
+                            <span class="name">{{ user.genre }}</span>
+                        </p>
+                        <div class="clear"></div>
+                    </li>
+                </ul>
+            </div>
+
+            <?php // echo $this->getPartialHtml("list"); ?>
+            <?php echo $this->getPartial("list")->setScrollableContentAlreadyUsedInParentElement(true)->toHtml(); ?>
+        </div>
+    </div>
+</div>

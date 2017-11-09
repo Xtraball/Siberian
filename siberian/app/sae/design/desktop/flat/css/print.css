@@ -1,0 +1,5 @@
+@media print {
+	.development-responsive { display: none; }
+	.navbar { display: none; }
+	#sb-tour-invoice-view a.btn { display: none; }
+}

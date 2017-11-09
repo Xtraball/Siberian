@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <application_mobile_customization_colors_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="application/customization/colors.phtml" />
+        </views>
+    </application_mobile_customization_colors_template_l1>
+
+    <application_mobile_tc_view_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="application/tc/view.phtml" />
+        </views>
+    </application_mobile_tc_view_template_l1>
+
+</layout>

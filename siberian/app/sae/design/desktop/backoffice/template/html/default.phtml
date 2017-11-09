@@ -1,0 +1,16 @@
+<div class="wrapper inner_content">
+    <sb-loader class="content_loader" is_visible="content_loader_is_visible" type="'inner_content'" size="'big'"></sb-loader>
+    <div class="title">
+        <div class="inner_content title_content">
+            <button class="left inner_content ng-hide" ng-show="header.button.left.is_visible" ng-click="header.button.left.action()">
+                <i class="fa fa-chevron-left"></i>
+                <span>{{ header.button.left.title }}</span>
+            </button>
+            <h1><i ng-if="header.icon" class="fa {{ header.icon }}"></i>{{ header.title }}</h1>
+        </div>
+        <sb-loader is_visible="header.loader_is_visible" type="'inner_content'" size="'regular'"></sb-loader>
+    </div>
+    <div class="content">
+        <?php echo $this->getPartialHtml("page_content"); ?>
+    </div>
+</div>

@@ -1,0 +1,122 @@
+<?php $application = $this->getApplication() ?>
+<?php $design = new Template_Model_Design(); ?>
+<?php $designs = $design->findAllWithCategory(); ?>
+<?php $category = new Template_Model_Category(); ?>
+<?php $categories = $category->findAll(null, "name ASC"); ?>
+<div class="content-no-padding col-md-3 col-xs-3">
+    <ul>
+        <li class="change_category color-red">
+        <a href="javascript:void(0);">
+            <?php echo __("All"); ?>
+            <input type="hidden" value="0" name="category_id" />
+        </a>
+        </li>
+        <?php foreach($categories as $category) : ?>
+        <li class="change_category">
+            <a href="javascript:void(0);">
+                <?php echo __($category->getName()); ?>
+                <input type="hidden" value="<?php echo $category->getCategoryId(); ?>" />
+            </a>
+        </li>
+        <?php endforeach ?>
+    </ul>
+</div>
+<div class="content-no-padding templates_content_preview col-md-9 col-xs-9">
+    <?php foreach($designs as $design) : ?>
+    <div class="col-md-4 col-xs-6 text-center <?php echo $this->getClass($design) ?>">
+        <p class="template_image">
+            <a href="javascript:void(0);" class="change_design block relative">
+                <h3 class="template_title radius_bottom_only">
+                    <?php echo $design->getName(); ?>
+                </h3>
+                <?php
+                    $overview_new = $design->getOverviewNew();
+                ?>
+                <?php if(!empty($overview_new)):  ?>
+                    <img class="overview-new" src="<?php echo $design->getOverview("overview_new"); ?>" width="100%" height="100%" />
+                <?php else: ?>
+                    <img class="overview-old" src="<?php echo $design->getOverview(); ?>" width="100%" height="100%" />
+                <?php endif; ?>
+                <?php if($application->getDesignId() == $design->getId()) : ?>
+                    <span class="checked"></span>
+                <?php endif ?>
+                <input type="hidden" name="design_id" value="<?php echo $design->getId(); ?>" />
+                <input type="hidden" name="category_id" value="<?php echo $this->getCategoryId($design) ?>" />
+            </a>
+        </p>
+    </div>
+    <?php endforeach ?>
+</div>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+    /** Change TEMPLATE **/
+    $('.change_design').click(function() {
+        if(!confirm('<?php echo addslashes(__('If you validate, your app\'s colors and background image will be replaced')); ?>')) {
+            return false;
+        }
+
+        reload(this, '<?php echo $this->getUrl('template/design/save'); ?>', true, function(datas) {
+            if(datas.success) {
+                /** easier ... */
+                location.reload();
+            }
+        });
+    });
+
+    /** Bind the categories */
+    $(".change_category").hover(
+        function() {
+            $(this).addClass("color-red");
+        }, function() {
+        if(!$(this).hasClass("active")) {
+            $(this).removeClass("color-red");
+        }
+    });
+
+    $('.change_category').click(function() {
+        $('.change_category').removeClass("active color-red");
+        $(this).addClass("active color-red");
+
+        var category_id = $(this).find('input').val();
+        if(category_id == 0) {
+            $(".templates_content_preview div").show();
+            return false;
+        }
+        $(".templates_content_preview div").hide();
+        $(".templates_content_preview div.cat"+category_id).show();
+
+        return false;
+    });
+});
+</script>
+
+<style type="text/css">
+    #modal_preview {
+        position: fixed;
+    }
+
+    #modal_preview .content-white-bkg {
+        background-color: #e9e9eb;
+    }
+
+    #modal_mask_preview {
+        position: fixed;
+    }
+
+    #modal_details_preview {
+        height: 80vh;
+    }
+
+    .custom_modal button.close_modal {
+        margin-top: -8px;
+        margin-right: 6px;
+    }
+
+    .template_title {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+</style>

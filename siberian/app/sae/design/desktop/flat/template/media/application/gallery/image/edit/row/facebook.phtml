@@ -1,0 +1,16 @@
+<?php
+    $imageGallery = $this->getCurrentImageGallery();
+    $facebookGallery = (new Media_Model_Gallery_Image_Facebook())
+        ->find([
+            'gallery_id' => $imageGallery->getGalleryId()
+        ]);
+    $albums = $this->getAlbums();
+?>
+<input type="hidden" value="<?php echo $facebookGallery->getImageId()?>" name="image_id" />
+<select name="param_facebook" id="input_facebook" class="sb-select styled-select color-blue form-control no-dk required new_search_input">
+    <?php foreach ($albums as $album): ?>
+        <option value="<?php echo $album['id'] ?>" <?php if ($facebookGallery->getAlbumId() === $album['id']) echo 'selected="select"' ?>>
+            <?php echo $album['name'] ?>
+        </option>
+    <?php endforeach; ?>
+</select>

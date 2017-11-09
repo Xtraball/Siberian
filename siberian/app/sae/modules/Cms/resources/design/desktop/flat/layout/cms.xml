@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <cms_application_page_edit>
+        <views>
+            <content class="application_view_customization_features_edit_tabbareditor" template="application/customization/features/edit/tabbar_editor.phtml" />
+            <content_editor class="core_view_default" template="cms/application/page/edit.phtml" />
+        </views>
+    </cms_application_page_edit>
+
+    <cms_application_external_wordpress_edit>
+        <views>
+            <content class="application_view_customization_features_edit_tabbareditor" template="application/customization/features/edit/tabbar_editor.phtml" />
+            <content_editor class="core_view_default" template="cms/application/external/wordpress/edit.phtml" />
+        </views>
+    </cms_application_external_wordpress_edit>
+
+    <cms_application_privacypolicy_edit>
+        <views>
+            <content class="application_view_customization_features_edit_tabbareditor" template="application/customization/features/edit/tabbar_editor.phtml" />
+            <content_editor class="core_view_default" template="cms/application/privacypolicy/edit.phtml" />
+        </views>
+    </cms_application_privacypolicy_edit>
+
+</layout>

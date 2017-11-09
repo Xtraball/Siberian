@@ -1,0 +1,210 @@
+<?php $application = $this->getCurrentApplication(); ?>
+<?php $ios_certificat_path = Push_Model_Certificate::getiOSCertificat($application->getId()); ?>
+<div class="application">
+    <div class="application_content inner_content">
+        <div class="title">
+            <i class="left icon-mobile-phone"></i>
+            <h2 class="left f-rounded">
+                <?php echo $this->_('Edit the application "%s"', $application->getName()); ?>
+            </h2>
+            <div class="clear"></div>
+            <hr />
+        </div>
+
+        <div class="area">
+            <form action="<?php echo $this->getUrl('application/backoffice/savepost') ?>" method="post" id="editForm">
+                <h3 class="title">
+                    <span class="left area"><?php echo $this->_('Information'); ?></span>
+                    <div class="clear"></div>
+                </h3>
+                <table class="regular_infos list list-input">
+                    <tbody>
+                        <tr>
+                            <td class="label"><label for="name"><?php echo $this->_('Name'); ?> <span class="input-required">*</span> : </label></td>
+                            <td><input type="text" value="<?php echo $application->getName() ?>" class="required input" name="name" id="name"></td>
+                        </tr>
+                        <tr>
+                            <td class="label"><label for="name"><?php echo $this->_('Bundle Id'); ?> <span class="input-required">*</span> : </label></td>
+                            <td><input type="text" value="<?php echo $application->getBundleId() ?>" class="required input" name="bundle_id" id="bundle_id"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="list list-input regular_infos">
+                    <tbody>
+                        <tr>
+                            <td class="label"><p class="input-required">* <?php echo $this->_('Required fields'); ?></p></td>
+                            <td><button type="submit" id="send_form" class="default_button btn-block"><?php echo $this->_('Save'); ?></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <input type="hidden" name="app_id" value="<?php echo $application->getId(); ?>" />
+            </form>
+        </div>
+
+        <div class="area">
+            <h3 class="title">
+                <span class="left area"><?php echo $this->_('iOS Certificate'); ?></span>
+                <div class="clear"></div>
+            </h3>
+
+            <div class="area_content">
+                <br />
+                <table class="no-collapse" cellspacing="10" width="100%">
+                    <col width="30%"/>
+                    <col width="70%"/>
+                    <tr>
+                        <td><label for="ios"><?php echo $this->_('Send you .pem certificate'); ?></label></td>
+                        <td>
+                            <input id="ios_certificat_uploader" type="file" id="ios" name="path" class="input" value="" data-url="<?php echo $this->getUrl('application/backoffice/upload', array('app_id' => $application->getId())); ?>" />
+                            <input type="hidden" name="type" value="iphone" />
+                        </td>
+                    </tr>
+                    <?php if(!empty($ios_certificat_path)) : ?>
+                    <tr>
+                        <td colspan="2">
+                            <?php echo $this->_('You have already sent a certificate'); ?>
+                        </td>
+                    </tr>
+                    <?php endif; ?>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="application_content inner_content">
+        <div class="title">
+            <i class="left icon-cloud-upload"></i>
+            <h2 class="left f-rounded">
+                <?php echo $this->_('Publish the application'); ?>
+            </h2>
+            <div class="clear"></div>
+            <hr class="reverse">
+        </div>
+        <div class="area">
+            <h3 class="title">
+                <span class="left area"><?php echo $this->_('Mobile source codes'); ?></span>
+                <div class="clear"></div>
+            </h3>
+            <div class="area_content">
+                <?php $errors = $application->isAvailableForPublishing(); ?>
+                <?php if(count($errors) > 0) : ?>
+                <p><?php echo $this->_('The following information are needed to download the source codes:<br />'); ?></p>
+                <p>- <?php echo join('<br />- ', $errors); ?></p>
+                <?php else : ?>
+                <div>
+                    <p><?php echo $this->_('Click here to download the source code:'); ?></p>
+                    <table class="no-collapse" cellspacing="10" width="350px">
+                        <col width="60%"/>
+                        <col width="5%"/>
+                        <col width="30%"/>
+                        <tr>
+                            <td><?php echo $this->_('iPhone Version'); ?></td>
+                            <td>
+                                <a href="<?php echo $this->getUrl('application/backoffice/generate', array('app_id' => $application->getId(), 'device_id' => 1)) ?>"><i class="icon-download-alt"></i></a>
+                            </td>
+                            <td>
+                                <a href="<?php echo $this->getUrl('application/backoffice/generate', array('app_id' => $application->getId(), 'device_id' => 1)) ?>"><?php echo $this->_('Download'); ?></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><?php echo $this->_('Android Version'); ?></td>
+                            <td>
+                                <a href="<?php echo $this->getUrl('application/backoffice/generate', array('app_id' => $application->getId(), 'device_id' => 2)) ?>"><i class="icon-download-alt"></i></a>
+                            </td>
+                            <td>
+                                <a href="<?php echo $this->getUrl('application/backoffice/generate', array('app_id' => $application->getId(), 'device_id' => 2)) ?>"><?php echo $this->_('Download'); ?></a>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <div class="area">
+            <h3 class="title">
+                <span class="left area"><?php echo $this->_('Information'); ?></span>
+                <div class="clear"></div>
+            </h3>
+            <div class="area_content">
+                <table class="list a-left" width="500px">
+                    <col width="70%" />
+                    <col width="30%" />
+                    <tr>
+                        <td class="bold"><?php echo $this->_('Application name'); ?></td>
+                        <td><?php echo $application->getName(); ?></td>
+                    </tr>
+                    <tr>
+                        <td class="bold"><?php echo $this->_('Description'); ?></td>
+                        <td><?php echo $application->getDescription(); ?></td>
+                    </tr>
+                    <tr>
+                        <td class="bold"><?php echo $this->_('Keywords'); ?></td>
+                        <td><?php echo $application->getKeywords(); ?></td>
+                    </tr>
+                    <tr>
+                        <td class="bold"><?php echo $this->_('Main category'); ?></td>
+                        <td><?php echo Application_Model_Device_Ionic_Ios::getStoreCategory($application->getMainCategoryId())->getName(); ?></td>
+                    </tr>
+                    <tr>
+                        <td class="bold"><?php echo $this->_('Secondary category'); ?></td>
+                        <td><?php echo Application_Model_Device_Ionic_Ios::getStoreCategory($application->getSecondaryCategoryId())->getName(); ?></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="area">
+            <h3 class="title">
+                <span class="left area"><?php echo $this->_('Media'); ?></span>
+                <div class="clear"></div>
+            </h3>
+            <div class="area_content">
+                <table class="list a-left" width="500px">
+                    <col width="70%" />
+                    <col width="30%" />
+                    <tr>
+                        <td class="bold"><?php echo $this->_('App Store Icon'); ?></td>
+                        <td><img src="<?php echo $application->getAppStoreIcon(); ?>" width="50" /></td>
+                    </tr>
+                    <tr>
+                        <td class="bold"><?php echo $this->_('Google Play Icon'); ?></td>
+                        <td><img src="<?php echo $application->getGooglePlayIcon(); ?>" width="50" /></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .application_content .area a.publish { width: 125px; padding: 5px 0; display: block; font-size: 18px; text-align: center; }
+    table.list td.label { width: 215px; }
+    table.regular_infos { margin-bottom: 30px; }
+    input#change-password { min-width: 00px; margin-right: 10px;}
+    #title_change_password { cursor: pointer; }
+    button#send_form { padding: 10px 20px; }
+</style>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#editForm').validate();
+
+        $('#ios_certificat_uploader').fileupload({
+            dataType: 'json',
+            add: function(e, data) {
+//                console.log(data)
+                data.submit();
+                loader.show();
+            },
+            done: function(e, data) {
+                loader.hide();
+                if (data.result.error) {
+                    new AlertMessage(data.result.message, true).isError(true).show();
+                } else if (data.result.success) {
+//                    new AlertMessage(data.result.message_success).isError(false).show();
+                    window.location = window.location.href;
+                }
+            }
+        });
+
+    });
+</script>

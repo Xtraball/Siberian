@@ -1,0 +1,299 @@
+<?php
+$option_value = $this->getOptionValue();
+$source_code = $option_value->getObject();
+?>
+
+<link rel="stylesheet" href="/app/sae/design/desktop/flat/js/codemirror/lib/codemirror.css">
+<script src="/app/sae/design/desktop/flat/js/codemirror/lib/codemirror.js"></script>
+<script src="/app/sae/design/desktop/flat/js/codemirror/mode/javascript/javascript.js"></script>
+<script src="/app/sae/design/desktop/flat/js/codemirror/mode/css/css.js"></script>
+<script src="/app/sae/design/desktop/flat/js/codemirror/mode/xml/xml.js"></script>
+<script src="/app/sae/design/desktop/flat/js/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+
+<div class="source_code">
+    <div id="edit">
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo __('Source Code'); ?>
+        </h3>
+        <div class="container-fluid first-row-feature content-feature">
+            <form id="sourcecodeCreateForm" action="<?php echo $this->getUrl('sourcecode/application/editpost') ?>" method="post" class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <button type="button" onclick="page.reload()" class="btn color-blue pull-left"><i class="fa fa-angle-left"></i></button>
+                        <button type="submit" class="btn color-blue pull-right">OK</button>
+                    </div>
+                </div>
+                <br />
+                <?php if(!!$this->getApplication()->getOfflineContent()): ?>
+                <div class="form-group">
+                    <div class="col-md-12">
+
+                        <div id="information-offline" class="alert alert-info" <?php if(!$source_code->getAllowOffline()) echo 'style="display: none;"' ?>>
+                            <?php echo __("Be aware that if the code you enter here requires any kind of server interaction it will not work properly in offline mode."); ?>
+                        </div>
+
+                        <label for="allow_offline_source_code_<?php echo $option_value->getId(); ?>" class="checkbox-inline">
+                            <input type="hidden" name="display_search" value="0">
+                            <input type="checkbox"  id="allow_offline_source_code_<?php echo $option_value->getId(); ?>" name="allow_offline" <?php if(!!$source_code->getAllowOffline()) echo 'checked="checked"' ?> class="sb-form-checkbox checkbox color-blue">
+                            <?php echo __("Allow offline mode"); ?>
+                        </label>
+
+                    </div>
+                </div>
+                <?php endif; ?>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="html_source_code_<?php echo $option_value->getId(); ?>"><?php echo __('Insert your HTML code:'); ?></label>
+                        <button class="btn color-blue open-inapplinks pull-right"><?php echo __('Insert in-app link'); ?></button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <textarea id="html_source_code_<?php echo $option_value->getId(); ?>" class="html_source_code input-flat" name="html_code"><?php echo htmlentities($source_code->getHtmlCode(), ENT_QUOTES, 'UTF-8'); ?></textarea>
+                    </div>
+                    <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="dialog-inapplinks">
+        <div class="title-editor border-blue text-center">
+            <span><?php echo __("In-App links") ?></span>
+            <i class="fa fa-times dialog-close"></i>
+        </div>
+        <div class="content-color content">
+            <div class="dialog-subcontent"></div>
+            <button class="btn color-blue pull-right insert-current button-close">
+                <?php echo __("Insert & close") ?>
+            </button>
+            <button class="btn color-blue pull-right insert-current">
+                <?php echo __("Insert") ?>
+            </button>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        window.markup_links = [];
+        window.selectedLink = null;
+
+        window.selectLink = function(link) {
+            var el = $(link);
+            el.parents(".cke-dialog-links").find("a").removeClass("selected");
+            el.addClass("selected");
+
+            window.selectedLink = link;
+        };
+
+        page.setCallback('didappear', function() {
+            $('#sourcecodeCreateForm').submit(function() {
+                reload(this, this.action, true, function(data) {
+                    if(data.success) {
+                        page.reload();
+                    }
+                });
+                return false;
+            });
+        });
+
+        page.setCallback('willdisappear', function() {
+            $('#sourcecodeCreateForm').unbind('submit');
+            $(".dialog-inapplinks").hide();
+        });
+
+        function parseLinks(pack, markup, level, value_id) {
+            pack.forEach(function(feature) {
+                var feat            = (level == 0) ? feature[1][0] : feature;
+                var label           = (level == 0) ? feature[0] : feature["label"];
+                var indent_label    = (level == 0) ? "" : "&nbsp;&nbsp;".repeat(level-1)+"└&nbsp;";
+
+                var params = 'data-params=""';
+                if(typeof feat["params"] != "undefined") {
+                    var p = $.param(feat["params"]).replace(/=/g, ":").replace(/&/g, ",");
+
+                    params = 'data-params="'+p+'"';
+
+                    if(typeof feat["params"]["value_id"] != "undefined") {
+                        value_id = feat["params"]["value_id"];
+                    }
+                }
+
+                var offline = false;
+                if(typeof feat["offline"] != "undefined") {
+                    offline = feat["offline"];
+                }
+
+                markup.push('<a class="cke-feature-link" href="javascript:void(0);" onclick="selectLink(this);" data-level="'+level+'" data-valueid="'+value_id+'" data-label="'+label+'" data-state="'+feat["state"]+'" data-offline="'+offline+'" '+params+'>'+indent_label+label+'</a>');
+
+                if(typeof feat["childrens"] != "undefined") {
+                    parseLinks(feat["childrens"], markup, level+1, value_id);
+                }
+            });
+
+            return markup;
+        }
+
+        $(document).off("keyup").on("keyup", ".cke-links-search-input", function() {
+            var search = $(this);
+            var value = search.val().toLowerCase().trim();
+            var links = search.parent(".cke-links-search").next(".cke-dialog-links").find(".cke-feature-link");
+
+            if(value.length == 0) {
+                setTimeout(function() {
+                    links.removeClass("cke-highlight cke-parent-highlight");
+                    links.show();
+                }, 100);
+            } else {
+                links.removeClass("cke-highlight cke-parent-highlight");
+                links.hide();
+                links.each(function() {
+                    var el = $(this);
+                    var filter = el.text().toLowerCase();
+
+                    if(filter.indexOf(value) > -1) {
+                        el.addClass("cke-highlight").show();
+                        var value_id = el.attr("data-valueid");
+                        var level = el.attr("data-level");
+                        el.prevAll("a[data-valueid='"+value_id+"']")
+                            .not("[data-level='"+level+"']")
+                            .addClass("cke-parent-highlight")
+                            .show();
+                    }
+                });
+            }
+
+        });
+
+        function openInapplinks() {
+            var html_markup =
+                '<div class="cke-links-search">' +
+                '   <input type="text" class="cke-links-search-input cke_dialog_ui_input_text input-flat" name="cke-links-search" value="" placeholder="Filter ..." />' +
+                '</div>' +
+                '<div class="cke-dialog-links">' +
+                '   '+window.markup_links.join("")+'' +
+                '</div>';
+
+            $(".dialog-inapplinks .dialog-subcontent").html(html_markup);
+            $(".dialog-inapplinks").show();
+
+            $(".dialog-inapplinks").draggable({
+                addClasses: false,
+                handle: ".title-editor"
+            });
+        }
+
+        $(".open-inapplinks").on("click", function(event) {
+            event.preventDefault();
+
+            window.markup_links = [];
+            parseLinks(window.feature_links, window.markup_links, 0, 0);
+
+            openInapplinks();
+        });
+
+        $(".dialog-inapplinks .dialog-close").on("click", function() {
+            $(".dialog-inapplinks").hide();
+        });
+
+        function insertTextAtCursor(editor, text) {
+            var doc = editor.getDoc();
+            var cursor = doc.getCursor();
+            doc.replaceRange(text, cursor);
+        }
+
+        $(document).ready(function() {
+            var textarea = document.getElementById("html_source_code_<?php echo $option_value->getId(); ?>");
+            var editor = CodeMirror.fromTextArea(textarea, {
+                matchBrackets: true,
+                autofocus: true,
+                mode: "htmlmixed",
+                htmlMode: true
+            });
+
+            setTimeout(function() {
+                editor.refresh();
+            }, 1000);
+
+
+            $("button.insert-current").on("click", function(event) {
+                var link = window.selectedLink;
+
+                var link_markup = "\n"+'<a data-state="'+link.attributes["data-state"].value+'" data-params="'+link.attributes["data-params"].value+'" data-offline="'+link.attributes["data-offline"].value+'">'+link.attributes["data-label"].value+'</a>'+"\n";
+
+                insertTextAtCursor(editor, link_markup);
+
+                if($(this).hasClass("button-close")) {
+                    $(".dialog-inapplinks").hide();
+                }
+            });
+        });
+
+        $("input[name='allow_offline']").on("click", function() {
+            var el = $(this);
+            $("#information-offline").toggle(el.prop("checked"));
+        });
+
+    </script>
+    <style>
+        .source_code .html_source_code { width: 100%; height: 480px; }
+        .source_code .buttons { padding:5px; }
+        .CodeMirror {
+            font-size: 12px;
+            background-color: #f3f3f3 !important;
+            border-color: #b2b1b1 !important;
+            border-bottom: 2px solid;
+        }
+
+        .dialog-inapplinks {
+            display: none;
+            width: 280px;
+            height: 338px;
+            position: fixed;
+            top: 10vh;
+            left: 50vw;
+            margin-left: -140px;
+            z-index: 500;
+            overflow: hidden;
+            box-shadow: 0 0 2px lightgrey;
+        }
+
+        .dialog-inapplinks .content {
+            padding: 10px;
+            border-radius: 0;
+        }
+
+        .dialog-inapplinks .dialog-close {
+            position: absolute;
+            right: 10px;
+            top: 9px;
+        }
+
+        .dialog-inapplinks .cke-dialog-links {
+            margin: 6px 0;
+            background-color: #f3f3f3 !important;
+            border-color: #b2b1b1 !important;
+            border-bottom: 2px solid;
+            max-height: 196px;
+            min-height: 196px;
+        }
+
+        .dialog-inapplinks .button-close {
+            margin-left: 6px;
+        }
+
+        .dialog-inapplinks .cke-dialog-links .cke-feature-link {
+            height: 20px;
+            padding: 0px 12px;
+            line-height: 20px;
+        }
+
+        .dialog-inapplinks .title-editor {
+            padding: 6px;
+            font-size: 20px;
+            cursor: move;
+        }
+    </style>
+
+</div>

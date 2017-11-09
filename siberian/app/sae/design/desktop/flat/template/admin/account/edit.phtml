@@ -1,0 +1,386 @@
+<?php $admin = $this->getEditAdmin(); ?>
+<?php $current_admin = $this->getAdmin(); ?>
+<?php $admin_role = $current_admin->getRoleId(); ?>
+<?php $role = new Acl_Model_Role(); ?>
+<?php $role->find($admin_role); ?>
+<?php $admin_role_code = $role->getCode(); ?>
+<?php $applications = $this->getApplications(); ?>
+<?php $countries = Zend_Registry::get('Zend_Locale')->getTranslationList('Territory', null, 2); ?>
+<?php asort($countries, SORT_LOCALE_STRING); ?>
+<?php 
+    if (!($this->getMode()=="management")) {
+        $class_col = "col-md-12";
+        $class_sub_col = "col-md-6";
+    } else {
+        if (!($admin->getParentId())) {
+            $class_col = "col-md-12";
+            $class_sub_col = "col-md-6";
+        }
+        else {
+            $class_col = "col-md-6";
+            $class_sub_col = "col-md-12";
+        }
+    }
+?>
+<div class="row">
+    <form action="<?php echo $this->getUrl('admin/account/savepost') ?>" method="post" id="editForm" class="form-horizontal <?php echo $class_col ?>">
+        <div class="<?php echo $class_sub_col ?>">
+            <div class="page-content-wrapper">
+                <div id="information" class="content solo-page sb-tour">
+                    <h3 class="title-editor border-blue text-center">
+                        <?php echo $this->_('Information'); ?>
+                    </h3>
+                    <div class="container-fluid subcontent content-color">
+                        <div class="form-group">
+                            <div class="col-lg-6 col-sm-12 col-xs-12">
+                                <label for="company" class="col-md-3 control-label"><?php echo $this->_("Company:"); ?></label>
+                                <div class="col-md-9">
+                                    <input type="text" id="company" name="company" class="input-flat" value="<?php echo $admin->getCompany() ?>" placeholder="<?php echo $this->_("Company"); ?>">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-12 col-xs-12">
+                                <label for="email" class="col-md-3 control-label"><?php echo $this->_("Email:"); ?> <span class="input-required">*</span></label>
+                                <div class="col-md-9">
+                                    <input type="email" id="email" name="email" class="required input-flat" value="<?php echo $admin->getEmail() ?>" placeholder="<?php echo $this->_("Email"); ?>">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-6 col-sm-12 col-xs-12">
+                                <label for="firstname" class="col-md-3 control-label"><?php echo $this->_("Firstname:"); ?></label>
+                                <div class="col-md-9">
+                                    <input type="text" id="firstname" name="firstname" class="input-flat" value="<?php echo $admin->getFirstname() ?>" placeholder="<?php echo $this->_("Firstname"); ?>">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-12 col-xs-12">
+                                <label for="lastname" class="col-md-3 control-label"><?php echo $this->_("Lastname:"); ?></label>
+                                <div class="col-md-9">
+                                    <input type="text" id="lastname" name="lastname" class="input-flat" value="<?php echo $admin->getLastname() ?>" placeholder="<?php echo $this->_("Lastname"); ?>">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-6 col-sm-12 col-xs-12">
+                                <label for="address" class="col-md-3 control-label"><?php echo $this->_("Address:"); ?></label>
+                                <div class="col-md-9">
+                                    <input id="address" name="address" class="input-flat" type="text" value="<?php echo $admin->getAddress() ?>" placeholder="<?php echo $this->_("Address"); ?>" />
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-12 col-xs-12">
+                                <label for="address2" class="col-md-3 control-label"><?php echo $this->_("Address 2:"); ?></label>
+                                <div class="col-md-9">
+                                    <input id="address2" name="address2" class="input-flat" type="text" value="<?php echo $admin->getData('address2') ?>" placeholder="<?php echo $this->_("Address"); ?>" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-6 col-sm-12 col-xs-12">
+                                <label for="zip_code" class="col-md-3 control-label"><?php echo $this->_("Zip Code:"); ?></label>
+                                <div class="col-md-9">
+                                    <input type="text" id="zip_code" name="zip_code" class="input-flat" value="<?php echo $admin->getZipCode() ?>" placeholder="<?php echo $this->_("Zip Code"); ?>" />
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-12 col-xs-12">
+                                <label for="city" class="col-md-3 control-label"><?php echo $this->_("City:"); ?></label>
+                                <div class="col-md-9">
+                                    <input type="text" id="city" name="city" class="input-flat" value="<?php echo $admin->getCity() ?>" placeholder="<?php echo $this->_("City"); ?>" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-6 col-sm-12 col-xs-12">
+                                <label for="country_code" class="col-md-3 control-label"><?php echo $this->_("Country:"); ?></label>
+                                <div class="col-md-9">
+                                    <select id="country_code" name="country_code" value="<?php echo $admin->getCountry() ?>" class="styled-select color-blue">
+                                        <option value=""></option>
+                                        <?php foreach($countries as $country_code => $country_label) : ?>
+                                        <option value="<?php echo $country_code ?>"<?php if($admin->getCountryCode() == $country_code) : ?> selected="selected"<?php endif; ?>><?php echo $country_label ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-12 col-xs-12">
+                                <label for="region_code" class="col-md-3 control-label"><?php echo $this->_("State/Province"); ?></label>
+                                <div class="col-md-7 col-md-offset-2">
+                                    <select id="region_code" name="region_code" class="styled-select color-blue"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-6 col-sm-12 col-xs-12">
+                                <label for="phone" class="col-md-3 control-label"><?php echo $this->_("Phone:"); ?></label>
+                                <div class="col-md-9">
+                                    <input type="text" id="phone" name="phone" value="<?php echo $admin->getPhone() ?>" class="input-flat" placeholder="<?php echo $this->_("Phone"); ?>">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6"></div>
+                            <div class="col-md-6">
+                                <div class="col-md-5 col-md-offset-7">
+                                    <button class="color-blue btn btn-default send_form pull-right"><?php echo $this->_("Save"); ?></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <?php if($this->getMode()=="management"):?>
+        <div class="<?php echo $class_sub_col ?>">
+            <div class="page-content-wrapper">
+                <div id="account_role" class="content solo-page sb-tour">
+                    <h3 class="title-editor border-blue text-center">
+                        <?php echo $this->_('Account role'); ?>
+                    </h3>
+                    <div class="container-fluid subcontent content-color">
+                        <div class="form-group">
+                            <div class="col-md-3 col-sm-2">
+                                <label for="role_id"><?php echo $this->_('Role'); ?> <span class="input-required">*</span> : </label>
+                            </div>
+                            <div class="col-md-9 col-sm-4">
+                                <select class="styled-select color-blue required" id="role_id" name="role_id">
+                                    <option></option>
+                                    <?php foreach($admin->getAvailableRole() as $role): ?>
+                                        <?php if($admin_role_code != "Admin" AND $role["code"] == "Admin") continue; ?>
+                                        <option value="<?php echo $role["role_id"];?>" <?php if($role["role_id"]==$admin->getRoleId()) echo "selected"; ?>><?php echo $role["label"];?></option>
+                                    <?php endforeach;?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php endif;?>
+
+        <div class="<?php echo $class_sub_col ?>">
+            <div class="page-content-wrapper">
+                <div id="change_password" class="content solo-page sb-tour">
+                    <h3 class="title-editor border-blue text-center">
+                        <span id="title_change_password"><?php echo $this->_('Change password'); ?></span>
+                    </h3>
+                    <div class="container-fluid subcontent content-color" id="table-change-password">
+                        <?php if($admin->getId()) : ?>
+                        <div class="form-group">
+                            <div class=" control control--checkbox">
+                                <label for="change-password" class="col-md-3">
+                                    <?php echo $this->_('Change password'); ?>
+                                </label>
+                                <div class="col-md-9">
+                                    <input type="checkbox" name="changepassword" id="change-password" color="color-blue" class="sb-form-checkbox checkbox color-blue"/>
+                                    <div class="color-blue"></div>
+                                    <div class="control__indicator"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label for="old_password"><?php echo $this->_('Current password'); ?> <span class="input-required">*</span> :</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="password" value="" name="old_password" class="toggle-disabled input-flat required" id="old_password" disabled="disabled">
+                            </div>
+                        </div>
+                        <?php endif; ?>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label for="password"><?php echo $this->_('New password'); ?> <span class="input-required">*</span> :</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="password" value="" name="password" class="toggle-disabled input-flat required" id="password"<?php if($admin->getId()) : ?> disabled="disabled"<?php endif; ?>>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label for="confirm_password"><?php echo $this->_('Confirm new password'); ?> <span class="input-required">*</span> :</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="password" value="" name="confirm_password" class="toggle-disabled input-flat required" id="confirm_password"<?php if($admin->getId()) : ?> disabled="disabled"<?php endif; ?>>
+                            </div>
+                        </div>
+                        <p class="input-required">* <?php echo $this->_('Required fields'); ?></p>
+
+                        <div class="form-group">
+                            <div class="col-md-6"></div>
+                            <div class="col-md-6">
+                                <div class="col-md-5 col-md-offset-7">
+                                    <button class="color-blue btn btn-default send_form pull-right"><?php echo $this->_("Save"); ?></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="admin_id" value="<?php echo $admin->getId(); ?>" />
+                        <input type="hidden" name="mode" value="<?php echo $this->getMode(); ?>" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <?php if($admin->getParentId() AND $this->getMode() == "management") : ?>
+        <div class="col-md-6">
+            <div class="col-md-12">
+                <div class="page-content-wrapper">
+                    <div class="content solo-page">
+                        <h3 class="title-editor border-blue no-margin-bottom text-center">
+                            <span id="title_change_password"><?php echo $this->_('Applications'); ?></span>
+                        </h3>
+                        <div class="container-fluid subcontent content-color">
+                            <table class="table inner_content">
+                                <colgroup>
+                                    <col width="3%" />
+                                    <col width="5%" />
+                                    <col width="47%" />
+                                    <col width="30%" />
+                                    <col width="15%" />
+                                </colgroup>
+                                <tr>
+                                    <th class="border-blue"></th>
+                                    <th class="border-blue"></th>
+                                    <th class="border-blue"><?php echo $this->_("Name"); ?></th>
+                                    <th class="border-blue"><?php echo $this->_("Bundle Id"); ?></th>
+                                    <th class="text-center border-blue"><?php echo $this->_("Can add pages"); ?></th>
+                                </tr>
+                                <tbody>
+                                <?php foreach($applications as $key => $application) : ?>
+                                    <?php if(!$application->isActive()) continue; ?>
+                                    <tr id="row_<?php echo $application->getId(); ?>">
+                                        <td class="text-center"><input type="checkbox" value="<?php echo $application->getId(); ?>" class="toggle-access color-blue checkbox" <?php if($application->getIsAllowedToEdit()) : ?> checked="checked"<?php endif; ?> /></td>
+                                        <td><img src="<?php echo $application->getIcon(35) ?>" width="35" /></td>
+                                        <td><?php echo $application->getName(); ?></td>
+                                        <td><?php echo $application->getBundleId(); ?></td>
+                                        <td class="text-center"><input type="checkbox" class="is-allowed-to-add-pages color-blue checkbox" value="<?php echo $application->getId(); ?>" <?php if($application->getIsAllowedToAddPages()) : ?> checked="checked"<?php endif; if(!$application->getIsAllowedToEdit()) : ?> style="display:none;"<?php endif; ?> /></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+
+                            <form id="toggleAccessForm" action="<?php echo $this->getUrl("admin/access_management/setapplicationtoadmin", array("admin_id" => $admin->getId())); ?>" class="none">
+                                <input type="hidden" name="app_id" class="app_id" value="" />
+                                <input type="hidden" name="is_selected" class="is_selected" value="" />
+                                <input type="hidden" name="admin_id" value="<?php echo $admin->getId(); ?>" />
+                            </form>
+                            <form id="isAllowedToAddPagesForm" action="<?php echo $this->getUrl("admin/access_management/setpermissionstoadmin", array("admin_id" => $admin->getId())); ?>" class="none">
+                                <input type="hidden" name="app_id" class="app_id" value="" />
+                                <input type="hidden" name="is_selected" class="is_selected" value="" />
+                                <input type="hidden" name="admin_id" value="<?php echo $admin->getId(); ?>" />
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.send_form').click(function(){
+            var $form  = $('#editForm');
+            $form.validate({
+                rules: {
+                    confirm_password: {
+                        equalTo: "#password"
+                    }
+                }
+            });
+
+            if($form.valid()) {
+                reload($form, $form.attr('action'), true);
+            };
+            return false;
+        });
+
+        <?php if($admin->getId()) : ?>
+        $('#change-password').removeAttr('checked');
+        $('input:password').attr('disabled', 'disabled');
+
+        $('#change-password').change(function() {
+            if($('#change-password:checked').length > 0) {
+                $('input:password').removeAttr('disabled');
+            } else {
+                $('input:password').attr('disabled', 'disabled');
+                $('input:password').val('');
+            }
+        });
+        <?php endif; ?>
+
+        $('input:password').val('');
+    });
+
+    $(".toggle-access").change(function() {
+
+        var _that = $(this);
+        var app_id = this.value;
+        var was_checked = !_that.is(":checked");
+        $("#toggleAccessForm").find(".app_id").val(app_id);
+        $("#toggleAccessForm").find(".is_selected").val($(this).is(":checked") ? 1 : null);
+
+        reload($("#toggleAccessForm"), $("#toggleAccessForm").attr("action"), true, function(data) {
+
+            if(data.success) {
+                if(data.is_allowed_to_add_pages) {
+                    $("#row_"+app_id).find(".is-allowed-to-add-pages").prop("checked", true).show();
+                } else {
+                    $("#row_"+app_id).find(".is-allowed-to-add-pages").prop("checked", false).hide();
+                }
+            }
+        }, function() {    
+            _that.prop("checked", was_checked)
+        });
+    });
+
+    $(".is-allowed-to-add-pages").change(function() {
+        $("#isAllowedToAddPagesForm").find(".app_id").val(this.value);
+        $("#isAllowedToAddPagesForm").find(".is_selected").val($(this).is(":checked") ? 1 : null);
+        reload($("#isAllowedToAddPagesForm"), $("#isAllowedToAddPagesForm").attr("action"), true);
+    });
+
+    var current_country = "<?php echo System_Model_Config::getValueFor("company_country") ?>";
+    var current_region = "<?php echo $admin->getRegionCode() ?>";
+    var regions = <?php echo Zend_Json::encode(Siberian_Locale::getRegions()); ?>;
+
+    $('#country_code').change(function() {
+
+        var territory = $(this).val();
+        var selected_region = "";
+        // checkRowVatNumber(territory);
+
+        $("#region_code").empty();
+
+        if(typeof regions[territory] != "undefined") {
+            
+            $.each(regions[territory],function(i, value){
+
+                if(current_region == i){
+                    selected_region = 'selected="selected"';
+                } else {
+                    selected_region = "";
+                }
+                $("#region_code").append('<option value="' + i + '" ' + selected_region + '>' + value + '</option>');
+            });
+            $("#region_code").prop("disabled", false)
+                .removeClass("disabled")
+            ;
+        } else {
+            $("#region_code").prop("disabled", true)
+                .addClass("disabled")
+            ;
+        }
+
+    });
+
+    $('#country_code').change();
+
+//    $("#role_id").change(function() {
+//        if($("#role_id").val() != "") {
+//            reload($("#roleForm"), $("#roleForm").attr("action"), true);
+//        }
+//    });
+    $("#toggle_customization_sidebar,#btn-close-sidebarright").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("right-toggled");
+    });
+</script>

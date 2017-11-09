@@ -1,0 +1,221 @@
+<?php $option = $this->getOptionValue(); ?>
+<?php $mcommerce = $option->getObject(); ?>
+<?php $orders = $mcommerce->getOrders(); ?>
+
+
+<div id="orders_list">
+
+    <div class="section">
+        <h4 class="subtitle">
+            <span class="left area"><?php echo $this->_('My orders'); ?></span>
+            <hr />
+            <div class="clear"></div>
+        </h4>
+        <div>
+
+            <table id="table_orders_list" width="615px">
+                <col width="20px" />
+                <col width="40%" />
+                <col width="40%" />
+                <col width="50px" />
+                <thead>
+                    <tr>
+                        <td><?php echo $this->_('Number'); ?></td>
+                        <td><?php echo $this->_('Status'); ?></td>
+                        <td><?php echo $this->_('Customer'); ?></td>
+                        <td><?php echo $this->_('Total'); ?></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($orders as $order) : ?>
+                        <?php $customer = $order->getCustomer(); ?>
+                        <tr class="edit_order" rel="<?php echo $order->getId() ?>" data-store-id="<?php echo $order->getStoreId(); ?>" data-status="<?php echo $order->getStatusId(); ?>">
+                            <td><?php echo $order->getNumber(); ?></td>
+                            <td><?php echo $order->getStatus(); ?></td>
+                            <td>
+                                <?php echo $customer ? $customer->getFirstname() : $order->getCustomerFirstname(); ?>
+                                <?php echo $customer ? $customer->getLastname() : $order->getCustomerLastname(); ?>
+                            </td>
+                            <td><?php echo $order->getFormattedTotal(); ?></td>
+                        </tr>
+                    <?php endforeach ?>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td><?php echo $this->_('Number'); ?></td>
+                        <td><?php echo $this->_('Status'); ?></td>
+                        <td><?php echo $this->_('Customer'); ?></td>
+                        <td><?php echo $this->_('Total'); ?></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <div class="clear"></div>
+
+        </div>
+    </div>
+</div>
+<div id="order_edit">
+
+</div>
+
+<script type="text/javascript">
+    var orders = {
+        is_loaded: false,
+        processEvents: function() {
+            $('#table_orders_list').dataTable({
+                asStripeClasses: ['odd editor_menu active', 'even'],
+                bLengthChange: false,
+                bFilter: false,
+                sPaginationType: "full_numbers",
+                fnDrawCallback: function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+
+                    $.each(nRow.aoData, function(i, el) {
+
+                        var tr = $(el.nTr);
+
+                        tr.unbind('mouseenter mouseleave').hover(function() {
+                            $(this).addClass('reverse');
+                        }, function() {
+                            $(this).removeClass('reverse');
+                        });
+                        tr.unbind('click');
+                        this.bindEditOrder(tr);
+
+                    }.bind(this));
+
+
+                }.bind(this),
+                fnCreatedRow: function( nRow, aData, iDataIndex ) {
+                    var order_id = $(nRow).attr('rel');
+                    $(nRow).children('td').each(function(i) {
+                        if(!$(this).attr('id')) {
+                            var id = 'order_'
+                            switch(i) {
+                                case 0: id+='number';break;
+                                case 1: id+='status';break;
+                                case 2: id+='customer_name';break;
+                                case 3: id+='total';break;
+                            }
+                            $(this).attr('id', id+'_'+order_id);
+
+                        }
+                    });
+
+                }
+            });
+
+            $('#table_orders_list').children('tbody').children('tr').hover(function() {
+                $(this).addClass('reverse');
+            }, function() {
+                $(this).removeClass('reverse');
+            });
+
+            this.is_loaded = true;
+
+        },
+
+        bindEditOrder: function(element) {
+
+            element.click(function(e) {
+                if(!element.children('input').length) {
+                    $('<input />').attr('type', 'hidden').attr('name', 'option_value_id').addClass('option_value_id').val('<?php echo $option->getId(); ?>').appendTo(element);
+                    if(element.attr('rel')) $('<input />').attr('type', 'hidden').attr('name', 'order_id').val(element.attr('rel')).appendTo(element);
+                }
+
+                this.load(element);
+            }.bind(this));
+        },
+
+        load: function(a) {
+
+            reload(a, '<?php echo $this->getUrl('mcommerce/application_order/edit'); ?>', true, function(datas) {
+
+                $('#order_edit').html(datas.form_html);
+                $('#orderEditForm').submit(function() {
+                    if(!$(this).valid()) return false;
+
+                    reload(this, this.action, true, function(datas) {
+                        if(datas.success) {
+                            if(datas.status) $('#order_status_'+datas.order_id).html(datas.status);
+                            if(datas.customer_name) $('#order_customer_name_'+datas.order_id).html(datas.customer_name);
+                            this.close();
+                        }
+                    }.bind(orders));
+                    return false;
+                });
+
+                feature.slide($('#orders_list'), $('#order_edit'), 'right');
+            }.bind(this));
+        },
+
+        close: function() {
+            $('#orderEditForm').unbind('submit');
+            feature.slide($('#order_edit'), $('#orders_list'), 'left', function() {$('#order_edit').html('')});
+        },
+        destroy: function() {
+
+            if(this.is_loaded) {
+                $("#table_orders_list").dataTable().fnDestroy();
+                $('#table_orders_list').children('tbody').children('tr').unbind('mouseenter mouseleave')
+                $('.edit_order').unbind('mouseenter mouseleave click');
+            }
+        },
+        cancel: function() {
+            $("#order_status_id option[value='<?php echo Mcommerce_Model_Order::CANCEL_STATUS; ?>']").prop("selected", true);
+            $('#orderEditForm').submit();
+        }
+    }
+
+    tabs.addObject('orders', orders);
+</script>
+<style>
+    table.dataTable {
+        margin: 20px 0 10px;
+    }
+    table.dataTable th {
+        text-align: left;
+    }
+    table.dataTable th, table.dataTable td {
+        padding: 10px;
+    }
+    table.dataTable thead tr {
+        border-bottom: 3px solid;
+    }
+    table.dataTable tfoot tr {
+        border-top: 3px solid;
+    }
+
+    table.dataTable tbody tr.edit_product {
+        cursor: pointer;
+    }
+    .dataTables_info {
+        float: left;
+        padding: 10px;
+    }
+    .dataTables_paginate {
+        float: right;
+    }
+    .dataTables_paginate a {
+        display: block;
+        float: left;
+        padding: 10px;
+    }
+    .dataTables_paginate a.paginate_button_disabled {
+        opacity: 0.3
+    }
+
+    #order_edit .order_details .option {
+        font-size: 13px;
+    }
+    #order_edit .order_details .row_separator td div {
+        width:100%;
+        margin-top:10px;
+        margin-bottom:10px;
+        border:1px solid white;
+    }
+    #order_edit .order_details .head_separator td div {
+        margin-top:5px;
+        border:2px solid white;
+    }
+
+</style>

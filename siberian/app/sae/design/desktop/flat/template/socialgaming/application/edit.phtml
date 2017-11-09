@@ -1,0 +1,237 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option = $this->getOptionValue(); ?>
+<?php $game = new Socialgaming_Model_Game(); ?>
+<?php $current_game = new Socialgaming_Model_Game(); ?>
+<?php $next_game = new Socialgaming_Model_Game(); ?>
+<?php $current_game->findCurrent($option->getId()); ?>
+<?php $next_game->findNext($option->getId()); ?>
+<?php $games = $game->findAll(array('value_id = ?' => $option->getId()), 'created_at DESC') ?>
+<div class="edit_page socialgaming">
+    <div class="form_content">
+        <div id="list" class="">
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo $this->_(('Add content')); ?>
+                <button type="button" onclick="feature.edit()" class="btn color-blue pull-right bt-header-right" id="add_item">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </h3>
+            <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+            <?php if($games->count()) : ?>
+            <div class="margin-top">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo $this->_(('Manage content')); ?>
+                    <button type="button" class="btn color-blue pull-right bt-header-right" id="toggle_existing_items">
+                        <i class="fa fa-angle-down"></i>
+                    </button>
+                </h3>
+                <div id="existing_items" class="container-fluid first-row-feature content-feature">
+                    <ul class="list list-group">
+                        <?php if($current_game->getId()) : ?>
+                        <li class="game_actions list-group-item content-white-bkg" rel="<?php echo $current_game->getId(); ?>">
+                            <h5><?php echo $this->_('Current game'); ?>
+                                <div class="icons pull-right">
+                                    <a href="javascript:void(0)" class="icon more" onclick="var div = $('#details_<?php echo $current_game->getId(); ?>'); if(div.is(':visible')) {div.slideUp(300, function() {$(this).parent('li.game_actions').removeClass('selected')});} else {div.slideDown(300, function() {$(this).parent('li.game_actions').addClass('selected')});} return false;">
+                                        <i class="fa fa-search"></i>
+                                    </a>  
+                                </div>
+                            </h5>
+                            
+                            <div id="details_<?php echo $current_game->getId(); ?>" class="details container-fluid" style="display: none;">
+                                <div class="list list-label">
+                                    <div class="row">
+                                        <div class="col-sm-4 first">
+                                            <label><?php echo $this->_('Last Name'); ?> :</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <?php echo $current_game->getName() ?>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4 first">
+                                            <label><?php echo $this->_('Publication date'); ?> :</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <?php echo $current_game->getFormattedCreatedAt('d MMMM yyyy') ?></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4 first">
+                                            <label><?php echo $this->_('Period'); ?> :</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <?php echo $current_game->getPeriodLabel() ?>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4 first">
+                                            <label><?php echo $this->_('End at'); ?> :</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <?php echo $current_game->getEndAt() ? $this->_('On the').' '.$current_game->getFormattedEndAt('d MMMM yyyy') : $this->_('Never'); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <?php endif; ?>
+                        <?php if($next_game->getId()) : ?>
+                        <li class="game_actions list-group-item content-white-bkg" rel="<?php echo $next_game->getId(); ?>">
+                            <h4><?php echo $this->_('Next game'); ?>
+                                <div class="icons pull-right">
+                                    <a href="javascript:void(0)" class="icon more" onclick="var div = $('#details_<?php echo $next_game->getId(); ?>'); if(div.is(':visible')) {div.slideUp(300, function() {$(this).parent('li.game_actions').removeClass('selected')});} else {div.slideDown(300, function() {$(this).parent('li.game_actions').addClass('selected')});} return false;">
+                                        <i class="fa fa-search"></i>
+                                    </a>
+                                </div>
+                            </h4>
+                            
+                            <div id="details_<?php echo $next_game->getId(); ?>" class="details container-fluid" style="display: none;">
+                                <div class="list list-label">
+                                    <div class="row">
+                                        <div class="col-sm-4 first">
+                                            <label><?php echo $this->_('Last Name'); ?> :</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <?php echo $next_game->getName() ?>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4 first">
+                                            <label><?php echo $this->_('Publication date'); ?> :</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <?php echo $next_game->getFormattedCreatedAt('d MMMM yyyy') ?></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4 first">
+                                            <label><?php echo $this->_('Period'); ?> :</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <?php echo $next_game->getPeriodLabel() ?>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4 first">
+                                            <label><?php echo $this->_('End at'); ?> :</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <?php echo $next_game->getEndAt() ? $this->_('On the').' '.$next_game->getFormattedEndAt('d MMMM yyyy') : $this->_('Never'); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <?php endif; ?>
+                        <?php foreach($games as $game) : ?>
+                        <?php if(in_array($game->getId(), array($current_game->getId(), $next_game->getId()))) continue; ?>
+                        <li class="game_actions" rel="<?php echo $game->getId(); ?>">
+                            <h5 class="title title-feature-indent"><?php echo $game->getName() ?>
+                            <div class="icons right">
+                                <a href="javascript:void(0)" class="icon more" onclick="var div = $('#details_<?php echo $game->getId(); ?>'); if(div.is(':visible')) {div.slideUp(300, function() {$(this).parent('li.game_actions').removeClass('selected')});} else {div.slideDown(300, function() {$(this).parent('li.game_actions').addClass('selected')});} return false;">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                            </div>
+                            </h5>
+                            
+                            <div id="details_<?php echo $game->getId(); ?>" class="details container-fluid" style="display: none;">
+                                <table class="list list-label">
+                                    <tr class="first">
+                                        <td class="label"><?php echo $this->_('Publication date'); ?> :</td>
+                                        <td><span class="bold"><?php echo $game->getFormattedCreatedAt('d MMMM yyyy à HH:mm') ?></span></td>
+                                    </tr>
+                                    <tr class="first">
+                                        <td class="label"><?php echo $this->_('End at'); ?> :</td>
+                                        <td><span class="bold"><?php echo $game->getEndAt() ? $this->_('On the').' '.$game->getFormattedEndAt('d MMMM yyyy') : $this->_('Never'); ?></span></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </li>
+                        <li class="separator area reverse"></li>
+                        <?php endforeach ?>
+                    </ul>
+                </div>
+            </div>
+            <?php endif; ?>
+
+            <div class="background">
+                <?php echo $this->importBackground($option); ?>
+            </div>
+
+        </div>
+        <div id="edit" class="" style="display: none;">
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo $this->_('Editing'); ?>
+            </h3>
+            <div class="block container-fluid first-row-feature content-feature">
+                <form id="socialgamingForm" action="<?php echo $this->getUrl('socialgaming/application/editpost') ?>" method="post" class="form-horizontal">
+                    <div class="buttons form-group">
+                        <div class="col-md-12">
+                            <button type="button" onclick="feature.list()" class="color-blue btn pull-left"><i class="fa fa-angle-left"></i></button>
+                            <button type="submit" class="btn color-blue pull-right">OK</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="name"><?php echo $this->_('Game Name'); ?> <span class="input-required">*</span> : </label>
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="text" id="name" name="name" class="required input-flat" value="<?php echo $next_game->getName(); ?>" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="period_id"><?php echo $this->_('Period'); ?> <span class="input-required">*</span> : </label>
+                        </div>
+                        <div class="col-sm-5">
+                            <select name="period_id" id="period_id" class="styled-select color-blue required">
+                                <?php foreach(Socialgaming_Model_Game::getPeriods() as $id => $label) : ?>
+                                <option value="<?php echo $id ?>"<?php if($next_game->getPeriodId() == $id) : ?> selected="selected"<?php endif; ?>><?php echo $label ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" class="input-flat"/>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            bindForms('#list');
+        });
+
+        page.setCallback('didappear', function() {
+
+            $('#toggle_existing_items').click(function () {
+                $('#existing_items').stop().slideToggle(300, function () {
+                    if ($(this).is(':visible')) {
+                        $('#toggle_existing_items').children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+                        $('#toggle_existing_items').removeClass('color-blue');
+                    }
+                    else {
+                        $('#toggle_existing_items').children('i').removeClass('fa-angle-up').addClass('fa-angle-down');
+                        $('#toggle_existing_items').addClass('color-blue');
+                    }
+                });
+            });
+
+            $('#socialgamingForm').submit(function() {
+                if(!$(this).valid()) return false;
+                reload(this, this.action, true, function(datas) {
+                    if(datas.success) page.reload();
+                });
+                return false;
+            });
+        });
+
+        page.setCallback('willdisappear', function() {
+            $('#toggle_existing_items').unbind('click');
+            $('#socialgamingForm').unbind('submit');
+            $('.game_actions').unbind('mouseenter mouseout');
+        });
+
+    </script>
+</div>

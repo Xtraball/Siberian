@@ -1,0 +1,152 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<h3 class="title-editor border-blue text-center">
+    <?php echo $this->_('Podcast') ?>
+</h3>
+<div class="container-fluid first-row-feature">
+    <form id="search_podcast" action="<?php echo $this->getUrl('media/application_gallery_music/searchpodcast'); ?>" method="post" class="form-horizontal">
+        <div id="table_list_playlist_new" class="list form-group">
+            <div class="col-sm-5">
+                <input style="width:90%" type="text" class="input-flat required url" id="search_podcast_url" name="podcast_url" value="" placeholder="<?php echo $this->_('Podcast URL (iTunes format)') ?>"/>
+                <span class="required-entry"> *</span>
+            </div>
+            <div class="col-sm-4">
+                <button onclick="$('#search_podcast').submit()" class="search_podcast btn color-blue" type="button"><?php echo $this->_('Search') ?></button>
+                <div class="loader" id="search_loader" alt="Loading" title="Loading" style="display: none;"></div>
+            </div>
+        </div>
+    </form>
+
+    <div>
+        <div id="podcast_results" style="display:none">
+            <ul id="results" class="list-group"></ul>
+            <button onclick="$('#save_podcast').submit();" class="pull-right save_selection btn btn-block color-blue" type="button"><?php echo $this->_('Add') ?></button>
+        </div>
+    </div>
+
+    <form style="display:none" id="save_podcast" action="<?php echo $this->getUrl('media/application_gallery_music/save_podcast'); ?>" method="post" class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-3">
+                <input type="hidden" name="gallery_id" value="<?php echo $this->getGalleryId() ?>">
+            </div>
+            <div class="col-md-3">
+                <input type="hidden" name="value_id" value="<?php echo $option_value->getId() ?>">
+            </div>
+            <div class="col-md-3">
+                <input type="hidden" id="podcast_url" name="podcast_url" value="" />
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $('#search_podcast_url').change(function() {
+        if(!$('#search_podcast_url').val().startsWith('http')) {
+            $('#search_podcast_url').val('http://'+$('#search_podcast_url').val());
+        }
+    });
+    //Bouton recherche podcast
+    $('#search_podcast').submit(function(){
+
+        if(!$(this).valid()) return false;
+        $('#search_loader').fadeIn();
+        reload($('#search_podcast'), $('#search_podcast').attr('action'), false, function(datas) {
+            if(datas.success) {
+                createForm();
+                $('#podcast_results').slideDown();
+                displayPodcastResults(datas.results);
+            }
+            $('#search_loader').fadeOut();
+        }, function() {
+            $('#search_loader').fadeOut();
+        });
+        return false;
+    });
+
+    function displayPodcastResults(podcast) {
+        $('#podcast_results #results').html('');
+        var podcast_element = '<div id="podcast" class="col-md-12">';
+        podcast_element += '<img class="pull-left podcast_illus" width="100px" height="100px" src="'+podcast.image+'" />';
+        podcast_element += '<div class="pull-left" style="width:85%">';
+        podcast_element += '<p class="podcast_title"><?php echo $this->_('Title:') ?> '+podcast.title+'</p>';
+        podcast_element += '<p class="podcast_description"><?php echo $this->_('Description:') ?> '+podcast.description+'</p>';
+        var last_update = podcast.last_update ? podcast.last_update : "<?php echo $this->_("Unknown"); ?>";
+        podcast_element += '<p class="podcast_last_update"><?php echo $this->_('Last update:') ?> '+last_update+'</p>';
+        podcast_element += '</div>';
+        podcast_element += '</div>';
+        $('#podcast_results #results').append(podcast_element);
+
+        var item_element = '<ul id="podcast_items" class="table_row_galleries list-group">';
+        $.each(podcast.items, function(key, item) {
+            item_element += '<li class="list-group-item">';
+            item_element += '<span class="inner_content">';
+            item_element += item.title;
+            var duration = item.formatted_duration ? item.formatted_duration : "";
+            item_element += '<span class="right">' + duration + '</span>';
+
+            item_element += '</span>';
+            item_element += '</li>';
+        });
+        item_element += '</ul>';
+        $('#podcast_results #results').append(item_element);
+    }
+
+    function clearForm() {
+        $('#podcast_url').val('');
+    }
+
+    function createForm() {
+        clearForm();
+        $('#podcast_url').val($('#search_podcast_url').val());
+    }
+
+    //Formulaire principal
+    $('form#save_podcast').submit(function(){
+        createForm();
+        reload($('#save_podcast'), $('#save_podcast').attr('action'), true, function(datas) {
+            if(datas.success) {
+                $('#album_edit').append(datas.content);
+                iframe.f.reload();
+                reloadPP();
+                $.prettyPhoto.close();
+            }
+        });
+        return false;
+    });
+</script>
+
+<style type="text/css">
+    #podcast_items {
+        margin-top: 20px;
+        max-height: 500px;
+        overflow: auto;
+    }
+    #podcast_items li {
+        transition: none;
+        display: block;
+    }
+    #podcast_items li i, #podcast_items li span {
+        display: inline;
+        vertical-align: middle;
+    }
+    #podcast_items li .inner_content {
+        border-radius: 7px 7px 7px 7px;
+        display: inline-block;
+        margin-left: 10px;
+        padding: 10px;
+        width: 89%;
+    }
+    .podcast_illus {
+        margin-bottom: 15px;
+        margin-right: 15px;
+    }
+    .podcast_title {
+        font-weight: bold;
+    }
+    #search_loader {
+        float: left;
+        margin-left: 1vw;
+    }
+    .search_podcast {
+        float: left;
+    }
+</style>

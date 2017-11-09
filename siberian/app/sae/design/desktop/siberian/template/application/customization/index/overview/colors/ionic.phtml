@@ -1,0 +1,61 @@
+<div class="clear">
+    <div id="iphone">
+        <div class="iphone_content">
+            <p id="iphone_header" class="status_bar iphone_header toolbar_overview a-center"><?php echo date('H:m'); ?></p>
+            <iframe id="mobile_overview" sandbox="allow-same-origin allow-scripts allow-forms allow-modals" src="<?php echo $this->getApplication()->getIonicUrl("", array(), null, true); ?>" width="320" height="568" style="overflow: hidden;"></iframe>
+        </div>
+        <div class="btn-group-vertical">
+            <button type="button" class="overview_size mobile-advice switch switch_overview no-background" ></button>
+            <button type="button" class="overview_size mobile-advice switch button-inactive switch_colors no-background" ></button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    var colors_url = "<?php echo $this->getApplication()->getIonicUrl("application/mobile_customization_colors", array(), null, true); ?>?overview=1";
+    var overview_url = "<?php echo $this->getApplication()->getIonicUrl("", array(), null, true); ?>?overview=1";
+
+    $(document).ready(function() {
+        iframe.iframeIsLoaded = function() {
+            iframe.content.find("body").removeClass("platform-browser").addClass("platform-ios");
+        };
+    });
+
+</script>
+
+<style type="text/css">
+    button.switch {
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        height: 2.5em !important;
+        margin-bottom: 0.7em;
+        width: 50px;
+        background-color: transparent;
+    }
+    button.switch:nth-child(1) {
+        background-image: url("/images/icon_btn_overview/app-button.png");
+    }
+    button.switch:nth-child(2) {
+        background-image: url("/images/icon_btn_overview/list-button.png");
+    }
+    #iphone .btn-group-vertical {
+        width: 50px;
+        margin-top: 5px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin-right: -75px;
+        z-index: 999;
+    }
+    @media (min-width: 1440px) {
+        button.mobile-advice:nth-child(1) {
+            display: block;
+        }
+    }
+    /** OSX Webkit outline */
+    :focus {
+        outline-color: transparent;
+        outline-style: none;
+    }
+</style>

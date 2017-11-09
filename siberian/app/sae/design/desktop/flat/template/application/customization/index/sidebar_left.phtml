@@ -1,0 +1,252 @@
+<?php $current_link = $this->getCurrentLink() ?>
+<?php $settings_links = array('push', 'url', 'api_keys', 'module'); ?>
+<?php $resource = new Acl_Model_Resource(); ?>
+<?php $editor_url = $resource->getFirstEditorResourceAllowed($this); ?>
+<?php $custom_links = Siberian_Module::getEditorMenus(); ?>
+<?php if($this->getApplication()) : ?>
+<!-- Sidebar -->
+<div id="left-sidebar-wrapper" class="bkg-sidebar-left sb-tour">
+    <ul class="sidebar-nav">
+        <li id="sb-tour-app-name" class="sidebar-brand sb-tour">
+            <img id="header_app_icon" src="<?php echo $this->getApplication()->getIcon(); ?>" class="icon"/>
+            <span id="header_app_name"><?php echo $this->getApplication()->getShortName(); ?></span>
+        </li>
+        <li>
+          <?php $editor_menu = array('editor_design','editor_colors','editor_features','editor_application','editor_publication'); ?>
+          <?php if($this->_canAccessAnyOf($editor_menu)) : ?>
+            <div id="shortcuts1" class="collapse in">
+                <a href="#shortcuts-sub-1" data-toggle="collapse" class="collapsed">
+                    <i class="fa fa-pencil"></i>
+                    <?php echo __('Editor'); ?>
+                    <i class="fa <?php if (in_array($current_link, $editor_menu)) echo "fa-angle-down"; else echo "fa-angle-right"; ?>"></i>
+                </a>
+                <div id="shortcuts-sub-1" class="collapse sub-bar<?php if (in_array($current_link, $editor_menu)) echo " in"; ?>">
+                  <?php if($this->_canAccess("editor_design")) : ?>
+                        <a href="<?php echo $this->getUrl('application/customization_design_style/edit'); ?>" class="block header no-background<?php if($current_link == 'editor_design'): ?> font-blue<?php endif; ?>">
+                            <i class="fa fa-caret-right"></i>
+                            <?php echo __("Design"); ?>
+                        </a>
+                    <?php endif; ?>
+
+                    <?php if($this->_canAccess("editor_colors")) : ?>
+                        <a href="<?php echo $this->getUrl('application/customization_design_colors/edit'); ?>" class="block header no-background<?php if($current_link == 'editor_colors'): ?> font-blue<?php endif; ?>">
+                            <i class="fa fa-caret-right"></i>
+                            <?php echo __('Colors'); ?>
+                        </a>
+                    <?php endif; ?>
+
+                    <?php if($this->_canAccess("editor_features")) : ?>
+                        <a href="<?php echo $this->getUrl('application/customization_features/list'); ?>" class="block header no-background<?php if($current_link == 'editor_features'): ?> font-blue<?php endif; ?>">
+                            <i class="fa fa-caret-right"></i>
+                            <?php echo __('Features'); ?>
+                        </a>
+                    <?php endif; ?>
+
+                    <?php if($this->_canAccess("editor_application")) : ?>
+                        <a href="<?php echo $this->getUrl('application/customization_publication_app'); ?>" class="block header no-background<?php if($current_link == 'editor_application'): ?> font-blue<?php endif; ?>">
+                            <i class="fa fa-caret-right"></i>
+                            <?php echo __('Application'); ?>
+                        </a>
+                    <?php endif; ?>
+
+                    <?php if($this->_canAccess("editor_publication")) : ?>
+                        <a href="<?php echo $this->getUrl('application/customization_publication_infos'); ?>" class="block header no-background<?php if($current_link == 'editor_publication'): ?> font-blue<?php endif; ?>">
+                            <i class="fa fa-caret-right"></i>
+                            <?php echo __('Publication'); ?>
+                        </a>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </li>
+        <?php endif; ?>
+        <?php if($this->_canAccess("promote")):?>
+        <li>
+            <a href="<?php echo $this->getUrl('application/promote'); ?>" class="<?php if($current_link == 'promote'): ?> active<?php endif; ?>">
+                <i class="fa fa-bullhorn"></i>
+                <?php echo __('Promote'); ?>
+            </a>
+        </li>
+        <?php endif; ?>
+        <?php if($this->_canAccess("analytics_application") OR $this->_canAccess("analytics_feature")):?>
+        <li>
+            <div id="shortcuts_analytics" class="collapse in">
+                <a href="#shortcuts_analytics-sub-1" data-toggle="collapse" class="collapsed down">
+                    <i class="fa fa-line-chart"></i>
+                    <?php echo __('Analytics'); ?>
+                    <i class="fa <?php if (in_array($current_link, array('analytics_application','analytics_feature'))) echo "fa-angle-down"; else echo "fa-angle-right"; ?>"></i>
+                </a>
+                <div id="shortcuts_analytics-sub-1" class="collapse sub-bar<?php if (in_array($current_link, array('analytics_application','analytics_feature'))) echo " in"; ?>">
+                    <?php if($this->_canAccess("analytics_application")): ?>
+                    <a href="<?php echo $this->getUrl('application/analytics_application'); ?>" class="block header no-background<?php if($current_link == 'analytics_application'): ?> active<?php endif; ?>">
+                        <i class="fa fa-area-chart"></i>
+                        <?php echo __("App analytics"); ?>
+                    </a>
+                    <?php endif; ?>
+                    <?php if($this->_canAccess("analytics_feature")): ?>
+                    <a href="<?php echo $this->getUrl('application/analytics_feature'); ?>" class="block header no-background<?php if($current_link == 'analytics_feature'): ?> active<?php endif; ?>">
+                        <i class="fa fa-bar-chart"></i>
+                        <?php echo __("Feature Analytics"); ?>
+                    </a>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </li>
+        <?php endif; ?>
+        <?php if($this->_canAccess("users")):?>
+        <li>
+            <a href="<?php echo $this->getUrl('customer/application/list'); ?>" class="<?php if($current_link == 'customer'): ?> active<?php endif; ?>">
+                <i class="fa fa-users"></i>
+                <?php echo __('Users'); ?>
+            </a>
+        </li>
+        <?php endif; ?>
+        <?php if($this->_canAccess("editor_settings")) : ?>
+        <li>
+            <div id="shortcuts2" class="collapse in">
+                <a href="#shortcuts-sub-2" data-toggle="collapse" class="collapsed down">
+                    <i class="fa fa-cogs"></i>
+                    <?php echo __('Settings'); ?>
+                    <i class="fa <?php if (in_array($current_link, array('settings_advanced', 'settings_apis', 'settings_tc','settings_facebook', 'settings_advanced', 'settings_domain','settings_message','settings_import'))) echo "fa-angle-down"; else echo "fa-angle-right"; ?>"></i>
+                </a>
+                <div id="shortcuts-sub-2" class="collapse sub-bar<?php if (in_array($current_link, array('settings_tc','settings_facebook','settings_domain','settings_message','settings_import','settings_advanced','settings_apis'))) echo " in"; ?>">
+                    <?php if($this->_canAccess("editor_settings_tc")) : ?>
+                        <a href="<?php echo $this->getUrl('application/settings_tc'); ?>" class="block header no-background<?php if($current_link == 'settings_tc'): ?> active<?php endif; ?>">
+                            <i class="fa fa-file-text"></i>
+                            <?php echo __("Terms & Conditions"); ?>
+                        </a>
+                    <?php endif; ?>
+
+                    <?php if($this->_canAccess("editor_settings_apis")) : ?>
+                        <a href="<?php echo $this->getUrl('application/settings_apis'); ?>" class="block header no-background<?php if($current_link == 'settings_apis'): ?> active<?php endif; ?>">
+                            <i class="fa fa-key"></i>
+                            <?php echo __('APIs'); ?>
+                        </a>
+                    <?php endif; ?>
+
+                    <?php if($this->_canAccess("editor_settings_domain")) : ?>
+                        <a href="<?php echo $this->getUrl('application/settings_domain'); ?>" class="block header no-background<?php if($current_link == 'settings_domain'): ?> active<?php endif; ?>">
+                            <i class="fa fa-link"></i>
+                            <?php echo __('Domain'); ?>
+                        </a>
+                    <?php endif; ?>
+
+                    <?php if($this->_canAccess("editor_settings_advanced")) : ?>
+                        <a href="<?php echo $this->getUrl('application/settings_advanced'); ?>" class="block header no-background<?php if($current_link == 'settings_advanced'): ?> active<?php endif; ?>">
+                            <i class="fa fa-cogs"></i>
+                            <?php echo __('Advanced'); ?>
+                        </a>
+                    <?php endif; ?>
+
+                    <?php if($this->_canAccess("editor_settings_messages")) : ?>
+                        <a href="<?php echo $this->getUrl('message/application'); ?>" class="block header no-background<?php if($current_link == 'settings_message'): ?> active<?php endif; ?>">
+                            <i class="fa fa-envelope"></i>
+                            <?php echo __('Messages'); ?>
+                        </a>
+                    <?php endif; ?>
+
+                </div>
+            </div>
+        </li>
+
+        <?php if($custom_links): ?>
+        <li>
+            <div id="shortcuts-3" class="collapse in">
+                <a href="#shortcuts-sub-3" data-toggle="collapse" class="collapsed down">
+                    <i class="fa fa-microchip"></i>
+                    <?php echo __('Modules'); ?>
+                    <i class="fa fa-angle-down"></i>
+                </a>
+                <div id="shortcuts-sub-3" class="collapse sub-bar in">
+                    <?php foreach($custom_links as $module => $links): ?>
+                        <?php foreach($links as $link): ?>
+                            <a href="<?php echo $this->getUrl($link['link']); ?>" class="block header no-background">
+                                <i class="<?php echo (!empty($link['icon'])) ? $link['icon'] : 'fa fa-modx' ?>"></i>
+                                <?php echo $link["title"]; ?>
+                            </a>
+                        <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </li>
+        <?php endif; ?>
+
+    </ul>
+    <?php endif; ?>
+</div>
+<?php endif; ?>
+<!-- /#wrapper -->
+
+<!-- Menu Toggle Script + Active -->
+<script>
+$("#left-menu-toggle").click(function(e) {
+    e.preventDefault();
+    $("#wrapper").toggleClass("left-toggled");
+    $(".navbar-header").toggleClass("unleft-toggled");
+    if($("#wrapper").hasClass("left-toggled")) {
+        $("#logo").show();
+    } else {
+        $("#logo").hide();
+    }
+});
+
+// media query
+if (matchMedia) {
+  var mq = window.matchMedia("(min-width: 760px)");
+  var mql = window.matchMedia("(max-width: 1216px)");
+  mq.addListener(WidthChange);
+  mql.addListener(WidthChangeV2);
+  WidthChange(mq);
+  WidthChangeV2(mql);
+}
+
+function WidthChange(mq) {
+  if (mq.matches) {
+    $('#wrapper').addClass('left-toggled');
+    $('.navbar-header').removeClass('unleft-toggled');
+  } else {
+    $('#wrapper').removeClass('left-toggled');
+    $('.navbar-header').addClass('unleft-toggled');
+  }
+}
+
+function WidthChangeV2(mql) {
+  if (mql.matches) {
+    $('.right-toggled .row .responsive-part.col-md-8:nth-child(1)').addClass('col-md-12').removeClass('col-md-8');
+    $('#iphone').hasClass('phone-fixed');
+  } else {
+    $('.right-toggled .row .responsive-part.col-md-12:nth-child(1)').addClass('col-md-8').removeClass('col-md-12');
+    $('#iphone').removeClass('phone-fixed');
+  }
+}
+
+$("#shortcuts1,#shortcuts_analytics,#shortcuts2").click(function(e) {
+	var $el = $(this);
+	var $a = $el.children('a');
+
+	$a.toggleClass('down');
+	if($a.hasClass('down')) {
+		$a.children('i:nth-child(2)').removeClass('fa-angle-down').addClass('fa-angle-right');
+	} else {
+		$a.children('i:nth-child(2)').removeClass('fa-angle-right').addClass('fa-angle-down');
+	}
+});
+
+var $sidebar = $('#left-sidebar-wrapper');
+$sidebar.on("mousewheel DOMMouseScroll",function(event) {
+    if($sidebar.hasClass("fixed")) {
+        var prevScroll = $sidebar.scrollTop();
+        if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
+            $sidebar.scrollTop($sidebar.scrollTop() - 30);
+        } else {
+            $sidebar.scrollTop($sidebar.scrollTop() + 30);
+        }
+        if($sidebar.scrollTop() !== prevScroll) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    }
+});
+   
+
+
+</script>

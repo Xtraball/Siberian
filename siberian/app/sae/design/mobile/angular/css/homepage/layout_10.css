@@ -1,0 +1,74 @@
+.tabbar_items.l10.type_scroll {position:absolute;bottom:0;width:100%;height:50%;padding-top:5px;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+.tabbar_items.l10.type_scroll::-webkit-scrollbar {display:none;}
+.tabbar_items.l10.type_scroll ul#tabbar {width: 100%; height:100%; /*min-height: 260px;*/ text-align: center;}
+.tabbar_items.l10.type_scroll ul#tabbar li {float: left; width:100%;height:110px; margin:0 2%;}
+.tabbar_items.l10.type_scroll ul#tabbar li a {display:block;float:left;width:28%;margin:0 2% 5px 2%;}
+.tabbar_items.l10.type_scroll ul#tabbar li a div.tabbar.background {opacity: 0.25;}
+.tabbar_items.l10.type_scroll ul#tabbar li a div.tabbar.no-background {position: absolute; top: 0; left: 0;}
+.tabbar_items.l10.type_scroll ul#tabbar li a span {font-size:12px;text-transform:uppercase;line-height:15px;}
+
+.tabbar_items.l10 .tabbar_pager { position: absolute; bottom: 12px; width: 100%; height: 20px; text-align: center; }
+.tabbar_items.l10 .tabbar_pager a {display: inline-block; width: 12px; height: 12px; margin-right: 8px; margin-top: 4px; border: 3px solid white; border-radius: 2ex 2ex 2ex 2ex; }
+
+
+.tabbar_items.l10 {position: absolute; bottom: 0; width: 100%; height: 50px; padding-top: 5px; box-shadow: 0 -7px 8px rgba(0, 0, 0, 0.3);}
+.tabbar_items.l10 ul#tabbar {width: 100%; text-align: center;}
+/*.tabbar_items.l10 ul#tabbar li {width:19.6%; float:left;}*/
+.tabbar_items.l10 ul#tabbar li {display:inline-block;position:relative;height:47px;margin-bottom:5px;width:19.6%; float:left;}
+/*.tabbar_items.l10 ul#tabbar li a {display: block; width: 100%;}*/
+.tabbar_items.l10 ul#tabbar li a {position:relative;display: block; width: 100%;}
+.tabbar_items.l10 li a.more_icon{
+    list-style: none;
+    padding: 20px 0;
+    display: inline-block;
+    text-align: center;
+    width: 100% !important;
+    margin: -17px 0;
+    -webkit-border-top-left-radius: 100px;
+    -webkit-border-top-right-radius: 100px;
+    -moz-border-top-left-radius: 100px;
+    -moz-border-top-right-radius: 100px;
+    border-top-left-radius: 100px;
+    border-top-right-radius: 100px;
+    box-shadow: 0px -2px 0px rgba(0, 0, 0, 0.5);
+}
+.tabbar_items.l10 ul#tabbar li span { height:16px;margin-top:3px;font-size:11px;overflow:hidden; }
+.tabbar_items.l10 ul#tabbar li#more_items { border-right: none;width: 53px; }
+
+
+
+.transparent-background .tabbar_items.l10 {box-shadow:none;}
+.transparent-background .tabbar_items.l10 ul#tabbar li {width:20%; border-right:none;}
+
+#scrollview_tabbar_items.l10 {padding:2%;position:absolute; left:0; top: 0; bottom:0;width:100%;opacity:1;filter:alpha(opacity=100);}
+#scrollview_tabbar_items.l10 .menu_close{
+    width:100%;
+    margin:25px 0 45px 0;
+    text-align:center;
+}
+#scrollview_tabbar_items.l10 .menu_close .close_button{
+    font-size: 34px;
+    font-weight: bold;
+    border-radius: 279px;
+    max-width: 28px;
+    margin: auto;
+    padding: 10px 14px;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+#scrollview_tabbar_items.l10 ul{width: 100%;
+    list-style: none;
+    padding: 0 0 15px 0;
+    margin: 0px;
+    display: block;}
+#scrollview_tabbar_items.l10 ul li{    width: 28%;
+    list-style: none;
+    padding: 0;
+    margin: 2%;
+    display: inline-block;
+    text-align: center;}
+#scrollview_tabbar_items.l10 ul li a { position:relative;margin:0;padding: 15px 15px;display:block;box-shadow:none; border-radius:0;border-bottom:1px solid;line-height: 20px;background-color: rgba(255, 255, 255, 0.3)}
+#scrollview_tabbar_items.l10 ul li a p.badge {left:30px;right:auto;}
+#scrollview_tabbar_items.l10 ul li a canvas {float:left;}
+#scrollview_tabbar_items.l10 ul li a span {height:30px;line-height:50px;margin-left:0;font-size: 10px;overflow:hidden;text-align:center;}
+
+

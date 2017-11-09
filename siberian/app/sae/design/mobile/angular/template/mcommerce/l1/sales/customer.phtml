@@ -1,0 +1,80 @@
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="'<?php echo addslashes($this->_("My information")); ?>'" message="message" right-button="header_right_button"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="scrollable_content mcommerce sales customer">
+        <div class="padding cart_lines">
+            <form novalidate name="form" ng-submit="updateCustomerInfos()">
+                <table class="no-collapse" width="100%" cellspacing="10">
+
+                    <tr class="align-left"><th class="label"><label for="sales_customer_firstname"><?php echo $this->_('Firstname:'); ?></label></th></tr>
+                    <tr><td>
+                        <input required type="text" name="firstname" ng-model="cart.customer.firstname" class="full_width required" placeholder="<?php echo $this->_('Firstname'); ?>" />
+                        <label ng-show="form.firstname.$dirty && form.firstname.$error.required" class="error">
+                          <?php echo $this->_('This field is required.'); ?>
+                        </label>
+                    </td></tr>
+
+                    <tr class="align-left"><th class="label"><label for="sales_customer_lastname"><?php echo $this->_('Lastname:'); ?></label></th></tr>
+                    <tr><td>
+                        <input required type="text" name="lastname" ng-model="cart.customer.lastname" class="full_width required" placeholder="<?php echo $this->_('Lastname'); ?>" />
+                        <label ng-show="form.lastname.$dirty && form.lastname.$error.required" class="error">
+                          <?php echo $this->_('This field is required.'); ?>
+                        </label>
+                    </td></tr>
+
+                    <tr class="align-left"><th class="label"><label for="sales_customer_email"><?php echo $this->_('Email:'); ?></label></th></tr>
+                    <tr><td>
+                        <input type="email" name="email" ng-model="cart.customer.email" class="full_width required email" placeholder="<?php echo $this->_('Email'); ?>" />
+                        <label ng-show="form.email.$dirty && form.email.$error.required" class="error">
+                          <?php echo $this->_('This field is required.'); ?>
+                        </label>
+                        <label ng-show="form.email.$error.email" class="error">
+                          <?php echo $this->_('Please enter a valid email address'); ?>
+                        </label>
+                    </td></tr>
+
+                    <tr class="align-left"><th class="label"><label for="sales_customer_phone"><?php echo $this->_('Phone:'); ?></label></th></tr>
+                    <tr><td>
+                        <input type="text" name="phone" ng-model="cart.customer.phone" class="full_width required" placeholder="<?php echo $this->_('Phone'); ?>" />
+                        <label ng-show="form.phone.$dirty && form.phone.$error.required" class="error">
+                          <?php echo $this->_('This field is required.'); ?>
+                        </label>
+                    </td></tr>
+
+                    <tr class="align-left"><th class="label"><label for="sales_customer_birthday"><?php echo $this->_('Date of birth:'); ?></label></th></tr>
+                    <tr><td>
+                        <input type="date" name="birthday" ng-model="cart.customer.birthday" class="full_width" placeholder="<?php echo $this->_('Date of birth'); ?>" />
+                    </td></tr>
+
+                    <tr class="align-left"><th class="label"><label for="sales_customer_street"><?php echo $this->_('Street:'); ?></label></th></tr>
+                    <tr><td>
+                        <textarea type="text" name="street" ng-model="cart.customer.street" class="full_width" placeholder="<?php echo $this->_('Street'); ?>"></textarea>
+                    </td></tr>
+
+                    <tr class="align-left"><th class="label"><label for="sales_customer_postcode"><?php echo $this->_('Postcode:'); ?></label></th></tr>
+                    <tr><td>
+                        <input type="text" name="postcode" ng-model="cart.customer.postcode" class="full_width" placeholder="<?php echo $this->_('Postcode'); ?>" />
+                    </td></tr>
+
+                    <tr class="align-left"><th class="label"><label for="sales_customer_city"><?php echo $this->_('City:'); ?></label></th></tr>
+                    <tr><td>
+                        <input type="text" name="city" ng-model="cart.customer.city" class="full_width" placeholder="<?php echo $this->_('City'); ?>" />
+                    </td></tr>
+
+                    <tr class="align-left"><th class="label"><label for="sales_customer_country"><?php echo $this->_('Country:'); ?></label></th></tr>
+                    <tr><td>
+                        <input type="text" name="country" ng-model="cart.customer.country" class="full_width" placeholder="<?php echo $this->_('Country'); ?>" />
+                    </td></tr>
+
+                </table>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+

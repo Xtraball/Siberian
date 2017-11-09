@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <catalog_application_edit>
+        <views>
+            <content class="application_view_customization_features_edit_tabbareditor" template="application/customization/features/edit/tabbar_editor.phtml" />
+            <content_editor class="core_view_default" template="catalog/application/edit.phtml" />
+        </views>
+    </catalog_application_edit>
+
+    <catalog_application_category_edit>
+        <views>
+            <content class="core_view_default" template="catalog/application/edit/categories.phtml" />
+        </views>
+    </catalog_application_category_edit>
+
+    <catalog_application_product_create>
+        <views>
+            <content class="core_view_default" template="catalog/application/create/product.phtml" />
+        </views>
+    </catalog_application_product_create>
+
+    <catalog_application_product_edit>
+        <views>
+            <content class="core_view_default" template="catalog/application/create/product.phtml" />
+        </views>
+    </catalog_application_product_edit>
+
+    <catalog_application_menu_edit>
+        <views>
+            <content class="application_view_customization_features_edit_tabbareditor" template="application/customization/features/edit/tabbar_editor.phtml" />
+            <content_editor class="core_view_default" template="catalog/application/edit/menu.phtml" />
+        </views>
+    </catalog_application_menu_edit>
+</layout>

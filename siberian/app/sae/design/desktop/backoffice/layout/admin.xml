@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <admin_backoffice_list_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="admin/list.phtml" />
+        </views>
+    </admin_backoffice_list_template>
+
+    <admin_backoffice_edit_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="admin/edit.phtml" />
+        </views>
+    </admin_backoffice_edit_template>
+
+    <admin_backoffice_export_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="admin/export.phtml" />
+        </views>
+    </admin_backoffice_export_template>
+</layout>

@@ -1,0 +1,102 @@
+<?php $modules = $this->getModules(); ?>
+<div class="application_settings application">
+    <div class="application_content inner_content">
+        <div class="title">
+            <i class="left icon-download-alt"></i>
+            <h2 class="left inner_content f-rounded"><?php echo $this->_('Modules Installation'); ?></h2>
+            <div class="clear"></div>
+            <hr />
+        </div>
+        <?php if(count($modules) > 0) : ?>
+        <div class="area">
+            <h3 class="title">
+                <span class="left area"><?php echo $this->_('Processing the installation'); ?></span>
+                <div class="clear"></div>
+            </h3>
+            <div class="area_content">
+                <div class="animated">
+                    <h3 class="title blue10"><?php echo $this->_("Please wait, we're installing your module"); ?></h3>
+                    <p><?php echo $this->_('This process may take few minutes, please do not refresh the page'); ?></p>
+                </div>
+                <div>
+                    <div class="animated" style="width:750px;height:40px;border:1px solid #121212; border-radius:5px;overflow:hidden;">
+                        <div id="progressbar" class="animated" style="width:0;height:40px;background:url(<?php echo $this->getImage('loader/animated_overlay.gif'); ?>) #4DBDFF;"></div>
+                    </div>
+                    <div>
+                        <p id="installation_progress"><?php echo $this->_('Installing module <em><span id="label_module"></span></em>'); ?></p>
+                        <p id="installation_success" class="installation_details none"><i class="icon-ok"></i> <?php echo $this->_('Modules successfully installed!'); ?></p>
+                        <p id="installation_error" class="red5 installation_details none"><i class="icon-remove"></i> <?php echo $this->_('The installation of the module <span id="installation_failed_module_name"></span> has failed: <span id="installation_failed_because"></span>'); ?></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php else : ?>
+        <div class="area">
+            <h3 class="title">
+                <span class="left area"><?php echo $this->_('No module to install'); ?></span>
+                <div class="clear"></div>
+            </h3>
+            <br />
+            <div class="area_content">
+                <p class="installation_details"><i class="icon-ok"></i> <?php echo $this->_('All of your modules are up to date'); ?></p>
+            </div>
+        </div>
+        <?php endif; ?>
+    </div>
+</div>
+<script type="text/javascript">
+
+    var modules = <?php echo Zend_Json::encode($this->getModules()) ?>;
+    $(document).ready(function(){
+
+        function installPlugin(key) {
+
+            if(key >= Object.getSize(modules)) {
+                endInstallation();
+                return this;
+            }
+
+            $('#label_module').html(modules[key]);
+            $.ajax({
+                url: '<?php echo $this->getUrl('installer/module/installpost'); ?>',
+                type: 'POST',
+                data: [{name:'name',value:modules[key]}],
+                dataType: 'json',
+                success: function(datas) {
+                    if(datas.success) {
+                        var width = (key+1) * 100 / Object.getSize(modules);
+                        $('#progressbar').css('width', width+'%');
+                        installPlugin(key+1);
+                    }
+                },
+                error: function(datas) {
+                    try {
+                        var error = $.parseJSON(datas.responseText);
+                        error = error.message;
+                    } catch(e) {
+                        error = "Error";
+                    }
+
+                    $('#progressbar').css('width', 0);
+                    $('#installation_progress').hide();
+                    $('#installation_failed_module_name').html(modules[key]);
+                    $('#installation_failed_because').html(error);
+                    $('#installation_error').fadeIn();
+                },
+                complete: function() {
+
+                }
+            });
+        }
+
+        function endInstallation() {
+            $('#progressbar').css('width', 100+'%');
+            $('#installation_progress').hide();
+            $('#installation_success').fadeIn();
+        }
+
+        installPlugin(0);
+
+    });
+
+</script>

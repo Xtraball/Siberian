@@ -1,0 +1,218 @@
+<?php echo $this->doctype() ?>
+<html>
+    <head>
+        <title><?php echo __($this->getTitle()) ?></title>
+        <?php foreach($this->getMetas() as $meta) : ?>
+        <meta <?php echo $meta->getTag() ?>="<?php echo $meta->getKey(); ?>" content="<?php echo __($meta->getContent()); ?>" />
+        <?php endforeach ?>
+        <?php foreach(Core_Model_Language::getLanguages() as $language) : ?>
+        <?php if(Core_Model_Language::getCurrentLanguage() == $language->getCode()) continue;?>
+        <link rel="alternate" href="<?php echo $this->getCurrentUrl(true, $language->getCode()); ?>" hreflang="<?php echo $language->getCode() ?>" />
+        <?php endforeach ?>
+
+        <script type="text/javascript">
+            var version = "<?php echo Siberian_Version::VERSION ?>";
+            var current_release = "<?php echo System_Model_Config::getValueFor("current_release") ?>";
+            var tmp_directory = "<?php echo Core_Model_Directory::getTmpDirectory() ?>";
+            var datepicker_regional = "<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>";
+
+            <?php $existing_steps = new Tour_Model_Step(); ?>
+            <?php $existing_steps = $existing_steps->findAllForJS(Core_Model_Language::getCurrentLanguage(), $_SERVER['REQUEST_URI']); ?>
+            var existing_steps = new Array();
+            <?php
+                if(count($existing_steps)):
+            ?>
+                existing_steps = <?php echo(Zend_Json::encode($existing_steps)); ?>;
+            <?php
+                endif;
+            ?>
+
+            function launchBootstrapTour() {
+                if(!window.localStorage.getItem("sb-tour")) {
+
+                    var step_to_display = [];
+
+                    for(var key in existing_steps) {
+                        var step = {
+                            "element": "#" + existing_steps[key].elem_id,
+                            "title": existing_steps[key].title,
+                            "content": existing_steps[key].text,
+                            "placement": existing_steps[key].placement ? existing_steps[key].placement : "auto",
+                            "path": existing_steps[key].url
+                        };
+                        step_to_display.push(step);
+                    }
+
+                    if(step_to_display.length) {
+                        if(tour && tour.ended()) {
+                            tour.restart();
+                        } else {
+                            tour = new Tour({
+                                template: "<div class='popover tour content-white-bkg'>" +
+                                "<div class='arrow'></div>" +
+                                "<h3 class='popover-title title-editor border-blue'></h3>" +
+                                "<div class='popover-content content-color'></div>" +
+                                "<div class='popover-navigation content-color'>" +
+                                "<div class='row'><div class='col-md-6'><button class='form-control btn color-blue' data-role='prev'>« <?php echo __("Back"); ?></button>" +
+                                "</div><div class='col-md-6'><button class='form-control btn color-blue' data-role='next'><?php echo __("Next"); ?> »</button>" +
+                                "</div></div><div class='row'><div class='col-md-12 text-center first-row-feature'><a class='end-tour' data-role='end'><?php echo __("End tour"); ?></a></div></div>" +
+                                "</div>" +
+                                "</div>",
+                                steps: step_to_display,
+                                backdrop: true
+                            });
+
+                            // Initialize the tour
+                            tour.init();
+
+                            // Start the tour
+                            tour.start();
+                        }
+                    } else {
+                        $("#sb-tour-enable").hide();
+                    }
+                }
+            }
+        </script>
+
+        <?php echo $this->headLink() ?>
+        <?php echo $this->headScript() ?>
+
+        <link rel="icon" type="image/png" href="<?php echo $this->getFavicon() ?>" />
+        <script type="text/javascript">var login_urls = {};</script>
+        <?php echo $this->getPartialHtml("css"); ?>
+
+        <?php echo Siberian_Debug::renderHead(); ?>
+
+    </head>
+
+    <body class="<?php echo $this->default_class_name ?> general">
+        <div id="customization_mask" style="display:none"></div>
+        <?php $sidebar_left_partial = $this->getPartial('customization_sidebar_left'); ?>
+        <?php echo $this->getPartialHtml('header_menu'); ?>
+            <div class="container-fluid">
+                <div id="wrapper" <?php if($sidebar_left_partial) echo "class='left-toggled'"; ?>>
+                    <?php if($this->_canAccessWhiteLabelEditor()) : ?>
+                        <?php echo $this->getPartialHtml('customization_sidebar') ?>
+                    <?php endif; ?>
+                    <?php if($this->getSession()->getAdmin()->isAllowedToManageTour()): ?>
+                        <?php echo $this->getPartialHtml('sb_tour_sidebar') ?>
+                    <?php endif; ?>
+                    <div class="right-toggled">
+                        <div class="sidebars">
+                            <?php if($sidebar_left_partial) echo $sidebar_left_partial->renderHtml(); ?>
+                        </div>
+                        <div class="subcontent">
+                            <?php echo $this->getPartialHtml('messages') ?>
+                            <?php echo $this->getPartialHtml('content') ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <?php echo $this->getPartialHtml('footer') ?>
+                <div id="up" style="display:none">
+                <a href="javascript:void(0)" class="box foo" data-image="341" data-style="header" data-color="background_color"><i class="fa fa-caret-up"></i>
+                </a>
+                </div>
+            </div>
+
+            <div id="mask" class="mask" style="display:none;">
+                <button id="hide_mask" class="reverse btn color-blue" style="display:none;"><i class="fa fa-times"></i></button>
+                <div class="loader"></div>
+            </div>
+            <div id="alert">
+                <div class="row">
+                    <div class="col-md-2">
+                        <i id="error_icon" class="fa fa-check"></i>
+                    </div>
+                    <div class="col-md-8">
+                        <div id="alert_message"></div>
+                    </div>
+                    <div class="col-md-2 text-right">
+                        <i class="fa fa-times pointer" id="close_alert_message"></i>
+                    </div>
+                </div>
+            </div>
+        <script type="text/javascript">
+            var tour = null;
+            <?php
+                if($this->getApplication()) {
+                    $application = $this->getApplication();
+                    $app_id = $this->getApplication()->getAppId();
+                } else {
+                    $app_id = "";
+                }
+
+                if(!empty($app_id) && !Siberian_Version::is("SAE")):
+            ?>
+            (function() {
+
+                <?php if(!Siberian_Debug::$render): /** Do not call when in debug mode, log pollution */ ?>
+                var timeout = 12000;
+                setInterval(function () {
+                    $.ajax({
+                        "url":"/application/security/check?app_id=<?php echo $app_id; ?>"
+                    })
+                }, 12000);
+
+                $.ajaxSetup({
+                    statusCode: {
+                        400: function (err) {
+                            var refresh = JSON.parse(err.responseText).refresh;
+                            // If the refresh flag is set, ie response is like {"refresh": true}
+                            if (refresh) {
+                                // alert the user and refresh the page
+                                alert("<?php echo __js("You cannot have multiple sessions to manage apps, so the session for this app is closed. This page is about to be reloaded.") ?>");
+                                window.location.reload();
+                            } else {
+                                /** Increase timeout on false to reduce server load. */
+                                timeout = 42000;
+                            }
+                        }
+                    }
+                });
+                <?php endif; ?>
+
+            }());
+            <?php endif; ?>
+
+            $(document).ready(function() {
+
+                loader.init();
+
+                $('#change_language').change(function() {
+                    $('#loader').show();
+                    window.location = $(this).val();
+                });
+
+                $("input, textarea").placeholder();
+
+                $('#up').children('a').click(function() {
+                    $('html').animate({scrollTop:0}, 'slow');
+                    return false;
+                });
+
+                // Instance the tour
+                <?php if(System_Model_Config::getValueFor("bootstraptour_active") == "1"): ?>
+                    launchBootstrapTour();
+                <?php endif; ?>
+
+            });
+
+            function featureNotAvailable() {
+                new AlertMessage('<?php echo addslashes(__('Please create the API keys to enable this feature.')); ?>', true)
+                    .isError(true)
+                    .show()
+                ;
+            }
+        </script>
+        <?php if(!$this->getRequest()->isWhiteLabelEditor()) : ?>
+        <?php echo System_Model_Config::getValueFor("support_chat_code") ?>
+        <?php endif; ?>
+
+        <script type="text/javascript" src="/app/sae/design/desktop/siberian/js/preloader.js"></script>
+
+    </body>
+</html>

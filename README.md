@@ -1,47 +1,46 @@
-# SiberianCMS: Xtraball internal developer package.
+# SiberianCMS: SAE Single App Edition
 
----
+[Public Roadmap](http://board.siberiancms.com/b/7AYdMDEpFcmt3eZtb/siberiancms-public-roadmap)
+
+![welcome](docs/siberiancms.png)
+
+## Documentation
+
+* [User documentation](http://doc.siberiancms.com)
+* [Developer documentation](http://developer.siberiancms.com)
+
 ## Installation
 
-Checkout xtraball/siberiancms 
-`git clone --recursive git@gitlab.xtraball.com:xtraball/siberiancms.git`
+### Configuration
 
-**note:** *the `--recursive` will also checkout the git submodules automatically.*
-	
-1. Run `npm install` then follow the instructions to update your local shell.
+1. First you will need to either checkout the project `git clone https://github.com/Xtraball/SiberianCMS.git`
 
-2. Run `siberian init` to init your local project.
-    
-**note:** *if the `modules, plugins & platforms` were not correctly checked out, run `git submodule update --recursive` or `git submodule update --init --recursive`
+    or download the [zip archive](https://github.com/Xtraball/SiberianCMS/archive/master.zip) then extract it on your webserver.
 
-## Ionic server 
+2. Run `npm install` then follow the instructions to update your local shell.
 
-Run `siberian ions` to start the server.
+3. Run `siberian init` to init your local project.
 
-The **ionic** project is located in the folder named `ionic`
+2. Setup your empty database and user
 
-## Web server
+3. Configure your environment with [apache](#apache) or [nginx](#nginx)
 
-The project root path is located in the folder `siberian`
+#### Apache
 
-Here are the default configurations for both **apache** & **nginx**, thus the command `siberian init` will generate a configuration file for your local environment
-
-`apache.default` or `nginx.default`
-
-* Apache
+If you are running under Apache, be sure that the directive `AllowOverride all` is working, unless the `.htaccess` configuration will fail.
 
 ```
 <VirtualHost [IP]:80>
-        ServerName [domain.com]
+        ServerName [yourdomain.tld]
 
-		CustomLog [/path/to/siberiancms]/siberian/var/log/httpd.access_log combined
-		ErrorLog [/path/to/siberiancms]/siberian/var/log/httpd.error_log
+		CustomLog [/path/to/siberiancms]/var/log/httpd.access_log combined
+		ErrorLog [/path/to/siberiancms]/var/log/httpd.error_log
 
 		DirectoryIndex index.php
 
-        DocumentRoot [/path/to/siberiancms]/siberian
+        DocumentRoot [/path/to/siberiancms]
 
-        <Directory [/path/to/siberiancms]/siberian>
+        <Directory [/path/to/siberiancms]>
                 Options Indexes FollowSymLinks
                 AllowOverride all
         </Directory>
@@ -49,20 +48,24 @@ Here are the default configurations for both **apache** & **nginx**, thus the co
 </VirtualHost>
 ```
 
-* Nginx
+
+#### Nginx
+
+If you are running under Nginx, all you need is in the current configuration, 
+please check the `fastcgi` options as they may vary depending on your installation
 
 ```
 server {
-    listen 80;
+    listen [::]:80;
 
-	root [/path/to/siberiancms]/siberian;
+	root [/path/to/siberiancms];
 		
-	access_log [/path/to/siberiancms]/siberian/var/log/nginx.access_log;
-	error_log [/path/to/siberiancms]/siberian/var/log/nginx.error_log;
+	access_log [/path/to/siberiancms]/var/log/nginx.access_log;
+	error_log [/path/to/siberiancms]/var/log/nginx.error_log;
 
-	index index.php index.html index.htm index.nginx-debian.html;
+	index index.php index.html index.htm;
 
-	server_name [domain.com];
+	server_name [yourdomain.tld];
 	
 	location ~ ^/app/configs {
         deny all;
@@ -70,6 +73,17 @@ server {
     
     location ~ ^/var/apps/certificates {
         deny all;
+    }
+    
+    # Let's Encrypt configuration
+    location = /.well-known/check {
+        default_type "text/plain";
+        try_files $uri =404;
+    }
+    
+    location ^~ /.well-known/acme-challenge/ {
+        default_type "text/plain";
+        try_files $uri =404;
     }
 
 	location / {
@@ -104,12 +118,25 @@ server {
 	gzip_proxied any;
 	gzip_types text/plain application/xml text/css text/js application/x-javascript;
 	
-	client_max_body_size 200M;
+	client_max_body_size 256M;
 
 }
 ```
 
-## Development
+When you're done with the previous steps, reload your web server.
+
+
+### Web installer
+
+* Go to `http://yourdomain.tld` then follow the instructions
+![welcome](docs/install-sae.gif)
+
+
+# Developer package & resources.
+
+---
+
+## Developers
 
 ### Platforms
 
@@ -131,81 +158,62 @@ The other platforms specific to Siberian which are `cdv-siberian-android-preview
 Every plugin used in the project is forked into our GitLab CE, they are added as submodules in the folder `plugins`
 
 A default branch named `siberian` is used to track and lock our modifications.
-
-- Platform plugin's are installed from this directory, this ensure the plugins are synced & up-to-date everytime.
-
-- If an update is required, like migrating a plugin to the last version here is the procedure:
-    1. Duplicate `siberian` branch to a tag named `tags/siberian-x.x.x` where x.x.x is the current Siberian version.
-    2. Ensure the fork is synced with the master (Xtraball Bot sync forks every day at 2:00AM)
-    3. Merge the required version (or master) to `siberian`
-    4. Push updates. (you can `cd` to the plugin directory and pull|push|merge|etc... like an indepenant git tree)
     
 ### Modules
 
 Our standalone modules are tracked into the folder `modules` every module has it's own git, and is versioned independantly of the Siberian Editions
 
-They have their own git-flow convention for developing, mastering & releasing, like the Siberian application itself.
 
-- Structure of a module
-    1. @TODO
-    
-- Modules list
-    0. MISC (this directory is for installed & custom modules)
-        - Inbox
-    1. SAE (Core)
-        - Acl
-        - Admin
-        - Api
-        - Application
-        - Backoffice
-        - Catalog
-        - Cms
-        - Codescan
-        - Comment
-        - Contact
-        - Core
-        - Customer
-        - Event
-        - Fanwall
-        - Folder
-        - Form
-        - Front
-        - Installer
-        - LoyaltyCard
-        - Map
-        - Maps
-        - Mcommerce
-        - Media
-        - Message
-        - Padlock
-        - Payment
-        - Places
-        - Preview
-        - Promotion
-        - Push
-        - Rss
-        - Social
-        - Socialgaming
-        - Sourcecode
-        - System
-        - Tax
-        - Template
-        - Tip
-        - Topic
-        - Translation
-        - Weather
-        - Weblink
-        - Wordpress
-    2. MAE
-    3. PE
-        - Sales
-        - Subscription
-        - Whitelabel
+# SiberianCMS command-line interface Help
 
-### Best-practices
+Available commands are: 
 
-Todo ...
-
-### Guidelines
-
-Todo ...
+|alias|Prints bash aliases to help development|
+|clearcache, cc|Clear siberian/var/cache|
+|clearlog, cl|Clear siberian/var/log|
+|cleanlang|Clean-up duplicates & sort languages CSV files|
+|db|Check if databases exists, otherwise create them|
+|export-db|Export db tables to schema files|
+|init|Initializes DB, project, settings.|
+|install|Install forks for cordova-lib.|
+|icons|Build ionicons font|
+||- install: install required dependencies (OSX Only).|
+||icons [install]|
+|ions|Start ionic serve in background|
+|rebuild|Rebuild a platform:|
+||- debug: option will show more informations.|
+||- copy: copy platform to siberian/var/apps.|
+||- no-manifest: don't call the rebuild manifest hook.|
+||rebuild <platform> [copy] [debug] [no-manifest]|
+|rebuild-all|Rebuild all platforms|
+|syncmodule, sm|Resync a module in the Application|
+|type|Switch the Application type 'sae|mae|pe' or print the current if blank|
+||note: clearcache is called when changing type.|
+||- reset: optional, will set is_installed to 0.|
+||- empty: optional, clear all the database.|
+||type [type] [reset] [empty]|
+|test|Test PHP syntax|
+|pack|Pack a module into zip, file is located in ./packages/modules/|
+||- If using from a module forlders module_name is optional|
+||pack <module_name>|
+|packall|Pack all referenced modules|
+|prepare|Prepare a platform:|
+||- debug: option will show more informations.|
+||- copy: copy platform to siberian/var/apps.|
+||- no-manifest: don't call the rebuild manifest hook.|
+||prepare <platform> [copy] [debug] [no-manifest]|
+|manifest|Rebuilds app manifest|
+|mver|Update all module version to <version> or only the specified one, in database.|
+||- module_name is case-insensitive and is searched with LIKE %module_name%|
+||- module_name is optional and if empty all modules versions are changed|
+||mver <version> [module_name]|
+|npm|Hook for npm version.|
+||npm <version>|
+|prod|Switch the Application mode to 'production'.|
+|dev|Switch the Application mode to 'development'.|
+|version|Prints the current SiberianCMS version.|
+|linkmodule, lm|Symlink a module from ./modules/ to ./siberian/app/local/modules/|
+||lm <module>|
+|unlinkmodule, ulm|Remove module symlink|
+||ulm <module>|
+|syncmodule, sm |Sync all sub-modules/platforms/plugins from git|

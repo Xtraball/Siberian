@@ -1,0 +1,226 @@
+<?php $application = $this->getApplication(); ?>
+<?php $upload_path = Application_Model_Application::getImagePath().'/homepage_image/'; ?>
+<!--[if gte IE 10]><!-->
+<div class="standard col-md-4">
+    <button type="button" class="bg upload upload_bg editor_menu active" rel="bg">
+        <i class="icon-mobile-phone"></i>
+        <?php echo $this->_("Change your<br /><span class='bold'>picture</span>"); ?><br/>
+    </button>
+    <p class="recommended_size"><b><?php echo $this->_('Recommended size:'); ?></b> 640x1136</p>
+
+    <div class="" style="width:160px; overflow:hidden;border:solid 1px #fff;padding:0">
+        <img id="homepage_standard" width="160px" style="display:block; background:black; border-radius: 0;" src="<?php echo $application->getHomepageBackgroundImageUrl() ?>" />
+    </div>
+
+</div>
+
+<div class="hd col-md-4">
+    <button type="button" class="bg_hd upload upload_bg editor_menu active" rel="bg_hd">
+        <i class="icon-mobile-phone"></i>
+        <?php echo $this->_("Change your<br /><span class='bold'>picture</span>"); ?><br/>
+    </button>
+    <div class="clear"></div>
+    <p class="clear recommended_size"><b><?php echo $this->_('Recommended size:'); ?></b> 1242x2208</p>
+
+    <div class="" style="width:160px; overflow:hidden;border:solid 1px #fff;padding:0">
+        <img id="homepage_hd" width="160px" style="display:block; background:black; border-radius: 0;" src="<?php echo $application->getHomepageBackgroundImageUrl('hd') ?>" />
+    </div>
+
+</div>
+
+<div class="tablet col-md-4">
+    <button type="button" class="bg_tablet upload upload_bg editor_menu active" rel="bg_tablet">
+        <i class="icon-tablet"></i>
+        <?php echo $this->_("Change your<br /><span class='bold'>picture</span>"); ?><br/>
+    </button>
+    <div class="clear"></div>
+    <p class="clear recommended_size"><b><?php echo $this->_('Recommended size:'); ?></b> 1536x2048</p>
+
+    <div class="" style="width:160px; overflow:hidden;border:solid 1px #fff;padding:0">
+        <img id="homepage_tablet" width="160px" style="display:block; background:black; border-radius: 0;" src="<?php echo $application->getHomepageBackgroundImageUrl('tablet') ?>" />
+    </div>
+
+</div>
+
+<!--<![endif]-->
+<?php /*
+<div id="fileupload_old_browser" style="display:none">
+    <p class="left">
+        <?php echo $this->_('Change your'); ?> <span class="bold"><?php echo $this->_('picture'); ?></span> <span class="recommended_size">(640*1096)</span>
+    </p>
+    <p class="right">
+        <?php echo $this->_('Change your'); ?> <span class="bold"><?php echo $this->_('picture'); ?></span> <span class="recommended_size">(640*920)</span>
+    </p>
+    <div class="clear"></div>
+</div>
+ */ ?>
+<input enctype="multipart/form-data" class="fileupload bg" type="file" style="display:none" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" rel="standard">
+<input enctype="multipart/form-data" class="fileupload bg_hd" type="file" style="display:none" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" rel="hd">
+<input enctype="multipart/form-data" class="fileupload bg_tablet" type="file" style="display:none" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" rel="tablet">
+
+<div class="clear"></div>
+<div id="homepage_options">
+   <label id="use_homepage_background_image_label" class="checkbox" for="use_homepage_background_image">
+        <input type="checkbox" <?php if($application->getUseHomepageBackgroundImageInSubpages() == 1) : ?>checked="checked"<?php endif; ?> id="use_homepage_background_image" name="use_homepage_background_image_in_subpages" value="1" />
+        <?php echo $this->_("Use into all of your application's pages"); ?>
+    </label>
+   <label class="checkbox" for="ios_status_bar_is_visible">
+        <input type="checkbox" <?php if($application->getIosStatusBarIsHidden()) : ?>checked="checked"<?php endif; ?> id="ios_status_bar_is_visible" name="ios_status_bar_is_hidden" value="1" />
+        <?php echo $this->_("Hide iOS status bar"); ?>
+    </label>
+    <label class="checkbox" for="android_status_bar_is_visible">
+        <input type="checkbox" <?php if($application->getAndroidStatusBarIsHidden()) : ?>checked="checked"<?php endif; ?> id="android_status_bar_is_visible" name="android_status_bar_is_hidden" value="1" />
+        <?php echo $this->_("Hide Android status bar"); ?>
+    </label>
+    <img width="24" style="display:none;" title="Loading" alt="Loading" id="loader_homepage_options" src="<?php echo $this->getImage('customization/ajax/spinner.gif') ?>">
+</div>
+<div id="capture_conteneurs">
+    <div class="left" id="crop_image_bg_cont"></div>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+
+        var homepage_uploader = new Uploader();
+        var type = '';
+
+        $('.fileupload').fileupload({
+            autoUpload: true,
+            dataType: 'json',
+            type: 'POST',
+            add: function (e, data) {
+
+                type = $(this).attr("rel");
+
+                data.formData = {
+                    fileType: type,
+                    uniq_prefix: type+'_',
+                    minwidth: '100',
+                    minheight: '200',
+                    maxwidth: '3000',
+                    maxheight: '3000'
+                },
+                data.submit();
+                homepage_uploader.showProgressbar();
+            },
+            progressall: function (e, data) {
+                homepage_uploader.moveProgressbar(data);
+            },
+            done: function (e, data) {
+                if(data.result.error) {
+                    loader.hide();
+                    homepage_uploader.showError(data.result.message);
+                } else {
+                    homepage_uploader.hide();
+                    var params = new Array();
+                    params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+                    params["file"] = data.result.files;
+                    params["uploader"] = 'homepage_uploader';
+                    if($(this).hasClass('bg_hd')) {
+                        params["output_w"] = 1242;
+                        params["output_h"] = 2208;
+                        params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('application/customization_design_style/savehomepage')) ?>$filetype$hd';
+                    } else if($(this).hasClass('bg_tablet')) {
+                        params["output_w"] = 1536;
+                        params["output_h"] = 2048;
+                        params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('application/customization_design_style/savehomepage')) ?>$filetype$tablet';
+                    } else {
+                        params["output_w"] = 640;
+                        params["output_h"] = 1136;
+                        params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('application/customization_design_style/savehomepage')) ?>$filetype$standard';
+                    }
+
+                    homepage_uploader.crop(params);
+                    homepage_uploader.callback = function(file) {
+                        if(type == 'hd') {
+                            $('#homepage_hd').attr('src', file).removeAttr('style');
+                            $('#crop_image_hd_cont').html('<img src="'+file+'" width="160px" />')
+                        } else if(type == 'tablet') {
+                            $('#homepage_tablet').attr('src', file).removeAttr('style');
+                            $('#crop_image_tablet_cont').html('<img src="'+file+'" width="160px" />')
+                        } else {
+                            $('#homepage_standard').attr('src', file).removeAttr('style');
+                            $('#crop_image_standard_cont').html('<img src="'+file+'" width="160px" />')
+                            iframe.reload();
+                        }
+
+                    }
+                }
+            }
+        });
+
+        $('.upload_bg').click(function(){
+            $("input.fileupload."+$(this).attr("rel")).trigger("click");
+            return false;
+        });
+
+        $('#use_homepage_background_image').change(function() {
+            var bg_loader = $('#loader_homepage_options').show();
+            reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/mutualizebackgroundimages'); ?>', true, function(datas) {
+                bg_loader.hide();
+            }, function() {
+                bg_loader.hide();
+            });
+        });
+        $('#ios_status_bar_is_visible').change(function() {
+
+            $(this).val($(this).is(':checked') ? 1 : 0);
+
+            if($(this).is(':checked')) {
+                $(".status_bar").addClass('hide');
+            } else {
+                $(".status_bar").removeClass('hide');
+            }
+
+            var bg_loader = $('#loader_homepage_options').show();
+            reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/changeiosstatusbarvisibility'); ?>', true, function(datas) {
+                bg_loader.hide();
+            }, function() {
+                bg_loader.hide();
+            });
+        });
+        $('#android_status_bar_is_visible').change(function() {
+
+            $(this).val($(this).is(':checked') ? 1 : 0);
+
+            if($(this).is(':checked')) {
+                $(".status_bar").addClass('hide');
+            } else {
+                $(".status_bar").removeClass('hide');
+            }
+
+            var bg_loader = $('#loader_homepage_options').show();
+            reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/changeandroidstatusbarvisibility'); ?>', true, function(datas) {
+                bg_loader.hide();
+            }, function() {
+                bg_loader.hide();
+            });
+        });
+
+</script>
+
+<style>
+    #browse_panel h3.title {
+        font-size: 18px;
+        font-weight: normal;
+        margin-bottom: 10px;
+    }
+    div.crop_controls_bg {
+        margin-bottom: 20px;
+    }
+    div.crop_controls_bg, div.crop_controls_lowres {
+        margin-top: 20px;
+    }
+    .bar {
+        height: 18px;
+        background: green;
+    }
+    #crop_image_bg_cont img, #crop_image_lowres_cont img {
+        border: solid 1px white;
+    }
+    div#homepage_options {
+        margin-top: 20px;
+    }
+    div#capture_conteneurs {
+        margin-top: 20px;
+    }
+</style>

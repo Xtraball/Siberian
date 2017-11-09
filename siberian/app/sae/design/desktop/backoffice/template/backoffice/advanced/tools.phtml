@@ -1,0 +1,58 @@
+
+<form ng-submit="test_integrity()" class="form-horizontal">
+    <sb-section title="'<?php echo addcslashes(__("Integrity check"), "'"); ?>'">
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <i class="fa fa-info-circle"></i>
+                    <?php echo __("This test is for development & support usage, this only highlights potential missing and/or modified files, results need to be interpreted.") ?>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary left"><i class="fa fa-play"></i> <?php echo __("Run test"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-12" ng-show="integrity_result.hash.length">
+                <h4><?php echo __("File hash is different from manifest.") ?></h4>
+                <div ng-repeat="file in integrity_result.hash">
+                    <span>{{ file }}</span>
+                </div>
+            </div>
+
+            <div class="col-md-12" ng-show="integrity_result.missing.length">
+                <h4><?php echo __("File is missing.") ?></h4>
+                <div ng-repeat="file in integrity_result.missing">
+                    <span>{{ file }}</span>
+                </div>
+
+            </div>
+        </div>
+
+    </sb-section>
+</form>
+
+<form ng-submit="restore_apps()" class="form-horizontal">
+    <sb-section title="'<?php echo addcslashes(__("Restore Apps sources"), "'"); ?>'">
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="alert alert-danger">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    <?php echo __("This action mainly serves as a development & support purpose<br />This will restore App sources 'iOS', 'Android', 'HTML5' & 'Overview' from the latest Siberian version, then rebuild the manifest to restore installed modules.") ?>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary left"><i class="fa fa-medkit"></i> <?php echo __("Restore Apps"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </sb-section>
+</form>
+
+
+

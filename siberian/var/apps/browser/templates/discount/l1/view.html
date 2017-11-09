@@ -1,0 +1,60 @@
+<ion-view sb-page-background class="discount-view">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <button ng-show="social_sharing_active" class="button button-clear" ng-click="share()">
+            <i class="icon ion-ios-upload-outline"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="list" ng-class="{'card' : card_design}">
+
+            <div class="item item-divider item-divider-custom" ng-if="promotion.title">
+                <h2>{{ promotion.title }}</h2>
+            </div>
+
+            <div class="item item-image item-custom" ng-if="!!promotion.picture.length" >
+                <img ng-src="{{ promotion.picture }}" width="100%" />
+            </div>
+
+            <div class="item item-icon-left item-custom" ng-click="confirmBeforeUse();" ng-if="promotion.is_unique && is_logged_in">
+                <i class="icon ion-ios-pricetag-outline"></i>
+                <p>{{ "Use this coupon" | translate }}</p>
+            </div>
+
+            <div class="item item-text-wrap item-icon-left item-custom" ng-click="login()" ng-if="!is_loading && !is_logged_in">
+                <i class="icon ion-ios-person-outline"></i>
+                <p>{{ "Click here to log-in" | translate }}</p>
+            </div>
+
+            <div class="item item-text-wrap item-icon-left item-custom" ng-if="promotion.description_html">
+                <i class="icon ion-ios-information-outline"></i>
+                <p ng-bind-html="promotion.description_html | trusted_html"></p>
+            </div>
+
+            <div class="item item-text-wrap item-icon-left item-custom" ng-if="promotion.conditions">
+                <i class="icon ion-android-warning"></i>
+                <p>{{ promotion.conditions }}</p>
+            </div>
+
+            <div class="item item-text-wrap item-icon-left item-custom" ng-if="promotion.end_at">
+                <i class="icon ion-ios-calendar-outline"></i>
+                <p>{{ "Valid Until" | translate }} {{ promotion.end_at }}</p>
+            </div>
+
+            <div class="item item-icon-left item-custom" ng-if="tc_id" ng-click="showTc();">
+                <i class="icon ion-ios-paper-outline"></i>
+                <p>{{ "Terms & Conditions" | translate }}</p>
+            </div>
+
+        </div>
+
+    </ion-content>
+    
+</ion-view>
+

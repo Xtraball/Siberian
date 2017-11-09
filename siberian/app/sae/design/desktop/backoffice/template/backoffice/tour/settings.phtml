@@ -1,0 +1,31 @@
+<sb-section title="'<?php echo addslashes(__("Start editing your platform tour")); ?>'">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-info">
+                <?php echo __("By clicking on link below, you will open your editor in tour editing mode. Please note that your user account must be created on editor side."); ?>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <button class="btn btn-primary" ng-click="loginAs()" ng-disabled="tour.bt_disabled"><?php echo __("Open the tour editing mode"); ?></button>
+            </div>
+            <div class="col-md-9" style="font-weight:bold; color:#FF0000" ng-show="tour.bt_disabled">
+                {{ tour.label_disabled }}
+            </div>
+        </div>
+    </div>
+</sb-section>
+<sb-section title="'<?php echo addslashes(__("Tour status")); ?>'">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-info">
+                <?php echo __("If inactive, your customer won't see the tour."); ?>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <label for="is_active">
+                <input type="checkbox" id="is_active" ng-model="tour.is_active" ng-change="changeStatus()" ng-checked="tour.is_active"/> <?php echo __("My tour is active"); ?>
+            </label>
+        </div>
+    </div>
+</sb-section>

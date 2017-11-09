@@ -1,0 +1,106 @@
+<?php $album = new Media_Model_Gallery_Music_Album(); ?>
+<?php $album->find($this->getAlbumId()); ?>
+<?php $tracks = new Media_Model_Gallery_Music_Track(); ?>
+<?php $tracks = $tracks->findAll(array('album_id' => $album->getId()), 'position ASC'); ?>
+
+<div id="album_cont">
+    <h3 class="title-editor border-blue text-center"><?php echo $album->getName() ?></h3>
+    <div class="container-fluid subcontent">
+        <div class="pull-left">
+            <?php if($album->getArtworkUrl()) : ?>
+                <img class="album_illus" src="<?php echo $album->getArtworkUrl() ?>" width="150px" height="150px"/>
+            <?php endif; ?>
+        </div>
+        <span class="track_count pull-left"><?php echo $tracks->count() ?> <?php echo $tracks->count() == 1 ? $this->_('title') : $this->_('titles') ?></span>
+    </div>
+    <div class="container-fluid">
+        <ul id="track_edit" class="table_row_galleries sortable list-group">
+            <?php foreach($tracks as $track) : ?>
+                <li rel="<?php echo $track->getId() ?>" class="list-group-item content-white-bkg">
+                    <i class="handle fa fa-sort fa fa-sort icon-move"></i>
+                    <span class="inner_content">
+                        <?php echo $track->getName() ?> de <?php echo $track->getArtistName() ?><span class="pull-right"><?php echo $track->getFormatedDuration() ?></span>
+                    </span>
+                    <span class="actions pull-right">
+                        <button class="deleteTrack color-blue btn pull-left" type="button"><i class="fa fa-times"></i></button>
+                        <input type="hidden" name="album_id" value="<?php echo $album->getId() ?>" class="input-flat"/>
+                        <input type="hidden" name="type" value="track" class="input-flat"/>
+                        <input type="hidden" name="element_id[]" value="<?php echo $track->getId() ?>" class="input-flat"/>
+                        <input type="hidden" name="value_id" value="<?php echo $this->getOptionValueId() ?>" class="input-flat"/>
+                    </span>
+                </li>
+            <?php endforeach ?>
+        </ul>
+    </div>
+</div>
+<style type="text/css">
+    #album_cont img.album_illus {
+        border: solid 1px;
+        margin-right: 20px;
+    }
+    #track_edit {
+        margin-top: 20px;
+        max-height: 500px;
+        overflow: auto;
+    }
+    #track_edit li {
+        transition: none;
+        display: block;
+    }
+    #track_edit li i, #track_edit li span {
+        display: inline;
+        vertical-align: middle;
+    }
+    #track_edit li .inner_content {
+        border-radius: 7px 7px 7px 7px;
+        display: inline-block;
+        margin-left: 10px;
+        padding: 10px;
+        width: 89%;
+    }
+    #track_edit .fa fa-sort icon-move {
+        cursor: move;
+    }
+    .track_edit-placeholder {
+        height: 20px;
+        border: dotted 1px;
+    }
+</style>
+<script type="text/javascript">
+    $('.deleteTrack').click(function(){
+        var $li = $(this).parent().parent();
+        var id = $(this).parent().find('input[name="track_id[]"]').val();
+        var album_id = $(this).parent().find('input[name="album_id"]').val();
+        if(confirm('<?php echo addslashes($this->_("Are you sure you want to delete this track?")); ?>')) {
+            reload($(this.parentNode), '<?php echo $this->getUrl('media/application_gallery_music/deleteelement'); ?>', true, function(datas) {
+                if(datas.success) {
+                    var track_count = $('#track_edit li').length;
+                    var chanson = '<?php echo $this->_("titles") ?>';
+                    if(track_count == 1) {
+                        chanson = '<?php echo $this->_("title") ?>';
+                    }
+                    $('.track_count').html(track_count+' '+chanson);
+                    $('#album_edit li[rel="'+album_id+'"]').find('.edit_album i').html('('+track_count+' '+chanson+')');
+                    $li.slideUp(function(){
+                        $li.remove();
+                    });
+                    iframe.f.reload();
+                }
+            });
+        }
+        return false;
+    });
+
+    $('#track_edit').sortable({
+        handle : '.handle',
+        placeholder: "track_edit-placeholder",
+        axis: "y",
+        update : function (e, ui) {
+            var order = $(e.target).sortable('serialize');
+            $(e.target).sortable("refresh");
+            reload($("#track_edit"), "<?php echo $this->getUrl('media/application_gallery_music/sorttracks', array('option_value_id' => $this->getOptionValueId())); ?>?"+order, true, function() {
+                if(iframe) iframe.reload();
+            });
+        }
+    });
+</script>

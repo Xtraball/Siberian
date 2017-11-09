@@ -1,0 +1,171 @@
+<?php $application = $this->getApplication(); ?>
+<?php $messages = new Message_Model_Application_Message(); ?>
+<?php $messages = $messages->findAllWithFiles($this->getApplication()->getId()); ?>
+<?php $nb_messages = count($messages["messages"]); ?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="application_messages page-content-wrapper content solo-page">
+            <h3 class="title-editor border-blue text-center">
+                <?php echo $this->_('Messages'); ?>
+            </h3>
+            <div class="subcontent content-color">
+                <div class="col-md-12">
+                    <form id="form_post_message" class="form-horizontal" method="post" action="<?php echo $this->getUrl('message/application/save'); ?>" onsubmit="return false;" >
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <button type="button" id="bt_upload_file" class="color-blue btn">
+                                    <i class="icon-file"></i>
+                                    <?php echo $this->_("Attach a file"); ?>
+                                </button>
+                                <input id="upload_file" class="uploader" style="display:none" type="file" name="file" data-url="<?php echo $this->getUrl('message/application/upload/').'/app_id/'.$this->getApplication()->getId(); ?>">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <ul id="file_list">
+                                    <li id="file_item" class="white" style="display:none">
+                                        <i class="icon-file-text"></i> <span id="file_name" class="white"></span> <i class="pointer fa fa-close remove_file"></i>
+                                        <input type="hidden" id="message_files" name="message_files[]" value="" />
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <textarea type="text" id="message" class="replace-with-ckeditor input-flat" name="message"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <button type="submit" class="color-blue btn"><?php echo $this->_("Send"); ?></button>
+                            </div>
+                        </div>
+                        <input type="hidden" id="app_id" name="app_id" value="<?php echo $this->getApplication()->getId(); ?>" />
+                        <input type="hidden" id="author_id" name="author_id" value="<?php echo $this->getApplication()->getAdminId(); ?>" />
+                    </form>
+                </div>
+                <div class="messages_list col-md-12">
+                    <?php foreach($messages["messages"] as $message): ?>
+                        <?php
+                        if(is_null($message->getFirstname()) OR $message->getFirstname() == "") {
+                            $message->setData("firstname",$this->_("Unknown"));
+                        }
+                        echo $this->getLayout()
+                            ->addPartial('row_'.$message->getId(), 'admin_view_default', 'message/application/view/row.phtml')
+                            ->setCurrentMessage($message)
+                            ->toHtml()
+                        ;
+                        ?>
+                    <?php endforeach; ?>
+                    <div class="no_message" <?php if(count($messages["messages"])>0) echo "style='display:none'"; ?>>
+                        <?php echo $this->_("No messages for now."); ?>
+                    </div>
+                </div>
+                <div class="more row load_more" <?php if(count($messages["messages"])<=0 OR count($messages["messages"])<$messages["display_per_page"] ) echo "style='display:none'"; ?>>
+                    <div class="col-sm-5">
+                        <hr/>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="text-center">
+                            <?php echo $this->_("Load older messages"); ?><br/>
+                            <i class="fa-angle-down"></i>
+                            <input type="hidden" id="load_more_app_id" name="load_more_app_id" value="<?php echo $this->getApplication()->getId(); ?>" />
+                            <input type="hidden" id="offset" name="offset" value="<?php echo $nb_messages; ?>" />
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <hr/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function(){
+
+        function bindAll() {
+            $('#form_post_message').unbind('submit');
+            $('#form_post_message').submit(function() {
+                if($("#message").val() != "") {
+                    reload(this, this.action, true, function (data) {
+                        //new message
+                        if (data.row_html) {
+                            $('.messages_list').prepend(data.row_html);
+                            $(".no_message").hide();
+                            bindAll();
+                        }
+                        $("#offset").val(parseInt($("#offset").val()) + 1);
+                        $("#message").val("");
+                        $(".new_file_item").remove();
+                    });
+                    return false;
+                } else {
+                    file_uploader.showError("<?php echo $this->_("You need to enter a message."); ?>");
+                }
+            });
+            $(".remove_file").click(function() {
+                $(this).parent().remove();
+            });
+        }
+
+        //Upload image
+        $("#bt_upload_file").click(function() {
+            $('#upload_file').trigger("click");
+        });
+
+        var file_uploader = new Uploader();
+        $('#upload_file').fileupload({
+            dataType: 'json',
+            add: function(e, data) {
+                data.submit();
+                file_uploader.showProgressbar();
+            },
+            progressall: function(e, data) {
+                file_uploader.moveProgressbar(data);
+            },
+            done: function(e, data) {
+                if (data.result.error) {
+                    file_uploader.showError(data.result.message);
+                }
+                if (data.result.success) {
+                    var new_item = $("#file_item").clone();
+                    new_item.attr("id","file_item_" + cpt);
+                    cpt++;
+                    new_item.find("#file_name").html(data.result.name);
+                    new_item.find("#message_files").val(data.result.name);
+                    new_item.find("#message_files").attr("id","message_files_" + cpt);
+                    new_item.addClass("new_file_item");
+                    $("#file_list").append(new_item);
+                    new_item.show();
+                    bindAll();
+                    file_uploader.hide();
+                }
+            }
+        });
+
+        $(".load_more").click(function() {
+            reload(this, '<?php echo $this->getUrl("message/application/loadmore"); ?>', true, function(data) {
+                //new message
+                if(data.messages.length > 0) {
+                    $.each(data.messages,function(index,elem) {
+                        $('.messages_list').append(elem);
+                    });
+                    $("#offset").val(parseInt($("#offset").val()) + data.messages.length);
+                    bindAll();
+                    if(data.messages.length < data.display_per_page) {
+                        $(".load_more").hide();
+                    }
+                } else {
+                    $(".load_more").hide();
+                }
+            });
+        });
+
+        bindAll();
+        var cpt = 0;
+        $('.replace-with-ckeditor').ckeditor();
+    });
+
+</script>

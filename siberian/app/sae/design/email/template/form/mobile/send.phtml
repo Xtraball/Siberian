@@ -1,0 +1,26 @@
+<?php $fields = $this->getFields(); ?>
+<table>
+    <tr style="padding: 0 15px; color:#888888; font-size: 17px; line-height: 150%; width:600px">
+        <td>
+            <p style="font-family: Verdana; font-weight: bold;color: #404040;font-size:18px; line-height:150%;"><?php echo $this->_('Hello,'); ?></p>
+            <p align="justify">
+                <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;">
+                    <?php echo $this->_('Your form has been filled out, here are the answers:'); ?><br />
+                </span>
+            </p>
+            <?php foreach($fields as $name => $values) : ?>
+            <p align="justify" style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;">
+                <?php echo $name ?> :
+                <?php if(is_array($values)) : ?>
+                <br />
+                <?php foreach($values as $value) : ?>
+                <span><?php echo stripslashes(nl2br($value)) ?></span><br />
+                <?php endforeach; ?>
+                <?php else : ?>
+                <?php echo stripslashes(nl2br($values)) ?>
+                <?php endif; ?>
+            </p>
+            <?php endforeach; ?>
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,113 @@
+<?php echo $this->doctype() ?>
+<?php //echo $this->getCurrentUrl(true, 'en'); ?>
+<html>
+    <head>
+        <title><?php echo $this->_($this->getTitle()) ?></title>
+        <?php foreach($this->getMetas() as $meta) : ?>
+        <meta <?php echo $meta->getTag() ?>="<?php echo $meta->getKey(); ?>" content="<?php echo $this->_($meta->getContent()); ?>" />
+        <?php endforeach ?>
+
+        <?php foreach(Core_Model_Language::getLanguages() as $language) : ?>
+        <?php if(Core_Model_Language::getCurrentLanguage() == $language->getCode()) continue;?>
+        <link rel="alternate" href="<?php echo $this->getCurrentUrl(true, $language->getCode()); ?>" hreflang="<?php echo $language->getCode() ?>" />
+        <?php endforeach ?>
+
+        <?php echo $this->headLink() ?>
+
+        <link rel="icon" type="image/png" href="/favicon.png" />
+        <link rel="shortcut icon" id="favicon" type="image/x-icon" href="/favicon.ico" />
+        <?php $base_url = str_replace($this->getRequest()->getPathInfo(), "", $this->getRequest()->getRequestUri()); ?>
+        <?php if(stripos($base_url, "/") !== 0) $base_url = "/$base_url"; ?>
+        <base href="<?php echo $base_url; ?>" />
+
+        <?php echo Siberian_Debug::renderHead(); ?>
+    </head>
+    <body class="<?php echo $this->default_class_name ?> general">
+
+        <div ng-app="Siberian-Backoffice">
+            <?php if(APPLICATION_ENV != "production"): ?>
+                <div class="alert alert-warning development-responsive">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    <span>
+                        <?php echo __("Be careful you are working in"); ?>
+                    </span>
+                    <b><?php echo __("Development") ?></b>
+                </div>
+            <?php endif; ?>
+            <div class="top">
+                <?php echo $this->getPartialHtml('header') ?>
+                <div class="message slide-down" ng-show="message.is_visible" ng-class="{error: message.is_error}">
+                    <p ng-bind-html="message.text"></p>
+                </div>
+            </div>
+            <?php echo $this->getPartialHtml('messages') ?>
+            <?php echo $this->getPartialHtml('menu'); ?>
+            <div>
+                <div id="wrapper" class="background" ng-class="direction">
+                    <div ng-view class="slide-view background" ng-class="code" ng-if="isLoggedIn"></div>
+                    <sb-login-dialog class="scale-fade background" ng-if="!isLoggedIn"></sb-login-dialog>
+                </div>
+
+                <?php echo $this->getPartialHtml("templates"); ?>
+            </div>
+
+            <div class="footer">
+                <?php echo $this->getPartialHtml('footer') ?>
+            </div>
+
+            <script type="text/ng-template" id="loginForm.html">
+                <?php echo $this->getPartialHtml("login"); ?>
+            </script>
+        </div>
+        <?php echo $this->headScript() ?>
+
+        <script type="text/javascript">
+            var BASE_URL = "<?php echo $base_url == "/" ? "" : $base_url; ?>";
+            var ORIG_URL = "<?php echo $this->getRequest()->getRequestUri(); ?>";
+            if(ORIG_URL.indexOf('/') !== 0) ORIG_URL = '/'+ORIG_URL;
+            var IMAGE_PATH = "<?php echo $this->getImagePath(); ?>";
+            App.factory("Label", function(Message) {
+                var factory = {};
+
+                factory.loading = {
+                    success: "",
+                    error: "<?php echo $this->_("An error occurred while loading. Please, try again later."); ?>"
+                };
+
+                factory.save = {
+                    success: "<?php echo $this->_("Info successfully saved"); ?>",
+                    error: "<?php echo $this->_("An error occurred while saving. Please try again later."); ?>"
+                };
+
+                factory.uploader = {
+                    error: {
+                        type: {
+                            zip: "<?php echo $this->_("You can upload a zip archive only."); ?>",
+                            pem: "<?php echo $this->_("You can upload a pem certificate only."); ?>",
+                            image: "<?php echo $this->_("You can upload an image only (.jpg, .jpeg, .gif and .png)."); ?>",
+                            icon: "<?php echo $this->_("You can upload an icon only (.ico and .png)."); ?>",
+                            png: "<?php echo $this->_("You can upload a png only (.png)."); ?>"
+                        },
+                        only_one_at_a_time: "<?php echo addslashes($this->_("You can't upload more than one file at a time.")); ?>",
+                        general: "<?php echo addslashes($this->_("An error occurred while uploading your file. Please, try again later.")); ?>"
+                    }
+                };
+
+                factory.android = {
+                    generating_apk: "<?php echo $this->_("Your APK is being generated. Please come back in a few minutes."); ?>"
+                };
+
+                factory.admin = {
+                    confirm_deletion: "<?php echo $this->_("Are you sure you want to delete this admin?"); ?>"
+                }
+
+                return factory;
+            });
+
+            App.run(function($rootScope, AUTH_EVENTS, Auth) {
+                Auth.user.id = "<?php echo $this->getSession()->getBackofficeUserId(); ?>";
+                $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+            })
+        </script>
+    </body>
+</html>

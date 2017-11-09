@@ -1,0 +1,325 @@
+<?php
+$option_value = $this->getOptionValue();
+$mcommerce = $option_value->getObject();
+$application = $this->getApplication();
+$order = $this->getCurrentOrder();
+$customer = $order->getCustomer();
+if(isset($customer) && !empty($customer)) {
+    $metadatas = $customer->getMetadatas();
+}
+?>
+<div>
+
+    <form id="orderEditForm" method="post" action="<?php echo $this->getUrl('mcommerce/application_order/editpost'); ?>" class="form-horizontal">
+        <div class="buttons">
+            <button type="button" onclick="orders.close();" class="delete left"><i class="icon-arrow-left"></i></button>
+            <button type="submit" class="default_button right btn">OK</button>
+        <?php if($order->getStatusId() == Mcommerce_Model_Order::DEFAULT_STATUS): ?>
+            <button type="button" onclick="orders.cancel();" class="default_button right btn"><?php echo $this->_("Cancel order"); ?></button>
+        <?php endif; ?>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+        <fieldset class="edit_order_informations">
+            <h4 class="subtitle">
+                <span class="left area"><?php echo $this->_('Customer'); ?></span>
+                <hr />
+                <div class="clear"></div>
+            </h4>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <label for="customer_firstname"><?php echo $this->_('Firstname:'); ?></label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" id="customer_firstname" name="customer[firstname]" class="input-flat required"
+                           value="<?php echo $customer ? $customer->getFirstname() : $order->getCustomerFirstname(); ?>"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <label for="customer_lastname"><?php echo $this->_('Lastname:'); ?></label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" id="customer_lastname" name="customer[lastname]" class="input-flat required"
+                           value="<?php echo $customer ? $customer->getLastname() : $order->getCustomerLastname(); ?>"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                    <label for="customer_email"><?php echo $this->_('Email:'); ?></label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" id="customer_email" name="customer[email]" class="input-flat required"
+                           value="<?php echo $customer ? $customer->getEmail() : $order->getCustomerEmail(); ?>"/>
+                </div>
+            </div>
+            <?php if($customer) { ?>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <label for="customer_phone"><?php echo $this->_('Phone:'); ?></label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" id="customer_phone" name="customer[metadatas][phone]" class="input-flat"
+                               value="<?php echo $metadatas['phone']; ?>"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <label for="customer_birthday"><?php echo $this->_('Birthday'); ?>:</label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" id="customer_birthday" name="customer[metadatas][birthday]" class="input-flat"
+                               value="<?php echo date("m/d/Y", strtotime($metadatas['birthday'])); ?>"/>
+                    </div>
+                </div>
+                <h3><?php echo $this->_('Delivery address'); ?>:</h3>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <label for="delivery_address_street"><?php echo $this->_('Street:'); ?></label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" id="delivery_address_street" name="customer[metadatas][delivery_address][street]" class="input-flat"
+                               value="<?php echo $metadatas['delivery_address']['street']; ?>"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <label for="delivery_address_postcode"><?php echo $this->_('Postcode:'); ?></label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" id="delivery_address_postcode" name="customer[metadatas][delivery_address][postcode]" class="input-flat"
+                               value="<?php echo $metadatas['delivery_address']['postcode']; ?>"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <label for="delivery_address_city"><?php echo $this->_('City:'); ?></label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" id="delivery_address_city" name="customer[metadatas][delivery_address][city]" class="input-flat"
+                               value="<?php echo $metadatas['delivery_address']['city']; ?>"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <label for="delivery_address_country"><?php echo $this->_('Country:'); ?></label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" id="delivery_address_country" name="customer[metadatas][delivery_address][country]" class="input-flat"
+                               value="<?php echo $metadatas['delivery_address']['country']; ?>"/>
+                    </div>
+                </div>
+                <h3><?php echo $this->_('Invoicing address'); ?>:</h3>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <label for="invoicing_address_street"><?php echo $this->_('Street:'); ?></label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" id="invoicing_address_street" name="customer[metadatas][invoicing_address][street]" class="input-flat"
+                               value="<?php echo $metadatas['invoicing_address']['street']; ?>"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <label for="invoicing_address_postcode"><?php echo $this->_('Postcode:'); ?></label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" id="invoicing_address_postcode" name="customer[metadatas][invoicing_address][postcode]" class="input-flat"
+                               value="<?php echo $metadatas['invoicing_address']['postcode']; ?>"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <label for="invoicing_address_city"><?php echo $this->_('City:'); ?></label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" id="invoicing_address_city" name="customer[metadatas][invoicing_address][city]" class="input-flat"
+                               value="<?php echo $metadatas['invoicing_address']['city']; ?>"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <label for="country"><?php echo $this->_('Postcode:'); ?></label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" id="country" name="customer[metadatas][invoicing_address][country]" class="input-flat"
+                               value="<?php echo $metadatas['invoicing_address']['country']; ?>"/>
+                    </div>
+                </div>
+            <?php } else { ?>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <label for="customer_phone"><?php echo $this->_('Phone:'); ?></label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" id="customer_phone" name="customer[phone]" class="input-flat"
+                               value="<?php echo $order->getCustomerPhone(); ?>"/>
+                    </div>
+                </div>
+                <h3><?php echo $this->_('Address:'); ?></h3>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <label for="delivery_address_street"><?php echo $this->_('Street:'); ?></label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" id="delivery_address_street" name="customer[street]" class="input-flat"
+                               value="<?php echo $order->getCustomerStreet(); ?>"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <label for="delivery_address_postcode"><?php echo $this->_('Postcode:'); ?></label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" id="delivery_address_postcode" name="customer[postcode]" class="input-flat"
+                               value="<?php echo $order->getCustomerPostcode(); ?>"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <label for="delivery_address_city"><?php echo $this->_('City:'); ?></label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" id="delivery_address_city" name="customer[city]" class="input-flat"
+                               value="<?php echo $order->getCustomerCity(); ?>"/>
+                    </div>
+                </div>
+            <?php } ?>
+        </fieldset>
+        <fieldset>
+            <h4 class="subtitle">
+                <span class="left area"><?php echo $this->_('Details'); ?></span>
+                <hr />
+                <div class="clear"></div>
+            </h4>
+            <table class="no-collapse" width="100%" cellspacing="10">
+                <tr>
+                    <th><?php echo $this->_('Status'); ?></th>
+                    <td>
+                        <select id="order_status_id" class="form-control no-dk" name="status_id">
+                            <?php foreach(Mcommerce_Model_Order::getStatuses() as $status) : ?>
+                            <option value="<?php echo $status->getId(); ?>"<?php if($status->getId() == $order->getStatusId()) : ?> selected="selected"<?php endif; ?>><?php echo $status->getLabel(); ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <table width="100%" class="order_details">
+                <col width="70%" />
+                <col width="10%" />
+                <col width="10%" />
+                <col width="10%" />
+                <tr>
+                    <th align="left"><?php echo $this->_('Product'); ?></th>
+                    <th><?php echo $this->_('Unit price'); ?></th>
+                    <th><?php echo $this->_('Qty'); ?></th>
+                    <th><?php echo $this->_('Total'); ?></th>
+                </tr>
+                <tr class="row_separator head_separator"><td colspan="4"><div style=""></div></td></tr>
+            <?php foreach($order->getLines() as $line) : ?>
+                <tr class="product">
+                    <td><?php echo $line->getName(); ?></td>
+                    <td align="right"><?php echo $line->getFormattedBasePriceInclTax(); ?></td>
+                    <td align="center"><?php echo $line->getQty(); ?></td>
+                    <td align="right"><?php echo count($line->getOptions()) ? $line->formatPrice($line->getBasePriceInclTax() * $line->getQty()): $line->formatPrice($line->getTotalInclTax() * $line->getQty()); ?></td>
+                </tr>
+                <?php foreach($line->getOptions() as $option) : ?>
+                <tr class="option">
+                    <td>+ <?php echo $option->getQty(); ?>x <?php echo $option->getName(); ?></td>
+                    <td align="right"><?php echo $option->getFormattedBasePrice(); ?></td>
+                    <td align="center"><?php echo $option->getQty() * $line->getQty(); ?></td>
+                    <td align="right"><?php echo $line->formatPrice($option->getPriceInclTax()); ?></td>
+                </tr>
+                <?php endforeach; ?>
+                <?php foreach($line->getChoices() as $id => $choice) :
+                    $group = new Catalog_Model_Product_Group();
+                    $group->find($id);
+                    $group->choices = [];
+                    foreach ($choice['selected_options'] as $sop){
+                        $option = new Catalog_Model_Product_Group_Option();
+                        $option->find($sop);
+                        $group->choices[] = $option->getName();
+                    }
+                    ?>
+                    <tr class="option">
+                        <td>
+                            <?php echo implode(", ", $group->choices); ?>
+                        </td>
+                        <td align="right"></td>
+                        <td align="center"></td>
+                        <td align="right"></td>
+                    </tr>
+                <?php endforeach; ?>
+                <tr class="row_separator"><td colspan="4"><div></div></td></tr>
+            <?php endforeach; ?>
+            </table>
+            <table class="no-collapse" width="100%" cellspacing="10">
+                <tr class="cart_totals">
+                   <th class="a-left f-bold"><?php echo $this->_('Subtotal'); ?></th>
+                   <td class="a-right"><?php echo $order->getFormattedSubtotal(); ?></td>
+               </tr>
+                <?php if($order->getDeliveryCost() > 0) { ?>
+               <tr>
+                    <th class="a-left f-bold"><?php echo $this->_('Incl.'); ?> <?php echo $this->_('Delivery Fees'); ?></th>
+                    <td class="a-right"><?php echo $order->getFormattedDeliveryTTC(); ?></td>
+                </tr>
+                <?php } ?>
+                <?php if($order->getDiscountCode()) { ?>
+                    <tr class="cart_totals">
+                        <th class="a-left f-bold"><?php echo $this->_('Code Used'); ?></th>
+                        <td class="a-right"><?php echo $order->getDiscountCode(); ?></td>
+                    </tr>
+                    <tr class="cart_totals">
+                        <th class="a-left f-bold"><?php echo $this->_('Deduction'); ?></th>
+                        <td class="a-right"><?php echo $order->getFormattedDiscount(); ?></td>
+                    </tr>
+                <?php } ?>
+                <tr class="cart_totals">
+                    <th class="a-left f-bold"><?php echo $this->_('Subtotal Excl. Tax'); ?></th>
+                    <td class="a-right"><?php echo $order->getFormattedDeductedTotalHT(); ?></td>
+                </tr>
+               <tr class="cart_totals">
+                   <th class="a-left f-bold"><?php echo $this->_('Tax'); ?></th>
+                   <td class="a-right"><?php echo $order->getFormattedDeductedTva(); ?></td>
+               </tr>
+                <?php if ($mcommerce->getAddTip() || $order->getTip()) { ?>
+                    <tr class="cart_totals">
+                        <th class="a-left f-bold"><?php echo $this->_('Gratuity'); ?></th>
+                        <td class="a-right"><?php echo $order->getFormattedTip(); ?></td>
+                    </tr>
+                <?php } ?>
+               <tr class="cart_totals">
+                   <th class="a-left f-bold"><?php echo $this->_('Total'); ?></th>
+                   <td class="a-right"><?php echo $order->getFormattedTotal(); ?></td>
+               </tr>
+           </table>
+           <?php if($order->getPaidAmount() > 0) : ?>
+            <table class="no-collapse" width="100%" cellspacing="10">
+                <tr class="cart_totals">
+                   <th class="a-left f-bold"><?php echo $this->_("Paid by the client:"); ?></th>
+                   <td class="a-right"><?php echo $order->getFormattedPaidAmount(); ?></td>
+                </tr>
+                <tr class="cart_totals">
+                   <th class="a-left f-bold"><?php echo $this->_("Amount remaining:"); ?></th>
+                   <td class="a-right"><?php echo $order->formatPrice($order->getPaidAmount() - $order->getTotal()); ?></td>
+                </tr>
+            </table>
+            <?php endif; ?>
+        </fieldset>
+
+        <fieldset>
+            <h3 class="title-editor">
+                <?php echo $this->_('Notes'); ?>
+            </h3>
+            <div class="container-fluid">
+                <div class="margin-top: 1em;"><?php echo $order->getNotes(); ?></div>
+            </div>
+        </fieldset>
+
+        <?php if($order->getId()) : ?>
+            <input type="hidden" name="order_id" id="order_id" value="<?php echo $order->getId() ?>" />
+        <?php endif; ?>
+        <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId() ?>" />
+
+    </form>
+</div>

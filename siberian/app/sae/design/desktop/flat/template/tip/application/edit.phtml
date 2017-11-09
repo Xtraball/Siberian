@@ -1,0 +1,18 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $application = $this->getApplication(); ?>
+<div class="container-fluid">
+    <div id="list" class="row">
+        <div class="col-md-12">
+            <p><?php echo __("This feature allows your users to calculate tips with their app."); ?></p>
+        </div>
+    </div>
+</div>
+<div class="background-images-upload">
+    <?php echo $this->importBackground($option_value); ?>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        bindForms('.background-images-upload');
+    });
+</script>

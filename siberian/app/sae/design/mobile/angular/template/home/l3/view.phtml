@@ -1,0 +1,18 @@
+<div id="tabbar_items" class="overview-tabbar tabbar_items type_scroll slide-top {{ features.layoutId }} {{ classOffline }}" ng-show="tabbar_is_visible">
+    <ul id="tabbar" class="tabbar_l3">
+        <li>
+            <div ng-repeat="option in features.overview.options">
+                <a tabbar-items option="option" go-to-url="goToUrl(option)" class="item" ng-class="{ is_link: option.is_link }" target="_parent" title="{{ option.name }}">
+                    <div class="relative">
+                        <div class="fullscreen"></div>
+                        <div class="tabbar">
+                            <img ng-src="{{ option.icon_url }}" ng-class="{ colorable: option.icon_is_colorable }" width="55" height="55" title="{{ option.name }}" alt="{{ option.name }}" />
+                        </div>
+                        <span class="tabbar no-background block">{{ option.name }}</span>
+                        <div ng-if="option.code == 'push_notification' && pushs" class="badge">{{ pushs }}</div>
+                    </div>
+                </a>
+            </div>
+        </li>
+    </ul>
+</div>

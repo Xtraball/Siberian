@@ -1,0 +1,191 @@
+
+<form ng-submit="save()">
+
+    <?php if(design_code() === "siberian"): ?>
+    <sb-section title="configs.editor_design.label">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="editor_design"><?php echo __("Editor's Design");?></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <select id="editor_design" class="form-control" ng-change="Change_Design()" ng-model="configs.editor_design.value" ng-options="k as v for (k, v) in designs"></select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
+                    <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </sb-section>
+    <?php endif; ?>
+
+    <sb-section title="configs.logo.label" class="upload_area">
+        <p class="help-block" ng-bind-html="design_message"></p>
+
+        <br />
+        <div class="col-md-3">
+            <div class="upload_a_file">
+                <label for="logo_uploader"><?php echo __("Click here to send your logo"); ?></label>
+                <input id="logo_uploader" type="file" nv-file-select="" uploader="logo_uploader" />
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="drop_a_file">
+                <label><?php echo __("OR"); ?></label>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="drop_a_file">
+                <label><?php echo __("Drop your logo here"); ?></label>
+                <div ng-show="logo_uploader.isHTML5">
+                    <div class="well drop-zone" nv-file-drop="" nv-file-over="" uploader="logo_uploader">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3" ng-if="configs.logo.value">
+            <label><?php echo __("Current logo"); ?></label>
+            <div>
+                <img ng-src="{{ configs.logo.value }}" width="100" />
+            </div>
+        </div>
+
+
+        <div class="clear"></div>
+
+        <table class="table" ng-show="logo_uploader.queue.length">
+            <thead>
+            <tr>
+                <th width="50%">Name</th>
+                <th ng-show="logo_uploader.isHTML5">Size</th>
+                <th ng-show="logo_uploader.isHTML5">Progress</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in logo_uploader.queue" ng-show="logo_uploader.queue.length">
+                <td>
+                    <strong>{{ item.file.name }}</strong>
+                    <div ng-show="logo_uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                </td>
+                <td ng-show="logo_uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                <td ng-show="logo_uploader.isHTML5">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <span ng-show="item.isSuccess"><i class="fa fa-check"></i></span>
+                    <span ng-show="item.isCancel"><i class="fa fa-ban"></i></span>
+                    <span ng-show="item.isError"><i class="fa fa-remove"></i></span>
+                </td>
+                <td nowrap>
+<!--                    <button type="button" class="btn btn-primary btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">-->
+<!--                        <span class="fa fa-upload"></span>-->
+<!--                    </button>-->
+                    <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                        <span class="fa fa-ban"></span>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                        <span class="fa fa-remove"></span>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </sb-section>
+
+    <div class="clear"></div>
+
+    <sb-section title="configs.favicon.label" class="upload_area">
+        <p class="help-block"><?php echo __("<b>File types:</b> %s<br /><b>Recommended size:</b> %s", "png, ico", "32x32px"); ?></p>
+
+        <br />
+        <div class="col-md-3">
+            <div class="upload_a_file">
+                <label for="favicon_uploader"><?php echo __("Click here to send your favicon"); ?></label>
+                <input id="favicon_uploader" type="file" nv-file-select="" uploader="favicon_uploader" />
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <label><?php echo __("OR"); ?></label>
+        </div>
+
+        <div class="col-md-5">
+            <div class="drop_a_file left">
+                <label><?php echo __("Drop your favicon here"); ?></label>
+                <div ng-show="favicon_uploader.isHTML5">
+                    <div class="well drop-zone" nv-file-drop="" nv-file-over="" uploader="favicon_uploader">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3" ng-if="configs.favicon.value">
+            <label><?php echo __("Current favicon"); ?></label>
+            <div>
+                <img ng-src="{{ configs.favicon.value }}" width="32" height="32" />
+            </div>
+        </div>
+
+        <div class="clear"></div>
+
+        <table class="table" ng-show="favicon_uploader.queue.length">
+            <thead>
+            <tr>
+                <th width="50%">Name</th>
+                <th ng-show="favicon_uploader.isHTML5">Size</th>
+                <th ng-show="favicon_uploader.isHTML5">Progress</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in favicon_uploader.queue" ng-show="favicon_uploader.queue.length">
+                <td>
+                    <strong>{{ item.file.name }}</strong>
+                    <div ng-show="favicon_uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                </td>
+                <td ng-show="favicon_uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                <td ng-show="favicon_uploader.isHTML5">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <span ng-show="item.isSuccess"><i class="fa fa-check"></i></span>
+                    <span ng-show="item.isCancel"><i class="fa fa-ban"></i></span>
+                    <span ng-show="item.isError"><i class="fa fa-remove"></i></span>
+                </td>
+                <td nowrap>
+<!--                    <button type="button" class="btn btn-primary btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">-->
+<!--                        <span class="fa fa-upload"></span>-->
+<!--                    </button>-->
+                    <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                        <span class="fa fa-ban"></span>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()" ng-disabled="item.isReady || item.isUploading">
+                        <span class="fa fa-remove"></span>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </sb-section>
+
+</form>

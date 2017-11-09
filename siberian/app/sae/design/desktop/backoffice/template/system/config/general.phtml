@@ -1,0 +1,278 @@
+
+<form ng-submit="save()" class="form-horizontal">
+    <sb-section title="'<?php echo __js("Your Platform","'"); ?>'">
+
+        <div class="form-group">
+            <div class="col-md-6">
+                <label for="{{ configs.platform_name.code }}">{{ configs.platform_name.label }}</label>
+                <input type="text" id="{{ configs.platform_name.code }}" ng-model="configs.platform_name.value" class="form-control" placeholder="{{ configs.platform_name.label }}" />
+            </div>
+            <div class="col-md-6">
+                <label for="{{ configs.facebook_import_active.code }}">{{ configs.facebook_import_active.label }}</label>
+                <select id="{{ configs.facebook_import_active.code }}" class="form-control" ng-model="configs.facebook_import_active.value">
+                    <option value="1"><?php echo __("Active"); ?></option>
+                    <option value="0"><?php echo __("Inactive"); ?></option>
+                </select>
+            </div>
+        </div>
+
+    </sb-section>
+
+    <sb-section title="'<?php echo __js("Your iOS autobuild License Key","'"); ?>'">
+        <div ng-if="iosBuildLicenceError !== ''" class="alert alert-danger" role="alert">{{ iosBuildLicenceError }}</div>
+        <div class="form-group">
+            <div class="col-md-6">
+                <label for="{{ configs.ios_autobuild_key.code }}">{{ configs.ios_autobuild_key.label }}</label>
+                <input type="text" id="{{ configs.ios_autobuild_key.code }}" ng-model="configs.ios_autobuild_key.value" class="form-control" placeholder="{{ configs.ios_autobuild_key.label }}" />
+            </div>
+            <div class="col-md-6">
+                <label for="activatiom_remain"><?php echo __("Remaining builds");?></label>
+                <div ng-if="iosBuildActivationRemain === false">
+                    <div class="cssloader-small"></div>
+                </div>
+                <div ng-if="iosBuildActivationRemain !== false">
+                    {{ iosBuildActivationRemain }}
+                </div>
+            </div>
+        </div>
+    </sb-section>
+
+    <sb-section class="clear" title="'<?php echo __js("Your company","'"); ?>'">
+
+        <div class="form-group">
+            <div class="col-md-6">
+                <label for="{{ configs.company_name.code }}">{{ configs.company_name.label }}</label>
+                <input type="text" id="{{ configs.company_name.code }}" ng-model="configs.company_name.value" class="form-control" placeholder="{{ configs.company_name.label }}" />
+            </div>
+        </div>
+        <div class="clear"></div>
+
+        <div class="form-group">
+            <div class="col-md-6">
+                <label for="{{ configs.company_address.code }}">{{ configs.company_address.label }}</label>
+                <textarea rows="3" id="{{ configs.company_address.code }}" ng-model="configs.company_address.value" class="form-control" placeholder="{{ configs.company_address.label }}"></textarea>
+            </div>
+            <div class="col-md-6">
+                <label for="{{ configs.company_country.code }}">{{ configs.company_country.label }}</label>
+                <select id="configs.company_country.code" class="form-control" ng-model="configs.company_country.value" ng-options="k as v for (k, v) in countries">
+                    <option value=""><?php echo __("Select a country"); ?></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="clear"></div>
+
+        <div class="form-group">
+            <div class="col-md-6">
+                <label for="{{ configs.company_phone.code }}">{{ configs.company_phone.label }}</label>
+                <input type="text" id="{{ configs.company_phone.code }}" ng-model="configs.company_phone.value" class="form-control" placeholder="{{ configs.company_phone.label }}" />
+            </div>
+            <div class="col-md-6">
+                <label for="{{ configs.company_vat_number.code }}">{{ configs.company_vat_number.label }}</label>
+                <input type="text" id="{{ configs.company_vat_number.code }}" ng-model="configs.company_vat_number.value" class="form-control" placeholder="{{ configs.company_vat_number.label }}" />
+            </div>
+        </div>
+    </sb-section>
+
+    <div class="clear"></div>
+
+    <sb-section title="'<?php echo __js("Your Location","'"); ?>'">
+        <div class="form-group">
+            <div class="col-md-6">
+                <label for="{{ configs.system_timezone.code }}">{{ configs.system_timezone.label }}</label>
+                <select class="form-control" ng-model="configs.system_timezone.value" ng-options="k as v for (k, v) in configs.territories">
+                    <option value=""></option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="{{ configs.system_currency.code }}">{{ configs.system_currency.label }}</label>
+                <select id="{{ configs.system_currency.code }}" class="form-control" ng-model="configs.system_currency.value" ng-options="k as v for (k, v) in configs.currencies">
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group" ng-if="configs.languages">
+            <div class="col-md-6" >
+                <label for="{{ configs.system_default_language.code }}">{{ configs.system_default_language.label }}</label>
+                <select class="form-control" ng-model="configs.system_default_language.value" ng-options="k as v for (k, v) in configs.languages">
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+    </sb-section>
+
+    <div class="clear"></div>
+
+    <sb-section title="'<?php echo __js("Your Applications","'"); ?>'">
+
+
+        <div class="form-group" ng-if="configs.system_publication_access_type">
+            <div class="col-md-6" >
+                <label for="{{ configs.system_publication_access_type.code }}">{{ configs.system_publication_access_type.label }}</label>
+                <select class="form-control" ng-model="configs.system_publication_access_type.value">
+                    <option value="sources"><?php echo __("Sources code"); ?></option>
+                    <option value="info"><?php echo __("Info"); ?></option>
+                </select>
+                <p class="help-block" ng-show="configs.system_publication_access_type.value == 'sources'"><?php echo __("Users can download application sources code."); ?></p>
+                <p class="help-block" ng-show="configs.system_publication_access_type.value == 'info'"><?php echo __("Users give you the required information to publish applications."); ?></p>
+            </div>
+        <?php if($this->isPe()): ?>
+            <div class="col-md-6">
+                <label for="{{ configs.application_free_trial.code }}">{{ configs.application_free_trial.label }}</label>
+                <input type="text" id="{{ configs.application_free_trial.code }}" ng-model="configs.application_free_trial.value" class="form-control" placeholder="{{ configs.application_free_trial.label }}"/>
+                <p class="help-block"><?php echo __("Duration of the free trial period of your platform (in days, 0 for no free trial)."); ?></p>
+            </div>
+        <?php endif; ?>
+        </div>
+
+    </sb-section>
+
+    <sb-section title="'<?php echo __js("Analytics","'"); ?>'" ng-show="is_flat_design">
+        <div class="form-group">
+            <div class="col-md-6">
+                <button type="button" class="btn btn-primary" ng-click="Compute_Analytics()"><?php echo __("Generate analytics for the current day"); ?></button>
+                <p class="help-block"><?php echo __("Click here to force analytics computing"); ?></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-primary" ng-click="Compute_Analytics_For_Period()"><?php echo __("Generate analytics for given period"); ?></button>
+                <input type="text" class="form-control"
+                       ng-model="generateAnalyticsPeriod.from_displayed_date"
+                       ng-focus="datepicker_visible_from = true"
+                       ng-change="datepicker_visible_from = false" placeholder="<?php echo __('from');?>" style="width:auto;display:inline" size="10"/>
+                <input type="text" class="form-control"
+                       ng-model="generateAnalyticsPeriod.to_displayed_date"
+                       ng-focus="datepicker_visible_to = true"
+                       ng-change="datepicker_visible_to = false" placeholder="<?php echo __('to');?>" style="width:auto;display:inline" size="10"/>
+                <sb-loader is_visible="form_loader_is_visible_for_analytics" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                <div style="margin-left:25%">
+                    <datetimepicker data-ng-model="generateAnalyticsPeriod.from"
+                        data-displayed-date="generateAnalyticsPeriod.from_displayed_date"
+                        data-datetimepicker-config="{ startView:'day', minView:'day', format:'<?php echo strtoupper(__("MM/dd/yyyy")); ?>' }"
+                        data-is-visible="datepicker_visible_from"></datetimepicker>
+                    <datetimepicker data-ng-model="generateAnalyticsPeriod.to"
+                        data-displayed-date="generateAnalyticsPeriod.to_displayed_date"
+                        data-datetimepicker-config="{ startView:'day', minView:'day', format:'<?php echo strtoupper(__("MM/dd/yyyy")); ?>' }"
+                        data-is-visible="datepicker_visible_to"></datetimepicker>
+                </div>
+            </div>
+        </div>
+    </sb-section>
+
+    <div class="clear"></div>
+
+    <sb-section title="'<?php echo __js("Advertising","'"); ?>'">
+        <div class="form-group">
+            <div class="col-md-6">
+                <label for="{{ configs.application_owner_use_ads.code }}"><?php echo __("Force all app to use Owner AdMob"); ?></label>
+                <select id="{{ configs.application_owner_use_ads.code }}" class="form-control" ng-model="configs.application_owner_use_ads.value">
+                    <option value="1"><?php echo __("Yes") ?></option>
+                    <option value="0"><?php echo __("No") ?></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="alert alert-info" role="alert">
+                    <?php echo __("If user doesn't use AdMob, split revenue will default to 100.") ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-6">
+
+                <div class="title">
+                    <h4><?php echo __("Ios") ?></h4>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="{{ configs.application_ios_owner_admob_weight.code }}"><?php echo __("Split Ad revenue (percent for you)"); ?></label>
+                        <input type="number" min="0" max="100" step="1" id="{{ configs.application_ios_owner_admob_weight.value }}" ng-model="configs.application_ios_owner_admob_weight.value" class="form-control"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="{{ configs.application_ios_owner_admob_id.code }}"><?php echo __("Admob Banner ID"); ?></label>
+                        <input type="text" id="{{ configs.application_ios_owner_admob_id.value }}" ng-model="configs.application_ios_owner_admob_id.value" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="{{ configs.application_ios_owner_admob_interstitial_id.code }}"><?php echo __("Admob Interstitial ID"); ?></label>
+                        <input type="text" id="{{ configs.application_ios_owner_admob_interstitial_id.value }}" ng-model="configs.application_ios_owner_admob_interstitial_id.value" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="{{ configs.application_ios_owner_admob_type.code }}"><?php echo __("Admob type"); ?></label>
+                        <select id="{{ configs.application_ios_owner_admob_type.code }}" class="form-control" ng-model="configs.application_ios_owner_admob_type.value">
+                            <option value="banner"><?php echo __("Banner") ?></option>
+                            <option value="interstitial"><?php echo __("Interstitial") ?></option>
+                            <option value="banner-interstitial"><?php echo __("Banner & Interstitial") ?></option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+
+                <div class="title">
+                    <h4><?php echo __("Android") ?></h4>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="{{ configs.application_android_owner_admob_weight.code }}"><?php echo __("Split Ad revenue (percent for you)"); ?></label>
+                        <input type="number" min="0" max="100" step="1" id="{{ configs.application_android_owner_admob_weight.value }}" ng-model="configs.application_android_owner_admob_weight.value" class="form-control"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="{{ configs.application_android_owner_admob_id.code }}"><?php echo __("Admob Banner ID"); ?></label>
+                        <input type="text" id="{{ configs.application_android_owner_admob_id.value }}" ng-model="configs.application_android_owner_admob_id.value" class="form-control"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="{{ configs.application_android_owner_admob_interstitial_id.code }}"><?php echo __("Admob Interstitial ID"); ?></label>
+                        <input type="text" id="{{ configs.application_android_owner_admob_interstitial_id.value }}" ng-model="configs.application_android_owner_admob_interstitial_id.value" class="form-control" />
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="{{ configs.application_android_owner_admob_type.code }}"><?php echo __("Admob type"); ?></label>
+                        <select id="{{ configs.application_android_owner_admob_type.code }}" class="form-control" ng-model="configs.application_android_owner_admob_type.value">
+                            <option value="banner"><?php echo __("Banner") ?></option>
+                            <option value="interstitial"><?php echo __("Interstitial") ?></option>
+                            <option value="banner-interstitial"><?php echo __("Banner & Interstitial") ?></option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+         <div class="form-group">
+             <div class="col-md-12">
+                <button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+    </sb-section>
+
+</form>

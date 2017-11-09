@@ -1,0 +1,30 @@
+<?php $product = $this->getProduct(); ?>
+<li class="product list-group-item content-white-bkg" id="product_<?php echo $product->getId(); ?>" rel="<?php echo $product->getCategory()->getId(); ?>">
+    <div class="row">
+        <div class="col-md-1">
+            <a class="handle_product"><i class="fa fa-sort"></i></a>
+        </div>
+        <div class="col-md-6">
+            <?php echo $product->getName(); ?>
+        </div>
+        <div class="col-md-2">
+            <?php echo $product->getFormattedPrice(); ?>
+        </div>
+        <div class="actions col-md-3 text-right">
+            <a rel="prettyPhoto[ajax]" href="<?php echo $this->getUrl('catalog/application_product/edit', array('option_value_id' => $this->getOptionValue()->getId(), 'id' => $product->getId())); ?>?ajax=true" class="edit_product"><i class="fa fa-pencil"></i></a>
+            <a href="javascript:void(0);" onclick="product.remove(<?php echo $product->getId(); ?>); return false;"><i class="fa fa-times"></i></a>
+            <input type="hidden" name="product_id" value="<?php echo $product->getId(); ?>" />
+        </div>
+    </div>
+</li>
+
+<style>
+    li:nth-child(1).product i.fa.fa-arrows-v, li:nth-child(1).product i.fa.fa-arrows-v:before {
+        content: "\f175";
+        cursor: s-resize;
+    }
+    li:nth-last-child().product i.fa.fa-arrows-v, li:nth-last-child().product i.fa.fa-arrows-v:before {
+        content: "\f176";
+        cursor: s-resize;
+    }
+</style>

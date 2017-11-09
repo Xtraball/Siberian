@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <backoffice_index_index>
+
+    </backoffice_index_index>
+
+    <backoffice_index_clearcache>
+
+    </backoffice_index_clearcache>
+
+    <backoffice_index_template>
+        <views>
+            <content class="core_view_default" template="html/fullsize.phtml" />
+            <page_content class="core_view_default" template="backoffice/index/index.phtml" />
+        </views>
+    </backoffice_index_template>
+
+    <backoffice_paginate_template>
+        <views>
+            <content class="core_view_default" template="html/paginate.phtml" />
+        </views>
+    </backoffice_paginate_template>
+
+    <backoffice_account_list_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="backoffice/account/list.phtml" />
+        </views>
+    </backoffice_account_list_template>
+
+    <backoffice_account_view_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="backoffice/account/view.phtml" />
+        </views>
+    </backoffice_account_view_template>
+
+    <backoffice_notif_list_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="backoffice/notif/list.phtml" />
+        </views>
+    </backoffice_notif_list_template>
+
+    <backoffice_notif_message_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="backoffice/notif/message.phtml" />
+        </views>
+    </backoffice_notif_message_template>
+
+    <backoffice_advanced_module_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="backoffice/advanced/module.phtml" />
+        </views>
+    </backoffice_advanced_module_template>
+
+    <backoffice_advanced_cron_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="backoffice/advanced/cron.phtml" />
+        </views>
+    </backoffice_advanced_cron_template>
+
+    <backoffice_advanced_configuration_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="backoffice/advanced/configuration.phtml" />
+        </views>
+    </backoffice_advanced_configuration_template>
+
+    <backoffice_advanced_tools_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="backoffice/advanced/tools.phtml" />
+        </views>
+    </backoffice_advanced_tools_template>
+
+    <backoffice_advanced_whitelabel_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="backoffice/advanced/whitelabel.phtml" />
+        </views>
+    </backoffice_advanced_whitelabel_template>
+
+    <backoffice_tour_settings_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="backoffice/tour/settings.phtml" />
+        </views>
+    </backoffice_tour_settings_template>
+</layout>

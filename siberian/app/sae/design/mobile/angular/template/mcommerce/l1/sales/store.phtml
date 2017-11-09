@@ -1,0 +1,31 @@
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="'<?php echo $this->_("Store choice"); ?>'" message="message" right-button="header_right_button"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="mcommerce sales storechoice">
+        <div id="payment_infos_content" class="mcommerce-cart relative" rel="mcommerce_sales_payment">
+            <div class="scroll" class="relative">
+                <div class="padding">
+                    <div class="title">
+                        <h2><?php echo $this->_('Choose a store'); ?></h2>
+                        <hr class="background reverse" />
+                    </div>
+                    <ul>
+                        <li ng-repeat="store in stores" class="storechoice-option">
+                            <label for="{{ store.id }}">
+                                <input type="radio" id="{{ store.id }}" ng-model="selected_store.id" value="{{ store.id }}" ng-change="chooseStore()">
+                                {{ store.name }}<br/><span ng-if="store.min_amount && store.min_amount>0"><?php echo $this->_("Min. amount:"); ?> {{ store.formatted_min_amount }}</span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+

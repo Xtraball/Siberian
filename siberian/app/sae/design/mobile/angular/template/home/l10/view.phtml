@@ -1,0 +1,31 @@
+<div id="tabbar_items" class="overview-tabbar tabbar_items tabbar {{ features.layoutId }} ng-hide" ng-class="{'slide-top': animate_tabbar}" ng-show="tabbar_is_visible">
+    <ul id="tabbar" class="l10">
+        <li ng-repeat="option in features.overview.options">
+            <a tabbar-items option="option" go-to-url="goToUrl(option)" class="item relative" ng-class="{more_icon: option.code == 'tabbar_more', is_link: option.is_link, tabbar: option.code == 'tabbar_more' }" target="_parent" title="{{ option.name }}">
+                <div class="fullscreen"></div>
+                <img ng-src="{{ option.icon_url }}" ng-class="{ colorable: option.icon_is_colorable }" width="30" height="30" title="{{ option.name }}" alt="{{ option.name }}" />
+                <span class="block" ng-if="option.code != 'tabbar_more'">{{ option.name }}</span>
+                <div ng-if="option.code == 'push_notification' && pushs" class="badge">{{ pushs }}</div>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<div id="scrollview_tabbar_items" class="l10 full-tabbar tabbar scrollable_content slide-top ng-hide" ng-show="pages_list_is_visible">
+    <div class="menu_close">
+        <a href="javascript:void(0)" class="item tabbar" ng-click="closeList();">
+            <span id="tabbar_name_close" class="close_button block">X</span>
+        </a>
+    </div>
+    <ul>
+        <li ng-repeat="option in features.options">
+            <a tabbar-items option="option" go-to-url="goToUrl(option)" class="item relative" target="_parent" title="{{ option.name }}">
+                <div class="fullscreen"></div>
+                <img ng-src="{{ option.icon_url }}" width="30" height="30" ng-class="{ colorable: option.icon_is_colorable }" title="{{ option.name }}" alt="{{ option.name }}" />
+                <span class="block">{{ option.name }}</span>
+                <div ng-if="option.code == 'push_notification' && pushs" class="badge">{{ pushs }}</div>
+                <div class="clear"></div>
+            </a>
+        </li>
+    </ul>
+</div>

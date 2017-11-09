@@ -1,0 +1,259 @@
+<?php
+$application = $this->getApplication();
+$option_value = $this->getOptionValue();
+$is_places = ($this->getCurrentFeature() == "places");
+$is_new = ($this->getIsNew());
+
+if (!($page = $this->getCurrentPage())) {
+    $page = new Cms_Model_Application_Page();
+    $page->find($option_value->getId(), 'value_id');
+}
+
+$default_block = new Cms_Model_Application_Block();
+$default_blocks = $default_block->findAll();
+$blocks = $page->getBlocks();
+
+if($is_places) {
+    $cms_form = new Places_Form_Place();
+    if($is_new) {
+        $block_model = new Cms_Model_Application_Block();
+        $address_block = $block_model->find("address", "type");
+        $blocks = array(
+            $address_block
+        );
+    }
+    if($page->getId()) {
+        $cms_form->fill($page);
+    }
+
+} else {
+    $cms_form = new Cms_Form_Cms();
+}
+
+if(!$is_places) {
+    $cms_form->setPageId($option_value->getObject()->getPageId());
+}
+
+$cms_form->setValueId($option_value->getId());
+$form_blocks = $cms_form->loadBlocks($blocks);
+
+?>
+
+<div id="feature-custom-page">
+
+
+    <?php
+    echo $this->getLayout()
+        ->addPartial("cms_javascript", "Core_View_Default", "cms/application/page/edit/block_v2/javascript.phtml")
+        ->setOptionValue($option_value)
+        ->toHtml();
+    ?>
+
+    <?php if(!$is_places): ?>
+    <div class="feature-block-add">
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo __("Custom page"); ?>
+        </h3>
+    </div>
+    <?php endif; ?>
+
+    <div class="container-fluid content-feature">
+
+        <?php $welp = "<form id=\"fake-form\" name=\"fake-form\" action=\"\"></form>"; foreach($form_blocks as $form_block): ?>
+        <?php
+            $welp .= $this->getLayout()->addPartial("block_template", "Core_View_Default", $form_block["template"])
+                ->setForm($form_block["form"])
+                ->setTitle(ucfirst($form_block["block"]->getType()))
+                ->setCmsBlock($form_block["block"])
+                ->toHtml();
+        ?>
+        <?php endforeach; ?>
+        <?php $cms_form->getElement("sections_html_container")->setValue($welp); echo $cms_form; ?>
+        <input type="hidden" name="orderUniqid" id="orderUniqid" value="" />
+    </div>
+
+    <?php if(!$is_places): ?>
+    <div class="background-images-upload">
+        <?php echo $this->importBackground($option_value); ?>
+    </div>
+    <?php endif; ?>
+
+    <script type="text/javascript">
+        page.setCallback('willdisappear', function() {
+            Object.keys(CKEDITOR.instances).map(function(objectKey) {
+                var value = CKEDITOR.instances[objectKey];
+                value.destroy();
+            });
+        });
+
+        var formCms = $('#form-cms');
+
+        $("#fieldset-navcmsmessagerepeat button").on('click', function () {
+            formCms.trigger('submit');
+        });
+
+        formCms.on('submit', function(event) {
+            event.preventDefault();
+
+            loader.show('sb-features');
+
+            var form = $(this);
+            var uniqidOrder = $("[id^='form-cms-block-'] .uniqid_key")
+                .serializeArray()
+                .map(function(value) {
+                    return value.value;
+                })
+                .join(',');
+            $('#orderUniqid').val(uniqidOrder);
+            var datas = $("#page_id, #value_id, #form-cms .cms-include, #form-cms [id^='form-cms-block-'], #orderUniqid");
+
+            $.ajax({
+                url: formCms.attr('action'),
+                method: 'POST',
+                dataType: 'json',
+                data: datas.serializeArray(),
+                success: function(data) {
+                    if(data.success) {
+                        feature_form_success(data.message || data.success_message);
+                        feature_reload();
+                    } else if(data.error) {
+                        handleFormError(form, data);
+                    }
+
+                    loader.hide('sb-features');
+                },
+                error: function(data) {
+                    var response = $.parseJSON(data.responseText);
+                    if(response.message != "") {
+                        handleFormError(form, response);
+                    } else {
+                        feature_form_error('An error occured, please try again.');
+                    }
+
+                    loader.hide('sb-features');
+                }
+            });
+        });
+
+
+        var is_places = <?php echo ($is_places) ? "true" : "false"; ?>;
+        var is_new = <?php echo ($is_new) ? "true" : "false"; ?>;
+        var affixFieldset,
+            contentElement,
+            containerBlocks,
+            header,
+            sections_html,
+            initialStartAt;
+
+        $(document).ready(function () {
+
+            var scrolling_submit = $("#fieldset-navcms input[type='submit']");
+            if(is_places) {
+                scrolling_submit.hide();
+            }
+
+            if(is_new) {
+                $(".cms-title-create").show();
+                $(".cms-title-edit").hide();
+            } else {
+                $(".cms-title-create").hide();
+                $(".cms-title-edit").show();
+            }
+
+            setTimeout(function() {
+                affixFieldset = $("#fieldset-navcms");
+                affixFieldset.attr("data-affixed", false);
+                contentElement = $("#feature-custom-page");
+                containerBlocks = $("#sections_html_container");
+                header = $("#feature-custom-page").find("h3").first();
+                sections_html = $("#sections_html").offset();
+                initialStartAt = sections_html.top;
+                console.log(initialStartAt);
+
+                $(window).scrolled(function() {
+
+                    var contentOffset = contentElement.offset();
+                    var currentScroll = $(window).scrollTop();
+                    var fixedwidth = contentElement.width();
+                    var scrollStartAt = initialStartAt;
+
+                    /** Bottom hit */
+                    var bottomLimit = currentScroll + affixFieldset.outerHeight();
+                    var contentBottom = contentElement.height() + contentOffset.top;
+                    var newTop = contentBottom - currentScroll - affixFieldset.outerHeight();
+
+                    /** Styles */
+                    var styleAffix = ""+
+                        "position: fixed !important;"+
+                        "width: " + fixedwidth + "px;"+
+                        "z-index: 5000;"+
+                        "margin: 0;"+
+                        "margin-left: -15px;"+
+                        "padding: 15px 15px 0 15px;"+
+                        "background: white;"+
+                        "box-shadow: 0 0 2px lightgrey;"+
+                        "border-bottom: 1px solid lightgrey;";
+
+                    if((currentScroll > scrollStartAt) && (bottomLimit < contentBottom)) {
+                        affixFieldset.attr("style", styleAffix + "top: 0px !important;");
+                        affixFieldset.attr("data-affixed", true);
+                        containerBlocks.attr("style", "margin-top: " + (affixFieldset.outerHeight()+ 15) + "px;");
+                        if(is_places) {
+                            scrolling_submit.show();
+                        }
+                    } else if (bottomLimit > contentBottom) {
+                        affixFieldset.attr("style", styleAffix + "top: " + newTop + "px !important;");
+                        affixFieldset.attr("data-affixed", true);
+                        if(is_places) {
+                            scrolling_submit.show();
+                        }
+                    } else {
+                        affixFieldset.removeAttr("style");
+                        affixFieldset.attr("data-affixed", false);
+                        containerBlocks.removeAttr("style");
+                        if(is_places) {
+                            scrolling_submit.hide();
+                        }
+                    }
+
+                });
+            },1100);
+
+            $("#places_list .feature-toggle-add").on("click", function() {
+                setTimeout(function() {
+                    sections_html = $("#places_list #sections_html").offset();
+                    initialStartAt = sections_html.top;
+                },100);
+            });
+
+            bindForms('.background-images-upload');
+
+        });
+
+
+    </script>
+
+    <style type="text/css">
+        table.inbox-table td {
+            vertical-align: middle;
+        }
+
+        .edit-action {
+            cursor: pointer;
+        }
+
+        td .control--checkbox {
+            margin: 0 !important;
+            height: 20px !important;
+        }
+
+        td .control--checkbox input[type='checkbox'] {
+            width: 20px;
+            height: 20px;
+            top: 0;
+            left: 0;
+        }
+
+    </style>
+
+</div>

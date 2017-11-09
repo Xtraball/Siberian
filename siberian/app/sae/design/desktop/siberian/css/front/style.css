@@ -1,0 +1,101 @@
+.homepage .separator { height: 6px; width: 1140px; margin:50px auto; }
+.homepage div.title { padding: 60px; text-align: center; text-transform: uppercase; }
+.homepage div.title h1, .homepage div.title h2 { line-height:50px; margin: auto; width: 100%; font-size: 50px; }
+
+.homepage .details .text { font-size: 18px; }
+.homepage .details .text .title { margin: 0; font-size: 24px; font-weight: normal; line-height: 36px;}
+.homepage .details .text p {  text-align: justify; font-size: 18px; line-height: 30px; margin: 0; }
+
+.homepage div.first .presentation { padding-top: 5px }
+.homepage div.first .presentation .content { position: relative; width: 1220px; height: 850px; padding-bottom: 75px; background: url(../../images/home/presentation/background_mobiles.png) no-repeat top center transparent; text-align: center; }
+.homepage div.first .presentation .content .mobile_content { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: no-repeat top center transparent; }
+.homepage div.first .presentation .content .mobile_content.home { background-image: url(../../images/home/presentation/mobiles/home.png) }
+.homepage div.first .presentation .content .mobile_content.clothing { background-image: url(../../images/home/presentation/mobiles/clothing.png) }
+.homepage div.first .presentation .content .mobile_content.restaurants { background-image: url(../../images/home/presentation/mobiles/restaurants.png) }
+.homepage div.first .presentation .content .mobile_content.sports { background-image: url(../../images/home/presentation/mobiles/sports.png) }
+.homepage div.first .presentation .content .mobile_content.hair_beauty { background-image: url(../../images/home/presentation/mobiles/hair_beauty.png) }
+.homepage div.first .presentation .content .mobile_content.bars { background-image: url(../../images/home/presentation/mobiles/bars.png) }
+.homepage div.first .presentation .content .mobile_content.music_bands { background-image: url(../../images/home/presentation/mobiles/music_bands.png) }
+.homepage div.first .presentation .content .mobile_content.many_others { background-image: url(../../images/home/presentation/mobiles/many_others.png) }
+.homepage div.first .presentation .content div.details { position: relative; width: 495px; margin: auto; padding-top:30px; z-index: 1; }
+.homepage div.first .presentation .content div.details h1.title { font-size: 36px; text-transform: uppercase; }
+.homepage div.first .presentation .content div.details p.text { font-size: 24px; margin-top: 30px; }
+.homepage div.first .presentation .content .create_app { display: block; height: 177px; width: 153px; margin: 35px auto auto; padding: 10px 0 0 0; background: url(../../images/home/presentation/background_create_app.png) no-repeat top center transparent; }
+.homepage div.first .presentation .content .create_app img { margin-top: 10px; }
+.homepage div.first .presentation .content .get_started a { display: block; width: 275px; margin: 5px auto auto; padding: 10px 20px; font-size: 24px; font-family: MuseoSansRounded-900, Helvetica, Arial, sans-serif; box-sizing: initial; }
+.homepage div.first .presentation .content .get_started span a { width: 480px; padding: 12px 0; font-size: 20px; }
+.homepage div.first .presentation .content .platforms { margin-top: 10px; }
+.homepage div.first .functionnalities { margin-top: -140px; }
+.homepage div.first .functionnalities div.title, .homepage div.first .functionnalities div.title h2 { height:auto; padding-top: 30px; margin-bottom: 0px; text-transform: none; text-align: center; font-size: 35px; }
+.homepage .functionnalities ul.list-image.image-left li { width: 350px; height: 190px; }
+.homepage .others { /*height: 330px;*/ }
+.homepage .others .content { padding-top: 40px; }
+.homepage div.big_title { height: 80px; }
+.homepage div.big_title h3 { font-size: 50px; }
+
+.homepage div.second .content.details { width: 740px; height: 300px; }
+.homepage div.second .details .text { margin-top: 60px; }
+.homepage div.second .details .img { margin-top: 22px; }
+.homepage div.second button { padding: 10px; font-size: 24px; }
+
+.homepage div.third .details.top { box-shadow: none; }
+.homepage div.third .details.top div.text { width: 440px; }
+.homepage div.third .details.top div.img { text-transform: uppercase; font-size: 11px; }
+.homepage div.third .details.bottom { margin-bottom: 20px; }
+.homepage div.third .details.bottom div.img { padding-top: 25px; }
+.homepage div.third .details.bottom div.text { width: 540px; }
+
+.homepage div.fourth .apps_galley p { margin: 30px; }
+.homepage div.fourth .apps_galley img { margin-bottom: 30px; }
+
+.homepage div.fourth .prices div.subtitle h3 { text-transform: uppercase; font-size: 48px; text-align: center; }
+.homepage div.fourth .prices .details { width: 945px; padding: 30px 50px; }
+.homepage div.fourth .prices .details .block { width: 250px; margin-left: 45px; }
+.homepage div.fourth .prices .details .block.left { width: 350px; margin: 0; }
+.homepage div.fourth .prices .details .block .block_header { height: 35px; padding: 10px; border-radius: 10px 10px 0 0; }
+.homepage div.fourth .prices .details .block .block_content { margin-top: 10px; }
+.homepage div.fourth .prices .details .block .block_footer { border-radius: 0 0 10px 10px; }
+.homepage div.fourth .prices .details .block.left ul li { height: 20px; margin-top: 1px; padding: 10px 30px 10px 20px; background-image: url(../../images/home/prices/yellow_check.png); background-repeat: no-repeat; background-position: 95% center; }
+.homepage div.fourth .prices .details .block.center { float: left; margin: 0; }
+.homepage div.fourth .prices .details .right .blue5 { font-size: 48px; }
+.homepage div.fourth .prices .details .right .block_header { text-transform: uppercase; text-align: center; }
+.homepage div.fourth .prices .details .right .block_content { height: 148px; padding: 50px 0px; }
+.homepage div.fourth .prices .details .right .block_footer { height: 49px; margin-top: 10px; padding: 10px; border-radius: 0 0 10px 10px; }
+.homepage div.fourth .prices .details .right .block_footer a.subscribe { display: block; width: 190px; margin: auto; padding: 10px; font-size: 24px; }
+
+.homepage div.fourth .prices .details .explanations { width: 975px; margin-top: 30px; }
+.homepage div.fourth .prices .details .explanations p { font-size: 14px; }
+.homepage div.fourth .prices .details .explanations p.title { font-size: 18px; }
+.homepage div.fourth .prices .details .explanations .bottom { margin-top: 20px; }
+/*.homepage section.fourth .prices .details .explanations .options p.text { margin-bottom: 30px; }*/
+.homepage div.fourth .prices .details .explanations .options { border-right: 6px solid #f7f7f7; }
+.homepage div.fourth .prices .details .explanations .options .bottom img { margin-top: 5px; }
+.homepage div.fourth .prices .details .explanations .options .bottom p.left { width: 410px; margin-left: 10px; }
+.homepage div.fourth .prices .details .explanations .resellers { width: 500px; }
+
+.homepage div.fifth .comments  { height: 270px; }
+.homepage div.fifth div.title h2 { text-transform: none; font-size: 36px; }
+.homepage div.fifth .comments .comment { float: left; width: 350px; margin-left: 30px; }
+.homepage div.fifth .comments .comment .bg-blue5 { height: 130px; padding: 22px 20px; border-radius: 10px; }
+.homepage div.fifth .comments .comment .bg-blue5 p { margin: 0; font-size: 18px; }
+.homepage div.fifth .comments .comment .username { height: 39px; padding-left: 47px; background: url(../../images/home/comments/user.png) no-repeat center left transparent; }
+.homepage div.fifth .comments .comment .username p { margin: 0; line-height: 39px; color: white; font-size: 14px; }
+
+
+.col-md-4 div.img, .col-md-6 div.img { float: left; /*width: 90px; */}
+.col-md-4 div.details, .col-md-6 div.details { float: left; }
+.col-md-4 div.details .title, .col-md-6 div.details .title { text-align: left; }
+
+.col-md-6 div.details { width: 415px; margin-left: 20px;}
+/* .col-md-6 div.details .title { font-size: 36px; }*/
+.col-md-6 div.details .title { margin: 10px; font-size: 24px; }
+.col-md-6 div.details .text { text-align: justify; font-size: 14px; }
+.col-md-6 div.details .intro { text-align: justify; font-size: 18px; line-height: 30px; }
+.col-md-6 div.details ul { margin-left: 35px;}
+.col-md-6 div.details ul li { list-style-type: disc; line-height: 20px; }
+.col-md-6 div.details ul li span { font-family: MuseoSans-900, Helvetica, Arial, sans-serif; color: white; }
+.col-md-6 div.details ul li span.yellow { color: #FEDA0D; }
+
+.col-md-4 div.details { width: 242px;margin-left: 10px;}
+.col-md-4 div.details .title { margin: 10px; font-size: 18px; font-weight: normal; }
+.col-md-4 div.details .text { text-align: left; font-size: 14px; line-height: 24px;}

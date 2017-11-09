@@ -1,0 +1,66 @@
+<?php
+    $application = $this->getApplication();
+    $option_values = $application->getOptions();
+?>
+
+<div>
+    <div id="carousel-container">
+        <ul id="option_values" class="pages_list carousel-ul font-blue" data-max-icons="<?php $l = $this->getApplication()->getLayout(); echo $l->getUseMoreButton() ? $l->getNumberOfDisplayedIcons() : ""; ?>">
+            <?php foreach($option_values as $key => $option) : ?>
+
+                <?php echo $this->getLayout()->addPartial('row_' . $option->getId(), 'application_view_customization_features_list_options', 'application/customization/features/list/options/li.phtml')
+                    ->setOptionValue($option)->setIsSortable(1)
+                    ->toHtml();
+                ?>
+            <?php endforeach; ?>
+            <?php $option = new Application_Model_Option_Value(); ?>
+            <?php $option->find('customer_account'); ?>
+            <?php
+                echo $this->getLayout()->addPartial('row_'.$option->getId(), 'application_view_customization_features_list_options', 'application/customization/features/list/options/li.phtml')
+                    ->setOptionValue($option)
+                    ->setIsSortable(0)
+                    ->setIsHidden(!$this->getApplication()->usesUserAccount())
+                    ->toHtml()
+                ;
+            ?>
+            <?php if($application->getLayout()->getUseMoreButton()) : ?>
+                <?php $option = new Application_Model_Option_Value(); ?>
+                <?php $option->find('more_items'); ?>
+                <?php
+                    echo $this->getLayout()->addPartial('row_'.$option->getId(), 'application_view_customization_features_list_options', 'application/customization/features/list/options/li.phtml')
+                        ->setOptionValue($option)
+                        ->setIsSortable(0)
+                        ->setIsHidden(1)
+                        ->toHtml()
+                    ;
+                ?>
+            <?php endif; ?>
+        </ul>
+    </div>
+    <a id="carousel_prev"><i class="fa fa-angle-left"></i></a>
+    <a id="carousel_next"><i class="fa fa-angle-right"></i></a>
+</div>
+<style>
+    #carousel_prev, #carousel_next {
+        position: absolute;
+        top: 50px;
+        width: 16px;
+        height: 92px;
+        padding: 36px 0 0;
+        cursor: pointer;
+        z-index: 2;
+        font-size: 35px;
+    }
+    #carousel_prev {
+        left: 25px;
+    }
+    #carousel_next {
+        right: 25px;
+    }
+    #carousel-container{
+        height:106px;
+        overflow: hidden;
+        margin-left:55px;
+    }
+    .carousel-ul{height:102px;padding:0}
+</style>

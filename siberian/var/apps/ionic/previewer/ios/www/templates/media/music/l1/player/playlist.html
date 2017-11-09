@@ -1,0 +1,19 @@
+<ion-modal-view>
+
+    <ion-header-bar class="playlist header bar-dark">
+        <h1 class="title">Playlist</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="closePlaylist()">Close</button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <ion-list>
+            <ion-item ng-repeat="track in player.tracks" ng-click="selectTrack($index)" ng-class="{ 'item-positive': $index == player.current_index }">
+                {{ track.name }} - {{ track.artistName }}
+                <br />
+                {{ track.albumName }}
+            </ion-item>
+        </ion-list>
+    </ion-content>
+
+</ion-modal-view>

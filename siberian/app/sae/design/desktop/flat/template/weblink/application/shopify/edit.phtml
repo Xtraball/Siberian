@@ -1,0 +1,63 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $application = $this->getApplication(); ?>
+<?php $shopify = $option_value->getObject(); ?>
+<div id="list" class="edit_page">
+    <div class="shopify">
+        <form id="shopifyForm" name="shopifyForm" method="post" action="<?php echo $this->getUrl('weblink/application_shopify/editpost') ?>" class="form-horizontal">
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo $this->_('Shopify') ?>
+            </h3>
+            <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
+            <div class="container-fluid first-row-feature content-feature">
+                <div class="infos">
+                    <div id="shopify_content">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <input type="text" id="shopify" name="link" class="input-flat url" placeholder="<?php echo $this->_('Enter your Shopify URL') ?>" value="<?php echo $shopify->getLink()->getUrl() ?>"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="save pull-right">
+                            <button class="btn btn-block color-blue" type="submit">
+                                <?php echo $this->_('Save'); ?>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    page.setCallback('didappear', function() {
+
+        $('#shopify').change(function() {
+            if(!$(this).val().isEmpty() && !$(this).val().startsWith('http://') && !$(this).val().startsWith('https://')) {
+                $(this).val('http://'+$(this).val());
+            }
+        });
+        $('#shopifyForm').submit(function() {
+            if(!$(this).valid()) return false;
+            reload(this, this.action, true, function(datas) {
+                if(datas.success) {
+                    if(iframe.f.isHomepage()) {
+                        iframe.f.reload();
+                    }
+                }
+            });
+            return false;
+        });
+
+    });
+
+    page.setCallback('willdisappear', function() {
+        $('#shopify').unbind('change');
+        $('#shopifyForm').unbind('submit');
+    });
+
+</script>

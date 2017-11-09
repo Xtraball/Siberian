@@ -1,0 +1,30 @@
+<table>
+    <tr style="padding: 0 15px; color:#888888; font-size: 17px; line-height: 150%; width:600px">
+        <td>
+            <p style="font-family: Verdana; font-weight: bold;color: #404040;font-size:18px; line-height:150%;"><?php echo $this->_('Hello,'); ?></p>
+            <p align="justify">
+                <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;">
+                    <?php echo $this->_('You have received a message for the booking of'); ?> <strong><?php echo $this->getData('name') ?></strong><br />
+                </span>
+            </p>
+            <p align="justify" style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;">
+                <?php echo $this->_('Here are his personal information:'); ?>
+                <ul>
+                    <li><?php echo $this->_('Name:'); ?> <?php echo $this->getData('name'); ?></li>
+                    <?php if($this->getData('phone')) : ?><li><?php echo $this->_('Phone number:'); ?> <?php echo $this->getData('phone'); ?></li><?php endif; ?>
+                    <?php if($this->getData('email')) : ?><li><?php echo $this->_('Email address:'); ?> <a href="mailto:<?php echo $this->getData('email'); ?>"><?php echo $this->getData('email'); ?></a></li><?php endif; ?>
+                </ul>
+            </p>
+            <p align="justify" style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;">
+                <?php echo $this->_('Booking details:'); ?>
+                <ul>
+                    <li><?php echo $this->_('Date and time:'); ?> <?php echo datetime_to_format($this->getData('date'), Zend_Date::DATETIME_SHORT, new Zend_Locale($this->getApplication()->getCountryCode())); ?></li>
+                    <li><?php echo $this->_('Number of people'); ?>: <?php echo $this->getData('people'); ?></li>
+                    <li><?php echo $this->_('Booking subject:'); ?> <?php echo $this->getData('prestation'); ?></li>
+                    <li><?php echo $this->_('Booking location:'); ?> <?php echo $this->getData('location'); ?></li>
+                    <?php if($this->getData('comment')) : ?><li><?php echo $this->_('Comment:'); ?> <?php echo $this->getData('comment'); ?></li><?php endif; ?>
+                </ul>
+            </p>
+        </td>
+    </tr>
+</table>

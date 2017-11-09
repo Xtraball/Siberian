@@ -1,0 +1,814 @@
+<?php
+$application = $this->getApplication();
+
+$layout_model = new Application_Model_Layout_Homepage();
+$layout = $layout_model->find($application->getLayoutId());
+
+$layout_options = Siberian_Feature::getLayoutOptionsCallbacks($layout->getCode());
+$layout_form = false;
+if(isset($layout_options["form"]) && class_exists($layout_options["form"])) {
+    $layout_form = new $layout_options["form"]($layout);
+
+    $layout_options = $application->getLayoutOptions();
+    if(!empty($layout_options) && $values = Siberian_Json::decode($layout_options)) {
+        $layout_form->populate(array_merge($application->getData(), $values));
+    }
+
+    $layout_form->siberianDesign();
+}
+
+?>
+<div class="style">
+
+    <div id="template_container" class="area">
+        <h3 class="title">
+            <div><span class="left area">1. <?php echo $this->_("Choose your template"); ?></span></div>
+            <hr />
+            <div class="clear"></div>
+        </h3>
+        <div id="templates" class="templates">
+            <?php if($application->getDesign()->getId()) : ?>
+            <p><img id="design_overview" src="<?php echo $application->getDesign()->getOverview(); ?>" width="140" height="248"/></p>
+            <button type="button" id="show_templates" class="show_templates default_button btn-block"><?php echo $this->_('Change your template'); ?></button>
+            <?php else : ?>
+            <p>
+                <img id="design_overview" src="<?php echo $application->getDesign()->getOverview(); ?>" width="140" height="248" style="display:none;" />
+                <span><?php echo $this->_('You haven\'t chosen any template yet'); ?></span>
+            </p>
+            <button type="button" id="show_templates" class="show_templates default_button btn-block"><?php echo $this->_('Choose your design'); ?></button>
+            <?php endif; ?>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+    <div id="layout_conteneur" class="area">
+        <h3 class="title">
+            <div><span data-tip="5" class="left area">2. <?php echo $this->_('Choose your layout'); ?></span></div>
+            <hr />
+            <div class="clear"></div>
+        </h3>
+        <div id="layouts" class="layouts">
+            <?php $current_layout = $this->getApplication()->getLayoutId(); ?>
+            <?php $layout = new Application_Model_Layout_Homepage(); ?>
+            <?php foreach($layout->findAll(null, "order ASC") as $layout) : ?>
+            <?php if(!$layout->isActive()) continue; ?>
+            <div class="left">
+                <a href="<?php echo $this->getUrl('application/customization_design_style/changelayout'); ?>" class="change_layout"<?php if($layout->getVisibility() == Application_Model_Layout_Homepage::VISIBILITY_ALWAYS) : ?> data-set-visibility="true"<?php endif; ?>>
+                    <?php if($current_layout == $layout->getId()): ?>
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('customization/design/check.png', true), "#404040"); ?>" class="checked" />
+                    <?php endif; ?>
+                    <img src="<?php echo $this->getImage($layout->getPreview()); ?>" title="<?php echo $layout->getName(); ?>" alt="<?php echo $layout->getName(); ?>" />
+                    <input type="hidden" name="layout_id" value="<?php echo $layout->getId(); ?>" />
+                </a>
+            </div>
+            <?php endforeach ?>
+            <div class="clear"></div>
+            <br />
+            <div>
+                <?php if($layout_form !== false): ?>
+                    <h4><?php echo __("Layout options") ?></h4>
+                    <?php if($layout_form->getPresets()): ?>
+                        <p class="preset-title"><?php echo __("Preset") ?></p>
+                        <div class="preset-sets" data-form="<?php echo $layout_form->getId(); ?>">
+                            <table style="text-align: center;" class="sb-mini-carousel" data-items="6">
+                                <tr>
+                                    <td style="width: 30px;" class="prev-arrow">
+                                        <i class="icon-chevron-left"></i>
+                                    </td>
+                                    <td class="sb-carousel-items">
+                                        <div class="sb-carousel-inline">
+                                            <?php foreach($layout_form->getPresets() as $preset): ?>
+                                            <?php
+                                            $values = "";
+                                            foreach($preset["values"] as $key => $value) {
+                                                $values .= " data-$key=\"$value\"";
+                                            }
+                                            ?>
+                                            <a class="sb-carousel-item preset-link" href="javascript:void(0)" <?php echo $values; ?>>
+                                                <img src="<?php echo $preset["preview"] ?>" />
+                                            </a>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    </td>
+                                    <td style="width: 30px;" class="next-arrow">
+                                        <i class="icon-chevron-right"></i>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    <?php endif; ?>
+                    <?php echo $layout_form; ?>
+                <?php endif; ?>
+            </div>
+            <br />
+            <div id="layout_options"<?php if($application->getLayout()->getVisibility() != Application_Model_Layout_Homepage::VISIBILITY_ALWAYS) : ?> style="display: none;"<?php endif; ?>>
+                <label for="set_layout_visibility" class="checkbox">
+                    <?php echo $this->_("Visible from all the application's pages (removes the homepage)"); ?>
+                    <input type="checkbox" id="set_layout_visibility" name="set_layout_visibility"<?php if($application->getLayoutVisibility() == Application_Model_Layout_Homepage::VISIBILITY_ALWAYS) : ?> checked="checked;"<?php endif; ?> />
+                    <input type="hidden" id="layout_id" name="layout_id" value="<?php echo $application->getLayoutId(); ?>" />
+                    <input type="hidden" id="layout_is_visible_in_all_the_pages" name="layout_is_visible_in_all_the_pages" />
+                </label>
+            </div>
+            <div id="homepage_slider"<?php if($application->getLayoutVisibility() != Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE) : ?> style="display: none;"<?php endif; ?>>
+                <label for="set_homepage_slider_visibility" class="checkbox">
+                    <?php echo $this->_("Display the homepage slider"); ?>
+                    <input type="checkbox" id="set_homepage_slider_visibility" <?php if($application->getHomepageSliderIsVisible()) : ?> checked="checked;"<?php endif; ?> />
+                    <input type="hidden" id="slider_is_visible" name="slider_is_visible" />
+                </label>
+                <div id="homepage_slider_options" <?php if(!$application->getHomepageSliderIsVisible()) : ?>class="hide"<?php endif; ?>>
+                    <div class="actions">
+                        <div class="image_duration">
+                            <?php echo $this->_("Slider images duration, in seconds:"); ?>
+                            <input type="text" id="slider_image_duration" name="slider_image_duration" class="autosave small-field general" value="<?php echo $application->getHomepageSliderDuration(); ?>" />
+                        </div>
+                        <div class="image_duration">
+                            <label for="set_homepage_slider_loop_at_beginning" class="checkbox" style="font-weight:normal;">
+                                <?php echo $this->_("Go to first images on loop"); ?>
+                                <input type="checkbox" id="set_homepage_slider_loop_at_beginning" <?php if($application->getHomepageSliderLoopAtBeginning()) : ?> checked="checked;"<?php endif; ?> />
+                                <input type="hidden" id="slider_loop_at_beginning" name="slider_loop_at_beginning" />
+                            </label>
+                        </div>
+                        <div class="slider_size">
+                            <label for="set_the_slider_size">
+                                <?php echo __("Slider height"); ?>
+                                        <div class="opacity_container">
+                                            <input id="set_the_slider_size" class="sb-slider" type="range" min="0" max="100" step="1" value="<?php echo $application->getHomepageSliderSize(); ?>" rel="init" />
+                                            <span class="set_the_slider_size"><?php echo $application->getHomepageSliderSize(); ?>%</span>
+                                <input type="hidden" id="slider_size" name="slider_size" value="<?php echo $application->getHomepageSliderSize(); ?>" />
+                                        </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="slider_images">
+                        <div id="uploaded_slider_images" class="listing relative">
+                            <div class="relative">
+                                <ul id="slider_images" class="relative images_list">
+                                    <?php foreach($application->getSliderImages() as $slider_image): ?>
+                                    <li id="slider_image_<?php echo $slider_image->getImageId(); ?>" class="slider_image relative sortable">
+                                        <span class="details">
+                                            <img width="195" src="<?php echo $slider_image->getLink(); ?>" />
+                                        </span>
+                                        <div class="actions" style="display: none;">
+                                            <a class="move_page left" href="javascript:void(0)"><i class="icon-move"></i></a>
+                                            <a class="delete_slider_image right" onclick="deleteSliderImage(event, this);" href="<?php echo str_replace('$', '/', $this->getUrl('application/customization_design_style/deletesliderimage') . '$image_id$'); ?>">
+                                                <i class="icon-remove"></i>
+                                            </a>
+                                            <input type="hidden" class="image_id" value="<?php echo $slider_image->getImageId(); ?>" />
+                                        </div>
+                                    </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                            <a id="carousel_prev" class="default_button left"><i class="icon-chevron-left"></i></a>
+                            <a id="carousel_next" class="default_button right"><i class="icon-chevron-right"></i></a>
+                        </div>
+                        <div class="slider_images_uploader_action">
+                            <button type="button" class="upload_images btn-block default_button" rel="<?php echo $this->getPosition(); ?>">
+                                <?php echo $this->_('Add pictures'); ?>
+                            </button>
+                            <input style="display:none" enctype="multipart/form-data" rel="slider_images" class="fileupload" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="homepage_conteneur" class="area">
+        <h3 class="title">
+            <div><span data-tip="4" class="left area">3. <?php echo $this->_("Choose your homepage image"); ?></span></div>
+            <hr />
+            <div class="clear"></div>
+        </h3>
+        <div class="icon_color">
+            <input type="hidden" id="homepage_image_name" name="homepage_image" value="" />
+            <input type="hidden" id="homepage_image_has_changed" name="homepage_image_has_changed" value="0" />
+            <div class="clear"></div>
+        </div>
+        <?php echo $this->createPartialHtml('homepage_create', 'admin_view_default', 'application/customization/design/style/homepage.phtml'); ?>
+    </div>
+
+    <div id="countries_container" class="area">
+        <h3 class="title">
+            <div><span class="left area">4. <?php echo $this->_('Choose your country'); ?></span></div>
+            <hr />
+            <div class="clear"></div>
+        </h3>
+        <div id="countries" class="countries">
+            <p><?php echo $this->_("This option enables you to set the currency used in your app"); ?></p>
+            <table width="100%" cellspacing="10" class="no-collapse">
+                <col width="40%">
+                <col width="40%">
+                <col width="20%">
+                <tr>
+                    <td><label for="select_locale" class="inlineblock"><?php echo $this->_('Choose a country'); ?> : </label></td>
+                    <td>
+                        <select id="select_locale" name="locale" class="span3" tabindex="2">
+                        <?php foreach(Core_Model_Language::getCountriesList() as $country) : ?>
+                            <option value="<?php echo $country->getCode() ?>"<?php if($application->getLocale() == $country->getCode()) : ?> selected="selected"<?php endif; ?>><?php echo $country->getName().' ('.$country->getSymbol().')' ?></option>
+                        <?php endforeach; ?>
+                        </select>
+                    </td>
+                    <td><img id="select_locale_loader" src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" alt="<?php echo $this->_("Loading"); ?>" title="<?php echo $this->_("Loading"); ?>" width="24" height="24" style="display:none;"/></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="font_conteneur" class="area">
+        <h3 class="title">
+            <div><span data-tip="6" class="left area">5. <?php echo $this->_('Choose your font style'); ?></span></div>
+            <hr />
+            <div class="clear"></div>
+        </h3>
+        <div id="fonts" class="fonts">
+            <?php $fontFamilies = Core_Model_Lib_Fonts::getFonts(); ?>
+            <table width="100%" cellspacing="10" class="no-collapse">
+                <col width="40%">
+                <col width="40%">
+                <col width="20%">
+                <tr>
+                    <td><label for="icon_text_font" class="inlineblock mountain"><?php echo $this->_('Choose a font family'); ?> : </label></td>
+                    <td>
+                        <select id="font_family" name="font_family" class="span3" tabindex="1">
+                        <?php foreach($fontFamilies as $fontFamily) : ?>
+                            <option value="<?php echo $fontFamily ?>"<?php if($application->getFontFamily() == $fontFamily OR !$application->getFontFamily() AND $fontFamily == 'Signika') : ?> selected="selected"<?php endif; ?>><?php echo $fontFamily ?></option>
+                        <?php endforeach; ?>
+                        </select>
+                    </td>
+                    <td><img id="font_family_loader" src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" alt="<?php echo $this->_("Loading"); ?>" title="<?php echo $this->_("Loading"); ?>" width="24" height="24" style="display:none;"/></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var carousel = null;
+        var modal_preview;
+        $(document).ready(function(){
+
+            bindForms("#layouts");
+
+            $("#layouts").on("submit", function() {
+                iframe.reload();
+            });
+
+            $("#layouts input").on("change", function() {
+                var el = $(this);
+                if("homepage_slider_is_visible" == el.attr("id") || "layout_visibility" == el.attr("id")) {
+                    setTimeout(function() {
+                        location.reload();
+                    }, 2000);
+                }
+            });
+
+            $("table.sb-mini-carousel").sbcarousel({visible_items : 5});
+
+            <?php if($application->getLayoutVisibility() == Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE && $application->getHomepageSliderIsVisible()) : ?>
+            initCarousel();
+            <?php endif; ?>
+
+            $('#font_family').change(function() {
+                var font_loader = $('#'+this.id+'_loader');
+                font_loader.show();
+                iframe.setFont($(this).val());
+                reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/savefont'); ?>', false, function() {
+                    font_loader.fadeOut();
+                }, function() {
+                    font_loader.fadeOut();
+                });
+            }).keyup(function() {
+                iframe.setFont($(this).val());
+            });
+
+            $('#select_locale').change(function() {
+                var countries_loader = $('#'+this.id+'_loader');
+                countries_loader.show();
+                reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/savelocale'); ?>', false, function(datas) {
+                    if(datas.success) {
+                        iframe.reload();
+                    }
+                    countries_loader.fadeOut();
+                }, function() {
+                    countries_loader.fadeOut();
+                });
+            });
+
+            modal_preview = new Modal({
+                id:'preview',
+                width: 1050,
+                url: '<?php echo $this->getUrl('template/design/list'); ?>', is_retain: false,
+                callbacks: {
+                    didload: function() {
+                        $('.change_design').click(function() {
+                            <?php if($application->getDesignId()) : ?>
+                            if(!confirm('<?php echo addslashes($this->_('If you validate, your app\'s colors and background image will be replaced')); ?>')) return false;
+                            <?php endif ?>
+
+                            reload(this, '<?php echo $this->getUrl('template/design/save'); ?>', true, function(datas) {
+                                if(datas.success) {
+
+                                    var _aElement = $(".change_layout input[value="+datas.layout_id+"]").parent('a').get(0);
+                                    $(".layouts .left a .checked").detach().prependTo(_aElement);
+
+                                    if(datas.display_layout_options) {
+                                        $('#layout_options').show();
+                                    } else {
+                                        $('#layout_options').hide();
+                                    }
+                                    $('#set_layout_visibility').prop("checked", false);
+                                    $('#set_layout_visibility').parent("label.checkbox").removeClass("checked");
+
+                                    $('#design_overview').next('span').remove();
+                                    $('#design_overview').hide().attr('src', datas.overview_src).load(function() {
+                                        $(this).fadeIn();
+                                    });
+
+                                    modal_preview.hide();
+
+                                    $('#homepage_standard').attr('src', datas.homepage_standard);
+                                    $('#homepage_hd').attr('src', datas.homepage_hd);
+                                    $('#homepage_tablet').attr('src', datas.homepage_tablet);
+                                    $('#header_app_icon').attr('src', datas.app_icon);
+
+                                    iframe.reload();
+                                }
+                            });
+                            return false;
+                        });
+
+                        $(".change_category").hover(function() {
+                            $(this).addClass("general");
+                        }, function() {
+                            if(!$(this).hasClass("reverse"))
+                                $(this).removeClass("general");
+                        });
+                        $('.change_category').click(function() {
+                            $('.change_category').removeClass("reverse general");
+                            $(this).addClass("reverse general");
+
+                            var category_id = $(this).find('input').val();
+                            if(category_id == 0) {
+                                $(".templates_content_preview div").show();
+                                return false;
+                            }
+                            $(".templates_content_preview div").hide();
+                            $(".templates_content_preview div.cat"+category_id).show();
+
+                            return false;
+                        });
+                    },
+                    willdestroy: function() {
+                        $('.change_design').unbind('click');
+                    }
+                }
+            });
+
+            $('#show_templates').click(function() {
+                modal_preview.show();
+            });
+
+            $('.change_layout').click(function() {
+                var element = $(this);
+                reload(this, this.href, true, function(response) {
+                    if(response.reload) {
+                        location.reload();
+                    }
+                });
+                return false;
+            });
+
+            $('#set_layout_visibility').change(function() {
+                var this_elem = $(this);
+
+                $('#layout_is_visible_in_all_the_pages').val($(this).is(":checked") ? 1 : 0);
+                reload(this.parentNode, "<?php echo $this->getUrl("application/customization_design_style/changelayoutvisibility"); ?>", true, function(response) {
+                    if (response.reload) {
+                        if(this_elem.is(':checked')) {
+                            $("#homepage_slider").hide();
+                        } else {
+                            $("#homepage_slider").show();
+                        }
+
+                        iframe.reload();
+                    }
+                });
+            });
+
+            <?php if($this->getSession()->showTemplates) : ?>
+            $('#show_templates').click();
+            <?php $this->getSession()->showTemplates = null; ?>
+            <?php endif ?>
+
+        });
+
+        /** Homepage Image Slider **/
+
+        var  currentHeight = function(intialHeight) {
+            var current_scale = $('#slider_size').val();
+            var target_height = intialHeight * current_scale;
+            return Math.ceil(parseFloat(target_height));
+        };
+
+        var initCarousel = function() {
+            // Images slider carousel
+            createCarouselSortable();
+            $('#uploaded_slider_images #slider_images').carousel({item_width: 195, items_per_page: 3, next_button: $('#uploaded_slider_images #carousel_next'), prev_button: $('#uploaded_slider_images #carousel_prev')});
+            carousel = $('#uploaded_slider_images #slider_images').data('carousel');
+            carousel.update();
+            $('#uploaded_slider_images #slider_images').on({
+                mouseenter: function () {
+                    $(this).children('div.actions').fadeIn();
+                },
+                mouseleave: function () {
+                    var a = $(this).children('span.details');
+                    if (!$(this).hasClass('selected')) {
+                        $(this).children('div.actions').stop().fadeOut();
+                    }
+                }
+            }, '.slider_image');
+        };
+
+        $("#set_homepage_slider_visibility").change(function() {
+            var images_block = $("#homepage_slider_options");
+            if($(this).is(":checked")) {
+                images_block.removeClass("hide");
+                if(!carousel) initCarousel();
+            } else {
+                images_block.addClass("hide");
+            }
+
+            $('#slider_is_visible').val($(this).is(":checked") ? 1 : 0);
+            reload(this.parentNode, "<?php echo $this->getUrl("application/customization_design_style/changehomepageslidervisibility"); ?>", true, function(response) {
+                if (response.reload) {
+                    iframe.reload();
+                }
+            });
+        });
+
+    $("#set_the_slider_size").on("input", function() {
+        $("span.set_the_slider_size").text($(this).val()+"%");
+    });
+        
+    $("#set_the_slider_size").on("change", function() {
+        $("span.set_the_slider_size").text($(this).val()+"%");
+
+            var image_counts = 0 ;
+            try {
+                image_counts = $('#slider_images>li').length;
+            } catch(err) {
+               console.log(err);
+            }
+            if(image_counts != 0) {
+            var confirm_client = window.confirm("<?php echo __js('If you decide to change the slider size, all images will be dropped. Are you sure ?');?>");
+                if (confirm_client) {
+                    $("#slider_size").attr("value", $(this).val());
+                    $(this).attr("title", $(this).val());
+                $('#slider_images>li>.actions>.delete_page').each(
+                        function(idx, elm) {
+                            $(elm).click();
+                    });
+                } else {
+                    return;
+
+                }
+
+            } else {
+
+                $("#slider_size").attr("value", $(this).val());
+                $(this).attr("title", $(this).val());
+        }
+
+        if(image_counts > 0) {
+            reload(this.parentNode, "<?php echo $this->getUrl("application/customization_design_style/changehomepageslidersize"); ?>", false, function() {
+                    iframe.reload();
+            });
+        } else {
+            reload(this.parentNode, "<?php echo $this->getUrl("application/customization_design_style/changehomepageslidersize"); ?>", false);
+                }
+
+        });
+
+        $("#homepage_slider_options .upload_images").click(function() {
+            $('.fileupload[rel="slider_images"]').trigger('click');
+        });
+        $("#homepage_slider_options #slider_image_duration").change(function() {
+            reload(this.parentNode, "<?php echo $this->getUrl("application/customization_design_style/setimagessliderduration"); ?>", true, function(response) {
+                if (response.reload) {
+                    iframe.reload();
+                }
+            });
+        });
+
+        var slider_images_uploader = new Uploader();
+        $('.fileupload[rel="slider_images"]').fileupload({
+            dataType: 'json',
+            add: function(e, data) {
+                data.formData = {
+                    minwidth: '100',
+                    minheight: '200',
+                    maxwidth: '3000',
+                    maxheight: '3000'
+                };
+                data.submit();
+                slider_images_uploader.showProgressbar();
+            },
+            progressall: function(e, data) {
+                slider_images_uploader.moveProgressbar(data);
+            },
+            done: function(e, data) {
+                if (data.result.error) {
+                    slider_images_uploader.showError(data.result.message);
+                } else {
+                    slider_images_uploader.hide();
+                    var params = new Array();
+                    params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+                    params["file"] = data.result.files;
+                    params["uploader"] = 'slider_images_uploader';
+                    params["output_w"] = 1080;
+                    params["output_h"] = 1920*$("#slider_size").val()/100;
+                    params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('application/customization_design_style/savesliderimages')) ?>';
+
+                    slider_images_uploader.crop(params);
+                    slider_images_uploader.callback = function(file) {
+                        $('#uploaded_slider_images #slider_images').append(
+                            '<li id="slider_image_' + file.id + '" class="slider_image relative sortable" data-pos="' + file.id + '">\n\
+                                <span class="details">\n\
+                                    <img width="195" src="' + file.url + '">\n\
+                                </span>\n\
+                                <div class="actions" style="display: none;">\n\
+                                    <a class="move_page left" href="javascript:void(0)"><i class="icon-move"></i></a>\n\
+                                    <a class="delete_slider_image right" onclick="deleteSliderImage(event, this);" href="<?php echo str_replace('$', '/', $this->getUrl('application/customization_design_style/deletesliderimage') . '$image_id$'); ?>">\n\
+                                        <i class="icon-remove"></i>\n\
+                                    </a>\n\
+                                    <input type="hidden" class="image_id" value="' + file.id + '">\n\
+                                </div>\n\
+                            </li>'
+                        );
+
+                        carousel.update();
+                        iframe.reload();
+                    };
+                }
+            }
+        });
+        var deleteSliderImage = function(e, element) {
+            e.preventDefault();
+
+            var id = $(element).parent().find(".image_id").val();
+            reload(this, element.href + id, true, function(response) {
+                if(response.reload) {
+                    $(element).parent().parent().remove();
+                    carousel.update();
+                    iframe.reload();
+                }
+            });
+        };
+        var createCarouselSortable = function() {
+            $("#uploaded_slider_images #slider_images").sortable({
+                items: '> li.sortable:visible',
+                cursor: "move",
+                handle: '.move_page',
+                placeholder: "page_placeholder",
+                axis: 'x',
+                tolerance: 'pointer',
+                start: function () {
+                    var prev_button_position = carousel.getPrevButtonPosition();
+                    var next_button_position = carousel.getNextButtonPosition();
+
+                    $(document).mousemove(function (e) {
+
+                        if (e.pageX > next_button_position.x1 && e.pageX < next_button_position.x2 && e.pageY > next_button_position.y1 && e.pageY < next_button_position.y2) {
+                            carousel.startInterval('next');
+                        } else {
+                            carousel.stopInterval('next');
+                        }
+                        if (e.pageX > prev_button_position.x1 && e.pageX < prev_button_position.x2 && e.pageY > prev_button_position.y1 && e.pageY < prev_button_position.y2) {
+                            carousel.startInterval('prev');
+                        } else {
+                            carousel.stopInterval('prev');
+                        }
+                    });
+
+                },
+                stop: function () {
+                    $(document).unbind('mousemove');
+                },
+                update: function (e, ui) {
+                    var order = $('#slider_images').sortable('serialize');
+                    $('#slider_images').sortable("refresh");
+
+                    var order_url = "<?php echo $this->getUrl('application/customization_design_style/setsliderimagepositions'); ?>?" + order;
+                    reload($('#slider_images'), order_url, true, function () {
+                        iframe.reload();
+                    });
+                }
+            });
+        };
+        /** /Homepage Image Slider **/
+
+    </script>
+    <style>
+        .slider_size {
+            width: 100%;
+            display: block;
+        }
+        .slider_size > label {
+            width:100%;
+            font-weight:normal;
+        }
+        div.style div#layouts {
+            margin-top: 20px;
+        }
+        div.style div#layouts div {
+            margin-bottom: 10px;
+        }
+        .customization .style .area .fonts .dk_container, .customization .style .area .countries .dk_container {
+            margin: 0;
+        }
+        .customization .style .area .fonts, .customization .style .area .templates, .customization .style .area .countries {
+            padding: 0 10px;
+        }
+        .bar {
+            height: 18px;
+            background: #7DCFFF;
+        }
+        button.blue {
+            width: 260px;
+            padding: 10px 0;
+            border-top: 1px solid white;
+            border-bottom: 1px solid black;
+            border-radius: 7px;
+            font-size: 17px;
+            background-image: url("<?php echo $this->getImage('customization/pictos/camera.png'); ?>");
+            background-repeat: no-repeat;
+        }
+        button.blue:active {
+            border-top: 1px solid black;
+            border-bottom: 1px solid white;
+        }
+        button.image_left {
+            background-position: 11px center;
+        }
+
+        table tr td.separator {
+            width: 1px;
+            background: transparent;
+            border-left: 1px solid #016cab;
+            border-right: 1px solid #96c2dc;
+        }
+
+        .style table tr td span.or {
+            position:absolute;
+            right: 50%;
+            margin-right: -9px;
+        }
+        .conteneur_home_bg {
+            text-align: center;
+            vertical-align: top;
+        }
+        .change_layout {
+            display: block;
+            margin-left: 10px;
+        }
+        .conteneur_home_bg img {
+            border: solid 1px #fff;
+        }
+
+        /** IMAGE SLIDER CAROUSEL **/
+        #homepage_slider .slider_images {
+            margin-top: 20px;
+            left: 0;
+        }
+        #homepage_slider .slider_images_uploader_action {
+            margin-top: 10px;
+        }
+        #uploaded_slider_images {
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            margin-left: 0px;
+            min-height: 92px;
+        }
+        #uploaded_slider_images > div {
+            margin: auto;
+            overflow: hidden;
+        }
+        #uploaded_slider_images.listing ul {
+            height: 100%;
+            -webkit-transition: all 0.4s ease 0s;
+            -moz-transition: all 0.4s ease 0s;
+            -ms-transition: all 0.4s ease 0s;
+            -o-transition: all 0.4s ease 0s;
+            transition: all 0.4s ease 0s;
+        }
+        #uploaded_slider_images.listing ul li {
+            float: left;
+            width: 195px;
+            height: 100%;
+            padding: 0 5px;
+            transition: none;
+            border-right: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        #uploaded_slider_images.listing ul li:last-child {
+            border: none;
+        }
+        #uploaded_slider_images.listing ul li span.details {
+            display: block;
+            height: 100%;
+            text-align: center;
+        }
+        #uploaded_slider_images.listing ul li span.details img {
+            width: 100%;
+        }
+        #uploaded_slider_images.listing ul li.slider_image div.actions {
+            position: absolute;
+            top: 0px;
+            left: 10px;
+            right: 13px;
+            z-index: 2;
+        }
+        #uploaded_slider_images.listing ul li.slider_image div.actions .move_page {
+            cursor: move;
+        }
+        #uploaded_slider_images #carousel_prev {
+            left: 0;
+        }
+        #uploaded_slider_images #carousel_next {
+            right: 0;
+        }
+        #uploaded_slider_images #carousel_prev, #uploaded_slider_images #carousel_next {
+            position: absolute;
+            top: 0px;
+            width: 16px;
+            height: 92px;
+            padding: 36px 0 0;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+
+    .opacity_container { width: 100%; }
+    .opacity_container input[type=range] { float: left; width: 90%; }
+    .opacity_container span { float: right; font-size: 11px; margin-top: -1px }
+        /** /IMAGE SLIDER CAROUSEL **/
+
+
+        #layouts h4 {
+            text-align: center;
+            text-transform: uppercase;
+            margin: 5px 0 23px 0;
+        }
+
+        .preset-title {
+            margin-bottom: 1px;
+            font-weight: bold;
+        }
+
+        .preset-sets {
+            border-radius: 4px;
+            background-color: #F4F4F4;
+            float: left;
+            padding: 4px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        form.sb-form:not(.form-horizontal) .control--checkbox {
+            margin: 0;
+            padding: 0;
+            float: right;
+            margin-top: 5px;
+        }
+
+        form.sb-form:not(.form-horizontal) .sb-form-checkbox {
+            width: 20px;
+        }
+
+        form.sb-form:not(.form-horizontal) .form-group-checkbox {
+            margin-bottom: 0px;
+            margin-top: 10px;
+        }
+
+        form.sb-form:not(.form-horizontal) .sb-save-info-button {
+            margin-top: 10px;
+        }
+
+        .prev-arrow, .next-arrow {
+            width: 30px;
+            min-width: 30px;
+            max-width: 30px;
+            font-size: 24px;
+            color: #333333;
+        }
+
+        .sb-carousel-item img {
+            height: auto !important;
+        }
+
+        #homepage_slider {
+            margin-top: 20px;
+        }
+
+    </style>
+
+    <div class="clear"></div>
+</div>

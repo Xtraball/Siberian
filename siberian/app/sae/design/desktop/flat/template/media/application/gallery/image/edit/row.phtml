@@ -1,0 +1,175 @@
+<?php
+
+$optionValue = $this->getCurrentOptionValue();
+$imageGallery = $this->getCurrentImageGallery();
+$typeId = $imageGallery->getTypeId();
+
+switch($typeId) {
+    case 'instagram':
+        $title = __('Instagram');
+        $className = 'fa fa-instagram';
+        break;
+    case 'picasa':
+        $title = __('Picasa');
+        $className = 'icofont icofont-social-picasa';
+        break;
+    case 'flickr':
+        $title = __('Flickr');
+        $className = 'fa fa-flickr';
+        break;
+    case 'facebook':
+        $title = __('Facebook');
+        $className = 'fa fa-facebook';
+        break;
+    default: // 'custom'!
+        $title = __('User');
+        $className = 'fa fa-camera';
+        break;
+}
+
+?>
+
+<div class="row_image row padding-3 container-fluid" rel="<?php echo $imageGallery->getGalleryId(); ?>">
+    <div class="col-sm-1 img-col color-blue">
+        <i title="<?php echo $title; ?>" class="<?php echo $className; ?> bt-margin" style="width: 28px;"></i>
+    </div>
+    <div class="col-sm-4">
+        <span>
+            <input type="text"
+                   name="name_<?php echo $imageGallery->getGalleryId(); ?>"
+                   value="<?php echo $imageGallery->getName(); ?>"
+                   placeholder="<?php echo __('Gallery Name') ?>"
+                   class="input-flat" />
+        </span>
+        <br />
+        <?php if ($typeId === 'facebook'): ?>
+        <span>
+            <label for="gallery_name_<?php echo $imageGallery->getGalleryId(); ?>">
+                <?php echo __("Gallery Name"); ?>
+            </label>
+            <input id="gallery_name_<?php echo $imageGallery->getGalleryId(); ?>"
+                   type="text"
+                   name="gallery_name_<?php echo $imageGallery->getGalleryId(); ?>"
+                   value="<?php echo $imageGallery->getLabel(); ?>"
+                   placeholder="<?php echo __('Gallery Name') ?>"
+                   class="input-flat change_label"
+                   onchange="changeGalleryLabel(<?php echo $imageGallery->getGalleryId(); ?>)"/>
+            <?php echo __('If set, will appear instead of the Facebook page Id in app.'); ?>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    changeGalleryLabel(<?php echo $imageGallery->getGalleryId(); ?>);
+                });
+            </script>
+        </span>
+        <?php endif; ?>
+    </div>
+    <div class="col-sm-4">
+        <?php
+            switch ($typeId) {
+                case 'flickr':
+                    echo $this->getLayout()->addPartial('row_flickr_' . $imageGallery->getId(), 'admin_view_default', 'media/application/gallery/image/edit/row/flickr.phtml')
+                        ->setCurrentImageGallery($imageGallery)
+                        ->setCurrentOptionValue($optionValue)
+                        ->toHtml();
+                    break;
+                case 'custom':
+                    echo $this->getLayout()->addPartial('row_custom_' . $imageGallery->getId(), 'admin_view_default', 'media/application/gallery/image/edit/row/custom.phtml')
+                        ->setCurrentImageGallery($imageGallery)
+                        ->setCurrentOptionValue($optionValue)
+                        ->toHtml();
+                    break;
+                case 'facebook':
+                    echo $this->getLayout()->addPartial('row_facebook_' . $imageGallery->getId(), 'admin_view_default', 'media/application/gallery/image/edit/row/facebook.phtml')
+                        ->setCurrentImageGallery($imageGallery)
+                        ->setCurrentOptionValue($optionValue)
+                        ->setAlbums($this->getAlbums())
+                        ->toHtml();
+                    break;
+                case 'instagram':
+                    echo $this->getLayout()->addPartial('row_instagram_' . $imageGallery->getId(), 'admin_view_default', 'media/application/gallery/image/edit/row/instagram.phtml')
+                        ->setCurrentImageGallery($imageGallery)
+                        ->setCurrentOptionValue($optionValue)
+                        ->toHtml();
+                    break;
+                case 'picasa':
+                        echo $this->getLayout()->addPartial('row_picasa_' . $imageGallery->getId(), 'admin_view_default', 'media/application/gallery/image/edit/row/picasa.phtml')
+                        ->setCurrentImageGallery($imageGallery)
+                        ->setCurrentOptionValue($optionValue)
+                        ->toHtml();
+            }
+        ?>
+    </div>
+    <div class="col-sm-3" style="text-align: right;">
+        <input type="hidden" name="value_id" value="<?php echo $optionValue->getId(); ?>" />
+        <input type="hidden" name="id" value="<?php echo $imageGallery->getGalleryId(); ?>" />
+        <input type="hidden" id="label_<?php echo $imageGallery->getGalleryId(); ?>" name="label" value="" />
+        <button type="button" class="bt-margin validate btn save_image color-blue" rel="<?php echo $imageGallery->getGalleryId(); ?>">
+            <?php echo __('Save') ?>
+        </button>
+        <button type="button" class="bt-margin color-blue red btn delete_image">
+            <i class="fa fa-times"></i>
+        </button>
+    </div>
+</div>
+<?php if ($typeId === 'picasa'): ?>
+    <div class="row padding-3 container-fluid"
+         style="<?php echo (count($this->getAlbums()) <= 0) ? 'display: none;' : ''; ?>"
+         rel="carousel_<?php echo $imageGallery->getGalleryId(); ?>">
+        <div class="carousel-container picasa-carousel">
+            <h3 class="title-editor text-center" style="margin-bottom: .5em;">
+                <?php echo __('Select an album') ?>
+            </h3>
+            <table class="sb-mini-carousel"
+                   style="text-align: center;">
+                <tr>
+                    <td class="prev-arrow">
+                        <i class="fa fa-chevron-left"></i>
+                    </td>
+                    <td class="sb-carousel-items">
+                        <div class="sb-carousel-inline">
+                            <?php foreach ($this->getAlbums() as $album):  ?>
+                                <a class="sb-carousel-item <?php echo ($imageGallery->getAlbumId() === $album['id']) ? 'item-selected' : ''; ?>"
+                                   href="javascript:void(0)"
+                                   data-albumid="<?php echo $album['id'] ?>">
+                                    <img src="<?php echo $album['image'] ?>" />
+                                    <p class="sb-carousel-title">
+                                        <?php echo $album['title'] ?> - <?php echo $album['author'] ?>
+                                    </p>
+                                </a>
+                            <?php endforeach; ?>
+                        </div>
+                    </td>
+                    <td class="next-arrow">
+                        <i class="fa fa-chevron-right"></i>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <?php if (count($this->getAlbums()) > 0): ?>
+            <script type="text/javascript">
+                setTimeout(function () {
+                    // Adds onClick/save feature
+                    var carousel_<?php echo $imageGallery->getGalleryId(); ?> = $('[rel="carousel_<?php echo $imageGallery->getGalleryId(); ?>"]');
+                    var row_<?php echo $imageGallery->getGalleryId(); ?> = $('.row_image[rel="<?php echo $imageGallery->getGalleryId(); ?>"]');
+
+                    carousel_<?php echo $imageGallery->getGalleryId(); ?>.find('.sb-carousel-item').on('click', function () {
+                        carousel_<?php echo $imageGallery->getGalleryId(); ?>.find('.sb-carousel-item').removeClass('item-selected');
+                        var el = $(this);
+                        el.addClass('item-selected');
+
+                        // Set album_id value for form!
+                        row_<?php echo $imageGallery->getGalleryId(); ?>.find('input[name="album_id"]')
+                            .val(el.attr('data-albumid'));
+                    });
+
+                    row_<?php echo $imageGallery->getGalleryId(); ?>.find('input[name="param"]')
+                        .on('change', function () {
+                            carousel_<?php echo $imageGallery->getGalleryId(); ?>.find('.sb-carousel-item').html('');
+                            row_<?php echo $imageGallery->getGalleryId(); ?>.find('input[name="album_id"]').val('');
+                            $('[rel=carousel_<?php echo $imageGallery->getGalleryId(); ?>]').hide();
+                        });
+                }, 500);
+            </script>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>

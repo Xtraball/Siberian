@@ -1,0 +1,24 @@
+<?php
+    $border_color = ($this->getBorderColor()) ? $this->getBorderColor() : "border-red";
+?>
+<div id="modal_#{id}" class="custom_modal" style="display:none;">
+    <div id="modal_mask_#{id}" class="modal_mask close_modal close_modal_#{id}"></div>
+    <div id="modal_content_#{id}" class="modal_content content content-color">
+    
+        <h3 class="title-editor <?php echo $border_color ?> text-center">
+            <span class="f-bold"><?php echo $this->getTitle(); ?></span>
+            <button id="close_modal_#{id}" class="close_modal close_modal_#{id} btn-add pull-right" type="button">
+                <i class="fa fa-times"></i>
+            </button>
+        </h3>
+        <div class="col-md-12 content-color container-fluid">
+            <?php if($this->getSubtitle()): ?>
+            <p class="f-bold"><?php echo $this->getSubtitle(); ?></p>
+            <?php endif; ?>
+
+            <div id="modal_details_#{id}" class="modal_details content">
+                <?php echo $this->getPartialHtml('modal_content'); ?>
+            </div>
+        </div>
+    </div>
+</div>

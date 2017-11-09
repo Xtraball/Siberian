@@ -1,0 +1,7 @@
+<div class="templates">
+<?php foreach($this->getTemplates() as $id => $html) : ?>
+<script type="text/ng-template" id="<?php echo $id; ?>">
+    <?php echo $html; ?>
+</script>
+<?php endforeach; ?>
+</div>

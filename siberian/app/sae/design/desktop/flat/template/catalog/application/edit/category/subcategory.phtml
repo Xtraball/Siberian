@@ -1,0 +1,17 @@
+<li id="row_<?php echo $this->getSubcategory()->getId(); ?>" class="subcategory list-group-item" style="list-style:none">
+    <div id="subcategory_actions_<?php echo $this->getSubcategory()->getId(); ?>" class="subcategory_actions row" rel="<?php echo $this->getSubcategory()->getId(); ?>">
+        <div class="col-md-1">
+            <a class="handle_subcategory action"><i class="fa fa-sort"></i></a>
+        </div>
+        <div class="col-md-8">
+            <a href="javascript:void(0);" id="label_subcategory_name_<?php echo $this->getSubcategory()->getId() ?>" class="label_subcategory_name" parent_id="<?php echo $this->getCategory()->getId(); ?>" category_id="<?php echo $this->getSubcategory()->getId(); ?>"><?php echo $this->getSubcategory()->getName(); ?></a>
+        </div>
+        <div class="action col-md-3 text-right">
+            <a class="edit_subcategory" href="javascript:void(0)" rel="<?php echo $this->getSubcategory()->getId(); ?>"><i class="fa fa-pencil"></i></a>
+            <a class="delete_subcategory" href="javascript:void(0)" rel="<?php echo $this->getSubcategory()->getId(); ?>"><i class="fa fa-times"></i></a>
+        </div>
+    </div>
+    <input type="text" id="subcategory_name_<?php echo $this->getSubcategory()->getId(); ?>" name="name" class="form-control subcategory_name" value="<?php echo $this->getSubcategory()->getName(); ?>" rel="<?php echo $this->getSubcategory()->getId(); ?>" style="display: none" />
+    <input type="hidden" class="category_id" name="category_id" value="<?php echo $this->getSubcategory()->getId(); ?>" />
+    <input type="hidden" name="value_id" value="<?php echo $this->getOptionValue()->getId(); ?>" />
+</li>

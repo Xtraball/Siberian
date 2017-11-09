@@ -1,0 +1,63 @@
+<?php $color = $this->getApplication()->getBlock("background")->getColor(); ?>
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message" right-button="header_right_button"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div sb-modal class="toggle" title="modal_title" content="modal_content" show-cancel="true" confirm="use()" cancel="hideModal()" ng-if="show_modal"></div>
+
+    <div class="scrollable_content content discount">
+        
+        <div ng-if="promotion.picture" class="picture" sb-image image-src="promotion.picture"></div>
+
+        <div class="title" ng-show="promotion.title"><p>{{ promotion.title }}</p></div>
+
+        <div class="details">
+
+            <div class="use_it section padding" ng-if="promotion.is_unique && is_logged_in">
+                <button type="button" class="discount reverse" ng-click="confirmBeforeUse();">
+                    <?php echo $this->_("Use this coupon"); ?>
+                </button>
+            </div>
+
+            <div class="log-in section padding" ng-if="!is_logged_in && !is_loading">
+                <button type="button" class="connect_button icon_left arrow_right" ng-click="login();">
+                    <?php echo $this->_("Please log in"); ?>
+                </button>
+            </div>
+
+            <div class="description section" ng-if="promotion.description">
+                <div class="picto">
+                    <img src="<?php echo $this->getColorizedImage($this->getImage("pictos/info.png", true), $color); ?>" width="15" />
+                </div>
+                <p>{{ promotion.description }}</p>
+            </div>
+
+            <div class="conditions section" ng-if="promotion.conditions">
+                <div class="picto">
+                    <img src="<?php echo $this->getColorizedImage($this->getImage("pictos/warning.png", true), $color); ?>" width="15" />
+                </div>
+                <p>{{ promotion.conditions }}</p>
+            </div>
+
+            <div class="end_at section" ng-if="promotion.end_at">
+                <div class="picto">
+                    <img src="<?php echo $this->getColorizedImage($this->getImage("pictos/calendar.png", true), $color); ?>" width="15" />
+                </div>
+                <p><?php echo $this->_("Valid Until"); ?> {{ promotion.end_at }}</p>
+            </div>
+
+            <div class="tc section" ng-if="tc_id" ng-click="showTc();">
+                <div class="picto">
+                    <img src="<?php echo $this->getColorizedImage($this->getImage("pictos/file.png", true), $color); ?>" width="15" />
+                </div>
+                <p><?php echo $this->_("Terms & Conditions"); ?></p>
+            </div>
+
+        </div>
+
+    </div>
+    
+</div>
+

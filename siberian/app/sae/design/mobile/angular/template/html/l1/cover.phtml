@@ -1,0 +1,9 @@
+<div class="cover l1" ng-class="{'has-picture': cover.picture}" ng-if="cover.picture">
+    <a ng-href="{{ cover.url }}">
+        <div class="image" image-src="cover.picture" sb-image></div>
+        <h3>
+            <span class="title block" data-rows="1">{{ cover.title }}</span>
+            <span class="subtitle" data-rows="1">{{ cover.subtitle }}</span>
+        </h3>
+    </a>
+</div>

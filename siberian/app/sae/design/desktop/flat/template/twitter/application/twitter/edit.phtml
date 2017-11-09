@@ -1,0 +1,102 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $application = $this->getApplication(); ?>
+<?php $twitter = $option_value->getObject(); ?>
+<div id="list" class="edit_page twitter">
+    <form id="twitterForm" name="twitterForm" method="post" action="<?php echo $this->getUrl('twitter/application_twitter/editpost') ?>" class="form-horizontal">
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo __('twitter'); ?>
+        </h3>
+        <div class="container-fluid content-feature">
+            <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
+            <div class="form-group first-row-feature">
+                <div class="col-sm-12">
+                    <label><?php echo __('Enter your twitter handle') ?> *:</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-6">
+                    <input type="text" id="twitter_user" name="twitter_user" value="<?php echo $twitter->getTwitterUser()?>" placeholder="<?php echo __("Enter your twitter handle") ?>" class="required input-flat" />
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn color-blue" type="submit">
+                        <?php echo __('OK'); ?>
+                    </button>
+                </div>
+                <div class="col-sm-4">
+                    <i id="fb_valid_username" class="fa fa-ok" style="display:none;"></i>
+                    <i id="fb_invalid_username" class="fa fa-remove" style="display:none;"></i>
+                    <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>" />
+                    <input type="hidden" name="id" value="<?php echo $twitter->getId(); ?>" />
+                </div>
+            </div>
+        </div>
+    </form>
+    <form id="twitterVerifyForm" name="twitterVerifyForm" method="post" action="<?php echo $this->getUrl('twitter/application_twitter/verify') ?>" class="form-horizontal content-feature">
+        <div class="container-fluid">
+            <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
+            <div class="form-group">
+                <div class="col-sm-8">
+                    <button class="btn color-blue" type="submit">
+                        <?php echo __('Verify'); ?>
+                    </button>
+                </div>
+                <div class="col-sm-4">
+                    <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>" />
+                    <input type="hidden" name="id" value="<?php echo $twitter->getId(); ?>" />
+                    <input type="hidden" id="user" name="user" value="" />
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <?php echo $this->importBackground($option_value); ?>
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        bindForms('#list');
+    });
+
+    page.setCallback('didappear', function() {
+
+        $('#twitterForm').submit(function() {
+            if(!$(this).valid()) return false;
+            reload(this, this.action, true, function(datas) {
+                if(datas.success) {
+                    iframe.f.reload();
+                }
+            });
+            return false;
+        });
+
+        $('#twitterVerifyForm').submit(function() {
+            if(!$(this).valid()) return false;
+            if($("#twitter_user").val()) {
+                $("#user").val($("#twitter_user").val());
+                reload(this, this.action, true, function (datas) {});
+            }
+            return false;
+        });
+    });
+
+    page.setCallback('willdisappear', function() {
+        $('#twitterForm').unbind('submit');
+    });
+
+    try {
+        background_image
+            .setCallback('cropDidFinish', function() {
+                iframe.content.find('.news').addClass('no-background');
+                iframe.content.find('.comments').addClass('no-background');
+            }).setCallback('imageDidRemove', function(datas) {
+            if(!datas.background_image_url) {
+                iframe.content.find('.news').removeClass('no-background');
+                iframe.content.find('.comments').removeClass('no-background');
+            }
+        });
+    } catch (e) {
+        console.error('skip, nope.');
+    }
+
+
+</script>

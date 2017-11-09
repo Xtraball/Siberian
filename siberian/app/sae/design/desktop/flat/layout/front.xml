@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <default>
+        <base>
+            <template>page/layout</template>
+            <class>front_view_index_index</class>
+            <title>Build a mobile app easily</title>
+            <scripts>
+                <js>
+                    <jquery link="js/jquery.js" />
+                    <jquery_ui link="js/jquery-ui.js" />
+                    <ckeditor link="js/ckeditor/ckeditor.js"/>
+                    <ckeditor_jquery link="js/ckeditor/adapters/jquery.js"/>
+                    <validateform link="js/jquery.validate.js" />
+                    <placeholder link="js/jquery.placeholder.js" />
+                    <object link="js/object.js" />
+                    <colorpicker link="js/colorpicker.js" />
+                    <custom_checkbox_and_radio link="js/custom_checkbox_and_radio.js" />
+                    <customer_radio link="js/radio.js" />
+                    <js link="js/js.js" />
+                    <jquery_ui_widget link="js/fileupload/jquery.ui.widget.js" />
+                    <fileupload_iframe link="js/fileupload/jquery.iframe-transport.js" />
+                    <fileupload_transport link="js/fileupload/jquery.xdr-transport.js" />
+                    <fileupload link="js/fileupload/jquery.fileupload.js" />
+                    <prettyPhoto link="js/jquery.prettyPhoto.js" />
+                    <jcrop link="js/jquery.Jcrop.min.js" />
+                    <bootstrap_min link="js/bootstrap.min.js" />
+                    <bootstrap_tagsinput link="js/bootstrap-tagsinput.min.js" />
+                    <carousel link="js/carousel.js" />
+                    <chart link="js/chart.js" />
+                    <jquery_datepicker link="js/jquery.ui.datepicker.js" />
+                    <jquery_datepicker_languages link="js/jquery.ui.datepicker-languages.js" />
+                    <features link="js/features.js" />
+                    <sbpager link="js/jquery.sbpager.js" />
+                    <sbcarousel link="js/jquery.sbcarousel.js" />
+                    <sweetalert link="js/sweetalert.min.js" />
+                    <bootstraptour link="js/bootstrap-tour.js" />
+                </js>
+                <css>
+                    <bootstrap link="css/bootstrap.css" />
+                    <style link="css/style.css" />
+                    <gfonts_breeserif href="//fonts.googleapis.com/css?family=Bree+Serif|Open+Sans+Condensed:700,300,300italic" />
+                    <gfonts_oleo href="//fonts.googleapis.com/css?family=Oleo+Script" />
+                    <font_awesome link="css/font-awesome.min.css" />
+                    <font_ionicon link="css/webfonts/ionicons/css/ionicons.min.css" />
+                    <gfonts_poiret href="//fonts.googleapis.com/css?family=Didact+Gothic" />
+                    <colors link="css/colors.css" />
+                    <colorpicker link="css/colorpicker.css" />
+                    <prettyPhoto link="css/prettyPhoto.css" />
+                    <jcrop link="css/jquery.Jcrop.min.css" />
+                    <jquery_ui link="css/jquery-ui.css" />
+                    <user_style link="css/user-style.css" />
+                    <sweetalert link="css/sweetalert.css" />
+                    <bootstraptour link="css/bootstrap-tour.min.css" />
+                    <printstyles link="css/print.css" />
+                    <icofont link="css/icofont/css/icofont.css" />
+                </css>
+            </scripts>
+            <metas>
+                <Content-Type value="text/html; charset=utf-8" type="http-equiv" />
+                <description value="" />
+                <keywords value="" />
+                <viewport value="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" />
+            </metas>
+        </base>
+        <views>
+            <languages class="front_view_index_index" template="page/layout/languages.phtml" />
+            <css class="front_view_default" template="page/layout/css.phtml" />
+            <messages class="front_view_html_messages" template="html/messages.phtml" />
+            <footer class="core_view_default" template="page/layout/footer.phtml" />
+            <sb_tour_sidebar class="admin_view_default" template="html/sb_tour_sidebar.phtml" />
+        </views>
+    </default>
+
+    <customization_default>
+        <base>
+            <scripts>
+                <js>
+                    <jquery link="js/jquery.js" />
+                    <jquery_ui link="js/jquery-ui.js" />
+                    <jquery_datepicker link="js/jquery.ui.datepicker.js" />
+                    <jquery_datepicker_languages link="js/jquery.ui.datepicker-languages.js" />
+                    <jquery_timepicker link="js/jquery.ui.timepicker.addon.js" />
+                    <object link="js/object.js" />
+                    <colorpicker link="js/colorpicker.js" />
+                    <colorization link="js/colorization.js" />
+                    <jquery_ui_widget link="js/fileupload/jquery.ui.widget.js" />
+                    <jquery_format_currency link="js/jquery.formatCurrency.min.js" />
+                    <fileupload_iframe link="js/fileupload/jquery.iframe-transport.js" />
+                    <fileupload_transport link="js/fileupload/jquery.xdr-transport.js" />
+                    <fileupload link="js/fileupload/jquery.fileupload.js" />
+                    <catalog link="js/catalog.js"/>
+                    <prettyPhoto link="js/jquery.prettyPhoto.js" />
+                    <jcrop link="js/jquery.Jcrop.min.js"/>
+                    <facebook link="js/facebook.js" />
+                    <nested_sortable link="js/jquery.mjs.nestedSortable.js" />
+                    <datas_table link="js/jquery.dataTables.min.js" />
+                </js>
+                <css>
+                    <colorpicker link="css/colorpicker.css" />
+                    <prettyPhoto link="css/prettyPhoto.css" />
+                    <jcrop link="css/jquery.Jcrop.min.css" />
+                </css>
+            </scripts>
+        </base>
+        <views>
+            <content class="admin_view_default" template="application/customization/index.phtml" />
+            <customization_sidebar_left class="admin_view_default" template="application/customization/index/sidebar_left.phtml" />
+            <customization_menu class="admin_view_default" template="application/customization/index/menu.phtml" />
+            <overview class="admin_view_default" template="application/customization/index/overview/iframe.phtml" />
+        </views>
+    </customization_default>
+
+    <!--<front_index_index>-->
+        <!--<base>-->
+            <!--<scripts>-->
+                <!--<css>-->
+                    <!--<front folder="css/front" />-->
+                <!--</css>-->
+            <!--</scripts>-->
+        <!--</base>-->
+        <!--<views>-->
+            <!--<content class="core_view_default" template="home/view.phtml" />-->
+        <!--</views>-->
+    <!--</front_index_index>-->
+
+    <front_index_noroute>
+        <base>
+            <title>404, Page not found</title>
+        </base>
+        <views>
+            <content class="core_view_default" template="error/404.phtml" />
+        </views>
+    </front_index_noroute>
+
+    <front_index_forbidden>
+        <base>
+            <title>403, Forbidden</title>
+        </base>
+        <views>
+            <content class="core_view_default" template="error/403.phtml" />
+        </views>
+    </front_index_forbidden>
+
+    <front_index_error>
+        <views>
+            <content class="core_view_default" template="error/503.phtml" />
+        </views>
+    </front_index_error>
+
+    <admin_menu>
+        <views>
+            <header_menu class="admin_view_header_menu" template="page/layout/header_menu.phtml" />
+            <customization_sidebar class="admin_view_default" template="whitelabel/customization/sidebar.phtml" />
+        </views>
+    </admin_menu>
+
+</layout>

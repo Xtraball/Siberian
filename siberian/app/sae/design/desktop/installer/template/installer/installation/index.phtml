@@ -1,0 +1,26 @@
+<?php $errors = $this->getErrors(); ?>
+<div class="steps_content relative">
+    <div class="step step1 col-md-12">
+        <?php echo $this->getLayout()->addPartial('welcome', 'core_view_default', 'installer/installation/index/welcome.phtml')->setErrors($errors)->toHtml(); ?>
+    </div>
+    <?php if(empty($errors["permissions"]) AND empty($errors["extensions"])) : ?>
+    <div class="step step2 col-md-12">
+        <?php echo $this->getLayout()->addPartial('license', 'core_view_default', 'installer/installation/index/license.phtml')->toHtml(); ?>
+    </div>
+    <div class="step step3 col-md-12">
+        <?php echo $this->getLayout()->addPartial('database', 'core_view_default', 'installer/installation/index/database.phtml')->toHtml(); ?>
+    </div>
+    <div class="step step4 col-md-12">
+        <?php echo $this->getLayout()->addPartial('installation', 'core_view_default', 'installer/installation/index/installation.phtml')->toHtml(); ?>
+    </div>
+    <div class="step step5 col-md-12">
+        <?php echo $this->getLayout()->addPartial('admin', 'core_view_default', 'installer/installation/index/admin.phtml')->toHtml(); ?>
+    </div>
+    <div class="step step6 col-md-12">
+        <?php echo $this->getLayout()->addPartial('application', 'core_view_default', 'installer/installation/index/application.phtml')->toHtml(); ?>
+    </div>
+    <div class="step step7 col-md-12">
+        <?php echo $this->getLayout()->addPartial('confirmation', 'core_view_default', 'installer/installation/index/confirmation.phtml')->toHtml(); ?>
+    </div>
+    <?php endif; ?>
+</div>

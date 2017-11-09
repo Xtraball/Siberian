@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <default>
+        <base>
+            <template>page/layout</template>
+            <class>front_view_index_index</class>
+            <title>Build a mobile app easily</title>
+            <scripts>
+                <js>
+                    <jquery link="js/jquery.js" />
+                    <jquery_ui link="js/jquery-ui.js" />
+                    <validateform link="js/jquery.validate.js" />
+                    <placeholder link="js/jquery.placeholder.js" />
+                    <object link="js/object.js" />
+                    <dropkick link="js/jquery.dropkick.js" />
+                    <custom_checkbox_and_radio link="js/custom_checkbox_and_radio.js" />
+                    <customer_radio link="js/radio.js" />
+                    <js link="js/js.js" />
+                    <prettyphoto link="js/jquery.prettyPhoto.js" />
+                    <features link="js/features.js" />
+                    <sbpager link="js/jquery.sbpager.js" />
+                    <sbcarousel link="js/jquery.sbcarousel.js" />
+                </js>
+                <css>
+                    <style link="css/style.css" />
+                    <prettyphoto link="css/prettyPhoto.css" />
+                    <flat_ui link="css/flat-ui.css" />
+                    <bootstrap link="css/bootstrap.css" />
+                    <gfonts_breeserif href="//fonts.googleapis.com/css?family=Bree+Serif|Open+Sans+Condensed:700,300,300italic" />
+                    <gfonts_oleo href="//fonts.googleapis.com/css?family=Oleo+Script" />
+                    <font_awesome link="css/font-awesome.min.css" />
+                    <gfonts_poiret href="//fonts.googleapis.com/css?family=Didact+Gothic" />
+                    <colors link="css/colors.css" />
+                    <user_style link="css/user-style.css" />
+                </css>
+            </scripts>
+            <metas>
+                <Content-Type value="text/html; charset=utf-8" type="http-equiv" />
+                <description value="" />
+                <keywords value="" />
+            </metas>
+        </base>
+        <views>
+            <header class="front_view_index_index" template="page/layout/header.phtml" />
+            <messages class="front_view_html_messages" template="html/messages.phtml" />
+            <footer class="core_view_default" template="page/layout/footer.phtml" />
+        </views>
+    </default>
+
+    <customization_default>
+        <base>
+            <scripts>
+                <js>
+                    <jquery link="js/jquery.js" />
+                    <jquery_ui link="js/jquery-ui.js" />
+                    <jquery_datepicker link="js/jquery.ui.datepicker.js" />
+                    <jquery_datepicker_languages link="js/jquery.ui.datepicker-languages.js" />
+                    <jquery_timepicker link="js/jquery.ui.timepicker.addon.js" />
+                    <object link="js/object.js" />
+                    <carousel link="js/carousel.js" />
+                    <colorpicker link="js/colorpicker.js" />
+                    <colorization link="js/colorization.js" />
+                    <jquery_ui_widget link="js/fileupload/jquery.ui.widget.js" />
+                    <jquery_format_currency link="js/jquery.formatCurrency.min.js" />
+                    <fileupload_iframe link="js/fileupload/jquery.iframe-transport.js" />
+                    <fileupload_transport link="js/fileupload/jquery.xdr-transport.js" />
+                    <fileupload link="js/fileupload/jquery.fileupload.js" />
+                    <ckeditor link="js/ckeditor/ckeditor.js"/>
+                    <ckeditor_jquery link="js/ckeditor/adapters/jquery.js"/>
+                    <catalog link="js/catalog.js"/>
+                    <prettyPhoto link="js/jquery.prettyPhoto.js" />
+                    <jcrop link="js/jquery.Jcrop.min.js"/>
+                    <facebook link="js/facebook.js" />
+                    <nested_sortable link="js/jquery.mjs.nestedSortable.js" />
+                    <datas_table link="js/jquery.dataTables.min.js" />
+                </js>
+                <css>
+                    <jquery_ui link="css/jquery-ui.css" />
+                    <colorpicker link="css/colorpicker.css" />
+                    <prettyPhoto link="css/prettyPhoto.css" />
+                    <jcrop link="css/jquery.Jcrop.min.css" />
+                </css>
+            </scripts>
+        </base>
+        <views>
+            <content class="admin_view_default" template="application/customization/index.phtml" />
+            <customization_header class="admin_view_default" template="application/customization/index/header.phtml" />
+            <customization_menu class="admin_view_default" template="application/customization/index/menu.phtml" />
+            <overview class="admin_view_default" template="application/customization/index/overview/iframe.phtml" />
+        </views>
+    </customization_default>
+
+    <!--<front_index_index>-->
+        <!--<base>-->
+            <!--<scripts>-->
+                <!--<css>-->
+                    <!--<front folder="css/front" />-->
+                <!--</css>-->
+            <!--</scripts>-->
+        <!--</base>-->
+        <!--<views>-->
+            <!--<content class="core_view_default" template="home/view.phtml" />-->
+        <!--</views>-->
+    <!--</front_index_index>-->
+
+    <front_index_noroute>
+        <base>
+            <title>404, Page not found</title>
+        </base>
+        <views>
+            <content class="core_view_default" template="error/404.phtml" />
+        </views>
+    </front_index_noroute>
+
+    <front_index_forbidden>
+        <base>
+            <title>403, Forbidden</title>
+        </base>
+        <views>
+            <content class="core_view_default" template="error/403.phtml" />
+        </views>
+    </front_index_forbidden>
+
+    <front_index_error>
+        <views>
+            <content class="core_view_default" template="error/503.phtml" />
+        </views>
+    </front_index_error>
+
+    <admin_menu>
+        <views>
+            <menu class="admin_view_header_menu" template="admin/header/menu.phtml" />
+        </views>
+    </admin_menu>
+
+</layout>

@@ -1,0 +1,290 @@
+<?php
+$application = $this->getApplication();
+
+$icon_form = new Application_Form_Customization_Publication_App();
+$icon_form->setAppIcon();
+$icon_form->populate($application->getData());
+
+$android_form = new Application_Form_Customization_Publication_App();
+$android_form->setAndroidSettings();
+$android_form->populate($application->getData());
+
+$android_color = $application->getAndroidPushColor();
+$android_push_icon = "/images/application".$application->getAndroidPushIcon();
+$android_push_image = "/images/application".$application->getAndroidPushImage();
+
+?>
+<div id="icon_conteneur" class="content sb-tour">
+    <h3 class="title-editor border-purple text-center">
+        <?php echo __("Dashboard icon"); ?>
+    </h3>
+    <div id="icon" class="subcontent content-color">
+        <div class="col-md-6">
+            <?php echo $icon_form; ?>
+        </div>
+    </div>
+</div>
+
+<div id="android_conteneur" class="content sb-tour">
+    <h3 class="title-editor border-purple text-center">
+        <?php echo __("Android push"); ?>
+    </h3>
+    <div id="icon" class="subcontent content-color container-fluid">
+        <div id="sb-tour-push-settings" class="col-md-6 content-options content-white-bkg sb-tour">
+            <h4><?php echo __("Settings") ?></h4>
+            <?php echo $android_form; ?>
+        </div>
+        <div id="sb-tour-preview-settings" class="col-md-6 sb-tour">
+            <h4 style="text-align: center;"><?php echo __("Preview") ?></h4>
+
+            <b><?php echo __("Status bar"); ?></b>
+            <br />
+            <div class="android-status-bar">
+                <img src="/app/sae/design/desktop/flat/images/push/android-header.png" width="100%" />
+            </div>
+            <br />
+
+            <b><?php echo __("Notification center"); ?></b>
+            <br />
+            <div class="android-notification-full">
+                <img src="/app/sae/design/desktop/flat/images/push/android-notification-full.png" width="100%" />
+            </div>
+            <b class="icon-caption"><?php echo __("without image"); ?></b>
+            <br />
+            <br />
+            <div class="hide-empty-image android-notification-image">
+                <div class="android-notification-image-default">
+                    <img src="/app/sae/design/desktop/flat/images/push/android-notification-image.png" width="100%" />
+                </div>
+                <div class="android-notification-image-overlay">
+                    <img src="/app/sae/design/desktop/flat/images/push/android-notification-empty.png" width="100%" />
+                </div>
+            </div>
+            <b class="hide-empty-image icon-caption"><?php echo __("with image"); ?></b>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        bindForms('#icon_conteneur', 'color-purple');
+        bindForms('#android_conteneur', 'color-purple');
+
+        $("input#icon").on("change", function() {
+            var src = $("button[data-input='icon']").next(".feature-upload-placeholder").find("img").attr("src");
+            $("#preview_icon").attr("src", src.replace(/\/\/+/g, "/"));
+        });
+
+        var preview_src = "/images/application/"+$("input#icon").val();
+        $("#preview_icon").attr("src", preview_src.replace(/\/\/+/g, "/"));
+
+        var colorPicker = $("#form-application-androidsettings .android-colorpicker");
+        var colorPickerInput = $("#form-application-androidsettings .android-colorpicker-input");
+        var previewFull = $(".android-notification-full");
+        var previewImage = $(".android-notification-image-default");
+        var styleTemplate = '<style id="style-template" type="text/css"> .android-notification-image-overlay:after {background-color: #COLOR# !important;} </style>';
+        var imageTemplate = '<style id="image-template" type="text/css"> .android-notification-image-overlay:after {background-image: url(#URL#) !important;} </style>';
+        var statusBar = $(".android-status-bar");
+
+        $(".android-colorpicker, .android-colorpicker-input").ColorPicker({
+            color: '<?php echo (!empty($android_color)) ? $android_color : "#00CC97"; ?>',
+            onChange: function (hsb, hex, rgb) {
+                $("#android_push_color").val("#"+hex);
+                colorPicker.css("backgroundColor", "#"+hex);
+                colorPickerInput.val("#"+hex);
+                previewFull.css("backgroundColor", "#"+hex);
+                $("#style-template").remove();
+                $("#default-style").after(styleTemplate.replace("#COLOR#", "#"+hex));
+            }
+        });
+
+        $(".android-colorpicker-input").on("change blur", function() {
+            $(this).ColorPickerSetColor($(this).val());
+        });
+
+        var colorizedUrl = '<?php echo $this->getUrl("/template/block/colorize") ?>';
+
+        $("#android_push_icon").on("change", function() {
+            var el = $(this);
+            var base64path = btoa("/var/tmp/"+el.val());
+            var colorUrl = colorizedUrl+"?path="+base64path+"&color=%23FFFFFF";
+
+            $.get(colorUrl, function() {
+                previewFull.css("backgroundImage", "url("+colorUrl+")");
+                statusBar.css("backgroundImage", "url("+colorUrl+")");
+                $("#image-template").remove();
+                $("#default-style").after(imageTemplate.replace("#URL#", colorUrl));
+                $("button[data-input='android_push_icon']").next(".feature-upload-placeholder").find("img").attr("src", colorUrl);
+            });
+        });
+
+        var updatePreview = function() {
+            var el = $("input[name='android_push_image']");
+            if((el.val() == "") || (el.val() == "_delete_")) {
+                $(".hide-empty-image").hide();
+            } else {
+                var src = $("button[data-input='android_push_image']").next(".feature-upload-placeholder").find("img").attr("src");
+                if(typeof src != "undefined") {
+                    previewImage.css("backgroundImage", "url("+src+")");
+                    $(".hide-empty-image").show();
+                }
+            }
+
+            setTimeout(function () {
+                $('#android_push_icon_button')
+                    .siblings('div.feature-upload-placeholder')
+                    .children('img')
+                    .addClass('color-purple')
+                    .css({padding: '5px'});
+            }, 500);
+        };
+
+        $("#android_push_image").on("change", function() {
+            updatePreview();
+        });
+
+        $("#android_conteneur .feature-upload-delete").on("click", function(event) {
+            updatePreview();
+        });
+
+        updatePreview();
+
+        $("#android_push_color").val('<?php echo (!empty($android_color)) ? $android_color : "#0099C7"; ?>');
+
+        $(".sb-form-line .col-sm-7").removeClass("col-sm-7").addClass("col-sm-12");
+    });
+</script>
+
+<style id="default-style" type="text/css">
+    #form-application-appicons label {
+        display: none;
+    }
+
+    #form-application-appicons button {
+        width: 200px;
+    }
+
+    #form-application-appicons .feature-upload-placeholder img {
+        min-width: 200px;
+    }
+
+
+    #form-application-androidsettings .android-colorpicker {
+        width: 32px;
+        height: 32px;
+        display: block;
+        float: left;
+        background-color: <?php echo (!empty($android_color)) ? $android_color : "#0099C7"; ?>;
+        box-shadow: 1px 1px 1px #d2d2d2;
+        border-radius: 2px;
+        margin-right: 10px;
+        margin-top: 1px;
+    }
+
+    #form-application-androidsettings .android-colorlabel {
+        margin-top: 7px;
+        float: left;
+    }
+
+    #form-application-androidsettings .android-colorpicker-input {
+        float: right;
+        width: 70%;
+    }
+
+    #form-application-androidsettings  label {
+        display: none;
+    }
+
+    #form-application-androidsettings .feature-upload-placeholder {
+        float: left;
+        height: 70px;
+    }
+    #form-application-androidsettings .feature-upload-placeholder img {
+        max-height: 70px;
+    }
+
+    #form-application-androidsettings .feature-upload-placeholder button {
+        width: 20px !important;
+        height: 20px;
+        top: 6px;
+        padding: 0;
+        margin-top: 0 !important;
+    }
+
+    #form-application-androidsettings .feature-upload-placeholder button i {
+        margin-top: -4px;
+    }
+
+    #form-application-androidsettings .sb-form-line button {
+        float: right;
+        width: 50%;
+        margin-top: 20px;
+    }
+
+    .android-status-bar {
+        background-color: black;
+        background-image: url(<?php echo $android_push_icon; ?>);
+        background-size: 4.8%;
+        background-repeat: no-repeat;
+        background-position: 9% 50%;
+    }
+
+    .android-notification-full {
+        background-color: <?php echo (!empty($android_color)) ? $android_color : "#0099C7"; ?>;
+        background-image: url(<?php echo $android_push_icon; ?>);
+        background-size: 7%;
+        background-repeat: no-repeat;
+        background-position: 6.5% 50%;
+    }
+
+    .android-notification-image-default {
+        background-color: #fafafa;
+        background-image: url(<?php echo $android_push_image; ?>);
+        background-size: 12.8%;
+        background-repeat: no-repeat;
+        background-position: 3.5% 50%;
+    }
+
+    .android-notification-image {
+        position: relative;
+    }
+
+    .android-notification-image-overlay {
+        position: absolute;
+        top: 0;
+    }
+
+    .android-notification-image-overlay:after {
+        content: "";
+        width: 5%;
+        height: 26.95%;
+        position: absolute;
+        top: 65%;
+        background-color: <?php echo (!empty($android_color)) ? $android_color : "#0099C7"; ?>;
+        border-radius: 50%;
+        background-image: url(<?php echo $android_push_icon; ?>);
+        background-position: 50% 50%;
+        background-size: 60%;
+        background-repeat: no-repeat;
+        left: 13%;
+    }
+
+    div.android-colorpicker-block,
+    div.android-colorlabel {
+        width: 50% !important;
+    }
+
+    div.android-colorpicker-block {
+        float: right;
+    }
+
+    b.icon-caption {
+        float: right;
+        font-size: 12px;
+    }
+    h4 {
+        font-weight: 200;
+        text-align: center;
+        text-transform: uppercase;
+    }
+</style>

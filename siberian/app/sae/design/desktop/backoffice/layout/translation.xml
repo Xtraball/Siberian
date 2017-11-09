@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <translation_backoffice_list_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="translation/list.phtml" />
+        </views>
+    </translation_backoffice_list_template>
+
+    <translation_backoffice_edit_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="translation/edit.phtml" />
+        </views>
+    </translation_backoffice_edit_template>
+
+</layout>

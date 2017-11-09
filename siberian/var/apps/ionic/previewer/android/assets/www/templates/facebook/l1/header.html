@@ -1,0 +1,30 @@
+<div class="facebook header facebook-view">
+    <ul>
+        <li class="cover" ng-if="cover_image_url" ng-style="cover_image_style"></li>
+        <li class="relative" ng-show="!is_loading">
+            <div class="info">
+                <div class="logo">
+                    <img width="100" height="100" class="logo_src" ng-src="{{ user.picture }}" />
+                </div>
+                <div class="metas">
+                    <span class="count block">
+                        <ul>
+                            <li title="{{ 'Comments' | translate }}" class="ion-ios-chatboxes-outline"> {{ user.talking_about_count }}</li>
+                            <li title="{{ 'Likes' | translate }}" class="ion-ios-heart-outline"> {{ user.fan_count }}</li>
+                        </ul>
+                    </span>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </li>
+        <li>
+            <p class="about">
+                <span class="name bold">{{ user.name }}</span>
+                <span class="name">{{ user.about }}</span><br /><br />
+                <span class="name">{{ user.genre }}</span>
+            </p>
+        </li>
+    </ul>
+    <div class="clear"></div>
+</div>

@@ -1,0 +1,24 @@
+
+<form ng-submit="saveKeys()">
+
+    <div class="clear" ng-repeat="api in apis">
+        <sb-section title="api.provider_name">
+            <div class="col-md-6" ng-repeat="key in api.keys">
+                <div class="form-group">
+                    <label class="control-label" for="{{ key.id }}">{{ key.key }}</label>
+                    <input ng-if="key.key == 'password'" type="password" id="{{ key.id }}" ng-model="key.value" class="form-control" placeholder="{{ key.key }}" />
+                    <input ng-if="key.key != 'password'" type="text" id="{{ key.id }}" ng-model="key.value" class="form-control" placeholder="{{ key.key }}" />
+                </div>
+            </div>
+        </sb-section>
+    </div>
+
+    <div class="col-md-12">
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary left"><?php echo $this->_("Save"); ?></button>
+            <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'none'" class="form_loader"></sb-loader>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+</form>

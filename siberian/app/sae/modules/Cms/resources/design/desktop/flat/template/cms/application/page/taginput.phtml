@@ -1,0 +1,21 @@
+<?php $page = $this->getPage(); ?>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap.tagsinput/0.4.2/bootstrap-tagsinput.css"/>
+<script src="//cdn.jsdelivr.net/bootstrap.tagsinput/0.4.2/bootstrap-tagsinput.min.js"></script>
+<style type="text/css">
+    .bootstrap-tagsinput {
+        width: 100%;
+    }
+
+    .label {
+        line-height: 2 !important;
+    }
+</style>
+<div class="form-group">
+    <div class="col-sm-12">
+        <label for="cms_application_page_tags"><?php echo $this->_('Type') ?></label>
+        <input type="text" name="tags" id="cms_application_page_tags"
+               value="<?php echo implode(", ", $page->tag_names) ?>"
+               placeholder="<?php echo $this->_('Tags separated by commas') ?>"
+               class="weblink_field form-control" data-role="tagsinput"/>
+    </div>
+</div>

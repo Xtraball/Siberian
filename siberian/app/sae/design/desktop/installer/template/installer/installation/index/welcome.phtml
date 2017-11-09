@@ -1,0 +1,49 @@
+<?php $errors = $this->getErrors(); ?>
+<div>
+    <div class="animated part part1">
+        <h3 class="title blue10 title-margin">The CMS which makes your dreams come true!</h3>
+        <p>The installation of Siberian CMS is quick and easy. You are on your way to create your own unique mobile App you can manage easily every day.</p>
+    </div>
+    <div class="animated part part1">
+        <?php if(empty($errors["permissions"]) AND empty($errors["extensions"]) AND empty($errors["php_version"])) : ?>
+        <p>No technical knowledge is required to create your App, but if you need help, do not hesitate to check our documentation or to contact our support team</p>
+        <?php else : ?>
+        <div class="red">
+            <?php if(!empty($errors["php_version"])) : ?>
+                <?php foreach($errors["php_version"] as $error) : ?>
+                    <h4 class="bold"><?php echo $error; ?></h4>
+                <?php endforeach ?>
+            <?php endif; ?>
+
+                <h4 class="bold">Before continuing the installation, please fix those issues.</h4>
+                <?php if(!empty($errors["permissions"])) : ?>
+
+                <p>The following files and folders must have the writeable permission: </p>
+                <ul>
+                <?php foreach($errors["permissions"] as $error) : ?>
+                    <li>- <?php echo $error; ?></li>
+                <?php endforeach ?>
+                </ul>
+                <?php endif; ?>
+
+                <?php if(!empty($errors["extensions"])) : ?>
+
+                <p>The following extensions are missing: </p>
+                <ul>
+                    <?php foreach($errors["extensions"] as $error) : ?>
+                        <li>- <?php echo $error; ?></li>
+                    <?php endforeach ?>
+                </ul>
+
+                <?php endif; ?>
+            
+
+        </div>
+
+        <?php endif; ?>
+    </div>
+
+    <script type="text/javascript">
+        installer.addStep(new Step(1));
+    </script>
+</div>

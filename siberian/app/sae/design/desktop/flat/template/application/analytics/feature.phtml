@@ -1,0 +1,979 @@
+<?php $application = $this->getApplication(); ?>
+<?php $demo_mode = !$application->isPublished(); ?>
+<?php $demo_mode = false; ?>
+<?php $demo_label = $demo_mode ? " ".$this->_("(DEMO)") : ""; ?>
+
+<div class="application_analytics application content solo-page">
+    <h3 class="title-editor border-blue text-center"><?php echo $this->_("Feature Analytics"); ?></h3>
+    <div class="container-fluid subcontent content-color">
+        <?php if(!$demo_mode): ?>
+            <div id="row_filter_metrics" class="row content-white-bkg sb-tour">
+                <div id="row_filter_metrics" class="row content-white-bkg">
+                    <div class="col-md-1 col-sm-6 col-xs-6">
+                        <label for="from"><?php echo $this->_("From"); ?></label>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <input type="text" id="from" name="from" class="input-flat sb-tour">
+                    </div>
+                    <div class="col-md-1 col-sm-6 col-xs-6">
+                        <label for="to"><?php echo $this->_("to"); ?></label>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <input type="text" id="to" name="to" class="input-flat sb-tour">
+                    </div>
+                    <div class="col-md-2 col-sm-12 col-xs-12">
+                        <button class="btn color-blue" onclick="Filter_Metrics()"><?php echo $this->_("Filter metrics"); ?></button>
+                    </div>
+                </div>
+            </div>
+        <?php else: ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="sb-tour-div-alert-demo-1" class="alert alert-warning sb-tour">
+                        <?php echo $this->_("Please note that this page is currently displaying DEMO data. Real data will be displayed when your application is published."); ?>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+        <div class="row">
+            <div class="col-md-12 first-row-feature">
+                <h4><i class="fa fa-pie-chart"></i> <?php echo $this->_("Commerce"); ?></h4>
+            </div>
+        </div>
+        <div class="row">
+            <div id="sb-tour-total-sales-1" class="col-md-4 first-row-feature sb-tour">
+                <div class="text-center totals_metrics color-blue">
+                    <?php echo $this->_("Total sales"); ?> : <span id="total_sales"></span>
+                </div>
+            </div>
+            <div id="sb-tour-total-visits-1" class="col-md-4 first-row-feature sb-tour">
+                <div class="text-center totals_metrics color-blue">
+                    <?php echo $this->_("Total visits"); ?> : <span id="total_visits"></span>
+                </div>
+            </div>
+            <div id="sb-tour-average-cart" class="col-md-4 first-row-feature sb-tour">
+                <div class="text-center totals_metrics color-blue">
+                    <?php echo $this->_("Average cart"); ?> : <span id="total_cart"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4  col-xs-12">
+                <i id="dl_list_sales_categ" data-placement="left" data-toggle="tooltip" class="sb-tour fa fa-download display_tooltip pointer pull-right icon_list_dl" title="<?php echo $this->_("Download complete list for this metric"); ?>" onclick="dlAllSalesByCategories()"<?php if($demo_mode): ?>style="display:none"<?php endif; ?>></i>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4  col-xs-12 first-row-feature" style="max-height:350px">
+                <div id="category_sale_loader" class="loader_metrics"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br/><?php echo $this->_("Loading..."); ?></div>
+                <canvas id="analytics_category_sale" class="content-white-bkg sb-tour" width="400" height="350"></canvas>
+            </div>
+            <div class="col-md-4  col-xs-12 first-row-feature" style="max-height:350px">
+                <div id="payment_sale_loader" class="loader_metrics"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br/><?php echo $this->_("Loading..."); ?></div>
+                <canvas id="analytics_payment_sale" class="content-white-bkg sb-tour" width="400" height="350"></canvas>
+            </div>
+            <div class="col-md-4  col-xs-12 first-row-feature" style="max-height:350px">
+                <div id="store_sale_loader" class="loader_metrics"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br/><?php echo $this->_("Loading..."); ?></div>
+                <canvas id="analytics_store_sale" class="content-white-bkg sb-tour" width="400" height="350"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6  col-xs-12 first-row-feature" style="max-height:350px">
+                <div id="sale_by_product_loader" class="loader_metrics"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br/><?php echo $this->_("Loading..."); ?></div>
+                <div class="table-responsive tab_container">
+                    <table id="sales_by_product_metric" class="table table-striped content-white-bkg sb-tour">
+                        <thead>
+                        <tr>
+                            <th colspan="3" class="border-purple text-center" style="font-size:12px">
+                                <?php echo $this->_("Sales by product (TOP 20)"); ?><?php echo $demo_label; ?><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip pointer pull-right icon_list_dl" title="<?php echo $this->_("Download complete list for this metric"); ?>" onclick="dlAllSalesByProducts()"<?php if($demo_mode): ?>style="display:none"<?php endif; ?>></i>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody id="body_sales_by_product">
+                        <?php if($demo_mode): ?>
+                            <tr>
+                                <td>Product 1</td>
+                                <td class="text-right">485</td>
+                            </tr>
+                            <tr>
+                                <td>Product 2</td>
+                                <td class="text-right">428</td>
+                            </tr>
+                            <tr>
+                                <td>Product 3</td>
+                                <td class="text-right">401</td>
+                            </tr>
+                            <tr>
+                                <td>Product 4</td>
+                                <td class="text-right">352</td>
+                            </tr>
+                            <tr>
+                                <td>Product 5</td>
+                                <td class="text-right">348</td>
+                            </tr>
+                            <tr>
+                                <td>Product 6</td>
+                                <td class="text-right">321</td>
+                            </tr>
+                            <tr>
+                                <td>Product 7</td>
+                                <td class="text-right">312</td>
+                            </tr>
+                        <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6  col-xs-12 first-row-feature" style="max-height:350px">
+                <div id="visit_by_product_loader" class="loader_metrics"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br/><?php echo $this->_("Loading..."); ?></div>
+                <div class="table-responsive tab_container">
+                    <table id="visits_by_product_metric" class="table table-striped content-white-bkg sb-tour">
+                        <thead>
+                        <tr>
+                            <th colspan="3" class="border-purple text-center" style="font-size:12px">
+                                <?php echo $this->_("Visits by product (TOP 20)"); ?><?php echo $demo_label; ?><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip pointer pull-right icon_list_dl" title="<?php echo $this->_("Download complete list for this metric"); ?>" onclick="dlAllVisitsByProducts()"<?php if($demo_mode): ?>style="display:none"<?php endif; ?>></i>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody id="body_visits_by_product">
+                        <?php if($demo_mode): ?>
+                            <tr>
+                                <td>Product 1</td>
+                                <td class="text-right">485</td>
+                            </tr>
+                            <tr>
+                                <td>Product 2</td>
+                                <td class="text-right">428</td>
+                            </tr>
+                            <tr>
+                                <td>Product 3</td>
+                                <td class="text-right">401</td>
+                            </tr>
+                            <tr>
+                                <td>Product 4</td>
+                                <td class="text-right">352</td>
+                            </tr>
+                            <tr>
+                                <td>Product 5</td>
+                                <td class="text-right">348</td>
+                            </tr>
+                            <tr>
+                                <td>Product 6</td>
+                                <td class="text-right">321</td>
+                            </tr>
+                            <tr>
+                                <td>Product 7</td>
+                                <td class="text-right">312</td>
+                            </tr>
+
+                        <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 first-row-feature">
+                <h4><i class="fa fa-pie-chart"></i> <?php echo $this->_("Discount"); ?></h4>
+            </div>
+        </div>
+        <div class="row first-row-feature">
+            <div class="col-md-12" style="max-height:350px">
+                <div id="discount_loader" class="loader_metrics"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br/><?php echo $this->_("Loading..."); ?></div>
+                <div class="table-responsive tab_container">
+                    <table id="discount_metric" class="table table-striped content-white-bkg sb-tour">
+                        <thead>
+                        <tr>
+                            <th colspan="3" class="border-purple text-center" style="font-size:12px"><?php echo $this->_("Validations by Discount Analytics"); ?><?php echo $demo_label; ?></th>
+                        </tr>
+                        </thead>
+                        <tbody id="body_discount">
+                        <?php if($demo_mode): ?>
+                            <tr>
+                                <td>Discount 1</td>
+                                <td>485</td>
+                                <td  class="text-right pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download list of user who used this discount"); ?>" onclick="showDemoMessage()"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Discount 2</td>
+                                <td>457</td>
+                                <td  class="text-right pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download list of user who used this discount"); ?>" onclick="showDemoMessage()"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Discount 3</td>
+                                <td>456</td>
+                                <td  class="text-right pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download list of user who used this discount"); ?>" onclick="showDemoMessage()"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Discount 4</td>
+                                <td>431</td>
+                                <td  class="text-right pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download list of user who used this discount"); ?>" onclick="showDemoMessage()"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Discount 5</td>
+                                <td>135</td>
+                                <td  class="text-right pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download list of user who used this discount"); ?>" onclick="showDemoMessage()"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Discount 6</td>
+                                <td>122</td>
+                                <td  class="text-right pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download list of user who used this discount"); ?>" onclick="showDemoMessage()"></i></td>
+                            </tr>
+                        <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 first-row-feature">
+                <h4><i class="fa fa-pie-chart"></i> <?php echo $this->_("Loyalty Card"); ?></h4>
+            </div>
+        </div>
+        <div class="row first-row-feature">
+            <div class="col-md-12" style="max-height:350px">
+                <div id="loyalty_loader" class="loader_metrics"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br/><?php echo $this->_("Loading..."); ?></div>
+                <div class="table-responsive tab_container">
+                    <table id="loyalty_metric" class="table table-striped content-white-bkg sb-tour">
+                        <thead>
+                        <tr>
+                            <th colspan="6" class="border-purple text-center" style="font-size:12px"><?php echo $this->_("Validated points by Loyalty card Analytics"); ?><?php echo $demo_label; ?></th>
+                        </tr>
+                        </thead>
+                        <tbody id="body_loyalty">
+                        <tr style="height:40px">
+                            <td><strong><?php echo $this->_("Name"); ?></strong></td>
+                            <td><strong><?php echo $this->_("Validated points"); ?></strong></td>
+                            <td><strong><?php echo $this->_("Number of reward used"); ?></strong></td>
+                            <td><strong><?php echo $this->_("Average for active users"); ?></strong></td>
+                            <td><strong><?php echo $this->_("Average for all users"); ?></strong></td>
+                            <td></td>
+                        </tr>
+                        <?php if($demo_mode): ?>
+                            <tr>
+                                <td>Loyalty card 1</td>
+                                <td>485</td>
+                                <td>21</td>
+                                <td>8</td>
+                                <td>9</td>
+                                <td  class="text-right pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download list of user who used this loyalty card"); ?>" onclick="showDemoMessage()"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Loyalty card 2</td>
+                                <td>421</td>
+                                <td>18</td>
+                                <td>10</td>
+                                <td>10</td>
+                                <td  class="text-right pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download list of user who used this loyalty card"); ?>" onclick="showDemoMessage()"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Loyalty card 3</td>
+                                <td>401</td>
+                                <td>26</td>
+                                <td>7</td>
+                                <td>3</td>
+                                <td  class="text-right pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download list of user who used this loyalty card"); ?>" onclick="showDemoMessage()"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Loyalty card 4</td>
+                                <td>396</td>
+                                <td>24</td>
+                                <td>10</td>
+                                <td>10</td>
+                                <td  class="text-right pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download list of user who used this loyalty card"); ?>" onclick="showDemoMessage()"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Loyalty card 5</td>
+                                <td>354</td>
+                                <td>16</td>
+                                <td>7</td>
+                                <td>7</td>
+                                <td  class="text-right pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download list of user who used this loyalty card"); ?>" onclick="showDemoMessage()"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Loyalty card 6</td>
+                                <td>328</td>
+                                <td>35</td>
+                                <td>10</td>
+                                <td>10</td>
+                                <td  class="text-right pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download list of user who used this loyalty card"); ?>" onclick="showDemoMessage()"></i></td>
+                            </tr>
+                        <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <?php if(Application_Model_Application::hasModuleInstalled("scratchcard")): ?>
+            <div class="row">
+                <div class="col-md-12 first-row-feature">
+                    <h4><i class="fa fa-pie-chart"></i> <?php echo $this->_("Scratchcard"); ?></h4>
+                </div>
+            </div>
+            <div class="row first-row-feature">
+                <div class="col-md-12" style="max-height:350px">
+                    <div id="scratchcard_loader" class="loader_metrics"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br/><?php echo $this->_("Loading..."); ?></div>
+                    <div class="table-responsive tab_container">
+                        <table id="scratchcard_metric" class="table table-striped content-white-bkg sb-tour">
+                            <thead>
+                            <tr>
+                                <th colspan="6" class="border-purple text-center" style="font-size:12px"><?php echo $this->_("Scratchcard Users"); ?><?php echo $demo_label; ?></th>
+                            </tr>
+                            </thead>
+                            <tbody id="body_scratchcard">
+                            <tr style="height:40px">
+                                <td><strong><?php echo $this->_("Name"); ?></strong></td>
+                                <td class="text-center"><strong><?php echo $this->_("All user list"); ?></strong></td>
+                                <td class="text-center"><strong><?php echo $this->_("Winners list"); ?></strong></td>
+                            </tr>
+                            <?php if($demo_mode): ?>
+                                <tr>
+                                    <td>Scratch card 1</td>
+                                    <td  class="text-center pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download list of user who used this scratch card"); ?>" onclick="showDemoMessage()"></i></td>
+                                    <td  class="text-center pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download only winner list for this scratch card"); ?>" onclick="showDemoMessage()"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>Scratch card 2</td>
+                                    <td  class="text-center pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download list of user who used this scratch card"); ?>" onclick="showDemoMessage()"></i></td>
+                                    <td  class="text-center pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download only winner list for this scratch card"); ?>" onclick="showDemoMessage()"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>Scratch card 3</td>
+                                    <td  class="text-center pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download list of user who used this scratch card"); ?>" onclick="showDemoMessage()"></i></td>
+                                    <td  class="text-center pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download only winner list for this scratch card"); ?>" onclick="showDemoMessage()"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>Scratch card 4</td>
+                                    <td  class="text-center pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download list of user who used this scratch card"); ?>" onclick="showDemoMessage()"></i></td>
+                                    <td  class="text-center pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download only winner list for this scratch card"); ?>" onclick="showDemoMessage()"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>Scratch card 5</td>
+                                    <td  class="text-center pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download list of user who used this scratch card"); ?>" onclick="showDemoMessage()"></i></td>
+                                    <td  class="text-center pointer" ><i data-placement="left" data-toggle="tooltip" class="fa fa-download display_tooltip icon_list_dl" title="<?php echo $this->_("Download only winner list for this scratch card"); ?>" onclick="showDemoMessage()"></i></td>
+                                </tr>
+                            <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+<style>
+    .loader_metrics{width:100%;height:300px;background:#ffffff;text-align: center;position:absolute;padding-top:50px}
+    #row_filter_metrics{padding: 5px;margin-right: 0px;margin-left: 0;}
+    #row_filter_metrics label{line-height:29px}
+    #dl_list_sales_categ{position: absolute;z-index: 1;margin-top: 20px;right: 20px;}
+    .tab_container table{min-height:300px;}
+    .tab_container{max-height:350px;overflow:auto}
+    .icon_list_dl{font-size:20px;}
+    .totals_metrics{padding: 15px;border-radius: 2px;text-transform: uppercase;}
+</style>
+<script>
+    var demo_mode = false;
+    var no_data_mess = "<?php echo $this->_("No data for this metrics for now."); ?>";
+    var dl_url = "<?php echo $this->getUrl("analytics/analytics/"); ?>";
+    var app_id = <?php echo $application->getId(); ?>;
+    var color = ["#1abc9c", "#2ecc71", "#3498db", "#9b59b6", "#34495e", "#f1c40f", "#e67e22", "#e74c3c", "#ecf0f1", "#95a5a6"];
+
+    var categorySaleGraph;
+    var paymentSaleGraph;
+    var storeSaleGraph;
+
+    <?php if(Application_Model_Application::hasModuleInstalled("scratchcard")): ?>
+        var hasScratchCard = true;
+    <?php else: ?>
+        var hasScratchCard = false;
+    <?php endif; ?>
+
+    $(document).ready(function() {
+
+        initTooltips();
+
+        if($.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker(); ?>']) {
+            $.datepicker.setDefaults($.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker(); ?>']);
+        } else {
+            $.datepicker.setDefaults($.datepicker.regional['en']);
+        }
+
+        $( "#from" ).datepicker({
+            changeMonth: true,
+            changeYear: true,
+            numberOfMonths: 3,
+            onClose: function( selectedDate ) {
+                $( "#to" ).datepicker( "option", "minDate", selectedDate );
+            }
+        });
+
+        $( "#to" ).datepicker({
+            changeMonth: true,
+            changeYear: true,
+            numberOfMonths: 3,
+            onClose: function( selectedDate ) {
+                $( "#from" ).datepicker( "option", "maxDate", selectedDate );
+            }
+        });
+
+        var cookie_start_date = document.cookie ? getCookie("sbDateStart") : null;
+        var cookie_end_date = document.cookie ? getCookie("sbDateEnd") : null;
+
+        var default_start_date = cookie_start_date ? new Date(cookie_start_date*1000) : null;
+        var default_end_date = cookie_end_date ? new Date(cookie_end_date*1000) : new Date();
+
+        $("#to").datepicker('setDate', default_end_date);
+        if(!default_start_date) {
+            $("#from").datepicker('setDate', new Date());
+            $("#from").datepicker('setDate', -7);
+        } else {
+            $("#from").datepicker('setDate', default_start_date);
+        }
+
+        var graph_data_category_sale = [];
+        var graph_data_payment_sale = [];
+        var graph_data_store_sale = [];
+        var graph_label_category_sale = [];
+        var graph_label_payment_sale = [];
+        var graph_label_store_sale = [];
+
+        //----SALE BY CATEGORIES
+        var ctx = $("#analytics_category_sale");
+        Chart.defaults.global.title.display = true;
+        Chart.defaults.global.title.text = "<?php echo $this->_("Sales by Categories (TOP 10)"); ?><?php echo $demo_label; ?>";
+        var data = {
+            labels: graph_label_category_sale,
+            datasets: [
+                {
+                    data: graph_data_category_sale,
+                    backgroundColor: color,
+                    hoverBackgroundColor: color
+                }]
+        };
+        categorySaleGraph = new Chart(ctx, {
+            type: 'pie',
+            data: data,
+            options: {"responsive":true,maintainAspectRatio: false}
+        });
+
+        //----SALE BY PAYMENT METHOD
+        var ctx = $("#analytics_payment_sale");
+        Chart.defaults.global.title.display = true;
+        Chart.defaults.global.title.text = "<?php echo $this->_("Sales by Payment method"); ?><?php echo $demo_label; ?>";
+        var data = {
+            labels: graph_label_payment_sale,
+            datasets: [
+                {
+                    data: graph_data_payment_sale,
+                    backgroundColor: color,
+                    hoverBackgroundColor: color
+                }]
+        };
+        paymentSaleGraph = new Chart(ctx, {
+            type: 'pie',
+            data: data,
+            options: {"responsive":true,maintainAspectRatio: false}
+        });
+
+        //----SALE BY STORE
+        var ctx = $("#analytics_store_sale");
+        Chart.defaults.global.title.display = true;
+        Chart.defaults.global.title.text = "<?php echo $this->_("Sales by Store"); ?><?php echo $demo_label; ?>";
+        var data = {
+            labels: graph_label_store_sale,
+            datasets: [
+                {
+                    data: graph_data_store_sale,
+                    backgroundColor: color,
+                    hoverBackgroundColor: color
+                }]
+        };
+        storeSaleGraph = new Chart(ctx, {
+            type: 'pie',
+            data: data,
+            options: {"responsive":true,maintainAspectRatio: false}
+        });
+
+        <?php if($demo_mode) : ?>
+            demo_mode = true;
+        <?php endif; ?>
+
+        if(demo_mode) {
+            graph_data_category_sale = [15,25,68,182,40];
+            graph_data_payment_sale = [51,42,84];
+            graph_data_store_sale = [251,125];
+            graph_label_store_sale = ["Store 1", "Store 2"];
+            graph_label_category_sale = ["Category 1", "Category 2", "Category 3", "Category 4", "Category 5"];
+            graph_label_payment_sale = ["Method 1", "Method 2", "Method 3"];
+
+            categorySaleGraph.data.datasets[0].data = graph_data_category_sale;
+            categorySaleGraph.data.labels = graph_label_category_sale;
+            categorySaleGraph.update();
+
+            paymentSaleGraph.data.datasets[0].data = graph_data_payment_sale;
+            paymentSaleGraph.data.labels = graph_label_payment_sale;
+            paymentSaleGraph.update();
+
+            storeSaleGraph.data.datasets[0].data = graph_data_store_sale;
+            storeSaleGraph.data.labels = graph_label_store_sale;
+            storeSaleGraph.update();
+
+            $("#total_sales").html(376);
+            $("#total_visits").html(2647);
+            $("#total_cart").html(56.2);
+
+            hideAllMetricsLoader();
+        } else {
+            var params = Compute_Date_Range();
+            //Update discount metric
+            updateDiscountMetric(params);
+            //Update sales by category metric
+            updateSaleCategoryMetric(params);
+            //Update sales by payment method metric
+            updateSalePaymentMetric(params);
+            //Update sales by store metric
+            updateSaleStoreMetric(params);
+            //Update sales by product metric
+            updateSalesByProductMetric(params);
+            //Update visits by product metric
+            updateVisitsByProductMetric(params);
+            //Update loyalty card metric
+            updateLoyaltyMetric(params);
+            //Update total visits for mcommerce metric
+            updateTotalVisitsMetric(params);
+            //Update average cart for mcommerce metric
+            updateAverageCartMetric(params);
+
+            //Update scratchcard metrics
+            if(hasScratchCard) {
+                updateScratchMetric(params);
+            }
+        }
+
+    });
+
+    function Compute_Date_Range() {
+        var start_timestamp = parseInt($.datepicker.formatDate( "@", $("#from").datepicker("getDate"))/1000);
+        var end_timestamp = parseInt($.datepicker.formatDate( "@", $("#to").datepicker("getDate"))/1000);
+        //We go to 23:59
+        end_timestamp = end_timestamp + (60*60*24) - 60;
+        var params = {
+            "start": start_timestamp,
+            "end": end_timestamp
+        };
+
+        return params;
+    }
+
+    function Filter_Metrics() {
+        if($("#from").val() && $("#to").val()) {
+            var params = Compute_Date_Range();
+
+            if(params.start <= params.end) {
+                updateCookie();
+                showAllMetricsLoader();
+
+                //Update discount metric
+                updateDiscountMetric(params);
+                //Update sales by category metric
+                updateSaleCategoryMetric(params);
+                //Update sales by payment method metric
+                updateSalePaymentMetric(params);
+                //Update sales by store metric
+                updateSaleStoreMetric(params);
+                //Update sales by product metric
+                updateSalesByProductMetric(params);
+                //Update visits by product metric
+                updateVisitsByProductMetric(params);
+                //Update loyalty card metric
+                updateLoyaltyMetric(params);
+                //Update total visits for mcommerce metric
+                updateTotalVisitsMetric(params);
+                //Update scratchcard metrics
+                if(hasScratchCard) {
+                    updateScratchMetric(params);
+                }
+            } else {
+                var page_message = new AlertMessage("<?php echo $this->_("Start date must be lower than end date."); ?>");
+                page_message.addButton(true);
+                page_message.setTimer(false);
+                page_message.isError(true);
+                page_message.show();
+            }
+        } else {
+            var page_message = new AlertMessage("<?php echo $this->_("You have to chose a start and an end date."); ?>");
+            page_message.addButton(true);
+            page_message.setTimer(false);
+            page_message.isError(true);
+            page_message.show();
+        }
+    }
+
+    function updateDiscountMetric(params) {
+
+        var date_range = params ? params : null;
+
+        $.ajax({
+            method: "POST",
+            dataType: 'json',
+            url: "/analytics/analytics/getdiscountmetric",
+            data: { app_ids: app_id, date_range: date_range }
+        }).done(function( data ) {
+            if(data.success) {
+                var new_html = "";
+                var total = 0;
+                if(data.data.length) {
+                    $.each(data.data, function(ind, elem) {
+                        new_html += "<tr><td>" + elem.name + "</td><td>" + elem.metric + "</td><td  class='text-right pointer' ><i data-placement='left' data-toggle='tooltip' class='fa fa-download display_tooltip icon_list_dl' title='<?php echo $this->_("Download list of user who used this discount"); ?>' onclick='dlUsersDiscount(" + elem.id +")'></i></td></tr>";
+                        total += parseInt(elem.metric);
+                    });
+                    new_html = "<tr style='height:40px'><td><strong>Total</strong></td><td><strong>" + total + "</strong></td><td></td></tr>" + new_html;
+                } else {
+                    new_html = "<tr><td colspan='3'>" + no_data_mess + "</td></tr>";
+                }
+                $("#body_discount").html(new_html);
+                initTooltips();
+                $("#discount_loader").hide();
+            }
+        }).error(function() {
+            $("#discount_loader").hide();
+        });
+    }
+
+    function updateSaleCategoryMetric(params) {
+
+        var date_range = params ? params : null;
+
+        $.ajax({
+            method: "POST",
+            dataType: 'json',
+            url: "/analytics/analytics/getsalescategorymetric",
+            data: { app_ids: app_id, date_range: date_range }
+        }).done(function( data ) {
+            if(data.success) {
+                categorySaleGraph.data.datasets[0].data = data.data.metrics;
+                categorySaleGraph.data.labels = data.data.labels;
+                categorySaleGraph.update();
+                $("#category_sale_loader").hide();
+            }
+        }).error(function() {
+            $("#category_sale_loader").hide();
+        });
+    }
+
+    function updateSalePaymentMetric(params) {
+
+        var date_range = params ? params : null;
+
+        $.ajax({
+            method: "POST",
+            dataType: 'json',
+            url: "/analytics/analytics/getsalespaymentmetric",
+            data: { app_ids: app_id, date_range: date_range }
+        }).done(function( data ) {
+            if(data.success) {
+                paymentSaleGraph.data.datasets[0].data = data.data.metrics;
+                paymentSaleGraph.data.labels = data.data.labels;
+                paymentSaleGraph.update();
+                $("#payment_sale_loader").hide();
+            }
+        }).error(function() {
+            $("#payment_sale_loader").hide();
+        });
+    }
+
+    function updateSaleStoreMetric(params) {
+
+        var date_range = params ? params : null;
+
+        $.ajax({
+            method: "POST",
+            dataType: 'json',
+            url: "/analytics/analytics/getsalesstoremetric",
+            data: { app_ids: app_id, date_range: date_range }
+        }).done(function( data ) {
+            if(data.success) {
+                var total = 0;
+                $.each(data.data.metrics, function(ind, elem) {
+                    total += parseInt(elem);
+                });
+                $("#total_sales").html(total);
+                storeSaleGraph.data.datasets[0].data = data.data.metrics;
+                storeSaleGraph.data.labels = data.data.labels;
+                storeSaleGraph.update();
+                $("#store_sale_loader").hide();
+            }
+        }).error(function() {
+            $("#store_sale_loader").hide();
+        });
+    }
+
+    function updateSalesByProductMetric(params) {
+
+        var date_range = params ? params : null;
+
+        $.ajax({
+            method: "POST",
+            dataType: 'json',
+            url: "/analytics/analytics/getsalesbyproductmetric",
+            data: { app_ids: app_id, date_range: date_range }
+        }).done(function( data ) {
+            if(data.success) {
+                var new_html = "";
+                var total = 0;
+                if(data.data.length) {
+                    $.each(data.data, function(ind, elem) {
+                        new_html += "<tr><td>" + elem.name + "</td><td>" + elem.metric + "</td></tr>";
+                        total += parseInt(elem.metric);
+                    });
+                    new_html = "<tr style='height:40px'><td><strong>Total</strong></td><td><strong>" + total + "</strong></td></tr>" + new_html;
+                } else {
+                    new_html = "<tr><td colspan='2'>" + no_data_mess + "</td></tr>";
+                }
+                $("#body_sales_by_product").html(new_html);
+                $("#sale_by_product_loader").hide();
+            }
+        }).error(function() {
+            $("#sale_by_product_loader").hide();
+        });
+    }
+
+    function updateVisitsByProductMetric(params) {
+
+        var date_range = params ? params : null;
+
+        $.ajax({
+            method: "POST",
+            dataType: 'json',
+            url: "/analytics/analytics/getvisitsbyproductmetric",
+            data: { app_ids: app_id, date_range: date_range }
+        }).done(function( data ) {
+            if(data.success) {
+                var new_html = "";
+                var total = 0;
+                if(data.data.length) {
+                    $.each(data.data, function(ind, elem) {
+                        new_html += "<tr><td>" + elem.name + "</td><td>" + elem.metric + "</td></tr>";
+                        total += parseInt(elem.metric);
+                    });
+                    new_html = "<tr style='height:40px'><td><strong>Total</strong></td><td><strong>" + total + "</strong></td></tr>" + new_html;
+                } else {
+                    new_html = "<tr><td colspan='2'>" + no_data_mess + "</td></tr>";
+                }
+                $("#body_visits_by_product").html(new_html);
+                $("#visit_by_product_loader").hide();
+            }
+        }).error(function() {
+            $("#visit_by_product_loader").hide();
+        });
+    }
+
+    function updateTotalVisitsMetric(params) {
+
+        var date_range = params ? params : null;
+
+        $.ajax({
+            method: "POST",
+            dataType: 'json',
+            url: "/analytics/analytics/gettotalvisitsmcommercemetric",
+            data: { app_ids: app_id, date_range: date_range }
+        }).done(function( data ) {
+            if(data.success) {
+                if(data.data.length) {
+                    $("#total_visits").html(data.data[0]);
+                } else {
+                    $("#total_visits").html("0");
+                }
+            }
+        }).error(function() {
+            console.log("Error updating total visits metric");
+        });
+    }
+
+    function updateAverageCartMetric(params) {
+
+        var date_range = params ? params : null;
+
+        $.ajax({
+            method: "POST",
+            dataType: 'json',
+            url: "/analytics/analytics/getaveragecartmcommercemetric",
+            data: { app_ids: app_id, date_range: date_range }
+        }).done(function( data ) {
+            if(data.success) {
+                if(data.data.length) {
+                    $("#total_cart").html(data.data[0]);
+                } else {
+                    $("#total_cart").html("0");
+                }
+            }
+        }).error(function() {
+            console.log("Error updating average cart metric");
+        });
+    }
+
+    function updateLoyaltyMetric(params) {
+
+        var date_range = params ? params : null;
+
+        $.ajax({
+            method: "POST",
+            dataType: 'json',
+            url: "/analytics/analytics/getloyaltymetric",
+            data: { app_ids: app_id, date_range: date_range }
+        }).done(function( data ) {
+            if(data.success) {
+                var new_html = "<tr style='height:40px'><td><strong><?php echo $this->_("Name"); ?></strong></td><td><strong><?php echo $this->_("Validated points"); ?></strong></td><td><strong><?php echo $this->_("Number of reward used"); ?></strong></td><td><strong><?php echo $this->_("Average for active users"); ?></strong></td><td><strong><?php echo $this->_("Average for all users"); ?></strong></td><td></td></tr>";
+                if(data.data.length) {
+                    $.each(data.data, function(ind, elem) {
+                        new_html += "<tr><td>" + elem.name + "</td><td>" + elem.validation + "</td><td>" + elem.reward_used + "</td><td>" + elem.average_actif_user + "</td><td>" + elem.average_all_user + "</td><td  class='text-right pointer' ><i data-placement='left' data-toggle='tooltip' class='fa fa-download display_tooltip icon_list_dl' title='<?php echo $this->_('Download list of user who used this loyalty card'); ?>' onclick='dlUsersLoyalty(" + elem.id + ")'></i></td></tr>";
+                    });
+                } else {
+                    new_html = "<tr><td colspan='6'>" + no_data_mess + "</td></tr>";
+                }
+                $("#body_loyalty").html(new_html);
+                initTooltips();
+                $("#loyalty_loader").hide();
+            }
+        }).error(function() {
+            $("#loyalty_loader").hide();
+        });
+    }
+
+    function updateScratchMetric(params) {
+
+        var date_range = params ? params : null;
+
+        $.ajax({
+            method: "POST",
+            dataType: 'json',
+            url: "/scratchcard/analytics/getscratchmetric",
+            data: { app_ids: app_id }
+        }).done(function( data ) {
+            if(data.success) {
+                var new_html = "<tr style='height:40px'><td><strong><?php echo $this->_("Name"); ?></strong></td><td class='text-center'><strong><?php echo $this->_("All user list"); ?></strong></td><td class='text-center'><strong><?php echo $this->_("Winners list"); ?></strong></td><td></td></tr>";
+                if(data.cards.length) {
+                    $.each(data.cards, function(ind, elem) {
+                        new_html += "<tr><td>" + elem.name + "</td><td  class='text-center pointer' ><i data-placement='left' data-toggle='tooltip' class='fa fa-download display_tooltip icon_list_dl' title='<?php echo $this->_("Download list of user who used this scratch card"); ?>' onclick='dlAllUsersScratch(" + elem.card_id + ", true)'></i></td><td  class='text-center pointer' ><i data-placement='left' data-toggle='tooltip' class='fa fa-download display_tooltip icon_list_dl' title='<?php echo $this->_("Download only winner list for this scratch card"); ?>' onclick='dlAllUsersScratch(" + elem.card_id + ", false)'></i></td>";
+                    });
+                } else {
+                    new_html = "<tr><td colspan='3'>" + no_data_mess + "</td></tr>";
+                }
+                $("#body_scratchcard").html(new_html);
+                initTooltips();
+                $("#scratchcard_loader").hide();
+            } else {
+                $("#scratchcard_loader").hide();
+            }
+        }).error(function() {
+            $("#scratchcard_loader").hide();
+        });
+    }
+
+    function dlAllSalesByCategories() {
+        var params = Compute_Date_Range();
+
+        if(params.start && params.end && app_id) {
+            window.open(dl_url + "/getsalescategorymetric/full/1/app_ids/" + app_id + "/start/" + params.start + "/end/" + params.end);
+        }
+    }
+
+    function dlAllSalesByProducts() {
+        var params = Compute_Date_Range();
+
+        if(params.start && params.end && app_id) {
+            window.open(dl_url + "/getsalesbyproductmetric/full/1/app_ids/" + app_id + "/start/" + params.start + "/end/" + params.end);
+        }
+    }
+
+    function dlAllVisitsByProducts() {
+        var params = Compute_Date_Range();
+
+        if(params.start && params.end && app_id) {
+            window.open(dl_url + "/getvisitsbyproductmetric/full/1/app_ids/" + app_id + "/start/" + params.start + "/end/" + params.end);
+        }
+    }
+
+    function dlUsersDiscount(discount_id) {
+        var params = Compute_Date_Range();
+
+        if(params.start && params.end && discount_id) {
+            window.open(dl_url + "/getdldiscount/discount_id/" + discount_id + "/start/" + params.start + "/end/" + params.end);
+        }
+    }
+
+    function dlUsersLoyalty(loyalty_id) {
+        var params = Compute_Date_Range();
+
+        if(params.start && params.end && loyalty_id) {
+            window.open(dl_url + "/getdlloyalty/app_ids/" + app_id + "/card_id/" + loyalty_id + "/start/" + params.start + "/end/" + params.end);
+        }
+    }
+
+    function dlAllUsersScratch(scratch_id, all_users) {
+        var params = Compute_Date_Range();
+        var full_mode = all_users ? "/full/1" : "";
+        if(params.start && params.end && scratch_id) {
+            window.open("<?php echo $this->getUrl("scratchcard/analytics"); ?>" + "/getusersscratch/card_id/" + scratch_id + "/start/" + params.start + "/end/" + params.end + full_mode);
+        }
+    }
+
+    function showDemoMessage() {
+        var page_message = new AlertMessage("<?php echo $this->_("Download file is not available in DEMO mode."); ?>");
+        page_message.addButton(true);
+        page_message.setTimer(false);
+        page_message.isError(true);
+        page_message.show();
+    }
+
+    function hideAllMetricsLoader() {
+        $("#discount_loader").hide();
+        $("#category_sale_loader").hide();
+        $("#payment_sale_loader").hide();
+        $("#store_sale_loader").hide();
+        $("#sale_by_product_loader").hide();
+        $("#visit_by_product_loader").hide();
+        $("#loyalty_loader").hide();
+
+        if(hasScratchCard) {
+            $("#scratchcard_loader").hide();
+        }
+    }
+
+    function showAllMetricsLoader() {
+        $("#discount_loader").show();
+        $("#category_sale_loader").show();
+        $("#payment_sale_loader").show();
+        $("#store_sale_loader").show();
+        $("#sale_by_product_loader").show();
+        $("#visit_by_product_loader").show();
+        $("#loyalty_loader").show();
+
+        if(hasScratchCard) {
+            $("#scratchcard_loader").show();
+        }
+    }
+
+    function initTooltips() {
+        $('.display_tooltip').tooltip();
+    }
+
+    function updateCookie() {
+        var cookie_date = Compute_Date_Range();
+        if (navigator.cookieEnabled) {
+            var expire_at = new Date();
+            expire_at.setTime(expire_at.getTime()+(60*60*1000));
+            document.cookie = "sbDateStart=" + cookie_date.start + ";expires=" + expire_at.toUTCString() + ";";
+            document.cookie = "sbDateEnd=" + cookie_date.end + ";expires=" + expire_at.toUTCString() + ";";
+        }
+    }
+
+    function getCookie(cookieName) {
+        var oRegex = new RegExp("(?:; )?" + cookieName + "=([^;]*);?");
+
+        if (oRegex.test(document.cookie)) {
+            return decodeURIComponent(RegExp["$1"]);
+        } else {
+            return null;
+        }
+    }
+</script>

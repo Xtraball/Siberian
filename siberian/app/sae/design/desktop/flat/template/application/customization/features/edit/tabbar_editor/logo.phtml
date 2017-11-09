@@ -1,0 +1,71 @@
+<?php $application = $this->getApplication(); ?>
+
+<div id="upload_logo_cont" class="right">
+    <!--[if gte IE 10]><!-->
+    <button class="upload_logo upload editor_menu active image_left" type="button">
+        <div class="cont_logo left">
+            <img width="49px" height="49px" src="<?php echo $application->getLogo(); ?>" class="logo_src"/>
+        </div>
+        <?php echo $application->getLogo() ? $this->_('Edit my') : $this->_('Choose a'); ?>
+        <br/>
+        <span class="bold"><?php echo $this->_('logo'); ?></span>
+    </button>
+    <!--<![endif]-->
+    <p id="uploader_logo_ie_description" style="display:none"><?php echo $application->getLogo() ? $this->_('Edit my') : $this->_('Choose a'); ?> <span class="bold"><?php echo $this->_('logo'); ?></span></p>
+    <input style="display:none" class="uploader_logo" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" />
+</div>
+<style type="text/css">
+    #upload_logo_cont .upload_logo { padding-left: 0; }
+    #upload_logo_cont .upload_logo .cont_logo { width: 49px; height: 49px; margin-left: 10px; border: 1px solid; border-radius: 5px; overflow: hidden; }
+</style>
+<script type="text/javascript">
+
+    var logo_uploader = new Uploader();
+    page.setCallback('prepare_logo_uploader', function() {
+
+        if(!$('button.upload_logo').is(':visible')) {
+            $('#uploader_logo_ie_description').show();
+            $('input.uploader_logo').show();
+        }
+
+        $('.upload_logo').click(function() {
+            $('.uploader_logo').trigger('click');
+        });
+
+        $('.uploader_logo').fileupload({
+            dataType: 'json',
+            add: function (e, data) {
+                data.submit();
+                logo_uploader.showProgressbar();
+            },
+            progressall: function (e, data) {
+                logo_uploader.moveProgressbar(data);
+            },
+            done: function (e, data) {
+                if(data.result.error) {
+                    logo_uploader.showError(data.result.message);
+                } else {
+                    logo_uploader.hide();
+                    var params = new Array();
+                    params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+                    params["file"] = data.result.files;
+                    params["output_w"] = 150;
+                    params["output_h"] = 150;
+                    params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('application/customization_features_edit_logo/save')); ?>';
+                    params["uploader"] = 'logo_uploader';
+                    logo_uploader.crop(params);
+                    logo_uploader.callback = function(file) {
+                        $('.upload_logo .cont_logo .logo_src').attr('src', file);
+                        iframe.content.find('.logo_src').attr('src', file);
+                    }
+                }
+            }
+        });
+
+    });
+
+    page.setCallback('destroy_logo_uploader', function() {
+        $('.upload_logo').unbind('click');
+    });
+
+</script>

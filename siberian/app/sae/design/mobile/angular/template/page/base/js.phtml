@@ -1,0 +1,107 @@
+<?php $application = $this->getApplication(); ?>
+<?php $app_devices = $application->getDevices();?>
+<?php $isOverview = $this->getRequest()->getParam('overview', 0); ?>
+
+<script type="text/javascript">
+    App.run(function($window, $rootScope, Customer, Application) {
+        Customer.id = "<?php echo $this->getSession()->isLoggedIn() ? $this->getSession()->getCustomerId() : ""; ?>";
+        Customer.can_access_locked_features = "<?php echo $this->getSession()->isLoggedIn() && $this->getSession()->getCustomer()->canAccessLockedFeatures(); ?>";
+        Customer.can_connect_with_facebook = !!"<?php echo $application->getFacebookId() ? 1 : null; ?>";
+        $rootScope.application_is_locked = "<?php echo (int) $application->isLocked(); ?>" == "1";
+        console.log("Is logged in : ", Customer.isLoggedIn());
+
+        <?php if($application->getFacebookId()) : ?>
+        (function() {
+            // If we've already installed the SDK, we're done
+            if (document.getElementById('facebook-jssdk')) {return;}
+
+            // Get the first script element, which we'll use to find the parent node
+            var firstScriptElement = document.getElementsByTagName('script')[0];
+
+            // Create a new script element and set its id
+            var facebookJS = document.createElement('script');
+            facebookJS.id = 'facebook-jssdk';
+
+            // Set the new script's source to the source of the Facebook JS SDK
+            facebookJS.src = '//connect.facebook.net/en_US/all.js';
+
+            // Insert the Facebook JS SDK into the DOM
+            firstScriptElement.parentNode.insertBefore(facebookJS, firstScriptElement);
+        }());
+        <?php endif; ?>
+
+        $window.colors = {
+            header: {
+                hex: {
+                    backgroundColor: <?php echo Zend_Json::encode($application->getBlock("header")->getBackgroundColorRGB()); ?>,
+                    color: <?php echo Zend_Json::encode($application->getBlock("header")->getColorRGB()); ?>
+                }
+            },
+            background: {
+                backgroundColor: <?php echo Zend_Json::encode($application->getBlock("background")->getBackgroundColor()); ?>,
+                color: <?php echo Zend_Json::encode($application->getBlock("background")->getColor()); ?>
+            }
+        };
+
+        Application.is_native = <?php echo $this->getRequest()->isNative() ? 1 : 0; ?>;
+        Application.is_android = <?php echo $this->getDevice()->isAndroid() || $this->getDevice()->isAndroidtablet() ? 1 : 0; ?>;
+        Application.is_ios = <?php echo $this->getDevice()->isIphone() || $this->getDevice()->isIpad() ? 1 : 0; ?>;
+        Application.is_previewer = <?php echo $this->getDevice()->isPreviewer() ? 1 : 0; ?>;
+        Application.is_locked = "<?php echo (int) $application->requireToBeLoggedIn(); ?>" == "1";
+        Application.device_uid = "";
+        Application.store_url = Application.is_ios ? "<?php echo $application->getDevice(1)->getStoreUrl();?>" : "<?php echo $application->getDevice(2)->getStoreUrl();?>";
+
+        <?php if($this->getRequest()->isNative()) : ?>
+        <?php $admob_settings = $this->getAdmobSettings(); ?>
+        Application.ads_id = "<?php echo $admob_settings["admob_id"] ?>";
+        Application.ads_type = "<?php echo $admob_settings["admob_type"] ?>";
+        <?php endif; ?>
+
+        if(Application.is_android) {
+            angular.element(document.body).addClass("android_app");
+        }
+
+        $window.Application = Application;
+
+        <?php if($this->getRequest()->isNative() AND $admob_settings["use_ads"]): ?>
+            Application.call("createAdMobView", {admobId: Application.ads_id, admobType: Application.ads_type});
+        <?php endif; ?>
+
+    }).config(function($facebookProvider) {
+
+        <?php if($application->getFacebookId()) : ?>
+        $facebookProvider.setCustomInit({xfbml: false, version : 'v2.0'});
+        $facebookProvider.setAppId("<?php echo $application->getFacebookId(); ?>");
+        $facebookProvider.setPermissions("<?php echo Customer_Model_Customer_Type_Facebook::getScope() ?>");
+        <?php endif; ?>
+
+    }).factory('Pictos', function() {
+
+        var factory = {};
+
+        factory.list = new Array();
+        factory.add = function(name, block, url) {
+            if(!angular.isDefined(this.list[name])) this.list[name] = new Array();
+            this.list[name][block] = url;
+        };
+        factory.get = function(name, block) {
+
+            if(angular.isDefined(this.list[name]) && angular.isDefined(this.list[name][block])) {
+                return this.list[name][block];
+            }
+
+            return "";
+        };
+
+        <?php foreach(array("background", "header", "subheader", "news", "button") as $block_name) : ?>
+        <?php $block = $application->getBlock($block_name); ?>
+        <?php foreach(array("heart", "comment", "pencil", "marker", "search", "locate_us", "trash", "more", "shopping_cart", "download", "menu", "world", "phone", "share", "paperclip") as $picto) : ?>
+        factory.add("<?php echo $picto ?>", "<?php echo $block_name ?>", "<?php echo $this->getColorizedImage($this->getImage("pictos/$picto.png", true), $block->getColor()); ?>");
+        <?php endforeach ?>
+        <?php endforeach ?>
+
+        return factory;
+    });
+
+</script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&language=<?php echo Core_Model_Language::getCurrentLanguage(); ?>"></script>

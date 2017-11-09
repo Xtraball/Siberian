@@ -1,0 +1,34 @@
+<div class="paginate-anything">
+    <div>
+        <ul class="pagination pagination-{{size}} links pull-right" ng-if="numPages > 1">
+            <li ng-class="{disabled: page <= 0}"><a href ng-click="gotoPage(page-1)">&laquo;</a></li>
+
+            <li ng-if="linkGroupFirst() > 0"><a href ng-click="gotoPage(0)">1</a></li>
+            <li ng-if="linkGroupFirst() > 1" class="disabled"><a href>&hellip;</a></li>
+
+            <li
+                ng-repeat=
+                "p in [linkGroupFirst(), linkGroupLast()] | makeRange"
+                ng-class="{active: p === page}"
+            >
+                <a href ng-click="gotoPage(p)">{{p+1}}</a>
+            </li>
+
+            <li ng-if="linkGroupLast() < numPages - 2" class="disabled"><a href>&hellip;</a></li>
+            <li ng-if="isFinite() && linkGroupLast() < numPages - 1"><a href ng-click="gotoPage(numPages-1)">{{numPages}}</a></li>
+
+            <li ng-class="{disabled: page >= numPages - 1}"><a href ng-click="gotoPage(page+1)">&raquo;</a></li>
+        </ul>
+    </div>
+    <div class="clear"></div>
+    <div class="per-page pull-right" ng-if="perPagePresets.length > 0">
+        <span><?php echo __("Display"); ?></span>
+        <select class="form-control" style="width: 50px; display: inline;" ng-model="$parent.perPage">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+        <span><?php echo __("per page"); ?></span>
+    </div>
+</div>

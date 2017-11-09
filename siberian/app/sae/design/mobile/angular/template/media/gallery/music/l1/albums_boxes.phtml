@@ -1,0 +1,20 @@
+<ul class="boxes-area for_ads_banner">
+  <li class="media-box" ng-repeat="album in albums" ng-click="onAlbumSelected({ album: album })">
+        <ul class="cover-area">
+            <li class="cover">
+                <img ng-src="{{ album.artworkUrl }}">
+            </li>
+        </ul>
+        <div class="description-area">
+            <div class="playlist-name truncated-content">{{ album.name }}</div>
+            <div class="metrics">
+                {{ album.totalTracks }}
+                <span ng-switch="album.totalTracks">
+                    <span ng-switch-when="1"><?php echo $this->_('track') ?></span>
+                <span ng-switch-default><?php echo $this->_('tracks') ?></span>
+                </span>
+                <span ng-if="album.totalTracks !== 0"> - {{ album.totalDuration }}</span>
+            </div>
+        </div>
+    </li>
+</ul>

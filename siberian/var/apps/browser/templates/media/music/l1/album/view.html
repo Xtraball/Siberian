@@ -1,0 +1,44 @@
+<ion-view sb-page-background class="audio-list">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-content>
+
+        <div class="list" ng-show="album.tracks">
+            <div class="item item-thumbnail-left item-custom" ng-click="play(0)">
+                <img ng-src="{{ album.artworkUrl }}">
+                <h2>{{ album.name }}</h2>
+                <p>{{ album.artistName }}</p>
+                <p>
+                    {{ album.totalTracks }}
+                    <span ng-switch="album.totalTracks">
+                        <span ng-switch-when="1">{{ 'track' | translate }}</span>
+                        <span ng-switch-default>{{ 'tracks' | translate }}</span>
+                    </span>
+                    - {{ album.totalDuration }}
+                </p>
+                <h2 class="item-note">
+                    <i class="icon ion-ios-play"></i>
+                    {{ "Listen to all" | translate }}
+                </h2>
+            </div>
+        </div>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="list transparent">
+
+            <div class="item item-custom" ng-class="{ 'item-avatar': track.albumCover }" ng-click="play($index)" ng-repeat="track in album.tracks">
+                <img ng-src="{{ track.albumCover }}" ng-if="track.albumCover" />
+                <h2>
+                    {{ $index + 1 | numberFixedLen:2 }} - {{ track.name }}
+                    <span class="item-note">{{ track.formatedDuration }}</span>
+                </h2>
+                <p>{{ track.artistName }}</p>
+            </div>
+
+        </div>
+
+    </ion-content>
+
+</ion-view>

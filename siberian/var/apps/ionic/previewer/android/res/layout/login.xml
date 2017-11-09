@@ -1,0 +1,193 @@
+<ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/flipper_layout"
+    android:inAnimation="@anim/slide_in_left"
+    android:outAnimation="@anim/slide_out_left"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <!-- LOGIN LAYOUT -->
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/login_layout"
+    android:background="@color/background_color"
+    android:focusableInTouchMode="true">
+
+        <TextView
+            style="@style/header_title_theme"
+            android:id="@+id/lb_login"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/log_in"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:height="50sp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:gravity="center_vertical|center_horizontal" />
+
+        <ImageButton
+            android:id="@+id/imgbtn_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="8sp"
+            android:background="@android:drawable/ic_menu_info_details"
+            android:layout_marginRight="15sp"
+            android:onClick="toggleInfo" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/img_logo"
+            android:src="@drawable/logo"
+            android:maxWidth="500sp"
+            android:maxHeight="150sp"
+            android:contentDescription="logo"
+            android:layout_marginTop="15sp"
+            android:layout_above="@+id/et_email" />
+
+        <EditText
+            style="@style/edit_text_theme"
+            android:id="@+id/et_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/f_url"
+            android:layout_above="@+id/et_email"
+            android:layout_alignRight="@+id/et_email"
+            android:layout_alignLeft="@+id/et_email"
+            android:padding="10sp"
+            android:visibility="gone"
+            android:background="@drawable/edittextstyles"
+            android:inputType="textUri" />
+
+        <EditText
+            style="@style/edit_text_theme"
+            android:id="@+id/et_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20sp"
+            android:layout_marginRight="20sp"
+            android:layout_marginTop="15sp"
+            android:layout_marginBottom="15sp"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:focusable="true"
+            android:layout_centerInParent="true"
+            android:padding="10sp"
+            android:background="@drawable/edittextstyles"
+            android:singleLine="true" />
+
+        <EditText
+            style="@style/edit_text_theme"
+            android:id="@+id/et_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password"
+            android:layout_below="@+id/et_email"
+            android:layout_alignRight="@+id/et_email"
+            android:layout_alignLeft="@+id/et_email"
+            android:inputType="textPassword"
+            android:padding="10sp"
+            android:password="true"
+            android:layout_marginBottom="15sp"
+            android:background="@drawable/edittextstyles" />
+
+        <Button
+            style="@style/button_theme"
+            android:id="@+id/btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/see_my_apps"
+            android:layout_below="@+id/et_pwd"
+            android:layout_alignLeft="@+id/et_pwd"
+            android:background="@drawable/buttonstyles"
+            android:textStyle="bold"
+            android:clickable="true"
+            android:padding="10sp"
+            android:layout_alignRight="@+id/et_pwd"
+            android:onClick="logIn" />
+
+    </RelativeLayout>
+
+    <!-- INFO LAYOUT -->
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/info_layout"
+        android:background="@color/background_color">
+
+        <TextView
+            style="@style/header_title_theme"
+            android:id="@+id/lb_info"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/info"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:height="50sp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:gravity="center_vertical|center_horizontal" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/img_back"
+            android:background="@drawable/ic_action_previous_item"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentLeft="false"
+            android:layout_marginTop="9sp"
+            android:onClick="toggleInfo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/log_in"
+            android:id="@+id/txt_login"
+            android:layout_toEndOf="@+id/img_back"
+            android:layout_toRightOf="@+id/img_back"
+            android:height="50sp"
+            android:clickable="true"
+            android:gravity="center_vertical|center_horizontal"
+            android:onClick="toggleInfo" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/img_logo_info"
+            android:src="@drawable/logo"
+            android:maxWidth="500sp"
+            android:maxHeight="150sp"
+            android:contentDescription="logo"
+            android:layout_marginTop="15sp"
+            android:layout_above="@+id/txt_info_1"
+            android:layout_centerInParent="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/info_paragraph_1"
+            android:id="@+id/txt_info_1"
+            android:textColor="@color/text_color"
+            android:layout_marginRight="15sp"
+            android:layout_marginLeft="15sp"
+            android:gravity="center_horizontal"
+            android:layout_centerInParent="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/info_paragraph_2"
+            android:id="@+id/txt_info_2"
+            android:textColor="@color/text_color"
+            android:layout_below="@+id/txt_info_1"
+            android:layout_marginTop="20dp"
+            android:layout_alignLeft="@+id/txt_info_1"
+            android:layout_alignRight="@+id/txt_info_1"
+            android:gravity="center_horizontal"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
+
+</ViewFlipper>

@@ -1,0 +1,152 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option_value = new Application_Model_Option_Value(); ?>
+<?php $option_value->find($this->getValueId()); ?>
+<?php $block = $application->getBlock('background'); ?>
+<div class="margin-bkg color-content">
+    <h3 class="title-editor no-border-radius title-feature-indent">
+        <?php echo $this->_('Background'); ?>
+        <button type="button" id="toggle_design" class="toggle_design color-blue pull-right bt-header-right btn">
+            <i class="fa fa-angle-down"></i>
+        </button>
+    </h3>
+    <div id="change_background_image" style="display:none;" class="no-border-radius content container-fluid subcontent content-feature">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="conteneur_background_image pull-left">
+                    <button type="button" id="background_image">
+                        <!--[if gte IE 10]><!-->
+                        <img class="design_uploader button_upload block" src="<?php echo $option_value->hasBackgroundImage() ? $option_value->getBackgroundImageUrl() : null ?>" width="64" height="110"<?php if(!$option_value->hasBackgroundImage()) : ?> style="display:none;"<?php endif; ?> />
+                        <!--<![endif]-->
+                        <!--[if lte IE 10]><!-->
+                        <img class="design_uploader ie_design_button_upload block" src="<?php echo $option_value->getBackgroundImageUrl() ?>" width="64" height="110"<?php if(!$option_value->hasBackgroundImage()) : ?> style="display:none;"<?php endif; ?> />
+                        <!--<![endif]-->
+                        <div class="loader" id="background_image_loader" style="display:none;">
+                            <img src="<?php echo $this->getImage('ajax/loader.gif'); ?>" />
+                        </div>
+                    </button>
+                    <a style="display:none" id="crop_image" rel="prettyPhoto[ajax]" href="<?php echo $this->getUrl('template/crop/crop', array('option_value_id' => $this->getValueId())); ?>?ajax=true"></a>
+                </div>
+                <button class="pull-left color-blue btn" id="delete_background_image" type="button"<?php if(!$option_value->hasBackgroundImage()) : ?> style="display:none;"<?php endif; ?>><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+        <input id="background_image_uploader" class="uploader_image" style="margin-left:20px; margin-top:20px; float:left; display:none" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" />
+    </div>
+</div>
+<style>
+    #change_background_image .conteneur_background_image, #change_background_image #background_image { width: 64px; height: 110px; float: left;}
+    .conteneur_background_image { background-color: <?php echo $block->getBackgroundColor(); ?>; border: solid 1px; overflow: hidden; border-radius: 3px; }
+    button#background_image { background: none; border-radius: 2px;padding:0;border: none; }
+    #delete_background_image { margin-left: 5px; position: absolute; left:10px; }
+</style>
+<script type="text/javascript">
+
+    var background_image = {
+        callbacks: new Array(),
+        uploader: null,
+        is_initialized: false,
+        init: function() {
+            this.loader = $('#background_image_loader');
+            this.uploader = new Uploader();
+
+            if($('.design_uploader').length > 1) $('.ie_design_button_upload').remove();
+            else $('#background_image_uploader').show();
+
+            this.processEvents();
+
+            this.is_initialized = true;
+        },
+        processEvents: function() {
+
+            $('#background_image').click(function() {
+                $('#background_image_uploader').trigger('click');
+            });
+
+            $('#background_image_uploader').fileupload({
+                dataType: 'json',
+                add: function (e, data) {
+                    data.submit();
+                    background_image.uploader.showProgressbar();
+                },
+                progressall: function (e, data) {
+                    background_image.uploader.moveProgressbar(data);
+                },
+                done: function (e, data) {
+                    if(data.result.error) {
+                        background_image.uploader.showError(data.result.message);
+                    }
+                    else if(data.result.success) {
+                        background_image.uploader.hide();
+                        var params = new Array();
+                        params["url"] = '<?php echo $this->getUrl('template/crop/crop', array('option_value_id' => $this->getValueId())); ?>';
+                        params["file"] = data.result.files;
+                        params["output_w"] = 640;
+                        params["output_h"] = 1096;
+                        params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('application/customization_features/setbackgroundimage')) ?>';
+                        params["uploader"] = 'background_image.uploader';
+                        background_image.uploader.crop(params);
+                        background_image.uploader.callback = function(file) {
+                            iframe.f.reload();
+                            this.loader.show();
+                            $('#background_image').children('.design_uploader').hide().attr('src', file).load(function(e) {
+                                $(e.target).fadeIn();
+                                this.loader.hide();
+                            }.bind(this));
+                            $('#delete_background_image').show();
+                            this.fireCallback('cropDidFinish');
+                        }.bind(background_image);
+                    }
+                }
+            });
+
+            $('#toggle_design').click(this.toggleDesign.bind(this));
+            $('#delete_background_image').click(this.remove.bind(this));
+
+        },
+        remove: function() {
+            reload(this, '<?php echo $this->getUrl('application/customization_features/deletebackgroundimage', array('value_id' => $this->getValueId())); ?>', true, function(datas) {
+                $('#background_image').children('.design_uploader').fadeOut(300, function() {
+                    $(this).removeAttr('src');
+                });
+                var background_image_url = null;
+                if(datas.background_image_url) background_image_url = datas.background_image_url;
+                iframe.f.reload();
+                $('#delete_background_image').hide();
+                this.fireCallback('imageDidRemove', datas);
+            }.bind(this));
+        },
+        toggleDesign: function() {
+            $('#change_background_image').stop().slideToggle(300, function() {
+                if($('#change_background_image').is(':visible')) {
+                    $('#toggle_design').children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+                    $('#toggle_design').removeClass('color-blue');
+                }
+                else {
+                    $('#toggle_design').children('i').removeClass('fa-angle-up').addClass('fa-angle-down');
+                    $('#toggle_design').addClass('color-blue');
+                }
+            });
+        },
+        setCallback: function(id, callback) {
+            if(typeof callback != 'function') callback = function() {}
+            this.callbacks[id] = callback;
+            return this;
+        },
+        fireCallback: function(id, params) {
+            if(typeof this.callbacks[id] == 'function') {
+                this.callbacks[id](params);
+            }
+            return this;
+        },
+        destroy: function() {
+            if(this.is_initialized) {
+                this.callbacks = new Array();
+                $('#toggle_design').unbind('click');
+                $('#delete_background_image').unbind('click');
+                $('#background_image').unbind('click');
+                $('#background_image_uploader').fileupload('destroy');
+                this.is_initialized = false;
+            }
+        }
+    }
+
+</script>

@@ -1,0 +1,493 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<?php
+    $album = new Media_Model_Gallery_Music_Album();
+    if($this->getAlbumId()) {
+        $album->find($this->getAlbumId());
+    }
+?>
+<h3 class="title-editor border-blue text-center">
+    <?php echo $this->_('Custom') ?>
+</h3>
+<div class="container-fluid first-row-feature">
+    <form id="save_album" action="<?php echo $this->getUrl('media/application_gallery_music/searchpodcast'); ?>" method="post" class="form-horizontal">
+        <div id="table_list_album_new" class="list">
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <!--[if gte IE 10]><!-->
+                        <button id="upload_music_custom_image" type="button" <?php echo $album->getData('artwork_url') ? 'style="display:none;margin-top:30px;"' : '' ?> class="upload_comment_picture bg_hd upload btn-grey btn">
+                            <i class="icon-camera-retro"></i>
+                            <?php echo $this->_('Add a') ?><br /><span class="bold"><?php echo $this->_('picture') ?></span>
+                        </button>
+                        <!--<![endif]-->
+                        <input id="music_custom_image_file" class="uploader" <?php echo $album->getData('artwork_url') ? 'style="display:none"' : '' ?> type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+                        <img id="music_custom_img_src" src="<?php echo $album->getArtworkUrl() ?>" <?php echo !$album->getData('artwork_url') ? 'style="display:none"' : '' ?> width="100px" height="100px"/>
+                        <a id="remove_custom_image_img" class="color-blue btn" <?php echo !$album->getData('artwork_url') ? 'style="display:none"' : '' ?>><i class="fa fa-times"></i></a>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="custom_artist"><?php echo $this->_('Artist:') ?> </label>
+                        <input type="text" id="custom_artist" class="input-flat" name="custom_artist" value="<?php echo $album->getArtistName() ?>" placeholder="<?php echo $this->_('Artist') ?>"/>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="custom_album"><?php echo $this->_('Album:') ?> </label>
+                        <input type="text" id="custom_album" class="input-flat" name="custom_album" value="<?php echo $album->getName() ?>" placeholder="<?php echo $this->_('Album') ?>"/>
+                    </div>
+                    <?php if($album->getId()) : ?>
+                        <div id="td_delete_album" style="padding-top:<?php echo $album->getData('artwork_url') ? '30px' : '30px' ?>" class="col-sm-1">
+                            <button class="deleteAlbum color-blue btn pull-left" type="button"><i class="fa fa-times"></i></button>
+                        </div>
+                    <?php endif; ?>
+                </div>
+        </div>
+    </form>
+    <?php
+        $tracks = new Media_Model_Gallery_Music_Track();
+        $tracks = $tracks->findAll(array('album_id' => $album->getId()), 'position ASC');
+    ?>
+    <form id="add_track" action="<?php echo $this->getUrl('media/application_gallery_music/add_custom_track'); ?>" method="post" class="form-horizontal first-row-feature">
+        <div id="table_list_track_new" class="list">
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <label for="custom_track_title"><?php echo $this->_('Title:') ?> </label>
+                    <span class="required-entry"> *</span>
+                </div>
+                <div class="col-sm-3">
+                    <label for="custom_track_artist"><?php echo $this->_('Artist:') ?> </label>
+                </div>
+                <div class="col-sm-4">
+                    <label for="custom_track_url"><?php echo $this->_('URL (.mp3):') ?> </label>
+                    <span class="required-entry"> *</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <input class="input-flat required" type="text" id="custom_track_title" name="track_title" value="" placeholder="<?php echo $this->_('Title') ?>"/>
+                </div>
+                <div class="col-sm-3">
+                    <input type="text" class="input-flat" id="custom_track_artist" name="track_artist" value="" placeholder="<?php echo $this->_('Artist') ?>" />
+                </div>
+                <div class="col-sm-4">
+                    <input class="url required input-flat" type="text" id="custom_track_url" name="track_url" value="" placeholder="<?php echo $this->_('URL (.mp3)') ?>"/>
+                </div>
+                <div class="col-sm-1">
+                    <button onclick="$('#add_track').submit();" class="search_custom btn color-blue" type="button"><?php echo $this->_('OK') ?></button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <ul id="tracks_list" <?php echo $tracks->count() == 0 ? 'style="display:none"' : '' ?> class="table_row_galleries sortable list-group">
+        <?php foreach($tracks as $track) : ?>
+            <li rel="<?php echo $track->getId() ?>" class="track_item list-group-item content-white-bkg">
+                <i class="handle fa fa-sort icon-move"></i>
+                <span class="inner_content"><?php echo $this->_("%s by %s", $track->getName(), $track->getArtistName()); ?><span class="pull-right"><?php echo $track->getFormatedDuration() ?></span></span>
+                <span class="actions pull-right">
+                    <button class="deleteTrack color-blue btn pull-left" type="button"><i class="fa fa-times"></i></button>
+                    <input type="hidden" name="type" value="track" />
+                    <input type="hidden" name="album_id" value="<?php echo $album->getId() ?>" />
+                    <input type="hidden" name="element_id[]" value="<?php echo $track->getId() ?>" />
+                    <input type="hidden" name="value_id" value="<?php echo $option_value->getId() ?>" />
+                </span>
+            </li>
+        <?php endforeach ?>
+    </ul>
+    <div class="first-row-feature">
+        <?php echo $this->_('+ Add a track') ?>
+        <div class="pull-right">
+            <span id="track_count"><?php echo $tracks->count() ?> <?php echo $tracks->count() == 1 ? $this->_('title') : $this->_('titles') ?></span>
+        </div>
+    </div>
+    <div class="first-row-feature">
+    <button onclick="$('#save_custom').submit();" class="color-blue save_selection btn btn-block first-row-feature pull-right" type="button"><?php echo $this->_('Save') ?></button>
+    </div>
+
+    <form style="display:none" id="save_custom" action="<?php echo $this->getUrl('media/application_gallery_music/save_custom'); ?>" method="post" class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-6">
+                <input type="hidden" id="custom_delete_image" name="delete_image" value="" class="input-flat">
+            </div>
+            <div class="col-md-6">
+                <input type="hidden" name="gallery_id" value="<?php echo $this->getGalleryId() ?>" class="input-flat">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-6">
+                <input type="hidden" id="delete_album" name="delete_album" value="" class="input-flat"/>
+            </div>
+            <div class="col-md-6">
+                <input type="hidden" id="custom_artwork_url" name="artwork_url" value="" class="input-flat">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-6">
+                <input type="hidden" id="album_id" name="album_id" value="<?php echo $album->getId() ?>" class="input-flat"/>
+            </div>
+            <div class="col-md-6">
+                <input type="hidden" id="album_title" name="album[name]" value="<?php echo $album->getName() ?>" class="input-flat"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-6">
+                <input type="hidden" id="album_artist" name="album[artist_name]" value="<?php echo $album->getArtistName() ?>" class="input-flat"/>
+            </div>
+            <div class="col-md-6">
+                <input type="hidden" name="value_id" value="<?php echo $option_value->getId() ?>" class="input-flat"/>
+            </div>
+        </div>
+        <?php foreach($tracks as $track) : ?>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <input type="hidden" name="track[<?php echo $track->getId(); ?>][id]" value="<?php echo $track->getId(); ?>" class="input-flat"/>
+                </div>
+                <div class="col-md-6">
+                    <input type="hidden" name="track[<?php echo $track->getId(); ?>][url]" value="<?php echo $track->getStreamUrl(); ?>" class="input-flat"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <input type="hidden" name="track[<?php echo $track->getId(); ?>][title]" value="<?php echo $track->getName(); ?>" class="input-flat"/>
+                </div>
+                <div class="col-md-6">
+                    <input type="hidden" name="track[<?php echo $track->getId(); ?>][artist]" value="<?php echo $track->getArtistName(); ?>" class="input-flat"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <input type="hidden" name="track[<?php echo $track->getId(); ?>][duration]" value="<?php echo $track->getDuration(); ?>" class="input-flat"/>
+                </div>
+                <div class="col-md-6">
+                    <input type="hidden" name="track[<?php echo $track->getId(); ?>][position]" value="<?php echo $track->getPosition(); ?>" class="input-flat"/>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </form>
+</div>
+
+<script type="text/javascript">
+
+    var is_ie_8 = true;
+    if($('#upload_music_custom_image').length > 0) {
+        is_ie_8 = false;
+    }
+
+    $('#custom_artist').keyup(function() {
+        var val = $(this).val();
+        $('#album_artist').val(val);
+    });
+
+    $('#custom_album').keyup(function() {
+        var val = $(this).val();
+        $('#album_title').val(val);
+    });
+
+    function updateTrackCount() {
+        var track_count = $('#tracks_list li').length;
+        $('#track_count').html(track_count);
+    }
+
+    var new_track_index = 0;
+
+    $('#custom_track_url').change(function() {
+        if(!$('#custom_track_url').val().startsWith('http')) {
+            $('#custom_track_url').val('http://'+$('#custom_track_url').val());
+        }
+    });
+
+    $('#add_track').submit(function() {
+        if(!$(this).valid()) return false;
+        $('#dummy_player').remove();
+        var file = $('#custom_track_url').val();
+        function replaceAll(find, replace, str)  {
+            while( str.indexOf(find) > -1) {
+                str = str.replace(find, replace);
+            }
+            return str;
+        }
+        var formated_file = replaceAll("/", "§", file);
+        reload($("#custom_track_url"), "<?php echo $this->getUrl('media/application_gallery_music/checkfile') ?>/file/"+formated_file, true, function(datas) {
+            if(!datas.success) return false;
+            var player = '<audio style="display:none" id="dummy_player" preload="metadata">';
+            player += '<source src="'+file+'" type="audio/mpeg">';
+            player += '</audio>';
+            $('#add_track').after(player);
+            var player = $('#dummy_player')[0];
+            var duration;
+            player.addEventListener("loadedmetadata", function(event) {
+                duration = player.duration;
+                var minutes = Math.floor(duration / 60);
+                var seconds = duration - minutes * 60;
+                seconds = seconds.toFixed(0);
+                duration = minutes+':'+seconds;
+                var track = '<li class="new track_item list-group-item" rel="new_'+new_track_index+'">';
+                track += '<i class="handle fa fa-sort icon-move"></i>';
+                track += '<span class="inner_content">';
+                track += $('#custom_track_title').val();
+                if($('#custom_track_artist').val().length > 0) track += ' <?php echo $this->_('by') ?> '+$('#custom_track_artist').val();
+                track += '<span class="pull-right">'+duration+'</span>';
+                track += '</span>';
+                track += '<span class="actions pull-right">';
+                track += '<button class="deleteTrack btn color-blue left" type="button"><i class="fa fa-times"></i></button>';
+                track += '<input type="hidden" name="type" value="track" />';
+                track += '<input type="hidden" name="value_id" value="<?php echo $option_value->getOptionValueId() ?>" />';
+                track += '</span>';
+
+                //track form
+                $('#save_custom').append('<input type="hidden" name="track[new_'+new_track_index+'][url]" value="'+$('#custom_track_url').val()+'" />');
+                $('#save_custom').append('<input type="hidden" name="track[new_'+new_track_index+'][title]" value="'+$('#custom_track_title').val()+'" />');
+                $('#save_custom').append('<input type="hidden" name="track[new_'+new_track_index+'][artist]" value="'+$('#custom_track_artist').val()+'" />');
+                $('#save_custom').append('<input type="hidden" name="track[new_'+new_track_index+'][duration]" value="'+Math.floor(player.duration*1000)+'" />');
+                $('#save_custom').append('<input type="hidden" name="track[new_'+new_track_index+'][position]" value="'+($(".track_item").length)+'" />');
+                new_track_index++;
+
+                $('#custom_track_title').val('');
+                $('#custom_track_artist').val('');
+                $('#custom_track_url').val('');
+
+                $('#tracks_list').append(track);
+                $('#tracks_list').slideDown();
+
+                var tracks_count = $('#tracks_list li').length;
+                var tracks = tracks_count+' <?php echo $this->_('title') ?>';
+                if(tracks_count != 1) tracks += 's';
+                $('#track_count').html(tracks);
+                return false;
+            });
+        });
+        return false;
+    });
+
+    $('#tracks_list').sortable({
+        handle : '.handle',
+        placeholder: "tracks_list-placeholder",
+        axis: "y",
+        update : function (e, ui) {
+            $(".track_item").each(function(index){
+                $("[name='track[" + $(this).attr("rel") +"][position]']").val(index);
+            });
+//            reload($("#tracks_list"), "<?php //echo $this->getUrl('media/application_gallery_music/sorttracks', array('option_value_id' => $option_value->getId())); ?>//", true, function() {
+//                iframe.f.reload();
+//            });
+        }
+    });
+
+    $('#tracks_list').off('click', '.deleteTrack');
+    $('#tracks_list').on('click', '.deleteTrack', function(){
+        var $li = $(this).parent().parent();
+        var is_new = false;
+        if($li.hasClass('new')) is_new = true;
+        var album_id = '<?php echo $this->getAlbumId() ?>';
+        if(confirm('<?php echo addslashes($this->_("Are you sure you want to delete this track?")); ?>')) {
+            if(is_new == true) {
+                var rel = $li.attr('rel');
+                $('input[name="track['+rel+'][url]"]').remove();
+                $('input[name="track['+rel+'][title]"]').remove();
+                $('input[name="track['+rel+'][artist]"]').remove();
+                $('input[name="track['+rel+'][duration]"]').remove();
+                $li.slideUp(function(){
+                    $li.remove();
+                });
+            } else {
+                reload($(this.parentNode), '<?php echo $this->getUrl('media/application_gallery_music/deleteelement'); ?>', true, function(datas) {
+                    if(datas.success) {
+                        $li.slideUp(function(){
+                            $li.remove();
+                            var tracks_count = $('#tracks_list li').length;
+                            var tracks = tracks_count+' <?php echo $this->_('title') ?>';
+                            if(tracks_count != 1) tracks += 's';
+                            if(album_id.length > 0) {
+                                $('ul#album_edit li[rel="'+album_id+'"] a.edit_album .inner_content i').html('('+tracks+')');
+                            }
+                            $('#track_count').html(tracks);
+                        });
+                        iframe.f.reload();
+                    }
+                });
+            }
+        }
+        return false;
+    });
+
+    $('.deleteAlbum').click(function(){
+        var confirm_message = '<?php echo addslashes($this->_("Are you sure you want to delete this album (this won't delete tracks)?")); ?>';
+        if(confirm(confirm_message)) {
+            $('#custom_artist').val('');
+            $('#custom_album').val('');
+            $('#album_title').val('');
+            $('#album_artist').val('');
+            $('#delete_album').val('true');
+            $('#music_custom_img_src').hide();
+            $('#music_custom_img_src').attr('src', '');
+            $('#remove_custom_image_img').hide();
+            if(is_ie_8) {
+                $('#music_custom_image_file').show();
+            } else {
+                $('#upload_music_custom_image').show();
+            }
+            $('.deleteAlbum').parent().remove();
+        }
+    });
+
+    $('#save_custom').submit(function() {
+//        var is_confirm_no_album = true;
+//        if($('#custom_album').val() == '' && $('#custom_artist').val() == '') {
+//            var songs_count = $('#tracks_list li').length;
+//            var confirm_message = '<?php //echo addslashes($this->_("Are you sure you don't want to create an album for these tracks?")); ?>//';
+//            if(songs_count == 1) confirm_message = '<?php //echo addslashes($this->_("Are you sure you don't want to create an album for this track?")); ?>//';
+//            if(!confirm(confirm_message)) is_confirm_no_album = false;
+//        }
+        if(!$("#save_album").valid()) return false;
+
+//        if(is_confirm_no_album) {
+            reload($('#save_custom'), $('#save_custom').attr('action'), true, function(datas) {
+                if($('input#album_id').val() == '') {
+                    $('#album_edit').append(datas.content);
+                    reloadPP();
+                } else {
+                    var album_id = $('input#album_id').val();
+                    if($('input#delete_album').val() != '') {
+                        $('ul#album_edit li[rel="'+album_id+'"]').remove();
+                        $('#album_edit').append(datas.content);
+                        reloadPP();
+                    } else {
+                        var tracks_count = $('#tracks_list li').length;
+                        var tracks = tracks_count+' <?php echo $this->_('title') ?>';
+                        if(tracks_count != 1) tracks += 's';
+                        $('ul#album_edit li[rel="'+album_id+'"] a.edit_album i').html('('+tracks+')');
+                    }
+                }
+                iframe.f.reload();
+                $.prettyPhoto.close();
+            });
+//        }
+        return false;
+    });
+
+    //Supprime image
+    $('#remove_custom_image_img').click(function(){
+        $('#music_custom_img_src').attr('src', '');
+        $('#music_custom_img_src').hide();
+        if(is_ie_8) {
+            $('#music_custom_image_file').show();
+        } else {
+            $('#upload_music_custom_image').show();
+        }
+        $('#remove_custom_image_img').hide();
+        $('#custom_artwork_url').val('');
+        $('#td_delete_album').css('padding-top', '30px');
+        $('#custom_delete_image').val('true');
+        return false;
+    });
+
+    //FIX IE
+    var album_has_artwork = '<?php echo $album->getArtworkUrl() ?>';
+    if(!$('button#upload_music_custom_image').is(':visible') && album_has_artwork == '') {
+        $('input#music_custom_image_file').show();
+    }
+
+    $('#upload_music_custom_image').click(function(){
+        $('#music_custom_image_file').trigger('click');
+        return false;
+    });
+
+    $('#music_custom_image_file').fileupload({
+        dataType: 'json',
+        add: function(e, data) {
+            data.submit();
+            music_album_image_uploader.showProgressbar();
+        },
+        progressall: function(e, data) {
+            music_album_image_uploader.moveProgressbar(data);
+        },
+        done: function(e, data) {
+            if (data.result.error) {
+                music_album_image_uploader.showError(data.result.message);
+            }
+            if (data.result.success) {
+                music_album_image_uploader.hide();
+                var params = new Array();
+                params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+                params["file"] = data.result.files;
+                params["output_w"] = 200;
+                params["output_h"] = 200;
+                params["output_url"] = '<?php echo str_replace('/', '§', $this->getUrl('media/application_gallery_music/crop')) ?>';
+                params["uploader"] = 'music_album_image_uploader';
+                music_album_image_uploader.crop(params);
+                music_album_image_uploader.callback = function(file) {
+                    $('#custom_delete_image').val('');
+                    $('#upload_music_custom_image').hide();
+                    $('#music_custom_image_file').hide();
+                    $('#remove_custom_image_img').show();
+                    $('#custom_artwork_url').val(file);
+                    $('#td_delete_album').css('padding-top', '0px');
+                    $('#music_custom_img_src').attr('src', '<?php echo Core_Model_Directory::getTmpDirectory(); ?>/'+file);
+                    $('#music_custom_img_src').show();
+                };
+            }
+        }
+    });
+</script>
+<style type="text/css">
+    #music_custom_image_file {
+        display: none;
+    }
+    #music_custom_img_src {
+        border: solid 2px;
+    }
+    #remove_custom_image_img {
+        cursor: pointer;
+        left:15px;
+        position: absolute;
+        top:0;
+    }
+    #tracks_list {
+        margin-top: 10px;
+        margin-bottom: 20px;
+        max-height: 500px;
+        overflow: auto;
+    }
+    #tracks_list li {
+        transition: none;
+        display: block;
+    }
+    #tracks_list li i, #tracks_list li span {
+        display: inline;
+        vertical-align: middle;
+    }
+    #tracks_list li .inner_content {
+        border-radius: 7px 7px 7px 7px;
+        display: inline-block;
+        margin-left: 10px;
+        padding: 10px;
+        width: 89%;
+    }
+    #tracks_list .fa fa-sort icon-move {
+        cursor: move;
+    }
+    .tracks_list-placeholder {
+        height: 20px;
+        border: dotted 1px;
+    }
+    .required-entry {
+        vertical-align: top;
+    }
+    #save_album {
+        margin-bottom: 0;
+    }
+    #table_list_track_new {
+        width: 100%;
+    }
+    #table_list_track_new input{
+        width: 100%;
+    }
+    #table_list_track_new tr td:first-child, #table_list_track_new tr th:first-child {
+        padding-left: 0px !important;
+    }
+    #table_list_track_new tr td:last-child {
+        text-align: right;
+        padding-right: 0px !important;
+    }
+    #table_list_track_new tr td:last-child button {
+        margin-right: 0;
+    }
+    #save_album {
+        margin-bottom: 20px;
+    }
+</style>

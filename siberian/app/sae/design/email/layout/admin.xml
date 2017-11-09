@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <create_account>
+        <views>
+            <base class="core_view_email_default" template="default/content.phtml" />
+            <header class="core_view_email_default" template="default/header_account.phtml" />
+            <footer class="core_view_email_default" template="default/footer.phtml" />
+        </views>
+        <views>
+            <content_email class="core_view_email_default" template="admin/account/create.phtml" />
+        </views>
+    </create_account>
+
+    <forgot_password>
+        <addLayout name="base_email" />
+        <views>
+            <content_email class="core_view_email_default" template="admin/account/forgotpassword.phtml" />
+        </views>
+    </forgot_password>
+
+</layout>

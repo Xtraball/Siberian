@@ -1,0 +1,52 @@
+<?php $section = $this->getSection();
+$section_id = $section->getId();
+$sectionModel = new Form_Model_Field();
+$fields = $sectionModel->findBySectionId($section_id); ?>
+
+<div id="section_<?php echo $section_id;?>" class="section inner_content">
+    <div class="details">
+        <div id="section_details_<?php echo $section_id;?>" class="name left">
+            <input type="text" id="main_section_name_<?php echo $section_id; ?>" class="main_section_name input area no-background" name="name" rel="<?php echo $section_id; ?>" value="<?php echo $section->getName(); ?>" />
+            <input type="hidden" name="section_id" value="<?php echo $section_id; ?>" />
+            <input type="hidden" name="option_value_id" value="<?php echo $this->getOptionValue()->getId(); ?>" />
+        </div>
+        <div class="actions left">
+
+        </div>
+        <div class="right"><a href="javascript:section.remove('<?php echo $section_id; ?>');" class="delete_section"><i class="icon-remove"></i></a></div>
+        <div class="clear"></div>
+        <hr />
+    </div>
+
+    <div class="fields">
+        <ul id="section_fields_<?php echo $section_id ?>" class="fields_list">
+            <?php if(count($fields) > 0) : ?>
+            <?php foreach($fields as $field) : ?>
+            <?php echo $this->getLayout()
+                    ->addPartial('product_'.$field->getId(), 'admin_view_default', 'form/application/edit/section/field.phtml')
+                    ->setField($field)
+                    ->setOptionValue($this->getOptionValue())
+                    ->toHtml()
+                ;
+            ?>
+            <?php endforeach; ?>
+            <?php endif; ?>
+        </ul>
+        <div class="details">
+            <hr />
+        </div>
+        <div>
+            <a id="add_field_section_<?php echo $section_id ?>" class="add_field link block" section_id="<?php echo $section_id; ?>" href="#" class="name left">+ <?php echo $this->_('Add a field'); ?></a>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+       if($('#form_email_config').is(':visible') == false) {
+           $('#form_email_config').show();
+           $('#form_email').attr('rel', '<?php echo $section_id?>');
+       }
+    });
+</script>

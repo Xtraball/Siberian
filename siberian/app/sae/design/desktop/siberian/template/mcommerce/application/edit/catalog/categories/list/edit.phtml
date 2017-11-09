@@ -1,0 +1,53 @@
+<?php $category = $this->getCurrentCategory(); ?>
+<div id="edit_category" class="edit_category" style="display:none;">
+    <div id="category_form" class="category_form" style="display:none;">
+        <form id="categoryForm" class="categoryForm form-horizontal" name="categoryForm" method="post" action="<?php echo $this->getUrl('mcommerce/application_catalog_category/editpost') ?>">
+            <input type="hidden" name="option_value_id" value="<?php echo $this->getOptionValue()->getId(); ?>" />
+            <input type="hidden" id="category_id" name="category_id" value="<?php echo $category->getId() ?>" />
+            <?php if($this->getParentId()) : ?>
+            <input type="hidden" name="parent_id" value="<?php echo $this->getParentId() ?>" />
+            <?php endif; ?>
+            <input type="hidden" name="remove_picture" id="remove_category_background" value="" />
+            <input type="hidden" name="file" id="category_file" value="" />
+            <div class="form_content">
+                <div class="infos">
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-4">
+                            <label for="title" class="black0"><?php echo $this->_('Title') ?> <span class="input-required">*</span></label>
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="subtitle" class="black0"><?php echo $this->_('Subtitle') ?></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                            <div class="col-sm-2 category_background_cont text-center">
+                                <div class="relative">
+                                    <!--[if gte IE 10]><!-->
+                                    <button id="upload_category_background" <?php if($category->getPicture()) : echo ' style="display:none" '; endif; ?>type="button" class="upload_category_background reverse upload editor_menu">
+                                        <i class="icon-camera-retro"></i>
+                                    </button>
+                                    <!--<![endif]-->
+                                    <input id="category_background_file" class="uploader" style="display:none" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+                                    <img id="background_img_src" <?php if(!$category->getPicture()) : echo ' style="display:none" '; endif; ?> src="<?php echo $category->getPictureUrl() ?>" width="50px" />
+                                    <a id="remove_background_img" class="remove_background_img reverse" <?php if(!$category->getPicture()) : echo ' style="display:none" '; endif; ?> href="javascript:void(0)"><i class="icon-remove"></i></a>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" id="category_title" name="title" class="form-control category_bg_field input required" value="<?php echo $category->getTitle(); ?>" rel="<?php echo $category->getId() ? $category->getId() : 'new' ?>" />
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text" id="category_subtitle" name="subtitle" class="form-control category_bg_field input" value="<?php echo $category->getSubtitle() ?>" />
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="submit" class="default_button save_category"><?php echo $this->_('OK'); ?></button>
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" id="cancel_category_edition" class="delete cancel_edition"><i class="icon-remove"></i></button>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

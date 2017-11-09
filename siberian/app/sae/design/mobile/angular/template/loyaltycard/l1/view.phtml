@@ -1,0 +1,123 @@
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="card_is_locked scale-fade" ng-if="card_is_locked">
+        <p><?php echo $this->_("We are sorry but this card is temporarily blocked") ?></p>
+    </div>
+
+    <div class="scrollable_content">
+        <div class="scale-fade for_ads_banner" ng-if="!card_is_locked">
+
+            <div class="relative">
+
+                <div class="content at-view-flip-in-vertical at-view-flip-out-vertical" ng-show="!pad.show">
+
+                    <div ng-if="card">
+                        <div class="subheader">
+                            <div class="card_details">
+                                <img class="gift" src="<?php echo $this->getColorizedImage($this->getImage('pictos/gift.png', true), $this->getApplication()->getBlock('subheader')->getColor()); ?>" alt="" title="" width="30" />
+                                <h3 class="short_advantage">{{ card.advantage }}</h3>
+                                <button type="button" ng-click="show_details = !show_details" class="more">
+                                    <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/more.png', true), $this->getApplication()->getBlock('subheader')->getColor()); ?>" alt="<?php echo $this->_("More") ?>" title="<?php echo $this->_("More") ?>" width="30" />
+                                </button>
+                            </div>
+                        </div>
+                        <div class="subheader advantage_details flip-in" ng-show="show_details" ng-if="card">
+                            <p>
+                                <span class="number_of_points_for_advantage" ng-if="card.max_number_of_points > 1">{{ card.max_number_of_points }} <?php echo $this->_('validated points =') ?></span>
+                                <span class="number_of_points_for_advantage" ng-if="card.max_number_of_points == 1"><?php echo $this->_('1 validated point =') ?></span>
+                                <span class="card_advantage">{{ card.advantage }}</span>
+                            </p>
+                            <p class="details_conditions block"><?php echo $this->_("1 loyalty point ="); ?> {{ card.conditions }}</p>
+                        </div>
+                    </div>
+                    <div class="center">
+
+                        <div class="connect" ng-if="!is_logged_in">
+                            <button type="button" class="connect_button icon_left arrow_right" ng-click="login()">
+                                <?php echo $this->_("Please log in.") ?>
+                            </button>
+                        </div>
+
+                        <div class="promotions relative" ng-if="promotions.length">
+                            <div class="promotion discount padding">
+                                <div class="title "><h4><?php echo $this->_("Congratulations") ?> <?php echo $this->getSession("admin")->getCustomer()->getFirstname(); ?></h4></div>
+                                <div class="discounts">
+                                    <div class="relative">
+                                        <ul rn-carousel rn-carousel-indicator="true">
+                                            <li ng-repeat="promotion in promotions">
+                                                <div class="padding">
+                                                    <p ng-show="promotion.advantage">
+                                                        {{ promotion.advantage }} <?php echo $this->_("is now yours!"); ?>
+                                                    </p>
+                                                    <div class="use_discount">
+                                                        <div class="toggle">
+                                                            <button type="button" class="discount reverse" ng-click="openPad(promotion)">
+                                                                <?php echo $this->_("Use this coupon") ?>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="points" ng-if="card && card.is_visible">
+                            <a class="point loyaltycard" ng-click="openPad(card)" ng-repeat="point in points">
+                                <img ng-src="{{ card.number_of_points > $index ? point.validated_image_url : point.image_url }}" width="85" />
+                            </a>
+                        </div>
+
+                        <div class="padding" ng-if="!is_loading && !card.id && !promotions.length">
+                            <p class="a-center"><?php echo $this->_("No card available"); ?></p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="center">
+                    <div class="pad at-view-flip-in-vertical at-view-flip-out-vertical" ng-show="pad.show">
+                        <ul>
+                            <li>
+                                <div class="pad_buttons">
+
+                                    <div ng-if="pad.points.length" ng-click="pad.show_points_selector = !pad.show_points_selector">
+                                        <p class="title" ng-hide="pad.number_of_points > 1">{{ pad.number_of_points }} <?php echo $this->_("point to validate"); ?></p>
+                                        <p class="title" ng-hide="pad.number_of_points <= 1">{{ pad.number_of_points }} <?php echo $this->_("points to validate"); ?></p>
+                                    </div>
+                                    <div class="segmented_control scale-fade" ng-if="pad.points.length" ng-show="pad.show_points_selector">
+                                        <button class="element" ng-repeat="point in pad.points" ng-click="pad.number_of_points = point; pad.show_points_selector = false;" ng-class="{'background reverse': pad.number_of_points == point}">{{ point }}</button>
+                                    </div>
+                                    <p class="title"><?php echo $this->_("Please enter the password"); ?></p>
+                                    <div class="dots">
+                                        <div class="dot" ng-repeat="dot in [0, 1, 2, 3]" ng-class="{'background reverse': $index < pad.password.length}"></div>
+                                    </div>
+                                    <?php $array = range(0, 9); ?>
+                                    <?php shuffle($array); ?>
+                                    <?php for($i=0; $i<count($array); $i++) : ?>
+                                    <button class="pad_button background" value="<?php echo $array[$i] ?>" ng-click="pad.add(<?php echo $array[$i]; ?>)"><?php echo $array[$i]; ?></button>
+                                    <?php endfor; ?>
+                                </div>
+                                <a class="delete right" ng-click="pad.remove()" ng-show="pad.password.length"><?php echo $this->_('Delete'); ?></a>
+                                <a class="delete right" ng-click="closePad()" ng-hide="pad.password.length"><?php echo $this->_('Cancel'); ?></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="padding">
+            <button type="button" class="discount reverse" ng-click="showTc()" ng-if="tc_id">
+                <?php echo $this->_("Terms & Conditions") ?>
+            </button>
+        </div>
+    </div>
+</div>

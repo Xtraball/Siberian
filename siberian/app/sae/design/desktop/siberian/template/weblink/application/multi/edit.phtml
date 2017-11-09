@@ -1,0 +1,321 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $application = $this->getApplication(); ?>
+<?php $weblink = $option_value->getObject(); ?>
+<div class="form_content">
+    <div id="list" class="edit_page weblink">
+        <div class="form_content">
+            <h4 class="subtitle">
+                <span class="left area"><?php echo $this->_('Your links') ?></span>
+                <hr />
+                <div class="clear"></div>
+            </h4>
+            <div class="form_content">
+                <div id="cover_crop" style="display:none;">
+                    <button type="button" id="cancel_cover_crop" class="delete left"><i class="icon-remove"></i></button>
+                    <button type="button" id="validate_cover_crop" class="default_button right">OK</button>
+                    <div class="clear"></div>
+                    <p><?php echo $this->_('Resize your picture:') ?></p>
+                </div>
+                <div id="cover_crop_content"></div>
+                <div id="weblink_content" class="content-fluid">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <!--[if gte IE 10]><!-->
+                            <button id="upload_weblink_picture" type="button" class="upload_weblink_picture upload editor_menu active image_left">
+                                <i class="icon-camera-retro"></i>
+                                <?php echo $this->_('Insert a cover image'); ?>
+                            </button>
+                            <!--<![endif]-->
+                            <p id="uploader_logo_ie_description" style="display:none"><?php echo $this->_('Insert a <br /><span class="bold">cover image</span>'); ?></span></p>
+                            <input id="link_file_cover" class="uploader link_file" style="display:none" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" data-id="cover" rel="cover" />
+                        </div>
+                        <div class="col-sm-5">
+                            <img id="cover_img" src="<?php echo $weblink->getCoverUrl(); ?>" width="220" height="186"<?php if(!$weblink->getCover()) : ?> style="display:none;"<?php endif; ?> />
+                        </div>
+                        <div class="col-sm-1">
+                            <a href="" style="<?php if(!$weblink->getCover()) : ?>display:none;<?php endif; ?>" id="remove_cover_img">
+                                <i class="icon-remove"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <button type="button" id="add_link" class="as-link">+ <?php echo $this->_('Add a link'); ?></button>
+                        </div>
+                    </div>
+                    <div class="row" id="table_list_links" <?php if($weblink->getLinks()->count() == 0) : ?> style="display:none;"<?php endif; ?>>
+                        <div class="col-sm-1">
+                            <label><?php echo $this->_('Picto') ?></label>
+                        </div>
+                        <div class="col-sm-4">
+                            <label><?php echo $this->_('Title') ?><span class="required-entry"> *</span></label>
+                        </div>
+                        <div class="col-sm-4">
+                            <label><?php echo $this->_('Link') ?><span class="required-entry"> *</span></label>
+                        </div>
+                    </div>
+                        <?php foreach($weblink->getLinks() as $link) : ?>
+                            <?php echo $this->getLayout()->addPartial('row_'.$link->getId(), 'admin_view_default', 'weblink/application/multi/edit/row.phtml')
+                                ->setCurrentLink($link)
+                                ->setCurrentOptionValue($option_value)
+                                ->toHtml()
+                            ?>
+                        <?php endforeach; ?>
+                        <?php echo $this->getLayout()->addPartial('row_new', 'admin_view_default', 'weblink/application/multi/edit/row.phtml')
+                            ->setCurrentLink(new Weblink_Model_Weblink_Link(array('id' => 'new')))
+                            ->setCurrentOptionValue($option_value)
+                            ->toHtml()
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <div id="weblinkCoverForm" class="clear">
+                <input type="hidden" id="cover_file" name="file" />
+                <input type="hidden" id="remove_cover" name="remove_cover" value="0" />
+                <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>"/>
+            </div>
+        </div>
+        <div class="section">
+            <?php
+                echo $this->getLayout()
+                    ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
+                    ->setValueId($option_value->getId())
+                    ->toHtml()
+                ;
+            ?>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var olddiv = $('.form_content > div#list');
+    var weblink_uploader = new Uploader();
+
+    var uploader_types = new Array('cover', 'picto');
+    uploader_types['cover'] = {
+        height: 585,
+        width: 495,
+        afterUpload: function(file) {
+            iframe.f.setCoverUrl('<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+file);
+            $('#cover_img').hide().attr('src', '<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+file).slideDown();
+            $('#remove_cover_img').show();
+            $('#remove_cover').val(0);
+            $('#cover_file').val(file);
+            reload($('#weblinkCoverForm'), '<?php echo $this->getUrl('weblink/application_multi/editpost') ?>', true, function(datas) {
+                if(datas.success) {
+                    $('#cover_file').val('');
+                }
+            });
+        }
+    }
+    uploader_types['picto'] = {
+        height: 42,
+        width: 42,
+        afterUpload: function(file) {
+            $('#picto_file_'+this.id).val(file);
+            $('#upload_weblink_picto_'+this.id).html($('<img />').attr('src', '<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+file).attr('width', '100%').attr('height', '100%'));
+            iframe.f.setAttributeTo(this.id, "picto_url", "<?php echo Core_Model_Directory::getTmpDirectory() ?>/"+file);
+        }
+    }
+
+    var link = {
+        init: function() {
+            this.bind();
+        },
+        bind: function() {
+            $('#add_link').unbind('click');
+            $('#add_link').click(function() {
+                this.showNewRow();
+            }.bind(this));
+
+            $('.delete_link').unbind('click');
+            $('.delete_link').click(function(e) {
+                if($(this).attr('rel') == 'new') {
+                    link.hideNewRow(true);
+                }
+                else {
+                    if(confirm('<?php echo addslashes($this->_('Are you sure you want to delete this link?')); ?>')) {
+                        if(!$('#link_is_deleted_'+$(this).attr('rel')).length) {
+                            $('<input />').attr('type', 'hidden')
+                                .attr('id', 'link_is_deleted_'+$(this).attr('rel'))
+                                .attr('name', 'link[is_deleted]')
+                                .attr('value', '1')
+                                .appendTo($(this).parent())
+                            ;
+                        }
+                        var row = $('#row_'+$(this).attr('rel'));
+                        link.save(row);
+                    }
+                }
+            });
+
+            $('.save_link').unbind('click');
+            $('.save_link').click(function(e) {
+                var row = $('#row_'+$(e.target).attr('rel'));
+                this.save(row);
+            }.bind(this));
+
+            $('.weblink_field').unbind('keyup');
+            $('.weblink_field').keyup(function(e) {
+                iframe.f.setAttributeTo($(e.target).attr('rel'), "title", $(e.target).val());
+            }.bind(this));
+
+            $('.weblink_url').unbind('keyup');
+            $('.weblink_url').keyup(function(e) {
+                if(e.keyCode == 13) this.save($('#row_'+$(e.target).attr('rel')));
+            }.bind(this));
+
+            $('.upload_weblink_picto').unbind('click');
+            $('.upload_weblink_picto').click(function(){
+                $('#link_file_'+$(this).attr('rel')).trigger('click');
+            });
+
+            $('.link_file').each(function(i, el) {
+                this.initFileupload($(el).attr('data-id'));
+            }.bind(this));
+        },
+        showNewRow: function() {
+            if(!$('#table_list_links').is(':visible')) $('#table_list_links').fadeIn();
+            if(!$('#row_new').is(':visible')) {
+                this.resetNewRow();
+                iframe.f.prepareDummy();
+                $('#row_new').fadeIn(300, function() {
+                    $('#title_new').focus();
+                });
+            }
+        },
+        hideNewRow: function(animated) {
+            if($('#row_new').is(':visible')) {
+                this.resetNewRow();
+                if(animated) $('#row_new').fadeOut(300, function() {
+                    $('#upload_weblink_picto_new').html('<i class="icon-plus"></i>');
+                });
+                else $('#row_new').hide();
+                if($('#table_list_links').find('.row_link').length <= 1) {
+                    $('#table_list_links').fadeOut();
+                }
+            }
+        },
+        resetNewRow: function() {
+            $('#row_new').find('input:text').val('');
+            $('#row_new').find('button.upload_weblink_picto').html('<i class="icon-plus"></i>');
+        },
+        save: function(row) {
+            var input = row.find('.url');
+            if(!input.val().isEmpty() && !input.val().startsWith('http://') && !input.val().startsWith('https://')) {
+                input.val('http://'+input.val());
+            }
+
+            reload(row, '<?php echo $this->getUrl('weblink/application_multi/editpost'); ?>', true, function(datas) {
+                if(datas.success) {
+                    if(datas.row_html) {
+                        $('#row_new').before(datas.row_html);
+                    }
+                    else if(datas.is_deleted) {
+                        row.fadeOut(300, function() {
+                            row.remove();
+                        });
+                    }
+                    iframe.f.reload();
+                    this.hideNewRow(false);
+                    this.bind();
+                }
+            }.bind(this));
+        },
+        initFileupload: function(id) {
+
+            $('#link_file_'+id).fileupload({
+                dataType: 'json',
+                add: function(e, data) {
+                    data.submit();
+                    weblink_uploader.showProgressbar();
+                },
+                progressall: function(e, data) {
+                    weblink_uploader.moveProgressbar(data);
+                },
+                done: function(e, data) {
+
+                    if(typeof uploader_types[$(e.target).attr('rel')] == 'object') {
+                        var uploader_type = uploader_types[$(e.target).attr('rel')];
+                        uploader_type.id = $(e.target).attr('data-id');
+                        if (data.result.error) {
+                            weblink_uploader.showError(data.result.message);
+                        }
+                        if (data.result.success) {
+                            weblink_uploader.hide();
+                            var params = new Array();
+                            params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+                            params["file"] = data.result.files;
+                            params["output_w"] = uploader_type.height;
+                            params["output_h"] = uploader_type.width;
+                            params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('weblink/application_multi/crop')) ?>';
+                            params["uploader"] = 'weblink_uploader';
+                            weblink_uploader.crop(params);
+                            weblink_uploader.callback = function(file) {
+                                uploader_type.afterUpload(file);
+                            }
+                        }
+                    }
+                }
+            });
+
+        },
+        destroy: function() {
+            $('#add_link').unbind('click');
+            $('.delete_link').unbind('click');
+            $('.save_link').unbind('click');
+        }
+    }
+
+    page.setCallback('didappear', function() {
+
+        link.init();
+
+        $('#cancel_cover_crop').click(function() {
+            $('#cover_crop_content').slideUp(300, function() {$(this).html('')});
+            $('#cover_crop').hide();
+            $('#weblink_content').slideDown();
+            $('#cover_img').hide().attr('src', '');
+
+            $('#cover_file').val('');
+//            iframe.f.setCoverUrl(null);
+            $('#remove_cover').val(1);
+            $('#remove_cover_img').hide();
+        });
+        $('#remove_cover_img').click(function() {
+            if(confirm("<?php echo $this->_("Are you sure you want to delete this picture?"); ?>")) {
+                $('#remove_cover').val(1);
+                reload($('#weblinkCoverForm'), '<?php echo $this->getUrl('weblink/application_multi/editpost') ?>', true, function(datas) {
+                    if(datas.success) {
+                        $('#cover_img').slideUp(300, function() {$(this).attr('src', '')});
+                        $('#cover_file').val('');
+                        $('#remove_cover_img').hide();
+                        iframe.f.setCoverUrl(null);
+                    }
+                });
+            }
+            return false;
+        });
+
+        $('#upload_weblink_picture').click(function(){
+            $('#link_file_cover').trigger('click');
+        });
+
+    });
+
+    page.setCallback('willdisappear', function() {
+        $('#upload_weblink_picture').unbind('click');
+        $('.weblink_url').unbind('keyup');
+        $('.weblink_url').unbind('change');
+        $('#remove_cover_img').unbind('click');
+    });
+
+</script>
+<style>
+    #weblink_content button.as-link {
+        margin: 10px 0 10px 10px;
+    }
+    #weblink_content label.error {
+        width: 220px;
+        text-shadow: none;
+    }
+</style>

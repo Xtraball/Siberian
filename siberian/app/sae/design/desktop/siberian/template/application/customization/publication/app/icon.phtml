@@ -1,0 +1,131 @@
+<?php $application = $this->getApplication(); ?>
+<?php $icon_relative_path = Application_Model_Application::getImagePath().'/icon/'; ?>
+    <div class="left">
+        <!--[if gte IE 10]><!-->
+        <button class="upload_icon upload default_button" type="button">
+            <i class="icon-camera-retro"></i>
+            <?php echo $application->getData('icon') ? $this->_('Change your') : $this->_('Choose an'); ?>
+            <br/>
+            <span class="bold"><?php echo $this->_('icon'); ?></span>
+        </button>
+        <!--<![endif]-->
+        <input style="display:none" class="uploader_icon" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+        <br />
+    </div>
+    <div id="icon_cont" class="right relative">
+        <?php if($application->getData('icon')) : ?>
+            <img src="<?php echo $application->getIcon(); ?>" height="128" class="icon left" />
+            <p id="cont_delete_picture" class="icons right">
+                <button type="button" onclick="removepicture();" id="delete_picture" class="default_button no-border">
+                    <i class="icon-remove"></i>
+                </button>
+            </p>
+        <?php else : ?>
+            <img src="<?php echo $this->getApplication()->getIcon(); ?>" height="128" class="icon left" />
+        <?php endif; ?>
+    </div>
+    <div class="clear"></div>
+<style type="text/css">
+    .square_color button {
+        border: 1px solid #e4e4e4;
+        width: 35px;
+        height: 35px;
+    }
+/*    .homepage_icon #icon_cont {
+        width: 131px;
+    }*/
+    #icon_cont {
+        margin-top:20px;
+    }
+    #icon_cont img.icon {
+        border: solid 1px;
+        margin-right: 10px;
+        border-radius: 24px;
+    }
+    #icon_cont img.overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        border-radius: 24px;
+    }
+</style>
+<script type="text/javascript">
+
+    var is_being_cropped = false;
+    function removepicture() {
+        $('#file').val('');
+        $('#preview_icon').attr('src', '');
+        $('#icon_cont img').slideUp('fast', function() {
+            $('#icon_cont > *').remove();
+        });
+        $('#delete_picture').slideUp('fast', function() {
+            $('#delete_picture').remove();
+        });
+        $('#file').val('');
+        $('#saveIcon').submit();
+        return false;
+    }
+
+    var icon_uploader = new Uploader();
+    $(document).ready(function() {
+
+        if(!$('button.upload_icon').is(':visible')) {
+            $('input.uploader_icon').show();
+        }
+
+        $('.upload_icon').click(function() {
+            $('.uploader_icon').trigger('click');
+        });
+
+        $('.uploader_icon').fileupload({
+            dataType: 'json',
+            add: function (e, data) {
+                data.formData = {
+                    uniq_prefix: 'icon_',
+                    minwidth: '70',
+                    minheight: '70',
+                    maxwidth: '2000',
+                    maxheight: '2000'
+                },
+                data.submit();
+                icon_uploader.showProgressbar();
+            },
+            progressall: function (e, data) {
+                icon_uploader.moveProgressbar(data);
+            },
+            done: function (e, data) {
+                if(data.result.error)
+                {
+                    icon_uploader.showError(data.result.message);
+                }
+                if(data.result.success)
+                {
+                    icon_uploader.hide();
+                    var params = new Array();
+                    params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+                    params["file"] = data.result.files;
+                    params["output_w"] = 256;
+                    params["output_h"] = 256;
+                    params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('application/customization_publication_app/saveicon')); ?>';
+                    params["uploader"] = 'icon_uploader';
+                    icon_uploader.crop(params);
+                    icon_uploader.callback = function(file) {
+                        $('#icon_cont img.icon').attr('src', file);
+                        $('#preview_icon').attr('src', file).removeAttr('style');
+                        $('.application_name .icon').attr('src', file);
+                        if(is_being_cropped == true) {
+                            var icon_cont = '<img src="'+file+'" height="128" class="icon left" />';
+                            icon_cont += '<img src="<?php echo $this->getImage('customization/overview/overlay_icon.png'); ?>" height="131" class="overlay" />';
+                            icon_cont += '<p id="cont_delete_picture" class="left"><button type="button" onclick="removepicture();" id="delete_picture" class="as-link">';
+                            icon_cont += '<i class="icon-remove"></i>';
+                            icon_cont += '</button></p>';
+                            $('#icon_cont').addClass('right').html(icon_cont);
+                        }
+                    }
+                }
+            }
+        });
+
+    });
+</script>

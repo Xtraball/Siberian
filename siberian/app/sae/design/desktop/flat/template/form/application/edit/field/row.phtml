@@ -1,0 +1,22 @@
+<?php $field = $this->getField(); ?>
+<li class="product" id="field_<?php echo $field->getId(); ?>" rel="<?php echo $field->getSection_id(); ?>">
+    <a class="handle_product left"><i class="fa fa-sort"></i></a>
+    <p class="name left"><?php echo $field->getName(); ?></p>
+    <p class="field_type left"><?php echo $field->getType(); ?></p>
+    <div class="actions right">
+        <a rel="prettyPhoto[ajax]" href="<?php echo $this->getUrl('form/application_field/edit', array('option_value_id' => $this->getOptionValue()->getId(), 'field_id' => $field->getId(), 'section_id' => $field->getSection_id())); ?>?ajax=true" class="icon edit_field"><i class="icon-edit"></i></a>
+        <a href="javascript:void(0);" onclick="field.remove(<?php echo $field->getId(); ?>); return false;" class="icon"><i class="fa fa-times"></i></a>
+        <input type="hidden" name="field_id" value="<?php echo $field->getId(); ?>" />
+    </div>
+</li>
+
+<style>
+    li:nth-child(1).product i.fa.fa-arrows-v, li:nth-child(1).product i.fa.fa-arrows-v:before {
+        content: "\f175";
+        cursor: s-resize;
+    }
+    li:nth-last-child().product i.fa.fa-arrows-v, li:nth-last-child().product i.fa.fa-arrows-v:before {
+        content: "\f176";
+        cursor: s-resize;
+    }
+</style>

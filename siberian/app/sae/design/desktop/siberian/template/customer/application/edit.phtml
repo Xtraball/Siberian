@@ -1,0 +1,144 @@
+<?php $customer = $this->getCurrentCustomer(); ?>
+<div class="application_customer application">
+    <div class="application_header app_name">
+        <?php echo $this->getPartialHtml('customization_header'); ?>
+    </div>
+    <div class="application_content inner_content">
+        <div class="title">
+            <i class="left icon-user"></i>
+            <h2 class="left inner_content f-rounded">
+                <?php if($customer->getId()) : ?>
+                <?php echo $this->_("Edit the user %s", $customer->getName()); ?>
+                <?php else : ?>
+                <?php echo $this->_("Create a new user"); ?>
+                <?php endif; ?>
+            </h2>
+            <div class="clear"></div>
+            <hr />
+        </div>
+        <div class="area">
+            <h3 class="title">
+                <span class="left area">
+                    <?php echo $this->_("User Information"); ?>
+                </span>
+                <div class="clear"></div>
+            </h3>
+            <div id="customer_forms" class="forms">
+                <div id="customer_form_new" class="customer_form">
+                    <form id="customerForm" action="<?php echo $this->getUrl('customer/application/save'); ?>" method="post">
+
+                        <div class="form-horizontal">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <label for="civility"><?php echo $this->_('Title'); ?> <span class="input-required">*</span></label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <select class="required no-dk form-control" name="civility" id="civility">
+                                            <option value="m"<?php if($customer->getCivility() == 'm') : ?> selected="selected"<?php endif; ?>><?php echo $this->_('Mr'); ?></option>
+                                            <option value="mme"<?php if($customer->getCivility() == 'mme') : ?> selected="selected"<?php endif; ?>><?php echo $this->_('Mrs'); ?></option>
+                                            <option value="mlle"<?php if($customer->getCivility() == 'mlle') : ?> selected="selected"<?php endif; ?>><?php echo $this->_('Miss'); ?></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <label for="firstname"><?php echo $this->_('First name'); ?> <span class="input-required">*</span></label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input type="text" value="<?php echo $customer->getFirstname() ?>" class="required form-control" name="firstname" id="firstname" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <label for="lastname"><?php echo $this->_('Last name'); ?> <span class="input-required">*</span></label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input type="text" value="<?php echo $customer->getLastname() ?>" class="required form-control" name="lastname" id="lastname" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <label for="email"><?php echo $this->_('Email'); ?> <span class="input-required">*</span></label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input type="text" value="<?php echo $customer->getEmail() ?>" class="required email form-control" name="email" id="email" />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <label for="password"><?php echo $this->_('Password'); ?> <span class="input-required">*</span></label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input type="password" value="" name="password" class="<?php if(!$customer->getId()) : ?>required<?php endif; ?> form-control" id="password">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <label class="checkbox" for="show_in_social_gaming">
+                                            <input type="checkbox"<?php if($customer->getShowInSocialGaming()) : ?> checked="checked"<?php endif; ?> id="show_in_social_gaming" class="" name="show_in_social_gaming" value="1" />
+                                            <?php echo $this->_("This user is visible in ranking"); ?>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <label class="checkbox" for="can_access_locked_features">
+                                            <input type="checkbox"<?php if($customer->canAccessLockedFeatures()) : ?> checked="checked"<?php endif; ?> id="can_access_locked_features" class="" name="can_access_locked_features" value="1" />
+                                            <?php echo $this->_("This user can access the pages locked by the \"Locker\" feature"); ?>
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="clear form-group">
+                            <p class="input-required">* <?php echo $this->_('Required fields'); ?></p>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-1">
+                                <button type="button" id="cancel_customer" class="delete btn left"><?php echo $this->_("Cancel"); ?></button>
+                            </div>
+                            <div class="col-md-1">
+                                <button type="submit" class="default_button btn"><?php echo $this->_("Save"); ?></button>
+                            </div>
+                        </div>
+
+                        <div class="clear"></div>
+                        
+                        <input type="hidden" name="customer_id" value="<?php echo $customer->getId(); ?>" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $('#customerForm').submit(function() {
+        if($(this).valid()) {
+            reload(this, this.action, true, function(data) {
+                if(data.success) {
+                    window.location = "<?php echo $this->getUrl("customer/application/list"); ?>";
+                }
+            });
+        }
+        return false;
+    });
+
+    $('#cancel_customer').click(function() {
+        window.location = "<?php echo $this->getUrl("customer/application/list"); ?>";
+    });
+
+</script>

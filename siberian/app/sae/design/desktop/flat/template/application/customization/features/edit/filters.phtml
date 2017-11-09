@@ -1,0 +1,49 @@
+<script type="text/javascript">
+    var Filter = Class.extend({
+        datas: new Array(),
+        fields: new Array(),
+        prefix: '',
+        init: function(prefix, fields, values) {
+
+            this.prefix = prefix;
+            this.fields = fields;
+            this.prepareDatas(values);
+            this.processEvents();
+        },
+
+        prepareDatas: function(values) {
+            for(var id in values) {
+                this.datas[id] = {
+                    id: id,
+                    line: $('#'+this.prefix+'_'+id),
+                    values: values[id]
+                }
+            }
+        },
+
+        processEvents: function() {
+            for(var id in this.fields) {
+                $('#'+this.fields[id]).keyup(function(e) {
+                    $('.'+this.prefix).show();
+                    for(var f in this.fields) {
+                        var field = $('#'+this.fields[f]).attr('rel');
+                        var value = $('#'+this.fields[f]).val().toLowerCase();
+                        if(!value.isEmpty()) {
+                            for(var id in this.datas) {
+                                if(this.datas[id].values[field]) {
+                                    if(!this.datas[id].values[field].contains(value)) this.datas[id].line.hide();
+                                }
+                            }
+                        }
+                    }
+                }.bind(this));
+            }
+        },
+
+        unbindAll: function() {
+            for(var id in this.fields) {
+                $('#'+this.fields[id]).unbind('keyup');
+            }
+        }
+    });
+</script>

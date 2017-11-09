@@ -1,0 +1,44 @@
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message" right-button="header_right_button"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="scrollable_content">
+
+        <div class="for_ads_banner">
+
+            <?php echo $this->getPartialHtml("subheader"); ?>
+
+            <div ng-repeat="block in blocks">
+
+                <div ng-switch on="block.type">
+                    <div ng-switch-when="text">
+                        <div sb-cms-text block="block"></div>
+                    </div>
+                    <div ng-switch-when="image">
+                        <div sb-cms-image block="block" gallery="gallery"></div>
+                    </div>
+                    <div ng-switch-when="video">
+                        <div sb-cms-video block="block"></div>
+                    </div>
+                    <div ng-switch-when="address">
+                        <div sb-cms-address block="block" on-show-map="onShowMap(address)"></div>
+                    </div>
+                    <div ng-switch-when="button">
+                        <div sb-cms-button block="block"></div>
+                    </div>
+                    <div ng-switch-when="file">
+                        <div sb-cms-file block="block"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <?php echo $this->getPartialHtml("bottom_bar"); ?>
+        </div>
+    </div>
+
+</div>
+
+<!--<div sb-image-gallery gallery="gallery"></div>-->

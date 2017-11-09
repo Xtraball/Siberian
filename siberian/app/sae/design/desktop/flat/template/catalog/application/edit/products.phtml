@@ -1,0 +1,194 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $category = new Catalog_Model_Category(); ?>
+<?php $categories = $category->findByValueId($option_value->getId(), null, true, true); ?>
+<?php $product = new Catalog_Model_Product(); ?>
+<?php $products = $product->findByValueId($option_value->getId()); ?>
+
+<div id="products">
+    <script type="text/javascript">
+        var products = new Products('<?php echo $this->getUrl('catalog/application_product/editpost'); ?>');
+    </script>
+
+    <?php $hasSubcategories = false; ?>
+
+    <ul id="products_list" class="list_edit">
+    <?php foreach($products as $product) : ?>
+    <?php
+        echo $this->getLayout()
+            ->addPartial('row_'.$product->getId(), 'admin_view_default', 'catalog/application/edit/products/row.phtml')
+            ->setProduct($product)
+            ->toHtml()
+        ;
+    ?>
+    <?php endforeach ?>
+    </ul>
+
+    <br />
+    <div id="createProduct" style="display: none;">
+        <div id="product_configuration">
+            <h4 class="align-center"><?php echo $this->_('Does this product have many formats?'); ?></h4>
+            <div class="align-center choose_type">
+                <label for="is_multiple_1">Oui</label><input type="radio" id="is_multiple_1" class="is_multiple color-blue radio" name="is_multiple" value="1" />
+                <label for="is_multiple_0">Non</label><input type="radio" id="is_multiple_0" class="is_multiple color-blue radio" name="is_multiple" value="0" checked="checked" />
+            </div>
+            <br />
+        </div>
+        <div id="product_infos" class="product">
+
+            <form action="<?php echo $this->getUrl('catalog/application_product/editpost'); ?>" method="post" id="productForm">
+
+                
+
+                <?php $hasSubcategories = false; ?>
+                <?php if($categories->count() > 0) : ?>
+                <div class="left">
+                    <div class="title">
+                        <h4><label for="categories"><?php echo $this->_('Choose a category'); ?> :</label></h4>
+                    </div>
+                    <select id="select_categories" name="category_id" class="styled-select color-blue">
+                        <option value=""><?php echo $this->_('Editing'); ?><?php echo $this->_('Choose a category'); ?></option>
+                    <?php foreach($categories as $category) : ?>
+                        <option value="<?php echo $category->getId(); ?>"><?php echo $category->getName(); ?></option>
+                    <?php endforeach ?>
+                    </select>
+                </div>
+                <div id="subcategories" class="subcategories_list right" style="display:none;">
+                    <div class="title">
+                        <h4><label for="subcategory_<?php echo $category->getId(); ?>"><?php echo $this->_('Choose a subcategory'); ?></label></h4>
+                    </div>
+                    <?php foreach($categories as $category) : ?>
+                        <?php $children = $category->getChildren(); ?>
+                        <?php if(count($children)) : ?>
+                            <select id="subcategory_<?php echo $category->getId(); ?>" name="subcategory_id" class="subcategory styled-select color-blue">
+                                <option value="0"><?php echo $this->_('Choose a subcategory'); ?></option>
+                                <?php foreach($category->getChildren() as $subcategory) : ?>
+                                <?php $hasSubcategories = true; ?>
+                                <option value="<?php echo $subcategory->getId(); ?>" rel="<?php echo $category->getId(); ?>"><?php echo $subcategory->getName(); ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        <?php endif ?>
+                    <?php endforeach ?>
+                    <?php endif; ?>
+                </div>
+                
+
+                <div class="inlineblock">
+                    <input class="name required automatic autoreset" type="text" id="product_name" value="" title="<?php echo $this->_('Product name'); ?>" name="name"/>
+                    <input class="description automatic autoreset" type="text" id="product_description" value="" title="<?php echo $this->_('Description'); ?>" name="description"/>
+                </div>
+                <div id="simple_infos" class="infos inlineblock">
+                    <input class="price required number automatic autoreset" type="text" id="product_price" value="<?php echo $this->_('Price'); ?>" title="<?php echo $this->_('Price'); ?>" name="price"/>
+                </div>
+
+                <div id="format_infos" class="infos" style="display: none;">
+                    <br />
+                    <div>
+                        <table id="formats" class="list-label no-collapse" cellspacing="10px">
+                            <col width="10%" />
+                            <col width="20%" />
+                            <col width="40%" />
+                            <col width="30%" />
+                            <?php $i = 0; ?>
+                            <?php while($i <= 3) : ?>
+                            <tr id="row_format_<?php echo $i ?>"<?php if($i > 1) : ?> class="new_format" style="display:none;"<?php endif; ?>>
+                                <td><?php if($i > 1) : ?><a id="delete_format_<?php echo $i ?>" rel="<?php echo $i; ?>" class="delete delete_format" title="<?php echo __("Delete"); ?>"><img src="<?php echo $this->getImage('actions/delete.png'); ?>" alt="<?php echo __("Delete"); ?>" title="<?php echo __("Delete"); ?>" /></a><?php endif; ?></td>
+                                <td class="label">888Format <?php echo $i + 1 ?></td>
+                                <td><input id="product_format_title_<?php echo $i ?>" class="format required automatic autoreset" type="text" value="<?php echo __("Format"); ?>" title="<?php echo __("Format"); ?>" name="option[<?php echo $i ?>][title]" rel="<?php echo $i ?>" /></td>
+                                <td>
+                                    <input id="product_format_price_<?php echo $i ?>" class="price required number automatic autoreset" type="text" value="<?php echo __("Price"); ?>" title="<?php echo __("Price"); ?>" name="option[<?php echo $i ?>][price]" rel="<?php echo $i ?>"/>
+                                    <input id="product_format_option_id_<?php echo $i ?>" type="hidden" class="autoreset" name="option[<?php echo $i ?>][option_id]" rel="<?php echo $i ?>"/>
+                                    <input id="product_format_is_deleted_<?php echo $i ?>" type="hidden" class="autoreset" name="option[<?php echo $i ?>][is_deleted]" rel="<?php echo $i ?>"/>
+                                </td>
+                            </tr>
+                            <?php $i++; ?>
+                            <?php endwhile; ?>
+                        </table>
+                    </div>
+                    <button type="button" id="add_format" class="classic"><?php echo $this->_('Add a format'); ?></button>
+                </div>
+
+                <!--<input type="hidden" id="category_id" name="category_id" value="" />-->
+                <input type="hidden" id="product_id" name="product_id" value="" />
+                <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
+                
+                <div class="button">
+                    <button type="button" id="hide_form" class="validate red left"><?php echo $this->_('Cancel'); ?></button>
+                    <button type="submit" class="validate right"><?php echo $this->_('Save'); ?></button>
+                </div>
+            </form>
+
+        </div>
+        
+    </div>
+    <br />
+    <a href="#" class="as-button right" id="add_product"><?php echo $this->_('Create a new product'); ?></a>
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+            <?php if($hasSubcategories) : ?>
+            $('#select_categories').change(function() {
+                var id = $(this).val();
+                
+                if(!id.isEmpty()) {
+                    var subcategory_select = $('#subcategory_'+id);
+                    if(subcategory_select.attr('id')) {
+                        $('.subcategory').each(function() {
+                            if($(this).attr('id') == 'subcategory_'+id) $(this).removeAttr('disabled').show();
+                            else $(this).hide().attr('disabled', 'disabled').val('');
+                        });
+                        iframe.content.find('#categories > .list').hide();
+                        iframe.f.goForth('category_'+id);
+                        if(!$('#subcategories').is(':visible')) $('#subcategories').slideDown();
+                    }
+                    else if($('#subcategories').is(':visible')) {
+                        $('#subcategories').slideUp(300, function() {
+                            $('#subcategories').hide();
+                            $('.subcategory').hide().attr('disabled', 'disabled').val('');
+                        });
+                    }
+                }
+                else {
+                    $('#subcategories').slideUp(300, function() {
+                        $('#subcategories').hide();
+                        $('.subcategory').hide().attr('disabled', 'disabled').val('');
+                    });
+                }
+            });
+
+            $('.subcategory').change(function() {
+                iframe.f.goForth('category_'+$(this).val());
+            });
+
+            var element = '.subcategory';
+            <?php else : ?>
+            var element = '#select_categories';
+            $('#subcategories').remove();
+            <?php endif; ?>
+
+            $(".list_edit").sortable({
+                handle : '.handle',
+                placeholder: "list_edit-placeholder",
+                update : function (e, ui) {
+
+                    var order = $(e.target).sortable('serialize');
+                    $(e.target).sortable("refresh");
+                    var id = ui.item.attr('id').replace('row_', '');
+                    products.updateEvents(id);
+                    reload($("#products_list"), "<?php echo $this->getUrl('catalog/application_product/sortproducts', array('option_value_id' => $option_value->getId())); ?>?"+order, true, function() {
+                        iframe.f.reload();
+                    });
+                }
+            });
+
+            <?php if($categories->count() == 0) : ?>
+            $('.product_rows').show();
+            <?php endif; ?>
+
+        });
+
+
+
+    </script>
+
+</div>

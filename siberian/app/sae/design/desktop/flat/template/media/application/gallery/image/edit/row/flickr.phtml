@@ -1,0 +1,9 @@
+<?php
+    $imageGallery = $this->getCurrentImageGallery();
+?>
+
+<input type="text"
+       name="param_flickr"
+       class="search_input input-flat"
+       value="<?php echo $imageGallery->getTypeInstance()->getIdentifier() ?>"
+       placeholder="<?php echo __('Flickr user') ?>" />

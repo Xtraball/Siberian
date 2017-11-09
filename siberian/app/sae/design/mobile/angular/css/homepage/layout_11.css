@@ -1,0 +1,7 @@
+.l11.horizontal-tabbar ul li {height:220px;}
+.l12.horizontal-tabbar ul li {height:230px;}
+.l11.horizontal-tabbar ul li a, .l12.horizontal-tabbar ul li a {position:relative;display:block;float:left;width:28%;margin:0 2% 5px 2%;}
+.l11.horizontal-tabbar ul li a div.tabbar, .l12.horizontal-tabbar ul li a div.tabbar {height:55px;padding:15px;}
+.l12.horizontal-tabbar ul li a div.tabbar {border:3px solid;border-radius:10ex;}
+.l11.horizontal-tabbar ul li a span, .l12.horizontal-tabbar ul li a span {font-size:12px;text-transform:uppercase;line-height:15px;}
+.l11.horizontal-tabbar ul li span, .l12.horizontal-tabbar ul li span {height:16px;margin-top:3px;font-size:11px;overflow:hidden;}

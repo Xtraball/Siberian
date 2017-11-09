@@ -1,0 +1,54 @@
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message" right-button="header_right_button"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="scrollable_content">
+        <div class="padding for_ads_banner topic_list">
+            <div ng-if="description" ng-bind-html="description | trusted_html">
+            </div>
+            <ul>
+                <li ng-repeat="item in items" class="margin-bottom">
+                    <table width="100%" class="bkg-color">
+                        <tr ng-class="{'title-father': item.children.length}">
+                            <td ng-if="item.picture && !item.children.length" rowspan="2" width="55px">
+                                <img ng-src="{{item.picture}}" width="50px" class="img"/>
+                            </td>
+                            <td class="title justify" ng-class="{'td-title-father': item.children.length,'padding-title':!item.picture}">{{ item.name }}</td>
+                            <td width="70px" class="a-center" rowspan="2" ng-if="!item.children.length">
+                                <sb-switch toggle-switch="toggleSwitch(is_checked,params)" is-checked="item.is_subscribed" params="{topic_id:item.id}" />
+                            </td>
+                        </tr>
+                        <tr ng-if="!item.children.length">
+                            <td class="td-desc">{{ item.description }}</td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    <ul ng-if="item.children.length > 0">
+                        <li ng-repeat="child in item.children" class="li-child">
+                            <table width="100%" class="bkg-color">
+                                <tr>
+                                    <td ng-if="child.picture" rowspan="2" width="55px">
+                                        <img ng-src="{{child.picture}}" width="50px" class="img"/>
+                                    </td>
+                                    <td colspan="2" class="title justify td-desc" ng-class="{'padding-title':!child.picture}">{{ child.name }}</td>
+                                    <td width="70px" class="a-center" rowspan="2">
+                                        <sb-switch toggle-switch="toggleSwitch(is_checked,params)" is-checked="child.is_subscribed" params="{topic_id:child.id}" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-desc">{{ child.description }}</td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </li>
+                    </ul>
+                </li>
+                <li ng-show="no_items">
+                    <?php echo $this->_("No topics for now."); ?>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

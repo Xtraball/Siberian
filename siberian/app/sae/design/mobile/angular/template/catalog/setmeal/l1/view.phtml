@@ -1,0 +1,28 @@
+<?php $application = $this->getApplication(); ?>
+
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="set_meal.name" message="message" right-button="header_right_button"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="scrollable_content content">
+        <ul ng-class="{news: !style_background_image}" class="content_news" ng-show="set_meal">
+            <li class="padding" ng-class="{subheader: !style_background_image}">
+                <div>
+                    <p class="name bold">{{ set_meal.name }}</p>
+                    <p class="price bold" ng-if="set_meal.price">{{ set_meal.price }}</p>
+                </div>
+                <div class="clear"></div>
+                <p class="conditions">{{ set_meal.conditions }}</p>
+            </li>
+            <li class="details padding">
+                <div class="image" ng-if="set_meal.picture">
+                    <img ng-src="{{ set_meal.picture }}" alt="" title="" width="100%" />
+                </div>
+                <div class="description" ng-bind-html="set_meal.description | trusted_html">
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

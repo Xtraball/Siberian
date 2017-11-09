@@ -1,0 +1,174 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<div class="form_content">
+    <button class="manage_overview display_overview btn btn-block color-blue"><?php echo $this->_('Mobile display') ?></button>
+    <div id="list" class="edit_page folder">
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo $this->_('Folders') ?>
+        </h3>
+        <?php
+            echo $this->getLayout()
+                ->addPartial('folder_manage', 'Core_View_Default', 'folder/application/edit/categories.phtml')
+                ->setCurrentOptionValue($option_value)
+                ->toHtml()
+            ;
+        ?>
+        <div class="background">
+            <div class="content-color">
+                <div>
+                    <?php echo $this->importBackground($option_value); ?>
+                </div>
+
+                <?php echo $this->getLayout()
+                    ->addPartial('layout', 'Core_View_Default', 'application/customization/features/edit/layout.phtml')
+                    ->setOptionValue($option_value)
+                    ->toHtml()
+                ;
+                ?>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        bindForms('#list');
+    });
+
+    var folder_background_uploader = new Uploader();
+    var caret_bottom = $('.pages .listing ul li i.icon-caret-up').css('bottom');
+    var relative_width = $('.pages .listing > .relative').width();
+    var category;
+
+    var Layout = Class.extend({
+        showCategoryManage: function() {
+            var option_value = '<?php echo $option_value->getId() ?>';
+            $('#btn_manage_categories').hide();
+            $('.manage_categories').slideDown(200);
+            $('#overview').css({
+                'visibility': 'hidden',
+                'position': 'absolute',
+                'top': '0'
+            });
+            iframe.content.find('html').css('visibility', 'hidden');
+            $('.customization .content_left #header_editor').css('width', 'auto');
+            $('.folder_listing').css('width', 'auto !important');
+            $('.customization .content_left').animate({
+                width: '1083px'
+            }, 300);
+            $('.pages > .listing').animate({
+                width: 'auto',
+                height: 'auto'
+            }, 300);
+            $('.pages .listing > .relative').animate({
+                width: '1036px'
+            }, 300);
+            $('.customization_content #customization_content_left .pages div').animate({
+                width: '1083px',
+                padding : '1%'
+            }, 300);
+            var carousel = $('#pages_list #option_values').data('carousel');
+            if(carousel) {
+                carousel.options.items_per_page = 10;
+                carousel.update();
+                var li = $('li#option_value_'+option_value);
+                if(li.is(':visible')) {
+                    carousel.slideToItem(li);
+                } else {
+                    carousel.slideToPage(0);
+                }
+            }
+            $('.pages .listing ul li i.icon-caret-up').css('bottom', '-38px');
+        },
+        hideCategoryManage: function() {
+            $('#overview').css({
+                'visibility': 'visible',
+                'position': 'relative',
+                'top': 'auto'
+            });
+            iframe.content.find('html').removeAttr('style');
+            $('.manage_categories').slideUp(200);
+            $('.customization .content_left').removeAttr('style');
+            $('.pages .listing').removeAttr('style');
+            var carousel = $('#pages_list #option_values').data('carousel');
+            if(carousel) {
+                carousel.options.items_per_page = 6;
+                carousel.update();
+                carousel.slideToPage(0);
+            }
+            $('.pages .listing > .relative').width(relative_width+'px');
+            $('.customization_content #customization_content_left .pages div').removeAttr('style');
+            $('.pages .listing ul li i.icon-caret-up').removeAttr('style');
+        }
+    });
+
+    var layout = new Layout();
+
+    page.setCallback('willappear', function() {
+        category = new Category();
+    });
+
+    page.setCallback('didappear', function() {
+        $('#node_container_default').show();
+        layout.showCategoryManage();
+        $('.form_content .manage_overview').unbind('click');
+        $('.form_content .manage_overview').click(function() {
+            if($('#overview').css('visibility') == 'hidden') {
+                layout.hideCategoryManage();
+                $(this).html('<?php echo addslashes($this->_('Close mobile display')) ?>');
+            } else {
+                layout.showCategoryManage();
+                $(this).html('<?php echo $this->_('Mobile display') ?>');
+            }
+            return false;
+        });
+    });
+
+    page.setCallback('willdisappear', function() {
+        $('.folderForm_cont').off('submit');
+        $('.folderForm_cont').off('click', '#upload_folder_background');
+        $('.folderForm_cont').off('click', '#remove_background_img');
+        $('.folderForm_cont').off('click', '.save_background_image');
+        $('.folderForm_cont').off('click', '.add_feature');
+        $('.left_category').off('click', 'a');
+        $('.manage_categories').off('click', '.delete_category');
+        if(!folder.current_option_id) {
+            folder.reset();
+        }
+        if(typeof folder_form == 'object') {
+            folder_form.destroy();
+        }
+    });
+
+</script>
+<style type="text/css">
+    #remove_background_img {
+        vertical-align: top;
+        margin-left: 5px;
+    }
+    .folder_bg_field {
+        /*width: 172px;*/
+    }
+    .manage_overview {
+        position: absolute;
+        right: 0.4em;
+        top: 0.4em;
+        width: auto;
+    }
+    .form_content {
+        position: relative;
+    }
+    .manage_overview .icon-eye-open, .manage_overview .icon-eye-close {
+        margin-right: 10px;
+    }
+    .button_handler {
+        display: flex;
+        align-items: center;
+        padding-left: 1em;
+    }
+    .page_list_folder .option_value:hover span, .option_value.selected a span {
+        opacity: 1;
+    }
+    .option_value {
+        width:98px;
+    }
+</style>

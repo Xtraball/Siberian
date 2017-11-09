@@ -1,0 +1,157 @@
+<?php
+    $application = $this->getApplication();
+
+    $category_model = new Application_Model_Layout_Category();
+    $categories = $category_model->findAll(null, array("category_id ASC"));
+
+    $layout_model = new Application_Model_Layout_Homepage();
+    $layouts = $layout_model->findAll(
+            array("is_active = ?" => true),
+            array("order ASC")
+    );
+?>
+<div class="content-no-padding col-md-3 col-xs-3">
+    <ul>
+        <li class="change_category color-red">
+            <a href="javascript:void(0);">
+                <?php echo __("All"); ?>
+                <input type="hidden" value="0" name="category_id" />
+            </a>
+        </li>
+        <?php foreach($categories as $category) : ?>
+            <li class="change_category">
+                <a href="javascript:void(0);">
+                    <?php echo __($category->getName()); ?>
+                    <input type="hidden" value="<?php echo $category->getCategoryId(); ?>" />
+                </a>
+            </li>
+        <?php endforeach ?>
+        <li class="change_category_withoptions">
+            <a href="javascript:void(0);">
+                <?php echo __("With options"); ?>
+                <input type="hidden" value="withoptions>" />
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="content-no-padding layouts_content_preview col-md-9 col-xs-9">
+    <?php foreach($layouts as $layout) : ?>
+        <?php $with_options = (Siberian_Feature::getLayoutOptionsCallbacks($layout->getCode())); ?>
+        <div class="layout-size col-md-3 col-xs-4 text-center category_<?php echo $layout->getCategoryId(); ?> <?php echo ($with_options) ? "category_withoptions" : "" ?>">
+            <p class="template_image">
+                <a href="javascript:void(0);" data-uri="<?php echo $this->getUrl("application/customization_design_style/changelayout", array("layout_id" => $layout->getId())); ?>" class="change_layout block relative">
+                    <p class="template_title color-red"><?php echo $layout->getName(); ?></p>
+
+                    <?php
+                        $new = $layout->getPreviewNew();
+                        $klass = "layout-preview-old layout-preview-new";
+                        if(empty($new)) {
+                            $new = $layout->getPreview();
+                            $klass = "layout-preview-old";
+                        }
+                    ?>
+
+                    <img src="<?php echo $this->getImage($new); ?>" class="<?php echo $klass; ?>" width="100%" height="100%" />
+                    <?php if($application->getLayoutId() == $layout->getId()) : ?>
+                        <span class="checked"></span>
+                    <?php endif; ?>
+
+                    <input type="hidden" name="layout_id" value="<?php echo $layout->getId(); ?>" />
+                    <input type="hidden" name="category_id" value="<?php echo $layout->getCategoryId(); ?>" />
+                </a>
+            </p>
+        </div>
+    <?php endforeach ?>
+</div>
+
+
+<script type="text/javascript">
+    var tmp_directory = '<?php echo Core_Model_Directory::getTmpDirectory() ?>';
+
+    $(document).ready(function() {
+
+        $('.change_layout').click(function() {
+            reload(this, $(this).data("uri"), true, function(datas) {
+                if(datas.success) {
+                    /** easier ... */
+                    location.reload();
+                }
+            });
+        });
+
+        /** Bind the categories */
+        $(".change_category, .change_category_withoptions").hover(
+            function() {
+                $(this).addClass("color-red");
+            }, function() {
+                if(!$(this).hasClass("active")) {
+                    $(this).removeClass("color-red");
+                }
+            });
+
+        $('.change_category').click(function() {
+            $('.change_category, .change_category_withoptions').removeClass("active color-red");
+            $(this).addClass("active color-red");
+
+            var category_id = $(this).find('input').val();
+            if(category_id == 0) {
+                $(".layouts_content_preview div").show();
+                return false;
+            }
+            $(".layouts_content_preview div").hide();
+            $(".layouts_content_preview div.category_"+category_id).show();
+
+            return false;
+        });
+
+        $(".change_category_withoptions").on("click", function() {
+            $('.change_category, .change_category_withoptions').removeClass("active color-red");
+            $(this).addClass("active color-red");
+
+            $(".layouts_content_preview div").hide();
+            $(".layouts_content_preview div.category_withoptions").show();
+
+            return false;
+        });
+    });
+</script>
+
+<style type="text/css">
+    #modal_modal_layouts {
+        position: fixed;
+    }
+
+    #modal_modal_layouts .content-white-bkg {
+        background-color: #e9e9eb;
+    }
+
+    #modal_mask_modal_layouts {
+        position: fixed;
+    }
+
+    #modal_details_modal_layouts {
+        height: 80vh;
+    }
+
+    .template_title {
+        font-size: 12px;
+        text-transform: uppercase;
+        padding-bottom: 10px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .custom_modal button.close_modal {
+        margin-top: -8px;
+        margin-right: 6px;
+    }
+
+    .change_layout .checked {
+        background-color: #fff;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 1;
+    }
+</style>

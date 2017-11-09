@@ -1,0 +1,14 @@
+<ion-modal-view ng-if="features.overview.hasMore" class="layout modal slide-top" ng-show="pages_list_is_visible">
+    <ion-content class="padding">
+        <div class="list">
+            <div class="item item-avatar item-center item-avatar-square item-custom" ng-repeat="feature in features.options" ng-click="goTo(feature);">
+                <img ng-src="{{ feature.icon_url }}" /> <h2>{{ feature.name }}</h2>
+                <div ng-if="feature.code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+            </div>
+            <div class="item item-center item-avatar item-icon-left item-custom" ng-click="closeMore();">
+                <i class="icon ion-close"></i>
+                <h2>{{ "Close" | translate }}</h2>
+            </div>
+        </div>
+    </ion-content>
+</ion-modal-view>

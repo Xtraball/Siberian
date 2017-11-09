@@ -1,0 +1,63 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $application = $this->getApplication(); ?>
+<?php $prestashop = $option_value->getObject(); ?>
+<div id="list" class="edit_page">
+    <div class="prestashop">
+        <form id="prestashopForm" name="prestashopForm" method="post" action="<?php echo $this->getUrl('weblink/application_prestashop/editpost') ?>" class="form-horizontal">
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo $this->_('Prestashop') ?>
+            </h3>
+            <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
+            <div class="container-fluid first-row-feature content-feature">
+                <div class="infos">
+                    <div id="prestashop_content">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <input type="text" id="prestashop" name="link" class="input-flat url" placeholder="<?php echo $this->_('Enter your Prestashop URL') ?>" value="<?php echo $prestashop->getLink()->getUrl() ?>"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="save pull-right">
+                            <button class="btn  btn-block color-blue" type="submit">
+                                <?php echo $this->_('Save'); ?>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    page.setCallback('didappear', function() {
+
+        $('#prestashop').change(function() {
+            if(!$(this).val().isEmpty() && !$(this).val().startsWith('http://') && !$(this).val().startsWith('https://')) {
+                $(this).val('http://'+$(this).val());
+            }
+        });
+        $('#prestashopForm').submit(function() {
+            if(!$(this).valid()) return false;
+            reload(this, this.action, true, function(datas) {
+                if(datas.success) {
+                    if(iframe.f.isHomepage()) {
+                        iframe.f.reload();
+                    }
+                }
+            });
+            return false;
+        });
+
+    });
+
+    page.setCallback('willdisappear', function() {
+        $('#prestashop').unbind('change');
+        $('#prestashopForm').unbind('submit');
+    });
+
+</script>

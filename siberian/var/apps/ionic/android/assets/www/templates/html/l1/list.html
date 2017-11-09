@@ -1,0 +1,138 @@
+<!--
+    Template used for
+       - Newswall
+       - Fanwall
+       - In-App messages
+       - Push notifications
+-->
+
+<ion-view sb-page-background>
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <div sb-tooltip
+             collection="tooltip.collection"
+             current-item="tooltip.current_item"
+             button-label="tooltip.button_label"
+             show-tooltip="false"
+             on-item-clicked="showTooltip(object)"
+             ng-if="tooltip"></div>
+
+        <button ng-click="right_button.action()" class="button button-clear header-item" ng-if="right_button">
+            <span class="back-text">
+                <span class="default-title">{{ right_button.label }}</span>
+            </span>
+            <i class="icon" ng-class="right_button.icon"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content class="l1">
+
+
+
+        <div ng-include="template_header"></div>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <ion-refresher ng-if="use_pull_refresh"
+                       class="spinner-custom"
+                       pulling-text="{{ 'Pull to refresh...' | translate }}"
+                       on-refresh="pullToRefresh()">
+        </ion-refresher>
+
+        <div ng-if="card_design && collection.length">
+
+            <div class="list">
+
+                <div class="card" ng-click="showItem(item)" ng-repeat="item in collection">
+
+                    <div class="item item-custom" ng-class="{ 'item-avatar': item.icon }">
+                        <img ng-src="{{ item.icon }}" ng-if="item.icon" />
+                        <h2>{{ item.title ? item.title : item.author }}</h2>
+                        <p ng-if="item.subtitle">{{ item.subtitle }}</p>
+                        <p ng-if="item.message" ng-class="{ 'text-no-wrap':toggle_text }" ng-bind-html="item.message"></p>
+                    </div>
+
+                    <div class="item item-image item-custom">
+                        <div class="col col-75 col-offset-25">
+                            <img ng-src="{{ item.picture }}" ng-if="item.picture" />
+                            <p class="padding text-right" ng-if="item.details">
+                                <span ng-if="item.details.date">
+                                    <i class="ion-ios-calendar-outline"></i>
+                                    <span ng-if="!item.details.date.mt_text">{{ item.details.date.text }}</span>
+                                    <span ng-if="item.details.date.mt_text">{{ item.details.date.mt_text | moment_calendar }}</span>
+                                </span>
+                                <span ng-if="item.details.comments">
+                                    <i class="ion-ios-chatboxes-outline"></i>
+                                    {{ item.details.comments.text }}
+                                </span>
+                                <span ng-if="item.details.likes">
+                                    <i class="ion-ios-heart-outline"></i>
+                                    {{ item.details.likes.text }}
+                                </span>
+                                <div class="clear"></div>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="list" ng-if="!card_design && collection.length">
+
+            <div ng-click="showItem(item)" ng-repeat="item in collection">
+
+                <div class="item item-custom" ng-class="{ 'item-avatar': item.icon }">
+                    <img ng-src="{{ item.icon }}" ng-if="item.icon" />
+                    <h2>{{ item.title ? item.title : item.author }}</h2>
+                    <p ng-if="item.subtitle">{{ item.subtitle }}</p>
+                    <p ng-if="item.message" ng-class="{ 'text-no-wrap':toggle_text }" ng-bind-html="item.message"></p>
+                </div>
+
+                <div class="item item-image item-custom">
+                    <div class="col col-75 col-offset-25">
+                        <img ng-src="{{ item.picture }}" ng-if="item.picture" />
+                        <p class="padding text-right" ng-if="item.details">
+                        <span ng-if="item.details.date">
+                            <i class="ion-ios-calendar-outline"></i>
+                            <span ng-if="!item.details.date.mt_text">{{ item.details.date.text }}</span>
+                            <span ng-if="item.details.date.mt_text">{{ item.details.date.mt_text | moment_calendar }}</span>
+                        </span>
+                        <span ng-if="item.details.comments">
+                            <i class="ion-ios-chatboxes-outline"></i>
+                            {{ item.details.comments.text }}
+                        </span>
+                        <span ng-if="item.details.likes">
+                            <i class="ion-ios-heart-outline"></i>
+                            {{ item.details.likes.text }}
+                        </span>
+                        <div class="clear"></div>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="list" ng-class="{'card' : card_design}" ng-if="!is_loading && !collection.length">
+            <div class="item text-center item-custom">
+                {{ "No items found" | translate }}
+            </div>
+        </div>
+
+        <ion-infinite-scroll ng-if="load_more"
+                             on-infinite="loadMore()"
+                             immediate-check="false"
+                             distance="10%"
+                             class="spinner-custom">
+        </ion-infinite-scroll>
+
+    </ion-content>
+</ion-view>

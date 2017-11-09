@@ -1,0 +1,80 @@
+<?php
+$application = $this->getApplication();
+$pp = $application->getPrivacyPolicy();
+$form_privacy_policy = new Application_Form_PrivacyPolicy();
+$form_privacy_policy->populate($application->getData());
+?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-content-wrapper">
+
+            <!-- Privacy Policy -->
+            <div id="privacy_policy" class="content solo-page sb-tour">
+                <h3 class="title-editor border-blue text-center">
+                    <?php echo __("Privacy Policy"); ?>
+                </h3>
+                <div id="terms" class="subcontent content-color col-md-6">
+                    <span><b><?php  echo __("URL"); ?>:</b> <?php echo $this->getUrl("application/privacypolicy")."?id=".$application->getKey() ?></span>
+                    <br />
+                    <br />
+                    <span><?php echo __("You can use <b>%s</b> as variable for your application name.", "#APP_NAME") ?></span>
+                    <br />
+                    <br />
+                    <?php echo $form_privacy_policy; ?>
+                </div>
+            </div>
+            <!-- /Privacy Policy -->
+
+        <?php foreach(Application_Model_Tc::getTypes() as $type => $label) : ?>
+        <?php $tc = new Application_Model_Tc(); ?>
+        <?php $tc->findByType($application->getId(), $type); ?>
+            <div id="terms_content_<?php echo $type ?>" class="content solo-page sb-tour">
+                <h3 class="title-editor border-blue text-center">
+                    <?php echo __($label); ?>
+                </h3>
+                <div id="terms" class="subcontent content-color col-md-6">
+                    <form class="tcForm form-horizontal" action="<?php echo $this->getUrl('application/settings_tc/save'); ?>" onsubmit="return false">
+                        <div class="container-fluid">
+                            <div class="form-group">
+                                <textarea type="text" id="text_<?php echo $type ?>" class="replace-with-ckeditor" name="text"><?php echo $tc->getText() ?></textarea>
+                            </div>
+                            <div class="form-group">
+                                <div class="pull-right">
+                                    <button type="submit" class="color-blue btn "><?php echo __("Save"); ?></button>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="type" value="<?php echo $type ?>" />
+                    </form>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('.tcForm').submit(function() {
+        reload($(this), this.action, true);
+        return false;
+    });
+
+    $('.replace-with-ckeditor').ckeditor();
+
+    <?php
+        $privacy_policy = System_Model_Config::getValueFor('privacy_policy');
+    ?>
+
+    var default_pp = `<?php echo __js($privacy_policy, "`") ?>`;
+
+    $(document).ready(function() {
+        bindForms("#privacy_policy");
+
+        $("#reset_default").on("click", function(event) {
+            /** Stop default submit */
+            event.preventDefault();
+
+            CKEDITOR.instances["privacy_policy"].setData(default_pp);
+        });
+    });
+</script>

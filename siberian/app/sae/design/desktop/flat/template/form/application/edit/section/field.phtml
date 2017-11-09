@@ -1,0 +1,26 @@
+<?php $field = $this->getField(); ?>
+<li class="field list-group-item" id="field_<?php echo $field->getId(); ?>" rel="<?php echo $field->getSection_id(); ?>">
+    <div class="row">
+        <div class="col-md-1">
+            <a class="handle_field"><i class="fa fa-sort"></i></a>
+        </div>
+        <div class="col-md-3">
+            <p class="name"><?php echo $field->getName(); ?></p>
+        </div>
+        <div class="col-md-6">
+            <p class="field_type"><?php echo $field->getTypeLabel(); ?></p>
+        </div>
+        <div class="actions col-md-2 text-center">
+            <a rel="prettyPhoto[ajax]" href="<?php echo $this->getUrl('form/application_field/edit', array('option_value_id' => $this->getOptionValue()->getId(), 'field_id' => $field->getId(), 'section_id' => $field->getSection_id())); ?>?ajax=true" class="edit_field"><i class="fa fa-pencil"></i></a>
+            <a href="javascript:void(0);" onclick="field.remove(<?php echo $field->getId(); ?>); return false;" ><i class="fa fa-times"></i></a>
+            <input type="hidden" name="field_id" value="<?php echo $field->getId(); ?>" />
+        </div>
+    </div>
+</li>
+<style>
+    li.field{list-style:none}
+    .field_placeholder{height:35px;}
+    p {
+        margin: 0;
+    }
+</style>

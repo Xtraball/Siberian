@@ -1,0 +1,139 @@
+<?php $platform_name = System_Model_Config::getValueFor("platform_name"); ?>
+<div class="container">
+    <div id="login_container" class="content content-white-bkg">
+        <ul class="nav navbar-nav navbar-right">
+            <?php echo $this->getPartialHtml('languages'); ?>
+        </ul>
+        <br/>
+        <?php if(System_Model_Config::getValueFor("logo")): ?>
+            <div class="logo_container">
+                <img src="<?php echo $this->getLogo(); ?>" id="logo" alt="<?php echo $platform_name; ?>" title="<?php echo $platform_name; ?>" width="100%" />
+            </div>
+        <?php else: ?>
+            <div class="logo_container color-blue">
+                <img src="<?php echo $this->getImage('login/default-logo.png'); ?>" id="logo" alt="<?php echo $platform_name; ?>" title="<?php echo $platform_name; ?>" width="100%" />
+            </div>
+        <?php endif; ?>
+        <h1 class="text-center"><?php echo $platform_name; ?></h1>
+        <?php if($platform_name): ?>
+            <hr/>
+        <?php endif; ?>
+        <ul id="nav-login" class="nav nav-tabs" role="tablist">
+            <li style="width:50%" class="text-center active"><a href="#" rel="login"><?php echo $this->_("Log in"); ?></a></li>
+        </ul>
+        <div class="subcontent">
+            <form action="<?php echo $this->getUrl('admin/account/loginpost') ?>" method="post" id="loginForm" class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="email"><?php echo $this->_("Email"); ?></label>
+                        <input type="text" id="email" class="input-flat email" name="email" placeholder="<?php echo $this->_("Email"); ?>" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="password"><?php echo $this->_("Password"); ?></label>
+                        <input type="password" id="password" class="input-flat" name="password" placeholder="<?php echo $this->_("Password"); ?>" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <button type="submit" class="color-blue btn"><?php echo $this->_('Log in'); ?></button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12 text-right">
+                        <a href="javascript:void(0);" id="btnForgotPassword"><?php echo $this->_('Forgot your password ?'); ?></a>
+                    </div>
+                </div>
+            </form>
+
+            <form action="<?php echo $this->getUrl('admin/account/forgotpasswordpost') ?>" method="post" id="forgotpasswordForm" style="display:none" class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <p><?php echo $this->_('Forgot your password? Don\'t worry! Simply enter your email address and we\'ll send you a new one right now.'); ?></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label for="email"><?php echo $this->_("Email"); ?></label>
+                        <input type="text" id="email" class="input-flat email" name="email" placeholder="<?php echo $this->_("Email"); ?>" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-6">
+                        <button type="button" id="btnBackForgotPassword" class="color-blue btn"><?php echo $this->_("Back"); ?></button>
+                    </div>
+                    <div class="col-xs-6">
+                        <button type="submit" class="color-blue btn"><?php echo $this->_('Send'); ?></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+    <script type="text/javascript">
+        $('#loginForm').submit(function() {
+            if(!$(this).valid()) return false;
+        });
+
+        $('#forgotpasswordForm').submit(function() {
+            if(!$(this).valid()) return false;
+
+        });
+
+        $('#btnForgotPassword').click(function() {
+            $('#loginForm').hide();
+            $('#forgotpasswordForm').fadeIn();
+        });
+
+        $('#btnBackForgotPassword').click(function() {
+            $('#forgotpasswordForm').hide();
+            $('#loginForm').fadeIn();
+        });
+    </script>
+    <style>
+        #login_container{max-width:375px;min-width:300px;margin:70px auto;padding: 15px;}
+        #loginForm{padding:10px}
+        #signupForm{padding:10px}
+        #forgotpasswordForm{padding:10px}
+        /*overriding class content only for login */
+        .content{float:none}
+        h1{padding:20px 20px 0px 20px}
+        .active{font-weight:bold}
+        hr{margin-bottom: 30px;color:#ddd}
+        .logo_container{
+            background: #078DB8;
+            height: 60px;
+            float: left;
+            width: 100%;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+    </style>
+</div>
+
+<script type="text/javascript">
+    login_urls = {
+        checklogin_post: '<?php echo $this->getUrl('admin/account/check'); ?>',
+        signin_post: '<?php echo $this->getUrl('admin/account/loginpost'); ?>',
+        signup_post: '<?php echo $this->getUrl('admin/account/signuppost'); ?>',
+        forgotpassword_post: '<?php echo $this->getUrl('admin/account/forgotpasswordpost'); ?>'
+    };
+
+    $('#nav-login a').click(function() {
+        if($(this).hasClass("active")) return false;
+        if($(this).attr("rel") == "login") {
+            $('#signupForm').hide();
+            $('#forgotpasswordForm').hide();
+            $('#loginForm').fadeIn();
+        } else {
+            $('#forgotpasswordForm').hide();
+            $('#loginForm').hide();
+            $('#signupForm').fadeIn();
+        }
+
+        $("#nav-login li").removeClass("active");
+        $(this).parent("li").addClass("active");
+    });
+    
+</script>

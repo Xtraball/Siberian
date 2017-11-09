@@ -1,0 +1,32 @@
+/**
+    If you need custom CSS specific for your module:
+
+    append this line at the end of your edit.phtml
+
+    <link href="/app/local/modules/Job/resources/design/desktop/flat/template/job/application/edit.css" media="screen" rel="stylesheet" type="text/css">
+
+    note: don't forget to edit your paths
+
+    and write custom CSS right there
+*/
+
+.edit-action,
+.delete-action,
+.toggle-action {
+    padding: 8px 8px 0 0 !important;
+    margin: 0;
+    width: 20px;
+    cursor: pointer;
+}
+
+.delete-action {
+    padding-top: 5px !important;
+}
+
+.toggle-action {
+    padding-top: 7px !important;
+}
+
+table tbody td {
+    text-overflow: ellipsis;
+}

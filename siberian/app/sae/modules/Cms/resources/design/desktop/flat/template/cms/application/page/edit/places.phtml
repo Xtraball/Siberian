@@ -1,0 +1,76 @@
+<?php if ($is_places) : ?>
+    <form id="placeForm" name="placeForm" class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-4" id="row_new" rel="new">
+                <div>
+                    <!--[if gte IE 10]><!-->
+                    <button id="upload_places_picture" onclick="$('#places_file').trigger('click');"
+                            type="button" class="add upload_places_picture btn color-blue">
+                        <i class="fa fa-camera-retro"></i>
+                        <?php echo __('Add an <br /><span class="bold">image</span>'); ?>
+                    </button>
+                    <!--<![endif]-->
+                </div>
+                <p id="uploader_logo_ie_description"
+                   style="display:none"><?php echo __('Add an <br /><span class="bold">image</span>'); ?></span></p>
+                <input id="places_file" class="uploader" style="display:none" type="file" name="files[]"
+                       data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+            </div>
+            <div class="col-sm-4">
+                <label for="title_page_<?php echo $this->getId(); ?>"><?php echo __('Title') ?>
+                    *</label>
+                <input type="text" name="title" id="title_page_<?php echo $this->getPosition(); ?>"
+                       value="<?php echo $page->getTitle(); ?>"
+                       placeholder="<?php echo __('Title') ?>"
+                       class="weblink_field input-flat required" rel="<?php echo $page->getId(); ?>"/>
+            </div>
+            <div class="col-sm-4">
+                <label
+                    for="subtitle_page_<?php echo $this->getId(); ?>"><?php echo __('Subtitle') ?></label>
+                <input type="text" name="content" id="subtitle_page_<?php echo $this->getId(); ?>"
+                       class="input-flat" placeholder="<?php echo __('Subtitle') ?>"
+                       value="<?php echo $page->getContent() ?>" rel="<?php echo $page->getId(); ?>"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-4">
+                <label for="cms_application_page_metadata_show_image"
+                       id="label_cms_application_page_metadata_show_image">
+                    <input type="checkbox" id="cms_application_page_metadata_show_image"
+                           name="metadata[show_image]"
+                           value="1"<?php if ($page->getMetadataValue('show_image')) : ?> checked="checked"<?php endif; ?> />
+                    <?php echo __("Display image in page") ?>
+                </label>
+            </div>
+            <div class="col-sm-4">
+                <label for="cms_application_page_metadata_show_titles"
+                       id="label_cms_application_page_metadata_show_titles">
+                    <input type="checkbox" id="cms_application_page_metadata_show_titles"
+                           name="metadata[show_titles]"
+                           value="1"<?php if ($page->getMetadataValue('show_titles')) : ?> checked="checked"<?php endif; ?> />
+                    <?php echo __("Display title and subtitle in page") ?>
+                </label>
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-4">
+                <div style="<?php echo (!$page->getPicture()) ? 'display:none;' : '' ?>"
+                     class="first-row-feature">
+                    <img id="places_picture" src="<?php echo $page->getPictureUrl(); ?>" width="130"/>
+                    <a href="javascript:void(0)" id="remove_places_picture">
+                        <i class="fa fa-times"></i>
+                    </a>
+                    <input id="picture_page_<?php echo $this->getId(); ?>" type="hidden" name="picture"
+                           value="<?php echo $page->getPicture(); ?>"/>
+                </div>
+            </div>
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4"></div>
+        </div>
+        <?php echo $this->getLayout()
+            ->addPartial('places_search_setup', 'Core_View_Default', 'cms/application/page/taginput.phtml')
+            ->setPage($page)
+            ->toHtml();?>
+    </form>
+<?php endif; ?>

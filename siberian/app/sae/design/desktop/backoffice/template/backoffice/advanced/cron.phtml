@@ -1,0 +1,257 @@
+
+<form ng-submit="save()" class="form-horizontal">
+    <sb-section title="'<?php echo addcslashes(__("General settings"), "'"); ?>'">
+
+        <div class="form-group">
+
+            <div class="col-md-12">
+                <?php echo __("If you are unable to install or run the cronjob on your hosting/server you can disable it.") ?>
+                <br />
+                <?php echo __("<b>Note</b>: sources & push will be sent immediately after their creation, scheduled push will not work & media optimization is disabled.") ?>
+                <br />
+                <?php echo __("<b>Note</b>: the cron scheduler minimum interval is 10 seconds, reducing the cron interval can increase your server load, be careful.") ?>
+                <br /><br />
+            </div>
+
+            <div class="col-md-6">
+                <label for="{{ configs.disable_cron.code }}">{{ configs.disable_cron.label }}</label>
+                <select id="configs.disable_cron.code" class="form-control" ng-model="configs.disable_cron.value">
+                    <option value="1"><?php echo __("Yes"); ?></option>
+                    <option value="0"><?php echo __("No"); ?></option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label for="{{ configs.cron_interval.code }}">{{ configs.cron_interval.label }}</label>
+                <select id="configs.cron_interval.code" class="form-control" ng-model="configs.cron_interval.value">
+                    <option value="10"><?php echo __("10 seconds"); ?></option>
+                    <option value="15"><?php echo __("15 seconds"); ?></option>
+                    <option value="20"><?php echo __("20 seconds"); ?></option>
+                    <option value="30"><?php echo __("30 seconds"); ?></option>
+                    <option value="60"><?php echo __("1 minute"); ?></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-6">
+                <label for="{{ configs.send_statistics.code }}">{{ configs.send_statistics.label }}</label>
+                <select id="configs.send_statistics.code" class="form-control" ng-model="configs.send_statistics.value">
+                    <option value="1"><?php echo __("Yes"); ?></option>
+                    <option value="0"><?php echo __("No"); ?></option>
+                </select>
+                <?php echo __("Statistics are used to improve the platform and help understanding usage of the apps builder.") ?>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+    </sb-section>
+</form>
+
+<div ng-if="configs.disable_cron.value == '0'">
+
+    <sb-section title="'<?php echo addcslashes(__("System tasks"), "'"); ?>'">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width:14%;"><?php echo __("UID") ?></th>
+                    <th style="width:20%;"><?php echo __("Name") ?></th>
+                    <th><?php echo __("Minute") ?></th>
+                    <th><?php echo __("Hour") ?></th>
+                    <th><?php echo __("Day of month") ?></th>
+                    <th><?php echo __("Month") ?></th>
+                    <th><?php echo __("Day of week") ?></th>
+                    <th><?php echo __("Active ?") ?></th>
+                    <th style="text-align:right;"><?php echo __("Actions") ?></th>
+                </tr>
+            </thead>
+            <tbody ng-repeat="system_task in system_tasks" ng-show="system_tasks.length">
+                <tr>
+                    <td>{{ system_task.command }}</td>
+                    <td>{{ system_task.name }}</td>
+                    <td>{{ system_task.minute }}</td>
+                    <td>{{ system_task.hour }}</td>
+                    <td>{{ system_task.month_day }}</td>
+                    <td>{{ system_task.month }}</td>
+                    <td>{{ system_task.week_day }}</td>
+                    <td ng-show="system_task.is_active == '1'"><?php echo __("Yes"); ?></td><td ng-show="system_task.is_active != '1'"><?php echo __("No"); ?></td>
+                    <td style="text-align:right;">
+                        <button ng-if="system_task.command == 'androidtools' && system_task.is_active != '1'" class="btn btn-xs btn-danger" ng-click="androidSdkRestart()"><?php echo __("Restart") ?></button>
+                        <button class="btn btn-xs btn-info" ng-click="system_task.show_info = !system_task.show_info"><?php echo __("Info") ?></button>
+                    </td>
+                </tr>
+                <tr ng-show="system_task.show_info">
+                    <td colspan="9">
+                        <table class="info-table">
+                            <tr ng-show="system_task.more_info.length">
+                                <td><b><?php echo __("Note:") ?></b></td>
+                                <td><b>{{ system_task.more_info }}</b></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 160px;"><?php echo __("Last trigger") ?></td>
+                                <td>{{ system_task.last_trigger }}</td>
+                            </tr>
+                            <tr>
+                                <td><?php echo __("Last success") ?></td>
+                                <td>{{ system_task.last_success }}</td>
+                            </tr>
+                            <tr>
+                                <td><?php echo __("Last failure") ?></td>
+                                <td>{{ system_task.last_fail }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody ng-show="!system_tasks.length">
+                <tr>
+                    <td colspan="9"><?php echo __("No system tasks") ?></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </sb-section>
+
+    <sb-section title="'<?php echo addcslashes(__("Module/User tasks"), "'"); ?>'">
+        <table class="table">
+            <thead>
+            <tr>
+                <th style="width:14%;"><?php echo __("UID") ?></th>
+                <th style="width:20%;"><?php echo __("Name") ?></th>
+                <th><?php echo __("Minute") ?></th>
+                <th><?php echo __("Hour") ?></th>
+                <th><?php echo __("Day of month") ?></th>
+                <th><?php echo __("Month") ?></th>
+                <th><?php echo __("Day of week") ?></th>
+                <th><?php echo __("Active ?") ?></th>
+                <th style="text-align:right;"><?php echo __("Actions") ?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="task in tasks" ng-show="tasks.length">
+                <td>{{ task.command }}</td>
+                <td>{{ task.name }}</td>
+                <td>{{ task.minute }}</td>
+                <td>{{ task.hour }}</td>
+                <td>{{ task.month_day }}</td>
+                <td>{{ task.month }}</td>
+                <td>{{ task.week_day }}</td>
+                <td ng-show="task.is_active == '1'"><?php echo __("Yes"); ?></td><td ng-show="task.is_active != '1'"><?php echo __("No"); ?></td>
+                <td style="text-align:right;"></td>
+            </tr>
+            <tr ng-show="!tasks.length">
+                <td colspan="9"><?php echo __("No module/user tasks") ?></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </sb-section>
+
+    <sb-section title="'<?php echo addcslashes(__("APK Queue status"), "'"); ?>'">
+        <table class="table">
+            <thead>
+            <tr>
+                <th style="width:60px;"><?php echo __("Id") ?></th>
+                <th style="width:14%;"><?php echo __("App name") ?></th>
+                <th style="width:20%;"><?php echo __("Build status") ?></th>
+                <th><?php echo __("Build time (in seconds)") ?></th>
+                <th><?php echo __("Creation date") ?></th>
+                <th style="text-align:right;"><?php echo __("Actions") ?></th>
+            </tr>
+            </thead>
+            <tbody ng-repeat="apk in apk_queue" ng-show="apk_queue.length">
+            <tr class="color-{{ apk.status_code }}" ng-class="{ 'color-stuck': apk.stuck }">
+                <td>{{ apk.app_id }}</td>
+                <td>{{ apk.name }}</td>
+                <td>{{ apk.status }}</td>
+                <td>
+                    <span ng-if="apk.build_time < 1400000000">{{ apk.build_time }}</span>
+                    <span ng-if="apk.build_time > 1400000000">-</span>
+                </td>
+                <td>{{ apk.created_at }}</td>
+                <td style="text-align:right;">
+                    <a href="{{ apk.path }}" target="_self" class="btn btn-xs btn-info" ng-if="apk.path"><?php echo __("Download") ?></a>
+                    <button class="btn btn-xs btn-info" ng-click="apk.show_info = !apk.show_info"><?php echo __("Log") ?></button>
+                </td>
+            </tr>
+            <tr ng-show="apk.show_info">
+                <td colspan="6" style="padding: 0;">
+                    <div class="build-log">
+                        <pre><b><?php echo __("Complete build log") ?></b><br />{{ apk.log }}</pre>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+            <tbody ng-show="!apk_queue.length">
+                <tr>
+                    <td colspan="6"><?php echo __("APK Queue empty") ?></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </sb-section>
+
+    <sb-section title="'<?php echo addcslashes(__("Source Queue status"), "'"); ?>'">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width:60px;"><?php echo __("Id") ?></th>
+                    <th style="width:14%;"><?php echo __("App name") ?></th>
+                    <th style="width:20%;"><?php echo __("Build status") ?></th>
+                    <th><?php echo __("Build time (in seconds)") ?></th>
+                    <th><?php echo __("Creation date") ?></th>
+                    <th style="text-align:right;"><?php echo __("Actions") ?></th>
+                </tr>
+            </thead>
+            <tbody ng-repeat="source in source_queue" ng-show="source_queue.length">
+                <tr class="color-{{ source.status_code }}" ng-class="{ 'color-stuck': source.stuck }">
+                    <td>{{ source.app_id }}</td>
+                    <td>{{ source.name }}</td>
+                    <td>{{ source.status }}</td>
+                    <td>
+                        <span ng-if="source.build_time < 1400000000">{{ source.build_time }}</span>
+                        <span ng-if="source.build_time > 1400000000">-</span>
+                    </td>
+                    <td>{{ source.created_at }}</td>
+                    <td style="text-align:right;">
+                        <a href="{{ source.path }}" target="_self" class="btn btn-xs btn-info" ng-if="source.path"><?php echo __("Download") ?></a>
+                        <span ng-if="!source.path">-</span>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody ng-show="!source_queue.length">
+                <tr>
+                    <td colspan="5"><?php echo __("Source Queue empty") ?></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </sb-section>
+
+</div>
+
+<style type="text/css">
+    table.info-table {
+        border-left: 2px solid #ddd;
+    }
+
+    table.info-table tr td {
+        padding: 2px 8px;
+    }
+
+    div.build-log pre {
+        background-color: #f0f0f0;
+        border: 0;
+        border-radius: 0px;
+        border-left: 3px solid #ddd;
+        max-height: 400px;
+        margin: 0;
+    }
+</style>

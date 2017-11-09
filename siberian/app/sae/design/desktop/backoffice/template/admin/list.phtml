@@ -1,0 +1,54 @@
+<sb-section title="'<?php echo addslashes(__("List of your users")); ?>'" button="button">
+    <br />
+    <div class="form-group">
+        <label for="filter"><?php echo __("Search"); ?></label>
+        <input type="text" id="filter" class="form-control" ng-model="urlParams.filter" placeholder="<?php echo __("Search"); ?>" />
+    </div>
+    <br />
+    <table class="table">
+        <col width="5%" />
+        <col width="34%" />
+        <col width="25%" />
+        <col width="25%" />
+        <col width="9%" />
+        <col width="12%" />
+        <thead>
+            <tr>
+                <th class="pointer" ng-class="{'pointer-up': urlParams.order == 'admin_id' && urlParams.by, 'pointer-down': urlParams.order == 'admin_id' && !urlParams.by}" ng-click="urlParams.order = 'admin_id'; urlParams.by = !urlParams.by"><?php echo __("Id"); ?></th>
+                <th class="pointer" ng-class="{'pointer-up': urlParams.order == 'email' && urlParams.by, 'pointer-down': urlParams.order == 'email' && !urlParams.by}" ng-click="urlParams.order = 'email'; urlParams.by = !urlParams.by"><?php echo __("Email"); ?></th>
+                <th class="pointer" ng-class="{'pointer-up': urlParams.order == 'firstname' && urlParams.by, 'pointer-down': urlParams.order == 'firstname' && !urlParams.by}" ng-click="urlParams.order = 'firstname'; urlParams.by = !urlParams.by"><?php echo __("Name"); ?></th>
+                <th class="pointer" ng-class="{'pointer-up': urlParams.order == 'company' && urlParams.by, 'pointer-down': urlParams.order == 'company' && !urlParams.by}" ng-click="urlParams.order = 'company'; urlParams.by = !urlParams.by"><?php echo __("Company"); ?></th>
+                <th class="pointer" ng-class="{'pointer-up': urlParams.order == 'created_at' && urlParams.by, 'pointer-down': urlParams.order == 'created_at' && !urlParams.by}" ng-click="urlParams.order = 'created_at'; urlParams.by = !urlParams.by"><?php echo __("Created At"); ?></th>
+                <th><?php echo __("Actions"); ?></th>
+            </tr>
+        </thead>
+        <tbody >
+            <tr ng-repeat="admin in admins">
+                <td>{{ admin.id }}</td>
+                <td>{{ admin.email }}</td>
+                <td>{{ admin.name }}</td>
+                <td>{{ admin.company }}</td>
+                <td>{{ admin.created_at }}</td>
+                <td>
+                    <a href="<?php echo $this->getUrl("admin/backoffice_edit"); ?>/admin_id/{{ admin.id }}" title="<?php echo __("Edit"); ?>"><i class="fa fa-edit"></i></a>
+                    <a href="<?php echo $this->getUrl("admin/backoffice_list/loginas"); ?>/key/{{ admin.key }}/admin_id/{{ admin.id }}" target="_blank" title="<?php echo __("Log-in As"); ?>"><i class="fa fa-user"></i></a>
+                    <a href="#" ng-click="deleteAdmin(admin)" title="<?php echo __("Delete"); ?>"><i class="fa fa-remove"></i></a>
+                </td>
+            </tr>
+            <tr ng-show="!admins.length">
+                <td colspan="5" class="a-center"><?php echo __("You don't have any users yet"); ?></td>
+            </tr>
+        </tbody>
+    </table>
+    <br />
+    <bgf-pagination
+        collection="admins"
+        page="page"
+        per-page="perPage"
+        link-group-size="2"
+        client-limit="clientLimit"
+        template-url="<?php echo $this->getUrl("/backoffice/paginate/template") ?>"
+        url="'<?php echo $this->getUrl("/admin/backoffice_list/findall") ?>'"
+        url-params="urlParams">
+    </bgf-pagination>
+</sb-section>

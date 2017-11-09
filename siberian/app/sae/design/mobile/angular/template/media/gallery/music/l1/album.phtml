@@ -1,0 +1,46 @@
+<div class="has_header media-gallery-music-common" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_('Back' ) ?>'" title="album.name" message="message" right-button="header_right_button"></sb-header>
+
+    <div class="presentation">
+
+        <div class="cover-area">
+            <img class="cover" ng-src="{{ album.artworkUrl }}">
+        </div>
+
+        <div class="description-area">
+            <div class="playlist-name">{{ album.name }}</div>
+            <div class="artist-name">{{ album.artistName }}</div>
+            <div class="metrics">
+                {{ album.totalTracks }}
+                <span ng-switch="album.totalTracks">
+                    <span ng-switch-when="1"><?php echo $this->_('track') ?></span>
+                    <span ng-switch-default><?php echo $this->_('tracks') ?></span>
+                </span>
+                <span>- {{ album.totalDuration }}</span>
+            </div>
+
+            <a class="read-all-button" ng-click="play(0)" ng-show="album.tracks"><?php echo $this->_('Read all') ?></a>
+        </div>
+
+    </div>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="clear"></div>
+    <div class="scrollable_content">
+        <div class="for_ads_banner">
+            <table class="tracks-list truncated-table">
+                <tr class="track-details" ng-repeat="track in album.tracks" ng-click="play($index)">
+                    <td class="track-number">{{ $index + 1 | numberFixedLen:2 }}</td>
+                    <td class="track-description">
+                        <div class="track-name truncated-content">{{ track.name }}</div>
+                        <div class="artist-name truncated-content">{{ track.artistName }}</div>
+                    </td>
+                    <td class="track-duration">{{ track.formatedDuration }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</div>

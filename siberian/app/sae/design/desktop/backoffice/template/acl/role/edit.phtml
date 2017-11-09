@@ -1,0 +1,59 @@
+<form class="form-horizontal" ng-submit="save()">
+    <sb-section title="section_title" button="button">
+        <br />
+            <div class="form-group">
+                <div class="col-md-3">
+                    <label for="role_code"><?php echo __("Code"); ?></label>
+                </div>
+                <div class="col-md-9">
+                    <label for="role_label"><?php echo __("Label"); ?></label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <input type="text" id="role_code" class="form-control" ng-model="role.code" />
+                </div>
+                <div class="col-md-9">
+                    <input type="text" id="role_label" class="form-control" ng-model="role.label" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <label for="default_role">
+                        <input type="checkbox" id="default_role" ng-model="role.default"/>
+                        <?php echo __("This role will be the default one for the whole platform."); ?>
+                    </label>
+                </div>
+            </div>
+    </sb-section>
+    
+    <sb-section title="'<?php echo addslashes(__("Manage access")); ?>'" button="button">
+        <ul class="list-group">
+            <li ng-repeat="resource in resources" class="list-group-item" ng-include="'role/resources/list.html'" />
+        </ul>
+    </sb-section>
+
+    <div class="form-group">
+        <div class="col-md-12 text-right">
+            <button type="submit" class="btn btn-primary"><?php echo __("Save"); ?></button>
+        </div>
+    </div>
+
+    <script type="text/ng-template" id="role/resources/list.html">
+
+        <div class="checkbox">
+            <i class="fa pointer bold" ng-click="resource.children_are_visible = !resource.children_are_visible" ng-if="resource.children.length > 0" ng-class="{'fa-plus': !resource.children_are_visible, 'fa-minus': resource.children_are_visible }"></i>
+            <label ng-class="{'text-danger': !resource.is_allowed,'text-success': resource.is_allowed}">
+                <input type="checkbox" ng-checked="resource.is_allowed" ng-model="resource.is_allowed" ng-change="toggleIsAllowed(resource)"/>
+                <span ng-if="resource.label.length">{{ resource.label }}</span>
+                <span ng-if="!resource.label.length">{{ resource.code }}</span>
+            </label>
+        </div>
+        
+        <ul class="list-group list-child" ng-if="resource.children" ng-show="resource.children_are_visible">
+            <li ng-repeat="resource in resource.children" class="list-group-item" ng-include="'role/resources/list.html'" />
+        </ul>
+
+    </script>
+
+</form>

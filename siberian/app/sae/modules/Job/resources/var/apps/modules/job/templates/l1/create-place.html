@@ -1,0 +1,69 @@
+<ion-modal-view sb-page-background class="layout modal slide-top">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear" ng-click="closeCreateModal();">{{ "Close" | translate }}</button>
+        </div>
+        <h1 class="title">{{ "Create position" | translate }}</h1>
+    </ion-header-bar>
+
+    <ion-content>
+
+
+        <div class="list job-manage" ng-class="{'card' : card_design}">
+
+            <div class="item item-divider item-divider-custom job-small-text job-line-return">
+                *{{ "For more options use the editor" | translate }}
+            </div>
+
+            <label class="item item-input item-custom item-stacked-label">
+                <span class="input-label">{{ "Name" | translate }} *</span>
+                <input type="text" placeholder="{{ 'Name' | translate }}" ng-model="place_create.name">
+            </label>
+            <label class="item item-input item-custom item-stacked-label">
+                <span class="input-label">{{ "Description" | translate }} *</span>
+                <textarea placeholder="{{ 'Description' | translate }}" ng-model="place_create.description" style="height: 180px;"></textarea>
+            </label>
+            <label class="item item-input item-custom item-stacked-label">
+                <span class="input-label">{{ "Address" | translate }} *</span>
+                <input type="text" placeholder="{{ 'Address' | translate }}" ng-model="place_create.location">
+            </label>
+            <label class="item item-input item-custom item-stacked-label">
+                <span class="input-label">{{ "Email" | translate }} *</span>
+                <input type="text" placeholder="{{ 'Email' | translate }}" ng-model="place_create.email">
+            </label>
+            <label class="item item-input item-custom item-stacked-label">
+                <span class="input-label">{{ "Contract type" | translate }}</span>
+                <input type="text" placeholder="{{ 'Contract type' | translate }}" ng-model="place_create.contract_type">
+            </label>
+            <label class="item item-input item-custom item-stacked-label">
+                <span class="input-label">{{ "Income from:" | translate }}</span>
+                <input type="text" placeholder="{{ 'Income from:' | translate }}" ng-model="place_create.income_from">
+            </label>
+            <label class="item item-input item-custom item-stacked-label">
+                <span class="input-label">{{ "to:" | translate }}</span>
+                <input type="text" placeholder="{{ 'to:' | translate }}" ng-model="place_create.income_to">
+            </label>
+            <label class="item item-input item-custom item-select item-stacked-label">
+                <span class="input-label">{{ "Category" | translate }}</span>
+                <select ng-model="place_create.category_id">
+                    <option ng-repeat="category in categories" value="{{ category.id }}">{{ category.title }}</option>
+                </select>
+            </label>
+            <label class="item item-input item-custom item-stacked-label">
+                <span class="input-label">{{ "Keywords, coma separated" | translate }}</span>
+                <input type="text" placeholder="{{ 'Keywords' | translate }}" ng-model="place_create.keywords">
+            </label>
+
+            <ion-checkbox class="item-custom" ng-model="place_create.is_active">{{ "Is active" | translate }}</ion-checkbox>
+        </div>
+
+        <div class="job-padding">
+            <button class="button button-block button-custom item-icon-left" ng-click="submitCreate();">
+                {{ "Publish" | translate }}
+            </button>
+        </div>
+
+    </ion-content>
+</ion-modal-view>
+

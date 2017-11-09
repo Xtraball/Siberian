@@ -1,0 +1,407 @@
+<?php $application = $this->getApplication(); ?>
+<?php $music = new Media_Model_Gallery_Music() ?>
+<?php $option_value = $this->getOptionValue(); ?>
+
+<h3 class="title-editor border-blue text-center">
+    <?php echo $this->_('Soundcloud') ?>
+</h3>
+<div class="container-fluid">
+    <div id="soundcloud_init" class="row first-row-feature">
+        <div class="col-md-12">
+            <button class="btn color-blue" type="button" id="soundcloud_connect">
+                <?php echo $this->_('Login') ?>
+            </button>
+            <button class="btn color-blue" type="button" id="soundcloud_search">
+                <?php echo $this->_('Search') ?>
+            </button>
+        </div>
+    </div>
+    <div id="soundcloud_connect_cont" class="row">
+        <div class="col-md-12">
+            <hr class="color-blue"/>
+            <div class="playlist_select_cont">
+                <?php echo $this->_('Logged in as') ?> <span id="soundcloud_name"></span>
+                <br/><br/>
+                <select id="playlist_select" class="styled-select color-blue">
+                </select>
+            </div>
+        </div>
+    </div>
+    <div id="soundcloud_search_cont" style="display: none;">
+        <hr class="border-blue"/>
+        <div class="row">
+            <div class="col-md-12">
+                <button type="button" class="select_soundcloud_type btn color-blue" rel="playlists">
+                    <?php echo $this->_('Playlist') ?>
+                </button>
+                <button type="button" class="select_soundcloud_type btn color-blue" rel="tracks">
+                    <?php echo $this->_('Title') ?>
+                </button>
+            </div>
+        </div>
+        <div id="table_list_playlist_new" class="list container-fluid margin-top-10 first-row-feature">
+            <div class="row">
+                <div class="col-sm-4">
+                    <input type="text" class="input-flat" id="soundcloud_search_input" name="search_term"/>
+                </div>
+                <div class="col-sm-4">
+                    <button class="search_soundcloud btn color-blue" type="button"><?php echo $this->_('Search') ?></button>
+                    <div class="loader" id="search_loader" alt="Loading" title="Loading" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="collectionId" value="" id="itunes_search_collectionId" />
+        <input type="hidden" name="artistId" value="" id="itunes_search_artistId" />
+        <input type="hidden" name="entity" value="musicArtist" id="itunes_search_entity" />
+    </div>
+
+    <div id="soundcloud_results" class="search_results" style="display:none">
+        <p class="left" id="select">
+            <label for="select_all">
+                <input type="checkbox" value="select_all" id="select_all" data-toggle="checkbox" class="color-blue checkbox">
+                <?php echo $this->_('Select all') ?>
+            </label>
+        </p>
+        <ul id="results" class="row"></ul>
+        <div id="pagination" class="pull-right">
+            <button id="previous" class="change_page validate btn color-blue" type="button"><i class="fa fa-chevron-left"></i></button>
+            <button id="next" class="change_page validate btn color-blue" type="button"><i class="fa fa-chevron-right"></i></button>
+        </div>
+        <button onclick="$('#save_soundcloud').submit();" class="pull-right save_selection btn btn-block color-blue" type="button"><?php echo $this->_('Add') ?></button>
+    </div>
+    <form style="display:none" id="save_soundcloud" action="<?php echo $this->getUrl('media/application_gallery_music/savesoundcloud'); ?>" method="post">
+        <input type="hidden" name="gallery_id" value="<?php echo $this->getGalleryId() ?>">
+        <input type="hidden" name="value_id" value="<?php echo $option_value->getId() ?>">
+        <div id="save_soundcloud_form_elements">
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+
+    var current_page = 1;
+    var item_per_page = 7;
+    var soundcloud_redirect_url = '<?php echo $this->getUrl('media/application_gallery_music/soundcloudcallback'); ?>';
+
+    function cleanResults(results, type) {
+        var cleaned = [];
+        if(type == 'playlist') {
+            $.each(results, function(key, playlist) {
+                if(playlist.track_count > 0 && playlist.streamable == true) cleaned.push(playlist);
+            });
+        }
+        if(type == 'track') {
+            $.each(results, function(key, track) {
+                if(track.streamable == true) cleaned.push(track);
+            });
+        }
+        return cleaned;
+    }
+
+    //Bouton recherche principal
+    $('#soundcloud_search').click(function() {
+        clearForm();
+        $('#soundcloud_connect').removeClass('active');
+        $(this).addClass('active');
+        $('#soundcloud_connect_cont').slideUp(function(){
+            $('#soundcloud_search_cont').slideDown();
+        });
+        $('#soundcloud_results').slideUp(function(){
+            $('#soundcloud_results #results').html('');
+        });
+    });
+
+    //Bouton connect principal
+    $('#soundcloud_connect').click(function(){
+        clearForm();
+        $('#soundcloud_results').slideUp(function(){
+            $('#soundcloud_results #results').html('');
+        });
+        $('#soundcloud_search').removeClass('active');
+        $(this).addClass('active');
+        $('#soundcloud_search_cont').slideUp();
+
+        //Connect
+        SC.initialize({
+            client_id: '<?php echo $music->getSoundcloudId(); ?>',
+            redirect_uri: soundcloud_redirect_url
+        });
+
+        //Auth popup
+        SC.connect(function() {
+            SC.get('/me', function(me) {
+                if(me.playlist_count != 0) {
+                    SC.get('/me/playlists', function(playlists) {
+                        var tracks = [];
+                        playlists = cleanResults(playlists, 'playlist');
+                        $.each(playlists, function(key, playlist) {
+                            if(playlist.track_count > 0 && playlist.streamable == true) {
+                                $('#playlist_select').append('<option value="'+playlist.id+'">'+playlist.title+' <i>('+playlist.track_count+')</i></option>');
+                                if(tracks.length == 0) {
+                                    tracks = playlist.tracks;
+                                }
+                            }
+                        });
+                        if(tracks.length > 0) {
+                            $.each(tracks, function(key, track) {
+                                //List tracks
+                                var song_element = '<li class="song" data-song="'+track.id+'" rel="selected">';
+                                if(!track.artwork_url) {
+                                    track.artwork_url = '<?php echo Media_Model_Library_Image::getImagePathTo('musics/default_album.jpg') ?>';
+                                }
+                                song_element += '<p><img src="'+track.artwork_url+'" width="98" height="98" /></p>';
+                                song_element += '<p class="album_infos">';
+                                if(track.title.length > 30) {
+                                    track.title = track.title.substr(0,28)+'...';
+                                }
+                                song_element += '<span class="song_title">'+track.title+'</span>';
+                                song_element += '<span class="song_artist">'+track.user.username+'</span><br/>';
+                                song_element += '</p>';
+                                song_element += '<i class="fa fa-circle-o"></i>';
+                                song_element += '</li>';
+                                $('#soundcloud_results #results').append(song_element);
+                            });
+                            $('#soundcloud_results #results').show();
+                            $('#soundcloud_results').slideDown();
+                            createPagination();
+                            if(tracks.length > item_per_page) {
+                                $('#soundcloud_results #results').width(results.length/120);
+                            }
+                        }
+                        $('#playlist_select').dropkick({
+                            change: function() {
+                                $('#playlist_select').change();
+                            }
+                        });
+                        $('#playlist_select').show();
+                    });
+                }
+                $('#soundcloud_name').html(me.username);
+                $('#soundcloud_connect_cont').slideDown();
+            });
+        });
+    });
+
+    //Sélection playlist menu déroulant
+    $('#playlist_select').change(function() {
+        var $selected = $(this).find(":selected");
+        clearForm();
+        SC.initialize({
+            client_id: '<?php echo $music->getSoundcloudId(); ?>',
+            redirect_uri: soundcloud_redirect_url
+        });
+        SC.get('/playlists/'+$selected.val(), function(playlist) {
+            $('#soundcloud_results').slideUp(function(){
+                $('#soundcloud_results #results').html('');
+                var tracks = cleanResults(playlist.tracks, 'track');
+                $.each(tracks, function(key, track) {
+                    var song_element = '<li class="song" data-song="'+track.id+'" rel="selected">';
+                    if(!track.artwork_url) {
+                        track.artwork_url = '<?php echo Media_Model_Library_Image::getImagePathTo('musics/default_album.jpg') ?>';
+                    }
+                    song_element += '<p><img src="'+track.artwork_url+'" width="98" height="98" /></p>';
+                    song_element += '<p class="album_infos">';
+                    if(track.title.length > 30) {
+                        track.title = track.title.substr(0,28)+'...';
+                    }
+                    song_element += '<span class="song_title">'+track.title+'</span>';
+                    song_element += '<span class="song_artist">'+track.user.username+'</span><br/>';
+                    song_element += '</p>';
+                    song_element += '<i class="fa fa-circle-o"></i>';
+                    song_element += '</li>';
+                    $('#soundcloud_results #results').append(song_element);
+                });
+                $('#soundcloud_results').slideDown();
+            });
+        });
+    });
+
+    $('.select_soundcloud_type').click(function(){
+        $(this).addClass('active');
+        $('.select_soundcloud_type').removeClass('active');
+        $('#itunes_search_entity').val($(this).attr('rel'));
+        $(this).addClass('active');
+        $('#soundcloud_results').slideUp(function(){
+            $('#soundcloud_results #results').html('');
+        });
+    });
+
+    //Recherche playlist ou track
+    $('.search_soundcloud').click(function() {
+        clearForm();
+        $(this).addClass('active');
+        $('#soundcloud_results').slideUp(function(){
+            $('#soundcloud_results #results').html('');
+        });
+        current_page = 1;
+        var type = $('.select_soundcloud_type.active').attr('rel');
+        var query = $('#soundcloud_search_input').val();
+        $('#search_loader').fadeIn();
+        SC.initialize({
+            client_id: '<?php echo $music->getSoundcloudId(); ?>',
+            redirect_uri: soundcloud_redirect_url
+        });
+        SC.get('/'+type, {q: query, limit: 100}, function(results) {
+            $('#search_loader').fadeOut();
+            if(type == 'playlists') {
+                results = cleanResults(results, 'playlist');
+                $.each(results, function(key, playlist) {
+                    if(playlist.track_count > 0 && playlist.streamable == true) {
+                        var album_element = '<li class="album" data-album="'+playlist.id+'" rel="">';
+                        album_element += '<p><img src="<?php echo Media_Model_Library_Image::getImagePathTo('musics/default_album.jpg') ?>" width="98" height="98" /></p>';
+                        album_element += '<p class="album_infos">';
+                        var album_name = playlist.title;
+                        if(album_name.length > 30) {
+                            album_name = album_name.substr(0,28)+'...';
+                        }
+                        album_element += '<span class="album_title">'+album_name+'</span>';
+                        if(playlist.track_count == 1) {
+                            var tracks = '<?php echo $this->_('title') ?>';
+                        } else {
+                            var tracks = '<?php echo $this->_('titles') ?>';
+                        }
+                        album_element += '<span class="album_artist">'+playlist.user.username+'</span><br/>';
+                        album_element += '<span class="album_tracks">'+playlist.track_count+' '+tracks+'</span></br>';
+                        var date = new Date(playlist.created_at);
+                        album_element += '<span class="album_date">'+date.getDay()+'/'+date.getMonth()+'/'+date.getFullYear()+'</span>';
+                        album_element += '</p>';
+                        album_element += '<i class="fa fa-circle-o"></i>';
+                        album_element += '</li>';
+                        $('#soundcloud_results #results').append(album_element);
+                    }
+                });
+            }
+            if(type == 'tracks') {
+                results = cleanResults(results, 'track');
+                $.each(results, function(key, track) {
+                    var song_element = '<li class="song" data-song="'+track.id+'" rel="">';
+                    if(!track.artwork_url) {
+                        track.artwork_url = '<?php echo Media_Model_Library_Image::getImagePathTo('musics/default_album.jpg') ?>';
+                    }
+                    song_element += '<p><img src="'+track.artwork_url+'" width="98" height="98" /></p>';
+                    song_element += '<p class="album_infos">';
+                    if(track.title.length > 30) {
+                        track.title = track.title.substr(0,28)+'...';
+                    }
+                    song_element += '<span class="song_title">'+track.title+'</span>';
+                    song_element += '<span class="song_artist">'+track.user.username+'</span><br/>';
+                    song_element += '</p>';
+                    song_element += '<i class="fa fa-circle-o"></i>';
+                    song_element += '</li>';
+                    $('#soundcloud_results #results').append(song_element);
+                });
+            }
+            if(results.length > item_per_page) {
+                $('#soundcloud_results #results').width(results.length*130);
+            }
+            $('#soundcloud_results #results').show();
+            $('#soundcloud_results').slideDown();
+        });
+    });
+
+    function clearForm() {
+        $('#save_soundcloud_form_elements').html('');
+    }
+
+    function createForm() {
+        clearForm();
+        if($('#soundcloud_connect_cont').is(':visible')) {
+            var $selected = $('#playlist_select').find(":selected");
+            $('form#save_soundcloud #save_soundcloud_form_elements').append('<input type="hidden" name="playlists[]" value="'+$selected.val()+'"/>');
+        }
+        $('ul#results li[rel="selected"]').each(function() {
+            if($(this).attr('data-album') != undefined) {
+                var album_id = $(this).attr('data-album');
+                $('form#save_soundcloud #save_soundcloud_form_elements').append('<input type="hidden" name="albums[]" value="'+album_id+'"/>');
+            }
+            if($(this).attr('data-song') != undefined) {
+                var song_id = $(this).attr('data-song');
+                $('form#save_soundcloud #save_soundcloud_form_elements').append('<input type="hidden" name="songs[]" value="'+song_id+'"/>');
+            }
+        });
+    }
+
+    $('#soundcloud_search_input').keypress(function(e) {
+        if(e.keyCode == 13) {
+            $('.search_soundcloud').click();
+            return false;
+        }
+    });
+
+    //Formulaire principal
+    $('form#save_soundcloud').submit(function(){
+        createForm();
+        reload($('#save_soundcloud'), $('#save_soundcloud').attr('action'), true, function(datas) {
+            if(datas.success) {
+                $('#album_edit').append(datas.content);
+                iframe.f.reload();
+                reloadPP();
+                $.prettyPhoto.close();
+            }
+        });
+        return false;
+    });
+
+    $('#soundcloud_results .change_page').click(function() {
+        if($(this).hasClass('active')) return false;
+        var max_page = Math.ceil($('#soundcloud_results #results li').length/item_per_page);
+        var e = $(this);
+        if($(this).attr('id') == 'previous') {
+            var left = '+=910';
+            current_page--;
+        } else {
+            var left = '-=910';
+            current_page++;
+        }
+        $('#soundcloud_results #results').animate({
+            left: left
+        }, 200, function() {
+            if(e.attr('id') == 'next') {
+                $('#soundcloud_results .change_page#previous').removeClass('active');
+            }
+            if(e.attr('id') == 'previous') {
+                $('#soundcloud_results .change_page#next').removeClass('active');
+            }
+            if(current_page == 1) {
+                $('#soundcloud_results .change_page#previous').addClass('active');
+            }
+            if(current_page >= max_page) {
+                $('#soundcloud_results .change_page#next').addClass('active');
+            }
+        });
+    });
+
+    function createPagination() {
+        $('#soundcloud_results #results').css('left', '0px');
+        $('#soundcloud_results .change_page').addClass('active');
+        $('#soundcloud_results .change_page#next').removeClass('active');
+        current_page == 1;
+    }
+</script>
+
+<style type="text/css">
+    #soundcloud_results {
+        margin-top: 30px;
+    }
+    #soundcloud_connect_cont {
+        display:none;
+    }
+    #soundcloud_connect_cont .disconnect {
+        margin-top: 30px;
+    }
+    select#playlist_select {
+        display: none;
+    }
+    .search_results #results{
+        padding-top: 10px;
+    }
+    .search_results #results li.album p:first-child, .search_results #results li.song p:first-child {
+        width:98px;
+        height:98px;
+        margin:0;
+        border: solid 1px;
+        border-radius : 8px;
+    }
+    .search_results #results li.album p:first-child img, .search_results #results li.song p:first-child img {
+        border-radius : 8px;
+    }
+</style>

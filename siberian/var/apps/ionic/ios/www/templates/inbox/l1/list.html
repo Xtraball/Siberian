@@ -1,0 +1,46 @@
+<ion-view sb-page-background cache-view="false">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <div sb-tooltip collection="tooltip.collection" current-item="tooltip.current_item" button-label="tooltip.button_label" on-item-clicked="setShowRecent(object)" ng-if="tooltip"></div>
+        <button ng-click="right_button.action()" class="button button-clear header-item" ng-if="right_button">
+            <span class="back-text"><span class="default-title">{{ right_button.label }}</span></span>
+            <i class="icon" ng-class="right_button.icon"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="list" ng-show="!is_loading">
+            <div class="item item-custom" ng-click="showItem(item)" ng-repeat="item in collection" ng-class="{'item-thumbnail-left': item.picture}">
+                <img ng-src="{{ item.picture }}" ng-if="item.picture" />
+                <h2>{{ item.title }}</h2>
+                <p class="text-align-right" ng-if="item.send_at">
+                    <i class="ion-ios-calendar-outline"></i>
+                    {{ item.send_at }}
+                </p>
+            </div>
+            <div class="item text-center item-custom" ng-if="!collection.length && is_logged_in">
+                {{ "No items found" | translate }}
+            </div>
+            <div ng-show="!is_logged_in" class="item item-custom item-text-wrap">
+                <p class="text-justify">
+                    {{ "You have to be connected to use the Inbox. Please connect to your account by clicking on the button below." | translate }}
+                </p>
+                <p class="text-center">
+                    <button class="button button-block button-custom" ng-click="login()">{{ "Connect me!" | translate }}</button>
+                </p>
+            </div>
+        </div>
+
+        <ion-infinite-scroll ng-if="can_load_older_posts"
+                             on-infinite="loadContent()"
+                             immediate-check="false"
+                             distance="10%">
+        </ion-infinite-scroll>
+
+    </ion-content>
+</ion-view>

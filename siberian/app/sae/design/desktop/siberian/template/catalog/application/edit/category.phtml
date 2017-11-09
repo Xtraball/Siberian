@@ -1,0 +1,75 @@
+<?php $category = $this->getCategory(); ?>
+<?php $products = array(); ?>
+<div id="category_<?php echo $category->getId(); ?>" class="category inner_content">
+    <div class="details">
+        <a class="left sort_category"><i class="icon-move"></i></a>
+        <div id="category_details_<?php echo $category->getId(); ?>" class="name left">
+            <input type="text" id="main_category_name_<?php echo $category->getId(); ?>" class="main_category_name input area no-background" name="name" rel="<?php echo $category->getId(); ?>" value="<?php echo $category->getName(); ?>" />
+            <input type="hidden" name="category_id" value="<?php echo $category->getId(); ?>" />
+            <input type="hidden" name="value_id" value="<?php echo $this->getOptionValue()->getId(); ?>" />
+        </div>
+        <div class="actions left">
+            <div class="add_subcategory left">
+                <div>
+                    <button type="button" data-tip="29" onclick="subcategory.add(<?php echo $category->getId(); ?>);" class="as-link">+ <?php echo $this->_('Sub-category'); ?></button>
+                </div>
+            </div>
+        </div>
+        <div class="right"><a href="javascript:category.remove('<?php echo $category->getId(); ?>');" class="delete_category"><i class="icon-remove"></i></a></div>
+        <div class="clear"></div>
+        <hr />
+    </div>
+    <div class="subcategories relative" <?php if($category->getChildren()->count() == 0) : ?> style="display:none;"<?php endif; ?>>
+        <ul id="subcategories_all_<?php echo $category->getId(); ?>" class="list subcategories_list left">
+            <li id="row_all_<?php echo $category->getId() ?>" class="subcategory">
+                <div class="subcategory_actions relative">
+                    <a class="label_subcategory_name" href="javascript:void(0);" parent_id="<?php echo $category->getId() ?>" category_id="all"><?php echo $this->_('All'); ?></a>
+                    <div class="clear"></div>
+                </div>
+            </li>
+        </ul>
+        <ul id="subcategories_<?php echo $category->getId(); ?>" class="list subcategories_list">
+        <?php if($category->getChildren()->count() > 0) : ?>
+            <?php foreach($category->getChildren() as $child) : ?>
+            <?php echo $this->getLayout()
+                    ->addPartial('subcategory_'.$child->getId(), 'admin_view_default', 'catalog/application/edit/category/subcategory.phtml')
+                    ->setCategory($category)
+                    ->setSubcategory($child)
+                    ->setOptionValue($this->getOptionValue())
+                    ->toHtml()
+                ;
+            ?>
+            <?php if($child->getProducts()) : ?>
+            <?php foreach($child->getProducts() as $product) $products[$product->getPosition()] = $product->setCategory($child); ?>
+            <?php endif; ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
+        </ul>
+        <div class="clear"></div>
+        <hr />
+    </div>
+    <?php foreach($category->getProducts() as $product) $products[$product->getPosition()] = $product->setCategory($category)->setIsUncategorized(true); ?>
+    <div class="products">
+        <ul id="category_products_<?php echo $category->getId() ?>" class="products_list">
+            <?php if(count($products) > 0) : ?>
+            <?php ksort($products); ?>
+            <?php foreach($products as $product) : ?>
+            <?php echo $this->getLayout()
+                    ->addPartial('product_'.$product->getId(), 'admin_view_default', 'catalog/application/edit/category/product.phtml')
+                    ->setProduct($product)
+                    ->setOptionValue($this->getOptionValue())
+                    ->toHtml()
+                ;
+            ?>
+            <?php endforeach; ?>
+            <?php endif; ?>
+        </ul>
+        <div class="details">
+            <hr />
+        </div>
+        <div>
+            <a rel="<?php echo $category->getId(); ?>" parent_id="<?php echo $category->getId(); ?>" class="add_product link block" href="#" class="name left">+ <?php echo $this->_('Product'); ?></a>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>

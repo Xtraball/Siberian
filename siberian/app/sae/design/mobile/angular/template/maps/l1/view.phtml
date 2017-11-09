@@ -1,0 +1,56 @@
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message" right-button="header_right_button"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="scrollable_content">
+        <div class="for_ads_banner maps">
+            <div class="locations" ng-if="!is_loading && !show_instructions">
+                <table width="95%">
+                    <tr>
+                        <td><?php echo $this->_("From:"); ?></td>
+                        <td class="cell">
+                            <input type="text" id="origin_address" ng-model="origin.address" sb-google-autocomplete location="origin" on-address-change="changeItinerary()" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $this->_("To:"); ?></td>
+                        <td class="cell">
+                            <input type="text" id="destination_address" ng-model="destination.address" sb-google-autocomplete location="destination" on-address-change="changeItinerary()" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="cell" ng-show="duration && !error">
+                            <?php echo $this->_("About"); ?> {{ duration }}, {{ distance }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="map" class="map-canvas" sb-map config="mapConfig" map="map" panel-id="instructions" ng-show="!error && !show_instructions && !is_loading"></div>
+            <div class="error" ng-if="error">
+                <p class="a-center"><img ng-src="{{ error_icon_url }}" /></p>
+                <p class="a-center"><?php echo $this->_("Sorry, the route cannot be calculated."); ?></p>
+                <p class="a-justify">{{ err_message }}</p>
+            </div>
+            <div ng-if="!is_loading">
+                <div class="mode" ng-show="!show_instructions && origin.latitude && destination.latitude">
+                    <ul>
+                        <li ng-class="{selected: mode == 'DRIVING'}" ng-click="toggleMode('DRIVING');"><img ng-src="{{ car_icon_url }}" width="40px"/></li>
+                        <li ng-class="{selected: mode == 'WALKING'}" ng-click="toggleMode('WALKING');"><img ng-src="{{ walk_icon_url }}" width="20px"/></li>
+                        <li ng-class="{selected: mode == 'TRANSIT'}" ng-click="toggleMode('TRANSIT');"><img ng-src="{{ bus_icon_url }}" width="30px"/></li>
+                    </ul>
+                </div>
+                <div class="padding" ng-show="!error && !show_instructions && origin.latitude && destination.latitude">
+                    <button class="button" ng-click="toggleInstructions()"><?php echo $this->_("See itinerary steps"); ?></button>
+                </div>
+                <div class="slide-top" ng-show="show_instructions">
+                    <div class="padding">
+                        <button class="button" ng-click="toggleInstructions()"><?php echo $this->_("Hide itinerary steps"); ?></button>
+                    </div>
+                    <div id="instructions" class="padding"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

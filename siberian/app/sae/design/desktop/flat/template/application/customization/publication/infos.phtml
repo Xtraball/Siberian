@@ -1,0 +1,359 @@
+<?php $application = $this->getApplication() ?>
+<?php
+    $pe_use_ads = false;
+    if($this->isPe()) {
+        $pe_use_ads = $application->getSubscription()->getSubscription()->getUseAds();
+    }
+
+    $ios_device = $application->getDevice(1);
+    $android_device = $application->getDevice(2);
+?>
+<div class="page-content-wrapper">
+
+    <div id="general-content" class="content sb-tour">
+        <h3 class="title-editor border-green text-center">
+            <?php echo __('General information'); ?>
+        </h3>
+        <div id="general" class="subcontent content-color">
+            <div class="container-fluid form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <label for="name"><?php echo __('Application name'); ?> : </label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="name" name="name" class="autosave input-flat" value="<?php echo $application->getName() ? $application->getName() : ucfirst(mb_strtolower($this->getSession()->getAdmin()->getName())); ?>" maxlength="30" />
+                    </div>
+                    <div class="col-sm-3">
+                        <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_name" alt="Loading" title="Loading" width="24" style="display:none;" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <label for="description"><?php echo __('Description'); ?> : </label>
+                    </div>
+                    <div class="col-sm-5">
+                        <textarea type="text" id="description" name="description" class="autosave input-flat"><?php echo $application->getDescription(); ?></textarea>
+                    </div>
+                    <div class="col-sm-3">
+                        <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_description" alt="Loading" title="Loading" width="24" style="display:none;" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <label for="keywords"><?php echo __('Keywords'); ?> : </label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="keywords" name="keywords" class="autosave input-flat" value="<?php echo $application->getKeywords(); ?>" />
+                    </div>
+                    <div class="col-sm-3">
+                        <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_keywords" alt="Loading" title="Loading" width="24" style="display:none;" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <label for="main_category_id"><?php echo __('Main category'); ?> : </label>
+                    </div>
+                    <div class="col-sm-5">
+                        <select id="main_category_id" name="main_category_id" class="autosave styled-select color-green" tabindex="1">
+                            <option value=""><?php echo __('Main category'); ?></option>
+                            <?php $categories = Application_Model_Device_Ionic_Ios::getStoreCategeories(); ?>
+                            <?php foreach($categories as $category) : ?>
+                                <option value="<?php echo $category->getId(); ?>"<?php if($application->getMainCategoryId() == $category->getId()) : ?> selected="selected"<?php endif; ?>><?php echo $category->getName(); ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_main_category_id" alt="Loading" title="Loading" width="24" style="display:none;" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <label for="secondary_category_id"><?php echo __('Secondary category<br />(Optional)'); ?> : </label>
+                    </div>
+                    <div class="col-sm-5">
+                        <select id="secondary_category_id" name="secondary_category_id" class="autosave styled-select color-green" tabindex="2">
+                            <option value=""><?php echo __('Secondary category'); ?></option>
+                            <?php foreach($categories as $category) : ?>
+                                <option value="<?php echo $category->getId(); ?>"<?php if($application->getSecondaryCategoryId() AND $application->getSecondaryCategoryId() == $category->getId()) : ?> selected="selected"<?php endif; ?>><?php echo $category->getName(); ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_secondary_category_id" alt="Loading" title="Loading" width="24" style="display:none;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php if(!$application->getOwnerUseAds() AND !System_Model_Config::getValueFor("application_owner_use_ads") AND !$pe_use_ads): ?>
+
+    <div id="monetize-content" class="content sb-tour">
+        <h3 class="title-editor border-green text-center">
+            <?php echo __('Monetize your app'); ?>
+        </h3>
+        <div class="monetize subcontent content-color">
+            <div class="container-fluid form-horizontal">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label for="use_ads" class="<?php if ($application->getUseAds() == 1) echo 'checked' ?>">
+                            <input id="use_ads" type="checkbox" color="color-green" class="autosave checkbox-inline" value="1" name="use_ads" <?php if ($application->getUseAds() == 1) echo 'checked="checked"' ?> />
+                            <input id="flag_use_ads" type="hidden" value="1" name="flag_use_ads" />
+                            <div class="color-green"></div>
+                            <div class="color-green control__indicator"></div>
+                            <?php echo __('Monetize my app using AdMob?'); ?>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p><?php echo __("Enter your AdMob ID for each platform."); ?> <?php echo __('<a href="%s" target="_blank">Click here for more information about AdMob</a>', "https://www.google.com/admob/"); ?></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-2">
+                        <label for="ios_admob_id"><?php echo __('iOS'); ?> : </label>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" id="ios_admob_id" name="admob_id" class="autosave input-flat" placeholder="AdMob Banner ID" value="<?php echo $ios_device->getAdmobId(); ?>" maxlength="50" />
+                        <input type="hidden" name="device_id" value="1" />
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" id="ios_admob_interstitial_id" name="admob_interstitial_id" class="autosave input-flat" placeholder="AdMob Interstitial ID" value="<?php echo $ios_device->getAdmobInterstitialId(); ?>" maxlength="50" />
+                        <input type="hidden" name="device_id" value="1" />
+                    </div>
+                    <div class="col-sm-4">
+                        <select id="select_admob_type_ios" name="admob_type" class="autosave styled-select color-green" tabindex="2">
+                            <option value="banner" <?php if($ios_device->getAdmobType() == "banner") : ?> selected="selected"<?php endif; ?>><?php echo __("Banner") ?></option>
+                            <option value="interstitial" <?php if($ios_device->getAdmobType() == "interstitial") : ?> selected="selected"<?php endif; ?>><?php echo __("Interstitial") ?></option>
+                            <option value="banner-interstitial" <?php if($ios_device->getAdmobType() == "banner-interstitial") : ?> selected="selected"<?php endif; ?>><?php echo __("Banner & Interstitial") ?></option>
+                        </select>
+                        <input type="hidden" name="device_id" value="1" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-2">
+                        <label for="android_admob_id"><?php echo __('Android'); ?> : </label>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" id="android_admob_id" name="admob_id" class="autosave input-flat" placeholder="AdMob Banner ID" value="<?php echo $android_device->getAdmobId(); ?>" maxlength="50" />
+                        <input type="hidden" name="device_id" value="2" />
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" id="android_admob_interstitial_id" name="admob_interstitial_id" class="autosave input-flat" placeholder="AdMob Interstitial ID" value="<?php echo $android_device->getAdmobInterstitialId(); ?>" maxlength="50" />
+                        <input type="hidden" name="device_id" value="2" />
+                    </div>
+                    <div class="col-sm-4">
+                        <select id="select_admob_type_android" name="admob_type" class="autosave no-dk styled-select color-green" tabindex="2">
+                            <option value="banner" <?php if($android_device->getAdmobType() == "banner") : ?> selected="selected"<?php endif; ?>><?php echo __("Banner") ?></option>
+                            <option value="interstitial" <?php if($android_device->getAdmobType() == "interstitial") : ?> selected="selected"<?php endif; ?>><?php echo __("Interstitial") ?></option>
+                            <option value="banner-interstitial" <?php if($android_device->getAdmobType() == "banner-interstitial") : ?> selected="selected"<?php endif; ?>><?php echo __("Banner & Interstitial") ?></option>
+                        </select>
+                        <input type="hidden" name="device_id" value="2" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <div id="apple-content" class="content sb-tour">
+        <h3 class="title-editor border-green text-center">
+            <?php echo __("Apple's Information"); ?>
+        </h3>
+        <div class="apple subcontent content-color">
+            <div class="container-fluid form-horizontal">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label for="has_apple_account_1" class="radio">
+                            <input type="radio" id="has_apple_account_1" name="has_apple_account" class="has_account autosave color-blue" value="1" onclick="$('#doesnt_have_apple_account').slideUp(); $('#has_apple_account').slideDown();" />
+                            <?php echo __("I have an Apple developer account"); ?>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label for="has_apple_account_0" class="radio">
+                            <input type="radio" id="has_apple_account_0" name="has_apple_account" class="has_account color-blue" value="0" onclick="$('#has_apple_account').slideUp(); $('#doesnt_have_apple_account').slideDown();" />
+                            <?php echo __("I don't have an Apple developer account and I want to create one"); ?>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label for="has_apple_account_2" class="radio" <?php if($ios_device->getUseOurDeveloperAccount()) echo "checked"; ?>>
+                            <input type="radio" id="has_apple_account_2" name="has_apple_account" class="has_account autosave color-blue" value="2" onclick="$('#has_apple_account').slideUp(); $('#doesnt_have_apple_account').slideUp();" />
+                            <?php echo __('I let you publish my application under your Apple developer account'); ?>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="has_account">
+                            <div id="has_apple_account" style="display:none;">
+                                <div class="container-fluid form-horizontal">
+                                    <br/>
+                                    <div class="form-group">
+                                        <div class="col-sm-3">
+                                            <label for="ios_username"><?php echo __("Email:"); ?></label>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <input type="text" id="ios_username" name="ios_username" class="autosave input-flat" value="<?php echo $ios_device->getDeveloperAccountUsername(); ?>" maxlength="30" />
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_ios_username" alt="Loading" title="Loading" width="24" style="display:none;" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-3">
+                                            <label for="ios_password"><?php echo __('Password:'); ?></label>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <input type="password" id="ios_password" name="ios_password" class="autosave  input-flat" value="<?php echo $ios_device->getDeveloperAccountPassword(); ?>" />
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_ios_password" alt="Loading" title="Loading" width="24" style="display:none;" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="doesnt_have_apple_account" style="display:none;" class="form-group">
+                                <div class="col-md-12">
+                                    <div class="alert alert-info">
+                                        <?php echo __('You have to create an Apple account before publishing your application. <a href="https://developer.apple.com/programs/ios" target="_blank">Click here to create one.</a>'); ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="google-content" class="content sb-tour">
+        <?php $device = $application->getDevice(2); ?>
+        <h3 class="title-editor border-green">
+            <?php echo __("Google's Information"); ?>
+        </h3>
+        <div class="google subcontent content-color">
+            <div class="container-fluid form-horizontal">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label for="has_android_account_1" class="radio">
+                            <input type="radio" id="has_android_account_1" name="has_android_account" class="has_account autosave input color-blue" value="1" onclick="$('#doesnt_have_android_account').slideUp(); $('#has_android_account').slideDown();" />
+                            <?php echo __("I have an Google developer account"); ?>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label for="has_android_account_0" class="radio" <?php if(!$device->getUseOurDeveloperAccount()) echo 'checked' ?>>
+                            <input type="radio" id="has_android_account_0" name="has_android_account" class="has_account input color-blue" value="0" onclick="$('#has_android_account').slideUp(); $('#doesnt_have_android_account').slideDown();" />
+                            <?php echo __("I don't have a Google developer account and I want to create one"); ?>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label for="has_android_account_2" class="radio" <?php if($device->getUseOurDeveloperAccount()) echo "checked"; ?>>
+                            <input type="radio" id="has_android_account_2" name="has_android_account" class="has_account autosave input color-blue" value="2" onclick="$('#has_android_account').slideUp(); $('#doesnt_have_android_account').slideUp();" />
+                            <?php echo __('I let you publish my application under your Google developer account'); ?>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="has_account">
+                            <div id="has_android_account" style="display:none;">
+                                <div class="container-fluid form-horizontal">
+                                    <br/>
+                                    <div class="form-group">
+                                        <div class="col-sm-3">
+                                            <label for="android_username"><?php echo __("Email:"); ?></label>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <input type="text" id="android_username" name="android_username" class="autosave input-flat" value="<?php echo $device->getDeveloperAccountUsername(); ?>" maxlength="30" />
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_android_username" alt="Loading" title="Loading" width="24" style="display:none;" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-3">
+                                            <label for="android_password"><?php echo __('Password:'); ?></label>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <input type="password" id="android_password" name="android_password" class="autosave input-flat" value="<?php echo $device->getDeveloperAccountPassword(); ?>" />
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_android_password" alt="Loading" title="Loading" width="24" style="display:none;" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="doesnt_have_android_account" style="display:none;" class="form-group">
+                                <div class="col-md-12">
+                                    <div class="alert alert-info">
+                                    <?php echo __('You have to create a Google account before publishing your application. <a href="https://play.google.com/apps/publish/signup" target="_blank">Click here to create one.</a>'); ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    <?php if(!$application->getDevice(2)->getUseOurDeveloperAccount()) : ?>
+    $('#has_android_account_1').click();
+    <?php else : ?>
+    $('#has_android_account_2').click();
+    <?php endif; ?>
+    <?php if(!$application->getDevice(1)->getUseOurDeveloperAccount()) : ?>
+    $('#has_apple_account_1').click();
+    <?php else : ?>
+    $('#has_apple_account_2').click();
+    <?php endif; ?>
+
+    setAppName($('#name').val());
+    //changement de nom appli
+    $('#name').keyup(function() {
+        setAppName($('#name').val());
+    });
+
+    $('#use_ads').click(function() {
+        if($(this).is(':checked')) {
+            $(this).removeClass("checked");
+            $("#monetize_fields").removeClass("none");
+        } else {
+            $(this).addClass("checked");
+            $("#monetize_fields").addClass("none");
+        }
+    });
+
+    function setAppName(name) {
+        if(!name) name = '';
+        name = name.trim();
+        var newName = name;
+        if(name.length > 11) newName = name.substring(0, 10).trim()+'...';
+
+        $('#app_name').html(newName);
+        $('#header_app_name').html(newName);
+    }
+
+    $('.autosave').change(function() {
+        var input_loader = $('#loader_'+$(this).attr('id'));
+        input_loader.show();
+        reload(this.parentNode, '<?php echo $this->getUrl('application/customization_publication_infos/save'); ?>', false, function(datas) {
+            input_loader.hide();
+        }, function() {
+            input_loader.hide();
+        });
+    });
+</script>

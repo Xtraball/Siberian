@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<designs>
+    <colors>
+        <images>
+            <image type="custom">
+                <content>
+                    <type_id>custom</type_id>
+                    <name>1st Gallery</name>
+                </content>
+                <custom>
+                    <url>/../../images/templates/colors/content/chiens.png</url>
+                    <description/>
+                </custom>
+                <custom>
+                    <url>/../../images/templates/colors/content/luc.png</url>
+                    <description/>
+                </custom>
+                <custom>
+                    <url>/../../images/templates/colors/content/bob.png</url>
+                    <description/>
+                </custom>
+                <custom>
+                    <url>/../../images/templates/colors/content/dark.png</url>
+                    <description/>
+                </custom>
+            </image>
+        </images>
+        <videos>
+            <video>
+                <content>
+                    <type_id>youtube</type_id>
+                    <name>Apps builder</name>
+                    <type>search</type>
+                    <param>https://www.youtube.com/watch?v=gCeq2U4Zq_s</param>
+                </content>
+            </video>
+            <video>
+                <content>
+                    <type_id>itunes</type_id>
+                    <name>Siberian itunes</name>
+                    <param>dsdsqdqs</param>
+                </content>
+            </video>
+            <video>
+                <content>
+                    <type_id>vimeo</type_id>
+                    <name>Siberian CMS vimeo</name>
+                    <type>user</type>
+                    <param>http://vimeo.com/user27472178</param>
+                </content>
+            </video>
+        </videos>
+    </colors>
+</designs>

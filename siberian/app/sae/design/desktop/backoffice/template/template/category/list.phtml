@@ -1,0 +1,21 @@
+<form ng-submit="save()">
+
+    <sb-section title="template.title">
+        <div ng-repeat="columns in template.columns" class="form-group">
+            <div class="col-md-6" ng-repeat="category in columns">
+                <label for="{{ key.name }}">{{ category.name }}</label>
+                <input type="text" id="{{ category.name }}" ng-model="category.name" class="form-control" placeholder="{{ category.name }}" />
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary left"><?php echo $this->_("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+            </div>
+        </div>
+
+    </sb-section>
+
+</form>

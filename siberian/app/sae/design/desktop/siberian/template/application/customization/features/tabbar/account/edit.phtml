@@ -1,0 +1,54 @@
+<?php $application = $this->getApplication(); ?>
+<div class="form_content">
+    <div id="list" class="edit_page tabbar_account">
+        <div class="section form_content">
+            <form id="tabbarAccountForm" name="tabbarAccountForm" method="post" action="<?php echo $this->getUrl('application/customization/features/edit/tabbar/account/editpost') ?>">
+                <h4 class="subtitle">
+                    <span class="left area"><?php echo $this->_('Information') ?></span>
+                    <hr />
+                    <div class="clear"></div>
+                </h4>
+                <input type="hidden" name="value_id" value="-1" />
+                <div class="form_content">
+                    <div class="infos">
+                        <div id="weblink_content">
+                            <table class="no-collapse" cellspacing="10">
+                                <tr>
+                                    <td class="label"><label for="tabbar_account_name"><?php echo $this->_('Last name:') ?></label></td>
+                                    <td><input type="text" id="tabbar_account_name" name="tabbar_account_name" class="input" value="<?php echo $application->getTabbarAccountName() ?>"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="save right">
+                        <button class="default_button btn-block" type="submit">
+                            <?php echo $this->_('Save'); ?>
+                        </button>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    page.setCallback('didappear', function() {
+
+        $('#tabbarAccountForm').submit(function() {
+            if(!$(this).valid()) return false;
+            reload(this, this.action, true, function(datas) {
+                if(datas.success) {
+                    page.close(true);
+                }
+            });
+            return false;
+        });
+
+    });
+
+    page.setCallback('willdisappear', function() {
+        $('#tabbarAccountForm').unbind('submit');
+    });
+
+</script>

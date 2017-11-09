@@ -1,0 +1,141 @@
+<?php
+
+$title = $this->getTitle();
+$form = $this->getForm();
+$block = $this->getCmsBlock();
+
+if(isset($block) && $block->getId()) {
+    $form->loadBlock($block);
+}
+
+$formid = $form->getAttrib("id");
+$uniqid = $form->getUniqid();
+$pvar = "p{$uniqid}";
+$image_template = str_replace("%UNIQID%", $uniqid, Cms_Form_Block_Text::$image_template);
+
+?>
+<div class="cms-block-container">
+    <h3 class="title-editor title-feature-indent">
+        <div class="cms-block-handle">
+            <i class="fa fa-sort"></i>
+        </div>
+        <span>
+            <span class="cms-block-index"></span>
+            <?php echo __($title); ?>
+        </span>
+        <div class="cms-block-delete">
+            <i class="fa fa-close"></i>
+        </div>
+
+    </h3>
+    <div id="<?php echo $formid; ?>" class="cms-block-hide-drag content-white-bkg section-padding content-feature" style="padding-bottom: 20px;">
+        <?php echo $form; ?>
+    </div>
+
+    <script type="text/javascript">
+        var <?php echo $pvar; ?>_text_image_template = '<?php echo str_replace("\n", "", $image_template); ?>';
+        var <?php echo $pvar; ?> = '#<?php echo $formid; ?>';
+        var <?php echo $pvar; ?>_text_image = false;
+
+        $(document).ready(function() {
+            bindForms(<?php echo $pvar; ?>);
+
+            $(<?php echo $pvar; ?>+" input[name='files[]']").fileupload({
+                dataType: 'json',
+                add: function (el, data) {
+                    data.submit();
+                },
+                done: function (el, data) {
+                    if(data.result.success) {
+                        var cms_image = <?php echo $pvar; ?>_text_image_template;
+                        cms_image = cms_image.replace("%IMAGE_PATH%", data.result.files);
+                        cms_image = cms_image.replace("#THUMBNAIL_PATH#", tmp_directory+"/"+data.result.files);
+
+                        if($(<?php echo $pvar; ?>+" .cms-image").length > 0) {
+                            $(<?php echo $pvar; ?>+" .cms-image").remove();
+                        }
+
+                        $(<?php echo $pvar; ?>+" .cms-text-image-container").append(cms_image);
+
+                    } else if(data.result.error) {
+                        feature_form_error(data.result.message);
+                    }
+                },
+                fail: function(el, data) {
+                    if(data.result.error) {
+                        feature_form_error(data.result.message);
+                    }
+                }
+            });
+
+            /** Delegate */
+            $(<?php echo $pvar; ?>+" button[id$='-text-image_upload']").on("click", function() {
+                var el = $(this);
+                el.parents("div.sb-form-line").find(<?php echo $pvar; ?>+" #image_upload_hidden").trigger("click");
+            });
+
+            /** Bind align/size */
+            $(<?php echo $pvar; ?>+" .cms-text-align").on("click", function() {
+                $(<?php echo $pvar; ?>+" .cms-text-align").removeClass("selected");
+                var el = $(this);
+                el.addClass("selected");
+                $(<?php echo $pvar; ?>+" .cms-text-alignment-input").val(el.data("align"));
+            });
+
+            $(<?php echo $pvar; ?>+" .cms-text-size").on("click", function() {
+                $(<?php echo $pvar; ?>+" .cms-text-size").removeClass("selected");
+                var el = $(this);
+                el.addClass("selected");
+                $(<?php echo $pvar; ?>+" .cms-text-size-input").val(el.data("size"));
+            });
+
+            /** Load align/size/image */
+            var align_val = $(<?php echo $pvar; ?>+" .cms-text-alignment-input").val();
+            if(align_val !== "") {
+                $(<?php echo $pvar; ?>+" .cms-text-align[data-align='"+align_val+"']").trigger("click");
+            }
+
+            var size_val = $(<?php echo $pvar; ?>+" .cms-text-size-input").val();
+            if(size_val !== "") {
+                $(<?php echo $pvar; ?>+" .cms-text-size[data-size='" + size_val + "']").trigger("click");
+            }
+
+            var image_path = $(<?php echo $pvar; ?>+" button[id$='-text-image_upload']").val();
+            if(image_path !== "") {
+                var cms_image = <?php echo $pvar; ?>_text_image_template;
+                cms_image = cms_image.replace("%IMAGE_PATH%", image_path);
+                cms_image = cms_image.replace("#THUMBNAIL_PATH#", "/images/application"+image_path);
+
+                if($(<?php echo $pvar; ?>+" .cms-image").length > 0) {
+                    $(<?php echo $pvar; ?>+" .cms-image").remove();
+                }
+
+                $(<?php echo $pvar; ?>+" .cms-text-image-container").append(cms_image);
+                <?php echo $pvar; ?>_text_image = true;
+                $(<?php echo $pvar; ?>+" .cms-text-image").closest(".sb-form-line").show();
+            }
+
+            if(!<?php echo $pvar; ?>_text_image) {
+                $(<?php echo $pvar; ?>+" .cms-text-image").closest(".sb-form-line").hide();
+            }
+        });
+
+        $(document).on("click", <?php echo $pvar; ?>+" .cke_button__cmsimage", function() {
+            var el = $(this);
+            $(<?php echo $pvar; ?>+" .cms-text-image").closest(".sb-form-line").toggle();
+        });
+    </script>
+
+    <style type="text/css">
+        .cms-text-align, .cms-text-size {
+            filter: grayscale(100%);
+        }
+
+        .cms-text-align.selected, .cms-text-size.selected {
+            filter: grayscale(0);
+        }
+    </style>
+
+</div>
+
+

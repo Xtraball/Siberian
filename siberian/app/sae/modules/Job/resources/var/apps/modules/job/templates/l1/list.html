@@ -1,0 +1,73 @@
+<ion-view sb-page-background>
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <div sb-tooltip collection="tooltip.collection" current-item="tooltip.current_item" button-label="tooltip.button_label" on-item-clicked="showTooltip(object)" ng-if="tooltip"></div>
+        <button ng-show="admin_companies.length" ng-click="adminModal()" class="button button-clear header-item">
+            <i class="icon ion-ios-settings"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <div class="bar bar-subheader" ng-show="options.display_search">
+        <div class="item item-input-inset job-search row">
+            <div class="col col-50 textual">
+                <label class="item-input-wrapper">
+                    <i class="icon ion-ios-search"></i>
+                    <input type="text" placeholder='{{ "Search..." | translate }}' ng-model="filters.fulltext" />
+                </label>
+            </div>
+
+            <div class="col col-50 item-input-wrapper place" ng-click="filterModal();">
+                <i class="icon ion-ios-location-outline"></i>
+                <span ng-show="filters.locality">{{ filters.locality }}</span>
+                <span ng-show="!filters.locality">{{ "Locality" | translate }}</span>
+                <i class="icon ion-ios-plus-outline" style="float: right;"></i>
+            </div>
+
+        </div>
+    </div>
+
+    <ion-content class="l1" ng-class="{ 'has-subheader': options.display_search }" sb-background-image>
+
+        <ion-refresher
+                pulling-text="Pull to refresh..."
+                on-refresh="pullToRefresh()"
+                ng-hide="filters.more_search">
+        </ion-refresher>
+
+        <div ng-include="template_header"></div>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="list" ng-class="{'card' : card_design}" ng-show="collection.length">
+
+            <div ng-click="showItem(item)" ng-repeat="item in collection | filter: filterPlaces">
+                <div class="item item-custom item-place" ng-class="{ 'item-thumbnail-custom': item.icon && options.display_place_icon }">
+                    <img ng-src="{{ item.icon }}" ng-if="item.icon && options.display_place_icon" />
+                    <h2>{{ item.title }} <span ng-if="item.contract_type">{{ item.contract_type }}</span></h2>
+                    <p class="subtitle" ng-if="item.subtitle" ng-bind-html="item.subtitle"></p>
+                    <p class="subtitle-company" ng-if="item.company_name || item.location">
+                        <span ng-if="item.company_name">{{ item.company_name }}</span>
+                        <span ng-if="item.company_name && item.location">, </span>
+                        <span ng-if="item.location">{{ item.location }}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="list" ng-class="{'card' : card_design}" ng-if="!is_loading && !collection.length">
+            <div class="item text-center item-custom">
+                {{ "No items found" | translate }}
+            </div>
+        </div>
+
+        <ion-infinite-scroll ng-show="can_load_older_places && !filters.more_search"
+                             on-infinite="loadMore()"
+                             immediate-check="false"
+                             distance="10%"
+                             class="spinner-custom">
+        </ion-infinite-scroll>
+
+    </ion-content>
+</ion-view>

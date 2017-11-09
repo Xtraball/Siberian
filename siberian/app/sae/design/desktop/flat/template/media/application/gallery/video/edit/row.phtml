@@ -1,0 +1,31 @@
+<?php $video = $this->getCurrentVideo(); ?>
+<?php $option_value = $this->getCurrentOptionValue(); ?>
+<?php $key = $this->getCurrentKey(); ?>
+<?php $picto = $video->getTypeId() == 'itunes' ? 'podcast' : $video->getTypeId(); ?>
+<div id="row_<?php echo $video->getId(); ?>" class="row_video row">
+    <div class="col-sm-1 img-col color-blue"><img class="youtube" src="<?php echo $this->getImage("pictos/$picto.png"); ?>" title="<?php echo ucfirst($picto); ?>" alt="<?php echo ucfirst($picto); ?>" width="33" height="33" data-color="color" data-style="area" /></div>
+    <div class="col-sm-3"><input type="text" name="name" value="<?php echo $video->getName(); ?>" placeholder="<?php echo $this->_('Gallery Name') ?>" class=" input-flat required" /></div>
+    <div class="<?php if($video->getTypeId()=='itunes'):?>col-sm-6<?php else:?>col-sm-3<?php endif;?>">
+        <input type="text" name="param" value="<?php echo $video->getParam(); ?>" placeholder="<?php echo $this->_('Parameter/Feed Url') ?>" class="input-flat required <?php if($video->getTypeId()=='itunes'):?>full_div<?php endif;?>" />
+    </div>
+    <?php if($video->getType()):?>
+        <div class="col-sm-3">
+            <select name="type" class="no-dk youtube_type required styled-select color-blue" id="video_type_<?php echo $video->getId() ?>" tabindex="<?php echo $key; ?>" tabindex="<?php echo $key ?>">
+                <option value=""><?php echo $this->_('Type') ?></option>
+                <?php foreach($video->getAllTypes() as $type) : ?>
+                    <option value="<?php echo $type ?>"<?php if($video->getType() == $type) :?> selected="selected"<?php endif; ?>><?php echo $this->_(ucfirst($type)); ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+    <?php endif;?>
+    <div class="col-sm-1">
+        <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" class="input-flat"/>
+        <?php if($video->getId() != 'new') : ?>
+            <input type="hidden" name="id" value="<?php echo $video->getId(); ?>" class="input-flat"/>
+        <?php endif; ?>
+        <button type="button" class="bt-margin btn save_video pull-left color-blue"><?php echo $this->_('OK'); ?></button>
+    </div>
+    <div class="col-sm-1">
+        <button type="button" class="bt-margin btn color-blue delete_video" rel="<?php echo $video->getId(); ?>"><i class="fa fa-times"></i></button>
+    </div>
+</div>

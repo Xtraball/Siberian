@@ -1,0 +1,153 @@
+<?php
+
+$value_id = $this->getValue();
+$unlock_type = $this->getUnlockType();
+if ($this->getPromotion()->getId() != null) {
+    $promotion = $this->getPromotion();
+} else {
+    $promotion =  new Promotion_Model_Promotion();
+    $promotion->setPosIds(array());
+}
+$application = $this->getApplication();
+?>
+
+<h4 class="subtitle">
+    <span class="left area"><?php echo $this->_('Create a new discount'); ?></span>
+    <hr />
+    <div class="clear"></div>
+</h4>
+<form id="promotionEditForm" method="post" action="<?php echo $this->getUrl('promotion/application/editpost', array('id' => $promotion->getId())); ?>">
+    <div class="buttons">
+        <button type="button" onclick="page.reload();" class="delete left"><i class="icon-arrow-left"></i></button>
+        <button type="submit" class="default_button right">OK</button>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div class="form-horizontal">
+
+        <input type="hidden" name="picture" id="picture" value="<?php echo $promotion->getPicture(); ?>" />
+        <input type="hidden" name="remove_picture" id="remove_picture" value="0" />
+
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label><?php echo $this->_('Picture'); ?> :</label>
+            </div>
+            <!--[if gte IE 10]><!-->
+            <div class="col-sm-5">
+                <button id="picture_uploader" class="upload_picture default_button btn-block" type="button" rel="<?php echo $promotion->getId() ? $promotion->getId() : 'new' ?>">
+                    <?php echo $promotion->getPicture() ? $this->_("Edit the") : $this->_('Add a'); ?>
+                    <?php echo $this->_('picture'); ?>
+                </button>
+                <!--<![endif]-->
+                <input style="display:none" id="promotion_picture_uploader" class="uploader_picture" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+            </div>
+        </div>
+
+        <div id="delete_picture" class="form-group"<?php if(!$promotion->getPicture()) : ?> style="display:none;"<?php endif; ?>>
+            <div class="col-sm-3">
+                <button type="button" onclick="promotion.removePicture();" id="delete_picture" class="delete delete_red"><i class="icon-remove"></i></button>
+            </div>
+            <div class="col-sm-4">
+                <img src="<?php echo $promotion->getPictureUrl() ?>" width="238" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label data-tip="12" data-tip-left="60" for="title"><?php echo $this->_('Name'); ?> : <span class="input-required">*</span></label>
+            </div>
+            <div class="col-sm-5">
+                <input type="text" id="title" name="title" class="form-control required" value="<?php echo $promotion->getTitle(); ?>" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label data-tip="13" data-tip-left="60" for="description"><?php echo $this->_('Description'); ?> : <span class="input-required">*</span></label>
+            </div>
+            <div class="col-sm-5">
+                <textarea type="textarea" rows="4" id="description" name="description" class="form-control required"><?php echo $promotion->getDescription(); ?></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label data-tip="14" data-tip-left="60" for="conditions"><?php echo $this->_('Conditions'); ?> : <span class="input-required">*</span></label>
+            </div>
+            <div class="col-sm-5">
+                <input type="text" id="conditions" name="conditions" class="form-control required" value="<?php echo $promotion->getConditions(); ?>" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-9 col-sm-offset-3">
+                <label data-tip="15" for="is_unique" class="checkbox <?php if ($promotion->getIsUnique() == 1) echo 'checked' ?>">
+                    <input id="is_unique" type="checkbox" class="" value="1" name="is_unique" <?php if ($promotion->getIsUnique() == 1) echo 'checked="checked"' ?> />
+                    <?php echo $this->_('use only once'); ?> ?
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label for="end_at"><?php echo $this->_('End at'); ?> :</label>
+            </div>
+            <div class="col-sm-5">
+                <input type="text" id="end_at" name="end_at" class="form-control calendar required" <?php if ($promotion->getId() AND !$promotion->getEndAt()) echo 'disabled="disabled"' ?> value="<?php if ($promotion->getEndAt()) echo $promotion->getEndAt(); ?>" autocomplete="off" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label data-tip="16" data-tip-left="60" for="is_illimited"><?php echo $this->_('or unlimited'); ?> :</label>
+            </div>
+            <div class="col-sm-8">
+                <label for="is_illimited" class=" checkbox  <?php if ($promotion->getId() AND !$promotion->getEndAt()) echo 'checked' ?>">
+                    <input type="checkbox" id="is_illimited" <?php if ($promotion->getId() AND !$promotion->getEndAt()) echo 'checked="checked"' ?> name="is_illimited" value="1" />
+                    (<?php echo $this->_("you'll be able to remove this promotion later"); ?>)
+                </label>
+            </div>
+        </div>
+
+        <?php if($unlock_type == "qrcode" && $this->getPromotion()->getId() == null): ?>
+            <div class="form-group">
+                <div id="qrcode_info">
+                    <button onclick="generateQrcode()" class="default_button btn"><?php echo $this->_("Generate QRCode"); ?></button>
+                    <input type="text" name="unlock_code" class="required" />
+                </div>
+            </div>
+        <?php endif; ?>
+
+    </div>
+    <input type="hidden" name="value_id" value="<?php echo $value_id ?>" />
+    <input type="hidden" name="unlock_by" value="<?php echo $unlock_type ?>" />
+    <?php if($promotion->getId()) : ?>
+        <input type="hidden" name="id" id="promotion_id" value="<?php echo $promotion->getId() ?>" />
+    <?php endif; ?>
+
+</form>
+<style>
+    .details_condition select {font-size: 14px;}
+    #promotion_condition_edit {padding: 10px;}
+    #promotion_condition_edit div {margin-left: 20px;}
+    #promotionEditForm .notice {margin-top: 10px;}
+    #qrcode_info { text-align:center; }
+    #qrcode_info input[type='text'] { position:absolute; left:-9999px; }
+</style>
+
+<script>
+    function generateQrcode() {
+        var unlock_type = $("input[name='unlock_by']").val();
+
+        if(unlock_type == "qrcode") {
+            $("#qrcode_info").append('<img width="24" src="/app/sae/design/desktop/siberian/images/customization/ajax/spinner.gif" id="loader_tabbar_name" alt="Loading" title="Loading" class="loader">');
+            var length = 9,
+                charset = "abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+                retVal = "";
+            for (var i = 0, n = charset.length; i < length; ++i) {
+                retVal += charset.charAt(Math.floor(Math.random() * n));
+            }
+            $("#qrcode_info").empty().append('<input type="hidden" name="unlock_code" value="'+retVal+'"><img src="http://api.qrserver.com/v1/create-qr-code/?color=000000&bgcolor=FFFFFF&data=sendback%3A' + retVal + '&qzone=1&margin=0&size=200x200&ecc=L" alt="qr code" />');
+        }
+    }
+</script>

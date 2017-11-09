@@ -1,0 +1,51 @@
+<ion-modal-view sb-page-background class="layout modal slide-top">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear" ng-click="closeFilterModal();">{{ "Close" | translate }}</button>
+        </div>
+        <h1 class="title">{{ "Search" | translate }}</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="clearFilters();">{{ "Clear" | translate }}</button>
+        </div>
+    </ion-header-bar>
+
+    <ion-content>
+
+
+        <div class="list job-more" ng-class="{'card' : card_design}">
+            <div class="item item-custom">
+                <h2>{{ "City" | translate }}</h2>
+                <div>
+                    <input type="text" placeholder='{{ "Select a city ..." | translate }}' ng-model="filters.locality" />
+                </div>
+            </div>
+
+            <div class="item item-custom">
+                <h2>{{ "Distance" | translate }} <span class="job-distance" ><span ng-bind="distance_range[Math.floor(filters.radius)]"></span>{{ distance_unit }}</span></h2>
+                <div>
+                    <input type="range" ng-model="filters.radius" min="0" max="10" step="0.1" />
+                </div>
+            </div>
+
+            <div class="item item-custom">
+                <h2>{{ "Keywords" | translate }}</h2>
+                <div>
+                    <input type="text" placeholder='{{ "Input your keywords ..." | translate }}' ng-model="filters.keywords" />
+                </div>
+            </div>
+
+            <div class="item item-custom" ng-if="filters.categories.length">
+                <ion-checkbox ng-repeat="category in filters.categories" ng-model="category.is_checked">{{ category.title }}</ion-checkbox>
+            </div>
+
+        </div>
+
+        <div ng-class="{'padding' : card_design}">
+            <button class="button button-positive button-positive-custom item-icon-left" ng-class="{'button-block' : card_design, 'button-full' : !card_design}" ng-click="validateFilters();">
+                <i class="icon ion-ios-search"></i>{{ "Search" | translate }}
+            </button>
+        </div>
+
+    </ion-content>
+</ion-modal-view>

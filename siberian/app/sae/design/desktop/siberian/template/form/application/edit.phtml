@@ -1,0 +1,351 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $form = $option_value->getObject(); ?>
+<?php $section = new Form_Model_Section(); ?>
+<?php $sections = $section->findByValueId($option_value->getId()); ?>
+<div id="list" class="edit_page formulaire">
+
+    <div class="cont_add_section section">
+        <h4 class="subtitle">
+            <span class="left area"><?php echo $this->_('Information') ?></span>
+            <hr />
+            <div class="clear"></div>
+        </h4>
+        <div id="form_email_config" style="<?php echo $sections->count(0) == 0 ? 'display:none' : ''?>" class="row">
+            <div class="col-sm-3">
+                <label for="form_email"><?php echo $this->_('Recipient email:'); ?> *</label>
+            </div>
+            <div class="col-sm-5">
+                <input type="email" class="form-control required" name="email" id="form_email" value="<?php echo $form->getEmail(); ?>" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="help-inline">
+                    <?php echo $this->_("Form data will be sent to this email. Until you fill out this field, your form won't be displayed on client side."); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cont_add_section section">
+        <h4 class="subtitle">
+            <span class="left area"><?php echo $this->_('Manage fields') ?></span>
+            <hr />
+            <div class="clear"></div>
+        </h4>
+        <button type="button" class="as-link addSection left" onclick="$(this).next().fadeIn(300, function() {$('#section_name').focus()});">+ <?php echo $this->_('Add a section'); ?></button>
+        <div id="create_section" class="left" style="display: none;">
+            <form id="createSectionForm" action="<?php echo $this->getUrl('form/application_section/editpost'); ?>" method="post" class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-8">
+                        <input id="section_name" type="text" name="name" class="form-control section_name required left" value="" />
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="submit" class="default_button bt-margin">OK</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="reset" class="delete bt-margin" onclick="$('#create_section').fadeOut();">X</button>
+                    </div>
+                    <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <br />
+    <div id="sections" class="sections">
+        <?php if ($sections->count() > 0) : ?>
+            <?php foreach ($sections as $section) : ?>
+                <?php
+                echo $this->getLayout()
+                        ->addPartial('section_' . $section->getId(), 'admin_view_default', 'form/application/edit/section.phtml')
+                        ->setSection($section)
+                        ->setOptionValue($option_value)
+                        ->toHtml()
+                ;
+                ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+    <div class="section">
+        <?php
+        echo $this->getLayout()
+                ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
+                ->setValueId($option_value->getId())
+                ->toHtml()
+        ;
+        ?>
+    </div>
+</div>
+<script type="text/javascript">
+            // Page callback
+            page.setCallback('didappear', function() {
+                section.processEvents();
+                field.processEvents();
+
+                $('#form_email').hover(function() {
+                    $(this).addClass('focus');
+                }, function() {
+                    $(this).removeClass('focus');
+                }).focus(function() {
+                    $(this).addClass('selected');
+                }).change(function(e) {
+                    var input = $(e.target);
+                    input.removeAttr('style').addClass('loading');
+
+                    reload(input.parent(), '<?php echo $this->getUrl('form/application_section/editpost', array('option_value_id' => $option_value->getId())); ?>', false);
+                }.bind(this)).keypress(function(e) {
+                    if (e.keyCode == 13)
+                        $(e.target).blur();
+                });
+            });
+
+            page.setCallback('willdisappear', function() {
+                section.unbindAll();
+            });
+
+            // Event sections
+            section = {
+                processEvents: function() {
+                    this.unbindAll();
+
+                    // Création d'une section
+                    $('#createSectionForm').submit(function() {
+                        if (!$(this).valid())
+                            return false;
+                        reload(this, this.action, true, function(datas) {
+                            if (datas.success) {
+                                $('#sections').append('<div>' + datas.section_html + '</div>');
+                                field.bindAddField($('#add_field_section_'+datas.section_id));
+                                $('#section_name').val('').focus();
+                                iframe.f.reload();
+                                section.processEvents();
+                            }
+                        });
+                        return false;
+                    });
+
+                    // Focus sur le nom d'une section
+                    $('.main_section_name').hover(function() {
+                        $(this).addClass('focus');
+                    }, function() {
+                        $(this).removeClass('focus');
+                    }).focus(function() {
+                        $(this).addClass('selected');
+                    }).blur(function(e) {
+                        var input = $(e.target);
+                        var section_id = input.attr('rel');
+                        input.removeAttr('style').addClass('loading');
+                        if (input.val().isEmpty()) {
+                            this.remove(section_id);
+                        } else {
+                            this.save(section_id);
+                        }
+                    }.bind(this)).keypress(function(e) {
+                        if (e.keyCode == 13)
+                            $(e.target).blur();
+                    });
+
+                },
+                unbindAll: function() {
+                    // MouseOut sur nom de section
+                    $('.main_section_name').unbind('mouseenter mouseout')
+                            .unbind('focus')
+                            .unbind('blur')
+                            ;
+                    $('#createSectionForm').unbind('submit');
+                },
+                remove: function(section_id) {
+                    var input = $('#main_section_name_' + section_id);
+                    if (confirm('<?php echo addslashes($this->_('Are you sure you want to remove this section?')); ?>')) {
+                        var div = $('#section_details_' + section_id);
+                        input.val('');
+                        div.append($('<input />').attr('type', 'hidden').attr('name', 'is_deleted').val('1'));
+                        $('#section_' + section_id).fadeOut(300);
+
+                        // On re-cache l'email
+                        if($('#sections .section').length == 1) {
+                             $('#form_email_config').hide();
+                             $('#form_email').attr('rel', '');
+                        }
+
+                        this.save(section_id);
+                    }
+                    else {
+                        var color = input.attr('data-color');
+                        input.stop().animate({'background-color': 'transparent', color: color});
+                    }
+
+                },
+                save: function(section_id) {
+
+                    var div = $('#section_details_' + section_id);
+//                    div.append($('<input />').attr('type', 'hidden').attr('name', 'email').val($('#form_email').val()));
+//                    $('#email_section').val($('#form_email').val());
+
+                    reload(div, '<?php echo $this->getUrl('form/application_section/editpost'); ?>', false, function(datas) {
+                        if (datas.success) {
+                            if (datas.category_id && div.find('.section_id').attr('id'))
+                                div.find('.section_id').val(datas.category_id);
+                            var input = $('#main_section_name_' + section_id);
+                            input.removeClass('selected');
+                            var color = input.attr('data-color');
+                            input.stop().animate({'background-color': 'transparent', color: color}).removeClass('loading');
+                            iframe.f.reload();
+                        }
+                        else if (datas.is_deleted) {
+                            div.remove();
+                            iframe.f.reload();
+                        }
+                        else {
+                            // Alert;
+                        }
+                    });
+
+
+                }
+            }
+
+
+            field = {
+                processEvents: function() {
+                    currentField = this;
+
+                    // Ajout d'un champ
+                    $('.add_field').each(function(i, el) {
+                        this.bindAddField($(el));
+                    }.bind(this))
+
+                    // Edition d'un champ
+                    $('.edit_field').prettyPhoto({
+                        default_width: 500,
+                        show_title: false,
+                        social_tools: '',
+                        deeplinking: false,
+                        keyboard_shortcuts: false,
+                        gallery_markup: '',
+                        changepicturecallback: function() {
+                            createCustomUI();
+                            $('#fieldForm').submit(this.save.bind(this));
+                        }.bind(this),
+                        theme: 'pp_none'
+                    });
+
+                    $(".fields_list").sortable({
+                        handle: '.handle_field',
+                        placeholder: "field_placeholder field area",
+                        axis: 'y',
+                        update: function(e, ui) {
+                            var order = $(e.target).sortable('serialize');
+                            $(e.target).sortable("refresh");
+                            reload($(e.target), "<?php echo $this->getUrl('form/application_field/sortfields', array('option_value_id' => $option_value->getId())); ?>/section_id/" + $(ui.item).attr('rel') + "?" + order, false, function() {
+                                iframe.f.reload();
+                            });
+                        }
+                    });
+
+                    return this;
+
+                },
+                cancel: function() {
+                    $('#fieldForm').unbind('submit');
+                    $.prettyPhoto.close();
+                },
+                remove: function(id) {
+                    if (confirm("<?php echo addslashes($this->_('Are you sure you want to remove this field?')); ?>")) {
+                        var li = $('#field_' + id);
+                        $('<input />').attr('type', 'hidden')
+                                .attr('name', 'is_deleted')
+                                .val('1')
+                                .appendTo(li)
+                                ;
+                        $('<input />').attr('type', 'hidden')
+                                .attr('name', 'option_value_id')
+                                .val('<?php echo $option_value->getId(); ?>')
+                                .appendTo(li)
+                                ;
+
+                        reload(li, '<?php echo $this->getUrl('form/application_field/editpost'); ?>', true, function(datas) {
+                            if (datas.success) {
+                                li.css('background-color', '#C41313').animate({'background-color': 'transparent', height: 0, padding: 0, opacity: 0}, 500, null, function() {
+                                    li.remove();
+                                    iframe.f.reload();
+                                });
+                            }
+                        });
+                    }
+
+                },
+                save: function() {
+                    var form = $('#fieldForm');
+
+                    if (form.valid() && $('#typeField').val() != '') {
+                        reload(form, form.attr('action'), true, function(datas) {
+                            if (datas.success) {
+                                if ($('#field_' + datas.field_id).attr('id')) {
+                                    $('#field_' + datas.field_id).replaceWith(datas.field_html);
+                                } else {
+                                    $('#section_fields_' + datas.section_id).append(datas.field_html);
+                                }
+                                form.unbind('submit');
+                                field.processEvents();
+                                $.prettyPhoto.close();
+                                iframe.f.reload();
+                            }
+                        }.bind(this));
+                    } else if ($('#typeField').val() == '') {
+                        $('#typeFieldError').show();
+                    }
+
+                    return false;
+                },
+                showOption: function() {
+                    $('#options').show();
+                },
+                hideOption: function() {
+                    $('#options').hide();
+                },
+                addOption: function() {
+                    html = '<p><input type="text" name="option[]" class="required input" placeholder="Option"></p>';
+                    $('#optionList').append(html);
+                    return false;
+                },
+                setType: function(e) {
+                    if(/(select)|(radio)|(checkbox)/.test(e)) this.showOption();
+                    else this.hideOption();
+                    $('#typeField').val(e);
+                    $('.choose_type li').removeClass('editor_menu active');
+                    $('#field_' + e).addClass('editor_menu active');
+                },
+
+                bindAddField: function(a) {
+
+                    a.click(function() {
+                        // Section id
+                        var section_id = $(this).attr('section_id');
+                        // Url
+                        var url = '<?php echo $this->getUrl('form/application_field/edit', array('option_value_id' => $this->getOptionValue()->getId())); ?>';
+                        url += '/section_id/' + section_id;
+                        $(this).attr('href', url + '?ajax=true');
+
+                        return false;
+                    });
+
+                    a.prettyPhoto({
+                        default_width: 500,
+                        show_title: false,
+                        deeplinking: false,
+                        social_tools: '',
+                        gallery_markup: '',
+                        changepicturecallback: function() {
+                            createCustomUI();
+                            $('#fieldForm').submit(this.save.bind(this));
+                        }.bind(this),
+                        keyboard_shortcuts: false,
+                        theme: 'pp_none'
+                    });
+                }
+
+            }
+
+
+</script>

@@ -1,0 +1,96 @@
+
+<sb-section title="'<?php echo addcslashes(__("Installed modules"), "'"); ?>'">
+    <table class="table">
+        <thead>
+            <tr>
+                <th style="width:50%;"><?php echo __("Name") ?></th>
+                <th style="width:30%;"><?php echo __("Version") ?></th>
+                <th style="width:20%;text-align:right;"><?php echo __("Actions") ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="module in modules" ng-show="modules.length">
+                <td>{{ module.name }}</td>
+                <td>{{ module.version }}</td>
+                <td style="text-align:right;">
+                    <?php if(APPLICATION_ENV != "production"): ?>
+                    <button class="btn btn-xs btn-info" ng-repeat="(k, action) in module.actions" ng-click="moduleAction(module.original_name, k);">{{ action.label }}</button>
+                    <?php endif; ?>
+                </td>
+            </tr>
+            <tr ng-show="!modules.length">
+                <td colspan="3"><?php echo __("No modules") ?></td>
+            </tr>
+        </tbody>
+    </table>
+
+</sb-section>
+
+<sb-section title="'<?php echo addcslashes(__("Installed layouts"), "'"); ?>'">
+    <table class="table">
+        <thead>
+        <tr>
+            <th style="width:50%;"><?php echo __("Name") ?></th>
+            <th style="width:30%;"><?php echo __("Version") ?></th>
+            <th style="width:20%;text-align:right;"><?php echo __("Actions") ?></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="layout in layouts" ng-show="layouts.length">
+            <td>{{ layout.name }}</td>
+            <td>{{ layout.version }}</td>
+            <td style="text-align:right;">-</td>
+        </tr>
+        <tr ng-show="!layouts.length">
+            <td colspan="3"><?php echo __("No layouts") ?></td>
+        </tr>
+        </tbody>
+    </table>
+
+</sb-section>
+
+<sb-section title="'<?php echo addcslashes(__("Installed icon packs"), "'"); ?>'">
+    <table class="table">
+        <thead>
+        <tr>
+            <th style="width:50%;"><?php echo __("Name") ?></th>
+            <th style="width:30%;"><?php echo __("Version") ?></th>
+            <th style="width:20%;text-align:right;"><?php echo __("Actions") ?></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="icon in icons" ng-show="icons.length">
+            <td>{{ icon.name }}</td>
+            <td>{{ icon.version }}</td>
+            <td style="text-align:right;">-</td>
+        </tr>
+        <tr ng-show="!icons.length">
+            <td colspan="3"><?php echo __("No icon packs") ?></td>
+        </tr>
+        </tbody>
+    </table>
+
+</sb-section>
+
+<sb-section title="'<?php echo addcslashes(__("Core modules"), "'"); ?>'">
+    <table class="table">
+        <thead>
+        <tr>
+            <th style="width:50%;"><?php echo __("Name") ?></th>
+            <th style="width:50%;text-align:right;"><?php echo __("Version") ?></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="module in core_modules" ng-show="core_modules.length">
+            <td>{{ module.name }}</td>
+            <td style="width:50%;text-align:right;">{{ module.version }}</td>
+        </tr>
+        <tr ng-show="!core_modules.length">
+            <td colspan="2"><?php echo __("No modules") ?></td>
+        </tr>
+        </tbody>
+    </table>
+
+</sb-section>
+
+

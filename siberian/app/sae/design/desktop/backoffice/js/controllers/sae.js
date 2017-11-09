@@ -1,0 +1,1 @@
+App.requires.push("ui.bootstrap.datetimepicker");

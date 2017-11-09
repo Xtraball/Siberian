@@ -1,0 +1,282 @@
+<?php $option = $this->getOptionValue(); ?>
+<?php $mcommerce = $option->getObject(); ?>
+<?php $application = $this->getApplication(); ?>
+<?php $store = $this->getCurrentStore(); ?>
+<?php $default_store = $mcommerce->getDefaultStore(); ?>
+<div>
+    <form id="storeEditForm" method="post" action="<?php echo $this->getUrl('mcommerce/application_store/editpost'); ?>" class="form-horizontal">
+        <div class="buttons">
+            <button type="button" onclick="store.close();" class="delete left"><i class="icon-arrow-left"></i></button>
+            <button type="submit" class="default_button right">OK</button>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+        <fieldset class="edit_store_informations">
+            <h4 class="subtitle">
+                <span class="left area"><?php echo $this->_('Store information'); ?></span>
+                <hr />
+                <div class="clear"></div>
+            </h4>
+            <div class="list list-input">
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label for="name"><?php echo $this->_('Store name:'); ?> <span class="input-required">*</span></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="name" name="name" class="form-control required" value="<?php echo $store->getName() ? $store->getName() : $mcommerce->getName(); ?>" placeholder="<?php echo $this->_('Store name'); ?>" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label for="email"><?php echo $this->_('Email:'); ?> <span class="input-required">*</span></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="email" name="email" class="form-control required" value="<?php echo $store->getEmail(); ?>" placeholder="<?php echo $this->_('Email'); ?>" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label for="street"><?php echo $this->_('Street:'); ?> <span class="input-required">*</span></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <textarea id="street" name="street" class="form-control required" placeholder="<?php echo $this->_('Street'); ?>"><?php echo $store->getStreet('\n'); ?></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label for="postcode"><?php echo $this->_('Postcode:'); ?> <span class="input-required">*</span></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="postcode" name="postcode" class="form-control required" value="<?php echo $store->getPostcode(); ?>" placeholder="<?php echo $this->_('Postcode'); ?>" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label for="city"><?php echo $this->_('City:'); ?> <span class="input-required">*</span></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="city" name="city" class="form-control required" value="<?php echo $store->getCity(); ?>" placeholder="<?php echo $this->_('City'); ?>" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label for="country"><?php echo $this->_('Country:'); ?></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="country" name="country" value="<?php echo $store->getCountry(); ?>" placeholder="<?php echo $this->_('Country'); ?>" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label for="phone"><?php echo $this->_('Phone:'); ?></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="phone" class="form-control" name="phone" value="<?php echo $store->getPhone(); ?>" placeholder="<?php echo $this->_('Phone'); ?>" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label for="opening_hours"><?php echo $this->_("Hours of operation:"); ?></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="opening_hours" class="form-control" name="opening_hours" value="<?php echo $store->getOpeningHours(); ?>" placeholder="<?php echo $this->_("Hours of operation"); ?>" />
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="edit_store_delivery">
+            <h4 class="subtitle">
+                <span class="left area"><?php echo $this->_('Delivery'); ?></span>
+                <hr />
+                <div class="clear"></div>
+            </h4>
+            <div class="list list-input">
+                <div class="form-group relative">
+                    <div class="col-sm-3">
+                        <label><?php echo $this->_('Delivery methods:'); ?> <span class="input-required">*</span></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <?php $delivery_method = new Mcommerce_Model_Delivery_Method(); ?>
+                        <?php $delivery_methods = $delivery_method->findAll(); ?>
+                        <?php foreach($delivery_methods as $k => $method) : ?>
+                        <?php $method->addData($store->getDeliveryMethod($method->getId())->getData()); ?>
+                        <label for="delivery_method_<?php echo $method->getId() ?>" class="checkbox delivery_method block<?php if($method->getStoreDeliveryMethodId()) : ?> checked<?php endif; ?><?php if(!$method->isFree()) : ?> toggle_shippging_cost<?php endif; ?>">
+                            <span class='icon'></span><span class='icon-to-fade'></span>
+                            <input type="checkbox" id="delivery_method_<?php echo $method->getId() ?>" class="required" name="new_delivery_methods[][method_id]" value="<?php echo $method->getId(); ?>"<?php if($method->getStoreDeliveryMethodId()) : ?> checked="checked"<?php endif; ?> />
+                            <?php echo $method->getName(); ?>
+                        </label>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <?php $method = $store->getDeliveryMethod(3); ?>
+                <div class="form-group shipping_cost"<?php if(!$method->getStoreDeliveryMethodId()) : ?>style="display:none;"<?php endif; ?>>
+                    <div class="col-sm-3">
+                        <label for="delivery_fees"><?php echo $this->_("Delivery fees:"); ?></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="delivery_fees" class="form-control" name="details_delivery_methods[3][price]" value="<?php echo $method->getPrice(); ?>" placeholder="<?php echo $this->_('Delivery fees'); ?>" />
+                    </div>
+                    <div class="col-sm-4">
+                        <?php $taxes = $mcommerce->getTaxes(); ?>
+                        <?php if($taxes->count()) : ?>
+                        <select id="store_tax_id" name="details_delivery_methods[3][tax_id]" class="no-dk form-control" style="min-width:0">
+                            <option value=""><?php echo $this->_('Tax'); ?></option>
+                        <?php foreach($taxes as $tax) : ?>
+                            <option value="<?php echo $tax->getId(); ?>"<?php if($method->getTaxId() == $tax->getId()) : ?> selected="selected"<?php endif; ?>><?php echo $tax->getName(); ?> (<?php echo $tax->getRate(); ?>%)</option>
+                        <?php endforeach ?>
+                        </select>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <div class="form-group shipping_cost"<?php if(!$method->getStoreDeliveryMethodId()) : ?>style="display:none;"<?php endif; ?>>
+                    <div class="col-sm-3">
+                        <label for="min_amount_free_delivery"><?php echo $this->_("Free delivery starting from:"); ?></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="min_amount_free_delivery" class="form-control" name="details_delivery_methods[3][min_amount_for_free_delivery]" value="<?php echo $method->getMinAmountForFreeDelivery(); ?>" placeholder="<?php echo $this->_('Free delivery starting from'); ?>" />
+                    </div>
+                </div>
+                <div class="form-group shipping_cost"<?php if(!$method->getStoreDeliveryMethodId()) : ?>style="display:none;"<?php endif; ?>>
+                    <div class="col-sm-3">
+                        <label for="clients_calculate_change"><?php echo $this->_("The clients calculate the change:"); ?></label>
+                    </div>
+                    <div class="col-sm-5">
+
+                        <label for="clients_calculate_change" class="checkbox clients_calculate_change block<?php if($store->getClientsCalculateChange()) : ?> checked<?php endif; ?>" style="padding-top:0">
+                            <span class='icon'></span><span class='icon-to-fade'></span>
+                            <input type="checkbox" id="clients_calculate_change" name="clients_calculate_change" value="1"<?php if($store->getClientsCalculateChange()) : ?> checked="checked"<?php endif; ?> />
+                        </label>
+                        
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label for="delivery_area"><?php echo $this->_("Delivery radius:"); ?></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="delivery_area" class="form-control" name="delivery_area" value="<?php echo $store->getDeliveryArea(); ?>" placeholder="<?php echo $this->_('Delivery radius'); ?>" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label for="delivery_time"><?php echo $this->_("Delivery time:"); ?></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="delivery_time" class="form-control" name="delivery_time" value="<?php echo $store->getDeliveryTime(); ?>" placeholder="<?php echo $this->_('Time in minutes'); ?>" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label for="min_amount"><?php echo $this->_("Minimum order:"); ?></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="min_amount" class="form-control" name="min_amount" value="<?php echo $store->getMinAmount(); ?>" placeholder="<?php echo $this->_('Minimum order'); ?>" />
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="edit_store_payments">
+            <h4 class="subtitle">
+                <span class="left area"><?php echo $this->_('Payment'); ?></span>
+                <hr />
+                <div class="clear"></div>
+            </h4>
+            <div class="list list-input">
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <label><?php echo $this->_('Payment methods:'); ?> <span class="input-required">*</span></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <?php $payment_method = new Mcommerce_Model_Payment_Method(); ?>
+                        <?php $payment_methods = $payment_method->findAll(); ?>
+                        <?php foreach($payment_methods as $method) : ?>
+                            <?php if($method->getCode() != "free"): ?>
+                            <label for="payment_method_<?php echo $method->getId() ?>" class="checkbox payment_method block<?php if($store->hasPaymentMethod($method->getId())) : ?> checked<?php endif; ?><?php if($method->isOnline()) : ?> toggle_payment_data<?php endif; ?>" tag="<?php if($method->isOnline()) echo $method->getCode(); ?>" style="padding-top:0">
+                                <span class='icon'></span><span class='icon-to-fade'></span>
+                                <input type="checkbox" id="payment_method_<?php echo $method->getId() ?>" class="required" name="new_payment_methods[][method_id]" value="<?php echo $method->getId(); ?>"<?php if($store->hasPaymentMethod($method->getId())) : ?> checked="checked"<?php endif; ?> />
+                                <?php echo $method->getName(); ?>
+                            </label>
+                            <?php endif; ?>
+                        <?php ?>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <?php $method = $store->getPaymentMethod("paypal")->getInstance(); ?>
+                <div class="form-group paypal_data"<?php if(!$method->getId()) : ?>style="display:none;"<?php endif; ?>>
+                    <div class="col-sm-12">
+                        <label><h4><?php echo $this->_("Paypal settings"); ?></h4></label>
+                    </div>
+                </div>
+                <div class="form-group paypal_data"<?php if(!$method->getId()) : ?>style="display:none;"<?php endif; ?>>
+                    <div class="col-sm-4">
+                        <label for="paypal_user"><?php echo $this->_("Username:"); ?> <span class="input-required">*</span></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="paypal_user" class="form-control required" name="details_payment_methods[<?php echo $method->getMethod()->getMethodId(); ?>][user]" value="<?php echo $method->getUser(); ?>" placeholder="<?php echo $this->_("Username"); ?>" />
+                    </div>
+                </div>
+                <div class="form-group paypal_data"<?php if(!$method->getId()) : ?>style="display:none;"<?php endif; ?>>
+                    <div class="col-sm-4">
+                        <label for="paypal_password"><?php echo $this->_("Password:"); ?> <span class="input-required">*</span></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="paypal_password" class="form-control required" name="details_payment_methods[<?php echo $method->getMethod()->getMethodId(); ?>][password]" value="<?php echo $method->getPassword(); ?>" placeholder="<?php echo $this->_('Password'); ?>" />
+                    </div>
+                </div>
+                <div class="form-group paypal_data"<?php if(!$method->getId()) : ?>style="display:none;"<?php endif; ?>>
+                    <div class="col-sm-4">
+                        <label for="paypal_signature"><?php echo $this->_("Signature:"); ?> <span class="input-required">*</span></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="paypal_signature" class="form-control required" name="details_payment_methods[<?php echo $method->getMethod()->getMethodId(); ?>][signature]" value="<?php echo $method->getSignature(); ?>" placeholder="<?php echo $this->_('Signature'); ?>" />
+                    </div>
+                </div>
+                <?php $method = $store->getPaymentMethod("stripe")->getInstance(); ?>
+                <div class="form-group stripe_data"<?php if(!$method->getId()) : ?>style="display:none;"<?php endif; ?>>
+                    <div class="col-sm-12">
+                        <label><h4><?php echo $this->_("Stripe settings"); ?></h4></label>
+                    </div>
+                </div>
+                <div class="form-group stripe_data"<?php if(!$method->getId()) : ?>style="display:none;"<?php endif; ?>>
+                    <div class="col-sm-4">
+                        <label for="stripe_secret_key"><?php echo $this->_("Secret Key:"); ?> <span class="input-required">*</span></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="stripe_secret_key" class="form-control required" name="details_payment_methods[<?php echo $method->getMethod()->getMethodId(); ?>][secret_key]" value="<?php echo $method->getSecretKey(); ?>" placeholder="<?php echo $this->_("Secret Key"); ?>" />
+                    </div>
+                </div>
+                <div class="form-group stripe_data"<?php if(!$method->getId()) : ?>style="display:none;"<?php endif; ?>>
+                    <div class="col-sm-4">
+                        <label for="stripe_publishable_key"><?php echo $this->_("Publishable Key:"); ?> <span class="input-required">*</span></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="stripe_publishable_key" class="form-control required" name="details_payment_methods[<?php echo $method->getMethod()->getMethodId(); ?>][publishable_key]" value="<?php echo $method->getPublishableKey(); ?>" placeholder="<?php echo $this->_("Publishable Key"); ?>" />
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <?php if($taxes->count() == 0) : ?>
+        <fieldset class="edit_store_tax">
+            <h4 class="subtitle">
+                <span class="left area"><?php echo $this->_('Tax'); ?></span>
+                <hr />
+                <div class="clear"></div>
+            </h4>
+            <div class="form-group list list-input">
+                <div class="col-sm-3">
+                    <label><?php echo $this->_('Tax rate:'); ?> <span class="input-required">*</span></label>
+                </div>
+                <div class="col-sm-5">
+                    <input type="text" id="new_tax_rate" name="new_tax_rate" class="form-control required number" value="" placeholder="<?php echo $this->_("20,00 %"); ?>" />
+                </div>
+            </div>
+        </fieldset>
+        <?php endif; ?>
+        <?php if($store->getId()) : ?>
+            <input type="hidden" name="store_id" id="store_id" value="<?php echo $store->getId() ?>" />
+        <?php endif; ?>
+        <input type="hidden" name="option_value_id" value="<?php echo $option->getId() ?>" />
+
+    </form>
+</div>

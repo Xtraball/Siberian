@@ -1,0 +1,281 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option = $this->getOptionValue(); ?>
+<?php $topic = $option->getObject();?>
+<?php $categories = $topic->getCategories() ?>
+    <div class="form_content topics-edit">
+        <div id="page-description">
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo $this->_('Page description'); ?>
+            </h3>
+            <div class="container-fluid first-row-feature content-feature">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <form method="post" id="editPageDescription" action="<?php echo $this->getUrl('topic/application/editdescription'); ?>">
+                                <textarea id="description" name="description" class="input-flat" maxlength="250"><?php echo $topic->getDescription(); ?></textarea>
+                                <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
+                            </form>
+                        </div>
+                        <div class="col-md-12">
+                            <button class="button btn bt_save btn color-blue pull-right" onclick="editDescription()"><?php echo $this->_('Save'); ?></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="manage-topics" class="margin-bkg">
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo $this->_('Manage Topics'); ?>
+                <button type="button" id="add_category" class="btn edit_category color-blue toggle_design pull-right bt-header-right btn" rel="new" onclick="categories.edit(null);">
+                    <i class="fa fa-plus"></i>
+                    <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
+                    <input type="hidden" id="add_category_parent_id" name="parent_id" value="" />
+                </button>  
+            </h3>
+            <div class="container-fluid first-row-feature content-feature">
+                <ul id="category_root" class="tree list-group">
+                    <?php foreach($categories as $category) : ?>
+                        <?php echo $this->getLayout()->addPartial('root_category_'.$category->getId(), get_class($this), 'topic/application/edit/list.phtml')
+                            ->setCategory($category)
+                            ->toHtml()
+                        ;
+                        ?>
+                    <?php endforeach; ?>
+                </ul>
+                
+                <form method="post" id="editCategoryForm" action="<?php echo $this->getUrl('topic/application/editcategory'); ?>">
+                    <input id="edit_category_id" type="hidden" name="category_id" value="" />
+                    <input id="edit_parent_id" type="hidden" name="parent_id" value="" />
+                    <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
+                </form>
+            </div>
+        </div>
+        <div id="background">
+            <?php echo $this->importBackground($option); ?>
+        </div>
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                bindForms('#background');
+            });
+
+            function editDescription() {
+                var form = $('#editPageDescription');
+                reload(form, form.attr('action'), true, function(data) {
+                    iframe.f.reload();
+                });
+            };
+
+            page.setCallback('didappear', function() {
+                $('#description').ckeditor(ckeditor_config.default);
+                categories.processEvents();
+            });
+
+            var category_background_uploader = new Uploader();
+
+            var categories = {
+                processEvents: function() {
+                    this.current_category_id = null;
+                    this.is_editing = false;
+                    this.createSortableList();
+                    if($("#category_root").children("li").length == 0) {
+                        this.addNoTopics();
+                    }
+                },
+                createSortableList: function() {
+                    if($("#category_root").children("li").length > 0) {
+                        //Drag catégories
+                        $('#category_root').nestedSortable({
+                            maxLevels: 2,
+                            helper: 'clone',
+                            forcePlaceholderSize: true,
+                            tolerance: 'pointer',
+                            toleranceElement: '> div',
+                            tabSize: 50,
+                            listType: 'ul',
+                            items: 'li',
+                            placeholder: 'placeholder',
+                            revert: 150,
+                            zIndex: 9999,
+                            handle: 'i.icon-move',
+                            update: function (e, ui) {
+                                var order = $('#category_root').nestedSortable('serialize');
+                                $('#category_root').nestedSortable('refresh');
+                                reload($('.categories_list.sortable'), '<?php echo $this->getUrl('topic/application/order'); ?>?' + order, true, function (data) {
+                                    iframe.f.reload();
+                                });
+                            }.bind(this)
+                        });
+                    }
+                },
+                edit: function(category_id) {
+
+                    if(!this.is_editing) {
+                        this.is_editing = true;
+                        var form = $('#editCategoryForm');
+                        var parent_id = null;
+                        $('#edit_category_id').val(category_id);
+                        if(!category_id) parent_id = this.current_category_id;
+                        $('#edit_parent_id').val(parent_id);
+
+                        reload(form, form.attr('action'), true, function(data) {
+                            if(data.form_html) {
+
+                                var ul = $('#category_root');
+                                if(category_id) {
+                                    $("#actions_" + category_id).append(data.form_html);
+                                } else {
+                                    ul.append(data.form_html);
+                                }
+
+                                this.showForm();
+                            }
+                        }.bind(this));
+                     }
+
+                },
+                delete: function(elem,category_id) {
+
+                    if(!confirm('<?php echo addslashes($this->_("Are you sure you want to delete this category and all its subcategories?")) ?>')) return false;
+                    var url = '<?php echo $this->getUrl('topic/application/delete', array('option_value_id' => '#{value_id}', 'category_id' => '#{category_id}')); ?>';
+                    url = url.replace('#{value_id}', '<?php echo $option->getId(); ?>').replace('#{category_id}', category_id);
+                    reload(elem, url, true, function(data) {
+                        if(data.success) {
+                            $('#category_'+category_id).slideUp(300, function() {
+                                $(this).remove();
+                                if($("#category_root").children("li").length == 0) {
+                                    categories.addNoTopics();
+                                }
+                            });
+                            iframe.f.reload();
+                        }
+                    });
+
+                },
+                showForm: function() {
+
+                    $('#categoryForm').submit(function(e) {
+                        var form = e.target;
+                        if(!$(form).valid()) return false;
+                        reload(form, form.action, true, function(data) {
+                            if(data.success) {
+                                $("#no_topics").remove();
+                                if(data.row_html) {
+                                    $('#category_root').append(data.row_html);
+                                }
+                                if(data.category_label) {
+                                    $("#category_title_" + data.category_id).html(data.category_label);
+                                }
+                                if($("#category_root").children("li").length > 1) {
+                                    $("#no_topics").hide();
+                                }
+                                this.hideForm();
+                                iframe.f.reload();
+                            }
+                        }.bind(this));
+                        return false;
+                    }.bind(this));
+
+                    //Supprime l'image de la catégorie
+                    $('#remove_background_img').click(function() {
+                        $('#category_file').val('');
+                        $('#remove_category_background').val('1');
+                        $('#remove_background_img').hide();
+                        $('#background_img_src').hide();
+                        $('#upload_category_background').show();
+                        return false;
+                    }.bind(this));
+
+                    $('#upload_category_background').click(function() {
+                        $('#picture').trigger('click');
+                        return false;
+                    });
+
+                    //Upload image
+                    $('#picture').fileupload({
+                        dataType: 'json',
+                        add: function(e, data) {
+                            data.submit();
+                            category_background_uploader.showProgressbar();
+                        },
+                        progressall: function(e, data) {
+                            category_background_uploader.moveProgressbar(data);
+                        },
+                        done: function(e, data) {
+                            if (data.result.error) {
+                                category_background_uploader.showError(data.result.message);
+                            }
+                            if (data.result.success) {
+                                category_background_uploader.hide();
+                                var params = new Array();
+                                params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+                                params["file"] = data.result.files;
+                                params["output_w"] = 160;
+                                params["output_h"] = 100;
+                                params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('topic/application/crop')) ?>';
+                                params["uploader"] = 'category_background_uploader';
+                                category_background_uploader.crop(params);
+                                category_background_uploader.callback = function(file) {
+                                    $('#category_file').val(file);
+                                    $('#remove_category_background').val('');
+                                    $('#upload_category_background').hide();
+                                    $('#background_img_src').attr('src', '<?php echo Core_Model_Directory::getTmpDirectory(); ?>/'+file);
+                                    $('#remove_background_img').show();
+                                    $('#background_img_src').show();
+                                }
+                            }
+                        }
+                    });
+
+                    $('#cancel_category_edition').click(function() {
+                        if(confirm('<?php echo addslashes($this->_('Are you sure you want to close without saving?')); ?>')) {
+                            this.hideForm();
+                        }
+                    }.bind(this));
+
+                    $('#edit_category').slideDown(300, function() {
+                        $('#category_form').fadeIn(300, function() {$('#category_title').focus();});
+                    });
+                },
+                hideForm: function() {
+
+                    $('#category_title').unbind('keyup');
+                    $('#categoryForm').unbind('submit');
+
+                    $('#category_form').fadeOut(300, function() {
+                        $('#edit_category').slideUp(300, function() {
+                            $(this).remove();
+                        });
+                    });
+                    this.is_editing = false;
+                    this.createSortableList();
+
+                },
+                addNoTopics: function() {
+                    $("#category_root").append("<li id='no_topics' class='no_topics'><?php echo $this->_("No topics for now."); ?></li>");
+                }
+            };
+
+        </script>
+        <style>
+            input{width:auto}
+            ul.tree li.placeholder {
+                position: relative;
+                margin: 0;
+                padding: 0;
+                border: 1px dotted;
+                background: rgba(0,0,0,0.1);
+                height: 40px;
+            }
+            ul.tree li.placeholder.mjs-nestedSortable-error {
+                background: rgba(255,0,0,0.3);
+                border-color: red;
+                border-style: solid;
+            }
+            ul.tree li{
+                transition: none 0s ease 0s;
+                list-style: none;
+            }
+            .bt_save{padding:5px;margin-top:5px;width:55px !important}
+        </style>
+    </div>

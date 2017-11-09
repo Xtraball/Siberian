@@ -1,0 +1,53 @@
+<ion-view sb-page-background sb-padlock class="padlock-view">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-content>
+
+        <div class="card padlock">
+
+            <div class="item item-text-wrap item-custom">
+                <h2>{{ "Access restricted to authorized members only" | translate }}</h2>
+            </div>
+
+            <div class="item item-body item-custom text-center" style="overflow: hidden;">
+                <i class="icon ion-locked"></i>
+            </div>
+
+            <div class="item item-text-wrap item-custom" ng-show="!is_loading" ng-if="is_logged_in && unlock_by_account_type">
+                <p ng-if="!app_is_locked">{{ "We are sorry but your account does not have enough permissions to access this page" | translate }}</p>
+                <p ng-if="app_is_locked">{{ "We are sorry but your account does not have enough permissions to access this application" | translate }}</p>
+            </div>
+
+            <div class="item item-icon-left item-custom" ng-if="description" ng-show="!is_loading">
+                <i class="icon ion-ios-paper-outline"></i>
+                <span ng-bind-html="description" style="white-space:normal;"></span>
+            </div>
+
+            <div class="item item-icon-left item-custom" ng-click="padlock_logout()" ng-show="!is_loading" ng-if="is_logged_in && unlock_by_account_type">
+                <i class="icon ion-power"></i>
+                {{ "Log-out" | translate }}
+            </div>
+
+            <div class="item item-icon-left item-custom" ng-click="padlock_login()" ng-show="!is_loading" ng-if="!is_logged_in && unlock_by_account_type">
+                <i class="icon ion-ios-person-outline"></i>
+                {{ "Log-in" | translate }}
+            </div>
+
+            <div class="item item-icon-left item-custom" ng-click="padlock_signup()" ng-show="!is_loading" ng-if="!is_logged_in && unlock_by_account_type">
+                <i class="icon ion-ios-personadd-outline"></i>
+                {{ "Signup" | translate }}
+            </div>
+
+            <div class="item item-icon-left item-custom" ng-click="openScanCamera()" ng-show="!is_loading" ng-if="!is_webview && unlock_by_qrcode_type">
+                <i class="icon ion-qr-scanner"></i>
+                {{ "Scan now to unlock" | translate }}
+            </div>
+
+        </div>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+    </ion-content>
+
+</ion-view>

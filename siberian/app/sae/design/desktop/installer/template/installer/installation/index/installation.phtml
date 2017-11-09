@@ -1,0 +1,40 @@
+<div class="animated part part1">
+    <h3 class="title blue10">Hold on please, we are installing your plugins</h3>
+    <p>Please don't refresh the page, the process may take minutes.</p>
+</div>
+<div class="animated part part2">
+    <div class="progress animated part part2" >
+        <div
+            id="progressbar"
+            class="progress-bar progress-bar-striped active animated"
+            style="text-align: right;"
+            role="progressbar"
+            aria-valuenow="40"
+            aria-valuemin="0"
+            aria-valuemax="100">
+            <span class="binding-progress">0%</span>
+        </div>
+    </div>
+
+    <div>
+        <p id="installation_progress"><span id="label_install">Installing</span> : <span id="label_module" class="blue5"></span></p>
+        <p id="installation_ending" class="none">Ending Installation...</p>
+        <p id="installation_successful" class="blue5 none"><i class="icon-ok"></i> Your plugins are successfully installed!</p>
+    </div>
+</div>
+<form id="installationForm">
+    <input type="hidden" id="module_name" name="name" value="" />
+</form>
+
+<script type="text/javascript">
+    var step = new Step(4);
+    installer.addStep(step);
+    step.isVisible = function() {
+        installer.startInstallation();
+    };
+</script>
+<style type="text/css">
+.progress-bar.progress-bar-striped.active.animated {
+    background-color: #0099c7;
+}
+</style>

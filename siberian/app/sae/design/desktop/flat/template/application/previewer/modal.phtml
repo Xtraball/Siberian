@@ -1,0 +1,29 @@
+<?php $application = $this->getApplication(); ?>
+<?php $previewer = Previewer_Model_Previewer::getInstance(); ?>
+<div class="previewer container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <?php echo $previewer->getModalText1(); ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 first-row-feature">
+            <?php if($qrcode_url = $previewer->getQrcodeUrl()) : ?>
+                <p><?php echo $this->_('Scan this QR Code:'); ?></p>
+                <p>
+                    <img src="<?php echo $qrcode_url; ?>" title="<?php echo $this->_('Scan this QR Code'); ?>" alt="<?php echo $this->_("The QR Code is not available at this moment"); ?>" />
+                </p>
+            <?php endif; ?>
+        </div>
+        <?php if($modal_image = $previewer->getModalImageUrl()) : ?>
+            <div class="col-md-8 text-center first-row-feature hidden-xs hidden-sm">
+                <img id="modal_image" src="<?php echo $modal_image ?>" title="<?php echo $this->_('Download our app previewer'); ?>" alt="<?php echo $this->_('Download our app previewer'); ?>" style="max-width:400px"/>
+            </div>
+        <?php endif; ?>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <?php echo $previewer->getModalText2(); ?>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+<div class="wrapper inner_content">
+    <div class="title">
+        <div class="inner_content title_content">
+            <h1><i class="fa fa-user"></i><?php echo $this->_("Log-in"); ?></h1>
+        </div>
+    </div>
+    <div class="content">
+
+        <form ng-submit="login()" ng-show="!show_forgotten_password_form">
+
+            <div class="col-md-4 col-md-offset-4">
+                <div class="form-group">
+                    <label for="email"><?php echo $this->_("Email"); ?></label>
+                    <input type="text" id="email" class="form-control email" ng-model="credentials.email" placeholder="<?php echo $this->_("Email"); ?>" />
+                </div>
+            </div>
+
+            <div class="clear col-md-4 col-md-offset-4">
+                <div class="form-group">
+                    <label for="password"><?php echo $this->_("Password"); ?></label>
+                    <input type="password" id="password" class="form-control" ng-model="credentials.password" placeholder="<?php echo $this->_("Password"); ?>" />
+                </div>
+            </div>
+
+            <div class="clear col-md-4 col-md-offset-4">
+                <div class="form-group">
+                    <a href="javascript:void(0)" ng-click="show_forgotten_password_form = true;"><?php echo $this->_('Forgot your password?'); ?></a>
+                </div>
+            </div>
+
+            <div class="clear col-md-4 col-md-offset-4">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary"><?php echo $this->_('Log in'); ?></button>
+                    <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'"></sb-loader>
+                </div>
+            </div>
+
+        </form>
+
+        <div class="clear"></div>
+
+        <form ng-submit="forgottenPassword()" ng-show="show_forgotten_password_form">
+
+            <div class="col-md-4 col-md-offset-4">
+                <div class="form-group">
+                    <p><?php echo $this->_('Forgot your password? Don\'t worry! Simply enter your email address and we\'ll send you a new one right now.'); ?></p>
+                </div>
+            </div>
+            <br />
+            <div class="clear col-md-4 col-md-offset-4">
+                <div class="form-group">
+                    <label for="email"><?php echo $this->_("Email"); ?></label>
+                    <input type="text" id="email" class="form-control email" ng-model="credentials.email" placeholder="<?php echo $this->_("Email"); ?>" />
+                </div>
+            </div>
+
+            <div class="clear col-md-4 col-md-offset-4">
+                <div class="form-group">
+                    <button type="button" class="btn btn-danger" ng-click="show_forgotten_password_form = false;"><i class="fa fa-arrow-left"></i></button>
+                    <button type="submit" class="forgot_password_content btn btn-primary"><?php echo $this->_('Send'); ?></button>
+                    <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'"></sb-loader>
+                </div>
+            </div>
+        </form>
+
+        <div class="clear"></div>
+    </div>
+</div>

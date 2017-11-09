@@ -1,0 +1,644 @@
+<?php $application = $this->getApplication(); ?>
+<?php $demo_mode = !$application->isPublished(); ?>
+<?php $demo_label = $demo_mode ? " ".$this->_("(DEMO)") : ""; ?>
+<?php
+$api = Api_Model_Key::findKeysFor("googlemaps");
+$googlemaps_key = $api->getSecretKey() ? $api->getSecretKey() : $application->getGooglemapsKey();
+?>
+<div class="application_analytics application content solo-page">
+    <h3 class="title-editor border-blue text-center"><?php echo $this->_('App analytics'); ?></h3>
+    <div class="container-fluid subcontent content-color">
+        <?php if(!$demo_mode): ?>
+            <div id="row_filter_metrics" class="row content-white-bkg sb-tour">
+                <div class="col-md-1 col-sm-6 col-xs-6">
+                    <label for="from"><?php echo $this->_("From"); ?></label>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-6">
+                    <input type="text" id="from" name="from" class="input-flat sb-tour">
+                </div>
+                <div class="col-md-1 col-sm-6 col-xs-6">
+                    <label for="to"><?php echo $this->_("to"); ?></label>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-6">
+                    <input type="text" id="to" name="to" class="input-flat sb-tour">
+                </div>
+                <div class="col-md-2">
+                    <button class="btn color-blue" onclick="Filter_Metrics()"><?php echo $this->_("Filter metrics"); ?></button>
+                </div>
+            </div>
+        <?php else: ?>
+            <div id="sb-tour-alert-demo-mode" class="row sb-tour">
+                <div class="col-md-12">
+                    <div class="alert alert-warning">
+                        <?php echo $this->_("Please note that this page is currently displaying DEMO data. Real data will be displayed when your application is published."); ?>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+        <div class="row">
+            <div id="sb-tour-total-visits-1" class="col-md-6 col-sm-12 col-xs-12 first-row-feature sb-tour">
+                <div class="text-center totals_metrics color-blue">
+                    <?php echo $this->_("Total visits"); ?> : <span id="total_visits"></span>
+                </div>
+            </div>
+            <div id="sb-tour-total-installs-1" class="col-md-6 col-sm-12 col-xs-12 first-row-feature sb-tour">
+                <div class="text-center totals_metrics color-blue">
+                    <?php echo $this->_("Total installs"); ?> : <span id="total_installs"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row first-row-feature">
+            <div class="col-md-12" style="max-height:350px">
+                <div id="visits_loader" class="loader_metrics"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br/><?php echo $this->_("Loading..."); ?></div>
+                <canvas id="analytics_visits" class="content-white-bkg sb-tour" width="400" height="350"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4  col-xs-12 first-row-feature" style="max-height:350px">
+                <div id="installs_loader" class="loader_metrics"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br/><?php echo $this->_("Loading..."); ?></div>
+                <canvas id="analytics_installs" class="content-white-bkg sb-tour" width="400" height="350"></canvas>
+            </div>
+            <div class="col-md-4  col-xs-12 first-row-feature" style="max-height:350px">
+                <table id="sb-tour-anlytics-table-localize" class="table table-striped content-white-bkg sb-tour">
+                    <thead>
+                    <tr>
+                        <th colspan="2" class="border-purple text-center" style="font-size:12px"><?php echo $this->_("Users localization"); ?><?php echo $demo_label; ?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <div id="feature_localization_loader" class="loader_metrics"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br/><?php echo $this->_("Loading..."); ?></div>
+                            <div id="analytics_features_localization" class="content-white-bkg"></div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-4  col-xs-12 first-row-feature" style="max-height:350px">
+                <div id="feature_time_loader" class="loader_metrics"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br/><?php echo $this->_("Loading..."); ?></div>
+                <canvas id="analytics_time" class="content-white-bkg sb-tour" width="400" height="350"></canvas>
+            </div>
+        </div>
+        <div class="row first-row-feature">
+            <div class="col-md-6  col-xs-12">
+                <table id="sb-tour-table-visits-features" class="table table-striped content-white-bkg sb-tour">
+                    <thead>
+                    <tr>
+                        <th colspan="2" class="border-purple text-center" style="font-size:12px"><?php echo $this->_("Visits by feature (All)"); ?><?php echo $demo_label; ?></th>
+                    </tr>
+                    </thead>
+                    <tbody id="body_feature_visits">
+                    <?php if($demo_mode): ?>
+                    <tr>
+                        <td><strong>TOTAL</strong></td>
+                        <td><strong>485</strong></td>
+                    </tr>
+                    <tr>
+                        <td>MCommerce</td>
+                        <td>90</td>
+                    </tr>
+                    <tr>
+                        <td>Contact</td>
+                        <td>82</td>
+                    </tr>
+                    <tr>
+                        <td>Form</td>
+                        <td>80</td>
+                    </tr>
+                    <tr>
+                        <td>Catalog</td>
+                        <td>75</td>
+                    </tr>
+                    <tr>
+                        <td>Information page</td>
+                        <td>56</td>
+                    </tr>
+                    <tr>
+                        <td>Discount</td>
+                        <td>32</td>
+                    </tr>
+                    <tr>
+                        <td>Audio</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <td>RSS feed</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <td>My Account</td>
+                        <td>15</td>
+                    </tr>
+                    <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6  col-xs-12" style="max-height:350px">
+                <div id="feature_visits_loader" class="loader_metrics"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br/><?php echo $this->_("Loading..."); ?></div>
+                <canvas id="analytics_features_visits" class="content-white-bkg sb-tour" width="400" height="350"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .loader_metrics{width:100%;height:100%;background:#ffffff;text-align: center;position:absolute;padding-top:50px}
+    #top_installs_loader, #top_visits_loader{height:250px}
+    #row_filter_metrics{padding: 5px;margin-right: 0px;margin-left: 0;}
+    #row_filter_metrics label{line-height:29px}
+    #analytics_features_localization{width:100%;height:290px}
+    .totals_metrics{padding: 15px;border-radius: 2px;;text-transform: uppercase;}
+</style>
+<script>
+    var visitsChart;
+    var installsChart;
+    var featureVisitsChart;
+    var timeChart;
+    var map;
+    var markerCluster;
+
+    var demo_mode = false;
+    var no_data_mess = "<?php echo $this->_("No data for this metrics for now."); ?>";
+
+    $(document).ready(function() {
+
+        if($.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker(); ?>']) {
+            $.datepicker.setDefaults($.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker(); ?>']);
+        } else {
+            $.datepicker.setDefaults($.datepicker.regional['en']);
+        }
+
+        $( "#from" ).datepicker({
+            changeMonth: true,
+            changeYear: true,
+            numberOfMonths: 3,
+            onClose: function( selectedDate ) {
+                $( "#to" ).datepicker( "option", "minDate", selectedDate );
+            }
+        });
+
+        $( "#to" ).datepicker({
+            changeMonth: true,
+            changeYear: true,
+            numberOfMonths: 3,
+            onClose: function( selectedDate ) {
+                $( "#from" ).datepicker( "option", "maxDate", selectedDate );
+            }
+        });
+
+        var cookie_start_date = document.cookie ? getCookie("sbDateStart") : null;
+        var cookie_end_date = document.cookie ? getCookie("sbDateEnd") : null;
+
+        var default_start_date = cookie_start_date ? new Date(cookie_start_date*1000) : null;
+        var default_end_date = cookie_end_date ? new Date(cookie_end_date*1000) : new Date();
+
+        $("#to").datepicker('setDate', default_end_date);
+        if(!default_start_date) {
+            $("#from").datepicker('setDate', new Date());
+            $("#from").datepicker('setDate', -7);
+        } else {
+            $("#from").datepicker('setDate', default_start_date);
+        }
+
+        if(!$('#gmaps_libraries').length) {
+
+
+            var script_tag = document.createElement('script');
+            script_tag.setAttribute("id", "gmaps_clusteredmarker_libraries");
+            script_tag.setAttribute("type", "text/javascript");
+            script_tag.setAttribute("src", "<?php echo Core_Model_Directory::getPathTo("app/sae/design/desktop/flat/js/markerclusterer.js"); ?>");
+            (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
+            //Append second google script at the end of queue
+            window.setTimeout(function(){
+                var script_tag = document.createElement('script');
+                script_tag.setAttribute("id", "gmaps_libraries");
+                script_tag.setAttribute("type", "text/javascript");
+                script_tag.setAttribute("src", "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&callback=updateLocalizationMetric&key=<?php echo $googlemaps_key; ?>");
+                (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
+            }, 0);
+
+        }
+
+        <?php if($demo_mode) : ?>
+            demo_mode = true;
+        <?php endif; ?>
+
+        var graph_data_labels_visits = [];
+        var graph_data_values_visits = [];
+        var graph_data_installs = [];
+        var graph_data_labels_feature_visits = [];
+        var graph_data_values_feature_visits = [];
+        var map_markers = [];
+        var graph_data_time_labels = [];
+        var graph_data_time_data = [];
+
+        //----VISITS
+        var ctx = $("#analytics_visits");
+        var data = {
+            labels: graph_data_labels_visits,
+            datasets: [
+                {
+                    label: "<?php echo $this->_("Visits"); ?><?php echo $demo_label; ?>",
+                    fill: true,
+                    lineTension: 0.1,
+                    backgroundColor: "rgba(0,165,135,0.4)",
+                    borderColor: "rgba(0,165,135,1)",
+                    borderCapStyle: 'butt',
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: 'miter',
+                    pointBorderColor: "rgba(75,192,192,1)",
+                    pointBackgroundColor: "#fff",
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 1,
+                    pointHitRadius: 10,
+                    data: graph_data_values_visits
+                }
+            ]
+        };
+        visitsChart = new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: {"responsive":true,maintainAspectRatio: false}
+        });
+
+        //----INSTALLS
+        var ctx = $("#analytics_installs");
+        Chart.defaults.global.title.display = true;
+        Chart.defaults.global.title.text = "<?php echo $this->_("Installs"); ?><?php echo $demo_label; ?>";
+        var data = {
+            labels: [
+                "Ios",
+                "Android"
+            ],
+            datasets: [
+                {
+                    data: graph_data_installs,
+                    backgroundColor: [
+                        "#F97D0B",
+                        "#FEDD30"
+                    ],
+                    hoverBackgroundColor: [
+                        "#F97D0B",
+                        "#FEDD30"
+                    ]
+                }]
+        };
+        installsChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: data,
+            options: {"responsive":true,maintainAspectRatio: false}
+        });
+
+        //VISITS BY FEATURE
+        Chart.defaults.global.title.text = "<?php echo $this->_("Visits by feature (Top 5)"); ?><?php echo $demo_label; ?>";
+        var ctx = $("#analytics_features_visits");
+        var data = {
+            labels: graph_data_labels_feature_visits,
+            datasets: [
+                {
+                    label: '<?php echo __("Feature Top 5 visits"); ?>',
+                    backgroundColor: "rgba(244,67,54,0.7)",
+                    borderColor: "rgba(244,67,54,0.7)",
+                    borderWidth: 1,
+                    hoverBackgroundColor: "rgba(244,67,54,0.7)",
+                    hoverBorderColor: "rgba(244,67,54,0.7)",
+                    data: graph_data_values_feature_visits
+                }
+            ]
+        };
+        featureVisitsChart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                "responsive":true,
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: 0
+                        }
+                    }]
+                }
+            }
+        });
+
+        //TIME SPEND
+        Chart.defaults.global.title.text = "<?php echo $this->_("Time spent in application"); ?><?php echo $demo_label; ?>";
+        var ctx = $("#analytics_time");
+        var data = {
+            labels: graph_data_time_labels,
+            datasets: [
+                {
+                    label: '<?php echo __("Users"); ?>',
+                    backgroundColor: "rgba(244,67,54,0.7)",
+                    borderColor: "rgba(244,67,54,0.7)",
+                    borderWidth: 1,
+                    hoverBackgroundColor: "rgba(244,67,54,0.7)",
+                    hoverBorderColor: "rgba(244,67,54,0.7)",
+                    data: graph_data_time_data
+                }
+            ]
+        };
+        timeChart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {"responsive":true,maintainAspectRatio: false}
+        });
+
+        if(demo_mode) {
+            graph_data_labels_visits = ["January", "February", "March", "April", "May", "June", "July"];
+            graph_data_values_visits = [65, 59, 180, 81, 56, 55, 40];
+            graph_data_installs = [300, 50];
+            graph_data_labels_feature_visits = ["MCommerce", "Contact", "Form", "Catalog", "Information page"];
+            graph_data_values_feature_visits = [90, 82, 80, 75, 56];
+            graph_data_time_labels = ["0-20s", "20-40s", "40-60s", "1-2 min.", "2-5 min.", "5+ min."];
+            graph_data_time_data = [90, 82, 80, 75, 56, 87];
+
+            installsChart.data.datasets[0].data = graph_data_installs;
+            installsChart.update();
+
+            visitsChart.data.datasets[0].data = graph_data_values_visits;
+            visitsChart.data.labels = graph_data_labels_visits;
+            visitsChart.update();
+
+            featureVisitsChart.data.datasets[0].data = graph_data_values_feature_visits;
+            featureVisitsChart.data.labels = graph_data_labels_feature_visits;
+            featureVisitsChart.update();
+
+            timeChart.data.datasets[0].data = graph_data_time_data;
+            timeChart.data.labels = graph_data_time_labels;
+            timeChart.update();
+
+            $("#total_visits").html(536);
+            $("#total_installs").html(350);
+
+            hideAllMetricsLoader();
+        } else {
+            var params = Compute_Date_Range();
+
+            //Update installs graph
+            updateInstallMetric(params);
+            //Update visits graph
+            updateVisitMetric(params);
+            //Update feature visits graph (top 5 and all)
+            updateFeatureVisitMetric(params);
+            //Update time spend graph
+            updateTimeMetric(params);
+        }
+
+    });
+
+    function Compute_Date_Range() {
+        var start_timestamp = parseInt($.datepicker.formatDate( "@", $("#from").datepicker("getDate"))/1000);
+        var end_timestamp = parseInt($.datepicker.formatDate( "@", $("#to").datepicker("getDate"))/1000);
+        //We go to 23:59
+        end_timestamp = end_timestamp + (60*60*24) - 60;
+        var params = {
+            "start": start_timestamp,
+            "end": end_timestamp
+        };
+
+        return params;
+    }
+
+    function Filter_Metrics() {
+        if($("#from").val() && $("#to").val()) {
+            var params = Compute_Date_Range();
+
+            if(params.start <= params.end) {
+                updateCookie();
+
+                showAllMetricsLoader();
+
+                //Update installs graph
+                updateInstallMetric(params);
+                //Update visits graph
+                updateVisitMetric(params);
+                //Update feature visits graph (top 5 and all)
+                updateFeatureVisitMetric(params);
+                //Update user localization map
+                updateLocalizationMetric(params);
+                //Update time spend graph
+                updateTimeMetric(params);
+            } else {
+                var page_message = new AlertMessage("<?php echo $this->_("Start date must be lower than end date."); ?>");
+                page_message.addButton(true);
+                page_message.setTimer(false);
+                page_message.isError(true);
+                page_message.show();
+            }
+        } else {
+            var page_message = new AlertMessage("<?php echo $this->_("You have to chose a start and an end date."); ?>");
+            page_message.addButton(true);
+            page_message.setTimer(false);
+            page_message.isError(true);
+            page_message.show();
+        }
+    }
+
+    function updateInstallMetric(params) {
+
+        var date_range = params ? params : null;
+
+        $.ajax({
+            method: "POST",
+            dataType: 'json',
+            url: "/analytics/analytics/getinstallsmetric",
+            data: { app_ids: '<?php echo $application->getId(); ?>', date_range: date_range }
+        }).done(function( data ) {
+            if(data.success) {
+                var total = 0;
+                $.each(data.data, function(ind, elem) {
+                    total += parseInt(elem);
+                });
+                $("#total_installs").html(total);
+                installsChart.data.datasets[0].data = data.data;
+                installsChart.update();
+                $("#installs_loader").hide();
+            }
+        }).error(function() {
+            $("#installs_loader").hide();
+        });
+    }
+
+    function updateVisitMetric(params) {
+
+        var date_range = params ? params : null;
+
+        $.ajax({
+            method: "POST",
+            dataType: 'json',
+            url: "/analytics/analytics/getvisitsmetric",
+            data: { app_ids: '<?php echo $application->getId(); ?>', date_range: date_range }
+        }).done(function( data ) {
+            if(data.success) {
+                var total = 0;
+                $.each(data.data.metrics, function(ind, elem) {
+                    total += parseInt(elem);
+                });
+                $("#total_visits").html(total);
+                visitsChart.data.datasets[0].data = data.data.metrics;
+                visitsChart.data.labels = data.data.labels;
+                visitsChart.update();
+                $("#visits_loader").hide();
+            }
+        }).error(function() {
+            $("#visits_loader").hide();
+        });
+    }
+
+    function updateFeatureVisitMetric(params) {
+
+        var date_range = params ? params : null;
+
+        $.ajax({
+            method: "POST",
+            dataType: 'json',
+            url: "/analytics/analytics/getfeaturevisitsmetric",
+            data: { app_ids: '<?php echo $application->getId(); ?>', date_range: date_range }
+        }).done(function( data ) {
+            if(data.success) {
+                var new_html = "";
+                var total = 0;
+                if(data.data.length) {
+                    var tab_labels = [];
+                    var tab_metrics = [];
+                    $.each(data.data, function(ind, elem) {
+                        if(ind<5) {
+                            tab_labels.push(elem.name);
+                            tab_metrics.push(elem.metric);
+                        }
+                        new_html += "<tr><td>" + elem.name + "</td><td>" + elem.metric + "</td></tr>";
+                        total += parseInt(elem.metric);
+                    });
+                    new_html = "<tr><td><strong>Total</strong></td><td><strong>" + total + "</strong></td></tr>" + new_html;
+                    featureVisitsChart.data.datasets[0].data = tab_metrics;
+                    featureVisitsChart.data.labels = tab_labels;
+                    featureVisitsChart.update();
+                } else {
+                    new_html = "<tr><td colspan='2'>" + no_data_mess + "</td></tr>";
+                    featureVisitsChart.data.datasets[0].data = [];
+                    featureVisitsChart.data.labels = [];
+                    featureVisitsChart.update();
+                }
+                $("#body_feature_visits").html(new_html);
+                $("#feature_visits_loader").hide();
+            }
+        }).error(function() {
+            $("#feature_visits_loader").hide();
+        });
+    }
+
+    function updateLocalizationMetric() {
+
+        if(!demo_mode) {
+            var date_range = Compute_Date_Range();
+        }
+
+        var center = new google.maps.LatLng(43.586494, 1.462534);
+        var options = {
+            'zoom': 1,
+            'center': center,
+            'mapTypeId': google.maps.MapTypeId.ROADMAP
+        };
+
+        map = new google.maps.Map(document.getElementById("analytics_features_localization"), options);
+
+        map_markers = [new google.maps.Marker({'position': new google.maps.LatLng(-33.890542, 151.274856)}),
+            new google.maps.Marker({'position': new google.maps.LatLng(-33.923036, 151.259052)}),
+            new google.maps.Marker({'position': new google.maps.LatLng(-34.028249, 151.157507)}),
+            new google.maps.Marker({'position': new google.maps.LatLng(-33.80010128657071, 151.28747820854187)}),
+            new google.maps.Marker({'position': new google.maps.LatLng(43.586494, 1.462534)}),
+            new google.maps.Marker({'position': new google.maps.LatLng(40.712331, -74.001357)}),
+            new google.maps.Marker({'position': new google.maps.LatLng(43.691116, -71.063925)}),
+            new google.maps.Marker({'position': new google.maps.LatLng(50.092761, 67.471303)}),
+            new google.maps.Marker({'position': new google.maps.LatLng(49.879023, 66.613949)}),
+            new google.maps.Marker({'position': new google.maps.LatLng(-33.950198, 151.259302)})];
+        markerCluster = new MarkerClusterer(map, map_markers, {imagePath: '<?php echo $this->getImagePath()."/localization/m"; ?>'});
+
+        if(!demo_mode) {
+            $.ajax({
+                method: "POST",
+                dataType: 'json',
+                url: "/analytics/analytics/getlocalizationmetric",
+                data: {app_ids: '<?php echo $application->getId(); ?>', date_range: date_range}
+            }).done(function (data) {
+                if (data.success) {
+                    markerCluster.clearMarkers();
+                    var markers = [];
+                    for (var i = 0; i < data.markers.length; i++) {
+                        var latLng = new google.maps.LatLng(data.markers[i].lat, data.markers[i].lng);
+                        var marker = new google.maps.Marker({'position': latLng});
+                        markers.push(marker);
+                    }
+                    markerCluster.addMarkers(markers);
+                    $("#feature_localization_loader").hide();
+                }
+            }).error(function () {
+                $("#feature_localization_loader").hide();
+            });
+        }
+    }
+
+    function updateTimeMetric(params) {
+
+        var date_range = params ? params : null;
+
+        $.ajax({
+            method: "POST",
+            dataType: 'json',
+            url: "/analytics/analytics/gettimespendapp",
+            data: { app_ids: '<?php echo $application->getId(); ?>', date_range: date_range }
+        }).done(function( data ) {
+            if(data.success) {
+                timeChart.data.datasets[0].data = data.time_spend.metrics;
+                timeChart.data.labels = data.time_spend.labels;
+                timeChart.update();
+                $("#feature_time_loader").hide();
+            }
+        }).error(function() {
+            $("#feature_time_loader").hide();
+        });
+    }
+
+    function hideAllMetricsLoader() {
+        $("#installs_loader").hide();
+        $("#visits_loader").hide();
+        $("#feature_visits_loader").hide();
+        $("#feature_localization_loader").hide();
+        $("#feature_time_loader").hide();
+    }
+
+    function showAllMetricsLoader() {
+        $("#installs_loader").show();
+        $("#visits_loader").show();
+        $("#feature_visits_loader").show();
+        $("#feature_localization_loader").show();
+        $("#feature_time_loader").show();
+    }
+
+    function updateCookie() {
+        var cookie_date = Compute_Date_Range();
+        if (navigator.cookieEnabled) {
+            var expire_at = new Date();
+            expire_at.setTime(expire_at.getTime()+(60*60*1000));
+            document.cookie = "sbDateStart=" + cookie_date.start + ";expires=" + expire_at.toUTCString() + ";";
+            document.cookie = "sbDateEnd=" + cookie_date.end + ";expires=" + expire_at.toUTCString() + ";";
+        }
+    }
+
+    function getCookie(cookieName) {
+        var oRegex = new RegExp("(?:; )?" + cookieName + "=([^;]*);?");
+
+        if (oRegex.test(document.cookie)) {
+            return decodeURIComponent(RegExp["$1"]);
+        } else {
+            return null;
+        }
+    }
+</script>

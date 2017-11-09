@@ -1,0 +1,41 @@
+<ion-view sb-page-background class="event-view">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-content>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <ion-refresher class="spinner-custom"
+                       pulling-text="{{ 'Pull to refresh...' | translate }}"
+                       on-refresh="pullToRefresh()">
+        </ion-refresher>
+
+        <div class="list" ng-class="{'card' : card_design}" ng-repeat="group in groups track by $index" ng-show="!is_loading">
+
+            <div>
+                <div class="item item-divider item-divider-custom">{{ group }}</div>
+                <div class="item item-custom" ng-repeat="item in collection" ng-class="{'item-thumbnail-left': item.picture}" ng-click="showItem(item)" ng-if="item.group == group">
+                    <img ng-src="{{ item.picture }}" ng-if="item.picture" />
+                    <h2>{{ item.title }}</h2>
+                    <p>{{ item.subtitle }}</p>
+                    <p ng-if="item.start_time_at">{{ "Entrance:" | translate }} {{ item.start_time_at }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="list" ng-if="!is_loading && !collection.length">
+            <div class="item text-center item-custom">
+                {{ "No items found" | translate }}
+            </div>
+        </div>
+
+        <ion-infinite-scroll ng-if="load_more"
+                             on-infinite="loadContent(true)"
+                             immediate-check="false"
+                             distance="10%"
+                             class="spinner-custom">
+        </ion-infinite-scroll>
+
+    </ion-content>
+</ion-view>

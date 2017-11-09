@@ -1,0 +1,41 @@
+<?php $admin = new Admin_Model_Admin(); ?>
+<?php $admins = $admin->findAll(array(new Zend_Db_Expr('parent_id IS NULL')), 'created_at DESC', array('limit' => 5)); ?>
+<?php $application = new Application_Model_Application(); ?>
+<?php $applications = $application->findAll(array(), 'created_at DESC', array('limit' => 5)); ?>
+<div class="content application">
+    <div class="application_content inner_content">
+        <div class="title">
+            <h2 class="left inner_content f-rounded"><?php echo $this->_('Siberian CMS'); ?></h2>
+            <div class="clear"></div>
+            <hr />
+        </div>
+        <div class="area">
+            <h3 class="title">
+                <span class="left area"><?php echo $this->_("Dashboard"); ?></span>
+                <div class="clear"></div>
+            </h3>
+            <table width="48%" class="list left">
+                <tr><th colspan="3">5 last users</th></tr>
+                <?php foreach($admins as $admin) : ?>
+                <tr>
+                    <td><?php echo $admin->getEmail(); ?></td>
+                    <td><?php echo $admin->getFormattedCreatedAt(); ?></td>
+                    <td><a href="<?php echo $this->getUrl('admin/backoffice/edit', array('admin_id' => $admin->getId())); ?>"><i class="icon-edit"></i></a></td>
+                </tr>
+                <?php endforeach ?>
+            </table>
+            <table width="48%" class="list right">
+                <tr><th colspan="3">5 last applications</th></tr>
+                <?php foreach($applications as $application) : ?>
+                <tr>
+                    <td><img src="<?php echo $application->getIcon(); ?>" width="60" /></td>
+                    <td><?php echo $application->getName(); ?></td>
+                    <td><?php echo $application->getFormattedCreatedAt(); ?></td>
+                    <td><a href="<?php echo $this->getUrl('application/backoffice/edit', array('app_id' => $application->getId())); ?>"><i class="icon-edit"></i></a></td>
+                </tr>
+                <?php endforeach ?>
+            </table>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,87 @@
+<?php 
+$admin = new Admin_Model_Admin();
+$admins = $admin->findAll(array('parent_id' => $this->getAdmin()->getId())); 
+?>
+
+<div class="form-horizontal">
+    <div class="form-group">
+        <div class="col-md-12">
+            <div class="page-content-wrapper content solo-page">
+                <h3 class="title-editor border-blue text-center">
+                    <?php echo $this->_('List of my accounts'); ?>
+                </h3>
+                <div class="subcontent content-color container-fluid">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <button id="sb-tour-add-account" class="color-blue btn sb-tour" onclick="window.location = '<?php echo $this->getUrl('admin/access_management/new'); ?>'">
+                                <?php echo $this->_("Add"); ?>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <?php if(count($admins)): ?>
+                        <div class="col-md-12">
+                            <table id="sb-tour-table-account" class="table account_list sb-tour">
+                                <col width="30%" />
+                                <col width="30%" />
+                                <col width="30%" />
+                                <col width="10%" />
+                                <tr>
+                                    <th class="border-blue"><?php echo $this->_('Email'); ?></th>
+                                    <th class="border-blue"><?php echo $this->_('Created at'); ?></th>
+                                    <th class="border-blue"><?php echo $this->_('Updated at'); ?></th>
+                                    <th class="border-blue"></th>
+                                </tr>
+                                <?php foreach($admins as $admin) : ?>
+                                <tr id="row_account_<?php echo $admin->getId(); ?>">
+                                    <td><?php echo $admin->getEmail(); ?></td>
+                                    <td><?php echo $admin->getFormattedCreatedAt(); ?></td>
+                                    <td><?php echo $admin->getFormattedUpdatedAt(); ?></td>
+                                    <td>
+                                        <div>
+                                            <a id="admin_edit_<?php echo $admin->getId(); ?>" href="<?php echo $this->getUrl('admin/access_management/edit', array('admin_id' => $admin->getId())); ?>">
+                                                <i class="fa fa-pencil"></i>
+                                            </a>
+                                            <?php if($admin->getParentId()) : ?>
+                                            <a id="admin_delete_<?php echo $admin->getId(); ?>" class="icon delete_account" href="<?php echo $this->getUrl('admin/access_management/delete', array('admin_id' => $admin->getId())); ?>" rel="<?php echo $admin->getId(); ?>">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                            <?php endif; ?>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </table>
+                        </div>
+                        <?php else: ?>
+                        <div class="col-md-12">
+                            <?php echo __("No account for now."); ?>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .account_list th, .account_list td{padding:5px}
+</style>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.delete_account').click(function() {
+            if(confirm('<?php echo addslashes($this->_('Are you sure you want to remove this account?')); ?>')) {
+                reload($(this), this.href, true, function(data) {
+                    if(data.success) {
+                        $('#row_account_'+data.admin_id).remove();
+                    }
+                });
+            }
+            return false;
+        });
+    });
+    $("#toggle_customization_sidebar,#btn-close-sidebarright").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("right-toggled");
+    });
+</script>

@@ -1,0 +1,74 @@
+<div id="formats_overview">
+    <ul>
+        <li class="left"><button class="default_button btn overview_size active no-background" rel="iphone5">iPhone 5</button></li>
+        <li class="left"><button class="default_button btn overview_size reverse" rel="iphone6">iPhone 6</button></li>
+        <li class="left"><button class="default_button btn overview_size reverse" rel="android">Android</button></li>
+        <li class="left"><button class="default_button btn overview_size reverse" rel="html5">HTML5</button></li>
+    </ul>
+</div>
+<div class="clear">
+    <div id="iphone">
+        <div class="iphone_content">
+            <?php $hide_status_bar = $this->getApplication()->getIosStatusBarIsHidden() ? ' hide' : ''; ?>
+            <p id="iphone_header" class="status_bar iphone_header toolbar_overview a-center<?php echo $hide_status_bar; ?>"><?php echo date('H:m'); ?></p>
+            <p id="iphone6_header" class="status_bar iphone6_header toolbar_overview a-center<?php echo $hide_status_bar; ?>" style="display:none;"><?php echo date('H:m'); ?></p>
+            <p id="android_header" class="android_header toolbar_overview a-right" style="display:none"><?php echo date('H:m'); ?></p>
+
+            <iframe id="mobile_overview" sandbox="allow-same-origin allow-scripts allow-forms allow-modals" width="320" height="568" style="overflow: hidden;"></iframe>
+        </div>
+    </div>
+</div>
+<style>
+    #formats_overview ul li button.overview_size {
+        padding: 8px 15px 7px;
+    }
+
+</style>
+<script type="text/javascript">
+    var overview = new Array();
+    overview['iphone5'] = { background: '<?php echo $this->getImage('customization/overview/iphone5.png'); ?>', width: 320, height: 568, container_width: 380, container_height: 805, marginTop: 117, marginLeft: 32, toolbar: 'iphone_header' };
+    overview['iphone6'] = { background: '<?php echo $this->getImage('customization/overview/iphone6.png'); ?>', width: 414, height: 736, container_width: 455, container_height: 971, marginTop: 117, marginLeft: 25, toolbar: 'iphone6_header' };
+    overview['android'] = { background: '<?php echo $this->getImage('customization/overview/android.png'); ?>', width: 363, height: 620, container_width: 400, container_height: 785, marginTop: 70, marginLeft: 18, toolbar: 'android_header' };
+    overview['html5'] = { background: '<?php echo $this->getImage('customization/overview/html5.png'); ?>', width: 298, height: 531, container_width: 400, container_height: 730, marginTop: 75, marginLeft: 48, toolbar: '' };
+    $('button.overview_size').click(function() {
+        var sizes = overview[$(this).attr('rel')];
+        if(sizes && !$(this).hasClass('active')) {
+
+            $('#mobile_overview').attr('width', sizes.width)
+                .attr('height', sizes.height)
+            ;
+
+            $('.toolbar_overview').hide();
+            if(sizes.toolbar) $('#'+sizes.toolbar).show();
+
+            $('#iphone').css('background-image', 'url('+sizes.background+')');
+            $('#iphone').css({
+                width: sizes.container_width,
+                height: sizes.container_height
+            });
+
+            $('.iphone_content').css({
+                'margin-top' : sizes.marginTop,
+                'margin-left': sizes.marginLeft
+            });
+
+            if($(this).attr("rel").indexOf("iphone") >= 0) {
+                iframe.content.find("body").removeClass("platform-browser").addClass("platform-ios")
+            } else {
+                iframe.content.find("body").removeClass("platform-ios").addClass("platform-android")
+            }
+
+            $('.overview_size').removeClass('active no-background').addClass("reverse");
+            $(this).addClass('active no-background').removeClass("reverse");
+
+        }
+    });
+
+    $(document).ready(function() {
+        $("#mobile_overview").attr("src", "<?php echo $this->getApplication()->getUrl("", array(), Core_Model_Language::getCurrentLanguage(), true); ?>");
+        iframe.iframeIsLoaded = function() {
+            iframe.content.find("body").removeClass("platform-browser").addClass("platform-ios");
+        };
+    });
+
+</script>
