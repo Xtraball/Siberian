@@ -11,120 +11,51 @@
 
 ## Installation
 
+### Requirements
+
+## Software
+
+* Recommended OS: `Linux`
+
+    * Works on `OSX` with [homebrew](http://brew.sh/), and on `Windows` with [cygwin](https://www.cygwin.com/)
+    
+* OpenSSL >=1.0.1
+
+    * with TLS v1.2 support
+
+* [Apache](#apache) or [Nginx](#nginx)
+
+* PHP
+
+    * version: >=5.6, <= 7.0
+    
+    * extensions: `gd`, `pdo_mysql`, `SimpleXML`, `curl`, `dom`, `SQLite3`.
+    
+    * functions: `exec()`
+    
+    * parameters: `allow_url_fopen = On`, `memory_limit >= 128M`
+
+* MySQL/MariaDB >=5.5 with InnoDB/XtraDB engine
+
+* Binaries: 
+
+    * required: `zip`, `unzip`
+
+    * optional: `pngquant` or `optipng`, `jpegoptim`
+
 ### Configuration
 
 1. First you will need to either checkout the project `git clone https://github.com/Xtraball/SiberianCMS.git`
 
-    or download the [zip archive](https://github.com/Xtraball/SiberianCMS/archive/master.zip) then extract it on your webserver.
+    or download the [zip archive](https://github.com/Xtraball/Siberian/archive/master.zip) then extract it on your webserver.
 
 2. Run `npm install` then follow the instructions to update your local shell.
 
-3. Run `sb init` to init your local project.
+3. Run `./sb init` to init your local project.
 
-2. Setup your empty database and user
-
-3. Configure your environment with [apache](#apache) or [nginx](#nginx)
-
-#### Apache
-
-If you are running under Apache, be sure that the directive `AllowOverride all` is working, unless the `.htaccess` configuration will fail.
-
-```
-<VirtualHost [IP]:80>
-        ServerName [yourdomain.tld]
-
-		CustomLog [/path/to/siberiancms]/var/log/httpd.access_log combined
-		ErrorLog [/path/to/siberiancms]/var/log/httpd.error_log
-
-		DirectoryIndex index.php
-
-        DocumentRoot [/path/to/siberiancms]
-
-        <Directory [/path/to/siberiancms]>
-                Options Indexes FollowSymLinks
-                AllowOverride all
-        </Directory>
-
-</VirtualHost>
-```
-
-
-#### Nginx
-
-If you are running under Nginx, all you need is in the current configuration, 
-please check the `fastcgi` options as they may vary depending on your installation
-
-```
-server {
-    listen [::]:80;
-
-	root [/path/to/siberiancms];
-		
-	access_log [/path/to/siberiancms]/var/log/nginx.access_log;
-	error_log [/path/to/siberiancms]/var/log/nginx.error_log;
-
-	index index.php index.html index.htm;
-
-	server_name [yourdomain.tld];
-	
-	location ~ ^/app/configs {
-        deny all;
-    }
-    
-    location ~ ^/var/apps/certificates {
-        deny all;
-    }
-    
-    # Let's Encrypt configuration
-    location = /.well-known/check {
-        default_type "text/plain";
-        try_files $uri =404;
-    }
-    
-    location ^~ /.well-known/acme-challenge/ {
-        default_type "text/plain";
-        try_files $uri =404;
-    }
-
-	location / {
-		try_files $uri /index.php?$query_string;
-	}
-
-	location ~ \.php$ {
-		fastcgi_index index.php;
-		fastcgi_pass 127.0.0.1:9000;
-		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-		include fastcgi_params;
-		fastcgi_buffers 256 128k;
-		fastcgi_connect_timeout 300s;
-		fastcgi_send_timeout 300s;
-		fastcgi_read_timeout 300s;
-	}
-
-    location ~* ^.+.(js|css|png|jpg|jpeg|gif|ico|html)$ {
-		access_log        off;
-		log_not_found     off;
-		expires           0;
-	}
-	
-	location ~ /\. {
-		access_log off;
-		log_not_found off;
-		deny all;
-	}
-
-	gzip on;
-	gzip_min_length  1000;
-	gzip_proxied any;
-	gzip_types text/plain application/xml text/css text/js application/x-javascript;
-	
-	client_max_body_size 256M;
-
-}
-```
+3. Configure your environment with either [apache](#apache) or [nginx](#nginx)
 
 When you're done with the previous steps, reload your web server.
-
 
 ### Web installer
 
@@ -151,11 +82,10 @@ The other platforms specific to Siberian which are `cdv-siberian-android-preview
 
 - Rebuilding a platform
     1. run `siberian rebuild platformName` where platformName is `android | android-previewer |ios | ios-noads | ios-previewer | browser`
-    2. Wait & see ... the magic happens !
 
 ### Plugins
 
-Every plugin used in the project is forked into our GitLab CE, they are added as submodules in the folder `plugins`
+Every plugin used in the project is forked on GitHub, they are added as submodules in the folder `plugins`
 
 A default branch named `siberian` is used to track and lock our modifications.
     
@@ -168,6 +98,7 @@ Our standalone modules are tracked into the folder `modules` every module has it
 
 Available commands are: 
 
+|---|---|
 |alias|Prints bash aliases to help development|
 |clearcache, cc|Clear siberian/var/cache|
 |clearlog, cl|Clear siberian/var/log|
