@@ -1090,7 +1090,7 @@ let init = function () {
 
     let developerPath = ROOT + '/developer.json',
         serverType = 'apache',
-        domain = 'www.siberiancms.dev';
+        domain = 'siberian.local';
 
     if (fs.existsSync(developerPath)) {
         sprint(clc.bold(clc.red('Warning: you are about to erase your local developer.json file. ' +
@@ -1104,7 +1104,7 @@ let init = function () {
         dummyEmail: 'developer@localhost',
         dummyPassword: 'dummy',
         config: {
-            domain: 'siberiancms.local',
+            domain: 'siberian.local',
             serverType: 'apache'
         },
         mysql: {
