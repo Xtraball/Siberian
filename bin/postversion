@@ -1,0 +1,33 @@
+#!/bin/bash
+
+set +e
+
+# Adding last version to package.json
+VERSION=$(node -e "console.log(require('./package.json').version);");
+LAST_VERSION=$(node -e "console.log(require('./package.json').lastversion);");
+
+HASH_FROM=$(git rev-parse "v"$LAST_VERSION^0)
+HASH_TO=$(git rev-parse HEAD^0)
+
+# Updating each module version
+git diff --name-status --relative=siberian/ $HASH_FROM $HASH_TO |grep "^\(M\|A\|R\|T\)" |cut -f 2 |grep "^app/.*/modules/.*/resources/db/" |cut -d '/' -f 1-4 |uniq > ./modules.txt
+
+while read FILE; do
+    cd "siberian/"$FILE
+    if [ -f "package.json" ]
+    then
+        echo "siberian/"$FILE
+        npm version --no-git-tag-version $VERSION --force
+        git add ./
+        echo ""
+    else
+        echo "nothing to do"
+    fi
+    cd -
+done < ./modules.txt
+
+rm -f ./modules.txt
+
+git add ./package.json
+git commit -m "v"$VERSION
+git tag "v"$VERSION

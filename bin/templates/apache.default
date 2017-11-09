@@ -1,0 +1,17 @@
+<VirtualHost 127.0.0.1:80>
+        ServerName %DOMAIN%
+
+        CustomLog %PATH%/siberian/var/log/httpd.access_log combined
+        ErrorLog %PATH%/siberian/var/log/httpd.error_log
+
+        DirectoryIndex index.php
+
+        DocumentRoot %PATH%/siberian
+
+        <Directory %PATH%/siberian>
+                Require all granted
+                Options Indexes FollowSymLinks
+                AllowOverride all
+        </Directory>
+
+</VirtualHost>

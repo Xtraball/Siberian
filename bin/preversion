@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Adding last version to package.json
+LASTVERSION=$(node -e "console.log(require('./package.json').version);");
+sed -i".bck" -e 's/"lastversion": ".*",/"lastversion": "'$LASTVERSION'",/g' package.json
+rm -f package.json.bck

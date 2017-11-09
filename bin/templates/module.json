@@ -1,0 +1,11 @@
+{
+  "name": "%NAME%",
+  "decription": "%DESCRIPTION%",
+  "version": "%VERSION%",
+  "dependencies": {
+    "system": {
+      "type": "%TYPE%",
+      "version": "%TYPE_VERSION%"
+    }
+  }
+}
