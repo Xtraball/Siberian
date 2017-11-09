@@ -98,6 +98,7 @@ Our standalone modules are tracked into the folder `modules` every module has it
 
 Available commands are: 
 
+|Command|Description|
 |---|---|
 |alias|Prints bash aliases to help development|
 |clearcache, cc|Clear siberian/var/cache|
