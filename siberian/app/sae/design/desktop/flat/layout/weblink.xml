@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <weblink_application_mono_edit>
+        <views>
+            <content class="application_view_customization_features_edit_tabbareditor" template="application/customization/features/edit/tabbar_editor.phtml" />
+            <content_editor class="core_view_default" template="weblink/application/mono/edit.phtml" />
+        </views>
+    </weblink_application_mono_edit>
+
+    <weblink_application_multi_edit>
+        <views>
+            <content class="application_view_customization_features_edit_tabbareditor" template="application/customization/features/edit/tabbar_editor.phtml" />
+            <content_editor class="core_view_default" template="weblink/application/multi/edit.phtml" />
+        </views>
+    </weblink_application_multi_edit>
+
+    <weblink_application_magento_edit>
+        <views>
+            <content class="application_view_customization_features_edit_tabbareditor" template="application/customization/features/edit/tabbar_editor.phtml" />
+            <content_editor class="core_view_default" template="weblink/application/magento/edit.phtml" />
+        </views>
+    </weblink_application_magento_edit>
+
+    <weblink_application_woocommerce_edit>
+        <views>
+            <content class="application_view_customization_features_edit_tabbareditor" template="application/customization/features/edit/tabbar_editor.phtml" />
+            <content_editor class="core_view_default" template="weblink/application/woocommerce/edit.phtml" />
+        </views>
+    </weblink_application_woocommerce_edit>
+
+    <weblink_application_prestashop_edit>
+        <views>
+            <content class="application_view_customization_features_edit_tabbareditor" template="application/customization/features/edit/tabbar_editor.phtml" />
+            <content_editor class="core_view_default" template="weblink/application/prestashop/edit.phtml" />
+        </views>
+    </weblink_application_prestashop_edit>
+
+    <weblink_application_volusion_edit>
+        <views>
+            <content class="application_view_customization_features_edit_tabbareditor" template="application/customization/features/edit/tabbar_editor.phtml" />
+            <content_editor class="core_view_default" template="weblink/application/volusion/edit.phtml" />
+        </views>
+    </weblink_application_volusion_edit>
+
+    <weblink_application_shopify_edit>
+        <views>
+            <content class="application_view_customization_features_edit_tabbareditor" template="application/customization/features/edit/tabbar_editor.phtml" />
+            <content_editor class="core_view_default" template="weblink/application/shopify/edit.phtml" />
+        </views>
+    </weblink_application_shopify_edit>
+
+</layout>

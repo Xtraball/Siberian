@@ -1,0 +1,17 @@
+<?php $group = $this->getCurrentGroup(); ?>
+<?php $group_option = $this->getCurrentGroupOption(); ?>
+<tr id="row_group_option_<?php echo $group_option->getOptionId(); ?>" class="row_group_option_<?php echo $group->getGroupId(); ?>" rel="<?php echo $group_option->getOptionId(); ?>">
+    <td>
+        <label for="select_group_option_<?php echo $group_option->getOptionId(); ?>" id="label_select_group_option_<?php echo $group_option->getOptionId(); ?>" class="label_select_group_option">
+            <input type="checkbox" id="select_group_option_<?php echo $group_option->getOptionId(); ?>" class="color-blue select_group_option <?php if ($group->getAsCheckbox()) echo 'as_checkbox' ?> select_group_option_<?php echo $group->getGroupId(); ?>" value="<?php echo $group_option->getOptionId(); ?>" name="group[<?php echo $group->getGroupId(); ?>][new_option_value][<?php echo $group_option->getOptionId(); ?>][option_id]"<?php if($group_option->getIsSelected()) : ?> checked="checked"<?php endif; ?> rel="<?php echo $group->getGroupId(); ?>">
+            <span id="title_group_option_<?php echo $group_option->getOptionId(); ?>"><?php echo $group_option->getName(); ?></span>
+        </label>
+        <input type="hidden" id="input_group_option_is_deleted_<?php echo $group_option->getOptionId(); ?>" name="group[<?php echo $group->getGroupId(); ?>][new_option_value][<?php echo $group_option->getOptionId(); ?>][is_deleted]" value="1" disabled="disabled" />
+    </td>
+    <?php if (!$group->getAsCheckbox()) { ?>
+    <td>
+        <label for="group_option_<?php echo $group_option->getOptionId(); ?>"><?php echo $this->_('Price:'); ?></label>
+        <input type="text" id="group_option_<?php echo $group_option->getOptionId(); ?>" class="input-flat number input_group_option input_group_option_<?php echo $group_option->getOptionId(); ?>" name="group[<?php echo $group->getGroupId(); ?>][new_option_value][<?php echo $group_option->getOptionId(); ?>][price]" value="<?php echo $group_option->getPrice(); ?>"<?php if(!$group_option->getIsSelected()) : ?> readonly="readonly"<?php endif; ?> style="width:75px" />
+    </td>
+    <?php } ?>
+</tr>

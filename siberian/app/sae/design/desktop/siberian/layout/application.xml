@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<layout>
+
+    <application_promote_index>
+        <addLayout name="admin_menu" />
+        <addLayout name="customization_default" />
+        <base>
+            <title>Promote your app!</title>
+        </base>
+        <views>
+            <content class="application_view_promote_index" template="application/promote/index.phtml" />
+            <customization_header class="admin_view_default" template="application/customization/index/header.phtml" />
+        </views>
+        <actions>
+            <customization_header name="setCurrentLink"><code>promote</code></customization_header>
+        </actions>
+    </application_promote_index>
+
+    <application_analytics_application_index>
+        <addLayout name="admin_menu" />
+        <addLayout name="customization_default" />
+        <base>
+            <title>Your application in few numbers</title>
+        </base>
+        <views>
+            <content class="admin_view_default" template="application/analytics/index.phtml" />
+            <customization_header class="admin_view_default" template="application/customization/index/header.phtml" />
+        </views>
+        <actions>
+            <customization_header name="setCurrentLink"><code>analytics</code></customization_header>
+        </actions>
+    </application_analytics_application_index>
+
+    <application_settings_domain_index>
+        <addLayout name="admin_menu" />
+        <addLayout name="customization_default" />
+        <base>
+            <title>Additional options</title>
+        </base>
+        <views>
+            <content class="admin_view_default" template="application/settings/domain/index.phtml" />
+            <customization_header class="admin_view_default" template="application/customization/index/header.phtml" />
+        </views>
+        <actions>
+            <customization_header name="setCurrentLink"><code>url</code></customization_header>
+        </actions>
+    </application_settings_domain_index>
+
+    <application_settings_facebook_index>
+        <addLayout name="admin_menu" />
+        <addLayout name="customization_default" />
+        <base>
+            <title>Facebook</title>
+        </base>
+        <views>
+            <content class="admin_view_default" template="application/settings/facebook/index.phtml" />
+            <customization_header class="admin_view_default" template="application/customization/index/header.phtml" />
+        </views>
+        <actions>
+            <customization_header name="setCurrentLink"><code>facebook</code></customization_header>
+        </actions>
+    </application_settings_facebook_index>
+
+    <application_settings_instagram_index>
+        <addLayout name="admin_menu" />
+        <addLayout name="customization_default" />
+        <base>
+            <title>Instagram</title>
+        </base>
+        <views>
+            <content class="admin_view_default" template="application/settings/instagram/index.phtml" />
+            <customization_header class="admin_view_default" template="application/customization/index/header.phtml" />
+        </views>
+        <actions>
+            <customization_header name="setCurrentLink"><code>instagram</code></customization_header>
+        </actions>
+    </application_settings_instagram_index>
+
+    <application_settings_tc_index>
+        <addLayout name="admin_menu" />
+        <addLayout name="customization_default" />
+        <base>
+            <title>Terms &amp; Conditions</title>
+        </base>
+        <views>
+            <content class="admin_view_default" template="application/settings/tc/index.phtml" />
+            <customization_header class="admin_view_default" template="application/customization/index/header.phtml" />
+        </views>
+        <actions>
+            <customization_header name="setCurrentLink"><code>settings_tc</code></customization_header>
+        </actions>
+    </application_settings_tc_index>
+
+    <application_settings_advanced_index>
+        <addLayout name="admin_menu" />
+        <addLayout name="customization_default" />
+        <base>
+            <title>Advanced options</title>
+        </base>
+        <views>
+            <content class="admin_view_default" template="application/settings/advanced/index.phtml" />
+            <customization_header class="admin_view_default" template="application/customization/index/header.phtml" />
+        </views>
+        <actions>
+            <customization_header name="setCurrentLink"><code>url</code></customization_header>
+        </actions>
+    </application_settings_advanced_index>
+
+    <application_customization_design_style_edit>
+        <addLayout name="admin_menu" />
+        <addLayout name="customization_default" />
+        <base>
+            <title>Customize your app's style</title>
+        </base>
+        <views>
+            <content_editor class="admin_view_default" template="application/customization/design/style.phtml" />
+            <overview class="admin_view_default" template="application/customization/index/overview/iframe.phtml" />
+        </views>
+        <actions>
+            <customization_header name="setCurrentLink"><code>edit</code></customization_header>
+            <customization_menu name="setCurrentMenu"><code>design</code></customization_menu>
+            <customization_menu name="setCurrentSubmenu"><code>style</code></customization_menu>
+        </actions>
+    </application_customization_design_style_edit>
+
+    <application_customization_design_colors_edit>
+        <addLayout name="admin_menu" />
+        <addLayout name="customization_default" />
+        <base>
+            <title>Customize your app's colors</title>
+        </base>
+        <views>
+            <content_editor class="application_view_customization_design_colors" template="application/customization/design/colors/ionic/edit.phtml" />
+            <overview class="admin_view_default" template="application/customization/index/overview/colors/ionic.phtml" />
+        </views>
+        <actions>
+            <customization_header name="setCurrentLink"><code>edit</code></customization_header>
+            <customization_menu name="setCurrentMenu"><code>colors</code></customization_menu>
+            <customization_menu name="setCurrentSubmenu"><code>colors</code></customization_menu>
+        </actions>
+    </application_customization_design_colors_edit>
+
+    <application_customization_features_list>
+        <addLayout name="admin_menu" />
+        <addLayout name="customization_default" />
+        <base>
+            <title>Manage your app's features</title>
+        </base>
+        <views>
+            <content_editor class="application_view_customization_features_list_options" template="application/customization/features/list.phtml" />
+        </views>
+        <actions>
+            <customization_header name="setCurrentLink"><code>edit</code></customization_header>
+            <customization_menu name="setCurrentMenu"><code>features</code></customization_menu>
+        </actions>
+    </application_customization_features_list>
+
+    <application_customization_publication_app_index>
+        <addLayout name="admin_menu" />
+        <addLayout name="customization_default" />
+        <base>
+            <title>Publish your app</title>
+        </base>
+        <views>
+            <content_editor class="admin_view_default" template="application/customization/publication/app.phtml" />
+            <overview class="admin_view_default" template="application/customization/index/overview/publication.phtml" />
+        </views>
+        <actions>
+            <customization_header name="setCurrentLink"><code>edit</code></customization_header>
+            <customization_menu name="setCurrentMenu"><code>publication_app</code></customization_menu>
+            <customization_menu name="setCurrentSubmenu"><code>app</code></customization_menu>
+        </actions>
+    </application_customization_publication_app_index>
+
+    <application_customization_publication_infos_index>
+        <addLayout name="admin_menu" />
+        <addLayout name="customization_default" />
+        <base>
+            <title>Publish your app</title>
+        </base>
+        <views>
+            <content_editor class="application_view_customization_publication_info" template="application/customization/publication/infos.phtml" />
+            <overview class="admin_view_default" template="application/customization/index/overview/publication.phtml" />
+        </views>
+        <actions>
+            <customization_header name="setCurrentLink"><code>edit</code></customization_header>
+            <customization_menu name="setCurrentMenu"><code>publication_infos</code></customization_menu>
+            <customization_menu name="setCurrentSubmenu"><code>infos</code></customization_menu>
+        </actions>
+    </application_customization_publication_infos_index>
+
+    <application_customization_features_tabbar_account_edit>
+        <views>
+            <content class="application_view_customization_features_edit_tabbareditor" template="application/customization/features/edit/tabbar_editor.phtml" />
+            <content_editor class="admin_view_default" template="application/customization/features/edit/customer_account.phtml" />
+        </views>
+    </application_customization_features_tabbar_account_edit>
+
+    <application_customization_features_tabbar_more_edit>
+        <views>
+            <content class="application_view_customization_features_edit_tabbareditor" template="application/customization/features/edit/tabbar_editor.phtml" />
+        </views>
+    </application_customization_features_tabbar_more_edit>
+
+</layout>

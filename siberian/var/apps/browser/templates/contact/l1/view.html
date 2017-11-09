@@ -1,0 +1,68 @@
+<ion-view sb-page-background class="contact-view">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-content>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="list" ng-class="{'card': card_design}" ng-show="!is_loading">
+
+            <div class="item item-icon-left item-custom" ng-show="contact.name">
+                <i class="icon ion-person"></i>
+                <h2>{{ contact.name }}</h2>
+            </div>
+            <div class="item item-icon-left item-custom" ng-show="!contact.name">
+                <h2>{{ "Nothing to display." | translate }}</h2>
+            </div>
+
+            <div class="item item-image item-custom" ng-if="contact.cover_url">
+                <img ng-src="{{ contact.cover_url }}" />
+            </div>
+
+            <div class="item item-icon-left item-custom" ng-show="contact.street">
+                <i class="icon ion-ios-location"></i>
+                <p>{{ contact.street }}</p>
+                <p>{{ contact.postcode }}</p>
+                <p>{{ contact.city }}</p>
+            </div>
+
+            <div class="item item-text-wrap item-icon-left item-custom" ng-show="contact.description">
+                <i class="icon ion-android-menu"></i>
+                <div class="item-text-wrap item-custom"  ng-bind-html="contact.description | trusted_html"></div>
+            </div>
+
+        </div>
+
+        <div ng-class="{'padding': card_design}" ng-show="!is_loading">
+            <button class="button button-custom item-icon-left" ng-class="{'button-full': !card_design, 'button-block': card_design}" ng-click="call()" ng-if="contact.phone">
+                <i class="icon ion-ios-telephone-outline"></i>
+                {{ "Phone" | translate }}
+            </button>
+
+            <button class="button button-custom item-icon-left" ng-class="{'button-full': !card_design, 'button-block': card_design}" ng-if="!contact.handle_geo_protocol && (contact.coordinates || contact.street && contact.postcode && contact.city)" ng-click="showMap();">
+                <i class="icon ion-ios-location-outline"></i>
+                {{ "Locate" | translate }}
+            </button>
+
+            <button class="button button-custom item-icon-left" ng-class="{'button-full': !card_design, 'button-block': card_design}"  ng-click="openForm(contact.form_url)" ng-if="contact.email">
+                <i class="icon ion-ios-email-outline"></i>
+                {{ "Email" | translate }}
+            </button>
+            <button class="button button-custom item-icon-left" ng-class="{'button-full': !card_design, 'button-block': card_design}" ng-click="openLink(contact.website_url)" ng-if="contact.website_url">
+                <i class="icon ion-ios-world-outline"></i>
+                {{ "Website" | translate }}
+            </button>
+            <button class="button button-custom item-icon-left" ng-class="{'button-full': !card_design, 'button-block': card_design}" ng-click="openLink(contact.facebook_url)" ng-if="contact.facebook_url">
+                <i class="icon ion-social-facebook-outline"></i>
+                {{ "Facebook" | translate }}
+            </button>
+            <button class="button button-custom item-icon-left" ng-class="{'button-full': !card_design, 'button-block': card_design}" ng-click="openLink(contact.twitter_url);" ng-if="contact.twitter_url">
+                <i class="icon ion-social-twitter-outline"></i>
+                {{ "Twitter" | translate }}
+            </button>
+
+        </div>
+
+    </ion-content>
+</ion-view>

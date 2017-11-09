@@ -1,0 +1,411 @@
+<?php
+$application = $this->getApplication();
+$option_value = $this->getOptionValue();
+
+# Job option
+$job = new Job_Model_Job();
+$job->find($option_value->getId(), "value_id");
+
+
+# Companies
+$company = new Job_Model_Company();
+$companies = $company->findAll(array(
+    "job_id" => $job->getId(),
+));
+
+$form_company = new Job_Form_Company();
+$form_company->getElement("job_id")->setValue($job->getId());
+$form_company->setValueId($option_value->getId());
+$form_company->addNav("job-company-save-nav", "OK", false);
+
+$company_options = array();
+foreach($companies as $_company) {
+    $company_options[$_company->getId()] = $_company->getName()." - ".$_company->getLocation();
+}
+
+# Toggle company
+$form_company_toggle = new Job_Form_Company_Toggle();
+$form_company_toggle->setValueId($option_value->getId());
+
+# Place form
+if(!empty(array_keys($company_options))) {
+    $place = new Job_Model_Place();
+    $places = $place->findAll(array(
+        "company_id IN (?)" => array_keys($company_options),
+    ));
+}
+
+$form_place = new Job_Form_Place();
+if(!empty($company_options)) {
+    $form_place->getElement("company_id")->addMultiOptions($company_options);
+}
+$form_place->setValueId($option_value->getId());
+$form_place->addNav("job-place-save-nav", "OK", false);
+
+if(!$job->getDisplayIncome()) {
+    $form_place->removeIncome();
+}
+
+$category = new Job_Model_Category();
+$categories = $category->findAll(array(
+    "job_id" => $job->getId(),
+));
+$category_options = array("" => __("None"));
+foreach($categories as $_category) {
+    $category_options[$_category->getId()] = $_category->getName();
+}
+if(!empty($company_options)) {
+    $form_place->getElement("category_id")->addMultiOptions($category_options);
+}
+
+
+# Company & Place delete forms
+$delete_form = new Job_Form_Company_Delete();
+$delete_form->setValueId($option_value->getId());
+$delete_place_form = new Job_Form_Place_Delete();
+$delete_place_form->setValueId($option_value->getId());
+
+# Options
+$form_options = new Job_Form_Options();
+$form_options->setValueId($option_value->getId());
+$form_options->populate($job->getData());
+
+# Toggle job
+$form_place_toggle = new Job_Form_Place_Toggle();
+$form_place_toggle->setValueId($option_value->getId());
+
+# Categories
+$category = new Job_Model_Category();
+$categories = $category->findAll(array(
+    "job_id" => $job->getId(),
+));
+
+$form_category = new Job_Form_Category();
+$form_category
+    ->setValueId($option_value->getId())
+    ->getElement("job_id")->setValue($job->getId())
+;
+
+$form_category->addNav("job-category-save-nav", "OK", false);
+
+$form_category_toggle = new Job_Form_Category_Toggle();
+$form_category_toggle->setValueId($option_value->getId());
+$delete_category_form = new Job_Form_Category_Delete();
+$delete_category_form->setValueId($option_value->getId());
+
+?>
+
+
+<div id="list" class="job">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#configuration" aria-controls="configuration" role="tab" data-toggle="tab">
+                <i class="fa fa-sliders"></i>
+                <?php echo __("General") ?>
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#companies" aria-controls="companies" role="tab" data-toggle="tab">
+                <i class="fa fa-building-o"></i>
+                <?php echo __("Companies") ?>
+            </a>
+        </li>
+        <?php if($companies->count() > 0): ?>
+        <li role="presentation">
+            <a href="#places" aria-controls="places" role="tab" data-toggle="tab">
+                <i class="fa fa-suitcase"></i>
+                <?php echo __("Positions") ?>
+            </a>
+        </li>
+        <?php endif; ?>
+        <li role="presentation">
+            <a href="#categories" aria-controls="categories" role="tab" data-toggle="tab">
+                <i class="fa fa-tag"></i>
+                <?php echo __("Categories") ?>
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="configuration">
+            <div>
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo __('Configuration'); ?>
+                </h3>
+                <div class="container-fluid subcontent content-feature">
+                    <?php echo $form_options; ?>
+                </div>
+            </div>
+
+            <div>
+                <?php echo $this->importBackground($option_value); ?>
+            </div>
+        </div>
+
+        <!-- START COMPANY TAB -->
+        <div role="tabpanel" class="tab-pane" id="companies">
+            <div class="feature-block-add">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo __('Add company'); ?>
+                    <button type="button" class="feature-toggle-add toggle_design color-blue pull-right bt-header-right btn">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </h3>
+            </div>
+
+            <div class="feature-block-create">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo __('Create a new company'); ?>
+                </h3>
+                <div class="container-fluid subcontent content-feature">
+                    <?php echo $form_company; ?>
+                </div>
+            </div>
+
+            <?php if($companies->count() > 0): ?>
+                <div class="feature-block-list">
+                    <div class="margin-top">
+                        <h3 class="title-editor no-border-radius title-feature-indent">
+                            <?php echo __(('Manage content')); ?>
+                            <button type="button" class="toggle_design color-blue pull-right bt-header-right btn feature-toggle-items">
+                                <i class="fa fa-angle-down"></i>
+                            </button>
+                        </h3>
+                        <div class="container-fluid first-row-feature content-feature feature-manage-items">
+                            <table class="table content-white-bkg sb-pager">
+                                <thead>
+                                <tr class="border-grey">
+                                    <th class="sortable" style="width:26%;"><?php echo __("Name"); ?></th>
+                                    <th class="sortable" style="width:34%;"><?php echo __("Description"); ?></th>
+                                    <th class="sortable"><?php echo __("E-Mail"); ?></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach($companies as $company) : ?>
+                                    <tr id="company_manage_element_<?php echo $company->getId(); ?>" class="company-manage-element sb-pager">
+                                        <td><?php echo $company->getName(); ?></td>
+                                        <td><?php echo cut(html_entity_decode($company->getDescription()), 60); ?></td>
+                                        <td><?php echo $company->getEmail(); ?></td>
+                                        <td class="toggle-action">
+                                            <?php
+                                            $form_company_toggle->getElement("company_id")->setValue($company->getId());
+                                            $form_company_toggle->setToggleState($company->getIsActive());
+                                            echo $form_company_toggle;
+                                            ?>
+                                        </td>
+                                        <td class="edit-action open-edit" data-id="company_<?php echo $company->getId(); ?>" data-form-url="<?php echo __path("/job/company/loadform", array("company_id" => $company->getId(), "value_id" => $option_value->getId())); ?>">
+                                            <i class="fa fa-pencil"></i>
+                                        </td>
+                                        <td class="delete-action">
+                                            <?php
+                                            $delete_form->setAttrib("data-rowid", "company_manage_element_".$company->getId());
+                                            $delete_form->getElement("company_id")->setValue($company->getId());
+
+                                            echo $delete_form;
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <tr class="edit-form" data-id="company_<?php echo $company->getId(); ?>" style="display: none;">
+                                        <td colspan="6">
+                                            <p class="close-edit" data-id="company_<?php echo $company->getId(); ?>">
+                                                <i class="fa fa-times"></i><?php echo __("Close") ?>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
+        <!-- /END COMPANY TAB -->
+
+        <!-- START PLACE TAB -->
+        <div role="tabpanel" class="tab-pane" id="places">
+            <?php if($companies->count() > 0): ?>
+                <div class="feature-block-add">
+                    <h3 class="title-editor no-border-radius title-feature-indent">
+                        <?php echo __('Add a position'); ?>
+                        <button type="button" class="feature-toggle-add toggle_design color-blue pull-right bt-header-right btn">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </h3>
+                </div>
+
+                <div class="feature-block-create">
+                    <h3 class="title-editor no-border-radius title-feature-indent">
+                        <?php echo __('Create a new position'); ?>
+                    </h3>
+                    <div class="container-fluid subcontent content-feature">
+                        <?php echo $form_place; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+
+            <?php if(isset($places) && $places->count() > 0): ?>
+                <div class="feature-block-list">
+                    <div class="margin-top">
+                        <h3 class="title-editor no-border-radius title-feature-indent">
+                            <?php echo __(('Manage content')); ?>
+                            <button type="button" class="toggle_design color-blue pull-right bt-header-right btn feature-toggle-items">
+                                <i class="fa fa-angle-down"></i>
+                            </button>
+                        </h3>
+                        <div class="container-fluid first-row-feature content-feature feature-manage-items">
+                            <table class="table content-white-bkg sb-pager">
+                                <thead>
+                                <tr class="border-grey">
+                                    <th class="sortable" style="width:26%;"><?php echo __("Name"); ?></th>
+                                    <th class="sortable" style="width:34%;"><?php echo __("Company"); ?></th>
+                                    <th class="sortable"><?php echo __("Description"); ?></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach($places as $place) : ?>
+                                    <tr id="place_manage_element_<?php echo $place->getId(); ?>" class="place-manage-element sb-pager">
+                                        <td><?php echo cut($place->getName(), 22); ?></td>
+                                        <td><?php echo $company_options[$place->getCompanyId()]; ?></td>
+                                        <td><?php echo cut($place->getDescription(), 30); ?></td>
+                                        <td class="toggle-action">
+                                            <?php
+                                                $form_place_toggle->getElement("place_id")->setValue($place->getId());
+                                                $form_place_toggle->setToggleState($place->getIsActive());
+                                                echo $form_place_toggle;
+                                            ?>
+                                        </td>
+                                        <td class="edit-action open-edit" data-id="place_<?php echo $place->getId(); ?>" data-form-url="<?php echo __path("/job/place/loadform", array("place_id" => $place->getId(), "value_id" => $option_value->getId())); ?>">
+                                            <i class="fa fa-pencil"></i>
+                                        </td>
+                                        <td class="delete-action">
+                                            <?php
+                                                $delete_place_form->setAttrib("data-rowid", "place_manage_element_".$place->getId());
+                                                $delete_place_form->getElement("place_id")->setValue($place->getId());
+
+                                                echo $delete_place_form;
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <tr class="edit-form" data-id="place_<?php echo $place->getId(); ?>" style="display: none;">
+                                        <td colspan="6">
+                                            <p class="close-edit" data-id="place_<?php echo $place->getId(); ?>">
+                                                <i class="fa fa-times"></i><?php echo __("Close") ?>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
+        <!-- /END PLACE TAB -->
+
+        <!-- START CATEGORY TAB -->
+        <div role="tabpanel" class="tab-pane" id="categories">
+            <div class="feature-block-add">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo __('Add category'); ?>
+                    <button type="button" class="feature-toggle-add toggle_design color-blue pull-right bt-header-right btn">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </h3>
+            </div>
+
+            <div class="feature-block-create">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo __('Create a new Category'); ?>
+                </h3>
+                <div class="container-fluid subcontent content-feature">
+                    <?php echo $form_category; ?>
+                </div>
+            </div>
+
+            <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+
+            <?php if(isset($categories) && $categories->count() > 0): ?>
+                <div class="feature-block-list">
+                    <div class="margin-top">
+                        <h3 class="title-editor no-border-radius title-feature-indent">
+                            <?php echo __(('Manage content')); ?>
+                            <button type="button" class="toggle_design color-blue pull-right bt-header-right btn feature-toggle-items">
+                                <i class="fa fa-angle-down"></i>
+                            </button>
+                        </h3>
+                        <div class="container-fluid first-row-feature content-feature feature-manage-items">
+                            <table id="" class="table content-white-bkg sb-pager">
+                                <thead>
+                                <tr class="border-grey">
+                                    <th class="sortable" style="width:26%;"><?php echo __("Name"); ?></th>
+                                    <th class="sortable"><?php echo __("Description"); ?></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach($categories as $category) : ?>
+                                    <tr id="category_manage_element_<?php echo $category->getId(); ?>" class="category-manage-element sb-pager">
+                                        <td><?php echo cut($category->getName(), 22); ?></td>
+                                        <td><?php echo cut($category->getDescription(), 30); ?></td>
+                                        <td class="toggle-action">
+                                            <?php
+                                                $form_category_toggle->getElement("category_id")->setValue($category->getId());
+                                                $form_category_toggle->setToggleState($category->getIsActive());
+                                                echo $form_category_toggle;
+                                            ?>
+                                        </td>
+                                        <td class="edit-action open-edit" data-id="category_<?php echo $category->getId(); ?>" data-form-url="<?php echo __path("/job/category/loadform", array("category_id" => $category->getId(), "value_id" => $option_value->getId())); ?>">
+                                            <i class="fa fa-pencil"></i>
+                                        </td>
+                                        <td class="delete-action">
+                                            <?php
+                                                $delete_category_form->setAttrib("data-rowid", "category_manage_element_".$category->getId());
+                                                $delete_category_form->getElement("category_id")->setValue($category->getId());
+
+                                                echo $delete_category_form;
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <tr class="edit-form" data-id="category_<?php echo $category->getId(); ?>" style="display: none;">
+                                        <td colspan="5">
+                                            <p class="close-edit" data-id="place_<?php echo $category->getId(); ?>">
+                                                <i class="fa fa-times"></i><?php echo __("Close") ?>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
+        <!-- /END CATEGORY TAB -->
+
+
+    </div>
+</div>
+
+<link href="/app/sae/modules/Job/resources/design/desktop/flat/template/job/application/edit.css" media="screen" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+    var search_placeholder = '<?php echo __js("Search ...", "'") ?>';
+</script>
+<script type="text/javascript" src="/app/sae/modules/Job/resources/design/desktop/flat/template/job/application/edit.js"></script>

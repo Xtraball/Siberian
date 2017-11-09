@@ -1,0 +1,357 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $form = $option_value->getObject(); ?>
+<?php $application = $this->getApplication(); ?>
+<?php $facebook_is_available = Api_Model_Key::findKeysFor('facebook')->getAppId() && Api_Model_Key::findKeysFor('facebook')->getSecretKey(); ?>
+<?php
+$event_type_list = array(
+    'fb'    => 'Facebook',
+    'ical'  => 'iCal',
+    'cstm'  => 'Custom Calendar'
+)
+?>
+<?php $event = new Event_Model_Event(); ?>
+<?php $events = $event->findAll(array('value_id' => $option_value->getId()), 'event_id DESC'); ?>
+
+<div class="edit_page events">
+<div class="form_content">
+    <div id="list">
+        <div class="section">
+            <h4 class="subtitle">
+                <span class="left area"><?php echo $this->_('Add') ?></span>
+                <hr />
+                    <span class="area right">
+                        <button type="button" onclick="$('#new_event').hide(); $('#new_events_gallery').fadeIn(); $('#no_item').hide();" class="default_button add right" id="add_item">
+                            <i class="icon-plus"></i>
+                        </button>
+                    </span>
+                <div class="clear"></div>
+            </h4>
+
+            <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+
+            <div id="new_events_gallery" style="display:none;">
+                <div id="choose_type">
+                    <ul>
+                        <div>
+                            <li class="left a-center">
+                                <img class="editCurrentEvent" src="<?php echo $this->getImage('customization/pictos/ical.png'); ?>" title="iCal" alt="iCal" height="30px" />
+                                <p><?php echo $this->_('iCal') ?></p>
+                            </li>
+                            <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>" />
+                            <input type="hidden" name="event_type" value="ical" />
+                        </div>
+                        <div>
+                            <li class="left a-center">
+                                <img <?php if($facebook_is_available) : ?>class="editCurrentEvent"<?php else : ?>onclick="featureNotAvailable(); return false;"<?php endif; ?> src="<?php echo $this->getImage('customization/pictos/facebook.png'); ?>" height="30px" title="Facebook" alt="Facebook" />
+                                <p><?php echo $this->_('Facebook') ?></p>
+                            </li>
+                            <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>" />
+                            <input type="hidden" name="event_type" value="fb" />
+                        </div>
+                        <div>
+                            <li class="left a-center">
+                                <img class="editCurrentEvent" src="<?php echo $this->getImage('customization/pictos/event/custom.png'); ?>" height="30px" title="Cstm" alt="Cstm" />
+                                <p><?php echo $this->_('Custom Page') ?></p>
+                            </li>
+                            <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>" />
+                            <input type="hidden" name="event_type" value="cstm" />
+                        </div>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+
+        <?php if($events->count() > 0) : ?>
+            <div id="existing_items_section" class="section">
+                <h4 class="subtitle">
+                    <span class="left area"><?php echo $this->_('Manage'); ?></span>
+                    <hr />
+                    <span class="area right">
+                        <button type="button" class="default_button" id="toggle_existing_items">
+                            <i class="icon-chevron-down"></i>
+                        </button>
+                    </span>
+                    <div class="clear"></div>
+                </h4>
+                <div id="existing_items" style="display:none;">
+                    <?php foreach($events as $event) : ?>
+                        <div class="row">
+                            <div class="col-sm-6 bold">
+                                <?php echo $event->getName(); ?>
+                            </div>
+                            <div class="col-sm-4 bold">
+                                <?php echo $this->_($event_type_list[$event->getEventType()]); ?>
+                            </div>
+                            <div class="col-sm-2 text-right bold actions">
+                                <i class="editCurrentEvent icon-edit"></i>
+                                <i class="delete_event icon-remove"></i>
+                            </div>
+                            <input type="hidden" name="id" value="<?php echo $event->getId(); ?>" />
+                            <input type="hidden" name="name" value="<?php echo $event->getName(); ?>" />
+                            <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>" />
+                            <input type="hidden" name="url" value="<?php echo $event->getData('url'); ?>" />
+                            <input type="hidden" name="event_type" value="<?php echo $event->getEventType(); ?>" />
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        <?php endif; ?>
+        <div class="section">
+            <?php
+            echo $this->getLayout()
+                ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
+                ->setValueId($option_value->getId())
+                ->toHtml()
+            ;
+            ?>
+        </div>
+    </div>
+    <div id="edit" style="display:none"></div>
+</div>
+
+<div id="edit_images" class="inner_content" style="display:none;">
+    <i class="icon-caret-up"></i>
+
+    <h4 class="title">
+        <span class="inner_content"><?php echo $this->_('Send your pictures') ?></span>
+        <hr />
+            <span class="inner_content right">
+                <a id="close_panel" class="right" href="javascript:void(0);">
+                    <i class="icon-remove"></i>
+                </a>
+            </span>
+    </h4>
+    <div class="clear"></div>
+    <!--[if gte IE 10]><!-->
+    <button type="button" id="trigger_upload_image" class="default_button reverse btn-block"><?php echo $this->_('Browse') ?></button>
+    <!--<![endif]-->
+    <input id="upload_image" style="display:none;" multiple type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" />
+    <p class="conditions"><?php echo $this->_('Max size: 2000x2000px - allowed formats: jpg & png') ?></p><br />
+    <div id="list_images">
+        <?php foreach($events as $event) : ?>
+            <ul style="display:none" id="list_<?php echo $event->getId(); ?>">
+                <?php if($event->getTypeId() == 'custom') : ?>
+                    <?php $gallery = new Media_Model_Gallery_Image_Custom(); ?>
+                    <?php $gs = $gallery->findAll(array('gallery_id' => $event->getId())); ?>
+                    <?php foreach($gs as $p) : ?>
+                        <li>
+                            <div class="left">
+                                <img class="img_list_<?php echo $event->getId(); ?>" height="60px" width="60px" src="<?php echo Application_Model_Application::getImagePath().$p->getData('url') ?>" />
+                            </div>
+                            <div class="left">
+                                <label><?php echo $this->_('Title:') ?></label><br />
+                                <input type="text" id="image_<?php echo $event->getId(); ?>_<?php echo $p->getId(); ?>_title" name="images[list_<?php echo $event->getId(); ?>][<?php echo $p->getId(); ?>][title]" value="<?php echo $p->getTitle(); ?>" maxlength="30" onkeyup="$('#'+$(this).attr('id')+'_receiver').val($(this).val());" />
+                            </div>
+                            <div class="left">
+                                <label><?php echo $this->_('Description:') ?></label><br />
+                                <input type="text" id="image_<?php echo $event->getId(); ?>_<?php echo $p->getId(); ?>_description" name="images[list_<?php echo $event->getId(); ?>][<?php echo $p->getId(); ?>][description]" value="<?php echo $p->getDescription(); ?>" maxlength="255" onkeyup="$('#'+$(this).attr('id')+'_receiver').val($(this).val());" />
+                            </div>
+                            <div class="clear"></div>
+                        </li>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </ul>
+        <?php endforeach; ?>
+        <ul style="display:none" id="list_new">
+        </ul>
+    </div>
+</div>
+<style type="text/css">
+    .media.images #choose_type { margin-left: 30px; }
+
+    .table_row_agenda { width: 100% }
+
+    .event_row td {
+        /*text-align: center;*/
+        padding: 2px;
+        margin: 0;
+    }
+
+    .event_name  {
+        text-align: left;
+        font-weight: bold;
+        width: 50%;
+    }
+
+    .event_type  {
+        text-align: left;
+        font-weight: bold;
+        width: 35%;
+    }
+
+    .table_row_agenda .actions  {
+        text-align: right;
+    }
+
+    .delete_event {
+        cursor:pointer; z-index: -1;
+    }
+
+    .editCurrentEvent {
+        cursor:pointer; z-index: -1;
+    }
+</style>
+<script type="text/javascript">
+
+    page.setCallback('willappear', function() {
+
+        $('.editCurrentEvent').click(function() {
+
+            reload(this.parentNode.parentNode, "<?php echo $this->getUrl('event/application/form'); ?>", true, function(datas) {
+                if(datas.form_html) {
+                    $('#edit').html(datas.form_html);
+
+                    var object;
+                    if(datas.event_type == 'cstm'){
+                        object = custom;
+                    } else if (datas.event_type == 'fb'){
+                        object = facebook;
+                    } else {
+                        object = ical;
+                    }
+
+                    $('#eventForm').submit(function() {
+                        if(!$(this).valid()) return false;
+                        reload(this, this.action, true, function(datas) {
+                            if(datas.success) {
+                                object.unbindAll();
+                                page.reload();
+                            }
+                        });
+                        return false;
+                    });
+                    object.processEvents();
+                    feature.edit();
+                }
+            });
+        });
+
+        $('.delete_event').click(function() {
+            if(confirm('<?php echo addslashes($this->_('Delete this calendar?')) ?>')) {
+                var td = $(this.parentNode);
+                var tr = $(this.parentNode.parentNode);
+                reload(tr, '<?php echo $this->getUrl('event/application/delete'); ?>', true, function(datas) {
+                    if(datas.success) {
+                        page.reload();
+                    }
+                });
+            }
+        });
+    });
+
+    page.setCallback('didappear', function() {
+        $('#toggle_existing_items').click(function() {
+            $('#existing_items').stop().slideToggle(300, function() {
+                if($(this).is(':visible')) $('#toggle_existing_items').children('i').removeClass('icon-chevron-down').addClass('icon-chevron-up');
+                else $('#toggle_existing_items').children('i').removeClass('icon-chevron-up').addClass('icon-chevron-down')
+            });
+        });
+
+    });
+
+    page.setCallback('willdisappear', function() {
+        $('#toggle_existing_items').unbind('click');
+        $('.image_type_select').unbind('click');
+        $('#eventForm').unbind('submit');
+    })
+
+    function uploadPicture() {
+        $('.upload_picture').click(function() {
+            $('.uploader_picture').trigger('click');
+        });
+        if(!$('button.upload_picture').is(':visible')) {
+            $('input.uploader_picture').show();
+        }
+
+        var uploader = new Uploader();
+        $('.uploader_picture').fileupload({
+            dataType: 'json',
+            add: function (e, data) {
+                $('.pp_content').attr('style', 'height: auto; width: 500px;');
+                data.submit();
+                uploader.showProgressbar();
+            },
+            progressall: function (e, data) {
+                uploader.moveProgressbar(data);
+            },
+            done: function (e, data) {
+                if(data.result.error)
+                {
+                    uploader.showError(data.result.message);
+                }
+                if(data.result.success)
+                {
+                    uploader.hide();
+                    $('#cont_delete_picture').html('<button type="button" onclick="custom.removepicture();" id="delete_picture" class="delete delete_red left"><i class="icon-remove"></i></button><button class="default_button right" id="btn_validate_crop">OK</button>');
+                    $('#file').val(data.result.files);
+                    $('#source_width').val(data.result.source_width);
+                    $('#source_height').val(data.result.source_height);
+                    var output_width = 900;
+                    var output_height = 600;
+                    $('#event_picture').html('<img id="crop_illus" src="<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+data.result.files+'" />');
+
+                    var ratio = [290 / data.result.source_width, 194 / data.result.source_height ];
+                    ratio = Math.min(ratio[0], ratio[1]);
+                    var a = { width: data.result.source_width*ratio, height: data.result.source_height*ratio };
+                    var width = a.width;
+                    var height = a.height;
+                    $('#crop_width').val(width);
+                    $('#crop_height').val(height);
+
+                    $('#event_picture img').attr('width', width+'px');
+                    $('#event_picture img').attr('height', height+'px');
+
+                    var jcrop_api, boundx, boundy;
+                    $('#crop_illus').Jcrop({
+                        setSelect: [0, 0, width, height],
+                        onChange: showPreview,
+                        onSelect: showPreview,
+                        minSize: [5, 5],
+                        aspectRatio: output_width/output_height,
+                        keySupport: false,
+                        bgColor: 'transparent',
+                        bgOpacity: '.6'
+                    },function() {
+                        var bounds = this.getBounds();
+                        boundx = bounds[0];
+                        boundy = bounds[1];
+                        jcrop_api = this;
+                        jcrop_api.animateTo([ 0, 0, width, height ]);
+                    });
+                }
+                function showPreview(c) {
+                    if (parseInt(c.w) > 0) {
+                        var rx = 37 / c.w;
+                        var ry = 37 / c.h;
+                        $('#x1').val(c.x);
+                        $('#y1').val(c.y);
+                        $('#x2').val(c.x2);
+                        $('#y2').val(c.y2);
+                        $('#w').val(c.w);
+                        $('#h').val(c.h);
+                    }
+                }
+            }
+        });
+
+        $('#validateCrop').submit(function() {
+            reload(this, this.action, true, function(datas) {
+                if(datas.success) {
+                    $('#picture').val(datas.file);
+                    $('#event_picture').html('<img src="<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+datas.file+'" width="150" height="100" />');
+                    $('#btn_validate_crop').unbind('click').remove();
+                }
+            });
+            return false;
+        });
+    }
+
+    page.setCallback('willdisappear', function() {
+        $('.upload_picture').unbind('click');
+        $('#close_panel').unbind('click');
+        $('.save_event').unbind('click');
+        $('.delete_event').unbind('click');
+    });
+</script>
+</div>

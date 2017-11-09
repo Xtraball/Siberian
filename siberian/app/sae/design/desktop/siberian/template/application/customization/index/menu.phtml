@@ -1,0 +1,53 @@
+<?php $level1 = $this->getCurrentMenu(); ?>
+<?php $level2 = $this->getCurrentSubmenu(); ?>
+<?php
+$publication_type = System_Model_Config::getValueFor("system_publication_access_type");
+$publish_type = $this->getAdmin()->getPublicationAccessType() ? $this->getAdmin()->getPublicationAccessType() : $publication_type;
+?>
+<?php
+$has_previewer = Installer_Model_Installer::hasModule("previewer");
+$previewer = null;
+if($has_previewer && method_exists("Previewer_Model_Previewer", "getInstance")) {
+    $previewer = Previewer_Model_Previewer::getInstance();
+}
+?>
+<div class="menu list level1">
+    <ul>
+        <?php if($this->_canAccess("editor_design")) : ?>
+        <li class="first<?php if($level1 == 'design') : ?> f-bold active<?php endif; ?>" data-image="335" data-style="editor_menu" data-color="background_color<?php if($level1 == 'design') : ?>_on_active<?php endif; ?>">
+            <a href="<?php echo $this->getUrl('application/customization_design_style/edit'); ?>" class="editor_menu no-background<?php if($level1 == 'design') : ?> active<?php endif; ?>"><?php echo $this->_('Design'); ?></a>
+        </li>
+        <?php endif; ?>
+        <?php if($this->_canAccess("editor_colors")) : ?>
+        <li class="<?php if($level1 == 'colors') : ?>f-bold active<?php endif; ?>" data-image="337" data-style="editor_menu" data-color="background_color<?php if($level1 == 'colors') : ?>_on_active<?php endif; ?>">
+            <a href="<?php echo $this->getUrl('application/customization_design_colors/edit'); ?>" class="editor_menu no-background<?php if($level2 == 'colors') : ?> active<?php endif; ?>"><?php echo $this->_('Colors'); ?></a>
+        </li>
+        <?php endif; ?>
+        <?php if($this->_canAccess("editor_features")) : ?>
+        <li class="<?php if($level1 == 'features') : ?>f-bold active<?php endif; ?>" data-image="337" data-style="editor_menu" data-color="background_color<?php if($level1 == 'features') : ?>_on_active<?php endif; ?>">
+            <a href="<?php echo $this->getUrl('application/customization_features/list'); ?>" class="editor_menu no-background<?php if($level1 == 'features') : ?> active<?php endif; ?>"><?php echo $this->_('Features'); ?></a>
+        </li>
+        <?php endif; ?>
+        <?php if($this->_canAccess("editor_application")) : ?>
+        <li class="<?php if($level1 == 'publication_app') : ?>f-bold active <?php endif; ?>wl_panel">
+            <a href="<?php echo $this->getUrl('application/customization_publication_app'); ?>" class="editor_menu no-background<?php if($level1 == 'publication_app') : ?> active<?php endif; ?>"><?php echo $this->_('Application'); ?></a>
+        </li>
+        <?php endif; ?>
+        <?php if($this->_canAccess("editor_publication")) : ?>
+        <li class="<?php if($level1 == 'publication_infos') : ?>f-bold active <?php endif; ?>wl_panel">
+            <a href="<?php echo $this->getUrl('application/customization_publication_infos'); ?>" class="editor_menu no-background<?php if($level2 == 'publication_infos') : ?> active<?php endif; ?>"><?php echo $this->_('Publication'); ?></a>
+        </li>
+        <?php endif; ?>
+        <?php if($has_previewer AND $previewer AND $previewer->getShowModalButton()==1 AND $this->_canAccess("previewer")): ?>
+            <button id="previewer" class="default_button right"><?php echo $this->_('Preview on your phone'); ?></button>
+        <?php endif; ?>
+    </ul>
+
+    <div class="clear"></div>
+</div>
+
+<?php if($this->_canAccess("editor_publication") AND $level1 == 'publication_infos' AND ($publish_type == 'info' OR !$this->getApplication()->subscriptionIsActive()) AND $this->getApplication()->canBePublished()) : ?>
+<div class="ready_for_publish">
+    <a class="bg-redpurple rounded publish_my_app" href="<?php echo $this->getUrl('application/customization/check'); ?>" onclick="reload(this, this.href, true); return false;"><?php echo $this->_('Ready ? Publish my app!'); ?></a>
+</div>
+<?php endif; ?>

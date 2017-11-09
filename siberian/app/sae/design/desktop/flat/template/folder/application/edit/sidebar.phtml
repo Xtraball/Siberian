@@ -1,0 +1,29 @@
+<?php $folder = new Folder_Model_Folder(); ?>
+<?php $folder->find($this->getValueId(), 'value_id'); ?>
+
+<?php $category = new Folder_Model_Category(); ?>
+<?php $categories = $category->findAll(array('parent_id' => $this->getParentId()), array('pos ASC')); ?>
+
+<?php if($categories->count() > 0) : ?>
+    <ul class="categories_list">
+<?php endif; ?>
+    <?php foreach($categories as $category) : ?>
+        <?php $category_option = new Application_Model_Option_Value(); ?>
+        <?php $category_options = $category_option->findAll(array("app_id" => $this->getApplication()->getId(), 'folder_category_id' => $category->getCategoryId()), array('folder_category_position ASC')); ?>
+        <li id="category_<?php echo $category->getCategoryId() ?>">
+            <div class="button_handler" rel="<?php echo $category->getCategoryId() ?>" page-id="<?php echo 'subcategory_'.$category->getId(); ?>">
+                <i class="fa fa-sort"></i>
+                <a href="javascript:void(0)" id="load_category_<?php echo $category->getCategoryId() ?>" class="not-loaded" rel="<?php echo $category->getCategoryId() ?>">
+                    <span id="title_category_<?php echo $category->getCategoryId() ?>" class="title"><?php echo $category->getTitle(); ?></span>
+                    <i class="features_number">(<?php echo $category_options->count() ?>)</i>
+                </a>
+                <div class="bloc-actions">
+                    <i class="delete_category fa fa-remove" rel="<?php echo $category->getCategoryId() ?>"></i>
+                    <i class="edit_category fa fa-pencil" rel="<?php echo $category->getCategoryId() ?>" onclick="category.loadForm(<?php echo $category->getCategoryId() ?>, <?php echo $this->getParentId() ?>);"></i>
+                </div>
+            </div>
+        </li>
+    <?php endforeach; ?>
+<?php if($categories->count() > 0) : ?>
+    </ul>
+<?php endif; ?>

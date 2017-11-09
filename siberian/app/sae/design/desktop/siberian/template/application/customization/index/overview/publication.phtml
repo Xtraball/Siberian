@@ -1,0 +1,14 @@
+<?php $application = $this->getApplication() ?>
+<div id="iphone">
+    <div class="iphone_content">
+        <div id="mobile_homescreen">
+            <img src="<?php echo $this->getImage('customization/overview/homescreen.png'); ?>" alt="" title="" />
+            <div id="overview_icon" class="overview mobile_view right touch_icon">
+                <div class="icon" style="background-color: <?php echo $application->getBackgroundImageColor() ? $application->getBackgroundImageColor() : '#000'?>">
+                    <img src="<?php echo $application->getIcon(); ?>" id="preview_icon" width="62" height="62" />
+                </div>
+                <p id="app_name" class="no-margin"><?php echo $application->getShortName(); ?></p>
+            </div>
+        </div>
+    </div>
+</div>

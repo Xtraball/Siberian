@@ -1,0 +1,214 @@
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message" right-button="header_right_button"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="scrollable_content">
+        <div class="padding for_ads_banner weather">
+            <div ng-if="error && !show_change_location">
+                <p class="a-center padding error-img">
+                    <img ng-if="current_icon_url" ng-src="{{ icon_error_url }}" width="100%"/>
+                </p>
+                <p class="justify padding error-p"><?php echo $this->_("Sorry, but the weather service is not available for the moment. Please try again later."); ?></p>
+                <p class="justify padding error-p" ng-if="error_message">{{ error_message }}</p>
+                <p class="a-center" ng-click="toggleChangeLocation()">
+                    <img ng-src="{{ picto_location }}" width="11px"/> <?php echo $this->_("Change location"); ?>
+                </p>
+            </div>
+            <div ng-if="!error">
+                <div class="current_weather" ng-if="!is_loading" >
+                    <table width="100%" class="margin">
+                        <tr>
+                            <td width="100%" class="uppercase city" ng-if="weather.location.country">{{ weather.location.city }}, {{ weather.location.country }}</td>
+                        </tr>
+                        <tr>
+                            <td width="100%" class="date">{{ weather.item.condition.date }}</td>
+                        </tr>
+                        <tr>
+                            <td width="100%" class="change-location" vertical-align="middle" ng-click="toggleChangeLocation()" ng-hide="show_change_location">
+                                <img ng-src="{{ picto_location }}" width="11px"/> <?php echo $this->_("Change location"); ?>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="bkg-weather display-current" ng-hide="show_weather_details || show_change_location">
+                        <table width="100%">
+                            <tr>
+                                <td width="45%">
+                                    <img ng-if="current_icon_url" ng-src="{{ current_icon_url }}" width="100%"/>
+                                </td>
+                                <td width="55%" class="temp a-center">
+                                    {{ weather.item.condition.temp }}°
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="a-center temp-fork">{{ weather.item.forecast[0].low }}°/{{ weather.item.forecast[0].high }}°</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="a-center more-details" ng-click="toggleDetails()"><?php echo $this->_("Click here to view more details on current weather."); ?></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div ng-hide="show_weather_details || show_change_location">
+                        <table width="100%">
+                            <tr>
+                                <td class="a-center" colspan="2">
+                                    <table width="100%">
+                                        <tr>
+                                            <td class="forecast-padding forecast-heading a-center">
+                                                {{ weather.item.forecast[1].day }}.
+                                            </td>
+                                            <td class="forecast-padding forecast-heading a-center">
+                                                {{ weather.item.forecast[2].day }}.
+                                            </td>
+                                            <td class="forecast-padding forecast-heading a-center">
+                                                {{ weather.item.forecast[3].day }}.
+                                            </td>
+                                            <td class="forecast-padding forecast-heading a-center">
+                                                {{ weather.item.forecast[4].day }}.
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <img ng-if="current_icon_url" ng-src="{{ forecast_1_icon_url }}" />
+                                            </td>
+                                            <td>
+                                                <img ng-if="current_icon_url" ng-src="{{ forecast_2_icon_url }}" />
+                                            </td>
+                                            <td>
+                                                <img ng-if="current_icon_url" ng-src="{{ forecast_3_icon_url }}" />
+                                            </td>
+                                            <td>
+                                                <img ng-if="current_icon_url" ng-src="{{ forecast_4_icon_url }}" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                {{ weather.item.forecast[1].low }}°/{{ weather.item.forecast[1].high }}°
+                                            </td>
+                                            <td>
+                                                {{ weather.item.forecast[2].low }}°/{{ weather.item.forecast[2].high }}°
+                                            </td>
+                                            <td>
+                                                {{ weather.item.forecast[3].low }}°/{{ weather.item.forecast[3].high }}°
+                                            </td>
+                                            <td>
+                                                {{ weather.item.forecast[4].low }}°/{{ weather.item.forecast[4].high }}°
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="a-center provider-right">
+                                    <a href="https://www.yahoo.com/?ilc=401" target="_blank"> <img src="https://poweredby.yahoo.com/white.png" width="134" height="29"/> </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="current_weather_details bkg-weather slide-top" ng-show="show_weather_details">
+                        <table width="100%">
+                            <tr>
+                                <td class="cell" colspan="2" ng-click="toggleDetails()">
+                                    <button class="btn header"><?php echo $this->_("Close"); ?></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="a-center heading">
+                                    <img ng-if="icon_astronomy" ng-src="{{ icon_astronomy }}" width="15px"/> <?php echo $this->_("Astronomy"); ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell"><?php echo $this->_("Sunset:"); ?></td>
+                                <td>{{ weather.astronomy.sunset }}</td>
+                            </tr>
+                            <tr>
+                                <td class="cell"><?php echo $this->_("Sunrise:"); ?></td>
+                                <td>{{ weather.astronomy.sunrise }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="a-center heading">
+                                    <img ng-if="icon_astronomy" ng-src="{{ icon_atmosphere }}" width="15px"/> <?php echo $this->_("Atmosphere"); ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell"><?php echo $this->_("Humidity:"); ?></td>
+                                <td>{{ weather.atmosphere.humidity }}%</td>
+                            </tr>
+                            <tr>
+                                <td class="cell"><?php echo $this->_("Pressure:"); ?></td>
+                                <td>{{ weather.atmosphere.pressure }}</td>
+                            </tr>
+                            <tr>
+                                <td class="cell"><?php echo $this->_("Visibility:"); ?></td>
+                                <td>{{ weather.atmosphere.visibility }}</td>
+                            </tr>
+                            <tr>
+                                <td class="cell"><?php echo $this->_("Rising:"); ?></td>
+                                <td>{{ weather.atmosphere.rising }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="a-center heading">
+                                    <img ng-if="icon_astronomy" ng-src="{{ icon_wind }}" width="15px"/> <?php echo $this->_("Wind"); ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell"><?php echo $this->_("Chill:"); ?></td>
+                                <td class="cell">{{ weather.wind.chill }}°</td>
+                            </tr>
+                            <tr>
+                                <td class="cell"><?php echo $this->_("Direction:"); ?></td>
+                                <td>{{ weather.wind.direction }}°</td>
+                            </tr>
+                            <tr>
+                                <td class="cell"><?php echo $this->_("Speed:"); ?></td>
+                                <td>{{ weather.wind.speed }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="change_location bkg-weather slide-top" ng-show="show_change_location">
+                        <table width="100%">
+                            <tr>
+                                <td class="cell" colspan="2">
+                                    <?php echo $this->_("Postal code or city:"); ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell" colspan="2">
+                                    <input type="text" id="new_city" ng-model="new_location.city" ng-disabled="new_location.use_user_location"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell" colspan="2">
+                                    <?php echo $this->_("Country:"); ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell" colspan="2">
+                                    <select id="new_country" ng-model="new_location.country" ng-disabled="new_location.use_user_location">
+                                        <option ng-repeat="country in country_list" value="{{ country.code }}">{{ country.label }}</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell" colspan="2">
+                                    <label>
+                                        <input type="checkbox" class="checkbox" id="new_location" ng_model="new_location.use_user_location" /> <span><?php echo $this->_("Use my location"); ?></span>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="50%" class="cell">
+                                    <button class="btn header" ng-click="changeLocation()"><?php echo $this->_("OK"); ?></button>
+                                </td>
+                                <td width="50%" class="cell">
+                                    <button class="btn header" ng-click="toggleChangeLocation()"><?php echo $this->_("Cancel"); ?></button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

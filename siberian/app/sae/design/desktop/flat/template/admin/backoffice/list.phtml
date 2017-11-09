@@ -1,0 +1,73 @@
+<?php $admin = new Admin_Model_Admin(); ?>
+<?php $admins = $admin->findAll(array(new Zend_Db_Expr('parent_id IS NULL'))); ?>
+<div class="application">
+    <div class="application_content inner_content">
+        <div class="title">
+            <i class="left icon-user"></i>
+            <h2 class="left f-rounded"><?php echo $this->_('Accounts'); ?></h2>
+            
+            <hr />
+        </div>
+        <div>
+            <h3 class="title">
+                <span><?php echo $this->_('List of admin accounts'); ?></span>
+                <hr />
+                <span>
+                    <button class="color-blue pull-right bt-header-right btn" onclick="window.location = '<?php echo $this->getUrl('admin/backoffice/new'); ?>'" type="button">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </span>
+                
+            </h3>
+            <br />
+            <div>
+                <table class="regular_infos list list-input" width="100%">
+                    <col width="30%" />
+                    <col width="30%" />
+                    <col width="30%" />
+                    <col width="10%" />
+                    <tr class="a-left">
+                        <th><?php echo $this->_('Email'); ?></th>
+                        <th><?php echo $this->_('Created at'); ?></th>
+                        <th><?php echo $this->_('Updated at'); ?></th>
+                        <th></th>
+                    </tr>
+                    <?php foreach($admins as $admin) : ?>
+                    <tr id="row_account_<?php echo $admin->getId(); ?>">
+                        <td><?php echo $admin->getEmail(); ?></td>
+                        <td><?php echo $admin->getFormattedCreatedAt(); ?></td>
+                        <td><?php echo $admin->getFormattedUpdatedAt(); ?></td>
+                        <td>
+                            <div class="icons right">
+                                <a id="admin_edit_<?php echo $admin->getId(); ?>" class="icon edit" href="<?php echo $this->getUrl('admin/backoffice/edit', array('admin_id' => $admin->getId())); ?>">
+                                    <i class="icon-edit"></i>
+                                </a>
+                                <a id="admin_delete_<?php echo $admin->getId(); ?>" class="icon delete_account" href="<?php echo $this->getUrl('admin/backoffice/delete', array('admin_id' => $admin->getId())); ?>" rel="<?php echo $admin->getId(); ?>">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                                
+                            </div>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        $('.delete_account').click(function() {
+            if(confirm('<?php echo addslashes($this->_('Are you sure you want to remove this account?')); ?>')) {
+                reload($(this), this.href, true, function(data) {
+                    if(data.success) {
+                        $('#row_account_'+data.admin_id).remove();
+                    }
+                });
+            }
+            return false;
+        });
+    });
+
+</script>

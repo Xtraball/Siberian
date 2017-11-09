@@ -1,0 +1,25 @@
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="post.title" message="message" right-button="header_right_button"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="l2 scrollable_content content">
+        <ul ng-class="{news: !style_background_image}" class="content_news" ng-show="post">
+            <li>
+                <div class="image" ng-if="post.picture">
+                    <img ng-src="{{ post.picture }}" alt="" title="" width="100%" />
+                </div>
+            </li>
+            <li class="details padding">
+                <div class="title">
+                    <p class="name bold">{{ post.title }}</p>
+                </div>
+                <div class="clear"></div>
+                <p class="conditions">{{ post.short_description }}</p>
+                <div class="description" ng-bind-html="post.description">
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

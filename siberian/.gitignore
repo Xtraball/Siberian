@@ -1,0 +1,55 @@
+# IDE/OS
+*.DS_Store*
+*.idea*
+
+# Siberian ignores.
+adminer.php
+adminer.css
+languages/*
+!languages/default
+.htaccess
+app/configs/app.ini
+images/customer/
+images/site/
+images/application/*
+images/previewer
+!images/application/placeholder
+!images/application/tabbar
+errors/*no-store.html
+system.php
+!app/sae/modules/System/resources/db/data/system.php
+var/apps/android
+var/log/*
+var/**/prod.css
+var/**/prod.js
+var/**/index-prod.html
+var/apps/browser/pwa-worker.js
+var/apps/**/www/features/*
+config.php
+var/apps/browser/chcp.json
+var/apps/ionic/ios-noads/www/chcp.json
+var/apps/ionic/ios/www/chcp.json
+var/apps/ionic/android/assets/www/chcp.json
+chcp.json
+chcp.manifest
+.well-known
+
+# Dist js/css
+var/apps/browser/dist/app.bundle-min.css
+var/apps/browser/dist/app.bundle-min.js
+var/apps/overview/dist/app.bundle-min.css
+var/apps/overview/dist/app.bundle-min.js
+var/apps/ionic/android/assets/www/dist/app.bundle-min.css
+var/apps/ionic/ios-noads/www/dist/app.bundle-min.css
+var/apps/ionic/ios/www/dist/app.bundle-min.css
+
+# Allow node_modules for var/apps
+!var/apps/ionic/**/node_modules
+var/apps/ionic/tools/android-sdk
+var/apps/ionic/tools/gradle
+
+var/apps/iphone/cert_*
+var/apps/certificates/*
+!var/apps/certificates/root_ca.pem
+!var/apps/certificates/.htaccess
+

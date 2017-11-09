@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <front_index_index>
+        <base>
+            <template>page/base</template>
+            <class>core_view_default</class>
+            <scripts>
+                <js>
+                    <fastclick link="js/fastclick.js" />
+                    <angular link="js/angular.min.js" />
+                    <angular_animate link="js/angular/angular-animate.min.js" />
+                    <angular_resource link="js/angular/angular-resource.min.js" />
+                    <angular_route link="js/angular/angular-route.min.js" />
+                    <angular_touch link="js/angular/angular-touch.min.js" />
+                    <angular_carousel link="js/angular/angular-carousel.js" />
+                    <angular_sanitize link="js/angular/angular-sanitize.min.js" />
+                    <angular_storage link="js/angular/ngStorage.min.js" />
+                    <angular_facebook link="js/angular/ngFacebook.js" />
+                    <stripe href="https://js.stripe.com/v2/" />
+                    <!--<angular_maps link="js/angular/ngMap.min.js" />-->
+                    <app link="js/app.js" />
+                    <controllers folder="js/controllers" />
+                    <factories folder="js/factories" />
+                    <directives folder="js/directives" />
+                    <services folder="js/services" />
+                    <constants folder="js/constants" />
+                    <filters folder="js/filters" />
+                </js>
+                <css>
+                    <style link="css/style.css" />
+                    <homepage folder="css/homepage" />
+                    <angular_animation link="css/angular/ng-animation.css" />
+                    <angular_carousel link="css/angular/angular-carousel.css" />
+                </css>
+            </scripts>
+            <metas>
+                <Content-Type value="text/html; charset=utf-8" type="http-equiv" />
+                <apple-mobile-web-app-capable value="yes" type="name" />
+                <viewport value="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" type="name" />
+                <apple-mobile-web-app-status-bar-style value="black" type="name" />
+            </metas>
+        </base>
+        <views>
+            <body class="core_view_mobile_default" template="page/base/body.phtml" />
+            <style class="core_view_mobile_default" template="page/base/css.phtml" />
+            <js class="front_view_mobile_js" template="page/base/js.phtml" />
+            <padlock class="core_view_mobile_default" template="html/l1/locked_page.phtml" />
+            <application_is_locked class="core_view_mobile_default" template="html/l1/locked_app.phtml" />
+            <!--<templates class="core_view_mobile_default" template="page/base/templates.phtml" />-->
+        </views>
+    </front_index_index>
+
+    <front_mobile_gmaps_view>
+        <views>
+            <content class="core_view_mobile_default" template="html/l1/gmaps/view.phtml" />
+        </views>
+    </front_mobile_gmaps_view>
+
+    <front_mobile_player_view>
+        <views>
+            <content class="core_view_mobile_default" template="html/l1/player/view.phtml" />
+        </views>
+    </front_mobile_player_view>
+
+    <front_index_noroute>
+        <views>
+            <content class="core_view_default" template="error/404.phtml" />
+        </views>
+    </front_index_noroute>
+
+    <front_index_error>
+        <views>
+            <content class="core_view_default" template="error/503.phtml" />
+        </views>
+    </front_index_error>
+
+</layout>

@@ -1,0 +1,108 @@
+<?php $option = $this->getOptionValue(); ?>
+<?php $promo = $this->getCurrentPromo();?>
+<?php
+$valid_until = $promo->getValidUntil() ? new Zend_Date($promo->getValidUntil()) : null;
+if($valid_until) {
+    $valid_until = $valid_until->get(Zend_Date::DATETIME_SHORT, Core_Model_Language::getCurrentLanguage());
+}
+?>
+<form id="promoEditForm" method="post" action="<?php echo $this->getUrl('mcommerce/application_settings_discount/editpost'); ?>" class="form-horizontal">
+    <fieldset>
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php if($promo->getId()) : ?>
+                <?php echo $this->_("Edit the discount %s", $promo->getLabel()); ?>
+            <?php else : ?>
+                <?php echo $this->_("Create a new discount"); ?>
+            <?php endif; ?>
+        </h3>
+        <div class="container-fluid content-feature">
+            <div class="form-group first-row-feature">
+                <div class="col-md-12">
+                    <button type="button" onclick="goBack();" class="btn color-blue pull-left"><i class="fa fa-angle-left"></i></button>
+                    <button type="submit" class="btn color-blue pull-right">OK</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <label for="discount_enabled"><?php echo $this->_("Enabled"); ?></label>
+                </div>
+                <div class="col-sm-5">
+                    <input type="checkbox" id="enabled" name="enabled" <?php if ($promo->getEnabled()) echo "checked" ?> class="color-blue checkbox"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <label for="discount_label"><?php echo $this->_("Label"); ?></label>
+                </div>
+                <div class="col-sm-5">
+                    <input type="text" id="discount_label" name="label" value="<?php echo $promo->getLabel() ?>" class="input-flat"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <label for="discount_code"><?php echo $this->_("Code"); ?></label>
+                </div>
+                <div class="col-sm-5">
+                    <input type="text" id="discount_code" name="code" value="<?php echo $promo->getCode() ?>" class="input-flat"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <label for="discount_minimum_amount"><?php echo $this->_("Minimum amount"); ?></label>
+                </div>
+                <div class="col-sm-5">
+                    <input type="text" id="discount_minimum_amount" name="minimum_amount" value="<?php echo $promo->getMinimumAmount() ?>" class="input-flat"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <label for="discount_type"><?php echo $this->_("Discount type"); ?></label>
+                </div>
+                <div class="col-sm-5">
+                    <select name="type" id="" class="form-control styled-select color-blue">
+                        <option value="fixed" <?php if($promo->getType() == 'fixed') echo 'selected' ?>><?php echo $this->_("Fixed"); ?></option>
+                        <option value="percentage" <?php if($promo->getType() == 'percentage') echo 'selected' ?>><?php echo $this->_("Percentage"); ?></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <label for="discount_discount"><?php echo $this->_("Deductable"); ?></label>
+                </div>
+                <div class="col-sm-5">
+                    <input type="text" id="discount_discount" name="discount" value="<?php echo $promo->getDiscount() ?>" class="input-flat"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <label for="discount_validity"><?php echo $this->_("Validity date"); ?></label>
+                </div>
+                <div class="col-sm-5">
+                    <input type="text" id="discount_validity" name="valid_until" value="<?php echo $valid_until ?>" class="input-flat"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <label for="discount_useonce"><?php echo $this->_("Usable once"); ?></label>
+                </div>
+                <div class="col-sm-5">
+                    <input type="checkbox" id="discount_useonce" name="use_once" <?php if ($promo->getUseOnce()) echo "checked" ?> class="color-blue checkbox"/>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <?php if($promo->getId()) : ?>
+        <input type="hidden" name="promo_id" id="promo_id" value="<?php echo $promo->getId() ?>" />
+    <?php endif; ?>
+    <input type="hidden" name="option_value_id" value="<?php echo $option->getId() ?>" />
+
+</form>
+<script type="text/javascript">
+    function goBack() {
+        discount.close();
+    }
+    $(document).ready(function () {
+        $.datepicker.setDefaults( $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>']);
+        $('#discount_validity').datetimepicker({});
+    });
+</script>

@@ -1,0 +1,21 @@
+<?php $option_value = new Application_Model_Option_Value(); ?>
+<?php $option_values = $option_value->findAll(array('app_id' => $this->getApplication()->getId(), 'excluded_options' => new Zend_Db_Expr("folder_category_id IS NULL")), 'position ASC'); ?>
+<?php foreach($option_values as $key => $option) : ?>
+    <?php if($option->getCode() == "folder") continue; ?>
+    <li id="add_page_<?php echo $option->getId(); ?>" class="option_value col-md-3 color-blue btn" data-pos="<?php echo $option->getPosition(); ?>" <?php echo ($option->getFolderCategoryId()) ? 'style="display:none"' : '' ?>>
+        <a href="<?php echo $this->getUrl('folder/application/addfeature'); ?>" class="add_feature details" rel="<?php echo $option->getId(); ?>">
+            <img src="<?php echo $option->getIconUrl(); ?>" alt="<?php echo $option->getName(); ?>" title="<?php echo $option->getName(); ?>" width="auto" height="50" class="block" />
+            <span rel="<?php echo $option->getTabbarName(); ?>" id="tabbar_name_<?php echo $option->getId(); ?>"><?php echo $option->getShortTabbarName() ?></span>
+            <input type="hidden" name="value_id" value="<?php echo $this->getValueId(); ?>" />
+            <input type="hidden" name="category_value_id" value="<?php echo $option->getId(); ?>" />
+            <input type="hidden" name="category_id" value="" class="option_value_category_id" />
+        </a>
+    </li>
+<?php endforeach; ?>
+
+<style type="text/css">
+    .block {
+        display: block;
+        margin: 0 auto;
+    }
+</style>

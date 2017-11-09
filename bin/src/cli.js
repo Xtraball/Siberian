@@ -919,30 +919,8 @@ let syncModule = function (external) {
     sh.cd(ROOT);
 
     let submodules = require(ROOT + '/submodules.json'),
-        extModules = submodules['ext-modules'],
-        localModules = submodules.modules,
         localPlugins = submodules.plugins,
         localPlatforms = submodules.platforms;
-
-    if (external) {
-        Object.keys(extModules).forEach(function (key) {
-            let module = extModules[key];
-            let gitUrl = module.git;
-            let gitBranch = module.branch;
-
-            createOrSyncGit(ROOT + '/ext-modules/' + key, gitUrl, gitBranch);
-        });
-    } else {
-        sprint(clc.red('Skipping external modules...'));
-    }
-
-    Object.keys(localModules).forEach(function (key) {
-        let module = localModules[key];
-        let gitUrl = module.git;
-        let gitBranch = module.branch;
-
-        createOrSyncGit(ROOT + '/modules/' + key, gitUrl, gitBranch);
-    });
 
     Object.keys(localPlugins).forEach(function (key) {
         let plugin = localPlugins[key];

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <message_application_index>
+        <addLayout name="admin_menu" />
+        <addLayout name="customization_default" />
+        <base>
+            <title>Messages</title>
+        </base>
+        <views>
+            <content class="admin_view_default" template="message/application/index.phtml" />
+            <customization_header class="admin_view_default" template="application/customization/index/header.phtml" />
+        </views>
+        <actions>
+            <customization_header name="setCurrentLink"><code>message</code></customization_header>
+        </actions>
+    </message_application_index>
+
+</layout>

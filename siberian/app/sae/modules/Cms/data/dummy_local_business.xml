@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<designs>
+    <rush_cafe>
+        <places>
+            <place>
+                <content>
+                    <title>Rush Cafe SF</title>
+                    <content></content>
+                    <picture>/../../images/templates/rush_cafe/content/coffee.png</picture>
+                </content>
+                <block>
+                    <type>address</type>
+                    <position>1</position>
+                    <label>SF</label>
+                    <address>2345 Market Street, San Francisco, Californie, États-Unis</address>
+                    <latitude>37.7514156</latitude>
+                    <longitude>-122.23549009999999</longitude>
+                    <show_address>0</show_address>
+                    <show_geolocation_button>1</show_geolocation_button>
+                </block>
+                <block>
+                    <type>image</type>
+                    <position>2</position>
+                    <description></description>
+                    <library_id></library_id>
+                    <image_url>/../../images/templates/rush_cafe/content/coffee2.png</image_url>
+                    <image_url>/../../images/templates/rush_cafe/content/coffee11.png</image_url>
+                    <image_url>/../../images/templates/rush_cafe/content/coffee10.png</image_url>
+                    <image_url>/../../images/templates/rush_cafe/content/coffee.png</image_url>
+                    <image_fullsize_url>/../../images/templates/rush_cafe/content/coffee2.png</image_fullsize_url>
+                    <image_fullsize_url>/../../images/templates/rush_cafe/content/coffee11.png</image_fullsize_url>
+                    <image_fullsize_url>/../../images/templates/rush_cafe/content/coffee10.png</image_fullsize_url>
+                    <image_fullsize_url>/../../images/templates/rush_cafe/content/coffee.png</image_fullsize_url>
+                </block>
+                <block>
+                    <type>text</type>
+                    <position>3</position>
+                    <content>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                        nisi ut aliquip ex ea commodo consequat.
+                    </content>
+                </block>
+                <block>
+                    <type>button</type>
+                    <position>4</position>
+                    <type_id>phone</type_id>
+                    <content>099999999</content>
+                </block>
+                <block>
+                    <type>button</type>
+                    <position>5</position>
+                    <type_id>link</type_id>
+                    <content>http://www.google.com</content>
+                </block>
+            </place>
+            <place>
+                <content>
+                    <title>Rush Cafe NYC</title>
+                    <content></content>
+                    <picture>/../../images/templates/rush_cafe/content/coffee2.png</picture>
+                </content>
+                <block>
+                    <type>address</type>
+                    <position>1</position>
+                    <label>NYC</label>
+                    <address>234 Central Park West, New York, État de New York, États-Unis</address>
+                    <latitude>40.783711</latitude>
+                    <longitude>-73.97085609999999</longitude>
+                    <show_address>0</show_address>
+                    <show_geolocation_button>1</show_geolocation_button>
+                </block>
+                <block>
+                    <type>image</type>
+                    <position>2</position>
+                    <description></description>
+                    <library_id></library_id>
+                    <image_url>/../../images/templates/rush_cafe/content/coffee.png</image_url>
+                    <image_url>/../../images/templates/rush_cafe/content/coffee11.png</image_url>
+                    <image_url>/../../images/templates/rush_cafe/content/coffee10.png</image_url>
+                    <image_url>/../../images/templates/rush_cafe/content/coffee2.png</image_url>
+                    <image_fullsize_url>/../../images/templates/rush_cafe/content/coffee.png</image_fullsize_url>
+                    <image_fullsize_url>/../../images/templates/rush_cafe/content/coffee11.png</image_fullsize_url>
+                    <image_fullsize_url>/../../images/templates/rush_cafe/content/coffee10.png</image_fullsize_url>
+                    <image_fullsize_url>/../../images/templates/rush_cafe/content/coffee2.png</image_fullsize_url>
+                </block>
+                <block>
+                    <type>text</type>
+                    <position>3</position>
+                    <content>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                        nisi ut aliquip ex ea commodo consequat.
+                    </content>
+                </block>
+                <block>
+                    <type>button</type>
+                    <position>4</position>
+                    <type_id>phone</type_id>
+                    <content>099999999</content>
+                </block>
+            </place>
+        </places>
+    </rush_cafe>
+</designs>

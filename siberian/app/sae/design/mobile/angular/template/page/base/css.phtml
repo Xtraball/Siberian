@@ -1,0 +1,92 @@
+<style type="text/css">
+    <?php $notImportant = array("background"); ?>
+    <?php foreach($this->getApplication()->getBlocks() as $block) : ?>
+    <?php $important = !in_array($block->getCode(), $notImportant) ? ' !important' : '' ?>
+
+    .<?php echo $block->getCode() ?> {
+        background-color: <?php echo $block->getBackgroundColor(); ?><?php echo $important; ?>;
+        color: <?php echo $block->getColor(); ?><?php echo $important; ?>;
+    }
+
+    .<?php echo $block->getCode() ?>.reverse {
+        color: <?php echo $block->getBackgroundColor(); ?><?php echo $important; ?>;
+        background-color: <?php echo $block->getColor(); ?><?php echo $important; ?>;
+    }
+
+    .<?php echo $block->getCode() ?>.border { border-color: <?php echo $block->getColor() ?> }
+    .<?php echo $block->getCode() ?>.reverse.border { border-color: <?php echo $block->getBackgroundColor() ?> }
+
+    .<?php echo $block->getCode() ?> .no-background, .<?php echo $block->getCode() ?>.no-background {
+        background-color: transparent <?php echo $important; ?>;
+    }
+
+    <?php if($block->getCode() == 'background') : ?>
+    .icheckbox_flat,
+    .iradio_flat {
+        background-image: url(<?php echo $this->getColorizedImage($this->getImage('pictos/checkbox.png'), $block->getColor()); ?>);
+    }
+    li.arrow_right {
+        background-image: url("<?php echo $this->getColorizedImage($this->getImage('pictos/right_arrow.png', true), $block->getColor()); ?>");
+    }
+
+    .background_floatingCirclesG_48.f_circleG {background-color: <?php echo $block->getColor() ?> !important;}
+    @-moz-keyframes background_f_fadeG{0%{background-color:<?php echo $block->getColor() ?>}100%{background-color:<?php echo $block->getBackgroundColor() ?>}}
+    @-webkit-keyframes background_f_fadeG{0%{background-color:<?php echo $block->getColor() ?>}100%{background-color:<?php echo $block->getBackgroundColor() ?>}}
+    @-ms-keyframes background_f_fadeG{0%{background-color:<?php echo $block->getColor() ?>}100%{background-color:<?php echo $block->getBackgroundColor() ?>}}
+    @-o-keyframes background_f_fadeG{0%{background-color:<?php echo $block->getColor() ?>}100%{background-color:<?php echo $block->getBackgroundColor() ?>}}
+    @keyframes background_f_fadeG{0%{background-color:<?php echo $block->getColor() ?>}100%{background-color:<?php echo $block->getBackgroundColor() ?>}}
+
+    .background_floatingCirclesG_32 .f_circleG,
+    .background_floatingCirclesG_48 .f_circleG {background-color: <?php echo $block->getColor() ?> !important;}
+
+    <?php elseif($block->getCode() == 'header') : ?>
+    .header .back_arrow, .header.back_arrow, .header .next_arrow, .header.next_arrow {
+        background-image: url('<?php echo $this->getColorizedImage($this->getImage("pictos/left_arrow.png"), $block->getColor()); ?>');
+    }
+    <?php elseif($block->getCode() == 'subheader') : ?>
+    .subheader .back_arrow, .subheader.back_arrow, .subheader .next_arrow, .subheader.next_arrow {
+        background-image: url('<?php echo $this->getColorizedImage($this->getImage("pictos/left_arrow.png"), $block->getColor()); ?>');
+    }
+
+    .subheader_floatingCirclesG_32 .f_circleG,
+    .subheader_floatingCirclesG_48 .f_circleG {background-color: <?php echo $block->getColor() ?> !important;}
+    @-moz-keyframes subheader_f_fadeG{0%{background-color:<?php echo $block->getColor() ?>}100%{background-color:<?php echo $block->getBackgroundColor() ?>}}
+    @-webkit-keyframes subheader_f_fadeG{0%{background-color:<?php echo $block->getColor() ?>}100%{background-color:<?php echo $block->getBackgroundColor() ?>}}
+    @-ms-keyframes subheader_f_fadeG{0%{background-color:<?php echo $block->getColor() ?>}100%{background-color:<?php echo $block->getBackgroundColor() ?>}}
+    @-o-keyframes subheader_f_fadeG{0%{background-color:<?php echo $block->getColor() ?>}100%{background-color:<?php echo $block->getBackgroundColor() ?>}}
+    @keyframes subheader_f_fadeG{0%{background-color:<?php echo $block->getColor() ?>}100%{background-color:<?php echo $block->getBackgroundColor() ?>}}
+
+    <?php elseif($block->getCode() == 'button') : ?>
+    button.arrow_right, a.arrow_right {
+        background-image: url("<?php echo $this->getColorizedImage($this->getImage('pictos/right_arrow.png', true), $block->getColor()); ?>") !important;
+    }
+    <?php elseif($block->getCode() == 'connect_button') : ?>
+    button.connect_button.arrow_right, a.connect_button.arrow_right {
+        background-image: url("<?php echo $this->getColorizedImage($this->getImage('pictos/right_arrow.png', true), $block->getColor()); ?>");
+    }
+    <?php elseif($block->getCode() == 'news') : ?>
+    .list.l1 ul li .image {
+        background-image: url("<?php echo $this->getColorizedImage($this->getImage("pictos/pictures.png"), $block->getColor()); ?>");
+    }
+    .news_floatingCirclesG_32 .f_circleG,
+    .news_floatingCirclesG_48 .f_circleG {background-color: <?php echo $block->getColor() ?> !important;}
+
+    @-moz-keyframes news_f_fadeG{0%{background-color:<?php echo $block->getColor() ?>}100%{background-color:<?php echo $block->getBackgroundColor() ?>}}
+    @-webkit-keyframes news_f_fadeG{0%{background-color:<?php echo $block->getColor() ?>}100%{background-color:<?php echo $block->getBackgroundColor() ?>}}
+    @-ms-keyframes news_f_fadeG{0%{background-color:<?php echo $block->getColor() ?>}100%{background-color:<?php echo $block->getBackgroundColor() ?>}}
+    @-o-keyframes news_f_fadeG{0%{background-color:<?php echo $block->getColor() ?>}100%{background-color:<?php echo $block->getBackgroundColor() ?>}}
+    @keyframes news_f_fadeG{0%{background-color:<?php echo $block->getColor() ?>}100%{background-color:<?php echo $block->getBackgroundColor() ?>}}
+    <?php elseif($block->getCode() == 'tabbar') : ?>
+    .border-color {
+        border-color: <?php echo $block->getImageColor(); ?> !important;
+    }
+    <?php endif; ?>
+    <?php endforeach; ?>
+</style>
+<?php if($this->getApplication()->getFontFamily()) : ?>
+<style id="font">
+    #wrapper * {
+        font-family: <?php echo $this->getApplication()->getFontFamily(); ?>;
+    }
+</style>
+<?php endif; ?>

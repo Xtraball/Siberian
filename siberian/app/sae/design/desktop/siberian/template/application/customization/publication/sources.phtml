@@ -1,0 +1,463 @@
+<?php
+    $application = $this->getApplication();
+
+    $apk = Application_Model_ApkQueue::getPackages($application->getId());
+    $zip = Application_Model_SourceQueue::getPackages($application->getId());
+    $queued = Application_Model_Queue::getPosition($application->getId());
+    $positions = $queued["positions"];
+    $total = $queued["total"];
+?>
+<div class="application">
+    <div class="infos">
+        <div class="area first">
+            <h3 class="title">
+                <span class="left area"><?php echo __('General information'); ?></span>
+                <hr />
+                <div class="clear"></div>
+            </h3>
+            <div class="area_content form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <label data-tip="44" data-tip-left="80" for="name"><?php echo __('Application name'); ?> : </label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="name" name="name" class="autosave form-control" value="<?php echo $application->getName() ? $application->getName() : ucfirst(mb_strtolower($this->getSession()->getAdmin()->getName())); ?>" maxlength="30" />
+                    </div>
+                    <div class="col-sm-3">
+                        <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_name" alt="Loading" title="Loading" width="24" style="display:none;" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <label for="bundle_id"><?php echo __('Bundle Id'); ?> : </label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="bundle_id" name="bundle_id" class="autosave form-control" value="<?php echo $application->getBundleId(); ?>" />
+                    </div>
+                    <div class="col-sm-3">
+                        <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_bundle_id" alt="Loading" title="Loading" width="24" style="display:none;" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <label for="package_name"><?php echo __('Package Name'); ?> : </label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="package_name" name="package_name" class="autosave form-control" value="<?php echo $application->getPackageName(); ?>" />
+                    </div>
+                    <div class="col-sm-3">
+                        <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_package_name" alt="Loading" title="Loading" width="24" style="display:none;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="area">
+            <h3 class="title">
+                <span class="left area"><?php echo __('Monetize your app'); ?></span>
+                <hr />
+                <div class="clear"></div>
+            </h3>
+            <div class="area_content monetize_area form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <label data-tip="15" for="use_ads" class="checkbox <?php if ($application->getUseAds() == 1) echo 'checked' ?>">
+                            <input id="use_ads" type="checkbox" class="autosave" value="1" name="use_ads" <?php if ($application->getUseAds() == 1) echo 'checked="checked"' ?> />
+                            <input id="flag_use_ads" type="hidden" value="1" name="flag_use_ads" />
+                            <?php echo __('Monetize my app using AdMob?'); ?>
+                        </label>
+                    </div>
+                </div>
+                <div id="monetize_fields" class="<?php if(!$application->getUseAds()) : ?>none<?php endif; ?>">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <p><?php echo __("Enter your AdMob ID for each platform."); ?> <?php echo __('<a href="%s" target="_blank">Click here for more information about AdMob</a>', "https://www.google.com/admob/"); ?></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label for="ios_admob_id"><?php echo __('iOS'); ?> : </label>
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="text" id="ios_admob_id" name="admob_id" class="autosave input form-control" placeholder="AdMob ID" value="<?php echo $application->getDevice(1)->getAdmobId(); ?>" maxlength="50" />
+                            <input type="hidden" name="device_id" value="1" />
+                        </div>
+                        <div class="col-sm-5">
+                            <select id="select_admob_type_ios" name="admob_type" class="autosave no-dk form-control" tabindex="2">
+                                <option value="banner" <?php if($application->getDevice(1)->getAdmobType() == "banner") : ?> selected="selected"<?php endif; ?>>Banner</option>
+                                <option value="interstitial" <?php if($application->getDevice(1)->getAdmobType() == "interstitial") : ?> selected="selected"<?php endif; ?>>Interstitial</option>
+                            </select>
+                            <input type="hidden" name="device_id" value="1" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label for="android_admob_id"><?php echo __('Android'); ?> : </label>    
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="text" id="android_admob_id" name="admob_id" class="autosave input form-control" placeholder="AdMob ID" value="<?php echo $application->getDevice(2)->getAdmobId(); ?>" maxlength="50" />
+                            <input type="hidden" name="device_id" value="2" />
+                        </div>
+                        <div class="col-sm-5">
+                            <select id="select_admob_type_android" name="admob_type" class="autosave no-dk form-control" tabindex="2">
+                                <option value="banner" <?php if($application->getDevice(2)->getAdmobType() == "banner") : ?> selected="selected"<?php endif; ?>>Banner</option>
+                                <option value="interstitial" <?php if($application->getDevice(2)->getAdmobType() == "interstitial") : ?> selected="selected"<?php endif; ?>>Interstitial</option>
+                            </select>
+                            <input type="hidden" name="device_id" value="2" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="area">
+            <h3 class="title">
+                <span class="left area"><?php echo __('Mobile source codes'); ?></span>
+                <hr />
+                <div class="clear"></div>
+            </h3>
+            <div class="area_content">
+                <?php $admin_can_publish = $this->getSession()->getAdmin()->canPublishThemself(); ?>
+                <?php $errors = $this->getApplication()->isAvailableForPublishing($admin_can_publish); ?>
+                <?php if(count($errors) > 0) : ?>
+                    <p><?php echo __('To be able to download source codes, please provide the following information:<br />'); ?></p>
+                    <p>- <?php echo join('<br />- ', $errors); ?></p>
+                <?php elseif(!$this->getApplication()->subscriptionIsActive()) : ?>
+                    <p><?php echo __("Your application is ready to be published."); ?></p>
+                    <p><?php echo __("Proceed to checkout before downloading the source code."); ?></p>
+                <?php else : ?>
+                    <div>
+                        <h4 class="subtitle"><?php echo __("Generate the source code") ?></h4>
+                        <div class="form-horizontal">
+                            <?php if($application->getDesignCode() != "ionic") : ?>
+                                <div class="form-group">
+                                    <div class="col-sm-5">
+                                        <?php echo __('Source type'); ?>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <select id="design_switcher">
+                                            <?php foreach(Application_Model_Application::getDesignCodes() as $design_code => $design_name) : ?>
+                                                <option value="<?php echo $design_code; ?>"<?php if($application->getDesignCode() == $design_code) : ?> selected="selected"<?php endif; ?>><?php echo $design_name; ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <?php echo __('iPhone Version'); ?>
+                                </div>
+                                <div class="col-sm-4">
+                                    <?php  if(!empty($zip["ios"]["path"]) && $positions["ios"] == 0): ?>
+                                        <a href="<?php echo $this->getUrl("").$zip["ios"]["path"] ?>">
+                                            <i class="icon-download-alt"></i> <?php echo __('Download latest'); ?>
+                                        </a>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="col-sm-4 text-right">
+                                    <?php  if($positions["ios"] == 0): ?>
+                                        <a class="generate-source" onclick="generateSource(1, 0);" href="javascript:void(0)" >
+                                            <i class="icon-gears"></i> <?php echo __('Generate source'); ?>
+                                        </a>
+                                    <?php endif; ?>
+                                    <?php  if($positions["ios"] == 1): ?>
+                                        <i class="icon-gear"></i> <?php echo __('Generating'); ?>
+                                    <?php endif; ?>
+                                    <?php  if($positions["ios"] > 1): ?>
+                                        <i class="icon-gears"></i> <?php echo __('Queued %s/%s', $positions["ios"], $total); ?>
+                                    <?php endif; ?>
+                                    <?php  if($positions["ios"] >= 1): ?>
+                                        <a class="cancel-queue" onclick="cancelQueue(1, 0);" href="javascript:void(0)" >
+                                            <i class="icon-remove"></i> <?php echo __('Cancel'); ?>
+                                        </a>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <?php echo __('iPhone Version (No Ads)'); ?>
+                                </div>
+                                <div class="col-sm-4">
+                                    <?php  if(!empty($zip["iosnoads"]["path"]) && $positions["iosnoads"] == 0): ?>
+                                        <a href="<?php echo $this->getUrl("").$zip["iosnoads"]["path"] ?>">
+                                            <i class="icon-download-alt"></i> <?php echo __('Download latest'); ?>
+                                        </a>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="col-sm-4 text-right">
+                                    <?php  if($positions["iosnoads"] == 0): ?>
+                                        <a class="generate-source" onclick="generateSource(1, 1);" href="javascript:void(0)" >
+                                            <i class="icon-gears"></i> <?php echo __('Generate source'); ?>
+                                        </a>
+                                    <?php endif; ?>
+                                    <?php  if($positions["iosnoads"] == 1): ?>
+                                        <i class="icon-gear"></i> <?php echo __('Generating'); ?>
+                                    <?php endif; ?>
+                                    <?php  if($positions["iosnoads"] > 1): ?>
+                                        <i class="icon-gears"></i> <?php echo __('Queued %s/%s', $positions["iosnoads"], $total); ?>
+                                    <?php endif; ?>
+                                    <?php  if($positions["iosnoads"] >= 1): ?>
+                                        <a class="cancel-queue" onclick="cancelQueue(1, 1);" href="javascript:void(0)" >
+                                            <i class="icon-remove"></i> <?php echo __('Cancel'); ?>
+                                        </a>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <?php echo __('Android Version'); ?>
+                                </div>
+                                <div class="col-sm-4">
+                                    <?php  if(!empty($zip["android"]["path"]) && $positions["android"] == 0): ?>
+                                        <a href="<?php echo $this->getUrl("").$zip["android"]["path"]; ?>">
+                                            <i class="icon-download-alt"></i> <?php echo __('Download latest'); ?>
+                                        </a>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="col-sm-4 text-right">
+                                    <?php  if($positions["android"] == 0): ?>
+                                        <a class="generate-source" onclick="generateSource(2, 0);" href="javascript:void(0)" >
+                                            <i class="icon-gears"></i> <?php echo __('Generate source'); ?>
+                                        </a>
+                                    <?php endif; ?>
+                                    <?php  if($positions["android"] == 1): ?>
+                                        <i class="icon-gear"></i> <?php echo __('Generating'); ?>
+                                    <?php endif; ?>
+                                    <?php  if($positions["android"] > 1): ?>
+                                        <i class="icon-gears"></i> <?php echo __('Queued %s/%s', $positions["android"], $total); ?>
+                                    <?php endif; ?>
+                                    <?php  if($positions["android"] >= 1): ?>
+                                        <a class="cancel-queue" onclick="cancelQueue(2, 0);" href="javascript:void(0)" >
+                                            <i class="icon-remove"></i> <?php echo __('Cancel'); ?>
+                                        </a>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+
+                            <?php if($this->getAdmin()->canGenerateApk()): ?>
+                                <hr />
+                                <h4 class="subtitle"><?php echo __("Generate builds") ?></h4>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <label for="name"><?php echo __("Android APK version"); ?> : </label>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <input type="text" id="android_version" name="android_version" class="autosave form-control" value="<?php echo $application->getDevice(2)->getVersion(); ?>" maxlength="30" />
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_android_version" alt="Loading" title="Loading" width="24" style="display:none;" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <?php echo __('Generate Android APK'); ?>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <?php  if(!empty($apk["path"]) && $positions["apk"] == 0): ?>
+                                            <a href="<?php echo $this->getUrl("").$apk["path"]; ?>">
+                                                <i class="icon-download-alt"></i> <?php echo __('Download latest'); ?>
+                                            </a>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="col-sm-4 text-right">
+                                        <?php  if($positions["apk"] == 0): ?>
+                                            <a class="generate-source" onclick="generateSource(2, 0, 'apk');" href="javascript:void(0)" >
+                                                <i class="icon-gears"></i> <?php echo __('Generate APK'); ?>
+                                            </a>
+                                        <?php endif; ?>
+                                        <?php  if($positions["apk"] == 1): ?>
+                                            <i class="icon-gear"></i> <?php echo __('Generating'); ?>
+                                        <?php endif; ?>
+                                        <?php  if($positions["apk"] > 1): ?>
+                                            <i class="icon-gears"></i> <?php echo __('Queued %s/%s', $positions["apk"], $total); ?>
+                                        <?php endif; ?>
+                                        <?php  if($positions["apk"] >= 1): ?>
+                                            <a class="cancel-queue" onclick="cancelQueue(2, 0, 'apk');" href="javascript:void(0)" >
+                                                <i class="icon-remove"></i> <?php echo __('Cancel'); ?>
+                                            </a>
+                                        <?php endif; ?>
+
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+
+                    </div>
+                <?php endif; ?>
+
+            </div>
+        </div>
+        <?php if($application->getDesignCode() != "ionic") : ?>
+        <div class="area">
+            <h3 class="title">
+                <span class="left area"><?php echo __('App design'); ?></span>
+                <hr />
+                <div class="clear"></div>
+            </h3>
+            <div class="area_content">
+                <button type="button" id="switch_to_ionic" class="btn default_button button-block">
+                    <?php echo __("Switch to Ionic design"); ?>
+                    <input type="hidden" name="switch_to_ionic" value="1" />
+                </button>
+            </div>
+        </div>
+        <?php endif; ?>
+    </div>
+</div>
+<script type="text/javascript">
+
+    setAppName($('#name').val());
+    //changement de nom appli
+    $('#name').keyup(function() {
+        setAppName($('#name').val());
+    });
+
+    $('#use_ads').click(function() {
+        if($(this).is(':checked')) {
+            $(this).removeClass("checked");
+            $("#monetize_fields").removeClass("none");
+        } else {
+            $(this).addClass("checked");
+            $("#monetize_fields").addClass("none");
+        }
+    });
+
+    function setAppName(name) {
+        if(!name) name = '';
+        name = name.trim();
+        var newName = name;
+        if(name.length > 11) newName = name.substring(0, 10).trim()+'...';
+
+        $('#app_name').html(newName);
+        $('#header_app_name').html(newName);
+    }
+
+    $('.autosave').change(function() {
+        var input_loader = $('#loader_'+$(this).attr('id'));
+        input_loader.show();
+        reload(this.parentNode, '<?php echo $this->getUrl('application/customization_publication_infos/save'); ?>', false, function(datas) {
+            input_loader.hide();
+        }, function() {
+            input_loader.hide();
+        });
+    });
+
+    <?php if($application->getDesignCode() != "ionic") : ?>
+    var design_code = "angular";
+    $("#design_switcher").change(function() {
+        var design_code = this.value;
+    });
+
+    $("#design_switcher").change();
+
+    $("#switch_to_ionic").click(function() {
+        if(confirm("<?php echo __("If your app is already published on the stores, be sure you have sent an update with the Ionic version, and that this update has already been accepted, otherwise your app may be broken."); ?>")) {
+            reload($(this), "<?php echo $this->getUrl("application/customization_publication_infos/switchtoionic"); ?>", true, function(data) {
+                if(data.success) {
+                    window.location = window.location.href;
+                }
+            });
+        }
+    });
+
+    <?php else: ?>
+    var design_code = "ionic";
+    <?php endif; ?>
+
+    var disable = false;
+    function generateSource(device_id, no_ads, type) {
+        <?php if(Cron_Model_Cron::is_active()): ?>
+        loader.show('reload');
+        <?php else: ?>
+        message.reset()
+        message.setMessage("<?php echo __js("Please wait while we generate application source.") ?>");
+        message.isError(false);
+        message.addLoader(true);
+        message.show();
+        setTimeout(function() {$("div.mask .loader").css("top", "100px");}, 500);
+        loader.show('reload');
+        <?php endif; ?>
+        var url = "<?php echo $this->getUrl("application/customization_publication_infos/downloadsource"); ?>";
+
+        if(typeof type == "undefined") {
+            type = "zip";
+        }
+
+        if(disable) {
+            return;
+        }
+        disable = true;
+
+        $.ajax({
+            url: url,
+            data: {device_id: device_id, no_ads: no_ads, type: type},
+            success: function(data) {
+                // reload
+                <?php if(Cron_Model_Cron::is_active()): ?>
+                location.reload();
+                <?php else: ?>
+                location.href = getUrl(data.more, device_id, no_ads, type);
+                <?php endif; ?>
+                loader.hide('reload');
+                $("#alert").css("top", "0");
+                message.hide();
+            },
+            dataType: 'json'
+        });
+    }
+
+    function cancelQueue(device_id, no_ads, type) {
+        loader.show('reload');
+        var url = "<?php echo $this->getUrl("application/customization_publication_infos/cancelqueue"); ?>";
+
+        if(typeof type == "undefined") {
+            type = "zip";
+        }
+
+        if(disable) {
+            return;
+        }
+        disable = true;
+
+        $.ajax({
+            url: url,
+            data: {device_id: device_id, no_ads: no_ads, type: type},
+            success: function(data) {
+                // reload
+                location.reload();
+                loader.hide('reload');
+            },
+            dataType: 'json'
+        });
+    }
+
+    /** Only for direct download */
+    function getUrl(more, device_id, no_ads, type) {
+        var device = (device_id == 1) ? "ios" : "android";
+        device = (no_ads == 1) ? device+"noads" : device;
+        var base = "";
+        switch(type) {
+            case "apk":
+                base = more["apk"]["path"];
+            case "zip":
+                base = more["zip"][device]["path"];
+        }
+        var domain = "<?php echo $this->getUrl(""); ?>";
+
+        return domain+"/"+base;
+    }
+
+</script>
+
+<style type="text/css">
+    .application .infos .ask_if_has_account { padding: 5px; }
+    .application .infos input.has_account { min-width: 20px; width: 20px; }
+
+    /*homescreen*/
+    #mobile_homescreen {  }
+    /*#mobile_homescreen .touch_icon { position: absolute; top: 249px; left: 128px; height: 71px; }*/
+    #name:disabled { opacity:0.4 }
+    input#name.error { border: 1px dotted red !important }
+    div.area .subtitle { padding-bottom: 8px; margin-bottom: 10px; font-weight: bold; }
+    .cancel-queue .icon-remove {  font-size: 16px;  margin-top: -4px;  }
+    .cancel-queue { margin-left: 10px; }
+</style>

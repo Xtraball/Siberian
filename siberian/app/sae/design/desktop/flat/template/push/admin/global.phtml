@@ -1,0 +1,146 @@
+<?php
+$applications = $this->getAdmin()->getPublishedApplicationsForAdmin();
+
+$push_form = new Push_Form_Global();
+?>
+
+
+
+<div class="page-content-wrapper content solo-page">
+    <h3 class="title-editor border-blue text-center"><?php echo __("Global push notifications"); ?></h3>
+    <div class="subcontent content-color container-fluid">
+        <div class="row">
+
+            <?php if(count($applications) <= 0): ?>
+                <div id="sb-tour-global-push-1" class="col-lg-6 sb-tour">
+                    <h4 class="center"><?php echo __("Push notification"); ?></h4>
+                    <div class="subcontent content-color">
+                        <div class="alert alert-info">
+                            <?php echo __("At least one <b>published</b> application is required in order to use global push notifications.") ?>
+                        </div>
+                    </div>
+                </div>
+
+            <?php else: ?>
+            <div id="sb-tour-global-push-1" class="col-lg-6 sb-tour">
+                <h4 class="center"><?php echo __("Push notification"); ?></h4>
+                <div id="push-form-bind" class="subcontent content-color">
+                    <?php echo $push_form; ?>
+                </div>
+            </div>
+            <?php endif; ?>
+
+            <div id="sb-tour-global-push-select-app" class="col-lg-6 sb-tour">
+                <h4 class="center"><?php echo __("Select target applications"); ?></h4>
+                <span><?php echo __("Only published application are available for global push notifications.") ?></span>
+                <div class="subcontent content-color">
+                    <table class="table content-white-bkg sb-pager">
+                        <thead>
+                        <tr class="border-blue">
+                            <th></th>
+                            <th class="sortable" style="width:5%;"><?php echo __("ID"); ?></th>
+                            <th class="sortable" style="width:30%;"><?php echo __("Name"); ?></th>
+                            <th class="sortable" style="width:25%;"><?php echo __("Bundle Id"); ?></th>
+                            <th class="sortable" style="width:25%;"><?php echo __("Package Name"); ?></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach($applications as $application) : ?>
+                            <tr id="application_element_<?php echo $application->getId(); ?>" class="sb-pager">
+                                <td>
+                                    <div class="control control--checkbox fix-pos">
+                                        <input type="checkbox" name="applications[<?php echo $application->getId(); ?>]" data-appid="<?php echo $application->getId(); ?>" class="appid-checkbox sb-form-checkbox color-blue flatbox">
+                                        <div class="color-blue control__indicator"></div>
+                                    </div>
+                                </td>
+                                <td style="word-break: break-word;"><?php echo $application->getId(); ?></td>
+                                <td style="word-break: break-word;"><?php echo $application->getName(); ?></td>
+                                <td style="word-break: break-word;"><?php echo $application->getBundleId(); ?></td>
+                                <td><?php echo $application->getPackageName(); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+
+                        <?php if(count($applications) <= 0): ?>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5"><?php echo __("No published applications available.") ?></td>
+                            </tr>
+                        </tfoot>
+                        <?php endif; ?>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<style type="text/css">
+    div.fix-pos {
+        margin: 0 !important;
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        bindForms("#push-form-bind", "color-blue", function(data) {
+            $("#form-push-global").get(0).reset();
+            $("#send_to_all").prop("checked", false).trigger("change");
+        });
+
+        var url_content = $("#url").parents(".sb-form-line");
+
+        url_content.hide();
+
+        $("#open_url").on("change", function(element) {
+
+            if($("#open_url").prop("checked")) {
+                url_content.show();
+            } else {
+                url_content.hide();
+            }
+
+        });
+
+        $("#send_to_all").on("change", function(element) {
+
+            if($("#send_to_all").prop("checked")) {
+                $("input.appid-checkbox").prop("checked", true);
+            } else {
+                $("input.appid-checkbox").prop("checked", false);
+            }
+
+        });
+
+        $("input.appid-checkbox").on("change", function() {
+            var total = $("input.appid-checkbox").length;
+            var checked = $("input.appid-checkbox:checked").length;
+
+            if(total === checked) {
+                $("#send_to_all").prop('checked', true);
+                $("#checked").val('');
+            } else {
+                $("#send_to_all").prop('checked', false);
+
+                var checked = [];
+                $("input.appid-checkbox:checked").each(function (index, element) {
+                    checked.push($(element).data('appid'));
+                });
+                $("#checked").val(checked.join(','));
+            }
+        });
+
+        $('table.sb-pager')
+            .sbpager({
+                items_per_page: 10,
+                with_search: true,
+                search_placeholder: "<?php echo __("Search, filter ...") ?>",
+                callback_goto_page: function() {}
+            });
+
+    });
+</script>

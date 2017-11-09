@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="hZs-Vy-LS3">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="JCN-oz-Wd5">
+            <objects>
+                <navigationController id="hZs-Vy-LS3" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Snb-RS-xga">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Y86-B9-Xnv" kind="relationship" relationship="rootViewController" id="ZOn-p7-L1c"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LCp-PC-jV6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="129" y="425.99999999999994"/>
+        </scene>
+        <!--Previewer Login View Controller-->
+        <scene sceneID="7k8-j5-Jmu">
+            <objects>
+                <viewController title="Previewer Login View Controller" id="Y86-B9-Xnv" customClass="previewerLoginViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0mV-KO-lTG">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="previewer_logo.png" id="n1e-yd-SSA">
+                                <rect key="frame" x="35" y="70" width="250" height="75"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" id="InB-p0-f2l">
+                                <rect key="frame" x="0.0" y="177" width="320" height="327"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <textField hidden="YES" opaque="NO" clipsSubviews="YES" tag="13" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Url" minimumFontSize="17" clearButtonMode="whileEditing" id="gGg-Pf-mSQ" userLabel="Text Field - Url">
+                                        <rect key="frame" x="37" y="8" width="246" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.8862745098" green="0.10980392160000001" blue="0.1019607843" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="URL"/>
+                                        <connections>
+                                            <action selector="editingAutocompleteField:" destination="Y86-B9-Xnv" eventType="editingChanged" id="BTQ-QL-voZ"/>
+                                            <action selector="enteringAutocompleteField:" destination="Y86-B9-Xnv" eventType="editingDidBegin" id="tyC-Ke-WfK"/>
+                                            <action selector="leavingAutocompleteField:" destination="Y86-B9-Xnv" eventType="editingDidEndOnExit" id="Ntq-tx-mrg"/>
+                                        </connections>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" tag="13" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" clearButtonMode="whileEditing" id="EK3-GH-kBM" userLabel="Text Field - Email">
+                                        <rect key="frame" x="37" y="46" width="246" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.8862745098" green="0.10980392160000001" blue="0.1019607843" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                                        <connections>
+                                            <action selector="editingAutocompleteField:" destination="Y86-B9-Xnv" eventType="editingChanged" id="Uah-uA-CMF"/>
+                                            <action selector="enteringAutocompleteField:" destination="Y86-B9-Xnv" eventType="editingDidBegin" id="F98-cp-iRG"/>
+                                            <action selector="leavingAutocompleteField:" destination="Y86-B9-Xnv" eventType="editingDidEndOnExit" id="hZM-Fg-wXJ"/>
+                                        </connections>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" tag="13" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" clearsOnBeginEditing="YES" minimumFontSize="17" id="OH1-HI-Eqr" userLabel="Text Field - Password">
+                                        <rect key="frame" x="37" y="84" width="246" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.8862745098" green="0.10980392160000001" blue="0.1019607843" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="send" secureTextEntry="YES"/>
+                                        <connections>
+                                            <action selector="login:" destination="Y86-B9-Xnv" eventType="editingDidEndOnExit" id="Ieq-fK-bed"/>
+                                        </connections>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="44n-1U-PKk">
+                                        <rect key="frame" x="37" y="123" width="246" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.090196078431372548" green="0.5725490196078431" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="See my apps">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="login:" destination="Y86-B9-Xnv" eventType="touchUpInside" id="ddl-lA-EQM"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </view>
+                        </subviews>
+                    </view>
+                    <navigationItem key="navigationItem" id="3fL-j1-0iJ"/>
+                    <connections>
+                        <outlet property="email" destination="EK3-GH-kBM" id="Suq-P9-I5n"/>
+                        <outlet property="login" destination="44n-1U-PKk" id="9h3-12-0X7"/>
+                        <outlet property="loginView" destination="InB-p0-f2l" id="I1I-Tn-63Z"/>
+                        <outlet property="password" destination="OH1-HI-Eqr" id="d3l-jj-I10"/>
+                        <outlet property="urlField" destination="gGg-Pf-mSQ" id="gyz-bK-7Q4"/>
+                        <segue destination="GMw-1x-oQ7" kind="push" identifier="openInfo" id="xSa-Kr-rcC"/>
+                        <segue destination="3v5-lx-FEN" kind="push" identifier="openAppsList" id="C7D-H8-Nee"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Toh-Bk-mUq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="582.39999999999998" y="425.99999999999994"/>
+        </scene>
+        <!--Previewer Listing View Controller-->
+        <scene sceneID="Dr3-hS-dLW">
+            <objects>
+                <viewController title="Previewer Listing View Controller" id="3v5-lx-FEN" customClass="previewerListingViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="YwL-dk-LcM">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="black" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="lIg-kp-l40">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="tintColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="3v5-lx-FEN" id="FVd-2Z-EPC"/>
+                                    <outlet property="delegate" destination="3v5-lx-FEN" id="ESF-CF-OIB"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="jgd-Iu-h4e"/>
+                    <connections>
+                        <outlet property="tableView" destination="lIg-kp-l40" id="G03-cr-4Qd"/>
+                        <segue destination="CN3-Wx-7Ol" kind="push" identifier="openApplication" id="Spa-Bc-yT9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="48m-PM-nbo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1020" y="123.99999999999999"/>
+        </scene>
+        <!--Main View Controller-->
+        <scene sceneID="iUf-TP-pbP">
+            <objects>
+                <viewController id="CN3-Wx-7Ol" customClass="MainViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="00M-2d-FF1">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="webViewInfo" textAlignment="center" id="oB7-An-SlE" userLabel="Web View Info">
+                                <rect key="frame" x="40" y="75" width="240" height="39"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <navigationItem key="navigationItem" id="9UN-EA-GaA"/>
+                    <connections>
+                        <outlet property="webViewInfo" destination="oB7-An-SlE" id="u8n-EN-1ys"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qXC-C4-EHR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1483" y="123.99999999999999"/>
+        </scene>
+        <!--Previewer Info View Controller-->
+        <scene sceneID="cCe-14-swL">
+            <objects>
+                <viewController id="GMw-1x-oQ7" customClass="previewerInfoViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="yed-jv-g71">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="previewer_logo.png" id="tU2-FU-7ur">
+                                <rect key="frame" x="35" y="70" width="250" height="75"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="{#--SB-INFO-TEXT-1--#}" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" adjustsFontSizeToFit="NO" id="S6W-KB-e8l">
+                                <rect key="frame" x="30" y="185" width="260" height="75"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                <color key="textColor" red="0.15294117647058825" green="0.62352941176470589" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="highlightedColor" red="0.8862745098" green="0.10980392160000001" blue="0.1019607843" alpha="1" colorSpace="calibratedRGB"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="{#--SB-INFO-TEXT-2--#}" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2IW-dP-jWk">
+                                <rect key="frame" x="30" y="268" width="260" height="100"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                <color key="textColor" red="0.1529411765" green="0.62352941179999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="highlightedColor" red="0.8862745098" green="0.10980392160000001" blue="0.1019607843" alpha="1" colorSpace="calibratedRGB"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="uhd-FG-OIj"/>
+                    <connections>
+                        <outlet property="label1" destination="S6W-KB-e8l" id="6ys-jU-cO9"/>
+                        <outlet property="label2" destination="2IW-dP-jWk" id="VOE-rt-mlH"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bbu-af-fh0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1020" y="767"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="previewer_logo.png" width="500" height="96"/>
+    </resources>
+</document>

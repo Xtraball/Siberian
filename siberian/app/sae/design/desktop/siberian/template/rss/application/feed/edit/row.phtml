@@ -1,0 +1,31 @@
+<?php $rss_feed = $this->getCurrentFeed(); ?>
+<?php $option_value = $this->getCurrentOptionValue(); ?>
+<li id="row_<?php echo $rss_feed->getId(); ?>">
+    <form class="form_rss_feed">
+        <table class="no-collapse" cellspacing="10">
+            <col width="35px" />
+            <col width="220px" />
+            <col width="220px" />
+            <col width="40px" />
+            <col width="40px" />
+            <tr>
+                <td class="handler_cont"><img src="<?php echo $this->getImage('customization/pictos/move.png'); ?>" id="handle_<?php echo $rss_feed->getId(); ?>" class="handle left"></td>
+                <td><input type="text" id="title_<?php echo $rss_feed->getId(); ?>" name="title" class="required input" value="<?php echo $rss_feed->getTitle() ?>" /><br /></td>
+                <td><input type="text" id="link_<?php echo $rss_feed->getId(); ?>" name="link" class="required url input" value="<?php echo $rss_feed->getLink() ?>" /></td>
+                <td><button type="submit" class="default_button save_feed"><?php echo $this->_('OK'); ?></button></td>
+                <td><button type="button" rel="<?php echo $rss_feed->getId(); ?>" class="delete delete_feed classic"><i class="icon-remove"></i></button></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="4">
+                    <label class="checkbox" for="picture_<?php echo $rss_feed->getId(); ?>">
+                        <input type="checkbox" value="1" id="picture_<?php echo $rss_feed->getId(); ?>" name="picture" <?php if($rss_feed->getPicture()) echo 'checked="checked"'; ?>>
+                    </label>
+                    <label for="picture_<?php echo $rss_feed->getId(); ?>"><?php echo $this->_('Display feed pictures whenever possible'); ?></label>
+                </td>
+            </tr>
+        </table>
+        <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>"/>
+        <input type="hidden" name="feed_id" value="<?php echo $rss_feed->getId(); ?>"/>
+    </form>
+</li>

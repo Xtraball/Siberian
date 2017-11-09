@@ -1,0 +1,30 @@
+
+
+<div id="search_section" class="list" ng-class="{'card' : card_design}" ng-show="show_search">
+    <label class="item item-input item-custom">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="text" placeholder="{{ 'Search' | translate }}" ng-model="search.search_value">
+        <button class="ion-backspace"
+                style="margin-right: 6px;border: 0;background: transparent;"
+                ng-click="search.search_value = ''"
+                ng-show="search.search_value.length"></button>
+    </label>
+
+</div>
+
+<div class="list" ng-class="{'card' : card_design}" ng-if="search.search_value">
+
+    <a tabbar-items class="item item-custom item-avatar-square"
+       option="item" go-to-url="goTo(item)"
+       ng-repeat="item in search_list | filter:search.search_value as results"
+       ng-class="{'item-avatar': item.picture, 'item-center': (!item.subtitle && !item.message)}">
+
+        <img ng-src="{{ item.picture }}" ng-if="item.picture" />
+        <h2><span ng-if="item.father_name">{{ item.father_name }} > </span><strong>{{ item.name }}</strong></h2>
+    </a>
+
+    <div class="item item-custom" ng-if="results.length === 0">
+        {{ "No results for your request." | translate }}
+    </div>
+
+</div>

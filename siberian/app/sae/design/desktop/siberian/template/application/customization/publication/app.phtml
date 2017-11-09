@@ -1,0 +1,166 @@
+<?php $application = $this->getApplication() ?>
+<div class="application">
+    <div id="icon_conteneur" class="area">
+        <h3 class="title">
+            <div><span data-tip="41" class="left area"><?php echo $this->_('Dashboard icon'); ?></span></div>
+            <hr />
+            <div class="clear"></div>
+        </h3>
+        <?php echo $this->createPartialHtml('icon_create', 'admin_view_default', 'application/customization/publication/app/icon.phtml'); ?>
+    </div>
+    <div id="startup_conteneur" class="area">
+        <h3 class="title">
+            <div><span data-tip="42" class="left area"><?php echo $this->_('Startup image'); ?></span></div>
+            <hr />
+            <div class="clear"></div>
+        </h3>
+        <?php echo $this->createPartialHtml('startup_create', 'admin_view_default', 'application/customization/publication/app/startup.phtml'); ?>
+    </div>
+    <form id="publicationForm" action="<?php echo $this->getUrl('application/customization_publication_app/save'); ?>" method="post">
+    </form>
+</div>
+<?php
+    $pages = $application->getPages();
+    $pages_id = array();
+    foreach($pages as $page) {
+        $pages_id[] = $page->getId();
+    }
+?>
+<ul id="pages_id" style="display:none">
+    <?php
+        foreach($pages_id as $id) {
+            echo '<li id="'.$id.'"></li>';
+        }
+    ?>
+</ul>
+<script type="text/javascript">
+
+    $(document).ready(function() {
+
+        $('#name').keyup(function() {
+            setAppName($('#name').val());
+        });
+
+        $('#publicationForm').submit(function() {
+            var loading = new AlertMessage();
+            loading.show();
+            reload(this, this.action, true, function(datas) {
+                if(datas.success) {
+                    clearTimeout(timer);
+                }
+            });
+            return false;
+        });
+
+        var eq = 0;
+        $('#generate_captures').click( function() {
+            supprime_capture('all', '');
+            $('#captures ul').html('');
+            loadCaptures(eq);
+        });
+
+    });
+</script>
+
+<style>
+    #nb_captures_selection {
+        text-align: right;
+    }
+    #action_bar {
+        margin-left: 3%;
+        margin-top: 0;
+        width: 90%;
+        z-index: 1000;
+        padding: 0 2%;
+    }
+    #action_bar:after {
+        content: ".";
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden;
+    }
+    #wrapper_bar {
+        float: right;
+        padding:10px;
+    }
+
+    /*table form*/
+    table tr td {
+        vertical-align: top;
+    }
+    table.twocolumns td {
+        width: 50%;
+        vertical-align: middle;
+    }
+    input, textarea{
+        width: 100%;
+    }
+    #app_icon {
+        border: dotted 1px #7DCFFF;
+    }
+    button.blue {
+        width: 260px;
+        padding: 10px 0;
+        border-top: 1px solid white;
+        border-bottom: 1px solid black;
+        border-radius: 7px;
+        font-size: 17px;
+        background-image: url("<?php echo $this->getImage('customization/pictos/camera.png'); ?>");
+        background-repeat: no-repeat;
+    }
+    button.blue:active {
+        border-top: 1px solid black;
+        border-bottom: 1px solid white;
+    }
+    button.image_left {
+        background-position: 11px center;
+    }
+
+
+    @-webkit-keyframes opacity {
+        0% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+    @-moz-keyframes opacity {
+        0% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+    @-o-keyframes opacity {
+        0% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+    @keyframes opacity {
+        0% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+    #loading {
+        text-align: center;
+    }
+    #loading span {
+        animation-name: opacity;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+        -webkit-animation-name: opacity;
+        -webkit-animation-duration: 1s;
+        -webkit-animation-iteration-count: infinite;
+        -moz-animation-name: opacity;
+        -moz-animation-duration: 1s;
+        -moz-animation-iteration-count: infinite;
+        -o-animation-name: opacity;
+        -o-animation-duration: 1s;
+        -o-animation-iteration-count: infinite;
+    }
+    #loading span:nth-child(2) {
+        animation-delay: 100ms;
+        -webkit-animation-delay: 100ms;
+        -moz-animation-delay: 100ms;
+        -o-animation-delay: 100ms;
+    }
+    #loading span:nth-child(3) {
+        animation-delay: 300ms;
+        -webkit-animation-delay: 300ms;
+        -moz-animation-delay: 300ms;
+        -o-animation-delay: 300ms;
+    }
+</style>

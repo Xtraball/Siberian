@@ -1,0 +1,486 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $card = new LoyaltyCard_Model_LoyaltyCard(); ?>
+<?php $cards = $card->findAll(array('value_id' => $option_value->getId()), 'created_at DESC'); ?>
+<?php $current_card_ids = array(); ?>
+<?php $isMulti = false ?>
+<?php $application = $this->getApplication(); ?>
+<div class="edit_page fidelity">
+    <div id="fidelity_tabs">
+        <div id="list">
+
+
+            <div class="section feature-block-add">
+                <h4 class="subtitle title-editor no-border-radius title-feature-indent">
+                    <?php echo __(('Add content')); ?>
+                    <button type="button" class="feature-toggle-add default_button toggle_design color-blue pull-right bt-header-right btn" onclick="iframe.f.prepareDummy();">
+                        <i class="icon-plus"></i>
+                    </button>
+                    <button type="button" class="btn default_button edit_category color-blue bt-header-right btn-position" onclick="feature.slide($('#list'), $('#passwords'), 'right')"><?php echo $this->_('My passwords') ?></button>
+                    <hr />
+                </h4>
+
+                <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+            </div>
+
+            <div class="feature-block-create">
+                <h4 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo __(('Add content')); ?>
+                    <hr />
+                </h4>
+                <div id="loyaltycard-create" class="container-fluid first-row-feature">
+                    <?php
+                    $form_create = new LoyaltyCard_Form_Create();
+                    $form_create->setValueId($option_value->getId());
+                    echo $form_create;
+                    ?>
+                </div>
+            </div>
+
+
+
+            <?php if($cards->count()) : ?>
+                <div class="section">
+                    <h4 class="subtitle">
+                        <span class="left area"><?php echo $this->_('Manage'); ?></span>
+                        <hr />
+                    <span class="area right">
+                        <button type="button" class="default_button" id="toggle_existing_items">
+                            <i class="icon-chevron-down"></i>
+                        </button>
+                    </span>
+                        <div class="clear"></div>
+                    </h4>
+                    <div id="existing_items">
+                        <div><h4 class="subtitle"><?php echo $this->_('Current card') ?></h4></div>
+                        <ul class="list">
+                            <?php foreach($cards as $card) : ?>
+                            <li class="card_actions" rel="<?php echo $card->getId(); ?>">
+                                <p class="title left"><?php echo $card->getName() ?></p>
+                                <div class="icons right" id="card_icons_<?php echo $card->getId(); ?>">
+                                    <a href="javascript:void(0)" class="icon more" onclick="var div = $('#details_card_<?php echo $card->getId(); ?>'); if(div.is(':visible')) {div.slideUp();} else {div.slideDown();} return false;">
+                                        <i class="icon-search"></i>
+                                    </a>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="clear"></div>
+                                <div id="details_card_<?php echo $card->getId(); ?>" style="display: none;">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <label><?php echo $this->_('Card name') ?> :</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <?php echo $card->getName() ?>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <label><?php echo $this->_('Number of points') ?> :</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <?php echo $card->getNumberOfPoints() ?> <?php echo $this->_('point') ?><?php if($card->getNumberOfPoints() > 0): ?>s<?php endif ?>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <label><?php echo $this->_('Reward') ?> :</label>
+                                        </diV>
+                                        <div class="col-sm-8">
+                                            <?php echo $card->getAdvantage() ?>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <label><?php echo $this->_('Conditions') ?> :</label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <?php echo $card->getConditions() ?>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <label><?php echo $this->_('This card is uniq:') ?></label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <?php echo $card->getUseOnce() ? $this->_("Yes") : $this->_("No") ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php $current_card_ids[] = $card->getId(); ?>
+                                <?php break; ?>
+                                <?php endforeach; ?>
+                            </li>
+                            <li class="separator reverse"></li>
+                        </ul>
+                        <?php if($cards->count() > 1) : ?>
+                            <div><h4 class="subtitle"><?php echo $this->_('Previous cards') ?> :</h4></div>
+                            <ul class="list">
+                                <?php foreach($cards as $card) : ?>
+                                    <?php if(in_array($card->getId(), $current_card_ids)) continue;?>
+                                    <li class="card_actions" rel="<?php echo $card->getId(); ?>">
+                                        <p class="title left"><?php echo $card->getName() ?></p>
+                                        <div class="icons right" id="card_icons_<?php echo $card->getId(); ?>">
+                                            <a href="javascript:void(0)" class="icon more" onclick="var div = $('#details_card_<?php echo $card->getId(); ?>'); if(div.is(':visible')) {div.slideUp();} else {div.slideDown();} return false;">
+                                                <i class="icon-search"></i>
+                                            </a>
+                                            <div class="clear"></div>
+                                        </div>
+                                        <div class="clear"></div>
+                                        <div id="details_card_<?php echo $card->getId(); ?>" style="display: none;">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <label><?php echo $this->_('Card name') ?> :</label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <?php echo $card->getName() ?>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <label><?php echo $this->_('Number of points') ?> :</label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <?php echo $card->getNumberOfPoints() ?> <?php echo $this->_('point') ?><?php if($card->getNumberOfPoints() > 0): ?>s<?php endif ?>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <label><?php echo $this->_('Reward') ?> :</label>
+                                                </diV>
+                                                <div class="col-sm-8">
+                                                    <?php echo $card->getAdvantage() ?>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <label><?php echo $this->_('Conditions') ?> :</label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <?php echo $card->getConditions() ?>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <label><?php echo $this->_('This card is uniq:') ?></label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <?php echo $card->getUseOnce() ? $this->_("Yes") : $this->_("No") ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="separator reverse"></li>
+                                <?php endforeach ?>
+                            </ul>
+                        <?php endif ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <div class="section">
+                <?php
+                echo $this->getLayout()
+                    ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
+                    ->setValueId($option_value->getId())
+                    ->toHtml()
+                ;
+                ?>
+            </div>
+
+        </div>
+        <div id="edit" class="section" style="display: none;">
+            <h4 class="subtitle">
+                <span class="left area"><?php echo $this->_('Editing') ?></span>
+                <hr />
+                <div class="clear"></div>
+            </h4>
+            <form id="formCreateCard" method="post" action="<?php echo $this->getUrl('loyaltycard/application/editpost') ?>">
+                <div class="buttons">
+                    <button type="button" onclick="page.reload()" class="delete left"><i class="icon-arrow-left"></i></button>
+                    <button type="submit" class="default_button right">OK</button>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <h4 class="subtitle"><?php echo $this->_('My new loyalty card') ?> :</h4>
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label data-tip-left="80" data-tip="22" for="name"><?php echo $this->_('Card name') ?> <span class="input-required">*</span> : </label>
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="text" id="name" name="name" class="form-control required" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label data-tip-left="80" data-tip="23" for="number_of_points"><?php echo $this->_('Number of points') ?> : </label>
+                        </div>
+                        <div class="col-sm-5">
+                            <select id="number_of_points" class="form-control required" name="number_of_points" tabindex="1">
+                                <option value="0">0</option>
+                                <?php for($i=1;$i<=20;$i++) : ?>
+                                    <option value="<?php echo $i ?>"><?php echo $i ?></option>
+                                <?php endfor; ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label data-tip-left="80" data-tip="24" for="advantage"><?php echo $this->_('Reward') ?> <span class="input-required">*</span> : </label>
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="text" id="advantage" name="advantage" class="form-control follow required" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label data-tip-left="80" data-tip="25" for="conditions"><?php echo $this->_('1 point') ?> = <span class="input-required">*</span> : </label>
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="text" id="conditions" name="conditions" class="form-control follow required" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="use_once"><?php echo $this->_('Use only once?'); ?></label>
+                        </div>
+                        <div class="col-sm-5">
+                            <label for="use_once" class="checkbox">
+                                <input id="use_once" type="checkbox" class="" value="1" name="use_once" />
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+                <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
+            </form>
+        </div>
+        <div id="passwords" class="section" style="display: none;">
+            <h4 class="subtitle">
+                <div><span data-tip="26" class="left area"><?php echo $this->_('My passwords') ?></span></div>
+                <hr />
+                <div class="clear"></div>
+            </h4>
+            <div class="buttons">
+                <button type="button" onclick="feature.slide($('#passwords'), $('#list'), 'left')" class="delete left"><i class="icon-arrow-left"></i></button>
+                <div class="clear"></div>
+            </div>
+            <div id="employees" class="form-horizontal">
+                <?php $password = new LoyaltyCard_Model_Password(); ?>
+                <?php $passwords = $password->findAll(array("app_id = ?" => $application->getAppId())); ?>
+                <fieldset>
+                    <div class="form-group">
+                        <div class="col-sm-5">
+                            <label><?php echo $this->_("Employee's name") ?> :</label>
+                        </div>
+                        <div class="col-sm-5">
+                            <label><?php echo $this->_("Employee's password") ?> :</label>
+                        </div>
+                    </div>
+                    <?php foreach($passwords as $password) : ?>
+                        <div id="password_<?php echo $password->getId(); ?>" class="row_password form-group">
+                            <div class="col-sm-5">
+                                <input type="text" name="name" class="required form-control" value="<?php echo $password->getName(); ?>" placeholder="<?php echo $this->_('Employee\'s name') ?>" />
+                            </div>
+                            <div class="col-sm-5">
+                                <div id="edit_password_<?php echo $password->getId()?>" class="icons">
+                                    <a href="<?php echo $this->getUrl("/loyaltycard/application/dlqrcode/", array("password_id" => $password->getId(), "unlock_code" => $password->getUnlockCode())); ?>" target="_blank" class="download_qrcode" id="download_qrcode_<?php echo $password->getId(); ?>">
+                                        <i class="icon-qrcode" title="<?php echo $this->_("Download QRCode for employee"); ?>"></i>
+                                    </a>
+                                    <a href="javascript:void(0);" id="edit_password_<?php echo $password->getId(); ?>" onclick="$('#edit_password_<?php echo $password->getId(); ?>').hide(); $('.edit_password_<?php echo $password->getId(); ?>').fadeIn();">
+                                        <i class="icon-edit"></i>
+                                    </a>
+                                    <a href="javascript:void(0);" class="delete_password" id="delete_password_<?php echo $password->getId(); ?>" rel="<?php echo $password->getId(); ?>">
+                                        <i class="icon-remove"></i>
+                                    </a>
+                                </div>
+                                <input type="password" name="password" class="edit_password_<?php echo $password->getId(); ?> align-center required number form-control" maxlength="4" value="" placeholder="<?php echo $this->_('Password') ?>" style="display:none;" />
+                            </div>
+                            <div class="col-sm-2 edit_password_<?php echo $password->getId(); ?>" style="display:none;">
+                                <button type="button" onclick="saveEmployee('password_<?php echo $password->getId(); ?>')" class="default_button">OK</button>
+                                <input type="hidden" name="password_id" value="<?php echo $password->getId(); ?>" />
+                                <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>" />
+                            </div>
+                        </div>
+                    <?php endforeach ?>
+                    <div id="password_new" class="row_password form-group">
+                        <div class="col-sm-5">
+                            <input type="text" id="employee_name" name="name" class="required form-control" value="" placeholder="<?php echo $this->_('Employee\'s name') ?>" />
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="password" id="employee_password" name="password" class="align-center required number form-control" maxlength="4" value="" placeholder="<?php echo $this->_('Password') ?>" />
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="bt-margin default_button" onclick="saveEmployee('password_new')">OK</button>
+                            <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>" />
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        var loyaltyCard = {
+            setAdvantage: function(text) {
+                iframe.f.setAttributeToDummy("advantage", text)
+            },
+            setConditions: function(text) {
+                iframe.f.setAttributeToDummy("conditions", text)
+            },
+            setNumberOfPoints: function(nbr) {
+                iframe.f.setNumberOfPoints(nbr)
+            }
+        }
+
+        page.setCallback('didremove',  function() {
+
+            $('#formCreateCard').submit(function() {
+
+                if(!$(this).valid()) return false;
+
+                $('<input />').attr('type', 'hidden').attr('name', 'customization').val(1).appendTo($(this));
+
+                reload(this, this.action, true, function(datas) {
+                    if(datas.success) {
+                        page.reload();
+                    }
+                });
+
+                return false;
+            });
+
+        });
+
+        page.setCallback('didappear', function() {
+
+            $('#toggle_existing_items').click(function() {
+                $('#existing_items').stop().slideToggle(300, function() {
+                    if($(this).is(':visible')) $('#toggle_existing_items').children('i').removeClass('icon-chevron-down').addClass('icon-chevron-up');
+                    else $('#toggle_existing_items').children('i').removeClass('icon-chevron-up').addClass('icon-chevron-down');
+                });
+            });
+
+            $('#outletsListForm').submit(function() {
+                $('#employees').hide();
+                reload(this, this.action, true, function(datas) {
+                    if(datas.employees) {
+                        $('#employees').html(datas.employees).slideDown();
+                        $('#choosePos').slideUp();
+                    }
+                });
+                return false;
+            });
+
+            $('#advantage').keyup(function() {loyaltyCard.setAdvantage($(this).val());});
+            $('#conditions').keyup(function() {loyaltyCard.setConditions($(this).val());});
+            $('#number_of_points').change(function() {loyaltyCard.setNumberOfPoints($(this).val());});
+
+            $('.row_password').each(function() {
+                bindInputEvents(this.id);
+            });
+
+            createCustomUI();
+
+        });
+
+        page.setCallback('willdisappear', function() {
+            $('#toggle_existing_items').unbind('click');
+            $('#formCreateCard').unbind('submit');
+            $('#outletsListForm').unbind('submit');
+            $('#advantage').unbind('keyup');
+            $('#conditions').unbind('keyup');
+            $('#number_of_points').unbind('change');
+            $('.card_actions').unbind('mouseenter mouseout');
+            $('.row_password').find('input').unbind('keyup');
+        });
+
+        function saveEmployee(id) {
+            var row = $('#'+id);
+
+            reload(row, '<?php echo $this->getUrl('loyaltycard/application/savepassword'); ?>', true, function(datas) {
+
+                if(datas.is_deleted) {
+                    $('#password_'+datas.id).fadeOut(300, function() {$('#password_'+datas.id).remove();});
+                }
+                else if(datas.is_new) {
+
+                    var dummy = '<div id="password_#{password_id}" class="row_password form-group" style="display:none">\n\
+                        <div class="col-sm-5">\n\
+                            <input type="text" name="name" class="required form-control" value="#{password_name}" placeholder="<?php echo addslashes($this->_("Employee's name")) ?>" />\n\
+                        </div>\n\
+                        <div class="col-sm-5">\n\
+                            <div id="edit_password_#{password_id}" class="icons">\n\
+                                <a href="<?php echo $this->getUrl("/loyaltycard/application/dlqrcode/"); ?>/password_id/#{password_id}" target="_blank" class="download_qrcode" id="download_qrcode_<?php echo $password->getId(); ?>">\n\
+                                    <i class="icon-qrcode" title="<?php echo $this->_("Download QRCode for employee"); ?>"></i>\n\
+                                </a>\n\
+                                <a href="javascript:void(0);" onclick="$(\'#edit_password_#{password_id}\').hide(); $(\'.edit_password_#{password_id}\').fadeIn();">\n\
+                                    <i class="icon-edit"></i>\n\
+                                </a>\n\
+                                <a href="javascript:void(0);" class="delete_password" id="delete_password_#{password_id}" rel="#{password_id}">\n\
+                                    <i class="icon-remove"></i>\n\
+                                </a>\n\
+                            </div>\n\
+                            <input type="password" name="password" class="edit_password_#{password_id} align-center required number form-control" maxlength="4" value="" placeholder="<?php echo $this->_('Password') ?>" style="display:none;" />\n\
+                        </div>\n\
+                        <div class="col-sm-2 edit_password_#{password_id}" style="display:none;">\n\
+                            <button type="button" onclick="saveEmployee(\'password_#{password_id}\')" class="bt-margin validate default_button">OK</button>\n\
+                            <input type="hidden" name="password_id" value="#{password_id}" />\n\
+                            <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId() ?>" />\n\
+                        </div>\n\
+                    </div>';
+                    dummy = dummy.replace(/#{password_id}/g, datas.id).replace(/#{password_name}/g, datas.name);
+
+                    $('#password_new').before(dummy);
+                    $('#password_'+datas.id).fadeIn();
+                    $('#employee_name').val('');
+                    $('#employee_password').val('');
+                    bindInputEvents('password_'+datas.id);
+                }
+                else {
+                    $('.edit_password_'+datas.id).hide();
+                    $('#edit_password_'+datas.id).fadeIn();
+                }
+
+                $('#passwords').find('.is_deleted').remove();
+            });
+            return false;
+        }
+
+        function bindInputEvents(id) {
+            $('#'+id).find('input').keypress(function(e) {
+                if(e.keyCode == 13) {
+                    saveEmployee(id);
+                }
+            });
+            $('#'+id).find('a.delete_password').click(function() {
+                if(confirm('<?php echo $this->_('Delete this password?') ?>')) {
+                    $(this).append('<input type="hidden" name="is_deleted" class="is_deleted" value="1" />');
+                    saveEmployee('password_'+$(this).attr('rel'))
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            bindForms("#list");
+        });
+    </script>
+    <div class="clear"></div>
+</div>
+<style type="text/css">
+    .card_actions {
+        padding: 10px 0;
+    }
+    .card_actions .title {
+        width: 90%! important;
+    }
+    .download_qrcode{
+        margin-right: 20px;
+        font-size: 23px;
+    }
+</style>

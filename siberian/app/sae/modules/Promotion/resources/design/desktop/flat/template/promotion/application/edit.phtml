@@ -1,0 +1,180 @@
+<?php
+$application = $this->getApplication();
+$appId = $application->getId();
+$option_value = $this->getOptionValue();
+
+$unlock_type = ($option_value->getCode() === 'qr_discount') ? 'qrcode' : 'account';
+
+$uniqId = uniqid();
+$form_discount = new Promotion_Form_Promotion();
+$form_discount->setValueId($option_value->getId());
+$form_discount->getElement('unlock_by')->setValue($unlock_type);
+$form_discount->addQrCode($uniqId);
+
+$promotion_model = new Promotion_Model_Promotion();
+$promotions = $promotion_model->findAll([
+    'value_id' => $option_value->getId()
+],
+    'promotion_id DESC'
+);
+
+$deletePromotionForm = new Promotion_Form_Promotion_Delete();
+$deletePromotionForm->setValueId($option_value->getId());
+?>
+
+<div id="list" class="discount">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#discount" aria-controls="discount" role="tab" data-toggle="tab">
+                <i class="fa fa-certificate"></i>
+                <?php if ($unlock_type === 'account'): ?>
+                    <?php echo __('Discount') ?>
+                <?php else: ?>
+                    <?php echo __('QR Coupon') ?>
+                <?php endif; ?>
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#design" aria-controls="design" role="tab" data-toggle="tab">
+                <i class="fa fa-pencil"></i>
+                <?php echo __('Design') ?>
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="discount">
+            <div class="feature-block-add">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo __('Create a new Discount'); ?>
+                    <button type="button" class="feature-toggle-add toggle_design color-blue pull-right bt-header-right btn">
+                        <i class="fa fa-angle-down"></i>
+                    </button>
+                </h3>
+            </div>
+
+            <div class="feature-block-create">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo __('Create a new Discount'); ?>
+                </h3>
+                <div class="container-fluid subcontent content-feature">
+                    <?php echo $form_discount; ?>
+                </div>
+            </div>
+
+            <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+
+            <?php if(isset($promotions) && $promotions->count() > 0): ?>
+                <div class="feature-block-list">
+                    <div class="margin-top">
+                        <h3 class="title-editor no-border-radius title-feature-indent">
+                            <?php echo __('Manage content'); ?>
+                            <button type="button" class="toggle_design color-blue pull-right bt-header-right btn feature-toggle-items">
+                                <i class="fa fa-angle-down"></i>
+                            </button>
+                        </h3>
+                        <div class="container-fluid first-row-feature content-feature feature-manage-items">
+                            <table id="" class="table content-white-bkg sb-pager">
+                                <thead>
+                                <tr class="border-grey">
+                                    <th class="sortable" style="width:26%;"><?php echo __('Title'); ?></th>
+                                    <th class="sortable" style="width:60%;"><?php echo __('Description'); ?></th>
+                                    <th class="sortable"><?php echo __('Is unique?'); ?></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach($promotions as $promotion) : ?>
+                                    <tr id="promotion_manage_element_<?php echo $promotion->getId(); ?>" class="promotion-manage-element sb-pager">
+                                        <td><?php echo cut($promotion->getTitle(), 22); ?></td>
+                                        <td><?php echo cut($promotion->getDescription(), 30); ?></td>
+                                        <td><?php echo ($promotion->getIsUnique()) ? __('Yes') : __('No'); ?></td>
+                                        <td>
+                                            <i class="fa fa-search toggle-more" data-promotionid="<?php echo $promotion->getId(); ?>"></i>
+                                        </td>
+                                        <td class="edit-action open-edit"
+                                            data-callback="$('table.sb-pager .block-details').hide();"
+                                            data-id="promotion_<?php echo $promotion->getId(); ?>"
+                                            data-form-url="<?php echo __path('/promotion/application/loadform', [
+                                                'promotion_id' => $promotion->getId(),
+                                                'value_id' => $option_value->getId()
+                                            ]); ?>">
+                                            <i class="fa fa-pencil"></i>
+                                        </td>
+                                        <td class="delete-action">
+                                            <?php
+                                                $deletePromotionForm->setAttrib('data-rowid', 'promotion_manage_element_' . $promotion->getId());
+                                                $deletePromotionForm->getElement('promotion_id')->setValue($promotion->getId());
+
+                                                echo $deletePromotionForm;
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <tr class="edit-form" data-id="promotion_<?php echo $promotion->getId(); ?>" style="display: none;">
+                                        <td colspan="5">
+                                            <p class="close-edit" data-id="promotion_<?php echo $promotion->getId(); ?>">
+                                                <i class="fa fa-times"></i><?php echo __('Close') ?>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr id="details_<?php echo $promotion->getId(); ?>" class="block-details" style="display: none;">
+                                        <td colspan="5">
+                                            <div style="width: 50%; float: left;">
+                                                <b><?php echo __('Details'); ?>:</b> <?php echo $promotion->getDescription(); ?>
+                                                <br />
+                                                <b><?php echo __('Conditions'); ?>:</b> <?php echo $promotion->getConditions(); ?>
+                                                <br />
+                                                <b><?php echo __('End at'); ?>:</b>
+                                                <?php if (empty($promotion->getEndAt())): ?>
+                                                    <?php echo __('Unlimited'); ?>
+                                                <?php else: ?>
+                                                    <?php echo datetime_to_format($promotion->getEndAt(), Zend_Date::DATE_MEDIUM); ?>
+                                                <?php endif; ?>
+                                            </div>
+                                            <div style="float: right;">
+                                                <?php if ($promotion->getUnlockBy() === 'qrcode'): ?>
+                                                    <?php
+                                                    $src = '/images/application/' .
+                                                        $appId . '/application/qrpromotion/' .
+                                                        $promotion->getId() . '-qrpromotion_qrcode.png';
+                                                    ?>
+                                                    <img src="<?php echo $src; ?>" style="height: 160px;" />
+                                                <?php endif; ?>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <!-- START DESIGN TAB -->
+        <div role="tabpanel" class="tab-pane" id="design">
+            <?php echo $this->importLayout($option_value, false); ?>
+
+            <?php echo $this->importBackground($option_value, false); ?>
+        </div>
+        <!-- /END DESIGN TAB -->
+
+    </div>
+</div>
+
+<link href="/app/sae/modules/Promotion/resources/design/desktop/flat/template/promotion/application/edit.css"
+      media="screen"
+      rel="stylesheet"
+      type="text/css">
+<script type="text/javascript">
+    var search_placeholder = '<?php echo __js("Search ...", "'") ?>';
+</script>
+<script type="text/javascript"
+        src="/app/sae/modules/Promotion/resources/design/desktop/flat/template/promotion/application/edit.js">
+</script>

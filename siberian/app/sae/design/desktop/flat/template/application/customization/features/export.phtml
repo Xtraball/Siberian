@@ -1,0 +1,89 @@
+<?php
+    $application = $this->getApplication();
+
+    $form_import = new Application_Form_Import();
+
+    $form_export = new Application_Form_Export();
+    $form_export->addOptions($application);
+    $form_export->addTemplate();
+
+?>
+<div id="feature_exporter_modal" class="previewer container-fluid">
+    <div class="row">
+        <div class="col-md-12 first-row-feature">
+            <h4><?php echo __("Import an application template or a single feature.") ?></h4>
+            <?php echo $form_import; ?>
+            <hr class="border-blue" style="border-top:0;" />
+            <h4><?php echo __('Export your application to a re-usable template & share it across Apps & Platforms.'); ?></h4>
+            <i><?php echo __("If a feature is not listed, it yet can't be exported.") ?></i>
+            <br /><br />
+            <?php echo $form_export; ?>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var tmp_directory = '<?php echo Core_Model_Directory::getTmpDirectory() ?>';
+
+    $(document).ready(function() {
+        bindForms("#feature_exporter_modal");
+
+        var stored_data = null;
+
+        $('#filename_hidden').fileupload({
+            dataType: 'json',
+            add: function (el, data) {
+                stored_data = data;
+                data.submit();
+            },
+            done: function (el, data) {
+                if(data.result.confirm) {
+                    if(window.confirm(data.result.message)) {
+                        $("#confirm").val(1);
+                        stored_data.submit();
+                        stored_data = null;
+                    }
+                } else if(data.result.error) {
+                    feature_form_error(data.result.message);
+                } else {
+                    modal_import_export.hide();
+                }
+            },
+            fail: function(el, data) {
+                console.log(data);
+                if(data.result.error) {
+                    feature_form_error(data.result.message);
+                }
+            }
+        });
+
+        /** Delegate */
+        $("#filename").on("click", function() {
+            $("#filename_hidden").trigger("click");
+        });
+
+        $(".toggle_template").parents("div.sb-form-line").hide();
+
+        $("#is_template").on("change", function() {
+            var el = $(this);
+            var is_checked = el.is(":checked");
+
+            if(is_checked) {
+                $(".toggle_template").parents("div.sb-form-line").show();
+            } else {
+                $(".toggle_template").parents("div.sb-form-line").hide();
+            }
+        });
+
+    });
+</script>
+
+<style type="text/css">
+    #modal_modal_add_content {
+        position: absolute;
+    }
+
+    #modal_mask_modal_add_content {
+        position: fixed;
+    }
+</style>

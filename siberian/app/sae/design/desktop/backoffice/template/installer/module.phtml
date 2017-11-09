@@ -1,0 +1,297 @@
+
+<sb-section title="'<?php echo addcslashes(__("Upload your modules"), "'"); ?>'" class="upload_area">
+    <br />
+    <div class="relative">
+        <div class="col-md-3">
+            <div class="upload_a_file">
+                <label for="file_uploader"><?php echo $this->_("Click here to send your module"); ?></label>
+                <input id="file_uploader" type="file" nv-file-select="" uploader="uploader" />
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="drop_a_file">
+                <label><?php echo $this->_("OR"); ?></label>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="drop_a_file">
+                <label><?php echo $this->_("Drop your module here"); ?></label>
+                <div ng-show="uploader.isHTML5">
+                    <div class="well drop-zone" nv-file-drop="" nv-file-over="" uploader="uploader">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="drop_a_file">
+                <label><?php echo $this->_("OR"); ?></label>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <label><?php echo $this->_("Check for updates"); ?></label>
+            <div ng-show="check_for_updates.check">
+                <button class="btn btn-primary" ng-click="downloadUpdate()" ng-show="!check_for_updates.loader_is_visible"><i class="fa fa-download"></i></button>
+            </div>
+        </div>
+
+        <div class="clear"></div>
+
+        <div class="update-mask toggle" ng-show="check_for_updates.loader_is_visible">
+            <sb-loader is_visible="check_for_updates.loader_is_visible" type="'inner_content'" size="'big'" animation="'toggle'"></sb-loader>
+            <h3 class="text-center"><?php echo $this->_("We are checking for updates. Please, do not refresh the page."); ?></h3>
+        </div>
+    </div>
+</sb-section>
+
+<sb-section title="'<?php echo addcslashes(__("Module to upload"), "'"); ?>'">
+    <table class="table">
+        <thead>
+            <tr>
+                <th width="50%"><?php echo __("Name") ?></th>
+                <th ng-show="uploader.isHTML5"><?php echo __("Size") ?></th>
+                <th ng-show="uploader.isHTML5"><?php echo __("Progress") ?></th>
+                <th><?php echo __("Status") ?></th>
+                <th><?php echo __("Actions") ?></th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr class="slide-down" ng-repeat="item in uploader.queue" ng-show="uploader.queue.length">
+            <td><strong>{{ item.file.name }}</strong></td>
+            <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+            <td ng-show="uploader.isHTML5">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                </div>
+            </td>
+            <td class="text-center">
+                <span ng-show="item.isSuccess"><i class="fa fa-check"></i></span>
+                <span ng-show="item.isCancel"><i class="fa fa-ban"></i></span>
+                <span ng-show="item.isError"><i class="fa fa-remove"></i></span>
+            </td>
+            <td nowrap>
+                <button type="button" class="btn btn-primary btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                    <span class="fa fa-upload"></span>
+                </button>
+                <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                    <span class="fa fa-remove"></span>
+                </button>
+            </td>
+        </tr>
+        <tr class="slide-top" ng-show="!uploader.queue.length">
+            <td colspan="5">
+                <?php echo $this->_("No modules uploaded yet"); ?>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</sb-section>
+
+<sb-section title="'<?php echo addcslashes(__("Package Details"), "'"); ?>'" class="slide-top" ng-show="package_details.is_visible">
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th width="19%"><?php echo __("Package") ?></th>
+            <th width="6%"><?php echo __("Version") ?></th>
+            <th width="70%"><?php echo __("Details") ?></th>
+            <th width="5%"><?php echo __("Action") ?></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                {{ package_details.name }}
+            </td>
+            <td>
+                {{ package_details.version }}
+            </td>
+            <td>
+                <a ng-show="package_full.release_note.url" ng-click="showReleasenote(true);"><?php echo __("Click here to see the release notes"); ?></a>
+                <div ng-show="!package_full.release_note.url" ng-bind-html="package_details.description | trusted_html"></div>
+            </td>
+            <td>
+                <button class="btn btn-primary btn-xs right" ng-click="showReleasenote();" ng-disabled="permissions.is_visible"><?php echo $this->_("Install"); ?></button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</sb-section>
+
+<sb-section title="'<?php echo addcslashes(__("Permissions"), "'"); ?>'" class="slide-top" ng-show="permissions.is_visible">
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th width="15%"><?php echo __("Action") ?></th>
+            <th width="78%"><?php echo __("Progress") ?></th>
+            <th width="7%"><?php echo __("Status") ?></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><?php echo $this->_("Checking Permissions"); ?></td>
+            <td>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped" role="progressbar" ng-style="{ 'width': permissions.progress + '%' }" ng-class="{'progress-bar-danger': permissions.error, 'progress-bar-success': permissions.success}"></div>
+                </div>
+            </td>
+            <td nowrap>
+                <sb-loader is_visible="permissions.running" type="'inner_content'" size="'tiny'" animation="'no'"></sb-loader>
+                <i class="fa fa-check" ng-show="permissions.success"></i>
+                <button class="btn btn-primary btn-xs right" ng-if="permissions.error" ng-click="checkPermissions();"><?php echo $this->_("Retry"); ?></button>
+                <i class="fa fa-remove error" ng-show="permissions.error"></i>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="slide-top" ng-show="permissions.error">
+
+        <div class="alert alert-warning">
+            <p><?php echo $this->_("Some files and folder are not writable. You can either provide your FTP access to install this update:"); ?></p>
+        </div>
+
+        <div>
+            <form ng-submit="saveFtp();">
+                <div class="col-md-6">
+                    <div class="form-group required" ng-class="{'has-error': ftp.error_from_info}">
+                        <label for="ftp_host" class="control-label"><?php echo $this->_("Host"); ?></label>
+                        <input type="text" id="ftp_host" ng-model="ftp.credentials.host" class="form-control" placeholder="<?php echo $this->_("Host"); ?>" />
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group required" ng-class="{'has-error': ftp.error_from_info}">
+                        <label for="ftp_username" class="control-label"><?php echo $this->_("Username"); ?></label>
+                        <input type="text" id="ftp_username" ng-model="ftp.credentials.username" class="form-control" placeholder="<?php echo $this->_("Username"); ?>" />
+                    </div>
+                </div>
+
+                <div class="clear col-md-6">
+                    <div class="form-group required" ng-class="{'has-error': ftp.error_from_info}">
+                        <label for="ftp_password" class="control-label"><?php echo $this->_("Password"); ?></label>
+                        <input type="password" id="ftp_password" ng-model="ftp.credentials.password" class="form-control" placeholder="<?php echo $this->_("Password"); ?>" />
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group" ng-class="{'has-error': ftp.error_from_info}">
+                        <label for="ftp_port" class="control-label"><?php echo $this->_("Port"); ?></label>
+                        <input type="text" id="ftp_port" ng-model="ftp.credentials.port" class="form-control" placeholder="<?php echo Siberian_Ftp::DEFAULT_PORT ?>" />
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group" ng-class="{'has-error': ftp.error_from_path}">
+                        <label for="ftp_path" class="control-label"><?php echo $this->_("Path to your system"); ?></label>
+                        <input type="text" id="ftp_path" ng-model="ftp.credentials.path" class="form-control" placeholder="/" />
+                    </div>
+                </div>
+
+                <div class="col-md-12 text-danger">
+                    <p ng-show="ftp.error"> {{ ftp.error_message }}</p>
+                </div>
+                <div class="col-md-12">
+                    <p class="required-info"><?php echo $this->_("Required fields"); ?></p>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary left"><?php echo $this->_("Save"); ?></button>
+                        <sb-loader is_visible="ftp.loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="clear">
+            <div class="alert alert-warning">
+                <p><?php echo $this->_("Or set the correct permissions to the following files and folders and try again:"); ?></p>
+                <p class="text-error" ng-bind-html="permissions.error_message | trusted_html">
+            </div>
+
+        </div>
+
+    </div>
+
+</sb-section>
+
+<sb-section title="'<?php echo addcslashes(__("Installing your module"), "'"); ?>'" class="slide-top" ng-show="installation.copy.is_visible">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th width="15%"><?php echo __("Action") ?></th>
+                <th width="78%"><?php echo __("Progress") ?></th>
+                <th width="7%"><?php echo __("Status") ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><?php echo $this->_("Copying"); ?></td>
+                <td>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped" role="progressbar" ng-style="{ 'width': installation.copy.progress + '%' }" ng-class="{'progress-bar-danger': installation.copy.error, 'progress-bar-success': installation.copy.success}"></div>
+                    </div>
+                </td>
+                <td nowrap>
+                    <sb-loader is_visible="installation.copy.running" type="'inner_content'" size="'tiny'" animation="'no'"></sb-loader>
+                    <i class="fa fa-check" ng-show="installation.copy.success"></i>
+                    <button class="btn btn-primary btn-xs right" ng-if="installation.copy.error" ng-click="copyModule();"><?php echo $this->_("Retry"); ?></button>
+                    <i class="fa fa-remove error" ng-show="installation.copy.error"></i>
+                </td>
+            </tr>
+            <tr ng-show="installation.install.is_visible">
+                <td><?php echo $this->_("Installing"); ?></td>
+                <td>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped" role="progressbar" ng-style="{ 'width': installation.install.progress + '%' }" ng-class="{'progress-bar-danger': installation.install.error, 'progress-bar-success': installation.install.success}"></div>
+                    </div>
+                </td>
+                <td nowrap>
+                    <sb-loader is_visible="installation.install.running" type="'inner_content'" size="'tiny'" animation="'no'"></sb-loader>
+                    <i class="fa fa-check" ng-show="installation.install.success"></i>
+                    <button class="btn btn-primary btn-xs right" ng-if="installation.install.error" ng-click="installModule();"><?php echo $this->_("Retry"); ?></button>
+                    <i class="fa fa-remove error" ng-show="installation.install.error"></i>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</sb-section>
+
+<div id="informations-modal" ng-show="show_release_note">
+    <div class="modal-content">
+        <div class="modal-body">
+            <iframe id="informations"></iframe>
+        </div>
+        <div class="modal-footer">
+            <button ng-show="show_only" type="button" class="btn btn-default dismiss-update" data-dismiss="modal" ng-click="close();"><?php echo __("Close"); ?></button>
+            <button ng-show="!show_only" type="button" class="btn btn-default dismiss-update" data-dismiss="modal" ng-click="dismissInstall();"><?php echo __("Dismiss & install later"); ?></button>
+            <button ng-show="!show_only" type="button" class="btn btn-primary install-update" ng-click="confirmInstall();"><?php echo __("Yes, install the update."); ?></button>
+        </div>
+    </div>
+</div>
+
+
+<style type="text/css">
+    #informations-modal {
+        position: fixed;
+        top: 100px;
+        width: 1000px;
+        left: 50%;
+        margin-left: -500px;
+        z-index: 25000;
+    }
+
+    #informations-modal iframe {
+        width: 100%;
+        height: 400px;
+    }
+</style>

@@ -1,0 +1,183 @@
+<?php $application = $this->getApplication(); ?>
+<?php $value = $this->getOptionValue(); ?>
+<?php $page = new Cms_Model_Application_Page(); ?>
+<?php $places_order = !$value->getMetadataValue("places_order"); ?>
+<?php $places_order_alpha = !$value->getMetadataValue("places_order_alpha"); ?>
+<?php $pages = $places_order_alpha ? $page->findAllOrderedByLabel($value->getId()) : $page->findAllOrderedByRank($value->getId());?>
+<div class="edit_page places">
+    <div class="form_content">
+        <div id="list" class="">
+            <div class="section">
+                <h4 class="subtitle">
+                    <span class="left area"><?php echo $this->_('Add'); ?></span>
+                    <hr />
+                    <span class="area right">
+                        <button type="button" class="default_button add right" id="add_item">
+                            <i class="icon-plus"></i>
+                        </button>
+                    </span>
+                    <div class="clear"></div>
+                </h4>
+                <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+            </div>
+            <?php if ($pages->count()) : ?>
+                <div class="section">
+                    <h4 class="subtitle">
+                        <span class="left area"><?php echo $this->_('Manage'); ?></span>
+                        <hr />
+                    <span class="area right">
+                        <button type="button" class="default_button" id="toggle_existing_items">
+                            <i class="icon-chevron-down"></i>
+                        </button>
+                    </span>
+                        <div class="clear"></div>
+                    </h4>
+                    <div id="existing_items" style="display:none;">
+                        <table class="table_row_agenda" width="100%">
+                            <col width="33%" />
+                            <col width="60%" />
+                            <col width="7%" />
+                            <tbody id="place-row">
+                            <?php foreach($pages as $page) : ?>
+                                <tr id="place_row_<?php echo $page->getId(); ?>" class="place_row" rel="<?php echo $page->getId(); ?>">
+                                    <td class="page_name">
+                                        <?php if($places_order){ ?>
+                                            <a class="handle" href="javascript:void(0);"><i class="icon-move"></i></a>
+                                        <?php }?>
+                                        <?php echo $page->getTitle(); ?>
+                                    </td>
+                                    <td class="event_type">
+                                        <?php echo $page->getContent(); ?>
+                                    </td>
+                                    <td class="actions">
+                                        <i class="edit_place icon-edit" rel="<?php echo $page->getId(); ?>"></i>
+                                        <i class="delete_place icon-remove"></i>
+                                        <input type="hidden" name="id" value="<?php echo $page->getId(); ?>" />
+                                        <input type="hidden" name="option_value_id" value="<?php echo $value->getId(); ?>" />
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                        <div id="ordering-wrapper"></div>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <div class="section">
+                <?php echo $this->getLayout()
+                    ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
+                    ->setValueId($value->getId())
+                    ->toHtml()
+                ;
+                ?>
+            </div>
+
+            <div class="section">
+                <?php echo $this->getLayout()
+                    ->addPartial('places_search_setup', 'Core_View_Default', 'places/application/search.phtml')
+                    ->setOptionValue($value)
+                    ->setPages($pages)
+                    ->toHtml(); ?>
+            </div>
+
+        </div>
+
+        <div id="edit" class="" style="display: none;">
+        </div>
+
+        <script type="text/javascript">
+
+            page.setCallback('willappear', function() {
+
+            });
+
+            $('#place-row').sortable({
+                handle: '.handle',
+                axis: '',
+                placeholder: "",
+                helper: 'clone',
+                tolerance: 'pointer',
+                start: function (event, ui) {
+                },
+                stop: function (event, ui) {
+                },
+                update: function (e, ui) {
+                    var that = $(this);
+                    var ordering = {};
+                    // clear old ranking
+                    $('#ordering-wrapper').html('');
+                    // prepare new ranking
+                    $('.place_row').each(function (i, elem) {
+                        ordering[$(elem).attr('rel')] = i + 1;
+                        $('#ordering-wrapper').append('<input type="hidden" name="ordering[' + $(elem).attr('rel') + ']" value="' + (i + 1) + '">');
+                    });
+                    // send new ranking
+                    reload($('#ordering-wrapper'), "<?php echo $this->getUrl("places/application/rank", array("option_value_id" => $value->getId())); ?>/", true, function (data) {
+                        page.reload();
+                    }, function () {
+                        that.sortable("cancel");
+                    });
+                }
+            });
+
+            page.setCallback('didappear', function() {
+
+                $('#add_item').click(function() {
+                    reload(this, "<?php echo $this->getUrl("places/application/form", array("option_value_id" => $value->getId())); ?>", true, function(data) {
+                        $('#edit').append(data.form);
+                        feature.edit();
+                        cms_didappear();
+                        $('#address').click().remove();
+                    });
+                });
+
+                $('#toggle_existing_items').click(function() {
+                    $('#existing_items').stop().slideToggle(300, function() {
+                        if($(this).is(':visible')) $('#toggle_existing_items').children('i').removeClass('icon-chevron-down').addClass('icon-chevron-up');
+                        else $('#toggle_existing_items').children('i').removeClass('icon-chevron-up').addClass('icon-chevron-down')
+                    });
+                });
+
+                $('.edit_place').click(function() {
+                    var id = $(this).attr('rel');
+                    reload(this, "<?php echo $this->getUrl("places/application/form", array("option_value_id" => $value->getId())); ?>/id/"+id, true, function(data) {
+                        $('#edit').append(data.form);
+                        feature.edit();
+                        cms_didappear();
+                        $('#address').remove();
+                    });
+                });
+
+                $('.delete_place').click(function() {
+
+                    if(!confirm("<?php echo addslashes($this->_("Are you sure you want to delete this page?")); ?>")) return false;
+
+                    var id = $(this).attr('rel');
+                    reload(this.parentNode, '<?php echo $this->getUrl('cms/application_page/delete'); ?>', true, function(data) {
+                        if(data.success) {
+                            page.reload();
+                        }
+                    });
+                });
+
+            });
+
+            page.setCallback('willdisappear', function() {
+                $('#toggle_existing_items').unbind('click');
+                $('#newsCreateForm').unbind('submit');
+                $('#title').unbind('keyup change');
+                $('.news_actions').unbind('mouseenter mouseout');
+                $('.show_answers').unbind('click');
+                $('.show_details').unbind('click');
+                $('.edit_place').unbind('click');
+                $('.delete_place').unbind('click');
+            });
+
+        </script>
+        <style>
+            div#list a.icon, div#list span.price {margin-top: 0;}
+        </style>
+    </div>
+    <div class="clear"></div>
+</div>

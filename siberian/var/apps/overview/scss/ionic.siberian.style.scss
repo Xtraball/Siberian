@@ -1,0 +1,777 @@
+/* GENERAL */
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, div, p, span, a, * {
+  font-family: $font-family;
+}
+
+/** Modal background is opacified */
+ion-modal-view {
+  background-color: opacify($general-custom-bg, 1) !important;
+}
+ion-side-menu-content {
+  background-color: $general-custom-bg !important;
+}
+ion-content {
+  background-color: transparent !important;
+}
+
+/* HEADER / FOOTER */
+.bar {
+  &.bar-custom {
+    @include bar-style($bar-custom-bg, $bar-custom-border, $bar-custom-text);
+    &.bar-footer {
+      background-image: linear-gradient(180deg, $bar-custom-border, $bar-custom-border 50%, transparent 50%);
+    }
+  }
+}
+.bar-custom {
+  .button {
+    @include button-style($bar-custom-bg, $bar-custom-border, $bar-custom-active-bg, $bar-custom-active-border, $bar-custom-text);
+    @include button-clear($bar-custom-text, $bar-title-font-size);
+  }
+}
+
+/* HEADER TABS TOP */
+.tabs-top {
+  &.tabs-custom {
+    .tabs {
+      @include tab-style($bar-custom-bg, $bar-custom-border, $bar-custom-text);
+      border-color: transparent !important;
+    }
+  }
+}
+
+/* HOMEPAGE */
+.homepage-custom {
+  background: $homepage-custom-bg;
+  h2, p, span, i {
+    color: $homepage-custom-text;
+  }
+  &.translucent {
+    background: $homepage-custom-bg-translucent;
+  }
+  .translucent {
+    background: $homepage-custom-bg-translucent;
+  }
+  &.transparent {
+    background: transparent;
+  }
+  .transparent {
+    background: transparent;
+  }
+  &.border-custom {
+    border-color: $homepage-custom-border;
+  }
+  .border-custom {
+    border-color: $homepage-custom-border;
+  }
+}
+
+/* LIST */
+.list {
+  padding-top: 0;
+  .item-divider {
+    &.item-divider-custom {
+      background-color: $list-item-divider-custom-bg;
+      color: $list-item-divider-custom-text;
+      border: none;
+      h2, p, span {
+        color: $list-item-divider-custom-text;
+      }
+    }
+  }
+
+  &.transparent {
+    background-color: transparent;
+    box-shadow: none;
+    .item {
+      &.item-custom {
+        background-color: transparent;
+        &.active, &:active {
+          @include item-active-style(transparent, transparent);
+        }
+      }
+    }
+  }
+  .item {
+    &.item-custom {
+      @include item-style($list-item-custom-bg, $list-item-custom-border, $list-item-custom-text);
+      & h1, h2, h3, h4, h5, h6, p, .input-label, input, textarea, &.item-select select {
+        color: $list-item-custom-text;
+        background-color: transparent;
+      }
+      & input, textarea {
+        @include placeholder($list-item-custom-text)
+      }
+      &.translucent {
+        background-color: $list-item-custom-text-translucent;
+      }
+    }
+    .item-custom-bg {
+      background-color: $list-item-custom-text;
+    }
+  }
+}
+
+.item-text {
+  &.item-text-custom {
+  @include item-style($list-item-custom-bg, $list-item-custom-border, $list-item-custom-text);
+    * {
+      color: $list-item-custom-text;
+    }
+  }
+}
+
+.item-text-custom {
+  @include item-style-custom($list-item-custom-bg, $list-item-custom-border);
+}
+
+.item.active,
+.item.activated,
+.item-complex.active .item-content,
+.item-complex.activated .item-content,
+.item .item-content.active,
+.item .item-content.activated {
+  &.item-custom {
+    @include item-active-style($list-item-custom-bg-active, $list-item-custom-border-active);
+  }
+}
+.item-complex {
+  &.item-custom > .item-content {
+    @include item-style($list-item-custom-bg, $list-item-custom-border, $list-item-custom-text);
+    &.active, &:active {
+      @include item-active-style($list-item-custom-bg-active, $list-item-custom-border-active);
+    }
+  }
+}
+
+/* CARD */
+.card {
+
+  background-color: transparent;
+
+  .item-divider {
+    &.item-divider-custom {
+      background-color: $card-item-divider-custom-bg;
+      color: $card-item-divider-custom-text;
+      border: none;
+      h2, p, span {
+        color: $card-item-divider-custom-text;
+      }
+    }
+  }
+
+  &.transparent {
+    background-color: transparent;
+    box-shadow: none;
+    .item {
+      &.item-custom {
+        background-color: transparent;
+        &.active, &:active {
+          @include item-active-style(transparent, transparent);
+        }
+      }
+    }
+  }
+
+  .item {
+    &.item-custom {
+      @include item-style($card-item-custom-bg, $card-item-custom-border, $card-item-custom-text);
+      & h1, h2, h3, h4, h5, h6, p, .input-label, input, textarea, &.item-select select {
+        color: $card-item-custom-text;
+        background-color: transparent;
+      }
+      & input, textarea {
+        @include placeholder($card-item-custom-text)
+      }
+      &.active, &:active {
+        @include item-active-style($card-item-custom-bg-active, $card-item-custom-active-border);
+      }
+      &.translucent {
+        background-color: $card-item-custom-text-translucent;
+      }
+    }
+    .item-custom-bg {
+      background-color: $card-item-custom-bg;
+    }
+  }
+}
+
+/* BUTTONS */
+.button {
+  &.button-custom {
+    @include button-style($button-custom-bg, $button-custom-border, $button-custom-active-bg, $button-custom-active-border, $button-custom-text);
+    @include button-clear($button-custom-border);
+    @include button-outline($button-custom-border);
+  }
+
+  &.button-light-custom {
+    @include button-style($button-light-custom-bg, $button-light-custom-border, $button-light-custom-active-bg, $button-light-custom-active-border, $button-light-custom-text);
+    @include button-clear($button-light-custom-border);
+    @include button-outline($button-light-custom-border);
+  }
+
+  &.button-positive-custom {
+    @include button-style($button-positive-custom-bg, $button-positive-custom-border, $button-positive-custom-active-bg, $button-positive-custom-active-border, $button-positive-custom-text);
+    @include button-clear($button-positive-custom-border);
+    @include button-outline($button-positive-custom-border);
+  }
+
+  &.button-calm-custom {
+    @include button-style($button-calm-custom-bg, $button-calm-custom-border, $button-calm-custom-active-bg, $button-calm-custom-active-border, $button-calm-custom-text);
+    @include button-clear($button-calm-custom-border);
+    @include button-outline($button-calm-custom-border);
+  }
+
+  &.button-balanced-custom {
+    @include button-style($button-balanced-custom-bg, $button-balanced-custom-border, $button-balanced-custom-active-bg, $button-balanced-custom-active-border, $button-balanced-custom-text);
+    @include button-clear($button-balanced-custom-border);
+    @include button-outline($button-balanced-custom-border);
+  }
+
+  &.button-energized-custom {
+    @include button-style($button-energized-custom-bg, $button-energized-custom-border, $button-energized-custom-active-bg, $button-energized-custom-active-border, $button-energized-custom-text);
+    @include button-clear($button-energized-custom-border);
+    @include button-outline($button-energized-custom-border);
+  }
+
+  &.button-assertive-custom {
+    @include button-style($button-assertive-custom-bg, $button-assertive-custom-border, $button-assertive-custom-active-bg, $button-assertive-custom-active-border, $button-assertive-custom-text);
+    @include button-clear($button-assertive-custom-border);
+    @include button-outline($button-assertive-custom-border);
+  }
+
+  &.button-royal-custom {
+    @include button-style($button-royal-custom-bg, $button-royal-custom-border, $button-royal-custom-active-bg, $button-royal-custom-active-border, $button-royal-custom-text);
+    @include button-clear($button-royal-custom-border);
+    @include button-outline($button-royal-custom-border);
+  }
+
+  &.button-dark-custom {
+    @include button-style($button-dark-custom-bg, $button-dark-custom-border, $button-dark-custom-active-bg, $button-dark-custom-active-border, $button-dark-custom-text);
+    @include button-clear($button-dark-custom-border);
+    @include button-outline($button-dark-custom-border);
+  }
+}
+
+/* CHECKBOX */
+.checkbox-custom {
+  background-color: $checkbox-general-custom-bg;
+  & h1, h2, h3, h4, h5, h6, span, p, a, textarea {
+    color: $checkbox-general-custom-text;
+  }
+}
+.checkbox-custom .checkbox {
+  @include checkbox-style($checkbox-off-custom-border, $checkbox-on-custom-bg, $checkbox-on-custom-border);
+}
+.checkbox-custom .checkbox input,
+.checkbox-custom .checkbox-icon {
+  &:before {
+    background: $checkbox-off-custom-bg;
+  }
+}
+.checkbox-custom .checkbox input:disabled:before,
+.checkbox-custom .checkbox input:disabled + .checkbox-icon:before {
+  border-color: $checkbox-off-custom-border;
+}
+
+.checkbox-custom .checkbox input:checked:after,
+input:checked + .checkbox-icon:after {
+  border-color: $checkbox-on-custom-text;
+}
+.checkbox-custom .checkbox input:disabled:checked:before,
+.checkbox-custom .checkbox input:disabled:checked + .checkbox-icon:before {
+  background: $checkbox-on-custom-border;
+}
+
+/* RADIO */
+.item-radio.radio-custom {
+  color: $radio-custom-text;
+  background-color: transparent;
+  &.item-complex .item-content, &.item-radio .item-content {
+    background-color: $radio-custom-bg;
+  }
+  & input:checked ~ .item-content {
+    background-color: $radio-custom-bg-active;
+  }
+}
+
+/* TOGGLE */
+.toggle-custom.item-toggle {
+  background-color: $toggle-general-custom-bg;
+  & h1, h2, h3, h4, h5, h6, span, p, a, textarea {
+    color: $toggle-general-custom-text;
+  }
+  .toggle {
+    @include toggle-style($toggle-on-custom-border, $toggle-on-custom-bg);
+    & input:checked + .track .handle {
+      background-color: $toggle-handle-on-custom-bg;
+    }
+    .track {
+      border-color: $toggle-off-custom-border;
+      background-color: $toggle-off-custom-bg;
+    }
+    .handle {
+      background-color: $toggle-handle-off-custom-bg;
+    }
+  }
+}
+
+/* TOOLTIP */
+.tooltip {
+  &.tooltip-custom {
+    color: $tooltip-custom-text;
+    background-color: $tooltip-custom-bg;
+    & i {
+      color: $tooltip-custom-bg;
+    }
+  }
+}
+
+/* SPINNER */
+.spinner-ios.spinner-custom,
+.spinner-ios-small.spinner-custom,
+.spinner-custom .spinner-ios,
+.spinner-custom .spinner-ios-small{
+  stroke: $spinner-custom-ios-bg;
+}
+.spinner-android.spinner-custom,
+.spinner-android-small.spinner-custom,
+.spinner-custom .spinner-android,
+.spinner-custom .spinner-android-small {
+  stroke: $spinner-custom-android-bg;
+}
+
+/* ICON */
+.icon-custom, .homepage-custom *.icon-custom {
+  color: $icon-custom !important;
+}
+
+.icon-active-custom, .homepage-custom *.icon-active-custom {
+  color: $icon-active-custom !important;
+}
+
+.icon-inactive-custom, .homepage-custom *.icon-inactive-custom {
+  color: $icon-inactive-custom !important;
+}
+
+/* SLIDER PAGER */
+.layout.colorize-pager {
+  .slider-pager {
+    background-color: $homepage-custom-bg;
+  }
+  .slider-pager-page {
+    color: darken($homepage-custom-bg, 25%);
+    &:active {
+      color: lighten($homepage-custom-bg, 25%);
+    }
+  }
+}
+
+/* PROGRESS BAR / DOWNLOAD */
+.ui-progress-view {
+  display: block !important;
+  padding: 20px;
+  border-radius: 2px;
+  z-index: 65000;
+  position: relative;
+  background-color: $dialog-custom-bg;
+  color: $dialog-custom-text;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.6);
+
+  .ui-progress-view-circle {
+    padding: 0px 20px 5px 20px;
+
+    .progressbar-text {
+      font-size: 2rem !important;
+    }
+  }
+}
+
+@media (min-width: 1px) and (orientation: portrait) {
+  .ui-progress-view {
+    width: 40vh;
+    margin: 27.5vh auto;
+    height: 45vh;
+
+    .ui-progress-view-circle {
+      .progressbar-text {
+        top: calc(50% - 0.5rem) !important;
+      }
+    }
+  }
+
+}
+
+@media (min-width: 1px) and (orientation: landscape) {
+  .ui-progress-view {
+    width: 70vh;
+    margin: 12.5vh auto;
+    height: 75vh;
+  }
+}
+
+
+/* MINI LOADER */
+
+@-webkit-keyframes uilsquare {
+  0% {
+    background-color: $dialog-custom-text;
+  }
+  1% {
+    background-color: $dialog-custom-bg;
+  }
+  11% {
+    background-color: $dialog-custom-bg;
+  }
+  21% {
+    background-color: $dialog-custom-text;
+  }
+  100% {
+    background-color: $dialog-custom-text;
+  }
+}
+@-webkit-keyframes uilsquare {
+  0% {
+    background-color: $dialog-custom-text;
+  }
+  1% {
+    background-color: $dialog-custom-bg;
+  }
+  11% {
+    background-color: $dialog-custom-bg;
+  }
+  21% {
+    background-color: $dialog-custom-text;
+  }
+  100% {
+    background-color: $dialog-custom-text;
+  }
+}
+@-moz-keyframes uilsquare {
+  0% {
+    background-color: $dialog-custom-text;
+  }
+  1% {
+    background-color: $dialog-custom-bg;
+  }
+  11% {
+    background-color: $dialog-custom-bg;
+  }
+  21% {
+    background-color: $dialog-custom-text;
+  }
+  100% {
+    background-color: $dialog-custom-text;
+  }
+}
+@-ms-keyframes uilsquare {
+  0% {
+    background-color: $dialog-custom-text;
+  }
+  1% {
+    background-color: $dialog-custom-bg;
+  }
+  11% {
+    background-color: $dialog-custom-bg;
+  }
+  21% {
+    background-color: $dialog-custom-text;
+  }
+  100% {
+    background-color: $dialog-custom-text;
+  }
+}
+@-moz-keyframes uilsquare {
+  0% {
+    background-color: $dialog-custom-text;
+  }
+  1% {
+    background-color: $dialog-custom-bg;
+  }
+  11% {
+    background-color: $dialog-custom-bg;
+  }
+  21% {
+    background-color: $dialog-custom-text;
+  }
+  100% {
+    background-color: $dialog-custom-text;
+  }
+}
+@-webkit-keyframes uilsquare {
+  0% {
+    background-color: $dialog-custom-text;
+  }
+  1% {
+    background-color: $dialog-custom-bg;
+  }
+  11% {
+    background-color: $dialog-custom-bg;
+  }
+  21% {
+    background-color: $dialog-custom-text;
+  }
+  100% {
+    background-color: $dialog-custom-text;
+  }
+}
+@-o-keyframes uilsquare {
+  0% {
+    background-color: $dialog-custom-text;
+  }
+  1% {
+    background-color: $dialog-custom-bg;
+  }
+  11% {
+    background-color: $dialog-custom-bg;
+  }
+  21% {
+    background-color: $dialog-custom-text;
+  }
+  100% {
+    background-color: $dialog-custom-text;
+  }
+}
+@keyframes uilsquare {
+  0% {
+    background-color: $dialog-custom-text;
+  }
+  1% {
+    background-color: $dialog-custom-bg;
+  }
+  11% {
+    background-color: $dialog-custom-bg;
+  }
+  21% {
+    background-color: $dialog-custom-text;
+  }
+  100% {
+    background-color: $dialog-custom-text;
+  }
+}
+.uil-squares-css {
+  background: none;
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+.uil-squares-css div {
+  position: absolute;
+  z-index: 1;
+  width: 40px;
+  height: 40px;
+  background-color: $dialog-custom-text;
+}
+.uil-squares-css div > div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  -ms-animation: uilsquare 0.9s linear infinite;
+  -moz-animation: uilsquare 0.9s linear infinite;
+  -webkit-animation: uilsquare 0.9s linear infinite;
+  -o-animation: uilsquare 0.9s linear infinite;
+  animation: uilsquare 0.9s linear infinite;
+  width: 40px;
+  height: 40px;
+}
+.uil-squares-css > div:nth-of-type(1) {
+  top: 30px;
+  left: 30px;
+}
+.uil-squares-css > div:nth-of-type(1) > div {
+  -ms-animation-delay: 0s;
+  -moz-animation-delay: 0s;
+  -webkit-animation-delay: 0s;
+  -o-animation-delay: 0s;
+  animation-delay: 0s;
+}
+.uil-squares-css > div:nth-of-type(2) {
+  top: 30px;
+  left: 80px;
+}
+.uil-squares-css > div:nth-of-type(2) > div {
+  -ms-animation-delay: 0.1125s;
+  -moz-animation-delay: 0.1125s;
+  -webkit-animation-delay: 0.1125s;
+  -o-animation-delay: 0.1125s;
+  animation-delay: 0.1125s;
+}
+.uil-squares-css > div:nth-of-type(3) {
+  top: 30px;
+  left: 130px;
+}
+.uil-squares-css > div:nth-of-type(3) > div {
+  -ms-animation-delay: 0.225s;
+  -moz-animation-delay: 0.225s;
+  -webkit-animation-delay: 0.225s;
+  -o-animation-delay: 0.225s;
+  animation-delay: 0.225s;
+}
+.uil-squares-css > div:nth-of-type(4) {
+  top: 80px;
+  left: 130px;
+}
+.uil-squares-css > div:nth-of-type(4) > div {
+  -ms-animation-delay: 0.3375s;
+  -moz-animation-delay: 0.3375s;
+  -webkit-animation-delay: 0.3375s;
+  -o-animation-delay: 0.3375s;
+  animation-delay: 0.3375s;
+}
+.uil-squares-css > div:nth-of-type(5) {
+  top: 130px;
+  left: 130px;
+}
+.uil-squares-css > div:nth-of-type(5) > div {
+  -ms-animation-delay: 0.45s;
+  -moz-animation-delay: 0.45s;
+  -webkit-animation-delay: 0.45s;
+  -o-animation-delay: 0.45s;
+  animation-delay: 0.45s;
+}
+.uil-squares-css > div:nth-of-type(6) {
+  top: 130px;
+  left: 80px;
+}
+.uil-squares-css > div:nth-of-type(6) > div {
+  -ms-animation-delay: 0.5625s;
+  -moz-animation-delay: 0.5625s;
+  -webkit-animation-delay: 0.5625s;
+  -o-animation-delay: 0.5625s;
+  animation-delay: 0.5625s;
+}
+.uil-squares-css > div:nth-of-type(7) {
+  top: 130px;
+  left: 30px;
+}
+.uil-squares-css > div:nth-of-type(7) > div {
+  -ms-animation-delay: 0.675s;
+  -moz-animation-delay: 0.675s;
+  -webkit-animation-delay: 0.675s;
+  -o-animation-delay: 0.675s;
+  animation-delay: 0.675s;
+}
+.uil-squares-css > div:nth-of-type(8) {
+  top: 80px;
+  left: 30px;
+}
+.uil-squares-css > div:nth-of-type(8) > div {
+  -ms-animation-delay: 0.7875s;
+  -moz-animation-delay: 0.7875s;
+  -webkit-animation-delay: 0.7875s;
+  -o-animation-delay: 0.7875s;
+  animation-delay: 0.7875s;
+}
+
+div.ui-background-loader {
+  transform: scale(0.14);
+  transform-origin: top right;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  z-index: 65536;
+}
+
+/* IONIC POPUP */
+.platform-browser,
+.platform-ios,
+.platform-android {
+  .popup {
+    width: 80vw;
+    overflow: hidden !important;
+    background-color: $dialog-custom-bg;
+    border-radius: 2px !important;
+    box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.6);
+    color: $dialog-custom-text;
+    max-width: 600px !important;
+  }
+
+  .popup-buttons {
+    padding: 0;
+    height: initial;
+    min-height: initial;
+  }
+
+  .popup button.button {
+    border: 0;
+    border-radius: 0;
+    border-top: 0;
+    border-radius: 0 !important;
+  }
+
+  .popup .popup-head {
+    padding: 20px 20px 0;
+    border-bottom: 0;
+    text-align: left;
+  }
+
+  .popup .popup-head .popup-title {
+    font-size: 1.4em;
+    color: $dialog-custom-text;
+  }
+
+  .popup .popup-body {
+    padding: 20px 20px;
+    border-bottom: 0;
+    text-align: left;
+  }
+
+  .popup button.button {
+    border: 0 !important;
+    background: none !important;
+    text-align: right;
+  }
+
+  .popup button.button:first-of-type {
+    border-radius: 0 !important;
+  }
+
+  .popup-buttons {
+    display: block;
+    text-align: right;
+    padding: 0 20px 0 0;
+    min-height: 48px;
+  }
+
+  .popup-buttons .button {
+    display: inline-block;
+    color: $dialog-custom-button !important;
+    text-transform: uppercase;
+    font-size: 14px !important;
+    text-align: right;
+    padding: 0;
+    font-weight: bold;
+  }
+
+  .popup-buttons .button-positive {
+    color: $dialog-custom-button !important;
+    background: transparent !important;
+  }
+
+  .popup-buttons .button.activated {
+    box-shadow: none !important;
+    font-weight: bold;
+  }
+
+  .popup .popup-body input,
+  .popup .popup-body textarea {
+    background-color: transparent;
+    border-bottom: 2px solid $dialog-custom-button !important;
+    color: $dialog-custom-text !important;
+  }
+
+  .popup .popup-body input::-webkit-input-placeholder,
+  .popup .popup-body textarea::-webkit-input-placeholder {
+    color: #aaa;
+    text-indent: darken($dialog-custom-text, 20%);
+  }
+}
+
+.popup-buttons .button {
+  margin-left: 15px !important;
+  min-height: 20px !important;
+  margin-bottom: 15px !important;
+}

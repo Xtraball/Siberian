@@ -1,0 +1,223 @@
+<?php
+$application = $this->getApplication();
+$option_value = $this->getOptionValue();
+
+$page = new Cms_Model_Application_Page();
+$pages = $page->findAllOrderedByRank($option_value->getId());
+$places_order = !$option_value->getMetadataValue("places_order");
+
+$place_form = new Places_Form_Place();
+
+$delete_form = new Places_Form_Place_Delete();
+$delete_form->setValueId($option_value->getId());
+
+?>
+
+
+<div id="places_list" class="places-new">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#places" aria-controls="places" role="tab" data-toggle="tab">
+                <i class="fa fa-map-marker"></i>
+                <?php echo __("Places") ?>
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#search" aria-controls="search" role="tab" data-toggle="tab">
+                <i class="fa fa-search"></i>
+                <?php echo __("Search settings") ?>
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="places">
+
+            <div class="feature-block-add">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo __("Add place"); ?>
+                    <button type="button" class="feature-toggle-add toggle_design color-blue pull-right bt-header-right btn">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </h3>
+            </div>
+
+            <div class="feature-block-create">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <span class="cms-title-create">
+                        <?php echo __("Create a place"); ?>
+                    </span>
+                    <span class="cms-title-edit" style="display :none;">
+                        <?php echo __("Edit place"); ?>
+                    </span>
+                </h3>
+
+                <span class="cms-form-placeholder">
+                    <!-- Here goes the Loaded form (Create/Edit) -->
+                </span>
+            </div>
+
+            <?php if(sizeof($pages) > 0): ?>
+                <div class="feature-block-list">
+                    <div class="margin-top">
+                        <h3 class="title-editor no-border-radius title-feature-indent">
+                            <?php echo __("Manage"); ?>
+                            <button type="button" class="toggle_design color-blue pull-right bt-header-right btn feature-toggle-items">
+                                <i class="fa fa-angle-down"></i>
+                            </button>
+                        </h3>
+                        <div class="container-fluid first-row-feature content-feature feature-manage-items">
+                            <table class="table content-white-bkg sb-pager">
+                                <thead>
+                                <tr class="border-grey">
+                                    <th style="width:40px;"></th>
+                                    <th class="sortable" style="width:30%;"><?php echo __("Title"); ?></th>
+                                    <th class="sortable" style="width:65%;"><?php echo __("Subtitle"); ?></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach($pages as $place) : ?>
+                                    <tr id="place_manage_element_<?php echo $place->getId(); ?>" class="place-manage-element sb-pager">
+                                        <td>
+                                            <?php if(!empty($place->getPicture())): ?>
+                                                <img src="/images/application<?php echo $place->getPicture(); ?>" style="width: 26px; height: 16px;" />
+                                            <?php else: ?>
+                                                <img src="/app/sae/design/desktop/flat/images/flat/default-place.png" style="width: 26px; height: 16px;" />
+                                            <?php endif; ?>
+                                        </td>
+                                        <td><?php echo $place->getTitle(); ?></td>
+                                        <td><?php echo cut(html_entity_decode($place->getContent()), 60); ?></td>
+                                        <td class="edit-action open-edit" data-placeid="<?php echo $place->getId(); ?>">
+                                            <i class="fa fa-pencil"></i>
+                                        </td>
+                                        <td class="delete-action">
+                                            <?php
+                                            $delete_form->setAttrib("data-rowid", "place_manage_element_".$place->getId());
+                                            $delete_form
+                                                ->getElement("id")
+                                                ->setValue($place->getId());
+
+                                            $delete_form
+                                                ->getElement("option_value_id")
+                                                ->setValue($option_value->getId());
+
+                                            echo $delete_form;
+                                            ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <div class="background-images">
+                <?php echo $this->importBackground($option_value); ?>
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="search">
+            <div>
+                <h3 class="title-editor title-feature-indent">
+                    <?php echo __("Search filters & Options"); ?>
+                </h3>
+            </div>
+            <div>
+                <?php
+                    /** @todo Places_Form_Search .... with bindForms() */
+                    echo $this->getLayout()
+                        ->addPartial('places_search_setup', 'Core_View_Default', 'places/application/search.phtml')
+                        ->setOptionValue($option_value)
+                        ->setPages($pages)
+                        ->toHtml();
+                ?>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".feature-toggle-add, .edit-action").on("click", function(event) {
+            event.preventDefault();
+
+            var formurl = "<?php echo $this->getUrl("/places/application/loadform") ?>";
+            var datas = {value_id: <?php echo $option_value->getId() ?>};
+            var el = $(this);
+            if(el.hasClass("edit-action")) {
+                datas = {value_id: <?php echo $option_value->getId() ?>, place_id: el.attr("data-placeid")}
+            }
+
+            loader.show("sb-features");
+
+            $(".cms-form-placeholder").html("");
+
+            $.ajax({
+                url: formurl,
+                method: "POST",
+                dataType: "json",
+                data: datas,
+                success: function(data) {
+                    if(data.success && data.form) {
+
+                        $(".cms-form-placeholder").append(data.form);
+                        $(".feature-block-create ").show();
+                        $(".feature-block-add ").hide();
+                        bindForms("#form-cms");
+
+                        $("#form-cms input#tags").tagsinput({
+                            confirmKeys: [13, 188],
+                            tagClass: "color-blue label"
+                        });
+
+                        $(".bootstrap-tagsinput input").on('keypress', function(e){
+                            if (e.keyCode == 13) {
+                                e.keyCode = 188;
+                                e.preventDefault();
+                            };
+                        });
+
+                        $(".bootstrap-tagsinput").addClass("input-flat");
+
+                    } else if(data.error) {
+                        handleFormError(form, data);
+                    }
+
+                    loader.hide("sb-features");
+                },
+                error: function(data) {
+                    var response = $.parseJSON(data.responseText);
+                    if(response.message != "") {
+                        handleFormError(form, response);
+                    } else {
+                        feature_form_error("An error occured, please try again.");
+                    }
+
+                    loader.hide("sb-features");
+                }
+            });
+
+            return false;
+        });
+
+        bindForms(".feature-block-list");
+        bindForms(".background-images");
+
+        $("table.sb-pager").sbpager({
+            with_search: true,
+            search_placeholder: "<?php echo __("Search ...") ?>",
+            callback_goto_page: function() {
+                $("table.sb-pager tr.edit-form[data-id]").hide()
+            }
+        });
+    });
+</script>

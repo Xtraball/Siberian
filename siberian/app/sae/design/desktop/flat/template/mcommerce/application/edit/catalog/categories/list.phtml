@@ -1,0 +1,42 @@
+<?php $category = $this->getCategory(); ?>
+<?php $class = array(); ?>
+<?php if($category->getIsLastLevel()) $class[] = 'last_level' ?>
+<?php if($category->getIsFirst()) $class[] = 'first' ?>
+<?php if($category->getIsLast()) $class[] = 'last' ?>
+<li id="category_<?php echo $category->getId(); ?>" class="list-group-item content-white-bkg">
+    <div>
+        <?php if($this->getType() == 'listing') : ?>
+        <div>
+            <label for="select_category_<?php echo $category->getId(); ?>" id="label_select_category_<?php echo $category->getId(); ?>" class="label_select_category" data-parent="label_select_category_<?php echo $category->getId(); ?>">
+                <input type="checkbox" class="select_category color-blue checkbox" value="<?php echo $category->getId(); ?>" name="category_ids[]" id="select_category_<?php echo $category->getId(); ?>"<?php if($category->getIsSelected()) : ?> checked="checked"<?php endif; ?>>
+            </label>
+        </div>
+        <?php endif; ?>
+        <a onclick="javascript:void()" <?php if($category->getIsRootCategory()) : ?> id="root_category_title"<?php endif; ?> class="category_title" rel="<?php echo $category->getId(); ?>">
+            <?php if(!$category->getIsRootCategory()) : ?>
+                <i class="fa fa-sort handle-for-nested"></i>
+            <?php endif; ?>
+            <span id="category_title_<?php echo $category->getId(); ?>"><?php echo $category->getTitle() ?></span>
+            <span class="category_actions pull-right" style="display:none;">
+                <i class="fa fa-pencil pointer" id="edit_category_<?php echo $category->getCategoryId(); ?>" rel="<?php echo $category->getCategoryId() ?>" onclick="categories.edit('<?php echo $category->getCategoryId() ?>');"></i>
+                <?php if(!$category->getIsRootCategory()) : ?>
+                    <i class="fa fa-remove remove_category pointer" rel="<?php echo $category->getCategoryId() ?>"></i>
+                <?php endif; ?>
+            </span>
+        </a>
+    </div>
+    <ul id="children_of_<?php echo $category->getId(); ?>" class="list-group tree">
+        <?php foreach($category->getChildren() as $child) : ?>
+            <?php
+                echo $this->getLayout()->addPartial('child_'.$child->getId(), get_class($this), $this->getTemplate())
+                    ->setCategory($child)
+                    ->toHtml()
+                ;
+            ?>
+        <?php endforeach ?>
+    </ul>
+</li>
+<style>
+    .list-group {margin-bottom: 0;}
+    .category_title{display:block;width:100%}
+</style>

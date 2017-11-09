@@ -1,0 +1,28 @@
+<sb-section title="'<?php echo addslashes($this->_("List of your languages")); ?>'" button="button">
+    <br />
+    <div class="form-group">
+        <label for="filter"><?php echo $this->_("Search"); ?></label>
+        <input type="text" id="filter" class="form-control" ng-model="filter" placeholder="<?php echo $this->_("Search"); ?>" />
+    </div>
+    <br />
+    <table class="table">
+        <col width="95%" />
+        <col width="5%" />
+        <thead>
+            <tr>
+                <th class="pointer" ng-click="order = 'id'; by = !by"><?php echo $this->_("Language"); ?></th>
+                <th><?php echo $this->_("Actions"); ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="slide-left" ng-repeat="language in languages | filter:filter | orderBy:order:by">
+                <td>{{ language.name }}</td>
+                <td class="text-center">
+                    <a href="<?php echo $this->getUrl("translation/backoffice_edit"); ?>/lang_id/{{ language.id }}" ng-show="!language.loader_is_visible" title="<?php echo $this->_("Edit"); ?>"><i class="fa fa-edit"></i></a>
+<!--                    <a href="#" ng-show="!language.loader_is_visible" ng-click="delete(language)" title="--><?php //echo $this->_("Delete"); ?><!--"><i class="fa fa-remove"></i></a>-->
+                    <sb-loader is_visible="language.loader_is_visible" type="'inner_content'" size="'tiny'"></sb-loader>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</sb-section>

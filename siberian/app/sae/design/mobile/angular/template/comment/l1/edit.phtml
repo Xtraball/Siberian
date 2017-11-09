@@ -1,0 +1,29 @@
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+	<sb-header title-back="'<?php echo $this->_('Back') ?>'" title="'<?php echo $this->_('New post') ?>'" message="message" right-button="header_right_button"></sb-header>
+
+	<sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+	<div class="create_comment">
+		
+		<textarea rows="5" ng-model="text" placeholder="<?php echo $this->_("Your comment") ?>" ></textarea>
+
+        <div ng-if="preview_src" class="padding a-center scale-fade">
+            <img ng-src="{{ preview_src }}" height="250px" />
+        </div>
+
+		<div class="file-upload" ng-if="!handle_camera_picture">
+            <button type="button" class="button image-uploader icon_left">
+                <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/photos.png', true), $this->getApplication()->getBlock('button')->getColor()); ?>" width="24" height="24" />
+                <span><?php echo $this->_("Add image") ?></span>
+			    <input id="image" name="image" class="upload" type="file" accept="image/*" capture="camera" onchange="angular.element(this).scope().imageSelected(this)" />
+            </button>
+		</div>
+
+        <button type="button" ng-click="openCamera()" class="button image-uploader icon_left" ng-if="handle_camera_picture">
+            <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/photos.png', true), $this->getApplication()->getBlock('button')->getColor()); ?>" width="24" height="24" />
+            <span><?php echo $this->_("Add image") ?></span>
+        </button>
+
+	</div>
+</div>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <default>
+        <base>
+            <template>page/layout</template>
+            <class>core_view_default</class>
+            <title>Siberian - Backoffice</title>
+            <scripts>
+                <js>
+                    <angular link="js/angular.min.js" />
+                    <angular_scripts folder="js/angular" />
+                    <app link="js/app.js" />
+                    <controllers folder="js/controllers" />
+                    <factories folder="js/factories" />
+                    <services folder="js/services" />
+                    <filters folder="js/filters" />
+                    <directives folder="js/directives" />
+                    <constants folder="js/constants" />
+                    <moment link="js/libraries/moment-including-locales.js" />
+                    <timezone link="js/libraries/moment-timezone-with-data.js" />
+                    <ckeditor link="js/libraries/ckeditor/ckeditor.js" />
+                    <chartjs link="js/libraries/angular-chart/chart.js" />
+                    <queue link="js/libraries/angular-queue.js" />
+                    <angularchart link="js/libraries/angular-chart/angular-chart.js" />
+                </js>
+                <css>
+                    <style link="css/style.css" />
+                    <loader link="css/loader.css" />
+                    <font_awesome link="css/font-awesome.min.css" />
+                    <angular folder="css/angular" />
+                    <bootstrap link="css/bootstrap.css" />
+                    <user_style link="css/user-style.css" />
+                    <datetimepicker link="css/datetimepicker.css" />
+                    <icofont link="css/icofont/css/icofont.css" />
+                </css>
+            </scripts>
+            <metas>
+                <Content-Type value="text/html; charset=utf-8" type="http-equiv" />
+                <description value="" />
+                <keywords value="" />
+            </metas>
+        </base>
+        <views>
+            <header class="backoffice_view_header" template="page/layout/header.phtml" />
+            <login class="core_view_default" template="backoffice/user/login.phtml" />
+            <footer class="core_view_default" template="page/layout/footer.phtml" />
+        </views>
+    </default>
+
+</layout>

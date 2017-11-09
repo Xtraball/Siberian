@@ -1,0 +1,216 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option = $this->getOptionValue(); ?>
+<?php $wordpress = $option->getObject(); ?>
+<?php $root_category = $wordpress->getRemoteRootCategory(); ?>
+<script type="text/javascript">
+    var wordpress = {
+        posts: new Array(),
+        init: function() {
+
+            $('#wordpressSearchForm').submit(function() {
+                if(!$('#wordpress_url').val().startsWith('http')) $('#wordpress_url').val('http://'+$('#wordpress_url').val());
+                if(!$(this).valid()) return false;
+                $('#loader_search_loader').show();
+                reload(this, this.action, true, function(datas) {
+                    this.loadCategories(datas);
+                    iframe.f.reload();
+                }.bind(wordpress), function() {
+                    $('#wordpress_content').slideUp();
+                    $('#loader_search_loader').hide();
+                });
+                return false;
+            });
+
+            $('#wordpressForm').submit(this.saveCategories);
+
+        },
+
+        showCategories: function() {
+
+            $('#wordpress_content').slideDown();
+            $('#loader_search_loader').hide();
+            $('.toggle_subcategories').click(function() {
+                var button = $(this);
+                var ul = $('#category_'+button.attr('rel'));
+                if(ul.length) {
+                    ul.slideToggle(150, function() {
+                        if($(this).is(':visible')) button.addClass('is_opened').children('i').removeClass('fa-plus').addClass('fa-minus');
+                        else button.removeClass('is_opened').children('i').removeClass('fa-minus').addClass('fa-plus');
+                    });
+                }
+            });
+            $('.select_category').change(function(e) {
+                this.selectCategory($(e.target));
+            }.bind(this));
+        },
+
+        loadCategories: function(datas) {
+            if(datas.success) {
+                $('.select_category').unbind('change');
+                $('.toggle_subcategories').unbind('change');
+                $('#wordpress_content').slideUp(150, function() {
+                    if(!datas.categories_html.isEmpty()) {
+                        $('#wordpress_categories').html(datas.categories_html);
+                        this.showCategories();
+                    }
+                    else {
+                        $('#loader_search_loader').hide();
+                    }
+                }.bind(this));
+
+                $('#wordpress_url_receiver').val($('#wordpress_url').val());
+            }
+        },
+        selectCategory: function(input) {
+
+            var id = input.val();
+            var isChecked = input.is(':checked');
+            if(isChecked) {
+                if(!$('#toggle_subcategories_'+id).hasClass('is_opened')) $('#toggle_subcategories_'+id).click();
+            }
+
+            this.showPosts();
+
+        },
+        saveCategories: function() {
+            if(!$(this).valid()) return false;
+
+            reload(this, this.action, true, function() {
+                iframe.f.reload();
+            });
+
+            return false;
+        },
+        setPosts: function(cat_id, posts) {
+            this.posts[cat_id] = posts;
+        },
+        showPosts: function() {
+
+            iframe.f.hidePosts();
+            $('.select_category:checked').each(function(i, e) {
+                if(this.posts[$(e).val()].length) {
+                    $.each(this.posts[$(e).val()], function(i, value) {
+                        iframe.f.showPost(value);
+                    }.bind(this));
+                }
+            }.bind(this));
+
+        }
+
+    }
+</script>
+
+<div id="list" class="edit_page wordpress">
+    <h3 class="title-editor no-border-radius title-feature-indent">
+        <?php echo $this->_('Wordpress') ?>
+    </h3>
+    <div class="container-fluid first-row-feature content-feature">
+        <div class="infos">
+            <div id="wordpress_search">
+                <form id="wordpressSearchForm" name="wordpressSearchForm" method="post" action="<?php echo $this->getUrl('wordpress/application/search') ?>" class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label for="wordpress_url"><?php echo $this->_("Enter your Wordpress URL:") ?></label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="text" id="wordpress_url" name="url" class="input-flat url" value="<?php $wordpress->getData('url'); ?>" />
+                        </div>
+                        <div class="col-sm-1">
+                            <button type="submit" id="validate_wordpress_url" class="bt-margin validate btn color-blue">OK</button>
+                        </div>
+                        <input type="hidden" name="value_id" value="<?php echo $option->getId(); ?>" />
+                    </div>
+                </form>
+            </div>
+            <p class="underline"><a href="/external/app-creator.zip" class="btn btn-grey"><?php echo $this->_('Click here to download our Wordpress plugin'); ?></a></p>
+        </div>
+        <div id="loader_search_loader" class="a-center none">
+            <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" />
+            <p><?php echo $this->_('Loading categories'); ?></p>
+        </div>
+        <div id="wordpress_content"<?php if(!$root_category->isValid()) : ?> style="display:none;"<?php endif; ?>>
+            <form id="wordpressForm" name="wordpressForm" method="post" action="<?php echo $this->getUrl('wordpress/application/editpost') ?>" class="form-horizontal">
+                <div id="wordpress_categories">
+                    <?php if($wordpress->getData('url') AND $root_category->isValid()) : ?>
+                    <?php echo $this->getLayout()->addPartial('categories_html', 'admin_view_default', 'wordpress/application/edit/categories.phtml')
+                            ->setCategory($root_category)
+                            ->setCheckAllCategories(false)
+                            ->toHtml()
+                        ;
+                    ?>
+                    <?php endif; ?>
+                </div>
+                <div class="save pull-right">
+                    <button class="btn btn-block color-blue" type="submit">
+                        <?php echo $this->_('Save'); ?>
+                    </button>
+                </div>
+                <input type="hidden" name="value_id" value="<?php echo $option->getId(); ?>" />
+                <input type="hidden" id="wordpress_url_receiver" name="url" value="<?php echo $wordpress->getData('url'); ?>" />
+            </form>
+        </div>        
+    </div>
+    <div class="background">
+        <?php echo $this->importBackground($option); ?>
+    </div>
+
+    <div class="layout">
+        <?php echo $this->getLayout()
+            ->addPartial('layout', 'Core_View_Default', 'application/customization/features/edit/layout.phtml')
+            ->setOptionValue($option)
+            ->toHtml()
+        ;
+        ?>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        bindForms('#list');
+    });
+
+    page.setCallback('didappear', function() {
+
+        wordpress.init();
+
+        <?php if($wordpress->checkModule()) : ?>
+            $('#wordpress_url').val('<?php echo $wordpress->getData('url'); ?>');
+            <?php if($root_category->isValid()) : ?>
+                wordpress.showCategories();
+            <?php endif; ?>
+        <?php endif; ?>
+
+    });
+
+    page.setCallback('willdisappear', function() {
+        $('#wordpressForm').unbind('submit');
+        $('#wordpressSearchForm').unbind('click');
+        $('.label_select_category').unbind('click');
+        $('.select_category').unbind('click');
+    });
+
+</script>
+<style>
+    ul.tree li .label_select_category {
+        margin-bottom: 0;
+    }
+    ul.tree li button.toggle_children {
+        width: 20px;
+        min-height: 20px;
+        height: 20px;
+        margin: 0 10px 2px 0;
+        padding: 0;
+        font-size: 15px;
+        line-height: 15px;
+    }
+    #wordpress_categories ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    .margin-list {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+</style>

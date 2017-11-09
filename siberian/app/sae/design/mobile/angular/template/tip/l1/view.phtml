@@ -1,0 +1,37 @@
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="scrollable_content">
+        <div class="padding for_ads_banner tips_calculator">
+            <div class="row-100">
+                <label><?php echo $this->_("Amount of bill"); ?></label>
+                <input type="number" ng-model="bill.amount" class="control" style="width:98%" />
+            </div>
+            <div class="row-50">
+                <label><?php echo $this->_("Percentage of tip"); ?></label>
+                <input type="number" ng-model="bill.percent" class="control"/>
+            </div>
+            <div class="row-50">
+                <label><?php echo $this->_("Number of people"); ?></label>
+                <input type="number" ng-model="bill.number" class="control" min="1"/>
+            </div>
+            <div class="clear"></div>
+            <div class="row-100">
+                <button class="btn header" ng-click="calculate();"><?php echo $this->_("Calculate"); ?></button>
+            </div>
+            <div class="display-global-tip" ng-if="global_tip" style="margin-bottom: 10px;">
+                {{ global_tip }}
+            </div>
+            <div class="a-center display-other-tip" ng-if="each_tip" style="padding-bottom: 10px;">
+                <?php echo $this->_("Tip for each:"); ?>
+            </div>
+            <div class="a-center display-other-tip" ng-if="each_tip">
+                {{ each_tip }}
+            </div>
+        </div>
+    </div>
+
+</div>

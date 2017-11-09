@@ -1,0 +1,40 @@
+<ion-view sb-page-background>
+    <ion-content class="homepage" scroll="false">
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <ion-slide-box id="homepage_slider"
+                       ng-if="showSlider() && !app_is_bo_locked"
+                       auto-play="true"
+                       does-continue="{{ homepage_slider.loop_at_beginning }}"
+                       slide-interval="{{ homepage_slider.duration }}"
+                       show-pager="false"
+                       style="height: 100%;" >
+
+            <ion-slide ng-repeat="image in homepage_slider.images" ng-if="!homepage_slider.new_slider">
+                <img ng-src="{{ image }}" style="width:100%;" />
+            </ion-slide>
+
+            <ion-slide ng-repeat="image in homepage_slider.images" ng-if="homepage_slider.new_slider">
+                <div class="new_slider" ng-style="{'background-image': 'url({{ image }})', 'height': '{{ homepage_slider.height }}vh', 'margin-top': '{{ homepage_slider.offset }}vh', 'opacity': '{{ homepage_slider.opacity/100 }}'}"></div>
+            </ion-slide>
+        </ion-slide-box>
+
+        <ng-include src="'homepage-menu.html'" ng-if="showBottom() && !app_is_bo_locked" class="{{ layout_id }}"></ng-include>
+
+        <sb-app-locked ng-if="app_is_bo_locked"></sb-app-locked>
+
+    </ion-content>
+
+
+    <style type="text/css">
+        div.new_slider {
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: 50% 50%;
+        }
+    </style>
+
+</ion-view>

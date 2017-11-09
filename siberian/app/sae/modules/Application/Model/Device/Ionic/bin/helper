@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+ALIAS=$1;
+ORG=$2;
+KS_PATH=$3;
+ST_PATH=$4;
+KEYPASS=$5;
+
+# Determine the Java command to use to start the JVM.
+if [ -n "$JAVA_HOME" ] ; then
+    if [ -x "$JAVA_HOME/bin/keytool" ] ; then
+        KEYTOOLCMD="$JAVA_HOME/bin/keytool"
+    fi
+    if [ ! -x "KEYTOOLCMD" ] ; then
+        die "ERROR: JAVA_HOME is set to an invalid directory: $JAVA_HOME
+
+Please set the JAVA_HOME variable in your environment to match the
+location of your Java installation."
+    fi
+else
+    KEYTOOLCMD="keytool"
+    which keytool >/dev/null 2>&1 || die "ERROR: JAVA_HOME is not set and no 'keytool' command could be found in your PATH.
+
+Please set the JAVA_HOME variable in your environment to match the
+location of your Java installation."
+fi
+
+
+$KEYTOOLCMD -genkeypair -keyalg RSA -noprompt -alias $ALIAS -dname 'CN=$ORG, O=$ORG' -keystore $KS_PATH -storepass $ST_PATH -keypass $KEYPASS -validity 36135

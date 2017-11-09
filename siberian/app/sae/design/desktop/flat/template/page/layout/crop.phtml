@@ -1,0 +1,189 @@
+<h3 class="title-editor border-blue text-center">
+    <?php echo __('Resize your picture'); ?>
+</h3>
+<?php $output = str_replace('§', '/', $this->getOutputUrl()); ?>
+<div class="container-fluid">
+    <form action="<?php echo str_replace('$', '/', $output); ?>" method="post" id="saveCrop" class="form-horizontal solo-page">
+        <div class="form-group">
+            <div class="col-md-2">
+                <button type="button" id="hide_form" class="color-blue pull-left btn" onclick="$.prettyPhoto.close();"><i class="fa fa-angle-left"></i></button>
+            </div>
+            <div class="col-md-2 col-md-offset-8">
+                <button type="submit" class="color-blue pull-right btn"><?php echo __('OK') ?></button>
+            </div>
+        </div>
+        <?php if($this->getIsColorizable() && $this->getIsColorizable() == true) : ?>
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="colorize_checbox">
+                    <label for="colorize_picture" id="colorize_picture_label">
+                        <input type="checkbox" value="1" name="is_colorizable" id="colorize_picture" class="color-blue checkbox">
+                        <?php echo __('Make this image colorizable') ?>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <div id="picture_cont">
+                </div>
+                <div id="preview_cont">
+                </div>
+            </div>
+        </div>
+
+        <input type="hidden" id="x1" name="x1" />
+        <input type="hidden" id="y1" name="y1" />
+        <input type="hidden" id="x2" name="x2" />
+        <input type="hidden" id="y2" name="y2" />
+        <input type="hidden" id="w" name="w" />
+        <input type="hidden" id="h" name="h" />
+        <input type="hidden" id="source_width" name="source_width" value="<?php echo $this->getWidth(); ?>" />
+        <input type="hidden" id="source_height" name="source_height" value="<?php echo $this->getheight(); ?>" />
+        <input type="hidden" id="output_width" name="output_width" value="<?php echo $this->getOutputWidth(); ?>" />
+        <input type="hidden" id="output_height" name="output_height" value="<?php echo $this->getOutputHeight(); ?>" />
+        <input type="hidden" id="quality" name="quality" value="<?php echo $this->getQuality(); ?>" />
+        <input type="hidden" id="crop_width" name="crop_width" value="" />
+        <input type="hidden" id="crop_height" name="crop_height" value="" />
+        <input type="hidden" id="file" name="file" value="<?php echo $this->getPicture(); ?>" />
+        <input type="hidden" id="option_id" name="option_id" value="<?php echo $this->getOptionId(); ?>" />
+        <?php if($this->getIsColorizable()) : ?>
+            <input type="hidden" id="is_colorized" name="is_colorized" value="false" />
+            <input type="hidden" id="image_color" name="image_color" value="<?php echo $this->getImageColor(); ?>" />
+        <?php endif; ?>
+    </form>
+</div>
+<style>
+    #picture_cont {float:left;}
+    #preview_cont {float:right;overflow:hidden;}
+    #picture_cont, #preview_cont {border:solid 1px;}
+</style>
+<script type="text/javascript">
+
+    function calculateAspectRatioFit(srcWidth, srcHeight, maxWidth, maxHeight) {
+        var ratio = [maxWidth / srcWidth, maxHeight / srcHeight ];
+        ratio = Math.min(ratio[0], ratio[1]);
+        return { width:srcWidth*ratio, height:srcHeight*ratio };
+    }
+
+    var min = calculateAspectRatioFit('<?php echo $this->getOutputWidth(); ?>', '<?php echo $this->getOutputHeight(); ?>', 300, 400);
+
+    var jcrop_api, boundx, boundy;
+    var output_width = '<?php echo $this->getOutputWidth(); ?>';
+    var output_height = '<?php echo $this->getOutputHeight(); ?>';
+    var a = calculateAspectRatioFit('<?php echo $this->getWidth(); ?>', '<?php echo $this->getHeight(); ?>', 350, 600);
+    var width = a.width;
+    var height = a.height;
+    $('#saveCrop #crop_width').val(width);
+    $('#saveCrop #crop_height').val(height);
+
+    var picture = $('<img />').attr('width', width+'px').attr('height', height+'px').attr('src', '<?php echo Core_Model_Directory::getTmpDirectory().'/'.$this->getPicture() ?>');
+    var picture2 = $('<img />').attr('width', min.width+'px').attr('height', min.height+'px');
+
+    $('#picture_cont').html(picture);
+    $('#preview_cont').html(picture2);
+
+    $(picture2).load(function(){
+        $('#picture_cont img').Jcrop({
+            setSelect: [0, 0, width, height],
+            onChange: showPreview,
+            onSelect: showPreview,
+            minSize: [(min.width)/10, (min.height)/10],
+            aspectRatio: output_width/output_height,
+            keySupport: false,
+            bgColor: 'transparent',
+            bgOpacity: '.6'
+        },function() {
+            var bounds = this.getBounds();
+            boundx = bounds[0];
+            boundy = bounds[1];
+            jcrop_api = this;
+            jcrop_api.animateTo([ 0, 0, width, height ]);
+        });
+    }).attr('src', '<?php echo Core_Model_Directory::getTmpDirectory().'/'.$this->getPicture() ?>');
+
+    $('#preview_cont').css('width', min.width+'px').css('height', min.height+'px');
+
+    function showPreview(c) {
+        if (parseInt(c.w) > 0) {
+            var miniature = $('#preview_cont img');
+            var rx = (min.width) / c.w;
+            var ry = (min.height) / c.h;
+
+            miniature.css({
+              width: Math.round(rx * boundx) + 'px',
+              height: Math.round(ry * boundy) + 'px',
+              marginLeft: '-' + Math.round(rx * c.x) + 'px',
+              marginTop: '-' + Math.round(ry * c.y) + 'px'
+            });
+
+            $('#saveCrop #x1').val(c.x);
+            $('#saveCrop #y1').val(c.y);
+            $('#saveCrop #x2').val(c.x2);
+            $('#saveCrop #y2').val(c.y2);
+            $('#saveCrop #w').val(c.w);
+            $('#saveCrop #h').val(c.h);
+        }
+    }
+
+    $('#saveCrop').submit(function(){
+        reload(this, $('#saveCrop').attr('action'), true, function(datas) {
+            if (datas.success) {
+                var current_pretty_photo_content = <?php echo $this->getUploader(); ?>.current_pretty_photo_content;
+                if(current_pretty_photo_content && current_pretty_photo_content.length > 0) {
+                    $('.pp_inline').parent().html(<?php echo $this->getUploader(); ?>.current_pretty_photo_content);
+                } else {
+                    $.prettyPhoto.close();
+                }
+                <?php if($this->getIsColorizable() && $this->getIsColorizable() == true) : ?>
+                    <?php echo $this->getUploader(); ?>.callback(datas);
+                <?php else : ?>
+                    <?php echo $this->getUploader(); ?>.callback(datas.file);
+                <?php endif; ?>
+                $('a#crop_image').remove();
+            }
+        });
+        return false;
+    });
+
+    <?php if($this->getIsColorizable() && $this->getIsColorizable() == true) : ?>
+    var old_image = '';
+    $('#colorize_picture').change(function() {
+        if($('#colorize_picture').is(':checked')) {
+            old_image = $('#picture_cont > img').attr('src');
+            var image_url = '<?php echo $this->getPicture() ?>';
+            var color = '<?php echo $this->getImageColor(); ?>';
+            color = color.replace('#','');
+
+            var option_param = '';
+            <?php $option_id = $this->getOptionId(); ?>
+            <?php if(!empty($option_id)): ?>
+                option_param = 'option_value_id=<?php echo $option_id; ?>&';
+            <?php endif; ?>
+            var colorized_image = '<?php echo $this->getUrl("template/block/colorize"); ?>?' + option_param + 'url=' + image_url + '&color=' + color;
+
+            jcrop_api.destroy();
+            $.get(colorized_image, function() {
+                $('#picture_cont img').attr('src', colorized_image);
+                $('#preview_cont img').attr('src', colorized_image);
+                $('#is_colorized').val('true');
+            })
+
+        } else {
+            jcrop_api.destroy();
+            $('#picture_cont img').attr('src', old_image);
+            $('#preview_cont img').attr('src', old_image);
+            $('#is_colorized').val('false');
+        }
+    });
+    <?php endif; ?>
+
+    <?php if($this->getForceColor() && $this->getIsColorizable() == true): ?>
+    setTimeout(function() {
+        $('#colorize_picture').prop("checked", true).trigger("change");
+        $(".colorize_checbox").hide();
+    }, 100);
+    <?php endif; ?>
+</script>

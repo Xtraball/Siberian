@@ -1,0 +1,103 @@
+<?php $block = $this->getCurrentBlock(); ?>
+<div id="cms_block_<?php echo $this->getPosition(); ?>" class="category inner_content cms_block address" rel="<?php echo $this->getPosition(); ?>">
+    <div class="control left">
+        <a class="handle" href="javascript:void(0);"><i class="icon-move"></i></a>
+    </div>
+    <div class="left" style="width:540px">
+        <div class="description_cont" rel="<?php echo $this->getPosition() ?>">
+
+            <div class="form-horizontal">
+
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label for="label_<?php echo $this->getPosition(); ?>"><?php echo $this->_('Label:') ?>*</label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="label_<?php echo $this->getPosition(); ?>" class="form-control input required" name="block[<?php echo $this->getPosition(); ?>][label]" value="<?php echo $block->getLabel(); ?>" placeholder="<?php echo $this->_('Label') ?>" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label for="cms_address_<?php echo $this->getPosition(); ?>"><?php echo $this->_('Address:') ?></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <textarea rows="4" rel="<?php echo $this->getPosition(); ?>" id="cms_address_<?php echo $this->getPosition(); ?>" name="block[<?php echo $this->getPosition(); ?>][address]" class="gmaps_address form-control input" placeholder="<?php echo $this->_('Address') ?>"><?php echo $block->getAddress(); ?></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label for="cms_latitude_<?php echo $this->getPosition(); ?>"><?php echo $this->_('Latitude:') ?></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="cms_latitude_<?php echo $this->getPosition(); ?>" class="form-control input" name="block[<?php echo $this->getPosition(); ?>][latitude]" value="<?php echo $block->getLatitude(); ?>" placeholder="<?php echo $this->_('Latitude') ?>" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label for="cms_longitude_<?php echo $this->getPosition(); ?>"><?php echo $this->_('Longitude:') ?></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="cms_longitude_<?php echo $this->getPosition(); ?>" class="form-control input" name="block[<?php echo $this->getPosition(); ?>][longitude]" value="<?php echo $block->getLongitude(); ?>" placeholder="<?php echo $this->_('Longitude') ?>" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-12 col-sm-offset-3">
+                        <label for="cms_address_container_<?php echo $this->getPosition(); ?>" id="label_cms_address_container_<?php echo $this->getPosition(); ?>" class="checkbox<?php if($block->getShowAddress()) : ?> checked<?php endif; ?>">
+                            <span class='icon'></span><span class='icon-to-fade'></span>
+                            <input type="checkbox" id="cms_address_container_<?php echo $this->getPosition(); ?>" name="block[<?php echo $this->getPosition(); ?>][show_address]" value="1"<?php if($block->getShowAddress()) : ?> checked="checked"<?php endif; ?> />
+                            <?php echo $this->_("Display address") ?>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-12 col-sm-offset-3">
+                        <label for="cms_geolocation_button_<?php echo $this->getPosition(); ?>" id="label_cms_geolocation_button_<?php echo $this->getPosition(); ?>" class="checkbox<?php if($block->getShowGeolocationButton()) : ?> checked<?php endif; ?>">
+                            <span class='icon'></span><span class='icon-to-fade'></span>
+                            <input type="checkbox" id="cms_geolocation_button_<?php echo $this->getPosition(); ?>" name="block[<?php echo $this->getPosition(); ?>][show_geolocation_button]" value="1"<?php if($block->getShowGeolocationButton()) : ?> checked="checked"<?php endif; ?> />
+                            <?php echo $this->_("Display location button") ?>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][block_id]" value="<?php echo $block->getBlockId(); ?>" />
+        <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][value_id]" value="<?php echo $block->getValueId(); ?>" />
+        <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][type]" value="<?php echo $block->getType(); ?>" />
+        <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][position]" value="<?php echo $this->getPosition(); ?>" class="hidden_pos" rel="<?php echo $this->getPosition(); ?>"  />
+    </div>
+    <?php if($this->getCurrentOptionValue()->getCode() != "places") : ?>
+    <div class="control right">
+        <a class="remove" href="javascript:void(0);"><i class="icon-remove"></i></a>
+    </div>
+    <?php endif; ?>
+    <div class="clear"></div>
+    <script type="text/javascript">
+
+        if(window.google) {
+            bindGmapsSearchBox($('#cms_address_<?php echo $this->getPosition(); ?>'));
+        }
+
+        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .remove').click(function(){
+            removeElem(<?php echo $this->getPosition(); ?>);
+        });
+
+        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .handle').mousedown(function(){
+            dragTransformMouseDown($(this));
+        }).mouseup(function(){
+            dragTransformMouseUp($(this));
+        });
+
+        var fields = ['cms_address_container_<?php echo $this->getPosition() ?>', 'cms_geolocation_button_<?php echo $this->getPosition() ?>'];
+        for(var i in fields) {
+            var field = fields[i];
+            bindLabel($('#label_'+field));
+            setupLabel($('#label_'+field));
+        }
+
+    </script>
+</div>

@@ -1,0 +1,408 @@
+<?php $option = $this->getOptionValue(); ?>
+<?php $mcommerce = $option->getObject(); ?>
+<?php $taxes = $mcommerce->getTaxes(); ?>
+<?php $stores = $mcommerce->getStores(); ?>
+<div class="settings">
+    <div id="settings">
+        <div class="section">
+            <h4 class="subtitle">
+                <span class="left area"><?php echo $this->_('Manage user fields'); ?></span>
+                <hr />
+                <div class="clear"></div>
+            </h4>
+            <div class="form_content">
+                <form id="mcommerceFieldsForm" action="<?php echo $this->getUrl('mcommerce/application_settings_fields/save'); ?>" class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="show_search"><?php echo $this->_("Phone number"); ?></label>
+                        </div>
+                        <div class="col-sm-5">
+                            <select name="phone" id="" class="form-control" style="visibility: visible; top: 0;">
+                                <option value="hidden" <?php if($mcommerce->getPhone() == 'hidden') echo 'selected' ?>><?php echo $this->_("Hidden"); ?></option>
+                                <option value="optional" <?php if($mcommerce->getPhone() == 'optional') echo 'selected' ?>><?php echo $this->_("Optional"); ?></option>
+                                <option value="mandatory" <?php if($mcommerce->getPhone() == 'mandatory') echo 'selected' ?>><?php echo $this->_("Mandatory"); ?></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="show_search"><?php echo $this->_("Birthday"); ?></label>
+                        </div>
+                        <div class="col-sm-5">
+                            <select name="birthday" id="" class="form-control" style="visibility: visible; top: 0;">
+                                <option value="hidden" <?php if($mcommerce->getBirthday() == 'hidden') echo 'selected' ?>><?php echo $this->_("Hidden"); ?></option>
+                                <option value="optional" <?php if($mcommerce->getBirthday() == 'optional') echo 'selected' ?>><?php echo $this->_("Optional"); ?></option>
+                                <option value="mandatory" <?php if($mcommerce->getBirthday() == 'mandatory') echo 'selected' ?>><?php echo $this->_("Mandatory"); ?></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="show_search"><?php echo $this->_("Invoicing address"); ?></label>
+                        </div>
+                        <div class="col-sm-5">
+                            <select name="invoicing_address" id="" class="form-control" style="visibility: visible; top: 0;">
+                                <option value="hidden" <?php if($mcommerce->getInvoicingAddress() == 'hidden') echo 'selected' ?>><?php echo $this->_("Hidden"); ?></option>
+                                <option value="optional" <?php if($mcommerce->getInvoicingAddress() == 'optional') echo 'selected' ?>><?php echo $this->_("Optional"); ?></option>
+                                <option value="mandatory" <?php if($mcommerce->getInvoicingAddress() == 'mandatory') echo 'selected' ?>><?php echo $this->_("Mandatory"); ?></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="show_search"><?php echo $this->_("Delivery address"); ?></label>
+                        </div>
+                        <div class="col-sm-5">
+                            <select name="delivery_address" id="" class="form-control" style="visibility: visible; top: 0;">
+                                <option value="hidden" <?php if($mcommerce->getDeliveryAddress() == 'hidden') echo 'selected' ?>><?php echo $this->_("Hidden"); ?></option>
+                                <option value="optional" <?php if($mcommerce->getDeliveryAddress() == 'optional') echo 'selected' ?>><?php echo $this->_("Optional"); ?></option>
+                                <option value="mandatory" <?php if($mcommerce->getDeliveryAddress() == 'mandatory') echo 'selected' ?>><?php echo $this->_("Mandatory"); ?></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="save right">
+                        <button class="default_button btn-block" type="submit">
+                            <?php echo $this->_('Save'); ?>
+                        </button>
+                    </div>
+                    <div class="clear"></div>
+                    <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
+                </form>
+            </div>
+        </div>
+        <?php echo $this->getLayout()->addPartial('discount_form', 'admin_view_default', 'mcommerce/application/edit/settings/discount.phtml')
+            ->setCurrentOptionValue($option)
+            ->toHtml();
+        ?>
+        <div class="section">
+            <h4 class="subtitle">
+                <span class="left area"><?php echo $this->_('Connected Printers'); ?></span>
+                <hr />
+                <div class="clear"></div>
+            </h4>
+            <div class="form_content">
+                <form id="mcommercePrintersForm" action="<?php echo $this->getUrl('mcommerce/application_settings_printer/save'); ?>" class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <?php if($stores->count() > 1) : ?>
+                            <?php echo $this->_("You have a connected printer? Enter the email address for each store"); ?>
+                            <?php else : ?>
+                            <?php echo $this->_("You have a connected printer? Enter the email address"); ?>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <?php foreach($stores as $store) : ?>
+                    <?php $printer = new Mcommerce_Model_Store_Printer(); ?>
+                    <?php $printer->find($store->getId(), 'store_id'); ?>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="printer_email_<?php echo $store->getId(); ?>"><?php echo $store->getName(); ?></label>
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="text" id="printer_email_<?php echo $store->getId(); ?>" value="<?php echo $printer->getEmail(); ?>" class="printer_email form-control required email" name="email[<?php echo $store->getId(); ?>]" />
+                        </div>
+                    </div>
+                    <?php endforeach ?>
+                    <div class="save right">
+                        <button class="default_button btn-block" type="submit">
+                            <?php echo $this->_('Save'); ?>
+                        </button>
+                    </div>
+                    <div class="clear"></div>
+                    <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
+                </form>
+            </div>
+        </div>
+        <div class="section">
+            <h4 class="subtitle">
+                <span class="left area"><?php echo $this->_('Search'); ?></span>
+                <hr />
+                <div class="clear"></div>
+            </h4>
+            <form id="mcommerceSearchForm" action="<?php echo $this->getUrl('mcommerce/application_settings_search/save'); ?>" class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label for="show_search"><?php echo $this->_("Show search fields on product list ?"); ?></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="checkbox" id="show_search" name="show_search" class="checkbox" <?php if($mcommerce->getShowSearch()) echo "checked" ?>/>
+                    </div>
+                </div>
+                <div class="save right">
+                    <button class="default_button btn-block" type="submit">
+                        <?php echo $this->_('Save'); ?>
+                    </button>
+                </div>
+                <div class="clear"></div>
+                <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
+            </form>
+        </div>
+        <div class="section">
+            <h4 class="subtitle">
+                <span class="left area"><?php echo $this->_('Tip'); ?></span>
+                <hr />
+                <div class="clear"></div>
+            </h4>
+            <form id="mcommerceTipForm" action="<?php echo $this->getUrl('mcommerce/application_settings_tip/save'); ?>" class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label for="add_tip"><?php echo $this->_("Add tip?"); ?></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="checkbox" id="add_tip" name="add_tip" class="checkbox" <?php if($mcommerce->getAddTip()) echo "checked" ?>/>
+                    </div>
+                </div>
+                <div class="save right">
+                    <button class="default_button btn-block" type="submit">
+                        <?php echo $this->_('Save'); ?>
+                    </button>
+                </div>
+                <div class="clear"></div>
+                <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
+            </form>
+        </div>
+        <div class="section">
+            <h4 class="subtitle">
+                <span class="left area"><?php echo $this->_('Guest Order'); ?></span>
+                <hr />
+                <div class="clear"></div>
+            </h4>
+            <form id="mcommerceGuestModeForm" action="<?php echo $this->getUrl('mcommerce/application_settings_guestmode/save'); ?>" class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <label for="guest_mode"><?php echo $this->_("Permit unregistered user to make order?"); ?></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="checkbox" id="guest_mode" name="guest_mode" class="checkbox" <?php if($mcommerce->getGuestMode()) echo "checked" ?>/>
+                    </div>
+                </div>
+                <div class="save right">
+                    <button class="default_button btn-block" type="submit">
+                        <?php echo $this->_('Save'); ?>
+                    </button>
+                </div>
+                <div class="clear"></div>
+                <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
+            </form>
+        </div>
+
+        <div id="settings_list" pos="1">
+            <div id="tax_manager">
+                <div class="section">
+                    <h4 class="subtitle">
+                        <span class="left area"><?php echo $this->_('My taxes'); ?></span>
+                        <hr />
+                        <span class="area right">
+                            <button type="button" class="default_button edit_tax add right" id="add_item">
+                                <i class="icon-plus"></i>
+                            </button>
+                        </span>
+                        <div class="clear"></div>
+                    </h4>
+                    <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+                </div>
+                <div id="section_existing_taxes" class="section"<?php if(!$taxes->count()) : ?> style="display:none"<?php endif; ?>>
+                    <h4 class="subtitle">
+                        <span class="left area"><?php echo $this->_('Manage'); ?></span>
+                        <hr />
+                        <span class="area right">
+                            <button type="button" id="toggle_existing_taxes" class="default_button toggle_details">
+                                <i class="icon-chevron-down"></i>
+                                <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
+                            </button>
+                        </span>
+                        <div class="clear"></div>
+                    </h4>
+                    <div id="existing_taxes" style="display:none;">
+
+                        <ul class="list taxes_list">
+                            <?php foreach ($taxes as $tax) : ?>
+                            <?php echo $this->getLayout()->addPartial('row_tax_'.$tax->getId(), 'admin_view_default', 'mcommerce/application/edit/settings/tax/li.phtml')
+                                    ->setCurrentOptionValue($option)
+                                    ->setCurrentTax($tax)
+                                    ->toHtml()
+                                ;
+                            ?>
+                            <?php endforeach ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="tax_edit" pos="2">
+
+    </div>
+    <div id="promo_edit" pos="2">
+
+    </div>
+
+    <script type="text/javascript">
+        var mcommerce_settings = {
+            is_loaded: false,
+            tax: null,
+            processEvents: function() {
+                $('#discount_validity').datepicker({
+                    dateFormat: 'yy-mm-dd'
+                });
+
+                $('#mcommercePrintersForm').submit(function() {
+                    if(!$(this).valid()) return false;
+                    reload(this, this.action, true);
+                    return false;
+                });
+
+                $('#mcommerceSearchForm').submit(function() {
+                    reload(this, this.action, true);
+                    return false;
+                });
+
+                $('#mcommerceDiscountForm').submit(function() {
+                    reload(this, this.action, true);
+                    return false;
+                });
+
+                $('#mcommerceTipForm').submit(function() {
+                    reload(this, this.action, true);
+                    return false;
+                });
+
+                $('#mcommerceFieldsForm').submit(function() {
+                    reload(this, this.action, true);
+                    return false;
+                });
+
+                $('#mcommerceGuestModeForm').submit(function() {
+                    reload(this, this.action, true);
+                    return false;
+                });
+
+                this.tax.processEvents();
+
+                this.is_loaded = true;
+
+            },
+            destroy: function() {
+                if(this.is_loaded) {
+                    $('#mcommercePrintersForm').unbind('submit');
+                    $('#mcommerceSearchForm').unbind('submit');
+                    this.tax.destroy();
+                }
+            }
+
+        }
+
+        mcommerce_settings.tax = {
+            processEvents: function() {
+                $('#toggle_existing_taxes').click(function() {
+                    $('#existing_taxes').stop().slideToggle(300, function() {
+                        if($(this).is(':visible')) $('#toggle_existing_taxes').children('i').removeClass('icon-chevron-down').addClass('icon-chevron-up');
+                        else $('#toggle_existing_taxes').children('i').removeClass('icon-chevron-up').addClass('icon-chevron-down')
+                    });
+                });
+
+                $('.edit_tax').each(function(i, element) {
+                    this.bindEditTax($(element));
+                }.bind(this));
+                $('.remove_tax').each(function(i, element) {
+                    this.bindRemoveTax($(element));
+                }.bind(this));
+            },
+
+            bindTaxElements: function(id) {
+                if($('#edit_tax_'+id).length) this.bindEditTax($('#edit_tax_'+id));
+                if($('#remove_tax_'+id).length) this.bindRemoveTax($('#remove_tax_'+id));
+                return this;
+            },
+            bindEditTax: function(element) {
+
+                element.click(function(e) {
+                    if(!element.children('input').length) {
+                        $('<input />').attr('type', 'hidden').attr('name', 'option_value_id').addClass('option_value_id').val('<?php echo $option->getId(); ?>').appendTo(element);
+                        if(element.attr('rel')) $('<input />').attr('type', 'hidden').attr('name', 'tax_id').val(element.attr('rel')).appendTo(element);
+                    }
+
+                    this.load(element);
+                }.bind(this));
+            },
+            bindRemoveTax: function(element) {
+
+                element.click(function(e) {
+
+                    if(!confirm('<?php echo addslashes($this->_('Are you sure you want to delete this tax?'))?>')) return false;
+
+                    if(!element.children('input').length) {
+                        $('<input />').attr('type', 'hidden').attr('name', 'option_value_id').addClass('option_value_id').val('<?php echo $option->getId(); ?>').appendTo(element);
+                        if(element.attr('rel')) $('<input />').attr('type', 'hidden').attr('name', 'tax_id').val(element.attr('rel')).appendTo(element);
+                    }
+
+                    this.remove(element);
+                }.bind(this));
+            },
+            load: function(a) {
+
+                reload(a, '<?php echo $this->getUrl('mcommerce/application_settings_tax/edit'); ?>', true, function(datas) {
+                    if(datas.form_html) {
+                        $('#tax_edit').html(datas.form_html);
+                        $('#taxEditForm').submit(function() {
+
+                            $(this).find('input.required.number').each(function() {
+                                var val = parseFloat($(this).val().replace(',', '.'));
+                                if(!isNaN(val)) {
+                                    $(this).val(val);
+                                }
+                            });
+
+                            if(!$(this).valid()) return false;
+
+                            reload(this, this.action, true, function(datas) {
+                                if(datas.success) {
+                                    if(datas.row_html) {
+                                        $('#existing_taxes').children('ul.taxes_list').append(datas.row_html);
+                                        this.bindTaxElements(datas.tax_id);
+                                        if(!$('#section_existing_taxes').is(':visible')) $('#section_existing_taxes').show();
+                                    }
+                                    else if(datas.tax_name) {
+                                        $('#tax_name_'+datas.tax_id).html(datas.tax_name);
+                                    }
+                                    this.close();
+                                }
+                            }.bind(mcommerce_settings.tax));
+                            return false;
+                        });
+                        $('label.delivery_method').click(function() {
+                            setupLabel($(this));
+                        });
+                        $('label.payment_method').click(function() {
+                            setupLabel($(this));
+                        });
+                        feature.slide($('#settings'), $('#tax_edit'), 'right');
+                    }
+                });
+            },
+            remove: function(a) {
+
+                reload(a, '<?php echo $this->getUrl('mcommerce/application_settings_tax/remove'); ?>', true, function(datas) {
+                    if(datas.success) {
+                        $('#edit_tax_'+datas.tax_id).unbind('click');
+                        $('#remove_tax_'+datas.tax_id).unbind('click');
+                        $('#tax_row_'+datas.tax_id).remove();
+                        $('#separator_tax_row_'+datas.tax_id).remove();
+                        if(!$('#existing_taxes').find('li').length) $('#section_existing_taxes').fadeOut();
+                    }
+                });
+            },
+            close: function() {
+                $('#taxEditForm').unbind('submit');
+                feature.slide($('#tax_edit'), $('#settings'), 'left', function() {$('#tax_edit').html('')});
+            },
+            destroy: function() {
+                $('#taxEditForm').unbind('submit');
+                $('.edit_tax').unbind('click');
+                $('.remove_tax').unbind('click');
+            }
+        }
+
+        tabs.addObject('settings', mcommerce_settings);
+    </script>
+</div>

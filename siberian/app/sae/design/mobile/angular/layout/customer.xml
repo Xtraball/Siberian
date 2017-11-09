@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <customer_mobile_account_login_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="customer/account/l1/login.phtml" />
+        </views>
+    </customer_mobile_account_login_template_l1>
+
+    <customer_mobile_account_register_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="customer/account/l1/register.phtml" />
+        </views>
+    </customer_mobile_account_register_template_l1>
+
+    <customer_mobile_account_edit_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="customer/account/l1/edit.phtml" />
+        </views>
+    </customer_mobile_account_edit_template_l1>
+
+    <customer_mobile_account_forgottenpassword_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="customer/account/l1/forgottenpassword.phtml" />
+        </views>
+    </customer_mobile_account_forgottenpassword_template_l1>
+
+</layout>

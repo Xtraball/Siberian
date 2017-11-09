@@ -1,0 +1,33 @@
+<?php $application = $this->getApplication(); ?>
+
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+	<sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message" right-button="header_right_button"></sb-header>
+
+	<div class="top_buttons" ng-show="can_post">
+		<a href="{{ getMapUrl() }}">
+			<div class="half_width left button reverse">
+				<img src="<?php echo $this->getColorizedImage($this->getImage('pictos/map.png', true), $application->getBlock('button')->getBackgroundColor()); ?>" width="32" height="32" />
+				<span><?php echo $this->_('Map'); ?></span>
+			</div>
+		</a>
+		<a href="{{ getPhotosUrl() }}">
+			<div class="half_width right button reverse">
+				<img src="<?php echo $this->getColorizedImage($this->getImage('pictos/photos.png', true), $application->getBlock('button')->getBackgroundColor()); ?>" width="32" height="32" />
+				<span><?php echo $this->_('Photos'); ?></span>
+			</div>
+		</a>
+	</div>
+	<div class="clear"></div>
+
+	<div class="middle_buttons" ng-show="can_post">
+		<div class="left border-color button" ng-class="{reverse:showRecent}" ng-click="setShowRecent(true)"><?php echo $this->_('Recent'); ?></div>
+		<div class="right border-color button" ng-class="{reverse:!showRecent}" ng-click="setShowRecent(false)"><?php echo $this->_('Near me'); ?></div>
+		<div class="clear"></div>
+	</div>
+
+	<sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+	<?php echo $this->getPartialHtml("list"); ?>
+	
+</div>

@@ -1,0 +1,13 @@
+<ion-view sb-page-background class="privacy-policy-view">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+
+    <ion-content>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <ng-include src="'templates/cms/privacypolicy/l1/view.html'"></ng-include>
+
+    </ion-content>
+</ion-view>

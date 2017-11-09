@@ -1,0 +1,41 @@
+<ion-view sb-page-background>
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-content>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <ng-include src="'templates/folder/l1/search.html'"></ng-include>
+
+        <div class="list" ng-class="{'card': card_design}" ng-show="!is_loading && cover && !search.search_value">
+            <div class="item item-image item-custom" ng-if="cover.picture">
+                <img ng-src="{{ cover.picture }}" />
+            </div>
+            <div class="item item-custom">
+                <h2>{{ cover.title }}</h2>
+                <p>{{ cover.subtitle }}</p>
+            </div>
+        </div>
+
+        <div class="list" ng-class="{'card': card_design}" ng-show="collection.length && !search.search_value">
+            <a tabbar-items
+               class="item item-custom item-avatar-square"
+               option="item"
+               ng-repeat="item in collection"
+               ng-class="{'item-avatar': item.picture, 'item-center': (!item.subtitle && !item.message)}">
+
+                <img ng-src="{{ item.picture }}" ng-if="item.picture" />
+                <h2>{{ item.title }}</h2>
+                <p ng-if="item.subtitle">{{ item.subtitle }}</p>
+            </a>
+        </div>
+
+        <div class="list" ng-class="{'card': card_design}" ng-if="!is_loading && !collection.length && !cover">
+            <div class="item text-center item-custom">
+                {{ "No items found" | translate }}
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

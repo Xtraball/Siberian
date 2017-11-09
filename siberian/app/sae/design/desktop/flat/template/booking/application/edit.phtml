@@ -1,0 +1,162 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $booking = new Booking_Model_Booking(); ?>
+<?php $booking->find($option_value->getId(), 'value_id') ?>
+<?php $store = new Booking_Model_Store(); ?>
+<?php $stores = $store->findAll(array('booking_id' => $booking->getId())); ?>
+<div id="list" class="booking">
+    <h3 class="title-editor no-border-radius title-feature-indent">
+        <?php echo $this->_(('Add content')); ?>
+        <button type="button" id="add_booking" class="toggle_design color-blue pull-right bt-header-right btn">
+            <i class="fa fa-plus"></i>
+        </button>
+    </h3>
+    <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+    <div class="container-fluid content-feature">
+        <div id="row_new" style="display: none;">
+            <h4><?php echo $this->_("Enter the location name and contact email:"); ?></h4>
+            <form id="new_form_booking" class="form_booking form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <label for="store_name_new"><?php echo $this->_('Location:') ?> <span class="required-entry"> *</span> </label>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="email_new"><?php echo $this->_('Email:') ?> <span class="required-entry"> *</span> </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <input type="text" id="store_name_new" name="store_name" class="input-flat required booking_field" value=""/>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="text" id="email_new" name="email" class="input-flat required booking_field email" value=""/>
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="submit" class="btn color-blue save_booking"><?php echo $this->_('OK'); ?></button>
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="button" rel="new" class="delete_booking btn color-blue"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>"/>
+            </form>
+        </div>
+    </div>
+    <div id="existing_items_section" <?php if($stores->count() == 0) : ?> style="display:none;"<?php endif; ?>>
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo $this->_(('Manage content')); ?>
+            <button type="button" id="toggle_existing_items" class="toggle_design color-blue pull-right bt-header-right btn">
+                <i class="fa fa-angle-down"></i>
+            </button>
+        </h3>
+        <div id="existing_items" class="container-fluid form-horizontal content-feature" style="display:none">
+            <div class="form-group first-row-feature">
+                <div class="col-sm-4">
+                    <label><?php echo $this->_('Location:') ?> <span class="required-entry"> *</span></label>
+                </div>
+                <div class="col-sm-8">
+                    <label><?php echo $this->_('Email:') ?> <span class="required-entry"> *</span></label>
+                </div>
+            </div>
+            <div id="booking_list">
+                <?php foreach($stores as $store) : ?>
+                    <?php echo $this->getLayout()->addPartial('row_'.$store->getId(), 'admin_view_default', 'booking/application/edit/row.phtml')
+                        ->setCurrentStore($store)
+                        ->setCurrentOptionValue($option_value)
+                        ->toHtml()
+                    ?>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="background-images-import">
+        <?php echo $this->importBackground($option_value); ?>
+    </div>
+</div>
+<style>
+    .booking h4 { font-size: 1em; margin: 10px 0px; }
+    #row_new { margin-top: 20px; }
+    #booking_people_dummy, #booking_store_dummy {margin-right:0 !important}
+    #booking_comment {margin-top:0 !important;}
+</style>
+<script type="text/javascript">
+
+    page.setCallback('didappear', function() {
+
+        $('#toggle_existing_items').click(function () {
+            $('#existing_items').stop().slideToggle(300, function () {
+                if ($(this).is(':visible')) {
+                    $('#toggle_existing_items').children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+                    $('#toggle_existing_items').removeClass('color-blue');
+                }
+                else
+                {
+                    $('#toggle_existing_items').children('i').removeClass('fa-angle-up').addClass('fa-angle-down');
+                    $('#toggle_existing_items').addClass('color-blue');
+                }
+            });
+        });
+
+        bindAll();
+
+        $('#add_booking').click(function() {
+            $('#no_item').hide();
+            $('#row_new').fadeIn();
+        });
+
+    });
+
+    page.setCallback('willdisappear', function() {
+        $('#toggle_existing_items').unbind('click');
+        $('#booking_feed').unbind('submit');
+    });
+    function bindAll() {
+        $('.form_booking').unbind('submit');
+        $('.form_booking').submit(function() {
+            if(!$(this).valid()) return false;
+            reload(this, '<?php echo $this->getUrl('booking/application/editpost') ?>', true, function(datas) {
+                iframe.f.reload();
+                //new feed
+                if(datas.row_html) {
+                    $('#booking_list').prepend(datas.row_html);
+                    if(!$('#existing_items_section').is(':visible')) $('#existing_items_section').fadeIn();
+                    $('#row_new').hide();
+                    $('#no_item').fadeIn();
+                    $('#new_form_booking').get(0).reset();
+                    bindAll();
+                }
+            });
+            return false;
+        });
+
+        $('.delete_booking').unbind('click');
+        $('.delete_booking').click(function() {
+            var id = $(this).attr('rel');
+            if(id == 'new') {
+                $('#row_new').hide();
+                $('#no_item').fadeIn();
+                $('#new_form_booking').get(0).reset();
+            }
+            else {
+                reload(this, '<?php echo $this->getUrl('booking/application/delete')?>/id/'+id, true, function() {
+                    iframe.f.reload();
+                    $('#row_'+id).animate({opacity: 0.3, height: 0}, 500, function() {
+                        $('#row_'+id).remove();
+                        if($('#booking_list').children('div').length == 0) $('#existing_items_section').fadeOut();
+                    })
+                    ;
+                });
+            }
+            return false;
+        });
+    }
+
+    bindForms('.background-images-import');
+
+</script>
+<style>
+    .booking .content-feature {
+        padding-bottom: 0;
+    }
+</style>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <event_mobile_list_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="html/l2/list.phtml" />
+        </views>
+    </event_mobile_list_template_l1>
+
+    <event_mobile_view_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="event/l1/view.phtml" />
+            <cover class="core_view_mobile_default" template="html/l2/cover.phtml" />
+        </views>
+    </event_mobile_view_template_l1>
+
+</layout>

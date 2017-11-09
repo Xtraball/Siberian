@@ -1,0 +1,16 @@
+{
+  "name": "Application",
+  "decription": "",
+  "version": "4.12.12",
+  "dependencies": {
+    "system": {
+      "type": "SAE",
+      "version": "4.2.0"
+    },
+    "modules": {
+      "Admin": "4.2.0",
+      "Media": "4.2.0",
+      "System": "4.8.4"
+    }
+  }
+}

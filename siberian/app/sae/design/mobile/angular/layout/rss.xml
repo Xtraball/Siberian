@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <rss_mobile_feed_list_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="rss/feed/l1/list.phtml" />
+            <list class="core_view_mobile_default" template="html/l3/list.phtml" />
+            <cover class="core_view_mobile_default" template="html/l1/cover.phtml" />
+        </views>
+    </rss_mobile_feed_list_template_l1>
+
+    <rss_mobile_feed_view_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="rss/feed/l1/view.phtml" />
+        </views>
+    </rss_mobile_feed_view_template_l1>
+
+    <rss_mobile_feed_list_template_l2>
+        <views>
+            <content class="core_view_mobile_default" template="rss/feed/l1/list.phtml" />
+            <list class="core_view_mobile_default" template="html/l5/list.phtml" />
+        </views>
+    </rss_mobile_feed_list_template_l2>
+
+    <rss_mobile_feed_view_template_l2>
+        <views>
+            <content class="core_view_mobile_default" template="rss/feed/l1/view.phtml" />
+        </views>
+    </rss_mobile_feed_view_template_l2>
+
+    <rss_mobile_feed_list_template_l3>
+        <views>
+            <content class="core_view_mobile_default" template="rss/feed/l1/list.phtml" />
+            <list class="core_view_mobile_default" template="html/l6/list.phtml" />
+        </views>
+    </rss_mobile_feed_list_template_l3>
+
+    <rss_mobile_feed_view_template_l3>
+        <views>
+            <content class="core_view_mobile_default" template="rss/feed/l1/view.phtml" />
+        </views>
+    </rss_mobile_feed_view_template_l3>
+
+</layout>

@@ -1,0 +1,57 @@
+.debug-body {
+    margin-top: 60px !important;
+}
+
+#debug-bar {
+    width:100%;
+    height: 40px;
+    color: white;
+    background-color: #de584d;
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 10000;
+    overflow: hidden;
+}
+
+#debug-bar div {
+    float: left;
+    padding: 8px 16px;
+    margin-left: 4px;
+    font-weight: bold !important;
+    font-size: 16px !important;
+    font-family: "Lucida Console", Monaco, monospace !important;
+    cursor: pointer;
+}
+
+.debug-hide {
+    display: none !important;
+}
+
+.debug-tab {
+    width: 100%;
+    position: fixed;
+    top: 40px;
+    left: 0;
+    height: auto;
+    max-height: 50%;
+    z-index: 10000;
+    overflow: auto;
+    background-color: #c8e5ef;
+    border-bottom: 1px solid grey;
+}
+
+.debug-tab-link {
+    height: 36px;
+    padding: 5px 16px !important;
+    border: 2px solid;
+    border-top: 0;
+    border-color: #0c80ab;
+    border-radius: 0 0 3px 3px;
+    background-color: #37afda;
+}
+
+.debug-tab-active {
+    background-color: white !important;
+    color: black !important;
+}

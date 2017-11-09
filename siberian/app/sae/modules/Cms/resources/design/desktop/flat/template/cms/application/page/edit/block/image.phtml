@@ -1,0 +1,136 @@
+<?php $application = $this->getApplication(); ?>
+<?php $block = $this->getCurrentBlock(); ?>
+<?php $option = $this->getCurrentOptionValue(); ?>
+<?php $library = new Cms_Model_Application_Page_Block_Image_Library(); ?>
+<?php $libraries = $library->findAll(array('library_id' => $block->getLibraryId()), 'image_id ASC', null); ?>
+<div id="cms_block_<?php echo $this->getPosition(); ?>" class="category content-white-bkg cms_block picture" rel="<?php echo $this->getPosition(); ?>">
+    <div class="control left">
+        <a class="handle" href="javascript:void(0);"><i class="fa fa-sort"></i></a>
+    </div>
+    <div class="left ckcontainer image_edit display_image container-fluid" rel="<?php echo $this->getPosition(); ?>">
+
+        <div class="form-group">
+            <div class="col-sm-5">
+                <!--[if gte IE 10]><!-->
+                <button type="button" class="upload_picture btn color-blue image_left add" rel="<?php echo $this->getPosition(); ?>">
+                    <i class="fa fa-camera-retro"></i>
+                    <?php echo __('Add<br /><span class="bold">Pictures</span>'); ?>
+                </button>
+                <!--<![endif]-->
+                <input style="display:none" multiple enctype="multipart/form-data" rel="<?php echo $this->getPosition(); ?>" class="left fileupload fileupload_picture" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+            </div>
+
+            <div class="col-sm-7" rel="<?php echo $this->getPosition() ?>">
+                <label><?php echo __('Description:'); ?></label>
+                <input type="text" name="block[<?php echo $this->getPosition(); ?>][description]" value="<?php echo $block->getDescription() ?>" class="input-flat description" />
+            </div>
+            
+        </div>
+        <br />
+        <div class="form-group clear image_cont">
+            <?php foreach($libraries as $library) : ?>
+                <div rel="<?php echo $block->getPosition(); ?>" class="image_cont_details pull-left">
+                    <a class="handle_image_type" href="javascript:void(0);"><i class="fa fa-sort"></i></a>
+                    <img src="<?php echo $library->getImage(); ?>" width="100px" height="50px" />
+                    <a class="removeimg" onclick="deleteImageImage(this);" href="javascript:void(0);"><i class="fa fa-times"></i></a>
+                    <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][image_url][]" value="<?php echo $library->getData('image_url') ?>" class="picture" />
+                    <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][image_fullsize_url][]" value="<?php echo $library->getData('image_fullsize_url') ?>" class="picture_fullsize" />
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][block_id]" value="<?php echo $block->getBlockId(); ?>" />
+        <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][value_id]" value="<?php echo $block->getValueId(); ?>" />
+        <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][type]" value="<?php echo $block->getType(); ?>" />
+        <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][position]" value="<?php echo $this->getPosition(); ?>" class="hidden_pos" rel="<?php echo $this->getPosition(); ?>"  />
+        <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][library_id]" value="<?php echo $block->getLibraryId() ?>" class="hidden_library" rel="<?php echo $this->getPosition(); ?>" />
+    </div>
+    <div class="control right">
+        <a class="remove" href="javascript:void(0);"><i class="fa fa-times"></i></a>
+    </div>
+    
+    <script type="text/javascript">
+
+        $('.upload_picture[rel="<?php echo $this->getPosition() ?>"]').click(function() {
+            $('.fileupload[rel="<?php echo $this->getPosition() ?>"]').trigger('click');
+        });
+
+        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] input.description').keyup(function() {
+            updateDesc(<?php echo $this->getPosition(); ?>);
+        });
+
+        $('.image_cont').sortable({
+            handle : '.handle_image_type',
+            axis: '',
+            placeholder: "",
+            helper: 'clone',
+            tolerance: 'pointer',
+            start: function (event, ui) {
+            },
+            stop: function(event, ui) {
+            },
+            update: function (e, ui) {
+                var rel = $(ui.item).attr('rel');
+                refreshGallery(rel);
+                refreshCarousel(rel);
+            }
+        });
+        var uploader = new Uploader();
+        $('.fileupload[rel="<?php echo $this->getPosition() ?>"]').fileupload({
+            dataType: 'json',
+            add: function (e, data) {
+                data.submit();
+                uploader.showProgressbar();
+            },
+            progressall: function (e, data) {
+                uploader.moveProgressbar(data);
+            },
+            done: function (e, data) {
+                if(data.result.error) {
+                    uploader.showError(data.result.message);
+                } else {
+                    uploader.hide();
+
+                    //affiche le block description
+                    $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .description_cont').show();
+
+                    reload(this, '<?php echo $this->getUrl('cms/application_page/resize') ?>?file='+data.result.files, true, function(datas) {
+                        if (datas.success) {
+                            //partie gauche edit
+                            $('.cms_block[rel="<?php echo $this->getPosition(); ?>"]').find('.image_cont').append(
+                                '<div class="image_cont_details pull-left" rel="<?php echo $this->getPosition(); ?>">\n\
+                                    <a class="handle_image_type" style="vertical-align:top;margin-right:5px;" href="javascript:void(0);"><i class="fa fa-sort"></i></a>\n\
+                                    <img height="50px" width="100px" src="<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+datas.file+'"/>\n\
+                                    <a style="vertical-align:top; margin-left:5px;display:inline-block;margin-right:10px;" onclick="deleteImageImage(this);" class="removeimg" href="javascript:void(0);">\n\
+                                        <i class="fa fa-times"></i>\n\
+                                    </a>\n\
+                                    <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][image_url][]" value="'+datas.file+'" />\n\
+                                    <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][image_fullsize_url][]" value="'+datas.fullsize_file+'" />\n\
+                                </div>'
+                            );
+                        }
+                    });
+                }
+            }
+        });
+
+        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .remove').click(function(){
+            removeElem(<?php echo $this->getPosition(); ?>);
+        });
+
+        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .handle').mousedown(function(){
+            dragTransformMouseDown($(this));
+        }).mouseup(function(){
+            dragTransformMouseUp($(this));
+        });
+
+        //Fix IE
+        if($('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .upload_picture').length < 1) {
+            $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .fileupload_picture').show();
+        }
+
+    </script>
+    <style>
+        .cms_block.picture a.removeimg {vertical-align:top;margin-left:5px;display:inline-block;margin-right:10px;}
+        .cms_block.picture a.handle_image_type {vertical-align:top;margin-right:5px;}
+    </style>
+</div>

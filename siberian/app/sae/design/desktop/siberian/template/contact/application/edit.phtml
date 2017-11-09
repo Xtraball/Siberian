@@ -1,0 +1,293 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $application = $this->getApplication(); ?>
+<?php $contact = new Contact_Model_Contact(); ?>
+<?php $contact->find($option_value->getId(), 'value_id') ?>
+<div class="form_content">
+    <div id="list" class="edit_page contact">
+        <div class="form_content">
+            <form id="contactForm" name="contactForm" method="post" action="<?php echo $this->getUrl('contact/application/editpost') ?>" class="form-horizontal">
+                <h4 class="subtitle">
+                    <span class="left area"><?php echo $this->_('Contact information') ?></span>
+                    <hr />
+                    <div class="clear"></div>
+                </h4>
+                <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
+                <div class="form_content">
+                    <div class="infos">
+                        <div id="cover_crop" style="display:none;">
+                            <button type="button" id="cancel_cover_crop" class="delete left"><i class="icon-remove"></i></button>
+                            <button type="button" id="validate_cover_crop" class="default_button right">OK</button>
+                            <div class="clear"></div>
+                            <p><?php echo $this->_('Resize your picture:') ?></p>
+                        </div>
+                        <div id="cover_crop_content"></div>
+                        <div id="contact_content">
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <label for="name"><?php echo $this->_('Name') ?>:</label>
+                                </div>
+                                <div class="col-sm-5">
+                                    <input type="text" id="name_<?php echo $option_value->getId() ?>" name="name" class="contact_field form-control" value="<?php echo !is_null($contact->getName()) ? $contact->getName() : $application->getName() ?>" rel="name" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <!--[if gte IE 10]><!-->
+                                    <button id="upload_contact_picture" type="button" class="upload_contact_picture upload editor_menu active image_left">
+                                        <i class="icon-camera-retro"></i>
+                                        <?php echo $this->_('Insert a <br /><span class="bold">cover image</span>'); ?>
+                                    </button>
+                                    <!--<![endif]-->
+                                </div>
+                                <div class="col-sm-4 text-center">
+                                    <p id="uploader_logo_ie_description" style="display:none"><?php echo $this->_('Insert a <br /><span class="bold">cover image</span>'); ?></span></p>
+                                    <input id="contact_file" class="uploader" style="display:none" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+                                    <img id="cover_img" src="<?php echo $contact->getCoverUrl(); ?>" width="210" height="186"<?php if(!$contact->getCover()) : ?> style="display:none;"<?php endif; ?> />
+                                </div>
+                                <div class="col-sm-4">
+                                    <a href="" style="<?php if(!$contact->getCover()) : ?>display:none;<?php endif; ?>" id="remove_cover_img">
+                                        <i class="icon-remove"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <label for="phone"><?php echo $this->_('Phone') ?>:</label>
+                                </div>
+                                <div class="col-sm-5">
+                                    <input type="text" id="phone_<?php echo $option_value->getId() ?>" name="phone" rel="phone" class="contact_field form-control" value="<?php echo $contact->getPhone() ?>" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <label for="street"><?php echo $this->_('Address') ?>:</label>
+                                </div>
+                                <div class="col-sm-5">
+                                    <input type="text" id="street_<?php echo $option_value->getId() ?>" name="street" rel="street" class="contact_field form-control" value="<?php echo $contact->getStreet() ?>" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <label for="postcode"><?php echo $this->_('Zip code') ?>:</label>
+                                </div>
+                                <div class="col-sm-5">
+                                    <input type="text" id="postcode_<?php echo $option_value->getId() ?>" name="postcode" rel="postcode" class="contact_field form-control" value="<?php echo $contact->getPostcode() ?>" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <label for="city"><?php echo $this->_('City') ?>:</label>
+                                </div>
+                                <div class="col-sm-5">
+                                    <input type="text" id="city_<?php echo $option_value->getId() ?>" name="city" rel="city" class="contact_field form-control" value="<?php echo $contact->getCity() ?>" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <label for="country"><?php echo $this->_('Country') ?>:</label>
+                                </div>
+                                <div class="col-sm-5">
+                                    <input type="text" id="country_<?php echo $option_value->getId() ?>" name="country" rel="country" class="contact_field form-control" value="<?php echo $contact->getCountry() ?>" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <label for="description"><?php echo $this->_('Description') ?>:</label>
+                                </div>
+                                <div class="col-sm-5">
+                                    <textarea id="description_<?php echo $option_value->getId() ?>" name="description" rel="description" class="contact_field form-control description_field"><?php echo $contact->getDescription() ?></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <label for="email"><?php echo $this->_('Email') ?>:</label>
+                                </div>
+                                <div class="col-sm-5">
+                                    <input type="text" id="email_<?php echo $option_value->getId() ?>" name="email" rel="email" class="contact_field email form-control" value="<?php echo $contact->getEmail() ?>" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <label for="website"><?php echo $this->_('Website') ?>:</label>
+                                </div>
+                                <div class="col-sm-5">
+                                    <input type="text" id="website_<?php echo $option_value->getId() ?>" name="website" rel="website_url" class="contact_field url form-control" value="<?php echo $contact->getWebsite() ?>"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <label for="facebook"><?php echo $this->_('Facebook') ?>:</label>
+                                </div>
+                                <div class="col-sm-5">
+                                    <input type="text" id="facebook_<?php echo $option_value->getId() ?>" name="facebook" rel="facebook_url" class="contact_field url form-control" value="<?php echo $contact->getFacebook() ?>"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <label for="twitter"><?php echo $this->_('Twitter') ?>:</label>
+                                </div>
+                                <div class="col-sm-5">
+                                    <input type="text" id="twitter_<?php echo $option_value->getId() ?>" name="twitter" rel="twitter_url" class="contact_field url form-control" value="<?php echo $contact->getTwitter() ?>"/>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="save right">
+                        <button class="default_button btn-block" type="submit">
+                            <?php echo $this->_('Save'); ?>
+                        </button>
+                    </div>
+                </div>
+                <div id="contactCoverForm" class="clear">
+                    <input type="hidden" id="cover_file" name="file" />
+                    <input type="hidden" id="remove_cover" name="remove_cover" value="0" />
+                </div>
+            </form>
+        </div>
+        <div class="section">
+            <?php
+                echo $this->getLayout()
+                    ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
+                    ->setValueId($option_value->getId())
+                    ->toHtml()
+                ;
+            ?>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var olddiv = $('.form_content > div#list');
+    var default_cover_url = '<?php echo $contact->getCoverUrl(); ?>';
+    var contact_uploader = new Uploader();
+    CKEDITOR.config.language = '<?php echo $this->_('en') ?>';
+    CKEDITOR.config.toolbar = [
+        { name: 'source', items: [ 'Source' ] },
+        { name: 'insert', items: [ 'Image' ] },
+        { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ] },
+        { name: 'paragraph', groups: [ 'indent', 'align' ], items: [ 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
+        { name: 'styles', items: [ 'TextColor', 'Format' ] }
+    ];
+    $('.description_field').ckeditor();
+
+    page.setCallback('didappear', function() {
+
+        $('#cancel_cover_crop').click(function() {
+            $('#cover_crop_content').slideUp(300, function() {$(this).html('')});
+            $('#cover_crop').hide();
+            $('#contact_content').slideDown();
+            if(default_cover_url.isEmpty()) {
+                $('#cover_img').hide().attr('src', '');
+                $('#cover_file').val('');
+                iframe.f.setCoverUrl(null);
+                $('#remove_cover').val(1);
+                $('#remove_cover_img').hide();
+            }
+            else {
+                $('#cover_crop_content').slideUp(300, function() {$(this).html('')});
+                $('#cover_crop').hide();
+                $('#remove_cover_img').show();
+                iframe.f.setCoverUrl(default_cover_url);
+                $('#cover_img').hide().attr('src', default_cover_url).slideDown();
+                $('#cover_file').val(default_cover_url);
+                $('#contact_content').slideDown();
+                $('#remove_cover').val(0);
+
+            }
+        });
+        $('#remove_cover_img').click(function() {
+            if(confirm("<?php echo $this->_("Are you sure you want to remove the picture?"); ?>")) {
+                $('#cover_img').hide().attr('src', '');
+                $('#cover_file').val('');
+                iframe.f.setCoverUrl(null);
+                $('#remove_cover').val(1);
+                $(this).hide();
+                default_cover_url = '';
+            }
+            return false;
+        });
+
+        $('#contact_file').fileupload({
+            dataType: 'json',
+            add: function(e, data) {
+                data.submit();
+                contact_uploader.showProgressbar();
+            },
+            progressall: function(e, data) {
+                contact_uploader.moveProgressbar(data);
+            },
+            done: function(e, data) {
+                if (data.result.error) {
+                    contact_uploader.showError(data.result.message);
+                }
+                if (data.result.success) {
+                    contact_uploader.hide();
+                    var params = new Array();
+                    params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+                    params["file"] = data.result.files;
+                    params["output_w"] = 585;
+                    params["output_h"] = 495;
+                    params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('contact/application/crop')) ?>';
+                    params["uploader"] = 'contact_uploader';
+                    contact_uploader.crop(params);
+                    contact_uploader.callback = function(file) {
+                        var image = iframe.content.find('#contact_cover_img_<?php echo $option_value->getId(); ?>');
+                        iframe.f.setCoverUrl("<?php echo Core_Model_Directory::getTmpDirectory() ?>/"+file);
+                        $('#cover_img').hide().attr('src', '<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+file).slideDown();
+                        $('#remove_cover_img').show();
+                        $('#remove_cover').val(0);
+                        $('#cover_file').val(file);
+                        default_cover_url = file;
+                    }
+                }
+            }
+        });
+
+        $('#upload_contact_picture').click(function(){
+            $('#contact_file').trigger('click');
+        });
+
+        $('#contactForm').submit(function() {
+            if(!$(this).valid()) return false;
+            reload($('#contactForm'), '<?php echo $this->getUrl('contact/application/editpost') ?>', true, function(datas) {
+                if(datas.success) {
+                    page.reload();
+                }
+            });
+            return false;
+        });
+
+        $('.contact_field').keyup(function() {
+            updateIframe($(this));
+        });
+
+        $('.contact_field').change(function() {
+            if($(this).hasClass('url')) {
+                if(!$(this).val().isEmpty() && !$(this).val().startsWith('http://') && !$(this).val().startsWith('https://')) {
+                    $(this).val('http://'+$(this).val());
+                }
+            }
+            updateIframe($(this));
+        });
+
+        function updateIframe(champ) {
+            iframe.f.setAttribute(champ.attr("rel"), champ.val());
+        }
+
+    });
+
+    page.setCallback('willdisappear', function() {
+        $('#upload_contact_picture').unbind('click');
+        $('.contact_field').unbind('keyup');
+        $('.contact_field').unbind('change');
+        $('#contactForm').unbind('submit');
+        $('#remove_cover_img').unbind('click');
+    });
+
+</script>
+<style>
+    #contact_content label.error {
+        width: 220px;
+        text-shadow: none;
+    }
+</style>

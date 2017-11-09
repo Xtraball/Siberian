@@ -1,0 +1,16 @@
+<?php $product = $this->getProduct(); ?>
+<li class="product" id="product_<?php echo $product->getId(); ?>" rel="<?php echo $product->getCategory()->getId(); ?>">
+    <a class="handle_product left"><i class="icon-move"></i></a>
+    <p class="name left"><?php echo $product->getName(); ?></p>
+    <!--<p class="product_description left"><?php echo strlen($product->getDescription()) > 100 ? substr($product->getDescription(), 0, 100) . '...' : $product->getDescription(); ?></p>-->
+    <p class="product_price left"><?php echo $product->getFormattedPrice(); ?></p>
+    <div class="actions right">
+        <a rel="prettyPhoto[ajax]" href="<?php echo $this->getUrl('catalog/application_product/edit', array('option_value_id' => $this->getOptionValue()->getId(), 'id' => $product->getId())); ?>?ajax=true" class="edit_product left"><i class="icon-edit"></i></a>
+        <a href="javascript:void(0);" onclick="product.remove(<?php echo $product->getId(); ?>); return false;" class="left"><i class="icon-remove"></i></a>
+        <input type="hidden" name="product_id" value="<?php echo $product->getId(); ?>" />
+    </div>
+    <div class="clear"></div>
+    <script type="text/javascript">
+        //products[<?php echo $product->getId(); ?>] = <?php echo Zend_Json::encode(array('product_id' => $product->getId(), 'category_id' => $product->getCategoryId(), 'name' => $product->getName(), 'description' => $product->getDescription(), 'price' => $product->getPrice())); ?>;
+    </script>
+</li>

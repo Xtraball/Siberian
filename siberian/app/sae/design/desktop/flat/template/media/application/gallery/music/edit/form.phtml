@@ -1,0 +1,151 @@
+<?php $gallery = new Media_Model_Gallery_Music(); ?>
+<?php if($this->getGalleryId()) : ?>
+    <?php $gallery->find($this->getGalleryId()); ?>
+<?php endif; ?>
+<form id="save_form" action="<?php echo $this->getUrl('media/application_gallery_music/editpost'); ?>" method="post" class="form-horizontal">
+    <div class="form-group">
+        <div class="col-sm-6 col-sm-offset-2">
+            <label for="playlist_title"><?php echo $this->_('Playlist title:') ?> <span class="required-entry required"> *</span></label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-2 col-xs-2" id="upload_image_cont">
+            <!--[if gte IE 10]><!-->
+            <button id="upload_music_playlist_image" <?php echo $gallery->getArtworkUrl() ? 'style="display:none"' : '' ?> type="button" class="upload_music_picture bg btn btn-grey">
+                <?php echo $this->_('Add a picture') ?>
+            </button>
+            <!--<![endif]-->
+            <input id="music_playlist_image_file" <?php echo $gallery->getArtworkUrl() ? 'style="display:none"' : '' ?> class="uploader" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+            <img id="music_playlist_img_src" <?php echo !$gallery->getArtworkUrl() ? 'style="display:none"' : '' ?> src="<?php echo $gallery->getArtworkUrl() ? Application_Model_Application::getImagePath().$gallery->getArtworkUrl() : '' ?>" width="100%" height="100%"/>
+            <a id="remove_playlist_image_img" <?php echo !$gallery->getArtworkUrl() ? 'style="display:none"' : '' ?> class="btn color-blue"><i class="fa fa-times"></i></a>
+        </div>
+        <div class="col-sm-6 col-xs-4">
+            <input type="text" class="input-flat required" id="playlist_title" name="name" value="<?php echo $gallery->getName() ?>">
+        </div>
+        <div class="col-sm-1 col-xs-1">
+            <button onclick="$('#save_form').submit();" class="validate btn color-blue" type="button"><?php echo $this->_("OK"); ?></button>
+        </div>
+    </div>
+    
+    <input type="hidden" id="delete_image" name="delete_image" value="">
+    <input type="hidden" id="artwork_url" name="artwork_url" value="<?php echo $gallery->getArtworkUrl(); ?>">
+    <input type="hidden" id="gallery_id" name="gallery_id" value="<?php echo $gallery->getGalleryId() ?>">
+    <input type="hidden" name="value_id" value="<?php echo $this->getValueId() ?>">
+</form>
+
+<script type="text/javascript">
+    var is_ie_8 = true;
+</script>
+<!--[if gte IE 10]><!-->
+<script type="text/javascript">
+    is_ie_8 = false;
+</script>
+<!--<![endif]-->
+
+<script type="text/javascript">
+    $('.edit_page.media.images').off('submit', '#save_form');
+    $('.edit_page.media.images').on('submit', '#save_form', function(e){
+        if(!$(this).valid()) return false;
+        reload($('#save_form'), $('#save_form').attr('action'), true, function(datas) {
+            if(datas.success) {
+                $('#edit').html(datas.content_html);
+                if($("#list").html() != '') {
+                    iframe.f.reload();
+                    feature.edit(function() {
+                        $('#list').html('');
+                        createFileupload();
+                    });
+//                    var mobile_url = '<?php //echo $this->getApplication()->getUrl('media/mobile_gallery_music/playlist', array(), true); ?>//';
+//                    mobile_url += '/playlist_id/'+datas.gallery_id;
+//                    mobile_url += '/option_value_id/'+'<?php //echo $this->getValueId() ?>//';
+//                    mobile_url += '/overview/1';
+
+                } else {
+                    iframe.f.reload();
+                }
+            }
+        });
+        return false;
+    });
+
+    //Change le titre de la playlist
+    $('.edit_page.media.images').off('keyup', '#playlist_title');
+    $('.edit_page.media.images').on('keyup', '#playlist_title', function(){
+        var val = $('#playlist_title').val();
+        $('#playlist_types p:first-child b').html(val);
+    });
+
+    //Supprime image
+    $('.edit_page.media.images').off('click', '#upload_music_playlist_image');
+    $('.edit_page.media.images').on('click', '#remove_playlist_image_img', function(){
+        $('#music_playlist_img_src').attr('src', '');
+        $('#music_playlist_img_src').hide();
+        if(is_ie_8) {
+            $('#music_playlist_image_file').show();
+        } else {
+            $('#upload_music_playlist_image').show();
+        }
+        $('#remove_playlist_image_img').hide();
+        $('#artwork_url').val('');
+        $('#delete_image').val('true');
+        return false;
+    });
+
+    $('.edit_page.media.images').off('click', '#upload_music_playlist_image');
+    $('.edit_page.media.images').on('click', '#upload_music_playlist_image', function(){
+        $('#music_playlist_image_file').trigger('click');
+        return false;
+    });
+
+    function createFileupload() {
+        //FIX IE
+        var has_artwork = '<?php echo $gallery->getArtworkUrl() ?>';
+        if(!$('button.upload_music_picture').is(':visible') && has_artwork == '') {
+            $('input#music_playlist_image_file').show();
+        }
+
+        $('#music_playlist_image_file').fileupload({
+            dataType: 'json',
+            add: function(e, data) {
+                data.submit();
+                music_playlist_image_uploader.showProgressbar();
+            },
+            progressall: function(e, data) {
+                music_playlist_image_uploader.moveProgressbar(data);
+            },
+            done: function(e, data) {
+                if (data.result.error) {
+                    music_playlist_image_uploader.showError(data.result.message);
+                }
+                if (data.result.success) {
+                    music_playlist_image_uploader.hide();
+                    var params = new Array();
+                    params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+                    params["file"] = data.result.files;
+                    params["output_w"] = 200;
+                    params["output_h"] = 200;
+                    params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('media/application_gallery_music/crop')) ?>';
+                    params["uploader"] = 'music_playlist_image_uploader';
+                    music_playlist_image_uploader.crop(params);
+                    music_playlist_image_uploader.callback = function(file) {
+                        $('#delete_image').val('');
+                        $('#upload_music_playlist_image').hide();
+                        $('#music_playlist_image_file').hide();
+                        $('#remove_playlist_image_img').show();
+                        $('#artwork_url').val(file);
+                        $('#music_playlist_img_src').attr('src', '<?php echo Core_Model_Directory::getTmpDirectory(); ?>/'+file);
+                        $('#music_playlist_img_src').show();
+                    };
+                }
+            }
+        });
+    }
+</script>
+<style type="text/css">
+    #music_playlist_image_file {
+        display:none
+    }
+    #music_playlist_img_src {
+        border: solid 2px;
+    }
+</style>

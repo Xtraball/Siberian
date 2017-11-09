@@ -1,0 +1,364 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option_value = $this->getOptionValue() ?>
+<?php $promotion = new Promotion_Model_Promotion() ?>
+<?php $promotions = $promotion->findAll(array('value_id' => $option_value->getId()), 'promotion_id DESC'); ?>
+<?php $old_promotions = array() ?>
+<?php $unlock_type = $option_value->getCode() == "qr_discount"? "qrcode":"account"; ?>
+<div class="edit_page promotion">
+    <div id="list">
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo __(('Add content')); ?>
+            <button type="button" id="add_item" class="new_promotion toggle_design color-blue pull-right bt-header-right btn">
+                <i class="fa fa-plus"></i>
+            </button>
+        </h3>
+        <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+
+        <?php if($promotions->count()) : ?>
+        <div id="existing_items_section">
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo __(('Manage content')); ?>
+                <button type="button" id="toggle_existing_items" class="btn color-blue pull-right bt-header-right">
+                    <i class="fa fa-angle-down"></i>
+                </button>
+            </h3>
+            <div id="existing_items" class="container-fluid first-row-feature content-feature" style="display:none;">
+                <ul class="list-group">
+                    <?php foreach($promotions as $promotion) : ?>
+                    <?php if($promotion->getEndAt() AND $promotion->getEndAt() < Zend_Date::now()->toString('yyyy-MM-dd')) { $old_promotions[] = $promotion; continue; } ?>
+                    <?php if($promotion->getConditionType()) continue; ?>
+                    <li class="promotion_actions list-group-item content-white-bkg" rel="<?php echo $promotion->getId(); ?>">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <?php echo $promotion->getTitle(); ?>
+                            </div>
+                            <div class="col-md-2 text-right" id="promotion_icons_<?php echo $promotion->getId(); ?>">
+                                <a href="javascript:void(0)" onclick="var div = $('#details_promo_<?php echo $promotion->getId(); ?>'); if(div.is(':visible')) {div.slideUp();} else {div.slideDown();} return false;" class="" >
+                                    <i class="fa fa-search"></i>
+                                </a>
+                                <a href="javascript:void(0)" rel="<?php echo $promotion->getId() ?>" class="edit edit_promotion">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                                <a href="<?php echo $this->getUrl('promotion/application/deletepost', array('id' => $promotion->getId())); ?>" class="del del_promotion">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div id="details_promo_<?php echo $promotion->getId(); ?>" style="display: none;">
+                            <div class="row first-row-feature">
+                                <div class="col-md-offset-1 col-sm-4">
+                                    <label><?php echo __('Details'); ?></label>
+                                </div>
+                                <div class="col-sm-7">
+                                    <?php echo $promotion->getDescription() ?>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-offset-1 col-sm-4">
+                                    <label><?php echo __('Conditions'); ?></label>
+                                </div>
+                                <div class="col-sm-7">
+                                    <?php echo $promotion->getConditions() ?>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-offset-1 col-sm-4">
+                                    <label><?php echo __('End at'); ?></label>
+                                </div>
+                                <div class="col-sm-7">
+                                    <?php echo !$promotion->getEndAt() ? __('Never') : __('On'). ' '.$promotion->getFormattedEndAt() ?>
+                                </div>
+                            </div>
+                            <?php if($promotion->getUnlockBy() == "qrcode") : ?>
+                                <div class="row">
+                                    <div class="col-md-offset-1 col-sm-4">
+                                        <label><?php echo __('QR Code'); ?></label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <img src="<?php echo Core_Model_Directory::getPathTo("/images/application/".$this->getApplication()->getId()."/application/qrpromotion/".$promotion->getId()."-qrpromotion_qrcode.png") ?>" alt="qrcode" />
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+                <?php if(count($old_promotions) > 0) : ?>
+
+                <h4 class="subtitle">
+                    <span><?php echo __('Closed discounts'); ?></span>
+                </h4>
+                <ul class="list-group">
+                    <?php foreach($old_promotions as $promotion) : ?>
+                    <li class="promotion_actions list-group-item content-white-bkg" rel="<?php echo $promotion->getId(); ?>">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <?php echo $promotion->getTitle(); ?>
+                            </div>
+                            <div class="col-md-2 text-right" id="promotion_icons_<?php echo $promotion->getId(); ?>">
+                                <a href="javascript:void(0)" onclick="var div = $('#details_promo_<?php echo $promotion->getId(); ?>'); if(div.is(':visible')) {div.slideUp();} else {div.slideDown();} return false;">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div id="details_promo_<?php echo $promotion->getId(); ?>" style="display: none;">
+                            <div class="container-fluid">
+                                <div class="row first-row-feature">
+                                    <div class="col-sm-4">
+                                        <label><?php echo __('Details'); ?></label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <?php echo $promotion->getDescription() ?>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <label><?php echo __('Conditions'); ?></label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <?php echo $promotion->getConditions() ?>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <label><?php echo __('End at'); ?></label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <?php echo !$promotion->getEndAt() ? __('Never') : __('On'). ' '.$promotion->getFormattedEndAt() ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+                <?php endif; ?>
+            </div>
+        </div>
+        <?php endif; ?>
+
+        <?php echo $this->importBackground($option_value); ?>
+
+        <?php echo $this->importLayout($option_value); ?>
+
+    </div>
+    <div id="edit" style="display:none"></div>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            bindForms('#list');
+        });
+
+        var discount_picture_uploader = new Uploader();
+
+        promotion = {
+            id: 'new_<?php echo $option_value->getId(); ?>',
+            number_of_children : 0,
+            processEvents: function() {
+                //Par défaut, on en crée une nouvelle
+
+                if($('#promotion_id').length > 0) {
+                    this.id = '<?php echo $option_value->getId(); ?>_'+$('#promotion_id').val();
+                }
+
+                $('#end_at').unbind('keypress');
+                $('#end_at').keypress(function() {return false;});
+                $.datepicker.setDefaults( $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>']);
+                $('#end_at').datepicker({
+                    showAnim: 'clip',
+                    dateFormat: 'yy-mm-dd',
+                    onClose: function(date, obj) {
+                        promotion.setEndAt(date);
+                    }
+                });
+
+                $('#title').unbind('keyup');
+                $('#title').keyup(function() {
+                    promotion.setTitle($(this).val());
+                });
+                $('#description').unbind('keyup');
+                $('#description').keyup(function() {
+                    promotion.setDescription($(this).val().nl2br());
+                });
+                $('#conditions').unbind('keyup');
+                $('#conditions').keyup(function() {
+                    promotion.setConditions($(this).val());
+                });
+                $('#is_unique').unbind('change');
+                $('#is_unique').change(function() {
+                    promotion.setIsUnique($(this).is(':checked'));
+                });
+                $('#is_illimited').unbind('change');
+                $('#is_illimited').change(function() {
+                    promotion.setIsIllimited($(this).is(':checked'));
+                    var checked = $('#is_illimited').is(':checked');
+                    if(checked == true) {
+                        $('#end_at').attr('disabled', 'disabled');
+                    } else {
+                        $('#end_at').removeAttr('disabled');
+                    }
+                });
+                promotion.number_of_children = iframe.content.find('#promotions_list_<?php echo $option_value->getId(); ?>').children('li').length;
+                $('#promotionEditForm').unbind('submit');
+                $('#promotionEditForm').submit(function() {
+                    //$('input#is_illimited').hide();
+                    //$('input#is_unique').hide();
+                    if(!$(this).valid()) return false;
+                    reload(this, this.action, true, function(datas) {
+                        if(datas.promotion_id) {
+                            page.reload();
+                        }
+                    });
+                    return false;
+                });
+
+                $('button#picture_uploader').click(function() {
+                    $('input.uploader_picture').trigger('click');
+                });
+
+                $("#promotion_picture_uploader").fileupload({
+                    dataType: 'json',
+                    add: function (e, data) {
+                        $('.pp_content').attr('style', 'height: auto; width: 500px;');
+                        data.submit();
+                        discount_picture_uploader.showProgressbar();
+                    },
+                    progressall: function (e, data) {
+                        discount_picture_uploader.moveProgressbar(data);
+                    },
+                    done: function (e, data) {
+                        var id = $(this).attr('rel');
+                        if(data.result.error) {
+                            discount_picture_uploader.showError(data.result.message);
+                        }
+                        if(data.result.success) {
+                            discount_picture_uploader.hide();
+                            var params = new Array();
+                            params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+                            params["file"] = data.result.files;
+                            params["output_w"] = 320;
+                            params["output_h"] = 150;
+                            params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('template/crop/validate')) ?>';
+                            params["uploader"] = 'discount_picture_uploader';
+                            discount_picture_uploader.crop(params);
+                            discount_picture_uploader.callback = function(file) {
+                                $('#delete_picture').find("img").attr("src", "<?php echo Core_Model_Directory::getTmpDirectory() ?>/"+file).fadeIn(300);
+                                $('#delete_picture').show();
+                                $('#picture').val(file);
+                                $("#remove_picture").val(0);
+                            }
+                        }
+                    }
+
+                });
+            },
+
+            setTitle: function(text) {
+                iframe.f.setAttributeToDummy("title", text);
+            },
+            setDescription: function(text) {
+                iframe.f.setAttributeToDummy("description", text);
+            },
+            setConditions: function(text) {
+                iframe.f.setAttributeToDummy("conditions", text);
+            },
+            setEndAt: function(text) {
+                if(text.length) {
+                    var d = text.split("-");
+                    var date = new Date(d[0],(d[1]-1),d[2]);
+                    text = $.datepicker.formatDate('<?php echo __('MM,d yy'); ?>', date, {
+                        dayNames: $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>'].dayNames,
+                        monthNamesShort: $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>'].monthNamesShort,
+                        monthNames: $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>'].monthNames
+                    });
+                }
+
+                iframe.f.setAttributeToDummy("end_at", text);
+            },
+            setIsUnique: function(is_unique) {
+                iframe.f.setAttributeToDummy("is_unique", is_unique);
+            },
+            setIsIllimited: function(is_illimited) {
+                if(is_illimited) iframe.f.setAttributeToDummy("end_at", null);
+                else this.setEndAt($('#end_at').val());
+            },
+            removePicture: function() {
+                $('#crop').val('');
+                $('#picture').val('');
+                $('#delete_picture').fadeOut(300);
+                $("#remove_picture").val(1);
+                return false;
+            },
+            prepareDummy: function() {
+                iframe.f.prepareDummy();
+                promotion.number_of_children++;
+            }
+        }
+
+        page.setCallback('didappear', function() {
+            promotion.processEvents();
+
+            $('#toggle_existing_items').click(function () {
+                $('#existing_items').stop().slideToggle(300, function () {
+                    if ($(this).is(':visible')) {
+                        $('#toggle_existing_items').children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+                        $('#toggle_existing_items').removeClass('color-blue');
+                    }
+                    else
+                    {
+                        $('#toggle_existing_items').children('i').removeClass('fa-angle-up').addClass('fa-angle-down');
+                        $('#toggle_existing_items').addClass('color-blue');
+                    }
+                });
+            });
+
+            $('#add_item.new_promotion').click(function() {
+                var url = '<?php echo $this->getUrl('promotion/application/form', array('option_value_id' => $option_value->getId(), 'unlock_by' => $unlock_type)); ?>';
+                reload(this, url, true, function(datas) {
+                    $('#edit').html(datas.form);
+                    feature.edit();
+                    promotion.prepareDummy();
+                    promotion.processEvents();
+                });
+                return false;
+            });
+            $('.edit_promotion').click(function() {
+                var id = $(this).attr('rel');
+                var url = '<?php echo $this->getUrl('promotion/application/form', array('option_value_id' => $option_value->getId(), 'unlock_by' => $unlock_type)); ?>/id/'+id;
+                var position = iframe.content.find('#promotion_'+id).parent().index();
+                reload(this, url, true, function(datas) {
+                    $('#edit').html(datas.form);
+                    feature.edit();
+                    promotion.processEvents();
+                });
+                return false;
+            });
+            $('.del_promotion').click(function() {
+                if(confirm('<?php echo __('Delete this discount?'); ?>')) {
+                    reload(this, $(this).attr('href'), true, function(datas) {
+                        if(datas.promotion_id) {
+                            $('.promotion_actions[rel="'+datas.promotion_id+'"]').slideUp();
+                            page.reload();
+                        }
+                    });
+                }
+                return false;
+            });
+        });
+
+        page.setCallback('willdisappear', function() {
+            $('#toggle_existing_items').unbind('click');
+            $('.new_promotion').unbind('click');
+            $('.edit_promotion').unbind('click');
+            $('.del_promotion').unbind('click');
+            $('#promotionEditForm').unbind('submit');
+            $('#title').unbind('keyup');
+            $('#description').unbind('keyup');
+            $('#conditions').unbind('keyup');
+            $('#is_unique').unbind('change');
+            $('#is_illimited').unbind('change');
+            $(".promotion_actions").unbind('mouseenter mouseout');
+        });
+    </script>
+</div>

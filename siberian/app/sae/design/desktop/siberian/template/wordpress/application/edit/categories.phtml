@@ -1,0 +1,41 @@
+<?php $parent = $this->getCategory(); ?>
+<?php if($parent->getChildren()) : ?>
+<ul id="category_<?php echo $parent->getId(); ?>" class="clear tree"<?php if($parent->getLevel() > 0) : ?> style="display:none;"<?php endif; ?>>
+<?php foreach($parent->getChildren() as $category) : ?>
+    <li class="level_<?php echo $category->getLevel(); ?>">
+        <?php //Zend_Debug::dump($category->getPostIds()); ?>
+        <?php $class = array(); ?>
+        <?php if($category->getIsLastLevel()) $class[] = 'last_level' ?>
+        <?php if($category->getIsFirst()) $class[] = 'first' ?>
+        <?php if($category->getIsLast()) $class[] = 'last' ?>
+
+        <div class="row">
+            <div class="col-sm-1">
+                <label for="select_category_<?php echo $category->getId(); ?>" id="label_select_category_<?php echo $category->getId(); ?>" class="label_select_category checkbox left <?php echo join(' ', $class); ?>" data-parent="label_select_category_<?php echo $parent->getId(); ?>">
+                    <input type="checkbox" class="select_category" value="<?php echo $category->getId(); ?>" name="category_ids[]" id="select_category_<?php echo $category->getId(); ?>"<?php if($this->getCheckAllCategories() OR $category->getIsSelected()) : ?> checked="checked"<?php endif; ?>>
+                </label>
+            </div>
+            <div class="col-sm-10 margin-top-10">
+                <?php if($category->getChildren()) : ?>
+                <button type="button" id="toggle_subcategories_<?php echo $category->getId(); ?>" class="default_button left toggle_subcategories toggle_children" rel="<?php echo $category->getId(); ?>"><i class="icon-plus"></i></button>
+                <?php endif; ?>
+                <?php echo $category->getTitle() ?>
+                <?php if($category->getChildren()) : ?>
+                <?php
+                    echo $this->getLayout()->addPartial('child_'.$category->getId(), get_class($this), $this->getTemplate())
+                        ->setCategory($category)
+                        ->setCheckAllCategories($this->getCheckAllCategories())
+                        ->toHtml()
+                    ;
+                ?>
+                <?php endif ?>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <script type="text/javascript">
+            wordpress.setPosts('<?php echo $category->getId(); ?>', <?php echo Zend_Json::encode($category->getPostIds()); ?>);
+        </script>
+    </li>
+<?php endforeach ?>
+</ul>
+<?php endif; ?>

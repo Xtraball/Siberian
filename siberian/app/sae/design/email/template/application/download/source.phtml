@@ -1,0 +1,12 @@
+<table>
+    <tr style="margin:auto; padding: 0 15px; color:#888888; font-size: 17px; line-height: 150%; width:600px">
+        <td>
+            <?php if($this->getApkStatus()) : ?>
+            <p style="font-family: Verdana; font-weight: bold;color: #404040;font-size:18px; line-height:150%;"><?php echo $this->_("The APK has been generated!"); ?></p>
+            <a href ="<?php echo $this->getLink() ?>"> Download the apk</a>
+            <?php else : ?>
+            <p style="font-family: Verdana; font-weight: bold;color: #404040;font-size:18px; line-height:150%;"><?php echo $this->_("An error occurred when generating the apk"); ?></p>
+            <?php endif; ?>
+        </td>
+    </tr>
+</table>

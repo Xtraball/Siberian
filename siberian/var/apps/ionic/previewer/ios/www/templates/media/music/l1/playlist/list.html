@@ -1,0 +1,59 @@
+<ion-view sb-page-background class="audio-list">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-header-bar class="bar-subheader bar-custom">
+        <div class="button-bar text-center">
+            <div class="button button-custom active item-icon-left">
+                <i class="icon ion-ios-albums-outline"></i>
+                {{ "Playlists" | translate }}
+            </div>
+            <div class="button button-custom item-icon-left" ng-click="showAlbums()">
+                <i class="icon ion-ios-musical-note"></i>
+                {{ "Albums" | translate }}
+            </div>
+        </div>
+    </ion-header-bar>
+
+    <ion-content class="has-subheader" sb-background-image>
+
+        <div class="list">
+            <div class="item item-custom text-center" ng-click="playAll()">
+                {{ "Read all" | translate }}
+            </div>
+        </div>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="row row-no-padding" ng-repeat="playlists in playlists.paged_playlists">
+            <div class="list col-34 col-offset-10" ng-repeat="playlist in playlists" ng-click="showPlaylistAlbums(playlist)">
+                <div class="item item-image item-custom">
+                    <img ng-if="!playlist.images.length" ng-src="{{ playlist.artworkUrl }}">
+                    <div class="row row-no-padding" ng-if="playlist.paged_playlist_images.length" ng-repeat="images in playlist.paged_playlist_images">
+                        <div class="col" ng-repeat="image in images">
+                            <img ng-src="{{ image.artworkUrl }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="item item-custom">
+                    <p>{{ playlist.name }}</p>
+                    <div ng-switch="album.type">
+                        <p ng-switch-when="podcast">-->
+                            {{ "Podcast" | translate }}
+                        </p>
+                        <p ng-switch-default>
+                            {{ playlist.totalTracks }}
+                            <span ng-switch="playlist.totalTracks">
+                                <span ng-switch-when="1">{{ 'track' | translate }}</span>
+                                <span ng-switch-default>{{ 'tracks' | translate }}</span>
+                            </span>
+                            <span ng-if="album.totalTracks !== 0"> - {{ playlist.totalDuration }}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ion-content>
+
+</ion-view>

@@ -1,0 +1,18 @@
+<?php $option = $this->getCurrentOptionValue(); ?>
+<?php $tax = $this->getCurrentTax(); ?>
+
+<li id="tax_row_<?php echo $tax->getId(); ?>" class="tax" rel="<?php echo $tax->getId(); ?>">
+    <p id="tax_name_<?php echo $tax->getId() ?>" class="left title"><?php echo $tax->getName(); ?></p>
+    <div class="right icons" id="tax_icons_<?php echo $tax->getId(); ?>">
+        <a href="javascript:void(0)" id="edit_tax_<?php echo $tax->getId(); ?>" class="icon more edit_tax" rel="<?php echo $tax->getId() ?>">
+            <i class="icon-edit"></i>
+        </a>
+        <a href="javascript:void(0)" id="remove_tax_<?php echo $tax->getId(); ?>" class="icon more remove_tax" rel="<?php echo $tax->getId() ?>">
+            <i class="icon-trash"></i>
+        </a>
+        <div class="clear"></div>
+        <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
+    </div>
+    <div class="clear"></div>
+</li>
+<li id="separator_tax_row_<?php echo $tax->getId(); ?>" class="separator area reverse"></li>

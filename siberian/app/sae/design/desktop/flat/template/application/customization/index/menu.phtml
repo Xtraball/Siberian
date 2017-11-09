@@ -1,0 +1,73 @@
+<?php $level1 = $this->getCurrentMenu(); ?>
+<?php $level2 = $this->getCurrentSubmenu(); ?>
+<?php
+$publication_type = System_Model_Config::getValueFor("system_publication_access_type");
+$publish_type = $this->getAdmin()->getPublicationAccessType() ? $this->getAdmin()->getPublicationAccessType() : $publication_type;
+?>
+<?php
+$has_previewer = Installer_Model_Installer::hasModule("previewer");
+$previewer = null;
+if($has_previewer && method_exists("Previewer_Model_Previewer", "getInstance")) {
+    $previewer = Previewer_Model_Previewer::getInstance();
+}
+?>
+<div class="menu_steps">
+    <ul>
+        <?php if($this->_canAccess("editor_design")) : ?>
+            <div id="step_1" class="step_menu_feature first<?php if($level1 == 'design') : ?> f-bold active<?php endif; ?> color-red-hover step-background sb-tour">
+                <a href="<?php echo $this->getUrl('application/customization_design_style/edit'); ?>">
+                    <li data-image="335" data-style="editor_menu" data-color="background_color<?php if($level1 == 'design') : ?>_on_active<?php endif; ?>">
+                        <?php echo $this->_('Design'); ?>
+                    </li>
+                </a>
+                <i class="fa fa-angle-right"></i>
+            </div>
+        <?php endif; ?>
+        <?php if($this->_canAccess("editor_colors")) : ?>
+            <div id="step_2" class="step_menu_feature <?php if($level1 == 'colors') : ?>f-bold active<?php endif; ?> color-yellow-hover step-background sb-tour">
+                <a href="<?php echo $this->getUrl('application/customization_design_colors/edit'); ?>">
+                    <li data-image="337" data-style="editor_menu" data-color="background_color<?php if($level1 == 'colors') : ?>_on_active<?php endif; ?>">
+                        <?php echo $this->_('Colors'); ?>
+                    </li>
+                </a>
+                <i class="fa fa-angle-right"></i>
+            </div>
+        <?php endif; ?>
+        <?php if($this->_canAccess("editor_features")) : ?>
+            <div id="step_3" class="step_menu_feature <?php if($level1 == 'features') : ?>f-bold active<?php endif; ?> color-blue-hover step-background sb-tour">
+                <a href="<?php echo $this->getUrl('application/customization_features/list'); ?>">
+                    <li data-image="337" data-style="editor_menu" data-color="background_color<?php if($level1 == 'features') : ?>_on_active<?php endif; ?>">
+                        <?php echo $this->_('Features'); ?>
+                    </li>
+                </a>
+                <i class="fa fa-angle-right"></i>
+            </div>
+        <?php endif; ?>
+        <?php if($this->_canAccess("editor_application")) : ?>
+            <div id="step_4" class="step_menu_feature <?php if($level1 == 'publication_app') : ?>f-bold active <?php endif; ?>wl_panel color-purple-hover step-background sb-tour">
+                <a href="<?php echo $this->getUrl('application/customization_publication_app'); ?>">
+                    <li>
+                        <?php echo $this->_('Application'); ?>
+                    </li>
+                </a>
+                <i class="fa fa-angle-right"></i>
+            </div>
+        <?php endif; ?>
+        <?php if($this->_canAccess("editor_publication")) : ?>
+            <div id="step_5" class="step_menu_feature <?php if($level1 == 'publication_infos') : ?>f-bold active <?php endif; ?>wl_panel color-green-hover step-background sb-tour">
+                <a href="<?php echo $this->getUrl('application/customization_publication_infos'); ?>">
+                    <li>
+                        <?php echo $this->_('Publication'); ?>
+                    </li>
+                </a>
+            </div>
+        <?php endif; ?>
+
+    </ul>
+</div>
+
+<?php if($this->_canAccess("editor_publication") AND $level1 == 'publication_infos' AND ($publish_type == 'info' OR !$this->getApplication()->subscriptionIsActive()) AND $this->getApplication()->canBePublished()) : ?>
+    <div id="sb-tour-ready-publish" class="container-fluid subcontent sb-tour">
+        <a class="btn color-red" href="<?php echo $this->getUrl('application/customization/check'); ?>" onclick="reload(this, this.href, true); return false;"><?php echo $this->_('Ready ? Publish my app!'); ?></a>
+    </div>
+<?php endif; ?>

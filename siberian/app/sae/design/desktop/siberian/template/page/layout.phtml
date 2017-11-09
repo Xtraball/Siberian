@@ -1,0 +1,158 @@
+<?php echo $this->doctype() ?>
+<html>
+    <head>
+        <title><?php echo $this->_($this->getTitle()) ?></title>
+        <?php foreach($this->getMetas() as $meta) : ?>
+        <meta <?php echo $meta->getTag() ?>="<?php echo $meta->getKey(); ?>" content="<?php echo $this->_($meta->getContent()); ?>" />
+        <?php endforeach ?>
+        <?php foreach(Core_Model_Language::getLanguages() as $language) : ?>
+        <?php if(Core_Model_Language::getCurrentLanguage() == $language->getCode()) continue;?>
+        <link rel="alternate" href="<?php echo $this->getCurrentUrl(true, $language->getCode()); ?>" hreflang="<?php echo $language->getCode() ?>" />
+        <?php endforeach ?>
+
+        <?php echo $this->headLink() ?>
+        <?php echo $this->headScript() ?>
+
+        <link rel="icon" type="image/png" href="<?php echo $this->getFavicon() ?>" />
+        <script type="text/javascript">var login_urls = {};</script>
+        <?php echo $this->getPartialHtml("css"); ?>
+    </head>
+    <body class="<?php echo $this->default_class_name ?> general">
+
+        <div class="wrapper">
+            <div class="top">
+                <?php echo $this->getPartialHtml('header') ?>
+            </div>
+            <?php echo $this->getPartialHtml('menu'); ?>
+            <?php echo $this->getPartialHtml('messages') ?>
+            <div>
+                <?php if($this->_canAccessWhiteLabelEditor()) : ?>
+                <?php echo $this->getPartialHtml('customization_sidebar') ?>
+                <?php endif; ?>
+                <?php echo $this->getPartialHtml('content') ?>
+            </div>
+
+            <div class="footer">
+                <?php echo $this->getPartialHtml('footer') ?>
+            </div>
+            <div id="up">
+                <a href="javascript:void(0)" class="header active no-background" data-image="341" data-style="header" data-color="background_color"><?php echo __("UP");?></a>
+            </div>
+        </div>
+        <div id="mask" class="mask" style="display:none;">
+            <button id="hide_mask" class="default_button reverse" style="display:none;"><i class="icon-remove"></i></button>
+            <div class="loader"></div>
+        </div>
+        <div id="alert" class="header">
+            <div id="alert_message"></div>
+            <button type="button" class="default_button" id="close_alert_message">OK</button>
+        </div>
+
+        <script type="text/javascript">
+
+            <?php
+                if($this->getApplication()) {
+                    $application = $this->getApplication();
+                    $app_id = $this->getApplication()->getAppId();
+                } else {
+                    $app_id = null;
+                }
+
+                if(!empty($app_id)):
+            ?>
+            (function() {
+                // Creates an app_id ajax param. Yields something like 'app_id=2'
+                var app_id_param = $.param({app_id: '<?php echo $app_id; ?>' });
+
+                // Send the app_id along with every ajax editor request
+                $.ajaxPrefilter(function (options, _, jqXHR) {
+                    if (options.data) {
+                        if(options.url.indexOf("?") > 1) {
+                            options.url += "&" + app_id_param;
+                        } else {
+                            options.url += "?" + app_id_param;
+                        }
+                    } else {
+                        options.data = app_id_param;
+                    }
+                });
+
+                /* If there is a 400 error and the refresh flag is set then refresh the page.  */
+                $.ajaxSetup({
+                    statusCode: {
+                        400: function (err) {
+                            var refresh = JSON.parse(err.responseText).refresh;
+                            // If the refresh flag is set, ie response is like {"refresh": true}
+                            if (refresh) {
+                                // alert the user and refresh the page
+                                alert("<?php echo __js("You cannot have multiple sessions to manage apps, so the session for this app is closed. This page is about to be reloaded.") ?>");
+                                window.location.reload();
+                            }
+                        }
+                    }
+                });
+
+                /*  Send an empty ajax request at a 12seconds interval in order to verify application session consitency,
+                 *  i.e. verify the user did not open another application in a new tab.
+                 *  If they did then alert the user and refresh the page.
+                 */
+                <?php if(!Siberian_Debug::$render): /** Do not call when in debug mode, log pollution */ ?>
+                setInterval(function () {
+                    $.ajax({
+                        "url":"/application/security/check"
+                    })
+                }, 12000);
+                <?php endif; ?>
+
+            }());
+            <?php endif; ?>
+
+            $(document).ready(function() {
+
+                loader.init();
+
+                $('#change_language').change(function() {
+                    $('#loader').show();
+                    window.location = $(this).val();
+                });
+
+                $("input, textarea").placeholder();
+                $("select").each(function() {
+                    var select = $(this);
+                    if(select.hasClass("no-dk")) return;
+                    if(select.hasClass("select_country")) return;
+                    select.dropkick({
+                        change: function() {
+                            select.change();
+                        }
+                    });
+                });
+                $(document).scroll(function() {
+                    if($(document).scrollTop() > 60) {
+                        if(!$('#up').is(':visible')) $('#up').stop().fadeIn();
+                    }
+                    else if($('#up').is(':visible')) $('#up').stop().fadeOut();
+                });
+                $('#up').children('a').click(function() {
+                    $('html').animate({scrollTop:0}, 'slow');
+                    return false;
+                });
+            });
+
+            function featureNotAvailable() {
+                new AlertMessage('<?php echo addslashes($this->_('Please create the API keys to enable this feature.')); ?>', true)
+                    .isError(true)
+                    .show()
+                ;
+            }
+        </script>
+        <?php if(!$this->getRequest()->isWhiteLabelEditor()) : ?>
+        <?php echo System_Model_Config::getValueFor("support_chat_code") ?>
+        <?php endif; ?>
+
+        <script type="text/javascript">
+            var version = "<?php echo Siberian_Version::VERSION ?>";
+        </script>
+        <script type="text/javascript" src="/app/sae/design/desktop/siberian/js/preloader.js"></script>
+    </body>
+</html>

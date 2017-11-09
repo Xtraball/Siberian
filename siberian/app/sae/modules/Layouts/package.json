@@ -1,0 +1,12 @@
+{
+  "name": "Layouts",
+  "description": "Core siberian Layouts",
+  "type": "module",
+  "version": "4.8.9",
+  "dependencies": {
+    "system": {
+      "type": "SAE",
+      "version": "4.8.6"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+<?php $option = $this->getOptionValue(); ?>
+<?php $is_disabled = !$this->_canAccess("feature_".$option->getCode(), $option->getValueId()); ?>
+<?php if(!$is_disabled) : ?>
+<li id="option_value_<?php echo $option->getId(); ?>"
+    class="search_carousel_li color-blue-hover option_value content-white-bkg <?php if($this->getIsSortable()) : ?> sortable<?php endif; ?>"
+    rel="<?php echo $option->getFolderCategoryId(); ?>"
+    data-search="<?php echo __js(strtolower($option->getName() . ' ' . $option->getTabbarName() . ' ' . $option->getCode()), '"'); ?>"
+    data-value-id="<?php echo $option->getId(); ?>"
+    data-pos="<?php echo $option->getPosition(); ?>"
+    style="width:98px;float:left<?php if($this->getIsHidden() OR $option->getFolderCategoryId()) : ?>;display:none<?php endif;?>"
+    <?php if($option->getFolderId()) : ?>data-folder-id="<?php echo $option->getFolderId(); ?>"<?php endif; ?>>
+    <a href="<?php echo $option->getUrl('edit', array('option_value_id' => $option->getValueId())); ?>" onclick="page.load(this);return false;" class="capitalize details <?php echo $option->getCode() ?><?php if($option->getIsAjax()) : ?> is_ajax<?php endif; ?>" rel="<?php echo $option->getId(); ?>" pos="<?php echo $option->getPosition(); ?>">
+        <?php $icon_id_url = $option->getIconId() ? $option->getIconId() : $this->getIconUrl($option); ?>
+        <img id="icon_<?php echo $option->getId(); ?>" src="<?php echo $this->getColorizedImage($icon_id_url,"#0099C7"); ?>" alt="<?php echo $option->getName(); ?>" title="<?php echo $option->getName(); ?>" width="auto" height="42" class="block img_icon" data-style="color-blue" data-color="background_color" />
+        <span rel="<?php echo $option->getTabbarName(); ?>" id="tabbar_name_<?php echo $option->getId(); ?>"><?php echo cut($option->getTabbarName(), 12) ?></span>
+        <p class="feature_name">(<?php echo $option->getName(); ?>)</p>
+    </a>
+
+    <?php if($this->getIsSortable() AND !$is_disabled) : ?>
+    <i class="fa fa-caret-up" style="display: none;"></i>
+    <div class="actions" style="display: none;">
+        <a class="move_page pull-left" href="javascript:void(0)" style="margin-top: 1px;"><i class="fa fa-sort"></i></a>
+        <a class="delete_page pull-right" href="javascript:void(0)">
+            <i class="fa fa-remove"></i>
+        </a>
+        <input type="hidden" name="value_id" value="<?php echo $option->getValueId(); ?>" />
+        <?php if($option->getFolderCategoryId()) : ?>
+            <input type="hidden" name="category_id" value="<?php echo $option->getFolderCategoryId(); ?>" />
+        <?php endif; ?>
+    </div>
+    <?php endif; ?>
+    <script type="text/javascript">
+        tabbar_names['<?php echo $option->getId(); ?>'] = '<?php echo addslashes($option->getTabbarName()); ?>';
+    </script>
+</li>
+<?php endif; ?>

@@ -1,0 +1,117 @@
+<?php $application = $this->getApplication(); ?>
+<div class="application_settings application">
+    <div class="application_header app_name">
+        <?php echo $this->getPartialHtml('customization_header'); ?>
+    </div>
+    <div class="application_content inner_content">
+        <div class="title">
+            <i class="left icon-info"></i>
+            <h2 class="left inner_content f-rounded"><?php echo $this->_('Settings'); ?></h2>
+            <div class="clear"></div>
+            <hr />
+        </div>
+        <div class="area">
+            <h3 class="title">
+                <span class="left area"><?php echo $this->_('Mobile website information'); ?></span>
+                <hr />
+                <div class="clear"></div>
+            </h3>
+            <div class="area_content">
+                <form id="urlForm" action="<?php echo $this->getUrl('application/settings_domain/save'); ?>" onsubmit="return false" class="form-horizontal">
+                    <div class="container-fluid">
+                        <div class="form-group">
+                           <div class="col-sm-2">
+                               <label for="domain" class="control-label"><?php echo $this->_('Domain name'); ?> : </label>
+                           </div>
+                            <div class="col-sm-5">
+                                <input type="text" id="domain" name="domain" class="save_url input form-control required domain_500_width" value="<?php echo $application->getDomain() ? $application->getDomain() : $application->getUrl() ?>" />
+                            </div>
+                        </div>
+                        <div id="config_cname" class="form-group row_config_cname"<?php if(!$application->getDomain()) : ?> style="display:none;"<?php endif; ?>>
+                            <div class="col-sm-3">
+                                <label><?php echo $this->_('Checking CNAME configuration:'); ?></label>
+                            </div>
+                            <div id="loader_config_cname" class="col-sm-1" style="display:none;">
+                                <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" alt="Loading" title="Loading" width="24" />
+                            </div>
+                            <div class="col-sm-9">
+                                <span id="error_config_cname" class="result_config_cname text-danger" style="display:none"><i class="icon-remove"></i><?php echo $this->_('Your CNAME is not properly set'); ?></span>
+                                <span id="success_config_cname" class="result_config_cname" style="display:none"><i class="icon-ok"></i><?php echo $this->_('Your CNAME is properly set'); ?></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <button type="submit" class="btn default_button"><?php echo $this->_("Save"); ?></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    <script type="text/javascript">
+
+        $('#urlForm').submit(function() {
+            // add a warning when changing app URL KEY and Domain
+            var confirmation = confirm("<?php echo $this->_("If your app is already published, changing the URL key will break it. You will have to republish it. Chnage anyway?")?>");
+            if (confirmation) {
+                reload($('#urlForm'), $('#urlForm').attr('action'), true, function(data) {
+                    if(data.success) {
+                        $('#domain').val(data.application_url);
+                        if(data.show_cname_state) {
+                            $("#config_cname").show();
+                            $("#success_config_cname").fadeIn();
+                        } else {
+                            $("#config_cname").hide();
+                            $("#result_config_cname").hide();
+                        }
+                    }
+                }, function() {
+                    $("#config_cname").hide();
+                    $("#result_config_cname").hide();
+                });
+            }
+
+            return false;
+        });
+
+        <?php if($application->getDomain()) : ?>
+        checkCname();
+        <?php endif; ?>
+
+        function checkCname() {
+
+            var cname_loader = $('#loader_config_cname');
+            $('.result_config_cname').hide();
+            cname_loader.show();
+            reload($('#error_config_cname'), '<?php echo $this->getUrl('application/settings_domain/checkcname'); ?>', false, function(datas) {
+                cname_loader.hide();
+                if(datas.code != 'undefined') {
+                    if(datas.code == 0) $('#success_config_cname').fadeIn();
+                    else if(datas.code == 1) $('#error_config_cname').fadeIn();
+                }
+
+            }, function() {
+                cname_loader.hide();
+            });
+
+        }
+
+    </script>
+<style>
+    #create_application table tr th { padding: 10px; border-bottom: 1px solid; font-weight:bold; font-size: 20px; text-transform: uppercase; }
+    #create_application table tr td { padding: 10px; }
+    #urlForm .row_config_cname {padding-top: 5px;}
+    /*#urlForm .row_config_cname span.delete {
+        width: 540px;
+        padding: 10px;
+        border-radius: 7px;
+        font-size: 16px;
+        transition: none;
+        display: none;
+    }*/
+    #urlForm .row_config_cname span i {margin-right: 10px;font-size: 18px;}
+    #urlForm a#configure_cname:focus {outline: 0;}
+    #urlForm .row_config_cname span i.icon-info-sign {margin-left: 10px;}
+</style>

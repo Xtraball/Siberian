@@ -1,0 +1,163 @@
+<?php $option = $this->getOptionValue(); ?>
+<?php $application = $this->getApplication(); ?>
+<?php $mcommerce = $option->getObject(); ?>
+<?php $stores = $mcommerce->getStores(); ?>
+<div id="mcommerce" class="form_content mcommerce">
+    <div id="list" class="edit_page mcommerce">
+        <div>
+            <div id="mcomerce_tabs">
+                <div id="mcomerce_tabs_header" <?php if($stores->count() == 0) : ?> style="display:none;"<?php endif; ?> class="subcontent">
+                    <div class="btn-group btn-group-justified" role="group">
+                        <div class="btn-group" role="group">
+                            <a role="button" id="first_link" class="show_tab btn color-blue" rel="store"><?php echo $this->_('Stores'); ?></a>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <a role="button" class="btn color-blue dropdown-toggle" data-toggle="dropdown">
+                                <?php echo $this->_('Catalog'); ?>
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu color-blue">
+                                <li><a href="#" rel="categories" class="show_tab" onClick="$(this).parents('.btn-group').removeClass('open')"><?php echo $this->_('My categories'); ?></a></li>
+                                <li><a href="#" rel="products" class="show_tab" onClick="$(this).parents('.btn-group').removeClass('open')"><?php echo $this->_('My products'); ?></a></li>
+                            </ul>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <a role="button" class="show_tab btn color-blue" rel="orders"><?php echo $this->_('Orders'); ?></a>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <a role="button" class="show_tab btn color-blue" rel="settings"><?php echo $this->_('Settings'); ?></a>
+                        </div>
+                    </div>
+                </div>
+                <div id="mcomerce_tabs_content" class="tabs_content"></div>
+            </div>
+
+            <?php echo $this->importBackground($option); ?>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        bindForms('#list');
+    });
+
+    page.setCallback('didappear', function() {
+
+        $('#toggle_existing_stores').click(function() {
+            $('#existing_stores').stop().slideToggle(300, function() {
+                if($(this).is(':visible')) $('#toggle_existing_stores').children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+                else $('#toggle_existing_stores').children('i').removeClass('fa-angle-up').addClass('fa-angle-down')
+            });
+        });
+
+        $('.has_submenus').hover(function() {
+            $(this).children('ul.submenu').slideDown(200);
+        }, function() {
+            $(this).children('ul.submenu').stop().slideUp(200);
+        });
+
+        tabs.processEvents();
+
+        $('#first_link').click();
+
+    });
+
+    page.setCallback('willdisappear', function() {
+        $('#mcommerceForm').unbind('submit');
+        $('#toggle_existing_stores').unbind('click');
+        $('.has_submenus').unbind('mouseenter mouseleave');
+        tabs.destroy();
+    });
+
+    var tabs = {
+        objects: [],
+        processEvents: function() {
+            $('.show_tab').click(function(e) {
+
+                if($(e.target).hasClass('active')) return false;
+
+                if(!$(e.target).children('input').length) {
+                    $('<input />').attr('type', 'hidden').attr('name', 'option_value_id').val('<?php echo $option->getId(); ?>').appendTo($(e.target));
+                    $('<input />').attr('type', 'hidden').attr('name', 'tab_id').val($(e.target).attr('rel')).appendTo($(e.target));
+                }
+
+                this.load($(e.target));
+
+                return false;
+
+            }.bind(this));
+
+        },
+        load: function(a) {
+
+            var id = a.attr('rel');
+            if(!$('#tab_'+id).length) {
+                reload(a, '<?php echo $this->getUrl('mcommerce/application/loadtab'); ?>', true, function(datas) {
+                    if(datas.tab_html) {
+                        var div = $('<div />').attr('id', 'tab_'+id).addClass('tab_content').attr('rel', id).css('display', 'none');
+                        div.append(datas.tab_html);
+                        $('#mcomerce_tabs_content').append(div);
+                        this.getObject(id).processEvents();
+                        this.show(id);
+                    }
+                }.bind(this));
+            }
+            else {
+                this.show(id);
+            }
+
+        },
+
+        reload: function() {
+            var a = $('.show_tab.active');
+            var id = a.attr('rel');
+            if(a.length) {
+                this.getObject(id).destroy();
+                $('#tab_'+id).remove();
+                this.load(a);
+            }
+        },
+        show: function(id) {
+            $('#mcomerce_tabs_content').children('div.tab_content').each(function() {
+                if($(this).attr('rel') != id) $(this).hide();
+                else $(this).fadeIn();
+            });
+
+            $('.show_tab').each(function() {
+                if($(this).attr('rel') == id) $(this).addClass('active');
+                else $(this).removeClass('active');
+            });
+
+        },
+        destroy: function() {
+            $('.show_tab').unbind('click');
+            for(var id in this.getObjects()) {
+                this.getObject(id).destroy();
+            }
+        },
+        addObject: function(id, object) {
+            this.objects[id] = object;
+            return this;
+        },
+        getObject: function(id) {
+            return this.objects[id];
+        },
+        getObjects: function() {
+            return this.objects;
+        }
+    }
+
+</script>
+<style>
+    #mcomerce_tabs_header{padding:0 10px 10px 10px}
+    .btn:active, .btn.active {
+        background-image: none;
+        outline: 0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+    .dropdown-menu > li > a:nth-last-child(1) {
+        width: 100%;
+    }
+</style>

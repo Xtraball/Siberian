@@ -1,0 +1,105 @@
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="'<?php echo $this->_("My Cart"); ?>'" message="message" right-button="header_right_button"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="scrollable_content mcommerce cart" ng-if="cart">
+        <div id="cart_content" rel="cart">
+            <div class="scroll">
+                <div class="padding">
+                    <div class="title">
+                        <h2><?php echo $this->_('My Cart'); ?></h2>
+                        <hr class="background reverse" />
+                    </div>
+                    <div ng-if="cart.lines.length === 0">
+                        <a>
+                            <?php echo $this->_('My cart is empty'); ?></a>
+                    </div>
+                    <div ng-if="cart.lines.length !== 0" id="cart_lines" class="cart_lines">
+                        <div>
+                            <div class="cart_line slide-left" ng-repeat="line in cart.lines" ng-class="{first: $first}">
+                                <div class="picture">
+                                    <img ng-if="line.product.picture.url" class="product-picture" ng-src="{{ line.product.picture.url }}" />
+                                    <img ng-if="!line.product.picture.url" class="product-picture" ng-src="{{ pictos.shopping_cart }}" />
+                                </div>
+                                <div class="details">
+                                    <p class="product-name">{{ line.name }} - {{ line.formattedBasePriceInclTax }}</p>
+                                    <div class="remove_line right">
+                                        <a ng-click="removeLine(line)" class="remove picto">
+                                            <img ng-src="{{ pictos.trash }}" />
+                                        </a>
+                                    </div>
+                                    <div class="scale-fade product-options">
+                                        <p class="product_details" ng-show="line.format[0].title && line.format[0].title != ''"><strong><?php echo $this->_("Format:"); ?> {{ line.format[0].title }}</strong></p>
+                                        <p ng-repeat="option in line.options" class="product-option-details">
+                                            {{ option.qty }} x {{ option.name }} : {{ option.formattedPriceInclTax }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                                <div>
+                                    <p class="product-details">
+                                        <sb-input-number value="{{ line.qty }}" min="1" step="1" change-qty="changeQuantity(qty,params)" params="{line:line,size:25,align:'left'}" line-height="31px"></sb-input-number>
+                                    </p>
+                                    <div class="total_line_cart right" ng-if="line.formattedTotalInclTax">
+                                        <strong><?php echo $this->_('Total'); ?>:</strong> {{ line.formattedTotalInclTax }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+
+                        <div>
+                            <div class="title">
+                                <h2 class="title"><?php echo $this->_('Total'); ?></h2>
+                                <hr class="background reverse" />
+                            </div>
+
+                            <table class="no-collapse right a-right" width="75%" cellspacing="10">
+                                <tr class="cart_totals">
+                                    <th class="align-left">
+                                        <?php echo $this->_('Subtotal'); ?></th>
+                                    <td class="align-right">{{ cart.formattedSubtotalExclTax }}</td>
+                                </tr>
+                                <tr class="cart_totals" ng-if="cart.deliveryCost > 0">
+                                    <th class="align-left">
+                                        <?php echo $this->_('Delivery fees'); ?></th>
+                                    <td class="align-right">{{ cart.formattedDeliveryCost }}</td>
+                                </tr>
+                                <tr class="cart_totals" ng-if="cart.deliveryCost > 0">
+                                    <th class="align-left">
+                                        <?php echo $this->_('Total Excl. Tax'); ?></th>
+                                    <td class="align-right">{{ cart.formattedTotalExclTax }}</td>
+                                </tr>
+                                <tr class="cart_totals">
+                                    <th class="align-left">
+                                        <?php echo $this->_('Tax'); ?></th>
+                                    <td class="align-right">{{ cart.formattedTotalTax }}</td>
+                                </tr>
+                                <tr class="cart_totals">
+                                    <th class="align-left">
+                                        <?php echo $this->_('Total'); ?></th>
+                                    <td class="align-right">{{ cart.formattedTotal }}</td>
+                                </tr>
+                            </table>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="cart_continue_shopping">
+                        <div class="title">
+                            <hr class="background reverse" />
+                        </div>
+                        <div>
+                            <a ng-click="goToCategories()">
+                                <?php echo $this->_('Continue shopping'); ?></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

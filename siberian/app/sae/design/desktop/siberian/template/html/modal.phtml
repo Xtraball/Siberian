@@ -1,0 +1,24 @@
+<div id="modal_#{id}" class="custom_modal" style="display:none;">
+    <div id="modal_mask_#{id}" class="modal_mask close_modal close_modal_#{id}"></div>
+
+    <div class="area no-background">
+        <div id="modal_content_#{id}" class="modal_content inner_content">
+            <h3 class="title">
+                <span class="f-bold"><?php echo $this->getTitle(); ?></span>
+                <hr />
+                <span class="right">
+                    <button id="close_modal_#{id}" class="inner_content close_modal close_modal_#{id}" type="button">
+                        <i class="icon-remove"></i>
+                    </button>
+                </span>
+                <div class="clear"></div>
+            </h3>
+
+            <p class="f-bold"><?php echo $this->getSubtitle(); ?></p>
+
+            <div id="modal_details_#{id}" class="modal_details">
+            <?php echo $this->getPartialHtml('modal_content'); ?>
+            </div>
+        </div>
+    </div>
+</div>

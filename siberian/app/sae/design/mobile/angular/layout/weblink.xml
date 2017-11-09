@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <weblink_mobile_multi_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="weblink/multi/l1/view.phtml" />
+        </views>
+    </weblink_mobile_multi_template_l1>
+
+</layout>

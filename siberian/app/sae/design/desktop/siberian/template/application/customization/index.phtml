@@ -1,0 +1,143 @@
+<div class="customization application">
+    <div class="application_header app_name">
+        <?php echo $this->getPartialHtml('customization_header'); ?>
+    </div>
+    <div class="application_content customization_content inner_content">
+        <div class="title">
+            <i class="left icon-cogs"></i>
+            <h2 class="left f-rounded"><?php echo $this->_('Editor'); ?></h2>
+            <div class="clear"></div>
+        </div>
+        <div>
+            <?php echo $this->getPartialHtml('customization_menu'); ?>
+        </div>
+
+        <div id="customization_content_left" class="content_left">
+            <div>
+                <?php if($html = $this->getPartialHtml('content_editor')) : ?>
+                <?php echo $html; ?>
+                <?php endif; ?>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div id="overview" class="content_right">
+            <?php echo $this->getPartialHtml('overview'); ?>
+        </div>
+        <div class="clear"></div>
+
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    var iframe = {
+        isHomepage: function() {
+            return this.object.attr('src') == this.f.window.location.href;
+        },
+        setHomepageImage: function(img) {
+            var logo = iframe.content.find('#homepage_background_image_link');
+            if(img != false) {
+                logo.attr('src', img);
+                logo.show();
+            } else {
+                logo.hide();
+            }
+        },
+        setBackgroundImage: function(url) {
+            this.content.find('style#background_image').replaceWith('<style id="background_image">'+'.background_image {background: url(%url);}'.replace('%url', url)+'</style>');
+        },
+
+        setFont: function(fontName) {
+            <?php if($this->getApplication()->useIonicDesign()) : ?>
+            if(!this.content.find('style#font').length) {
+                this.content.find('head').append('<style id="font"></style>');
+            }
+            this.content.find('style#font').replaceWith('<style id="font">'+' h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, div, p, span, a, * {font-family: %ff;}'.replace('%ff', fontName)+'</style>');
+            <?php else : ?>
+            this.content.find('style#font').replaceWith('<style id="font">'+'#wrapper * {font-family: %ff;}'.replace('%ff', fontName)+'</style>');
+            <?php endif; ?>
+        },
+
+        setColor: function(to, color) {
+            this.content.find('style#color_'+to).replaceWith('<style id="color_'+to+'">.wrapper .'+to+', .wrapper .'+to+' *, .wrapper .'+to+', .wrapper a .'+to+', .wrapper a.'+to+' {color: '+color+' !important;}</style>');
+        },
+        setBackgroundColor: function(to, color) {
+            this.content.find('style#backgroundColor_'+to).replaceWith('<style id="backgroundColor_'+to+'">.wrapper .'+to+' {background-color: '+color+' !important;}</style>');
+        },
+
+        setTabbarColor: function(rgb) {
+            iframe.content.find('canvas').remove();
+            iframe.content.find('#tabbar').find('img').each(function() {
+                var newcanvas = $(this).colorize(rgb, true);
+                if(newcanvas) {
+                    $(newcanvas).insertBefore($(this));
+                    $(this).hide();
+                }
+            });
+        },
+
+        reload: function() {
+            var url = this.object.attr("src");
+            this.object.attr("src", null);
+            setTimeout(function() {
+                this.object.attr("src", url);
+                this.load();
+            }.bind(this), 1000);
+        },
+
+        load: function() {
+            var mask_overview = $('<div />').attr('id', 'mask_overview').addClass('mask');
+            mask_overview.appendTo($('body'));
+            $('#mobile_overview').load(function() {
+
+                iframe.object = $('#mobile_overview');
+                iframe.content = iframe.object.contents();
+                iframe.f = iframe.object.get(0).contentWindow;
+                iframe.content.find("body").addClass("iOS7");
+
+                mask_overview.remove();
+
+                if(typeof this.iframeIsLoaded == 'function') this.iframeIsLoaded();
+            }.bind(this));
+        }
+    };
+
+    if($('#mobile_overview').attr('id')) {
+        iframe.load();
+    }
+
+    var originY;
+    var maxY;
+
+    $(document).ready(function() {
+        if($('#iphone').attr('id')) {
+            $('#iphone').scroller({
+                leader: $('#customization_content_left')
+            });
+        }
+    });
+
+//    customizator.init();
+
+    <?php if(Installer_Model_Installer::hasModule("previewer")) : ?>
+    var modal_previewer = new Modal({id: 'app_previewer', url: '<?php echo $this->getUrl('application/previewer/modal'); ?>', is_retain: false, width: 850, height: 'auto'});
+    $('#previewer').click(function() {
+        modal_previewer.show();
+    });
+    <?php endif; ?>
+
+</script>
+
+<style>
+    #previewer{
+        width: 250px;
+        height: 35px;
+        padding: 10px;
+        padding-top: 10px;
+        margin-top: 10px;
+        margin-right: 80px;
+    }
+</style>

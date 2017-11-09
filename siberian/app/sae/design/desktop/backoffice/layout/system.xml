@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <system_backoffice_config_general_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="system/config/general.phtml" />
+        </views>
+    </system_backoffice_config_general_template>
+
+    <system_backoffice_config_email_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="system/config/email.phtml" />
+        </views>
+    </system_backoffice_config_email_template>
+
+    <system_backoffice_config_design_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="system/config/design.phtml" />
+        </views>
+    </system_backoffice_config_design_template>
+
+</layout>

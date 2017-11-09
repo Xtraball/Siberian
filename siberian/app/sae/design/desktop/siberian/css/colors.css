@@ -1,0 +1,173 @@
+/** DEFAULT **/
+.toggle .toggle-radio { background-image: url("/app/sae/design/desktop/siberian/images/flat/toggle/icon-on.png"); }
+.toggle.toggle-off .toggle-radio { background-image: url("/app/sae/design/desktop/siberian/images/flat/toggle/icon-off.png"); }
+
+.checkbox .icon, .general .checkbox .icon-to-fade { background-image: url("/app/sae/design/desktop/siberian/images/flat/checkbox.png"); }
+.radio .icon, .general .radio .icon-to-fade { background-image: url("/app/sae/design/desktop/siberian/images/flat/checkbox.png"); }
+
+#up a { background-image: url(/app/sae/design/desktop/siberian/images/footer/up.png); }
+/** DEFAULT **/
+
+
+/** GENERAL **/
+.general { color: #12A7FF; background-color: #FFFFFF; }
+.general .reverse, .general.reverse { color: #FFFFFF; background-color: #12A7FF; }
+.general .input, .general.input { color: #FFFFFF;  background-color: #12A7FF; border-color: #12A7FF; transition: all 0.25s ease 0s; }
+.general.no-background { background-color: transparent; }
+.general.active:after { border-left-color: #FFFFFF; }
+.general.active:hover:after { border-left-color: #FFFFFF; }
+
+/** HEADER **/
+.header { color: #FFFFFF !important; background-color: #404040 !important; }
+.header .reverse, .header.reverse { color: #404040 !important; background-color: #FFFFFF !important; }
+.header .input, .header.input { color: #404040 !important; background-color: #FFFFFF !important; border-color: #FFFFFF !important; transition: all 0.25s ease 0s; }
+.header.no-background { background-color: transparent !important; }
+
+.header.hover, .header .hover, .header:hover { color: #FFFFFF !important; background-color: #404040 !important; }
+.header.hover .reverse, .header.hover.reverse, .header.reverse:hover { color: #404040 !important; background-color: #FFFFFF !important; }
+.header.hover .reverse.no-background, .header.hover.reverse.no-background, .header.reverse.no-background:hover { background-color: transparent !important; }
+.header.hover.no-background, .header .hover.no-background, .header.no-background:hover { background-color: transparent !important; }
+
+.header.active, .header .active, .header:active { color: #FFFFFF !important; background-color: #404040 !important; }
+.header.active .reverse, .header.active.reverse, .header .reverse:active, .header.reverse:active { color: #404040 !important; background-color: #FFFFFF !important; }
+.header.active .reverse.no-background, .header.active.reverse.no-background { background-color: transparent !important; }
+.header.active.no-background, .header .active.no-background, .header.no-background:active { background-color: transparent !important; }
+.header.active:hover:after { border-left-color: #404040 !important; }
+.header.active:after { border-left-color: #404040 !important; }
+
+/** APP NAME **/
+.app_name { color: #FFFFFF !important; background-color: #4DBDFF !important; }
+.app_name .reverse, .app_name.reverse { color: #4DBDFF !important; background-color: #FFFFFF !important; }
+.app_name .input, .app_name.input { color: #4DBDFF !important; background-color: #FFFFFF !important; border-color: #FFFFFF !important; transition: all 0.25s ease 0s; }
+
+.app_name.active:after { border-left-color: #4DBDFF !important; }
+.app_name.active:hover:after { border-left-color: #4DBDFF !important; }
+
+.app_name.no-background { background-color: transparent !important; }
+
+
+/** INNER CONTENT **/
+.inner_content { color: #404040 !important; background-color: #FFFFFF !important; }
+.inner_content .reverse, .inner_content.reverse { color: #FFFFFF !important; background-color: #404040 !important; }
+.inner_content .input, .inner_content.input { color: #404040 !important; background-color: #FFFFFF !important; border-color: #404040 !important; transition: all 0.25s ease 0s; }
+
+.inner_content.active:after { border-left-color: #FFFFFF !important; }
+.inner_content.active:hover:after { border-left-color: #FFFFFF !important; }
+
+.inner_content.no-background { background-color: transparent !important; }
+
+
+/** EDITOR MENU **/
+.customization .menu ul li { background-image: url(/app/sae/design/desktop/siberian/images/customization/menu/step_inactive.png); }
+.customization .menu ul li.active { background-image: url(/app/sae/design/desktop/siberian/images/customization/menu/step_active.png); }
+.customization .menu ul li.first { background-image: url(/app/sae/design/desktop/siberian/images/customization/menu/firststep_inactive.png); }
+.customization .menu ul li.first.active { background-image: url(/app/sae/design/desktop/siberian/images/customization/menu/firststep_active.png); }
+
+
+.editor_menu { color: #FFFFFF !important; background-color: #4DBDFF !important; }
+.editor_menu .reverse, .editor_menu.reverse { color: #4DBDFF !important; background-color: #FFFFFF !important; }
+.editor_menu .input, .editor_menu.input { color: #4DBDFF !important; background-color: #FFFFFF !important; border-color: #FFFFFF !important; transition: all 0.25s ease 0s; }
+
+
+.editor_menu.active:after { border-left-color: #4DBDFF !important; }
+.editor_menu.active:hover:after { border-left-color: #4DBDFF !important; }
+
+.editor_menu.hover, .editor_menu .hover, .editor_menu:hover { color: #FFFFFF !important; background-color: #12A7FF !important; }
+.editor_menu.hover .reverse, .editor_menu.hover.reverse, .editor_menu.reverse:hover { color: #12A7FF !important; background-color: #FFFFFF !important; }
+
+.editor_menu.active, .editor_menu .active, .editor_menu:active { color: #FFFFFF !important; background-color: #12A7FF !important; }
+
+.editor_menu.active .reverse, .editor_menu.active.reverse, .editor_menu .reverse:active, .editor_menu.reverse:active { color: #12A7FF !important; background-color: #FFFFFF !important; }
+
+.editor_menu.no-background { background-color: transparent !important; }
+.editor_menu.active.no-background, .editor_menu .active.no-background, .editor_menu.no-background:active { background-color: transparent !important; }
+.editor_menu.active .reverse.no-background, .editor_menu.active.reverse.no-background { background-color: transparent !important; }
+.editor_menu.hover .reverse.no-background, .editor_menu.hover.reverse.no-background, .editor_menu.reverse.no-background:hover { background-color: transparent !important; }
+.editor_menu.hover.no-background, .editor_menu .hover.no-background, .editor_menu.no-background:hover { background-color: transparent !important; }
+
+
+/** AREA **/
+.area { color: #FFFFFF !important; background-color: #4DBDFF !important; }
+.area .reverse, .area.reverse { color: #4DBDFF !important; background-color: #FFFFFF !important; }
+.area .input, .area.input { color: #4DBDFF !important; background-color: #FFFFFF !important; border-color: #4DBDFF !important; transition: all 0.25s ease 0s; }
+
+.area.active:after { border-left-color: #4DBDFF !important; }
+.area.active:hover:after { border-left-color: #4DBDFF !important; }
+
+.area.no-background { background-color: transparent !important; }
+
+
+/** DEFAULT BUTTON **/
+.default_button { color: #FFFFFF !important; background-color: #4DBDFF !important; }
+.default_button .reverse, .default_button.reverse { color: #4DBDFF !important; background-color: #FFFFFF !important; }
+.default_button .input, .default_button.input { color: #4DBDFF !important; background-color: #FFFFFF !important; border-color: #FFFFFF !important; transition: all 0.25s ease 0s; }
+
+.default_button.active:after { border-left-color: #4DBDFF !important; }
+.default_button.active:hover:after { border-left-color: #4DBDFF !important; }
+
+.default_button.hover, .default_button .hover, .default_button:hover { color: #4DBDFF !important; background-color: #FFFFFF !important; }
+.default_button.hover .reverse, .default_button.hover.reverse, .default_button.reverse:hover { color: #FFFFFF !important; background-color: #4DBDFF !important; }
+
+.default_button.active, .default_button .active, .default_button:active { color: #404040 !important; background-color: #4DBDFF !important; }
+.default_button.active .reverse, .default_button.active.reverse, .default_button .reverse:active, .default_button.reverse:active { color: #4DBDFF !important; background-color: #404040 !important; }
+
+.default_button { border: 1px solid #FFFFFF; }
+.default_button.reverse, .default_button .reverse { border: 1px solid #4DBDFF; }
+
+.default_button.no-background { background-color: transparent !important; }
+.default_button.hover .reverse.no-background, .default_button.hover.reverse.no-background, .default_button.reverse.no-background:hover { background-color: transparent !important; }
+.default_button.hover.no-background, .default_button .hover.no-background, .default_button.no-background:hover { background-color: transparent !important; }
+.default_button.active.no-background, .default_button .active.no-background, .default_button.no-background:active { background-color: transparent !important; }
+.default_button.active .reverse.no-background, .default_button.active.reverse.no-background { background-color: transparent !important; }
+
+
+
+/** DELETE **/
+.delete { color: #FB5384 !important; background-color: #FFFFFF !important; }
+.delete .reverse, .delete.reverse { color: #FFFFFF !important; background-color: #FB5384 !important; }
+.delete .input, .delete.input { color: #FFFFFF !important; background-color: #FB5384 !important; border-color: #FB5384 !important; transition: all 0.25s ease 0s; }
+
+.delete.active:after { border-left-color: #FFFFFF !important; }
+.delete.active:hover:after { border-left-color: #FFFFFF !important; }
+
+.delete.hover, .delete .hover, .delete:hover { color: #FFFFFF !important; background-color: #FB5384 !important; }
+.delete.hover .reverse, .delete.hover.reverse, .delete.reverse:hover { color: #FB5384 !important; background-color: #FFFFFF !important; }
+
+
+.delete.active, .delete .active, .delete:active { color: #404040 !important; background-color: #FB5384 !important; }
+.delete.active .reverse, .delete.active.reverse, .delete .reverse:active, .delete.reverse:active { color: #FB5384 !important; background-color: #404040 !important; }
+
+.delete { border: 1px solid #FB5384; }
+
+.delete.no-background { background-color: transparent !important; }
+.delete.hover .reverse.no-background, .delete.hover.reverse.no-background, .delete.reverse.no-background:hover { background-color: transparent !important; }
+.delete.hover.no-background, .delete .hover.no-background, .delete.no-background:hover { background-color: transparent !important; }
+.delete.active .reverse.no-background, .delete.active.reverse.no-background { background-color: transparent !important; }
+.delete.active.no-background, .delete .active.no-background, .delete.no-background:active { background-color: transparent !important; }
+
+
+
+/** SELECT **/
+.select-icon { background-image: url(/app/sae/design/desktop/siberian/images/flat/select/grey_toggle.png); border-left-color: #404040; }
+.select:hover .select-icon { background-image: url(/app/sae/design/desktop/siberian/images/flat/select/toggle_active.png); border-left-color: #FFFFFF; }
+.select:active .select-icon { background-image: url(/app/sae/design/desktop/siberian/images/flat/select/toggle.png); border-left-color: #404040; }
+.dk_open .dk_options { background-image: url(/app/sae/design/desktop/siberian/images/flat/select/arrow_up.png); }
+
+.select { color: #404040 !important; background-color: #FFFFFF !important; }
+.select .reverse, .select.reverse { color: #FFFFFF !important; background-color: #404040 !important; }
+.select .input, .select.input { color: #FFFFFF !important; background-color: #404040 !important; border-color: #404040 !important; transition: all 0.25s ease 0s; }
+
+.select.active:after { border-left-color: #FFFFFF !important; }
+.select.active:hover:after { border-left-color: #FFFFFF !important; }
+
+.select.hover, .select .hover, .select:hover { color: #FFFFFF !important; background-color: #404040 !important; }
+.select.hover .reverse, .select.hover.reverse, .select.reverse:hover { color: #404040 !important; background-color: #FFFFFF !important; }
+
+.select.active, .select .active, .select:active { color: #404040 !important; background-color: #FFFFFF !important; }
+.select.active .reverse, .select.active.reverse, .select .reverse:active, .select.reverse:active { color: #FFFFFF !important; background-color: #404040 !important; }
+
+.select.no-background { background-color: transparent !important; }
+.select.hover .reverse.no-background, .select.hover.reverse.no-background, .select.reverse.no-background:hover { background-color: transparent !important; }
+.select.hover.no-background, .select .hover.no-background, .select.no-background:hover { background-color: transparent !important; }
+.select.active .reverse.no-background, .select.active.reverse.no-background { background-color: transparent !important; }
+.select.active.no-background, .select .active.no-background, .select.no-background:active { background-color: transparent !important; }

@@ -1,0 +1,104 @@
+<ion-view sb-page-background class="form-view">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-content>
+
+        <form name="form" ng-submit="post()">
+
+            <div class="list" ng-class="{'card': card_design}" ng-repeat="section in sections" ng-show="sections">
+
+                <div class="item item-divider item-divider-custom">
+                    <h2>{{ section.name }}</h2>
+                </div>
+
+                <div ng-repeat="field in section.fields" ng-switch on="field.type">
+
+                    <label class="item item-input item-custom" ng-switch-when="texte">
+                        <input type="text" class="" placeholder="{{ field.name }}" ng-model="formData[field.id]" />
+                    </label>
+
+                    <label class="item item-input item-custom" ng-switch-when="textarea">
+                        <textarea rows="3" placeholder="{{ field.name }}" ng-model="formData[field.id]"></textarea>
+                    </label>
+
+                    <label class="item item-input item-custom" ng-switch-when="email">
+                        <input type="email" placeholder="{{ field.name }}" ng-model="formData[field.id]" />
+                    </label>
+
+                    <label class="item item-input item-custom" ng-switch-when="nombre">
+                        <input type="number" placeholder="{{ field.name }}" ng-model="formData[field.id]" />
+                    </label>
+
+                    <label class="item item-input item-custom" ng-switch-when="date">
+                        <span class="input-label">{{ field.name }}</span>
+                        <input type="datetime-local" placeholder="{{ field.name }}" date="formData[field.id]" ng-model="formData[field.id]" />
+                    </label>
+
+                    <div ng-switch-when="geoloc">
+                        <ion-checkbox class="checkbox-custom item-custom" ng-model="geolocation[field.id]" ng-change="getLocation(field)" ng-checked="geolocation[field.id] == true">{{ field.name }}</ion-checkbox>
+                    </div>
+
+                    <div ng-switch-when="checkbox" class="">
+                        <div class="item item-divider item-divider-custom">
+                            <p class="label">{{ field.name }}</p>
+                        </div>
+                        <ion-checkbox class="checkbox-custom item-custom" ng-repeat="option in field.options" ng-value="option.id" ng-model="formData[field.id][option.id]">{{ option.name }}</ion-checkbox>
+                    </div>
+
+                    <div ng-switch-when="radio">
+                        <div class="item item-divider item-divider-custom">
+                            <p class="label">{{ field.name }}</p>
+                        </div>
+                        <ion-radio name="radio_{{ field.id }}" class="radio-custom" ng-repeat="option in field.options" ng-model="formData[field.id]" ng-value="option.id">{{ option.name }}</ion-radio>
+                    </div>
+
+                    <label class="item item-input item-select item-custom" ng-switch-when="select">
+                        <div class="input-label">
+                            {{ field.name }}
+                        </div>
+                        <select ng-model="formData[field.id]" ng-options="option.id as option.name for option in field.options">
+                            <option value=""></option>
+                        </select>
+                    </label>
+
+                    <div ng-switch-when="image">
+
+                        <div class="item item-image item-custom" ng-if="preview_src[field.id]">
+                            <img ng-src="{{ preview_src[field.id] }}" width="100%" />
+                        </div>
+
+                        <div class="item item-icon-left item-custom" ng-click="takePicture(field)">
+                            <i class="icon ion-image"></i>
+                            <p>{{ "Add Image" | translate }}</p>
+                        </div>
+
+                    </div>
+
+                    <div ng-switch-default="">
+                        <div class="item item-custom">
+                            <p>{{ field.name }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="list"  ng-class="{'padding': card_design}" ng-if="!is_loading && !sections.length">
+                <div class="item text-center item-custom">
+                    {{ "No form available" | translate }}
+                </div>
+            </div>
+
+            <div ng-class="{'padding': card_design}">
+                <button type="button" class="button button-positive button-positive-custom" ng-class="{'button-full': !card_design, 'button-block': card_design}" ng-click="post()" ng-show="sections.length && !is_loading">
+                    {{ "Send" | translate }}
+                </button>
+
+                <div class="loader" ng-show="is_loading">
+                    <ion-spinner class="spinner-custom"></ion-spinner>
+                </div>
+            </div>
+
+        </form>
+
+    </ion-content>
+</ion-view>

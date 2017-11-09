@@ -1,0 +1,113 @@
+<?php $application = $this->getApplication() ?>
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $event = $this->getCurrentEvent(); ?>
+<div class="section">
+    <form id="eventForm" action="<?php echo $this->getUrl('event/application/editpost'); ?>">
+        <div class="buttons">
+            <button type="button" onclick="facebook.unbindAll(); feature.list();" class="delete left"><i class="icon-arrow-left"></i></button>
+            <button type="submit" class="validate default_button save_event right">OK</button>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+        <fieldset>
+            <div class="list container-fluid" id="table_list_agendas_new">
+                <div class="row">
+                    <div class="col-sm-4 col-sm-offset-4">
+                        <label><?php echo $this->_('Your Facebook page ID <span class="required-entry">*</span> :') ?></label>
+                    </div>
+                </div>
+                <div class="row" rel="list_new">
+                    <div class="col-sm-4">
+                        <input type="text" id="fb_username" name="name" value="<?php echo $event->getName(); ?>" placeholder="<?php echo $this->_('Calendar\'s title') ?>" class="form-control required" />
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" id="fb_url" name="url" value="<?php echo $event->getData('url') ? $event->getData('url') : $application->getFacebookPage() ?>" placeholder="<?php echo $this->_('Your Facebook page ID') ?>" class="form-control required"/>
+                    </div>
+                    <div class="col-sm-4">
+                        <i id="fb_valid_username" class="icon-ok" style="display:none;"></i>
+                        <i id="fb_invalid_username" class="icon-remove" style="display:none;"></i>
+                        <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>" />
+                        <input type="hidden" name="id" value="<?php echo $event->getId(); ?>" />
+                        <input type="hidden" name="event_type" value="<?php echo $this->getEventType(); ?>" />
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+
+<script type="text/javascript">
+
+    facebook = {
+        processEvents: function() {
+            $('#fb_url').change(function(){
+                $('#fb_valid_username').hide();
+                $('#fb_invalid_username').hide();
+                reload(this.parentNode, "<?php echo $this->getUrl('event/application/checkfb')?>", true, function(datas) {
+                    if(datas.fb_username) {
+                        $('#fb_valid_username').fadeIn(200);
+                        $('#fb_url').val(datas.fb_username);
+                    }
+                }, function() {
+                    $('#fb_invalid_username').fadeIn(200);
+                });
+            });
+            return this;
+        },
+        unbindAll: function() {
+            $('#fb_url').unbind('change');
+            $('#eventForm').unbind('submit');
+            return this;
+        },
+        remove: function(id) {
+            var td = $('#custom_'+id).parent();
+            var tr = td.parent();
+            if(confirm('<?php echo $this->_('Delete this event?'); ?>')) {
+                $('<input />').attr('type', 'hidden')
+                    .attr('name', 'id')
+                    .val(id)
+                    .appendTo(td)
+                ;
+
+                reload(tr, '<?php echo $this->getUrl('event/application_event/delete'); ?>', true, function(datas) {
+                    if(datas.success) {
+                        tr.css('background-color', '#C41313').animate({'background-color': 'transparent', height: 0, padding: 0, opacity: 0}, 500, null, function() {tr.remove();});
+                    }
+                });
+            }
+        }
+
+//        save: function() {
+//            var fbObject = {id: '429355987181158'};
+//
+//            FB.init({
+//                appId: fbObject.id,
+//                status: true,
+//                cookie: true,
+//                xfbml: true
+//            });
+//
+//            FB.login(function(response){
+//
+//                    console.log(response);
+//                    if (response.status === 'connected') {
+//                        var uid = response.authResponse.userID;
+//                        var accessToken = response.authResponse.accessToken;
+//                        console.log('hello '+response.me);
+//                        console.log('your token is =>  '+accessToken);
+//                        FB.api('/me', function(response) {
+//
+//                        reload(this, '<?php echo $this->getUrl('event/application/editpost'); ?>');
+//                        console.log('and your uid => '+uid);return false;
+//
+//                    });
+//
+//                    } else if (response.status === 'not_authorized') {
+//                    } else {
+//                    }
+//                },
+//                {scope:'user_events'}
+//            );
+//        }
+    }
+</script>

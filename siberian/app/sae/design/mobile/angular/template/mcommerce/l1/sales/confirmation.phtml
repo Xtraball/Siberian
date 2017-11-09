@@ -1,0 +1,116 @@
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="'<?php echo $this->_("Review"); ?>'" message="message" right-button="header_right_button" ng-if="cart"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="scrollable_content mcommerce confirmation" ng-if="cart">
+       
+        <div class="relative">
+            <div class="relative">
+                <div class="padding cart_lines">
+                    <div>
+                        <div class="title">
+                            <h2><?php echo $this->_('My products'); ?></h2>
+                            <hr class="background reverse" />
+                        </div>
+                        <div ng-if="cart.lines.length !== 0" id="cart_lines" class="cart_lines">
+                            <div class="cart_line slide-left" ng-repeat="line in cart.lines" ng-class="{first: $first}">
+                                <div class="picture">
+                                    <img ng-if="line.product.picture.url" class="product-picture" ng-src="{{ line.product.picture.url }}" />
+                                    <img ng-if="!line.product.picture.url" class="product-picture" ng-src="{{ pictos.shopping_cart }}" />
+                                </div>
+                                <div class="details">
+                                    <p class="product-name">{{ line.name }} - {{ line.formattedBasePriceInclTax }}</p>
+                                    <div class="remove_line right">
+                                        <a ng-click="removeLine(line)" class="remove picto">
+                                            <img ng-src="{{ pictos.trash }}" />
+                                        </a>
+                                    </div>
+                                    <div class="scale-fade product-options">
+                                        <p class="product_details" ng-show="line.format[0].title && line.format[0].title != ''"><strong><?php echo $this->_("Format:"); ?> {{ line.format[0].title }}</strong></p>
+                                        <p ng-repeat="option in line.options" class="product-option-details">
+                                            {{ option.qty }} x {{ option.name }} : {{ option.formattedPriceInclTax }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                                <div>
+                                    <p class="product-details">
+                                        <?php echo $this->_("Qty"); ?> : {{ line.qty }}
+                                    </p>
+                                    <div class="total_line_cart right" ng-if="line.formattedTotalInclTax">
+                                        <strong><?php echo $this->_('Total'); ?>:</strong> {{ line.formattedTotalInclTax }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+
+                            <div>
+                                <div class="title">
+                                    <h2 class="title"><?php echo $this->_('Total'); ?></h2>
+                                    <hr class="background reverse" />
+                                </div>
+
+                                <table class="no-collapse right a-right" width="90%" cellspacing="10">
+                                    <tr class="cart_totals">
+                                        <th class="align-left">
+                                            <?php echo $this->_('Subtotal'); ?></th>
+                                        <td class="align-right">{{ cart.formattedSubtotalExclTax }}</td>
+                                    </tr>
+
+                                    <tr class="cart_totals" ng-if="cart.deliveryCost > 0">
+                                        <th class="align-left">
+                                            <?php echo $this->_('Delivery fees'); ?></th>
+                                        <td class="align-right">{{ cart.formattedDeliveryCost }}</td>
+                                    </tr>
+                                    <tr class="cart_totals" ng-if="cart.deliveryCost > 0">
+                                        <th class="align-left">
+                                            <?php echo $this->_('Total Excl. Tax'); ?></th>
+                                        <td class="align-right">{{ cart.formattedTotalExclTax }}</td>
+                                    </tr>
+                                    <tr class="cart_totals">
+                                        <th class="align-left">
+                                            <?php echo $this->_('Tax'); ?></th>
+                                        <td class="align-right">{{ cart.formattedTotalTax }}</td>
+                                    </tr>
+                                    <tr class="cart_totals">
+                                        <th class="align-left">
+                                            <?php echo $this->_('Total'); ?></th>
+                                        <td class="align-right">{{ cart.formattedTotal }}</td>
+                                    </tr>
+                                    <tr class="cart_totals" ng-if="!cart.hide_paid_amount && cart.formatted_paid_amount && cart.formatted_delivery_amount_due">
+                                        <td colspan="2"><hr class="background reverse" /></td>
+                                    </tr>
+                                    <tr class="cart_totals" ng-if="!cart.hide_paid_amount && cart.formatted_paid_amount && cart.formatted_delivery_amount_due">
+                                        <th class="align-left">
+                                            <?php echo $this->_('I will pay'); ?></th>
+                                        <td class="align-right">{{ cart.formatted_paid_amount }}</td>
+                                    </tr>
+                                    <tr class="cart_totals" ng-if="!cart.hide_paid_amount && cart.formatted_paid_amount && cart.formatted_delivery_amount_due">
+                                        <th class="align-left">
+                                            <?php echo $this->_('Remaining due'); ?></th>
+                                        <td class="align-right">{{ cart.formatted_delivery_amount_due }}</td>
+                                    </tr>
+                                </table>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="scrollable_content mcommerce confirmation" ng-if="confirmation_message">
+        <p>
+            {{ confirmation_message }}
+        </p>
+    </div>
+
+</div>
+
+
+

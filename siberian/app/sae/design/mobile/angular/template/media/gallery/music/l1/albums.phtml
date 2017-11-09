@@ -1,0 +1,21 @@
+<div class="has_header media-gallery-music-common" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_('Back' ) ?>'" title="'<?php echo $this->_('Audio'); ?>'" message="message" right-button="header_right_button"></sb-header>
+
+    <div class="media-music-tabs">
+        <ul>
+            <li>
+                <a ng-click="showPlaylists()"><?php echo $this->_('Playlists') ?></a>
+            </li>
+            <li>
+                <a class="active"><?php echo $this->_('Albums') ?></a>
+            </li>
+        </ul>
+    </div>
+    <a class="read-all-button" ng-click="playAll()"><?php echo $this->_('Read all') ?></a>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="scrollable_content" albums-boxes albums="albums" on-album-selected="showAlbum(album)"></div>
+
+</div>

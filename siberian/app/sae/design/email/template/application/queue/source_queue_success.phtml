@@ -1,0 +1,12 @@
+<table>
+    <tr style="margin:auto; padding: 0 15px; color:#888888; font-size: 17px; line-height: 150%; width:600px">
+        <td>
+            <b><?php echo $this->getType(); ?></b>
+            <br />
+            <p style="font-family: Verdana; font-weight: bold;color: #404040;font-size:18px; line-height:150%;">
+                <?php echo __("The Source code for the application %s has been generated !", $this->getApplicationName()); ?>
+            </p>
+            <a href ="<?php echo $this->getLink() ?>"><?php echo __("Download the Source code") ?></a>
+        </td>
+    </tr>
+</table>

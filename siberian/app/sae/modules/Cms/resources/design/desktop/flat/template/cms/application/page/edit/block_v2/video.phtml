@@ -1,0 +1,335 @@
+<?php
+
+$title = $this->getTitle();
+$form = $this->getForm();
+
+$block = $this->getCmsBlock();
+
+$load = false;
+if(isset($block) && $block->getId()) {
+    $form->loadBlock($block);
+
+    $load = true;
+    $type = $block->getTypeId();
+}
+
+$formid = $form->getAttrib("id");
+$uniqid = $form->getUniqid();
+$pvar = "p{$uniqid}";
+
+?>
+<div class="cms-block-container">
+    <h3 class="title-editor title-feature-indent">
+        <div class="cms-block-handle">
+            <i class="fa fa-sort"></i>
+        </div>
+        <span>
+            <span class="cms-block-index"></span>
+            <?php echo __($title); ?>
+        </span>
+        <div class="cms-block-delete">
+            <i class="fa fa-close"></i>
+        </div>
+
+    </h3>
+    <div id="<?php echo $formid; ?>" class="cms-block-hide-drag content-white-bkg section-padding content-feature" style="padding-bottom: 20px;">
+
+        <div class="form-group">
+            <div class="col-md-7 col-md-offset-3">
+                <a href="javascript:void(0);" class="video-type color-blue btn capitalize" data-type="youtube">
+                    <i class="fa fa-youtube"></i><br>
+                    <span><?php echo __("Youtube") ?></span>
+                </a>
+
+                <a href="javascript:void(0);" class="video-type color-blue btn capitalize" data-type="podcast">
+                    <i class="fa fa-podcast"></i><br>
+                    <span><?php echo __("Podcast") ?></span>
+                </a>
+
+                <a href="javascript:void(0);" class="video-type color-blue btn capitalize" data-type="link">
+                    <i class="fa fa-video-camera"></i><br>
+                    <span><?php echo __("My video") ?></span>
+                </a>
+            </div>
+        </div>
+
+        <?php echo $form; ?>
+
+        <!-- Youtube search carousel -->
+        <div class="youtube-result col-md-7 col-md-offset-3">
+
+        </div>
+
+        <!-- Podcast search carousel -->
+        <div class="podcast-result col-md-7 col-md-offset-3">
+
+        </div>
+
+        <div style="clear: both;"></div>
+    </div>
+
+    <script type="text/javascript">
+        var video_search_url = '<?php echo $this->getUrl("cms/application_page_block_video/searchv2"); ?>';
+
+        var carousel_template = '<div class="carousel-container "><table style="text-align: center;" class="sb-mini-carousel" data-items="4"><tr><td class="prev-arrow"><i class="fa fa-chevron-left"></i></td><td class="sb-carousel-items"><div class="sb-carousel-inline"></div></td><td class="next-arrow"><i class="fa fa-chevron-right"></i></td></tr></table></div>';
+        var carousel_item = '<a class="sb-carousel-item" style="display: none;" href="javascript:void(0)" data-videoid="#ID#"><img src="#IMAGE_PREVIEW#" /><p class="sb-carousel-title">#TITLE#</p></a>';
+
+        var input_loader = '<?php echo Cms_Form_Base::$input_loader ?>';
+
+        var <?php echo $pvar; ?> = '#<?php echo $formid; ?>';
+
+        $(document).ready(function() {
+            bindForms(<?php echo $pvar; ?>);
+
+            $(<?php echo $pvar; ?>+" input[name='cover']").on("change", function() {
+                var el = $(this);
+
+                $(<?php echo $pvar; ?>+" .cms-video-cover-image").val(tmp_directory+"/"+el.val());
+            });
+
+            $(<?php echo $pvar; ?>+" .video-type").on("click", function(event) {
+                event.preventDefault();
+
+                $(<?php echo $pvar; ?>+" .video-type").addClass("button-off");
+
+                $(<?php echo $pvar; ?>+" .cms-video-input").each(function() {
+                    var el = $(this);
+                    el.parents(".sb-form-line").hide();
+                });
+
+                var button = $(this);
+                button.removeClass("button-off");
+                button.blur();
+
+                switch(button.data("type")) {
+                    case "youtube":
+                        $(<?php echo $pvar; ?>+" .youtube-result").show();
+                        $(<?php echo $pvar; ?>+" .podcast-result").hide();
+                        break;
+                    case "podcast":
+                        $(<?php echo $pvar; ?>+" .youtube-result").hide();
+                        $(<?php echo $pvar; ?>+" .podcast-result").show();
+                        break;
+                    case "link":
+                        $(<?php echo $pvar; ?>+" .youtube-result").hide();
+                        $(<?php echo $pvar; ?>+" .podcast-result").hide();
+                        break;
+                }
+
+                $(<?php echo $pvar; ?>+" .cms-video-type").val(button.data("type"));
+
+                $(<?php echo $pvar; ?>+" .cms-video-"+button.data("type")).each(function() {
+                    var el = $(this);
+                    el.parents(".sb-form-line").show();
+                });
+
+                return false;
+            });
+
+            $(<?php echo $pvar; ?>+" a[data-type='link']").trigger("click");
+
+            $(<?php echo $pvar; ?>+" input[id$='-video-youtube_search']").on("change", function() {
+                var el = $(this);
+
+                var loader = $(input_loader);
+                el.after(loader);
+
+                var youtube_result = $(<?php echo $pvar; ?>+" .youtube-result");
+
+                $.ajax({
+                    url: video_search_url,
+                    method: "POST",
+                    dataType: "json",
+                    data: {type: "youtube", search: el.val()},
+                    success: function(data) {
+                        youtube_result.html("");
+
+                        if(data.videos.length == 0) {
+                            alert("<?php echo __js("No result found.") ?>");
+                            return;
+                        }
+
+                        youtube_result.append(carousel_template);
+
+                        data.videos.forEach(function(el) {
+                            var tpl = carousel_item;
+                            tpl = tpl.replace("#IMAGE_PREVIEW#", el.image);
+                            tpl = tpl.replace("#TITLE#", el.title);
+                            tpl = tpl.replace("#ID#", el.id);
+
+                            youtube_result.find(".sb-carousel-inline").append(tpl);
+                        });
+
+                        youtube_result.find(".sb-mini-carousel").sbcarousel({
+                            min_size: 48
+                        });
+
+                        youtube_result.find(".sb-carousel-item").on("click", function() {
+                            youtube_result.find(".sb-carousel-item").removeClass("video-selected");
+
+                            var el = $(this);
+                            el.addClass("video-selected");
+                            $(<?php echo $pvar; ?>+" .cms-video-youtube-id").val(el.data("videoid"));
+                        });
+
+                        if(data.videos.length == 1) {
+                            var selector = "[data-videoid='"+data.videos[0].id+"']";
+                            $(selector).trigger("click");
+                        }
+
+                        /** When a video is already selected. */
+                        var val = $(<?php echo $pvar; ?>+" .cms-video-youtube-id").val();
+                        if(val !== "") {
+                            var selector = "[data-videoid='"+val+"']";
+                            var carousel = youtube_result.find(".sb-mini-carousel").data("sbcarousel");
+                            if(typeof carousel !== "undefined") {
+                                carousel.gotoElement(selector);
+                            }
+
+                            $(selector).trigger("click");
+                        }
+
+                    },
+                    error: function(response) {},
+                    complete: function(response) {
+                        loader.remove();
+                    }
+                });
+            });
+
+            $(<?php echo $pvar; ?>+" input[id$='-video-podcast_search']").on("change", function() {
+                var el = $(this);
+
+                var loader = $(input_loader);
+                el.after(loader);
+
+                var podcast_result = $(<?php echo $pvar; ?>+" .podcast-result");
+
+                $.ajax({
+                    url: video_search_url,
+                    method: "POST",
+                    dataType: "json",
+                    data: {type: "podcast", search: el.val()},
+                    success: function(data) {
+                        podcast_result.html("");
+
+                        if(data.videos.length == 0) {
+                            alert("<?php echo __js("No result found.") ?>");
+                            return;
+                        }
+
+                        podcast_result.append(carousel_template);
+
+                        data.videos.forEach(function(el) {
+                            var tpl = carousel_item;
+                            tpl = tpl.replace("#IMAGE_PREVIEW#", el.image);
+                            tpl = tpl.replace("#TITLE#", el.title);
+                            tpl = tpl.replace("#ID#", el.id);
+
+                            podcast_result.find(".sb-carousel-inline").append(tpl);
+                        });
+
+                        podcast_result.find(".sb-mini-carousel").sbcarousel({
+                            min_size: 48
+                        });
+
+                        podcast_result.find(".sb-carousel-item").on("click", function() {
+                            podcast_result.find(".sb-carousel-item").removeClass("video-selected");
+
+                            var el = $(this);
+                            el.addClass("video-selected");
+                            $(<?php echo $pvar; ?>+" .cms-video-podcast-id").val(el.data("videoid"));
+                        });
+
+                        if(data.videos.length == 1) {
+                            var selector = "[data-videoid='"+data.videos[0].id+"']";
+                            $(selector).trigger("click");
+                        }
+
+                        /** When a video is already selected. */
+                        var val = $(<?php echo $pvar; ?>+" .cms-video-podcast-id").val();
+                        if(val !== "") {
+                            var selector = "[data-videoid='"+val+"']";
+                            var carousel = podcast_result.find(".sb-mini-carousel").data("sbcarousel");
+                            if(typeof carousel !== "undefined") {
+                                carousel.gotoElement(selector);
+                            }
+                            $(selector).trigger("click");
+                        }
+
+                    },
+                    error: function(response) {},
+                    complete: function(response) {
+                        loader.remove();
+                    }
+                });
+            });
+
+            <?php if($load): ?>
+            setTimeout(function() {
+                $(<?php echo $pvar; ?>+" a[data-type='<?php echo $type; ?>']").trigger("click");
+                $(<?php echo $pvar; ?>+" input[id$='-video-<?php echo $type; ?>_search']").trigger("change");
+            }, 200);
+            <?php endif; ?>
+        });
+    </script>
+
+    <style type="text/css">
+        .youtube-result, .podcast-result {
+            padding-left: 8px;
+            padding-right: 5px;
+        }
+
+        .video-type {
+            width: 100px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .video-type.button-off {
+            filter: grayscale(100%);
+        }
+
+        .video-type i {
+            font-size: 28px !important;
+        }
+
+        .sb-carousel-title {
+            font-size: 12px;
+            height: 32px;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        a.sb-carousel-item {
+            filter: grayscale(85%);
+            opacity: 0.6;
+        }
+
+        a.sb-carousel-item.video-selected {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+
+        .carousel-container {
+            border-radius: 2px;
+            background-color: #F4F4F4;
+            float: left;
+            padding: 4px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .carousel-container .prev-arrow, .carousel-container .next-arrow {
+            width: 30px;
+            min-width: 30px;
+            max-width: 30px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+    </style>
+
+</div>
+
+

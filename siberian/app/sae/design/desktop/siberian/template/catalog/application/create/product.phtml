@@ -1,0 +1,194 @@
+<?php $product = $this->getProduct(); ?>
+<?php $category = $product->getCategory(); ?>
+<?php $parent = $category->getParentId() ? $category->getParent() : $category; ?>
+<?php $children = $parent->getChildren(); ?>
+<?php $application = $this->getApplication(); ?>
+<div id="create_product" class="product">
+    <div class="area">
+        <h3 class="title">
+            <span class="area"><?php echo $product->getId() ? $this->_('Edit the product') : $this->_('Create a new product'); ?></span>
+            <hr />
+            <div class="clear"></div>
+        </h3>
+        <form action="<?php echo $this->getUrl('catalog/application_product/editpost'); ?>" method="post" id="productForm" class="form-horizontal">
+            <div class="button">
+                <button type="button" id="hide_form" class="delete left" onclick="product.cancel();"><i class="icon-arrow-left"></i></button>
+                <button type="submit" class="default_button right right">OK</button>
+                <div class="clear"></div>
+            </div>
+            <br />
+
+            <div class="list container-fluid">
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <label for="product_name"><?php echo $this->_('Product name'); ?> :</label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input class="name required input form-control" type="text" id="product_name" value="<?php echo $product->getName(); ?>" name="name" placeholder="<?php echo $this->_("Product name"); ?>" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <label for="product_description"><?php echo $this->_('Description'); ?> :</label>
+                    </div>
+                    <div class="col-sm-7">
+                        <textarea class="form-control description input" type="text" id="product_description" name="description" placeholder="Description">
+                            <?php echo $product->getDescription(); ?>
+                        </textarea>
+                    </div>
+                </div>
+                <?php if($product->getData('type') != 'format') : ?>
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <label for="product_name"><?php echo $this->_('Price'); ?> :</label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input class="form-control price number input" type="text" id="product_price" value="<?php echo $product->getPrice(); ?>" name="price" placeholder="Prix" />
+                    </div>
+                </div>
+                <?php endif; ?>
+                <?php if($children && $children->count() > 0) : ?>
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <label for="product_name"><?php echo $this->_('Category'); ?> :</label>
+                    </div>
+                    <div class="col-sm-7">
+                        <select id="subcategory_id" name="subcategory_id" class="form-control required no-dk">
+                            <option value="<?php echo $parent->getId(); ?>"><?php echo $this->_('All'); ?></option>
+                            <?php foreach($children as $child) : ?>
+                            <option value="<?php echo $child->getId(); ?>"<?php if($product->getCategory()->getId() == $child->getId()) : ?> selected="selected"<?php endif; ?>><?php echo $child->getName(); ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                </div>
+                <?php endif; ?>
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <label><?php echo $this->_('Picture');?> : </label>
+                    </div>
+                    <div class="col-sm-7">
+                    <!--[if gte IE 10]><!-->
+                        <button class="upload_picture default_button btn-block" type="button">
+                            <?php echo $product->getPicture() ? $this->_("Edit the") : $this->_('Add a'); ?>
+                            <?php echo $this->_('picture'); ?>
+                        </button>
+                        <!--<![endif]-->
+                        <input style="display:none" class="uploader_picture" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+                    </div>
+                </div>
+            </div>
+
+            <?php if(!$product->getId() OR $product->getData('type') == 'format') : ?>
+            <div class="product_formats">
+                <div>
+                    <h3 class="title">
+                        <span class="area"><?php echo $this->_('Product formats'); ?></span>
+                        <hr />
+                        <?php if(!$product->getId()) : ?>
+                        <span class="area right wl_panel">
+                            <div id="toggle_formats" class="toggle">
+                                <label class="toggle-radio" for="is_multiple_0" data-image="338" data-style="header" data-color="color_on_active">On</label>
+                                <input type="radio" name="is_multiple" class="input is_multiple" id="is_multiple_1" value="1" <?php if($product->getData('type') == 'format') echo 'checked="checked"'; ?> onclick="product.toggleFormats();">
+                                <label class="toggle-radio" for="is_multiple_1" data-image="338" data-style="header" data-color="color">Off</label>
+                                <input type="radio" name="is_multiple" class="input is_multiple" id="is_multiple_0" value="0" <?php if($product->getData('type') != 'format') echo 'checked="checked"'; ?> onclick="product.toggleFormats()">
+                            </div>
+                        </span>
+                        <?php endif; ?>
+                        <div class="clear"></div>
+                    </h3>
+                </div>
+
+                <div id="list_format"<?php if($product->getData('type') != 'format') : ?> style="display:none;"<?php endif; ?>>
+                    <table class="table" cellspacing="20" width="450px">
+                        <col width="12%" />
+                        <col width="38%" />
+                        <col width="38%" />
+                        <col width="12%" />
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th align="center"><label><?php echo $this->_('Format'); ?></label></th>
+                                <th align="center"><label><?php echo $this->_('Price'); ?></label></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <?php $i = 0; ?>
+                        <?php if($product->getId()) : ?>
+                        <?php foreach($product->getType()->getOptions() as $i => $option) : ?>
+                        <tr id="row_format_<?php echo $option->getId() ?>" class="format" rel="<?php echo $option->getId() ?>">
+                            <td><?php echo $i + 1 ?><?php echo $i == 0 ? $this->_('st') : $this->_('nd') ?></td>
+                            <td><input id="product_format_title_<?php echo $option->getId() ?>" class="input format required" type="text" value="<?php echo $option->getTitle() ?>" placeholder="Format" name="option[<?php echo $option->getId() ?>][title]" rel="<?php echo $option->getId() ?>" /></td>
+                            <td>
+                                <input id="product_format_price_<?php echo $option->getId() ?>" class="input price required number" type="text" placeholder="Prix" value="<?php echo $option->getPrice() ?>" name="option[<?php echo $option->getId() ?>][price]" rel="<?php echo $option->getId() ?>"/>
+                                <input id="product_format_option_id_<?php echo $option->getId() ?>" type="hidden" name="option[<?php echo $option->getId() ?>][option_id]" value="<?php echo $option->getId() ?>" rel="<?php echo $option->getId() ?>"/>
+                                <input id="product_format_is_deleted_<?php echo $option->getId() ?>" type="hidden" name="option[<?php echo $option->getId() ?>][is_deleted]" rel="<?php echo $option->getId() ?>"/>
+                            </td>
+                            <td><?php if($i > 1) : ?><button type="button" id="delete_format_<?php echo $option->getId() ?>" rel="<?php echo $i; ?>" class="delete delete_format" title="Supprimer" onclick="product.deleteFormat('<?php echo $option->getId() ?>')"><i class="icon-remove"></i></button><?php endif; ?></td>
+                        </tr>
+                        <?php endforeach; $i++; ?>
+                        <?php endif; ?>
+                        <?php while($i < 4) : ?>
+                        <tr id="row_format_new_<?php echo $i ?>" class="format new_format"<?php if($i > 1) : ?> style="display:none;"<?php endif; ?> rel="new_<?php echo $i ?>">
+                            <td><?php echo $i + 1 ?><?php echo $i == 0 ? $this->_('st') : $this->_('nd') ?></td>
+                            <td><input id="product_format_title_new_<?php echo $i ?>" class="input format required" type="text" value="" placeholder="Format" name="option[new_<?php echo $i ?>][title]" rel="new_<?php echo $i ?>" /></td>
+                            <td>
+                                <input id="product_format_price_new_<?php echo $i ?>" class="input price required number" type="text" placeholder="Prix" value="" name="option[new_<?php echo $i ?>][price]" rel="new_<?php echo $i ?>"/>
+                                <input id="product_format_option_id_new_<?php echo $i ?>" type="hidden" name="option[new_<?php echo $i ?>][option_id]" rel="new_<?php echo $i ?>"/>
+                                <input id="product_format_is_deleted_new_<?php echo $i ?>" type="hidden" value="<?php if($i > 1) : ?>1<?php endif; ?>" name="option[new_<?php echo $i ?>][is_deleted]" rel="new_<?php echo $i ?>"/>
+                            </td>
+                            <td><?php if($i > 1) : ?><button type="button" id="delete_format_new_<?php echo $i ?>" rel="new_<?php echo $i; ?>" class="delete delete_format" title="Supprimer" onclick="product.deleteFormat('new_<?php echo $i ?>')"><i class="icon-remove"></i></button><?php endif; ?></td>
+                        </tr>
+                        <?php $i++; ?>
+                        <?php endwhile; ?>
+                    </table>
+                    <button type="button" id="add_format" class="default_button btn-block" onclick="product.addFormat()"><?php echo $this->_('Add a format'); ?></button>
+                </div>
+            </div>
+            <?php endif; ?>
+            <input type="hidden" id="product_id" name="product_id" value="<?php echo $product->getId(); ?>" />
+            <input type="hidden" id="category_id" name="category_id" value="<?php echo $parent->getId(); ?>" />
+            <input type="hidden" id="value_id" name="value_id" value="<?php echo $this->getOptionValue()->getId(); ?>" />
+            <input type="hidden" id="picture" name="picture" value="<?php echo $product->getPicture(); ?>" />
+            <div class="clear"></div>
+        </form>
+        <br />
+        <form action="<?php echo $this->getUrl('catalog/application_product/validatecrop'); ?>" method="post" id="validateCrop" class="form-horizontal">
+            <div class="row list" width="100%">
+                    <div class="col-sm-3" id="cont_delete_picture" >
+                        <?php if($product->getPicture()) : ?>
+                        <button type="button" onclick="product.removepicture();" id="delete_picture" class="delete delete_red"><i class="icon-remove"></i></button>
+                        <?php endif; ?>
+                    </div>
+                    <div id="product_picture" class="col-sm-4">
+                        <?php if($product->getPicture()) : ?>
+                        <img src="<?php echo Application_Model_Application::getImagePath().$product->getPicture(); ?>" width="150" />
+                        <?php endif; ?>
+                    </div>
+                <input type="hidden" id="file" name="file"/>
+                <input type="hidden" id="x1" name="x1" />
+                <input type="hidden" id="y1" name="y1" />
+                <input type="hidden" id="x2" name="x2" />
+                <input type="hidden" id="y2" name="y2" />
+                <input type="hidden" id="w" name="w" />
+                <input type="hidden" id="h" name="h" />
+                <input type="hidden" id="source_width" name="source_width" value="" />
+                <input type="hidden" id="source_height" name="source_height" value="" />
+                <input type="hidden" id="output_width" name="output_width" value="300" />
+                <input type="hidden" id="output_height" name="output_height" value="300" />
+                <input type="hidden" id="crop_width" name="crop_width" value="" />
+                <input type="hidden" id="crop_height" name="crop_height" value="" />
+            </div>
+        </form>
+    </div>
+    <style>
+        .pp_content div.area .product_formats .title span.right {
+            width: 100px;
+        }
+        .pp_content div.area .product_formats .title span.right label {
+            font-size: 20px;
+        }
+        .pp_content div.area .product_formats table tr td input {
+            width: 145px;
+        }
+    </style>
+</div>

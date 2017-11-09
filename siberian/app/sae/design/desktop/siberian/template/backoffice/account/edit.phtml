@@ -1,0 +1,111 @@
+<?php $user = $this->getCurrentUser(); ?>
+<div class="application">
+    <div class="application_content inner_content">
+        <div class="title">
+            <i class="left icon-user"></i>
+            <h2 class="left f-rounded">
+                <?php if($user->getId()) : ?>
+                <?php echo $this->_('Edit the account "%s"', $user->getEmail()); ?>
+                <?php else : ?>
+                <?php echo $this->_('Create a new account'); ?>
+                <?php endif; ?>
+            </h2>
+            <div class="clear"></div>
+            <hr />
+        </div>
+        <form action="<?php echo $this->getUrl('backoffice/account/savepost') ?>" method="post" id="editForm">
+            <div class="area">
+                <h3 class="title">
+                    <span class="left area"><?php echo $this->_('Information'); ?></span>
+                    <div class="clear"></div>
+                </h3>
+                <table class="regular_infos list list-input">
+                    <tbody>
+                        <tr>
+                            <td class="label"><label for="email"><?php echo $this->_('Email'); ?> <span class="input-required">*</span> : </label></td>
+                            <td><input type="text" value="<?php echo $user->getEmail() ?>" class="required input" name="email" id="email"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="area">
+                <h3 class="title">
+                    <span id="title_change_password" class="left area"><?php echo $this->_('Password'); ?></span>
+                    <div class="clear"></div>
+                </h3>
+                <table class="list list-input regular_infos" id="table-change-password">
+                    <tbody>
+                        <?php if($user->getId()) : ?>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <label class="checkbox" for="change-password">
+                                    <input type="checkbox" name="changepassword" id="change-password" />
+                                    <?php echo $this->_('Change the password'); ?>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label"><label for="old_password"><?php echo $this->_('Current password'); ?> <span class="input-required">*</span> :</label></td>
+                            <td><input type="password" value="" name="old_password" class="toggle-disabled required input" id="old_password" disabled="disabled"></td>
+                        </tr>
+                        <?php endif; ?>
+                        <tr>
+                            <td class="label"><label for="password"><?php echo $this->_('New'); ?><br><?php echo $this->_('password'); ?> <span class="input-required">*</span> :</label></td>
+                            <td><input type="password" value="" name="password" class="toggle-disabled required input" id="password"<?php if($user->getId()) : ?> disabled="disabled"<?php endif; ?>></td>
+                        </tr>
+                        <tr>
+                            <td class="label"><label for="confirm_password"><?php echo $this->_('Confirm new password'); ?> <span class="input-required">*</span> :</label></td>
+                            <td><input type="password" value="" name="confirm_password" class="toggle-disabled required input" id="confirm_password"<?php if($user->getId()) : ?> disabled="disabled"<?php endif; ?>></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="list list-input regular_infos">
+                    <tbody>
+                        <tr>
+                            <td class="label"><p class="input-required">* <?php echo $this->_('Required fields'); ?></p></td>
+                            <td><button type="submit" id="send_form" class="default_button btn-block"><?php echo $this->_('Save'); ?></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <input type="hidden" name="user_id" value="<?php echo $user->getId(); ?>" />
+        </form>
+    </div>
+</div>
+<style>
+    .application_content .area a.publish { width: 125px; padding: 5px 0; display: block; font-size: 18px; text-align: center; }
+    table.list td.label { width: 215px; }
+    table.regular_infos { margin-bottom: 30px; }
+    input#change-password { min-width: 00px; margin-right: 10px;}
+    #title_change_password { cursor: pointer; }
+    button#send_form { padding: 10px 20px; }
+</style>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#editForm').validate({
+            rules: {
+                confirm_password: {
+                    equalTo: "#password"
+                }
+            }
+        });
+
+        <?php if($user->getId()) : ?>
+        $('#change-password').removeAttr('checked');
+        $('input:password').attr('disabled', 'disabled');
+
+        $('#change-password').change(function() {
+            if($('#change-password:checked').length > 0) {
+                $('input:password').removeAttr('disabled');
+            } else {
+                $('input:password').attr('disabled', 'disabled');
+                $('input:password').val('');
+            }
+        });
+        <?php endif; ?>
+
+        $('input:password').val('');
+    });
+
+</script>

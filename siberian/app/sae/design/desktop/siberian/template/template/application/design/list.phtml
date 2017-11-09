@@ -1,0 +1,44 @@
+<?php $application = $this->getApplication() ?>
+<?php $image_color = "#404040" ?>
+<?php $design = new Template_Model_Design(); ?>
+<?php $designs = $design->findAllWithCategory(); ?>
+<?php $category = new Template_Model_Category(); ?>
+<?php $categories = $category->findAll(null, "name ASC"); ?>
+<div class="categories_content">
+    <ul>
+        <li>
+            <a href="javascript:void(0);" class="change_category reverse active">
+                <?php echo $this->_("All"); ?>
+                <input type="hidden" value="0" name="category_id" />
+            </a>
+        </li>
+        <?php foreach($categories as $category) : ?>
+        <li>
+            <a href="javascript:void(0);" class="change_category">
+                <?php echo $this->_($category->getName()); ?>
+                <input type="hidden" value="<?php echo $category->getCategoryId(); ?>" />
+            </a>
+        </li>
+        <?php endforeach ?>
+    </ul>
+</div>
+<div class="templates_content_preview">
+    <?php foreach($designs as $design) : ?>
+    <div class="col-md-4 text-center design <?php echo $this->getClass($design) ?>">
+        <p class="general">
+            <a href="javascript:void(0);" class="change_design block relative">
+                <img src="<?php echo $design->getOverview(); ?>" width="220" height="390" class="radius_top_only" />
+                <span class="template_title radius_bottom_only">
+                    <?php echo $design->getName(); ?>
+                </span>
+                <?php if($application->getDesignId() == $design->getId()) : ?>
+                    <img src="<?php echo $this->getColorizedImage($this->getImage('customization/design/check.png', true), $image_color); ?>" class="checked" />
+                    <span class="checked"></span>
+                <?php endif ?>
+                <input type="hidden" name="design_id" value="<?php echo $design->getId(); ?>" />
+                <input type="hidden" name="category_id" value="<?php echo $this->getCategoryId($design) ?>" />
+            </a>
+        </p>
+    </div>
+    <?php endforeach ?>
+</div>

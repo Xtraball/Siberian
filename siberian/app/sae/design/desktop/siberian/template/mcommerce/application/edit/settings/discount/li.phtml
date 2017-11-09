@@ -1,0 +1,18 @@
+<?php $option = $this->getCurrentOptionValue(); ?>
+<?php $promo = $this->getCurrentPromo(); ?>
+
+<li id="promo_row_<?php echo $promo->getId(); ?>" class="promo" rel="<?php echo $promo->getId(); ?>">
+    <p id="promo_name_<?php echo $promo->getId() ?>" class="left title"><?php echo $promo->getLabel(); ?></p>
+    <div class="right icons" id="promo_icons_<?php echo $promo->getId(); ?>">
+        <a href="javascript:void(0)" id="edit_promo_<?php echo $promo->getId(); ?>" class="icon more edit_promo" rel="<?php echo $promo->getId() ?>">
+            <i class="icon-edit"></i>
+        </a>
+        <a href="javascript:void(0)" id="remove_promo_<?php echo $promo->getId(); ?>" class="icon more remove_promo" rel="<?php echo $promo->getId() ?>">
+            <i class="icon-trash"></i>
+        </a>
+        <div class="clear"></div>
+        <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
+    </div>
+    <div class="clear"></div>
+</li>
+<li id="separator_promo_row_<?php echo $promo->getId(); ?>" class="separator area reverse"></li>

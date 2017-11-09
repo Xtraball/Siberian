@@ -1,0 +1,135 @@
+<?php
+$notif_model = new Backoffice_Model_Notification();
+$unread_count = $notif_model->findAll(array("is_read = ?" => 0))->count();
+$custom_links = Siberian_Module::getMenus();
+?>
+<div class="content">
+    <div class="logo left">
+        <a href="<?php echo $this->getUrl(''); ?>" ng-click="$event.stopPropagation()">
+            <img src="<?php echo $this->getLogo();/*$this->getImage("header/logo.png");*/ ?>" id="logo" alt="Mobile Company" title="Mobile Company" style="max-width:151px;max-height:50px"/>
+        </a>
+    </div>
+    <div id="backoffice_menu" class="menu backoffice_menu slide-down" ng-if="isLoggedIn" ng-class="{none: !isLoggedIn}">
+        <ul class="l1">
+            <li><a href="<?php echo $this->getUrl('backoffice'); ?>"><i class="fa fa-tachometer"></i><?php echo __('Dashboard'); ?></a></li>
+            <?php if($this->isPe()) : ?>
+            <li><a href="<?php echo $this->getUrl("sales/backoffice_invoice_list"); ?>"><i class="fa fa-ticket"></i><?php echo __('Invoices'); ?></a></li>
+            <?php endif; ?>
+            <li class="has_submenu">
+                <a href="#"><i class="fa fa-users"></i><?php echo __('Manage'); ?></a>
+                <ul class="l2">
+                    <li class="has_submenu">
+                        <a href="#"><i class="fa fa-users"></i><?php echo __('Users'); ?></a>
+                        <ul class="l3">
+                            <li><a href="<?php echo $this->getUrl('admin/backoffice_list'); ?>"><i class="fa fa-users"></i><?php echo __('Users'); ?></a></li>
+                            <li><a href="<?php echo $this->getUrl('acl/backoffice_role_list'); ?>"><i class="fa fa-lock"></i><?php echo __('Roles'); ?></a></li>
+                            <li><a href="<?php echo $this->getUrl('api/backoffice_user_list'); ?>"><i class="fa fa-arrows-h"></i><?php echo __('API'); ?></a></li>
+                        </ul>
+                    </li>
+                    <?php if($this->_canAccessPreviewer()) : ?>
+                    <li class="has_submenu">
+                        <a href="#"><i class="fa fa-cog"></i><?php echo __('Previewer'); ?></a>
+                        <ul class="l3">
+                            <li class="first"><a href="<?php echo $this->getUrl('previewer/backoffice_edit'); ?>"><i class="fa fa-mobile-phone"></i><?php echo __('Application'); ?></a></li>
+                            <li class="last"><a href="<?php echo $this->getUrl('previewer/backoffice_modal'); ?>"><i class="fa fa-picture-o"></i><?php echo __('Modal'); ?></a></li>
+                        </ul>
+                    </li>
+                    <?php endif; ?>
+                    <?php if($this->isSae()) : ?>
+                    <li><a class="last" href="<?php echo $this->getUrl('application/backoffice_view'); ?>"><i class="fa fa-mobile-phone"></i><?php echo __('Application'); ?></a></li>
+                    <?php else : ?>
+                    <li><a href="<?php echo $this->getUrl('application/backoffice_list'); ?>"><i class="fa fa-mobile-phone"></i><?php echo __('Applications'); ?></a></li>
+                    <?php endif; ?>
+                    <?php if($this->isPe()) : ?>
+                    <li><a href="<?php echo $this->getUrl('subscription/backoffice_application_list'); ?>"><i class="fa fa-list-ul"></i><?php echo __('Subscriptions'); ?></a></li>
+                    <?php endif; ?>
+                    <li class="has_submenu"><a href="<?php echo $this->getUrl('template/backoffice_category_list'); ?>"><i class="fa fa-picture-o"></i><?php echo __('Templates'); ?></a></li>
+                    <?php if($custom_links): ?>
+                        <li class="has_submenu">
+                            <a href="#"><i class="fa fa-cog"></i><?php echo __("Modules"); ?></a>
+                            <ul class="l3">
+                                <?php foreach($custom_links as $module => $links): ?>
+                                    <?php foreach($links as $link): ?>
+                                        <li>
+                                            <a href="<?php echo $this->getUrl($link['link']); ?>">
+                                                <i class="<?php echo (!empty($link['icon'])) ? $link['icon'] : 'fa fa-cogs' ?>"></i>
+                                                <?php echo $link["title"]; ?>
+                                            </a>
+                                        </li>
+                                    <?php endforeach; ?>
+                                <?php endforeach; ?>
+                            </ul>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            </li>
+            <li class="has_submenu">
+                <a href="#"><i class="fa fa-pencil"></i><?php echo __('Appearance'); ?></a>
+                <ul class="l2">
+                    <li><a href="<?php echo $this->getUrl('system/backoffice_config_design'); ?>"><i class="fa fa-home"></i><?php echo __('General'); ?></a></li>
+                    <li><a href="<?php echo $this->getUrl('preview/backoffice_list'); ?>"><i class="fa fa-desktop"></i><?php echo __('Previews'); ?></a></li>
+                    <li><a href="<?php echo $this->getUrl('backoffice/tour_settings'); ?>"><i class="fa fa-globe"></i><?php echo __('Tour'); ?></a></li>
+                </ul>
+            </li>
+            <li class="has_submenu">
+                <a href="#"><i class="fa fa-wrench"></i><?php echo __('Settings'); ?></a>
+                <ul class="l2">
+                    <li><a href="<?php echo $this->getUrl('system/backoffice_config_general'); ?>"><i class="fa fa-home"></i><?php echo __('General'); ?></a></li>
+                    <li><a href="<?php echo $this->getUrl('backoffice/account_list'); ?>"><i class="fa fa-users"></i><?php echo __('Accounts'); ?></a></li>
+                    <li><a href="<?php echo $this->getUrl('installer/backoffice_module'); ?>"><i class="fa fa-cloud-download"></i><?php echo __('Modules'); ?></a></li>
+                    <li><a href="<?php echo $this->getUrl('api/backoffice_key_list'); ?>"><i class="fa fa-key"></i><?php echo __('APIs'); ?></a></li>
+
+
+                    <li class="has_submenu">
+                        <a href="javascript:void(0);"><i class="fa fa-comment-o"></i><?php echo __("Push"); ?></a>
+                        <ul class="l3">
+                            <li><a href="<?php echo $this->getUrl("push/backoffice_certificate"); ?>"><i class="fa fa-sliders"></i><?php echo __("Configuration"); ?></a></li>
+                            <li><a href="<?php echo $this->getUrl("push/backoffice_global"); ?>"><i class="fa fa-globe"></i><?php echo __("Global push"); ?></a></li>
+                        </ul>
+                    </li>
+
+                    <?php if($this->isPe()) : ?>
+                    <li class="has_submenu">
+                        <a href="javascript:void(0);"><i class="fa fa-money"></i><?php echo __("Sales"); ?></a>
+                        <ul class="l3">
+                            <li><a href="<?php echo $this->getUrl('sales/backoffice_index/index'); ?>"><i class="fa fa-toggle-on"></i><?php echo __('Configuration'); ?></a></li>
+                            <li><a href="<?php echo $this->getUrl('tax/backoffice_list'); ?>"><i class="fa fa-money"></i><?php echo __('Taxes'); ?></a></li>
+                            <li><a href="<?php echo $this->getUrl('subscription/backoffice_list'); ?>"><i class="fa fa-credit-card"></i><?php echo __('Plans'); ?></a></li>
+                            <?php if($this->_canAccessDiscounts()) : ?>
+                            <li><a href="<?php echo $this->getUrl('subscription/backoffice_discount_list'); ?>"><i class="fa fa-ticket"></i><?php echo __('Discounts'); ?></a></li>
+                            <?php endif; ?>
+                            <li><a href="<?php echo $this->getUrl('system/backoffice_config_tc'); ?>"><i class="fa fa-file-text"></i><?php echo __("T&C's"); ?></a></li>
+                        </ul>
+                    </li>
+                    <?php endif; ?>
+                    <!-- Advanced -->
+                    <li class="has_submenu">
+                        <a href="javascript:void(0);"><i class="fa fa-cogs"></i><?php echo __("Advanced"); ?></a>
+                        <ul class="l3">
+                            <?php if(APPLICATION_ENV != "production"): ?>
+                                <li><a href="<?php echo $this->getUrl('backoffice/advanced_tools'); ?>"><i class="fa fa-file-code-o"></i><?php echo __('Tools'); ?></a></li>
+                            <?php endif; ?>
+                            <li><a href="<?php echo $this->getUrl('backoffice/advanced_cron'); ?>"><i class="fa fa-clock-o"></i><?php echo __('Cron'); ?></a></li>
+                            <li><a href="<?php echo $this->getUrl('backoffice/advanced_module'); ?>"><i class="fa fa-sliders"></i><?php echo __('Modules'); ?></a></li>
+                            <?php if($this->isPe()) : ?>
+                                <li><a href="<?php echo $this->getUrl('backoffice/advanced_whitelabel'); ?>"><i class="fa fa-tag"></i><?php echo __('Whitelabels'); ?></a></li>
+                            <?php endif; ?>
+                            <li><a href="<?php echo $this->getUrl('backoffice/advanced_configuration'); ?>"><i class="fa fa-toggle-on"></i><?php echo __('Configuration'); ?></a></li>
+                        </ul>
+                    </li>
+                    <!-- /Advanced -->
+                    <li><a href="<?php echo $this->getUrl('system/backoffice_config_email'); ?>"><i class="fa fa-exchange"></i><?php echo __('Communication'); ?></a></li>
+                    <li><a href="<?php echo $this->getUrl('translation/backoffice_list'); ?>"><i class="fa fa-language"></i><?php echo __('Translations'); ?></a></li>
+                    <li><a href="javascript:void(0);" ng-click="logout()" ng-show="isLoggedIn"><i class="fa fa-power-off"></i><?php echo __('Log-out'); ?></a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="<?php echo $this->getUrl("backoffice/notif_list"); ?>" class="block">
+                    <i class="fa fa-envelope"></i><?php echo __("Messages"); ?>
+                    <span id="unread_messages" class="message-badge" style="<?php if($unread_count <= 0) { echo "display: none;"; } ?>"><?php echo $unread_count; ?></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="clear"></div>
+</div>

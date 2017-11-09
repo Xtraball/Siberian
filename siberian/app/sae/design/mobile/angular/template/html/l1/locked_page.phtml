@@ -1,0 +1,28 @@
+<div class="padlock padding a-center">
+    <div class="content">
+
+        <h1><?php echo $this->_("Access restricted to authorized members only"); ?></h1>
+        <div ng-if="customerIsLoggedIn && unlock_by_account_type">
+            <p><?php echo $this->_("We are sorry but your account does not have enough permissions to access this page"); ?></p>
+            <button type="button" class="button" ng-click="logout()">
+                <?php echo $this->_("Disconnect") ?>
+            </button>
+        </div>
+        <div ng-if="!customerIsLoggedIn && unlock_by_account_type">
+            <br />
+            <a href="<?php echo $this->getPath("customer/mobile_account_login");?>" class="button icon_left arrow_right">
+                <?php echo $this->_('Log-in'); ?>
+            </a>
+            <a href="<?php echo $this->getUrl('customer/mobile_account_register'); ?>" class="button icon_left arrow_right">
+                <?php echo $this->_('Create an account'); ?>
+            </a>
+        </div>
+        <div ng-if="handle_code_scan && unlock_by_qrcode_type">
+            <a href="javascript:void(0);" ng-click="openScanCamera()">
+                <?php echo $this->_("Scan now to unlock"); ?>
+                <br />
+                <img src="/images/library/code_scan/scan1.png" alt="qrcode" title="qrcode" height="64" />
+            </a>
+        </div>
+    </div>
+</div>

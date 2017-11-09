@@ -1,0 +1,35 @@
+<?php $target = $this->isOverview() ? "_blank" : "_self"; ?>
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message" right-button="header_right_button"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="scrollable_content event_view">
+        <?php echo $this->getPartialHtml("cover"); ?>
+
+        <div class="padding for_ads_banner">
+            <div class="description bold" id="event_description">
+                <span ng-bind-html="event.description | trusted_html"></span>
+            </div>
+            <div class="buttons">
+                <a class="button icon_left arrow_right" target="<?php echo $target; ?>" ng-href="{{ event.ticket_shop_url }}" ng-if="event.ticket_shop_url">
+                    <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/ticket.png', true), $this->getApplication()->getBlock("button")->getColor()); ?>" width="21" height="21" />
+                    <?php echo $this->_('Buy Tickets'); ?>
+                </a>
+                <a class="button icon_left arrow_right" ng-click="openMaps();" ng-if="event.address">
+                    <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/map.png', true), $this->getApplication()->getBlock("button")->getColor()); ?>" width="21" height="21" />
+                    <?php echo $this->_('Location'); ?>
+                </a>
+                <a class="button icon_left arrow_right" target="<?php echo $target; ?>" ng-href="{{ event.rsvp }}" ng-if="event.rsvp">
+                    <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/world.png', true), $this->getApplication()->getBlock("button")->getColor()); ?>" width="21" height="21" />
+                    <?php echo $this->_('RSVP'); ?>
+                </a>
+                <a class="button icon_left arrow_right" target="<?php echo $target; ?>" ng-repeat="website in event.websites" ng-href="{{ website.url }}">
+                    <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/world.png', true), $this->getApplication()->getBlock("button")->getColor()); ?>" width="21" height="21" />
+                    {{ website.label }}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

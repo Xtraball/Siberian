@@ -1,0 +1,15 @@
+<div class="layout layout_siberian_swipe">
+	<div class="swiper-container">
+		<!-- Additional required wrapper -->
+		<div class="swiper-wrapper">
+			<!-- Slides -->
+			<div class="item homepage-custom border-custom swiper-slide {{ features.layoutOptions.icons }}"
+				 ng-style="{'background-image':'url('+feature.icon_url+')'}"
+				 tabbar-items ng-repeat="feature in features.options"
+				 option="feature" go-to-url="goTo(feature);">
+				<h2>{{ feature.name }}</h2>
+				<p ng-if="feature.subtitle">{{ feature.subtitle }}</p>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,243 @@
+<?php
+    $color = $this->getColor();
+    $font_color = $this->getFontColor();
+?>
+<div id="fb_message" style="display:none">
+    <div class="form-group">
+        <div class="col-md-12 text-center alert" id="fb_message_container">
+        </div>
+    </div>
+</div>
+<div class="form-horizontal" id="form_page_id">
+    <div class="form-group">
+        <div class="col-md-12">
+            <p class="fb-text"><?php echo __("In order to help you start your application, we can retrieve some data from Facebook."); ?></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-6">
+            <input type="text" id="page_id" name="page_id" value="" class="input-flat" placeholder="<?php echo __("Enter your Facebook page"); ?>"/>
+        </div>
+        <div class="col-md-6">
+            <button class="btn <?php echo $color;?>" onclick="import_fb.startImport()">OK</button>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-12">
+            <p class="fb-text-sm text-center">
+                <?php echo __("No Facebook page? You can"); ?> <a href="#" onclick="import_fb.closeAndOpenTemplates()" class="<?php echo $font_color; ?>"><?php echo __("skip this step");?> <i class="fa fa-chevron-right"></i></a>
+            </p>
+        </div>
+    </div>
+</div>
+<div id="form_load" class="form-horizontal">
+    <div id="fb_loader" style="display:none">
+        <div class="form-group">
+            <div class="col-md-12 text-center">
+                <p id="console_loader"></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12 text-center loader-row">
+                <div class="loader-import"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="progress">
+                    <div id="pb" class="progress-bar <?php echo $color; ?>" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="finished" class="form-horizontal" style="display:none">
+    <div class="form-group">
+        <div class="col-md-12">
+            <div class="list-group list-messages-result">
+                <div class="list-group-item text-center" style="font-weight:bold">
+                    <?php echo __("Imported features"); ?>
+                </div>
+                <div class="list-group-item">
+                    <?php echo __("Facebook"); ?> - <span id="message_fb"></span>
+                </div>
+                <div class="list-group-item">
+                    <?php echo __("Contact"); ?> - <span id="message_contact"></span>
+                </div>
+                <div class="list-group-item">
+                    <?php echo __("Images"); ?> - <span id="message_image"></span>
+                </div>
+                <div class="list-group-item">
+                    <?php echo __("Calendar"); ?> - <span id="message_calendar"></span>
+                </div>
+                <div class="list-group-item">
+                    <?php echo __("Places"); ?> - <span id="message_places"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-12">
+            <p class="fb-text-sm text-center">
+                <a href="#" onclick="import_fb.closeAndOpenTemplates()" class="<?php echo $font_color; ?>"><?php echo __("Next");?> <i class="fa fa-chevron-right"></i></a>
+            </p>
+        </div>
+    </div>
+</div>
+<script>
+    var current_color = "<?php echo $color;?>";
+    var is_success = false;
+    var import_fb = {
+        init: function() {
+            $("#modal_mask_modal_fb_import").removeClass("close_modal");
+            $("#modal_mask_modal_fb_import").removeClass("close_modal_modal_fb_import");
+            $("#close_modal_modal_fb_import").hide();
+            $("#form_page_id").show();
+            $("#form_load").hide();
+            $("#finished").hide();
+            this.setConsoleText("");
+        },
+        closeAndOpenTemplates: function() {
+            modal_fb_import.hide();
+            if(typeof(modal_preview) != "undefined"){
+                modal_preview.show();
+            }
+            //If we are in the feature tab, we need to reload to get the new features
+            //Old school style
+            if((current_color == "color-blue") && is_success) {
+                loader.show('page.load');
+                window.location.reload();
+            }
+        },
+        toggleLoader: function() {
+            $("#fb_loader").toggle();
+        },
+        startImport: function() {
+            is_success = false;
+            $("#fb_message").hide();
+            if($("#page_id").val()) {
+                import_fb.setProgressValue("20");
+                $("#form_page_id").hide();
+                $("#form_load").show();
+                this.toggleLoader();
+                this.setConsoleText("<?php echo __("Fetching data from Facebook and creating your features. It can take a while, be patient!");?>");
+
+                var step_import = $.post( "<?php echo $this->getUrl('importer/facebook/parse'); ?>", { page_id: $("#page_id").val()},null,"json")
+
+                step_import.done(function(data) {
+                    if(data.success) {
+                        var messages = data.messages;
+                        import_fb.setProgressValue("70");
+                        import_fb.setConsoleText("<?php echo __("Analyzing fetched data...");?>");
+                        var step_finalize = $.post( "<?php echo $this->getUrl('importer/facebook/finalize'); ?>", { page_id: $("#page_id").val(), real_id: data.real_id},null,"json")
+                        step_finalize.done(function(data) {
+                            if(data.success) {
+                                import_fb.setProgressValue("100");
+                                import_fb.toggleLoader();
+                                import_fb.setMessageContainer("<?php echo __("All done!");?>", "success");
+                                import_fb.setSuccessMessages(messages);
+                                $("#finished").show();
+                            } else {
+                                import_fb.setMessageContainer(data.message, "danger");
+                                $("#form_page_id").show();
+                                $("#pb").show();
+                            }
+                        }).error(function() {
+                            import_fb.setMessageContainer("<?php echo __("An error occurred. Sorry for the inconvenience."); ?>", "danger");
+                            $("#form_page_id").show();
+                            $("#pb").show();
+                        });
+                    } else {
+                        import_fb.setMessageContainer(data.message, "danger");
+                        $("#form_page_id").show();
+                        $("#pb").show();
+                    }
+                }).error(function() {
+                    import_fb.setMessageContainer("<?php echo __("An error occurred. Sorry for the inconvenience."); ?>", "danger");
+                    $("#form_page_id").show();
+                    $("#pb").show();
+                });
+            }
+        },
+        setConsoleText: function(txt) {
+            $("#console_loader").html(txt);
+        },
+        setProgressValue: function(value) {
+            $("#pb").css("width", value + "%");
+        },
+        setMessageContainer: function(msg, type) {
+
+            if(type == "danger") {
+                $("#fb_loader").hide();
+                $("#pb").hide();
+            }
+            $("#fb_message_container").html(msg);
+            $("#fb_message_container").removeClass("alert-danger");
+            $("#fb_message_container").removeClass("alert-success");
+            $("#fb_message_container").addClass("alert-" + type);
+            $("#fb_message").show();
+        },
+        setSuccessMessages: function(messages) {
+            $("#message_fb").html(messages.facebook ? "OK" : "<?php echo __("No data found");?>");
+            $("#message_fb").addClass(messages.facebook ? "message-success" : "message-error");
+            $("#message_calendar").html(messages.calendar ? "OK" : "<?php echo __("No data found");?>");
+            $("#message_calendar").addClass(messages.calendar ? "message-success" : "message-error");
+            $("#message_places").html(messages.places ? "OK" : "<?php echo __("No data found");?>");
+            $("#message_places").addClass(messages.places ? "message-success" : "message-error");
+            $("#message_contact").html(messages.contact ? "OK" : "<?php echo __("No data found");?>");
+            $("#message_contact").addClass(messages.contact ? "message-success" : "message-error");
+            $("#message_image").html(messages.image ? "OK" : "<?php echo __("No data found");?>");
+            $("#message_image").addClass(messages.image ? "message-success" : "message-error");
+
+            is_success = messages.facebook || messages.calendar || messages.places || messages.contact || messages.image;
+        }
+    };
+</script>
+<style>
+    #modal_details_modal_fb_import{
+        overflow-x:hidden
+    }
+    .fb-text{
+        font-size:20px;
+    }
+    .fb-text-sm{
+        font-size:16px;
+    }
+    .fb-text-sm a{
+        text-decoration: underline;
+    }
+    .loader-row{
+        min-height:50px
+    }
+    .message-success{
+        font-weight: bold;
+        color: #244f12;
+    }
+    .message-error{
+        font-weight: bold;
+        color: #d90017;
+    }
+    .loader-import{
+        border: 5px solid #fff; /* Light grey */
+        border-top: 5px solid #2c2c35; /* Blue */
+        border-radius: 100%;
+        width: 44px;
+        height: 44px;
+        animation: spin 0.7s linear infinite;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -22px;
+        margin-left: -22px;
+        -webkit-font-smoothing: antialiased;
+        -webkit-transform: translateZ(0);
+        -webkit-backface-visibility: hidden;
+        -webkit-perspective: none;
+        transform: translate3d(0, 0, 0) scale(1.2);
+    }
+    .list-messages-result{
+        max-width:300px;
+        margin:auto;
+    }
+</style>

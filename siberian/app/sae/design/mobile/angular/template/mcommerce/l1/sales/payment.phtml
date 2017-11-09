@@ -1,0 +1,37 @@
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="'<?php echo $this->_("Payment"); ?>'" message="message" right-button="header_right_button"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="mcommerce sales payment">
+        <div id="payment_infos_content" class="relative" rel="mcommerce_sales_payment">
+            <div class="scroll" class="relative">
+                <div class="padding cart_lines">
+                    <form name="paymentForm" ng-submit="updatePaymentInfos()">
+                        <div class="padding">
+                            <label>
+                                <?php echo $this->_('Choose a payment method:'); ?>
+                            </label>
+                            <div class="padding">
+                                <ul>
+                                    <li class="payment-method-option" ng-repeat="paymentMethod in paymentMethods">
+                                         <input type="radio" name="selectedPaymentMethodId" ng-model="cart.paymentMethodId" ng-value="paymentMethod.id" required />
+                                         <label ng-click="cart.paymentMethodId = paymentMethod.id">{{ paymentMethod.name }}</label>
+                                    </li>
+                                    <li ng-show="!cart.paymentMethodId && paymentForm.submitted">
+                                        <label class="error"><?php echo $this->_('This field is required.'); ?></label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+

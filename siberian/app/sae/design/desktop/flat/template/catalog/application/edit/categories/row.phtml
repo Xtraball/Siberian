@@ -1,0 +1,60 @@
+<?php $category = $this->getCategory(); ?>
+<?php $prefix = $category->getParentId() ? 'sub' : ''; ?>
+
+<li id="row_<?php echo $category->getId() ?>"<?php if($category->getParentId()) : ?> rel="<?php echo $category->getParentId(); ?>" <?php endif; ?>>
+    <script type="text/javascript">
+        var cat = categories.add(<?php echo $category->getId(); ?>, <?php echo $category->getParentId() ? $category->getParentId() : 0; ?>);
+        cat.submit = function(callback) {
+            if(!callback) callback = function() {}
+            reload($('#form_'+this.id), categories.url, true, function(response) {
+                iframe.f.reload();
+                callback(response);
+            });
+        }
+    </script>
+    <div>
+        <div class="actions" id="form_<?php echo $category->getId() ?>">
+            <div class="triangle"><div class="dir_right arrows" id="arrow_<?php echo $category->getId(); ?>" style="display:block;"></div></div>
+            <img class="handle" id="handle_<?php echo $category->getId(); ?>" src="<?php echo $this->getImage('actions/move.png'); ?>" style="visibility: hidden;" />
+            <input id="remove_<?php echo $category->getId() ?>" class="remove block" type="image" src="<?php echo $this->getImage('actions/delete.png'); ?>" alt="Supprimer" rel="<?php echo $category->getId(); ?>" />
+            <input id="edit_<?php echo $category->getId() ?>" class="edit block" type="image" src="<?php echo $this->getImage('actions/edit.png'); ?>" alt="Modifier" rel="<?php echo $category->getId(); ?>" />
+
+            <a href="javascript:void(0);" id="edit_category_<?php echo $category->getId(); ?>"><?php echo $category->getName() ?></a>
+            <input type="text" name="name" style="display:none; color: <?php echo $category->getIsActive() ? 'green' : 'red' ?>; border: 1px solid #888888;" class="category_name" id="category_name_<?php echo $category->getId() ?>" value="<?php echo $category->getName() ?>"/>
+            <input type="hidden" name="is_deleted" id="<?php echo $category->getId() ?>_is_deleted" value="0" />
+            <input type="hidden" name="category_id" id="<?php echo $category->getId() ?>_id" value="<?php echo $category->getId(); ?>"/>
+            <input type="hidden" name="value_id" value="<?php echo $category->getValueId() ?>" />
+            <button type="button" id="validate_<?php echo $category->getId(); ?>" class="classic submit" style="display: none">OK</button>
+        </div>
+        
+        <div id="details_<?php echo $category->getId(); ?>" class="list_details" style="display:none;">
+            <ul id="list_of_subcategories_<?php echo $category->getId(); ?>" class="sublist_edit">
+            <?php if($category->getChildren()->count() > 0 ) : ?>
+                <?php foreach($category->getChildren() as $subcategory) : ?>
+                <?php
+                    echo $this->getLayout()
+                        ->addPartial('row_'.$subcategory->getId(), 'core_view_default', 'catalog/application/edit/categories/row.phtml')
+                        ->setCategory($subcategory)
+                        ->toHtml()
+                    ;
+                ?>
+                <?php endforeach ?>
+            <?php endif  ?>
+            </ul>
+
+            <?php if(!$category->getParentId()) : ?>
+            <div class="add_subcategory">
+                <form action="<?php echo $this->getUrl('catalog/application_category/editpost') ?>" method="post" onsubmit="categories.submit($(this), '<?php echo $category->getId() ?>'); return false;">
+                    <label for="subcategory_name" class="as-link">+<?php echo $this->_('sub-category'); ?>:</label>
+                    <input type="text" id="subcategory_name_<?php echo $category->getId(); ?>" name="name" class="input name input-flat" value="" />
+                    <input type="hidden" name="parent_id" value="<?php echo $category->getId(); ?>" />
+                    <input type="hidden" name="value_id" value="<?php echo $category->getValueId(); ?>" />
+                    <button type="submit" class="classic">OK</button>
+                </form>
+            </div>
+            <?php endif; ?>
+            
+        </div>
+
+    </div>
+</li>

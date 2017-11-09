@@ -1,0 +1,99 @@
+<?php
+    $option_value = $this->getOptionValue();
+    $section_id = $this->getSectionId();
+    $field = $this->getField();
+    if(!$field) $field = new Form_Model_Field();
+?>
+<div id="create_field" class="field">
+    <div class="area">
+        <h3 class="title">
+            <span class="area"><?php echo ($field->getId() ? $this->_('Edit field %s', $field->getName()) : $this->_('Create a new field')) ?></span>
+            <hr />
+            <div class="clear"/>
+        </h3>
+        <form action="<?php echo $this->getUrl('form/application_field/editpost'); ?>" method="post" id="fieldForm">
+            <input type="hidden" name="option_value_id" value="<?php echo $option_value ?>" />
+            <input type="hidden" name="section_id" value="<?php echo $section_id ?>" />
+            <?php if ($field->getId()) : ?>
+                <input type="hidden" name="field_id" value="<?php echo $field->getId() ?>" />
+            <?php endif; ?>
+            <div class="button">
+                <button type="button" id="hide_form" class="delete left" onclick="field.cancel();">
+                    <i class="icon-arrow-left"></i>
+                </button>
+                <button type="submit" class="default_button right"><?php echo $this->_('OK'); ?></button>
+                <div class="clear"></div>
+            </div>
+            <br/>
+            <div class="container-fluid list">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label for="field_name"><?php echo $this->_('Field name:'); ?></label>
+                    </div>
+                    <div class="col-sm-5">
+                        <input class="name required input form-control" type="text" id="field_name" name="name" <?php echo ($field->getId() ? 'value="' . $field->getName() . '"' : 'placeholder="' . $this->_('Field name') . '"') ?>/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label for="field_required" class="checkbox">
+                            <input type="checkbox" id="field_required" value="1" name="required" <?php echo ($field->getRequired() == 1 ? 'checked' : '') ?> style="display:none;"/>
+                            <?php echo $this->_('This field is required'); ?>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label><?php echo $this->_('Choose a field type:'); ?></label>
+                    </div>
+                </div>
+            </div>
+            <div id="typeFieldError" style="display:none" class="error">
+                <?php echo $this->_('You have to choose a field type.'); ?>
+            </div>
+            <div id="choose_type">
+                <ul class="choose_type">
+                    <?php $type = new Form_Model_Field(); ?>
+                    <?php $types = $type->getTypes(); ?>
+                    <?php foreach($types as $type) : ?>
+                    <li id="field_<?php echo $type->getType(); ?>" class="left a-center<?php if($field->getType() == $type->getType()) : ?> editor_menu active<?php endif; ?> f-rounded" title="<?php echo $type->getLabel(); ?>"
+                        <?php if(!$field->getId()) : ?> onclick="field.setType('<?php echo $type->getType(); ?>');"<?php endif; ?>
+                    >
+                        <p class="icon"><?php echo $type->getIcon(); ?></p>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+
+                <input type="hidden" name="type" id="typeField" value="<?php echo ($field ? $field->getType() : '') ?>" class="required" />
+            </div>
+            <div class="clear"></div>
+            <div id="options" class="manage_options" <?php if(!in_array($field->getType(), array('checkbox', 'radio', 'select'))) : ?> style="display:none"><?php endif; ?>
+                <p><?php echo $this->_('Manage options:'); ?></p>
+                <div id="optionList">
+                    <?php
+                    $options = array();
+                    if ($field->getId()) {
+                        $options = $field->getOption();
+                    }
+                    if (!empty($options)) :
+                        $options = explode(';', $options);
+                        foreach ($options as $key => $option) :
+                            ?>
+                            <p><input type="text" id="option<?php echo $key ?>" name="option[]" class="<?php echo $key == 0 || $key == 1 ? 'required' : '' ?> input" value="<?php echo $option ?>"></p>
+                            <?php
+                        endforeach;
+                    else :
+                        ?>
+                        <p><input type="text" id="option1" name="option[]" class="required input" placeholder="<?php echo $this->_('Option'); ?>"></p>
+                        <p><input type="text" id="option2" name="option[]" class="required input" placeholder="<?php echo $this->_('Option'); ?>"></p>
+                        <p><input type="text" id="option3" name="option[]" class="input" placeholder="<?php echo $this->_('Option'); ?>"></p>
+                    <?php endif; ?>
+
+                </div>
+                <div>
+                    <p class="linkOption left" onclick="field.addOption()">+ <?php echo $this->_('Add an option'); ?></p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

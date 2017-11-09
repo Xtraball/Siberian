@@ -1,0 +1,228 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $galleries = new Media_Model_Gallery_Music(); ?>
+<?php $galleries = $galleries->findAll(array('value_id' => $option_value->getId()), 'position ASC'); ?>
+
+<div class="edit_page media images">
+    <div id="list" class="form_content">
+        <div class="section">
+            <h4 class="subtitle">
+                <span class="left area"><?php echo $this->_('Add') ?></span>
+                <hr />
+                <span class="area right">
+                    <button type="button" onclick="showNewGallery(); return false;" class="default_button add right" id="add_item">
+                        <i class="icon-plus"></i>
+                    </button>
+                </span>
+                <div class="clear"></div>
+            </h4>
+            <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+            <div id="new_musics_galery" style="display:none;">
+                <?php
+                    echo $this->getLayout()
+                        ->addPartial('edit_form', 'Core_View_Default', 'media/application/gallery/music/edit/form.phtml')
+                        ->setValueId($option_value->getId())
+                        ->toHtml()
+                    ;
+                ?>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <?php if($galleries->count() > 0) : ?>
+        <div id="existing_items_section" class="section">
+            <h4 class="subtitle">
+                <span class="left area"><?php echo $this->_('Manage'); ?></span>
+                <hr />
+                <span class="area right">
+                    <button type="button" class="default_button" id="toggle_existing_items">
+                        <i class="icon-chevron-down"></i>
+                    </button>
+                </span>
+                <div class="clear"></div>
+            </h4>
+            <div id="existing_items" style="display:none;">
+                <ul id="list_edit" class="table_row_galleries sortable">
+                    <?php foreach($galleries as $gallery) : ?>
+                        <li>
+                            <i class="handle icon-move"></i>
+                            <?php echo $gallery->getName() ?>
+                            <span class="actions right">
+                                <i class="editCurrentGallery icon-edit"></i>
+                                <i class="deleteCurrentGallery icon-remove"></i>
+                                <input type="hidden" name="gallery_id[]" value="<?php echo $gallery->getId() ?>" />
+                                <input type="hidden" name="value_id" value="<?php echo $option_value->getId() ?>" />
+                            </span>
+                        </li>
+                    <?php endforeach ?>
+                </ul>
+            </div>
+        </div>
+        <?php endif; ?>
+         <div class="section">
+            <?php
+                echo $this->getLayout()
+                    ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
+                    ->setValueId($option_value->getId())
+                    ->toHtml()
+                ;
+            ?>
+        </div>
+    </div>
+    <div id="edit" style="display:none">
+    </div>
+    <style type="text/css">
+        #new_musics_galery, div.playlist_title_cont, #playlist_types {
+            margin-left: 20px;
+        }
+        #playlist_types {
+            margin-top: 30px;
+        }
+        #playlist_types li {
+            width:125px;
+        }
+        #playlist_types li:hover {
+            cursor:pointer;
+        }
+        #playlist_types img,
+        #playlist_types canvas,
+        #playlist_types .edit_playlist_type i {
+            display: block;
+            margin:auto auto 5px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        #playlist_types .edit_playlist_type i {
+            font-size:33px;
+            height:50px;
+            width:50px;
+        }
+        .table_row_galleries {
+            width: 100%;
+        }
+        .table_row_galleries .actions {
+            text-align: right;
+        }
+        .gallery_row {
+            border-bottom: solid 1px;
+        }
+        .gallery_row td {
+            margin: 0;
+            padding: 2px;
+        }
+        .editCurrentGallery, .deleteCurrentGallery {
+            cursor: pointer;
+        }
+        .list_edit-placeholder {
+            height: 20px;
+            border: dotted 1px;
+        }
+        #list_edit li {
+            transition: none;
+            border-radius: 5px;
+        }
+        #list_edit .icon-move {
+            cursor: move;
+            margin-right: 20px;
+        }
+        #remove_playlist_image_img {
+            cursor: pointer;
+            vertical-align: top;
+        }
+    </style>
+    <script type="text/javascript">
+
+        var music_playlist_image_uploader = new Uploader();
+        var music_album_image_uploader = new Uploader();
+        var music;
+
+        page.setCallback('willappear', function() {
+
+        });
+
+        function showNewGallery() {
+            $('#new_gallery').hide();
+            $('#new_musics_galery').fadeIn(function(){
+                //Fix IE
+                if(!$('button#upload_music_picture').is(':visible')) {
+                    $('input#uploader').show();
+                }
+                createFileupload();
+            });
+            $('#no_item').hide();
+        }
+
+        var Music = Class.extend({
+            init: function() {
+                this.processEvents();
+            },
+            processEvents: function() {
+                //Tri galleries
+                $('#list_edit').sortable({
+                    handle : '.handle',
+                    placeholder: "list_edit-placeholder",
+                    axis: "y",
+                    update : function (e, ui) {
+                        var order = $(e.target).sortable('serialize');
+                        $(e.target).sortable("refresh");
+                        reload($("#list_edit"), "<?php echo $this->getUrl('media/application_gallery_music/sortgalleries', array('option_value_id' => $option_value->getId())); ?>?"+order, true, function() {
+                            iframe.f.reload();
+                        });
+                    }
+                });
+
+                $('#list_edit li').hover(function(){
+                   $(this).addClass('inner_content');
+                }, function(){
+                   $(this).removeClass('inner_content');
+                });
+
+                $('.editCurrentGallery').click(function(e) {
+                    reload(this.parentNode, "<?php echo $this->getUrl('media/application_gallery_music/editpost'); ?>", true, function(datas) {
+                        if(datas.content_html) {
+                            $('#edit').html(datas.content_html);
+                            feature.edit(function(){
+                                $('#list').html('');
+                                createFileupload();
+//                                var id = $(e.target).parent().find('input[name="gallery_id[]"]').val();
+//                                iframe.content.find('a[rel="playlist_'+id+'"]').trigger('click');
+                            });
+                        }
+                    });
+                });
+
+                $('.deleteCurrentGallery').click(function(){
+                    if(confirm('<?php echo addslashes($this->_("Are you sure you want to delete this playlist?")); ?>')) {
+                        reload($(this.parentNode), '<?php echo $this->getUrl('media/application_gallery_music/deletegallery'); ?>', true, function(datas) {
+                            if(datas.success) {
+                                page.reload();
+                            }
+                        });
+                    }
+                    return false;
+                });
+
+            }
+        });
+
+        page.setCallback('didappear', function() {
+            $('#toggle_existing_items').click(function() {
+                $('#existing_items').stop().slideToggle(300, function() {
+                    if($(this).is(':visible')) $('#toggle_existing_items').children('i').removeClass('icon-chevron-down').addClass('icon-chevron-up');
+                    else $('#toggle_existing_items').children('i').removeClass('icon-chevron-up').addClass('icon-chevron-down');
+                });
+            });
+
+            music = new Music();
+        });
+
+        page.setCallback('willdisappear', function() {
+            $('#toggle_existing_items').unbind('click');
+        });
+
+        page.setCallback('willdisappear', function() {
+            $('#close_panel').unbind('click');
+        });
+
+    </script>
+</div>
+

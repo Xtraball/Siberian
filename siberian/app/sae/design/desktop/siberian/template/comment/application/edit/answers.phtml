@@ -1,0 +1,40 @@
+<?php $comment = $this->getCurrentComment(); ?>
+<?php $answers = $comment->getAnswers(); ?>
+<div>
+    <h4 class="subtitle">
+        <div><span class="left area" data-tip="26"><?php echo $this->_('My customers\' comments'); ?></span></div>
+        <hr />
+        <div class="clear"></div>
+    </h4>
+    <div class="buttons">
+        <button id="hide_answers" class="delete left" type="button"><i class="icon-arrow-left"></i></button>
+        <div class="clear"></div>
+    </div>
+    <?php if($answers->count() > 0) : ?>
+    <table class="list" width="100%">
+        <col width="95%" />
+        <col width="5%" />
+        <?php foreach($answers as $answer) : ?>
+        <tr class="row_<?php echo $answer->getId(); ?>">
+            <td>
+              <i class="icon-flag <?php if ($answer->getFlag() == 0) echo 'hidden'; ?>" title="<?php echo $this->_('Was flagged as inappropriate') ?>"></i>
+              <?php echo $answer->getText(); ?>
+            </td>
+            <?php /*<td><button class="default_button approve_answer" rel="<?php echo $answer->getId(); ?>"><i class="icon-ok"></i></button></td>*/ ?>
+            <td>
+              <button type="button" class="delete delete_answer" rel="<?php echo $answer->getId(); ?>">
+                <i class="icon-remove"></i>
+              </button>
+            </td>
+        </tr>
+        <tr class="row_<?php echo $answer->getId(); ?>">
+            <td colspan="2">
+                <hr />
+            </td>
+        </tr>
+        <?php endforeach ?>
+    </table>
+    <?php else : ?>
+    <p><?php echo $this->_("There is no comment for this news"); ?></p>
+    <?php endif; ?>
+</div>

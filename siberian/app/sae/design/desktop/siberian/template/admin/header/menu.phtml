@@ -1,0 +1,44 @@
+<?php $current = $this->getCurrentLink(); ?>
+<div class="menu header no-hover">
+    <div class="content navigation">
+        <ul class="">
+            <li class="left">
+                <a href="<?php echo $this->getUrl('admin/account/edit'); ?>" class="header<?php if($current == 'my_account') : ?> active<?php endif; ?>">
+                    <i class="icon-user"></i>
+                    <?php echo $this->_('My account'); ?>
+                </a>
+            </li>
+            <?php if(!$this->getRequest()->isWhiteLabelEditor()) : ?>
+            <?php if($this->_canAccess("admin_access_management")) : ?>
+            <li class="left">
+                <a href="<?php echo $this->getUrl('admin/access_management/list'); ?>" class="header<?php if($current == 'access_management') : ?> active<?php endif; ?>">
+                    <i class="icon-group"></i>
+                    <?php echo $this->_('Access Management'); ?>
+                </a>
+            </li>
+            <?php endif; ?>
+
+            <?php endif; ?>
+
+            <li class="right">
+                <span class="hey left"><?php echo $this->_('Log-out') ?></span>
+
+                <a href="<?php echo $this->getUrl('admin/account/logout'); ?>" class="logout" title="<?php echo $this->_('Log-out') ?>">
+                    <span class="header rounded">
+                        <i class="left icon-off"></i>
+                    </span>
+                </a>
+            </li>
+
+            <?php if($this->_canAccess("support") AND $url = System_Model_Config::getValueFor("support_link")) : ?>
+            <li class="right">
+                <a href="<?php echo $url; ?>" target="_blank" class="header">
+                    <i class="icon-medkit"></i>
+                    <?php echo $this->_('Support'); ?>
+                </a>
+            </li>
+            <?php endif; ?>
+        </ul>
+        <div class="clear"></div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <default>
+        <base>
+            <template>page/layout</template>
+            <class>core_view_default</class>
+            <title>Siberian CMS - The best way to create your app easily</title>
+            <scripts>
+                <js>
+                    <jquery link="js/jquery.js" />
+                    <jquery_ui link="js/jquery-ui.js" />
+                    <object link="js/object.js" />
+                    <installer link="js/installer.js" />
+                    <validateform link="js/jquery.validate.js" />
+                    <dropkick link="js/jquery.dropkick.js" />
+                    <custom_checkbox_and_radio link="js/custom_checkbox_and_radio.js" />
+                    <js link="js/js.js" />
+                    <bootstrap_min link="js/bootstrap.min.js" />
+                </js>
+                <css>
+                    <style link="css/style.css" />
+                    <bootstrap link="css/bootstrap.css" />
+                    <!--<flat_ui link="css/flat-ui.css" />-->
+                    <font_awesome link="css/font-awesome.min.css" />
+                </css>
+            </scripts>
+            <metas>
+                <Content-Type value="text/html; charset=utf-8" type="http-equiv" />
+                <description value="Siberian CMS vous permet la création d'application mobile à votre nom et en marque blanche." />
+                <keywords value="creer application mobile, creer application android, creer application iphone, creer site mobile" />
+            </metas>
+        </base>
+        <views>
+            <header class="core_view_default" template="page/layout/header.phtml" />
+            <title class="core_view_default" template="page/layout/title.phtml" />
+            <sidebar class="core_view_default" template="page/layout/sidebar.phtml" />
+            <footer class="core_view_default" template="page/layout/footer.phtml" />
+        </views>
+    </default>
+</layout>

@@ -1,0 +1,260 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $product = new Catalog_Model_Product(); ?>
+<?php $menus = $product->findMenus($option_value->getId()); ?>
+<div class="edit_page menus">
+    <div id="menus_tabs" class="tabs">
+        <div id="list">
+            <div class="section">
+                <h4 class="subtitle">
+                    <span class="left area"><?php echo $this->_('Add'); ?></span>
+                    <hr />
+                    <span class="area right">
+                        <button type="button" onclick="feature.edit()" class="new_menu default_button add right" id="add_item">
+                            <i class="icon-plus"></i>
+                        </button>
+                    </span>
+                    <div class="clear"></div>
+                </h4>
+                <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+            </div>
+
+            <?php if($menus->count() > 0) : ?>
+            <div class="section" id="existing_items_section">
+                <h4 class="subtitle">
+                    <span class="left area"><?php echo $this->_('Manage'); ?></span>
+                    <hr />
+                    <span class="area right">
+                        <button type="button" class="default_button" id="toggle_existing_items">
+                            <i class="icon-chevron-down"></i>
+                        </button>
+                    </span>
+                    <div class="clear"></div>
+                </h4>
+                <div id="existing_items">
+                    <ul id="menus_list" class="list">
+                        <?php foreach($menus as $menu) : ?>
+                        <li class="menu_actions" rel="<?php echo $menu->getId(); ?>">
+                            <p class="left"><?php echo $menu->getName(); ?></p>
+                            <div class="icons right" id="menu_icons_<?php echo $menu->getId(); ?>">
+                                <span class="price left" style="margin-right: 7px;"><?php echo $menu->getFormattedPrice(); ?></span>
+                                <a href="javascript:void(0)" class="icon more" onclick="var div = $('#details_menu_<?php echo $menu->getId(); ?>'); if(div.is(':visible')) {div.parent('.menu_actions').removeClass('selected'); div.slideUp();} else {div.parent('.menu_actions').addClass('selected'); div.slideDown();} return false;">
+                                    <i class="icon-search"></i>
+                                </a>
+                                <a href="javascript:void(0)" rel="<?php echo $menu->getId(); ?>" class="icon edit edit_menu">
+                                    <i class="icon-edit"></i>
+                                </a>
+                                <a href="<?php echo $this->getUrl('catalog/application_menu/deletepost', array('id' => $menu->getId())); ?>" class="icon del del_menu">
+                                    <i class="icon-remove"></i>
+                                </a>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="clear"></div>
+                            <div id="details_menu_<?php echo $menu->getId(); ?>" class="menu_details" style="display: none;">
+                                <p><?php echo $menu->getDescription(); ?></p>
+                            </div>
+                            <hr />
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </div>
+            <?php endif; ?>
+
+            <div class="section">
+                <?php
+                    echo $this->getLayout()
+                        ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
+                        ->setValueId($option_value->getId())
+                        ->toHtml()
+                    ;
+                ?>
+            </div>
+
+            <div class="section">
+                <?php echo $this->getLayout()
+                    ->addPartial('layout', 'Core_View_Default', 'application/customization/features/edit/layout.phtml')
+                    ->setOptionValue($option_value)
+                    ->toHtml()
+                ;
+                ?>
+            </div>
+
+        </div>
+        <div id="edit" style="display: none;"></div>
+    </div>
+    <div class="clear"></div>
+    <style type="text/css">
+        .menu_actions .icons {margin-top:10px;}
+        #cke_menu_description .cke_button__image { display:none; }
+    </style>
+    <script type="text/javascript">
+
+        CKEDITOR.config.language = '<?php echo $this->_('en') ?>';
+        CKEDITOR.config.toolbar = [
+            { name: 'source', items: [ 'Source' ] },
+            { name: 'insert', items: [ 'Image' ] },
+            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ] },
+            { name: 'paragraph', groups: [ 'indent', 'align' ], items: [ 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
+            { name: 'styles', items: [ 'TextColor', 'Format' ] }
+        ];
+
+        var menu = {
+            id: null,
+            is_new: false,
+            processEvents: function() {
+
+                this.is_new = !$('#menu_id').length;
+                this.id = !this.is_new ? $('#menu_id').val() : '<?php echo $option_value->getId(); ?>_new';
+
+                $('#menu_description').ckeditor(
+                    function () {
+                        this.document.on('keyup', function() {
+//                            menu.setDescription(this.getData());
+                        }.bind(this));
+
+                        if(menu.is_new) {
+                            var height = $('#icon_and_name').outerHeight(true) + $('#edit').outerHeight(true);
+                            $('#page').stop().animate({height: height}, 'fast', null, function() {
+                                $(this).css("height", "auto");
+                            });
+                        }
+                    }
+                );
+
+//                $('#name').keyup(function() {
+//                    menu.setName($(this).val());
+//                });
+//                $('#price').keyup(function() {
+//                    menu.setPrice($(this));
+//                });
+//                $('#conditions').keyup(function() {
+//                    menu.setCondition($(this).val());
+//                });
+
+            },
+/*
+            setName: function(text) {
+                if(this.is_new) this.prepareDummy();
+                iframe.content.find('#menu_name_'+this.id).html(text);
+            },
+            setPrice: function(input) {
+                if(this.is_new) this.prepareDummy();
+                if(input.val().length > 0) input.formatCurrency(iframe.content.find('#menu_price_'+this.id), {region: '<?php echo Core_Model_Language::getCurrentLanguage() ?>'});
+                else iframe.content.find('#menu_price_'+this.id).html('');
+                iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').calcRowWidth('#menu_details_'+this.id);
+
+            },
+            setDescription: function(text) {
+                if(this.is_new) this.prepareDummy();
+                iframe.content.find('li#menu_description_'+this.id).html(text);
+            },
+            setCondition: function(text) {
+                if(this.is_new) this.prepareDummy();
+                iframe.content.find('#menu_conditions_'+this.id).html(text);
+            },
+            prepareDummy: function() {
+                if(!iframe.content.find('#menu_details_'+this.id).attr('id')) {
+                    var list = iframe.content.find('#menus_list_<?php echo $option_value->getId(); ?>');
+                    list.append(this.getDummy());
+//                    var totalHeight = 0;
+//                    list.each(function() {
+//                        totalHeight += $(this).outerHeight();
+//                    });
+//                    list.css('height', totalHeight);
+                    iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').calcRowWidth('#menu_details_'+this.id);
+                    iframe.f.toggleMenuDescription(this.id, '<?php echo $option_value->getId(); ?>');
+                }
+            },
+            removeDummy: function() {
+                var menu_new = iframe.content.find('#menu_details_'+this.id);
+                var list = iframe.content.find('#menus_list_<?php echo $option_value->getId(); ?>');
+                if(menu_new.attr('id')) {
+                    menu_new.remove();
+                    iframe.content.find('#menu_description_'+this.id).remove();
+                }
+//                var totalHeight = 0;
+//                list.each(function() {
+//                    totalHeight += $(this).outerHeight();
+//                });
+//                list.css('height', totalHeight);
+                iframe.content.find('.menu_details_<?php echo $option_value->getId(); ?>').show();
+                iframe.content.find('.menu_description').hide();
+//                iframe.f.page.getSubpage('<?php echo $option_value->getId(); ?>').refreshScrollview();
+            },
+            getDummy: function() {
+                return '<li id="menu_details_<?php echo $option_value->getId(); ?>_new" rel="<?php echo $option_value->getId(); ?>_new" class="border menu_details menu_details_<?php echo $option_value->getId(); ?> relative">\n\
+                    <div class="item parent">\n\
+                        <div class="align-left">\n\
+                            <a id="menu_<?php echo $option_value->getId(); ?>_new" href="javascript:void(0);" onclick="javascript:toggleMenuDescription(\'<?php echo $option_value->getId(); ?>_new\', \'<?php echo $option_value->getId(); ?>\')" class="name toggle_description" rel="<?php echo $option_value->getId(); ?>_new">\n\
+                                <div class="picture logo left" style="display:none;">\n\
+                                    <img width="38px" height="38px" src="" id="picture_<?php echo $option_value->getId(); ?>_new" />\n\
+                                </div>\n\
+                                <span id="menu_name_<?php echo $option_value->getId(); ?>_new" class="menu_name left block"><span class="menu_name"></span></span>\n\
+                                <span id="menu_price_<?php echo $option_value->getId(); ?>_new" class="right price block"></span>\n\
+                                <span id="menu_conditions_<?php echo $option_value->getId(); ?>_new" class="menu_conditions block" style="bottom:0;"></span>\n\
+                            </a>\n\
+                        </div>\n\
+                    </div>\n\
+                </li>\n\
+                <li style="display: none;" class="menu_description border" id="menu_description_<?php echo $option_value->getId(); ?>_new">\n\
+                    <div class="separator"></div>\n\
+                    <p id="description_<?php echo $option_value->getId(); ?>_new" class="description align-left"></p>\n\
+                </li>\n\
+                <li rel="<?php echo $option_value->getId(); ?>_new" class="separator"></li>';
+            }
+*/
+        }
+
+        page.setCallback('didappear', function() {
+
+            $('#toggle_existing_items').click(function() {
+                $('#existing_items').stop().slideToggle(300, function() {
+                    if($(this).is(':visible')) $('#toggle_existing_items').children('i').removeClass('icon-chevron-down').addClass('icon-chevron-up');
+                    else $('#toggle_existing_items').children('i').removeClass('icon-chevron-up').addClass('icon-chevron-down');
+                });
+            });
+
+            $('.new_menu').click(function() {
+                var url = '<?php echo $this->getUrl('catalog/application_menu/form', array('option_value_id' => $option_value->getId())); ?>';
+                reload(this, url, true, function(datas) {
+                    $('#edit').html(datas.form);
+                    feature.edit(menu.processEvents());
+                });
+                return false;
+            });
+            $('.edit_menu').click(function() {
+                var id = $(this).attr('rel');
+                var url = '<?php echo $this->getUrl('catalog/application_menu/form', array('option_value_id' => $option_value->getId())); ?>/id/'+id;
+                reload(this, url, true, function(datas) {
+                    $('#edit').html(datas.form);
+                    feature.edit(menu.processEvents());
+                });
+                return false;
+            });
+            $('.del_menu').click(function() {
+                reload(this, $(this).attr('href'), true, function(datas) {
+                    if(datas.menu_id) {
+                        $('.menu_actions[rel="'+datas.menu_id+'"]').slideUp();
+                        menu.processEvents();
+                    }
+                });
+                return false;
+            });
+        });
+
+        page.setCallback('willdisappear', function() {
+            $('#toggle_existing_items').unbind('click');
+            $('.new_menu').unbind('click');
+            $('.edit_menu').unbind('click');
+            $('.del_menu').unbind('click');
+            $('#formCreateMenu').unbind('submit');
+//            $('#menu_description').unbind('keyup');
+//            $('#name').unbind('keyup');
+//            $('#conditions').unbind('keyup');
+//            $('#price').unbind('change');
+            $('.menu_actions').unbind('mouseenter mouseout');
+//            menu.removeDummy();
+        });
+    </script>
+</div>

@@ -1,0 +1,377 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $form = $option_value->getObject(); ?>
+<?php $application = $this->getApplication(); ?>
+<?php $facebook_is_available = $application->getFacebookId() && $application->getFacebookKey(); ?>
+<?php
+$event_type_list = array(
+    'fb'    => 'Facebook',
+    'ical'  => 'iCal',
+    'cstm'  => 'Custom Calendar'
+)
+?>
+<?php $event = new Event_Model_Event(); ?>
+<?php $events = $event->findAll(array('value_id' => $option_value->getId()), 'event_id DESC'); ?>
+
+<div class="edit_page events">
+<div class="form_content">
+    <div id="list">
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo $this->_(('Add content')) ?>
+            <button type="button" onclick="$('#new_event').hide(); $('#new_events_gallery').fadeIn(); $('#no_item').hide();" class="btn color-blue toggle_design pull-right bt-header-right btn" id="add_item">
+                <i class="fa fa-plus"></i>
+            </button>
+        </h3>
+
+        <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+
+        <div id="new_events_gallery" style="display:none;" class="container-fluid content-feature">
+            <div id="choose_type">
+                <ul class="list-group">
+                    <div>
+                      <li class="color-blue list-group-item btn editCurrentEvent">
+                        <i class="fa fa-apple" title="iCal" alt="iCal"></i>
+                        <p><?php echo $this->_('iCal') ?></p>
+                        <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>"/>
+                        <input type="hidden" name="event_type" value="ical" />
+                      </li>
+                      <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>"/>
+                      <input type="hidden" name="event_type" value="ical" />
+                    </div>
+                    <div>
+                      <li class="color-blue list-group-item btn<?php if($facebook_is_available) : ?> editCurrentEvent<?php endif?>" <?php if(!$facebook_is_available) : ?>onclick="featureNotAvailable(); return false;"<?php endif; ?> ">
+                        <i class="fa fa-facebook" title="Facebook" alt="Facebook" ></i>
+                        <p><?php echo $this->_('Facebook') ?></p>
+                        <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>" />
+                        <input type="hidden" name="event_type" value="fb" />
+                      </li>
+
+                      <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>" />
+                      <input type="hidden" name="event_type" value="fb" />
+                    </div>
+                    <div>
+                      <li class="color-blue list-group-item btn editCurrentEvent">
+                          <i class="fa fa-calendar" title="Cstm" alt="Cstm"></i>
+                          <p><?php echo $this->_('Custom Page') ?></p>
+                          <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>"/>
+                          <input type="hidden" name="event_type" value="cstm" />
+                      </li>
+
+                      <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>"/>
+                      <input type="hidden" name="event_type" value="cstm" />
+                    <div>
+                </ul>
+                
+            </div>
+        </div>
+
+        <?php if($events->count() > 0) : ?>
+            <div id="existing_items_section">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo $this->_(('Manage content')); ?>
+                    <button type="button" class="color-blue pull-right bt-header-right btn" id="toggle_existing_items">
+                        <i class="fa fa-angle-down"></i>
+                    </button>
+                </h3>
+                <div id="existing_items" style="display:none;" class="container-fluid first-row-feature content-feature">
+                    <ul class="list-group">
+                        <?php foreach($events as $event) : ?>
+                            <li class="list-group-item content-white-bkg">
+                                <div class="row">
+                                    <div class="col-sm-6 bold">
+                                        <?php echo $event->getName(); ?>
+                                    </div>
+                                    <div class="col-sm-4 bold">
+                                        <?php echo $this->_($event_type_list[$event->getEventType()]); ?>
+                                    </div>
+                                    <div class="col-sm-2 text-right bold actions">
+                                        <i class="editCurrentEvent fa fa-pencil"></i>
+                                        <i class="delete_event fa fa-remove"></i>
+                                        <input type="hidden" name="id" value="<?php echo $event->getId(); ?>" />
+                                        <input type="hidden" name="name" value="<?php echo $event->getName(); ?>" />
+                                        <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>" />
+                                        <input type="hidden" name="url" value="<?php echo $event->getData('url'); ?>" />
+                                        <input type="hidden" name="event_type" value="<?php echo $event->getEventType(); ?>" />
+                                    </div>
+                                </div>
+                                <input type="hidden" name="id" value="<?php echo $event->getId(); ?>" />
+                                <input type="hidden" name="name" value="<?php echo $event->getName(); ?>" />
+                                <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>" />
+                                <input type="hidden" name="url" value="<?php echo $event->getData('url'); ?>" />
+                                <input type="hidden" name="event_type" value="<?php echo $event->getEventType(); ?>" />
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </div>
+        <?php endif; ?>
+        <div class="background">
+            <?php echo $this->importBackground($option_value); ?>
+        </div>
+    </div>
+    <div id="edit" style="display:none"></div>
+</div>
+
+<div id="edit_images" class="inner_content" style="display:none;">
+    <i class="icon-caret-up"></i>
+
+    <h4 class="no-border-radius">
+        <span class="inner_content"><?php echo $this->_('Send your pictures') ?></span>
+        <span class="inner_content right">
+            <a id="close_panel" class="pull-right btn color-blue" href="javascript:void(0);">
+                <i class="fa fa-times"></i>
+            </a>
+        </span>
+    </h4>
+    
+    <!--[if gte IE 10]><!-->
+    <button type="button" id="trigger_upload_image" class="btn reverse btn-block color-blue"><?php echo $this->_('Browse') ?></button>
+    <!--<![endif]-->
+    <input id="upload_image" style="display:none;" multiple type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" />
+    <p class="conditions"><?php echo $this->_('Max size: 2000x2000px - allowed formats: jpg & png') ?></p>
+    <div id="list_images">
+        <?php foreach($events as $event) : ?>
+            <ul style="display:none" id="list_<?php echo $event->getId(); ?>" class="list-group">
+                <?php if($event->getTypeId() == 'custom') : ?>
+                    <?php $gallery = new Media_Model_Gallery_Image_Custom(); ?>
+                    <?php $gs = $gallery->findAll(array('gallery_id' => $event->getId())); ?>
+                    <?php foreach($gs as $p) : ?>
+                        <li class="list-group-item content-white-bkg">
+                            <div class="pull-left">
+                                <img class="img_list_<?php echo $event->getId(); ?>" height="60px" width="60px" src="<?php echo Application_Model_Application::getImagePath().$p->getData('url') ?>" />
+                            </div>
+                            <div class="pull-left">
+                                <label><?php echo $this->_('Title:') ?></label>
+                                <input type="text" id="image_<?php echo $event->getId(); ?>_<?php echo $p->getId(); ?>_title" name="images[list_<?php echo $event->getId(); ?>][<?php echo $p->getId(); ?>][title]" value="<?php echo $p->getTitle(); ?>" maxlength="30" onkeyup="$('#'+$(this).attr('id')+'_receiver').val($(this).val());" />
+                            </div>
+                            <div class="pull-left">
+                                <label><?php echo $this->_('Description:') ?></label>
+                                <input type="text" id="image_<?php echo $event->getId(); ?>_<?php echo $p->getId(); ?>_description" name="images[list_<?php echo $event->getId(); ?>][<?php echo $p->getId(); ?>][description]" value="<?php echo $p->getDescription(); ?>" maxlength="255" onkeyup="$('#'+$(this).attr('id')+'_receiver').val($(this).val());" />
+                            </div>
+                        </li>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </ul>
+        <?php endforeach; ?>
+        <ul style="display:none" id="list_new" class="list-group">
+        </ul>
+    </div>
+</div>
+<style type="text/css">
+    .media.images #choose_type { margin-left: 30px; }
+
+    .table_row_agenda { width: 100% }
+
+    .event_row td {
+        /*text-align: center;*/
+        padding: 2px;
+        margin: 0;
+    }
+
+    .event_name  {
+        text-align: left;
+        font-weight: bold;
+        width: 50%;
+    }
+
+    .event_type  {
+        text-align: left;
+        font-weight: bold;
+        width: 35%;
+    }
+
+    .table_row_agenda .actions  {
+        text-align: right;
+    }
+
+    .delete_event {
+        cursor:pointer;
+    }
+
+    .editCurrentEvent {
+        cursor:pointer;
+    }
+    #choose_type ul {
+        padding-left: 20%;
+    }
+    #choose_type li {
+        float: left;
+        padding-top: 20px;
+        width: 120px;
+        margin-right:2px;
+    }
+    .fa-facebook, .fa-calendar{font-size:2em}
+</style>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        bindForms('#list');
+    });
+
+    page.setCallback('willappear', function() {
+
+        $('.editCurrentEvent').click(function() {
+
+            reload(this.parentNode, "<?php echo $this->getUrl('event/application/form'); ?>", true, function(datas) {
+                if(datas.form_html) {
+                    $('#edit').html(datas.form_html);
+
+                    var object;
+                    if(datas.event_type == 'cstm'){
+                        object = custom;
+                    } else if (datas.event_type == 'fb'){
+                        object = facebook;
+                    } else {
+                        object = ical;
+                    }
+
+                    $('#eventForm').submit(function() {
+                        if(!$(this).valid()) return false;
+                        reload(this, this.action, true, function(datas) {
+                            if(datas.success) {
+                                object.unbindAll();
+                                page.reload();
+                            }
+                        });
+                        return false;
+                    });
+                    object.processEvents();
+                    feature.edit();
+                }
+            });
+        });
+
+        $('.delete_event').click(function() {
+            if(confirm('<?php echo $this->_('Delete this calendar?') ?>')) {
+                var td = $(this.parentNode);
+                var tr = $(this.parentNode.parentNode);
+                reload(tr, '<?php echo $this->getUrl('event/application/delete'); ?>', true, function(datas) {
+                    if(datas.success) {
+                        page.reload();
+                    }
+                });
+            }
+        });
+    });
+
+    page.setCallback('didappear', function() {
+        $('#toggle_existing_items').click(function () {
+            $('#existing_items').stop().slideToggle(300, function () {
+                if ($(this).is(':visible')) {
+                    $('#toggle_existing_items').children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+                    $('#toggle_existing_items').removeClass('color-blue');
+                }
+                else
+                {
+                    $('#toggle_existing_items').children('i').removeClass('fa-angle-up').addClass('fa-angle-down');
+                    $('#toggle_existing_items').addClass('color-blue');
+                }
+            });
+        });
+
+    });
+
+    page.setCallback('willdisappear', function() {
+        $('#toggle_existing_items').unbind('click');
+        $('.image_type_select').unbind('click');
+        $('#eventForm').unbind('submit');
+    })
+
+    function uploadPicture() {
+        $('.upload_picture').click(function() {
+            $('.uploader_picture').trigger('click');
+        });
+        if(!$('button.upload_picture').is(':visible')) {
+            $('input.uploader_picture').show();
+        }
+
+        var uploader = new Uploader();
+        $('.uploader_picture').fileupload({
+            dataType: 'json',
+            add: function (e, data) {
+                $('.pp_content').attr('style', 'height: auto; width: 500px;');
+                data.submit();
+                uploader.showProgressbar();
+            },
+            progressall: function (e, data) {
+                uploader.moveProgressbar(data);
+            },
+            done: function (e, data) {
+                if(data.result.error)
+                {
+                    uploader.showError(data.result.message);
+                }
+                if(data.result.success)
+                {
+                    uploader.hide();
+                    $('#cont_delete_picture').html('<button type="button" onclick="custom.removepicture();" id="delete_picture" class="btn color-blue pull-left"><i class="fa fa-times"></i></button><button class="btn right color-blue" id="btn_validate_crop" style="margin-left:5px">OK</button>');
+                    $('#file').val(data.result.files);
+                    $('#source_width').val(data.result.source_width);
+                    $('#source_height').val(data.result.source_height);
+                    var output_width = 900;
+                    var output_height = 600;
+                    $('#event_picture').html('<img id="crop_illus" src="<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+data.result.files+'" />');
+
+                    var ratio = [290 / data.result.source_width, 194 / data.result.source_height ];
+                    ratio = Math.min(ratio[0], ratio[1]);
+                    var a = { width: data.result.source_width*ratio, height: data.result.source_height*ratio };
+                    var width = a.width;
+                    var height = a.height;
+                    $('#crop_width').val(width);
+                    $('#crop_height').val(height);
+
+                    $('#event_picture img').attr('width', width+'px');
+                    $('#event_picture img').attr('height', height+'px');
+
+                    var jcrop_api, boundx, boundy;
+                    $('#crop_illus').Jcrop({
+                        setSelect: [0, 0, width, height],
+                        onChange: showPreview,
+                        onSelect: showPreview,
+                        minSize: [5, 5],
+                        aspectRatio: output_width/output_height,
+                        keySupport: false,
+                        bgColor: 'transparent',
+                        bgOpacity: '.6'
+                    },function() {
+                        var bounds = this.getBounds();
+                        boundx = bounds[0];
+                        boundy = bounds[1];
+                        jcrop_api = this;
+                        jcrop_api.animateTo([ 0, 0, width, height ]);
+                    });
+                }
+                function showPreview(c) {
+                    if (parseInt(c.w) > 0) {
+                        var rx = 37 / c.w;
+                        var ry = 37 / c.h;
+                        $('#x1').val(c.x);
+                        $('#y1').val(c.y);
+                        $('#x2').val(c.x2);
+                        $('#y2').val(c.y2);
+                        $('#w').val(c.w);
+                        $('#h').val(c.h);
+                    }
+                }
+            }
+        });
+
+        $('#validateCrop').submit(function() {
+            reload(this, this.action, true, function(datas) {
+                if(datas.success) {
+                    $('#picture').val(datas.file);
+                    $('#event_picture').html('<img src="<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+datas.file+'" width="150" height="100" />');
+                    $('#btn_validate_crop').unbind('click').remove();
+                }
+            });
+            return false;
+        });
+    }
+
+    page.setCallback('willdisappear', function() {
+        $('.upload_picture').unbind('click');
+        $('#close_panel').unbind('click');
+        $('.save_event').unbind('click');
+        $('.delete_event').unbind('click');
+    });
+</script>
+</div>

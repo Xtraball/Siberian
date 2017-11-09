@@ -1,0 +1,84 @@
+<sb-section title="section_title">
+
+    <form ng-submit="save();">
+
+
+
+        <div class="col-md-6" ng-show="!is_edit">
+            <div class="form-group">
+                <label for="country_code"><?php echo $this->_("Select a language"); ?></label>
+                <select id="country_code" class="form-control" ng-model="translation.country_code" ng-options="k as v for (k, v) in countries" ng-change="changeCountry();">
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-6" ng-show="translation.country_code || is_edit">
+            <div class="form-group">
+                <label for="files_list"><?php echo $this->_("Select a file"); ?></label>
+                <select id="files_list" class="form-control" ng-model="translation.file" ng-options="k as v for (k, v) in translation_files" ng-change="selectFile();">
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-12" ng-show="translation.file && can_translate">
+            <div class="form-group" style="margin-top: 24px;">
+                <a class="btn btn-primary left pull-right" ng-show="!yandexTranslation.showProgress" ng-click="translateAll();">
+                    <?php echo __("Translate all"); ?>
+                </a>
+                <a class="btn btn-primary left pull-right" ng-show="!yandexTranslation.showProgress" ng-click="translateMissing();">
+                    <?php echo __("Translate missing entries"); ?>
+                </a>
+                <a class="btn btn-primary left pull-right" ng-show="yandexTranslation.showProgress">
+                    <i class="fa fa-spinner fa-spin"></i>
+                    <?php echo __("Translation in progress ... "); ?>
+                    {{ yandexTranslation.progress + '%' }}
+                </a>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+        <div class="col-md-12" ng-show="translation.file && !can_translate">
+            <div class="form-group" style="margin-top: 24px;">
+                <div><?php echo __("<b>Warning:</b> translation API is experimental for the current language and may fail.") ?></div>
+                <a class="btn btn-primary left pull-right" ng-click="translateAll();"><?php echo __("Translate all"); ?></a>
+                <a class="btn btn-primary left pull-right" ng-click="translateMissing();"><?php echo __("Translate missing entries"); ?></a>
+            </div>
+        </div>
+
+        <div class="col-md-12" ng-show="translation.file">
+            <div class="form-group" >
+                <label for="file_datas"><?php echo $this->_("Text translation"); ?></label>
+                <h4 class="a-center bold" ng-if="info[translation.file]"><i class="fa fa-warning"></i> {{ info[translation.file] }}</h4>
+                <table class="table" id="file_datas">
+                    <col width="50%" />
+                    <col width="50%" />
+                    <thead>
+                        <tr>
+                            <th class="text-center"><?php echo $this->_("Default text"); ?></th>
+                            <th class="text-center"><?php echo $this->_("Your translation"); ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="slide-left" ng-repeat="key in notSorted(translation.collection)" ng-init="file_data = translation.collection[key]">
+                            <td class="valign-middle wrap">{{ key }}</td>
+                            <td class="valign-middle text-center">
+                                <input type="text" ng-model="translation.collection[key]" class="form-control" placeholder="{{ file_data }}" value="{{ file_data }}" ng-class="currentClass[key]" ng-change="updateClass(key)" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary left" ng-disabled="!translation.file"><?php echo $this->_("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </form>
+
+</sb-section>

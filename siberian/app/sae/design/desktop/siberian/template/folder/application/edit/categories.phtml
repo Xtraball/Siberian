@@ -1,0 +1,761 @@
+<?php $current_option = $this->getCurrentOptionValue(); ?>
+<?php $folder = new Folder_Model_Folder(); ?>
+<?php $category = new Folder_Model_Category(); ?>
+<?php $folder->find($current_option->getId(), 'value_id'); ?>
+<?php $category->find($folder->getRootCategoryId(), 'category_id') ;?>
+<?php $category_option = new Application_Model_Option_Value(); ?>
+<?php $category_options = $category_option->findAll(array("app_id" => $this->getApplication()->getId(), 'folder_category_id' => $category->getCategoryId()), array('folder_category_position ASC')); ?>
+
+<div class="manage_categories area" style="display:none">
+    <div id="left_category" class="left left_category">
+        <div id="add_category">
+            <h4 class="left"><?php echo $this->_('Folders'); ?></h4>
+            <button class="right add default_button add_category" onclick="category.addCategory(); return false;" type="button"><i class="icon-plus"></i></button>
+            <div class="clear"></div>
+        </div>
+        <div class="cat_list_cont">
+            <div id="manage_search" style="margin-left:5px">
+                <label class="checkbox">
+                    <input type="checkbox" class="checkbox" id="show_search" name="show_search" onclick="category.changeShowSearch()" <?php if($folder->getShowSearch()) echo "checked"; ?>/>
+                    <?php echo $this->_("Show search field"); ?>
+                </label>
+                <input type="hidden" id="value_id" name="value_id" value="<?php echo $current_option->getId(); ?>" />
+            </div>
+            <div class="clear"></div>
+            <ul class="categories_list sortable">
+                <li id="category_<?php echo $category->getCategoryId() ?>">
+                    <?php if($category->getCategoryId()) : ?>
+                        <div class="button_handler" rel="<?php echo $category->getCategoryId() ?>" page-id ="<?php echo $folder->getValueId(); ?>">
+                            <i class="delete_category icon-remove" rel="<?php echo $category->getCategoryId() ?>" style="visibility:hidden"></i>
+                            <a id="<?php echo $category->getCategoryId() ?>" href="javascript:void(0)" rel="<?php echo $category->getCategoryId() ?>" >
+                                <span id="title_category_<?php echo $category->getCategoryId() ?>" class="title"><?php echo $category->getTitle(); ?></span>
+                                <i class="features_number">(<?php echo count($category_options) ?>)</i>
+                            </a>
+                            <i class="edit_category icon-edit" rel="<?php echo $category->getCategoryId() ?>" onclick="category.loadForm(<?php echo $category->getCategoryId() ?>, 'null');"></i>
+                        </div>
+                    <?php else : ?>
+                        <?php
+                        //FU
+                        ?>
+                        <div />
+                    <?php endif; ?>
+                    <?php
+                        echo $this->getLayout()
+                            ->addPartial('folder_manage_sidebar', 'Core_View_Default', 'folder/application/edit/sidebar.phtml')
+                            ->setValueId($current_option->getId())
+                            ->setParentId($category->getCategoryId())
+                            ->toHtml()
+                        ;
+                    ?>
+                </li>
+            </ul>
+            <div id="no_item" class="a-center no_item">
+                <span><?php echo $this->_('Click on') ?></span><button type="button" class="add"><i class="icon-plus"></i></button>
+                <?php if(!$category->getCategoryId()) : ?>
+                    <span><?php echo $this->_('to add a folder.') ?></span>
+                <?php else : ?>
+                    <span><?php echo $this->_('to add a subfolder.') ?></span>
+                <?php endif; ?>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+    <div id="right_category" class="right right_category">
+
+        <div id="add_page_to_folder" class="pages" style="display:none">
+            <div class="listing folder_listing">
+                <h4 class="subtitle">
+                    <span class="left area"><?php echo $this->_('Add a page') ?></span>
+                    <hr />
+                    <div class="clear"></div>
+                </h4>
+
+                <div id="add_page_list">
+                    <div class="a-center" id="no_item">
+                        <?php echo $this->_('Click on a page to add it to the folder <span id="folder_name" class="folder_name">"%s"</span>', !$folder->getRootCategoryId() ? $current_option->getTabbarName() : $category->getTitle()); ?>
+                    </div>
+                    <div class="folder_options_values">
+                        <ul id="page_list_folder" class="pages_list page_list_folder">
+                        <?php
+                            echo $this->getLayout()->addPartial('folder_options_values', 'Core_View_Default', 'folder/application/edit/options.phtml')
+                                ->setValueId($current_option->getId())
+                                ->toHtml()
+                        ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+    createCustomUI();
+    var Category = Class.extend({
+        init: function() {
+            this.root = '<?php echo $folder->getRootCategoryId() ?>';
+            folder.root_category_id = this.root;
+            this.processEvents();
+            this.open = 'options';
+            var param_category = '<?php  echo $this->getRequest()->getParam('category_id'); ?>';
+            var current_category = this.root;
+            var option_value = '<?php echo $current_option->getId() ?>';
+            if(param_category != '' && param_category != 'default') {
+                current_category = param_category;
+            }
+
+            //Passe la root en selected si elle existe
+            if($('option[value="'+option_value+'"]').length > 0) {
+                $('option[value="'+option_value+'"]').prop('selected', true);
+                $('option[value="'+option_value+'"]').parent().dropkick('reload');
+            }
+
+            //Si en provenance d'une option
+            if(current_category.length > 0) {
+                var parent = $('li#category_'+current_category).parent().parent().children('.button_handler').attr('rel');
+                if(!parent) parent = 'null';
+                this.loadForm(current_category, parent);
+            }
+        },
+        processEvents: function() {
+            var __that = this;
+            //override comportement par défaut des nodes
+            $('.option_path').off('change', '.option_node');
+            $('.option_path').on('change', '.option_node', function(e) {
+                folder.reset();
+                var id = $(e.target).val();
+                options.loadNewSlider('default');
+                if(id != 'default') {
+                    var url = "<?php echo $current_option->getUrl('edit', array('option_value_id' => '#{id}')); ?>";
+                    url = url.replace('#{id}', id);
+                    var a = $('<a />').attr('href', url).attr('rel', id).addClass('folder');
+                    page.load(a);
+                }
+            }.bind(this));
+
+            //override création nouvelle feature
+            $('.add_page').click(function() {
+                folder.reset();
+                options.loadNewSlider('default');
+            });
+
+            //Hover catégories
+            $('.manage_categories div.button_handler').off('mousenter mouseleave');
+            $('.manage_categories').on({
+                mouseenter: function() {
+                    $(this).addClass('inner_content');
+                },
+                mouseleave: function() {
+                    $('.categories_list div.button_handler').not('.active').removeClass('inner_content');
+                }
+            }, 'div.button_handler');
+
+            //Modifie une catégorie (options)
+            $('#left_category').on('click', 'a', function(e){
+                this.editCategory($(e.currentTarget).attr('rel'));
+                return false;
+            }.bind(this));
+
+            //Supprime une catégorie
+            $('.manage_categories').on('click', '.delete_category', function(e){
+                this.deleteCategory($(e.target).attr('rel'));
+                return false;
+            }.bind(this));
+
+            //Modif nom feature
+            $('#tabbar_name').keyup(function(e) {
+                var val = this.formatCategoryName($(e.target).val(), true);
+                var option_val = this.formatOptionName($(e.target).val());
+                //On est en train de la créer
+                if($('select#primary_category_id option.dummy').length > 0) {
+                    $('.folderForm input#title').val('').val($(e.target).val());
+                    $('li#category_dummy .dummy_text').html('').html(val);
+                    $('select#primary_category_id option.dummy').html('').html(option_val);
+                    $('.folderForm input#title').val('').val($(e.target).val());
+//                    iframe.content.find('#page_title_category_dummy').html('').html($(e.target).val());
+                    $('#add_page_list span.folder_name').html('').html($(e.target).val());
+                //Root existe
+                } else {
+                    var option_id = '<?php echo $current_option->getId(); ?>';
+                    $('li#category_'+__that.root+' a[rel="'+__that.root+'"] .title').html(val);
+                    if($('select#primary_category_id option[value="'+option_id+'"]').length > 0) {
+                        $('select#primary_category_id option[value="'+option_id+'"]').html(option_val);
+                    } else {
+                        $('select#primary_category_id option[value="'+__that.root+'"]').html(option_val);
+                    }
+                    //Si l'on est dans le formulaire de modif
+                    if($('.folderForm input[name="parent_id"]').val() == 'null') {
+                        $('.folderForm input#title').val($(e.target).val());
+                        $('#add_page_list span.folder_name').html($(e.target).val());
+                    }
+//                    if(iframe.content.find('#page_title_'+option_id).length > 0) {
+//                        iframe.content.find('#page_title_'+option_id).html($(e.target).val());
+//                    } else {
+//                        iframe.content.find('#page_title_subcategory_'+__that.root).html($(e.target).val());
+//                    }
+                }
+                $('select#primary_category_id').dropkick('reload');
+            }.bind(this));
+
+            //Drag catégories
+            $('.categories_list.sortable').nestedSortable({
+                helper: 'clone',
+                forcePlaceholderSize: true,
+                tolerance: 'pointer',
+                toleranceElement: '> div',
+                tabSize: 35,
+                listType: 'ul',
+                items: 'li',
+                placeholder: 'placeholder',
+                revert: 150,
+                zIndex: 9999,
+                handle: '.icon-move',
+                protectRoot: true,
+                rootID: '<?php echo $category->getCategoryId() ?>',
+                start: function(e, ui) {
+                    $(ui.item).addClass('dragged');
+                },
+                stop: function(e, ui) {
+                    $(ui.item).removeClass('dragged');
+                },
+                update: function (e, ui) {
+                    $(ui.item).parent('ul').addClass('categories_list');
+
+                    var current_active = $('.categories_list').find('.button_handler.active').attr('rel');
+                    //Nettoie les éléments drag
+                    $('.categories_list ul').each(function(index) {
+                        if($(this).is(':empty')) {
+                            $(this).remove();
+                        }
+                    });
+                    var new_parent = $(ui.item).parent().parent().children('.button_handler').attr('rel');
+                    var cat_id = $(ui.item).children('.button_handler').attr('rel');
+                    //Met à jour le formulaire si affiché
+                    if($('.folderForm input#category_id').val() == current_active) {
+                        $('.folderForm input[name="parent_id"]').val(new_parent);
+                    }
+
+                    $('.edit_category[rel="'+cat_id+'"]').attr('onclick', 'category.loadForm('+cat_id+','+new_parent+')');
+/*
+                    var need_to_refresh_this_page = null;
+                    var dragged_category_id = 'subcategory_'+ui.item.children('.button_handler:first').attr('rel');
+                    var dragged_page = iframe.f.page.getSubpage(dragged_category_id);
+                    if(dragged_page && dragged_page.is_displayed) need_to_refresh_this_page = dragged_page;
+                    else iframe.f.page.destroySubpage(dragged_page);
+
+                    //Rafraîchit la nouvelle page parent
+                    var parent_id = ui.item.parent('.categories_list').prev('div.button_handler').attr('rel');
+                    parent_id = parent_id == this.root ? '<?php echo $folder->getValueId(); ?>' : 'subcategory_'+parent_id;
+                    var parent_page = iframe.f.page.getSubpage(parent_id);
+
+                    if(parent_page) {
+                        if(parent_page.is_displayed) {
+                            need_to_refresh_this_page = parent_page;
+                        } else {
+                            iframe.f.page.destroySubpage(parent_page);
+                            iframe.content.find('#'+dragged_category_id).remove();
+                        }
+                    }
+*/
+                    $(e).removeClass('inner_content');
+                    $('.categories_list li.placeholder').remove();
+                    var order = $('.categories_list.sortable').nestedSortable('serialize');
+                    $('.categories_list.sortable').nestedSortable('refresh');
+                    reload($('.categories_list.sortable'), '<?php echo $this->getUrl('folder/application/ordercategories'); ?>?'+order, true, function(datas) {
+//                        if(datas.success && need_to_refresh_this_page) {
+//                            iframe.f.page.refreshSubpage(need_to_refresh_this_page);
+//                        }
+                    });
+                }.bind(this)
+            });
+        },
+        calculateHeight: function() {
+            if($('#right_category').outerHeight(true) > $('#left_category').outerHeight(true)) {
+                $('#left_category').height($('#right_category').height());
+            } else {
+                $('#right_category').height($('#left_category').height());
+            }
+        },
+        loadForm: function(cat_id, parent_id) {
+            //Si la catégorie est déjà ouverte
+            if($('.folderForm').attr('rel') == cat_id) {
+                folder_form.showForm();
+            //On la charge
+            } else {
+                if($('li#category_dummy').length > 0) {
+                    if(!confirm('<?php echo $this->_("You will lose all unsaved changes, continue?") ?>')) {
+                        return false;
+                    }
+                }
+
+                //Supprime les binds formulaire
+                $('.folderForm_cont').off('submit');
+                $('.folderForm_cont').off('click', '#upload_folder_background');
+                $('.folderForm_cont').off('click', '#remove_background_img');
+                $('.folderForm_cont').off('click', '.save_background_image');
+                $('.folderForm_cont').off('click', '.add_feature');
+
+                var option_id = '<?php echo $current_option->getId() ?>';
+                //Défini le panneau par défaut (formulaire)
+                if(this.open == '') {
+                    this.open = 'form';
+                }
+
+//                if(iframe.f.page.getSubpage('category_dummy')) {
+//                    iframe.f.page.destroySubpage('category_dummy');
+//                }
+
+                //Rend le formulaire de modif de la catégorie
+                var url = '<?php echo $this->getUrl('folder/application/renderform') ?>/option_value_id/'+option_id+'/category_id/'+cat_id+'/parent_id/'+parent_id;
+                if($('#load_category_'+cat_id).hasClass('not-loaded')) {
+                    url += '/load_subcategories/1';
+                }
+                reload($('#no_item'), url, true, function(datas) {
+
+                    if(datas.success) {
+
+                        folder.current_category_id = cat_id;
+                        var $current_cat = $('div.inner_content[rel="'+cat_id+'"]');
+                        if($current_cat.length > 0 || this.root.length > 0 || cat_id != this.root) {
+                            options.loadNewSlider(cat_id, '<?php echo $current_option->getId() ?>');
+                        }
+                        if(typeof folder_form == 'object') folder_form.destroy();
+
+                        $('#folderForm_cont').remove();
+                        $('#add_page_to_folder').before(datas.form);
+//                        $('.right_category').html(datas.form);
+                        $('.categories_list div.active').removeClass('active inner_content');
+                        $('.categories_list div[rel="'+cat_id+'"]').addClass('active inner_content');
+                        if($('li#category_dummy').length > 0) {
+                            $('li#category_dummy').remove();
+                        }
+                        if($('option.dummy').length > 0) {
+                            $select = $('option.dummy').parent();
+                            $('option.dummy').remove();
+                            $select.dropkick('reload');
+                        }
+
+                        //Fix IE
+                        if($('#upload_folder_background').length < 1) {
+                            $('#folder_background_file').show();
+                        }
+
+                        this.calculateHeight();
+/*
+                        //Mobile
+                        var page_id = cat_id == this.root ? option_id : 'subcategory_'+cat_id;
+                        var mobile_url = '<?php echo $this->getApplication()->getUrl('folder/mobile/findchildren', array(), true); ?>';
+                        mobile_url += '/category_id/'+cat_id;
+                        mobile_url += '/option_value_id/'+option_id;
+                        mobile_url += '/overview/1';
+
+                        var mobile_subpage = iframe.f.page.getSubpage(page_id);
+
+                        if(!mobile_subpage || !mobile_subpage.is_displayed && !mobile_subpage.is_loading) {
+                            loader.show('mobile_page');
+                            var callbacks = {
+                                is_now_visible: function() {
+                                    loader.hide('mobile_page');
+                                    this.unsCallback('is_now_visible')
+                                }
+                            }
+                            if(mobile_subpage) {
+                                mobile_subpage.setCallback('is_now_visible', callbacks.is_now_visible);
+                            }
+
+                            iframe.f.page.showSubpage({
+                                id: page_id,
+                                url : mobile_url,
+                                isAjax: true,
+                                callbacks: callbacks
+                            });
+                        }
+*/
+                        if(datas.subcategories_html) {
+                            $('#category_'+cat_id).append(datas.subcategories_html);
+                            $('#load_category_'+cat_id).removeClass('not-loaded');
+                        }
+
+                    }
+                }.bind(this), function(){
+                });
+            }
+        },
+        addCategory: function() {
+            if($('li#category_dummy').length > 0) {
+                alert('<?php echo addslashes($this->_("You must first complete the current category creation process")); ?>');
+                return false;
+            }
+            var __that = this;
+            var option_id = '<?php echo $current_option->getId() ?>';
+            var parent_id = $('.button_handler.active.inner_content').attr('rel');
+            var value = '';
+            folder.current_category_id = null;
+            if(this.root == '') {
+                parent_id = 'null';
+                value = $('#tabbar_name').val();
+            }
+            reload($('#no_item'), '<?php echo $this->getUrl('folder/application/renderform') ?>/option_value_id/'+option_id+'/category_id/null/parent_id/'+parent_id, true, function(datas) {
+                if(datas.success) {
+                    if(__that.root == '') {
+                        var $select = $('select#primary_category_id');
+                        if($select.length > 0) {
+                            $select.append('<option class="dummy" selected="selected" value="'+value+'">'+value+'</option>');
+                            $select.dropkick('reload');
+                        }
+                    }
+
+                    if(typeof folder_form == 'object') folder_form.destroy();
+                    $('#folderForm_cont').remove();
+                    $('#add_page_to_folder').before(datas.form);
+//                    $('.right_category').html(datas.form);
+                    __that.calculateHeight();
+                    $('#category_dummy').remove();
+                    $('div.active.inner_content').removeClass('active inner_content');
+                    //Dummy category
+                    var dummy = '<li id="category_dummy" style="display: block;">';
+                    dummy += '<div class="button_handler active inner_content">';
+                    if($('.categories_list').find('a').length > 0) {
+                        dummy += '<i class="icon-move" style="visibility:hidden"></i>';
+                    }
+                    dummy += '<a onclick="return false;" href="javascript:void(0)">';
+                    dummy += '<span class="dummy_text">'+value+'</span><i class="features_number">(0)</i>';
+                    dummy += '</a>';
+                    dummy += '<i class="delete_category icon-remove" style="visibility:hidden"></i>';
+                    dummy += '<i class="edit_category icon-edit" style="visibility:hidden"></i>';
+                    dummy += '</div></li>';
+
+                    //Création catégorie dummy dans mobile
+                    var mobile_dummy = '<div id="folder_scrollview_dummy" class="folder_scrollview" rel="dummy">';
+                    mobile_dummy += '<ul id="folder_scrollview_categories_dummy" class="folder_scrollview_categories">';
+                    mobile_dummy += '<li class="header_list subheader" style="height="70px">';
+                    mobile_dummy += '<img src="" width="100%" height="200px"/>';
+                    mobile_dummy += '<p class="header_subtitle"><span class="subtitle"></span></p>';
+                    mobile_dummy += '</li></ul></div>';
+
+                    var title = "<?php echo $this->_('New folder') ?>";
+                    if(__that.root == '') {
+                        title = value;
+                    }
+/*
+                    iframe.f.page.showSubpage({
+                        title: title,
+                        id: "category_dummy",
+                        html: mobile_dummy,
+                        isAjax: false,
+                        callbacks: {
+                            didcreate: function() {
+                                // Bloque bouton retour
+                                this.setBackButtonAction(function() {return false;});
+                                this.unsCallback('didcreate');
+                            }
+                        }
+                    });
+*/
+                    //check ajout root
+                    if(__that.root != '') {
+                        //check ajout cat dans root cat
+                        if($('li#category_'+parent_id).length < 1) {
+                            $li_elem = $('a#'+parent_id).parent();
+                        } else {
+                            $li_elem = $('li#category_'+parent_id);
+                        }
+                        if($li_elem.find('> ul').length > 0) {
+                            $li_elem.find('> ul:last-child').append(dummy);
+                        } else {
+                            $li_elem.append('<ul class="categories_list"></ul>');
+                            $li_elem.find('> ul').eq(0).append(dummy);
+                        }
+                    } else {
+                        $('.categories_list').html(dummy);
+                    }
+
+                    $('#right_category .folderForm').show();
+//                    $('.right_category .pages').hide();
+                    $('#add_page_to_folder').hide();
+                }
+            }, function(){
+            });
+        },
+        editCategory: function(id) {
+            if($('.folderForm').attr('rel') != id) {
+                this.open = 'options';
+                $('.edit_category[rel="'+id+'"]').trigger('click');
+            } else {
+                folder_form.showOptions();
+            }
+        },
+        deleteCategory: function(cat_id) {
+            var option_id = '<?php echo $current_option->getId() ?>';
+            var confirm_message = '<?php echo addslashes($this->_("Delete this folder and all its subfolders?")) ?>';
+            if(confirm(confirm_message)) {
+                reload($('#left_category'), '<?php echo $this->getUrl('folder/application/deletecategory') ?>/value_id/'+option_id+'/category_id/'+cat_id, true, function(datas) {
+                    if(datas.success) {
+                        //Si l'on vient de supprimer la catégorie active
+                        if($('li#category_'+cat_id).children('.button_handler.active').length > 0) {
+                            var parent_id = $('li#category_'+cat_id).parent().parent().children('.button_handler').attr('rel');
+                            var parent_parent_id = $('li#category_'+parent_id).parent().parent().children('.button_handler').attr('rel');
+                            this.loadForm(parent_id, parent_parent_id);
+                        } else {
+                            //Element actif dans supprimé
+                            if($.contains($('li#category_'+cat_id)[0], $('.button_handler.active.inner_content')[0])) {
+                                this.loadForm(this.root, 'null');
+                            }
+                        }
+
+                        $.each(datas.value_ids, function(i, value_id) {
+                            if($('#option_value_'+value_id).attr('data-folder-id')) {
+                                // Met à jour le slider
+                                options.resetElement(value_id);
+
+                                //Réaffiche l'élément dans le formulaire
+                                $('#add_page_'+value_id).fadeIn();
+                            }
+                        });
+
+
+//                        iframe.f.page.destroySubpage('subcategory_'+cat_id);
+//                        iframe.content.find('#subcategory_'+cat_id).remove();
+                        $('li#category_'+cat_id).remove();
+                        this.calculateHeight();
+                    }
+                }.bind(this), function(){
+                });
+            }
+            return false;
+        },
+        /**
+         * Recalculer niveau
+         */
+        formatCategoryName: function(val, root) {
+            if(typeof root == 'undefined') root = false;
+            var current_level = $('.node_container:visible').length-1;
+            var max_length = 37;
+            var level_length = max_length-(4*current_level);
+            if(root == true) {
+                level_length = max_length;
+            }
+            if(val.length > level_length) {
+                val = val.substring(0, level_length-2).trim()+'...';
+            }
+            return val;
+        },
+        formatOptionName: function(val) {
+            if(val.length > 20) {
+                val = val.substring(0, 20).trim()+'...';
+            }
+            return val;
+        },
+        setIframeBackButton: function(cat_id, parent_id) {
+//            var option_id = '<?php echo $current_option->getId() ?>';
+//            var callback = function() {
+//                var didcreate_callback = function() {
+//                    var subpage = iframe.f.page.getSubpage('subcategory_'+parent_id);
+//                    iframe.f.page.slide(subpage, 'back');
+//                    subpage.unsCallback('didcreate');
+//                };
+//
+//                var mobile_url = '<?php echo $this->getApplication()->getUrl('folder/mobile/findchildren', array(), true); ?>';
+//                mobile_url += '/category_id/'+parent_id;
+//                mobile_url += '/option_value_id/'+option_id;
+//                mobile_url += '/overview/1';
+//
+//                var callbacks = new Array();
+//                callbacks['didcreate'] = didcreate_callback;
+//
+//                iframe.f.page.showSubpage({
+//                    id: 'subcategory_'+parent_id,
+//                    url : mobile_url,
+//                    isAjax: true,
+//                    callbacks: callbacks
+//                }, true);
+//            };
+//
+//            var subpage = iframe.f.page.getSubpage('subcategory_'+cat_id);
+//            subpage.setBackButtonAction(callback);
+//            subpage.unsCallback('didcreate');
+        },
+        changeShowSearch: function() {
+            reload($('#manage_search'), '<?php echo $this->getUrl('folder/application/setshowsearch'); ?>', true, function(data) {
+                if($("#show_search").is(":checked")) {
+                    iframe.content.find('#search_section').show();
+                } else {
+                    iframe.content.find('#search_section').hide();
+                }
+            });
+        }
+    });
+
+</script>
+<style type="text/css">
+    .placeholder {
+        position: relative;
+        margin: 5px 0;
+        padding: 0;
+        border: 1px dotted;
+        background: rgba(0,0,0,0.1);
+    }
+    .mjs-nestedSortable-error {
+        background: rgba(255,0,0,0.3);
+        border-color: red;
+        border-style: solid;
+    }
+    .manage_categories {
+        border:solid 3px;
+        padding: 0 !important;
+    }
+    .left_category {
+        width: 398px;
+        min-height: 280px;
+        padding-bottom: 20px;
+    }
+    #page .left_category div.no_item {
+        margin: auto auto 20px;
+    }
+    .right_category {
+        width: 635px;
+        min-height: 280px;
+        padding-bottom: 20px;
+        border-left: 3px solid;
+    }
+    #add_category {
+        border-bottom: solid 3px;
+        padding: 10px;
+    }
+    .cat_list_cont {
+        height: 91%;
+        display: block;
+    }
+    .categories_list {
+        display: block;
+        padding: 5px 0 0 5px;
+        transition: none 0s ease 0s;
+    }
+    .categories_list li {
+        display: block;
+        margin-left: 20px;
+        transition: none 0s ease 0s;
+        padding: 0px;
+        margin-top: 3px;
+    }
+    .categories_list li.dragged {
+        position: absolute;
+        top: 0;
+        opacity: 0.5;
+        z-index: 2000;
+    }
+    .categories_list.sortable > li {
+        margin-left: 0;
+    }
+    .categories_list li div.button_handler {
+        height: 35px;
+        padding: 3px 0;
+        transition: none 0s ease 0s;
+        position: relative;
+        border-radius: 5px 0 0px 5px;
+    }
+    .categories_list li div.button_handler i {
+        margin-right: 5px;
+    }
+    .categories_list li div.button_handler.active:after,
+    .categories_list li div.button_handler.active:before,
+    .categories_list li div.button_handler:hover:after,
+    .categories_list li div.button_handler:hover:before
+    {
+        left: 100%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        z-index: 9999;
+    }
+    .categories_list li div.button_handler.active:after, .categories_list li div.button_handler:hover:after {
+        border-color: rgba(136, 183, 213, 0);
+        border-left-color: #DDF2FF;
+        border-width: 18px;
+        top: 50%;
+        margin-top: -18px;
+        z-index: 9999;
+    }
+
+    .categories_list li div.button_handler:hover {
+        transition: none 0s ease 0s;
+    }
+    .categories_list li div.button_handler:hover .arrow {
+        display: none;
+    }
+    .categories_list li div.button_handler:hover .arrow, .categories_list li div.button_handler.active .arrow {
+        display: block;
+    }
+/*    .categories_list li div.button_handler:hover .delete_category, .categories_list li div.button_handler:hover .edit_category {
+        transition: none 0s ease 0s;
+        visibility: visible;
+    }*/
+    .categories_list li div.button_handler.active .delete_category, .categories_list li div.button_handler.active .edit_category {
+        visibility: visible;
+    }
+    .categories_list li a {
+        display: block;
+        float: left;
+        width: 76%;
+        height: 30px;
+        border-radius: 3px;
+        line-height: 30px;
+        vertical-align: top;
+        overflow: hidden;
+        transition: none 0s ease 0s;
+    }
+    .categories_list li a:hover {
+        transition: none 0s ease 0s;
+    }
+
+    .categories_list li .icon-move {
+        float: left;
+        margin-left: 10px;
+        padding: 7px 0;
+        cursor: move;
+    }
+    .categories_list li .icon-remove, .categories_list li .icon-edit{
+        float: right;
+        cursor: pointer;
+        margin-top: 7px;
+        visibility: hidden;
+        transition: none 0s ease 0s;
+    }
+    .categories_list li div.button_handler .title {
+        margin-left: 10px;
+    }
+    .categories_list li .icon-remove {
+        margin-right: 8px;
+    }
+    .categories_list li a .features_number {
+        margin-left: 3px;
+        font-size: 80%;
+        opacity: 0.8;
+    }
+    .folderForm_cont {
+        margin: 0 10px;
+    }
+    .right_category .pages {
+        margin-top: 0;
+        margin-left: 10px;
+    }
+    .right_category form {
+        margin-bottom: 40px;
+    }
+    .folderForm {
+        margin-top: 20px;
+    }
+    .right_category #no_item {
+        font-weight: bold;
+        padding: 20px 0;
+    }
+    .right_category .folder_name {
+        font-weight: bold;
+    }
+    #folder_background_file {
+        display: block;
+    }
+</style>

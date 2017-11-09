@@ -1,0 +1,58 @@
+/* LIST l18 */
+.layout.layout_siberian_18 .list.row{margin-bottom:5px;padding:0}
+.layout.layout_siberian_18 .list.row .item{height:250px}
+.layout.layout_siberian_18 .list.row .item-image{height:60%;background-repeat: no-repeat;background-position: center center;background-size: cover;}
+.layout.layout_siberian_18 .list.row .item-content{height:40%}
+
+/* LAYOUT 18 */
+.layout.layout_siberian_18 .item h2 { margin-top: 10px; }
+.layout.layout_siberian_18 .item {
+    margin: 0;
+    border-width: 0px;
+}
+.layout.layout_siberian_18 .no-border{border:none !important}
+
+.layout.layout_siberian_18 .badge-custom { top: 20px; right: 16px; padding: 6px 8px; font-size: 16px;  }
+
+.layout.layout_siberian_18 {
+    position: absolute;
+    height: 80vh;
+    padding-left: 12vw;
+    padding-right: 12vw;
+    top: 0;
+}
+
+.layout.layout_siberian_18 ion-scroll {
+    position: absolute;
+    width: 74vw;
+    height: 75%;
+    bottom: 0;
+}
+
+/* options */
+.layout.layout_siberian_18 .border-custom.border-top {
+    border-top-width: 1px;
+}
+.layout.layout_siberian_18 .border-custom.border-right {
+    border-right-width: 1px;
+}
+.layout.layout_siberian_18 .border-custom.border-bottom {
+    border-bottom-width: 1px;
+}
+.layout.layout_siberian_18 .border-custom.border-left {
+    border-left-width: 1px;
+}
+
+.layout.layout_siberian_18 .label-right {
+    text-align: right;
+}
+.layout.layout_siberian_18 .label-left {
+    text-align: left;
+}
+
+.layout.layout_siberian_18 .title-lowcase {
+    text-transform: inherit;
+}
+.layout.layout_siberian_18 .title-uppercase {
+    text-transform: uppercase;
+}

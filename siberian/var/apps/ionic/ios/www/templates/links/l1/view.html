@@ -1,0 +1,26 @@
+<ion-view sb-page-background class="links-view">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-content>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="list" ng-class="{'card': card_design}" ng-show="!is_loading">
+
+            <div class="item item-custom" ng-if="weblink.cover_url">
+                <img ng-src="{{ weblink.cover_url }}" width="100%" />
+            </div>
+
+            <button class="button button-custom item-center button-avatar"
+                    ng-class="{'button-full': !card_design, 'button-block': card_design}"
+                    ng-repeat="link in weblink.links"
+                    ng-click="openLink(link.url,link.hide_navbar,link.use_external_app);">
+
+                <img ng-show="link.picto_url" ng-src="{{ link.picto_url }}" width="21" height="21" />
+                {{ link.title }}
+            </button>
+        </div>
+
+    </ion-content>
+</ion-view>

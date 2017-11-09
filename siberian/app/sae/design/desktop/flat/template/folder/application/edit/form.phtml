@@ -1,0 +1,105 @@
+<?php $folder = new Folder_Model_Folder(); ?>
+<?php $folder->find($this->getValueId(), 'value_id'); ?>
+<?php $category = new Folder_Model_Category(); ?>
+<?php
+    if($this->getParentId() != 'null') {
+        $category->find($this->getCategoryId()) ;
+    } else {
+        $category->find($folder->getRootCategoryId(), 'category_id');
+    }
+?>
+
+<?php $current_option = new Application_Model_Option_Value(); ?>
+<?php $current_option->find($this->getValueId(), 'value_id') ?>
+
+<div id="folderForm_cont" class="folderForm_cont">
+    <form rel="<?php echo $category->getCategoryId() ?>" class="folderForm form-horizontal" name="folderForm" method="post" action="<?php echo $this->getUrl('folder/application/editpost') ?>" style="display:none">
+        <input type="hidden" name="value_id" value="<?php echo $this->getValueId(); ?>" />
+        <input type="hidden" id="category_id" name="category_id" value="<?php echo $category->getCategoryId() ?>" />
+        <input type="hidden" name="parent_id" value="<?php echo $this->getParentId() ?>" />
+        <input type="hidden" name="remove_picture" id="remove_picture" value="" />
+        <input type="hidden" name="file" id="file" value="" />
+        <div class="form_content">
+            <div class="infos">
+                <div id="contact_content">
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-4">
+                            <label for="title"><?php echo $this->_('Title') ?> <span class="input-required">*</span></label>
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="subtitle"><?php echo $this->_('Subtitle') ?></label>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-left:0">
+                        <div class="col-sm-4">
+                            <!--[if gte IE 10]><!-->
+                            <button id="upload_folder_background" <?php if($category->getPicture()) : echo ' style="display:none" '; endif; ?>type="button" class="upload_folder_background color-blue btn">
+                                <i class="icon-camera-retro"></i>
+                                <?php echo $this->_('Add a picture') ?>
+                            </button>
+                            <!--<![endif]-->
+                            <input id="folder_background_file" class="uploader" style="display:none" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+                            <img id="background_img_src" <?php if(!$category->getPicture()) : echo ' style="display:none" '; endif; ?> src="<?php echo $category->getPictureUrl() ?>" width="140px"/><a id="remove_background_img" <?php if(!$category->getPicture()) : echo ' style="display:none" '; endif; ?> href="javascript:void(0)"><i class="fa fa-times"></i></a>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <div class="col-sm-6">
+                                    <input type="text" id="title" name="title" class="folder_bg_field input-flat" value="<?php echo !$folder->getRootCategoryId() ? $current_option->getTabbarName() : $category->getTitle(); ?>" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" id="subtitle" name="subtitle" class="input-flat folder_bg_field" value="<?php echo $category->getSubtitle() ?>" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <button class="btn save_background_image pull-right color-blue" type="button">OK</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <?php /*
+    <div class="pages" style="display:none">
+        <div class="listing folder_listing">
+            <h4 class="subtitle">
+                <span><?php echo $this->_('Add a page') ?></span>
+                <hr />
+                
+            </h4>
+
+            <div id="add_page_list">
+                <div class="a-center" id="no_item">
+                    <?php echo $this->_('Click on a page to add it to the folder'); ?> "<span class="folder_name"><?php echo !$folder->getRootCategoryId() ? $current_option->getTabbarName() : $category->getTitle(); ?></span>"
+                </div>
+                <div class="folder_options_values">
+                    <ul class="pages_list">
+                    <?php
+                        echo $this->getLayout()->addPartial('folder_options_values', 'Core_View_Default', 'folder/application/edit/options.phtml')
+                            ->setCategory($category)
+                            ->setValueId($this->getValueId())
+                            ->toHtml()
+                    ?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    */ ?>
+    <script type="text/javascript">
+        var folder_form = new FolderForm({
+            value_id: '<?php echo $this->getValueId(); ?>',
+            title: '<?php echo !$folder->getRootCategoryId() ? addslashes($current_option->getTabbarName()) : addslashes($category->getTitle()) ?>'
+        });
+    </script>
+    <style type="text/css">
+        input[disabled="disabled"] {
+            opacity: 0.4;
+        }
+        .pages .folder_listing ul {
+            height: auto;
+        }
+    </style>
+</div>

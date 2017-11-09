@@ -1,0 +1,718 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $is_places = $this->getCurrentFeature() == "places"; ?>
+<?php $is_inbox = $this->getCurrentFeature() == "inbox"; ?>
+<?php if (!($page = $this->getCurrentPage())) : ?>
+    <?php $page = new Cms_Model_Application_Page(); ?>
+    <?php $page->find($option_value->getId(), 'value_id') ?>
+<?php endif; ?>
+<?php $default_block = new Cms_Model_Application_Block(); ?>
+<?php $default_blocks = $default_block->findAll(array(), "position ASC") ?>
+<?php $blocks = $page->getBlocks() ?>
+
+<?php
+
+$api = Api_Model_Key::findKeysFor("googlemaps");
+$googlemaps_key = $api->getSecretKey();
+
+?>
+
+<div class="edit_page custom_page">
+
+    <div>
+        <div class="section">
+
+            <div id="customPageForm">
+                <br/>
+                <div class="buttons">
+                    <?php if ($is_inbox OR $is_places): ?>
+                        <button type="button" onclick="page.reload()" class="delete left"><i
+                                class="icon-arrow-left"></i></button>
+                    <?php endif; ?>
+                    <div class="save right">
+                        <?php if ($is_inbox): ?>
+                            <div class="buttons">
+                                <button type="button" class="default_button right" onclick="inbox.goToStep('two')"><i
+                                        class="icon-arrow-right"></i></button>
+                                <div class="clear"></div>
+                            </div>
+                        <?php else: ?>
+                            <button class="default_button btn-block" type="button" onclick="submitCmsForm();">
+                                <?php echo $this->_('Save'); ?>
+                            </button>
+                        <?php endif; ?>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+                <?php if ($is_places) : ?>
+                    <br/>
+                    <form id="placeForm" name="placeForm">
+                        <fieldset>
+                            <div class="form-group">
+                                <div class="col-sm-4" id="row_new" rel="new">
+                                    <div>
+                                        <!--[if gte IE 10]><!-->
+                                        <button id="upload_places_picture" onclick="$('#places_file').trigger('click');"
+                                                type="button"
+                                                class="upload_places_picture upload editor_menu active image_left">
+                                            <i class="icon-camera-retro"></i>
+                                            <?php echo $this->_('Add an <br /><span class="bold">image</span>'); ?>
+                                        </button>
+                                        <!--<![endif]-->
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label
+                                        for="title_page_<?php echo $this->getId(); ?>"><?php echo $this->_('Title') ?>
+                                        *</label>
+                                    <input type="text" name="title" id="title_page_<?php echo $this->getPosition(); ?>"
+                                           value="<?php echo $page->getTitle(); ?>"
+                                           placeholder="<?php echo $this->_('Title') ?>"
+                                           class="weblink_field form-control required"
+                                           rel="<?php echo $page->getId(); ?>"/>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label
+                                        for="subtitle_page_<?php echo $this->getId(); ?>"><?php echo $this->_('Subtitle') ?></label>
+                                    <input type="text" name="content" id="subtitle_page_<?php echo $this->getId(); ?>"
+                                           class="form-control" placeholder="<?php echo $this->_('Subtitle') ?>"
+                                           value="<?php echo $page->getContent() ?>"
+                                           rel="<?php echo $page->getId(); ?>"/>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <label for="cms_application_page_metadata_show_image"
+                                           id="label_cms_application_page_metadata_show_image"
+                                           class="checkbox<?php if ($page->getMetadataValue('show_image')) : ?> checked<?php endif; ?>">
+                                        <span class='icon'></span><span class='icon-to-fade'></span>
+                                        <input type="checkbox" id="cms_application_page_metadata_show_image"
+                                               name="metadata[show_image]"
+                                               value="1"<?php if ($page->getMetadataValue('show_image')) : ?> checked="checked"<?php endif; ?> />
+                                        <?php echo $this->_("Display image in page") ?>
+                                    </label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="cms_application_page_metadata_show_titles"
+                                           id="label_cms_application_page_metadata_show_titles"
+                                           class="checkbox<?php if ($page->getMetadataValue('show_titles')) : ?> checked<?php endif; ?>">
+                                        <span class='icon'></span><span class='icon-to-fade'></span>
+                                        <input type="checkbox" id="cms_application_page_metadata_show_titles"
+                                               name="metadata[show_titles]"
+                                               value="1"<?php if ($page->getMetadataValue('show_titles')) : ?> checked="checked"<?php endif; ?> />
+                                        <?php echo $this->_("Display title and subtitle in page") ?>
+                                    </label>
+                                </div>
+                                <div class="col-sm-4"></div>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <p id="uploader_logo_ie_description"
+                                       style="display:none"><?php echo $this->_('Add an <br /><span class="bold">image</span>'); ?></span></p>
+                                    <input id="places_file" class="uploader" style="display:none" type="file"
+                                           name="files[]"
+                                           data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+
+                                    <div valign="top"
+                                         style="<?php echo (!$page->getPicture()) ? 'display:none;' : '' ?>"
+                                         width="150">
+                                        <img id="places_picture" src="<?php echo $page->getPictureUrl(); ?>"
+                                             width="130"/>
+                                        <a href="javascript:void(0)" id="remove_places_picture">
+                                            <i class="icon-remove"></i>
+                                        </a>
+                                        <input id="picture_page_<?php echo $this->getId(); ?>" type="hidden"
+                                               name="picture" value="<?php echo $page->getPicture(); ?>"/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4"></div>
+                                <div class="col-sm-4"></div>
+                            </div>
+                        </fieldset>
+                        <br>
+                        <?php echo $this->getLayout()
+                            ->addPartial('places_search_setup', 'Core_View_Default', 'cms/application/page/taginput.phtml')
+                            ->setPage($page)
+                            ->toHtml();?>
+                    </form>
+                <?php endif; ?>
+
+                <?php if ($is_inbox): ?>
+                    <div>
+                        <label>
+                            <?php echo $this->_("Title"); ?>
+                        </label>
+                    </div>
+                    <div>
+                        <input type="text" id="title" name="title" maxlength="150" style="color:#000000"/>
+                    </div>
+                <?php endif; ?>
+
+                <br/>
+                <fieldset>
+                    <p class="step"><?php echo $this->_('Add sections:'); ?></p>
+                    <?php foreach ($default_blocks as $default_block) : ?>
+                        <?php if (!$application->useIonicDesign() && $default_block->getType() == "slider") continue; ?>
+                        <button type="button" class="default_button relative add_block"
+                                id="<?php echo $default_block->getType(); ?>">
+                            <i class="<?php echo $default_block->getIcon(); ?>"></i>
+                            <span><?php echo $this->_($default_block->getTitle()) ?></span>
+                            <input type="hidden" name="block_id" value="<?php echo $default_block->getId(); ?>"/>
+                            <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>"/>
+                        </button>
+                    <?php endforeach; ?>
+                </fieldset>
+                <form id="cms_block_container" style="padding-top:20px;">
+                    <?php foreach ($blocks as $block) : ?>
+                        <?php echo $this->getLayout()->addPartial('block_' . $block->getId(), 'Admin_View_Default', $block->getTemplate())->setCurrentOptionValue($option_value)->setPosition($block->getPosition())->setCurrentBlock($block)->toHtml(); ?>
+                    <?php endforeach; ?>
+                </form>
+                <div class="save right">
+                    <?php if ($is_inbox): ?>
+                        <div class="buttons">
+                            <button type="button" class="default_button right" onclick="inbox.goToStep('two')"><i
+                                    class="icon-arrow-right"></i></button>
+                            <div class="clear"></div>
+                        </div>
+                    <?php else: ?>
+                        <button class="default_button btn-block" type="button" onclick="submitCmsForm();">
+                            <?php echo $this->_('Save'); ?>
+                        </button>
+                    <?php endif; ?>
+                </div>
+                <div class="clear"></div>
+
+                <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>"/>
+                <input type="hidden" id="page_id" name="page_id" value="<?php echo $page->getId(); ?>"/>
+            </div>
+
+        </div>
+        <div class="section">
+            <?php
+            echo $this->getLayout()
+                ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
+                ->setValueId($option_value->getId())
+                ->toHtml();
+            ?>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var fields = ['cms_application_page_metadata_show_image', 'cms_application_page_metadata_show_titles'];
+        for (var i in fields) {
+            var field = fields[i];
+            bindLabel($('#label_' + field));
+            setupLabel($('#label_' + field));
+        }
+
+        if (!$('#gmaps_libraries').length) {
+            var script_tag = document.createElement('script');
+            script_tag.setAttribute("id", "gmaps_libraries");
+            script_tag.setAttribute("type", "text/javascript");
+            script_tag.setAttribute("src", "https://maps.google.com/maps/api/js?sensor=false&libraries=places&callback=initializeGmaps&key=<?php echo $googlemaps_key; ?>");
+            (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
+        }
+
+        function initializeGmaps() {
+            $('#cms_block_container').find(".gmaps_address").each(function () {
+                bindGmapsSearchBox($(this));
+            });
+        }
+
+        function removeElem(pos) {
+            $('.cms_block[rel="' + pos + '"]').slideUp('fast', function () {
+                $(this).remove();
+            });
+
+            var ckedname = $('.cms_block[rel="' + pos + '"]').find(".ckcontainer").find("span").attr("id");
+            if (ckedname != undefined) {
+                ckedname = ckedname.split("_");
+                ckedname = ckedname[1];
+                CKEDITOR.instances[ckedname].destroy();
+            }
+        }
+
+        var was_opened = false;
+        function dragTransformMouseDown(elem) {
+            if (elem.parent().parent().hasClass('text')) {
+                elem.parent().parent().find('.cke_contents').hide();
+                elem.parent().parent().find('.cke_bottom').hide();
+                if (elem.parent().parent().find('.display_image').is(':visible')) {
+                    was_opened = true;
+                    elem.parent().parent().find('.cke_button__cms').removeClass('cke_button_on').addClass('cke_button_off');
+                    elem.parent().parent().find('.display_image').hide();
+                } else {
+                    was_opened = false;
+                }
+            } else if (elem.parent().parent().hasClass('picture') || elem.parent().parent().hasClass('video')) {
+                if (elem.parent().parent().find('.param_cont').is(':visible')) {
+                    was_opened = true;
+                    elem.parent().parent().find('.param_cont').hide();
+                    elem.parent().parent().find('.image_cont').hide();
+                } else {
+                    was_opened = false;
+                }
+            }
+        }
+
+        function dragTransformMouseUp(elem) {
+            if (elem.parent().parent().hasClass('text')) {
+                elem.parent().parent().find('.cke_contents').show();
+                elem.parent().parent().find('.cke_bottom').show();
+                if (was_opened == true) {
+                    elem.parent().parent().find('.display_image').show();
+                    elem.parent().parent().find('.cke_button__cms').removeClass('cke_button_off').addClass('cke_button_on');
+                }
+            }
+        }
+
+        function sortIframe() {
+            return;
+        }
+
+        function hackCkeditor(pos) {
+            $('.cms_block[rel="' + pos + '"] .cke_button__cms').click(function () {
+                if ($('.display_image[rel="' + pos + '"] .image_cont img').length > 0) {
+                    $('.cms_block[rel="' + pos + '"]').find('.param_cont').show();
+                } else {
+                    $('.cms_block[rel="' + pos + '"]').find('.param_cont').hide();
+                }
+                if (!$('.display_image[rel="' + pos + '"]').is(':visible')) {
+                    $(this).removeClass('cke_button_off').addClass('cke_button_on');
+                    $('.display_image[rel="' + pos + '"]').slideDown('fast');
+                    //IE
+                    if (!$('.cms_block[rel="' + pos + '"] .upload_picture').is(':visible')) {
+                        $('.cms_block[rel="' + pos + '"] .fileupload_picture').show();
+                    }
+                } else {
+                    $(this).removeClass('cke_button_on').addClass('cke_button_off');
+                    $('.display_image[rel="' + pos + '"]').slideUp('fast');
+                }
+            });
+            if (!$('.size_cont[rel="' + pos + '"] .size').hasClass('active')) {
+                $('.size_cont[rel="' + pos + '"] .size').eq(0).addClass('active');
+            }
+            if (!$('.alignment_cont[rel="' + pos + '"] .alignment').hasClass('active')) {
+                $('.alignment_cont[rel="' + pos + '"] .alignment').eq(0).addClass('active');
+            }
+        }
+
+        //met à jour le contenu iframe après changement texte
+        function updateContentIframe(text, pos) {
+            return;
+        }
+
+        //Met à jour l'image dans l'iframe
+        function updateImage(pos) {
+        }
+
+        function updateVideo(pos) {
+            return;
+        }
+
+        function updateDescVideo(pos) {
+            updateFormVideo(pos);
+        }
+
+        function deleteTextImage(pos) {
+            $('.cms_block[rel="' + pos + '"] .picture').val('');
+            updateFormText(pos);
+            $('.cms_block[rel="' + pos + '"]').find('.image_cont img').remove();
+            $('.cms_block[rel="' + pos + '"]').find('.image_cont .removeimg').remove();
+            $('.cms_block[rel="' + pos + '"]').find('.param_cont').hide();
+        }
+
+        function deleteImageImage(elem) {
+            var index = $(elem).parent().index();
+            var pos = $(elem).parent().attr('rel');
+            $(elem).parent().remove();
+        }
+
+        function deleteImageVideo(elem) {
+            elem = $(elem);
+            var pos = elem.parent().attr('rel');
+            var parent = elem.parent();
+            parent.find('img').attr('src', '').hide();
+            parent.find('a.removeimg').remove();
+            $('.cms_block[rel="' + pos + '"] input.image').val('');
+        }
+
+        function updateFormText(pos) {
+            var blockname_pos = 'block[' + pos + '][pos]';
+            var blockname_content = 'block[' + pos + '][content]';
+            var blockname_image = 'block[' + pos + '][image]';
+            var blockname_alignment = 'block[' + pos + '][alignment]';
+            var blockname_size = 'block[' + pos + '][size]';
+            var position = $('.cms_block[rel="' + pos + '"]').index();
+            var content = $('.cms_block[rel="' + pos + '"] textarea').html();
+            var image = $('.cms_block[rel="' + pos + '"] .picture').val();
+            var alignment = $('.cms_block[rel="' + pos + '"] .alignment_cont a.active').attr('rel');
+            var size = $('.cms_block[rel="' + pos + '"] .size_cont a.active').attr('rel');
+            $('#customPageForm input[name="' + blockname_pos + '"]').val(position);
+            $('#customPageForm input[name="' + blockname_content + '"]').val(content);
+            $('#customPageForm input[name="' + blockname_image + '"]').val(image);
+            $('#customPageForm input[name="' + blockname_alignment + '"]').val(alignment);
+            $('#customPageForm input[name="' + blockname_size + '"]').val(size);
+        }
+
+        function updateDesc(pos) {
+        }
+
+        function updateFormVideo(pos) {
+            var blockname_pos = 'block[' + pos + '][pos]';
+            var blockname_desc = 'block[' + pos + '][description]';
+            var position = $('.cms_block[rel="' + pos + '"]').index();
+            var desc = $('.cms_block[rel="' + pos + '"] input.description').val();
+            $('#customPageForm input[name="' + blockname_pos + '"]').val(position);
+            $('#customPageForm input[name="' + blockname_desc + '"]').val(desc);
+        }
+
+        function refreshCarousel(pos) {
+        }
+
+        function refreshGallery(pos) {
+        }
+
+        function cms_didappear() {
+
+            $('.add_block').click(function () {
+                var position = 0;
+                $('.cms_block').each(function () {
+                    position = Math.max(position, $(this).attr('rel'));
+                });
+                position++;
+
+                reload($(this), '<?php echo $this->getUrl('cms/application_page/addblock') ?>/position/' + position, true, function (datas) {
+                    $('#cms_block_container').append(datas.layout);
+
+                    var offset = $('#cms_block_' + position).offset();
+                    if (offset) {
+                        var d = (navigator.userAgent && navigator.userAgent.indexOf('WebKit')) != -1 ? document.body : document.documentElement;
+                        $(d).animate({scrollTop: offset.top});
+                    }
+                });
+                return false;
+            });
+
+            $('#cms_block_container').sortable({
+                handle: '.handle',
+                axis: 'y',
+                placeholder: "item-placeholder",
+                helper: 'clone',
+                tolerance: 'pointer',
+                start: function (event, ui) {
+                    ui.placeholder.height(ui.item.height() + 30);
+                    if ($(ui.item).hasClass('text')) {
+                        var ckedname = $(ui.item).find(".ckcontainer").find("span").attr("id");
+                        ckedname = ckedname.split("_");
+                        ckedname = ckedname[1];
+                        CKEDITOR.instances[ckedname].destroy();
+                    }
+                },
+                stop: function (event, ui) {
+                    var pos = $(ui.item).attr('rel');
+                    $(ui.item).find('textarea.ckeditor').ckeditor(function () {
+                            if (was_opened == true) {
+                                $(ui.item).find('.display_image').show();
+                                $(ui.item).find('.cke_button__cms').removeClass('cke_button_off').addClass('cke_button_on');
+                            }
+                            this.on('change', function (c) {
+                                $('textarea[rel="' + pos + '"]').html(this.getData());
+                                updateContentIframe(this.getData(), pos);
+                            });
+                            hackCkeditor(pos);
+                        }, {extraPlugins: 'onchange,cms'}, {language: 'ja'}
+                    );
+                    if (was_opened == true) {
+                        if ($(ui.item).hasClass('picture') || $(ui.item).hasClass('video')) {
+                            $(this).parent().parent().find('.param_cont').show();
+                            $(this).parent().parent().find('.image_cont').show();
+                        }
+                    }
+                },
+                update: function (e, ui) {
+                    sortIframe();
+                    var rels = [];
+                    var i = 1;
+                    $('.cms_block').each(function (index, element) {
+                        var rel_attr = $(element).attr('rel');
+                        rels[rel_attr] = i;
+                        i++;
+                    });
+                    $('#customPageForm input.hidden_pos').each(function (index, element) {
+                        $(element).attr('value', rels[$(element).attr('rel')]);
+                    });
+                }
+            });
+
+        }
+
+        function cms_wildisappear() {
+            $('#title').unbind('keyup');
+            for (name in CKEDITOR.instances) {
+                CKEDITOR.instances[name].destroy();
+            }
+        }
+
+        function submitCmsForm() {
+            <?php if($is_places) : ?>
+            if (!$('#placeForm').valid()) return;
+            <?php endif; ?>
+            if (!$('#cms_block_container').valid()) return;
+            reload($('#customPageForm'), '<?php echo $this->getUrl('cms/application_page/editpost') ?>', true, function (datas) {
+                if (datas.success) {
+                    page.reload();
+                }
+            });
+        }
+
+        CKEDITOR.config.language = '<?php echo $this->_('en') ?>';
+        CKEDITOR.config.extraPlugins = 'cms';
+        CKEDITOR.config.toolbar = [
+            {name: 'source', items: ['Source']},
+            {
+                name: 'basicstyles',
+                groups: ['basicstyles', 'cleanup'],
+                items: ['Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat']
+            },
+            {
+                name: 'paragraph',
+                groups: ['indent', 'align'],
+                items: ['Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
+            },
+            {name: 'links', items: ['Link', 'Unlink']},
+            {name: 'insert', items: ['Cms', 'Image']},
+            {name: 'styles', items: ['TextColor', 'Format', 'FontSize']}
+        ];
+
+        <?php if(!$is_places) : ?>
+        page.setCallback('didappear', cms_didappear.bind(page));
+        page.setCallback('willdisappear', cms_wildisappear.bind(page));
+        <?php else : ?>
+
+        var places_uploader = new Uploader();
+        $('#places_file').fileupload({
+            dataType: 'json',
+            add: function (e, data) {
+                data.submit();
+                places_uploader.showProgressbar();
+            },
+            progressall: function (e, data) {
+                places_uploader.moveProgressbar(data);
+            },
+            done: function (e, data) {
+
+                if (data.result.error) {
+
+                    places_uploader.showError(data.result.message);
+
+                } else {
+
+                    places_uploader.hide();
+
+                    var params = new Array();
+                    params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+                    params["file"] = data.result.files;
+                    params["output_w"] = 640;
+                    params["output_h"] = 400;
+                    params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('cms/application_page/crop')) ?>';
+                    params["uploader"] = 'places_uploader';
+                    places_uploader.crop(params);
+                    places_uploader.callback = function (file) {
+                        $('#upload_places_picture').parent().hide();
+                        $('#picture_page_<?php echo $this->getId(); ?>').val(file);
+                        $('#places_picture').attr("src", "<?php echo Core_Model_Directory::getTmpDirectory(); ?>/" + file)
+                            .parent().show();
+                    };
+
+                }
+            }
+        });
+
+        $('#remove_places_picture').click(function () {
+            $('#places_picture').removeAttr("src")
+                .parent().hide();
+            $('#upload_places_picture').parent().show();
+            $('#picture_page_<?php echo $this->getId(); ?>').val("");
+            return false;
+        });
+
+        <?php endif; ?>
+
+    </script>
+
+    <style>
+        a.handle_image_type {
+            float: left;
+        }
+
+        .handle, a.handle_image_type {
+            cursor: move;
+        }
+
+        .cms_block {
+            position: relative;
+            margin-bottom: 15px;
+            border-radius: 5px 5px 5px 5px;
+            padding: 40px 30px 30px;
+        }
+
+        .cms_block .handle, .cms_block .control {
+            position: absolute;
+        }
+
+        .cms_block .handle, .cms_block .control.left {
+            top: 2px;
+            left: 2px;
+        }
+
+        .cms_block .handle, .cms_block .control.right {
+            top: 10px;
+            right: 5px;
+        }
+
+        .cms_block .handle, .cms_block .control .remove {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .cms_block .video_type {
+            margin: 0px 15px;
+            text-align: center;
+        }
+
+        .cms_block.text .cke_button__image {
+            display: none;
+        }
+
+        .item-placeholder {
+            border: 1px dotted #fff;
+            margin: 20px 0
+        }
+
+        .add_block {
+            margin-top: 5px;
+            padding: 5px 0px 5px;
+            font-size: 12pt;
+            width: 78px;
+            display: inline;
+        }
+
+        .add_block i {
+            font-size: 20pt;
+        }
+
+        .add_block span {
+            display: block;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        .image_edit .cont_title {
+            margin-bottom: 3px;
+        }
+
+        div.display_image {
+            margin-bottom: 20px;
+        }
+
+        div.display_image a.editor_menu {
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        /*.description_cont .top_row div.left, .description_cont .bottom_row div.left { width: 250px; }*/
+        .description_cont {
+            width: 540px;
+            margin: 20px auto auto;
+        }
+
+        .description_cont .top_row div.right, .description_cont .bottom_row div.right {
+            width: 225px;
+        }
+
+        .description_cont .param_cont {
+            position: relative;
+        }
+
+        .description_cont .param_cont p {
+            margin-left: 0px;
+            margin-right: 0px;
+        }
+
+        .description_cont .param_cont a {
+            padding: 0px;
+            border-radius: 5px;
+        }
+
+        .description_cont .param_cont a.removeimg {
+            vertical-align: top;
+            margin-left: 5px;
+            padding: 0;
+            display: inline-block;
+            margin-right: 0;
+        }
+
+        .description_cont .param_cont .cont_poster {
+            margin-top: 20px;
+        }
+
+        .description_cont .param_cont div.search_carousel {
+            position: relative;
+            width: 510px;
+            padding: 0 15px;
+        }
+
+        .description_cont .param_cont div.search_carousel div.search {
+            overflow: hidden;
+        }
+
+        .description_cont .param_cont div.search_carousel div.search ul li {
+            width: 150px;
+            padding: 0 10px;
+        }
+
+        .description_cont .param_cont div.search_carousel button.previous, .description_cont .param_cont button.next {
+            position: absolute;
+            top: 0;
+            height: 130px;
+            width: 20px;
+        }
+
+        .description_cont .param_cont div.search_carousel button.previous {
+            left: 0;
+        }
+
+        .description_cont .param_cont div.search_carousel button.next {
+            right: 0;
+        }
+
+        .cms_block.address .description_cont .checkbox .icon,
+        .cms_block.address .description_cont .checkbox .icon-to-fade,
+        .cms_block.address .description_cont .radio .icon,
+        .cms_block.address .description_cont .radio .icon-to-fade {
+            background-image: url("<?php echo $this->getColorizedImage($this->getImage('flat/checkbox.png'), '12A7FF'); ?>")
+        }
+
+        .image_cont {
+            width: 150px;
+            margin-left: 100px;
+        }
+
+        .size_cont {
+            margin-left: 100px;
+        }
+
+        h4.subtitle {
+            margin-bottom: 20px;
+        }
+
+        p.step {
+            margin: 0
+        }
+    </style>
+</div>

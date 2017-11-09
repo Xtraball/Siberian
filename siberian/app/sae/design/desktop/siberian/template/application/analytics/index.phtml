@@ -1,0 +1,92 @@
+<?php $application = $this->getApplication(); ?>
+<?php $log = new Core_Model_Log(); ?>
+<?php $loyaltycard_log = new LoyaltyCard_Model_Customer_Log(); ?>
+
+<?php $consumed_points = $loyaltycard_log->getConsumedPoints() ?>
+<?php $average_per_customer = $loyaltycard_log->getAveragePerCustomer() ?>
+<?php $loyal_customers = $loyaltycard_log->getLoyalCustomers(); ?>
+<?php $best_customers = $loyaltycard_log->getBestCustomers() ?>
+<div class="application_analytics application">
+    <div class="application_header app_name">
+        <?php echo $this->getPartialHtml('customization_header'); ?>
+    </div>
+    <div class="application_content inner_content">
+        <div class="title">
+            <i class="left icon-bar-chart"></i>
+            <h2 class="left inner_content f-rounded"><?php echo $this->_('Analytics'); ?></h2>
+            <div class="clear"></div>
+            <hr />
+        </div>
+<!--        <div>
+            <p class="f-bold black5">Agrégation des données de visites, de téléchargements, de consommation de points de fidélité, etc...</p>
+        </div>-->
+        <div class="area">
+            <h3 class="title">
+                <span class="left area"><?php echo $this->_('My application in figures'); ?></span>
+                <div class="clear"></div>
+            </h3>
+            <div class="stat">
+                <table cellspacing="10" class="no-collapse" width="400">
+                    <col width="80%" />
+                    <col width="20%" />
+                    <tr>
+                        <td class=""><?php echo $this->_('Installed application'); ?> : </td>
+                        <td class="f-bold "><?php echo $log->countNumberOfInstallations() ?> <?php echo $this->_('times'); ?></td>
+                    </tr>
+                    <tr>
+                        <td class=""><?php echo $this->_('Global visits'); ?> : </td>
+                        <td class="f-bold "><?php echo $log->countConsultation() ?></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="area">
+            <h3 class="title">
+                <span class="left area"><?php echo $this->_('Your customers in figures'); ?></span>
+                <div class="clear"></div>
+            </h3>
+            <div class="stat">
+                <table cellspacing="10" class="no-collapse" width="400">
+                    <col width="80%" />
+                    <col width="20%" />
+                    <tr>
+                        <td class=""><?php echo $this->_('Used points'); ?> :</td>
+                        <td class="f-bold "><?php echo $consumed_points ?></td>
+                    </tr>
+                    <tr>
+                        <td class=""><?php echo $this->_('Average by customer'); ?> :</td>
+                        <td class="f-bold "><?php echo round($average_per_customer, 2) ?></td>
+                    </tr>
+                    <?php if($loyal_customers > 0) : ?>
+                    <tr>
+                        <td class=""><?php echo $this->_('Percentage of returning customers'); ?> :</td>
+                        <td class="f-bold"><?php echo $loyal_customers ?> %</td>
+                    </tr>
+                    <?php endif; ?>
+                </table>
+            </div>
+        </div>
+
+        <?php if(count($best_customers) > 0) : ?>
+        <div class="area">
+            <h3 class="title">
+                <span class="left area"><?php echo $this->_('Your best customers'); ?></span>
+                <div class="clear"></div>
+            </h3>
+            <div class="stat">
+                <table cellspacing="10" class="no-collapse" width="630">
+                    <col width="300">
+                    <col width="310">
+                    <?php foreach($best_customers as $customer) : ?>
+                    <tr>
+                        <td><img src="<?php echo $customer->getImageLink(); ?>" alt="<?php echo $customer->getName(); ?>" title="<?php echo $customer->getName(); ?>" width="75" /></td>
+                        <td><?php echo $customer->getName() ? $customer->getName() : 'Client supprimé'; ?></td>
+                    </tr>
+                    <?php //endforeach ?>
+                    <?php endforeach ?>
+                </table>
+            </div>
+        </div>
+        <?php endif; ?>
+    </div>
+</div>

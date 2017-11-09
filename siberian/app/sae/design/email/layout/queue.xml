@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <source_queue_success>
+        <addLayout name="base_email" />
+        <views>
+            <content_email class="core_view_email_default" template="application/queue/source_queue_success.phtml" />
+        </views>
+    </source_queue_success>
+
+    <source_queue_failed>
+        <addLayout name="base_email" />
+        <views>
+            <content_email class="core_view_email_default" template="application/queue/source_queue_failed.phtml" />
+        </views>
+    </source_queue_failed>
+
+    <apk_queue_success>
+        <addLayout name="base_email" />
+        <views>
+            <content_email class="core_view_email_default" template="application/queue/apk_queue_success.phtml" />
+        </views>
+    </apk_queue_success>
+
+    <apk_queue_failed>
+        <addLayout name="base_email" />
+        <views>
+            <content_email class="core_view_email_default" template="application/queue/apk_queue_failed.phtml" />
+        </views>
+    </apk_queue_failed>
+
+
+</layout>

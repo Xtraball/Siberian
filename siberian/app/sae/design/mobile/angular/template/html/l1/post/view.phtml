@@ -1,0 +1,100 @@
+<?php $application = $this->getApplication(); ?>
+<?php $block_subheader = $application->getBlock('subheader'); ?>
+<?php $block_button = $application->getBlock('button'); ?>
+
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message" right-button="header_right_button"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="content scrollable_content">
+        <ul ng-class="{news: !style_background_image}" class="content_news for_ads_banner" ng-show="post.id">
+            <li class="title padding" ng-class="{subheader: !style_background_image}">
+                <div class="logo left">
+                    <img width="37" height="37" class="logo_src" ng-src="{{ post.icon }}" alt="{{ post.author }}" title="{{ post.author }}" />
+                </div>
+                <div class="right" ng-show="canPost" ng-click="flagPost()">
+                    <img width="24" height="31" ng-src="{{ post.flag_icon }}" alt="<?php echo $this->_("Flag as inapproriate") ?>" title="<?php echo $this->_("Flag") ?>" />
+                </div>                
+                <p class="text">
+                    <span class="name bold">{{ post.author }}</span>
+                    <span ng-show="post.author && post.title"> - </span>
+                    <span>{{ post.title }}</span>
+                </p>
+                <div class="clear"></div>
+                <div class="metas">
+                    <span class="comments_date left">
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/pencil.png', true), $block_subheader->getColor()); ?>" alt="" height="11"/>
+                        {{ post.created_at | date : "short" }}
+                    </span>
+                    <span class="likes_count right">
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/heart.png', true), $block_subheader->getColor()); ?>" alt="<?php echo $this->_('Likes') ?>" height="11" />
+                        {{ post.number_of_likes }}
+                    </span>
+                    <span class="comments_count right">
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/comment.png', true), $block_subheader->getColor()); ?>" alt="<?php echo $this->_('Coms') ?>" height="11" />
+                        {{ post.number_of_comments }}
+                    </span>
+                    <div class="clear"></div>
+                </div>
+            </li>
+            <li class="description padding">
+                {{ post.description }}
+            </li>
+            <li class="details padding">
+                <div class="image" ng-if="post.picture">
+                    <img ng-src="{{ post.picture }}" alt="{{ post.author }}" title="{{ post.author }}" width="100%" />
+                </div>
+                <p class="text" ng-bind-html="post.message | trusted_html"></p>
+                <div class="a-center add_comment" ng-if="post.can_comment">
+                    <button type="button" class="button half icon_left" ng-click="showForm();">
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/comment.png', true), $block_button->getColor()); ?>" width="25" height="20" />
+                        <?php echo $this->_('Comment'); ?>
+                    </button>
+                    <button type="button" class="button half icon_left" ng-click="addLike();">
+                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/heart.png', true), $block_button->getColor()); ?>" width="25" height="20" />
+                        <?php echo $this->_('Like'); ?>
+                    </button>
+                </div>
+            </li>
+
+            <li class="padding scale-fade" ng-show="show_form == true;" ng-if="post.can_comment">
+                <div class="comment_content" ng-show="is_logged_in">
+                    <form class="commentForm" ng-submit="addAnswer(new_answer);">
+                        <textarea rows="6" class="input_comment large border" name="text" value="" ng-model="post.new_answer" placeholder="<?php echo $this->_("Your comment") ?>"></textarea>
+                        <input type="hidden" name="status_id" value="{{ news.id }}" />
+                        <div>
+                            <button type="submit" class="button"><?php echo $this->_('Validate'); ?></button>
+                            <button type="button" ng-click="show_form = false;" class="button reverse"><?php echo $this->_('Cancel'); ?></button>
+                        </div>
+                    </form>
+                </div>
+
+                <div ng-show="!is_logged_in">
+                    <p><?php echo $this->_("You must be logged in to post a comment"); ?></p>
+                    <a href="<?php echo $this->getUrl("customer/mobile_account_login"); ?>" class="button arrow_right" class=""><?php echo $this->_("Log in"); ?></a>
+                </div>
+
+                <div class="clear"></div>
+            </li>
+
+            <li class="padding comments answer" ng-repeat="comment in comments">
+                <div>
+                    <img width="35" height="35" class="logo left" ng-src="{{ comment.picture }}" title="{{ comment.author }}" alt="{{ comment.author }}" />
+                    <div class="right" ng-click="flagComment(comment.id)" ng-if="post.flag_icon">
+                        <img width="20" height="27" ng-src="{{ post.flag_icon }}" alt="<?php echo $this->_("Flag as inapproriate") ?>" title="<?php echo $this->_("Flag") ?>" />
+                    </div>
+                    <p class="text">
+                        <span class="customer_name bold">{{ comment.author }}</span> {{ comment.created_at | date : "short" }}
+                    </p>
+                    <p class="comment">{{ comment.message }}</p>
+                    <div class="clear"></div>
+                </div>
+            </li>
+            <li class="separator"></li>
+
+        </ul>
+    </div>
+
+</div>

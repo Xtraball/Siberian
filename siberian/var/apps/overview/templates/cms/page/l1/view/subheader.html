@@ -1,0 +1,9 @@
+<div class="card" ng-if="page.title || page.subtitle || page.picture" ng-class="{ 'cotard': !page.show_image}">
+    <div class="item item-custom" ng-if="(page.title || page.subtitle) && page.show_titles" ng-class="{ 'cotard': !page.show_titles }">
+        <h2>{{ page.title }}</h2>
+        <p class="nowrap">{{ page.subtitle }}</p>
+    </div>
+    <div class="item item-image" ng-if="page.picture && page.show_image">
+        <img ng-src="{{ page.picture }}" />
+    </div>
+</div>

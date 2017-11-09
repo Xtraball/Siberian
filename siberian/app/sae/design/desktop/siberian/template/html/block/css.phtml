@@ -1,0 +1,67 @@
+<?php $block = $this->getCurrentBlock(); ?>
+<?php $important = $this->getImportant(); ?>
+<?php $style_type = $this->getStyleType(); ?>
+
+<style id="<?php echo $block->getCode(); ?>_<?php echo $style_type ?>_style">
+<?php if($block->getUseColor()) : ?>
+    /*<?php echo $block->getCode(); ?>_color*/
+    .<?php echo $block->getCode(); ?> { color: <?php echo $block->getColor(); ?><?php echo $important; ?>; }
+    .<?php echo $block->getCode() ?> .reverse, .<?php echo $block->getCode() ?>.reverse { background-color: <?php echo $block->getColor(); ?><?php echo $important; ?>; }
+    .<?php echo $block->getCode(); ?> .input, .<?php echo $block->getCode(); ?>.input { background-color: <?php echo $block->getColor(); ?><?php echo $important; ?>; border-color: <?php echo $block->getColor(); ?><?php echo $important; ?>; transition: all 0.25s ease 0s; }
+    .<?php echo $block->getCode(); ?> .input:focus, .<?php echo $block->getCode(); ?> .input.focus, .<?php echo $block->getCode(); ?>.input:focus, .<?php echo $block->getCode(); ?>.input.focus { color: <?php echo $block->getColor(); ?><?php echo $important; ?>; }
+    /*/<?php echo $block->getCode(); ?>_color*/
+<?php endif; ?>
+
+<?php if($block->getUseBackgroundColor()) : ?>
+    /*<?php echo $block->getCode(); ?>_background_color*/
+    .<?php echo $block->getCode(); ?> { background-color: <?php echo $block->getBackgroundColor(); ?><?php echo $important; ?>; }
+    .<?php echo $block->getCode(); ?>.no-background { background-color: transparent<?php echo $important; ?>; }
+    .<?php echo $block->getCode() ?> .reverse, .<?php echo $block->getCode() ?>.reverse { color: <?php echo $block->getBackgroundColor(); ?><?php echo $important; ?>; }
+    .<?php echo $block->getCode(); ?> .input, .<?php echo $block->getCode(); ?>.input { color: <?php echo $block->getBackgroundColor(); ?><?php echo $important; ?>; }
+    .<?php echo $block->getCode(); ?> .input:focus, .<?php echo $block->getCode(); ?> .input.focus, .<?php echo $block->getCode(); ?>.input:focus, .<?php echo $block->getCode(); ?>.input.focus { background-color: <?php echo $block->getBackgroundColor(); ?><?php echo $important; ?>; }
+    .<?php echo $block->getCode() ?>.active:after { border-left-color: <?php echo $block->getBackgroundColor(); ?><?php echo $important; ?>; }
+    .<?php echo $block->getCode() ?>.active:hover:after { border-left-color: <?php echo $block->getBackgroundColor(); ?><?php echo $important; ?>; }
+    /*/<?php echo $block->getCode(); ?>_background_color*/
+<?php endif; ?>
+
+<?php if($block->getUseColorOnHover()) : ?>
+    /*<?php echo $block->getCode(); ?>_color_on_hover*/
+    .<?php echo $block->getCode() ?>.hover, .<?php echo $block->getCode() ?> .hover, .<?php echo $block->getCode() ?>:hover { color: <?php echo $block->getColorOnHover(); ?><?php echo $important; ?>; }
+    <?php if($block->getUseBackgroundColorOnHover()) : ?>
+    .<?php echo $block->getCode() ?>.hover .reverse, .<?php echo $block->getCode() ?>.hover.reverse, .<?php echo $block->getCode() ?>.reverse:hover { color: <?php echo $block->getBackgroundColorOnHover();?><?php echo $important; ?>; }
+    .<?php echo $block->getCode() ?>.hover .reverse.no-background, .<?php echo $block->getCode() ?>.hover.reverse.no-background, .<?php echo $block->getCode() ?>.reverse.no-background:hover { background-color: transparent<?php echo $important; ?>; }
+    /*/<?php echo $block->getCode(); ?>_color_on_hover*/
+    <?php endif; ?>
+<?php endif; ?>
+
+<?php if($block->getUseBackgroundColorOnHover()) : ?>
+    /*<?php echo $block->getCode(); ?>_background_color_on_hover*/
+    .<?php echo $block->getCode() ?>.hover, .<?php echo $block->getCode() ?> .hover, .<?php echo $block->getCode() ?>:hover { background-color: <?php echo $block->getBackgroundColorOnHover(); ?><?php echo $important; ?>; }
+    .<?php echo $block->getCode() ?>.hover.no-background, .<?php echo $block->getCode() ?> .hover.no-background, .<?php echo $block->getCode() ?>.no-background:hover { background-color: transparent<?php echo $important; ?>; }
+    <?php if($block->getUseColorOnHover()) : ?>
+    .<?php echo $block->getCode() ?>.hover .reverse, .<?php echo $block->getCode() ?>.reverse:hover { background-color: <?php echo $block->getColorOnHover();?><?php echo $important; ?>; }
+    <?php endif; ?>
+    /*/<?php echo $block->getCode(); ?>_background_color_on_hover*/
+<?php endif; ?>
+
+<?php if($block->getUseColorOnActive()) : ?>
+    /*<?php echo $block->getCode(); ?>_color_on_active*/
+    .<?php echo $block->getCode() ?>.active, .<?php echo $block->getCode() ?> .active, .<?php echo $block->getCode() ?>:active { color: <?php echo $block->getColorOnActive(); ?><?php echo $important; ?>; }
+    <?php if($block->getUseBackgroundColorOnActive()) : ?>
+    .<?php echo $block->getCode() ?>.active .reverse, .<?php echo $block->getCode() ?>.active.reverse, .<?php echo $block->getCode() ?> .reverse:active, .<?php echo $block->getCode() ?>.reverse:active { color: <?php echo $block->getBackgroundColorOnActive();?><?php echo $important; ?>; }
+    .<?php echo $block->getCode() ?>.active .reverse.no-background, .<?php echo $block->getCode() ?>.active.reverse.no-background { background-color: transparent<?php echo $important; ?>; }
+    <?php endif; ?>
+    /*/<?php echo $block->getCode(); ?>_color_on_active*/
+<?php endif; ?>
+
+<?php if($block->getUseBackgroundColorOnActive()) : ?>
+    /*<?php echo $block->getCode(); ?>_background_color_on_active*/
+    .<?php echo $block->getCode() ?>.active, .<?php echo $block->getCode() ?> .active, .<?php echo $block->getCode() ?>:active { background-color: <?php echo $block->getBackgroundColorOnActive(); ?><?php echo $important; ?>; }
+    .<?php echo $block->getCode() ?>.active.no-background, .<?php echo $block->getCode() ?> .active.no-background, .<?php echo $block->getCode() ?>.no-background:active { background-color: transparent<?php echo $important; ?>; }
+    <?php if($block->getUseColorOnActive()) : ?>
+    .<?php echo $block->getCode() ?>.active .reverse, .<?php echo $block->getCode() ?>.active.reverse, .<?php echo $block->getCode() ?> .reverse:active, .<?php echo $block->getCode() ?>.reverse:active { background-color: <?php echo $block->getColorOnActive();?><?php echo $important; ?>; }
+    <?php endif; ?>
+    /*/<?php echo $block->getCode(); ?>_background_color_on_active*/
+<?php endif; ?>
+
+</style>

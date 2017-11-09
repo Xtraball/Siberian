@@ -1,0 +1,27 @@
+<?php $option_value = $this->getCurrentOptionValue(); ?>
+<?php $link = $this->getCurrentLink(); ?>
+
+<div id="row_<?php echo $link->getId(); ?>" class="row_link row" rel="<?php echo $link->getId(); ?>"<?php if($link->getId() == 'new') : ?> style="display:none;"<?php endif; ?>>
+    <div class="col-sm-1" align="center">
+        <button type="button" id="upload_weblink_picto_<?php echo $link->getId(); ?>" class="bt-margin default_button add upload_weblink_picto" rel="<?php echo $link->getId(); ?>"><?php if($link->getPicto()) : ?><img src="<?php echo $link->getPictoUrl(); ?>" width="100%" height="100%" /><?php else : ?><i class="icon-plus"></i><?php endif; ?></button>
+        <input id="link_file_<?php echo $link->getId(); ?>" class="uploader link_file" style="display:none" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" data-id="<?php echo $link->getId(); ?>" rel="picto" />
+        <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>"/>
+        <input id="picto_file_<?php echo $link->getId(); ?>" type="hidden" name="link[picto]" value="<?php echo $link->getPicto(); ?>" />
+    </div>
+    <div class="col-sm-4">
+        <input type="text" name="link[title]" id="title_<?php echo $link->getId(); ?>" value="<?php echo $link->getTitle(); ?>" placeholder="<?php echo $this->_('Title') ?>" class="weblink_field form-control required" rel="<?php echo $link->getId(); ?>" /></td>
+    </div>
+    <div class="col-sm-5">
+        <input type="text" name="link[url]" class="form-control required weblink_url url" placeholder="<?php echo $this->_('Link') ?>" value="<?php echo $link->getUrl() ?>" rel="<?php echo $link->getId(); ?>" />
+    </div>
+    <div class="col-sm-1">
+        <button type="button" class="bt-margin validate default_button save_link" rel="<?php echo $link->getId(); ?>">OK</button></td>
+    </div>
+    <div class="col-sm-1">
+        <button type="button" class="bt-margin delete red default_button delete_link" rel="<?php echo $link->getId(); ?>"><i class="icon-remove"></i></button>
+        <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
+        <?php if($link->getId() AND $link->getId() != 'new') : ?>
+        <input type="hidden" name="link[link_id]" value="<?php echo $link->getId(); ?>" />
+        <?php endif; ?>
+    </div>
+</div>

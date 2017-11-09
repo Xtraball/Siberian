@@ -1,0 +1,37 @@
+<?php $category = $this->getCategory(); ?>
+<?php $product = $this->getCurrentProduct(); ?>
+<li class="list-group-item content-white-bkg">
+    <div>
+        <?php if(!$category->getChildren()->count()) : ?>
+        <label for="select_category_<?php echo $category->getId(); ?>" id="label_select_category_<?php echo $category->getId(); ?>" class="label_select_category" data-parent="label_select_category_<?php echo $category->getId(); ?>">
+            <input type="checkbox" class="select_category color-blue" value="<?php echo $category->getId(); ?>" name="new_category_ids[]" id="select_category_<?php echo $category->getId(); ?>"<?php if(in_array($category->getId(), $product->getCategoryIds())) : ?> checked="checked"<?php endif; ?>>
+            <span><?php echo $category->getTitle() ?></span>
+        </label>
+        <?php else : ?>
+        <button type="button" id="toggle_subcategories_<?php echo $category->getId(); ?>" class="btn icon_button color-blue toggle_subcategories toggle_children" rel="<?php echo $category->getId(); ?>">
+            <i class="fa fa-plus"></i>
+        </button>
+        <a href="javascript:void(0)" onclick="$(this).prev().click();" rel="<?php echo $category->getId(); ?>">
+            <span><?php echo $category->getTitle() ?></span>
+        </a>
+        <?php endif; ?>
+    </div>
+    <?php if($category->getChildren()->count()) : ?>
+    <ul id="subcategories_list_<?php echo $category->getId(); ?>" class="list-group subcategories-list-group tree" style="display:none">
+        <?php foreach($category->getChildren() as $child) : ?>
+            <?php
+                echo $this->getLayout()->addPartial('child_'.$child->getId(), get_class($this), $this->getTemplate())
+                    ->setCurrentProduct($product)
+                    ->setCategory($child)
+                    ->toHtml()
+                ;
+            ?>
+
+        <?php endforeach ?>
+    </ul>
+    <?php endif; ?>
+</li>
+<style>
+    .subcategories-list-group{margin-top:15px;margin-left:25px}
+    .toggle_children{padding: 0;height: 20px;width: 20px;}
+</style>

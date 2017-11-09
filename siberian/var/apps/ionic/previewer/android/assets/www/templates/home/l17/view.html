@@ -1,0 +1,263 @@
+<div class="layout l17" ng-class="{ 'no-text' : features.layoutOptions.visible == '0' }">
+    <ion-content id="metro-scroll">
+
+        <!-- Default -->
+        <ul ng-if="!features.layoutOptions.icons || (features.layoutOptions.icons == 'default')" class="inner-scroll">
+            <div ng-if="features.options.length >= 1" class="metro-line">
+                <div class="metro metro-50 text-center homepage-custom transparent" tabbar-items option="features.options[0]" go-to-url="goTo(features.options[0])">
+                    <div class="item homepage-custom border-custom" ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}">
+                        <img ng-src="{{ features.options[0].icon_url }}" />
+                        <div ng-if="features.options[0].code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+                    </div>
+                    <p>{{ features.options[0].name }}</p>
+                    <div class="cb"></div>
+                </div>
+                <div class="metro metro-50 metro-right">
+                    <div class="metro-line-50 metro-line-first" ng-if="features.options.length >= 2">
+                        <div ng-if="features.options[1]" class="metro metro-25" tabbar-items option="features.options[1]" go-to-url="goTo(features.options[1])">
+                            <div class="item homepage-custom border-custom" ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}">
+                                <img ng-src="{{ features.options[1].icon_url }}" />
+                                <div ng-if="features.options[1].code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+                            </div>
+                        </div>
+                        <div ng-if="features.options[2]" class="metro metro-25 metro-right" tabbar-items option="features.options[2]" go-to-url="goTo(features.options[2])">
+                            <div class="item homepage-custom border-custom" ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}">
+                                <img ng-src="{{ features.options[2].icon_url }}" />
+                                <div ng-if="features.options[2].code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+                            </div>
+                        </div>
+                        <div class="cb"></div>
+                    </div>
+                    <div class="metro-line-50" ng-if="features.options.length >= 4">
+                        <div ng-if="features.options[3]" class="metro metro-25" tabbar-items option="features.options[3]" go-to-url="goTo(features.options[3])">
+                            <div class="item homepage-custom border-custom" ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}">
+                                <img ng-src="{{ features.options[3].icon_url }}" />
+                                <div ng-if="features.options[3].code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+                            </div>
+                        </div>
+                        <div ng-if="features.options[4]" class="metro metro-25 metro-right" tabbar-items option="features.options[4]" go-to-url="goTo(features.options[4])">
+                            <div class="item homepage-custom border-custom" ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}">
+                                <img ng-src="{{ features.options[4].icon_url }}" />
+                                <div ng-if="features.options[4].code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+                            </div>
+                        </div>
+                        <div class="cb"></div>
+                    </div>
+                </div>
+                <div class="cb"></div>
+            </div>
+            <div class="cb"></div>
+            <div ng-if="features.options.length >= 6" class="metro-line" id="metro-line-2">
+                <div ng-if="features.options[5]" class="metro metro-50 metro-50-50 text-center homepage-custom transparent" tabbar-items option="features.options[5]" go-to-url="goTo(features.options[5])">
+                    <div class="item homepage-custom border-custom" ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}">
+                        <img ng-src="{{ features.options[5].icon_url }}" />
+                        <div ng-if="features.options[5].code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+                    </div>
+                    <p>{{ features.options[5].name }}</p>
+                    <div class="cb"></div>
+                </div>
+                <div ng-if="features.options[6]" class="metro metro-50 metro-50-50 metro-right metro-square text-center homepage-custom transparent" tabbar-items option="features.options[6]" go-to-url="goTo(features.options[6])">
+                    <div class="item homepage-custom border-custom" ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}">
+                        <img ng-src="{{ features.options[6].icon_url }}" />
+                        <div ng-if="features.options[6].code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+                    </div>
+                    <p>{{ features.options[6].name }}</p>
+                    <div class="cb"></div>
+                </div>
+                <div class="cb"></div>
+            </div>
+            <div class="cb"></div>
+            <div ng-if="features.options.length >= 8" class="metro-line">
+                <div class="metro metro-50">
+                    <div class="metro-line-50 metro-line-second">
+                        <div ng-if="features.options[7]" class="metro metro-25" tabbar-items option="features.options[7]" go-to-url="goTo(features.options[7])">
+                            <div class="item homepage-custom border-custom" ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}">
+                                <img ng-src="{{ features.options[7].icon_url }}" />
+                                <div ng-if="features.options[7].code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+                            </div>
+                        </div>
+                        <div ng-if="features.options[8]" class="metro metro-25 metro-right metro-right-2" tabbar-items option="features.options[8]" go-to-url="goTo(features.options[8])">
+                            <div class="item homepage-custom border-custom" ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}">
+                                <img ng-src="{{ features.options[8].icon_url }}" />
+                                <div ng-if="features.options[8].code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+                            </div>
+                        </div>
+                        <div class="cb"></div>
+                    </div>
+                    <div class="metro-line-50 metro-line-second-2">
+                        <div ng-if="features.options[9]" class="metro metro-25" tabbar-items option="features.options[9]" go-to-url="goTo(features.options[9])">
+                            <div class="item homepage-custom border-custom" ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}">
+                                <img ng-src="{{ features.options[9].icon_url }}" />
+                                <div ng-if="features.options[9].code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+                            </div>
+                        </div>
+                        <div ng-if="features.options[10]" class="metro metro-25 metro-right metro-right-2" tabbar-items option="features.options[10]" go-to-url="goTo(features.options[10])">
+                            <div class="item homepage-custom border-custom" ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}">
+                                <img ng-src="{{ features.options[10].icon_url }}" />
+                                <div ng-if="features.options[10].code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+                            </div>
+                        </div>
+                        <div class="cb"></div>
+                    </div>
+                </div>
+                <div ng-if="features.options[11]" class="metro metro-50 metro-right text-center homepage-custom transparent" tabbar-items option="features.options[11]" go-to-url="goTo(features.options[11])">
+                    <div class="item homepage-custom border-custom" ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}">
+                        <img ng-src="{{ features.options[11].icon_url }}" />
+                        <div ng-if="features.options[11].code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+                    </div>
+                    <p>{{ features.options[11].name }}</p>
+                    <div class="cb"></div>
+                </div>
+                <div class="cb"></div>
+            </div>
+            <div class="cb"></div>
+            <div ng-repeat="chunks in features.chunks">
+                <div class="metro-line">
+                    <div ng-repeat="feature in chunks">
+                        <div class="metro metro-50 text-center homepage-custom transparent" tabbar-items option="feature" go-to-url="goTo(feature)">
+                            <div class="item homepage-custom border-custom" ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}">
+                                <img ng-src="{{ feature.icon_url }}" />
+                                <div ng-if="feature.code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+                            </div>
+                            <p>{{ feature.name }}</p>
+                            <div class="cb"></div>
+                        </div>
+                    </div>
+                    <div class="cb"></div>
+                </div>
+            </div>
+        </ul>
+        <!-- /Default -->
+
+
+        <!-- Cover -->
+        <ul ng-if="features.layoutOptions.icons == 'cover'" class="inner-scroll l17_cover">
+            <div ng-if="features.options.length >= 1" class="metro-line">
+                <div class="metro metro-50 text-center homepage-custom transparent" tabbar-items option="features.options[0]" go-to-url="goTo(features.options[0])">
+                    <div class="item homepage-custom border-custom" ng-style="{'background-image':'url('+features.options[0].icon_url+')'}" ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}">
+                        <img src="./img/placeholder/blank-512.png" />
+                        <div ng-if="features.options[0].code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+                    </div>
+                    <p>{{ features.options[0].name }}</p>
+                    <div class="cb"></div>
+                </div>
+                <div class="metro metro-50 metro-right">
+                    <div class="metro-line-50 metro-line-first" ng-if="features.options.length >= 2">
+                        <div ng-if="features.options[1]" class="metro metro-25" tabbar-items option="features.options[1]" go-to-url="goTo(features.options[1])">
+                            <div class="item homepage-custom border-custom" ng-style="{'background-image':'url('+features.options[1].icon_url+')'}" ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}">
+                                <img src="./img/placeholder/blank-512.png" />
+                                <div ng-if="features.options[1].code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+                            </div>
+                        </div>
+                        <div ng-if="features.options[2]" class="metro metro-25 metro-right" tabbar-items option="features.options[2]" go-to-url="goTo(features.options[2])">
+                            <div class="item homepage-custom border-custom" ng-style="{'background-image':'url('+features.options[2].icon_url+')'}" ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}">
+                                <img src="./img/placeholder/blank-512.png" />
+                                <div ng-if="features.options[2].code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+                            </div>
+                        </div>
+                        <div class="cb"></div>
+                    </div>
+                    <div class="metro-line-50" ng-if="features.options.length >= 4">
+                        <div ng-if="features.options[3]" class="metro metro-25" tabbar-items option="features.options[3]" go-to-url="goTo(features.options[3])">
+                            <div class="item homepage-custom border-custom" ng-style="{'background-image':'url('+features.options[3].icon_url+')'}" ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}">
+                                <img src="./img/placeholder/blank-512.png" />
+                                <div ng-if="features.options[3].code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+                            </div>
+                        </div>
+                        <div ng-if="features.options[4]" class="metro metro-25 metro-right" tabbar-items option="features.options[4]" go-to-url="goTo(features.options[4])">
+                            <div class="item homepage-custom border-custom" ng-style="{'background-image':'url('+features.options[4].icon_url+')'}" ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}">
+                                <img src="./img/placeholder/blank-512.png" />
+                                <div ng-if="features.options[4].code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+                            </div>
+                        </div>
+                        <div class="cb"></div>
+                    </div>
+                </div>
+                <div class="cb"></div>
+            </div>
+            <div class="cb"></div>
+            <div ng-if="features.options.length >= 6" class="metro-line" id="metro-line-2">
+                <div ng-if="features.options[5]" class="metro metro-50 metro-50-50 text-center homepage-custom transparent" tabbar-items option="features.options[5]" go-to-url="goTo(features.options[5])">
+                    <div class="item homepage-custom border-custom" ng-style="{'background-image':'url('+features.options[5].icon_url+')'}" ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}">
+                        <img src="./img/placeholder/blank-512.png" />
+                        <div ng-if="features.options[5].code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+                    </div>
+                    <p>{{ features.options[5].name }}</p>
+                    <div class="cb"></div>
+                </div>
+                <div ng-if="features.options[6]" class="metro metro-50 metro-50-50 metro-right metro-square text-center homepage-custom transparent" tabbar-items option="features.options[6]" go-to-url="goTo(features.options[6])">
+                    <div class="item homepage-custom border-custom" ng-style="{'background-image':'url('+features.options[6].icon_url+')'}" ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}">
+                        <img src="./img/placeholder/blank-512.png" />
+                        <div ng-if="features.options[6].code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+                    </div>
+                    <p>{{ features.options[6].name }}</p>
+                    <div class="cb"></div>
+                </div>
+                <div class="cb"></div>
+            </div>
+            <div class="cb"></div>
+            <div ng-if="features.options.length >= 8" class="metro-line">
+                <div class="metro metro-50">
+                    <div class="metro-line-50 metro-line-second">
+                        <div ng-if="features.options[7]" class="metro metro-25" tabbar-items option="features.options[7]" go-to-url="goTo(features.options[7])">
+                            <div class="item homepage-custom border-custom" ng-style="{'background-image':'url('+features.options[7].icon_url+')'}" ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}">
+                                <img src="./img/placeholder/blank-512.png" />
+                                <div ng-if="features.options[7].code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+                            </div>
+                        </div>
+                        <div ng-if="features.options[8]" class="metro metro-25 metro-right metro-right-2" tabbar-items option="features.options[8]" go-to-url="goTo(features.options[8])">
+                            <div class="item homepage-custom border-custom" ng-style="{'background-image':'url('+features.options[8].icon_url+')'}" ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}">
+                                <img src="./img/placeholder/blank-512.png" />
+                                <div ng-if="features.options[8].code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+                            </div>
+                        </div>
+                        <div class="cb"></div>
+                    </div>
+                    <div class="metro-line-50 metro-line-second-2">
+                        <div ng-if="features.options[9]" class="metro metro-25" tabbar-items option="features.options[9]" go-to-url="goTo(features.options[9])">
+                            <div class="item homepage-custom border-custom" ng-style="{'background-image':'url('+features.options[9].icon_url+')'}" ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}">
+                                <img src="./img/placeholder/blank-512.png" />
+                                <div ng-if="features.options[9].code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+                            </div>
+                        </div>
+                        <div ng-if="features.options[10]" class="metro metro-25 metro-right metro-right-2" tabbar-items option="features.options[10]" go-to-url="goTo(features.options[10])">
+                            <div class="item homepage-custom border-custom" ng-style="{'background-image':'url('+features.options[10].icon_url+')'}" ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}">
+                                <img src="./img/placeholder/blank-512.png" />
+                                <div ng-if="features.options[10].code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+                            </div>
+                        </div>
+                        <div class="cb"></div>
+                    </div>
+                </div>
+                <div ng-if="features.options[11]" class="metro metro-50 metro-right text-center homepage-custom transparent" tabbar-items option="features.options[11]" go-to-url="goTo(features.options[11])">
+                    <div class="item homepage-custom border-custom" ng-style="{'background-image':'url('+features.options[11].icon_url+')'}" ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}">
+                        <img src="./img/placeholder/blank-512.png" />
+                        <div ng-if="features.options[11].code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+                    </div>
+                    <p>{{ features.options[11].name }}</p>
+                    <div class="cb"></div>
+                </div>
+                <div class="cb"></div>
+            </div>
+            <div class="cb"></div>
+            <div ng-repeat="chunks in features.chunks">
+                <div class="metro-line">
+                    <div ng-repeat="feature in chunks">
+                        <div class="metro metro-50 text-center homepage-custom transparent" tabbar-items option="feature" go-to-url="goTo(feature)">
+                            <div class="item homepage-custom border-custom" ng-style="{'background-image':'url('+feature.icon_url+')'}" ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}">
+                                <img src="./img/placeholder/blank-512.png" />
+                                <div ng-if="feature.code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+                            </div>
+                            <p>{{ feature.name }}</p>
+                            <div class="cb"></div>
+                        </div>
+                    </div>
+                    <div class="cb"></div>
+                </div>
+            </div>
+        </ul>
+        <!-- /Cover -->
+
+
+    </ion-content>
+</div>

@@ -1,0 +1,18 @@
+<div class="layout-bottom-sidebar" ng-if="tabbar_is_visible">
+    <div class="overview-tabbar horizontal-tabbar slide-top {{ features.layoutId }} {{ classOffline }}">
+        <ul rn-carousel rn-carousel-indicator="true">
+            <li ng-repeat="options in features.overview.paged_options">
+                <a ng-repeat="option in options" tabbar-items option="option" go-to-url="goToUrl(option)" class="item" ng-class="{ is_link: option.is_link }" target="_parent" title="{{ option.name }}">
+                    <div class="relative a-center">
+                        <div class="fullscreen"></div>
+                        <div class="tabbar">
+                            <img ng-src="{{ option.icon_url }}" ng-class="{ colorable: option.icon_is_colorable }" width="55" height="55" title="{{ option.name }}" alt="{{ option.name }}" />
+                        </div>
+                        <span class="tabbar no-background block">{{ option.name }}</span>
+                        <div ng-if="option.code == 'push_notification' && pushs" class="badge">{{ pushs }}</div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

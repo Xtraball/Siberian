@@ -1,0 +1,913 @@
+<?php
+
+$application = $this->getApplication();
+$option = $this->getOptionValue();
+$features = $this->getApplication()->getOptions();
+$messageobj = new Push_Model_Message();
+$messageobj->setMessageTypeByOptionValue($option->getOptionId());
+$messages = $messageobj->findAllForFeature($application->getId(), $messageobj->getMessageType());
+$canSendMessages = $application->isPublished();
+$pntopic = new Topic_Model_Topic();
+$pntopic->find(array("app_id" => $option->getAppId()));
+$customers = array();
+if(Push_Model_Message::hasIndividualPush()){
+    $customer = new Customer_Model_Customer();
+    $customers = $customer->findAllWithDeviceUid($option->getAppId());
+}
+
+$api = Api_Model_Key::findKeysFor("googlemaps");
+$googlemaps_key = $api->getSecretKey();
+
+$enable_android = !empty(Push_Model_Certificate::getAndroidSenderId());
+$enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getId()));
+
+?>
+
+<div class="edit_page push_notif">
+    <div id="list">
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo __('Add content'); ?>
+            <button type="button" id="add_item" onclick="feature.edit();" class="toggle_design color-blue pull-right bt-header-right btn">
+                <i class="fa fa-plus"></i>
+            </button>
+        </h3>
+        <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+        <?php if($messages->count()) : ?>
+        <div class="margin-top">
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo __('Manage content'); ?>
+                <button type="button" id="toggle_existing_items" class="toggle_design color-blue pull-right bt-header-right btn">
+                    <i class="fa fa-angle-down"></i>
+                </button>
+            </h3>
+            <div id="existing_items" class="container-fluid first-row-feature content-feature">
+                <table class="table content-white-bkg">
+                    <thead>
+                        <tr class="border-grey">
+                            <th style="width:16%;"><?php echo __("Title"); ?></th>
+                            <th style="width:24%;"><?php echo __("Message"); ?></th>
+                            <th><?php echo __("Status"); ?></th>
+                            <th><?php echo __("Creation date"); ?></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($messages as $message) : ?>
+                            <?php $text = trim($message->getText()); ?>
+                            <?php if(empty($text)) continue; ?>
+                            <tr id="push_actions_<?php echo $message->getId(); ?>" class="push_actions">
+                                <td><?php echo cut($message->getTitle(), 18); ?></td>
+                                <td><?php echo cut($message->getText(), 30); ?></td>
+                                <td>
+                                    <?php if(!empty($message->getSendAt())): ?>
+                                        <?php echo __("Scheduled for <i>%s</i>", $message->getFormattedSendAt()); ?>
+                                    <?php else: ?>
+                                        <?php echo __(ucfirst($message->getStatus())); ?>
+                                    <?php endif; ?>
+                                </td>
+                                <td><?php echo datetime_to_format($message->getCreatedAt(), Zend_Date::DATETIME_MEDIUM); ?></td>
+                                <td>
+                                    <i class="fa fa-search toggle-more" data-msgid="<?php echo $message->getId(); ?>"></i>
+                                </td>
+                                <td>
+                                    <i class="fa fa-times delete-msg" data-msgid="<?php echo $message->getId(); ?>"></i>
+                                </td>
+                            </tr>
+                            <tr id="details_<?php echo $message->getId(); ?>" style="display: none;">
+                                <td colspan="6">
+                                    <b><?php echo __("Title"); ?>:</b> <?php echo $message->getTitle(); ?>
+                                    <br />
+                                    <b><?php echo __("Message"); ?>:</b> <?php echo $message->getText(); ?>
+                                    <br />
+                                    <b><?php echo __('Creation date'); ?>:</b> <?php echo datetime_to_format($message->getCreatedAt(), Zend_Date::DATETIME_MEDIUM); ?>
+                                    <br />
+                                    <?php if((!empty($message->getSendAt())) && ($message->getStatus() !== "delivered")): ?>
+                                        <b><?php echo __('Sending date'); ?>:</b> <?php echo __("Scheduled for <i>%s</i>", datetime_to_format($message->getCreatedAt(), Zend_Date::DATETIME_MEDIUM)); ?>
+                                    <?php else: ?>
+                                        <b><?php echo __("Sending date"); ?>:</b> <?php echo ($message->getStatus() == 'delivered') ? $message->getFormattedDeliveredAt() : __(ucfirst($message->getStatus())); ?>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <?php endif; ?>
+
+        <?php echo $this->importBackground($option); ?>
+    </div>
+
+    <div id="cover_crop" style="display:none;">
+        <button type="button" id="cancel_cover_crop" class="btn color-blue pull-left"><i class="fa fa-times"></i></button>
+        <button type="button" id="validate_cover_crop" class="btn color-blue pull-right">OK</button>
+        <p><?php echo __('Resize your picture:') ?></p>
+    </div>
+    <div id="cover_crop_content"></div>
+
+    <div id="edit" style="display: none;">
+        <div id="push_step_one" class="push_step" pos="1">
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo __('Editing'); ?>
+            </h3>
+            <?php if($canSendMessages): ?>
+            <div class="block container-fluid content-feature">
+                <form id="pushFirstStepForm" method="post" class="form-horizontal">
+                    <div class="form-group first-row-feature">
+                        <div class="col-md-12">
+                            <button type="button" onclick="feature.list()" class="btn color-blue pull-left"><i class="fa fa-angle-left"></i></button>
+                            <button type="submit" class="btn color-blue pull-right"><i class="fa fa-angle-right"></i></button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label for="title"><?php echo __('Title:'); ?> <span class="input-required">*</span></label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="text" id="push_title" name="title" class="required input-flat" value="" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label for="text"><?php echo __('Message:'); ?> <span class="input-required">*</span></label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="text" id="push_text" name="text" class="required input-flat" value="" maxlength="255" />
+                        </div>
+                    </div>
+                    <?php if($messageobj->getInAppCode() != $option->getOptionId()):?>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label>
+                                    <input type="checkbox" id="open_features" class="checkbox-inline color-blue"/> <?php echo __("Open a feature or a custom URL"); ?>
+                                </label>
+                            </div>
+                        </div>
+                        <div id="features_list" class="hide container-fluid">
+                            <div class="form-group">
+                                <ul>
+                                    <?php $i = 0;
+                                    foreach($features as $feature):
+                                    $i++;
+                                    if($i > $features->count()/2):
+                                    $i = 0; ?>
+
+                                    <?php endif; ?>
+                                    <li>
+                                        <label for="<?php echo $feature->getId(); ?>">
+                                            <input type="radio" name="action_value" class="color-blue chk_action_value use_gmaps radio-inline" id="<?php echo $feature->getId(); ?>" value="<?php echo $feature->getId(); ?>" />
+                                            <?php echo $feature->getTabbarName(); ?>
+                                        </label>
+                                    </li>
+                                    <?php endforeach; ?>
+                                    <li>
+                                        <label>
+                                            <input type="radio" class="chk_action_value custom color-blue radio-inline" name="action_value" id="<?php echo $feature->getId(); ?>" /> <?php echo __("Custom URL"); ?>
+                                            <span class="hide" id="custom_action_value_field">
+                                                <input type="text" class="input-flat custom_action_value" name="custom_action_value_field" value="">
+                                            </span>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <!--[if gte IE 10]><!-->
+                            <button id="upload_push_picture" type="button" class="upload_contact_picture btn color-blue image_left">
+                                <i class="icon-camera-retro"></i>
+                                <?php echo __('Insert a <span class="bold">cover image</span>'); ?>
+                            </button>
+                            <!--<![endif]-->
+                        </div>
+                        <div class="col-sm-8 text-left">
+                            <p id="uploader_logo_ie_description" style="display:none"><?php echo __('Insert a <br /><span class="bold">cover image</span>'); ?></span></p>
+                            <input id="push_file" class="uploader" style="display:none" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+                            <img id="cover_img" src="<?php echo $messageobj->getCoverUrl(); ?>" width="210" height="110"<?php if(!$messageobj->getCover()) : ?> style="display:none;"<?php endif; ?> />
+                            <a href="" style="<?php if(!$messageobj->getCover()) : ?>display:none;<?php endif; ?>" id="remove_cover_img" class="btn color-blue">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <?php else: ?>
+            <div class="block container-fluid content-feature">
+                <br />
+                <div class="alert alert-info">
+                    <?php echo __("Before you can send push notification, you must have at least one of iOS or Android application in a published state.") ?>
+                    <button type="button" onclick="feature.list()" class="btn color-blue"><?php echo __("Go back") ?></button>
+                </div>
+            </div>
+            <?php endif; ?>
+        </div>
+        <?php $categories = $pntopic->getId()?$pntopic->getCategories():null; ?>
+        <div id="push_step_two" class="section push_step" style="display:none;" pos="2">
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo __('Locate'); ?>
+            </h3>
+            <div id="push_gmaps" class="container-fluid content-feature">
+                <form id="pushSecondStepForm" method="post" class="form-horizontal">
+                    <div class="form-group first-row-feature">
+                        <div class="col-md-12">
+                            <button type="button" onclick="push.goToStep('one');" class="btn color-blue pull-left"><i class="fa fa-angle-left"></i></button>
+                            <button type="submit" class="btn color-blue pull-right"><i class="fa fa-angle-right"></i></button>
+                        </div>
+                    </div>
+                    <div class="use_gmaps">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label for="use_gmaps_0" onclick="gmaps.hide(); gmaps.deactivateFields();">
+                                    <input type="radio" id="use_gmaps_0" name="use_gmaps" class="use_gmaps color-blue radio-inline" value="0" checked="checked" />
+                                    <?php echo __("Send to no specific locations"); ?>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label for="use_gmaps_1" onclick="gmaps.init().show();">
+                                    <input type="radio" id="use_gmaps_1" name="use_gmaps" class="use_gmaps color-blue radio-inline" value="1" />
+                                    <?php echo __("Send to a specific location"); ?>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="gmaps_datas" class="none">
+                        <?php //<div class="relative"> ?>
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <label for="title"><?php echo __('Enter a location:'); ?> <span class="input-required">*</span></label>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="title"><?php echo __('And a radius (in Km):'); ?> <span class="input-required">*</span></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <input type="text" placeholder="" class="required gmaps_field input-flat" id="push_target" disabled="disabled" />
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text" placeholder="" class="required gmaps_field input-flat" id="push_radius" disabled="disabled" placeholder="<?php echo __('Radius'); ?>" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div id="push_map_canvas_receiver">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="push_step_three" class="section push_step" style="display:none;" pos="3">
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo __('Users'); ?>
+            </h3>
+            <div id="push_topics" class="container-fluid content-feature">
+                <form id="pushThirdStepForm" method="post" class="form-horizontal">
+                    <div class="form-group first-row-feature">
+                        <div class="col-md-12">
+                            <button type="button" onclick="push.goToStep('two');" class="btn color-blue pull-left"><i class="fa fa-angle-left"></i></button>
+                            <button type="submit" class="btn color-blue pull-right"><i class="fa fa-angle-right"></i></button>
+                        </div>
+                    </div>
+                    <div class="use_gmaps">
+
+                        <div class="form-group" id="target_devices">
+                            <div class="col-md-12">
+                                <label for="target_devices">
+                                    <?php echo __("Target specific devices"); ?>
+                                    <select class="styled-select color-blue" name="target_devices" onchange="$('#devices').val($(this).val());">
+                                        <?php if($enable_android && $enable_ios): ?>
+                                            <option value="all"><?php echo __("iOS & Android") ?></option>
+                                        <?php else: ?>
+                                            <option value="all" disabled="disabled"><?php echo __("iOS & Android (You must set both a GCM Key & upload a Push Certificate for the Application)") ?></option>
+                                        <?php endif; ?>
+
+                                        <?php if($enable_ios): ?>
+                                            <option value="ios"><?php echo __("iOS only") ?></option>
+                                        <?php else: ?>
+                                            <option value="ios" disabled="disabled"><?php echo __("iOS only (You must upload a Push Certificate for the Application)") ?></option>
+                                        <?php endif; ?>
+
+                                        <?php if($enable_android): ?>
+                                            <option value="android"><?php echo __("Android only") ?></option>
+                                        <?php else: ?>
+                                            <option value="android" disabled="disabled"><?php echo __("Android only (You must set a GCM Key)") ?></option>
+                                        <?php endif; ?>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label for="all_user" onclick="<?php if($categories AND $categories->count()): ?>topic.hide();customers.hide();<?php endif; ?>$('#target_devices').show();">
+                                    <input type="radio" id="all_user" name="topic_user" class="use_gmaps color-blue radio-inline" value="0" checked="checked" />
+                                    <?php echo __("Send to all my users"); ?>
+                                </label>
+                            </div>
+                        </div>
+                        <?php if(Push_Model_Message::hasIndividualPush()): ?>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label for="all_user_2" onclick="customers.show();">
+                                        <label for="all_user_2" onclick="customers.show();$('#target_devices').hide();">
+                                        <input type="radio" id="all_user_2" name="topic_user" class="use_gmaps color-blue radio-inline" value="1" />
+                                        <?php echo __("Send to specific users"); ?>
+                                    </label>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label for="all_user_1" <?php if($categories AND $categories->count()): ?>onclick="topic.show();$('#target_devices').hide();"<?php endif; ?>>
+                                    <input type="radio" id="all_user_1" name="topic_user" class="use_gmaps color-blue radio-inline" value="1" <?php if(!$categories OR ($categories AND !$categories->count())): ?> disabled <?php endif; ?>/>
+                                    <?php echo __("Send to specific topics"); ?>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="topics_list" style="display:none">
+                        <ul class="list-group">
+                            <?php if(!$categories OR ($categories AND !$categories->count())): ?>
+                                <li id="no_topics" class="list-group-item content-white-bkg"><?php echo __("No items."); ?></li>
+                            <?php else: ?>
+                                <?php foreach($categories as $category): ?>
+                                    <?php $children = $category->getChildren(); ?>
+                                    <li class="list-group-item content-white-bkg">
+                                        <label>
+                                            <input type="checkbox" id="<?php echo $category->getId(); ?>" class="color-blue checkbox-inline chk_topic <?php if(count($children) > 0): ?>chk_topic_parent<?php endif; ?>"/> <?php echo $category->getName(); ?>
+                                        </label>
+                                        <?php if($children) : ?>
+                                            <ul id="children_of_<?php echo $category->getId(); ?>" class="clear tree topic_children list-group">
+                                                <?php foreach($children as $child) : ?>
+                                                    <li class="list-group-item content-white-bkg">
+                                                        <label>
+                                                            <input type="checkbox" id="<?php echo $child->getId(); ?>" class="checkbox-inline chk_topic color-blue"/> <?php echo $child->getName(); ?>
+                                                        </label>
+                                                    </li>
+                                                <?php endforeach ?>
+                                            </ul>
+                                        <?php endif; ?>
+                                    </li>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
+                    <?php if(Push_Model_Message::hasIndividualPush()): ?>
+                        <div id="customers_list" style="display:none">
+
+                            <table class="table content-white-bkg sb-pager">
+                                <thead>
+                                <tr class="border-blue">
+                                    <th>
+                                        <div class="control control--checkbox fix-pos">
+                                            <input type="checkbox"
+                                                   id="send_to_all"
+                                                   class="sb-form-checkbox color-blue flatbox">
+                                            <div class="color-blue control__indicator"></div>
+                                        </div>
+                                    </th>
+                                    <th class="sortable"><?php echo __('Email'); ?></th>
+                                    <th class="sortable"><?php echo __('User'); ?></th>
+                                    <th class="sortable"><?php echo __('Created at'); ?></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($customers as $customer) : ?>
+                                    <?php if(!empty($customer['registration_id']) || !empty($customer['device_uid'])): ?>
+                                    <tr id="customer_element_<?php echo $customer['customer_id']; ?>" class="sb-pager">
+                                        <td>
+                                            <div class="control control--checkbox fix-pos">
+                                                <input type="checkbox"
+                                                       name="customers[<?php echo $customer['customer_id']; ?>]"
+                                                       data-customerid="<?php echo $customer['customer_id']; ?>"
+                                                       class="customerid-checkbox sb-form-checkbox color-blue flatbox">
+                                                <div class="color-blue control__indicator"></div>
+                                            </div>
+                                        </td>
+                                        <td><?php echo $customer['email']; ?></td>
+                                        <td><?php echo $customer['firstname'] . ' ' . $customer['lastname']; ?></td>
+                                        <td><?php echo $customer['created_at']; ?></td>
+                                    </tr>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                                </tbody>
+
+                                <?php if(count($customers) <= 0): ?>
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="5"><?php echo __('No customers available.') ?></td>
+                                    </tr>
+                                    </tfoot>
+                                <?php endif; ?>
+                            </table>
+                        </div>
+                    <?php endif; ?>
+                </form>
+            </div>
+        </div>
+
+        <div id="push_step_four" class="push_step" style="display:none;" pos="4">
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo __('Additionnal Information'); ?>
+            </h3>
+            <div class="container-fluid content-feature">
+                <form id="pushFourthStepForm" action="<?php echo $this->getUrl('push/application/editpost') ?>" method="post" class="form-horizontal">
+                    <div class="form-group first-row-feature">
+                        <div class="col-md-12">
+                            <button type="button" onclick="push.goToStep('three');" class="color-blue btn pull-left"><i class="fa fa-angle-left"></i></button>
+                            <button type="submit" class="btn color-blue pull-right"><?php echo __('OK'); ?></button>
+                        </div>
+                    </div>
+                    <div class="details">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ul class="list-group">
+                                    <?php if($messageobj->getMessageType() == 2): ?>
+                                        <li class="list-group-item content-white-bkg">
+                                            <label for="send_until_inapp_message" >
+                                                <?php echo __("Please enter an expiration date for your message:"); ?>
+                                                <input type="text" id="inapp_datepicker_send_until" class="input-flat push_datetimepicker required " name="inapp_datepicker_send_until" value="" />
+                                            </label>
+                                        </li>
+                                    <?php endif; ?>
+                                    <li class="list-group-item content-white-bg">
+                                        <span><?php echo __("I want to send it"); ?></span>
+                                    </li>
+                                    <li class="list-group-item content-white-bkg">
+                                        <label for="send_now" onclick="$('#push_datepicker_send_at').fadeOut(150).attr('disabled', 'disabled');">
+                                            <input type="radio" id="send_now" name="send_at_a_specific_datetime" value="0" checked="checked" class="color-blue radio-inline" />
+                                            <?php echo __("now"); ?>
+                                        </label>
+                                    </li>
+                                    <?php if(Cron_Model_Cron::is_active()): ?>
+                                    <li class="list-group-item content-white-bkg">
+                                        <label for="send_at_a_specific_datetime" onclick="$('#push_datepicker_send_at').removeAttr('disabled').fadeIn(150, function() {$('#push_datepicker_send_at').focus();});">
+                                            <input type="radio" id="send_at_a_specific_datetime" name="send_at_a_specific_datetime" value="1" class="color-blue radio-inline" />
+                                            <?php echo __("on a specific date"); ?>
+                                        </label>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <input type="text" id="push_datepicker_send_at" class="input-flat push_datetimepicker required " name="send_at" value="" style="display:none;" />
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <?php endif; ?>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
+                    <input type="hidden" id="push_title_receiver" name="title" value="" />
+                    <input type="hidden" id="push_text_receiver" name="text" value="" />
+                    <input type="hidden" id="push_latitude_receiver" name="latitude" class="gmaps_field" value="" disabled="disabled" />
+                    <input type="hidden" id="push_longitude_receiver" name="longitude" class="gmaps_field" value="" disabled="disabled" />
+                    <input type="hidden" id="push_radius_receiver" name="radius" class="gmaps_field" value="" disabled="disabled" />
+                    <input type="hidden" id="cover_file" name="file" />
+                    <input type="hidden" id="remove_cover" name="remove_cover" value="0" />
+                    <input type="hidden" id="topic_receiver" name="topic_receiver" value="" />
+                    <input type="hidden" id="customers_receiver" name="customers_receiver" value="" />
+                    <input type="hidden" id="action_value" name="action_value" value="" />
+                    <input type="hidden" id="devices" name="devices" value="" />
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            bindForms('#list');
+
+            var sendToAll = $('#send_to_all'),
+                customerIdCheckboxes = $('input.customerid-checkbox');
+
+            sendToAll.on('change', function(element) {
+                customerIdCheckboxes.prop('checked', sendToAll.prop('checked'));
+            });
+
+            $('table.sb-pager')
+                .sbpager({
+                    items_per_page: 25,
+                    with_search: true,
+                    search_placeholder: "<?php echo __('Search, filter ...') ?>",
+                    callback_goto_page: function() {}
+                });
+
+            sendToAll.prop('checked', false)
+                .trigger('change');
+
+            customerIdCheckboxes.on('change', function() {
+                var total = customerIdCheckboxes.length,
+                    checked = $('input.customerid-checkbox:checked').length;
+
+                console.log('total', total, 'checked', checked);
+
+                sendToAll.prop('checked', (total === checked));
+            });
+        });
+
+        var default_cover_url = '<?php echo $messageobj->getCoverUrl(); ?>';
+        var img_uploader = new Uploader();
+        var customers_list = [];
+
+        page.setCallback('didappear', function() {
+
+            push.init();
+            topic.init();
+            customers.init();
+
+            $("#open_features").click(function() {
+                if($(this).prop("checked")) {
+                    $("#features_list").removeClass("hide");
+                } else {
+                    $("#features_list").addClass("hide");
+                }
+            });
+
+            $(".chk_action_value").click(function() {
+                if($(".chk_action_value.custom").prop("checked")) {
+                    $("#custom_action_value_field").removeClass("hide");
+                    $("#custom_action_value_field").children("input").addClass("required");
+                } else {
+                    $("#custom_action_value_field").addClass("hide");
+                    $("#custom_action_value_field").children("input").removeClass("required");
+                }
+            });
+
+            $('#toggle_existing_items').click(function () {
+                $('#existing_items').stop().slideToggle(300, function () {
+                    if ($(this).is(':visible')) {
+                        $('#toggle_existing_items').children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+                        $('#toggle_existing_items').removeClass('color-blue');
+                    }
+                    else
+                    {
+                        $('#toggle_existing_items').children('i').removeClass('fa-angle-up').addClass('fa-angle-down');
+                        $('#toggle_existing_items').addClass('color-blue');
+                    }
+                });
+            });
+
+            if(!$('#gmaps_libraries').length) {
+                var script_tag = document.createElement('script');
+                script_tag.setAttribute("id","gmaps_libraries");
+                script_tag.setAttribute("type","text/javascript");
+                script_tag.setAttribute("src","https://maps.google.com/maps/api/js?sensor=false&libraries=places&callback=initializeGmaps&key=<?php echo $googlemaps_key; ?>");
+                (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
+            }
+
+            $('#cancel_cover_crop').click(function() {
+                $('#cover_crop_content').slideUp(300, function() {$(this).html('')});
+                $('#cover_crop').hide();
+                if(default_cover_url.isEmpty()) {
+                    $('#cover_img').hide().attr('src', '');
+                    $('#cover_file').val('');
+                    $('#remove_cover').val(1);
+                    $('#remove_cover_img').hide();
+                }
+                else {
+                    $('#cover_crop_content').slideUp(300, function() {$(this).html('')});
+                    $('#cover_crop').hide();
+                    $('#remove_cover_img').show();
+                    $('#cover_img').hide().attr('src', default_cover_url).slideDown();
+                    $('#cover_file').val(default_cover_url);
+                    $('#remove_cover').val(0);
+
+                }
+            });
+            $('#remove_cover_img').click(function() {
+                if(confirm("<?php echo __js("Are you sure you want to remove the picture?"); ?>")) {
+                    $('#cover_img').hide().attr('src', '');
+                    $('#cover_file').val('');
+                    $('#remove_cover').val(1);
+                    $(this).hide();
+                    default_cover_url = '';
+                }
+                return false;
+            });
+
+            $('#push_file').fileupload({
+                dataType: 'json',
+                add: function(e, data) {
+                    data.submit();
+                    img_uploader.showProgressbar();
+                },
+                progressall: function(e, data) {
+                    img_uploader.moveProgressbar(data);
+                },
+                done: function(e, data) {
+                    if (data.result.error) {
+                        img_uploader.showError(data.result.message);
+                    }
+                    if (data.result.success) {
+                        img_uploader.hide();
+                        var params = [];
+                        params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+                        params["file"] = data.result.files;
+                        params["output_w"] = 530;
+                        params["output_h"] = 272;
+                        params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('push/application/crop')) ?>';
+                        params["uploader"] = 'img_uploader';
+                        img_uploader.crop(params);
+                        img_uploader.callback = function(file) {
+                            var image = iframe.content.find('#push_cover_img_<?php echo $option->getId(); ?>');
+                            $('#cover_img').hide().attr('src', '<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+file).slideDown();
+                            $('#remove_cover_img').show();
+                            $('#remove_cover').val(0);
+                            $('#cover_file').val(file);
+                            default_cover_url = file;
+                        }
+                    }
+                }
+            });
+
+            $('#upload_push_picture').click(function(){
+                $('#push_file').trigger('click');
+            });
+        });
+
+        page.setCallback('willdisappear', function() {
+            gmaps.destroy();
+            push.destroy();
+            $('#toggle_existing_items').unbind('click');
+        });
+
+        // Callback Gmaps
+        function initializeGmaps() {}
+
+        function deleteMessage(msg_id) {
+            var url = '<?php echo $this->getUrl('push/message/delete'); ?>/message_id/'+msg_id;
+            var tr = $("#push_actions_"+msg_id);
+
+            reload(this, url, true, function(datas) {
+                if(datas.success) {
+                    tr.remove();
+
+                    if($(".push_actions").length == 0) {
+                        $("#existing_items").toggle();
+                        $("#toggle_existing_items i").removeClass("fa-angle-up").addClass("fa-angle-down");
+                    }
+                }
+            });
+        }
+
+        var topic = {
+            init: function() {
+                $(".chk_topic").click(function(e) {
+                    var ul_children = $("#children_of_" + $(e.target).attr("id")).children();
+                    if($(e.target).is(':checked')) {
+                        $(ul_children).each(function(index,elem) {
+                            $(elem).find(".chk_topic").attr("checked","checked");
+                            $(elem).find(".chk_topic").parent().addClass('checked');
+                        });
+                    } else {
+                        $(ul_children).each(function(index,elem) {
+                            $(elem).find(".chk_topic").removeAttr("checked");
+                            $(elem).find(".chk_topic").parent().removeClass('checked');
+                        });
+                    }
+                });
+            },
+            show: function() {
+                if(!$("#no_topics").is(":visible")) {
+                    $("#topics_list").show();
+                    customers.hide();
+                }
+            },
+            hide: function() {
+                $(".chk_topic").each(function(index,elem) {
+                    $(elem).removeAttr('checked');
+                    $(elem).parent().removeClass('checked');
+                });
+
+                $("#topic_receiver").val("");
+                $("#topics_list").hide();
+            }
+        };
+
+        var customers = {
+            init: function() {
+                $('#table_customers_list').dataTable({
+                    asStripeClasses: ['odd editor_menu active', 'even'],
+                    bFilter: true,
+                    sPaginationType: "full_numbers",
+                    bLengthChange: false
+                });
+            },
+            show: function() {
+                $("#customers_list").show();
+                topic.hide();
+            },
+            hide: function() {
+                $("#customers_list").hide();
+            }
+        };
+
+        var push = {
+            init: function() {
+
+                if($.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker(); ?>']) {
+                    $.datepicker.setDefaults($.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker(); ?>']);
+                } else {
+                    $.datepicker.setDefaults($.datepicker.regional['en']);
+                }
+
+                $('.push_datetimepicker').datetimepicker({
+                    dateFormat: 'yy-mm-dd'
+                });
+
+                var today = new Date();
+                var tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+                $("#inapp_datepicker_send_until").datepicker( "setDate", tomorrow);
+
+                $('.push_select').each(function() {
+                    $(this).dropkick();
+                });
+
+                $('#pushFirstStepForm').submit(function(e) {
+                    if($(e.currentTarget).valid()) {
+                        $('#push_title_receiver').val($('#push_title').val());
+                        $('#push_text_receiver').val($('#push_text').val());
+
+                        var action_value = $('.chk_action_value:checked').val();
+                        if($(".chk_action_value.custom").prop("checked")) {
+                            action_value = $('.custom_action_value').val();
+                        }
+
+                        $('#action_value').val(action_value);
+                        this.goToStep('two');
+                    }
+                    return false;
+                }.bind(this));
+                $('#pushSecondStepForm').submit(function(e) {
+                    if($(e.currentTarget).valid()) {
+                        this.goToStep('three');
+                    }
+                    return false;
+                }.bind(this));
+                $('#pushThirdStepForm').submit(function(e) {
+                    if ($(e.currentTarget).valid()) {
+                        var topicReceiver = $('#topic_receiver'),
+                            nextStep = true,
+                            idString = "";
+
+                        // Topics!
+                        $(".chk_topic").each(function(index,elem) {
+                            if ($(elem).is(':checked') && !$(elem).hasClass("chk_topic_parent")) {
+                                idString += ";" + $(elem).attr("id");
+                            }
+                        });
+
+                        topicReceiver.val(idString);
+
+                        idString = "";
+
+                        if ($("#all_user_1").is(":checked") && topicReceiver.val() == "") {
+                            message.setMessage("<?php echo addslashes(__("You must choose a topic before sending your message.")); ?>");
+                            message.isError(true);
+                            message.addButton(true);
+                            message.addLoader(true);
+                            message.show();
+                            nextStep = false;
+                        }
+
+
+                        var tmpIds = [];
+                        $('input.customerid-checkbox:checked').each(function(index, element) {
+                            tmpIds.push($(element).data('customerid'));
+                        });
+                        idString = tmpIds.join(';');
+
+                        $("#customers_receiver").val(idString);
+
+                        if ($("#all_user_2").is(":checked") && $("#customers_receiver").val() == "") {
+                            message.setMessage("<?php echo addslashes(__("You must choose at least one user before sending your message.")); ?>");
+                            message.isError(true);
+                            message.addButton(true);
+                            message.addLoader(true);
+                            message.show();
+                            nextStep = false;
+                        }
+
+                        if (nextStep) {
+                            this.goToStep('four');
+                        }
+                    }
+                    return false;
+                }.bind(this));
+                $('#pushFourthStepForm').submit(function() {
+
+                    if(!$(this).valid()) return false;
+
+                    <?php if($canSendMessages) : ?>
+                    reload(this, this.action, true, function(datas) {
+                        if(datas.success) {
+                            page.reload();
+                        }
+                    });
+                    <?php else : ?>
+                    message.setMessage("<?php echo addslashes(__("Your app must be published to send a push notification.")); ?>");
+                    message.isError(true);
+                    message.addButton(true);
+                    message.addLoader(true);
+                    message.show();
+                    <?php endif; ?>
+
+                    return false;
+                });
+            },
+            goToStep: function(step) {
+
+                gmaps.hide();
+                var old_step = step-1;
+                var newDiv = $('#push_step_'+step);
+                var appearCallback = function() {$('#page').removeAttr('style'); newDiv.removeAttr('style');}
+
+                if(step == 'two') {
+                    appearCallback = function() {
+                        if($('#use_gmaps_1').is(':checked')) {
+                            gmaps.show();
+                        }
+                        $('#page').removeAttr('style');
+                        newDiv.removeAttr('style');
+                    }
+                }
+
+                // New transition
+                $('.push_step:visible').slideUp();
+                $(newDiv).slideDown();
+            },
+            destroy: function() {
+                $('.push_datetimepicker').datepicker("destroy");
+                $('#pushFirstStepForm').unbind('submit');
+                $('#pushSecondStepForm').unbind('submit');
+                $('#pushThirdStepForm').unbind('submit');
+                $('#pushFourthStepForm').unbind('submit');
+                $('#messageCreateForm').unbind('submit');
+                $('.use_gmaps').unbind('change');
+            }
+        }
+
+        /** Toggle more informations */
+        $("i.toggle-more").click(function() {
+            var msgid = $(this).data("msgid");
+
+            var details = $('#details_'+msgid);
+            if(details.is(":visible")) {
+                details.slideUp();
+            } else {
+                details.slideDown();
+            }
+        });
+
+        /** Delete handler */
+        $("i.delete-msg").click(function() {
+            var msgid = $(this).data("msgid");
+
+            deleteMessage(msgid);
+        });
+
+        function handleClick (customer){
+
+            var customer_id = $(customer).attr('id');
+
+            if(customer.checked){
+                customers_list.push(customer_id);
+            }else {
+                var index = customers_list.indexOf(customer_id);
+
+                if (index > -1) {
+                    customers_list.splice(index, 1);
+                }
+            }
+        }
+
+    </script>
+    <link href="/app/sae/design/desktop/flat/template/push/application/edit.css" media="screen" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        .toggle-more, .delete-msg {
+            cursor: pointer;
+        }
+        a#remove_cover_img {
+            position: absolute;
+            left: 15px;
+            top:0;
+        }
+        #features_list ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</div>

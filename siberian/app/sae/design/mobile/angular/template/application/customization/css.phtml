@@ -1,0 +1,53 @@
+<?php $notImportant = array('background', 'news', 'comments'); ?>
+<?php foreach($this->getApplication()->getBlocks() as $block) : ?>
+    <?php $important = !in_array($block->getCode(), $notImportant) ? ' !important' : '' ?>
+    <style id="backgroundColor_<?php echo $block->getCode(); ?>">
+        .<?php echo $block->getCode() ?> {
+            background-color: <?php echo $block->getBackgroundColorRGBA(); ?> <?php echo $important; ?>;
+        }
+        .<?php echo $block->getCode() ?> .no-background, .<?php echo $block->getCode() ?>.no-background {
+            background-color: transparent <?php echo $important; ?>;
+        }
+        <?php /*.<?php echo $block->getCode() ?>.reverse, .<?php echo $block->getCode() ?>.reverse *, a .<?php echo $block->getCode() ?>.reverse, a.<?php echo $block->getCode() ?>.reverse {*/ ?>
+        .<?php echo $block->getCode() ?>.reverse, a .<?php echo $block->getCode() ?>.reverse, a.<?php echo $block->getCode() ?>.reverse {
+            color: <?php echo $block->getBackgroundColorRGBA(); ?> <?php echo $important; ?>;
+        }
+    </style>
+    <style id="color_<?php echo $block->getCode(); ?>">
+        <?php /*.<?php echo $block->getCode() ?>, .<?php echo $block->getCode() ?> *, a .<?php echo $block->getCode() ?>, a.<?php echo $block->getCode() ?> {*/ ?>
+        .<?php echo $block->getCode() ?>, a .<?php echo $block->getCode() ?>, a.<?php echo $block->getCode() ?> {
+            color: <?php echo $block->getColorRGBA(); ?> <?php echo $important; ?>;
+        }
+        .<?php echo $block->getCode() ?>.reverse {
+            background-color: <?php echo $block->getColorRGBA(); ?> <?php echo $important; ?>;
+        }
+        <?php if($block->getCode() == 'background') : ?>
+        .icheckbox_flat,
+        .iradio_flat {
+            background-image: url(<?php echo $this->getUrl('template/block/colorize', array('color' => str_replace('#', '', $block->getColor()), 'path' => base64_encode($this->getImage('buttons/checkbox.png')))); ?>)
+        }
+        <?php endif; ?>
+    </style>
+    <?php if($block->getCode() == 'tabbar') : ?>
+        <style id="imageColor_<?php echo $block->getCode(); ?>">
+            .border-color {
+                border-color: <?php echo $block->getImageColorRGBA(); ?> !important;
+            }
+        </style>
+    <?php endif; ?>
+<?php endforeach; ?>
+<style>
+    .mask {
+        position: fixed;
+        top:0;right:0;bottom:0;left:0;
+        background: black;
+        z-index: 200;
+    }
+    .override_mask {
+        position: relative;
+        z-index: 300;
+    }
+    .page_header.override_mask {
+        z-index: 300;
+    }
+</style>

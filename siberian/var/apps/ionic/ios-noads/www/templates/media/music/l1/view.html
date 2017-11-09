@@ -1,0 +1,63 @@
+<ion-view sb-page-background class="audio-list media-view">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+
+    <ion-header-bar class="bar-custom"></ion-header-bar>
+
+    <div class="tabs-striped tabs-top tabs-icon-left tabs-custom tabs-color-light">
+        <div class="tabs">
+            <a class="tab-item" ng-class="{ 'active': (active_tab == 'playlists') }" href="#" ng-click="showPlaylists()">
+                <i class="icon ion-ios-albums-outline"></i>
+                {{ "Playlits" | translate }}
+            </a>
+            <a class="tab-item" ng-class="{ 'active': (active_tab == 'albums') }" href="#" ng-click="showAlbums()">
+                <i class="icon ion-ios-musical-note"></i>
+                {{ "Albums" | translate }}
+            </a>
+        </div>
+    </div>
+
+    <ion-content class="has-tabs-top">
+
+        <button class="action-read-all button button-full button-positive button-positive-custom text-center" ng-click="playAll()">
+            <i class="icon ion-ios-play-outline"></i>
+            {{ "Listen to all" | translate }}
+        </button>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div ng-if="active_tab == 'albums'" sb-albums-boxes paged-albums="albums.paged_albums" on-album-selected="showAlbum(album)"></div>
+
+        <div ng-if="active_tab == 'playlists'"  class="row" ng-repeat="playlists in playlists.paged_playlists">
+            <div class="list col-50" ng-repeat="playlist in playlists" ng-click="showPlaylistAlbums(playlist)">
+                <div class="item item-image item-custom">
+                    <img ng-if="!playlist.images.length" ng-src="{{ playlist.artworkUrl }}">
+                    <div class="row row-no-padding" ng-if="playlist.paged_playlist_images.length" ng-repeat="images in playlist.paged_playlist_images">
+                        <div class="col" ng-repeat="image in images">
+                            <img ng-src="{{ image.artworkUrl }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="item item-custom">
+                    <p>{{ playlist.name }}</p>
+                    <div ng-switch="album.type">
+                        <p ng-switch-when="podcast">-->
+                            {{ "Podcast" | translate }}
+                        </p>
+                        <p ng-switch-default>
+                            {{ playlist.totalTracks }}
+                            <span ng-switch="playlist.totalTracks">
+                                <span ng-switch-when="1">{{ 'track' | translate }}</span>
+                                <span ng-switch-default>{{ 'tracks' | translate }}</span>
+                            </span>
+                            <span ng-if="album.totalTracks !== 0"> - {{ playlist.totalDuration }}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ion-content>
+
+</ion-view>

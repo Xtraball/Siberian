@@ -1,0 +1,22 @@
+{
+    "name": "reisraff/phulp-angular-template-cache",
+    "description": "The angular-template-cache addon for phulp",
+    "keywords": ["phulpplugin", "phulp", "php", "angular-template-cache"],
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Rafael Reis",
+            "email": "reisraff@gmail.com"
+        }
+    ],
+    "autoload" : {
+        "psr-4" : {
+            "Phulp\\AngularTemplateCache\\" : "src"
+        }
+    },
+    "require": {
+        "php": ">=5.6",
+        "reisraff/phulp" : "~1.7"
+    }
+}

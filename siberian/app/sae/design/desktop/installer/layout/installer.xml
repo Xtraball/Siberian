@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <installer_installation_index>
+        <views>
+            <content class="core_view_default" template="installer/installation/index.phtml" />
+        </views>
+    </installer_installation_index>
+
+</layout>

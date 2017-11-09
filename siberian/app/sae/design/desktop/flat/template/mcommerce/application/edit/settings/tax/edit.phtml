@@ -1,0 +1,44 @@
+<?php $option = $this->getOptionValue(); ?>
+<?php $mcommerce = $option->getObject(); ?>
+<?php $tax = $this->getCurrentTax(); ?>
+<?php $stores = $mcommerce->getStores(); ?>
+<form id="taxEditForm" method="post" action="<?php echo $this->getUrl('mcommerce/application_settings_tax/editpost'); ?>" class="form-horizontal">
+    <fieldset>
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php if($tax->getId()) : ?>
+                <?php echo $this->_("Edit the tax %s", $tax->getName()); ?>
+            <?php else : ?>
+                <?php echo $this->_("Create a new tax"); ?>
+            <?php endif; ?>
+        </h3>
+        <div class="container-fluid content-feature">
+            <div class="form-group first-row-feature">
+                <div class="col-md-12">
+                    <button type="button" onclick="mcommerce_settings.tax.close();" class="btn color-blue pull-left"><i class="fa fa-angle-left"></i></button>
+                    <button type="submit" class="btn color-blue pull-right">OK</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2">
+                    <label for="tax_name"><?php echo $this->_("Tax name:"); ?></label>
+                </div>
+                <div class="col-sm-5">
+                    <input type="text" id="tax_name" name="name" class="input-flat" value="<?php echo $tax->getName(); ?>" placeholder="<?php echo $this->_("Tax name"); ?>" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2">
+                    <label for="tax_rate"><?php echo $this->_("Tax rate:"); ?></label>
+                </div>
+                <div class="col-sm-5">
+                    <input type="text" id="tax_rate" name="rate" class="input-flat required number" value="<?php echo $tax->getRate(); ?>" placeholder="<?php echo $this->_("20,00 %"); ?>" />
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <?php if($tax->getId()) : ?>
+        <input type="hidden" name="tax_id" id="tax_id" value="<?php echo $tax->getId() ?>" />
+    <?php endif; ?>
+    <input type="hidden" name="option_value_id" value="<?php echo $option->getId() ?>" />
+
+</form>

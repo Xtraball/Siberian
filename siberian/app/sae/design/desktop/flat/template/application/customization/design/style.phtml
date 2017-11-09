@@ -1,0 +1,727 @@
+<?php
+$application = $this->getApplication();
+
+$layout_model = new Application_Model_Layout_Homepage();
+$layout = $layout_model->find($application->getLayoutId());
+
+$layout_options = Siberian_Feature::getLayoutOptionsCallbacks($layout->getCode());
+$layout_form = false;
+if(isset($layout_options["form"]) && class_exists($layout_options["form"])) {
+    $layout_form = new $layout_options["form"]($layout);
+
+    $layout_options = $application->getLayoutOptions();
+    if(!empty($layout_options) && $values = Siberian_Json::decode($layout_options)) {
+        $layout_form->populate(array_merge($application->getData(), $values));
+    }
+}
+
+$layout_form_options = new Siberian_Form_Options($layout);
+$layout_form_options->populate($application->getData());
+
+$template_design = $application->getDesign();
+$overview_new = $template_design->getOverviewNew();
+
+# App design
+$design_id = $application->getDesignId();
+//For Facebook import
+$app_id     = Core_Model_Lib_Facebook::getAppId();
+$app_secret = Core_Model_Lib_Facebook::getSecretKey();
+$app_linked_fb_page = $application->getFacebookLinkedPage();
+?>
+<div class="page-content-wrapper">
+    <div id="template_content" class="content">
+        <h3 class="title-editor border-red text-center">
+            <?php echo __("Your design"); ?>
+        </h3>
+        <div id="templates" class="subcontent content-color container-fluid">
+            <div class="row">
+                <div id="sb-tour-change-template-section" class="col-sm-4 col-xs-6 sb-tour">
+                    <?php if($this->_canAccess("application_create")) : ?>
+                        <div id="show_templates" class="pointer">
+                            <p>
+                                <?php if(empty($design_id)): ?>
+                                    <img id="design_overview" class="overview-old" src="/images/templates/blank/overview.png" width="100% " height="100%"/>
+                                <?php elseif(!empty($overview_new)): ?>
+                                    <img id="design_overview" src="<?php echo $application->getDesign()->getOverview("overview_new"); ?>" width="100% " height="100%"/>
+                                <?php else: ?>
+                                    <img id="design_overview" class="overview-old" src="<?php echo $application->getDesign()->getOverview(); ?>" width="100% " height="100%"/>
+                                <?php endif; ?>
+                            </p>
+                            <button id="sb-tour-change-template" type="button" class="show_templates btn-grey btn btn-full-width sb-tour">
+                                <?php echo __("Change your template"); ?>
+                            </button>
+                            </div>
+                    <?php endif; ?>
+                </div>
+                <div id="sb-tour-change-layout-section" class="col-sm-4 col-xs-6 sb-tour">
+                    <div id="show_layouts" class="pointer">
+                        <div id="layout_overview">
+                            <p>
+                            <img id="layout_overview" src="<?php echo $this->getImage($layout->getPreview()); ?>" width="100% " height="100%"/>
+                            </p>
+                        </div>
+                        <button id="sb-tour-change-layout" type="button" class="show_layouts btn-grey btn btn-full-width sb-tour">
+                            <?php echo __("Change your layout"); ?>
+                        </button>
+                    </div>
+                </div>
+                <div id="layouts" class="col-sm-4 col-xs-12 sb-tour">
+                    <div class="content-options content-white-bkg">
+                        <h4><?php echo __("Layout options") ?></h4>
+                        <?php echo $layout_form_options; ?>
+                        <?php if(sizeof($layout_form_options->getElements()) > 0): ?>
+                            <hr class="general" />
+                        <?php endif; ?>
+                        <?php if($layout_form !== false): ?>
+                            <?php if($layout_form->getPresets()): ?>
+                                <p class="preset-title"><?php echo __("Preset") ?></p>
+                                <div class="preset-sets" data-form="<?php echo $layout_form->getId(); ?>"/>
+                                    <table style="text-align: center;" class="sb-mini-carousel" data-items="3">
+                                        <tr>
+                                            <td class="prev-arrow">
+                                                <i class="fa fa-chevron-left"></i>
+                                            </td>
+                                            <td class="sb-carousel-items">
+                                                <div class="sb-carousel-inline">
+                                                    <?php foreach($layout_form->getPresets() as $preset): ?>
+                                                    <?php
+                                                    $values = "";
+                                                    foreach($preset["values"] as $key => $value) {
+                                                        $values .= " data-$key=\"$value\"";
+                                                    }
+                                                    ?>
+                                                    <a class="sb-carousel-item preset-link" style="display: none;" href="javascript:void(0)" <?php echo $values; ?>>
+                                                        <img src="<?php echo $preset["preview"] ?>" />
+                                                    </a>
+                                                    <?php endforeach; ?>
+                                                </div>
+                                            </td>
+                                            <td class="next-arrow">
+                                                <i class="fa fa-chevron-right"></i>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            <?php endif; ?>
+                        <?php echo $layout_form; ?>
+                        <?php endif; ?>
+
+                        <?php if(($layout_form === false) && (sizeof($layout_form_options->getElements()) <= 0)): ?>
+                            <p class="preset-title text-center"><?php echo __("No options available.") ?></p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Homepage Carousel -->
+            <?php if(($application->getLayoutVisibility() == Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE) && $application->getHomepageSliderIsVisible() && $layout->getUseHomepageSlider()): ?>
+            <div id="sb-tour-slider-section" class="row content-in sb-tour">
+                <div class="col-sm-12 col-xs-12 col-md-12">
+                    <div class="content-options content-white-bkg">
+                        <div id="homepage_slider">
+                            <div id="homepage_slider_options">
+                                <?php
+                                    $size = $application->getHomepageSliderSize();
+                                    if(empty($size)) {
+                                        $application->setHomepageSliderSize(33)->save();
+                                        $application->setData("homepage_slider_size", 33)->save();
+                                    }
+
+                                    $form_slider = new Application_Form_HomepageSlider();
+                                    $form_slider->populate($application->getData());
+                                    echo $form_slider;
+                                ?>
+                                <div class="slider_images">
+                                    <div id="uploaded_slider_images" class="listing">
+                                        <div>
+                                            <ul id="slider_images" class="images_list">
+                                                <?php foreach($application->getSliderImages() as $slider_image): ?>
+                                                    <li id="slider_image_<?php echo $slider_image->getImageId(); ?>" class="slider_image sortable">
+                                                        <span class="details">
+                                                            <img width="195" src="<?php echo $slider_image->getLink(); ?>" />
+                                                        </span>
+                                                        <div class="actions" style="display:none">
+                                                            <a class="move_page pull-left btn btn-grey" href="javascript:void(0)"><i class="fa fa-sort"></i></a>
+                                                            <a class="delete_page delete_slider_image pull-right btn btn-grey" onclick="deleteSliderImage(event, this);" href="<?php echo str_replace('$', '/', $this->getUrl('application/customization_design_style/deletesliderimage') . '$image_id$'); ?>">
+                                                                <i class="fa fa-times"></i>
+                                                            </a>
+                                                            <input type="hidden" class="image_id" value="<?php echo $slider_image->getImageId(); ?>" />
+                                                        </div>
+                                                    </li>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        </div>
+                                        <a id="carousel_prev"><i class="fa fa-angle-left"></i></a>
+                                        <a id="carousel_next"><i class="fa fa-angle-right"></i></a>
+                                    </div>
+                                </div>
+                                <div class="slider_images_uploader_action text-right">
+                                    <button type="button" class="upload_images btn color-red" rel="<?php echo $this->getPosition(); ?>">
+                                        <?php echo __('Add pictures'); ?>
+                                    </button>
+                                    <input style="display:none" enctype="multipart/form-data" rel="slider_images" class="fileupload" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
+            <!-- /Homepage Carousel -->
+
+        </div>
+    </div>
+
+    <div id="homepage_content" class="content sb-tour">
+        <h3 class="title-editor border-red text-center">
+            <?php echo __("Choose your homepage image"); ?>
+        </h3>
+        <div id="homepage" class="subcontent content-color container-fluid">
+            <div class="icon_color">
+                <input type="hidden" id="homepage_image_name" name="homepage_image" value="" />
+                <input type="hidden" id="homepage_image_has_changed" name="homepage_image_has_changed" value="0" />
+            </div>
+            <?php echo $this->createPartialHtml('homepage_create', 'admin_view_default', 'application/customization/design/style/homepage.phtml'); ?>
+        </div>
+    </div>
+
+    <div id="countries_container" class="content">
+        <h3 class="title-editor border-red text-center">
+            <?php echo __('Choose your country'); ?>
+        </h3>
+        <div id="countries" class="subcontent content-color sb-tour">
+            <div class="col-md-12">
+                <p><?php echo __("This option enables you to set the currency used in your app"); ?></p>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label for="select_locale"><?php echo __('Choose a country'); ?> : </label>
+                        <select id="select_locale" name="locale" class="styled-select color-red sb-tour">
+                            <?php foreach(Core_Model_Language::getCountriesList() as $country) : ?>
+                                <option value="<?php echo $country->getCode() ?>"<?php if($application->getLocale() == $country->getCode()) : ?> selected="selected"<?php endif; ?>><?php echo $country->getName().' ('.$country->getSymbol().')' ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <!--<div id="select_locale_loader" class="loader" alt="<?php echo __("Loading"); ?>" style="display:none;"></div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="font_content" class="content sb-tour">
+        <h3 class="title-editor border-red text-center">
+            <?php echo __('Choose your font style'); ?>
+        </h3>
+        <div id="fonts" class="subcontent content-color">
+            <div class="col-md-12">
+                <?php $fontFamilies = Core_Model_Lib_Fonts::getFonts(); ?>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label for="icon_text_font" class="inlineblock mountain"><?php echo __('Choose a font family'); ?> : </label>
+                        <select id="font_family" name="font_family" tabindex="1" class="sb-tour styled-select color-red">
+                            <?php foreach($fontFamilies as $fontFamily) : ?>
+                                <option value="<?php echo $fontFamily ?>"<?php if($application->getFontFamily() == $fontFamily OR !$application->getFontFamily() AND $fontFamily == 'Signika') : ?> selected="selected"<?php endif; ?>><?php echo $fontFamily ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <!--<div id="font_family_loader" class="loader" alt="<?php echo __("Loading"); ?>" style="display:none;"></div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var carousel = null;
+    var modal_preview;
+    var modal_layouts;
+    var modal_fb_import;
+    $(document).ready(function(){
+
+        bindForms("#layouts");
+        bindForms("#homepage_slider_options");
+
+        $("#layouts").on("submit", function() {
+            iframe.reload();
+        });
+
+        $("#homepage_slider_is_visible, #layout_visibility").on("change", function() {
+            setTimeout(function() {
+                location.reload();
+            }, 2000);
+        });
+
+        $("#homepage_slider_options").on("change", function() {
+            setTimeout(function() {
+                iframe.reload();
+            }, 2000);
+        });
+
+        $("table.sb-mini-carousel").sbcarousel({
+            min_size: 48
+        });
+
+        $('#font_family').change(function() {
+            var font_loader = $('#'+this.id+'_loader');
+            font_loader.show();
+            iframe.setFont($(this).val());
+            reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/savefont'); ?>', false, function() {
+                font_loader.fadeOut();
+            }, function() {
+                font_loader.fadeOut();
+            });
+        }).keyup(function() {
+            iframe.setFont($(this).val());
+        });
+
+        $('#select_locale').change(function() {
+            var countries_loader = $('#'+this.id+'_loader');
+            countries_loader.show();
+            reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/savelocale'); ?>', false, function(datas) {
+                if(datas.success) {
+                    iframe.reload();
+                }
+                countries_loader.fadeOut();
+            }, function() {
+                countries_loader.fadeOut();
+            });
+        });
+
+        modal_preview = new Modal({
+            id: 'preview',
+            url: '<?php echo $this->getUrl('template/design/list'); ?>',
+            is_retain: false,
+            width: 1050,
+            height: 'auto'
+        });
+
+        var showTemplatesButton = $("#show_templates");
+
+        showTemplatesButton.click(function() {
+            modal_preview.show();
+        });
+
+        modal_layouts = new Modal({
+            id: 'modal_layouts',
+            url: '<?php echo $this->getUrl('application/customization_design_style/layouts'); ?>',
+            is_retain: false,
+            width: 1050,
+            height: 'auto'
+        });
+
+        $('#show_layouts').click(function() {
+            modal_layouts.show();
+        });
+
+        <?php if($app_id AND $app_secret): ?>
+            modal_fb_import = new Modal({
+                id: 'modal_fb_import',
+                url: '<?php echo $this->getUrl('importer/facebook/getmodaltemplate'); ?>',
+                is_retain: true,
+                width: 800,
+                height: 'auto'
+            });
+
+            <?php if(empty($design_id)): # Show template modal until one is selected ?>
+                <?php if(empty($app_linked_fb_page)): ?>
+                    <?php if(System_Model_Config::getValueFor("facebook_import_active") AND $this->_canAccess("editor_facebook_import")): ?>
+                        modal_fb_import.show();
+                    <?php else: ?>
+                        showTemplatesButton.click();
+                    <?php endif ?>
+                <?php else: ?>
+                    showTemplatesButton.click();
+                <?php endif ?>
+            <?php endif ?>
+        <?php else:?>
+            <?php if(empty($design_id)): # Show template modal until one is selected ?>
+                showTemplatesButton.click();
+            <?php endif ?>
+        <?php endif;?>
+
+        if($("#slider_images").length) {
+            initCarousel();
+        }
+
+        $(".sb-check-container label.control.control--checkbox").addClass("col-md-6");
+
+        /*if($('#form-options').hasClass('.feature-form')) {
+            $('.content-options.content-white-bkg').removeClass('hidden');
+        }
+        else {
+            $('.content-options.content-white-bkg').addClass('hidden');
+        }*/
+    });
+
+    /** Homepage Image Slider **/
+    var  currentHeight = function(intialHeight) {
+        var current_scale = $("#homepage_slider_size").val();
+        var target_height = intialHeight * current_scale;
+        return Math.ceil(parseFloat(target_height));
+    };
+
+    var sliderImages = $("#slider_images");
+    var initCarousel = function() {
+        // Images slider carousel
+        createCarouselSortable();
+        sliderImages.sbCarousel({item_width: 195, items_per_page: 3, next_button: $("#carousel_next"), prev_button: $("#carousel_prev")});
+        carousel = sliderImages.data('carousel');
+        carousel.update();
+        sliderImages.on({
+            mouseenter: function () {
+                $(this).children('div.actions').fadeIn();
+            },
+            mouseleave: function () {
+                var a = $(this).children('span.details');
+                if (!$(this).hasClass('selected')) {
+                    $(this).children('div.actions').stop().fadeOut();
+                }
+            }
+        }, '.slider_image');
+    };
+
+    var previousSize = $("#homepage_slider_size").val();
+
+    $("#homepage_slider_size").on("change", function() {
+        var image_counts = $(".slider_image.sortable").length;
+
+        if(image_counts != 0) {
+            var confirm_client = confirm("<?php echo __js('If you decide to change the slider size, all images will be dropped. Are you sure ?');?>");
+            if (confirm_client) {
+                $(".delete_page.delete_slider_image").each(function (idx, elm) {
+                    $(elm).click();
+                });
+
+                previousSize = $(this).val();
+            } else {
+                $(this).val(previousSize);
+
+                return;
+            }
+        }
+
+        if(image_counts > 0) {
+            iframe.reload();
+        }
+    });
+
+    $("#homepage_slider_options .upload_images").click(function() {
+        $('.fileupload[rel="slider_images"]').trigger('click');
+    });
+
+    var slider_images_uploader = new Uploader();
+    $('.fileupload[rel="slider_images"]').fileupload({
+        dataType: 'json',
+        add: function(e, data) {
+            data.formData = {
+                minwidth: '100',
+                minheight: '200',
+                maxwidth: '3000',
+                maxheight: '3000'
+            };
+            data.submit();
+            slider_images_uploader.showProgressbar();
+        },
+        progressall: function(e, data) {
+            slider_images_uploader.moveProgressbar(data);
+        },
+        done: function(e, data) {
+            if (data.result.error) {
+                slider_images_uploader.showError(data.result.message);
+            } else {
+                slider_images_uploader.hide();
+
+                var params = new Array();
+                params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+                params["file"] = data.result.files;
+                params["uploader"] = 'slider_images_uploader';
+                params["output_w"] = 1080;
+                params["output_h"] = 1920*$("#homepage_slider_size").val()/100;
+                params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('application/customization_design_style/savesliderimages')) ?>';
+
+                slider_images_uploader.crop(params);
+                slider_images_uploader.callback = function(file) {
+                    sliderImages.append(
+                        '<li id="slider_image_' + file.id + '" class="slider_image sortable" data-pos="' + file.id + '">\n\
+                            <span class="details">\n\
+                                <img width="195" src="' + file.url + '">\n\
+                            </span>\n\
+                            <div class="actions" style="display: none;">\n\
+                                <a class="move_page pull-left btn btn-grey" href="javascript:void(0)"><i class="fa fa-sort"></i></a>\n\
+                                <a class="delete_page delete_slider_image pull-right btn btn-grey" onclick="deleteSliderImage(event, this);" href="<?php echo str_replace('$', '/', $this->getUrl('application/customization_design_style/deletesliderimage') . '$image_id$'); ?>">\n\
+                                    <i class="fa fa-times"></i>\n\
+                                </a>\n\
+                                <input type="hidden" class="image_id" value="' + file.id + '">\n\
+                            </div>\n\
+                        </li>'
+                    );
+
+                    carousel.update();
+                    iframe.reload();
+                };
+            }
+        }
+    });
+
+    var deleteSliderImage = function(e, element) {
+        e.preventDefault();
+
+        var id = $(element).parent().find(".image_id").val();
+        reload(this, element.href + id, true, function(response) {
+            if(response.reload) {
+                $(element).parent().parent().remove();
+                carousel.update();
+                iframe.reload();
+            }
+        });
+    };
+
+    var createCarouselSortable = function() {
+        sliderImages.sortable({
+            items: '> li.sortable:visible',
+            cursor: "ew-resize",
+            handle: '.move_page',
+            placeholder: "page_placeholder",
+            axis: 'x',
+            tolerance: 'pointer',
+            start: function () {
+                var prev_button_position = carousel.getPrevButtonPosition();
+                var next_button_position = carousel.getNextButtonPosition();
+
+                $(document).mousemove(function (e) {
+
+                    if (e.pageX > next_button_position.x1 && e.pageX < next_button_position.x2 && e.pageY > next_button_position.y1 && e.pageY < next_button_position.y2) {
+                        carousel.startInterval('next');
+                    } else {
+                        carousel.stopInterval('next');
+                    }
+                    if (e.pageX > prev_button_position.x1 && e.pageX < prev_button_position.x2 && e.pageY > prev_button_position.y1 && e.pageY < prev_button_position.y2) {
+                        carousel.startInterval('prev');
+                    } else {
+                        carousel.stopInterval('prev');
+                    }
+                });
+
+            },
+            stop: function () {
+                $(document).unbind('mousemove');
+            },
+            update: function (e, ui) {
+                var order = sliderImages.sortable('serialize');
+                sliderImages.sortable("refresh");
+
+                var order_url = "<?php echo $this->getUrl('application/customization_design_style/setsliderimagepositions'); ?>?" + order;
+                reload(sliderImages, order_url, true, function () {
+                    iframe.reload();
+                });
+            }
+        });
+    };
+
+</script>
+<style>
+    .slider_size {
+        width: 100%;
+        display: block;
+    }
+    .slider_size > label {
+        width:100%;
+    }
+    /** IMAGE SLIDER CAROUSEL **/
+    #homepage_slider .slider_images {
+        left: 0;
+        position: relative;
+        padding: 15px 0 0 0;
+    }
+    #homepage_slider .slider_images_uploader_action {
+        margin-top: 10px;
+    }
+    #uploaded_slider_images {
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        margin-left: 0px;
+        min-height: 120px;
+        background-color: #E9E9E9;
+        padding: 15px 0;
+    }
+    #uploaded_slider_images > div {
+        margin: auto;
+        overflow: hidden;
+    }
+    #uploaded_slider_images.listing ul {
+        height: 100%;
+        -webkit-transition: all 0.4s ease 0s;
+        -moz-transition: all 0.4s ease 0s;
+        -ms-transition: all 0.4s ease 0s;
+        -o-transition: all 0.4s ease 0s;
+        transition: all 0.4s ease 0s;
+        list-style: none;
+        padding: 0;
+    }
+    #uploaded_slider_images.listing ul li {
+        float: left;
+        width: 185px;
+        height: 100%;
+        padding: 0;
+        transition: none;
+        position: relative;
+        margin: 0px 5px;
+    }
+    #uploaded_slider_images.listing ul li:hover {
+        background-color: #ffffff;
+    }
+    /*#uploaded_slider_images.listing ul li:last-child {
+        border: none;
+    }*/
+    #uploaded_slider_images.listing ul li span.details {
+        display: block;
+        height: 100%;
+        text-align: center;
+    }
+    #uploaded_slider_images.listing ul li span.details img {
+        width: 100%;
+        height: 100%;
+        border-radius: 2px;
+    }
+    #uploaded_slider_images.listing ul li.slider_image div.actions {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 2;
+    }
+    #uploaded_slider_images.listing ul li.slider_image div.actions .move_page {
+        cursor: ew-resize;
+        left: 5px;
+        top: 5px;
+        padding: 6px 8px 4px;
+        border-bottom-right-radius: 3px;
+        border-top-left-radius: 2px;
+        color: inherit;
+    }
+    #uploaded_slider_images.listing ul li.slider_image div.actions .delete_page {
+        right: 5px;
+        top: 5px;
+        padding: 3px 10px 5px;
+        border-bottom-left-radius: 3px;
+        border-top-right-radius: 2px;
+        color: inherit;
+    }
+    #uploaded_slider_images #carousel_prev {
+        left: 15px;
+    }
+    #uploaded_slider_images #carousel_next {
+        right: 15px;
+    }
+    #uploaded_slider_images #carousel_prev, #uploaded_slider_images #carousel_next {
+        position: absolute;
+        top: 50px;
+        width: 16px;
+        height: 92px;
+        padding: 0;
+        cursor: pointer;
+        z-index: 2;
+        font-size: 25px;
+    }
+
+
+    .opacity_container { width: 100%; }
+    .opacity_container input[type=range] { float: left; width: 90%; }
+    .opacity_container span { float: right; font-size: 11px; margin-top: -1px }
+    /** /IMAGE SLIDER CAROUSEL **/
+
+    .preset-title {
+        margin-bottom: 1px;
+        font-weight: bold;
+    }
+
+    .preset-sets {
+        border-radius: 2px;
+        background-color: #F4F4F4;
+        float: left;
+        padding: 4px;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    form.sb-form:not(.form-horizontal) .control--checkbox {
+        margin: 0;
+        padding: 0;
+        display: inline-block;
+        margin-top: 5px;
+    }
+
+    form.sb-form:not(.form-horizontal) .sb-form-checkbox {
+        width: 20px;
+    }
+
+    form.sb-form:not(.form-horizontal) .form-group-checkbox {
+        margin-bottom: 0px;
+        margin-top: 10px;
+    }
+
+    form.sb-form:not(.form-horizontal) .sb-save-info-button {
+        margin-top: 10px;
+    }
+
+    .prev-arrow, .next-arrow {
+        width: 30px;
+        min-width: 30px;
+        max-width: 30px;
+        font-size: 24px;
+    }
+
+    .preset-sets .col-md-4 {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    #homepage_slider {
+        /*margin-top: 20px;*/
+    }
+
+    .slider_images .fa-sort {
+        cursor: ew-resize;
+        transform: rotate(90deg);
+    }
+
+    .form-layout-options #fieldset-submit {
+        /*float: right;*/
+    }
+
+    .form-group-checkbox label {
+        /*padding-left: 10px;*/
+    }
+
+    form label {
+        max-width: 90%;
+    }
+
+    select.form-control.no-dk {
+        padding-left: 8px;
+    }
+
+    .styled-select {
+        height: 28px;
+        font-size: 14px;
+        line-height: 2em;
+    }
+
+    .xb-slider {
+        margin-bottom: 24px;
+    }
+
+    .sb-check-container label {
+        width: 50%;
+    }
+
+    hr.general {
+        border: 1px dashed;
+        color: #E9E9EB;
+        background-color: transparent;
+    }
+
+    .slider_images .fa-angle-right, .slider_images .fa-angle-left {
+        font-size: 2em;
+    }
+
+</style>

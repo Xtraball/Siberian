@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<designs>
+    <rush_cafe>
+        <content>
+            <form>
+                <email>test@ipsum.co</email>
+            </form>
+            <form_sections>
+                <section>
+                    <name>Lorem Ipsum</name>
+                    <fields>
+                        <field>
+                            <name>Lorem</name>
+                            <type>date</type>
+                        </field>
+                        <field>
+                            <name>Ipsum</name>
+                            <type>email</type>
+                        </field>
+                        <field>
+                            <name>Lorem</name>
+                            <type>select</type>
+                            <option>Option 1;Option 2;Option 3</option>
+                        </field>
+                        <field>
+                            <name>Ipsum</name>
+                            <type>nombre</type>
+                        </field>
+                    </fields>
+                </section>
+                <section>
+                    <name>Lorem Ipsum</name>
+                    <fields>
+                        <field>
+                            <name>Ipsum</name>
+                            <type>checkbox</type>
+                            <option>Option 1;Option 2;Option 3;Option 4</option>
+                        </field>
+                        <field>
+                            <name>Lorem</name>
+                            <type>textarea</type>
+                        </field>
+                        <field>
+                            <name>Ipsum</name>
+                            <type>geoloc</type>
+                        </field>
+                        <field>
+                            <name>Lorem</name>
+                            <type>texte</type>
+                        </field>
+                    </fields>
+                </section>
+            </form_sections>
+        </content>
+    </rush_cafe>
+</designs>

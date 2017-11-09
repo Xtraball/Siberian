@@ -1,0 +1,38 @@
+
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="scrollable_content" sb-load-more factory="factory" collection="collection">
+
+        <?php echo $this->getPartialHtml("cover"); ?>
+
+        <div class="padding list l2 for_ads_banner">
+            <ul>
+                <li class="padding" ng-repeat="item in collection" ng-click="showItem(item)" ng-class="{first: $index == 0}">
+                    <div class="image background reverse">
+                        <div class="month">
+                            <span class="title background reverse">
+                                {{ item.month_name_short }}
+                            </span>
+                        </div>
+                        <div class="day background">
+                            <span class="background">{{ item.day }}</span>
+                        </div>
+                    </div>
+                    <div class="details">
+                        <div class="title top">
+                            <span class="title block">{{ item.title }}</span>
+                            <span class="subtitle">{{ item.subtitle }}</span>
+                            <span class="title block"><?php echo $this->_("From:"); ?> {{ item.title2 }}</span>
+                            <span class="subtitle bottom">{{ item.subtitle2 }}</span>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

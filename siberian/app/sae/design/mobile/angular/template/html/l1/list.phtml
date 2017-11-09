@@ -1,0 +1,56 @@
+<div<?php if(!$this->getScrollableContentAlreadyUsedInParentElement()) : ?> class="scrollable_content" sb-load-more factory="factory" collection="collection"<?php endif ?>>
+
+    <?php echo $this->getPartialHtml("cover"); ?>
+
+    <div class="padding list l1 for_ads_banner">
+        <ul>
+            <li ng-repeat="item in collection" class="slide-left">
+                <a sb-list-item item="item" show-item="showItem(item)" target="_parent">
+                    <div>
+                        <img width="37" height="37" class="logo left" ng-src="{{ item.icon }}" ng-if="item.icon" />
+
+                        <p ng-if="item.topic" class="margin-label-topic">
+                            <span class="topic-label">{{ item.topic }}</span>
+                        </p>
+
+                        <p class="text">
+                            <span class="name bold">{{ item.author }}.</span>
+                            <span ng-bind-html="item.message | trusted_html"></span>
+                        </p>
+                        <p ng-show="item.url"><span class="block right"><?php echo $this->_("Read More"); ?></span></p>
+                        <p ng-show="item.action_value"><span class="block right"><?php echo $this->_("View"); ?></span></p>
+
+                        <div class="clear"></div>
+                    </div>
+
+                    <div class="image right" ng-if="item.picture">
+                        <div class="container">
+                            <span class="block bg_image" image-src="item.picture" sb-image ></span>
+                        </div>
+                    </div>
+
+                    <div class="clear"></div>
+
+                    <div class="details" ng-if="item.details">
+                        <span class="area1 left" ng-if="item.details.date">
+                            <img ng-src="{{ item.details.date.picto }}" alt="" height="11" />
+                            {{ item.details.date.text }}
+                        </span>
+                        <span class="area3 right" ng-if="item.details.likes">
+                            <img ng-src="{{ item.details.likes.picto }}" alt="" height="11" />
+                            {{ item.details.likes.text }}
+                        </span>
+                        <span class="area2 right" ng-if="item.details.comments">
+                            <img ng-src="{{ item.details.comments.picto }}" alt="" height="11" />
+                            {{ item.details.comments.text }}
+                        </span>
+
+                        <div class="clear"></div>
+                    </div>
+                </a>
+            </li>
+            <li><sb-loader is-loading="show_posts_loader" size="'48'" block="'background'"></sb-loader></li>
+        </ul>
+        <p class="no-results" ng-if="!is_loading && !collection.length"><?php echo $this->_("No Results"); ?></p>
+    </div>
+</div>

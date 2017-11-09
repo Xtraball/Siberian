@@ -1,0 +1,87 @@
+<?php $admin = $this->getSession()->getAdmin(); ?>
+<?php $admins = $admin->findAll(array('parent_id' => $admin->getId())); ?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-content-wrapper content solo-page">
+            <h3 class="title-editor border-blue text-center">
+                <?php echo $this->_('List of my accounts'); ?>
+            </h3>
+            <div class="subcontent content-color">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button id="sb-tour-add-account" class="color-blue btn sb-tour" onclick="window.location = '<?php echo $this->getUrl('admin/account/new'); ?>'" type="button">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table id="sb-tour-account-table" class="regular_infos list list-input sb-tour" width="100%">
+                            <col width="30%" />
+                            <col width="30%" />
+                            <col width="30%" />
+                            <col width="10%" />
+                            <tr class="a-left">
+                                <th><?php echo $this->_('Email'); ?></th>
+                                <th><?php echo $this->_('Created at'); ?></th>
+                                <th><?php echo $this->_('Updated at'); ?></th>
+                                <th></th>
+                            </tr>
+                            <tr id="row_account_<?php echo $admin->getId(); ?>">
+                                <td><?php echo $admin->getEmail(); ?></td>
+                                <td><?php echo $admin->getFormattedCreatedAt(); ?></td>
+                                <td><?php echo $admin->getFormattedUpdatedAt(); ?></td>
+                                <td>
+                                    <div class="icons">
+                                        <a id="admin_edit_<?php echo $admin->getId(); ?>" class="icon edit" href="<?php echo $this->getUrl('admin/account/edit', array('admin_id' => $admin->getId())); ?>">
+                                            <i class="icon-edit"></i>
+                                        </a>
+                                        <?php if($admin->getParentId()) : ?>
+                                        <a id="admin_delete_<?php echo $admin->getId(); ?>" class="icon delete_account" href="<?php echo $this->getUrl('admin/account/delete', array('admin_id' => $admin->getId())); ?>" rel="<?php echo $admin->getId(); ?>">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                        <?php endif; ?>
+                                    </div>
+                                </td>
+                            </tr>
+                            <?php foreach($admins as $admin) : ?>
+                            <tr id="row_account_<?php echo $admin->getId(); ?>">
+                                <td><?php echo $admin->getEmail(); ?></td>
+                                <td><?php echo $admin->getFormattedCreatedAt(); ?></td>
+                                <td><?php echo $admin->getFormattedUpdatedAt(); ?></td>
+                                <td>
+                                    <div class="icons">
+                                        <a id="admin_edit_<?php echo $admin->getId(); ?>" class="icon edit" href="<?php echo $this->getUrl('admin/account/edit', array('admin_id' => $admin->getId())); ?>">
+                                            <i class="icon-edit"></i>
+                                        </a>
+                                        <?php if($admin->getParentId()) : ?>
+                                        <a id="admin_delete_<?php echo $admin->getId(); ?>" class="icon delete_account" href="<?php echo $this->getUrl('admin/account/delete', array('admin_id' => $admin->getId())); ?>" rel="<?php echo $admin->getId(); ?>">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                        <?php endif; ?>
+                                    </div>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.delete_account').click(function() {
+            if(confirm('<?php echo addslashes($this->_('Are you sure you want to remove this account?')); ?>')) {
+                reload($(this), this.href, true, function(data) {
+                    if(data.success) {
+                        $('#row_account_'+data.admin_id).remove();
+                    }
+                });
+            }
+            return false;
+        });
+    });
+</script>

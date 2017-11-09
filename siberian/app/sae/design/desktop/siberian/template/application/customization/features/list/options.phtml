@@ -1,0 +1,42 @@
+<?php //$option_value = new Application_Model_Option_Value(); ?>
+<?php // $option_values = $option_value->findAll(array('is_visible' => 1)); ?>
+<?php $application = $this->getApplication(); ?>
+<?php $option_values = $application->getOptions();//->findAll(array('is_visible' => 1)); ?>
+
+<div class="listing relative">
+    <div class="relative" style="margin: auto;">
+        <ul id="option_values" class="relative pages_list" style="left: 0;">
+            <?php foreach($option_values as $key => $option) : ?>
+                <?php echo $this->getLayout()->addPartial('row_' . $option->getId(), 'application_view_customization_features_list_options', 'application/customization/features/list/options/li.phtml')
+                    ->setOptionValue($option)->setIsSortable(1)
+                    ->toHtml();
+                ?>
+            <?php endforeach; ?>
+            <?php $option = new Application_Model_Option_Value(); ?>
+            <?php $option->find('customer_account'); ?>
+            <?php 
+                echo $this->getLayout()->addPartial('row_'.$option->getId(), 'application_view_customization_features_list_options', 'application/customization/features/list/options/li.phtml')
+                    ->setOptionValue($option)
+                    ->setIsSortable(0)
+                    ->setIsHidden(!$this->getApplication()->usesUserAccount())
+                    ->toHtml()
+                ; 
+            ?>
+            <?php if($application->getLayout()->getUseMoreButton()) : ?>
+                <?php $option = new Application_Model_Option_Value(); ?>
+                <?php $option->find('more_items'); ?>
+                <?php 
+                    echo $this->getLayout()->addPartial('row_'.$option->getId(), 'application_view_customization_features_list_options', 'application/customization/features/list/options/li.phtml')
+                        ->setOptionValue($option)
+                        ->setIsSortable(0)
+                        ->setIsHidden(1)
+                        ->toHtml()
+                    ;
+                ?>
+            <?php endif; ?>
+        </ul>
+    </div>
+    <a id="carousel_prev" class="default_button left"><i class="icon-angle-left"></i></a>
+    <a id="carousel_next" class="default_button right"><i class="icon-angle-right"></i></a>
+</div>
+<div class="clear"></div>

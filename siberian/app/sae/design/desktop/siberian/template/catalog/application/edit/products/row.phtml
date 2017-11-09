@@ -1,0 +1,25 @@
+<?php $product = $this->getProduct(); ?>
+<li id="row_<?php echo $product->getId(); ?>" rel="<?php echo $product->getCategoryId(); ?>" class="product_rows">
+
+    <img class="handle" id="handle_<?php echo $product->getId(); ?>" src="<?php echo $this->getImage('actions/move.png'); ?>" style="visibility: hidden;" />
+    <a href="#" id="delete_<?php echo $product->getId() ?>" class="delete"><img src="<?php echo $this->getImage('actions/delete.png'); ?>" alt="<?php echo $this->_('Delete'); ?>" title="<?php echo $this->_('Delete'); ?>" /></a>
+    <a href="#" id="edit_<?php echo $product->getId() ?>" class="edit"><img src="<?php echo $this->getImage('actions/edit.png'); ?>" alt="<?php echo $this->_('Delete'); ?>" title="<?php echo $this->_('Delete'); ?>" /></a>
+    <a id="label_<?php echo $product->getId() ?>" href="#" style="color: <?php echo $product->getIsActive() ? 'green' : 'red' ?>;"><?php echo $product->getName() ?></a>
+
+    <script type="text/javascript">
+        <?php $datas = array('name' => $product->getName(), 'description' => $product->getDescription(), 'price' => $product->getPrice(), 'category_id' => $product->getCategoryId()); ?>
+        <?php $formats = array(); ?>
+        <?php if($product->getData('type') != 'simple') : ?>
+            <?php foreach($product->getType()->getOptions(/*$pos->getId()*/) as $option) $formats[] = array('id' => $option->getId(), 'title' => $option->getTitle(), 'price' => $option->getPrice()); ?>
+        <?php endif; ?>
+        product = products.add(<?php echo $product->getId(); ?>, <?php echo Zend_Json::encode($datas); ?>, <?php echo Zend_Json::encode($formats); ?>);
+        product.submit = function(callback) {
+            if(!callback) callback = function() {}
+                reload($('#row_'+this.id), products.url, true, function(response) {
+                    iframe.f.reload();
+                callback(response);
+            });
+        }
+    </script>
+    <div class="clear"></div>
+</li>

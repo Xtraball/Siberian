@@ -1,0 +1,77 @@
+<?php
+    $application = $this->getApplication();
+
+    $form = new Application_Form_Advanced();
+    $form->populate($application->getData());
+
+    /**$form_smtp = new Application_Form_Smtp();
+    $form_smtp
+        ->populate($application->getData())
+        ->populate(Siberian_Json::decode($application->getData('smtp_credentials')))
+    ;*/
+
+
+?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-content-wrapper">
+            <div id="advanced_settings_content" class="content solo-page sb-tour">
+                <h3 class="title-editor border-blue text-center">
+                    <?php echo __("Advanced Application Options"); ?>
+                </h3>
+                <div id="advanced" class="subcontent content-color">
+                    <div class="col-md-12">
+                        <?php echo $form; ?>
+                    </div>
+                </div>
+            </div>
+
+            <?php if(false): ?>
+            <div id="advanced_settings_smtp" class="content solo-page sb-tour">
+                <h3 class="title-editor border-blue text-center">
+                    <?php echo __("Application custom SMTP"); ?>
+                </h3>
+                <div id="advanced" class="subcontent content-color">
+                    <div class="col-md-12">
+                        <?php echo $form_smtp; ?>
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    <?php if(false): ?>
+    function toggleSmtp() {
+        var is_checked = $("#enable_custom_smtp").is(':checked') ? true : false;
+        if(is_checked) {
+            $("#fieldset-smtp").show();
+        } else {
+            $("#fieldset-smtp").hide();
+        }
+    }
+
+    $("#enable_custom_smtp").on("change", function() {
+        toggleSmtp();
+    });
+
+    toggleSmtp();
+
+
+    $(document).ready(function() {
+        bindForms("#advanced");
+        bindForms("#form-application-smtp");
+
+        setTimeout(function() {
+            $("#smtp_credentials-password").attr("type", "password");
+        }, 200);
+
+    });
+    <?php endif; ?>
+    $(document).ready(function() {
+        bindForms("#advanced");
+    });
+</script>

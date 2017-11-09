@@ -1,0 +1,101 @@
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message"></sb-header>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+    <div class="scrollable_content">
+        <div class="padding for_ads_banner">
+
+            <form name="form" ng-submit="post()">
+                <div class="section" ng-repeat="section in sections">
+
+                    <h3 class="title">{{ section.name }}</h3>
+
+                    <ul class="form">
+                        <li class="field" ng-repeat="field in section.fields" ng-switch on="field.type">
+
+                            <div ng-switch-when="texte">
+                                <input type="text" placeholder="{{ field.name }}" ng-model="form[field.id]" />
+                            </div>
+                            <div ng-switch-when="textarea">
+                                <textarea rows="3" placeholder="{{ field.name }}" ng-model="form[field.id]"></textarea>
+                            </div>
+                            <div ng-switch-when="email">
+                                <input type="email" placeholder="{{ field.name }}" ng-model="form[field.id]" />
+                            </div>
+                            <div ng-switch-when="nombre">
+                                <input type="number" placeholder="{{ field.name }}" ng-model="form[field.id]" />
+                            </div>
+                            <div ng-switch-when="date">
+                                <label class="inline" for="form.{{field.id}}.{{option.id}}">{{ field.name }}</label>
+                                <input type="datetime-local" placeholder="{{ field.name }}" date="form[field.id]" ng-model="form[field.id]" datetime />
+                            </div>
+
+                            <div ng-switch-when="geoloc">
+
+                                <input class="left" type="checkbox" id="form.{{field.id}}" name="test" ng-model="geolocation[field.id]" ng-change="getLocation(field)" ng-checked="geolocation[field.id] == true" />
+
+                                <label for="form.{{field.id}}" class="inline">{{ field.name }}</label>
+
+                                <div class="clear"></div>
+
+                            </div>
+
+                            <div ng-switch-when="checkbox">
+                                <p class="label">{{ field.name }}</p>
+                                <div ng-repeat="option in field.options">
+                                    <input  class="left" type="checkbox" id="form.{{field.id}}.{{option.id}}" ng-click="selectOption(field, option.id)" ng-value="option.id" ng-model="form[field.id][option.id]"/>
+                                    <label class="inline" for="form.{{field.id}}.{{option.id}}">{{ option.name }}</label>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                            <div ng-switch-when="radio">
+                                <p class="label">{{ field.name }}</p>
+                                <div ng-repeat="option in field.options">
+                                    <input  class="left" type="radio" id="form.{{field.id}}.{{option.id}}" ng-model="form[field.id]" ng-value="option.id" />
+                                    <label for="form.{{field.id}}.{{option.id}}" class="inline">{{ option.name }}</label>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                            <div ng-switch-when="select">
+                                <p class="label">{{ field.name }}</p>
+                                <div>
+                                    <select ng-model="form[field.id]" ng-options="option.id as option.name for option in field.options">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div ng-switch-when="image">
+                                <div ng-if="preview_src[field.id]" class="padding a-center scale-fade">
+                                    <img ng-src="{{ preview_src[field.id] }}" width="100%" />
+                                </div>
+
+                                <div class="file-upload" ng-if="!handle_camera_picture">
+                                    <button type="button" class="button image-uploader icon_left">
+                                        <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/photos.png', true), $this->getApplication()->getBlock('button')->getColor()); ?>" width="24" height="24" />
+                                        <span><?php echo $this->_("Add image") ?></span>
+                                        <input id="{{ field.id }}" name="image" class="upload" type="file" accept="image/*" capture="camera" onchange="angular.element(this).scope().imageSelected(this)" />
+                                    </button>
+                                </div>
+
+                                <button type="button" ng-click="openCamera(field)" class="button image-uploader icon_left" ng-if="handle_camera_picture">
+                                    <img src="<?php echo $this->getColorizedImage($this->getImage('pictos/photos.png', true), $this->getApplication()->getBlock('button')->getColor()); ?>" width="24" height="24" />
+                                    <span><?php echo $this->_("Add image") ?></span>
+                                </button>
+                            </div>
+
+                            <div ng-switch-default="">
+                                {{ field.name }}
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <button ng-if="sections.length" type="submit" class="button" ng-disabled="is_loading"><?php echo $this->_("Send"); ?></button>
+
+            </form>
+        </div>
+    </div>
+</div>

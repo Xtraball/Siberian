@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <preview_backoffice_list_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="preview/list.phtml" />
+        </views>
+    </preview_backoffice_list_template>
+
+    <preview_backoffice_edit_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="preview/edit.phtml" />
+        </views>
+    </preview_backoffice_edit_template>
+
+</layout>

@@ -1,0 +1,277 @@
+<?php $option = $this->getOptionValue(); ?>
+<?php $mcommerce = $this->getCurrentMcommerce(); ?>
+<?php $product = $this->getCurrentProduct(); ?>
+<?php $group = new Catalog_Model_Product_Group_Value(); ?>
+<?php $groups = $group->findAllGroups($product->getId(), $this->getApplication()->getId()); ?>
+<?php $choices = $group->findAllGroups($product->getId(), $this->getApplication()->getId(), true); ?>
+
+<form id="productEditForm" method="post" action="<?php echo $this->getUrl('mcommerce/application_catalog_product/editpost'); ?>" class="form-horizontal">
+
+    <fieldset>
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php if(!$product->getId()) : ?>
+                <?php echo $this->_("Create a new product"); ?>
+            <?php else : ?>
+                <?php echo $this->_('Edit the product %s', Core_Model_Lib_String::truncate(strip_tags($product->getName()), 30)); ?>
+            <?php endif; ?>
+        </h3>
+        <div class="container-fluid content-feature">
+            <div class="form-group first-row-feature">
+                <div class="col-md-12">
+                    <button type="button" onclick="products.close();" class="btn color-blue pull-left"><i class="fa fa-angle-left"></i></button>
+                    <button type="submit" class="btn color-blue pull-right" ><?php echo $this->_('OK'); ?></button>
+                    <?php if($product->getId()) : ?>
+                        <button type="button" onclick="products.duplicate()" class="btn color-blue pull-right" style="margin-right:10px" title="<?php echo $this->_("Duplicate this product") ?>"><i class="fa fa-copy"></i></button>
+                        <button type="button" onclick="products.remove('<?php echo $product->getId(); ?>');" style="margin-right:10px" class="btn color-blue remove_product pull-right"><i class="fa fa-times"></i></button>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <label for="product_name"><?php echo $this->_('Product name:'); ?></label>
+                </div>
+                <div class="col-sm-5">
+                    <input class="name required input-flat" type="text" id="product_name" value="<?php echo $product->getName(); ?>" name="name" placeholder="<?php echo $this->_("Product name"); ?>" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <label for="product_description"><?php echo $this->_('Description:'); ?></label>
+                </div>
+                <div class="col-sm-9">
+                    <textarea rows="5" class="description" type="text" id="product_description" name="description" placeholder="<?php echo $this->_('Description'); ?>">
+                        <?php echo $product->getDescription(); ?>
+                    </textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <label for="product_tax"><?php echo $this->_('Tax:'); ?></label>
+                </div>
+                <div class="col-sm-5">
+                    <select id="product_tax" name="tax_id" class="input-flat styled-select color-blue">
+                        <?php foreach($mcommerce->getTaxes() as $tax) : ?>
+                        <option value="<?php echo $tax->getId(); ?>"<?php if($product->getTaxId() == $tax->getId()) : ?> selected="selected"<?php endif; ?>><?php echo $tax->getName(); ?></option>
+                        <?php endforeach ?>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <label for="product_price"><?php echo $this->_('Price:'); ?></label><p>(<?php echo $this->_('without taxes'); ?>)</p>
+                </div>
+                <div class="col-sm-5">
+                    <input class="price <?php if($product->getData('type') != 'format') echo 'required'; ?> number input-flat" type="text" id="product_price" value="<?php echo $product->getPrice(); ?>" name="price" placeholder="<?php echo $this->_('Price'); ?>" <?php if($product->getData('type') == 'format') echo 'disabled'; ?> />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <label><?php echo $this->_('Picture');?>: </label>
+                </div>
+                <div class="col-sm-5">
+                    <div>
+                        <button id="upload_product_picture" class="upload_picture btn color-blue" type="button">
+                            <?php echo $this->_("Add pictures") ; ?>
+                        </button>
+                        <input id="product_picture_file" class="uploader" style="display:none" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+                    </div>
+                    <div class="relative item_product_picture" id="item_product_picture_master" style="display:none">
+                        <img class="product_picture_img" src="" width="100px" />
+                        <a class="remove_product_picture btn color-blue" id="master" href="javascript:void(0)"><i class="fa fa-times"></i></a>
+                    </div>
+                    <?php
+                        if($pictures = $product->getLibraryPictures()) {
+                            foreach ($product->getLibraryPictures() as $picture): ?>
+                                <div class="item_product_picture"
+                                     id="item_product_picture_<?php echo $picture["id"] ?>">
+                                    <img class="product_picture_img" src="<?php echo $picture["url"] ?>" width="100px"/>
+                                    <a class="remove_product_picture btn color-blue" id="<?php echo $picture["id"] ?>"
+                                       href="javascript:void(0)"><i class="fa fa-times"></i></a>
+                                </div>
+                            <?php
+                            endforeach;
+                        }
+                    ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="product_formats">
+            <h3 class="title-editor title-feature-indent title-feature-indent-w-toggle">
+                <?php echo $this->_('Product formats'); ?>
+                <input class='sb-tgl sb-tgl-flat is_multiple color-blue' name="chk_is_multiple" id='chk_is_multiple' type='checkbox' <?php if($product->getData('type') == 'format') echo 'checked="checked"'; ?> onclick="products.groups.group.toggleFormats();">
+                <label class='format-chk-tgl sb-tgl-btn color-blue' for='chk_is_multiple' ></label>
+                <input type="hidden" id="is_multiple" name="is_multiple" value="<?php echo ($product->getData('type') == 'format') ? '1' : '0'; ?>"/>
+            </h3>
+            <div class="form-group container-fluid">
+                <div id="list_format" class="col-md-12 container-fluid content-feature"<?php if($product->getData('type') != 'format') : ?> style="display:none;"<?php endif; ?>>
+                    <table class="table">
+                        <col width="12%" />
+                        <col width="38%" />
+                        <col width="38%" />
+                        <col width="12%" />
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th align="center"><label><?php echo $this->_('Format'); ?></label></th>
+                            <th align="center"><label><?php echo $this->_('Price'); ?></label></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <?php $i = 0; ?>
+                        <?php if($product->getId() AND $options = $product->getType()->getOptions()) : ?>
+                            <?php foreach($options as $i => $option) : ?>
+                                <tr id="row_format_<?php echo $option->getId() ?>" rel="<?php echo $option->getId() ?>">
+                                    <td><?php echo $i + 1 ?><?php echo $i == 0 ? $this->_('st') : $this->_('nd') ?></td>
+                                    <td><input id="product_format_title_<?php echo $option->getId() ?>" class="format required input-flat" type="text" value="<?php echo $option->getTitle() ?>" placeholder="<?php echo $this->_('Format'); ?>" name="option[<?php echo $option->getId() ?>][title]" rel="<?php echo $option->getId() ?>" /></td>
+                                    <td>
+                                        <input id="product_format_price_<?php echo $option->getId() ?>" class="price input-flat required number" type="text" placeholder="<?php echo $this->_('Price'); ?>" value="<?php echo $option->getPrice() ?>" name="option[<?php echo $option->getId() ?>][price]" rel="<?php echo $option->getId() ?>"/>
+                                        <input id="product_format_option_id_<?php echo $option->getId() ?>" type="hidden" name="option[<?php echo $option->getId() ?>][option_id]" value="<?php echo $option->getId() ?>" rel="<?php echo $option->getId() ?>"/>
+                                        <input id="product_format_is_deleted_<?php echo $option->getId() ?>" type="hidden" name="option[<?php echo $option->getId() ?>][is_deleted]" rel="<?php echo $option->getId() ?>"/>
+                                    </td>
+                                    <td>
+                                        <?php if($i>=2):?>
+                                            <button type="button" id="delete_format_<?php echo $option->getId() ?>" rel="<?php echo $i; ?>" class="btn color-blue delete_format" title="Supprimer" onclick="products.groups.group.deleteFormat('<?php echo $option->getId() ?>')"><i class="fa fa-times"></i></button>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; $i++; ?>
+                        <?php endif; ?>
+                        <?php while($i < 20) : ?>
+                            <tr id="row_format_new_<?php echo $i ?>" class="format new_format"<?php if($i > 1) : ?> style="display:none;"<?php endif; ?> rel="new_<?php echo $i ?>">
+                                <td><?php echo $i + 1 ?><?php echo $i == 0 ? $this->_('st') : $this->_('nd') ?></td>
+                                <td><input id="product_format_title_new_<?php echo $i ?>" class="format input-flat" type="text" value="" placeholder="<?php echo $this->_('Format'); ?>" name="option[new_<?php echo $i ?>][title]" rel="new_<?php echo $i ?>" /></td>
+                                <td>
+                                    <input id="product_format_price_new_<?php echo $i ?>" class="input-flat price required number" type="text" placeholder="<?php echo $this->_('Price'); ?>" value="" name="option[new_<?php echo $i ?>][price]" rel="new_<?php echo $i ?>"/>
+                                    <input id="product_format_option_id_new_<?php echo $i ?>" type="hidden" name="option[new_<?php echo $i ?>][option_id]" rel="new_<?php echo $i ?>"/>
+                                    <input id="product_format_is_deleted_new_<?php echo $i ?>" type="hidden" value="<?php if($i > 1) : ?>1<?php endif; ?>" name="option[new_<?php echo $i ?>][is_deleted]" rel="new_<?php echo $i ?>"/>
+                                </td>
+                                <td><?php if($i > 1) : ?><button type="button" id="delete_format_new_<?php echo $i ?>" rel="new_<?php echo $i; ?>" class="btn color-blue delete_format" title="<?php echo $this->_('Delete'); ?>" onclick="products.groups.group.deleteFormat('new_<?php echo $i ?>')"><i class="fa fa-times"></i></button><?php endif; ?></td>
+                            </tr>
+                            <?php $i++; ?>
+                        <?php endwhile; ?>
+                    </table>
+                    <button type="button" id="add_format" class="btn color-blue add" onclick="products.groups.group.addFormat()"><?php echo $this->_('Add a format'); ?></button>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset id="product_group_options">
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo $this->_("My product's options"); ?>
+            <button type="button" id="add_item" class="edit_option_group color-blue pull-right bt-header-right btn">
+                <i class="fa fa-plus"></i>
+            </button>
+        </h3>
+        <div class="container-fluid content-feature">
+            <ul id="groups_list" class="tree list-group first-row-feature list-group-slot">
+            <?php if($groups->count() > 0) : ?>
+
+            <?php foreach($groups as $group) : ?>
+                <?php $group_options = $group->getAllOptions($product->getId()); ?>
+                <?php if($group_options->count()) : ?>
+                <?php echo $this->getLayout()->addPartial('group_row_'.$group->getGroupId(), 'admin_view_default', 'mcommerce/application/edit/catalog/products/edit/group.phtml')
+                        ->setCurrentGroup($group)
+                        ->setCurrentGroupOptions($group_options)
+                        ->toHtml()
+                    ;
+                ?>
+                <?php endif ?>
+            <?php endforeach ?>
+            </ul>
+            <?php else: ?>
+                </ul>
+            <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+            <?php endif; ?>
+
+        </div>
+    </fieldset>
+
+    <fieldset id="product_group_choices">
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo $this->_("My product's list choice options"); ?>
+            <button type="button" id="add_item" class="edit_option_group color-blue pull-right bt-header-right btn require-choice-editor">
+                <i class="fa fa-plus"></i>
+            </button>
+        </h3>
+        <div class="container-fluid content-feature">
+            <ul id="choices_list" class="tree list-group first-row-feature list-group-slot">
+                <?php if($choices->count() > 0) : ?>
+
+                <?php foreach($choices as $choice) : ?>
+                    <?php $choice_options = $choice->getAllOptions($product->getId());?>
+
+                    <?php if($choice_options->count()) : ?>
+                        <?php echo $this->getLayout()->addPartial('choices_row_'.$choice->getGroupId(), 'admin_view_default', 'mcommerce/application/edit/catalog/products/edit/group.phtml')
+                            ->setCurrentGroup($choice)
+                            ->setCurrentGroupOptions($choice_options)
+                            ->toHtml()
+                        ;
+                        ?>
+                    <?php endif ?>
+                <?php endforeach ?>
+            </ul>
+            <?php else: ?>
+                </ul>
+                <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+            <?php endif; ?>
+
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo $this->_("My product's categories"); ?>
+        </h3>
+        <div class="container-fluid content-feature">
+            <div class="form-group">
+                <div class="col-md-12 first-row-feature">
+                    <?php $categories = $mcommerce->getRootCategory()->getChildren(); ?>
+
+                    <?php if($categories->count()) : ?>
+
+                        <ul id="product_category_root" class="list-group tree">
+                            <?php foreach($categories as $category) : ?>
+                                <?php echo $this->getLayout()->addPartial('root_category_'.$category->getId(), get_class($this), 'mcommerce/application/edit/catalog/products/edit/categories.phtml')
+                                    ->setCurrentProduct($product)
+                                    ->setCategory($category)
+                                    ->toHtml()
+                                ;
+                                ?>
+                            <?php endforeach; ?>
+                        </ul>
+
+                    <?php else : ?>
+                        <p><?php echo $this->_("You don't have any categories yet"); ?></p>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <?php if($product->getId()) : ?>
+        <input type="hidden" name="product_id" id="product_id" value="<?php echo $product->getId() ?>" />
+    <?php endif; ?>
+    <input type="hidden" name="option_value_id" value="<?php echo $this->getOptionValue()->getId() ?>" />
+    <input id="remove_product_<?php echo $product->getId(); ?>" type="hidden" name="is_deleted" value="0" />
+    <input type="hidden" id="product_picture" name="picture_list[]" value="" />
+    <input type="hidden" name="remove_picture[]" id="delete_product_picture" value="" />
+</form>
+<style>
+    .format-chk-tgl{
+        height: 30px !important;
+        width: 75px !important;
+        float: right;
+        position: relative !important;
+        top: -5px;
+        right: 5px;
+    }
+    .remove_product_picture{
+        position: absolute;
+        left: 15px;
+    }
+    .item_product_picture{
+        margin-top: 5px;
+    }
+</style>

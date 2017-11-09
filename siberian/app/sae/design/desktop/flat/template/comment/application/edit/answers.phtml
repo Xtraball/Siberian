@@ -1,0 +1,45 @@
+<?php $comment = $this->getCurrentComment(); ?>
+<?php $answers = $comment->getAnswers(); ?>
+<div>
+    <h3 class="title-editor no-border-radius title-feature-indent">
+        <?php echo $this->_('My customers\' comments'); ?>
+    </h3>
+    <div class="container-fluid content-feature">
+        <div class="row first-row-feature">
+            <div class="col-md-12">
+                <button id="hide_answers" class="btn color-blue pull-left" type="button"><i class="fa fa-angle-left"></i></button>
+            </div>
+        </div>
+        <?php if($answers->count() > 0) : ?>
+        <br/>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-hover content-white-bkg ">
+                    <col width="95%" />
+                    <col width="5%" />
+                    <?php foreach($answers as $answer) : ?>
+                        <tr class="row_<?php echo $answer->getId(); ?>">
+                            <td>
+                                <i class="fa fa-flag <?php if ($answer->getFlag() == 0) echo 'hidden'; ?>" title="<?php echo $this->_('Was flagged as inappropriate') ?>"></i>
+                                <?php echo $answer->getText(); ?>
+                            </td>
+                            <?php /*<td><button class="btn approve_answer" rel="<?php echo $answer->getId(); ?>"><i class="icon-ok"></i></button></td>*/ ?>
+                            <td>
+                                <button type="button" class="btn color-blue delete_answer" rel="<?php echo $answer->getId(); ?>">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    <?php endforeach ?>
+                </table>
+            </div>
+        </div>
+        <?php else : ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4><?php echo $this->_("There is no comment for this news"); ?></h4>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>

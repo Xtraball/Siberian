@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <promotion_mobile_list_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="promotion/l1/view.phtml" />
+        </views>
+    </promotion_mobile_list_template_l1>
+
+    <promotion_mobile_list_template_l2>
+        <views>
+            <content class="core_view_mobile_default" template="promotion/l2/list.phtml" />
+            <list class="core_view_mobile_default" template="html/l4/list.phtml" />
+        </views>
+    </promotion_mobile_list_template_l2>
+
+    <promotion_mobile_view_template_l2>
+        <views>
+            <content class="core_view_mobile_default" template="promotion/l2/view.phtml" />
+        </views>
+    </promotion_mobile_view_template_l2>
+
+    <promotion_mobile_list_template_l3>
+        <views>
+            <content class="core_view_mobile_default" template="promotion/l2/list.phtml" />
+            <list class="core_view_mobile_default" template="html/l5/list.phtml" />
+        </views>
+    </promotion_mobile_list_template_l3>
+
+    <promotion_mobile_view_template_l3>
+        <views>
+            <content class="core_view_mobile_default" template="promotion/l2/view.phtml" />
+        </views>
+    </promotion_mobile_view_template_l3>
+
+    <promotion_mobile_list_template_l4>
+        <views>
+            <content class="core_view_mobile_default" template="promotion/l2/list.phtml" />
+            <list class="core_view_mobile_default" template="html/l6/list.phtml" />
+        </views>
+    </promotion_mobile_list_template_l4>
+
+    <promotion_mobile_view_template_l4>
+        <views>
+            <content class="core_view_mobile_default" template="promotion/l2/view.phtml" />
+        </views>
+    </promotion_mobile_view_template_l4>
+
+</layout>

@@ -1,0 +1,39 @@
+<?php $option = $this->getOptionValue(); ?>
+<?php $is_disabled = !$this->_canAccess("feature_".$option->getCode(), $option->getValueId()); ?>
+<?php if(!$is_disabled) : ?>
+<li id="option_value_<?php echo $option->getId(); ?>"
+    class="option_value relative<?php if($this->getIsSortable()) : ?> sortable<?php endif; ?>"
+    <?php if($this->getIsHidden() OR $option->getFolderCategoryId()) : ?> style="display:none;"<?php endif;?>
+    rel="<?php echo $option->getFolderCategoryId(); ?>"
+    data-value-id="<?php echo $option->getId(); ?>"
+    data-pos="<?php echo $option->getPosition(); ?>"
+    <?php if($option->getFolderId()) : ?>data-folder-id="<?php echo $option->getFolderId(); ?>"<?php endif; ?>>
+        <a href="<?php echo $option->getUrl('edit', array('option_value_id' => $option->getValueId())); ?>" onclick="page.load(this);return false;" class="details <?php echo $option->getCode() ?><?php if($option->getIsAjax()) : ?> is_ajax<?php endif; ?>" rel="<?php echo $option->getId(); ?>" pos="<?php echo $option->getPosition(); ?>">
+            <img id="icon_<?php echo $option->getId(); ?>" src="<?php echo $this->getIconUrl($option); ?>" alt="<?php echo $option->getName(); ?>" title="<?php echo $option->getName(); ?>" width="50" height="50" class="block img_icon" data-style="area" data-color="color" />
+            <span rel="<?php echo $option->getTabbarName(); ?>" id="tabbar_name_<?php echo $option->getId(); ?>"><?php echo $option->getShortTabbarName() ?></span>
+        </a>
+<!--    --><?php //else: ?>
+<!--        <span class="details bg-disabled">-->
+<!--            <img id="icon_--><?php //echo $option->getId(); ?><!--" src="--><?php //echo $this->getIconUrl($option); ?><!--" alt="--><?php //echo $option->getName(); ?><!--" title="--><?php //echo $option->getName(); ?><!--" width="50" height="50" class="block img_icon" data-style="area" data-color="color" />-->
+<!--            <span rel="--><?php //echo $option->getTabbarName(); ?><!--" id="tabbar_name_--><?php //echo $option->getId(); ?><!--">--><?php //echo $option->getShortTabbarName() ?><!--</span>-->
+<!--        </span>-->
+
+
+    <?php if($this->getIsSortable() AND !$is_disabled) : ?>
+    <i class="icon-caret-up area active reverse no-background"></i>
+    <div class="actions" style="display: none;">
+        <a class="move_page left" href="javascript:void(0)" style="margin-top: 1px;"><i class="icon-move"></i></a>
+        <a class="delete_page right" href="javascript:void(0)">
+            <i class="icon-remove"></i>
+        </a>
+        <input type="hidden" name="value_id" value="<?php echo $option->getValueId(); ?>" />
+        <?php if($option->getFolderCategoryId()) : ?>
+            <input type="hidden" name="category_id" value="<?php echo $option->getFolderCategoryId(); ?>" />
+        <?php endif; ?>
+    </div>
+    <?php endif; ?>
+    <script type="text/javascript">
+        tabbar_names['<?php echo $option->getId(); ?>'] = '<?php echo addslashes($option->getTabbarName()); ?>';
+    </script>
+</li>
+<?php endif; ?>

@@ -1,0 +1,31 @@
+<ion-view sb-page-background hide-nav-bar="true">
+
+    <ion-content class="loading">
+
+        <div class="row row-center">
+            <div class="col text-center">
+                <h1>{{ "Loading" | translate }}</h1>
+                <h2>{{ "Please wait..." | translate }}</h2>
+
+                <div class="loader">
+                    <ion-spinner class="spinner-custom"></ion-spinner>
+                </div>
+            </div>
+        </div>
+
+    </ion-content>
+
+    <style>
+        .loading.scroll-content {
+            display: table !important;
+            width: 100% !important;
+            height: 100% !important;
+        }
+        .loading .scroll {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+        }
+    </style>
+
+</ion-view>

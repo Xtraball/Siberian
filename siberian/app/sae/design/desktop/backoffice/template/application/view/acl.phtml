@@ -1,0 +1,60 @@
+<sb-section title="'<?php echo addslashes($this->_("General Settings")); ?>'">
+    <form id="form_general" class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-12">
+                <label><?php echo __("Application:") ?></label> {{ appname }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <label><?php echo __("User:") ?></label> {{ username }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="checkbox">
+                    <label for="can_add_page">
+                        <input type="checkbox" id="can_add_page" ng-model="can_add_page" ng-checked="can_add_page" ng-change="setCanAddPage(can_add_page)"/>
+                        <?php echo addslashes($this->_("This user can add pages to this application.")); ?>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </form>
+</sb-section>
+
+<sb-section title="'<?php echo addslashes($this->_("Features Access Settings")); ?>'">
+    <form id="form_access" class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-12">
+                <table class="table">
+                    <colgroup>
+                        <col width="5%">
+                        <col width="90%">
+                        <col width="5%">
+                    </colgroup>
+                    <thead>
+                        <th></th>
+                        <th><?php echo addslashes($this->_("Name")); ?></th>
+                        <th class="text-center"><?php echo addslashes($this->_("Allowed")); ?></th>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="option in options">
+                        <td style="background-color:#404040" class="text-center"><img ng-src="{{ option.icon_url }}" width="35px"/></td>
+                        <td style="vertical-align: middle">{{ option.name }}</td>
+                        <td class="text-center"><input type="checkbox" ng-model="option.is_allowed" ng-checked="option.is_allowed"/></td>
+                    </tr>
+                    <tr ng-show="!options.length">
+                        <td colspan="3"><?php echo addslashes($this->_("No features available for this application.")); ?></td>
+                    </tr>
+                    <tr ng-show="options.length">
+                        <td colspan="3" class="text-right">
+                            <button type="button" class="btn btn-primary" ng-click="saveAccess()"><?php echo $this->_("Save"); ?></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</sb-section>

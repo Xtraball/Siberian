@@ -1,0 +1,44 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $event = $this->getCurrentEvent(); ?>
+<div class="content-options content-white-bkg">
+    <form id="eventForm" action="<?php echo $this->getUrl('event/application/editpost'); ?>" class="form-horizontal">
+        <div class="buttons form-group">
+            <div class="col-md-12">
+                <button type="button" onclick="ical.unbindAll(); feature.list();" class="color-blue btn pull-left"><i class="fa fa-angle-left"></i></button>
+                <button type="submit" class="validate btn color-blue save_event pull-right">OK</button>
+            </div>
+        </div>
+
+        <fieldset>
+            <div class="form-group">
+                <div class="col-sm-7 col-sm-offset-5">
+                    <?php echo $this->_('Calendar\'s URL') ?> <span class="required-entry"> *</span> :
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-5">
+                    <input type="text" name="name" value="<?php echo $event->getName()?>" placeholder="<?php echo $this->_('Calendar\'s title') ?>" class="input-flat" />
+                </div>
+                <div class="col-sm-5">
+                    <input type="text" name="url" value="<?php echo $event->getData('url')?>" placeholder="<?php echo $this->_('Calendar\'s URL') ?>" class="required url input-flat" />
+                </div>
+                <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>" class="input-flat"/>
+                <input type="hidden" name="id" value="<?php echo $event->getId(); ?>" class="input-flat"/>
+                <input type="hidden" name="event_type" value="<?php echo $this->getEventType(); ?>" class="input-flat"/>
+            </div>
+        </fieldset>
+    </form>
+    <script type="text/javascript">
+
+       var ical = {
+            processEvents: function() {
+                return this;
+            },
+            unbindAll: function() {
+                $('#eventForm').unbind('submit');
+                return this;
+            }
+       }
+
+    </script>
+</div>

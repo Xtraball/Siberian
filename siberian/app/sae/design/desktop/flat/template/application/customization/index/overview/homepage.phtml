@@ -1,0 +1,13 @@
+<?php $application = $this->getApplication() ?>
+<?php echo $this->getPartialHtml('overview_iframe'); ?>
+<div id="homepage" style="display:none;margin-left:-20px;padding:15px" >
+    <h3 class="title" style="margin-bottom: 20px;">
+        <div><span><?php echo $this->_('Homepage preview'); ?></span></div>
+    </h3>
+
+    <?php /*
+    <div class="right" style="width:160px; height:235px; overflow:hidden;border:solid 1px #fff;padding:0" id="homepage_cont">
+        <img id="homepage_standard" width="160px" height="235px" style="display:block;background:black;padding:0" src="<?php echo $application->getHomepageBackgroundImageUrl() ?>" />
+    </div>
+     */ ?>
+</div>

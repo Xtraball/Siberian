@@ -1,0 +1,52 @@
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message"></sb-header>
+
+    <div class="scrollable_content">
+        <div class="padding form for_ads_banner">
+            <form name="bookingForm" ng-submit="postForm()" novalidate>
+                <ul class="form">
+                    <li>
+                        <input type="text" name="name" placeholder="<?php echo $this->_('First name / Last name') ?>" ng-model="form.name" ng-class="{error: bookingForm.name.$invalid && bookingForm.submitted}" required />
+                        <label class="error" ng-show="bookingForm.name.$invalid && bookingForm.submitted"><?php echo $this->_("This field is required"); ?></label>
+                    </li>
+                    <li>
+                        <input type="tel" name="phone" placeholder="<?php echo $this->_('Phone') ?>" ng-model="form.phone" ng-class="{error: bookingForm.phone.$invalid && bookingForm.submitted}" required />
+                        <label class="error" ng-show="bookingForm.phone.$invalid && bookingForm.submitted"><?php echo $this->_("This field is required"); ?></label>
+                    </li>
+                    <li>
+                        <input type="email" name="email" placeholder="<?php echo $this->_('Email') ?>" ng-model="form.email" ng-class="{error: bookingForm.email.$invalid && bookingForm.submitted}" required />
+                        <label class="error" ng-show="bookingForm.email.$invalid && bookingForm.submitted"><?php echo $this->_("Please enter a valid email address"); ?></label>
+                    </li>
+                    <li>
+                        <label for="booking_people"><?php echo $this->_('Number of people') ?>:</label>
+                        <select id="booking_people" name="people" ng-model="form.people" ng-options="value for value in people" ng-class="{error: bookingForm.people.$invalid && bookingForm.submitted}" required ></select>
+                        <label class="error" ng-show="bookingForm.people.$invalid && bookingForm.submitted"><?php echo $this->_("This field is required"); ?></label>
+                    </li>
+                    <li>
+                        <label for="booking_store"><?php echo $this->_('Location:') ?></label>
+                        <select id="booking_store" name="store" ng-model="form.store" ng-options="store.id as store.name for store in stores" ng-class="{error: bookingForm.store.$invalid && bookingForm.submitted}" required ></select>
+                        <label class="error" ng-show="bookingForm.store.$invalid && bookingForm.submitted"><?php echo $this->_("This field is required"); ?></label>
+                    </li>
+                    <li>
+                        <label for="booking_date"><?php echo $this->_('Date and time') ?></label>
+                        <input id="booking_date" type="datetime-local" placeholder="<?php echo $this->_('Date and time') ?>" date="form.date" ng-model="form.date" datetime />
+                    </li>
+                    <li>
+                        <textarea placeholder="<?php echo $this->_("Booking details") ?>" name="prestation" rows="4" ng-model="form.prestation" ng-class="{error: bookingForm.prestation.$invalid && bookingForm.submitted}" required></textarea>
+                        <label class="error" ng-show="bookingForm.prestation.$invalid && bookingForm.submitted"><?php echo $this->_("This field is required"); ?></label>
+                    </li>
+                    <li>
+                        <textarea placeholder="<?php echo $this->_("Comment") ?>" name="comment" rows="4" ng-model="form.comment"></textarea>
+                    </li>
+                </ul>
+
+                <button type="submit" class="button right"><?php echo $this->_("SEND") ?></button>
+                <div class="clear"></div>
+            </form>
+        </div>
+    </div>
+
+    <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+
+</div>

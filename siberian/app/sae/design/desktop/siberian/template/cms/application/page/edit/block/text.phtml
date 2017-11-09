@@ -1,0 +1,122 @@
+<?php $block = $this->getCurrentBlock(); ?>
+<?php $option = $this->getCurrentOptionValue(); ?>
+<div id="cms_block_<?php echo $this->getPosition(); ?>" class="category inner_content cms_block text" rel="<?php echo $this->getPosition(); ?>">
+    <div class="control left">
+        <a class="handle" href="javascript:void(0);"><i class="icon-move"></i></a>
+    </div>
+    <div class="left ckcontainer image_edit" style="width:540px">
+        <textarea class="ckeditor" rel="<?php echo $this->getPosition(); ?>" name="block[<?php echo $this->getPosition(); ?>][content]"><?php echo $block->getContent(); ?></textarea>
+        <div class="display_image" rel="<?php echo $this->getPosition(); ?>" style="display:none">
+            <!--[if gte IE 10]><!-->
+            <button style="display:block;margin-top:20px" class="left upload_picture upload editor_menu active image_left" rel="<?php echo $this->getPosition(); ?>" type="button">
+                <i class="icon-camera-retro"></i>
+                <?php echo $this->_('Add a'); ?><br /><span class="bold"><?php echo $this->_('picture'); ?></span>
+            </button>
+            <!--<![endif]-->
+            <input style="margin-top:20px;display:none" enctype="multipart/form-data" rel="<?php echo $this->getPosition(); ?>" class="left fileupload fileupload_picture" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+            <div style="margin-top:20px" class="left image_cont">
+                <?php if($block->getImage()) : ?>
+                    <img style="width:50%" width="50%" height="50%" src="<?php echo $block->getImageUrl(); ?>"/>
+                    <a style="vertical-align:top; margin-left:5px;display:inline-block;" class="removeimg" onclick="deleteTextImage(<?php echo $this->getPosition(); ?>);" href="javascript:void(0);"><i class="icon-remove"></i></a>
+                <?php endif; ?>
+            </div>
+            <div class="clear">
+                <div style="display:none;margin-top:20px;width:180px;" class="left param_cont alignment_cont" rel="<?php echo $this->getPosition() ?>">
+                    <div class="cont_title"><?php echo $this->_('Alignment:'); ?></div>
+                    <p>
+                        <a class="alignment editor_menu <?php if($block->getAlignment() == 'left') : ?>active<?php endif; ?>" href="javascript:void(0);" rel="left"><i class="icon-align-left"></i></a>
+                        <a class="alignment editor_menu <?php if($block->getAlignment() == 'right') : ?>active<?php endif; ?>" href="javascript:void(0);" rel="right"><i class="icon-align-right"></i></a>
+                    </p>
+                </div>
+                <div style="display:none;margin-top:20px" class="left param_cont size_cont" rel="<?php echo $this->getPosition() ?>">
+                    <div class="cont_title"><?php echo $this->_('Size:'); ?></div>
+                    <p>
+                        <a class="size editor_menu <?php if($block->getSize() == 25) : ?>active<?php endif; ?>" href="javascript:void(0);" rel="25"><?php echo $this->_('Small'); ?></a>
+                        <a class="size editor_menu <?php if($block->getSize() == 35) : ?>active<?php endif; ?>" href="javascript:void(0);" rel="35"><?php echo $this->_('Medium'); ?></a>
+                        <a class="size editor_menu <?php if($block->getSize() == 45) : ?>active<?php endif; ?>" href="javascript:void(0);" rel="45"><?php echo $this->_('Large'); ?></a>
+                    </p>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][block_id]" value="<?php echo $block->getBlockId(); ?>" />
+            <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][value_id]" value="<?php echo $block->getValueId(); ?>" />
+            <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][type]" value="<?php echo $block->getType(); ?>" />
+            <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][position]" value="<?php echo $this->getPosition(); ?>" class="hidden_pos" rel="<?php echo $this->getPosition(); ?>" />
+            <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][image]" value="<?php echo $block->getImage(); ?>" class="picture"/>
+            <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][alignment]" value="<?php echo $block->getAlignment(); ?>"/>
+            <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][size]" value="<?php echo $block->getSize(); ?>"/>
+        </div>
+    </div>
+    <div class="control right">
+        <a class="remove" href="javascript:void(0);"><i class="icon-remove"></i></a>
+    </div>
+    <div class="clear"></div>
+    <script type="text/javascript">
+
+        //click boutons options
+        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .param_cont a').click(function() {
+            $(this).parent().find('a').removeClass('active');
+            $(this).addClass('active');
+            updateImage(<?php echo $this->getPosition(); ?>);
+            updateFormText(<?php echo $this->getPosition(); ?>);
+            return false;
+        });
+
+        $('.upload_picture[rel="<?php echo $this->getPosition() ?>"]').click(function() {
+            $('.fileupload[rel="<?php echo $this->getPosition() ?>"]').trigger('click');
+        });
+
+        var uploader = new Uploader();
+        $('.fileupload[rel="<?php echo $this->getPosition() ?>"]').fileupload({
+            dataType: 'json',
+            add: function (e, data) {
+                data.submit();
+                uploader.showProgressbar();
+            },
+            progressall: function (e, data) {
+                uploader.moveProgressbar(data);
+            },
+            done: function (e, data) {
+                if(data.result.error) {
+                    uploader.showError(data.result.message);
+                } else {
+                    uploader.hide();
+                    $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .picture').val(data.result.files);
+                    updateFormText(<?php echo $this->getPosition(); ?>);
+                    //partie edit
+                    $('.cms_block[rel="<?php echo $this->getPosition(); ?>"]').find('.image_cont').html('<img style="width:50%" width="50%" src="<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+data.result.files+'"/><a style="vertical-align:top; margin-left:5px;display:inline-block;" class="removeimg" onclick="deleteTextImage(<?php echo $this->getPosition(); ?>);" href="javascript:void(0);"><i class="icon-remove"></i></a>');
+                    //partie iframe
+                    var img = $('<img />').attr('src', '<?php echo Core_Model_Directory::getTmpDirectory() ?>/'+data.result.files).addClass('textillus');
+                    var clear = $('<div></div>').addClass('clear');
+
+                    updateImage(<?php echo $this->getPosition() ?>);
+                    $('.cms_block[rel="<?php echo $this->getPosition(); ?>"]').find('.param_cont').show();
+
+                }
+            }
+        });
+
+        //ckeditor
+        $('textarea[rel="<?php echo $this->getPosition(); ?>"]').ckeditor(function() {
+
+                this.on('change', function (c) {
+                    $('textarea[rel="<?php echo $this->getPosition(); ?>"]').html(this.getData());
+                    updateFormText(<?php echo $this->getPosition(); ?>);
+                    updateContentIframe(this.getData(), <?php echo $this->getPosition(); ?>);
+                }.bind(this));
+                hackCkeditor(<?php echo $this->getPosition(); ?>);
+            },
+            {extraPlugins : 'onchange,cms'}
+        );
+
+        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .remove').click(function(){
+            removeElem(<?php echo $this->getPosition(); ?>);
+        });
+
+        $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .handle').mousedown(function(){
+            dragTransformMouseDown($(this));
+        }).mouseup(function(){
+            dragTransformMouseUp($(this));
+        });
+    </script>
+</div>

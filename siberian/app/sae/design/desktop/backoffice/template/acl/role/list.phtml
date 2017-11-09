@@ -1,0 +1,36 @@
+<sb-section title="'<?php echo addslashes($this->_("List of your roles")); ?>'" button="button">
+    <br />
+    <div class="form-group">
+        <label for="filter"><?php echo $this->_("Search"); ?></label>
+        <input type="text" id="filter" class="form-control" ng-model="filter" placeholder="<?php echo $this->_("Search"); ?>" />
+    </div>
+    <br />
+    <table class="table">
+        <col width="10%" />
+        <col width="30%" />
+        <col width="50%" />
+        <col width="10%" />
+        <thead>
+        <tr>
+            <th><?php echo $this->_("ID"); ?></th>
+            <th><?php echo $this->_("Code"); ?></th>
+            <th><?php echo $this->_("Label"); ?></th>
+            <th><?php echo $this->_("Actions"); ?></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="slide-left" ng-repeat="role in roles | filter:filter">
+            <td>{{ role.id }}</td>
+            <td>{{ role.code }}</td>
+            <td>{{ role.label }} <span class="f-bold text-warning" ng-show="role.default">(Default)</span></td>
+            <td>
+                <a href="<?php echo $this->getUrl("acl/backoffice_role_edit/role_id"); ?>/{{ role.id }}" title="<?php echo $this->_("Edit"); ?>" ng-show="role.id != 1"><i class="fa fa-edit"></i></a>
+                <a href="#" ng-click="deleteRole(role.id)" title="<?php echo $this->_("Delete"); ?>"><i class="fa fa-remove" ng-show="role.id != 1"></i></a>
+            </td>
+        </tr>
+        <tr ng-show="!roles.length">
+            <td colspan="5" class="a-center"><?php echo $this->_("You don't have any role yet"); ?></td>
+        </tr>
+        </tbody>
+    </table>
+</sb-section>

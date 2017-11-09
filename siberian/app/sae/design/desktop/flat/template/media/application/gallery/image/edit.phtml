@@ -1,0 +1,795 @@
+<?php
+    $application = $this->getApplication();
+    $optionValue = $this->getOptionValue();
+
+    $galleries = (new Media_Model_Gallery_Image())->findAll([
+        'value_id' => $optionValue->getId()
+    ], 'gallery_id DESC');
+
+    $instagram_is_available = $application->getInstagramClientId() && $application->getInstagramToken();
+
+    //If we're unable to get acces token then facebook is not available
+    $facebook = new Social_Model_Facebook();
+    $facebookIsAvailable = $facebook->getAccessToken() != null;
+
+    $flickrIsAvailable = ($application->getFlickrKey() && $application->getFlickrSecret());
+?>
+
+<script type="text/javascript">
+    function changeGalleryLabel(img_id) {
+        $("#label_" + img_id).val($("#gallery_name_" + img_id).val());
+    }
+</script>
+
+<div id="list" class="media images">
+    <div class="form_content">
+        <div class="add-image">
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo __('Add content') ?>
+                <button type="button"
+                        onclick="$('#no_item').hide(); $('#new_images_galery').show();"
+                        class="btn toggle_design color-blue pull-right bt-header-right"
+                        id="add_item">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </h3>
+            <div id="albums_found" style="display: none;">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo __('Choose an album'); ?> :
+                </h3>
+                <ul id="albums_found_list">
+                </ul>
+            </div>
+
+            <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+
+            <div id="new_images_galery" style="display:none;" class="container-fluid subcontent content-feature">
+                <div id="choose_type">
+                    <ul class="list-group">
+                        <li class="color-blue list-group-item btn capitalize" rel="picasa">
+                            <a href="javascript:void(0);" rel="picasa" class="block select_type image_type_select capitalize">
+                                <i title="Picasa" class="icofont icofont-social-picasa block img_icon"></i>
+                                <p><?php echo __('Picasa') ?></p>
+                            </a>
+                        </li>
+                        <li class="color-blue list-group-item btn capitalize" rel="instagram" <?php if(!$instagram_is_available) : ?> onclick="featureNotAvailable()" <?php endif; ?>>
+                            <a href="javascript:void(0);" rel="instagram" class="block select_type<?php if($instagram_is_available) : ?> image_type_select<?php endif; ?>">
+                                <i title="Instagram" class="fa fa-instagram block img_icon"></i>
+                                <p><?php echo __('Instagram') ?></p>
+                            </a>
+                        </li>
+                        <li class="color-blue list-group-item btn capitalize" rel="flickr" <?php if(!$flickrIsAvailable) : ?> onclick="featureNotAvailable()" <?php endif; ?>>
+                            <a href="javascript:void(0);" rel="flickr" class="block select_type<?php if($flickrIsAvailable) : ?> image_type_select<?php endif; ?>">
+                                <i title="flickr" class="fa fa-flickr block img_icon"></i>
+                                <p><?php echo __('Flickr') ?></p>
+                            </a>
+                        </li>
+                        <li class="color-blue list-group-item btn capitalize" rel="custom">
+                            <a href="javascript:void(0);" rel="custom" class="block select_type image_type_select capitalize">
+                                <i title="<?php echo __("My images"); ?>" class="fa fa-camera block img_icon"></i>
+                                <p><?php echo __('My images') ?></p>
+                            </a>
+                        </li>
+                        <li class="color-blue list-group-item btn capitalize" rel="facebook" <?php if(!$facebookIsAvailable) : ?> onclick="featureNotAvailable()" <?php endif; ?>>
+                            <a href="javascript:void(0);" rel="facebook" class="block select_type image_type_select capitalize">
+                                <i title="<?php echo __("Facebook"); ?>" class="fa fa-facebook block img_icon"></i>
+                                <p><?php echo __('Facebook') ?></p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div id="table_list_images_new" style="display:none" class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-4">
+                            <label><span id="name-label"><?php echo __('Gallery Name') ?></span> <span class="required-entry required"> *</span> :</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <label id="label_search"><?php echo __('Search') ?> <span class="required-entry required"> *</span> :</label>
+                        </div>
+                    </div>
+                    <div class="row" rel="list_new">
+                        <div class="col-sm-1 img-col color-blue">
+                            <i id="type_picasa" rel="picasa" class="icofont icofont-social-picasa bt-margin type_selected" title="Picasa" style="display:none;" ></i>
+                            <i id="type_instagram" rel="instagram" class="bt-margin type_selected fa fa-instagram" title="Instagram" style="display:none;" ></i>
+                            <i id="type_flickr" rel="flickr" class="bt-margin type_selected fa fa-flickr" title="Flickr" style="display:none;" ></i>
+                            <i id="type_custom" rel="user" class="margin-top-5 type_selected fa fa-camera" title="<?php echo __("My images"); ?>" style="display:none;"></i>
+                            <i id="type_facebook" rel="facebook" class="margin-top-5 type_selected fa fa-facebook" title="<?php echo __("Facebook"); ?>" style="display:none;"></i>
+                        </div>
+                        <div class="col-sm-4">
+                            <span>
+                                <input id="name-input" type="text" name="name" value="" placeholder="<?php echo __('Gallery Name') ?>" class="input-flat required" />
+                            </span>
+                            <br />
+                            <span rel="facebook" style="display: none;">
+                                <label for="gallery_name"><?php echo __("Gallery Name"); ?></label>
+                                <input id="gallery_name" type="text" name="gallery_name" value="" placeholder="<?php echo __('Gallery Name') ?>" class="input-flat" />
+                                <?php echo __("If set, will appear instead of the Facebook page Id in app."); ?>
+                            </span>
+
+                        </div>
+                        <div class="col-sm-4">
+                            <button type="button" id="input_custom"
+                                    class="new_search_input search_input upload_picture btn btn-block required color-blue" rel="list_new">
+                                <?php echo __('Send your pictures') ?>
+                            </button>
+
+                            <input type="text" id="input_picasa" name="param" value=""
+                                   placeholder="<?php echo __('Parameter') ?>" class="new_search_input search_input input-flat required" />
+                            <select name="param_facebook" id="input_facebook"
+                                    class="sb-select styled-select color-blue form-control no-dk required new_search_input"></select>
+                            <input type="hidden" id="input_instagram" name="param_instagram" value=""
+                                   class="new_search_input search_input" />
+                            <input type="text" id="input_flickr" name="param_flickr" value=""
+                                   placeholder="<?php echo __('Flickr') ?>" class="new_search_input search_input input-flat required" />
+                        </div>
+                        <div class="col-sm-3" style="text-align: right;">
+                            <input type="hidden" name="value_id" value="<?php echo $optionValue->getId(); ?>" />
+                            <input type="hidden" id="label" name="label" value="" />
+                            <button type="button" class="bt-margin validate btn save_image btn color-blue" rel="create"><?php echo __('Save'); ?></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="edit_images" style="display:none;" class="margin-bkg">
+            <i class="icon-caret-up"></i>
+
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo __('Send your pictures') ?>
+                <button type="button"
+                        class="btn color-blue pull-right bt-header-right"
+                        id="close_panel">
+                    <i class="fa fa-times"></i>
+                </button>
+            </h3>
+
+            <div class="container-fluid first-row-feature content-feature">
+                <button type="button" id="trigger_upload_image" class="btn color-blue btn-block"><?php echo __('Browse') ?></button>
+                <input id="upload_image" style="display:none;" multiple type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" />
+
+                <h4 class="conditions">
+                    <?php echo __('Maximum size : 2000*2000 px - Allowed filetypes : jpg and png'); ?>
+                </h4>
+
+                <div id="list_images">
+                    <?php foreach ($galleries as $gallery) : ?>
+                        <ul style="display:none;"
+                            id="list_<?php echo $gallery->getGalleryId(); ?>"
+                            class="list-group">
+                            <?php
+                                if ($gallery->getTypeId() === 'custom'):
+                                    $images = (new Media_Model_Gallery_Image_Custom())
+                                        ->findAll([
+                                            'gallery_id' => $gallery->getGalleryId()
+                                        ], 'image_id ASC');
+                                    foreach ($images as $image): ?>
+                                        <li class="list-group-item content-white-bkg">
+                                            <div class="row">
+                                                <div class="col-sm-2">
+                                                    <img class="img_list_<?php echo $gallery->getGalleryId(); ?>"
+                                                         style="height: 60px;"
+                                                         src="<?php echo Application_Model_Application::getImagePath() . $image->getData('url') ?>" />
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    <label><?php echo __('Title:') ?></label>
+                                                    <input type="text"
+                                                           id="image_<?php echo $gallery->getGalleryId(); ?>_<?php echo $image->getId(); ?>_title"
+                                                           name="images[list_<?php echo $gallery->getGalleryId(); ?>][<?php echo $image->getId(); ?>][title]"
+                                                           class="input-flat"
+                                                           value="<?php echo $image->getTitle(); ?>"
+                                                           maxlength="30"
+                                                           onkeyup="$('#' + $(this).attr('id') + '_receiver').val($(this).val());" />
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <label><?php echo __('Description:') ?></label>
+                                                    <input type="text"
+                                                           id="image_<?php echo $gallery->getGalleryId(); ?>_<?php echo $image->getId(); ?>_description"
+                                                           name="images[list_<?php echo $gallery->getGalleryId(); ?>][<?php echo $image->getId(); ?>][description]"
+                                                           class="input-flat"
+                                                           value="<?php echo $image->getDescription(); ?>"
+                                                           maxlength="255"
+                                                           onkeyup="$('#' + $(this).attr('id') + '_receiver').val($(this).val());" />
+                                                </div>
+                                                <div class="col-sm-1">
+                                                    <a onclick="deleteImage($(this), '<?php echo $gallery->getGalleryId(); ?>', '<?php echo $image->getId(); ?>');"
+                                                       href="javascript:void(0);"
+                                                       class="btn color-blue pull-right ">
+                                                        <i class="fa fa-times"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    <?php
+                                    endforeach;
+                                endif;
+                            ?>
+                            <li style="text-align: right; padding-top: 1em;">
+                                <button type="button" class="bt-margin validate btn save_image color-blue" rel="<?php echo $gallery->getGalleryId(); ?>">
+                                    <?php echo __('Save') ?>
+                                </button>
+                            </li>
+                        </ul>
+                    <?php endforeach; ?>
+                    <ul style="display:none" id="list_new">
+                        <li></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <?php if ($galleries->count() > 0): ?>
+        <div class="manage">
+            <div id="existing_items_section">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo __('Manage content'); ?>
+                    <button type="button" class="toggle_design color-blue pull-right bt-header-right btn" id="toggle_existing_items">
+                        <i class="fa fa-angle-down"></i>
+                    </button>
+                </h3>
+                <div id="existing_items" style="display:none;" class="container-fluid first-row-feature content-feature">
+                    <div id="table_list_images">
+                        <div class="row container-fluid">
+                            <div class="col-sm-1"></div>
+                            <div class="col-sm-4">
+                                <label>
+                                    <?php echo __('Gallery Name') ?>
+                                    <span class="required-entry required"> *</span> :</label>
+                            </div>
+                            <div class="col-sm-5">
+                                <label><?php echo __('Search') ?> <span class="required-entry required"> *</span> :</label>
+                            </div>
+                        </div>
+                        <?php
+                            $albums = [];
+                            $currentGalleryName = null;
+                            foreach ($galleries as $gallery) {
+                                // Here we store fb gallery information for performance purpose!
+                                try {
+                                    if ($gallery->getTypeId() === 'facebook') {
+                                        if ($currentGalleryName !== $gallery->getName()) {
+                                            $currentGalleryName = $gallery->getName();
+                                            $albums = (new Media_Model_Gallery_Image_Facebook())
+                                                ->find([
+                                                    'gallery_id' => $gallery->getGalleryId()
+                                                ])->getAlbums();
+                                        }
+                                    }
+
+                                    if ($gallery->getTypeId() === 'picasa') {
+                                        if ($currentGalleryName !== $gallery->getName()) {
+                                            $currentGalleryName = $gallery->getName();
+                                            $albums = (new Media_Model_Gallery_Image_Picasa())
+                                                ->find([
+                                                    'gallery_id' => $gallery->getGalleryId()
+                                                ])->findAlbums();
+                                        }
+                                    }
+                                } catch (Exception $e) {
+                                    $albums = [];
+                                }
+
+
+                                echo $this->getLayout()->addPartial('row_' . $gallery->getId(), 'admin_view_default', 'media/application/gallery/image/edit/row.phtml')
+                                    ->setCurrentImageGallery($gallery)
+                                    ->setCurrentOptionValue($optionValue)
+                                    ->setAlbums($albums)
+                                    ->toHtml();
+                            }
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
+
+        <?php echo $this->importBackground($optionValue); ?>
+
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            bindForms('#list');
+        });
+
+        var carousel_item =
+            '<a class="sb-carousel-item" style="display: none;" href="javascript:void(0)" data-albumid="#ID#">' +
+            '   <img src="#IMAGE_PREVIEW#" />' +
+            '   <p class="sb-carousel-title">#TITLE#</p>' +
+            '</a>';
+
+        var sbcarouselOptions = {
+            visible_items: 6,
+            visible_items_small: 3,
+            min_size: 120
+        };
+
+        var input_loader = '<?php echo Cms_Form_Base::$input_loader ?>';
+
+        var label = {
+            'picasa': '<?php echo __('Gallery Name') ?>',
+            'custom': '<?php echo __('Gallery Name') ?>',
+            'instagram': '<?php echo __('Gallery Name') ?>',
+            'facebook': '<?php echo __('Facebook page ID') ?>'
+        }, selected;
+
+        // Prevent chained reloads
+        var pendingReload = false;
+        var reloadPage = function() {
+            try {
+                if (pendingReload) {
+                    return;
+                }
+                console.log('Will reload Images');
+                pendingReload = true;
+
+                iframeLoaded.then(function() {
+                    setTimeout(function () {
+                        try {
+                            iframe.f.overview.features.image.loadContent();
+                            pendingReload = false;
+                            console.log('Images are reloaded');
+                        } catch (e) {
+                            pendingReload = false;
+                        }
+                    }, 500);
+                });
+            } catch (e) {
+                // Silent
+                pendingReload = false;
+            }
+        };
+
+        page.setCallback('willappear', function() {
+
+            $('.image_type_select').parent().click(function() {
+
+                var id = $(this).attr('rel');
+
+                selected = id;
+                // depending on the clicked option display the appropriate label
+                $('#name-label').html(label[id]);
+                $('#name-input').attr('placeholder', label[id]);
+                // Load
+                $('#input_facebook').focus(function () {
+                    var that = $(this);
+                    reload(this, '<?php echo $this->getUrl('media/application_gallery_image/albums/'); ?>?pageid=' + $('#name-input').val(), true, function (data) {
+                        that.html('');
+                        $.each(data, function (i, album) {
+                            that.append($('<option>', {
+                                value: album.id,
+                                text: album.name
+                            }));
+                        });
+                    });
+                });
+
+                //Facebook now have one more field
+                if(id === 'facebook') {
+                    $('span[rel="facebook"]').show();
+                } else {
+                    $('span[rel="facebook"]').hide();
+                }
+
+                if(id === 'instagram') {
+                    $("#input_instagram").val(1);
+                    $("#label_search").hide();
+                } else {
+                    $("#input_instagram").val("");
+                    $("#label_search").show();
+                }
+
+                $('.type_selected').hide();
+                $('#type_' + id).show();
+                $('#choose_type').hide();
+                $('[rel="list_new"] .new_search_input').removeClass('required').hide();
+                $('#input_' + id).addClass('required').show();
+                $('#table_list_images_new').show();
+
+            });
+
+            reloadPage();
+        });
+
+        $('.save_image').on('click', function() {
+            var that = $(this);
+            var galleryId = that.attr('rel');
+            var formLine = that.parents('div.row_image');
+            if (galleryId === 'create') {
+                formLine = that.parents('div.row');
+            }
+
+            var error = false;
+
+            // Validate form
+            formLine.find('input.required, select.required').each(function() {
+                if (!$(this).val()) {
+                    $(this).addClass('error');
+                    if ($(this).next('p.error').length == 0) {
+                        $(this).after('<p class="error"><?php echo __js('Required field') ?></p>');
+                    }
+                    error = true;
+                } else {
+                    $(this).removeClass('error');
+                    $(this).next('p.error').remove();
+                }
+            });
+
+            if (error) {
+                return false;
+            }
+
+            // Facebook gallery name!
+            var galleryName = $('#gallery_name').val();
+            $('#label').val(galleryName);
+
+            var formData = $('div.row_image[rel="' + galleryId + '"], #list_' + galleryId)
+                .find('input, select, textarea')
+                .serializeArray();
+
+            if (galleryId === 'create') {
+                formData = $('#table_list_images_new [rel="list_new"], #list_new')
+                    .find('input, select, textarea')
+                    .serializeArray();
+            }
+
+            // CRUD Version 2!
+            formget(
+                '<?php echo __path('media/application_gallery_image/editpostv2'); ?>',
+                formData,
+                function (response) {
+                    if (response.albums) {
+                        var carousel = $('[rel="carousel_' + galleryId + '"]');
+                        carousel.hide();
+                        carousel.find('.picasa-carousel .sb-carousel-inline').html('');
+
+                        // Reload on create!
+                        if ((galleryId === 'create') || (response.albumId !== undefined)) {
+                            page.reload();
+                            return;
+                        }
+
+                        if (response.albums.length > 0) {
+
+                            carousel.show();
+
+                            response.albums.forEach(function (album) {
+                                var template = carousel_item;
+
+                                template = template.replace("#IMAGE_PREVIEW#", album.image);
+                                template = template.replace("#TITLE#", album.title + ' - ' + album.author);
+                                template = template.replace("#ID#", album.id);
+
+                                carousel.find('.picasa-carousel .sb-carousel-inline').append(template);
+                            });
+
+                            carousel.find('.picasa-carousel .sb-mini-carousel').sbcarousel(sbcarouselOptions);
+
+                            // Ajouter le onClick/save!
+                            carousel.find('.sb-carousel-item').on('click', function () {
+                                carousel.find('.sb-carousel-item').removeClass('item-selected');
+                                var el = $(this);
+                                el.addClass('item-selected');
+
+                                // Set album_id value for form!
+                                $('.row_image[rel="' + galleryId + '"]')
+                                    .find('input[name="album_id"]')
+                                    .val(el.attr('data-albumid'));
+                            });
+
+                        } else {
+                            swal({
+                                title: '<?php echo __jss('Message') ?>',
+                                text: '<?php echo __jss('No gallery found for this search.') ?>',
+                                animation: 'none'
+                            });
+                        }
+
+
+                    } else {
+                        page.reload();
+                    }
+                },
+                null,
+                true
+            );
+        });
+
+        $('.delete_image').on('click', function() {
+            var that = $(this);
+
+            swal({
+                title: '<?php echo __js('Confirmation', "'"); ?>',
+                text: '<?php echo __js('Delete this gallery?', "'"); ?>',
+                showCancelButton: true,
+                confirmButtonColor: '#0099C7',
+                confirmButtonText: '<?php echo __js('Yes, delete!', "'"); ?>',
+                cancelButtonText: '<?php echo __js('Cancel', "'"); ?>',
+                buttons: true
+            }, function() {
+                var gallery = that.parents('.row_image');
+                var formData = $('div.row_image[rel="' + gallery.attr('rel') + '"]')
+                    .find('input, select, textarea')
+                    .serializeArray();
+
+                // CRUD Version 2!
+                formget(
+                    '<?php echo __path('media/application_gallery_image/delete'); ?>',
+                    formData,
+                    function (response) {
+                        if (response.success) {
+                            try {
+                                gallery.remove();
+                                $('[rel=carousel_' + gallery.attr('rel') + ']').remove();
+                                reloadPage();
+                            } catch (e) {
+                                // Silent catch!
+                                page.reload();
+                            }
+                        }
+                    });
+            });
+        });
+
+        page.setCallback('didappear', function() {
+            var toggleExistingItems = $('#toggle_existing_items');
+            toggleExistingItems.click(function () {
+
+                $('#existing_items').stop().slideToggle(300, function () {
+                    if ($(this).is(':visible')) {
+                        toggleExistingItems.children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+                        toggleExistingItems.removeClass('color-blue');
+                    } else {
+                        toggleExistingItems.children('i').removeClass('fa-angle-up').addClass('fa-angle-down');
+                        toggleExistingItems.addClass('color-blue');
+                    }
+                });
+
+                setTimeout(function () {
+                    $('.sb-mini-carousel').sbcarousel(sbcarouselOptions);
+                }, 350);
+            });
+            upload();
+            reloadPage();
+        });
+
+        page.setCallback('willdisappear', function() {
+            $('#toggle_existing_items').unbind('click');
+            $('.image_type_select').parent().unbind('click');
+        });
+
+        function deleteImage(element, list_id, image_id) {
+
+            var img_id = "list_" + list_id;
+            var inputListId = $('#input_' + list_id);
+            if(list_id === 'custom') {
+                img_id = "list_new";
+                $("input[type='hidden'][name*='images[" + img_id + "][" + image_id + "]']").remove();
+            } else {
+                inputListId.after("<input type='hidden' name='images[list_" + list_id + "][" + image_id + "][delete]' value='1' />");
+            }
+
+            element.parents('li').remove();
+
+            var html = $('.img_' + img_id).length;
+            if (html == 0) {
+                html = '<?php echo addslashes(__("Send your pictures")); ?>';
+            } else if (html <= 1) {
+                html += ' <?php echo addslashes(__("Image")); ?>';
+            } else {
+                html += ' <?php echo addslashes(__("Images")); ?>';
+            }
+
+            inputListId.html(html);
+        }
+
+        function slideDown(el) {
+            var editImages = $('#edit_images');
+            editImages.find('ul').hide();
+            $('#' + $(el).attr('rel')).show();
+            editImages.css('top', $(el).parent().position().top + 57 + 'px');
+            editImages.slideDown('fast');
+        }
+
+        function slideUp() {
+            $('#edit_images').slideUp('fast');
+        }
+
+        function upload() {
+
+            $('#close_panel').click(function() {
+                $('#edit_images').slideUp('fast');
+            });
+
+            $('.upload_picture').click(function() {
+                if ($('#edit_images').is(':visible')) {
+                    slideUp();
+                } else {
+                    slideDown(this);
+                    if (!$('button#trigger_upload_image').is(':visible')) {
+                        $('input#upload_image').show();
+                    }
+                }
+            });
+
+            $('#trigger_upload_image').click(function() {
+                $('#upload_image').click();
+            });
+
+            var uploader = new Uploader();
+            $('#upload_image').fileupload({
+                dataType: 'json',
+                add: function(e, data) {
+                    $('#edit_images p.error').remove();
+                    var option_v = '<?php echo $optionValue->getId(); ?>';
+                    data.formData = {value_id: option_v},
+                    data.submit();
+                    uploader.showProgressbar();
+                },
+                progressall: function(e, data) {
+                    uploader.moveProgressbar(data);
+                },
+                done: function(e, data) {
+                    if (data.result.error) {
+                        uploader.showError(data.result.message);
+                    } else {
+                        uploader.hide();
+                        var id = $('#edit_images #list_images ul:visible').attr('id');
+                        var short_id = id.split('_');
+                        short_id = short_id[1];
+                        if (isNaN(short_id)) {
+                            short_id = 'custom';
+                        }
+
+                        var tmp_image_id = data.result.files.replace('.', '_');
+
+                        $('#input_' + short_id).after('\n\
+                            <input type="hidden" class="input_images" name="images[' + id + '][' + tmp_image_id + '][path]" value="' + data.result.files + '"/>\n\
+                            <input type="hidden" id="image_' + id + '_' + tmp_image_id + '_title_receiver" name="images[' + id + '][' + tmp_image_id + '][title]" value="" />\n\
+                            <input type="hidden" id="image_' + id + '_' + tmp_image_id + '_description_receiver" name="images[' + id + '][' + tmp_image_id + '][description]" value="" />\n\
+                        ');
+
+                        $('#edit_images ul#' + id + ' li:last-child').before('\n\
+                        <li class="list-group-item content-white-bkg">\n\
+                            <div class="row">\n\
+                                <div class="col-sm-2">\n\
+                                    <img class="img_' + id + '" style="height: 60px;" src="<?php echo Core_Model_Directory::getTmpDirectory() ?>/' + data.result.files + '" />\n\
+                                </div>\n\
+                                <div class="col-sm-5">\n\
+                                    <label><?php echo addslashes(__('Title:')) ?></label>\n\
+                                    <input type="text" id="image_' + id + '_' + tmp_image_id + '_title" value="" maxlength="30" class="input-flat" onkeyup="$(\'#\'+$(this).attr(\'id\')+\'_receiver\').val($(this).val());" />\n\
+                                </div>\n\
+                                <div class="col-sm-4">\n\
+                                    <label><?php echo addslashes(__('Description:')) ?></label>\n\
+                                    <input type="text" id="image_' + id + '_' + tmp_image_id + '_description" value="" maxlength="255" class="input-flat" onkeyup="$(\'#\'+$(this).attr(\'id\')+\'_receiver\').val($(this).val());" />\n\
+                                </div>\n\
+                                <div class="col-sm-1">\n\
+                                    <a onclick="deleteImage($(this), \'' + short_id + '\',\'' + tmp_image_id + '\');" href="javascript:void(0);" class="btn color-blue pull-right"><i class="fa fa-times"></i></a>\n\
+                                </div>\n\
+                            </div>\n\
+                            \n\
+                        </li>');
+
+                        var html = $('.img_' + id).length;
+                        if (html == 0) {
+                            html = + '<?php echo addslashes(__("Send your pictures")); ?>';
+                        } else if (html <= 1) {
+                            html += ' <?php echo addslashes(__("Image")); ?>';
+                        } else {
+                            html += ' <?php echo addslashes(__("Images")); ?>';
+                        }
+
+                        $('#input_' + short_id).html(html);
+
+                    }
+                }
+            });
+        }
+
+        page.setCallback('willdisappear', function() {
+            $('.upload_picture').unbind('click');
+            $('#close_panel').unbind('click');
+            $('.save_image').unbind('click');
+            $('.delete_image').unbind('click');
+        });
+    </script>
+    <style>
+        .media.images #choose_type ul {
+            margin:0;
+        }
+        #albums_found_list li {
+            float: left;
+            width: 150px;
+            height: 150px;
+            font-size: 13px;
+            text-align: center;
+            line-height: 14px;
+            overflow: hidden;
+        }
+        #albums_found_list li img {
+            margin-bottom: 7px;
+        }
+        #choose_type li {
+            width: 8em;
+            padding: 0;
+            float: left;
+            margin-right: 1em;
+        }
+        #choose_type li a {
+            display: block;
+            padding: 1em;
+        }
+        .img-col {
+            padding: 5px 0 4px 0;
+            text-align: center;
+            border-radius: 2px !important;
+        }
+        #list_new {
+            padding: 0;
+        }
+        #list_new li {
+            list-style: none;
+        }
+        #list_images ul {
+            list-style: outside none none;
+            padding: 0;
+        }
+        #list_images ul li a {
+            margin-top: 2em;
+        }
+        .row_image {
+            margin-bottom: 10px;
+        }
+        #list_new .row .control .btn.color-blue {
+            margin-top: 1.9em;
+        }
+        #choose_type li p {
+            margin-bottom: 0;
+            padding-top: 1em;
+        }
+
+        #choose_type ul.list-group i {
+            font-size: 3em;
+        }
+
+        .img-col i {
+            font-size: 24px;
+        }
+
+        .sb-carousel-title {
+            font-size: 12px;
+            height: 32px;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        a.sb-carousel-item {
+            filter: grayscale(85%);
+            opacity: 0.6;
+        }
+
+        a.sb-carousel-item.item-selected {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+
+        .carousel-container {
+            border-radius: 2px;
+            background-color: #F4F4F4;
+            float: left;
+            padding: 4px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .carousel-container .prev-arrow, .carousel-container .next-arrow {
+            width: 30px;
+            min-width: 30px;
+            max-width: 30px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+    </style>
+</div>

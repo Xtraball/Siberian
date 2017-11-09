@@ -1,0 +1,353 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<h3 class="title">
+    <span class="area"><?php echo $this->_('iTunes') ?></span>
+    <hr />
+    <div class="clear"></div>
+</h3>
+<form id="search_itunes" action="<?php echo $this->getUrl('media/application_gallery_music/searchitunes'); ?>" method="post">
+    <button type="button" class="select_itunes_type btn default_button active" rel="musicArtist">
+        <?php echo $this->_('Artist') ?>
+    </button>
+    <button type="button" class="select_itunes_type btn default_button" rel="album">
+        <?php echo $this->_('Album') ?>
+    </button>
+    <button type="button" class="select_itunes_type btn default_button" rel="musicTrack">
+        <?php echo $this->_('Title') ?>
+    </button>
+
+    <div id="table_list_playlist_new" class="container-fluid list margin-top-10">
+        <div class="row">
+            <div class="col-sm-4">
+                <input type="text" id="itunes_search" name="search_term" class="form-control input" placeholder="<?php echo $this->_("Search"); ?>" />
+            </div>
+            <div class="col-sm-4">
+                <button onclick="$('#search_itunes').submit()" class="search_itunes default_button btn" type="button"><?php echo $this->_('Search') ?></button>
+                <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="search_loader" class="loader_url" alt="Loading" title="Loading" width="24" style="display:none;" />
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="collectionId" value="" id="itunes_search_collectionId" />
+    <input type="hidden" name="artistId" value="" id="itunes_search_artistId" />
+    <input type="hidden" name="entity" value="musicArtist" id="itunes_search_entity" />
+</form>
+
+<div id="itunes_results" class="search_results" style="display:none">
+    <div class="left" id="select">
+        <label class="checkbox" for="select_all">
+            <input type="checkbox" value="select_all" id="select_all" data-toggle="checkbox">
+            <?php echo $this->_('Select all') ?>
+        </label>
+    </div>
+    <div id="pagination" class="right">
+        <button id="previous" class="change_page validate default_button" type="button"><i class="icon-chevron-left"></i></button>
+        <button id="next" class="change_page validate default_button active" type="button"><i class="icon-chevron-right"></i></button>
+    </div>
+    <div class="clear"></div>
+    <hr />
+    <ul id="results"></ul>
+    <hr />
+    <button onclick="$('#save_itunes').submit()" class="right save_selection default_button btn-block" type="button"><?php echo $this->_('Add') ?></button>
+</div>
+<form id="save_itunes" action="<?php echo $this->getUrl('media/application_gallery_music/saveitunes'); ?>" method="post">
+    <input type="hidden" name="gallery_id" value="<?php echo $this->getGalleryId() ?>">
+    <input type="hidden" name="value_id" value="<?php echo $option_value->getId() ?>">
+    <div id="save_itunes_form_elements">
+    </div>
+</form>
+
+<script type="text/javascript">
+
+    $('.select_itunes_type').click(function(){
+        $('.select_itunes_type').removeClass('active');
+        $('#itunes_search_entity').val($(this).attr('rel'));
+        $(this).addClass('active');
+    });
+
+    $('#results').off('click', '.song_album a');
+    $('#results').on('click', '.song_album a', function() {
+        searchAlbum($(this));
+    });
+
+    $('#results').off('click', '.song_artist a');
+    $('#results').on('click', '.song_artist a', function() {
+        searchArtist($(this));
+    });
+
+    $('#results').off('click', '.artist_name a');
+    $('#results').on('click', '.artist_name a', function() {
+        searchArtist($(this));
+    });
+
+    $("#itunes_search").autocomplete({
+        source: function(request, response) {
+            var entity = $('.select_itunes_type.active').attr('rel');
+            $.ajax({
+                url: 'https://itunes.apple.com/search?term='+urlencode(request.term)+'&entity='+entity+'&limit=10',
+                dataType: "jsonp",
+                delay: 0,
+                data: {
+                    featureClass: "P",
+                    style: "full",
+                    maxRows: 10,
+                    name_startsWith: request.term
+                },
+                success: function(data) {
+                    response($.map(data.results, function(item) {
+                        if(entity == 'album') {
+                            return {
+                                label: item.collectionName,
+                                value: item.collectionName
+                            }
+                        } else if (entity == 'musicArtist') {
+                            return {
+                                label: item.artistName,
+                                value: item.artistName
+                            }
+                        } else if (entity == 'musicTrack') {
+                            return {
+                                label: item.trackName,
+                                value: item.trackName
+                            }
+                        }
+                    }));
+                }
+            });
+        },
+        minLength: 2,
+        select: function( event, ui ) {
+            $('#search_itunes').submit();
+        },
+        open: function() {
+            $(this).removeClass("ui-corner-all" ).addClass("ui-corner-top");
+            $(".ui-autocomplete li.ui-menu-item a").addClass("ui-menu-item-custom");
+        },
+        close: function() {
+            $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
+        }
+    });
+
+    $('#search_itunes').submit(function() {
+        $('#search_loader').fadeIn();
+        $('#itunes_results').slideUp('400', function(){
+            $('#results').html('');
+        });
+        reload($('#search_itunes'), $('#search_itunes').attr('action'), false, function(datas) {
+            if(datas.success) {
+                createPagination();
+                $('#itunes_search_collectionId').val('');
+                $('#itunes_search_artistId').val('');
+                $('.select_itunes_type').removeClass('active');
+                $('.select_itunes_type[rel="'+datas.entity+'"]').addClass('active');
+                if(datas.entity == 'musicArtist') {
+                    if(datas.results.length > 0) {
+                        displayArtists(datas.results);
+                    } else {
+                        $('#itunes_results #results').append('<p><?php echo $this->_('No artist found') ?></p>');
+                    }
+                } else if(datas.entity == 'album') {
+                    if(datas.results.length > 0) {
+                        displayAlbums(datas.results);
+                    } else {
+                        $('#itunes_results #results').append('<p><?php echo $this->_('No album found') ?></p>');
+                    }
+                } else {
+                    if(datas.results.length > 0) {
+                        displaySongs(datas.results);
+                    } else {
+                        $('#itunes_results #results').append('<p><?php echo $this->_('No track found') ?></p>');
+                    }
+                }
+                $('#itunes_results').slideDown('400');
+            }
+            $('#search_loader').fadeOut();
+        }, function(){
+            $('#search_loader').fadeOut();
+        });
+        return false;
+    });
+
+    $('form#save_itunes').submit(function(){
+        $('form#save_itunes #save_itunes_form_elements').html('');
+        $('#results li[rel="selected"]').each(function() {
+            if($(this).attr('data-album') != undefined) {
+                var album_id = $(this).attr('data-album');
+                $('form#save_itunes #save_itunes_form_elements').append('<input type="hidden" name="albums[]" value="'+album_id+'"/>');
+            }
+            if($(this).attr('data-song') != undefined) {
+                var song_id = $(this).attr('data-song');
+                $('form#save_itunes #save_itunes_form_elements').append('<input type="hidden" name="songs[]" value="'+song_id+'"/>');
+            }
+        });
+        reload($('#save_itunes'), $('#save_itunes').attr('action'), true, function(datas) {
+            if(datas.success) {
+                $('#album_edit').append(datas.content);
+                iframe.f.reload();
+                reloadPP();
+                $.prettyPhoto.close();
+            }
+        });
+        return false;
+    });
+
+    $('.deleteCurrentGallery').click(function(){
+        if(confirm('<?php echo addslashes($this->_("Are you sure you want to delete this element?")); ?>')) {
+            reload($(this.parentNode), '<?php echo $this->getUrl('media/application_gallery_music/deletecontent'); ?>', true, function(datas) {
+                if(datas.success) {
+                    page.reload();
+                }
+            });
+        }
+        return false;
+    });
+
+    $('#itunes_search').keypress(function(e) {
+        if(e.keyCode == 13) {
+            $('.search_itunes').click();
+            return false;
+        }
+    });
+
+    var current_page = 1;
+    var item_per_page = 7;
+    $('#itunes_results .change_page').click(function() {
+        if($(this).hasClass('active')) return false;
+        var max_page = Math.ceil($('#itunes_results #results li').length/item_per_page);
+        var e = $(this);
+        if($(this).attr('id') == 'previous') {
+            var left = '+=910';
+            current_page--;
+        } else {
+            var left = '-=910';
+            current_page++;
+        }
+        $('#itunes_results #results').animate({
+            left: left
+        }, 200, function() {
+            if(e.attr('id') == 'next') {
+                $('#itunes_results .change_page#previous').removeClass('active');
+            }
+            if(e.attr('id') == 'previous') {
+                $('#itunes_results .change_page#next').removeClass('active');
+            }
+            if(current_page == 1) {
+                $('#itunes_results .change_page#previous').addClass('active');
+            }
+            if(current_page >= max_page) {
+                $('#itunes_results .change_page#next').addClass('active');
+            }
+        });
+    });
+
+    function createPagination() {
+        $('#itunes_results #results').css('left', '0px');
+        $('#itunes_results .change_page').addClass('active');
+        $('#itunes_results .change_page#next').removeClass('active');
+        current_page == 1;
+    }
+
+    function displayArtists(results) {
+        $.each(results, function(key, artist) {
+            var artist_element = '<li class="artist">';
+            artist_element += '<p class="artist_name"><a href="javascript:void(0)" rel="'+artist.artistId+'">'+artist.artistName+'</p>';
+            artist_element += '<p class="artist_genre">'+artist.primaryGenreName+'</p>';
+            artist_element += '</li>';
+            $('#itunes_results #results').append(artist_element);
+        });
+        if(results.length > item_per_page) {
+            $('#itunes_results #results').width(results.length/2*120);
+        }
+    }
+
+    var artistId = '';
+    function displayAlbums(results) {
+        $.each(results, function(key, album) {
+            if(album.wrapperType == 'artist') artistId = album.artistId;
+            if(artistId == '' || (album.wrapperType == 'collection' && album.artistId == artistId)) {
+                var album_element = '<li class="album" data-album="'+album.collectionId+'" rel="">';
+                album_element += '<img src="'+album.artworkUrl100+'" width="100" height="100" />';
+                album_element += '<p class="album_infos">';
+                var album_name = album.collectionName;
+                if(album_name.length > 30) {
+                    album_name = album_name.substr(0,28)+'...';
+                }
+                album_element += '<span class="album_title">'+album_name+'</span>';
+                if(album.trackCount == 1) {
+                    var tracks = '<?php echo $this->_('title') ?>';
+                } else {
+                    var tracks = '<?php echo $this->_('titles') ?>';
+                }
+                if(album.artistName > 15) {
+                    album.artistName = album.artistName(0,15)+'...';
+                }
+                album_element += '<span class="album_artist">'+album.artistName+'</span><br/>';
+                album_element += '<span class="album_tracks">'+album.trackCount+' '+tracks+'</span></br>';
+                var date = new Date(album.releaseDate);
+                album_element += '<span class="album_date">'+date.getDay()+'/'+date.getMonth()+'/'+date.getFullYear()+'</span>';
+                album_element += '</p>';
+                album_element += '<i class="icon-check-empty"></i>';
+                album_element += '</li>';
+                $('#itunes_results #results').append(album_element);
+            }
+        });
+        artistId = '';
+        if(results.length > item_per_page) {
+            $('#itunes_results #results').width(results.length*120);
+        }
+    }
+
+    function displaySongs(results) {
+        $.each(results, function(key, song) {
+            var song_element = '<li class="song" data-song="'+song.trackId+'" rel="">';
+            song_element += '<img src="'+song.artworkUrl100+'" width="100" height="100" />';
+            song_element += '<p class="album_infos">';
+            song_element += '<span class="song_title">'+song.trackName+'</span>';
+            song_element += '<span class="song_album"><a href="javascript:void(0)" rel="'+song.collectionId+'">'+song.collectionName+'</a></span></br>';
+            song_element += '<span class="song_artist"><a href="javascript:void(0)" rel="'+song.artistId+'">'+song.artistName+'</a></span></br>';
+            song_element += '</p>';
+            song_element += '<i class="icon-check-empty"></i>';
+            song_element += '</li>';
+            $('#itunes_results #results').append(song_element);
+        });
+        if(results.length > item_per_page) {
+            $('#itunes_results #results').width(results.length/2*120);
+        }
+    }
+
+    function searchAlbum($this) {
+        $('#itunes_search_collectionId').val($this.attr('rel'));
+        $('#itunes_search_artistId').val('');
+        $('#search_itunes').submit();
+    }
+
+    function searchArtist($this) {
+        $('#itunes_search_collectionId').val('');
+        $('#itunes_search_artistId').val($this.attr('rel'));
+        $('#search_itunes').submit();
+    }
+
+    function urlencode(str) {
+        str = (str + '').toString();
+        return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').
+        replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
+    }
+
+</script>
+<style type="text/css">
+    .ui-autocomplete {
+        background: #fff;
+        font-size: 11pt;
+    }
+    ui-autocomplete li.ui-menu-item-custom, ui-autocomplete li.ui-menu-item-custom a {
+        font-family: MuseoSans-500,Helvetica,Arial,sans-serif !important;
+    }
+    .ui-autocomplete a.ui-menu-item-custom {
+        font-weight: normal !important;
+        padding: 5px !important;
+    }
+    .ui-autocomplete a.ui-menu-item-custom a {
+    }
+    .ui-autocomplete a.ui-state-hover, .ui-autocomplete .ui-ui-menu-item-custom a:hover {
+        border: none !important;
+        font-family: MuseoSans-500,Helvetica,Arial,sans-serif !important;
+    }
+</style>

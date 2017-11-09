@@ -1,0 +1,141 @@
+<?php $current_link = $this->getCurrentLink() ?>
+<?php $settings_links = array('push', 'url', 'api_keys', 'module'); ?>
+<?php $resource = new Acl_Model_Resource(); ?>
+<?php $editor_url = $resource->getFirstEditorResourceAllowed($this); ?>
+<?php if($this->getApplication()) : ?>
+<div class="content">
+    <div class="application_name left">
+        <img id="header_app_icon" src="<?php echo $this->getApplication()->getIcon(); ?>" width="94" height="94" class="icon" />
+        <span id="header_app_name" class="f-rounded"><?php echo $this->getApplication()->getShortName(); ?></span>
+    </div>
+    <div class="links submenu a-center right">
+        <ul id="apps_menu" class="main_menu">
+            <li>
+                <a href="<?php echo $this->getUrl($editor_url); ?>" class="block edit header no-background<?php if($current_link == 'edit'): ?> active<?php endif; ?>">
+                    <i class="icon-cogs"></i>
+                    <span class="block f-bold toupper"><?php echo $this->_('Editor'); ?></span>
+                </a>
+            </li>
+            <?php if($this->_canAccess("promote")):?>
+            <li>
+                <a href="<?php echo $this->getUrl('application/promote'); ?>" class="block promote header no-background<?php if($current_link == 'promote'): ?> active<?php endif; ?>">
+                    <i class="icon-qrcode"></i>
+                    <span class="block f-bold toupper"><?php echo $this->_('Promote'); ?></span>
+                </a>
+            </li>
+            <?php endif; ?>
+            <?php if($this->_canAccess("analytics_application")):?>
+            <li>
+                <a href="<?php echo $this->getUrl('application/analytics_application'); ?>" class="block analytics header no-background<?php if($current_link == 'analytics'): ?> active<?php endif; ?>">
+                    <i class="icon-bar-chart"></i>
+                    <span class="block f-bold toupper"><?php echo $this->_('Analytics'); ?></span>
+                </a>
+            </li>
+            <?php endif; ?>
+            <?php if($this->_canAccess("users")):?>
+            <li>
+                <a href="<?php echo $this->getUrl('customer/application/list'); ?>" class="block customer header no-background<?php if($current_link == 'customer'): ?> active<?php endif; ?>">
+                    <i class="icon-user"></i>
+                    <span class="block f-bold toupper"><?php echo $this->_('Users'); ?></span>
+                </a>
+            </li>
+            <?php endif; ?>
+            <?php if($this->_canAccess("editor_settings")) : ?>
+            <li>
+                <a href="javascript:void(0)" id="btn_show_settings" class="block url header no-background<?php if($current_link == 'url' OR $current_link == 'facebook'): ?> active<?php endif; ?>">
+                    <i class="icon-cog"></i>
+                    <span class="block f-bold toupper"><?php echo $this->_('Settings'); ?></span>
+                </a>
+            </li>
+            <?php endif; ?>
+        </ul>
+
+        <?php if($this->_canAccess("editor_settings")) : ?>
+        <ul id="apps_settings" class="settings_menu" style="display:none;">
+            
+            <li>
+                <a href="javascript:void(0)" id="btn_hide_settings" class="block header no-background back">
+                    <i class="icon-angle-left"></i>
+                </a>
+            </li>
+            
+            <?php if($this->_canAccess("editor_settings_tc")) : ?>
+            <li>
+                <a href="<?php echo $this->getUrl('application/settings_tc'); ?>" class="block customer header no-background<?php if($current_link == 'settings_tc'): ?> active<?php endif; ?>">
+                    <i class="icon-file-text"></i>
+                    <span class="block f-bold toupper"><?php echo $this->_("Terms & Conditions"); ?></span>
+                </a>
+            </li>
+            <?php endif; ?>
+
+            <?php if($this->_canAccess("editor_settings_facebook")) : ?>
+            <li>
+                <a href="<?php echo $this->getUrl('application/settings_facebook'); ?>" class="block customer header no-background<?php if($current_link == 'settings_facebook'): ?> active<?php endif; ?>">
+                    <i class="icon-facebook"></i>
+                    <span class="block f-bold toupper"><?php echo $this->_('Facebook'); ?></span>
+                </a>
+            </li>
+            <?php endif; ?>
+
+            <?php if($this->_canAccess("editor_settings_instagram")) : ?>
+            <li>
+                <a href="<?php echo $this->getUrl('application/settings_instagram'); ?>" class="block customer header no-background<?php if($current_link == 'settings_instagram'): ?> active<?php endif; ?>">
+                    <i class="icon-instagram"></i>
+                    <span class="block f-bold toupper"><?php echo $this->_('Instagram'); ?></span>
+                </a>
+            </li>
+            <?php endif; ?>
+
+            <?php if($this->_canAccess("editor_settings_domain")) : ?>
+            <li>
+                <a href="<?php echo $this->getUrl('application/settings_domain'); ?>" class="block url header no-background<?php if($current_link == 'url'): ?> active<?php endif; ?>">
+                    <i class="icon-info"></i>
+                    <span class="block f-bold toupper"><?php echo $this->_('Domain'); ?></span>
+                </a>
+            </li>
+            <?php endif; ?>
+
+            <?php if($this->_canAccess("editor_settings_advanced")) : ?>
+                <li>
+                    <a href="<?php echo $this->getUrl('application/settings_advanced'); ?>" class="block url header no-background<?php if($current_link == 'advanced'): ?> active<?php endif; ?>">
+                        <i class="icon-gears"></i>
+                        <span class="block f-bold toupper"><?php echo __('Advanced'); ?></span>
+                    </a>
+                </li>
+            <?php endif; ?>
+
+            <?php if($this->_canAccess("editor_settings_messages")) : ?>
+                <li>
+                    <a href="<?php echo $this->getUrl('message/application'); ?>" class="block url header no-background<?php if($current_link == 'url'): ?> active<?php endif; ?>">
+                        <i class="icon-envelope"></i>
+                        <span class="block f-bold toupper"><?php echo $this->_('Messages'); ?></span>
+                    </a>
+                </li>
+            <?php endif; ?>
+
+            <?php if(Installer_Model_Installer::hasModule("import") and $this->_canAccess("editor_settings_import")) : ?>
+                <li>
+                    <a href="<?php echo $this->getUrl('import/application_settings'); ?>" class="block url header no-background<?php if($current_link == 'url'): ?> active<?php endif; ?>">
+                        <i class="icon-cloud-upload"></i>
+                        <span class="block f-bold toupper"><?php echo $this->_('Import'); ?></span>
+                    </a>
+                </li>
+            <?php endif; ?>
+
+        </ul>
+        <?php endif; ?>
+
+    </div>
+    <div class="clear"></div>
+</div>
+<?php endif; ?>
+<script type="text/javascript">
+    $("#btn_show_settings").click(function() {
+        $("#apps_menu").animate({right: -140, opacity: 0}, 300, null, function() {$(this).hide();});
+        $("#apps_settings").show().animate({right: 0, opacity: 1}, 300);
+    });
+    $("#btn_hide_settings").click(function() {
+        $("#apps_settings").animate({right: 140, opacity: 0}, 300, null, function() {$(this).hide();});
+        $("#apps_menu").show().animate({right: 0, opacity: 1}, 300);
+    });
+</script>

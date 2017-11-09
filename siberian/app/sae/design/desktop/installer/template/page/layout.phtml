@@ -1,0 +1,121 @@
+<?php echo $this->doctype() ?>
+<html>
+    <head>
+        <title><?php echo $this->_($this->getTitle()) ?></title>
+        <?php foreach($this->getMetas() as $meta) : ?>
+        <meta <?php echo $meta->getTag() ?>="<?php echo $meta->getKey(); ?>" content="<?php echo $this->_($meta->getContent()); ?>" />
+        <?php endforeach ?>
+        <?php foreach(Core_Model_Language::getLanguages() as $language) : ?>
+        <?php if(Core_Model_Language::getCurrentLanguage() == $language->getCode()) continue;?>
+        <link rel="alternate" href="<?php echo $this->getCurrentUrl(true, $language->getCode()); ?>" hreflang="<?php echo $language->getCode() ?>" />
+        <?php endforeach ?>
+
+        <?php echo $this->headLink() ?>
+        <?php echo $this->headScript() ?>
+
+        <link rel="icon" type="image/png" href="/favicon.png" />
+        <link rel="shortcut icon" id="favicon" type="image/x-icon" href="/favicon.ico" />
+        <style>
+            .select-icon {
+                background: url("<?php echo $this->getImage('flat/select_icon.png'); ?>") no-repeat right center transparent;
+            }
+            .select:hover .select-icon {
+                background-image: url("<?php echo $this->getImage('flat/select_icon_hover.png'); ?>");
+            }
+            .select:active .select-icon {
+                background-image: url("<?php echo $this->getImage('flat/select_icon_hover.png'); ?>");
+            }
+            .dk_open .dk_options {
+                background: url("<?php echo $this->getImage('flat/dk_options.png'); ?>") no-repeat 189px 1px transparent;
+            }
+            .select {
+                color: #4DBDFF !important;
+                background-color: #FFFFFF !important;
+            }
+            .select.hover, .select .hover, .select:hover {
+                color: #FFFFFF !important;
+                background-color: #4DBDFF !important;
+            }
+            .select.active, .select .active, .select:active {
+                color: #4DBDFF !important;
+                background-color: #DDF2FF !important;
+            }
+
+        </style>
+    </head>
+    <?php $errors = array(); ?>
+    <?php $errors["permissions"] = Installer_Model_Installer::checkPermissions(); ?>
+    <?php $errors["extensions"] = Installer_Model_Installer::checkExtensions(); ?>
+    <?php $errors["php_version"] = Installer_Model_Installer::checkRequiredPhpVersion(); ?>
+    <body class="<?php echo $this->default_class_name ?> general">
+
+        <div class="wrapper">
+            <div class="top">
+                <?php echo $this->getPartialHtml('header') ?>
+            </div>
+            <div id="content" class="container">
+                <div id="sidebar" class="sidebar col-md-3">
+                    <?php echo $this->getPartialHtml('sidebar') ?>
+                </div>
+                <div class="content col-md-9">
+                    <div id="mask" class="mask" style="display:none;">
+                        <button id="hide_mask" class="default_button reverse" style="display:none;"><i class="icon-remove"></i></button>
+                        <div class="loader"></div>
+                    </div>
+                    <?php echo $this->getPartialHtml('title') ?>
+                    <?php echo $this->getPartial('content')->setErrors($errors)->toHtml() ?>
+                </div>
+            </div>
+            <div class="footer">
+                <?php echo $this->getPartialHtml('footer') ?>
+            </div>
+        </div>
+
+        <div id="alert" class="header">
+            <div id="alert_message"></div>
+            <button type="button" class="default_button" id="close_alert_message">OK</button>
+        </div>
+
+        <script type="text/javascript">
+
+            $.validator.messages = validatorMessages['<?php echo Core_Model_Language::getCurrentLanguage(); ?>'];
+
+            $(document).ready(function() {
+
+                loader.init();
+
+                $('#change_language').change(function() {
+                    $('#loader').show();
+                    window.location = $(this).val();
+                });
+
+                $("select").each(function() {
+                    var select = $(this);
+                    select.dropkick({
+                        change: function() {
+                            select.change();
+                        }
+                    });
+                });
+
+            });
+
+            $(document).ready(function() {
+                setTimeout(installer.init.bind(installer), 800);
+                <?php if(empty($errors["permissions"]) AND empty($errors["extensions"])) : ?>
+                installer.setPlugins(<?php echo Zend_Json::encode(Zend_Controller_Front::getInstance()->getDispatcher()->getSortedModuleDirectories()) ?>);
+                installer.installation_url = '<?php echo $this->getUrl('installer/installation_database/install'); ?>';
+                installer.installation_url_data = '<?php echo $this->getUrl('installer/installation_database/insertdata'); ?>';
+                installer.check_database_connection_url = '<?php echo $this->getUrl('installer/installation_database/check'); ?>';
+                installer.create_admin_url = '<?php echo $this->getUrl('installer/installation_user/create'); ?>';
+                installer.create_application_url = '<?php echo $this->getUrl('installer/installation_application/create'); ?>';
+                installer.cron_url = '<?php echo $this->getUrl('installer/installation_database/cronscheduler'); ?>';
+                $('#previous_step').click(installer.previousStep.bind(installer));
+                $('#next_step').click(installer.nextStep.bind(installer));
+                <?php else : ?>
+                installer.containErrors();
+                <?php endif; ?>
+            });
+        </script>
+    </body>
+</html>

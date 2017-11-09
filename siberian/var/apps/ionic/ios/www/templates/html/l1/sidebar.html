@@ -1,0 +1,45 @@
+<ion-view sb-page-background class="sidebar l1">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <button class="button button-clear" ng-click="toggleMenu()">
+            {{ 'More' | translate }}
+        </button>
+    </ion-nav-buttons>
+
+    <div class="tooltip dark-bg stable" ng-show="show_menu">
+        <i class="icon ion-arrow-up-b dark"></i>
+        <ion-scroll>
+            <ul>
+                <li ng-repeat="item in sidebar.collection">
+                    <span class="block" ng-click="sidebar.showItem(item)" ng-class="{ 'bold': sidebar.current_item.id == item.id }">{{ item.name }}</span>
+                    <ul ng-show="item.show_children">
+                        <li ng-repeat="item in item.children">
+                            <span class="block" ng-click="sidebar.showItem(item)" ng-class="{ 'bold': sidebar.current_item.id == item.id }">{{ item.name }}</span>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </ion-scroll>
+    </div>
+
+
+    <ion-content>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner></ion-spinner>
+        </div>
+    </ion-content>
+
+    <script type="text/ng-template" id="sidebar_l1.html">
+
+        <a class="item reverse" ng-click="sidebar.showItem(item);" ng-class="{subheader: sidebar.current_item == item}">
+            {{ item.name }}
+        </a>
+
+        <ul ng-if="item.children" ng-show="item.show_children">
+            <li ng-repeat="item in item.children" ng-include="'sidebar_l1.html'"></li>
+        </ul>
+
+    </script>
+
+</ion-view>

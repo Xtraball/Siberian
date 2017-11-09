@@ -1,0 +1,20 @@
+<div class="cover l2" ng-class="{'has-picture': cover.picture}" ng-if="cover.picture">
+    <div class="image" image-src="cover.picture" sb-image></div>
+    <h3>
+        <span class="title block">{{ cover.title }}</span>
+        <span class="subtitle">{{ cover.subtitle }}</span>
+        <span class="title block"> <?php echo $this->_("From:"); ?> {{ cover.title2 }}</span>
+        <span class="subtitle" ng-if="cover.subtitle2.time || cover.subtitle2.location.label">
+            <span ng-if="cover.subtitle2.time"><?php echo $this->_("Entrance:"); ?> {{ cover.subtitle2.time }}</span>
+            <span ng-if="cover.subtitle2.time && cover.subtitle2.location.label">|</span>
+            <span ng-if="cover.subtitle2.location.label"><?php echo $this->_("Location:"); ?> 
+                <a href="{{ cover.subtitle2.location.url }}" ng-if="cover.subtitle2.location.url" target="<?php echo $this->isOverview() ? "_blank" : "_self"; ?>">{{ cover.subtitle2.location.label }}</a>
+                <span ng-if="!cover.subtitle2.location.url">{{ cover.subtitle2.location.label }}</span>
+            </span>
+        </span>
+        <span class="title" ng-if="cover.title3"><?php echo $this->_("Until:"); ?> {{ cover.title3 }}</span>
+        <span class="subtitle" ng-if="cover.subtitle3">
+            <span ng-if="cover.subtitle3"><?php echo $this->_("to"); ?> {{ cover.subtitle3 }}</span>
+        </span>
+    </h3>
+</div>

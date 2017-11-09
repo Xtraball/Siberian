@@ -1,0 +1,204 @@
+<?php $event = $this->getEvent();?>
+<?php $websites = $event->getWebsites(); ?>
+<div id="add_custom_event" class="custom_event">
+    <div class="area">
+        <h3 class="title">
+            <span class="area"><?php echo $event->getId() ? $this->_("Modify the event") : $this->_('Create a new event'); ?></span>
+            <hr />
+            <div class="clear"></div>
+        </h3>
+        <form action="<?php echo $this->getUrl('event/application_event/edit'); ?>" method="post" id="customEventForm" class="form-horizontal">
+            <div class="button">
+                <button type="button" id="hide_form" class="delete left" onclick="custom.cancel();"><i class="icon-arrow-left"></i></button>
+                <button type="button" class="default_button right right" onclick="custom.save();">OK</button>
+                <div class="clear"></div>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <label for="custom_event_name" class="control-label"><?php echo $this->_("Title:"); ?></label>
+                </div>
+                <div class="col-sm-8">
+                    <input class="name required form-control input" type="text" id="custom_event_name" value="<?php echo $event->getName(); ?>" name="name" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <label for="custom_event_subtitle" class="control-label"><?php echo $this->_("Subtitle:"); ?></label>
+                </div>
+                <div class="col-sm-8">
+                    <input class="required form-control input" type="text" id="custom_event_subtitle" value="<?php echo $event->getSubtitle(); ?>" name="subtitle" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <label for="custom_event_description" class="control-label"><?php echo $this->_('Description:'); ?></label>
+                </div>
+                <div class="col-sm-8">
+                    <textarea rows="5" class="description form-control input" id="custom_event_description" name="description"><?php echo $event->getDescription(); ?></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <label for="custom_event_start_at" class="control-label"><?php echo $this->_('Beginning date:'); ?></label>
+                </div>
+                <div class="col-sm-8">
+                    <input class="form-control input calendar required" type="text" id="custom_event_start_at" value="<?php echo $event->getStartAt(); ?>" name="start_at" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <label for="custom_event_end_at" class="control-label"><?php echo $this->_('Ending date:'); ?></label>
+                </div>
+                <div class="col-sm-8">
+                    <input class="end_at form-control input calendar required" type="text" id="custom_event_end_at" value="<?php echo $event->getEndAt(); ?>" name="end_at" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <label for="custom_event_start_time_at" class="control-label"><?php echo $this->_('Beginning time:'); ?></label>
+                </div>
+                <div class="col-sm-8">
+                    <input class="form-control input calendar required" type="text" id="custom_event_start_time_at" value="<?php echo $event->getStartTimeAt(); ?>" name="start_time_at" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <label for="custom_event_address" class="control-label"><?php echo $this->_('Address:'); ?></label>
+                </div>
+                <div class="col-sm-8">
+                    <input class="address form-control input" type="text" id="custom_event_address" value="<?php echo $event->getAddress(); ?>" name="address" />
+                </div>
+            </div>
+
+            <div id="custom_event_location" class="custom_event_location form-group">
+                <div class="col-sm-4">
+                    <label for="custom_event_location_label" class="control-label"><?php echo $this->_('Location:'); ?></label>
+                </div>
+                <div class="col-sm-8">
+                    <input class="custom_event_location form-control input" type="text" id="custom_event_location_label" value="<?php echo $event->getLocationLabel(); ?>" name="location_label" placeholder="<?php echo $this->_("Label"); ?>" /><br />
+                    <input class="custom_event_location form-control input" type="text" id="custom_event_location_url" value="<?php echo $event->getLocationUrl(); ?>" name="location_url" placeholder="<?php echo $this->_("URL"); ?>" />
+                </div>
+            </div>
+
+            <?php /* 
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <label for="custom_event_in_app_value_id" class="control-label"><?php echo $this->_('In App Page ID:'); ?></label>
+                </div>
+                <div class="col-sm-8">
+                    <input class="in_app_value_id form-control input" type="text" id="custom_event_in_app_value_id" value="<?php echo $event->getInAppValueId(); ?>" name="in_app_value_id" />
+                </div>
+            </div> */ ?>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <label for="custom_event_rsvp" class="control-label"><?php echo $this->_('RSVP URL:'); ?></label>
+                </div>
+                <div class="col-sm-8">
+                    <input class="rsvp form-control input" type="text" id="custom_event_rsvp" value="<?php echo $event->getRsvp(); ?>" name="rsvp" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <label for="custom_event_ticket_shop_url" class="control-label"><?php echo $this->_('Ticket Shop URL:'); ?></label>
+                </div>
+                <div class="col-sm-8">
+                    <input class="ticket_shop_url form-control input" type="text" id="custom_event_ticket_shop_url" value="<?php echo $event->getTicketShopUrl(); ?>" name="ticket_shop_url" />
+                </div>
+            </div>
+            <?php foreach($websites as $k => $website) : ?>
+            <div id="custom_event_website_<?php echo $k ?>" class="custom_event_website form-group group_<?php echo $k ?>">
+                <div class="col-sm-4">
+                    <label for="custom_event_website_<?php echo $k ?>" class="control-label"><?php echo $this->_('Website:'); ?></label>
+                </div>
+                <div class="col-sm-8">
+                    <input class="custom_event_website_label_<?php echo $k ?> form-control input" type="text" id="custom_event_website_label_<?php echo $k ?>" value="<?php echo $website["label"]; ?>" name="websites[<?php echo $k ?>][label]" /><br />
+                    <input class="custom_event_website_url_<?php echo $k ?> form-control input" type="text" id="custom_event_website_url_<?php echo $k ?>" value="<?php echo $website["url"]; ?>" name="websites[<?php echo $k ?>][url]" />
+                    <a class="remove remove_website" href="javascript:void(0)" rel="<?php echo $k ?>" onclick="custom.removeWebsite('<?php echo $k ?>')"><i class="icon-remove"></i></a>
+                </div>
+            </div>
+            <?php endforeach; ?>
+
+            <div id="custom_event_website_new">
+                <div class="custom_event_website form-group group_new">
+                    <div class="col-sm-4">
+                        <label for="custom_event_website_label_new" class="control-label"><?php echo $this->_('Website:'); ?></label>
+                    </div>
+                    <div class="col-sm-8">
+                        <input class="custom_event_website_new form-control input" type="text" id="custom_event_website_label_new" value="" name="websites[new][label]" placeholder="<?php echo $this->_("Label"); ?>" /><br />
+                        <input class="custom_event_website_new form-control input" type="text" id="custom_event_website_url_new" value="" name="websites[new][url]" placeholder="<?php echo $this->_("URL"); ?>" />
+                        <a class="remove remove_website" href="javascript:void(0)" rel="new" onclick="custom.removeWebsite('new')"><i class="icon-remove"></i></a>
+                        <hr/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-8 col-sm-offset-4">
+                    <button id="custom_add_website" class="default_button btn-block" type="button">
+                        <?php echo $this->_("Add a Website"); ?>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <label><?php echo $this->_('Illustration:'); ?></label>
+                </div>
+                <div class="col-sm-8">
+                    <!--[if gte IE 10]><!-->
+                    <button class="upload_picture default_button btn-block" type="button">
+                        <?php echo $event->getPicture() ? $this->_("Change picture") : $this->_("Add a picture"); ?>
+                    </button>
+                    <!--<![endif]-->
+                    <input style="display:none" class="uploader_picture" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+                </div>
+            </div>
+
+            <br />
+            <input type="hidden" name="option_value_id" value="<?php echo $this->getOptionValue()->getId(); ?>" />
+            <input type="hidden" id="custom_event_id" name="id" value="<?php echo $event->getId(); ?>" />
+            <input type="hidden" id="agenda_id" name="agenda_id" value="<?php echo $this->getAgendaId(); ?>" />
+            <input type="hidden" id="picture" name="picture" value="<?php echo $event->getPicture(); ?>" />
+            <div class="clear"></div>
+        </form>
+        <form action="<?php echo $this->getUrl('event/application_event/validatecrop'); ?>" method="post" id="validateCrop" class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-4" id="cont_delete_picture">
+                    <?php if($event->getPicture()) : ?>
+                        <button type="button" onclick="custom.removepicture();" id="delete_picture" class="delete delete_red"><i class="icon-remove"></i></button>
+                    <?php endif; ?>
+                </div>
+                <div class="col-sm-8 text-center" id="event_picture">
+                    <?php if($event->getPicture()) : ?>
+                        <img src="<?php echo Application_Model_Application::getImagePath().$event->getPicture(); ?>" width="150" height="100" />
+                    <?php endif; ?>
+                </div>
+            </div>
+            <input type="hidden" id="file" name="file"/>
+            <input type="hidden" id="x1" name="x1" />
+            <input type="hidden" id="y1" name="y1" />
+            <input type="hidden" id="x2" name="x2" />
+            <input type="hidden" id="y2" name="y2" />
+            <input type="hidden" id="w" name="w" />
+            <input type="hidden" id="h" name="h" />
+            <input type="hidden" id="source_width" name="source_width" value="" />
+            <input type="hidden" id="source_height" name="source_height" value="" />
+            <input type="hidden" id="output_width" name="output_width" value="900" />
+            <input type="hidden" id="output_height" name="output_height" value="600" />
+            <input type="hidden" id="crop_width" name="crop_width" value="" />
+            <input type="hidden" id="crop_height" name="crop_height" value="" />
+        </form>
+    </div>
+    <style>
+        .pp_content div.area .product_formats .title span.right {
+            width: 100px;
+        }
+        .pp_content div.area .product_formats .title span.right label {
+            font-size: 20px;
+        }
+        .pp_content div.area .product_formats table tr td input {
+            width: 145px;
+        }
+    </style>
+</div>

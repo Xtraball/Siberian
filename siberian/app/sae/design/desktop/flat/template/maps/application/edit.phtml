@@ -1,0 +1,107 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $application = $this->getApplication(); ?>
+<?php $maps = new Maps_Model_Maps(); ?>
+<?php
+$maps->find($option_value->getId(),"value_id");
+$api = Api_Model_Key::findKeysFor("googlemaps");
+$googlemaps_key = $api->getSecretKey();
+?>
+<div class="form_content">
+    <div id="list" class="edit_page maps">
+        <div class="form_content">
+            <form id="mapsForm" name="mapsForm" method="post" action="<?php echo $this->getUrl('maps/application/editpost') ?>">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo $this->_("Maps configuration") ?>
+                </h3>
+                <div class="form_content container-fluid first-row-feature content-feature">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <label for="address"><?php echo $this->_("Destination address"); ?></label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" id="address" name="address" class="input-flat" rel="0" placeholder="" value="<?php echo $maps->getAddress(); ?>"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <label for="unit"><?php echo $this->_("Unit distance"); ?></label>
+                            </div>
+                            <div class="col-md-8">
+                                <select id="unit" name="unit" class="styled-select color-blue">
+                                    <option></option>
+                                    <option value="km" <?php if($maps->getUnit()=='km') echo "selected"; ?>>Km</option>
+                                    <option value="mi" <?php if($maps->getUnit()=='mi') echo "selected"; ?>>Mi</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <button class="pull-right btn color-blue" type="submit">
+                                    <?php echo $this->_('Save'); ?>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <input type="hidden" id="cms_latitude_0" name="cms_latitude_0" value="" class="input-flat"/>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="hidden" id="cms_longitude_0" name="cms_longitude_0" value="" class="input-flat"/>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" class="input-flat"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="background">
+                <?php echo $this->importBackground($option_value); ?>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        bindForms('#list');
+    });
+
+    if(!$('#gmaps_libraries').length) {
+        var script_tag = document.createElement('script');
+        script_tag.setAttribute("id","gmaps_libraries");
+        script_tag.setAttribute("type","text/javascript");
+        script_tag.setAttribute("src","https://maps.google.com/maps/api/js?sensor=false&libraries=places&callback=initializeGmaps&key=<?php echo $googlemaps_key; ?>");
+        (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
+    } else {
+        initializeGmaps();
+    }
+
+    function initializeGmaps() {
+        bindGmapsSearchBox($("#address"));
+    }
+
+    page.setCallback('didappear', function() {
+
+        $('#mapsForm').submit(function() {
+            if(!$(this).valid()) return false;
+            reload($('#mapsForm'), '<?php echo $this->getUrl('maps/application/editpost') ?>', true, function(data) {
+                if(data.success) {
+                    page.reload();
+                }
+            });
+            return false;
+        });
+
+    });
+
+    page.setCallback('willdisappear', function() {
+        $('#mapsForm').unbind('submit');
+    });
+
+</script>
+<style>
+
+</style>

@@ -1,0 +1,158 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $product = new Catalog_Model_Product(); ?>
+<?php $menus = $product->findMenus($option_value->getId()); ?>
+<div class="edit_page menus">
+    <div id="menus_tabs" class="tabs">
+        <div id="list">
+
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo $this->_(('Add content')); ?>
+                <button type="button" id="add_item" onclick="feature.edit();" class="new_menu color-blue pull-right bt-header-right btn">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </h3>
+            <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+
+            <?php if($menus->count() > 0) : ?>
+            <div id="existing_items_section">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo $this->_(('Manage content')); ?>
+                    <button type="button" id="toggle_existing_items" class="color-blue pull-right bt-header-right btn">
+                        <i class="fa fa-angle-down"></i>
+                    </button>
+                </h3>
+                <div id="existing_items" class="first-row-feature container-fluid content-feature">
+                    <ul id="menus_list" class="list-group">
+                        <?php foreach($menus as $menu) : ?>
+                        <li class="menu_actions list-group-item content-white-bkg" rel="<?php echo $menu->getId(); ?>">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <?php echo $menu->getName(); ?>
+                                </div>
+                                <div class="col-md-1">
+                                    <span><?php echo $menu->getFormattedPrice(); ?></span>
+                                </div>
+                                <div class="col-md-2 text-right" id="menu_icons_<?php echo $menu->getId(); ?>">
+                                    <a href="javascript:void(0)" onclick="var div = $('#details_menu_<?php echo $menu->getId(); ?>'); if(div.is(':visible')) {div.parent('.menu_actions').removeClass('selected'); div.slideUp();} else {div.parent('.menu_actions').addClass('selected'); div.slideDown();} return false;">
+                                        <i class="fa fa-search"></i>
+                                    </a>
+                                    <a href="javascript:void(0)" rel="<?php echo $menu->getId(); ?>" class="edit edit_menu">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                    <a href="<?php echo $this->getUrl('catalog/application_menu/deletepost', array('id' => $menu->getId())); ?>" class="del_menu">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div id="details_menu_<?php echo $menu->getId(); ?>" class="menu_details col-md-12" style="display: none;">
+                                    <p><?php echo $menu->getDescription(); ?></p>
+                                </div>
+                            </div>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </div>
+            <?php endif; ?>
+
+            <?php echo $this->importBackground($option_value); ?>
+
+            <br />
+
+            <?php echo $this->importLayout($option_value); ?>
+
+        </div>
+        <div id="edit" style="display: none;"></div>
+    </div>
+    
+    <style type="text/css">
+        .menu_actions .icons {margin-top:10px;}
+        #cke_menu_description .cke_button__image { display:none; }
+    </style>
+    <script type="text/javascript">
+
+        var menu = {
+            id: null,
+            is_new: false,
+            processEvents: function() {
+
+                this.is_new = !$('#menu_id').length;
+                this.id = !this.is_new ? $('#menu_id').val() : '<?php echo $option_value->getId(); ?>_new';
+
+                $('#menu_description').ckeditor(
+                    function () {
+                        this.document.on('keyup', function() {}.bind(this));
+
+                        if(menu.is_new) {
+                            var height = $('#icon_and_name').outerHeight(true) + $('#edit').outerHeight(true);
+                            $('#page').stop().animate({height: height}, 'fast', null, function() {
+                                $(this).css("height", "auto");
+                            });
+                        }
+                    },
+                    ckeditor_config.default
+                );
+
+            }
+        };
+
+        page.setCallback('didappear', function() {
+
+            $('#toggle_existing_items').click(function () {
+                $('#existing_items').stop().slideToggle(300, function () {
+                    if ($(this).is(':visible')) {
+                        $('#toggle_existing_items').children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+                        $('#toggle_existing_items').removeClass('color-blue');
+                    }
+                    else
+                    {
+                        $('#toggle_existing_items').children('i').removeClass('fa-angle-up').addClass('fa-angle-down');
+                        $('#toggle_existing_items').addClass('color-blue');
+                    }
+                });
+            });
+
+            $('.new_menu').click(function() {
+                var url = '<?php echo $this->getUrl('catalog/application_menu/form', array('option_value_id' => $option_value->getId())); ?>';
+                reload(this, url, true, function(datas) {
+                    $('#edit').html(datas.form);
+                    feature.edit(menu.processEvents());
+                });
+                return false;
+            });
+            $('.edit_menu').click(function() {
+                var id = $(this).attr('rel');
+                var url = '<?php echo $this->getUrl('catalog/application_menu/form', array('option_value_id' => $option_value->getId())); ?>/id/'+id;
+                reload(this, url, true, function(datas) {
+                    $('#edit').html(datas.form);
+                    feature.edit(menu.processEvents());
+                });
+                return false;
+            });
+            $('.del_menu').click(function() {
+                reload(this, $(this).attr('href'), true, function(datas) {
+                    if(datas.menu_id) {
+                        $('.menu_actions[rel="'+datas.menu_id+'"]').slideUp();
+                        menu.processEvents();
+                    }
+                });
+                return false;
+            });
+        });
+
+        page.setCallback('willdisappear', function() {
+            $('#toggle_existing_items').unbind('click');
+            $('.new_menu').unbind('click');
+            $('.edit_menu').unbind('click');
+            $('.del_menu').unbind('click');
+            $('#formCreateMenu').unbind('submit');
+            $('.menu_actions').unbind('mouseenter mouseout');
+        });
+
+        $(document).ready(function () {
+            bindForms('#list');
+        });
+    </script>
+</div>

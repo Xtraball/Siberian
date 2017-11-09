@@ -1,0 +1,104 @@
+.layout-left-sidebar {position:absolute;top:0;bottom:0;left:0;height:auto;z-index:1;}
+.layout-left-sidebar .tabbar {text-align:center;height:100%;}
+.layout-left-sidebar .tabbar .item {margin:0 5px 5px 5px;padding:10px;display:block;}
+.layout-left-sidebar .tabbar .item.current {cursor:default;border-right:3px solid;}
+.toggleLeftSideBarIcon {width:25px;float:left;padding:11px;cursor:pointer;}
+.layout-bottom-sidebar .overview-tabbar {position:absolute;bottom:0;left:0;right:0;overflow:hidden;z-index:30;}
+.layout-bottom-sidebar #scrollview_tabbar_items {position:absolute;bottom:0;left:0;right:0;height:auto;z-index:30;opacity:1;filter:alpha(opacity=100);}
+.at-view-slide.background, .fullscreen {position:absolute;top:0;right:0;bottom:0;left:0;overflow:hidden;}
+.at-view-slide.background .has-connection {display: none;}
+
+.at-view-slide.background.with-bottom-sidebar .background_image {overflow:auto;}
+/*.at-view-slide.background.with-bottom-sidebar, .fullscreen.with-bottom-sidebar {bottom:55px;}*/
+.fullscreen.with-bottom-sidebar {bottom:55px;}
+.at-view-slide.background.with-bottom-sidebar {padding-bottom:55px;}
+
+.is-offline .layout-bottom-sidebar .overview-tabbar {padding-bottom:30px}
+.is-offline .at-view-slide.background.with-bottom-sidebar, .is-offline .fullscreen.with-bottom-sidebar {bottom:85px;}
+.is-offline .at-view-slide.background,
+.is-offline .layout-bottom-sidebar,
+.is-offline .layout-bottom-sidebar #scrollview_tabbar_items {bottom:30px;}
+
+
+.has-banner-75 .layout-bottom-sidebar .overview-tabbar,
+.has-banner-75 .at-view-slide .for_ads_banner,
+.has-banner-50 .layout-bottom-sidebar .overview-tabbar,
+.has-banner-50 .at-view-slide .for_ads_banner {padding-bottom:50px}
+.has-banner-75 .no_connection,
+.has-banner-75 .layout-left-sidebar,
+.has-banner-75 .at-view-slide.background,
+.has-banner-75 .tabbar_items.l6,
+.has-banner-75 .tabbar_items.l6 .tabbar.background,
+.has-banner-75 .layout-bottom-sidebar #scrollview_tabbar_items,
+.has-banner-50 .no_connection,
+.has-banner-50 .layout-left-sidebar,
+.has-banner-50 .at-view-slide.background,
+.has-banner-50 .tabbar_items.l6,
+.has-banner-50 .tabbar_items.l6 .tabbar.background,
+.has-banner-50 .layout-bottom-sidebar #scrollview_tabbar_items {bottom:50px;}
+.has-banner-75 .at-view-slide.background.with-bottom-sidebar,
+.has-banner-75 .fullscreen.with-bottom-sidebar,
+.has-banner-50 .at-view-slide.background.with-bottom-sidebar,
+.has-banner-50 .fullscreen.with-bottom-sidebar {bottom:105px}
+
+.has-banner-75 .is-offline .layout-bottom-sidebar .overview-tabbar,
+.has-banner-75 .is-offline .at-view-slide .for_ads_banner,
+.has-banner-50 .is-offline .layout-bottom-sidebar .overview-tabbar,
+.has-banner-50 .is-offline .at-view-slide .for_ads_banner {padding-bottom:80px}
+.has-banner-75 .is-offline .layout-left-sidebar,
+.has-banner-75 .is-offline .at-view-slide.background,
+.has-banner-75 .is-offline .layout-bottom-sidebar,
+.has-banner-75 .is-offline .tabbar_items.l6,
+.has-banner-75 .is-offline .tabbar_items.l6 .tabbar.background,
+.has-banner-75 .is-offline .layout-bottom-sidebar #scrollview_tabbar_items,
+.has-banner-50 .is-offline .layout-left-sidebar,
+.has-banner-50 .is-offline .at-view-slide.background,
+.has-banner-50 .is-offline .layout-bottom-sidebar,
+.has-banner-50 .is-offline .tabbar_items.l6,
+.has-banner-50 .is-offline .tabbar_items.l6 .tabbar.background,
+.has-banner-50 .is-offline .layout-bottom-sidebar #scrollview_tabbar_items {bottom:80px}
+.has-banner-75 .is-offline .at-view-slide.background.with-bottom-sidebar,
+.has-banner-75 .is-offline .fullscreen.with-bottom-sidebar,
+.has-banner-50 .is-offline .at-view-slide.background.with-bottom-sidebar,
+.has-banner-50 .is-offline .fullscreen.with-bottom-sidebar {bottom:135px;}
+
+.has-banner-32 .layout-bottom-sidebar .overview-tabbar, .has-banner-32 .at-view-slide .for_ads_banner {padding-bottom:32px}
+.has-banner-32 .no_connection,
+.has-banner-32 .layout-left-sidebar,
+.has-banner-32 .at-view-slide.background,
+.has-banner-32 .tabbar_items.l6,
+.has-banner-32 .tabbar_items.l6 .tabbar.background {bottom:32px}
+.has-banner-32 .at-view-slide.background.with-bottom-sidebar,
+.has-banner-32 .fullscreen.with-bottom-sidebar {bottom:187px}
+
+.has-banner-32 .is-offline .layout-bottom-sidebar .overview-tabbar, .has-banner-32 .is-offline .at-view-slide .for_ads_banner {padding-bottom:62px}
+.has-banner-32 .is-offline .layout-left-sidebar,
+.has-banner-32 .is-offline .at-view-slide.background,
+.has-banner-32 .is-offline .layout-bottom-sidebar,
+.has-banner-32 .is-offline .tabbar_items.l6,
+.has-banner-32 .is-offline .tabbar_items.l6 .tabbar.background {bottom:62px}
+.has-banner-32 .is-offline .at-view-slide.background.with-bottom-sidebar,
+.has-banner-32 .is-offline .fullscreen.with-bottom-sidebar {bottom:117px;}
+
+.has-banner-90 .layout-bottom-sidebar .overview-tabbar, .has-banner-90 .at-view-slide .for_ads_banner {padding-bottom:90px}
+.has-banner-90 .no_connection,
+.has-banner-90 .layout-left-sidebar,
+.has-banner-90 .at-view-slide.background,
+.has-banner-90 .tabbar_items.l6,
+.has-banner-90 .tabbar_items.l6 .tabbar.background {bottom:90px}
+.has-banner-90 .at-view-slide.background.with-bottom-sidebar,
+.has-banner-90 .fullscreen.with-bottom-sidebar {bottom:135px}
+
+.has-banner-90 .is-offline .layout-bottom-sidebar .overview-tabbar, .has-banner-90 .is-offline .at-view-slide .for_ads_banner {padding-bottom:120px}
+.has-banner-90 .is-offline .layout-left-sidebar,
+.has-banner-90 .is-offline .at-view-slide.background,
+.has-banner-90 .is-offline .layout-bottom-sidebar,
+.has-banner-90 .is-offline .tabbar_items.l6,
+.has-banner-90 .is-offline .tabbar_items.l6 .tabbar.background {bottom:120px}
+.has-banner-90 .is-offline .at-view-slide.background.with-bottom-sidebar,
+.has-banner-90 .is-offline .fullscreen.with-bottom-sidebar {bottom:155px;}
+
+.is-offline .has-connection {display: block;position:relative;}
+
+.at-view-slide.background.with-bottom-sidebar.inbox-comment-view .bottom_bar_comment {bottom: 55px}
+.at-view-slide.background.with-bottom-sidebar.inbox-view .inbox_bottom_bar {bottom: 55px}

@@ -1,0 +1,127 @@
+<?php $customer = $this->getCurrentCustomer(); ?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-content-wrapper form-horizontal">
+            <div id="sb-tour-edit-user" class="content solo-page sb-tour">
+                <h3 class="title-editor border-blue text-center">
+                    <?php if($customer->getId()) : ?>
+                        <?php echo $this->_("Edit the user %s", $customer->getName()); ?>
+                    <?php else : ?>
+                        <?php echo $this->_("Create a new user"); ?>
+                    <?php endif; ?>
+                </h3>
+                <div id="customer_forms" class="first-row-feature content-color container-fluid">
+                    <div id="customer_form_new">
+                        <form id="customerForm" action="<?php echo $this->getUrl('customer/application/save'); ?>" method="post" class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-sm-4">
+                                            <label for="civility"><?php echo $this->_('Title'); ?> <span>*</span></label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <select class="styled-select color-blue required" name="civility" id="civility">
+                                                <option value="m"<?php if($customer->getCivility() == 'm') : ?> selected="selected"<?php endif; ?>><?php echo $this->_('Mr'); ?></option>
+                                                <option value="mme"<?php if($customer->getCivility() == 'mme') : ?> selected="selected"<?php endif; ?>><?php echo $this->_('Mrs'); ?></option>
+                                                <option value="mlle"<?php if($customer->getCivility() == 'mlle') : ?> selected="selected"<?php endif; ?>><?php echo $this->_('Miss'); ?></option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-4">
+                                            <label for="firstname"><?php echo $this->_('First name'); ?> <span>*</span></label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" value="<?php echo $customer->getFirstname() ?>" class="required input-flat" name="firstname" id="firstname" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-4">
+                                            <label for="lastname"><?php echo $this->_('Last name'); ?> <span>*</span></label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" value="<?php echo $customer->getLastname() ?>" class="required input-flat" name="lastname" id="lastname" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-4">
+                                            <label for="email"><?php echo $this->_('Email'); ?> <span>*</span></label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="text" value="<?php echo $customer->getEmail() ?>" class="required input-flat email" name="email" id="email" />
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <div class="col-sm-4">
+                                            <label for="password"><?php echo $this->_('Password'); ?> <span class="input-required">*</span></label>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input type="password" value="" name="password" class="input-flat <?php if(!$customer->getId()) : ?>required<?php endif; ?>" id="password">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label for="show_in_social_gaming" class="checkbox-inline">
+                                                <input type="checkbox"<?php if($customer->getShowInSocialGaming()) : ?> checked="checked"<?php endif; ?> id="show_in_social_gaming" name="show_in_social_gaming" value="1" class="color-blue checkbox sb-tour" />
+                                                <?php echo $this->_("This user is visible in ranking"); ?>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label for="can_access_locked_features" class="checkbox-inline">
+                                                <input type="checkbox"<?php if($customer->canAccessLockedFeatures()) : ?> checked="checked"<?php endif; ?> id="can_access_locked_features" name="can_access_locked_features" value="1" class="color-blue checkbox sb-tour" />
+                                                <?php echo $this->_("This user can access the pages locked by the \"Locker\" feature"); ?>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    * <?php echo $this->_('Required fields'); ?>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12 col-sm-2 col-xs-12">
+                                    <button type="button" id="cancel_customer" class="color-blue btn sb-tour"><?php echo $this->_("Cancel"); ?></button>
+                                    <button id="sb-tour-save_user" type="submit" class="color-blue btn pull-right sb-tour"><?php echo $this->_("Save"); ?></button>
+                                </div>
+                            </div>
+                            <input type="hidden" name="customer_id" value="<?php echo $customer->getId(); ?>" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $('#customerForm').submit(function() {
+        if($(this).valid()) {
+            reload(this, this.action, true, function(data) {
+                if(data.success) {
+                    window.location = "<?php echo $this->getUrl("customer/application/list"); ?>";
+                }
+            });
+        }
+        return false;
+    });
+
+    $('#cancel_customer').click(function() {
+        window.location = "<?php echo $this->getUrl("customer/application/list"); ?>";
+    });
+
+</script>

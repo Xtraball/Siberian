@@ -1,0 +1,142 @@
+<div class="has_header" sb-background-image value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+
+    <sb-header title-back="'<?php echo $this->_("Back") ?>'" title="page_title" message="message" right-button="header_right_button"></sb-header>
+
+    <div class="product_view relative scrollable_content">
+        <div>
+            <div class="padding for_ads_banner">
+                <div class="product_title">
+                    <h4 class="a-center">{{ product.name | uppercase}}</h4>
+                </div>
+                <form novalidate name="productForm" ng-submit="addProduct()">
+                    <div class="product_details">
+                        <div ng-if="product.picture" class="area picture">
+                            <ul rn-carousel rn-carousel-indicator="true" class="rn-carousel-slides">
+                                <li ng-repeat="image in product.picture" class="rn-carousel-slide relative">
+                                    <div class="fullscreen"></div>
+                                    <img ng-src="{{ image.url }}" class="left" />
+                                </li>
+                            </ul>
+
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="area">
+                        <sb-loader is-loading="is_loading" size="'48'" block="'background'"></sb-loader>
+                        <p class="product_price">
+                            <span ng-if="product.optionsGroups.length > 0" class="price_from">
+                                <?php echo $this->_("From:"); ?>
+                            </span>
+                            <span class="price">
+                                {{ product.formattedPriceInclTax }}
+                            </span>
+                            <img ng-if="share_picto" ng-click="share_picto.action()" src="{{ share_picto.picto_url }}" class="right pointer" style="margin-right:10px" />
+                        </p>
+                        <table>
+                            <tr ng-if="product.formatGroups.length > 0">
+                                <td colspan="2">
+                                    <?php echo $this->_("Prices"); ?><br/>
+                                    <div class="formats">
+                                        <select ng-options="format.id as format.title + ' - ' + format.formattedPriceInclTax for format in product.formatGroups" ng-model="selected_format.id"></select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <table>
+                                        <tr ng-if="product.optionsGroups.length>0">
+                                            <td><?php echo $this->_('Options'); ?></td>
+                                            <td style="padding:5px"><?php echo $this->_('Qty'); ?></td>
+                                        </tr>
+                                        <tr ng-if="product.optionsGroups.length>0" ng-repeat="optionsGroup in product.optionsGroups">
+                                            <td style="width:80%">
+                                                <div class="options">
+                                                    <ng-form name="optionValueForm">
+                                                        <select name="optionValue" ng-model="optionsGroup.selectedOptionId" ng-required="optionsGroup.required" ng-class="{'required': optionsGroup.required}" class="scroller full_width">
+                                                            <option class="label" value="" selected>{{ optionsGroup.title }}</option>
+                                                            <option ng-repeat="option in optionsGroup.options" value="{{ option.optionId }}">{{ option.name }} {{ option.formattedPriceInclTax }}</option>
+                                                        </select>
+                                                        <label ng-show="optionValueForm.optionValue.$error.required && productForm.submitted" class="error">
+                                                            <?php echo $this->_('This field is required.'); ?></label>
+                                                    </ng-form>
+                                                </div>
+                                            </td>
+                                            <td style="width:20%">
+                                                <div class="options">
+                                                    <ng-form name="optionQuantityForm">
+                                                        <select name="optionQuantity" ng-model="optionsGroup.selectedQuantity" ng-required="{{ option.required }}" ng-class="{'required': option.required}" class="scroller qty full_width">
+                                                            <option ng-repeat="i in [1,2,3,4,5,6,7,8,9,10]" value="{{ i }}">{{ i }}</option>
+                                                        </select>
+                                                        <label ng-show="optionValueForm.optionValue.$error.required && productForm.submitted" class="error">
+                                                            &nbsp;</label>
+                                                    </ng-form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="half">
+                                    <sb-input-number value="{{ product_quantity }}" min="1" step="1" label="<?php echo $this->_('Qty'); ?>" change-qty="changeQuantity(qty)" params="{size:25,align:'left'}"></sb-input-number>
+                                </td>
+                                <td class="half add_to_cart">
+                                    <button type="submit" class="button">
+                                        <?php echo $this->_('Add to cart'); ?>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="area description-area" ng-show="product.description != ''">
+                        <div class="middle">
+                            <div class="description relative">
+                                <p class="truncated" ng-click="truncateDescription = !truncateDescription" ng-show="truncateDescription" data-rows="2" ng-bind-html="product.shortDescription">
+                                </p>
+                                <p style="text-align: justify" ng-click="truncateDescription = !truncateDescription" ng-show="!truncateDescription" ng-bind-html="product.description | trusted_html">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+<!--                    <div ng-if="product.optionsGroups.length" class="product-options">-->
+<!--                        <div class="area">-->
+<!--                            <p class="section_title">--><?php //echo $this->_("Options"); ?><!--</p>-->
+<!--                            <table>-->
+<!--                                <tr>-->
+<!--                                    <td></td>-->
+<!--                                    <td style="padding:5px">--><?php //echo $this->_('Qty'); ?><!--</div></td>-->
+<!--                                </tr>-->
+<!--                                <tr ng-repeat="optionsGroup in product.optionsGroups">-->
+<!--                                    <td>-->
+<!--                                        <ng-form name="optionValueForm">-->
+<!--                                            <select name="optionValue" ng-model="optionsGroup.selectedOptionId" ng-required="optionsGroup.required" ng-class="{'required': optionsGroup.required}" class="scroller">-->
+<!--                                                <option class="label" value="" selected>{{ optionsGroup.title }}</option>-->
+<!--                                                <option ng-repeat="option in optionsGroup.options" value="{{ option.optionId }}">{{ option.name }} {{ option.formattedPriceInclTax }}</option>-->
+<!--                                            </select>-->
+<!--                                            <label ng-show="optionValueForm.optionValue.$error.required && productForm.submitted" class="error">-->
+<!--                                                --><?php //echo $this->_('This field is required.'); ?><!--</label>-->
+<!--                                        </ng-form>-->
+<!--                                    </td>-->
+<!--                                    <td>-->
+<!--                                        <ng-form name="optionQuantityForm">-->
+<!--                                            <select name="optionQuantity" ng-model="optionsGroup.selectedQuantity" ng-required="{{ option.required }}" ng-class="{'required': option.required}" class="scroller qty">-->
+<!--                                                <option ng-repeat="i in [1,2,3,4,5,6,7,8,9,10]" value="{{ i }}">{{ i }}</option>-->
+<!--                                            </select>-->
+<!--                                            <label ng-show="optionValueForm.optionValue.$error.required && productForm.submitted" class="error">-->
+<!--                                            &nbsp;</label>-->
+<!--                                        </ng-form>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                            </table>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+

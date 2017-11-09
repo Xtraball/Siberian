@@ -1,0 +1,21 @@
+<table>
+    <tr style="margin:auto; padding: 0 15px; color:#888888; font-size: 17px; line-height: 150%; width:600px">
+        <td>
+            <p align="justify" style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $this->_('Congratulations,'); ?><br/><br/>
+                <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $this->_("You have created your account. With this account, you will be able to enjoy great offers available in our application."); ?></span>
+            </p>
+            <p align="justify" style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $this->_('Here are your credentials:'); ?>
+                <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $this->_('Login:'); ?> <strong><?php echo $this->getCustomer()->getEmail() ?></strong></span><br/>
+                <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $this->_('Password:'); ?> <strong><?php echo $this->getPassword() ?></strong></span><br/>
+            </p>
+            <?php if($email = $this->getAdminEmail()) : ?>
+            <p align="justify" style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;">
+                <?php echo $this->_("If you encounter any problems, do not hesitate to contact us:"); ?> <a href="mailto:<?php echo $email; ?>"><strong><?php echo $email; ?></strong></a>
+            </p>
+            <?php endif; ?>
+            <p style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;">
+                <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><br/><?php echo $this->_('See you soon,'); ?><br/><?php echo $this->getAppName() ?></span><br/>
+            </p>
+        </td>
+    </tr>
+</table>

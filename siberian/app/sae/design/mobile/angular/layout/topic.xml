@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <topic_mobile_list_template_l1>
+        <views>
+            <content class="core_view_mobile_default" template="topic/l1/list.phtml" />
+        </views>
+    </topic_mobile_list_template_l1>
+
+</layout>

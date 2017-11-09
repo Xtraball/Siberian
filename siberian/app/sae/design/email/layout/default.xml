@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <base_email>
+        <views>
+            <base class="core_view_email_default" template="default/content.phtml" />
+            <header class="core_view_email_default" template="default/header.phtml" />
+            <footer class="core_view_email_default" template="default/footer.phtml" />
+        </views>
+    </base_email>
+
+</layout>

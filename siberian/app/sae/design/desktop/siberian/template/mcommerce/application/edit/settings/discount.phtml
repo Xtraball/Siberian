@@ -1,0 +1,165 @@
+<?php
+$option = $this->getCurrentOptionValue();
+$mcommerce = $option->getObject();
+$promos = $mcommerce->getPromos();
+?>
+<div id="settings_list" pos="1">
+    <div id="promo_manager">
+        <div class="section">
+            <h4 class="subtitle">
+                <span class="left area"><?php echo $this->_('My promos'); ?></span>
+                <hr/>
+                <span class="area right">
+                            <button type="button" class="default_button edit_promo add right" id="add_item">
+                                <i class="icon-plus"></i>
+                            </button>
+                        </span>
+                <div class="clear"></div>
+            </h4>
+            <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+        </div>
+        <div id="section_existing_promos"
+             class="section"<?php if (!$promos->count()) : ?> style="display:none"<?php endif; ?>>
+            <h4 class="subtitle">
+                <span class="left area"><?php echo $this->_("Manage discounts"); ?></span>
+                <hr/>
+                <span class="area right">
+                            <button type="button" id="toggle_existing_promos" class="default_button toggle_details">
+                                <i class="icon-chevron-down"></i>
+                                <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>"/>
+                            </button>
+                        </span>
+                <div class="clear"></div>
+            </h4>
+            <div id="existing_promos" style="display:none;">
+                <ul class="list promos_list">
+                    <?php foreach ($promos as $promo) : ?>
+                        <?php echo $this->getLayout()->addPartial('row_promo_' . $promo->getId(), 'admin_view_default', 'mcommerce/application/edit/settings/discount/li.phtml')
+                            ->setCurrentOptionValue($option)
+                            ->setCurrentPromo($promo)
+                            ->toHtml();
+                        ?>
+                    <?php endforeach ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var discount = {
+        processEvents: function () {
+            $('#toggle_existing_promos').click(function () {
+                $('#existing_promos').stop().slideToggle(300, function () {
+                    if ($(this).is(':visible')) $('#toggle_existing_promos').children('i').removeClass('icon-chevron-down').addClass('icon-chevron-up');
+                    else $('#toggle_existing_promos').children('i').removeClass('icon-chevron-up').addClass('icon-chevron-down')
+                });
+            });
+
+            $('.edit_promo').each(function (i, element) {
+                this.bindEditPromo($(element));
+            }.bind(this));
+            $('.remove_promo').each(function (i, element) {
+                this.bindRemovePromo($(element));
+            }.bind(this));
+        },
+
+        bindPromoElements: function (id) {
+            if ($('#edit_promo_' + id).length) this.bindEditPromo($('#edit_promo_' + id));
+            if ($('#remove_promo_' + id).length) this.bindRemovePromo($('#remove_promo_' + id));
+            return this;
+        },
+        bindEditPromo: function (element) {
+
+            element.click(function (e) {
+                if (!element.children('input').length) {
+                    $('<input />').attr('type', 'hidden').attr('name', 'option_value_id').addClass('option_value_id').val('<?php echo $option->getId(); ?>').appendTo(element);
+                    if (element.attr('rel')) $('<input />').attr('type', 'hidden').attr('name', 'promo_id').val(element.attr('rel')).appendTo(element);
+                }
+
+                this.load(element);
+            }.bind(this));
+        },
+        bindRemovePromo: function (element) {
+
+            element.click(function (e) {
+
+                if (!confirm('<?php echo addslashes($this->_('Are you sure you want to delete this promo?'))?>')) return false;
+
+                if (!element.children('input').length) {
+                    $('<input />').attr('type', 'hidden').attr('name', 'option_value_id').addClass('option_value_id').val('<?php echo $option->getId(); ?>').appendTo(element);
+                    if (element.attr('rel')) $('<input />').attr('type', 'hidden').attr('name', 'promo_id').val(element.attr('rel')).appendTo(element);
+                }
+
+                this.remove(element);
+            }.bind(this));
+        },
+        load: function (a) {
+
+            reload(a, '<?php echo $this->getUrl('mcommerce/application_settings_discount/edit'); ?>', true, function (datas) {
+                if (datas.form_html) {
+                    $('#promo_edit').html(datas.form_html);
+                    $('#promoEditForm').submit(function () {
+
+                        $(this).find('input.required.number').each(function () {
+                            var val = parseFloat($(this).val().replace(',', '.'));
+                            if (!isNaN(val)) {
+                                $(this).val(val);
+                            }
+                        });
+
+                        if (!$(this).valid()) return false;
+
+                        reload(this, this.action, true, function (datas) {
+                            if (datas.success) {
+                                if (datas.row_html) {
+                                    $('#existing_promos').children('ul.promos_list').append(datas.row_html);
+                                    this.bindPromoElements(datas.promo_id);
+                                    if (!$('#section_existing_promos').is(':visible')) $('#section_existing_promos').show();
+                                }
+                                else if (datas.promo_name) {
+                                    $('#promo_name_' + datas.promo_id).html(datas.promo_name);
+                                }
+                                this.close();
+                            }
+                        }.bind(discount));
+                        return false;
+                    });
+                    $('label.delivery_method').click(function () {
+                        setupLabel($(this));
+                    });
+                    $('label.payment_method').click(function () {
+                        setupLabel($(this));
+                    });
+                    feature.slide($('#settings'), $('#promo_edit'), 'right');
+                }
+            });
+        },
+        remove: function (a) {
+
+            reload(a, '<?php echo $this->getUrl('mcommerce/application_settings_discount/remove'); ?>', true, function (datas) {
+                if (datas.success) {
+                    $('#edit_promo_' + datas.promo_id).unbind('click');
+                    $('#remove_promo_' + datas.promo_id).unbind('click');
+                    $('#promo_row_' + datas.promo_id).remove();
+                    $('#separator_promo_row_' + datas.promo_id).remove();
+                    if (!$('#existing_promos').find('li').length) $('#section_existing_promos').fadeOut();
+                }
+            });
+        },
+        close: function () {
+            $('#promoEditForm').unbind('submit');
+            feature.slide($('#promo_edit'), $('#settings'), 'left', function () {
+                $('#promo_edit').html('')
+            });
+        },
+        destroy: function () {
+            $('#promoEditForm').unbind('submit');
+            $('.edit_promo').unbind('click');
+            $('.remove_promo').unbind('click');
+        }
+    }
+    $(document).ready(function () {
+        discount.processEvents();
+    });
+</script>

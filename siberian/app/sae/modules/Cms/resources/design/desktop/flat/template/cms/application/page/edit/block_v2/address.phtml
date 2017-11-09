@@ -1,0 +1,49 @@
+<?php
+
+$title = $this->getTitle();
+$form = $this->getForm();
+
+$block = $this->getCmsBlock();
+
+if(isset($block) && $block->getId()) {
+    $form->loadBlock($block);
+}
+
+$formid = $form->getAttrib("id");
+$uniqid = $form->getUniqid();
+$pvar = "p{$uniqid}";
+
+$required = $form->getRequired();
+
+?>
+<div class="cms-block-container">
+    <h3 class="title-editor title-feature-indent">
+        <div class="cms-block-handle">
+            <i class="fa fa-sort"></i>
+        </div>
+        <span>
+            <span class="cms-block-index"></span>
+            <?php echo __($title); ?>
+        </span>
+        <?php if(!$required): ?>
+        <div class="cms-block-delete">
+            <i class="fa fa-close"></i>
+        </div>
+        <?php endif; ?>
+
+    </h3>
+    <div id="<?php echo $formid; ?>" class="cms-block-hide-drag content-white-bkg section-padding content-feature" style="padding-bottom: 20px;">
+        <?php echo $form; ?>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            bindForms("#<?php echo $formid; ?>");
+
+            bindcmsblockAddress("#<?php echo $formid; ?>");
+        });
+    </script>
+
+</div>
+
+

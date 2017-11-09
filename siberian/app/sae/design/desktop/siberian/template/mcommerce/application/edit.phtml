@@ -1,0 +1,212 @@
+<?php $option = $this->getOptionValue(); ?>
+<?php $application = $this->getApplication(); ?>
+<?php $mcommerce = $option->getObject(); ?>
+<?php $stores = $mcommerce->getStores(); ?>
+<div id="mcommerce" class="form_content mcommerce">
+    <div class="edit_page mcommerce">
+        <?php //<button type="button" class="default_button" onclick="tabs.reload()">R</button> ?>
+        <div class="form_content">
+            <div class="form_content">
+                <div id="mcomerce_tabs" class="tabs">
+                    <div id="mcomerce_tabs_header" class="tabs_header"<?php if($stores->count() == 0) : ?> style="display:none;"<?php endif; ?>>
+                        <ul class="relative">
+                            <li class="left"><a href="javascript:void(0);" id="first_link" class="editor_menu tab_name show_tab first" rel="store"><?php echo $this->_('Stores'); ?></a></li>
+                            <li class="left has_submenus">
+                                <a href="javascript:void(0);" class="editor_menu tab_name show_submenu"><?php echo $this->_('Catalog'); ?></a>
+                                <ul class="submenu">
+                                    <li><a href="javascript:void(0);" class="editor_menu tab_name show_tab" rel="categories"><?php echo $this->_('My categories'); ?></a></li>
+                                    <li><a href="javascript:void(0);" class="editor_menu tab_name show_tab last" rel="products"><?php echo $this->_('My products'); ?></a></li>
+                                </ul>
+                            </li>
+                            <li class="left"><a href="javascript:void(0);" class="editor_menu tab_name show_tab" rel="orders"><?php echo $this->_('Orders'); ?></a></li>
+                            <li class="left"><a href="javascript:void(0);" class="editor_menu tab_name show_tab last" rel="settings"><?php echo $this->_('Settings'); ?></a></li>
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                    <div id="mcomerce_tabs_content" class="tabs_content">
+
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <?php
+                    echo $this->getLayout()
+                        ->addPartial('background_image', 'Core_View_Default', 'application/customization/features/edit/background_image.phtml')
+                        ->setValueId($option->getId())
+                        ->toHtml()
+                    ;
+                ?>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+                page.setCallback('didappear', function() {
+
+                    $('#toggle_existing_stores').click(function() {
+                        $('#existing_stores').stop().slideToggle(300, function() {
+                if($(this).is(':visible')) $('#toggle_existing_stores').children('i').removeClass('icon-chevron-down').addClass('icon-chevron-up');
+                else $('#toggle_existing_stores').children('i').removeClass('icon-chevron-up').addClass('icon-chevron-down')
+            });
+        });
+
+        $('.has_submenus').hover(function() {
+            $(this).children('ul.submenu').slideDown(200);
+//            $(this).children('ul.submenu').show();
+        }, function() {
+            $(this).children('ul.submenu').stop().slideUp(200);
+//            $(this).children('ul.submenu').hide();
+        });
+
+        tabs.processEvents();
+
+        $('#first_link').click();
+
+    });
+
+    page.setCallback('willdisappear', function() {
+        $('#mcommerceForm').unbind('submit');
+        $('#toggle_existing_stores').unbind('click');
+        $('.has_submenus').unbind('mouseenter mouseleave');
+        tabs.destroy();
+    });
+
+    var tabs = {
+        objects: new Array(),
+        processEvents: function() {
+            $('.show_tab').click(function(e) {
+
+                if($(e.target).hasClass('selected reverse')) return false;
+
+                if(!$(e.target).children('input').length) {
+                    $('<input />').attr('type', 'hidden').attr('name', 'option_value_id').val('<?php echo $option->getId(); ?>').appendTo($(e.target));
+                    $('<input />').attr('type', 'hidden').attr('name', 'tab_id').val($(e.target).attr('rel')).appendTo($(e.target));
+                }
+
+                this.load($(e.target));
+
+                return false;
+
+            }.bind(this));
+
+        },
+        load: function(a) {
+
+            var id = a.attr('rel');
+            if(!$('#tab_'+id).length) {
+                reload(a, '<?php echo $this->getUrl('mcommerce/application/loadtab'); ?>', true, function(datas) {
+                    if(datas.tab_html) {
+                        var div = $('<div />').attr('id', 'tab_'+id).addClass('tab_content').attr('rel', id).css('display', 'none');
+                        div.append(datas.tab_html);
+                        $('#mcomerce_tabs_content').append(div);
+                        this.getObject(id).processEvents();
+                        this.show(id);
+                    }
+                }.bind(this));
+            }
+            else {
+                this.show(id);
+            }
+
+        },
+
+        reload: function() {
+            var a = $('.show_tab.selected');
+            var id = a.attr('rel');
+            if(a.length) {
+                this.getObject(id).destroy();
+                $('#tab_'+id).remove();
+                this.load(a);
+            }
+        },
+        show: function(id) {
+            $('#mcomerce_tabs_content').children('div.tab_content').each(function() {
+                if($(this).attr('rel') != id) $(this).hide();
+                else $(this).fadeIn();
+            });
+
+            $('.show_tab').each(function() {
+                if($(this).attr('rel') == id) $(this).addClass('selected reverse');
+                else $(this).removeClass('selected reverse');
+            });
+
+        },
+        destroy: function() {
+            $('.show_tab').unbind('click');
+            for(var id in this.getObjects()) {
+                this.getObject(id).destroy();
+            }
+        },
+        addObject: function(id, object) {
+            this.objects[id] = object;
+            return this;
+        },
+        getObject: function(id) {
+            return this.objects[id];
+        },
+        getObjects: function() {
+            return this.objects;
+        }
+    }
+
+</script>
+<style>
+    .mcommerce .tabs {
+
+    }
+    .mcommerce .tabs .tabs_header {
+        margin: 20px 0;
+        border: 3px solid;
+        border-radius: 7px 7px 0 0;
+    }
+    .mcommerce .tabs .tabs_header li {
+        width: 25%;
+        padding: 0;
+        text-align: center;
+    }
+
+    .mcommerce .tabs .tabs_header li.has_submenus {
+        /*position: relative;*/
+    }
+    /*.mcommerce .tabs .tabs_header li ul { position: absolute; top: 0; opacity: 0; visibility: hidden; transition: all .4s ease 0s; z-index: 10; width: 100%; border: 3px solid; border-radius: 0 0 7px 7px; border-top: none;}*/
+    /*.mcommerce .tabs .tabs_header li.has_submenus:hover ul { top: 40px; opacity: 1; visibility: visible; }*/
+    .mcommerce .tabs .tabs_header li a.tab_name {
+        display: block;
+        padding: 10px;
+    }
+    .mcommerce .tabs .tabs_header li a.tab_name.first {
+        border-top-left-radius: 5px;
+    }
+    .mcommerce .tabs .tabs_header li a.tab_name.last {
+        border-top-right-radius: 5px;
+    }
+
+    .mcommerce .tabs .tabs_header ul li ul.submenu {
+        position: absolute;
+        top: 40px;
+        /*left: 0;*/
+        width: 25%;
+        border: 3px solid;
+        border-radius: 0 0 7px 7px;
+        border-top: none;
+        z-index: 10;
+        display: none;
+    }
+    .mcommerce .tabs .tabs_header ul li ul.submenu li {
+        width: 100%;
+    }
+    .mcommerce .tabs .tabs_header ul li ul.submenu li a.tab_name.last {
+        border-radius: 0 0 3px 3px;
+    }
+
+    .mcommerce .tabs .tabs_content {
+
+    }
+
+    .mcommerce label.checkbox label.error {
+        position: absolute;
+        top: -30px;
+        left: 0;
+    }
+</style>

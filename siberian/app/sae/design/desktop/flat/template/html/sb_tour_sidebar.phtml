@@ -1,0 +1,402 @@
+<div class="modal fade" id="sb-tour-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header title-editor border-blue">
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?php echo __("Close"); ?>"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="sb-tour-modal-title"><?php echo __("Edit step for this element"); ?></h4>
+            </div>
+            <div class="modal-body">
+                <form id="form-step-modal">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4><?php echo __("Step title"); ?></h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input type="text" id="step-title" name="step-title" maxlength="155" class="input-flat"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4><?php echo __("Step text"); ?></h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <textarea ckeditor="default" id="step-text" name="step-text"  rows="5" class="input-flat"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4><?php echo __("Step placement (optional)"); ?></h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-info">
+                                <?php echo __("By default, popups steps try to use a smart placement. You can force this placement if needed."); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <select name="step-placement" id="step-placement" class="sb-select styled-select color-blue form-control">
+                                <option value=""></option>
+                                <option value="top"><?php echo __("Top"); ?></option>
+                                <option value="right"><?php echo __("Right"); ?></option>
+                                <option value="bottom"><?php echo __("Bottom"); ?></option>
+                                <option value="left"><?php echo __("Left"); ?></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row" id="row_remove">
+                        <div class="col-md-12">
+                            <br/>
+                            <label>
+                                <input type="checkbox" id="step-delete" name="step-delete" class="checkbox-inline" onchange="sbTour.removeStep()"/>
+                                <?php echo __("Remove this step"); ?>
+                            </label>
+                        </div>
+                    </div>
+                    <input type="hidden" id="step-elem-id" name="step-elem-id" value="" />
+                    <input type="hidden" id="step-language-code" name="step-language-code" value="" />
+                    <input type="hidden" id="step-order" name="step-order" value="" />
+                    <input type="hidden" id="step-url" name="step-url" value="<?php echo $_SERVER["REQUEST_URI"]; ?>" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn color-blue" data-dismiss="modal"><?php echo __("Close"); ?></button>
+                <button type="button" class="btn color-blue" onclick="sbTour.saveStep()"><?php echo __("Save"); ?></button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="sb-tour-sidebar" class="sb-tour-sidebar" style="display:none">
+    <div id="sb-tour-container" class="container-fluid form-horizontal">
+        <div class="form-group">
+            <div class="col-md-12">
+                <h3 class="title">
+                    <button type="button" class="btn bt-header-left color-blue" onclick="sbTour.close()">
+                        <i class="fa fa-times"></i>
+                    </button>
+                    <?php echo $this->_("Tour Edition"); ?>
+                </h3>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12" id="form-language">
+                <select class="styled-select color-blue" id="language-code" name="language-code" onchange="sbTour.changeLanguage()">
+                    <?php foreach (Core_Model_Language::getLanguages() as $language) : ?>
+                        <option <?php if(Core_Model_Language::getCurrentLanguage() == $language->getCode()) : ?> selected<?php endif; ?> value="<?php echo $language->getCode(); ?>">
+                                <?php echo $language->getName(); ?>
+                        </option>
+                    <?php endforeach ?>
+                </select>
+                <input type="hidden" name="url" id="url" value="<?php echo $_SERVER['REQUEST_URI']?>" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <ul id="tour-anchor-list" class="list-group">
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var sbTour = {
+        order_index: Object.keys(existing_steps).length ? Object.keys(existing_steps).length + 1 : 1,
+        init: function() {
+            //Tour editing sidebar
+            if(window.localStorage.getItem("sb-tour")) {
+                $(window).bind('scroll', function() {
+                    var sbnavHeight = 80;
+                    if ($(window).scrollTop() > sbnavHeight) {
+                        if(window.localStorage.getItem("sb-tour")) {
+                            $('#overview #iphone').css({"right":"350px"});
+                        }
+                        $('#previewer').css({"right":"552px"});
+                        $('#sb-tour-sidebar').css({"top":"0"});
+                    }
+                    else {
+                        $('#overview #iphone').css({"right":"100px"});
+                        $('#previewer').css({"right":"302px"});
+                        $('#sb-tour-sidebar').css({"top":"93px"});
+                    }
+                });
+
+                $("#sb-tour-sidebar").show();
+                $("#step-text").ckeditor(ckeditor_config.default);
+                $("#wrapper").addClass("right-toggled");
+                $("#right-sidebar-wrapper").hide();
+
+                //List all anchor in sidebar
+                var anchor_list = "";
+                $(".sb-tour").each(function(index, item) {
+                    if($(item).attr("id") && ($(item).is(":visible"))) {
+                        if(existing_steps[$(item).attr("id")]) {
+                            step_class = "filled";
+                        } else {
+                            step_class = "";
+                        }
+                        anchor_list += "<li id='step_item_" + $(item).attr("id") +"' class='list-group-item sb-tour-list-elem " + step_class + "' data-id-label='" + $(item).attr("id") + "'><i class='fa fa-sort handle-step'></i> <?php echo __("Element n°"); ?>" + (index + 1) + "</li>";
+                    }
+                });
+
+                if(anchor_list.length > 0) {
+                    $("#tour-anchor-list").append(anchor_list);
+                    $(".sb-tour-list-elem").click(function() {
+                        sbTour.openModal($(this).attr("data-id-label"));
+                    });
+                    var old_zindex = null;
+                    var old_position = null;
+                    $(".sb-tour-list-elem").hover(function(index, elem) {
+                        old_zindex = $("#" + $(this).attr("data-id-label")).css("z-index");
+                        old_position = $("#" + $(this).attr("data-id-label")).css("position");
+                        $("#customization_mask").show().css("z-index", 998).css("background-color", "rgba(0,0,0,0.4");
+                        if(old_position != "absolute") {
+                            $("#" + $(this).attr("data-id-label")).css("z-index", 999).css("position","relative").addClass("edit-background");
+                        } else {
+                            $("#" + $(this).attr("data-id-label")).css("z-index", 999).addClass("edit-background");
+                        }
+                        if(!sbTour.checkViewportVisibility($("#" + $(this).attr("data-id-label")))) {
+                            $('html, body').animate({
+                                scrollTop: $("#" + $(this).attr("data-id-label")).offset().top
+                            }, 500);
+                        }
+                    }, function() {
+                        $("#customization_mask").hide().css("z-index", 100).css("background-color", "transparent");
+                        if(old_position != "absolute") {
+                            $("#" + $(this).attr("data-id-label")).css("z-index", old_zindex).css("position",old_position).removeClass("edit-background");
+                        } else {
+                            $("#" + $(this).attr("data-id-label")).css("z-index", old_zindex).removeClass("edit-background");
+                        }
+                    });
+
+                    sbTour.reorderStepList();
+                } else {
+                    $("#tour-anchor-list").append("<li class='list-group-item text-justify'><?php echo __("No linkable element found on this page."); ?></li>");
+                }
+
+            }
+
+        },
+        openModal: function(elem_id) {
+            sbTour.stateModalFields(false);
+            if(existing_steps[elem_id]) {
+                $("#step-title").val(existing_steps[elem_id].title);
+                $("#step-text").val(existing_steps[elem_id].text);
+                $("#step-placement").val(existing_steps[elem_id].placement);
+
+                if(existing_steps[elem_id].title != "") {
+                    $("#row_remove").show();
+                } else {
+                    $("#row_remove").hide();
+                }
+            } else {
+                $("#row_remove").hide();
+            }
+
+            $("#step-elem-id").val(elem_id);
+            $("#step-language-code").val($("#language-code").val());
+            $("#step-order").val(sbTour.order_index);
+
+            $('#sb-tour-modal').modal();
+
+            $('#sb-tour-modal').on('hide.bs.modal', function (e) {
+                $("#step-title").val("");
+                $("#step-text").val("");
+                $("#step-placement").val("");
+                $("#step-elem-id").val(null);
+                $("#step-delete").prop('checked', false);
+            })
+        },
+        saveStep: function() {
+            if(($("#step-title").val() && $("#step-text").val()) || $("#step-delete").is(':checked')) {
+                reload($("#form-step-modal"), "<?php echo $this->getUrl("Tour/application/save"); ?>", true, function(data) {
+                    if(data.success) {
+                        if(data.step_exists) {
+                            existing_steps[data.elem_id].title = $("#step-title").val();
+                            existing_steps[data.elem_id].text = $("#step-text").val();
+                            existing_steps[data.elem_id].placement = $("#step-placement").val();
+                        } else {
+                            if($("#step-title").val()) {
+                                existing_steps[data.elem_id] = {
+                                    title: $("#step-title").val(),
+                                    text: $("#step-text").val(),
+                                    placement: $("#step-placement").val(),
+                                    order_index: sbTour.order_index
+                                };
+                                sbTour.order_index++;
+                            } else {
+                                if(existing_steps[data.elem_id]) {
+                                    delete existing_steps[data.elem_id];
+                                }
+                            }
+                        }
+                        $("#step-delete").prop('checked', false);
+                        sbTour.reorderStepList();
+                        $('#sb-tour-modal').modal("hide");
+                    }
+                });
+            } else {
+                alert("<?php echo __("A step requires at least a title and a text."); ?>");
+            }
+        },
+        removeStep: function() {
+            if($("#step-delete").is(':checked')) {
+                $("#step-title").val("");
+                $("#step-text").val("");
+                $("#step-placement").val("");
+                sbTour.stateModalFields(true);
+            } else {
+                sbTour.stateModalFields(false);
+            }
+        },
+        stateModalFields: function(status) {
+            $("#step-title").prop( "disabled", status );
+            $("#step-text").prop( "disabled", status );
+            $("#step-placement").prop( "disabled", status );
+        },
+        checkViewportVisibility: function(element) {
+            var elementTop = $(element).offset().top;
+            var elementBottom = elementTop + $(element).outerHeight();
+
+            var viewportTop = $(window).scrollTop();
+            var viewportBottom = viewportTop + $(window).height();
+
+            return elementBottom > viewportTop && elementTop < viewportBottom;
+        },
+        reorderStepList: function() {
+            $(".sb-tour-list-elem").removeClass("filled");
+            $(".sb-tour-list-elem").css("margin-bottom", "0");
+            $(".handle-step").hide();
+            var last_item = "";
+            for(var key in existing_steps) {
+                if ($('#' + key).length !== 0) {
+                    var item_list = $("#step_item_" + key).detach();
+                    if (last_item != "") {
+                        $("#step_item_" + last_item).after(item_list);
+                    } else {
+                        $("#tour-anchor-list").prepend(item_list);
+                    }
+                    last_item = key;
+                    $("#step_item_" + key).addClass("filled");
+                    $("#step_item_" + key).find(".handle-step").show();
+                    $("#step_item_" + key).css("margin-bottom", "0");
+                }
+            }
+
+            sbTour.order_index = Object.keys(existing_steps).length + 1;
+            if($("#tour-anchor-list").sortable()) {
+                $("#tour-anchor-list").sortable( "destroy" );
+            }
+            $("#tour-anchor-list").sortable({
+                items: "li.filled",
+                handle: ".handle-step",
+                stop: function(){
+                    sbTour.manualReorder();
+                }
+            });
+            $("#tour-anchor-list").disableSelection();
+            if($("#step_item_" + last_item).hasClass("filled")) {
+                $("#step_item_" + last_item).css("margin-bottom", "15px");
+            }
+            last_item = null;
+        },
+        manualReorder: function() {
+            var new_order = new Array();
+            var order = 1;
+            $(".sb-tour-list-elem").css("margin-bottom", "0");
+            var last_item = null;
+            $("li.filled").each(function() {
+                new_order.push({id: $(this).attr("data-id-label"), order: order});
+                order++;
+                last_item = $(this);
+            });
+            $(last_item).css("margin-bottom", "15px");
+            $.post("<?php echo $this->getUrl("Tour/application/reorder"); ?>", {new_order}, function() {
+
+            }).fail(function() {
+                alert("<?php echo __('An error occurred while saving. Please try again later.'); ?>");
+            });
+        },
+        changeLanguage: function() {
+            reload($("#form-language"), "<?php echo $this->getUrl("Tour/application/findforlanguage"); ?>", true, function(data) {
+                if(data.success) {
+                    existing_steps = data.steps;
+                    $("#step-delete").prop('checked', false);
+                    sbTour.reorderStepList();
+                }
+            });
+        },
+        switchTourEdition: function() {
+            window.localStorage.setItem("sb-tour", "1");
+            sbTour.init();
+        },
+        close: function() {
+            window.localStorage.removeItem("sb-tour");
+            $(".sb-tour").removeClass("sb-tour-border");
+            $("#sb-tour-sidebar").hide();
+            $("#wrapper").removeClass("right-toggled");
+            $('#overview #iphone').css({"right":"100px"});
+            $("#right-sidebar-wrapper").show();
+        }
+    };
+
+    $(document).ready(function() {
+        sbTour.init();
+    });
+</script>
+<style>
+    .sb-tour-sidebar{
+        width:250px;
+        background:#ffffff;
+        height: 100%;
+        position: fixed;
+        top:93px;
+        right:0;
+        z-index:999;
+        padding: 5px;
+        overflow: auto;
+    }
+    .sb-tour-list-elem{
+        cursor: pointer;
+    }
+    .tour-backdrop {
+        opacity: .4;
+        filter: alpha(opacity=40);
+    }
+    .popover{
+        border-radius: 2px;
+        padding:0;
+        border:0;
+    }
+    .popover[class*=tour-] .popover-navigation [data-role=end] {
+        float: none;
+    }
+    .end-tour{
+        text-decoration: underline;
+    }.end-tour:hover{
+         text-decoration: underline;
+        font-weight:bold;
+     }
+    .popover-title {
+        border-radius:2px;
+    }
+    .edit-background{
+        background-color: #ffffff;
+    }
+    .filled{
+        border-left: 2px solid #0099C7;
+    }
+    .list-group-item:first-child {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+    .list-group-item:last-child {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+</style>

@@ -1,0 +1,222 @@
+<?php $application = $this->getApplication(); ?>
+<?php $option_value = $this->getOptionValue(); ?>
+<?php $youtube_key = Api_Model_Key::findKeysFor('youtube')->getApiKey() ?>
+<?php $video = new Media_Model_Gallery_Video(); ?>
+<?php //$video->setTypeId('youtube'); ?>
+<?php $videos = $video->findAll(array('value_id' => $option_value->getId()), 'gallery_id DESC'); ?>
+    <div id="list" class="edit_page media videos">
+        <div class="form_content">
+        <div class="add-video">
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo $this->_(('Add content')) ?>
+                <button type="button" class="btn color-blue pull-right bt-header-right" onclick="$('#table_list_videos').show(); $('#choose_type').show(); $('#no_item').hide(); $('#new_gallery_youtube').hide(); $('#new_gallery_itunes').hide(); $('#new_gallery_vimeo').hide();" id="add_item">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </h3>
+                <div class="container-fluid content-feature">
+                    <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+
+                    <div id="choose_type" class="none subcontent">
+                        <ul class="list-group">
+                            <li class="video_select <?php if(!$youtube_key) echo "no_youtube" ?> color-blue list-group-item btn capitalize" rel="youtube">
+                                <img src="<?php echo $this->getImage('pictos/youtube.png'); ?>" title="<?php echo $this->_('Youtube'); ?>" alt="<?php echo $this->_('Youtube'); ?>" width="64" height="64" />
+                                <p><?php echo $this->_('Youtube') ?></p>
+                            </li>
+                            <li class="video_select color-blue list-group-item btn capitalize" rel="itunes">
+                                <img src="<?php echo $this->getImage('pictos/podcast.png'); ?>" title="<?php echo $this->_('Podcast'); ?>" alt="<?php echo $this->_('Podcast'); ?>" width="64" height="64" />
+                                <p><?php echo $this->_('Podcast') ?></p>
+                                <!--<img src="<?php echo $this->getImage('customization/pictos/itunes.png'); ?>" title="iTunes" alt="iTunes" height="30px" />-->
+                            </li>
+                            <li class="video_select color-blue list-group-item btn capitalize" rel="vimeo">
+                                <img src="<?php echo $this->getImage('pictos/vimeo.png'); ?>" title="<?php echo $this->_('Vimeo'); ?>" alt="<?php echo $this->_('Vimeo'); ?>" width="64" height="64" />
+                                <p><?php echo $this->_('Vimeo') ?></p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <?php echo $this->getLayout()->addPartial('row_'.$video->getId(), 'admin_view_default', 'media/application/gallery/video/edit/youtube.phtml')
+                        ->setCurrentVideo(new Media_Model_Gallery_Video(array('id' => 'new', 'type_id' => 'youtube')))
+                        ->setCurrentOptionValue($option_value)
+                        ->setCurrentKey('-1')
+                        ->toHtml()
+                    ?>
+
+                    <?php echo $this->getLayout()->addPartial('row_'.$video->getId(), 'admin_view_default', 'media/application/gallery/video/edit/itunes.phtml')
+                        ->setCurrentVideo(new Media_Model_Gallery_Video(array('id' => 'new', 'type_id' => 'itunes')))
+                        ->setCurrentOptionValue($option_value)
+                        ->setCurrentKey('-1')
+                        ->toHtml()
+                    ?>
+
+                    <?php echo $this->getLayout()->addPartial('row_'.$video->getId(), 'admin_view_default', 'media/application/gallery/video/edit/vimeo.phtml')
+                        ->setCurrentVideo(new Media_Model_Gallery_Video(array('id' => 'new', 'type_id' => 'vimeo')))
+                        ->setCurrentOptionValue($option_value)
+                        ->setCurrentKey('-1')
+                        ->toHtml()
+                    ?>
+                </div>
+            </div>
+
+            <div class="form" id="existing_items_section"<?php if($videos->count() == 0) : ?> style="display:none"<?php endif; ?>>
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo $this->_(('Manage content')); ?>
+                    <button type="button" class="toggle_design color-blue pull-right bt-header-right btn" id="toggle_existing_items">
+                        <i class="fa fa-angle-down"></i>
+                    </button>
+                </h3>
+                <div id="existing_items" class="container-fluid content-feature">
+                    <div id="table_list_videos" class="form-horizontal first-row-feature form-horizontal container-fluid">
+                        <div class="form-group">
+                            <div class="col-sm-1">&nbsp;</div>
+                            <div class="col-sm-3">
+                                <label><?php echo $this->_('Gallery Name') ?> <span class="required-entry"> *</span> :</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <label><?php echo $this->_('Search/Url') ?> <span class="required-entry"> *</span> :</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <label><?php echo $this->_('Type') ?> <span class="required-entry"> *</span> :</label>
+                            </div>
+                        </div>
+                            <?php foreach($videos as $key => $video) : ?>
+                                <?php echo $this->getLayout()->addPartial('row_'.$video->getId(), 'admin_view_default', 'media/application/gallery/video/edit/row.phtml')
+                                    ->setCurrentVideo($video)
+                                    ->setCurrentOptionValue($option_value)
+                                    ->setCurrentKey($key)
+                                    ->toHtml()
+                                ?>
+
+                            <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+
+            <div class="background">
+                <?php echo $this->importBackground($option_value); ?>
+            </div>
+
+            <script type="text/javascript">
+
+                $(document).ready(function () {
+                    bindForms('#list');
+                });
+
+                page.setCallback('willappear', function() {
+
+                    $('.video_select').click(function(){
+                        if($(this).hasClass("no_youtube")) {
+                            featureNotAvailable();
+                        } else {
+                            var type_id = '';
+                            type_id = $(this).attr('rel');
+                            var icon = $(this).children('img');
+                            var new_icon = $('#new_video_icon');
+
+                            new_icon.attr('src', icon.attr('src')).attr('title', icon.attr('title')).attr('alt', icon.attr('title'));
+                            $('#choose_type').hide();
+                            $('.new_gallery').hide();
+                            $('#new_gallery_' + type_id).show();
+                        }
+                    });
+
+                    $('.save_video').click(function() {
+                        var tr = $(this.parentNode.parentNode);
+                        var error = false;
+                        tr.find('input.required, select.required').each(function() {
+                            if($(this).val().isEmpty()) {
+                                $(this).addClass('error');
+                                if($(this).next('p.error').length == 0) $(this).after('<p class="error"><?php echo addslashes($this->_('Required field')) ?></p>');
+                                error = true;
+                            }
+                            else $(this).removeClass('error');
+                        });
+                        if(error) return false;
+                        reload(tr, '<?php echo $this->getUrl('media/application_gallery_video/editpost'); ?>', true, function(datas) {
+                            if(datas.success) {
+                                if(datas.is_new) page.reload();
+                                else iframe.f.reload();
+                            }
+                        });
+                    });
+
+                    $('.delete_video').click(function() {
+                        if($(this).attr('rel') == 'new') {
+                            $('.new_gallery').hide();
+                            $('#no_item').show();
+                        }
+                        else {
+                            if(confirm('<?php echo addslashes($this->_('Delete this gallery?')); ?>')) {
+                                var td = $(this.parentNode);
+                                var tr = $(this.parentNode.parentNode);
+                                $('<input />').attr('type', 'hidden').attr('name', 'is_deleted').val('1').appendTo(td);
+                                reload(tr, '<?php echo $this->getUrl('media/application_gallery_video/editpost'); ?>', true, function(datas) {
+                                    if(datas.success) {
+                                        iframe.f.reload();
+                                        tr.animate({opacity: 0.3, height: 0}, 500, function() {
+                                                tr.remove();
+                                                if($('#table_list_videos').find('.row_video').length == 0) {
+                                                    $('#existing_items_section').hide();
+                                                }
+                                            })
+                                        ;
+                                    }
+                                });
+                            }
+                        }
+                    });
+                });
+
+                page.setCallback('didappear', function() {
+                    $('#toggle_existing_items').click(function () {
+                        $('#existing_items').stop().slideToggle(300, function () {
+                            if ($(this).is(':visible')) {
+                                $('#toggle_existing_items').children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+                                $('#toggle_existing_items').removeClass('color-blue');
+                            }
+                            else
+                            {
+                                $('#toggle_existing_items').children('i').removeClass('fa-angle-up').addClass('fa-angle-down');
+                                $('#toggle_existing_items').addClass('color-blue');
+                            }
+                        });
+                    });
+
+                    $('.youtube_type').each(function() {
+        //                    $(this).dropkick();
+                    });
+                });
+
+                page.setCallback('willdisappear', function() {
+                    $('#toggle_existing_items').unbind('click');
+                    $('.save_video').unbind('click');
+                    $('.delete_video').unbind('click');
+                });
+            </script>
+        </div>
+
+    <style type="text/css">
+        #choose_type ul {
+            margin: 0;
+        }
+        .edit_page .section .row_video .full_td {
+            max-width: 295px;
+            width: 295px;
+        }
+        #choose_type li {
+            float: left;
+            padding-top: 20px;
+            width: 120px;
+            margin-right:1em;
+        }
+        .img-col {
+            padding: 0;
+            text-align: center;
+        }
+        .row_video {
+            margin-bottom: 10px;
+        }
+        /*.add-video {
+            height: 0;
+        }*/
+    </style>
+</div>

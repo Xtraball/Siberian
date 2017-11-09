@@ -1,0 +1,45 @@
+<sb-section title="'<?php echo addslashes(__("List of the messages")); ?>'" button="button">
+    <br />
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="filter"><?php echo __("Search"); ?></label>
+            <input type="text" id="filter" class="form-control" ng-model="filter" placeholder="<?php echo __("Search"); ?>" />
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>&nbsp;</label>
+            <p>
+                <a href="javascript:void(0);" ng-click="markAllRead()" class="btn btn-primary"><i class="fa fa-check-square-o"></i> <?php echo __("Mark all as read") ?></a>
+            </p>
+        </div>
+    </div>
+
+    <br />
+    <table class="table">
+        <col width="5%" />
+        <col width="25%" />
+        <col width="45%" />
+        <col width="25%" />
+        <thead>
+            <tr>
+                <th class="pointer" ng-click="order = 'is_high_priority'; by = !by"><i class="fa fa-warning"></i></th>
+                <th class="pointer" ng-click="order = 'title'; by = !by"><?php echo __("Title"); ?></th>
+                <th><?php echo __("Description"); ?></th>
+                <th class="text-right"><?php echo __("Actions"); ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="slide-left" ng-repeat="notif in notifs | filter:filter | orderBy:order:by" ng-click="notif.show_more = !notif.show_more;">
+                <td><i ng-if="notif.is_high_priority" class="fa fa-warning"></i></td>
+                <td ng-class="{ bold: !notif.is_read }">{{ notif.title }}</td>
+                <td ng-bind-html="notif.description" ng-class="{wrap: notif.show_more}"></td>
+                <td class="text-right">
+                    <a href="javascript:void(0);" ng-show="notif.is_read" ng-click="markAs(notif)" title="<?php echo __("Click to mark as not read"); ?>" class="btn btn-sm btn-primary" target="_self"><i class="fa fa-check-square-o"></i> <?php echo __("Mark as new") ?></a>
+                    <a href="javascript:void(0);" ng-show="!notif.is_read" ng-click="markAs(notif)" title="<?php echo __("Click to mark as read"); ?>" class="btn btn-sm btn-primary" target="_self"><i class="fa fa-square-o"></i> <?php echo __("Mark as read") ?></a>
+                    <a href="<?php echo $this->getUrl("backoffice/notif_message") ?>/message_id/{{ notif.id }}" class="btn btn-sm btn-primary" target="_self"><i class="fa fa-eye"></i> <?php echo __("Read") ?></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</sb-section>

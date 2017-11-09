@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <admin_account_login>
+        <base>
+            <title>Login to your admin interface</title>
+        </base>
+        <views>
+            <content class="core_view_default" template="admin/account/login.phtml" />
+        </views>
+    </admin_account_login>
+
+    <admin_account_list>
+        <addLayout name="admin_menu" />
+        <base>
+            <title>Accounts</title>
+        </base>
+        <views>
+            <content class="admin_view_default" template="admin/account/list.phtml" />
+            <customization_header class="admin_view_default" template="application/customization/index/header.phtml" />
+        </views>
+        <actions>
+            <customization_header name="setCurrentLink"><code>my_account</code></customization_header>
+        </actions>
+    </admin_account_list>
+
+    <admin_account_edit>
+        <addLayout name="admin_menu" />
+        <base>
+            <title>Admin Account</title>
+        </base>
+        <views>
+            <content class="admin_view_default" template="admin/account/edit.phtml" />
+            <customization_header class="admin_view_default" template="application/customization/index/header.phtml" />
+        </views>
+        <actions>
+            <customization_header name="setCurrentLink"><code>my_account</code></customization_header>
+        </actions>
+    </admin_account_edit>
+
+    <admin_access_management_list>
+        <addLayout name="admin_menu" />
+        <base>
+            <title>Access Management</title>
+        </base>
+        <views>
+            <content class="admin_view_default" template="admin/access/management/list.phtml" />
+            <customization_header class="admin_view_default" template="application/customization/index/header.phtml" />
+        </views>
+        <actions>
+            <customization_header name="setCurrentLink"><code>access_management</code></customization_header>
+        </actions>
+    </admin_access_management_list>
+
+    <admin_access_management_edit>
+        <addLayout name="admin_menu" />
+        <base>
+            <title>Access Management</title>
+        </base>
+        <views>
+            <content class="admin_view_default" template="admin/account/edit.phtml" />
+            <customization_header class="admin_view_default" template="application/customization/index/header.phtml" />
+        </views>
+        <actions>
+            <customization_header name="setCurrentLink"><code>access_management</code></customization_header>
+        </actions>
+    </admin_access_management_edit>
+
+    <admin_backoffice_list>
+        <base>
+            <title>Accounts</title>
+        </base>
+        <views>
+            <content class="admin_view_default" template="admin/backoffice/list.phtml" />
+        </views>
+    </admin_backoffice_list>
+
+    <admin_backoffice_edit>
+        <base>
+            <title>Admin Account</title>
+        </base>
+        <views>
+            <content class="admin_view_default" template="admin/backoffice/edit.phtml" />
+        </views>
+    </admin_backoffice_edit>
+
+</layout>

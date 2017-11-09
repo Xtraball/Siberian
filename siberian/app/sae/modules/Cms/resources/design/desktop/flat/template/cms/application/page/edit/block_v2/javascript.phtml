@@ -1,0 +1,154 @@
+<?php
+$api = Api_Model_Key::findKeysFor("googlemaps");
+$googlemaps_key = $api->getSecretKey();
+?>
+
+<script type="text/javascript">
+
+// Used to enable/disable automatic scrolling to new blocks (for default ones)
+window.cms_blocks_scrollto = true;
+var tmp_directory = '<?php echo Core_Model_Directory::getTmpDirectory() ?>';
+var block_url = '<?php echo __path("cms/application_block/getblock") ?>';
+var value_id = '<?php echo $this->getOptionValue()->getId() ?>';
+
+var bindcmsblockAddress = function(block) {
+    var address = $(block).find(".cms-address");
+    var latitude = $(block).find(".cms-latitude");
+    var longitude = $(block).find(".cms-longitude");
+
+    if((typeof google === "undefined") && (typeof $(block).attr("data-googlesearch") === "undefined")) {
+        if(!$("#gmaps_libraries").length) {
+            var script_tag = document.createElement("script");
+            script_tag.setAttribute("id","gmaps_libraries");
+            script_tag.setAttribute("type","text/javascript");
+            script_tag.setAttribute("src","https://maps.google.com/maps/api/js?sensor=false&libraries=places&key=<?php echo $googlemaps_key; ?>");
+            (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
+        }
+
+        setTimeout(function() {
+            bindcmsblockAddress(block);
+        }, 2000);
+
+    } else {
+        var search_box = new google.maps.places.SearchBox(address.get(0));
+        address.data("search_box", search_box);
+        google.maps.event.addListener(search_box, 'places_changed', function () {
+            var places = address.data("search_box").getPlaces();
+            if (places) {
+                var place = places[0];
+                latitude.val(place.geometry.location.lat());
+                longitude.val(place.geometry.location.lng());
+            }
+        });
+
+        $(block).attr("data-googlesearch", true);
+    }
+
+};
+
+var resetIndex = function() {
+    var index = 1;
+    $(".cms-block-index").each(function() {
+        $(this).html(index+" -");
+        index++;
+    });
+};
+
+$(document).ready(function() {
+
+    if (!$("#gmaps_libraries").length) {
+        var script_tag = document.createElement("script");
+        script_tag.setAttribute("id","gmaps_libraries");
+        script_tag.setAttribute("type","text/javascript");
+        script_tag.setAttribute("src","https://maps.google.com/maps/api/js?sensor=false&libraries=places&key=<?php echo $googlemaps_key; ?>");
+        (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
+    }
+
+    var bindCmsBlocks = function () {
+        var cms_block_handle  = $('.cms-block-handle');
+        cms_block_handle.unbind("mousedown mouseup");
+
+        cms_block_handle
+            .mousedown(function() {
+                var el = $(this);
+                el.parents(".cms-block-container").find(".cms-block-hide-drag").hide();
+            })
+            .mouseup(function() {
+                var el = $(this);
+                el.parents(".cms-block-container").find(".cms-block-hide-drag").show();
+            });
+
+        $('.blocks-container').sortable({
+            handle: ".cms-block-handle",
+            axis: "y",
+            items: " .cms-block-container",
+            opacity: 0.7,
+            start: function() {
+                Object.keys(CKEDITOR.instances).map(function(objectKey) {
+                    var value = CKEDITOR.instances[objectKey];
+                    value.destroy();
+                });
+            },
+            stop: function() {
+                $(".cms-block-container").find(".cms-block-hide-drag").show();
+                $(".cms-block-container textarea.richtext").each(function() {
+                    refreshCkeditor(this, "cms");
+                });
+                resetIndex();
+            }
+        });
+
+        resetIndex();
+    };
+
+    $(".add-cms-block").on("click", function() {
+        var el = $(this);
+
+        $.ajax({
+            url: block_url,
+            method: "GET",
+            data: {block_id: el.data("blockid"), value_id: value_id},
+            dataType: "json",
+            success: function(data) {
+                el.parents("form").find(".blocks-container").append(data.html);
+
+                bindCmsBlocks();
+
+                var affixFieldset = $("#fieldset-navcms");
+                var latestBlock = $("#sections_html_container .cms-block-container").last();
+                var scrollTo = latestBlock.offset().top - affixFieldset.outerHeight() - 15;
+
+                if(window.cms_blocks_scrollto) {
+                    setTimeout(function () {
+                        $('html, body').animate({
+                            scrollTop: scrollTo
+                        }, "slow", "linear", function () {
+                            scrollTo = latestBlock.offset().top - affixFieldset.outerHeight() - 15;
+                            $('html, body').animate({
+                                scrollTop: scrollTo
+                            }, "fast")
+                        });
+                    }, 100);
+                }
+
+            },
+            error: function(response) {
+                alert(response);
+            }
+        });
+    });
+
+    bindCmsBlocks();
+
+    $(document).on("click", ".cms-block-delete", function() {
+        var el = $(this);
+        el.parents(".cms-block-container").remove();
+        resetIndex();
+    });
+
+    $(document).on("click", ".cms-image-delete", function() {
+        var el = $(this);
+        el.parents(".cms-image").remove();
+    });
+});
+</script>

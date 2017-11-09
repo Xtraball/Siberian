@@ -1,0 +1,134 @@
+
+<form ng-submit="save()" class="form-horizontal">
+    <sb-section title="'<?php echo __("Support"); ?>'">
+
+        <div class="form-group">
+            <div class="col-md-6">
+                <label for="{{ configs.support_name.code }}"><?php echo __("Name"); ?></label>
+                <input type="text" id="{{ configs.support_name.code }}" ng-model="configs.support_name.value" class="form-control" placeholder="{{ configs.support_name.label }}" />
+                <p class="help-block"><?php echo __("Sender's name of the emails sent by the site to your clients"); ?></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-6">
+                <label for="{{ configs.support_email.code }}"><?php echo __("Email"); ?></label>
+                <input type="email" id="{{ configs.support_email.code }}" ng-model="configs.support_email.value" class="form-control" placeholder="{{ configs.support_email.label }}" />
+                <p class="help-block"><?php echo __("Sender's email address of the emails sent by the site to your clients"); ?></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-6">
+                <label for="{{ configs.support_link.code }}">{{ configs.support_link.label }}</label>
+                <input type="url" id="{{ configs.support_link.code }}" ng-model="configs.support_link.value" class="form-control" placeholder="{{ configs.support_link.label }}" />
+                <p class="help-block"><?php echo __("Display a link to your clients to your support platform"); ?></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <label for="support_chat_code">{{ configs.support_chat_code.label }}</label>
+                <textarea id="{{ configs.support_chat_code.code }}" ng-model="configs.support_chat_code.value" class="form-control" placeholder="{{ configs.support_chat_code.label }}" rows="5"></textarea>
+                <p class="help-block"><?php echo __("Enter the javascript code provided by your Chat provider in order to display a Chat from the editor."); ?></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+    </sb-section>
+
+    <sb-section title="'<?php echo __("Custom SMTP Configuration"); ?>'">
+
+        <div class="form-group">
+            <div class="col-md-6">
+                <label for="{{ configs.enable_custom_smtp.code }}">{{ configs.enable_custom_smtp.label }}</label>
+                <select id="configs.enable_custom_smtp.code" class="form-control" ng-model="configs.enable_custom_smtp.value">
+                    <option value="0"><?php echo __("No"); ?></option>
+                    <option value="1"><?php echo __("Yes"); ?></option>
+                </select>
+            </div>
+        </div>
+
+        <div ng-show="configs.enable_custom_smtp.value == '1'">
+
+            <div class="clear"></div>
+
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label><?php echo __("Username"); ?></label>
+                    <input type="text" class="form-control" ng-model="configs.smtp_credentials.username" />
+                </div>
+
+                <div class="col-md-6">
+                    <label for=""><?php echo __("Password"); ?></label>
+                    <input type="password" class="form-control" ng-model="configs.smtp_credentials.password" />
+                </div>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label for=""><?php echo __("Server"); ?></label>
+                    <input type="text" class="form-control" ng-model="configs.smtp_credentials.server" />
+                </div>
+
+                <div class="col-md-6">
+                    <label for=""><?php echo __("Auth type"); ?></label>
+                    <select class="form-control" ng-model="configs.smtp_credentials.auth">
+                        <option value="login" selected="selected"><?php echo __("Login") ?></option>
+                        <option value="plain"><?php echo __("Plain") ?></option>
+                        <option value="crammd5"><?php echo __("Cram-MD5") ?></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label for=""><?php echo __("SSL"); ?></label>
+                    <select class="form-control" ng-model="configs.smtp_credentials.ssl">
+                        <option value=""><?php echo __("Default (no)") ?></option>
+                        <option value="tls"><?php echo __("TLS") ?></option>
+                        <option value="ssl"><?php echo __("SSL") ?></option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label for=""><?php echo __("Port"); ?></label>
+                    <input type="text" class="form-control" ng-model="configs.smtp_credentials.port" />
+                </div>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="form-group">
+                <div class="col-md-6">
+                    <br />
+                    <br />
+                    <br />
+                    <label for=""><?php echo __("E-mail test"); ?></label>
+                    <br />
+                    <input type="text" class="form-control left" ng-model="test.email" style="width: 50%;" />
+                    <a ng-click="testemail();" class="btn btn-primary left"><?php echo __("Test SMTP"); ?></a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+    </sb-section>
+
+
+</form>

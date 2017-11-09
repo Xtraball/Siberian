@@ -1,0 +1,123 @@
+<?php
+$option_value_model = new Application_Model_Option_Value();
+$option_value = $option_value_model->find($this->getValueId());
+// ---!
+$layouts = $option_value->getLayouts();
+$toggledown = $this->getToggleDown();
+?>
+
+<div>
+    <h3 class="title-editor no-border-radius title-feature-indent">
+        <?php echo __('Design'); ?>
+        <?php if($toggledown): ?>
+        <button type="button" id="toggle_layout" class="toggle_design color-blue pull-right bt-header-right btn">
+            <i class="fa fa-angle-down"></i>
+        </button>
+        <?php endif; ?>
+    </h3>
+    <div id="change_layout"
+         class="design subcontent content-feature"
+         <?php if($toggledown) { echo 'style="display: none;"'; } ?>>
+        <div class="row">
+            <div class="col-md-12 layouts">
+                <?php foreach($layouts as $layout) : ?>
+                <a href="<?php echo $this->getUrl('application/customization_features/setlayout'); ?>"
+                   class="change_layout_handler layout<?php if($option_value->getLayoutId() == $layout->getCode()):  ?> selected<?php endif; ?>"
+                   rel="<?php echo $layout->getCode(); ?>">
+                    <img src="<?php echo $this->getImage($layout->getPreview()); ?>"
+                         title="<?php echo $layout->getName(); ?>"
+                         alt="<?php echo $layout->getName(); ?>" />
+                    <input type="hidden" name="layout_id" value="<?php echo $layout->getCode(); ?>" />
+                    <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
+                </a>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    var option_layout = {
+        callbacks: [],
+        is_initialized: false,
+        init: function() {
+            try {
+                this.processEvents();
+                this.is_initialized = true;
+            } catch (e) {
+                console.log('option_layout.init: exception: ' + e.message);
+            }
+        },
+        processEvents: function() {
+            try {
+                <?php if($toggledown): ?>
+                var toggleLayout = $('#toggle_layout');
+                toggleLayout.click(function() {
+                    $('#change_layout').stop().slideToggle(300, function() {
+                        if($('#change_layout').is(':visible')) {
+                            toggleLayout.children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+                            toggleLayout.removeClass('color-blue');
+                        } else {
+                            toggleLayout.children('i').removeClass('fa-angle-up').addClass('fa-angle-down');
+                            toggleLayout.addClass('color-blue');
+                        }
+                    });
+                });
+                <?php endif; ?>
+
+                $('.change_layout_handler').click(function() {
+                    if($(this).hasClass('selected')) {
+                        return false;
+                    }
+
+                    var _that = $(this);
+                    reload(this, this.href, true, function(data) {
+                        if(data.success) {
+                            iframe.f.setLayoutId(<?php echo $option_value->getId(); ?>, _that.attr('rel'));
+                            iframe.f.setPath("<?php echo $option_value->getPath(null, array('value_id' => $option_value->getId()), "mobile"); ?>", true);
+                            $("#change_layout").find(".layout").removeClass("selected");
+                            _that.addClass("selected");
+                        }
+                    });
+
+                    return false;
+                });
+            } catch (e) {
+                console.log('option_layout.processEvents: exception: ' + e.message);
+            }
+        },
+        destroy: function() {
+            try {
+                if(this.is_initialized) {
+                    $('#toggle_layout').unbind('click');
+                    $('#change_layout').find(".layout").unbind("click");
+                    this.is_initialized = false;
+                }
+            } catch (e) {
+                console.log('option_layout.destroy: exception: ' + e.message);
+            }
+        }
+    }
+
+</script>
+<style type="text/css">
+    .design a.layout {
+        display: block;
+        float: left;
+        margin-left: 10px;
+        margin-top: 5px;
+        border-radius: 3px;
+        padding: 4px;
+        transition: none;
+    }
+
+    .design a.layout.selected {
+        padding: 2px;
+        border: 1px solid;
+    }
+
+    .design .layouts a.layout img {
+        border-radius: 3px;
+    }
+
+</style>

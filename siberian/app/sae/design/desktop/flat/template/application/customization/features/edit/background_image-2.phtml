@@ -1,0 +1,55 @@
+<?php
+    $option_value_model = new Application_Model_Option_Value();
+    $option_value = $option_value_model->find($this->getValueId());
+    // ---!
+    $form = new Application_Form_BackgroundImage();
+    $form->setValueId($option_value->getId());
+
+    $values = $option_value->getData();
+    $base = Core_Model_Directory::getBasePathTo('/images/application');
+    if (!file_exists($base . $values['background_image'])) {
+        $values['background_image'] = null;
+    }
+    if (!file_exists($base . $values['background_landscape_image'])) {
+        $values['background_landscape_image'] = null;
+    }
+    $form->populate($values);
+
+    $toggledown = $this->getToggleDown();
+    $marginTop = $this->getMarginTop();
+?>
+<div class="color-content <?php echo ($marginTop) ? 'margin-bkg' : ''; ?>">
+    <h3 class="title-editor no-border-radius title-feature-indent">
+        <?php echo __('Background'); ?>
+        <?php if ($toggledown): ?>
+        <button type="button" id="toggle_design" class="toggle_design color-blue pull-right bt-header-right btn">
+            <i class="fa fa-angle-down"></i>
+        </button>
+        <?php endif; ?>
+    </h3>
+    <div id="change_background_image"
+         class="container-fluid content-feature"
+         <?php if($toggledown) { echo 'style="display: none;"'; } ?>>
+        <br />
+        <br />
+        <?php echo $form; ?>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        <?php if($toggledown): ?>
+        var toggleButton = $('#toggle_design');
+        toggleButton.on('click', function () {
+            $('#change_background_image').stop().slideToggle(300, function() {
+                if($('#change_background_image').is(':visible')) {
+                    toggleButton.children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+                    toggleButton.removeClass('color-blue');
+                } else {
+                    toggleButton.children('i').removeClass('fa-angle-up').addClass('fa-angle-down');
+                    toggleButton.addClass('color-blue');
+                }
+            });
+        });
+        <?php endif; ?>
+    })
+</script>

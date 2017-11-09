@@ -1,0 +1,198 @@
+<?php $application = $this->getApplication(); ?>
+<?php $upload_path = Application_Model_Application::getImagePath().'/startup_image/'; ?>
+<!--[if gte IE 10]><!-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-xs-12 startup-blocks">
+            <div class="form-group">
+                <div class="col-lg-4 col-sm-4 col-xs-4">
+                    <div class="img-layout" style="width:100%; overflow:hidden;padding:0">
+                        <img id="startupimage_standard" width="100%" style="display:block; background:black; border-radius: 0;" src="<?php echo $application->getStartupImageUrl() ?>" />
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-4 col-xs-4">
+                    <div class="img-layout" style="width:100%; overflow:hidden;padding:0">
+                        <img id="startupimage_retina" width="100%" style="display:block; background:black; border-radius: 0;" src="<?php echo $application->getStartupImageUrl("retina") ?>" />
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-4 col-xs-4">
+                    <div class="img-layout" style="width:100%; overflow:hidden;padding:0">
+                        <img id="startupimage_iphone_6" width="100%" style="display:block; background:black; border-radius: 0;" src="<?php echo $application->getStartupImageUrl("iphone_6") ?>" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+            <div class="form-group">
+                <div class="col-lg-4 col-sm-4 col-xs-4 startup-bottom-blocks">
+                    <p class="recommended_size"><b><?php echo $this->_('Size:'); ?></b> 640x960</p>
+                    <button type="button" class="normal upload_startupimage btn btn-grey btn-full-width" data-type="standard">
+                        <?php echo $this->_("Choose a picture"); ?>
+                    </button>
+                </div>
+                <div class="col-lg-4 col-sm-4 col-xs-4 startup-bottom-blocks">
+                    <p class="recommended_size"><b><?php echo $this->_('iPhone 5 / 5S:'); ?></b> 640x1136</p>
+                    <button type="button" class="retina upload_startupimage btn btn-grey btn-full-width" data-type="retina">
+                        <?php echo $this->_("Choose a picture"); ?>
+                    </button>
+                </div>
+                <div class="col-lg-4 col-sm-4 col-xs-4 startup-bottom-blocks">
+                    <p class="recommended_size"><b><?php echo $this->_('iPhone 6:'); ?></b> 750x1334</p>
+                    <button type="button" class="retina upload_startupimage btn btn-grey btn-full-width" data-type="iphone_6">
+                        <?php echo $this->_("Choose a picture"); ?>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-xs-12 startup-blocks">
+            <div class="form-group">
+                <div class="col-lg-4 col-sm-4 col-xs-4">
+                    <div class="img-layout" style="width:100%; overflow:hidden;padding:0">
+                        <img id="startupimage_iphone_6_plus" width="100%" style="display:block; background:black; border-radius: 0;" src="<?php echo $application->getStartupImageUrl("iphone_6_plus") ?>" />
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-4 col-xs-4">
+                    <div class="img-layout" style="width:100%; overflow:hidden;padding:0">
+                        <img id="startupimage_ipad_retina" width="100%" style="display:block; background:black; border-radius: 0;" src="<?php echo $application->getStartupImageUrl("ipad_retina") ?>" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-sm-12 col-xs-12 ">
+            <div class="form-group">
+                <div class="col-lg-4 col-sm-4 col-xs-4 startup-bottom-blocks">
+                    <p class="recommended_size"><b><?php echo $this->_('iPhone 6 Plus:'); ?></b> 1242x2208</p>
+                    <button type="button" class="retina upload_startupimage btn btn-grey btn-full-width" data-type="iphone_6_plus">
+                        <?php echo $this->_("Choose a picture"); ?>
+                    </button>
+                </div>
+                <div class="col-lg-4 col-sm-4 col-xs-4 startup-bottom-blocks">
+                    <p class="recommended_size"><b><?php echo $this->_('iPad Retina:'); ?></b> 1536x2048</p>
+                    <button type="button" class="retina upload_startupimage btn btn-grey btn-full-width" data-type="ipad_retina">
+                        <?php echo $this->_("Choose a picture"); ?>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<![endif]-->
+
+<div id="fileupload_old_broswer" style="display:none">
+    <p>
+        <?php echo __("Choose a picture"); ?>
+        <span class="recommended_size">(640*1096)</span>
+    </p>
+    <p>
+        <?php echo __("Choose a picture"); ?>
+        <span class="recommended_size">(640*920)</span>
+    </p>
+    
+</div>
+<input class="fileupload standard" type="file" style="display:none" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" data-width="640" data-height="960" data-type="standard" />
+<input class="fileupload retina" type="file" style="display:none" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" data-width="640" data-height="1136" data-type="retina" />
+<input class="fileupload iphone_6" type="file" style="display:none" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" data-width="750" data-height="1334" data-type="iphone_6" />
+<input class="fileupload iphone_6_plus" type="file" style="display:none" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" data-width="1242" data-height="2208" data-type="iphone_6_plus" />
+<input class="fileupload ipad_retina" type="file" style="display:none" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" data-width="1536" data-height="2048" data-type="ipad_retina" />
+
+<div id="capture_conteneurs">
+    <div class="left" id="crop_startupimage_cont_retina"></div>
+    <div class="right" id="crop_startupimage_cont"></div>
+</div>
+<script type="text/javascript">
+    var startup_uploader = new Uploader();
+    $(document).ready(function() {
+
+        if(!$('button.upload_startupimage').is(':visible')) {
+            $('input.fileupload').show();
+            $('#fileupload_old_broswer').show()
+        }
+
+        $('#startup_conteneur').find('.upload_startupimage').click(function(){
+            $('input.'+$(this).attr("data-type")).trigger('click');
+            return false;
+        });
+
+        $('#startup_conteneur').find('.fileupload').fileupload({
+            dataType: 'json',
+            add: function (e, data) {
+                type = $(this).attr("data-type");
+
+                data.formData = {
+                    fileType: type,
+                    uniq_prefix: type+'_',
+                    minwidth: '100',
+                    minheight: '200',
+                    maxwidth: '3000',
+                    maxheight: '3000'
+                },
+                data.submit();
+                startup_uploader.showProgressbar();
+            },
+            progressall: function (e, data) {
+                startup_uploader.moveProgressbar(data);
+            },
+            done: function (e, data) {
+                if(data.result.error) {
+                    loader.hide();
+                    startup_uploader.showError(data.result.message);
+                } else {
+
+                    startup_uploader.hide();
+                    var params = new Array();
+                    params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+                    params["file"] = data.result.files;
+
+                    var width = $(this).attr("data-width");
+                    var height = $(this).attr("data-height");
+                    var type = $(this).attr("data-type");
+
+                    params["output_w"] = width;
+                    params["output_h"] = height;
+                    params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('application/customization_publication_app/savestartup')) ?>$filetype$'+type;
+
+                    params["uploader"] = 'startup_uploader';
+                    startup_uploader.crop(params);
+                    startup_uploader.callback = function(file) {
+                        $('#startupimage_'+type).attr('src', file);
+                    }
+                }
+            }
+        });
+
+    });
+
+</script>
+
+<style>
+    #browse_panel h3.title {
+        font-size: 18px;
+        font-weight: normal;
+        margin-bottom: 10px;
+    }
+    .upload {
+        margin-top:20px;
+    }
+    div.crop_controls_retina, div.crop_controls {
+        margin-top: 20px;
+        width: 200px;
+    }
+    .bar {
+        height: 18px;
+        background: green;
+    }
+    .startup_images .recommended_size {
+        margin-bottom: 0px;
+        margin-top: 20px;
+        font-size: 12px;
+    }
+    .startup_images button.upload {
+        margin: 15px 0;
+    }
+    .startup-bottom-blocks button {
+        margin-bottom: 15px;
+    }
+</style>
