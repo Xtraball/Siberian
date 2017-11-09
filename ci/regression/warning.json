@@ -1,0 +1,20 @@
+[
+  {
+    "file": "siberian/lib/Siberian/Minify.php",
+    "alerts": [
+      "Browser CSS/JS must be set to 'true'"
+    ]
+  },
+  {
+    "file": "/siberian/var/apps/ionic/ios/AppsMobileCompany/AppsMobileCompany-Info.plist",
+    "alerts": [
+      "NSLocationAlwaysUsageDescription must be set to 'Location is required to get specific push notes and other great items'"
+    ]
+  },
+  {
+    "file": "/siberian/var/apps/ionic/ios-noads/AppsMobileCompany/AppsMobileCompany-Info.plist",
+    "alerts": [
+      "NSLocationAlwaysUsageDescription must be set to 'Location is required to get specific push notes and other great items'"
+    ]
+  }
+]

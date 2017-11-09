@@ -1,0 +1,17 @@
+{
+  "name": "%NAME%",
+  "version": "%VERSION%",
+  "code": "",
+  "description": "<a href=\"https://updates02.siberiancms.com/release-notes/all/%VERSION%.html\" target=\"_blank\">Click here to see the release notes</a>",
+  "release_note": {
+    "url": "https://updates02.siberiancms.com/release-notes/all/%VERSION%.html",
+    "show": true
+  },
+  "dependencies": {
+    "system": {
+      "type": "%TYPE%",
+      "version": "%REQUIRED_VERSION%"
+    }
+  },
+  "files_to_delete": [%TO_DELETE%]
+}

@@ -1,0 +1,146 @@
+<?php
+
+$application = $this->getApplication();
+$option_value = $this->getOptionValue();
+$value_id = $option_value->getId();
+
+$form_provider = new Appointment_Form_Provider();
+$form_provider->setValueId($option_value->getId());
+
+$delete_form = new Appointment_Form_Provider_Delete();
+
+$providers = $this->getProviders();
+$service_locations = $this->getServiceLocations();
+?>
+
+<div id="provider_view">
+    <div class="feature-block-add">
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo __('Providers'); ?>
+            <button type="button" class="feature-toggle-add toggle_design color-blue pull-right bt-header-right btn">
+                <i class="fa fa-plus"></i>
+            </button>
+        </h3>
+    </div>
+
+    <div class="feature-block-create">
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo __('Create a new provider'); ?>
+        </h3>
+        <div class="container-fluid">
+            <?php echo $form_provider; ?>
+        </div>
+    </div>
+
+    <?php if($providers->count() > 0): ?>
+        <div class="feature-block-list">
+            <div class="margin-top">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo __('Manage'); ?>
+                    <button type="button" class="toggle_design color-blue pull-right bt-header-right btn feature-toggle-items">
+                        <i class="fa fa-chevron-down"></i>
+                    </button>
+                </h3>
+                <div class="container-fluid first-row-feature feature-manage-items">
+                    <table class="table content-white-bkg sb-pager">
+                        <thead>
+                        <tr class="border-blue">
+                            <th style="width:24px;"></th>
+                            <th style="width:30%;"><?php echo __("Name"); ?></th>
+                            <th style="width:30%;"><?php echo __("Email"); ?></th>
+                            <th style="width:30%;"><?php echo __("Mobile"); ?></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach($providers as $provider): ?>
+
+                            <tr id="provider_manage_element_<?php echo $provider->getId(); ?>" class="provider-manage-element sb-pager">
+                                <td><img style="height: 24px;" src="/images/application<?php echo $provider->getImage(); ?>" /></td>
+                                <td><?php echo $provider->getName(); ?></td>
+                                <td><?php echo $provider->getEmail(); ?></td>
+                                <td><?php echo $provider->getMobileNumber(); ?></td>
+
+                                <td class="edit-action open-edit" data-id="provider_<?php echo $provider->getId(); ?>" data-form-url="<?php echo __path("/appointment/provider/loadform", array("provider_id" => $provider->getId(), "value_id" => $value_id)); ?>">
+                                    <i class="fa fa-pencil"></i>
+                                </td>
+                                <td class="assign-service-action open-edit" data-id="provider_<?php echo $provider->getId(); ?>" data-form-url="<?php echo __path("/appointment/provider/loadserviceform", array("provider_id" => $provider->getId(), "value_id" => $value_id)); ?>">
+                                    <i class="fa fa-list display_tooltip" title="<?php echo __js("Assign services"); ?>"></i>
+                                </td>
+                                <td class="delete-action">
+                                    <?php
+                                    $delete_form->setAttrib("data-rowid", "provider_manage_element_".$provider->getId());
+                                    $delete_form->getElement("provider_id")->setValue($provider->getId());
+
+                                    echo $delete_form;
+                                    ?>
+                                </td>
+                            </tr>
+                            <tr class="edit-form" data-id="provider_<?php echo $provider->getId(); ?>" style="display: none;">
+                                <td colspan="7">
+                                    <p class="close-edit" data-clear="true" data-id="provider_<?php echo $provider->getId(); ?>">
+                                        <i class="fa fa-times"></i><?php echo __("Close") ?>
+                                    </p>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <!-- @review what's ??? -->
+    <?php if(false): ?>
+        <div id="service_form_content" class="forms">
+            <div id="service_form" class = "customer_form">
+                <form id="serviceForm" action="<?php echo $this->getUrl('appointment/application/saveserviceprovider'); ?>" method="post">
+                    <div class="form-horizontal">
+                        <div class="form-group clearfix col-sm-12">
+                            <?php
+                            $location_name = '';
+                            foreach($service_locations as $service_location) { ?>
+                                <?php if($location_name != $service_location['locations_name']){ ?>
+                                    <h4 class="col-sm-12 no-pad"><?php echo $service_location['locations_name']; $location_name = $service_location['locations_name']; ?></h4>
+                                <?php }?>
+                                <div class="col-sm-8">
+                                    <label><input id="service_locations_<?php echo $service_location['service_locations_id']; ?>" name="service_locations[]" value="<?php echo $service_location['service_locations_id']; ?>" type="checkbox"><?php echo $service_location['service_name']; ?></label>
+                                </div>
+                            <?php } ?>
+                        </div>
+                        <div class="clear form-group col-sm-12">
+                            <p class="input-required">* <?php echo __('Required fields'); ?></p>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 btn-right">
+                                <button type="button" id="cancel" class="btn cancel color-blue"><?php echo __("Cancel"); ?></button>
+                            </div>
+                            <div class="btn-right">
+                                <button type="submit" class="default_button btn submit_service color-blue"><?php echo __("Save"); ?></button>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <input type="hidden" name="provider_id" value="" id="provider_id"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    <?php endif; ?>
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        bindForms("#provider_view");
+
+        $("table.sb-pager").sbpager({
+            callback_goto_page: function() {
+                $("table.sb-pager tr.edit-form[data-id]").hide()
+            }
+        });
+    });
+</script>
