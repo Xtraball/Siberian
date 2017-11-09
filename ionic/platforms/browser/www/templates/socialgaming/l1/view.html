@@ -1,0 +1,43 @@
+<ion-view sb-page-background class="socialgaming-view">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-content>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="list" ng-class="{'card': card_design}">
+
+            <div class="item item-divider item-divider-custom" ng-show="game">
+                <h2>{{ game.period }}</h2>
+            </div>
+            <div class="item item-divider item-divider-custom" ng-if="team_leader.id">
+                <h2>{{ "Team Leader" | translate }}</h2>
+            </div>
+
+            <div class="item item-custom" ng-if="team_leader.id" ng-class="{ 'item-avatar' : team_leader.image_url }">
+                <img ng-src="{{ team_leader.image_url }}" ng-if="team_leader.image_url" />
+                <h2>{{ team_leader.name }}</h2>
+                <p>{{ team_leader.number_of_points }}</p>
+            </div>
+
+            <div class="item item-divider item-divider-custom" ng-if="collection.length">
+                {{ "Challengers" | translate }}
+            </div>
+
+            <div class="item item-custom" ng-repeat="customer in collection" ng-class="{ 'item-avatar' : customer.image_url }">
+                <img ng-src="{{ customer.image_url }}" ng-if="customer.image_url" />
+                <h2>{{ customer.name }}</h2>
+                <p>{{ customer.number_of_points }}</p>
+            </div>
+
+            <div class="item item-custom" ng-if="!is_loading && !collection.length">
+                <p>{{ "Currently no challengers" | translate }}</p>
+            </div>
+
+        </div>
+
+    </ion-content>
+</ion-view>
+
+

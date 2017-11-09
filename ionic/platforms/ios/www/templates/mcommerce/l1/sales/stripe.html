@@ -1,0 +1,67 @@
+<ion-view sb-page-background >
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <button ng-click="right_button.action()" class="button button-clear header-item" ng-if="right_button">
+            <span class="back-text"><span class="default-title">{{ right_button.label }}</span></span>
+            <i class="icon" ng-class="right_button.icon"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+
+        <div class="list mcommerce-stripe" ng-show="!is_loading">
+            <div ng-show="!payment.use_stored_card">
+                <label class="item item-custom item-text-wrap">
+                    <p>
+                        <i class="ion-ios-information-outline"></i> {{ "Please fill in your card information to process Credit card payment:" | translate }}
+                    </p>
+                </label>
+                <form>
+                    <div class="item item-divider item-divider-custom"></div>
+                    <label class="item item-input item-custom">
+                        <input type="text" ng-model="card.number" placeholder="{{ 'Card Number' | translate }} *">
+                    </label>
+
+                    <div class="row">
+                        <label class="item item-input item-custom">
+                            <input type="text" ng-model="card.cvc" placeholder="{{ 'CVC' | translate }} *">
+                        </label>
+                        <label class="item item-input item-custom col-25">
+                            <input type="text" ng-model="card.exp_month" placeholder="{{ 'MM' | translate }} *">
+                        </label>
+                        <label class="item item-input item-custom col-25">
+                            <input type="text" ng-model="card.exp_year" placeholder="{{ 'YYYY' | translate }} *">
+                        </label>
+                    </div>
+                    <ion-list>
+                        <ion-checkbox ng-if="!guest_mode" ng-change="debug" class="radio-custom" ng-model="payment.save_card" >
+                            {{ "Keep card information" | translate }}
+                        </ion-checkbox>
+                    </ion-list>
+                </form>
+            </div>
+            <div ng-show="payment.use_stored_card">
+                <label class="item item-custom item-text-wrap">
+                    <p>
+                        <i class="ion-ios-information-outline"></i> {{ "Stored card information." | translate }}
+                    </p>
+                </label>
+                <label class="item item-input item-custom">
+                    <input type="text" ng-value="'XXXX XXXX XXXX '+card.last4" readonly>
+                </label>
+                <div class="row">
+                    <label class="item item-input item-custom">
+                        <input value="***" type="text" readonly>
+                    </label>
+                    <label class="item item-input item-custom col-25">
+                        <input type="text" ng-value="card.exp_month" readonly>
+                    </label>
+                    <label class="item item-input item-custom col-25">
+                        <input type="text" ng-value="card.exp_year" readonly>
+                    </label>
+                </div>
+                <button type="button" class="button button-block button-custom activated" ng-click="unloadcard()">{{ "Remove card" | translate }}</button>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

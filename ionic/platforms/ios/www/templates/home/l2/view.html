@@ -1,0 +1,10 @@
+<div class="layout l2">
+    <ul class="row homepage-custom border-custom tabs tabs-icon-top slide-top {{ features.layoutOptions.shadow }}"
+        ng-class="{ 'background-transparent' : tabbar_is_transparent , 'no-border': tabbar_is_transparent}" ng-show="tabbar_is_visible">
+        <li class="col col-20 tab-item" ng-repeat="feature in features.overview.options" tabbar-items option="feature" go-to-url="goTo(feature)">
+            <img ng-src="{{ feature.icon_url }}" />
+            <p>{{ feature.name }}</p>
+            <div ng-if="feature.code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+        </li>
+    </ul>
+</div>

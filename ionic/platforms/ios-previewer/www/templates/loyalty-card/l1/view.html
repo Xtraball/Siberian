@@ -1,0 +1,79 @@
+<ion-view sb-page-background class="loyaltycard-view">
+    <ion-nav-title>{{ ::page_title }}</ion-nav-title>
+
+    <ion-content>
+
+        <div ng-show="!is_loading">
+            <div ng-if="card_is_locked">
+                <div class="list" ng-class="{'card' : card_design}">
+                    <div class="item item-text-wrap item-custom assertive">
+                        {{ ::"We are sorry but this card is temporarily blocked" | translate}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="list" ng-class="{'card' : card_design}" ng-if="!is_card && !promotions.length && !card_is_locked">
+                <div class="item item-text-wrap item-custom">
+                    {{ "No cards available" | translate }}
+                </div>
+            </div>
+
+            <div ng-if="!card_is_locked && (is_card || promotions.length)">
+
+                <div class="list" ng-class="{'card' : card_design}" ng-if="is_card">
+
+                    <div class="item item-text-wrap item-icon-left item-custom">
+                        <i class="icon ion-pricetag"></i>
+                        <div ng-if="card.max_number_of_points > 1">
+                            <p>{{ card.max_number_of_points }} {{ "validated points =" | translate }} {{ card.advantage }}</p>
+                            <p>{{ ::"1 loyalty point =" | translate }} {{ card.conditions }}</p>
+                        </div>
+                        <p ng-if="card.max_number_of_points == 1">{{ ::"1 validated point =" | translate }} {{ card.conditions }}</p>
+                    </div>
+
+                    <div class="item item-text-wrap item-icon-left item-custom" ng-click="login()" ng-if="!is_logged_in">
+                        <i class="icon ion-ios-person-outline"></i>
+                        {{ ::"Click here to log-in" | translate }}
+                    </div>
+
+                    <div class="item item-text-wrap item-custom">
+                        <div class="points text-center" ng-if="is_card && card.is_visible">
+                            <a class="point loyaltycard" ng-click="openPad(card)" ng-repeat="point in points">
+                                <img ng-src="{{ card.number_of_points > $index ? pictos.validated_url : pictos.normal_url }}" width="85" />
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="item item-text-wrap item-icon-left item-custom" ng-click="showTc()" ng-if="tc_id">
+                        <i class="icon ion-document-text"></i>
+                        {{ ::"Terms & Conditions" | translate }}
+                    </div>
+                </div>
+
+                <div ng-if="promotions.length">
+
+                    <div class="card" ng-repeat="promotion in promotions">
+
+                        <div class="item item-divider item-divider-custom" ng-if="$index == 0">
+                            {{ ::"Rewards" | translate }}
+                        </div>
+                        <div class="item item-icon-left item-text-wrap item-custom">
+                            <i class="icon ion-ios-star"></i>
+                            <h2>{{ promotion.advantage }} {{ "is now yours!" | translate }}</h2>
+                        </div>
+                        <div class="item item-custom" ng-click="openPad(promotion)">
+                            {{ ::"Use this coupon" | translate }}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <sb-pad ng-if="show_pad" card="card"></sb-pad>
+
+        </div>
+
+    </ion-content>
+
+</ion-view>

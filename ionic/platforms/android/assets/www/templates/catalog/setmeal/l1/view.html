@@ -1,0 +1,27 @@
+<ion-view sb-page-background>
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-content>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="card" ng-if="!is_loading">
+            <div class="item item-text-wrap item-custom">
+                <h2>{{ set_meal.name }}</h2>
+            </div>
+            <div class="item item-text-wrap item-custom" ng-if="set_meal.picture">
+                <img ng-src="{{ set_meal.picture }}" width="100%" />
+            </div>
+            <div class="item item-icon-left item-custom" ng-if="set_meal.price">
+                <i class="icon ion-ios-pricetag-outline"></i>
+                {{ set_meal.price }}
+            </div>
+            <div class="item item-text-wrap item-custom" ng-bind-html="set_meal.description"></div>
+            <div class="item item-text-wrap item-custom" ng-if="set_meal.conditions">
+                {{ set_meal.conditions }}
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

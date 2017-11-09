@@ -1,0 +1,21 @@
+{
+  "name": "AppsMobileCompany",
+  "version": "1.0.0",
+  "description": "AppsMobileCompany: Ionic application",
+  "dependencies": {
+    "gulp-angular-templatecache": "^2.0.0",
+    "gulp-clean": "^0.3.2",
+    "gulp-html-replace": "^1.6.2",
+    "gulp-imagemin": "^3.2.0",
+    "gulp-jshint": "^2.0.4",
+    "gulp-minify": "0.0.15",
+    "gulp-ng-annotate": "^2.0.0",
+    "gulp-uglify": "^2.1.2",
+    "jshint": "^2.9.4"
+  },
+  "devDependencies": {
+    "gulp-sync": "^0.1.4"
+  },
+  "cordovaPlugins": [],
+  "cordovaPlatforms": []
+}

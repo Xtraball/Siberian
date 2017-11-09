@@ -1,0 +1,29 @@
+<ion-view sb-page-background cache-view="false" class="wordpress-view">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-content class="wordpress-view">
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="card" ng-if="!is_loading">
+            <div class="item item-icon-left item-custom">
+                <i class="icon ion-document-text"></i>
+                <h2 ng-if="item.title">{{ item.title }}</h2>
+                <p ng-if="item.date">{{ item.date }}</p>
+            </div>
+            <div class="item item-icon-left item-custom" ng-if="item.created_at">
+                <i class="icon ion-calendar"></i>
+                {{ item.created_at }}
+            </div>
+            <div class="item item-text-wrap item-custom" ng-if="item.picture">
+                <img ng-src="{{ item.picture }}" width="100%" />
+            </div>
+            <div ng-if="item.description">
+                <div class="item item-text-wrap item-description item-custom" ng-bind-html="item.description" sb-a-click ></div>
+            </div>
+
+        </div>
+
+    </ion-content>
+</ion-view>

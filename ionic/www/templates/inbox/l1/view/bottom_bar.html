@@ -1,0 +1,11 @@
+<div class="tabs tabs-icon-top inbox-footer">
+    <div class="tab-item assertive" ng-if="!message.is_visible_in_editor">
+        <i class="icon ion-alert-circled"></i> {{ "Closed by Admin" | translate }}
+    </div>
+    <div class="tab-item pull-righ" ng-click="confirmDeleteMessage()">
+        <i class="icon ion-trash-a"></i> {{ "Remove" | translate }}
+    </div>
+    <div class="tab-item pull-righ" ng-click="viewComments()">
+        <i class="icon ion-reply"></i> {{ "Reply" | translate }}
+    </div>
+</div>

@@ -1,0 +1,133 @@
+<ion-view sb-page-background cache-view="false" >
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <button ng-click="right_button.action()" class="button button-clear header-item"
+                ng-if="right_button && is_logged_in">
+            <span class="back-text"><span class="default-title">{{ right_button.label }}</span></span>
+            <i class="icon" ng-class="right_button.icon"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+
+        <div ng-if="(!is_loading) && (!is_logged_in)">
+            <label class="item item-custom">
+                <p>
+                    <i class="ion-ios-information-outline"></i> {{ "You must be logged in to continue" |
+                    translate }}
+                </p>
+            </label>
+            <div class="item item-custom item-icon-left" ng-click="customer_login()">
+                <i class="icon ion-person"></i>
+                {{ "Login" | translate }}
+            </div>
+            <div class="item item-custom item-icon-left" ng-click="customer_signup()">
+                <i class="icon ion-person-add"></i>
+                {{ "Signup" | translate }}
+            </div>
+            <div class="item item-custom item-icon-left" ng-if="hasguestmode" ng-click="customer_guestmode()">
+                <i class="icon ion-ios-cart"></i>
+                {{ "Guest Order" | translate }}
+            </div>
+        </div>
+
+        <div ng-if="(!is_loading) && is_logged_in">
+            <div class="list">
+                <form>
+                    <label class="item item-custom">
+                        <p>
+                            <i class="ion-ios-information-outline"></i> {{ "All fields with a * are required." |
+                            translate }}
+                        </p>
+                    </label>
+                    <div class="item item-divider item-divider-custom"></div>
+                    <label class="item item-input item-custom">
+                        <span class="input-label">{{ "First Name" | translate }} *</span>
+                        <input type="text" ng-model="customer.firstname">
+                    </label>
+                    <label class="item item-input item-custom">
+                        <span class="input-label">{{ "Last Name" | translate }} *</span>
+                        <input type="text" ng-model="customer.lastname">
+                    </label>
+                    <label class="item item-input item-custom">
+                        <span class="input-label">{{ "Email" | translate }} *</span>
+                        <input type="email" ng-model="customer.email">
+                    </label>
+                    <label class="item item-input item-custom" ng-if="settings.phone.rule!='hidden'">
+                        <span class="input-label">{{ "Phone" | translate }} <span
+                                ng-if="settings.phone.rule=='mandatory'">*</span></span>
+                        <input type="tel" ng-model="customer.metadatas.phone"
+                               ng-required="settings.phone.rule=='mandatory'">
+                    </label>
+                    <label class="item item-input item-custom" ng-if="settings.birthday.rule!='hidden'">
+                        <span class="input-label">{{ "Date of birth" | translate }} <span
+                                ng-if="settings.birthday.rule=='mandatory'">*</span></span>
+                        <input type="date" ng-model="customer.metadatas.birthday"
+                               ng-required="settings.birthday.rule=='mandatory'">
+                    </label>
+                    <div ng-if="settings.delivery_address.rule!='hidden'">
+                        <label class="item item-custom">
+                            <p>
+                                <i class="ion-ios-location"></i><strong style="font-size:1.5em;font-variant:small-caps"> {{ "Delivery address" | translate }} </strong><span
+                                    ng-if="settings.delivery_address.rule=='mandatory'">*</span> :
+                            </p>
+                        </label>
+                        <label class="item item-input item-custom">
+                            <span class="input-label">{{ "Street" | translate }}</span>
+                            <input type="text" ng-model="customer.metadatas.delivery_address.street"
+                                   ng-required="settings.delivery_address.rule=='mandatory'">
+                        </label>
+                        <label class="item item-input item-custom">
+                            <span class="input-label">{{ "Postcode" | translate }}</span>
+                            <input type="text" ng-model="customer.metadatas.delivery_address.postcode"
+                                   ng-required="settings.delivery_address.rule=='mandatory'">
+                        </label>
+                        <label class="item item-input item-custom">
+                            <span class="input-label">{{ "City" | translate }}</span>
+                            <input type="text" ng-model="customer.metadatas.delivery_address.city"
+                                   ng-required="settings.delivery_address.rule=='mandatory'">
+                        </label>
+                        <label class="item item-input item-custom">
+                            <span class="input-label">{{ "Country" | translate }}</span>
+                            <input type="text" ng-model="customer.metadatas.delivery_address.country"
+                                   ng-required="settings.delivery_address.rule=='mandatory'">
+                        </label>
+                    </div>
+                    <div ng-if="settings.invoicing_address.rule!='hidden'">
+                        <label class="item item-custom">
+                            <p>
+                                <i class="ion-cash"></i><strong style="font-size:1.5em;font-variant:small-caps"> {{ "Invoicing address" | translate }} </strong><span
+                                    ng-if="settings.invoicing_address.rule=='mandatory'">*</span> :
+                            </p>
+                        </label>
+                        <label class="item item-input item-custom">
+                            <span class="input-label">{{ "Street" | translate }}</span>
+                            <input type="text" ng-model="customer.metadatas.invoicing_address.street"
+                                   ng-required="settings.invoicing_address.rule=='mandatory'">
+                        </label>
+                        <label class="item item-input item-custom">
+                            <span class="input-label">{{ "Postcode" | translate }}</span>
+                            <input type="text" ng-model="customer.metadatas.invoicing_address.postcode"
+                                   ng-required="settings.invoicing_address.rule=='mandatory'">
+                        </label>
+                        <label class="item item-input item-custom">
+                            <span class="input-label">{{ "City" | translate }}</span>
+                            <input type="text" ng-model="customer.metadatas.invoicing_address.city"
+                                   ng-required="settings.invoicing_address.rule=='mandatory'">
+                        </label>
+                        <label class="item item-input item-custom">
+                            <span class="input-label">{{ "Country" | translate }}</span>
+                            <input type="text" ng-model="customer.metadatas.invoicing_address.country"
+                                   ng-required="settings.invoicing_address.rule=='mandatory'">
+                        </label>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>
+
+
+

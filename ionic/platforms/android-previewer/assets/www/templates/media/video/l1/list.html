@@ -1,0 +1,31 @@
+<ion-view sb-page-background class="video-view">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <div sb-tooltip
+             collection="galleries"
+             current-item="current_gallery"
+             show-tooltip="false"
+             button-label="button_label"
+             on-item-clicked="showGallery(object)">
+
+        </div>
+    </ion-nav-buttons>
+
+    <ion-content>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div ng-repeat="video in collection" ng-if="collection.length" sb-video video="video"></div>
+
+        <ion-infinite-scroll ng-if="current_gallery && can_load_more"
+             on-infinite="loadGallery()"
+             immediate-check="false"
+             distance="20%"
+             class="spinner-custom">
+        </ion-infinite-scroll>
+
+    </ion-content>
+
+</ion-view>

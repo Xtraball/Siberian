@@ -1,0 +1,18 @@
+<div class="row list" ng-repeat="albums in paged_albums">
+    <div class="col-50 album-cover" ng-repeat="album in albums" ng-click="onAlbumSelected({ album: album })">
+        <div class="item item-image item-custom">
+            <img ng-src="{{ album.artworkUrl }}">
+        </div>
+        <div class="item item-custom album-legend">
+            <p>{{ album.name }}</p>
+            <p>
+                {{ album.totalTracks }}
+                <span ng-switch="album.totalTracks">
+                    <span ng-switch-when="1">{{ 'track' | translate }}</span>
+                    <span ng-switch-default>{{ 'tracks' | translate }}</span>
+                </span>
+                <span ng-if="album.totalTracks !== 0"> - {{ album.totalDuration }}</span>
+            </p>
+        </div>
+    </div>
+</div>

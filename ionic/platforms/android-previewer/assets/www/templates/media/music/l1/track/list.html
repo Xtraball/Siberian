@@ -1,0 +1,43 @@
+<ion-view sb-page-background class="audio-list">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-header-bar class="bar-subheader bar-custom">
+        <div class="button-bar text-center">
+            <div class="button button-custom item-icon-left" ng-click="showPlaylistAlbums()">
+                <i class="icon ion-ios-albums-outline"></i>
+                {{ "Albums" | translate }}
+            </div>
+            <div class="button button-custom active item-icon-left">
+                <i class="icon ion-ios-musical-note"></i>
+                {{ "Tracks" | translate }}
+            </div>
+        </div>
+    </ion-header-bar>
+
+    <ion-content class="has-subheader">
+
+        <div class="list">
+            <div class="item item-custom text-center" ng-click="play(0)">
+                {{ "Read all" | translate }}
+            </div>
+        </div>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="list transparent">
+
+            <div class="item item-custom" ng-class="{ 'item-avatar': track.albumCover }" ng-click="play($index)" ng-repeat="track in tracks">
+                <img ng-src="{{ track.albumCover }}" ng-if="track.albumCover" />
+                <h2>
+                    {{ $index + 1 | numberFixedLen:2 }} - {{ track.name }}
+                    <span class="item-note">{{ track.formatedDuration }}</span>
+                </h2>
+                <p>{{ track.artistName }}</p>
+            </div>
+
+        </div>
+
+    </ion-content>
+
+</ion-view>

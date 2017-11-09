@@ -1,0 +1,19 @@
+<div class="layout l8 slide-right" ng-show="tabbar_is_visible">
+    <ul>
+        <li class="info-bar">
+            <!--
+                @TODO close previewer background-image
+                style="background-image: url(<?php echo $this->getColorizedImage($this->getImage('pictos/left_arrow.png', true), $this->getBlock('tabbar')->getImageColor()); ?>);"
+            -->
+            <a ng-click="closePreviewer()" class="item close_previewer" ng-if="close_previewer_button_is_visible"></a>
+            <a ng-if="features.first_option" tabbar-items option="features.first_option" go-to-url="goTo(features.first_option)" title="{{ features.first_option.name }}" class="info"
+               style="background-image: url('{{ features.first_option.icon_url }}')">
+            </a>
+        </li>
+        <li class="items">
+            <a tabbar-items ng-repeat="feature in features.options" option="feature" go-to-url="goTo(feature)" title="{{ feature.name }}"
+               style="background-image: url('{{ feature.icon_url }}')">
+            </a>
+        </li>
+    </ul>
+</div>

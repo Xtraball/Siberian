@@ -1,0 +1,53 @@
+<ion-modal-view sb-page-background class="loyaltycard-view">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear button-dark" ng-click="closePad()">{{ "Cancel" | translate }}</button>
+        </div>
+        <h1 class="title">{{ page_title | translate }}</h1>
+    </ion-header-bar>
+
+    <ion-content>
+
+        <div class="list" ng-class="{'card' : card_design}">
+
+            <div class="item item-select item-custom" ng-if="pad.card.max_number_of_points > 0">
+                <p class="title" ng-hide="pad.number_of_points > 1">{{ pad.number_of_points }} {{ "point to validate" | translate }}</p>
+                <p class="title" ng-hide="pad.number_of_points <= 1">{{ pad.number_of_points }} {{ "points to validate" | translate }}</p>
+                <select ng-model="pad.number_of_points" ng-options="point for point in pad.points"></select>
+            </div>
+
+            <div class="item item-divider item-divider-custom text-center" ng-if="unlock_by_qrcode">
+                <h2>{{ "Unlock by QRCode" | translate }}</h2>
+            </div>
+            <div class="item item-custom" ng-if="unlock_by_qrcode">
+                <button ng-click="openScanCamera()" class="button button-custom button-block">{{ "Scan QRCode" | translate }}</button>
+            </div>
+
+            <div class="item item-divider item-divider-custom text-center">
+                <h2>{{ "Please enter the password" | translate }}</h2>
+            </div>
+
+            <div class="item dots item-custom text-center">
+                <div class="dot" ng-repeat="dot in [0, 1, 2, 3]" ng-class="{'filled-dot' : dot < pad.password.length }"></div>
+            </div>
+
+        </div>
+
+        <div class="list pad" ng-class="{'card' : card_design}">
+            <div class="buttons">
+                <button ng-repeat="button in pad.buttons" class="button button-custom" ng-click="pad.add(button)">{{ button }}</button>
+                <button class="button button-custom"></button>
+                <button class="button button-custom" ng-click="pad.remove()"><i class="icon ion-backspace-outline"></i></button>
+            </div>
+        </div>
+
+        <style type="text/css">
+            .filled-dot {
+                background-color: black;
+            }
+        </style>
+
+    </ion-content>
+
+</ion-modal-view>

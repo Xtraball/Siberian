@@ -1,0 +1,187 @@
+{
+  "default": {
+    "cordova-plugin-app-version": {
+      "version": "latest",
+      "variables": {}
+    },
+    "cordova-plugin-app-event": {
+      "version": "latest",
+      "variables": {}
+    },
+    "cordova-plugin-background-fetch": {
+      "version": "latest",
+      "variables": {}
+    },
+    "phonegap-plugin-barcodescanner": {
+      "version": "latest",
+      "variables": {}
+    },
+    "cordova-plugin-camera": {
+      "version": "~2.1.0",
+      "variables": {}
+    },
+    "cordova-clipboard": {
+      "version": "latest",
+      "variables": {}
+    },
+    "cordova-plugin-device": {
+      "version": "~1.1.1",
+      "variables": {}
+    },
+    "cordova-extension": {
+      "version": "latest",
+      "variables": {}
+    },
+    "cordova-plugin-file": {
+      "version": "latest",
+      "variables": {}
+    },
+    "cordova-plugin-geolocation": {
+      "version": "~2.1.0",
+      "variables": {}
+    },
+    "cordova-plugin-inappbrowser": {
+      "version": "~1.2.0",
+      "variables": {}
+    },
+    "ionic-plugin-keyboard": {
+      "version": "latest",
+      "variables": {}
+    },
+    "cordova-plugin-socialsharing": {
+      "version": "latest",
+      "variables": {}
+    },
+    "cordova-plugin-statusbar": {
+      "version": "~2.1.0",
+      "variables": {}
+    },
+    "cordova-plugin-whitelist": {
+      "version": "~1.2.1",
+      "variables": {}
+    },
+    "cordova-plugin-local-notifications": {
+      "version": "latest",
+      "variables": {}
+    },
+    "siberian-plugin-offlinemode": {
+      "version": "latest",
+      "variables": {}
+    },
+    "cordova-plugin-insomnia": {
+      "version": "latest",
+      "variables": {}
+    },
+    "cordova-music-controls-plugin": {
+      "version": "latest",
+      "variables": {}
+    },
+    "cordova-plugin-siberian": {
+      "version": "latest",
+      "variables": {}
+    }
+  },
+  "ios": {
+    "cordova-admob-pro": {
+      "version": "latest",
+      "variables": {}
+    },
+    "cordova-background-geolocation-lt": {
+      "version": "latest",
+      "variables": {}
+    },
+    "cordova-hot-code-push": {
+      "version": "latest"
+    },
+    "cordova-plugin-splashscreen": {
+      "version": "latest",
+      "variables": {}
+    },
+    "siberian-plugin-push": {
+      "version": "latest",
+      "variables": {
+        "SENDER_ID": "01234567890"
+      }
+    }
+  },
+  "ios-noads": {
+    "cordova-background-geolocation-lt": {
+      "version": "latest",
+      "variables": {}
+    },
+    "cordova-hot-code-push": {
+      "version": "latest"
+    },
+    "cordova-plugin-splashscreen": {
+      "version": "latest",
+      "variables": {}
+    },
+    "siberian-plugin-push": {
+      "version": "latest",
+      "variables": {
+        "SENDER_ID": "01234567890"
+      }
+    }
+  },
+  "ios-previewer": {
+    "cordova-hot-code-push": {
+      "version": "latest"
+    },
+    "siberian-plugin-previewer": {
+      "version": "latest",
+      "variables": {}
+    }
+  },
+  "android": {
+    "cordova-plugin-console": {
+      "version": "~1.0.2",
+      "variables": {}
+    },
+    "cordova-admob-pro": {
+      "version": "latest",
+      "variables": {}
+    },
+    "cordova-hot-code-push": {
+      "version": "latest"
+    },
+    "cordova-plugin-splashscreen": {
+      "version": "latest",
+      "variables": {}
+    },
+    "siberian-plugin-backgroundgeoloc": {
+      "version": "latest",
+      "variables": {}
+    },
+    "siberian-plugin-push": {
+      "version": "latest",
+      "variables": {
+        "SENDER_ID": "01234567890"
+      }
+    }
+  },
+  "android-previewer": {
+    "cordova-plugin-console": {
+      "version": "~1.0.2",
+      "variables": {}
+    },
+    "cordova-hot-code-push": {
+      "version": "latest"
+    },
+    "cordova-plugin-splashscreen": {
+      "version": "latest",
+      "variables": {}
+    },
+    "siberian-plugin-previewer": {
+      "version": "latest",
+      "variables": {}
+    }
+  },
+  "browser": {
+    "siberian-plugin-push": {
+      "version": "latest",
+      "variables": {
+        "SENDER_ID": "01234567890"
+      }
+    }
+  }
+}

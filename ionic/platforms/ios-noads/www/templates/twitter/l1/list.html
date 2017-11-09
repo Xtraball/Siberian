@@ -1,0 +1,51 @@
+<ion-view sb-page-background>
+    <ion-nav-title>{{ name }}</ion-nav-title>
+    <ion-content class="l1">
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="list" ng-class="{'card' : card_design}">
+
+            <div class="item item-custom" ng-if="banner_url">
+                <img ng-src="{{ banner_url }}" class="full-image"/>
+            </div>
+
+            <div>
+                <p class="item item-custom item-text-wrap" ng-if="description">{{ description }}</p>
+            </div>
+
+            <div class="item item-custom" ng-show="collection.length && !is_loading">
+                <strong>{{ nb_followers }}</strong> {{ "followers" | translate }} - <strong>{{ nb_friends }}</strong> {{ "following" | translate }}
+            </div>
+
+        </div>
+
+        <div class="list" ng-class="{'card' : card_design}" ng-show="collection.length">
+
+            <div ng-repeat="item in collection">
+                <div class="item item-custom" ng-class="{ 'item-avatar': item.user.profile_image_url }">
+                    <img ng-src="{{ item.user.profile_image_url }}" ng-if="item.user.profile_image_url" />
+                    <h2>{{ item.title ? item.title : item.author }}</h2>
+                    <p ng-if="item.text" ng-bind-html="item.text| linky:'_blank'" class="text-no-wrap"></p>
+                    <p class="text-right"><i class="icon ion-arrow-return-right"></i> {{ item.retweet_count }} - <i class="icon ion-ios-heart"></i> {{ item.favorite_count }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="list" ng-class="{'card' : card_design}" ng-if="!is_loading && !collection.length">
+            <div class="item text-center item-custom">
+                {{ "No items found" | translate }}
+            </div>
+        </div>
+
+        <ion-infinite-scroll ng-if="!done"
+                             on-infinite="loadMore()"
+                             immediate-check="false"
+                             distance="10%"
+                             class="spinner-custom">
+        </ion-infinite-scroll>
+
+    </ion-content>
+</ion-view>

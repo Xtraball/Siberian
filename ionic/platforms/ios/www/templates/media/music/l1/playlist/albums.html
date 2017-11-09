@@ -1,0 +1,31 @@
+<ion-view sb-page-background class="audio-list">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-header-bar class="bar-subheader bar-custom">
+        <div class="button-bar text-center">
+            <div class="button button-custom active item-icon-left">
+                <i class="icon ion-ios-albums-outline"></i>
+                {{ "Albums" | translate }}
+            </div>
+            <div class="button button-custom item-icon-left" ng-click="showPlaylistTracks()">
+                <i class="icon ion-ios-musical-note"></i>
+                {{ "Tracks" | translate }}
+            </div>
+        </div>
+    </ion-header-bar>
+
+    <ion-content class="has-subheader" sb-background-image>
+
+        <div class="list">
+            <div class="item item-custom text-center" ng-click="playAll()">
+                {{ "Read all" | translate }}
+            </div>
+        </div>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div sb-albums-boxes paged-albums="playlist.paged_albums" on-album-selected="showAlbum(album)"></div>
+
+    </ion-content>
+</ion-view>

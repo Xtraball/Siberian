@@ -1,0 +1,10 @@
+<ion-view sb-page-background class="tc-view">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-content class="tc-view">
+
+        <div class="list" ng-class="{'card' : card_design}">
+            <div class="padding item-text-custom" ng-bind-html="terms_conditions | trusted_html"></div>
+        </div>
+
+    </ion-content>
+</ion-view>
