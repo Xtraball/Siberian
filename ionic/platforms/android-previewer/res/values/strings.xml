@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">AppsMobileCompany</string>
+    <string name="launcher_name">@string/app_name</string>
+    <string name="activity_name">@string/launcher_name</string>
+    <string name="back">Back</string>
+    <string name="log_in">Log in</string>
+    <string name="log_in_with">Log in with:</string>
+    <string name="another_one">Another one</string>
+    <string name="f_url">Url</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="see_my_apps">See my apps</string>
+    <string name="login_error">Authentication failed. Please check your email and/or your password</string>
+    <string name="url_error">Authentication failed. Please check your url</string>
+    <string name="info">Info</string>
+    <string name="info_paragraph_1">{#-SB-INFO-TEXT-1-#}</string>
+    <string name="info_paragraph_2">{#-SB-INFO-TEXT-2-#}</string>
+    <string name="my_apps">My Apps</string>
+    <string name="url">http://localhost/overview</string>
+    <string name="load_message">Loading. Please wait ...</string>
+    <string name="load_message_app">The previewer app is getting your app. Please wait ...</string>
+    <string name="quit_message">Quit the application?</string>
+    <string name="done">Done</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="ok">Ok</string>
+    <string name="close_message">Do you want to go back to the apps list?</string>
+</resources>

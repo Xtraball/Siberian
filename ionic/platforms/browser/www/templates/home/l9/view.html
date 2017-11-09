@@ -1,0 +1,11 @@
+<div class="layout l9">
+    <ion-content class="homepage-custom" scrollbar-y="false">
+        <ul class="items homepage-custom">
+            <li ng-repeat="feature in features.options" class="border-custom" tabbar-items option="feature" id="feature-{{ $index }}" go-to-url="goTo(feature)">
+                <img ng-src="{{ feature.icon_url }}"/>
+                <p class="{{ features.layoutOptions.title+' '+features.layoutOptions.textTransform }}">{{ feature.name }}</p>
+                <div ng-if="feature.code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+            </li>
+        </ul>
+    </ion-content>
+</div>

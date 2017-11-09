@@ -1,0 +1,122 @@
+<ion-view sb-page-background cache-view="false" class="maps-view">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-content scroll="false" class="maps">
+
+        <!--<div class="list" ng-show="!is_loading && !show_instructions">-->
+        <div class="list" ng-class="{'card': card_design}">
+            <label class="item item-input item-custom">
+                <input id="searchPlaceFrom" ng-focus="disableTap('searchPlaceFrom')" type="text" class="" placeholder="{{ 'From:' | translate }}" ng-model="origin.address" sb-google-autocomplete location="origin" on-address-change="changeItinerary()" />
+            </label>
+            <label class="item item-input item-custom">
+                <input id="searchPlaceTo" ng-focus="disableTap('searchPlaceTo')"  type="text" class="" placeholder="{{ 'To:' | translate }}" ng-model="destination.address" sb-google-autocomplete location="destination" on-address-change="changeItinerary()" />
+            </label>
+            <div class="item item-text-wrap item-custom" ng-show="duration && distance">
+                {{ "About" | translate }} {{ duration }}, {{ distance }}
+            </div>
+
+            <div class="item item-text-wrap item-custom">
+                <div class="travel-mode-icons">
+                    <a class="travel-mode" ng-class="{'selected': travel_mode == 'DRIVING'}" ng-click="changeTravelMode('DRIVING');">
+                        <i class="icon ion-android-car"></i>
+                    </a>
+                    <a class="travel-mode" ng-class="{'selected': travel_mode == 'WALKING'}" ng-click="changeTravelMode('WALKING');">
+                        <i class="icon ion-android-walk"></i>
+                    </a>
+                    <a class="travel-mode" ng-class="{'selected': travel_mode == 'TRANSIT'}" ng-click="changeTravelMode('TRANSIT');">
+                        <i class="icon ion-android-bus"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div id="google-maps" class="map-canvas" ng-show="!error" data-tap-disabled="true"></div>
+
+            <div class="item item-custom item-text-wrap" ng-if="error">
+                <p class="text-center">
+                    <i class="icon ion-alert" style="font-size: 48px;"></i>
+                </p>
+                <p class="text-center">{{ "Sorry, the route cannot be calculated." | translate }}</p>
+                <p class="text-center">{{ err_message }}</p>
+            </div>
+
+            <div class="item item-icon-left item-custom" ng-show="!error" ng-click="openPanel()">
+                <i class="icon ion-information-circled"></i>
+                {{ "More Information" | translate }}
+            </div>
+
+        </div>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="ng-hide">
+            <div id="panel" class="padding"></div>
+        </div>
+
+        <script id="maps-info.html" type="text/ng-template">
+            <ion-modal-view sb-page-background>
+                <ion-header-bar class="bar-custom">
+                    <div class="buttons">
+                        <button class="button button-clear button-dark" ng-click="closePanel()">{{ "Close" | translate }}</button>
+                    </div>
+                </ion-header-bar>
+                <ion-content>
+                    <div class="list" ng-class="{'card': card_design}">
+                        <div class="item item-custom google-directions">
+                            <div ng-bind-html="panel_content | trusted_html"></div>
+                        </div>
+                    </div>
+                </ion-content>
+            </ion-modal-view>
+        </script>
+
+        <style type="text/css">
+            .travel-mode-icons .icon {
+                font-size: 32px;
+                filter: opacity(40%);
+            }
+
+            .travel-mode-icons .selected .icon {
+                filter: opacity(100%);
+            }
+
+            .google-directions {
+                text-overflow: initial !important;
+                white-space: initial !important;
+                overflow: initial !important;
+                word-break: break-word;
+            }
+
+            .google-directions table,
+            .google-directions tr {
+                max-width: 100%;
+            }
+
+            .google-directions .adp-distance {
+                text-align: right;
+            }
+
+            .google-directions img.adp-marker {
+                display: none;
+            }
+
+            .google-directions td.adp-text {
+                padding: 12px;
+                text-align: center;
+            }
+
+            .google-directions .adp-summary {
+                text-align: center;
+                font-weight: bold;
+                margin-bottom: 8px;
+            }
+
+            .google-directions .adp-legal {
+                display: none !important;
+            }
+
+
+        </style>
+
+    </ion-content>
+</ion-view>

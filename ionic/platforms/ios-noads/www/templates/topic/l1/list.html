@@ -1,0 +1,45 @@
+<ion-view sb-page-background class="topic-view">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-content class="topic-list">
+
+        <div class="list">
+
+            <div class="item item-text-wrap item-custom" ng-if="description" ng-bind-html="description | trusted_html"></div>
+
+            <div ng-repeat="item in items">
+                <div class="item item-avatar-square" ng-class="{ 'item-toggle toggle-custom': !item.children.length, 'item-custom': item.children.length, 'item-avatar': item.picture }">
+                    <img ng-src="{{ item.picture }}" ng-if="item.picture" />
+                    <h2>{{ item.name }}</h2>
+                    <p>{{ item.description }}</p>
+                    <label class="toggle toggle-custom" ng-if="!item.children.length">
+                        <input type="checkbox" ng-change="toggle(item)" ng-model="item.is_subscribed" />
+                        <div class="track">
+                            <div class="handle"></div>
+                        </div>
+                    </label>
+                </div>
+                <div class="item item-toggle item-avatar-square toggle-custom" ng-repeat="child in item.children" ng-class="{ 'item-avatar': child.picture }">
+                    <img ng-src="{{ child.picture }}" ng-if="child.picture" />
+                    <h2>{{ child.name }}</h2>
+                    <p>{{ child.description }} {{ child.test_content }}</p>
+                    <label class="toggle">
+                        <input type="checkbox" ng-change="toggle(child)" ng-model="child.is_subscribed" />
+                        <div class="track">
+                            <div class="handle"></div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="item item-text-wrap" ng-if="no_items">
+                {{ "No topics for now." | translate }}
+            </div>
+
+        </div>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+    </ion-content>
+</ion-view>

@@ -1,0 +1,114 @@
+<ion-view sb-page-background cache-view="false" >
+  <ion-nav-title>{{ page_title }}</ion-nav-title>
+  <ion-nav-buttons side="secondary">
+    <button ng-click="right_button.action()" class="button button-clear header-item" ng-if="right_button">
+      <span class="back-text"><span class="default-title">{{ right_button.label }}</span></span>
+      <i class="icon" ng-class="right_button.icon"></i>
+    </button>
+  </ion-nav-buttons>
+
+  <ion-content>
+
+    <div class="card" ng-if="cart.lines.length" ng-repeat="line in cart.lines">
+      <div class="item item-divider item-divider-custom">
+        <p><strong><i class="icon ion-clipboard"></i> {{ line.name }} - {{ line.formattedBasePriceInclTax }}</strong></p>
+      </div>
+      <div class="item item-thumbnail-left item-icon-right item-custom">
+        <img ng-if="line.product.picture.url" ng-src="{{ line.product.picture.url }}" />
+        <p ng-show="line.format[0].title && line.format[0].title != ''">{{ "Format:" | translate }} {{ line.format[0].title }}</p>
+        <p ng-repeat="option in line.options">
+          {{ option.qty }} x {{ option.name }} : {{ option.formattedPriceInclTax }}
+        </p>
+        <p ng-repeat="choice in line.choices">
+          {{ choice.title }}:
+          <span ng-repeat="elem in choice.options"><br> &nbsp;&nbsp; {{elem}}</span>
+        </p>
+        <p class="text-right"><strong>{{ "Total:" | translate }}</strong> {{ line.formattedTotalInclTax }}</p>
+        <i class="icon ion-trash-a" ng-click="removeLine(line)"></i>
+      </div>
+      <sb-input-number value="line.qty" min="1" step="1" label="{{ 'Qty' | translate }}" change-qty="changeQuantity(qty,params)" params="{line:line}"></sb-input-number>
+    </div>
+    <div class="card" ng-if="cart.lines.length">
+      <div class="item item-divider item-divider-custom">
+        <p><strong><i class="icon ion-calculator"></i> {{ "Total" | translate }}</strong></p>
+      </div>
+      <div class="item item-custom" ng-if="cart.deliveryCost > 0">
+        {{ "Delivery fees" | translate }}
+        <span class="item-note" ng-if="!is_loading">{{ cart.formattedDeliveryTTC }}</span>
+        <span class="item-note" ng-if="is_loading"><ion-spinner class="spinner-custom"></ion-spinner></span>
+      </div>
+      <div class="item item-custom">
+        <strong>{{ "Subtotal" | translate }}</strong>
+        <span class="item-note" ng-if="!is_loading"><strong>{{ cart.formattedSubtotal }}</strong></span>
+        <span class="item-note" ng-if="is_loading"><ion-spinner class="spinner-custom"></ion-spinner></span>
+      </div>
+      <div class="item item-custom" ng-if="cart.discount_enabled">
+        {{ "Discount code" | translate }}
+        <span class="item-note">
+          <input type="text" name="discount_code" ng-model="cart.discount_code" class="discount" ng-disabled="points_data.use_points" ng-change="updateTipAndDiscount()">
+        </span>
+      </div>
+      <div class="item item-custom" ng-if="cart.discount_enabled && cart.discount_code != '' && cart.discount">
+        {{ "Discount" | translate }} ({{ cart.discount_message }})
+        <span class="item-note" ng-if="!is_loading">- {{ cart.discount }}</span>
+        <span class="item-note" ng-if="is_loading"><ion-spinner class="spinner-custom"></ion-spinner></span>
+      </div>
+      <ion-checkbox class="checkbox-custom" ng-model="points_data.use_points" ng-change="useFidelityChange()" ng-if="cart.customer_fidelity_points && cart.fidelity_rate">{{ "Use my points?" | translate }}</ion-checkbox>
+
+      <div ng-show="points_data.use_points">
+        <div class="item item-custom">
+          {{ "Points available:" | translate }} {{ cart.customer_fidelity_points }}, {{ "1 points =" | translate }} {{ cart.fidelity_rate }} {{ cart.currency_code }}
+        </div>
+        <div class="item item-custom">
+          {{ "Use:" | translate }}
+          <span class="item-note">
+            <input type="number" name="points" ng-model="points_data.nb_points_used" class="cart-tip" min="1" max="{{cart.customer_fidelity_points}}" ng-change="updateEstimatedDiscount()">
+          </span>
+        </div>
+        <div class="item item-custom">
+          {{ "Estimated discount:" | translate }} <span class="item-note" ng-bind-html="cart.estimated_fidelity_discount"></span>
+        </div>
+        <div class="item-divider item-divider-custom"></div>
+      </div>
+      <div class="item item-custom" ng-if="cart.discount_enabled && cart.discount_code != '' && cart.discount">
+        <strong>{{ "Subtotal" | translate }} {{ "Incl." | translate | lowercase }} {{ "Discount" | translate | lowercase }}</strong>
+        <span class="item-note" ng-if="!is_loading">{{ cart.formattedSubtotalWithDiscount }}</span>
+        <span class="item-note" ng-if="is_loading"><ion-spinner class="spinner-custom"></ion-spinner></span>
+      </div>
+      <div class="item item-custom" ng-if="cart.deliveryCost > 0">
+        {{ "Subtotal Excl. Tax" | translate }}
+        <span class="item-note" ng-if="!is_loading">{{ cart.formattedDeductedTotalHT }}</span>
+        <span class="item-note" ng-if="is_loading"><ion-spinner class="spinner-custom"></ion-spinner></span>
+      </div>
+      <div class="item item-custom">
+        {{ "Tax" | translate }}
+        <span class="item-note" ng-if="!is_loading">{{ cart.formattedDeductedTva }}</span>
+        <span class="item-note" ng-if="is_loading"><ion-spinner class="spinner-custom"></ion-spinner></span>
+      </div>
+      <div class="item item-custom" ng-if="cart.add_tip">
+        {{ "Add gratuity (Optional)" | translate }}
+        <span class="item-note">
+          <input type="number" name="tip" ng-model="cart.tip" class="cart-tip" ng-change="updateTipAndDiscount()">
+        </span>
+      </div>
+      <div class="item item-custom">
+        <strong>{{ "Total" | translate }}</strong>
+        <span class="item-note" ng-if="!is_loading">{{ cart.formattedTotal }}</span>
+        <span class="item-note" ng-if="is_loading"><ion-spinner class="spinner-custom"></ion-spinner></span>
+      </div>
+    </div>
+    <div class="card" ng-if="!cart.lines.length">
+      <div class="item item-custom">
+        <p>{{ "My cart is empty" | translate }}</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="item item-icon-left item-custom" ng-click="goToCategories()">
+                <i class="icon ion-ios-arrow-back"></i> {{ "Continue shopping" | translate }}
+            </div>
+        </div>
+    </ion-content>
+</ion-view>
+
+
+

@@ -1,0 +1,11 @@
+<ion-view sb-page-background view-title="{{ 'Photos' | translate }}">
+    <ion-content>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner></ion-spinner>
+        </div>
+
+        <ion-gallery ion-gallery-items="collection" ion-item-callback="goToPost(item)" ng-if="!is_loading"></ion-gallery>
+
+    </ion-content>
+</ion-view>

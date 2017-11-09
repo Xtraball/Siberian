@@ -1,0 +1,52 @@
+<ion-view sb-page-background class="facebook-view">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <button class="button-clear icon-right button" ng-class="right_button.icon" ng-click="right_button.action()">
+            {{ right_button.label }}
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="facebook-view card">
+            <div class="item item-text-wrap item-thumbnail-left item-custom">
+                <img width="75" height="75" ng-src="{{ post.icon }}" alt="{{ post.author }}" title="{{ post.author }}" />
+                <h2>{{ post.author }}<span ng-show="post.author && post.title"> - </span><span>{{ post.title }}</span>
+                </h2>
+                <p>{{ post.created_at }}</p>
+            </div>
+            <div class="item item-body item-custom">
+                <img class="full-image" ng-src="{{ post.picture }}" alt="{{ post.author }}" title="{{ post.author }}" ng-if="post.picture" />
+                <p ng-if="post.link" class="fb-link" sb-a-click>
+                    <i class="ion-ios-redo-outline"></i>
+                    <a ng-href="{{ post.link }}">{{ "Open link" | translate }}</a>
+                </p>
+                <p ng-if="post.description" ng-bind-html="post.description | trusted_html" sb-a-click></p>
+            </div>
+            <div class="item item-body item-custom">
+                <p ng-if="post.message" ng-bind-html="post.message" sb-a-click></p>
+                <p>
+                    <i class="ion-ios-heart-outline" title="{{ 'Likes' | translate }}" ></i>
+                    {{ post.number_of_likes }}
+                    <i class="ion-ios-chatboxes-outline" title="{{ 'Coms' | translate }}" ></i>
+                    {{ post.number_of_comments }}
+                </p>
+            </div>
+            <div class="list" ng-if="comments.length">
+                <ul>
+                    <li class="item item-text-wrap item-custom" ng-repeat="comment in comments" ng-class="{'item-thumbnail-left': comment.picture}">
+                        <img ng-src="{{ comment.picture }}" ng-if="comment.picture" />
+                        <h2>{{ comment.name }}</h2>
+                        <p class="justify">{{ comment.message }}</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </ion-content>
+
+</ion-view>

@@ -1,0 +1,22 @@
+<resources>
+
+    <style name="header_icon_theme">
+        <!--<item name="android:backgroundTint">#ffffff</item>-->
+    </style>
+
+    <style name="header_title_theme">
+        <item name="android:background">@color/text_color</item>
+        <item name="android:textColor">@color/background_color</item>
+    </style>
+
+    <style name="edit_text_theme">
+        <item name="android:color">@color/text_color</item>
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="button_theme">
+        <item name="android:textColor">@color/background_color</item>
+    </style>
+
+</resources>

@@ -1,0 +1,47 @@
+<ion-view sb-page-background>
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-content>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="list" ng-class="{'card': card_design}" ng-if="!is_loading">
+
+            <div class="item item-text-wrap item-custom">
+                <h2>{{ product.name }}</h2>
+            </div>
+            <div class="item item-text-wrap item-custom" ng-if="product.picture">
+                <img ng-src="{{ product.picture }}" width="100%" />
+            </div>
+
+            <div class="item item-icon-left item-custom" ng-if="product.price">
+                <i class="icon ion-ios-pricetag-outline"></i>
+                {{ product.price }}
+            </div>
+            <div class="item item-text-wrap item-custom" ng-if="product.conditions">
+                {{ product.conditions }}
+            </div>
+        </div>
+
+        <div class="list" ng-class="{'card': card_design}" ng-if="!is_loading">
+            <div class="item item-divider item-divider-custom">
+                <h2>{{ "Description" | translate }}</h2>
+            </div>
+            <div class="item item-text-wrap item-custom" ng-bind-html="product.description | trusted_html"></div>
+        </div>
+
+        <div class="list" ng-class="{'card': card_design}" ng-if="!is_loading && product.formats.length">
+            <div class="item item-divider item-divider-custom">
+                <h2>{{ "Prices" | translate }}</h2>
+            </div>
+            <div class="item item-custom no-padding" ng-repeat="format in product.formats">
+                <div class="row">
+                    <h2 class="col col-50">{{ format.title }}</h2>
+                    <p class="col col-50 text-right">{{ format.price }}</p>
+                </div>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

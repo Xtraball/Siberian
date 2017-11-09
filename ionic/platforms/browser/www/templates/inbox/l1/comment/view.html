@@ -1,0 +1,40 @@
+<ion-view sb-page-background cache-view="false" view-title="{{ 'Inbox replies' | translate }}">
+
+    <ion-nav-buttons side="secondary">
+        <div sb-tooltip collection="tooltip.collection" current-item="tooltip.current_item" button-label="tooltip.button_label" on-item-clicked="setShowRecent(object)" ng-if="tooltip"></div>
+        <button ng-click="right_button.action()" class="button button-clear header-item" ng-if="right_button">
+            <span class="back-text"><span class="default-title">{{ right_button.label }}</span></span>
+            <i class="icon" ng-class="right_button.icon"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content class="has-tabs inbox-content">
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="list">
+
+            <div ng-repeat="item in collection track by $index" class="item item-custom item-text-wrap" >
+                <h3><i class="icon ion-ios-calendar"></i> <strong>{{ item.send_at }}</strong></h3>
+                <p ng-if="item.firstname"><i class="icon ion-person"></i> {{ "By" | translate }} <strong>{{ item.firstname }} {{ item.lastname }}</strong></p>
+                <p ng-if="!item.firstname">{{ "By" | translate }} <strong>{{ app_name }}</strong></p>
+                <br/>
+                <p class="text-justify" ng-bind-html="item.message | trusted_html"></p>
+            </div>
+            <div class="item item-custom" ng-if="!collection.length">
+                <p class="text-center">{{ "Nothing to display." | translate }}</p>
+            </div>
+
+        </div>
+
+    </ion-content>
+
+    <div class="tabs tabs-icon-top inbox-footer" ng-show="show_bottom_bar">
+        <div class="tab-item" ng-click="gotToPost()">
+            <i class="icon ion-edit"></i> {{ "Leave a reply" | translate }}
+        </div>
+    </div>
+
+</ion-view>

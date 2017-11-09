@@ -1,0 +1,33 @@
+<ion-view sb-page-background view-title="{{ 'Email' | translate }}" class="contact-view">
+
+    <ion-content>
+
+        <div>
+            <form name="contactForm" ng-submit="submitForm();" novalidate>
+                <div class="list" ng-class="{'card': card_design}">
+                    <label class="item item-input item-custom">
+                        <input type="text" ng-model="form.name" placeholder="{{ 'Your name' | translate }}" required />
+                    </label>
+                    <label class="item item-input item-custom">
+                        <input type="email" ng-model="form.email" placeholder="{{ 'Your email address' | translate }}" required />
+                    </label>
+                    <label class="item item-input item-custom">
+                        <textarea placeholder="{{ 'Your request' | translate }}" rows="6" ng-model="form.info" required></textarea>
+                    </label>
+                </div>
+
+                <div ng-class="{'padding': card_design}">
+                    <button type="submit" class="button button-positive button-positive-custom" ng-class="{'button-full': !card_design, 'button-block': card_design}" ng-show="!is_loading">{{ "Send" | translate }}</button>
+                </div>
+
+            </form>
+
+            <div class="loader" ng-show="is_loading">
+                <ion-spinner class="spinner-custom"></ion-spinner>
+            </div>
+
+        </div>
+
+    </ion-content>
+
+</ion-view>

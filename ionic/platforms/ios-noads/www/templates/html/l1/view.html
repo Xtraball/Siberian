@@ -1,0 +1,75 @@
+<ion-view sb-page-background cache-view="false">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <button ng-show="social_sharing_active" class="button button-clear" ng-click="share()">
+            <i class="icon ion-ios-upload-outline"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner></ion-spinner>
+        </div>
+
+        <div ng-if="!is_loading">
+
+            <div class="list" ng-class="{'card': card_design}">
+
+                <div class="item item-avatar item-button-right item-custom">
+                    <img ng-src="{{ item.icon }}" ng-if="item.icon" />
+                    <h2>{{ item.author }}</h2>
+                    <p ng-if="item.title">{{ item.title }}</p>
+                </div>
+                <div class="item item-text-wrap item-custom" ng-if="item.subtitle">
+                    {{ item.subtitle }}
+                </div>
+                <div class="item item-icon-left item-button-right item-custom">
+                    <i ng-if="item.created_at" class="icon ion-calendar"></i>
+                    <span ng-if="!item.mt_created_at">{{ item.created_at }}</span>
+                    <span ng-if="item.mt_created_at">{{ item.mt_created_at | from_now }}</span>
+                </div>
+                <div class="item item-image item-custom" ng-if="item.picture">
+                    <img ng-src="{{ item.picture }}" width="100%" />
+                </div>
+                <div class="item item-text-wrap item-custom" ng-bind-html="item.message | trusted_html" ng-if="item.message" sb-a-click></div>
+
+                <div class="item item-text-wrap item-icon-left item-custom" ng-click="comment()" ng-if="show_comment_button && is_logged_in">
+                    <i class="icon ion-android-textsms"></i>
+                    {{ "Comment" | translate }}
+                </div>
+                <div class="item item-text-wrap item-icon-left item-custom" ng-click="login()" ng-if="(show_comment_button || show_like_button) && !is_logged_in">
+                    <i class="icon ion-ios-person-outline"></i>
+                    {{ "Click here to log-in" | translate }}
+                </div>
+                <div class="item item-text-wrap item-icon-left item-custom" ng-click="addLike()" ng-if="show_like_button && is_logged_in">
+                    <i class="icon ion-ios-heart-outline"></i>
+                    {{ "Like" | translate }}
+                </div>
+                <div class="item item-text-wrap item-icon-left item-custom" ng-click="flagPost()" ng-if="show_flag_button">
+                    <i class="icon ion-ios-flag"></i>
+                    {{ "Flag as inappropriate" | translate }}
+                </div>
+
+            </div>
+
+            <div class="list" ng-class="{'card': card_design}" ng-if="comments.length">
+                <div class="item item-divider item-divider-custom">
+                    {{ "COMMENTS" | translate }}
+                </div>
+                <div class="item item-text-wrap item-button-right item-custom item-avatar" ng-repeat="comment in comments">
+                    <img ng-src="{{ customerAvatar(comment.customer_id) }}"/>
+                    <h2>{{ comment.name }}</h2>
+                    <p class="justify">{{ comment.message }}</p>
+                    <button class="button button-icon button-custom ion-ios-flag" ng-if="show_button_flag" ng-click="flagComment(comment.id)"></button>
+                </div>
+            </div>
+
+            <div class="list"  ng-class="{'card': card_design}" ng-if="!comments.length">
+                <div class="item item-text-wrap item-custom" >
+                    {{ "No comments for now." | translate }}
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

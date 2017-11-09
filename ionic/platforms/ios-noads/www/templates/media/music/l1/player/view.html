@@ -1,0 +1,97 @@
+<ion-view sb-page-background class="audio-player" hide-nav-bar="true" sb-media-player-controls>
+
+    <!-- Minimize button & Audio title & Others button -->
+    <ion-header-bar align-title="left" class="header bar-dark">
+        <button class="button button-clear" ng-click="minimize()">
+            &nbsp;&nbsp;<i class="icon ion-chevron-left"></i>
+        </button>
+
+        <div class="title">
+            {{ player.current_track.name }}
+        </div>
+
+        <div class="buttons">
+            <button class="button button-clear" ng-click="purchase()" ng-hide="player.is_radio || !player.current_track.purchaseUrl">
+                <i class="icon ion-ios-cart"></i>
+            </button>
+            <button class="button button-clear" ng-click="openPlaylist()" ng-hide="player.is_radio">
+                <i class="icon ion-navicon"></i>
+            </button>
+            <button class="button button-clear" ng-if="!is_webview" ng-click="share()">
+                <i class="icon ion-ios-upload-outline"></i>
+            </button>
+            <button class="button button-clear" ng-click="destroy()">
+                <i class="icon ion-close"></i>
+            </button>
+        </div>
+    </ion-header-bar>
+
+    <!-- Album cover -->
+    <ion-content
+            class="cover"
+            style="background: url('{{ player.current_track.albumCover }}') no-repeat center fixed #000000; -webkit-background-size: cover; background-size: cover;">
+    </ion-content>
+
+    <!-- Seekbar & Elapsed time -->
+    <ion-subfooter-bar class="subfooter bar bar-subfooter bar-dark ng-hide" ng-show="player.duration && !player.is_radio">
+        <div class="title">{{ player.elapsed_time | secondsToDateTime | date:'mm:ss' }}</div>
+
+        <div class="seekbar range range-positive">
+            <input type="range" name="seekbar" min="0" max="{{ player.duration }}" value="{{ player.elapsed_time }}" on-touch="willSeek()" on-release="seekTo(player.elapsed_time)" ng-model="player.elapsed_time">
+        </div>
+    </ion-subfooter-bar>
+
+    <!-- Player controls -->
+    <ion-footer-bar class="footer tabs tabs-icon-only tabs-dark">
+        <div class="tab-item">
+            <button class="button button-clear button-light relative"
+                    ng-click="repeat()"
+                    ng-class="{ 'button-active button-positive': player.repeat_type }"
+                    ng-disabled="player.is_radio">
+                <i class="icon ion-refresh"></i>
+                <span ng-show="player.repeat_type == 'one'" ng-class="{ 'repeat-one': player.repeat_type == 'one' }">1</span>
+            </button>
+        </div>
+
+        <div class="tab-item">
+            <button class="button button-clear button-light"
+                    ng-click="prev()"
+                    ng-disabled="(player.current_index == 0 || player.is_radio) && !player.repeat_type">
+                <i class="icon ion-ios-skipbackward"></i>
+            </button>
+        </div>
+
+        <div class="tab-item">
+            <button class="button button-clear button-light" ng-click="backward()" ng-disabled="player.is_radio">
+                <i class="icon ion-ios-rewind"></i>
+            </button>
+        </div>
+
+        <div class="tab-item">
+            <button class="button button-clear button-light" ng-click="playPause()">
+                <i class="icon" ng-class="{ 'ion-play': !player.is_playing, 'ion-ios-pause': player.is_playing }"></i>
+            </button>
+        </div>
+
+        <div class="tab-item">
+            <button class="button button-clear button-light" ng-click="forward()" ng-disabled="player.is_radio">
+                <i class="icon ion-ios-fastforward"></i>
+            </button>
+        </div>
+
+        <div class="tab-item">
+            <button class="button button-clear button-light"
+                    ng-click="next()"
+                    ng-disabled="(player.current_index == (player.tracks.length - 1) || player.is_radio) && !player.repeat_type">
+                <i class="icon ion-ios-skipforward"></i>
+            </button>
+        </div>
+
+        <div class="tab-item">
+            <button class="button button-clear button-light" ng-click="shuffle()" ng-class="{ 'button-active button-positive': player.is_shuffling }" ng-disabled="player.is_radio">
+                <i class="icon ion-shuffle"></i>
+            </button>
+        </div>
+    </ion-footer-bar>
+
+</ion-view>

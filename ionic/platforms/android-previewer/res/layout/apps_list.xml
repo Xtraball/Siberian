@@ -1,0 +1,48 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/apps_list_layout"
+    android:background="@color/background_color">
+
+    <TextView
+        style="@style/header_title_theme"
+        android:id="@+id/lb_my_apps"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/my_apps"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:height="50sp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:gravity="center_vertical|center_horizontal" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/img_back"
+        android:background="@drawable/ic_action_previous_item"
+        android:layout_alignParentStart="false"
+        android:layout_marginTop="9sp"
+        android:onClick="goToLogin" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/back"
+        android:id="@+id/txt_back"
+        android:layout_toEndOf="@+id/img_back"
+        android:height="50sp"
+        android:clickable="true"
+        android:gravity="center_vertical|center_horizontal"
+        android:onClick="goToLogin" />
+
+    <ListView
+        android:id="@+id/apps_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:divider="#b5b5b5"
+        android:dividerHeight="1dp"
+        android:layout_below="@+id/lb_my_apps" />
+
+</RelativeLayout>

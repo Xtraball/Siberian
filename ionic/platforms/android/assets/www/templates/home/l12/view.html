@@ -1,0 +1,14 @@
+<div class="layout l12" ng-class="{ 'colorize-pager': features.layoutOptions.colorizePager == '1' }">
+    <ion-slide-box delegate-handle="slideBoxLayout" pager-click="gotoPage(index);">
+        <ion-slide ng-repeat="page in features.overview.paged_options">
+            <a class="text-center homepage-custom transparent" ng-repeat="feature in page"
+               tabbar-items option="feature" go-to-url="goTo(feature)">
+                <div class="items homepage-custom border-custom" ng-class="{ 'no-border': tabbar_is_transparent }">
+                    <img ng-src="{{ feature.icon_url }}" />
+                </div>
+                <p>{{ feature.name }}</p>
+                <div ng-if="feature.code == 'push_notification' && push_badge" class="badge-custom">{{ push_badge }}</div>
+            </a>
+        </ion-slide>
+    </ion-slide-box>
+</div>

@@ -1,0 +1,60 @@
+<ion-view sb-page-background>
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <button ng-show="social_sharing_active" class="button button-clear" ng-click="share()">
+            <i class="icon ion-ios-upload-outline"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content ng-class="{ 'has-tabs' : template_tabs && footer_is_tabs, 'inbox-content' : (module_code == 'inbox') }">
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <ion-refresher ng-if="use_pull_to_refresh"
+                       class="spinner-custom"
+                       pulling-text="{{ 'Pull to refresh...' | translate }}"
+                       on-refresh="pullToRefresh()">
+        </ion-refresher>
+
+        <div ng-include="template_header"></div>
+
+        <div ng-repeat="block in blocks" ng-if="!is_loading">
+
+            <div ng-switch on="block.type">
+                <div ng-switch-when="text" class="card">
+                    <div sb-cms-text block="block"></div>
+                </div>
+                <div ng-switch-when="image" class="card">
+                    <div sb-cms-image block="block" gallery="gallery"></div>
+                </div>
+                <div ng-switch-when="slider" class="card">
+                    <div sb-cms-slider block="block" gallery="gallery"></div>
+                </div>
+                <div ng-switch-when="video">
+                    <div sb-cms-video block="block"></div>
+                </div>
+                <div ng-switch-when="address" class="card">
+                    <div sb-cms-address block="block" on-show-map="onShowMap(address)"></div>
+                </div>
+                <div ng-switch-when="button" class="card">
+                    <div sb-cms-button block="block"></div>
+                </div>
+                <div ng-switch-when="file" class="card">
+                    <div sb-cms-file block="block"></div>
+                </div>
+                <div ng-switch-when="cover" class="card no-shadow">
+                    <div sb-cms-cover block="block"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <div ng-include="template_footer"></div>
+
+    </ion-content>
+
+    <div ng-include="template_tabs"></div>
+
+</ion-view>
