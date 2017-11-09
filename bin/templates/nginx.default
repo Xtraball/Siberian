@@ -1,5 +1,5 @@
 server {
-    listen 80;
+    listen [::]:80;
 
     root %PATH%/siberian;
 
@@ -12,6 +12,21 @@ server {
 
     location ~ ^/app/configs {
         deny all;
+    }
+
+    location ~ ^/var/apps/certificates {
+        deny all;
+    }
+
+    # Let's Encrypt configuration
+    location = /.well-known/check {
+        default_type "text/plain";
+        try_files $uri =404;
+    }
+
+    location ^~ /.well-known/acme-challenge/ {
+        default_type "text/plain";
+        try_files $uri =404;
     }
 
     location / {
