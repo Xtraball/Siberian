@@ -19,7 +19,7 @@
 
 2. Run `npm install` then follow the instructions to update your local shell.
 
-3. Run `siberian init` to init your local project.
+3. Run `sb init` to init your local project.
 
 2. Setup your empty database and user
 

@@ -1,13 +1,13 @@
-## Contribute To SiberianCMS
+## Contribute To Siberian
 
-Anyone can contribute to SiberianCMS. And we need your contributions.
+Anyone can contribute to Siberian. And we need your contributions.
 
 There are multiple ways to contribute: [report bugs](#submit-an-issue), [improve the docs](#help-improve-the-docs), and [contribute code](#share-new-features).
 
 ## Submit An Issue
 
 1. Search into existing issues before submitting yours
-2. Fork the Github repo: `git clone https://github.com/Xtraball/SiberianCMS.git`
+2. Fork the Github repo: `git clone https://github.com/Xtraball/Siberian.git`
 3. Create a new branch from master: `git checkout -b issueid-shortdescription`
 4. Review our [pull request guidelines](#pull-request).
 5. Follow our [coding conventions](#conventions).
