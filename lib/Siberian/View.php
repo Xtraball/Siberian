@@ -86,7 +86,6 @@ class Siberian_View extends Zend_View
     }
 
     public function getPartialHtml($key) {
-        $this->getLayout()->getPartialHtml($key);
         return $this->getLayout()->getPartialHtml($key);
     }
 
