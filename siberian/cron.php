@@ -9,6 +9,8 @@
 
 global $_config;
 
+chdir(__DIR__);
+
 if (!file_exists('./config.php')) {
     copy('./config.sample.php', './config.php');
 }

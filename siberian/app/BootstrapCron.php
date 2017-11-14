@@ -140,10 +140,6 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap {
 
     // Loading individual bootstrappers!
     protected function _initModuleBoostrap() {
-        $edition_path = strtolower(Siberian_Version::TYPE);
-        require_once Core_Model_Directory::getBasePathTo('app/' . $edition_path . '/bootstrap.php');
-
-        Module_Bootstrap::init($this);
         $module_names = $this->_front_controller->getDispatcher()->getModuleDirectories();
 
         foreach ($module_names as $module) {
