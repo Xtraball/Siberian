@@ -1,7 +1,8 @@
 <?php
-
+/**
+ * Class Siberian_Version
+ */
 class Siberian_Version {
-
     const TYPE = '%TYPE%';
     const NAME = '%NAME%';
     const VERSION = '%VERSION%';
