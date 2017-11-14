@@ -30,21 +30,7 @@ let platforms = [
     'browser'
 ];
 
-let packModules = [
-    'inbox',
-    'individual-push',
-    'previewer',
-    'stripe',
-    'stripe-pe',
-    'inbox',
-    'module-quizz',
-    'surveys',
-    'socketio',
-    'tiger',
-    'woocommerce',
-    'digital-prizm',
-    'chatrooms'
-];
+let packModules = [];
 
 /**
  * Defining this file path to get the SiberianCMS root project,
@@ -67,9 +53,9 @@ let ROOT = path.resolve(path.dirname(__filename), '../../'),
  */
 const notify = function (message, options) {
     const NOTIF_BASE = {
-        title: "Siberian CLI",
+        title: 'Siberian CLI',
         icon: path.join(__dirname, '../../resources/siberian/logo.300.png'), // Absolute path (doesn't work on balloons)
-        sound: true, // Only Notification Center or Windows Toasters
+        sound: true
     };
 
     return notifier.notify(Object.assign({}, NOTIF_BASE, {message: message}, options));
@@ -534,11 +520,6 @@ let rebuildManifest = function () {
                                     `Expected application/json but received ${contentType}`);
                 }
 
-                if (error) {
-//                  res.resume(); // free up memory
-//                  throw error;
-                }
-
                 res.setEncoding('utf8');
                 let rawData = '';
                 res.on('data', (chunk) => { rawData += chunk; });
@@ -577,7 +558,9 @@ let rebuild = function (platform, copy, prepare) {
     let indexFile = ROOT + '/ionic/www/index.html';
 
     try {
-        originalIndexContent = fs.readFileSync(indexFile, { encoding: 'utf8' });
+        originalIndexContent = fs.readFileSync(indexFile, {
+            encoding: 'utf8'
+        });
 
         let regexp = /\n?\t?\t?<script src="http:\/\/www.siberiancms.dev\/installer\/module\/getfeature\/[^"]+" data-feature="[^"]+"><\/script>\n?\t?/g;
         let indexContent = originalIndexContent.replace(regexp, '');
@@ -586,7 +569,9 @@ let rebuild = function (platform, copy, prepare) {
             originalIndexContent = null; // reset if unused
         } else {
             sprint('Unpatching ionic/www/index.html temporarily....');
-            fs.writeFileSync(indexFile, indexContent, { encoding: 'utf8' });
+            fs.writeFileSync(indexFile, indexContent, {
+                encoding: 'utf8'
+            });
             sprint('Unpatched!');
         }
 
@@ -641,10 +626,10 @@ let rebuild = function (platform, copy, prepare) {
 
                 switch (platform.split('-')[0]) {
                     case 'android':
-                        sh.cp('-f', installPath+'/res/xml/config.xml', installPath+'/config.bck.xml');
+                        sh.cp('-f', installPath + '/res/xml/config.xml', installPath + '/config.bck.xml');
                         break;
                     case 'ios':
-                        sh.cp('-f', installPath+'/AppsMobileCompany/config.xml', installPath+'/config.bck.xml');
+                        sh.cp('-f', installPath + '/AppsMobileCompany/config.xml', installPath + '/config.bck.xml');
                         break;
                 }
 
