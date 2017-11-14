@@ -1,22 +1,23 @@
 <?php
 
 /**
- * SiberianCMS
+ * Siberian
  *
- * @version 4.1.0
+ * @version 4.12.18
  * @author Xtraball SAS <dev@xtraball.com>
- *
- * @development fast-env switch
- *
  */
 
-if(!file_exists("./config.php")) {
-    copy("./config.sample.php", "./config.php");
+global $_config;
+
+if(!file_exists('./config.php')) {
+    copy('./config.sample.php', './config.php');
 }
 
-require_once "./config.php";
+require_once './config.php';
 
-if(!isset($_config["debug"]) || !$_config["debug"]) {
+// Php Info!
+if (($_config['environment'] === 'development') && isset($_GET['phpi'])) {
+    phpinfo();
     die;
 }
 
@@ -26,34 +27,35 @@ umask(0);
 
 setlocale(LC_MONETARY, 'en_US');
 
-/** @deprecated from 4.1.0, as we support only linux/unix based servers, this isn't necessary */
 defined('DS')
     || define('DS', DIRECTORY_SEPARATOR);
 
 defined('APPLICATION_PATH')
-    || define('APPLICATION_PATH', realpath(dirname(__FILE__)."/app"));
+    || define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/app'));
 
-/** Defining ENV globally */
+// Defining ENV globally!
 defined('APPLICATION_ENV')
-    || define('APPLICATION_ENV', $_config["environment"]);
+    || define('APPLICATION_ENV', $_config['environment']);
 
-/** Sourcing default libs */
+// Sourcing default libs!
 set_include_path(implode(PATH_SEPARATOR, array(
-    realpath(APPLICATION_PATH."/../lib"),
+    realpath(APPLICATION_PATH . '/../lib'),
 )));
 
-require_once "Zend/Application.php";
+require_once 'Zend/Application.php';
 
-/** Initializing the application */
-$ini = is_readable(APPLICATION_PATH."/configs/app.ini") ? APPLICATION_PATH."/configs/app.ini" : APPLICATION_PATH."/configs/app.sample.ini";
+// Initializing the application!
+$ini = is_readable(APPLICATION_PATH . '/configs/app.ini') ?
+    APPLICATION_PATH . '/configs/app.ini' : APPLICATION_PATH . '/configs/app.sample.ini';
+
 $application = new Zend_Application(
-    $_config["environment"],
-    array(
-        "config" => array(
+    $_config['environment'],
+    [
+        'config' => [
             $ini,
-            APPLICATION_PATH."/configs/resources.cachemanager.ini",
-        ),
-    )
+            APPLICATION_PATH . '/configs/resources.cachemanager.ini',
+        ],
+    ]
 );
 
 $config = new Zend_Config($application->getOptions(), true);
