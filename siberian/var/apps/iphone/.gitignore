@@ -1,0 +1,6 @@
+# Ignore every template except defaults and self
+*
+# Defaults
+!.gitignore
+!.htaccess
+cert_*
