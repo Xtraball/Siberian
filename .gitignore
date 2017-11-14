@@ -7,11 +7,11 @@ ionic.project
 /nbproject
 *.sublime-*
 build/
+./apache.default
+./nginx.default
 __*
 developer.json
 cookie.txt
-nginx.default
-apache.default
 release-*
 .trash
 .sass-cache
