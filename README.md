@@ -18,6 +18,8 @@
 * Recommended OS: `Linux`
 
     * Works on `OSX` with [homebrew](http://brew.sh/), and on `Windows` with [cygwin](https://www.cygwin.com/)
+
+* NodeJS
     
 * OpenSSL >=1.0.1
 
