@@ -45,7 +45,7 @@
 
 ### Configuration
 
-1. First you will need to either checkout the project `git clone https://github.com/Xtraball/SiberianCMS.git`
+1. First you will need to either checkout the project `git clone https://github.com/Xtraball/Siberian.git`
 
     or download the [zip archive](https://github.com/Xtraball/Siberian/archive/master.zip) then extract it on your webserver.
 
@@ -94,7 +94,7 @@ A default branch named `siberian` is used to track and lock our modifications.
 Our standalone modules are tracked into the folder `modules` every module has it's own git, and is versioned independantly of the Siberian Editions
 
 
-# SiberianCMS command-line interface Help
+# Siberian command-line interface Help
 
 Available commands are: 
 
@@ -143,7 +143,7 @@ Available commands are:
 ||npm <version>|
 |prod|Switch the Application mode to 'production'.|
 |dev|Switch the Application mode to 'development'.|
-|version|Prints the current SiberianCMS version.|
+|version|Prints the current Siberia version.|
 |linkmodule, lm|Symlink a module from ./modules/ to ./siberian/app/local/modules/|
 ||lm <module>|
 |unlinkmodule, ulm|Remove module symlink|
