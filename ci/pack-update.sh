@@ -5,8 +5,14 @@ RELEASE=$(node -e "console.log(require('./package.json').version);")
 REQUIRED_VERSION=$(node -e "console.log(require('./package.json').lastversion);")
 NATIVE_VERSION=$(node -e "console.log(require('./package.json').nativeVersion);")
 API_VERSION=$(node -e "console.log(require('./package.json').apiVersion);")
-HASH_FROM=$(git rev-parse "v"$REQUIRED_VERSION^0)
-HASH_TO=$(git rev-parse "v"$RELEASE^0)
+HASH_FROM=$(git rev-parse --quiet --verify "v"$REQUIRED_VERSION^0)
+HASH_TO=$(git rev-parse --quiet --verify "v"$RELEASE^0)
+
+if [ -z "$HASH_FROM" ]
+then
+    echo "There is no HASH_FROM available, skip building updates."
+    exit 0
+fi
 
 # Paths
 ROOT=$PWD

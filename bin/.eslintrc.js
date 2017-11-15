@@ -1,53 +1,19 @@
-/*global
-    module
- */
-
 /**
- * Siberian @ Xtraball SAS
- *
- * @date 17-August-2017
+ * @date 15-November-2017
  * @author Xtraball SAS <dev@xtraball.com>
  */
 module.exports = {
     "env": {
-        "browser": true,
-        "commonjs": true,
-        "jquery": true
+        "node": true,
+        "es6": true
     },
     "globals": {
-        "angular": false,
-        "caches": false,
-        "chcp": false,
-        "localStorage": false,
-        "cordova": false,
-        "google": false,
-        "StatusBar": false,
-        "window": false,
-        "device": false,
-        "ionic": false,
-        "chcp,": false,
-        "Connection": false,
-        "moment": false,
-        "IMAGE_URL": true,
-        "APP_KEY": true,
-        "REDIRECT_URI": true,
-        "DOMAIN": true,
-        "BASE_PATH": true,
-        "IS_NATIVE_APP": true,
-        "DEVICE_TYPE": true,
-        "LOGIN_FB": true,
-        "Swiper": true,
-        "fbtoken": true,
-        "language": true,
-        "lazyLoadResolver": true,
-        "isOverview": true,
-        "_": true
+        "process": true
     },
     "extends": "eslint:recommended",
     "parserOptions": {
         "ecmaFeatures": {
-            "experimentalObjectRestSpread": true,
-            "jsx": true
+            "experimentalObjectRestSpread": true
         },
         "sourceType": "module"
     },

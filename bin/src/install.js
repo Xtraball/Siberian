@@ -21,7 +21,6 @@ const init = function () {
 };
 
 const install = function (inputArgs) {
-
     init();
     let args = nopt(inputArgs);
 
