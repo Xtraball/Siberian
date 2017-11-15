@@ -9,16 +9,14 @@
 * [User documentation](http://doc.siberiancms.com)
 * [Developer documentation](http://developer.siberiancms.com)
 
-## Installation
+## Requirements
 
-### Requirements
-
-## Software
+### Software
 
 * Recommended OS: `Linux`
 
     * Works on `OSX` with [homebrew](http://brew.sh/), and on `Windows` with [cygwin](https://www.cygwin.com/)
-
+    
 * NodeJS
     
 * OpenSSL >=1.0.1
@@ -53,15 +51,20 @@
 
 2. Run `npm install` then follow the instructions to update your local shell.
 
-3. Run `./sb init` to init your local project.
+3. Go into `ionic` folder then run `npm install` too.
 
-3. Configure your environment with either [apache](#apache) or [nginx](#nginx)
+4. Run `./bin/install` to hook custom modifications on the installed node_modules.
 
-When you're done with the previous steps, reload your web server.
+5. Run `./sb init` to init your local project.
+
+6. Configure your environment with either [apache](#apache) or [nginx](#nginx) with the given generated templates from step 4.
+
+When you're done with the previous steps, reload your web server, then install using the [Web installer](#Web-installer)
 
 ### Web installer
 
 * Go to `http://yourdomain.tld` then follow the instructions
+
 ![welcome](docs/install-sae.gif)
 
 
@@ -84,6 +87,14 @@ The other platforms specific to Siberian which are `cdv-siberian-android-preview
 
 - Rebuilding a platform
     1. run `siberian rebuild platformName` where platformName is `android | android-previewer |ios | ios-noads | ios-previewer | browser`
+
+### Note: Important
+
+Siberian uses Cordova for its applications base, we provide pre-built android & ios binaries for convenience as not everyone owns and can build using a Mac.
+
+If you need to rebuild native source code for all platforms, you must have a Mac and Xcode with the Command-Line Tools installed.
+
+**Pre-built binaries allows you to customize all the HTML/JS/CSS Stack of the Apps without the need of a Mac.**
 
 ### Plugins
 
@@ -114,12 +125,12 @@ Available commands are:
 ||- install: install required dependencies (OSX Only).|
 ||icons [install]|
 |ions|Start ionic serve in background|
-|rebuild|Rebuild a platform:|
+|rebuild|Rebuild a platform  (requires Android SDK & Xcode, Command-Line Tools):|
 ||- debug: option will show more informations.|
 ||- copy: copy platform to siberian/var/apps.|
 ||- no-manifest: don't call the rebuild manifest hook.|
 ||rebuild <platform> [copy] [debug] [no-manifest]|
-|rebuild-all|Rebuild all platforms|
+|rebuild-all|Rebuild all platforms (requires Android SDK & Xcode, Command-Line Tools)|
 |syncmodule, sm|Resync a module in the Application|
 |type|Switch the Application type 'sae|mae|pe' or print the current if blank|
 ||note: clearcache is called when changing type.|
@@ -131,7 +142,7 @@ Available commands are:
 ||- If using from a module forlders module_name is optional|
 ||pack <module_name>|
 |packall|Pack all referenced modules|
-|prepare|Prepare a platform:|
+|prepare|Prepare a platform (Doesn't requires Android SDK & Xcode, it's suitable for any HTML/JS/CSS Customization in the Apps):|
 ||- debug: option will show more informations.|
 ||- copy: copy platform to siberian/var/apps.|
 ||- no-manifest: don't call the rebuild manifest hook.|
