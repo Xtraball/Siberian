@@ -22,7 +22,6 @@ class #MODULE#_Form_#MODEL# extends Siberian_Form_Abstract {
         /** Builds the default form from schema */
         #ELEMENTS#
 
-
     }
 
     /**
