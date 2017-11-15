@@ -15,18 +15,18 @@ class Module {
     /**
      * @var string
      */
-    public $templates_path = array(
-        "model" => "/modules_templates/Model/model.php",
-        "table" => "/modules_templates/Model/Db/Table/table.php",
-        "form" => "/modules_templates/Form/form.php",
-        "form_delete" => "/modules_templates/Form/form_delete.php",
-        "crud_controller" => "/modules_templates/controllers/crud_controller.php",
-    );
+    public $templates_path = [
+        'model' => '/modules_templates/Model/model.php',
+        'table' => '/modules_templates/Model/Db/Table/table.php',
+        'form' => '/modules_templates/Form/form.php',
+        'form_delete' => '/modules_templates/Form/form_delete.php',
+        'crud_controller' => '/modules_templates/controllers/crud_controller.php',
+    ];
 
     /**
      * @var string
      */
-    public $path_to_schema = "/resources/db/schema";
+    public $path_to_schema = '/resources/db/schema';
 
     /**
      * @var string
@@ -39,11 +39,11 @@ class Module {
     public $model;
 
     /**
-     * "all", "model", "form", "controller"
+     * 'all', 'model', 'form', 'controller'
      *
      * @var string
      */
-    public $type = "all";
+    public $type = 'all';
 
     /**
      * @var bool
@@ -74,18 +74,18 @@ class Module {
         }
 
         switch($this->type) {
-            case "all":
+            case 'all':
                 $this->buildModel();
                 $this->buildForm();
                 $this->buildController();
                 break;
-            case "model":
+            case 'model':
                 $this->buildModel();
                 break;
-            case "form":
+            case 'form':
                 $this->buildForm();
                 break;
-            case "controller":
+            case 'controller':
                 $this->buildController();
                 break;
         }
@@ -97,13 +97,13 @@ class Module {
      * @param $argv
      */
     public function parseArgv($argv) {
-        foreach($argv as $arg) {
-            $parts = explode("=", $arg);
-            $key = str_replace("-", "_", str_replace("--", "", $parts[0]));
+        foreach ($argv as $arg) {
+            $parts = explode('=', $arg);
+            $key = str_replace('-', '_', str_replace('--', '', $parts[0]));
             # Boolean if only key
             $value = isset($parts[1]) ? $parts[1] : true;
 
-            if(property_exists($this, $key)) {
+            if (property_exists($this, $key)) {
                 $this->{$key} = $value;
             }
         }
@@ -113,17 +113,17 @@ class Module {
      * Fetch all availables schemas
      */
     public function fetchSchemas() {
-        $schemas_path = sprintf("%s%s", $this->path, $this->path_to_schema);
+        $schemas_path = sprintf('%s%s', $this->path, $this->path_to_schema);
         $files = new DirectoryIterator($schemas_path);
 
-        $models = array();
-        foreach($files as $file) {
-            if($file->isFile() && !$file->isDot()) {
-                $models[] = str_replace(".php", "", $file->getFilename());
+        $models = [];
+        foreach ($files as $file) {
+            if ($file->isFile() && !$file->isDot()) {
+                $models[] = str_replace('.php', '', $file->getFilename());
             }
         }
 
-        $this->model = implode(",", $models);
+        $this->model = implode(',', $models);
     }
 
     /**
@@ -131,66 +131,66 @@ class Module {
      */
     public function buildModel() {
         # Try for multiple models
-        $models = explode(",", $this->model);
+        $models = explode(',', $this->model);
 
-        foreach($models as $model) {
-            $model_shorten = trim(str_replace(strtolower($this->module."_"), "", $model));
-            if(empty($model_shorten)) {
+        foreach ($models as $model) {
+            $model_shorten = trim(str_replace(strtolower($this->module.'_'), '', $model));
+            if (empty($model_shorten)) {
                 $model_shorten = $model;
             }
 
-            $schema_file = sprintf("%s%s/%s.php", $this->path, $this->path_to_schema, $model);
-            if(!is_readable($schema_file)) {
-                throw new Exception(sprintf("Unable to read corresponding schema file for '%s' model.", $model));
+            $schema_file = sprintf('%s%s/%s.php', $this->path, $this->path_to_schema, $model);
+            if (!is_readable($schema_file)) {
+                throw new Exception(sprintf('Unable to read corresponding schema file for \'%s\' model.', $model));
             } else {
                 require $schema_file;
 
                 # Fetch values
                 $columns = $schemas[$model];
                 $primary_key = false;
-                foreach($columns as $name => $options) {
-                    if(isset($options["primary"])) {
+                foreach ($columns as $name => $options) {
+                    if (isset($options['primary'])) {
                         $primary_key = $name;
                         break;
                     }
                 }
 
-                if(!$primary_key) {
-                    throw new Exception(sprintf("Unable to find a primary_key for '%s' model.", $model));
+                if (!$primary_key) {
+                    throw new Exception(sprintf('Unable to find a primary_key for \'%s\' model.', $model));
                 }
 
                 # Opts
                 $camelized_model = str_replace('_', '', ucwords($model_shorten, '_'));
 
                 # Model file
-                $model_file = sprintf("%s%s", $this->current_dir, $this->templates_path["model"]);
+                $model_file = sprintf('%s%s', $this->current_dir, $this->templates_path['model']);
                 $model_content = file_get_contents($model_file);
-                $model_content = str_replace("#MODULE#", $this->module, $model_content);
-                $model_content = str_replace("#NAME#", $camelized_model, $model_content);
+                $model_content = str_replace('#MODULE#', $this->module, $model_content);
+                $model_content = str_replace('#NAME#', $camelized_model, $model_content);
 
-                $target_model_file = sprintf("%s/Model/%s.php", $this->path, $camelized_model);
-                if(!file_exists($target_model_file) || $this->force) {
+                $target_model_file = sprintf('%s/Model/%s.php', $this->path, $camelized_model);
+                if (!file_exists($target_model_file) || $this->force) {
                     @mkdir(dirname($target_model_file), 0777, true);
                     file_put_contents($target_model_file, $model_content);
                 } else {
-                    throw new Exception(sprintf("Unable to create '%s' model, file exists. Use --force if you want to replace it.", $target_model_file));
+                    throw new Exception(sprintf('Unable to create \'%s\' model, file exists. Use --force if you want to replace it.', $target_model_file));
                 }
 
                 # Db_Table file
-                $table_file = sprintf("%s%s", $this->current_dir, $this->templates_path["table"]);
+                $table_file = sprintf('%s%s', $this->current_dir, $this->templates_path['table']);
                 $table_content = file_get_contents($table_file);
-                $table_content = str_replace("#MODULE#", $this->module, $table_content);
-                $table_content = str_replace("#NAME#", $camelized_model, $table_content);
-                $table_content = str_replace("#TABLE_NAME#", $model, $table_content);
-                $table_content = str_replace("#PRIMARY_KEY#", $primary_key, $table_content);
+                $table_content = str_replace('#MODULE#', $this->module, $table_content);
+                $table_content = str_replace('#NAME#', $camelized_model, $table_content);
+                $table_content = str_replace('#TABLE_NAME#', $model, $table_content);
+                $table_content = str_replace('#PRIMARY_KEY#', $primary_key, $table_content);
 
-                $target_table_file = sprintf("%s/Model/Db/Table/%s.php", $this->path, $camelized_model);
+                $target_table_file = sprintf('%s/Model/Db/Table/%s.php', $this->path, $camelized_model);
 
-                if(!file_exists($target_table_file) || $this->force) {
+                if (!file_exists($target_table_file) || $this->force) {
                     @mkdir(dirname($target_table_file), 0777, true);
                     file_put_contents($target_table_file, $table_content);
                 } else {
-                    throw new Exception(sprintf("Unable to create '%s' table, file exists. Use --force if you want to replace it.", $target_table_file));
+                    throw new Exception(sprintf('Unable to create \'%s\' table, file exists. Use --force if you want to replace it.', $target_table_file));
                 }
             }
         }
@@ -203,15 +203,15 @@ class Module {
         # Try for multiple models
         $models = explode(",", $this->model);
 
-        foreach($models as $model) {
-            $model_shorten = trim(str_replace(strtolower($this->module."_"), "", $model));
-            if(empty($model_shorten)) {
+        foreach ($models as $model) {
+            $model_shorten = trim(str_replace(strtolower($this->module.'_'), '', $model));
+            if (empty($model_shorten)) {
                 $model_shorten = $model;
             }
 
-            $schema_file = sprintf("%s%s/%s.php", $this->path, $this->path_to_schema, $model);
-            if(!is_readable($schema_file)) {
-                throw new Exception(sprintf("Unable to read corresponding schema file for '%s' model.", $model));
+            $schema_file = sprintf('%s%s/%s.php', $this->path, $this->path_to_schema, $model);
+            if (!is_readable($schema_file)) {
+                throw new Exception(sprintf('Unable to read corresponding schema file for \'%s\' model.', $model));
             } else {
                 require $schema_file;
 
@@ -219,39 +219,39 @@ class Module {
                 $columns = $schemas[$model];
                 $primary_key = false;
 
-                $build_elements = array();
-                foreach($columns as $name => $options) {
-                    if(isset($options["primary"])) {
+                $build_elements = [];
+                foreach ($columns as $name => $options) {
+                    if (isset($options['primary'])) {
                         $primary_key = $name;
                     } else {
-                        if(in_array($name, array("created_at", "updated_at"))) {
+                        if (in_array($name, array('created_at', 'updated_at'))) {
                             continue;
                         }
-                        if(isset($options["type"])) {
-                            $type = strtolower($options["type"]);
-                            $required = isset($options["is_null"]) ? !$options["is_null"] : true;
+                        if (isset($options['type'])) {
+                            $type = strtolower($options['type']);
+                            $required = isset($options['is_null']) ? !$options['is_null'] : true;
 
-                            if(strpos($type, "tinyint(1)") !== false || strpos($type, "boolean") !== false) {
+                            if (strpos($type, 'tinyint(1)') !== false || strpos($type, 'boolean') !== false) {
                                 $build_elements[] = $this->renderBoolean($name, $required);
-                            }elseif(strpos($type, "int") !== false ||
-                                strpos($type, "float") !== false ||
-                                strpos($type, "double") !== false ||
-                                strpos($type, "decimal") !== false ||
-                                strpos($type, "real") !== false ||
-                                strpos($type, "numeric") !== false) {
+                            } else if (strpos($type, 'int') !== false ||
+                                strpos($type, 'float') !== false ||
+                                strpos($type, 'double') !== false ||
+                                strpos($type, 'decimal') !== false ||
+                                strpos($type, 'real') !== false ||
+                                strpos($type, 'numeric') !== false) {
 
                                 $build_elements[] = $this->renderNumeric($name, $required);
-                            } elseif(strpos($type, "char") !== false) {
+                            } else if (strpos($type, 'char') !== false) {
                                 $build_elements[] = $this->renderText($name, $required);
-                            } elseif(strpos($type, "text") !== false) {
+                            } else if (strpos($type, 'text') !== false) {
                                 $build_elements[] = $this->renderTextarea($name, $required);
-                            } elseif(strpos($type, "enum") !== false) {
+                            } else if (strpos($type, 'enum') !== false) {
                                 $build_elements[] = $this->renderSelect($name, $type, $required);
-                            } elseif(strpos($type, "date") !== false) {
+                            } else if (strpos($type, 'date') !== false) {
                                 $build_elements[] = $this->renderDate($name, $required);
-                            } elseif(strpos($type, "datetime") !== false || strpos($type, "timestamp") !== false) {
+                            } else if (strpos($type, 'datetime') !== false || strpos($type, 'timestamp') !== false) {
                                 $build_elements[] = $this->renderDatetime($name, $required);
-                            } elseif(strpos($type, "time") !== false) {
+                            } else if (strpos($type, 'time') !== false) {
                                 $build_elements[] = $this->renderTime($name, $required);
                             }
 
@@ -259,66 +259,66 @@ class Module {
                     }
                 }
 
-                if(!$primary_key) {
-                    throw new Exception(sprintf("Unable to find a primary_key for '%s' model.", $model));
+                if (!$primary_key) {
+                    throw new Exception(sprintf('Unable to find a primary_key for \'%s\' model.', $model));
                 }
 
                 # Opts
                 $module_action = strtolower($this->module);
-                $model_controller = strtolower(str_replace("_", "", $model_shorten));
+                $model_controller = strtolower(str_replace('_', '', $model_shorten));
                 $camelized_model = str_replace('_', '', ucwords($model_shorten, '_'));
-                $save_action = sprintf("/%s/%s/editpost", $module_action, $model_controller);
-                $delete_action = sprintf("/%s/%s/deletepost", $module_action, $model_controller);
-                $model_id = str_replace("_", "-", $model);
+                $save_action = sprintf('/%s/%s/editpost', $module_action, $model_controller);
+                $delete_action = sprintf('/%s/%s/deletepost', $module_action, $model_controller);
+                $model_id = str_replace('_', '-', $model);
                 $primary_key_camelized = str_replace('_', '', ucwords($primary_key, '_'));
                 # Appointment Provider
                 $human_model = str_replace('_', ' ', ucwords($model_shorten, '_'));
                 # Elements
-                $build_elements = implode("\n\n", $build_elements);
+                $build_elements = implode('\n\n', $build_elements);
 
                 // #FORM_SAVE_ACTION#
                 // #FORM_ID#
                 // #MODULE_LOWER#
 
                 # Form file
-                $form_file = sprintf("%s%s", $this->current_dir, $this->templates_path["form"]);
+                $form_file = sprintf('%s%s', $this->current_dir, $this->templates_path['form']);
                 $form_content = file_get_contents($form_file);
-                $form_content = str_replace("#MODULE#", $this->module, $form_content);
-                $form_content = str_replace("#MODEL#", $camelized_model, $form_content);
-                $form_content = str_replace("#FORM_SAVE_ACTION#", $save_action, $form_content);
-                $form_content = str_replace("#MODULE_LOWER#", $model, $form_content);
-                $form_content = str_replace("#FORM_ID#", $model_id, $form_content);
-                $form_content = str_replace("#PRIMARY_KEY#", $primary_key, $form_content);
-                $form_content = str_replace("#PRIMARY_KEY_CAMEL#", $primary_key_camelized, $form_content);
-                $form_content = str_replace("#HUMAN#", $human_model, $form_content);
-                $form_content = str_replace("#ELEMENTS#", $build_elements, $form_content);
+                $form_content = str_replace('#MODULE#', $this->module, $form_content);
+                $form_content = str_replace('#MODEL#', $camelized_model, $form_content);
+                $form_content = str_replace('#FORM_SAVE_ACTION#', $save_action, $form_content);
+                $form_content = str_replace('#MODULE_LOWER#', $model, $form_content);
+                $form_content = str_replace('#FORM_ID#', $model_id, $form_content);
+                $form_content = str_replace('#PRIMARY_KEY#', $primary_key, $form_content);
+                $form_content = str_replace('#PRIMARY_KEY_CAMEL#', $primary_key_camelized, $form_content);
+                $form_content = str_replace('#HUMAN#', $human_model, $form_content);
+                $form_content = str_replace('#ELEMENTS#', $build_elements, $form_content);
 
-                $target_form_file = sprintf("%s/Form/%s.php", $this->path, $camelized_model);
-                if(!file_exists($target_form_file) || $this->force) {
+                $target_form_file = sprintf('%s/Form/%s.php', $this->path, $camelized_model);
+                if (!file_exists($target_form_file) || $this->force) {
                     @mkdir(dirname($target_form_file), 0777, true);
                     file_put_contents($target_form_file, $form_content);
                 } else {
-                    throw new Exception(sprintf("Unable to create '%s' form, file exists. Use --force if you want to replace it.", $target_form_file));
+                    throw new Exception(sprintf('Unable to create \'%s\' form, file exists. Use --force if you want to replace it.', $target_form_file));
                 }
 
                 # Form delete file
-                $form_delete_file = sprintf("%s%s", $this->current_dir, $this->templates_path["form_delete"]);
+                $form_delete_file = sprintf('%s%s', $this->current_dir, $this->templates_path['form_delete']);
                 $form_delete_content = file_get_contents($form_delete_file);
-                $form_delete_content = str_replace("#MODULE#", $this->module, $form_delete_content);
-                $form_delete_content = str_replace("#MODEL#", $camelized_model, $form_delete_content);
-                $form_delete_content = str_replace("#FORM_DELETE_ACTION#", $delete_action, $form_delete_content);
-                $form_delete_content = str_replace("#FORM_ID#", $model_id, $form_delete_content);
-                $form_delete_content = str_replace("#TABLE_NAME#", $model, $form_delete_content);
-                $form_delete_content = str_replace("#PRIMARY_KEY#", $primary_key, $form_delete_content);
-                $form_delete_content = str_replace("#HUMAN#", $human_model, $form_delete_content);
+                $form_delete_content = str_replace('#MODULE#', $this->module, $form_delete_content);
+                $form_delete_content = str_replace('#MODEL#', $camelized_model, $form_delete_content);
+                $form_delete_content = str_replace('#FORM_DELETE_ACTION#', $delete_action, $form_delete_content);
+                $form_delete_content = str_replace('#FORM_ID#', $model_id, $form_delete_content);
+                $form_delete_content = str_replace('#TABLE_NAME#', $model, $form_delete_content);
+                $form_delete_content = str_replace('#PRIMARY_KEY#', $primary_key, $form_delete_content);
+                $form_delete_content = str_replace('#HUMAN#', $human_model, $form_delete_content);
 
-                $target_form_delete_file = sprintf("%s/Form/%s/Delete.php", $this->path, $camelized_model);
+                $target_form_delete_file = sprintf('%s/Form/%s/Delete.php', $this->path, $camelized_model);
 
-                if(!file_exists($target_form_delete_file) || $this->force) {
+                if (!file_exists($target_form_delete_file) || $this->force) {
                     @mkdir(dirname($target_form_delete_file), 0777, true);
                     file_put_contents($target_form_delete_file, $form_delete_content);
                 } else {
-                    throw new Exception(sprintf("Unable to create '%s' form delete, file exists. Use --force if you want to replace it.", $target_form_delete_file));
+                    throw new Exception(sprintf('Unable to create \'%s\' form delete, file exists. Use --force if you want to replace it.', $target_form_delete_file));
                 }
             }
         }
@@ -329,39 +329,39 @@ class Module {
      */
     public function buildController() {
         # Try for multiple models
-        $models = explode(",", $this->model);
+        $models = explode(',', $this->model);
 
-        foreach($models as $model) {
-            $model_shorten = trim(str_replace(strtolower($this->module."_"), "", $model));
-            if(empty($model_shorten)) {
+        foreach ($models as $model) {
+            $model_shorten = trim(str_replace(strtolower($this->module . '_'), '', $model));
+            if (empty($model_shorten)) {
                 $model_shorten = $model;
             }
 
-            $schema_file = sprintf("%s%s/%s.php", $this->path, $this->path_to_schema, $model);
-            if(!is_readable($schema_file)) {
-                throw new Exception(sprintf("Unable to read corresponding schema file for '%s' model.", $model));
+            $schema_file = sprintf('%s%s/%s.php', $this->path, $this->path_to_schema, $model);
+            if (!is_readable($schema_file)) {
+                throw new Exception(sprintf('Unable to read corresponding schema file for \'%s\' model.', $model));
             } else {
                 require $schema_file;
 
                 # Fetch values
                 $columns = $schemas[$model];
                 $primary_key = false;
-                foreach($columns as $name => $options) {
-                    if(isset($options["primary"])) {
+                foreach ($columns as $name => $options) {
+                    if (isset($options['primary'])) {
                         $primary_key = $name;
                         break;
                     }
                 }
 
-                if(!$primary_key) {
-                    throw new Exception(sprintf("Unable to find a primary_key for '%s' model.", $model));
+                if (!$primary_key) {
+                    throw new Exception(sprintf('Unable to find a primary_key for \'%s\' model.', $model));
                 }
 
                 # Opts
                 # appointment
                 $module_action = strtolower($this->module);
                 # appointmentprovider
-                $model_controller = strtolower(str_replace("_", "", $model_shorten));
+                $model_controller = strtolower(str_replace('_', '', $model_shorten));
                 # Appointmentprovider
                 $model_controller_class = ucfirst($model_controller);
                 # AppointmentProvider
@@ -369,29 +369,29 @@ class Module {
                 # Appointment Provider
                 $human_model = str_replace('_', ' ', ucwords($model_shorten, '_'));
                 # appointment-provider
-                $model_id = str_replace("_", "-", $model_shorten);
+                $model_id = str_replace('_', '-', $model_shorten);
                 # ProviderId
                 $primary_key_camelized = str_replace('_', '', ucwords($primary_key, '_'));
 
 
                 # Form file
-                $form_file = sprintf("%s%s", $this->current_dir, $this->templates_path["crud_controller"]);
+                $form_file = sprintf('%s%s', $this->current_dir, $this->templates_path['crud_controller']);
                 $controller_content = file_get_contents($form_file);
-                $controller_content = str_replace("#MODULE#", $this->module, $controller_content);
-                $controller_content = str_replace("#MODEL_CONTROLLER_CLASS#", $model_controller_class, $controller_content);
-                $controller_content = str_replace("#MODEL_CAMEL#", $camelized_model, $controller_content);
-                $controller_content = str_replace("#MODEL#", $model, $controller_content);
-                $controller_content = str_replace("#FORM_ID#", $model_id, $controller_content);
-                $controller_content = str_replace("#PRIMARY_KEY#", $primary_key, $controller_content);
-                $controller_content = str_replace("#PRIMARY_KEY_CAMEL#", $primary_key_camelized, $controller_content);
-                $controller_content = str_replace("#HUMAN_MODEL#", $human_model, $controller_content);
+                $controller_content = str_replace('#MODULE#', $this->module, $controller_content);
+                $controller_content = str_replace('#MODEL_CONTROLLER_CLASS#', $model_controller_class, $controller_content);
+                $controller_content = str_replace('#MODEL_CAMEL#', $camelized_model, $controller_content);
+                $controller_content = str_replace('#MODEL#', $model, $controller_content);
+                $controller_content = str_replace('#FORM_ID#', $model_id, $controller_content);
+                $controller_content = str_replace('#PRIMARY_KEY#', $primary_key, $controller_content);
+                $controller_content = str_replace('#PRIMARY_KEY_CAMEL#', $primary_key_camelized, $controller_content);
+                $controller_content = str_replace('#HUMAN_MODEL#', $human_model, $controller_content);
 
-                $target_controller_file = sprintf("%s/controllers/%sController.php", $this->path, $model_controller_class);
-                if(!file_exists($target_controller_file) || $this->force) {
+                $target_controller_file = sprintf('%s/controllers/%sController.php', $this->path, $model_controller_class);
+                if (!file_exists($target_controller_file) || $this->force) {
                     @mkdir(dirname($target_controller_file), 0777, true);
                     file_put_contents($target_controller_file, $controller_content);
                 } else {
-                    throw new Exception(sprintf("Unable to create '%s' controller, file exists. Use --force if you want to replace it.", $target_controller_file));
+                    throw new Exception(sprintf('Unable to create \'%s\' controller, file exists. Use --force if you want to replace it.', $target_controller_file));
                 }
 
             }
@@ -559,7 +559,7 @@ try {
     $module = new Module($argv);
     $module->build();
 } catch(Exception $e) {
-    echo $e->getMessage()."\n";
+    echo $e->getMessage() . PHP_EOL;
 }
 
 print_r($module);

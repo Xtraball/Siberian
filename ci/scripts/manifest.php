@@ -7,7 +7,7 @@ class Manifest
      *
      * @var array
      */
-    public static $exclude_patterns = array(
+    public static $exclude_patterns = [
         "\.gitignore",
         "\.gitattributes",
         "\.git",
@@ -43,7 +43,7 @@ class Manifest
         "^lib/vendor/symfony/finder/Tests/Fixtures.*",
         "user-style.css",
         "favicon\."
-    );
+    ];
 
     public static $manifest = "manifest.json";
 
@@ -51,12 +51,13 @@ class Manifest
      * @param $path
      */
     public static function build($path, $manifest = null) {
-        $hash = array();
+        $hash = [];
 
         /** Looping trough files */
         $files = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator($path, 4096),
             RecursiveIteratorIterator::SELF_FIRST);
+
         foreach ($files as $file) {
             if ($file->isDir()) {
                 continue;
@@ -67,15 +68,15 @@ class Manifest
 
             # Add only required files
             if (!self::exclude($relative_path)) {
-                $hash[] = array(
-                    "file" => $relative_path,
-                    "hash" => md5_file($pathname),
-                );
+                $hash[] = [
+                    'file' => $relative_path,
+                    'hash' => md5_file($pathname),
+                ];
             }
         }
 
         $manifest_path = $path.self::$manifest;
-        if($manifest != null) {
+        if ($manifest != null) {
             $manifest_path = $manifest.self::$manifest;
         }
         file_put_contents($manifest_path,
@@ -89,8 +90,8 @@ class Manifest
      * @return bool
      */
     public static function exclude($file) {
-        foreach(self::$exclude_patterns as $pattern) {
-            if(preg_match("#".$pattern."#i", $file)) {
+        foreach (self::$exclude_patterns as $pattern) {
+            if (preg_match('#' . $pattern . '#i', $file)) {
                 return true;
             }
         }
@@ -101,39 +102,37 @@ class Manifest
      * @param string|array $patterns
      */
     public static function addExcludePatterns($patterns) {
-        if(!is_array($patterns)) {
-            $patterns = array($patterns);
+        if (!is_array($patterns)) {
+            $patterns = [$patterns];
         }
-        foreach($patterns as $pattern) {
+        foreach ($patterns as $pattern) {
             self::$exclude_patterns[] = $pattern;
         }
     }
 
 }
 
-$manifest = new Manifest();
-
-if(isset($argv) && isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
+if (isset($argv) && isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
     $type = strtolower($argv[1]);
-    switch($type) {
-        case "sae":
+    switch ($type) {
+        case 'sae':
             Manifest::addExcludePatterns(array(
-                "^app/pe/",
-                "^app/mae/",
+                '^app/pe/',
+                '^app/mae/',
             ));
             break;
-        case "mae":
+        case 'mae':
             Manifest::addExcludePatterns(array(
-                "^app/pe/",
+                '^app/pe/',
             ));
             break;
-        case "pe":
+        case 'pe':
 
             break;
     }
 
-    $manifest::build($argv[2], $argv[3]);
+    Manifest::build($argv[2], $argv[3]);
 } else {
-    echo "Unable to build manifest\n";
+    echo 'Unable to build manifest' . PHP_EOL;
 }
 

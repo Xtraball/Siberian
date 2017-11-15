@@ -5,7 +5,7 @@
  */
 class #MODULE#_Model_#NAME# extends Core_Model_Default {
 
-    public function __construct($params = array()) {
+    public function __construct($params = []) {
         parent::__construct($params);
         $this->_db_table = '#MODULE#_Model_Db_Table_#NAME#';
         return $this;
