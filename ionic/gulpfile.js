@@ -4,7 +4,6 @@
  * @type {Object}
  */
 let gulp = require('gulp'),
-    gulpsync = require('gulp-sync')(gulp),
     gutil = require('gulp-util'),
     bower = require('bower'),
     concat = require('gulp-concat'),
@@ -16,7 +15,8 @@ let gulp = require('gulp'),
     clean = require('gulp-clean'),
     jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
-    imagemin = require('gulp-imagemin');
+    imagemin = require('gulp-imagemin'),
+    runSequence = require('run-sequence');
 let paths = {
     sass: ['./scss/**/*.scss'],
     scripts: ['./www/js/**/*.js', '!./www/js/app.bundle.min.js'], // exclude the file we write too
@@ -36,31 +36,30 @@ let files = {
 };
 
 let siberian_dist = [
-    './www/js/app.min.js',
-    './www/js/utils.bundle.min.js',
-    './www/js/services/services.bundle.js',
-    './www/js/services/services.bundle.min.js',
-    './www/js/providers/providers.bundle.js',
-    './www/js/providers/providers.bundle.min.js',
-    './www/js/packed/*.min.js',
-    './www/js/filters/filters.min.js',
-    './www/js/features/features.bundle.js',
-    './www/js/features/features.bundle.min.js',
-    './www/js/directives/directives.bundle.js',
-    './www/js/directives/directives.bundle.min.js',
-    './dist/app.bundle.min.css',
-    './dist/app.libs.js',
-    './dist/app.libs.min.js'
+    './www/dist/*',
+    './www/dist/packed/*',
+    '!./www/dist/packed'
 ];
 
+let intermediateCleanup = [];
+
 /** Siberian 4.12+ build files */
-gulp.task('sb', gulpsync.sync(['cleanup', 'sass', 'bundle_css', 'bundle_libs', 'compress_js', 'pack_features']));
+gulp.task('sb', function () {
+    runSequence(
+        'cleanup',
+        'sass',
+        ['bundle_css', 'bundle_libs', 'compress_js'],
+        'pack_features',
+        'intermediate_cleanup'
+    );
+});
 
 gulp.task('cleanup', function () {
-    gulp
+   /** gulp
         .src(siberian_dist, {
-            read: false
-        }).pipe(clean());
+            read: false,
+            force: true
+        }).pipe(clean());*/
 });
 
 gulp.task('bundle_css', function () {
@@ -235,9 +234,9 @@ gulp.task('pack_features', function () {
         ]
     };
 
-    for(var feature in features) {
-        var src = features[feature];
-        var filename = feature + '.bundle.js';
+    for (let feature in features) {
+        let src = features[feature];
+        let filename = feature + '.bundle.js';
         gulp
             .src(src)
             .pipe(concat(filename, {
@@ -249,42 +248,24 @@ gulp.task('pack_features', function () {
                     min: '.min.js'
                 }
             }))
-            .pipe(gulp.dest('./www/js/packed/'));
+            .pipe(gulp.dest('./www/dist/packed/'));
+
+        intermediateCleanup.push('./www/dist/packed/' + feature + '.bundle.js');
     }
 });
 
 gulp.task('compress_js', function () {
-
-    // Controllers!
-    var controllers = [
-        './www/js/controllers/**/*.js',
-        '!./www/js/controllers/**/*.min.js'
-    ];
-
-    gulp.src(controllers)
-        .pipe(minify({
-            mangle: false,
-            ext: {
-                min: '.min.js'
-            }
-        }))
-        .pipe(gulp.dest('./www/js/controllers/'));
-
-    gulp.src('./www/js/controllers/**/*.min.js')
-        .pipe(concat('controllers.bundle.min.js', {
-            newLine: ';'
-        }))
-        .pipe(gulp.dest('./www/dist/'));
-
-
     // Directives!
-    var directives = [
+    let directives = [
         './www/js/directives/*.js',
         '!./www/js/directives/directives.bundle.js',
         '!./www/js/directives/*.min.js'
     ];
 
     gulp.src(directives)
+        .pipe(concat('directives.bundle.js', {
+            newLine: ';'
+        }))
         .pipe(minify({
             mangle: false,
             ext: {
@@ -293,34 +274,7 @@ gulp.task('compress_js', function () {
         }))
         .pipe(gulp.dest('./www/dist/'));
 
-    gulp.src('./www/js/directives/*.min.js')
-        .pipe(concat('directives.bundle.min.js', {
-            newLine: ';'
-        }))
-        .pipe(gulp.dest('./www/dist/'));
-
-
-    // Factory!
-    var factories = [
-        './www/js/factory/**/*.js',
-        '!./www/js/factory/**/*.min.js'
-    ];
-
-    gulp.src(factories)
-        .pipe(minify({
-            mangle: false,
-            ext: {
-                min: '.min.js'
-            }
-        }))
-        .pipe(gulp.dest('./www/js/factory/'));
-
-    gulp.src('./www/js/factory/*.min.js')
-        .pipe(concat('directives.bundle.min.js', {
-            newLine: ';'
-        }))
-        .pipe(gulp.dest('./www/dist/'));
-
+    intermediateCleanup.push('./www/dist/directives.bundle.js');
 
     // Feature routes!
     var features = [
@@ -341,9 +295,7 @@ gulp.task('compress_js', function () {
         }))
         .pipe(gulp.dest('./www/js/features/'));
 
-    gulp.src('./www/js/features/features.bundle.min.js')
-        .pipe(gulp.dest('./www/dist/'));
-
+    intermediateCleanup.push('./www/dist/features.bundle.js');
 
     // Filters!
     var filters = [
@@ -359,6 +311,7 @@ gulp.task('compress_js', function () {
         }))
         .pipe(gulp.dest('./www/dist/'));
 
+    intermediateCleanup.push('./www/dist/filters.js');
 
     // Libraries!
     var libraries = [
@@ -398,18 +351,18 @@ gulp.task('compress_js', function () {
     ];
 
     gulp.src(providers)
+        .pipe(concat('providers.bundle.js', {
+            newLine: ';'
+        }))
         .pipe(minify({
             mangle: false,
             ext: {
                 min: '.min.js'
             }
         }))
-        .pipe(concat('providers.bundle.js', {
-            newLine: ';'
-        }))
         .pipe(gulp.dest('./www/dist/'));
 
-
+    intermediateCleanup.push('./www/dist/providers.bundle.js');
 
     // Services!
     var services = [
@@ -419,17 +372,18 @@ gulp.task('compress_js', function () {
     ];
 
     gulp.src(services)
+        .pipe(concat('services.bundle.js', {
+            newLine: ';'
+        }))
         .pipe(minify({
             mangle: false,
             ext: {
                 min: '.min.js'
             }
         }))
-        .pipe(concat('services.bundle.js', {
-            newLine: ';'
-        }))
         .pipe(gulp.dest('./www/dist/'));
 
+    intermediateCleanup.push('./www/dist/services.bundle.js');
 
     // Utils!
     var utils = [
@@ -439,17 +393,18 @@ gulp.task('compress_js', function () {
     ];
 
     gulp.src(utils)
+        .pipe(concat('utils.bundle.js', {
+            newLine: ';'
+        }))
         .pipe(minify({
             mangle: false,
             ext: {
                 min: '.min.js'
             }
         }))
-        .pipe(concat('utils.bundle.js', {
-            newLine: ';'
-        }))
         .pipe(gulp.dest('./www/dist/'));
 
+    intermediateCleanup.push('./www/dist/utils.bundle.js');
 
     // On load requried features!
     var onLoadChunks = [
@@ -478,6 +433,7 @@ gulp.task('compress_js', function () {
         }))
         .pipe(gulp.dest('./www/dist/'));
 
+    intermediateCleanup.push('./www/dist/onloadchunks.bundle.js');
 
     // Main App!
     var app = [
@@ -493,8 +449,21 @@ gulp.task('compress_js', function () {
             }
         }))
         .pipe(gulp.dest('./www/js/'));
+});
 
+gulp.task('intermediate_cleanup', function () {
+    console.log(intermediateCleanup);
+    // Clean-up intermediate files.
+    /**gulp
+        .src(intermediateCleanup, {
+            read: false,
+            force: true
+        }).pipe(clean());*/
 
+    intermediateCleanup.forEach(function (file) {
+        console.log(file);
+        sh.rm('-rf', file);
+    });
 });
 
 gulp.task('bundle_libs', function () {
@@ -563,57 +532,3 @@ gulp.task('styles', ['clean', 'minappcss'], function () {
         .pipe(gulp.dest(paths.dist + 'css'));
 });
 
-// Imagemin images and ouput them in dist
-gulp.task('imagemin', ['clean'], function () {
-    gulp.src(paths.images)
-        .pipe(imagemin())
-        .pipe(gulp.dest(paths.dist + 'img'));
-});
-
-gulp.task('watch', function () {
-    gulp.watch(paths.sass, ['sass']);
-});
-
-gulp.task('install', ['git-check'], function () {
-    return bower.commands.install()
-        .on('log', function (data) {
-            gutil.log('bower', gutil.colors.cyan(data.id), data.message);
-        });
-});
-
-gulp.task('sass', function (done) {
-  gulp.src('./scss/ionic.app.scss')
-    .pipe(sass())
-    .on('error', sass.logError)
-    .pipe(gulp.dest('./www/css/'))
-    .pipe(minifyCss({
-      keepSpecialComments: 0
-    }))
-    .pipe(rename({ extname: '.min.css' }))
-    .pipe(gulp.dest('./www/css/'))
-    .on('end', done);
-});
-
-gulp.task('watch', function () {
-  gulp.watch(paths.sass, ['sass']);
-});
-
-gulp.task('install', ['git-check'], function () {
-  return bower.commands.install()
-    .on('log', function (data) {
-      gutil.log('bower', gutil.colors.cyan(data.id), data.message);
-    });
-});
-
-gulp.task('git-check', function (done) {
-  if (!sh.which('git')) {
-    console.log(
-      '  ' + gutil.colors.red('Git is not installed.'),
-      '\n  Git, the version control system, is required to download Ionic.',
-      '\n  Download git here:', gutil.colors.cyan('http://git-scm.com/downloads') + '.',
-      '\n  Once git is installed, run \'' + gutil.colors.cyan('gulp install') + '\' again.'
-    );
-    process.exit(1);
-  }
-  done();
-});
