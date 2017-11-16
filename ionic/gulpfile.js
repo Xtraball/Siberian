@@ -254,43 +254,11 @@ gulp.task('pack_features', function () {
 });
 
 gulp.task('compress_js', function () {
-    /** FILTERS */
-    var filters = [
-        './www/js/filters/filters.js'
-    ];
 
-    gulp.src(filters)
-        .pipe(minify({
-            mangle: false,
-            ext: {
-                min: '.min.js'
-            }
-        }))
-        .pipe(gulp.dest('./www/dist/'));
-
-    /** PROVIDERS */
-    var providers = [
-        './www/js/providers/*.js',
-        '!./www/js/providers/providers.bundle.js',
-        '!./www/js/providers/*.min.js'
-    ];
-
-    gulp.src(providers)
-        .pipe(concat('providers.bundle.js', {
-            newLine: ';'
-        }))
-        .pipe(minify({
-            mangle: false,
-            ext: {
-                min: '.min.js'
-            }
-        }))
-        .pipe(gulp.dest('./www/dist/'));
-
-    /** CONTROLLERS */
+    // Controllers!
     var controllers = [
-        './www/js/controllers/*.js',
-        '!./www/js/controllers/*.min.js'
+        './www/js/controllers/**/*.js',
+        '!./www/js/controllers/**/*.min.js'
     ];
 
     gulp.src(controllers)
@@ -300,12 +268,42 @@ gulp.task('compress_js', function () {
                 min: '.min.js'
             }
         }))
+        .pipe(gulp.dest('./www/js/controllers/'));
+
+    gulp.src('./www/js/controllers/**/*.min.js')
+        .pipe(concat('controllers.bundle.min.js', {
+            newLine: ';'
+        }))
         .pipe(gulp.dest('./www/dist/'));
 
-    /** FACTORY */
+
+    // Directives!
+    var directives = [
+        './www/js/directives/*.js',
+        '!./www/js/directives/directives.bundle.js',
+        '!./www/js/directives/*.min.js'
+    ];
+
+    gulp.src(directives)
+        .pipe(minify({
+            mangle: false,
+            ext: {
+                min: '.min.js'
+            }
+        }))
+        .pipe(gulp.dest('./www/dist/'));
+
+    gulp.src('./www/js/directives/*.min.js')
+        .pipe(concat('directives.bundle.min.js', {
+            newLine: ';'
+        }))
+        .pipe(gulp.dest('./www/dist/'));
+
+
+    // Factory!
     var factories = [
-        './www/js/factory/*.js',
-        '!./www/js/factory/*.min.js'
+        './www/js/factory/**/*.js',
+        '!./www/js/factory/**/*.min.js'
     ];
 
     gulp.src(factories)
@@ -315,115 +313,16 @@ gulp.task('compress_js', function () {
                 min: '.min.js'
             }
         }))
-        .pipe(gulp.dest('./www/dist/'));
+        .pipe(gulp.dest('./www/js/factory/'));
 
-    /** DIRECTIVES */
-    var directives = [
-        './www/js/directives/*.js',
-        '!./www/js/directives/directives.bundle.js',
-        '!./www/js/directives/*.min.js'
-    ];
-
-    gulp.src(directives)
-        .pipe(concat('directives.bundle.js', {
-            newLine: ';'
-        }))
-        .pipe(minify({
-            mangle: false,
-            ext: {
-                min: '.min.js'
-            }
-        }))
-        .pipe(gulp.dest('./www/dist/'));
-
-
-    /** SERVICES */
-    var services = [
-        './www/js/services/*.js',
-        '!./www/js/services/services.bundle.js',
-        '!./www/js/services/*.min.js'
-    ];
-
-    gulp.src(services)
-        .pipe(concat('services.bundle.js', {
-            newLine: ';'
-        }))
-        .pipe(minify({
-            mangle: false,
-            ext: {
-                min: '.min.js'
-            }
-        }))
-        .pipe(gulp.dest('./www/dist/'));
-
-
-    /** UTILS */
-    var utils = [
-        './www/js/utils/features.js',
-        './www/js/utils/form-post.js',
-        '!./www/js/utils/utils.bundle.js'
-    ];
-
-    gulp.src(utils)
-        .pipe(concat('utils.bundle.js', {
-            newLine: ';'
-        }))
-        .pipe(minify({
-            mangle: false,
-            ext: {
-                min: '.min.js'
-            }
-        }))
-        .pipe(gulp.dest('./www/dist/'));
-
-
-    /** LIBRARIES */
-    var libraries = [
-        './www/js/libraries/*.js',
-        '!./www/js/libraries/*.min.js'
-    ];
-
-    gulp.src(libraries)
-        .pipe(minify({
-            mangle: false,
-            ext: {
-                min: '.min.js'
-            }
-        }))
-        .pipe(gulp.dest('./www/dist/'));
-
-    var libraries_bundle = [
-        './www/js/libraries/*.min.js',
-        '!./www/js/libraries/moment.min.js',
-        '!./www/js/libraries/angular-carousel.min.js',
-        '!./www/js/libraries/progressbar.min.js',
-        '!./www/js/libraries/libraries.bundle.min.js'
-    ];
-
-    gulp.src(libraries_bundle)
-        .pipe(concat('libraries.bundle.min.js', {
+    gulp.src('./www/js/factory/*.min.js')
+        .pipe(concat('directives.bundle.min.js', {
             newLine: ';'
         }))
         .pipe(gulp.dest('./www/dist/'));
 
 
-    /** MAIN APP */
-    var app = [
-        './www/js/app.js',
-        '!./www/js/app.min.js'
-    ];
-
-    gulp.src(app)
-        .pipe(minify({
-            mangle: false,
-            ext: {
-                min: '.min.js'
-            }
-        }))
-        .pipe(gulp.dest('./www/js/'));
-
-
-    /** ENTRY POINT FEATURES */
+    // Feature routes!
     var features = [
         './www/js/features/*.js',
         '!./www/js/features/features.bundle.js',
@@ -441,8 +340,118 @@ gulp.task('compress_js', function () {
             }
         }))
         .pipe(gulp.dest('./www/js/features/'));
-    
-    /**  ON LOAD REQUIRED FEATURES */
+
+    gulp.src('./www/js/features/features.bundle.min.js')
+        .pipe(gulp.dest('./www/dist/'));
+
+
+    // Filters!
+    var filters = [
+        './www/js/filters/filters.js'
+    ];
+
+    gulp.src(filters)
+        .pipe(minify({
+            mangle: false,
+            ext: {
+                min: '.min.js'
+            }
+        }))
+        .pipe(gulp.dest('./www/dist/'));
+
+
+    // Libraries!
+    var libraries = [
+        './www/js/libraries/*.js',
+        '!./www/js/libraries/*.min.js'
+    ];
+
+    gulp.src(libraries)
+        .pipe(minify({
+            mangle: false,
+            ext: {
+                min: '.min.js'
+            }
+        }))
+        .pipe(gulp.dest('./www/js/libraries/'));
+
+    var libraries_bundle = [
+        './www/js/libraries/*.min.js',
+        '!./www/js/libraries/moment.min.js',
+        '!./www/js/libraries/angular-carousel.min.js',
+        '!./www/js/libraries/progressbar.min.js',
+        '!./www/js/libraries/libraries.bundle.min.js'
+    ];
+
+    gulp.src(libraries_bundle)
+        .pipe(concat('libraries.bundle.min.js', {
+            newLine: ';'
+        }))
+        .pipe(gulp.dest('./www/dist/'));
+
+
+    // Providers!
+    var providers = [
+        './www/js/providers/*.js',
+        '!./www/js/providers/providers.bundle.js',
+        '!./www/js/providers/*.min.js'
+    ];
+
+    gulp.src(providers)
+        .pipe(minify({
+            mangle: false,
+            ext: {
+                min: '.min.js'
+            }
+        }))
+        .pipe(concat('providers.bundle.js', {
+            newLine: ';'
+        }))
+        .pipe(gulp.dest('./www/dist/'));
+
+
+
+    // Services!
+    var services = [
+        './www/js/services/*.js',
+        '!./www/js/services/services.bundle.js',
+        '!./www/js/services/*.min.js'
+    ];
+
+    gulp.src(services)
+        .pipe(minify({
+            mangle: false,
+            ext: {
+                min: '.min.js'
+            }
+        }))
+        .pipe(concat('services.bundle.js', {
+            newLine: ';'
+        }))
+        .pipe(gulp.dest('./www/dist/'));
+
+
+    // Utils!
+    var utils = [
+        './www/js/utils/features.js',
+        './www/js/utils/form-post.js',
+        '!./www/js/utils/utils.bundle.js'
+    ];
+
+    gulp.src(utils)
+        .pipe(minify({
+            mangle: false,
+            ext: {
+                min: '.min.js'
+            }
+        }))
+        .pipe(concat('utils.bundle.js', {
+            newLine: ';'
+        }))
+        .pipe(gulp.dest('./www/dist/'));
+
+
+    // On load requried features!
     var onLoadChunks = [
         './www/js/factory/facebook.min.js',
         './www/js/factory/padlock.min.js',
@@ -468,6 +477,24 @@ gulp.task('compress_js', function () {
             }
         }))
         .pipe(gulp.dest('./www/dist/'));
+
+
+    // Main App!
+    var app = [
+        './www/js/app.js',
+        '!./www/js/app.min.js'
+    ];
+
+    gulp.src(app)
+        .pipe(minify({
+            mangle: false,
+            ext: {
+                min: '.min.js'
+            }
+        }))
+        .pipe(gulp.dest('./www/js/'));
+
+
 });
 
 gulp.task('bundle_libs', function () {
