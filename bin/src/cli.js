@@ -19,7 +19,7 @@ let clc = require('cli-color'),
     sh = require('shelljs');
 
 const notifier = require('node-notifier'),
-      http = require("http");
+      http = require('http');
 
 let platforms = [
     'android',
@@ -48,7 +48,7 @@ let ROOT = path.resolve(path.dirname(__filename), '../../'),
  * Utility method for OSX notifications
  *
  * @param message
- * @param title
+ * @param options
  * @returns {boolean}
  */
 const notify = function (message, options) {
@@ -58,7 +58,9 @@ const notify = function (message, options) {
         sound: true
     };
 
-    return notifier.notify(Object.assign({}, NOTIF_BASE, {message: message}, options));
+    return notifier.notify(Object.assign({}, NOTIF_BASE, {
+        message: message
+    }, options));
 };
 
 /**
@@ -147,7 +149,7 @@ let cli = function (inputArgs) {
             'linkmodule': Boolean,
             'manifest': Boolean,
             'minify': Boolean,
-            'mver': Boolean,
+            'moduleversion': Boolean,
             'npm': Boolean,
             'pack': Boolean,
             'packall': Boolean,
@@ -178,6 +180,7 @@ let cli = function (inputArgs) {
             'sm': '--syncmodule',
             't': '--type',
             'tpl': '--templates',
+            'mver': '--moduleversion',
             'v': '--version'
         };
 
@@ -407,7 +410,6 @@ let exportDb = function () {
  */
 let moduleTemplate = function () {
     let module = false,
-        //type = 'all',
         model = false,
         buildAll = false;
 
@@ -415,10 +417,6 @@ let moduleTemplate = function () {
         if (arg.indexOf('--module') === 0) {
             module = arg.split('=')[1];
         }
-
-        /** if (arg.indexOf('--type') === 0) {
-            type = arg.split('=')[1];
-        }*/
 
         if (arg.indexOf('--model') === 0) {
             model = arg.split('=')[1];
@@ -443,7 +441,7 @@ let moduleTemplate = function () {
     let scriptPath = ROOT + '/ci/scripts/modules.php"';
     let modulePath = ROOT + '/siberian/app/local/modules/' + module;
 
-    /** Search for module in local */
+    // Search for module in local!
     if (fs.existsSync(modulePath)) {
         sprint(clc.green('Module found !'));
     } else {
@@ -456,7 +454,7 @@ let moduleTemplate = function () {
         }
     }
 
-    /** Appends full path to module */
+    // Appends full path to module!
     filteredArgs = filteredArgs + ' --path=' + modulePath;
 
     sh.exec('php ' + scriptPath + ' ' + filteredArgs);
@@ -498,11 +496,13 @@ let rebuildManifest = function () {
         }
     };
     const failed = (error) => {
-        if(typeof error === "object" && error.hasOwnProperty("message")) {
-            sprint("Unexpected error: " + clc.red(error.message));
+        if (typeof error === 'object' && error.hasOwnProperty('message')) {
+            sprint('Unexpected error: ' + clc.red(error.message));
         }
         sprint(clc.red('Catch: Manifest rebuild error, run `siberian init` to set your dummy_email & dummy_password.'));
-        notify('Rebuild manifest FAILED.', {sound: "Frog"});
+        notify('Rebuild manifest FAILED.', {
+            sound: 'Frog'
+        });
     };
 
     try {
@@ -522,13 +522,15 @@ let rebuildManifest = function () {
 
                 res.setEncoding('utf8');
                 let rawData = '';
-                res.on('data', (chunk) => { rawData += chunk; });
+                res.on('data', (chunk) => {
+                    rawData += chunk;
+                });
                 res.on('end', () => {
                   try {
                       let jsonResult = JSON.parse(rawData);
                       if (jsonResult.success) {
                           sprint(clc.green(jsonResult.message));
-                          notify("Rebuild manifest succeeded");
+                          notify('Rebuild manifest succeeded');
                       } else {
                           throw (new Error(jsonResult.message));
                       }
@@ -731,7 +733,7 @@ let installPlugin = function (pluginName, platform, opts) {
  */
 let icons = function (INSTALL) {
     if (INSTALL) {
-        if (process.platform === "darwin") {
+        if (process.platform === 'darwin') {
             sh.exec('brew install fontforge ttfautohint');
             sh.exec('sudo gem install sass');
         }
@@ -862,7 +864,23 @@ let cleanupWww = function (basePath) {
         'lib/ionic/js/angular/angular-animate.js',
         'lib/ionic/js/angular/angular-resource.js',
         'lib/ionic/js/angular/angular-sanitize.js',
-        'lib/ionic/js/angular-ui/angular-ui-router.js'
+        'lib/ionic/js/angular-ui/angular-ui-router.js',
+        'www/css',
+        'www/js/controllers',
+        'www/js/directives',
+        'www/js/factory',
+        'www/js/providers',
+        'www/js/services',
+        'www/js/libraries/angualar-queue*',
+        'www/js/libraries/angular-touch*',
+        'www/js/libraries/base64*',
+        'www/js/libraries/ion-gallery*',
+        'www/js/libraries/ionic-zoom-view*',
+        'www/js/libraries/ionRadio*',
+        'www/js/libraries/lazyLoad*',
+        'www/js/libraries/localforage*',
+        'www/js/libraries/lodash*',
+        'www/js/libraries/ng-img-crop*'
     ];
 
     Object.keys(filesToRemove).forEach(function (key) {
@@ -1519,18 +1537,18 @@ let mver = function (version, module) {
  * Helper for common aliases
  */
 let aliasHelp = function () {
-    sprint('alias sb=\'siberian\'');
-    sprint('alias sbr=\'siberian rebuild\'');
-    sprint('alias sbi=\'siberian ions\'');
-    sprint('alias sbt=\'siberian type\'');
-    sprint('alias sbsm=\'siberian sync-module\'');
-    sprint('alias sbp=\'siberian prod\'');
-    sprint('alias sbd=\'siberian dev\'');
-    sprint('alias sbcc=\'siberian clearcache\'');
-    sprint('alias sbcl=\'siberian clearlog\'');
-    sprint('alias sbm=\'siberian mver\'');
-    sprint('alias sblm=\'siberian lm\'');
-    sprint('alias sbulm=\'siberian ulm\'');
+    sprint('alias sb=\'./sb\'');
+    sprint('alias sbr=\'sb rebuild\'');
+    sprint('alias sbi=\'sb ions\'');
+    sprint('alias sbt=\'sb type\'');
+    sprint('alias sbsm=\'sb sync-module\'');
+    sprint('alias sbp=\'sb prod\'');
+    sprint('alias sbd=\'sb dev\'');
+    sprint('alias sbcc=\'sb clearcache\'');
+    sprint('alias sbcl=\'sb clearlog\'');
+    sprint('alias sbm=\'sb mver\'');
+    sprint('alias sblm=\'sb lm\'');
+    sprint('alias sbulm=\'sb ulm\'');
 };
 
 /**
@@ -1568,13 +1586,13 @@ icons                   Build ionicons font
 
 ions                    Start ionic serve in background
 
-rebuild                 Rebuild a platform:
+rebuild                 Rebuild a platform (requires Android SDK & Xcode, Command-Line Tools):
                             - debug: option will show more informations.
                             - copy: copy platform to siberian/var/apps.
                             - no-manifest: don't call the rebuild manifest hook.
         rebuild <platform> [copy] [debug] [no-manifest]
 
-rebuild-all             Rebuild all platforms
+rebuild-all             Rebuild all platforms (requires Android SDK & Xcode, Command-Line Tools)
 
 syncmodule, sm          Resync a module in the Application
 
@@ -1591,7 +1609,7 @@ pack                    Pack a module into zip, file is located in ./packages/mo
 
 packall                 Pack all referenced modules
 
-prepare                 Prepare a platform:
+prepare                 Prepare a platform (Doesn't requires Android SDK & Xcode, it's suitable for any HTML/JS/CSS Customization in the Apps):
                             - debug: option will show more informations.
                             - copy: copy platform to siberian/var/apps.
                             - no-manifest: don't call the rebuild manifest hook.
@@ -1599,7 +1617,7 @@ prepare                 Prepare a platform:
 
 manifest                Rebuilds app manifest
 
-mver                    Update all module version to <version> or only the specified one, in database.
+moduleversion, mver     Update all module version to <version> or only the specified one, in database.
                             - module_name is case-insensitive and is searched with LIKE %module_name%
                             - module_name is optional and if empty all modules versions are changed
         mver <version> [module_name]
