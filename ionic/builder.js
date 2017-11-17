@@ -8,7 +8,6 @@ const concat = require('concat'),
     UglifyJS = require('uglify-es'),
     CleanCss = require('clean-css'),
     fs = require('fs'),
-    sh = require('shelljs'),
     nopt = require('nopt'),
     clc = require('cli-color'),
     globArray = require('glob-array'),
@@ -195,6 +194,9 @@ let tasks = {
             delete args[args.length - 1];
         }
 
+        let date = new Date();
+        let currentTime = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + '.' + date.getMilliseconds();
+
         switch (level) {
             case 'exception':
             case 'throw':
@@ -204,26 +206,25 @@ let tasks = {
             case 'debug':
             case 'info':
             default:
-                log.apply(console, ['[' + Date.now() + ']'].concat(Array.from(args)));
+                log.apply(console, [clc.green('[' + currentTime + ']')].concat(Array.from(args)));
                 break;
         }
     },
     cli: function (inputArgs) {
+        tasks.log(clc.blue('builder start'));
         // CLI options!
         let knownOpts = {
-                'build': Boolean,
+                'prod': Boolean,
                 'bundlecss': Boolean,
                 'bundlejs': Boolean,
-                'cleanup': Boolean,
                 'packfeatures': Boolean,
                 'sass': Boolean,
                 'version': Boolean
             },
             shortHands = {
-                'b': '--build',
+                'p': '--prod',
                 'bcss': '--bundlecss',
                 'bjs': '--bundlejs',
-                'c': '--cleanup',
                 'pf': '--packfeatures',
                 's': '--sass',
                 'v': '--version'
@@ -234,31 +235,24 @@ let tasks = {
             case args.bundlecss:
                     tasks.bundleCss();
                 break;
-            case args.cleanup:
-                    tasks.cleanUp();
+            case args.bundlejs:
+                    tasks.bundleJs();
                 break;
             case args.packfeatures:
-                tasks.packFeatures();
-                break;
-            case args.bundlejs:
-                tasks.bundleJs();
+                    tasks.packFeatures();
                 break;
             case args.sass:
                     tasks.ionicSass();
                 break;
-            case args.build:
-                    tasks.build();
+            case args.prod:
+                    tasks.prod();
                 break;
         }
     },
-    build: function () {
-        tasks.cleanUp();
+    prod: function () {
         tasks.bundleCss();
         tasks.bundleJs();
         tasks.packFeatures();
-    },
-    cleanUp: function () {
-        tasks.log('cleanUp start');
     },
     ionicSass: function () {
         tasks.log('ionicSass start');
@@ -295,13 +289,13 @@ let tasks = {
         tasks.log('bundleCss start');
 
         let promise = new Deferred();
-        // Run ionicSass to be sure required files are present!
+        // ionicSass is a pre-requisite to bundleCss
         tasks.ionicSass()
             .then(function () {
                 concat(cssSrcs)
                     .then(function (result) {
                         let output = new CleanCss({}).minify(result);
-                        fs.writeFile('./www/dist/app.bundle.min.css', output, function (wfError) {
+                        fs.writeFile('./www/dist/app.bundle.min.css', output.styles, function (wfError) {
                             if (!wfError) {
                                 promise.resolve();
                             } else {
@@ -471,7 +465,7 @@ let tasks = {
                     './www/lib/ionic/js/angular/angular-route.js',
                     './www/lib/ngCordova/dist/ng-cordova.min.js'
                 ],
-                dest: './www/dist/libs.min.js'
+                dest: './www/dist/app.libs.min.js'
             },
             app: {
                 files: ['./www/js/app.js'],
