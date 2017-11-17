@@ -577,9 +577,9 @@ let rebuild = function (platform, copy, prepare) {
             sprint('Unpatched!');
         }
 
-        // Call gulp to pre-compile/pack js/css files!
+        // Compile/pack/bundle files!
         sh.cd(ROOT + '/ionic/');
-        sh.exec('gulp sb');
+        sh.exec('node builder --prod');
         sh.cd(ROOT);
 
         if (platform === 'android' ||
