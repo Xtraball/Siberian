@@ -42,7 +42,7 @@ var lazyLoadResolver = function (code) {
             }
             var files = [];
             localCode.forEach(function (file) {
-                files.push('./js/packed/' + file + '.bundle.min.js');
+                files.push('./dist/packed/' + file + '.bundle.min.js');
             });
 
             var deferred = $q.defer();

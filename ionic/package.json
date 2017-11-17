@@ -4,7 +4,9 @@
   "description": "AppsMobileCompany: Ionic application",
   "dependencies": {
     "clean-css": "^4.1.9",
+    "cli-color": "^1.2.0",
     "concat": "^1.0.3",
+    "glob-array": "^1.0.0",
     "gulp-angular-templatecache": "^2.0.0",
     "gulp-clean": "^0.3.2",
     "gulp-html-replace": "^1.6.2",
@@ -15,6 +17,7 @@
     "gulp-rm": "^1.0.4",
     "gulp-uglify": "^2.1.2",
     "jshint": "^2.9.4",
+    "native-promise-deferred": "^1.0.1",
     "node-sass": "^4.6.1",
     "nopt": "^4.0.1",
     "run-sequence": "^2.2.0",
