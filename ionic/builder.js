@@ -3,7 +3,9 @@
  *
  * @type {Object}
  */
-const concat = require('concat'),
+const VERSION = '0.0.1',
+    path = require('path'),
+    concat = require('concat'),
     sass = require('node-sass'),
     UglifyJS = require('uglify-es'),
     CleanCss = require('clean-css'),
@@ -11,7 +13,10 @@ const concat = require('concat'),
     nopt = require('nopt'),
     clc = require('cli-color'),
     globArray = require('glob-array'),
-    Deferred = require('native-promise-deferred');
+    watch = require('glob-watcher'),
+    sh = require('shelljs'),
+    Deferred = require('native-promise-deferred'),
+    here = path.dirname(__filename);
 
 let debug = true,
     levels = ['info', 'debug', 'warning', 'error', 'exception', 'throw'],
@@ -173,7 +178,88 @@ let debug = true,
         'youtube': [
             './www/js/factory/youtube.js'
         ]
-    };
+    },
+    bundles = {
+        directives: {
+            files: ['./www/js/directives/*.js'],
+            dest: './www/dist/directives.bundle.min.js'
+        },
+        features: {
+            files: ['./www/js/features/*.js'],
+            dest: './www/dist/features.bundle.min.js'
+        },
+        libraries: {
+            files: [
+                './www/js/libraries/angular-queue.js',
+                './www/js/libraries/angular-queue.min.js',
+                './www/js/libraries/angular-touch.min.js',
+                './www/js/libraries/base64.min.js',
+                './www/js/libraries/ion-gallery.min.js',
+                './www/js/libraries/ionRadio.min.js',
+                './www/js/libraries/ionic-zoom-view.min.js',
+                './www/js/libraries/lazyload.min.js',
+                './www/js/libraries/localforage.min.js',
+                './www/js/libraries/lodash.min.js',
+                './www/js/libraries/ng-img-crop.min.js'
+            ],
+            dest: './www/dist/libraries.bundle.min.js'
+        },
+        providers: {
+            files: ['./www/js/providers/*.js'],
+            dest: './www/dist/providers.bundle.min.js'
+        },
+        services: {
+            files: ['./www/js/services/*.js'],
+            dest: './www/dist/services.bundle.min.js'
+        },
+        utils: {
+            files: [
+                './www/js/utils/features.js',
+                './www/js/utils/form-post.js'
+            ],
+            dest: './www/dist/utils.bundle.min.js'
+        },
+        onloadchunks: {
+            files: [
+                './www/js/factory/facebook.js',
+                './www/js/factory/padlock.js',
+                './www/js/factory/pages.js',
+                './www/js/factory/tc.js',
+                './www/js/factory/cms.js',
+                './www/js/factory/push.js',
+                './www/js/controllers/push.js',
+                './www/js/factory/search.js',
+                './www/js/controllers/customer.js',
+                './www/js/factory/customer.js',
+                './www/js/filters/filters.js'
+            ],
+            dest: './www/dist/onloadchunks.bundle.min.js'
+        },
+        libs: {
+            files: [
+                './www/lib/polyfills.js',
+                './www/lib/utils.js',
+                './www/lib/ionic/js/ionic.bundle.min.js',
+                './www/lib/ionic/js/angular/angular-route.js',
+                './www/lib/ngCordova/dist/ng-cordova.min.js'
+            ],
+            dest: './www/dist/app.libs.min.js'
+        },
+        app: {
+            files: ['./www/js/app.js'],
+            dest: './www/dist/app.min.js'
+        }
+    },
+    help = `
+Available options:
+    --prod
+    --bundlecss
+    --bundlejs
+    --packfeatures
+    --sass
+    --watch
+    --version
+`;
 
 // Siberian 4.12+ task manager!
 let tasks = {
@@ -212,6 +298,10 @@ let tasks = {
     },
     cli: function (inputArgs) {
         tasks.log(clc.blue('builder start'));
+
+        // Move into current directory!
+        sh.cd(here);
+
         // CLI options!
         let knownOpts = {
                 'prod': Boolean,
@@ -219,7 +309,8 @@ let tasks = {
                 'bundlejs': Boolean,
                 'packfeatures': Boolean,
                 'sass': Boolean,
-                'version': Boolean
+                'version': Boolean,
+                'watch': Boolean
             },
             shortHands = {
                 'p': '--prod',
@@ -227,7 +318,8 @@ let tasks = {
                 'bjs': '--bundlejs',
                 'pf': '--packfeatures',
                 's': '--sass',
-                'v': '--version'
+                'v': '--version',
+                'w': '--watch'
             },
             args = nopt(knownOpts, shortHands, inputArgs);
 
@@ -247,12 +339,70 @@ let tasks = {
             case args.prod:
                     tasks.prod();
                 break;
+            case args.version:
+                    tasks.version();
+                break;
+            case args.watch:
+                    tasks.watch();
+                break;
+            default:
+                    tasks.log(help);
         }
     },
     prod: function () {
         tasks.bundleCss();
         tasks.bundleJs();
         tasks.packFeatures();
+    },
+    version: function () {
+        console.log('builder.js version: ' + VERSION);
+    },
+    watch: function () {
+        tasks.log(clc.green('Watching js/css files changes ...'));
+
+
+        // Features!
+        // Features have their own files list, so we segment watchers to improve build time!
+        Object.keys(features)
+            .forEach(function (key) {
+                watch(features[key], function (done) {
+                    tasks.log(clc.green('Feature JS changed ...'));
+                    tasks.packFeatures(key)
+                        .then(function () {
+                            tasks.log(clc.green('Feature JS done ...'));
+                            done();
+                        });
+                });
+            });
+
+        // Bundles!
+        // Bundles have their own files list, so we segment watchers to improve build time!
+        Object.keys(bundles)
+            .forEach(function (key) {
+                watch(bundles[key].files, function (done) {
+                    tasks.log(clc.green('Bundle JS changed ...'));
+                    tasks.bundleJs(key)
+                        .then(function () {
+                            tasks.log(clc.green('Bundle JS done ...'));
+                            done();
+                        });
+                });
+            });
+
+        let cssWatcher = watch([
+            './www/css/*.css'
+        ]);
+
+        cssWatcher.on('change', function (lpath, stat) {
+            if (lpath.indexOf('ionic.app.min.css') !== -1) {
+                return;
+            }
+            tasks.log(clc.green('CSS changed ...'));
+            tasks.bundleCss()
+                .then(function () {
+                    tasks.log(clc.green('CSS done ...'));
+                });
+        });
     },
     ionicSass: function () {
         tasks.log('ionicSass start');
@@ -318,45 +468,59 @@ let tasks = {
 
         return promise;
     },
-    packFeatures: function () {
+    packFeatures: function (segment) {
         tasks.log('packFeatures start');
 
-        let promise = new Deferred();
-        let errors = false;
+        let promise = new Deferred(),
+            promises = [];
 
-        let uglify = function (filename, result) {
+        let uglify = function (filename, result, instancePromise) {
             let output = UglifyJS.minify(result, {
                 mangle: false
             });
             fs.writeFile(filename, output.code, function (wfError) {
                 if (wfError) {
-                    setIsError();
+                    tasks.log('wfError', wfError);
+                    instancePromise.reject();
+                } else {
+                    instancePromise.resolve();
                 }
             });
         };
 
-        let setIsError = function () {
-            errors = true;
-        };
-
-        for (let feature in features) {
-            let src = features[feature];
-            let filename = './www/dist/packed/' + feature + '.bundle.min.js';
-            concat(src)
+        let internalBuilder = function (files, dest) {
+            let instancePromise = new Deferred();
+            promises.push(instancePromise);
+            concat(files)
                 .then(function (result) {
-                    uglify(filename, result);
+                    uglify(dest, result, instancePromise);
                 })
                 .catch(function (error) {
                     tasks.log('something went wrong', error);
-                    setIsError();
+                    instancePromise.reject();
+                });
+        };
+
+        if (segment !== undefined && features.hasOwnProperty(segment)) {
+            tasks.log('packing feature segment: ' + segment);
+            let src = features[segment];
+            let filename = './www/dist/packed/' + segment + '.bundle.min.js';
+            internalBuilder(src, filename);
+        } else {
+            Object.keys(features)
+                .forEach(function (segment) {
+                    let src = features[segment];
+                    let filename = './www/dist/packed/' + segment + '.bundle.min.js';
+                    internalBuilder(src, filename);
                 });
         }
 
-        if (errors) {
-            promise.reject();
-        } else {
-            promise.resolve();
-        }
+        Promise.all(promises)
+            .then(function () {
+                promise.resolve();
+            }).catch(function () {
+                promise.reject();
+            });
 
         promise
             .then(function () {
@@ -367,122 +531,56 @@ let tasks = {
 
         return promise;
     },
-    bundleJs: function () {
+    bundleJs: function (segment) {
         tasks.log('bundleJs start');
 
-        let promise = new Deferred();
+        let promise = new Deferred(),
+            promises = [];
 
-        let errors = false;
-        let setIsError = function () {
-            errors = true;
-        };
-
-        let uglify = function (filename, result) {
+        let uglify = function (filename, result, instancePromise) {
             let output = UglifyJS.minify(result, {
                 mangle: false
             });
             fs.writeFile(filename, output.code, function (wfError) {
                 if (wfError) {
                     tasks.log('wfError', wfError);
-                    setIsError();
+                    instancePromise.reject();
+                } else {
+                    instancePromise.resolve();
                 }
             });
         };
 
         let internalBuilder = function (files, dest) {
+            let instancePromise = new Deferred();
+            promises.push(instancePromise);
             let globFiles = globArray.sync(files);
             concat(globFiles)
                 .then(function (result) {
-                    uglify(dest, result);
+                    uglify(dest, result, instancePromise);
                 })
                 .catch(function (error) {
                     tasks.log('something went wrong', error);
-                    setIsError();
+                    instancePromise.reject();
                 });
         };
 
-        let bundles = {
-            directives: {
-                files: ['./www/js/directives/*.js'],
-                dest: './www/dist/directives.bundle.min.js'
-            },
-            features: {
-                files: ['./www/js/features/*.js'],
-                dest: './www/dist/features.bundle.min.js'
-            },
-            libraries: {
-                files: [
-                    './www/js/libraries/angular-queue.js',
-                    './www/js/libraries/angular-queue.min.js',
-                    './www/js/libraries/angular-touch.min.js',
-                    './www/js/libraries/base64.min.js',
-                    './www/js/libraries/ion-gallery.min.js',
-                    './www/js/libraries/ionRadio.min.js',
-                    './www/js/libraries/ionic-zoom-view.min.js',
-                    './www/js/libraries/lazyload.min.js',
-                    './www/js/libraries/localforage.min.js',
-                    './www/js/libraries/lodash.min.js',
-                    './www/js/libraries/ng-img-crop.min.js'
-                ],
-                dest: './www/dist/libraries.bundle.min.js'
-            },
-            providers: {
-                files: ['./www/js/providers/*.js'],
-                dest: './www/dist/providers.bundle.min.js'
-            },
-            services: {
-                files: ['./www/js/services/*.js'],
-                dest: './www/dist/services.bundle.min.js'
-            },
-            utils: {
-                files: [
-                    './www/js/utils/features.js',
-                    './www/js/utils/form-post.js'
-                ],
-                dest: './www/dist/utils.bundle.min.js'
-            },
-            onloadchunks: {
-                files: [
-                    './www/js/factory/facebook.js',
-                    './www/js/factory/padlock.js',
-                    './www/js/factory/pages.js',
-                    './www/js/factory/tc.js',
-                    './www/js/factory/cms.js',
-                    './www/js/factory/push.js',
-                    './www/js/controllers/push.js',
-                    './www/js/factory/search.js',
-                    './www/js/controllers/customer.js',
-                    './www/js/factory/customer.js',
-                    './www/js/filters/filters.js'
-                ],
-                dest: './www/dist/onloadchunks.bundle.min.js'
-            },
-            libs: {
-                files: [
-                    './www/lib/polyfills.js',
-                    './www/lib/utils.js',
-                    './www/lib/ionic/js/ionic.bundle.min.js',
-                    './www/lib/ionic/js/angular/angular-route.js',
-                    './www/lib/ngCordova/dist/ng-cordova.min.js'
-                ],
-                dest: './www/dist/app.libs.min.js'
-            },
-            app: {
-                files: ['./www/js/app.js'],
-                dest: './www/dist/app.min.js'
-            }
-        };
-
-        Object.keys(bundles)
-            .forEach(function (key) {
-                internalBuilder(bundles[key].files, bundles[key].dest);
-            });
-
-        if (errors) {
-            promise.reject();
+        if (segment !== undefined && bundles.hasOwnProperty(segment)) {
+            tasks.log('bundling segment: ' + segment);
+            internalBuilder(bundles[segment].files, bundles[segment].dest);
         } else {
-            promise.resolve();
+            Object.keys(bundles)
+                .forEach(function (segment) {
+                    internalBuilder(bundles[segment].files, bundles[segment].dest);
+                });
         }
+
+        Promise.all(promises)
+            .then(function () {
+                promise.resolve();
+            }).catch(function () {
+                promise.reject();
+            });
 
         promise
             .then(function () {

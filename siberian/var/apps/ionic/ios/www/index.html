@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
         <meta http-equiv="Content-Security-Policy" content="
-            default-src * ws://* wss://*  mailto:;
+            default-src * ws://* wss://* mailto:;
             script-src * 'unsafe-inline' 'unsafe-eval';
             object-src *;
             style-src * 'unsafe-inline';
@@ -20,39 +20,42 @@
         <title></title>
 
         <link href="./dist/app.bundle.min.css" rel="stylesheet" />
-
         <script src="./dist/app.libs.min.js"></script>
-
         <script src="./js/utils/languages.js"></script>
         <script src="./js/utils/url.js"></script>
         <script src="./cordova.js"></script>
-
-        <script src="./js/libraries/libraries.bundle.min.js"></script>
-
-        <script src="./js/app.min.js"></script>
-
+        <script src="./dist/libraries.bundle.min.js"></script>
+        <script src="./dist/app.min.js"></script>
         <script src="./dist/templates.js"></script>
-        <script src="./js/utils/utils.bundle.min.js"></script>
-        <script src="./js/services/services.bundle.min.js"></script>
-        <script src="./js/directives/directives.bundle.min.js"></script>
-        <script src="./js/providers/providers.bundle.min.js"></script>
+        <script src="./dist/utils.bundle.min.js"></script>
+        <script src="./dist/services.bundle.min.js"></script>
+        <script src="./dist/directives.bundle.min.js"></script>
+        <script src="./dist/providers.bundle.min.js"></script>
+        <script src="./dist/features.bundle.min.js"></script>
+        <script src="./dist/onloadchunks.bundle.min.js"></script>
 
-        <!-- LazyLoaded features-->
-        <script src="./js/features/features.bundle.min.js"></script>
-        <!-- /LazyLoaded features-->
-
-        <script src="./js/factory/facebook.min.js"></script>
-        <script src="./js/factory/padlock.min.js"></script>
-        <script src="./js/factory/pages.min.js"></script>
-        <script src="./js/factory/tc.min.js"></script>
-        <script src="./js/factory/cms.min.js"></script>
-        <script src="./js/factory/push.min.js"></script>
-        <script src="./js/controllers/push.min.js"></script>
-        <script src="./js/factory/search.min.js"></script>
-        <script src="./js/controllers/customer.min.js"></script>
-        <script src="./js/factory/customer.min.js"></script>
-        <script src="./js/filters/filters.min.js"></script>
-
+	
+		<script src="modules/job/controllers/job.js"></script>
+	
+		<script src="modules/job/factories/job.js"></script>
+	
+		<script src="modules/layout/home/layout_siberian_swipe/swiper/swiper.min.js"></script>
+	
+		<script src="modules/layout/home/layout_siberian_swipe/hooks.js"></script>
+	
+		<script src="modules/layout/home/layout_siberian_18/hooks.js"></script>
+	
+		<script src="modules/layout/home/layout_siberian_year/hooks.js"></script>
+	
+		<link href="modules/job/css/styles.css" rel="stylesheet">
+	
+		<link href="modules/layout/home/layout_siberian_swipe/swiper/swiper.min.css" rel="stylesheet">
+	
+		<link href="modules/layout/home/layout_siberian_swipe/style.css" rel="stylesheet">
+	
+		<link href="modules/layout/home/layout_siberian_18/style.css" rel="stylesheet">
+	
+		<link href="modules/layout/home/layout_siberian_year/style.css" rel="stylesheet">
 	</head>
     <body ng-app="starter" class="platform-browser platform-cordova platform-webview platform-ios platform-cordova platform-webview">
 

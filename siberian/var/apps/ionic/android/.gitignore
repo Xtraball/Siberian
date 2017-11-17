@@ -1,0 +1,11 @@
+# Non-project-specific build files:
+build.xml
+/gradlew.bat
+# Ant builds
+ant-build
+ant-gen
+# Eclipse builds
+gen
+out
+# Gradle builds
+/build

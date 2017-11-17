@@ -16,6 +16,7 @@ module.exports = {
     },
     "globals": {
         "angular": false,
+        "Promise": false,
         "caches": false,
         "chcp": false,
         "localStorage": false,
