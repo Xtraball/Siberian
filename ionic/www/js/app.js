@@ -619,7 +619,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         // OVERVIEW!
                         $rootScope.isOverview = isOverview;
                         if ($rootScope.isOverview) {
-
                             $window.overview = {
                                 features: {}
                             };
@@ -732,7 +731,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             });
 
                         // Loads momentjs/progressbar async.
-                        $ocLazyLoad.load('./js/libraries/moment.min.js')
+                        $ocLazyLoad.load('./dist/lazy/moment.min.js')
                             .then(function () {
                                 window.momentjs_loaded = true;
                                 try {
@@ -742,7 +741,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                 }
                             });
 
-                        $ocLazyLoad.load('./js/libraries/angular-carousel.min.js');
+                        $ocLazyLoad.load('./dist/lazy/angular-carousel.min.js');
                         window.Features.featuresToLoadOnStart.forEach(function (bundle) {
                             $log.info('Loading on Start: ', bundle);
                             $ocLazyLoad.load([

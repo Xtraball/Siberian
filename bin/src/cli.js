@@ -157,6 +157,7 @@ let cli = function (inputArgs) {
             'prepare': Boolean,
             'rebuild': Boolean,
             'rebuildall': Boolean,
+            'prepall': Boolean,
             'syncmodule': Boolean,
             'type': Boolean,
             'test': Boolean,
@@ -202,6 +203,7 @@ let cli = function (inputArgs) {
         let EMPTY = false;
         let INSTALL = false;
         let EXTERNAL = false;
+        let SKIP_REBUILD = false;
 
         let remain = args.argv.remain;
 
@@ -219,6 +221,8 @@ let cli = function (inputArgs) {
                     break;
                 case 'reset':
                     RESET = true;
+                case 'skip-rebuild':
+                    SKIP_REBUILD = true;
                     break;
                 case 'install':
                     INSTALL = true;
@@ -227,8 +231,8 @@ let cli = function (inputArgs) {
                     REBUILD_MANIFEST = false;
                     break;
                 case 'ext': case 'external':
-                EXTERNAL = true;
-                break;
+                    EXTERNAL = true;
+                 break;
                 case 'build-debug':
                     BUILD_TYPE = '--debug';
                     break;
@@ -237,20 +241,32 @@ let cli = function (inputArgs) {
 
         if (args.rebuild) {
             if (remain.length >= 1) {
-                rebuild(remain[0], COPY);
+                rebuild(remain[0], COPY, false);
             } else {
                 sprint(clc.red('Missing required argument <platform>'));
             }
         } else if (args.prepare) {
             if (remain.length >= 1) {
-                rebuild(remain[0], COPY, true);
+                rebuild(remain[0], COPY, true, SKIP_REBUILD);
             } else {
                 sprint(clc.red('Missing required argument <platform>'));
             }
         } else if (args.rebuildall) {
+            // Rebuild prod files once!
+            REBUILD_MANIFEST = false;
+            builder();
             platforms.forEach(function (platform) {
-                rebuild(platform, COPY);
+                rebuild(platform, COPY, false, true);
             });
+            rebuildManifest();
+        } else if (args.prepall) {
+            // Rebuild prod files once!
+            REBUILD_MANIFEST = false;
+            builder();
+            platforms.forEach(function (platform) {
+                rebuild(platform, COPY, true, true);
+            });
+            rebuildManifest();
         } else if (args.ions) {
             ionicServe();
         } else if (args.alias) {
@@ -498,6 +514,7 @@ let rebuildManifest = function () {
     const failed = (error) => {
         if (typeof error === 'object' && error.hasOwnProperty('message')) {
             sprint('Unexpected error: ' + clc.red(error.message));
+            console.log(error);
         }
         sprint(clc.red('Catch: Manifest rebuild error, run `siberian init` to set your dummyEmail & dummyPassword.'));
         notify('Rebuild manifest FAILED.', {
@@ -550,11 +567,19 @@ let rebuildManifest = function () {
 
 /**
  *
+ */
+let builder = function () {
+    sh.cd(ROOT + '/ionic/');
+    sh.exec('node builder --prod');
+};
+
+/**
+ *
  * @param platform
  * @param copy
  * @param prepare
  */
-let rebuild = function (platform, copy, prepare) {
+let rebuild = function (platform, copy, prepare, skipRebuild) {
     let localPrepare = (prepare === undefined) ? false : prepare;
     let originalIndexContent = null;
     let indexFile = ROOT + '/ionic/www/index.html';
@@ -578,9 +603,9 @@ let rebuild = function (platform, copy, prepare) {
         }
 
         // Compile/pack/bundle files!
-        sh.cd(ROOT + '/ionic/');
-        sh.exec('node builder --prod');
-        sh.cd(ROOT);
+        if (!skipRebuild) {
+            builder();
+        }
 
         if (platform === 'android' ||
             platform === 'android-previewer' ||
@@ -790,10 +815,12 @@ let copyPlatform = function (platform) {
 
             // Copy!
             sh.cp('-r', ionicPlatformPath + '/', siberianPlatformPath);
-            sh.cp('-r', ROOT + '/ionic/scss/ionic.siberian*scss', siberianPlatformPath + '/scss/');
-            cleanupWww(siberianPlatformPath + '/www/', true);
+            sh.mkdir('-p', siberianPlatformPath + '/scss/');
+            sh.cp('-r', ROOT + '/ionic/scss/ionic.siberian*.scss', siberianPlatformPath + '/scss/');
+            cleanupWww(siberianPlatformPath + '/', true);
 
             // Duplicate in 'overview'!
+            sh.mkdir('-p', siberianPlatformPath.replace('browser', 'overview'));
             sh.cp('-r', siberianPlatformPath + '/*', siberianPlatformPath.replace('browser', 'overview'));
 
             break;
@@ -860,7 +887,6 @@ let copyPlatform = function (platform) {
 let cleanupWww = function (basePath, browser) {
     let filesToRemove = [
         'img/ionic.png',
-        'lib/ionic/scss',
         'css/ionic.app.css',
         'lib/ionic/css/ionic.css',
         'lib/ionic/js/ionic.js',
@@ -884,16 +910,15 @@ let cleanupWww = function (basePath, browser) {
         'js/utils/form-post.js'
     ];
 
-    if (browser !== undefined && browser) {
-        delete(filesToRemove['lib/ionic/scss']);
+    if (browser !== true) {
+        filesToRemove.push('lib/ionic/scss');
     }
 
-    Object.keys(filesToRemove).forEach(function (key) {
-        let localPath = filesToRemove[key];
-
-        console.log(basePath + localPath);
-        sh.rm('-rf', basePath + localPath);
-    });
+    Object.keys(filesToRemove)
+        .forEach(function (key) {
+            console.log(basePath + filesToRemove[key]);
+            sh.rm('-rf', basePath + filesToRemove[key]);
+        });
 };
 
 /**
@@ -914,13 +939,16 @@ let test = function () {
  *
  */
 let ionicServe = function () {
-    sprint(clc.blue('Starting ionic server in background screen, use \'screen -r ions\' ' +
+    sprint(clc.blue('Starting ionic server & node builder --watch in background screen, use \'screen -r ions\' and/or \'screen -r watch\' ' +
         'to attach & \'ctrl+a then d\' to detach ...'));
 
     /** Ensure the script is in the good directory Cordova is serious ... */
-    sh.cd(ROOT+'/ionic/');
-    sh.exec('if screen -ls ions | grep -q .ions; then echo \'Already running\'; ' +
+    sh.cd(ROOT + '/ionic/');
+    sh.exec('if screen -ls ions | grep -q .ions; then echo \'ionic server already running\'; ' +
         'else screen -dmS ions ionic serve -a; fi');
+
+    sh.exec('if screen -ls watch | grep -q .ions; then echo \'node builder --watch already running\'; ' +
+        'else screen -dmS watch node builder --watch; fi');
 };
 
 /** Sync git submodules */
