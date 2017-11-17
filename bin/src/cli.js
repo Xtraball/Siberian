@@ -486,20 +486,20 @@ let rebuildManifest = function () {
     let developer = require(ROOT + '/developer.json');
 
     const domain = developer.config.domain;
-    const port = ((+(domain.match(/(:([0-9]{1,5}))?$/)[2])) || 80);
+    const port = developer.config.port || 80;
     const options = {
         host: domain,
         port: port,
         path: '/backoffice/api_options/manifest',
         headers: {
-         'Authorization': 'Basic ' + new Buffer(developer.dummy_email + ':' + developer.dummy_password).toString('base64')
+         'Authorization': 'Basic ' + new Buffer(developer.dummyEmail + ':' + developer.dummyPassword).toString('base64')
         }
     };
     const failed = (error) => {
         if (typeof error === 'object' && error.hasOwnProperty('message')) {
             sprint('Unexpected error: ' + clc.red(error.message));
         }
-        sprint(clc.red('Catch: Manifest rebuild error, run `siberian init` to set your dummy_email & dummy_password.'));
+        sprint(clc.red('Catch: Manifest rebuild error, run `siberian init` to set your dummyEmail & dummyPassword.'));
         notify('Rebuild manifest FAILED.', {
             sound: 'Frog'
         });
@@ -791,6 +791,7 @@ let copyPlatform = function (platform) {
             // Copy!
             sh.cp('-r', ionicPlatformPath + '/', siberianPlatformPath);
             sh.cp('-r', ROOT + '/ionic/scss/ionic.siberian*scss', siberianPlatformPath + '/scss/');
+            cleanupWww(siberianPlatformPath + '/www/', true);
 
             // Duplicate in 'overview'!
             sh.cp('-r', siberianPlatformPath + '/*', siberianPlatformPath.replace('browser', 'overview'));
@@ -798,18 +799,18 @@ let copyPlatform = function (platform) {
             break;
 
         case 'ios': case 'ios-noads':
-        sh.rm('-rf', ionicPlatformPath + '/build');
-        sh.rm('-rf', ionicPlatformPath + '/CordovaLib/build');
-        sh.rm('-rf', ionicPlatformPath + '/cordova/plugins');
-        sh.rm('-rf', ionicPlatformPath + '/www/modules/*');
+            sh.rm('-rf', ionicPlatformPath + '/build');
+            sh.rm('-rf', ionicPlatformPath + '/CordovaLib/build');
+            sh.rm('-rf', ionicPlatformPath + '/cordova/plugins');
+            sh.rm('-rf', ionicPlatformPath + '/www/modules/*');
 
-        // Clean-up!
-        sh.rm('-rf', siberianPlatformPath);
+            // Clean-up!
+            sh.rm('-rf', siberianPlatformPath);
 
-        // Copy!
-        sh.cp('-r', ionicPlatformPath + '/', siberianPlatformPath);
-        sh.rm('-rf', siberianPlatformPath + '/platform_www');
-        cleanupWww(siberianPlatformPath + '/www/');
+            // Copy!
+            sh.cp('-r', ionicPlatformPath + '/', siberianPlatformPath);
+            sh.rm('-rf', siberianPlatformPath + '/platform_www');
+            cleanupWww(siberianPlatformPath + '/www/');
 
         break;
 
@@ -851,7 +852,12 @@ let copyPlatform = function (platform) {
     sprint('Copy done');
 };
 
-let cleanupWww = function (basePath) {
+/**
+ *
+ * @param basePath
+ * @param browser skip scss removal if browser
+ */
+let cleanupWww = function (basePath, browser) {
     let filesToRemove = [
         'img/ionic.png',
         'lib/ionic/scss',
@@ -865,27 +871,27 @@ let cleanupWww = function (basePath) {
         'lib/ionic/js/angular/angular-resource.js',
         'lib/ionic/js/angular/angular-sanitize.js',
         'lib/ionic/js/angular-ui/angular-ui-router.js',
-        'www/css',
-        'www/js/controllers',
-        'www/js/directives',
-        'www/js/factory',
-        'www/js/providers',
-        'www/js/services',
-        'www/js/libraries/angualar-queue*',
-        'www/js/libraries/angular-touch*',
-        'www/js/libraries/base64*',
-        'www/js/libraries/ion-gallery*',
-        'www/js/libraries/ionic-zoom-view*',
-        'www/js/libraries/ionRadio*',
-        'www/js/libraries/lazyLoad*',
-        'www/js/libraries/localforage*',
-        'www/js/libraries/lodash*',
-        'www/js/libraries/ng-img-crop*'
+        'css',
+        'js/controllers',
+        'js/directives',
+        'js/factory',
+        'js/providers',
+        'js/services',
+        'js/features',
+        'js/filters',
+        'js/libraries',
+        'js/utils/features.js',
+        'js/utils/form-post.js'
     ];
+
+    if (browser !== undefined && browser) {
+        delete(filesToRemove['lib/ionic/scss']);
+    }
 
     Object.keys(filesToRemove).forEach(function (key) {
         let localPath = filesToRemove[key];
 
+        console.log(basePath + localPath);
         sh.rm('-rf', basePath + localPath);
     });
 };
