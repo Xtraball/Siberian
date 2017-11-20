@@ -18,14 +18,14 @@ class Application_CustomizationController extends Application_Controller_Default
 
     public function checkAction() {
 
-        if($this->getRequest()->isPost()) {
+        if ($this->getRequest()->isPost()) {
 
             $admin_can_publish = $this->getSession()->getAdmin()->canPublishThemself();
             $errors = $this->getApplication()->isAvailableForPublishing($admin_can_publish);
 
-            if(!empty($errors)) {
-                $message = __('In order to publish your application, we need:<br />- ');
-                $message .= join('<br />- ', $errors);
+            if (!empty($errors)) {
+                array_unshift($errors, __('In order to publish your application, we need:'));
+                $message = join('<br />- ', $errors);
 
                 $html = array(
                     'message' => $message,
@@ -53,9 +53,7 @@ class Application_CustomizationController extends Application_Controller_Default
                         'message_loader' => 0,
                         'message_timeout' => 3
                     );
-
-                } else if(Siberian_Version::TYPE == "PE") {
-
+                } else if (Siberian_Version::TYPE === 'PE') {
                     $url = $this->getUrl('subscription/application/create');
                     $html = array('url' => $url);
                 }
