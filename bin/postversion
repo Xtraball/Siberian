@@ -31,3 +31,14 @@ rm -f ./modules.txt
 git add ./package.json
 git commit -m "v"$VERSION
 git tag "v"$VERSION
+
+# Hooks for MAE/PE if they exists!
+if [ -f "./siberian/app/mae/ci/postversion" ];
+then
+    ./siberian/app/mae/ci/postversion
+fi
+
+if [ -f "./siberian/app/pe/ci/postversion" ];
+then
+    ./siberian/app/pe/ci/postversion
+fi
