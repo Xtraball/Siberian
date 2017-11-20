@@ -32,13 +32,25 @@ git add ./package.json
 git commit -m "v"$VERSION
 git tag "v"$VERSION
 
+echo $PWD
 # Hooks for MAE/PE if they exists!
 if [ -f "./siberian/app/mae/ci/postversion" ];
 then
-    ./siberian/app/mae/ci/postversion
+    cd ./siberian/app/mae
+    ./ci/postversion
+
+    git add ./package.json
+    git commit -m "v"$VERSION
+    git tag "v"$VERSION
+    cd -
 fi
 
 if [ -f "./siberian/app/pe/ci/postversion" ];
 then
-    ./siberian/app/pe/ci/postversion
+    cd ./siberian/app/pe
+    ./ci/postversion
+    git add ./package.json
+    git commit -m "v"$VERSION
+    git tag "v"$VERSION
+    cd -
 fi
