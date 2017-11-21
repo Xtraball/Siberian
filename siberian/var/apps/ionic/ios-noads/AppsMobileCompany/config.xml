@@ -34,7 +34,7 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="sms:*" />
     <chcp>
-        <config-file url="http://anders.xtraball.com/var/apps/ionic/ios-noads/www/chcp.json" />
+        <config-file url="PLATFORM_URL" />
         <native-interface version="4" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />
