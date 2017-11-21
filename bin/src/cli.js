@@ -383,19 +383,12 @@ let cli = function (inputArgs) {
 let install = function () {
     sh.cd(ROOT);
 
-    let bin = sh.exec('echo $PWD', { silent: true }).output.trim() + '/bin/siberian';
-
-    // Copy Siberian CLI custom modification!
-    sh.exec('cp -rp ./bin/config/platforms.js ./node_modules/cordova-lib/src/cordova/platform.js');
-    sh.exec('cp -rp ./bin/config/platformsConfig.json ./node_modules/cordova-lib/src/platforms/platformsConfig.json');
-    sh.exec('cp -rp ./bin/config/plugman.js ./node_modules/cordova-lib/src/plugman/plugman.js');
+    sh.cp('-r', './bin/config/platforms.js ./node_modules/cordova-lib/src/cordova/platform.js');
+    sh.cp('-r', './bin/config/platformsConfig.json ./node_modules/cordova-lib/src/platforms/platformsConfig.json');
+    sh.cp('-r', './bin/config/plugman.js ./node_modules/cordova-lib/src/plugman/plugman.js');
 
     // Configuring environment!
     sh.exec('git config core.fileMode false');
-    sh.exec('git submodule foreach git config core.fileMode false');
-
-    sprint(clc.blue('When installing be sure to execute these commands from the project directory:'));
-    sprint(clc.blue('echo "alias siberian=\'' + bin + '\'" >> ~/.bash_profile && source ~/.bash_profile'));
 
     sprint('Done.');
 };
@@ -984,11 +977,17 @@ let createOrSyncGit = function (gitPath, url, branch) {
     if (fs.existsSync(gitPath)) {
         sh.cd(gitPath);
         sh.exec('git fetch', { silent: true });
-        let status = sh.exec('git status', { silent: true }).output.trim();
-        if (status.indexOf('branch is up-to-date') === -1) {
+        let localStatus;
+        try {
+            localStatus = sh.exec('git status', { silent: true }).output.trim();
+        } catch (e) {
+            localStatus = '';
+        }
+
+        if (localStatus.indexOf('branch is up-to-date') === -1) {
             sh.exec('git checkout ' + branch + '; git pull origin ' + branch);
         } else {
-            sh.exec(' git config core.fileMode false; git status');
+            sh.exec('git config core.fileMode false; git status');
         }
     } else {
         sh.exec('git clone -b ' + branch + ' ' + url + ' ' + gitPath);
