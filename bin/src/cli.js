@@ -258,7 +258,7 @@ let cli = function (inputArgs) {
             platforms.forEach(function (platform) {
                 rebuild(platform, COPY, false, true);
             });
-            rebuildManifest();
+            //rebuildManifest();
         } else if (args.prepall) {
             // Rebuild prod files once!
             REBUILD_MANIFEST = false;
@@ -266,7 +266,7 @@ let cli = function (inputArgs) {
             platforms.forEach(function (platform) {
                 rebuild(platform, COPY, true, true);
             });
-            rebuildManifest();
+            //rebuildManifest();
         } else if (args.ions) {
             ionicServe();
         } else if (args.alias) {
