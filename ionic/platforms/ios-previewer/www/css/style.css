@@ -108,7 +108,7 @@ ion-content.tc-view .scroll { height: 100%; }
 .audio-player .repeat-one {position:absolute; top:3px; right:15px; bottom:0;}
 .audio-player .seekbar {position: absolute; top:-30px; left:0; right:0; padding-left:0; padding-right:0;}
 .audio-player .seekbar input {margin-left:0; margin-right:0;}
-ion-nav-view.has-mini-player-controls > ion-view > ion-content {bottom: 88px;}
+ion-nav-view.has-mini-player-controls > ion-view > ion-content {bottom: 89px;}
 /* END AUDIO PLAYER */
 
 /* PAD */
@@ -750,7 +750,7 @@ div#search_section {
 .has-mini-player-controls .layout {
     position: absolute;
     top: 0;
-    bottom: 89px;
+    bottom: 0;
     width: 100%;
     height: initial;
 }
