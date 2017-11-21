@@ -914,7 +914,6 @@ let cleanupWww = function (basePath, browser) {
 
     Object.keys(filesToRemove)
         .forEach(function (key) {
-            console.log(basePath + filesToRemove[key]);
             sh.rm('-rf', basePath + filesToRemove[key]);
         });
 };
