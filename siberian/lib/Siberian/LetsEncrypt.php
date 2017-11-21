@@ -2,6 +2,8 @@
 
 /**
  * Class Siberian_LetsEncrypt
+ *
+ * @version 4.12.19
  */
 
 class Siberian_LetsEncrypt {
