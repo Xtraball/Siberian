@@ -19,6 +19,10 @@ const VERSION = '0.0.1',
     here = path.dirname(__filename);
 
 let debug = true,
+    blueColor = clc.xterm(68),
+    redColor = clc.xterm(125),
+    greenColor = clc.xterm(23),
+    timeColor = clc.xterm(209),
     levels = ['info', 'debug', 'warning', 'error', 'exception', 'throw'],
     cssSrcs = [
         './www/css/ionRadioFix.css',
@@ -281,7 +285,7 @@ let tasks = {
         }
 
         let date = new Date();
-        let currentTime = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + '.' + date.getMilliseconds();
+        let currentTime = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + '.' + ('000' + date.getMilliseconds()).slice(-3);
 
         switch (level) {
             case 'exception':
@@ -292,12 +296,12 @@ let tasks = {
             case 'debug':
             case 'info':
             default:
-                log.apply(console, [clc.green('[' + currentTime + ']')].concat(Array.from(args)));
+                log.apply(console, [timeColor('[' + currentTime + ']')].concat(Array.from(args)));
                 break;
         }
     },
     cli: function (inputArgs) {
-        tasks.log(clc.blue('builder start'));
+        tasks.log(blueColor('builder start'));
 
         // Move into current directory!
         sh.cd(here);
@@ -355,10 +359,10 @@ let tasks = {
         tasks.packFeatures();
     },
     version: function () {
-        console.log('builder.js version: ' + VERSION);
+        console.log(blueColor('builder.js version: ' + VERSION));
     },
     watch: function () {
-        tasks.log(clc.green('Watching js/css files changes ...'));
+        tasks.log(greenColor('Watching js/css files changes ...'));
 
 
         // Features!
@@ -366,10 +370,10 @@ let tasks = {
         Object.keys(features)
             .forEach(function (key) {
                 watch(features[key], function (done) {
-                    tasks.log(clc.green('Feature JS changed ...'));
+                    tasks.log(greenColor('Feature JS changed ...'));
                     tasks.packFeatures(key)
                         .then(function () {
-                            tasks.log(clc.green('Feature JS done ...'));
+                            tasks.log(greenColor('Feature JS done ...'));
                             done();
                         });
                 });
@@ -380,10 +384,10 @@ let tasks = {
         Object.keys(bundles)
             .forEach(function (key) {
                 watch(bundles[key].files, function (done) {
-                    tasks.log(clc.green('Bundle JS changed ...'));
+                    tasks.log(greenColor('Bundle JS changed ...'));
                     tasks.bundleJs(key)
                         .then(function () {
-                            tasks.log(clc.green('Bundle JS done ...'));
+                            tasks.log(greenColor('Bundle JS done ...'));
                             done();
                         });
                 });
@@ -397,15 +401,15 @@ let tasks = {
             if (lpath.indexOf('ionic.app.min.css') !== -1) {
                 return;
             }
-            tasks.log(clc.green('CSS changed ...'));
+            tasks.log(greenColor('CSS changed ...'));
             tasks.bundleCss()
                 .then(function () {
-                    tasks.log(clc.green('CSS done ...'));
+                    tasks.log(greenColor('CSS done ...'));
                 });
         });
     },
     ionicSass: function () {
-        tasks.log('ionicSass start');
+        tasks.log(blueColor('ionicSass start'));
         let promise = new Deferred();
 
         sass.render({
@@ -428,15 +432,15 @@ let tasks = {
 
         promise
             .then(function () {
-                tasks.log('ionicSass success');
+                tasks.log(greenColor('ionicSass success'));
             }).catch(function () {
-                tasks.log('ionicSass error');
+                tasks.log(redColor('ionicSass error'));
             });
 
         return promise;
     },
     bundleCss: function () {
-        tasks.log('bundleCss start');
+        tasks.log(blueColor('bundleCss start'));
 
         let promise = new Deferred();
         // ionicSass is a pre-requisite to bundleCss
@@ -461,15 +465,15 @@ let tasks = {
 
         promise
             .then(function () {
-                tasks.log('bundleCss success');
+                tasks.log(greenColor('bundleCss success'));
             }).catch(function () {
-                tasks.log('bundleCss error');
+                tasks.log(redColor('bundleCss error'));
             });
 
         return promise;
     },
     packFeatures: function (segment) {
-        tasks.log('packFeatures start');
+        tasks.log(blueColor('packFeatures start'));
 
         let promise = new Deferred(),
             promises = [];
@@ -480,7 +484,7 @@ let tasks = {
             });
             fs.writeFile(filename, output.code, function (wfError) {
                 if (wfError) {
-                    tasks.log('wfError', wfError);
+                    tasks.log(redColor('wfError'), wfError);
                     instancePromise.reject();
                 } else {
                     instancePromise.resolve();
@@ -496,7 +500,7 @@ let tasks = {
                     uglify(dest, result, instancePromise);
                 })
                 .catch(function (error) {
-                    tasks.log('something went wrong', error);
+                    tasks.log(redColor('something went wrong'), error);
                     instancePromise.reject();
                 });
         };
@@ -524,15 +528,15 @@ let tasks = {
 
         promise
             .then(function () {
-                tasks.log('packFeatures success');
+                tasks.log(greenColor('packFeatures success'));
             }).catch(function () {
-                tasks.log('packFeatures error');
+                tasks.log(redColor('packFeatures error'));
             });
 
         return promise;
     },
     bundleJs: function (segment) {
-        tasks.log('bundleJs start');
+        tasks.log(blueColor('bundleJs start'));
 
         let promise = new Deferred(),
             promises = [];
@@ -543,7 +547,7 @@ let tasks = {
             });
             fs.writeFile(filename, output.code, function (wfError) {
                 if (wfError) {
-                    tasks.log('wfError', wfError);
+                    tasks.log(redColor('wfError'), wfError);
                     instancePromise.reject();
                 } else {
                     instancePromise.resolve();
@@ -560,13 +564,13 @@ let tasks = {
                     uglify(dest, result, instancePromise);
                 })
                 .catch(function (error) {
-                    tasks.log('something went wrong', error);
+                    tasks.log(redColor('something went wrong'), error);
                     instancePromise.reject();
                 });
         };
 
         if (segment !== undefined && bundles.hasOwnProperty(segment)) {
-            tasks.log('bundling segment: ' + segment);
+            tasks.log(blueColor('bundling segment: ' + segment));
             internalBuilder(bundles[segment].files, bundles[segment].dest);
         } else {
             Object.keys(bundles)
@@ -584,9 +588,9 @@ let tasks = {
 
         promise
             .then(function () {
-                tasks.log('bundleJs success');
+                tasks.log(greenColor('bundleJs success'));
             }).catch(function () {
-                tasks.log('bundleJs error');
+                tasks.log(redColor('bundleJs error'));
             });
 
         return promise;
