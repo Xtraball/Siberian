@@ -12,12 +12,12 @@ class Media_Mobile_Gallery_Image_ListController extends Application_Controller_M
                         ]);
 
                     $galleries = [];
-                    foreach($images as $image) {
-                        $galleries[] = array(
+                    foreach ($images as $image) {
+                        $galleries[] = [
                             'id' => $image->getGalleryId(),
                             'name' => $image->getLabel() ? $image->getLabel() : $image->getName(),
                             'type' => $image->getTypeId(),
-                        );
+                        ];
                     }
 
                     $payload = [
