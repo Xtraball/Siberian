@@ -22,7 +22,8 @@ apache.default
 nginx.default
 npm-debug.log
 ionic.project
-node_modules
+node_modules/
+modules/
 
 # Locally built packages
 packages/*
