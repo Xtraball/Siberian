@@ -39,7 +39,7 @@ let packModules = [];
 let ROOT = path.resolve(path.dirname(__filename), '../../'),
     PWD = process.cwd(),
     DEBUG = false,
-    REBUILD_MANIFEST = true,
+    REBUILD_MANIFEST = false,
     PHP_VERSION = 'php',
     BUILD_TYPE = '--release';
 
@@ -227,8 +227,8 @@ let cli = function (inputArgs) {
                 case 'install':
                     INSTALL = true;
                     break;
-                case 'no-manifest':
-                    REBUILD_MANIFEST = false;
+                case 'manifest':
+                    REBUILD_MANIFEST = true;
                     break;
                 case 'ext': case 'external':
                     EXTERNAL = true;
@@ -253,12 +253,13 @@ let cli = function (inputArgs) {
             }
         } else if (args.rebuildall) {
             // Rebuild prod files once!
-            REBUILD_MANIFEST = false;
             builder();
             platforms.forEach(function (platform) {
                 rebuild(platform, COPY, false, true);
             });
-            //rebuildManifest();
+            if (REBUILD_MANIFEST) {
+                rebuildManifest();
+            }
         } else if (args.prepall) {
             // Rebuild prod files once!
             REBUILD_MANIFEST = false;
@@ -266,7 +267,9 @@ let cli = function (inputArgs) {
             platforms.forEach(function (platform) {
                 rebuild(platform, COPY, true, true);
             });
-            //rebuildManifest();
+            if (REBUILD_MANIFEST) {
+                rebuildManifest();
+            }
         } else if (args.ions) {
             ionicServe();
         } else if (args.alias) {
@@ -677,11 +680,6 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
             // Cleaning up build files!
             if (copy) {
                 copyPlatform(platform);
-
-                // Rebuild manifest!
-                if (REBUILD_MANIFEST) {
-                    rebuildManifest();
-                }
             }
 
             sprint(clc.green('Done.'));
@@ -1623,8 +1621,7 @@ ions                    Start ionic serve in background
 rebuild                 Rebuild a platform (requires Android SDK & Xcode, Command-Line Tools):
                             - debug: option will show more informations.
                             - copy: copy platform to siberian/var/apps.
-                            - no-manifest: don't call the rebuild manifest hook.
-        rebuild <platform> [copy] [debug] [no-manifest]
+        rebuild <platform> [copy] [debug]
 
 rebuild-all             Rebuild all platforms (requires Android SDK & Xcode, Command-Line Tools)
 
@@ -1646,8 +1643,12 @@ packall                 Pack all referenced modules
 prepare                 Prepare a platform (Doesn't requires Android SDK & Xcode, it's suitable for any HTML/JS/CSS Customization in the Apps):
                             - debug: option will show more informations.
                             - copy: copy platform to siberian/var/apps.
-                            - no-manifest: don't call the rebuild manifest hook.
-        prepare <platform> [copy] [debug] [no-manifest]
+        prepare <platform> [copy] [debug]
+        
+prepall                 Prepare all platforms
+                            - debug: option will show more informations.
+                            - copy: copy platform to siberian/var/apps.
+        prepare [copy] [debug]
 
 manifest                Rebuilds app manifest
 
