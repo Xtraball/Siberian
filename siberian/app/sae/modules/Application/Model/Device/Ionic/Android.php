@@ -72,7 +72,6 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
 
         $this->_prepareUrl();
         $this->_prepareLanguages();
-        $this->_admob();
         $this->_prepareGoogleAppId();
 
         if($this->getDevice()->getDownloadType() != "apk") {
