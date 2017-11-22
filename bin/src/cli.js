@@ -1547,7 +1547,7 @@ let pack = function (module) {
 let archiveSources = function () {
     sprint(clc.blue('Building archives for Apps sources restore'));
 
-    let excludes = '--options gzip:9 --exclude=\'*.DS_Store*\' --exclude=\'*.idea*\' --exclude=\'*.gitignore*\' --exclude=\'*.localized*\''
+    let excludes = '--options gzip:9 --exclude=\'*.DS_Store*\' --exclude=\'*.idea*\' --exclude=\'*.gitignore*\' --exclude=\'*.localized*\'';
     sh.cd(ROOT + '/siberian/var/apps/ionic');
     sh.exec('tar ' + excludes + ' -czf ./android.tgz ./android');
     sh.exec('tar ' + excludes + ' -czf ./ios.tgz ./ios');
@@ -1556,7 +1556,6 @@ let archiveSources = function () {
 
     sh.cd(ROOT + '/siberian/var/apps');
     sh.exec('tar ' + excludes + ' -czf ./browser.tgz ./browser');
-    sh.exec('tar ' + excludes + ' -czf ./overview.tgz ./overview');
 
     sprint(clc.green('Archives done!'));
 };
