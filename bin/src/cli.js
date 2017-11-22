@@ -137,6 +137,7 @@ let cli = function (inputArgs) {
     let knownOpts =
         {
             'alias': Boolean,
+            'archivesources': Boolean,
             'clearcache': Boolean,
             'clearlog': Boolean,
             'cleanlang': Boolean,
@@ -272,6 +273,8 @@ let cli = function (inputArgs) {
             }
         } else if (args.ions) {
             ionicServe();
+        } else if (args.archivesources) {
+            archiveSources();
         } else if (args.alias) {
             aliasHelp();
         } else if (args.exportdb) {
@@ -1536,6 +1539,26 @@ let pack = function (module) {
     sh.exec('zip -r -9 ' + zipExclude + ' ' + buildPath + zipName + ' ./');
 
     sprint(clc.green('Package done. ' + buildPath + zipName));
+};
+
+/**
+ * Build archives for updates & restore purpose
+ */
+let archiveSources = function () {
+    sprint(clc.blue('Building archives for Apps sources restore'));
+
+    let excludes = '--options gzip:9 --exclude=\'*.DS_Store*\' --exclude=\'*.idea*\' --exclude=\'*.gitignore*\' --exclude=\'*.localized*\''
+    sh.cd(ROOT + '/siberian/var/apps/ionic');
+    sh.exec('tar ' + excludes + ' -czf ./android.tgz ./android');
+    sh.exec('tar ' + excludes + ' -czf ./ios.tgz ./ios');
+    sh.exec('tar ' + excludes + ' -czf ./ios-noads.tgz ./ios-noads');
+    sh.exec('tar ' + excludes + ' -czf ./previewer.tgz ./previewer');
+
+    sh.cd(ROOT + '/siberian/var/apps');
+    sh.exec('tar ' + excludes + ' -czf ./browser.tgz ./browser');
+    sh.exec('tar ' + excludes + ' -czf ./overview.tgz ./overview');
+
+    sprint(clc.green('Archives done!'));
 };
 
 /**
