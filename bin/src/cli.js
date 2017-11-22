@@ -897,6 +897,7 @@ let cleanupWww = function (basePath, browser) {
         'js/features',
         'js/filters',
         'js/libraries',
+        'js/app.js',
         'js/utils/features.js',
         'js/utils/form-post.js'
     ];
