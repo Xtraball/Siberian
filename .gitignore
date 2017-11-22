@@ -15,16 +15,16 @@ __*
 .sass-cache
 
 # Development files
-developer.json
-release-*
-.trash
-apache.default
-nginx.default
+/developer.json
+/release-*
+/.trash
+/apache.default
+/nginx.default
 npm-debug.log
 ionic.project
-node_modules/
-modules/
+/node_modules/
+/modules/
 
 # Locally built packages
-packages/*
+/packages/*
 
