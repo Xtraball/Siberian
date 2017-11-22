@@ -113,7 +113,7 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
     }
 
     protected function _preparePathsVars() {
-        /** Ads */
+        // Ads!
         $_package_ads_suffix = $_source_ads_suffix = "";
         $_dest_ads_suffix = "";
         if($this->getDevice()->getExcludeAds()) {
@@ -124,7 +124,7 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
         $this->_app_name_formatted = Core_Model_Lib_String::format(self::$_application->getName(), true);
         $this->_folder_name = $this->_app_name_formatted.'-'.self::$_application->getId();
 
-        /** Ionic sources */
+        // Ionic sources!
         $this->_orig_source = Core_Model_Directory::getBasePathTo(self::SOURCE_FOLDER.$_source_ads_suffix);
         $this->_orig_source_amc = $this->_orig_source."/AppsMobileCompany";
         $this->_orig_source_res = $this->_orig_source_amc."/Resources";

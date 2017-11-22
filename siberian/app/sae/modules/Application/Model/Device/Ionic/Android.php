@@ -56,14 +56,13 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
         $this->_application_id = Core_Model_Lib_String::format($this->_application->getName()."_".$this->_application->getId(), true);
         $this->_application_name = $this->_application->getName();
 
-        /** Prepping paths */
+        // Prepping paths!
         $this->_generatePasswords();
         $this->_preparePathsVars();
         $this->_prepareRequest();
         $this->_cpFolder();
-        $this->_prepareFiles();
 
-        /** Shared method */
+        // Shared method!
         $this->ionicResources($this->_application);
         $this->androidManifest();
         $this->renameMainPackage();
@@ -74,15 +73,14 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
         $this->_prepareLanguages();
         $this->_prepareGoogleAppId();
 
-        if($this->getDevice()->getDownloadType() != "apk") {
+        if ($this->getDevice()->getDownloadType() != "apk") {
             $zip = $this->zipFolder();
             return $zip;
         }
 
-        if($apk = $this->_generateApk()) {
+        if ($apk = $this->_generateApk()) {
             return $apk;
         }
-
     }
     
     protected function _preparePathsVars() {
@@ -183,25 +181,6 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
         return $this;
     }
 
-    /** @STEP in progress */
-    protected function _prepareFiles() {
-
-        /** Static push.js senderID (Only for apps) */
-        $senderID = Push_Model_Certificate::getAndroidSenderId();
-
-        # Empty senderID cause malformed JSON in Android
-        $senderID = trim($senderID);
-        if(!empty($senderID)) {
-            $senderIdReplacements = array(
-                'senderID: "01234567890"' => 'senderID: "' . $senderID . '"',
-            );
-            $this->__replace($senderIdReplacements, $this->_dest_source."/assets/www/js/factory/push.js");
-        }
-
-        return $this;
-
-    }
-
     /** @TODO remove default langage */
     protected function _prepareUrl() {
 
@@ -230,14 +209,6 @@ var BASE_URL = DOMAIN + BASE_PATH;
 var IMAGE_URL = DOMAIN + '/';";
 
         file_put_contents($this->_dest_source."/assets/www/js/utils/url.js", $url_js_content);
-
-        /** Embed CSS */
-        //$app_id = $this->getApplication()->getId();
-        //$base_css = Core_Model_Directory::getBasePathTo("var/cache/css/{$app_id}.css");
-        //if(is_readable($base_css)) {
-        //    file_put_contents($this->_dest_source."/assets/www/css/app.css", file_get_contents($base_css));
-        //}
-
     }
 
     protected function _prepareLanguages() {
