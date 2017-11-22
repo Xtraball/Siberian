@@ -96,15 +96,14 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
         $this->_application_id = Core_Model_Lib_String::format(self::$_application->getName()."_".self::$_application->getId(), true);
         $this->_application_name = self::$_application->getName();
 
-        /** Prepping paths */
+        // Prepping paths!
         $this->_preparePathsVars();
         $this->_prepareRequest();
         $this->_cpFolder();
         $this->_prepareUrl();
         $this->_prepareLanguages();
-        $this->_admob();
 
-        /** Shared method */
+        // Shared method!
         $this->buildPList();
         $this->ionicResources(self::$_application);
 
