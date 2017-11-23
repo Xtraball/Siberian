@@ -29,9 +29,6 @@ class Mcommerce_Model_Store extends Core_Model_Default {
                 'mcommerce_id' => $this->getMcommerceId(),
                 'name' => $tax_rate.'%',
                 'rate' => $tax_rate
-//                'store_taxes' => array(
-//                    $this->getId() => $tax_rate
-//                )
             );
 
             $tax->setData($tax_datas)->save();
@@ -119,7 +116,7 @@ class Mcommerce_Model_Store extends Core_Model_Default {
 
     public function hasDeliveryMethod($id) {
 
-        if(!$this->_delivery_method_ids) {
+        if (!$this->_delivery_method_ids) {
             $this->_delivery_method_ids = array();
             foreach($this->getDeliveryMethods() as $method) {
                 $this->_delivery_method_ids[] = $method->getId();
@@ -131,7 +128,7 @@ class Mcommerce_Model_Store extends Core_Model_Default {
 
     public function getPaymentMethods() {
 
-        if(!$this->_payment_methods) {
+        if (!$this->_payment_methods) {
             $delivery_method = new Mcommerce_Model_Payment_Method();
             $this->_payment_methods = $delivery_method->findByStore($this->getId());
         }
@@ -142,9 +139,11 @@ class Mcommerce_Model_Store extends Core_Model_Default {
 
     public function getPaymentMethod($method_id) {
 
-        foreach($this->getPaymentMethods() as $method) {
-            if((is_numeric($method_id) AND $method->getId() == $method_id)
-                OR ($method->getCode() == $method_id)) return $method;
+        foreach ($this->getPaymentMethods() as $method) {
+            if ((is_numeric($method_id) AND $method->getId() == $method_id)
+                OR ($method->getCode() == $method_id)) {
+                return $method;
+            }
         }
 
         return new Mcommerce_Model_Payment_Method();
@@ -152,7 +151,7 @@ class Mcommerce_Model_Store extends Core_Model_Default {
 
     public function getPaymentMethodByCode($method_code) {
 
-        foreach($this->getPaymentMethods() as $method) {
+        foreach ($this->getPaymentMethods() as $method) {
             if($method->getCode() == $method_code) return $method;
         }
 

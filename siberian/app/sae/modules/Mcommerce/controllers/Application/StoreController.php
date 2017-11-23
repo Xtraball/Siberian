@@ -13,7 +13,7 @@ class Mcommerce_Application_StoreController extends Application_Controller_Defau
         if($id = $this->getRequest()->getParam('store_id')) {
             $store->find($id);
             if($store->getId() AND $mcommerce->getId() != $store->getMcommerceId()) {
-                throw new Exception($this->_('An error occurred during the process. Please try again later.'));
+                throw new Exception(__('An error occurred during the process. Please try again later.'));
             }
         }
 
@@ -39,7 +39,7 @@ class Mcommerce_Application_StoreController extends Application_Controller_Defau
                 if(!empty($datas['store_id'])) {
                     $store->find($datas['store_id']);
                     if($store->getId() AND $mcommerce->getId() != $store->getMcommerceId()) {
-                        throw new Exception($this->_('An error occurred while saving. Please try again later.'));
+                        throw new Exception(__('An error occurred while saving. Please try again later.'));
                     }
                 }
 
@@ -57,9 +57,7 @@ class Mcommerce_Application_StoreController extends Application_Controller_Defau
                 if(!empty($datas['details_payment_methods'])) {
                     foreach($datas['details_payment_methods'] as $method_id => $payment_details) {
                         foreach($datas['new_payment_methods'] as $key => $payment_method) {
-//                            if($payment_method['method_id'] == $method_id) {
-                                $datas['new_payment_methods'][$key] = array_merge($payment_details, $payment_method);
-//                            }
+                            $datas['new_payment_methods'][$key] = array_merge($payment_details, $payment_method);
                         }
                     }
                     unset($datas['details_payment_methods']);
@@ -86,7 +84,7 @@ class Mcommerce_Application_StoreController extends Application_Controller_Defau
                 $html = array(
                     'store_id' => $store->getId(),
                     'success' => '1',
-                    'success_message' => $this->_('Store successfully saved'),
+                    'success_message' => __('Store successfully saved'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
@@ -130,7 +128,7 @@ class Mcommerce_Application_StoreController extends Application_Controller_Defau
                 $mcommerce = $this->getCurrentOptionValue()->getObject();
                 $store->find($id);
                 if(!$store->getId() OR $mcommerce->getId() != $store->getMcommerceId()) {
-                    throw new Exception($this->_('An error occurred during the process. Please try again later.'));
+                    throw new Exception(__('An error occurred during the process. Please try again later.'));
                 }
 
                 $store->setIsVisible(0)->save();
@@ -138,7 +136,7 @@ class Mcommerce_Application_StoreController extends Application_Controller_Defau
                 $html = array(
                     'store_id' => $store->getId(),
                     'success' => '1',
-                    'success_message' => $this->_('Store successfully deleted'),
+                    'success_message' => __('Store successfully deleted'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
@@ -146,7 +144,7 @@ class Mcommerce_Application_StoreController extends Application_Controller_Defau
 
             }
             else {
-                throw new Exception($this->_('An error occurred during the process. Please try again later.'));
+                throw new Exception(__('An error occurred during the process. Please try again later.'));
             }
         }
         catch(Exception $e) {
