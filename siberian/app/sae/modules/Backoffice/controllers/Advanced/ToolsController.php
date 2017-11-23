@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @version 4.12.20
+ */
 class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_Default {
 
     public function loadAction() {
