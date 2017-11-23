@@ -22,7 +22,7 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
             $version = Siberian_Version::VERSION;
 
             // Check if release exists
-            $releaseUrl = 'https://github.com/Xtraball/Siberian/raw/v' . $version;
+            $releaseUrl = 'https://github.com/Xtraball/Siberian/tree/v' . $version;
             Siberian_Request::get($releaseUrl);
             if (Siberian_Request::$statusCode == '404') {
                 throw new Exception(__('There is not corresponding release to restore from, process aborted!'));
