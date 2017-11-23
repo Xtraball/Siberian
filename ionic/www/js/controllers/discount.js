@@ -1,5 +1,5 @@
 /* global
- App, angular, BASE_PATH, isNativeApp
+ App, angular, BASE_PATH, isNativeApp, Discount only
  */
 
 angular.module('starter').controller('DiscountListController', function ($cordovaBarcodeScanner, $filter, Modal, $location,

@@ -5,7 +5,7 @@
 /**
  * Siberian Filters repository.
  *
- * @author Xtraball SAS
+ * @author Xtraball SASE
  */
 
 
@@ -31,7 +31,7 @@ angular.module("starter").filter("parseUrlFilter", function() {
 /**
  * Create chunks of the given size
  */
-}).filter("chunk", function($log) {
+}).filter("chunk", function($log, $http) {
 
     return function(items, chunk_size) {
         var chunks = [];

@@ -42,6 +42,11 @@ class Manifest
         "^var/apps.*dist/templates\.js",
         "^lib/vendor/symfony/finder/Tests/Fixtures.*",
         "user-style.css",
+        "^var/apps/browser.tgz",
+        "^var/apps/ionic/android.tgz",
+        "^var/apps/ionic/ios.tgz",
+        "^var/apps/ionic/ios-noads.tgz",
+        "^var/apps/ionic/previewer.tgz",
         "favicon\."
     ];
 

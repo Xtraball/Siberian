@@ -130,9 +130,11 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             // Force trim name on save.
             $this->setName(trim($this->getData('name')));
 
-            $adminId = trim($this->getData('admin_id'));
-            if (empty($adminId) || ($adminId === 0) || ($adminId === '0')) {
-                throw new Siberian_Exception(__('AdminId is required to save the Application.'));
+            if (!Siberian_Version::is('sae')) {
+                $adminId = trim($this->getData('admin_id'));
+                if (empty($adminId) || ($adminId === 0) || ($adminId === '0')) {
+                    throw new Siberian_Exception(__('AdminId is required to save the Application.'));
+                }
             }
 
             $this->setKey(uniqid())

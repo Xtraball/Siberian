@@ -90,41 +90,41 @@ angular.module('starter').controller('MCommerceCartViewController', function ($s
         }
     };
 
-    $scope.updateTipAndDiscount = function () {
-        var update = function () {
-            Loader.show('Updating price');
+    $scope._update = _.debounce(function () {
+        Loader.show('Updating price');
 
-            $scope.is_loading = true;
-            McommerceCart.adddiscount($scope.cart.discount_code, true)
-                .then(function () {
-                    McommerceCart.addTip($scope.cart)
-                        .then(function (data) {
-                            Loader.hide();
-                            $scope.is_loading = false;
-                            if (data.success) {
-                                if (angular.isDefined(data.message)) {
-                                    Dialog.alert('', data.message, 'OK');
-                                    return;
-                                }
-                            }
-                        }, function (data) {
-                            if (data && angular.isDefined(data.message)) {
+        $scope.is_loading = true;
+        McommerceCart.adddiscount($scope.cart.discount_code, true)
+            .then(function () {
+                McommerceCart.addTip($scope.cart)
+                    .then(function (data) {
+                        if (data.success) {
+                            if (angular.isDefined(data.message)) {
                                 Dialog.alert('', data.message, 'OK');
+                                return;
                             }
-                        }).then(function () {
-                            $scope.loadContent();
-                        });
-                });
-        };
+                        }
+                    }, function (data) {
+                        if (data && angular.isDefined(data.message)) {
+                            Dialog.alert('', data.message, 'OK');
+                        }
+                    }).then(function () {
+                        $scope.loadContent();
+                        Loader.hide();
+                        $scope.is_loading = false;
+                    });
+            }, function (data) {
+                if (data && angular.isDefined(data.message)) {
+                    Dialog.alert('', data.message, 'OK');
+                }
+            }).then(function () {
+                Loader.hide();
+                $scope.is_loading = false;
+            });
+    }, 900);
 
-        if (updateTipTimoutFn) {
-            clearTimeout(updateTipTimoutFn);
-        }
-
-        // Wait 100ms before update!
-        updateTipTimoutFn = setTimeout(function () {
-            update();
-        }, 600);
+    $scope.updateTipAndDiscount = function () {
+        $scope._update();
     };
 
     $scope.proceed = function () {
