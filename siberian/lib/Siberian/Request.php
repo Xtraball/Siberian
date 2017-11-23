@@ -8,6 +8,11 @@ class Siberian_Request {
     public static $debug = false;
 
     /**
+     * @var bool
+     */
+    public static $statusCode = false;
+
+    /**
      * @param $endpoint
      * @param $data
      * @param null $cookie_path
@@ -38,6 +43,9 @@ class Siberian_Request {
         # Call
         $result = curl_exec($request);
         $status_code = curl_getinfo($request, CURLINFO_HTTP_CODE);
+
+        # Save last status code
+        self::$statusCode = $status_code;
 
         # Closing connection
         curl_close($request);
@@ -80,6 +88,9 @@ class Siberian_Request {
         # Call
         $result = curl_exec($request);
         $status_code = curl_getinfo($request, CURLINFO_HTTP_CODE);
+
+        # Save last status code
+        self::$statusCode = $status_code;
 
         # Closing connection
         curl_close($request);

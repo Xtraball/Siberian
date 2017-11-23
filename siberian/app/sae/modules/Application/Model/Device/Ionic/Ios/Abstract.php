@@ -262,7 +262,7 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
 
     private function __getUrlValue($key) {
 
-        if(defined("CRON")) {
+        if (defined("CRON")) {
             $scheme = "http";
             $http_host = $this->getDevice()->getHost();
             $base_url = "/";
@@ -275,7 +275,7 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
 
         $value = null;
 
-        switch($key) {
+        switch ($key) {
             case "url_scheme": $value = $scheme; break;
             case "url_domain": $value = $http_host; break;
             case "url_path": $value = $base_url; break;
@@ -288,11 +288,5 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
         }
 
         return $value;
-    }
-
-    protected function _admob() {
-        $app_js_path = $this->_dest_source."/www/js/app.js";
-
-        $this->__replace(array("#,\s*isTesting:\s+true#ims" => ""), $app_js_path, true);
     }
 }

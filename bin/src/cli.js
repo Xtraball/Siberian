@@ -19,7 +19,7 @@ let clc = require('cli-color'),
     sh = require('shelljs');
 
 const notifier = require('node-notifier'),
-      http = require("http");
+      http = require('http');
 
 let platforms = [
     'android',
@@ -39,7 +39,7 @@ let packModules = [];
 let ROOT = path.resolve(path.dirname(__filename), '../../'),
     PWD = process.cwd(),
     DEBUG = false,
-    REBUILD_MANIFEST = true,
+    REBUILD_MANIFEST = false,
     PHP_VERSION = 'php',
     BUILD_TYPE = '--release';
 
@@ -48,7 +48,7 @@ let ROOT = path.resolve(path.dirname(__filename), '../../'),
  * Utility method for OSX notifications
  *
  * @param message
- * @param title
+ * @param options
  * @returns {boolean}
  */
 const notify = function (message, options) {
@@ -58,7 +58,9 @@ const notify = function (message, options) {
         sound: true
     };
 
-    return notifier.notify(Object.assign({}, NOTIF_BASE, {message: message}, options));
+    return notifier.notify(Object.assign({}, NOTIF_BASE, {
+        message: message
+    }, options));
 };
 
 /**
@@ -135,6 +137,7 @@ let cli = function (inputArgs) {
     let knownOpts =
         {
             'alias': Boolean,
+            'archivesources': Boolean,
             'clearcache': Boolean,
             'clearlog': Boolean,
             'cleanlang': Boolean,
@@ -147,7 +150,7 @@ let cli = function (inputArgs) {
             'linkmodule': Boolean,
             'manifest': Boolean,
             'minify': Boolean,
-            'mver': Boolean,
+            'moduleversion': Boolean,
             'npm': Boolean,
             'pack': Boolean,
             'packall': Boolean,
@@ -155,6 +158,7 @@ let cli = function (inputArgs) {
             'prepare': Boolean,
             'rebuild': Boolean,
             'rebuildall': Boolean,
+            'prepall': Boolean,
             'syncmodule': Boolean,
             'type': Boolean,
             'test': Boolean,
@@ -178,6 +182,7 @@ let cli = function (inputArgs) {
             'sm': '--syncmodule',
             't': '--type',
             'tpl': '--templates',
+            'mver': '--moduleversion',
             'v': '--version'
         };
 
@@ -199,6 +204,7 @@ let cli = function (inputArgs) {
         let EMPTY = false;
         let INSTALL = false;
         let EXTERNAL = false;
+        let SKIP_REBUILD = false;
 
         let remain = args.argv.remain;
 
@@ -216,16 +222,18 @@ let cli = function (inputArgs) {
                     break;
                 case 'reset':
                     RESET = true;
+                case 'skip-rebuild':
+                    SKIP_REBUILD = true;
                     break;
                 case 'install':
                     INSTALL = true;
                     break;
-                case 'no-manifest':
-                    REBUILD_MANIFEST = false;
+                case 'manifest':
+                    REBUILD_MANIFEST = true;
                     break;
                 case 'ext': case 'external':
-                EXTERNAL = true;
-                break;
+                    EXTERNAL = true;
+                 break;
                 case 'build-debug':
                     BUILD_TYPE = '--debug';
                     break;
@@ -234,22 +242,39 @@ let cli = function (inputArgs) {
 
         if (args.rebuild) {
             if (remain.length >= 1) {
-                rebuild(remain[0], COPY);
+                rebuild(remain[0], COPY, false);
             } else {
                 sprint(clc.red('Missing required argument <platform>'));
             }
         } else if (args.prepare) {
             if (remain.length >= 1) {
-                rebuild(remain[0], COPY, true);
+                rebuild(remain[0], COPY, true, SKIP_REBUILD);
             } else {
                 sprint(clc.red('Missing required argument <platform>'));
             }
         } else if (args.rebuildall) {
+            // Rebuild prod files once!
+            builder();
             platforms.forEach(function (platform) {
-                rebuild(platform, COPY);
+                rebuild(platform, COPY, false, true);
             });
+            if (REBUILD_MANIFEST) {
+                rebuildManifest();
+            }
+        } else if (args.prepall) {
+            // Rebuild prod files once!
+            REBUILD_MANIFEST = false;
+            builder();
+            platforms.forEach(function (platform) {
+                rebuild(platform, COPY, true, true);
+            });
+            if (REBUILD_MANIFEST) {
+                rebuildManifest();
+            }
         } else if (args.ions) {
             ionicServe();
+        } else if (args.archivesources) {
+            archiveSources();
         } else if (args.alias) {
             aliasHelp();
         } else if (args.exportdb) {
@@ -361,19 +386,12 @@ let cli = function (inputArgs) {
 let install = function () {
     sh.cd(ROOT);
 
-    let bin = sh.exec('echo $PWD', { silent: true }).output.trim() + '/bin/siberian';
-
-    // Copy Siberian CLI custom modification!
-    sh.exec('cp -rp ./bin/config/platforms.js ./node_modules/cordova-lib/src/cordova/platform.js');
-    sh.exec('cp -rp ./bin/config/platformsConfig.json ./node_modules/cordova-lib/src/platforms/platformsConfig.json');
-    sh.exec('cp -rp ./bin/config/plugman.js ./node_modules/cordova-lib/src/plugman/plugman.js');
+    sh.cp('-r', './bin/config/platforms.js ./node_modules/cordova-lib/src/cordova/platform.js');
+    sh.cp('-r', './bin/config/platformsConfig.json ./node_modules/cordova-lib/src/platforms/platformsConfig.json');
+    sh.cp('-r', './bin/config/plugman.js ./node_modules/cordova-lib/src/plugman/plugman.js');
 
     // Configuring environment!
     sh.exec('git config core.fileMode false');
-    sh.exec('git submodule foreach git config core.fileMode false');
-
-    sprint(clc.blue('When installing be sure to execute these commands from the project directory:'));
-    sprint(clc.blue('echo "alias siberian=\'' + bin + '\'" >> ~/.bash_profile && source ~/.bash_profile'));
 
     sprint('Done.');
 };
@@ -407,7 +425,6 @@ let exportDb = function () {
  */
 let moduleTemplate = function () {
     let module = false,
-        //type = 'all',
         model = false,
         buildAll = false;
 
@@ -415,10 +432,6 @@ let moduleTemplate = function () {
         if (arg.indexOf('--module') === 0) {
             module = arg.split('=')[1];
         }
-
-        /** if (arg.indexOf('--type') === 0) {
-            type = arg.split('=')[1];
-        }*/
 
         if (arg.indexOf('--model') === 0) {
             model = arg.split('=')[1];
@@ -443,7 +456,7 @@ let moduleTemplate = function () {
     let scriptPath = ROOT + '/ci/scripts/modules.php"';
     let modulePath = ROOT + '/siberian/app/local/modules/' + module;
 
-    /** Search for module in local */
+    // Search for module in local!
     if (fs.existsSync(modulePath)) {
         sprint(clc.green('Module found !'));
     } else {
@@ -456,7 +469,7 @@ let moduleTemplate = function () {
         }
     }
 
-    /** Appends full path to module */
+    // Appends full path to module!
     filteredArgs = filteredArgs + ' --path=' + modulePath;
 
     sh.exec('php ' + scriptPath + ' ' + filteredArgs);
@@ -488,21 +501,24 @@ let rebuildManifest = function () {
     let developer = require(ROOT + '/developer.json');
 
     const domain = developer.config.domain;
-    const port = ((+(domain.match(/(:([0-9]{1,5}))?$/)[2])) || 80);
+    const port = developer.config.port || 80;
     const options = {
         host: domain,
         port: port,
         path: '/backoffice/api_options/manifest',
         headers: {
-         'Authorization': 'Basic ' + new Buffer(developer.dummy_email + ':' + developer.dummy_password).toString('base64')
+         'Authorization': 'Basic ' + new Buffer(developer.dummyEmail + ':' + developer.dummyPassword).toString('base64')
         }
     };
     const failed = (error) => {
-        if(typeof error === "object" && error.hasOwnProperty("message")) {
-            sprint("Unexpected error: " + clc.red(error.message));
+        if (typeof error === 'object' && error.hasOwnProperty('message')) {
+            sprint('Unexpected error: ' + clc.red(error.message));
+            console.log(error);
         }
-        sprint(clc.red('Catch: Manifest rebuild error, run `siberian init` to set your dummy_email & dummy_password.'));
-        notify('Rebuild manifest FAILED.', {sound: "Frog"});
+        sprint(clc.red('Catch: Manifest rebuild error, run `siberian init` to set your dummyEmail & dummyPassword.'));
+        notify('Rebuild manifest FAILED.', {
+            sound: 'Frog'
+        });
     };
 
     try {
@@ -522,13 +538,15 @@ let rebuildManifest = function () {
 
                 res.setEncoding('utf8');
                 let rawData = '';
-                res.on('data', (chunk) => { rawData += chunk; });
+                res.on('data', (chunk) => {
+                    rawData += chunk;
+                });
                 res.on('end', () => {
                   try {
                       let jsonResult = JSON.parse(rawData);
                       if (jsonResult.success) {
                           sprint(clc.green(jsonResult.message));
-                          notify("Rebuild manifest succeeded");
+                          notify('Rebuild manifest succeeded');
                       } else {
                           throw (new Error(jsonResult.message));
                       }
@@ -548,11 +566,19 @@ let rebuildManifest = function () {
 
 /**
  *
+ */
+let builder = function () {
+    sh.cd(ROOT + '/ionic/');
+    sh.exec('node builder --prod');
+};
+
+/**
+ *
  * @param platform
  * @param copy
  * @param prepare
  */
-let rebuild = function (platform, copy, prepare) {
+let rebuild = function (platform, copy, prepare, skipRebuild) {
     let localPrepare = (prepare === undefined) ? false : prepare;
     let originalIndexContent = null;
     let indexFile = ROOT + '/ionic/www/index.html';
@@ -575,10 +601,10 @@ let rebuild = function (platform, copy, prepare) {
             sprint('Unpatched!');
         }
 
-        // Call gulp to pre-compile/pack js/css files!
-        sh.cd(ROOT + '/ionic/');
-        sh.exec('gulp sb');
-        sh.cd(ROOT);
+        // Compile/pack/bundle files!
+        if (!skipRebuild) {
+            builder();
+        }
 
         if (platform === 'android' ||
             platform === 'android-previewer' ||
@@ -650,11 +676,6 @@ let rebuild = function (platform, copy, prepare) {
             // Cleaning up build files!
             if (copy) {
                 copyPlatform(platform);
-
-                // Rebuild manifest!
-                if (REBUILD_MANIFEST) {
-                    rebuildManifest();
-                }
             }
 
             sprint(clc.green('Done.'));
@@ -731,7 +752,7 @@ let installPlugin = function (pluginName, platform, opts) {
  */
 let icons = function (INSTALL) {
     if (INSTALL) {
-        if (process.platform === "darwin") {
+        if (process.platform === 'darwin') {
             sh.exec('brew install fontforge ttfautohint');
             sh.exec('sudo gem install sass');
         }
@@ -788,26 +809,29 @@ let copyPlatform = function (platform) {
 
             // Copy!
             sh.cp('-r', ionicPlatformPath + '/', siberianPlatformPath);
-            sh.cp('-r', ROOT + '/ionic/scss/ionic.siberian*scss', siberianPlatformPath + '/scss/');
+            sh.mkdir('-p', siberianPlatformPath + '/scss/');
+            sh.cp('-r', ROOT + '/ionic/scss/ionic.siberian*.scss', siberianPlatformPath + '/scss/');
+            cleanupWww(siberianPlatformPath + '/', true);
 
             // Duplicate in 'overview'!
+            sh.mkdir('-p', siberianPlatformPath.replace('browser', 'overview'));
             sh.cp('-r', siberianPlatformPath + '/*', siberianPlatformPath.replace('browser', 'overview'));
 
             break;
 
         case 'ios': case 'ios-noads':
-        sh.rm('-rf', ionicPlatformPath + '/build');
-        sh.rm('-rf', ionicPlatformPath + '/CordovaLib/build');
-        sh.rm('-rf', ionicPlatformPath + '/cordova/plugins');
-        sh.rm('-rf', ionicPlatformPath + '/www/modules/*');
+            sh.rm('-rf', ionicPlatformPath + '/build');
+            sh.rm('-rf', ionicPlatformPath + '/CordovaLib/build');
+            sh.rm('-rf', ionicPlatformPath + '/cordova/plugins');
+            sh.rm('-rf', ionicPlatformPath + '/www/modules/*');
 
-        // Clean-up!
-        sh.rm('-rf', siberianPlatformPath);
+            // Clean-up!
+            sh.rm('-rf', siberianPlatformPath);
 
-        // Copy!
-        sh.cp('-r', ionicPlatformPath + '/', siberianPlatformPath);
-        sh.rm('-rf', siberianPlatformPath + '/platform_www');
-        cleanupWww(siberianPlatformPath + '/www/');
+            // Copy!
+            sh.cp('-r', ionicPlatformPath + '/', siberianPlatformPath);
+            sh.rm('-rf', siberianPlatformPath + '/platform_www');
+            cleanupWww(siberianPlatformPath + '/www/');
 
         break;
 
@@ -849,10 +873,14 @@ let copyPlatform = function (platform) {
     sprint('Copy done');
 };
 
-let cleanupWww = function (basePath) {
+/**
+ *
+ * @param basePath
+ * @param browser skip scss removal if browser
+ */
+let cleanupWww = function (basePath, browser) {
     let filesToRemove = [
         'img/ionic.png',
-        'lib/ionic/scss',
         'css/ionic.app.css',
         'lib/ionic/css/ionic.css',
         'lib/ionic/js/ionic.js',
@@ -862,14 +890,29 @@ let cleanupWww = function (basePath) {
         'lib/ionic/js/angular/angular-animate.js',
         'lib/ionic/js/angular/angular-resource.js',
         'lib/ionic/js/angular/angular-sanitize.js',
-        'lib/ionic/js/angular-ui/angular-ui-router.js'
+        'lib/ionic/js/angular-ui/angular-ui-router.js',
+        'css',
+        'js/controllers',
+        'js/directives',
+        'js/factory',
+        'js/providers',
+        'js/services',
+        'js/features',
+        'js/filters',
+        'js/libraries',
+        'js/app.js',
+        'js/utils/features.js',
+        'js/utils/form-post.js'
     ];
 
-    Object.keys(filesToRemove).forEach(function (key) {
-        let localPath = filesToRemove[key];
+    if (browser !== true) {
+        filesToRemove.push('lib/ionic/scss');
+    }
 
-        sh.rm('-rf', basePath + localPath);
-    });
+    Object.keys(filesToRemove)
+        .forEach(function (key) {
+            sh.rm('-rf', basePath + filesToRemove[key]);
+        });
 };
 
 /**
@@ -890,13 +933,16 @@ let test = function () {
  *
  */
 let ionicServe = function () {
-    sprint(clc.blue('Starting ionic server in background screen, use \'screen -r ions\' ' +
+    sprint(clc.blue('Starting ionic server & node builder --watch in background screen, use \'screen -r ions\' and/or \'screen -r watch\' ' +
         'to attach & \'ctrl+a then d\' to detach ...'));
 
     /** Ensure the script is in the good directory Cordova is serious ... */
-    sh.cd(ROOT+'/ionic/');
-    sh.exec('if screen -ls ions | grep -q .ions; then echo \'Already running\'; ' +
+    sh.cd(ROOT + '/ionic/');
+    sh.exec('if screen -ls ions | grep -q .ions; then echo \'ionic server already running\'; ' +
         'else screen -dmS ions ionic serve -a; fi');
+
+    sh.exec('if screen -ls watch | grep -q .ions; then echo \'node builder --watch already running\'; ' +
+        'else screen -dmS watch node builder --watch; fi');
 };
 
 /** Sync git submodules */
@@ -935,11 +981,17 @@ let createOrSyncGit = function (gitPath, url, branch) {
     if (fs.existsSync(gitPath)) {
         sh.cd(gitPath);
         sh.exec('git fetch', { silent: true });
-        let status = sh.exec('git status', { silent: true }).output.trim();
-        if (status.indexOf('branch is up-to-date') === -1) {
+        let localStatus;
+        try {
+            localStatus = sh.exec('git status', { silent: true }).output.trim();
+        } catch (e) {
+            localStatus = '';
+        }
+
+        if (localStatus.indexOf('branch is up-to-date') === -1) {
             sh.exec('git checkout ' + branch + '; git pull origin ' + branch);
         } else {
-            sh.exec(' git config core.fileMode false; git status');
+            sh.exec('git config core.fileMode false; git status');
         }
     } else {
         sh.exec('git clone -b ' + branch + ' ' + url + ' ' + gitPath);
@@ -1490,6 +1542,25 @@ let pack = function (module) {
 };
 
 /**
+ * Build archives for updates & restore purpose
+ */
+let archiveSources = function () {
+    sprint(clc.blue('Building archives for Apps sources restore'));
+
+    let excludes = '--options gzip:9 --exclude=\'*.DS_Store*\' --exclude=\'*.idea*\' --exclude=\'*.gitignore*\' --exclude=\'*.localized*\'';
+    sh.cd(ROOT + '/siberian/var/apps/ionic');
+    sh.exec('tar ' + excludes + ' -czf ./android.tgz ./android');
+    sh.exec('tar ' + excludes + ' -czf ./ios.tgz ./ios');
+    sh.exec('tar ' + excludes + ' -czf ./ios-noads.tgz ./ios-noads');
+    sh.exec('tar ' + excludes + ' -czf ./previewer.tgz ./previewer');
+
+    sh.cd(ROOT + '/siberian/var/apps');
+    sh.exec('tar ' + excludes + ' -czf ./browser.tgz ./browser');
+
+    sprint(clc.green('Archives done!'));
+};
+
+/**
  * Changes a module versionb in database, for update purpose
  *
  * @param version
@@ -1519,18 +1590,18 @@ let mver = function (version, module) {
  * Helper for common aliases
  */
 let aliasHelp = function () {
-    sprint('alias sb=\'siberian\'');
-    sprint('alias sbr=\'siberian rebuild\'');
-    sprint('alias sbi=\'siberian ions\'');
-    sprint('alias sbt=\'siberian type\'');
-    sprint('alias sbsm=\'siberian sync-module\'');
-    sprint('alias sbp=\'siberian prod\'');
-    sprint('alias sbd=\'siberian dev\'');
-    sprint('alias sbcc=\'siberian clearcache\'');
-    sprint('alias sbcl=\'siberian clearlog\'');
-    sprint('alias sbm=\'siberian mver\'');
-    sprint('alias sblm=\'siberian lm\'');
-    sprint('alias sbulm=\'siberian ulm\'');
+    sprint('alias sb=\'./sb\'');
+    sprint('alias sbr=\'sb rebuild\'');
+    sprint('alias sbi=\'sb ions\'');
+    sprint('alias sbt=\'sb type\'');
+    sprint('alias sbsm=\'sb sync-module\'');
+    sprint('alias sbp=\'sb prod\'');
+    sprint('alias sbd=\'sb dev\'');
+    sprint('alias sbcc=\'sb clearcache\'');
+    sprint('alias sbcl=\'sb clearlog\'');
+    sprint('alias sbm=\'sb mver\'');
+    sprint('alias sblm=\'sb lm\'');
+    sprint('alias sbulm=\'sb ulm\'');
 };
 
 /**
@@ -1568,13 +1639,12 @@ icons                   Build ionicons font
 
 ions                    Start ionic serve in background
 
-rebuild                 Rebuild a platform:
+rebuild                 Rebuild a platform (requires Android SDK & Xcode, Command-Line Tools):
                             - debug: option will show more informations.
                             - copy: copy platform to siberian/var/apps.
-                            - no-manifest: don't call the rebuild manifest hook.
-        rebuild <platform> [copy] [debug] [no-manifest]
+        rebuild <platform> [copy] [debug]
 
-rebuild-all             Rebuild all platforms
+rebuild-all             Rebuild all platforms (requires Android SDK & Xcode, Command-Line Tools)
 
 syncmodule, sm          Resync a module in the Application
 
@@ -1591,15 +1661,19 @@ pack                    Pack a module into zip, file is located in ./packages/mo
 
 packall                 Pack all referenced modules
 
-prepare                 Prepare a platform:
+prepare                 Prepare a platform (Doesn't requires Android SDK & Xcode, it's suitable for any HTML/JS/CSS Customization in the Apps):
                             - debug: option will show more informations.
                             - copy: copy platform to siberian/var/apps.
-                            - no-manifest: don't call the rebuild manifest hook.
-        prepare <platform> [copy] [debug] [no-manifest]
+        prepare <platform> [copy] [debug]
+        
+prepall                 Prepare all platforms
+                            - debug: option will show more informations.
+                            - copy: copy platform to siberian/var/apps.
+        prepare [copy] [debug]
 
 manifest                Rebuilds app manifest
 
-mver                    Update all module version to <version> or only the specified one, in database.
+moduleversion, mver     Update all module version to <version> or only the specified one, in database.
                             - module_name is case-insensitive and is searched with LIKE %module_name%
                             - module_name is optional and if empty all modules versions are changed
         mver <version> [module_name]
