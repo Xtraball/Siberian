@@ -1,5 +1,3 @@
-![jenkins-ci-build-status](http://jenkins-prod02.xtraball.com/buildStatus/icon?job=siberian-ci&.png)
-
 # Siberian: SAE (Single App Edition)
 
 [Public Roadmap](http://board.siberiancms.com/b/7AYdMDEpFcmt3eZtb/siberiancms-public-roadmap)
@@ -150,10 +148,10 @@ Available commands are:
 ||- no-manifest: don't call the rebuild manifest hook.|
 ||prepare <platform> [copy] [debug] [no-manifest]|
 |manifest|Rebuilds app manifest|
-|mver|Update all module version to <version> or only the specified one, in database.|
+|moduleversion, mver|Update all module version to <version> or only the specified one, in database.|
 ||- module_name is case-insensitive and is searched with LIKE %module_name%|
 ||- module_name is optional and if empty all modules versions are changed|
-||mver <version> [module_name]|
+||moduleversion <version> [module_name]|
 |npm|Hook for npm version.|
 ||npm <version>|
 |prod|Switch the Application mode to 'production'.|

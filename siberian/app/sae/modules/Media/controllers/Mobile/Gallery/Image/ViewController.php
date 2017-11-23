@@ -4,7 +4,6 @@ class Media_Mobile_Gallery_Image_ViewController extends Application_Controller_M
 
     public function findAction() {
         try {
-            /** Do your stuff here. */
             $request = $this->getRequest();
             if (!($gallery_id = $request->getParam('gallery_id'))) {
                 throw new Siberian_Exception(__('Missing gallery_id'));

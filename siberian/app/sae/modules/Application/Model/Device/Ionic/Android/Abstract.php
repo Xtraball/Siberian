@@ -283,10 +283,4 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         $this->__replace(array($this->_default_bundle_name => $this->_package_name), $this->_dest_source_res.'/xml/config.xml');
     }
 
-    protected function _admob() {
-        $app_js_path = $this->_dest_source."/assets/www/js/app.js";
-
-        $this->__replace(array("#,\s*isTesting:\s+true#ims" => ""), $app_js_path, true);
-    }
-
 }

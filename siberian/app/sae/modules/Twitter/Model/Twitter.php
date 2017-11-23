@@ -53,7 +53,8 @@ class Twitter_Model_Twitter extends Core_Model_Default {
             define('ACCESS_TOKEN_SECRET', $application->getTwitterApiSecret());
         }
         if (!$this->params['screen_name']) {
-            $this->addParam('screen_name', $this->getTwitterUser());
+            $user = preg_replace('#(https?://)?twitter\.com\/#', '', $this->getTwitterUser());
+            $this->addParam('screen_name', $user);
         }
         return $this;
     }

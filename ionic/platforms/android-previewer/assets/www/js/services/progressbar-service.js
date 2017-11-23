@@ -21,7 +21,7 @@ angular.module('starter').service('ProgressbarService', function ($ocLazyLoad) {
     service.init = function (config) {
         service.config = config;
 
-        return $ocLazyLoad.load('./js/libraries/progressbar.min.js');
+        return $ocLazyLoad.load('./dist/lazy/progressbar.min.js');
     };
 
     service.createCircle = function (container) {

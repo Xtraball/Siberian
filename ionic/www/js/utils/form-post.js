@@ -17,7 +17,6 @@ angular.module("starter").config(['$provide', function($provide) {
                 prefix = "data";
             }
 
-
             var pairs = [];
             if(angular.isObject(data) || angular.isArray(data)) {
                 var index = 0;
