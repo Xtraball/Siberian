@@ -1,3 +1,12 @@
+We moved the main Siberian repository here [https://github.com/Xtraball/Siberian](https://github.com/Xtraball/Siberian)
+
+With more development tools & features.
+
+---
+
+
+Your are reading the old Siberian README.md, please note this repository has ended on update 4.12.18.
+
 # SiberianCMS: SAE Single App Edition
 
 [Public Roadmap](http://board.siberiancms.com/b/7AYdMDEpFcmt3eZtb/siberiancms-public-roadmap)
