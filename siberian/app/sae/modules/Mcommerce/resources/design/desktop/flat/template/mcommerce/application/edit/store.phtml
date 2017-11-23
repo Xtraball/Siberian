@@ -103,7 +103,6 @@
                 }.bind(this));
             },
             bindRemoveStore: function(element) {
-
                 element.click(function(e) {
 
                     if(!confirm('<?php echo addslashes($this->_('Are you sure you want to delete this store?'))?>')) return false;
@@ -117,9 +116,8 @@
                 }.bind(this));
             },
             load: function(a) {
-
                 reload(a, '<?php echo $this->getUrl('mcommerce/application_store/edit'); ?>', true, function(datas) {
-                    if(datas.form_html) {
+                    if (datas.form_html) {
                         $('#store_edit').html(datas.form_html);
                         $('#storeEditForm').submit(function() {
 
@@ -130,7 +128,9 @@
                                 }
                             }
 
-                            if(!$(this).valid()) return false;
+                            if (!$(this).valid()) {
+                                return false;
+                            }
 
                             reload(this, this.action, true, function(datas) {
                                 if(datas.success) {
@@ -160,7 +160,6 @@
                                 }
                             }
                         });
-//                        $('#store_tax_id').dropkick();
                         $('label.payment_method').click(function() {
                             setupLabel($(this));
                             if($(this).hasClass('toggle_payment_data')) {
@@ -181,7 +180,6 @@
                 });
             },
             remove: function(a) {
-
                 reload(a, '<?php echo $this->getUrl('mcommerce/application_store/remove'); ?>', true, function(datas) {
                     if(datas.success) {
                         $('#edit_store_'+datas.store_id).unbind('click');
@@ -207,11 +205,11 @@
                     $('.remove_store').unbind('click');
                 }
             }
-        }
+        };
 
         tabs.addObject('store', store);
     </script>
-    <style>
+    <style type="text/css">
         .mcommerce .stores .edit_store_delivery .dk_container.dk_shown {
             margin-bottom: 0;
         }
