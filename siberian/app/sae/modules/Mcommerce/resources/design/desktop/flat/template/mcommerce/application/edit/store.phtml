@@ -1,28 +1,32 @@
-<?php $option = $this->getOptionValue(); ?>
-<?php $mcommerce = $option->getObject(); ?>
-<?php $stores = $mcommerce->getStores(); ?>
+<?php 
+
+$optionValue = $this->getOptionValue();
+$mcommerce = $optionValue->getObject();
+$stores = $mcommerce->getStores(); 
+
+?>
 
 <div class="stores">
     <div id="stores_list" pos="1">
         <div id="stores_manager">
             <h3 class="title-editor no-border-radius title-feature-indent">
-                <?php echo $this->_('My stores'); ?>
+                <?php echo __('My stores'); ?>
                 <button type="button" id="add_store" class="edit_store color-blue pull-right bt-header-right btn">
                     <i class="fa fa-plus"></i>
                 </button>
             </h3>
             <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
 
-            <?php if(Installer_Model_Installer::hasModule("import") AND $this->_canAccess("feature_import")) : ?>
+            <?php if (Installer_Model_Installer::hasModule("import") && $this->_canAccess("feature_import")) : ?>
             <div class="section">
                 <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo $this->_('Import'); ?>
+                    <?php echo __('Import'); ?>
                     <button type="button" class="toggle_details color-blue pull-right bt-header-right btn">
                         <i class="fa fa-angle-down"></i>
                     </button>
                 </h3>
                 <?php echo $this->getLayout()->addPartial('import', 'Admin_View_Default', "import/application/edit/import.phtml")
-                    ->setOptionValue($option)
+                    ->setOptionValue($optionValue)
                     ->toHtml()
                 ;
                 ?>
@@ -31,7 +35,7 @@
 
             <div id="section_existing_stores" <?php if(!$stores->count()) : ?> style="display:none"<?php endif; ?> class="margin-top">
                 <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo $this->_(('Manage content')); ?>
+                    <?php echo __('Manage content'); ?>
                     <button type="button" id="toggle_existing_stores" class="toggle_details color-blue pull-right bt-header-right btn">
                         <i class="fa fa-angle-down"></i>
                     </button>
@@ -40,7 +44,7 @@
                     <ul class="list-group stores_list">
                         <?php foreach ($stores as $store) : ?>
                         <?php echo $this->getLayout()->addPartial('row_store_'.$store->getId(), 'admin_view_default', 'mcommerce/application/edit/store/li.phtml')
-                                ->setCurrentOptionValue($option)
+                                ->setCurrentOptionValue($optionValue)
                                 ->setCurrentStore($store)
                                 ->toHtml()
                             ;
@@ -50,17 +54,14 @@
                 </div>
             </div>
         </div>
-
     </div>
-    <div id="store_edit" pos="2">
 
-    </div>
+    <div id="store_edit" pos="2"></div>
 
     <script type="text/javascript">
         var store = {
             is_loaded: false,
             processEvents: function() {
-
                 $('#toggle_existing_stores').click(function() {
                     $('#existing_stores').stop().slideToggle(300, function() {
                         if($(this).is(':visible')) $('#toggle_existing_stores').children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
@@ -83,9 +84,7 @@
                 }.bind(this));
 
                 this.is_loaded = true;
-
             },
-
             bindStoreElements: function(id) {
                 if($('#edit_store_'+id).length) this.bindEditStore($('#edit_store_'+id));
                 if($('#remove_store_'+id).length) this.bindRemoveStore($('#remove_store_'+id));
@@ -95,7 +94,7 @@
 
                 element.click(function(e) {
                     if(!element.children('input').length) {
-                        $('<input />').attr('type', 'hidden').attr('name', 'option_value_id').addClass('option_value_id').val('<?php echo $option->getId(); ?>').appendTo(element);
+                        $('<input />').attr('type', 'hidden').attr('name', 'option_value_id').addClass('option_value_id').val('<?php echo $optionValue->getId(); ?>').appendTo(element);
                         if(element.attr('rel')) $('<input />').attr('type', 'hidden').attr('name', 'store_id').val(element.attr('rel')).appendTo(element);
                     }
 
@@ -105,10 +104,10 @@
             bindRemoveStore: function(element) {
                 element.click(function(e) {
 
-                    if(!confirm('<?php echo addslashes($this->_('Are you sure you want to delete this store?'))?>')) return false;
+                    if(!confirm('<?php echo addslashes(__('Are you sure you want to delete this store?'))?>')) return false;
 
                     if(!element.children('input').length) {
-                        $('<input />').attr('type', 'hidden').attr('name', 'option_value_id').addClass('option_value_id').val('<?php echo $option->getId(); ?>').appendTo(element);
+                        $('<input />').attr('type', 'hidden').attr('name', 'option_value_id').addClass('option_value_id').val('<?php echo $optionValue->getId(); ?>').appendTo(element);
                         if(element.attr('rel')) $('<input />').attr('type', 'hidden').attr('name', 'store_id').val(element.attr('rel')).appendTo(element);
                     }
 

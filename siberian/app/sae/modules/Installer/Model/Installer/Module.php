@@ -78,6 +78,7 @@ class Installer_Model_Installer_Module extends Core_Model_Default
 
     public function install() {
 
+        var_dump($this->canUpdate());
         if($this->canUpdate()) {
 
             # Syncing DB only if needed
