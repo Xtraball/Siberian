@@ -5,7 +5,7 @@ class Twitter_Mobile_TwitterController extends Application_Controller_Mobile_Def
     public function listAction() {
         try {
             // Twitter used max_id for tweet lookup, we send the last seen id
-            $last_id = $this->getRequest()->getParam("last_id");
+            $last_id = $this->getRequest()->getParam('last_id');
 
             // Returns a Twitter_Model_Twitter instance
             $twitter = $this->getCurrentOptionValue()->getObject();

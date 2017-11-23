@@ -3,42 +3,36 @@
 class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_Default {
 
     public function loadAction() {
-
-        $html = array(
-            "title" => __("Advanced")." > ".__("Tools"),
-            "icon" => "fa-file-code-o",
-        );
-
+        $html = [
+            'title' => __('Advanced').' > '.__('Tools'),
+            'icon' => 'fa-file-code-o',
+        ];
         $this->_sendJson($html);
-
     }
 
     public function runtestAction() {
-
         $data = Siberian_Tools_Integrity::checkIntegrity();
-
         $this->_sendJson($data);
-
     }
 
     public function restoreappsAction() {
-
-        $payload = [];
-
         try {
             $var_apps = Core_Model_Directory::getBasePathTo('var/apps');
 
-            if(version_compare(Siberian_Version::VERSION, '4.12.6', '<')) {
-                throw new Exception(__('To be able to restore Apps, you Siberian version must be >= 4.12.6 !'));
-            }
-
             $version = Siberian_Version::VERSION;
 
-            $browser = 'https://github.com/Xtraball/SiberianCMS/raw/v' . $version . '/var/apps/browser.tgz';
-            $android = 'https://github.com/Xtraball/SiberianCMS/raw/v' . $version . '/var/apps/ionic/android.tgz';
-            $ios_noads = 'https://github.com/Xtraball/SiberianCMS/raw/v' . $version . '/var/apps/ionic/ios-noads.tgz';
-            $ios = 'https://github.com/Xtraball/SiberianCMS/raw/v' . $version . '/var/apps/ionic/ios.tgz';
-            $previewer = 'https://github.com/Xtraball/SiberianCMS/raw/v' . $version . '/var/apps/ionic/previewer.tgz';
+            // Check if release exists
+            $releaseUrl = 'https://github.com/Xtraball/Siberian/tree/v' . $version;
+            Siberian_Request::get($releaseUrl);
+            if (Siberian_Request::$statusCode == '404') {
+                throw new Exception(__('There is not corresponding release to restore from, process aborted!'));
+            }
+
+            $browser = 'https://github.com/Xtraball/Siberian/raw/v' . $version . '/siberian/var/apps/browser.tgz';
+            $android = 'https://github.com/Xtraball/Siberian/raw/v' . $version . '/siberian/var/apps/ionic/android.tgz';
+            $ios_noads = 'https://github.com/Xtraball/Siberian/raw/v' . $version . '/siberian/var/apps/ionic/ios-noads.tgz';
+            $ios = 'https://github.com/Xtraball/Siberian/raw/v' . $version . '/siberian/var/apps/ionic/ios.tgz';
+            $previewer = 'https://github.com/Xtraball/Siberian/raw/v' . $version . '/siberian/var/apps/ionic/previewer.tgz';
 
             // Clean-up before run!
             chdir($var_apps . '/ionic');
@@ -92,15 +86,11 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
                 'success' => true,
                 'message' => __('Sources are successfully restored.')
             ];
-
         } catch (Exception $e) {
-
             $payload = [
-                'success' => false,
-                'message' => __('An error occured during the request with the following message: %s.',
-                    $e->getMessage())
+                'error' => true,
+                'message' => $e->getMessage()
             ];
-
         }
 
         $this->_sendJson($payload);

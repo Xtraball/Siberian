@@ -636,27 +636,32 @@ App.config(function($routeProvider) {
         });
     };
 
-    $scope.restore_apps = function() {
-
-        if(!window.confirm('You are about to restore apps sources, are you sure ?')) {
+    $scope.restore_apps = function () {
+        if (!window.confirm('You are about to restore apps sources, are you sure ?')) {
             return;
         }
-
         $scope.content_loader_is_visible = true;
         AdvancedTools.restoreapps()
-            .success(function(data) {
-                $scope.integrity_result = data;
-            }).finally(function() {
-
+            .success(function (data) {
                 Backoffice.clearCache('app_manifest')
-                    .success(function (data) {
-                        $scope.message.setText(data.message)
+                    .success(function (manifestData) {
+                        $scope.message.setText(manifestData.message)
                             .isError(false)
                             .show()
                         ;
-                    }).finally(function() {
+                    }).finally(function () {
                         $scope.content_loader_is_visible = false;
                     });
+            })
+            .error(function (errorData) {
+                $scope.message
+                    .setText(errorData.message)
+                    .isError(false)
+                    .show();
+                $scope.content_loader_is_visible = false;
+            })
+            .finally(function () {
+                $scope.content_loader_is_visible = false;
             });
     };
 
