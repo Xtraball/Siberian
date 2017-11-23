@@ -2,6 +2,8 @@
 
 /**
  * Class Application_Model_Application_Abstract
+ * 
+ * @version 4.12.20
  *
  * @method integer getId()
  * @method string getFlickrKey()
