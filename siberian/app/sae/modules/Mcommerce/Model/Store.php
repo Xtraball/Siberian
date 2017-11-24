@@ -126,6 +126,9 @@ class Mcommerce_Model_Store extends Core_Model_Default {
         return in_array($id, $this->_delivery_method_ids);
     }
 
+    /**
+     * @return Mcommerce_Model_Payment_Method[]
+     */
     public function getPaymentMethods() {
 
         if (!$this->_payment_methods) {

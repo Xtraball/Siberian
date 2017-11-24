@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class Mcommerce_Model_Promo
+ *
+ * @method integer getPoints()
+ */
 class Mcommerce_Model_Promo extends Core_Model_Default {
 
     public function __construct($datas = array()) {
