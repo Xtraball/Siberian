@@ -129,6 +129,12 @@ $schemas['admin'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'preferences' => array(
+        'type' => 'longtext',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'phone' => array(
         'type' => 'varchar(20)',
         'is_null' => true,
