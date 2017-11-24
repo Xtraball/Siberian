@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Class Mcommerce_Model_Cart
+ *
+ * @method float getTotal()
+ * @method integer getPaymentMethodId()
+ * @method integer getCustomerId()
+ * @method $this setCustomerUUID(string $uuid)
+ * @method $this setPaymentMethodId(integer $paymentMethodId)
+ */
 class Mcommerce_Model_Cart extends Core_Model_Default {
 
     /**
@@ -37,7 +46,11 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
      */
     protected $_order;
 
-    public function __construct($params = array()) {
+    /**
+     * Mcommerce_Model_Cart constructor.
+     * @param array $params
+     */
+    public function __construct($params = []) {
         parent::__construct($params);
         $this->_db_table = 'Mcommerce_Model_Db_Table_Cart';
         return $this;
@@ -352,7 +365,6 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
      * @return Mcommerce_Model_Payment_Method
      */
     public function getPaymentMethod() {
-
         if(!$this->_payment_method) {
             $this->_payment_method = new Mcommerce_Model_Payment_Method();
             $this->_payment_method->find($this->getPaymentMethodId());
@@ -360,7 +372,6 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
         }
 
         return $this->_payment_method;
-
     }
 
     /**
