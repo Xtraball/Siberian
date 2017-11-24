@@ -334,7 +334,7 @@ let cli = function (inputArgs) {
             packModules.forEach(function (module) {
                 pack(module);
             });
-        } else if (args.mver) {
+        } else if (args.moduleversion) {
             let mverModuleName = '';
             if (remain.length >= 2) {
                 mverModuleName = remain[1].toLowerCase();
@@ -1050,7 +1050,7 @@ let switchType = function (type, reinstall, emptydb) {
 
     let appIni = fs.readFileSync(iniPath, 'utf8');
     appIni = appIni.replace(/dbname = '(.*)'/, 'dbname = "' +
-        developer.mysql.database_prefix+type.toLowerCase() + '"');
+        developer.mysql.databasePrefix+type.toLowerCase() + '"');
 
     // Reset the isInstalled var.!
     if (reinstall) {
@@ -1061,7 +1061,7 @@ let switchType = function (type, reinstall, emptydb) {
     if (emptydb) {
         let mysqlUsername = developer.mysql.username;
         let mysqlPassword = developer.mysql.password;
-        let mysqlDatabasePrefix = developer.mysql.database_prefix;
+        let mysqlDatabasePrefix = developer.mysql.databasePrefix;
 
         sh.exec('mysql -u ' + mysqlUsername +
             ' -p' + mysqlPassword +
@@ -1168,7 +1168,7 @@ let init = function () {
                             prompt('Mysql Hostname', developer.mysql.host, function (mysqlHost) {
                                 prompt('Mysql Username', developer.mysql.username, function (mysqlUsername) {
                                     prompt('Mysql Password', developer.mysql.password, function (mysqlPassword) {
-                                        prompt('Mysql Database prefix', developer.mysql.database_prefix, function (mysqlDatabasePrefix) {
+                                        prompt('Mysql Database prefix', developer.mysql.databasePrefix, function (mysqlDatabasePrefix) {
 
                                             let newDeveloper = {
                                                 name: name,
@@ -1573,13 +1573,13 @@ let mver = function (version, module) {
         currentEdition = currentVersion.match(/const TYPE = '([a-z])+';/gi),
         mysqlUsername = developer.mysql.username,
         mysqlPassword = developer.mysql.password,
-        mysqlDatabasePrefix = developer.mysql.database_prefix,
-        query = 'UPDATE `module` SET `version` = \'' + version + '\' ';
+        mysqlDatabasePrefix = developer.mysql.databasePrefix,
+        query = 'UPDATE `module` SET `version` = "' + version + '" ';
 
     currentEdition = currentEdition[0].replace(/(const TYPE = '|';)/g, '').toLowerCase();
 
     if (module.trim() !== '') {
-        query = query + ' WHERE `name` LIKE \'%' + module.trim() + '%\'';
+        query = query + ' WHERE `name` LIKE "%' + module.trim() + '%"';
     }
 
     sh.exec('mysql -u ' + mysqlUsername +
