@@ -173,7 +173,10 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
                 $statusId = Mcommerce_Model_Order::DEFAULT_STATUS;
 
                 if (empty($errors) && $paymentMethod->isOnline()) {
-                    $paymentIsValid = $paymentMethod->addData($params)->pay();
+                    $paymentIsValid = $paymentMethod
+                        ->addData($params)
+                        ->setParams($params)
+                        ->pay();
                     if (!$paymentIsValid) {
                         throw new Siberian_Exception(
                             __('An error occurred while proceeding the payment. Please, try again later.'));
@@ -273,7 +276,7 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
         } catch(Exception $e) {
             $payload = [
                 'error' => true,
-                'message' => __('An unknown error occurred, please try again later.')
+                'message' => __('An unknown error occurred, please try again later.') . $e->getMessage()
             ];
             $this->_sendJson($payload);
         }

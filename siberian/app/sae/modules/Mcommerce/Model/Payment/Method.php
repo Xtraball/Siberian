@@ -8,6 +8,7 @@
  * @method string getToken()
  * @method float getTotal()
  * @method string getCurrency()
+ * @method Mcommerce_Model_Cart getCart()
  */
 class Mcommerce_Model_Payment_Method extends Core_Model_Default {
 
@@ -116,11 +117,22 @@ class Mcommerce_Model_Payment_Method extends Core_Model_Default {
     }
 
     /**
+     * Transfer down params to method!
+     *
+     * @param $params
+     * @return $this
+     */
+    public function setParams($params) {
+        $this->getInstance()->setParams($params);
+
+        return $this;
+    }
+
+    /**
      * @return mixed
      */
     public function isCurrencySupported() {
-        return true;
-        //return $this->getInstance()->isCurrencySupported();
+        return $this->getInstance()->isCurrencySupported();
     }
 
     /**

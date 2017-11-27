@@ -6,6 +6,8 @@
  * @method $this setStatusId(integer $statusId)
  * @method $this setNotes(string $notes)
  * @method $this setHidePaidAmount(bool $hideAmount)
+ * @method integer getId()
+ * @method float getTotal()
  */
 class Mcommerce_Model_Order extends Core_Model_Default {
 
