@@ -278,7 +278,7 @@ $default_store = $mcommerce->getDefaultStore();
                     <?php $payment_method = new Mcommerce_Model_Payment_Method(); ?>
                     <?php $payment_methods = $payment_method->findAll(); ?>
                     <?php foreach($payment_methods as $method) : ?>
-                        <?php if($method->getCode() != "free"): ?>
+                        <?php if($method->getCode() !== 'free'): ?>
                         <div class="form-group">
                             <div class="col-md-12">
                                 <label for="payment_method_<?php echo $method->getId() ?>"
@@ -288,14 +288,23 @@ $default_store = $mcommerce->getDefaultStore();
                                     <input type="checkbox"
                                            id="payment_method_<?php echo $method->getId() ?>"
                                            class="sb-form-checkbox color-blue required"
-                                           name="new_payment_methods[][method_id]"
-                                           value="<?php echo $method->getId(); ?>"<?php if($store->hasPaymentMethod($method->getId())) : ?>
-                                           checked="checked"<?php endif; ?> />
+                                           name="payment_methods[<?php echo $method->getId(); ?>]"
+                                           <?php if($store->hasPaymentMethod($method->getId())) : ?>checked="checked"<?php endif; ?> />
                                     <span class="sb-checkbox-label">
                                         <?php echo $method->getName(); ?>
                                     </span>
                                     <div class="color-blue control__indicator"></div>
                                 </label>
+
+                                <?php
+                                echo $this->getLayout()
+                                    ->addPartial(
+                                        $method->getCode() . '_payment',
+                                        'Core_View_Default', 'mcommerce/application/edit/store/payment/' . $method->getCode() . '.phtml')
+                                    ->setMethodId($method->getId())
+                                    ->setStore($store)
+                                    ->toHtml();
+                                ?>
                             </div>
                         </div>
                         <?php endif; ?>
@@ -303,17 +312,6 @@ $default_store = $mcommerce->getDefaultStore();
                     <?php endforeach; ?>
                 </div>
             </div>
-
-            <?php foreach($payment_methods as $method) : ?>
-            <?php
-                echo $this->getLayout()
-                    ->addPartial(
-                        $method->getCode() . '_payment',
-                        'Core_View_Default', 'mcommerce/application/edit/store/payment/' . $method->getCode() . '.phtml')
-                    ->setStore($store)
-                    ->toHtml();
-            ?>
-            <?php endforeach; ?>
 
         </div>
     </fieldset>

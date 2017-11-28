@@ -47,25 +47,6 @@ class Mcommerce_Model_Payment_Method extends Core_Model_Default {
     }
 
     /**
-     * @param integer $storeId
-     * @param array $methodDatas
-     * @return $this
-     */
-    public function saveStoreDatas($storeId, $methodDatas) {
-
-        $this->getTable()->saveStoreDatas($storeId, $methodDatas);
-        foreach ($methodDatas as $methodData) {
-            $instance = $this->find($methodData['method_id'])
-                ->setStoreId($storeId)->getInstance();
-            $methodData['store_id'] = $storeId;
-            $instance->setData($methodData)->save();
-            $this->_instance = null;
-        }
-
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getName() {

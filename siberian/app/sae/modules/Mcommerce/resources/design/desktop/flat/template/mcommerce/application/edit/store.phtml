@@ -59,6 +59,19 @@ $stores = $mcommerce->getStores();
     <div id="store_edit" pos="2"></div>
 
     <script type="text/javascript">
+        var togglePaymentFunc = function (el) {
+            var el = $(el);
+            setupLabel(el);
+            if(el.hasClass('toggle_payment_data')) {
+                if(el.children('input').is(':checked')) {
+                    $('.' + el.attr("tag") + '_data').stop().fadeIn();
+                }
+                else {
+                    $('.' + el.attr("tag") + '_data').stop().fadeOut();
+                }
+            }
+        };
+
         var store = {
             is_loaded: false,
             processEvents: function() {
@@ -127,15 +140,6 @@ $stores = $mcommerce->getStores();
                                 }
                             }
 
-                            var myForm = $(this);
-                            myForm.validate({
-                                ignore: '.ignore'
-                            });
-
-                            if (!myForm.valid()) {
-                                return false;
-                            }
-
                             reload(this, this.action, true, function(datas) {
                                 if(datas.success) {
                                     $('#mcomerce_tabs_header').show();
@@ -143,9 +147,10 @@ $stores = $mcommerce->getStores();
                                     if(datas.row_html) {
                                         $('#existing_stores').children('ul.stores_list').append(datas.row_html);
                                         this.bindStoreElements(datas.store_id);
-                                        if(!$('#section_existing_stores').is(':visible')) $('#section_existing_stores').show();
-                                    }
-                                    else if(datas.store_name) {
+                                        if(!$('#section_existing_stores').is(':visible')) {
+                                            $('#section_existing_stores').show();
+                                        }
+                                    } else if(datas.store_name) {
                                         $('#store_name_'+datas.store_id).html(datas.store_name);
                                     }
                                     this.close();
@@ -153,6 +158,7 @@ $stores = $mcommerce->getStores();
                             }.bind(store));
                             return false;
                         });
+
                         $('label.delivery_method').click(function() {
                             setupLabel($(this));
                             if($(this).hasClass('toggle_shippging_cost')) {
@@ -164,17 +170,16 @@ $stores = $mcommerce->getStores();
                                 }
                             }
                         });
-                        $('label.payment_method').click(function() {
-                            setupLabel($(this));
-                            if($(this).hasClass('toggle_payment_data')) {
-                                if($(this).children('input').is(':checked')) {
-                                    $('.' + $(this).attr("tag") + '_data').stop().fadeIn();
-                                }
-                                else {
-                                    $('.' + $(this).attr("tag") + '_data').stop().fadeOut();
-                                }
-                            }
+
+                        var labelsMethods = $('label.payment_method');
+                        labelsMethods.click(function() {
+                            togglePaymentFunc(this);
                         });
+
+                        labelsMethods.each(function() {
+                            togglePaymentFunc(this);
+                        });
+
                         $('label.clients_calculate_change').click(function() {
                             setupLabel($(this));
                         });

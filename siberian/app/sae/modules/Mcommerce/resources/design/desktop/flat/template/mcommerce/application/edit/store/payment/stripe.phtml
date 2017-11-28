@@ -1,16 +1,10 @@
 <?php
 $store = $this->getStore();
-$method = $store->getPaymentMethod('stripe')->getInstance();
+$method = $store->getPaymentMethod('stripe');
+$methodId = $method->getId();
+$methodInstance = $method->getInstance();
 ?>
 
-<?php if ($method->getId()): ?>
-<div class="form-group stripe_data">
-    <div class="col-sm-12">
-        <label>
-            <h4><?php echo __("Stripe settings"); ?></h4>
-        </label>
-    </div>
-</div>
 <div class="form-group stripe_data">
     <div class="col-sm-3">
         <label for="stripe_secret_key">
@@ -21,8 +15,8 @@ $method = $store->getPaymentMethod('stripe')->getInstance();
         <input type="text"
                id="stripe_secret_key"
                class="input-flat required"
-               name="details_payment_methods[<?php echo $method->getMethod()->getMethodId(); ?>][secret_key]"
-               value="<?php echo $method->getSecretKey(); ?>"
+               name="details_payment_methods[<?php echo $this->getMethodId(); ?>][secret_key]"
+               value="<?php echo $methodInstance->getSecretKey(); ?>"
                placeholder="<?php echo __("Secret Key"); ?>" />
     </div>
 </div>
@@ -36,9 +30,8 @@ $method = $store->getPaymentMethod('stripe')->getInstance();
         <input type="text"
                id="stripe_publishable_key"
                class="input-flat required"
-               name="details_payment_methods[<?php echo $method->getMethod()->getMethodId(); ?>][publishable_key]"
-               value="<?php echo $method->getPublishableKey(); ?>"
+               name="details_payment_methods[<?php echo $this->getMethodId(); ?>][publishable_key]"
+               value="<?php echo $methodInstance->getPublishableKey(); ?>"
                placeholder="<?php echo __("Publishable Key"); ?>" />
     </div>
 </div>
-<?php endif; ?>
