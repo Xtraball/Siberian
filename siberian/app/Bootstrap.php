@@ -321,7 +321,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
     }
 
     public function run() {
-        $front   = $this->_front_controller;
+        $front = $this->_front_controller;
         $default = $front->getDefaultModule();
 
         if (null === $front->getControllerDirectory($default)) {

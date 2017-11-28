@@ -13,7 +13,7 @@ class Mcommerce_Application_StoreController extends Application_Controller_Defau
         if($id = $this->getRequest()->getParam('store_id')) {
             $store->find($id);
             if($store->getId() AND $mcommerce->getId() != $store->getMcommerceId()) {
-                throw new Exception($this->_('An error occurred during the process. Please try again later.'));
+                throw new Exception(__('An error occurred during the process. Please try again later.'));
             }
         }
 
@@ -29,95 +29,91 @@ class Mcommerce_Application_StoreController extends Application_Controller_Defau
     }
 
     public function editpostAction() {
-
-        if($datas = $this->getRequest()->getPost()) {
-
-            try {
-                $isNew = false;
-                $mcommerce = $this->getCurrentOptionValue()->getObject();
-                $store = new Mcommerce_Model_Store();
-                if(!empty($datas['store_id'])) {
-                    $store->find($datas['store_id']);
-                    if($store->getId() AND $mcommerce->getId() != $store->getMcommerceId()) {
-                        throw new Exception($this->_('An error occurred while saving. Please try again later.'));
-                    }
-                }
-
-                if(!empty($datas['details_delivery_methods'])) {
-                    foreach($datas['details_delivery_methods'] as $method_id => $delivery_details) {
-                        foreach($datas['new_delivery_methods'] as $key => $delivery_method) {
-                            if($delivery_method['method_id'] == $method_id) {
-                                $datas['new_delivery_methods'][$key] = array_merge($delivery_details, $delivery_method);
-                            }
-                        }
-                    }
-                    unset($datas['details_delivery_methods']);
-                }
-
-                if(!empty($datas['details_payment_methods'])) {
-                    foreach($datas['details_payment_methods'] as $method_id => $payment_details) {
-                        foreach($datas['new_payment_methods'] as $key => $payment_method) {
-//                            if($payment_method['method_id'] == $method_id) {
-                                $datas['new_payment_methods'][$key] = array_merge($payment_details, $payment_method);
-//                            }
-                        }
-                    }
-                    unset($datas['details_payment_methods']);
-                }
-
-                $datas["clients_calculate_change"] = !empty($datas["clients_calculate_change"]);
-
-                $latitude = null;
-                $longitude = null;
-                if(!empty($datas['street']) AND !empty($datas['postcode']) AND !empty($datas['city']) AND !empty($datas['country'])) {
-                    $address = array_intersect_key($datas, array('street'=>'street', 'postcode'=>'postcode', 'city'=>'city', 'country'=>'country'));
-                    list($latitude, $longitude) = Siberian_Google_Geocoding::getLatLng($address);
-                }
-
-                $datas['latitude'] = $latitude;
-                $datas['longitude'] = $longitude;
-
-                if(!$store->getId()) {
-                    $datas['mcommerce_id'] = $mcommerce->getId();
-                    $isNew = true;
-                }
-                $store->setData($datas)->save();
-
-                $html = array(
-                    'store_id' => $store->getId(),
-                    'success' => '1',
-                    'success_message' => $this->_('Store successfully saved'),
-                    'message_timeout' => 2,
-                    'message_button' => 0,
-                    'message_loader' => 0
-                );
-
-                if($isNew) {
-                    $html['row_html'] = $this->getLayout()->addPartial('row_store_'.$store->getId(), 'admin_view_default', 'mcommerce/application/edit/store/li.phtml')
-                        ->setCurrentOptionValue($this->getCurrentOptionValue())
-                        ->setCurrentStore($store)
-                        ->toHtml()
-                    ;
-
-                }
-                else {
-                    $html['store_name'] = $store->getFullAddress(', ');
-                }
-
-            }
-            catch(Exception $e) {
-                $html = array(
-                    'error' => 1,
-                    'message' => $e->getMessage(),
-                    'message_button' => 1,
-                    'message_loader' => 1
-                );
+        try {
+            $request = $this->getRequest();
+            $params = $request->getParams();
+            if (empty($params)) {
+                throw new Siberian_Exception(__('Missing params!'));
             }
 
-            $this->_sendHtml($html);
+            $optionValue = $this->getCurrentOptionValue();
+            $mcommerce = $optionValue->getObject();
 
+            if (!empty($params['store_id'])) {
+                $store = (new Mcommerce_Model_Store())
+                    ->find($params['store_id']);
+                if ($store->getId() && $mcommerce->getId() !== $store->getMcommerceId()) {
+                    throw new Siberian_Exception(__('The store & mcommerce instances mismatch!'));
+                }
+            }
+
+            // Upsert delivery methods!
+            if (!empty($params['details_delivery_methods'])) {
+                foreach ($params['details_delivery_methods'] as $methodId => $deliveryDetails) {
+                    foreach ($params['new_delivery_methods'] as $key => $deliveryMethod) {
+                        if ($deliveryMethod['method_id'] == $methodId) {
+                            $params['new_delivery_methods'][$key] = array_merge($deliveryDetails, $deliveryMethod);
+                        }
+                    }
+                }
+                unset($params['details_delivery_methods']);
+            }
+
+            $params['clients_calculate_change'] = !empty($params['clients_calculate_change']);
+
+            $latitude = null;
+            $longitude = null;
+            if (!empty($params['street']) &&
+                !empty($params['postcode']) &&
+                !empty($params['city']) &&
+                !empty($params['country'])) {
+                $address = array_intersect_key($params, [
+                    'street' => 'street',
+                    'postcode' => 'postcode',
+                    'city' => 'city',
+                    'country' => 'country'
+                ]);
+                list($latitude, $longitude) = Siberian_Google_Geocoding::getLatLng($address);
+            }
+
+            $params['latitude'] = $latitude;
+            $params['longitude'] = $longitude;
+
+            if (!$store->getId()) {
+                $params['mcommerce_id'] = $mcommerce->getId();
+                $isNew = true;
+            }
+            $store
+                ->setData($params)
+                ->save();
+
+            $payload = [
+                'store_id' => $store->getId(),
+                'success' => '1',
+                'success_message' => __('Store successfully saved'),
+                'message_timeout' => 2,
+                'message_button' => 0,
+                'message_loader' => 0
+            ];
+
+            if ($isNew) {
+                $payload['row_html'] = $this->getLayout()->addPartial('row_store_'.$store->getId(), 'admin_view_default', 'mcommerce/application/edit/store/li.phtml')
+                    ->setCurrentOptionValue($this->getCurrentOptionValue())
+                    ->setCurrentStore($store)
+                    ->toHtml()
+                ;
+
+            } else {
+                $payload['store_name'] = $store->getFullAddress(', ');
+            }
+        } catch(Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
         }
 
+        $this->_sendJson($payload);
     }
 
     public function removeAction() {
@@ -130,7 +126,7 @@ class Mcommerce_Application_StoreController extends Application_Controller_Defau
                 $mcommerce = $this->getCurrentOptionValue()->getObject();
                 $store->find($id);
                 if(!$store->getId() OR $mcommerce->getId() != $store->getMcommerceId()) {
-                    throw new Exception($this->_('An error occurred during the process. Please try again later.'));
+                    throw new Exception(__('An error occurred during the process. Please try again later.'));
                 }
 
                 $store->setIsVisible(0)->save();
@@ -138,7 +134,7 @@ class Mcommerce_Application_StoreController extends Application_Controller_Defau
                 $html = array(
                     'store_id' => $store->getId(),
                     'success' => '1',
-                    'success_message' => $this->_('Store successfully deleted'),
+                    'success_message' => __('Store successfully deleted'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
@@ -146,10 +142,9 @@ class Mcommerce_Application_StoreController extends Application_Controller_Defau
 
             }
             else {
-                throw new Exception($this->_('An error occurred during the process. Please try again later.'));
+                throw new Exception(__('An error occurred during the process. Please try again later.'));
             }
-        }
-        catch(Exception $e) {
+        } catch(Exception $e) {
             $html = array(
                 'error' => 1,
                 'message' => $e->getMessage(),
