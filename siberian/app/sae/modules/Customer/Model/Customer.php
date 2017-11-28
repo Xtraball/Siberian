@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class Customer_Model_Customer
+ *
+ * @method integer getId()
+ */
 class Customer_Model_Customer extends Core_Model_Default
 {
 

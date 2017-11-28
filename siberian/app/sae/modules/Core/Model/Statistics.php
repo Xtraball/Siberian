@@ -216,7 +216,6 @@ GROUP BY status");
                         "siberian_environment"          => System_Model_Config::getValueFor("environment"),
                         "siberian_update_channel"       => System_Model_Config::getValueFor("update_channel"),
                         "siberian_cpanel_type"          => System_Model_Config::getValueFor("cpanel_type"),
-                        "siberian_update_channel"       => System_Model_Config::getValueFor("update_channel"),
                         "siberian_analytic_app_limit"   => System_Model_Config::getValueFor("analytic_app_limit"),
                         "siberian_signup_mode"          => System_Model_Config::getValueFor("signup_mode"),
                         "siberian_cron_interval"        => System_Model_Config::getValueFor("cron_interval"),

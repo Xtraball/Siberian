@@ -132,6 +132,9 @@ class Mcommerce_Controller_Mobile_Default extends Application_Controller_Mobile_
         return $result;
     }
 
+    /**
+     * @return Mcommerce_Model_Promo|null
+     */
     protected function getPromo() {
         $cart = $this->getCart();
         $promo = Mcommerce_Model_Promo::getApplicablePromo($cart);
