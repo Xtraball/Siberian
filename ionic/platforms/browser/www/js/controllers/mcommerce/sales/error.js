@@ -1,9 +1,8 @@
-/*global
- App, BASE_PATH
+/**
+ * M-Commerce error handler
  */
 angular.module('starter').controller('MCommerceSalesErrorViewController', function ($scope, $state, $stateParams,
                                                                                     $timeout) {
-
     $scope.value_id = $stateParams.value_id;
 
     $timeout(function () {

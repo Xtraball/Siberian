@@ -127,7 +127,12 @@ $stores = $mcommerce->getStores();
                                 }
                             }
 
-                            if (!$(this).valid()) {
+                            var myForm = $(this);
+                            myForm.validate({
+                                ignore: '.ignore'
+                            });
+
+                            if (!myForm.valid()) {
                                 return false;
                             }
 

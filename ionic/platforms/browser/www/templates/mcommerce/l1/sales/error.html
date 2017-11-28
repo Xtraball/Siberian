@@ -1,5 +1,4 @@
 <div class="has_header"
-     value-id="value_id"
      ng-class="{background_image: style_background_image}"
      ng-style="style_background_image">
     <div class="mcommerce cart">
@@ -9,7 +8,7 @@
             <div class="relative">
                 <div class="padding">
                     <ul class="message error">
-
+                        {{ 'An error occurred during the payment process.' | translate }}
                     </ul>
                 </div>
             </div>
