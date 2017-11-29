@@ -141,7 +141,7 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
         } catch(Exception $e) {
             $payload = [
                 'error' => true,
-                'message' => $e->getTraceAsString()
+                'message' => $e->getMessage()
             ];
         }
 
