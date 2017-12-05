@@ -44,6 +44,10 @@ $schemas['mcommerce_store_payment_method_paypal'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'is_testing' => array(
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ),
     'created_at' => array(
         'type' => 'datetime',
     ),

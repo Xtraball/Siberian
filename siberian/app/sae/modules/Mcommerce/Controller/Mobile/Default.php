@@ -41,7 +41,7 @@ class Mcommerce_Controller_Mobile_Default extends Application_Controller_Mobile_
         $this->_store = $store;
 
         $cart = $this->getSession()->getCart();
-        if(!$cart->getId() AND $store->getId()) {
+        if (!$cart->getId() && $store->getId()) {
             
             $logger->debug("Create new cart in session.");
             
@@ -50,7 +50,7 @@ class Mcommerce_Controller_Mobile_Default extends Application_Controller_Mobile_
                 ->save()
             ;
             $this->getSession()->setCart($cart);
-        }else{
+        } else {
             // Adding a condition for when the cart has already been validated.
             // We have to check if an order which corresponds to the cart has been saved.
             // In the latter case we create a new cart, to avoid carrying cart lines from old purshases.
