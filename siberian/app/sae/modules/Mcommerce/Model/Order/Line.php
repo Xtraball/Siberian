@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Class Mcommerce_Model_Order_Line
+ *
+ * @method bool getIsRecurrent()
+ * @method string getName()
+ * @method float getPriceExclTax()
+ * @method float getTotalPriceExclTax()
+ */
 class Mcommerce_Model_Order_Line extends Core_Model_Default {
 
     /**
