@@ -30,8 +30,6 @@ class Payment_PaypalController extends Core_Controller_Default {
             $params = $request->getParams();
             usleep(20);
 
-
-            <div>
             $this->_redirect('mcommerce/mobile_sales_payment/validatepayment', [
                 'sb-token' => $params['sb-token'],
                 'cart_id' => $params['cart_id'],
