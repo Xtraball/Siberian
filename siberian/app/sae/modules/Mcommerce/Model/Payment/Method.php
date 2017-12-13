@@ -139,4 +139,14 @@ class Mcommerce_Model_Payment_Method extends Core_Model_Default {
         return $this->getInstance()->payByCustomerToken($chargeData);
     }
 
+    /**
+     * @param $valueId
+     * @return array
+     */
+    public function getFormUris ($valueId) {
+        return [
+            'url' => null,
+            'form_url' => null
+        ];
+    }
 }

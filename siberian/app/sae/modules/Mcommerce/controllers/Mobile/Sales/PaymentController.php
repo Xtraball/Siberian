@@ -11,24 +11,9 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
     public function findonlinepaymenturlAction() {
         try {
             $method = $this->getCart()->getPaymentMethod();
+            $valueId = $this->getCurrentOptionValue()->getId();
 
-            $url = null;
-            $form_url = null;
-            $value_id = $this->getCurrentOptionValue()->getId();
-
-            // @todo generic methods
-            if ($method->isOnline()) {
-                if ($method->getCode() === 'stripe') {
-                    $form_url = $method->getFormUrl($value_id);
-                } else {
-                    $url = $method->getUrl($value_id);
-                }
-            }
-
-            $payload = [
-                'url' => $url,
-                'form_url' => $form_url
-            ];
+            $payload = $method->getInstance()->getFormUris($valueId);
         } catch(Exception $e) {
             $payload = [
                 'error' => true,
@@ -107,13 +92,11 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
                 }
 
                 $cart = $this->getCart();
-
                 $cart
                     ->setPaymentMethodId($formValues['payment_method_id'])
                     ->save();
 
                 $url = $cart->getPaymentMethod()->getUrl();
-
                 if (!Zend_Uri::check($url)) {
                     $paymentMethodName = $cart->getPaymentMethod()->getName();
                     $cart

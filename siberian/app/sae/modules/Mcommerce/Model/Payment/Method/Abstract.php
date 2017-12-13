@@ -33,4 +33,14 @@ abstract class Mcommerce_Model_Payment_Method_Abstract extends Core_Model_Defaul
         return true;
     }
 
+    /**
+     * @return array
+     */
+    public function getFormUris () {
+        return [
+            'url' => null,
+            'form_url' => null
+        ];
+    }
+
 }

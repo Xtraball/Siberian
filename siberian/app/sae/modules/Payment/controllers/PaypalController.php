@@ -3,7 +3,7 @@
 /**
  * Class Payment_PaypalController
  */
-class Payment_PaypalController extends Core_Controller_Default {
+class Payment_PaypalController extends Application_Controller_Mobile_Default {
 
     /**
      * Cancel url public action
@@ -34,7 +34,8 @@ class Payment_PaypalController extends Core_Controller_Default {
                 'sb-token' => $params['sb-token'],
                 'cart_id' => $params['cart_id'],
                 'token' => $params['token'],
-                'payer_id' => $params['payer_id'],
+                'payer_id' => $params['PayerID'],
+                'PayerID' => $params['PayerID'],
             ]);
         } catch(Exception $e) {
             $this->_redirect('mcommerce/mobile_sales_error/index');

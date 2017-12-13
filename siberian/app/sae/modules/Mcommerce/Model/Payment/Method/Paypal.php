@@ -61,7 +61,19 @@ class Mcommerce_Model_Payment_Method_Paypal extends Mcommerce_Model_Payment_Meth
         $paypal = $this->_getPaypalObject();
         $paypal->setCart($cart);
         $paypal->setOrder($cart);
-        return $paypal->getUrl().'&webview=1';
+
+        return $paypal->getUrl() . '&webview=1';
+    }
+
+    /**
+     * @param $valueId
+     * @return array
+     */
+    public function getFormUris ($valueId) {
+        return [
+            'url' => $this->getUrl($valueId),
+            'form_url' => null
+        ];
     }
 
     /**
