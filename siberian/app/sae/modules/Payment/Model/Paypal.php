@@ -5,7 +5,7 @@
  *
  * @method string getToken()
  */
-class Payment_Model_Paypal extends Core_Model_Default {
+class Payment_Model_Paypal extends Payment_Model_Abstract {
 
     /**
      * Paypal methods definition
@@ -146,7 +146,7 @@ class Payment_Model_Paypal extends Core_Model_Default {
         }
 
         // Testing is now a setting and no more dependant on the environment type!
-        if ($this->__isTesting) {
+        if (!$this->__isTesting) {
             $this->__api_url = str_replace('sandbox.', '', $this->__api_url);
             $this->__paypal_url = str_replace('sandbox.', '', $this->__paypal_url);
         }
@@ -173,7 +173,6 @@ class Payment_Model_Paypal extends Core_Model_Default {
             'SIGNATURE' => $this->__signature,
         ]);
 
-        $orig_params = $params;
         $params = http_build_query($params);
 
         $curl = curl_init();
@@ -201,7 +200,7 @@ class Payment_Model_Paypal extends Core_Model_Default {
             $this->_errors = curl_error($curl);
             $this->_params = $params;
             curl_close($curl);
-            $logger->log("CURL error n° " . print_r($this->_errors, true) .
+            $logger->log('CURL error n° ' . print_r($this->_errors, true) .
                 ' - response: '. print_r($response, true),
                 Zend_Log::DEBUG);
         
@@ -221,7 +220,7 @@ class Payment_Model_Paypal extends Core_Model_Default {
                 $this->_errors = $responseArray;
                 $this->_params = $params;
                 curl_close($curl);
-                $logger->log("CURL error: ".print_r($this->_errors, true), Zend_Log::DEBUG);
+                $logger->log('CURL error: ' . print_r($this->_errors, true), Zend_Log::DEBUG);
                 return false;
             }
         }
@@ -245,27 +244,27 @@ class Payment_Model_Paypal extends Core_Model_Default {
         ];
 
         foreach ($order->getLines() as $k => $item) {
-            if ($item->getIsRecurrent() === '#') {
+            if ($item->isRecurrent()) {
                 $params['L_PAYMENTREQUEST_0_ITEMCATEGORY0'] = 'Physical';
                 $params['L_BILLINGTYPE0'] = 'RecurringPayments';
                 $params['L_BILLINGAGREEMENTDESCRIPTION0'] = $item->getName();
             }
         }
 
-        $total_price_excl_tax = round($order->getSubtotalExclTax(), 2);
-        $total_tax =  round($order->getTotalTax(), 2);
-        $total_price = round($order->getTotal(), 2);
+        $totalPriceExcludeTax = round($order->getSubtotalExclTax(), 2);
+        $totalTax = round($order->getTotalTax(), 2);
+        $totalPrice = round($order->getTotal(), 2);
 
         if ($order->getDeliveryCost() > 0) {
-            $delivery_tax = $order->getDeliveryCostInclTax() - $order->getDeliveryCost();
-            $total_tax = $total_tax - $delivery_tax;
-            $params['PAYMENTREQUEST_0_SHIPPINGAMT'] = round($order->getDeliveryCost() + $delivery_tax, 2);
+            $deliveryTax = $order->getDeliveryCostInclTax() - $order->getDeliveryCost();
+            $totalTax = $totalTax - $deliveryTax;
+            $params['PAYMENTREQUEST_0_SHIPPINGAMT'] = round($order->getDeliveryCost() + $deliveryTax, 2);
         }
 
-        // Sum of costs of all items in this order
-        $tmp_total = round($total_price_excl_tax , 2);
+        // Sum of costs of all items in this order!
+        $tmpTotal = round($totalPriceExcludeTax , 2);
         if ($order->getTip()) {
-            $tmp_total += $order->getTip();
+            $tmpTotal += $order->getTip();
         }
 
         if ($order->getDiscountCode()) {
@@ -273,17 +272,17 @@ class Payment_Model_Paypal extends Core_Model_Default {
                 ->find($order->getDiscountCode(), 'code');
             if ($discount->getId()) {
                 $cart = $this->getCart();
-                $tmp_total -= $discount->getDeduction($cart);
+                $tmpTotal -= $discount->getDeduction($cart);
             }
         }
 
-        $params['PAYMENTREQUEST_0_ITEMAMT'] = round($tmp_total, 2);
+        $params['PAYMENTREQUEST_0_ITEMAMT'] = round($tmpTotal, 2);
 
         // Sum of tax for all items in this order
-        $params['PAYMENTREQUEST_0_TAXAMT'] = round($total_tax, 2);
+        $params['PAYMENTREQUEST_0_TAXAMT'] = round($totalTax, 2);
         
         // Total of order, including shipping, handling, tax, and any other billing adjustments such as a credit due
-        $params['PAYMENTREQUEST_0_AMT'] = round($total_price, 2);
+        $params['PAYMENTREQUEST_0_AMT'] = round($totalPrice, 2);
 
         $response = $this->request(self::SET_EXPRESS_CHECKOUT, $params);
 
@@ -304,9 +303,7 @@ class Payment_Model_Paypal extends Core_Model_Default {
         $paymentIsOk = $this->process($token);
 
         if ($paymentIsOk) {
-            $paymentIsOk = $this->createRecurring(
-                $token,
-                $this->getPeriod($this->getOrder()->getSubscription()->getPaymentFrequency()));
+            $paymentIsOk = $this->createRecurring($token);
         }
 
         return $paymentIsOk;
@@ -317,7 +314,6 @@ class Payment_Model_Paypal extends Core_Model_Default {
      * @return bool
      */
     public function process($token) {
-
         if (!$this->_isValid()) {
             return false;
         }
@@ -327,9 +323,8 @@ class Payment_Model_Paypal extends Core_Model_Default {
         }
         
         $response = $this->request(self::GET_EXPRESS_CHECKOUT_DETAILS, array('TOKEN' => $token));
-        if($response) {
-
-            if($response['CHECKOUTSTATUS'] === 'PaymentActionCompleted') {
+        if ($response) {
+            if ($response['CHECKOUTSTATUS'] === 'PaymentActionCompleted') {
                 return true;
             }
 
@@ -342,36 +337,35 @@ class Payment_Model_Paypal extends Core_Model_Default {
         } else {
             return false;
         }
-
     }
 
     /**
      * @param $token
-     * @param null $frequency
      * @return bool
      */
-    public function createRecurring($token, $frequency = null) {
+    public function createRecurring($token) {
         $params = [];
         $order = $this->getOrder();
         $lines = $order->getLines();
-        $at_least_one_item_is_recurring = false;
+        $atLeastOneItemIsRecurring = false;
 
         foreach ($lines as $k => $item) {
-            if ($item->getIsRecurrent() == '1') {
+            if ($item->isRecurrent()) {
                 $k = 0;
-                $unit_price_excl_tax = round($item->getPriceExclTax(), 2);
-                $unit_price = round($unit_price_excl_tax * (1 + $order->getDbTaxRate()/100), 2); // prix TTC
-                $tax_item = round($unit_price - $unit_price_excl_tax, 2);
+                $unitPriceExcludeTax = round($item->getPriceExclTax(), 2);
+                $unitPrice = round($unitPriceExcludeTax * (1 + $order->getDbTaxRate() / 100), 2);
+                $taxItem = round($unitPrice - $unitPriceExcludeTax, 2);
 
                 $params['DESC'] = $item->getName();
-                $params['TAXAMT'] = !empty($params['TAXAMT']) ? $params['TAXAMT'] + $tax_item * $item->getQty() : $tax_item * $item->getQty();
+                $params['TAXAMT'] = !empty($params['TAXAMT']) ?
+                    $params['TAXAMT'] + $taxItem * $item->getQty() : $taxItem * $item->getQty();
                 $params['AMT'] = round($item->getTotalPriceExclTax(), 2);
-                $params["L_PAYMENTREQUEST_0_ITEMCATEGORY$k"] = 'Physical';
-                $params["L_PAYMENTREQUEST_0_NAME$k"] = $item->getName();
-                $params["L_PAYMENTREQUEST_0_QTY$k"] = $item->getQty();
-                $params["L_PAYMENTREQUEST_0_TAXAMT$k"] = $tax_item;
-                $params["L_PAYMENTREQUEST_0_AMT$k"] = round($item->getTotalPriceExclTax(), 2);
-                $at_least_one_item_is_recurring = true;
+                $params['L_PAYMENTREQUEST_0_ITEMCATEGORY' . $k] = 'Physical';
+                $params['L_PAYMENTREQUEST_0_NAME' . $k] = $item->getName();
+                $params['L_PAYMENTREQUEST_0_QTY' . $k] = $item->getQty();
+                $params['L_PAYMENTREQUEST_0_TAXAMT' . $k] = $taxItem;
+                $params['L_PAYMENTREQUEST_0_AMT' . $k] = round($item->getTotalPriceExclTax(), 2);
+                $atLeastOneItemIsRecurring = true;
             }
         }
 
@@ -395,8 +389,142 @@ class Payment_Model_Paypal extends Core_Model_Default {
             }
         }
 
-        return !$at_least_one_item_is_recurring;
+        return !$atLeastOneItemIsRecurring;
+    }
 
+    /**
+     * @return bool
+     */
+    public function manageRecurring() {
+        if (!$this->getData('is_active')) {
+            $paypalRecurringAction = 'SUSPEND';
+        } else {
+            $paypalRecurringAction = 'REACTIVATE';
+        }
+
+        $params = [
+            'PROFILEID' => $this->getData('profile_id'),
+            'ACTION' => $paypalRecurringAction
+        ];
+
+        $response = $this->request(self::MANAGE_RECCURING_PAYMENTS_PROFILE, $params);
+
+        if ($response) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $order
+     * @return array
+     * @throws Exception
+     */
+    public function getPaymentData($order){
+        $returnUrl = parent::getUrl('subscription/application/success', [
+            'order_id' => $order->getId(),
+            'payment_method' => 'paypal'
+        ]);
+        $cancelUrl = parent::getUrl('subscription/application/cancel', [
+            'payment_method' => 'paypal'
+        ]);
+
+        $this->setOrder($order)
+            ->setReturnUrl($returnUrl)
+            ->setCancelUrl($cancelUrl);
+
+        // Redirect to Paypal here
+        if(!$paypalUrl = $this->getUrl()) {
+            $errors = $this->getErrors();
+            $message = __('An error occurred while processing your payment.');
+            if (is_array($errors) && !empty($errors['L_LONGMESSAGE0'])) {
+                $message .= '<br />' . $errors['L_LONGMESSAGE0'];
+            }
+            // Really strange log!
+            Zend_Registry::get('logger')
+                ->sendException('Error when retrieving the Paypal URL:' . PHP_EOL .
+                    print_r($this->getErrors(), true). PHP_EOL .
+                    'And params:' . print_r($this->getParams(), true),
+                    'paypal_error_', false);
+
+            throw new Exception($message);
+        } else {
+            return [
+                'url' => $paypalUrl
+            ];
+        }
+    }
+
+    /**
+     * @return array|bool
+     */
+    public function success () {
+        try {
+            if ($order = $this->getOrder()) {
+                if ($token = $this->getToken()) {
+                    if (!$order->getId()) {
+                        throw new Siberian_Exception(__('An error occurred while processing your order. Please, try again later.'));
+                    }
+
+                    $paymentIsOk = $this->setToken($token)
+                        ->setOrder($order)
+                        ->pay();
+
+                    if ($paymentIsOk) {
+                        $response = $this->getResponse();
+                        $data = [
+                            'payment_data' => [
+                                'profile_id' => !empty($response['PROFILEID']) ?
+                                    $response['PROFILEID'] : null,
+                                'correlation_id' => !empty($response['CORRELATIONID']) ?
+                                    $response['CORRELATIONID'] : null,
+                                'is_recurrent' => $order->isRecurrent()
+                            ]
+                        ];
+                        return $data;
+                    } else {
+                        throw new Siberian_Exception(__('An error occurred while processing the payment. For more information, please feel free to contact us.'));
+                    }
+                } else {
+                    throw new Siberian_Exception(__("An error occurred while processing your order. Please, try again later."));
+                }
+            } else {
+                return false;
+            }
+        } catch(Exception $e) {
+            $this->getSession()->addError($e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function cancel() {
+        try {
+            if ($orderId = $this->getSession()->order_id) {
+                $order = new Sales_Model_Order();
+                $order->find($orderId);
+
+                if (!$order->getId()) {
+                    throw new Siberian_Exception(__('An error occurred while processing your order. Please, try again later.'));
+                }
+
+                $order->cancel();
+
+                $this->getSession()->addWarning(__('Your order has been canceled. If you need any help to place your order, please feel free to contact us.'));
+                $this->getSession()->order_id = null;
+                $this->getSession()->subscription_id = null;
+                
+                return true;
+            } else {
+                return false;
+            }
+        } catch(Exception $e) {
+            $this->getSession()->addError($e->getMessage());
+            return false;
+        }
     }
 
     /**
@@ -493,7 +621,7 @@ class Payment_Model_Paypal extends Core_Model_Default {
      * @param Mcommerce_Model_Order $order
      * @return $this
      */
-    public function setOrder(Mcommerce_Model_Order $order) {
+    public function setOrder(/**Mcommerce_Model_Order */$order) {
         $this->_order = $order;
         return $this;
     }
@@ -560,4 +688,21 @@ class Payment_Model_Paypal extends Core_Model_Default {
         return !empty($this->__user) && !empty($this->__pwd) && !empty($this->__signature);
     }
 
+    /**
+     * @param $code
+     * @return bool|stdClass
+     */
+    public function getSubscriptionInfo($code) {
+        $response = $this->request(
+            self::GET_RECURRING_EXPRESS_CHECKOUT_DETAILS,
+            ['PROFILEID' => $code]);
+
+        if ($response) {
+            $return = new stdClass();
+            $return->status = strtolower($response['STATUS']);
+            return $return;
+        } else {
+            return false;
+        }
+    }
 }
