@@ -9,7 +9,7 @@ class Core_Model_Statistics {
     }
 
     public function statistics() {
-        if(System_Model_Config::getValueFor("send_statistics") != "1") {
+        if (System_Model_Config::getValueFor("send_statistics") != "1") {
             $this->log("Statistics are disabled.");
             return;
         }
@@ -17,7 +17,7 @@ class Core_Model_Statistics {
         $system_model_config = new System_Model_Config();
         $system_config = $system_model_config->find("campaign_is_active", "code");
 
-        if($system_config->getValue() == "1") {
+        if ($system_config->getValue() == "1") {
             try {
                 $db = Zend_Db_Table::getDefaultAdapter();
 
@@ -28,7 +28,7 @@ class Core_Model_Statistics {
                 $apps_ionic_count = $db->fetchRow($db->select()->from("application", array(new Zend_Db_Expr("COUNT(*) AS total")))->where("design_code = ?", "ionic"));
                 $apps_domain_count = $db->fetchRow($db->select()->from("application", array(new Zend_Db_Expr("COUNT(*) AS total")))->where("domain IS NOT NULL"));
                 $apps_offline_count = $db->fetchRow($db->select()->from("application", array(new Zend_Db_Expr("COUNT(*) AS total")))->where("offline_content = 1"));
-                if(Siberian_Version::is("PE")) {
+                if (Siberian_Version::is("PE")) {
                     $whitelabel_count = $db->fetchRow($db->select()->from("whitelabel_editor", array(new Zend_Db_Expr("COUNT(*) AS total"))));
                 } else {
                     $whitelabel_count = 0;
@@ -39,7 +39,7 @@ class Core_Model_Statistics {
 
                 $modules_model = new Installer_Model_Installer_Module();
                 $all_modules = $modules_model->findAll();
-                $modules = array();
+                $modules = [];
                 $i = 0;
                 foreach($all_modules as $module) {
                     $modules[$i++] = array(
@@ -221,6 +221,10 @@ GROUP BY status");
                         "siberian_cron_interval"        => System_Model_Config::getValueFor("cron_interval"),
                         "siberian_node_binary_path"     => System_Model_Config::getValueFor("node_binary_path"),
                         "siberian_installation_date"    => System_Model_Config::getValueFor("installation_date"),
+                        "siberian_licence_key"          => System_Model_Config::getValueFor("siberiancms_key"),
+                        "siberian_disk_usage"           => System_Model_Config::getValueFor("disk_usage_cache"),
+                        "siberian_letsencrypt_disabled" => System_Model_Config::getValueFor("letsencrypt_disabled"),
+                        "siberian_ios_autobuild_key"    => System_Model_Config::getValueFor("ios_autobuild_key"),
                         "siberian_modules"              => $modules,
                         "siberian_features"             => $features_usage,
                         "siberian_layouts"              => $layouts_usage,
