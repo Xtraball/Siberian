@@ -1,40 +1,45 @@
-App.config(function($routeProvider) {
-
-    $routeProvider.when(BASE_URL+"/api/backoffice_key_list", {
+App.config(function ($routeProvider) {
+    $routeProvider.when(BASE_URL + '/api/backoffice_key_list', {
         controller: 'ApiKeyController',
-        templateUrl: BASE_URL+"/api/backoffice_key_list/template"
+        templateUrl: BASE_URL + '/api/backoffice_key_list/template'
     });
-
-}).controller("ApiKeyController", function($scope, Header, ApiKey, Label) {
-
+}).controller('ApiKeyController', function ($scope, $timeout, Header, ApiKey, Label) {
     $scope.header = new Header();
     $scope.header.button.left.is_visible = false;
     $scope.content_loader_is_visible = true;
     $scope.form_loader_is_visible = false;
 
-    ApiKey.loadData().success(function(data) {
+    ApiKey.loadData().success(function (data) {
         $scope.header.title = data.title;
         $scope.header.icon = data.icon;
     });
 
-    ApiKey.findAll().success(function(data) {
+    ApiKey.findAll().success(function (data) {
         $scope.apis = data.apis;
-    }).finally(function() {
+    }).finally(function () {
         $scope.content_loader_is_visible = false;
     });
 
-    $scope.saveKeys = function() {
+    $scope.toggle = function (object) {
+        console.log(object);
 
+        $timeout(function () {
+            object.value = !object.value;
+            console.log(object);
+        }, 0);
+    };
+
+    $scope.saveKeys = function () {
         $scope.form_loader_is_visible = true;
 
-        ApiKey.save($scope.apis).success(function(data) {
+        ApiKey.save($scope.apis).success(function (data) {
             $scope.message.setText(data.message)
                 .isError(false)
                 .show()
             ;
-        }).error(function(data) {
+        }).error(function (data) {
             var message = Label.save.error;
-            if(angular.isObject(data) && angular.isDefined(data.message)) {
+            if (angular.isObject(data) && angular.isDefined(data.message)) {
                 message = data.message;
             }
 
@@ -42,9 +47,8 @@ App.config(function($routeProvider) {
                 .isError(true)
                 .show()
             ;
-        }).finally(function() {
+        }).finally(function () {
             $scope.form_loader_is_visible = false;
         });
-    }
-
+    };
 });

@@ -98,6 +98,22 @@ class Mcommerce_Model_Payment_Method_Paypal extends Mcommerce_Model_Payment_Meth
     }
 
     /**
+     * @param array|string $key
+     * @param null $value
+     * @return $this
+     */
+    public function setData($key, $value = null) {
+        if (is_array($key)) {
+            $key['is_testing'] = false;
+            if (isset($key['is_testing'])) {
+                $key['is_testing'] = true;
+            }
+        }
+
+        return parent::setData($key, $value);
+    }
+
+    /**
      * @return bool
      */
     public function isCurrencySupported() {
