@@ -1,10 +1,33 @@
 <?php
 
-abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
-{
+/**
+ * Class Admin_Model_Admin_Abstract
+ *
+ * @method integer getId()
+ * @method $this setFirstname(string $firstname)
+ * @method $this setLastname(string $lastname)
+ * @method $this setAddress(string $address)
+ * @method $this setAddress2(string $address2)
+ * @method $this setZipCode(string $zipCode)
+ * @method $this setCity(string $city)
+ * @method $this setRegion(string $region)
+ * @method $this setPhone(string $phone)
+ */
+abstract class Admin_Model_Admin_Abstract extends Core_Model_Default {
 
+    /**
+     * @var
+     */
     protected $_applications;
+
+    /**
+     * @var
+     */
     protected $_subaccounts;
+
+    /**
+     * @var
+     */
     protected $_white_label_editor;
 
     const LOGO_PATH = '/images/admin';
