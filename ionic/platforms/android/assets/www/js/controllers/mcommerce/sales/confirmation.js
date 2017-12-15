@@ -2,21 +2,23 @@
     App, angular, BASE_PATH
  */
 
-angular.module('starter').controller('MCommerceSalesConfirmationViewController', function ($ionicPopup, Loader, $location, $rootScope,
-                                                                    $scope, $state, $stateParams, $timeout, $translate,
-                                                                    $window, Analytics, Application, Customer, Dialog,
-                                                                    McommerceCart, McommerceSalesPayment) {
-    $scope.is_loading = true;
+angular.module('starter')
+    .controller('MCommerceSalesConfirmationViewController',
+        function ($ionicPopup, Loader, $location, $rootScope, $scope, $state, $stateParams, $timeout, $translate,
+                  $window, Analytics, Application, Customer, Dialog, McommerceCart, McommerceSalesPayment) {
+    angular.extend($scope, {
+        is_loading: true,
+        page_title: $translate.instant('Review'),
+        value_id: $stateParams.value_id
+    });
+
     Loader.show();
-
-    $scope.page_title = $translate.instant('Review');
-
     McommerceCart.value_id = $stateParams.value_id;
     McommerceSalesPayment.value_id = $stateParams.value_id;
-    $scope.value_id = $stateParams.value_id;
 
     $scope.loadContent = function () {
         $scope.guest_mode = Customer.guest_mode;
+
         McommerceCart.compute()
             .then(function (computation) {
                 McommerceCart.find()
@@ -26,9 +28,9 @@ angular.module('starter').controller('MCommerceSalesConfirmationViewController',
                         $scope.cart.discount = computation.discount;
 
                         McommerceSalesPayment.findOnlinePaymentUrl()
-                            .then(function (data) {
-                                $scope.onlinePaymentUrl = data.url;
-                                $scope.form_url = data.form_url;
+                            .then(function (onlinePaymentData) {
+                                $scope.onlinePaymentUrl = onlinePaymentData.url;
+                                $scope.form_url = onlinePaymentData.form_url;
 
                                 $scope.right_button = {
                                     action: $scope.validate,
@@ -63,27 +65,24 @@ angular.module('starter').controller('MCommerceSalesConfirmationViewController',
                 $window.location = $scope.onlinePaymentUrl;
             } else {
                 var browser = $window.open($scope.onlinePaymentUrl, $rootScope.getTargetForLink(), 'location=yes');
-
+                var nextState = 'mcommerce-sales-error';
                 browser.addEventListener('loadstart', function (event) {
-                    if (/(mcommerce\/mobile_sales_success)/.test(event.url)) {
-                        browser.close();
-
-                        $state.go('mcommerce-sales-confirmation', {
-                            value_id: $stateParams.value_id
-                        });
-                    } else if (/(mcommerce\/mobile_sales_cancel)/.test(event.url)) {
-                        browser.close();
-
-                        $state.go('mcommerce-sales-confirmation-cancel', {
-                            value_id: $stateParams.value_id
-                        });
-                    } else if (/(mcommerce\/mobile_sales_error)/.test(event.url)) {
-                        browser.close();
-
-                        $state.go('mcommerce-sales-error', {
-                            value_id: $stateParams.value_id
-                        });
+                    switch (true) {
+                        case /(mcommerce\/mobile_sales_success)/.test(event.url):
+                            nextState = 'mcommerce-sales-success';
+                            break;
+                        case /(mcommerce\/mobile_sales_cancel)/.test(event.url):
+                            nextState = 'mcommerce-sales-confirmation-cancel';
+                            break;
+                        case /(mcommerce\/mobile_sales_error)/.test(event.url):
+                            nextState = 'mcommerce-sales-error';
+                            break;
                     }
+
+                    browser.close();
+                    $state.go(nextState, {
+                        value_id: $stateParams.value_id
+                    });
                 });
             }
         } else if ($scope.form_url) {
@@ -121,8 +120,11 @@ angular.module('starter').controller('MCommerceSalesConfirmationViewController',
     };
 
     $scope.loadContent();
-}).controller('MCommerceSalesConfirmationCancelController', function ($state, $stateParams, $translate, Dialog) {
-    // display cancelation message!
+});
+
+angular.module('starter')
+    .controller('MCommerceSalesConfirmationCancelController', function ($state, $stateParams, $translate, Dialog) {
+    // Display cancelation message!
     Dialog.alert('', 'The payment has been cancelled, something wrong happened? Feel free to contact us.', 'OK')
         .then(function () {
             $state.go('mcommerce-sales-confirmation', {
