@@ -25,6 +25,8 @@ class Mcommerce_Controller_Mobile_Default extends Application_Controller_Mobile_
 
         $logger = Zend_Registry::get("logger");
 
+        //die('here init');
+
         parent::init();
 
         $this->_current_option_value = $this->getApplication()->getPage('m_commerce');

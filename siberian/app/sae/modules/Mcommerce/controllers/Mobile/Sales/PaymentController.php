@@ -149,6 +149,8 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
                 throw new Siberian_Exception(__('Missing params!'));
             }
 
+            Zend_Debug::dump($params);
+
             try {
                 $cart = $this->getCart();
                 $errors = $cart->check();
@@ -160,12 +162,17 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
                         ->addData($params)
                         ->setParams($params)
                         ->pay();
+
+                    Zend_Debug::dump($paymentIsValid);
+
                     if (!$paymentIsValid) {
                         throw new Siberian_Exception(
                             __('An error occurred while proceeding the payment. Please, try again later.'));
                     } else {
                         $statusId = Mcommerce_Model_Order::PAID_STATUS;
                     }
+
+                    Zend_Debug::dump($statusId);
                 }
 
                 if (empty($errors)) {
@@ -235,12 +242,14 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
             // Mode browser/webapp!
             if ($this->getApplication()->useIonicDesign() && empty($params['is_ajax'])) {
                 if (isset($payload['success'])) {
+                    $this->getResponse()->setHeader('x-success', $payload['message']);
                     $this->_redirect('mcommerce/mobile_sales_success/index', [
                         'value_id' => $this->getCurrentOptionValue()->getValueId()
                     ]);
                 }
 
                 if (isset($payload['error'])) {
+                    $this->getResponse()->setHeader('x-error', $payload['message']);
                     $this->_redirect('mcommerce/mobile_sales_error/index', [
                         'value_id' => $this->getCurrentOptionValue()->getValueId()
                     ]);
