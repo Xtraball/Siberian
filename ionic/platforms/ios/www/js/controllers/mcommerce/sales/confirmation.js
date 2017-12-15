@@ -66,23 +66,28 @@ angular.module('starter')
             } else {
                 var browser = $window.open($scope.onlinePaymentUrl, $rootScope.getTargetForLink(), 'location=yes');
                 var nextState = 'mcommerce-sales-error';
-                browser.addEventListener('loadstart', function (event) {
-                    switch (true) {
-                        case /(mcommerce\/mobile_sales_success)/.test(event.url):
-                            nextState = 'mcommerce-sales-success';
-                            break;
-                        case /(mcommerce\/mobile_sales_cancel)/.test(event.url):
-                            nextState = 'mcommerce-sales-confirmation-cancel';
-                            break;
-                        case /(mcommerce\/mobile_sales_error)/.test(event.url):
-                            nextState = 'mcommerce-sales-error';
-                            break;
-                    }
-
+                var stepNext = function () {
                     browser.close();
                     $state.go(nextState, {
                         value_id: $stateParams.value_id
                     });
+                };
+
+                browser.addEventListener('loadstart', function (event) {
+                    switch (true) {
+                        case /(mcommerce\/mobile_sales_success)/.test(event.url):
+                            nextState = 'mcommerce-sales-success';
+                            stepNext();
+                            break;
+                        case /(mcommerce\/mobile_sales_cancel)/.test(event.url):
+                            nextState = 'mcommerce-sales-confirmation-cancel';
+                            stepNext();
+                            break;
+                        case /(mcommerce\/mobile_sales_error)/.test(event.url):
+                            nextState = 'mcommerce-sales-error';
+                            stepNext();
+                            break;
+                    }
                 });
             }
         } else if ($scope.form_url) {
