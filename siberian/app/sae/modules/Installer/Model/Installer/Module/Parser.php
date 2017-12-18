@@ -283,15 +283,29 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
         $moduleName = $this->getPackageDetails()->getData('name');
         $base = Core_Model_Directory::getBasePathTo('/app/local/modules/' . $moduleName . '/');
 
-        $files = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($base, 4608),
-            RecursiveIteratorIterator::SELF_FIRST
-        );
+        if (is_dir($base)) {
+            $files = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator($base, 4608),
+                RecursiveIteratorIterator::SELF_FIRST
+            );
 
-        foreach ($files as $file) {
-            if (!$file->isDir() && $file->isFile()) {
-                $path = $file->getPathname();
-                unlink($path);
+            foreach ($files as $file) {
+                if (!$file->isDir() && $file->isFile()) {
+                    $path = $file->getPathname();
+                    unlink($path);
+                }
+            }
+
+            $dirs = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator($base, 4608),
+                RecursiveIteratorIterator::SELF_FIRST
+            );
+
+            foreach ($dirs as $dir) {
+                if ($dir->isDir()) {
+                    $path = $dir->getPathname();
+                    unlink($path);
+                }
             }
         }
     }
