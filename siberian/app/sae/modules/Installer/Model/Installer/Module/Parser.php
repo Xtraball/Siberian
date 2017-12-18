@@ -431,7 +431,9 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
 
     protected function _delete() {
         foreach($this->_files_to_delete as $file) {
-            unlink(Core_Model_Directory::getBasePathTo($file));
+            if (file_exists(Core_Model_Directory::getBasePathTo($file))) {
+                unlink(Core_Model_Directory::getBasePathTo($file));
+            }
         }
         return true;
     }
