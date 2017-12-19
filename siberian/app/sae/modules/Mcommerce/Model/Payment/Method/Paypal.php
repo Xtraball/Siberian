@@ -125,8 +125,16 @@ class Mcommerce_Model_Payment_Method_Paypal extends Mcommerce_Model_Payment_Meth
      * @return Payment_Model_Paypal
      */
     protected function _getPaypalObject() {
-        $returnUrl = parent::getUrl('payment/paypal/confirm/sb-token/' . Zend_Session::getId());
-        $cancelUrl = parent::getUrl('payment/paypal/cancel/sb-token/' . Zend_Session::getId());
+        $cart = $this->getSession()->getCart();
+
+        $returnUrl = parent::getUrl('payment/paypal/confirm', [
+            'cart_id' => $cart->getId(),
+            'sb-token' => Zend_Session::getId()
+        ]);
+        $cancelUrl = parent::getUrl('payment/paypal/cancel', [
+            'cart_id' => $cart->getId(),
+            'sb-token' => Zend_Session::getId()
+        ]);
         
         $paypal = new Payment_Model_Paypal(
             $this->getUser(),

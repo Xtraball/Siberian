@@ -1,18 +1,19 @@
 <?php
 
-class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Default
-{
+/**
+ * Class Mcommerce_Mobile_CartController
+ */
+class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Default {
 
-    public function findAction()
-    {
+    public function findAction() {
 
         $option = $this->getCurrentOptionValue();
-
         $mcommerce = $option->getObject();
-
         $stores = $mcommerce->getStores();
 
-        $html = array("nb_stores" => count($stores));
+        $html = [
+            'nb_stores' => count($stores)
+        ];
 
         $cart = $this->getCart();
 
@@ -181,9 +182,11 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
             $html["cart"]["base_total_without_fees"] = (float)$base_total_without_fees;
         }
 
+        if ($cart->getId()) {
+            $this->getSession()->setCart($cart);
+        }
 
-
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
     }
 
     /**
@@ -462,11 +465,12 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
         } catch (Exception $e) {
             $html = array(
                 'error' => 1,
-                'message' => $this->_('An error occurred during the process. Please try again later.')
+                'message' => __('An error occurred during the process. Please try again later.'),
+                'debug' => $e->getMessage()
             );
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
     }
 
     public function adddiscountAction() {

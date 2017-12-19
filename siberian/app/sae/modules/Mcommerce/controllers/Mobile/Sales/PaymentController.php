@@ -149,8 +149,6 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
                 throw new Siberian_Exception(__('Missing params!'));
             }
 
-            Zend_Debug::dump($params);
-
             try {
                 $cart = $this->getCart();
                 $errors = $cart->check();
@@ -163,16 +161,12 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
                         ->setParams($params)
                         ->pay();
 
-                    Zend_Debug::dump($paymentIsValid);
-
                     if (!$paymentIsValid) {
                         throw new Siberian_Exception(
                             __('An error occurred while proceeding the payment. Please, try again later.'));
                     } else {
                         $statusId = Mcommerce_Model_Order::PAID_STATUS;
                     }
-
-                    Zend_Debug::dump($statusId);
                 }
 
                 if (empty($errors)) {
