@@ -8,25 +8,32 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
     /**
      * @var array
      */
-    public $_codes  = array(
-        "disable_cron",
-        "cron_interval",
-        "environment",
-        "update_channel",
-        "use_https",
-        "cpanel_type",
-        "letsencrypt_env",
-        "send_statistics",
-    );
+    public $_codes  = [
+        'disable_cron',
+        'cron_interval',
+        'environment',
+        'update_channel',
+        'use_https',
+        'cpanel_type',
+        'letsencrypt_env',
+        'send_statistics',
+        'session_handler',
+        'redis_endpoint',
+        'redis_prefix',
+        'redis_auth',
+    ];
 
-    public $_fake_password_key = "__not_safe_not_saved__";
+    /**
+     * @var string
+     */
+    public $_fake_password_key = '__not_safe_not_saved__';
 
     public function loadAction() {
 
-        $data = array(
-            "title"     => __("Advanced")." > ".__("Configuration"),
-            "icon"      => "fa-toggle-on",
-        );
+        $data = [
+            'title' => __('Advanced') . ' > ' . __('Configuration'),
+            'icon' => 'fa-toggle-on',
+        ];
 
         $this->_sendJson($data);
     }
