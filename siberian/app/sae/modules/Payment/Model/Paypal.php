@@ -167,11 +167,13 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
 
         $params = array_merge($params, [
             'METHOD' => $method,
-            'VERSION' => '74.0',
+            'VERSION' => '93',
             'USER' => $this->__user,
             'PWD' => $this->__pwd,
             'SIGNATURE' => $this->__signature,
         ]);
+
+        $logger->debug('TOTOT' . print_r($params, true));
 
         $params = http_build_query($params);
 
@@ -276,6 +278,12 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
             }
         }
 
+        // Strange
+        $params['L_PAYMENTREQUEST_0_NAME0'] = __('Order: ') . $order->getId();
+        $params['L_PAYMENTREQUEST_0_DESC0'] = __('Order: ') . $order->getId();
+        $params['L_PAYMENTREQUEST_0_QTY0'] = 1;
+        $params['L_PAYMENTREQUEST_0_AMT0'] = round($tmpTotal, 2);
+
         $params['PAYMENTREQUEST_0_ITEMAMT'] = round($tmpTotal, 2);
 
         // Sum of tax for all items in this order
@@ -322,7 +330,13 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
             Zend_Registry::get('logger')->log('Paypal token is missing.', Zend_Log::ERR);
         }
         
-        $response = $this->request(self::GET_EXPRESS_CHECKOUT_DETAILS, array('TOKEN' => $token));
+        $response = $this->request(self::GET_EXPRESS_CHECKOUT_DETAILS, [
+            'TOKEN' => $token
+        ]);
+
+        $logger = Zend_Registry::get('logger');
+        $logger->debug(print_r($response, true));
+
         if ($response) {
             if ($response['CHECKOUTSTATUS'] === 'PaymentActionCompleted') {
                 return true;
