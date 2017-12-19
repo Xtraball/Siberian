@@ -99,6 +99,56 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
         $this->_sendJson($payload);
     }
 
+    /**
+     * Migrate current in DB sessions to Redis
+     */
+    public function migratetoredisAction() {
+        try {
+            if (!class_exists('Redis')) {
+                throw new Siberian_Exception(__('php-redis module is required!'));
+            }
+
+            $config = Zend_Registry::get('config');
+            $dbConfig = $config->resources->db->params;
+
+            $keyPrefix = System_Model_Config::getValueFor('redis_prefix');
+            $endPoint = System_Model_Config::getValueFor('redis_endpoint');
+            $parts = parse_url($endPoint);
+            $auth = System_Model_Config::getValueFor('redis_auth');
+            if (!empty($auth)) {
+                $endPoint = $endPoint . '?auth=' . $auth;
+            }
+
+            $redis = new Redis();
+            $redis->connect($parts['host'], $parts['port']);
+            if (!empty($auth)) {
+                $redis->auth($auth);
+            }
+
+            $mysql = new MySQLi($dbConfig->host, $dbConfig->username, $dbConfig->password, $dbConfig->dbname);
+            $res = $mysql->query('SELECT * FROM session;');
+
+            while (NULL !== ($row = $res->fetch_array())) {
+                if (!empty($row['session_id']) && !empty($row['data'])) {
+                    $redis->set($keyPrefix . $row['session_id'], $row['data']);
+                }
+            }
+
+            $payload = [
+                'success' => true,
+                'message' => __('All sessions are now migrated to Redis.')
+            ];
+
+        } catch(Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
     public function saveAction() {
 
         if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
