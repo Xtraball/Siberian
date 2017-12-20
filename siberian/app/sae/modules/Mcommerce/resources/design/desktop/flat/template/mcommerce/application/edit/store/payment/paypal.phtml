@@ -1,0 +1,62 @@
+<?php
+$store = $this->getStore();
+$method = $store->getPaymentMethod('paypal');
+$methodId = $method->getId();
+$methodInstance = $method->getInstance();
+?>
+
+<div class="form-group paypal_data">
+    <div class="col-sm-3">
+        <label for="paypal_user"><?php echo __("Username:"); ?> <span>*</span></label>
+    </div>
+    <div class="col-sm-5">
+        <input type="text"
+               id="paypal_user"
+               class="input-flat required"
+               name="details_payment_methods[<?php echo $this->getMethodId(); ?>][user]"
+               value="<?php echo $methodInstance->getUser(); ?>"
+               placeholder="<?php echo __("Username"); ?>" />
+    </div>
+</div>
+<div class="form-group paypal_data">
+    <div class="col-sm-3">
+        <label for="paypal_password"><?php echo __("Password:"); ?> <span>*</span></label>
+    </div>
+    <div class="col-sm-5">
+        <input type="text"
+               id="paypal_password"
+               class="input-flat required"
+               name="details_payment_methods[<?php echo $this->getMethodId(); ?>][password]"
+               value="<?php echo $methodInstance->getPassword(); ?>"
+               placeholder="<?php echo __('Password'); ?>" />
+    </div>
+</div>
+<div class="form-group paypal_data">
+    <div class="col-sm-3">
+        <label for="paypal_signature">
+            <?php echo __("Signature:"); ?> <span>*</span>
+        </label>
+    </div>
+    <div class="col-sm-5">
+        <input type="text"
+               id="paypal_signature"
+               class="input-flat required"
+               name="details_payment_methods[<?php echo $this->getMethodId(); ?>][signature]"
+               value="<?php echo $methodInstance->getSignature(); ?>"
+               placeholder="<?php echo __('Signature'); ?>" />
+    </div>
+</div>
+<div class="form-group paypal_data">
+    <div class="col-sm-3">
+        <label for="is_testing">
+            <?php echo __('Enable test API ?'); ?>
+        </label>
+    </div>
+    <div class="col-sm-5">
+        <input type="checkbox"
+               id="is_testing"
+               class="input-flat"
+               name="details_payment_methods[<?php echo $this->getMethodId(); ?>][is_testing]"
+            <?php echo (boolean) $methodInstance->getIsTesting() === true ? 'checked="checked"' : ''; ?> />
+    </div>
+</div>

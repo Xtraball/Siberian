@@ -29,5 +29,14 @@ App.factory('AdvancedTools', function ($http, Url) {
         });
     };
 
+    factory.migrateSessions = function () {
+        return $http({
+            method: 'GET',
+            url: Url.get('backoffice/advanced_tools/migratetoredis'),
+            cache: false,
+            responseType: 'json'
+        });
+    };
+
     return factory;
 });

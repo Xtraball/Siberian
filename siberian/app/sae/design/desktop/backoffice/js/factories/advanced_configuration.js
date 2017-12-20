@@ -111,6 +111,5 @@ App.factory('AdvancedConfiguration', function ($http, Url) {
         });
     };
 
-
     return factory;
 });

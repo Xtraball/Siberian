@@ -16,48 +16,83 @@ class Mcommerce_Model_Store extends Core_Model_Default {
     }
 
     public function save() {
-
         parent::save();
 
         $tax = new Mcommerce_Model_Tax();
 
-        if($this->getNewTaxRate()) {
+        if ($this->getNewTaxRate()) {
             $tax_rate = str_replace(',', '.', $this->getNewTaxRate());
             $tax_rate = floatval(preg_replace('/[^0-9.]*/', '', $tax_rate));
-            if($tax_rate < 1) $tax_rate *= 100;
-            $tax_datas = array(
+            if ($tax_rate < 1) {
+                $tax_rate *= 100;
+            }
+            $tax_datas = [
                 'mcommerce_id' => $this->getMcommerceId(),
                 'name' => $tax_rate.'%',
                 'rate' => $tax_rate
-//                'store_taxes' => array(
-//                    $this->getId() => $tax_rate
-//                )
-            );
+            ];
 
             $tax->setData($tax_datas)->save();
             $this->_taxes = null;
         }
 
-        if($this->getNewDeliveryMethods()) {
+        if ($this->getNewDeliveryMethods()) {
             $delivery_method_datas = $this->getNewDeliveryMethods();
-            foreach($delivery_method_datas as $key => $delivery_method_data) {
-                if(!empty($delivery_method_data['price']) AND empty($delivery_method_data['tax_id']) AND $tax->getId()) {
+            foreach ($delivery_method_datas as $key => $delivery_method_data) {
+                if (!empty($delivery_method_data['price']) &&
+                    empty($delivery_method_data['tax_id']) &&
+                    $tax->getId()) {
                     $delivery_method_data['tax_id'] = $tax->getId();
                     $delivery_method_datas[$key] = $delivery_method_data;
                 }
             }
 
-            $delivery_method = new Mcommerce_Model_Delivery_Method();
-            $delivery_method->saveStoreDatas($this->getId(), $delivery_method_datas);
+            (new Mcommerce_Model_Delivery_Method())
+                ->saveStoreDatas($this->getId(), $delivery_method_datas);
         }
 
-        if($this->getNewPaymentMethods()) {
-            $payment_method = new Mcommerce_Model_Payment_Method();
-            $payment_method->saveStoreDatas($this->getId(), $this->getNewPaymentMethods());
+
+        $paymentMethods = (new Mcommerce_Model_Payment_Method())->findAll();
+
+        $formPaymentMethods = $this->getData('payment_methods');
+        $formPaymentMethodsData = $this->getData('details_payment_methods');
+
+        foreach ($paymentMethods as $paymentMethod) {
+            $class = 'Mcommerce_Model_Payment_Method_' . ucfirst(str_replace('_', '', $paymentMethod->getCode()));
+            if (class_exists($class)) {
+                $instanceMethod = (new $class())
+                    ->find($this->getId(), 'store_id');
+
+                if (in_array($paymentMethod->getMethodId(), array_keys($formPaymentMethods)) &&
+                    isset($formPaymentMethodsData[$paymentMethod->getMethodId()])) {
+                    // Update
+                    $instanceMethod
+                        ->setData($formPaymentMethodsData[$paymentMethod->getMethodId()])
+                        ->setData('store_id', $this->getId())
+                        ->save();
+
+                    (new Mcommerce_Model_Store_Payment_Method())
+                        ->find([
+                            'method_id' => $paymentMethod->getMethodId(),
+                            'store_id' => $this->getId(),
+                        ])
+                        ->setStoreId($this->getId())
+                        ->setMethodId($paymentMethod->getMethodId())
+                        ->save();
+                } else {
+                    // Delete
+                    $instanceMethod
+                        ->delete();
+                    (new Mcommerce_Model_Store_Payment_Method())
+                        ->find([
+                            'method_id' => $paymentMethod->getMethodId(),
+                            'store_id' => $this->getId(),
+                        ])->delete();
+                }
+            }
         }
 
         return $this;
-
     }
 
     public function getFullAddress($separator = '<br />') {
@@ -119,7 +154,7 @@ class Mcommerce_Model_Store extends Core_Model_Default {
 
     public function hasDeliveryMethod($id) {
 
-        if(!$this->_delivery_method_ids) {
+        if (!$this->_delivery_method_ids) {
             $this->_delivery_method_ids = array();
             foreach($this->getDeliveryMethods() as $method) {
                 $this->_delivery_method_ids[] = $method->getId();
@@ -129,9 +164,12 @@ class Mcommerce_Model_Store extends Core_Model_Default {
         return in_array($id, $this->_delivery_method_ids);
     }
 
+    /**
+     * @return Mcommerce_Model_Payment_Method[]
+     */
     public function getPaymentMethods() {
 
-        if(!$this->_payment_methods) {
+        if (!$this->_payment_methods) {
             $delivery_method = new Mcommerce_Model_Payment_Method();
             $this->_payment_methods = $delivery_method->findByStore($this->getId());
         }
@@ -142,9 +180,11 @@ class Mcommerce_Model_Store extends Core_Model_Default {
 
     public function getPaymentMethod($method_id) {
 
-        foreach($this->getPaymentMethods() as $method) {
-            if((is_numeric($method_id) AND $method->getId() == $method_id)
-                OR ($method->getCode() == $method_id)) return $method;
+        foreach ($this->getPaymentMethods() as $method) {
+            if ((is_numeric($method_id) AND $method->getId() == $method_id)
+                OR ($method->getCode() == $method_id)) {
+                return $method;
+            }
         }
 
         return new Mcommerce_Model_Payment_Method();
@@ -152,7 +192,7 @@ class Mcommerce_Model_Store extends Core_Model_Default {
 
     public function getPaymentMethodByCode($method_code) {
 
-        foreach($this->getPaymentMethods() as $method) {
+        foreach ($this->getPaymentMethods() as $method) {
             if($method->getCode() == $method_code) return $method;
         }
 

@@ -57,28 +57,10 @@ angular.module('starter').factory('McommerceSalesPayment', function ($pwaRequest
             data: {
                 validate_payment: 1,
                 customer_uuid: $session.getDeviceUid(),
-                notes: factory.notes || '' // TG-459
+                notes: factory.notes || ''
             }
         });
-    };
-
-    factory.validateOnlinePayment = function (token, payer_id) {
-        if (!this.value_id) {
-            return $pwaRequest.reject('[McommerceSalesPayment::validateOnlinePayment] missing value_id.');
-        }
-
-        return $pwaRequest.post('mcommerce/mobile_sales_payment/validatepayment', {
-            urlParams: {
-                value_id: this.value_id
-            },
-            data: {
-                token: token,
-                PayerID: payer_id,
-                payer_id: payer_id,
-                is_ajax: 1
-            }
-        });
-    };
+    }
 
     return factory;
 });

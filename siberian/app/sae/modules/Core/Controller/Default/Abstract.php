@@ -543,16 +543,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         $configSession = new Zend_Config_Ini(APPLICATION_PATH . '/configs/session.ini', APPLICATION_ENV);
 
         if(!$this->getRequest()->isInstalling()) {
-            $config = array(
-                'name'           => 'session',
-                'primary'        => 'session_id',
-                'modifiedColumn' => 'modified',
-                'dataColumn'     => 'data',
-                'lifetimeColumn' => 'lifetime',
-                'lifetime'       => $configSession->gc_maxlifetime
-            );
-
-            Zend_Session::setSaveHandler(new Zend_Session_SaveHandler_DbTable($config));
+            Siberian_Session::init($configSession);
         }
 
         if(!$this->getRequest()->isInstalling() OR is_writable(Core_Model_Directory::getSessionDirectory(true))) {
