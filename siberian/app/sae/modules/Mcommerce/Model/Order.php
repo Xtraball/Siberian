@@ -8,6 +8,13 @@
  * @method $this setHidePaidAmount(bool $hideAmount)
  * @method integer getId()
  * @method float getTotal()
+ * @method float getTotalTax()
+ * @method float getSubtotalExclTax()
+ * @method float getDeliveryCost()
+ * @method float getDeliveryCostInclTax()
+ * @method string getDiscountCode()
+ * @method float getDbTaxRate()
+ * @method Subscription_Model_Subscription getSubscription()
  */
 class Mcommerce_Model_Order extends Core_Model_Default {
 
@@ -189,13 +196,14 @@ class Mcommerce_Model_Order extends Core_Model_Default {
     /**
      * Récupère les lignes du panier en base
      *
-     * @return Siberian_Db_Table_Rowset Collection de lignes du panier
+     * @return Mcommerce_Model_Order_Line[] Collection de lignes du panier
      */
     public function getLines() {
-
-        if(!$this->_lines) {
+        if (!$this->_lines) {
             $line = new Mcommerce_Model_Order_Line();
-            $this->_lines = $line->findAll(array('order_id' => $this->getId()));
+            $this->_lines = $line->findAll([
+                'order_id' => $this->getId()
+            ]);
         }
 
         return $this->_lines;

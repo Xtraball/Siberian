@@ -269,6 +269,11 @@ $default_store = $mcommerce->getDefaultStore();
         </h3>
         <div class="container-fluid first-row-feature">
             <div class="form-group">
+                <div class="col-sm-12">
+                    <div class="alert alert-info">
+                        <?php echo __('When selecting \'Enable test API\' in a payment method, be sure to create test credentials, check the documentation of your payment method.') ?>
+                    </div>
+                </div>
                 <div class="col-sm-3">
                     <label>
                         <?php echo __('Payment methods:'); ?> <span>*</span>
