@@ -19,7 +19,7 @@ let clc = require('cli-color'),
     sh = require('shelljs');
 
 const notifier = require('node-notifier'),
-      http = require('http');
+      axios = require('axios');
 
 let platforms = [
     'android',
@@ -334,7 +334,7 @@ let cli = function (inputArgs) {
             packModules.forEach(function (module) {
                 pack(module);
             });
-        } else if (args.mver) {
+        } else if (args.moduleversion) {
             let mverModuleName = '';
             if (remain.length >= 2) {
                 mverModuleName = remain[1].toLowerCase();
@@ -498,19 +498,24 @@ let cleanDupesSort = function (file) {
  */
 let rebuildManifest = function () {
     sprint('Rebuilding app manifest.');
-    let developer = require(ROOT + '/developer.json');
-
-    const domain = developer.config.domain;
+    const developer = require(ROOT + '/developer.json');
     const port = developer.config.port || 80;
-    const options = {
-        host: domain,
-        port: port,
-        path: '/backoffice/api_options/manifest',
-        headers: {
-         'Authorization': 'Basic ' + new Buffer(developer.dummyEmail + ':' + developer.dummyPassword).toString('base64')
-        }
+    const requestDefaultHeaders = {
+        'Authorization': 'Basic ' + new Buffer(developer.dummyEmail + ':' + developer.dummyPassword).toString('base64')
     };
-    const failed = (error) => {
+    const protocol = (port === 80) ? 'http://' : 'https://';
+
+    axios.get(protocol + developer.config.domain + '/backoffice/api_options/manifest', {
+        responseType: 'json',
+        headers: requestDefaultHeaders
+    }).then(function (response) {
+        if (response.data.success) {
+            sprint(clc.green(response.data.message));
+            notify('Rebuild manifest succeeded');
+        } else {
+            throw (new Error(response.data.message));
+        }
+    }).catch(function (error) {
         if (typeof error === 'object' && error.hasOwnProperty('message')) {
             sprint('Unexpected error: ' + clc.red(error.message));
             console.log(error);
@@ -519,49 +524,7 @@ let rebuildManifest = function () {
         notify('Rebuild manifest FAILED.', {
             sound: 'Frog'
         });
-    };
-
-    try {
-        http.get(options, (res) => {
-            try {
-                const { statusCode } = res;
-                const contentType = res.headers['content-type'];
-
-                let error;
-                if (statusCode !== 200) {
-                  error = new Error('Request Failed.\n' +
-                                    `Status Code: ${statusCode}`);
-                } else if (!/^application\/json/.test(contentType)) {
-                  error = new Error('Invalid content-type.\n' +
-                                    `Expected application/json but received ${contentType}`);
-                }
-
-                res.setEncoding('utf8');
-                let rawData = '';
-                res.on('data', (chunk) => {
-                    rawData += chunk;
-                });
-                res.on('end', () => {
-                  try {
-                      let jsonResult = JSON.parse(rawData);
-                      if (jsonResult.success) {
-                          sprint(clc.green(jsonResult.message));
-                          notify('Rebuild manifest succeeded');
-                      } else {
-                          throw (new Error(jsonResult.message));
-                      }
-                  } catch (e) {
-                      failed(e);
-                  }
-                });
-
-            } catch (e) {
-                failed(e);
-            }
-        }).on('error', failed);
-    } catch (e) {
-        failed(e);
-    }
+    });
 };
 
 /**
@@ -1050,7 +1013,7 @@ let switchType = function (type, reinstall, emptydb) {
 
     let appIni = fs.readFileSync(iniPath, 'utf8');
     appIni = appIni.replace(/dbname = '(.*)'/, 'dbname = "' +
-        developer.mysql.database_prefix+type.toLowerCase() + '"');
+        developer.mysql.databasePrefix+type.toLowerCase() + '"');
 
     // Reset the isInstalled var.!
     if (reinstall) {
@@ -1061,7 +1024,7 @@ let switchType = function (type, reinstall, emptydb) {
     if (emptydb) {
         let mysqlUsername = developer.mysql.username;
         let mysqlPassword = developer.mysql.password;
-        let mysqlDatabasePrefix = developer.mysql.database_prefix;
+        let mysqlDatabasePrefix = developer.mysql.databasePrefix;
 
         sh.exec('mysql -u ' + mysqlUsername +
             ' -p' + mysqlPassword +
@@ -1168,7 +1131,7 @@ let init = function () {
                             prompt('Mysql Hostname', developer.mysql.host, function (mysqlHost) {
                                 prompt('Mysql Username', developer.mysql.username, function (mysqlUsername) {
                                     prompt('Mysql Password', developer.mysql.password, function (mysqlPassword) {
-                                        prompt('Mysql Database prefix', developer.mysql.database_prefix, function (mysqlDatabasePrefix) {
+                                        prompt('Mysql Database prefix', developer.mysql.databasePrefix, function (mysqlDatabasePrefix) {
 
                                             let newDeveloper = {
                                                 name: name,
@@ -1573,13 +1536,13 @@ let mver = function (version, module) {
         currentEdition = currentVersion.match(/const TYPE = '([a-z])+';/gi),
         mysqlUsername = developer.mysql.username,
         mysqlPassword = developer.mysql.password,
-        mysqlDatabasePrefix = developer.mysql.database_prefix,
-        query = 'UPDATE `module` SET `version` = \'' + version + '\' ';
+        mysqlDatabasePrefix = developer.mysql.databasePrefix,
+        query = 'UPDATE `module` SET `version` = "' + version + '" ';
 
     currentEdition = currentEdition[0].replace(/(const TYPE = '|';)/g, '').toLowerCase();
 
     if (module.trim() !== '') {
-        query = query + ' WHERE `name` LIKE \'%' + module.trim() + '%\'';
+        query = query + ' WHERE `name` LIKE "%' + module.trim() + '%"';
     }
 
     sh.exec('mysql -u ' + mysqlUsername +

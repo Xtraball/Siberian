@@ -254,17 +254,19 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
     }
 
     public function copy() {
-
         $this->_parse();
         $this->_prepareFilesToDelete();
 
-        //$this->_backup();
-
-        if(!$this->_delete()) {
+        if (!$this->_delete()) {
             return false;
         }
 
-        if(!$this->_copy()) {
+        // Clear module in case of update
+        if ($this->getPackageDetails()->getReplaceModule()) {
+            $this->_clearModule();
+        }
+
+        if (!$this->_copy()) {
             return false;
         }
 
@@ -274,39 +276,72 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
 
     }
 
+    /**
+     * Complete clean up of a module (removing all unwanted files)
+     */
+    private function _clearModule () {
+        $moduleName = $this->getPackageDetails()->getData('name');
+        $base = Core_Model_Directory::getBasePathTo('/app/local/modules/' . $moduleName . '/');
+
+        if (is_dir($base)) {
+            $files = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator($base, 4608),
+                RecursiveIteratorIterator::SELF_FIRST
+            );
+
+            foreach ($files as $file) {
+                if (!$file->isDir() && $file->isFile()) {
+                    $path = $file->getPathname();
+                    unlink($path);
+                }
+            }
+
+            $dirs = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator($base, 4608),
+                RecursiveIteratorIterator::SELF_FIRST
+            );
+
+            foreach ($dirs as $dir) {
+                if ($dir->isDir()) {
+                    $path = $dir->getPathname();
+                    unlink($path);
+                }
+            }
+        }
+    }
+
     public function checkPermissions() {
 
         $this->_parse();
         $this->_prepareFilesToDelete();
 
-        foreach($this->_files as $file) {
+        foreach ($this->_files as $file) {
             $info = pathinfo($file['destination']);
             $dirname = $info['dirname'];
-            if(is_dir($dirname) && !is_writable($dirname)) {
+            if (is_dir($dirname) && !is_writable($dirname)) {
                 $dirname = str_replace(Core_Model_Directory::getBasePathTo(), '', $dirname);
                 $errors[] = $dirname;
             }
-            if(is_file($file['destination']) && !is_writable($file['destination'])) {
+            if (is_file($file['destination']) && !is_writable($file['destination'])) {
                 $filename = str_replace(Core_Model_Directory::getBasePathTo(), '', $file["destination"]);
                 $errors[] = $filename;
             }
         }
 
-        foreach($this->_files_to_delete as $file) {
-            if(is_file($file) AND !is_writable($file)) {
+        foreach ($this->_files_to_delete as $file) {
+            if (is_file($file) && !is_writable($file)) {
                 $filename = str_replace(Core_Model_Directory::getBasePathTo(), '', $file);
                 $errors[] = $filename;
             }
         }
 
-        if(!empty($errors)) {
+        if (!empty($errors)) {
             $errors = array_unique($errors);
-            $message = "- ".implode('<br /> - ', $errors);
+            $message = '- ' . implode('<br /> - ', $errors);
 
             $this->_addError($message);
 
             return false;
-
         }
 
         return true;
@@ -362,15 +397,12 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
     }
 
     protected function _prepareFilesToDelete() {
-
         $files = $this->getPackageDetails()->getFilesToDelete();
-
-        foreach($files as $file) {
+        foreach ($files as $file) {
             $this->_files_to_delete[] = $file;
         }
 
         return $this;
-
     }
 
     /** Pre-update backup saving file to be deleted & files to be replaced. */
@@ -398,24 +430,21 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
     }
 
     protected function _delete() {
-
         foreach($this->_files_to_delete as $file) {
-            unlink(Core_Model_Directory::getBasePathTo($file));
+            if (file_exists(Core_Model_Directory::getBasePathTo($file))) {
+                unlink(Core_Model_Directory::getBasePathTo($file));
+            }
         }
-
         return true;
-
     }
 
     protected function _copy() {
-
-        $errors = array();
-        foreach($this->_files as $file) {
+        $errors = [];
+        foreach ($this->_files as $file) {
             $info = pathinfo($file['destination']);
-            if(!is_dir($info['dirname'])) {
-
-                if(!mkdir($info['dirname'], 0775, true)) {
-                    if($this->__getFtp()) {
+            if (!is_dir($info['dirname'])) {
+                if (!mkdir($info['dirname'], 0775, true)) {
+                    if ($this->__getFtp()) {
                         if (!$this->__getFtp()->createDirectory($file)) {
                             $errors[] = $info['dirname'];
                         }

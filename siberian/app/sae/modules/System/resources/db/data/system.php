@@ -216,6 +216,26 @@ $configs = array(
         "label" => "Invoices footer message",
         "value" => ""
     ),
+    [
+        'code' => 'session_handler',
+        'label' => 'Session handler',
+        'value' => 'mysql',
+    ],
+    [
+        'code' => 'redis_endpoint',
+        'label' => 'Redis endpoint',
+        'value' => '',
+    ],
+    [
+        'code' => 'redis_prefix',
+        'label' => 'Redis prefix',
+        'value' => 'PHPREDIS_SESSIONS:',
+    ],
+    [
+        'code' => 'redis_auth',
+        'label' => 'Redis AUTH KEY',
+        'value' => '',
+    ],
     array(
         "code" => "privacy_policy",
         "label" => "Default privacy policy",

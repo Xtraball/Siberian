@@ -64,12 +64,6 @@ angular.module('starter').config(function ($stateProvider) {
             templateUrl: 'templates/mcommerce/l1/sales/confirmation.html',
             cache: false,
             resolve: lazyLoadResolver('m_commerce')
-        }).state('mcommerce-sales-confirmation-payment', {
-            url: BASE_PATH + '/mcommerce/mobile_sales_confirmation/confirm/token/:token/payer_id/:payer_id/value_id/:value_id',
-            controller: 'MCommerceSalesConfirmationConfirmPaymentController',
-            templateUrl: 'templates/mcommerce/l1/sales/confirmation.html',
-            cache: false,
-            resolve: lazyLoadResolver('m_commerce')
         });
 });
 

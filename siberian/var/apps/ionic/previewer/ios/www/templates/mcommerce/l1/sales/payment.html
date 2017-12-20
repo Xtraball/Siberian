@@ -15,7 +15,12 @@
             </div>
         </div>
         <ion-list>
-            <ion-radio class="radio-custom" ng-model="cart.paymentMethodId" ng-value="paymentMethod.id" ng-repeat="paymentMethod in paymentMethods" ng-click="cart.paymentMethodId = paymentMethod.id" ng-if="paymentMethod.code != 'free'">
+            <ion-radio class="radio-custom"
+                       ng-model="cart.paymentMethodId"
+                       ng-value="paymentMethod.id"
+                       ng-repeat="paymentMethod in paymentMethods"
+                       ng-click="cart.paymentMethodId = paymentMethod.id"
+                       ng-if="paymentMethod.code != 'free'">
                 {{ paymentMethod.name }}
             </ion-radio>
         </ion-list>
