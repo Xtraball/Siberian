@@ -1,6 +1,7 @@
 # Production/User configuration file
 /config.php
 /.htaccess
+/isolate*
 
 # Let's Encrypt
 .well-known

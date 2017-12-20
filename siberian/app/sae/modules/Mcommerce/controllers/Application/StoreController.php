@@ -10,9 +10,9 @@ class Mcommerce_Application_StoreController extends Application_Controller_Defau
 
         $store = new Mcommerce_Model_Store();
         $mcommerce = $this->getCurrentOptionValue()->getObject();
-        if($id = $this->getRequest()->getParam('store_id')) {
+        if ($id = $this->getRequest()->getParam('store_id')) {
             $store->find($id);
-            if($store->getId() AND $mcommerce->getId() != $store->getMcommerceId()) {
+            if ($store->getId() AND $mcommerce->getId() != $store->getMcommerceId()) {
                 throw new Exception(__('An error occurred during the process. Please try again later.'));
             }
         }
@@ -45,6 +45,8 @@ class Mcommerce_Application_StoreController extends Application_Controller_Defau
                 if ($store->getId() && $mcommerce->getId() !== $store->getMcommerceId()) {
                     throw new Siberian_Exception(__('The store & mcommerce instances mismatch!'));
                 }
+            } else {
+                $store = new Mcommerce_Model_Store();
             }
 
             // Upsert delivery methods!

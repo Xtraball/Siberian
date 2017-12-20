@@ -10,45 +10,54 @@
  * Contains all common references for Siberian_Cache_*
  */
 
-class Siberian_Cache
-{
-    public static $caches = array();
+class Siberian_Cache {
 
-    public static $editions = array(
-        "sae"   => array("sae", "local"),
-        "mae"   => array("sae", "mae", "local"),
-        "pe"    => array("sae", "mae", "pe", "local"),
-        "demo"  => array("sae", "mae", "pe", "demo", "local"),
-    );
+    const LOCAL_PATH = 'app/local/';
+    const DEMO_PATH = 'app/demo/';
+    const PE_PATH = 'app/pe/';
+    const MAE_PATH = 'app/mae/';
+    const SAE_PATH = 'app/sae/';
 
-    public static $registered_caches = array();
+    /**
+     * @var array
+     */
+    public static $caches = [];
 
-    const LOCAL_PATH    = "app/local/";
-    const DEMO_PATH     = "app/demo/";
-    const PE_PATH       = "app/pe/";
-    const MAE_PATH      = "app/mae/";
-    const SAE_PATH      = "app/sae/";
+    /**
+     * @var array
+     */
+    public static $editions = [
+        'sae'   => ['sae', 'local'],
+        'mae'   => ['sae', 'mae', 'local'],
+        'pe'    => ['sae', 'mae', 'pe', 'local'],
+        'demo'  => ['sae', 'mae', 'pe', 'demo', 'local'],
+    ];
 
+    /**
+     * @var array
+     */
+    public static $registered_caches = [];
+
+    /**
+     * @return bool
+     */
     public static function init() {
         $basePathCache = Core_Model_Directory::getBasePathTo(static::CACHE_PATH);
-        /** Never cache in development */
-        if(static::CACHING && is_readable($basePathCache)) {
+        // Never cache in development!
+        if (static::CACHING && is_readable($basePathCache)) {
             $cached = json_decode(file_get_contents($basePathCache), true);
-            if(is_null($cached)) {
-                # Otherwise run without cache.
+            if (is_null($cached)) {
+                // Otherwise run without cache!
                 self::run();
                 return true;
             }
 
-            if(!empty($cached)) {
+            if (!empty($cached)) {
                 static::$caches[static::CODE] = $cached;
             }
-
         } else {
-
             self::run();
-
-            if(static::CACHING) {
+            if (static::CACHING) {
                 $jsonCache = json_encode(static::$caches[static::CODE]);
                 if($jsonCache !== false) {
                     file_put_contents($basePathCache, $jsonCache);
