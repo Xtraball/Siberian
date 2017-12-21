@@ -65,7 +65,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                         if (file_exists($test_file)) {
                             unlink($test_file);
                         }
-                        exec('unzip {$zip_file}');
+                        exec('unzip test.zip');
                         if (!file_exists($test_file)) {
                             $_errors[] = 'Please enable/add binary: unzip';
                             $fatalErrors = true;
@@ -145,6 +145,11 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 }
 
                 $payload = $this->_getPackageDetails($tmp_path);
+            } else {
+                $payload = [
+                    'success' => true,
+                    'message' => __($data['message'])
+                ];
             }
         } catch (Exception $e) {
             $payload = [
