@@ -63,12 +63,19 @@ class Mcommerce_Model_Store extends Core_Model_Default {
                 $instanceMethod = (new $class())
                     ->find($this->getId(), 'store_id');
 
+                print_r($formPaymentMethodsData[$paymentMethod->getMethodId()]);
+
                 if (in_array($paymentMethod->getMethodId(), array_keys($formPaymentMethods)) &&
                     isset($formPaymentMethodsData[$paymentMethod->getMethodId()])) {
+
+                    $paymentData = $formPaymentMethodsData[$paymentMethod->getMethodId()];
+                    $isTesting = isset($paymentData['is_testing']);
+
                     // Update
                     $instanceMethod
-                        ->setData($formPaymentMethodsData[$paymentMethod->getMethodId()])
+                        ->setData($paymentData)
                         ->setData('store_id', $this->getId())
+                        ->setIsTesting($isTesting)
                         ->save();
 
                     (new Mcommerce_Model_Store_Payment_Method())
