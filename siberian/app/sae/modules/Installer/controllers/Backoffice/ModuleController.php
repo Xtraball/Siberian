@@ -38,7 +38,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
     public function downloadupdateAction() {
         try {
             $fatalErrors = false;
-            $_errors = array();
+            $_errors = [];
 
             if (function_exists('exec')) {
                 // Testing zip/unzip !
