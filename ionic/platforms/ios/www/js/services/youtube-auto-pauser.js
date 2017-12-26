@@ -1,5 +1,5 @@
-/* global
- angular, YT
+/**
+ * YouTubeAutoPauser
  */
 angular.module('starter').service('YouTubeAutoPauser', function ($ionicPlatform, $window) {
     var iframes = [];
