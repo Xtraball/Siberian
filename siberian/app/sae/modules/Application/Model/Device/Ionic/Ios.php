@@ -174,14 +174,6 @@ var BASE_URL = DOMAIN + BASE_PATH;
 var IMAGE_URL = DOMAIN + '/';";
 
         file_put_contents($this->_dest_source."/www/js/utils/url.js", $url_js_content);
-
-        /** Embed CSS */
-        //$app_id = $this->getApplication()->getId();
-        //$base_css = Core_Model_Directory::getBasePathTo("var/cache/css/{$app_id}.css");
-        //if(is_readable($base_css)) {
-        //    file_put_contents($this->_dest_source."/assets/www/css/app.css", file_get_contents($base_css));
-        //}
-
     }
 
     protected function _prepareLanguages() {
@@ -211,7 +203,6 @@ if(navigator.language) {
 }";
 
         file_put_contents($this->_dest_source."/www/js/utils/languages.js", $file_content);
-
     }
 
     private function __getUrlValue($key) {

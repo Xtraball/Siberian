@@ -1,0 +1,50 @@
+<?php
+/**
+ * Class Application_Form_NsDescription
+ */
+class Application_Form_NsDescription extends Siberian_Form_Abstract {
+
+    public function init() {
+        parent::init();
+
+        $this
+            ->setAction(__path('/application/settings_advanced/savensdescription'))
+            ->setAttrib('id', 'form-application-advanced-ns')
+        ;
+
+        // Bind as a onchange form!
+        self::addClass('create', $this);
+
+        $this->addSimpleText('ns_camera_ud',
+            __('NSCameraUsageDescription'))
+            ->setDescription(__('Specifies the reason for your app to access the device\'s camera.'))
+            ->setAttrib('maxlength', 256);
+
+        $this->addSimpleText('ns_photo_library_ud',
+            __('NSPhotoLibraryUsageDescription'))
+            ->setDescription(__('Specifies the reason for your app to access the user\'s photo library.'))
+            ->setAttrib('maxlength', 256);
+
+        $this->addSimpleText('ns_location_when_in_use_ud',
+            __('NSLocationWhenInUseUsageDescription'))
+            ->setDescription(__('Specifies the reason for your app to access the user’s location information while your app is in use.'))
+            ->setAttrib('maxlength', 256);
+
+        $this->addSimpleText('ns_location_always_ud',
+            __('NSLocationAlwaysUsageDescription'))
+            ->setDescription(__('Specifies the reason for your app to access the user\'s location information at all times.'))
+            ->setAttrib('maxlength', 256);
+
+        $this->addSimpleText('ns_location_always_and_when_in_use_ud',
+            __('NSLocationAlwaysAndWhenInUseUsageDescription'))
+            ->setDescription(__('Message for both the two previous usages.'))
+            ->setAttrib('maxlength', 256);
+
+        $this->addSimpleText('ns_motion_ud',
+            __('NSMotionUsageDescription'))
+            ->setDescription(__('Specifies the reason for your app to access the device\'s accelerometer.'))
+            ->setAttrib('maxlength', 256);
+
+        $this->addSubmit(__('Save'));
+    }
+}
