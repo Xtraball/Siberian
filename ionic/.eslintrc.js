@@ -43,6 +43,8 @@ module.exports = {
         "lazyLoadResolver": true,
         "isOverview": true,
         "isNativeApp": true,
+        "CURRENT_LANGUAGE": true,
+        "AVAILABLE_LANGUAGES": true,
         "_": true
     },
     "extends": "eslint:recommended",
