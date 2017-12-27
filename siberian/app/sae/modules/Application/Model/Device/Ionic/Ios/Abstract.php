@@ -228,8 +228,11 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
             'NSMotionUsageDescription' => 'ns_motion_ud'
         ];
         foreach ($NSDescriptions as $key => $NSDescription) {
+            // Placeholders!
+            $dataString = str_replace('#APP_NAME', $this->_application_name, $device->getData($NSDescription));
+
             $root->removeProperty($key);
-            $root->addProperty(\PListEditor\PListProperty::PL_STRING, $device->getData($NSDescription), $key);
+            $root->addProperty(\PListEditor\PListProperty::PL_STRING, $dataString, $key);
         }
 
         // Orientation!
