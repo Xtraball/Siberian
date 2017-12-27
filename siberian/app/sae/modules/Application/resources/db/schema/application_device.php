@@ -194,7 +194,7 @@ $schemas['application_device'] = array(
         'default' => 'Smart navigation with TaxiRide and other nice features',
     ],
     'orientations' => [
-        'type' => 'text',
+        'type' => 'varchar(1024)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
