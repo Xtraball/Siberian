@@ -1,22 +1,21 @@
-/*global
- angular, localStorage, device
+/**
+ * $session service
  */
-
 angular.module('starter').service('$session', function ($log, $pwaCache, $q, $window) {
     $log.debug('Init once $session');
 
     var service = {
-        localstorage_key    : 'sb-auth-token',
-        session_id          : false,
-        device_uid          : null,
-        device_width        : 512,
-        device_height       : 512,
-        device_orientation  : 'portrait',
-        is_loaded           : false,
-        resolver            : $q.defer()
+        localstorage_key: 'sb-auth-token',
+        session_id: false,
+        device_uid: null,
+        device_width: 512,
+        device_height: 512,
+        device_orientation: 'portrait',
+        is_loaded: false,
+        resolver: $q.defer()
     };
 
-    /** Be sure the session is loaded */
+    // Be sure the session is loaded!
     Object.defineProperty(service, 'loaded', {
         get: function () {
             if (service.is_loaded) {
@@ -33,6 +32,7 @@ angular.module('starter').service('$session', function ($log, $pwaCache, $q, $wi
     });
 
     /**
+     * setId
      *
      * @param sessionId
      */
@@ -83,12 +83,16 @@ angular.module('starter').service('$session', function ($log, $pwaCache, $q, $wi
             }
         }
 
-        /** And finally if we really don't get it */
-        if (service.device_uid ==='""' || service.device_uid === undefined) {
+        // And finally if we really don't get it!
+        if (service.device_uid === '""' || service.device_uid === undefined) {
             service.device_uid = 'unknown_' + service.getId();
         }
     };
 
+    /**
+     *
+     * @returns {null}
+     */
     service.getDeviceUid = function () {
         return service.device_uid;
     };
@@ -108,7 +112,8 @@ angular.module('starter').service('$session', function ($log, $pwaCache, $q, $wi
      * @returns {{width: number, height: number, orientation: string}}
      */
     service.setDeviceScreen = function (width, height) {
-        var orientation = ($window.matchMedia('(orientation: portrait)').matches) ? 'portrait' : 'landscape';
+        var orientation = ($window.matchMedia('(orientation: portrait)').matches) ?
+            'portrait' : 'landscape';
 
         service.device_width = width;
         service.device_height = height;

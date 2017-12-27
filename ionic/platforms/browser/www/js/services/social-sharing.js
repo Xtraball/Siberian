@@ -1,14 +1,9 @@
-/*global
-    App, DOMAIN
- */
-
 /**
  * SocialSharing
  *
  * @author Xtraball SAS
  */
-angular.module("starter").service("SocialSharing", function($cordovaSocialSharing, $translate, $q, Application) {
-
+angular.module('starter').service('SocialSharing', function ($cordovaSocialSharing, $translate, $q, Application) {
     var service = {
         is_sharing: false
     };
@@ -21,37 +16,38 @@ angular.module("starter").service("SocialSharing", function($cordovaSocialSharin
      * @param subject
      * @param link
      * @param file
+     *
+     * @return Promise promise
      */
-    service.share = function(content, message, subject, link, file) {
-
-        if(service.is_sharing) {
-            return;
+    service.share = function (content, message, subject, link, file) {
+        if (service.is_sharing) {
+            return $q.reject();
         }
 
         service.is_sharing = true;
 
-        if(content === undefined) {
-            content = "this";
+        if (content === undefined) {
+            content = 'this';
         }
 
-        /** For mobile */
-        var download_app_link = DOMAIN + "/application/device/downloadapp/app_id/" + Application.app_id;
+        // For mobile!
+        var download_app_link = DOMAIN + '/application/device/downloadapp/app_id/' + Application.app_id;
 
-        /** Generic message */
-        var generic_message = $translate.instant("Hi. I just found $1 in the $2 app.")
-                                .replace("$1", content)
-                                .replace("$2", Application.app_name);
+        // Generic message!
+        var generic_message = $translate.instant('Hi. I just found $1 in the $2 app.')
+                                .replace('$1', content)
+                                .replace('$2', Application.app_name);
 
-        if(message !== undefined) {
+        if (message !== undefined) {
             message = $translate.instant(message)
-                .replace("$1", content)
-                .replace("$2", Application.app_name);
+                .replace('$1', content)
+                .replace('$2', Application.app_name);
         }
 
-        var _link       = (link === undefined) ? download_app_link : link;
-        var _file       = (file === undefined) ? "" : file;
-        var _message    = (message === undefined) ? generic_message : message;
-        var _subject    = (subject === undefined) ? "" : subject;
+        var _link = (link === undefined) ? download_app_link : link;
+        var _file = (file === undefined) ? '' : file;
+        var _message = (message === undefined) ? generic_message : message;
+        var _subject = (subject === undefined) ? '' : subject;
 
         var deferred = $q.defer();
 
@@ -66,7 +62,6 @@ angular.module("starter").service("SocialSharing", function($cordovaSocialSharin
             });
 
         return deferred.promise;
-
     };
 
     return service;
