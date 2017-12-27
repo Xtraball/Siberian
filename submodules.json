@@ -30,20 +30,20 @@
       "git": "git@github.com:Xtraball/cordova-admob-pro.git",
       "branch": "siberian"
     },
+    "cordova-plugin-geofence": {
+      "git": "git@github.com:Xtraball/cordova-plugin-geofence.git",
+      "branch": "siberian"
+    },
+    "cordova-plugin-add-swift-support": {
+      "git": "git@github.com:Xtraball/cordova-plugin-add-swift-support.git",
+      "branch": "siberian"
+    },
     "cordova-plugin-app-event": {
       "git": "git@github.com:Xtraball/cordova-plugin-app-event.git",
       "branch": "siberian"
     },
     "cordova-plugin-app-version": {
       "git": "git@github.com:Xtraball/cordova-plugin-app-version.git",
-      "branch": "siberian"
-    },
-    "cordova-plugin-background-fetch": {
-      "git": "git@github.com:Xtraball/cordova-plugin-background-fetch.git",
-      "branch": "master"
-    },
-    "cordova-background-geolocation-lt": {
-      "git": "git@github.com:Xtraball/cordova-background-geolocation-lt.git",
       "branch": "siberian"
     },
     "phonegap-plugin-barcodescanner": {
@@ -117,10 +117,6 @@
     "cordova-plugin-whitelist": {
       "git": "git@github.com:Xtraball/cordova-plugin-whitelist.git",
       "branch": "siberian"
-    },
-    "siberian-plugin-backgroundgeoloc": {
-      "git": "git@github.com:Xtraball/siberian-plugin-backgroundgeoloc.git",
-      "branch": "master"
     },
     "siberian-plugin-offlinemode": {
       "git": "git@github.com:Xtraball/siberian-plugin-offlinemode.git",

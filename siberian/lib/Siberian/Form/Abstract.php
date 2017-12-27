@@ -235,12 +235,18 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @return Siberian_Form_Element_Text
      * @throws Zend_Form_Exception
      */
-    public function addSimpleText($name, $label = "", $placeholder = false) {
+    public function addSimpleText($name, $label = "", $placeholder = false, $placeholderText = false) {
         $el = new Siberian_Form_Element_Text($name);
         $this->addElement($el);
         if ($placeholder) {
-            $el->setAttrib('placeholder', $label);
-            $el->setDecorators(array('ViewHelper'));
+            if ($placeholderText === false) {
+                $el->setAttrib('placeholder', $label);
+                $el->setDecorators(array('ViewHelper'));
+            } else {
+                $el->setLabel($label);
+                $el->setAttrib('placeholder', $placeholder);
+                $el->setDecorators(array('ViewHelper', 'Label'));
+            }
         } else {
             $el->setLabel($label);
             $el->setDecorators(array('ViewHelper', 'Label'));
@@ -249,7 +255,8 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         $el->setColor($this->color);
         $el->setNewDesign();
 
-        return $el;}
+        return $el;
+    }
 
 
     /**

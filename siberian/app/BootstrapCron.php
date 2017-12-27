@@ -23,6 +23,7 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap {
         $loader->registerNamespace('Core');
         $loader->registerNamespace('Symfony');
         $loader->registerNamespace('Plesk');
+        $loader->registerNamespace('PListEditor');
 
         $include_paths = array(get_include_path());
         $include_paths[] = realpath(APPLICATION_PATH.'/local/modules');
