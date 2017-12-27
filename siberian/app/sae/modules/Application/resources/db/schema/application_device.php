@@ -170,7 +170,7 @@ $schemas['application_device'] = array(
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-        'default' => 'Use the GPS for live navigation',
+        'default' => '#APP_NAME would like to use your current location',
     ],
     'ns_location_always_ud' => [
         'type' => 'varchar(256)',

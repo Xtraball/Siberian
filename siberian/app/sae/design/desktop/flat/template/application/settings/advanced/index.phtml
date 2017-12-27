@@ -40,9 +40,13 @@
                             <?php
 echo __('Permissions Modal Alerts messages describe why your apps requires some permissions,');
 echo __('like using the GPS or the camera. After the first installation of your app, those messages will be shown to the app user.');
-echo '<br /><br />' . __('If your messages does not complies with App Store Review Guidelines, <a style="text-decoration: underline !important;" href="%s">%s</a>, your app might be possibly refused after Apple\'s review.', 'https://developer.apple.com/app-store/review/guidelines/', 'https://developer.apple.com/app-store/review/guidelines/');
-echo '<br /><br />' . __('Please check your messages before sending your app to be published, specifically if you are using iOS Auto publish service : if your app is refused after review , one build will be consumed.');
+echo '<br /><br />' . __('If your messages do not comply with App Store Review Guidelines, <a style="text-decoration: underline !important;" href="%s">%s</a>, your app might be possibly refused after Apple\'s review.', 'https://developer.apple.com/app-store/review/guidelines/', 'https://developer.apple.com/app-store/review/guidelines/');
+echo '<br /><br />' . __('Please check your messages before sending your app to be published, specifically if you are using iOS Auto publish service: if your app is refused after review, one build will be consumed.');
                             ?>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <?php echo __('You can use <b>%s</b> as variable for your application name.', '#APP_NAME') ?>
                         </div>
 
                         <?php echo $formNsDescription; ?>
