@@ -4,6 +4,8 @@
  * Class Application_Model_Device_Ionic_Android_Abstract
  *
  * Generic class for Android Ionic based applications.
+ *
+ * @method integer getId()
  */
 abstract class Application_Model_Device_Ionic_Android_Abstract extends Application_Model_Device_Abstract {
 
