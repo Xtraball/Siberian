@@ -3,11 +3,12 @@
 /**
  * Class Application_Model_Application_Abstract
  * 
- * @version 4.12.20
+ * @version 4.12.22
  *
  * @method integer getId()
  * @method string getFlickrKey()
  * @method string getFlickrSecret()
+ * @method string getDesignCode()
  */
 abstract class Application_Model_Application_Abstract extends Core_Model_Default {
 
@@ -206,23 +207,29 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     /**
-     * @param $device_id
+     * @param $deviceId
      * @return Application_Model_Device_Ionic_Android|Application_Model_Device_Ionic_Ios
      */
-    public function  getDevice($device_id) {
-
-        if(empty($this->_devices[$device_id])) {
+    public function getDevice($deviceId) {
+        if (empty($this->_devices[$deviceId])) {
             $device = new Application_Model_Device();
-            $device->find(array("app_id" => $this->getId(), "type_id" => $device_id));
-            if(!$device->getId()) {
-                $device->loadDefault($device_id);
+            $device->find([
+                'app_id' => $this->getId(),
+                'type_id' => $deviceId
+            ]);
+            if (!$device->getId()) {
+                $device->loadDefault($deviceId);
                 $device->setAppId($this->getId());
+                // Save newly created device!
+                $device->save();
+                // Fetch it again (for MySQL defaults)
+                $device->find($device->getId());
             }
             $device->setDesignCode($this->getDesignCode());
-            $this->_devices[$device_id] = $device;
+            $this->_devices[$deviceId] = $device;
         }
 
-        return $this->_devices[$device_id];
+        return $this->_devices[$deviceId];
 
     }
 
