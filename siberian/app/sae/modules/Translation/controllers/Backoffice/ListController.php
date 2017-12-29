@@ -1,34 +1,36 @@
 <?php
 
-class Translation_Backoffice_ListController extends Backoffice_Controller_Default
-{
-
+/**
+ * Class Translation_Backoffice_ListController
+ */
+class Translation_Backoffice_ListController extends Backoffice_Controller_Default {
+    /**
+     *
+     */
     public function loadAction() {
-        
-        $html = array(
-            "title" => $this->_("Translations"),
-            "icon" => "fa-language",
-        );
+        $payload = [
+            'title' => __('Translations'),
+            'icon' => 'fa-language',
+        ];
 
-        $this->_sendHtml($html);
-
+        $this->_sendJson($payload);
     }
 
+    /**
+     *
+     */
     public function findallAction() {
-
         $languages = Core_Model_Language::getLanguages();
-        $data = array();
+        $payload = [];
 
         foreach($languages as $lang) {
-
-            $data[] = array(
-                "id" => base64_encode($lang->getCode()),
-                "code" => $lang->getCode(),
-                "name" => $lang->getName()
-            );
+            $payload[] = [
+                'id' => base64_encode($lang->getCode()),
+                'code' => $lang->getCode(),
+                'name' => $lang->getName()
+            ];
         }
 
-        $this->_sendHtml($data);
+        $this->_sendJson($payload);
     }
-
 }
