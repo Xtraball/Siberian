@@ -27,6 +27,7 @@ $design_id = $application->getDesignId();
 $app_id     = Core_Model_Lib_Facebook::getAppId();
 $app_secret = Core_Model_Lib_Facebook::getSecretKey();
 $app_linked_fb_page = $application->getFacebookLinkedPage();
+
 ?>
 <div class="page-content-wrapper">
     <div id="template_content" class="content">
@@ -319,8 +320,8 @@ $app_linked_fb_page = $application->getFacebookLinkedPage();
             });
         <?php endif;?>
 
-        <?php if (empty($design_id) && $application->getPages(0) <= 0): # Show template modal until one is selected or there is no features. ?>
-            showTemplatesButton.click();
+        <?php if (empty($design_id) && $application->getPages(0)->count() <= 0): # Show template modal until one is selected or there is no features. ?>
+            modal_preview.show();
         <?php endif ?>
 
         if ($("#slider_images").length) {
@@ -331,7 +332,7 @@ $app_linked_fb_page = $application->getFacebookLinkedPage();
     });
 
     /** Homepage Image Slider **/
-    var  currentHeight = function(intialHeight) {
+    var currentHeight = function(intialHeight) {
         var current_scale = $("#homepage_slider_size").val();
         var target_height = intialHeight * current_scale;
         return Math.ceil(parseFloat(target_height));
@@ -517,7 +518,7 @@ $app_linked_fb_page = $application->getFacebookLinkedPage();
         overflow: hidden;
         width: 100%;
         height: 100%;
-        margin-left: 0px;
+        margin-left: 0;
         min-height: 120px;
         background-color: #E9E9E9;
         padding: 15px 0;
@@ -543,14 +544,12 @@ $app_linked_fb_page = $application->getFacebookLinkedPage();
         padding: 0;
         transition: none;
         position: relative;
-        margin: 0px 5px;
+        margin: 0 5px;
     }
     #uploaded_slider_images.listing ul li:hover {
         background-color: #ffffff;
     }
-    /*#uploaded_slider_images.listing ul li:last-child {
-        border: none;
-    }*/
+
     #uploaded_slider_images.listing ul li span.details {
         display: block;
         height: 100%;
@@ -654,21 +653,9 @@ $app_linked_fb_page = $application->getFacebookLinkedPage();
         padding-right: 5px;
     }
 
-    #homepage_slider {
-        /*margin-top: 20px;*/
-    }
-
     .slider_images .fa-sort {
         cursor: ew-resize;
         transform: rotate(90deg);
-    }
-
-    .form-layout-options #fieldset-submit {
-        /*float: right;*/
-    }
-
-    .form-group-checkbox label {
-        /*padding-left: 10px;*/
     }
 
     form label {
