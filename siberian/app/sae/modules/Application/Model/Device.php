@@ -1,46 +1,96 @@
 <?php
 
+/**
+ * Class Application_Model_Device
+ *
+ * @version 4.12.22
+ *
+ * @method integer getId()
+ * @method $this setAppId($appId)
+ * @method $this setDesignCode($designCode)
+ * @method integer getStatusId()
+ * @method integer getAdminId()
+ * @method integer getAppId()
+ * @method integer getTypeId()
+ * @method string getAlias()
+ * @method string getDesignCode()
+ */
 class Application_Model_Device extends Core_Model_Default {
 
+    /**
+     * 
+     */
     const STATUS_PUBLISHED = 3;
 
+    /**
+     * @var
+     */
     protected $_type;
 
-    protected static $_statuses = array(
-        1 => "Waiting",
-        2 => "In Review",
-        3 => "Published"
-    );
-    protected static $_device_ids = array(
+    /**
+     * @var Admin_Model_Admin|null
+     */
+    public $_admin = null;
+
+    /**
+     * @var array
+     */
+    protected static $_statuses = [
+        1 => 'Waiting',
+        2 => 'In Review',
+        3 => 'Published',
+    ];
+
+    /**
+     * @var array
+     */
+    protected static $_device_ids = [
         1 => 'iOS',
         2 => 'Android',
-    );
+    ];
 
-    public function __construct($data = array()) {
+    /**
+     * Application_Model_Device constructor.
+     * @param array $data
+     */
+    public function __construct($data = []) {
         parent::__construct($data);
         $this->_db_table = "Application_Model_Db_Table_Application_Device";
     }
 
+    /**
+     * @return array
+     */
     public static function getAllIds() {
         return self::$_device_ids;
     }
 
+    /**
+     * @return array
+     */
     public static function getStatuses() {
         return self::$_statuses;
     }
 
-    public function loadDefault($type_id) {
-        $this->setData(array(
-            "type_id" => $type_id,
-            "status_id" => 1,
-            "version" => "1.0"
-        ));
+    /**
+     * @param $typeId
+     * @return $this
+     */
+    public function loadDefault($typeId) {
+        $this->setData([
+            'type_id' => $typeId,
+            'status_id' => 1,
+            'version' => '1.0'
+        ]);
 
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getType() {
-        if(is_null($this->_type)) {
+        if (is_null($this->_type)) {
 
             $class = sprintf("%s_%s_%s",
                 get_class(),
@@ -110,25 +160,36 @@ class Application_Model_Device extends Core_Model_Default {
         $this->_status = null;
     }
 
+    /**
+     * @return mixed
+     */
     public function getStatus() {
         return !empty(self::$_statuses[$this->getStatusId()]) ?
             self::$_statuses[$this->getStatusId()] :
             self::$_statuses[1];
     }
 
+    /**
+     * @return Admin_Model_Admin
+     */
     public function getAdmin() {
-
-        if(!$this->_admin) {
-            $this->_admin = new Admin_Model_Admin();
-            $this->_admin->find($this->getAdminId());
+        if (!$this->_admin) {
+            $this->_admin = (new Admin_Model_Admin())
+                ->find($this->getAdminId());
         }
 
         return $this->_admin;
     }
 
+    /**
+     * @param null $version
+     * @return $this
+     */
     public function setVersion($version = null) {
-        if(!$version) $version = $this->getType()->getCurrentVersion();
-        $this->setData('version', $version);
-        return $this;
+        if (!$version) {
+            $version = $this->getType()->getCurrentVersion();
+        }
+
+        return $this->setData('version', $version);
     }
 }
