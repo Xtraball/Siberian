@@ -52,7 +52,8 @@ class Mcommerce_Model_Store extends Core_Model_Default {
         }
 
 
-        $paymentMethods = (new Mcommerce_Model_Payment_Method())->findAll();
+        $paymentMethods = (new Mcommerce_Model_Payment_Method())
+            ->findAll();
 
         $formPaymentMethods = $this->getData('payment_methods');
         $formPaymentMethodsData = $this->getData('details_payment_methods');
@@ -62,8 +63,6 @@ class Mcommerce_Model_Store extends Core_Model_Default {
             if (class_exists($class)) {
                 $instanceMethod = (new $class())
                     ->find($this->getId(), 'store_id');
-
-                print_r($formPaymentMethodsData[$paymentMethod->getMethodId()]);
 
                 if (in_array($paymentMethod->getMethodId(), array_keys($formPaymentMethods)) &&
                     isset($formPaymentMethodsData[$paymentMethod->getMethodId()])) {
@@ -90,6 +89,24 @@ class Mcommerce_Model_Store extends Core_Model_Default {
                     // Delete
                     $instanceMethod
                         ->delete();
+                    (new Mcommerce_Model_Store_Payment_Method())
+                        ->find([
+                            'method_id' => $paymentMethod->getMethodId(),
+                            'store_id' => $this->getId(),
+                        ])->delete();
+                }
+            } else if (in_array($paymentMethod->getCode(), ['cash', 'check', 'meal_voucher', 'cc_upon_delivery', 'free'])) {
+                if (in_array($paymentMethod->getMethodId(), array_keys($formPaymentMethods))) {
+                    (new Mcommerce_Model_Store_Payment_Method())
+                        ->find([
+                            'method_id' => $paymentMethod->getMethodId(),
+                            'store_id' => $this->getId(),
+                        ])
+                        ->setStoreId($this->getId())
+                        ->setMethodId($paymentMethod->getMethodId())
+                        ->save();
+                } else {
+                    // Delete
                     (new Mcommerce_Model_Store_Payment_Method())
                         ->find([
                             'method_id' => $paymentMethod->getMethodId(),
