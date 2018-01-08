@@ -1,7 +1,3 @@
-/*global
-    angular, DEVICE_TYPE, Camera, CameraPopoverOptions, FileReader
-*/
-
 /**
  * Picture
  *

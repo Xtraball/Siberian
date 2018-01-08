@@ -1,5 +1,5 @@
-/* global
- angular
+/**
+ * $translate service
  */
 angular.module('starter').service('$translate', function () {
     var service = {};

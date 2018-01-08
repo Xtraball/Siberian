@@ -5,6 +5,10 @@ class Mcommerce_Model_Db_Table_Payment_Method extends Core_Model_Db_Table {
     protected $_name    = "mcommerce_payment_method";
     protected $_primary = "method_id";
 
+    /**
+     * @param $id
+     * @return Zend_Db_Table_Rowset_Abstract
+     */
     public function findByStore($id) {
 
         $select = $this->select()

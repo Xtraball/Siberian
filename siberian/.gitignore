@@ -1,6 +1,8 @@
 # Production/User configuration file
 /config.php
 /.htaccess
+/isolate*
+/xdebug-trace-tree
 
 # Let's Encrypt
 .well-known

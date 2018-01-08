@@ -19,7 +19,7 @@ let clc = require('cli-color'),
     sh = require('shelljs');
 
 const notifier = require('node-notifier'),
-      http = require('http');
+      axios = require('axios');
 
 let platforms = [
     'android',
@@ -498,19 +498,24 @@ let cleanDupesSort = function (file) {
  */
 let rebuildManifest = function () {
     sprint('Rebuilding app manifest.');
-    let developer = require(ROOT + '/developer.json');
-
-    const domain = developer.config.domain;
+    const developer = require(ROOT + '/developer.json');
     const port = developer.config.port || 80;
-    const options = {
-        host: domain,
-        port: port,
-        path: '/backoffice/api_options/manifest',
-        headers: {
-         'Authorization': 'Basic ' + new Buffer(developer.dummyEmail + ':' + developer.dummyPassword).toString('base64')
-        }
+    const requestDefaultHeaders = {
+        'Authorization': 'Basic ' + new Buffer(developer.dummyEmail + ':' + developer.dummyPassword).toString('base64')
     };
-    const failed = (error) => {
+    const protocol = (port === 80) ? 'http://' : 'https://';
+
+    axios.get(protocol + developer.config.domain + '/backoffice/api_options/manifest', {
+        responseType: 'json',
+        headers: requestDefaultHeaders
+    }).then(function (response) {
+        if (response.data.success) {
+            sprint(clc.green(response.data.message));
+            notify('Rebuild manifest succeeded');
+        } else {
+            throw (new Error(response.data.message));
+        }
+    }).catch(function (error) {
         if (typeof error === 'object' && error.hasOwnProperty('message')) {
             sprint('Unexpected error: ' + clc.red(error.message));
             console.log(error);
@@ -519,49 +524,7 @@ let rebuildManifest = function () {
         notify('Rebuild manifest FAILED.', {
             sound: 'Frog'
         });
-    };
-
-    try {
-        http.get(options, (res) => {
-            try {
-                const { statusCode } = res;
-                const contentType = res.headers['content-type'];
-
-                let error;
-                if (statusCode !== 200) {
-                  error = new Error('Request Failed.\n' +
-                                    `Status Code: ${statusCode}`);
-                } else if (!/^application\/json/.test(contentType)) {
-                  error = new Error('Invalid content-type.\n' +
-                                    `Expected application/json but received ${contentType}`);
-                }
-
-                res.setEncoding('utf8');
-                let rawData = '';
-                res.on('data', (chunk) => {
-                    rawData += chunk;
-                });
-                res.on('end', () => {
-                  try {
-                      let jsonResult = JSON.parse(rawData);
-                      if (jsonResult.success) {
-                          sprint(clc.green(jsonResult.message));
-                          notify('Rebuild manifest succeeded');
-                      } else {
-                          throw (new Error(jsonResult.message));
-                      }
-                  } catch (e) {
-                      failed(e);
-                  }
-                });
-
-            } catch (e) {
-                failed(e);
-            }
-        }).on('error', failed);
-    } catch (e) {
-        failed(e);
-    }
+    });
 };
 
 /**

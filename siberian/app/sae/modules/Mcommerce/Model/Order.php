@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * Class Mcommerce_Model_Order
+ *
+ * @method $this setStatusId(integer $statusId)
+ * @method $this setNotes(string $notes)
+ * @method $this setHidePaidAmount(bool $hideAmount)
+ * @method integer getId()
+ * @method float getTotal()
+ * @method float getTotalTax()
+ * @method float getSubtotalExclTax()
+ * @method float getDeliveryCost()
+ * @method float getDeliveryCostInclTax()
+ * @method string getDiscountCode()
+ * @method float getDbTaxRate()
+ * @method Subscription_Model_Subscription getSubscription()
+ */
 class Mcommerce_Model_Order extends Core_Model_Default {
 
     /**
@@ -57,25 +73,29 @@ class Mcommerce_Model_Order extends Core_Model_Default {
         return $data;
     }
 
+    /**
+     * @param $cart
+     * @return $this
+     */
     public function fromCart($cart) {
 
         $this->addData($cart->getData())->unsId();
         $delivery_method = new Mcommerce_Model_Delivery_Method();
         $delivery_method->find($cart->getDeliveryMethodId());
-        if($delivery_method->getId()) {
+        if ($delivery_method->getId()) {
             $this->setDeliveryMethod($delivery_method->getName());
         }
 
         $payment_method = new Mcommerce_Model_Payment_Method();
         $payment_method->find($cart->getPaymentMethodId());
-        if($payment_method->getId()) {
+        if ($payment_method->getId()) {
             $this->setPaymentMethod($payment_method->getName());
         }
 
         $toUnset = array('line_id', 'cart_id');
         $toUnset = array_combine($toUnset, $toUnset);
 
-        foreach($cart->getLines() as $cart_line) {
+        foreach ($cart->getLines() as $cart_line) {
             $line = new Mcommerce_Model_Order_Line();
             $line_datas = array_diff_key($cart_line->getData(), $toUnset);
             $line->addData($line_datas);
@@ -85,7 +105,6 @@ class Mcommerce_Model_Order extends Core_Model_Default {
         }
 
         return $this;
-
     }
 
     public function save() {
@@ -177,13 +196,14 @@ class Mcommerce_Model_Order extends Core_Model_Default {
     /**
      * Récupère les lignes du panier en base
      *
-     * @return Siberian_Db_Table_Rowset Collection de lignes du panier
+     * @return Mcommerce_Model_Order_Line[] Collection de lignes du panier
      */
     public function getLines() {
-
-        if(!$this->_lines) {
+        if (!$this->_lines) {
             $line = new Mcommerce_Model_Order_Line();
-            $this->_lines = $line->findAll(array('order_id' => $this->getId()));
+            $this->_lines = $line->findAll([
+                'order_id' => $this->getId()
+            ]);
         }
 
         return $this->_lines;

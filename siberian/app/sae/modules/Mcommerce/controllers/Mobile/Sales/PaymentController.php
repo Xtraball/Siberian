@@ -1,267 +1,270 @@
 <?php
 
-class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobile_Default
-{
+/**
+ * Class Mcommerce_Mobile_Sales_PaymentController
+ */
+class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobile_Default {
 
-    public function findonlinepaymenturlAction()
-    {
-
-        $method = $this->getCart()->getPaymentMethod();
-
-        $url = null;
-        $form_url = null;
-
-        $value_id = $this->getCurrentOptionValue()->getId();
-
-        if ($method->isOnline()) {
-            if ($method->getCode() == "stripe") {
-                $form_url = $method->getFormUrl($value_id);
-            } else {
-                $url = $method->getUrl($value_id);
-            }
-        }
-
-        $html = array(
-            "url" => $url,
-            "form_url" => $form_url
-        );
-
-        $this->_sendHtml($html);
-    }
-
-    public function findpaymentmethodsAction()
-    {
-
-        $option = $this->getCurrentOptionValue();
-
-        $cart = $this->getCart();
-
-        if(floatval($cart->getTotal()) > 0) {
-            $paymentMethods = $cart->getStore()->getPaymentMethods();
-
-            $html = array("paymentMethods" => array());
-
-            foreach ($paymentMethods as $paymentMethod) {
-
-                $paymentMethodJson = array(
-                    "id" => $paymentMethod->getId(),
-                    "name" => $paymentMethod->getName(),
-                    "code" => $paymentMethod->getCode()
-                );
-
-                if ($paymentMethod->isOnline()) {
-                    if ($paymentMethod->isCurrencySupported()) {
-                        $html["paymentMethods"][] = $paymentMethodJson;
-                    }
-                } else {
-                    $html["paymentMethods"][] = $paymentMethodJson;
-                }
-            }
-        }
-
-        if(floatval($cart->getTotal()) <= 0) {
-            $free_method = new Mcommerce_Model_Payment_Method();
-            $free_method = $free_method->find("free", "code");
-
-            if ($free_method->getId()) {
-                $free_data = array(
-                    "id" => $free_method->getId(),
-                    "name" => $free_method->getName(),
-                    "code" => $free_method->getCode()
-                );
-                $html["paymentMethods"][] = $free_data;
-            }
-        }
-
-
-        $this->_sendHtml($html);
-    }
-
-
-    public function updateAction()
-    {
-
-        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
-
-            $datas = $data["form"];
-
-            $html = array();
-
-            try {
-
-                if (empty($datas['payment_method_id'])) throw new Exception($this->_('Please choose a payment method'));
-
-                $this->getCart()
-                    ->setPaymentMethodId($datas['payment_method_id'])
-                    ->save();
-
-                $url = $this->getCart()->getPaymentMethod()->getUrl();
-
-                if (!Zend_Uri::check($url)) {
-                    $payment_method_name = $this->getCart()->getPaymentMethod()->getName();
-                    $this->getCart()
-                        ->setPaymentMethodId(null)
-                        ->save();
-
-                    $logger = Zend_Registry::get("logger");
-
-                    $logger->log("We apologize but the payment method " . $payment_method_name . " is currently not available at URL: " . $url, Zend_Log::ERR);
-
-                    throw new Siberian_Exception($this->_("We apologize but the payment method %s is currently not available", $payment_method_name));
-                }
-
-                $html = array(
-                    'payment_method_id' => $this->getCart()->getPaymentMethodId()
-                );
-
-            } catch (Exception $e) {
-                $html = array(
-                    'error' => 1,
-                    'message' => $e->getMessage()
-                );
-            }
-
-
-            $this->_sendHtml($html);
-        }
-
-    }
-
-    public function validatepaymentAction() {
+    /**
+     *  Fetch payment url for the select one.
+     */
+    public function findonlinepaymenturlAction() {
         try {
-            if ($data = $this->getRequest()->getRawBody()) {
-                $data = Siberian_Json::decode($data);
-            } else if ($data = $this->getRequest()->getPost()) {
-                $data = $this->getRequest()->getPost();
-            } else {
-                $data = $this->getRequest()->getFilteredParams();
-            }
+            $method = $this->getCart()->getPaymentMethod();
+            $valueId = $this->getCurrentOptionValue()->getId();
 
-            if (!empty($data)) {
-                try {
-                    $errors = $this->getCart()->check();
-                    $status_id = Mcommerce_Model_Order::DEFAULT_STATUS;
-
-                    if (empty($errors) AND $this->getCart()->getPaymentMethod()->isOnline()) {
-                        $payment_is_valid = $this->getCart()->getPaymentMethod()->addData($data)->pay();
-                        if (!$payment_is_valid) {
-                            throw new Exception($this->_('An error occurred while proceeding the payment. Please, try again later.'));
-                        } else {
-                            $status_id = Mcommerce_Model_Order::PAID_STATUS;
-                        }
-                    }
-
-                    if (empty($errors)) {
-                        // Keep a log of the promo and code if used
-                        $promo = $this->getPromo();
-                        $cart = $this->getCart();
-                        $cart->setCustomerUUID($data["customer_uuid"]);
-
-                        if($promo){
-                            $log = Mcommerce_Model_Promo_Log::createInstance($promo, $cart);
-                            $log->save();
-
-                            //Use points if needed
-                            if($promo->getPoints() AND $cart->getCustomerId()) {
-                                $points = $promo->getPoints();
-                                $customer = new Customer_Model_Customer();
-                                $customer->find($cart->getCustomerId());
-                                if($customer->getId()) {
-                                    $customer_points = $customer->getMetaData("fidelity_points", "points") * 1;
-                                    $customer_points -= $points;
-                                    $customer->setMetadata("fidelity_points", "points", $customer_points)->save();
-                                }
-                            }
-                        }
-
-                        $order = new Mcommerce_Model_Order();
-                        $order->fromCart($this->getCart())->setStatusId($status_id);
-                        // TG-459
-                        array_key_exists("notes", $data) ? $order->setNotes($data['notes']):$order->setNotes("");
-                        $order->save();
-
-                        if (in_array($this->getCart()->getPaymentMethod()->getCode(), array("check", "cc_upon_delivery", "paypal"))) {
-                            $order->setHidePaidAmount(true);
-                        }
-                        $order->sendToCustomer();
-                        $order->sendToStore();
-
-                        $message = $this->_('We thank you for your order. A confirmation email has been sent');
-
-                        $html = array(
-                            'success' => 1,
-                            'message' => $message
-                        );
-
-                        $this->getSession()->unsetCart();
-                    } else {
-                        $message = $this->_('An error occurred while proceeding your order:');
-                        foreach ($errors as $error) {
-                            $message .= "<br /> - $error";
-                        }
-                        throw new Exception($message);
-                    }
-
-                } catch (Exception $e) {
-                    $message = $e->getMessage();
-                    $this->getSession()->addError($message);
-                    $html = array(
-                        'error' => 1,
-                        'message' => $message
-                    );
-                }
-
-                // Mode browser/webapp!
-                if ($this->getApplication()->useIonicDesign() && empty($data["is_ajax"])) {
-                    if (isset($html["success"])) {
-                        $this->_redirect('mcommerce/mobile_sales_success/index', [
-                            'value_id' => $this->getCurrentOptionValue()->getValueId()
-                        ]);
-                    }
-
-                    if (isset($html["error"])) {
-                        $this->_redirect('mcommerce/mobile_sales_error/index', [
-                            'value_id' => $this->getCurrentOptionValue()->getValueId()
-                        ]);
-                    }
-                }
-
-                if (!empty($data["is_ajax"])) {
-                    $this->_sendJson($html, true);
-                } elseif (isset($html["error"])) {
-                    $this->_redirect('mcommerce/mobile_sales_error/index', [
-                        'value_id' => $this->getCurrentOptionValue()->getValueId()
-                    ]);
-                } elseif (isset($html["success"])) {
-                    $this->_sendJson($html, true);
-                }
-
-            }
-
-        } catch (Exception $e) {
-            $html = [
+            $payload = $method->getInstance()->getFormUris($valueId);
+        } catch(Exception $e) {
+            $payload = [
                 'error' => true,
                 'message' => $e->getMessage()
             ];
         }
 
-        $this->_sendJson($html);
+        $this->_sendJson($payload);
     }
 
-    public function printToGCPAction()
-    {
-        $url = "https://accounts.google.com/o/oauth2/auth";
+    /**
+     *
+     */
+    public function findpaymentmethodsAction() {
+        try {
+            $cart = $this->getCart();
+            $cartTotal = floatval($cart->getTotal());
+            if ($cartTotal > 0) {
+                $paymentMethods = $cart->getStore()->getPaymentMethods();
 
-        $params = array(
-            "response_type" => "code",
-            "client_id" => "AIzaSyAdJLaZN80eGT7Q7RKIxwc3SAsS2U1oMqE.apps.googleusercontent.com",
-            "redirect_uri" => "http://localhost/oauth2callback.php",
-            "scope" => "https://www.googleapis.com/auth/plus.me"
-        );
+                $payload = [
+                    'paymentMethods' => []
+                ];
 
-        $request_to = $url . '?' . http_build_query($params);
+                foreach ($paymentMethods as $paymentMethod) {
+                    $paymentMethodJson = [
+                        'id' => $paymentMethod->getId(),
+                        'name' => $paymentMethod->getName(),
+                        'code' => $paymentMethod->getCode()
+                    ];
 
-        header("Location: " . $request_to);
+                    if ($paymentMethod->isOnline()) {
+                        if ($paymentMethod->isCurrencySupported()) {
+                            $payload['paymentMethods'][] = $paymentMethodJson;
+                        }
+                    } else {
+                        $payload['paymentMethods'][] = $paymentMethodJson;
+                    }
+                }
+            } else {
+                $freeMethod = (new Mcommerce_Model_Payment_Method())
+                    ->find('free', 'code');
+
+                if ($freeMethod->getId()) {
+                    $freeData = [
+                        'id' => $freeMethod->getId(),
+                        'name' => $freeMethod->getName(),
+                        'code' => $freeMethod->getCode()
+                    ];
+                    $payload['paymentMethods'][] = $freeData;
+                } else {
+                    throw new Siberian_Exception('#635-01' . __('Unkown error!'));
+                }
+            }
+        } catch(Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+                
+        $this->_sendJson($payload);
     }
 
+    /**
+     *
+     */
+    public function updateAction() {
+        try {
+            $request = $this->getRequest();
+            if ($params = Siberian_Json::decode($request->getRawBody())) {
+                $formValues = $params['form'];
+
+                if (empty($formValues['payment_method_id'])) {
+                    throw new Siberian_Exception(__('Please choose a payment method'));
+                }
+
+                $cart = $this->getCart();
+                $cart
+                    ->setPaymentMethodId($formValues['payment_method_id'])
+                    ->save();
+
+                $url = $cart->getPaymentMethod()->getUrl();
+                if (!Zend_Uri::check($url)) {
+                    $paymentMethodName = $cart->getPaymentMethod()->getName();
+                    $cart
+                        ->setPaymentMethodId(null)
+                        ->save();
+
+                    $logger = Zend_Registry::get('logger');
+                    $logger->log('We apologize but the payment method ' .
+                        $paymentMethodName . ' is currently not available at URL: ' . $url,
+                        Zend_Log::ERR);
+
+                    throw new Siberian_Exception(
+                        __('We apologize but the payment method %s is currently not available',
+                            $paymentMethodName));
+                }
+
+                $payload = [
+                    'success' => true,
+                    'payment_method_id' => $cart->getPaymentMethodId()
+                ];
+            } else {
+                throw new Siberian_Exception(__('Missing parameters!'));
+            }
+
+        } catch(Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
+    public function validatepaymentAction() {
+        try {
+            $request = $this->getRequest();
+            if ($params = $request->getRawBody()) {
+                $params = Siberian_Json::decode($params);
+            } else if ($data = $request->getPost()) {
+                $params = $request->getPost();
+            } else {
+                $params = $request->getFilteredParams();
+            }
+
+            if (empty($params)) {
+                throw new Siberian_Exception(__('Missing params!'));
+            }
+
+            try {
+                $cart = $this->getCart();
+                $errors = $cart->check();
+                $paymentMethod = $cart->getPaymentMethod();
+                $statusId = Mcommerce_Model_Order::DEFAULT_STATUS;
+
+                if (empty($errors) && $paymentMethod->isOnline()) {
+                    $paymentIsValid = $paymentMethod
+                        ->addData($params)
+                        ->setParams($params)
+                        ->pay();
+
+                    if (!$paymentIsValid) {
+                        throw new Siberian_Exception(
+                            __('An error occurred while proceeding the payment. Please, try again later.'));
+                    } else {
+                        $statusId = Mcommerce_Model_Order::PAID_STATUS;
+                    }
+                }
+
+                if (empty($errors)) {
+                    // Keep a log of the promo and code if used!
+                    $promo = $this->getPromo();
+                    $cart = $this->getCart();
+                    $cart->setCustomerUUID($params['customer_uuid']);
+
+                    if ($promo) {
+                        $log = Mcommerce_Model_Promo_Log::createInstance($promo, $cart);
+                        $log->save();
+
+                        // Use points if needed!
+                        if ($promo->getPoints() && $cart->getCustomerId()) {
+                            $points = $promo->getPoints();
+                            $customer = (new Customer_Model_Customer())
+                                ->find($cart->getCustomerId());
+                            // Decrease points!
+                            if ($customer->getId()) {
+                                $customerPoints = $customer->getMetaData('fidelity_points', 'points') * 1;
+                                $customerPoints = $customerPoints - $points;
+                                $customer->setMetadata('fidelity_points', 'points', $customerPoints)->save();
+                            }
+                        }
+                    }
+
+                    $order = new Mcommerce_Model_Order();
+                    $order
+                        ->fromCart($cart)
+                        ->setStatusId($statusId);
+
+                    array_key_exists('notes', $params) ?
+                        $order->setNotes($params['notes']) : $order->setNotes('');
+                    $order->save();
+
+                    if (in_array($this->getCart()->getPaymentMethod()->getCode(),
+                        ['check', 'cc_upon_delivery', 'paypal'])) {
+                        $order->setHidePaidAmount(true);
+                    }
+                    $order->sendToCustomer();
+                    $order->sendToStore();
+
+                    $message = __('We thank you for your order. A confirmation email has been sent');
+
+                    $payload = [
+                        'success' => true,
+                        'message' => $message
+                    ];
+
+                    $this->getSession()->unsetCart();
+                } else {
+                    $message = __('An error occurred while proceeding your order:');
+                    foreach ($errors as $error) {
+                        $message .= '<br /> - ' . $error;
+                    }
+                    throw new Siberian_Exception($message);
+                }
+            } catch (Exception $e) {
+                $message = $e->getMessage();
+                $this->getSession()->addError($message);
+                $payload = [
+                    'error' => true,
+                    'message' => $message
+                ];
+            }
+
+            // Mode browser/webapp!
+            if ($this->getApplication()->useIonicDesign() && empty($params['is_ajax'])) {
+                if (isset($payload['success'])) {
+                    $this->getResponse()->setHeader('x-success', $payload['message']);
+                    $this->_redirect('mcommerce/mobile_sales_success/index', [
+                        'value_id' => $this->getCurrentOptionValue()->getValueId()
+                    ]);
+                }
+
+                if (isset($payload['error'])) {
+                    $this->getResponse()->setHeader('x-error', $payload['message']);
+                    $this->_redirect('mcommerce/mobile_sales_error/index', [
+                        'value_id' => $this->getCurrentOptionValue()->getValueId()
+                    ]);
+                }
+            }
+
+            if (!empty($params['is_ajax'])) {
+                $this->_sendJson($payload, true);
+            } elseif (isset($payload['error'])) {
+                $this->_redirect('mcommerce/mobile_sales_error/index', [
+                    'value_id' => $this->getCurrentOptionValue()->getValueId()
+                ]);
+            } elseif (isset($payload['success'])) {
+                $this->_sendJson($payload, true);
+            }
+        } catch(Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => __('An unknown error occurred, please try again later.') . $e->getMessage()
+            ];
+            $this->_sendJson($payload);
+        }
+    }
 }

@@ -25,6 +25,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $loader->registerNamespace('Plesk');
         $loader->registerNamespace('Stripe');
         $loader->registerNamespace('Woocommerce');
+        $loader->registerNamespace('PListEditor');
 
         $include_paths = array(get_include_path());
         $include_paths[] = realpath(APPLICATION_PATH.'/local/modules');
@@ -321,7 +322,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
     }
 
     public function run() {
-        $front   = $this->_front_controller;
+        $front = $this->_front_controller;
         $default = $front->getDefaultModule();
 
         if (null === $front->getControllerDirectory($default)) {
