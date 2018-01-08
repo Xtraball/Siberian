@@ -1,185 +1,184 @@
 <?php
 
+/**
+ * Class Installer_Backoffice_ModuleController
+ */
 class Installer_Backoffice_ModuleController extends Backoffice_Controller_Default {
 
     /**
      * @var array
      */
-    static $MODULES = array();
+    static $MODULES = [];
 
     /**
      * @var bool
      */
     public $increase_timelimit = false;
 
+    /**
+     *
+     */
     public function loadAction() {
-
-        if(class_exists("Core_Model_Statistics")) {
+        if (class_exists('Core_Model_Statistics')) {
             $stats = new Core_Model_Statistics();
             $stats->statistics();
         }
 
-        $config = new System_Model_Config();
-        $configs = $config->findAll(array(new Zend_Db_Expr('code LIKE "ftp_%"')));
-        
-        $html = array(
-            "title" => __("Modules"),
-            "icon" => "fa-cloud-download"
-        );
+        $payload = [
+            'title' => __('Modules'),
+            'icon' => 'fa-cloud-download'
+        ];
 
-        $this->_sendHtml($html);
+        $this->_sendJson($payload);
     }
 
+    /**
+     *
+     */
     public function downloadupdateAction() {
-
         try {
+            $fatalErrors = false;
+            $_errors = [];
 
-            $fatal_errors = false;
-            $_errors = array();
+            if (function_exists('exec')) {
+                // Testing zip/unzip !
+                $base = Core_Model_Directory::getBasePathTo('/var/tmp/');
+                $zip_file = Core_Model_Directory::getBasePathTo('/var/tmp/test.zip');
+                $test_file = Core_Model_Directory::getBasePathTo('/var/tmp/test.file');
 
-            if(function_exists("exec")) {
-
-                // Testing zip/unzip
-                $base = Core_Model_Directory::getBasePathTo("/var/tmp/");
-                $zip_file = Core_Model_Directory::getBasePathTo("/var/tmp/test.zip");
-                $test_file = Core_Model_Directory::getBasePathTo("/var/tmp/test.file");
-
-                if(file_exists($test_file)) {
+                if (file_exists($test_file)) {
                     unlink($test_file);
                 }
-                if(file_exists($zip_file)) {
+                if (file_exists($zip_file)) {
                     unlink($zip_file);
                 }
 
                 try {
-                    file_put_contents($test_file, "test");
+                    file_put_contents($test_file, 'test');
                     chdir($base);
-                    exec("zip test.zip test.file");
-                    if(!file_exists($zip_file)) {
-                        $_errors[] = "Please enable/add binary: zip & unzip";
-                        $fatal_errors = true;
+                    exec('zip test.zip test.file');
+                    if (!file_exists($zip_file)) {
+                        $_errors[] = 'Please enable/add binary: zip & unzip';
+                        $fatalErrors = true;
                     } else {
                         // now test unzip
-                        if(file_exists($test_file)) {
+                        if (file_exists($test_file)) {
                             unlink($test_file);
                         }
-                        exec("unzip {$zip_file}");
-                        if(!file_exists($test_file)) {
-                            $_errors[] = "Please enable/add binary: unzip";
-                            $fatal_errors = true;
+                        exec('unzip test.zip');
+                        if (!file_exists($test_file)) {
+                            $_errors[] = 'Please enable/add binary: unzip';
+                            $fatalErrors = true;
                         }
                     }
-                } catch(Exception $e) {
-                    $_errors[] = "Please enable/add binary: zip";
-                    $fatal_errors = true;
+                } catch (Exception $e) {
+                    $_errors[] = 'Please enable/add binary: zip';
+                    $fatalErrors = true;
                 } finally {
                     // Unlink files
-                    if(file_exists($test_file)) {
+                    if (file_exists($test_file)) {
                         unlink($test_file);
                     }
-                    if(file_exists($zip_file)) {
+                    if (file_exists($zip_file)) {
                         unlink($zip_file);
                     }
                 }
-
-
             } else {
-                $_errors[] = "Please enable/add function: exec()";
-                $fatal_errors = true;
+                $_errors[] = 'Please enable/add function: exec()';
+                $fatalErrors = true;
             }
 
-            if($fatal_errors) {
-                throw new Siberian_Exception(implode(", ", $_errors));
+            if ($fatalErrors) {
+                throw new Siberian_Exception(implode(', ', $_errors));
             }
 
             set_time_limit(6000);
             ini_set('max_execution_time', 6000);
-            ini_set("memory_limit", "512M");
+            ini_set('memory_limit', '512M');
 
             $data = $this->_fetchUpdates();
 
             log_debug(print_r($data, true));
 
-            if(empty($data["success"])) {
-                throw new Siberian_Exception(__("An error occurred while loading. Please, try again later."));
+            if (empty($data['success'])) {
+                throw new Siberian_Exception(__('An error occurred while loading. Please, try again later.'));
             }
 
-            if(!empty($data["url"]) AND !empty($data["filename"])) {
+            if (!empty($data['url']) && !empty($data['filename'])) {
 
-                $tmp_path = Core_Model_Directory::getTmpDirectory(true)."/".$data["filename"];
+                $tmp_path = Core_Model_Directory::getTmpDirectory(true) . '/' . $data['filename'];
 
-                # for hotfix ssl
-                $client = new Zend_Http_Client($data["url"], array(
+                $client = new Zend_Http_Client($data['url'], array(
                     'adapter'   => 'Zend_Http_Client_Adapter_Curl',
                     'curloptions' => array(CURLOPT_SSL_VERIFYPEER => false),
                 ));
 
                 $client->setMethod(Zend_Http_Client::POST);
 
-                if(Siberian_Version::TYPE === "SAE") {
-                    $client->setParameterPost("sae", 1);
+                if (Siberian_Version::TYPE === 'SAE') {
+                    $client->setParameterPost('sae', 1);
                 } else {
-                    $license_key = System_Model_Config::getValueFor("siberiancms_key");
-                    if(!$license_key) {
-                        throw new Siberian_Exception(__("There is no CMS license key set."));
+                    $licenseKey = System_Model_Config::getValueFor('siberiancms_key');
+                    if (!$licenseKey) {
+                        throw new Siberian_Exception(__('There is no CMS license key set.'));
                     }
-                    $client->setParameterPost("licenseKey", $license_key);
-                    $client->setParameterPost("host", $_SERVER["HTTP_HOST"]);
+                    $client->setParameterPost('licenseKey', $licenseKey);
+                    $client->setParameterPost('host', $_SERVER['HTTP_HOST']);
                 }
 
                 $response = $client->request();
 
-                if($response->getStatus() == 200) {
+                if ($response->getStatus() == 200) {
                     $content = $response->getBody();
 
-                    if(empty($content)) {
-                        throw new Siberian_Exception(__("#100: Unable to fetch the update. Please, try again later."));
+                    if (empty($content)) {
+                        throw new Siberian_Exception(__('#100: Unable to fetch the update. Please, try again later.'));
                     }
 
                     file_put_contents($tmp_path, $content);
-
                 } else {
-                    throw new Siberian_Exception(__("#101: Unable to fetch the update. Please, try again later."));
+                    throw new Siberian_Exception(__('#101: Unable to fetch the update. Please, try again later.'));
                 }
 
-                if(!file_exists($tmp_path)) {
-                    throw new Siberian_Exception(__("#102: Unable to fetch the update. Please, try again later."));
+                if (!file_exists($tmp_path)) {
+                    throw new Siberian_Exception(__('#102: Unable to fetch the update. Please, try again later.'));
                 }
 
-                $data = $this->_getPackageDetails($tmp_path);
+                $payload = $this->_getPackageDetails($tmp_path);
+            } else {
+                $payload = [
+                    'success' => true,
+                    'message' => __($data['message'])
+                ];
             }
-
-        } catch(Exception $e) {
-            $data = array(
-                "error" => 1,
-                "message" => $e->getMessage()
-            );
+        } catch (Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
         }
 
-        $this->_sendHtml($data);
-
+        $this->_sendJson($payload);
     }
 
+    /**
+     *
+     */
     public function uploadAction() {
-
         try {
-
-            if(empty($_FILES) || empty($_FILES['file']['name'])) {
+            if (empty($_FILES) || empty($_FILES['file']['name'])) {
                 throw new Siberian_Exception(__("No file has been sent"));
             }
 
             $adapter = new Zend_File_Transfer_Adapter_Http();
             $adapter->setDestination(Core_Model_Directory::getTmpDirectory(true));
 
-            if($adapter->receive()) {
-
+            if ($adapter->receive()) {
                 $file = $adapter->getFileInfo();
-
-                $data = $this->_getPackageDetails($file['file']['tmp_name']);
-
+                $payload = $this->_getPackageDetails($file['file']['tmp_name']);
             } else {
                 $messages = $adapter->getMessages();
-                if(!empty($messages)) {
+                if (!empty($messages)) {
                     $message = implode("\n", $messages);
                 } else {
                     $message = __("An error occurred during the process. Please try again later.");
@@ -187,35 +186,33 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
                 throw new Siberian_Exception($message);
             }
-        } catch(Exception $e) {
-            $data = array(
-                "error" => 1,
-                "message" => $e->getMessage()
-            );
+        } catch (Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
         }
 
-        $this->_sendHtml($data);
+        $this->_sendJson($payload);
     }
 
+    /**
+     *
+     */
     public function checkpermissionsAction() {
-
-        if($file = $this->getRequest()->getParam("file")) {
-
-            $data = array();
-
+        if ($file = $this->getRequest()->getParam("file")) {
             try {
-
                 $filename = base64_decode($file);
                 $file = Core_Model_Directory::getTmpDirectory(true)."/$filename";
 
-                if(!file_exists($file)) {
+                if (!file_exists($file)) {
                     throw new Siberian_Exception(__("The file %s does not exist", $filename));
                 }
 
                 $parser = new Installer_Model_Installer_Module_Parser();
                 $is_ok = $parser->setFile($file)->checkPermissions();
 
-                if(!$is_ok) {
+                if (!$is_ok) {
                     $ftp_host = System_Model_Config::getValueFor("ftp_host");
                     $ftp_user = System_Model_Config::getValueFor("ftp_username");
                     $ftp_password = System_Model_Config::getValueFor("ftp_password");
@@ -223,13 +220,15 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                     $ftp_path = System_Model_Config::getValueFor("ftp_path");
                     $ftp = new Siberian_Ftp($ftp_host, $ftp_user, $ftp_password, $ftp_port, $ftp_path);
 
-                    if($ftp->checkConnection() AND $ftp->isSiberianDirectory()) {
+                    if ($ftp->checkConnection() AND $ftp->isSiberianDirectory()) {
                         $is_ok = true;
                     }
                 }
 
-                if($is_ok) {
-                    $data = array("success" => 1);
+                if ($is_ok) {
+                    $payload = [
+                        'success' => true
+                    ];
                 } else {
 
                     $messages = $parser->getErrors();
@@ -237,16 +236,15 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                     throw new Siberian_Exception(__($message));
                 }
 
-            } catch(Exception $e) {
-                $data = array(
-                    "error" => 1,
-                    "message" => $e->getMessage()
-                );
+            } catch (Exception $e) {
+                $payload = [
+                    'error' => true,
+                    'message' => $e->getMessage()
+                ];
             }
 
-            $this->_sendHtml($data);
+            $this->_sendJson($payload);
         }
-
     }
 
     public function saveftpAction() {
@@ -307,7 +305,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                     "message" => __("Info successfully saved")
                 );
 
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 $data = array(
                     "error" => 1,
                     "code" => $error_code,
@@ -317,12 +315,10 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
             $this->_sendHtml($data);
         }
-
     }
 
     public function copyAction() {
-
-        if($file = $this->getRequest()->getParam("file")) {
+        if ($file = $this->getRequest()->getParam("file")) {
 
             $data = array();
 
@@ -337,9 +333,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
                 $parser = new Installer_Model_Installer_Module_Parser();
                 if($parser->setFile($file)->copy()) {
-
                     $data = array("success" => 1);
-
                 } else {
 
                     $messages = $parser->getErrors();

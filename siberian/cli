@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 
 /**
@@ -66,6 +67,26 @@ if(isset($argv[1])) {
         case 'export-db':
                 $migration = new Siberian_Migration_Db();
                 $migration->exportAll();
+            break;
+        case 'version':
+                $versionContent = file_get_contents('./lib/Siberian/Version.php');
+                $versionContent = preg_replace("#const VERSION = '([0-9a-z\.\-]+)';#im",
+                    'const VERSION = \'' . $argv[2] . '\';', $versionContent);
+                file_put_contents('./lib/Siberian/Version.php', $versionContent);
+            break;
+        case 'dev':
+        case 'development':
+            $configContent = file_get_contents('./config.php');
+            $configContent = preg_replace('#\$_config\[("|\')environment("|\')\] = ("|\')(development|production)("|\');#im',
+                '$_config[\'environment\'] = \'development\';', $configContent);
+            file_put_contents('./config.php', $configContent);
+            break;
+        case 'prod':
+        case 'production':
+            $configContent = file_get_contents('./config.php');
+            $configContent = preg_replace('#\$_config\[("|\')environment("|\')\] = ("|\')(development|production)("|\');#im',
+                '$_config[\'environment\'] = \'production\';', $configContent);
+            file_put_contents('./config.php', $configContent);
             break;
     }
 }

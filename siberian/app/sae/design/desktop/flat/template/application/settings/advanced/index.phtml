@@ -1,16 +1,14 @@
 <?php
     $application = $this->getApplication();
+    $ios = $application->getDevice(1);
 
     $form = new Application_Form_Advanced();
     $form->populate($application->getData());
 
-    /**$form_smtp = new Application_Form_Smtp();
-    $form_smtp
-        ->populate($application->getData())
-        ->populate(Siberian_Json::decode($application->getData('smtp_credentials')))
-    ;*/
+    $formNsDescription = new Application_Form_NsDescription();
+    $formNsDescription->populate($ios->getData());
 
-
+    $orientations = Siberian_Json::decode($ios->getOrientations());
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -25,53 +23,242 @@
                     </div>
                 </div>
             </div>
-
-            <?php if(false): ?>
-            <div id="advanced_settings_smtp" class="content solo-page sb-tour">
-                <h3 class="title-editor border-blue text-center">
-                    <?php echo __("Application custom SMTP"); ?>
-                </h3>
-                <div id="advanced" class="subcontent content-color">
-                    <div class="col-md-12">
-                        <?php echo $form_smtp; ?>
-                    </div>
-                </div>
-            </div>
-            <?php endif; ?>
         </div>
     </div>
 </div>
 
-<script type="text/javascript">
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-content-wrapper">
+            <div id="ios_plist" class="content solo-page sb-tour">
+                <h3 class="title-editor border-blue text-center">
+                    <?php echo __('iOS NS*Descriptions'); ?>
+                </h3>
+                <div id="advanced_ios" class="subcontent content-color">
+                    <div class="col-md-12">
+                        <div class="alert alert-warning">
+                            <?php
+$link = '<a style="text-decoration: underline !important;" href="https://developer.apple.com/app-store/review/guidelines">https://developer.apple.com/app-store/review/guidelines</a>';
+echo __('Permissions Modal Alerts messages describe why your apps requires some permissions,');
+echo __('like using the GPS or the camera. After the first installation of your app, those messages will be shown to the app user.');
+echo '<br /><br />' . __("If your messages do not comply with App Store Review Guidelines, %s, your app might be possibly refused after Apple's review.", $link);
+echo '<br /><br />' . __('Please check your messages before sending your app to be published, specifically if you are using iOS Auto publish service: if your app is refused after review, one build will be consumed.');
+                            ?>
+                        </div>
 
-    <?php if(false): ?>
-    function toggleSmtp() {
-        var is_checked = $("#enable_custom_smtp").is(':checked') ? true : false;
-        if(is_checked) {
-            $("#fieldset-smtp").show();
-        } else {
-            $("#fieldset-smtp").hide();
-        }
+                        <div class="alert alert-info">
+                            <?php echo __('You can use <b>%s</b> as variable for your application name.', '#APP_NAME') ?>
+                        </div>
+
+                        <?php echo $formNsDescription; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-content-wrapper">
+            <div id="ios_plist_orientation" class="content solo-page sb-tour">
+                <h3 class="title-editor border-blue text-center">
+                    <?php echo __('iPhone & iPad orientation'); ?>
+                </h3>
+                <form id="saveorientations"
+                      method="post"
+                      enctype="application/x-www-form-urlencoded"
+                      action="<?php echo __path('/application/settings_advanced/saveorientations'); ?>"
+                      class="form sb-form onchange feature-form">
+                    <div id="advanced_ios_orientation" class="subcontent content-color">
+                        <div class="col-md-12 margin-bottom-header">
+                            <h3><?php echo __('iPhone orientation settings') ?></h3>
+                        </div>
+                        <div class="col-md-3 center">
+                            <label>
+                                <img class="iphone l90" src="/app/sae/design/desktop/flat/images/svg/iphone.svg" />
+                                <p class="orientation-checkbox">
+                                    <input class="toggle-img"
+                                            <?php echo ($orientations['iphone-landscape-left']) ? 'checked="checked"' : '' ?>
+                                           type="checkbox"
+                                           name="orientations[iphone-landscape-left]" />
+                                    <?php echo __('Landscape Left'); ?>
+                                </p>
+                            </label>
+                        </div>
+                        <div class="col-md-3 center">
+                            <label>
+                                <img class="iphone" src="/app/sae/design/desktop/flat/images/svg/iphone.svg" />
+                                <p class="orientation-checkbox">
+                                    <input class="toggle-img"
+                                            <?php echo ($orientations['iphone-portrait']) ? 'checked="checked"' : '' ?>
+                                           type="checkbox"
+                                           name="orientations[iphone-portrait]" />
+                                    <?php echo __('Portrait'); ?>
+                                </p>
+                            </label>
+                        </div>
+                        <div class="col-md-3 center">
+                            <label>
+                                <img class="iphone r90" src="/app/sae/design/desktop/flat/images/svg/iphone.svg" />
+                                <p class="orientation-checkbox">
+                                    <input class="toggle-img"
+                                           <?php echo ($orientations['iphone-landscape-right']) ? 'checked="checked"' : '' ?>
+                                           type="checkbox"
+                                           name="orientations[iphone-landscape-right]" />
+                                    <?php echo __('Landscape Right'); ?>
+                                </p>
+                            </label>
+                        </div>
+                        <div class="col-md-3 center">
+                            <label>
+                                <img class="iphone ud180" src="/app/sae/design/desktop/flat/images/svg/iphone.svg" />
+                                <p class="orientation-checkbox">
+                                    <input class="toggle-img"
+                                            <?php echo ($orientations['iphone-upside-down']) ? 'checked="checked"' : '' ?>
+                                           type="checkbox"
+                                           name="orientations[iphone-upside-down]" />
+                                    <?php echo __('Upside Down'); ?>
+                                </p>
+                            </label>
+                        </div>
+
+                        <div class="col-md-12 margin-bottom-header">
+                            <h3 class="margin-top-header"><?php echo __('iPad orientation settings') ?></h3>
+                        </div>
+                        <div class="col-md-3 center">
+                            <label>
+                                <img class="ipad l90" src="/app/sae/design/desktop/flat/images/svg/ipad.svg" />
+                                <p class="orientation-checkbox">
+                                    <input class="toggle-img"
+                                            <?php echo ($orientations['ipad-landscape-left']) ? 'checked="checked"' : '' ?>
+                                           type="checkbox"
+                                           name="orientations[ipad-landscape-left]" />
+                                    <?php echo __('Landscape Left'); ?>
+                                </p>
+                            </label>
+                        </div>
+                        <div class="col-md-3 center">
+                            <label>
+                                <img class="ipad" src="/app/sae/design/desktop/flat/images/svg/ipad.svg" />
+                                <p class="orientation-checkbox">
+                                    <input class="toggle-img"
+                                            <?php echo ($orientations['ipad-portrait']) ? 'checked="checked"' : '' ?>
+                                           type="checkbox"
+                                           name="orientations[ipad-portrait]" />
+                                    <?php echo __('Portrait'); ?>
+                                </p>
+                            </label>
+                        </div>
+                        <div class="col-md-3 center">
+                            <label>
+                                <img class="ipad r90" src="/app/sae/design/desktop/flat/images/svg/ipad.svg" />
+                                <p class="orientation-checkbox">
+                                    <input class="toggle-img"
+                                            <?php echo ($orientations['ipad-landscape-right']) ? 'checked="checked"' : '' ?>
+                                           type="checkbox"
+                                           name="orientations[ipad-landscape-right]" />
+                                    <?php echo __('Landscape Right'); ?>
+                                </p>
+                            </label>
+                        </div>
+                        <div class="col-md-3 center">
+                            <label>
+                                <img class="ipad ud180" src="/app/sae/design/desktop/flat/images/svg/ipad.svg" />
+                                <p class="orientation-checkbox">
+                                    <input class="toggle-img"
+                                            <?php echo ($orientations['ipad-upside-down']) ? 'checked="checked"' : '' ?>
+                                           type="checkbox"
+                                           name="orientations[ipad-upside-down]" />
+                                    <?php echo __('Upside Down'); ?>
+                                </p>
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    #advanced_ios_orientation .center {
+        text-align: center;
     }
 
-    $("#enable_custom_smtp").on("change", function() {
-        toggleSmtp();
-    });
+    #advanced_ios_orientation .margin-top-header {
+        margin-top: 40px;
+    }
 
-    toggleSmtp();
+    #advanced_ios_orientation .margin-bottom-header {
+        margin-bottom: 40px;
+    }
 
+    #advanced_ios_orientation label p {
+        margin-top: 20px;
+    }
 
+    #advanced_ios_orientation .orientation-checkbox {
+        display: flex;
+        flex-direction: row;
+        text-indent: 20px;
+    }
+
+    #advanced_ios_orientation img.ipad,
+    #advanced_ios_orientation img.iphone {
+        width: 120px;
+        filter: grayscale(100%) brightness(150%);
+    }
+
+    #advanced_ios_orientation input::before {
+        filter: grayscale(100%) brightness(150%);
+    }
+
+    #advanced_ios_orientation img.ipad.active,
+    #advanced_ios_orientation img.iphone.active,
+    #advanced_ios_orientation input:checked::before {
+        filter: grayscale(0%) brightness(100%);
+    }
+
+    #advanced_ios_orientation img.ipad.l90,
+    #advanced_ios_orientation img.iphone.l90 {
+        transform: rotate(-90deg);
+    }
+
+    #advanced_ios_orientation img.ipad.r90,
+    #advanced_ios_orientation img.iphone.r90 {
+        transform: rotate(90deg);
+    }
+
+    #advanced_ios_orientation img.ipad.ud180,
+    #advanced_ios_orientation img.iphone.ud180 {
+        transform: rotate(180deg);
+    }
+</style>
+
+<script type="text/javascript">
     $(document).ready(function() {
         bindForms("#advanced");
-        bindForms("#form-application-smtp");
+        bindForms("#advanced_ios");
+        bindForms("#ios_plist_orientation");
 
-        setTimeout(function() {
-            $("#smtp_credentials-password").attr("type", "password");
-        }, 200);
+        var togglers = $('.toggle-img');
+        togglers.on('click', function() {
+            var el = $(this);
+            if (el.prop('checked')) {
+                el.parent('p').prev('img').addClass('active');
+            } else {
+                el.parent('p').prev('img').removeClass('active');
+            }
+        });
 
-    });
-    <?php endif; ?>
-    $(document).ready(function() {
-        bindForms("#advanced");
+        togglers.each(function () {
+            var el = $(this);
+            if (el.prop('checked') || el.attr('checked') === 'checked') {
+                el.parent('p').prev('img').addClass('active');
+            } else {
+                el.parent('p').prev('img').removeClass('active');
+            }
+        })
     });
 </script>

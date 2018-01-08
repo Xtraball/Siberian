@@ -46,15 +46,6 @@
                 return false;
             }.bind(this));
 
-//            $('#category_root').on('mouseenter', '.category_title', function() {
-//                $(this).addClass('inner_content');
-//            });
-//            $('#category_root').on('mouseleave', '.category_title', function() {
-//                if(!$(this).hasClass('active')) {
-//                    $(this).removeClass('inner_content');
-//                }
-//            });
-
             $('#category_root').on('click', '.remove_category', function(e) {
                 if(!confirm('<?php echo addslashes($this->_("Are you sure you want to delete this category and all its subcategories?")) ?>')) return false;
                 var url = '<?php echo $this->getUrl('mcommerce/application_catalog_category/delete', array('option_value_id' => '#{value_id}', 'category_id' => '#{category_id}')); ?>';
@@ -269,13 +260,13 @@
 <style>
     ul.tree li.placeholder {
         margin: 0;
-        padding: 0 0 0 0;
+        padding: 0;
         border: 1px dotted;
         height:45px;
-        background: rgba(0,0,0,0.1);
+        background: rgba(0, 0, 0, 0.1);
     }
     ul.tree li.placeholder.mjs-nestedSortable-error {
-        background: rgba(255,0,0,0.3);
+        background: rgba(255, 0, 0, 0.3);
         border-color: red;
         border-style: solid;
     }

@@ -44,6 +44,103 @@ class Application_Settings_AdvancedController extends Application_Controller_Def
         $this->_sendJson($data);
     }
 
+    public function savensdescriptionAction() {
+        try {
+            $request = $this->getRequest();
+            $application = $this->getApplication();
+            $iosDevice = $application->getDevice(1);
+            $params = $request->getParams();
+
+            $formNsDescription = new Application_Form_NsDescription();
+
+            if (!$formNsDescription->isValid($params)) {
+                $payload = [
+                    'error' => true,
+                    'message' => $formNsDescription->getTextErrors(),
+                    'errors' => $formNsDescription->getTextErrors(true),
+                ];
+            } else {
+                $iosDevice
+                    ->setData($formNsDescription->getValues())
+                    ->save();
+
+                $payload = [
+                    'success' => true,
+                    'message' => __('iOS Descriptions saved!')
+                ];
+            }
+
+
+        } catch(Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    public function saveorientationsAction() {
+        try {
+            $request = $this->getRequest();
+            $application = $this->getApplication();
+            $iosDevice = $application->getDevice(1);
+            $params = $request->getParams();
+
+            $defaults = [
+                'iphone-portrait' => false,
+                'iphone-upside-down' => false,
+                'iphone-landscape-left' => false,
+                'iphone-landscape-right' => false,
+                'ipad-portrait' => false,
+                'ipad-upside-down' => false,
+                'ipad-landscape-left' => false,
+                'ipad-landscape-right' => false,
+                'android-portrait' => true,
+                'android-upside-down' => true,
+                'android-landscape-left' => true,
+                'android-landscape-right' => true,
+            ];
+
+            foreach ($params['orientations'] as $key => $value) {
+                if (isset($defaults[$key])) {
+                    $defaults[$key] = true;
+                }
+            }
+
+            if (!$defaults['iphone-portrait'] &&
+                !$defaults['iphone-upside-down'] &&
+                !$defaults['iphone-landscape-left'] &&
+                !$defaults['iphone-landscape-right']) {
+                throw new Siberian_Exception(__('You must select at least one orientation for iPhone!'));
+            }
+
+            if (!$defaults['ipad-portrait'] &&
+                !$defaults['ipad-upside-down'] &&
+                !$defaults['ipad-landscape-left'] &&
+                !$defaults['ipad-landscape-right']) {
+                throw new Siberian_Exception(__('You must select at least one orientation for iPad!'));
+            }
+
+            $iosDevice
+                ->setOrientations(Siberian_Json::encode($defaults))
+                ->save();
+
+            $payload = [
+                'success' => true,
+                'message' => __('Orientations saved!')
+            ];
+        } catch(Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
     public function saveAction() {
 
         if($data = $this->getRequest()->getPost()) {

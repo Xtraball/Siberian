@@ -1,20 +1,17 @@
-<?php $messages = $this->getMessages(); ?>
-<?php $messages = $messages->getError(); ?>
-<div class="has_header" value-id="value_id" ng-class="{background_image: style_background_image}" ng-style="style_background_image">
+<ion-view sb-page-background cache-view="false" >
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <button ng-click="right_button.action()" class="button button-clear header-item" ng-if="right_button">
+            <span class="back-text"><span class="default-title">{{ right_button.label }}</span></span>
+            <i class="icon" ng-class="right_button.icon"></i>
+        </button>
+    </ion-nav-buttons>
 
-    <div class="mcommerce cart">
-        <div id="mcommerce_purchase_success_content" class="relative" rel="mcommerce_purchase_confirm">
-            <div class="scroll" class="relative">
-                <div class="padding">
-                    <?php if(count($messages) > 0) : ?>
-                        <ul class="message error">
-                            <?php foreach($messages as $error) : ?>
-                                <li><?php echo $error; ?></li>
-                            <?php endforeach; ?>
-                        </ul>
-                    <?php endif ?>
-                </div>
+    <ion-content>
+        <div class="card">
+            <div class="item item-text-wrap item-custom">
+                <i class="icon ion-close-round"></i> {{ 'An error occurred during the payment process.' | translate }}
             </div>
         </div>
-    </div>
-</div>
+    </ion-content>
+</ion-view>

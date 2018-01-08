@@ -30,4 +30,25 @@ class Application_SecurityController extends Core_Controller_Default_Abstract {
             ));
         }
     }
+
+    public function plistAction () {
+        $plist = new PListEditor\PListEditor();
+        $plist->readFile('/Volumes/SSD2/Developments/repos/xtraball.com/siberian-2/ionic/platforms/ios/AppsMobileCompany/AppsMobileCompany-Info.plist');
+        // Preview PList
+
+        $dom = new DOMDocument('1.0', 'utf-8');
+
+        $root = $plist->root();
+        $root->removeProperty('CFBundleDisplayName');
+        $root->addProperty(\PListEditor\PListProperty::PL_ARRAY, [
+            'toto',
+            'tata'
+        ], 'CFBundleDisplayName');
+
+        echo 'Preview' . PHP_EOL . '<br />';
+        echo '<pre>';
+        print_r(htmlspecialchars($plist->preview()));
+
+        die();
+    }
 }

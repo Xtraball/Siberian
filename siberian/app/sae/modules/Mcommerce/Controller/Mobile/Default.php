@@ -40,9 +40,16 @@ class Mcommerce_Controller_Mobile_Default extends Application_Controller_Mobile_
         }
         $this->_store = $store;
 
-        $cart = $this->getSession()->getCart();
-        if(!$cart->getId() AND $store->getId()) {
-            
+        $request = $this->getRequest();
+        $uriCartId = $request->getParam('cart_id', false);
+        $cart = (new Mcommerce_Model_Cart())
+                ->find($uriCartId);
+
+        if ($cart->getId()) {
+            $this->getSession()->setCart($cart);
+        } else if (!$this->getSession()->getCart()->getId() && $store->getId()) {
+            $cart = $this->getSession()->getCart();
+
             $logger->debug("Create new cart in session.");
             
             $cart->setMcommerceId($this->getCurrentOptionValue()->getObject()->getId())
@@ -50,21 +57,24 @@ class Mcommerce_Controller_Mobile_Default extends Application_Controller_Mobile_
                 ->save()
             ;
             $this->getSession()->setCart($cart);
-        }else{
+        } else {
             // Adding a condition for when the cart has already been validated.
             // We have to check if an order which corresponds to the cart has been saved.
             // In the latter case we create a new cart, to avoid carrying cart lines from old purshases.
             if ($this->cartAlreadyValidated()) {
-                $logger->debug("Create new cart in session upon cart validation.");
+                $logger->debug('Create new cart in session upon cart validation.');
                 $cart = new Mcommerce_Model_Cart();
-                $cart->setMcommerceId($this->getCurrentOptionValue()->getObject()->getId())
+                $cart
+                    ->setMcommerceId($this->getCurrentOptionValue()->getObject()->getId())
                     ->setStoreId($store->getId())
                     ->save();
                 $this->getSession()->setCart($cart);
             } else {
+                $cart = $this->getSession()->getCart();
                 $logger->debug("Cart already exists.");
             }
         }
+
         $this->_cart = $cart;
 
         return $this;
@@ -78,9 +88,11 @@ class Mcommerce_Controller_Mobile_Default extends Application_Controller_Mobile_
     protected function cartAlreadyValidated() {
         $cart = $this->getSession()->getCart();
         $order = new Mcommerce_Model_Order();
-        $order->find(array('cart_id' => $cart->getCartId()));
-        $validator = new Zend_Validate_Int();
-        return $validator->isValid($order->getId());
+        $order->find([
+            'cart_id' => $cart->getCartId()
+        ]);
+
+        return ($order->getId());
     }
 
     /**
@@ -132,6 +144,9 @@ class Mcommerce_Controller_Mobile_Default extends Application_Controller_Mobile_
         return $result;
     }
 
+    /**
+     * @return Mcommerce_Model_Promo|null
+     */
     protected function getPromo() {
         $cart = $this->getCart();
         $promo = Mcommerce_Model_Promo::getApplicablePromo($cart);

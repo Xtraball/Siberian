@@ -1,11 +1,9 @@
-/*global
-    App, DOMAIN, angular, btoa, device, cordova, calculateDistance
- */
-
 /**
  * PushService
  *
  * @author Xtraball SAS
+ *
+ * @version 4.12.21
  */
 angular.module('starter').service('PushService', function ($cordovaLocalNotification, $location, $log, $q, $rootScope,
                                                            $translate, $window, $session, Application, Dialog,
@@ -107,6 +105,9 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
         }
     };
 
+    /**
+     * Registration!
+     */
     service.registerDevice = function () {
         switch (Push.device_type) {
             case SB.DEVICE.TYPE_ANDROID:
@@ -119,6 +120,9 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
         }
     };
 
+    /**
+     * Android!
+     */
     service.registerAndroid = function () {
         var params = {
             app_id: Application.app_id,
@@ -171,52 +175,7 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
 
     service.onNotificationReceived = function () {
         service.push.on('notification', function (data) {
-            if (data.additionalData.longitude && data.additionalData.latitude) {
-                var callbackCurrentPosition = function (result) {
-                    var distance_in_km = calculateDistance(
-                        result.latitude,
-                        result.longitude,
-                        data.additionalData.latitude,
-                        data.additionalData.longitude,
-                        'K'
-                    );
-
-                    if (distance_in_km <= data.additionalData.radius) {
-                        if (Push.device_type === SB.DEVICE.TYPE_IOS) {
-                            data.title = data.additionalData.user_info.alert.body;
-                            data.message = data.title;
-                        }
-
-                        service.sendLocalNotification(data.additionalData.message_id, data.title, data.message);
-
-                        $rootScope.$broadcast(SB.EVENTS.PUSH.notificationReceived, data);
-                    } else {
-                        service.addProximityAlert(data);
-                    }
-                };
-
-                var callbackErrCurrentPosition = function (err) {
-                    $log.debug(err.message);
-
-                    service.addProximityAlert(data);
-                };
-
-                if (Push.device_type === SB.DEVICE.TYPE_IOS) {
-                    $window.BackgroundGeolocation
-                        .getCurrentPosition(function (location, taskId) {
-                            location.latitude = location.coords.latitude;
-                            location.longitude = location.coords.longitude;
-
-                            callbackCurrentPosition(location);
-                            $window.BackgroundGeolocation.finish(taskId);
-                        }, callbackErrCurrentPosition);
-                } else {
-                    // Get the user current position when app on foreground!
-                    $window.BackgroundGeoloc.getCurrentPosition(callbackCurrentPosition, callbackErrCurrentPosition);
-                }
-            } else {
-                $rootScope.$broadcast(SB.EVENTS.PUSH.notificationReceived, data);
-            }
+            $rootScope.$broadcast(SB.EVENTS.PUSH.notificationReceived, data);
 
             service.push.finish(function () {
                 $log.debug('push finish success');
@@ -226,203 +185,6 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
                 // error!
             });
         });
-    };
-
-    service.startBackgroundGeolocation = function () {
-        if (!$window.BackgroundGeolocation) {
-            $log.debug('unable to find BackgroundGeolocation plugin.');
-            return;
-        }
-
-        switch (Push.device_type) {
-            case SB.DEVICE.TYPE_IOS:
-
-                $log.debug('-- iOS StartBackgroundLocation --');
-                service.startIosBackgroundGeolocation();
-
-                break;
-
-            case SB.DEVICE.TYPE_ANDROID:
-
-                $log.debug('-- ANDROID StartBackgroundLocation --');
-
-                $window.BackgroundGeoloc.startBackgroundLocation(function (result) {
-                    // Android only!
-                    var proximity_alerts = JSON.parse(localStorage.getItem('proximity_alerts'));
-                    if (proximity_alerts !== null) {
-                        angular.forEach(proximity_alerts, function (value, index) {
-                            var alert = value;
-
-                            var distance_in_km = calculateDistance(result.latitude,
-                                result.longitude, alert.additionalData.latitude, alert.additionalData.longitude, 'K');
-                            if (distance_in_km <= alert.additionalData.radius) {
-                                var current_date = Date.now();
-                                var push_date = new Date(alert.additionalData.send_until).getTime();
-
-                                if (!push_date || (push_date >= current_date)) {
-                                    service.sendLocalNotification(alert.additionalData.message_id, alert.title, alert.message);
-
-                                    $rootScope.$broadcast(SB.EVENTS.PUSH.notificationReceived, alert);
-                                }
-
-                                proximity_alerts.splice(index, 1);
-                            }
-                        });
-
-                        localStorage.setItem('proximity_alerts', JSON.stringify(proximity_alerts));
-                    } else {
-                        $window.BackgroundGeoloc.stopBackgroundLocation();
-                    }
-                }, function (err) {
-                    $log.debug('error to startLocation: ' + err);
-                });
-
-                break;
-        }
-    };
-
-    service.startIosBackgroundGeolocation = function () {
-        // This callback will be executed every time a geolocation is recorded in the background!
-        var callbackFn = function (location, taskId) {
-            var coords = location.coords;
-            var lat = coords.latitude;
-            var lng = coords.longitude;
-            $log.debug('- Location: ', JSON.stringify(location));
-
-            // Must signal completion of your callbackFn.
-            $window.BackgroundGeolocation.finish(taskId);
-        };
-
-        // This callback will be executed if a location-error occurs.  Eg: this will be called if user disables location-services.
-        var failureFn = function (errorCode) {
-            $log.debug('- BackgroundGeoLocation error: ', errorCode);
-        };
-
-        $window.BackgroundGeolocation.onGeofence(function (params, taskId) {
-            try {
-                // var location  = params.location;
-                var identifier = params.identifier;
-                var message_id = identifier.replace('push', '');
-                var action = params.action;
-
-                $log.debug('A geofence has been crossed: ', identifier);
-                $log.debug('ENTER or EXIT ?: ', action);
-
-                // Remove the geofence
-                $window.BackgroundGeolocation.removeGeofence(identifier);
-
-                // Remove the stored proximity alert
-                var proximity_alerts = JSON.parse(localStorage.getItem('proximity_alerts'));
-                if (proximity_alerts !== null) {
-                    angular.forEach(proximity_alerts, function (value, index) {
-                        var alert = value;
-
-                        if (message_id === alert.additionalData.message_id) {
-                            var current_date = Date.now();
-                            var push_date = new Date(alert.additionalData.send_until).getTime();
-
-                            if (!push_date || (push_date >= current_date)) {
-                                alert.title = alert.additionalData.user_info.alert.body;
-                                alert.message = alert.title;
-
-                                service.sendLocalNotification(alert.additionalData.message_id, alert.title, alert.message);
-
-                                $rootScope.$broadcast(SB.EVENTS.PUSH.notificationReceived, alert);
-                            }
-
-                            proximity_alerts.splice(index, 1);
-                        }
-                    });
-
-                    localStorage.setItem('proximity_alerts', JSON.stringify(proximity_alerts));
-                }
-            } catch (e) {
-                $log.debug('An error occurred in my application code', e);
-            }
-
-            $window.BackgroundGeolocation.finish(taskId);
-        });
-
-        // BackgroundGeoLocation is highly configurable!
-        $window.BackgroundGeolocation.configure({
-            // Geolocation config!
-            desiredAccuracy: 0,
-            distanceFilter: 10,
-            stationaryRadius: 50,
-            locationUpdateInterval: 1000,
-            fastestLocationUpdateInterval: 5000,
-
-            // Activity Recognition config!
-            activityType: 'AutomotiveNavigation',
-            activityRecognitionInterval: 5000,
-            stopTimeout: 5,
-
-            // Disable aggressive GPS!
-            disableMotionActivityUpdates: true,
-
-            // Block mode!
-            useSignificantChangesOnly: true,
-
-            // Application config!
-            debug: false,
-            stopOnTerminate: true,
-            startOnBoot: true
-        }, function (state) {
-            $log.debug('BackgroundGeolocation ready: ', state);
-            if (!state.enabled) {
-                $window.BackgroundGeolocation.start();
-            }
-        });
-    };
-
-    /**
-     * Geofencing for iOS/Background geolocation for Android
-     *
-     * @param data
-     */
-    service.addProximityAlert = function (data) {
-        $log.debug('-- Adding a proximity alert --');
-
-        var proximityAlerts = localStorage.getItem('proximity_alerts');
-        var jsonProximityAlerts = JSON.parse(proximityAlerts);
-
-        if (jsonProximityAlerts === null) {
-            jsonProximityAlerts = [];
-            jsonProximityAlerts.push(data);
-            localStorage.setItem('proximity_alerts', JSON.stringify(jsonProximityAlerts));
-        } else {
-            var index = proximityAlerts.indexOf(JSON.stringify(data));
-            if (index === -1) {
-                jsonProximityAlerts.push(data);
-                localStorage.setItem('proximity_alerts', JSON.stringify(jsonProximityAlerts));
-            }
-        }
-
-        switch (Push.device_type) {
-            case SB.DEVICE.TYPE_IOS:
-
-                    $log.debug('-- iOS --');
-                    $window.BackgroundGeolocation.addGeofence({
-                        identifier: 'push' + data.additionalData.message_id,
-                        radius: Number.parseInt(data.additionalData.radius * 1000, 10),
-                        latitude: data.additionalData.latitude,
-                        longitude: data.additionalData.longitude,
-                        notifyOnEntry: true
-                    }, function () {
-                        $log.debug('Successfully added geofence');
-                    }, function (error) {
-                        $log.debug('Failed to add geofence', error);
-                    });
-
-                break;
-
-            case SB.DEVICE.TYPE_ANDROID:
-
-                    $log.debug('-- ANDROID --');
-                    service.startBackgroundGeolocation();
-
-                break;
-        }
     };
 
     /**
@@ -624,7 +386,7 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
                 // Nope!
                 $log.debug('Will not display duplicated message: ', messagePayload);
             }).catch(function (err) {
-                // we got an error
+                // we got an error!
                 $log.debug('We got an error with the localForage when trying to display push message: ', messagePayload);
                 $log.debug(err);
             });

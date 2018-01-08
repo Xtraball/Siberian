@@ -8,27 +8,15 @@ class Application_Controller_Default extends Admin_Controller_Default {
 
         parent::init();
 
+        $request = $this->getRequest();
+        if($request->getControllerName() == 'privacypolicy') {
+            return $this;
+        }
+
         // Options ACL
         $application_acl_option = new Application_Model_Acl_Option();
         $denied_options = $application_acl_option->findAllByAppAndAdminId($this->getApplication()->getId(),$this->getAdmin()->getId());
         $this->_getAcl()->denyResources($denied_options, true);
-
-        // Subscription ACL
-        if($this->isPe()) {
-            if ($subscription_id = $this->getApplication()->getSubscription()->getSubscriptionId()) {
-                $subscription_acl = new Subscription_Model_Acl_Resource();
-                $resources = $subscription_acl->findBySubscriptionId($subscription_id);
-
-                $codes = array();
-                foreach ($resources as $resource) {
-                    $codes[] = $resource->getCode();
-                }
-
-                if ($codes) {
-                    $this->_getAcl()->denyResources($codes);
-                }
-            }
-        }
 
         $excluded = array(
             'admin_application_list',
@@ -58,24 +46,55 @@ class Application_Controller_Default extends Admin_Controller_Default {
         }
     }
 
+    /**
+     * Generic edit Action, loading form for features
+     */
     public function editAction() {
+        try {
+            if ($this->getCurrentOptionValue()) {
+                $this->loadPartials(null, false);
+                $layout = $this->getLayout();
 
-        if($this->getCurrentOptionValue()) {
-            $this->loadPartials(null, false);
+                // Vars assigned to the view automatically!
+                $contentPartial = $layout->getPartial('content');
+                $this->assignVars($contentPartial);
 
-            $layout = $this->getLayout();
-            $content_partial = $layout->getPartial('content');
-            $this->assignVars($content_partial);
+                if ($layout->getPartial('content_editor')) {
+                    // Vars assigned to the view automatically!
+                    $contentEditorPartial = $layout->getPartial('content_editor');
+                    $this->assignVars($contentEditorPartial);
+                }
 
-            if($layout->getPartial('content_editor')) {
-                $content_editor_partial = $layout->getPartial('content_editor');
-                $this->assignVars($content_editor_partial);
+                $htmlRender = mb_convert_encoding($this->getLayout()->render(), 'UTF-8', 'UTF-8');
+
+                if (empty($htmlRender)) {
+                    // Try to rebuild cache, files may have changed upon update!
+                    Siberian_Cache::__clearCache();
+                    Siberian_Cache::init();
+
+                    $htmlRender = mb_convert_encoding($this->getLayout()->render(), 'UTF-8', 'UTF-8');
+                }
+
+                $overviewPath = $this->getCurrentOptionValue()->getPath(null, array(), 'mobile');
+
+                $payload = [
+                    'html' => $htmlRender,
+                    'path' => $overviewPath ? $overviewPath : ''
+                ];
+            } else {
+                $payload = [
+                    'error' => true,
+                    'message' => __('The feature doesn\'t esixts')
+                ];
             }
-            $html = array('html' => mb_convert_encoding($this->getLayout()->render(), 'UTF-8', 'UTF-8'));
-            $path =  $this->getCurrentOptionValue()->getPath(null, array(), "mobile");
-            $html["path"] = $path ? $path : "";
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+        } catch(Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => __('An unknown error occurred, please try again later.')
+            ];
         }
+
+        $this->_sendJson($payload);
     }
 
     /**
@@ -87,6 +106,8 @@ class Application_Controller_Default extends Admin_Controller_Default {
 
     /**
      * Assign view public vars to template
+     *
+     * @duplicate with sae/mae
      *
      * @param $partial
      */

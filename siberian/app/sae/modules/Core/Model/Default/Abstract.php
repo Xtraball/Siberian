@@ -1,6 +1,9 @@
 <?php
-abstract class Core_Model_Default_Abstract
-{
+
+/**
+ * Class Core_Model_Default_Abstract
+ */
+abstract class Core_Model_Default_Abstract {
     /**
      * @var Zend_Cache
      */
@@ -8,22 +11,22 @@ abstract class Core_Model_Default_Abstract
 
     protected $_db_table;
     protected $_is_cacheable = false;
-    protected $_action_view = "find";
+    protected $_action_view = 'find';
     protected static $_application;
-    protected static $_session = array();
+    protected static $_session = [];
     protected static $_base_url;
 
-    protected $_data = array();
-    protected $_orig_data = array();
+    protected $_data = [];
+    protected $_orig_data = [];
 
-    protected $_specific_import_data = array();
-    protected $_mandatory_columns = array();
+    protected $_specific_import_data = [];
+    protected $_mandatory_columns = [];
 
     public $_default_application_image_path = "images/application";
 
     public $logger = null;
 
-    public function __construct($data = array()) {
+    public function __construct($data = []) {
         $this->logger = Zend_Registry::get("logger");
         if(Zend_Registry::isRegistered("cache") && ($this->cache == null)) {
             $this->cache = Zend_Registry::get("cache");
@@ -38,82 +41,54 @@ abstract class Core_Model_Default_Abstract
         return $this;
     }
 
-    //                                          .
-    //                                    *   .     .   .
-    //                                      . (*.) .    * .
-    //                                  .  ( .(.. ) )
-    //                                 . .( (..*  ).*) .
-    //                      .            ( *  . ). .)  .
-    //                     /:\           .  ( (. *.) .   
-    //                    /:.:\        .  .  )  *
-    //                   /:.:.:\         .*   /.  .    *  
-    //    M A G I C     |wwWWWww|            /   .
-    //                  (((""")))           /
-    // H A P P E N S !  (. @ @ .)          /
-    //                  (( (_) ))      __ /
-    //                 .-)))o(((-.    |:.   \
-    //                /.:((()))):.:\  /.:.  \
-    //               /.:.:)))((:.:.:\/.:.:.|
-    //              /.:.:.((()).:.:./.:.\.:|
-    //             /.:.:.:.))((:.:.:.:./  \|
-    //            /.:.:.:Y:((().Y.:.:./
-    //           /.:.:.:/:.:)).:\:.:.| 
-    //          /.:.:.:/|.:.(.:.:\:./ 
-    //         /.:.:.:/ |:.:.:.:.|\'
-    //         `;.:./   |.:.:.:.:| `  __,_,_,___)
-    //           |./'   |:.:.:.:.|   (  / / /       _
-    //           `'     |.:.:.:.:|     / / / _ ,_  // . ,_
-    //                  |:.:.:.:.|    / / (_(/_/(_(/_/_//(__)
-    //                  |.:.:.:.:| (_/
-    //                  |:.:.:.:.|
-    //                 |:.:.:.:.:.|
-    //                |.:.:.:.:.:.:|  
-    //            jgs |:.:.:.:.:.:.|
-    //                `-:.:.:.:.:.-'
-    //
-    public function __call($method, $args)
-    {
+    /**
+     * use __call with care, and don't forget to at least describe methods in phpdoc!
+     *
+     * @param $method
+     * @param $args
+     * @return mixed
+     * @throws Exception
+     */
+    public function __call($method, $args) {
         $accessor = substr($method, 0, 3);
         $magicKeys = array('set', 'get', 'uns', 'has');
 
-        if(preg_match('/(CreatedAt|UpdatedAt)$/', $method, $matches)) {
+        if (preg_match('/(CreatedAt|UpdatedAt)$/', $method, $matches)) {
             $key = Core_Model_Lib_String::camelize($matches[1]);
             $formatted = (substr($method, 0, 12) == 'getFormatted');
             $simple_access = $method == "get".$matches[1];
 
-            if($formatted || $simple_access) {
+            if ($formatted || $simple_access) {
                 $data = $this->getData($key."_utc");
 
-                if($data && @intval($data, 10) > 0) {
+                if ($data && @intval($data, 10) > 0) {
                     $data = gmdate("c", $data);
                 } else { // no data or invalid data, fallback to legacy
                     $data = $this->getData($key);
                 }
 
-                if($formatted) {
+                if ($formatted) {
                     return $this->formatDate($data, !empty($args[0]) ? $args[0] : null);
                 }
-                if($simple_access) {
+                if ($simple_access) {
                     return $data;
                 }
             }
         }
 
-        if(substr($method, 0, 12) == 'getFormatted') {
+        if (substr($method, 0, 12) == 'getFormatted') {
             $key = Core_Model_Lib_String::camelize(substr($method,12));
             $data = $this->getData($key);
 
-            if(preg_match('/^\s*([0-9]+(\.[0-9]+)?)\s*$/', $data)) {
+            if (preg_match('/^\s*([0-9]+(\.[0-9]+)?)\s*$/', $data)) {
                 return $this->formatPrice($data, !empty($args[0]) ? $args[0] : null);
-            }
-//            elseif(preg_match('/(\d){2,4}\-(\d){2}\-(\d){2} (\d{2}:\d{2}:\d{2})/', $data)) {
-            elseif(preg_match('/(\d){2,4}\-(\d){2}\-(\d){2}/', $data)) {
+            } else if (preg_match('/(\d){2,4}\-(\d){2}\-(\d){2}/', $data)) {
                 return $this->formatDate($data, !empty($args[0]) ? $args[0] : null);
             }
         }
 
-        if(in_array($accessor, $magicKeys)) {
-            if(substr($method, 0, 7) == 'getOrig') {
+        if (in_array($accessor, $magicKeys)) {
+            if (substr($method, 0, 7) == 'getOrig') {
                 $key = Core_Model_Lib_String::camelize(substr($method,7));
                 $method = $accessor.'OrigData';
             } else {
@@ -522,13 +497,13 @@ abstract class Core_Model_Default_Abstract
      * @param array $values
      * @param null $order
      * @param array $params
-     * @return Push_Model_Message[]
+     * @return []
      */
-    public function findAll($values = array(), $order = null, $params = array()) {
+    public function findAll($values = [], $order = null, $params = []) {
         return $this->getTable()->findAll($values, $order, $params);
     }
 
-    public function countAll($values = array()) {
+    public function countAll($values = []) {
         return $this->getTable()->countAll($values);
     }
 
