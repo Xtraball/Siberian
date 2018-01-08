@@ -42,11 +42,17 @@ class Payment_Model_Payment extends Core_Model_Default {
      * @return bool
      */
     public static function isSetup($method) {
+        $excludeKeys = ['is_testing'];
+
         $providerName = new Api_Model_Provider();
         $providerName->find($method, 'code');
         $keys = $providerName->getKeys();
 
         foreach ($keys as $key) {
+            if (in_array($key->getKey(), $excludeKeys)) {
+                continue;
+            }
+
             if (!$key->getValue()) {
                 return false;
             }
