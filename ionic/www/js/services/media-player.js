@@ -183,7 +183,6 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
     };
 
     service.destroy = function () {
-
         $interval.cancel(service.seekbarTimer);
         if (service.media) {
             if (service.is_playing) {
