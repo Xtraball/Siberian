@@ -51,21 +51,21 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default {
                         if(isset($georeverse["locality"])) {
                             $locality = $georeverse["locality"];
                         }
-
                         $latitude = $values["latitude"];
                         $longitude = $values["longitude"];
 
                         $search_by_distance = true;
+                        $position = true;
                     }
                     if($more_search && $values["locality"] != $locality) {
-                        $geocode = Siberian_Google_Geocoding::getLatLng(array("address" =>$values["locality"]));
-
+                        $geocode = Siberian_Google_Geocoding::getLatLng(array("address" => $values["locality"]));
                         $locality = $values["locality"];
 
                         $latitude = $geocode[0];
                         $longitude = $geocode[1];
 
                         $search_by_distance = true;
+                        $position = true;
                     }
 
                     $place = new Job_Model_Place();

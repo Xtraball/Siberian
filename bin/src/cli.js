@@ -704,6 +704,8 @@ let installPlugin = function (pluginName, platform, opts) {
             silent = '';
         }
 
+        console.log('plugman install --platform ' + platformBase +
+            ' --project ' + platformPath + ' ' + silent + ' --plugin ' + pluginPath + ' ' + cliVariables);
         sh.exec('plugman install --platform ' + platformBase +
             ' --project ' + platformPath + ' ' + silent + ' --plugin ' + pluginPath + ' ' + cliVariables);
     }
