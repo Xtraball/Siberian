@@ -301,6 +301,9 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         $logger->sendException("Fatal Error: \n".print_r($errors, true));
     }
 
+    /**
+     * @return Siberian_Layout|Siberian_Layout_Email
+     */
     public function getLayout() {
         return $this->_layout;
     }
