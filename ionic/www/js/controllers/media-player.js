@@ -8,33 +8,33 @@ angular.module('starter').controller('MediaPlayerController', function ($cordova
                                                                        Application, HomepageLayout, MediaPlayer,
                                                                        SB, SocialSharing, LinkService) {
     $scope.is_webview = !$rootScope.isNativeApp;
-
-    Modal
-        .fromTemplateUrl('templates/media/music/l1/player/playlist.html', {
-            scope: $scope
-        })
-        .then(function (modal) {
-            $scope.mediaplayer_playlist_modal = modal;
-        });
+    $scope.isDestroyed = false;
 
     $scope.loadContent = function () {
         if (!MediaPlayer.media) {
             MediaPlayer.loading();
+            MediaPlayer.createModal($scope);
         }
     };
 
-    $scope.minimize = function () {
-        $scope.goBack();
-        MediaPlayer.is_initialized = false;
-
-        MediaPlayer.is_minimized = true;
-        $rootScope.$broadcast(SB.EVENTS.MEDIA_PLAYER.SHOW);
-    };
-
+    // Real X button destroy, which means stop media
     $scope.destroy = function () {
-        $scope.goBack();
+        $scope.isDestroyed = true;
         MediaPlayer.destroy();
+        $scope.goBack();
     };
+
+    // When leaving the media (back button, or another state
+    $scope.$on('$destroy', function () {
+        if (!$scope.isDestroyed) {
+            MediaPlayer.is_initialized = false;
+
+            MediaPlayer.is_minimized = true;
+            $rootScope.$broadcast(SB.EVENTS.MEDIA_PLAYER.SHOW, {
+                isRadio: MediaPlayer.is_radio
+            });
+        }
+    });
 
     $scope.goBack = function () {
         if (MediaPlayer.is_radio && MediaPlayer.is_initialized) {
@@ -74,11 +74,11 @@ angular.module('starter').controller('MediaPlayerController', function ($cordova
 
     // Playlist modal
     $scope.openPlaylist = function () {
-        $scope.mediaplayer_playlist_modal.show();
+        MediaPlayer.openPlaylist();
     };
 
     $scope.closePlaylist = function () {
-        $scope.mediaplayer_playlist_modal.hide();
+        MediaPlayer.closePlaylist();
     };
 
     $scope.selectTrack = function (index) {

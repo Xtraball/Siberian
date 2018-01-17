@@ -8,6 +8,7 @@
  *
  * @method integer getId()
  * @method integer getValueId()
+ * @method getRequest()
  *
  */
 class Application_Model_Option_Value extends Application_Model_Option
