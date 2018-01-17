@@ -29,12 +29,12 @@
 
         </ion-nav-bar>
 
-        <sb-nav-view></sb-nav-view>
+        <sb-nav-view class="nav-view-{{ layout_id }}"></sb-nav-view>
 
         <sb-media-mini-player></sb-media-mini-player>
 
         <!-- Global footer -->
-        <ion-footer-bar ng-if="showAlways()">
+        <ion-footer-bar mini-player ng-if="showAlways()" class="footer-bar-{{ layout_id }}">
             <ng-include src="'homepage-menu.html'" class="always {{ layout_id }}"></ng-include>
         </ion-footer-bar>
 

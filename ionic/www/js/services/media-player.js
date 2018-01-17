@@ -8,7 +8,7 @@
  * @author Xtraball SAS
  */
 angular.module('starter').service('MediaPlayer', function ($interval, $rootScope, $state, $log, $stateParams, $timeout,
-                                     $translate, $window, Dialog, Loader, SB) {
+                                     $translate, $window, Dialog, Modal, Loader, SB) {
     var service = {
         media: null,
 
@@ -30,9 +30,45 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
         duration: 0,
         elapsed_time: 0,
 
+        playlistModal: null,
+
         value_id: null,
 
         use_music_controls: (SB.DEVICE.TYPE_BROWSER !== DEVICE_TYPE)
+    };
+
+    /**
+     *
+     * @param scope
+     */
+    service.createModal = function (scope) {
+        if (!service.playlistModal) {
+            Modal
+                .fromTemplateUrl('templates/media/music/l1/player/playlist.html', {
+                    scope: scope
+                })
+                .then(function (modal) {
+                    service.playlistModal = modal;
+                });
+        }
+    };
+
+    /**
+     *
+     */
+    service.openPlaylist = function () {
+        if (service.playlistModal) {
+            service.playlistModal.show();
+        }
+    };
+
+    /**
+     *
+     */
+    service.closePlaylist = function () {
+        if (service.playlistModal) {
+            service.playlistModal.hide();
+        }
     };
 
     service.loading = function () {
@@ -397,14 +433,19 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
 
     service.updateSeekBar = function () {
         service.seekbarTimer = $interval(function () {
-            if (service.is_playing) {
-                service.elapsed_time = service.media.currentTime;
-            }
+            try {
+                if (service.is_playing) {
+                    service.elapsed_time = service.media.currentTime;
+                }
 
-            if (!service.is_radio && service.is_media_stopped && service.is_media_loaded) {
+                if (!service.is_radio && service.is_media_stopped && service.is_media_loaded) {
+                    $interval.cancel(service.seekbarTimer);
+                    service.is_media_stopped = false;
+                    service.next();
+                }
+            } catch (e) {
+                // Automatically cancel if any error found!
                 $interval.cancel(service.seekbarTimer);
-                service.is_media_stopped = false;
-                service.next();
             }
         }, 100);
     };
