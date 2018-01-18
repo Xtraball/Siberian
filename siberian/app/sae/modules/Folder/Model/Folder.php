@@ -319,7 +319,8 @@ class Folder_Model_Folder extends Core_Model_Default {
                     'embed_payload' => $page->getEmbedPayload($request),
                     'is_locked' => (boolean) $page->isLocked(),
                     'touched_at' => (integer) $page->getTouchedAt(),
-                    'expires_at' => (integer) $page->getExpiresAt()
+                    'expires_at' => (integer) $page->getExpiresAt(),
+                    'has_parent_folder' => true,
                 ];
             }
 
