@@ -71,6 +71,11 @@ class Api_Backoffice_Key_ListController extends Backoffice_Controller_Default
 
             try {
 
+                if (__getConfig('is_demo')) {
+                    // Demo version
+                    throw new Exception("This is a demo version, these changes can't be saved");
+                }
+
                 $keysData = array();
 
                 foreach($data as $api_provider) {
