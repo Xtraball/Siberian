@@ -29,6 +29,11 @@ class System_Backoffice_Config_DesignController extends System_Controller_Backof
 
             try {
 
+                if (__getConfig('is_demo')) {
+                    // Demo version
+                    throw new Exception("This is a demo version, both the favicon and the logo can't be changed.");
+                }
+
                 if(empty($_FILES) || empty($_FILES['file']['name'])) {
                     throw new Exception("No file has been sent");
                 }

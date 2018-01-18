@@ -1,0 +1,14 @@
+<?php $group_option = $this->getCurrentGroupOption(); ?>
+<?php $id = $group_option->getId() == 'new' ? '#{id}' : $group_option->getOptionId(); ?>
+<div class="form-group row_group_option_edit first-row-feature" id="row_group_option_edit_<?php echo $group_option->getId() == 'new' ? 'new' : $group_option->getOptionId(); ?>"<?php if($group_option->getId() == 'new') : ?> style="display:none;"<?php endif; ?>>
+    <div class="col-sm-3">
+        <label for="option_name_<?php echo $id; ?>"><?php echo $this->_("Option name:"); ?></label>
+    </div>
+    <div class="col-sm-5">
+        <input class="name required input-flat" type="text" id="option_name_<?php echo $id; ?>" value="<?php echo $group_option->getName(); ?>" name="new_option[<?php echo $id; ?>][name]" placeholder="<?php echo $this->_("Option name"); ?>" />
+    </div>
+    <div class="col-sm-1">
+        <button type="button" class="btn color-blue" onclick="javascript:products.groups.group.removeOption('<?php echo $id; ?>');"><i class="fa fa-times"></i></button>
+        <input type="hidden" value="<?php echo $group_option->getOptionId(); ?>" name="new_option[<?php echo $id; ?>][option_id]" />
+    </div>
+</div>

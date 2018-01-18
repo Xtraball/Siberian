@@ -69,6 +69,11 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
 
     protected function _save($data) {
 
+        if (__getConfig('is_demo')) {
+            // Demo version
+            throw new Siberian_Exception("This is a demo version, these changes can't be saved");
+        }
+
         # Custom SMTP
         $this->_saveSmtp($data);
 
