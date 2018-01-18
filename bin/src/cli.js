@@ -716,22 +716,35 @@ let installPlugin = function (pluginName, platform, opts) {
  * see specific platform documentation about building icons.
  */
 let icons = function (INSTALL) {
+    sprint('ionicons start!');
     if (INSTALL) {
         if (process.platform === 'darwin') {
             sh.exec('brew install fontforge ttfautohint');
             sh.exec('sudo gem install sass');
         }
-
-        // @todo, linux & windows deps
     }
 
     sh.exec('chmod +x ' + ROOT + '/resources/ionicons/builder/scripts/sfnt2woff');
     sh.exec('python ' + ROOT + '/resources/ionicons/builder/generate.py');
 
+    // Copy inside Siberian
     sh.cp('-rf', ROOT + '/resources/ionicons/fonts',
         ROOT + '/siberian/app/sae/design/desktop/flat/css/webfonts/ionicons/');
     sh.cp('-rf', ROOT + '/resources/ionicons/css',
         ROOT + '/siberian/app/sae/design/desktop/flat/css/webfonts/ionicons/');
+
+    // Copy inside Ionic!
+    sh.cp('-rf', ROOT + '/resources/ionicons/fonts/*',
+        ROOT + '/ionic/www/lib/ionic/scss/ionicons/');
+    sh.cp('-rf', ROOT + '/resources/ionicons/scss',
+        ROOT + '/ionic/www/lib/ionic/scss/ionicons/');
+
+    // Rebuild Ionic SCSS
+    sh.cd(ROOT + '/ionic/');
+    sh.exec('node builder.js --sass');
+    sh.exec('node builder.js --bundlecss');
+
+    sprint('ionicons rebuild done!');
 };
 
 /**
