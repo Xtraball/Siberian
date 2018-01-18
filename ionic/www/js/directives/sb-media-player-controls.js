@@ -1,7 +1,7 @@
 angular.module('starter').directive('sbMediaPlayerControls', function () {
     return {
         restrict: 'A',
-        controller: function ($scope, $timeout, $filter, MediaPlayer) {
+        controller: function ($scope, $state, $timeout, $filter, MediaPlayer) {
             angular.extend($scope, {
                 player: MediaPlayer
             });
@@ -13,7 +13,7 @@ angular.module('starter').directive('sbMediaPlayerControls', function () {
             };
 
             $scope.duration = function () {
-                if ($scope.player && $scope.player.media) {
+                if ($scope.player && $scope.player.media && $scope.player.media.duration) {
                     return $filter('seconds_to_minutes')($scope.player.media.duration);
                 }
                 return '0:00';
@@ -66,8 +66,19 @@ angular.module('starter').directive('sbMediaPlayerControls', function () {
                 MediaPlayer.openPlaylist();
             };
 
+            $scope.goBack = function () {
+                MediaPlayer.goBack(MediaPlayer.is_radio, true);
+            };
+
             $scope.closePlaylist = function () {
                 MediaPlayer.closePlaylist();
+            };
+
+            $scope.destroy = function (origin) {
+                MediaPlayer.destroy();
+                if (origin === 'player') {
+                    MediaPlayer.goBack(MediaPlayer.is_radio, true);
+                }
             };
 
             $scope.selectTrack = function (index) {

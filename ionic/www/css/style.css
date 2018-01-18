@@ -329,7 +329,7 @@ ion-content.tc-view .scroll {
 
 .audio-player .repeat-one {
     position: absolute;
-    top: 1px;
+    top: -11px;
     left: 12px;
     font-size: 11px;
     font-weight: 700;
@@ -389,8 +389,43 @@ ion-content.tc-view .scroll {
     color: white;
 }
 
+.mini-controls {
+    padding-top: 13px;
+    padding-bottom: 14px;
+}
+
 .mini-controls .button {
     min-width: 28px !important;
+    height: 20px !important;
+    min-height: 20px !important;
+}
+
+.mini-controls .button i:before {
+    line-height: 20px !important;
+}
+
+.mini-button.button {
+    height: 28px !important;
+    min-height: 28px !important;
+    width: 30px !important;
+    min-width: 30px !important;
+    padding: 0;
+}
+
+.mini-button i.icon:before {
+    line-height: 28px;
+}
+
+.mini-player-radio .mini-button.button {
+    height: 20px !important;
+    min-height: 20px !important;
+    width: 20px !important;
+    min-width: 20px !important;
+    padding: 0;
+}
+
+.mini-player-radio .mini-button i.icon:before {
+    line-height: 20px;
 }
 
 .mini-trackname {
@@ -398,13 +433,33 @@ ion-content.tc-view .scroll {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    margin: 0 1rem;
+    margin: 0 6px;
     color: white;
 }
 
 .mini-elapsed,
 .mini-duration {
     padding: .25rem 1rem;
+}
+
+ion-nav-view.has-mini-player-controls.mini-radio > ion-view > ion-content {
+    bottom: 75px;
+}
+
+ion-nav-view.has-mini-player-controls.mini-audio > ion-view > ion-content {
+    bottom: 95px;
+}
+
+.has-footer-fixed ion-nav-view.nav-view-l1 ion-content {
+    bottom: 55px;
+}
+
+.has-footer-fixed ion-nav-view.has-mini-player-controls.mini-radio.nav-view-l1 ion-content {
+    bottom: 130px;
+}
+
+.has-footer-fixed ion-nav-view.has-mini-player-controls.mini-audio.nav-view-l1 ion-content {
+    bottom: 150px;
 }
 
 input[type=range].mini-player {
@@ -484,14 +539,6 @@ input[type=range].mini-player:focus::-ms-fill-lower {
 }
 input[type=range].mini-player:focus::-ms-fill-upper {
     background: #ffffff;
-}
-
-ion-nav-view.has-mini-player-controls.mini-radio > ion-view > ion-content {
-    bottom: 75px;
-}
-
-ion-nav-view.has-mini-player-controls.mini-audio > ion-view > ion-content {
-    bottom: 95px;
 }
 
 /* END AUDIO PLAYER */
@@ -2270,6 +2317,10 @@ form .item i.icon {
 
 .audio-playlist-item {
     padding: 4px !important;
+}
+
+.audio-playlist-item.playing {
+    filter: brightness(75%);
 }
 
 .audio-playlist-track {

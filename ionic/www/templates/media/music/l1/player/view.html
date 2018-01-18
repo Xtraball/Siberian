@@ -2,10 +2,6 @@
           sb-media-player-controls
           class="audio-player">
 
-    <ion-nav-title>
-        {{ player.current_track.name }}
-    </ion-nav-title>
-
     <ion-nav-buttons side="right">
         <button class="button button-clear"
                 ng-click="purchase()"
@@ -23,10 +19,19 @@
             <i class="icon ion-ios-upload-outline"></i>
         </button>
         <button class="button button-clear"
-                ng-click="destroy()">
-            <i class="icon ion-android-close"></i>
+                ng-click="destroy('player')">
+            <i class="icon ion-power-off-thin"></i>
         </button>
     </ion-nav-buttons>
+
+    <ion-nav-back-button class="button-clear"
+                         ng-click="goBack()">
+        <i class="ion-arrow-left-c"></i> {{ "Back" | translate }}
+    </ion-nav-back-button>
+
+    <ion-nav-title>
+        {{ player.current_track.name }}
+    </ion-nav-title>
 
     <!-- Album cover -->
     <ion-content
@@ -51,13 +56,22 @@
                 <span class="mini-duration">
                     {{ duration() }}
                 </span>
+                <button class="mini-button button button-clear button-light"
+                        ng-click="destroy('player')">
+                    <i class="icon ion-power-off"></i>
+                </button>
             </div>
 
             <!-- trackname -->
-            <div class="mini-trackname" ng-click="openPlayer()">
-                <span>
+            <div class="mini-trackname">
+                <span ng-click="openPlayer()">
                     {{ player.current_track.name }}<span ng-show="!player.is_radio"> - {{ player.current_track.artistName }}</span>
                 </span>
+                <button class="mini-button button button-clear button-light pull-right"
+                        ng-show="player.is_radio"
+                        ng-click="destroy('player');">
+                    <i class="icon ion-power-off"></i>
+                </button>
             </div>
         </div>
         <div class="mini-controls">
@@ -102,7 +116,7 @@
             <button class="button button-clear button-light"
                     ng-click="openPlaylist()"
                     ng-disabled="player.is_radio">
-                <i class="icon ion-navicon"></i>
+                <i class="icon ion-android-menu"></i>
             </button>
             <button class="button button-clear button-light"
                     ng-click="goBack()">
