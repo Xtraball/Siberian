@@ -99,6 +99,11 @@ class Acl_Backoffice_Role_EditController extends Backoffice_Controller_Default
                 if($default_role_id == $role->getId() AND !$role_data["default"]) {
                     $new_default_role_id = Acl_Model_Role::DEFAULT_ROLE_ID;
                 } else if($role_data["default"]) {
+                    if (__getConfig('is_demo')) {
+                        // Demo version
+                        throw new Siberian_Exception(__("This is a demo version, you are not allowed to change the default role."));
+                    }
+
                     $new_default_role_id = $role->getId();
                 }
 
