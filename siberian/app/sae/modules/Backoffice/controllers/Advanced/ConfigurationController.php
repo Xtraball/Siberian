@@ -164,6 +164,10 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
         if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
 
             try {
+                if (__getConfig('is_demo')) {
+                    throw new Exception(__("This is a demo version, you cannot save these settings."));
+                }
+
                 $this->_save($data);
 
                 $message = __("Configuration successfully saved");

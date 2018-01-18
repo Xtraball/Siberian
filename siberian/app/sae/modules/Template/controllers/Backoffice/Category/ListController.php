@@ -41,6 +41,11 @@ class Template_Backoffice_Category_ListController extends Backoffice_Controller_
         if($categories = Zend_Json::decode($this->getRequest()->getRawBody())) {
 
             try {
+
+                if (__getConfig('is_demo')) {
+                    // Demo version
+                    throw new Exception($this->_("This is a demo version, these changes can't be saved."));
+                }
                 
                 foreach($categories as $data) {
                     $category = new Template_Model_Category();

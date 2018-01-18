@@ -367,6 +367,18 @@ function __set($code, $value) {
 }
 
 /**
+ * @param $code
+ * @return bool|mixed
+ */
+function __getConfig($code) {
+    $_config = Zend_Registry::get('_config');
+    if (isset($_config[$code])) {
+        return $_config[$code];
+    }
+    return false;
+}
+
+/**
  * @param $time
  * @param string $format
  * @return string

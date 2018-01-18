@@ -37,6 +37,11 @@ class Backoffice_Account_ViewController extends Backoffice_Controller_Default
 
             try {
 
+                if (__getConfig('is_demo')) {
+                    // Demo version
+                    throw new Exception("This is a demo version, these changes can't be saved");
+                }
+
                 if(!Zend_Validate::is($data["email"], "emailAddress")) {
                     throw new Exception($this->_("Please, enter a correct email address."));
                 }
