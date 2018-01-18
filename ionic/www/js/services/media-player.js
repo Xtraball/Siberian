@@ -7,8 +7,9 @@
  *
  * @author Xtraball SAS
  */
-angular.module('starter').service('MediaPlayer', function ($interval, $rootScope, $state, $log, $stateParams, $timeout,
-                                     $translate, $window, Dialog, Modal, Loader, SB) {
+angular.module('starter').service('MediaPlayer', function ($interval, $rootScope, $state, $log, $location, $ionicHistory,
+                                                           $stateParams, $timeout, $translate, $window, Application,
+                                                           HomepageLayout, Dialog, Modal, Loader, SB) {
     var service = {
         media: null,
 
@@ -185,7 +186,7 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
         $log.debug(service.current_track);
 
         service.media = new Audio(service.current_track.streamUrl);
-        service.media.onended = function() {
+        service.media.onended = function () {
             service.next();
         };
         service.play();
@@ -329,7 +330,7 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
         service.updateMusicControls();
     };
 
-    service.backward= function () {
+    service.backward = function () {
         var tmp_seekto = (service.elapsed_time - 10);
         if (tmp_seekto < 0) {
             service.prev();
@@ -448,6 +449,52 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
                 $interval.cancel(service.seekbarTimer);
             }
         }, 100);
+    };
+
+    /**
+     * ShortCut goback
+     */
+    service.goBack = function (radio, destroy) {
+        if (radio && destroy !== undefined) {
+            // l1_fixed && l9 needs another behavior!
+            HomepageLayout.getFeatures()
+                .then(function (features) {
+                    var localFeatures = features;
+                    if (!Application.is_customizing_colors && HomepageLayout.properties.options.autoSelectFirst &&
+                        (localFeatures && localFeatures.first_option !== false)) {
+                        var featIndex = 0;
+                        for (var fi = 0; fi < localFeatures.options.length; fi = fi + 1) {
+                            var feat = localFeatures.options[fi];
+                            // Don't load unwanted features on first page!
+                            if ((feat.code !== 'code_scan') && (feat.code !== 'radio') && (feat.code !== 'padlock')) {
+                                featIndex = fi;
+                                break;
+                            }
+                        }
+
+                        if (localFeatures.options[featIndex].path != $location.path()) {
+                            $ionicHistory.nextViewOptions({
+                                historyRoot: true,
+                                disableAnimate: false
+                            });
+
+                            $location.path(localFeatures.options[featIndex].path).replace();
+                        } else {
+                            // do nothing, we will stay on the same page
+                        }
+                    } else {
+                        $timeout(function () {
+                            $ionicHistory.nextViewOptions({
+                                historyRoot: true,
+                                disableAnimate: false
+                            });
+                            $state.go('home');
+                        });
+                    }
+                });
+        } else {
+            $ionicHistory.goBack(-1);
+        }
     };
 
     return service;

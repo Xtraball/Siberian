@@ -11,10 +11,10 @@
 
     <ion-content>
         <ion-list>
-            <ion-item class="audio-playlist-item"
+            <ion-item class="audio-playlist-item item-custom"
                       ng-repeat="track in player.tracks"
                       ng-click="selectTrack($index)"
-                      ng-class="{ 'item-positive': $index == player.current_index }">
+                      ng-class="{ 'playing': $index == player.current_index }">
                 <div class="audio-playlist-flex">
                     <img class="audio-playlist-cover" ng-src="{{ track.albumCover }}" />
                     <div class="audio-playlist-track">
