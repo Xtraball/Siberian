@@ -28,7 +28,6 @@ if ($option->getId()) {
         'only_once' => 0,
         'is_ajax' => 1,
         'position' => 180,
-        'is_enabled' => 0,
         'backoffice_description' => 'This feature is disabled by default since update 4.12.24 and is deprecated in favor of Folders v2.'
     );
 
@@ -48,6 +47,16 @@ if ($option->getId()) {
     );
 
     Siberian_Feature::installIcons("{$name}-flat", $icons);
+
+    // Disable only not done yet!
+    // deprecated from version 4.12.24
+    if (__get('folder_v1_deprecated') !== 'done') {
+        $option
+            ->setIsEnabled(0)
+            ->save();
+
+        __set('folder_v1_deprecated', 'done');
+    }
 } else {
     // Do not install anymore Folders v1 feature (but still db scheme), if new install!
 }

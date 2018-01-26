@@ -88,12 +88,47 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
                 'name' => $feature->getName(),
                 'code' => $feature->getCode(),
                 'description' => $feature->getBackofficeDescription(),
-                'is_enabled' => $feature->getIsEnabled(),
+                'is_enabled' => (boolean) $feature->getIsEnabled(),
             ];
         }
 
         $this->_sendHtml($data);
 
+    }
+
+    public function togglefeatureAction() {
+        try {
+            $params = Siberian_Json::decode($this->getRequest()->getRawBody());
+            $featureId = $params['featureId'];
+            $isEnabled = filter_var($params['isEnabled'], FILTER_VALIDATE_BOOLEAN);
+
+            if (!$featureId) {
+                throw new Siberian_Exception(__('Missing parameters!'));
+            }
+
+            $feature = (new Application_Model_Option())
+                ->find($featureId);
+
+            if (!$feature->getId()) {
+                throw new Siberian_Exception(__("The feature you are trying to edit doesn't exists!"));
+            }
+
+            $feature
+                ->setIsEnabled($isEnabled)
+                ->save();
+
+            $payload = [
+                'success' => true,
+                'message' => __('Feature is now %s', ($isEnabled) ? __('enabled') : __('disabled'))
+            ];
+        } catch(Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+
+        $this->_sendJson($payload);
     }
 
     /**

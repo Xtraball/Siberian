@@ -47,6 +47,8 @@
                 <input type="checkbox" ng-checked="resource.is_allowed" ng-model="resource.is_allowed" ng-change="toggleIsAllowed(resource)"/>
                 <span ng-if="resource.label.length">{{ resource.label }}</span>
                 <span ng-if="!resource.label.length">{{ resource.code }}</span>
+                <span ng-if="resource.is_feature && !resource.is_enabled"
+                      style="color: #a94442;">(<?php echo __('this feature is globally disabled!') ?>)</span>
             </label>
         </div>
         

@@ -1,8 +1,8 @@
 <?php
     $option = new Application_Model_Option();
-    $options = $option->findAll(array());
-    $category = new Application_Model_Option_Category();
-    $categories = $category->findAll();
+    $options = $option->findAll([
+        'is_enabled = ?' => 1
+    ]);
     $option_ids = $this->getApplication()->getOptionIds();
     $application = $this->getApplication();
     $appId = $application->getId();
@@ -22,8 +22,20 @@
     $options = $opts;
 
     // For Facebook import!
-    $app_id     = Core_Model_Lib_Facebook::getAppId();
+    $app_id = Core_Model_Lib_Facebook::getAppId();
     $app_secret = Core_Model_Lib_Facebook::getSecretKey();
+
+    $categoryIds = [];
+    foreach ($options as $option) {
+        if (!in_array($option->getCategoryId(), $categoryIds)) {
+            $categoryIds[] = $option->getCategoryId();
+        }
+    }
+
+    $categories = (new Application_Model_Option_Category())
+        ->findAll([
+            'category_id IN (?)' => $categoryIds
+        ]);
 ?>
 
 <script type="text/javascript">

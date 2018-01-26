@@ -1,38 +1,55 @@
-
-App.factory('Advanced', function($http, Url) {
-
+App.factory('Advanced', function ($http, Url) {
     var factory = {};
 
-    factory.loadData = function() {
+    factory.loadData = function () {
         return $http({
             method: 'GET',
-            url: Url.get("backoffice/advanced_module/load"),
+            url: Url.get('backoffice/advanced_module/load'),
             cache: true,
-            responseType:'json'
+            responseType: 'json'
         });
     };
 
-    factory.findAll = function() {
-
+    factory.findAll = function () {
         return $http({
             method: 'GET',
-            url: Url.get("backoffice/advanced_module/findall"),
+            url: Url.get('backoffice/advanced_module/findall'),
             cache: false,
-            responseType:'json'
+            responseType: 'json'
         });
-
     };
 
-    factory.moduleAction = function(module, action) {
-
+    factory.moduleAction = function (module, action) {
         return $http({
             method: 'POST',
-            url: Url.get("backoffice/advanced_module/execute"),
-            data: {module: module, action: action},
+            url: Url.get('backoffice/advanced_module/execute'),
+            data: {
+                module: module,
+                action: action
+            },
             cache: false,
-            responseType:'json'
+            responseType: 'json'
         });
+    };
 
+    /**
+     * Toggle a feature enable state
+     *
+     * @param featureId
+     * @param isEnabled
+     * @returns {*}
+     */
+    factory.toggleFeature = function (featureId, isEnabled) {
+        return $http({
+            method: 'POST',
+            url: Url.get('backoffice/advanced_module/togglefeature'),
+            data: {
+                featureId: featureId,
+                isEnabled: isEnabled
+            },
+            cache: false,
+            responseType: 'json'
+        });
     };
 
     return factory;
