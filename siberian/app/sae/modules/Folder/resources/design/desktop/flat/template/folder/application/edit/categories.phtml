@@ -6,19 +6,19 @@
 <?php $category_option = new Application_Model_Option_Value(); ?>
 <?php $category_options = $category_option->findAll(array("app_id" => $this->getApplication()->getId(), 'folder_category_id' => $category->getCategoryId()), array('folder_category_position ASC')); ?>
 
-<div class="manage_categories content-color" style="display:none">
+<div class="manage_categories content-color">
     <div class="container-fluid first-row-feature content-feature">
         <div class="content content-white-bkg">
             <div class="form-group">
                 <div class="col-md-12" id="manage_search">
                     <label class="checkbox-inline">
                         <input type="checkbox" id="show_search" name="show_search" onclick="category.changeShowSearch()" <?php if($folder->getShowSearch()) echo "checked"; ?> class="checkbox color-blue"/>
-                        <?php echo $this->_("Show search field"); ?>
+                        <?php echo __("Show search field"); ?>
                     </label>
                     <input type="hidden" id="value_id" name="value_id" value="<?php echo $current_option->getId(); ?>" />
                 </div>
                 <div class="col-md-12">
-                    <i><?php echo $this->_("By checking this, a search field will appear in your folder feature"); ?></i>
+                    <i><?php echo __("By checking this, a search field will appear in your folder feature"); ?></i>
                 </div>
                 <div class="col-md-12">
                     <br/>
@@ -26,7 +26,7 @@
             </div>
             <div id="left_category" class="content-no-padding col-md-4 left_category">
                 <div id="add_category">
-                    <h4><?php echo $this->_('Folders'); ?>
+                    <h4><?php echo __('Folders'); ?>
                         <button class="color-blue pull-right btn add_category bt-header-right" onclick="category.addCategory(); return false;" type="button"><i class="fa fa-plus"></i></button>
                     </h4>
                 </div>
@@ -43,18 +43,15 @@
                                     <div class="bloc-actions"><i class="edit_category fa fa-pencil" rel="<?php echo $category->getCategoryId() ?>" onclick="category.loadForm(<?php echo $category->getCategoryId() ?>, 'null');"></i></div>
                                 </div>
                             <?php else : ?>
-                                <?php
-                                //FU
-                                ?>
                                 <div />
                             <?php endif; ?>
                             <?php
-                                echo $this->getLayout()
-                                    ->addPartial('folder_manage_sidebar', 'Core_View_Default', 'folder/application/edit/sidebar.phtml')
-                                    ->setValueId($current_option->getId())
-                                    ->setParentId($category->getCategoryId())
-                                    ->toHtml()
-                                ;
+                            echo $this->getLayout()
+                                ->addPartial('folder_manage_sidebar', 'Core_View_Default', 'folder/application/edit/sidebar.phtml')
+                                ->setValueId($current_option->getId())
+                                ->setParentId($category->getCategoryId())
+                                ->toHtml()
+                            ;
                             ?>
                         </li>
                     </ul>
@@ -63,18 +60,18 @@
             <div id="right_category" class="content-no-padding col-md-8 right_category">
                 <div id="add_page_to_folder" class="pages" style="display:none">
                     <div class="listing folder_listing">
-                        <h4><?php echo $this->_('Add a page') ?></h4>
+                        <h4><?php echo __('Add a page') ?></h4>
                         <div id="add_page_list">
                             <div class="a-center" id="no_item">
-                                <?php echo $this->_('Click on a page to add it to the folder <span id="folder_name" class="folder_name">"%s"</span>', !$folder->getRootCategoryId() ? $current_option->getTabbarName() : $category->getTitle()); ?>
+                                <?php echo __('Click on a page to add it to the folder <span id="folder_name" class="folder_name">"%s"</span>', !$folder->getRootCategoryId() ? $current_option->getTabbarName() : $category->getTitle()); ?>
                             </div>
                             <div class="folder_options_values">
                                 <ul id="page_list_folder" class="pages_list page_list_folder">
-                                <?php
+                                    <?php
                                     echo $this->getLayout()->addPartial('folder_options_values', 'Core_View_Default', 'folder/application/edit/options.phtml')
                                         ->setValueId($current_option->getId())
                                         ->toHtml()
-                                ?>
+                                    ?>
                                 </ul>
                             </div>
                         </div>
@@ -113,19 +110,6 @@
         },
         processEvents: function() {
             var __that = this;
-            //override comportement par défaut des nodes
-            $('.option_path').off('change', '.option_node');
-            $('.option_path').on('change', '.option_node', function(e) {
-                folder.reset();
-                var id = $(e.target).val();
-                options.loadNewSlider('default');
-                if(id != 'default') {
-                    var url = "<?php echo $current_option->getUrl('edit', array('option_value_id' => '#{id}')); ?>";
-                    url = url.replace('#{id}', id);
-                    var a = $('<a />').attr('href', url).attr('rel', id).addClass('folder');
-                    page.load(a);
-                }
-            }.bind(this));
 
             //override création nouvelle feature
             $('.add_page').click(function() {
@@ -154,35 +138,6 @@
             $('.manage_categories').on('click', '.delete_category', function(e){
                 this.deleteCategory($(e.target).attr('rel'));
                 return false;
-            }.bind(this));
-
-            //Modif nom feature
-            $('#tabbar_name').keyup(function(e) {
-                var val = this.formatCategoryName($(e.target).val(), true);
-                var option_val = this.formatOptionName($(e.target).val());
-                //On est en train de la créer
-                if($('select#primary_category_id option.dummy').length > 0) {
-                    $('.folderForm input#title').val('').val($(e.target).val());
-                    $('li#category_dummy .dummy_text').html('').html(val);
-                    $('select#primary_category_id option.dummy').html('').html(option_val);
-                    $('.folderForm input#title').val('').val($(e.target).val());
-//                    iframe.content.find('#page_title_category_dummy').html('').html($(e.target).val());
-                    $('#add_page_list span.folder_name').html('').html($(e.target).val());
-                //Root existe
-                } else {
-                    var option_id = '<?php echo $current_option->getId(); ?>';
-                    $('li#category_'+__that.root+' a[rel="'+__that.root+'"] .title').html(val);
-                    if($('select#primary_category_id option[value="'+option_id+'"]').length > 0) {
-                        $('select#primary_category_id option[value="'+option_id+'"]').html(option_val);
-                    } else {
-                        $('select#primary_category_id option[value="'+__that.root+'"]').html(option_val);
-                    }
-                    //Si l'on est dans le formulaire de modif
-                    if($('.folderForm input[name="parent_id"]').val() == 'null') {
-                        $('.folderForm input#title').val($(e.target).val());
-                        $('#add_page_list span.folder_name').html($(e.target).val());
-                    }
-                }
             }.bind(this));
 
             //Drag catégories
@@ -239,10 +194,10 @@
             //Si la catégorie est déjà ouverte
             if($('.folderForm').attr('rel') == cat_id) {
                 folder_form.showForm();
-            //On la charge
+                //On la charge
             } else {
                 if($('li#category_dummy').length > 0) {
-                    if(!confirm('<?php echo $this->_("You will lose all unsaved changes, continue?") ?>')) {
+                    if(!confirm('<?php echo __("You will lose all unsaved changes, continue?") ?>')) {
                         return false;
                     }
                 }
@@ -287,20 +242,11 @@
                         $('#add_page_to_folder').before(datas.form);
                         $('.categories_list div.active').removeClass('active color-blue');
                         $('.categories_list div[rel="'+cat_id+'"]').addClass('active color-blue');
-                        if($('li#category_dummy').length > 0) {
+                        if ($('li#category_dummy').length > 0) {
                             $('li#category_dummy').remove();
                         }
-                        if($('option.dummy').length > 0) {
-                            $select = $('option.dummy').parent();
-                            $('option.dummy').remove();
-                        }
 
-                        //Fix IE
-                        if($('#upload_folder_background').length < 1) {
-                            $('#folder_background_file').show();
-                        }
-
-                        if(datas.subcategories_html) {
+                        if (datas.subcategories_html) {
                             $('#category_'+cat_id).append(datas.subcategories_html);
                             $('#load_category_'+cat_id).removeClass('not-loaded');
                         }
@@ -312,7 +258,7 @@
         },
         addCategory: function() {
             if($('li#category_dummy').length > 0) {
-                alert('<?php echo addslashes($this->_("You must first complete the current category creation process")); ?>');
+                alert('<?php echo addslashes(__("You must first complete the current category creation process")); ?>');
                 return false;
             }
             var __that = this;
@@ -326,14 +272,10 @@
             }
             reload($('#no_item'), '<?php echo $this->getUrl('folder/application/renderform') ?>/option_value_id/'+option_id+'/category_id/null/parent_id/'+parent_id, true, function(datas) {
                 if(datas.success) {
-                    if(__that.root == '') {
-                        var $select = $('select#primary_category_id');
-                        if($select.length > 0) {
-                            $select.append('<option class="dummy" selected="selected" value="'+value+'">'+value+'</option>');
-                        }
-                    }
 
-                    if(typeof folder_form == 'object') folder_form.destroy();
+                    if(typeof folder_form == 'object') {
+                        folder_form.destroy();
+                    }
                     $('#folderForm_cont').remove();
                     $('#add_page_to_folder').before(datas.form);
                     $('#category_dummy').remove();
@@ -359,7 +301,7 @@
                     mobile_dummy += '<p class="header_subtitle"><span class="subtitle"></span></p>';
                     mobile_dummy += '</li></ul></div>';
 
-                    var title = "<?php echo $this->_('New folder') ?>";
+                    var title = "<?php echo __('New folder') ?>";
                     if(__that.root == '') {
                         title = value;
                     }
@@ -399,7 +341,7 @@
         },
         deleteCategory: function(cat_id) {
             var option_id = '<?php echo $current_option->getId() ?>';
-            var confirm_message = '<?php echo addslashes($this->_("Delete this folder and all its subfolders?")) ?>';
+            var confirm_message = '<?php echo addslashes(__("Delete this folder and all its subfolders?")) ?>';
             if(confirm(confirm_message)) {
                 reload($('#left_category'), '<?php echo $this->getUrl('folder/application/deletecategory') ?>/value_id/'+option_id+'/category_id/'+cat_id, true, function(datas) {
                     if(datas.success) {

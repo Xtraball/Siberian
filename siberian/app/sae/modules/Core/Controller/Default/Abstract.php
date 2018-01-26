@@ -362,7 +362,10 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         Siberian_Media::disableTemporary();
 
         $color = str_replace('#', '', $color);
-        $id = md5(implode('+', array($image_id, $color)));
+        $id = md5(implode('+', [
+            $image_id,
+            $color
+        ]));
         $url = '';
 
         $image = new Media_Model_Library_Image();

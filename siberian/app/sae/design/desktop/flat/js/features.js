@@ -755,7 +755,6 @@ var initSearch = function (input, clear, empty, itemsClass, fnCallback) {
         });
 
         if (typeof self.fnCallback === 'function') {
-            console.log(self.fnCallback);
             setTimeout(self.fnCallback(), 100);
         }
 

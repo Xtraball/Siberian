@@ -1,4 +1,11 @@
 <?php
+
+/**
+ * Class Folder_Model_Category
+ *
+ * @method Folder_Model_Category[] findAll($values = [], $order = null, $params = [])
+ * @method integer getId()
+ */
 class Folder_Model_Category extends Core_Model_Default {
 
     const DISPLAYED_PER_PAGE = 50;

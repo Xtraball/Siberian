@@ -93,4 +93,34 @@
 
 </sb-section>
 
+<sb-section title="'<?php echo addcslashes(__("Features"), "'"); ?>'">
+    <div class="alert alert-info">
+        <?php echo __('You can globally disable a feature!') ?>
+        <br />
+        <?php echo __('Note: A disabled feature is not removed from published applications & can still be edited, but users can\'t add it anymore!') ?>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th style="width:15%;"><?php echo __("Name") ?></th>
+                <th style="width:15%;"><?php echo __("Code") ?></th>
+                <th style="width:50%;"><?php echo __("Description") ?></th>
+                <th style="width:20%;"><?php echo __("Enabled?") ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="feat in features track by feat.id" ng-show="features.length">
+                <td>{{ feat.name }}</td>
+                <td>{{ feat.code }}</td>
+                <td style="white-space: normal;">{{ feat.description }}</td>
+                <td>{{ feat.is_enabled }}</td>
+            </tr>
+            <tr ng-show="!features.length">
+                <td colspan="2"><?php echo __("No features") ?></td>
+            </tr>
+        </tbody>
+    </table>
+
+</sb-section>
+
 

@@ -66,7 +66,7 @@ angular.module('starter').directive('sbMediaPlayerControls', function () {
                 MediaPlayer.openPlaylist();
             };
 
-            $scope.goBack = function () {
+            $scope.goBackMedia = function () {
                 MediaPlayer.goBack(MediaPlayer.is_radio, true);
             };
 

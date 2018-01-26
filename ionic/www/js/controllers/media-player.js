@@ -15,6 +15,11 @@ angular.module('starter').controller('MediaPlayerController', function ($cordova
         }
     };
 
+    $scope.backButton = function () {
+        console.log('back media');
+        MediaPlayer.goBack(MediaPlayer.is_radio, true);
+    };
+
     // When leaving the media (back button, or another state
     $scope.$on('$destroy', function () {
         if (MediaPlayer.is_initialized) {

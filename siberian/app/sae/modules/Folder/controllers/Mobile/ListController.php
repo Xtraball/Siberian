@@ -1,36 +1,36 @@
 <?php
 
-/**
- * Class Folder_Mobile_ListController
- */
 class Folder_Mobile_ListController extends Application_Controller_Mobile_Default {
 
-    /**
-     *
-     */
     public function findallv2Action() {
+
         try {
             $request = $this->getRequest();
-            if ($valueId = $request->getParam('value_id')) {
+
+            if($value_id = $request->getParam("value_id")) {
+
                 $option = $this->getCurrentOptionValue();
-                if ($option) {
+                if($option) {
                     $option->setRequest($request);
+
                     $payload = $option->getObject()->getEmbedPayload($option);
-                } else {
-                    throw new Siberian_Exception(__('Unable to find option.'));
                 }
+
             } else {
-                throw new Siberian_Exception(__('Missing parameter value_id.'));
+                throw new Siberian_Exception(__("Missing parameter value_id."));
             }
 
-        } catch (Exception $e) {
-            $payload = [
-                'error' => true,
-                'message' => $e->getMessage()
-            ];
+        } catch(Exception $e) {
+
+            $payload = array(
+                "error" => true,
+                "message" => $e->getMessage()
+            );
+
         }
 
         $this->_sendJson($payload);
+
     }
 
     /**
@@ -96,9 +96,9 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
 
                     foreach($category_options as $feature) {
                         /**
-                           START Link special code
-                           We get informations about link at homepage level
-                        */
+                        START Link special code
+                        We get informations about link at homepage level
+                         */
                         $hide_navbar = false;
                         $use_external_app = false;
                         if($object_link = $feature->getObject()->getLink() AND is_object($object_link)) {
@@ -106,8 +106,8 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                             $use_external_app = $object_link->getHideNavbar();
                         }
                         /**
-                           END Link special code
-                        */
+                        END Link special code
+                         */
                         $search_list[] = array(
                             "name" => $feature->getTabbarName(),
                             "father_name" => $folder->getTitle(),
@@ -149,9 +149,9 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
 
                 foreach($pages as $page) {
                     /**
-                      START Link special code
-                      We get informations about link at homepage level
-                      */
+                    START Link special code
+                    We get informations about link at homepage level
+                     */
                     $hide_navbar = false;
                     $use_external_app = false;
                     if($object_link = $page->getObject()->getLink() AND is_object($object_link)) {
@@ -159,8 +159,8 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                         $use_external_app = $object_link->getUseExternalApp();
                     }
                     /**
-                      END Link special code
-                      */
+                    END Link special code
+                     */
                     $data["folders"][] = array(
                         "title" => $page->getTabbarName(),
                         "subtitle" => "",

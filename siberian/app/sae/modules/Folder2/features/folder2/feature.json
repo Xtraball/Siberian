@@ -1,0 +1,55 @@
+{
+    "name": "Folders (v2)",
+    "code": "folder_v2",
+    "version": "1.0.0",
+    "category": "misc",
+    "model": "Folder2_Model_Folder",
+    "desktop_uri": "folder2/application/",
+    "routes": [
+        {
+            "root": true,
+            "state": "folder2-category-list",
+            "controller": "Folder2ListController",
+            "url": "folder2/mobile_list/index/value_id/:value_id",
+            "template": "list.html",
+            "layouts": {
+                "1": "l1",
+                "2": "l2",
+                "3": "l3",
+                "4": "l4"
+            },
+            "cache": false
+        },
+        {
+            "state": "folder2-subcategory-list",
+            "controller": "Folder2ListController",
+            "url": "folder2/mobile_list/index/value_id/:value_id/category_id/:category_id",
+            "template": "list.html",
+            "layouts": {
+                "1": "l1",
+                "2": "l2",
+                "3": "l3",
+                "4": "l4"
+            },
+            "cache": false
+        }
+    ],
+    "layouts": [
+        1,
+        2,
+        3,
+        4
+    ],
+    "icons": [
+        "icons/folder1-flat.png",
+        "icons/folder2-flat.png",
+        "icons/folder3-flat.png"
+    ],
+    "files": [
+        "js/controllers/folder2.js",
+        "js/factory/folder2.js"
+    ],
+    "compile": true,
+    "use_account": false,
+    "only_once": false
+}
