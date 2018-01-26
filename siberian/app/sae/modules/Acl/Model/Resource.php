@@ -28,7 +28,20 @@ class Acl_Model_Resource extends Core_Model_Default {
         $children = array();
 
         foreach($parent_resources as $key => $resource) {
-            if($resource->getParentId()) {
+            if (strpos($resource->getCode(), 'feature_') === 0) {
+                $feature = (new Application_Model_Option())
+                    ->find(str_replace('feature_', '', $resource->getCode()), 'code');
+                if ($feature->getId()) {
+                    $resource->setIsFeature(true);
+                    $resource->setIsEnabled((boolean)$feature->getIsEnabled());
+                } else {
+                    $resource->setIsFeature(false);
+                }
+            } else {
+                $resource->setIsFeature(false);
+            }
+
+            if ($resource->getParentId()) {
                 $children[] = $resource;
             } else {
                 $parents[] = $resource;
@@ -124,7 +137,9 @@ class Acl_Model_Resource extends Core_Model_Default {
         $data = array(
             "id" => $resource->getid(),
             "code" => $resource->getCode(),
-            "label" => $resource->getLabel()
+            "label" => $resource->getLabel(),
+            "is_feature" => $resource->getIsFeature(),
+            "is_enabled" => $resource->getIsEnabled()
         );
 
         if($parent instanceof self) {
