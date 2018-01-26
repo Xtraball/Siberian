@@ -28,7 +28,8 @@ class Application_Controller_Default extends Admin_Controller_Default {
         );
 
         // Test si un id de value est passé en paramètre
-        if($id = $this->getRequest()->getParam('option_value_id') OR $id = $this->getRequest()->getParam('value_id')) {
+        if($id = $this->getRequest()->getParam('option_value_id') OR
+            $id = $this->getRequest()->getParam('value_id')) {
             // Créé et charge l'objet
             $this->_current_option_value = new Application_Model_Option_Value();
             $this->_current_option_value->find($id);

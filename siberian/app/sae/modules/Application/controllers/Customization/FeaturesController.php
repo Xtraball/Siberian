@@ -239,12 +239,15 @@ class Application_Customization_FeaturesController extends Application_Controlle
                     $this->cache_triggers["delete"] = null;
 
                     // Récupère l'option
-                    $option = new Application_Model_Option();
-                    $option->find($option_value->getOptionId());
+                    $option = (new Application_Model_Option())
+                        ->find($option_value->getOptionId());
 
                     $html['was_feature'] = true;
 
-                    if($option_value->getCode() == "folder") {
+                    if (in_array($option_value->getCode(), [
+                        'folder',
+                        'folder_v2',
+                    ])) {
                         $html['was_folder'] = true;
                     }
 

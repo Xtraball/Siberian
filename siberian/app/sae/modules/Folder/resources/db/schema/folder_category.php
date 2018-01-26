@@ -42,6 +42,12 @@ $schemas['folder_category'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'thumbnail' => array(
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'title' => array(
         'type' => 'varchar(255)',
         'is_null' => true,
@@ -58,4 +64,19 @@ $schemas['folder_category'] = array(
         'type' => 'int(11)',
         'is_null' => true,
     ),
+    'version' => array(
+        'type' => 'int(1)',
+        'default' => '1',
+    ),
+    'value_id' => [
+        'type' => 'int(11) unsigned',
+        'is_null' => true,
+        'foreign_key' => [
+            'table' => 'application_option_value',
+            'column' => 'value_id',
+            'name' => 'folder_category_fk_value_id',
+            'on_update' => 'CASCADE',
+            'on_delete' => 'CASCADE',
+        ]
+    ],
 );

@@ -1,47 +1,62 @@
 <?php
 
+/**
+ * Class Radio_Mobile_RadioController
+ */
 class Radio_Mobile_RadioController extends Application_Controller_Mobile_Default {
 
+    /**
+     * @param $radio
+     * @return array
+     */
     public function _toJson($radio){
         $json = array(
-            "url"           => $url = addslashes($radio->getLink()),
-            "title"         => $radio->getTitle(),
-            "background"    => $this->getRequest()->getBaseUrl()."/images/application".$radio->getBackground(),
+            'url' => addslashes($radio->getData('link')),
+            'title' => $radio->getTitle(),
+            'background' => $this->getRequest()->getBaseUrl() .
+                '/images/application' . $radio->getBackground(),
         );
 
         return $json;
     }
 
+    /**
+     * Find action
+     */
     public function findAction() {
-
-        if($value_id = $this->getRequest()->getParam('value_id')) {
-            
+        if ($valueId = $this->getRequest()->getParam('value_id')) {
             try {
-                
-                $radio_repository = new Radio_Model_Radio();
-                $radio = $radio_repository->find(array('value_id' => $value_id));
+                $radio = (new Radio_Model_Radio())
+                    ->find([
+                        'value_id' => $valueId
+                    ]);
 
                 // Fix for shoutcast, force stream!
-                $contentType = Siberian_Request::testStream($this->getLink());
+                $contentType = Siberian_Request::testStream($this->getData('link'));
                 if(!in_array(explode('/', $contentType)[0], ['audio']) &&
                     !in_array($contentType, ['application/ogg'])) {
-                    if(strrpos($this->getLink(), ';') === false) {
-                        $this->setLink($this->getLink() . '/;');
+                    if(strrpos($this->getData('link'), ';') === false) {
+                        $this->setData('link', $this->getData('link') . '/;');
                     }
                 }
 
-                $data = array("radio" => $this->_toJson($radio));
+                $data = [
+                    'radio' => $this->_toJson($radio)
+                ];
+            } catch (Exception $e) {
+                $data = [
+                    'error' => true,
+                    'message' => $e->getMessage()
+                ];
             }
-            catch(Exception $e) {
-                $data = array('error' => 1, 'message' => $e->getMessage());
-            }
-
         } else {
-            $data = array('error' => 1, 'message' => $this->_("An error occurred while loading. Please try again later."));
+            $data = [
+                'error' => true,
+                'message' => __('An error occurred while loading. Please try again later.')
+            ];
         }
 
         $this->_sendJson($data);
-
     }
 
 }

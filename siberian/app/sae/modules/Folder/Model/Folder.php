@@ -1,18 +1,12 @@
 <?php
-
-/**
- * Class Folder_Model_Folder
- *
- * @method integer getId()
- */
 class Folder_Model_Folder extends Core_Model_Default {
 
     /**
      * @var array
      */
-    public $cache_tags = [
-        'feature_folder',
-    ];
+    public $cache_tags = array(
+        "feature_folder",
+    );
 
     /**
      * @var bool
@@ -24,59 +18,53 @@ class Folder_Model_Folder extends Core_Model_Default {
      */
     protected $_root_category;
 
-    /**
-     * Folder_Model_Folder constructor.
-     * @param array $params
-     */
-    public function __construct($params = []) {
+    public function __construct($params = array()) {
         parent::__construct($params);
         $this->_db_table = 'Folder_Model_Db_Table_Folder';
         return $this;
     }
 
     /**
-     * @param $valueId
      * @return array
      */
-    public function getInappStates($valueId) {
-        $inAppStates = [
-            [
-                'state' => 'folder-category-list',
-                'offline' => true,
-                'params' => [
-                    'value_id' => $valueId,
-                ],
-            ]
-        ];
+    public function getInappStates($value_id) {
 
-        return $inAppStates;
+        $in_app_states = array(
+            array(
+                "state" => "folder-category-list",
+                "offline" => true,
+                "params" => array(
+                    "value_id" => $value_id,
+                ),
+            ),
+        );
+
+        return $in_app_states;
     }
 
     /**
-     * @param Application_Model_Option_Value $optionValue
+     * @param $option_value
      * @return array
      */
-    public function getFeaturePaths($optionValue) {
-        if (!$this->isCacheable()) {
-            return [];
+    public function getFeaturePaths($option_value) {
+        if(!$this->isCacheable()) {
+            return array();
         }
 
-        $valueId = $optionValue->getId();
-        $cacheId = "feature_paths_valueid_{$valueId}";
-        if (!$result = $this->cache->load($cacheId)) {
+        $value_id = $option_value->getId();
+        $cache_id = "feature_paths_valueid_{$value_id}";
+        if(!$result = $this->cache->load($cache_id)) {
 
-            $paths = [];
-            $paths[] = $optionValue->getPath('findall', [
-                'value_id' => $optionValue->getId()
-            ], false);
+            $paths = array();
+            $paths[] = $option_value->getPath("findall", array('value_id' => $option_value->getId()), false);
 
-            $paths = array_merge($paths, $this->_get_subcategories_feature_paths($this->getRootCategory(), $optionValue));
+            $paths = array_merge($paths, $this->_get_subcategories_feature_paths($this->getRootCategory(), $option_value));
 
-            $this->cache->save($paths, $cacheId,
-                $this->cache_tags + [
-                    'feature_paths',
-                    'feature_paths_valueid_' . $valueId
-                ]);
+            $this->cache->save($paths, $cache_id,
+                $this->cache_tags + array(
+                    "feature_paths",
+                    "feature_paths_valueid_{$value_id}"
+                ));
         } else {
             $paths = $result;
         }
@@ -85,36 +73,36 @@ class Folder_Model_Folder extends Core_Model_Default {
     }
 
     /**
-     * @param Application_Model_Option_Value $optionValue
+     * @param $option_value
      * @return array
      */
-    public function getAssetsPaths($optionValue) {
-        if (!$this->isCacheable()) {
-            return [];
+    public function getAssetsPaths($option_value) {
+        if(!$this->isCacheable()) {
+            return array();
         }
 
-        $paths = [];
+        $paths = array();
 
-        $valueId = $optionValue->getId();
-        $cacheId = 'assets_paths_valueid_' . $valueId;
-        if (!$result = $this->cache->load($cacheId)) {
+        $value_id = $option_value->getId();
+        $cache_id = "assets_paths_valueid_{$value_id}";
+        if(!$result = $this->cache->load($cache_id)) {
 
-            $folder = $optionValue->getObject();
+            $folder = $option_value->getObject();
 
-            if ($folder->getId()) {
+            if($folder->getId()) {
                 $category = new Folder_Model_Category();
-                $category->find($folder->getRootCategoryId(), 'category_id');
-                if ($category->getId()) {
+                $category->find($folder->getRootCategoryId(), "category_id");
+                if($category->getId()) {
                     $paths[] = $category->getPictureUrl();
                     $paths = array_merge($paths, $this->_get_subcategories_assets_paths($category));
                 }
             }
 
-            $this->cache->save($paths, $cacheId,
-                $this->cache_tags + [
-                    'assets_paths',
-                    'assets_paths_valueid_' . $valueId
-                ]);
+            $this->cache->save($paths, $cache_id,
+                $this->cache_tags + array(
+                    "assets_paths",
+                    "assets_paths_valueid_{$value_id}"
+                ));
         } else {
             $paths = $result;
         }
@@ -123,83 +111,91 @@ class Folder_Model_Folder extends Core_Model_Default {
     }
 
     /**
-     * @param Application_Model_Option_Value $optionValue
-     * @return bool|array
+     * @param $option_value
+     * @return bool
      */
-    public function getEmbedPayload($optionValue) {
-        $payload = [
-            'sections' => [],
-            'page_title' => $optionValue->getTabbarName()
-        ];
+    public function getEmbedPayload($option_value) {
 
-        if ($this->getId()) {
-            $request = $optionValue->getRequest();
+        $payload = array(
+            "sections"      => array(),
+            "page_title"    => $option_value->getTabbarName()
+        );
 
-            $categoryId = $request->getParam('category_id', null);
-            $currentCategory = new Folder_Model_Category();
+        if($this->getId()) {
 
-            if ($categoryId) {
-                $currentCategory->find($categoryId, 'category_id');
+            $request = $option_value->getRequest();
+
+            $category_id = $request->getParam("category_id", null);
+            $current_category = new Folder_Model_Category();
+
+            if($category_id) {
+                $current_category->find($category_id, "category_id");
             }
 
-            $object = $optionValue->getObject();
-            if (!$object->getId() ||
-                ($currentCategory->getId() && $currentCategory->getRootCategoryId() != $object->getRootCategoryId())) {
+            $object = $option_value->getObject();
+
+            if(!$object->getId() OR ($current_category->getId() AND $current_category->getRootCategoryId() != $object->getRootCategoryId())) {
                 throw new Siberian_Exception(__("An error occurred during process. Please try again later."));
             }
 
-            $colorCode = 'background';
-            if ($this->getApplication()->useIonicDesign()) {
-                $colorCode = 'list_item';
+            $color_code = "background";
+            if($this->getApplication()->useIonicDesign()) {
+                $color_code = "list_item";
             }
-            $color = $this->getApplication()->getBlock($colorCode)->getImageColor();
+            $color = $this->getApplication()->getBlock($color_code)->getImageColor();
 
-            // Here we get the list used for the search in folder feature!
-            $currentOption = $optionValue;
+            //Here we get the list used for the search in folder feature
+            $current_option = $option_value;
             $folder = new Folder_Model_Folder();
             $category = new Folder_Model_Category();
-            $folder->find($currentOption->getId(), 'value_id');
+            $folder->find($current_option->getId(), "value_id");
 
-            $showSearch = $folder->getShowSearch();
+            $show_search = $folder->getShowSearch();
 
-            $category->find($folder->getRootCategoryId(), 'category_id') ;
+            $category->find($folder->getRootCategoryId(), "category_id") ;
 
-            $result = [];
+            $result = array();
             array_push($result, $category);
             $this->_getAllChildren($category, $result);
 
-            $searchList = [];
+            $search_list = array();
 
-            $optionPictureb64 = null;
+            $option_pictureb64 = null;
 
-            foreach ($result as $folder) {
-                $pictureB64 = null;
-                if ($currentOption->getIconId()) {
-                    $pictureFile = Core_Controller_Default_Abstract::sGetColorizedImage($currentOption->getIconId(), $color);
-                    $pictureB64 = $request->getBaseUrl() . $pictureFile;
-                    $optionPictureb64 = $request->getBaseUrl() . $pictureFile;
+            foreach($result as $folder) {
+
+                $picture_b64 = null;
+                if($current_option->getIconId()) {
+                    $picture_file = Core_Controller_Default_Abstract::sGetColorizedImage($current_option->getIconId(), $color);
+                    //$picture_file = Core_Model_Directory::getBasePathTo($picture_file);
+                    //$picture_b64 = Siberian_Image::open($picture_file)->inline("png");
+
+                    //$option_pictureb64 = $picture_b64;
+
+                    $picture_b64 = $request->getBaseUrl() . $picture_file;
+                    $option_pictureb64 = $request->getBaseUrl() . $picture_file;
                 }
 
                 $url = $this->getPath("folder/mobile_list", array(
-                        "value_id" => (integer) $currentOption->getId(),
-                        "category_id" => (integer) $folder->getId())
+                        "value_id"      => (integer) $current_option->getId(),
+                        "category_id"   => (integer) $folder->getId())
                 );
 
-                $searchList[] = array(
-                    "name" => $folder->getTitle(),
-                    "father_name" => $folder->getFatherName(),
-                    "url" => $url,
-                    "path" => $url,
-                    "picture" => $pictureB64,
-                    "offline_mode" => (boolean) $folder->isCacheable(),
-                    "type" => "folder"
+                $search_list[] = array(
+                    "name"          => $folder->getTitle(),
+                    "father_name"   => $folder->getFatherName(),
+                    "url"           => $url,
+                    "path"          => $url,
+                    "picture"       => $picture_b64,
+                    "offline_mode"  => (boolean) $folder->isCacheable(),
+                    "type"          => "folder"
                 );
                 $category_option = new Application_Model_Option_Value();
                 $category_options = $category_option->findAll(array(
-                    "app_id" => (integer) $this->getApplication()->getId(),
-                    "folder_category_id" => (integer) $folder->getCategoryId(),
-                    "is_visible" => true,
-                    "is_active" => true
+                    "app_id"                => (integer) $this->getApplication()->getId(),
+                    "folder_category_id"    => (integer) $folder->getCategoryId(),
+                    "is_visible"            => true,
+                    "is_active"             => true
                 ), array("folder_category_position ASC"));
 
                 foreach($category_options as $feature) {
@@ -217,68 +213,72 @@ class Folder_Model_Folder extends Core_Model_Default {
                     END Link special code
                      */
 
-                    $pictureB64 = null;
-                    if ($feature->getIconId()) {
-                        $pictureFile = Core_Controller_Default_Abstract::sGetColorizedImage($feature->getIconId(), $color);
-                        $pictureB64 = $request->getBaseUrl() . $pictureFile;
+                    $picture_b64 = null;
+                    if($feature->getIconId()) {
+                        $picture_file = Core_Controller_Default_Abstract::sGetColorizedImage($feature->getIconId(), $color);
+                        //$picture_file = Core_Model_Directory::getBasePathTo($picture_file);
+                        //$picture_b64 = Siberian_Image::open($picture_file)->cropResize(128)->inline("png");
+                        $picture_b64 = $request->getBaseUrl() . $picture_file;
                     }
 
                     $url = $feature->getPath(null, array("value_id" => $feature->getId()), false);
 
-                    $searchList[] = array(
-                        "name" => $feature->getTabbarName(),
-                        "father_name" => $folder->getTitle(),
-                        "url" => $url,
-                        "path" => $url,
-                        "is_link" => !(boolean) $feature->getIsAjax(),
-                        "hide_navbar" => (boolean) $hide_navbar,
-                        "use_external_app" => (boolean) $use_external_app,
-                        "picture" => $pictureB64,
-                        "offline_mode" => (boolean) $feature->getObject()->isCacheable(),
-                        "code" => $feature->getCode(),
-                        "type" => "feature",
-                        "is_locked" => (boolean) $feature->isLocked()
+                    $search_list[] = array(
+                        "name"              => $feature->getTabbarName(),
+                        "father_name"       => $folder->getTitle(),
+                        "url"               => $url,
+                        "path"              => $url,
+                        "is_link"           => (boolean) !$feature->getIsAjax(),
+                        "hide_navbar"       => (boolean) $hide_navbar,
+                        "use_external_app"  => (boolean) $use_external_app,
+                        "picture"           => $picture_b64,
+                        "offline_mode"      => (boolean) $feature->getObject()->isCacheable(),
+                        "code"              => $feature->getCode(),
+                        "type"              => "feature",
+                        "is_locked"         => (boolean) $feature->isLocked()
                     );
                 }
             }
 
-            if (!$currentCategory->getId()) {
-                $currentCategory = $object->getRootCategory();
+            if(!$current_category->getId()) {
+                $current_category = $object->getRootCategory();
             }
 
-            $payload = [
-                'folders' => [],
-                'show_search' => (boolean) $showSearch,
-                'category_id' => (integer) $categoryId
-            ];
+            $payload = array(
+                "folders"       => array(),
+                "show_search"   => (boolean) $show_search,
+                "category_id"   => (integer) $category_id
+            );
 
-            $subcategories = $currentCategory->getChildren();
+            $subcategories = $current_category->getChildren();
 
             foreach($subcategories as $subcategory) {
 
-                $pictureB64 = null;
+                $picture_b64 = null;
                 if($subcategory->getPictureUrl()) {
-                    $pictureB64 = $request->getBaseUrl() . $subcategory->getPictureUrl();
+                    //$picture_file = Core_Model_Directory::getBasePathTo($subcategory->getPictureUrl());
+                    //$picture_b64 = Siberian_Image::open($picture_file)->inline("png");
+                    $picture_b64 = $request->getBaseUrl() . $subcategory->getPictureUrl();
                 }
 
-                $url = __path('folder/mobile_list', array(
-                    'value_id' => $currentOption->getId(),
-                    'category_id' => $subcategory->getId()
+                $url = __path("folder/mobile_list", array(
+                    "value_id"      => $current_option->getId(),
+                    "category_id"   => $subcategory->getId()
                 ));
 
-                $payload['folders'][] = [
-                    'title' => $subcategory->getTitle(),
-                    'subtitle' => $subcategory->getSubtitle(),
-                    'picture' => $subcategory->getPictureUrl() ? $pictureB64 : $optionPictureb64,
-                    'url' => $url,
-                    'path' => $url,
-                    'offline_mode' => (boolean) $currentOption->getObject()->isCacheable(),
-                    'category_id' => (integer) $subcategory->getId(),
-                    'is_subfolder' => true
-                ];
+                $payload["folders"][] = array(
+                    "title"         => $subcategory->getTitle(),
+                    "subtitle"      => $subcategory->getSubtitle(),
+                    "picture"       => $subcategory->getPictureUrl() ? $picture_b64 : $option_pictureb64,
+                    "url"           => $url,
+                    "path"          => $url,
+                    "offline_mode"  => (boolean) $current_option->getObject()->isCacheable(),
+                    "category_id"   => (integer) $subcategory->getId(),
+                    "is_subfolder"  => true
+                );
             }
 
-            $pages = $currentCategory->getPages();
+            $pages = $current_category->getPages();
 
             foreach($pages as $page) {
                 /**
@@ -292,56 +292,63 @@ class Folder_Model_Folder extends Core_Model_Default {
                     $use_external_app = $object_link->getUseExternalApp();
                 }
 
-                $pictureB64 = null;
-                if ($page->getIconId()) {
+                $picture_b64 = null;
+                if($page->getIconId()) {
+                    $base = Core_Model_Directory::getBasePathTo("");
                     $icon = Core_Controller_Default::sGetColorizedImage($page->getIconId(), $color);
-                    $pictureB64 = $request->getBaseUrl() . $icon;
+                    ///$base_path = Core_Model_Directory::getBasePathTo($icon);
+                    //Core_Model_Lib_Image::sColorize($base_path);
+                    //$colorized_path = $request->getBaseUrl() . str_replace($base, "/", $base_path);
+                    //$picture_b64 = Siberian_Image::open($base_path)->cropResize(128)->inline("png");
+                    $picture_b64 = $request->getBaseUrl() . $icon;
+
                 }
 
                 /**
                 END Link special code
                  */
-                $url = $page->getPath(null, [
-                    'value_id' => $page->getId()
-                ], false);
+                $url = $page->getPath(null, array("value_id" => $page->getId()), false);
 
-                $payload['folders'][] = [
-                    'title' => $page->getTabbarName(),
-                    'subtitle' => '',
-                    'picture' => $pictureB64,
-                    'hide_navbar' => (boolean) $hide_navbar,
-                    'use_external_app'  => (boolean) $use_external_app,
-                    'is_link' => !(boolean) $page->getIsAjax(),
-                    'url' => $url,
-                    'path' => $url,
-                    'code' => $page->getCode(),
-                    'offline_mode' => (boolean) $page->getObject()->isCacheable(),
-                    'embed_payload' => $page->getEmbedPayload($request),
-                    'is_locked' => (boolean) $page->isLocked(),
-                    'touched_at' => (integer) $page->getTouchedAt(),
-                    'expires_at' => (integer) $page->getExpiresAt(),
-                    'has_parent_folder' => true,
-                ];
+                $payload["folders"][] = array(
+                    "title"                 => $page->getTabbarName(),
+                    "subtitle"              => "",
+                    "picture"               => $picture_b64,
+                    "hide_navbar"           => (boolean) $hide_navbar,
+                    "use_external_app"      => (boolean) $use_external_app,
+                    "is_link"               => (boolean) !$page->getIsAjax(),
+                    "url"                   => $url,
+                    "path"                  => $url,
+                    "code"                  => $page->getCode(),
+                    "offline_mode"          => (boolean) $page->getObject()->isCacheable(),
+                    "embed_payload"         => $page->getEmbedPayload($request),
+                    "is_locked"             => (boolean) $page->isLocked(),
+                    "touched_at"            => (integer) $page->getTouchedAt(),
+                    "expires_at"            => (integer) $page->getExpiresAt()
+                );
             }
 
-            $coverB64 = null;
-            if ($currentCategory->getPictureUrl()) {
-                $coverB64 = $request->getBaseUrl() . $currentCategory->getPictureUrl();
+            $cover_b64 = null;
+            if($current_category->getPictureUrl()) {
+                //$picture_file = Core_Model_Directory::getBasePathTo($current_category->getPictureUrl());
+                //$cover_b64 = Siberian_Image::open($picture_file)->inline("png");
+                $cover_b64 = $request->getBaseUrl() . $current_category->getPictureUrl();
             }
 
-            $payload['cover'] = [
-                'title' => $currentCategory->getTitle(),
-                'subtitle' => $currentCategory->getSubtitle(),
-                'picture' => $coverB64
-            ];
+            $payload["cover"] = array(
+                "title"     => $current_category->getTitle(),
+                "subtitle"  => $current_category->getSubtitle(),
+                "picture"   => $cover_b64
+            );
 
-            $payload['search_list'] = $searchList;
-            $payload['page_title'] = $currentCategory->getTitle();
-            $payload['success'] = true;
+            $payload["search_list"]    = $search_list;
+            $payload["page_title"]     = $current_category->getTitle();
+
+            $payload["success"] = true;
 
         }
 
         return $payload;
+
     }
 
     private function _getAllChildren($category, &$tab_children) {

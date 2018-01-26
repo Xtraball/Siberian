@@ -1,7 +1,10 @@
 <?php $option_value = new Application_Model_Option_Value(); ?>
-<?php $option_values = $option_value->findAll(array('app_id' => $this->getApplication()->getId(), 'excluded_options' => new Zend_Db_Expr("folder_category_id IS NULL")), 'position ASC'); ?>
+<?php $option_values = $option_value->findAll(
+        array(
+            'app_id' => $this->getApplication()->getId(),
+            'excluded_options' => new Zend_Db_Expr("folder_category_id IS NULL")), 'position ASC'); ?>
 <?php foreach($option_values as $key => $option) : ?>
-    <?php if($option->getCode() == "folder") continue; ?>
+    <?php if(in_array($option->getCode(), ['folder', 'folder_v2'])) continue; ?>
     <li id="add_page_<?php echo $option->getId(); ?>" class="option_value col-md-3 color-blue btn" data-pos="<?php echo $option->getPosition(); ?>" <?php echo ($option->getFolderCategoryId()) ? 'style="display:none"' : '' ?>>
         <a href="<?php echo $this->getUrl('folder/application/addfeature'); ?>" class="add_feature details" rel="<?php echo $option->getId(); ?>">
             <img src="<?php echo $option->getIconUrl(); ?>" alt="<?php echo $option->getName(); ?>" title="<?php echo $option->getName(); ?>" width="auto" height="50" class="block" />

@@ -88,7 +88,7 @@ class Siberian_Mail extends Zend_Mail {
             if(!empty($sender_email)) {
                 $this->_sender_email = $sender_email;
             }
-        } else {
+        } else { // 3. Platform Wide!
             $sender_name = System_Model_Config::getValueFor("support_name");
             if(!empty($sender_name)) {
                 $this->_sender_name = $sender_name;

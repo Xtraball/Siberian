@@ -1,0 +1,81 @@
+<?php $option_value = $this->getOptionValue(); ?>
+<div class="form_content">
+    <div id="list" class="edit_page folder">
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo __('Folders') ?>
+        </h3>
+        <?php
+        echo $this->getLayout()
+            ->addPartial('folder_manage', 'Core_View_Default', 'folder/application/edit/categories.phtml')
+            ->setCurrentOptionValue($option_value)
+            ->toHtml()
+        ;
+        ?>
+        <div class="background">
+            <div class="content-color">
+                <div>
+                    <?php echo $this->importBackground($option_value); ?>
+                </div>
+
+                <?php echo $this->getLayout()
+                    ->addPartial('layout', 'Core_View_Default', 'application/customization/features/edit/layout.phtml')
+                    ->setOptionValue($option_value)
+                    ->toHtml()
+                ;
+                ?>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        bindForms('#list');
+    });
+
+    var folder_background_uploader = new Uploader();
+    var caret_bottom = $('.pages .listing ul li i.icon-caret-up').css('bottom');
+    var relative_width = $('.pages .listing > .relative').width();
+    var category;
+
+    page.setCallback('willappear', function() {
+        category = new Category();
+    });
+
+    page.setCallback('willdisappear', function() {
+        $('.folderForm_cont').off('submit');
+        $('.folderForm_cont').off('click', '#upload_folder_background');
+        $('.folderForm_cont').off('click', '#remove_background_img');
+        $('.folderForm_cont').off('click', '.save_background_image');
+        $('.folderForm_cont').off('click', '.add_feature');
+        $('.left_category').off('click', 'a');
+        $('.manage_categories').off('click', '.delete_category');
+        if(!folder.current_option_id) {
+            folder.reset();
+        }
+        if(typeof folder_form == 'object') {
+            folder_form.destroy();
+        }
+    });
+
+</script>
+<style type="text/css">
+    #remove_background_img {
+        vertical-align: top;
+        margin-left: 5px;
+    }
+    .form_content {
+        position: relative;
+    }
+    .button_handler {
+        display: flex;
+        align-items: center;
+        padding-left: 1em;
+    }
+    .page_list_folder .option_value:hover span, .option_value.selected a span {
+        opacity: 1;
+    }
+    .option_value {
+        width:98px;
+    }
+</style>

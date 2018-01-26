@@ -45,6 +45,10 @@ $schemas['folder'] = array(
             'is_unique' => false,
         ),
     ),
+    'version' => array(
+        'type' => 'int(1)',
+        'default' => '1',
+    ),
     'show_search' => array(
         'type' => 'tinyint(1) unsigned',
         'default' => '0',

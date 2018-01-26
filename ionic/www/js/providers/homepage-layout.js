@@ -78,9 +78,12 @@ angular.module('starter').provider('HomepageLayout', function () {
                     var isSubFolder = (feature.is_subfolder !== undefined && feature.is_subfolder);
                     var hasParentFolder = (feature.has_parent_folder !== undefined && feature.has_parent_folder);
 
-                    if (isPadlock || isSubFolder || hasParentFolder) {
-                        // do not clear history if we open the padlock!
-                    } else if (feature.path !== $location.path()) {
+                    if (!isPadlock &&
+                        !isSubFolder &&
+                        !hasParentFolder &&
+                        (feature.path !== $location.path())) {
+
+                        // do not clear history if we open the padlock, folder, subfolder!
                         doClearHistory = true;
                         $ionicHistory.nextViewOptions({
                             historyRoot: true,
