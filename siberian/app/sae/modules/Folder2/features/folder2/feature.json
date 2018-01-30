@@ -10,13 +10,14 @@
             "root": true,
             "state": "folder2-category-list",
             "controller": "Folder2ListController",
-            "url": "folder2/mobile_list/index/value_id/:value_id/category_id/:category_id",
+            "url": "folder2/mobile_list/index/value_id/:value_id/category_id/:category_id/layout_id/:layout_id",
             "template": "list.html",
             "layouts": {
                 "1": "l1",
                 "2": "l2",
                 "3": "l3",
-                "4": "l4"
+                "4": "l4",
+                "5": "l5"
             },
             "cache": false
         }
@@ -25,7 +26,8 @@
         1,
         2,
         3,
-        4
+        4,
+        5
     ],
     "icons": [
         "icons/folder1-flat.png",

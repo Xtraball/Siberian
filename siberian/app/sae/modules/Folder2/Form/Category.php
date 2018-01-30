@@ -24,6 +24,18 @@ class Folder2_Form_Category extends Siberian_Form_Abstract {
 
         $subtitle = $this->addSimpleText('subtitle', __('Subtitle'));
 
+        $layout = $this->addSimpleSelect('layout_id', __('Override layout'), [
+            '-1' => __('Inherit global layout'),
+            '1' => __('Layout #1'),
+            '2' => __('Layout #2'),
+            '3' => __('Layout #3'),
+            '4' => __('Layout #4'),
+            '5' => __('Layout #5'),
+        ]);
+
+        $show_cover = $this->addSimpleCheckbox('show_cover', __('Show cover'));
+        $show_title = $this->addSimpleCheckbox('show_title', __('Show title'));
+
         $picture = $this->addSimpleImage(
             'picture',
             __('Cover'),

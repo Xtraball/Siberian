@@ -52,5 +52,9 @@ $schemas['folder'] = array(
     'show_search' => array(
         'type' => 'tinyint(1) unsigned',
         'default' => '0',
+    ),
+    'card_design' => array(
+        'type' => 'tinyint(1) unsigned',
+        'default' => '0',
     )
 );
