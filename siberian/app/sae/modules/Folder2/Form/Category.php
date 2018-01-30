@@ -30,10 +30,9 @@ class Folder2_Form_Category extends Siberian_Form_Abstract {
             __('Import a cover image'),
             [
                 'width' => 960,
-                'height' => 600
-            ],
-            [],
-            true);
+                'height' => 600,
+                'required' => true
+            ]);
         $picture
             ->addClass('default_button')
             ->addClass('form_button');
@@ -44,10 +43,9 @@ class Folder2_Form_Category extends Siberian_Form_Abstract {
             __('Import a thumbnail image'),
             [
                 'width' => 512,
-                'height' => 512
-            ],
-            [],
-            true);
+                'height' => 512,
+                'required' => true
+            ]);
         $thumbnail
             ->addClass('default_button')
             ->addClass('form_button');

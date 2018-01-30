@@ -82,13 +82,8 @@ angular.module('starter').provider('HomepageLayout', function () {
                         !isSubFolder &&
                         !hasParentFolder &&
                         (feature.path !== $location.path())) {
-
                         // do not clear history if we open the padlock, folder, subfolder!
                         doClearHistory = true;
-                        $ionicHistory.nextViewOptions({
-                            historyRoot: true,
-                            disableAnimate: false
-                        });
                     }
 
                     break;
@@ -160,7 +155,6 @@ angular.module('starter').provider('HomepageLayout', function () {
                     if (!$injector.get('Application').is_customizing_colors &&
                         HomepageLayout.properties.options.autoSelectFirst) {
                         if (feature.path !== $location.path()) {
-                            console.log('isPadlock, shit i\'m here');
                             if (doClearHistory) {
                                 $ionicHistory.nextViewOptions({
                                     historyRoot: true,

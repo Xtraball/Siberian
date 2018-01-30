@@ -13,9 +13,8 @@ angular.module('starter').controller('Folder2ListController', function ($scope, 
     });
 
     Folder2.setValueId($stateParams.value_id);
-    Folder2.setCategoryId(_.get($stateParams, 'category_id', null));
 
-    $scope.computeCollections = function () {
+    /**$scope.computeCollections = function () {
         var unlocked = Customer.can_access_locked_features || Padlock.unlocked_by_qrcode;
 
         var compute = function (collection) {
@@ -34,28 +33,31 @@ angular.module('starter').controller('Folder2ListController', function ($scope, 
 
         $scope.collection = compute($scope.collection_data);
         $scope.search_list = compute($scope.search_list_data);
-    };
+    };*/
 
     $scope.loadContent = function () {
         Folder2.findAll()
-            .then(function (data) {
-                var values = angular.copy(data);
+            .then(function () {
+                var categoryId = _.get($stateParams, 'category_id', null);
+                if (_.isEmpty(categoryId)) {
+                    categoryId = null;
+                }
+                var current = Folder2.fetchForParentId(categoryId);
 
-                $scope.cover = values.cover;
-
-                $ionicNavBarDelegate.title(values.page_title);
+                // Page title!
+                $ionicNavBarDelegate.title(current.folder.title);
                 $timeout(function () {
-                    $scope.page_title = values.page_title;
+                    $scope.page_title = current.folder.title;
                 });
 
-                $scope.collection_data = values.folders;
-                $scope.search_list_data = values.search_list;
+                // Folders
+                $scope.current = angular.copy(current.folder);
+                $scope.collection = angular.copy(current.subfolders);
 
-                $scope.computeCollections();
+                $scope.current.picture = IMAGE_URL + $scope.current.picture;
+                $scope.current.thumbnail = IMAGE_URL + $scope.current.thumbnail;
 
-                $scope.show_search = values.show_search;
-
-                return values;
+                $scope.showSearch = Folder2.showSearch;
             }).then(function (data) {
                 $scope.is_loading = false;
             });

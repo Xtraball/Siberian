@@ -84,6 +84,7 @@ class Folder2_ApplicationController extends Application_Controller_Default {
             case 'create':
                     $position = (new Folder2_Model_Category())
                         ->getNextCategoryPosition($parentId);
+
                     $folder = new Folder2_Model_Category();
                     $folder
                         ->setTitle(__('New subfolder'))
@@ -91,6 +92,25 @@ class Folder2_ApplicationController extends Application_Controller_Default {
                         ->setValueId($valueId)
                         ->setPos($position)
                         ->setParentId($parentId)
+                        ->save();
+
+                    // Default image pattern!
+                    $image = \Gregwar\Image\Image::open(Core_Model_Directory::getBasePathTo('/app/sae/modules/Folder2/resources/design/desktop/flat/images/placeholder/folder-960-600.png'));
+                    $image
+                        ->grayscale()
+                        ->colorize(rand(-64, 64), rand(-64, 64), rand(-64, 64));
+
+                    $pictureFile = Siberian_Feature::createFile($this->getCurrentOptionValue(), '', uniqid() . 'pat.png');
+                    unlink(Application_Model_Application::getBaseImagePath() . $pictureFile);
+                    $image->save(Application_Model_Application::getBaseImagePath() . $pictureFile, 'png', 100);
+                    $thumbnailFile = Siberian_Feature::createFile($this->getCurrentOptionValue(), '', uniqid() . 'pat.png');
+                    unlink(Application_Model_Application::getBaseImagePath() . $thumbnailFile);
+                    $image->zoomCrop(512, 512, 0, 0);
+                    $image->save(Application_Model_Application::getBaseImagePath() . $thumbnailFile, 'png', 100);
+
+                    $folder
+                        ->setPicture($pictureFile)
+                        ->setThumbnail($thumbnailFile)
                         ->save();
 
                     $form = new Folder2_Form_Category();

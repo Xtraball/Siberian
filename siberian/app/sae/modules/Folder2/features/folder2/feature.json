@@ -10,19 +10,6 @@
             "root": true,
             "state": "folder2-category-list",
             "controller": "Folder2ListController",
-            "url": "folder2/mobile_list/index/value_id/:value_id",
-            "template": "list.html",
-            "layouts": {
-                "1": "l1",
-                "2": "l2",
-                "3": "l3",
-                "4": "l4"
-            },
-            "cache": false
-        },
-        {
-            "state": "folder2-subcategory-list",
-            "controller": "Folder2ListController",
             "url": "folder2/mobile_list/index/value_id/:value_id/category_id/:category_id",
             "template": "list.html",
             "layouts": {
