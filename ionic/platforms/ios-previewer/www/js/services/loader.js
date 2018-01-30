@@ -1,7 +1,3 @@
-/*global
-    App, IS_NATIVE_APP, angular
- */
-
 /**
  * Modal
  *
@@ -9,12 +5,12 @@
  */
 angular.module('starter').service('Loader', function ($ionicLoading, $translate, $state, $timeout, Dialog) {
     var service = {
-        is_open : false,
-        last_config : '',
-        promise : null,
-        timeout : null,
-        keep_timeout : false,
-        timeout_count : 0
+        is_open: false,
+        last_config: '',
+        promise: null,
+        timeout: null,
+        keep_timeout: false,
+        timeout_count: 0
     };
 
     /**
@@ -25,29 +21,30 @@ angular.module('starter').service('Loader', function ($ionicLoading, $translate,
             service.timeout_count = service.timeout_count + 1;
             service.keep_timeout = true;
 
-            var buttons = ["Go back home", "Continue"];
+            var buttons = ['Go back home', 'Continue'];
             if (service.timeout_count >= 2) {
                 service.keep_timeout = false;
-                buttons = ["Go back home"];
+                buttons = ['Go back home'];
             }
 
             service.hide();
 
             Dialog.confirm(
-                "Feature timeout",
-                "It seems the feature your are trying to load is taking too much time!<br />Would you like to continue?",
+                'Feature timeout',
+                'It seems the feature your are trying to load is taking too much time!<br />Would you like to continue?',
                 buttons)
                 .then(function (result) {
                     if (result || (service.timeout_count >= 2)) {
+                        service.keep_timeout = false;
                         service.hide();
-                        $state.go("home");
+                        $state.go('home');
                     } else {
                         /** Calls only twice. */
                         service.show();
                         service.callTimeout();
                     }
                 });
-        }, 10000);
+        }, 1000);
     };
 
     /**

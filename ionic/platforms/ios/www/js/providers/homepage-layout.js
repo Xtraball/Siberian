@@ -60,6 +60,8 @@ angular.module('starter').provider('HomepageLayout', function () {
                 Modal.current_modal.hide();
             }
 
+            var doClearHistory = false;
+
             // Clear history for side-menu feature!
             switch (Pages.data.layout.position) {
                 case 'left':
@@ -71,14 +73,19 @@ angular.module('starter').provider('HomepageLayout', function () {
                         $ionicSideMenuDelegate.toggleRight();
                     }
 
-                    if (feature.code !== 'padlock') { // do not clear history if we open the padlock!
-                        if (feature.path !== $location.path()) {
-                            $ionicHistory.nextViewOptions({
-                                historyRoot: true,
-                                disableAnimate: false
-                            });
-                        }
+                    // Skip clear history for specific features:
+                    var isPadlock = (feature.code === 'padlock');
+                    var isSubFolder = (feature.is_subfolder !== undefined && feature.is_subfolder);
+                    var hasParentFolder = (feature.has_parent_folder !== undefined && feature.has_parent_folder);
+
+                    if (!isPadlock &&
+                        !isSubFolder &&
+                        !hasParentFolder &&
+                        (feature.path !== $location.path())) {
+                        // do not clear history if we open the padlock, folder, subfolder!
+                        doClearHistory = true;
                     }
+
                     break;
             }
 
@@ -148,10 +155,13 @@ angular.module('starter').provider('HomepageLayout', function () {
                     if (!$injector.get('Application').is_customizing_colors &&
                         HomepageLayout.properties.options.autoSelectFirst) {
                         if (feature.path !== $location.path()) {
-                            $ionicHistory.nextViewOptions({
-                                historyRoot: true,
-                                disableAnimate: false
-                            });
+                            if (doClearHistory) {
+                                $ionicHistory.nextViewOptions({
+                                    historyRoot: true,
+                                    disableAnimate: false
+                                });
+                            }
+
                             $location.path(feature.path).replace();
                         }
                     } else {
