@@ -157,14 +157,19 @@ class Folder2_Model_Folder extends Core_Model_Default {
 
             $collection = [];
             foreach ($categories as $category) {
-                $url = __path('folder2/mobile_list', array(
+                $params = [
                     'value_id' => $optionValue->getId(),
-                    'category_id' => $category->getId()
-                ));
+                    'category_id' => $category->getId(),
+                    'layout_id' => is_null($category->getLayoutId()) ? -1 : $category->getLayoutId()
+                ];
+                $url = __path('folder2/mobile_list', $params);
 
                 $collection[] = [
                     'title' => (string) $category->getTitle(),
                     'subtitle' => (string) $category->getSubtitle(),
+                    'showCover' => (boolean) $category->getShowCover(),
+                    'showTitle' => (boolean) $category->getShowTitle(),
+                    'layout_id' => (integer) $category->getLayoutId(),
                     'category_id' => (integer) $category->getCategoryId(),
                     'parent_id' => is_null($category->getParentId()) ? null : (integer) $category->getParentId(),
                     'type_id' => (string) $category->getTypeId(),
@@ -230,6 +235,7 @@ class Folder2_Model_Folder extends Core_Model_Default {
 
             return [
                 'showSearch' => (boolean) $this->getShowSearch(),
+                'cardDesign' => (boolean) $this->getCardDesign(),
                 'collection' => $collection
             ];
         }

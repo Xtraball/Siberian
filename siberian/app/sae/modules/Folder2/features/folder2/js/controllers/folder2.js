@@ -4,12 +4,15 @@
  * @version 4.12.24
  */
 angular.module('starter').controller('Folder2ListController', function ($scope, $stateParams, $ionicNavBarDelegate,
-                                                                      $timeout, SB, Customer, Folder2, Padlock) {
+                                                                      $timeout, SB, Customer, Folder2, Padlock, $filter) {
     angular.extend($scope, {
         is_loading: true,
         value_id: $stateParams.value_id,
         search: {},
-        card_design: false
+        cardDesign: false,
+        imagePath: function (path) {
+            return IMAGE_URL + path;
+        }
     });
 
     Folder2.setValueId($stateParams.value_id);
@@ -38,6 +41,9 @@ angular.module('starter').controller('Folder2ListController', function ($scope, 
     $scope.loadContent = function () {
         Folder2.findAll()
             .then(function () {
+                $scope.cardDesign = Folder2.cardDesign;
+                $scope.showSearch = Folder2.showSearch;
+
                 var categoryId = _.get($stateParams, 'category_id', null);
                 if (_.isEmpty(categoryId)) {
                     categoryId = null;
@@ -53,11 +59,8 @@ angular.module('starter').controller('Folder2ListController', function ($scope, 
                 // Folders
                 $scope.current = angular.copy(current.folder);
                 $scope.collection = angular.copy(current.subfolders);
-
-                $scope.current.picture = IMAGE_URL + $scope.current.picture;
-                $scope.current.thumbnail = IMAGE_URL + $scope.current.thumbnail;
-
-                $scope.showSearch = Folder2.showSearch;
+                $scope.chunks2 = $filter('chunk')(angular.copy(current.subfolders), 2);
+                $scope.chunks3 = $filter('chunk')(angular.copy(current.subfolders), 3);
             }).then(function (data) {
                 $scope.is_loading = false;
             });

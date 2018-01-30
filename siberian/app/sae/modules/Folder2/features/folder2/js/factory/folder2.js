@@ -28,6 +28,20 @@ angular.module('starter').factory('Folder2', function ($pwaRequest) {
         factory.extendedOptions = options;
     };
 
+    /**
+     *
+     * @param payload
+     */
+    factory.populate = function (payload) {
+        factory.collection = payload.collection;
+        factory.showSearch = payload.showSearch;
+        factory.cardDesign = payload.cardDesign;
+    };
+
+    /**
+     *
+     * @param valueId
+     */
     factory.findAll = function (valueId) {
         var localValueId = (valueId === undefined) ?
             this.value_id : valueId;
@@ -38,8 +52,7 @@ angular.module('starter').factory('Folder2', function ($pwaRequest) {
 
         var payload = $pwaRequest.getPayloadForValueId(factory.value_id);
         if (payload !== false) {
-            factory.collection = angular.copy(payload.collection);
-            factory.showSearch = angular.copy(payload.showSearch);
+            factory.populate(payload);
 
             return $pwaRequest.resolve();
         }
@@ -53,8 +66,7 @@ angular.module('starter').factory('Folder2', function ($pwaRequest) {
             })
             .then(function (result) {
                 if (result.folders) {
-                    factory.collection = result.collection;
-                    factory.showSearch = result.showSearch;
+                    factory.populate(result);
                     return $pwaRequest.resolve();
                 }
                 return $pwaRequest.reject();
@@ -69,21 +81,16 @@ angular.module('starter').factory('Folder2', function ($pwaRequest) {
      * @param parentId
      */
     factory.fetchForParentId = function (parentId) {
-        console.log('Folder2 fetchForParentId', parentId);
         var currentFolder;
         if (parentId === null) {
-            console.log('Folder2 nullcase');
             currentFolder = _.find(factory.collection, {
                 parent_id: null
             });
         } else {
-            console.log('Folder2 notnullcase');
             currentFolder = _.find(factory.collection, {
                 category_id: parseInt(parentId, 10)
             });
         }
-
-        console.log('Folder2 currentFolder', currentFolder);
 
         return {
             folder: currentFolder,

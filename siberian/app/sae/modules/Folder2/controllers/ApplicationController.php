@@ -237,6 +237,11 @@ class Folder2_ApplicationController extends Application_Controller_Default {
                     $category->setData('thumbnail', $background);
                 }
 
+                // Clear layout_id!
+                if ($values['layout_id'] === '-1') {
+                    $category->setLayoutId(null);
+                }
+
                 $category->save();
 
                 // Update touch date, then never expires (until next touch)!

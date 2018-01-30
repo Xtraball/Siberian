@@ -68,6 +68,18 @@ $schemas['folder_category'] = array(
         'type' => 'int(1)',
         'default' => '1',
     ),
+    'layout_id' => array(
+        'type' => 'tinyint(1)',
+        'is_null' => true,
+    ),
+    'show_cover' => array(
+        'type' => 'tinyint(1)',
+        'default' => '1',
+    ),
+    'show_title' => array(
+        'type' => 'tinyint(1)',
+        'default' => '1',
+    ),
     'value_id' => [
         'type' => 'int(11) unsigned',
         'is_null' => true,

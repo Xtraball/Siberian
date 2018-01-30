@@ -1,18 +1,20 @@
-<ion-view sb-page-background class="module-folder2 folder2-layout1">
+<ion-view sb-page-background
+          class="module-folder2 folder2-layout1">
     <ion-nav-title>{{ page_title }}</ion-nav-title>
     <ion-content>
 
-        <div class="loader" ng-show="is_loading">
+        <div class="loader"
+             ng-show="is_loading">
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
         <ng-include src="'templates/folder/l1/search.html'"></ng-include>
 
         <div class="list"
-             ng-class="{'card': card_design}"
+             ng-class="{'card': cardDesign}"
              ng-show="!is_loading && current && !search.search_value">
             <div class="item item-image item-custom">
-                <img ng-src="{{ current.picture }}" />
+                <img ng-src="{{ imagePath(current.picture) }}" />
             </div>
             <div class="item item-custom">
                 <h2>{{ current.title }}</h2>
@@ -21,7 +23,7 @@
         </div>
 
         <div class="list"
-             ng-class="{'card': card_design}"
+             ng-class="{'card': cardDesign}"
              ng-show="collection.length && !search.search_value">
             <a tabbar-items
                class="item item-custom item-avatar-square"
@@ -31,7 +33,7 @@
                 'item-avatar': item.thumbnail,
                 'item-center': (!item.subtitle && !item.message)}">
 
-                <img ng-src="{{ item.thumbnail }}"
+                <img ng-src="{{ imagePath(item.thumbnail) }}"
                      ng-if="item.thumbnail" />
                 <h2>{{ item.title }}</h2>
                 <p ng-if="item.subtitle">{{ item.subtitle }}</p>
@@ -39,7 +41,7 @@
         </div>
 
         <div class="list"
-             ng-class="{'card': card_design}"
+             ng-class="{'card': cardDesign}"
              ng-if="!is_loading && !collection.length && !cover">
             <div class="item text-center item-custom">
                 {{ "No items found" | translate }}
