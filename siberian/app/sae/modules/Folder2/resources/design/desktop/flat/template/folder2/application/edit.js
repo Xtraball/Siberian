@@ -176,8 +176,9 @@ $(document).ready(function () {
         var categoryId = deleteButton.attr('rel');
         var folderName = $('.folder-sortable[rel="' + categoryId + '"] > span > span.folder-title').text();
         swal({
+            html: true,
             title: words.deleteTitle,
-            text: words.deleteText.replace('#FOLDER_NAME#', folderName),
+            text: words.deleteText.replace('#FOLDER_NAME#', '<b>' + folderName + '</b>'),
             showCancelButton: true,
             confirmButtonColor: '#ff3a2e',
             confirmButtonText: words.confirmDelete,
@@ -332,6 +333,7 @@ $(document).ready(function () {
     updateFeatureCount();
     buildSortable();
     bindForms('#settings');
+    bindForms('#design');
 
     var latestCategory = $('li.folder-sortable[rel="' + folder.current_category_id + '"] > span > i.folder-edit');
     if (latestCategory.length > 0) {

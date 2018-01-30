@@ -5,6 +5,12 @@
  *
  * @method integer getId()
  * @method integer getParentId()
+ * @method string getTitle()
+ * @method string getSubtitle()
+ * @method integer getCategoryId()
+ * @method string getTypeId()
+ * @method string getPicture()
+ * @method string getThumbnail()
  * @method Folder2_Model_Db_Table_Category getTable()
  * @method $this setParentId(integer $parentId)
  * @method $this setPos(integer $position)

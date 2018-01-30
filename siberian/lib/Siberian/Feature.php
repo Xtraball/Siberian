@@ -302,8 +302,8 @@ class Siberian_Feature {
             mkdir($folder, 0777, true);
         }
         
-        if (!copy($img_src, $img_dst)) {
-            throw new Siberian_Exception('#343-01: ' . __('An error occurred while saving your picture. Please try again later.'));
+        if (!file_exists($img_dst) && !copy($img_src, $img_dst)) {
+            throw new Siberian_Exception('#343-01: ' . __('An error occurred while saving your picture. Please try again later.<br />%s - %s', $img_src, $img_dst));
         } else {
             $path = $relative_path . '/' . $filename;
             try {
@@ -314,6 +314,33 @@ class Siberian_Feature {
         }
 
         return $path;
+    }
+
+    /**
+     * @param Application_Model_Option_Value $option_value
+     * @param $tmp_path
+     * @return null|string
+     * @throws exception
+     */
+    public static function createFile(Application_Model_Option_Value $optionValue, $content, $filename = null) {
+        $path = null;
+
+        $filename = is_null($filename) ? uniqid() : $filename;
+        $relativePath = $optionValue->getImagePathTo();
+        $folder = Application_Model_Application::getBaseImagePath() . $relativePath;
+        $imgDst = $folder . '/' . $filename;
+
+        if (!is_dir($folder)) {
+            mkdir($folder, 0777, true);
+        }
+
+        if (file_exists($imgDst)) {
+            throw new Siberian_Exception('#343-54: ' . __('An error occurred while saving your picture. Please try again later.'));
+        } else {
+            file_put_contents($imgDst, $content);
+        }
+
+        return $relativePath . '/' . $filename;
     }
 
     /**

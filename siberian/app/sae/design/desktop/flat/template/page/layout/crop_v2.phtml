@@ -3,21 +3,35 @@
 </h3>
 <?php $output = str_replace('$', '/', $this->getOutputUrl()); ?>
 <div class="container-fluid">
-    <form action="<?php echo $output; ?>" method="post" id="saveCrop" class="form-horizontal solo-page">
+    <form action="<?php echo $output; ?>"
+          method="post"
+          id="saveCrop"
+          class="form-horizontal solo-page">
         <div class="form-group">
             <div class="col-md-2">
-                <button type="button" id="hide_form" class="color-blue pull-left btn" onclick="$.featherlight.current().close();"><i class="fa fa-angle-left"></i></button>
+                <button type="button"
+                        id="hide_form"
+                        class="color-blue pull-left btn"
+                        onclick="$.featherlight.current().close();">
+                    <i class="fa fa-angle-left"></i>
+                </button>
             </div>
             <div class="col-md-2 col-md-offset-8">
-                <button type="submit" class="color-blue pull-right btn"><?php echo __('OK') ?></button>
+                <button type="submit"
+                        class="color-blue pull-right btn"><?php echo __('OK') ?></button>
             </div>
         </div>
-        <?php if($this->getIsColorizable() && $this->getIsColorizable() == true) : ?>
+        <?php if ($this->getIsColorizable() && $this->getIsColorizable() == true) : ?>
         <div class="form-group">
             <div class="col-md-12">
                 <div class="colorize_checbox">
-                    <label for="colorize_picture" id="colorize_picture_label">
-                        <input type="checkbox" value="1" name="is_colorizable" id="colorize_picture" class="color-blue checkbox">
+                    <label for="colorize_picture"
+                           id="colorize_picture_label">
+                        <input type="checkbox"
+                               value="1"
+                               name="is_colorizable"
+                               id="colorize_picture"
+                               class="color-blue checkbox">
                         <?php echo __('Make this image colorizable') ?>
                     </label>
                 </div>
@@ -34,24 +48,69 @@
             </div>
         </div>
 
-        <input type="hidden" id="x1" name="x1" />
-        <input type="hidden" id="y1" name="y1" />
-        <input type="hidden" id="x2" name="x2" />
-        <input type="hidden" id="y2" name="y2" />
-        <input type="hidden" id="w" name="w" />
-        <input type="hidden" id="h" name="h" />
-        <input type="hidden" id="source_width" name="source_width" value="<?php echo $this->getWidth(); ?>" />
-        <input type="hidden" id="source_height" name="source_height" value="<?php echo $this->getheight(); ?>" />
-        <input type="hidden" id="output_width" name="output_width" value="<?php echo $this->getOutputWidth(); ?>" />
-        <input type="hidden" id="output_height" name="output_height" value="<?php echo $this->getOutputHeight(); ?>" />
-        <input type="hidden" id="quality" name="quality" value="<?php echo $this->getQuality(); ?>" />
-        <input type="hidden" id="crop_width" name="crop_width" value="" />
-        <input type="hidden" id="crop_height" name="crop_height" value="" />
-        <input type="hidden" id="file" name="file" value="<?php echo $this->getPicture(); ?>" />
-        <input type="hidden" id="option_id" name="option_id" value="<?php echo $this->getOptionId(); ?>" />
+        <input type="hidden"
+               id="x1"
+               name="x1" />
+        <input type="hidden"
+               id="y1"
+               name="y1" />
+        <input type="hidden"
+               id="x2"
+               name="x2" />
+        <input type="hidden"
+               id="y2"
+               name="y2" />
+        <input type="hidden"
+               id="w"
+               name="w" />
+        <input type="hidden"
+               id="h"
+               name="h" />
+        <input type="hidden"
+               id="source_width"
+               name="source_width"
+               value="<?php echo $this->getWidth(); ?>" />
+        <input type="hidden"
+               id="source_height"
+               name="source_height"
+               value="<?php echo $this->getheight(); ?>" />
+        <input type="hidden"
+               id="output_width"
+               name="output_width"
+               value="<?php echo $this->getOutputWidth(); ?>" />
+        <input type="hidden"
+               id="output_height"
+               name="output_height"
+               value="<?php echo $this->getOutputHeight(); ?>" />
+        <input type="hidden"
+               id="quality"
+               name="quality"
+               value="<?php echo $this->getQuality(); ?>" />
+        <input type="hidden"
+               id="crop_width"
+               name="crop_width"
+               value="" />
+        <input type="hidden"
+               id="crop_height"
+               name="crop_height"
+               value="" />
+        <input type="hidden"
+               id="file"
+               name="file"
+               value="<?php echo $this->getPicture(); ?>" />
+        <input type="hidden"
+               id="option_id"
+               name="option_id"
+               value="<?php echo $this->getOptionId(); ?>" />
         <?php if($this->getIsColorizable()) : ?>
-            <input type="hidden" id="is_colorized" name="is_colorized" value="false" />
-            <input type="hidden" id="image_color" name="image_color" value="<?php echo $this->getImageColor(); ?>" />
+            <input type="hidden"
+                   id="is_colorized"
+                   name="is_colorized"
+                   value="false" />
+            <input type="hidden"
+                   id="image_color"
+                   name="image_color"
+                   value="<?php echo $this->getImageColor(); ?>" />
         <?php endif; ?>
     </form>
 </div>
@@ -138,7 +197,6 @@
                 <?php else : ?>
                     <?php echo $this->getUploader(); ?>.callback(datas.file);
                 <?php endif; ?>
-                $('a#crop_image').remove();
             }
             loader.hide('sb-features');
         });
