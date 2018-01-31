@@ -25,14 +25,6 @@ module.exports = [
         ]
     },
     {
-        "id": "siberian-plugin-backgroundgeoloc.BackgroundGeoloc",
-        "file": "plugins/siberian-plugin-backgroundgeoloc/src/www/BackgroundGeoloc.js",
-        "pluginId": "siberian-plugin-backgroundgeoloc",
-        "clobbers": [
-            "window.BackgroundGeoloc"
-        ]
-    },
-    {
         "id": "phonegap-plugin-push.PushNotification",
         "file": "plugins/phonegap-plugin-push/www/push.js",
         "pluginId": "phonegap-plugin-push",
@@ -278,18 +270,26 @@ module.exports = [
         "runs": true
     },
     {
-        "id": "cordova-plugin-geolocation.geolocation",
-        "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
-        "pluginId": "cordova-plugin-geolocation",
+        "id": "es6-promise-plugin.Promise",
+        "file": "plugins/es6-promise-plugin/www/promise.js",
+        "pluginId": "es6-promise-plugin",
+        "runs": true
+    },
+    {
+        "id": "cordova-plugin-geofence.TransitionType",
+        "file": "plugins/cordova-plugin-geofence/www/TransitionType.js",
+        "pluginId": "cordova-plugin-geofence",
         "clobbers": [
-            "navigator.geolocation"
+            "TransitionType"
         ]
     },
     {
-        "id": "cordova-plugin-geolocation.PositionError",
-        "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
-        "pluginId": "cordova-plugin-geolocation",
-        "runs": true
+        "id": "cordova-plugin-geofence.geofence",
+        "file": "plugins/cordova-plugin-geofence/www/geofence.js",
+        "pluginId": "cordova-plugin-geofence",
+        "clobbers": [
+            "geofence"
+        ]
     },
     {
         "id": "cordova-plugin-inappbrowser.inappbrowser",
@@ -385,11 +385,10 @@ module.exports = [
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "cordova-plugin-extension": "1.3.0",
-    "cordova-plugin-admobpro": "2.14.0",
+    "cordova-plugin-extension": "1.5.4",
+    "cordova-plugin-admobpro": "2.30.1",
     "cordova-hot-code-push-plugin": "1.5.2",
     "cordova-plugin-splashscreen": "4.0.0",
-    "siberian-plugin-backgroundgeoloc": "1.0.0",
     "phonegap-plugin-push": "1.10.0",
     "cordova-plugin-app-version": "0.1.8",
     "cordova-plugin-compat": "1.2.0",
@@ -398,16 +397,17 @@ module.exports.metadata =
     "com.verso.cordova.clipboard": "0.1.0",
     "cordova-plugin-device": "1.1.6-dev",
     "cordova-plugin-file": "4.3.3-dev",
-    "cordova-plugin-geolocation": "2.1.0",
+    "es6-promise-plugin": "4.2.2",
+    "cordova-plugin-geofence": "0.6.0",
     "cordova-plugin-inappbrowser": "1.7.1-dev",
     "ionic-plugin-keyboard": "2.2.1",
     "cordova-plugin-x-socialsharing": "5.0.12-dev",
-    "cordova-plugin-statusbar": "2.2.0",
+    "cordova-plugin-statusbar": "2.4.1",
     "cordova-plugin-whitelist": "1.2.1",
     "de.appplant.cordova.plugin.local-notification": "0.8.4.1",
     "siberian-plugin-offlinemode": "1.0.0",
     "cordova-plugin-insomnia": "4.2.0",
-    "cordova-plugin-music-controls": "1.4.1",
+    "cordova-plugin-music-controls": "2.1.4",
     "siberian": "1.0.0"
 };
 // BOTTOM OF METADATA
