@@ -8,12 +8,12 @@
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
-        <ng-include src="'templates/folder/l1/search.html'"></ng-include>
+        <ng-include src="'features/folder_v2/assets/templates/search.html'"></ng-include>
 
         <div class="list"
              ng-if="(current.showCover || current.showTitle)"
              ng-class="{'card': cardDesign}"
-             ng-show="!is_loading && current && !search.search_value">
+             ng-show="!is_loading && current && !search.searchValue">
             <div class="item item-image item-custom"
                  ng-if="current.showCover && current.picture">
                 <img ng-src="{{ imagePath(current.picture) }}" />
@@ -25,15 +25,16 @@
             </div>
         </div>
 
-        <div class="list folder-layout folder-l3"
+        <div class="list folder-layout folder-l4"
              ng-class="{'card': cardDesign}"
-             ng-show="collection.length && !search.search_value">
-            <div class="folder-l3-row"
-                 ng-repeat="chunks in chunks3 track by $index">
+             ng-show="collection.length && !search.searchValue">
+            <div class="folder-l4-row"
+                 ng-repeat="chunks in chunks2 track by $index">
                 <div tabbar-items
-                     class="folder-l3-col item item-custom"
+                     class="folder-l4-col item item-custom"
                      option="item"
                      ng-repeat="item in chunks track by item.url"
+                     ng-class="{'single': chunks.length == 1}"
                      ng-style="{'background-image':'url(' + imagePath(item.thumbnail) + ')'}">
                     <img src="./img/placeholder/blank-512.png" />
                     <p class="folder-title">{{ item.title }}</p>
@@ -46,7 +47,7 @@
 
         <div class="list"
              ng-class="{'card': cardDesign}"
-             ng-if="!is_loading && !collection.length && !current">
+             ng-if="!is_loading && !collection.length && !current && !search.searchValue">
             <div class="item text-center item-custom">
                 {{ "No items found" | translate }}
             </div>
@@ -55,70 +56,68 @@
     </ion-content>
 
     <style type="text/css">
-        .folder-layout.folder-l3 {
+        .folder-layout.folder-l4 {
 
         }
 
-        .folder-layout.folder-l3.card {
+        .folder-layout.folder-l4.card {
             box-shadow: none;
         }
 
-        .folder-layout.folder-l3 .folder-l3-row {
+        .folder-layout.folder-l4 .folder-l4-row {
             padding: 0;
             display: flex;
-            margin-top: 12px;
         }
 
-        .folder-layout.folder-l3 .folder-l3-row:nth-child(1) {
-            margin-top: 0;
-        }
-
-        .folder-layout.folder-l3 .folder-l3-col {
+        .folder-layout.folder-l4 .folder-l4-col {
             padding: 0;
-            width: 33%;
+            width: 50%;
         }
 
-        .folder-layout.folder-l3 .folder-l3-row div.folder-l3-col {
-            margin: 0 6px;
+        .folder-layout.folder-l4 .folder-l4-row div.folder-l4-col.single {
+            flex: 0 1 50%;
+        }
+
+        .folder-layout.folder-l4 .folder-l4-row div.folder-l4-col {
+            margin: 0;
             padding: 0;
             background-position: center center;
             background-repeat: no-repeat;
             background-size: 50%;
-            flex: 0 1 calc(33% - 12px);
         }
 
-        .folder-layout.folder-l3 .folder-l3-row div.folder-l3-col img {
+        .folder-layout.folder-l4 .folder-l4-row div.folder-l4-col img {
             width: 100%;
         }
 
-        .folder-layout.folder-l3.card .folder-l3-row div.folder-l3-col {
+        .folder-layout.folder-l4.card .folder-l4-row div.folder-l4-col {
             border: 0;
-            border-radius: 2px;
+            border-radius: 0;
         }
 
-        .folder-layout.folder-l3.card .folder-l3-row div.folder-l3-col:nth-child(1) {
-            margin: 0 6px 0 0;
+        .folder-layout.folder-l4.card .folder-l4-row div.folder-l4-col:nth-child(1) {
+            margin: 0;
         }
 
-        .folder-layout.folder-l3.card .folder-l3-row div.folder-l3-col:nth-child(2) {
-            margin: 0 0 0 6px;
+        .folder-layout.folder-l4.card .folder-l4-row div.folder-l4-col:nth-child(2) {
+            margin: 0;
         }
 
-        .folder-layout.folder-l3 .folder-title {
+        .folder-layout.folder-l4 .folder-title {
             position: absolute;
-            bottom: 8px;
+            bottom: 16px;
             width: 100%;
             text-align: center;
-            font-size: 12px;
+            font-size: 14px;
             padding: 0 10px;
         }
 
-        .folder-layout.folder-l3 .folder-subtitle {
+        .folder-layout.folder-l4 .folder-subtitle {
             position: absolute;
-            bottom: -2px;
+            bottom: 2px;
             width: 100%;
             text-align: center;
-            font-size: 11px;
+            font-size: 13px;
             padding: 0 10px;
         }
     </style>

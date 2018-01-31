@@ -10,6 +10,13 @@
 class Folder2_Model_Folder extends Core_Model_Default {
 
     /**
+     * Maximum nested level
+     *
+     * @var int
+     */
+    public static $maxNestedLevel = 12;
+
+    /**
      * @var array
      */
     public $cache_tags = [
@@ -71,31 +78,6 @@ class Folder2_Model_Folder extends Core_Model_Default {
      */
     public function getFeaturePaths($optionValue) {
         return [];
-        /**if (!$this->isCacheable()) {
-            return [];
-        }
-
-        $valueId = $optionValue->getId();
-        $cacheId = "feature_paths_valueid_{$valueId}";
-        if (!$result = $this->cache->load($cacheId)) {
-
-            $paths = [];
-            $paths[] = $optionValue->getPath('findall', [
-                'value_id' => $optionValue->getId()
-            ], false);
-
-            $paths = array_merge($paths, $this->_get_subcategories_feature_paths($this->getRootCategory(), $optionValue));
-
-            $this->cache->save($paths, $cacheId,
-                $this->cache_tags + [
-                    'feature_paths',
-                    'feature_paths_valueid_' . $valueId
-                ]);
-        } else {
-            $paths = $result;
-        }
-
-        return $paths;*/
     }
 
     /**
@@ -104,37 +86,6 @@ class Folder2_Model_Folder extends Core_Model_Default {
      */
     public function getAssetsPaths($optionValue) {
         return [];
-        /**if (!$this->isCacheable()) {
-            return [];
-        }
-
-        $paths = [];
-
-        $valueId = $optionValue->getId();
-        $cacheId = 'assets_paths_valueid_' . $valueId;
-        if (!$result = $this->cache->load($cacheId)) {
-
-            $folder = $optionValue->getObject();
-
-            if ($folder->getId()) {
-                $category = new Folder2_Model_Category();
-                $category->find($folder->getRootCategoryId(), 'category_id');
-                if ($category->getId()) {
-                    $paths[] = $category->getPictureUrl();
-                    $paths = array_merge($paths, $this->_get_subcategories_assets_paths($category));
-                }
-            }
-
-            $this->cache->save($paths, $cacheId,
-                $this->cache_tags + [
-                    'assets_paths',
-                    'assets_paths_valueid_' . $valueId
-                ]);
-        } else {
-            $paths = $result;
-        }
-
-        return $paths;*/
     }
 
     /**
@@ -155,6 +106,7 @@ class Folder2_Model_Folder extends Core_Model_Default {
                     'pos ASC'
                 );
 
+            $indexCategories = [];
             $collection = [];
             foreach ($categories as $category) {
                 $params = [
@@ -164,7 +116,7 @@ class Folder2_Model_Folder extends Core_Model_Default {
                 ];
                 $url = __path('folder2/mobile_list', $params);
 
-                $collection[] = [
+                $element = [
                     'title' => (string) $category->getTitle(),
                     'subtitle' => (string) $category->getSubtitle(),
                     'showCover' => (boolean) $category->getShowCover(),
@@ -177,9 +129,15 @@ class Folder2_Model_Folder extends Core_Model_Default {
                     'thumbnail' => (string) '/images/application' . $category->getThumbnail(),
                     'url' => $url,
                     'path' => $url,
+                    'is_locked' => false,
                     'is_subfolder' => (boolean) $category->getParentId(),
                     'is_feature' => false
                 ];
+
+                $collection[] = $element;
+
+                $categoryId = (integer) $category->getCategoryId();
+                $indexCategories[$categoryId] = $element;
             }
 
             // Features assigned to the current optionValue
@@ -233,10 +191,51 @@ class Folder2_Model_Folder extends Core_Model_Default {
                 ];
             }
 
+            // Build search index!
+            $searchIndex = [];
+            foreach ($collection as $item) {
+                $parentId = $item['parent_id'];
+                $directParent = $indexCategories[$parentId];
+                // Predecessor building name!
+                // The item ALWAYS have at least one parent (the root folder)
+                $previousParentId = $parentId;
+                $searchElements = [];
+                $ariaTitle = [];
+                $loopFailover = 0;
+                while (array_key_exists($previousParentId, $indexCategories)) {
+                    $loopFailover = $loopFailover + 1;
+                    $historyParent = $indexCategories[$previousParentId];
+
+                    $ariaTitle[] = $historyParent['title'];
+                    $searchElements[] = $historyParent['title'] . ' ' . $historyParent['subtitle'];
+
+                    $previousParentId = $historyParent['parent_id'];
+
+                    // Always break if the failover is reached!
+                    if ($loopFailover > self::$maxNestedLevel) {
+                        break;
+                    }
+                }
+
+                $ariaTitleShort = $item['title'];
+                if (array_key_exists($parentId, $indexCategories)) {
+                    $ariaTitleShort = $directParent['title'] . ' > ' . $item['title'];
+                }
+
+                $searchIndex[] = [
+                    'feature' => $item,
+                    'searchElements' => implode(' ', $searchElements),
+                    'ariaTitle' => implode(' > ', $ariaTitle),
+                    'ariaTitleShort' => $ariaTitleShort,
+                    'directParent' => $directParent
+                ];
+            }
+
             return [
                 'showSearch' => (boolean) $this->getShowSearch(),
                 'cardDesign' => (boolean) $this->getCardDesign(),
-                'collection' => $collection
+                'collection' => $collection,
+                'searchIndex' => $searchIndex
             ];
         }
 
@@ -250,8 +249,7 @@ class Folder2_Model_Folder extends Core_Model_Default {
      * @return $this
      */
     public function deleteFeature($optionValue) {
-
-        if(!$this->getId()) {
+        if (!$this->getId()) {
             return $this;
         }
 

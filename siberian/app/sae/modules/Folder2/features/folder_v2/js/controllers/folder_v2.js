@@ -9,6 +9,8 @@ angular.module('starter').controller('Folder2ListController', function ($scope, 
         is_loading: true,
         value_id: $stateParams.value_id,
         search: {},
+        showSearch: false,
+        searchIndex: [],
         cardDesign: false,
         imagePath: function (path) {
             return IMAGE_URL + path;
@@ -17,32 +19,22 @@ angular.module('starter').controller('Folder2ListController', function ($scope, 
 
     Folder2.setValueId($stateParams.value_id);
 
-    /**$scope.computeCollections = function () {
-        var unlocked = Customer.can_access_locked_features || Padlock.unlocked_by_qrcode;
+    /**
+     * Reset the search item
+     */
+    $scope.resetSearch = function () {
+        $scope.search = {};
+    };
 
-        var compute = function (collection) {
-            var destination = [];
-            angular.forEach(collection, function (folder_item) {
-                if (unlocked || !folder_item.is_locked || (folder_item.code === 'padlock')) {
-                    if (unlocked && (folder_item.code === 'padlock')) {
-                        return;
-                    }
-
-                    this.push(folder_item);
-                }
-            }, destination);
-            return destination;
-        };
-
-        $scope.collection = compute($scope.collection_data);
-        $scope.search_list = compute($scope.search_list_data);
-    };*/
-
+    /**
+     * Load page payload
+     */
     $scope.loadContent = function () {
         Folder2.findAll()
             .then(function () {
                 $scope.cardDesign = Folder2.cardDesign;
                 $scope.showSearch = Folder2.showSearch;
+                $scope.searchIndex = Folder2.searchIndex;
 
                 var categoryId = _.get($stateParams, 'category_id', null);
                 if (_.isEmpty(categoryId)) {

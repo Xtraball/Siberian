@@ -1,6 +1,7 @@
 /*global
     isInit, folder, options, valueId, rootId, placeholderCategory,
-    bindForms, swal, words, carouselSearch, carousel, featureSearch
+    bindForms, swal, words, carouselSearch, carousel, featureSearch,
+    maxNestedLevel
  */
 $(document).ready(function () {
     // Build refresh sortable!
@@ -13,7 +14,7 @@ $(document).ready(function () {
             listType: 'ul',
             items: 'li',
             tabSize: 26,
-            maxLevels: 10,
+            maxLevels: maxNestedLevel,
             placeholder: 'placeholder',
             toleranceElement: '> span',
             opacity: 0.7,
@@ -21,7 +22,7 @@ $(document).ready(function () {
                 try {
                     // Avoid loops!
                     if (willCreateALoop(placeholderParent, currentItem)) {
-                        console.log('shit, we will create a loop!');
+                        console.error('Aborting a possible loop!');
                         return false;
                     }
                 } catch (e) {
@@ -62,7 +63,7 @@ $(document).ready(function () {
             }
             localParent = localParent.parent('ul').parent('li');
             loopFailsafe = loopFailsafe + 1;
-            if (loopFailsafe > 12) {
+            if (loopFailsafe > maxNestedLevel) {
                 break;
             }
         }
