@@ -217,6 +217,7 @@ $outputHtml = generateRecursive('', $rootFolder['category_id'], $nestedFolders);
 <script type="text/javascript">
     var valueId = '<?php echo $optionValue->getId() ?>';
     var rootId = '<?php echo $rootFolder['category_id']; ?>';
+    var maxNestedLevel = <?php echo Folder2_Model_Folder::$maxNestedLevel; ?>;
     var words = {
         deleteTitle: "<?php echo __js('Confirmation') ?>",
         deleteText: "<?php echo __js("You are about to delete the folder #FOLDER_NAME# with all it's subfolders, please note that any features inside the folder and it's subfolders will be re-assigned to the Homepage!") ?>",

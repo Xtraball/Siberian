@@ -17,7 +17,8 @@
                 "2": "l2",
                 "3": "l3",
                 "4": "l4",
-                "5": "l5"
+                "5": "l5",
+                "6": "l6"
             },
             "cache": false
         }
@@ -27,7 +28,8 @@
         2,
         3,
         4,
-        5
+        5,
+        6
     ],
     "icons": [
         "icons/folder1-flat.png",
@@ -35,8 +37,8 @@
         "icons/folder3-flat.png"
     ],
     "files": [
-        "js/controllers/folder2.js",
-        "js/factory/folder2.js"
+        "js/controllers/folder_v2.js",
+        "js/factory/folder_v2.js"
     ],
     "compile": true,
     "use_account": false,

@@ -80,6 +80,10 @@ $schemas['folder_category'] = array(
         'type' => 'tinyint(1)',
         'default' => '1',
     ),
+    'icon_size' => array(
+        'type' => 'tinyint(1)',
+        'default' => '50',
+    ),
     'value_id' => [
         'type' => 'int(11) unsigned',
         'is_null' => true,

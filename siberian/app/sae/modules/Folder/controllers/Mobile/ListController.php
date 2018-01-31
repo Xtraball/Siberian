@@ -69,7 +69,7 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
 
                 $show_search = $folder->getShowSearch();
 
-                $category->find($folder->getRootCategoryId(), 'category_id') ;
+                $category->find($folder->getRootCategoryId(), 'category_id');
 
                 $result = array();
                 array_push($result, $category);

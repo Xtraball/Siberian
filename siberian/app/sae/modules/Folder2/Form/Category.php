@@ -31,7 +31,10 @@ class Folder2_Form_Category extends Siberian_Form_Abstract {
             '3' => __('Layout #3'),
             '4' => __('Layout #4'),
             '5' => __('Layout #5'),
+            '6' => __('Layout #6'),
         ]);
+
+        //$thumbnailIconSize = $this->addSimpleSlider('icon_size', __('Icons size'), [], true);
 
         $show_cover = $this->addSimpleCheckbox('show_cover', __('Show cover'));
         $show_title = $this->addSimpleCheckbox('show_title', __('Show title'));
