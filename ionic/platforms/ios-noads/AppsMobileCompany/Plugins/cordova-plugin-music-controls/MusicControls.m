@@ -3,17 +3,22 @@
 //  
 //
 //  Created by Juan Gonzalez on 12/16/16.
+//  Updated by Gaven Henry on 11/7/17 for iOS 11 compatibility & new features
 //
 //
 
 #import "MusicControls.h"
 #import "MusicControlsInfo.h"
 
+//save the passed in info globally so we can configure the enabled/disabled commands and skip intervals
+MusicControlsInfo * musicControlsSettings;
+
 @implementation MusicControls
 
 - (void) create: (CDVInvokedUrlCommand *) command {
     NSDictionary * musicControlsInfoDict = [command.arguments objectAtIndex:0];
     MusicControlsInfo * musicControlsInfo = [[MusicControlsInfo alloc] initWithDictionary:musicControlsInfoDict];
+    musicControlsSettings = musicControlsInfo;
     
     if (!NSClassFromString(@"MPNowPlayingInfoCenter")) {
         return;
@@ -42,11 +47,14 @@
         
         nowPlayingInfoCenter.nowPlayingInfo = updatedNowPlayingInfo;
     }];
+
+    [self registerMusicControlsEventListener];
 }
 
 - (void) updateIsPlaying: (CDVInvokedUrlCommand *) command {
     NSDictionary * musicControlsInfoDict = [command.arguments objectAtIndex:0];
     MusicControlsInfo * musicControlsInfo = [[MusicControlsInfo alloc] initWithDictionary:musicControlsInfoDict];
+    NSNumber * elapsed = [NSNumber numberWithDouble:[musicControlsInfo elapsed]];
     NSNumber * playbackRate = [NSNumber numberWithBool:[musicControlsInfo isPlaying]];
     
     if (!NSClassFromString(@"MPNowPlayingInfoCenter")) {
@@ -56,8 +64,15 @@
     MPNowPlayingInfoCenter * nowPlayingCenter = [MPNowPlayingInfoCenter defaultCenter];
     NSMutableDictionary * updatedNowPlayingInfo = [NSMutableDictionary dictionaryWithDictionary:nowPlayingCenter.nowPlayingInfo];
     
+    [updatedNowPlayingInfo setObject:elapsed forKey:MPNowPlayingInfoPropertyElapsedPlaybackTime];
     [updatedNowPlayingInfo setObject:playbackRate forKey:MPNowPlayingInfoPropertyPlaybackRate];
     nowPlayingCenter.nowPlayingInfo = updatedNowPlayingInfo;
+}
+
+// this was performing the full function of updateIsPlaying and just adding elapsed time update as well
+// moved the elapsed update into updateIsPlaying and made this just pass through to reduce code duplication
+- (void) updateElapsed: (CDVInvokedUrlCommand *) command {
+    [self updateIsPlaying:(command)];
 }
 
 - (void) destroy: (CDVInvokedUrlCommand *) command {
@@ -66,7 +81,6 @@
 
 - (void) watch: (CDVInvokedUrlCommand *) command {
     [self setLatestEventCallbackId:command.callbackId];
-    [self registerMusicControlsEventListener];
 }
 
 - (MPMediaItemArtwork *) createCoverArtwork: (NSString *) coverUri {
@@ -108,6 +122,40 @@
     return coverImage != nil && ([coverImage CIImage] != nil || [coverImage CGImage] != nil);
 }
 
+//Handle seeking with the progress slider on lockscreen or control center
+- (MPRemoteCommandHandlerStatus)changedThumbSliderOnLockScreen:(MPChangePlaybackPositionCommandEvent *)event {
+    NSString * seekTo = [NSString stringWithFormat:@"{\"message\":\"music-controls-seek-to\",\"position\":\"%f\"}", event.positionTime];
+    CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:seekTo];
+    pluginResult.associatedObject = @{@"position":[NSNumber numberWithDouble: event.positionTime]};
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:[self latestEventCallbackId]];
+    return MPRemoteCommandHandlerStatusSuccess;
+}
+
+//Handle the skip forward event
+- (void) skipForwardEvent:(MPSkipIntervalCommandEvent *)event {
+    NSString * action = @"music-controls-skip-forward";
+    NSString * jsonAction = [NSString stringWithFormat:@"{\"message\":\"%@\"}", action];
+    CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonAction];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:[self latestEventCallbackId]];
+}
+
+//Handle the skip backward event
+- (void) skipBackwardEvent:(MPSkipIntervalCommandEvent *)event {
+    NSString * action = @"music-controls-skip-backward";
+    NSString * jsonAction = [NSString stringWithFormat:@"{\"message\":\"%@\"}", action];
+    CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonAction];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:[self latestEventCallbackId]];
+}
+
+//If MPRemoteCommandCenter is enabled for any function we must enable it for all and register a handler
+//So if we want to use the new scrubbing support in the lock screen we must implement dummy handlers
+//for those functions that we already deal with through notifications (play, pause, skip etc)
+//otherwise those remote control actions will be disabled
+- (void) remoteEvent:(MPRemoteCommandEvent *)event {
+    return;
+}
+
+//Handle all other remote control events
 - (void) handleMusicControlsNotification: (NSNotification *) notification {
     UIEvent * receivedEvent = notification.object;
     
@@ -144,22 +192,75 @@
                 break;
                 
             default:
+                action = nil;
                 break;
         }
         
-        CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:action];
+        if(action == nil){
+            return;
+        }
+        
+        NSString * jsonAction = [NSString stringWithFormat:@"{\"message\":\"%@\"}", action];
+        CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonAction];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:[self latestEventCallbackId]];
     }
 }
 
+//There are only 3 button slots available so next/prev track and skip forward/back cannot both be enabled
+//skip forward/back will take precedence if both are enabled
 - (void) registerMusicControlsEventListener {
     [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMusicControlsNotification:) name:@"musicControlsEventNotification" object:nil];
+    
+    //register required event handlers for standard controls
+    MPRemoteCommandCenter *commandCenter = [MPRemoteCommandCenter sharedCommandCenter];
+    [commandCenter.playCommand setEnabled:true];
+    [commandCenter.playCommand addTarget:self action:@selector(remoteEvent:)];
+    [commandCenter.pauseCommand setEnabled:true];
+    [commandCenter.pauseCommand addTarget:self action:@selector(remoteEvent:)];
+    if(musicControlsSettings.hasNext){
+        [commandCenter.nextTrackCommand setEnabled:true];
+        [commandCenter.nextTrackCommand addTarget:self action:@selector(remoteEvent:)];
+    }
+    if(musicControlsSettings.hasPrev){
+        [commandCenter.previousTrackCommand setEnabled:true];
+        [commandCenter.previousTrackCommand addTarget:self action:@selector(remoteEvent:)];
+    }
+
+    //Some functions are not available in earlier versions
+    if(floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_9_0){
+        if(musicControlsSettings.hasSkipForward){
+            commandCenter.skipForwardCommand.preferredIntervals = @[@(musicControlsSettings.skipForwardInterval)];
+            [commandCenter.skipForwardCommand setEnabled:true];
+            [commandCenter.skipForwardCommand addTarget: self action:@selector(skipForwardEvent:)];
+        }
+        if(musicControlsSettings.hasSkipBackward){
+            commandCenter.skipBackwardCommand.preferredIntervals = @[@(musicControlsSettings.skipForwardInterval)];
+            [commandCenter.skipBackwardCommand setEnabled:true];
+            [commandCenter.skipBackwardCommand addTarget: self action:@selector(skipBackwardEvent:)];
+        }
+        if(musicControlsSettings.hasScrubbing){
+            [commandCenter.changePlaybackPositionCommand setEnabled:true];
+            [commandCenter.changePlaybackPositionCommand addTarget:self action:@selector(changedThumbSliderOnLockScreen:)];
+        }
+    }
 }
 
 - (void) deregisterMusicControlsEventListener {
     [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"receivedEvent" object:nil];
+    
+    MPRemoteCommandCenter *commandCenter = [MPRemoteCommandCenter sharedCommandCenter];
+    [commandCenter.nextTrackCommand removeTarget:self];
+    [commandCenter.previousTrackCommand removeTarget:self];
+    
+    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_9_0) {
+        [commandCenter.changePlaybackPositionCommand setEnabled:false];
+        [commandCenter.changePlaybackPositionCommand removeTarget:self action:NULL];
+        [commandCenter.skipForwardCommand removeTarget:self];
+        [commandCenter.skipBackwardCommand removeTarget:self];
+    }
+    
     [self setLatestEventCallbackId:nil];
 }
 
