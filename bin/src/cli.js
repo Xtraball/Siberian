@@ -786,14 +786,13 @@ let copyPlatform = function (platform) {
             sh.rm('-rf', siberianPlatformPath.replace('browser', 'overview'));
 
             // Copy!
-            sh.cp('-r', ionicPlatformPath + '/', siberianPlatformPath);
+            sh.cp('-r', ionicPlatformPath, siberianPlatformPath);
             sh.mkdir('-p', siberianPlatformPath + '/scss/');
             sh.cp('-r', ROOT + '/ionic/scss/ionic.siberian*.scss', siberianPlatformPath + '/scss/');
             cleanupWww(siberianPlatformPath + '/', true);
 
             // Duplicate in 'overview'!
-            sh.mkdir('-p', siberianPlatformPath.replace('browser', 'overview'));
-            sh.cp('-r', siberianPlatformPath + '/*', siberianPlatformPath.replace('browser', 'overview'));
+            sh.cp('-r', siberianPlatformPath, siberianPlatformPath.replace('browser', 'overview'));
 
             break;
 
