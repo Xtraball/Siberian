@@ -7,14 +7,16 @@
 
 #import <Foundation/Foundation.h>
 
-#import <GoogleMobileAds/GADAdDelegate.h>
+#import <GoogleMobileAds/GADRequestError.h>
+#import <GoogleMobileAds/GoogleMobileAdsDefines.h>
 
 @class GADBannerView;
-@class GADRequestError;
+
+GAD_ASSUME_NONNULL_BEGIN
 
 /// Delegate methods for receiving GADBannerView state change messages such as ad request status
 /// and ad click lifecycle.
-@protocol GADBannerViewDelegate<GADAdDelegate>
+@protocol GADBannerViewDelegate<NSObject>
 
 @optional
 
@@ -47,3 +49,5 @@
 - (void)adViewWillLeaveApplication:(GADBannerView *)bannerView;
 
 @end
+
+GAD_ASSUME_NONNULL_END
