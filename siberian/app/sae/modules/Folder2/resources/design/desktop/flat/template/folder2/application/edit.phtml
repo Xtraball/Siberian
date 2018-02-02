@@ -1,12 +1,8 @@
 <?php
 $optionValue = $this->getOptionValue();
 
-$formSettings = new Folder2_Form_Settings();
-
 $folder = (new Folder2_Model_Folder())
     ->find($optionValue->getId(), 'value_id');
-
-$formSettings->populate($folder->getData());
 
 // Fix and/or Create empty default root folder!
 if (!$folder->getId()) {
@@ -17,6 +13,8 @@ if (!$folder->getId()) {
         ->setValueId($optionValue->getId())
         ->save();
 
+    $folderCategory->setDefaultImages($optionValue);
+
     $folder = new Folder2_Model_Folder();
     $folder
         ->setValueId($optionValue->getId())
@@ -24,6 +22,9 @@ if (!$folder->getId()) {
         ->setShowSearch(0)
         ->save();
 }
+
+$formSettings = new Folder2_Form_Settings();
+$formSettings->populate($folder->getData());
 
 $category = (new Folder2_Model_Category())
     ->find($folder->getRootCategoryId(), 'category_id');

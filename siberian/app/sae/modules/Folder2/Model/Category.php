@@ -71,4 +71,29 @@ class Folder2_Model_Category extends Core_Model_Default {
 
         return $lastPosition;
     }
+
+    /**
+     * @param $optionValue
+     */
+    public function setDefaultImages($optionValue) {
+        // Default image pattern!
+        $imagePath = Core_Model_Directory::getBasePathTo('/app/sae/modules/Folder2/resources/design/desktop/flat/images/placeholder/folder-960-600.png');
+        $image = \Gregwar\Image\Image::open($imagePath);
+        $image
+            ->grayscale()
+            ->colorize(rand(-64, 64), rand(-64, 64), rand(-64, 64));
+
+        $pictureFile = Siberian_Feature::createFile($optionValue, '', uniqid() . 'pat.png');
+        unlink(Application_Model_Application::getBaseImagePath() . $pictureFile);
+        $image->save(Application_Model_Application::getBaseImagePath() . $pictureFile, 'png', 100);
+        $thumbnailFile = Siberian_Feature::createFile($optionValue, '', uniqid() . 'pat.png');
+        unlink(Application_Model_Application::getBaseImagePath() . $thumbnailFile);
+        $image->zoomCrop(512, 512, 0, 0);
+        $image->save(Application_Model_Application::getBaseImagePath() . $thumbnailFile, 'png', 100);
+
+        $this
+            ->setPicture($pictureFile)
+            ->setThumbnail($thumbnailFile)
+            ->save();
+    }
 }
