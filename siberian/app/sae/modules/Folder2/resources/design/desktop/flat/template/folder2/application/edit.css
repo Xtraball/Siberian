@@ -37,6 +37,10 @@ li.folder-sortable.active > span.folder-hover {
     margin-right: 8px;
 }
 
+.folder-delete:hover {
+    color: rgb(255, 58, 46);
+}
+
 li.folder-sortable.active > span > .folder-delete {
     display: inline-block;
 }

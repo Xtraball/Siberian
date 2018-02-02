@@ -77,7 +77,11 @@ class Folder2_Model_Category extends Core_Model_Default {
      */
     public function setDefaultImages($optionValue) {
         // Default image pattern!
-        $imagePath = Core_Model_Directory::getBasePathTo('/app/sae/modules/Folder2/resources/design/desktop/flat/images/placeholder/folder-960-600.png');
+        $path = '/app/sae/modules/Folder2/resources/design/desktop/flat/images/placeholder/folder-960-600-' . rand(1, 5) . '.png';
+        $imagePath = Core_Model_Directory::getBasePathTo($path);
+        if (!is_file($imagePath)) {
+            $imagePath = Core_Model_Directory::getBasePathTo('/app/sae/modules/Folder2/resources/design/desktop/flat/images/placeholder/folder-960-600-1.png');
+        }
         $image = \Gregwar\Image\Image::open($imagePath);
         $image
             ->grayscale()
