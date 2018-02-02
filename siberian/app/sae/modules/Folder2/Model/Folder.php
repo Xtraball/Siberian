@@ -26,7 +26,7 @@ class Folder2_Model_Folder extends Core_Model_Default {
     /**
      * @var bool
      */
-    protected $_is_cacheable = true;
+    protected $_is_cacheable = false;
 
     /**
      * @var
