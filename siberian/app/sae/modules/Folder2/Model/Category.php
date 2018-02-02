@@ -81,7 +81,7 @@ class Folder2_Model_Category extends Core_Model_Default {
         $image = \Gregwar\Image\Image::open($imagePath);
         $image
             ->grayscale()
-            ->colorize(rand(-64, 64), rand(-64, 64), rand(-64, 64));
+            ->colorize(rand(-128, 128), rand(-128, 128), rand(-128, 128));
 
         $pictureFile = Siberian_Feature::createFile($optionValue, '', uniqid() . 'pat.png');
         unlink(Application_Model_Application::getBaseImagePath() . $pictureFile);
