@@ -204,7 +204,7 @@ class Analytics_Model_Store {
 
 	public function addAppLoadedMetric($metric, $id = null) {
 		$fields = $this->_appLoadedField;
-		if($id) {
+		if ($id) {
 			$metric_values = $metric;
 		} else {
 			$metric_values = implode(",",
@@ -217,15 +217,17 @@ class Analytics_Model_Store {
 		}
 
 		$query = "INSERT INTO app_loaded (".implode(",",$fields).") VALUES ($metric_values); SELECT last_insert_rowid();";
-		if($id) {
+		if ($id) {
 			$query = "UPDATE app_loaded SET ".implode(",",$metric_values)." WHERE id = $id;";
 		}
 
 		$result = $this->_sqliteAdapter->query($query);
 
-		if($result) {
-			if($id) return true;
-			return $result[0];
+		if ($result) {
+			if ($id) {
+                return true;
+            }
+			return $result;
 		} else {
 			return false;
 		}

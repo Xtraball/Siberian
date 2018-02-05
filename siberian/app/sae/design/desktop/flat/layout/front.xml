@@ -36,6 +36,7 @@
                     <sbcarousel link="js/jquery.sbcarousel.js" />
                     <sweetalert link="js/sweetalert.min.js" />
                     <bootstraptour link="js/bootstrap-tour.js" />
+                    <featherlight link="js/featherlight/featherlight.js" />
                 </js>
                 <css>
                     <bootstrap link="css/bootstrap.css" />
@@ -55,6 +56,7 @@
                     <bootstraptour link="css/bootstrap-tour.min.css" />
                     <printstyles link="css/print.css" />
                     <icofont link="css/icofont/css/icofont.css" />
+                    <featherlight link="js/featherlight/featherlight.css" />
                 </css>
             </scripts>
             <metas>

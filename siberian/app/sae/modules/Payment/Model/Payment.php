@@ -26,7 +26,7 @@ class Payment_Model_Payment extends Core_Model_Default {
     /**
      * @return array
      */
-    public function getAvailableMethods() {
+    public static function getAvailableMethods() {
         $methods = [];
         foreach (self::getTypes() as $paymentCode => $paymentType) {
             if (Payment_Model_Payment::isSetup($paymentCode)) {

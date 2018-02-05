@@ -1,35 +1,35 @@
 {
-    "prepare_queue": {
-        "installed": [],
-        "uninstalled": []
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "phonegap-plugin-push": {
+      "SENDER_ID": "01234567890",
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
-    "config_munge": {
-        "files": {}
+    "phonegap-plugin-barcodescanner": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
-    "installed_plugins": {
-        "phonegap-plugin-push": {
-            "SENDER_ID": "01234567890",
-            "PACKAGE_NAME": "com.appsmobilecompany.base"
-        },
-        "phonegap-plugin-barcodescanner": {
-            "PACKAGE_NAME": "com.appsmobilecompany.base"
-        },
-        "cordova-plugin-camera": {
-            "PACKAGE_NAME": "com.appsmobilecompany.base"
-        },
-        "cordova-plugin-device": {
-            "PACKAGE_NAME": "com.appsmobilecompany.base"
-        },
-        "cordova-plugin-file": {
-            "PACKAGE_NAME": "com.appsmobilecompany.base"
-        },
-        "cordova-plugin-inappbrowser": {
-            "PACKAGE_NAME": "com.appsmobilecompany.base"
-        }
+    "cordova-plugin-camera": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
-    "dependent_plugins": {
-        "cordova-plugin-compat": {
-            "PACKAGE_NAME": "com.appsmobilecompany.base"
-        }
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     }
+  },
+  "dependent_plugins": {
+    "cordova-plugin-compat": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    }
+  }
 }

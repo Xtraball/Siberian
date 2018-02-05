@@ -39,17 +39,27 @@ angular.module("starter").factory("McommerceCart", function($pwaRequest, $sessio
 
 
     factory.adddiscount = function (discount_code, use_clean_code) {
-
         if (!this.value_id) {
-            return use_clean_code ? $pwaRequest.reject("[McommerceCart::adddiscount] missing value_id.") : false;
+            return use_clean_code ?
+                $pwaRequest.reject('[McommerceCart::adddiscount] missing value_id.') :
+                $pwaRequest.resolve({
+                    success: false
+                });
         }
 
-        //if no discount added, it's valid
-        if(discount_code.length === 0 && !use_clean_code) {
-            return true;
+        if (discount_code === undefined) {
+            return $pwaRequest.resolve({
+                success: true
+            });
         }
 
-        return $pwaRequest.post("mcommerce/mobile_cart/adddiscount", {
+        if (discount_code.length === 0 && !use_clean_code) {
+            return $pwaRequest.resolve({
+                success: true
+            });
+        }
+
+        return $pwaRequest.post('mcommerce/mobile_cart/adddiscount', {
             urlParams: {
                 value_id: this.value_id
             },

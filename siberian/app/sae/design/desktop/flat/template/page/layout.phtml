@@ -91,6 +91,11 @@
         <?php $sidebar_left_partial = $this->getPartial('customization_sidebar_left'); ?>
         <?php echo $this->getPartialHtml('header_menu'); ?>
             <div class="container-fluid">
+                <?php if (__getConfig('is_demo')): ?>
+                    <div class="alert alert-info text-center" style="margin-bottom:0px">
+                        <?php echo __('This is a demo version. Any applications created here won\'t be published.') ?>
+                    </div>
+                <?php endif; ?>
                 <div id="wrapper" <?php if($sidebar_left_partial) echo "class='left-toggled'"; ?>>
                     <?php if($this->_canAccessWhiteLabelEditor()) : ?>
                         <?php echo $this->getPartialHtml('customization_sidebar') ?>

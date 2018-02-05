@@ -62,6 +62,11 @@ class Backoffice_Account_LoginController extends Backoffice_Controller_Default
                     throw new Exception(__("Your email address does not exist"));
                 }
 
+                // Demo version
+                if(__getConfig('is_demo') && $user->getId() == 1) {
+                    throw new Exception("This is a demo version, you can't ask a new password for this user");
+                }
+
                 $password = Core_Model_Lib_String::generate(8);
 
                 $user->setPassword($password)->save();

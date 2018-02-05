@@ -1,7 +1,8 @@
-/*global
- App, angular, BASE_PATH
-*/
-
+/**
+ * Folder feature
+ *
+ * @version 4.12.24
+ */
 angular.module('starter').controller('FolderListController', function ($scope, $stateParams, $ionicNavBarDelegate,
                                                                       $timeout, SB, Customer, Folder, Padlock) {
     angular.extend($scope, {

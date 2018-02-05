@@ -2,7 +2,7 @@
  * Copyright 2015 Drifty Co.
  * http://drifty.com/
  *
- * Ionic, v1.3.3
+ * Ionic, v1.3.5
  * A powerful HTML5 mobile app framework.
  * http://ionicframework.com/
  *
@@ -18,7 +18,7 @@
 // build processes may have already created an ionic obj
 window.ionic = window.ionic || {};
 window.ionic.views = {};
-window.ionic.version = '1.3.3';
+window.ionic.version = '1.3.5';
 
 (function (ionic) {
 
@@ -2666,7 +2666,7 @@ window.ionic.version = '1.3.3';
  * - Works with labels surrounding inputs
  * - Does not fire off a click if the user moves the pointer too far
  * - Adds and removes an 'activated' css class
- * - Multiple [unit tests](https://github.com/driftyco/ionic/blob/1.x/test/unit/utils/tap.unit.js) for each scenario
+ * - Multiple [unit tests](https://github.com/ionic-team/ionic/blob/1.x/test/unit/utils/tap.unit.js) for each scenario
  *
  */
 /*
@@ -2766,7 +2766,8 @@ ionic.tap = {
   },
 
   ignoreScrollStart: function(e) {
-    return (/^(file|range)$/i).test(e.target.type) ||
+    return (e.defaultPrevented) ||  // defaultPrevented has been assigned by another component handling the event
+           (/^(file|range)$/i).test(e.target.type) ||
            (e.target.dataset ? e.target.dataset.preventScroll : e.target.getAttribute('data-prevent-scroll')) == 'true' || // manually set within an elements attributes
            (!!(/^(object|embed)$/i).test(e.target.tagName)) ||  // flash/movie/object touches should not try to scroll
            ionic.tap.isElementTapDisabled(e.target); // check if this element, or an ancestor, has `data-tap-disabled` attribute
@@ -3570,7 +3571,7 @@ ionic.DomUtil.ready(function() {
  * which can cause layout issues such as pushing headers up and out of view.
  *
  * The keyboard fixes work best in conjunction with the
- * [Ionic Keyboard Plugin](https://github.com/driftyco/ionic-plugins-keyboard),
+ * [Ionic Keyboard Plugin](https://github.com/ionic-team/ionic-plugins-keyboard),
  * although it will perform reasonably well without.  However, if you are using
  * Cordova there is no reason not to use the plugin.
  *
@@ -3601,7 +3602,7 @@ ionic.DomUtil.ready(function() {
  *
  * ### Plugin Usage
  * Information on using the plugin can be found at
- * [https://github.com/driftyco/ionic-plugins-keyboard](https://github.com/driftyco/ionic-plugins-keyboard).
+ * [https://github.com/ionic-team/ionic-plugins-keyboard](https://github.com/ionic-team/ionic-plugins-keyboard).
  *
  * ----------
  *
