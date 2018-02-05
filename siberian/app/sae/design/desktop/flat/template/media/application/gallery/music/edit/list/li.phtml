@@ -25,11 +25,11 @@
                 <?php echo $album->getName() ?> de <?php echo $album->getArtistName() ?>
             <?php elseif($album->getType() == 'custom') : ?>
                 <a class="edit_album" href="<?php echo $this->getUrl('media/application_gallery_music/form', array('type' => 'custom', 'gallery_id' => $gallery_id, 'album_id' => $album->getId(), 'option_value_id' => $option_value->getId())); ?>?ajax=true" >
-                    <?php echo $album->getName() ?> de <?php echo $album->getArtistName() ?> <i>(<?php echo $tracks->count(); ?> <?php echo $tracks->count() == 1 ? $this->_('title') : $this->_('titles') ?>)</i>
+                    <?php echo $album->getName() ?> de <?php echo $album->getArtistName() ?> <i>(<?php echo $tracks->count(); ?> <?php echo $tracks->count() == 1 ? __('title') : __('titles') ?>)</i>
                 </a>
             <?php else : ?>
                 <a class="edit_album" href="<?php echo $this->getUrl('media/application_gallery_music/editalbum', array('album_id' => $album->getId(), 'option_value_id' => $option_value->getId())); ?>?ajax=true" >
-                    <?php echo $album->getName() ?> de <?php echo $album->getArtistName() ?> <i>(<?php echo $tracks->count(); ?> <?php echo $tracks->count() == 1 ? $this->_('title') : $this->_('titles') ?>)</i>
+                    <?php echo $album->getName() ?> de <?php echo $album->getArtistName() ?> <i>(<?php echo $tracks->count(); ?> <?php echo $tracks->count() == 1 ? __('title') : __('titles') ?>)</i>
                 </a>
             <?php endif; ?>
         </span>

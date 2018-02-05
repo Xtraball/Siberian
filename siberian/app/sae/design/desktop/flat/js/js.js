@@ -414,20 +414,6 @@ var Uploader = Class.extend({
 
         params['url'] += '?ajax=true';
 
-        console.log('pretty-photo', params);
-
-        /**if (this.current_pretty_photo_content.length > 0) {
-            $.ajax({
-                type: 'GET',
-                url: params['url']
-            })
-            .done(function (datas) {
-                ppInline.html(datas);
-            });
-        } else {
-            $.prettyPhoto.open(params['url']);
-        }*/
-
         $.featherlight(params['url'], {
             type: 'ajax'
         });
