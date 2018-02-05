@@ -168,7 +168,7 @@ class Folder_ApplicationController extends Application_Controller_Default
                 );
             }
             $this->getLayout()->setHtml(Zend_Json::encode($datas));
-         }
+        }
 
     }
 

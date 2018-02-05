@@ -3473,3 +3473,25 @@ textarea.cke_source {
 .list-search i.clear:hover {
     opacity: 0.6;
 }
+
+#go_up_root {
+    position: absolute;
+    left: 8px;
+    top: 9px;
+}
+
+#go_up_root button {
+    padding: 3px 10px 2px;
+}
+
+#go_up_root button i.fa {
+    font-size: 22px;
+}
+
+#go_up_root ~ .list-search {
+    left: 55px !important;
+}
+
+#go_up_root.hide ~ .list-search {
+    left: 8px !important;
+}

@@ -9,14 +9,29 @@
 
 #import <GoogleMobileAds/GoogleMobileAdsDefines.h>
 
-// For use with GADAdLoader's creation methods. See the constants' respective headers for each ad
-// type's delegate requirements.
+GAD_ASSUME_NONNULL_BEGIN
 
-/// Native app install ad type. \see GADNativeAppInstallAd.h.
-GAD_EXTERN NSString *const kGADAdLoaderAdTypeNativeAppInstall;
+typedef NSString *GADAdLoaderAdType GAD_STRING_ENUM;
 
-/// Native content ad type. \see GADNativeContentAd.h.
-GAD_EXTERN NSString *const kGADAdLoaderAdTypeNativeContent;
+/// Use with GADAdLoader to request native app install ads. To receive ads, the ad loader's delegate
+/// must conform to the GADNativeAppInstallAdLoaderDelegate protocol. See GADNativeAppInstallAd.h.
+///
+/// See GADNativeAdImageAdLoaderOptions.h for ad loader image options.
+GAD_EXTERN GADAdLoaderAdType const kGADAdLoaderAdTypeNativeAppInstall;
 
-/// Native custom template ad type. \see GADNativeCustomTemplateAd.h.
-GAD_EXTERN NSString *const kGADAdLoaderAdTypeNativeCustomTemplate;
+/// Use with GADAdLoader to request native content ads. To receive ads, the ad loader's delegate
+/// must conform to the GADNativeContentAdLoaderDelegate protocol. See GADNativeContentAd.h.
+///
+/// See GADNativeAdImageAdLoaderOptions.h for ad loader image options.
+GAD_EXTERN GADAdLoaderAdType const kGADAdLoaderAdTypeNativeContent;
+
+/// Use with GADAdLoader to request native custom template ads. To receive ads, the ad loader's
+/// delegate must conform to the GADNativeCustomTemplateAdLoaderDelegate protocol. See
+/// GADNativeCustomTemplateAd.h.
+GAD_EXTERN GADAdLoaderAdType const kGADAdLoaderAdTypeNativeCustomTemplate;
+
+/// Use with GADAdLoader to request DFP banner ads. To receive ads, the ad loader's delegate must
+/// conform to the DFPBannerAdLoaderDelegate protocol. See DFPBannerView.h.
+GAD_EXTERN GADAdLoaderAdType const kGADAdLoaderAdTypeDFPBanner;
+
+GAD_ASSUME_NONNULL_END

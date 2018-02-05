@@ -14,6 +14,8 @@ class Job_Model_Db_Table_Place extends Core_Model_Db_Table {
     public function findActive($values, $order, $params) {
         $more_search = $values["more_search"];
         $formula = new Zend_Db_Expr("0");
+
+        $search_by_distance = false;
         if($values["search_by_distance"] && $values["latitude"] && $values["longitude"]) {
             $formula = Siberian_Google_Geocoding::getDistanceFormula($values["latitude"], $values["longitude"], "place", $lat_name = 'latitude', $long_name = 'longitude');
             $search_by_distance = true;

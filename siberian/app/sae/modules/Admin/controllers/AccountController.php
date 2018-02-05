@@ -48,6 +48,11 @@ class Admin_AccountController extends Admin_Controller_Default
                     throw new Exception(__('This email address is already used'));
                 }
 
+                // Demo version
+                if(__getConfig('is_demo') && $admin->getId() == 1) {
+                    throw new Exception("This is a demo version, this user can't be changed");
+                }
+
                 if(isset($data['password'])) {
                     if($data['password'] != $data['confirm_password']) {
                         throw new Exception(__('Your password does not match the entered password.'));

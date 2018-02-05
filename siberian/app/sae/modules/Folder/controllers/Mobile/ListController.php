@@ -69,7 +69,7 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
 
                 $show_search = $folder->getShowSearch();
 
-                $category->find($folder->getRootCategoryId(), 'category_id') ;
+                $category->find($folder->getRootCategoryId(), 'category_id');
 
                 $result = array();
                 array_push($result, $category);
@@ -96,9 +96,9 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
 
                     foreach($category_options as $feature) {
                         /**
-                           START Link special code
-                           We get informations about link at homepage level
-                        */
+                        START Link special code
+                        We get informations about link at homepage level
+                         */
                         $hide_navbar = false;
                         $use_external_app = false;
                         if($object_link = $feature->getObject()->getLink() AND is_object($object_link)) {
@@ -106,8 +106,8 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                             $use_external_app = $object_link->getHideNavbar();
                         }
                         /**
-                           END Link special code
-                        */
+                        END Link special code
+                         */
                         $search_list[] = array(
                             "name" => $feature->getTabbarName(),
                             "father_name" => $folder->getTitle(),
@@ -149,9 +149,9 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
 
                 foreach($pages as $page) {
                     /**
-                      START Link special code
-                      We get informations about link at homepage level
-                      */
+                    START Link special code
+                    We get informations about link at homepage level
+                     */
                     $hide_navbar = false;
                     $use_external_app = false;
                     if($object_link = $page->getObject()->getLink() AND is_object($object_link)) {
@@ -159,8 +159,8 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                         $use_external_app = $object_link->getUseExternalApp();
                     }
                     /**
-                      END Link special code
-                      */
+                    END Link special code
+                     */
                     $data["folders"][] = array(
                         "title" => $page->getTabbarName(),
                         "subtitle" => "",

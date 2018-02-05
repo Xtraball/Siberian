@@ -386,7 +386,7 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
                 // Nope!
                 $log.debug('Will not display duplicated message: ', messagePayload);
             }).catch(function (err) {
-                // we got an error!
+                // We got an error!
                 $log.debug('We got an error with the localForage when trying to display push message: ', messagePayload);
                 $log.debug(err);
             });

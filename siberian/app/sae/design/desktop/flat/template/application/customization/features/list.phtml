@@ -1,18 +1,12 @@
 <?php
     $option = new Application_Model_Option();
-    $options = $option->findAll(array());
-    $category = new Application_Model_Option_Category();
-    $categories = $category->findAll();
+    $options = $option->findAll([
+        'is_enabled = ?' => 1
+    ]);
     $option_ids = $this->getApplication()->getOptionIds();
-
-    $option_folder = new Application_Model_Option();
-    $option_folder->find(array('code' => 'folder'));
-
-    $option_value_folder = new Application_Model_Option_Value();
-    $option_values_folders = $option_value_folder->findFolderValues($this->getApplication()->getId(), $option_folder->getOptionId());
-
     $application = $this->getApplication();
     $appId = $application->getId();
+
     $session = $this->getSession();
     $admin = $session->getAdmin();
 
@@ -28,8 +22,20 @@
     $options = $opts;
 
     // For Facebook import!
-    $app_id     = Core_Model_Lib_Facebook::getAppId();
+    $app_id = Core_Model_Lib_Facebook::getAppId();
     $app_secret = Core_Model_Lib_Facebook::getSecretKey();
+
+    $categoryIds = [];
+    foreach ($options as $option) {
+        if (!in_array($option->getCategoryId(), $categoryIds)) {
+            $categoryIds[] = $option->getCategoryId();
+        }
+    }
+
+    $categories = (new Application_Model_Option_Category())
+        ->findAll([
+            'category_id IN (?)' => $categoryIds
+        ]);
 ?>
 
 <script type="text/javascript">
@@ -41,7 +47,14 @@
 
         <h3 class="title-editor border-blue text-center">
 
-            <div class="list-search">
+            <div id="go_up_root" class="hide">
+                <button class="btn color-blue"
+                        title="<?php echo __js('Go back to homepage') ?>">
+                    <i class="fa fa-home"></i>
+                </button>
+            </div>
+
+            <div class="list-search list-carousel">
                 <div class="list-search-content">
                     <input type="text" class="search_filter_carousel input-flat" placeholder="<?php echo __js('Search ...', '"'); ?>" />
                     <i class="fa fa-search empty active"></i>
@@ -63,22 +76,8 @@
             </button>
             <?php endif; ?>
         </h3>
-        <div id="pages_list" class="subcontent content-color sb-tour">
-            <div class="option_path">
-                <?php if ($option_values_folders) : ?>
-                    <div id="node_container_default" class="node_container" style="display:none">
-                        <select id="primary_category_id" name="primary_category_id" class="option_node styled-select color-blue form-select" tabindex="1">
-                            <option value="default"><?php echo __('Main') ?></option>
-                            <?php foreach ($option_values_folders as $key => $option) : ?>
-                                <?php $folder = new Folder_Model_Folder(); ?>
-                                <?php $folder->find($option->getValueId(), 'value_id'); ?>
-                                <?php if (!$folder->getRootCategoryId()) continue; ?>
-                                <option id="<?php echo $option->getValueId() ?>" value="<?php echo $option->getValueId(); ?>"><?php echo $option->getTabbarName(); ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                <?php endif; ?>
-            </div>
+        <div id="pages_list"
+             class="subcontent content-color sb-tour">
             <div>
                 <?php echo $this->getLayout()
                     ->addPartial('list_options', 'admin_view_default', 'application/customization/features/list/options.phtml')
@@ -266,6 +265,12 @@ $(document).ready(function () {
             }, 100);
         }
     });
+
+    $('#go_up_root').off('click');
+    $('#go_up_root').on('click', function () {
+        folder.reset();
+        options.loadNewSlider('default');
+    });
 });
 
 var Options = Class.extend({
@@ -273,30 +278,21 @@ var Options = Class.extend({
 
     },
     loadNewSlider: function (category_id, value_id, showCategoryManage) {
-        if (typeof showCategoryManage == 'undefined') {
-            showCategoryManage = true;
-        }
         $('#option_values li').hide();
         if (category_id === 'default') {
             page.close(true);
-            $('.option_path .node_container').fadeOut();
-            if (typeof layout != 'undefined') {
-                layout.hideCategoryManage();
-                delete layout;
-            }
             $('#option_values li[rel=""]').show();
             var items_per_page = 6;
             var is_folder = false;
             carouselSearch.setFolderId(null);
+            $('#go_up_root').addClass('hide');
         } else {
-            if (typeof layout !== 'undefined' && showCategoryManage === true) {
-                layout.showCategoryManage();
-            }
             var items_per_page = 10;
             var is_folder = true;
             $('#option_values li[rel="' + category_id + '"]').show();
             console.log('setFolderId', category_id);
             carouselSearch.setFolderId(category_id);
+            $('#go_up_root').removeClass('hide');
         }
         var carousel = $('#pages_list #option_values').data('carousel');
         carousel.options.items_per_page = items_per_page;
@@ -308,9 +304,7 @@ var Options = Class.extend({
         });
 
     },
-
     resetElement: function (option_value_id) {
-
         var li = $('#option_value_' + option_value_id);
         var new_li = li.clone().hide().attr('rel', '');
         new_li.removeAttr("data-folder-id");
@@ -513,18 +507,9 @@ var page = {
 
                     } else if(datas.was_feature) {
                         // Si la fonctionnalité était un folder ET le folder en cours
-                        if(datas.was_folder) {
+                        if (datas.was_folder) {
                             if(folder.id == datas.value_id) {
                                 folder.reset();
-                            }
-                            var select = $('select#primary_category_id');
-                            if(select.length) {
-                                select.children('option').each(function() {
-                                    if($(this).val() == datas.value_id) {
-                                        $(this).remove();
-                                        return false;
-                                    }
-                                });
                             }
                         }
 
@@ -583,6 +568,11 @@ var page = {
             var addPage = $('.add_page');
             addPage.unbind('click');
             addPage.click(function () {
+                if (typeof folder !== undefined) {
+                    folder.reset();
+                    options.loadNewSlider('default');
+                }
+
             reload(this.parentNode, "<?php echo $this->getUrl('application/customization_features/save'); ?>", true, function (datas) {
                 if (datas.page_html) {
                     if (datas.use_my_account) $('#option_value_customer_account').show();
@@ -633,16 +623,11 @@ var page = {
             folder.current_option_id = null;
             if (this.next.hasClass('folder')) {
                 folder.id = null;
-                $('.option_path .node_container').fadeOut();
             }
 
             this.next = null;
             this.close(true);
             return this;
-        }
-
-        if (this.next.parent().find('input[name="category_id"]').length > 0) {
-            layout.hideCategoryManage();
         }
 
         var url = this.next.attr('href');
@@ -802,22 +787,15 @@ var page = {
             }
 
             if (folder.id && folder.current_category_id && !folder.current_option_id) {
-                var url = "<?php echo $option_folder->getUrl('edit', array('option_value_id' => '#{id}', 'category_id' => '#{category_id}')); ?>";
-                url = url.replace('#{id}', folder.id).replace('#{category_id}', folder.current_category_id);
-                var a = $('<a />').attr('href', url).attr('rel', folder.id).addClass('folder');
-                page.load(a.get(0), false);
+                    var aElement = $('li#option_value_' + folder.id + ' a[href]').get(0);
+                    page.load(aElement, false);
             }
 
             if (!folder.id && !folder.current_option_id && this.current.attr('rel') != folder.id) {
                 if (!this.next) {
                     iframe.f.showHomepage();
                 }
-            } else if (!folder.id || !folder.current_option_id || this.current.attr('rel') != folder.id) {
             }
-        }
-
-        if (typeof layout != 'undefined') {
-            layout.hideCategoryManage();
         }
 
         this.current = null;
@@ -1329,10 +1307,6 @@ var FolderForm = Class.extend({
 
                         //Ajout root
                         if (category.root == '') {
-                            $('.option_path option.dummy').val(__that.value_id);
-                            var $select = $('.option_path option.dummy').parent();
-                            $('.option_path option.dummy').removeClass('dummy');
-//                            $select.dropkick('reload');
                             $('#left_category #no_item span').eq(1).html('<?php echo addslashes(__('to add a subfolder.')) ?>');
                             category.root = datas.category_id;
                             folder.root_category_id = datas.category_id;
@@ -1437,18 +1411,8 @@ var FolderForm = Class.extend({
 
         if ($('span.dummy_text').length > 0) {
             $('span.dummy_text').html(subval);
-            if (!folder.root_category_id) {
-                $('.option_path option.dummy').html(option_val);
-            }
         } else {
             $('#title_category_' + rel).html(subval);
-            if (folder.isRootCategory()) {
-                var element_value = $('.option_path option[value="' + rel + '"]').length > 0 ? rel : option_id;
-                if ($('.option_path option[value="' + element_value + '"]').parent().length > 0) {
-                    var select_option = $('.option_path option[value="' + element_value + '"]');
-                    select_option.html(option_val);
-                }
-            }
         }
 
         //Si root, met à jour le nom de la feature
@@ -1700,7 +1664,7 @@ function WidthChangeV2(mql) {
     }
     .bt-import-fb{
         position: absolute;
-        right: 0px;
+        right: 0;
         width: auto;
         padding: 5px;
         text-transform: uppercase;

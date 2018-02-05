@@ -190,23 +190,13 @@ var Options = Class.extend({
 
     },
     loadNewSlider: function (category_id, value_id, showCategoryManage) {
-        if (typeof showCategoryManage == 'undefined') showCategoryManage = true;
         $('#option_values li').hide();
         if (category_id == 'default') {
             page.close(true);
-//                iframe.f.page.showHomepage();
-            $('.option_path .node_container').fadeOut();
-            if (typeof layout != 'undefined') {
-                layout.hideCategoryManage();
-                delete layout;
-            }
             $('#option_values li[rel=""]').show();
             var items_per_page = 6;
             var is_folder = false;
         } else {
-            if (typeof layout != 'undefined' && showCategoryManage == true) {
-                layout.showCategoryManage();
-            }
             var items_per_page = 10;
             var is_folder = true;
             $('#option_values li[rel="' + category_id + '"]').show();
@@ -548,16 +538,11 @@ var page = {
             folder.current_option_id = null;
             if (this.next.hasClass('folder')) {
                 folder.id = null;
-                $('.option_path .node_container').fadeOut();
             }
 
             this.next = null;
             this.close(true);
             return this;
-        }
-
-        if (this.next.parent().find('input[name="category_id"]').length > 0) {
-            layout.hideCategoryManage();
         }
 
         var url = this.next.attr('href');
@@ -571,7 +556,6 @@ var page = {
 
                     if (this.next.hasClass('folder')) {
                         folder.id = this.next.attr('rel');
-//                        show_mobile_page = false;
                     }
                     else if (folder.id) {
                         folder.current_option_id = this.next.attr('rel');
@@ -714,12 +698,7 @@ var page = {
                     iframe.f.showHomepage();
                 }
             } else if (!folder.id || !folder.current_option_id || this.current.attr('rel') != folder.id) {
-//                    iframe.f.page.destroySubpage(this.current.attr('rel'), recursive);
             }
-        }
-
-        if (typeof layout != 'undefined') {
-            layout.hideCategoryManage();
         }
 
         this.current = null;
@@ -1256,10 +1235,6 @@ var FolderForm = Class.extend({
 
                         //Ajout root
                         if (category.root == '') {
-                            $('.option_path option.dummy').val(__that.value_id);
-                            var $select = $('.option_path option.dummy').parent();
-                            $('.option_path option.dummy').removeClass('dummy');
-                            $select.dropkick('reload');
                             $('#left_category #no_item span').eq(1).html('<?php echo addslashes($this->_('to add a subfolder.')) ?>');
                             category.root = datas.category_id;
                             folder.root_category_id = datas.category_id;
@@ -1399,8 +1374,7 @@ var FolderForm = Class.extend({
                 var id = link.attr('rel');
                 var cat_id = link.find('input[name="category_id"]').val();
                 var $slider_li = $('#option_values li#option_value_' + id);
-                var $form_li = link.parent();
-                ;
+                var $form_li = link.parent();;
                 $form_li.fadeOut(400);
                 var $clone = $slider_li.clone();
                 $slider_li.remove();

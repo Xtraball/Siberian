@@ -13,6 +13,10 @@ if (!file_exists('./config.php')) {
     copy('./config.sample.php', './config.php');
 }
 
+if (!file_exists('./lib/Siberian/Version.php')) {
+    copy('./lib/Siberian/Version.sample.php', './lib/Siberian/Version.php');
+}
+
 require_once './config.php';
 
 // Php Info!

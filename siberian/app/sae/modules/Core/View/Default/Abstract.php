@@ -100,6 +100,20 @@ abstract class Core_View_Default_Abstract extends Siberian_View
 
     }
 
+    /**
+     * @param $code
+     * @return Template_Model_Block
+     */
+    public static function sGetBlock($code) {
+        foreach(self::$_blocks as $block) {
+            if($block->getCode() === $code) {
+                return $block;
+            }
+        }
+
+        return new Template_Model_Block();
+    }
+
     public function _($text) {
         $args = func_get_args();
         return Core_Model_Translator::translate($text, $args);
