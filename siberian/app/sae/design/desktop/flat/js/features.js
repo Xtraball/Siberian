@@ -404,7 +404,7 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
                     feature_picture_uploader.hide();
 
                     var params = [];
-                    params.url = '/template/crop/crop';
+                    params.url = '/template/crop/cropv2';
                     params.file = data.result.files;
                     params.output_w = width;
                     params.output_h = height;
@@ -479,7 +479,7 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
                     } else if (form.hasClass('onchange')) {
                         /** Do nothing */
                     } else if (form.hasClass('callback')) {
-                        var callback = el.data('callback');
+                        var callback = form.data('callback');
                         if (typeof callback !== 'undefined') {
                             try {
                                 eval(callback);
@@ -755,7 +755,6 @@ var initSearch = function (input, clear, empty, itemsClass, fnCallback) {
         });
 
         if (typeof self.fnCallback === 'function') {
-            console.log(self.fnCallback);
             setTimeout(self.fnCallback(), 100);
         }
 

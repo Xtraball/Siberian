@@ -95,6 +95,7 @@ apply from: "cordova-plugin-admobpro/base-build.gradle"
 apply from: "cordova-hot-code-push-plugin/base-chcp.gradle"
 apply from: "phonegap-plugin-push/base-push.gradle"
 apply from: "phonegap-plugin-barcodescanner/base-barcodescanner.gradle"
+apply from: "cordova-plugin-geofence/base-build.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
 def hasBuildExtras = file('build-extras.gradle').exists()
@@ -261,10 +262,11 @@ dependencies {
     // SUB-PROJECT DEPENDENCIES START
     debugCompile(project(path: "CordovaLib", configuration: "debug"))
     releaseCompile(project(path: "CordovaLib", configuration: "release"))
-    compile "com.google.android.gms:play-services-ads:11.0.2"
+    compile "com.google.android.gms:play-services-ads:+"
     compile "com.android.support:support-v13:23+"
     compile "com.google.android.gms:play-services-gcm:11.0.2"
     compile "me.leolin:ShortcutBadger:1.1.14@aar"
+    compile "com.google.android.gms:play-services-location:+"
     compile "com.android.support:support-v4:+"
     // SUB-PROJECT DEPENDENCIES END
 }

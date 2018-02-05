@@ -15,16 +15,36 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
 
     public function findallAction() {
 
-        $module = new Installer_Model_Installer_Module();
-        $core_modules = $module->findAll(array("can_uninstall = ?" => 0), array("name ASC"));
-        $installed_modules = $module->findAll(array("can_uninstall = ?" => 1), array("name ASC"));
-
-        $data = array(
-            "core_modules" => array(),
-            "modules" => array(),
-            "layouts" => array(),
-            "icons" => array(),
+        $core_modules = (new Installer_Model_Installer_Module())->findAll(
+            [
+                'can_uninstall = ?' => 0
+            ],
+            [
+                'name ASC'
+            ]
         );
+        $installed_modules = (new Installer_Model_Installer_Module())->findAll(
+            [
+                'can_uninstall = ?' => 1
+            ],
+            [
+                'name ASC'
+            ]
+        );
+        $features = (new Application_Model_Option())->findAll(
+            [],
+            [
+                'name ASC'
+            ]
+        );
+
+        $data = [
+            'core_modules' => [],
+            'modules' => [],
+            'layouts' => [],
+            'features' => [],
+            'icons' => [],
+        ];
 
         foreach($core_modules as $core_module) {
             $data["core_modules"][] = array(
@@ -62,8 +82,53 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
             );
         }
 
+        foreach ($features as $feature) {
+            $data['features'][] = [
+                'id' => $feature->getId(),
+                'name' => $feature->getName(),
+                'code' => $feature->getCode(),
+                'description' => $feature->getBackofficeDescription(),
+                'is_enabled' => (boolean) $feature->getIsEnabled(),
+            ];
+        }
+
         $this->_sendHtml($data);
 
+    }
+
+    public function togglefeatureAction() {
+        try {
+            $params = Siberian_Json::decode($this->getRequest()->getRawBody());
+            $featureId = $params['featureId'];
+            $isEnabled = filter_var($params['isEnabled'], FILTER_VALIDATE_BOOLEAN);
+
+            if (!$featureId) {
+                throw new Siberian_Exception(__('Missing parameters!'));
+            }
+
+            $feature = (new Application_Model_Option())
+                ->find($featureId);
+
+            if (!$feature->getId()) {
+                throw new Siberian_Exception(__("The feature you are trying to edit doesn't exists!"));
+            }
+
+            $feature
+                ->setIsEnabled($isEnabled)
+                ->save();
+
+            $payload = [
+                'success' => true,
+                'message' => __('Feature is now %s', ($isEnabled) ? __('enabled') : __('disabled'))
+            ];
+        } catch(Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+
+        $this->_sendJson($payload);
     }
 
     /**

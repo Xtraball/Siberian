@@ -79,14 +79,25 @@ angular.module("starter").filter("parseUrlFilter", function() {
 /**
  * Translator
  */
-}]).filter("translate", function ($translate) {
-
+}]).filter('translate', function ($translate) {
     return function (text) {
         return $translate.instant(text);
     };
 
 /**
- * Sanitize HTML
+ * Seconds to minutes
+ */
+}).filter('seconds_to_minutes', function () {
+    return function (seconds) {
+        if (Number.isNaN(seconds)) {
+            return '0:00';
+        }
+        var s = Math.ceil(seconds);
+        return (s - (s %= 60)) / 60 + (s > 9 ? ':' : ':0') + s;
+    };
+
+/**
+ * Filter with linky, then unescape, then trust as html
  */
 }).filter("trusted_html", function($sce) {
 

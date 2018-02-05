@@ -8,41 +8,67 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#import <GoogleMobileAds/GADAdChoicesView.h>
 #import <GoogleMobileAds/GADAdLoaderDelegate.h>
+#import <GoogleMobileAds/GADMediaView.h>
 #import <GoogleMobileAds/GADNativeAd.h>
 #import <GoogleMobileAds/GADNativeAdImage.h>
+#import <GoogleMobileAds/GADNativeAppInstallAdAssetIDs.h>
+#import <GoogleMobileAds/GADVideoController.h>
 #import <GoogleMobileAds/GoogleMobileAdsDefines.h>
 
-/// For use with GADAdLoader's creation methods. If you request this ad type, your delegate must
-/// conform to the GADNativeAppInstallAdRequestDelegate protocol.
-///
-/// See GADNativeAdImageAdLoaderOptions.h for ad loader image options.
-GAD_EXTERN NSString *const kGADAdLoaderAdTypeNativeAppInstall;
+GAD_ASSUME_NONNULL_BEGIN
 
-/// Native app install ad.
+/// Native app install ad. To request this ad type, you need to pass
+/// kGADAdLoaderAdTypeNativeAppInstall (see GADAdLoaderAdTypes.h) to the |adTypes| parameter in
+/// GADAdLoader's initializer method. If you request this ad type, your delegate must conform to the
+/// GADNativeAppInstallAdLoaderDelegate protocol.
 @interface GADNativeAppInstallAd : GADNativeAd
 
 #pragma mark - Must be displayed
 
 /// App title.
-@property(nonatomic, readonly, copy) NSString *headline;
+@property(nonatomic, readonly, copy, GAD_NULLABLE) NSString *headline;
 /// Text that encourages user to take some action with the ad. For example "Install".
-@property(nonatomic, readonly, copy) NSString *callToAction;
+@property(nonatomic, readonly, copy, GAD_NULLABLE) NSString *callToAction;
 /// Application icon.
-@property(nonatomic, readonly, strong) GADNativeAdImage *icon;
+@property(nonatomic, readonly, strong, GAD_NULLABLE) GADNativeAdImage *icon;
 
 #pragma mark - Recommended to display
 
 /// App description.
-@property(nonatomic, readonly, copy) NSString *body;
+@property(nonatomic, readonly, copy, GAD_NULLABLE) NSString *body;
 /// The app store name. For example, "App Store".
-@property(nonatomic, readonly, copy) NSString *store;
+@property(nonatomic, readonly, copy, GAD_NULLABLE) NSString *store;
 /// String representation of the app's price.
-@property(nonatomic, readonly, copy) NSString *price;
+@property(nonatomic, readonly, copy, GAD_NULLABLE) NSString *price;
 /// Array of GADNativeAdImage objects related to the advertised application.
-@property(nonatomic, readonly, strong) NSArray *images;
+@property(nonatomic, readonly, strong, GAD_NULLABLE) NSArray *images;
 /// App store rating (0 to 5).
-@property(nonatomic, readonly, copy) NSDecimalNumber *starRating;
+@property(nonatomic, readonly, copy, GAD_NULLABLE) NSDecimalNumber *starRating;
+/// Video controller for controlling video playback in GADNativeAppInstallAdView's mediaView.
+@property(nonatomic, strong, readonly) GADVideoController *videoController;
+
+/// Registers ad view and asset views with this native ad.
+/// @param assetViews Dictionary of asset views keyed by asset IDs.
+- (void)registerAdView:(UIView *)adView
+            assetViews:(NSDictionary<GADNativeAppInstallAssetID, UIView *> *)assetViews
+    GAD_DEPRECATED_MSG_ATTRIBUTE("Use -registerAdView:clickableAssetViews:nonclickableAssetViews:");
+
+/// Registers ad view, clickable asset views, and nonclickable asset views with this native ad.
+/// Media view shouldn't be registered as clickable.
+/// @param clickableAssetViews Dictionary of asset views that are clickable, keyed by asset IDs.
+/// @param nonclickableAssetViews Dictionary of asset views that are not clickable, keyed by asset
+///        IDs.
+- (void)registerAdView:(UIView *)adView
+       clickableAssetViews:(NSDictionary<GADNativeAppInstallAssetID, UIView *> *)clickableAssetViews
+    nonclickableAssetViews:
+        (NSDictionary<GADNativeAppInstallAssetID, UIView *> *)nonclickableAssetViews;
+
+/// Unregisters ad view from this native ad. The corresponding asset views will also be
+/// unregistered.
+- (void)unregisterAdView;
+
 @end
 
 #pragma mark - Protocol and constants
@@ -62,16 +88,31 @@ GAD_EXTERN NSString *const kGADAdLoaderAdTypeNativeAppInstall;
 @interface GADNativeAppInstallAdView : UIView
 
 /// This property must point to the native app install ad object rendered by this ad view.
-@property(nonatomic, strong) GADNativeAppInstallAd *nativeAppInstallAd;
+@property(nonatomic, strong, GAD_NULLABLE) GADNativeAppInstallAd *nativeAppInstallAd;
 
-// Weak references to your ad view's asset views.
-@property(nonatomic, weak) IBOutlet UIView *headlineView;
-@property(nonatomic, weak) IBOutlet UIView *callToActionView;
-@property(nonatomic, weak) IBOutlet UIView *iconView;
-@property(nonatomic, weak) IBOutlet UIView *bodyView;
-@property(nonatomic, weak) IBOutlet UIView *storeView;
-@property(nonatomic, weak) IBOutlet UIView *priceView;
-@property(nonatomic, weak) IBOutlet UIView *imageView;
-@property(nonatomic, weak) IBOutlet UIView *starRatingView;
+/// Weak reference to your ad view's headline asset view.
+@property(nonatomic, weak, GAD_NULLABLE) IBOutlet UIView *headlineView;
+/// Weak reference to your ad view's call to action asset view.
+@property(nonatomic, weak, GAD_NULLABLE) IBOutlet UIView *callToActionView;
+/// Weak reference to your ad view's icon asset view.
+@property(nonatomic, weak, GAD_NULLABLE) IBOutlet UIView *iconView;
+/// Weak reference to your ad view's body asset view.
+@property(nonatomic, weak, GAD_NULLABLE) IBOutlet UIView *bodyView;
+/// Weak reference to your ad view's store asset view.
+@property(nonatomic, weak, GAD_NULLABLE) IBOutlet UIView *storeView;
+/// Weak reference to your ad view's price asset view.
+@property(nonatomic, weak, GAD_NULLABLE) IBOutlet UIView *priceView;
+/// Weak reference to your ad view's image asset view.
+@property(nonatomic, weak, GAD_NULLABLE) IBOutlet UIView *imageView;
+/// Weak reference to your ad view's star rating asset view.
+@property(nonatomic, weak, GAD_NULLABLE) IBOutlet UIView *starRatingView;
+/// Weak reference to your ad view's media asset view.
+@property(nonatomic, weak, GAD_NULLABLE) IBOutlet GADMediaView *mediaView;
+/// Weak reference to your ad view's AdChoices view. Must set adChoicesView before setting
+/// nativeAppInstallAd, otherwise AdChoices will be rendered in the publisher's
+/// preferredAdChoicesPosition as defined in GADNativeAdViewAdOptions.
+@property(nonatomic, weak, GAD_NULLABLE) IBOutlet GADAdChoicesView *adChoicesView;
 
 @end
+
+GAD_ASSUME_NONNULL_END

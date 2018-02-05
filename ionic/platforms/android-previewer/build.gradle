@@ -93,6 +93,7 @@ ext {
 // PLUGIN GRADLE EXTENSIONS START
 apply from: "cordova-hot-code-push-plugin/base-chcp.gradle"
 apply from: "phonegap-plugin-barcodescanner/base-barcodescanner.gradle"
+apply from: "cordova-plugin-geofence/base-build.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
 def hasBuildExtras = file('build-extras.gradle').exists()
@@ -260,6 +261,7 @@ dependencies {
     debugCompile(project(path: "CordovaLib", configuration: "debug"))
     releaseCompile(project(path: "CordovaLib", configuration: "release"))
     compile "com.squareup.picasso:picasso:2.5.2"
+    compile "com.google.android.gms:play-services-location:+"
     compile "com.android.support:support-v4:+"
     // SUB-PROJECT DEPENDENCIES END
 }

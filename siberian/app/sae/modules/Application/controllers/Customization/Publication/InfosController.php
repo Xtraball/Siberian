@@ -138,82 +138,86 @@ class Application_Customization_Publication_InfosController extends Application_
 
     public function downloadsourceAction() {
 
-        if($data = $this->getRequest()->getParams()) {
-
-            $application = $this->getApplication();
-
-            if(!$application->subscriptionIsActive()) {
-                throw new Exception("You have to purchase the application before downloading the mobile source code.");
-            }
-
-
-            if($design_code = $this->getRequest()->getParam("design_code")) {
-                $application->setDesignCode($design_code);
-            }
-
-            $type = $this->getRequest()->getParam("type");
-            $device = ($this->getRequest()->getParam("device_id") == 1) ? "ios" : "android";
-            $noads = ($this->getRequest()->getParam("no_ads") == 1) ? "noads" : "";
-            $pDesign = $this->getRequest()->getParam("design_code");
-            $design_code = (!empty($pDesign)) ? $pDesign : "ionic";
-
-            # ACL Apk user
-            if($type == "apk" && !$this->getAdmin()->canGenerateApk()) {
-                throw new Exception("You are not allowed to generate APK.");
-            }
-
-            if($type == "apk") {
-                $queue = new Application_Model_ApkQueue();
-
-                $queue->setAppId($application->getId());
-                $queue->setName($application->getName());
-                $application->getDevice(2)->setStatusId(3)->save();
-            } else {
-                $queue = new Application_Model_SourceQueue();
-
-                $queue->setAppId($application->getId());
-                $queue->setName($application->getName());
-                $queue->setType($device.$noads);
-                $queue->setDesignCode($design_code);
-            }
-
-            $queue->setHost($this->getRequest()->getHttpHost());
-            $queue->setUserId($this->getSession()->getAdminId());
-            $queue->setUserType("admin");
-            $queue->save();
-
-            /** Fallback for SAE, or disabled cron */
-            $reload = false;
-            if(!Cron_Model_Cron::is_active()) {
-                $cron = new Cron_Model_Cron();
-                $value = ($type == "apk") ? "apkgenerator" : "sources";
-                $task = $cron->find($value, "command");
-                Siberian_Cache::__clearLocks();
-                $siberian_cron = new Siberian_Cron();
-                $siberian_cron->execute($task);
-                $reload = true;
-            }
-
-            $more["apk"] = Application_Model_ApkQueue::getPackages($application->getId());
-            $more["zip"] = Application_Model_SourceQueue::getPackages($application->getId());
-            $more["queued"] = Application_Model_Queue::getPosition($application->getId());
-
-            $data = array(
-                "success" => 1,
-                "message" => __("Application successfully queued for generation."),
-                "more" => $more,
-                "reload" => $reload,
-            );
-
+        if (__getConfig('is_demo')) {
+            // Demo version
+            throw new Exception("This is a demo version, the source code can't be downloaded");
         } else {
-            $data = array(
-                "error" => 1,
-                "message" => __("Missing parameters for generation."),
-            );
+            if($data = $this->getRequest()->getParams()) {
+
+                $application = $this->getApplication();
+
+                if(!$application->subscriptionIsActive()) {
+                    throw new Exception("You have to purchase the application before downloading the mobile source code.");
+                }
+
+
+                if($design_code = $this->getRequest()->getParam("design_code")) {
+                    $application->setDesignCode($design_code);
+                }
+
+                $type = $this->getRequest()->getParam("type");
+                $device = ($this->getRequest()->getParam("device_id") == 1) ? "ios" : "android";
+                $noads = ($this->getRequest()->getParam("no_ads") == 1) ? "noads" : "";
+                $pDesign = $this->getRequest()->getParam("design_code");
+                $design_code = (!empty($pDesign)) ? $pDesign : "ionic";
+
+                # ACL Apk user
+                if($type == "apk" && !$this->getAdmin()->canGenerateApk()) {
+                    throw new Exception("You are not allowed to generate APK.");
+                }
+
+                if($type == "apk") {
+                    $queue = new Application_Model_ApkQueue();
+
+                    $queue->setAppId($application->getId());
+                    $queue->setName($application->getName());
+                    $application->getDevice(2)->setStatusId(3)->save();
+                } else {
+                    $queue = new Application_Model_SourceQueue();
+
+                    $queue->setAppId($application->getId());
+                    $queue->setName($application->getName());
+                    $queue->setType($device.$noads);
+                    $queue->setDesignCode($design_code);
+                }
+
+                $queue->setHost($this->getRequest()->getHttpHost());
+                $queue->setUserId($this->getSession()->getAdminId());
+                $queue->setUserType("admin");
+                $queue->save();
+
+                /** Fallback for SAE, or disabled cron */
+                $reload = false;
+                if(!Cron_Model_Cron::is_active()) {
+                    $cron = new Cron_Model_Cron();
+                    $value = ($type == "apk") ? "apkgenerator" : "sources";
+                    $task = $cron->find($value, "command");
+                    Siberian_Cache::__clearLocks();
+                    $siberian_cron = new Siberian_Cron();
+                    $siberian_cron->execute($task);
+                    $reload = true;
+                }
+
+                $more["apk"] = Application_Model_ApkQueue::getPackages($application->getId());
+                $more["zip"] = Application_Model_SourceQueue::getPackages($application->getId());
+                $more["queued"] = Application_Model_Queue::getPosition($application->getId());
+
+                $data = array(
+                    "success" => 1,
+                    "message" => __("Application successfully queued for generation."),
+                    "more" => $more,
+                    "reload" => $reload,
+                );
+
+            } else {
+                $data = array(
+                    "error" => 1,
+                    "message" => __("Missing parameters for generation."),
+                );
+            }
+
+            $this->_sendHtml($data);
         }
-
-        $this->_sendHtml($data);
-
     }
 
     public function cancelqueueAction() {

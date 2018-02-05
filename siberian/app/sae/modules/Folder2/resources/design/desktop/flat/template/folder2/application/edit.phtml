@@ -1,0 +1,231 @@
+<?php
+$optionValue = $this->getOptionValue();
+
+$folder = (new Folder2_Model_Folder())
+    ->find($optionValue->getId(), 'value_id');
+
+// Fix and/or Create empty default root folder!
+if (!$folder->getId()) {
+    $folderCategory = new Folder2_Model_Category();
+    $folderCategory
+        ->setTypeId('folder')
+        ->setTitle($optionValue->getTabbarName())
+        ->setValueId($optionValue->getId())
+        ->save();
+
+    $folderCategory->setDefaultImages($optionValue);
+
+    $folder = new Folder2_Model_Folder();
+    $folder
+        ->setValueId($optionValue->getId())
+        ->setRootCategoryId($folderCategory->getId())
+        ->setShowSearch(0)
+        ->save();
+}
+
+$formSettings = new Folder2_Form_Settings();
+$formSettings->populate($folder->getData());
+
+$category = (new Folder2_Model_Category())
+    ->find($folder->getRootCategoryId(), 'category_id');
+
+$categories = (new Folder2_Model_Category())
+    ->findAll(
+        ['value_id' => $optionValue->getId()],
+        ['pos ASC']
+    );
+
+$rootFolder = null;
+$foldersDone = [];
+$nestedFolders = [];
+foreach ($categories as $category) {
+    $categoryId = $category->getCategoryId();
+    if (in_array($categoryId, $foldersDone)) {
+        continue;
+    }
+    $parentId = $category->getParentId();
+    if (empty($parentId)) {
+        $rootFolder = $category->getData();
+    } else {
+        if (!isset($nestedFolders[$parentId])) {
+            $nestedFolders[$parentId] = [];
+        }
+        $nestedFolders[$parentId][] = $category->getData();
+    }
+}
+
+function generateRecursive($content, $categoryId, $nestedFolders, $level = 0) {
+    if (array_key_exists($categoryId, $nestedFolders)) {
+        $folders = $nestedFolders[$categoryId];
+        uasort($folders, function ($a, $b) {
+            if ($a['pos'] === $b['pos']) {
+                return 0;
+            }
+            return ($a['pos'] < $b['pos']) ? -1 : 1;
+        });
+        $level++;
+        foreach ($folders as $folder) {
+            $content .= '
+            <li class="folder-sortable" 
+                parentId="' . $folder['parent_id'] . '"
+                rel="' . $folder['category_id'] . '">
+                <span class="folder-hover">
+                    <i class="folder-sortable-handle fa fa-arrows"></i>
+                    <span class="folder-title">' . $folder['title'] . '</span>
+                    <span class="folder-feature-count"></span>
+                    <i class="folder-edit fa fa-pencil pull-right" 
+                       parentId="' . $folder['parent_id'] . '"
+                       rel="' . $folder['category_id'] . '"></i>
+                    <i class="folder-delete fa fa-remove pull-right" 
+                       parentId="' . $folder['parent_id'] . '"
+                       rel="' . $folder['category_id'] . '"></i>
+                </span>';
+            $subfolders = generateRecursive('', $folder['category_id'], $nestedFolders, $level);
+            if (!empty($subfolders)) {
+                $content .= '
+                <ul>' . $subfolders . '</ul>';
+            }
+
+            $content .= '
+            </li>';
+        }
+    }
+    return $content;
+}
+
+$outputHtml = generateRecursive('', $rootFolder['category_id'], $nestedFolders);
+
+?>
+
+<div id="list" class="folder">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#folder" aria-controls="folder" role="tab" data-toggle="tab">
+                <i class="fa fa-folder-open-o"></i>
+                <?php echo __('Folder') ?>
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#design" aria-controls="design" role="tab" data-toggle="tab">
+                <i class="fa fa-pencil"></i>
+                <?php echo __('Design') ?>
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">
+                <i class="fa fa-cogs"></i>
+                <?php echo __('Settings') ?>
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <!-- START FOLDER TAB -->
+        <div role="tabpanel" class="tab-pane active" id="folder">
+            <div class="feature-block-add">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo __('Manage Folders'); ?>
+                </h3>
+                <div class="container-fluid subcontent content-feature">
+                    <div class="content content-white-bkg folder-container">
+                        <div class="col-md-6 col-sm-12" id="folder-tree">
+                            <div class="folder-title-add">
+                                <span><?php echo __('Folders') ?></span>
+                                <button class="btn color-blue pull-right create-folder">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                            <ul class="nested-folders">
+                                <li class="folder-sortable"
+                                    id="root-folder"
+                                    parentId=""
+                                    rel="<?php echo $rootFolder['category_id']; ?>">
+                                    <span class="folder-hover">
+                                        <span class="folder-title"><?php echo $rootFolder['title']; ?></span>
+                                        <span class="folder-feature-count"></span>
+                                        <i class="folder-edit fa fa-pencil pull-right"
+                                           rel="<?php echo $rootFolder['category_id']; ?>"></i>
+                                    </span>
+                                </li>
+                                <ul id="nested-root"
+                                    class="nested-sortable">
+                                    <?php echo $outputHtml; ?>
+                                </ul>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 col-sm-12" id="folder-form">
+                            <div class="folder-form-container"></div>
+                        </div>
+                        <div class="col-md-12">
+                            <div id="add_page_to_folder">
+                                <h4><?php echo __('Add feature') ?></h4>
+                                <hr />
+                                <div id="add_page_list">
+                                    <div class="a-center" id="no_item">
+                                        <?php echo __('Click on a feature to add it to the folder %s',
+                                            '<span id="curren_folder_name" class="current-folder-name"></span>'); ?>
+                                    </div>
+                                    <div class="folder_options_values">
+                                        <?php
+                                            echo $this
+                                                ->getLayout()
+                                                ->addPartial(
+                                                    'folder_options_values',
+                                                    'Core_View_Default',
+                                                    'folder2/application/edit/options.phtml'
+                                                )
+                                                ->setValueId($optionValue->getId())
+                                                ->toHtml()
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /END FOLDER TAB -->
+
+        <!-- START DESIGN TAB -->
+        <div role="tabpanel" class="tab-pane" id="design">
+            <?php echo $this->importLayout($optionValue, false); ?>
+
+            <?php echo $this->importBackground($optionValue, false); ?>
+        </div>
+        <!-- /END DESIGN TAB -->
+
+        <!-- START SETTINGS TAB -->
+        <div role="tabpanel" class="tab-pane" id="settings">
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo __('Manage Folders'); ?>
+            </h3>
+            <div class="container-fluid subcontent content-feature">
+                <?php echo $formSettings; ?>
+            </div>
+        </div>
+        <!-- /END SETTINGS TAB -->
+    </div>
+</div>
+
+
+<link href="/app/sae/modules/Folder2/resources/design/desktop/flat/template/folder2/application/edit.css"
+      media="screen"
+      rel="stylesheet"
+      type="text/css">
+<script type="text/javascript">
+    var valueId = '<?php echo $optionValue->getId() ?>';
+    var rootId = '<?php echo $rootFolder['category_id']; ?>';
+    var maxNestedLevel = <?php echo Folder2_Model_Folder::$maxNestedLevel; ?>;
+    var words = {
+        deleteTitle: "<?php echo __js('Confirmation') ?>",
+        deleteText: "<?php echo __js("You are about to delete the folder #FOLDER_NAME# with all it's subfolders, please note that any features inside the folder and it's subfolders will be re-assigned to the Homepage!") ?>",
+        confirmDelete: "<?php echo __js('Yes, delete!') ?>",
+        cancelDelete: "<?php echo __js('No, go back!') ?>"
+    };
+</script>
+<script type="text/javascript"
+        src="/app/sae/modules/Folder2/resources/design/desktop/flat/template/folder2/application/edit.js">
+</script>

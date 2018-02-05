@@ -26,24 +26,33 @@ class Analytics_Mobile_StoreController extends Application_Controller_Mobile_Def
     }
 
     public function openingAction() {
-        $payload = array(
-            "error" => true,
-            "message" => "Bad parameters."
-        );
+        $payload = [
+            'error' => true,
+            'message' => 'Bad parameters.'
+        ];
 
         try {
-            if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
-                $data["appId"] = $this->getApplication()->getId();
-                $data["startTimestampGMT"] = gmmktime();
-                $data["endTimestampGMT"] = gmmktime();
+            if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+                $data['appId'] = $this->getApplication()->getId();
+                $data['startTimestampGMT'] = gmmktime();
+                $data['endTimestampGMT'] = gmmktime();
 
-                $sqlite_request = Analytics_Model_Store::getInstance();
-                if($result = $sqlite_request->addAppLoadedMetric($data)) {
-                    $payload = array('success' => '1', 'message' => 'Metrics successfully added.', 'id' => $result[0]);
+                $sqliteRequest = Analytics_Model_Store::getInstance();
+                if ($result = $sqliteRequest->addAppLoadedMetric($data)) {
+                    $payload = [
+                        'success' => true,
+                        'message' => 'Metrics successfully added.',
+                        'id' => $result[0]
+                    ];
+                } else {
+                    $payload = [
+                        'error' => true,
+                        'message' => 'Metrics not added.'
+                    ];
                 }
             }
         } catch (Exception $e) {
-            $payload["message"] = $e->getMessage();
+            $payload['message'] = $e->getMessage();
         }
 
         $this->_sendJson($payload);

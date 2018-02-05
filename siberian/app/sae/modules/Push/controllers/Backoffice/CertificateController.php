@@ -41,6 +41,11 @@ class Push_Backoffice_CertificateController extends Backoffice_Controller_Defaul
 
             try {
 
+                if (__getConfig('is_demo')) {
+                    // Demo version
+                    throw new Exception("This is a demo version, these changes can't be saved");
+                }
+
                 foreach($data as $key) {
                     $certificate = new Push_Model_Certificate();
                     $certificate->find($key["name"], "type");

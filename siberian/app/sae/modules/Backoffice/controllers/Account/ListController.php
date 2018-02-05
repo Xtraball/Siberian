@@ -36,6 +36,11 @@ class Backoffice_Account_ListController extends Backoffice_Controller_Default
 
             try {
 
+                if (__getConfig('is_demo')) {
+                    // Demo version
+                    throw new Exception("This is a demo version, this user can't be deleted");
+                }
+
                 if (empty($data["user_id"])) {
                     throw new Exception($this->_("An error occurred while saving. Please try again later."));
                 }

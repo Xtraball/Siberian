@@ -62,9 +62,9 @@ class Folder_Model_Folder extends Core_Model_Default {
 
             $this->cache->save($paths, $cache_id,
                 $this->cache_tags + array(
-                "feature_paths",
-                "feature_paths_valueid_{$value_id}"
-            ));
+                    "feature_paths",
+                    "feature_paths_valueid_{$value_id}"
+                ));
         } else {
             $paths = $result;
         }
@@ -100,9 +100,9 @@ class Folder_Model_Folder extends Core_Model_Default {
 
             $this->cache->save($paths, $cache_id,
                 $this->cache_tags + array(
-                "assets_paths",
-                "assets_paths_valueid_{$value_id}"
-            ));
+                    "assets_paths",
+                    "assets_paths_valueid_{$value_id}"
+                ));
         } else {
             $paths = $result;
         }

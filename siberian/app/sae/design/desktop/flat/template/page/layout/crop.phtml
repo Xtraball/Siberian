@@ -1,12 +1,12 @@
 <h3 class="title-editor border-blue text-center">
     <?php echo __('Resize your picture'); ?>
 </h3>
-<?php $output = str_replace('§', '/', $this->getOutputUrl()); ?>
+<?php $output = str_replace('$', '/', $this->getOutputUrl()); ?>
 <div class="container-fluid">
-    <form action="<?php echo str_replace('$', '/', $output); ?>" method="post" id="saveCrop" class="form-horizontal solo-page">
+    <form action="<?php echo $output; ?>" method="post" id="saveCrop" class="form-horizontal solo-page">
         <div class="form-group">
             <div class="col-md-2">
-                <button type="button" id="hide_form" class="color-blue pull-left btn" onclick="$.prettyPhoto.close();"><i class="fa fa-angle-left"></i></button>
+                <button type="button" id="hide_form" class="color-blue pull-left btn" onclick="$.featherlight.current().close();"><i class="fa fa-angle-left"></i></button>
             </div>
             <div class="col-md-2 col-md-offset-8">
                 <button type="submit" class="color-blue pull-right btn"><?php echo __('OK') ?></button>
@@ -68,12 +68,12 @@
         return { width:srcWidth*ratio, height:srcHeight*ratio };
     }
 
-    var min = calculateAspectRatioFit('<?php echo $this->getOutputWidth(); ?>', '<?php echo $this->getOutputHeight(); ?>', 300, 400);
+    var min = calculateAspectRatioFit('<?php echo $this->getOutputWidth(); ?>', '<?php echo $this->getOutputHeight(); ?>', 250, 350);
 
     var jcrop_api, boundx, boundy;
     var output_width = '<?php echo $this->getOutputWidth(); ?>';
     var output_height = '<?php echo $this->getOutputHeight(); ?>';
-    var a = calculateAspectRatioFit('<?php echo $this->getWidth(); ?>', '<?php echo $this->getHeight(); ?>', 350, 600);
+    var a = calculateAspectRatioFit('<?php echo $this->getWidth(); ?>', '<?php echo $this->getHeight(); ?>', 350, 465);
     var width = a.width;
     var height = a.height;
     $('#saveCrop #crop_width').val(width);
@@ -129,14 +129,10 @@
     }
 
     $('#saveCrop').submit(function(){
+        loader.show('sb-features');
         reload(this, $('#saveCrop').attr('action'), true, function(datas) {
             if (datas.success) {
-                var current_pretty_photo_content = <?php echo $this->getUploader(); ?>.current_pretty_photo_content;
-                if(current_pretty_photo_content && current_pretty_photo_content.length > 0) {
-                    $('.pp_inline').parent().html(<?php echo $this->getUploader(); ?>.current_pretty_photo_content);
-                } else {
-                    $.prettyPhoto.close();
-                }
+                $.featherlight.current().close();
                 <?php if($this->getIsColorizable() && $this->getIsColorizable() == true) : ?>
                     <?php echo $this->getUploader(); ?>.callback(datas);
                 <?php else : ?>
@@ -144,6 +140,7 @@
                 <?php endif; ?>
                 $('a#crop_image').remove();
             }
+            loader.hide('sb-features');
         });
         return false;
     });

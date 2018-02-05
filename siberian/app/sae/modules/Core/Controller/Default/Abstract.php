@@ -301,6 +301,9 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         $logger->sendException("Fatal Error: \n".print_r($errors, true));
     }
 
+    /**
+     * @return Siberian_Layout|Siberian_Layout_Email
+     */
     public function getLayout() {
         return $this->_layout;
     }
@@ -359,7 +362,10 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         Siberian_Media::disableTemporary();
 
         $color = str_replace('#', '', $color);
-        $id = md5(implode('+', array($image_id, $color)));
+        $id = md5(implode('+', [
+            $image_id,
+            $color
+        ]));
         $url = '';
 
         $image = new Media_Model_Library_Image();
