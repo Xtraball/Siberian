@@ -32,7 +32,6 @@ class Application_View_Customization_Features_List_Options extends Core_View_Def
                 $icon_url = $option->getIconUrl();
         }
 
-
         if($colorizable) {
 
             if(!$this->_icon_color) {
@@ -49,7 +48,7 @@ class Application_View_Customization_Features_List_Options extends Core_View_Def
     protected function _initIconColor() {
 
         $this->_icon_color = "#FFFFFF";
-        if(Installer_Model_Installer::hasModule("Whitelabel")) {
+        if(Siberian_Version::is('PE')) {
             $this->_icon_color = $this->getBlock("area")->getColor();
         }
 

@@ -7,12 +7,26 @@
 
 #import <Foundation/Foundation.h>
 
+#import <GoogleMobileAds/GoogleMobileAdsDefines.h>
+
 @class GADNativeAd;
+
+GAD_ASSUME_NONNULL_BEGIN
 
 /// Identifies native ad assets.
 @protocol GADNativeAdDelegate<NSObject>
 
 @optional
+
+#pragma mark Ad Lifecycle Events
+
+/// Called when an impression is recorded for an ad. Only called for Google ads and is not supported
+/// for mediation ads.
+- (void)nativeAdDidRecordImpression:(GADNativeAd *)nativeAd;
+
+/// Called when a click is recorded for an ad. Only called for Google ads and is not supported for
+/// mediation ads.
+- (void)nativeAdDidRecordClick:(GADNativeAd *)nativeAd;
 
 #pragma mark Click-Time Lifecycle Notifications
 
@@ -39,3 +53,5 @@
 - (void)nativeAdWillLeaveApplication:(GADNativeAd *)nativeAd;
 
 @end
+
+GAD_ASSUME_NONNULL_END

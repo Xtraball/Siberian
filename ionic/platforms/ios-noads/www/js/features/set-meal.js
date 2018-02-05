@@ -1,5 +1,7 @@
-/* global
-    angular, lazyLoadResolver, BASE_PATH
+/**
+ * Set Meal
+ *
+ * @author Xtraball SAS
  */
 angular.module('starter').config(function ($stateProvider, HomepageLayoutProvider) {
     $stateProvider
@@ -20,7 +22,8 @@ angular.module('starter').config(function ($stateProvider, HomepageLayoutProvide
                 }
                 return 'templates/html/' + layout_id + '/list.html';
             },
-            resolve: lazyLoadResolver('catalog')
+            resolve: lazyLoadResolver('catalog'),
+            cache: false
         }).state('set-meal-view', {
             url: BASE_PATH+'/catalog/mobile_setmeal_view/index/value_id/:value_id/set_meal_id/:set_meal_id',
             controller: 'SetMealViewController',

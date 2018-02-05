@@ -165,6 +165,11 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
 
             try {
 
+                if (__getConfig('is_demo')) {
+                    // Demo version
+                    throw new Exception(__("You cannot change translation, it's a demo version."));
+                }
+
                 $base_path = Core_Model_Directory::getBasePathTo("languages/");
                 $country_code = $data["country_code"];
                 $translation_dir = $base_path.$country_code;

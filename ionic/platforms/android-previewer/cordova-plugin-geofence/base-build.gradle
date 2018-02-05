@@ -1,0 +1,4 @@
+dependencies {
+    compile(name:'david-webb-1.3.0', ext:'jar')
+    compile(name:'gson-2.3', ext:'jar')
+}

@@ -1,0 +1,45 @@
+<?php
+$features = (new Application_Model_Option_Value())
+    ->findAll(
+        [
+            'app_id' => $this->getApplication()->getId(),
+            'excluded_options' => new Zend_Db_Expr('folder_category_id IS NULL')
+        ],
+        'position ASC');
+?>
+<ul id="folder_add_page_list">
+    <?php foreach ($features as $feature) : ?>
+    <?php if (in_array($feature->getCode(), ['folder', 'folder_v2'])) { continue; } ?>
+    <?php if (!$this->_canAccess('feature_' . $feature->getCode(), 'all')) { continue; } ?>
+
+    <li id="add_page_<?php echo $feature->getId(); ?>"
+        class="folder_add_page col-md-3 col-sm-3 col-xs-4">
+        <a href="javascript:void(0);"
+           class="add_feature_folder2 details"
+           rel="<?php echo $feature->getId(); ?>">
+            <div class="color-blue block_add_pages_icon btn default_size_details"
+                 style="background-image: url('<?php echo Application_Model_Option_Value::sGetIconUrl($feature); ?>')">
+                <img src="/app/sae/design/desktop/flat/images/placeholder/blank-512.png"
+                     alt="<?php echo $feature->getName(); ?>"
+                     title="<?php echo $feature->getName(); ?>"
+                     width="auto"
+                     height="50" />
+                <span><?php echo cut($feature->getName(), 14); ?></span>
+                <input type="hidden"
+                       name="option_id"
+                       value="<?php echo $feature->getId(); ?>"/>
+                <input type="hidden"
+                       name="value_id"
+                       value="<?php echo $this->getValueId(); ?>" />
+                <input type="hidden"
+                       name="category_value_id"
+                       value="<?php echo $feature->getId(); ?>" />
+                <input type="hidden"
+                       name="category_id"
+                       value=""
+                       class="option_value_category_id" />
+            </div>
+        </a>
+    </li>
+    <?php endforeach; ?>
+</ul>

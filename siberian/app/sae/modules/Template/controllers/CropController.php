@@ -91,6 +91,36 @@ class Template_CropController extends Admin_Controller_Default
         $this->getLayout()->setHtml($html);
     }
 
+    public function cropv2Action() {
+        $picture = $this->getRequest()->getParam('picture');
+        $image_sizes = getimagesize(Core_Model_Directory::getTmpDirectory(true).'/'.$picture);
+        $option_value_id = '';
+        $is_colorizable = false;
+        if($this->getRequest()->getParam('option_value_id')) {
+            $option_value_id = $this->getRequest()->getParam('option_value_id');
+        }
+        if($this->getRequest()->getParam('is_colorizable')) {
+            $is_colorizable = $this->getRequest()->getParam('is_colorizable');
+        }
+        $html = $this->getLayout()->addPartial('crop', 'core_view_default', 'page/layout/crop_v2.phtml')
+            ->setPicture($picture)
+            ->setWidth($image_sizes[0])
+            ->setHeight($image_sizes[1])
+            ->setOutputWidth($this->getRequest()->getParam('outputWidth'))
+            ->setOutputHeight($this->getRequest()->getParam('outputHeight'))
+            ->setOutputUrl($this->getRequest()->getParam('outputUrl'))
+            ->setQuality($this->getRequest()->getParam('quality'))
+            ->setUploader($this->getRequest()->getParam('uploader'))
+            ->setOptionId($option_value_id)
+            ->setIsColorizable($is_colorizable)
+            ->setForceColor($this->getRequest()->getParam('force_color'))
+            ->setImageColor($this->getRequest()->getParam('image_color'))
+            ->toHtml()
+        ;
+
+        $this->getLayout()->setHtml($html);
+    }
+
 
     public function validateAction() {
         if($datas = $this->getRequest()->getPost()) {

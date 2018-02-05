@@ -776,10 +776,10 @@ abstract class Core_Model_Default_Abstract {
     /**
      * If the feature payload is small enough, we could embed it inside the main app loadv2
      *
-     * @param $value_id
+     * @param $optionValue
      * @return bool
      */
-    public function getEmbedPayload($value_id = null) {
+    public function getEmbedPayload($optionValue = null) {
         return false;
     }
 

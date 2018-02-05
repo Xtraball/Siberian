@@ -218,6 +218,10 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
         $root->removeProperty('UIViewControllerBasedStatusBarAppearance');
         $root->addProperty($valueUIStatusBarHidden, null, 'UIViewControllerBasedStatusBarAppearance');
 
+        // iPhone X UILaunchStoryboardName
+        $root->removeProperty('UILaunchStoryboardName');
+        $root->addProperty( \PListEditor\PListProperty::PL_STRING, 'CDVLaunchScreen', 'UILaunchStoryboardName');
+
         // NS*Descriptions!
         $NSDescriptions = [
             'NSCameraUsageDescription' => 'ns_camera_ud',
@@ -281,36 +285,5 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
         $plist->save();
 
         return $this;
-
-    }
-
-    private function __getUrlValue($key) {
-
-        if (defined("CRON")) {
-            $scheme = "http";
-            $http_host = $this->getDevice()->getHost();
-            $base_url = "/";
-
-        } else {
-            $scheme = $this->_request->getScheme();
-            $http_host = $this->_request->getHttpHost();
-            $base_url = ltrim($this->_request->getBaseUrl(), "/");
-        }
-
-        $value = null;
-
-        switch ($key) {
-            case "url_scheme": $value = $scheme; break;
-            case "url_domain": $value = $http_host; break;
-            case "url_path": $value = $base_url; break;
-            case "url_key":
-                if(!defined("CRON") && $this->_request->useApplicationKey()) {
-                    $value = $this->getApplication()->getKey();
-                }
-                break;
-            default: $value = "";
-        }
-
-        return $value;
     }
 }

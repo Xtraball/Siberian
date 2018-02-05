@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class Application_Model_Option
+ *
+ * @method integer getId()
+ */
 class Application_Model_Option extends Core_Model_Default
 {
 

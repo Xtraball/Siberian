@@ -49,11 +49,18 @@ window.Features = (new (function Features() {
                                     break;
                                 case (angular.isObject(r.layouts) && angular.isString(r.template)):
                                         route.templateUrl = function (param) {
+                                            // Override the layout_id for a specific route
+                                            if (param.layout_id !== undefined && angular.isString(r.layouts[param.layout_id])) {
+                                                return template_base + r.layouts[param.layout_id] + '/' + r.template;
+                                            }
+
+                                            // Try to get default layout for the feature otherwise!
                                             var layout_id = HomepageLayoutProvider.getLayoutIdForValueId(param.value_id);
                                             if (angular.isString(r.layouts[layout_id])) {
                                                 return template_base + r.layouts[layout_id] + '/' + r.template;
                                             }
 
+                                            // Fallback on base layout!
                                             return template_base + r.layouts.default + '/' + r.template;
                                         };
                                     break;

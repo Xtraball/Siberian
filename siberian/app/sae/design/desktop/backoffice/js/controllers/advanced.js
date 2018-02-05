@@ -36,18 +36,18 @@ App.config(function($routeProvider) {
         $scope.modules = data.modules;
         $scope.core_modules = data.core_modules;
         $scope.layouts = data.layouts;
+        $scope.features = data.features;
         $scope.icons = data.icons;
     }).finally(function() {
         $scope.content_loader_is_visible = false;
     });
 
-    $scope.moduleAction = function(module, action) {
+    $scope.moduleAction = function (module, action) {
         $scope.form_loader_is_visible = true;
 
-        Advanced.moduleAction(module, action).success(function(data) {
-
-            var message = "";
-            if(angular.isObject(data) && angular.isDefined(data.message)) {
+        Advanced.moduleAction(module, action).success(function (data) {
+            var message = '';
+            if (angular.isObject(data) && angular.isDefined(data.message)) {
                 message = data.message;
                 $scope.message.isError(false);
             }
@@ -55,9 +55,9 @@ App.config(function($routeProvider) {
             $scope.message.setText(message)
                 .show()
             ;
-        }).error(function(data) {
-            var message = "";
-            if(angular.isObject(data) && angular.isDefined(data.message)) {
+        }).error(function (data) {
+            var message = '';
+            if (angular.isObject(data) && angular.isDefined(data.message)) {
                 message = data.message;
             }
 
@@ -65,11 +65,39 @@ App.config(function($routeProvider) {
                 .isError(true)
                 .show()
             ;
-        }).finally(function() {
+        }).finally(function () {
             $scope.form_loader_is_visible = false;
         });
     };
 
+    $scope.toggleFeature = function (feature) {
+        $scope.form_loader_is_visible = true;
+        Advanced
+            .toggleFeature(feature.id, feature.is_enabled)
+            .success(function (data) {
+                var message = '';
+                if (angular.isObject(data) && angular.isDefined(data.message)) {
+                    message = data.message;
+                    $scope.message.isError(false);
+                }
+
+                $scope.message.setText(message)
+                    .show()
+                ;
+            }).error(function (data) {
+                var message = '';
+                if (angular.isObject(data) && angular.isDefined(data.message)) {
+                    message = data.message;
+                }
+
+                $scope.message.setText(message)
+                    .isError(true)
+                    .show()
+                ;
+            }).finally(function () {
+                $scope.form_loader_is_visible = false;
+            });
+    };
 
 
 }).controller("BackofficeAdvancedConfigurationController", function($log, $http, $scope, $timeout, $interval, $window,
