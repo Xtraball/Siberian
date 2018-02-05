@@ -12,15 +12,15 @@
         <form id="eventForm" action="<?php echo $this->getUrl('event/application/editpost'); ?>" class="form-horizontal first-row-feature">
             <div class="form-group">
                 <div class="col-sm-5 col-sm-offset-3">
-                    <label><?php echo $this->_('Enter your calendar\'s title') ?> <span class="required-entry"> *</span> :</label>
+                    <label><?php echo __('Enter your calendar\'s title') ?> <span class="required-entry"> *</span> :</label>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-3">
-                    <label><?php echo $this->_('Title:')?></label>
+                    <label><?php echo __('Title:')?></label>
                 </div>
                 <div class="col-sm-5">
-                    <input type="text" name="name" value="<?php echo $agenda->getName()?>" placeholder="<?php echo $this->_('Calendar\'s title') ?>" class="input-flat required" />
+                    <input type="text" name="name" value="<?php echo $agenda->getName()?>" placeholder="<?php echo __('Calendar\'s title') ?>" class="input-flat required" />
                 </div>
                 <div class="col-sm-2">
                     <input type="hidden" name="url" value="" class="input-flat"/>
@@ -48,7 +48,7 @@
                                             <label><?php echo Core_Model_Lib_String::truncate($event->getName(), 35)?></label>
                                         </div>
                                         <div class="col-sm-5 start_at">
-                                            <?php echo $event->getFormattedStartAt($this->_("MM/dd/y \'at\' hh:mm a")); ?>
+                                            <?php echo $event->getFormattedStartAt(_("MM/dd/y \'at\' hh:mm a")); ?>
                                         </div>
                                         <div class="col-sm-2 actions">
                                             <a class="edit_event" href="<?php echo $this->getUrl('event/application_event/form', array('agenda_id' => $agenda->getId(), 'event_id'=>$event->getId(), 'option_value_id' => $option_value->getId())); ?>?ajax=true" >
@@ -66,36 +66,13 @@
                     </div>
                 <?php else: ?>
                     <ul class="list-group">
-                        <li class="list-group-item"><?php echo $this->_("Your calendar is empty")?></li>
+                        <li class="list-group-item"><?php echo __("Your calendar is empty")?></li>
                     </ul>
                 <?php endif;?>
             </div>
-            <a class="edit_event underline edit_event underline color-blue btn" id="new_event_link" href="<?php echo $this->getUrl('event/application_event/form', array('agenda_id' => $agenda->getId(), 'option_value_id' => $option_value->getId())); ?>?ajax=true"><?php echo $this->_('Event'); ?></a>
+            <a class="edit_event underline edit_event underline color-blue btn" id="new_event_link" href="<?php echo $this->getUrl('event/application_event/form', array('agenda_id' => $agenda->getId(), 'option_value_id' => $option_value->getId())); ?>?ajax=true"><?php echo __('Event'); ?></a>
         </div>
     <?php endif; ?>
-
-    <style type="text/css">
-        .agenda div.add { padding: 0px 10px 10px; }
-        .event_rows td {
-            /*text-align: center;*/
-            padding: 2px;
-            margin: 0;
-        }
-        .events_name  {
-            text-align: left;
-            font-weight: bold;
-            /*width: 45%;*/
-        }
-
-        .start_at  {
-            /*text-align: center;*/
-            /*width: 45%;*/
-        }
-
-        .actions  {
-            text-align: right;
-        }
-    </style>
 
     <script type="text/javascript">
 
@@ -103,36 +80,20 @@
             website_template: "",
             processEvents: function() {
                 $.datepicker.setDefaults( $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>']);
-                $('.edit_event').prettyPhoto({
-                    default_width: 500,
-                    show_title: false,
-                    deeplinking: false,
-                    social_tools: '',
-                    gallery_markup: '',
-                    keyboard_shortcuts: false,
-                    changepicturecallback: function() {
-                        custom.website_template = $("#custom_event_website_new").html();
-                        $("#custom_event_website_new").remove();
-                        $('#custom_event_start_at').datetimepicker({
-                            dateFormat: 'yy-mm-dd'
-                        });
-                        $('#custom_event_end_at').datetimepicker({
-                            dateFormat: 'yy-mm-dd'
-                        });
 
-                        $('#custom_event_description').ckeditor(ckeditor_config.default);
-                        $("#custom_add_website").click(function() {
-                            var html = custom.website_template;
-                            html = html.replaceAll("new", $(".custom_event_website").length+1);
-                            $("#custom_add_website").parent().parent().before(html);
-                        });
-                        uploadPicture();
-                    },
-                    theme: 'pp_none'
+                var editEvent = $('.edit_event');
+                editEvent.off('click');
+                editEvent.on('click', function(event) {
+                    event.preventDefault();
+                    var el = $(this);
+                    $.featherlight(el.attr('href'), {
+                        type: 'ajax'
+                    });
                 });
 
-                $('#eventForm').unbind('submit');
-                $('#eventForm').submit(function(e) {
+                var eventForm = $('#eventForm');
+                eventForm.unbind('submit');
+                eventForm.submit(function(e) {
                     var form = $(e.target);
                     if(!form.valid()) return false;
                     reload(form, form.attr('action'), true, function(datas) {
@@ -168,12 +129,12 @@
                 $('#eventForm').unbind('submit');
                 $('#custom_event_start_at').datepicker("destroy");
                 $('#custom_event_end_at').datepicker("destroy");
-                $.prettyPhoto.close();
+                $.featherlight.current().close();
             },
             remove: function(id) {
                 var td = $('#custom_'+id).parent();
                 var tr = td.parent();
-                if(confirm('<?php echo addslashes($this->_("Delete this event?")); ?>')) {
+                if(confirm('<?php echo addslashes(_("Delete this event?")); ?>')) {
                     $('<input />').attr('type', 'hidden')
                         .attr('name', 'id')
                         .val(id)
@@ -212,7 +173,7 @@
 
                 reload(form, form.attr('action'), true, function(datas) {
                     if(datas.success) {
-                        $.prettyPhoto.close();
+                        $.featherlight.current().close();
                         this.reload();
                     }
                 }.bind(this));
@@ -225,5 +186,34 @@
 <style type="text/css">
     .ui-datepicker{
         z-index: 9999999 !important;
+    }
+
+    .featherlight-content {
+        min-width: 40vw;
+        max-width: 80vw;
+    }
+
+    .agenda div.add {
+        padding: 0 10px 10px;
+    }
+
+    .event_rows td {
+        padding: 2px;
+        margin: 0;
+    }
+
+    .events_name  {
+        text-align: left;
+        font-weight: bold;
+    }
+
+    .actions  {
+        text-align: right;
+    }
+
+    form#customEventForm {
+        height: 530px;
+        overflow-y: scroll;
+        overflow-x: hidden;
     }
 </style>
