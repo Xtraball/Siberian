@@ -3,9 +3,9 @@
 <div id="add_custom_event" class="custom_event">
     <div>
         <h3 class="title-editor border-blue text-center">
-            <?php echo $event->getId() ? $this->_("Modify the event") : $this->_('Create a new event'); ?>
+            <?php echo $event->getId() ? __("Modify the event") : __('Create a new event'); ?>
         </h3>
-        <div class="container-fluid">
+        <div class="container-fluid content-overflow">
             <form action="<?php echo $this->getUrl('event/application_event/edit'); ?>" method="post" id="customEventForm" class="form-horizontal">
                 <div class="form-group first-row-feature">
                     <div class="col-md-12">
@@ -16,7 +16,7 @@
 
                 <div class="form-group">
                     <div class="col-sm-4">
-                        <label for="custom_event_name" class="control-label"><?php echo $this->_("Title:"); ?></label>
+                        <label for="custom_event_name" class="control-label"><?php echo __("Title:"); ?></label>
                     </div>
                     <div class="col-sm-8">
                         <input class="name required input-flat" type="text" id="custom_event_name" value="<?php echo $event->getName(); ?>" name="name" />
@@ -24,7 +24,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-4">
-                        <label for="custom_event_subtitle" class="control-label"><?php echo $this->_("Subtitle:"); ?></label>
+                        <label for="custom_event_subtitle" class="control-label"><?php echo __("Subtitle:"); ?></label>
                     </div>
                     <div class="col-sm-8">
                         <input class="input-flat required" type="text" id="custom_event_subtitle" value="<?php echo $event->getSubtitle(); ?>" name="subtitle" />
@@ -32,7 +32,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-4">
-                        <label for="custom_event_description" class="control-label"><?php echo $this->_('Description:'); ?></label>
+                        <label for="custom_event_description" class="control-label"><?php echo __('Description:'); ?></label>
                     </div>
                     <div class="col-sm-8">
                         <textarea rows="5" class="description input-flat" id="custom_event_description" name="description"><?php echo $event->getDescription(); ?></textarea>
@@ -40,7 +40,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-4">
-                        <label for="custom_event_start_at" class="control-label"><?php echo $this->_('Beginning date:'); ?></label>
+                        <label for="custom_event_start_at" class="control-label"><?php echo __('Beginning date:'); ?></label>
                     </div>
                     <div class="col-sm-8">
                         <input class="input-flat calendar required" type="text" id="custom_event_start_at" value="<?php echo $event->getStartAt(); ?>" name="start_at" />
@@ -48,7 +48,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-4">
-                        <label for="custom_event_end_at" class="control-label"><?php echo $this->_('Ending date:'); ?></label>
+                        <label for="custom_event_end_at" class="control-label"><?php echo __('Ending date:'); ?></label>
                     </div>
                     <div class="col-sm-8">
                         <input class="end_at input-flat calendar required" type="text" id="custom_event_end_at" value="<?php echo $event->getEndAt(); ?>" name="end_at" />
@@ -56,7 +56,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-4">
-                        <label for="custom_event_start_time_at" class="control-label"><?php echo $this->_('Beginning time:'); ?></label>
+                        <label for="custom_event_start_time_at" class="control-label"><?php echo __('Beginning time:'); ?></label>
                     </div>
                     <div class="col-sm-8">
                         <input class="input-flat calendar required" type="text" id="custom_event_start_time_at" value="<?php echo $event->getStartTimeAt(); ?>" name="start_time_at" />
@@ -64,7 +64,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-4">
-                        <label for="custom_event_address" class="control-label"><?php echo $this->_('Address:'); ?></label>
+                        <label for="custom_event_address" class="control-label"><?php echo __('Address:'); ?></label>
                     </div>
                     <div class="col-sm-8">
                         <input class="address input-flat" type="text" id="custom_event_address" value="<?php echo $event->getAddress(); ?>" name="address" />
@@ -73,26 +73,17 @@
 
                 <div id="custom_event_location" class="custom_event_location form-group">
                     <div class="col-sm-4">
-                        <label for="custom_event_location_label" class="control-label"><?php echo $this->_('Location:'); ?></label>
+                        <label for="custom_event_location_label" class="control-label"><?php echo __('Location:'); ?></label>
                     </div>
                     <div class="col-sm-8">
-                        <input class="custom_event_location input-flat" type="text" id="custom_event_location_label" value="<?php echo $event->getLocationLabel(); ?>" name="location_label" placeholder="<?php echo $this->_("Label"); ?>" />
-                        <input class="custom_event_location input-flat" type="text" id="custom_event_location_url" value="<?php echo $event->getLocationUrl(); ?>" name="location_url" placeholder="<?php echo $this->_("URL"); ?>" />
+                        <input class="custom_event_location input-flat" type="text" id="custom_event_location_label" value="<?php echo $event->getLocationLabel(); ?>" name="location_label" placeholder="<?php echo __("Label"); ?>" />
+                        <input class="custom_event_location input-flat" type="text" id="custom_event_location_url" value="<?php echo $event->getLocationUrl(); ?>" name="location_url" placeholder="<?php echo __("URL"); ?>" />
                     </div>
                 </div>
 
-                <?php /* 
                 <div class="form-group">
                     <div class="col-sm-4">
-                        <label for="custom_event_in_app_value_id" class="control-label"><?php echo $this->_('In App Page ID:'); ?></label>
-                    </div>
-                    <div class="col-sm-8">
-                        <input class="in_app_value_id input-flat input" type="text" id="custom_event_in_app_value_id" value="<?php echo $event->getInAppValueId(); ?>" name="in_app_value_id" />
-                    </div>
-                </div> */ ?>
-                <div class="form-group">
-                    <div class="col-sm-4">
-                        <label for="custom_event_rsvp" class="control-label"><?php echo $this->_('RSVP URL:'); ?></label>
+                        <label for="custom_event_rsvp" class="control-label"><?php echo __('RSVP URL:'); ?></label>
                     </div>
                     <div class="col-sm-8">
                         <input class="rsvp input-flat" type="text" id="custom_event_rsvp" value="<?php echo $event->getRsvp(); ?>" name="rsvp" />
@@ -100,7 +91,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-4">
-                        <label for="custom_event_ticket_shop_url" class="control-label"><?php echo $this->_('Ticket Shop URL:'); ?></label>
+                        <label for="custom_event_ticket_shop_url" class="control-label"><?php echo __('Ticket Shop URL:'); ?></label>
                     </div>
                     <div class="col-sm-8">
                         <input class="ticket_shop_url input-flat" type="text" id="custom_event_ticket_shop_url" value="<?php echo $event->getTicketShopUrl(); ?>" name="ticket_shop_url" />
@@ -109,7 +100,7 @@
                 <?php foreach($websites as $k => $website) : ?>
                 <div id="custom_event_website_<?php echo $k ?>" class="custom_event_website form-group group_<?php echo $k ?>">
                     <div class="col-sm-4">
-                        <label for="custom_event_website_<?php echo $k ?>" class="control-label"><?php echo $this->_('Website:'); ?></label>
+                        <label for="custom_event_website_<?php echo $k ?>" class="control-label"><?php echo __('Website:'); ?></label>
                     </div>
                     <div class="col-sm-8">
                         <input class="custom_event_website_label_<?php echo $k ?> input-flat" type="text" id="custom_event_website_label_<?php echo $k ?>" value="<?php echo $website["label"]; ?>" name="websites[<?php echo $k ?>][label]" />
@@ -122,11 +113,11 @@
                 <div id="custom_event_website_new">
                     <div class="custom_event_website form-group group_new">
                         <div class="col-sm-4">
-                            <label for="custom_event_website_label_new" class="control-label"><?php echo $this->_('Website:'); ?></label>
+                            <label for="custom_event_website_label_new" class="control-label"><?php echo __('Website:'); ?></label>
                         </div>
                         <div class="col-sm-8">
-                            <input class="custom_event_website_new input-flat" type="text" id="custom_event_website_label_new" value="" name="websites[new][label]" placeholder="<?php echo $this->_("Label"); ?>" />
-                            <input class="custom_event_website_new input-flat" type="text" id="custom_event_website_url_new" value="" name="websites[new][url]" placeholder="<?php echo $this->_("URL"); ?>" />
+                            <input class="custom_event_website_new input-flat" type="text" id="custom_event_website_label_new" value="" name="websites[new][label]" placeholder="<?php echo __("Label"); ?>" />
+                            <input class="custom_event_website_new input-flat" type="text" id="custom_event_website_url_new" value="" name="websites[new][url]" placeholder="<?php echo __("URL"); ?>" />
                             <a class="remove remove_website btn color-blue" href="javascript:void(0)" rel="new" onclick="custom.removeWebsite('new')"><i class="fa fa-times"></i></a>
                         </div>
                     </div>
@@ -134,19 +125,19 @@
                 <div class="form-group">
                     <div class="col-sm-8 col-sm-offset-4">
                         <button id="custom_add_website" class="btn btn-block color-blue" type="button">
-                            <?php echo $this->_("Add a Website"); ?>
+                            <?php echo __("Add a Website"); ?>
                         </button>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-sm-4">
-                        <label><?php echo $this->_('Illustration:'); ?></label>
+                        <label><?php echo __('Illustration:'); ?></label>
                     </div>
                     <div class="col-sm-8">
                         <!--[if gte IE 10]><!-->
                         <button class="upload_picture btn color-blue btn-block" type="button">
-                            <?php echo $event->getPicture() ? $this->_("Change picture") : $this->_("Add a picture"); ?>
+                            <?php echo $event->getPicture() ? __("Change picture") : __("Add a picture"); ?>
                         </button>
                         <!--<![endif]-->
                         <input style="display:none" class="uploader_picture input-flat" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
@@ -201,5 +192,30 @@
         .pp_content div .product_formats table tr td input {
             width: 145px;
         }
+
+        .content-overflow {
+            height: 530px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
     </style>
+
+    <script type="text/javascript">
+        custom.website_template = $("#custom_event_website_new").html();
+        $("#custom_event_website_new").remove();
+        $('#custom_event_start_at').datetimepicker({
+            dateFormat: 'yy-mm-dd'
+        });
+        $('#custom_event_end_at').datetimepicker({
+            dateFormat: 'yy-mm-dd'
+        });
+
+        $('#custom_event_description').ckeditor(ckeditor_config.default);
+        $("#custom_add_website").click(function() {
+            var html = custom.website_template;
+            html = html.replaceAll("new", $(".custom_event_website").length+1);
+            $("#custom_add_website").parent().parent().before(html);
+        });
+        uploadPicture();
+    </script>
 </div>
