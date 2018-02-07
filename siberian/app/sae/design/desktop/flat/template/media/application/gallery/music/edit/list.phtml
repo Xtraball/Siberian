@@ -90,35 +90,15 @@
     <script src="https://connect.soundcloud.com/sdk.js"></script>
     <script type="text/javascript">
 
-        $('.edit_playlist_type').prettyPhoto({
-            default_width: 900,
-            show_title: false,
-            deeplinking: false,
-            social_tools: '',
-            gallery_markup: '',
-            keyboard_shortcuts: false,
-            changepicturecallback: function() {
-                eval($('.pp_inline script').html());
-            },
-            theme: 'pp_none'
-        });
-
-
-        function reloadPP() {
-            $('.edit_album').prettyPhoto({
-                default_width: 900,
-                show_title: false,
-                deeplinking: false,
-                social_tools: '',
-                gallery_markup: '',
-                keyboard_shortcuts: false,
-                changepicturecallback: function() {
-                    eval($('.pp_inline script').html());
-                },
-                theme: 'pp_none'
+        var playtListType = $('.edit_playlist_type');
+        playtListType.off('click');
+        playtListType.on('click', function(event) {
+            event.preventDefault();
+            var el = $(this);
+            $.featherlight(el.attr('href'), {
+                type: 'ajax'
             });
-        }
-        reloadPP();
+        });
 
         $('#album_edit').sortable({
             handle : '.handle',
@@ -226,6 +206,11 @@
     .album_edit-placeholder {
         height: 20px;
         border: dotted 1px;
+    }
+
+    .featherlight-content {
+        min-width: 50vw;
+        max-width: 80vw;
     }
 
     /*Lighbox*/
