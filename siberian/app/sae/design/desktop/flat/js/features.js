@@ -1,5 +1,5 @@
 /*globals
- ckeditor_available_lang, ckeditor_language, datepicker_regional, ckeditor_config, Uploader
+ ckeditor_available_lang: true, ckeditor_language: true, datepicker_regional, ckeditor_config: true, Uploader
  */
 
 // Handle every elements for Forms on the Fly!
@@ -483,7 +483,13 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
                         /** Do nothing */
                     } else if (form.hasClass('callback')) {
                         var callback = form.data('callback');
-                        if (typeof callback !== 'undefined') {
+                        if (typeof callback === 'function') {
+                            try {
+                                callback(data);
+                            } catch (e) {
+                                console.log('unable to execute callback ' + callback);
+                            }
+                        } else if (typeof callback !== 'undefined') {
                             try {
                                 eval(callback);
                             } catch (e) {

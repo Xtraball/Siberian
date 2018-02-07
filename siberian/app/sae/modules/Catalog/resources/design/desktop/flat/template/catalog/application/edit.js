@@ -17,9 +17,6 @@ $(document).ready(function () {
             opacity: 0.7,
             isAllowed: function (placeholder, placeholderParent, currentItem) {
                 // Category check for nested!
-                console.log('currentItem.attr(\'typeName\')', currentItem.attr('typeName'));
-                console.log('placeholderParent', placeholderParent);
-                console.log('placeholderParent.parents', placeholderParent.parents('li.category-sortable'));
                 if (currentItem.attr('typeName') === 'category' &&
                     (
                         (placeholderParent !== undefined &&
@@ -59,7 +56,8 @@ $(document).ready(function () {
         var jElement = $(element);
         var rel = jElement.attr('rel');
         var firstParent = jElement.parent('ul');
-        var mappedPositions = $.map($.makeArray(firstParent.find('> li.category-sortable[typeName="category"]')), function (val) {
+        var typeName = jElement.attr('typeName');
+        var mappedPositions = $.map($.makeArray(firstParent.find('> li.category-sortable[typeName="' + typeName + '"]')), function (val) {
             return $(val).attr('rel');
         });
 
@@ -70,23 +68,40 @@ $(document).ready(function () {
             parentId = 'root';
         }
 
-        return {
-            'category': {
-                categoryId: rel,
-                parentId: parentId
-            },
-            'positions': mappedPositions
-        };
+        var result = {};
+        switch (typeName) {
+            case 'category':
+                result = {
+                    'category': {
+                        categoryId: rel,
+                        parentId: parentId
+                    },
+                    'positions': mappedPositions
+                };
+                break;
+            case 'product':
+                result = {
+                    'product': {
+                        productId: rel,
+                        parentId: parentId
+                    },
+                    'positions': mappedPositions
+                };
+                break;
+        }
+
+        return result;
     };
 
     var updatePositions = function (element) {
         var positions = getPositions(element);
+        var typeName = element.attr('typeName');
 
         $.ajax({
             url: '/catalog/application/updatepositions/value_id/' + valueId,
             method: 'POST',
             data: {
-                actionName: 'update',
+                typeName: typeName,
                 positions: positions,
                 valueId: valueId
             },
@@ -151,16 +166,70 @@ $(document).ready(function () {
         });
     });
 
-    // Delete folder and childrens category!
+    // Always append to root category!
+    $(document).off('click', '.create-category');
+    $(document).on('click', '.create-category', function () {
+        $.ajax({
+            url: '/catalog/application/createcategory/value_id/' + valueId,
+            method: 'POST',
+            data: {
+                valueId: valueId
+            },
+            dataType: 'json',
+            success: function (data) {
+                // Append subfolder!
+                $('.category-sortable[rel="root"] ~ ul')
+                    .append(data.placeholder);
+
+                // Allows to rebind the form!
+                updateProductCount();
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    });
+
+    // Delete category and childrens category!
     $(document).off('click', '.category-delete');
     $(document).on('click', '.category-delete', function () {
         var deleteButton = $(this);
         var categoryId = deleteButton.attr('rel');
-        var categoryName = $('.category-sortable[rel="' + categoryId + '"] > span > input.category-title').val();
+        var typeName = deleteButton.attr('typeName');
+
+        var categoryName;
+        var title;
+        var text;
+        var data;
+        switch (typeName) {
+            case 'category':
+                    title = words.deleteTitle;
+                    categoryName = $('.category-sortable[rel="' + categoryId + '"] > span > input.category-title').val();
+                    text = words.deleteText.replace('#CATEGORY_NAME#', '<b>' + categoryName + '</b>');
+                    data = {
+                        actionName: 'delete',
+                        typeName: 'category',
+                        categoryId: categoryId,
+                        valueId: valueId
+                    };
+                break;
+            case 'product':
+                    title = words.deleteProductTitle;
+                    categoryName = $('.category-sortable[rel="' + categoryId + '"] > span > span.category-title').text();
+                    text = words.deleteProductText.replace('#PRODUCT_NAME#', '<b>' + categoryName + '</b>');
+                    data = {
+                        actionName: 'delete',
+                        typeName: 'product',
+                        productId: categoryId,
+                        valueId: valueId
+                    };
+                break;
+        }
+
         swal({
             html: true,
-            title: words.deleteTitle,
-            text: words.deleteText.replace('#CATEGORY_NAME#', '<b>' + categoryName + '</b>'),
+            title: title,
+            text: text,
             showCancelButton: true,
             confirmButtonColor: '#ff3a2e',
             confirmButtonText: words.confirmDelete,
@@ -170,11 +239,7 @@ $(document).ready(function () {
             $.ajax({
                 url: '/catalog/application/deletecategory/value_id/' + valueId,
                 method: 'POST',
-                data: {
-                    actionName: 'delete',
-                    categoryId: categoryId,
-                    valueId: valueId
-                },
+                data: data,
                 dataType: 'json',
                 success: function (data) {
                     // Remove DOM element (and it's childrens)
@@ -186,6 +251,81 @@ $(document).ready(function () {
                     console.log(response);
                 }
             });
+        });
+    });
+
+    var toggleNestedFormState = false;
+    var toggleNestedForm = function () {
+        toggleNestedFormState = !toggleNestedFormState;
+
+        var nested = $('.category-container');
+        var productForm = $('.product-container');
+        if (toggleNestedFormState) {
+            nested.hide();
+            productForm.slideDown();
+        } else {
+            productForm.hide();
+            nested.slideDown();
+        }
+    };
+
+    // Loader template!
+    var loaderTempalte = '<div class="feature-loader"><img src="/app/sae/design/desktop/flat/images/customization/ajax/ajax-loader-black.gif"></div>';
+
+    $(document).off('click', '#product-form-container #sbback');
+    $(document).on('click', '#product-form-container #sbback', function () {
+        toggleNestedForm();
+
+        // Clears the form!
+        var formContainer = $('#product-form-container');
+        formContainer.html('');
+        formContainer.removeData('binded');
+    });
+
+    // Create a product!
+    $(document).off('click', '.category-add-product');
+    $(document).on('click', '.category-add-product', function () {
+        toggleNestedForm();
+        var formContainer = $('#product-form-container');
+        formContainer.append(loaderTempalte);
+
+        var currentButton = $(this);
+        var parentId = currentButton.attr('rel');
+
+        $.ajax({
+            url: '/catalog/application/loadproductform/value_id/' + valueId,
+            method: 'POST',
+            data: {
+                parentId: parentId,
+                valueId: valueId
+            },
+            dataType: 'json',
+            success: function (data) {
+                // Append form!
+                formContainer
+                    .html('')
+                    .append(data.form);
+
+                // Allows to rebind the form!
+                formContainer.removeData('binded');
+                formContainer.find('form').data('callback', function (callbackData) {
+                    if (callbackData.success !== undefined && callbackData.success) {
+                        toggleNestedForm();
+                        var categoryId = callbackData.categoryId;
+                        if ($('li.category-sortable[rel="' + categoryId + '"] > ul').length === 0) {
+                            $('li.category-sortable[rel="' + categoryId + '"]')
+                                .append('<ul/>');
+                        }
+                        $('li.category-sortable[rel="' + categoryId + '"] > ul')
+                            .append(callbackData.productLine);
+                    }
+                    // Otherwise do nothing, form already displayed bad data!
+                });
+                bindForms('#product-form-container');
+            },
+            error: function (response) {
+                console.log(response);
+            }
         });
     });
 

@@ -17,5 +17,9 @@ abstract class Catalog_Model_Product_Abstract extends Core_Model_Default
     public function save() {
         return $this;
     }
+
+    public function superSave() {
+        return parent::save();
+    }
     
 }

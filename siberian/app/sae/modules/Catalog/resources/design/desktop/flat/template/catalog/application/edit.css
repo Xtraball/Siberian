@@ -6,11 +6,14 @@ li.category-sortable {
     padding: 0;
 }
 
-ul.nested-folders {
+ul.nested-categories {
     font-size: 15px;
+    max-height: 700px;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
-ul.nested-folders li {
+ul.nested-categories li {
     background-color: white;
 }
 
@@ -39,6 +42,10 @@ li.category-sortable.active > span.category-hover {
     margin-right: 8px;
 }
 
+.category-add-product:hover {
+    color: #0099C7;
+}
+
 .category-delete:hover {
     color: rgb(255, 58, 46);
 }
@@ -54,6 +61,7 @@ div.category-title-add {
     margin-bottom: 16px;
 }
 
+div.product-container,
 div.category-container {
     padding-top: 16px;
 }
@@ -65,7 +73,7 @@ div.category-container {
     height: 32px;
 }
 
-ul.nested-folders, ul.nested-folders ul {
+ul.nested-categories, ul.nested-categories ul {
     list-style-type: none;
     padding: 0;
 }
@@ -98,87 +106,26 @@ input.category-title {
     max-width: calc(100% - 80px);
 }
 
-li.category-sortable.active > span.category-hover input.category-title,
-span.category-hover:hover input.category-title {
-
-}
-
 li.category-sortable {
     margin-top: 4px;
-}
-
-form .category-form-title {
-    margin: 0 15px;
-    border-bottom: 1px solid rgb(119, 119, 119);
-    padding-bottom: 10px;
-}
-
-ul.nested-folders.deep {
-    font-size: 12px;
-}
-
-ul.nested-folders.deep li.category-sortable {
-    margin-top: 2px;
-}
-
-ul.nested-folders.deep span.category-hover {
-    padding: 4px 8px 2px;
-}
-
-ul.nested-folders.deep i.category-sortable-handle {
-    margin: 3px 6px 0 0;
-}
-
-ul.nested-folders.deep .nested-sortable ul {
-    padding-left: 18px !important;
-}
-
-ul.nested-folders.deep .placeholder {
-    margin-top: 2px;
-    border: 2px dashed #0099C7;
-    border-radius: 2px;
-    height: 26px;
 }
 
 .category-nested-error {
     border-color: red !important;
 }
 
-#folder_add_page_list {
-    padding: 0;
-    margin: 0;
-    list-style-type: none;
-}
-
-#folder_add_page_list .folder_add_page {
-    text-align: center;
-    margin-bottom: 10px;
-    list-style: none;
-    padding-right: 15px;
-    width: 98px;
-    display: inline-block;
-    padding-left: 0;
-}
-
-
-#folder_add_page_list li span {
-    display: block;
-    font-size: 0.73em;
-    text-transform: uppercase;
-    margin-top: 0.2em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
 .sweet-alert p {
     padding: 10px 20px !important;
 }
 
-ul#folder_add_page_list li {
-    filter: grayscale(100%);
+.product-format-container {
+    padding: 0 15px;
 }
 
-ul#folder_add_page_list li:hover {
-    filter: grayscale(0%);
+button.delete-format {
+    padding: 9px 12px 9px 8px;
+}
+
+.product-format-line {
+    margin-top: 15px;
 }
