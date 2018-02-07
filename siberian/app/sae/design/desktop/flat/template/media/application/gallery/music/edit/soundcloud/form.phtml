@@ -3,16 +3,16 @@
 <?php $option_value = $this->getOptionValue(); ?>
 
 <h3 class="title-editor border-blue text-center">
-    <?php echo $this->_('Soundcloud') ?>
+    <?php echo __('Soundcloud') ?>
 </h3>
 <div class="container-fluid">
     <div id="soundcloud_init" class="row first-row-feature">
         <div class="col-md-12">
             <button class="btn color-blue" type="button" id="soundcloud_connect">
-                <?php echo $this->_('Login') ?>
+                <?php echo __('Login') ?>
             </button>
             <button class="btn color-blue" type="button" id="soundcloud_search">
-                <?php echo $this->_('Search') ?>
+                <?php echo __('Search') ?>
             </button>
         </div>
     </div>
@@ -20,7 +20,7 @@
         <div class="col-md-12">
             <hr class="color-blue"/>
             <div class="playlist_select_cont">
-                <?php echo $this->_('Logged in as') ?> <span id="soundcloud_name"></span>
+                <?php echo __('Logged in as') ?> <span id="soundcloud_name"></span>
                 <br/><br/>
                 <select id="playlist_select" class="styled-select color-blue">
                 </select>
@@ -32,10 +32,10 @@
         <div class="row">
             <div class="col-md-12">
                 <button type="button" class="select_soundcloud_type btn color-blue" rel="playlists">
-                    <?php echo $this->_('Playlist') ?>
+                    <?php echo __('Playlist') ?>
                 </button>
                 <button type="button" class="select_soundcloud_type btn color-blue" rel="tracks">
-                    <?php echo $this->_('Title') ?>
+                    <?php echo __('Title') ?>
                 </button>
             </div>
         </div>
@@ -45,7 +45,7 @@
                     <input type="text" class="input-flat" id="soundcloud_search_input" name="search_term"/>
                 </div>
                 <div class="col-sm-4">
-                    <button class="search_soundcloud btn color-blue" type="button"><?php echo $this->_('Search') ?></button>
+                    <button class="search_soundcloud btn color-blue" type="button"><?php echo __('Search') ?></button>
                     <div class="loader" id="search_loader" alt="Loading" title="Loading" style="display: none;"></div>
                 </div>
             </div>
@@ -59,7 +59,7 @@
         <p class="left" id="select">
             <label for="select_all">
                 <input type="checkbox" value="select_all" id="select_all" data-toggle="checkbox" class="color-blue checkbox">
-                <?php echo $this->_('Select all') ?>
+                <?php echo __('Select all') ?>
             </label>
         </p>
         <ul id="results" class="row"></ul>
@@ -67,7 +67,7 @@
             <button id="previous" class="change_page validate btn color-blue" type="button"><i class="fa fa-chevron-left"></i></button>
             <button id="next" class="change_page validate btn color-blue" type="button"><i class="fa fa-chevron-right"></i></button>
         </div>
-        <button onclick="$('#save_soundcloud').submit();" class="pull-right save_selection btn btn-block color-blue" type="button"><?php echo $this->_('Add') ?></button>
+        <button onclick="$('#save_soundcloud').submit();" class="pull-right save_selection btn btn-block color-blue" type="button"><?php echo __('Add') ?></button>
     </div>
     <form style="display:none" id="save_soundcloud" action="<?php echo $this->getUrl('media/application_gallery_music/savesoundcloud'); ?>" method="post">
         <input type="hidden" name="gallery_id" value="<?php echo $this->getGalleryId() ?>">
@@ -255,9 +255,9 @@
                         }
                         album_element += '<span class="album_title">'+album_name+'</span>';
                         if(playlist.track_count == 1) {
-                            var tracks = '<?php echo $this->_('title') ?>';
+                            var tracks = '<?php echo __('title') ?>';
                         } else {
-                            var tracks = '<?php echo $this->_('titles') ?>';
+                            var tracks = '<?php echo __('titles') ?>';
                         }
                         album_element += '<span class="album_artist">'+playlist.user.username+'</span><br/>';
                         album_element += '<span class="album_tracks">'+playlist.track_count+' '+tracks+'</span></br>';
@@ -334,8 +334,7 @@
             if(datas.success) {
                 $('#album_edit').append(datas.content);
                 iframe.f.reload();
-                reloadPP();
-                $.prettyPhoto.close();
+                $.featherlight.current().close();
             }
         });
         return false;
