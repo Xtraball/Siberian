@@ -369,27 +369,6 @@ var Uploader = Class.extend({
         message.hide();
     },
     crop: function (params) {
-        if ($('#crop_image').length < 1) {
-            $('body').append('<a style="display:none" id="crop_image" rel="prettyPhoto[ajax]" href=""></a>');
-        }
-
-        var ppInline = $('.pp_inline');
-        if (ppInline.length > 0) {
-           this.current_pretty_photo_content = ppInline.clone(true);
-        }
-
-        $('a#crop_image').prettyPhoto({
-            default_width: 800,
-            show_title: false,
-            social_tools: '',
-            deeplinking: false,
-            keyboard_shortcuts: false,
-            theme: 'pp_none',
-            changepicturecallback: function () {
-                eval($('.pp_inline script').html());
-            },
-            callback: function () {}
-        });
         params['url'] += '/picture/' + params['file'];
         params['url'] += '/outputWidth/' + params['output_w'];
         params['url'] += '/outputHeight/' + params['output_h'];
@@ -413,20 +392,6 @@ var Uploader = Class.extend({
         }
 
         params['url'] += '?ajax=true';
-
-        console.log('pretty-photo', params);
-
-        /**if (this.current_pretty_photo_content.length > 0) {
-            $.ajax({
-                type: 'GET',
-                url: params['url']
-            })
-            .done(function (datas) {
-                ppInline.html(datas);
-            });
-        } else {
-            $.prettyPhoto.open(params['url']);
-        }*/
 
         $.featherlight(params['url'], {
             type: 'ajax'

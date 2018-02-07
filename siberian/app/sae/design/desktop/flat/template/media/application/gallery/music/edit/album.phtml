@@ -11,7 +11,7 @@
                 <img class="album_illus" src="<?php echo $album->getArtworkUrl() ?>" width="150px" height="150px"/>
             <?php endif; ?>
         </div>
-        <span class="track_count pull-left"><?php echo $tracks->count() ?> <?php echo $tracks->count() == 1 ? $this->_('title') : $this->_('titles') ?></span>
+        <span class="track_count pull-left"><?php echo $tracks->count() ?> <?php echo $tracks->count() == 1 ? __('title') : __('titles') ?></span>
     </div>
     <div class="container-fluid">
         <ul id="track_edit" class="table_row_galleries sortable list-group">
@@ -71,13 +71,13 @@
         var $li = $(this).parent().parent();
         var id = $(this).parent().find('input[name="track_id[]"]').val();
         var album_id = $(this).parent().find('input[name="album_id"]').val();
-        if(confirm('<?php echo addslashes($this->_("Are you sure you want to delete this track?")); ?>')) {
+        if(confirm('<?php echo addslashes(__("Are you sure you want to delete this track?")); ?>')) {
             reload($(this.parentNode), '<?php echo $this->getUrl('media/application_gallery_music/deleteelement'); ?>', true, function(datas) {
                 if(datas.success) {
                     var track_count = $('#track_edit li').length;
-                    var chanson = '<?php echo $this->_("titles") ?>';
+                    var chanson = '<?php echo __("titles") ?>';
                     if(track_count == 1) {
-                        chanson = '<?php echo $this->_("title") ?>';
+                        chanson = '<?php echo __("title") ?>';
                     }
                     $('.track_count').html(track_count+' '+chanson);
                     $('#album_edit li[rel="'+album_id+'"]').find('.edit_album i').html('('+track_count+' '+chanson+')');

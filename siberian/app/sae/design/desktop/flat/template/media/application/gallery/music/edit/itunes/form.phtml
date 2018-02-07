@@ -1,19 +1,19 @@
 <?php $option_value = $this->getOptionValue(); ?>
 <h3 class="title-editor border-blue text-center">
-    <?php echo $this->_('iTunes') ?>
+    <?php echo __('iTunes') ?>
 </h3>
 <div class="first-row-feature content-color">
     <form id="search_itunes" action="<?php echo $this->getUrl('media/application_gallery_music/searchitunes'); ?>" method="post" class="container-fluid form-horizontal">
         <div class="form-group">
             <div class="col-md-12">
                 <button type="button" class="select_itunes_type btn color-blue active" rel="musicArtist">
-                    <?php echo $this->_('Artist') ?>
+                    <?php echo __('Artist') ?>
                 </button>
                 <button type="button" class="select_itunes_type btn color-blue" rel="album">
-                    <?php echo $this->_('Album') ?>
+                    <?php echo __('Album') ?>
                 </button>
                 <button type="button" class="select_itunes_type btn color-blue" rel="musicTrack">
-                    <?php echo $this->_('Title') ?>
+                    <?php echo __('Title') ?>
                 </button>
             </div>
         </div>
@@ -21,10 +21,10 @@
         <div class="form-group">
             <div id="table_list_playlist_new" class="list margin-top-10">
                 <div class="col-sm-4">
-                    <input type="text" id="itunes_search" name="search_term" class="input-flat" placeholder="<?php echo $this->_("Search"); ?>" />
+                    <input type="text" id="itunes_search" name="search_term" class="input-flat" placeholder="<?php echo __("Search"); ?>" />
                 </div>
                 <div class="col-sm-4">
-                    <button onclick="$('#search_itunes').submit()" class="search_itunes btn color-blue" type="button"><?php echo $this->_('Search') ?></button>
+                    <button onclick="$('#search_itunes').submit()" class="search_itunes btn color-blue" type="button"><?php echo __('Search') ?></button>
                     <div class="loader" id="search_loader" alt="Loading" title="Loading" style="display: none;"></div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
             <div id="select">
                 <label for="select_all">
                     <input type="checkbox" value="select_all" id="select_all" data-toggle="checkbox" class="color-blue checkbox-inline">
-                    <?php echo $this->_('Select all') ?>
+                    <?php echo __('Select all') ?>
                 </label>
             </div>
             <ul id="results" style="padding-top: 10px;" class="row"></ul>
@@ -56,7 +56,7 @@
                 <button id="previous" class="change_page validate btn color-blue" type="button"><i class="fa fa-chevron-left"></i></button>
                 <button id="next" class="change_page validate btn color-blue" type="button"><i class="fa fa-chevron-right"></i></button>
             </div>
-            <button onclick="$('#save_itunes').submit()" class="right save_selection btn btn-block color-blue pull-right" type="button"><?php echo $this->_('Add') ?></button>
+            <button onclick="$('#save_itunes').submit()" class="right save_selection btn btn-block color-blue pull-right" type="button"><?php echo __('Add') ?></button>
         </div>
     </div>
 
@@ -201,15 +201,14 @@
             if(datas.success) {
                 $('#album_edit').append(datas.content);
                 iframe.f.reload();
-                reloadPP();
-                $.prettyPhoto.close();
+                $.featherlight.current().close();
             }
         });
         return false;
     });
 
     $('.deleteCurrentGallery').click(function(){
-        if(confirm('<?php echo addslashes($this->_("Are you sure you want to delete this element?")); ?>')) {
+        if(confirm('<?php echo addslashes(__("Are you sure you want to delete this element?")); ?>')) {
             reload($(this.parentNode), '<?php echo $this->getUrl('media/application_gallery_music/deletecontent'); ?>', true, function(datas) {
                 if(datas.success) {
                     page.reload();
@@ -291,9 +290,9 @@
                 }
                 album_element += '<span class="album_title">'+album_name+'</span>';
                 if(album.trackCount == 1) {
-                    var tracks = '<?php echo $this->_('title') ?>';
+                    var tracks = '<?php echo __('title') ?>';
                 } else {
-                    var tracks = '<?php echo $this->_('titles') ?>';
+                    var tracks = '<?php echo __('titles') ?>';
                 }
                 if(album.artistName > 15) {
                     album.artistName = album.artistName(0,15)+'...';

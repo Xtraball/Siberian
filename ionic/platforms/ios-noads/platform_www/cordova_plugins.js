@@ -381,7 +381,6 @@ module.exports.metadata =
   "cordova-plugin-camera": "2.3.1-dev",
   "com.verso.cordova.clipboard": "0.1.0",
   "cordova-plugin-device": "1.1.6-dev",
-  "cordova-plugin-extension": "1.5.4",
   "cordova-plugin-file": "4.3.3-dev",
   "es6-promise-plugin": "4.2.2",
   "cordova-plugin-geofence": "0.6.0",

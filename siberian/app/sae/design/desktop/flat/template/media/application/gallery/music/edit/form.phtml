@@ -5,14 +5,14 @@
 <form id="save_form" action="<?php echo $this->getUrl('media/application_gallery_music/editpost'); ?>" method="post" class="form-horizontal">
     <div class="form-group">
         <div class="col-sm-6 col-sm-offset-2">
-            <label for="playlist_title"><?php echo $this->_('Playlist title:') ?> <span class="required-entry required"> *</span></label>
+            <label for="playlist_title"><?php echo __('Playlist title:') ?> <span class="required-entry required"> *</span></label>
         </div>
     </div>
     <div class="form-group">
         <div class="col-sm-2 col-xs-2" id="upload_image_cont">
             <!--[if gte IE 10]><!-->
             <button id="upload_music_playlist_image" <?php echo $gallery->getArtworkUrl() ? 'style="display:none"' : '' ?> type="button" class="upload_music_picture bg btn btn-grey">
-                <?php echo $this->_('Add a picture') ?>
+                <?php echo __('Add a picture') ?>
             </button>
             <!--<![endif]-->
             <input id="music_playlist_image_file" <?php echo $gallery->getArtworkUrl() ? 'style="display:none"' : '' ?> class="uploader" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
@@ -23,7 +23,7 @@
             <input type="text" class="input-flat required" id="playlist_title" name="name" value="<?php echo $gallery->getName() ?>">
         </div>
         <div class="col-sm-1 col-xs-1">
-            <button onclick="$('#save_form').submit();" class="validate btn color-blue" type="button"><?php echo $this->_("OK"); ?></button>
+            <button onclick="$('#save_form').submit();" class="validate btn color-blue" type="button"><?php echo __("OK"); ?></button>
         </div>
     </div>
     
