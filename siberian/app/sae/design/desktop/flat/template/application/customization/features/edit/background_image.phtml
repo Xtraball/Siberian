@@ -24,7 +24,7 @@
                             <img src="<?php echo $this->getImage('ajax/loader.gif'); ?>" />
                         </div>
                     </button>
-                    <a style="display:none" id="crop_image" rel="prettyPhoto[ajax]" href="<?php echo $this->getUrl('template/crop/crop', array('option_value_id' => $this->getValueId())); ?>?ajax=true"></a>
+                    <a style="display:none" id="crop_image" href="<?php echo $this->getUrl('template/crop/crop', array('option_value_id' => $this->getValueId())); ?>?ajax=true"></a>
                 </div>
                 <button class="pull-left color-blue btn" id="delete_background_image" type="button"<?php if(!$option_value->hasBackgroundImage()) : ?> style="display:none;"<?php endif; ?>><i class="fa fa-times"></i></button>
             </div>

@@ -1,16 +1,16 @@
 <?php $option_value = $this->getOptionValue(); ?>
 <h3 class="title-editor border-blue text-center">
-    <?php echo $this->_('Podcast') ?>
+    <?php echo __('Podcast') ?>
 </h3>
 <div class="container-fluid first-row-feature">
     <form id="search_podcast" action="<?php echo $this->getUrl('media/application_gallery_music/searchpodcast'); ?>" method="post" class="form-horizontal">
         <div id="table_list_playlist_new" class="list form-group">
             <div class="col-sm-5">
-                <input style="width:90%" type="text" class="input-flat required url" id="search_podcast_url" name="podcast_url" value="" placeholder="<?php echo $this->_('Podcast URL (iTunes format)') ?>"/>
+                <input style="width:90%" type="text" class="input-flat required url" id="search_podcast_url" name="podcast_url" value="" placeholder="<?php echo __('Podcast URL (iTunes format)') ?>"/>
                 <span class="required-entry"> *</span>
             </div>
             <div class="col-sm-4">
-                <button onclick="$('#search_podcast').submit()" class="search_podcast btn color-blue" type="button"><?php echo $this->_('Search') ?></button>
+                <button onclick="$('#search_podcast').submit()" class="search_podcast btn color-blue" type="button"><?php echo __('Search') ?></button>
                 <div class="loader" id="search_loader" alt="Loading" title="Loading" style="display: none;"></div>
             </div>
         </div>
@@ -19,7 +19,7 @@
     <div>
         <div id="podcast_results" style="display:none">
             <ul id="results" class="list-group"></ul>
-            <button onclick="$('#save_podcast').submit();" class="pull-right save_selection btn btn-block color-blue" type="button"><?php echo $this->_('Add') ?></button>
+            <button onclick="$('#save_podcast').submit();" class="pull-right save_selection btn btn-block color-blue" type="button"><?php echo __('Add') ?></button>
         </div>
     </div>
 
@@ -67,10 +67,10 @@
         var podcast_element = '<div id="podcast" class="col-md-12">';
         podcast_element += '<img class="pull-left podcast_illus" width="100px" height="100px" src="'+podcast.image+'" />';
         podcast_element += '<div class="pull-left" style="width:85%">';
-        podcast_element += '<p class="podcast_title"><?php echo $this->_('Title:') ?> '+podcast.title+'</p>';
-        podcast_element += '<p class="podcast_description"><?php echo $this->_('Description:') ?> '+podcast.description+'</p>';
-        var last_update = podcast.last_update ? podcast.last_update : "<?php echo $this->_("Unknown"); ?>";
-        podcast_element += '<p class="podcast_last_update"><?php echo $this->_('Last update:') ?> '+last_update+'</p>';
+        podcast_element += '<p class="podcast_title"><?php echo __('Title:') ?> '+podcast.title+'</p>';
+        podcast_element += '<p class="podcast_description"><?php echo __('Description:') ?> '+podcast.description+'</p>';
+        var last_update = podcast.last_update ? podcast.last_update : "<?php echo __("Unknown"); ?>";
+        podcast_element += '<p class="podcast_last_update"><?php echo __('Last update:') ?> '+last_update+'</p>';
         podcast_element += '</div>';
         podcast_element += '</div>';
         $('#podcast_results #results').append(podcast_element);
@@ -106,8 +106,7 @@
             if(datas.success) {
                 $('#album_edit').append(datas.content);
                 iframe.f.reload();
-                reloadPP();
-                $.prettyPhoto.close();
+                $.featherlight.current().close();
             }
         });
         return false;
@@ -117,7 +116,7 @@
 <style type="text/css">
     #podcast_items {
         margin-top: 20px;
-        max-height: 500px;
+        max-height: 300px;
         overflow: auto;
     }
     #podcast_items li {

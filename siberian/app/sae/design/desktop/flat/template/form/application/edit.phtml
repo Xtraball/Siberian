@@ -182,9 +182,6 @@
                 save: function(section_id) {
 
                     var div = $('#section_details_' + section_id);
-//                    div.append($('<input />').attr('type', 'hidden').attr('name', 'email').val($('#form_email').val()));
-//                    $('#email_section').val($('#form_email').val());
-
                     reload(div, '<?php echo $this->getUrl('form/application_section/editpost'); ?>', false, function(datas) {
                         if (datas.success) {
                             if (datas.category_id && div.find('.section_id').attr('id'))
@@ -206,8 +203,7 @@
 
 
                 }
-            }
-
+            };
 
             field = {
                 processEvents: function() {
@@ -216,20 +212,16 @@
                     // Ajout d'un champ
                     $('.add_field').each(function(i, el) {
                         this.bindAddField($(el));
-                    }.bind(this))
+                    }.bind(this));
 
-                    // Edition d'un champ
-                    $('.edit_field').prettyPhoto({
-                        default_width: 500,
-                        show_title: false,
-                        social_tools: '',
-                        deeplinking: false,
-                        keyboard_shortcuts: false,
-                        gallery_markup: '',
-                        changepicturecallback: function() {
-                            $('#fieldForm').submit(this.save.bind(this));
-                        }.bind(this),
-                        theme: 'pp_none'
+                    var editField = $('.edit_field');
+                    editField.off('click');
+                    editField.on('click', function(event) {
+                        event.preventDefault();
+                        var el = $(this);
+                        $.featherlight(el.attr('href'), {
+                            type: 'ajax'
+                        });
                     });
 
                     $(".fields_list").sortable({
@@ -250,7 +242,7 @@
                 },
                 cancel: function() {
                     $('#fieldForm').unbind('submit');
-                    $.prettyPhoto.close();
+                    $.featherlight.current().close();
                 },
                 remove: function(id) {
                     if (confirm("<?php echo addslashes($this->_('Are you sure you want to remove this field?')); ?>")) {
@@ -277,29 +269,6 @@
                     }
 
                 },
-                save: function() {
-                    var form = $('#fieldForm');
-
-                    if (form.valid() && $('#typeField').val() != '') {
-                        reload(form, form.attr('action'), true, function(datas) {
-                            if (datas.success) {
-                                if ($('#field_' + datas.field_id).attr('id')) {
-                                    $('#field_' + datas.field_id).replaceWith(datas.field_html);
-                                } else {
-                                    $('#section_fields_' + datas.section_id).append(datas.field_html);
-                                }
-                                form.unbind('submit');
-                                field.processEvents();
-                                $.prettyPhoto.close();
-                                iframe.f.reload();
-                            }
-                        }.bind(this));
-                    } else if ($('#typeField').val() == '') {
-                        $('#typeFieldError').show();
-                    }
-
-                    return false;
-                },
                 showOption: function() {
                     $('#options').show();
                 },
@@ -321,28 +290,20 @@
 
                 bindAddField: function(a) {
 
-                    a.click(function() {
-                        // Section id
-                        var section_id = $(this).attr('section_id');
-                        // Url
-                        var url = '<?php echo $this->getUrl('form/application_field/edit', array('option_value_id' => $this->getOptionValue()->getId())); ?>';
+                    a.off('click');
+                    a.on('click', function(event) {
+                        event.preventDefault();
+                        var link = $(this);
+                        var section_id = link.attr('section_id');
+                        var url = '<?php echo $this->getUrl('form/application_field/edit', ['option_value_id' => $this->getOptionValue()->getId()]); ?>';
                         url += '/section_id/' + section_id;
-                        $(this).attr('href', url + '?ajax=true');
+                        link.attr('href', url + '?ajax=true');
+
+                        $.featherlight(link.attr('href'), {
+                            type: 'ajax'
+                        });
 
                         return false;
-                    });
-
-                    a.prettyPhoto({
-                        default_width: 500,
-                        show_title: false,
-                        deeplinking: false,
-                        social_tools: '',
-                        gallery_markup: '',
-                        changepicturecallback: function() {
-                            $('#fieldForm').submit(this.save.bind(this));
-                        }.bind(this),
-                        keyboard_shortcuts: false,
-                        theme: 'pp_none'
                     });
                 }
 
