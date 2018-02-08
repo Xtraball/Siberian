@@ -3,10 +3,11 @@
     <catalog_application_edit>
         <views>
             <content class="application_view_customization_features_edit_tabbareditor" template="application/customization/features/edit/tabbar_editor.phtml" />
-            <content_editor class="core_view_default" template="catalog/application/edit.phtml" />
+            <content_editor class="core_view_default" template="catalog/application/edit_v2.phtml" />
         </views>
     </catalog_application_edit>
 
+    <!-- Section for set-meal -->
     <catalog_application_category_edit>
         <views>
             <content class="core_view_default" template="catalog/application/edit/categories.phtml" />
