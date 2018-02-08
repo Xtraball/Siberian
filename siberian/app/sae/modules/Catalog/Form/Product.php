@@ -5,6 +5,36 @@
  */
 class Catalog_Form_Product extends Siberian_Form_Abstract {
 
+    // Product formats!
+    public static $formatTemplate = '
+<div class="row product-format-line">
+    <div class="col-md-7">
+        <input type="text" 
+               tabindex="0"
+               class="input-flat"
+               placeholder="%TITLE_PL%"
+               value="%TITLE_VALUE%"
+               name="format[%UUID%][title]" />
+    </div>
+    <div class="col-md-3">
+        <input type="number"
+               tabindex="0"
+               step="0.0001"
+               min="0"
+               max="999999999999999"
+               class="input-flat"
+               placeholder="%PRICE_PL%"
+               value="%PRICE_VALUE%"
+               name="format[%UUID%][price]" />
+    </div>
+    <div class="col-md-2">
+        <button tabindex="-1" 
+                class="delete-format btn default_button color-blue pull-right">
+            <i class="fa fa-remove pull-right"></i>
+        </button>
+    </div>
+</div>';
+
     public function init() {
         parent::init();
 
@@ -41,41 +71,10 @@ class Catalog_Form_Product extends Siberian_Form_Abstract {
             ->addClass('default_button')
             ->addClass('form_button');
 
-        // Product formats!
-        $formatTemplate = '
-<div class="row product-format-line">
-    <div class="col-md-7">
-        <input type="text" 
-               tabindex="0"
-               class="input-flat"
-               placeholder="' . __('Format name') . '"
-               name="format[%UUID%][title]" />
-    </div>
-    <div class="col-md-3">
-        <input type="number"
-               tabindex="0"
-               step="0.0001"
-               min="0"
-               max="999999999999999"
-               class="input-flat"
-               placeholder="' . __('Price') . '"
-               name="format[%UUID%][price]" />
-    </div>
-    <div class="col-md-2">
-        <button tabindex="-1" 
-                class="delete-format btn default_button color-blue pull-right">
-            <i class="fa fa-remove pull-right"></i>
-        </button>
-    </div>
-</div>';
-
         $htmlFormat = '
 <div class="product-format-container"
      style="display: none;">
      <button class="product-add-format btn default_button color-blue">' . __('Add a format') . '</button>
-    ' . str_replace('%UUID%', uniqid(), $formatTemplate) . '
-    ' . str_replace('%UUID%', uniqid(), $formatTemplate) . '
-    ' . str_replace('%UUID%', uniqid(), $formatTemplate) . '
 </div>
 ';
         $enableFormat = $this->addSimpleCheckbox('enable_format', __('Enable product formats?'));
@@ -83,6 +82,8 @@ class Catalog_Form_Product extends Siberian_Form_Abstract {
         $productFormat = $this->addSimpleHtml('product_format', $htmlFormat);
 
         $categoryId = $this->addSimpleHidden('category_id');
+        $productId = $this->addSimpleHidden('product_id');
+        $position = $this->addSimpleHidden('position');
         $valueId = $this->addSimpleHidden('value_id');
 
         $this->addSubmit(__('Save'))
@@ -93,16 +94,16 @@ class Catalog_Form_Product extends Siberian_Form_Abstract {
         $jsHandler = '
 <script type="text/javascript">
     $(document).ready(function () {
-        function guid() {
-          function s4() {
-            return Math.floor((1 + Math.random()) * 0x10000)
-              .toString(16)
-              .substring(1);
-          }
-          return s4() + s4() + s4() + s4() + s4();
-        }
+        var guid = function () {
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                    .toString(16)
+                    .substring(1);
+            }
+            return s4() + s4() + s4() + s4() + s4();
+        };
         
-        var formatTemplate = `' . $formatTemplate . '`;
+        var formatTemplate = `' . self::$formatTemplate . '`;
         var container = $(".product-format-container");
         
         $("#enable_format").off("click");
@@ -121,7 +122,14 @@ class Catalog_Form_Product extends Siberian_Form_Abstract {
         $(".product-add-format").off("click");
         $(".product-add-format").on("click", function (event) {
             event.preventDefault();
-            container.append(formatTemplate.replace(/%UUID%/ig, guid()));
+            container.append(
+                formatTemplate
+                    .replace(/%UUID%/ig, guid())
+                    .replace(/%TITLE_PL%/ig, "' . __('New format') . '")
+                    .replace(/%TITLE_VALUE%/ig, "")
+                    .replace(/%PRICE_PL%/ig, "' . __('Price') . '")
+                    .replace(/%PRICE_VALUE%/ig, "")
+            );
         });
     });
 </script>';

@@ -38,21 +38,45 @@ class Catalog_ApplicationController extends Application_Controller_Default {
 
     public function loadproductformAction () {
         $request = $this->getRequest();
-        $parentId = $request->getParam('parentId');
+        $parentId = $request->getParam('parentId', null);
+        $productId = $request->getParam('productId', false);
         $valueId = $request->getParam('valueId');
 
         $form = new Catalog_Form_Product();
-        $form->populate([
-            'name' => __('New product'),
-            'category_id' => $parentId,
-            'value_id' => $valueId,
-        ]);
+        $product = (new Catalog_Model_Product)
+            ->find($productId);
+        if ($product->getId()) {
+            $formats = (new Catalog_Model_Product_Format_Option())
+                ->findByProductId($product->getId());
+            $form->populate($product->getData());
 
-        $payload = [
-            'success' => true,
-            'form' => $form->render(),
-            'message' => __('Success.')
-        ];
+            $formatPayload = [];
+            foreach ($formats as $format) {
+                $formatPayload[] = [
+                    'title' => addslashes($format->getTitle()),
+                    'price' => $format->getPrice(),
+                ];
+            }
+
+            $payload = [
+                'success' => true,
+                'form' => $form->render(),
+                'formats' => $formatPayload,
+                'message' => __('Success.')
+            ];
+        } else {
+            $form->populate([
+                'name' => __('New product'),
+                'category_id' => $parentId,
+                'value_id' => $valueId,
+            ]);
+
+            $payload = [
+                'success' => true,
+                'form' => $form->render(),
+                'message' => __('Success.')
+            ];
+        }
 
         $this->_sendJson($payload);
     }
@@ -132,11 +156,17 @@ class Catalog_ApplicationController extends Application_Controller_Default {
                        parentId="' . $product->getCategoryId() . '"
                        typeName="product"
                        rel="' . $product->getProductId() . '"></i>
+                    <i class="category-edit-product fa fa-pencil pull-right" 
+                       parentId="' . $product->getCategoryId() . '"
+                       typeName="product"
+                       rel="' . $product->getProductId() . '"></i>
                 </span>
             </li>';
 
                 $payload = [
                     'success' => true,
+                    'productId' => $product->getId(),
+                    'product' => $product->getData(),
                     'categoryId' => $product->getCategoryId(),
                     'productLine' => $productLine,
                     'message' => __('Success.'),
