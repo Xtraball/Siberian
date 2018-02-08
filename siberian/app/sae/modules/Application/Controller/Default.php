@@ -70,8 +70,8 @@ class Application_Controller_Default extends Admin_Controller_Default {
 
                 if (empty($htmlRender)) {
                     // Try to rebuild cache, files may have changed upon update!
-                    Siberian_Cache::__clearCache();
-                    Siberian_Cache::init();
+                    Siberian_Cache_Design::__clearCache();
+                    Siberian_Cache_Design::init();
 
                     $htmlRender = mb_convert_encoding($this->getLayout()->render(), 'UTF-8', 'UTF-8');
                 }

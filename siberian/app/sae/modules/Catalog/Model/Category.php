@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * Class Catalog_Model_Category
+ *
+ * @method integer getId()
+ * @method integer getCategoryId()
+ * @method integer getParentId()
+ * @method string getName()
+ * @method boolean getIsActive()
+ * @method $this setName(string $name)
+ * @method $this setValueId(integer $valueId)
+ * @method $this setPosition(integer $position)
+ * @method $this setParentId(integer $parentId)
+ * @method $this setIsActive(boolean $isActive)
+ * @method $this setIsDeleted(boolean $isDeleted)
+ */
 class Catalog_Model_Category extends Core_Model_Default
 {
 
@@ -16,6 +31,13 @@ class Catalog_Model_Category extends Core_Model_Default
         $this->_db_table = 'Catalog_Model_Db_Table_Category';
     }
 
+    /**
+     * @param $value_id
+     * @param null $pos_id
+     * @param bool $only_active
+     * @param bool $only_first_level
+     * @return Catalog_Model_Category[]
+     */
     public function findByValueId($value_id, $pos_id = null, $only_active = false, $only_first_level = false) {
         return $this->getTable()->findByValueId($value_id, $pos_id, $only_active, $only_first_level);
     }
