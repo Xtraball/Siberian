@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Class Catalog_Model_Product
+ *
+ * @method integer getId()
+ * @method integer getCategoryId()
+ * @method integer getParentId()
+ * @method $this setIsDeleted(boolean $isDeleted)
+ */
 class Catalog_Model_Product extends Core_Model_Default {
 
     protected $_is_cacheable = true;
@@ -139,6 +147,13 @@ class Catalog_Model_Product extends Core_Model_Default {
         return $this->getTable()->findByCategory($category_id, $use_folder, $offset);
     }
 
+    /**
+     * @param $value_id
+     * @param null $pos_id
+     * @param bool $only_active
+     * @param bool $with_menus
+     * @return Catalog_Model_Product[]
+     */
     public function findByValueId($value_id, $pos_id = null, $only_active = false, $with_menus = false) {
         return $this->getTable()->findByValueId($value_id, $pos_id, $only_active, $with_menus);
     }

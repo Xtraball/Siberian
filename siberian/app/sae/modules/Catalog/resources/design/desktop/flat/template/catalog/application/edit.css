@@ -1,0 +1,134 @@
+#design .change_layout_handler img {
+    max-height: 210px;
+}
+
+li.category-sortable {
+    padding: 0;
+}
+
+ul.nested-categories {
+    font-size: 15px;
+    max-height: 700px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+ul.nested-categories li {
+    background-color: white;
+}
+
+span.category-hover {
+    border-left: 2px solid transparent;
+    display: inline-block;
+    width: 100%;
+    padding: 8px;
+}
+
+span.category-hover:hover,
+li.category-sortable.active > span.category-hover {
+    box-shadow: 1px 1px 1px #a0a0a0;
+    border-left: 2px solid #0099C7;
+    border-radius: 0;
+}
+
+.category-edit-product,
+.category-add-product,
+.category-delete,
+.category-edit {
+    cursor: pointer;
+    margin-top: 2px;
+}
+
+.category-edit-product,
+.category-add-product {
+    margin-right: 8px;
+}
+
+.category-edit-product:hover,
+.category-add-product:hover {
+    color: #0099C7;
+}
+
+.category-delete:hover {
+    color: rgb(255, 58, 46);
+}
+
+li.category-sortable.active > span > .category-delete {
+    display: inline-block;
+}
+
+div.category-title-add {
+    height: 32px;
+    line-height: 32px;
+    font-size: 20px;
+    margin-bottom: 16px;
+}
+
+div.product-container,
+div.category-container {
+    padding-top: 16px;
+}
+
+.placeholder {
+    margin-top: 4px;
+    border: 2px dashed #0099C7;
+    border-radius: 2px;
+    height: 32px;
+}
+
+ul.nested-categories, ul.nested-categories ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+span.category-feature-count {
+    margin-left: 6px;
+}
+
+i.category-sortable-handle {
+    margin: 3px 12px 0 4px;
+    float: left;
+}
+
+.nested-sortable ul {
+    padding-left: 32px !important;
+}
+
+input.category-title {
+    display: inline-block;
+    word-break: break-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    float: left;
+    margin-top: 0;
+    padding: 0 3px;
+    border-radius: 0;
+    height: 21px;
+    font-size: 14px;
+    width: calc(100% - 80px);
+    max-width: calc(100% - 80px);
+}
+
+li.category-sortable {
+    margin-top: 4px;
+}
+
+.category-nested-error {
+    border-color: red !important;
+}
+
+.sweet-alert p {
+    padding: 10px 20px !important;
+}
+
+.product-format-container {
+    padding: 0 15px;
+}
+
+button.delete-format {
+    padding: 9px 12px 9px 8px;
+}
+
+.product-format-line {
+    margin-top: 15px;
+}
