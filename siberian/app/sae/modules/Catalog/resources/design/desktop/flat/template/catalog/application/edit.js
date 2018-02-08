@@ -324,11 +324,11 @@ $(document).ready(function () {
                     if (callbackData.success !== undefined && callbackData.success) {
                         toggleNestedForm();
                         var categoryId = callbackData.categoryId;
-                        if ($('li.category-sortable[typeName="product"][rel="' + categoryId + '"] > ul').length === 0) {
-                            $('li.category-sortable[typeName="product"][rel="' + categoryId + '"]')
+                        if ($('li.category-sortable[typeName="category"][rel="' + categoryId + '"] > ul').length === 0) {
+                            $('li.category-sortable[typeName="category"][rel="' + categoryId + '"]')
                                 .append('<ul/>');
                         }
-                        $('li.category-sortable[typeName="product"][rel="' + categoryId + '"] > ul')
+                        $('li.category-sortable[typeName="category"][rel="' + categoryId + '"] > ul')
                             .append(callbackData.productLine);
 
                         var responseProductId = callbackData.productId;
