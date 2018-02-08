@@ -31,6 +31,7 @@ li.category-sortable.active > span.category-hover {
     border-radius: 0;
 }
 
+.category-edit-product,
 .category-add-product,
 .category-delete,
 .category-edit {
@@ -38,10 +39,12 @@ li.category-sortable.active > span.category-hover {
     margin-top: 2px;
 }
 
+.category-edit-product,
 .category-add-product {
     margin-right: 8px;
 }
 
+.category-edit-product:hover,
 .category-add-product:hover {
     color: #0099C7;
 }

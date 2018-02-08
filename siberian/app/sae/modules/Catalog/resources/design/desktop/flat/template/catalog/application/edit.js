@@ -1,9 +1,18 @@
 /*global
     isInit, folder, options, valueId, placeholderCategory,
     bindForms, swal, words, carouselSearch, carousel, featureSearch,
-    maxNestedLevel
+    maxNestedLevel, formatTemplate, titlePlaceholder, pricePlaceholder
  */
 $(document).ready(function () {
+    var guid = function () {
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000)
+                .toString(16)
+                .substring(1);
+        }
+        return s4() + s4() + s4() + s4() + s4();
+    };
+
     var buildSortable = function () {
         $('#nested-root').nestedSortable({
             handle: 'i.category-sortable-handle',
@@ -63,7 +72,8 @@ $(document).ready(function () {
 
         var parentId;
         try {
-            parentId = $('.category-sortable[rel="' + rel + '"]').parents('li[rel]')[0].attributes.rel.value;
+            parentId = $('.category-sortable[typeName="' + typeName + '"][rel="' + rel + '"]')
+                .parents('li[rel]')[0].attributes.rel.value;
         } catch (e) {
             parentId = 'root';
         }
@@ -183,6 +193,8 @@ $(document).ready(function () {
 
                 // Allows to rebind the form!
                 updateProductCount();
+
+                document.querySelector('ul.nested-categories').scrollTop = 2000000000;
             },
             error: function (response) {
                 console.log(response);
@@ -204,7 +216,7 @@ $(document).ready(function () {
         switch (typeName) {
             case 'category':
                     title = words.deleteTitle;
-                    categoryName = $('.category-sortable[rel="' + categoryId + '"] > span > input.category-title').val();
+                    categoryName = $('.category-sortable[typeName="category"][rel="' + categoryId + '"] > span > input.category-title').val();
                     text = words.deleteText.replace('#CATEGORY_NAME#', '<b>' + categoryName + '</b>');
                     data = {
                         actionName: 'delete',
@@ -215,7 +227,7 @@ $(document).ready(function () {
                 break;
             case 'product':
                     title = words.deleteProductTitle;
-                    categoryName = $('.category-sortable[rel="' + categoryId + '"] > span > span.category-title').text();
+                    categoryName = $('.category-sortable[typeName="product"][rel="' + categoryId + '"] > span > span.category-title').text();
                     text = words.deleteProductText.replace('#PRODUCT_NAME#', '<b>' + categoryName + '</b>');
                     data = {
                         actionName: 'delete',
@@ -243,7 +255,7 @@ $(document).ready(function () {
                 dataType: 'json',
                 success: function (data) {
                     // Remove DOM element (and it's childrens)
-                    $('.category-sortable[rel="' + categoryId + '"]').remove();
+                    $('.category-sortable[typeName="' + typeName + '"][rel="' + categoryId + '"]').remove();
 
                     updateProductCount();
                 },
@@ -270,7 +282,7 @@ $(document).ready(function () {
     };
 
     // Loader template!
-    var loaderTempalte = '<div class="feature-loader"><img src="/app/sae/design/desktop/flat/images/customization/ajax/ajax-loader-black.gif"></div>';
+    var loaderTemplate = '<div class="feature-loader"><img src="/app/sae/design/desktop/flat/images/customization/ajax/ajax-loader-black.gif"></div>';
 
     $(document).off('click', '#product-form-container #sbback');
     $(document).on('click', '#product-form-container #sbback', function () {
@@ -287,7 +299,7 @@ $(document).ready(function () {
     $(document).on('click', '.category-add-product', function () {
         toggleNestedForm();
         var formContainer = $('#product-form-container');
-        formContainer.append(loaderTempalte);
+        formContainer.html('').append(loaderTemplate);
 
         var currentButton = $(this);
         var parentId = currentButton.attr('rel');
@@ -312,16 +324,97 @@ $(document).ready(function () {
                     if (callbackData.success !== undefined && callbackData.success) {
                         toggleNestedForm();
                         var categoryId = callbackData.categoryId;
-                        if ($('li.category-sortable[rel="' + categoryId + '"] > ul').length === 0) {
-                            $('li.category-sortable[rel="' + categoryId + '"]')
+                        if ($('li.category-sortable[typeName="product"][rel="' + categoryId + '"] > ul').length === 0) {
+                            $('li.category-sortable[typeName="product"][rel="' + categoryId + '"]')
                                 .append('<ul/>');
                         }
-                        $('li.category-sortable[rel="' + categoryId + '"] > ul')
+                        $('li.category-sortable[typeName="product"][rel="' + categoryId + '"] > ul')
                             .append(callbackData.productLine);
+
+                        var responseProductId = callbackData.productId;
+                        $('li.category-sortable[typeName="product"][rel="' + responseProductId + '"]')
+                            .effect('highlight', {
+                                color: '#0099C7',
+                                opacity: 0.5
+                            }, 3000);
+
+
+                        var myElement = document.querySelector('li.category-sortable[typeName="product"][rel="' + responseProductId + '"]');
+                        document.querySelector('ul.nested-categories').scrollTop = myElement.offsetTop;
                     }
                     // Otherwise do nothing, form already displayed bad data!
                 });
                 bindForms('#product-form-container');
+                setTimeout(function () {
+                    var addFormat = $('button.product-add-format');
+                    addFormat.trigger('click');
+                    addFormat.trigger('click');
+                    addFormat.trigger('click');
+                }, 100);
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    });
+
+    // Edit a product!
+    $(document).off('click', '.category-edit-product');
+    $(document).on('click', '.category-edit-product', function () {
+        toggleNestedForm();
+        var formContainer = $('#product-form-container');
+        formContainer.html('').append(loaderTemplate);
+
+        var currentButton = $(this);
+        var productId = currentButton.attr('rel');
+
+        $.ajax({
+            url: '/catalog/application/loadproductform/value_id/' + valueId,
+            method: 'POST',
+            data: {
+                productId: productId,
+                valueId: valueId
+            },
+            dataType: 'json',
+            success: function (data) {
+                // Append form!
+                formContainer
+                    .html('')
+                    .append(data.form);
+
+                // Allows to rebind the form!
+                formContainer.removeData('binded');
+                formContainer.find('form').data('callback', function (callbackData) {
+                    // Only required to update the Title, other values are OK!
+                    if (callbackData.success !== undefined && callbackData.success) {
+                        toggleNestedForm();
+                        var responseProductId = callbackData.productId;
+                        $('li.category-sortable[typeName="product"][rel="' + responseProductId + '"] span.category-title')
+                            .text(callbackData.product.name);
+
+                        $('li.category-sortable[typeName="product"][rel="' + responseProductId + '"]')
+                            .effect('highlight', {
+                                color: '#0099C7',
+                                opacity: 0.5
+                            }, 3000);
+
+                        var myElement = document.querySelector('li.category-sortable[typeName="product"][rel="' + responseProductId + '"]');
+                        document.querySelector('ul.nested-categories').scrollTop = myElement.offsetTop;
+                    }
+                });
+                bindForms('#product-form-container');
+                data.formats.forEach(function (format) {
+                    var tmpFormat = formatTemplate
+                        .replace(/%UUID%/ig, guid())
+                        .replace(/%TITLE_PL%/ig, titlePlaceholder)
+                        .replace(/%TITLE_VALUE%/ig, format.title)
+                        .replace(/%PRICE_PL%/ig, pricePlaceholder)
+                        .replace(/%PRICE_VALUE%/ig, format.price);
+                    $('.product-format-container').append(tmpFormat);
+                });
+                if (data.formats.length >= 1) {
+                    $('#enable_format').trigger('click');
+                }
             },
             error: function (response) {
                 console.log(response);

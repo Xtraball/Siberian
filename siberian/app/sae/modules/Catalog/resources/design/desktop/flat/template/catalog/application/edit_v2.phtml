@@ -83,6 +83,10 @@ function generateRecursive($content, $categoryId, $nestedCategories, $level = 0)
                        parentId="' . $product['category_id'] . '"
                        typeName="product"
                        rel="' . $product['product_id'] . '"></i>
+                    <i class="category-edit-product fa fa-pencil pull-right" 
+                       parentId="' . $product['category_id'] . '"
+                       typeName="product"
+                       rel="' . $product['product_id'] . '"></i>
                 </span>
             </li>';
         }
@@ -220,6 +224,9 @@ $outputHtml = generateRecursive('', 'root', $nestedCategories);
         confirmDelete: "<?php echo __js('Yes, delete!') ?>",
         cancelDelete: "<?php echo __js('No, go back!') ?>"
     };
+    var formatTemplate = `<?php echo Catalog_Form_Product::$formatTemplate; ?>`;
+    var titlePlaceholder = '<?php echo __js('New format') ?>';
+    var pricePlaceholder = '<?php echo __js('Price') ?>';
 </script>
 <script type="text/javascript"
         src="/app/sae/modules/Catalog/resources/design/desktop/flat/template/catalog/application/edit.js">
