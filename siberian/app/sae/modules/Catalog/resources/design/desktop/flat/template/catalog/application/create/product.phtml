@@ -5,9 +5,12 @@
 <?php $application = $this->getApplication(); ?>
 <div id="create_product" class="product">
     <h3 class="title-editor border-blue text-center">
-        <?php echo $product->getId() ? $this->_('Edit the product') : $this->_('Create a new product'); ?>
+        <?php echo $product->getId() ? __('Edit the product') : __('Create a new product'); ?>
     </h3>
-    <form action="<?php echo $this->getUrl('catalog/application_product/editpost'); ?>" method="post" id="productForm" class="subcontent form-horizontal">
+    <form action="<?php echo $this->getUrl('catalog/application_product/editpost'); ?>"
+          method="post"
+          id="productFormSimple"
+          class="subcontent form-horizontal">
         <div class="container-fluid">
             <div class="form-group">
                 <div class="col-md-12">
@@ -18,15 +21,15 @@
             <div class="list">
                 <div class="form-group">
                     <div class="col-sm-4">
-                        <label for="product_name"><?php echo $this->_('Product name'); ?> :</label>
+                        <label for="product_name"><?php echo __('Product name'); ?> :</label>
                     </div>
                     <div class="col-sm-8">
-                        <input class="name required input-flat" type="text" id="product_name" value="<?php echo $product->getName(); ?>" name="name" placeholder="<?php echo $this->_("Product name"); ?>" />
+                        <input class="name required input-flat" type="text" id="product_name" value="<?php echo $product->getName(); ?>" name="name" placeholder="<?php echo __("Product name"); ?>" />
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-4">
-                        <label for="product_description"><?php echo $this->_('Description'); ?> :</label>
+                        <label for="product_description"><?php echo __('Description'); ?> :</label>
                     </div>
                     <div class="col-sm-8">
                         <textarea id="product_description" name="description" rel="description" class="contact_field input-flat description_field">
@@ -37,7 +40,7 @@
                 <?php if($product->getData('type') != 'format') : ?>
                 <div class="form-group">
                     <div class="col-sm-4">
-                        <label for="product_price"><?php echo $this->_('Price'); ?> :</label>
+                        <label for="product_price"><?php echo __('Price'); ?> :</label>
                     </div>
                     <div class="col-sm-8">
                         <input class="input-flat price number" type="text" id="product_price" value="<?php echo $product->getPrice(); ?>" name="price" placeholder="<?php echo __("Price"); ?>" />
@@ -47,11 +50,11 @@
                 <?php if($children && $children->count() > 0) : ?>
                 <div class="form-group">
                     <div class="col-sm-4">
-                        <label for="subcategory_id"><?php echo $this->_('Category'); ?> :</label>
+                        <label for="subcategory_id"><?php echo __('Category'); ?> :</label>
                     </div>
                     <div class="col-sm-8">
                         <select id="subcategory_id" name="subcategory_id" class="styled-select color-blue required">
-                            <option value="<?php echo $parent->getId(); ?>"><?php echo $this->_('All'); ?></option>
+                            <option value="<?php echo $parent->getId(); ?>"><?php echo __('All'); ?></option>
                             <?php foreach($children as $child) : ?>
                             <option value="<?php echo $child->getId(); ?>"<?php if($product->getCategory()->getId() == $child->getId()) : ?> selected="selected"<?php endif; ?>><?php echo $child->getName(); ?></option>
                             <?php endforeach ?>
@@ -61,13 +64,13 @@
                 <?php endif; ?>
                 <div class="form-group">
                     <div class="col-sm-4">
-                        <label><?php echo $this->_('Picture');?> : </label>
+                        <label><?php echo __('Picture');?> : </label>
                     </div>
                     <div class="col-sm-8">
                     <!--[if gte IE 10]><!-->
                         <button class="upload_picture btn color-blue add" type="button">
-                            <?php echo $product->getPicture() ? $this->_("Edit the") : $this->_('Add a'); ?>
-                            <?php echo $this->_('picture'); ?>
+                            <?php echo $product->getPicture() ? __("Edit the") : __('Add a'); ?>
+                            <?php echo __('picture'); ?>
                         </button>
                         <!--<![endif]-->
                         <input style="display:none" class="uploader_picture" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
@@ -78,7 +81,7 @@
         <?php if(!$product->getId() OR $product->getData('type') == 'format') : ?>
         <div class="product_formats container-fluid">
             <h3 class="title-editor title-feature-indent">
-                <?php echo $this->_('Product formats'); ?>
+                <?php echo __('Product formats'); ?>
                 <?php if(!$product->getId()) : ?>
                     <input class='sb-tgl sb-tgl-flat color-blue' id='is_multiple' name='is_multiple' type='checkbox' <?php if($product->getData('type') == 'format') echo 'checked="checked"'; ?> onclick="product.toggleFormats();">
                     <label class='format-chk-tgl sb-tgl-btn color-blue' for='is_multiple' ></label>
@@ -93,8 +96,8 @@
                     <thead>
                         <tr>
                             <th></th>
-                            <th><label><?php echo $this->_('Format'); ?></label></th>
-                            <th><label><?php echo $this->_('Price'); ?></label></th>
+                            <th><label><?php echo __('Format'); ?></label></th>
+                            <th><label><?php echo __('Price'); ?></label></th>
                             <th></th>
                         </tr>
                     </thead>
@@ -102,7 +105,7 @@
                     <?php if($product->getId()) : ?>
                     <?php foreach($product->getType()->getOptions() as $i => $option) : ?>
                     <tr id="row_format_<?php echo $option->getId() ?>" class="format" rel="<?php echo $option->getId() ?>">
-                        <td><?php echo $i + 1 ?><?php echo $i == 0 ? $this->_('st') : $this->_('nd') ?></td>
+                        <td><?php echo $i + 1 ?><?php echo $i == 0 ? __('st') : __('nd') ?></td>
                         <td><input id="product_format_title_<?php echo $option->getId() ?>" class="format input-flat required" type="text" value="<?php echo $option->getTitle() ?>" placeholder="<?php echo __("Format"); ?>" name="option[<?php echo $option->getId() ?>][title]" rel="<?php echo $option->getId() ?>" /></td>
                         <td>
                             <input id="product_format_price_<?php echo $option->getId() ?>" class="input-flat price required number" type="text" placeholder="<?php echo __("Price"); ?>" value="<?php echo $option->getPrice() ?>" name="option[<?php echo $option->getId() ?>][price]" rel="<?php echo $option->getId() ?>"/>
@@ -115,7 +118,7 @@
                     <?php endif; ?>
                     <?php while($i < 4) : ?>
                     <tr id="row_format_new_<?php echo $i ?>" class="format new_format"<?php if($i > 1) : ?> style="display:none;"<?php endif; ?> rel="new_<?php echo $i ?>">
-                        <td><?php echo $i + 1 ?><?php echo $i == 0 ? $this->_('st') : $this->_('nd') ?></td>
+                        <td><?php echo $i + 1 ?><?php echo $i == 0 ? __('st') : __('nd') ?></td>
                         <td><input id="product_format_title_new_<?php echo $i ?>" class="format required input-flat" type="text" value="" placeholder="<?php echo __("Format"); ?>" name="option[new_<?php echo $i ?>][title]" rel="new_<?php echo $i ?>" /></td>
                         <td>
                             <input id="product_format_price_new_<?php echo $i ?>" class="input-flat price required number" type="text" placeholder="<?php echo __("Price"); ?>" value="" name="option[new_<?php echo $i ?>][price]" rel="new_<?php echo $i ?>"/>
@@ -127,7 +130,7 @@
                     <?php $i++; ?>
                     <?php endwhile; ?>
                 </table>
-                <button type="button" id="add_format" class="btn color-blue add" onclick="product.addFormat()"><?php echo $this->_('Add a format'); ?></button>
+                <button type="button" id="add_format" class="btn color-blue add" onclick="product.addFormat()"><?php echo __('Add a format'); ?></button>
             </div>
         </div>
         <?php endif; ?>
@@ -163,23 +166,72 @@
             <input type="hidden" id="crop_height" name="crop_height" value="" />
         </div>
     </form>
-    <style>
-        .pp_content div .product_formats .title span.right {
-            width: 100px;
-        }
-        .pp_content div .product_formats .title span.right label {
-            font-size: 20px;
-        }
-        .pp_content div .product_formats table tr td input {
-            width: 145px;
-        }
-        .format-chk-tgl{
-            height: 30px !important;
-            width: 75px !important;
-            float: right;
-            position: relative !important;
-            top: -5px;
-            right: 5px;
-        }
-    </style>
 </div>
+
+<style type="text/css">
+    .pp_content div .product_formats .title span.right {
+        width: 100px;
+    }
+    .pp_content div .product_formats .title span.right label {
+        font-size: 20px;
+    }
+    .pp_content div .product_formats table tr td input {
+        width: 145px;
+    }
+    .format-chk-tgl{
+        height: 30px !important;
+        width: 75px !important;
+        float: right;
+        position: relative !important;
+        top: -5px;
+        right: 5px;
+    }
+
+    div#create_product {
+        height: 580px;
+        overflow-y: scroll;
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var productForm = $('#productFormSimple');
+        productForm.off('submit');
+        productForm.on('submit', function (event) {
+            event.preventDefault();
+            var form = $(this);
+
+            $('.uploader_picture').attr('disabled', 'disabled');
+
+            if (form.valid() && $('#typeField').val() != '') {
+                formget(
+                    form.attr('action'),
+                    form.serialize(),
+                    function (datas) {
+                        if (datas.success) {
+                            if($('#product_'+datas.product_id).attr('id')) $('#product_'+datas.product_id).replaceWith(datas.product_html);
+                            else $('#category_products_'+datas.parent_id).append(datas.product_html);
+                            var cat = $('#subcategory_actions_'+datas.category_id);
+                            if(cat.attr('id') && !cat.hasClass('selected') || datas.category_id != datas.parent_id) {
+                                $('#label_subcategory_name_'+datas.category_id).click();
+                                $('#subcategory_actions_'+datas.category_id).mouseenter();
+                            }
+                            $.featherlight.current().close();
+                            iframe.f.reload();
+                            $("#products_label").show();
+                        }
+                    },
+                    function () {},
+                    true);
+            } else if ($('#typeField').val() == '') {
+                $('.uploader_picture').removeAttr('disabled');
+            }
+
+            return false;
+        });
+
+        toggleHandler($('#toggle_formats'));
+        uploadPicture();
+        $('#product_description').ckeditor(ckeditor_config.default);
+    });
+</script>

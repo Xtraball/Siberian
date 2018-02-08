@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Class Catalog_Model_Product_Format_Option
+ *
+ * @method $this setProductId(integer $productId)
+ * @method $this setTitle(string $title)
+ * @method $this setPrice(float $price)
+ */
 class Catalog_Model_Product_Format_Option extends Core_Model_Default
 {
 

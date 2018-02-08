@@ -1,0 +1,233 @@
+<?php
+
+$application = $this->getApplication();
+$optionValue = $this->getOptionValue();
+$categories = (new Catalog_Model_Category())
+    ->findByValueId($optionValue->getId(), null, true, false);
+
+// Prepare categories!
+$categoriesDone = [];
+$nestedCategories = [];
+foreach ($categories as $category) {
+    $categoryId = $category->getCategoryId();
+    if (in_array($categoryId, $categoriesDone)) {
+        continue;
+    }
+    $parentId = $category->getParentId();
+    if (empty($parentId) || is_null($parentId)) {
+        if (!isset($nestedCategories['root'])) {
+            $nestedCategories['root'] = [
+                'categories' => [],
+                'products' => [],
+            ];
+        }
+        $nestedCategories['root']['categories'][] = $category->getData();
+    } else {
+        if (!isset($nestedCategories[$parentId])) {
+            $nestedCategories[$parentId] = [
+                'categories' => [],
+                'products' => [],
+            ];
+        }
+        $nestedCategories[$parentId]['categories'][] = $category->getData();
+    }
+}
+
+$products = (new Catalog_Model_Product())
+    ->findByValueId($optionValue->getId(), null, false, false);
+
+// Prepare products!
+$categoryIdProducts = [];
+foreach ($products as $product) {
+    $categoryId = $product->getCategoryId();
+    if (!array_key_exists($categoryId, $nestedCategories)) {
+        $nestedCategories[$categoryId] = [
+            'categories' => [],
+            'products' => [],
+        ];
+    }
+    $nestedCategories[$categoryId]['products'][] = $product->getData();
+}
+
+function generateRecursive($content, $categoryId, $nestedCategories, $level = 0) {
+    if (array_key_exists($categoryId, $nestedCategories)) {
+        $categoriesProducts = $nestedCategories[$categoryId];
+        $categories = $categoriesProducts['categories'];
+        $products = $categoriesProducts['products'];
+        uasort($categories, function($a, $b) {
+            if ($a['position'] === $b['position']) {
+                return 0;
+            }
+            return ($a['position'] < $b['position']) ? -1 : 1;
+        });
+        uasort($products, function($a, $b) {
+            if ($a['position'] === $b['position']) {
+                return 0;
+            }
+            return ($a['position'] < $b['position']) ? -1 : 1;
+        });
+        $level++;
+        foreach ($products as $product) {
+            $content .= '
+            <li class="category-sortable" 
+                parentId="' . $product['category_id'] . '"
+                typeName="product"
+                rel="' . $product['product_id'] . '">
+                <span class="category-hover">
+                    <i class="category-sortable-handle fa fa-arrows"></i>
+                    <span class="category-title" 
+                           rel="' . $product['product_id'] . '"
+                           name="categoryName" value="">' . $product['name'] . '</span>
+                    <span class="category-product-count"></span>
+                    <i class="category-delete fa fa-remove pull-right" 
+                       parentId="' . $product['category_id'] . '"
+                       typeName="product"
+                       rel="' . $product['product_id'] . '"></i>
+                    <i class="category-edit-product fa fa-pencil pull-right" 
+                       parentId="' . $product['category_id'] . '"
+                       typeName="product"
+                       rel="' . $product['product_id'] . '"></i>
+                </span>
+            </li>';
+        }
+        foreach ($categories as $category) {
+            $content .= '
+            <li class="category-sortable" 
+                parentId="' . $category['parent_id'] . '"
+                typeName="category"
+                rel="' . $category['category_id'] . '">
+                <span class="category-hover">
+                    <i class="category-sortable-handle fa fa-arrows"></i>
+                    <input class="category-title input-flat" 
+                           rel="' . $category['category_id'] . '"
+                           name="categoryName" value="' . $category['name'] . '" />
+                    <span class="category-product-count"></span>
+                    <i class="category-delete fa fa-remove pull-right" 
+                       parentId="' . $category['parent_id'] . '"
+                       typeName="category"
+                       rel="' . $category['category_id'] . '"></i>
+                    <i class="category-add-product fa fa-cart-plus pull-right" 
+                       parentId="' . $category['parent_id'] . '"
+                       rel="' . $category['category_id'] . '"></i>
+                </span>';
+                $subcategories = generateRecursive('', $category['category_id'], $nestedCategories, $level);
+                if (!empty($subcategories)) {
+                    $content .= '
+                <ul>' . $subcategories . '</ul>';
+                }
+                $content .= '
+            </li>';
+        }
+
+
+    }
+    return $content;
+}
+
+$outputHtml = generateRecursive('', 'root', $nestedCategories);
+
+?>
+
+
+<div id="list" class="category">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#catalog" aria-controls="catalog" role="tab" data-toggle="tab">
+                <i class="fa fa-book"></i>
+                <?php echo __('Catalog') ?>
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#design" aria-controls="design" role="tab" data-toggle="tab">
+                <i class="fa fa-pencil"></i>
+                <?php echo __('Design') ?>
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <!-- START CATALOG TAB -->
+        <div role="tabpanel" class="tab-pane active" id="catalog">
+            <div class="feature-block-add">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo __('Manage Catalog & Products'); ?>
+                </h3>
+                <div class="container-fluid subcontent content-feature">
+                    <div class="content content-white-bkg category-container">
+                        <div class="col-md-12"
+                             id="catalog-tree">
+                            <div class="category-title-add">
+                                <span><?php echo __('Categories & Products') ?></span>
+                                <button class="btn color-blue pull-right create-category">
+                                    <i class="fa fa-plus"
+                                       style="margin-right: 10px;"></i><?php echo __('Add a category'); ?>
+                                </button>
+                            </div>
+                            <ul class="nested-categories">
+                                <li class="category-sortable"
+                                    id="root-category"
+                                    rel="root">
+                                    <span class="category-hover">
+                                        <span class="category-title"><?php echo __('Catalog'); ?></span>
+                                    </span>
+                                </li>
+                                <ul id="nested-root"
+                                    class="nested-sortable">
+                                    <!-- Nested render -->
+                                    <?php echo $outputHtml; ?>
+                                </ul>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="content content-white-bkg product-container"
+                         style="display: none;">
+                        <div class="col-md-12">
+                            <div class="category-title-add">
+                                <span><?php echo __('Add a new product') ?></span>
+                            </div>
+                            <div id="product-form-container"></div>
+                            <br />
+                            <br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /END CATALOG TAB -->
+
+        <!-- START DESIGN TAB -->
+        <div role="tabpanel" class="tab-pane" id="design">
+            <?php echo $this->importLayout($optionValue, false); ?>
+
+            <?php echo $this->importBackground($optionValue, false); ?>
+        </div>
+        <!-- /END DESIGN TAB -->
+
+    </div>
+</div>
+
+
+<link href="/app/sae/modules/Catalog/resources/design/desktop/flat/template/catalog/application/edit.css"
+      media="screen"
+      rel="stylesheet"
+      type="text/css">
+<script type="text/javascript">
+    var valueId = '<?php echo $optionValue->getId() ?>';
+    var maxNestedLevel = 3;
+    var words = {
+        deleteTitle: "<?php echo __js('Delete category!') ?>",
+        deleteProductTitle: "<?php echo __js('Delete product!') ?>",
+        deleteText: "<?php echo __js("You are about to delete the category #CATEGORY_NAME# with all it's subcategories<br />Please note that any products inside the category and it's subcategories will be deleted!") ?>",
+        deleteProductText: "<?php echo __js("You are about to delete the product #PRODUCT_NAME#") ?>",
+        confirmDelete: "<?php echo __js('Yes, delete!') ?>",
+        cancelDelete: "<?php echo __js('No, go back!') ?>"
+    };
+    var formatTemplate = `<?php echo Catalog_Form_Product::$formatTemplate; ?>`;
+    var titlePlaceholder = '<?php echo __js('New format') ?>';
+    var pricePlaceholder = '<?php echo __js('Price') ?>';
+</script>
+<script type="text/javascript"
+        src="/app/sae/modules/Catalog/resources/design/desktop/flat/template/catalog/application/edit.js">
+</script>

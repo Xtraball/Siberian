@@ -327,24 +327,23 @@
         product = {
             processEvents: function() {
 
-                $('.edit_product').prettyPhoto({
-                    default_width: 500,
-                    show_title: false,
-                    social_tools: '',
-                    deeplinking: false,
-                    keyboard_shortcuts: false,
-                    gallery_markup: '',
-                    changepicturecallback: function() {
-                        toggleHandler($('#toggle_formats'));
-                        uploadPicture();
-                        $('#product_description').ckeditor(ckeditor_config.default);
-                        $('#productForm').submit(this.save.bind(this));
-                    }.bind(this),
-                    theme: 'pp_none'
+                var editProduct = $('.edit_product');
+                editProduct.off('click');
+                editProduct.on('click', function () {
+                    event.preventDefault();
+                    var el = $(this);
+                    $.featherlight(el.attr('href'), {
+                        type: 'ajax'
+                    });
                 });
 
-                $('.add_product').click(function() {
-                    var category_id = $(this).attr('parent_id');
+                var addProduct = $('.add_product');
+                addProduct.off('click');
+                addProduct.on('click', function () {
+                    event.preventDefault();
+                    var el = $(this);
+
+                    var category_id = el.attr('parent_id');
                     var subcategory_id;
                     if(subcategory_id = $('#subcategories_'+category_id).find('.subcategory_actions.selected').attr('rel')) {
                         category_id = subcategory_id;
@@ -355,25 +354,12 @@
                         url += '/add_subcategory/1';
                     }
 
-                    $(this).attr('href', url+'?ajax=true');
-                });
+                    el.attr('href', url+'?ajax=true');
 
-                 $('.add_product').prettyPhoto({
-                    default_width: 500,
-                    show_title: false,
-                    deeplinking: false,
-                    social_tools: '',
-                    gallery_markup: '',
-                    keyboard_shortcuts: false,
-                    changepicturecallback: function() {
-                        toggleHandler($('#toggle_formats'));
-                        uploadPicture();
-                        $('#product_description').ckeditor(ckeditor_config.default);
-                        $('#productForm').submit(this.save.bind(this));
-                    }.bind(this),
-                    theme: 'pp_none'
+                    $.featherlight(el.attr('href'), {
+                        type: 'ajax'
+                    });
                 });
-
 
                 $(".products_list").sortable({
                     handle : '.handle_product',
@@ -413,9 +399,7 @@
                     $('#category_'+parent_id).find('a.add_product').attr('rel', category_id);
                 }
             },
-            add: function() {
-                $.prettyPhoto.open('#create_product','Créer un produit');
-            },
+            add: function() {},
             edit: function(id) {
                 var datas = products[id];
                 if(datas && datas.product_id) {
@@ -424,14 +408,11 @@
                     $('.edit_product_name').val(datas.name);
                     $('.edit_product_description').val(datas.description);
                     $('.edit_product_price').val(datas.price);
-                    $('#edit_product_'+id).prettyPhoto();
-                    $.prettyPhoto.open('#edit_product');
                 }
 
             },
             cancel: function() {
-                $('#productForm').unbind('submit');
-                $.prettyPhoto.close();
+                $.featherlight.current().close();
             },
             toggleFormats: function() {
                 if($('#is_multiple').is(':checked')) {
@@ -502,35 +483,8 @@
                 }
 
             },
-            save: function() {
-
-                var form = $('#productForm');
-                $('.uploader_picture').attr('disabled', 'disabled');
-
-                if(form.valid()) {
-                    reload(form, form.attr('action'), true, function(datas) {
-                        if(datas.success) {
-                            if($('#product_'+datas.product_id).attr('id')) $('#product_'+datas.product_id).replaceWith(datas.product_html);
-                            else $('#category_products_'+datas.parent_id).append(datas.product_html);
-                            this.unbindAll().processEvents();
-                            var cat = $('#subcategory_actions_'+datas.category_id);
-                            if(cat.attr('id') && !cat.hasClass('selected') || datas.category_id != datas.parent_id) {
-                                $('#label_subcategory_name_'+datas.category_id).click();
-                                $('#subcategory_actions_'+datas.category_id).mouseenter();
-                            }
-                            $.prettyPhoto.close();
-                            iframe.f.reload();
-                            $("#products_label").show();
-                        }
-                    }.bind(this));
-                }
-                else {
-                    $('.uploader_picture').removeAttr('disabled');
-                }
-
-                return false;
-            }
-        }
+            save: function() {}
+        };
 
         function uploadPicture() {
             $('.upload_picture').click(function() {
