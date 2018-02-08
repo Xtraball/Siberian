@@ -14,18 +14,6 @@
 
         <div class="list"
              ng-class="{'card': cardDesign}"
-             ng-show="!is_loading && current && !search.searchValue">
-            <div class="item item-image item-custom">
-                <img ng-src="{{ imagePath(current.picture) }}" />
-            </div>
-            <div class="item item-custom">
-                <h2>{{ current.title }}</h2>
-                <p>{{ current.subtitle }}</p>
-            </div>
-        </div>
-
-        <div class="list"
-             ng-class="{'card': cardDesign}"
              ng-show="collection.length && !search.searchValue">
             <a tabbar-items
                class="item item-custom item-avatar-square"
