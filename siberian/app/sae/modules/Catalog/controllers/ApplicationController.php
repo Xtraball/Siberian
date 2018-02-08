@@ -84,7 +84,7 @@ class Catalog_ApplicationController extends Application_Controller_Default {
     public function editproductAction() {
         try {
             $request = $this->getRequest();
-            $productId = $request->getParam('productId');
+            $productId = $request->getParam('product_id');
             $optionValue = $this->getCurrentOptionValue();
             $values = $request->getPost();
 
@@ -103,24 +103,24 @@ class Catalog_ApplicationController extends Application_Controller_Default {
                 $product->setData($values);
                 $product->save();
 
+                $hasFormat = false;
                 if (filter_var($values['enable_format'], FILTER_VALIDATE_BOOLEAN)) {
                     foreach ($formats as $format) {
                         if (!empty($format['title']) && !empty($format['price'])) {
-                            $db = Zend_Db_Table::getDefaultAdapter();
-                            $db->query("
-                                INSERT INTO `catalog_product_format`
-                                (`product_id`, `title`, `price`)
-                                VALUES
-                                (?, ?, ?);
-                                ",
-                                [
-                                    $product->getId(),
-                                    $format['title'],
-                                    $format['price'],
-                                ]
-                            );
+                            $formatOption = new Catalog_Model_Product_Format_Option();
+                            $formatOption
+                                ->setProductId($product->getId())
+                                ->setTitle($format['title'])
+                                ->setPrice($format['price'])
+                                ->save();
+                            $hasFormat = true;
                         }
                     }
+                }
+
+                // Set as format type!
+                if ($hasFormat) {
+                    $product->setType('format');
                 }
 
                 if ($values['picture'] === '_delete_') {
