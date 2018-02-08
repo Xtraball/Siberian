@@ -103,6 +103,7 @@ class Catalog_ApplicationController extends Application_Controller_Default {
                 $product->setData($values);
                 $product->save();
 
+                $hasFormat = false;
                 if (filter_var($values['enable_format'], FILTER_VALIDATE_BOOLEAN)) {
                     foreach ($formats as $format) {
                         if (!empty($format['title']) && !empty($format['price'])) {
@@ -112,8 +113,14 @@ class Catalog_ApplicationController extends Application_Controller_Default {
                                 ->setTitle($format['title'])
                                 ->setPrice($format['price'])
                                 ->save();
+                            $hasFormat = true;
                         }
                     }
+                }
+
+                // Set as format type!
+                if ($hasFormat) {
+                    $product->setType('format');
                 }
 
                 if ($values['picture'] === '_delete_') {
