@@ -160,6 +160,14 @@ ul.nested-folders.deep .placeholder {
     white-space: nowrap;
 }
 
+#folder_add_page_list p.feature_name {
+    font-size: 9px;
+    text-transform: uppercase;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin: 0;
+}
+
 .sweet-alert p {
     padding: 10px 20px !important;
 }
