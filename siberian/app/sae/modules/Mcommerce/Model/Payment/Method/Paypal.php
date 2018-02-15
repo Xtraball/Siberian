@@ -106,6 +106,13 @@ class Mcommerce_Model_Payment_Method_Paypal extends Mcommerce_Model_Payment_Meth
     }
 
     /**
+     * @return mixed
+     */
+    public function currencySupportApp() {
+        return in_array($this->currencyShortName(), $this->_supported_currency_codes);
+    }
+
+    /**
      * @return Payment_Model_Paypal
      */
     protected function _getPaypalObject() {
