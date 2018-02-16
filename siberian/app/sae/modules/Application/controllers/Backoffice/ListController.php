@@ -8,6 +8,12 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
         $html = array(
             "title" => __("Applications"),
             "icon" => "fa-mobile",
+            "words" => [
+                "confirmDelete" => __("Yes, Delete!"),
+                "cancelDelete" => __("No, go back!"),
+                "deleteTitle" => __("Confirmation required"),
+                "deleteMessage" => __("<b class=\"delete-warning\">You are going to remove #APP_ID# / #APP_NAME#<br />Removed application CANNOT be restored! Are you ABSOLUTELY sure?</b><br />This action can lead to data loss. To prevent accidental actions we ask you to confirm your intention.<br />Please type <code>yes-delete-app-#APP_ID#</code> to proceed or close this modal to cancel.")
+            ],
         );
 
         $this->_sendHtml($html);
