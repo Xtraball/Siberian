@@ -210,5 +210,17 @@ App.factory('Application', function($http, Url, DataLoader) {
         });
     };
 
+    /** Target MAE/PE */
+    factory.deleteApplication = function (appId) {
+        return $http({
+            method: 'POST',
+            data: {
+                appId: appId
+            },
+            url: Url.get('application/backoffice_list/deleteapplication'),
+            responseType: 'json'
+        });
+    };
+
     return factory;
 });
