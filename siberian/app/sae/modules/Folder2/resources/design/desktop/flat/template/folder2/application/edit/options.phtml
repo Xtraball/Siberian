@@ -20,11 +20,12 @@ $features = (new Application_Model_Option_Value())
             <div class="color-blue block_add_pages_icon btn default_size_details"
                  style="background-image: url('<?php echo Application_Model_Option_Value::sGetIconUrl($feature); ?>')">
                 <img src="/app/sae/design/desktop/flat/images/placeholder/blank-512.png"
-                     alt="<?php echo $feature->getName(); ?>"
-                     title="<?php echo $feature->getName(); ?>"
+                     alt="<?php echo $feature->getTabbarName(); ?>"
+                     title="<?php echo $feature->getTabbarName(); ?>"
                      width="auto"
                      height="50" />
-                <span><?php echo cut($feature->getName(), 14); ?></span>
+                <span><?php echo cut($feature->getTabbarName(), 14); ?></span>
+                <p class="feature_name">(<?php echo cut($feature->getName(), 18); ?>)</p>
                 <input type="hidden"
                        name="option_id"
                        value="<?php echo $feature->getId(); ?>"/>

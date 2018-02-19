@@ -8,6 +8,12 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
         $html = array(
             "title" => __("Applications"),
             "icon" => "fa-mobile",
+            "words" => [
+                "confirmDelete" => __("Yes, Delete!"),
+                "cancelDelete" => __("No, go back!"),
+                "deleteTitle" => __("Confirmation required"),
+                "deleteMessage" => __("<b class=\"delete-warning\">You are going to remove #APP_ID# / #APP_NAME#<br />Removed application CANNOT be restored! Are you ABSOLUTELY sure?</b><br />This action can lead to data loss. To prevent accidental actions we ask you to confirm your intention.<br />Please type <code style=\"user-select: none;\">yes-delete-app-#APP_ID#</code> to proceed or close this modal to cancel.")
+            ],
         );
 
         $this->_sendHtml($html);
@@ -171,6 +177,45 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
 
         $this->_sendHtml($apps);
 
+    }
+
+    public function deleteapplicationAction() {
+        if (Siberian_Version::is('SAE')) {
+            $this->_sendJson([
+                'error' => true,
+                'message' => __("We can't delete the only application from your installation.")
+            ]);
+        } else {
+            try {
+                $request = $this->getRequest();
+                $params = Siberian_Json::decode($request->getRawBody());
+                $appId = $params['appId'];
+
+                $app = (new Application_Model_Application())
+                    ->find($appId);
+
+                if (!$app->getId()) {
+                    throw new Siberian_Exception(__("This Application doesn't exists, aborting!"));
+                }
+
+                $appName = $app->getName();
+
+                // Delete the application!
+                $app->wipe();
+
+                $payload = [
+                    'success' => true,
+                    'message' => __('The Application ' . $appId . ' / ' . $appName . ' has been deleted!')
+                ];
+            } catch(Exception $e) {
+                $payload = [
+                    'error' => true,
+                    'message' => $e->getMessage()
+                ];
+            }
+
+            $this->_sendJson($payload);
+        }
     }
 
 }
