@@ -29,7 +29,7 @@
         <div id="playlist_types" class="form-group">
             <div class="col-md-12">
                 <p>
-                    <?php echo $this->_('Add albums and tracks to the playlist:'); ?>
+                    <?php echo __('Add albums and tracks to the playlist:'); ?>
                     <b><?php echo $gallery->getName() ?></b>
                 </p>
                 <ul class="list-group">
@@ -57,7 +57,7 @@
                     <li class="list-group-item btn color-blue">
                         <a class="edit_playlist_type" href="<?php echo $this->getUrl('media/application_gallery_music/form', array('gallery_id' => $gallery->getId(), 'type' => 'custom', 'option_value_id' => $option_value->getId())); ?>?ajax=true" >
                             <i class="fa fa-th-list editor_menu"></i>
-                            <p><?php echo $this->_('Custom') ?></p>
+                            <p><?php echo __('Custom') ?></p>
                         </a>
                     </li>
                 </ul>
@@ -100,6 +100,16 @@
             });
         });
 
+        var itemsEdit = $('#album_edit .edit_album');
+        itemsEdit.off('click');
+        itemsEdit.on('click', function(event) {
+            event.preventDefault();
+            var el = $(this);
+            $.featherlight(el.attr('href'), {
+                type: 'ajax'
+            });
+        });
+
         $('#album_edit').sortable({
             handle : '.handle',
             placeholder: "album_edit-placeholder",
@@ -118,9 +128,9 @@
             var $li = $(this).parent().parent();
             var message = '';
             if($(this).parent().find('input[name="type"]').val() == 'album') {
-                message = '<?php echo addslashes($this->_('Are you sure you want to delete this album?')) ?>';
+                message = '<?php echo addslashes(__('Are you sure you want to delete this album?')) ?>';
             } else {
-                message = '<?php echo addslashes($this->_('Are you sure you want to delete this track?')) ?>';
+                message = '<?php echo addslashes(__('Are you sure you want to delete this track?')) ?>';
             }
             if(confirm(message)) {
                 reload($(this.parentNode), '<?php echo $this->getUrl('media/application_gallery_music/deleteelement'); ?>', true, function(datas) {
