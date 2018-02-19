@@ -2,7 +2,7 @@
 
 /**
  * Class Application_Model_Application_Abstract
- * 
+ *
  * @version 4.12.22
  *
  * @method integer getId()
@@ -1359,5 +1359,86 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         $dataset = Siberian_Yaml::encode($dataset);
 
         return $dataset;
+    }
+
+    /**
+     * This action will completely wipe the Application & all it's content & resources!
+     */
+    public function wipe() {
+        $appId = $this->getId();
+
+        // 1. Pre-check PE!
+        if (Siberian_Version::is('PE')) {
+            $salesInvoices = (new Sales_Model_Invoice())
+                ->findAllv2([
+                    'si.app_id = ?' => $appId
+                ]);
+
+            if ($salesInvoices->count() > 0) {
+                throw new Siberian_Exception(__('This Application has some invoices associated, you can not delete it!'));
+            }
+        }
+
+        // 2. Find the resources folder.
+        if (strlen($appId) <= 0) {
+            throw new Siberian_Exception(__('Seems the appId is empty or invalid, aborting!'));
+        }
+
+        $pathToImages = Core_Model_Directory::getBasePathTo('/images/application/' . $appId . '/');
+        if (strrpos($pathToImages, '//') === 0) {
+            throw new Siberian_Exception(__('Seems the computed path could delete unwanted content, aborting!<br />' . $pathToImages));
+        }
+
+        $absolutePath = realpath($pathToImages);
+        $applicationAbsolutePath = realpath(Core_Model_Directory::getBasePathTo('/images/application'));
+        if ($absolutePath === $applicationAbsolutePath) {
+            throw new Siberian_Exception(__('Seems we could delete unwanted files, aborting!'));
+        }
+
+        if (is_dir($pathToImages)) {
+            // 1.1 Recursively delete all content!
+            $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($pathToImages, 4096), RecursiveIteratorIterator::SELF_FIRST);
+            foreach ($files as $file) {
+                if (is_file($file->getPathName())) {
+                    unlink($file->getPathName());
+                }
+            }
+
+            // Then the folder itself
+            exec('rm -rf "' . $pathToImages . '"');
+        }
+
+        // 2. Delete all related media images (we do it first manually to ensure it's clean because there is no cascade here)
+        $mediaLibraryImages = (new Media_Model_Library_Image())
+            ->findAll([
+                'app_id = ?' => $appId
+            ]);
+        foreach ($mediaLibraryImages as $mediaLibraryImage) {
+            $path = Core_Model_Directory::getBasePathTo($mediaLibraryImage->getData('link'));
+            if (is_file($path)) {
+                unlink($path);
+            }
+            $mediaLibraryImage->delete();
+        }
+
+        // 3. Delete customers
+        $customers = (new Customer_Model_Customer())
+            ->findAll([
+                'app_id = ?' => $appId
+            ]);
+
+        foreach ($customers as $customer) {
+            $image = $customer->getData('image');
+            if (!empty($image)) {
+                $imagePath = Core_Model_Directory::getBasePathTo('/images/customer' . $image);
+                if (is_file($imagePath)) {
+                    unlink($imagePath);
+                }
+            }
+            $customer->delete();
+        }
+
+        // 3. Delete the Application itself
+        $this->delete();
     }
 }
