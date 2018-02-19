@@ -48,7 +48,7 @@
                                             <label><?php echo Core_Model_Lib_String::truncate($event->getName(), 35)?></label>
                                         </div>
                                         <div class="col-sm-5 start_at">
-                                            <?php echo $event->getFormattedStartAt(_("MM/dd/y \'at\' hh:mm a")); ?>
+                                            <?php echo $event->getFormattedStartAt(__("MM/dd/y \'at\' hh:mm a")); ?>
                                         </div>
                                         <div class="col-sm-2 actions">
                                             <a class="edit_event" href="<?php echo $this->getUrl('event/application_event/form', array('agenda_id' => $agenda->getId(), 'event_id'=>$event->getId(), 'option_value_id' => $option_value->getId())); ?>?ajax=true" >
@@ -134,7 +134,7 @@
             remove: function(id) {
                 var td = $('#custom_'+id).parent();
                 var tr = td.parent();
-                if(confirm('<?php echo addslashes(_("Delete this event?")); ?>')) {
+                if(confirm('<?php echo addslashes(__("Delete this event?")); ?>')) {
                     $('<input />').attr('type', 'hidden')
                         .attr('name', 'id')
                         .val(id)
