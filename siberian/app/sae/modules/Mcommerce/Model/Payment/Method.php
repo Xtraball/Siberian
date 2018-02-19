@@ -119,6 +119,20 @@ class Mcommerce_Model_Payment_Method extends Core_Model_Default {
     /**
      * @return mixed
      */
+    public function currencySupportApp() {
+        return $this->getInstance()->currencySupportApp();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function currencyShortName() {
+        return $this->getInstance()->currencyShortName();
+    }
+
+    /**
+     * @return mixed
+     */
     public function pay() {
         return $this->getInstance()->pay();
     }
