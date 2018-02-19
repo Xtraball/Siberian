@@ -199,12 +199,12 @@
     <string>Scan QRCode and share pictures</string>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>Import pictures from your library</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Use the GPS for live navigation</string>
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>Background location is used to send you geolocated push notifications.</string>
     <key>NSLocationAlwaysUsageDescription</key>
     <string>Background location is used to send you geolocated push notifications.</string>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Use the GPS for live navigation</string>
     <key>NSCalendarsUsageDescription</key>
     <string>Be notified of the App events</string>
     <key>NSContactsUsageDescription</key>
