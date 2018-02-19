@@ -27,20 +27,15 @@ body.stop-scrolling {
     position: fixed;
     left: 50%;
     top: 50%;
-    margin-left: -256px;
-    margin-top: -200px;
     overflow: hidden;
     display: none;
     z-index: 99999;
+    transform: translate(-50%, -50%);
 }
 
-@media all and (max-width: 540px) {
+@media all and (max-width: 900px) {
     .sweet-alert {
-        width: auto;
-        margin-left: 0;
-        margin-right: 0;
-        left: 15px;
-        right: 15px;
+        width: 90vw;
     }
 }
 
@@ -83,9 +78,6 @@ body.stop-scrolling {
 }
 
 .sweet-alert .sa-error-container {
-    background-color: #f1f1f1;
-    margin-left: -17px;
-    margin-right: -17px;
     overflow: hidden;
     padding: 0 10px;
     max-height: 0;
@@ -101,9 +93,9 @@ body.stop-scrolling {
 }
 
 .sweet-alert .sa-error-container .icon {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
+    display: none;
+    width: 0;
+    height: 0;
     border-radius: 50%;
     background-color: #ea7d7d;
     color: white;
@@ -114,9 +106,17 @@ body.stop-scrolling {
 
 .sweet-alert .sa-error-container p {
     display: inline-block;
+    width: 100%;
+    margin-top: 0;
+}
+
+.sweet-alert .sa-error-container p code {
+    width: 100%;
+    display: inline-block;
 }
 
 .sweet-alert .sa-input-error {
+    display: none;
     position: absolute;
     top: 29px;
     right: 26px;
@@ -131,7 +131,7 @@ body.stop-scrolling {
     transition: all 0.1s;
 }
 
-.sweet-alert .sa-input-error::before, .sweet-alert .sa-input-error::after {
+/**.sweet-alert .sa-input-error::before, .sweet-alert .sa-input-error::after {
     content: "";
     width: 20px;
     height: 6px;
@@ -142,7 +142,7 @@ body.stop-scrolling {
     margin-top: -4px;
     left: 50%;
     margin-left: -9px;
-}
+}*/
 
 .sweet-alert .sa-input-error::before {
     -webkit-transform: rotate(-45deg);
@@ -161,15 +161,16 @@ body.stop-scrolling {
 }
 
 .sweet-alert input {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
     width: 100%;
     box-sizing: border-box;
     border-radius: 2px;
     border: 1px solid #d7d7d7;
-    height: 43px;
+    height: 32px;
     margin-top: 10px;
-    margin-bottom: 17px;
-    font-size: 18px;
-    box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.06);
+    margin-bottom: 10px;
+    font-size: 13px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06);
     padding: 0 12px;
     display: none;
     -webkit-transition: all 0.3s;
