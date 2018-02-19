@@ -282,36 +282,53 @@ $default_store = $mcommerce->getDefaultStore();
                 <div class="col-sm-9">
                     <?php $payment_method = new Mcommerce_Model_Payment_Method(); ?>
                     <?php $payment_methods = $payment_method->findAll(); ?>
-                    <?php foreach($payment_methods as $method) : ?>
-                        <?php if($method->getCode() !== 'free'): ?>
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <label for="payment_method_<?php echo $method->getId() ?>"
-                                       class="control payment_method <?php if($method->isOnline()) : ?> toggle_payment_data<?php endif; ?>"
-                                       tag="<?php if($method->isOnline()) echo $method->getCode(); ?>"
-                                       style="padding-top: 0;">
-                                    <input type="checkbox"
-                                           id="payment_method_<?php echo $method->getId() ?>"
-                                           class="sb-form-checkbox color-blue required"
-                                           name="payment_methods[<?php echo $method->getId(); ?>]"
-                                           <?php if($store->hasPaymentMethod($method->getId())) : ?>checked="checked"<?php endif; ?> />
-                                    <span class="sb-checkbox-label">
-                                        <?php echo $method->getName(); ?>
-                                    </span>
-                                    <div class="color-blue control__indicator"></div>
-                                </label>
+                    <?php foreach ($payment_methods as $method): ?>
+                        <?php if ($method->getCode() !== 'free'): ?>
+                            <?php if ($method->currencySupportApp()): ?>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label for="payment_method_<?php echo $method->getId() ?>"
+                                           class="control payment_method <?php if($method->isOnline()) : ?> toggle_payment_data<?php endif; ?>"
+                                           tag="<?php if($method->isOnline()) echo $method->getCode(); ?>"
+                                           style="padding-top: 0;">
+                                        <input type="checkbox"
+                                               id="payment_method_<?php echo $method->getId() ?>"
+                                               class="sb-form-checkbox color-blue required"
+                                               name="payment_methods[<?php echo $method->getId(); ?>]"
+                                               <?php if($store->hasPaymentMethod($method->getId())) : ?>checked="checked"<?php endif; ?> />
+                                        <span class="sb-checkbox-label">
+                                            <?php echo $method->getName(); ?>
+                                        </span>
+                                        <div class="color-blue control__indicator"></div>
+                                    </label>
 
-                                <?php
-                                echo $this->getLayout()
-                                    ->addPartial(
-                                        $method->getCode() . '_payment',
-                                        'Core_View_Default', 'mcommerce/application/edit/store/payment/' . $method->getCode() . '.phtml')
-                                    ->setMethodId($method->getId())
-                                    ->setStore($store)
-                                    ->toHtml();
-                                ?>
+                                    <?php
+                                    echo $this->getLayout()
+                                        ->addPartial(
+                                            $method->getCode() . '_payment',
+                                            'Core_View_Default', 'mcommerce/application/edit/store/payment/' . $method->getCode() . '.phtml')
+                                        ->setMethodId($method->getId())
+                                        ->setStore($store)
+                                        ->toHtml();
+                                    ?>
+                                </div>
                             </div>
-                        </div>
+                            <?php else: ?>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label class="control"
+                                           style="padding-top: 0;">
+                                        <input type="checkbox"
+                                               class="sb-form-checkbox color-blue"
+                                               disabled="disabled"
+                                        <span class="sb-checkbox-label">
+                                            <?php echo __('<b>%s</b> is not supported with the current currency <b>%s</b>!', $method->getName(), $method->currencyShortName()) ?>
+                                        </span>
+                                        <div class="color-blue control__indicator"></div>
+                                    </label>
+                                </div>
+                            </div>
+                            <?php endif; ?>
                         <?php endif; ?>
                         <?php ?>
                     <?php endforeach; ?>
