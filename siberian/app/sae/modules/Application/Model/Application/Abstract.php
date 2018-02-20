@@ -1379,6 +1379,34 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             }
         }
 
+        // 1.1. Check for any M-Commerce invoices
+        $mcommerceOption = (new Application_Model_Option())
+            ->find([
+                'code' => 'm_commerce'
+            ]);
+        if ($mcommerceOption->getId()) {
+            $optionValue = (new Application_Model_Option_Value())
+                ->find([
+                    'option_id' => $mcommerceOption->getId(),
+                    'app_id' => $appId
+                ]);
+            if ($optionValue->getId()) {
+                $mcommerce = (new Mcommerce_Model_Mcommerce())
+                    ->find([
+                        'value_id' => $optionValue->getId()
+                    ]);
+                if ($mcommerce->getId()) {
+                    $mcommerceOrder = (new Mcommerce_Model_Order())
+                        ->findAll([
+                            'mcommerce_id = ?' => $mcommerce->getId()
+                        ]);
+                    if ($mcommerceOrder->count() > 0) {
+                        throw new Siberian_Exception(__('This Application has some M-Commerce invoices associated, you can not delete it!'));
+                    }
+                }
+            }
+        }
+
         // 2. Find the resources folder.
         if (strlen($appId) <= 0) {
             throw new Siberian_Exception(__('Seems the appId is empty or invalid, aborting!'));
@@ -1396,7 +1424,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         }
 
         if (is_dir($pathToImages)) {
-            // 1.1 Recursively delete all content!
+            // 2.1 Recursively delete all content!
             $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($pathToImages, 4096), RecursiveIteratorIterator::SELF_FIRST);
             foreach ($files as $file) {
                 if (is_file($file->getPathName())) {
@@ -1404,11 +1432,11 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
                 }
             }
 
-            // Then the folder itself
+            // 2.2 Then the folder itself
             exec('rm -rf "' . $pathToImages . '"');
         }
 
-        // 2. Delete all related media images (we do it first manually to ensure it's clean because there is no cascade here)
+        // 3. Delete all related media images (we do it first manually to ensure it's clean because there is no cascade here)
         $mediaLibraryImages = (new Media_Model_Library_Image())
             ->findAll([
                 'app_id = ?' => $appId
@@ -1421,7 +1449,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             $mediaLibraryImage->delete();
         }
 
-        // 3. Delete customers
+        // 4. Delete customers
         $customers = (new Customer_Model_Customer())
             ->findAll([
                 'app_id = ?' => $appId
@@ -1438,7 +1466,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             $customer->delete();
         }
 
-        // 3. Delete the Application itself
+        // 5. Delete the Application itself
         $this->delete();
     }
 }
