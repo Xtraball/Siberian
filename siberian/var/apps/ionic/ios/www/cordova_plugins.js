@@ -292,6 +292,38 @@ module.exports = [
     ]
   },
   {
+    "id": "cordova-plugin-geolocation.Coordinates",
+    "file": "plugins/cordova-plugin-geolocation/www/Coordinates.js",
+    "pluginId": "cordova-plugin-geolocation",
+    "clobbers": [
+      "Coordinates"
+    ]
+  },
+  {
+    "id": "cordova-plugin-geolocation.PositionError",
+    "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
+    "pluginId": "cordova-plugin-geolocation",
+    "clobbers": [
+      "PositionError"
+    ]
+  },
+  {
+    "id": "cordova-plugin-geolocation.Position",
+    "file": "plugins/cordova-plugin-geolocation/www/Position.js",
+    "pluginId": "cordova-plugin-geolocation",
+    "clobbers": [
+      "Position"
+    ]
+  },
+  {
+    "id": "cordova-plugin-geolocation.geolocation",
+    "file": "plugins/cordova-plugin-geolocation/www/geolocation.js",
+    "pluginId": "cordova-plugin-geolocation",
+    "clobbers": [
+      "navigator.geolocation"
+    ]
+  },
+  {
     "id": "cordova-plugin-inappbrowser.inappbrowser",
     "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
     "pluginId": "cordova-plugin-inappbrowser",
@@ -379,10 +411,10 @@ module.exports = [
 module.exports.metadata = 
 // TOP OF METADATA
 {
-  "cordova-plugin-extension": "1.5.4",
   "cordova-plugin-admobpro": "2.30.1",
   "cordova-hot-code-push-plugin": "1.5.2",
   "cordova-plugin-splashscreen": "4.0.0",
+  "cordova-plugin-extension": "1.5.4",
   "phonegap-plugin-push": "1.10.0",
   "cordova-plugin-app-version": "0.1.8",
   "cordova-plugin-app-event": "1.2.0",
@@ -394,6 +426,7 @@ module.exports.metadata =
   "cordova-plugin-file": "4.3.3-dev",
   "es6-promise-plugin": "4.2.2",
   "cordova-plugin-geofence": "0.6.0",
+  "cordova-plugin-geolocation": "2.1.0",
   "cordova-plugin-inappbrowser": "1.7.1-dev",
   "ionic-plugin-keyboard": "2.2.1",
   "cordova-plugin-x-socialsharing": "5.0.12-dev",

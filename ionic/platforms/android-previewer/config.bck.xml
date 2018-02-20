@@ -81,6 +81,9 @@
     <feature name="GeofencePlugin">
         <param name="android-package" value="com.cowbell.cordova.geofence.GeofencePlugin" />
     </feature>
+    <feature name="Geolocation">
+        <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
+    </feature>
     <feature name="InAppBrowser">
         <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
     </feature>
