@@ -687,18 +687,32 @@ input[type=range].mini-player:focus::-ms-fill-upper {
 /* TIPS */
 .tips-calculator .display-global-tip {
     width: 100%;
-    font-size: 60px;
+    font-size: 26px;
     text-align: center;
-    height: 130px;
+    height: 80px;
     padding-top: 25px;
     float: left;
 }
 
 .tips-calculator .display-other-tip {
     width: 100%;
-    font-size: 26px;
     text-align: center;
     float: left;
+}
+
+.tips-calculator input {
+    text-align: right;
+}
+
+.tips-calculator .tip-each-text {
+    font-size: 16px;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.tips-calculator .tip-each {
+    font-size: 24px;
+    margin: 0;
 }
 
 /* TOPICS */
