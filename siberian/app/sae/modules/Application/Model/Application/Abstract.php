@@ -1365,6 +1365,10 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * This action will completely wipe the Application & all it's content & resources!
      */
     public function wipe() {
+
+        // Disabled in 4.12.4, should be re-enabled in 4.12.5
+        throw new Siberian_Exception(__('This feature is actually disabled, aborting!'));
+
         $appId = $this->getId();
 
         // 1. Pre-check PE!
@@ -1424,16 +1428,8 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         }
 
         if (is_dir($pathToImages)) {
-            // 2.1 Recursively delete all content!
-            $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($pathToImages, 4096), RecursiveIteratorIterator::SELF_FIRST);
-            foreach ($files as $file) {
-                if (is_file($file->getPathName())) {
-                    unlink($file->getPathName());
-                }
-            }
-
-            // 2.2 Then the folder itself
-            exec('rm -rf "' . $pathToImages . '"');
+            // 2.1. Then the folder itself
+            exec('rm -rf "' . $absolutePath . '"');
         }
 
         // 3. Delete all related media images (we do it first manually to ensure it's clean because there is no cascade here)

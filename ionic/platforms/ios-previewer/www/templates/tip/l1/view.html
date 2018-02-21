@@ -27,7 +27,8 @@
                         {{ global_tip }}
                     </div>
                     <div class="a-center display-other-tip" ng-if="each_tip" style="padding-bottom: 10px;">
-                        {{ "Tip for each:" | translate }} {{ each_tip }}
+                        <p class="tip-each-text">{{ "Tip for each:" | translate }}</p><br />
+                        <p class="tip-each">{{ each_tip }}</p>
                     </div>
                 </div>
 
