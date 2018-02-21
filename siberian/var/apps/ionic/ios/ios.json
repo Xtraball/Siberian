@@ -5,86 +5,6 @@
     },
     "config_munge": {
         "files": {
-            "*-Info.plist": {
-                "parents": {
-                    "NSAppTransportSecurity": [
-                        {
-                            "xml": "<dict><key>NSExceptionDomains</key><dict /><key>NSAllowsArbitraryLoads</key><true /><key>NSAllowsArbitraryLoadsForMedia</key><true /><key>NSAllowsArbitraryLoadsInWebContent</key><true /></dict>",
-                            "count": 1
-                        }
-                    ],
-                    "UIBackgroundModes": [
-                        {
-                            "xml": "<array><string>remote-notification</string></array>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<array><string>audio</string></array>",
-                            "count": 1
-                        }
-                    ],
-                    "NSCameraUsageDescription": [
-                        {
-                            "xml": "<string>Scan QRCode and share pictures</string>",
-                            "count": 2
-                        }
-                    ],
-                    "NSPhotoLibraryUsageDescription": [
-                        {
-                            "xml": "<string>Import pictures from your library</string>",
-                            "count": 1
-                        }
-                    ],
-                    "UILaunchStoryboardName": [
-                        {
-                            "xml": "<string>CDVLaunchScreen</string>",
-                            "count": 1
-                        }
-                    ],
-                    "NSLocationAlwaysAndWhenInUseUsageDescription": [
-                        {
-                            "xml": "<string>Background location is used to send you geolocated push notifications.</string>",
-                            "count": 1
-                        }
-                    ],
-                    "NSLocationAlwaysUsageDescription": [
-                        {
-                            "xml": "<string>Background location is used to send you geolocated push notifications.</string>",
-                            "count": 1
-                        }
-                    ],
-                    "NSLocationWhenInUseUsageDescription": [
-                        {
-                            "xml": "<string>Use the GPS for live navigation</string>",
-                            "count": 1
-                        }
-                    ],
-                    "NSCalendarsUsageDescription": [
-                        {
-                            "xml": "<string>Be notified of the App events</string>",
-                            "count": 1
-                        }
-                    ],
-                    "NSContactsUsageDescription": [
-                        {
-                            "xml": "<string>Share content with your contacts</string>",
-                            "count": 1
-                        }
-                    ],
-                    "NSMotionUsageDescription": [
-                        {
-                            "xml": "<string>Smart navigation with TaxiRide and other nice features</string>",
-                            "count": 1
-                        }
-                    ],
-                    "NFCReaderUsageDescription": [
-                        {
-                            "xml": "<string>Allow NFC Tag enabled features</string>",
-                            "count": 1
-                        }
-                    ]
-                }
-            },
             "config.xml": {
                 "parents": {
                     "/*": [
@@ -141,6 +61,10 @@
                             "count": 1
                         },
                         {
+                            "xml": "<feature name=\"Geolocation\"><param name=\"ios-package\" value=\"CDVLocation\" /></feature>",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"InAppBrowser\"><param name=\"ios-package\" value=\"CDVInAppBrowser\" /></feature>",
                             "count": 1
                         },
@@ -183,6 +107,86 @@
                     ]
                 }
             },
+            "*-Info.plist": {
+                "parents": {
+                    "NSAppTransportSecurity": [
+                        {
+                            "xml": "<dict><key>NSExceptionDomains</key><dict /><key>NSAllowsArbitraryLoads</key><true /><key>NSAllowsArbitraryLoadsForMedia</key><true /><key>NSAllowsArbitraryLoadsInWebContent</key><true /></dict>",
+                            "count": 1
+                        }
+                    ],
+                    "UIBackgroundModes": [
+                        {
+                            "xml": "<array><string>remote-notification</string></array>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<array><string>audio</string></array>",
+                            "count": 1
+                        }
+                    ],
+                    "NSCameraUsageDescription": [
+                        {
+                            "xml": "<string>Scan QRCode and share pictures</string>",
+                            "count": 2
+                        }
+                    ],
+                    "NSPhotoLibraryUsageDescription": [
+                        {
+                            "xml": "<string>Import pictures from your library</string>",
+                            "count": 1
+                        }
+                    ],
+                    "NSLocationWhenInUseUsageDescription": [
+                        {
+                            "xml": "<string>Use the GPS for live navigation</string>",
+                            "count": 2
+                        }
+                    ],
+                    "UILaunchStoryboardName": [
+                        {
+                            "xml": "<string>CDVLaunchScreen</string>",
+                            "count": 1
+                        }
+                    ],
+                    "NSLocationAlwaysAndWhenInUseUsageDescription": [
+                        {
+                            "xml": "<string>Background location is used to send you geolocated push notifications.</string>",
+                            "count": 1
+                        }
+                    ],
+                    "NSLocationAlwaysUsageDescription": [
+                        {
+                            "xml": "<string>Background location is used to send you geolocated push notifications.</string>",
+                            "count": 1
+                        }
+                    ],
+                    "NSCalendarsUsageDescription": [
+                        {
+                            "xml": "<string>Be notified of the App events</string>",
+                            "count": 1
+                        }
+                    ],
+                    "NSContactsUsageDescription": [
+                        {
+                            "xml": "<string>Share content with your contacts</string>",
+                            "count": 1
+                        }
+                    ],
+                    "NSMotionUsageDescription": [
+                        {
+                            "xml": "<string>Smart navigation with TaxiRide and other nice features</string>",
+                            "count": 1
+                        }
+                    ],
+                    "NFCReaderUsageDescription": [
+                        {
+                            "xml": "<string>Allow NFC Tag enabled features</string>",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
             "*-Debug.plist": {
                 "parents": {
                     "aps-environment": [
@@ -206,9 +210,6 @@
         }
     },
     "installed_plugins": {
-        "cordova-plugin-extension": {
-            "PACKAGE_NAME": "com.appsmobilecompany.base"
-        },
         "cordova-plugin-admobpro": {
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
@@ -216,6 +217,9 @@
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
         "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.appsmobilecompany.base"
+        },
+        "cordova-plugin-extension": {
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
         "phonegap-plugin-push": {
@@ -251,6 +255,9 @@
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
         "cordova-plugin-geofence": {
+            "PACKAGE_NAME": "com.appsmobilecompany.base"
+        },
+        "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "com.appsmobilecompany.base"
         },
         "cordova-plugin-inappbrowser": {
@@ -575,6 +582,38 @@
             ]
         },
         {
+            "id": "cordova-plugin-geolocation.Coordinates",
+            "file": "plugins/cordova-plugin-geolocation/www/Coordinates.js",
+            "pluginId": "cordova-plugin-geolocation",
+            "clobbers": [
+                "Coordinates"
+            ]
+        },
+        {
+            "id": "cordova-plugin-geolocation.PositionError",
+            "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
+            "pluginId": "cordova-plugin-geolocation",
+            "clobbers": [
+                "PositionError"
+            ]
+        },
+        {
+            "id": "cordova-plugin-geolocation.Position",
+            "file": "plugins/cordova-plugin-geolocation/www/Position.js",
+            "pluginId": "cordova-plugin-geolocation",
+            "clobbers": [
+                "Position"
+            ]
+        },
+        {
+            "id": "cordova-plugin-geolocation.geolocation",
+            "file": "plugins/cordova-plugin-geolocation/www/geolocation.js",
+            "pluginId": "cordova-plugin-geolocation",
+            "clobbers": [
+                "navigator.geolocation"
+            ]
+        },
+        {
             "id": "cordova-plugin-inappbrowser.inappbrowser",
             "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
             "pluginId": "cordova-plugin-inappbrowser",
@@ -660,10 +699,10 @@
         }
     ],
     "plugin_metadata": {
-        "cordova-plugin-extension": "1.5.4",
         "cordova-plugin-admobpro": "2.30.1",
         "cordova-hot-code-push-plugin": "1.5.2",
         "cordova-plugin-splashscreen": "4.0.0",
+        "cordova-plugin-extension": "1.5.4",
         "phonegap-plugin-push": "1.10.0",
         "cordova-plugin-app-version": "0.1.8",
         "cordova-plugin-app-event": "1.2.0",
@@ -675,6 +714,7 @@
         "cordova-plugin-file": "4.3.3-dev",
         "es6-promise-plugin": "4.2.2",
         "cordova-plugin-geofence": "0.6.0",
+        "cordova-plugin-geolocation": "2.1.0",
         "cordova-plugin-inappbrowser": "1.7.1-dev",
         "ionic-plugin-keyboard": "2.2.1",
         "cordova-plugin-x-socialsharing": "5.0.12-dev",

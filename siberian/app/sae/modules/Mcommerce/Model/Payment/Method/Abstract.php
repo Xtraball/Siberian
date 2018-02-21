@@ -34,6 +34,21 @@ abstract class Mcommerce_Model_Payment_Method_Abstract extends Core_Model_Defaul
     }
 
     /**
+     * @return mixed
+     */
+    public function currencySupportApp() {
+        return true;
+    }
+
+    /**
+     * @return string
+     */
+    public function currencyShortName() {
+        return (new Zend_Currency(null, $this->getApplication()->getLocale()))
+            ->getShortName();
+    }
+
+    /**
      * @return array
      */
     public function getFormUris ($valueId) {
