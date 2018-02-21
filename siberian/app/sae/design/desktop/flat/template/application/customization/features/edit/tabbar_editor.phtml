@@ -175,10 +175,12 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                         <div class="row">
                             <div class="col-md-12">
                                 <ul class="icons_list">
-                                    <?php $icon_ids = array(); ?>
+                                    <?php $icon_ids = []; ?>
                                     <?php foreach($available_icons as $lib_icon) : ?>
                                         <?php foreach($lib_icon as $icon) : ?>
-                                            <?php if($icon->getUrl() AND (!$icon->getAppId() OR $icon->getAppId() == $this->getApplication()->getId()) AND !in_array($icon->getId(), $icon_ids)) : ?>
+                                            <?php if ($icon->getUrl() AND
+                                                (!$icon->getAppId() OR $icon->getAppId() == $this->getApplication()->getId()) AND
+                                                !in_array($icon->getId(), $icon_ids)) : ?>
                                                 <li rel="<?php echo $option->getId(); ?>" class="color-blue">
                                                     <a href="<?php echo $this->getUrl('application/customization_features/seticon'); ?>" class="left icon" rel="<?php echo $option->getId(); ?>" >
                                                         <button class="select_icon btn" type="button">
@@ -209,30 +211,52 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                                     <span><?php echo __('Library icons') ?></span>
                                 </h3>
                                 <div class="form-group filter-icons">
-                                    <input type="text" class="input-flat" style="width: 200px;" placeholder="<?php echo __("Search by keywords ...") ?>" />
-                                    <button type="reset" class="btn color-blue"><?php echo __("Reset") ?></button>
+                                    <input type="text"
+                                           class="input-flat"
+                                           style="width: 200px;"
+                                           placeholder="<?php echo __("Search by keywords ...") ?>" />
+                                    <button type="reset"
+                                            class="btn color-blue"><?php echo __("Reset") ?></button>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <ul class="icons_list filter_list">
-                                    <?php $all_icon_ids = array(); ?>
+                                    <?php $all_icon_ids = []; ?>
                                     <?php foreach($all_icons as $icon) : ?>
-                                        <?php if($icon->getUrl() AND !in_array($icon->getId(), $all_icon_ids)) : ?>
-                                            <li data-filter="<?php echo $icon->getLink() ?>" rel="<?php echo $option->getId(); ?>" class="<?php echo ($icon->getCanBeColorized()==0) ? "colorizable" : "color-blue"; ?>">
-                                                <a href="<?php echo $this->getUrl('application/customization_features/seticon'); ?>" class="left icon" rel="<?php echo $option->getId(); ?>" >
-                                                    <button class="select_icon btn" type="button">
-                                                        <img src="<?php echo $icon->getUrl(); ?>" width="auto" height="65" class="colorize" />
+                                        <?php if($icon->getUrl() AND
+                                            !in_array($icon->getId(), $all_icon_ids)) : ?>
+                                            <li data-filter="<?php echo $icon->getLink() ?>"
+                                                rel="<?php echo $option->getId(); ?>"
+                                                class="<?php echo ($icon->getCanBeColorized()==0) ? "colorizable" : "color-blue"; ?>">
+                                                <a href="<?php echo $this->getUrl('application/customization_features/seticon'); ?>"
+                                                   class="left icon"
+                                                   rel="<?php echo $option->getId(); ?>" >
+                                                    <button class="select_icon btn"
+                                                            type="button">
+                                                        <img src="<?php echo $icon->getUrl(); ?>"
+                                                             width="auto"
+                                                             height="65"
+                                                             class="colorize" />
                                                     </button>
-                                                    <input type="hidden" name="option_value_id" value="<?php echo $option->getValueId(); ?>" />
-                                                    <input type="hidden" name="icon_id" value="<?php echo $icon->getId(); ?>" />
+                                                    <input type="hidden"
+                                                           name="option_value_id"
+                                                           value="<?php echo $option->getValueId(); ?>" />
+                                                    <input type="hidden"
+                                                           name="icon_id"
+                                                           value="<?php echo $icon->getId(); ?>" />
                                                 </a>
                                                 <?php if($icon->getAppId()) : ?>
-                                                    <a href="<?php echo $this->getUrl('application/customization_features/deleteicon'); ?>" class="delete_icon">
+                                                    <a href="<?php echo $this->getUrl('application/customization_features/deleteicon'); ?>"
+                                                       class="delete_icon">
                                                         <i class="fa fa-times"></i>
-                                                        <input type="hidden" name="option_value_id" value="<?php echo $option->getValueId(); ?>" />
-                                                        <input type="hidden" name="icon_id" value="<?php echo $icon->getId(); ?>" />
+                                                        <input type="hidden"
+                                                               name="option_value_id"
+                                                               value="<?php echo $option->getValueId(); ?>" />
+                                                        <input type="hidden"
+                                                               name="icon_id"
+                                                               value="<?php echo $icon->getId(); ?>" />
                                                     </a>
                                                 <?php endif; ?>
 

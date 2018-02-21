@@ -55,11 +55,6 @@
                         $('#list').html('');
                         createFileupload();
                     });
-//                    var mobile_url = '<?php //echo $this->getApplication()->getUrl('media/mobile_gallery_music/playlist', array(), true); ?>//';
-//                    mobile_url += '/playlist_id/'+datas.gallery_id;
-//                    mobile_url += '/option_value_id/'+'<?php //echo $this->getValueId() ?>//';
-//                    mobile_url += '/overview/1';
-
                 } else {
                     iframe.f.reload();
                 }
@@ -119,7 +114,7 @@
                 }
                 if (data.result.success) {
                     music_playlist_image_uploader.hide();
-                    var params = new Array();
+                    var params = [];
                     params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
                     params["file"] = data.result.files;
                     params["output_w"] = 200;

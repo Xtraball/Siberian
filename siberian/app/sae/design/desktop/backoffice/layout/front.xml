@@ -22,6 +22,7 @@
                     <chartjs link="js/libraries/angular-chart/chart.js" />
                     <queue link="js/libraries/angular-queue.js" />
                     <angularchart link="js/libraries/angular-chart/angular-chart.js" />
+                    <sweetalert link="js/sweetalert.min.js" />
                 </js>
                 <css>
                     <style link="css/style.css" />
@@ -32,6 +33,7 @@
                     <user_style link="css/user-style.css" />
                     <datetimepicker link="css/datetimepicker.css" />
                     <icofont link="css/icofont/css/icofont.css" />
+                    <sweetalert link="css/sweetalert.css" />
                 </css>
             </scripts>
             <metas>

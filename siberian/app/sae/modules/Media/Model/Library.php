@@ -107,8 +107,8 @@ class Media_Model_Library extends Core_Model_Default {
 
         $names = array();
         foreach($options as $option) {
-            $names[] = $option->getName();
-            $names[] = $option->getName()."-flat";
+            $names[] = $option->getData('name');
+            $names[] = $option->getData('name') . '-flat';
         }
 
         /** Icon packs */
@@ -118,7 +118,7 @@ class Media_Model_Library extends Core_Model_Default {
         ));
 
         foreach($icon_packs as $icon_pack) {
-            $names[] = $icon_pack->getData("name");
+            $names[] = $icon_pack->getData('name');
         }
 
         $libraries = $this->findAll(array(
