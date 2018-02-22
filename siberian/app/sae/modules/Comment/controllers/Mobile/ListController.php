@@ -67,7 +67,7 @@ class Comment_Mobile_ListController extends Application_Controller_Mobile_Defaul
                             "date" => array(
                                 "picto" => $this->_getColorizedImage($this->_getImage("pictos/pencil.png"), $color),
                                 "text"  => $this->_durationSince($comment->getCreatedAt()),
-                                "mt_text"     => $comment->getCreatedAt()
+                                "mt_text" => $comment->getDate()
                             ),
                             "comments" => array(
                                 "picto" => $this->_getColorizedImage($this->_getImage("pictos/comment.png"), $color),
@@ -79,19 +79,19 @@ class Comment_Mobile_ListController extends Application_Controller_Mobile_Defaul
                             )
                         ),
                         "embed_payload" => array(
-                            "id"                        => (integer) $comment->getId(),
-                            "author"                    => $customer->getFirstname() ? $customer->getFirstname() : $application->getName(),
-                            "title"                     => $comment->getTitle(),
-                            "subtitle"                  => $comment->getSubtitle(),
-                            "message"                   => $comment->getText(),
-                            "cleaned_message"           => mb_strlen($cleaned_message) > 67 ? mb_substr($cleaned_message, 0, 64) . "..." : $cleaned_message,
-                            "picture"                   => $comment->getImageUrl() ? $this->getRequest()->getBaseUrl().$comment->getImageUrl() : null,
-                            "icon"                      => $this->getRequest()->getBaseUrl().$application->getIcon(74),
-                            "created_at"                => $comment->getFormattedDate(__("MM.dd.y")),
-                            "mt_created_at"             => $comment->getDate(),
-                            "code"                      => $this->getCurrentOptionValue()->getCode(),
-                            "social_sharing_active"     => (boolean) $this->getCurrentOptionValue()->getSocialSharingIsActive(),
-                            "answers"                   => $all_answers
+                            "id" => (integer) $comment->getId(),
+                            "author" => $customer->getFirstname() ? $customer->getFirstname() : $application->getName(),
+                            "title" => $comment->getTitle(),
+                            "subtitle" => $comment->getSubtitle(),
+                            "message" => $comment->getText(),
+                            "cleaned_message" => mb_strlen($cleaned_message) > 67 ? mb_substr($cleaned_message, 0, 64) . "..." : $cleaned_message,
+                            "picture" => $comment->getImageUrl() ? $this->getRequest()->getBaseUrl().$comment->getImageUrl() : null,
+                            "icon" => $this->getRequest()->getBaseUrl().$application->getIcon(74),
+                            "created_at" => $comment->getFormattedDate(__("MM.dd.y")),
+                            "mt_created_at" => $comment->getDate(),
+                            "code" => $this->getCurrentOptionValue()->getCode(),
+                            "social_sharing_active" => (boolean) $this->getCurrentOptionValue()->getSocialSharingIsActive(),
+                            "answers" => $all_answers
                         )
                     );
                 break;
@@ -102,55 +102,55 @@ class Comment_Mobile_ListController extends Application_Controller_Mobile_Defaul
                     $all_answers = array();
                     foreach($answers as $answer) {
                         $all_answers[] = array(
-                            "id"            => (integer) $answer->getId(),
-                            "name"          => $answer->getCustomerName(),
-                            "customer_id"   => (integer) $answer->getCustomerId(),
-                            "message"       => $answer->getText(),
-                            "created_at"    => $this->_durationSince($answer->getCreatedAt()),
+                            "id" => (integer) $answer->getId(),
+                            "name" => $answer->getCustomerName(),
+                            "customer_id" => (integer) $answer->getCustomerId(),
+                            "message" => $answer->getText(),
+                            "created_at" => $this->_durationSince($answer->getCreatedAt()),
                             "mt_created_at" => $answer->getCreatedAt(),
                         );
 
                     }
 
                     $data["collection"][] = array(
-                        "id"        => (integer) $comment->getId(),
-                        "title"     => $comment->getTitle(),
-                        "subtitle"  => $comment->getSubtitle(),
-                        "message"   => strip_tags(html_entity_decode(strip_tags($comment->getText()), ENT_NOQUOTES, "UTF-8")),
-                        "url"       => $this->getPath("comment/mobile_view", array("value_id" => $value_id, "comment_id" => $comment->getId())),
-                        "author"    => ($this->getCurrentOptionValue()->getCode() == "fanwall" && $customer->getFirstname()) ? $customer->getFirstname() : $application->getName(),
-                        "icon"      => $this->getRequest()->getBaseUrl().$icon_url,
-                        "picture"   => $comment->getImageUrl() ? $this->getRequest()->getBaseUrl().$comment->getImageUrl() : null,
-                        "details"   => array(
+                        "id" => (integer) $comment->getId(),
+                        "title" => $comment->getTitle(),
+                        "subtitle" => $comment->getSubtitle(),
+                        "message" => strip_tags(html_entity_decode(strip_tags($comment->getText()), ENT_NOQUOTES, "UTF-8")),
+                        "url" => $this->getPath("comment/mobile_view", array("value_id" => $value_id, "comment_id" => $comment->getId())),
+                        "author" => ($this->getCurrentOptionValue()->getCode() == "fanwall" && $customer->getFirstname()) ? $customer->getFirstname() : $application->getName(),
+                        "icon" => $this->getRequest()->getBaseUrl().$icon_url,
+                        "picture" => $comment->getImageUrl() ? $this->getRequest()->getBaseUrl().$comment->getImageUrl() : null,
+                        "details" => array(
                             "date" => array(
                                 "picto" => $this->_getColorizedImage($this->_getImage("pictos/pencil.png"), $color),
                                 "text"  => $this->_durationSince($comment->getCreatedAt()),
-                                "mt_text" => $comment->getCreatedAt(),
+                                "mt_text" => $comment->getDate(),
                             ),
                             "comments" => array(
                                 "picto" => $this->_getColorizedImage($this->_getImage("pictos/comment.png"), $color),
-                                "text"  => count($comment->getAnswers())
+                                "text" => count($comment->getAnswers())
                             ),
                             "likes" => array(
                                 "picto" => $this->_getColorizedImage($this->_getImage("pictos/heart.png"), $color),
-                                "text"  => count($comment->getLikes())
+                                "text" => count($comment->getLikes())
                             )
                         ),
                         "embed_payload" => array(
-                            "id"                            => (integer) $comment->getId(),
-                            "author"                        => $customer->getFirstname() ? $customer->getFirstname() : $application->getName(),
-                            "message"                       => $comment->getText(),
-                            "cleaned_message"               => mb_strlen($cleaned_message) > 67 ? mb_substr($cleaned_message, 0, 64) . "..." : $cleaned_message,
-                            "picture"                       => $comment->getImageUrl() ? $this->getRequest()->getBaseUrl().$comment->getImageUrl() : null,
-                            "icon"                          => $this->getRequest()->getBaseUrl().$application->getIcon(74),
-                            "can_comment"                   => true,
-                            "created_at"                    => $this->_durationSince($comment->getCreatedAt()),
-                            "mt_created_at"                 => $comment->getCreatedAt(),
-                            "number_of_likes"               => count($comment->getLikes()),
-                            "flag_icon"                     => $this->_getColorizedImage($this->_getImage("pictos/flag.png"), $color),
-                            "code"                          => $this->getCurrentOptionValue()->getCode(),
-                            "social_sharing_active"         => (boolean) $this->getCurrentOptionValue()->getSocialSharingIsActive(),
-                            "answers"                       => $all_answers
+                            "id" => (integer) $comment->getId(),
+                            "author" => $customer->getFirstname() ? $customer->getFirstname() : $application->getName(),
+                            "message" => $comment->getText(),
+                            "cleaned_message" => mb_strlen($cleaned_message) > 67 ? mb_substr($cleaned_message, 0, 64) . "..." : $cleaned_message,
+                            "picture" => $comment->getImageUrl() ? $this->getRequest()->getBaseUrl().$comment->getImageUrl() : null,
+                            "icon" => $this->getRequest()->getBaseUrl().$application->getIcon(74),
+                            "can_comment" => true,
+                            "created_at" => $this->_durationSince($comment->getCreatedAt()),
+                            "mt_created_at" => $comment->getDate(),
+                            "number_of_likes" => count($comment->getLikes()),
+                            "flag_icon" => $this->_getColorizedImage($this->_getImage("pictos/flag.png"), $color),
+                            "code" => $this->getCurrentOptionValue()->getCode(),
+                            "social_sharing_active" => (boolean) $this->getCurrentOptionValue()->getSocialSharingIsActive(),
+                            "answers" => $all_answers
                         )
                     );
                 break;
