@@ -16,6 +16,8 @@ $urlQrCode = $this->getUrl(
         'code' => $urlPreviewer
     ]
 );
+
+$previewer = Previewer_Model_Previewer::getInstance();
 ?>
 <div class="previewer container-fluid">
     <div class="row">
@@ -31,11 +33,11 @@ $urlQrCode = $this->getUrl(
                      title="<?php echo __('Scan this QR Code'); ?>" />
             </p>
         </div>
-        <?php if($modal_image = $previewer->getModalImageUrl()) : ?>
+        <?php if($modalImage = $previewer->getModalImageUrl()) : ?>
             <div class="col-md-8 text-center first-row-feature hidden-xs hidd
             en-sm">
                 <img id="modal_image"
-                     src="<?php echo $modal_image ?>"
+                     src="<?php echo $modalImage ?>"
                      title="<?php echo __('Download our app previewer'); ?>"
                      alt="<?php echo __('Download our app previewer'); ?>"
                      style="max-width:400px"/>
