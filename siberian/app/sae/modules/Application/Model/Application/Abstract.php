@@ -1425,10 +1425,12 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
         if (is_dir($pathToImages)) {
             // 2.1. Secure any white space
-            $absolutePath = preg_replace("/\s+/gi", '', $absolutePath);
+            $pathToImagesSafe = preg_replace("#\s+#i", '', $pathToImages);
 
-            // 2.2. Then the folder itself
-            exec('rm -rf "' . $absolutePath . '"');
+            if (!empty($pathToImagesSafe)) {
+                // 2.2. Then the folder itself
+                exec('rm -rf "' . $pathToImagesSafe . '"');
+            }
         }
 
         // 3. Delete all related media images (we do it first manually to ensure it's clean because there is no cascade here)
