@@ -192,8 +192,14 @@ angular.module('starter').controller('FacebookListController', function ($filter
 
                     for (var i in _post.comments.data) {
                         var comment = _post.comments.data[i];
-                        comment.name = comment.from.name;
-                        comment.picture = Facebook.getPictureUrl(comment.from.id, 150);
+                        if (comment.hasOwnProperty('from')) {
+                            comment.name = comment.from.name;
+                            comment.picture = Facebook.getPictureUrl(comment.from.id, 150);
+                        } else {
+                            comment.name = $translate.instant('Unknown');
+                            comment.picture = null;
+                        }
+
                         comment.created_at = $filter('moment_calendar')(comment.created_time);
                         delete comment.created_time;
                         delete comment.from;
