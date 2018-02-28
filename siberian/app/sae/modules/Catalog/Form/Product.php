@@ -48,7 +48,7 @@ class Catalog_Form_Product extends Siberian_Form_Abstract {
 
         $this->addNav('goback', __('Save'));
 
-        $this->addSimpleHtml('<br />');
+        $this->addSimpleHtml('line_break', '<br />');
 
         $name = $this->addSimpleText('name', __('Product name'));
         $name->setRequired(true);
