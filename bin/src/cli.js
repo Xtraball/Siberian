@@ -974,7 +974,7 @@ let createOrSyncGit = function (gitPath, url, branch) {
         sh.exec('git clone -b ' + branch + ' ' + url + ' ' + gitPath);
     }
 
-    let revision = sh.exec('git rev-parse HEAD^0', { silent: true }).output.trim();
+    let revision = sh.exec('git rev-parse HEAD^0', { silent: true }).stdout.trim();
     sprint('Up-to-date (' + revision + ')');
 };
 
