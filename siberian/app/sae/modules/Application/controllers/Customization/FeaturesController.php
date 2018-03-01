@@ -5,36 +5,36 @@ class Application_Customization_FeaturesController extends Application_Controlle
     /**
      * @var array
      */
-    public $cache_triggers = array(
-        "save" => array(
-            "tags" => array("app_#APP_ID#"),
-        ),
+    public $cache_triggers = [
+        "save" => [
+            "tags" => ["app_#APP_ID#"],
+        ],
         "delete" => null, /** Specific, done inside the action. */
-        "setisactive" => array(
-            "tags" => array("homepage_app_#APP_ID#"),
-        ),
-        "seticon" => array(
-            "tags" => array("app_#APP_ID#"),
-        ),
-        "settabbarname" => array(
-            "tags" => array("app_#APP_ID#"),
-        ),
-        "settabbarsubtitle" => array(
-            "tags" => array("app_#APP_ID#"),
-        ),
-        "seticonpositions" => array(
-            "tags" => array("app_#APP_ID#"),
-        ),
-        "setbackgroundimage" => array(
-            "tags" => array("app_#APP_ID#"),
-        ),
-        "setlayout" => array(
-            "tags" => array("app_#APP_ID#"),
-        ),
-        "import" => array(
-            "tags" => array("app_#APP_ID#"),
-        ),
-    );
+        "setisactive" => [
+            "tags" => ["homepage_app_#APP_ID#"],
+        ],
+        "seticon" => [
+            "tags" => ["app_#APP_ID#"],
+        ],
+        "settabbarname" => [
+            "tags" => ["app_#APP_ID#"],
+        ],
+        "settabbarsubtitle" => [
+            "tags" => ["app_#APP_ID#"],
+        ],
+        "seticonpositions" => [
+            "tags" => ["app_#APP_ID#"],
+        ],
+        "setbackgroundimage" => [
+            "tags" => ["app_#APP_ID#"],
+        ],
+        "setlayout" => [
+            "tags" => ["app_#APP_ID#"],
+        ],
+        "import" => [
+            "tags" => ["app_#APP_ID#"],
+        ],
+    ];
 
     public function listAction() {
         /** This page doesn't need media optimizer (also this can lead to timeout) */
@@ -181,98 +181,103 @@ class Application_Customization_FeaturesController extends Application_Controlle
     }
 
     public function deleteAction() {
-
-        if($datas = $this->getRequest()->getPost()) {
-
-            try {
-
-                if(empty($datas['value_id'])) throw new Exception(__('An error occurred while deleting the option'));
-
-                // Récupère les données de l'application pour cette option
-                $option_value = new Application_Model_Option_Value();
-                $option_value->find($datas['value_id']);
-                $app_id = $this->getApplication()->getId();
-
-                if(!$option_value->getId() OR $option_value->getAppId() != $app_id) {
-                    throw new Exception(__('An error occurred while deleting the option'));
-                }
-
-                $html = array(
-                    'success' => 1,
-                    'value_id' => $datas['value_id'],
-                    'path' => $option_value->getPath(null, array(), "mobile"),
-                    'was_folder' => false,
-                    'was_category' => false,
-                    'was_feature' => false
-                );
-
-                // Option folder
-                if(isset($datas['category_id'])) {
-
-                    $this->cache_triggers["delete"] = array(
-                        "tags" => array(
-                            "feature_paths_valueid_#VALUE_ID#",
-                            "assets_paths_valueid_#VALUE_ID#",
-                        ),
-                    );
-                    $this->_triggerCache();
-                    $this->cache_triggers["delete"] = null;
-
-
-                    $option_value->setFolderId(null)
-                        ->setFolderCategoryId(null)
-                        ->setFolderCategoryPosition(null)
-                        ->save()
-                    ;
-
-                    $html['was_category'] = true;
-                    $html['category'] = array('id' => $datas['category_id']);
-
-                } else {
-
-                    $this->cache_triggers["delete"] = array(
-                        "tags" => array(
-                            "app_#APP_ID#",
-                        ),
-                    );
-                    $this->_triggerCache();
-                    $this->cache_triggers["delete"] = null;
-
-                    // Récupère l'option
-                    $option = (new Application_Model_Option())
-                        ->find($option_value->getOptionId());
-
-                    $html['was_feature'] = true;
-
-                    if (in_array($option_value->getCode(), [
-                        'folder',
-                        'folder_v2',
-                    ])) {
-                        $html['was_folder'] = true;
-                    }
-
-                    // Supprime l'option de l'application
-                    $option_value->delete();
-
-                    $html['use_my_account'] = $this->getApplication()->usesUserAccount();
-
-                    if($option->onlyOnce()) {
-                        $html['page'] = array('id' => $option->getId(), 'name' => $option->getName(), 'icon_url' => $option->getIconUrl(), 'category_id' => $option->getCategoryId());
-                    }
-
-                }
-            }
-            catch(Exception $e) {
-                $html = array(
-                    'message' => __('An error occurred while deleting the option'),
-                    'message_button' => 1,
-                    'message_loader' => 1
-                );
+        try {
+            $request = $this->getRequest();
+            $params = $request->getPost();
+            if (empty($params['value_id'])) {
+                throw new Siberian_Exception(__('An error occurred while deleting the option'));
             }
 
-            $this->_sendHtml($html);
+            $application = $this->getApplication();
+            $appId = $application->getId();
+
+            // Récupère les données de l'application pour cette option
+            $optionValue = (new Application_Model_Option_Value())
+                ->find($params['value_id']);
+
+            if (!$optionValue->getId() || $optionValue->getAppId() !== $appId) {
+                throw new Siberian_Exception(__('An error occurred while deleting the option'));
+            }
+
+            $payload = [
+                'success' => true,
+                'value_id' => $params['value_id'],
+                'path' => $optionValue->getPath(null, [], 'mobile'),
+                'was_folder' => false,
+                'was_category' => false,
+                'was_feature' => false
+            ];
+
+            // Option folder (safer to get the REAL categoryId if there is one)
+            if ($optionValue->getFolderCategoryId()) {
+                $this->cache_triggers['delete'] = [
+                    'tags' => [
+                        'feature_paths_valueid_#VALUE_ID#',
+                        'assets_paths_valueid_#VALUE_ID#',
+                    ],
+                ];
+                $this->_triggerCache();
+                $this->cache_triggers['delete'] = null;
+
+                $optionValue
+                    ->setFolderId(null)
+                    ->setFolderCategoryId(null)
+                    ->setFolderCategoryPosition(null)
+                    ->save();
+
+                $payload['was_category'] = true;
+                $payload['category'] = [
+                    'id' => $params['category_id']
+                ];
+            } else {
+                $this->cache_triggers['delete'] = [
+                    'tags' => [
+                        'app_#APP_ID#',
+                    ],
+                ];
+                $this->_triggerCache();
+                $this->cache_triggers["delete"] = null;
+
+                // Récupère l'option
+                $option = (new Application_Model_Option())
+                    ->find($optionValue->getOptionId());
+
+                $payload['was_feature'] = true;
+
+                if (in_array($optionValue->getCode(), [
+                    'folder',
+                    'folder_v2',
+                ])) {
+                    $payload['was_folder'] = true;
+
+                    // As it was a folder/folder_v2 we must extract features from the folder.
+                    Application_Model_Option_Value::extractFromFolder($optionValue->getId());
+                }
+
+                // Supprime l'option de l'application
+                $optionValue->delete();
+
+                $payload['use_my_account'] = $this->getApplication()->usesUserAccount();
+
+                if ($option->onlyOnce()) {
+                    $payload['page'] = [
+                        'id' => $option->getId(),
+                        'name' => $option->getName(),
+                        'icon_url' => $option->getIconUrl(),
+                        'category_id' => $option->getCategoryId()
+                    ];
+                }
+            }
+        } catch(Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => __('An error occurred while deleting the option'),
+                'message_button' => 1,
+                'message_loader' => 1
+            ];
         }
 
+        $this->_sendJson($payload);
     }
 
     public function setisactiveAction() {
