@@ -575,6 +575,26 @@ class Application_Model_Option_Value extends Application_Model_Option {
     }
 
     /**
+     * This method will extract any features that were inside a deleted folder!
+     *
+     * @param $valueId
+     */
+    public static function extractFromFolder ($valueId) {
+        $features = (new self)
+            ->findAll([
+                'folder_id = ?' =>  $valueId
+            ]);
+
+        foreach ($features as $feature) {
+            $feature
+                ->setFolderId(null)
+                ->setFolderCategoryId(null)
+                ->setFolderCategoryPosition(null)
+                ->save();
+        }
+    }
+
+    /**
      * @param $path
      * @throws Exception
      */
