@@ -53,7 +53,7 @@ angular.module("starter").service("LinkService", function ($rootScope, $translat
                         inAppBrowserOptions.push("location=no");
                         inAppBrowserOptions.push("toolbar=no");
                     } else { //else use standard inAppBrowser with navbar
-                        inAppBrowserOptions.push("location=no");
+                        inAppBrowserOptions.push("location=yes");
                         inAppBrowserOptions.push("closebuttoncaption=" + $translate.instant("Done"));
                         inAppBrowserOptions.push("transitionstyle=crossdissolve");
                         inAppBrowserOptions.push('toolbar=yes');
