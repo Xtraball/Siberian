@@ -56,7 +56,8 @@ class Push_Model_Db_Table_Android_Device extends Core_Model_Db_Table {
 
         $select = $this->_db->select()
             ->from(array('pm' => 'push_messages'), array('not_read' => new Zend_Db_Expr('COUNT(pdm.deliver_id)')))
-            ->join(array('pdm' => 'push_delivered_message'), 'pdm.message_id = pm.message_id AND pdm.is_read = 0', array())
+            ->joinRight(array('pdm' => 'push_delivered_message'), 'pdm.message_id = pm.message_id', array())
+            ->where('pdm.is_read = ?', 0)
             ->where('pdm.device_uid = ?', $device_uid)
             ->where('pdm.is_displayed = ?', '1')
             ->group('pdm.device_uid')
