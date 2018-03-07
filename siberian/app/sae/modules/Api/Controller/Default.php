@@ -15,7 +15,7 @@ class Api_Controller_Default extends Core_Controller_Default {
     /**
      * @var array
      */
-    public $secured_actions = array();
+    public $secured_actions = [];
 
     /**
      * @return $this
