@@ -36,14 +36,13 @@ class Push_Model_Db_Table_Message extends Core_Model_Db_Table {
 
         $select = $this->_db->select()
             ->from(array('pdm' => 'push_delivered_message'), array('deliver_id'))
-            ->join(array('pm' => $this->_name), "pm.message_id = pdm.message_id")
             ->where('pdm.device_uid = ?', $device_uid)
             ->where('pdm.is_read = 0')
             ->where('pdm.status = 1')
         ;
 
         if($message_id) {
-            $select->where("pm.message_id = ?",$message_id);
+            $select->where("pdm.message_id = ?",$message_id);
         }
 
         $deliver_ids = $this->_db->fetchCol($select);
@@ -86,7 +85,7 @@ class Push_Model_Db_Table_Message extends Core_Model_Db_Table {
 
         $select = $this->select()
             ->from(array('pdm' => 'push_delivered_message'), array('is_read', 'delivered_at'))
-            ->join(array('pm' => $this->_name), "pm.message_id = pdm.message_id", $cols)
+            ->joinLeft(array('pm' => $this->_name), "pm.message_id = pdm.message_id", $cols)
             ->where('pdm.device_uid = ?', $device_uid)
             ->where('pdm.status = 1')
             ->where('pdm.is_displayed = ?', '1')
@@ -105,8 +104,7 @@ class Push_Model_Db_Table_Message extends Core_Model_Db_Table {
     public function markAsDisplayed($device_uid, $message_id) {
 
         $select = $this->_db->select()
-            ->from(array('pdm' => 'push_delivered_message'))
-            ->join(array('pm' => $this->_name), "pm.message_id = pdm.message_id")
+            ->from(array('pdm' => 'push_delivered_message', array('deliver_id')))
             ->where('pdm.device_id = ?', $device_uid)
             ->where('pdm.message_id = ?', $message_id)
         ;
@@ -123,7 +121,7 @@ class Push_Model_Db_Table_Message extends Core_Model_Db_Table {
 
         $select = $this->_db->select()
             ->from(array('pdm' => 'push_delivered_message'), array('count' => new Zend_Db_Expr('COUNT(pdm.message_id)')))
-            ->join(array('pm' => $this->_name), "pm.message_id = pdm.message_id")
+            ->joiLeft(array('pm' => $this->_name), "pm.message_id = pdm.message_id")
             ->where('pdm.device_uid = ?', $device_uid)
             ->where('pdm.status = 1')
             ->where('pdm.is_displayed = ?', '1')
@@ -140,7 +138,7 @@ class Push_Model_Db_Table_Message extends Core_Model_Db_Table {
 
         $select = $this->select()
             ->from(array('pdm' => 'push_delivered_message'))
-            ->join(array('pm' => $this->_name), "pm.message_id = pdm.message_id")
+            ->joinLeft(array('pm' => $this->_name), "pm.message_id = pdm.message_id")
             ->where('pdm.device_uid = ?', $device_uid)
             ->where('pdm.status = 1')
             ->where('pdm.is_displayed = ?', '1')
@@ -160,7 +158,8 @@ class Push_Model_Db_Table_Message extends Core_Model_Db_Table {
 
         $select = $this->select()
             ->from(array('pm' => $this->_name))
-            ->joinLeft(array('pdm' => 'push_delivered_message'), "pm.message_id = pdm.message_id AND pdm.device_uid = '".$device_uid."'", array())
+            ->joinLeft(array('pdm' => 'push_delivered_message'), "pm.message_id = pdm.message_id", array())
+            ->where('pdm.device_uid = ?', $device_uid)
             ->where('pdm.deliver_id IS NULL')
             ->where('pm.type_id = ?', 2)
             ->where('pm.send_at IS NULL OR pm.send_at <= ?',Zend_Date::now()->toString("yyyy-MM-dd HH:mm:ss"))
@@ -237,7 +236,8 @@ class Push_Model_Db_Table_Message extends Core_Model_Db_Table {
 
         $select = $this->select()
             ->from(array('pm' => $this->_name),array("message_id" => "pm.message_id"))
-            ->joinLeft(array('pdm' => 'push_delivered_message'), "pm.message_id = pdm.message_id AND pdm.device_uid = '".$device_uid."'", $fields)
+            ->joinLeft(array('pdm' => 'push_delivered_message'), "pm.message_id = pdm.message_id", $fields)
+            ->where('pdm.device_uid = ?', $device_uid)
             ->where('pdm.deliver_id IS NULL')
             ->where('pm.app_id = ?', $app_id)
             ->where('pm.type_id = ?', 2)
