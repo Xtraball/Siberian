@@ -1,0 +1,11 @@
+{
+  "name": "ionic",
+  "app_id": "",
+  "watchPatterns": [
+      "www/dist/*",
+      "www/utils/url.js",
+      "www/utils/language.js",
+      "www/modules",
+      "www/features"
+    ]
+}
