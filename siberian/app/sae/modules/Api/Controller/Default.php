@@ -25,21 +25,27 @@ class Api_Controller_Default extends Core_Controller_Default {
         parent::init();
 
         # Test AUTH
-        if(!preg_match("/admin_api_account_autologin/", $this->getFullActionName("_"))) {
-            
+        if (!preg_match("/admin_api_account_autologin/", $this->getFullActionName("_"))) {
+
+            if (($_SERVER['REMOTE_ADDR'] === $_SERVER['SERVER_ADDR']) &&
+                (__getConfig('allow_local_api') === true)) {
+                // Special case grant auth
+                return $this;
+            }
+
             $username = $this->getRequest()->getServer("PHP_AUTH_USER");
             $password = $this->getRequest()->getServer("PHP_AUTH_PW");
 
-            $this->user = new Api_Model_User();
-            $this->user->find($username, "username");
-            if(!$this->user->getId() OR !$this->user->authenticate($password)) {
-                return $this->forward("notauthorized");
-            }
+            $this->user = (new Api_Model_User())
+                ->find($username, 'username');
 
+            if (!$this->user->getId() || !$this->user->authenticate($password)) {
+                    return $this->forward('notauthorized');
+            }
         }
 
         # Test ACL
-        if(in_array($this->getRequest()->getActionName(), $this->secured_actions)) {
+        if (in_array($this->getRequest()->getActionName(), $this->secured_actions)) {
             return $this->hasAccess();
         }
 
