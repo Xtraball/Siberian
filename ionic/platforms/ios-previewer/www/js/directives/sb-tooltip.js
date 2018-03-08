@@ -17,7 +17,7 @@ angular.module("starter").directive('sbTooltip', function () {
             '</button>' +
             '<div class="tooltip tooltip-custom" ng-show="tooltip.collection.length && tooltip.show_tooltip">' +
             '    <i class="icon ion-arrow-up-b dark"></i>' +
-            '    <ion-scroll style="max-height: 250px">' +
+            '    <div style="overflow-y:scroll;overflow-x:hidden;max-height:250px">' +
             '        <ul>' +
             '            <li ng-repeat="item in tooltip.collection">' +
             '                <span class="block" ng-click="itemClicked(item);" ng-class="{ \'active\': tooltip.current_item.id == item.id }">{{ item.name | translate }}</span>' +
@@ -28,7 +28,7 @@ angular.module("starter").directive('sbTooltip', function () {
             '                </ul>' +
             '            </li>' +
             '        </ul>' +
-            '    </ion-scroll>' +
+            '    </div>' +
             '</div>',
         controller: function($scope, $translate) {
 
