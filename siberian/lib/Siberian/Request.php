@@ -16,9 +16,10 @@ class Siberian_Request {
      * @param $endpoint
      * @param $data
      * @param null $cookie_path
+     * @param null $auth
      * @return mixed
      */
-    public static function post($endpoint, $data, $cookie_path = null) {
+    public static function post($endpoint, $data, $cookie_path = null, $auth = null) {
 
         $request = curl_init();
 
@@ -31,7 +32,21 @@ class Siberian_Request {
         curl_setopt($request, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
 
-        if($cookie_path != null) {
+        if ($auth !== null && is_array($auth)) {
+            switch ($auth['type']) {
+                case 'basic':
+                    curl_setopt($request, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+                    curl_setopt($request, CURLOPT_USERPWD, $auth['username'] . ':' . $auth['password']);
+                    break;
+                case 'bearer':
+                    curl_setopt($request, CURLOPT_HTTPHEADER, [
+                        'Api-Auth-Bearer: Bearer ' . $auth['bearer']
+                    ]);
+                    break;
+            }
+        }
+
+        if ($cookie_path != null) {
             curl_setopt($request, CURLOPT_COOKIEJAR, $cookie_path);
             curl_setopt($request, CURLOPT_COOKIEFILE, $cookie_path);
         }
@@ -60,11 +75,12 @@ class Siberian_Request {
 
     /**
      * @param $endpoint
-     * @param $data
+     * @param array $data
      * @param null $cookie_path
+     * @param null $auth
      * @return mixed
      */
-    public static function get($endpoint, $data = [], $cookie_path = null) {
+    public static function get($endpoint, $data = [], $cookie_path = null, $auth = null) {
 
         $request = curl_init();
 
@@ -79,6 +95,20 @@ class Siberian_Request {
         curl_setopt($request, CURLOPT_TIMEOUT, 3);
         curl_setopt($request, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
+
+        if ($auth !== null && is_array($auth)) {
+            switch ($auth['type']) {
+                case 'basic':
+                    curl_setopt($request, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+                    curl_setopt($request, CURLOPT_USERPWD, $auth['username'] . ':' . $auth['password']);
+                    break;
+                case 'bearer':
+                    curl_setopt($request, CURLOPT_HTTPHEADER, [
+                        'Api-Auth-Bearer: Bearer ' . $auth['bearer']
+                    ]);
+                    break;
+            }
+        }
 
         if($cookie_path != null) {
             curl_setopt($request, CURLOPT_COOKIEJAR, $cookie_path);
