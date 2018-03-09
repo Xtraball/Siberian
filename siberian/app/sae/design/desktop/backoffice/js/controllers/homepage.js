@@ -44,7 +44,7 @@ App.config(function($routeProvider) {
         });
     };
 
-    $scope.showCronModal = function() {
+    $scope.showCronModal = function () {
         $scope.show_cron_modal = true;
     };
 
@@ -56,6 +56,7 @@ App.config(function($routeProvider) {
         $scope.server_usage = data.server_usage;
         $scope.extensions = data.extensions;
         $scope.external_services = data.external_services;
+        $scope.system_diagnostic = data.system_diagnostic;
         $scope.new_messages = data.unread_messages;
     });
 

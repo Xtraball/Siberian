@@ -6,21 +6,33 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="username"><?php echo __("Username"); ?></label>
-                <input type="text" id="username" ng-model="user.username" class="form-control" placeholder="<?php echo __("Username"); ?>" />
+                <input type="text"
+                       id="username"
+                       ng-model="user.username"
+                       class="form-control"
+                       placeholder="<?php echo __("Username"); ?>" />
             </div>
         </div>
         
         <div class="clear col-md-6">
             <div class="form-group">
                 <label for="firstname"><?php echo __("Firstname"); ?></label>
-                <input type="text" id="firstname" ng-model="user.firstname" class="form-control" placeholder="<?php echo __("Firstname"); ?>" />
+                <input type="text"
+                       id="firstname"
+                       ng-model="user.firstname"
+                       class="form-control"
+                       placeholder="<?php echo __("Firstname"); ?>" />
             </div>
         </div>
 
         <div class="col-md-6">
             <div class="form-group">
                 <label for="lastname"><?php echo __("Lastname"); ?></label>
-                <input type="text" id="lastname" ng-model="user.lastname" class="form-control" placeholder="<?php echo __("Lastname"); ?>" />
+                <input type="text"
+                       id="lastname"
+                       ng-model="user.lastname"
+                       class="form-control"
+                       placeholder="<?php echo __("Lastname"); ?>" />
             </div>
         </div>
 
@@ -51,6 +63,18 @@
                 <div class="clear"></div>
             </div>
         </div>
+        
+        <div class="col-md-12"
+             ng-if="user.bearer_token.length">
+            <div class="form-group">
+                <label for="bearer_token"><?php echo __("Bearer Token"); ?></label>
+                <div id="bearer_token"
+                     class="form-control">{{ user.bearer_token }}</div>
+            </div>
+        </div>
+
+        <div class="clear"></div>
+
     </sb-section>
 
     <sb-section title="'<?php echo __js("Select API access") ?>'">

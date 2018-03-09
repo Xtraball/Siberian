@@ -20,15 +20,15 @@ class Api_Backoffice_User_EditController extends Backoffice_Controller_Default
         $user->find($this->getRequest()->getParam("user_id"));
 
         $data = array();
-        if($user->getId()) {
+        if ($user->getId()) {
             $data["user"] = $user->getData();
             $acl = Siberian_Json::decode($user->getAcl());
             foreach(Siberian_Api::$acl_keys as $key => $subkeys) {
-                if(!isset($acl[$key])) {
+                if (!isset($acl[$key])) {
                     $acl[$key] = array();
                 }
 
-                if(is_array($acl[$key])) {
+                if (is_array($acl[$key])) {
                     foreach($subkeys as $subkey => $subvalue) {
                         if(!array_key_exists($subkey, $acl[$key])) {
                             $acl[$key][$subkey] = false;
@@ -39,11 +39,19 @@ class Api_Backoffice_User_EditController extends Backoffice_Controller_Default
             $data["user"]["acl"] = $acl;
 
             $data["section_title"] = __("Edit the user %s", $user->getUsername());
+
+            if ($user->getBearerToken() === '') {
+                $user->setBearerToken($user->_generateBearerToken());
+                $user->save();
+
+                $data["user"] = $user->getData();
+            }
+
         } else {
             $data["section_title"] = __("Create a new user");
         }
 
-        $this->_sendHtml($data);
+        $this->_sendJson($data);
 
     }
 
